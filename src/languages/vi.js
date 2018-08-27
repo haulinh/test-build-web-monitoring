@@ -629,7 +629,7 @@ export default {
   },
   subscriptionStatus: {
     breadcrumb: {
-      base: 'Tình trạng đăng ký'
+      base: 'Trạng thái hệ thống'
     },
     Renew: 'Thay mới',
     renewAt: 'Thay mới lúc',
@@ -790,7 +790,7 @@ export default {
     adminManagement: 'Quản trị',
     user: 'Người dùng',
     role: 'Tổ chức',
-    subscription: 'Đăng ký',
+    subscription: 'Trạng thái',
     support: 'Hỗ trợ'
   },
   cameraControl: {
