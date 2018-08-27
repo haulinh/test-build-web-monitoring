@@ -33,12 +33,14 @@ class AppLink extends React.PureComponent {
   }
 
   handleClickLink(e) {
-    if (!this.props.href) e.preventDefault()
-    swal({
-      type: 'info',
-      title: 'App ' + this.props.children + ' is building',
-      text: 'We will send newsletter when we complete'
-    })
+    if (!this.props.href){
+      e.preventDefault()
+      swal({
+        type: 'info',
+        title: 'App ' + this.props.children + ' is building',
+        text: 'We will send newsletter when we complete'
+      })
+    }
   }
 
   render() {
