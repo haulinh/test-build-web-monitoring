@@ -37,7 +37,7 @@ const Header = {
     justify-content: space-between;
   `,
   Logo: styled.img`
-    height: 36px;
+    height: 108px;
     width: auto;
   `
 }
@@ -111,7 +111,7 @@ export default class CodeConfirm extends PureComponent {
         <Form onSubmit={this.props.handleSubmit(this.handleConfirm.bind(this))}>
           <Header.Wrapper>
             <Heading fontSize={28}>{''}</Heading>
-            <Header.Logo src="/images/logo/logo-text-enviro.png" />
+            <Header.Logo src="/images/logo/logo.png" />
           </Header.Wrapper>
           <Field
             label="Enter code"

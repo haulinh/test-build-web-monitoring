@@ -9,14 +9,14 @@ const LogoWrapper = styled.div`
 `
 
 const LogoContainer = styled.img`
-  height: 35px;
+  height: 96px;
   width: auto;
 `
 
 export default function Logo() {
   return (
     <LogoWrapper>
-      <LogoContainer src="/images/logo/logo-text-icon.png" />
+      <LogoContainer src="/images/logo/logo.png" />
     </LogoWrapper>
   )
 }

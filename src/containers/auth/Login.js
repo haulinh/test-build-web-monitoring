@@ -41,7 +41,7 @@ const Header = {
     justify-content: space-between;
   `,
   Logo: styled.img`
-    height: 36px;
+    height: 96px;
     width: auto;
   `
 }
@@ -135,7 +135,7 @@ export default class Login extends PureComponent {
         <Form onSubmit={this.props.handleSubmit(this.handleLogin.bind(this))}>
           <Header.Wrapper>
             <Heading fontSize={28}>{t('login.title')}</Heading>
-            <Header.Logo src="/images/logo/logo-text-enviro.png" />
+            <Header.Logo src="/images/logo/logo.png" />
           </Header.Wrapper>
           <Clearfix height={8} />
           {!this.state.isTwoFactorAuth ? (
