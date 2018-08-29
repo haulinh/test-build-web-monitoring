@@ -12,7 +12,9 @@ import Icon from 'themes/icon'
 import { WrapperLinkComponent } from 'utils/sidebarNavigation'
 import swal from 'sweetalert2'
 import { autobind } from 'core-decorators'
+import createLang from 'hoc/create-lang'
 
+@createLang
 @autobind
 export default class DocumentDrawer extends PureComponent {
   static propTypes = {
@@ -24,17 +26,19 @@ export default class DocumentDrawer extends PureComponent {
   }
 
   handleClick(e) {
+    console.log(this.props)
     if (!this.props.href){
       e.preventDefault()
       swal({
         type: 'info',
-        title: 'App ' + this.props.children + ' is building',
-        text: 'We will send newsletter when we complete'
+        title: this.props.lang.t('documents.develop.title'),
+        text: this.props.lang.t('documents.develop.process')
       })
     }
   }
 
   render() {
+    const { t } = this.props.lang
     return (
       <AkCreateDrawer
         heading={null}
@@ -43,20 +47,18 @@ export default class DocumentDrawer extends PureComponent {
         {...this.props}
       >
         <div key="drawler" style={{ marginTop: -64 }}>
-          <AkNavigationItemGroup title="Documents helpdesk">
+          <AkNavigationItemGroup title={t('documents.label')}>
             <AkNavigationItem
-              // href={slug.measuring.create}
               linkComponent={WrapperLinkComponent}
               onClick={this.handleClick}
               icon={Icon.car}
-              text="Guide install 1"
+              text={t('documents.guide1')}
             />
             <AkNavigationItem
-              // href={slug.measuring.create}
               linkComponent={WrapperLinkComponent}
               onClick={this.handleClick}
               icon={Icon.car}
-              text="Guide install 2"
+              text={t('documents.guide2')}
             />
           </AkNavigationItemGroup>
         </div>
