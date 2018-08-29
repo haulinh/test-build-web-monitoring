@@ -4,11 +4,11 @@ const bodyParser = require('body-parser')
 
 var app = express()
 
-app.get('/app.json', function(req, res){
+app.get('/app.json', function(req, res) {
   res.json({
-    "apiGateway": process.env.WEB_GATEWAY_API || "http://api.ilotusland.vn",
-    "apiMedia": process.env.WEB_MEDIA_API ||"http://media.ilotusland.vn",
-    "apiCamera": process.env.WEB_CAMERA_API || "http://camera.ilotusland.vn"
+    apiGateway: process.env.WEB_GATEWAY_API || 'http://27.74.251.0:5000',
+    apiMedia: process.env.WEB_MEDIA_API || 'http://27.74.251.0:5000',
+    apiCamera: process.env.WEB_CAMERA_API || 'http://27.74.251.0:5000'
   })
 })
 app.use(express.static(path.join(__dirname, 'build')))
@@ -17,10 +17,9 @@ app.use(bodyParser.json())
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, ''))
 
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
 
 const PORT = process.env.PORT || 5555
 app.listen(PORT, () => {
