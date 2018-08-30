@@ -206,7 +206,7 @@ export default class BasicNestedNavigation extends React.Component {
           ]}
           globalPrimaryActions={[
             this.renderIconDrawer(DocumentIcon, 'document', 'Document'),
-            this.renderIconDrawer(AppIcon, 'app', 'Other Apps')
+            // this.renderIconDrawer(AppIcon, 'app', 'Other Apps')
           ]}
           globalSecondaryActions={this.globalSecondaryActions()}
         >

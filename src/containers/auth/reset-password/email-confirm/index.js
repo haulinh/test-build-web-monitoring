@@ -28,10 +28,10 @@ const Header = {
   Wrapper: styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
   `,
   Logo: styled.img`
-    height: 36px;
+    height: 116px;
     width: auto;
   `
 }
@@ -86,7 +86,7 @@ export default class EmailConfirm extends PureComponent {
         >
           <Header.Wrapper>
             <Heading fontSize={28}>{''}</Heading>
-            <Header.Logo src="/images/logo/logo-text-enviro.png" />
+            <Header.Logo src="/images/logo/logo.png" />
           </Header.Wrapper>
           <Field
             label="Email confirm"

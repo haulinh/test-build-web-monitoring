@@ -88,8 +88,8 @@ export default class MinutesDataSearch extends React.Component {
       isExporting: true
     })
     let res = await DataStationAutoApi.getExportData(this.state.searchFormData)
-    if (res.success) window.location = res.data
-    else message.error(res.message)
+    if (res && res.success) window.location = res.data
+    else message.error('Export Error')//message.error(res.message)
 
     this.setState({
       isExporting: false

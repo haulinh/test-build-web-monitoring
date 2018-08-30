@@ -819,5 +819,14 @@ export default {
         error: 'Error'
       }
     }
+  },
+  documents:{
+    label: 'Documents helpdesk',
+    guide1: 'Guide install 1',
+    guide2: 'Guide install 2',
+    develop: {
+      title: 'This function is developing',
+      process: 'We will send newsletter when we complete'
+    }
   }
 }

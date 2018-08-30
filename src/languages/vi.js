@@ -640,7 +640,7 @@ export default {
     totalStation: 'Tổng số trạm'
   },
   profileUser: {
-    title: 'Thông tin người dùng',
+    title: 'người dùng',
     success: 'Thay đổi thông tin thành công',
     viewProfile: 'Hiển thị thông tin',
     security: 'Bảo mật',
@@ -818,6 +818,15 @@ export default {
         buttonLabel: 'Chọn để tải lên',
         error: 'Lỗi'
       }
+    }
+  },
+  documents:{
+    label: 'Tài liệu hướng dẫn',
+    guide1: 'Cài đặt hướng dẫn 1',
+    guide2: 'Cài đặt hướng dẫn 2',
+    develop: {
+      title: 'Chức năng này đang phát triển',
+      process: 'Chúng tôi sẽ cập nhật nó cho phiên bản sau'
     }
   }
 }

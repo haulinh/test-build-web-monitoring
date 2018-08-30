@@ -21,7 +21,6 @@ export default class StationAutoCreate extends React.PureComponent {
   }
 
   render() {
-    console.log('render --> StationAutoCreate')
     return (
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb items={['list', 'create']} />
