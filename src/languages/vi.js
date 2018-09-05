@@ -34,7 +34,7 @@ export default {
     viewInMap: 'Bản đồ',
     sampling: 'Lấy mẫu',
     camera: 'Camera',
-    lossAt: 'Mất dữ liệu luc',
+    lossAt: 'Mất dữ liệu lúc',
     notInUse: 'Chưa sử dụng'
   },
   controlStation: {
@@ -155,7 +155,7 @@ export default {
       },
       advanced: {
         label: 'Nâng cao',
-        reset: 'Cài đặt lại'
+        reset: 'Đặt lại'
       }
     },
     table: {
@@ -171,7 +171,7 @@ export default {
     },
     analyze: {
       max: 'Tối đa',
-      maxTime: 'Thờ gian tối đa',
+      maxTime: 'Thời gian tối đa',
       min: 'Tối thiểu',
       minTime: 'Thời gian tối thiểu',
       avg: 'Tần suất',
@@ -556,9 +556,9 @@ export default {
         placeholder: 'Mật khẩu'
       },
       confirmPassword: {
-        label: 'Xác nhận mật khẩu',
-        placeholder: 'Xác nhận mật khẩu',
-        message: 'Vui lòng Xác nhận mật khẩu!'
+        label: 'Nhập lại mật khẩu',
+        placeholder: 'Nhập lại mật khẩu',
+        message: 'Vui lòng nhập lại mật khẩu!'
       },
       firstName: {
         label: 'Tên riêng',
@@ -600,8 +600,8 @@ export default {
       createdAt: 'Tạo lúc'
     },
     roleAssign: {
-      role: 'Tổ chức',
-      name: 'Tên tổ chức',
+      role: 'Nhóm quền',
+      name: 'Tên nhóm quyền',
       success: 'Cập nhật qui định thành công',
       error: 'Cập nhật qui định thất bại',
       address: 'Địa chỉ',
@@ -610,7 +610,7 @@ export default {
   },
   roleManager: {
     breadcrumb: {
-      list: 'Tổ chức',
+      list: 'Nhóm quyền',
       create: 'Tạo mới',
       edit: 'Chỉnh sửa'
     },
@@ -789,8 +789,8 @@ export default {
     stationAuto: 'Tên trạm',
     adminManagement: 'Quản trị',
     user: 'Người dùng',
-    role: 'Tổ chức',
-    subscription: 'Trạng thái',
+    role: 'Nhóm quyền',
+    subscription: 'Hệ thống',
     support: 'Hỗ trợ'
   },
   cameraControl: {
