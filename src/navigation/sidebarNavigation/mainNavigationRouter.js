@@ -201,6 +201,6 @@ export default [
   groupAdmin,
   userMenu,
   roleMenu,
-  subscriptionMenu,
-  supportMenu
+  //subscriptionMenu,
+  //supportMenu
 ]
