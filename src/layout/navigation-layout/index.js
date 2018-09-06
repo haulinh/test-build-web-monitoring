@@ -11,7 +11,6 @@ import slug from 'constants/slug'
 import StyleWrapper from './StyleWrapper'
 import LogoSubIcon from './LogoSubIcon'
 import DocumentIcon from '@atlaskit/icon/glyph/question-circle'
-import AppIcon from '@atlaskit/icon/glyph/media-services/grid'
 import DocumentDrawer from './DocumentDrawer'
 import AppDrawer from './AppDrawer'
 import ChangeLanguage from './ChangeLanguage'
@@ -19,7 +18,6 @@ import LogoBrandName from './LogoBrandName'
 import { translate } from 'hoc/create-lang'
 
 import Navigation, {
-// AkContainerTitle,
   AkNavigationItem,
   AkGlobalItem,
   createGlobalTheme
@@ -205,8 +203,7 @@ export default class BasicNestedNavigation extends React.Component {
             this.renderDrawer(AppDrawer, 'app')
           ]}
           globalPrimaryActions={[
-            this.renderIconDrawer(DocumentIcon, 'document', 'Document'),
-            // this.renderIconDrawer(AppIcon, 'app', 'Other Apps')
+            this.renderIconDrawer(DocumentIcon, 'document', 'Document')
           ]}
           globalSecondaryActions={this.globalSecondaryActions()}
         >

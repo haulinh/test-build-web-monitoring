@@ -25,6 +25,8 @@ import Camera from 'containers/camera'
 import AccountActive from 'containers/auth/account-active'
 import CameraControl from 'containers/camera-control'
 import SupportRoute from 'containers/support'
+import DevicesManager from '../../containers/devices-manager'
+
 @autobind
 export default class RouteDefault extends React.Component {
   render() {
@@ -45,6 +47,9 @@ export default class RouteDefault extends React.Component {
           path={slug.onlineMonitoring.base}
           component={OnlineMonitoring}
         />
+
+        <LayoutRoute path={slug.devicesManager.base} component={DevicesManager} />
+        
         <LayoutRoute path={slug.monitoring.base} component={Monitoring} />
         <LayoutRoute path={slug.dataSearch.base} component={DataSearch} />
         <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />

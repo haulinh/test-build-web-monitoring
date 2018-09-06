@@ -791,7 +791,8 @@ export default {
     user: 'User',
     role: 'Role',
     subscription: 'Subscription',
-    support: 'Support'
+    support: 'Support',
+    devicesManager: 'Devices Manager'
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'
@@ -820,13 +821,22 @@ export default {
       }
     }
   },
-  documents:{
+  documents: {
     label: 'Documents helpdesk',
     guide1: 'Guide install 1',
     guide2: 'Guide install 2',
     develop: {
       title: 'This function is developing',
       process: 'We will send newsletter when we complete'
+    }
+  },
+  devicesManager: {
+    label: 'Devices Manager',
+    status: {
+      label: 'Devices Status',
+      activity: 'Activity',
+      maintenance: 'Maintenance',
+      brokened: 'Brokened'
     }
   }
 }

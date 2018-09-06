@@ -13,6 +13,7 @@ import PersonIcon from '@atlaskit/icon/glyph/person'
 import PeopleGroupIcon from '@atlaskit/icon/glyph/people-group'
 import CreditcardIcon from '@atlaskit/icon/glyph/creditcard'
 import CameraIcon from '@atlaskit/icon/glyph/camera'
+import RoadmapIcon from '@atlaskit/icon/glyph/creditcard';
 
 export default {
   quizLists: <QuizListIcon label={''} size={'medium'} />,
@@ -28,5 +29,6 @@ export default {
   person: <PersonIcon label={''} size={'medium'} />,
   peopleGroup: <PeopleGroupIcon label={''} size={'medium'} />,
   creditCard: <CreditcardIcon label={''} size={'medium'} />,
-  camera: <CameraIcon label={''} size={'medium'} />
+  camera: <CameraIcon label={''} size={'medium'} />,
+  roadmap:  <RoadmapIcon label={''} size={'medium'} />
 }

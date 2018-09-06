@@ -791,7 +791,8 @@ export default {
     user: 'Người dùng',
     role: 'Nhóm quyền',
     subscription: 'Hệ thống',
-    support: 'Hỗ trợ'
+    support: 'Hỗ trợ',
+    devicesManager: 'Quản lý thiết bị'
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'
@@ -827,6 +828,15 @@ export default {
     develop: {
       title: 'Chức năng này đang phát triển',
       process: 'Chúng tôi sẽ cập nhật nó cho phiên bản sau'
+    }
+  },
+  devicesManager: {
+    label: 'Quản lý thiết bị',
+    status: {
+      label: 'Trạng thái thiết bị',
+      activity: 'Hoạt động',
+      maintenance: 'Bảo trì',
+      brokened: 'Bị hỏng'
     }
   }
 }
