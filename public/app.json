@@ -1,5 +1,5 @@
 {
-  "apiGateway": "http://api.ilotusland.vn",
-  "apiMedia": "http://media.ilotusland.vn",
-  "apiCamera": "http://camera.ilotusland.vn"
+  "apiGateway": "http://171.244.21.99:5000",
+  "apiMedia": "http://27.74.251.0:5000",
+  "apiCamera": "http://27.74.251.0:5000"
 }

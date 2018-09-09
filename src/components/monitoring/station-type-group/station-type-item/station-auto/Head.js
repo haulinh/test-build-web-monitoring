@@ -114,24 +114,27 @@ export default class StationAutoHead extends React.PureComponent {
     this.loadData()
   }
   loadData() {
-    StationControl.checkStationControl(
-      this.props.stationID,
-      this.props.organization._id
-    ).then(record => {
-      if (record.success) {
-        this.setState({
-          isLoaded: true,
-          //isEnable: record.data
-          isEnable: true
-        })
-      } else {
-        this.setState({
-          isLoaded: true,
-          //isEnable: false
-          isEnable: true
-        })
-      }
-    })
+    const { options } = this.props
+    if (options && options.sampling && options.sampling.allowed){
+      StationControl.checkStationControl(
+        this.props.stationID,
+        this.props.organization._id
+      ).then(record => {
+        if (record.success) {
+          this.setState({
+            isLoaded: true,
+            //isEnable: record.data
+            isEnable: true
+          })
+        } else {
+          this.setState({
+            isLoaded: true,
+            //isEnable: false
+            isEnable: true
+          })
+        }
+      })
+    }
   }
 
   render() {
@@ -145,7 +148,7 @@ export default class StationAutoHead extends React.PureComponent {
       status
     } = this.props
     const isCamera = options && options.camera && options.camera.allowed
-    const isSampling = options && options.camera && options.sampling.allowed
+    const isSampling = options && options.sampling && options.sampling.allowed
     return (
       <StationHeadItemWrapper>
         <TitleWrapper>
