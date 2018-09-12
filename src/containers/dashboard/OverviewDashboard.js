@@ -4,10 +4,14 @@ import ListLoaderCp from 'components/content-loader/list-loader'
 import BoxLoaderCp from 'components/content-loader/box-loader'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import SummaryList from 'components/dashboard/summary/summary-list'
+import HeaderView from '../../components/dashboard/header-view'
+import ChartStatisticalRatio from '../../components/dashboard/chart/chart-statistical-ratio'
 import ChartList from 'components/dashboard/chart/chart-row-list'
 import Clearfix from 'components/elements/clearfix'
 import { getStationTypes } from 'api/CategoryApi'
 import { getLastLog } from 'api/StationAuto'
+import * as _ from 'lodash'
+
 
 const ListLoader = createContentLoader({
   component: <ListLoaderCp />,
@@ -24,26 +28,30 @@ const BoxLoader = createContentLoader({
 
 export default class OverviewDashboard extends Component {
   state = {
+    stationStatus: '',
     stationTypeList: [],
     stationCount: {},
+    stationNotUse: {},
     rows: {},
     lineSeries: {},
     isLoaded: false
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     let stationTypes = await getStationTypes({}, {})
-    let stationTypeList = stationTypes.data
+
+    let stationTypeList = _.get(stationTypes, 'data', [])
+    
     let stationCount = {}
     let rows = {}
     let lineSeries = {}
-    stationTypeList.forEach(item => {
-      stationCount[item.key] = 0
-      rows[item.key] = []
-      lineSeries[item.key] = []
+
+    stationTypeList.forEach(({key}) => {
+      stationCount[key] = 0
+      rows[key] = []
+      lineSeries[key] = []
     })
 
-    let stationLastLog = await getLastLog()
     this.setState({
       stationTypeList,
       stationCount,
@@ -52,25 +60,19 @@ export default class OverviewDashboard extends Component {
       isLoaded: true
     })
 
-    /*eslint-disable */
-    for (let i = 0; i < stationTypeList.length; i++) {
-      let stationAutos = stationLastLog.data.filter(item => {
-        if (!item.stationType) return false
-        return item.stationType.key === stationTypeList[i].key
-      })
+    let stationLastLog = await getLastLog()
+    const dataLastLog = _.get(stationLastLog, 'data', [])
+    let groupLastLog = _.groupBy(dataLastLog, 'stationType.key')
 
-      this.setState({
-        stationCount: {
-          ...this.state.stationCount,
-          [stationTypeList[i].key]: stationAutos.length
-        },
-        rows: {
-          ...this.state.rows,
-          [stationTypeList[i].key]: stationAutos
-        }
-      })
-    }
-    /*eslint-enable */
+    _.forEach(_.keys(groupLastLog), key => {
+      rows[key] = groupLastLog[key]
+      stationCount[key] = _.size(rows[key])
+    })
+
+    
+    const goodCount = _.filter(dataLastLog, ({status}) => status === 'GOOD' ).length
+
+    this.setState({ rows, stationCount, stationStatus: `Trạm đang hoạt động ${goodCount}/${_.size(dataLastLog)}` })
   }
 
   getSummaryList() {
@@ -99,7 +101,8 @@ export default class OverviewDashboard extends Component {
       name: item.name,
       key: item.key,
       image: item.icon ? item.icon : arrayIcon[index],
-      number: this.state.stationCount[item.key]
+      number: this.state.stationCount[item.key],
+      totalStationGood: this.state.rows[item.key].filter(({status}) => status === 'GOOD').length
     }))
   }
 
@@ -126,7 +129,9 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
+        <HeaderView stationStatus={this.state.stationStatus}/>
         <SummaryList data={this.getSummaryList()} />
+        <ChartStatisticalRatio />
         <ChartList data={this.getChartList()} />
       </PageContainer>
     )

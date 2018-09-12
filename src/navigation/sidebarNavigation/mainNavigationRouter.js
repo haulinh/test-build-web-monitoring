@@ -134,6 +134,27 @@ const stationAutoMenu = {
   )
 }
 
+const provinceMenu = {
+  component: protectRole(ROLE.STATION_AUTO.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.province.base}
+      icon={Icon.book}
+      text={'Province'}
+    />
+  )
+}
+const qcvnMenu = {
+  component: protectRole(ROLE.STATION_AUTO.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.qcvn.base}
+      icon={Icon.book}
+      text={'QCVN'}
+    />
+  )
+}
+
 const groupAdmin = {
   component: protectRole('', [ROLE.USER.VIEW, ROLE.ROLE.VIEW], 'group')(
     <NavigationWrapper text={translate('menuApp.adminManagement')}>
@@ -176,6 +197,8 @@ export default [
   measuringMenu,
   stationTypeMenu,
   stationAutoMenu,
+  provinceMenu,
+  qcvnMenu,
   groupAdmin,
   userMenu,
   roleMenu

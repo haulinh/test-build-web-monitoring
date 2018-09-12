@@ -377,6 +377,16 @@ export default {
         label: 'Address',
         placeholder: 'Address'
       },
+      qcvn: {
+        label: 'QCVN',
+        placeholder: 'QCVN',
+        error: 'Please Choose Type Of QCVN'
+      },
+      province: {
+        label: 'Province',
+        placeholder: 'Province',
+        error: 'Please Choose Province'
+      },
       long: {
         label: 'Longitude',
         placeholder: 'Input longitude',

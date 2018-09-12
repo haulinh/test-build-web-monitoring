@@ -39,19 +39,28 @@ const TextDescription = Text.extend`
 export default class SummaryItem extends React.PureComponent {
   static propTypes = {
     number: PropTypes.number,
+    totalStationGood: PropTypes.number,
     name: PropTypes.string,
     image: PropTypes.string,
     color: PropTypes.string,
     stationTypeKey: PropTypes.string
   }
 
+  renderNumber = () => {
+    if (this.props.number) {
+      return `${this.props.totalStationGood || 0}/${this.props.number || 0}`
+    }
+
+    return this.props.number
+  }
+
   render() {
-    const { number, name, image, color, stationTypeKey } = this.props
+    const { name, image, color, stationTypeKey } = this.props
     return (
       <Link to={slug.monitoring.base + `?Id=${stationTypeKey}`}>
         <SummaryItemWrapper color={color}>
           <div>
-            <TextNumber>{number}</TextNumber>
+            <TextNumber>{this.renderNumber()}</TextNumber>
             <TextDescription>{name}</TextDescription>
           </div>
           <StationTypeImg src={image} />
