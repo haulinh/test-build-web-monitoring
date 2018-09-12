@@ -8,8 +8,8 @@ export function getConfigApi() {
     gateway: config.apiGateway,
     media: config.apiMedia,
     camera: config.apiCamera,
-    auth: c('auth'),
-    user: c('user'),
+    auth: c('auth'),//'http://localhost:5001/auth',
+    user: c('user'),//'http://localhost:5005/user',
     trialRegister: c('trial-register'),
     measuring: c('measuring'),
     stationType: c('station-type'),
@@ -18,7 +18,7 @@ export function getConfigApi() {
     ftp: c('ftp'),
     //tp: 'http://localhost:5009/ftp', //comemnt lcoal
     fcmMessages: c('fcm-messages'),
-    organization: c('organization'), // 'http://localhost:5005/organization',//
+    organization: c('organization'), //'http://localhost:5005/organization',
     role: c('role'),
     sampling: c('sampling'),
     support: c('support'),

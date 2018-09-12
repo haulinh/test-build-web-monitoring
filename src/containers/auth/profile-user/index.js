@@ -19,7 +19,7 @@ import { fetchUserMe } from 'redux/actions/authAction'
 import { connectAutoDispatch } from 'redux/connect'
 import moment from 'moment'
 import { SHAPE } from 'themes/color'
-import { Icon, Input, Button } from 'antd'
+import { Icon, Button } from 'antd'
 import UserApi from 'api/UserApi'
 import StationAutoApi from 'api/StationAuto'
 import OrganizationApi from 'api/OrganizationApi'
@@ -37,9 +37,9 @@ const Clearfix = styled.div`
 const HeadingIntro = styled.h4`
   font-size: 16px;
   font-weight: 700;
-  margin-bottom: 16px;
-  margin-top: 16px;
+  margin-left: 8px;
   margin-right: 16px;
+  margin-top: 16px;
   color: ${SHAPE.PRIMARY};
 `
 
@@ -133,6 +133,10 @@ export class ProfileUserForm extends PureComponent {
     })
   }
 
+  saveNameOrganization(){
+    console.log(this.refs.nameOrganization)
+  }
+
   renderItem(icon, label, value) {
     return (
       <div className='row'>
@@ -168,11 +172,18 @@ export class ProfileUserForm extends PureComponent {
                 size="small"/>
                 <Col>
                   {
-                    (this.props.initialValues.isAdmin && this.state.isEdit)? <Input styled={{margin: 16}} defaultValue={this.state.name}/>
-                    : <Row>
-                        <HeadingIntro>{this.state.name}</HeadingIntro>
-                        { this.props.initialValues.isAdmin && <Button shape="circle" icon="edit" onClick={this.editNameOrganization}/>}
-                      </Row>
+                    (this.props.initialValues.isAdmin && this.state.isEdit)? 
+                    <Field
+                      name="organization.name"
+                      style={{marginTop: 24, marginBottom: 12}}
+                      component={FInput}
+                      size="small"
+                    />
+                    :
+                    <Row style={{ marginTop: 16 }}>
+                      <HeadingIntro>{this.state.name}</HeadingIntro>
+                      {this.props.initialValues.isAdmin && <Button shape="circle" icon="edit" onClick={this.editNameOrganization}/>}
+                    </Row>
                   }
                   <Col>
                     {this.renderItem(
@@ -284,12 +295,12 @@ export default class ProfileUser extends PureComponent {
   }
 
   async onSubmit(values) {
-    console.log('onSubmit',values)
     const _id = values._id
     const data = {
       ...values
     }
-    const result = await AuthApi.putProfile(_id, data)
+    await AuthApi.putProfile(_id, data)
+    const result =  await OrganizationApi.updateOrganizationNameLogo(values.organization)
     this.props.fetchUserMe()
     if (result.error) {
       swal({

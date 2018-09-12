@@ -6,12 +6,12 @@ export function getSubscription() {
   return getFetch(urlFetch)
 }
 
-export function updateOrganization(organization){
-  let url = getConfigApi().organization + `/${organization._id}`
+export function updateOrganizationNameLogo(organization){
+  let url = getConfigApi().organization + `/nameLogo/${organization._id}`
   return putFetch(url, organization)
 }
 
 export default {
   getSubscription,
-  updateOrganization
+  updateOrganizationNameLogo
 }

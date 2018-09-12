@@ -77,7 +77,7 @@ export default class BasicNestedNavigation extends React.Component {
     })
   }
 
-  getContainerHeaderComponent = () => {
+  getContainerHeaderComponent = logo => {
     const backButton = this.props.isShowBack ? (
       <AkNavigationItem
         icon={<ArrowLeftIcon label="Back" />}
@@ -93,7 +93,7 @@ export default class BasicNestedNavigation extends React.Component {
       <Tooltip key="1" position="right" content="Admin system">
         <WrapperTitle>
           <Link to="/">
-            <LogoBrandName />
+            <LogoBrandName logo={logo}/>
           </Link>
         </WrapperTitle>
       </Tooltip>,
@@ -189,13 +189,18 @@ export default class BasicNestedNavigation extends React.Component {
   }
 
   render() {
+    let logo = ''
+    if (this.props.authInfo.organization){
+        logo = this.props.authInfo.organization.logo
+    }
+
     return (
       <StyleWrapper>
         <Navigation
           globalTheme={globalTheme}
           width={this.props.hide ? 0 : this.props.navigation.width}
           globalPrimaryIcon={<LogoSubIcon />}
-          containerHeaderComponent={() => this.getContainerHeaderComponent()}
+          containerHeaderComponent={() => this.getContainerHeaderComponent(logo)}
           onResize={this.handleResize}
           isOpen={this.props.navigation.isOpen}
           drawers={[

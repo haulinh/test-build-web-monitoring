@@ -26,7 +26,7 @@ export function changePassword(_id, data) {
 }
 
 export function putProfile(_id, data) {
-  return putFetch(getUserUrl('organization/' + _id), data)
+  return putFetch(getUserUrl('organization/profile/' + _id), data)
 }
 
 export function putSecurity(data) {

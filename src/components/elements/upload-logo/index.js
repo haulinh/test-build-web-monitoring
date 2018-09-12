@@ -6,7 +6,6 @@ import { autobind } from 'core-decorators'
 import { Upload } from 'antd'
 import MediaApi from 'api/MediaApi'
 import { translate } from 'hoc/create-lang'
-import OrganizationApi from 'api/OrganizationApi'
 
 const View = styled.div``
 
@@ -50,8 +49,6 @@ export default class UpdateLogo extends React.PureComponent {
       }else{
         data['logo'] = file.response.url
       }
-      console.log(data)
-      OrganizationApi.updateOrganization(data)
     }
   }
   
@@ -69,7 +66,6 @@ export default class UpdateLogo extends React.PureComponent {
   }
 
   render() {
-    console.log('-->', this.props)
     const { name, ...otherProps } = this.props
     return (
       <View>
