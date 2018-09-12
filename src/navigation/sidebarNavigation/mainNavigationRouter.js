@@ -164,33 +164,9 @@ const roleMenu = {
   )
 }
 
-const devicesMenu = {
-  component: protectRole(ROLE.MONITORING.VIEW)(
-    <AkNavigationItem
-      linkComponent={WrapperLinkComponent}
-      href={slug.devicesManager.base}
-      icon={Icon.roadmap}
-      text={translate('menuApp.devicesManager')}
-      />
-  )
-}
-
-const subscriptionMenu = {
-  component: protectRole(ROLE.ROLE.VIEW)(
-    <AkNavigationItem
-      linkComponent={WrapperLinkComponent}
-      href={slug.subscription.base}
-      icon={Icon.creditCard}
-      text={translate('menuApp.subscription')}
-    />
-  )
-}
-
-
 export default [
   dashboardMenu,
   monitoringMenu,
-  devicesMenu,
   CameraMenu,
   mapMenu,
   groupData,
@@ -202,6 +178,5 @@ export default [
   stationAutoMenu,
   groupAdmin,
   userMenu,
-  roleMenu,
-  subscriptionMenu
+  roleMenu
 ]

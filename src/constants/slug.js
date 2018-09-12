@@ -96,8 +96,5 @@ export default {
   support: {
     base: '/support',
     create: '/support/create'
-  },
-  devicesManager: {
-    base: '/devices'
   }
 }

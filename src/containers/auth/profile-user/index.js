@@ -5,7 +5,7 @@ import { reduxForm, Field } from 'redux-form'
 import { Row, Col } from 'reactstrap'
 import swal from 'sweetalert2'
 import { InputLabel, createValidateComponent } from 'components/elements'
-import Button from 'components/elements/button'
+import ButtonCustom from 'components/elements/button'
 import CalendarCustom from 'components/elements/datetime-picker'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 import UpdateLoadImage from 'components/elements/upload-image-avatar'
@@ -19,7 +19,7 @@ import { fetchUserMe } from 'redux/actions/authAction'
 import { connectAutoDispatch } from 'redux/connect'
 import moment from 'moment'
 import { SHAPE } from 'themes/color'
-import { Icon } from 'antd'
+import { Icon, Input, Button } from 'antd'
 import UserApi from 'api/UserApi'
 import StationAutoApi from 'api/StationAuto'
 import OrganizationApi from 'api/OrganizationApi'
@@ -39,6 +39,7 @@ const HeadingIntro = styled.h4`
   font-weight: 700;
   margin-bottom: 16px;
   margin-top: 16px;
+  margin-right: 16px;
   color: ${SHAPE.PRIMARY};
 `
 
@@ -78,6 +79,7 @@ export class ProfileUserForm extends PureComponent {
       totalStation: 0,
       createdUser: 0,
       createdStation: 0,
+      isEdit: false
     }
   }
 
@@ -125,6 +127,12 @@ export class ProfileUserForm extends PureComponent {
     }
   }
 
+  editNameOrganization() {
+    this.setState({
+      isEdit: true
+    })
+  }
+
   renderItem(icon, label, value) {
     return (
       <div className='row'>
@@ -152,27 +160,34 @@ export class ProfileUserForm extends PureComponent {
           <Col md={6}>
             <Row>
               <Field
-                label={'Thuộc tổ chức'}
+                label={translate('userManager.form.organization.label')}
                 name="avatar"
                 organization={this.props.initialValues.organization}
+                isAdmin={this.props.initialValues.isAdmin}
                 component={UpdateLogo}
                 size="small"/>
                 <Col>
-                <HeadingIntro>{this.state.name}</HeadingIntro>
-                <Col>
-                  {this.renderItem(
-                    <Icon type="user" />,
-                    translate('subscriptionStatus.totalUsers'),
-                    `: ${this.state.createdUser} of ${this.state.totalUser}`
-                  )}
-                </Col>
-                <Col>
-                  {this.renderItem(
-                    <Icon type="inbox" />,
-                    translate('subscriptionStatus.totalStation'),
-                    `: ${this.state.createdStation} of ${this.state.totalStation}`
-                  )}
-                </Col>
+                  {
+                    (this.props.initialValues.isAdmin && this.state.isEdit)? <Input styled={{margin: 16}} defaultValue={this.state.name}/>
+                    : <Row>
+                        <HeadingIntro>{this.state.name}</HeadingIntro>
+                        { this.props.initialValues.isAdmin && <Button shape="circle" icon="edit" onClick={this.editNameOrganization}/>}
+                      </Row>
+                  }
+                  <Col>
+                    {this.renderItem(
+                      <Icon type="user" />,
+                      translate('subscriptionStatus.totalUsers'),
+                      `: ${this.state.createdUser} of ${this.state.totalUser}`
+                    )}
+                  </Col>
+                  <Col>
+                    {this.renderItem(
+                      <Icon type="inbox" />,
+                      translate('subscriptionStatus.totalStation'),
+                      `: ${this.state.createdStation} of ${this.state.totalStation}`
+                    )}
+                  </Col>
                 </Col>
             </Row>
           </Col>
@@ -228,7 +243,7 @@ export class ProfileUserForm extends PureComponent {
           </Col>
         </Row>
         <Clearfix />
-        <Button
+        <ButtonCustom
           disabled={this.props.submitting}
           isLoading={this.props.submitting}
           controtertype="submit"
@@ -236,7 +251,7 @@ export class ProfileUserForm extends PureComponent {
           color="primary"
         >
           {translate('addon.save')}
-        </Button>
+        </ButtonCustom>
       </form>
     )
   }

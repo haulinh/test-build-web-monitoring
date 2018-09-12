@@ -69,6 +69,7 @@ export default class UpdateLogo extends React.PureComponent {
   }
 
   render() {
+    console.log('-->', this.props)
     const { name, ...otherProps } = this.props
     return (
       <View>
@@ -80,6 +81,7 @@ export default class UpdateLogo extends React.PureComponent {
           fileList={this.state.fileList}
           onPreview={this.handlePreview}
           onChange={this.handleImageChange}
+          disabled={!this.props.isAdmin}
         >
           {this.state.fileList.length > 0 ? '' : <LogoContainer src="/images/logo/icon/enviroment.png" />}
         </Upload>

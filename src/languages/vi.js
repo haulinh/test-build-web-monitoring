@@ -174,12 +174,12 @@ export default {
       maxTime: 'Thời gian tối đa',
       min: 'Tối thiểu',
       minTime: 'Thời gian tối thiểu',
-      avg: 'Tần suất',
+      avg: 'Tổng hợp',
       parameters: 'Thông số'
     }
   },
   avgSearchFrom: {
-    titleText: 'Tìm kiếm tần suất',
+    titleText: 'Tra cứu liệu tổng hợp',
     form: {
       stationType: {
         label: 'Loại trạm',
@@ -776,13 +776,13 @@ export default {
     update: 'Cập nhật'
   },
   menuApp: {
-    dashboard: 'Bảng điều khiển',
+    dashboard: 'Khai thác dữ liệu',
     monitoring: 'Giám sát',
     camera: 'Camera',
     map: 'Bản đồ',
     data: 'Dữ liệu',
-    dataSearch: 'Tìm kiếm dữ liệu',
-    avgData: 'Tìm kiếm tần số',
+    dataSearch: 'Tra cứu dữ liệu gốc',
+    avgData: 'Tra cứu dữ liệu tổng hợp',
     manage: 'Quản lý',
     measuring: 'Thông số',
     stationType: 'Loại trạm',
@@ -791,8 +791,7 @@ export default {
     user: 'Người dùng',
     role: 'Nhóm quyền',
     subscription: 'Hệ thống',
-    support: 'Hỗ trợ',
-    devicesManager: 'Quản lý thiết bị'
+    support: 'Hỗ trợ'
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'
@@ -828,15 +827,6 @@ export default {
     develop: {
       title: 'Chức năng này đang phát triển',
       process: 'Chúng tôi sẽ cập nhật nó cho phiên bản sau'
-    }
-  },
-  devicesManager: {
-    label: 'Quản lý thiết bị',
-    status: {
-      label: 'Trạng thái thiết bị',
-      activity: 'Hoạt động',
-      maintenance: 'Bảo trì',
-      brokened: 'Bị hỏng'
     }
   }
 }
