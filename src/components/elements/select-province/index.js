@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
-import ProvinceAPI from 'api/ProvinceAPI'
+import ProvinceApi from 'api/ProvinceApi'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
 
@@ -22,7 +22,7 @@ export default class SelectProvice extends PureComponent {
 
   async componentDidMount() {
     let query = {}
-    const lstProvices = await ProvinceAPI.getProvices({}, query)
+    const lstProvices = await ProvinceApi.getProvices({}, query)
     if (lstProvices.success)
       this.setState({
         lstProvices: lstProvices.data,
