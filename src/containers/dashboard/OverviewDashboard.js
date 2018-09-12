@@ -4,6 +4,7 @@ import ListLoaderCp from 'components/content-loader/list-loader'
 import BoxLoaderCp from 'components/content-loader/box-loader'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import SummaryList from 'components/dashboard/summary/summary-list'
+import HeaderView from '../../components/dashboard/header-view'
 import ChartList from 'components/dashboard/chart/chart-row-list'
 import Clearfix from 'components/elements/clearfix'
 import { getStationTypes } from 'api/CategoryApi'
@@ -126,6 +127,7 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
+        <HeaderView />
         <SummaryList data={this.getSummaryList()} />
         <ChartList data={this.getChartList()} />
       </PageContainer>
