@@ -15,6 +15,8 @@ import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import CategoryApi from 'api/CategoryApi'
 import SelectStationType from 'components/elements/select-station-type'
+import SelectProvice from 'components/elements/select-province'
+import SelectQCVN from 'components/elements/select-qcvn'
 import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
 import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
@@ -135,12 +137,15 @@ export default class StationAutoForm extends React.PureComponent {
         emails: this.state.emails,
         phones: this.state.phones,
         stationType: this.state.stationTypeObject,
+        province: this.state.provicenObject,
+        qcvn: this.state.qcvnObject,
         measuringList: values.measuringList,
         options: this.state.options,
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null
       }
       // Callback submit form Container Component
-      this.props.onSubmit(data)
+      console.log(data)
+      // this.props.onSubmit(data)
     })
   }
 
@@ -149,6 +154,22 @@ export default class StationAutoForm extends React.PureComponent {
     this.setState({
       stationType: stationTypeObject.key,
       stationTypeObject: stationTypeObject
+    })
+  }
+
+  changeProvince(provicenObject) {
+    this.props.form.setFieldsValue({ province: provicenObject.key })
+    this.setState({
+      province: provicenObject.key,
+      provicenObject: provicenObject
+    })
+  }
+
+  changeQCVN(qcvnObject) {
+    this.props.form.setFieldsValue({ qcvn: qcvnObject.key })
+    this.setState({
+      qcvn: qcvnObject.key,
+      qcvnObject: qcvnObject
     })
   }
 
@@ -264,6 +285,52 @@ export default class StationAutoForm extends React.PureComponent {
               })(
                 <Input
                   placeholder={t('stationAutoManager.form.name.placeholder')}
+                />
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={8}>
+          <Col span={12}>
+            <FormItem
+              {...formItemLayout}
+              label={t('stationAutoManager.form.province.label')}
+            >
+              {getFieldDecorator('province', {
+                rules: [
+                  {
+                    required: true,
+                    message: t('stationAutoManager.form.province.error')
+                  }
+                ]
+              })(
+                <SelectProvice
+                  label={t('stationAutoManager.form.province.label')}
+                  placeholder={t(
+                    'stationAutoManager.form.province.placeholder'
+                  )}
+                  onHandleChange={this.changeProvince}
+                />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={12}>
+            <FormItem
+              {...formItemLayout}
+              label={t('stationAutoManager.form.qcvn.label')}
+            >
+              {getFieldDecorator('qcvn', {
+                rules: [
+                  {
+                    required: false,
+                    message: t('stationAutoManager.form.qcvn.error')
+                  }
+                ]
+              })(
+                <SelectQCVN
+                  label={t('stationAutoManager.form.qcvn.label')}
+                  placeholder={t('stationAutoManager.form.qcvn.placeholder')}
+                  onHandleChange={this.changeQCVN}
                 />
               )}
             </FormItem>
