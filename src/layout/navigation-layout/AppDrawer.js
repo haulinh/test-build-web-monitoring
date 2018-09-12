@@ -64,7 +64,7 @@ export default class DocumentDrawer extends PureComponent {
       >
         <div key="drawler" style={{ marginTop: -64 }}>
           <AkNavigationItemGroup title="Other apps">
-            <AppLink href="http://app.ilotusland.vn" icon="enviroment">
+            <AppLink href="http://171.244.21.99:5555/" icon="enviroment">
               for Enviroment
             </AppLink>
             <AppLink icon="water">for Water</AppLink>
