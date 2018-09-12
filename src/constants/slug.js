@@ -17,6 +17,20 @@ export default {
     edit: '/measuring/edit/:key',
     editWithKey: '/measuring/edit'
   },
+  province: {
+    list: '/province',
+    base: '/province',
+    create: '/province/create',
+    edit: '/province/edit/:key',
+    editWithKey: '/province/edit'
+  },
+  qcvn: {
+    list: '/qcvn',
+    base: '/qcvn',
+    create: '/qcvn/create',
+    edit: '/qcvn/edit/:key',
+    editWithKey: '/qcvn/edit'
+  },
   stationType: {
     list: '/station-type',
     base: '/station-type',

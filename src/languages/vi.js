@@ -377,6 +377,16 @@ export default {
         label: 'Địa chỉ',
         placeholder: 'Nhập địa chỉ'
       },
+      qcvn: {
+        label: 'QCVN',
+        placeholder: 'QCVN',
+        error: 'Vui lòng chọn QCVN'
+      },
+      province: {
+        label: 'Đơn vị quản lý',
+        placeholder: 'Đơn vị quản lý',
+        error: 'Vui lòng chọn đơn vị quản lý'
+      },
       long: {
         label: 'Kinh độ',
         placeholder: 'Nhập kinh độ',
@@ -685,8 +695,7 @@ export default {
   },
   resetPassword: {
     key: 'Quên mật khẩu',
-    key2:
-      "Nhập email đã đăng ký để đặt lại mật khẩu",
+    key2: 'Nhập email đã đăng ký để đặt lại mật khẩu',
     key3: 'Đặt lại mật khẩu',
     key4: 'Gửi lại mã xác thực',
     key5: 'Xác nhận',
@@ -820,7 +829,7 @@ export default {
       }
     }
   },
-  documents:{
+  documents: {
     label: 'Tài liệu hướng dẫn',
     guide1: 'Cài đặt hướng dẫn 1',
     guide2: 'Cài đặt hướng dẫn 2',
