@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import ProvinceApi from 'api/ProvinceApi'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
+import { get } from 'lodash'
 
 @autobind
 export default class SelectProvice extends PureComponent {
@@ -22,16 +23,16 @@ export default class SelectProvice extends PureComponent {
 
   async componentDidMount() {
     let query = {}
-    const lstProvices = await ProvinceApi.getProvices({}, query)
-    if (lstProvices.success)
+    const result = await ProvinceApi.getProvices({}, query)
+    if (get(result, 'success', false)) {
       this.setState({
-        lstProvices: lstProvices.data,
-        value: this.props.value
+        lstProvices: get(result, 'data', []),
+        value: get(this.props.value, 'key', '')
       })
-    console.log(lstProvices)
+    }
   }
 
-  onChange(value) {
+  onChange = value => {
     let res = this.state.lstProvices.find(item => item.key === value)
     this.setState({
       value: value

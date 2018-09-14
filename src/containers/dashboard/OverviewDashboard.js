@@ -30,6 +30,7 @@ export default class OverviewDashboard extends Component {
   state = {
     stationStatus: '',
     stationTypeList: [],
+    stationList: [],
     stationCount: {},
     stationNotUse: {},
     rows: {},
@@ -69,10 +70,9 @@ export default class OverviewDashboard extends Component {
       stationCount[key] = _.size(rows[key])
     })
 
-    
     const goodCount = _.filter(dataLastLog, ({status}) => status === 'GOOD' ).length
 
-    this.setState({ rows, stationCount, stationStatus: `Trạm đang hoạt động ${goodCount}/${_.size(dataLastLog)}` })
+    this.setState({ stationList: dataLastLog, rows, stationCount, stationStatus: `Trạm đang hoạt động ${goodCount}/${_.size(dataLastLog)}` })
   }
 
   getSummaryList() {
@@ -131,7 +131,8 @@ export default class OverviewDashboard extends Component {
       >
         <HeaderView stationStatus={this.state.stationStatus}/>
         <SummaryList data={this.getSummaryList()} />
-        <ChartStatisticalRatio />
+        <ChartStatisticalRatio data={this.state.stationList} />
+        {/* this.state.stationList */}
         <ChartList data={this.getChartList()} />
       </PageContainer>
     )
