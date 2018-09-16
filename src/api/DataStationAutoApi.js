@@ -85,7 +85,7 @@ export function getDataAnalyzeStationAutos({
 }
 
 export const getDataStationAutoRatioCount = (to, from) => {
-  return getFetch('localhost:5004/data-station-auto/pt_bmt_khi/count-statio', undefined, {params: { from, to }})
+  return getFetch(getDataStationAutoUrl('vas/count-station'), undefined, {params: { from, to }})
 }
 
 export default {
