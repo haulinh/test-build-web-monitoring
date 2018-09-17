@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from "axios"
+import axios from 'axios'
 import {
   Form,
   Input,
@@ -40,7 +40,7 @@ export default class SampleConfigForm extends React.PureComponent {
     }
   }
 
-  async handleSubmit(e){
+  async handleSubmit(e) {
     e.preventDefault()
     this.setState({
       isUpload: true
@@ -54,30 +54,27 @@ export default class SampleConfigForm extends React.PureComponent {
       })
     } catch (error) {
       this.setState({
-        isUpload: false,
+        isUpload: false
       })
     }
   }
 
-  getPropsUpload(){
+  getPropsUpload() {
     return {
       name: 'file',
       headers: {
         authorization: 'authorization-text'
       },
-      onRemove: (file) => {
-       
-      },
-      beforeUpload: (file) => {
+      onRemove: file => {},
+      beforeUpload: file => {
         this.setState(({ fileList }) => ({
-          fileList: [...fileList, file],
+          fileList: [...fileList, file]
         }))
         return false
       },
       fileList: this.state.fileList
     }
   }
-
 
   render() {
     const { t } = this.props.lang
@@ -113,9 +110,7 @@ export default class SampleConfigForm extends React.PureComponent {
               label={t('support.form.upload.label')}
               // label={t('support.form.upload.label')}
             >
-              <Upload
-                {...this.getPropsUpload()}
-              >
+              <Upload {...this.getPropsUpload()}>
                 <Button>
                   <Icon type="upload" disabled={this.state.isSended} />{' '}
                   {t('support.form.upload.buttonLabel')}
@@ -125,40 +120,36 @@ export default class SampleConfigForm extends React.PureComponent {
           </Col>
 
           <Col span={8}>
-             <FormItem
+            <FormItem
               {...formItemLayout}
               label={t('support.form.upload.label')}
               // label={t('support.form.upload.label')}
             >
-              <Upload
-                {...this.getPropsUpload()}
-              >
+              <Upload {...this.getPropsUpload()}>
                 <Button>
                   <Icon type="upload" disabled={this.state.isSended} />{' '}
                   {t('support.form.upload.buttonLabel')}
                 </Button>
               </Upload>
             </FormItem>
-            </Col>
+          </Col>
 
-            <Col span={8}>
-             <FormItem
+          <Col span={8}>
+            <FormItem
               {...formItemLayout}
               label={t('support.form.upload.label')}
               // label={t('support.form.upload.label')}
             >
-              <Upload
-                {...this.getPropsUpload()}
-              >
+              <Upload {...this.getPropsUpload()}>
                 <Button disabled={true}>
                   <Icon type="upload" disabled={this.state.isSended} />{' '}
                   {t('support.form.upload.buttonLabel')}
                 </Button>
               </Upload>
             </FormItem>
-            </Col>
+          </Col>
         </Row>
-        
+
         <Row gutter={0}>
           <Col span={24}>
             <FormItem {...tailFormItemLayout}>

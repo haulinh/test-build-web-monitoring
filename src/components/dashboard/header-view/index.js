@@ -30,7 +30,6 @@ const View = styled.div`
 
 @autobind
 export default class HeaderView extends React.PureComponent {
-
   static propTypes = {
     stationStatus: PropTypes.string,
     onChange: PropTypes.func
@@ -45,12 +44,12 @@ export default class HeaderView extends React.PureComponent {
   render() {
     return (
       <WrapperView>
-       <View flex={1} style={{minWidth: 250}}>
-        <ProvinceSelect label='Tat ca' onChange={this.handleItemSelected} />
-       </View>
-       <View flex={2}>
-        <Label style={{paddingTop: 4}}>{this.props.stationStatus}</Label>
-       </View>
+        <View flex={1} style={{ minWidth: 250 }}>
+          <ProvinceSelect label="Tat ca" onChange={this.handleItemSelected} />
+        </View>
+        <View flex={2}>
+          <Label style={{ paddingTop: 4 }}>{this.props.stationStatus}</Label>
+        </View>
       </WrapperView>
     )
   }

@@ -31,6 +31,6 @@ export default {
   peopleGroup: <PeopleGroupIcon label={''} size={'medium'} />,
   creditCard: <CreditcardIcon label={''} size={'medium'} />,
   camera: <CameraIcon label={''} size={'medium'} />,
-  roadmap:  <RoadmapIcon label={''} size={'medium'} />,
-  aqi:  <AqiIcon label={''} size={'medium'} />,
+  roadmap: <RoadmapIcon label={''} size={'medium'} />,
+  aqi: <AqiIcon label={''} size={'medium'} />
 }

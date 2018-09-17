@@ -85,7 +85,9 @@ export function getDataAnalyzeStationAutos({
 }
 
 export const getDataStationAutoRatioCount = (to, from) => {
-  return getFetch(getDataStationAutoUrl('vas/count-station'), undefined, {params: { from, to }})
+  return getFetch(getDataStationAutoUrl('vas/count-station'), undefined, {
+    params: { from, to }
+  })
 }
 
 export default {

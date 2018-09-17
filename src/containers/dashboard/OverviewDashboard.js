@@ -12,7 +12,6 @@ import { getStationTypes } from 'api/CategoryApi'
 import { getLastLog } from 'api/StationAuto'
 import * as _ from 'lodash'
 
-
 const ListLoader = createContentLoader({
   component: <ListLoaderCp />,
   isAutoLoader: true,
@@ -35,19 +34,20 @@ export default class OverviewDashboard extends Component {
     stationNotUse: {},
     rows: {},
     lineSeries: {},
-    isLoaded: false
+    isLoaded: false,
+    isProvinceAll: true
   }
 
-  async componentDidMount() {
+  getStationInfo = async province => {
+    let isProvinceAll = true
     let stationTypes = await getStationTypes({}, {})
-
     let stationTypeList = _.get(stationTypes, 'data', [])
-    
+
     let stationCount = {}
     let rows = {}
     let lineSeries = {}
 
-    stationTypeList.forEach(({key}) => {
+    stationTypeList.forEach(({ key }) => {
       stationCount[key] = 0
       rows[key] = []
       lineSeries[key] = []
@@ -62,17 +62,37 @@ export default class OverviewDashboard extends Component {
     })
 
     let stationLastLog = await getLastLog()
-    const dataLastLog = _.get(stationLastLog, 'data', [])
-    let groupLastLog = _.groupBy(dataLastLog, 'stationType.key')
+    let dataLastLog = []
 
+    if (province && province.key) {
+      isProvinceAll = false
+      dataLastLog = _.filter(
+        _.get(stationLastLog, 'data', []),
+        item => item.province.key === province.key
+      )
+    } else {
+      dataLastLog = _.get(stationLastLog, 'data', [])
+    }
+
+    let groupLastLog = _.groupBy(dataLastLog, 'stationType.key')
     _.forEach(_.keys(groupLastLog), key => {
       rows[key] = groupLastLog[key]
       stationCount[key] = _.size(rows[key])
     })
 
-    const goodCount = _.filter(dataLastLog, ({status}) => status === 'GOOD' ).length
+    const goodCount = _.filter(dataLastLog, ({ status }) => status === 'GOOD')
+      .length
+    this.setState({
+      isProvinceAll,
+      stationList: dataLastLog,
+      rows,
+      stationCount,
+      stationStatus: `Trạm đang hoạt động ${goodCount}/${_.size(dataLastLog)}`
+    })
+  }
 
-    this.setState({ stationList: dataLastLog, rows, stationCount, stationStatus: `Trạm đang hoạt động ${goodCount}/${_.size(dataLastLog)}` })
+  async componentDidMount() {
+    this.getStationInfo(null)
   }
 
   getSummaryList() {
@@ -102,17 +122,23 @@ export default class OverviewDashboard extends Component {
       key: item.key,
       image: item.icon ? item.icon : arrayIcon[index],
       number: this.state.stationCount[item.key],
-      totalStationGood: this.state.rows[item.key].filter(({status}) => status === 'GOOD').length
+      totalStationGood: this.state.rows[item.key].filter(
+        ({ status }) => status === 'GOOD'
+      ).length
     }))
   }
 
   getChartList() {
-    return this.state.stationTypeList.map(item => ({
+    return _.map(this.state.stationTypeList, item => ({
       key: item.key,
       title: item.name,
       totalStation: this.state.stationCount[item.key],
       stationList: this.state.rows[item.key]
     }))
+  }
+
+  handleProvinceChange = province => {
+    this.getStationInfo(province)
   }
 
   render() {
@@ -129,7 +155,11 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
-        <HeaderView stationStatus={this.state.stationStatus}/>
+        <HeaderView
+          isAll={this.state.isProvinceAll}
+          stationStatus={this.state.stationStatus}
+          onChange={this.handleProvinceChange}
+        />
         <SummaryList data={this.getSummaryList()} />
         <ChartStatisticalRatio data={this.state.stationList} />
         {/* this.state.stationList */}

@@ -83,10 +83,10 @@ export class ProfileUserForm extends PureComponent {
     }
   }
 
-  componentWillMount(){
+  componentWillMount() {
     if (this.props.initialValues) {
       const { organization, avatar } = this.props.initialValues
-      if (organization && organization.packageInfo){
+      if (organization && organization.packageInfo) {
         this.setState({
           name: organization.name,
           image: {
@@ -95,9 +95,9 @@ export class ProfileUserForm extends PureComponent {
           totalUser: organization.packageInfo.totalUser,
           totalStation: organization.packageInfo.totalStation
         })
-      }else{
+      } else {
         this.setState({
-          name:  organization.name,
+          name: organization.name,
           image: {
             url: avatar
           }
@@ -133,13 +133,13 @@ export class ProfileUserForm extends PureComponent {
     })
   }
 
-  saveNameOrganization(){
+  saveNameOrganization() {
     console.log(this.refs.nameOrganization)
   }
 
   renderItem(icon, label, value) {
     return (
-      <div className='row'>
+      <div className="row">
         <Label>
           {icon} {label}
         </Label>
@@ -169,37 +169,45 @@ export class ProfileUserForm extends PureComponent {
                 organization={this.props.initialValues.organization}
                 isAdmin={this.props.initialValues.isAdmin}
                 component={UpdateLogo}
-                size="small"/>
+                size="small"
+              />
+              <Col>
+                {this.props.initialValues.isAdmin && this.state.isEdit ? (
+                  <Field
+                    name="organization.name"
+                    style={{ marginTop: 24, marginBottom: 12 }}
+                    component={FInput}
+                    size="small"
+                  />
+                ) : (
+                  <Row style={{ marginTop: 16 }}>
+                    <HeadingIntro>{this.state.name}</HeadingIntro>
+                    {this.props.initialValues.isAdmin && (
+                      <Button
+                        shape="circle"
+                        icon="edit"
+                        onClick={this.editNameOrganization}
+                      />
+                    )}
+                  </Row>
+                )}
                 <Col>
-                  {
-                    (this.props.initialValues.isAdmin && this.state.isEdit)? 
-                    <Field
-                      name="organization.name"
-                      style={{marginTop: 24, marginBottom: 12}}
-                      component={FInput}
-                      size="small"
-                    />
-                    :
-                    <Row style={{ marginTop: 16 }}>
-                      <HeadingIntro>{this.state.name}</HeadingIntro>
-                      {this.props.initialValues.isAdmin && <Button shape="circle" icon="edit" onClick={this.editNameOrganization}/>}
-                    </Row>
-                  }
-                  <Col>
-                    {this.renderItem(
-                      <Icon type="user" />,
-                      translate('subscriptionStatus.totalUsers'),
-                      `: ${this.state.createdUser} of ${this.state.totalUser}`
-                    )}
-                  </Col>
-                  <Col>
-                    {this.renderItem(
-                      <Icon type="inbox" />,
-                      translate('subscriptionStatus.totalStation'),
-                      `: ${this.state.createdStation} of ${this.state.totalStation}`
-                    )}
-                  </Col>
+                  {this.renderItem(
+                    <Icon type="user" />,
+                    translate('subscriptionStatus.totalUsers'),
+                    `: ${this.state.createdUser} of ${this.state.totalUser}`
+                  )}
                 </Col>
+                <Col>
+                  {this.renderItem(
+                    <Icon type="inbox" />,
+                    translate('subscriptionStatus.totalStation'),
+                    `: ${this.state.createdStation} of ${
+                      this.state.totalStation
+                    }`
+                  )}
+                </Col>
+              </Col>
             </Row>
           </Col>
         </Row>
@@ -300,7 +308,9 @@ export default class ProfileUser extends PureComponent {
       ...values
     }
     await AuthApi.putProfile(_id, data)
-    const result =  await OrganizationApi.updateOrganizationNameLogo(values.organization)
+    const result = await OrganizationApi.updateOrganizationNameLogo(
+      values.organization
+    )
     this.props.fetchUserMe()
     if (result.error) {
       swal({

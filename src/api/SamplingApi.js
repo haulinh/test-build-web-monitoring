@@ -1,5 +1,10 @@
 import { getConfigApi } from '../config'
-import { getFetch, postFetch, putFetch, uploadMultipleFile } from '../utils/fetch'
+import {
+  getFetch,
+  postFetch,
+  putFetch,
+  uploadMultipleFile
+} from '../utils/fetch'
 
 function getSamplingUrl(prefix = '') {
   return getConfigApi().sampling + '/' + prefix
@@ -36,7 +41,7 @@ export function checkStationControl(key, organizationId) {
 }
 
 // Upload 3 file config máy lấy mẫu
-export function uploadSampleConfig(files){
+export function uploadSampleConfig(files) {
   // TODO: Khi deploy lên server khi phải sửa lại url.
   return uploadMultipleFile(getConfigApi().sampleConfig, files)
 }

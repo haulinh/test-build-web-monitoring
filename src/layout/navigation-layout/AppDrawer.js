@@ -33,7 +33,7 @@ class AppLink extends React.PureComponent {
   }
 
   handleClickLink(e) {
-    if (!this.props.href){
+    if (!this.props.href) {
       e.preventDefault()
       swal({
         type: 'info',

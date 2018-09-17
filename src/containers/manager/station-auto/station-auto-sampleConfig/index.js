@@ -9,18 +9,18 @@ import createLanguageHoc from 'hoc/create-lang'
 @createLanguageHoc
 @autobind
 export default class StationAutoConfig extends React.PureComponent {
-
   render() {
     return (
       <PageContainer {...this.props.wrapperProps}>
-        <Breadcrumb 
+        <Breadcrumb
           items={[
             'list',
             {
               id: 'sampleConfig',
               name: this.props.lang.t('stationAutoManager.list.sampleConfig')
             }
-          ]}/>
+          ]}
+        />
         <SampleConfigForm />
       </PageContainer>
     )

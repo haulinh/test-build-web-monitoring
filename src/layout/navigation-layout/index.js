@@ -93,7 +93,7 @@ export default class BasicNestedNavigation extends React.Component {
       <Tooltip key="1" position="right" content="Admin system">
         <WrapperTitle>
           <Link to="/">
-            <LogoBrandName logo={logo}/>
+            <LogoBrandName logo={logo} />
           </Link>
         </WrapperTitle>
       </Tooltip>,
@@ -190,8 +190,8 @@ export default class BasicNestedNavigation extends React.Component {
 
   render() {
     let logo = ''
-    if (this.props.authInfo.organization){
-        logo = this.props.authInfo.organization.logo
+    if (this.props.authInfo.organization) {
+      logo = this.props.authInfo.organization.logo
     }
 
     return (
@@ -200,7 +200,9 @@ export default class BasicNestedNavigation extends React.Component {
           globalTheme={globalTheme}
           width={this.props.hide ? 0 : this.props.navigation.width}
           globalPrimaryIcon={<LogoSubIcon />}
-          containerHeaderComponent={() => this.getContainerHeaderComponent(logo)}
+          containerHeaderComponent={() =>
+            this.getContainerHeaderComponent(logo)
+          }
           onResize={this.handleResize}
           isOpen={this.props.navigation.isOpen}
           drawers={[

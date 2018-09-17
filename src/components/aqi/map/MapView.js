@@ -13,18 +13,28 @@ import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClust
 
 import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox'
 import aqiLevel from '../../../constants/aqi-level'
-import {GOOGLE_MAP} from 'config'
+import { GOOGLE_MAP } from 'config'
 
-const AqiMarker = ({mapLocation, key, name, aqi}) => {
+const AqiMarker = ({ mapLocation, key, name, aqi }) => {
   const value = get(aqi, 'value', '')
-  const level = find(aqiLevel, ({min, max}) => inRange(value, min, max))
+  const level = find(aqiLevel, ({ min, max }) => inRange(value, min, max))
   const color = get(level, 'color', null)
   return (
     <InfoBox
-      defaultPosition={new google.maps.LatLng(mapLocation.lat, mapLocation.long)}
+      defaultPosition={
+        new google.maps.LatLng(mapLocation.lat, mapLocation.long)
+      }
       options={{ closeBoxURL: ``, enableEventPropagation: true }}
     >
-      <div style={{ backgroundColor: color || 'yellow', padding: `4px 8px`, borderRadius: 3, borderColor: '#fff', borderWidth: 1 }}>
+      <div
+        style={{
+          backgroundColor: color || 'yellow',
+          padding: `4px 8px`,
+          borderRadius: 3,
+          borderColor: '#fff',
+          borderWidth: 1
+        }}
+      >
         <div>
           <span style={{ fontSize: `16px`, color: `#fff` }}>{value}</span>
         </div>
@@ -44,7 +54,9 @@ class CustomGoogleMap extends PureComponent {
     if (_.size(this.props.aqiList) > 0) {
       const bounds = new window.google.maps.LatLngBounds()
       _.map(this.props.aqiList, item => {
-        bounds.extend(new google.maps.LatLng(item.mapLocation.lat, item.mapLocation.long))
+        bounds.extend(
+          new google.maps.LatLng(item.mapLocation.lat, item.mapLocation.long)
+        )
       })
       if (this.map && this.map.fitBounds) {
         this.state.isBounds = true
@@ -73,11 +85,10 @@ class CustomGoogleMap extends PureComponent {
         defaultCenter={defaultCenter}
         zoom={12}
       >
-
         <div>
-          {
-            mapLodash(this.props.aqiList, item => <AqiMarker key={ item.key } {...item}/>)
-          }
+          {mapLodash(this.props.aqiList, item => (
+            <AqiMarker key={item.key} {...item} />
+          ))}
 
           {
             //mapLodash(this.props.aqiList, ({mapLocation, key, name}) => <Marker key={key} mapLocation={mapLocation} name={'thuandv'} />)

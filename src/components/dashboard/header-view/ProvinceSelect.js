@@ -43,7 +43,7 @@ export default class ProvinceSelect extends PureComponent {
   }
 
   handerOnChange = value => {
-    this.props.onChange(get(this.state.data, value,  null))
+    this.props.onChange(get(this.state.data, value, null))
   }
 
   async componentDidMount() {
@@ -57,9 +57,14 @@ export default class ProvinceSelect extends PureComponent {
   render() {
     return (
       <SelectWrapper>
-        <Select showSearch {...this.props} onChange={this.handerOnChange} defaultValue=''>
+        <Select
+          showSearch
+          {...this.props}
+          onChange={this.handerOnChange}
+          defaultValue=""
+        >
           <Select.Option value={''}>{translate('chart.all')}</Select.Option>
-          {this.state.provinceList.map(({key, name}) => (
+          {this.state.provinceList.map(({ key, name }) => (
             <Select.Option key={key} value={key}>
               {name}
             </Select.Option>

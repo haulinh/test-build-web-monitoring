@@ -117,6 +117,7 @@
     "react-treebeard": "^2.1.0",
     "reactcss": "^1.2.3",
     "reactstrap": "^4.8.0",
+    "recompose": "^0.30.0",
     "redux": "^3.7.2",
     "redux-await": "^5.0.1",
     "redux-form": "^7.1.1",

@@ -51,7 +51,7 @@ export default class RouteDefault extends React.Component {
         <LayoutRoute
           path={slug.onlineMonitoring.base}
           component={OnlineMonitoring}
-        />        
+        />
         <LayoutRoute path={slug.monitoring.base} component={Monitoring} />
         <LayoutRoute path={slug.dataSearch.base} component={DataSearch} />
         <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />

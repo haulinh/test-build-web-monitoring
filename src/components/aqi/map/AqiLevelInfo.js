@@ -11,18 +11,26 @@ const LevelWrapper = styled.div`
   z-index: 2;
 `
 
-const LevelView = styled.div`display: flex;`
+const LevelView = styled.div`
+  display: flex;
+`
 
-const LevelItem = styled.div`padding: 4px 8px; color: #fff; background: ${props => props.color || 'green'}`
+const LevelItem = styled.div`
+  padding: 4px 8px;
+  color: #fff;
+  background: ${props => props.color || 'green'};
+`
 
 export default class AqiLevelInfo extends React.PureComponent {
-  render () {
+  render() {
     return (
       <LevelWrapper>
         <LevelView>
-          {
-            levels.map(({color, status, level}) => <LevelItem color={color}>{level}: {status}</LevelItem>) 
-          }
+          {levels.map(({ color, status, level }) => (
+            <LevelItem color={color}>
+              {level}: {status}
+            </LevelItem>
+          ))}
         </LevelView>
       </LevelWrapper>
     )
