@@ -37,6 +37,9 @@ export default {
     lossAt: 'Loss at',
     notInUse: 'Not In Use'
   },
+  aqi: {
+    title: 'Air quality index'
+  },
   controlStation: {
     text: 'Sampling',
     breadcrumb: {

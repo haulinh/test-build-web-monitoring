@@ -110,5 +110,8 @@ export default {
   support: {
     base: '/support',
     create: '/support/create'
+  },
+  aqi: {
+    base: '/aqi'
   }
 }

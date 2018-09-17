@@ -37,6 +37,9 @@ export default {
     lossAt: 'Mất dữ liệu lúc',
     notInUse: 'Chưa sử dụng'
   },
+  aqi: {
+    title: 'Chỉ số chất lượng không khí'
+  },
   controlStation: {
     text: 'Điều khiển lấy mẫu',
     breadcrumb: {
