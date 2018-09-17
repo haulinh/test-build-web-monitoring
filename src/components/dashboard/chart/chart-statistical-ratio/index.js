@@ -9,10 +9,6 @@ import { Menu, Dropdown, Icon } from 'antd'
 
 import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
 
-function handleChange(value) {
-  console.log(`selected ${value}`)
-}
-
 const WrapperView = styled.div` 
 margin-top: 16px;
 border-radius: 4px;

@@ -15,7 +15,7 @@ import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox'
 import aqiLevel from '../../../constants/aqi-level'
 import { GOOGLE_MAP } from 'config'
 
-const AqiMarker = ({ mapLocation, key, name, aqi }) => {
+const AqiMarker = ({ mapLocation, name, aqi }) => {
   const value = get(aqi, 'value', '')
   const level = find(aqiLevel, ({ min, max }) => inRange(value, min, max))
   const color = get(level, 'color', null)
@@ -76,18 +76,27 @@ class CustomGoogleMap extends PureComponent {
     return (
       <GoogleMap
         apiKey={GOOGLE_MAP}
+        bootstrapURLKeys={{
+          key: GOOGLE_MAP,
+          libraries: 'places'
+        }}
         ref={map => {
           if (!this.state.isBounds) this.getBounds()
           this.map = map
         }}
-        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg&v=3.exp&libraries=geometry,drawing,places"
+        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2-wp_CpzQQOkmacIaA2Xj90G8E_wiJiw&v=3.exp&libraries=geometry,drawing,places"
         defaultZoom={12}
         defaultCenter={defaultCenter}
         zoom={12}
       >
         <div>
-          {mapLodash(this.props.aqiList, item => (
-            <AqiMarker key={item.key} {...item} />
+          {mapLodash(this.props.aqiList, (item, index) => (
+            <AqiMarker
+              mapLocation={item.mapLocation}
+              name={item.name}
+              aqi={item.aqi}
+              key={`${index}`}
+            />
           ))}
 
           {
