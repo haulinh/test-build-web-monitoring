@@ -35,11 +35,11 @@ export default class OverviewDashboard extends Component {
     rows: {},
     lineSeries: {},
     isLoaded: false,
-    isProvinceAll: true
+    province: null
   }
 
   getStationInfo = async province => {
-    let isProvinceAll = true
+    let provinceKey = null
     let stationTypes = await getStationTypes({}, {})
     let stationTypeList = _.get(stationTypes, 'data', [])
 
@@ -65,10 +65,10 @@ export default class OverviewDashboard extends Component {
     let dataLastLog = []
 
     if (province && province.key) {
-      isProvinceAll = false
+      provinceKey = province.key
       dataLastLog = _.filter(
         _.get(stationLastLog, 'data', []),
-        item => item.province.key === province.key
+        item => item.province.key === provinceKey
       )
     } else {
       dataLastLog = _.get(stationLastLog, 'data', [])
@@ -83,7 +83,7 @@ export default class OverviewDashboard extends Component {
     const goodCount = _.filter(dataLastLog, ({ status }) => status === 'GOOD')
       .length
     this.setState({
-      isProvinceAll,
+      province: provinceKey,
       stationList: dataLastLog,
       rows,
       stationCount,
@@ -138,6 +138,7 @@ export default class OverviewDashboard extends Component {
   }
 
   handleProvinceChange = province => {
+    this.setState({province})
     this.getStationInfo(province)
   }
 
@@ -156,12 +157,11 @@ export default class OverviewDashboard extends Component {
         hideTitle
       >
         <HeaderView
-          isAll={this.state.isProvinceAll}
           stationStatus={this.state.stationStatus}
           onChange={this.handleProvinceChange}
         />
         <SummaryList data={this.getSummaryList()} />
-        <ChartStatisticalRatio data={this.state.stationList} />
+        <ChartStatisticalRatio data={this.state.stationList}  province={this.state.province}/>
         {/* this.state.stationList */}
         <ChartList data={this.getChartList()} />
       </PageContainer>

@@ -59,56 +59,56 @@ export default class HeaderView extends React.PureComponent {
     const goodTotal = _.filter(dataGroup, ({ status }) => status === 'GOOD')
       .length
 
-    return {
-      chart: {
-        // plotBackgroundColor: null,
-        //plotBorderWidth: 0,
-        //plotShadow: false
-      },
-      title: {
-        text: 'Tình trạng hoạt động của ' + title
-      },
-      legend: {
-        enabled: true
-      },
-      tooltip: {
-        pointFormat: '<b>{point.percentage:.1f}%</b>'
-      },
-      plotOptions: {
-        pie: {
-          dataLabels: {
-            enabled: true,
-            distance: -50,
-            style: {
-              fontWeight: 'bold',
-              color: 'white'
-            }
-          },
-          startAngle: -90,
-          endAngle: 90,
-          center: ['50%', '75%']
-        }
-      },
-      series: [
-        {
-          type: 'pie',
-          name: title,
-          innerSize: '40%',
-          data: [
-            {
-              name: tittleUnActive,
-              y: _.size(dataGroup) - goodTotal,
-              color: 'red'
+      return {
+        chart: {
+          // plotBackgroundColor: null,
+          //plotBorderWidth: 0,
+          //plotShadow: false
+        },
+        title: {
+          text: 'Tình trạng hoạt động của ' + title
+        },
+        legend: {
+          enabled: true
+        },
+        tooltip: {
+          pointFormat: '<b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+          pie: {
+            dataLabels: {
+              enabled: true,
+              distance: -50,
+              style: {
+                fontWeight: 'bold',
+                color: 'white'
+              }
             },
-            {
-              name: titleActive,
-              y: goodTotal,
-              color: 'rgb(149,206,255)'
-            }
-          ]
-        }
-      ]
-    }
+            startAngle: -90,
+            endAngle: 90,
+            center: ['50%', '75%']
+          }
+        },
+        series: [
+          {
+            type: 'pie',
+            name: title,
+            innerSize: '40%',
+            data: [
+              {
+                name: tittleUnActive,
+                y: _.size(dataGroup) - goodTotal,
+                color: 'red'
+              },
+              {
+                name: titleActive,
+                y: goodTotal,
+                color: 'rgb(149,206,255)'
+              }
+            ]
+          }
+        ]
+      }
   }
 
   configStatusChartColumn = (dataGroup, title, titleActive, tittleUnActive) => {
@@ -156,9 +156,71 @@ export default class HeaderView extends React.PureComponent {
     }
   }
 
-  getConfigRatio = () => {
-    const series1 = { name: 'Nhận được', data: [] }
-    const series2 = { name: 'Không nhận được', data: [], color: 'red' }
+  configRatioSemi = (title, received, notReceived) => {
+
+    let total = 0;
+    const item = _.find(this.state.data, ({provinceId}) => provinceId === this.props.province)
+
+    if (item && item.ratio) {
+      title = 'Tỉ lệ nhận được dữ liệu của đơn vị '+ item.name
+      total = item.ratio
+    }
+
+    return {
+      chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+      },
+      title: {
+        text: title
+      },
+      legend: {
+        enabled: true
+      },
+      tooltip: {
+        pointFormat: '<b>{point.percentage:.1f}%</b>'
+      },
+      plotOptions: {
+        pie: {
+          dataLabels: {
+            enabled: true,
+            distance: -50,
+            style: {
+              fontWeight: 'bold',
+              color: 'white'
+            }
+          },
+          startAngle: -90,
+          endAngle: 90,
+          center: ['50%', '75%']
+        }
+      },
+      series: [
+        {
+          type: 'pie',
+          name: title,
+          innerSize: '40%',
+          data: [
+            {
+              name: notReceived,
+              y: 100 - total,
+              color: 'red'
+            },
+            {
+              name: received,
+              y: total,
+              color: 'rgb(149,206,255)'
+            }
+          ]
+        }
+      ]
+    }
+  }
+
+  configRatioBar = (title, received, notReceived) => {
+    const series1 = { name: received, data: [] }
+    const series2 = { name: notReceived, data: [], color: 'red' }
     let categories = []
 
     _.forEach(this.state.data, ({ ratio, name }) => {
@@ -172,7 +234,7 @@ export default class HeaderView extends React.PureComponent {
         type: 'bar'
       },
       title: {
-        text: 'Tỉ lệ nhận dữ liệu theo từng địa phương theo tháng'
+        text: title
       },
       xAxis: {
         categories
@@ -200,6 +262,17 @@ export default class HeaderView extends React.PureComponent {
     }
   }
 
+  getConfigRatio = () => {
+    const received = 'Nhận được'
+    const notReceived = 'Không nhận được'
+    let title = 'Tỉ lệ nhận dữ liệu theo từng địa phương theo tháng'
+    if (_.isEmpty(this.props.province)) { 
+      return this.configRatioBar(title, received, notReceived)
+    } else {
+      return this.configRatioSemi(title, received, notReceived)
+    }
+  }
+
   onChange = value => {
     console.log(value)
   }
@@ -222,7 +295,6 @@ export default class HeaderView extends React.PureComponent {
 
   render() {
     const data = _.groupBy(this.props.data, 'province.key')
-    console.log('data', data)
     return (
       <WrapperView>
         <Card bordered style={{ flex: 1, marginRight: 8 }}>
