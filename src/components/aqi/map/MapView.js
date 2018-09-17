@@ -75,9 +75,9 @@ class CustomGoogleMap extends PureComponent {
     const defaultCenter = { lat: 10.7607494, lng: 106.6954122 }
     return (
       <GoogleMap
-        apiKey={GOOGLE_MAP}
+        apiKey={GOOGLE_MAP.KEY}
         bootstrapURLKeys={{
-          key: GOOGLE_MAP,
+          key: GOOGLE_MAP.KEY,
           libraries: 'places'
         }}
         ref={map => {

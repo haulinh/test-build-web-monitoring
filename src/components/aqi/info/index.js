@@ -68,7 +68,7 @@ export default class InfoComponent extends React.Component {
   componentDidMount() {
     const station = _.head(this.props.aqiList)
     if (!_.isEmpty(station)) {
-      this.getAqiByStation(station._id, 'componentDidMount')
+      this.getAqiByStation(station._id)
       this.setState({ station })
     }
   }
@@ -87,16 +87,19 @@ export default class InfoComponent extends React.Component {
       const station = _.head(nextProps.aqiList)
       if (!_.isEmpty(station)) {
         this.setState({ station })
-        this.getAqiByStation(station._id, 'ReceiveProps')
+        this.getAqiByStation(station._id)
       }
     }
   }
 
   renderOptions = () => {
+    const defaultValue =  _.get(this.state.station, '_id', '')
+    console.log('defaultValue', defaultValue)
     return (
       <Select
+        value={{key: _.get(this.state.station, '_id', ''), label: _.get(this.state.station, 'name', '')}}
         labelInValue
-        defaultValue={{ key: _.get(this.state.station, '_id', '') }}
+        defaultValue={{ key: defaultValue || '' }}
         style={{ width: '100%', marginBottom: 16 }}
         onChange={this.handleChange}
       >
