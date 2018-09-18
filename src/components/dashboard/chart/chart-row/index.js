@@ -16,6 +16,7 @@ import { getDataStationAutos } from 'api/DataStationAutoApi'
 import { translate } from 'hoc/create-lang'
 import ReactGA from 'react-ga'
 import * as _ from 'lodash'
+
 ReactGA.initialize('UA-36620912-2')
 
 const ChartSummaryWrapper = styled.div``
@@ -106,7 +107,7 @@ export class ChartSummary extends React.Component {
       { key: stationAuto.key, measuringList: measuringArray }
     )
     if (dataSources) {
-      let data = dataSources.data
+      let data = _.get(dataSources, 'data', [])
       // OrderBy ASC of list
       data.sort((a, b) => {
         return (

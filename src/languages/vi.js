@@ -17,6 +17,19 @@ export default {
     tableList: {
       name: 'Tên',
       dataStatus: 'Trạng thái dữ liệu'
+    },
+    chartRatio: {
+      title: 'Tỉ lệ nhận dữ liệu {{=it.day}} ngày của từng địa phương',
+      dataByDate: 'Tỉ lệ dữ liệu {{==it.day}} ngày của {{=it.unit}}',
+      received: 'Nhận được',
+      notReceived: 'Không nhận được',
+      byDay: '{{=it.day}} Ngày'
+    },
+    chartStatus: {
+      title: 'Tình trạng hoạt động của trạm',
+      titleByUnit: 'Tình trạng hoạt động của {{=it.unit}}',
+      activate: 'Hoạt động',
+      inactive: `Không Hoạt Động`
     }
   },
   monitoring: {
