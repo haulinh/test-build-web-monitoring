@@ -17,6 +17,19 @@ export default {
     tableList: {
       name: 'Name',
       dataStatus: 'Data Status'
+    },
+    chartRatio: {
+      title: '{{=it.day}} day local received data',
+      dataByDate: 'The {{==it.day}}-day {{=it.unit}} data rate',
+      received: 'Received',
+      notReceived: `Don't receive`,
+      byDay: '{{=it.day}} Day'
+    },
+    chartStatus: {
+      title: 'Operating status of the station',
+      titleByUnit: 'Rate of receiving data of {{=it.unit}} unit',
+      activate: 'Activate',
+      inactive: `Inactive`
     }
   },
   monitoring: {
@@ -36,6 +49,10 @@ export default {
     camera: 'Camera',
     lossAt: 'Loss at',
     notInUse: 'Not In Use'
+  },
+  aqi: {
+    title: 'Air quality index',
+    paramsTitle: 'Quality index of parameters in {{=it.day}} days'
   },
   controlStation: {
     text: 'Sampling',

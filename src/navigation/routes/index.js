@@ -27,6 +27,7 @@ import Camera from 'containers/camera'
 import AccountActive from 'containers/auth/account-active'
 import CameraControl from 'containers/camera-control'
 import SupportRoute from 'containers/support'
+import AqiContainer from '../../containers/aqi'
 
 @autobind
 export default class RouteDefault extends React.Component {
@@ -36,6 +37,7 @@ export default class RouteDefault extends React.Component {
         <LayoutRoute path="/" exact component={OverviewDashboard} />
         <LayoutRoute path={slug.map.base} exact component={Map} />
         <LayoutRoute path={slug.measuring.base} component={MeasuringRoute} />
+        <LayoutRoute path={slug.aqi.base} component={AqiContainer} />
         <LayoutRoute
           path={slug.stationAuto.base}
           component={StationAutoRoute}

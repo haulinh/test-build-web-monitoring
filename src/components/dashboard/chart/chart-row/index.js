@@ -15,6 +15,8 @@ import Highcharts from 'highcharts'
 import { getDataStationAutos } from 'api/DataStationAutoApi'
 import { translate } from 'hoc/create-lang'
 import ReactGA from 'react-ga'
+import * as _ from 'lodash'
+
 ReactGA.initialize('UA-36620912-2')
 
 const ChartSummaryWrapper = styled.div``
@@ -90,7 +92,7 @@ export class ChartSummary extends React.Component {
     if (!stationAuto.measuringList) return {}
     let dataLines = {}
     let measuringArray = []
-    stationAuto.measuringList.forEach(function(item) {
+    _.forEach(_.get(stationAuto, 'measuringList', []), item => {
       measuringArray.push(item.key)
       dataLines[item.key] = {
         key: item.key,
@@ -99,12 +101,13 @@ export class ChartSummary extends React.Component {
         data: []
       }
     })
+
     let dataSources = await getDataStationAutos(
       { page: 1, itemPerPage: 500 },
       { key: stationAuto.key, measuringList: measuringArray }
     )
     if (dataSources) {
-      let data = dataSources.data
+      let data = _.get(dataSources, 'data', [])
       // OrderBy ASC of list
       data.sort((a, b) => {
         return (
@@ -167,14 +170,20 @@ export class ChartSummary extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.stationList.length > 0) {
-      this.changeItem(this.props.stationList[0])
+    if (_.size(this.props.stationList) > 0) {
+      this.changeItem(_.head(this.props.stationList))
     }
   }
 
   componentDidUpdate(nextProps) {
-    if (nextProps.stationList.length !== this.props.stationList.length) {
-      this.changeItem(this.props.stationList[0])
+    if (
+      !_.isEqual(
+        _.size(nextProps.stationList),
+        _.size(this.props.stationList)
+      ) &&
+      _.head(this.props.stationList)
+    ) {
+      this.changeItem(_.head(this.props.stationList))
     }
   }
 

@@ -29,16 +29,18 @@ export default class OverviewDashboard extends Component {
   state = {
     stationStatus: '',
     stationTypeList: [],
+    stationList: [],
     stationCount: {},
     stationNotUse: {},
     rows: {},
     lineSeries: {},
-    isLoaded: false
+    isLoaded: false,
+    province: null
   }
 
-  async componentDidMount() {
+  getStationInfo = async province => {
+    let provinceKey = null
     let stationTypes = await getStationTypes({}, {})
-
     let stationTypeList = _.get(stationTypes, 'data', [])
 
     let stationCount = {}
@@ -60,9 +62,19 @@ export default class OverviewDashboard extends Component {
     })
 
     let stationLastLog = await getLastLog()
-    const dataLastLog = _.get(stationLastLog, 'data', [])
-    let groupLastLog = _.groupBy(dataLastLog, 'stationType.key')
+    let dataLastLog = []
 
+    if (province && province.key) {
+      provinceKey = province.key
+      dataLastLog = _.filter(
+        _.get(stationLastLog, 'data', []),
+        item => item.province.key === provinceKey
+      )
+    } else {
+      dataLastLog = _.get(stationLastLog, 'data', [])
+    }
+
+    let groupLastLog = _.groupBy(dataLastLog, 'stationType.key')
     _.forEach(_.keys(groupLastLog), key => {
       rows[key] = groupLastLog[key]
       stationCount[key] = _.size(rows[key])
@@ -70,12 +82,17 @@ export default class OverviewDashboard extends Component {
 
     const goodCount = _.filter(dataLastLog, ({ status }) => status === 'GOOD')
       .length
-
     this.setState({
+      province: provinceKey,
+      stationList: dataLastLog,
       rows,
       stationCount,
       stationStatus: `Trạm đang hoạt động ${goodCount}/${_.size(dataLastLog)}`
     })
+  }
+
+  async componentDidMount() {
+    this.getStationInfo(null)
   }
 
   getSummaryList() {
@@ -112,12 +129,17 @@ export default class OverviewDashboard extends Component {
   }
 
   getChartList() {
-    return this.state.stationTypeList.map(item => ({
+    return _.map(this.state.stationTypeList, item => ({
       key: item.key,
       title: item.name,
       totalStation: this.state.stationCount[item.key],
       stationList: this.state.rows[item.key]
     }))
+  }
+
+  handleProvinceChange = province => {
+    this.setState({province})
+    this.getStationInfo(province)
   }
 
   render() {
@@ -134,9 +156,13 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
-        <HeaderView stationStatus={this.state.stationStatus} />
+        <HeaderView
+          stationStatus={this.state.stationStatus}
+          onChange={this.handleProvinceChange}
+        />
         <SummaryList data={this.getSummaryList()} />
-        <ChartStatisticalRatio />
+        <ChartStatisticalRatio data={this.state.stationList}  province={this.state.province}/>
+        {/* this.state.stationList */}
         <ChartList data={this.getChartList()} />
       </PageContainer>
     )

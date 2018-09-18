@@ -22,6 +22,17 @@ const dashboardMenu = {
   )
 }
 
+const aqiMenu = {
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.aqi.base}
+      icon={Icon.aqi}
+      text={translate('aqi.title')}
+    />
+  )
+}
+
 const monitoringMenu = {
   component: protectRole(ROLE.MONITORING.VIEW)(
     <AkNavigationItem
@@ -188,6 +199,7 @@ const roleMenu = {
 export default [
   dashboardMenu,
   monitoringMenu,
+  aqiMenu,
   CameraMenu,
   mapMenu,
   groupData,
