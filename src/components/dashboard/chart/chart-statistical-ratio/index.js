@@ -35,8 +35,8 @@ export default class HeaderView extends React.PureComponent {
 
   getDataRatioBy = async (day) => {
     const rs = await getDataStationAutoRatioCount(
-      moment(),
-      moment().subtract(day, 'days')
+      moment().format('DD-MM-YYYY HH:ss'),
+      moment().subtract(day, 'days').format('DD-MM-YYYY HH:ss')
     )
     this.setState({ day, data: _.get(rs, 'data', []) })
   }
