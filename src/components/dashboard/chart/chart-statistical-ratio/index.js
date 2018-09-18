@@ -168,7 +168,7 @@ export default class HeaderView extends React.PureComponent {
     const item = _.find(this.state.data, ({provinceId}) => provinceId === this.props.province)
 
     if (item && item.ratio) {
-      title = translate('dashboard.chartRatio.dataByDate', { day: this.state.day, unit: item.name }),
+      title = translate('dashboard.chartRatio.dataByDate', { day: this.state.day, unit: item.name })
       total = item.ratio
     }
 
