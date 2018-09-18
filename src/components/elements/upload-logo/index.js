@@ -16,13 +16,12 @@ const LogoContainer = styled.img`
 
 @autobind
 export default class UpdateLogo extends React.PureComponent {
-
   state = {
     fileList: []
   }
 
   async componentWillMount() {
-    console.log( this.props.organization)
+    console.log(this.props.organization)
     if (this.props.organization && this.props.organization.logo) {
       this.updateFiles(this.props.organization.logo)
     }
@@ -41,28 +40,28 @@ export default class UpdateLogo extends React.PureComponent {
       fileList: newFileList
     })
     if (file.status === 'done') {
-       // this.props.onChange(file.response.url)
+      // this.props.onChange(file.response.url)
       this.updateFiles(file.response.url)
       let data = this.props.organization
-      if (data.logo){
+      if (data.logo) {
         data.logo = file.response.url
-      }else{
+      } else {
         data['logo'] = file.response.url
       }
     }
   }
-  
-  updateFiles(url){
+
+  updateFiles(url) {
     this.setState({
-      fileList:
-       [{
-         uid: -1,
-         url,
-         name: '',
-         status: 'done'
-       }
-     ]}
-   )
+      fileList: [
+        {
+          uid: -1,
+          url,
+          name: '',
+          status: 'done'
+        }
+      ]
+    })
   }
 
   render() {
@@ -79,7 +78,11 @@ export default class UpdateLogo extends React.PureComponent {
           onChange={this.handleImageChange}
           disabled={!this.props.isAdmin}
         >
-          {this.state.fileList.length > 0 ? '' : <LogoContainer src="/images/logo/icon/enviroment.png" />}
+          {this.state.fileList.length > 0 ? (
+            ''
+          ) : (
+            <LogoContainer src="/images/logo/icon/enviroment.png" />
+          )}
         </Upload>
       </View>
     )

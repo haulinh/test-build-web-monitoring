@@ -3,6 +3,7 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { message } from 'antd'
 import { autobind } from 'core-decorators'
 import StationAutoApi from 'api/StationAuto'
+import ProvinceApi from 'api/ProvinceApi'
 import slug from 'constants/slug'
 import ProvinceForm from '../province-form'
 import Breadcrumb from '../breadcrumb'
@@ -13,10 +14,10 @@ import protectRole from 'hoc/protect-role'
 @autobind
 export default class ProvinceCreate extends React.PureComponent {
   async handleSubmit(data) {
-    const res = await StationAutoApi.createStationAuto(data)
+    const res = await ProvinceApi.createProvince(data)
     if (res.success) {
-      message.info('Add measuring success!')
-      this.props.history.push(slug.stationAuto.list)
+      message.info('Add  success!')
+      this.props.history.push(slug.province.list)
     }
   }
 

@@ -327,6 +327,89 @@ export default {
       }
     }
   },
+  qcvn: {
+    list: {
+      title: 'QCVN'
+    },
+    create: {
+      label: 'Create',
+      success: 'Add QCVN Successfully',
+      keyExisted: 'QCVN Is Already Existed'
+    },
+    edit: {
+      label: 'Edit',
+      success: 'Update QCVN Successfully'
+    },
+    delete: {
+      label: 'Delete'
+    },
+    add: {
+      label: 'Add'
+    },
+    form: {
+      key: {
+        label: 'Code',
+        placeholder: 'Input QCVN Code',
+        error: 'Please Input QCVN Code'
+      },
+      name: {
+        label: 'Name',
+        placeholder: 'Input QCVN Name',
+        error: 'Please Input QCVN Name'
+      },
+      unit: {
+        label: 'Unit',
+        placeholder: 'Input Unit Of Parameter'
+      },
+      numericalOrder: {
+        label: 'Numerical Order',
+        placeholder: 'Numerical Order'
+      },
+      action: {
+        label: 'Action'
+      },
+      error: 'Error'
+    }
+  },
+  province: {
+    list: {
+      title: 'Province Name',
+      key: 'Key',
+      numericalOrder: 'Numerical Order'
+    },
+    create: {
+      label: 'Create',
+      success: 'Add Province Successfully',
+      keyExisted: 'Province Name Is Already Existed'
+    },
+    edit: {
+      label: 'Edit',
+      success: 'Update Province Name Successfully'
+    },
+    delete: {
+      label: 'Delete',
+      require: 'Please Confirm To Delete'
+    },
+    add: {
+      label: 'Add'
+    },
+    form: {
+      key: {
+        label: 'Code',
+        placeholder: 'Input Code Of Province Name',
+        error: 'Please Input Code Of Province Name'
+      },
+      name: {
+        label: 'Name',
+        placeholder: 'Input Province Name',
+        error: 'Please input Province Name'
+      },
+      numericalOrder: {
+        label: 'Numerical Order',
+        placeholder: 'Numerical Order'
+      }
+    }
+  },
   stationAutoManager: {
     list: {
       title: 'Station Name',

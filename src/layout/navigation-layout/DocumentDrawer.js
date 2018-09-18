@@ -27,7 +27,7 @@ export default class DocumentDrawer extends PureComponent {
 
   handleClick(e) {
     console.log(this.props)
-    if (!this.props.href){
+    if (!this.props.href) {
       e.preventDefault()
       swal({
         type: 'info',

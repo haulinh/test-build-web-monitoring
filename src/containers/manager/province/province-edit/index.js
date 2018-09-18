@@ -3,6 +3,7 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { Button, Icon, Spin } from 'antd'
 import { autobind } from 'core-decorators'
 import StationAutoApi from 'api/StationAuto'
+import ProvinceApi from 'api/ProvinceApi'
 import ProvinceForm from '../province-form'
 import slug from '/constants/slug'
 import createManagerDelete from 'hoc/manager-delete'
@@ -15,11 +16,11 @@ import protectRole from 'hoc/protect-role'
 
 @protectRole(ROLE.STATION_AUTO.EDIT)
 @createManagerDelete({
-  apiDelete: StationAutoApi.deleteStationAuto
+  apiDelete: ProvinceApi.deleteProvince
 })
 @createManagerEdit({
-  apiUpdate: StationAutoApi.updateStationAuto,
-  apiGetByKey: StationAutoApi.getStationAuto
+  apiUpdate: ProvinceApi.updateProvince,
+  apiGetByKey: ProvinceApi.getProviceByID
 })
 @autobind
 export default class ProvinceEdit extends React.PureComponent {
@@ -41,7 +42,7 @@ export default class ProvinceEdit extends React.PureComponent {
     await this.props.getItem()
     if (!this.props.success) {
       message.error(this.props.lang.t('addon.error'))
-      this.props.history.push(slug.qcvn.list)
+      this.props.history.push(slug.province.list)
     }
   }
 
@@ -49,12 +50,10 @@ export default class ProvinceEdit extends React.PureComponent {
     let data = {
       ...this.props.data
     }
-
-    data.measuringList = this.props.data.measuringList || []
     return data
   }
 
-  deleteStationAuto() {
+  deleteProvince() {
     const key = this.props.match.params.key
     this.props.onDeleteItem(key, () => {
       this.props.history.push(slug.stationAuto.list)
@@ -64,7 +63,7 @@ export default class ProvinceEdit extends React.PureComponent {
   buttonDelete() {
     return (
       <div>
-        <Button type="primary" onClick={this.deleteStationAuto}>
+        <Button type="primary" onClick={this.deleteProvince}>
           <Icon type="delete" />Delete
         </Button>
       </div>

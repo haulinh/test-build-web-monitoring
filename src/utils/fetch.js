@@ -104,14 +104,14 @@ export function deleteFetch(url, data, props) {
   })
 }
 
-export function uploadMultipleFile(url, files){
+export function uploadMultipleFile(url, files) {
   let params = new FormData()
   files.forEach(file => {
-    params.append("files", file)
+    params.append('files', file)
   })
 
   return new Promise((resolve, reject) => {
-      axios
+    axios
       .create({
         timeout: 10000
       })

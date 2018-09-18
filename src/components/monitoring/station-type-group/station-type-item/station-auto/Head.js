@@ -115,7 +115,7 @@ export default class StationAutoHead extends React.PureComponent {
   }
   loadData() {
     const { options } = this.props
-    if (options && options.sampling && options.sampling.allowed){
+    if (options && options.sampling && options.sampling.allowed) {
       StationControl.checkStationControl(
         this.props.stationID,
         this.props.organization._id

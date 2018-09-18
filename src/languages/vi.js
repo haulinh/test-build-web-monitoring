@@ -327,6 +327,86 @@ export default {
       }
     }
   },
+  qcvn: {
+    list: {
+      title: 'QCVN'
+    },
+    create: {
+      label: 'Thêm',
+      success: 'Thêm QCVN thành công',
+      keyExisted: 'QCVN đã tồn tại'
+    },
+    edit: {
+      label: 'Sửa',
+      success: 'Cập nhật QCVN thành công'
+    },
+    delete: {
+      label: 'Xoá'
+    },
+    form: {
+      key: {
+        label: 'Mã QCVN',
+        placeholder: 'Nhập QCVN',
+        error: 'Vui lòng nhập mã QCVN'
+      },
+      name: {
+        label: 'Tên QCVN',
+        placeholder: 'Nhập tên QCVN',
+        error: 'Vui lòng nhập tên QCVN'
+      },
+      unit: {
+        label: 'Đơn vị',
+        placeholder: 'Nhập đơn vị'
+      },
+      numericalOrder: {
+        label: 'Số thứ tự',
+        placeholder: 'Nhập số thứ tự'
+      },
+      action: {
+        label: 'Hành động'
+      },
+      error: 'Lỗi'
+    }
+  },
+  province: {
+    list: {
+      title: 'Đơn vị quản lý',
+      key: 'Mã đơn vị',
+      numericalOrder: 'Số thứ tự'
+    },
+    create: {
+      label: 'Thêm',
+      success: 'Thêm thành công',
+      keyExisted: 'Đơn vị quản lý đã tồn tại'
+    },
+    edit: {
+      label: 'Sửa',
+      success: 'Cập nhật thành công'
+    },
+    delete: {
+      label: 'Xóa',
+      require: 'Bạn chắc chắn xoá dữ liệu'
+    },
+    add: {
+      label: 'Thêm'
+    },
+    form: {
+      key: {
+        label: 'Mã đơn vị',
+        placeholder: 'Nhập mã đơn vị quản lý',
+        error: 'Vui lòng nhập mã đơn vị quản lý'
+      },
+      name: {
+        label: 'Tên đơn vị quản lý',
+        placeholder: 'Nhập tên đơn vị quản lý',
+        error: 'Vui lòng nhập tên đơn vị quản lý'
+      },
+      numericalOrder: {
+        label: 'Số thứ tự',
+        placeholder: 'Nhập số thứ tự'
+      }
+    }
+  },
   stationAutoManager: {
     list: {
       title: 'Tên trạm',

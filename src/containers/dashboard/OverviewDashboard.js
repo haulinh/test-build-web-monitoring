@@ -12,7 +12,6 @@ import { getStationTypes } from 'api/CategoryApi'
 import { getLastLog } from 'api/StationAuto'
 import * as _ from 'lodash'
 
-
 const ListLoader = createContentLoader({
   component: <ListLoaderCp />,
   isAutoLoader: true,
@@ -41,12 +40,12 @@ export default class OverviewDashboard extends Component {
     let stationTypes = await getStationTypes({}, {})
 
     let stationTypeList = _.get(stationTypes, 'data', [])
-    
+
     let stationCount = {}
     let rows = {}
     let lineSeries = {}
 
-    stationTypeList.forEach(({key}) => {
+    stationTypeList.forEach(({ key }) => {
       stationCount[key] = 0
       rows[key] = []
       lineSeries[key] = []
@@ -69,10 +68,14 @@ export default class OverviewDashboard extends Component {
       stationCount[key] = _.size(rows[key])
     })
 
-    
-    const goodCount = _.filter(dataLastLog, ({status}) => status === 'GOOD' ).length
+    const goodCount = _.filter(dataLastLog, ({ status }) => status === 'GOOD')
+      .length
 
-    this.setState({ rows, stationCount, stationStatus: `Trạm đang hoạt động ${goodCount}/${_.size(dataLastLog)}` })
+    this.setState({
+      rows,
+      stationCount,
+      stationStatus: `Trạm đang hoạt động ${goodCount}/${_.size(dataLastLog)}`
+    })
   }
 
   getSummaryList() {
@@ -102,7 +105,9 @@ export default class OverviewDashboard extends Component {
       key: item.key,
       image: item.icon ? item.icon : arrayIcon[index],
       number: this.state.stationCount[item.key],
-      totalStationGood: this.state.rows[item.key].filter(({status}) => status === 'GOOD').length
+      totalStationGood: this.state.rows[item.key].filter(
+        ({ status }) => status === 'GOOD'
+      ).length
     }))
   }
 
@@ -129,7 +134,7 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
-        <HeaderView stationStatus={this.state.stationStatus}/>
+        <HeaderView stationStatus={this.state.stationStatus} />
         <SummaryList data={this.getSummaryList()} />
         <ChartStatisticalRatio />
         <ChartList data={this.getChartList()} />

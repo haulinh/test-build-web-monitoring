@@ -40,7 +40,9 @@ const BrandName = styled.span`
 export function LogoBrandName(props) {
   return (
     <LogoContainer>
-      <LogoIcon src={props.logo ? props.logo :"/images/logo/icon/enviroment.png"} />
+      <LogoIcon
+        src={props.logo ? props.logo : '/images/logo/icon/enviroment.png'}
+      />
       <InfoWrapper>
         <TextPlaceholder>
           Envi Soft <RegisterBrand>&trade;</RegisterBrand>
