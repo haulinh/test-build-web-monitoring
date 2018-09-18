@@ -51,7 +51,8 @@ export default {
     notInUse: 'Chưa sử dụng'
   },
   aqi: {
-    title: 'Chỉ số chất lượng không khí'
+    title: 'Chỉ số chất lượng không khí',
+    paramsTitle: 'Chỉ số chất lượng của thông số trong {{=it.day}} ngày'
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',
