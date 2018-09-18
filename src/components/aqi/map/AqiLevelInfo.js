@@ -5,7 +5,7 @@ import levels from '../../../constants/aqi-level'
 const LevelWrapper = styled.div`
   position: absolute;
   left: 8px;
-  bottom: 8px;
+  bottom: 24px;
   background: #ffffff;
   border: 1px solid #cdcdcd;
   border-radius: 3px;
@@ -29,7 +29,7 @@ export default class AqiLevelInfo extends React.PureComponent {
         <LevelView>
           {levels.map(({ color, status, level }) => (
             <LevelItem color={color} key={status}>
-              <span style={{fontSize: 10}}>{level}: {status}</span>
+              <span style={{fontSize: 11, fontWeight: 'bold'}}>{level}: {status}</span>
             </LevelItem>
           ))}
         </LevelView>

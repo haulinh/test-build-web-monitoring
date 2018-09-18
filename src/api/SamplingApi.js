@@ -42,8 +42,7 @@ export function checkStationControl(key, organizationId) {
 
 // Upload 3 file config máy lấy mẫu
 export function uploadSampleConfig(files) {
-  // TODO: Khi deploy lên server khi phải sửa lại url.
-  return uploadMultipleFile(getConfigApi().sampleConfig, files)
+  return uploadMultipleFile(getConfigApi().sampleConfig + '/upload-config', files)
 }
 
 export default {

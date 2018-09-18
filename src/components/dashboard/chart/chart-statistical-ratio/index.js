@@ -35,8 +35,8 @@ export default class HeaderView extends React.PureComponent {
 
   getDataRatioBy = async (day) => {
     const rs = await getDataStationAutoRatioCount(
-      moment(),
-      moment().subtract(day, 'days')
+      moment().format('DD-MM-YYYY HH:ss'),
+      moment().subtract(day, 'days').format('DD-MM-YYYY HH:ss')
     )
     this.setState({ day, data: _.get(rs, 'data', []) })
   }
@@ -166,7 +166,6 @@ export default class HeaderView extends React.PureComponent {
 
     let total = 0;
     const item = _.find(this.state.data, ({provinceId}) => provinceId === this.props.province)
-
     if (item && item.ratio) {
       title = translate('dashboard.chartRatio.dataByDate', { day: this.state.day, unit: item.name })
       total = item.ratio
