@@ -420,16 +420,12 @@ export default class StationAutoForm extends React.PureComponent {
               {...formItemLayout}
               label={t('stationAutoManager.form.frequency.label')}
             >
-              {getFieldDecorator('frequency', {
-                rules: [{ required: true }]
-              })(
-                <InputNumberCell
-                  editable={true}
-                  size="small"
-                  min={1}
-                  max={1000000}
-                />
-              )}
+              <InputNumberCell
+                editable={true}
+                size="small"
+                min={1}
+                max={1000000}
+              />
             </FormItem>
           </Col>
           <Col span={12}>
@@ -437,12 +433,7 @@ export default class StationAutoForm extends React.PureComponent {
               {...formItemLayout}
               label={t('stationAutoManager.form.dayOfOperation.label')}
             >
-              {getFieldDecorator('dayOfOperation', {
-                rules: [{ required: true }]
-              })(
-                <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"
-                />
-              )}
+              <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
             </FormItem>
           </Col> 
         </Row>
