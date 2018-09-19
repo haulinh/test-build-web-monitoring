@@ -558,6 +558,11 @@ export default {
       error: 'Lỗi',
       require: 'Vui lòng nhập giá trị'
     },
+    ranger:{
+      lable: 'Dải đo',
+      min:'Dải đo nhỏ nhất',
+      max:'Dải đo lớn nhất'
+    },
     config: {
       label: 'Cấu hình',
       fileName: {
@@ -913,7 +918,8 @@ export default {
     user: 'Người dùng',
     role: 'Nhóm quyền',
     subscription: 'Hệ thống',
-    support: 'Hỗ trợ'
+    support: 'Hỗ trợ',
+    province: 'Quản lý đơn vị'
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'

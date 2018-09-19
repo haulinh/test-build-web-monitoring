@@ -8,7 +8,8 @@ import {
   Select,
   Icon,
   Upload,
-  Modal
+  Modal,
+  DatePicker
 } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
@@ -22,14 +23,8 @@ import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
 import MeasuringTable from '../station-auto-formTable/'
 import InputNumberCell from 'components/elements/input-number-cell'
-import createValidateComponent from 'components/elements/redux-form-validate'
-import DatePicker from 'components/elements/datetime-picker'
-import { Field } from 'redux-form'
-import moment from 'moment'
 
 const FormItem = Form.Item
-const FDatePicker = createValidateComponent(DatePicker)
-const DATE_FORMAT = 'YYYY/MM/DD HH:mm'
 
 @Form.create({
   mapPropsToFields: ({ initialValues }) => {
@@ -154,9 +149,6 @@ export default class StationAutoForm extends React.PureComponent {
       console.log(JSON.stringify(data))
       this.props.onSubmit(data)
     })
-  }
-  convertDateToString(date) {
-    return moment(date, 'YYYY-MM-DD HH:mm').toISOString()
   }
   changeStationType(stationTypeObject) {
     this.props.form.setFieldsValue({ stationType: stationTypeObject.key })
@@ -423,6 +415,7 @@ export default class StationAutoForm extends React.PureComponent {
           </Col>
         </Row>
         <Row gutter={8}>
+<<<<<<< HEAD
           {/* <Col span={8}>
               <Field
                 label={t('stationAutoManager.form.dayOfOperation.label')}
@@ -432,6 +425,8 @@ export default class StationAutoForm extends React.PureComponent {
                 dateFormat={DATE_FORMAT}
               />
           </Col> */}
+=======
+>>>>>>> 67967d744cc61d239adac351a83ec68fce9665d0
           <Col span={12}>
             <FormItem
               {...formItemLayout}
@@ -449,6 +444,19 @@ export default class StationAutoForm extends React.PureComponent {
               )}
             </FormItem>
           </Col>
+          <Col span={12}>
+            <FormItem
+              {...formItemLayout}
+              label={t('stationAutoManager.form.dayOfOperation.label')}
+            >
+              {getFieldDecorator('dayOfOperation', {
+                rules: [{ required: true }]
+              })(
+                <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"
+                />
+              )}
+            </FormItem>
+          </Col> 
         </Row>
         <Row gutter={8}>
           <Col span={24}>
@@ -487,6 +495,26 @@ export default class StationAutoForm extends React.PureComponent {
                   mode="tags"
                   placeholder={t('stationAutoManager.form.phones.placeholder')}
                   onChange={this.handlePhonesChange}
+                />
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={8}>
+          <Col span={24}>
+            <FormItem
+              {...formItemLayout}
+              labelCol={{
+                sm: { span: 3, offset: 0 }
+              }}
+              wrapperCol={{
+                sm: { span: 20, offset: 0 }
+              }}
+              label={t('stationAutoManager.form.note.label')}
+            >
+              {getFieldDecorator('note')(
+                <Input
+                  placeholder={t('stationAutoManager.form.note.placeholder')}
                 />
               )}
             </FormItem>

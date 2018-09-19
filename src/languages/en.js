@@ -400,7 +400,7 @@ export default {
   },
   province: {
     list: {
-      title: 'Name',
+      title: 'Management Unit',
       key: 'Key',
       numericalOrder: 'Numerical Order'
     },
@@ -569,6 +569,11 @@ export default {
       },
       error: 'Error',
       require: 'Please Enter Value'
+    },
+    ranger:{
+      lable: 'Station Range',
+      min:'Min',
+      max:'Max'
     },
     config: {
       label: 'Config',
@@ -926,7 +931,8 @@ export default {
     user: 'User',
     role: 'Role',
     subscription: 'Subscription',
-    support: 'Support'
+    support: 'Support',
+    province: 'Management Unit'
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'

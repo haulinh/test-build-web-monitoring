@@ -162,7 +162,7 @@ const provinceMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.province.base}
       icon={Icon.book}
-      text={'Province'}
+      text={translate('menuApp.province')}
     />
   )
 }

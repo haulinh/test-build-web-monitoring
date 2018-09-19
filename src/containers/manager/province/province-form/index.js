@@ -4,19 +4,12 @@ import {
   Input,
   Button,
   Row,
-  Col,
-  Select,
-  Icon,
-  Upload,
-  Modal
+  Col
 } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
-import ProvinceApi from 'api/ProvinceApi'
 import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
-import MediaApi from 'api/MediaApi'
-import swal from 'sweetalert2'
 import InputNumberCell from 'components/elements/input-number-cell'
 
 const FormItem = Form.Item
@@ -32,10 +25,6 @@ export default class ProvinceForm extends React.PureComponent {
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
     lang: langPropTypes
-  }
-
-  constructor(props) {
-    super(props)
   }
   handleSubmit(e) {
     e.preventDefault()
