@@ -5,7 +5,7 @@ import createBreadcrumb from 'shared/breadcrumb/hoc'
 
 export default createBreadcrumb({
   list: {
-    name: translate('qaqc.title'),
+    name: translate('qaqc.approveData'),
     id: 'base',
     icon: '',
     href: slug.qaqc.base
