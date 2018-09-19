@@ -97,6 +97,9 @@ export default class HeaderView extends React.PureComponent {
           center: ['50%', '75%']
         }
       },
+      credits: {
+        enabled: false
+      },
       series: [
         {
           type: 'pie',
@@ -160,6 +163,9 @@ export default class HeaderView extends React.PureComponent {
         column: {
           stacking: 'percent'
         }
+      },
+      credits: {
+        enabled: false
       }
     }
   }
@@ -183,6 +189,9 @@ export default class HeaderView extends React.PureComponent {
         plotBackgroundColor: null,
         plotBorderWidth: 0,
         plotShadow: false
+      },
+      credits: {
+        enabled: false
       },
       title: {
         text: title
@@ -247,6 +256,9 @@ export default class HeaderView extends React.PureComponent {
       },
       title: {
         text: title
+      },
+      credits: {
+        enabled: false
       },
       xAxis: {
         categories
