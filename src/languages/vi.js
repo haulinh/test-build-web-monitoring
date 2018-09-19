@@ -558,6 +558,11 @@ export default {
       error: 'Lỗi',
       require: 'Vui lòng nhập giá trị'
     },
+    ranger:{
+      lable: 'Dải đo',
+      min:'Dải đo nhỏ nhất',
+      max:'Dải đo lớn nhất'
+    },
     config: {
       label: 'Cấu hình',
       fileName: {

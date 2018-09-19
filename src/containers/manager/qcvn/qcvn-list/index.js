@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Divider, Button, Icon, Form, Menu, Dropdown } from 'antd'
+import { Divider, Button, Icon, Form} from 'antd'
 import QCVNApi from 'api/QCVNApi'
-import TestApi from 'api/ProvinceApi'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
@@ -14,28 +13,7 @@ import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
-import styled from 'styled-components'
-
 import DynamicTable from 'components/elements/dynamic-table'
-const LinkSpan = styled.span`
-  color: #000;
-  &:hover {
-    cursor: pointer;
-  }
-`
-const SpanTimeAgo = styled.div`
-  font-size: 13px;
-  color: #707070;
-`
-const Span = styled.span`
-  color: ${props => (props.deleted ? '#999999' : '')};
-  text-decoration: ${props => (props.deleted ? 'line-through' : '')};
-`
-
-const IconButton = styled(Icon)`
-  padding-right: 5px;
-  color: ${props => (props.color ? props.color : '#3E90F7')};
-`
 
 @protectRole(ROLE.STATION_AUTO.VIEW)
 @createManagerList({
