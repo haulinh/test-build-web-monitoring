@@ -1,4 +1,4 @@
-import { getConfigApi } from '../config'
+import { getConfigApi } from 'config'
 import { deleteFetch, getFetch, postFetch, putFetch } from 'utils/fetch'
 
 function getQCVNUrl(prefix = '') {

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
-import QCVNApi from 'api/QCVNAPI'
+import QCVNApi from 'api/QCVNApi'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
 

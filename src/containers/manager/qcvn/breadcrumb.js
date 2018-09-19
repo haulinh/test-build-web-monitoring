@@ -8,15 +8,15 @@ export default createBreadcrumb({
     id: 'list',
     //icon: Icon.car,
     href: slug.qcvn.list,
-    name: translate('parameterManager.breadcrumb.base')
+    name: translate('qcvn.list.title')
   },
   create: {
     id: 'create',
     href: slug.qcvn.create,
-    name: translate('parameterManager.breadcrumb.create')
+    name: translate('qcvn.create.label')
   },
   edit: {
     href: slug.qcvn.edit,
-    name: translate('parameterManager.breadcrumb.edit')
+    name: translate('qcvn.edit.label')
   }
 })

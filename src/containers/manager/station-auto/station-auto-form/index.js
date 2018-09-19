@@ -21,8 +21,15 @@ import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
 import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
 import MeasuringTable from '../station-auto-formTable/'
+import InputNumberCell from 'components/elements/input-number-cell'
+import createValidateComponent from 'components/elements/redux-form-validate'
+import DatePicker from 'components/elements/datetime-picker'
+import { Field } from 'redux-form'
+import moment from 'moment'
 
 const FormItem = Form.Item
+const FDatePicker = createValidateComponent(DatePicker)
+const DATE_FORMAT = 'YYYY/MM/DD HH:mm'
 
 @Form.create({
   mapPropsToFields: ({ initialValues }) => {
@@ -148,7 +155,9 @@ export default class StationAutoForm extends React.PureComponent {
       this.props.onSubmit(data)
     })
   }
-
+  convertDateToString(date) {
+    return moment(date, 'YYYY-MM-DD HH:mm').toISOString()
+  }
   changeStationType(stationTypeObject) {
     this.props.form.setFieldsValue({ stationType: stationTypeObject.key })
     this.setState({
@@ -408,6 +417,34 @@ export default class StationAutoForm extends React.PureComponent {
                     'stationAutoManager.form.stationType.placeholder'
                   )}
                   onHandleChange={this.changeStationType}
+                />
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={8}>
+        {/* <Col span={8}>
+              <Field
+                label={t('stationAutoManager.form.dayOfOperation.label')}
+                name="dayOfOperation"
+                size="large"
+                component={FDatePicker}
+                dateFormat={DATE_FORMAT}
+              />
+          </Col> */}
+          <Col span={12}>
+            <FormItem
+              {...formItemLayout}
+              label={t('stationAutoManager.form.frequency.label')}
+            >
+              {getFieldDecorator('frequency', {
+                rules: [{ required: true }]
+              })(
+                <InputNumberCell
+                  editable={true}
+                  size="small"
+                  min={1}
+                  max={1000000}
                 />
               )}
             </FormItem>

@@ -1,66 +1,74 @@
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { Button, Icon } from 'antd'
+import { Button, Icon, Spin } from 'antd'
 import { autobind } from 'core-decorators'
-import CategoryApi from 'api/CategoryApi'
-import QCVNForm from '../qcvnform'
+import QCVNApi from 'api/QCVNApi'
+import QCVNForm from '../qcvn-form'
 import slug from '/constants/slug'
 import createManagerDelete from 'hoc/manager-delete'
 import createManagerEdit from 'hoc/manager-edit'
-import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
 import Breadcrumb from '../breadcrumb'
+import { message } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 
-@protectRole(ROLE.MEASURING.EDIT)
+@protectRole(ROLE.STATION_AUTO.EDIT)
 @createManagerDelete({
-  apiDelete: CategoryApi.deleteMeasuring
+  apiDelete: QCVNApi.deleteQCVN
 })
 @createManagerEdit({
-  apiUpdate: CategoryApi.updateMeasuring,
-  apiGetByKey: CategoryApi.getMeasuring
+  apiUpdate: QCVNApi.updateQCVN,
+  apiGetByKey: QCVNApi.getQCVNByID
 })
-@createLanguage
 @autobind
-export default class MeasuringEdit extends React.PureComponent {
+export default class QCVNEdit extends React.PureComponent {
   static propTypes = {
     onDeleteItem: PropTypes.func,
     onUpdateItem: PropTypes.func,
     getItem: PropTypes.func,
-    isLoaded: PropTypes.bool,
-    lang: langPropTypes
+    isLoaded: PropTypes.bool
   }
 
   async handleSubmit(data) {
     this.props.onUpdateItem(data)
+    //const key = this.props.match.params.key
   }
 
   //Su kien truoc khi component duoc tao ra
   async componentWillMount() {
     //const key = this.props.match.params.key
-    this.props.getItem()
-  }
-
-  cleanData() {
-    return {
-      ...this.props.data
+    await this.props.getItem()
+    if (!this.props.success) {
+      message.error(this.props.lang.t('addon.error'))
+      this.props.history.push(slug.qcvn.list)
     }
   }
 
-  // Su kien xoa measuring
-  deleteMeasuring() {
+  cleanData() {
+    let data = {
+      ...this.props.data
+    }
+
+    data.measuringList = this.props.data.measuringList || []
+   // data.listMeasuring = this.props.data.listMeasuring || []
+   // console.log(data);
+   // console.log(data.listMeasuring);
+    return data
+  }
+
+  deleteQCVN() {
     const key = this.props.match.params.key
     this.props.onDeleteItem(key, () => {
-      this.props.history.push(slug.measuring.list)
+      this.props.history.push(slug.qcvn.list)
     })
   }
 
   buttonDelete() {
     return (
       <div>
-        <Button type="primary" onClick={this.deleteMeasuring}>
-          <Icon type="delete" /> {this.props.lang.t('addon.delete')}
+        <Button type="primary" onClick={this.deleteQCVN}>
+          <Icon type="delete" />Delete
         </Button>
       </div>
     )
@@ -74,17 +82,23 @@ export default class MeasuringEdit extends React.PureComponent {
             'list',
             {
               id: 'edit',
-              name: this.props.isLoaded ? this.cleanData().name : null
+              name:
+                this.props.isLoaded && this.props.success
+                  ? this.cleanData().name
+                  : null
             }
           ]}
         />
-        {this.props.isLoaded && (
-          <QCVNForm
-            initialValues={this.cleanData()}
-            onSubmit={this.handleSubmit}
-            isEdit={true}
-          />
-        )}
+        <Spin style={{ width: '100%' }} spinning={!this.props.isLoaded}>
+          {this.props.isLoaded &&
+            this.props.success && (
+              <QCVNForm
+                initialValues={this.cleanData()}
+                onSubmit={this.handleSubmit}
+                isEdit={true}
+              />
+            )}
+        </Spin>
       </PageContainer>
     )
   }

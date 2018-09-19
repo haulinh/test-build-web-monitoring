@@ -1,29 +1,53 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Divider, Button, Icon } from 'antd'
-import CategoryApi from 'api/CategoryApi'
+import { Divider, Button, Icon, Form, Menu, Dropdown } from 'antd'
+import QCVNApi from 'api/QCVNApi'
+import TestApi from 'api/ProvinceApi'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
 import createManagerList from 'hoc/manager-list'
 import createManagerDelete from 'hoc/manager-delete'
-import protectRole from 'hoc/protect-role'
-import createLanguage, { langPropTypes } from 'hoc/create-lang'
-import DynamicTable from 'components/elements/dynamic-table'
+import { mapPropsToFields } from 'utils/form'
+import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import Breadcrumb from '../breadcrumb'
-import QCVNSearchForm from '../qcvn-search'
-import MeasuringSearchAdvancedForm from '../qcvn-search/advanced'
 import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
+import styled from 'styled-components'
 
-@protectRole(ROLE.MEASURING.VIEW)
+import DynamicTable from 'components/elements/dynamic-table'
+const LinkSpan = styled.span`
+  color: #000;
+  &:hover {
+    cursor: pointer;
+  }
+`
+const SpanTimeAgo = styled.div`
+  font-size: 13px;
+  color: #707070;
+`
+const Span = styled.span`
+  color: ${props => (props.deleted ? '#999999' : '')};
+  text-decoration: ${props => (props.deleted ? 'line-through' : '')};
+`
+
+const IconButton = styled(Icon)`
+  padding-right: 5px;
+  color: ${props => (props.color ? props.color : '#3E90F7')};
+`
+
+@protectRole(ROLE.STATION_AUTO.VIEW)
 @createManagerList({
-  apiList: CategoryApi.getMeasurings
+   apiList: QCVNApi.getQCVN
 })
 @createManagerDelete({
-  apiDelete: CategoryApi.deleteMeasuring
+  apiDelete: QCVNApi.deleteQCVN
 })
-@createLanguage
+@Form.create({
+  mapPropsToFields: mapPropsToFields
+})
+@createLanguageHoc
 @autobind
 export default class QCVNList extends React.Component {
   static propTypes = {
@@ -32,49 +56,35 @@ export default class QCVNList extends React.Component {
     pagination: PropTypes.object,
     onChangePage: PropTypes.func,
     onChangePageSize: PropTypes.func,
-    onDeleteItem: PropTypes.func,
+    onRemoveItem: PropTypes.func,
     fetchData: PropTypes.func,
+    onChangeSearch: PropTypes.func,
+    data: PropTypes.object,
     lang: langPropTypes
   }
 
-  state = {
-    isAdvanced: false
-  }
-
-  toggleAdvanced() {
-    this.setState({
-      isAdvanced: !this.state.isAdvanced
-    })
-  }
-
   buttonAdd() {
-    const { lang: { t } } = this.props
+    const { t } = this.props.lang
     return (
       <div>
-        {protectRole(ROLE.MEASURING.CREATE)(
-          <Link to={slug.measuring.create}>
+        {protectRole(ROLE.STATION_AUTO.CREATE)(
+          <Link to={slug.qcvn.create}>
             <Button type="primary">
-              <Icon type="plus" /> {t('addon.create')}
+              <Icon type="plus" />
+              {t('qcvn.create.label')}
             </Button>
           </Link>
         )}
       </div>
     )
   }
-
   getHead() {
-    const { lang: { t } } = this.props
+    const { t } = this.props.lang
     return [
-      // { content: '#', width: 2 },
-      // { content: 'Key', width: 30 },
-      // { content: 'Name', width: 10 },
-      // { content: 'Unit', width: 10 },
-      // { content: 'Action', width: 10 }
       { content: '#', width: 2 },
-      { content: t('measuringManager.form.key.label'), width: 30 },
-      { content: t('measuringManager.form.name.label'), width: 10 },
-      { content: t('measuringManager.form.unit.label'), width: 10 },
-      { content: t('measuringManager.form.action.label'), width: 10 }
+      { content: t('qcvn.form.key.label'), width: 15 },
+      { content: t('qcvn.form.name.label'), width: 15 },
+      { content: t('stationAutoManager.list.createdAt'), width: 10 }
     ]
   }
 
@@ -98,25 +108,23 @@ export default class QCVNList extends React.Component {
         content: row.name
       },
       {
-        content: row.unit
-      },
-      {
         content: (
           <span>
-            {protectRole(ROLE.MEASURING.EDIT)(
-              <Link to={slug.measuring.editWithKey + '/' + row._id}>
+            {protectRole(ROLE.STATION_AUTO.EDIT)(
+              <Link to={slug.qcvn.editWithKey + '/' + row._id}>
                 {' '}
-                {t('measuringManager.edit.label')}{' '}
+                {t('qcvn.edit.label')}{' '}
               </Link>
             )}
+
             <Divider type="vertical" />
-            {protectRole(ROLE.MEASURING.DELETE)(
+            {protectRole(ROLE.STATION_AUTO.DELETE)(
               <a
                 onClick={() =>
                   this.props.onDeleteItem(row._id, this.props.fetchData)
                 }
               >
-                {t('measuringManager.delete.label')}
+                {t('qcvn.delete.label')}
               </a>
             )}
           </span>
@@ -125,46 +133,20 @@ export default class QCVNList extends React.Component {
     ])
   }
 
-  renderSearchForm() {
-    return (
-      <QCVNSearchForm
-        onChangeSearch={this.props.onChangeSearch}
-        initialValues={this.props.data}
-        isAdvanced={this.state.isAdvanced}
-        onAdvanced={this.toggleAdvanced}
-      />
-    )
-  }
-
-  renderSearchAdvanced() {
-    if (!this.state.isAdvanced) return null
-    return (
-      <MeasuringSearchAdvancedForm
-        onChangeSearch={this.props.onChangeSearch}
-        initialValues={this.props.data}
-        onAdvanced={this.toggleAdvanced}
-      />
-    )
-  }
-
   render() {
     return (
-      <PageContainer
-        center={this.renderSearchForm()}
-        headerBottom={this.renderSearchAdvanced()}
-        right={this.buttonAdd()}
-        backgroundColor={'#fff'}
-      >
+      <PageContainer right={this.buttonAdd()}>
         <Breadcrumb items={['list']} />
         <DynamicTable
+          isFixedSize
           isLoading={this.props.isLoading}
-          rows={this.getRows()}
-          head={this.getHead()}
           paginationOptions={{
             isSticky: true
           }}
-          onSetPage={this.props.onChangePage}
+          head={this.getHead()}
+          rows={this.getRows()}
           pagination={this.props.pagination}
+          onSetPage={this.props.onChangePage}
         />
       </PageContainer>
     )

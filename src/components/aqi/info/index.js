@@ -9,6 +9,7 @@ import { fetchAqiByDay } from 'api/AqiApi'
 import ChartAqiView from './ChartView'
 
 import connectWindowHeight from 'hoc/window-height'
+import { translate } from 'hoc/create-lang'
 
 const Option = Select.Option
 
@@ -133,6 +134,7 @@ export default class InfoComponent extends React.Component {
         {_.size(this.state.aqiDays) > 0 && (
           <div
             style={{
+              borderRadius: 3,
               display: 'flex',
               alignContent: 'center',
               padding: '4px 8px',
@@ -150,7 +152,7 @@ export default class InfoComponent extends React.Component {
                 fontWeight: 'bold'
               }}
             >
-              Chỉ số chất lượng của thông số {day} ngày
+              {translate('aqi.paramsTitle',{day})}
             </span>
           </div>
         )}

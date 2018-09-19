@@ -1,45 +1,28 @@
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { autobind } from 'core-decorators'
-import CategoryApi from 'api/CategoryApi'
-import PropTypes from 'prop-types'
-import QCVNForm from '../qcvnform'
-import Breadcrumb from '../breadcrumb'
-import slug from 'constants/slug'
 import { message } from 'antd'
-import createManagerCreate from 'hoc/manager-create'
-import createLanguage, { langPropTypes } from 'hoc/create-lang'
+import { autobind } from 'core-decorators'
+import QCVNApi from 'api/QCVNApi'
+import slug from 'constants/slug'
+import QCVNForm from '../qcvn-form'
+import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 
-@protectRole(ROLE.MEASURING.CREATE)
-@createManagerCreate({
-  apiCreate: CategoryApi.createMeasuring
-})
-@createLanguage
+@protectRole(ROLE.STATION_AUTO.CREATE)
 @autobind
 export default class QCVNCreate extends React.PureComponent {
-  static propTypes = {
-    onCreateItem: PropTypes.func,
-    lang: langPropTypes
-  }
-
   async handleSubmit(data) {
-    this.props.onCreateItem(data, res => {
-      if (res.success) {
-        message.info(this.props.lang.t('addon.onSave.add.success'))
-        this.props.history.push(slug.measuring.list)
-      } else {
-        if (res.message === 'KEY_EXISTED')
-          message.error(this.props.lang.t('measuringManager.create.keyExisted'))
-        else message.error(this.props.lang.t('addon.onSave.add.error'))
-      }
-    })
+    const res = await QCVNApi.createQCVN(data)
+    if (res.success) {
+      message.info('Add measuring success!')
+      this.props.history.push(slug.qcvn.list)
+    }
   }
 
   render() {
     return (
-      <PageContainer>
+      <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb items={['list', 'create']} />
         <QCVNForm onSubmit={this.handleSubmit} />
       </PageContainer>

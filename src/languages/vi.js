@@ -17,6 +17,19 @@ export default {
     tableList: {
       name: 'Tên',
       dataStatus: 'Trạng thái dữ liệu'
+    },
+    chartRatio: {
+      title: 'Tỉ lệ nhận dữ liệu {{=it.day}} ngày của từng địa phương',
+      dataByDate: 'Tỉ lệ dữ liệu {{==it.day}} ngày của {{=it.unit}}',
+      received: 'Nhận được',
+      notReceived: 'Không nhận được',
+      byDay: '{{=it.day}} Ngày'
+    },
+    chartStatus: {
+      title: 'Tình trạng hoạt động của trạm',
+      titleByUnit: 'Tình trạng hoạt động của {{=it.unit}}',
+      activate: 'Hoạt động',
+      inactive: `Không Hoạt Động`
     }
   },
   monitoring: {
@@ -38,7 +51,8 @@ export default {
     notInUse: 'Chưa sử dụng'
   },
   aqi: {
-    title: 'Chỉ số chất lượng không khí'
+    title: 'Chỉ số chất lượng không khí',
+    paramsTitle: 'Chỉ số chất lượng của thông số trong {{=it.day}} ngày'
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',
@@ -330,6 +344,86 @@ export default {
       }
     }
   },
+  qcvn: {
+    list: {
+      title: 'QCVN'
+    },
+    create: {
+      label: 'Thêm',
+      success: 'Thêm QCVN thành công',
+      keyExisted: 'QCVN đã tồn tại'
+    },
+    edit: {
+      label: 'Sửa',
+      success: 'Cập nhật QCVN thành công'
+    },
+    delete: {
+      label: 'Xoá'
+    },
+    form: {
+      key: {
+        label: 'Mã QCVN',
+        placeholder: 'Nhập QCVN',
+        error: 'Vui lòng nhập mã QCVN'
+      },
+      name: {
+        label: 'Tên QCVN',
+        placeholder: 'Nhập tên QCVN',
+        error: 'Vui lòng nhập tên QCVN'
+      },
+      unit: {
+        label: 'Đơn vị',
+        placeholder: 'Nhập đơn vị'
+      },
+      numericalOrder: {
+        label: 'Số thứ tự',
+        placeholder: 'Nhập số thứ tự'
+      },
+      action: {
+        label: 'Hành động'
+      },
+      error: 'Lỗi'
+    }
+  },
+  province: {
+    list: {
+      title: 'Đơn vị quản lý',
+      key: 'Mã đơn vị',
+      numericalOrder: 'Số thứ tự'
+    },
+    create: {
+      label: 'Thêm',
+      success: 'Thêm thành công',
+      keyExisted: 'Đơn vị quản lý đã tồn tại'
+    },
+    edit: {
+      label: 'Sửa',
+      success: 'Cập nhật thành công'
+    },
+    delete: {
+      label: 'Xóa',
+      require: 'Bạn chắc chắn xoá dữ liệu'
+    },
+    add: {
+      label: 'Thêm'
+    },
+    form: {
+      key: {
+        label: 'Mã đơn vị',
+        placeholder: 'Nhập mã đơn vị quản lý',
+        error: 'Vui lòng nhập mã đơn vị quản lý'
+      },
+      name: {
+        label: 'Tên đơn vị quản lý',
+        placeholder: 'Nhập tên đơn vị quản lý',
+        error: 'Vui lòng nhập tên đơn vị quản lý'
+      },
+      numericalOrder: {
+        label: 'Số thứ tự',
+        placeholder: 'Nhập số thứ tự'
+      }
+    }
+  },
   stationAutoManager: {
     list: {
       title: 'Tên trạm',
@@ -389,6 +483,21 @@ export default {
         label: 'Đơn vị quản lý',
         placeholder: 'Đơn vị quản lý',
         error: 'Vui lòng chọn đơn vị quản lý'
+      },
+      frequency: {
+        label: 'Tần xuất',
+        placeholder: 'Tần xuất',
+        error: 'Vui lòng chọn tần xuất'
+      },
+      dayOfOperation: {
+        label: 'Ngày hoạt động',
+        placeholder: 'Ngày hoạt động',
+        error: 'Vui lòng chọn ngày hoạt động'
+      },
+      note: {
+        label: 'Ghi chú',
+        placeholder: 'Ghi chú',
+        error: 'Vui lòng điền ghi chú'
       },
       long: {
         label: 'Kinh độ',
