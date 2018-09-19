@@ -43,29 +43,17 @@ export default class HeaderView extends React.PureComponent {
     this.setState({ day, data: _.get(rs, 'data', []) })
   }
 
-  getConfigStatus = () => {
-    const dataGroup = _.groupBy(this.props.data, 'province.key')
-    if (_.size(dataGroup) === 1) {
-      const title = _.get(_.head(this.props.data), 'province.name', '')
-      return this.configStatusChartSemi(
-        dataGroup,
-        title,
-        translate('dashboard.chartStatus.activate'),
-        translate('dashboard.chartStatus.inactive')
-      )
-    }
-
-    return this.configStatusChartColumn(
-      dataGroup,
-      translate('dashboard.chartStatus.title'),
-      translate('dashboard.chartStatus.activate'),
-      translate('dashboard.chartStatus.inactive')
-    )
-  }
-
   configStatusChartSemi = (dataGroup, title, titleActive, tittleUnActive) => {
-    const goodTotal = _.filter(dataGroup, ({ status }) => status === 'GOOD')
-      .length
+    let dataG = []
+    let goodTotal = 0
+    const tpm = _.head(_.values(dataGroup))
+    
+    let total = 0
+
+    if (!_.isEmpty(tpm)) {
+      goodTotal = _.filter(tpm, {status: 'GOOD'}).length
+      total = _.size(tpm) - goodTotal
+    }
 
     return {
       chart: {
@@ -108,7 +96,7 @@ export default class HeaderView extends React.PureComponent {
           data: [
             {
               name: tittleUnActive,
-              y: _.size(dataGroup) - goodTotal,
+              y: total,
               color: 'red'
             },
             {
@@ -168,6 +156,26 @@ export default class HeaderView extends React.PureComponent {
         enabled: false
       }
     }
+  }
+
+  getConfigStatus = () => {
+    const dataGroup = _.groupBy(this.props.data, 'province.key')
+    if (_.size(dataGroup) === 1) {
+      const title = _.get(_.head(this.props.data), 'province.name', '')
+      return this.configStatusChartSemi(
+        dataGroup,
+        title,
+        translate('dashboard.chartStatus.activate'),
+        translate('dashboard.chartStatus.inactive')
+      )
+    }
+
+    return this.configStatusChartColumn(
+      dataGroup,
+      translate('dashboard.chartStatus.title'),
+      translate('dashboard.chartStatus.activate'),
+      translate('dashboard.chartStatus.inactive')
+    )
   }
 
   configRatioSemi = (title, received, notReceived) => {

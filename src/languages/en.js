@@ -52,7 +52,7 @@ export default {
     notInUse: 'Not In Use'
   },
   aqi: {
-    title: 'Air quality index',
+    title: 'Air Quality Index',
     paramsTitle: 'Quality index of parameters in {{=it.day}} days'
   },
   qaqc: {

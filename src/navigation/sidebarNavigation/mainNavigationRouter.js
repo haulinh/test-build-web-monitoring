@@ -218,9 +218,9 @@ const roleMenu = {
 export default [
   dashboardMenu,
   monitoringMenu,
-  aqiMenu,
-  CameraMenu,
   mapMenu,
+  CameraMenu,
+  aqiMenu,
   groupData,
   dataSearchMenu,
   avgDataMenu,

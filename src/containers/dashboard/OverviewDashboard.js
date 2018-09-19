@@ -69,7 +69,7 @@ export default class OverviewDashboard extends Component {
       provinceKey = province.key
       dataLastLog = _.filter(
         _.get(stationLastLog, 'data', []),
-        item => item.province.key === provinceKey
+        item => _.get(item, 'province.key', '') === provinceKey
       )
     } else {
       dataLastLog = _.get(stationLastLog, 'data', [])
