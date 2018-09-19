@@ -7,6 +7,7 @@ import StationAutoEdit from './station-auto-edit'
 import StationAutoConfig from './station-auto-config'
 import StationAutoFtpInfo from './station-auto-ftp-info'
 import StationAutoFtpFile from './station-auto-ftp-file'
+import StationAutoRange from './station-auto-range'
 
 export default props => (
   <Switch>
@@ -24,6 +25,7 @@ export default props => (
     <Route path={slug.stationAuto.config} component={StationAutoConfig} />
     <Route path={slug.stationAuto.ftpInfo} component={StationAutoFtpInfo} />
     <Route path={slug.stationAuto.ftpFile} component={StationAutoFtpFile} />
+    <Route path={slug.stationAuto.range} component={StationAutoRange} />
     {/*<Route path={slug.stationAuto.create} component={StationAutoCreate} />*/}
   </Switch>
 )

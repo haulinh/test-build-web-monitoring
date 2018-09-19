@@ -571,8 +571,8 @@ export default {
       error: 'Error',
       require: 'Please Enter Value'
     },
-    ranger:{
-      lable: 'Station Range',
+    range:{
+      label: 'Station Range',
       min:'Min',
       max:'Max'
     },
