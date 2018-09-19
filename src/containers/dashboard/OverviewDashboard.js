@@ -10,6 +10,7 @@ import ChartList from 'components/dashboard/chart/chart-row-list'
 import Clearfix from 'components/elements/clearfix'
 import { getStationTypes } from 'api/CategoryApi'
 import { getLastLog } from 'api/StationAuto'
+import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 
 const ListLoader = createContentLoader({
@@ -87,7 +88,7 @@ export default class OverviewDashboard extends Component {
       stationList: dataLastLog,
       rows,
       stationCount,
-      stationStatus: `Trạm đang hoạt động ${goodCount}/${_.size(dataLastLog)}`
+      stationStatus: translate('dashboard.activeStationPer', { good: goodCount, total: _.size(dataLastLog) })
     })
   }
 
@@ -138,7 +139,7 @@ export default class OverviewDashboard extends Component {
   }
 
   handleProvinceChange = province => {
-    this.setState({province})
+    this.setState({ province })
     this.getStationInfo(province)
   }
 
@@ -161,7 +162,10 @@ export default class OverviewDashboard extends Component {
           onChange={this.handleProvinceChange}
         />
         <SummaryList data={this.getSummaryList()} />
-        <ChartStatisticalRatio data={this.state.stationList}  province={this.state.province}/>
+        <ChartStatisticalRatio
+          data={this.state.stationList}
+          province={this.state.province}
+        />
         {/* this.state.stationList */}
         <ChartList data={this.getChartList()} />
       </PageContainer>

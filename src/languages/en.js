@@ -30,7 +30,8 @@ export default {
       titleByUnit: 'Rate of receiving data of {{=it.unit}} unit',
       activate: 'Activate',
       inactive: `Inactive`
-    }
+    },
+    activeStationPer: 'Station Active {{=it.good}}/{{=it.total}}'
   },
   monitoring: {
     title: 'Monitoring',
@@ -53,6 +54,15 @@ export default {
   aqi: {
     title: 'Air quality index',
     paramsTitle: 'Quality index of parameters in {{=it.day}} days'
+  },
+  qaqc: {
+    title: `QA & QC`,
+    dataFilter: {
+      label: 'Data filter by',
+      negative: 'Negative',
+      outOfRange: 'Out of range',
+      lessThanZero: '< 0'
+    }
   },
   controlStation: {
     text: 'Sampling',

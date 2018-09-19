@@ -113,5 +113,8 @@ export default {
   },
   aqi: {
     base: '/aqi'
+  },
+  qaqc: {
+    base: '/qaqc'
   }
 }
