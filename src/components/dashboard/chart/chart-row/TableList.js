@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import stationStatus from 'constants/stationStatus'
+import stationStatus, { STATUS_COLOR } from 'constants/stationStatus'
 import { translate } from 'hoc/create-lang'
 import {
   warningLevelsNumber,
@@ -9,6 +9,7 @@ import {
   colorLevels
 } from 'constants/warningLevels'
 import objectPath from 'object-path'
+import * as _ from 'lodash'
 
 const Status = styled.div`
   width: 8px;
@@ -197,7 +198,7 @@ export default class TableListCustom extends React.PureComponent {
               {' '}
               <Status
                 style={{
-                  backgroundColor: item.colorStatus
+                  backgroundColor: _.get(STATUS_COLOR, [item.status], '')
                 }}
               />
             </StatusColumn>
