@@ -20,7 +20,7 @@ export default {
     },
     chartRatio: {
       title: 'Tỉ lệ nhận dữ liệu {{=it.day}} ngày của từng địa phương',
-      dataByDate: 'Tỉ lệ dữ liệu {{==it.day}} ngày của {{=it.unit}}',
+      dataByDate: 'Tỉ lệ dữ liệu {{=it.day}} ngày của {{=it.unit}}',
       received: 'Nhận được',
       notReceived: 'Không nhận được',
       byDay: '{{=it.day}} Ngày'

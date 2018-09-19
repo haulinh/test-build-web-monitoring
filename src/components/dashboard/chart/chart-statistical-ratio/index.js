@@ -7,6 +7,7 @@ import moment from 'moment'
 import * as _ from 'lodash'
 import { Menu, Dropdown, Icon } from 'antd'
 
+import { translate } from 'hoc/create-lang'
 import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
 
 const WrapperView = styled.div` 
@@ -18,7 +19,8 @@ height: 50px background: #ccd `
 @autobind
 export default class HeaderView extends React.PureComponent {
   state = {
-    data: []
+    data: [],
+    day: 7
   }
 
   handleItemSelected = value => {
@@ -27,12 +29,16 @@ export default class HeaderView extends React.PureComponent {
     }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+   this.getDataRatioBy(this.state.day)
+  }
+
+  getDataRatioBy = async (day) => {
     const rs = await getDataStationAutoRatioCount(
-      moment(),
-      moment().subtract(7, 'days')
+      moment().format('DD-MM-YYYY HH:ss'),
+      moment().subtract(day, 'days').format('DD-MM-YYYY HH:ss')
     )
-    this.setState({ data: _.get(rs, 'data', []) })
+    this.setState({ day, data: _.get(rs, 'data', []) })
   }
 
   getConfigStatus = () => {
@@ -42,16 +48,16 @@ export default class HeaderView extends React.PureComponent {
       return this.configStatusChartSemi(
         dataGroup,
         title,
-        'Hoạt động',
-        'Không hoạt động'
+        translate('dashboard.chartStatus.activate'),
+        translate('dashboard.chartStatus.inactive')
       )
     }
 
     return this.configStatusChartColumn(
       dataGroup,
-      'Tình trạng hoạt động của trạm',
-      'Hoạt động',
-      'Không hoạt động'
+      translate('dashboard.chartStatus.title'),
+      translate('dashboard.chartStatus.activate'),
+      translate('dashboard.chartStatus.inactive')
     )
   }
 
@@ -61,12 +67,12 @@ export default class HeaderView extends React.PureComponent {
 
       return {
         chart: {
-          // plotBackgroundColor: null,
-          //plotBorderWidth: 0,
-          //plotShadow: false
+          plotBackgroundColor: null,
+          plotBorderWidth: 0,
+          plotShadow: false
         },
         title: {
-          text: 'Tình trạng hoạt động của ' + title
+          text: translate('dashboard.chartStatus.titleByUnit', {unit: title}),
         },
         legend: {
           enabled: true
@@ -160,9 +166,8 @@ export default class HeaderView extends React.PureComponent {
 
     let total = 0;
     const item = _.find(this.state.data, ({provinceId}) => provinceId === this.props.province)
-
     if (item && item.ratio) {
-      title = 'Tỉ lệ nhận được dữ liệu của đơn vị '+ item.name
+      title = translate('dashboard.chartRatio.dataByDate', { day: this.state.day, unit: item.name })
       total = item.ratio
     }
 
@@ -263,38 +268,34 @@ export default class HeaderView extends React.PureComponent {
   }
 
   getConfigRatio = () => {
-    const received = 'Nhận được'
-    const notReceived = 'Không nhận được'
-    let title = 'Tỉ lệ nhận dữ liệu theo từng địa phương theo tháng'
     if (_.isEmpty(this.props.province)) { 
-      return this.configRatioBar(title, received, notReceived)
+      return this.configRatioBar(translate('dashboard.chartRatio.title', { day: this.state.day }), translate('dashboard.chartRatio.received'), translate('dashboard.chartRatio.notReceived'))
     } else {
-      return this.configRatioSemi(title, received, notReceived)
+      return this.configRatioSemi(translate('dashboard.chartRatio.title', { day: this.state.day }), translate('dashboard.chartRatio.received'), translate('dashboard.chartRatio.notReceived'))
     }
   }
 
   onChange = value => {
-    console.log(value)
+    this.getDataRatioBy(Number(value.key))
   }
 
   menu = () => {
     return (
       <Menu onClick={this.onChange}>
-        <Menu.Item key="7">
-          <span>7 Ngày</span>
+        <Menu.Item key='7'>
+          <span>{translate('dashboard.chartRatio.byDay', { day: 7 })}</span>
         </Menu.Item>
-        <Menu.Item key="10">
-          <span>10 Ngày</span>
+        <Menu.Item key='15'>
+          <span>{translate('dashboard.chartRatio.byDay', { day: 15 })}</span>
         </Menu.Item>
-        <Menu.Item key="30">
-          <span>30 Ngày</span>
+        <Menu.Item key='30'>
+          <span>{translate('dashboard.chartRatio.byDay', { day: 30 })}</span>
         </Menu.Item>
       </Menu>
     )
   }
 
   render() {
-    const data = _.groupBy(this.props.data, 'province.key')
     return (
       <WrapperView>
         <Card bordered style={{ flex: 1, marginRight: 8 }}>
@@ -303,7 +304,9 @@ export default class HeaderView extends React.PureComponent {
         <Card bordered style={{ flex: 1, marginLeft: 8 }}>
           <Dropdown overlay={this.menu()} trigger={['click']}>
             <span>
-              7 Ngày <Icon type="down" />
+              <span style={{color: 'blue', minWidth: 80}}>{
+                translate('dashboard.chartRatio.byDay', { day: this.state.day })
+              }{`  `}</span><Icon type="down" />
             </span>
           </Dropdown>
           <ReactHighcharts config={this.getConfigRatio()} />

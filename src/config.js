@@ -26,7 +26,7 @@ export function getConfigApi() {
     qcvn: c('qcvn'),
     aqi: c('aqi'),
     // support: 'http://localhost:5014/support', //comemnt lcoal
-    sampleConfig: 'http://localhost:5010/configSample/upload-config' // local.
+    sampleConfig: c('configSample') // local.
   }
 }
 
