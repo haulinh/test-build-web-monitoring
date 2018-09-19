@@ -15,6 +15,7 @@ import CreditcardIcon from '@atlaskit/icon/glyph/creditcard'
 import CameraIcon from '@atlaskit/icon/glyph/camera'
 import RoadmapIcon from '@atlaskit/icon/glyph/creditcard'
 import AqiIcon from '@atlaskit/icon/glyph/emoji'
+import QAQCIcon from '@atlaskit/icon/glyph/queues'
 
 export default {
   quizLists: <QuizListIcon label={''} size={'medium'} />,
@@ -32,5 +33,6 @@ export default {
   creditCard: <CreditcardIcon label={''} size={'medium'} />,
   camera: <CameraIcon label={''} size={'medium'} />,
   roadmap: <RoadmapIcon label={''} size={'medium'} />,
-  aqi: <AqiIcon label={''} size={'medium'} />
+  aqi: <AqiIcon label={''} size={'medium'} />,
+  qaqc: <QAQCIcon label={''} size={'medium'} />
 }

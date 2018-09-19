@@ -30,7 +30,8 @@ export default {
       titleByUnit: 'Tình trạng hoạt động của {{=it.unit}}',
       activate: 'Hoạt động',
       inactive: `Không Hoạt Động`
-    }
+    },
+    activeStationPer: 'Trạm hoạt động {{=it.good}}/{{=it.total}}'
   },
   monitoring: {
     title: 'Giám sát',

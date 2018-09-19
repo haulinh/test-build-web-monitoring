@@ -33,6 +33,17 @@ const aqiMenu = {
   )
 }
 
+const qaqcMenu = {
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.qaqc.base}
+      icon={Icon.qaqc}
+      text={translate('qaqc.title')}
+    />
+  )
+}
+
 const monitoringMenu = {
   component: protectRole(ROLE.MONITORING.VIEW)(
     <AkNavigationItem
@@ -205,6 +216,7 @@ export default [
   groupData,
   dataSearchMenu,
   avgDataMenu,
+  qaqcMenu,
   groupManager,
   measuringMenu,
   stationTypeMenu,
