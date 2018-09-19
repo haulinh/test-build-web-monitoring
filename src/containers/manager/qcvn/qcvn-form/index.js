@@ -4,18 +4,13 @@ import {
   Input,
   Button,
   Row,
-  Col,
-  Select,
-  Icon,
-  Upload,
-  Modal
+  Col
 } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import CategoryApi from 'api/CategoryApi'
 import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
-import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
 import MeasuringTableQCVN from '../qcvn-formTable'
 import InputNumberCell from 'components/elements/input-number-cell'
@@ -115,16 +110,6 @@ export default class QCVNForm extends React.PureComponent {
   render() {
     const { getFieldDecorator } = this.props.form
     const { t } = this.props.lang
-    const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory('station-autos')
-    const { previewVisible, previewImage, fileList } = this.state
-    const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">
-          {t('stationAutoManager.upload.label')}
-        </div>
-      </div>
-    )
     const formItemLayout = {
       labelCol: {
         sm: { span: 6, offset: 0 }

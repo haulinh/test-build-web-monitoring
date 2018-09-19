@@ -560,6 +560,11 @@ export default {
       error: 'Error',
       require: 'Please Enter Value'
     },
+    ranger:{
+      lable: 'Station Range',
+      min:'Min',
+      max:'Max'
+    },
     config: {
       label: 'Config',
       fileName: {
