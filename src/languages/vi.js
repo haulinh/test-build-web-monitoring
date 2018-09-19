@@ -484,6 +484,21 @@ export default {
         placeholder: 'Đơn vị quản lý',
         error: 'Vui lòng chọn đơn vị quản lý'
       },
+      frequency: {
+        label: 'Tần xuất',
+        placeholder: 'Tần xuất',
+        error: 'Vui lòng chọn tần xuất'
+      },
+      dayOfOperation: {
+        label: 'Ngày hoạt động',
+        placeholder: 'Ngày hoạt động',
+        error: 'Vui lòng chọn ngày hoạt động'
+      },
+      note: {
+        label: 'Ghi chú',
+        placeholder: 'Ghi chú',
+        error: 'Vui lòng điền ghi chú'
+      },
       long: {
         label: 'Kinh độ',
         placeholder: 'Nhập kinh độ',

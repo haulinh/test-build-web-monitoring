@@ -487,6 +487,21 @@ export default {
         placeholder: 'Province',
         error: 'Please Choose Province'
       },
+      frequency: {
+        label: 'Frequency',
+        placeholder: 'Frequency',
+        error: 'Please Choose Frequency'
+      },
+      dayOfOperation: {
+        label: 'Day Of Operation',
+        placeholder: 'Day Of Operation',
+        error: 'Please Choose Day Of Operation'
+      },
+      note: {
+        label: 'Note',
+        placeholder: 'Note',
+        error: 'Please Choose Note'
+      },
       long: {
         label: 'Longitude',
         placeholder: 'Input longitude',

@@ -39,8 +39,7 @@ const IconButton = styled(Icon)`
 
 @protectRole(ROLE.STATION_AUTO.VIEW)
 @createManagerList({
-  // apiList: QCVNApi.getQCVN
-  apiList: TestApi.getProvices
+   apiList: QCVNApi.getQCVN
 })
 @createManagerDelete({
   apiDelete: QCVNApi.deleteQCVN
@@ -50,7 +49,7 @@ const IconButton = styled(Icon)`
 })
 @createLanguageHoc
 @autobind
-export default class StationAutoList extends React.Component {
+export default class QCVNList extends React.Component {
   static propTypes = {
     dataSource: PropTypes.array,
     isLoading: PropTypes.bool,
@@ -112,7 +111,7 @@ export default class StationAutoList extends React.Component {
         content: (
           <span>
             {protectRole(ROLE.STATION_AUTO.EDIT)(
-              <Link to={slug.province.editWithKey + '/' + row._id}>
+              <Link to={slug.qcvn.editWithKey + '/' + row._id}>
                 {' '}
                 {t('qcvn.edit.label')}{' '}
               </Link>

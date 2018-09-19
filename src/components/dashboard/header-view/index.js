@@ -48,11 +48,7 @@ export default class HeaderView extends React.PureComponent {
           <ProvinceSelect label="Tat ca" onChange={this.handleItemSelected} />
         </View>
         <View flex={2}>
-<<<<<<< HEAD
-          <Label style={{ paddingTop: 8 }}>{this.props.stationStatus}</Label>
-=======
           <Label style={{ paddingTop: 4 }}>{this.props.stationStatus}</Label>
->>>>>>> 03c42d9ffcc6a11ba749c0918925ada00d7dff43
         </View>
       </WrapperView>
     )
