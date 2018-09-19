@@ -20,7 +20,7 @@ export default {
     },
     chartRatio: {
       title: '{{=it.day}} day local received data',
-      dataByDate: 'The {{==it.day}}-day {{=it.unit}} data rate',
+      dataByDate: 'The {{=it.day}}-day {{=it.unit}} data rate',
       received: 'Received',
       notReceived: `Don't receive`,
       byDay: '{{=it.day}} Day'
@@ -390,18 +390,18 @@ export default {
   },
   province: {
     list: {
-      title: 'Province Name',
+      title: 'Name',
       key: 'Key',
       numericalOrder: 'Numerical Order'
     },
     create: {
       label: 'Create',
-      success: 'Add Province Successfully',
-      keyExisted: 'Province Name Is Already Existed'
+      success: 'Add Unit Successfully',
+      keyExisted: 'Name Is Already Existed'
     },
     edit: {
       label: 'Edit',
-      success: 'Update Province Name Successfully'
+      success: 'Update Name Successfully'
     },
     delete: {
       label: 'Delete',
@@ -413,13 +413,13 @@ export default {
     form: {
       key: {
         label: 'Code',
-        placeholder: 'Input Code Of Province Name',
-        error: 'Please Input Code Of Province Name'
+        placeholder: 'Input Code Of Name',
+        error: 'Please Input Code Of Name'
       },
       name: {
         label: 'Name',
-        placeholder: 'Input Province Name',
-        error: 'Please input Province Name'
+        placeholder: 'Input Name',
+        error: 'Please input Name'
       },
       numericalOrder: {
         label: 'Numerical Order',
@@ -483,9 +483,9 @@ export default {
         error: 'Please Choose Type Of QCVN'
       },
       province: {
-        label: 'Province',
-        placeholder: 'Province',
-        error: 'Please Choose Province'
+        label: 'Management Unit',
+        placeholder: 'Management Unit',
+        error: 'Please Choose Management Unit'
       },
       frequency: {
         label: 'Frequency',
