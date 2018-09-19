@@ -415,18 +415,6 @@ export default class StationAutoForm extends React.PureComponent {
           </Col>
         </Row>
         <Row gutter={8}>
-<<<<<<< HEAD
-          {/* <Col span={8}>
-              <Field
-                label={t('stationAutoManager.form.dayOfOperation.label')}
-                name="dayOfOperation"
-                size="large"
-                component={FDatePicker}
-                dateFormat={DATE_FORMAT}
-              />
-          </Col> */}
-=======
->>>>>>> 67967d744cc61d239adac351a83ec68fce9665d0
           <Col span={12}>
             <FormItem
               {...formItemLayout}
