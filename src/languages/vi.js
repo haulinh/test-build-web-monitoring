@@ -918,7 +918,8 @@ export default {
     user: 'Người dùng',
     role: 'Nhóm quyền',
     subscription: 'Hệ thống',
-    support: 'Hỗ trợ'
+    support: 'Hỗ trợ',
+    province: 'Quản lý đơn vị'
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'
