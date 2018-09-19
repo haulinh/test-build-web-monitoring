@@ -39,7 +39,7 @@ const IconButton = styled(Icon)`
 
 @protectRole(ROLE.STATION_AUTO.VIEW)
 @createManagerList({
-   apiList: QCVNApi.getQCVN
+  apiList: QCVNApi.getQCVN
 })
 @createManagerDelete({
   apiDelete: QCVNApi.deleteQCVN

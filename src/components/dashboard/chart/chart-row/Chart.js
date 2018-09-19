@@ -1,103 +1,137 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import {
-  withHighcharts,
-  HighchartsStockChart,
-  Chart,
-  Legend,
-  XAxis,
-  YAxis,
-  LineSeries,
-  Tooltip,
-  RangeSelector
-} from 'react-jsx-highstock'
-import PropTypes from 'prop-types'
-import Highcharts from 'highcharts/highstock'
 import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
 import chartAutoResize from 'hoc/chart-autoresize'
+import ReactHighcharts from 'react-highcharts'
+import Highcharts from 'highcharts'
+import * as _ from 'lodash'
+import { Menu } from 'antd'
+
+const MenuItemGroup = Menu.ItemGroup
 
 const ChartWrapper = styled.div``
 
-@chartAutoResize
-@autobind
-export class ChartRowToChart extends React.PureComponent {
-  static propTypes = {
-    dataLines: PropTypes.object
+export default class ChartRowToChart extends React.Component {
+  constructor(props) {
+    super(props)
+    const categories = _.map(props.dataLines, item => item)
+    const current = _.head(categories)
+    this.state = {
+      categories,
+      current
+    }
   }
 
-  getDataLines() {
-    return Object.keys(this.props.dataLines)
-      .map(key => this.props.dataLines[key])
-      .map(line => (
-        <LineSeries
-          id={line.key}
-          key={line.key}
-          name={line.name + (line.unit ? '(' + line.unit + ')' : '')}
-          data={line.data}
-        />
-      ))
+  componentWillReceiveProps(nextProps) {
+    if (!_.isEqual(nextProps.dataLines, this.props.dataLines)) {
+      const categories = _.map(nextProps.dataLines, item => item)
+      const current = _.head(categories)
+      this.state = {
+        categories,
+        current
+      }
+    }
   }
 
-  getChart(chart) {
-    this.chart = chart
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      !_.isEqual(nextProps.dataLines, this.props.dataLines) ||
+      !_.isEqual(nextState.categories, this.state.categories) ||
+      !_.isEqual(nextState.current, this.state.current)
+    )
   }
 
-  getCurrentChart() {
-    return this.chart
+  handleClick = e => {
+    this.setState({
+      current: _.get(this.props.dataLines, [e.key], {})
+    })
+  }
+
+  getConfigChart = () => {
+    return {
+      noData: {
+        attr: 'No Data'
+      },
+      chart: {
+        zoomType: 'x'
+      },
+      title: {
+        text: ''
+      },
+      xAxis: {
+        type: 'datetime'
+      },
+      yAxis: {
+        title: {
+          text: ''
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        area: {
+          fillColor: {
+            linearGradient: {
+              x1: 0,
+              y1: 0,
+              x2: 0,
+              y2: 1
+            },
+            stops: [
+              [0, Highcharts.getOptions().colors[0]],
+              [
+                1,
+                Highcharts.Color(Highcharts.getOptions().colors[0])
+                  .setOpacity(0)
+                  .get('rgba')
+              ]
+            ]
+          },
+          marker: {
+            radius: 2
+          },
+          lineWidth: 1,
+          states: {
+            hover: {
+              lineWidth: 1
+            }
+          }
+        }
+      },
+      series: [
+        {
+          type: 'area',
+          name: _.get(this.state.current, 'name', ''),
+          data: _.get(this.state.current, 'data', [])
+        }
+      ],
+      credits: {
+        enabled: false
+      }
+    }
   }
 
   render() {
     return (
       <ChartWrapper>
-        <HighchartsStockChart callback={this.getChart}>
-          <Chart height={250} zoomType="x" />
-          <Legend layout="horizontal" align="center" verticalAlign="bottom" />
-          <RangeSelector allButtonsEnabled={true}>
-            {
-              <RangeSelector.Button type="all">
-                {translate('chart.all')}
-              </RangeSelector.Button>
-            }
-            <RangeSelector.Input
-              boxBorderColor="#7cb5ec"
-              boxWidth={150}
-              inputDateParser={value => {
-                //  return moment.utc(value, 'DD. MMM hh:mm').valueOf()
-                return moment.utc(value, 'YYYY/mm/dd hh:mm').valueOf()
-              }}
-              editDateFormat="%Y/%m/%d:%k:%M"
-              dateFormat="%Y/%m/%d %k:%M"
-            />
-          </RangeSelector>
-          <XAxis
-            type="datetime"
-            dateTimeLabelFormats={{
-              hour: '%Y/%m/%d %k:%M',
-              minute: '%Y/%m/%d %k:%M'
-            }}
-          >
-            <XAxis.Title />
-          </XAxis>
-          <YAxis id="number">{this.getDataLines()}</YAxis>
-          <Tooltip />
-        </HighchartsStockChart>
+        <ReactHighcharts config={this.getConfigChart()} />
+        <Menu
+          style={{ paddingLeft: 8, paddingRight: 8, marginBottom: 8 }}
+          onClick={this.handleClick}
+          selectedKeys={[_.get(this.state.current, 'key', '')]}
+          mode="horizontal"
+        >
+          {_.map(this.state.categories, ({ key, name, unit }) => (
+            <Menu.Item key={key}>
+              {name}
+              {unit && ` (${unit})`}
+            </Menu.Item>
+          ))}
+        </Menu>
       </ChartWrapper>
     )
   }
 }
-// disable button Zoom
-Highcharts.setOptions({
-  lang: { rangeSelectorZoom: '' }
-})
-// ReadOnly input text
-Highcharts.wrap(Highcharts.RangeSelector.prototype, 'drawInput', function(
-  proceed,
-  name
-) {
-  proceed.call(this, name)
-  this[name + 'DateBox'].on('click', function() {})
-})
-
-export default withHighcharts(ChartRowToChart, Highcharts)

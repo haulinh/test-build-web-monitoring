@@ -51,9 +51,9 @@ export default class QCVNEdit extends React.PureComponent {
     }
 
     data.measuringList = this.props.data.measuringList || []
-   // data.listMeasuring = this.props.data.listMeasuring || []
-   // console.log(data);
-   // console.log(data.listMeasuring);
+    // data.listMeasuring = this.props.data.listMeasuring || []
+    // console.log(data);
+    // console.log(data.listMeasuring);
     return data
   }
 

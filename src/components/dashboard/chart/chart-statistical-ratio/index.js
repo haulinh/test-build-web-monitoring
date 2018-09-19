@@ -30,13 +30,15 @@ export default class HeaderView extends React.PureComponent {
   }
 
   componentDidMount() {
-   this.getDataRatioBy(this.state.day)
+    this.getDataRatioBy(this.state.day)
   }
 
-  getDataRatioBy = async (day) => {
+  getDataRatioBy = async day => {
     const rs = await getDataStationAutoRatioCount(
       moment().format('DD-MM-YYYY HH:ss'),
-      moment().subtract(day, 'days').format('DD-MM-YYYY HH:ss')
+      moment()
+        .subtract(day, 'days')
+        .format('DD-MM-YYYY HH:ss')
     )
     this.setState({ day, data: _.get(rs, 'data', []) })
   }
@@ -65,56 +67,56 @@ export default class HeaderView extends React.PureComponent {
     const goodTotal = _.filter(dataGroup, ({ status }) => status === 'GOOD')
       .length
 
-      return {
-        chart: {
-          plotBackgroundColor: null,
-          plotBorderWidth: 0,
-          plotShadow: false
-        },
-        title: {
-          text: translate('dashboard.chartStatus.titleByUnit', {unit: title}),
-        },
-        legend: {
-          enabled: true
-        },
-        tooltip: {
-          pointFormat: '<b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-          pie: {
-            dataLabels: {
-              enabled: true,
-              distance: -50,
-              style: {
-                fontWeight: 'bold',
-                color: 'white'
-              }
+    return {
+      chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+      },
+      title: {
+        text: translate('dashboard.chartStatus.titleByUnit', { unit: title })
+      },
+      legend: {
+        enabled: true
+      },
+      tooltip: {
+        pointFormat: '<b>{point.percentage:.1f}%</b>'
+      },
+      plotOptions: {
+        pie: {
+          dataLabels: {
+            enabled: true,
+            distance: -50,
+            style: {
+              fontWeight: 'bold',
+              color: 'white'
+            }
+          },
+          startAngle: -90,
+          endAngle: 90,
+          center: ['50%', '75%']
+        }
+      },
+      series: [
+        {
+          type: 'pie',
+          name: title,
+          innerSize: '40%',
+          data: [
+            {
+              name: tittleUnActive,
+              y: _.size(dataGroup) - goodTotal,
+              color: 'red'
             },
-            startAngle: -90,
-            endAngle: 90,
-            center: ['50%', '75%']
-          }
-        },
-        series: [
-          {
-            type: 'pie',
-            name: title,
-            innerSize: '40%',
-            data: [
-              {
-                name: tittleUnActive,
-                y: _.size(dataGroup) - goodTotal,
-                color: 'red'
-              },
-              {
-                name: titleActive,
-                y: goodTotal,
-                color: 'rgb(149,206,255)'
-              }
-            ]
-          }
-        ]
-      }
+            {
+              name: titleActive,
+              y: goodTotal,
+              color: 'rgb(149,206,255)'
+            }
+          ]
+        }
+      ]
+    }
   }
 
   configStatusChartColumn = (dataGroup, title, titleActive, tittleUnActive) => {
@@ -163,11 +165,16 @@ export default class HeaderView extends React.PureComponent {
   }
 
   configRatioSemi = (title, received, notReceived) => {
-
-    let total = 0;
-    const item = _.find(this.state.data, ({provinceId}) => provinceId === this.props.province)
+    let total = 0
+    const item = _.find(
+      this.state.data,
+      ({ provinceId }) => provinceId === this.props.province
+    )
     if (item && item.ratio) {
-      title = translate('dashboard.chartRatio.dataByDate', { day: this.state.day, unit: item.name })
+      title = translate('dashboard.chartRatio.dataByDate', {
+        day: this.state.day,
+        unit: item.name
+      })
       total = item.ratio
     }
 
@@ -268,10 +275,18 @@ export default class HeaderView extends React.PureComponent {
   }
 
   getConfigRatio = () => {
-    if (_.isEmpty(this.props.province)) { 
-      return this.configRatioBar(translate('dashboard.chartRatio.title', { day: this.state.day }), translate('dashboard.chartRatio.received'), translate('dashboard.chartRatio.notReceived'))
+    if (_.isEmpty(this.props.province)) {
+      return this.configRatioBar(
+        translate('dashboard.chartRatio.title', { day: this.state.day }),
+        translate('dashboard.chartRatio.received'),
+        translate('dashboard.chartRatio.notReceived')
+      )
     } else {
-      return this.configRatioSemi(translate('dashboard.chartRatio.title', { day: this.state.day }), translate('dashboard.chartRatio.received'), translate('dashboard.chartRatio.notReceived'))
+      return this.configRatioSemi(
+        translate('dashboard.chartRatio.title', { day: this.state.day }),
+        translate('dashboard.chartRatio.received'),
+        translate('dashboard.chartRatio.notReceived')
+      )
     }
   }
 
@@ -282,13 +297,13 @@ export default class HeaderView extends React.PureComponent {
   menu = () => {
     return (
       <Menu onClick={this.onChange}>
-        <Menu.Item key='7'>
+        <Menu.Item key="7">
           <span>{translate('dashboard.chartRatio.byDay', { day: 7 })}</span>
         </Menu.Item>
-        <Menu.Item key='15'>
+        <Menu.Item key="15">
           <span>{translate('dashboard.chartRatio.byDay', { day: 15 })}</span>
         </Menu.Item>
-        <Menu.Item key='30'>
+        <Menu.Item key="30">
           <span>{translate('dashboard.chartRatio.byDay', { day: 30 })}</span>
         </Menu.Item>
       </Menu>
@@ -304,9 +319,13 @@ export default class HeaderView extends React.PureComponent {
         <Card bordered style={{ flex: 1, marginLeft: 8 }}>
           <Dropdown overlay={this.menu()} trigger={['click']}>
             <span>
-              <span style={{color: 'blue', minWidth: 80}}>{
-                translate('dashboard.chartRatio.byDay', { day: this.state.day })
-              }{`  `}</span><Icon type="down" />
+              <span style={{ color: 'blue', minWidth: 80 }}>
+                {translate('dashboard.chartRatio.byDay', {
+                  day: this.state.day
+                })}
+                {`  `}
+              </span>
+              <Icon type="down" />
             </span>
           </Dropdown>
           <ReactHighcharts config={this.getConfigRatio()} />

@@ -29,7 +29,9 @@ export default class AqiLevelInfo extends React.PureComponent {
         <LevelView>
           {levels.map(({ color, status, level }) => (
             <LevelItem color={color} key={status}>
-              <span style={{fontSize: 11, fontWeight: 'bold'}}>{level}: {status}</span>
+              <span style={{ fontSize: 11, fontWeight: 'bold' }}>
+                {level}: {status}
+              </span>
             </LevelItem>
           ))}
         </LevelView>

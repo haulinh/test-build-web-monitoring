@@ -423,7 +423,7 @@ export default class StationAutoForm extends React.PureComponent {
           </Col>
         </Row>
         <Row gutter={8}>
-        {/* <Col span={8}>
+          {/* <Col span={8}>
               <Field
                 label={t('stationAutoManager.form.dayOfOperation.label')}
                 name="dayOfOperation"

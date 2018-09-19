@@ -88,7 +88,10 @@ export default class OverviewDashboard extends Component {
       stationList: dataLastLog,
       rows,
       stationCount,
-      stationStatus: translate('dashboard.activeStationPer', { good: goodCount, total: _.size(dataLastLog) })
+      stationStatus: translate('dashboard.activeStationPer', {
+        good: goodCount,
+        total: _.size(dataLastLog)
+      })
     })
   }
 

@@ -42,7 +42,10 @@ export function checkStationControl(key, organizationId) {
 
 // Upload 3 file config máy lấy mẫu
 export function uploadSampleConfig(files) {
-  return uploadMultipleFile(getConfigApi().sampleConfig + '/upload-config', files)
+  return uploadMultipleFile(
+    getConfigApi().sampleConfig + '/upload-config',
+    files
+  )
 }
 
 export default {

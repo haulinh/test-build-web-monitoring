@@ -94,11 +94,14 @@ export default class InfoComponent extends React.Component {
   }
 
   renderOptions = () => {
-    const defaultValue =  _.get(this.state.station, '_id', '')
+    const defaultValue = _.get(this.state.station, '_id', '')
     console.log('defaultValue', defaultValue)
     return (
       <Select
-        value={{key: _.get(this.state.station, '_id', ''), label: _.get(this.state.station, 'name', '')}}
+        value={{
+          key: _.get(this.state.station, '_id', ''),
+          label: _.get(this.state.station, 'name', '')
+        }}
         labelInValue
         defaultValue={{ key: defaultValue || '' }}
         style={{ width: '100%', marginBottom: 16 }}
@@ -152,7 +155,7 @@ export default class InfoComponent extends React.Component {
                 fontWeight: 'bold'
               }}
             >
-              {translate('aqi.paramsTitle',{day})}
+              {translate('aqi.paramsTitle', { day })}
             </span>
           </div>
         )}
