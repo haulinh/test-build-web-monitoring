@@ -161,7 +161,7 @@ const provinceMenu = {
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
       href={slug.province.base}
-      icon={Icon.book}
+      icon={Icon.province}
       text={translate('menuApp.province')}
     />
   )
@@ -171,7 +171,7 @@ const qcvnMenu = {
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
       href={slug.qcvn.base}
-      icon={Icon.book}
+      icon={Icon.qcvn}
       text={'QCVN'}
     />
   )

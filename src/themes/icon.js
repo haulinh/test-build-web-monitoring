@@ -16,6 +16,8 @@ import CameraIcon from '@atlaskit/icon/glyph/camera'
 import RoadmapIcon from '@atlaskit/icon/glyph/creditcard'
 import AqiIcon from '@atlaskit/icon/glyph/emoji'
 import QAQCIcon from '@atlaskit/icon/glyph/queues'
+import ProvinceIcon from '@atlaskit/icon/glyph/media-services/blur'
+import QCVNIcon from '@atlaskit/icon/glyph/media-services/zip'
 
 export default {
   quizLists: <QuizListIcon label={''} size={'medium'} />,
@@ -34,5 +36,7 @@ export default {
   camera: <CameraIcon label={''} size={'medium'} />,
   roadmap: <RoadmapIcon label={''} size={'medium'} />,
   aqi: <AqiIcon label={''} size={'medium'} />,
-  qaqc: <QAQCIcon label={''} size={'medium'} />
+  qaqc: <QAQCIcon label={''} size={'medium'} />,
+  province: <ProvinceIcon label={''} size={'medium'}/>,
+  qcvn: <QCVNIcon label={''} size={'medium'}/>,
 }
