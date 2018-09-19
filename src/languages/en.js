@@ -19,7 +19,7 @@ export default {
       dataStatus: 'Data Status'
     },
     chartRatio: {
-      title: '{{=it.day}} day local received data',
+      title: 'Receive data rate',
       dataByDate: 'The {{=it.day}}-day {{=it.unit}} data rate',
       received: 'Received',
       notReceived: `Don't receive`,
@@ -56,7 +56,8 @@ export default {
     paramsTitle: 'Quality index of parameters in {{=it.day}} days'
   },
   qaqc: {
-    title: `QA & QC`,
+    title: `QA/QC`,
+    approveData: 'Approve Data',
     dataFilter: {
       label: 'Data filter by',
       negative: 'Negative',

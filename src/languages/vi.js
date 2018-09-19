@@ -19,7 +19,7 @@ export default {
       dataStatus: 'Trạng thái dữ liệu'
     },
     chartRatio: {
-      title: 'Tỉ lệ nhận dữ liệu {{=it.day}} ngày của từng địa phương',
+      title: 'Tỉ lệ nhận dữ liệu',
       dataByDate: 'Tỉ lệ dữ liệu {{=it.day}} ngày của {{=it.unit}}',
       received: 'Nhận được',
       notReceived: 'Không nhận được',
@@ -54,6 +54,16 @@ export default {
   aqi: {
     title: 'Chỉ số chất lượng không khí',
     paramsTitle: 'Chỉ số chất lượng của thông số trong {{=it.day}} ngày'
+  },
+  qaqc: {
+    title: `QA/QC`,
+    approveData: 'Kiểm duyệt dữ liệu',
+    dataFilter: {
+      label: 'Lọc dữ liệu theo',
+      negative: 'Số âm',
+      outOfRange: 'Ngoài vùng đo',
+      lessThanZero: '< 0'
+    }
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',

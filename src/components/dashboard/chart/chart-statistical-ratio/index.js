@@ -289,13 +289,13 @@ export default class HeaderView extends React.PureComponent {
   getConfigRatio = () => {
     if (_.isEmpty(this.props.province)) {
       return this.configRatioBar(
-        translate('dashboard.chartRatio.title', { day: this.state.day }),
+        translate('dashboard.chartRatio.title'),
         translate('dashboard.chartRatio.received'),
         translate('dashboard.chartRatio.notReceived')
       )
     } else {
       return this.configRatioSemi(
-        translate('dashboard.chartRatio.title', { day: this.state.day }),
+        translate('dashboard.chartRatio.title'),
         translate('dashboard.chartRatio.received'),
         translate('dashboard.chartRatio.notReceived')
       )
