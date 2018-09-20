@@ -799,12 +799,14 @@ export default {
     imageUpload: {
       success: 'Hoàn thành',
       error: 'Tải ảnh lên thất bại'
-    }
+    },
+    user: 'Thông tin người dùng',
+    organization: 'Thông tin tổ chức'
   },
   changePassword: {
     breadcrumb: {
       changePassword: 'Thay đổi mật khẩu',
-      profileUser: 'Thông tin người dùng',
+      profileUser: 'Thông tin',
       security: 'Cài đặt bảo mật'
     },
     form: {

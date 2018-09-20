@@ -802,12 +802,14 @@ export default {
     imageUpload: {
       success: 'Done',
       error: 'Upload Image Failed'
-    }
+    },
+    user: 'User Info',
+    organization: 'Organization Info'
   },
   changePassword: {
     breadcrumb: {
       changePassword: 'Change password',
-      profileUser: 'User profile',
+      profileUser: 'Profile',
       security: 'Security Setting'
     },
     form: {
