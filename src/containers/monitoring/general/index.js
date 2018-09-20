@@ -14,6 +14,7 @@ import ListLoaderCp from 'components/content-loader/list-loader'
 import Clearfix from 'components/elements/clearfix'
 import { getMonitoringFilter, setMonitoringFilter } from 'utils/localStorage'
 import { replaceVietnameseStr } from 'utils/string'
+import * as _ from 'lodash'
 import {
   GROUP_OPTIONS,
   ORDER_OPTIONS
@@ -89,20 +90,23 @@ export default class MonitoringGeneral extends React.Component {
     let dataStationAutos = await StationAutoApi.getLastLog()
 
     // Caculate data
-    let dataMonitoring = []
-    if (dataStationAutos.success)
-      dataMonitoring = dataStationTypes.data.map(stationType => {
-        const stationAutoList = dataStationAutos.data.filter(
-          stationAuto => stationAuto.stationType.key === stationType.key
+    // let dataMonitoring = []
+
+    const tmp = _.get(dataStationTypes, 'data', [])
+    const dataMonitoring = _.map(tmp, stationType => {
+      const stationAutoList = _.filter(_.get(dataStationAutos, 'data', []) , stationAuto => stationAuto.stationType.key === stationType.key)
+      return {
+        stationType,
+        stationAutoList: this.appendWarningLevelStationAuto(stationAutoList),
+        totalWarning: this.getTotalWarning(
+          this.appendWarningLevelStationAuto(stationAutoList)
         )
-        return {
-          stationType,
-          stationAutoList: this.appendWarningLevelStationAuto(stationAutoList),
-          totalWarning: this.getTotalWarning(
-            this.appendWarningLevelStationAuto(stationAutoList)
-          )
-        }
-      })
+      }
+    })
+
+    // if (dataStationAutos.success) {
+    //   dataMonitoring = dataStationTypes.data.map()
+    // }
     this.setState({
       data: dataMonitoring.length > 0 ? dataMonitoring : this.state.data,
       isLoading: true

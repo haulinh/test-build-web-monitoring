@@ -47,11 +47,11 @@ export default class HeaderView extends React.PureComponent {
     let dataG = []
     let goodTotal = 0
     const tpm = _.head(_.values(dataGroup))
-    
+
     let total = 0
 
     if (!_.isEmpty(tpm)) {
-      goodTotal = _.filter(tpm, {status: 'GOOD'}).length
+      goodTotal = _.filter(tpm, { status: 'GOOD' }).length
       total = _.size(tpm) - goodTotal
     }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Divider, Button, Icon, Form} from 'antd'
+import { Divider, Button, Icon, Form } from 'antd'
 import QCVNApi from 'api/QCVNApi'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'

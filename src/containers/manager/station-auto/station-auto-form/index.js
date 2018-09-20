@@ -143,8 +143,8 @@ export default class StationAutoForm extends React.PureComponent {
         province: this.state.provicenObject,
         qcvn: this.state.qcvnObject,
         dayOfOperation: values.dayOfOperation,
-        frequency:values.frequency,
-        note:values.note,
+        frequency: values.frequency,
+        note: values.note,
         measuringList: values.measuringList,
         options: this.state.options,
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null
@@ -437,9 +437,9 @@ export default class StationAutoForm extends React.PureComponent {
               {...formItemLayout}
               label={t('stationAutoManager.form.dayOfOperation.label')}
             >
-              <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
+              <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
             </FormItem>
-          </Col> 
+          </Col>
         </Row>
         <Row gutter={8}>
           <Col span={24}>
@@ -496,7 +496,7 @@ export default class StationAutoForm extends React.PureComponent {
               label={t('stationAutoManager.form.note.label')}
             >
               {getFieldDecorator('note')(
-                <TextArea 
+                <TextArea
                   placeholder={t('stationAutoManager.form.note.placeholder')}
                 />
               )}

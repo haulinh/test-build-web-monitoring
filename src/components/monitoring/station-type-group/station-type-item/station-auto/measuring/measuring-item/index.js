@@ -4,8 +4,17 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import { colorLevels } from 'constants/warningLevels'
 import { translate } from 'hoc/create-lang'
+import { Icon, Tooltip } from 'antd'
+import { get } from 'lodash'
+
+const DEVICE_STATUS = {
+  '0': {color: '#1dce6c', text: 'monitoring.deviceStatus.normal'},
+  '1': {color: 'orange', text: 'monitoring.deviceStatus.maintenance'},
+  '2': {color: 'red', text: 'monitoring.deviceStatus.broken'}
+}
 
 const MeasuringItemWrapper = styled.div`
+  position: relative;
   display: flex;
   padding: 8px 16px;
   flex-direction: column;
@@ -85,9 +94,28 @@ export default class MeasuringItem extends React.PureComponent {
     return colorLevels.GOOD
   }
 
+  renderDeviceIcon = status => {
+    let item = DEVICE_STATUS[`${status}`]
+    if (item) {
+      return (
+        <Tooltip placement='top' title={translate(item.text)}>
+          <Icon type='heart'
+          style={{
+            position: 'absolute',
+            color: item.color,
+            bottom: 4,
+            right: 4
+          }}
+          theme='twoTone' />
+        </Tooltip>
+      )
+    }
+
+    return null
+  }
+
   render() {
     const { value, unit, name } = this.props
-    console.log({ value, unit, name })
     return (
       <MeasuringItemWrapper
         onClick={this.props.onClick}
@@ -109,6 +137,10 @@ export default class MeasuringItem extends React.PureComponent {
           <MeasuringName color={this.getColorLevel()}>{name}</MeasuringName>
         </MeasuringItemText>
         <MeasuringLimit>{this.getLimitText()}</MeasuringLimit>
+        {
+          this.renderDeviceIcon(get(this.props, 'statusDevice', ''))
+        }
+        
       </MeasuringItemWrapper>
     )
   }

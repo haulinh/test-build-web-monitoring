@@ -37,6 +37,6 @@ export default {
   roadmap: <RoadmapIcon label={''} size={'medium'} />,
   aqi: <AqiIcon label={''} size={'medium'} />,
   qaqc: <QAQCIcon label={''} size={'medium'} />,
-  province: <ProvinceIcon label={''} size={'medium'}/>,
-  qcvn: <QCVNIcon label={''} size={'medium'}/>,
+  province: <ProvinceIcon label={''} size={'medium'} />,
+  qcvn: <QCVNIcon label={''} size={'medium'} />
 }

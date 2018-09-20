@@ -103,10 +103,10 @@ export default class TableListCustom extends React.PureComponent {
   }
 
   renderStatusView = station => {
-    let item = _.get(STATUS_OPTIONS, [station.status])//
+    let item = _.get(STATUS_OPTIONS, [station.status]) //
     if (item) {
       return (
-        <Tooltip placement='top' title={translate(item.title)}>
+        <Tooltip placement="top" title={translate(item.title)}>
           <Status
             style={{
               backgroundColor: item.color
@@ -115,7 +115,7 @@ export default class TableListCustom extends React.PureComponent {
         </Tooltip>
       )
     }
-    return  (
+    return (
       <Status
         style={{
           backgroundColor: 'transparent'
@@ -141,7 +141,6 @@ export default class TableListCustom extends React.PureComponent {
   }
 
   sortNameList(data, key, asc = true) {
-
     // return data.sort(function(a, b) {
     //   const last = objectPath.get(a, key)
     //   const after = objectPath.get(b, key)
@@ -154,8 +153,6 @@ export default class TableListCustom extends React.PureComponent {
     //   }
     //   return 0
     // })
-
-    
 
     return _.orderBy(data, [key], [asc ? FILTER_TYPE.desc : FILTER_TYPE.asc])
   }
@@ -219,12 +216,8 @@ export default class TableListCustom extends React.PureComponent {
             isActive={this.props.currentItem.key === item.key}
           >
             <IndexColumn>{index + 1}</IndexColumn>
-            <NameColumn className="name">
-              {item.name} {' '}
-            </NameColumn>
-            <StatusColumn>
-              {' '}{this.renderStatusView(item)}
-            </StatusColumn>
+            <NameColumn className="name">{item.name} </NameColumn>
+            <StatusColumn> {this.renderStatusView(item)}</StatusColumn>
           </Row>
         ))}
       </div>

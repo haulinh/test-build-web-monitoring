@@ -49,7 +49,12 @@ export default {
     sampling: 'Sampling',
     camera: 'Camera',
     lossAt: 'Loss at',
-    notInUse: 'Not In Use'
+    notInUse: 'Not In Use',
+    deviceStatus: {
+      normal: 'Normal',
+      maintenance: 'Maintenance',
+      broken: 'Broken'
+    }
   },
   aqi: {
     title: 'Air Quality Index',
@@ -571,10 +576,10 @@ export default {
       error: 'Error',
       require: 'Please Enter Value'
     },
-    range:{
+    range: {
       label: 'Station Range',
-      min:'Min',
-      max:'Max'
+      min: 'Min',
+      max: 'Max'
     },
     config: {
       label: 'Config',
@@ -917,7 +922,7 @@ export default {
     update: 'Update'
   },
   menuApp: {
-    dashboard: 'Dashboard',
+    dashboard: 'Home',
     monitoring: 'Monitoring',
     camera: 'Camera',
     map: 'Map',
