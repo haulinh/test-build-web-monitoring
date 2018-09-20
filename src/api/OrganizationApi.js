@@ -7,7 +7,7 @@ export function getSubscription() {
 }
 
 export function updateOrganizationNameLogo(organization) {
-  let url = getConfigApi().organization + `/nameLogo/${organization._id}`
+  let url = getConfigApi().organization + `/name-logo/${organization._id}`
   return putFetch(url, organization)
 }
 
