@@ -49,7 +49,12 @@ export default {
     sampling: 'Sampling',
     camera: 'Camera',
     lossAt: 'Loss at',
-    notInUse: 'Not In Use'
+    notInUse: 'Not In Use',
+    deviceStatus: {
+      normal: 'Normal',
+      maintenance: 'Maintenance',
+      broken: 'Broken'
+    }
   },
   aqi: {
     title: 'Air Quality Index',

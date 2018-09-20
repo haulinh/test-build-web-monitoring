@@ -49,7 +49,12 @@ export default {
     sampling: 'Lấy mẫu',
     camera: 'Camera',
     lossAt: 'Mất dữ liệu lúc',
-    notInUse: 'Chưa sử dụng'
+    notInUse: 'Chưa sử dụng',
+    deviceStatus: {
+      normal: 'Bình thường',
+      maintenance: 'Bảo trì',
+      broken: 'Bị hỏng'
+    }
   },
   aqi: {
     title: 'AQI',
