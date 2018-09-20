@@ -160,7 +160,7 @@ export class ProfileUserForm extends PureComponent {
     return (
       <ContainerEmail>
         <ValueText>{translate('profileUser.email')}</ValueText>
-        <Label style={{fontSize: 16, marginTop: 4}}>{email}</Label>
+        <Label style={{ fontSize: 16, marginTop: 4 }}>{email}</Label>
       </ContainerEmail>
     )
   }
@@ -168,62 +168,64 @@ export class ProfileUserForm extends PureComponent {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit.bind(this))}>
-        <Card title={translate('profileUser.user')} bordered style={{ flex: 1, marginRight: 12 }}>
-            <Row>
-              <Field
-                name="avatar"
-                organization={this.props.initialValues.organization}
-                isAdmin={this.props.initialValues.isAdmin}
-                component={UpdateLogo}
-                size="small"
-              />
-              <Col>
-                {this.props.initialValues.isAdmin && this.state.isEdit ? (
-                  <Field
-                    name="organization.name"
-                    style={{ marginBottom: 12 }}
-                    component={FInput}
-                    size="small"
-                  />
-                ) : (
-                  <Row>
-                    <HeadingIntro>{this.state.name}</HeadingIntro>
-                    {this.props.initialValues.isAdmin && (
-                      <Button
-                        shape="circle"
-                        icon="edit"
-                        onClick={this.editNameOrganization}
-                      />
-                    )}
-                  </Row>
-                )}
-                <Col>
-                  {this.renderItem(
-                    <Icon type="user" />,
-                    translate('subscriptionStatus.totalUsers'),
-                    `: ${this.state.createdUser}`
-                  )}
-                </Col>
-                <Col>
-                  {this.renderItem(
-                    <Icon type="inbox" />,
-                    translate('subscriptionStatus.totalStation'),
-                    `: ${this.state.createdStation}`
-                  )}
-                </Col>
-              </Col>
-            </Row>
-        </Card>
-        <Card title={translate('profileUser.organization')} bordered style={{ flex: 1, marginRight: 12, marginBottom: 24, marginTop: 24 }}>
+        <Card
+          title={translate('profileUser.user')}
+          bordered
+          style={{ flex: 1, marginRight: 12 }}
+        >
           <Row>
             <Field
               name="avatar"
-              component={FUpdateLoadImage}
+              organization={this.props.initialValues.organization}
+              isAdmin={this.props.initialValues.isAdmin}
+              component={UpdateLogo}
               size="small"
             />
-            {
-              this.renderEmail(_.get(this.props, 'initialValues.email', ''))
-            }
+            <Col>
+              {this.props.initialValues.isAdmin && this.state.isEdit ? (
+                <Field
+                  name="organization.name"
+                  style={{ marginBottom: 12 }}
+                  component={FInput}
+                  size="small"
+                />
+              ) : (
+                <Row>
+                  <HeadingIntro>{this.state.name}</HeadingIntro>
+                  {this.props.initialValues.isAdmin && (
+                    <Button
+                      shape="circle"
+                      icon="edit"
+                      onClick={this.editNameOrganization}
+                    />
+                  )}
+                </Row>
+              )}
+              <Col>
+                {this.renderItem(
+                  <Icon type="user" />,
+                  translate('subscriptionStatus.totalUsers'),
+                  `: ${this.state.createdUser}`
+                )}
+              </Col>
+              <Col>
+                {this.renderItem(
+                  <Icon type="inbox" />,
+                  translate('subscriptionStatus.totalStation'),
+                  `: ${this.state.createdStation}`
+                )}
+              </Col>
+            </Col>
+          </Row>
+        </Card>
+        <Card
+          title={translate('profileUser.organization')}
+          bordered
+          style={{ flex: 1, marginRight: 12, marginBottom: 24, marginTop: 24 }}
+        >
+          <Row>
+            <Field name="avatar" component={FUpdateLoadImage} size="small" />
+            {this.renderEmail(_.get(this.props, 'initialValues.email', ''))}
           </Row>
           <Clearfix />
           <Row>

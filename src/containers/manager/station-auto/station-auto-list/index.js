@@ -322,14 +322,6 @@ export default class StationAutoList extends React.Component {
               {t('stationAutoManager.list.ftpFile')}{' '}
             </Link>
           </Menu.Item>
-          {protectRole(ROLE.STATION_AUTO.CONFIG)(
-            <Menu.Item key="6">
-              <Link to={slug.stationAuto.rangeWithKey + '/' + row._id}>
-                <IconButton type="barcode" />
-                {t('stationAutoManager.range.label')}{' '}
-              </Link>
-            </Menu.Item>
-          )}
         </Menu>
       )
     }

@@ -25,8 +25,11 @@ export default class StationAutoForm extends React.PureComponent {
     initialValues: PropTypes.object,
     lang: langPropTypes
   }
-
+  // async componentWillMount() {
+  //   await this.props.getItem()
+  // }
   handleSubmit(e) {
+    console.log(this.props.data.name)
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (err) return

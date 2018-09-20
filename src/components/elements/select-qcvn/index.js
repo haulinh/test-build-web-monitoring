@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import QCVNApi from 'api/QCVNApi'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
+import { get } from 'lodash'
 
 @autobind
 export default class SelectQCVN extends PureComponent {
@@ -22,16 +23,16 @@ export default class SelectQCVN extends PureComponent {
 
   async componentDidMount() {
     let query = {}
-    const lstQCVN = await QCVNApi.getQCVN({}, query)
-    console.log(lstQCVN)
-    if (lstQCVN.success)
+    const result = await QCVNApi.getQCVN({}, query)
+    if (get(result, 'success', false)) {
       this.setState({
-        lstQCVN: lstQCVN.data,
-        value: this.props.value
+        lstQCVN: get(result, 'data', []),
+        value: get(this.props.value, 'key', '')
       })
+    }
   }
 
-  onChange(value) {
+  onChange = value => {
     let res = this.state.lstQCVN.find(item => item.key === value)
     this.setState({
       value: value
@@ -53,9 +54,9 @@ export default class SelectQCVN extends PureComponent {
             {translate('dataSearchFrom.form.all')}
           </Select.Option>
         )}
-        {this.state.lstQCVN.map(qcvn => (
-          <Select.Option key={qcvn.key} value={qcvn.key}>
-            {qcvn.name}
+        {this.state.lstQCVN.map(standardsVN => (
+          <Select.Option key={standardsVN.key} value={standardsVN.key}>
+            {standardsVN.name}
           </Select.Option>
         ))}
       </Select>

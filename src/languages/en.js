@@ -504,14 +504,14 @@ export default {
         error: 'Please Choose Management Unit'
       },
       frequency: {
-        label: 'Frequency',
-        placeholder: 'Frequency',
+        label: 'Frequency(m/t)',
+        placeholder: 'minutes/time',
         error: 'Please Choose Frequency'
       },
       dayOfOperation: {
-        label: 'Day Of Operation',
-        placeholder: 'Day Of Operation',
-        error: 'Please Choose Day Of Operation'
+        label: 'Actived At',
+        placeholder: 'Actived At',
+        error: 'Please Choose Actived At'
       },
       note: {
         label: 'Note',
