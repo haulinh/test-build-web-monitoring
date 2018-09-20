@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  Form,
-  Input,
-  Button,
-  Row,
-  Col
-} from 'antd'
+import { Form, Input, Button, Row, Col } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
@@ -94,6 +88,7 @@ export default class QCVNForm extends React.PureComponent {
         numericalOrder: values.numericalOrder
       }
       // Callback submit form Container Component
+      console.log(data)
       this.props.onSubmit(data)
     })
   }

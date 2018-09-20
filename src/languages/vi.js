@@ -568,10 +568,10 @@ export default {
       error: 'Lỗi',
       require: 'Vui lòng nhập giá trị'
     },
-    range:{
+    range: {
       label: 'Dải đo',
-      min:'Dải đo nhỏ nhất',
-      max:'Dải đo lớn nhất'
+      min: 'Dải đo nhỏ nhất',
+      max: 'Dải đo lớn nhất'
     },
     config: {
       label: 'Cấu hình',

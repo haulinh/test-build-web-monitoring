@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Divider, Button, Icon, Form} from 'antd'
+import { Divider, Button, Icon, Form } from 'antd'
 import QCVNApi from 'api/QCVNApi'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
@@ -62,11 +62,12 @@ export default class QCVNList extends React.Component {
       { content: '#', width: 2 },
       { content: t('qcvn.form.key.label'), width: 15 },
       { content: t('qcvn.form.name.label'), width: 15 },
-      { content: t('stationAutoManager.list.createdAt'), width: 10 }
+      { content: t('stationAutoManager.list.action'), width: 10 }
     ]
   }
 
   getRows() {
+    console.log(this.props.dataSource)
     const { lang: { t } } = this.props
     return this.props.dataSource.map((row, index) => [
       {

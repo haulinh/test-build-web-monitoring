@@ -23,6 +23,7 @@ import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
 import MeasuringTable from '../station-auto-formTable/'
 import InputNumberCell from 'components/elements/input-number-cell'
+import moment from 'moment'
 
 const FormItem = Form.Item
 const { TextArea } = Input
@@ -40,6 +41,10 @@ const { TextArea } = Input
         lat: initialValues.mapLocation.lat,
         long: initialValues.mapLocation.long
       }
+    }
+
+    if (initialValues.activatedAt) {
+      initialValues.activatedAt = moment(initialValues.activatedAt)
     }
     if (!initialValues.emails) initialValues.emails = []
     if (!initialValues.phones) initialValues.phones = []
@@ -140,11 +145,11 @@ export default class StationAutoForm extends React.PureComponent {
         emails: this.state.emails,
         phones: this.state.phones,
         stationType: this.state.stationTypeObject,
-        province: this.state.provicenObject,
-        standardsVN: this.state.qcvnObject,
-      //  dayOfOperation: values.dayOfOperation,
-      //  frequency:values.frequency,
-        note:values.note,
+        province: this.state.provinceObject,
+        standardsVN: this.state.standardsVNObject,
+        activatedAt: values.activatedAt,
+        dataFrequency: values.dataFrequency,
+        note: values.note,
         measuringList: values.measuringList,
         options: this.state.options,
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null
@@ -162,19 +167,19 @@ export default class StationAutoForm extends React.PureComponent {
     })
   }
 
-  changeProvince(provicenObject) {
-    this.props.form.setFieldsValue({ province: provicenObject.key })
+  changeProvince(provinceObject) {
+    this.props.form.setFieldsValue({ province: provinceObject.key })
     this.setState({
-      province: provicenObject.key,
-      provicenObject: provicenObject
+      province: provinceObject.key,
+      provinceObject: provinceObject
     })
   }
 
-  changeQCVN(qcvnObject) {
-    this.props.form.setFieldsValue({ qcvn: qcvnObject.key })
+  changeQCVN(standardsVNObject) {
+    this.props.form.setFieldsValue({ standardsVN: standardsVNObject.key })
     this.setState({
-      qcvn: qcvnObject.key,
-      qcvnObject: qcvnObject
+      standardsVN: standardsVNObject.key,
+      standardsVNObject: standardsVNObject
     })
   }
 
@@ -310,8 +315,10 @@ export default class StationAutoForm extends React.PureComponent {
                 ]
               })(
                 <SelectProvice
-                //  label={t('stationAutoManager.form.province.label')}
-                  placeholder= {t('stationAutoManager.form.province.placeholder')}
+                  //  label={t('stationAutoManager.form.province.label')}
+                  placeholder={t(
+                    'stationAutoManager.form.province.placeholder'
+                  )}
                   onHandleChange={this.changeProvince}
                 />
               )}
@@ -322,7 +329,7 @@ export default class StationAutoForm extends React.PureComponent {
               {...formItemLayout}
               label={t('stationAutoManager.form.qcvn.label')}
             >
-              {getFieldDecorator('qcvn', {
+              {getFieldDecorator('standardsVN', {
                 rules: [
                   {
                     required: false,
@@ -331,8 +338,7 @@ export default class StationAutoForm extends React.PureComponent {
                 ]
               })(
                 <SelectQCVN
-                  label={t('stationAutoManager.form.qcvn.label')}
-                  placeholder= {t('stationAutoManager.form.qcvn.placeholder')}
+                  placeholder={t('stationAutoManager.form.qcvn.placeholder')}
                   onHandleChange={this.changeQCVN}
                 />
               )}
@@ -422,13 +428,16 @@ export default class StationAutoForm extends React.PureComponent {
               {...formItemLayout}
               label={t('stationAutoManager.form.frequency.label')}
             >
-              <InputNumberCell
-                placeholder={t('stationAutoManager.form.frequency.placeholder')}
-                editable={true}
-                size="small"
-                min={1}
-                max={1000000}
-              />
+              {getFieldDecorator('dataFrequency', {
+                rules: [{ required: false }]
+              })(
+                <InputNumberCell
+                  editable={true}
+                  size="small"
+                  min={1}
+                  max={1000000}
+                />
+              )}
             </FormItem>
           </Col>
           <Col span={12}>
@@ -436,13 +445,18 @@ export default class StationAutoForm extends React.PureComponent {
               {...formItemLayout}
               label={t('stationAutoManager.form.dayOfOperation.label')}
             >
-              <DatePicker
-              placeholder={t(
-                'stationAutoManager.form.dayOfOperation.placeholder'
+              {getFieldDecorator('activatedAt', {
+                rules: [{ required: false }]
+              })(
+                <DatePicker
+                  format='DD-MM-YYYY'
+                  placeholder={t(
+                    'stationAutoManager.form.dayOfOperation.placeholder'
+                  )}
+                />
               )}
-              showTime format="YYYY-MM-DD HH:mm:ss"/>
             </FormItem>
-          </Col> 
+          </Col>
         </Row>
         <Row gutter={8}>
           <Col span={24}>
@@ -499,7 +513,7 @@ export default class StationAutoForm extends React.PureComponent {
               label={t('stationAutoManager.form.note.label')}
             >
               {getFieldDecorator('note')(
-                <TextArea 
+                <TextArea
                   placeholder={t('stationAutoManager.form.note.placeholder')}
                 />
               )}

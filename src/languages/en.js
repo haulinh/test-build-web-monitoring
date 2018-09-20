@@ -504,9 +504,9 @@ export default {
         error: 'Please Choose Frequency'
       },
       dayOfOperation: {
-        label: 'Day Of Operation',
-        placeholder: 'Day Of Operation',
-        error: 'Please Choose Day Of Operation'
+        label: 'Actived At',
+        placeholder: 'Actived At',
+        error: 'Please Choose Actived At'
       },
       note: {
         label: 'Note',
@@ -571,10 +571,10 @@ export default {
       error: 'Error',
       require: 'Please Enter Value'
     },
-    range:{
+    range: {
       label: 'Station Range',
-      min:'Min',
-      max:'Max'
+      min: 'Min',
+      max: 'Max'
     },
     config: {
       label: 'Config',
