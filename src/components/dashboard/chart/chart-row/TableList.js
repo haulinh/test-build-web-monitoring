@@ -1,14 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import stationStatus from 'constants/stationStatus'
+import stationStatus, { STATUS_OPTIONS } from 'constants/stationStatus'
 import { translate } from 'hoc/create-lang'
 import {
   warningLevelsNumber,
   warningLevels,
   colorLevels
 } from 'constants/warningLevels'
+import { Tooltip } from 'antd'
 import objectPath from 'object-path'
+import * as _ from 'lodash'
 
 const Status = styled.div`
   width: 8px;
@@ -86,8 +88,8 @@ export default class TableListCustom extends React.PureComponent {
 
   state = {
     stationStatus: stationStatus.GOOD,
-    filter: '',
-    filterType: FILTER_TYPE.asc
+    filter: FILTER.status,
+    filterType: FILTER_TYPE.desc
   }
 
   async componentWillMount() {}
@@ -98,6 +100,28 @@ export default class TableListCustom extends React.PureComponent {
     if (station.status === stationStatus.NOT_USE)
       return '(' + translate('dashboard.notUse') + ')'
     return ''
+  }
+
+  renderStatusView = station => {
+    let item = _.get(STATUS_OPTIONS, [station.status])//
+    if (item) {
+      return (
+        <Tooltip placement='top' title={translate(item.title)}>
+          <Status
+            style={{
+              backgroundColor: item.color
+            }}
+          />
+        </Tooltip>
+      )
+    }
+    return  (
+      <Status
+        style={{
+          backgroundColor: 'transparent'
+        }}
+      />
+    )
   }
 
   getColorItem(item) {
@@ -117,18 +141,23 @@ export default class TableListCustom extends React.PureComponent {
   }
 
   sortNameList(data, key, asc = true) {
-    return data.sort(function(a, b) {
-      const last = objectPath.get(a, key)
-      const after = objectPath.get(b, key)
-      if (asc) {
-        if (last < after) return -1
-        if (last > after) return 1
-      } else {
-        if (last < after) return 1
-        if (last > after) return -1
-      }
-      return 0
-    })
+
+    // return data.sort(function(a, b) {
+    //   const last = objectPath.get(a, key)
+    //   const after = objectPath.get(b, key)
+    //   if (asc) {
+    //     if (last < after) return -1
+    //     if (last > after) return 1
+    //   } else {
+    //     if (last < after) return 1
+    //     if (last > after) return -1
+    //   }
+    //   return 0
+    // })
+
+    
+
+    return _.orderBy(data, [key], [asc ? FILTER_TYPE.desc : FILTER_TYPE.asc])
   }
 
   handleFilter(filterColumn) {
@@ -164,7 +193,7 @@ export default class TableListCustom extends React.PureComponent {
         data = this.sortNameList(data, 'name', filterAsc)
         break
       case FILTER.status:
-        data = this.sortNameList(data, 'colorStatus', filterAsc)
+        data = this.sortNameList(data, 'status', filterAsc)
         break
       default:
     }
@@ -191,15 +220,10 @@ export default class TableListCustom extends React.PureComponent {
           >
             <IndexColumn>{index + 1}</IndexColumn>
             <NameColumn className="name">
-              {item.name} {this.renderStationStatus(item)}{' '}
+              {item.name} {' '}
             </NameColumn>
             <StatusColumn>
-              {' '}
-              <Status
-                style={{
-                  backgroundColor: item.colorStatus
-                }}
-              />
+              {' '}{this.renderStatusView(item)}
             </StatusColumn>
           </Row>
         ))}
