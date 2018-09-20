@@ -49,7 +49,12 @@ export default {
     sampling: 'Lấy mẫu',
     camera: 'Camera',
     lossAt: 'Mất dữ liệu lúc',
-    notInUse: 'Chưa sử dụng'
+    notInUse: 'Chưa sử dụng',
+    deviceStatus: {
+      normal: 'Bình thường',
+      maintenance: 'Bảo trì',
+      broken: 'Bị hỏng'
+    }
   },
   aqi: {
     title: 'AQI',
@@ -794,12 +799,14 @@ export default {
     imageUpload: {
       success: 'Hoàn thành',
       error: 'Tải ảnh lên thất bại'
-    }
+    },
+    user: 'Thông tin người dùng',
+    organization: 'Thông tin tổ chức'
   },
   changePassword: {
     breadcrumb: {
       changePassword: 'Thay đổi mật khẩu',
-      profileUser: 'Thông tin người dùng',
+      profileUser: 'Thông tin',
       security: 'Cài đặt bảo mật'
     },
     form: {
@@ -913,7 +920,7 @@ export default {
     update: 'Cập nhật'
   },
   menuApp: {
-    dashboard: 'Khai thác dữ liệu',
+    dashboard: 'Trang Chủ',
     monitoring: 'Giám sát trực tuyến',
     camera: 'Camera',
     map: 'Bản đồ',

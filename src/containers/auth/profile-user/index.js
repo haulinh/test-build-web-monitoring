@@ -19,10 +19,11 @@ import { fetchUserMe } from 'redux/actions/authAction'
 import { connectAutoDispatch } from 'redux/connect'
 import moment from 'moment'
 import { SHAPE } from 'themes/color'
-import { Icon, Button } from 'antd'
+import { Icon, Button, Card } from 'antd'
 import UserApi from 'api/UserApi'
 import StationAutoApi from 'api/StationAuto'
 import OrganizationApi from 'api/OrganizationApi'
+import * as _ from 'lodash'
 
 const FInput = createValidateComponent(InputLabel)
 const FCalendar = createValidateComponent(CalendarCustom)
@@ -32,6 +33,13 @@ const FUpdateLoadImage = createValidateComponent(UpdateLoadImage)
 
 const Clearfix = styled.div`
   height: 24px;
+`
+
+const ContainerEmail = styled.div`
+  margin-left: 8px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 `
 
 const HeadingIntro = styled.h4`
@@ -148,120 +156,117 @@ export class ProfileUserForm extends PureComponent {
     )
   }
 
+  renderEmail(email) {
+    return (
+      <ContainerEmail>
+        <ValueText>{translate('profileUser.email')}</ValueText>
+        <Label style={{ fontSize: 16, marginTop: 4 }}>{email}</Label>
+      </ContainerEmail>
+    )
+  }
+
   render() {
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit.bind(this))}>
-        <Row>
-          <Col md={6}>
+        <Card
+          title={translate('profileUser.user')}
+          bordered
+          style={{ flex: 1, marginRight: 12 }}
+        >
+          <Row>
             <Field
-              label={translate('profileUser.avatar')}
               name="avatar"
-              component={FUpdateLoadImage}
+              organization={this.props.initialValues.organization}
+              isAdmin={this.props.initialValues.isAdmin}
+              component={UpdateLogo}
               size="small"
             />
-          </Col>
-
-          <Col md={6}>
-            <Row>
+            <Col>
+              {this.props.initialValues.isAdmin && this.state.isEdit ? (
+                <Field
+                  name="organization.name"
+                  style={{ marginBottom: 12 }}
+                  component={FInput}
+                  size="small"
+                />
+              ) : (
+                <Row>
+                  <HeadingIntro>{this.state.name}</HeadingIntro>
+                  {this.props.initialValues.isAdmin && (
+                    <Button
+                      shape="circle"
+                      icon="edit"
+                      onClick={this.editNameOrganization}
+                    />
+                  )}
+                </Row>
+              )}
+              <Col>
+                {this.renderItem(
+                  <Icon type="user" />,
+                  translate('subscriptionStatus.totalUsers'),
+                  `: ${this.state.createdUser}`
+                )}
+              </Col>
+              <Col>
+                {this.renderItem(
+                  <Icon type="inbox" />,
+                  translate('subscriptionStatus.totalStation'),
+                  `: ${this.state.createdStation}`
+                )}
+              </Col>
+            </Col>
+          </Row>
+        </Card>
+        <Card
+          title={translate('profileUser.organization')}
+          bordered
+          style={{ flex: 1, marginRight: 12, marginBottom: 24, marginTop: 24 }}
+        >
+          <Row>
+            <Field name="avatar" component={FUpdateLoadImage} size="small" />
+            {this.renderEmail(_.get(this.props, 'initialValues.email', ''))}
+          </Row>
+          <Clearfix />
+          <Row>
+            <Col md={6}>
               <Field
-                label={translate('userManager.form.organization.label')}
-                name="avatar"
-                organization={this.props.initialValues.organization}
-                isAdmin={this.props.initialValues.isAdmin}
-                component={UpdateLogo}
+                label={translate('profileUser.LastName')}
+                name="lastName"
+                component={FInput}
                 size="small"
               />
-              <Col>
-                {this.props.initialValues.isAdmin && this.state.isEdit ? (
-                  <Field
-                    name="organization.name"
-                    style={{ marginTop: 24, marginBottom: 12 }}
-                    component={FInput}
-                    size="small"
-                  />
-                ) : (
-                  <Row style={{ marginTop: 16 }}>
-                    <HeadingIntro>{this.state.name}</HeadingIntro>
-                    {this.props.initialValues.isAdmin && (
-                      <Button
-                        shape="circle"
-                        icon="edit"
-                        onClick={this.editNameOrganization}
-                      />
-                    )}
-                  </Row>
-                )}
-                <Col>
-                  {this.renderItem(
-                    <Icon type="user" />,
-                    translate('subscriptionStatus.totalUsers'),
-                    `: ${this.state.createdUser} of ${this.state.totalUser}`
-                  )}
-                </Col>
-                <Col>
-                  {this.renderItem(
-                    <Icon type="inbox" />,
-                    translate('subscriptionStatus.totalStation'),
-                    `: ${this.state.createdStation} of ${
-                      this.state.totalStation
-                    }`
-                  )}
-                </Col>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <Clearfix />
-        <Row>
-          <Col md={12}>
-            <Field
-              disabled={true}
-              label={translate('profileUser.email')}
-              name="email"
-              component={FInput}
-              size="small"
-            />
-          </Col>
-        </Row>
-        <Clearfix />
-        <Row>
-          <Col md={6}>
-            <Field
-              label={translate('profileUser.LastName')}
-              name="lastName"
-              component={FInput}
-              size="small"
-            />
-          </Col>
-          <Col md={6}>
-            <Field
-              label={translate('profileUser.FirstName')}
-              name="firstName"
-              component={FInput}
-              size="small"
-            />
-          </Col>
-        </Row>
-        <Clearfix />
-        <Row>
-          <Col md={6}>
-            <Field
-              label={translate('profileUser.Birthday')}
-              name="birthday"
-              component={FCalendar}
-              size="large"
-            />
-          </Col>
-          <Col md={6}>
-            <Field
-              label={translate('profileUser.Phone')}
-              name="phone"
-              component={FInputPhoneNumber}
-              size="large"
-            />
-          </Col>
-        </Row>
-        <Clearfix />
+            </Col>
+            <Col md={6}>
+              <Field
+                label={translate('profileUser.FirstName')}
+                name="firstName"
+                component={FInput}
+                size="small"
+              />
+            </Col>
+          </Row>
+          <Clearfix />
+          <Row>
+            <Col md={6}>
+              <Field
+                label={translate('profileUser.Birthday')}
+                name="birthday"
+                component={FCalendar}
+                size="large"
+              />
+            </Col>
+            <Col md={6}>
+              <Field
+                label={translate('profileUser.Phone')}
+                name="phone"
+                component={FInputPhoneNumber}
+                size="large"
+              />
+            </Col>
+          </Row>
+        </Card>
+
         <ButtonCustom
           disabled={this.props.submitting}
           isLoading={this.props.submitting}

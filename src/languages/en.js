@@ -49,7 +49,12 @@ export default {
     sampling: 'Sampling',
     camera: 'Camera',
     lossAt: 'Loss at',
-    notInUse: 'Not In Use'
+    notInUse: 'Not In Use',
+    deviceStatus: {
+      normal: 'Normal',
+      maintenance: 'Maintenance',
+      broken: 'Broken'
+    }
   },
   aqi: {
     title: 'Air Quality Index',
@@ -797,12 +802,14 @@ export default {
     imageUpload: {
       success: 'Done',
       error: 'Upload Image Failed'
-    }
+    },
+    user: 'User Info',
+    organization: 'Organization Info'
   },
   changePassword: {
     breadcrumb: {
       changePassword: 'Change password',
-      profileUser: 'User profile',
+      profileUser: 'Profile',
       security: 'Security Setting'
     },
     form: {
@@ -917,7 +924,7 @@ export default {
     update: 'Update'
   },
   menuApp: {
-    dashboard: 'Dashboard',
+    dashboard: 'Home',
     monitoring: 'Monitoring',
     camera: 'Camera',
     map: 'Map',

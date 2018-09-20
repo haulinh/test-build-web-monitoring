@@ -449,7 +449,7 @@ export default class StationAutoForm extends React.PureComponent {
                 rules: [{ required: false }]
               })(
                 <DatePicker
-                  format='DD-MM-YYYY'
+                  format="DD-MM-YYYY"
                   placeholder={t(
                     'stationAutoManager.form.dayOfOperation.placeholder'
                   )}
