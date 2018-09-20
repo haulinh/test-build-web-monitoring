@@ -25,6 +25,9 @@ export default class ChartView extends React.Component {
       chart: {
         type: 'column'
       },
+      credits: {
+        enabled: false
+      },
       title: {
         text: this.props.title
       },

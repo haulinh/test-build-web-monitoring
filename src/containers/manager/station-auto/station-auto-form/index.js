@@ -25,6 +25,7 @@ import MeasuringTable from '../station-auto-formTable/'
 import InputNumberCell from 'components/elements/input-number-cell'
 
 const FormItem = Form.Item
+const { TextArea } = Input
 
 @Form.create({
   mapPropsToFields: ({ initialValues }) => {
@@ -141,6 +142,9 @@ export default class StationAutoForm extends React.PureComponent {
         stationType: this.state.stationTypeObject,
         province: this.state.provicenObject,
         qcvn: this.state.qcvnObject,
+        dayOfOperation: values.dayOfOperation,
+        frequency:values.frequency,
+        note:values.note,
         measuringList: values.measuringList,
         options: this.state.options,
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null
@@ -420,16 +424,12 @@ export default class StationAutoForm extends React.PureComponent {
               {...formItemLayout}
               label={t('stationAutoManager.form.frequency.label')}
             >
-              {getFieldDecorator('frequency', {
-                rules: [{ required: true }]
-              })(
-                <InputNumberCell
-                  editable={true}
-                  size="small"
-                  min={1}
-                  max={1000000}
-                />
-              )}
+              <InputNumberCell
+                editable={true}
+                size="small"
+                min={1}
+                max={1000000}
+              />
             </FormItem>
           </Col>
           <Col span={12}>
@@ -437,12 +437,7 @@ export default class StationAutoForm extends React.PureComponent {
               {...formItemLayout}
               label={t('stationAutoManager.form.dayOfOperation.label')}
             >
-              {getFieldDecorator('dayOfOperation', {
-                rules: [{ required: true }]
-              })(
-                <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"
-                />
-              )}
+              <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
             </FormItem>
           </Col> 
         </Row>
@@ -501,7 +496,7 @@ export default class StationAutoForm extends React.PureComponent {
               label={t('stationAutoManager.form.note.label')}
             >
               {getFieldDecorator('note')(
-                <Input
+                <TextArea 
                   placeholder={t('stationAutoManager.form.note.placeholder')}
                 />
               )}

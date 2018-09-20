@@ -19,7 +19,7 @@ export default {
       dataStatus: 'Data Status'
     },
     chartRatio: {
-      title: '{{=it.day}} day local received data',
+      title: 'Receive data rate',
       dataByDate: 'The {{=it.day}}-day {{=it.unit}} data rate',
       received: 'Received',
       notReceived: `Don't receive`,
@@ -52,11 +52,12 @@ export default {
     notInUse: 'Not In Use'
   },
   aqi: {
-    title: 'Air quality index',
+    title: 'Air Quality Index',
     paramsTitle: 'Quality index of parameters in {{=it.day}} days'
   },
   qaqc: {
-    title: `QA & QC`,
+    title: `QA/QC`,
+    approveData: 'Approve Data',
     dataFilter: {
       label: 'Data filter by',
       negative: 'Negative',
@@ -570,8 +571,8 @@ export default {
       error: 'Error',
       require: 'Please Enter Value'
     },
-    ranger:{
-      lable: 'Station Range',
+    range:{
+      label: 'Station Range',
       min:'Min',
       max:'Max'
     },

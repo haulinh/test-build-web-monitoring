@@ -33,13 +33,21 @@ const aqiMenu = {
   )
 }
 
+const groupQAQC = {
+  component: (
+    <NavigationWrapper text={translate('qaqc.title')}>
+      <AkNavigationItemGroup title={translate('qaqc.title')} />
+    </NavigationWrapper>
+  )
+}
+
 const qaqcMenu = {
   component: (
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
-      href={slug.qaqc.base}
       icon={Icon.qaqc}
-      text={translate('qaqc.title')}
+      href={slug.qaqc.base}
+      text={translate('qaqc.approveData')}
     />
   )
 }
@@ -161,7 +169,7 @@ const provinceMenu = {
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
       href={slug.province.base}
-      icon={Icon.book}
+      icon={Icon.province}
       text={translate('menuApp.province')}
     />
   )
@@ -171,7 +179,7 @@ const qcvnMenu = {
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
       href={slug.qcvn.base}
-      icon={Icon.book}
+      icon={Icon.qcvn}
       text={'QCVN'}
     />
   )
@@ -210,12 +218,13 @@ const roleMenu = {
 export default [
   dashboardMenu,
   monitoringMenu,
-  aqiMenu,
-  CameraMenu,
   mapMenu,
+  CameraMenu,
+  aqiMenu,
   groupData,
   dataSearchMenu,
   avgDataMenu,
+  groupQAQC,
   qaqcMenu,
   groupManager,
   measuringMenu,

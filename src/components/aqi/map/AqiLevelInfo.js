@@ -5,7 +5,7 @@ import levels from '../../../constants/aqi-level'
 const LevelWrapper = styled.div`
   position: absolute;
   left: 8px;
-  bottom: 24px;
+  bottom: 16px;
   background: #ffffff;
   border: 1px solid #cdcdcd;
   border-radius: 3px;

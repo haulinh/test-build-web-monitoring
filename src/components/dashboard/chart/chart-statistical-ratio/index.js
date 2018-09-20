@@ -43,29 +43,17 @@ export default class HeaderView extends React.PureComponent {
     this.setState({ day, data: _.get(rs, 'data', []) })
   }
 
-  getConfigStatus = () => {
-    const dataGroup = _.groupBy(this.props.data, 'province.key')
-    if (_.size(dataGroup) === 1) {
-      const title = _.get(_.head(this.props.data), 'province.name', '')
-      return this.configStatusChartSemi(
-        dataGroup,
-        title,
-        translate('dashboard.chartStatus.activate'),
-        translate('dashboard.chartStatus.inactive')
-      )
-    }
-
-    return this.configStatusChartColumn(
-      dataGroup,
-      translate('dashboard.chartStatus.title'),
-      translate('dashboard.chartStatus.activate'),
-      translate('dashboard.chartStatus.inactive')
-    )
-  }
-
   configStatusChartSemi = (dataGroup, title, titleActive, tittleUnActive) => {
-    const goodTotal = _.filter(dataGroup, ({ status }) => status === 'GOOD')
-      .length
+    let dataG = []
+    let goodTotal = 0
+    const tpm = _.head(_.values(dataGroup))
+    
+    let total = 0
+
+    if (!_.isEmpty(tpm)) {
+      goodTotal = _.filter(tpm, {status: 'GOOD'}).length
+      total = _.size(tpm) - goodTotal
+    }
 
     return {
       chart: {
@@ -97,6 +85,9 @@ export default class HeaderView extends React.PureComponent {
           center: ['50%', '75%']
         }
       },
+      credits: {
+        enabled: false
+      },
       series: [
         {
           type: 'pie',
@@ -105,7 +96,7 @@ export default class HeaderView extends React.PureComponent {
           data: [
             {
               name: tittleUnActive,
-              y: _.size(dataGroup) - goodTotal,
+              y: total,
               color: 'red'
             },
             {
@@ -160,8 +151,31 @@ export default class HeaderView extends React.PureComponent {
         column: {
           stacking: 'percent'
         }
+      },
+      credits: {
+        enabled: false
       }
     }
+  }
+
+  getConfigStatus = () => {
+    const dataGroup = _.groupBy(this.props.data, 'province.key')
+    if (_.size(dataGroup) === 1) {
+      const title = _.get(_.head(this.props.data), 'province.name', '')
+      return this.configStatusChartSemi(
+        dataGroup,
+        title,
+        translate('dashboard.chartStatus.activate'),
+        translate('dashboard.chartStatus.inactive')
+      )
+    }
+
+    return this.configStatusChartColumn(
+      dataGroup,
+      translate('dashboard.chartStatus.title'),
+      translate('dashboard.chartStatus.activate'),
+      translate('dashboard.chartStatus.inactive')
+    )
   }
 
   configRatioSemi = (title, received, notReceived) => {
@@ -183,6 +197,9 @@ export default class HeaderView extends React.PureComponent {
         plotBackgroundColor: null,
         plotBorderWidth: 0,
         plotShadow: false
+      },
+      credits: {
+        enabled: false
       },
       title: {
         text: title
@@ -248,6 +265,9 @@ export default class HeaderView extends React.PureComponent {
       title: {
         text: title
       },
+      credits: {
+        enabled: false
+      },
       xAxis: {
         categories
       },
@@ -277,13 +297,13 @@ export default class HeaderView extends React.PureComponent {
   getConfigRatio = () => {
     if (_.isEmpty(this.props.province)) {
       return this.configRatioBar(
-        translate('dashboard.chartRatio.title', { day: this.state.day }),
+        translate('dashboard.chartRatio.title'),
         translate('dashboard.chartRatio.received'),
         translate('dashboard.chartRatio.notReceived')
       )
     } else {
       return this.configRatioSemi(
-        translate('dashboard.chartRatio.title', { day: this.state.day }),
+        translate('dashboard.chartRatio.title'),
         translate('dashboard.chartRatio.received'),
         translate('dashboard.chartRatio.notReceived')
       )

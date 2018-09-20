@@ -11,7 +11,7 @@ export default {
     exceeded: 'Vượt ngưỡng',
     exceededPreparing: 'Chuẩn bị vượt',
     exceededTendency: 'Có xu hướng vượt',
-    viewInMonitoring: 'Giám sát',
+    viewInMonitoring: 'Giám sát trực tuyến',
     viewInMap: 'Bản đồ',
     viewMore: 'Xem thêm',
     tableList: {
@@ -19,7 +19,7 @@ export default {
       dataStatus: 'Trạng thái dữ liệu'
     },
     chartRatio: {
-      title: 'Tỉ lệ nhận dữ liệu {{=it.day}} ngày của từng địa phương',
+      title: 'Tỉ lệ nhận dữ liệu',
       dataByDate: 'Tỉ lệ dữ liệu {{=it.day}} ngày của {{=it.unit}}',
       received: 'Nhận được',
       notReceived: 'Không nhận được',
@@ -34,7 +34,7 @@ export default {
     activeStationPer: 'Trạm hoạt động {{=it.good}}/{{=it.total}}'
   },
   monitoring: {
-    title: 'Giám sát',
+    title: 'Giám sát trực tuyến',
     group: 'Nhóm',
     unGroup: 'Bỏ nhóm',
     sortByStationName: 'Sắp xếp theo tên trạm',
@@ -52,8 +52,18 @@ export default {
     notInUse: 'Chưa sử dụng'
   },
   aqi: {
-    title: 'Chỉ số chất lượng không khí',
+    title: 'AQI',
     paramsTitle: 'Chỉ số chất lượng của thông số trong {{=it.day}} ngày'
+  },
+  qaqc: {
+    title: `QA/QC`,
+    approveData: 'Kiểm duyệt dữ liệu',
+    dataFilter: {
+      label: 'Lọc dữ liệu theo',
+      negative: 'Số âm',
+      outOfRange: 'Ngoài vùng đo',
+      lessThanZero: '< 0'
+    }
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',
@@ -197,7 +207,7 @@ export default {
     }
   },
   avgSearchFrom: {
-    titleText: 'Tra cứu liệu tổng hợp',
+    titleText: 'Tra cứu dữ liệu tổng hợp',
     form: {
       stationType: {
         label: 'Loại trạm',
@@ -558,8 +568,8 @@ export default {
       error: 'Lỗi',
       require: 'Vui lòng nhập giá trị'
     },
-    ranger:{
-      lable: 'Dải đo',
+    range:{
+      label: 'Dải đo',
       min:'Dải đo nhỏ nhất',
       max:'Dải đo lớn nhất'
     },
@@ -904,22 +914,22 @@ export default {
   },
   menuApp: {
     dashboard: 'Khai thác dữ liệu',
-    monitoring: 'Giám sát',
+    monitoring: 'Giám sát trực tuyến',
     camera: 'Camera',
     map: 'Bản đồ',
-    data: 'Dữ liệu',
-    dataSearch: 'Tra cứu dữ liệu gốc',
-    avgData: 'Tra cứu dữ liệu tổng hợp',
+    data: 'Khai thác dữ liệu',
+    dataSearch: 'Dữ liệu gốc',
+    avgData: 'Dữ liệu tổng hợp',
     manage: 'Quản lý',
     measuring: 'Thông số',
     stationType: 'Loại trạm',
-    stationAuto: 'Tên trạm',
+    stationAuto: 'Trạm quan trắc',
     adminManagement: 'Quản trị',
     user: 'Người dùng',
     role: 'Nhóm quyền',
     subscription: 'Hệ thống',
     support: 'Hỗ trợ',
-    province: 'Quản lý đơn vị'
+    province: 'Đơn vị quản lý'
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'
