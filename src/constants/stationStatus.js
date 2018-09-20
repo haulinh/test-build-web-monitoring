@@ -5,8 +5,9 @@ export default {
   NOT_USE: 'NOT_USE'
 }
 
-export const STATUS_COLOR = {
-  GOOD: 'green',
-  DATA_LOSS: 'red',
-  NOT_USE: 'black'
+export const STATUS_OPTIONS = {
+  GOOD: {title: 'dashboard.good', color: 'green'},
+  DATA_LOSS: {title: 'dashboard.dataLoss', color: 'red'},
+  NOT_USE: {title: 'dashboard.notUse', color: 'black'}
 }
+
