@@ -1,7 +1,7 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import moment from 'moment/moment'
+import moment from 'moment'
 import { translate } from 'hoc/create-lang'
 import ReactHighcharts from 'react-highcharts'
 import Highcharts from 'highcharts'
@@ -11,100 +11,142 @@ import { getDataStationAutos } from 'api/DataStationAutoApi'
 
 const ChartWrapper = styled.div``
 
+const configChart = (data, title) => {
+  return {
+    chart: {
+      zoomType: 'x'
+    },
+    title: {
+      text: ''
+    },
+    xAxis: {
+      type: 'datetime'
+    },
+    yAxis: {
+      title: {
+        text: ''
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    plotOptions: {
+      area: {
+        fillColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1
+          },
+          stops: [
+            [0, Highcharts.getOptions().colors[0]],
+            [
+              1,
+              Highcharts.Color(Highcharts.getOptions().colors[0])
+                .setOpacity(0)
+                .get('rgba')
+            ]
+          ]
+        },
+        marker: {
+          radius: 2
+        },
+        lineWidth: 1,
+        states: {
+          hover: {
+            lineWidth: 1
+          }
+        }
+      }
+    },
+    series: [
+      {
+        type: 'area',
+        name: title,
+        data
+      }
+    ],
+    credits: {
+      enabled: false
+    }
+  }
+}
+
 @autobind
 export default class ChartRowToChart extends React.Component {
   constructor(props) {
     super(props)
-    const categories = _.map(props.dataLines, item => item)
-    const current = _.head(categories)
     this.state = {
-      categories,
-      current,
-      day: 1
+      categories: [],
+      current: null,
+      day: 1,
+      data: {}
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.dataLines, this.props.dataLines)) {
-      const categories = _.map(nextProps.dataLines, item => item)
-      const current = _.head(categories)
-      this.state = {
-        categories,
-        current,
-        day: 1
-      }
+    if (!_.isEqual(nextProps.station, this.props.station)) {
+      this.loadDataBy(nextProps.station)
     }
+  }
+
+  loadDataBy = async (station, day = 1) => {
+    let categories = []
+    let current = null
+    let measuringKeys = []
+    let results = {}
+    if (!_.isEmpty(station)) {
+      categories = _.get(station, 'measuringList', [])
+      measuringKeys = _.map(categories, ({key}) => key)
+      current = _.head(categories)
+
+      let toDate = moment()
+      let fromDate = moment().subtract(day, 'days')
+      if (_.has(station, 'lastLog.receivedAt')) {
+        toDate = moment(_.get(station, 'lastLog.receivedAt', new Date()))
+        fromDate = moment(_.get(station, 'lastLog.receivedAt', new Date())).subtract(day, 'days')
+      }
+
+      const dataSources = await getDataStationAutos({ page: 1, itemPerPage: 3000 },
+        { fromDate: fromDate.format('YYYY-MM-DD HH:mm'),
+          toDate: toDate.format('YYYY-MM-DD HH:mm'),
+          key: _.get(station, 'key', 'vas'),
+          measuringList: measuringKeys
+      })
+      
+      let data = _.orderBy(_.get(dataSources, 'data', []), 'receivedAt')
+      _.forEach(data, ({measuringLogs, receivedAt}) => {
+        _.forEach(_.keys(measuringLogs), key => {
+          if (_.has(measuringLogs, `${key}.value`)) {
+            results[key] = _.concat(_.get(results, key, []), [[new Date(receivedAt).getTime(), measuringLogs[key]['value']]]) 
+          }
+        })
+      })
+    }
+    
+    this.setState({categories, current, day, data: results})
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return (
-      !_.isEqual(nextProps.currentStation, this.props.currentStation) ||
-      !_.isEqual(nextProps.dataLines, this.props.dataLines) ||
+      !_.isEqual(nextProps.station, this.props.station) ||
       !_.isEqual(nextState.categories, this.state.categories) ||
+      !_.isEqual(nextState.data, this.state.data) ||
       !_.isEqual(nextState.current, this.state.current) ||
       !_.isEqual(nextState.day, this.state.day)
     )
   }
 
   handleClick = e => {
+    const current = _.get(_.keyBy(this.state.categories, 'key'), [e.key], null)
     this.setState({
-      current: _.get(this.props.dataLines, [e.key], {})
+      current
     })
   }
 
-    getDataMeasuring = async day => {
-      const dataSources = await getDataStationAutos({ page: 1, itemPerPage: 3000 },
-        { fromDate: moment().subtract(day, 'days').format('YYYY-MM-DD HH:mm'),
-          toDate: moment().format('YYYY-MM-DD HH:mm'),
-          key: _.get(this.props.dataSearch, 'stationKey', ''),
-          measuringList: _.get(this.props.dataSearch, 'measuringArray', [])
-      })
-    
-      console.log(day, dataSources)
-  
-    // if (dataSources) {
-    //   let data = _.get(dataSources, 'data', [])
-    //   // OrderBy ASC of list
-    //   data.sort((a, b) => {
-    //     return (
-    //       new Date(a.receivedAt).getTime() - new Date(b.receivedAt).getTime()
-    //     )
-    //   })
-
-    //   _.forEach(_.get(this.props.dataSearch, 'measuringArray', []), k => {
-    //     if (this.props.dataLines[k]) {
-    //       if (!dataLines[k].data) {
-    //         dataLines[k].data = []
-    //       }
-    //       dataLines[k].data.push([
-    //         new Date(dataItem.receivedAt).getTime(),
-    //         dataItem.measuringLogs[k].value
-    //       ])
-    //     }
-    //   })
-
-    //   data.forEach(function(dataItem) {
-    //     for (let k in dataItem.measuringLogs){
-          
-    //     }
-    //   })
-    // }
-      
-    //   const categories = _.map(dataLines, item => item)
-    //   const current = _.head(categories)
-    //   this.setState({
-    //     day,
-    //     categories,
-    //     current
-    //   })
-
-      this.setState({
-        day
-      })
-  }
-
   onChange = value => {
-    this.getDataMeasuring(Number(value.key))
+    this.loadDataBy(this.props.station, Number(value.key))
   }
 
   menu = () => {
@@ -123,66 +165,13 @@ export default class ChartRowToChart extends React.Component {
     )
   }
 
-  getConfigChart = () => {
-    return {
-      chart: {
-        zoomType: 'x'
-      },
-      title: {
-        text: ''
-      },
-      xAxis: {
-        type: 'datetime'
-      },
-      yAxis: {
-        title: {
-          text: ''
-        }
-      },
-      legend: {
-        enabled: false
-      },
-      plotOptions: {
-        area: {
-          fillColor: {
-            linearGradient: {
-              x1: 0,
-              y1: 0,
-              x2: 0,
-              y2: 1
-            },
-            stops: [
-              [0, Highcharts.getOptions().colors[0]],
-              [
-                1,
-                Highcharts.Color(Highcharts.getOptions().colors[0])
-                  .setOpacity(0)
-                  .get('rgba')
-              ]
-            ]
-          },
-          marker: {
-            radius: 2
-          },
-          lineWidth: 1,
-          states: {
-            hover: {
-              lineWidth: 1
-            }
-          }
-        }
-      },
-      series: [
-        {
-          type: 'area',
-          name: _.get(this.state.current, 'name', ''),
-          data: _.get(this.state.current, 'data', [])
-        }
-      ],
-      credits: {
-        enabled: false
-      }
+  getConfigData = () => {
+    let data = []
+    const key = _.get(this.state.current, 'key', '')
+    if (key) {
+      data = _.get(this.state.data, key, [])
     }
+    return configChart(data, _.get(this.state.current, 'name', ''))
   }
 
   render() {
@@ -199,7 +188,7 @@ export default class ChartRowToChart extends React.Component {
             <Icon type="down" />
           </span>
         </Dropdown>
-        <ReactHighcharts config={this.getConfigChart()} />
+        <ReactHighcharts config={ this.getConfigData() } />
         <Menu
           style={{ paddingLeft: 8, paddingRight: 8, marginBottom: 8 }}
           onClick={this.handleClick}

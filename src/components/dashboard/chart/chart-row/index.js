@@ -12,7 +12,6 @@ import Chart from './Chart'
 import slug from 'constants/slug'
 import { withHighcharts } from 'react-jsx-highstock'
 import Highcharts from 'highcharts'
-import { getDataStationAutos } from 'api/DataStationAutoApi'
 import { translate } from 'hoc/create-lang'
 import ReactGA from 'react-ga'
 import * as _ from 'lodash'
@@ -86,53 +85,10 @@ export class ChartSummary extends React.Component {
     this.setState({ isOpen: !this.state.isOpen })
   }
 
-  async changeItem(stationAuto) {
+  changeItem(stationAuto) {
     this.setState({
       currentItem: stationAuto
     })
-    if (!stationAuto.measuringList) return {}
-    let dataLines = {}
-    let measuringArray = []
-    _.forEach(_.get(stationAuto, 'measuringList', []), item => {
-      measuringArray.push(item.key)
-      dataLines[item.key] = {
-        key: item.key,
-        name: item.name,
-        unit: item.unit,
-        data: []
-      }
-    })
-
-    let dataSources = await getDataStationAutos(
-      { page: 1, itemPerPage: 500 },
-      { key: stationAuto.key, measuringList: measuringArray }
-    )
-
-    if (dataSources) {
-      let data = _.get(dataSources, 'data', [])
-      // OrderBy ASC of list
-      data.sort((a, b) => {
-        return (
-          new Date(a.receivedAt).getTime() - new Date(b.receivedAt).getTime()
-        )
-      })
-      data.forEach(function(dataItem) {
-        for (let k in dataItem.measuringLogs)
-          if (dataLines[k]) {
-            if (!dataLines[k].data) dataLines[k].data = []
-            dataLines[k].data.push([
-              new Date(dataItem.receivedAt).getTime(),
-              dataItem.measuringLogs[k].value
-            ])
-          }
-      })
-    }
-
-    const dataSearch = {
-        measuringArray,
-        stationKey: _.get(stationAuto, 'key', '')
-    }
-    this.setState({ dataLines, dataSearch })
   }
 
   rightChilren(value) {
@@ -177,8 +133,9 @@ export class ChartSummary extends React.Component {
   }
 
   componentDidMount() {
-    if (_.size(this.props.stationList) > 0) {
-      this.changeItem(_.head(this.props.stationList))
+    const item = _.head(this.props.stationList)
+    if (!_.isEmpty(item)) {
+      this.changeItem(item)
     }
   }
 
@@ -221,7 +178,8 @@ export class ChartSummary extends React.Component {
                 />
               </TableWidth>
               <ChartWidth>
-                <Chart dataLines={this.state.dataLines} dataSearch={this.state.dataSearch}/>
+                {/* <Chart dataLines={this.state.dataLines} dataSearch={this.state.dataSearch}/> */}
+                <Chart station={this.state.currentItem} />
               </ChartWidth>
             </ChartWrapper>
           </Collapse>
