@@ -28,7 +28,7 @@ const PaddingWrapper = styled.div``
 @autobind
 export default class PageWrapperMapLayout extends Component {
   state = {
-    navigationWidth: 310,
+    navigationWidth: 300,
     isOpen: false
   }
 

@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 @autobind
 export default class PageWrapper extends Component {
   state = {
-    navigationWidth: 310
+    navigationWidth: 300
   }
 
   getNavigation() {

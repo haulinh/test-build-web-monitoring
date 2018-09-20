@@ -223,7 +223,7 @@ export default class MarkerStation extends PureComponent {
                   }}
                   options={{
                     //disableAutoPan: true,
-                    maxWidth: 310
+                    maxWidth: 300
                   }}
                   onCloseClick={this.toggleOpen.bind(this)}
                 >
