@@ -155,19 +155,12 @@ export default class MonitoringGeneral extends React.Component {
     )
   }
 
-  sortNameList(data, key, asc = true) {
-    return data.sort(function(a, b) {
-      const last = objectPath.get(a, key)
-      const after = objectPath.get(b, key)
-      if (asc) {
-        if (last < after) return -1
-        if (last > after) return 1
-      } else {
-        if (last < after) return 1
-        if (last > after) return -1
-      }
-      return 0
-    })
+  sortNameList(data, key, asc = true, sortByValue = false) {
+    if (sortByValue) {
+      return _.orderBy(data, [key, 'status'], [asc ? 'asc' : 'desc', 'asc'])
+    }
+    return _.orderBy(data, [key], [asc ? 'asc' : 'desc'])
+    
   }
 
   unGroupStation(stationTypeList) {
@@ -242,7 +235,7 @@ export default class MonitoringGeneral extends React.Component {
 
     // filter by values
     if (this.state.filter.order === monitoringFilter.ORDER.NUMBER) {
-      stationTypeList = this.sortNameList(stationTypeList, 'totalWarning').map(
+      stationTypeList = this.sortNameList(stationTypeList, 'totalWarning', true, true).map(
         stationType => {
           return {
             ...stationType,
@@ -250,7 +243,7 @@ export default class MonitoringGeneral extends React.Component {
             stationAutoList: this.sortNameList(
               stationType.stationAutoList,
               'totalWarning',
-              false
+              false, true
             )
           }
         }
