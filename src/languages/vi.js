@@ -568,10 +568,10 @@ export default {
       error: 'Lỗi',
       require: 'Vui lòng nhập giá trị'
     },
-    range:{
+    range: {
       label: 'Dải đo',
-      min:'Dải đo nhỏ nhất',
-      max:'Dải đo lớn nhất'
+      min: 'Dải đo nhỏ nhất',
+      max: 'Dải đo lớn nhất'
     },
     config: {
       label: 'Cấu hình',
@@ -913,7 +913,7 @@ export default {
     update: 'Cập nhật'
   },
   menuApp: {
-    dashboard: 'Khai thác dữ liệu',
+    dashboard: 'Trang Chủ',
     monitoring: 'Giám sát trực tuyến',
     camera: 'Camera',
     map: 'Bản đồ',

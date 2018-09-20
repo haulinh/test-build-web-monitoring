@@ -45,7 +45,7 @@ export default {
     edit: '/station-auto/edit/:key',
     editWithKey: '/station-auto/edit',
     config: '/station-auto/config/:key',
-    range:'/station-auto/range/:key',
+    range: '/station-auto/range/:key',
     configWithKey: '/station-auto/config',
     rangeWithKey: '/station-auto/range',
     ftpInfo: '/station-auto/ftpInfo/:key',

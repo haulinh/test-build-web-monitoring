@@ -189,7 +189,8 @@ export default class StationAutoHead extends React.PureComponent {
                 >
                   <Tooltip title={translate('monitoring.sampling')}>
                     <Icon
-                      type="weibo"
+                      type="experiment"
+                      theme="twoTone"
                       style={{
                         opacity: this.state.isEnable ? 1 : 0.4,
                         fontSize: 16
