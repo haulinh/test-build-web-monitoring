@@ -98,34 +98,41 @@ export default class ChartRowToChart extends React.Component {
     let results = {}
     if (!_.isEmpty(station)) {
       categories = _.get(station, 'measuringList', [])
-      measuringKeys = _.map(categories, ({key}) => key)
+      measuringKeys = _.map(categories, ({ key }) => key)
       current = _.head(categories)
 
       let toDate = moment()
       let fromDate = moment().subtract(day, 'days')
       if (_.has(station, 'lastLog.receivedAt')) {
         toDate = moment(_.get(station, 'lastLog.receivedAt', new Date()))
-        fromDate = moment(_.get(station, 'lastLog.receivedAt', new Date())).subtract(day, 'days')
+        fromDate = moment(
+          _.get(station, 'lastLog.receivedAt', new Date())
+        ).subtract(day, 'days')
       }
 
-      const dataSources = await getDataStationAutos({ page: 1, itemPerPage: 3000 },
-        { fromDate: fromDate.format('YYYY-MM-DD HH:mm'),
+      const dataSources = await getDataStationAutos(
+        { page: 1, itemPerPage: 3000 },
+        {
+          fromDate: fromDate.format('YYYY-MM-DD HH:mm'),
           toDate: toDate.format('YYYY-MM-DD HH:mm'),
           key: _.get(station, 'key', 'vas'),
           measuringList: measuringKeys
-      })
-      
+        }
+      )
+
       let data = _.orderBy(_.get(dataSources, 'data', []), 'receivedAt')
-      _.forEach(data, ({measuringLogs, receivedAt}) => {
+      _.forEach(data, ({ measuringLogs, receivedAt }) => {
         _.forEach(_.keys(measuringLogs), key => {
           if (_.has(measuringLogs, `${key}.value`)) {
-            results[key] = _.concat(_.get(results, key, []), [[new Date(receivedAt).getTime(), measuringLogs[key]['value']]]) 
+            results[key] = _.concat(_.get(results, key, []), [
+              [new Date(receivedAt).getTime(), measuringLogs[key]['value']]
+            ])
           }
         })
       })
     }
-    
-    this.setState({categories, current, day, data: results})
+
+    this.setState({ categories, current, day, data: results })
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -188,7 +195,7 @@ export default class ChartRowToChart extends React.Component {
             <Icon type="down" />
           </span>
         </Dropdown>
-        <ReactHighcharts config={ this.getConfigData() } />
+        <ReactHighcharts config={this.getConfigData()} />
         <Menu
           style={{ paddingLeft: 8, paddingRight: 8, marginBottom: 8 }}
           onClick={this.handleClick}

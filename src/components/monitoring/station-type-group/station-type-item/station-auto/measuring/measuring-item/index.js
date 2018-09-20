@@ -8,9 +8,9 @@ import { Icon, Tooltip } from 'antd'
 import { get } from 'lodash'
 
 const DEVICE_STATUS = {
-  '0': {color: '#1dce6c', text: 'monitoring.deviceStatus.normal'},
-  '1': {color: 'orange', text: 'monitoring.deviceStatus.maintenance'},
-  '2': {color: 'red', text: 'monitoring.deviceStatus.broken'}
+  '0': { color: '#1dce6c', text: 'monitoring.deviceStatus.normal' },
+  '1': { color: 'orange', text: 'monitoring.deviceStatus.maintenance' },
+  '2': { color: 'red', text: 'monitoring.deviceStatus.broken' }
 }
 
 const MeasuringItemWrapper = styled.div`
@@ -98,15 +98,17 @@ export default class MeasuringItem extends React.PureComponent {
     let item = DEVICE_STATUS[`${status}`]
     if (item) {
       return (
-        <Tooltip placement='top' title={translate(item.text)}>
-          <Icon type='heart'
-          style={{
-            position: 'absolute',
-            color: item.color,
-            bottom: 4,
-            right: 4
-          }}
-          theme='twoTone' />
+        <Tooltip placement="top" title={translate(item.text)}>
+          <Icon
+            type="heart"
+            style={{
+              position: 'absolute',
+              color: item.color,
+              bottom: 4,
+              right: 4
+            }}
+            theme="twoTone"
+          />
         </Tooltip>
       )
     }
@@ -137,10 +139,7 @@ export default class MeasuringItem extends React.PureComponent {
           <MeasuringName color={this.getColorLevel()}>{name}</MeasuringName>
         </MeasuringItemText>
         <MeasuringLimit>{this.getLimitText()}</MeasuringLimit>
-        {
-          this.renderDeviceIcon(get(this.props, 'statusDevice', ''))
-        }
-        
+        {this.renderDeviceIcon(get(this.props, 'statusDevice', ''))}
       </MeasuringItemWrapper>
     )
   }

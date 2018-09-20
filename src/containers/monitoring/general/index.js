@@ -94,7 +94,10 @@ export default class MonitoringGeneral extends React.Component {
 
     const tmp = _.get(dataStationTypes, 'data', [])
     const dataMonitoring = _.map(tmp, stationType => {
-      const stationAutoList = _.filter(_.get(dataStationAutos, 'data', []) , stationAuto => stationAuto.stationType.key === stationType.key)
+      const stationAutoList = _.filter(
+        _.get(dataStationAutos, 'data', []),
+        stationAuto => stationAuto.stationType.key === stationType.key
+      )
       return {
         stationType,
         stationAutoList: this.appendWarningLevelStationAuto(stationAutoList),
@@ -160,7 +163,6 @@ export default class MonitoringGeneral extends React.Component {
       return _.orderBy(data, [key, 'status'], [asc ? 'asc' : 'desc', 'asc'])
     }
     return _.orderBy(data, [key], [asc ? 'asc' : 'desc'])
-    
   }
 
   unGroupStation(stationTypeList) {
@@ -235,19 +237,23 @@ export default class MonitoringGeneral extends React.Component {
 
     // filter by values
     if (this.state.filter.order === monitoringFilter.ORDER.NUMBER) {
-      stationTypeList = this.sortNameList(stationTypeList, 'totalWarning', true, true).map(
-        stationType => {
-          return {
-            ...stationType,
-            stationType: stationType.stationType,
-            stationAutoList: this.sortNameList(
-              stationType.stationAutoList,
-              'totalWarning',
-              false, true
-            )
-          }
+      stationTypeList = this.sortNameList(
+        stationTypeList,
+        'totalWarning',
+        true,
+        true
+      ).map(stationType => {
+        return {
+          ...stationType,
+          stationType: stationType.stationType,
+          stationAutoList: this.sortNameList(
+            stationType.stationAutoList,
+            'totalWarning',
+            false,
+            true
+          )
         }
-      )
+      })
     }
 
     return stationTypeList
