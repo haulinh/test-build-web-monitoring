@@ -73,7 +73,8 @@ export class ChartSummary extends React.Component {
     currentItem: {},
     dataLines: {},
     isFirstLoad: true,
-    isOpen: true
+    isOpen: true,
+    dataSearch: {}
   }
 
   handleChangeItem(e, item) {
@@ -106,6 +107,7 @@ export class ChartSummary extends React.Component {
       { page: 1, itemPerPage: 500 },
       { key: stationAuto.key, measuringList: measuringArray }
     )
+
     if (dataSources) {
       let data = _.get(dataSources, 'data', [])
       // OrderBy ASC of list
@@ -125,7 +127,12 @@ export class ChartSummary extends React.Component {
           }
       })
     }
-    this.setState({ dataLines })
+
+    const dataSearch = {
+        measuringArray,
+        stationKey: _.get(stationAuto, 'key', '')
+    }
+    this.setState({ dataLines, dataSearch })
   }
 
   rightChilren(value) {
@@ -214,7 +221,7 @@ export class ChartSummary extends React.Component {
                 />
               </TableWidth>
               <ChartWidth>
-                <Chart dataLines={this.state.dataLines} />
+                <Chart dataLines={this.state.dataLines} dataSearch={this.state.dataSearch}/>
               </ChartWidth>
             </ChartWrapper>
           </Collapse>
