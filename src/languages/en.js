@@ -499,8 +499,8 @@ export default {
         error: 'Please Choose Management Unit'
       },
       frequency: {
-        label: 'Frequency',
-        placeholder: 'Frequency',
+        label: 'Frequency(m/t)',
+        placeholder: 'minutes/time',
         error: 'Please Choose Frequency'
       },
       dayOfOperation: {

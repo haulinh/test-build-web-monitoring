@@ -496,8 +496,8 @@ export default {
         error: 'Vui lòng chọn đơn vị quản lý'
       },
       frequency: {
-        label: 'Tần xuất',
-        placeholder: 'Tần xuất',
+        label: 'Tần xuất(phút/lần)',
+        placeholder: 'phút/lần',
         error: 'Vui lòng chọn tần xuất'
       },
       dayOfOperation: {

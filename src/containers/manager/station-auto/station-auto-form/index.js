@@ -141,9 +141,9 @@ export default class StationAutoForm extends React.PureComponent {
         phones: this.state.phones,
         stationType: this.state.stationTypeObject,
         province: this.state.provicenObject,
-        qcvn: this.state.qcvnObject,
-        dayOfOperation: values.dayOfOperation,
-        frequency:values.frequency,
+        standardsVN: this.state.qcvnObject,
+      //  dayOfOperation: values.dayOfOperation,
+      //  frequency:values.frequency,
         note:values.note,
         measuringList: values.measuringList,
         options: this.state.options,
@@ -304,16 +304,14 @@ export default class StationAutoForm extends React.PureComponent {
               {getFieldDecorator('province', {
                 rules: [
                   {
-                    required: true,
+                    required: false,
                     message: t('stationAutoManager.form.province.error')
                   }
                 ]
               })(
                 <SelectProvice
-                  label={t('stationAutoManager.form.province.label')}
-                  placeholder={t(
-                    'stationAutoManager.form.province.placeholder'
-                  )}
+                //  label={t('stationAutoManager.form.province.label')}
+                  placeholder= {t('stationAutoManager.form.province.placeholder')}
                   onHandleChange={this.changeProvince}
                 />
               )}
@@ -334,7 +332,7 @@ export default class StationAutoForm extends React.PureComponent {
               })(
                 <SelectQCVN
                   label={t('stationAutoManager.form.qcvn.label')}
-                  placeholder={t('stationAutoManager.form.qcvn.placeholder')}
+                  placeholder= {t('stationAutoManager.form.qcvn.placeholder')}
                   onHandleChange={this.changeQCVN}
                 />
               )}
@@ -425,6 +423,7 @@ export default class StationAutoForm extends React.PureComponent {
               label={t('stationAutoManager.form.frequency.label')}
             >
               <InputNumberCell
+                placeholder={t('stationAutoManager.form.frequency.placeholder')}
                 editable={true}
                 size="small"
                 min={1}
@@ -437,7 +436,11 @@ export default class StationAutoForm extends React.PureComponent {
               {...formItemLayout}
               label={t('stationAutoManager.form.dayOfOperation.label')}
             >
-              <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
+              <DatePicker
+              placeholder={t(
+                'stationAutoManager.form.dayOfOperation.placeholder'
+              )}
+              showTime format="YYYY-MM-DD HH:mm:ss"/>
             </FormItem>
           </Col> 
         </Row>
