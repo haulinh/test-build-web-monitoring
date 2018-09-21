@@ -496,9 +496,9 @@ export default {
         placeholder: 'Address'
       },
       qcvn: {
-        label: 'QCVN',
-        placeholder: 'QCVN',
-        error: 'Please Choose Type Of QCVN'
+        label: 'Standards VN',
+        placeholder: 'Standards VN',
+        error: 'Please Choose Type Of Standards VN'
       },
       province: {
         label: 'Management Unit',
@@ -541,9 +541,6 @@ export default {
         label: 'Phone Number',
         placeholder: 'Input Phone Number',
         error: 'Please Input Phone Number'
-      },
-      qcvn:{
-        label:'Standards VN'
       },
       range:{
         label:'Range'

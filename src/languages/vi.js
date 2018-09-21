@@ -537,9 +537,6 @@ export default {
         placeholder: 'Nhập số điện thoại',
         error: 'Vui lòng nhập số điện thoại'
       },
-      qcvn:{
-        label:'QCVN'
-      },
       range:{
         label:'Giới hạn đo'
       },
