@@ -35,7 +35,6 @@ export default class TabeList extends React.PureComponent {
     nameChart: PropTypes.string,
     isExporting: PropTypes.bool
   }
-  
 
   render() {
     return (

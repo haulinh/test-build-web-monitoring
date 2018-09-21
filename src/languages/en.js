@@ -70,7 +70,7 @@ export default {
       isZero: 'Is Zero'
     },
     approve: 'Approve',
-    unApprove: 'UnApprove',
+    unApprove: 'UnApprove'
   },
   controlStation: {
     text: 'Sampling',
@@ -506,14 +506,14 @@ export default {
         error: 'Please Choose Management Unit'
       },
       frequency: {
-        label: 'Frequency',
-        placeholder: 'Frequency',
+        label: 'Frequency(m/t)',
+        placeholder: 'minutes/time',
         error: 'Please Choose Frequency'
       },
       dayOfOperation: {
-        label: 'Day Of Operation',
-        placeholder: 'Day Of Operation',
-        error: 'Please Choose Day Of Operation'
+        label: 'Actived At',
+        placeholder: 'Actived At',
+        error: 'Please Choose Actived At'
       },
       note: {
         label: 'Note',
@@ -804,12 +804,14 @@ export default {
     imageUpload: {
       success: 'Done',
       error: 'Upload Image Failed'
-    }
+    },
+    user: 'User Info',
+    organization: 'Organization Info'
   },
   changePassword: {
     breadcrumb: {
       changePassword: 'Change password',
-      profileUser: 'User profile',
+      profileUser: 'Profile',
       security: 'Security Setting'
     },
     form: {

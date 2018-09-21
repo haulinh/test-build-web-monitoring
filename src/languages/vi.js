@@ -501,8 +501,8 @@ export default {
         error: 'Vui lòng chọn đơn vị quản lý'
       },
       frequency: {
-        label: 'Tần xuất',
-        placeholder: 'Tần xuất',
+        label: 'Tần xuất(phút/lần)',
+        placeholder: 'phút/lần',
         error: 'Vui lòng chọn tần xuất'
       },
       dayOfOperation: {
@@ -799,12 +799,14 @@ export default {
     imageUpload: {
       success: 'Hoàn thành',
       error: 'Tải ảnh lên thất bại'
-    }
+    },
+    user: 'Thông tin người dùng',
+    organization: 'Thông tin tổ chức'
   },
   changePassword: {
     breadcrumb: {
       changePassword: 'Thay đổi mật khẩu',
-      profileUser: 'Thông tin người dùng',
+      profileUser: 'Thông tin',
       security: 'Cài đặt bảo mật'
     },
     form: {

@@ -88,6 +88,7 @@ export default class QCVNForm extends React.PureComponent {
         numericalOrder: values.numericalOrder
       }
       // Callback submit form Container Component
+      console.log(data)
       this.props.onSubmit(data)
     })
   }

@@ -6,7 +6,6 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import StationAutoApi from 'api/StationAuto'
 import CategoriesApi from 'api/CategoryApi'
 import Header from 'components/monitoring/head'
-import objectPath from 'object-path'
 import HeaderFilter from 'components/monitoring/filter'
 import StationTypeList from 'components/monitoring/station-type-group/station-type-list'
 import monitoringFilter from 'constants/monitoringFilter'
@@ -94,7 +93,10 @@ export default class MonitoringGeneral extends React.Component {
 
     const tmp = _.get(dataStationTypes, 'data', [])
     const dataMonitoring = _.map(tmp, stationType => {
-      const stationAutoList = _.filter(_.get(dataStationAutos, 'data', []) , stationAuto => stationAuto.stationType.key === stationType.key)
+      const stationAutoList = _.filter(
+        _.get(dataStationAutos, 'data', []),
+        stationAuto => stationAuto.stationType.key === stationType.key
+      )
       return {
         stationType,
         stationAutoList: this.appendWarningLevelStationAuto(stationAutoList),
@@ -155,19 +157,11 @@ export default class MonitoringGeneral extends React.Component {
     )
   }
 
-  sortNameList(data, key, asc = true) {
-    return data.sort(function(a, b) {
-      const last = objectPath.get(a, key)
-      const after = objectPath.get(b, key)
-      if (asc) {
-        if (last < after) return -1
-        if (last > after) return 1
-      } else {
-        if (last < after) return 1
-        if (last > after) return -1
-      }
-      return 0
-    })
+  sortNameList(data, key, asc = true, sortByValue = false) {
+    if (sortByValue) {
+      return _.orderBy(data, [key, 'status'], [asc ? 'asc' : 'desc', 'asc'])
+    }
+    return _.orderBy(data, [key], [asc ? 'asc' : 'desc'])
   }
 
   unGroupStation(stationTypeList) {
@@ -242,19 +236,23 @@ export default class MonitoringGeneral extends React.Component {
 
     // filter by values
     if (this.state.filter.order === monitoringFilter.ORDER.NUMBER) {
-      stationTypeList = this.sortNameList(stationTypeList, 'totalWarning').map(
-        stationType => {
-          return {
-            ...stationType,
-            stationType: stationType.stationType,
-            stationAutoList: this.sortNameList(
-              stationType.stationAutoList,
-              'totalWarning',
-              false
-            )
-          }
+      stationTypeList = this.sortNameList(
+        stationTypeList,
+        'totalWarning',
+        true,
+        true
+      ).map(stationType => {
+        return {
+          ...stationType,
+          stationType: stationType.stationType,
+          stationAutoList: this.sortNameList(
+            stationType.stationAutoList,
+            'totalWarning',
+            false,
+            true
+          )
         }
-      )
+      })
     }
 
     return stationTypeList

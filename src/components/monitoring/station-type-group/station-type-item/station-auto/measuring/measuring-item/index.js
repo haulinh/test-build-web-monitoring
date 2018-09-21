@@ -8,15 +8,15 @@ import { Icon, Tooltip } from 'antd'
 import { get } from 'lodash'
 
 const DEVICE_STATUS = {
-  '0': {color: '#1dce6c', text: 'monitoring.deviceStatus.normal'},
-  '1': {color: 'orange', text: 'monitoring.deviceStatus.maintenance'},
-  '2': {color: 'red', text: 'monitoring.deviceStatus.broken'}
+  '0': { color: '#1dce6c', text: 'monitoring.deviceStatus.normal' },
+  '1': { color: 'orange', text: 'monitoring.deviceStatus.maintenance' },
+  '2': { color: 'red', text: 'monitoring.deviceStatus.broken' }
 }
 
 const MeasuringItemWrapper = styled.div`
   position: relative;
   display: flex;
-  padding: 8px 16px;
+  padding: 8px 8px;
   flex-direction: column;
   justify-content: space-between;
   border-radius: 8px;
@@ -31,7 +31,7 @@ const MeasuringItemText = styled.div`
 `
 
 const MeasuringName = styled.span`
-  padding: 0 5px 0 5px;
+  padding: 0px 6px;
   display: flex;
   font-size: 10px;
   color: #ffffff;
@@ -98,15 +98,17 @@ export default class MeasuringItem extends React.PureComponent {
     let item = DEVICE_STATUS[`${status}`]
     if (item) {
       return (
-        <Tooltip placement='top' title={translate(item.text)}>
-          <Icon type='sliders'
-          style={{
-            position: 'absolute',
-            color: item.color,
-            bottom: 4,
-            right: 16
-          }}
-          theme='twoTone' />
+        <Tooltip placement="top" title={translate(item.text)}>
+          <Icon
+            type="tags"
+            style={{
+              position: 'absolute',
+              color: item.color,
+              bottom: 4,
+              right: 8
+            }}
+            theme="twoTone"
+          />
         </Tooltip>
       )
     }
@@ -137,10 +139,7 @@ export default class MeasuringItem extends React.PureComponent {
           <MeasuringName color={this.getColorLevel()}>{name}</MeasuringName>
         </MeasuringItemText>
         <MeasuringLimit>{this.getLimitText()}</MeasuringLimit>
-        {
-          this.renderDeviceIcon(get(this.props, 'statusDevice', ''))
-        }
-        
+        {this.renderDeviceIcon(get(this.props, 'statusDevice', ''))}
       </MeasuringItemWrapper>
     )
   }
