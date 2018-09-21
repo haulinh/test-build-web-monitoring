@@ -22,6 +22,7 @@ const ChartSummaryWrapper = styled.div``
 
 const ChartWrapper = styled.div`
   display: flex;
+  flex: 1;
   box-shadow: 0 2px 10px 0 rgba(238, 238, 238, 0.5);
   background-color: #ffffff;
 `
