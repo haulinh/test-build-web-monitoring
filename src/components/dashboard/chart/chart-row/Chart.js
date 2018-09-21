@@ -32,21 +32,17 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
         value: minLimit,
         color: 'red',
         width: 2,
-        text: 'Max',
         label: {
-          text: 'Last quarter minimum',
-          verticalAlign: 'top'
+          text: `Min: ${minLimit}`
         }
       }, 
       {
-          value: maxLimit,
-          color: 'red',
-          width: 1,
-          label: {
-            align: 'center',
-            text: 'Last quarter maximum',
-            verticalAlign: 'top'
-          }
+        value: maxLimit,
+        color: 'red',
+        width: 1,
+        label: {
+          text: `Max: ${maxLimit}`,
+        }
       }]
     },
     legend: {
