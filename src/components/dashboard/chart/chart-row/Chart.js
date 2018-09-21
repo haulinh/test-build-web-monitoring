@@ -28,14 +28,15 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
       title: {
         text: ''
       },
-      plotLines: [{
-        value: minLimit,
-        color: 'red',
-        width: 2,
-        label: {
-          text: `Min: ${minLimit}`
-        }
-      }, 
+      plotLines: [
+      //   {
+      //   value: minLimit,
+      //   color: 'red',
+      //   width: 2,
+      //   label: {
+      //     text: `Min: ${minLimit}`
+      //   }
+      // }, 
       {
         value: maxLimit,
         color: 'red',
