@@ -14,12 +14,25 @@ import Clearfix from 'components/elements/clearfix'
 import { getMonitoringFilter, setMonitoringFilter } from 'utils/localStorage'
 import { replaceVietnameseStr } from 'utils/string'
 import * as _ from 'lodash'
+import HeaderView from '../../../components/monitoring/header-view'
+import styled from 'styled-components'
 import {
   GROUP_OPTIONS,
   ORDER_OPTIONS
 } from 'components/monitoring/filter/options'
 import createContentLoader from 'hoc/content-loader'
 import { translate } from 'hoc/create-lang'
+
+const ContainerHeader = styled.div`
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  border: solid 0.4px #b6b6b6;
+  box-shadow: 0 4px 10px 0 rgba(241, 241, 241, 0.5);
+`
 
 const ListLoader = createContentLoader({
   component: <ListLoaderCp />,
@@ -148,12 +161,19 @@ export default class MonitoringGeneral extends React.Component {
 
   renderHeader() {
     return (
-      <Header>
-        <HeaderFilter
-          filter={this.state.filter}
-          onChange={this.handleChangeFilter}
+      <ContainerHeader>
+        <HeaderView
+          stationStatus={this.state.stationStatus}
+          onChange={this.handleProvinceChange}
         />
-      </Header>
+        <Header>
+          <HeaderFilter
+            filter={this.state.filter}
+            onChange={this.handleChangeFilter}
+          />
+        </Header>
+      </ContainerHeader>
+     
     )
   }
 
@@ -259,8 +279,10 @@ export default class MonitoringGeneral extends React.Component {
   }
 
   render() {
+    console.log('monitoring -->', this.props)
     return (
       <PageContainer
+        style={{height: 96}}
         isLoading={!this.state.isLoadedFirst}
         backgroundColor="#fafbfb"
         headerCustom={this.renderHeader()}
