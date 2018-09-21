@@ -24,6 +24,7 @@ import swal from 'sweetalert2'
 import MeasuringTable from '../station-auto-formTable/'
 import InputNumberCell from 'components/elements/input-number-cell'
 import moment from 'moment'
+import { get, keyBy } from 'lodash'
 
 const FormItem = Form.Item
 const { TextArea } = Input
@@ -63,6 +64,8 @@ export default class StationAutoForm extends React.PureComponent {
 
   constructor(props) {
     super(props)
+
+    
     this.state = {
       stationType: {},
       stationTypes: [],
@@ -72,11 +75,12 @@ export default class StationAutoForm extends React.PureComponent {
       options: {},
       phones: [],
       emails: [],
-
+      standardsVNObject: get(props, 'initialValues.standardsVN', null),
       previewVisible: false,
       previewImage: '',
       fileList: [],
-      imgList: []
+      imgList: [],
+      allowUpdateStandardsVN: !props.initialValues
     }
   }
 
@@ -155,7 +159,7 @@ export default class StationAutoForm extends React.PureComponent {
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null
       }
       // Callback submit form Container Component
-     // console.log(data.measuringList)
+     //console.log(data.measuringList)
       this.props.onSubmit(data)
     })
   }
@@ -181,6 +185,7 @@ export default class StationAutoForm extends React.PureComponent {
       standardsVN: standardsVNObject.key,
       standardsVNObject: standardsVNObject
     })
+    console.log(standardsVNObject)
   }
 
   handlePreview = file => {
@@ -552,6 +557,8 @@ export default class StationAutoForm extends React.PureComponent {
         <MeasuringTable
           lang={this.props.lang}
           form={this.props.form}
+          allowUpdateStandardsVN={this.state.allowUpdateStandardsVN}
+          standardsVN={ keyBy(get(this.state.standardsVNObject, 'measuringList', []), 'key') }
           dataSource={
             this.props.initialValues
               ? this.props.initialValues.measuringList
