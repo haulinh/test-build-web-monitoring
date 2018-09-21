@@ -44,7 +44,6 @@ export default class HeaderView extends React.PureComponent {
   }
 
   configStatusChartSemi = (dataGroup, title, titleActive, tittleUnActive) => {
-    let dataG = []
     let goodTotal = 0
     const tpm = _.head(_.values(dataGroup))
 

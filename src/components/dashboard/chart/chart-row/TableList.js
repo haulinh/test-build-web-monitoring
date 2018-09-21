@@ -9,7 +9,6 @@ import {
   colorLevels
 } from 'constants/warningLevels'
 import { Tooltip } from 'antd'
-import objectPath from 'object-path'
 import * as _ from 'lodash'
 
 const Status = styled.div`

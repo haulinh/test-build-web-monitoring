@@ -20,7 +20,6 @@ import swal from 'sweetalert2'
 export default class QaQcContainer extends React.Component {
   state = {
     dataStationAuto: [],
-    dataAnalyzeStationAuto: [],
     measuringList: [],
     measuringData: [],
     searchFormData: {},
@@ -59,15 +58,8 @@ export default class QaQcContainer extends React.Component {
       })
     }
 
-    let dataAnalyzeStationAuto = await DataStationAutoApi.getDataAnalyzeStationAutos(
-      searchFormData
-    )
-
     this.setState({
       isLoading: false,
-      dataAnalyzeStationAuto: dataAnalyzeStationAuto.success
-        ? dataAnalyzeStationAuto.data
-        : [],
       dataStationAuto: dataStationAuto.data,
       measuringData: searchFormData.measuringData,
       measuringList: searchFormData.measuringList,
@@ -112,19 +104,9 @@ export default class QaQcContainer extends React.Component {
             searchNow={this.props.formData.searchNow}
           />
           <Clearfix height={16} />
-          {/* {this.state.isHaveData ? (
-            <DataAnalyze
-              dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
-              locale={{
-                emptyText: translate('dataSearchFrom.table.emptyText')
-              }}
-            />
-          ) : null}
-          <Clearfix height={16} /> */}
           {this.state.isHaveData ? (
             <TabList
               isLoading={this.state.isLoading}
-              dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
               measuringData={this.state.measuringData}
               measuringList={this.state.measuringList}
               dataStationAuto={this.state.dataStationAuto}
