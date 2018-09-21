@@ -99,12 +99,12 @@ export default class MeasuringItem extends React.PureComponent {
     if (item) {
       return (
         <Tooltip placement='top' title={translate(item.text)}>
-          <Icon type='heart'
+          <Icon type='sliders'
           style={{
             position: 'absolute',
             color: item.color,
             bottom: 4,
-            right: 4
+            right: 16
           }}
           theme='twoTone' />
         </Tooltip>

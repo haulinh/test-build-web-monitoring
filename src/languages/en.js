@@ -67,8 +67,10 @@ export default {
       label: 'Data filter by',
       negative: 'Negative',
       outOfRange: 'Out of range',
-      lessThanZero: '< 0'
-    }
+      isZero: 'Is Zero'
+    },
+    approve: 'Approve',
+    unApprove: 'UnApprove',
   },
   controlStation: {
     text: 'Sampling',

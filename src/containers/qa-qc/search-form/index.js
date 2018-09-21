@@ -15,7 +15,6 @@ import createValidateComponent from 'components/elements/redux-form-validate'
 import moment from 'moment'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import AdvancedOperator from './AdvancedOperator'
 import SelectStationAuto from '../../search/common/select-station-auto'
 import { translate } from 'hoc/create-lang'
 
@@ -36,7 +35,7 @@ const View = styled.div``
 
 const stationOptions = [
   { label: translate('qaqc.dataFilter.negative'), value: 'nagative' },
-  { label: translate('qaqc.dataFilter.lessThanZero'), value: 'zero' },
+  { label: translate('qaqc.dataFilter.isZero'), value: 'zero' },
   { label: translate('qaqc.dataFilter.outOfRange'), value: 'out' }
 ]
 
@@ -249,15 +248,6 @@ export default class SearchForm extends React.Component {
               </View>
             </Col>
           </Row>
-          {this.state.measuringList.length > 0 ? (
-            <div>
-              <Clearfix height={16} />
-              <AdvancedOperator
-                onReset={this.handleResetAdvanced}
-                measuringList={this.state.measuringList}
-              />
-            </div>
-          ) : null}
         </Container>
       </SearchFormContainer>
     )
