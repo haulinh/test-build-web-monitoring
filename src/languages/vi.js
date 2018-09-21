@@ -68,6 +68,15 @@ export default {
       negative: 'Số âm',
       outOfRange: 'Ngoài vùng đo',
       isZero: ' Bằng 0'
+    },
+    data: 'Loại số liệu',
+    approve: 'Phê duyệt',
+    unApprove: 'Hủy phê duyệt',
+    yetApprove: 'Chưa kiểm duyệt',
+    approved: 'Đã kiểm duyệt',
+    province: {
+      label: 'Đơn vị quản lý',
+      placeholder: 'Đơn vị quản lý'
     }
   },
   controlStation: {

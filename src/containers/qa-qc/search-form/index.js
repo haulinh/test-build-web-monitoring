@@ -4,11 +4,11 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import PropTypes from 'prop-types'
-import { Row, Col, Button, Checkbox } from 'antd'
+import { Row, Col, Button } from 'antd'
 import DatePicker from 'components/elements/datetime-picker'
 import createLang from 'hoc/create-lang'
-import Label from 'components/elements/label'
 import SelectStationType from 'components/elements/select-station-type'
+import SelectProvince from 'components/elements/select-province'
 import SelectAnt from 'components/elements/select-ant'
 import Clearfix from 'components/elements/clearfix'
 import createValidateComponent from 'components/elements/redux-form-validate'
@@ -18,11 +18,16 @@ import Heading from 'components/elements/heading'
 import SelectStationAuto from '../../search/common/select-station-auto'
 import { translate } from 'hoc/create-lang'
 
-const CheckboxGroup = Checkbox.Group
+import DataFilterBy from './data-filter-by'
+import { FSelectApprove } from './select-approve'
+
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
+const FSelectProvince = createValidateComponent(SelectProvince)
 const FDatePicker = createValidateComponent(DatePicker)
 const FSelectAnt = createValidateComponent(SelectAnt)
+const FDataFilterBy = createValidateComponent(DataFilterBy)
+
 
 const DATE_FORMAT = 'YYYY/MM/DD HH:mm'
 
@@ -30,14 +35,6 @@ const SearchFormContainer = BoxShadowStyle.extend``
 const Container = styled.div`
   padding: 16px 16px;
 `
-
-const View = styled.div``
-
-const stationOptions = [
-  { label: translate('qaqc.dataFilter.negative'), value: 'nagative' },
-  { label: translate('qaqc.dataFilter.isZero'), value: 'zero' },
-  { label: translate('qaqc.dataFilter.outOfRange'), value: 'out' }
-]
 
 function validate(values) {
   const errors = {}
@@ -110,6 +107,11 @@ export default class SearchForm extends React.Component {
     this.props.change('stationAuto', '')
   }
 
+
+  handleProvinceChange(obj, e) {
+    console.log('handleProvinceChange', obj, e);
+  }
+
   handleChangeStationAuto(stationAuto) {
     const measuringData = stationAuto.measuringList.sort(function(a, b) {
       return a.numericalOrder - b.numericalOrder
@@ -131,6 +133,7 @@ export default class SearchForm extends React.Component {
   }
 
   handleSubmit(values) {
+    console.log('values: ', values)
     this.props.onSubmit({
       fromDate: this.convertDateToString(values.fromDate),
       toDate: this.convertDateToString(values.toDate),
@@ -182,8 +185,17 @@ export default class SearchForm extends React.Component {
           {this.props.lang.t('addon.search')}
         </Heading>
         <Container>
-          <Row gutter={16}>
-            <Col span={8}>
+          <Row gutter={24}>
+            <Col span={6}>
+              <Field 
+                label={translate('qaqc.province.label')}
+                name="province"
+                size="large"
+                component={FSelectProvince}
+                onHandleChange={this.handleProvinceChange}
+              />
+            </Col>
+            <Col span={6}>
               <Field
                 label={t('stationType.label')}
                 name="stationType"
@@ -192,7 +204,7 @@ export default class SearchForm extends React.Component {
                 component={FSelectStationType}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('stationAuto.label')}
                 name="stationAuto"
@@ -204,7 +216,7 @@ export default class SearchForm extends React.Component {
                 setKey
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -218,7 +230,7 @@ export default class SearchForm extends React.Component {
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('fromDate.label')}
                 name="fromDate"
@@ -227,7 +239,7 @@ export default class SearchForm extends React.Component {
                 dateFormat={DATE_FORMAT}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('toDate.label')}
                 name="toDate"
@@ -236,16 +248,21 @@ export default class SearchForm extends React.Component {
                 dateFormat={DATE_FORMAT}
               />
             </Col>
-            <Col span={8}>
-              <View>
-                <Label style={{ display: 'block' }}>
-                  {translate('qaqc.dataFilter.label')}
-                </Label>
-                <CheckboxGroup
-                  options={stationOptions}
-                  onChange={this.handleChoseOptions}
-                />
-              </View>
+            <Col span={6}>
+              <Field 
+                label={translate('qaqc.data')}
+                name="dataType"
+                size="large"
+                component={FSelectApprove}
+              />
+            </Col>
+            <Col span={6}>
+              <Field 
+                label={translate('qaqc.dataFilter.label')}
+                size="large"
+                name='dataFilterBy'
+                component={FDataFilterBy}
+              />
             </Col>
           </Row>
         </Container>

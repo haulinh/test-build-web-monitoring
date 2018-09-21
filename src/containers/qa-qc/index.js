@@ -13,6 +13,7 @@ import { message, Spin } from 'antd'
 // import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
+import { get, size } from 'lodash'
 
 // @protectRole(ROLE.DATA_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -51,7 +52,9 @@ export default class QaQcContainer extends React.Component {
       searchFormData
     )
 
-    if (dataStationAuto.data.length === 0) {
+    const dataStationAutoList = get(dataStationAuto, 'data', [])
+
+    if (size(dataStationAutoList) === 0) {
       swal({
         type: 'success',
         title: translate('dataSearchFrom.table.emptyText')
@@ -60,13 +63,13 @@ export default class QaQcContainer extends React.Component {
 
     this.setState({
       isLoading: false,
-      dataStationAuto: dataStationAuto.data,
+      dataStationAuto: dataStationAutoList,
       measuringData: searchFormData.measuringData,
       measuringList: searchFormData.measuringList,
       searchFormData: searchFormData,
       pagination: {
         ...pagination,
-        total: dataStationAuto.pagination.totalItem
+        total: get(dataStationAuto, 'pagination.totalItem', 0)
       }
     })
   }

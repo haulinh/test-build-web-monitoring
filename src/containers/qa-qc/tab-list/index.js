@@ -4,22 +4,19 @@ import { Button } from 'antd'
 import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
-import BoxShadow from 'components/elements/box-shadow/index'
-import TabTableDataList from './tab-table-data-list/index'
+import BoxShadow from 'components/elements/box-shadow'
+import TabTableDataList from './tab-table-data-list'
 // import TabChart from './tab-chart/index'
 // import ROLE from 'constants/role'
 // import protectRole from 'hoc/protect-role'
 
 const TabeListWrapper = BoxShadow.extend`
   padding: 0px 16px 16px 16px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
 `
 
 const ButtonAbsolute = styled.div`
-  position: absolute;
-  top: 0px;
-  right: 16px;
-  z-index: 3;
 `
 
 @autobind

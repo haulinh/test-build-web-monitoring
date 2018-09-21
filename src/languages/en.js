@@ -69,8 +69,15 @@ export default {
       outOfRange: 'Out of range',
       isZero: 'Is Zero'
     },
+    data: 'Data Type',
     approve: 'Approve',
-    unApprove: 'UnApprove'
+    unApprove: 'UnApprove',
+    yetApprove: 'Yet Approved',
+    approved: 'Approved',
+    province: {
+      label: 'Management Unit',
+      placeholder: 'Management Unit'
+    }
   },
   controlStation: {
     text: 'Sampling',
