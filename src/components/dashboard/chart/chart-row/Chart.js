@@ -11,7 +11,8 @@ import { getDataStationAutos } from 'api/DataStationAutoApi'
 
 const ChartWrapper = styled.div``
 
-const configChart = (data, title) => {
+const configChart = (data, title, minLimit, maxLimit, maxChart) => {
+  
   return {
     chart: {
       zoomType: 'x'
@@ -23,12 +24,30 @@ const configChart = (data, title) => {
       type: 'datetime'
     },
     yAxis: {
+      max: maxChart,
       title: {
         text: ''
-      }
+      },
+      plotLines: [{
+        value: minLimit,
+        color: 'red',
+        width: 2,
+        label: {
+          text: `Min: ${minLimit}`
+        }
+      }, 
+      {
+        value: maxLimit,
+        color: 'red',
+        width: 1,
+        label: {
+          text: `Max: ${maxLimit}`,
+        }
+      }]
     },
     legend: {
-      enabled: false
+      enabled: false,
+      reversed: true
     },
     plotOptions: {
       area: {
@@ -97,10 +116,9 @@ export default class ChartRowToChart extends React.Component {
     let measuringKeys = []
     let results = {}
     if (!_.isEmpty(station)) {
-      categories = _.get(station, 'measuringList', [])
-      measuringKeys = _.map(categories, ({ key }) => key)
-      current = _.head(categories)
-
+      categories = _.keyBy(_.get(station, 'measuringList', []), 'key')
+      measuringKeys = _.keys(categories)      
+      console.log('measuringKeys: ', measuringKeys)
       let toDate = moment()
       let fromDate = moment().subtract(day, 'days')
       if (_.has(station, 'lastLog.receivedAt')) {
@@ -127,9 +145,21 @@ export default class ChartRowToChart extends React.Component {
             results[key] = _.concat(_.get(results, key, []), [
               [new Date(receivedAt).getTime(), measuringLogs[key]['value']]
             ])
+
+            if (_.has(categories, `${key}`)){
+              let maxChart = _.get(categories, `${key}.maxLimit`)
+              if (maxChart > 0){
+                maxChart = _.max([maxChart, measuringLogs[key]['value']])
+                categories[key].maxChart = maxChart
+              }
+            }
           }
         })
       })
+
+      categories = _.toArray(categories)
+      current = _.head(categories)
+      console.log('categories', current, categories)
     }
 
     this.setState({ categories, current, day, data: results })
@@ -174,11 +204,21 @@ export default class ChartRowToChart extends React.Component {
 
   getConfigData = () => {
     let data = []
-    const key = _.get(this.state.current, 'key', '')
+    const key = _.get(this.state.current, 'key', '') 
     if (key) {
       data = _.get(this.state.data, key, [])
     }
-    return configChart(data, _.get(this.state.current, 'name', ''))
+    
+    let config = {
+      
+    }
+    return configChart(
+        data,
+        _.get(this.state.current, 'name', ''),
+        _.get(this.state.current, 'minLimit'),
+        _.get(this.state.current, 'maxLimit'),
+        _.get(this.state.current, 'maxChart')
+        )
   }
 
   render() {
