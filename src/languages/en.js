@@ -503,9 +503,9 @@ export default {
         placeholder: 'Address'
       },
       qcvn: {
-        label: 'QCVN',
-        placeholder: 'QCVN',
-        error: 'Please Choose Type Of QCVN'
+        label: 'Standards VN',
+        placeholder: 'Standards VN',
+        error: 'Please Choose Type Of Standards VN'
       },
       province: {
         label: 'Management Unit',
@@ -549,6 +549,9 @@ export default {
         placeholder: 'Input Phone Number',
         error: 'Please Input Phone Number'
       },
+      range:{
+        label:'Range'
+      },
       measuringKey: {
         label: 'Parameter code',
         placeholder: 'Input Parameter Code',
@@ -573,6 +576,16 @@ export default {
         label: 'Max Limit',
         placeholder: 'Input Max Limit',
         error: 'Please Input Max Limit'
+      },
+      measuringMinRange: {
+        label: 'Min Range',
+        placeholder: 'Input Min Range',
+        error: 'Please Input Min Range'
+      },
+      measuringMaxRange: {
+        label: 'Max Range',
+        placeholder: 'Input Max Range',
+        error: 'Please Input Max Range'
       },
       options: {
         isAllowWarning: 'Allow Warning',

@@ -546,6 +546,9 @@ export default {
         placeholder: 'Nhập số điện thoại',
         error: 'Vui lòng nhập số điện thoại'
       },
+      range:{
+        label:'Giới hạn đo'
+      },
       measuringKey: {
         label: 'Mã thông số',
         placeholder: 'Nhập mã thông số',
@@ -570,6 +573,16 @@ export default {
         label: 'Giới hạn tối đa',
         placeholder: 'Nhập giới hạn tôí đa',
         error: 'Vui lòng nhập giới hạn tối đa'
+      },
+      measuringMinRange: {
+        label: 'Giới hạn đo tối thiểu',
+        placeholder: 'Nhập giới hạn đo tối thiểu',
+        error: 'Vui lòng nhập giới hạn đo tối thiểu'
+      },
+      measuringMaxRange: {
+        label: 'Giới hạn đo tối đa',
+        placeholder: 'Input Max Range',
+        error: 'Vui lòng nhập giới hạn đo tối đa'
       },
       options: {
         isAllowWarning: 'Cảnh báo',
