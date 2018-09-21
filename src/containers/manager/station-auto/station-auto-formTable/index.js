@@ -27,9 +27,9 @@ export default class StationAutoFormTable extends React.PureComponent {
       {
         dataIndex: 'measuringKey',
         title: t('stationAutoManager.form.measuringKey.label'),
-        width: 140,
+        width: 130,
         render: (text, record, index) => (
-          <FormItem>
+          <FormItem style={{ marginBottom: 0 }}>
             {getFieldDecorator(`measuringList[${index}].key`, {
               initialValue: text
             })(<span>{text}</span>)}
@@ -39,8 +39,9 @@ export default class StationAutoFormTable extends React.PureComponent {
       {
         dataIndex: 'measuringName',
         title: t('stationAutoManager.form.measuringName.label'),
+        width: 130,
         render: (text, record, index) => (
-          <FormItem>
+          <FormItem style={{ marginBottom: 0 }}>
             {getFieldDecorator(`measuringList[${index}].name`, {
               initialValue: record.name,
               rules: [
@@ -53,6 +54,7 @@ export default class StationAutoFormTable extends React.PureComponent {
               ]
             })(
               <AutoCompleteCell
+                style={{ width: 120 }}
                 editable={true}
                 onChange={value =>
                   this.handleChangeMeasuring(value, index, 'name')
@@ -69,41 +71,79 @@ export default class StationAutoFormTable extends React.PureComponent {
         )
       },
       {
-        dataIndex: 'minLimit',
-        title: t('stationAutoManager.form.measuringMinLimit.label'),
-        render: (text, record, index) => (
-          <FormItem>
-            {getFieldDecorator(`measuringList[${index}].minLimit`, {
-              initialValue: text
-            })(<InputNumberCell editable={true} />)}
-          </FormItem>
-        )
+        title:  t('stationAutoManager.form.range.label'),
+        children: [
+          {
+            dataIndex: 'minRange',
+            title: t('stationAutoManager.form.measuringMinRange.label'),
+            width: 150,
+            render: (text, record, index) => (
+              <FormItem style={{ marginBottom: 0 }}>
+                {getFieldDecorator(`measuringList[${index}].minRange`, {
+                  initialValue: text
+                })(<InputNumberCell style={{ width: 120 }} editable={true} />)}
+              </FormItem>
+            )
+          },
+          {
+            dataIndex: 'maxRange',
+            title: t('stationAutoManager.form.measuringMaxRange.label'),
+            width: 150,
+            render: (text, record, index) => (
+              <FormItem style={{ marginBottom: 0 }}>
+                {getFieldDecorator(`measuringList[${index}].maxRange`, {
+                  initialValue: text
+                })(<InputNumberCell style={{ width: 120 }} editable={true} />)}
+              </FormItem>
+            )
+          }
+        ]
       },
       {
-        dataIndex: 'maxLimit',
-        title: t('stationAutoManager.form.measuringMaxLimit.label'),
-        render: (text, record, index) => (
-          <FormItem>
-            {getFieldDecorator(`measuringList[${index}].maxLimit`, {
-              initialValue: text
-            })(<InputNumberCell editable={true} />)}
-          </FormItem>
-        )
+        title:  t('stationAutoManager.form.qcvn.label'),
+        children: [
+          {
+            dataIndex: 'minLimit',
+            title: t('stationAutoManager.form.measuringMinLimit.label'),
+            width: 150,
+            render: (text, record, index) => (
+              <FormItem style={{ marginBottom: 0 }}>
+                {getFieldDecorator(`measuringList[${index}].minLimit`, {
+                  initialValue: text
+                })(<InputNumberCell style={{ width: 120 }} editable={true} />)}
+              </FormItem>
+            )
+          },
+          {
+            dataIndex: 'maxLimit',
+            title: t('stationAutoManager.form.measuringMaxLimit.label'),
+            width: 150,
+            render: (text, record, index) => (
+              <FormItem style={{ marginBottom: 0 }}>
+                {getFieldDecorator(`measuringList[${index}].maxLimit`, {
+                  initialValue: text
+                })(<InputNumberCell style={{ width: 120 }} editable={true} />)}
+              </FormItem>
+            )
+          }
+        ]
       },
       {
         dataIndex: 'unit',
         title: t('stationAutoManager.form.measuringUnit.label'),
+        width: 150,
         render: (text, record, index) => (
-          <FormItem>
+          <FormItem style={{ marginBottom: 0 }}>
             {getFieldDecorator(`measuringList[${index}].unit`, {
               initialValue: text
-            })(<Input />)}
+            })(<Input style={{ width: 120 }} />)}
           </FormItem>
         )
       },
       {
         dataIndex: 'name',
         title: '', //Action
+        width: 50,
         render: (text, record, index) => {
           return (
             <div className="editable-row-operations">

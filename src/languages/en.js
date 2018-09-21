@@ -540,6 +540,12 @@ export default {
         placeholder: 'Input Phone Number',
         error: 'Please Input Phone Number'
       },
+      qcvn:{
+        label:'Standards VN'
+      },
+      range:{
+        label:'Range'
+      },
       measuringKey: {
         label: 'Parameter code',
         placeholder: 'Input Parameter Code',
@@ -564,6 +570,16 @@ export default {
         label: 'Max Limit',
         placeholder: 'Input Max Limit',
         error: 'Please Input Max Limit'
+      },
+      measuringMinRange: {
+        label: 'Min Range',
+        placeholder: 'Input Min Range',
+        error: 'Please Input Min Range'
+      },
+      measuringMaxRange: {
+        label: 'Max Range',
+        placeholder: 'Input Max Range',
+        error: 'Please Input Max Range'
       },
       options: {
         isAllowWarning: 'Allow Warning',
