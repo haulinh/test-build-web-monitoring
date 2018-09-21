@@ -67,7 +67,7 @@ export default {
       label: 'Lọc dữ liệu theo',
       negative: 'Số âm',
       outOfRange: 'Ngoài vùng đo',
-      lessThanZero: '< 0'
+      isZero: ' Bằng 0'
     }
   },
   controlStation: {

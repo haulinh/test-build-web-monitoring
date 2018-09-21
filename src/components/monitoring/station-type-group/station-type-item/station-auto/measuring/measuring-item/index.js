@@ -16,7 +16,7 @@ const DEVICE_STATUS = {
 const MeasuringItemWrapper = styled.div`
   position: relative;
   display: flex;
-  padding: 8px 16px;
+  padding: 8px 8px;
   flex-direction: column;
   justify-content: space-between;
   border-radius: 8px;
@@ -31,7 +31,7 @@ const MeasuringItemText = styled.div`
 `
 
 const MeasuringName = styled.span`
-  padding: 0 5px 0 5px;
+  padding: 0px 6px;
   display: flex;
   font-size: 10px;
   color: #ffffff;
@@ -100,12 +100,12 @@ export default class MeasuringItem extends React.PureComponent {
       return (
         <Tooltip placement="top" title={translate(item.text)}>
           <Icon
-            type="heart"
+            type="tags"
             style={{
               position: 'absolute',
               color: item.color,
               bottom: 4,
-              right: 4
+              right: 8
             }}
             theme="twoTone"
           />
