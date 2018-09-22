@@ -112,7 +112,10 @@ export default class SearchForm extends React.Component {
   }
 
   handleChangeStationAuto(stationAuto) {
-    const measuringData = _.orderBy(stationAuto.measuringList || [], 'numericalOrder')
+    const measuringData = _.orderBy(
+      stationAuto.measuringList || [],
+      'numericalOrder'
+    )
 
     // const measuringData = stationAuto.measuringList.sort(function(a, b) {
     //   return a.numericalOrder - b.numericalOrder
