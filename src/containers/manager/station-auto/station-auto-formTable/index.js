@@ -18,31 +18,71 @@ export default class StationAutoFormTable extends React.Component {
     dataSource: PropTypes.array,
     measuringListSource: PropTypes.array,
     allowUpdateStandardsVN: PropTypes.bool, 
-    standardsVN: PropTypes.object,
-    standardsVNObject: PropTypes.object,
+    standardsVN: PropTypes.object
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      standardsVN: props.standardsVN
+      standardsVN: props.standardsVN,
+      measuringList: []
     }
   }
 
   componentWillReceiveProps(nextProps) {
+    let params = {}
+   
     if (!_.isEqual(nextProps.standardsVN, this.props.standardsVN)) {
-      this.setState({ standardsVN: nextProps.standardsVN })
+      params.standardsVN = nextProps.standardsVN
+      if (this.props.allowUpdateStandardsVN && !_.isEmpty(nextProps.standardsVN)){
+        let measuringList = _.filter(this.state.measuringList, item => !_.isEmpty(item.measuringKey))
+        let size = _.size(this.state.measuringList)
+        const measureObj = _.keyBy(this.state.measuringList, 'measuringKey')
+        _.forEach(_.values(nextProps.standardsVN),  item => {
+          if (!measureObj[item.key]) {
+            measuringList = _.concat(measuringList, {
+              measuringKey: item.key,
+              ...item,
+              key: size,
+            })
+            size++
+          }
+        })
+        if (_.size(measuringList) > 0) {
+          params.measuringList = measuringList
+        }
+      }
+
+      this.setState(params)
     }
   }
 
   async componentWillMount() {
-    this.setState({
-      measuringList: this.props.dataSource.map((item, index) => {
+    let measuringList = []
+    console.log('this.props.dataSource', this.props.dataSource)
+    if (this.props.allowUpdateStandardsVN && !_.isEmpty(this.props.standardsVN)){
+      measuringList = _.map(_.values(this.props.standardsVN),  (item, index) => {
         item.measuringKey = item.key
         item.key = index
         return item
       })
-    })
+    } else {
+      measuringList = _.map(this.props.dataSource, (item, index) => {
+        item.measuringKey = item.key
+        item.key = index
+        return item
+      })
+    }
+
+    this.setState({measuringList})
+
+      // this.setState({
+    //   measuringList: this.props.dataSource.map((item, index) => {
+    //     item.measuringKey = item.key
+    //     item.key = index
+    //     return item
+    //   })
+    // })
   }
 
   handleAddRow() {
@@ -54,9 +94,12 @@ export default class StationAutoFormTable extends React.Component {
     let rows = this.state.measuringList.slice()
     rows = update(rows, { $push: [newRow] })
     this.setState({ measuringList: rows })
+    console.log(rows)
   }
 
   getValueStandardVN = (record, field) => {
+   // console.log(this.state.standardsVN)
+  //  console.log(record)
     const value = _.get( _.get(this.state.standardsVN, _.get(record, 'measuringKey'), {}), field, undefined)
     if (!_.isUndefined(value)) {
       return value
@@ -86,13 +129,12 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   renderItemCell = (text, record, index, key) => (
-    <FormItem style={{ marginBottom: 0 }}>
+      <FormItem style={{ marginBottom: 0 }}>
       {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
         initialValue: text
       })(<span>{text}</span>)}
-    </FormItem>
+      </FormItem>
   )
-
   renderItemNumberCell = (text, record, index, key, autoFill = false) => {
     if (autoFill) {
       if (!_.isNumber(text) && this.props.allowUpdateStandardsVN) {
@@ -114,11 +156,9 @@ export default class StationAutoFormTable extends React.Component {
     var textTitle = ''
     if((!this.props.allowUpdateStandardsVN)){
       if(_.isObject(this.props.standardsVNObject)){
-        console.log('true')
         textTitle = t('stationAutoManager.form.qcvn.label') + ` : (${this.props.standardsVNObject.name})`
       }
     } else {
-      console.log('false_2')
       textTitle = t('stationAutoManager.form.qcvn.label')
     }
     return [

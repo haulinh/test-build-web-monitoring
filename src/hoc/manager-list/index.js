@@ -1,5 +1,6 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
+import { get } from 'lodash'
 
 /**
  * Manager list data
@@ -36,7 +37,7 @@ const createManagerList = ({ apiList, itemPerPage = 20 }) => Component => {
         dataSource: res.data,
         pagination: {
           ...res.pagination,
-          total: res.pagination.totalItem
+          total: get(res, 'pagination.totalItem', 0)
         },
         isLoading: false,
         pathImg: res.path
