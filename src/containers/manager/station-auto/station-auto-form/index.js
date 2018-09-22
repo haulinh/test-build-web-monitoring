@@ -185,7 +185,6 @@ export default class StationAutoForm extends React.PureComponent {
       standardsVN: standardsVNObject.key,
       standardsVNObject: standardsVNObject
     })
-    console.log(standardsVNObject)
   }
 
   handlePreview = file => {
@@ -558,6 +557,7 @@ export default class StationAutoForm extends React.PureComponent {
           lang={this.props.lang}
           form={this.props.form}
           allowUpdateStandardsVN={this.state.allowUpdateStandardsVN}
+          standardsVNObject = {this.state.standardsVNObject}
           standardsVN={ keyBy(get(this.state.standardsVNObject, 'measuringList', []), 'key') }
           dataSource={
             this.props.initialValues

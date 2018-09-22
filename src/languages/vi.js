@@ -575,12 +575,12 @@ export default {
         error: 'Vui lòng nhập giới hạn tối đa'
       },
       measuringMinRange: {
-        label: 'Giới hạn đo tối thiểu',
+        label: 'Giới hạn tối thiểu',
         placeholder: 'Nhập giới hạn đo tối thiểu',
         error: 'Vui lòng nhập giới hạn đo tối thiểu'
       },
       measuringMaxRange: {
-        label: 'Giới hạn đo tối đa',
+        label: 'Giới hạn tối đa',
         placeholder: 'Input Max Range',
         error: 'Vui lòng nhập giới hạn đo tối đa'
       },

@@ -18,7 +18,8 @@ export default class StationAutoFormTable extends React.Component {
     dataSource: PropTypes.array,
     measuringListSource: PropTypes.array,
     allowUpdateStandardsVN: PropTypes.bool, 
-    standardsVN: PropTypes.object
+    standardsVN: PropTypes.object,
+    standardsVNObject: PropTypes.object,
   }
 
   constructor(props) {
@@ -110,6 +111,16 @@ export default class StationAutoFormTable extends React.Component {
   getColumns = () => {
     const { t } = this.props.lang
     const { getFieldDecorator } = this.props.form
+    var textTitle = ''
+    if((!this.props.allowUpdateStandardsVN)){
+      if(_.isObject(this.props.standardsVNObject)){
+        console.log('true')
+        textTitle = t('stationAutoManager.form.qcvn.label') + ` : (${this.props.standardsVNObject.name})`
+      }
+    } else {
+      console.log('false_2')
+      textTitle = t('stationAutoManager.form.qcvn.label')
+    }
     return [
       {
         dataIndex: 'measuringKey',
@@ -169,7 +180,8 @@ export default class StationAutoFormTable extends React.Component {
         ]
       },
       {
-        title:  t('stationAutoManager.form.qcvn.label'),
+       // title: t('stationAutoManager.form.qcvn.label')  ,
+        title: textTitle,
         children: [
           {
             dataIndex: 'minLimit',
@@ -228,7 +240,7 @@ export default class StationAutoFormTable extends React.Component {
 
   render() {
     const { t } = this.props.lang
-    console.log('standardsVN', this.props.standardsVN)
+   // console.log('standardsVN', this.props.standardsVN)
     return (
       <div>
         <Button
