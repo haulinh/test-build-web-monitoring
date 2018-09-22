@@ -17,19 +17,25 @@ const WarningWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   margin-top: 8px;
+  flex: 1;
 `
 const WarningTitle = styled.span`
   font-weight: 600;
   font-size: 12px;
+  margin-left: 4px;
 `
+
 const WrapperColor = styled.div`
   display: flex;
   margin-top: 4px;
   margin-left: 8px;
+  flex: 1
 `
+
 const ColorLevel = styled.span`
   min-width: 96px;
   padding: 4;
+  flex: 1;
   background-color: ${props => props.color};
   text-align: center;
 `
@@ -40,6 +46,10 @@ const TextLevel = styled.span`
   line-height: normal;
   text-align: center;
   color: #ffffff;
+`
+
+const SpaceContainer = styled.span`
+  width: 25%
 `
 
 @autobind
@@ -56,6 +66,7 @@ export default class Header extends React.PureComponent {
       <HeaderWrapper>
         {this.props.children}
         <WarningWrapper>
+          <SpaceContainer/>
           <WarningTitle> {translate('warningLevels.title')}</WarningTitle>
           <WrapperColor>
             <ColorLevel color={colorLevels.GOOD} >
