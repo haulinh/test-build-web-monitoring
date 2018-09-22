@@ -12,21 +12,6 @@ const SelectWrapper = styled.div`
   .ant-select {
     width: 100%;
   }
-  .ant-select-selection--single {
-    width: 100%;
-    background-color: #41aee4;
-    border: 0px;
-  }
-  .ant-select-selection-selected-value {
-    color: #ffffff;
-    padding-right: 15px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  .ant-select-arrow {
-    color: #ffffff;
-  }
 `
 
 @autobind
