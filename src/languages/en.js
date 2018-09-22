@@ -811,6 +811,7 @@ export default {
     title: 'User Profile',
     success: 'Change Information Successfully',
     viewProfile: 'View Profile',
+    configStation: 'Config Station',
     security: 'Security',
     logOut: 'Log Out',
     changePassword: 'Change Password',

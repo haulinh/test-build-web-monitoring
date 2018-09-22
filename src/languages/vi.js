@@ -808,6 +808,7 @@ export default {
     title: 'người dùng',
     success: 'Thay đổi thông tin thành công',
     viewProfile: 'Hiển thị thông tin',
+    configStation: 'Cấu hình trạm',
     security: 'Bảo mật',
     logOut: 'Đăng xuất',
     changePassword: 'Thay đổi mật khẩu',
