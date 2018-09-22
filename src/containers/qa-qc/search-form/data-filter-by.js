@@ -14,11 +14,6 @@ const stationOptions = [
 
 @autobind
 export default class DataFilterByView extends PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func,
-    value: PropTypes.string,
-  }
-
   state = {
     value: null
   }
@@ -31,11 +26,6 @@ export default class DataFilterByView extends PureComponent {
   }
 
   render() {
-    return (
-      <CheckboxGroup
-        options={stationOptions}
-        onChange={this.onChange}
-      />
-    )
+    return <CheckboxGroup options={stationOptions} onChange={this.onChange} />
   }
 }

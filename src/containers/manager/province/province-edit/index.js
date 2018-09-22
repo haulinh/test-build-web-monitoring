@@ -63,7 +63,8 @@ export default class ProvinceEdit extends React.PureComponent {
     return (
       <div>
         <Button type="primary" onClick={this.deleteProvince}>
-          <Icon type="delete" />Delete
+          <Icon type="delete" />
+          Delete
         </Button>
       </div>
     )

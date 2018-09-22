@@ -17,6 +17,7 @@ import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import SelectStationAuto from '../../search/common/select-station-auto'
 import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
 
 import DataFilterBy from './data-filter-by'
 import { FSelectApprove } from './select-approve'
@@ -27,7 +28,6 @@ const FSelectProvince = createValidateComponent(SelectProvince)
 const FDatePicker = createValidateComponent(DatePicker)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FDataFilterBy = createValidateComponent(DataFilterBy)
-
 
 const DATE_FORMAT = 'YYYY/MM/DD HH:mm'
 
@@ -107,15 +107,16 @@ export default class SearchForm extends React.Component {
     this.props.change('stationAuto', '')
   }
 
-
   handleProvinceChange(obj, e) {
-    console.log('handleProvinceChange', obj, e);
+    console.log('handleProvinceChange', obj, e)
   }
 
   handleChangeStationAuto(stationAuto) {
-    const measuringData = stationAuto.measuringList.sort(function(a, b) {
-      return a.numericalOrder - b.numericalOrder
-    })
+    const measuringData = _.orderBy(stationAuto.measuringList || [], 'numericalOrder')
+
+    // const measuringData = stationAuto.measuringList.sort(function(a, b) {
+    //   return a.numericalOrder - b.numericalOrder
+    // })
     this.setState({
       measuringList: measuringData.map(measuring => ({
         value: measuring.key,
@@ -133,29 +134,22 @@ export default class SearchForm extends React.Component {
   }
 
   handleSubmit(values) {
-    console.log('values: ', values)
-    this.props.onSubmit({
-      fromDate: this.convertDateToString(values.fromDate),
-      toDate: this.convertDateToString(values.toDate),
+    const params = {
+      from: this.convertDateToString(values.fromDate),
+      to: this.convertDateToString(values.toDate),
       key: values.stationAuto,
       name: this.state.stationAutoName,
       measuringList: values.measuringList,
       measuringData: this.state.measuringData,
-      isExceeded: values.isExceeded,
-      advanced: values.advanced
-        ? values.advanced.filter(
-            item =>
-              item.measuringKey &&
-              item.operator &&
-              item.value !== null &&
-              typeof item.value !== 'undefined'
-          )
-        : []
-    })
-  }
+      province: _.get(values, 'province', ''),
+      dataType: _.get(values, 'dataType', 'value')
+    }
 
-  handleResetAdvanced() {
-    this.props.array.removeAll('advanced')
+    if (values.dataFilterBy) {
+      params.dataFilterBy = _.join(_.get(values, 'dataFilterBy', []), ',')
+    }
+
+    this.props.onSubmit(params)
   }
 
   handleChoseOptions = e => {
@@ -187,7 +181,7 @@ export default class SearchForm extends React.Component {
         <Container>
           <Row gutter={24}>
             <Col span={6}>
-              <Field 
+              <Field
                 label={translate('qaqc.province.label')}
                 name="province"
                 size="large"
@@ -249,7 +243,7 @@ export default class SearchForm extends React.Component {
               />
             </Col>
             <Col span={6}>
-              <Field 
+              <Field
                 label={translate('qaqc.data')}
                 name="dataType"
                 size="large"
@@ -257,10 +251,10 @@ export default class SearchForm extends React.Component {
               />
             </Col>
             <Col span={6}>
-              <Field 
+              <Field
                 label={translate('qaqc.dataFilter.label')}
                 size="large"
-                name='dataFilterBy'
+                name="dataFilterBy"
                 component={FDataFilterBy}
               />
             </Col>

@@ -58,7 +58,8 @@ export default class UserEdit extends React.PureComponent {
     return (
       <div>
         <Button type="primary" onClick={this.deleteStationType}>
-          <Icon type="delete" />Delete
+          <Icon type="delete" />
+          Delete
         </Button>
       </div>
     )

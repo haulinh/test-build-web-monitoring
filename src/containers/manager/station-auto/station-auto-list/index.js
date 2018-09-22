@@ -82,7 +82,9 @@ export default class StationAutoList extends React.Component {
   }
 
   async onDeleteItem(_id, callback) {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     Modal.confirm({
       title: 'Do you want to delete these items?',
       onOk() {
@@ -100,7 +102,9 @@ export default class StationAutoList extends React.Component {
   }
 
   async onRestoreItem(_id, callback) {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     Modal.confirm({
       title: 'Do you want to restore these items?',
       onOk() {
@@ -180,7 +184,8 @@ export default class StationAutoList extends React.Component {
           {
             content: (
               <Span deleted={row.removeStatus && row.removeStatus.allowed}>
-                &emsp;{row.key}
+                &emsp;
+                {row.key}
               </Span>
             )
           },
@@ -248,7 +253,9 @@ export default class StationAutoList extends React.Component {
   }
 
   actionGroup(row) {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     let dropDown = ''
     if (row.removeStatus && row.removeStatus.allowed) {
       dropDown = protectRole(ROLE.STATION_AUTO.DELETE)(

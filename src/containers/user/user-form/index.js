@@ -69,7 +69,9 @@ export default class UserForm extends React.PureComponent {
   }
 
   compareToFirstPassword = (rule, value, callback) => {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     const form = this.props.form
     if (value && value !== form.getFieldValue('password')) {
       callback(t('changePassword.form.compare'))
@@ -94,7 +96,10 @@ export default class UserForm extends React.PureComponent {
   async componentWillMount() {}
 
   render() {
-    const { form: { getFieldDecorator }, lang: { t } } = this.props
+    const {
+      form: { getFieldDecorator },
+      lang: { t }
+    } = this.props
     const formItemLayout = {
       labelCol: {
         sm: { span: 7, offset: 0 }

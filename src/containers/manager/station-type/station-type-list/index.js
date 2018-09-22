@@ -49,7 +49,9 @@ export default class StationTypeList extends React.Component {
   }
 
   buttonAdd() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return (
       <div>
         {protectRole(ROLE.STATION_TYPE.CREATE)(
@@ -74,7 +76,9 @@ export default class StationTypeList extends React.Component {
   }
 
   getHead() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return [
       { content: '#', width: 2 },
       { content: t('stationTypeManager.form.key.label'), width: 10 },
@@ -86,7 +90,9 @@ export default class StationTypeList extends React.Component {
   }
 
   getRows() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return this.props.dataSource.map((row, index) => [
       {
         content: (

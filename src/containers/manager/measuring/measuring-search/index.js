@@ -53,7 +53,9 @@ export default class MeasuringSearchForm extends React.PureComponent {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     if (this.props.isAdvanced) {
       return null
     }

@@ -17,7 +17,7 @@ export default class StationAutoFormTable extends React.Component {
     lang: langPropTypes,
     dataSource: PropTypes.array,
     measuringListSource: PropTypes.array,
-    allowUpdateStandardsVN: PropTypes.bool, 
+    allowUpdateStandardsVN: PropTypes.bool,
     standardsVN: PropTypes.object
   }
 
@@ -56,7 +56,11 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   getValueStandardVN = (record, field) => {
-    const value = _.get( _.get(this.state.standardsVN, _.get(record, 'measuringKey'), {}), field, undefined)
+    const value = _.get(
+      _.get(this.state.standardsVN, _.get(record, 'measuringKey'), {}),
+      field,
+      undefined
+    )
     if (!_.isUndefined(value)) {
       return value
     }
@@ -115,7 +119,8 @@ export default class StationAutoFormTable extends React.Component {
         dataIndex: 'measuringKey',
         title: t('stationAutoManager.form.measuringKey.label'),
         width: 130,
-        render: (text, record, index) => this.renderItemCell(text, record, index, 'key')
+        render: (text, record, index) =>
+          this.renderItemCell(text, record, index, 'key')
       },
       {
         dataIndex: 'measuringName',
@@ -152,36 +157,40 @@ export default class StationAutoFormTable extends React.Component {
         )
       },
       {
-        title:  t('stationAutoManager.form.range.label'),
+        title: t('stationAutoManager.form.range.label'),
         children: [
           {
             dataIndex: 'minRange',
             title: t('stationAutoManager.form.measuringMinRange.label'),
             width: 150,
-            render: (text, record, index) => this.renderItemNumberCell(text, record, index, 'minRange')
+            render: (text, record, index) =>
+              this.renderItemNumberCell(text, record, index, 'minRange')
           },
           {
             dataIndex: 'maxRange',
             title: t('stationAutoManager.form.measuringMaxRange.label'),
             width: 150,
-            render: (text, record, index) => this.renderItemNumberCell(text, record, index, 'maxRange')
+            render: (text, record, index) =>
+              this.renderItemNumberCell(text, record, index, 'maxRange')
           }
         ]
       },
       {
-        title:  t('stationAutoManager.form.qcvn.label'),
+        title: t('stationAutoManager.form.qcvn.label'),
         children: [
           {
             dataIndex: 'minLimit',
             title: t('stationAutoManager.form.measuringMinLimit.label'),
             width: 150,
-            render: (text, record, index) => this.renderItemNumberCell(text, record, index, 'minLimit', true)
+            render: (text, record, index) =>
+              this.renderItemNumberCell(text, record, index, 'minLimit', true)
           },
           {
             dataIndex: 'maxLimit',
             title: t('stationAutoManager.form.measuringMaxLimit.label'),
             width: 150,
-            render: (text, record, index) => this.renderItemNumberCell(text, record, index, 'maxLimit', true)
+            render: (text, record, index) =>
+              this.renderItemNumberCell(text, record, index, 'maxLimit', true)
           }
         ]
       },

@@ -94,8 +94,7 @@ export default class NotificationItem extends React.PureComponent {
                       <SpanColor color={colorLevels[warningLevel]}>
                         {value}
                       </SpanColor>{' '}
-                      {''}
-                      ({minLimit}
+                      {''}({minLimit}
                       {' - '}
                       {maxLimit})
                     </SpanNumberMeta>

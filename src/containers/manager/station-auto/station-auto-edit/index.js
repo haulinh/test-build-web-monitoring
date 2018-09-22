@@ -65,7 +65,8 @@ export default class StationAutoEdit extends React.PureComponent {
     return (
       <div>
         <Button type="primary" onClick={this.deleteStationAuto}>
-          <Icon type="delete" />Delete
+          <Icon type="delete" />
+          Delete
         </Button>
       </div>
     )

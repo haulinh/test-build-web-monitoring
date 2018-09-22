@@ -1,8 +1,10 @@
+import { get } from 'lodash'
+
 /* eslint-disable */
 export function getConfigApi() {
   const config = window.config
   function c(prefix) {
-    return config.apiGateway + '/' + prefix
+    return `http://171.244.21.99:5000/${prefix}` //config.apiGateway + '/' + prefix
   }
   return {
     gateway: config.apiGateway,
@@ -31,5 +33,5 @@ export function getConfigApi() {
 }
 
 export const GOOGLE_MAP = {
-  KEY: 'AIzaSyBLSM9VfDH8Psbd60hWlq6dqQLM1QCtBFA' //'AIzaSyB2-wp_CpzQQOkmacIaA2Xj90G8E_wiJiw'
+  KEY: get(window, 'config.googleMapKey', '') //'AIzaSyB2-wp_CpzQQOkmacIaA2Xj90G8E_wiJiw'
 }

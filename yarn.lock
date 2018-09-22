@@ -6927,11 +6927,7 @@ query-string@^4.1.0:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
-<<<<<<< HEAD
-query-string@^5.1.0:
-=======
 query-string@^5.0.1:
->>>>>>> f1c29f92279583978ca5ca18291c76ea4ba8f121
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-5.1.1.tgz#a78c012b71c17e05f2e3fa2319dd330682efb3cb"
   dependencies:

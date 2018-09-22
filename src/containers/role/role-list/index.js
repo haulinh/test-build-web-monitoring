@@ -46,7 +46,9 @@ export default class RoleList extends React.Component {
   }
 
   buttonAdd() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return (
       <div>
         {protectRole(ROLE.ROLE.CREATE)(
@@ -61,7 +63,9 @@ export default class RoleList extends React.Component {
   }
 
   getHead() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return [
       { content: '#', width: 5 },
       { content: t('roleManager.form.name.label') },
@@ -70,7 +74,9 @@ export default class RoleList extends React.Component {
   }
 
   getRows() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return this.props.dataSource.map((row, index) => [
       {
         content: <strong>{index + 1}</strong>
