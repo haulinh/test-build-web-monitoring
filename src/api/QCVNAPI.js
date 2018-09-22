@@ -6,7 +6,7 @@ function getQCVNUrl(prefix = '') {
 }
 
 export function getQCVN(
-  { page = 1, itemPerPage = 2 },
+  { page = 1, itemPerPage = 100 },
   { key = null, name = null } = {}
 ) {
   var urlSearch = `${getQCVNUrl()}?page=${page}&itemPerPage=${itemPerPage}`

@@ -127,14 +127,15 @@ export default class StationAutoList extends React.Component {
   }
 
   getHead() {
+    
     const { t } = this.props.lang
     return [
       { content: '#', width: 2 },
       { content: t('stationAutoManager.form.key.label'), width: 15 },
       { content: t('stationAutoManager.form.name.label'), width: 15 },
       { content: t('stationAutoManager.form.address.label'), width: 20 },
-      { content: t('stationAutoManager.form.mapLocation.label'), width: 15 },
-      { content: t('stationAutoManager.list.createdAt'), width: 10 },
+      { content: t('stationAutoManager.form.province.label'), width: 15 },
+      { content: t('stationAutoManager.form.dayOfOperation.label'), width: 10 },
       { content: t('stationAutoManager.list.action'), width: 5 }
     ]
   }
@@ -151,7 +152,6 @@ export default class StationAutoList extends React.Component {
       if (a.stationType.key > b.stationType.key) return 1
       return 0
     })
-
     let stationCount = {}
     for (let i = 0; i < sourceSorted.length; i++) {
       stationCount[sourceSorted[i].stationType.key] = stationCount[
@@ -202,7 +202,7 @@ export default class StationAutoList extends React.Component {
             content: (
               <div>
                 <Span deleted={row.removeStatus && row.removeStatus.allowed}>
-                  {row.mapLocation.lat} - {row.mapLocation.long}{' '}
+                  {row.province.name}{' '}
                 </Span>
               </div>
             )
@@ -210,7 +210,7 @@ export default class StationAutoList extends React.Component {
           {
             content: (
               <SpanTimeAgo>
-                <TimeAgo date={row.createdAt} />
+                <TimeAgo date={row.activatedAt} />
               </SpanTimeAgo>
             )
           },
