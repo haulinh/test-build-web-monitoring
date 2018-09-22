@@ -2,7 +2,7 @@
 export function getConfigApi() {
   const config = window.config
   function c(prefix) {
-    return config.apiGateway + '/' + prefix 
+    return config.apiGateway + '/' + prefix  //'http://171.244.21.99:5000' + '/' + prefix
   }
   return {
     gateway: config.apiGateway,
