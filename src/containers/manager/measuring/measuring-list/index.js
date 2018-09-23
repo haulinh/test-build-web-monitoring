@@ -48,7 +48,9 @@ export default class MeasuringList extends React.Component {
   }
 
   buttonAdd() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return (
       <div>
         {protectRole(ROLE.MEASURING.CREATE)(
@@ -63,7 +65,9 @@ export default class MeasuringList extends React.Component {
   }
 
   getHead() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return [
       // { content: '#', width: 2 },
       // { content: 'Key', width: 30 },
@@ -79,7 +83,9 @@ export default class MeasuringList extends React.Component {
   }
 
   getRows() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return this.props.dataSource.map((row, index) => [
       {
         content: (

@@ -7,6 +7,7 @@ import {
   withGoogleMap,
   Polygon
 } from 'react-google-maps'
+import { withProps } from 'recompose'
 import { getGoogleMapProps } from 'components/map/utils'
 import { map as mapLodash, get, find, inRange } from 'lodash'
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer'
@@ -43,6 +44,11 @@ const AqiMarker = ({ mapLocation, name, aqi }) => {
   )
 }
 
+@withProps({
+  googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${
+    GOOGLE_MAP.KEY
+  }&v=3.exp&libraries=geometry,drawing,places`
+})
 @withScriptjs
 @withGoogleMap
 class CustomGoogleMap extends PureComponent {
@@ -75,16 +81,10 @@ class CustomGoogleMap extends PureComponent {
     const defaultCenter = { lat: 10.7607494, lng: 106.6954122 }
     return (
       <GoogleMap
-        apiKey={GOOGLE_MAP.KEY}
-        bootstrapURLKeys={{
-          key: GOOGLE_MAP.KEY,
-          libraries: 'places'
-        }}
         ref={map => {
           if (!this.state.isBounds) this.getBounds()
           this.map = map
         }}
-        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2-wp_CpzQQOkmacIaA2Xj90G8E_wiJiw&v=3.exp&libraries=geometry,drawing,places"
         defaultZoom={12}
         defaultCenter={defaultCenter}
         zoom={12}
@@ -98,10 +98,6 @@ class CustomGoogleMap extends PureComponent {
               key={`${index}`}
             />
           ))}
-
-          {
-            //mapLodash(this.props.aqiList, ({mapLocation, key, name}) => <Marker key={key} mapLocation={mapLocation} name={'thuandv'} />)
-          }
         </div>
       </GoogleMap>
     )

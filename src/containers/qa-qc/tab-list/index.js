@@ -16,8 +16,7 @@ const TabeListWrapper = BoxShadow.extend`
   flex-direction: column;
 `
 
-const ButtonAbsolute = styled.div`
-`
+const ButtonAbsolute = styled.div``
 
 @autobind
 export default class TabeList extends React.PureComponent {

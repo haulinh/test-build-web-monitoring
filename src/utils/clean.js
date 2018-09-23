@@ -14,7 +14,9 @@ export function cleanUser(user) {
     totalFollower: user.followed_users ? user.followed_users.length : 0,
     avatar: user.avatar_url
       ? user.avatar_url
-      : user.avatar ? `${AUTH_API}/uploads/avatars/${user.avatar}` : '',
+      : user.avatar
+        ? `${AUTH_API}/uploads/avatars/${user.avatar}`
+        : '',
     balance: user.balance ? user.balance : 0
   }
 }

@@ -68,7 +68,8 @@ export default class QCVNEdit extends React.PureComponent {
     return (
       <div>
         <Button type="primary" onClick={this.deleteQCVN}>
-          <Icon type="delete" />Delete
+          <Icon type="delete" />
+          Delete
         </Button>
       </div>
     )

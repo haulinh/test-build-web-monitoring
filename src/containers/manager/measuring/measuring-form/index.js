@@ -36,7 +36,10 @@ export default class MeasuringForm extends React.PureComponent {
   }
 
   render() {
-    const { form: { getFieldDecorator }, lang: { t } } = this.props
+    const {
+      form: { getFieldDecorator },
+      lang: { t }
+    } = this.props
     const formItemLayout = {
       labelCol: {
         // sm: { span: 2, offset: 0 }

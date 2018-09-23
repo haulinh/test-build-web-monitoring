@@ -66,7 +66,9 @@ export default class ProvinceList extends React.Component {
     ]
   }
   getRows() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return this.props.dataSource.map((row, index) => [
       {
         content: (

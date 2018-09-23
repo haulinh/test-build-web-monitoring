@@ -39,7 +39,9 @@ export default class RoleForm extends PureComponent {
   }
 
   render() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit.bind(this))}>
         <Row>
