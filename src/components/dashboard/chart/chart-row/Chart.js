@@ -208,7 +208,6 @@ export default class ChartRowToChart extends React.Component {
       data = _.get(this.state.data, key, [])
     }
 
-    let config = {}
     return configChart(
       data,
       _.get(this.state.current, 'name', ''),

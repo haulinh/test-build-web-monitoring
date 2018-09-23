@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { Checkbox } from 'antd'
-import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
 

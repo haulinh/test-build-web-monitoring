@@ -153,7 +153,7 @@ export default class StationAutoFormTable extends React.Component {
   getColumns = () => {
     const { t } = this.props.lang
     const { getFieldDecorator } = this.props.form
-    var textTitle = ''
+    let textTitle = ''
     if((!this.props.allowUpdateStandardsVN)){
       if(_.isObject(this.props.standardsVNObject)){
         textTitle = t('stationAutoManager.form.qcvn.label') + ` : (${this.props.standardsVNObject.name})`
@@ -171,7 +171,7 @@ export default class StationAutoFormTable extends React.Component {
       },
       {
         dataIndex: 'measuringName',
-        title: t('stationAutoManager.form.measuringName.label'),
+        title: textTitle,// t('stationAutoManager.form.measuringName.label'),
         width: 130,
         render: (text, record, index) => (
           <FormItem style={{ marginBottom: 0 }}>
