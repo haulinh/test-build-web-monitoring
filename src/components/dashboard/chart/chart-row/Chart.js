@@ -119,7 +119,6 @@ export default class ChartRowToChart extends React.Component {
     if (!_.isEmpty(station)) {
       categories = _.keyBy(_.get(station, 'measuringList', []), 'key')
       measuringKeys = _.keys(categories)
-      console.log('measuringKeys: ', measuringKeys)
       let toDate = moment()
       let fromDate = moment().subtract(day, 'days')
       if (_.has(station, 'lastLog.receivedAt')) {
@@ -160,7 +159,6 @@ export default class ChartRowToChart extends React.Component {
 
       categories = _.toArray(categories)
       current = _.head(categories)
-      console.log('categories', current, categories)
     }
 
     this.setState({ categories, current, day, data: results })

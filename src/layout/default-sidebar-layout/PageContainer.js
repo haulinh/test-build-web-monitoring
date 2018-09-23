@@ -67,7 +67,7 @@ export default class PageContainer extends React.PureComponent {
               borderBottom: props.isSticky ? '1px solid #eeeeee' : ''
             }}
           >
-            <BreadcrumbContainer>
+            <BreadcrumbContainer style={this.props.style}>
               <Grid>
                 {this.props.headerCustom ? (
                   this.props.headerCustom
