@@ -19,6 +19,8 @@ export const fetchData = (
     'key'
   ])
   params.measuringList = join(get(params, 'measuringList', []), ',')
+  params.dataFilterBy = join(get(params, 'dataFilterBy', []), ',')
+  
   // return getFetch(getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`), undefined, {params: {...params, ...pagination}})
   return getFetch(
     getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`),

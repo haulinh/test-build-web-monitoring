@@ -149,7 +149,7 @@ export default class SearchForm extends React.Component {
     }
 
     if (values.dataFilterBy) {
-      params.dataFilterBy = _.join(_.get(values, 'dataFilterBy', []), ',')
+      params.dataFilterBy = _.get(values, 'dataFilterBy', [])
     }
 
     this.props.onSubmit(params)
