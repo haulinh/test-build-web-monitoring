@@ -160,6 +160,10 @@ export default {
   },
   dataSearchFrom: {
     titleText: 'Data Search',
+    options: {
+      byHours: '{{=it.value}} Hours',
+      byDay: '{{=it.value}} Day',
+    },
     form: {
       all: 'All',
       stationType: {

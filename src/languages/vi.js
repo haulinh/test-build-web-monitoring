@@ -160,6 +160,10 @@ export default {
   },
   dataSearchFrom: {
     titleText: 'Tìm kiếm dữ liệu',
+    options: {
+      byHours: '{{=it.value}} Giờ',
+      byDay: '{{=it.value}} Ngày',
+    },
     form: {
       all: 'Tất cả',
       stationType: {
@@ -822,7 +826,7 @@ export default {
       success: 'Hoàn thành',
       error: 'Tải ảnh lên thất bại'
     },
-    user: 'Thông tin người dùng',
+    user: 'Thông tin cá nhân',
     organization: 'Thông tin tổ chức'
   },
   changePassword: {

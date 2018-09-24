@@ -237,8 +237,8 @@ export default class ChartRowToChart extends React.Component {
           onTabClick={this.handleClick}>
           {_.map(this.state.categories, ({ key, name, unit }) => (
             <Tabs.TabPane
-                tab={unit ? `${name} ${unit}`: `${name}`}
-                key={key}/>
+              tab={unit ? `${name} ${unit}`: `${name}`}
+              key={key}/>
           ))}
         </Tabs>
       </ChartWrapper>

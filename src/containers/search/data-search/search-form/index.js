@@ -18,6 +18,7 @@ import AdvancedOperator from './AdvancedOperator'
 import SelectStationAuto from '../../common/select-station-auto'
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
+import OptionsTimeRange from '../../common/options-time-range'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
@@ -25,6 +26,7 @@ const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FDatePicker = createValidateComponent(DatePicker)
 const FSwitch = createValidateComponent(Switch)
 const FSelectAnt = createValidateComponent(SelectAnt)
+const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
 
 const DATE_FORMAT = 'YYYY/MM/DD HH:mm'
 
@@ -68,6 +70,7 @@ export default class SearchForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      provinceKey: props.initialValues.provinceKey,
       stationTypeKey: props.initialValues.stationType,
       stationAutoKey: props.initialValues.stationAuto,
       measuringData: props.measuringData ? props.measuringData : [],
@@ -149,6 +152,15 @@ export default class SearchForm extends React.Component {
     this.props.array.removeAll('advanced')
   }
 
+  handleProvinceChange = province => {
+    this.setState({
+        provinceKey: province.key,
+        stationAutoKey: ''}
+      )
+
+    this.props.change('stationAuto', '')
+  }
+
   render() {
     const t = this.props.lang.createNameSpace('dataSearchFrom.form')
     return (
@@ -196,6 +208,7 @@ export default class SearchForm extends React.Component {
                 label={t('stationAuto.label')}
                 name="stationAuto"
                 size="large"
+                provinceKey={this.state.provinceKey}
                 stationTypeKey={this.state.stationTypeKey}
                 component={FSelectStationAuto}
                 onChangeObject={this.handleChangeStationAuto}
@@ -217,6 +230,14 @@ export default class SearchForm extends React.Component {
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
+            {/* <Col span={12}>
+              <Field
+                label={'Thời gian'}
+                name="type"
+                size="large"
+                component={FOptionsTimeRange}
+              />
+            </Col> */}
             <Col span={6}>
               <Field
                 label={t('fromDate.label')}

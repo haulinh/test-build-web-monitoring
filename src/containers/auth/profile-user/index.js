@@ -169,7 +169,7 @@ export class ProfileUserForm extends PureComponent {
     return (
       <form onSubmit={this.props.handleSubmit(this.props.onSubmit.bind(this))}>
         <Card
-          title={translate('profileUser.user')}
+          title={translate('profileUser.organization')}
           bordered
           style={{ flex: 1, marginRight: 12 }}
         >
@@ -219,7 +219,7 @@ export class ProfileUserForm extends PureComponent {
           </Row>
         </Card>
         <Card
-          title={translate('profileUser.organization')}
+          title={translate('profileUser.user')}
           bordered
           style={{ flex: 1, marginRight: 12, marginBottom: 24, marginTop: 24 }}
         >
