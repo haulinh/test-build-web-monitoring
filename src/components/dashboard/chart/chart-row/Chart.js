@@ -6,7 +6,7 @@ import { translate } from 'hoc/create-lang'
 import ReactHighcharts from 'react-highcharts'
 import Highcharts from 'highcharts'
 import * as _ from 'lodash'
-import { Menu, Dropdown, Icon } from 'antd'
+import { Menu, Dropdown, Icon, Tabs } from 'antd'
 import { getDataStationAutos } from 'api/DataStationAutoApi'
 
 const ChartWrapper = styled.div``
@@ -175,7 +175,7 @@ export default class ChartRowToChart extends React.Component {
   }
 
   handleClick = e => {
-    const current = _.get(_.keyBy(this.state.categories, 'key'), [e.key], null)
+    const current = _.get(_.keyBy(this.state.categories, 'key'), e , null)
     this.setState({
       current
     })
@@ -232,20 +232,15 @@ export default class ChartRowToChart extends React.Component {
           </span>
         </Dropdown>
         <ReactHighcharts config={this.getConfigData()} />
-        <Menu
+        <Tabs 
           style={{ width: 800, paddingLeft: 8, paddingRight: 8, marginBottom: 8 }}
-          onClick={this.handleClick}
-          selectedKeys={[_.get(this.state.current, 'key', '')]}
-          mode="horizontal"
-        >
+          onTabClick={this.handleClick}>
           {_.map(this.state.categories, ({ key, name, unit }) => (
-            <Menu.Item 
-              key={key}>
-              {name}
-              {unit && ` (${unit})`}
-            </Menu.Item>
+            <Tabs.TabPane
+                tab={unit ? `${name} ${unit}`: `${name}`}
+                key={key}/>
           ))}
-        </Menu>
+        </Tabs>
       </ChartWrapper>
     )
   }

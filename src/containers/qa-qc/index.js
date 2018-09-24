@@ -35,7 +35,6 @@ export default class QaQcContainer extends React.Component {
   }
 
   handleSubmitSearch(searchFormData) {
-    console.log('searchFormData: ', searchFormData)
     this.loadData(this.state.pagination, searchFormData)
   }
 
@@ -114,8 +113,8 @@ export default class QaQcContainer extends React.Component {
               measuringList={this.state.measuringList}
               dataStationAuto={this.state.dataStationAuto}
               pagination={this.state.pagination}
+              dataFilterBy={ get(this.state,'searchFormData.dataFilterBy', []) }
               onChangePage={this.handleChangePage}
-              onExportExcel={this.handleExportExcel}
               nameChart={this.state.searchFormData.name}
               isExporting={this.state.isExporting}
             />
