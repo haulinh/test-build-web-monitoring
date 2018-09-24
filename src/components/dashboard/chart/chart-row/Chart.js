@@ -233,13 +233,14 @@ export default class ChartRowToChart extends React.Component {
         </Dropdown>
         <ReactHighcharts config={this.getConfigData()} />
         <Menu
-          style={{ paddingLeft: 8, paddingRight: 8, marginBottom: 8 }}
+          style={{ width: 800, paddingLeft: 8, paddingRight: 8, marginBottom: 8 }}
           onClick={this.handleClick}
           selectedKeys={[_.get(this.state.current, 'key', '')]}
           mode="horizontal"
         >
           {_.map(this.state.categories, ({ key, name, unit }) => (
-            <Menu.Item key={key}>
+            <Menu.Item 
+              key={key}>
               {name}
               {unit && ` (${unit})`}
             </Menu.Item>
