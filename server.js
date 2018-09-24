@@ -8,7 +8,8 @@ app.get('/app.json', function(req, res) {
   res.json({
     apiGateway: process.env.WEB_GATEWAY_API || 'http://27.74.251.0:5000', //http://27.74.251.0:5000
     apiMedia: process.env.WEB_MEDIA_API || 'http://27.74.251.0:5000',
-    apiCamera: process.env.WEB_CAMERA_API || 'http://27.74.251.0:5000'
+    apiCamera: process.env.WEB_CAMERA_API || 'http://27.74.251.0:5000',
+    googleMapKey: process.env.GOOGLE_MAP_KEY || ''
   })
 })
 app.use(express.static(path.join(__dirname, 'build')))

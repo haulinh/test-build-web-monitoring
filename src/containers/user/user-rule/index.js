@@ -74,7 +74,9 @@ export default class RoleList extends React.Component {
   }
 
   async handleSubmit(e) {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     e.preventDefault()
     this.setState({
       isLoading: true
@@ -98,7 +100,9 @@ export default class RoleList extends React.Component {
   }
 
   getColumns() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return [
       {
         title: t('userManager.roleAssign.name'),
@@ -129,7 +133,9 @@ export default class RoleList extends React.Component {
 
   render() {
     const { selectedRowKeys } = this.state
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange

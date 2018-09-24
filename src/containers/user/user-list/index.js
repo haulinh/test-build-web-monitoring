@@ -112,7 +112,9 @@ export default class UserList extends React.Component {
   }
 
   buttonAdd() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return (
       <div>
         {protectRole(ROLE.USER.CREATE)(
@@ -139,7 +141,9 @@ export default class UserList extends React.Component {
   }
 
   actionGroup(row) {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     let accountEnable = true
     if (row.accountStatus && row.accountStatus.enable === false) {
       accountEnable = false
@@ -242,7 +246,9 @@ export default class UserList extends React.Component {
   }
 
   getHead() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return [
       { content: '#', width: 2 },
       { content: t('userManager.list.email'), width: 30 },
@@ -347,7 +353,9 @@ export default class UserList extends React.Component {
   }
 
   async onDeleteItem(_id, callback) {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     Modal.confirm({
       title: 'Do you want to delete these items?',
       onOk() {
@@ -365,7 +373,9 @@ export default class UserList extends React.Component {
   }
 
   async onRestoreItem(_id, callback) {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     Modal.confirm({
       title: 'Do you want to restore these items?',
       onOk() {

@@ -6,8 +6,8 @@ import { translate } from 'hoc/create-lang'
 import createValidateComponent from 'components/elements/redux-form-validate'
 
 const options = [
-  {key: 'value', label: 'qaqc.yetApprove'},
-  {key: 'approvedValue', label: 'qaqc.approved'}
+  { key: 'value', label: 'qaqc.yetApprove' },
+  { key: 'approvedValue', label: 'qaqc.approved' }
 ]
 
 @autobind
@@ -50,6 +50,4 @@ export default SelectApprove
 
 const FSelectApprove = createValidateComponent(SelectApprove)
 
-export {
-  FSelectApprove
-}
+export { FSelectApprove }

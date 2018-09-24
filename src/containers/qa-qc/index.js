@@ -1,14 +1,14 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import DataStationAutoApi from 'api/DataStationAutoApi'
+import QAQCApi from '../../api/QAQCApi'
 import Clearfix from 'components/elements/clearfix/index'
 import { translate } from 'hoc/create-lang'
 import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 // import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
-import { message, Spin } from 'antd'
+import { Spin } from 'antd'
 // import ROLE from 'constants/role'
 // import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
@@ -35,6 +35,7 @@ export default class QaQcContainer extends React.Component {
   }
 
   handleSubmitSearch(searchFormData) {
+    console.log('searchFormData: ', searchFormData)
     this.loadData(this.state.pagination, searchFormData)
   }
 
@@ -44,7 +45,7 @@ export default class QaQcContainer extends React.Component {
       isHaveData: true
     })
 
-    let dataStationAuto = await DataStationAutoApi.getDataStationAutos(
+    let dataStationAuto = await QAQCApi.fetchData(
       {
         page: pagination.current,
         itemPerPage: pagination.pageSize
@@ -79,16 +80,15 @@ export default class QaQcContainer extends React.Component {
   }
 
   async handleExportExcel() {
-    this.setState({
-      isExporting: true
-    })
-    let res = await DataStationAutoApi.getExportData(this.state.searchFormData)
-    if (res && res.success) window.location = res.data
-    else message.error('Export Error') //message.error(res.message)
-
-    this.setState({
-      isExporting: false
-    })
+    // this.setState({
+    //   isExporting: true
+    // })
+    // let res = await DataStationAutoApi.getExportData(this.state.searchFormData)
+    // if (res && res.success) window.location = res.data
+    // else message.error('Export Error') //message.error(res.message)
+    // this.setState({
+    //   isExporting: false
+    // })
   }
 
   render() {

@@ -42,7 +42,9 @@ export default class SubscriptionFormInfo extends React.PureComponent {
   }
 
   render() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return (
       <SubscriptionFormInfoWrapper>
         {this.renderItem(

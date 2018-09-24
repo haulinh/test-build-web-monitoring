@@ -90,7 +90,9 @@ export default class CheckBoxRole extends PureComponent {
   }
 
   getColumns() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     return [
       {
         title: t('organization.rule.menu.label'),

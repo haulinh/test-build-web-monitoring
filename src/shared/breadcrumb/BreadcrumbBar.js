@@ -32,8 +32,8 @@ const BreadCrumbItem = styled.a`
     top: 1px;
     color: ${TEXT.GRAY} !important;
   `} ${props =>
-      !props.first
-        ? `
+    !props.first
+      ? `
     ::before{
       display: inline-block;
       padding-right: .5rem;
@@ -46,7 +46,7 @@ const BreadCrumbItem = styled.a`
       top: 2px;
     }
   `
-        : null};
+      : null};
 `
 
 const SpanIcon = styled.span`
