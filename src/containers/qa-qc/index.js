@@ -42,7 +42,7 @@ export default class QaQcContainer extends React.Component {
   async loadData(pagination, searchFormData, dataUpdate = {}) {
     this.setState({
       isLoading: true,
-      isHaveData: true
+      //isHaveData: true
     })
 
     let dataStationAuto = await QAQCApi.fetchData(
@@ -72,7 +72,8 @@ export default class QaQcContainer extends React.Component {
         ...pagination,
         total: get(dataStationAuto, 'pagination.totalItem', 0)
       },
-      dataUpdate
+      dataUpdate,
+      isHaveData: size(dataStationAutoList) > 0
     })
   }
 
@@ -89,6 +90,18 @@ export default class QaQcContainer extends React.Component {
       isExporting: true
     })
     await QAQCApi.putData(this.state.searchFormData, this.state.dataUpdate)
+    //if (res && res.success) window.location = res.data
+    //else message.error('Export Error') //message.error(res.message)
+    this.setState({
+      isExporting: false
+    })
+  }
+
+  onUnApprovedData = async ()  => {
+    this.setState({
+      isExporting: true
+    })
+    await QAQCApi.deleteData(this.state.searchFormData, this.state.dataUpdate)
     //if (res && res.success) window.location = res.data
     //else message.error('Export Error') //message.error(res.message)
     this.setState({
@@ -126,6 +139,7 @@ export default class QaQcContainer extends React.Component {
               onChangeData={this.onChangeData}
               nameChart={this.state.searchFormData.name}
               isExporting={this.state.isExporting}
+              onUnApprovedData={this.onUnApprovedData}
               valueField={ get(this.state,'searchFormData.dataType', 'value') }
             />
          ) : null}        
