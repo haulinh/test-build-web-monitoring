@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import PropTypes from 'prop-types'
 import { Row, Col, Button, Switch } from 'antd'
-import DatePicker from 'components/elements/datetime-picker'
 import createLang from 'hoc/create-lang'
 import SelectStationType from 'components/elements/select-station-type'
 import SelectAnt from 'components/elements/select-ant'
@@ -19,16 +18,14 @@ import SelectStationAuto from '../../common/select-station-auto'
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import OptionsTimeRange from '../../common/options-time-range'
+import * as _ from 'lodash'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
-const FDatePicker = createValidateComponent(DatePicker)
 const FSwitch = createValidateComponent(Switch)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
-
-const DATE_FORMAT = 'YYYY/MM/DD HH:mm'
 
 const SearchFormContainer = BoxShadowStyle.extend``
 const Container = styled.div`
@@ -50,7 +47,7 @@ function validate(values) {
 
 @connect((state, ownProps) => ({
   initialValues: {
-    fromDate: moment(new Date().setMonth(new Date().getMonth() - 1)),
+    fromDate: moment().subtract(7, 'days'),
     toDate: moment(),
     ...(ownProps.initialValues ? ownProps.initialValues : {})
   }
@@ -79,7 +76,9 @@ export default class SearchForm extends React.Component {
             value: measuring.key,
             name: measuring.name
           }))
-        : []
+        : [],
+      fromDate: props.initialValues.fromDate,
+      toDate: props.initialValues.toDate
     }
   }
 
@@ -127,11 +126,27 @@ export default class SearchForm extends React.Component {
     return moment(date, 'YYYY-MM-DD HH:mm').toISOString()
   }
 
+  handleChangeRanges(ranges){
+    if (_.isNumber(ranges)){
+        this.setState({
+          fromDate: moment().subtract(ranges, 'days'),
+          toDate: moment()
+        })
+    }else{
+      if (_.size(ranges) > 1){
+        this.setState({
+          fromDate: ranges[0],
+          toDate: ranges[1]
+        })
+      }
+    }
+    console.log('handleChangeRanges: ', moment().subtract(ranges, 'days'))
+  }
+
   handleSubmit(values) {
-    console.log('values: ', values)
     this.props.onSubmit({
-      fromDate: this.convertDateToString(values.fromDate),
-      toDate: this.convertDateToString(values.toDate),
+      fromDate: this.convertDateToString(this.state.fromDate),
+      toDate: this.convertDateToString(this.state.toDate),
       key: values.stationAuto,
       name: this.state.stationAutoName,
       measuringList: values.measuringList,
@@ -186,7 +201,7 @@ export default class SearchForm extends React.Component {
         </Heading>
         <Container>
           <Row gutter={16}>
-          <Col span={6}>
+          <Col span={8}>
               <Field 
                 label={translate('qaqc.province.label')}
                 name="province"
@@ -195,7 +210,7 @@ export default class SearchForm extends React.Component {
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('stationType.label')}
                 name="stationType"
@@ -204,7 +219,7 @@ export default class SearchForm extends React.Component {
                 component={FSelectStationType}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('stationAuto.label')}
                 name="stationAuto"
@@ -217,7 +232,10 @@ export default class SearchForm extends React.Component {
                 setKey
               />
             </Col>
-            <Col span={6}>
+          </Row>
+          <Clearfix height={16} />
+          <Row gutter={24}>
+            <Col span={8}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -228,36 +246,16 @@ export default class SearchForm extends React.Component {
                 component={FSelectAnt}
               />
             </Col>
-          </Row>
-          <Clearfix height={16} />
-          <Row gutter={24}>
-            <Col span={12}>
+            <Col span={8}>
               <Field
-                label={'Thời gian'}
+                label={t('time')}
                 name="rangesDate"
                 size="large"
+                onChangeObject={this.handleChangeRanges}
                 component={FOptionsTimeRange}
               />
             </Col>
-            <Col span={6}>
-              <Field
-                label={t('fromDate.label')}
-                name="fromDate"
-                size="large"
-                component={FDatePicker}
-                dateFormat={DATE_FORMAT}
-              />
-            </Col>
-            <Col span={6}>
-              <Field
-                label={t('toDate.label')}
-                name="toDate"
-                size="large"
-                component={FDatePicker}
-                dateFormat={DATE_FORMAT}
-              />
-            </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('isExceeded.label')}
                 name="isExceeded"

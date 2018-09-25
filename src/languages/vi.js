@@ -168,6 +168,7 @@ export default {
     },
     form: {
       all: 'Tất cả',
+      time: 'Thời gian',
       stationType: {
         label: 'Loại trạm',
         placeholder: 'Chọn loại trạm'
@@ -867,7 +868,7 @@ export default {
   security: {
     label: 'Bảo mật 2 lớp',
     note:
-      'Nếu bật tính năng bảo mật 2 lớp. Hệ thống sẽ yêu cầu nhập mã xác thức đã được gửi vào email',
+      'Nếu bạn bật tính năng Xác thực hai lớp. Hệ thống sẽ gửi mã xác thực đến địa chỉ email của bạn mỗi khi bạn đăng nhập.',
     success: 'Thành công'
   },
   login: {

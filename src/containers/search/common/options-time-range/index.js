@@ -17,19 +17,29 @@ export default class OptionsTimeRange extends React.Component {
   state = {
     open: false,
     rangesView: '',
-    rangesDate: []
+    defaultValue: 7
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    
+    return !_.isEqual(this.state.open, nextState.open) ||
+           !_.isEqual(this.state.defaultValue, nextState.defaultValue) ||
+           !_.isEqual(this.state.rangesView, nextState.rangesView) ||
+           !_.isEqual(this.state.props, nextProps)
   }
 
   handleSelect = value => {
     if (!_.isNumber(value)){
       this.setState({
+        defaultValue: undefined,
         open: true
       })
     } else {
+      this.props.onChangeObject(value)
       this.setState({
         open: false,
         rangesView: '',
-        rangesDate: []
+        defaultValue: undefined
       })
     }
   }
@@ -42,26 +52,29 @@ export default class OptionsTimeRange extends React.Component {
         (rangesView += ' - ')
       }
     })
+    
+    this.props.onChangeObject(ranges)
     this.setState({
       open: false,
-      rangesView,
-      rangesDate: ranges
+      rangesView
     })
   }
 
   render() {
-    console.log('render: ', this.state.rangesDate)
     return (
       <div>
-      <Select {...this.props} onSelect={this.handleSelect}>
+      <Select 
+        {...this.props}
+        value={this.state.defaultValue || this.props.value}
+        onSelect={this.handleSelect}>
         {
           options.map(({key, text, value}) => 
-            <Select.Option key={key} value={value}>
+            <Select.Option key={key} value={key}>
               {translate(text, {value})}
             </Select.Option>
           )
         }
-        <Select.Option key={'range'} value={{ranges: this.state.rangesDate}}>
+        <Select.Option key={'ranges'}>
           {this.state.rangesView || translate('dataSearchFrom.options.range')}
         </Select.Option>
       </Select>
