@@ -549,8 +549,8 @@ export default {
         placeholder: 'Input Phone Number',
         error: 'Please Input Phone Number'
       },
-      range:{
-        label:'Range'
+      range: {
+        label: 'Range'
       },
       measuringKey: {
         label: 'Parameter code',

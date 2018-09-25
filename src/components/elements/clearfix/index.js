@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const Clearfix = styled.div`
   ${props => (props.height ? `height: ${props.height}px;` : '')} ${props =>
-      props.width ? `width: ${props.width}px;` : ''};
+    props.width ? `width: ${props.width}px;` : ''};
 `
 Clearfix.propTypes = {
   width: PropTypes.number,

@@ -16,8 +16,7 @@ const TabeListWrapper = BoxShadow.extend`
   flex-direction: column;
 `
 
-const ButtonAbsolute = styled.div`
-`
+const ButtonAbsolute = styled.div``
 
 @autobind
 export default class TabeList extends React.PureComponent {
@@ -26,6 +25,7 @@ export default class TabeList extends React.PureComponent {
     measuringList: PropTypes.array,
     measuringData: PropTypes.array,
     dataStationAuto: PropTypes.array,
+    dataFilterBy: PropTypes.array,
     pagination: PropTypes.object,
     onChangePage: PropTypes.func,
     onExportExcel: PropTypes.func,
@@ -54,6 +54,7 @@ export default class TabeList extends React.PureComponent {
           dataSource={this.props.dataStationAuto}
           pagination={this.props.pagination}
           onChange={this.props.onChangePage}
+          dataFilterBy={this.props.dataFilterBy}
         />
       </TabeListWrapper>
     )

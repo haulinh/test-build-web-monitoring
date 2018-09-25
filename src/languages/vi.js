@@ -546,8 +546,8 @@ export default {
         placeholder: 'Nhập số điện thoại',
         error: 'Vui lòng nhập số điện thoại'
       },
-      range:{
-        label:'Giới hạn đo'
+      range: {
+        label: 'Giới hạn đo'
       },
       measuringKey: {
         label: 'Mã thông số',

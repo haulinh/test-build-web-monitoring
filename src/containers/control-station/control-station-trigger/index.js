@@ -223,7 +223,9 @@ export default class ControlStationTrigger extends React.PureComponent {
   }
 
   buttonAdd() {
-    const { lang: { t } } = this.props
+    const {
+      lang: { t }
+    } = this.props
     const dropdown = (
       <Menu>
         <Menu.Item key="0">

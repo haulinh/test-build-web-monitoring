@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { Checkbox } from 'antd'
-import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
 
@@ -14,11 +13,6 @@ const stationOptions = [
 
 @autobind
 export default class DataFilterByView extends PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func,
-    value: PropTypes.string,
-  }
-
   state = {
     value: null
   }
@@ -31,11 +25,6 @@ export default class DataFilterByView extends PureComponent {
   }
 
   render() {
-    return (
-      <CheckboxGroup
-        options={stationOptions}
-        onChange={this.onChange}
-      />
-    )
+    return <CheckboxGroup options={stationOptions} onChange={this.onChange} />
   }
 }

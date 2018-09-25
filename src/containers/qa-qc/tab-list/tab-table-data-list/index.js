@@ -5,13 +5,25 @@ import { autobind } from 'core-decorators'
 import { Table } from 'antd'
 import moment from 'moment/moment'
 import { SHAPE } from 'themes/color'
-import { warningLevels, colorLevels } from 'constants/warningLevels'
+import { includes } from 'lodash'
+// import { warningLevels, colorLevels } from 'constants/warningLevels'
 
 @autobind
 export default class TableDataList extends React.PureComponent {
   static propTypes = {
     measuringList: PropTypes.array,
-    measuringData: PropTypes.array
+    measuringData: PropTypes.array,
+    dataFilterBy: PropTypes.array
+  }
+
+  getColor = value => {
+    if ((includes(this.props.dataFilterBy, 'zero') && value === 0)
+      || (includes(this.props.dataFilterBy, 'nagative') && value < 0)
+    ) {
+      return SHAPE.RED
+    } else {
+      return SHAPE.BLACK
+    }
   }
 
   getColumns() {
@@ -35,6 +47,7 @@ export default class TableDataList extends React.PureComponent {
         return <div>{moment(value).format('YYYY/MM/DD HH:mm')}</div>
       }
     }
+
     const columnsMeasurings = this.props.measuringData
       .filter(measuring => this.props.measuringList.includes(measuring.key))
       .map(measuring => ({
@@ -47,16 +60,17 @@ export default class TableDataList extends React.PureComponent {
         key: measuring.key,
         render: value => {
           if (value === null) return <div />
-          let color = SHAPE.BLACK
-          if (
-            value.warningLevel &&
-            value.warningLevels !== warningLevels.GOOD
-          ) {
-            color = colorLevels[value.warningLevel]
-          }
+          let color = this.getColor(value.value)//SHAPE.BLACK
+
+          // if (
+          //   value.warningLevel &&
+          //   value.warningLevels !== warningLevels.GOOD
+          // ) {
+          //   color = colorLevels[value.warningLevel]
+          // }
           // Format number toLocalString(national)
           return (
-            <div style={{ color: color }}>
+            <div style={{ color }}>
               {value.value.toLocaleString(navigator.language)}
             </div>
           )

@@ -56,7 +56,9 @@ export default class NavigationItemCollapse extends React.PureComponent {
           <Label>
             {this.props.icon ? (
               <SpanFlex>
-                {this.props.icon}&nbsp;{this.props.label}
+                {this.props.icon}
+                &nbsp;
+                {this.props.label}
               </SpanFlex>
             ) : (
               this.props.label

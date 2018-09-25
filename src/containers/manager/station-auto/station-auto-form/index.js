@@ -65,7 +65,6 @@ export default class StationAutoForm extends React.PureComponent {
   constructor(props) {
     super(props)
 
-    
     this.state = {
       stationType: {},
       stationTypes: [],
@@ -159,7 +158,7 @@ export default class StationAutoForm extends React.PureComponent {
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null
       }
       // Callback submit form Container Component
-     //console.log(data.measuringList)
+      //console.log(data.measuringList)
       this.props.onSubmit(data)
     })
   }
@@ -557,8 +556,10 @@ export default class StationAutoForm extends React.PureComponent {
           lang={this.props.lang}
           form={this.props.form}
           allowUpdateStandardsVN={this.state.allowUpdateStandardsVN}
-          standardsVNObject = {this.state.standardsVNObject}
-          standardsVN={ keyBy(get(this.state.standardsVNObject, 'measuringList', []), 'key') }
+          standardsVN={keyBy(
+            get(this.state.standardsVNObject, 'measuringList', []),
+            'key'
+          )}
           dataSource={
             this.props.initialValues
               ? this.props.initialValues.measuringList

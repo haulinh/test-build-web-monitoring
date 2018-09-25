@@ -17,7 +17,9 @@ import Heading from 'components/elements/heading'
 import AdvancedOperator from './AdvancedOperator'
 import SelectStationAuto from '../../common/select-station-auto'
 import { translate } from 'hoc/create-lang'
+import SelectProvince from 'components/elements/select-province'
 
+const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FDatePicker = createValidateComponent(DatePicker)
@@ -171,7 +173,16 @@ export default class SearchForm extends React.Component {
         </Heading>
         <Container>
           <Row gutter={16}>
-            <Col span={8}>
+          <Col span={6}>
+              <Field 
+                label={translate('qaqc.province.label')}
+                name="province"
+                size="large"
+                component={FSelectProvince}
+                onHandleChange={this.handleProvinceChange}
+              />
+            </Col>
+            <Col span={6}>
               <Field
                 label={t('stationType.label')}
                 name="stationType"
@@ -180,7 +191,7 @@ export default class SearchForm extends React.Component {
                 component={FSelectStationType}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('stationAuto.label')}
                 name="stationAuto"
@@ -192,7 +203,7 @@ export default class SearchForm extends React.Component {
                 setKey
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -206,7 +217,7 @@ export default class SearchForm extends React.Component {
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('fromDate.label')}
                 name="fromDate"
@@ -215,7 +226,7 @@ export default class SearchForm extends React.Component {
                 dateFormat={DATE_FORMAT}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('toDate.label')}
                 name="toDate"
@@ -224,7 +235,7 @@ export default class SearchForm extends React.Component {
                 dateFormat={DATE_FORMAT}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('isExceeded.label')}
                 name="isExceeded"
