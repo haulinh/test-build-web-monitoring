@@ -97,6 +97,18 @@ export default class QaQcContainer extends React.Component {
     })
   }
 
+  onUnApprovedData = async ()  => {
+    this.setState({
+      isExporting: true
+    })
+    await QAQCApi.deleteData(this.state.searchFormData, this.state.dataUpdate)
+    //if (res && res.success) window.location = res.data
+    //else message.error('Export Error') //message.error(res.message)
+    this.setState({
+      isExporting: false
+    })
+  }
+
   render() {
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
@@ -127,6 +139,7 @@ export default class QaQcContainer extends React.Component {
               onChangeData={this.onChangeData}
               nameChart={this.state.searchFormData.name}
               isExporting={this.state.isExporting}
+              onUnApprovedData={this.onUnApprovedData}
               valueField={ get(this.state,'searchFormData.dataType', 'value') }
             />
          ) : null}        

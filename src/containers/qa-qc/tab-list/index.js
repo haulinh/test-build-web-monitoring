@@ -32,22 +32,45 @@ export default class TabeList extends React.PureComponent {
     nameChart: PropTypes.string,
     isExporting: PropTypes.bool,
     onChangeData: PropTypes.func,
+    onUnApprovedData: PropTypes.func,
     valueField: PropTypes.string
+  }
+
+  renderButton = () => {
+    if (this.props.valueField === 'value') {
+      return (
+        <Button
+          type="primary"
+          icon="schedule"
+          style={{ float: 'right', margin: '5px' }}
+          onClick={this.props.onApprovedData}
+          loading={this.props.isExporting}
+        >
+          {translate('qaqc.approve')}
+        </Button>
+      )
+    }
+
+    return (
+      <Button
+        type="danger"
+        icon="schedule"
+        style={{ float: 'right', margin: '5px' }}
+        onClick={this.props.onUnApprovedData}
+        loading={this.props.isExporting}
+      >
+        {translate('qaqc.unApprove')}
+      </Button>
+    )
   }
 
   render() {
     return (
       <TabeListWrapper>
         <ButtonAbsolute>
-          <Button
-            type="primary"
-            icon="schedule"
-            style={{ float: 'right', margin: '5px' }}
-            onClick={this.props.onApprovedData}
-            loading={this.props.isExporting}
-          >
-            {translate('qaqc.approve')}
-          </Button>
+          {
+            this.renderButton()
+          }
         </ButtonAbsolute>
         <TabTableDataList
           loading={this.props.isLoading}
