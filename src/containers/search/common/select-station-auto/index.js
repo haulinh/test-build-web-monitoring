@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { Select } from 'antd'
 import StationAutoApi from 'api/StationAuto'
+import * as _ from 'lodash'
 
 @autobind
-export default class SelectStationAuto extends React.PureComponent {
+export default class SelectStationAuto extends React.Component {
   static propTypes = {
     stationTypeKey: PropTypes.string,
-    onChangeObject: PropTypes.func
+    onChangeObject: PropTypes.func,
+    provinceKey:  PropTypes.string
   }
 
   state = {
@@ -21,6 +23,7 @@ export default class SelectStationAuto extends React.PureComponent {
       page: 1,
       itemPerPage: 10000000
     })
+
     this.setState({
       stationAutoSelects: responseStationAuto.data,
       isLoaded: true
@@ -34,6 +37,14 @@ export default class SelectStationAuto extends React.PureComponent {
           ? stationAuto.stationType.key === this.props.stationTypeKey
           : false
     )
+  }
+
+  getStationAutos2(){
+    return _.filter(this.state.stationAutoSelects, stationAuto => {
+    
+      return _.isEqual(this.props.stationTypeKey, _.get(stationAuto, 'stationType.key', null)) &&
+             _.isEqual(this.props.provinceKey, _.get(stationAuto, 'province.key', null))
+    })
   }
 
   handleChange(stationTypeValue) {
@@ -55,7 +66,7 @@ export default class SelectStationAuto extends React.PureComponent {
         showSearch
         value={this.props.setKey ? this.props.stationAutoKey : this.props.value}
       >
-        {this.getStationAutos().map(item => (
+        {this.getStationAutos2().map(item => (
           <Select.Option key={item.key} value={item.key}>
             {item.name}
           </Select.Option>
