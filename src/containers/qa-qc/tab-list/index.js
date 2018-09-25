@@ -28,9 +28,11 @@ export default class TabeList extends React.PureComponent {
     dataFilterBy: PropTypes.array,
     pagination: PropTypes.object,
     onChangePage: PropTypes.func,
-    onExportExcel: PropTypes.func,
+    onApprovedData: PropTypes.func,
     nameChart: PropTypes.string,
-    isExporting: PropTypes.bool
+    isExporting: PropTypes.bool,
+    onChangeData: PropTypes.func,
+    valueField: PropTypes.string
   }
 
   render() {
@@ -41,7 +43,7 @@ export default class TabeList extends React.PureComponent {
             type="primary"
             icon="schedule"
             style={{ float: 'right', margin: '5px' }}
-            //onClick={this.props.onExportExcel}
+            onClick={this.props.onApprovedData}
             loading={this.props.isExporting}
           >
             {translate('qaqc.approve')}
@@ -55,6 +57,8 @@ export default class TabeList extends React.PureComponent {
           pagination={this.props.pagination}
           onChange={this.props.onChangePage}
           dataFilterBy={this.props.dataFilterBy}
+          handleSave={this.props.onChangeData}
+          valueField={this.props.valueField}
         />
       </TabeListWrapper>
     )

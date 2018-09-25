@@ -77,7 +77,8 @@ export default {
     province: {
       label: 'Management Unit',
       placeholder: 'Management Unit'
-    }
+    },
+    notEmpty: '{{=it.value}} is required!'
   },
   controlStation: {
     text: 'Sampling',
