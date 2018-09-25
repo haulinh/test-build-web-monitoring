@@ -42,7 +42,7 @@ export default class QaQcContainer extends React.Component {
   async loadData(pagination, searchFormData, dataUpdate = {}) {
     this.setState({
       isLoading: true,
-      isHaveData: true
+      //isHaveData: true
     })
 
     let dataStationAuto = await QAQCApi.fetchData(
@@ -72,7 +72,8 @@ export default class QaQcContainer extends React.Component {
         ...pagination,
         total: get(dataStationAuto, 'pagination.totalItem', 0)
       },
-      dataUpdate
+      dataUpdate,
+      isHaveData: size(dataStationAutoList) > 0
     })
   }
 

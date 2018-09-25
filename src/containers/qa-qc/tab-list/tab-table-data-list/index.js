@@ -174,9 +174,17 @@ class EditableTable extends React.Component {
 
   constructor(props) {
     super(props);
+    const dataSource = _.map(props.dataSource, ({_id, receivedAt, measuringLogs}, index) => {
+      let rs = { receivedAt, _id, key: `${index}`}
+      _.mapKeys(measuringLogs, (value, key) => {
+        rs[key] = _.get(value, props.valueField)
+        return key
+      })
+      return rs
+    })
     this.columns = this.getCols(this.props)
     this.state = {
-      dataSource: this.props.dataSource,
+      dataSource,
       dataChange: {}
     };
   }
@@ -210,7 +218,7 @@ class EditableTable extends React.Component {
       ...row,
     })
     if (this.props.handleSave) {
-      this.props.handleSave(dataState)
+      this.props.handleSave(dataState.dataChange)
     }
     this.setState({ dataSource: newData, dataChange: dataState.dataChange });
   }
@@ -244,6 +252,7 @@ class EditableTable extends React.Component {
           components={components}
           rowClassName={() => 'editable-row'}
           bordered
+          rowKey="_id"
           dataSource={dataSource}
           columns={columns}
           pagination={this.props.pagination}
