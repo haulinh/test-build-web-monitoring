@@ -71,6 +71,7 @@ export default class SearchForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      provinceKey: '',
       stationTypeKey: props.initialValues.stationType,
       stationAutoKey: props.initialValues.stationAuto,
       measuringData: props.measuringData ? props.measuringData : [],
@@ -108,7 +109,8 @@ export default class SearchForm extends React.Component {
   }
 
   handleProvinceChange(obj, e) {
-    console.log('handleProvinceChange', obj, e)
+    this.setState({provinceKey: obj.key, stationAutoKey: ''})
+    this.props.change('stationAuto', '')
   }
 
   handleChangeStationAuto(stationAuto) {
@@ -206,6 +208,7 @@ export default class SearchForm extends React.Component {
                 label={t('stationAuto.label')}
                 name="stationAuto"
                 size="large"
+                provinceKey={this.state.provinceKey}
                 stationTypeKey={this.state.stationTypeKey}
                 component={FSelectStationAuto}
                 onChangeObject={this.handleChangeStationAuto}

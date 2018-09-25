@@ -246,6 +246,9 @@ class EditableTable extends React.Component {
           bordered
           dataSource={dataSource}
           columns={columns}
+          pagination={this.props.pagination}
+          loading={this.props.loading}
+          onChange={this.props.onChange}
         />
       </div>
     );
