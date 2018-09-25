@@ -77,7 +77,8 @@ export default {
     province: {
       label: 'Đơn vị quản lý',
       placeholder: 'Đơn vị quản lý'
-    }
+    },
+    notEmpty: '{{=it.value}} không để trống!'
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',

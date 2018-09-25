@@ -1,5 +1,5 @@
 import { getConfigApi } from 'config'
-import { getFetch } from 'utils/fetch'
+import { getFetch, putFetch } from 'utils/fetch'
 import { pick, get, join } from 'lodash'
 
 const getDataStationAutoUrl = (prefix = '') => {
@@ -29,6 +29,30 @@ export const fetchData = (
   )
 }
 
+export const putData = (
+  params, dataUpdate
+) => {
+  params = pick(params, [
+    'to',
+    'from',
+    'measuringList',
+    'dataFilterBy',
+    'dataType',
+    'key'
+  ])
+  params.measuringList = join(get(params, 'measuringList', []), ',')
+  params.dataFilterBy = join(get(params, 'dataFilterBy', []), ',')
+  //const url = `http://localhost:5004/data-station-auto/${get(params, 'key', 'vas')}/qa-qc`
+  // return getFetch(getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`), undefined, {params: {...params, ...pagination}})
+  return putFetch(
+    getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`),
+    //url,
+    dataUpdate,
+    { params: { ...params } }
+  )
+}
+
 export default {
-  fetchData
+  fetchData,
+  putData
 }
