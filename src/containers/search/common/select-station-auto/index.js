@@ -32,7 +32,6 @@ export default class SelectStationAuto extends React.Component {
 
   getStationAutos(){
     return _.filter(this.state.stationAutoSelects, stationAuto => {
-    
       return _.isEqual(this.props.stationTypeKey, _.get(stationAuto, 'stationType.key', null)) &&
              (!this.props.provinceKey || _.isEqual(this.props.provinceKey, _.get(stationAuto, 'province.key', null)))
     })
