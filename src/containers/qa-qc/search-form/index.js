@@ -18,7 +18,7 @@ import Heading from 'components/elements/heading'
 import SelectStationAuto from '../../search/common/select-station-auto'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
-import { DD_MM_YYYY_HH_MM } from '../../../constants/format-date'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 import DataFilterBy from './data-filter-by'
 import { FSelectApprove } from './select-approve'
