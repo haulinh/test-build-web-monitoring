@@ -168,6 +168,7 @@ export default {
     },
     form: {
       all: 'All',
+      time: 'Time',
       stationType: {
         label: 'Type Of Station',
         placeholder: 'Select Type Of Station'

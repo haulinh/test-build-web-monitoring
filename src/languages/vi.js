@@ -168,6 +168,7 @@ export default {
     },
     form: {
       all: 'Tất cả',
+      time: 'Thời gian',
       stationType: {
         label: 'Loại trạm',
         placeholder: 'Chọn loại trạm'

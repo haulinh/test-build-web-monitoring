@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import PropTypes from 'prop-types'
 import { Row, Col, Button, Switch } from 'antd'
-import DatePicker from 'components/elements/datetime-picker'
 import createLang from 'hoc/create-lang'
 import SelectStationType from 'components/elements/select-station-type'
 import SelectAnt from 'components/elements/select-ant'
@@ -24,12 +23,9 @@ import * as _ from 'lodash'
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
-const FDatePicker = createValidateComponent(DatePicker)
 const FSwitch = createValidateComponent(Switch)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
-
-const DATE_FORMAT = 'YYYY/MM/DD HH:mm'
 
 const SearchFormContainer = BoxShadowStyle.extend``
 const Container = styled.div`
@@ -205,7 +201,7 @@ export default class SearchForm extends React.Component {
         </Heading>
         <Container>
           <Row gutter={16}>
-          <Col span={6}>
+          <Col span={8}>
               <Field 
                 label={translate('qaqc.province.label')}
                 name="province"
@@ -214,7 +210,7 @@ export default class SearchForm extends React.Component {
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('stationType.label')}
                 name="stationType"
@@ -223,7 +219,7 @@ export default class SearchForm extends React.Component {
                 component={FSelectStationType}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('stationAuto.label')}
                 name="stationAuto"
@@ -236,18 +232,10 @@ export default class SearchForm extends React.Component {
                 setKey
               />
             </Col>
-            <Col span={6}>
-              <Field
-                label={t('isExceeded.label')}
-                name="isExceeded"
-                size="large"
-                component={FSwitch}
-              />
-            </Col>
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
-            <Col span={12}>
+            <Col span={8}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -258,13 +246,21 @@ export default class SearchForm extends React.Component {
                 component={FSelectAnt}
               />
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               <Field
-                label={'Thời gian'}
+                label={t('time')}
                 name="rangesDate"
                 size="large"
                 onChangeObject={this.handleChangeRanges}
                 component={FOptionsTimeRange}
+              />
+            </Col>
+            <Col span={8}>
+              <Field
+                label={t('isExceeded.label')}
+                name="isExceeded"
+                size="large"
+                component={FSwitch}
               />
             </Col>
           </Row>
