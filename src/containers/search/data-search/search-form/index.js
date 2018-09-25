@@ -128,6 +128,7 @@ export default class SearchForm extends React.Component {
   }
 
   handleSubmit(values) {
+    console.log('values: ', values)
     this.props.onSubmit({
       fromDate: this.convertDateToString(values.fromDate),
       toDate: this.convertDateToString(values.toDate),
@@ -230,14 +231,14 @@ export default class SearchForm extends React.Component {
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
-            {/* <Col span={12}>
+            <Col span={12}>
               <Field
                 label={'Thời gian'}
-                name="type"
+                name="rangesDate"
                 size="large"
                 component={FOptionsTimeRange}
               />
-            </Col> */}
+            </Col>
             <Col span={6}>
               <Field
                 label={t('fromDate.label')}

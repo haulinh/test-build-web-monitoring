@@ -163,6 +163,7 @@ export default {
     options: {
       byHours: '{{=it.value}} Hours',
       byDay: '{{=it.value}} Day',
+      range: 'In range'
     },
     form: {
       all: 'All',

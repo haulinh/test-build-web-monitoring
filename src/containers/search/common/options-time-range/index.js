@@ -1,7 +1,9 @@
 import React from 'react'
 import { translate } from 'hoc/create-lang'
-import { Select, DatePicker, Menu, Dropdown, Icon } from 'antd'
+import { Select, DatePicker } from 'antd'
 import moment from 'moment'
+import { autobind } from 'core-decorators'
+import * as _ from 'lodash'
 
 const options = [
   {key: 1, text: 'dataSearchFrom.options.byHours', value: 24},
@@ -10,47 +12,70 @@ const options = [
   {key: 30, text: 'dataSearchFrom.options.byDay', value: 30}
 ]
 
-'{} ngay'
-
+@autobind
 export default class OptionsTimeRange extends React.Component {
   state = {
-    open: true
+    open: false,
+    rangesView: '',
+    rangesDate: []
   }
 
-  menu = () => {
-    return (
-    <Menu key='1'>
-      {
-        options.map(({key, value, text}) => <Menu.Item key={key}>{translate(text, {value})}</Menu.Item>)
+  handleSelect = value => {
+    if (!_.isNumber(value)){
+      this.setState({
+        open: true
+      })
+    } else {
+      this.setState({
+        open: false,
+        rangesView: '',
+        rangesDate: []
+      })
+    }
+  }
+
+  onOkDatePicker = ranges => {
+    let rangesView = ''
+    _.forEach(ranges, range => {
+      rangesView += moment(range._d, 'YYYY/MM/DD HH:mm').format('YYYY/MM/DD HH:mm')
+      if (!_.includes(rangesView, '-')){
+        (rangesView += ' - ')
       }
-      
-      <Menu.SubMenu title="Chon ngay">
-        <DatePicker.RangePicker
-          renderExtraFooter={() => null}
-          ranges={{ Today: [moment(), moment()], 'This Month': [moment(), moment().endOf('month')] }}
-          showTime
-          format="YYYY/MM/DD HH:mm:ss"
-          onChange={() => {}}
-          />
-      </Menu.SubMenu>
-    </Menu>
-    )
+    })
+    this.setState({
+      open: false,
+      rangesView,
+      rangesDate: ranges
+    })
   }
 
   render() {
+    console.log('render: ', this.state.rangesDate)
     return (
-      <Dropdown
-        style={{
-
-        }}
-         overlay={this.menu()}>
-            <span>
-            <span style={{ color: 'blue', minWidth: 80, borderWidth: 1, flex: 1, borderColor: '#b6b6b6' }}>
-              1 ngay
-            </span>
-            <Icon type="down" />
-          </span>
-      </Dropdown>
+      <div>
+      <Select {...this.props} onSelect={this.handleSelect}>
+        {
+          options.map(({key, text, value}) => 
+            <Select.Option key={key} value={value}>
+              {translate(text, {value})}
+            </Select.Option>
+          )
+        }
+        <Select.Option key={'range'} value={{ranges: this.state.rangesDate}}>
+          {this.state.rangesView || translate('dataSearchFrom.options.range')}
+        </Select.Option>
+      </Select>
+      {
+          this.state.open &&  
+          <DatePicker.RangePicker
+            open={true}
+            ranges={{ Today: [moment(), moment()], 'This Month': [moment(), moment().endOf('month')] }}
+            showTime
+            format="YYYY/MM/DD HH:mm"
+            onOk={this.onOkDatePicker}
+          />
+        }
+      </div>
     )
   }
 }

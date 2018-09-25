@@ -30,20 +30,11 @@ export default class SelectStationAuto extends React.Component {
     })
   }
 
-  getStationAutos() {
-    return this.state.stationAutoSelects.filter(
-      stationAuto =>
-        this.props.stationTypeKey && this.props.stationTypeKey !== ''
-          ? stationAuto.stationType.key === this.props.stationTypeKey
-          : false
-    )
-  }
-
-  getStationAutos2(){
+  getStationAutos(){
     return _.filter(this.state.stationAutoSelects, stationAuto => {
     
       return _.isEqual(this.props.stationTypeKey, _.get(stationAuto, 'stationType.key', null)) &&
-             _.isEqual(this.props.provinceKey, _.get(stationAuto, 'province.key', null))
+             (!this.props.provinceKey || _.isEqual(this.props.provinceKey, _.get(stationAuto, 'province.key', null)))
     })
   }
 
@@ -66,7 +57,7 @@ export default class SelectStationAuto extends React.Component {
         showSearch
         value={this.props.setKey ? this.props.stationAutoKey : this.props.value}
       >
-        {this.getStationAutos2().map(item => (
+        {this.getStationAutos().map(item => (
           <Select.Option key={item.key} value={item.key}>
             {item.name}
           </Select.Option>

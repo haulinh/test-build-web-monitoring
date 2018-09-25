@@ -163,6 +163,7 @@ export default {
     options: {
       byHours: '{{=it.value}} Giờ',
       byDay: '{{=it.value}} Ngày',
+      range: 'Trong khoảng'
     },
     form: {
       all: 'Tất cả',
