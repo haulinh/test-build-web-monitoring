@@ -114,7 +114,7 @@ export default class QaQcContainer extends React.Component {
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Spin
           size="large"
-          tip={translate('qaqc.approved')}
+          tip={translate(get(this.state,'searchFormData.dataType', 'value') === 'value' ? 'qaqc.approved' :  'qaqc.unApprove')}
           spinning={this.state.isExporting}
         >
           <Breadcrumb items={['list']} />

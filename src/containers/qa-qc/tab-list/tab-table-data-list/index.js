@@ -177,7 +177,7 @@ class EditableTable extends React.Component {
     const dataSource = _.map(props.dataSource, ({_id, receivedAt, measuringLogs}, index) => {
       let rs = { receivedAt, _id, key: `${index}`}
       _.mapKeys(measuringLogs, (value, key) => {
-        rs[key] = _.get(value, props.valueField)
+        rs[key] = _.get(value, this.props.valueField, _.get(value, 'value'))
         return key
       })
       return rs
@@ -194,7 +194,7 @@ class EditableTable extends React.Component {
       const dataSource = _.map(nextProps.dataSource, ({_id, receivedAt, measuringLogs}, index) => {
         let rs = { receivedAt, _id, key: `${index}`}
         _.mapKeys(measuringLogs, (value, key) => {
-          rs[key] = _.get(value, this.props.valueField)
+          rs[key] = _.get(value, this.props.valueField, _.get(value, 'value'))
           return key
         })
         return rs
