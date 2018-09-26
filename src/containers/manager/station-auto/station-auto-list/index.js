@@ -213,8 +213,8 @@ export default class StationAutoList extends React.Component {
             )
           },
           {
-            content: (
-              row.activatedAt && <span>{moment(row.activatedAt).format(DD_MM_YYYY)}</span>
+            content: row.activatedAt && (
+              <span>{moment(row.activatedAt).format(DD_MM_YYYY)}</span>
             )
           },
           {

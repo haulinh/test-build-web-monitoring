@@ -203,8 +203,8 @@ export default class SearchForm extends React.Component {
         </Heading>
         <Container>
           <Row gutter={16}>
-          <Col span={6}>
-              <Field 
+            <Col span={6}>
+              <Field
                 label={translate('qaqc.province.label')}
                 name="province"
                 size="large"

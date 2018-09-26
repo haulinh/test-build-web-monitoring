@@ -88,8 +88,8 @@ export default class ConfigStation extends React.Component {
     this.setState({ dataChange })
   }
 
-  async saveData (stationList, dataChange, userInfo) {
-    this.setState({idLoadingSave: true})
+  async saveData(stationList, dataChange, userInfo) {
+    this.setState({ idLoadingSave: true })
     const stationAutos = _.map(stationList, item => {
       const options = {
         ..._.get(item, 'options', {}),
@@ -107,7 +107,7 @@ export default class ConfigStation extends React.Component {
         )
       })
     }
-    this.setState({idLoadingSave: false})
+    this.setState({ idLoadingSave: false })
   }
 
   onChangeNumber = (val, { key }, field) => {
@@ -136,9 +136,9 @@ export default class ConfigStation extends React.Component {
         dataIndex: 'name',
         key: 'name',
         sorter: (a, b) => {
-          if(a.name < b.name) return -1;
-          if(a.name > b.name) return 1;
-          return 0;
+          if (a.name < b.name) return -1
+          if (a.name > b.name) return 1
+          return 0
         },
         render: value => value
       },
@@ -209,7 +209,10 @@ export default class ConfigStation extends React.Component {
   render() {
     return (
       <PageContainer>
-        <Spin spinning={this.state.idLoadingSave} tip={`${this.props.lang.t('addon.save')}...`}>
+        <Spin
+          spinning={this.state.idLoadingSave}
+          tip={`${this.props.lang.t('addon.save')}...`}
+        >
           <Breadcrumb
             items={[
               {
@@ -220,7 +223,7 @@ export default class ConfigStation extends React.Component {
           />
           <Toolbar>
             <Button
-              type='primary'
+              type="primary"
               loading={this.state.idLoadingSave}
               onClick={() =>
                 this.saveData(
