@@ -826,6 +826,12 @@ export default {
     user: 'Thông tin người dùng',
     organization: 'Thông tin tổ chức'
   },
+  configStation:{
+    warningStatus: 'Nhận cảnh báo',
+    showStation:'Hiển thị trạm',
+    numericalOrder: 'Số thứ tự',
+    action: 'Hành động'
+  },
   changePassword: {
     breadcrumb: {
       changePassword: 'Thay đổi mật khẩu',

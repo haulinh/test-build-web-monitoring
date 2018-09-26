@@ -8,6 +8,7 @@ import UserRule from './user-rule'
 import ChangePassword from 'containers/auth/change-password'
 import ProfileUser from 'containers/auth/profile-user'
 import Security from 'containers/auth/security'
+import ConfigStation from 'containers/auth/config-station'
 
 export default props => (
   <Switch>
@@ -24,6 +25,7 @@ export default props => (
 
     <Route path={slug.user.rule} component={UserRule} />
     <Route path={slug.user.changePassword} component={ChangePassword} />
+    <Route path={slug.user.configStation} component={ConfigStation} />
     <Route path={slug.user.profile} component={ProfileUser} />
     <Route path={slug.user.security} component={Security} />
   </Switch>

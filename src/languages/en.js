@@ -829,6 +829,12 @@ export default {
     user: 'User Info',
     organization: 'Organization Info'
   },
+  configStation:{
+    warningStatus: 'Receive Warning',
+    showStation:'Show Station',
+    numericalOrder: 'Numerical Order',
+    action: 'Action'
+  },
   changePassword: {
     breadcrumb: {
       changePassword: 'Change password',
