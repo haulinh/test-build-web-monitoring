@@ -74,7 +74,8 @@ export function getDataAnalyzeStationAutos({
   key,
   advanced,
   measuringList,
-  isExceeded
+  isExceeded,
+  dataType
 }) {
   var url = getDataStationAutoUrl(`${key}/analyze?`)
   if (fromDate) url += `&from=${fromDate}`
@@ -82,6 +83,7 @@ export function getDataAnalyzeStationAutos({
   if (advanced) url += `&advanced=${JSON.stringify(advanced)}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
   if (isExceeded) url += `&isExceeded=${isExceeded}`
+  if (dataType) url += `&dataType=${dataType}`
   return getFetch(url)
 }
 
