@@ -131,7 +131,6 @@ export default class StationAutoList extends React.Component {
   }
 
   getHead() {
-    
     const { t } = this.props.lang
     return [
       { content: '#', width: 2 },

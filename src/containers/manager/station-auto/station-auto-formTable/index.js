@@ -31,19 +31,25 @@ export default class StationAutoFormTable extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     let params = {}
-   
+
     if (!_.isEqual(nextProps.standardsVN, this.props.standardsVN)) {
       params.standardsVN = nextProps.standardsVN
-      if (this.props.allowUpdateStandardsVN && !_.isEmpty(nextProps.standardsVN)){
-        let measuringList = _.filter(this.state.measuringList, item => !_.isEmpty(item.measuringKey))
+      if (
+        this.props.allowUpdateStandardsVN &&
+        !_.isEmpty(nextProps.standardsVN)
+      ) {
+        let measuringList = _.filter(
+          this.state.measuringList,
+          item => !_.isEmpty(item.measuringKey)
+        )
         let size = _.size(this.state.measuringList)
         const measureObj = _.keyBy(this.state.measuringList, 'measuringKey')
-        _.forEach(_.values(nextProps.standardsVN),  item => {
+        _.forEach(_.values(nextProps.standardsVN), item => {
           if (!measureObj[item.key]) {
             measuringList = _.concat(measuringList, {
               measuringKey: item.key,
               ...item,
-              key: size,
+              key: size
             })
             size++
           }
@@ -60,8 +66,11 @@ export default class StationAutoFormTable extends React.Component {
   async componentWillMount() {
     let measuringList = []
     console.log('this.props.dataSource', this.props.dataSource)
-    if (this.props.allowUpdateStandardsVN && !_.isEmpty(this.props.standardsVN)){
-      measuringList = _.map(_.values(this.props.standardsVN),  (item, index) => {
+    if (
+      this.props.allowUpdateStandardsVN &&
+      !_.isEmpty(this.props.standardsVN)
+    ) {
+      measuringList = _.map(_.values(this.props.standardsVN), (item, index) => {
         item.measuringKey = item.key
         item.key = index
         return item
@@ -74,9 +83,9 @@ export default class StationAutoFormTable extends React.Component {
       })
     }
 
-    this.setState({measuringList})
+    this.setState({ measuringList })
 
-      // this.setState({
+    // this.setState({
     //   measuringList: this.props.dataSource.map((item, index) => {
     //     item.measuringKey = item.key
     //     item.key = index
@@ -98,9 +107,13 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   getValueStandardVN = (record, field) => {
-   // console.log(this.state.standardsVN)
-  //  console.log(record)
-    const value = _.get( _.get(this.state.standardsVN, _.get(record, 'measuringKey'), {}), field, undefined)
+    // console.log(this.state.standardsVN)
+    //  console.log(record)
+    const value = _.get(
+      _.get(this.state.standardsVN, _.get(record, 'measuringKey'), {}),
+      field,
+      undefined
+    )
     if (!_.isUndefined(value)) {
       return value
     }
@@ -129,11 +142,11 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   renderItemCell = (text, record, index, key) => (
-      <FormItem style={{ marginBottom: 0 }}>
+    <FormItem style={{ marginBottom: 0 }}>
       {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
         initialValue: text
       })(<span>{text}</span>)}
-      </FormItem>
+    </FormItem>
   )
   renderItemNumberCell = (text, record, index, key, autoFill = false) => {
     if (autoFill) {
@@ -154,9 +167,11 @@ export default class StationAutoFormTable extends React.Component {
     const { t } = this.props.lang
     const { getFieldDecorator } = this.props.form
     let textTitle = ''
-    if((!this.props.allowUpdateStandardsVN)){
-      if(_.isObject(this.props.standardsVNObject)){
-        textTitle = t('stationAutoManager.form.qcvn.label') + ` : (${this.props.standardsVNObject.name})`
+    if (!this.props.allowUpdateStandardsVN) {
+      if (_.isObject(this.props.standardsVNObject)) {
+        textTitle =
+          t('stationAutoManager.form.qcvn.label') +
+          ` : (${this.props.standardsVNObject.name})`
       }
     } else {
       textTitle = t('stationAutoManager.form.qcvn.label')
@@ -171,7 +186,7 @@ export default class StationAutoFormTable extends React.Component {
       },
       {
         dataIndex: 'measuringName',
-        title: textTitle,// t('stationAutoManager.form.measuringName.label'),
+        title: textTitle, // t('stationAutoManager.form.measuringName.label'),
         width: 130,
         render: (text, record, index) => (
           <FormItem style={{ marginBottom: 0 }}>
@@ -284,7 +299,7 @@ export default class StationAutoFormTable extends React.Component {
 
   render() {
     const { t } = this.props.lang
-   // console.log('standardsVN', this.props.standardsVN)
+    // console.log('standardsVN', this.props.standardsVN)
     return (
       <div>
         <Button

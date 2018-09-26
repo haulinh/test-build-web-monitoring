@@ -833,11 +833,16 @@ export default {
     user: 'Thông tin cá nhân',
     organization: 'Thông tin tổ chức'
   },
-  configStation:{
+  configStation: {
+    breadCrumb: 'Cấu hình trạm theo tài khoản',
     warningStatus: 'Nhận cảnh báo',
-    showStation:'Hiển thị trạm',
+    showStation: 'Hiển thị trạm',
     numericalOrder: 'Số thứ tự',
-    action: 'Hành động'
+    action: 'Hành động',
+    messageUpdate: {
+      success: 'Cập nhật thành công!',
+      error: 'cập nhật thất bại!'
+    }
   },
   changePassword: {
     breadcrumb: {

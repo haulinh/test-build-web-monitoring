@@ -836,11 +836,16 @@ export default {
     user: 'User Info',
     organization: 'Organization Info'
   },
-  configStation:{
+  configStation: {
+    breadCrumb: 'Config Station By User',
     warningStatus: 'Receive Warning',
-    showStation:'Show Station',
+    showStation: 'Show Station',
     numericalOrder: 'Numerical Order',
-    action: 'Action'
+    action: 'Action',
+    messageUpdate: {
+      success: 'Update successfully!',
+      error: 'Update failure!'
+    }
   },
   changePassword: {
     breadcrumb: {

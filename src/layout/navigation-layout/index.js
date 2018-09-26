@@ -117,7 +117,7 @@ export default class BasicNestedNavigation extends React.Component {
   handleSecurity() {
     this.props.history.push(slug.user.security)
   }
-  handleConfigStation(){
+  handleConfigStation() {
     this.props.history.push(slug.user.configStation)
   }
   globalSecondaryActions() {

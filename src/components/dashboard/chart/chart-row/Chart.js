@@ -175,7 +175,7 @@ export default class ChartRowToChart extends React.Component {
   }
 
   handleClick = e => {
-    const current = _.get(_.keyBy(this.state.categories, 'key'), e , null)
+    const current = _.get(_.keyBy(this.state.categories, 'key'), e, null)
     this.setState({
       current
     })
@@ -232,13 +232,20 @@ export default class ChartRowToChart extends React.Component {
           </span>
         </Dropdown>
         <ReactHighcharts config={this.getConfigData()} />
-        <Tabs 
-          style={{ width: 800, paddingLeft: 8, paddingRight: 8, marginBottom: 8 }}
-          onTabClick={this.handleClick}>
+        <Tabs
+          style={{
+            width: 800,
+            paddingLeft: 8,
+            paddingRight: 8,
+            marginBottom: 8
+          }}
+          onTabClick={this.handleClick}
+        >
           {_.map(this.state.categories, ({ key, name, unit }) => (
             <Tabs.TabPane
-              tab={unit ? `${name} ${unit}`: `${name}`}
-              key={key}/>
+              tab={unit ? `${name} ${unit}` : `${name}`}
+              key={key}
+            />
           ))}
         </Tabs>
       </ChartWrapper>

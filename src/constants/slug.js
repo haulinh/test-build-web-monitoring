@@ -88,7 +88,7 @@ export default {
     edit: '/user/edit/:key',
     editWithKey: '/user/edit',
     changePassword: '/user/change-password',
-    configStation:'/user/config-station',
+    configStation: '/user/config-station',
     profile: '/user/profile',
     security: '/user/security',
     rule: '/user/rule/:key',

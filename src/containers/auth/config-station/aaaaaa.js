@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Form, Checkbox, InputNumber, Button, Table } from 'antd'
+import { Form, Checkbox, InputNumber, Button } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from 'containers/auth/breadcrumb'
 import createLanguage, { langPropTypes, translate } from 'hoc/create-lang'
 import StationAutoApi from 'api/StationAuto'
 import AuthApi from 'api/AuthApi'
+import DynamicTable from 'components/elements/dynamic-table'
 import * as _ from 'lodash'
 import swal from 'sweetalert2'
 
@@ -15,6 +16,8 @@ const Toolbar = styled.div`
   flex-direction: column;
   align-items: flex-end;
 `
+
+const FormItem = Form.Item
 
 @createLanguage
 export default class ConfigStation extends React.Component {
@@ -34,15 +37,11 @@ export default class ConfigStation extends React.Component {
       stationList: [],
       isLoaded: false,
       dataStations: [],
+      iconLoading: false,
       dataStatus: [],
-      dataChange: {},
-      pagination: {
-        current: 1,
-        pageSize: 15
-      }
+      dataChange: {}
     }
   }
-
   async componentDidMount() {
     const MAX_VALUE = 99999
     let rs = await AuthApi.getMe()
@@ -65,8 +64,7 @@ export default class ConfigStation extends React.Component {
     this.setState({
       isLoaded: true,
       userInfo,
-      stationList,
-      pagination: { ...this.state.pagination, total: _.size(stationList) }
+      stationList: stationList
     })
   }
 
@@ -84,6 +82,7 @@ export default class ConfigStation extends React.Component {
     const opOrigin = _.get(dataChange[key], 'options', {})
     dataChange[key] = { options: { ...opOrigin, ...opt } }
     this.setState({ dataChange })
+    // console.log(dataChange)
   }
 
   saveData = async (stationList, dataChange, userInfo) => {
@@ -110,43 +109,26 @@ export default class ConfigStation extends React.Component {
     this.setStationOption(val, key, field)
   }
 
-  getIndex = index => {
-    return (
-      (this.state.pagination.current - 1) * this.state.pagination.pageSize +
-      index +
-      1
-    )
-  }
-
-  getColumns = () => {
+  getHead = () => {
+    const {
+      lang: { t }
+    } = this.props
     return [
+      { content: '#', width: 2 },
+      { content: t('userManager.roleAssign.name'), width: 15 },
+      { content: t('configStation.warningStatus'), width: 10 },
+      { content: t('configStation.showStation'), width: 10 },
+      { content: t('configStation.numericalOrder'), width: 3 }
+    ]
+  }
+  getRows = () => {
+    return _.map(this.state.stationList, (row, index) => [
+      { content: index + 1 },
+      { content: row.name },
       {
-        title: '#',
-        dataIndex: 'Index',
-        width: 60,
-        key: 'Index',
-        render: (value, record, index) => <div>{this.getIndex(index)}</div>
-      },
-      {
-        title: this.props.lang.t('userManager.roleAssign.name'),
-        dataIndex: 'name',
-        key: 'name',
-        sortOrder: true,
-        render: value => value
-      },
-      {
-        title: this.props.lang.t('configStation.warningStatus'),
-        dataIndex: 'options.warning.allowed',
-        key: 'options.warning.allowed',
-        align: 'center',
-        width: '18%',
-        render: (value, row) => (
+        content: (
           <Checkbox
-            defaultChecked={_.get(
-              this.state.dataChange,
-              `${row.key}.options.warning.allowed`,
-              value
-            )}
+            defaultChecked={_.get(row, 'options.warning.allowed', false)}
             name="warning.allowed"
             data={row}
             onChange={this.onChangeCheckbox}
@@ -154,18 +136,9 @@ export default class ConfigStation extends React.Component {
         )
       },
       {
-        title: this.props.lang.t('configStation.showStation'),
-        dataIndex: 'options.display.allowed',
-        width: '18%',
-        key: 'options.display.allowed',
-        align: 'center',
-        render: (value, row) => (
+        content: (
           <Checkbox
-            defaultChecked={_.get(
-              this.state.dataChange,
-              `${row.key}.options.display.allowed`,
-              value
-            )}
+            defaultChecked={_.get(row, 'options.display.allowed', false)}
             name="display.allowed"
             data={row}
             onChange={this.onChangeCheckbox}
@@ -173,29 +146,16 @@ export default class ConfigStation extends React.Component {
         )
       },
       {
-        title: this.props.lang.t('configStation.numericalOrder'),
-        dataIndex: 'options.numericalOrder',
-        key: 'options.numericalOrder',
-        align: 'right',
-        width: '18%',
-        render: (value, row) => (
+        content: (
           <InputNumber
             size="small"
             data={row}
-            defaultValue={_.get(
-              this.state.dataChange,
-              `${row.key}.options.numericalOrder`,
-              value
-            )}
+            defaultValue={_.get(row, 'options.numericalOrder')}
             onChange={val => this.onChangeNumber(val, row, 'numericalOrder')}
           />
         )
       }
-    ]
-  }
-
-  handleChangePage = pagination => {
-    this.setState({ pagination })
+    ])
   }
 
   render() {
@@ -205,7 +165,7 @@ export default class ConfigStation extends React.Component {
           items={[
             {
               id: 'configStation',
-              name: this.props.lang.t('configStation.breadCrumb')
+              name: this.props.lang.t('profileUser.configStation')
             }
           ]}
         />
@@ -219,24 +179,21 @@ export default class ConfigStation extends React.Component {
                 this.state.userInfo
               )
             }
-            loading={this.state.iconLoading}
             style={{ paddingLeft: '30px', paddingRight: '30px' }}
           >
             {' '}
             {this.props.lang.t('addon.save')}{' '}
           </Button>
         </Toolbar>
-        <Table
-          rowKey="key"
-          size="small"
+        <DynamicTable
           loading={!this.state.isLoaded}
-          columns={this.getColumns()}
-          dataSource={this.state.stationList}
-          expandedRowRender={record => (
-            <p style={{ margin: 0 }}>{_.get(record, 'address', '')}</p>
-          )}
-          pagination={this.state.pagination}
-          onChange={this.handleChangePage}
+          rows={this.getRows()}
+          head={this.getHead()}
+          dataSource={this.state.dataStations}
+          paginationOptions={{
+            itemPerPage: 10,
+            page: 27
+          }}
         />
       </PageContainer>
     )

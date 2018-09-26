@@ -5,11 +5,11 @@ import styled from 'styled-components'
 import ProvinceSelect from './ProvinceSelect'
 
 // background: linear-gradient(135deg,#1d89ce 0%,#56d2f3 100%);
-const WrapperView = styled.div` 
+const WrapperView = styled.div`
   border-radius: 4px;
   flex-direction: column;
   min-width: 250px;
-  `
+`
 
 const Label = styled.label`
   font-weight: bold;

@@ -17,8 +17,9 @@ export default class TableDataList extends React.PureComponent {
   }
 
   getColor = value => {
-    if ((_.includes(this.props.dataFilterBy, 'zero') && value === 0)
-      || (_.includes(this.props.dataFilterBy, 'nagative') && value < 0)
+    if (
+      (_.includes(this.props.dataFilterBy, 'zero') && value === 0) ||
+      (_.includes(this.props.dataFilterBy, 'nagative') && value < 0)
     ) {
       return SHAPE.RED
     } else {
@@ -48,26 +49,24 @@ export default class TableDataList extends React.PureComponent {
       }
     }
 
-    const columnsMeasurings = 
-      _.filter(this.props.measuringData, measuring => this.props.measuringList.includes(measuring.key))
-      .map(measuring => ({
-        title:
-          `${measuring.name}` +
-          (measuring.unit && measuring.unit !== ''
-            ? `(${measuring.unit})`
-            : ''),
-        dataIndex: `measuringLogs.${measuring.key}`,
-        key: measuring.key,
-        render: value => {
-          if (value === null) return <div />
-          let color = this.getColor(value.value)
-          return (
-            <div style={{ color }}>
-              {value.value.toLocaleString(navigator.language)}
-            </div>
-          )
-        }
-      }))
+    const columnsMeasurings = _.filter(this.props.measuringData, measuring =>
+      this.props.measuringList.includes(measuring.key)
+    ).map(measuring => ({
+      title:
+        `${measuring.name}` +
+        (measuring.unit && measuring.unit !== '' ? `(${measuring.unit})` : ''),
+      dataIndex: `measuringLogs.${measuring.key}`,
+      key: measuring.key,
+      render: value => {
+        if (value === null) return <div />
+        let color = this.getColor(value.value)
+        return (
+          <div style={{ color }}>
+            {value.value.toLocaleString(navigator.language)}
+          </div>
+        )
+      }
+    }))
     return [columnIndex, columnReceivedAt, ...columnsMeasurings]
   }
 

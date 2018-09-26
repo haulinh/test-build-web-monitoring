@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import { colorLevels } from 'constants/warningLevels'
 import { translate } from 'hoc/create-lang'
 
-  // align-items: center;
-  // justify-content: space-between;
+// align-items: center;
+// justify-content: space-between;
 const HeaderWrapper = styled.div`
   flex: 1;
   flex-direction: column;
@@ -29,7 +29,7 @@ const WrapperColor = styled.div`
   display: flex;
   margin-top: 4px;
   margin-left: 8px;
-  flex: 1
+  flex: 1;
 `
 
 const ColorLevel = styled.span`
@@ -49,7 +49,7 @@ const TextLevel = styled.span`
 `
 
 const SpaceContainer = styled.span`
-  width: 25%
+  width: 25%;
 `
 
 @autobind
@@ -66,18 +66,21 @@ export default class Header extends React.PureComponent {
       <HeaderWrapper>
         {this.props.children}
         <WarningWrapper>
-          <SpaceContainer/>
+          <SpaceContainer />
           <WarningTitle> {translate('warningLevels.title')}</WarningTitle>
           <WrapperColor>
-            <ColorLevel color={colorLevels.GOOD} >
+            <ColorLevel color={colorLevels.GOOD}>
               <TextLevel>{translate('warningLevels.good')}</TextLevel>
             </ColorLevel>
-            <ColorLevel color={colorLevels.EXCEEDED_TENDENCY} >
-              <TextLevel>{translate('warningLevels.exceedTendency')}</TextLevel></ColorLevel>
-            <ColorLevel color={colorLevels.EXCEEDED_PREPARING}>
-              <TextLevel>{translate('warningLevels.exceedPreparing')}</TextLevel>
+            <ColorLevel color={colorLevels.EXCEEDED_TENDENCY}>
+              <TextLevel>{translate('warningLevels.exceedTendency')}</TextLevel>
             </ColorLevel>
-            <ColorLevel color={colorLevels.EXCEEDED} >
+            <ColorLevel color={colorLevels.EXCEEDED_PREPARING}>
+              <TextLevel>
+                {translate('warningLevels.exceedPreparing')}
+              </TextLevel>
+            </ColorLevel>
+            <ColorLevel color={colorLevels.EXCEEDED}>
               <TextLevel>{translate('warningLevels.exceed')}</TextLevel>
             </ColorLevel>
           </WrapperColor>
