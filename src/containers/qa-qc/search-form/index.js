@@ -18,6 +18,7 @@ import Heading from 'components/elements/heading'
 import SelectStationAuto from '../../search/common/select-station-auto'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 import DataFilterBy from './data-filter-by'
 import { FSelectApprove } from './select-approve'
@@ -29,7 +30,6 @@ const FDatePicker = createValidateComponent(DatePicker)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FDataFilterBy = createValidateComponent(DataFilterBy)
 
-const DATE_FORMAT = 'YYYY/MM/DD HH:mm'
 
 const SearchFormContainer = BoxShadowStyle.extend``
 const Container = styled.div`
@@ -71,6 +71,7 @@ export default class SearchForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      provinceKey: '',
       stationTypeKey: props.initialValues.stationType,
       stationAutoKey: props.initialValues.stationAuto,
       measuringData: props.measuringData ? props.measuringData : [],
@@ -108,7 +109,8 @@ export default class SearchForm extends React.Component {
   }
 
   handleProvinceChange(obj, e) {
-    console.log('handleProvinceChange', obj, e)
+    this.setState({provinceKey: obj.key, stationAutoKey: ''})
+    this.props.change('stationAuto', '')
   }
 
   handleChangeStationAuto(stationAuto) {
@@ -133,7 +135,7 @@ export default class SearchForm extends React.Component {
   }
 
   convertDateToString(date) {
-    return moment(date, 'YYYY-MM-DD HH:mm').toISOString()
+    return moment(date, DD_MM_YYYY_HH_MM).toISOString()
   }
 
   handleSubmit(values) {
@@ -206,6 +208,7 @@ export default class SearchForm extends React.Component {
                 label={t('stationAuto.label')}
                 name="stationAuto"
                 size="large"
+                provinceKey={this.state.provinceKey}
                 stationTypeKey={this.state.stationTypeKey}
                 component={FSelectStationAuto}
                 onChangeObject={this.handleChangeStationAuto}
@@ -233,7 +236,7 @@ export default class SearchForm extends React.Component {
                 name="fromDate"
                 size="large"
                 component={FDatePicker}
-                dateFormat={DATE_FORMAT}
+                dateFormat={DD_MM_YYYY_HH_MM}
               />
             </Col>
             <Col span={6}>
@@ -242,7 +245,7 @@ export default class SearchForm extends React.Component {
                 name="toDate"
                 size="large"
                 component={FDatePicker}
-                dateFormat={DATE_FORMAT}
+                dateFormat={DD_MM_YYYY_HH_MM}
               />
             </Col>
             <Col span={6}>

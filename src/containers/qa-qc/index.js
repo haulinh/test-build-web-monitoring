@@ -31,17 +31,18 @@ export default class QaQcContainer extends React.Component {
     pagination: {
       current: 1,
       pageSize: 50
-    }
+    },
+    dataUpdate: {}
   }
 
   handleSubmitSearch(searchFormData) {
     this.loadData(this.state.pagination, searchFormData)
   }
 
-  async loadData(pagination, searchFormData) {
+  async loadData(pagination, searchFormData, dataUpdate = {}) {
     this.setState({
       isLoading: true,
-      isHaveData: true
+      //isHaveData: true
     })
 
     let dataStationAuto = await QAQCApi.fetchData(
@@ -70,24 +71,42 @@ export default class QaQcContainer extends React.Component {
       pagination: {
         ...pagination,
         total: get(dataStationAuto, 'pagination.totalItem', 0)
-      }
+      },
+      dataUpdate,
+      isHaveData: size(dataStationAutoList) > 0
     })
   }
 
-  handleChangePage(pagination) {
-    this.loadData(pagination, this.state.searchFormData)
+  onChangeData = dataUpdate => {
+    this.setState({ dataUpdate })
   }
 
-  async handleExportExcel() {
-    // this.setState({
-    //   isExporting: true
-    // })
-    // let res = await DataStationAutoApi.getExportData(this.state.searchFormData)
-    // if (res && res.success) window.location = res.data
-    // else message.error('Export Error') //message.error(res.message)
-    // this.setState({
-    //   isExporting: false
-    // })
+  handleChangePage(pagination) {
+    this.loadData(pagination, this.state.searchFormData, this.state.dataUpdate)
+  }
+
+  onApprovedData = async ()  => {
+    this.setState({
+      isExporting: true
+    })
+    await QAQCApi.putData(this.state.searchFormData, this.state.dataUpdate)
+    //if (res && res.success) window.location = res.data
+    //else message.error('Export Error') //message.error(res.message)
+    this.setState({
+      isExporting: false
+    })
+  }
+
+  onUnApprovedData = async ()  => {
+    this.setState({
+      isExporting: true
+    })
+    await QAQCApi.deleteData(this.state.searchFormData, this.state.dataUpdate)
+    //if (res && res.success) window.location = res.data
+    //else message.error('Export Error') //message.error(res.message)
+    this.setState({
+      isExporting: false
+    })
   }
 
   render() {
@@ -95,7 +114,7 @@ export default class QaQcContainer extends React.Component {
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Spin
           size="large"
-          tip={translate('dataSearchFrom.tab.statusExport')}
+          tip={translate(get(this.state,'searchFormData.dataType', 'value') === 'value' ? 'qaqc.approved' :  'qaqc.unApprove')}
           spinning={this.state.isExporting}
         >
           <Breadcrumb items={['list']} />
@@ -108,6 +127,7 @@ export default class QaQcContainer extends React.Component {
           <Clearfix height={16} />
           {this.state.isHaveData ? (
             <TabList
+              dataUpdate={this.state.dataUpdate}
               isLoading={this.state.isLoading}
               measuringData={this.state.measuringData}
               measuringList={this.state.measuringList}
@@ -115,11 +135,16 @@ export default class QaQcContainer extends React.Component {
               pagination={this.state.pagination}
               dataFilterBy={ get(this.state,'searchFormData.dataFilterBy', []) }
               onChangePage={this.handleChangePage}
+              onApprovedData={this.onApprovedData}
+              onChangeData={this.onChangeData}
               nameChart={this.state.searchFormData.name}
               isExporting={this.state.isExporting}
+              onUnApprovedData={this.onUnApprovedData}
+              valueField={ get(this.state,'searchFormData.dataType', 'value') }
             />
-          ) : null}
-        </Spin>
+         ) : null}        
+         
+         </Spin>
       </PageContainer>
     )
   }

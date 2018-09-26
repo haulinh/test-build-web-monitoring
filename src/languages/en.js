@@ -77,7 +77,8 @@ export default {
     province: {
       label: 'Management Unit',
       placeholder: 'Management Unit'
-    }
+    },
+    notEmpty: '{{=it.value}} is required!'
   },
   controlStation: {
     text: 'Sampling',
@@ -160,8 +161,14 @@ export default {
   },
   dataSearchFrom: {
     titleText: 'Data Search',
+    options: {
+      byHours: '{{=it.value}} Hours',
+      byDay: '{{=it.value}} Day',
+      range: 'In range'
+    },
     form: {
       all: 'All',
+      time: 'Time',
       stationType: {
         label: 'Type Of Station',
         placeholder: 'Select Type Of Station'

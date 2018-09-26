@@ -77,7 +77,8 @@ export default {
     province: {
       label: 'Đơn vị quản lý',
       placeholder: 'Đơn vị quản lý'
-    }
+    },
+    notEmpty: '{{=it.value}} không để trống!'
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',
@@ -160,8 +161,14 @@ export default {
   },
   dataSearchFrom: {
     titleText: 'Tìm kiếm dữ liệu',
+    options: {
+      byHours: '{{=it.value}} Giờ',
+      byDay: '{{=it.value}} Ngày',
+      range: 'Trong khoảng'
+    },
     form: {
       all: 'Tất cả',
+      time: 'Thời gian',
       stationType: {
         label: 'Loại trạm',
         placeholder: 'Chọn loại trạm'
@@ -823,7 +830,7 @@ export default {
       success: 'Hoàn thành',
       error: 'Tải ảnh lên thất bại'
     },
-    user: 'Thông tin người dùng',
+    user: 'Thông tin cá nhân',
     organization: 'Thông tin tổ chức'
   },
   configStation:{
@@ -868,7 +875,7 @@ export default {
   security: {
     label: 'Bảo mật 2 lớp',
     note:
-      'Nếu bật tính năng bảo mật 2 lớp. Hệ thống sẽ yêu cầu nhập mã xác thức đã được gửi vào email',
+      'Nếu bạn bật tính năng Xác thực hai lớp. Hệ thống sẽ gửi mã xác thực đến địa chỉ email của bạn mỗi khi bạn đăng nhập.',
     success: 'Thành công'
   },
   login: {

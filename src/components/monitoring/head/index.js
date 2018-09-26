@@ -40,7 +40,7 @@ const ColorLevel = styled.span`
   text-align: center;
 `
 const TextLevel = styled.span`
-  font-size: 10px;
+  font-size: 12px;
   font-style: normal;
   font-stretch: normal;
   line-height: normal;
