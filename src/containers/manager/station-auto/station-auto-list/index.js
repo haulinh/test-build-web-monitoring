@@ -26,10 +26,7 @@ const LinkSpan = styled.span`
     cursor: pointer;
   }
 `
-const SpanTimeAgo = styled.div`
-  font-size: 13px;
-  color: #707070;
-`
+
 const Span = styled.span`
   color: ${props => (props.deleted ? '#999999' : '')};
   text-decoration: ${props => (props.deleted ? 'line-through' : '')};

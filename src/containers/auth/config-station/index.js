@@ -232,7 +232,6 @@ export default class ConfigStation extends React.Component {
                   this.state.userInfo
                 )
               }
-              loading={this.state.iconLoading}
               style={{ paddingLeft: '30px', paddingRight: '30px' }}
             >
               {' '}
