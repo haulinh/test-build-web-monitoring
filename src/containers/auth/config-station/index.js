@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Form, Checkbox, InputNumber, Button, Table } from 'antd'
+import { Spin, Checkbox, InputNumber, Button, Table } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from 'containers/auth/breadcrumb'
 import createLanguage, { langPropTypes, translate } from 'hoc/create-lang'
@@ -14,6 +14,7 @@ const Toolbar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  padding-bottom: 16px;
 `
 
 @createLanguage
@@ -36,6 +37,7 @@ export default class ConfigStation extends React.Component {
       dataStations: [],
       dataStatus: [],
       dataChange: {},
+      idLoadingSave: false,
       pagination: {
         current: 1,
         pageSize: 15
@@ -86,7 +88,8 @@ export default class ConfigStation extends React.Component {
     this.setState({ dataChange })
   }
 
-  saveData = async (stationList, dataChange, userInfo) => {
+  async saveData (stationList, dataChange, userInfo) {
+    this.setState({idLoadingSave: true})
     const stationAutos = _.map(stationList, item => {
       const options = {
         ..._.get(item, 'options', {}),
@@ -104,6 +107,7 @@ export default class ConfigStation extends React.Component {
         )
       })
     }
+    this.setState({idLoadingSave: false})
   }
 
   onChangeNumber = (val, { key }, field) => {
@@ -131,7 +135,11 @@ export default class ConfigStation extends React.Component {
         title: this.props.lang.t('userManager.roleAssign.name'),
         dataIndex: 'name',
         key: 'name',
-        sortOrder: true,
+        sorter: (a, b) => {
+          if(a.name < b.name) return -1;
+          if(a.name > b.name) return 1;
+          return 0;
+        },
         render: value => value
       },
       {
@@ -201,43 +209,46 @@ export default class ConfigStation extends React.Component {
   render() {
     return (
       <PageContainer>
-        <Breadcrumb
-          items={[
-            {
-              id: 'configStation',
-              name: this.props.lang.t('configStation.breadCrumb')
-            }
-          ]}
-        />
-        <Toolbar>
-          <Button
-            type="primary"
-            onClick={() =>
-              this.saveData(
-                this.state.stationList,
-                this.state.dataChange,
-                this.state.userInfo
-              )
-            }
-            loading={this.state.iconLoading}
-            style={{ paddingLeft: '30px', paddingRight: '30px' }}
-          >
-            {' '}
-            {this.props.lang.t('addon.save')}{' '}
-          </Button>
-        </Toolbar>
-        <Table
-          rowKey="key"
-          size="small"
-          loading={!this.state.isLoaded}
-          columns={this.getColumns()}
-          dataSource={this.state.stationList}
-          expandedRowRender={record => (
-            <p style={{ margin: 0 }}>{_.get(record, 'address', '')}</p>
-          )}
-          pagination={this.state.pagination}
-          onChange={this.handleChangePage}
-        />
+        <Spin spinning={this.state.idLoadingSave} tip={`${this.props.lang.t('addon.save')}...`}>
+          <Breadcrumb
+            items={[
+              {
+                id: 'configStation',
+                name: this.props.lang.t('configStation.breadCrumb')
+              }
+            ]}
+          />
+          <Toolbar>
+            <Button
+              type='primary'
+              loading={this.state.idLoadingSave}
+              onClick={() =>
+                this.saveData(
+                  this.state.stationList,
+                  this.state.dataChange,
+                  this.state.userInfo
+                )
+              }
+              loading={this.state.iconLoading}
+              style={{ paddingLeft: '30px', paddingRight: '30px' }}
+            >
+              {' '}
+              {this.props.lang.t('addon.save')}{' '}
+            </Button>
+          </Toolbar>
+          <Table
+            rowKey="key"
+            size="small"
+            loading={!this.state.isLoaded}
+            columns={this.getColumns()}
+            dataSource={this.state.stationList}
+            expandedRowRender={record => (
+              <p style={{ margin: 0 }}>{_.get(record, 'address', '')}</p>
+            )}
+            pagination={this.state.pagination}
+            onChange={this.handleChangePage}
+          />
+        </Spin>
       </PageContainer>
     )
   }
