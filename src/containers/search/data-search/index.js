@@ -51,11 +51,7 @@ export default class MinutesDataSearch extends React.Component {
       },
       searchFormData
     )
-    console.log('dataStationAuto: ', dataStationAuto)
-    if (
-      dataStationAuto &&
-      (Array.isArray(dataStationAuto.data) && dataStationAuto.data.length === 0)
-    ) {
+    if (dataStationAuto && (Array.isArray(dataStationAuto.data) && dataStationAuto.data.length === 0)) {
       swal({
         type: 'success',
         title: translate('dataSearchFrom.table.emptyText')
@@ -66,6 +62,7 @@ export default class MinutesDataSearch extends React.Component {
       searchFormData
     )
 
+    console.log('dataAnalyzeStationAuto: ',dataAnalyzeStationAuto)
     this.setState({
       isLoading: false,
       dataAnalyzeStationAuto: dataAnalyzeStationAuto.success

@@ -19,6 +19,7 @@ import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import OptionsTimeRange from '../../common/options-time-range'
 import * as _ from 'lodash'
+import { FSelectApprove } from './select-approve'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
@@ -151,6 +152,7 @@ export default class SearchForm extends React.Component {
       name: this.state.stationAutoName,
       measuringList: values.measuringList,
       measuringData: this.state.measuringData,
+      dataType: values.dataType,
       isExceeded: values.isExceeded,
       advanced: values.advanced
         ? values.advanced.filter(
@@ -201,8 +203,8 @@ export default class SearchForm extends React.Component {
         </Heading>
         <Container>
           <Row gutter={16}>
-            <Col span={8}>
-              <Field
+          <Col span={6}>
+              <Field 
                 label={translate('qaqc.province.label')}
                 name="province"
                 size="large"
@@ -210,7 +212,7 @@ export default class SearchForm extends React.Component {
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('stationType.label')}
                 name="stationType"
@@ -219,7 +221,7 @@ export default class SearchForm extends React.Component {
                 component={FSelectStationType}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('stationAuto.label')}
                 name="stationAuto"
@@ -232,10 +234,18 @@ export default class SearchForm extends React.Component {
                 setKey
               />
             </Col>
+            <Col span={6}>
+              <Field
+                label={translate('qaqc.data')}
+                name="dataType"
+                size="large"
+                component={FSelectApprove}
+              />
+            </Col>
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
-            <Col span={8}>
+            <Col span={9}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -246,7 +256,7 @@ export default class SearchForm extends React.Component {
                 component={FSelectAnt}
               />
             </Col>
-            <Col span={8}>
+            <Col span={9}>
               <Field
                 label={t('time')}
                 name="rangesDate"
@@ -255,7 +265,7 @@ export default class SearchForm extends React.Component {
                 component={FOptionsTimeRange}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('isExceeded.label')}
                 name="isExceeded"

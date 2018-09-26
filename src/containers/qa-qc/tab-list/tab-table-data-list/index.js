@@ -147,29 +147,29 @@ class EditableTable extends React.Component {
       }
     }
 
-    const measureCols = _.filter(props.measuringData, measuring =>
-      props.measuringList.includes(measuring.key)
-    ).map(measuring => {
-      return {
-        title:
-          `${measuring.name}` +
-          (measuring.unit && measuring.unit !== ''
-            ? `(${measuring.unit})`
-            : ''),
-        dataIndex: measuring.key,
-        key: measuring.key,
-        editable: true,
-        render: value => {
-          if (value === null) return <div />
-          let color = this.getColor(value)
-          return (
-            <div style={{ color }}>
-              {value && value.toLocaleString(navigator.language)}
-            </div>
-          )
+    const measureCols = 
+      _.filter(props.measuringData, measuring => props.measuringList.includes(measuring.key))
+      .map(measuring => {
+        return {
+          title:
+            `${measuring.name}` +
+            (measuring.unit && measuring.unit !== ''
+              ? `(${measuring.unit})`
+              : ''),
+          dataIndex: measuring.key,
+          key: measuring.key,
+          editable: _.isEqual(this.props.valueField, 'value'),
+          render: value => {
+            if (value === null) return <div />
+            let color = this.getColor(value)
+            return (
+              <div style={{ color }}>
+                {value && value.toLocaleString(navigator.language)}
+              </div>
+            )
+          }
         }
-      }
-    })
+      })
 
     return [indexCol, timeCol, ...measureCols]
   }

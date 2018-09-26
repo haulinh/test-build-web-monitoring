@@ -15,8 +15,9 @@ import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import styled from 'styled-components'
-import TimeAgo from 'react-timeago'
 import { Modal, message } from 'antd'
+import moment from 'moment'
+import { DD_MM_YYYY } from 'constants/format-date'
 
 import DynamicTable from 'components/elements/dynamic-table'
 const LinkSpan = styled.span`
@@ -213,9 +214,7 @@ export default class StationAutoList extends React.Component {
           },
           {
             content: (
-              <SpanTimeAgo>
-                <TimeAgo date={row.activatedAt} />
-              </SpanTimeAgo>
+              row.activatedAt && <span>{moment(row.activatedAt).format(DD_MM_YYYY)}</span>
             )
           },
           {
