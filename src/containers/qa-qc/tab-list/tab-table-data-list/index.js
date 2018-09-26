@@ -156,7 +156,7 @@ class EditableTable extends React.Component {
               : ''),
           dataIndex: measuring.key,
           key: measuring.key,
-          editable: true,
+          editable: _.isEqual(this.props.valueField, 'value'),
           render: value => {
             if (value === null) return <div />
             let color = this.getColor(value)
