@@ -29,7 +29,9 @@ export default {
       title: 'Operating status of the station',
       titleByUnit: 'Rate of receiving data of {{=it.unit}} unit',
       activate: 'Activate',
-      inactive: `Inactive`
+      inactive: `Inactive`,
+      max: 'Maximum: {{=it.max}}',
+      min: 'Minimum: {{=it.min}}'
     },
     activeStationPer: 'Station Active {{=it.good}}/{{=it.total}}'
   },

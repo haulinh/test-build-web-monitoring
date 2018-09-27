@@ -29,7 +29,9 @@ export default {
       title: 'Tình trạng hoạt động của trạm',
       titleByUnit: 'Tình trạng hoạt động của {{=it.unit}}',
       activate: 'Hoạt động',
-      inactive: `Không Hoạt Động`
+      inactive: `Không Hoạt Động`,
+      max: 'Giới hạn trên: {{=it.max}}',
+      min: 'Giới hạn duới: {{=it.min}}'
     },
     activeStationPer: 'Trạm hoạt động {{=it.good}}/{{=it.total}}'
   },
