@@ -198,7 +198,7 @@ export default class TableListCustom extends React.PureComponent {
 
   render() {
     return (
-      <div style={{ height: 450, overflow: 'scroll' }}>
+      <div style={{ height: 450, minWidth: 300, overflow: 'scroll' }}>
         <Row>
           <IndexColumn isTh>#</IndexColumn>
           <NameColumn onClick={() => this.handleFilter('name')} isTh>

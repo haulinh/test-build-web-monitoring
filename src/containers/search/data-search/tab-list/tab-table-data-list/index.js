@@ -6,6 +6,7 @@ import { Table } from 'antd'
 import moment from 'moment/moment'
 import { SHAPE } from 'themes/color'
 import { warningLevels, colorLevels } from 'constants/warningLevels'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 @autobind
 export default class TableDataList extends React.PureComponent {
@@ -32,7 +33,7 @@ export default class TableDataList extends React.PureComponent {
       dataIndex: 'receivedAt',
       key: 'receivedAt',
       render(value) {
-        return <div>{moment(value).format('YYYY/MM/DD HH:mm')}</div>
+        return <div>{moment(value).format(DD_MM_YYYY_HH_MM)}</div>
       }
     }
     const columnsMeasurings = this.props.measuringData

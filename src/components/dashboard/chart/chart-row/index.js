@@ -27,7 +27,7 @@ const ChartWrapper = styled.div`
   background-color: #ffffff;
 `
 const TableWidth = styled.div`
-  width: 300px;
+  min-width: 300px;
   border-right: 1px solid rgba(241, 241, 241, 0.5);
   background-color: #fafbfb;
 `
