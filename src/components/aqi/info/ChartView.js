@@ -2,6 +2,7 @@ import React from 'react'
 import Chart from 'react-highcharts'
 import * as _ from 'lodash'
 import moment from 'moment'
+import { Card } from 'antd'
 import levels from 'constants/aqi-level'
 
 export default class ChartView extends React.Component {
@@ -36,7 +37,7 @@ export default class ChartView extends React.Component {
       },
       yAxis: {
         title: {
-          text: 'VN AQI'
+          text: ''
         }
       },
       legend: {
@@ -66,6 +67,10 @@ export default class ChartView extends React.Component {
   }
 
   render() {
-    return <Chart config={this.getConfig()} />
+    return (
+      <Card style={{marginTop: 16}}>
+        <Chart config={this.getConfig()} />
+      </Card>
+    )
   }
 }

@@ -119,14 +119,14 @@ export default class SearchForm extends React.Component {
     return moment(date, 'YYYY-MM-DD HH:mm').toISOString()
   }
 
-  handleChangeRanges(ranges){
-    if (_.isNumber(ranges)){
-        this.setState({
-          fromDate: moment().subtract(ranges, 'days'),
-          toDate: moment()
-        })
-    }else{
-      if (_.size(ranges) > 1){
+  handleChangeRanges(ranges) {
+    if (_.isNumber(ranges)) {
+      this.setState({
+        fromDate: moment().subtract(ranges, 'days'),
+        toDate: moment()
+      })
+    } else {
+      if (_.size(ranges) > 1) {
         this.setState({
           fromDate: ranges[0],
           toDate: ranges[1]
@@ -163,9 +163,9 @@ export default class SearchForm extends React.Component {
 
   handleProvinceChange = province => {
     this.setState({
-        provinceKey: province.key,
-        stationAutoKey: ''}
-      )
+      provinceKey: province.key,
+      stationAutoKey: ''
+    })
 
     this.props.change('stationAuto', '')
   }

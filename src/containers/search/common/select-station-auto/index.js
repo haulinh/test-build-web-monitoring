@@ -10,7 +10,7 @@ export default class SelectStationAuto extends React.Component {
   static propTypes = {
     stationTypeKey: PropTypes.string,
     onChangeObject: PropTypes.func,
-    provinceKey:  PropTypes.string
+    provinceKey: PropTypes.string
   }
 
   state = {
@@ -30,10 +30,19 @@ export default class SelectStationAuto extends React.Component {
     })
   }
 
-  getStationAutos(){
+  getStationAutos() {
     return _.filter(this.state.stationAutoSelects, stationAuto => {
-      return _.isEqual(this.props.stationTypeKey, _.get(stationAuto, 'stationType.key', null)) &&
-             (!this.props.provinceKey || _.isEqual(this.props.provinceKey, _.get(stationAuto, 'province.key', null)))
+      return (
+        _.isEqual(
+          this.props.stationTypeKey,
+          _.get(stationAuto, 'stationType.key', null)
+        ) &&
+        (!this.props.provinceKey ||
+          _.isEqual(
+            this.props.provinceKey,
+            _.get(stationAuto, 'province.key', null)
+          ))
+      )
     })
   }
 

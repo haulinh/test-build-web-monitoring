@@ -15,8 +15,9 @@ import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import styled from 'styled-components'
-import TimeAgo from 'react-timeago'
 import { Modal, message } from 'antd'
+import moment from 'moment'
+import { DD_MM_YYYY } from 'constants/format-date'
 
 import DynamicTable from 'components/elements/dynamic-table'
 const LinkSpan = styled.span`
@@ -25,10 +26,7 @@ const LinkSpan = styled.span`
     cursor: pointer;
   }
 `
-const SpanTimeAgo = styled.div`
-  font-size: 13px;
-  color: #707070;
-`
+
 const Span = styled.span`
   color: ${props => (props.deleted ? '#999999' : '')};
   text-decoration: ${props => (props.deleted ? 'line-through' : '')};
@@ -131,7 +129,6 @@ export default class StationAutoList extends React.Component {
   }
 
   getHead() {
-    
     const { t } = this.props.lang
     return [
       { content: '#', width: 2 },
@@ -213,10 +210,8 @@ export default class StationAutoList extends React.Component {
             )
           },
           {
-            content: (
-              <SpanTimeAgo>
-                <TimeAgo date={row.activatedAt} />
-              </SpanTimeAgo>
+            content: row.activatedAt && (
+              <span>{moment(row.activatedAt).format(DD_MM_YYYY)}</span>
             )
           },
           {

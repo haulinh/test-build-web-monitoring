@@ -67,11 +67,7 @@ export default class TabeList extends React.PureComponent {
   render() {
     return (
       <TabeListWrapper>
-        <ButtonAbsolute>
-          {
-            this.renderButton()
-          }
-        </ButtonAbsolute>
+        <ButtonAbsolute>{this.renderButton()}</ButtonAbsolute>
         <TabTableDataList
           loading={this.props.isLoading}
           measuringList={this.props.measuringList}

@@ -817,6 +817,7 @@ export default {
     title: 'người dùng',
     success: 'Thay đổi thông tin thành công',
     viewProfile: 'Hiển thị thông tin',
+    configStation: 'Cấu hình trạm',
     security: 'Bảo mật',
     logOut: 'Đăng xuất',
     changePassword: 'Thay đổi mật khẩu',
@@ -833,6 +834,17 @@ export default {
     },
     user: 'Thông tin cá nhân',
     organization: 'Thông tin tổ chức'
+  },
+  configStation: {
+    breadCrumb: 'Cấu hình trạm theo tài khoản',
+    warningStatus: 'Nhận cảnh báo',
+    showStation: 'Hiển thị trạm',
+    numericalOrder: 'Số thứ tự',
+    action: 'Hành động',
+    messageUpdate: {
+      success: 'Cập nhật thành công!',
+      error: 'cập nhật thất bại!'
+    }
   },
   changePassword: {
     breadcrumb: {

@@ -117,6 +117,9 @@ export default class BasicNestedNavigation extends React.Component {
   handleSecurity() {
     this.props.history.push(slug.user.security)
   }
+  handleConfigStation() {
+    this.props.history.push(slug.user.configStation)
+  }
   globalSecondaryActions() {
     return [
       <AkDropdownMenu
@@ -144,6 +147,9 @@ export default class BasicNestedNavigation extends React.Component {
           </DropdownItem>
           <DropdownItem onClick={this.handleChangePassword}>
             {translate('profileUser.changePassword')}
+          </DropdownItem>
+          <DropdownItem onClick={this.handleConfigStation}>
+            {translate('profileUser.configStation')}
           </DropdownItem>
           <DropdownItem onClick={this.handleSecurity}>
             {translate('profileUser.security')}

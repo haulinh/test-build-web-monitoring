@@ -6,10 +6,10 @@ import { autobind } from 'core-decorators'
 import * as _ from 'lodash'
 
 const options = [
-  {key: 1, text: 'dataSearchFrom.options.byHours', value: 24},
-  {key: 7, text: 'dataSearchFrom.options.byDay', value: 7},
-  {key: 15, text: 'dataSearchFrom.options.byDay', value: 15},
-  {key: 30, text: 'dataSearchFrom.options.byDay', value: 30}
+  { key: 1, text: 'dataSearchFrom.options.byHours', value: 24 },
+  { key: 7, text: 'dataSearchFrom.options.byDay', value: 7 },
+  { key: 15, text: 'dataSearchFrom.options.byDay', value: 15 },
+  { key: 30, text: 'dataSearchFrom.options.byDay', value: 30 }
 ]
 
 @autobind
@@ -20,16 +20,17 @@ export default class OptionsTimeRange extends React.Component {
     defaultValue: 7
   }
 
-  shouldComponentUpdate(nextProps, nextState){
-    
-    return !_.isEqual(this.state.open, nextState.open) ||
-           !_.isEqual(this.state.defaultValue, nextState.defaultValue) ||
-           !_.isEqual(this.state.rangesView, nextState.rangesView) ||
-           !_.isEqual(this.state.props, nextProps)
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      !_.isEqual(this.state.open, nextState.open) ||
+      !_.isEqual(this.state.defaultValue, nextState.defaultValue) ||
+      !_.isEqual(this.state.rangesView, nextState.rangesView) ||
+      !_.isEqual(this.state.props, nextProps)
+    )
   }
 
   handleSelect = value => {
-    if (!_.isNumber(value)){
+    if (!_.isNumber(value)) {
       this.setState({
         defaultValue: undefined,
         open: true
@@ -47,12 +48,14 @@ export default class OptionsTimeRange extends React.Component {
   onOkDatePicker = ranges => {
     let rangesView = ''
     _.forEach(ranges, range => {
-      rangesView += moment(range._d, 'YYYY/MM/DD HH:mm').format('YYYY/MM/DD HH:mm')
-      if (!_.includes(rangesView, '-')){
-        (rangesView += ' - ')
+      rangesView += moment(range._d, 'YYYY/MM/DD HH:mm').format(
+        'YYYY/MM/DD HH:mm'
+      )
+      if (!_.includes(rangesView, '-')) {
+        rangesView += ' - '
       }
     })
-    
+
     this.props.onChangeObject(ranges)
     this.setState({
       open: false,
@@ -63,31 +66,32 @@ export default class OptionsTimeRange extends React.Component {
   render() {
     return (
       <div>
-      <Select 
-        {...this.props}
-        value={this.state.defaultValue || this.props.value}
-        onSelect={this.handleSelect}>
-        {
-          options.map(({key, text, value}) => 
+        <Select
+          {...this.props}
+          value={this.state.defaultValue || this.props.value}
+          onSelect={this.handleSelect}
+        >
+          {options.map(({ key, text, value }) => (
             <Select.Option key={key} value={key}>
-              {translate(text, {value})}
+              {translate(text, { value })}
             </Select.Option>
-          )
-        }
-        <Select.Option key={'ranges'}>
-          {this.state.rangesView || translate('dataSearchFrom.options.range')}
-        </Select.Option>
-      </Select>
-      {
-          this.state.open &&  
+          ))}
+          <Select.Option key={'ranges'}>
+            {this.state.rangesView || translate('dataSearchFrom.options.range')}
+          </Select.Option>
+        </Select>
+        {this.state.open && (
           <DatePicker.RangePicker
             open={true}
-            ranges={{ Today: [moment(), moment()], 'This Month': [moment(), moment().endOf('month')] }}
+            ranges={{
+              Today: [moment(), moment()],
+              'This Month': [moment(), moment().endOf('month')]
+            }}
             showTime
             format="YYYY/MM/DD HH:mm"
             onOk={this.onOkDatePicker}
           />
-        }
+        )}
       </div>
     )
   }

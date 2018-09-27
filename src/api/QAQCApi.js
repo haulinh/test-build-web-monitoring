@@ -25,7 +25,7 @@ export const fetchData = (
   params = {}
 ) => {
   params = toParams(params)
-  
+
   // return getFetch(getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`), undefined, {params: {...params, ...pagination}})
   return getFetch(
     getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`),
@@ -34,9 +34,7 @@ export const fetchData = (
   )
 }
 
-export const putData = (
-  params, dataUpdate
-) => {
+export const putData = (params, dataUpdate) => {
   params = toParams(params)
   //const url = `http://localhost:5004/data-station-auto/${get(params, 'key', 'vas')}/qa-qc`
   // return getFetch(getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`), undefined, {params: {...params, ...pagination}})

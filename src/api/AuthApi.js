@@ -28,6 +28,9 @@ export function changePassword(_id, data) {
 export function putProfile(_id, data) {
   return putFetch(getUserUrl('organization/profile/' + _id), data)
 }
+export function updateConfigStataion(_id, data) {
+  return putFetch(getUserUrl('admin/config-station/' + _id), data)
+}
 
 export function putSecurity(data) {
   return putFetch(getUserUrl('organization/security/2fa'), data)
@@ -57,5 +60,6 @@ export default {
   putSecurity,
   getForgotSendCode,
   postConfirmCode,
-  putResetPassword
+  putResetPassword,
+  updateConfigStataion
 }

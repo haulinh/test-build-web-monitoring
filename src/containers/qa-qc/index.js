@@ -41,7 +41,7 @@ export default class QaQcContainer extends React.Component {
 
   async loadData(pagination, searchFormData, dataUpdate = {}) {
     this.setState({
-      isLoading: true,
+      isLoading: true
       //isHaveData: true
     })
 
@@ -85,7 +85,7 @@ export default class QaQcContainer extends React.Component {
     this.loadData(pagination, this.state.searchFormData, this.state.dataUpdate)
   }
 
-  onApprovedData = async ()  => {
+  onApprovedData = async () => {
     this.setState({
       isExporting: true
     })
@@ -97,7 +97,7 @@ export default class QaQcContainer extends React.Component {
     })
   }
 
-  onUnApprovedData = async ()  => {
+  onUnApprovedData = async () => {
     this.setState({
       isExporting: true
     })
@@ -114,7 +114,11 @@ export default class QaQcContainer extends React.Component {
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Spin
           size="large"
-          tip={translate(get(this.state,'searchFormData.dataType', 'value') === 'value' ? 'qaqc.approved' :  'qaqc.unApprove')}
+          tip={translate(
+            get(this.state, 'searchFormData.dataType', 'value') === 'value'
+              ? 'qaqc.approved'
+              : 'qaqc.unApprove'
+          )}
           spinning={this.state.isExporting}
         >
           <Breadcrumb items={['list']} />
@@ -133,18 +137,17 @@ export default class QaQcContainer extends React.Component {
               measuringList={this.state.measuringList}
               dataStationAuto={this.state.dataStationAuto}
               pagination={this.state.pagination}
-              dataFilterBy={ get(this.state,'searchFormData.dataFilterBy', []) }
+              dataFilterBy={get(this.state, 'searchFormData.dataFilterBy', [])}
               onChangePage={this.handleChangePage}
               onApprovedData={this.onApprovedData}
               onChangeData={this.onChangeData}
               nameChart={this.state.searchFormData.name}
               isExporting={this.state.isExporting}
               onUnApprovedData={this.onUnApprovedData}
-              valueField={ get(this.state,'searchFormData.dataType', 'value') }
+              valueField={get(this.state, 'searchFormData.dataType', 'value')}
             />
-         ) : null}        
-         
-         </Spin>
+          ) : null}
+        </Spin>
       </PageContainer>
     )
   }

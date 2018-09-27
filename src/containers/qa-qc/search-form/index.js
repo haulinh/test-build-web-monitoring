@@ -30,7 +30,6 @@ const FDatePicker = createValidateComponent(DatePicker)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FDataFilterBy = createValidateComponent(DataFilterBy)
 
-
 const SearchFormContainer = BoxShadowStyle.extend``
 const Container = styled.div`
   padding: 16px 16px;
@@ -109,7 +108,7 @@ export default class SearchForm extends React.Component {
   }
 
   handleProvinceChange(obj, e) {
-    this.setState({provinceKey: obj.key, stationAutoKey: ''})
+    this.setState({ provinceKey: obj.key, stationAutoKey: '' })
     this.props.change('stationAuto', '')
   }
 

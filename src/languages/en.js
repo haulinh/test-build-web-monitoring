@@ -820,6 +820,7 @@ export default {
     title: 'User Profile',
     success: 'Change Information Successfully',
     viewProfile: 'View Profile',
+    configStation: 'Config Station',
     security: 'Security',
     logOut: 'Log Out',
     changePassword: 'Change Password',
@@ -836,6 +837,17 @@ export default {
     },
     user: 'User Info',
     organization: 'Organization Info'
+  },
+  configStation: {
+    breadCrumb: 'Config Station By User',
+    warningStatus: 'Receive Warning',
+    showStation: 'Show Station',
+    numericalOrder: 'Numerical Order',
+    action: 'Action',
+    messageUpdate: {
+      success: 'Update successfully!',
+      error: 'Update failure!'
+    }
   },
   changePassword: {
     breadcrumb: {

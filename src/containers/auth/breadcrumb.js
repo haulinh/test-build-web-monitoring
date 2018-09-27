@@ -15,6 +15,12 @@ export default createBreadcrumb({
     href: slug.user.profile,
     name: translate('changePassword.breadcrumb.profileUser')
   },
+  configStation: {
+    id: 'configStation',
+    icon: '',
+    href: slug.user.configStation,
+    name: translate('profileUser.configStation')
+  },
   security: {
     id: 'security',
     icon: '',
