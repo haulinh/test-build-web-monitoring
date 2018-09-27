@@ -236,7 +236,7 @@ export default class SearchForm extends React.Component {
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
-            <Col span={9}>
+            <Col span={12}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -247,7 +247,7 @@ export default class SearchForm extends React.Component {
                 component={FSelectAnt}
               />
             </Col>
-            <Col span={9}>
+            <Col span={6}>
               <Field
                 label={t('time')}
                 name="rangesDate"
