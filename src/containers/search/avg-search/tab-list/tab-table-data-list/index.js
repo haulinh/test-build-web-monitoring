@@ -18,12 +18,29 @@ export default class TableDataList extends React.PureComponent {
   }
 
   getColumns() {
-    let formatDate = 'YYYY/MM/DD HH:mm'
-    if (this.props.typeReport === 'month') {
-      formatDate = 'YYYY/MM'
-    } else if (this.props.typeReport === 1440) {
-      formatDate = 'YYYY/MM/DD'
+    let formatDate = ''
+    switch (this.props.typeReport){
+      case 'year':
+        formatDate = 'YYYY'
+        break
+      case 'month':
+        formatDate = 'YYYY/MM'
+        break
+      case 1440:
+        formatDate = 'YYYY/MM/DD'
+        break
+
+      default: 
+        formatDate = 'YYYY/MM/DD HH:mm'
+        break
     }
+
+    // if (this.props.typeReport === 'month') {
+    //   formatDate = 'YYYY/MM'
+    // } else if (this.props.typeReport === 1440) {
+    //   formatDate = 'YYYY/MM/DD'
+    // }
+
     const columnReceivedAt = {
       title: translate('avgSearchFrom.table.receivedAt'),
       dataIndex: 'receivedAt',

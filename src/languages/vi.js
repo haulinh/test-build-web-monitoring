@@ -230,6 +230,7 @@ export default {
   avgSearchFrom: {
     titleText: 'Tra cứu dữ liệu tổng hợp',
     form: {
+      time: 'Thời gian',
       stationType: {
         label: 'Loại trạm',
         placeholder: 'Chọn loại trạm',
@@ -279,7 +280,8 @@ export default {
       minute: 'Phút',
       hour: 'Giờ',
       day: 'Ngày',
-      month: 'Tháng'
+      month: 'Tháng',
+      year: 'Năm'
     },
     tab: {
       data: 'Tháng',

@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import { Row, Col, Button } from 'antd'
-import DatePicker from 'components/elements/datetime-picker/index'
 import createLang from 'hoc/create-lang/index'
 import SelectStationType from 'components/elements/select-station-type/index'
 import SelectAnt from 'components/elements/select-ant/index'
@@ -16,14 +15,16 @@ import Heading from 'components/elements/heading/index'
 import SelectStationAuto from '../../common/select-station-auto'
 import SelectTimeRange from '../../common/select-time-range'
 import { translate } from 'hoc/create-lang'
+import SelectProvince from 'components/elements/select-province'
+import OptionsTimeRange from '../../common/options-time-range'
+import * as _ from 'lodash'
 
+const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FSelectTimeRange = createValidateComponent(SelectTimeRange)
-const FDatePicker = createValidateComponent(DatePicker)
 const FSelectAnt = createValidateComponent(SelectAnt)
-
-const DATE_FORMAT = 'YYYY/MM/DD HH:mm'
+const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
 
 const SearchFormContainer = BoxShadowStyle.extend``
 const Container = styled.div`
@@ -45,7 +46,7 @@ function validate(values) {
 
 @connect(state => ({
   initialValues: {
-    fromDate: moment(new Date().setMonth(new Date().getMonth() - 1)),
+    fromDate: moment().subtract(7, 'days'),
     toDate: moment()
   }
 }))
@@ -57,10 +58,13 @@ function validate(values) {
 @autobind
 export default class SearchAvgForm extends React.Component {
   state = {
+    provinceKey: this.props.initialValues.provinceKey,
     stationTypeKey: '',
     stationAutoKey: '',
     measuringData: [],
-    measuringList: []
+    measuringList: [],
+    fromDate: this.props.initialValues.fromDate,
+    toDate: this.props.initialValues.toDate
   }
 
   handleChangeStationType(stationTypeKey, e) {
@@ -94,14 +98,39 @@ export default class SearchAvgForm extends React.Component {
 
   handleSubmit(values) {
     this.props.onSubmit({
-      fromDate: this.convertDateToString(values.fromDate),
-      toDate: this.convertDateToString(values.toDate),
+      fromDate: this.convertDateToString(this.state.fromDate),
+      toDate: this.convertDateToString(this.state.toDate),
       key: values.stationAuto,
       name: this.state.stationAutoName,
       type: values.type,
       measuringList: values.measuringList,
       measuringData: this.state.measuringData
     })
+  }
+
+  handleChangeRanges(ranges){
+    if (_.isNumber(ranges)){
+        this.setState({
+          fromDate: moment().subtract(ranges, 'days'),
+          toDate: moment()
+        })
+    }else{
+      if (_.size(ranges) > 1){
+        this.setState({
+          fromDate: ranges[0],
+          toDate: ranges[1]
+        })
+      }
+    }
+  }
+
+  handleProvinceChange = province => {
+    this.setState({
+        provinceKey: province.key,
+        stationAutoKey: ''}
+      )
+
+    this.props.change('stationAuto', '')
   }
 
   render() {
@@ -129,6 +158,15 @@ export default class SearchAvgForm extends React.Component {
         <Container>
           <Row gutter={16}>
             <Col span={8}>
+              <Field 
+                label={translate('qaqc.province.label')}
+                name="province"
+                size="large"
+                component={FSelectProvince}
+                onHandleChange={this.handleProvinceChange}
+              />
+            </Col>
+            <Col span={8}>
               <Field
                 label={t('stationType.label')}
                 name="stationType"
@@ -146,15 +184,8 @@ export default class SearchAvgForm extends React.Component {
                 component={FSelectStationAuto}
                 stationAutoKey={this.state.stationAutoKey}
                 setKey
+                provinceKey={this.state.provinceKey}
                 onChangeObject={this.handleChangeStationAuto}
-              />
-            </Col>
-            <Col span={8}>
-              <Field
-                label={t('type.label')}
-                name="type"
-                size="large"
-                component={FSelectTimeRange}
               />
             </Col>
           </Row>
@@ -173,20 +204,19 @@ export default class SearchAvgForm extends React.Component {
             </Col>
             <Col span={8}>
               <Field
-                label={t('fromDate.label')}
-                name="fromDate"
+                label={t('time')}
+                name="rangesDate"
                 size="large"
-                component={FDatePicker}
-                dateFormat={DATE_FORMAT}
+                onChangeObject={this.handleChangeRanges}
+                component={FOptionsTimeRange}
               />
             </Col>
             <Col span={8}>
               <Field
-                label={t('toDate.label')}
-                name="toDate"
+                label={t('type.label')}
+                name="type"
                 size="large"
-                component={FDatePicker}
-                dateFormat={DATE_FORMAT}
+                component={FSelectTimeRange}
               />
             </Col>
           </Row>

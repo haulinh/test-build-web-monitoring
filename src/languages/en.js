@@ -230,6 +230,7 @@ export default {
   avgSearchFrom: {
     titleText: 'AVG Search',
     form: {
+      time: 'Time',
       stationType: {
         label: 'Type Of Station',
         placeholder: 'Select Type Of Station',
@@ -279,7 +280,8 @@ export default {
       minute: 'Minute',
       hour: 'Hour',
       day: 'Day',
-      month: 'Month'
+      month: 'Month',
+      year: 'Year'
     },
     tab: {
       data: 'Data',
