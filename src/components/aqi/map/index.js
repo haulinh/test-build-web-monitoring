@@ -30,6 +30,7 @@ export default class MapComponent extends React.Component {
           mapElement={
             <div style={{ height: this.props.windowHeight + 'px' }} />
           }
+          onMapClick={this.props.onMapClick}
         />
       </div>
     )

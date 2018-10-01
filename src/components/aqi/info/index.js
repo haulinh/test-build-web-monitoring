@@ -38,10 +38,14 @@ const day = 7
 
 @connectWindowHeight
 export default class InfoComponent extends React.Component {
-  state = {
-    station: null,
-    aqiDays: [],
-    aqiKeys: []
+
+  constructor (props) {
+    super (props)
+    this.state = {
+      station: props.station,
+      aqiDays: [],
+      aqiKeys: []
+    }
   }
 
   handleChange = async value => {
@@ -49,6 +53,7 @@ export default class InfoComponent extends React.Component {
     if (station && !_.isEqual(station.key, value.key)) {
       this.setState({ station })
     }
+
     this.getAqiByStation(value.key)
   }
 
@@ -84,8 +89,8 @@ export default class InfoComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.aqiList, this.props.aqiList)) {
-      const station = _.head(nextProps.aqiList)
+    if (!_.isEqual(nextProps.station, this.props.station)) {
+      const station = nextProps.station//_.head(nextProps.aqiList)
       if (!_.isEmpty(station)) {
         this.setState({ station })
         this.getAqiByStation(station._id)
@@ -95,7 +100,6 @@ export default class InfoComponent extends React.Component {
 
   renderOptions = () => {
     const defaultValue = _.get(this.state.station, '_id', '')
-    console.log('defaultValue', defaultValue)
     return (
       <Select
         value={{
@@ -117,7 +121,6 @@ export default class InfoComponent extends React.Component {
   }
 
   render() {
-    console.log('render')
     return (
       <div
         style={{

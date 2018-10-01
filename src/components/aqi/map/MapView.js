@@ -10,36 +10,70 @@ import {
 import { withProps } from 'recompose'
 import { getGoogleMapProps } from 'components/map/utils'
 import { map as mapLodash, get, find, inRange } from 'lodash'
-import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer'
+import InfoBox from 'react-google-maps/lib/components/addons/InfoBox'
+import MarkerWithLabel from 'react-google-maps/lib/components/addons/MarkerWithLabel'
+import { Tooltip } from 'antd'
+import moment from 'moment'
+import { DD_MM_YYYY_HH_MM } from '../../../constants/format-date'
 
-import { InfoBox } from 'react-google-maps/lib/components/addons/InfoBox'
-import aqiLevel from '../../../constants/aqi-level'
+const StationNameView = styled.b`
+  color: white;
+  font-size: 13px;
+  font-style: bold;
+`
+
+const TimeView = styled.b`
+font-style: bold;
+color: white;
+font-size: 10px;
+`
+
+
+import aqiLevel from 'constants/aqi-level'
 import { GOOGLE_MAP } from 'config'
 
-const AqiMarker = ({ mapLocation, name, aqi }) => {
-  const value = get(aqi, 'value', '')
+const WindowInfo = ({ aqi, name }) => {
+  const time = moment(get(aqi, 'time', new Date())).format(DD_MM_YYYY_HH_MM)
+
+  return (
+    <div>
+      <div><StationNameView>{name}</StationNameView></div>
+      <div><TimeView>{time}</TimeView></div>
+    </div>
+  )
+}
+
+const AqiMarker = ({ item, onMapClick }) => {
+  const value = get(item.aqi, 'value', '')
   const level = find(aqiLevel, ({ min, max }) => inRange(value, min, max))
   const color = get(level, 'color', null)
   return (
     <InfoBox
       defaultPosition={
-        new google.maps.LatLng(mapLocation.lat, mapLocation.long)
+        new google.maps.LatLng(item.mapLocation.lat, item.mapLocation.long)
       }
       options={{ closeBoxURL: ``, enableEventPropagation: true }}
     >
-      <div
-        style={{
-          backgroundColor: color || 'yellow',
-          padding: `4px 8px`,
-          borderRadius: 3,
-          borderColor: '#fff',
-          borderWidth: 1
-        }}
-      >
-        <div>
-          <span style={{ fontSize: `16px`, color: `#fff` }}>{value}</span>
+      <Tooltip title={<WindowInfo {...item} />}>
+        <div
+          style={{
+            backgroundColor: color || 'yellow',
+            padding: `4px 8px`,
+            borderRadius: 3,
+            borderColor: '#fff',
+            borderWidth: 1
+          }}
+          onClick={() => {
+            if (onMapClick) {
+              onMapClick(item)
+            }
+          }}
+        >
+          <div>
+            <span style={{ fontSize: `16px`, color: `#fff` }}>{value}</span>
+          </div>
         </div>
-      </div>
+      </Tooltip>
     </InfoBox>
   )
 }
@@ -92,9 +126,9 @@ class CustomGoogleMap extends PureComponent {
         <div>
           {mapLodash(this.props.aqiList, (item, index) => (
             <AqiMarker
+              onMapClick={ this.props.onMapClick }
               mapLocation={item.mapLocation}
-              name={item.name}
-              aqi={item.aqi}
+              item={item}
               key={`${index}`}
             />
           ))}
