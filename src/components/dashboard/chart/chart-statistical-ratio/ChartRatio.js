@@ -8,6 +8,7 @@ import { Menu, Dropdown, Icon } from 'antd'
 
 import { translate } from 'hoc/create-lang'
 import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
+import StatusModalView from './StatusModal'
 
 const dataLabels = {
   enabled: true,
@@ -23,7 +24,8 @@ const dataLabels = {
 export default class HeaderView extends React.PureComponent {
   state = {
     data: [],
-    day: 7
+    day: 7,
+    visible: false
   }
 
   handleItemSelected = value => {
@@ -117,6 +119,7 @@ export default class HeaderView extends React.PureComponent {
   }
 
   configRatioBar = (title, received, notReceived) => {
+    const me = this
     const dataLabels = {
       enabled: true,
       color: '#FFFFFF',
@@ -180,8 +183,11 @@ export default class HeaderView extends React.PureComponent {
           stacking: 'normal',
           events: {
             click: function(event) {
-              const key = _.get(event, 'point.category', '')
-              console.log('object: ', key)
+              const stationKey = _.get(event, 'point.category', '')
+              me.setState({
+                visible: true,
+                stationKey
+              })
             }
           }
         }
@@ -225,6 +231,10 @@ export default class HeaderView extends React.PureComponent {
     )
   }
 
+  onModalClose = () => {
+    this.setState({visible: false})
+  }
+
   render() {
     return (
       <Card bordered style={{ flex: 1, marginLeft: 8 }}>
@@ -240,6 +250,7 @@ export default class HeaderView extends React.PureComponent {
           </span>
         </Dropdown>
         <ReactHighcharts config={this.getConfigRatio()} />
+        <StatusModalView title={this.state.stationKey || ''} data={ _.keyBy(_.values(this.state.data), 'name') } visible={this.state.visible} onClose={this.onModalClose}/>
       </Card>
     )
   }
