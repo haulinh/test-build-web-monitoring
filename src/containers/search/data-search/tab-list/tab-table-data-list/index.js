@@ -29,7 +29,7 @@ export default class TableDataList extends React.PureComponent {
     }
 
     const columnReceivedAt = {
-      title: translate('dataSearchFrom.dataTable.receivedAt'),
+      title: translate('dataSearchFrom.table.receivedAt'),
       dataIndex: 'receivedAt',
       key: 'receivedAt',
       render(value) {

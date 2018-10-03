@@ -447,6 +447,7 @@ export default {
       label: 'Add'
     },
     form: {
+      action: 'Action',
       key: {
         label: 'Code',
         placeholder: 'Input Code Of Name',

@@ -62,7 +62,7 @@ export default class ProvinceList extends React.Component {
       { content: '#', width: 2 },
       { content: t('province.form.key.label'), width: 15 },
       { content: t('province.form.name.label'), width: 15 },
-      { content: 'Action', width: 15 }
+      { content: t('province.form.action'), width: 15 }
     ]
   }
   getRows() {
