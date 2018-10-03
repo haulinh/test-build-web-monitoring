@@ -30,6 +30,7 @@ export default {
       titleByUnit: 'Rate of receiving data of {{=it.unit}} unit',
       activate: 'Activate',
       inactive: `Inactive`,
+      dataLoss: `Data Loss`,
       max: 'Maximum: {{=it.max}}',
       min: 'Minimum: {{=it.min}}'
     },
@@ -841,6 +842,7 @@ export default {
     organization: 'Organization Info'
   },
   configStation: {
+    name: 'Station Name',
     breadCrumb: 'Config Station By User',
     warningStatus: 'Receive Warning',
     showStation: 'Show Station',

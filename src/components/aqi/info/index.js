@@ -134,7 +134,7 @@ export default class InfoComponent extends React.Component {
 
         {_.get(this.state.station, 'aqi.time', null) &&
           `${moment(_.get(this.state.station, 'aqi.time')).format(
-            'HH:mm DD/MM/YYYY'
+            'HH:00 DD/MM/YYYY'
           )}`}
         <VnAqiView value={_.get(this.state.station, 'aqi.value', '')} />
         {_.size(this.state.aqiDays) > 0 && (
