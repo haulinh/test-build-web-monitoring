@@ -234,7 +234,7 @@ export default class ChartRowToChart extends React.Component {
         <ReactHighcharts config={this.getConfigData()} />
         <Tabs
           style={{
-            width: 800,
+            width: 760,
             paddingLeft: 8,
             paddingRight: 8,
             marginBottom: 8

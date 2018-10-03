@@ -107,7 +107,6 @@ export default class MeasuringItem extends React.PureComponent {
               bottom: 4,
               right: 8
             }}
-            theme="twoTone"
           />
         </Tooltip>
       )
