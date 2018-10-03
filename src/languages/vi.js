@@ -29,7 +29,8 @@ export default {
       title: 'Tình trạng hoạt động của trạm',
       titleByUnit: 'Tình trạng hoạt động của {{=it.unit}}',
       activate: 'Hoạt động',
-      inactive: `Không Hoạt Động`,
+      inactive: `Chưa Hoạt Động`,
+      dataLoss: `Mất dữ liệu`,
       max: 'Giới hạn trên: {{=it.max}}',
       min: 'Giới hạn duới: {{=it.min}}'
     },
@@ -839,6 +840,7 @@ export default {
     organization: 'Thông tin tổ chức'
   },
   configStation: {
+    name: 'Tên trạm',
     breadCrumb: 'Cấu hình trạm theo tài khoản',
     warningStatus: 'Nhận cảnh báo',
     showStation: 'Hiển thị trạm',

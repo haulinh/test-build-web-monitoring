@@ -16,6 +16,16 @@ border-radius: 4px;
 display: flex;
 height: 50px background: #ccd `
 
+const dataLabels = {
+  enabled: true,
+  // rotation: -90,
+  color: '#FFFFFF',
+  y: 12,
+  // padding: 10,
+  align: 'center',
+  allowOverlap: true
+}
+
 @autobind
 export default class HeaderView extends React.PureComponent {
   state = {
@@ -45,13 +55,15 @@ export default class HeaderView extends React.PureComponent {
 
   configStatusChartSemi = (dataGroup, title, titleActive, tittleUnActive) => {
     let goodTotal = 0
+    let lossData = 0
     const tpm = _.head(_.values(dataGroup))
 
     let total = 0
 
     if (!_.isEmpty(tpm)) {
       goodTotal = _.filter(tpm, { status: 'GOOD' }).length
-      total = _.size(tpm) - goodTotal
+      lossData =  _.filter(tpm, { status: 'DATA_LOSS' }).length
+      total = _.size(tpm) - goodTotal - lossData
     }
 
     return {
@@ -99,6 +111,11 @@ export default class HeaderView extends React.PureComponent {
               color: 'red'
             },
             {
+              name: translate('dashboard.chartStatus.dataLoss'),
+              y: lossData,
+              color: 'yellow'
+            },
+            {
               name: titleActive,
               y: goodTotal,
               color: 'rgb(149,206,255)'
@@ -110,15 +127,33 @@ export default class HeaderView extends React.PureComponent {
   }
 
   configStatusChartColumn = (dataGroup, title, titleActive, tittleUnActive) => {
-    const seriesActive = { name: titleActive, data: [] }
-    const seriesUnActive = { name: tittleUnActive, data: [], color: 'red' }
+
+    const dataLabels = {
+      enabled: true,
+      color: '#FFFFFF',
+      y: 15,
+      verticalAlign: 'center',
+      align: 'center',
+      allowOverlap: true,
+      formatter: function () { 
+        if (this.y === 0) return '';
+        return `${this.y} (${_.round(this.y/this.total*100, 2)}%)`; 
+      }
+    }
+    // events
+    const seriesDataLoss = { name: translate('dashboard.chartStatus.dataLoss'), data: [], color: 'yellow', dataLabels }
+    const seriesActive = { name: titleActive, data: [], dataLabels }
+    const seriesUnActive = { name: tittleUnActive, data: [], color: 'red', dataLabels }
     let categories = []
     _.forEach(_.keys(dataGroup), key => {
-      const total = _.size(
-        _.filter(dataGroup[key], ({ status }) => status === 'GOOD')
-      )
-      seriesActive.data.push(_.round(total, 2))
-      seriesUnActive.data.push(_.round(_.size(dataGroup[key]) - total, 2))
+      const ls = _.get(dataGroup, key, [])
+
+      const good = _.filter(ls, ({ status }) => status === 'GOOD').length
+      const dataLoss = _.filter(ls, ({ status }) => status === 'DATA_LOSS').length
+      
+      seriesDataLoss.data.push(dataLoss)
+      seriesActive.data.push(good)
+      seriesUnActive.data.push(ls.length - good - dataLoss)
       categories.push(_.get(_.head(dataGroup[key]), 'province.name', 'Other'))
     })
     return {
@@ -140,7 +175,7 @@ export default class HeaderView extends React.PureComponent {
       legend: {
         reversed: true
       },
-      series: [seriesActive, seriesUnActive],
+      series: [seriesActive, seriesDataLoss, seriesUnActive],
       tooltip: {
         pointFormat:
           '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
@@ -178,6 +213,25 @@ export default class HeaderView extends React.PureComponent {
   }
 
   configRatioSemi = (title, received, notReceived) => {
+
+    const dataLabels = {
+      enabled: true,
+      color: '#FFFFFF',
+      verticalAlign: 'center',
+      align: 'center',
+      padding: 20,
+      allowOverlap: true,
+      formatter: function () { 
+        if (this.y === 0) return '';
+        return `${this.y}%`; 
+      },
+      events: {
+        click: function(event) {
+          console.log('onClick', event)
+        }
+      }
+    }
+
     let total = 0
     const item = _.find(
       this.state.data,
@@ -226,6 +280,7 @@ export default class HeaderView extends React.PureComponent {
       },
       series: [
         {
+          dataLabels,
           type: 'pie',
           name: title,
           innerSize: '40%',
@@ -247,11 +302,27 @@ export default class HeaderView extends React.PureComponent {
   }
 
   configRatioBar = (title, received, notReceived) => {
-    const series1 = { name: received, data: [] }
-    const series2 = { name: notReceived, data: [], color: 'red' }
+
+    const dataLabels = {
+      enabled: true,
+      color: '#FFFFFF',
+      verticalAlign: 'center',
+      align: 'center',
+      padding: 20,
+      allowOverlap: true,
+      formatter: function () { 
+        if (this.y === 0) return '';
+        return `${this.y}%`; 
+      }
+    }
+
+    const series1 = { name: received, data: [], dataLabels }
+    const series2 = { name: notReceived, data: [], color: 'red', dataLabels }
     let categories = []
 
     _.forEach(this.state.data, ({ ratio, name }) => {
+      series1.key = name
+      series2.key = name
       series1.data.push(_.round(ratio, 2))
       series2.data.push(_.round(100 - ratio, 2))
       categories.push(name)
@@ -259,7 +330,12 @@ export default class HeaderView extends React.PureComponent {
 
     return {
       chart: {
-        type: 'bar'
+        type: 'bar',
+        events: {
+          click: function(event) {
+              alert (event);
+          }
+        }
       },
       title: {
         text: title
@@ -287,7 +363,13 @@ export default class HeaderView extends React.PureComponent {
       },
       plotOptions: {
         series: {
-          stacking: 'normal'
+          stacking: 'normal',
+          events: {
+            click: function(event) {
+              const key = _.get(event, 'point.category', '')
+              console.log('object: ', key)
+            }
+          }
         }
       }
     }
