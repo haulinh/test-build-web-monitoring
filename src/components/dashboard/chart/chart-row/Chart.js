@@ -28,12 +28,12 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
         text: ''
       },
       plotLines: [
-          {
+        {
           value: minLimit,
           color: 'red',
           width: 2,
           label: {
-            text: translate(`dashboard.chartStatus.min`, {min: minLimit})
+            text: translate(`dashboard.chartStatus.min`, { min: minLimit })
           }
         },
         {
@@ -41,7 +41,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
           color: 'red',
           width: 1,
           label: {
-            text: translate(`dashboard.chartStatus.max`, {max: maxLimit})
+            text: translate(`dashboard.chartStatus.max`, { max: maxLimit })
           }
         }
       ]

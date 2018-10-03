@@ -38,9 +38,8 @@ const day = 7
 
 @connectWindowHeight
 export default class InfoComponent extends React.Component {
-
-  constructor (props) {
-    super (props)
+  constructor(props) {
+    super(props)
     this.state = {
       station: props.station,
       aqiDays: [],
@@ -90,7 +89,7 @@ export default class InfoComponent extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.station, this.props.station)) {
-      const station = nextProps.station//_.head(nextProps.aqiList)
+      const station = nextProps.station //_.head(nextProps.aqiList)
       if (!_.isEmpty(station)) {
         this.setState({ station })
         this.getAqiByStation(station._id)

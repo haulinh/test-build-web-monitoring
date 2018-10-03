@@ -23,11 +23,10 @@ const StationNameView = styled.b`
 `
 
 const TimeView = styled.b`
-font-style: bold;
-color: white;
-font-size: 10px;
+  font-style: bold;
+  color: white;
+  font-size: 10px;
 `
-
 
 import aqiLevel from 'constants/aqi-level'
 import { GOOGLE_MAP } from 'config'
@@ -37,8 +36,12 @@ const WindowInfo = ({ aqi, name }) => {
 
   return (
     <div>
-      <div><StationNameView>{name}</StationNameView></div>
-      <div><TimeView>{time}</TimeView></div>
+      <div>
+        <StationNameView>{name}</StationNameView>
+      </div>
+      <div>
+        <TimeView>{time}</TimeView>
+      </div>
     </div>
   )
 }
@@ -126,7 +129,7 @@ class CustomGoogleMap extends PureComponent {
         <div>
           {mapLodash(this.props.aqiList, (item, index) => (
             <AqiMarker
-              onMapClick={ this.props.onMapClick }
+              onMapClick={this.props.onMapClick}
               mapLocation={item.mapLocation}
               item={item}
               key={`${index}`}

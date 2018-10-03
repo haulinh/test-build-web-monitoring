@@ -32,7 +32,7 @@ export default class AqiContainer extends React.Component {
     }
   }
 
-  handleMarkerClick = station =>  {
+  handleMarkerClick = station => {
     this.setState({ station })
   }
 
@@ -42,9 +42,13 @@ export default class AqiContainer extends React.Component {
         <MapComponent
           aqiList={this.state.aqiList}
           style={{ flex: 2, background: 'blue' }}
-          onMapClick={ this.handleMarkerClick }
+          onMapClick={this.handleMarkerClick}
         />
-        <InfoComponent station={this.state.station} style={{ flex: 1 }} aqiList={this.state.aqiList} />
+        <InfoComponent
+          station={this.state.station}
+          style={{ flex: 1 }}
+          aqiList={this.state.aqiList}
+        />
       </WrapperContainer>
     )
   }

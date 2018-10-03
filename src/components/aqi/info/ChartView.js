@@ -68,7 +68,7 @@ export default class ChartView extends React.Component {
 
   render() {
     return (
-      <Card style={{marginTop: 16}}>
+      <Card style={{ marginTop: 16 }}>
         <Chart config={this.getConfig()} />
       </Card>
     )

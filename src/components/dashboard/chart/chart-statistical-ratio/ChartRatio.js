@@ -1,6 +1,5 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import styled from 'styled-components'
 import { Card } from 'antd'
 import ReactHighcharts from 'react-highcharts'
 import moment from 'moment'
@@ -48,7 +47,6 @@ export default class HeaderView extends React.PureComponent {
   }
 
   configRatioSemi = (title, received, notReceived) => {
-
     let total = 0
     const item = _.find(
       this.state.data,
@@ -119,7 +117,6 @@ export default class HeaderView extends React.PureComponent {
   }
 
   configRatioBar = (title, received, notReceived) => {
-
     const dataLabels = {
       enabled: true,
       color: '#FFFFFF',
@@ -127,9 +124,9 @@ export default class HeaderView extends React.PureComponent {
       align: 'center',
       padding: 20,
       allowOverlap: true,
-      formatter: function () { 
-        if (this.y === 0) return '';
-        return `${this.y}%`; 
+      formatter: function() {
+        if (this.y === 0) return ''
+        return `${this.y}%`
       }
     }
 
@@ -150,7 +147,7 @@ export default class HeaderView extends React.PureComponent {
         type: 'bar',
         events: {
           click: function(event) {
-              alert (event);
+            alert(event)
           }
         }
       },

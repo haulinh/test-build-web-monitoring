@@ -2,36 +2,25 @@ import React from 'react'
 import { autobind } from 'core-decorators'
 import { Card } from 'antd'
 import ReactHighcharts from 'react-highcharts'
-import moment from 'moment'
 import * as _ from 'lodash'
-import { Menu, Dropdown, Icon } from 'antd'
 
 import { translate } from 'hoc/create-lang'
 
-const dataLabels = {
-  enabled: true,
-  // rotation: -90,
-  color: '#FFFFFF',
-  y: 12,
-  // padding: 10,
-  align: 'center',
-  allowOverlap: true
-}
-
 @autobind
 export default class ChartStatusView extends React.PureComponent {
-
   configStatusChartSemi = (dataGroup, title, titleActive, tittleUnActive) => {
-
     const dataLabels = {
       enabled: true,
       color: '#FFFFFF',
       verticalAlign: 'center',
       align: 'center',
       allowOverlap: true,
-      formatter: function () { 
-        if (this.y === 0) return '';
-        return `${this.key} ${this.y} (${_.round(this.y/this.total*100, 2)}%)`; ; 
+      formatter: function() {
+        if (this.y === 0) return ''
+        return `${this.key} ${this.y} (${_.round(
+          (this.y / this.total) * 100,
+          2
+        )}%)`
       },
       center: ['50%', '75%'],
       events: {
@@ -49,7 +38,7 @@ export default class ChartStatusView extends React.PureComponent {
 
     if (!_.isEmpty(tpm)) {
       goodTotal = _.filter(tpm, { status: 'GOOD' }).length
-      lossData =  _.filter(tpm, { status: 'DATA_LOSS' }).length
+      lossData = _.filter(tpm, { status: 'DATA_LOSS' }).length
       total = _.size(tpm) - goodTotal - lossData
     }
 
@@ -115,7 +104,6 @@ export default class ChartStatusView extends React.PureComponent {
   }
 
   configStatusChartColumn = (dataGroup, title, titleActive, tittleUnActive) => {
-
     const dataLabels = {
       enabled: true,
       color: '#FFFFFF',
@@ -123,22 +111,33 @@ export default class ChartStatusView extends React.PureComponent {
       verticalAlign: 'center',
       align: 'center',
       allowOverlap: true,
-      formatter: function () { 
-        if (this.y === 0) return '';
-        return `${this.y} (${_.round(this.y/this.total*100, 2)}%)`; 
+      formatter: function() {
+        if (this.y === 0) return ''
+        return `${this.y} (${_.round((this.y / this.total) * 100, 2)}%)`
       }
     }
     // events
-    const seriesDataLoss = { name: translate('dashboard.chartStatus.dataLoss'), data: [], color: 'yellow', dataLabels }
+    const seriesDataLoss = {
+      name: translate('dashboard.chartStatus.dataLoss'),
+      data: [],
+      color: 'yellow',
+      dataLabels
+    }
     const seriesActive = { name: titleActive, data: [], dataLabels }
-    const seriesUnActive = { name: tittleUnActive, data: [], color: 'red', dataLabels }
+    const seriesUnActive = {
+      name: tittleUnActive,
+      data: [],
+      color: 'red',
+      dataLabels
+    }
     let categories = []
     _.forEach(_.keys(dataGroup), key => {
       const ls = _.get(dataGroup, key, [])
 
       const good = _.filter(ls, ({ status }) => status === 'GOOD').length
-      const dataLoss = _.filter(ls, ({ status }) => status === 'DATA_LOSS').length
-      
+      const dataLoss = _.filter(ls, ({ status }) => status === 'DATA_LOSS')
+        .length
+
       seriesDataLoss.data.push(dataLoss)
       seriesActive.data.push(good)
       seriesUnActive.data.push(ls.length - good - dataLoss)

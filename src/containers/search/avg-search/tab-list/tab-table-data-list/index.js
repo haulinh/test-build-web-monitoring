@@ -20,7 +20,7 @@ export default class TableDataList extends React.PureComponent {
 
   getColumns() {
     let formatDate = ''
-    switch (this.props.typeReport){
+    switch (this.props.typeReport) {
       case 'year':
         formatDate = 'YYYY'
         break
@@ -31,7 +31,7 @@ export default class TableDataList extends React.PureComponent {
         formatDate = DD_MM_YYYY
         break
 
-      default: 
+      default:
         formatDate = DD_MM_YYYY_HH_MM
         break
     }

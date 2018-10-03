@@ -15,7 +15,7 @@ export default class SelectTimeRange extends React.PureComponent {
         <Select.Option value={60}>
           1 {translate('avgSearchFrom.selectTimeRange.hour')}
         </Select.Option>
-        <Select.Option value={8*60}>
+        <Select.Option value={8 * 60}>
           8 {translate('avgSearchFrom.selectTimeRange.hour')}
         </Select.Option>
         <Select.Option value={24 * 60}>

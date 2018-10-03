@@ -53,7 +53,7 @@ export default class SelectStation extends PureComponent {
           </Select.Option>
         )}
         <Select.Option key={'ALL'} value={'ALL'}>
-            {translate('dataSearchFrom.form.all')}
+          {translate('dataSearchFrom.form.all')}
         </Select.Option>
         {this.state.stations.map(station => (
           <Select.Option key={station.key} value={station.key}>
