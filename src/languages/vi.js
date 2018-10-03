@@ -834,6 +834,7 @@ export default {
     organization: 'Thông tin tổ chức'
   },
   configStation: {
+    name:'Tên trạm',
     breadCrumb: 'Cấu hình trạm theo tài khoản',
     warningStatus: 'Nhận cảnh báo',
     showStation: 'Hiển thị trạm',

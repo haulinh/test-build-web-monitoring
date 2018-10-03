@@ -837,6 +837,7 @@ export default {
     organization: 'Organization Info'
   },
   configStation: {
+    name: 'Name',
     breadCrumb: 'Config Station By User',
     warningStatus: 'Receive Warning',
     showStation: 'Show Station',

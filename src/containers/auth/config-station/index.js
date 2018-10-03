@@ -132,7 +132,7 @@ export default class ConfigStation extends React.Component {
         render: (value, record, index) => <div>{this.getIndex(index)}</div>
       },
       {
-        title: this.props.lang.t('userManager.roleAssign.name'),
+        title: this.props.lang.t('configStation.name'),
         dataIndex: 'name',
         key: 'name',
         sorter: (a, b) => {
