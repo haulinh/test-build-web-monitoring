@@ -327,7 +327,7 @@ export default {
         placeholder: 'Nhập số thứ tự'
       },
       action: {
-        label: 'Hành động'
+        label: ' '
       },
       error: 'Lỗi'
     }
@@ -367,7 +367,7 @@ export default {
         label: 'Tự động'
       },
       action: {
-        label: 'Hành động'
+        label: ' '
       },
       error: 'Lỗi',
       color: {
@@ -416,7 +416,7 @@ export default {
         placeholder: 'Nhập số thứ tự'
       },
       action: {
-        label: 'Hành động'
+        label: ' '
       },
       error: 'Lỗi'
     }
@@ -444,7 +444,7 @@ export default {
       label: 'Thêm'
     },
     form: {
-      action: 'Hành động',
+      action: ' ',
       key: {
         label: 'Mã đơn vị',
         placeholder: 'Nhập mã đơn vị quản lý',
@@ -468,7 +468,7 @@ export default {
       ftpFile: 'Tập tin FTP',
       restore: 'Khôi phục',
       remove: 'Loại bỏ',
-      action: 'Hành động',
+      action: ' ',
       createdAt: 'Tạo lúc'
     },
     create: {
@@ -768,7 +768,7 @@ export default {
       enable: 'Kích hoạt',
       disable: 'Vô hiệu',
       deactivate: 'Hủy kích hoạt',
-      action: 'Hành động',
+      action: ' ',
       email: 'Email',
       country: 'Quốc gia',
       login: 'Đăng nhập',
@@ -843,7 +843,7 @@ export default {
     warningStatus: 'Nhận cảnh báo',
     showStation: 'Hiển thị trạm',
     numericalOrder: 'Số thứ tự',
-    action: 'Hành động',
+    action: ' ',
     messageUpdate: {
       success: 'Cập nhật thành công!',
       error: 'cập nhật thất bại!'
