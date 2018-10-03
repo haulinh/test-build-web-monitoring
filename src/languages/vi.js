@@ -226,7 +226,7 @@ export default {
       maxTime: 'Thời gian vượt tối đa',
       min: 'Giá trị tối thiểu',
       minTime: 'Thời gian giảm tối thiểu',
-      avg: 'Tổng hợp',
+      avg: 'Giá trị trung bình',
       parameters: 'Thông số'
     }
   },
