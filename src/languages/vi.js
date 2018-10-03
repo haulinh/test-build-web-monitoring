@@ -29,7 +29,7 @@ export default {
       title: 'Tình trạng hoạt động của trạm',
       titleByUnit: 'Tình trạng hoạt động của {{=it.unit}}',
       activate: 'Hoạt động',
-      inactive: `Chưa Hoạt Động`,
+      inactive: `Chưa kết nối`,
       dataLoss: `Mất dữ liệu`,
       max: 'Giới hạn trên: {{=it.max}}',
       min: 'Giới hạn duới: {{=it.min}}'
