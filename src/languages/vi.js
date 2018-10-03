@@ -212,7 +212,7 @@ export default {
     },
     table: {
       emptyText: 'Không có dữ liệu',
-      receivedAt: 'Đã nhận lúc',
+      receivedAt: 'Thời gian',
       all: 'Tất cả'
     },
     tab: {
@@ -222,11 +222,11 @@ export default {
       statusExport: 'Đang xuất dữ liệu...'
     },
     analyze: {
-      max: 'Tối đa',
-      maxTime: 'Thời gian tối đa',
-      min: 'Tối thiểu',
-      minTime: 'Thời gian tối thiểu',
-      avg: 'Tổng hợp',
+      max: 'Giá trị tối đa',
+      maxTime: 'Thời gian vượt tối đa',
+      min: 'Giá trị tối thiểu',
+      minTime: 'Thời gian giảm tối thiểu',
+      avg: 'Giá trị trung bình',
       parameters: 'Thông số'
     }
   },
@@ -275,7 +275,7 @@ export default {
       }
     },
     table: {
-      receivedAt: 'Đã nhận lúc',
+      receivedAt: 'Thời gian',
       all: 'Tất cả',
       emptyText: 'Không có giá trị'
     },
@@ -287,7 +287,7 @@ export default {
       year: 'Năm'
     },
     tab: {
-      data: 'Tháng',
+      data: 'Dữ liệu',
       chart: 'Biểu đồ',
       exportExcel: 'Xuất dữ liệu excel',
       statusExport: 'Đang xuất dữ liệu ...'
@@ -328,7 +328,7 @@ export default {
         placeholder: 'Nhập số thứ tự'
       },
       action: {
-        label: 'Hành động'
+        label: ' '
       },
       error: 'Lỗi'
     }
@@ -368,7 +368,7 @@ export default {
         label: 'Tự động'
       },
       action: {
-        label: 'Hành động'
+        label: ' '
       },
       error: 'Lỗi',
       color: {
@@ -417,7 +417,7 @@ export default {
         placeholder: 'Nhập số thứ tự'
       },
       action: {
-        label: 'Hành động'
+        label: ' '
       },
       error: 'Lỗi'
     }
@@ -445,6 +445,7 @@ export default {
       label: 'Thêm'
     },
     form: {
+      action: ' ',
       key: {
         label: 'Mã đơn vị',
         placeholder: 'Nhập mã đơn vị quản lý',
@@ -468,7 +469,7 @@ export default {
       ftpFile: 'Tập tin FTP',
       restore: 'Khôi phục',
       remove: 'Loại bỏ',
-      action: 'Hành động',
+      action: ' ',
       createdAt: 'Tạo lúc'
     },
     create: {
@@ -738,12 +739,12 @@ export default {
         message: 'Vui lòng nhập lại mật khẩu!'
       },
       firstName: {
-        label: 'Tên riêng',
-        placeholder: 'Tên riêng'
+        label: 'Tên',
+        placeholder: 'Tên'
       },
       lastName: {
-        label: 'Họ tên',
-        placeholder: 'Họ tên'
+        label: 'Họ & Tên đệm',
+        placeholder: 'Họ & Tên đệm'
       },
       country: {
         label: 'Quốc gia',
@@ -768,7 +769,7 @@ export default {
       enable: 'Kích hoạt',
       disable: 'Vô hiệu',
       deactivate: 'Hủy kích hoạt',
-      action: 'Hành động',
+      action: ' ',
       email: 'Email',
       country: 'Quốc gia',
       login: 'Đăng nhập',
@@ -826,9 +827,9 @@ export default {
     changePassword: 'Thay đổi mật khẩu',
     avatar: 'Ảnh đại diện',
     email: 'Email',
-    LastName: 'Tên riêng',
-    FirstName: 'Họ tên',
-    Birthday: 'Sinh nhật',
+    LastName: 'Họ & Tên đệm',
+    FirstName: 'Tên',
+    Birthday: 'Ngày tháng năm sinh',
     Phone: 'Số điện thoại',
     upload: 'Tải ảnh lên',
     imageUpload: {
@@ -844,7 +845,7 @@ export default {
     warningStatus: 'Nhận cảnh báo',
     showStation: 'Hiển thị trạm',
     numericalOrder: 'Số thứ tự',
-    action: 'Hành động',
+    action: ' ',
     messageUpdate: {
       success: 'Cập nhật thành công!',
       error: 'cập nhật thất bại!'
@@ -872,7 +873,7 @@ export default {
       },
       Success: 'Đổi mật khẩu thành công',
       compare: 'Hai mật khẩu nhập không khớp',
-      savePassword: 'Lưu mật khẩu'
+      savePassword: 'Thay đổi mật khẩu'
     }
   },
   resetPassword: {
