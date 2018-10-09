@@ -6,9 +6,7 @@ import Highcharts from 'react-highcharts'
 import { translate } from 'hoc/create-lang'
 
 export default class StatusModalView extends React.Component {
-
   getConfig = () => {
-
     const dataLabels = {
       enabled: true,
       color: '#FFFFFF',
@@ -20,14 +18,24 @@ export default class StatusModalView extends React.Component {
       }
     }
 
-    const seriesReceived = {name:translate('dashboard.chartRatio.received'), data: [], color: '', dataLabels}
-    const seriesNotReceived = {name:translate('dashboard.chartRatio.notReceived'), data: [], color: 'red', dataLabels}
+    const seriesReceived = {
+      name: translate('dashboard.chartRatio.received'),
+      data: [],
+      color: '',
+      dataLabels
+    }
+    const seriesNotReceived = {
+      name: translate('dashboard.chartRatio.notReceived'),
+      data: [],
+      color: 'red',
+      dataLabels
+    }
     let categories = []
 
     const list = _.get(this.props, ['data', `${this.props.title}`, 'list'], [])
 
     console.log(list)
-    _.forEach(list, ({name, percent}) => {
+    _.forEach(list, ({ name, percent }) => {
       const received = percent || 0
       seriesReceived.data.push(received)
       seriesNotReceived.data.push(100 - received)
@@ -51,7 +59,7 @@ export default class StatusModalView extends React.Component {
           text: ''
         },
         stackLabels: {
-          enabled: false,
+          enabled: false
         }
       },
       credits: {
@@ -64,8 +72,8 @@ export default class StatusModalView extends React.Component {
         column: {
           stacking: 'normal',
           dataLabels: {
-              enabled: true,
-              //color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+            enabled: true
+            //color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
           }
         }
       },
@@ -81,14 +89,14 @@ export default class StatusModalView extends React.Component {
           visible={this.props.visible}
           onCancel={this.props.onClose}
           onOk={this.props.onClose}
-          okText='OK'
-          cancelText='Đóng'
+          okText="OK"
+          cancelText="Đóng"
           width={800}
           cancelButtonProps={{ visible: false }}
         >
-          <Highcharts config={this.getConfig()}/>
+          <Highcharts config={this.getConfig()} />
         </Modal>
       </div>
-    );
+    )
   }
 }

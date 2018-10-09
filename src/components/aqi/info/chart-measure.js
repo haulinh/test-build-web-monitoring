@@ -1,39 +1,37 @@
 import React from 'react'
 import Chart from 'react-highcharts'
 import * as _ from 'lodash'
-import moment from 'moment'
-import { Card } from 'antd'
 import levels from 'constants/aqi-level'
 
 export default class ChartView extends React.Component {
   getConfig = () => {
     const data = []
-    _.forEachRight(this.props.aqiDays, ({ time, aqiDayOf }) => {
-      const y = _.get(aqiDayOf, `${this.props.title}`, 0)
+    const categories = []
+
+    _.mapKeys(this.props.aqiMeasure, (value, key) => {
       let color = 'green'
-      const tmp = _.find(levels, ({ min, max }) => _.inRange(y, min, max))
+      const tmp = _.find(levels, ({ min, max }) => _.inRange(value, min, max))
       if (tmp) {
         color = tmp.color
       }
       data.push({
-        name: moment(time).format('DD'),
-        y,
+        name: key,
+        y: value,
         color
       })
+      categories.push(key)
+
+      return key
     })
 
     return {
       chart: {
-        type: 'column'
+        inverted: true,
+        polar: false,
+        width: 250
       },
       credits: {
         enabled: false
-      },
-      title: {
-        text: this.props.title
-      },
-      xAxis: {
-        type: 'category'
       },
       yAxis: {
         title: {
@@ -48,29 +46,36 @@ export default class ChartView extends React.Component {
           borderWidth: 0,
           dataLabels: {
             enabled: true,
+            // format: function () {
+            //   return '{point.y}'
+            // }
             formatter: function () { return this.y === 0 ? '' : this.y }
           }
         }
       },
       tooltip: {
-        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        headerFormat: '<span style="font-size:11px">{point.key}</span><br>',
         pointFormat: 'VN AQI: <b>{point.y}'
       },
+      title: {
+        text: ''
+      },
+      xAxis: {
+        categories
+      },
+
       series: [
         {
-          name: 'AQI',
+          type: 'column',
           colorByPoint: true,
-          data
+          data,
+          showInLegend: false
         }
       ]
     }
   }
 
   render() {
-    return (
-      <Card style={{ marginTop: 16 }}>
-        <Chart config={this.getConfig()} />
-      </Card>
-    )
+    return <Chart config={this.getConfig()} />
   }
 }

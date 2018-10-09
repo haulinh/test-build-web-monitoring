@@ -53,7 +53,6 @@ const NameColumn = Column.extend`
 `
 
 const StatusColumn = Column.extend`
-
   display: flex;
   justify-content: center;
   align-items: center;

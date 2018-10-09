@@ -232,7 +232,7 @@ export default class HeaderView extends React.PureComponent {
   }
 
   onModalClose = () => {
-    this.setState({visible: false})
+    this.setState({ visible: false })
   }
 
   render() {
@@ -250,7 +250,12 @@ export default class HeaderView extends React.PureComponent {
           </span>
         </Dropdown>
         <ReactHighcharts config={this.getConfigRatio()} />
-        <StatusModalView title={this.state.stationKey || ''} data={ _.keyBy(_.values(this.state.data), 'name') } visible={this.state.visible} onClose={this.onModalClose}/>
+        <StatusModalView
+          title={this.state.stationKey || ''}
+          data={_.keyBy(_.values(this.state.data), 'name')}
+          visible={this.state.visible}
+          onClose={this.onModalClose}
+        />
       </Card>
     )
   }

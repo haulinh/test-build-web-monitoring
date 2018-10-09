@@ -12,7 +12,6 @@ import { getDataStationAutos } from 'api/DataStationAutoApi'
 const ChartWrapper = styled.div``
 
 const configChart = (data, title, minLimit, maxLimit, maxChart) => {
-  
   return {
     chart: {
       type: 'spline',
@@ -54,7 +53,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
     },
     plotOptions: {
       spline: {
-      // area: {
+        // area: {
         fillColor: {
           linearGradient: {
             x1: 0,
