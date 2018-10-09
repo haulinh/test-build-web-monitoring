@@ -12,6 +12,7 @@ import { getDataStationAutos } from 'api/DataStationAutoApi'
 const ChartWrapper = styled.div``
 
 const configChart = (data, title, minLimit, maxLimit, maxChart) => {
+  
   return {
     chart: {
       zoomType: 'x'
@@ -29,7 +30,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
       },
       plotLines: [
         {
-          value: minLimit,
+          value: _.isNumber(minLimit) ? minLimit : undefined,
           color: 'red',
           width: 2,
           label: {
@@ -37,7 +38,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
           }
         },
         {
-          value: maxLimit,
+          value: _.isNumber(maxLimit) ? maxLimit : undefined,
           color: 'red',
           width: 1,
           label: {
