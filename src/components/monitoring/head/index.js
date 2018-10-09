@@ -75,11 +75,11 @@ export default class Header extends React.PureComponent {
             <ColorLevel color={colorLevels.EXCEEDED_TENDENCY}>
               <TextLevel>{translate('warningLevels.exceedTendency')}</TextLevel>
             </ColorLevel>
-            <ColorLevel color={colorLevels.EXCEEDED_PREPARING}>
+            {/* <ColorLevel color={colorLevels.EXCEEDED_PREPARING}>
               <TextLevel>
                 {translate('warningLevels.exceedPreparing')}
               </TextLevel>
-            </ColorLevel>
+            </ColorLevel> */}
             <ColorLevel color={colorLevels.EXCEEDED}>
               <TextLevel>{translate('warningLevels.exceed')}</TextLevel>
             </ColorLevel>
