@@ -464,7 +464,7 @@ export default {
   },
   stationAutoManager: {
     list: {
-      title: 'Tên trạm',
+      title: 'Trạm quan trắc',
       ftpInfo: 'Thông tin FTP',
       ftpFile: 'Tập tin FTP',
       restore: 'Khôi phục',
