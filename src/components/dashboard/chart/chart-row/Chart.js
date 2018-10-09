@@ -15,6 +15,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
   
   return {
     chart: {
+      type: 'spline',
       zoomType: 'x'
     },
     title: {
@@ -52,7 +53,8 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
       reversed: true
     },
     plotOptions: {
-      area: {
+      spline: {
+      // area: {
         fillColor: {
           linearGradient: {
             x1: 0,
@@ -83,7 +85,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
     },
     series: [
       {
-        type: 'area',
+        type: 'spline',
         name: title,
         data
       }
