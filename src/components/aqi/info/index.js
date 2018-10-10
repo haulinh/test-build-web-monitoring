@@ -1,47 +1,26 @@
 import React from 'react'
-import styled from 'styled-components'
 import * as _ from 'lodash'
 import { Select } from 'antd'
 import moment from 'moment'
-
-import aqiLevel from 'constants/aqi-level'
 import { fetchAqiByDay } from 'api/AqiApi'
 import ChartAqiView from './ChartView'
+import AqiInfo from './aqi-info'
 
 import connectWindowHeight from 'hoc/window-height'
 import { translate } from 'hoc/create-lang'
 
 const Option = Select.Option
-
-const AqiView = styled.div`
-  background: ${props => props.color || 'green'};
-  height: 80px;
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const VnAqiView = ({ value, color }) => {
-  const level = _.find(aqiLevel, ({ min, max }) => _.inRange(value, min, max))
-  color = _.get(level, 'color', null)
-  return (
-    <AqiView color={color}>
-      <span style={{ fontSize: 40, color: '#fff', fontWeight: '600' }}>
-        VN AQI {value}
-      </span>
-    </AqiView>
-  )
-}
-
 const day = 7
 
 @connectWindowHeight
 export default class InfoComponent extends React.Component {
-  state = {
-    station: null,
-    aqiDays: [],
-    aqiKeys: []
+  constructor(props) {
+    super(props)
+    this.state = {
+      station: props.station,
+      aqiDays: [],
+      aqiKeys: []
+    }
   }
 
   handleChange = async value => {
@@ -49,6 +28,7 @@ export default class InfoComponent extends React.Component {
     if (station && !_.isEqual(station.key, value.key)) {
       this.setState({ station })
     }
+
     this.getAqiByStation(value.key)
   }
 
@@ -84,8 +64,8 @@ export default class InfoComponent extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.aqiList, this.props.aqiList)) {
-      const station = _.head(nextProps.aqiList)
+    if (!_.isEqual(nextProps.station, this.props.station)) {
+      const station = nextProps.station //_.head(nextProps.aqiList)
       if (!_.isEmpty(station)) {
         this.setState({ station })
         this.getAqiByStation(station._id)
@@ -95,7 +75,6 @@ export default class InfoComponent extends React.Component {
 
   renderOptions = () => {
     const defaultValue = _.get(this.state.station, '_id', '')
-    console.log('defaultValue', defaultValue)
     return (
       <Select
         value={{
@@ -117,7 +96,6 @@ export default class InfoComponent extends React.Component {
   }
 
   render() {
-    console.log('render')
     return (
       <div
         style={{
@@ -129,11 +107,13 @@ export default class InfoComponent extends React.Component {
       >
         {this.renderOptions()}
 
-        {_.get(this.state.station, 'aqi.time', null) &&
+        {/* {
+          _.get(this.state.station, 'aqi.time', null) &&
           `${moment(_.get(this.state.station, 'aqi.time')).format(
-            'HH:mm DD/MM/YYYY'
-          )}`}
-        <VnAqiView value={_.get(this.state.station, 'aqi.value', '')} />
+            'HH:00 DD/MM/YYYY'
+          )}`
+        } */}
+        <AqiInfo station={this.state.station} />
         {_.size(this.state.aqiDays) > 0 && (
           <div
             style={{

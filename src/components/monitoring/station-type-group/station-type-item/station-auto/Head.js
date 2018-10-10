@@ -14,6 +14,7 @@ import { translate } from 'hoc/create-lang'
 import { connect } from 'react-redux'
 import StationControl from 'api/SamplingApi'
 import stationStatus from 'constants/stationStatus'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 const StationHeadItemWrapper = styled.div`
   display: flex;
@@ -170,7 +171,7 @@ export default class StationAutoHead extends React.PureComponent {
           <ReceivedAt status={status}>
             {status === stationStatus.DATA_LOSS &&
               translate('monitoring.lossAt')}{' '}
-            {receivedAt ? moment(receivedAt).format('YYYY/MM/DD HH:mm') : ''}
+            {receivedAt ? moment(receivedAt).format(DD_MM_YYYY_HH_MM) : ''}
           </ReceivedAt>
         </TitleWrapper>
         <ActionWrapper>

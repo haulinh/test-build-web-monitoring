@@ -89,14 +89,6 @@ export default class SearchForm extends React.Component {
         this.props.handleSubmit(this.handleSubmit)()
       }, 100)
     }
-
-    // if(this.props.initialValuesOther){
-    //   const {stationAuto, stationType, measuringList} = this.props.initialValuesOther
-    //   this.props.change('stationType', stationType)
-    //   this.props.change('stationAuto', stationAuto)
-    //   this.props.change('measuringList', measuringList)
-    //
-    // }
   }
 
   handleChangeStationType(stationTypeKey, e) {
@@ -141,7 +133,6 @@ export default class SearchForm extends React.Component {
         })
       }
     }
-    console.log('handleChangeRanges: ', moment().subtract(ranges, 'days'))
   }
 
   handleSubmit(values) {
@@ -245,7 +236,7 @@ export default class SearchForm extends React.Component {
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
-            <Col span={9}>
+            <Col span={12}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -256,7 +247,7 @@ export default class SearchForm extends React.Component {
                 component={FSelectAnt}
               />
             </Col>
-            <Col span={9}>
+            <Col span={6}>
               <Field
                 label={t('time')}
                 name="rangesDate"

@@ -29,7 +29,10 @@ export default {
       title: 'Operating status of the station',
       titleByUnit: 'Rate of receiving data of {{=it.unit}} unit',
       activate: 'Activate',
-      inactive: `Inactive`
+      inactive: `Inactive`,
+      dataLoss: `Data Loss`,
+      max: 'Maximum: {{=it.max}}',
+      min: 'Minimum: {{=it.min}}'
     },
     activeStationPer: 'Station Active {{=it.good}}/{{=it.total}}'
   },
@@ -230,6 +233,7 @@ export default {
   avgSearchFrom: {
     titleText: 'AVG Search',
     form: {
+      time: 'Time',
       stationType: {
         label: 'Type Of Station',
         placeholder: 'Select Type Of Station',
@@ -279,7 +283,8 @@ export default {
       minute: 'Minute',
       hour: 'Hour',
       day: 'Day',
-      month: 'Month'
+      month: 'Month',
+      year: 'Year'
     },
     tab: {
       data: 'Data',
@@ -443,6 +448,7 @@ export default {
       label: 'Add'
     },
     form: {
+      action: 'Action',
       key: {
         label: 'Code',
         placeholder: 'Input Code Of Name',
@@ -837,7 +843,7 @@ export default {
     organization: 'Organization Info'
   },
   configStation: {
-    name: 'Name',
+    name: 'Station Name',
     breadCrumb: 'Config Station By User',
     warningStatus: 'Receive Warning',
     showStation: 'Show Station',

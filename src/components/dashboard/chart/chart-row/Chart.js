@@ -14,6 +14,7 @@ const ChartWrapper = styled.div``
 const configChart = (data, title, minLimit, maxLimit, maxChart) => {
   return {
     chart: {
+      type: 'spline',
       zoomType: 'x'
     },
     title: {
@@ -28,20 +29,20 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
         text: ''
       },
       plotLines: [
-        //   {
-        //   value: minLimit,
-        //   color: 'red',
-        //   width: 2,
-        //   label: {
-        //     text: `Min: ${minLimit}`
-        //   }
-        // },
         {
-          value: maxLimit,
+          value: _.isNumber(minLimit) ? minLimit : undefined,
+          color: 'red',
+          width: 2,
+          label: {
+            text: translate(`dashboard.chartStatus.min`, { min: minLimit })
+          }
+        },
+        {
+          value: _.isNumber(maxLimit) ? maxLimit : undefined,
           color: 'red',
           width: 1,
           label: {
-            text: `Max: ${maxLimit}`
+            text: translate(`dashboard.chartStatus.max`, { max: maxLimit })
           }
         }
       ]
@@ -51,7 +52,8 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
       reversed: true
     },
     plotOptions: {
-      area: {
+      spline: {
+        // area: {
         fillColor: {
           linearGradient: {
             x1: 0,
@@ -82,7 +84,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
     },
     series: [
       {
-        type: 'area',
+        type: 'spline',
         name: title,
         data
       }
@@ -234,7 +236,7 @@ export default class ChartRowToChart extends React.Component {
         <ReactHighcharts config={this.getConfigData()} />
         <Tabs
           style={{
-            width: 800,
+            width: 760,
             paddingLeft: 8,
             paddingRight: 8,
             marginBottom: 8

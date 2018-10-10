@@ -4,6 +4,7 @@ import { autobind } from 'core-decorators'
 import { Table } from 'antd'
 import moment from 'moment/moment'
 import BoxShadow from 'components/elements/box-shadow/index'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 const TabeListWrapper = BoxShadow.extend`
   padding: 16px 16px 16px 16px;
@@ -32,7 +33,7 @@ export default class TableDataList extends React.PureComponent {
             record.max.data.length > 0
               ? record.max.data[0].receivedAt || ''
               : ''
-          if (val) val = moment(val).format('YYYY/MM/DD HH:mm')
+          if (val) val = moment(val).format(DD_MM_YYYY_HH_MM)
           return <div>{val}</div>
         }
       },
@@ -55,7 +56,7 @@ export default class TableDataList extends React.PureComponent {
             record.min.data.length > 0
               ? record.min.data[0].receivedAt || ''
               : ''
-          if (val) val = moment(val).format('YYYY/MM/DD HH:mm')
+          if (val) val = moment(val).format(DD_MM_YYYY_HH_MM)
           return <div>{val}</div>
         }
       },

@@ -141,10 +141,6 @@ export class ProfileUserForm extends PureComponent {
     })
   }
 
-  saveNameOrganization() {
-    console.log(this.refs.nameOrganization)
-  }
-
   renderItem(icon, label, value) {
     return (
       <div className="row">
@@ -298,6 +294,7 @@ export default class ProfileUser extends PureComponent {
 
   async componentWillMount() {
     const record = await AuthApi.getMe()
+    console.log('record', record.data.birthday)
     this.setState({
       userInfo: {
         ...record.data,

@@ -19,6 +19,7 @@ import { Table } from 'react-bootstrap'
 import { colorLevels } from 'constants/warningLevels'
 import stStatus from 'constants/stationStatus'
 import moment from 'moment'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 const MIN_WIDTH_INFO = 150
 
@@ -130,7 +131,7 @@ export default class MarkerStation extends PureComponent {
             : translate('map.dataTable.dataLossAt')}{' '}
           {/* {DateFormat(new Date(lastLog.receivedAt), 'yyyy/mm/dd hh:mm:ss')} */}
           {moment(lastLog.receivedAt, 'YYYY-MM-DD hh:mm').format(
-            'YYYY/MM/DD hh:mm'
+            DD_MM_YYYY_HH_MM
           )}
         </span>
         <Clearfix height={8} />

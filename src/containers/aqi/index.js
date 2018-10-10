@@ -16,7 +16,7 @@ const WrapperContainer = styled.div`
 export default class AqiContainer extends React.Component {
   state = {
     aqiList: [],
-    selected: null
+    station: null
   }
 
   async componentDidMount() {
@@ -25,11 +25,15 @@ export default class AqiContainer extends React.Component {
 
     this.setState({ aqiList })
 
-    const selected = _.head(aqiList)
+    const station = _.head(aqiList)
 
-    if (!_.isEmpty(selected)) {
-      this.setState({ selected })
+    if (!_.isEmpty(station)) {
+      this.setState({ station })
     }
+  }
+
+  handleMarkerClick = station => {
+    this.setState({ station })
   }
 
   render() {
@@ -38,8 +42,13 @@ export default class AqiContainer extends React.Component {
         <MapComponent
           aqiList={this.state.aqiList}
           style={{ flex: 2, background: 'blue' }}
+          onMapClick={this.handleMarkerClick}
         />
-        <InfoComponent style={{ flex: 1 }} aqiList={this.state.aqiList} />
+        <InfoComponent
+          station={this.state.station}
+          style={{ flex: 1 }}
+          aqiList={this.state.aqiList}
+        />
       </WrapperContainer>
     )
   }

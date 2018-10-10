@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import moment from 'moment/moment'
 import roundTo from 'round-to'
 import { translate } from 'hoc/create-lang'
+import { DD_MM_YYYY_HH_MM, DD_MM_YYYY } from 'constants/format-date'
 
 const TableDataListWrapper = styled.div``
 
@@ -18,12 +19,23 @@ export default class TableDataList extends React.PureComponent {
   }
 
   getColumns() {
-    let formatDate = 'YYYY/MM/DD HH:mm'
-    if (this.props.typeReport === 'month') {
-      formatDate = 'YYYY/MM'
-    } else if (this.props.typeReport === 1440) {
-      formatDate = 'YYYY/MM/DD'
+    let formatDate = ''
+    switch (this.props.typeReport) {
+      case 'year':
+        formatDate = 'YYYY'
+        break
+      case 'month':
+        formatDate = 'MM/YYYY'
+        break
+      case 1440:
+        formatDate = DD_MM_YYYY
+        break
+
+      default:
+        formatDate = DD_MM_YYYY_HH_MM
+        break
     }
+
     const columnReceivedAt = {
       title: translate('avgSearchFrom.table.receivedAt'),
       dataIndex: 'receivedAt',

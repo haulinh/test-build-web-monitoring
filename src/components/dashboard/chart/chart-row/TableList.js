@@ -12,10 +12,10 @@ import { Tooltip } from 'antd'
 import * as _ from 'lodash'
 
 const Status = styled.div`
-  width: 8px;
-  height: 8px;
+  width: 16px;
+  height: 16px;
   background-color: #1dce6c;
-  border-radius: 4px;
+  border-radius: 8px;
 `
 
 const Row = styled.div`
@@ -53,10 +53,10 @@ const NameColumn = Column.extend`
 `
 
 const StatusColumn = Column.extend`
-  width: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-right: 16px;
 `
 
 const FILTER = {
@@ -198,7 +198,7 @@ export default class TableListCustom extends React.PureComponent {
 
   render() {
     return (
-      <div style={{ height: 450, overflow: 'scroll' }}>
+      <div style={{ height: 450, minWidth: 300, overflow: 'scroll' }}>
         <Row>
           <IndexColumn isTh>#</IndexColumn>
           <NameColumn onClick={() => this.handleFilter('name')} isTh>

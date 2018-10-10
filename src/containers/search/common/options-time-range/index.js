@@ -4,6 +4,7 @@ import { Select, DatePicker } from 'antd'
 import moment from 'moment'
 import { autobind } from 'core-decorators'
 import * as _ from 'lodash'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 const options = [
   { key: 1, text: 'dataSearchFrom.options.byHours', value: 24 },
@@ -48,9 +49,7 @@ export default class OptionsTimeRange extends React.Component {
   onOkDatePicker = ranges => {
     let rangesView = ''
     _.forEach(ranges, range => {
-      rangesView += moment(range._d, 'YYYY/MM/DD HH:mm').format(
-        'YYYY/MM/DD HH:mm'
-      )
+      rangesView += moment(range._d, DD_MM_YYYY_HH_MM).format(DD_MM_YYYY_HH_MM)
       if (!_.includes(rangesView, '-')) {
         rangesView += ' - '
       }
@@ -88,7 +87,7 @@ export default class OptionsTimeRange extends React.Component {
               'This Month': [moment(), moment().endOf('month')]
             }}
             showTime
-            format="YYYY/MM/DD HH:mm"
+            format={DD_MM_YYYY_HH_MM}
             onOk={this.onOkDatePicker}
           />
         )}

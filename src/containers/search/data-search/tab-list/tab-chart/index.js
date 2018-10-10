@@ -119,19 +119,15 @@ export class TabChart extends React.PureComponent {
                   inputDateParser={value => {
                     return moment.utc(value, 'DD. MMM hh:mm').valueOf()
                   }}
-                  editDateFormat="%Y/%m/%d:%k:%M"
-                  dateFormat="%Y/%m/%d:%k:%M"
-                  // editDateFormat="%e. %b %H:%M"
-                  // dateFormat="%e. %b %H:%M"
+                  editDateFormat="%d/%m/%Y:%k:%M"
+                  dateFormat="%d/%m/%Y:%k:%M"
                 />
               </RangeSelector>
               <XAxis
                 type="datetime"
                 dateTimeLabelFormats={{
-                  hour: '%Y/%m/%d:%k:%M',
-                  minute: '%Y/%m/%d:%k:%M'
-                  // hour: '%e. %b %H:%M',
-                  // minute: '%e. %b %H:%M'
+                  hour: '%d/%m/%Y:%k:%M',
+                  minute: '%d/%m/%Y:%k:%M'
                 }}
               >
                 <XAxis.Title>{translate('chart.time')}</XAxis.Title>

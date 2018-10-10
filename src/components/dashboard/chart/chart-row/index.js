@@ -27,7 +27,7 @@ const ChartWrapper = styled.div`
   background-color: #ffffff;
 `
 const TableWidth = styled.div`
-  width: 300px;
+  min-width: 300px;
   border-right: 1px solid rgba(241, 241, 241, 0.5);
   background-color: #fafbfb;
 `
@@ -101,7 +101,7 @@ export class ChartSummary extends React.Component {
             onClick={() => {
               ReactGA.event({
                 category: 'Dashboard',
-                action: 'View In Monitoring'
+                action: translate('dashboard.viewInMonitoring')
               })
             }}
             to={slug.monitoring.base + `?Id=${stationType.key}`}
@@ -114,7 +114,7 @@ export class ChartSummary extends React.Component {
             onClick={() => {
               ReactGA.event({
                 category: 'Dashboard',
-                action: 'View In Map'
+                action: translate('dashboard.viewInMap')
               })
             }}
             to={slug.map.base + `?Id=${stationType.key}`}
