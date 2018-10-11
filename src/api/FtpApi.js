@@ -2,7 +2,8 @@ import { getConfigApi } from 'config'
 import { getFetch, postFetch } from 'utils/fetch'
 
 function getFtpUrl(prefix = '') {
-  return getConfigApi().ftp + '/' + prefix
+  return 'http://localhost:5009/ftp/' + prefix
+  // return getConfigApi().ftp + '/' + prefix
 }
 
 export function getFtpFiles(

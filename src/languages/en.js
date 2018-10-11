@@ -694,6 +694,11 @@ export default {
       }
     },
     ftpFile: {
+      auto: 'Auto',
+      choosePath: 'Choose Path',
+      titleConfigFTP: 'Config Info FTP',
+      folderName: 'Folder Name',
+      updateAt: 'UpdateAt',
       fileName: 'File Name',
       kind: 'Kind',
       modifiedDate: 'Modified Date',

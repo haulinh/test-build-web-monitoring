@@ -691,6 +691,11 @@ export default {
       }
     },
     ftpFile: {
+      auto: 'Tự động',
+      choosePath: 'Chọn đường dẫn',
+      titleConfigFTP: 'Cấu hình thông tin FTP',
+      folderName: 'Tên Folder',
+      updateAt: 'Thời gian update',
       fileName: 'Tên tập tin',
       kind: 'Loại',
       modifiedDate: 'Sửa ngày',
