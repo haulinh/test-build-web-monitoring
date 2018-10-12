@@ -691,6 +691,11 @@ export default {
       }
     },
     ftpFile: {
+      auto: 'Tự động',
+      choosePath: 'Chọn đường dẫn',
+      titleConfigFTP: 'Cấu hình thông tin FTP',
+      folderName: 'Tên Folder',
+      updateAt: 'Thời gian update',
       fileName: 'Tên tập tin',
       kind: 'Loại',
       modifiedDate: 'Sửa ngày',
@@ -699,6 +704,7 @@ export default {
         'Trạm này không có thư mục FTP hoặc thư mục FTP đã thay đổi',
       buttonCreateFTP: 'Tạo thư mục FTP',
       createFTPSuccess: 'Tạo thư mục FTP thành công',
+      updateFTPSuccess: 'Cập nhật thành công',
       headerName: 'Thông tin FTP: ',
       addressLabel: 'Địa chỉ ftp:',
       usernameLabel: 'Tên đăng nhập:',

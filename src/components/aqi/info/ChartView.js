@@ -48,7 +48,9 @@ export default class ChartView extends React.Component {
           borderWidth: 0,
           dataLabels: {
             enabled: true,
-            formatter: function () { return this.y === 0 ? '' : this.y }
+            formatter: function() {
+              return this.y === 0 ? '' : this.y
+            }
           }
         }
       },

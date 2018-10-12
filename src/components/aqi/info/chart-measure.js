@@ -49,7 +49,9 @@ export default class ChartView extends React.Component {
             // format: function () {
             //   return '{point.y}'
             // }
-            formatter: function () { return this.y === 0 ? '' : this.y }
+            formatter: function() {
+              return this.y === 0 ? '' : this.y
+            }
           }
         }
       },

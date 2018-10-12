@@ -1,15 +1,19 @@
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { Spin, Button, message } from 'antd'
+import Breadcrumb from '../breadcrumb'
+import { connect } from 'react-redux'
 import { autobind } from 'core-decorators'
+import { Icon, Card, Table, Button, Spin, message } from 'antd'
+import moment from 'moment'
+import FtpApi from 'api/FtpApi'
+import * as _ from 'lodash'
 import StationAutoApi from 'api/StationAuto'
 import createManagerEdit from 'hoc/manager-edit'
-import PropTypes from 'prop-types'
-import Breadcrumb from '../breadcrumb'
-import FtpApi from 'api/FtpApi'
+import FtpInfoView from './ftp-info-view'
+import FtpOptionView from './option-view'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { translate } from 'hoc/create-lang'
 import swal from 'sweetalert2'
-import { connect } from 'react-redux'
 
 @connect(state => ({
   organization: state.auth.userInfo.organization
@@ -19,75 +23,211 @@ import { connect } from 'react-redux'
 })
 @autobind
 export default class StationAutoFtpInfo extends React.PureComponent {
-  static propTypes = {
-    getItem: PropTypes.func,
-    isLoaded: PropTypes.bool
-  }
   constructor(props) {
     super(props)
+
     this.state = {
-      existFTP: true,
-      isLoadingButton: false
+      // breadcrumb: ['list'],
+      folderList: [],
+      path: '',
+      ftpInfo: {},
+      pagination: {
+        page: 1,
+        itemPerPage: 10
+      },
+      isFullPath: true,
+      isExplorer: false,
+      pathSelected: [_.get(props, 'organization.ftpPath', '/')]
     }
+
+    this.columns = [
+      {
+        title: translate('stationAutoManager.ftpFile.folderName'),
+        dataIndex: 'fileName',
+        key: 'fileName',
+        render: text => (
+          <span>
+            <Icon
+              type="folder"
+              style={{ color: '#FFE793', marginRight: 8 }}
+              theme="filled"
+            />
+            <a href="javascript:;">{text}</a>
+          </span>
+        )
+      },
+      {
+        title: translate('stationAutoManager.ftpFile.updateAt'),
+        dataIndex: 'mtime',
+        key: 'mtime',
+        render: mtime => <div>{moment(mtime).format(DD_MM_YYYY_HH_MM)}</div>
+      }
+    ]
   }
 
-  //Su kien truoc khi component duoc tao ra
-  async componentWillMount() {
-    await this.props.getItem()
-    if (this.props.isLoaded && this.props.success)
-      this.handelInfoFTP(this.props.data.configLogger.path)
+  fetchFolder = async (params = { path: '', isFullPath: true }) => {
+    const res = await FtpApi.getFtpFiles(this.state.pagination, params)
+    this.setState({
+      isLoading: false,
+      folderList: _.filter(
+        _.get(res, 'data', []),
+        ({ isDirectory }) => isDirectory
+      )
+    })
+    return res
   }
 
-  async handelInfoFTP(path) {
-    if (!path) {
-      path = this.props.organization.ftpPath + '/' + this.props.data.key
-      let config = {
+  fetchFtpInfo = async path => {
+    const rs = await FtpApi.getInfoByPath(path)
+    return rs
+  }
+
+  createFolder = async path => {
+    const params = {}
+    this.setState({ isLoading: true })
+    let res = await FtpApi.createFTPFolder({ path })
+    if (_.get(res, 'success', false)) {
+      this.updateConfigLogger(path, false)
+      const ftpInfo = await this.fetchFtpInfo(path)
+      if (ftpInfo.data) {
+        params.ftpInfo = ftpInfo.data
+      }
+    } else {
+      message.error(res.message)
+    }
+
+    this.setState({ ...params, isLoading: false })
+  }
+
+  updateConfigLogger = async (path, isUpdate) => {
+    const params = {}
+    this.setState({ isLoading: true })
+    let config = {
+      options: { ...this.props.data.options },
+      configLogger: {
         ...this.props.data.configLogger,
         path: path
       }
-      StationAutoApi.updateStationAutoConfig(this.props.data._id, config)
     }
-    let resFTP = await FtpApi.getInfoByPath(path)
-    if (resFTP.success) {
-      this.setState({
-        existFTP: true,
-        address: resFTP.data.address,
-        username: resFTP.data.username,
-        password: resFTP.data.password
+    let res = await StationAutoApi.updateStationAutoConfig(
+      _.get(this.props, 'data._id'),
+      config
+    )
+    if (res.success) {
+      let textStatus = ''
+      if(isUpdate){
+        textStatus = translate('stationAutoManager.ftpFile.updateFTPSuccess')
+      }else{ textStatus = translate('stationAutoManager.ftpFile.createFTPSuccess') }
+      swal({
+        type: 'success',
+        text: textStatus
       })
+      const ftpInfo = await this.fetchFtpInfo(path)
+      if (ftpInfo.data) {
+        params.ftpInfo = ftpInfo.data
+      }
     } else {
-      this.setState({
-        existFTP: false
+      message.error(res.message)
+    }
+    this.setState({ ...params, isLoading: false })
+  }
+
+  handleUpdatePath = async () => {
+    let pathUpdate = _.join(this.state.pathSelected, '/')
+    this.updateConfigLogger(pathUpdate, true)
+  }
+  async componentDidMount() {
+    const params = {}
+    this.setState({ isLoading: true })
+    // lay thong tin tram theo KEY
+    await this.props.getItem()
+    console.log(this.props.data)
+    const path = _.get(this.props, 'data.configLogger.path')
+    if (path) {
+      params.path = path
+      // lay thong tin ftp theo PATH
+      const ftpInfo = await this.fetchFtpInfo(path)
+      if (ftpInfo.data) {
+        params.ftpInfo = ftpInfo.data
+      }
+    }
+
+    params.isLoading = false
+    this.setState(params)
+  }
+
+  handlePathEdit = e => {
+    const address = _.get(this.state.ftpInfo, 'address')
+    let pathSelected = [_.get(this.props, 'organization.ftpPath', '/')]
+    let pathFtp = _.get(this.props, 'organization.ftpPath')
+    if (!_.endsWith(pathFtp, '/')) {
+      pathFtp = `${pathFtp}/`
+    }
+
+    if (address) {
+      const arr = _.split(address, pathFtp)
+      if (arr.length > 1) {
+        pathSelected = pathSelected.concat(_.split(arr[1], '/'))
+      }
+      console.log(address, pathSelected)
+      this.setState({ isExplorer: true, pathSelected })
+    }
+  }
+
+  handleGeneralPath = action => {
+    if (action) {
+      let ftpPath = _.get(this.props, 'organization.ftpPath', '')
+      let provincePath = _.get(this.props, 'data.province.key', '')
+      let stationPath = _.get(this.props, 'data.key', '')
+      const path = _.filter(
+        [ftpPath, provincePath, stationPath],
+        item => !_.isEmpty(item)
+      )
+      this.createFolder(_.join(path, '/'))
+    } else {
+      this.setState({ isExplorer: true })
+      this.fetchFolder({
+        isFullPath: false,
+        path: _.join(this.state.pathSelected, '/')
       })
     }
   }
 
-  async createFTPFolder() {
-    this.setState({
-      isLoadingButton: true
-    })
-    let resFTP = await FtpApi.createFTPFolder({
-      path: this.props.data.configLogger.path
-    })
-    if (resFTP.success) {
-      this.handelInfoFTP(this.props.data.configLogger.path)
-      swal({
-        type: 'success',
-        text: translate('stationAutoManager.ftpFile.createFTPSuccess')
-      })
-      // this.setState({
-      //   existFTP: true,
-      //   address: resFTP.data.address,
-      //   username: resFTP.data.username,
-      //   password: resFTP.data.password,
-      //   isLoadingButton: false
-      // })
-    } else {
-      message.error(resFTP.message)
-      this.setState({
-        isLoadingButton: false
-      })
+  onRowClick = ({ fileName }) => {
+    return {
+      onClick: () => {
+        const pathSelected = this.state.pathSelected
+        pathSelected.push(fileName)
+        this.setState({ pathSelected, isLoading: true })
+        this.fetchFolder({ isFullPath: false, path: _.join(pathSelected, '/') })
+      }
     }
+  }
+
+  handleBack = () => {
+    const pathSelected = this.state.pathSelected
+    pathSelected.pop()
+    this.setState({ pathSelected, isLoading: true })
+    this.fetchFolder({ isFullPath: false, path: _.join(pathSelected, '/') })
+  }
+
+  renderTitleFolder = () => {
+    return (
+      <span>
+        {_.size(this.state.pathSelected) > 1 ? (
+          <span onClick={this.handleBack}>
+            <Icon
+              style={{ padding: 2, color: 'blue' }}
+              type="arrow-left"
+              theme="outlined"
+            />
+          </span>
+        ) : (
+          ` `
+        )}
+        <strong>{_.join(this.state.pathSelected, '/')}</strong>
+      </span>
+    )
   }
 
   render() {
@@ -100,60 +240,38 @@ export default class StationAutoFtpInfo extends React.PureComponent {
               id: 'ftpInfo',
               name:
                 this.props.isLoaded && this.props.success
-                  ? translate('stationAutoManager.ftpFile.headerName') +
-                    this.props.data.name
+                  ? this.props.data.name
                   : null
             }
           ]}
         />
-        <Spin style={{ width: '100%' }} spinning={!this.props.isLoaded}>
-          {this.props.isLoaded &&
-            this.props.success &&
-            this.state.existFTP && (
-              <table>
-                <tbody>
-                  <tr>
-                    <td style={{ width: 100 }}>
-                      <b>
-                        {translate('stationAutoManager.ftpFile.addressLabel')}
-                      </b>
-                    </td>
-                    <td style={{ color: 'blue' }}>{this.state.address}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <b>
-                        {translate('stationAutoManager.ftpFile.usernameLabel')}
-                      </b>
-                    </td>
-                    <td style={{ color: 'blue' }}>{this.state.username}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <b>
-                        {translate('stationAutoManager.ftpFile.passwordLabel')}
-                      </b>
-                    </td>
-                    <td style={{ color: 'blue' }}>{this.state.password}</td>
-                  </tr>
-                </tbody>
-              </table>
-            )}
-          {this.props.isLoaded &&
-            this.props.success &&
-            !this.state.existFTP && (
-              <div>
-                <h4>{translate('stationAutoManager.ftpFile.NOT_EXIST_FTP')}</h4>
+        <Spin tip="Loading..." spinning={this.state.isLoading}>
+          {_.isEmpty(this.state.ftpInfo) ? (
+            <FtpOptionView onClick={this.handleGeneralPath} />
+          ) : (
+            <FtpInfoView {...this.state.ftpInfo} onEdit={this.handlePathEdit} />
+          )}
+          {this.state.isExplorer && (
+            <Card
+              title={this.renderTitleFolder()}
+              extra={
                 <Button
-                  loading={this.state.isLoadingButton}
                   type="primary"
-                  size="large"
-                  onClick={this.createFTPFolder}
+                  onClick={this.handleUpdatePath}
+                  icon="save"
                 >
-                  {translate('stationAutoManager.ftpFile.buttonCreateFTP')}
+                  {translate('addon.save')}
                 </Button>
-              </div>
-            )}
+              }
+            >
+              <Table
+                onRow={this.onRowClick}
+                rowKey="fileName"
+                dataSource={this.state.folderList}
+                columns={this.columns}
+              />
+            </Card>
+          )}
         </Spin>
       </PageContainer>
     )
