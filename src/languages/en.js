@@ -707,6 +707,7 @@ export default {
         'This station does not have FTP directory or FTP directory has changed',
       buttonCreateFTP: 'Click me to create FTP Folder',
       createFTPSuccess: 'Create FTP folder successfully',
+      updateFTPSuccess: 'Update FTP folder successfully',
       headerName: 'FTP Info: ',
       addressLabel: 'Address ftp:',
       usernameLabel: 'Username:',

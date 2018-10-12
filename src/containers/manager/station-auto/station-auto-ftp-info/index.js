@@ -87,7 +87,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
     this.setState({ isLoading: true })
     let res = await FtpApi.createFTPFolder({ path })
     if (_.get(res, 'success', false)) {
-      this.updateConfigLogger(path)
+      this.updateConfigLogger(path, false)
       const ftpInfo = await this.fetchFtpInfo(path)
       if (ftpInfo.data) {
         params.ftpInfo = ftpInfo.data
@@ -99,7 +99,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
     this.setState({ ...params, isLoading: false })
   }
 
-  updateConfigLogger = async path => {
+  updateConfigLogger = async (path, isUpdate) => {
     const params = {}
     this.setState({ isLoading: true })
     let config = {
@@ -114,9 +114,13 @@ export default class StationAutoFtpInfo extends React.PureComponent {
       config
     )
     if (res.success) {
+      let textStatus = ''
+      if(isUpdate){
+        textStatus = translate('stationAutoManager.ftpFile.updateFTPSuccess')
+      }else{ textStatus = translate('stationAutoManager.ftpFile.createFTPSuccess') }
       swal({
         type: 'success',
-        text: translate('stationAutoManager.ftpFile.createFTPSuccess')
+        text: textStatus
       })
       const ftpInfo = await this.fetchFtpInfo(path)
       if (ftpInfo.data) {
@@ -130,7 +134,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
 
   handleUpdatePath = async () => {
     let pathUpdate = _.join(this.state.pathSelected, '/')
-    this.updateConfigLogger(pathUpdate)
+    this.updateConfigLogger(pathUpdate, true)
   }
   async componentDidMount() {
     const params = {}
