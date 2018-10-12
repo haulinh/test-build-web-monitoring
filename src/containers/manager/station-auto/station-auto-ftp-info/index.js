@@ -33,10 +33,12 @@ export default class StationAutoFtpInfo extends React.PureComponent {
       ftpInfo: {},
       pagination: {
         page: 1,
-        itemPerPage: 10
+        pageSize: 20,
+        position: 'none'
       },
       isFullPath: true,
       isExplorer: false,
+      loadingTable: false,
       pathSelected: [_.get(props, 'organization.ftpPath', '/')]
     }
 
@@ -45,12 +47,12 @@ export default class StationAutoFtpInfo extends React.PureComponent {
         title: translate('stationAutoManager.ftpFile.folderName'),
         dataIndex: 'fileName',
         key: 'fileName',
-        render: text => (
+        render: (text, record) => (
           <span>
             <Icon
-              type="folder"
-              style={{ color: '#FFE793', marginRight: 8 }}
-              theme="filled"
+              type={ record.isDirectory ? 'folder' : 'file-text' }
+              style={{ color: record.isDirectory ? '#FFE793' : '#ddd', marginRight: 8 }}
+              theme='filled'
             />
             <a href="javascript:;">{text}</a>
           </span>
@@ -66,13 +68,15 @@ export default class StationAutoFtpInfo extends React.PureComponent {
   }
 
   fetchFolder = async (params = { path: '', isFullPath: true }) => {
-    const res = await FtpApi.getFtpFiles(this.state.pagination, params)
+    const res = await FtpApi.getFtpFiles({...this.state.pagination, itemPerPage: 10000}, params)
+    
+    const total =  _.get(res, 'pagination.totalItem', 0)
+    const position = total > this.state.pagination.pageSize ? 'bottom' : 'none'
     this.setState({
       isLoading: false,
-      folderList: _.filter(
-        _.get(res, 'data', []),
-        ({ isDirectory }) => isDirectory
-      )
+      loadingTable: false,
+      pagination: {...this.state.pagination, current: 1, page: 1, total, position},
+      folderList: _.get(res, 'data', [])
     })
     return res
   }
@@ -141,7 +145,6 @@ export default class StationAutoFtpInfo extends React.PureComponent {
     this.setState({ isLoading: true })
     // lay thong tin tram theo KEY
     await this.props.getItem()
-    console.log(this.props.data)
     const path = _.get(this.props, 'data.configLogger.path')
     if (path) {
       params.path = path
@@ -169,8 +172,8 @@ export default class StationAutoFtpInfo extends React.PureComponent {
       if (arr.length > 1) {
         pathSelected = pathSelected.concat(_.split(arr[1], '/'))
       }
-      console.log(address, pathSelected)
-      this.setState({ isExplorer: true, pathSelected })
+      this.setState({ isExplorer: true, pathSelected, loadingTable: true })
+      this.fetchFolder({ isFullPath: false, path: _.join(pathSelected, '/') })
     }
   }
 
@@ -193,13 +196,15 @@ export default class StationAutoFtpInfo extends React.PureComponent {
     }
   }
 
-  onRowClick = ({ fileName }) => {
+  onRowClick = ({ fileName, isDirectory }) => {
     return {
       onClick: () => {
-        const pathSelected = this.state.pathSelected
-        pathSelected.push(fileName)
-        this.setState({ pathSelected, isLoading: true })
-        this.fetchFolder({ isFullPath: false, path: _.join(pathSelected, '/') })
+        if (isDirectory) {
+          const pathSelected = this.state.pathSelected
+          pathSelected.push(fileName)
+          this.setState({ pathSelected, loadingTable: true })
+          this.fetchFolder({ isFullPath: false, path: _.join(pathSelected, '/') })
+        }
       }
     }
   }
@@ -207,7 +212,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
   handleBack = () => {
     const pathSelected = this.state.pathSelected
     pathSelected.pop()
-    this.setState({ pathSelected, isLoading: true })
+    this.setState({ pathSelected, loadingTable: true })
     this.fetchFolder({ isFullPath: false, path: _.join(pathSelected, '/') })
   }
 
@@ -228,6 +233,11 @@ export default class StationAutoFtpInfo extends React.PureComponent {
         <strong>{_.join(this.state.pathSelected, '/')}</strong>
       </span>
     )
+  }
+
+  handleChangePage =  pagination => {
+    this.setState({pagination})
+    //console.log('pagination: ', pagination)
   }
 
   render() {
@@ -269,6 +279,9 @@ export default class StationAutoFtpInfo extends React.PureComponent {
                 rowKey="fileName"
                 dataSource={this.state.folderList}
                 columns={this.columns}
+                pagination={this.state.pagination}
+                onChange={this.handleChangePage}
+                loading={this.state.loadingTable}
               />
             </Card>
           )}
