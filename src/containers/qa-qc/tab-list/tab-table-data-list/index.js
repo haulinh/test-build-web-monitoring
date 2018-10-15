@@ -5,12 +5,20 @@ import { translate } from 'hoc/create-lang'
 import { SHAPE } from 'themes/color'
 import * as _ from 'lodash'
 
-import WarningIcon from '@atlaskit/icon/glyph/warning';
-import EditorUnlinkIcon from '@atlaskit/icon/glyph/editor/unlink';
+import WarningIcon from '@atlaskit/icon/glyph/warning'
+import EditorUnlinkIcon from '@atlaskit/icon/glyph/editor/unlink'
 
 const DEVICE_STATUS = {
-  '1': { color: 'orange', icon: <WarningIcon size='small' primaryColor='orange' />, title: translate('monitoring.deviceStatus.maintenance') },
-  '2': { color: 'red', title: translate('monitoring.deviceStatus.broken'), icon: <EditorUnlinkIcon size='small' primaryColor='red' /> }
+  '1': {
+    color: 'orange',
+    icon: <WarningIcon size="small" primaryColor="orange" />,
+    title: translate('monitoring.deviceStatus.maintenance')
+  },
+  '2': {
+    color: 'red',
+    title: translate('monitoring.deviceStatus.broken'),
+    icon: <EditorUnlinkIcon size="small" primaryColor="red" />
+  }
 }
 
 const FormItem = Form.Item
@@ -98,7 +106,7 @@ class EditableCell extends React.Component {
                     initialValue: _.get(record, [`${dataIndex}`], '')
                   })(
                     <InputNumber
-                      style={{textAlign: 'right'}}
+                      style={{ textAlign: 'right' }}
                       ref={node => (this.input = node)}
                       onPressEnter={this.save}
                     />
@@ -122,8 +130,11 @@ class EditableCell extends React.Component {
   }
 }
 
-
-const TitleView = ({name, unit}) => (<div style={{textAlign: 'center'}}>{name} {unit && `(${unit})`}</div>)
+const TitleView = ({ name, unit }) => (
+  <div style={{ textAlign: 'center' }}>
+    {name} {unit && `(${unit})`}
+  </div>
+)
 
 class EditableTable extends React.Component {
   getColor = value => {
@@ -162,18 +173,23 @@ class EditableTable extends React.Component {
       props.measuringList.includes(measuring.key)
     ).map(measuring => {
       return {
-        title: <TitleView {...measuring} code={measuring.key}/>,
+        title: <TitleView {...measuring} code={measuring.key} />,
         dataIndex: measuring.key,
         key: measuring.key,
         editable: _.isEqual(this.props.valueField, 'value'),
         render: (value, record) => {
-          const statusDevice = _.get(record, `measuringLogs.${measuring.key}.statusDevice`, 0)
+          const statusDevice = _.get(
+            record,
+            `measuringLogs.${measuring.key}.statusDevice`,
+            0
+          )
           const st = _.get(DEVICE_STATUS, `${statusDevice}`, null)
           if (value === null) return <div />
           let backgroundColor = this.getColor(value)
           return (
             <div style={{ backgroundColor }}>
-              {value && value.toLocaleString(navigator.language)} { st && st.icon }
+              {value && value.toLocaleString(navigator.language)}{' '}
+              {st && st.icon}
             </div>
           )
         }
@@ -188,7 +204,7 @@ class EditableTable extends React.Component {
     const dataSource = _.map(
       props.dataSource,
       ({ _id, receivedAt, measuringLogs }, index) => {
-        let rs = { receivedAt, _id, key: `${index}`, measuringLogs}
+        let rs = { receivedAt, _id, key: `${index}`, measuringLogs }
         _.mapKeys(measuringLogs, (value, key) => {
           rs[key] = _.get(value, this.props.valueField, _.get(value, 'value'))
           return key
@@ -244,13 +260,16 @@ class EditableTable extends React.Component {
 
   renderFooter = pageId => {
     return (
-      <div style={{display: 'flex', flexDirection: 'row'}}>
-        <span>{DEVICE_STATUS['1'].icon}</span><span style={{paddingLeft: 8}}>{DEVICE_STATUS['1'].title}</span> <span style={{marginLeft: 16}}></span>
-        <span>{DEVICE_STATUS['2'].icon}</span><span style={{paddingLeft: 8}}>{DEVICE_STATUS['2'].title}</span>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <span>{DEVICE_STATUS['1'].icon}</span>
+        <span style={{ paddingLeft: 8 }}>{DEVICE_STATUS['1'].title}</span>{' '}
+        <span style={{ marginLeft: 16 }} />
+        <span>{DEVICE_STATUS['2'].icon}</span>
+        <span style={{ paddingLeft: 8 }}>{DEVICE_STATUS['2'].title}</span>
       </div>
     )
   }
- 
+
   render() {
     const { dataSource } = this.state
     const components = {
@@ -277,14 +296,14 @@ class EditableTable extends React.Component {
     })
     return (
       <Table
-        size='small'
+        size="small"
         components={components}
         rowClassName={() => 'editable-row'}
         bordered
         rowKey="_id"
         dataSource={dataSource}
         columns={columns}
-        pagination={{...this.props.pagination, showTotal: this.showTotal}}
+        pagination={{ ...this.props.pagination, showTotal: this.showTotal }}
         loading={this.props.loading}
         onChange={this.props.onChange}
         footer={this.renderFooter}

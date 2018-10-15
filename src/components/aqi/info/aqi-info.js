@@ -39,7 +39,14 @@ const VnAqiView = ({ value, color, time }) => {
       >
         VN AQI Giờ
       </span>
-      <span style={{ fontSize: 60, color: '#fff', fontWeight: '600', textShadow: '2px 1px #ddd' }}>
+      <span
+        style={{
+          fontSize: 60,
+          color: '#fff',
+          fontWeight: '600',
+          textShadow: '2px 1px #ddd'
+        }}
+      >
         {value}
       </span>
       <span

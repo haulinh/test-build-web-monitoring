@@ -114,7 +114,7 @@ const createManagerList = ({ apiList, itemPerPage = 20 }) => Component => {
       // Truyền các tham số cho Component con (props)
       const props = {
         dataSource: this.state.dataSource,
-        pagination: {...this.state.pagination, showTotal: this.showTotal},
+        pagination: { ...this.state.pagination, showTotal: this.showTotal },
         isLoading: this.state.isLoading,
         onChangePage: this.onChangePage,
         onChangePageSize: this.onChangePageSize,

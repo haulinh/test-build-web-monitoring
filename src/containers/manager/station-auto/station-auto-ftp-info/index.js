@@ -50,9 +50,12 @@ export default class StationAutoFtpInfo extends React.PureComponent {
         render: (text, record) => (
           <span>
             <Icon
-              type={ record.isDirectory ? 'folder' : 'file-text' }
-              style={{ color: record.isDirectory ? '#FFE793' : '#ddd', marginRight: 8 }}
-              theme='filled'
+              type={record.isDirectory ? 'folder' : 'file-text'}
+              style={{
+                color: record.isDirectory ? '#FFE793' : '#ddd',
+                marginRight: 8
+              }}
+              theme="filled"
             />
             <a href="javascript:;">{text}</a>
           </span>
@@ -68,14 +71,23 @@ export default class StationAutoFtpInfo extends React.PureComponent {
   }
 
   fetchFolder = async (params = { path: '', isFullPath: true }) => {
-    const res = await FtpApi.getFtpFiles({...this.state.pagination, itemPerPage: 10000}, params)
-    
-    const total =  _.get(res, 'pagination.totalItem', 0)
+    const res = await FtpApi.getFtpFiles(
+      { ...this.state.pagination, itemPerPage: 10000 },
+      params
+    )
+
+    const total = _.get(res, 'pagination.totalItem', 0)
     const position = total > this.state.pagination.pageSize ? 'bottom' : 'none'
     this.setState({
       isLoading: false,
       loadingTable: false,
-      pagination: {...this.state.pagination, current: 1, page: 1, total, position},
+      pagination: {
+        ...this.state.pagination,
+        current: 1,
+        page: 1,
+        total,
+        position
+      },
       folderList: _.get(res, 'data', [])
     })
     return res
@@ -119,9 +131,11 @@ export default class StationAutoFtpInfo extends React.PureComponent {
     )
     if (res.success) {
       let textStatus = ''
-      if(isUpdate){
+      if (isUpdate) {
         textStatus = translate('stationAutoManager.ftpFile.updateFTPSuccess')
-      }else{ textStatus = translate('stationAutoManager.ftpFile.createFTPSuccess') }
+      } else {
+        textStatus = translate('stationAutoManager.ftpFile.createFTPSuccess')
+      }
       swal({
         type: 'success',
         text: textStatus
@@ -203,7 +217,10 @@ export default class StationAutoFtpInfo extends React.PureComponent {
           const pathSelected = this.state.pathSelected
           pathSelected.push(fileName)
           this.setState({ pathSelected, loadingTable: true })
-          this.fetchFolder({ isFullPath: false, path: _.join(pathSelected, '/') })
+          this.fetchFolder({
+            isFullPath: false,
+            path: _.join(pathSelected, '/')
+          })
         }
       }
     }
@@ -237,8 +254,8 @@ export default class StationAutoFtpInfo extends React.PureComponent {
 
   showTotal = (total, range) => ` ${range[1]}/${total}`
 
-  handleChangePage =  pagination => {
-    this.setState({pagination})
+  handleChangePage = pagination => {
+    this.setState({ pagination })
     //console.log('pagination: ', pagination)
   }
 
@@ -281,7 +298,10 @@ export default class StationAutoFtpInfo extends React.PureComponent {
                 rowKey="fileName"
                 dataSource={this.state.folderList}
                 columns={this.columns}
-                pagination={{...this.state.pagination, showTotal: this.showTotal}}
+                pagination={{
+                  ...this.state.pagination,
+                  showTotal: this.showTotal
+                }}
                 onChange={this.handleChangePage}
                 loading={this.state.loadingTable}
               />
