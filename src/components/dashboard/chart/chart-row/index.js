@@ -134,7 +134,7 @@ export class ChartSummary extends React.Component {
   }
 
   componentDidMount() {
-    const item = _.head(this.props.stationList)
+    const item = _.head(_.orderBy(this.props.stationList, 'status'))
     if (!_.isEmpty(item)) {
       this.changeItem(item)
     }
@@ -148,7 +148,7 @@ export class ChartSummary extends React.Component {
       ) &&
       _.head(this.props.stationList)
     ) {
-      this.changeItem(_.head(this.props.stationList))
+      this.changeItem(_.head(_.orderBy(this.props.stationList, 'status')))
     }
   }
 
