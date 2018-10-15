@@ -18,7 +18,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
       zoomType: 'x'
     },
     title: {
-      text: ''
+      text: title
     },
     xAxis: {
       type: 'datetime'
@@ -209,10 +209,9 @@ export default class ChartRowToChart extends React.Component {
     if (key) {
       data = _.get(this.state.data, key, [])
     }
-
     return configChart(
       data,
-      _.get(this.state.current, 'name', ''),
+      _.get(this.props, 'station.name', '') + ' - ' + _.get(this.state.current, 'name', ''),
       _.get(this.state.current, 'minLimit'),
       _.get(this.state.current, 'maxLimit'),
       _.get(this.state.current, 'maxChart')
