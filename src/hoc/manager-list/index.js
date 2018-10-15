@@ -72,7 +72,6 @@ const createManagerList = ({ apiList, itemPerPage = 20 }) => Component => {
     }
 
     onChangeSearch(dataSearch) {
-      console.log(dataSearch)
       this.setState(
         {
           isLoading: true,
@@ -109,11 +108,13 @@ const createManagerList = ({ apiList, itemPerPage = 20 }) => Component => {
       )
     }
 
+    showTotal = (total, range) => `${range[1]}/${total}`
+
     render() {
       // Truyền các tham số cho Component con (props)
       const props = {
         dataSource: this.state.dataSource,
-        pagination: this.state.pagination,
+        pagination: {...this.state.pagination, showTotal: this.showTotal},
         isLoading: this.state.isLoading,
         onChangePage: this.onChangePage,
         onChangePageSize: this.onChangePageSize,

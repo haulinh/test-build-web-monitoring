@@ -20,10 +20,7 @@ const ColorLevel = styled.span`
   text-align: center;
   background-color: ${props => props.color};
 `
-const WrapperText = styled.div`
-  display: flex;
-  margin-top: 4px;
-`
+
 const TextLevel = styled.span`
   width: 100px;
   font-size: 10px;

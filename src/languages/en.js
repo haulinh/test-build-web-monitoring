@@ -81,7 +81,8 @@ export default {
       label: 'Management Unit',
       placeholder: 'Management Unit'
     },
-    notEmpty: '{{=it.value}} is required!'
+    notEmpty: '{{=it.value}} is required!',
+    pageInfo: '{{=it.from}}-{{=it.to}} of {{it.total}} items'
   },
   controlStation: {
     text: 'Sampling',

@@ -235,6 +235,8 @@ export default class StationAutoFtpInfo extends React.PureComponent {
     )
   }
 
+  showTotal = (total, range) => ` ${range[1]}/${total}`
+
   handleChangePage =  pagination => {
     this.setState({pagination})
     //console.log('pagination: ', pagination)
@@ -279,7 +281,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
                 rowKey="fileName"
                 dataSource={this.state.folderList}
                 columns={this.columns}
-                pagination={this.state.pagination}
+                pagination={{...this.state.pagination, showTotal: this.showTotal}}
                 onChange={this.handleChangePage}
                 loading={this.state.loadingTable}
               />

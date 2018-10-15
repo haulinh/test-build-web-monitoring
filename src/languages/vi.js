@@ -81,7 +81,8 @@ export default {
       label: 'Đơn vị quản lý',
       placeholder: 'Đơn vị quản lý'
     },
-    notEmpty: '{{=it.value}} không để trống!'
+    notEmpty: '{{=it.value}} không để trống!',
+    pageInfo: '{{=it.from}}-{{=it.to}} của {{it.total}}'
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',
