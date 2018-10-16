@@ -3,7 +3,7 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from '../breadcrumb'
 import { connect } from 'react-redux'
 import { autobind } from 'core-decorators'
-import { Icon, Card, Table, Button, Spin, message } from 'antd'
+import { Icon, Card, Table, Button, Spin, message, Input } from 'antd'
 import moment from 'moment'
 import FtpApi from 'api/FtpApi'
 import * as _ from 'lodash'
@@ -34,7 +34,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
       pagination: {
         page: 1,
         pageSize: 20,
-        position: 'none'
+        position: 'none',
       },
       isFullPath: true,
       isExplorer: false,
@@ -235,20 +235,22 @@ export default class StationAutoFtpInfo extends React.PureComponent {
 
   renderTitleFolder = () => {
     return (
-      <span>
+      <span style={{ width: '70%'}}>
         {_.size(this.state.pathSelected) > 1 ? (
           <span onClick={this.handleBack}>
-            <Icon
-              style={{ padding: 2, color: 'blue' }}
-              type="arrow-left"
-              theme="outlined"
-            />
+           <Button type="primary">
+              <Icon
+                   type="arrow-left"
+              />
+           </Button>
+            
           </span>
         ) : (
           ` `
         )}
-        <strong>{_.join(this.state.pathSelected, '/')}</strong>
+      <Input disabled = {true} value={_.join(this.state.pathSelected, '/')}/>
       </span>
+       
     )
   }
 
