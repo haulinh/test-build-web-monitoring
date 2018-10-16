@@ -8,7 +8,7 @@ export default class ChartView extends React.Component {
     const data = []
     const categories = []
 
-    _.mapKeys(this.props.aqiMeasure, (value, key) => {
+    _.mapKeys(this.props.measure, (value, key) => {
       let color = 'green'
       const tmp = _.find(levels, ({ min, max }) => _.inRange(value, min, max))
       if (tmp) {
