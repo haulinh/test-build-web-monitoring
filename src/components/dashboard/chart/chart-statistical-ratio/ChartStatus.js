@@ -5,9 +5,11 @@ import ReactHighcharts from 'react-highcharts'
 import * as _ from 'lodash'
 
 import { translate } from 'hoc/create-lang'
+import ChartBaseView from './chart-base';
 
 @autobind
 export default class ChartStatusView extends React.PureComponent {
+
   configStatusChartSemi = (dataGroup, title, titleActive, tittleUnActive) => {
     const dataLabels = {
       enabled: true,
@@ -49,7 +51,7 @@ export default class ChartStatusView extends React.PureComponent {
         plotShadow: false
       },
       title: {
-        text: translate('dashboard.chartStatus.titleByUnit', { unit: title })
+        text: ''//translate('dashboard.chartStatus.titleByUnit', { unit: title })
       },
       legend: {
         enabled: true
@@ -148,7 +150,7 @@ export default class ChartStatusView extends React.PureComponent {
         type: 'column'
       },
       title: {
-        text: title
+        text: ''//title
       },
       xAxis: {
         categories
@@ -201,9 +203,14 @@ export default class ChartStatusView extends React.PureComponent {
 
   render() {
     return (
-      <Card bordered style={{ flex: 1, marginRight: 8 }}>
-        <ReactHighcharts config={this.getConfigStatus()} />
-      </Card>
+      <ChartBaseView 
+        title={translate('dashboard.chartStatus.title')}
+        style={{ flex: 1, marginRight: 8 }} 
+      >
+        <Card bordered style={{paddingBottom: 21}}>
+          <ReactHighcharts config={this.getConfigStatus()} />
+        </Card>
+      </ChartBaseView>
     )
   }
 }
