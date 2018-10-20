@@ -1,10 +1,11 @@
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { message, Collapse, Button, Form, Spin } from 'antd'
+import { message, Collapse, Button, Form, Spin, Tabs, Icon } from 'antd'
 import { autobind } from 'core-decorators'
 import StationAutoApi from 'api/StationAuto'
 import StationAutoConfigForm from '../station-auto-configForm'
 import StationAutoConfigOptions from '../station-auto-configOptions'
+import SationAutoConfigApprove from '../station-auto-configApprove'
 import createManagerDelete from 'hoc/manager-delete'
 import createManagerEdit from 'hoc/manager-edit'
 import PropTypes from 'prop-types'
@@ -16,6 +17,7 @@ import protectRole from 'hoc/protect-role'
 const FormItem = Form.Item
 
 const Panel = Collapse.Panel
+const TabPane = Tabs.TabPane
 
 @protectRole(ROLE.STATION_AUTO.CONFIG)
 @createManagerDelete({
@@ -59,19 +61,20 @@ export default class StationAutoEdit extends React.PureComponent {
         configLogger: dataConfig
       }
     })
+    console.log(data)
 
-    if (data) {
-      const key = this.props.match.params.key
-      const res = await StationAutoApi.updateStationAutoConfig(key, data)
-      if (res.success) {
-        message.info(
-          this.props.lang.t('stationAutoManager.config.message.success')
-        )
-      } else
-        message.error(
-          this.props.lang.t('stationAutoManager.config.message.error')
-        )
-    }
+    // if (data) {
+    //   const key = this.props.match.params.key
+    //   const res = await StationAutoApi.updateStationAutoConfig(key, data)
+    //   if (res.success) {
+    //     message.info(
+    //       this.props.lang.t('stationAutoManager.config.message.success')
+    //     )
+    //   } else
+    //     message.error(
+    //       this.props.lang.t('stationAutoManager.config.message.error')
+    //     )
+    // }
     this.setState({
       isSubmitting: false
     })
@@ -113,6 +116,12 @@ export default class StationAutoEdit extends React.PureComponent {
     }
     return data
   }
+  clickTabs = e => {
+    console.log(e)
+  }
+  changeTab = a => {
+    console.log(a)
+  }
 
   render() {
     const { t } = this.props.lang
@@ -131,7 +140,78 @@ export default class StationAutoEdit extends React.PureComponent {
               }
             ]}
           />
-          <Collapse defaultActiveKey={['1', '2']}>
+          <Tabs
+            // defaultActiveKey = "3"
+            type="line"
+            onTabClick={this.clickTabs}
+            onChange={this.changeTab}
+          >
+            <TabPane
+              tab={
+                <span>
+                  <Icon type="bars" />
+                  {t('stationAutoManager.header.option')}
+                </span>
+              }
+              key="1"
+            >
+              {this.props.isLoaded && (
+                <StationAutoConfigOptions
+                  form={this.props.form}
+                  ref={comp => (this.optionsForm = comp)}
+                  initialValues={
+                    this.props.data && this.props.data.options
+                      ? this.props.data.options
+                      : {}
+                  }
+                />
+              )}
+            </TabPane>
+            <TabPane
+              tab={
+                <span>
+                  <Icon type="database" />
+                  {t('stationAutoManager.header.dataLogger')}
+                </span>
+              }
+              key="2"
+            >
+              {this.props.isLoaded && (
+                <StationAutoConfigForm
+                  form={this.props.form}
+                  ref={comp => (this.configForm = comp)}
+                  initialValues={
+                    this.props.data && this.props.data.configLogger
+                      ? this.props.data.configLogger
+                      : { measuringList: [] }
+                  }
+                  measuringListSource={
+                    this.props.data && this.props.data.measuringList
+                      ? this.props.data.measuringList
+                      : []
+                  }
+                />
+              )}
+            </TabPane>
+            <TabPane
+              tab={
+                <span>
+                  <Icon type="scan" />
+                  Kiểm duyệt dữ liệu
+                </span>
+              }
+              key="3"
+            >
+              <SationAutoConfigApprove
+                measuringListSource={
+                  this.props.data && this.props.data.measuringList
+                    ? this.props.data.measuringList
+                    : []
+                }
+              />
+            </TabPane>
+          </Tabs>
+          {/* <Collapse defaultActiveKey={['1', '2']}>
             <Panel header={t('stationAutoManager.header.option')} key="1">
               {this.props.isLoaded && (
                 <StationAutoConfigOptions
@@ -163,7 +243,7 @@ export default class StationAutoEdit extends React.PureComponent {
                 />
               )}
             </Panel>
-          </Collapse>
+          </Collapse> */}
           <FormItem>
             <Button
               loading={this.state.isSubmitting}

@@ -211,7 +211,9 @@ export default class ChartRowToChart extends React.Component {
     }
     return configChart(
       data,
-      _.get(this.props, 'station.name', '') + ' - ' + _.get(this.state.current, 'name', ''),
+      _.get(this.props, 'station.name', '') +
+        ' - ' +
+        _.get(this.state.current, 'name', ''),
       _.get(this.state.current, 'minLimit'),
       _.get(this.state.current, 'maxLimit'),
       _.get(this.state.current, 'maxChart')
