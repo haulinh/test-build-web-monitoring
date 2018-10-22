@@ -150,16 +150,16 @@ export default class TabeList extends React.PureComponent {
           <Checkbox.Group style={{ width: '100%' }} onChange={this.onCancelApproveChecked}>
             <Row><h5>{translate('qaqc.removeDataBy')}</h5></Row>
             <Row>
-              <Checkbox value="isZero">{translate('qaqc.dataFilter.isZero')}</Checkbox>
+              <Checkbox value="ZERO">{translate('qaqc.dataFilter.isZero')}</Checkbox>
             </Row>
             <Row>
-              <Checkbox value="negative">{translate('qaqc.dataFilter.negative')}</Checkbox>
+              <Checkbox value="NEGATIVE">{translate('qaqc.dataFilter.negative')}</Checkbox>
             </Row>
             <Row>
-              <Checkbox value="outOfRange">{translate('qaqc.dataFilter.outOfRange')}</Checkbox>
+              <Checkbox value="OUT_RANGE">{translate('qaqc.dataFilter.outOfRange')}</Checkbox>
             </Row>
             <Row>
-              <Checkbox value="deviceStatus">{translate('qaqc.dataFilter.deviceStatus')}</Checkbox>
+              <Checkbox value="DEVICE_STATUS">{translate('qaqc.dataFilter.deviceStatus')}</Checkbox>
             </Row>
           </Checkbox.Group>
         </Modal>
