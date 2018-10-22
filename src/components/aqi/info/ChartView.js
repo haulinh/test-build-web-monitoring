@@ -24,12 +24,14 @@ export default class ChartView extends React.Component {
 
     return {
       chart: {
-        type: 'column'
+        type: 'column',
+        height: 150
       },
       credits: {
         enabled: false
       },
       title: {
+        align: 'left',
         text: this.props.title
       },
       xAxis: {

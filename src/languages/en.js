@@ -65,18 +65,25 @@ export default {
   },
   qaqc: {
     title: `QA/QC`,
+    removeDataBy: 'Remove Data By',
     approveData: 'Approve Data',
+    approveAll: 'Approve All',
+    manualApprove: 'Manual Approve',
     dataFilter: {
       label: 'Data filter by',
       negative: 'Negative',
       outOfRange: 'Out of range',
-      isZero: 'Is Zero'
+      isZero: 'Is Zero',
+      deviceStatus: 'Device Status'
     },
     data: 'Data Type',
     approve: 'Approve',
+    cancel: 'Cancel',
+    allCancel: 'All Cancel',
     unApprove: 'UnApprove',
     yetApprove: 'Yet Approved',
     approved: 'Approved',
+    ok: 'OK',
     province: {
       label: 'Management Unit',
       placeholder: 'Management Unit'
