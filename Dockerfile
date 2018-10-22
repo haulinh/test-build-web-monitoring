@@ -8,11 +8,11 @@ WORKDIR /usr/src/app
 
 # install package
 COPY package.json .
-COPY yarn.lock .
-RUN yarn install
+COPY package-lock.json .
+RUN npm install
 
 COPY . .
-RUN yarn run build
+RUN npm run build
 RUN rm -r src
 
 EXPOSE 5555
