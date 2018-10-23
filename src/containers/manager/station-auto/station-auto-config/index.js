@@ -1,11 +1,12 @@
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { message, Collapse, Button, Form, Spin, Tabs, Icon } from 'antd'
+import { message, Button, Form, Spin, Tabs, Icon } from 'antd'
 import { autobind } from 'core-decorators'
 import StationAutoApi from 'api/StationAuto'
-import StationAutoConfigForm from '../station-auto-configForm'
-import StationAutoConfigOptions from '../station-auto-configOptions'
-import SationAutoConfigApprove from '../station-auto-configApprove'
+import * as _ from 'lodash'
+import StationAutoConfigForm from './station-auto-configForm'
+import StationAutoConfigOptions from './station-auto-configOptions'
+import SationAutoConfigApprove from './station-auto-configApprove'
 import createManagerDelete from 'hoc/manager-delete'
 import createManagerEdit from 'hoc/manager-edit'
 import PropTypes from 'prop-types'
@@ -13,10 +14,10 @@ import Breadcrumb from '../breadcrumb'
 import { mapPropsToFields } from 'utils/form'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import languages from 'languages'
 
 const FormItem = Form.Item
 
-const Panel = Collapse.Panel
 const TabPane = Tabs.TabPane
 
 @protectRole(ROLE.STATION_AUTO.CONFIG)
@@ -42,49 +43,78 @@ export default class StationAutoEdit extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isSubmitting: false
+      isSubmitting: false,
+      tabActive: 'APPROVE',
+      data: {
+        options: _.get(props, 'data.options', {}),
+        configLogger: _.get(props, 'data.configLogger', {})
+      }
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!_.isEqual(nextProps.data, this.props.data)) {
+      this.setState({
+        data: {
+          options: _.get(nextProps, 'data.options', {}),
+          configLogger: _.get(nextProps, 'data.configLogger', {})
+        }
+      })
+    }
+  }
+
+  async componentWillMount() {
+    await this.props.getItem()
   }
 
   async handleSubmit() {
     this.setState({
       isSubmitting: true
     })
-
     let data
     this.props.form.validateFields((err, values) => {
       if (err) return
-      let dataConfig = this.getDataConfigForm(values)
-      let dataOptions = this.getDataOptionsForm(values)
-      data = {
-        options: dataOptions,
-        configLogger: dataConfig
+      if (this.state.tabActive === 'OPTION') {
+        let dataOptions = this.getDataOptionsForm(values)
+        const rpOptions = _.get(this.state.data, 'options', {})
+        data = {
+          // options: dataOptions,
+          options: { ...rpOptions, ...dataOptions },
+          configLogger: _.get(this.state.data, 'configLogger', {})
+        }
+        this.updateData(data)
+      }
+      if (this.state.tabActive === 'MEASURE') {
+        let dataConfig = this.getDataConfigForm(values)
+        data = {
+          options: _.get(this.state.data, 'options', {}),
+          configLogger: dataConfig
+        }
+        this.updateData(data)
       }
     })
-    console.log(data)
-
-    // if (data) {
-    //   const key = this.props.match.params.key
-    //   const res = await StationAutoApi.updateStationAutoConfig(key, data)
-    //   if (res.success) {
-    //     message.info(
-    //       this.props.lang.t('stationAutoManager.config.message.success')
-    //     )
-    //   } else
-    //     message.error(
-    //       this.props.lang.t('stationAutoManager.config.message.error')
-    //     )
-    // }
     this.setState({
       isSubmitting: false
     })
   }
 
-  //Su kien truoc khi component duoc tao ra
-  async componentWillMount() {
-    //const key = this.props.match.params.key
-    await this.props.getItem()
+  async updateData(data) {
+    console.log(data)
+    if (data) {
+      const key = this.props.match.params.key
+      const res = await StationAutoApi.updateStationAutoConfig(key, data)
+      if (res.success) {
+        this.setState({ data })
+        message.info(
+          this.props.lang.t('stationAutoManager.config.message.success')
+        )
+      } else
+        message.error(
+          this.props.lang.t('stationAutoManager.config.message.error')
+        )
+    }
   }
+  //Su kien truoc khi component duoc tao ra
 
   getDataOptionsForm(values) {
     let data
@@ -105,6 +135,7 @@ export default class StationAutoEdit extends React.PureComponent {
     if (!data.camera.allowed) delete data.camera.list
     return data
   }
+
   getDataConfigForm(values) {
     let data
     data = {
@@ -116,11 +147,40 @@ export default class StationAutoEdit extends React.PureComponent {
     }
     return data
   }
+
   clickTabs = e => {
-    console.log(e)
+    this.setState({ tabActive: e })
   }
-  changeTab = a => {
-    console.log(a)
+
+  handlApproveSave = approve => {
+    let dataPost = {
+      options: this.state.data.options,
+      configLogger: this.state.data.configLogger
+    }
+    dataPost.options = { ...dataPost.options, approve }
+    this.updateData(dataPost)
+  }
+
+  renderSubmitButton = () => {
+    if (
+      this.state.tabActive === 'OPTION' ||
+      this.state.tabActive === 'MEASURE'
+    ) {
+      return (
+        <FormItem>
+          <Button
+            loading={this.state.isSubmitting}
+            style={{ width: '100%' }}
+            type="primary"
+            htmlType="submit"
+            onClick={this.handleSubmit}
+          >
+            {this.props.lang.t('addon.save')}
+          </Button>
+        </FormItem>
+      )
+    }
+    return ` `
   }
 
   render() {
@@ -141,7 +201,7 @@ export default class StationAutoEdit extends React.PureComponent {
             ]}
           />
           <Tabs
-            // defaultActiveKey = "3"
+            defaultActiveKey={this.state.tabActive}
             type="line"
             onTabClick={this.clickTabs}
             onChange={this.changeTab}
@@ -153,7 +213,7 @@ export default class StationAutoEdit extends React.PureComponent {
                   {t('stationAutoManager.header.option')}
                 </span>
               }
-              key="1"
+              key="OPTION"
             >
               {this.props.isLoaded && (
                 <StationAutoConfigOptions
@@ -174,7 +234,7 @@ export default class StationAutoEdit extends React.PureComponent {
                   {t('stationAutoManager.header.dataLogger')}
                 </span>
               }
-              key="2"
+              key="MEASURE"
             >
               {this.props.isLoaded && (
                 <StationAutoConfigForm
@@ -197,64 +257,28 @@ export default class StationAutoEdit extends React.PureComponent {
               tab={
                 <span>
                   <Icon type="scan" />
-                  Kiểm duyệt dữ liệu
+                  {t('stationAutoManager.header.approve')}
                 </span>
               }
-              key="3"
+              key="APPROVE"
             >
               <SationAutoConfigApprove
+                ref={comp => (this.refApprove = comp)}
+                options={
+                  this.props.data && this.props.data.options
+                    ? this.props.data.options
+                    : {}
+                }
                 measuringListSource={
                   this.props.data && this.props.data.measuringList
                     ? this.props.data.measuringList
                     : []
                 }
+                onApproveSave={this.handlApproveSave}
               />
             </TabPane>
           </Tabs>
-          {/* <Collapse defaultActiveKey={['1', '2']}>
-            <Panel header={t('stationAutoManager.header.option')} key="1">
-              {this.props.isLoaded && (
-                <StationAutoConfigOptions
-                  form={this.props.form}
-                  ref={comp => (this.optionsForm = comp)}
-                  initialValues={
-                    this.props.data && this.props.data.options
-                      ? this.props.data.options
-                      : {}
-                  }
-                />
-              )}
-            </Panel>
-            <Panel header={t('stationAutoManager.header.dataLogger')} key="2">
-              {this.props.isLoaded && (
-                <StationAutoConfigForm
-                  form={this.props.form}
-                  ref={comp => (this.configForm = comp)}
-                  initialValues={
-                    this.props.data && this.props.data.configLogger
-                      ? this.props.data.configLogger
-                      : { measuringList: [] }
-                  }
-                  measuringListSource={
-                    this.props.data && this.props.data.measuringList
-                      ? this.props.data.measuringList
-                      : []
-                  }
-                />
-              )}
-            </Panel>
-          </Collapse> */}
-          <FormItem>
-            <Button
-              loading={this.state.isSubmitting}
-              style={{ width: '100%' }}
-              type="primary"
-              htmlType="submit"
-              onClick={this.handleSubmit}
-            >
-              {t('addon.save')}
-            </Button>
-          </FormItem>
+          {this.renderSubmitButton()}
         </Spin>
       </PageContainer>
     )
