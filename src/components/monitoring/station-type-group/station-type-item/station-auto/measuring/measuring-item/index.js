@@ -98,7 +98,7 @@ export default class MeasuringItem extends React.PureComponent {
     let item = DEVICE_STATUS[`${status}`]
     if (item) {
       return (
-        <Tooltip placement="top" title={translate(item.text)}>
+        <Tooltip placement="top" title={`Sensor ${translate(item.text)}`}>
           <Icon
             type="tags"
             style={{

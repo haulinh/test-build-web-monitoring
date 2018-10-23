@@ -66,17 +66,24 @@ export default {
   qaqc: {
     title: `QA/QC`,
     approveData: 'Kiểm duyệt dữ liệu',
+    removeDataBy: 'Loại bỏ dữ liệu theo',
+    approveAll: 'Kiểm duyệt tất cả',
+    manualApprove: 'Kiểm duyệt tùy chọn',
     dataFilter: {
       label: 'Lọc dữ liệu theo',
       negative: 'Số âm',
       outOfRange: 'Ngoài vùng đo',
-      isZero: ' Bằng 0'
+      isZero: ' Bằng 0',
+      deviceStatus: 'Trạng thái thiết bị'
     },
     data: 'Loại số liệu',
     approve: 'Phê duyệt',
+    cancel: 'Hủy bỏ',
+    allCancel: 'Hủy bỏ tất cả',
     unApprove: 'Hủy phê duyệt',
     yetApprove: 'Chưa kiểm duyệt',
     approved: 'Đã kiểm duyệt',
+    ok: 'Đồng ý',
     province: {
       label: 'Đơn vị quản lý',
       placeholder: 'Đơn vị quản lý'

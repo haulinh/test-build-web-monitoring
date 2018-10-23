@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, InputNumber, Form } from 'antd'
+import { Table, InputNumber, Form, Checkbox } from 'antd'
 import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
 import { SHAPE } from 'themes/color'
@@ -12,11 +12,11 @@ const DEVICE_STATUS = {
   '1': {
     color: 'orange',
     icon: <WarningIcon size="small" primaryColor="orange" />,
-    title: translate('monitoring.deviceStatus.maintenance')
+    title: `Sensor ${translate('monitoring.deviceStatus.maintenance')}`
   },
   '2': {
     color: 'red',
-    title: translate('monitoring.deviceStatus.broken'),
+    title: `Sensor ${translate('monitoring.deviceStatus.broken')}`,
     icon: <EditorUnlinkIcon size="small" primaryColor="red" />
   }
 }
@@ -148,7 +148,16 @@ class EditableTable extends React.Component {
     }
   }
 
+  onAllChange = e => {
+    e.preventDefault()
+  }
+
+  onItemChange = (e, record) => {
+    e.preventDefault()
+  }
+
   getCols = props => {
+    const me = this
     const indexCol = {
       title: '#',
       dataIndex: 'Index',
@@ -159,6 +168,19 @@ class EditableTable extends React.Component {
         return <div>{(current - 1) * pageSize + index + 1}</div>
       }
     }
+
+    const checkCol = {
+      title: <Checkbox onChange={me.onAllChange} />,
+      dataIndex: 'Index',
+      key: 'checked',
+      width: 40,
+      align: 'center',
+      render(value, record, index) {
+        return <Checkbox key={record} onChange={e => me.onItemChange(e, record)} />
+      }
+    }
+
+
 
     const timeCol = {
       title: translate('dataSearchFrom.table.receivedAt'),
@@ -183,6 +205,7 @@ class EditableTable extends React.Component {
             `measuringLogs.${measuring.key}.statusDevice`,
             0
           )
+          console.log('key', measuring.key)
           const st = _.get(DEVICE_STATUS, `${statusDevice}`, null)
           if (value === null) return <div />
           let backgroundColor = this.getColor(value)
@@ -196,7 +219,7 @@ class EditableTable extends React.Component {
       }
     })
 
-    return [indexCol, timeCol, ...measureCols]
+    return [indexCol, checkCol, timeCol, ...measureCols]
   }
 
   constructor(props) {

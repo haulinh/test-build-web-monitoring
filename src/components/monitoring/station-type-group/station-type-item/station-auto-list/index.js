@@ -4,11 +4,13 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import StationAuto from '../station-auto'
 
-const StationListWrapper = styled.div`
-  .stationAutoItem:last-child .stationAutoWrapper {
-    padding-bottom: 16px;
-  }
-`
+// const StationListWrapper = styled.div`
+//   .stationAutoItem:last-child .stationAutoWrapper {
+//     padding-bottom: 16px;
+//   }
+// `
+
+const StationListWrapper = styled.div``
 
 @autobind
 export default class StationAutoList extends React.Component {

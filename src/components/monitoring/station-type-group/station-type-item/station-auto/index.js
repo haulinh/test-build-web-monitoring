@@ -8,16 +8,21 @@ import PropTypes from 'prop-types'
 import slug from 'constants/slug'
 import stationStatus from 'constants/stationStatus'
 import { translate } from 'hoc/create-lang'
+import { get } from 'lodash'
+
+import CameraListView from './camera-list'
 
 const StationAutoWrapper = styled.div`
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 8px 16px;
   box-shadow: 0 4px 10px 0 rgba(241, 241, 241, 0.5);
 `
 
+
 @withRouter
 @autobind
 export default class StationAutoItem extends React.PureComponent {
+
   static propTypes = {
     orderNumber: PropTypes.number,
     isShowStationName: PropTypes.bool,
@@ -26,9 +31,14 @@ export default class StationAutoItem extends React.PureComponent {
     measuringList: PropTypes.array,
     lastLog: PropTypes.object,
     stationID: PropTypes.string,
+    options: PropTypes.object,
     stationType: PropTypes.shape({
       name: PropTypes.string
     })
+  }
+
+  state = {
+    isOpenCamera: false
   }
 
   handleClickDataSearchWithMeasuring(measuringItem) {
@@ -97,6 +107,11 @@ export default class StationAutoItem extends React.PureComponent {
     })
     return measuringList
   }
+
+  onClickViewCamera = () => {
+    this.setState({isOpenCamera: !this.state.isOpenCamera})
+  }
+
   render() {
     let {
       stationID,
@@ -134,12 +149,14 @@ export default class StationAutoItem extends React.PureComponent {
           status={status}
           onClickDataSearch={this.handleClickDataSearch}
           onClickViewMap={this.handleClickViewMap}
+          onClickViewCamera={this.onClickViewCamera}
           _id={_id}
         />
         <MeasuringList
           onClickItem={this.handleClickDataSearchWithMeasuring}
           data={this.measuringLastLog()}
         />
+        {this.state.isOpenCamera && get(options, 'camera.allowed') && <CameraListView cameraList={get(options, 'camera.list', [])} />}
       </StationAutoWrapper>
     )
   }

@@ -9,6 +9,7 @@ import { Menu, Dropdown, Icon } from 'antd'
 import { translate } from 'hoc/create-lang'
 import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
 import StatusModalView from './StatusModal'
+import ChartBaseView from './chart-base';
 
 const dataLabels = {
   enabled: true,
@@ -72,7 +73,7 @@ export default class HeaderView extends React.PureComponent {
         enabled: false
       },
       title: {
-        text: title
+        text: ''//title
       },
       legend: {
         enabled: true
@@ -155,7 +156,7 @@ export default class HeaderView extends React.PureComponent {
         }
       },
       title: {
-        text: title
+        text: ''//title
       },
       credits: {
         enabled: false
@@ -198,13 +199,15 @@ export default class HeaderView extends React.PureComponent {
   getConfigRatio = () => {
     if (_.isEmpty(this.props.province)) {
       return this.configRatioBar(
-        translate('dashboard.chartRatio.title'),
+        //translate('dashboard.chartRatio.title'),
+        '',
         translate('dashboard.chartRatio.received'),
         translate('dashboard.chartRatio.notReceived')
       )
     } else {
       return this.configRatioSemi(
-        translate('dashboard.chartRatio.title'),
+        // translate('dashboard.chartRatio.title'),
+        '',
         translate('dashboard.chartRatio.received'),
         translate('dashboard.chartRatio.notReceived')
       )
@@ -237,26 +240,30 @@ export default class HeaderView extends React.PureComponent {
 
   render() {
     return (
-      <Card bordered style={{ flex: 1, marginLeft: 8 }}>
-        <Dropdown overlay={this.menu()} trigger={['click']}>
-          <span>
-            <span style={{ color: 'blue', minWidth: 80 }}>
-              {translate('dashboard.chartRatio.byDay', {
-                day: this.state.day
-              })}
-              {`  `}
+      <ChartBaseView title={translate('dashboard.chartRatio.title')} style={{ flex: 1, marginLeft: 8 }}>
+        <Card 
+          bordered
+        >
+          <Dropdown overlay={this.menu()} trigger={['click']}>
+            <span>
+              <span style={{ color: 'blue', minWidth: 80 }}>
+                {translate('dashboard.chartRatio.byDay', {
+                  day: this.state.day
+                })}
+                {`  `}
+              </span>
+              <Icon type="down" />
             </span>
-            <Icon type="down" />
-          </span>
-        </Dropdown>
-        <ReactHighcharts config={this.getConfigRatio()} />
-        <StatusModalView
-          title={this.state.stationKey || ''}
-          data={_.keyBy(_.values(this.state.data), 'name')}
-          visible={this.state.visible}
-          onClose={this.onModalClose}
-        />
-      </Card>
+          </Dropdown>
+          <ReactHighcharts config={this.getConfigRatio()} />
+          <StatusModalView
+            title={this.state.stationKey || ''}
+            data={_.keyBy(_.values(this.state.data), 'name')}
+            visible={this.state.visible}
+            onClose={this.onModalClose}
+          />
+        </Card>
+      </ChartBaseView>
     )
   }
 }
