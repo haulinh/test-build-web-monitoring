@@ -44,7 +44,7 @@ export default class StationAutoEdit extends React.PureComponent {
     super(props)
     this.state = {
       isSubmitting: false,
-      tabActive: 'APPROVE',
+      tabActive: 'OPTION',
       data: {
         options: _.get(props, 'data.options', {}),
         configLogger: _.get(props, 'data.configLogger', {})
