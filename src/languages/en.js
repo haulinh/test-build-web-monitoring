@@ -65,6 +65,7 @@ export default {
   },
   qaqc: {
     title: `QA/QC`,
+    originalData: 'Original Data',
     removeDataBy: 'Remove Data By',
     approveData: 'Approve Data',
     approveAll: 'Approve All',
