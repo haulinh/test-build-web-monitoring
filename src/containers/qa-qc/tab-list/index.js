@@ -4,6 +4,7 @@ import { Button, Modal, Checkbox } from 'antd'
 import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
+import * as _ from 'lodash'
 import BoxShadow from 'components/elements/box-shadow'
 import TabTableDataList from './tab-table-data-list'
 // import TabChart from './tab-chart/index'
@@ -42,27 +43,38 @@ export default class TabeList extends React.PureComponent {
     isExporting: PropTypes.bool,
     onChangeData: PropTypes.func,
     onUnApprovedData: PropTypes.func,
+    onItemChecked: PropTypes.func,
     valueField: PropTypes.string
   }
 
-  state = {
-    visible: false
+
+  //dataSelected
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      visible: false,
+      options: [],
+      checkedAll: _.get(props, 'dataSelected.checked', false),
+      data: _.get(props, 'dataSelected.list', [])
+    }
   }
 
-  handleOk = e => {
-    this.setState({visible: false})
+  componentWillReceiveProps (nextProps) {
+    if (!_.isEqual(this.props, nextProps)) {
+      this.setState({
+        checkedAll: _.get(nextProps, 'dataSelected.checked', false),
+        data: _.get(nextProps, 'dataSelected.list', [])
+      })
+    }
   }
 
-  handleCancel = e => {
-    this.setState({visible: false})
-  }
-
-  handleCancelApprove = e => {
+  onManualApprove = e => {
     this.setState({visible: true})
   }
 
-  onCancelApproveChecked = e => {
-    console.log('onCancelApproveChecked', e)
+  onManualApproveChecked = options => {
+    this.setState({options})
   }
 
   renderButton = () => {
@@ -73,7 +85,7 @@ export default class TabeList extends React.PureComponent {
             type="primary"
             icon="schedule"
             style={{ float: 'right', margin: '5px' }}
-            onClick={this.handleCancelApprove}
+            onClick={this.onManualApprove}
             loading={this.props.isExporting}
           >
             {translate('qaqc.manualApprove')}
@@ -86,15 +98,6 @@ export default class TabeList extends React.PureComponent {
             loading={this.props.isExporting}
           >
             {translate('qaqc.approve')}
-          </Button>
-          <Button
-            type="primary"
-            icon="schedule"
-            style={{ float: 'right', margin: '5px' }}
-            onClick={this.props.onApprovedData}
-            loading={this.props.isExporting}
-          >
-            {translate('qaqc.approveAll')}
           </Button>
         </ButtonAbsolute>
       )
@@ -109,19 +112,45 @@ export default class TabeList extends React.PureComponent {
           onClick={this.props.onUnApprovedData}
           loading={this.props.isExporting}
         >
-          {translate('qaqc.cancel')}
-        </Button>
-        <Button
-          type="danger"
-          icon="schedule"
-          style={{ float: 'right', margin: '5px' }}
-          onClick={this.props.onUnApprovedData}
-          loading={this.props.isExporting}
-        >
-          {translate('qaqc.allCancel')}
+          {translate('qaqc.unApprove')}
         </Button>
       </ButtonAbsolute>
     )
+  }
+
+  handleManualCancel = e => {
+    this.setState({options: [], visible: false})
+  }
+
+  handleManualOk = e => {
+    this.setState({visible: false})
+    this.props.onApprovedData(e, this.state.options)
+  }
+
+  handleItemChecked = (type, checked) => {
+    let data = _.get(this.state, 'data', [])
+    if (_.isEqual(type, 'ALL')) {
+      data = []
+      this.setState({ checkedAll: checked, data })
+    } else {
+      if (this.state.checkedAll) {
+        if (checked) {
+          data = _.filter(data, it => !_.isEqual(it, type))
+        } else {
+          data = _.union(data, [type])
+        }
+      } else {
+        if (checked) {
+          data =_.union(data, [type])
+        } else {
+          data = _.filter(data, it => !_.isEqual(it, type))
+        }
+      }
+      
+      this.setState({data})
+    }
+
+    this.props.onItemChecked(this.state.checkedAll, data)
   }
 
   render() {
@@ -138,16 +167,19 @@ export default class TabeList extends React.PureComponent {
           dataFilterBy={this.props.dataFilterBy}
           handleSave={this.props.onChangeData}
           valueField={this.props.valueField}
+          checkedAll={this.state.checkedAll}
+          listChecked={this.state.data}
+          onItemChecked={this.handleItemChecked}
         />
         <Modal
           title={translate('qaqc.manualApprove')}
           cancelText={translate('qaqc.cancel')}
           okText={translate('qaqc.ok')}
           visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
+          onOk={this.handleManualOk}
+          onCancel={this.handleManualCancel}
         >
-          <Checkbox.Group style={{ width: '100%' }} onChange={this.onCancelApproveChecked}>
+          <Checkbox.Group style={{ width: '100%' }} onChange={this.onManualApproveChecked}>
             <Row><h5>{translate('qaqc.removeDataBy')}</h5></Row>
             <Row>
               <Checkbox value="ZERO">{translate('qaqc.dataFilter.isZero')}</Checkbox>

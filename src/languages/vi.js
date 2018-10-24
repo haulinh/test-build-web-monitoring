@@ -65,6 +65,7 @@ export default {
   },
   qaqc: {
     title: `QA/QC`,
+    originalData: 'Số liệu gốc',
     approveData: 'Kiểm duyệt dữ liệu',
     removeDataBy: 'Loại bỏ dữ liệu theo',
     approveAll: 'Kiểm duyệt tất cả',
