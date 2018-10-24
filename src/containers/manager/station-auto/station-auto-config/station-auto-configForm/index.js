@@ -13,7 +13,7 @@ import {
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
-import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
+import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import FtpApi from 'api/FtpApi'
 
 const FormItem = Form.Item
@@ -181,6 +181,11 @@ export default class StationAutoForm extends React.PureComponent {
     })
   }
 
+  onPress = e => {
+    e.preventDefault()
+    this.props.onPress(this.props.form)
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     const { t } = this.props.lang
@@ -264,11 +269,6 @@ export default class StationAutoForm extends React.PureComponent {
             hideOnSinglePage: true
           }}
         />
-        {/* <FormItem>
-          <Button style={{ width: '100%' }} type="primary" htmlType="submit">
-            {t('addon.save')}
-          </Button>
-        </FormItem> */}
       </Form>
     )
   }

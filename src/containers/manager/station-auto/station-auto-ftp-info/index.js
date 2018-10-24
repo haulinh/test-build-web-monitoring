@@ -34,7 +34,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
       pagination: {
         page: 1,
         pageSize: 20,
-        position: 'none',
+        position: 'none'
       },
       isFullPath: true,
       isExplorer: false,
@@ -235,22 +235,18 @@ export default class StationAutoFtpInfo extends React.PureComponent {
 
   renderTitleFolder = () => {
     return (
-      <span style={{ width: '70%'}}>
+      <span style={{ width: '70%' }}>
         {_.size(this.state.pathSelected) > 1 ? (
           <span onClick={this.handleBack}>
-           <Button type="primary">
-              <Icon
-                   type="arrow-left"
-              />
-           </Button>
-            
+            <Button type="primary">
+              <Icon type="arrow-left" />
+            </Button>
           </span>
         ) : (
           ` `
         )}
-      <Input disabled = {true} value={_.join(this.state.pathSelected, '/')}/>
+        <Input disabled={true} value={_.join(this.state.pathSelected, '/')} />
       </span>
-       
     )
   }
 
