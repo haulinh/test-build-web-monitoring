@@ -77,7 +77,7 @@ export default {
       isZero: ' Bằng 0',
       deviceStatus: 'Trạng thái thiết bị'
     },
-    data: 'Loại số liệu',
+    data: 'Loại dữ liệu',
     approve: 'Kiểm duyệt',
     cancel: 'Hủy bỏ',
     allCancel: 'Hủy bỏ tất cả',
@@ -95,6 +95,10 @@ export default {
       confirmUnApprove: 'Bạn có muốn huỷ phê duyệt đã chọn?',
       success: 'Lưu thành công',
       failure: 'Lưu thất bại'
+    },
+    date: {
+      from: 'Từ ngày',
+      to: 'Đến ngày'
     }
   },
   controlStation: {
