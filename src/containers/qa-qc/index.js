@@ -38,7 +38,7 @@ export default class QaQcContainer extends React.Component {
 
   handleSubmitSearch(searchFormData) {
     this.loadData(
-      this.state.pagination,
+      {...this.state.pagination, current: 1},
       searchFormData,
       {},
       { checked: false, list: [] }
@@ -109,6 +109,7 @@ export default class QaQcContainer extends React.Component {
     let body = {}
     if (options) {
       body.removeBy = options
+      body.measuringData = this.state.measuringData
     }
 
     if (!isEmpty(this.state.dataUpdate)) {

@@ -23,7 +23,6 @@ export default class SelectStationType extends PureComponent {
   async componentDidMount() {
     let query = {}
     const stationTypes = await CategoryApi.getStationTypes({}, query)
-    console.log(stationTypes)
     if (stationTypes.success)
       this.setState({
         stationTypes: stationTypes.data,

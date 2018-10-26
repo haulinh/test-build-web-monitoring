@@ -166,7 +166,7 @@ export default class TabeList extends React.PureComponent {
   render() {
     return (
       <TabeListWrapper>
-        {this.renderButton()}
+        {this.props.valueField !== 'original' && this.renderButton()}
         <TabTableDataList
           loading={this.props.isLoading}
           measuringList={this.props.measuringList}

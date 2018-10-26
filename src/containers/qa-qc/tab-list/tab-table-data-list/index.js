@@ -240,6 +240,8 @@ class EditableTable extends React.Component {
       }
     })
 
+    if (props.valueField === 'original')
+      return [indexCol, timeCol, ...measureCols] 
     return [indexCol, checkCol, timeCol, ...measureCols]
   }
 

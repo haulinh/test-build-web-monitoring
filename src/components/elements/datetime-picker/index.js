@@ -20,7 +20,6 @@ export default class CalendarCustom extends PureComponent {
   }
 
   getRealy() {
-    console.log('getRealy: ', this.props.value)
     if (!this.props.value) return moment(new Date(), this.getDateFormat())
     if (typeof this.props.value === 'string') {
       return moment(this.props.value, this.getDateFormat())
