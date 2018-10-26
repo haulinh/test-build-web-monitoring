@@ -50,7 +50,7 @@ function validate(values) {
 
 @connect((state, ownProps) => ({
   initialValues: {
-    fromDate: moment(new Date().setMonth(new Date().getMonth() - 1)),
+    fromDate: moment().subtract(1, 'days'),
     toDate: moment(),
     ...(ownProps.initialValues ? ownProps.initialValues : {})
   }

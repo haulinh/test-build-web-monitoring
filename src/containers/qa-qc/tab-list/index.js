@@ -77,20 +77,20 @@ export default class TabeList extends React.PureComponent {
   }
 
   renderButtonApprove () {
-    if (this.state.checkedAll || (!this.state.checkedAll && _.size(this.state.data) > 0)) {
+    
       return (
         <Button
-            type="primary"
-            icon="schedule"
-            style={{ float: 'right', margin: '5px' }}
-            onClick={this.props.onApprovedData}
-            loading={this.props.isExporting}
-          >
-            {translate('qaqc.approve')}
-          </Button>
+          disabled={!(this.state.checkedAll || (!this.state.checkedAll && _.size(this.state.data) > 0))}
+          type="primary"
+          icon="schedule"
+          style={{ float: 'right', margin: '5px' }}
+          onClick={this.props.onApprovedData}
+          loading={this.props.isExporting}
+        >
+          {translate('qaqc.approve')}
+        </Button>
       )
-    }
-    return ` `
+    
   }
 
   renderButton = () => {
@@ -116,6 +116,7 @@ export default class TabeList extends React.PureComponent {
     return (
       <ButtonAbsolute>
         <Button
+          disabled={!(this.state.checkedAll || (!this.state.checkedAll && _.size(this.state.data) > 0))}
           type="danger"
           icon="schedule"
           style={{ float: 'right', margin: '5px' }}
@@ -142,6 +143,7 @@ export default class TabeList extends React.PureComponent {
     if (_.isEqual(type, 'ALL')) {
       data = []
       this.setState({ checkedAll: checked, data })
+      this.props.onItemChecked(checked, data)
     } else {
       if (this.state.checkedAll) {
         if (checked) {
@@ -158,9 +160,8 @@ export default class TabeList extends React.PureComponent {
       }
 
       this.setState({ data })
+      this.props.onItemChecked(this.state.checkedAll, data)
     }
-
-    this.props.onItemChecked(this.state.checkedAll, data)
   }
 
   render() {

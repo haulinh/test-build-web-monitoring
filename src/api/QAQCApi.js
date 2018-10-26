@@ -3,8 +3,8 @@ import { getFetch, putFetch, deleteFetch } from 'utils/fetch'
 import { pick, get, join } from 'lodash'
 
 const getDataStationAutoUrl = (prefix = '') => {
-  // return getConfigApi().dataStationAuto + '/' + prefix
-  return 'http://localhost:5004/data-station-auto/' + prefix
+  return getConfigApi().dataStationAuto + '/' + prefix
+  // return 'http://localhost:5004/data-station-auto/' + prefix
 }
 
 const toParams = params => {
