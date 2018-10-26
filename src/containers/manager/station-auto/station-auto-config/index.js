@@ -14,7 +14,6 @@ import Breadcrumb from '../breadcrumb'
 import { mapPropsToFields } from 'utils/form'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
-import languages from 'languages'
 
 const FormItem = Form.Item
 

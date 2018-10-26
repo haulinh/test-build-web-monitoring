@@ -9,15 +9,15 @@ import WarningIcon from '@atlaskit/icon/glyph/warning'
 import EditorUnlinkIcon from '@atlaskit/icon/glyph/editor/unlink'
 
 const DEVICE_STATUS = {
-  'D1': {
+  D1: {
     color: 'orange',
-    icon: <WarningIcon label='' size="small" primaryColor="orange" />,
+    icon: <WarningIcon label="" size="small" primaryColor="orange" />,
     title: `Sensor ${translate('monitoring.deviceStatus.maintenance')}`
   },
-  'D2': {
+  D2: {
     color: 'red',
     title: `Sensor ${translate('monitoring.deviceStatus.broken')}`,
-    icon: <EditorUnlinkIcon label='' size="small" primaryColor="red" />
+    icon: <EditorUnlinkIcon label="" size="small" primaryColor="red" />
   }
 }
 
@@ -178,9 +178,17 @@ class EditableTable extends React.Component {
       width: 40,
       align: 'center',
       render(value, record, index) {
-        return <Checkbox key={record} checked={
-            props.checkedAll ? !_.includes(props.listChecked, record._id) : _.includes(props.listChecked, record._id) } 
-          onChange={e => me.onItemChange(e, record)} />
+        return (
+          <Checkbox
+            key={record}
+            checked={
+              props.checkedAll
+                ? !_.includes(props.listChecked, record._id)
+                : _.includes(props.listChecked, record._id)
+            }
+            onChange={e => me.onItemChange(e, record)}
+          />
+        )
       }
     }
 
@@ -207,7 +215,7 @@ class EditableTable extends React.Component {
             `measuringLogs.${measuring.key}.statusDevice`,
             0
           )
-          
+
           const st = _.get(DEVICE_STATUS, `D${statusDevice}`, null)
           if (value === null) return <div />
           let backgroundColor = this.getColor(value)
@@ -240,12 +248,16 @@ class EditableTable extends React.Component {
     this.columns = this.getCols(this.props)
     this.state = {
       dataSource,
-      dataChange: {} 
+      dataChange: {}
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.dataSource, this.props.dataSource) || !_.isEqual(nextProps.checkedAll, this.props.checkedAll) || !_.isEqual(nextProps.listChecked, this.props.listChecked)) {
+    if (
+      !_.isEqual(nextProps.dataSource, this.props.dataSource) ||
+      !_.isEqual(nextProps.checkedAll, this.props.checkedAll) ||
+      !_.isEqual(nextProps.listChecked, this.props.listChecked)
+    ) {
       const dataSource = _.map(
         nextProps.dataSource,
         ({ _id, receivedAt, measuringLogs }, index) => {

@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import StationControl from 'api/SamplingApi'
 import stationStatus from 'constants/stationStatus'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { isEmpty } from 'lodash'
 
 const StationHeadItemWrapper = styled.div`
   display: flex;
@@ -65,6 +66,7 @@ const WrapperNameStationTypeName = styled.div`
 
 const ReceivedAt = styled.span`
   color: ${props => (props.status !== 'GOOD' ? SHAPE.PRIMARY : '#000')};
+  font-style: ${props => props.status === stationStatus.DATA_LOSS ? 'italic' : 'normal'};
 `
 
 const ActionWrapper = styled.div`
@@ -99,7 +101,7 @@ export default class StationAutoHead extends React.PureComponent {
     status: PropTypes.string,
     onClickDataSearch: PropTypes.func,
     onClickViewMap: PropTypes.func,
-    onClickViewCamera: PropTypes.func,
+    onClickViewCamera: PropTypes.func
   }
 
   state = {
@@ -139,6 +141,16 @@ export default class StationAutoHead extends React.PureComponent {
     }
   }
 
+  toReceivedAt = (status, receivedAt) => {
+    const statusStr = status === stationStatus.DATA_LOSS ? translate('monitoring.lossAt') : ''
+    const receivedAtStr = receivedAt ? moment(receivedAt).format(DD_MM_YYYY_HH_MM) : ''
+    if (!isEmpty(stationStatus) && !isEmpty(receivedAtStr)) {
+      return `(${statusStr} ${receivedAtStr})`
+    }
+
+    return receivedAtStr
+  }
+
   render() {
     const {
       name,
@@ -170,9 +182,9 @@ export default class StationAutoHead extends React.PureComponent {
           )}
           <Clearfix width={8} />
           <ReceivedAt status={status}>
-            {status === stationStatus.DATA_LOSS &&
-              translate('monitoring.lossAt')}{' '}
-            {receivedAt ? moment(receivedAt).format(DD_MM_YYYY_HH_MM) : ''}
+            {
+              this.toReceivedAt(status, receivedAt)
+            }
           </ReceivedAt>
         </TitleWrapper>
         <ActionWrapper>
@@ -204,12 +216,14 @@ export default class StationAutoHead extends React.PureComponent {
             )}
           {isCamera &&
             protectRole(ROLE.MONITORING.CAMERA)(
-              <div onClick={this.props.onClickViewCamera} className="actionItem">
+              <div
+                onClick={this.props.onClickViewCamera}
+                className="actionItem"
+              >
                 <Tooltip title={translate('monitoring.camera')}>
                   <Icon type="camera" style={{ fontSize: 16 }} />
                 </Tooltip>
               </div>
-              
             )}
           <div onClick={this.props.onClickViewMap} className="actionItem">
             <Tooltip title={translate('monitoring.viewInMap')}>
