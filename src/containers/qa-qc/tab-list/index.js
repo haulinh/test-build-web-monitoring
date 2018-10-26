@@ -18,10 +18,10 @@ const TabeListWrapper = BoxShadow.extend`
 `
 
 const ButtonAbsolute = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: flex-end;
-align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 `
 
 const Row = styled.div`
@@ -47,10 +47,9 @@ export default class TabeList extends React.PureComponent {
     valueField: PropTypes.string
   }
 
-
   //dataSelected
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       visible: false,
@@ -60,7 +59,7 @@ export default class TabeList extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!_.isEqual(this.props, nextProps)) {
       this.setState({
         checkedAll: _.get(nextProps, 'dataSelected.checked', false),
@@ -70,11 +69,11 @@ export default class TabeList extends React.PureComponent {
   }
 
   onManualApprove = e => {
-    this.setState({visible: true})
+    this.setState({ visible: true })
   }
 
   onManualApproveChecked = options => {
-    this.setState({options})
+    this.setState({ options })
   }
 
   renderButton = () => {
@@ -119,11 +118,11 @@ export default class TabeList extends React.PureComponent {
   }
 
   handleManualCancel = e => {
-    this.setState({options: [], visible: false})
+    this.setState({ options: [], visible: false })
   }
 
   handleManualOk = e => {
-    this.setState({visible: false})
+    this.setState({ visible: false })
     this.props.onApprovedData(e, this.state.options)
   }
 
@@ -141,13 +140,13 @@ export default class TabeList extends React.PureComponent {
         }
       } else {
         if (checked) {
-          data =_.union(data, [type])
+          data = _.union(data, [type])
         } else {
           data = _.filter(data, it => !_.isEqual(it, type))
         }
       }
-      
-      this.setState({data})
+
+      this.setState({ data })
     }
 
     this.props.onItemChecked(this.state.checkedAll, data)
@@ -179,19 +178,32 @@ export default class TabeList extends React.PureComponent {
           onOk={this.handleManualOk}
           onCancel={this.handleManualCancel}
         >
-          <Checkbox.Group style={{ width: '100%' }} onChange={this.onManualApproveChecked}>
-            <Row><h5>{translate('qaqc.removeDataBy')}</h5></Row>
+          <Checkbox.Group
+            style={{ width: '100%' }}
+            onChange={this.onManualApproveChecked}
+          >
             <Row>
-              <Checkbox value="ZERO">{translate('qaqc.dataFilter.isZero')}</Checkbox>
+              <h5>{translate('qaqc.removeDataBy')}</h5>
             </Row>
             <Row>
-              <Checkbox value="NEGATIVE">{translate('qaqc.dataFilter.negative')}</Checkbox>
+              <Checkbox value="ZERO">
+                {translate('qaqc.dataFilter.isZero')}
+              </Checkbox>
             </Row>
             <Row>
-              <Checkbox value="OUT_RANGE">{translate('qaqc.dataFilter.outOfRange')}</Checkbox>
+              <Checkbox value="NEGATIVE">
+                {translate('qaqc.dataFilter.negative')}
+              </Checkbox>
             </Row>
             <Row>
-              <Checkbox value="DEVICE_STATUS">{translate('qaqc.dataFilter.deviceStatus')}</Checkbox>
+              <Checkbox value="OUT_RANGE">
+                {translate('qaqc.dataFilter.outOfRange')}
+              </Checkbox>
+            </Row>
+            <Row>
+              <Checkbox value="DEVICE_STATUS">
+                {translate('qaqc.dataFilter.deviceStatus')}
+              </Checkbox>
             </Row>
           </Checkbox.Group>
         </Modal>

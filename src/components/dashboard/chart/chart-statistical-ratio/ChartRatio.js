@@ -9,7 +9,7 @@ import { Menu, Dropdown, Icon } from 'antd'
 import { translate } from 'hoc/create-lang'
 import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
 import StatusModalView from './StatusModal'
-import ChartBaseView from './chart-base';
+import ChartBaseView from './chart-base'
 
 const dataLabels = {
   enabled: true,
@@ -73,7 +73,7 @@ export default class HeaderView extends React.PureComponent {
         enabled: false
       },
       title: {
-        text: ''//title
+        text: '' //title
       },
       legend: {
         enabled: true
@@ -156,7 +156,7 @@ export default class HeaderView extends React.PureComponent {
         }
       },
       title: {
-        text: ''//title
+        text: '' //title
       },
       credits: {
         enabled: false
@@ -240,10 +240,11 @@ export default class HeaderView extends React.PureComponent {
 
   render() {
     return (
-      <ChartBaseView title={translate('dashboard.chartRatio.title')} style={{ flex: 1, marginLeft: 8 }}>
-        <Card 
-          bordered
-        >
+      <ChartBaseView
+        title={translate('dashboard.chartRatio.title')}
+        style={{ flex: 1, marginLeft: 8 }}
+      >
+        <Card bordered>
           <Dropdown overlay={this.menu()} trigger={['click']}>
             <span>
               <span style={{ color: 'blue', minWidth: 80 }}>

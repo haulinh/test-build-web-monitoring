@@ -4,7 +4,7 @@ import { get } from 'lodash'
 export function getConfigApi() {
   const config = window.config
   function c(prefix) {
-    //return `http://171.244.21.99:5000/${prefix}`
+    //  return `http://171.244.21.99:5000/${prefix}`
     return config.apiGateway + '/' + prefix
   }
   return {
@@ -19,7 +19,7 @@ export function getConfigApi() {
     stationAuto: c('station-auto'),
     dataStationAuto: c('data-station-auto'), //'http://localhost:5004/data-station-auto',
     ftp: c('ftp'),
-    //tp: 'http://localhost:5009/ftp', //comemnt lcoal
+    // ftp: 'http://localhost:5009/ftp', //comemnt lcoal
     fcmMessages: c('fcm-messages'),
     organization: c('organization'), //'http://localhost:5005/organization',
     role: c('role'),

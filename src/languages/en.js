@@ -662,6 +662,16 @@ export default {
         label: 'Allow Send Warning',
         placeholder: 'Allow Send Warning'
       },
+      allowApprove: {
+        label: 'Allow Config Auto Approve Data',
+        note: ' *Note: Config Auto Approve Data',
+        parameters: 'Parameter Name',
+        rules: 'Rules',
+        zero: 'Zero',
+        negative: 'Negative',
+        outOfRange: 'Out of Range',
+        deviceStatus: 'Status Devices'
+      },
       allowSampling: {
         label: 'Allow Sampling',
         placeholder: 'Allow Sampling'
@@ -687,7 +697,8 @@ export default {
     },
     header: {
       option: 'Options',
-      dataLogger: 'DataLogger'
+      dataLogger: 'DataLogger',
+      approve: 'Approve Data'
     },
     upload: {
       label: 'Upload',

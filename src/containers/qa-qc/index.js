@@ -13,7 +13,7 @@ import { Spin } from 'antd'
 // import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
-import { get, size, isEqual, isEmpty } from 'lodash'
+import { get, size, isEmpty } from 'lodash'
 
 // @protectRole(ROLE.DATA_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -33,11 +33,16 @@ export default class QaQcContainer extends React.Component {
       pageSize: 50
     },
     dataUpdate: {},
-    dataSelected: {checked: false, list: []}
+    dataSelected: { checked: false, list: [] }
   }
 
   handleSubmitSearch(searchFormData) {
-    this.loadData(this.state.pagination, searchFormData, {}, {checked: false, list: []})
+    this.loadData(
+      this.state.pagination,
+      searchFormData,
+      {},
+      { checked: false, list: [] }
+    )
   }
 
   async loadData(pagination, searchFormData, dataUpdate, dataSelected) {
@@ -74,7 +79,7 @@ export default class QaQcContainer extends React.Component {
         total: get(dataStationAuto, 'pagination.totalItem', 0)
       },
       dataUpdate,
-      dataSelected,      
+      dataSelected,
       isHaveData: size(dataStationAutoList) > 0
     })
   }
@@ -84,19 +89,23 @@ export default class QaQcContainer extends React.Component {
   }
 
   onItemChecked = (checked, list) => {
-    this.setState({ dataSelected: {checked, list} })
+    this.setState({ dataSelected: { checked, list } })
   }
 
-
   handleChangePage(pagination) {
-    this.loadData(pagination, this.state.searchFormData, this.state.dataUpdate, this.state.dataSelected)
+    this.loadData(
+      pagination,
+      this.state.searchFormData,
+      this.state.dataUpdate,
+      this.state.dataSelected
+    )
   }
 
   onApprovedData = async (e, options) => {
     this.setState({
       isExporting: true
     })
-    
+
     let body = {}
     if (options) {
       body.removeBy = options
@@ -111,7 +120,7 @@ export default class QaQcContainer extends React.Component {
     }
     console.log(body)
     const rs = await QAQCApi.putData(this.state.searchFormData, body)
-    console.log('results: ',rs)
+    console.log('results: ', rs)
     //if (res && res.success) window.location = res.data
     //else message.error('Export Error') //message.error(res.message)
     this.setState({
@@ -119,7 +128,7 @@ export default class QaQcContainer extends React.Component {
     })
   }
 
-  onUnApprovedData = async (e) => {
+  onUnApprovedData = async e => {
     this.setState({
       isExporting: true
     })

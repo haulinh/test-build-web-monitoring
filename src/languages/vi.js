@@ -659,6 +659,16 @@ export default {
         label: 'Gửi cảnh báo',
         placeholder: 'Gửi cảnh báo'
       },
+      allowApprove: {
+        label: 'Cho phép cấu hình loại bỏ dữ liệu tự động',
+        note: ' *Ghi chú: Cấu hình loại bỏ dữ liệu tự động',
+        parameters: 'Tên thông số',
+        rules: 'Các điều kiện kiểm duyệt dữ liệu',
+        zero: 'Bằng 0',
+        negative: 'Số âm',
+        outOfRange: 'Ngoài khoảng đo',
+        deviceStatus: 'Trạng thái của thiết bị'
+      },
       allowSampling: {
         label: 'Lấy mẫu',
         placeholder: 'Lấy mẫu'
@@ -684,7 +694,8 @@ export default {
     },
     header: {
       option: 'Tuỳ chọn',
-      dataLogger: 'DataLogger'
+      dataLogger: 'DataLogger',
+      approve: 'Kiểm duyệt dữ liệu'
     },
     upload: {
       label: 'Tải lên',

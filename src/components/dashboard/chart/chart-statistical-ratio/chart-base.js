@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Icon } from 'antd';
+import { Icon } from 'antd'
 
 const WrapperView = styled.div``
-const HeaderView = styled.div`padding: 16px 0;
+const HeaderView = styled.div`
+  padding: 16px 0;
   background: #cdc;
   flex-direction: row;
   display: flex;
@@ -22,7 +23,7 @@ const HeaderView = styled.div`padding: 16px 0;
 `
 const TitleView = styled.div`
   font-size: 16px;
-  overflow: hidden; 
+  overflow: hidden;
   flex: 1;
   color: rgba(0, 0, 0, 0.85);
   font-weight: 500;
@@ -33,24 +34,29 @@ export default class ChartBaseView extends React.Component {
     isOpen: false
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     return nextState.isOpen !== this.state.isOpen
   }
 
   toggle = e => {
-    this.setState({isOpen: !this.state.isOpen})
+    this.setState({ isOpen: !this.state.isOpen })
   }
 
-  render () {
+  render() {
     return (
-       <WrapperView style={{flex: 1, ...this.props.style}}>
+      <WrapperView style={{ flex: 1, ...this.props.style }}>
         <HeaderView onClick={this.toggle}>
           <TitleView>{this.props.title}</TitleView>
-          <Icon type="down" theme="outlined" onClick={this.toggle} style={{
-            transform: `rotate(${this.state.isOpen ? 0 : -90}deg)`
-          }}/>
+          <Icon
+            type="down"
+            theme="outlined"
+            onClick={this.toggle}
+            style={{
+              transform: `rotate(${this.state.isOpen ? 0 : -90}deg)`
+            }}
+          />
         </HeaderView>
-        { this.state.isOpen && this.props.children}
+        {this.state.isOpen && this.props.children}
       </WrapperView>
     )
   }

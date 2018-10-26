@@ -76,9 +76,7 @@ export default class AQI_Info extends React.Component {
           value={_.get(this.props.station, 'aqi.value', '')}
           time={time}
         />
-        <ChartMeasure
-          measure={_.get(this.props.station, 'aqi.measure', {})}
-        />
+        <ChartMeasure measure={_.get(this.props.station, 'aqi.measure', {})} />
       </WrapperView>
     )
   }
