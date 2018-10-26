@@ -90,7 +90,12 @@ export default {
       placeholder: 'Management Unit'
     },
     notEmpty: '{{=it.value}} is required!',
-    pageInfo: '{{=it.from}}-{{=it.to}} of {{it.total}} items'
+    pageInfo: '{{=it.from}}-{{=it.to}} of {{it.total}} items',
+    msg: {
+      confirmUnApprove: 'Do you want to cancel the selected approval?',
+      success: 'Saved Successfully',
+      failure: 'Save failure'
+    }
   },
   controlStation: {
     text: 'Sampling',

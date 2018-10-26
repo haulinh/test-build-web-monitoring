@@ -7,6 +7,17 @@ import * as _ from 'lodash'
 
 import WarningIcon from '@atlaskit/icon/glyph/warning'
 import EditorUnlinkIcon from '@atlaskit/icon/glyph/editor/unlink'
+import styled, { keyframes } from 'styled-components';
+
+export const myKeyframes = props => keyframes`
+50% { color: ${props.color || 'red'}; }
+0% { color: black; }
+100% { color: ${props.color || 'red'}; }
+`
+
+const LightNote = styled.span`
+  animation: ${props => `${myKeyframes({color: props.color || 'red'})} ${props.tick || 0.5}s infinite;`}
+`
 
 const DEVICE_STATUS = {
   D1: {
@@ -137,10 +148,10 @@ const TitleView = ({ name, unit }) => (
 )
 
 class EditableTable extends React.Component {
-  getColor = value => {
+  getColor = (props, value) => {
     if (
-      (_.includes(this.props.dataFilterBy, 'zero') && value === 0) ||
-      (_.includes(this.props.dataFilterBy, 'nagative') && value < 0)
+      (_.includes(props.dataFilterBy, 'zero') && value === 0) ||
+      (_.includes(props.dataFilterBy, 'nagative') && value < 0)
     ) {
       return SHAPE.RED
     } else {
@@ -208,7 +219,7 @@ class EditableTable extends React.Component {
         title: <TitleView {...measuring} code={measuring.key} />,
         dataIndex: measuring.key,
         key: measuring.key,
-        editable: !_.isEqual(this.props.valueField, 'approvedValue'),
+        editable: !_.isEqual(props.valueField, 'approvedValue'),
         render: (value, record) => {
           const statusDevice = _.get(
             record,
@@ -218,7 +229,7 @@ class EditableTable extends React.Component {
 
           const st = _.get(DEVICE_STATUS, `D${statusDevice}`, null)
           if (value === null) return <div />
-          let backgroundColor = this.getColor(value)
+          let backgroundColor = this.getColor(props, value)
           return (
             <div style={{ backgroundColor }}>
               {value && value.toLocaleString(navigator.language)}{' '}
@@ -239,13 +250,13 @@ class EditableTable extends React.Component {
       ({ _id, receivedAt, measuringLogs }, index) => {
         let rs = { receivedAt, _id, key: `${index}`, measuringLogs }
         _.mapKeys(measuringLogs, (value, key) => {
-          rs[key] = _.get(value, this.props.valueField, _.get(value, 'value'))
+          rs[key] = _.get(value, props.valueField, _.get(value, 'value'))
           return key
         })
         return rs
       }
     )
-    this.columns = this.getCols(this.props)
+    this.columns = this.getCols(props)
     this.state = {
       dataSource,
       dataChange: {}
@@ -261,9 +272,9 @@ class EditableTable extends React.Component {
       const dataSource = _.map(
         nextProps.dataSource,
         ({ _id, receivedAt, measuringLogs }, index) => {
-          let rs = { receivedAt, _id, key: `${index}` }
+          let rs = { receivedAt, _id, key: `${index}`, measuringLogs }
           _.mapKeys(measuringLogs, (value, key) => {
-            rs[key] = _.get(value, this.props.valueField, _.get(value, 'value'))
+            rs[key] = _.get(value, nextProps.valueField, _.get(value, 'value'))
             return key
           })
           return rs
@@ -299,10 +310,10 @@ class EditableTable extends React.Component {
     return (
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <span>{DEVICE_STATUS['D1'].icon}</span>
-        <span style={{ paddingLeft: 8 }}>{DEVICE_STATUS['D1'].title}</span>{' '}
+        <LightNote color='orange' tick={0.7} style={{ paddingLeft: 8 }}>{DEVICE_STATUS['D1'].title}</LightNote>{' '}
         <span style={{ marginLeft: 16 }} />
         <span>{DEVICE_STATUS['D2'].icon}</span>
-        <span style={{ paddingLeft: 8 }}>{DEVICE_STATUS['D2'].title}</span>
+        <LightNote style={{ paddingLeft: 8 }}>{DEVICE_STATUS['D2'].title}</LightNote>
       </div>
     )
   }

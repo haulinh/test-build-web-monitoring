@@ -76,6 +76,23 @@ export default class TabeList extends React.PureComponent {
     this.setState({ options })
   }
 
+  renderButtonApprove () {
+    if (this.state.checkedAll || (!this.state.checkedAll && _.size(this.state.data) > 0)) {
+      return (
+        <Button
+            type="primary"
+            icon="schedule"
+            style={{ float: 'right', margin: '5px' }}
+            onClick={this.props.onApprovedData}
+            loading={this.props.isExporting}
+          >
+            {translate('qaqc.approve')}
+          </Button>
+      )
+    }
+    return ` `
+  }
+
   renderButton = () => {
     if (this.props.valueField === 'value') {
       return (
@@ -89,15 +106,9 @@ export default class TabeList extends React.PureComponent {
           >
             {translate('qaqc.manualApprove')}
           </Button>
-          <Button
-            type="primary"
-            icon="schedule"
-            style={{ float: 'right', margin: '5px' }}
-            onClick={this.props.onApprovedData}
-            loading={this.props.isExporting}
-          >
-            {translate('qaqc.approve')}
-          </Button>
+          {
+            this.renderButtonApprove()
+          }
         </ButtonAbsolute>
       )
     }

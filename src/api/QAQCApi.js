@@ -3,7 +3,8 @@ import { getFetch, putFetch, deleteFetch } from 'utils/fetch'
 import { pick, get, join } from 'lodash'
 
 const getDataStationAutoUrl = (prefix = '') => {
-  return getConfigApi().dataStationAuto + '/' + prefix
+  // return getConfigApi().dataStationAuto + '/' + prefix
+  return 'http://localhost:5004/data-station-auto/' + prefix
 }
 
 const toParams = params => {
@@ -46,7 +47,7 @@ export const putData = (params, dataUpdate) => {
   )
 }
 
-export const deleteData = params => {
+export const deleteData = (params, data) => {
   params = toParams(params)
   //const url = `http://localhost:5004/data-station-auto/${get(params, 'key', 'vas')}/qa-qc`
   // return getFetch(getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`), undefined, {params: {...params, ...pagination}})
@@ -54,7 +55,7 @@ export const deleteData = params => {
     getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`),
     //url,
     undefined,
-    { params: { ...params } }
+    { params: { ...params }, data }
   )
 }
 
