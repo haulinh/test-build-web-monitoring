@@ -145,7 +145,7 @@ export default class ChartRowToChart extends React.Component {
         _.forEach(_.keys(measuringLogs), key => {
           if (_.has(measuringLogs, `${key}.value`)) {
             results[key] = _.concat(_.get(results, key, []), [
-              [new Date(receivedAt).getTime(), measuringLogs[key]['value']]
+              [moment(receivedAt).valueOf(), measuringLogs[key]['value']]
             ])
 
             if (_.has(categories, `${key}`)) {
