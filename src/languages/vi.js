@@ -672,7 +672,7 @@ export default {
         label: 'Cho phép cấu hình loại bỏ dữ liệu tự động',
         note: ' *Ghi chú: Cấu hình loại bỏ dữ liệu tự động',
         parameters: 'Tên thông số',
-        rules: 'Các điều kiện kiểm duyệt dữ liệu',
+        rules: 'Loại bỏ dữ liệu theo các điều kiện',
         zero: 'Bằng 0',
         negative: 'Số âm',
         outOfRange: 'Ngoài khoảng đo',
