@@ -4,8 +4,8 @@ import {
   // createChildListMenuItem,
   WrapperLinkComponent
 } from '../../utils/sidebarNavigation'
-import slug from '../../constants/slug'
-import Icon from '../../themes/icon'
+import slug from 'constants/slug'
+import Icon from 'themes/icon'
 import NavigationWrapper from './NavigationWrapper'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'

@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Checkbox, Table, Button } from 'antd'
+import { Form, Checkbox, Table, Button, InputNumber, Row, Col } from 'antd'
 import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
+
+const FormItem = Form.Item;
 
 @Form.create({
   mapPropsToFields: mapPropsToFields
@@ -24,7 +26,8 @@ export default class StationAutoConfigApprove extends React.Component {
     super(props)
     this.state = {
       allowed: _.get(props, 'options.approve.allowed', false),
-      listRuleChange: _.get(props, 'options.approve.rules', {})
+      listRuleChange: _.get(props, 'options.approve.rules', {}),
+      valueRules: _.get(this.props, 'options.approve.valueRules', {})
     }
   }
 
@@ -47,6 +50,7 @@ export default class StationAutoConfigApprove extends React.Component {
   onChangeCheckbox = e => {
     const { checked, data, name } = e.target
     const listRuleChange = this.state.listRuleChange
+    let valueRules = this.state.valueRules
     if (checked) {
       listRuleChange[data.key] = _.union(
         _.get(listRuleChange, [data.key], []),
@@ -57,14 +61,29 @@ export default class StationAutoConfigApprove extends React.Component {
         _.get(listRuleChange, [data.key], []),
         item => !_.isEqual(item, name)
       )
+
+      if (_.isEqual(name, 'OUT_RANGE')){
+        _.update(valueRules, data.key, () => undefined)
+      }
     }
 
-    this.setState({ listRuleChange })
+    this.setState({ listRuleChange, valueRules })
   }
   isItemChecked = (key, value) => {
     return _.includes(_.get(this.state, ['listRuleChange', key], []), value)
   }
-  getColums = () => {
+
+  valueRuleMeasure = key => {
+    return _.get(this.state.valueRules, key, {})
+  }
+  
+  onChangeValue = (key, value, isMax) => {
+    let valueRules = this.state.valueRules
+    _.update(valueRules, `${key}.${isMax ? 'maxLimit' : 'minLimit'}`, () => value)
+    this.setState({valueRules})
+  }
+
+  getColums = getFieldDecorator => {
     return [
       {
         title: this.props.lang.t(
@@ -121,15 +140,52 @@ export default class StationAutoConfigApprove extends React.Component {
             dataIndex: '',
             key: 'OUT_RANGE',
             align: 'center',
-            width: '18%',
-            render: (value, row) => (
-              <Checkbox
-                checked={this.isItemChecked(row.key, 'OUT_RANGE')}
-                name="OUT_RANGE"
-                data={row}
-                onChange={this.onChangeCheckbox}
-              />
-            )
+            width: '28%',
+            render: (value, row) => {
+              const checkedOut = this.isItemChecked(row.key, 'OUT_RANGE')
+              return (
+                <Row gutter={8} justify='center' align='middle'>
+                  <Col span={4}>
+                    <Checkbox
+                      checked={checkedOut}
+                      name="OUT_RANGE"
+                      data={row}
+                      onChange={this.onChangeCheckbox}
+                      />
+                  </Col>
+                  {
+                    checkedOut && 
+                    <Row gutter={8}>
+                      <Col span={10}>
+                        <FormItem  style={{ margin: 0 }}>
+                          {getFieldDecorator(`${row.key}.minLimit`, {
+                            rules: [{ required: true, message: this.props.lang.t('stationAutoManager.options.allowApprove.error')}],
+                            initialValue: this.valueRuleMeasure(row.key).minLimit//_.get(record, [`${dataIndex}`], '')
+                          })(
+                            <InputNumber 
+                              name="min"
+                              defaultValue={this.valueRuleMeasure(row.key).minLimit}
+                              onChange={value => this.onChangeValue(row.key, value, false)}/> 
+                          )}
+                        </FormItem>
+                      </Col>
+                      <Col span={10}>
+                        <FormItem  style={{ margin: 0 }}>
+                            {getFieldDecorator(`${row.key}.maxLimit`, {
+                              rules: [{ required: true, message: this.props.lang.t('stationAutoManager.options.allowApprove.error') }],
+                              initialValue: this.valueRuleMeasure(row.key).maxLimit
+                            })(
+                              <InputNumber 
+                                name="max"
+                                defaultValue={this.valueRuleMeasure(row.key).maxLimit}
+                                onChange={value => this.onChangeValue(row.key, value, true)}/>
+                            )}
+                          </FormItem>
+                      </Col>
+                    </Row>
+                  }
+              </Row>
+            )}
           },
           {
             title: this.props.lang.t(
@@ -154,11 +210,17 @@ export default class StationAutoConfigApprove extends React.Component {
   }
 
   onSave = () => {
-    this.props.onApproveSave({
-      allowed: this.state.allowed,
-      rules: this.state.listRuleChange
+    this.props.form.validateFields((err, values) => {
+      if (!err) {      
+        this.props.onApproveSave({
+          allowed: this.state.allowed,
+          rules: this.state.listRuleChange,
+          valueRules: this.state.valueRules
+        })
+      }
     })
   }
+
   render() {
     return (
       <div>
@@ -180,7 +242,7 @@ export default class StationAutoConfigApprove extends React.Component {
           }
           rowKey="key"
           size="small"
-          columns={this.getColums()}
+          columns={this.getColums(this.props.form.getFieldDecorator)}
           dataSource={this.props.measuringListSource}
         />
         <Button

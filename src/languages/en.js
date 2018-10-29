@@ -679,7 +679,8 @@ export default {
         zero: 'Zero',
         negative: 'Negative',
         outOfRange: 'Out of Range',
-        deviceStatus: 'Status Devices'
+        deviceStatus: 'Status Devices',
+        error: 'Please input range'
       },
       allowSampling: {
         label: 'Allow Sampling',
