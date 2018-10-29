@@ -8,12 +8,12 @@ import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 // import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
-import { Spin } from 'antd'
+import { Spin, message } from 'antd'
 // import ROLE from 'constants/role'
 // import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
-import { get, size } from 'lodash'
+import { get, size, isEmpty } from 'lodash'
 
 // @protectRole(ROLE.DATA_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -32,14 +32,20 @@ export default class QaQcContainer extends React.Component {
       current: 1,
       pageSize: 50
     },
-    dataUpdate: {}
+    dataUpdate: {},
+    dataSelected: { checked: false, list: [] }
   }
 
   handleSubmitSearch(searchFormData) {
-    this.loadData(this.state.pagination, searchFormData)
+    this.loadData(
+      { ...this.state.pagination, current: 1 },
+      searchFormData,
+      {},
+      { checked: false, list: [] }
+    )
   }
 
-  async loadData(pagination, searchFormData, dataUpdate = {}) {
+  async loadData(pagination, searchFormData, dataUpdate, dataSelected) {
     this.setState({
       isLoading: true
       //isHaveData: true
@@ -73,6 +79,7 @@ export default class QaQcContainer extends React.Component {
         total: get(dataStationAuto, 'pagination.totalItem', 0)
       },
       dataUpdate,
+      dataSelected,
       isHaveData: size(dataStationAutoList) > 0
     })
   }
@@ -81,31 +88,93 @@ export default class QaQcContainer extends React.Component {
     this.setState({ dataUpdate })
   }
 
+  onItemChecked = (checked, list) => {
+    this.setState({ dataSelected: { checked, list } })
+  }
+
   handleChangePage(pagination) {
-    this.loadData(pagination, this.state.searchFormData, this.state.dataUpdate)
+    this.loadData(
+      pagination,
+      this.state.searchFormData,
+      this.state.dataUpdate,
+      this.state.dataSelected
+    )
   }
 
-  onApprovedData = async () => {
+  onApprovedData = async (e, options) => {
     this.setState({
       isExporting: true
     })
-    await QAQCApi.putData(this.state.searchFormData, this.state.dataUpdate)
+
+    let body = {}
+    if (options) {
+      body.removeBy = options
+      body.measuringData = this.state.measuringData
+    }
+
+    if (!isEmpty(this.state.dataUpdate)) {
+      body.dataUpdate = this.state.dataUpdate
+    }
+
+    if (!isEmpty(this.state.dataSelected)) {
+      body.dataSelected = this.state.dataSelected
+    }
+    const rs = await QAQCApi.putData(this.state.searchFormData, body)
+
     //if (res && res.success) window.location = res.data
     //else message.error('Export Error') //message.error(res.message)
+    if (rs && rs.success) {
+      message.success(translate('qaqc.msg.success'))
+      this.loadData(
+        this.state.pagination,
+        this.state.searchFormData,
+        {},
+        { checked: false, list: [] }
+      )
+    } else {
+      message.error(translate('qaqc.msg.failure'))
+    }
     this.setState({
       isExporting: false
     })
   }
 
-  onUnApprovedData = async () => {
-    this.setState({
-      isExporting: true
-    })
-    await QAQCApi.deleteData(this.state.searchFormData, this.state.dataUpdate)
-    //if (res && res.success) window.location = res.data
-    //else message.error('Export Error') //message.error(res.message)
-    this.setState({
-      isExporting: false
+  onUnApprovedData = async e => {
+    const me = this
+    swal({
+      type: 'question',
+      title: '',
+      titleText: translate('qaqc.msg.confirmUnApprove'),
+      showCancelButton: true,
+      confirmButtonText: translate('qaqc.ok'),
+      cancelButtonText: translate('qaqc.cancel'),
+      preConfirm: async () => {
+        me.setState({
+          isExporting: true
+        })
+        let body = {}
+
+        if (!isEmpty(me.state.dataSelected)) {
+          body.dataSelected = me.state.dataSelected
+        }
+
+        const rs = await QAQCApi.deleteData(me.state.searchFormData, body)
+        if (rs && rs.success) {
+          message.success(translate('qaqc.msg.success'))
+          me.loadData(
+            me.state.pagination,
+            me.state.searchFormData,
+            {},
+            { checked: false, list: [] }
+          )
+        } else {
+          message.error(translate('qaqc.msg.failure'))
+        }
+
+        me.setState({
+          isExporting: false
+        })
+      }
     })
   }
 
@@ -141,9 +210,11 @@ export default class QaQcContainer extends React.Component {
               onChangePage={this.handleChangePage}
               onApprovedData={this.onApprovedData}
               onChangeData={this.onChangeData}
+              onItemChecked={this.onItemChecked}
               nameChart={this.state.searchFormData.name}
               isExporting={this.state.isExporting}
               onUnApprovedData={this.onUnApprovedData}
+              dataSelected={this.state.dataSelected}
               valueField={get(this.state, 'searchFormData.dataType', 'value')}
             />
           ) : null}

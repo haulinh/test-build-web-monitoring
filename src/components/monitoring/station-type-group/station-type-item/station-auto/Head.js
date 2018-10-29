@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import StationControl from 'api/SamplingApi'
 import stationStatus from 'constants/stationStatus'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { isEmpty } from 'lodash'
 
 const StationHeadItemWrapper = styled.div`
   display: flex;
@@ -64,9 +65,10 @@ const WrapperNameStationTypeName = styled.div`
 `
 
 const ReceivedAt = styled.span`
-  color: ${props => (props.status !== 'GOOD' ? SHAPE.PRIMARY : '#000')};
+  color: ${props => (props.status !== 'GOOD' ? SHAPE.RED : '#000')};
+  font-style: ${props =>
+    props.status === stationStatus.DATA_LOSS ? 'italic' : 'normal'};
 `
-
 const ActionWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -139,6 +141,19 @@ export default class StationAutoHead extends React.PureComponent {
     }
   }
 
+  toReceivedAt = (status, receivedAt) => {
+    const statusStr =
+      status === stationStatus.DATA_LOSS ? translate('monitoring.lossAt') : ''
+    const receivedAtStr = receivedAt
+      ? moment(receivedAt).format(DD_MM_YYYY_HH_MM)
+      : ''
+    if (!isEmpty(stationStatus) && !isEmpty(receivedAtStr)) {
+      return `(${statusStr} ${receivedAtStr})`
+    }
+
+    return receivedAtStr
+  }
+
   render() {
     const {
       name,
@@ -170,9 +185,7 @@ export default class StationAutoHead extends React.PureComponent {
           )}
           <Clearfix width={8} />
           <ReceivedAt status={status}>
-            {status === stationStatus.DATA_LOSS &&
-              translate('monitoring.lossAt')}{' '}
-            {receivedAt ? moment(receivedAt).format(DD_MM_YYYY_HH_MM) : ''}
+            {this.toReceivedAt(status, receivedAt)}
           </ReceivedAt>
         </TitleWrapper>
         <ActionWrapper>

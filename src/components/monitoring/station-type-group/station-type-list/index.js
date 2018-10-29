@@ -31,7 +31,7 @@ export default class StationTypeList extends React.Component {
   }
 
   render() {
-    console.log('kakak: ', this.props.data)
+    // console.log('kakak: ', this.props.data)
     return (
       <StationTypeListWrapper>
         <StationTypeContainer>

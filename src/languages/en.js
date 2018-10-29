@@ -65,6 +65,7 @@ export default {
   },
   qaqc: {
     title: `QA/QC`,
+    originalData: 'Original Data',
     removeDataBy: 'Remove Data By',
     approveData: 'Approve Data',
     approveAll: 'Approve All',
@@ -89,7 +90,12 @@ export default {
       placeholder: 'Management Unit'
     },
     notEmpty: '{{=it.value}} is required!',
-    pageInfo: '{{=it.from}}-{{=it.to}} of {{it.total}} items'
+    pageInfo: '{{=it.from}}-{{=it.to}} of {{it.total}} items',
+    msg: {
+      confirmUnApprove: 'Do you want to cancel the selected approval?',
+      success: 'Saved Successfully',
+      failure: 'Save failure'
+    }
   },
   controlStation: {
     text: 'Sampling',
@@ -564,6 +570,9 @@ export default {
         error: 'Please Input Email Address',
         description:
           'Note: When data have the problem, in addition to the accounts being managed, the system send additional emails to these addresses.'
+      },
+      image: {
+        label: 'Avata'
       },
       phones: {
         label: 'Phone Number',

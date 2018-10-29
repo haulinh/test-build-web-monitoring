@@ -14,7 +14,6 @@ import Breadcrumb from '../breadcrumb'
 import { mapPropsToFields } from 'utils/form'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
-import languages from 'languages'
 
 const FormItem = Form.Item
 
@@ -44,7 +43,7 @@ export default class StationAutoEdit extends React.PureComponent {
     super(props)
     this.state = {
       isSubmitting: false,
-      tabActive: 'APPROVE',
+      tabActive: 'OPTION',
       data: {
         options: _.get(props, 'data.options', {}),
         configLogger: _.get(props, 'data.configLogger', {})

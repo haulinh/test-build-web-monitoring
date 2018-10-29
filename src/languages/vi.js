@@ -65,6 +65,7 @@ export default {
   },
   qaqc: {
     title: `QA/QC`,
+    originalData: 'Số liệu gốc',
     approveData: 'Kiểm duyệt dữ liệu',
     removeDataBy: 'Loại bỏ dữ liệu theo',
     approveAll: 'Kiểm duyệt tất cả',
@@ -77,10 +78,10 @@ export default {
       deviceStatus: 'Trạng thái thiết bị'
     },
     data: 'Loại số liệu',
-    approve: 'Phê duyệt',
+    approve: 'Kiểm duyệt',
     cancel: 'Hủy bỏ',
     allCancel: 'Hủy bỏ tất cả',
-    unApprove: 'Hủy phê duyệt',
+    unApprove: 'Hủy kiểm duyệt',
     yetApprove: 'Chưa kiểm duyệt',
     approved: 'Đã kiểm duyệt',
     ok: 'Đồng ý',
@@ -89,7 +90,12 @@ export default {
       placeholder: 'Đơn vị quản lý'
     },
     notEmpty: '{{=it.value}} không để trống!',
-    pageInfo: '{{=it.from}}-{{=it.to}} của {{it.total}}'
+    pageInfo: '{{=it.from}}-{{=it.to}} của {{it.total}}',
+    msg: {
+      confirmUnApprove: 'Bạn có muốn huỷ phê duyệt đã chọn?',
+      success: 'Lưu thành công',
+      failure: 'Lưu thất bại'
+    }
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',
@@ -561,6 +567,9 @@ export default {
         error: 'Vui lòng nhập địa chỉ Email',
         description:
           'Chú ý: Khi dữ liệu gặp sự cố. Hệ thống sẽ gửi thông tin sự cố thông qua email này.'
+      },
+      image: {
+        label: 'Biểu tượng'
       },
       phones: {
         label: 'Số điện thoại',
