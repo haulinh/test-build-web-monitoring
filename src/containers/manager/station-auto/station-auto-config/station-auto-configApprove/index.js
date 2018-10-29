@@ -1,12 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Checkbox, Table, Button, InputNumber, Row, Col } from 'antd'
+import styled from 'styled-components';
 import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 
 const FormItem = Form.Item;
+
+const OutOfRangeView = styled.div`
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 
 @Form.create({
   mapPropsToFields: mapPropsToFields
@@ -33,12 +42,14 @@ export default class StationAutoConfigApprove extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (
-      _.isEqual(nextProps.allowed, this.props.allowed) ||
-      _.isEqual(nextProps.listRuleChange, this.props.listRuleChange)
+      !_.isEqual(nextProps.allowed, this.props.allowed) ||
+      !_.isEqual(nextProps.valueRules, this.props.valueRules) ||
+      !_.isEqual(nextProps.listRuleChange, this.props.listRuleChange)
     ) {
       this.setState({
         allowed: _.get(nextProps, 'options.approve.allowed', false),
-        listRuleChange: _.get(nextProps, 'options.approve.rules', {})
+        listRuleChange: _.get(nextProps, 'options.approve.rules', {}),
+        valueRules: _.get(this.props, 'options.approve.valueRules', {})
       })
     }
   }
@@ -69,6 +80,7 @@ export default class StationAutoConfigApprove extends React.Component {
 
     this.setState({ listRuleChange, valueRules })
   }
+
   isItemChecked = (key, value) => {
     return _.includes(_.get(this.state, ['listRuleChange', key], []), value)
   }
@@ -76,10 +88,12 @@ export default class StationAutoConfigApprove extends React.Component {
   valueRuleMeasure = key => {
     return _.get(this.state.valueRules, key, {})
   }
-  
+
+
   onChangeValue = (key, value, isMax) => {
     let valueRules = this.state.valueRules
-    _.update(valueRules, `${key}.${isMax ? 'maxLimit' : 'minLimit'}`, () => value)
+    _.update(valueRules, `${key}.${isMax ?  'maxLimit' : 'minLimit'}`, () => value)
+
     this.setState({valueRules})
   }
 
@@ -144,47 +158,42 @@ export default class StationAutoConfigApprove extends React.Component {
             render: (value, row) => {
               const checkedOut = this.isItemChecked(row.key, 'OUT_RANGE')
               return (
-                <Row gutter={8} justify='center' align='middle'>
-                  <Col span={4}>
-                    <Checkbox
-                      checked={checkedOut}
-                      name="OUT_RANGE"
-                      data={row}
-                      onChange={this.onChangeCheckbox}
-                      />
-                  </Col>
+                <OutOfRangeView>
+                  <Checkbox
+                    checked={checkedOut}
+                    name="OUT_RANGE"
+                    data={row}
+                    onChange={this.onChangeCheckbox}
+                  />
                   {
                     checkedOut && 
-                    <Row gutter={8}>
-                      <Col span={10}>
-                        <FormItem  style={{ margin: 0 }}>
-                          {getFieldDecorator(`${row.key}.minLimit`, {
-                            rules: [{ required: true, message: this.props.lang.t('stationAutoManager.options.allowApprove.error')}],
-                            initialValue: this.valueRuleMeasure(row.key).minLimit//_.get(record, [`${dataIndex}`], '')
-                          })(
-                            <InputNumber 
-                              name="min"
-                              defaultValue={this.valueRuleMeasure(row.key).minLimit}
-                              onChange={value => this.onChangeValue(row.key, value, false)}/> 
-                          )}
-                        </FormItem>
-                      </Col>
-                      <Col span={10}>
-                        <FormItem  style={{ margin: 0 }}>
-                            {getFieldDecorator(`${row.key}.maxLimit`, {
-                              rules: [{ required: true, message: this.props.lang.t('stationAutoManager.options.allowApprove.error') }],
-                              initialValue: this.valueRuleMeasure(row.key).maxLimit
-                            })(
-                              <InputNumber 
-                                name="max"
-                                defaultValue={this.valueRuleMeasure(row.key).maxLimit}
-                                onChange={value => this.onChangeValue(row.key, value, true)}/>
-                            )}
-                          </FormItem>
-                      </Col>
-                    </Row>
+                    <FormItem  style={{ marginTop: 0, marginBottom: 0, marginLeft: 8, marginRight: 8 }}>
+                      {getFieldDecorator(`${row.key}.minLimit`, {
+                        rules: [{ required: true, message: this.props.lang.t('stationAutoManager.options.allowApprove.error')}],
+                        initialValue: this.valueRuleMeasure(row.key).minLimit
+                      })(
+                        <InputNumber 
+                          name="min"
+                          defaultValue={this.valueRuleMeasure(row.key).minLimit}
+                          onChange={value => this.onChangeValue(row.key, value, false)}/> 
+                      )}
+                    </FormItem>
                   }
-              </Row>
+                  {
+                    checkedOut && 
+                    <FormItem  style={{ margin: 0 }}>
+                      {getFieldDecorator(`${row.key}.maxLimit`, {
+                        rules: [{ required: true, message: this.props.lang.t('stationAutoManager.options.allowApprove.error') }],
+                        initialValue: this.valueRuleMeasure(row.key).maxLimit
+                      })(
+                        <InputNumber 
+                          name="max"
+                          defaultValue={this.valueRuleMeasure(row.key).maxLimit}
+                          onChange={value => this.onChangeValue(row.key, value, true)}/>
+                      )}
+                    </FormItem>
+                  }
+                </OutOfRangeView>
             )}
           },
           {
