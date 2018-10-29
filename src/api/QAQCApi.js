@@ -1,6 +1,6 @@
 import { getConfigApi } from 'config'
 import { getFetch, putFetch, deleteFetch } from 'utils/fetch'
-import { pick, get, join } from 'lodash'
+import { pick, get, join, includes } from 'lodash'
 
 const getDataStationAutoUrl = (prefix = '') => {
   return getConfigApi().dataStationAuto + '/' + prefix
@@ -8,14 +8,18 @@ const getDataStationAutoUrl = (prefix = '') => {
 }
 
 const toParams = params => {
-  params = pick(params, [
+  let selected = [
     'to',
     'from',
     'measuringList',
     'dataFilterBy',
     'dataType',
     'key'
-  ])
+  ]
+
+  if (includes(get(params, 'dataFilterBy', []), 'out')) selected.push('outOfRange')
+
+  params = pick(params, selected)
   params.measuringList = join(get(params, 'measuringList', []), ',')
   params.dataFilterBy = join(get(params, 'dataFilterBy', []), ',')
   return params

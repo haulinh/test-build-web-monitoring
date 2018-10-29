@@ -213,6 +213,7 @@ class EditableTable extends React.Component {
       }
     }
 
+    const isOriginal = props.valueField === 'original'
     const measureCols = _.filter(props.measuringData, measuring =>
       props.measuringList.includes(measuring.key)
     ).map(measuring => {
@@ -229,11 +230,34 @@ class EditableTable extends React.Component {
           )
 
           const st = _.get(DEVICE_STATUS, `D${statusDevice}`, null)
-          if (value === null) return <div />
           let color = this.getColor(props, value)
+          let text = ''
+          if (isOriginal) {
+            const approvedValue = _.get(
+              record,
+              `measuringLogs.${measuring.key}.approvedValue`,
+              null
+            )
+            if (approvedValue === null) {
+              color = 'black'
+            } else {
+              color = 'blue'
+            }
+          } else if (props.valueField === 'approvedValue') {
+            const valueOriginal = _.get(
+              record,
+              `measuringLogs.${measuring.key}.value`,
+              null
+            )
+            if (valueOriginal !== value) {
+              text = ` (${valueOriginal})`
+            }
+          }
+
+          if (value === null) return <div />
           return (
             <div style={{ color }}>
-              {value && value.toLocaleString(navigator.language)}{' '}
+              {value && value.toLocaleString(navigator.language)}{' '} {text}
               {st && st.icon}
             </div>
           )
@@ -241,7 +265,7 @@ class EditableTable extends React.Component {
       }
     })
 
-    if (props.valueField === 'original')
+    if (isOriginal)
       return [indexCol, timeCol, ...measureCols] 
     return [indexCol, checkCol, timeCol, ...measureCols]
   }
@@ -316,8 +340,11 @@ class EditableTable extends React.Component {
         <span>{DEVICE_STATUS['D1'].icon}</span>
         <LightNote color='orange' tick={0.7} style={{ paddingLeft: 8 }}>{DEVICE_STATUS['D1'].title}</LightNote>{' '}
         <span style={{ marginLeft: 16 }} />
-        <span>{DEVICE_STATUS['D2'].icon}</span>
+        <span>| {DEVICE_STATUS['D2'].icon}</span>
         <LightNote style={{ paddingLeft: 8 }}>{DEVICE_STATUS['D2'].title}</LightNote>
+        {
+          this.props.valueField === 'original' && <LightNote color='blue' style={{ paddingLeft: 8 }}>| {translate('qaqc.approved')}</LightNote>
+        }
       </div>
     )
   }

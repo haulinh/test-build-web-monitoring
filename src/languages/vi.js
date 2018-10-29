@@ -61,7 +61,7 @@ export default {
   },
   aqi: {
     title: 'AQI',
-    paramsTitle: 'Chỉ số chất lượng của thông số trong {{=it.day}} ngày'
+    paramsTitle: 'Giá trị AQI {{=it.day}} ngày của từng thông số'
   },
   qaqc: {
     title: `QA/QC`,
@@ -99,7 +99,8 @@ export default {
     date: {
       from: 'Từ ngày',
       to: 'Đến ngày'
-    }
+    },
+    outOfRange: 'Ngoài vùng đo (Sensor Bảo trì hoặc bị hỏng)',
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',

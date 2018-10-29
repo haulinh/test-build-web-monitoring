@@ -209,7 +209,7 @@ export default class TabeList extends React.PureComponent {
             </Row>
             <Row>
               <Checkbox value="OUT_RANGE">
-                {translate('qaqc.dataFilter.outOfRange')}
+                {translate('qaqc.outOfRange')}
               </Checkbox>
             </Row>
             <Row>

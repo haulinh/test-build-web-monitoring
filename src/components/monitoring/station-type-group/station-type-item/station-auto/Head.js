@@ -149,7 +149,7 @@ export default class StationAutoHead extends React.PureComponent {
       return `(${statusStr} ${receivedAtStr})`
     }
 
-    return `(${receivedAtStr})`
+    return `${receivedAtStr}`
   }
 
   render() {

@@ -61,7 +61,7 @@ export default {
   },
   aqi: {
     title: 'Air Quality Index',
-    paramsTitle: 'Quality index of parameters in {{=it.day}} days'
+    paramsTitle: 'The {{= it.day}}-day AQI value of each parameter'
   },
   qaqc: {
     title: `QA/QC`,
@@ -99,7 +99,8 @@ export default {
     date: {
       from: 'From Date',
       to: 'To Date'
-    }
+    },
+    outOfRange: 'Out of range (Sensor is Broken or Maintenance)'
   },
   controlStation: {
     text: 'Sampling',

@@ -13,7 +13,7 @@ import { Spin, message } from 'antd'
 // import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
-import { get, size, isEmpty } from 'lodash'
+import { get, size, isEmpty, forEach, isNumber } from 'lodash'
 
 // @protectRole(ROLE.DATA_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -37,6 +37,20 @@ export default class QaQcContainer extends React.Component {
   }
 
   handleSubmitSearch(searchFormData) {
+    let outOfRange = {}
+    
+    forEach(get(searchFormData, 'measuringData', []), ({ minRange, maxRange, key }) => {
+      let val = {}
+
+      if (isNumber(minRange)) val.minRange = minRange
+      if (isNumber(maxRange)) val.maxRange = maxRange
+
+      if (!isEmpty(val)) {
+        outOfRange[key] = val
+      }
+    })
+    if (!isEmpty(outOfRange)) searchFormData.outOfRange = JSON.stringify(outOfRange)
+
     this.loadData(
       {...this.state.pagination, current: 1},
       searchFormData,
