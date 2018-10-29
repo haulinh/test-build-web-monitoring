@@ -99,7 +99,7 @@ export default class StationAutoHead extends React.PureComponent {
     status: PropTypes.string,
     onClickDataSearch: PropTypes.func,
     onClickViewMap: PropTypes.func,
-    onClickViewCamera: PropTypes.func,
+    onClickViewCamera: PropTypes.func
   }
 
   state = {
@@ -204,12 +204,14 @@ export default class StationAutoHead extends React.PureComponent {
             )}
           {isCamera &&
             protectRole(ROLE.MONITORING.CAMERA)(
-              <div onClick={this.props.onClickViewCamera} className="actionItem">
+              <div
+                onClick={this.props.onClickViewCamera}
+                className="actionItem"
+              >
                 <Tooltip title={translate('monitoring.camera')}>
                   <Icon type="camera" style={{ fontSize: 16 }} />
                 </Tooltip>
               </div>
-              
             )}
           <div onClick={this.props.onClickViewMap} className="actionItem">
             <Tooltip title={translate('monitoring.viewInMap')}>

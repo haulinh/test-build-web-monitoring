@@ -176,11 +176,11 @@ class EditableTable extends React.Component {
       width: 40,
       align: 'center',
       render(value, record, index) {
-        return <Checkbox key={record} onChange={e => me.onItemChange(e, record)} />
+        return (
+          <Checkbox key={record} onChange={e => me.onItemChange(e, record)} />
+        )
       }
     }
-
-
 
     const timeCol = {
       title: translate('dataSearchFrom.table.receivedAt'),

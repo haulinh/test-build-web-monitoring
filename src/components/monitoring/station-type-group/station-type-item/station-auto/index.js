@@ -18,11 +18,9 @@ const StationAutoWrapper = styled.div`
   box-shadow: 0 4px 10px 0 rgba(241, 241, 241, 0.5);
 `
 
-
 @withRouter
 @autobind
 export default class StationAutoItem extends React.PureComponent {
-
   static propTypes = {
     orderNumber: PropTypes.number,
     isShowStationName: PropTypes.bool,
@@ -109,7 +107,7 @@ export default class StationAutoItem extends React.PureComponent {
   }
 
   onClickViewCamera = () => {
-    this.setState({isOpenCamera: !this.state.isOpenCamera})
+    this.setState({ isOpenCamera: !this.state.isOpenCamera })
   }
 
   render() {
@@ -156,7 +154,10 @@ export default class StationAutoItem extends React.PureComponent {
           onClickItem={this.handleClickDataSearchWithMeasuring}
           data={this.measuringLastLog()}
         />
-        {this.state.isOpenCamera && get(options, 'camera.allowed') && <CameraListView cameraList={get(options, 'camera.list', [])} />}
+        {this.state.isOpenCamera &&
+          get(options, 'camera.allowed') && (
+            <CameraListView cameraList={get(options, 'camera.list', [])} />
+          )}
       </StationAutoWrapper>
     )
   }

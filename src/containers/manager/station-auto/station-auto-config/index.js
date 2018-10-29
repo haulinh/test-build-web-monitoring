@@ -99,7 +99,7 @@ export default class StationAutoEdit extends React.PureComponent {
   }
 
   async updateData(data) {
-    console.log(data)
+    // console.log(data)
     if (data) {
       const key = this.props.match.params.key
       const res = await StationAutoApi.updateStationAutoConfig(key, data)
@@ -147,7 +147,6 @@ export default class StationAutoEdit extends React.PureComponent {
     }
     return data
   }
-
   clickTabs = e => {
     this.setState({ tabActive: e })
   }

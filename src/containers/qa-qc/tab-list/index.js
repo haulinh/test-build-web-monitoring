@@ -17,10 +17,10 @@ const TabeListWrapper = BoxShadow.extend`
 `
 
 const ButtonAbsolute = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: flex-end;
-align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 `
 
 const Row = styled.div`
@@ -50,15 +50,15 @@ export default class TabeList extends React.PureComponent {
   }
 
   handleOk = e => {
-    this.setState({visible: false})
+    this.setState({ visible: false })
   }
 
   handleCancel = e => {
-    this.setState({visible: false})
+    this.setState({ visible: false })
   }
 
   handleCancelApprove = e => {
-    this.setState({visible: true})
+    this.setState({ visible: true })
   }
 
   onCancelApproveChecked = e => {
@@ -147,19 +147,32 @@ export default class TabeList extends React.PureComponent {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <Checkbox.Group style={{ width: '100%' }} onChange={this.onCancelApproveChecked}>
-            <Row><h5>{translate('qaqc.removeDataBy')}</h5></Row>
+          <Checkbox.Group
+            style={{ width: '100%' }}
+            onChange={this.onCancelApproveChecked}
+          >
             <Row>
-              <Checkbox value="ZERO">{translate('qaqc.dataFilter.isZero')}</Checkbox>
+              <h5>{translate('qaqc.removeDataBy')}</h5>
             </Row>
             <Row>
-              <Checkbox value="NEGATIVE">{translate('qaqc.dataFilter.negative')}</Checkbox>
+              <Checkbox value="ZERO">
+                {translate('qaqc.dataFilter.isZero')}
+              </Checkbox>
             </Row>
             <Row>
-              <Checkbox value="OUT_RANGE">{translate('qaqc.dataFilter.outOfRange')}</Checkbox>
+              <Checkbox value="NEGATIVE">
+                {translate('qaqc.dataFilter.negative')}
+              </Checkbox>
             </Row>
             <Row>
-              <Checkbox value="DEVICE_STATUS">{translate('qaqc.dataFilter.deviceStatus')}</Checkbox>
+              <Checkbox value="OUT_RANGE">
+                {translate('qaqc.dataFilter.outOfRange')}
+              </Checkbox>
+            </Row>
+            <Row>
+              <Checkbox value="DEVICE_STATUS">
+                {translate('qaqc.dataFilter.deviceStatus')}
+              </Checkbox>
             </Row>
           </Checkbox.Group>
         </Modal>
