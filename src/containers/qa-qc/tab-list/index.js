@@ -76,6 +76,23 @@ export default class TabeList extends React.PureComponent {
     this.setState({ options })
   }
 
+  renderButtonApprove () {
+    
+      return (
+        <Button
+          disabled={!(this.state.checkedAll || (!this.state.checkedAll && _.size(this.state.data) > 0))}
+          type="primary"
+          icon="schedule"
+          style={{ float: 'right', margin: '5px' }}
+          onClick={this.props.onApprovedData}
+          loading={this.props.isExporting}
+        >
+          {translate('qaqc.approve')}
+        </Button>
+      )
+    
+  }
+
   renderButton = () => {
     if (this.props.valueField === 'value') {
       return (
@@ -89,15 +106,9 @@ export default class TabeList extends React.PureComponent {
           >
             {translate('qaqc.manualApprove')}
           </Button>
-          <Button
-            type="primary"
-            icon="schedule"
-            style={{ float: 'right', margin: '5px' }}
-            onClick={this.props.onApprovedData}
-            loading={this.props.isExporting}
-          >
-            {translate('qaqc.approve')}
-          </Button>
+          {
+            this.renderButtonApprove()
+          }
         </ButtonAbsolute>
       )
     }
@@ -105,6 +116,7 @@ export default class TabeList extends React.PureComponent {
     return (
       <ButtonAbsolute>
         <Button
+          disabled={!(this.state.checkedAll || (!this.state.checkedAll && _.size(this.state.data) > 0))}
           type="danger"
           icon="schedule"
           style={{ float: 'right', margin: '5px' }}
@@ -131,6 +143,7 @@ export default class TabeList extends React.PureComponent {
     if (_.isEqual(type, 'ALL')) {
       data = []
       this.setState({ checkedAll: checked, data })
+      this.props.onItemChecked(checked, data)
     } else {
       if (this.state.checkedAll) {
         if (checked) {
@@ -147,15 +160,14 @@ export default class TabeList extends React.PureComponent {
       }
 
       this.setState({ data })
+      this.props.onItemChecked(this.state.checkedAll, data)
     }
-
-    this.props.onItemChecked(this.state.checkedAll, data)
   }
 
   render() {
     return (
       <TabeListWrapper>
-        {this.renderButton()}
+        {this.props.valueField !== 'original' && this.renderButton()}
         <TabTableDataList
           loading={this.props.isLoading}
           measuringList={this.props.measuringList}

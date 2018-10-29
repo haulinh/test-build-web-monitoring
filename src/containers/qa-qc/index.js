@@ -8,7 +8,7 @@ import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 // import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
-import { Spin } from 'antd'
+import { Spin, message } from 'antd'
 // import ROLE from 'constants/role'
 // import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
@@ -38,7 +38,7 @@ export default class QaQcContainer extends React.Component {
 
   handleSubmitSearch(searchFormData) {
     this.loadData(
-      this.state.pagination,
+      {...this.state.pagination, current: 1},
       searchFormData,
       {},
       { checked: false, list: [] }
@@ -109,6 +109,7 @@ export default class QaQcContainer extends React.Component {
     let body = {}
     if (options) {
       body.removeBy = options
+      body.measuringData = this.state.measuringData
     }
 
     if (!isEmpty(this.state.dataUpdate)) {
@@ -118,35 +119,62 @@ export default class QaQcContainer extends React.Component {
     if (!isEmpty(this.state.dataSelected)) {
       body.dataSelected = this.state.dataSelected
     }
-    console.log(body)
     const rs = await QAQCApi.putData(this.state.searchFormData, body)
-    console.log('results: ', rs)
+    
     //if (res && res.success) window.location = res.data
     //else message.error('Export Error') //message.error(res.message)
+    if (rs && rs.success) {
+      message.success(translate('qaqc.msg.success'))
+      this.loadData(
+        this.state.pagination,
+        this.state.searchFormData,
+        {},
+        { checked: false, list: [] }
+      )
+    } else {
+      message.error(translate('qaqc.msg.failure'))
+    }
     this.setState({
       isExporting: false
     })
   }
 
   onUnApprovedData = async e => {
-    this.setState({
-      isExporting: true
-    })
-    let body = {}
-
-    if (!isEmpty(this.state.dataUpdate)) {
-      body.dataUpdate = this.state.dataUpdate
-    }
-
-    if (!isEmpty(this.state.dataSelected)) {
-      body.dataSelected = this.state.dataSelected
-    }
-    const rs = await QAQCApi.deleteData(this.state.searchFormData, body)
-    console.log('results: ', rs)
-    //if (res && res.success) window.location = res.data
-    //else message.error('Export Error') //message.error(res.message)
-    this.setState({
-      isExporting: false
+    const me = this
+    swal({
+      type: 'question',
+      title: '',
+      titleText: translate('qaqc.msg.confirmUnApprove'),
+      showCancelButton: true,
+      confirmButtonText: translate('qaqc.ok'),
+      cancelButtonText: translate('qaqc.cancel'),
+      preConfirm: async () => {
+        me.setState({
+          isExporting: true
+        })
+        let body = {}
+    
+        if (!isEmpty(me.state.dataSelected)) {
+          body.dataSelected = me.state.dataSelected
+        }
+    
+        const rs = await QAQCApi.deleteData(me.state.searchFormData, body)
+        if (rs && rs.success) {
+          message.success(translate('qaqc.msg.success'))
+          me.loadData(
+            me.state.pagination,
+            me.state.searchFormData,
+            {},
+            { checked: false, list: [] }
+          )
+        } else {
+          message.error(translate('qaqc.msg.failure'))
+        }
+        
+        me.setState({
+          isExporting: false
+        })
+      }
     })
   }
 

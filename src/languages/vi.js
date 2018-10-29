@@ -78,10 +78,10 @@ export default {
       deviceStatus: 'Trạng thái thiết bị'
     },
     data: 'Loại số liệu',
-    approve: 'Phê duyệt',
+    approve: 'Kiểm duyệt',
     cancel: 'Hủy bỏ',
     allCancel: 'Hủy bỏ tất cả',
-    unApprove: 'Hủy phê duyệt',
+    unApprove: 'Hủy kiểm duyệt',
     yetApprove: 'Chưa kiểm duyệt',
     approved: 'Đã kiểm duyệt',
     ok: 'Đồng ý',
@@ -90,7 +90,12 @@ export default {
       placeholder: 'Đơn vị quản lý'
     },
     notEmpty: '{{=it.value}} không để trống!',
-    pageInfo: '{{=it.from}}-{{=it.to}} của {{it.total}}'
+    pageInfo: '{{=it.from}}-{{=it.to}} của {{it.total}}',
+    msg: {
+      confirmUnApprove: 'Bạn có muốn huỷ phê duyệt đã chọn?',
+      success: 'Lưu thành công',
+      failure: 'Lưu thất bại'
+    }
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',
