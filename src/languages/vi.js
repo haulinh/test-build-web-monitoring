@@ -672,7 +672,8 @@ export default {
         zero: 'Bằng 0',
         negative: 'Số âm',
         outOfRange: 'Ngoài khoảng đo',
-        deviceStatus: 'Trạng thái của thiết bị'
+        deviceStatus: 'Trạng thái của thiết bị',
+        error: 'Vui lòng nhập khoảng đo'
       },
       allowSampling: {
         label: 'Lấy mẫu',
