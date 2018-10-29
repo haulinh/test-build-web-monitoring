@@ -270,6 +270,7 @@ class EditableTable extends React.Component {
     if (
       !_.isEqual(nextProps.dataSource, this.props.dataSource) ||
       !_.isEqual(nextProps.checkedAll, this.props.checkedAll) ||
+      !_.isEqual(nextProps.valueField, this.props.valueField) ||
       !_.isEqual(nextProps.listChecked, this.props.listChecked)
     ) {
       const dataSource = _.map(
