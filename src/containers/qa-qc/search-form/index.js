@@ -50,7 +50,7 @@ function validate(values) {
 
 @connect((state, ownProps) => ({
   initialValues: {
-    fromDate: moment().subtract(1, 'days'),
+    fromDate: moment().subtract(7, 'days'),
     toDate: moment(),
     ...(ownProps.initialValues ? ownProps.initialValues : {})
   }
@@ -231,7 +231,7 @@ export default class SearchForm extends React.Component {
           <Row gutter={24}>
             <Col span={6}>
               <Field
-                label={t('fromDate.label')}
+                label={translate('qaqc.date.from')}
                 name="fromDate"
                 size="large"
                 component={FDatePicker}
@@ -240,7 +240,7 @@ export default class SearchForm extends React.Component {
             </Col>
             <Col span={6}>
               <Field
-                label={t('toDate.label')}
+                label={translate('qaqc.date.to')}
                 name="toDate"
                 size="large"
                 component={FDatePicker}

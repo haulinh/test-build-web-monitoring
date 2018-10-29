@@ -65,7 +65,7 @@ const WrapperNameStationTypeName = styled.div`
 `
 
 const ReceivedAt = styled.span`
-  color: ${props => (props.status !== 'GOOD' ? SHAPE.RED : '#000')};
+  color: ${props => (props.status !== 'GOOD' ? SHAPE.PRIMARY : '#000')};
   font-style: ${props =>
     props.status === stationStatus.DATA_LOSS ? 'italic' : 'normal'};
 `
@@ -151,7 +151,7 @@ export default class StationAutoHead extends React.PureComponent {
       return `(${statusStr} ${receivedAtStr})`
     }
 
-    return receivedAtStr
+    return `(${receivedAtStr})`
   }
 
   render() {

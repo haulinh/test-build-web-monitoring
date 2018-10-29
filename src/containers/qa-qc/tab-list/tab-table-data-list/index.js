@@ -157,7 +157,8 @@ class EditableTable extends React.Component {
     ) {
       return SHAPE.RED
     } else {
-      return 'transparent'
+      // return 'transparent'
+      return 'black'
     }
   }
 
@@ -223,9 +224,9 @@ class EditableTable extends React.Component {
 
           const st = _.get(DEVICE_STATUS, `D${statusDevice}`, null)
           if (value === null) return <div />
-          let backgroundColor = this.getColor(props, value)
+          let color = this.getColor(props, value)
           return (
-            <div style={{ backgroundColor }}>
+            <div style={{ color }}>
               {value && value.toLocaleString(navigator.language)}{' '}
               {st && st.icon}
             </div>

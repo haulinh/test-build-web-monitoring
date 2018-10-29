@@ -95,6 +95,10 @@ export default {
       confirmUnApprove: 'Do you want to cancel the selected approval?',
       success: 'Saved Successfully',
       failure: 'Save failure'
+    },
+    date: {
+      from: 'From Date',
+      to: 'To Date'
     }
   },
   controlStation: {
