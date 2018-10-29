@@ -86,7 +86,8 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
       {
         type: 'spline',
         name: title,
-        data
+        data,
+        lineWidth: 3
       }
     ],
     credits: {
