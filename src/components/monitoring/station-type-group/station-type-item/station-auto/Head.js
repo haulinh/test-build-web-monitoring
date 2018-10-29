@@ -66,10 +66,9 @@ const WrapperNameStationTypeName = styled.div`
 
 const ReceivedAt = styled.span`
   color: ${props => (props.status !== 'GOOD' ? SHAPE.PRIMARY : '#000')};
-  font-style: italic
+  font-style: ${props =>
+    props.status === stationStatus.DATA_LOSS ? 'italic' : 'normal'};
 `
-//${props => props.status === stationStatus.DATA_LOSS ? 'italic' : 'normal'};
-
 const ActionWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -143,8 +142,11 @@ export default class StationAutoHead extends React.PureComponent {
   }
 
   toReceivedAt = (status, receivedAt) => {
-    const statusStr = status === stationStatus.DATA_LOSS ? translate('monitoring.lossAt') : ''
-    const receivedAtStr = receivedAt ? moment(receivedAt).format(DD_MM_YYYY_HH_MM) : ''
+    const statusStr =
+      status === stationStatus.DATA_LOSS ? translate('monitoring.lossAt') : ''
+    const receivedAtStr = receivedAt
+      ? moment(receivedAt).format(DD_MM_YYYY_HH_MM)
+      : ''
     if (!isEmpty(statusStr) && !isEmpty(receivedAtStr)) {
       return `(${statusStr} ${receivedAtStr})`
     }
@@ -183,9 +185,7 @@ export default class StationAutoHead extends React.PureComponent {
           )}
           <Clearfix width={8} />
           <ReceivedAt status={status}>
-            {
-              this.toReceivedAt(status, receivedAt)
-            }
+            {this.toReceivedAt(status, receivedAt)}
           </ReceivedAt>
         </TitleWrapper>
         <ActionWrapper>

@@ -75,13 +75,15 @@ export default class MeasuringItem extends React.PureComponent {
 
   getLimitText() {
     const { unit } = this.props
-    let minLimit =  get(this.props, 'minLimit', null)
-    let maxLimit =  get(this.props, 'maxLimit', null)
+    let minLimit = get(this.props, 'minLimit', null)
+    let maxLimit = get(this.props, 'maxLimit', null)
     if (minLimit === '') minLimit = null
     if (maxLimit === '') maxLimit = null
 
     if (minLimit !== null && maxLimit !== null) {
-      return ` ${translate('monitoring.limit')}: ${minLimit} -> ${maxLimit} ${unit || ''}`
+      return ` ${translate(
+        'monitoring.limit'
+      )}: ${minLimit} -> ${maxLimit} ${unit || ''}`
     }
 
     if (minLimit !== null) {

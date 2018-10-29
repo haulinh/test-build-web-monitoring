@@ -100,7 +100,7 @@ export default {
       from: 'Từ ngày',
       to: 'Đến ngày'
     },
-    outOfRange: 'Ngoài vùng đo (Sensor Bảo trì hoặc bị hỏng)',
+    outOfRange: 'Ngoài vùng đo (Sensor Bảo trì hoặc bị hỏng)'
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',
@@ -572,6 +572,9 @@ export default {
         error: 'Vui lòng nhập địa chỉ Email',
         description:
           'Chú ý: Khi dữ liệu gặp sự cố. Hệ thống sẽ gửi thông tin sự cố thông qua email này.'
+      },
+      image: {
+        label: 'Hình ảnh trạm'
       },
       phones: {
         label: 'Số điện thoại',

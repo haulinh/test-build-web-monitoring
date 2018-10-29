@@ -17,7 +17,8 @@ const toParams = params => {
     'key'
   ]
 
-  if (includes(get(params, 'dataFilterBy', []), 'out')) selected.push('outOfRange')
+  if (includes(get(params, 'dataFilterBy', []), 'out'))
+    selected.push('outOfRange')
 
   params = pick(params, selected)
   params.measuringList = join(get(params, 'measuringList', []), ',')

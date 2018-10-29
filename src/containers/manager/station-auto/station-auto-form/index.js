@@ -524,13 +524,42 @@ export default class StationAutoForm extends React.PureComponent {
           </Col>
         </Row>
         <Row gutter={8}>
+          <Col span={12}>
+            <FormItem
+              {...formItemLayout}
+              label={t('stationAutoManager.form.image.label')}
+            >
+              <Upload
+                action={urlPhotoUpload}
+                listType="picture-card"
+                fileList={fileList}
+                onPreview={this.handlePreview}
+                onChange={this.handleImageChange}
+              >
+                {fileList.length >= 1 ? null : uploadButton}
+              </Upload>
+              <Modal
+                visible={previewVisible}
+                footer={null}
+                onCancel={this.handleCancel}
+              >
+                <img
+                  alt="example"
+                  style={{ width: '100%' }}
+                  src={previewImage}
+                />
+              </Modal>
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={8}>
           <Col span={24} />
         </Row>
 
-        <Row
+        {/* <Row
           gutter={8}
           style={{
-            display: 'none'
+          display: 'none'
           }}
         >
           <Col span={24}>
@@ -551,7 +580,8 @@ export default class StationAutoForm extends React.PureComponent {
               <img alt="example" style={{ width: '100%' }} src={previewImage} />
             </Modal>
           </Col>
-        </Row>
+        </Row> */}
+
         <MeasuringTable
           lang={this.props.lang}
           form={this.props.form}

@@ -59,38 +59,36 @@ export default class TabeList extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(this.props, nextProps)) {
-      this.setState({
-        checkedAll: _.get(nextProps, 'dataSelected.checked', false),
-        data: _.get(nextProps, 'dataSelected.list', [])
-      })
-    }
+  handleOk = e => {
+    this.setState({ visible: false })
   }
 
-  onManualApprove = e => {
+  handleCancel = e => {
+    this.setState({ visible: false })
+  }
+
+  handleCancelApprove = e => {
     this.setState({ visible: true })
   }
 
-  onManualApproveChecked = options => {
-    this.setState({ options })
-  }
-
-  renderButtonApprove () {
-    
-      return (
-        <Button
-          disabled={!(this.state.checkedAll || (!this.state.checkedAll && _.size(this.state.data) > 0))}
-          type="primary"
-          icon="schedule"
-          style={{ float: 'right', margin: '5px' }}
-          onClick={this.props.onApprovedData}
-          loading={this.props.isExporting}
-        >
-          {translate('qaqc.approve')}
-        </Button>
-      )
-    
+  renderButtonApprove() {
+    return (
+      <Button
+        disabled={
+          !(
+            this.state.checkedAll ||
+            (!this.state.checkedAll && _.size(this.state.data) > 0)
+          )
+        }
+        type="primary"
+        icon="schedule"
+        style={{ float: 'right', margin: '5px' }}
+        onClick={this.props.onApprovedData}
+        loading={this.props.isExporting}
+      >
+        {translate('qaqc.approve')}
+      </Button>
+    )
   }
 
   renderButton = () => {
@@ -106,9 +104,7 @@ export default class TabeList extends React.PureComponent {
           >
             {translate('qaqc.manualApprove')}
           </Button>
-          {
-            this.renderButtonApprove()
-          }
+          {this.renderButtonApprove()}
         </ButtonAbsolute>
       )
     }
@@ -116,7 +112,12 @@ export default class TabeList extends React.PureComponent {
     return (
       <ButtonAbsolute>
         <Button
-          disabled={!(this.state.checkedAll || (!this.state.checkedAll && _.size(this.state.data) > 0))}
+          disabled={
+            !(
+              this.state.checkedAll ||
+              (!this.state.checkedAll && _.size(this.state.data) > 0)
+            )
+          }
           type="danger"
           icon="schedule"
           style={{ float: 'right', margin: '5px' }}
@@ -192,7 +193,7 @@ export default class TabeList extends React.PureComponent {
         >
           <Checkbox.Group
             style={{ width: '100%' }}
-            onChange={this.onManualApproveChecked}
+            onChange={this.onCancelApproveChecked}
           >
             <Row>
               <h5>{translate('qaqc.removeDataBy')}</h5>

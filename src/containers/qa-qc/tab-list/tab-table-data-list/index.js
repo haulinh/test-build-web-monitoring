@@ -7,7 +7,7 @@ import * as _ from 'lodash'
 
 import WarningIcon from '@atlaskit/icon/glyph/warning'
 import EditorUnlinkIcon from '@atlaskit/icon/glyph/editor/unlink'
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components'
 
 export const myKeyframes = props => keyframes`
 50% { color: ${props.color || 'red'}; }
@@ -16,7 +16,9 @@ export const myKeyframes = props => keyframes`
 `
 
 const LightNote = styled.span`
-  animation: ${props => `${myKeyframes({color: props.color || 'red'})} ${props.tick || 0.5}s infinite;`}
+  animation: ${props =>
+    `${myKeyframes({ color: props.color || 'red' })} ${props.tick ||
+      0.5}s infinite;`};
 `
 
 const DEVICE_STATUS = {
@@ -191,15 +193,7 @@ class EditableTable extends React.Component {
       align: 'center',
       render(value, record, index) {
         return (
-          <Checkbox
-            key={record}
-            checked={
-              props.checkedAll
-                ? !_.includes(props.listChecked, record._id)
-                : _.includes(props.listChecked, record._id)
-            }
-            onChange={e => me.onItemChange(e, record)}
-          />
+          <Checkbox key={record} onChange={e => me.onItemChange(e, record)} />
         )
       }
     }
@@ -257,7 +251,7 @@ class EditableTable extends React.Component {
           if (value === null) return <div />
           return (
             <div style={{ color }}>
-              {value && value.toLocaleString(navigator.language)}{' '} {text}
+              {value && value.toLocaleString(navigator.language)} {text}
               {st && st.icon}
             </div>
           )
@@ -265,8 +259,7 @@ class EditableTable extends React.Component {
       }
     })
 
-    if (isOriginal)
-      return [indexCol, timeCol, ...measureCols] 
+    if (isOriginal) return [indexCol, timeCol, ...measureCols]
     return [indexCol, checkCol, timeCol, ...measureCols]
   }
 
@@ -338,13 +331,19 @@ class EditableTable extends React.Component {
     return (
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <span>{DEVICE_STATUS['D1'].icon}</span>
-        <LightNote color='orange' tick={0.7} style={{ paddingLeft: 8 }}>{DEVICE_STATUS['D1'].title}</LightNote>{' '}
+        <LightNote color="orange" tick={0.7} style={{ paddingLeft: 8 }}>
+          {DEVICE_STATUS['D1'].title}
+        </LightNote>{' '}
         <span style={{ marginLeft: 16 }} />
         <span>| {DEVICE_STATUS['D2'].icon}</span>
-        <LightNote style={{ paddingLeft: 8 }}>{DEVICE_STATUS['D2'].title}</LightNote>
-        {
-          this.props.valueField === 'original' && <LightNote color='blue' style={{ paddingLeft: 8 }}>| {translate('qaqc.approved')}</LightNote>
-        }
+        <LightNote style={{ paddingLeft: 8 }}>
+          {DEVICE_STATUS['D2'].title}
+        </LightNote>
+        {this.props.valueField === 'original' && (
+          <LightNote color="blue" style={{ paddingLeft: 8 }}>
+            | {translate('qaqc.approved')}
+          </LightNote>
+        )}
       </div>
     )
   }

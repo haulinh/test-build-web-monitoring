@@ -38,21 +38,25 @@ export default class QaQcContainer extends React.Component {
 
   handleSubmitSearch(searchFormData) {
     let outOfRange = {}
-    
-    forEach(get(searchFormData, 'measuringData', []), ({ minRange, maxRange, key }) => {
-      let val = {}
 
-      if (isNumber(minRange)) val.minRange = minRange
-      if (isNumber(maxRange)) val.maxRange = maxRange
+    forEach(
+      get(searchFormData, 'measuringData', []),
+      ({ minRange, maxRange, key }) => {
+        let val = {}
 
-      if (!isEmpty(val)) {
-        outOfRange[key] = val
+        if (isNumber(minRange)) val.minRange = minRange
+        if (isNumber(maxRange)) val.maxRange = maxRange
+
+        if (!isEmpty(val)) {
+          outOfRange[key] = val
+        }
       }
-    })
-    if (!isEmpty(outOfRange)) searchFormData.outOfRange = JSON.stringify(outOfRange)
+    )
+    if (!isEmpty(outOfRange))
+      searchFormData.outOfRange = JSON.stringify(outOfRange)
 
     this.loadData(
-      {...this.state.pagination, current: 1},
+      { ...this.state.pagination, current: 1 },
       searchFormData,
       {},
       { checked: false, list: [] }
@@ -134,7 +138,7 @@ export default class QaQcContainer extends React.Component {
       body.dataSelected = this.state.dataSelected
     }
     const rs = await QAQCApi.putData(this.state.searchFormData, body)
-    
+
     //if (res && res.success) window.location = res.data
     //else message.error('Export Error') //message.error(res.message)
     if (rs && rs.success) {
@@ -167,11 +171,11 @@ export default class QaQcContainer extends React.Component {
           isExporting: true
         })
         let body = {}
-    
+
         if (!isEmpty(me.state.dataSelected)) {
           body.dataSelected = me.state.dataSelected
         }
-    
+
         const rs = await QAQCApi.deleteData(me.state.searchFormData, body)
         if (rs && rs.success) {
           message.success(translate('qaqc.msg.success'))
@@ -184,7 +188,7 @@ export default class QaQcContainer extends React.Component {
         } else {
           message.error(translate('qaqc.msg.failure'))
         }
-        
+
         me.setState({
           isExporting: false
         })

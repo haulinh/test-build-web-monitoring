@@ -576,6 +576,9 @@ export default {
         description:
           'Note: When data have the problem, in addition to the accounts being managed, the system send additional emails to these addresses.'
       },
+      image: {
+        label: 'Avata'
+      },
       phones: {
         label: 'Phone Number',
         placeholder: 'Input Phone Number',
