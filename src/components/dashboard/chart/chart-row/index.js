@@ -152,6 +152,11 @@ export class ChartSummary extends React.Component {
     }
   }
 
+  renderSubTitle = () => {
+    const good = _.get(_.countBy(this.props.stationList, 'status'), 'GOOD', 0)
+    return ` (${good}/${this.props.totalStation})`
+  }
+
   render() {
     if (this.props.stationList.length > 0)
       return (
@@ -164,7 +169,7 @@ export class ChartSummary extends React.Component {
               </IconToggle>
               {this.props.title}
             </TextSpan>
-            ({this.props.totalStation})
+            {this.renderSubTitle()}
           </Heading>
           <Collapse isOpen={this.state.isOpen}>
             <ChartWrapper>

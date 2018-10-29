@@ -66,8 +66,9 @@ const WrapperNameStationTypeName = styled.div`
 
 const ReceivedAt = styled.span`
   color: ${props => (props.status !== 'GOOD' ? SHAPE.PRIMARY : '#000')};
-  font-style: ${props => props.status === stationStatus.DATA_LOSS ? 'italic' : 'normal'};
+  font-style: italic
 `
+//${props => props.status === stationStatus.DATA_LOSS ? 'italic' : 'normal'};
 
 const ActionWrapper = styled.div`
   display: flex;
@@ -144,11 +145,11 @@ export default class StationAutoHead extends React.PureComponent {
   toReceivedAt = (status, receivedAt) => {
     const statusStr = status === stationStatus.DATA_LOSS ? translate('monitoring.lossAt') : ''
     const receivedAtStr = receivedAt ? moment(receivedAt).format(DD_MM_YYYY_HH_MM) : ''
-    if (!isEmpty(stationStatus) && !isEmpty(receivedAtStr)) {
+    if (!isEmpty(statusStr) && !isEmpty(receivedAtStr)) {
       return `(${statusStr} ${receivedAtStr})`
     }
 
-    return receivedAtStr
+    return `(${receivedAtStr})`
   }
 
   render() {

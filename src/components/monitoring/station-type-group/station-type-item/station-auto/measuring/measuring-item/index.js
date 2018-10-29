@@ -74,17 +74,34 @@ export default class MeasuringItem extends React.PureComponent {
   }
 
   getLimitText() {
-    const { unit, minLimit, maxLimit } = this.props
-    let limitText = ''
-    if (minLimit || maxLimit) {
-      if (minLimit)
-        limitText = translate('monitoring.limit') + ': > ' + minLimit
-      if (maxLimit) {
-        if (limitText) limitText = limitText + ' & < ' + maxLimit
-        else limitText = translate('monitoring.limit') + ': < ' + maxLimit
-      }
+    const { unit } = this.props
+    let minLimit =  get(this.props, 'minLimit', null)
+    let maxLimit =  get(this.props, 'maxLimit', null)
+    if (minLimit === '') minLimit = null
+    if (maxLimit === '') maxLimit = null
+
+    if (minLimit !== null && maxLimit !== null) {
+      return ` ${translate('monitoring.limit')}: ${minLimit} -> ${maxLimit} ${unit || ''}`
     }
-    return limitText ? `${limitText} ${unit}` : <span>&nbsp;</span>
+
+    if (minLimit !== null) {
+      return ` ${translate('monitoring.limit')}: > ${minLimit}  ${unit || ''}`
+    }
+
+    if (maxLimit !== null) {
+      return `${translate('monitoring.limit')}: < ${maxLimit}  ${unit || ''}`
+    }
+
+    // if (minLimit || maxLimit) {
+    //   if (minLimit)
+    //     limitText = translate('monitoring.limit') + ': > ' + minLimit
+    //   if (maxLimit) {
+    //     if (limitText) limitText = limitText + ' & < ' + maxLimit
+    //     else limitText = translate('monitoring.limit') + ': < ' + maxLimit
+    //   }
+    // }
+    return `${translate('monitoring.limit')}: ${unit || ''} `
+    //return limitText ? `${limitText} ${unit}` : ` `
   }
 
   getColorLevel() {
