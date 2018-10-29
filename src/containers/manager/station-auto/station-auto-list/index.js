@@ -18,6 +18,7 @@ import styled from 'styled-components'
 import { Modal, message } from 'antd'
 import moment from 'moment'
 import { DD_MM_YYYY } from 'constants/format-date'
+import * as _ from 'lodash'
 
 import DynamicTable from 'components/elements/dynamic-table'
 const LinkSpan = styled.span`
@@ -143,25 +144,11 @@ export default class StationAutoList extends React.Component {
 
   getRows() {
     let stationTypeArr = []
-    //sort dataSource
-    let sourceSorted = this.props.dataSource.sort(function(a, b) {
-      if (!a.stationType)
-        a.stationType = { key: 'NOT SETUP', name: 'NOT SETUP' }
-      if (!b.stationType)
-        b.stationType = { key: 'NOT SETUP', name: 'NOT SETUP' }
-      if (a.stationType.key < b.stationType.key) return -1
-      if (a.stationType.key > b.stationType.key) return 1
-      return 0
-    })
-    let stationCount = {}
-    for (let i = 0; i < sourceSorted.length; i++) {
-      stationCount[sourceSorted[i].stationType.key] = stationCount[
-        sourceSorted[i].stationType.key
-      ]
-        ? stationCount[sourceSorted[i].stationType.key] + 1
-        : 1
-    }
+  
+    let sourceSorted = _.orderBy(this.props.dataSource || [], ['stationType.key'], ['asc'])
 
+    let stationCount = _.countBy(sourceSorted, 'stationType.key')
+    console.log('stationCount: ', stationCount)
     //logic return groupRow or groupRow and Row
     let result = [].concat.apply(
       [],
