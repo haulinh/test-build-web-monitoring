@@ -99,6 +99,9 @@ export default class StationAutoConfigApprove extends React.Component {
       const results = _.filter(this.props.measuringListSource, item => _.isEqual(item.key, key))
       return _.get(results, '[0]', {})
     }
+        
+    return _.get(this.state.valueRules, key)
+  }
 
   onChangeValue = (key, value, isMax) => {
     let valueRules = this.state.valueRules
