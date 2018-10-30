@@ -66,6 +66,16 @@ export default class StationAutoConfigApprove extends React.Component {
         _.get(listRuleChange, [data.key], []),
         [name]
       )
+
+      if (_.isEqual(name, 'OUT_RANGE')){
+        const result = this.valueRuleMeasure(data.key)
+        if (result) {
+          _.update(valueRules, data.key, () => {
+             return { minRange: result.minRange, maxRange: result.maxRange}
+            })
+        }
+      }
+
     } else {
       listRuleChange[data.key] = _.filter(
         _.get(listRuleChange, [data.key], []),
@@ -85,8 +95,10 @@ export default class StationAutoConfigApprove extends React.Component {
   }
 
   valueRuleMeasure = key => {
-    return _.get(this.state.valueRules, key, {})
-  }
+    if (_.isEmpty(_.get(this.state.valueRules, key))){
+      const results = _.filter(this.props.measuringListSource, item => _.isEqual(item.key, key))
+      return _.get(results, '[0]', {})
+    }
 
   onChangeValue = (key, value, isMax) => {
     let valueRules = this.state.valueRules
@@ -259,6 +271,8 @@ export default class StationAutoConfigApprove extends React.Component {
   }
 
   render() {
+
+    console.log('render: ', this.props)
     return (
       <div>
         <Table
