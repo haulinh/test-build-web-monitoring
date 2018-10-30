@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Checkbox, Table, Button, InputNumber, Row, Col } from 'antd'
+import { Form, Checkbox, Table, Button, InputNumber } from 'antd'
 import styled from 'styled-components'
 import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
