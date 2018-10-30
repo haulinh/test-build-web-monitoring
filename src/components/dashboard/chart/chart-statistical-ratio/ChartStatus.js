@@ -124,7 +124,12 @@ export default class ChartStatusView extends React.PureComponent {
       color: '#F03045',
       dataLabels
     }
-    const seriesActive = { name: titleActive, data: [], dataLabels, color: '#008001' }
+    const seriesActive = {
+      name: titleActive,
+      data: [],
+      dataLabels,
+      color: '#008001'
+    }
     const seriesUnActive = {
       name: tittleUnActive,
       data: [],

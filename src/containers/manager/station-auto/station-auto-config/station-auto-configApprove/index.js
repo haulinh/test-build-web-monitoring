@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Checkbox, Table, Button, InputNumber } from 'antd'
-import styled from 'styled-components';
+import styled from 'styled-components'
 import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 
-const FormItem = Form.Item;
+const FormItem = Form.Item
 
 const OutOfRangeView = styled.div`
   flex-direction: row;
@@ -15,7 +15,6 @@ const OutOfRangeView = styled.div`
   justify-content: center;
   align-items: center;
 `
-
 
 @Form.create({
   mapPropsToFields: mapPropsToFields
@@ -68,22 +67,21 @@ export default class StationAutoConfigApprove extends React.Component {
         [name]
       )
 
-      if (_.isEqual(name, 'OUT_RANGE')){
+      if (_.isEqual(name, 'OUT_RANGE')) {
         const result = this.valueRuleMeasure(data.key)
         if (result) {
           _.update(valueRules, data.key, () => {
-             return { minRange: result.minRange, maxRange: result.maxRange}
-            })
+            return { minRange: result.minRange, maxRange: result.maxRange }
+          })
         }
       }
-
     } else {
       listRuleChange[data.key] = _.filter(
         _.get(listRuleChange, [data.key], []),
         item => !_.isEqual(item, name)
       )
 
-      if (_.isEqual(name, 'OUT_RANGE')){
+      if (_.isEqual(name, 'OUT_RANGE')) {
         _.update(valueRules, data.key, () => undefined)
       }
     }
@@ -96,8 +94,10 @@ export default class StationAutoConfigApprove extends React.Component {
   }
 
   valueRuleMeasure = key => {
-    if (_.isEmpty(_.get(this.state.valueRules, key))){
-      const results = _.filter(this.props.measuringListSource, item => _.isEqual(item.key, key))
+    if (_.isEmpty(_.get(this.state.valueRules, key))) {
+      const results = _.filter(this.props.measuringListSource, item =>
+        _.isEqual(item.key, key)
+      )
       return _.get(results, '[0]', {})
     }
 
@@ -106,9 +106,13 @@ export default class StationAutoConfigApprove extends React.Component {
 
   onChangeValue = (key, value, isMax) => {
     let valueRules = this.state.valueRules
-    _.update(valueRules, `${key}.${isMax ?  'maxRange' : 'minRange'}`, () => value)
+    _.update(
+      valueRules,
+      `${key}.${isMax ? 'maxRange' : 'minRange'}`,
+      () => value
+    )
 
-    this.setState({valueRules})
+    this.setState({ valueRules })
   }
 
   getColums = getFieldDecorator => {
@@ -179,36 +183,62 @@ export default class StationAutoConfigApprove extends React.Component {
                     data={row}
                     onChange={this.onChangeCheckbox}
                   />
-                  {
-                    checkedOut && 
-                    <FormItem  style={{ marginTop: 0, marginBottom: 0, marginLeft: 8, marginRight: 8 }}>
+                  {checkedOut && (
+                    <FormItem
+                      style={{
+                        marginTop: 0,
+                        marginBottom: 0,
+                        marginLeft: 8,
+                        marginRight: 8
+                      }}
+                    >
                       {getFieldDecorator(`${row.key}.minRange`, {
-                        rules: [{ required: true, message: this.props.lang.t('stationAutoManager.options.allowApprove.error')}],
+                        rules: [
+                          {
+                            required: true,
+                            message: this.props.lang.t(
+                              'stationAutoManager.options.allowApprove.error'
+                            )
+                          }
+                        ],
                         initialValue: this.valueRuleMeasure(row.key).minRange
                       })(
-                        <InputNumber 
+                        <InputNumber
                           name="min"
                           defaultValue={this.valueRuleMeasure(row.key).minRange}
-                          onChange={value => this.onChangeValue(row.key, value, false)}/> 
+                          onChange={value =>
+                            this.onChangeValue(row.key, value, false)
+                          }
+                        />
                       )}
                     </FormItem>
-                  }
-                  {
-                    checkedOut && 
-                    <FormItem  style={{ margin: 0 }}>
+                  )}
+                  {checkedOut && (
+                    <FormItem style={{ margin: 0 }}>
                       {getFieldDecorator(`${row.key}.maxRange`, {
-                        rules: [{ required: true, message: this.props.lang.t('stationAutoManager.options.allowApprove.error') }],
+                        rules: [
+                          {
+                            required: true,
+                            message: this.props.lang.t(
+                              'stationAutoManager.options.allowApprove.error'
+                            )
+                          }
+                        ],
                         initialValue: this.valueRuleMeasure(row.key).maxRange
                       })(
-                        <InputNumber 
+                        <InputNumber
                           name="max"
                           defaultValue={this.valueRuleMeasure(row.key).maxRange}
-                          onChange={value => this.onChangeValue(row.key, value, true)}/>
+                          onChange={value =>
+                            this.onChangeValue(row.key, value, true)
+                          }
+                        />
                       )}
                     </FormItem>
-                  }
+                  )}
                 </OutOfRangeView>
-            )}
+              )
+            }
           },
           {
             title: this.props.lang.t(
@@ -234,7 +264,7 @@ export default class StationAutoConfigApprove extends React.Component {
 
   onSave = () => {
     this.props.form.validateFields((err, values) => {
-      if (!err) {      
+      if (!err) {
         this.props.onApproveSave({
           allowed: this.state.allowed,
           rules: this.state.listRuleChange,
