@@ -121,14 +121,14 @@ export default class ChartStatusView extends React.PureComponent {
     const seriesDataLoss = {
       name: translate('dashboard.chartStatus.dataLoss'),
       data: [],
-      color: 'yellow',
+      color: '#F03045',
       dataLabels
     }
-    const seriesActive = { name: titleActive, data: [], dataLabels }
+    const seriesActive = { name: titleActive, data: [], dataLabels, color: '#008001' }
     const seriesUnActive = {
       name: tittleUnActive,
       data: [],
-      color: 'red',
+      color: '#4D4E48',
       dataLabels
     }
     let categories = []
