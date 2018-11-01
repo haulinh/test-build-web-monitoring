@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 // import Icon from 'themes/markerIcon'
-import { Menu, Dropdown, Icon } from 'antd'
+import { Menu, Dropdown, Icon, Tabs } from 'antd'
 import LinkA from 'components/elements/link-a'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
@@ -22,6 +22,7 @@ import moment from 'moment'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 const MIN_WIDTH_INFO = 150
+const TabPane = Tabs.TabPane;
 
 const InfoTitle = styled.div`
   color: #37b44c;
@@ -168,7 +169,18 @@ export default class MarkerStation extends PureComponent {
         break
     }
   }
-
+  // renderTabInfoWindow = (data) => {
+  //   return (
+  //   <Tabs defaultActiveKey="1">
+  //     <TabPane tab={<span><Icon type="apple" />Table</span>} key="1">
+  //       Tab 1
+  //     </TabPane>
+  //     <TabPane tab={<span><Icon type="android" />Image</span>} key="2">
+  //       Tab 2
+  //     </TabPane>
+  //   </Tabs>
+  //   )
+  // }
   render() {
     return (
       <div>
@@ -255,6 +267,7 @@ export default class MarkerStation extends PureComponent {
                     )}
                     <Clearfix height={8} />
                     {this.props.lastLog && this.state.tableData}
+                    {/* {this.renderTabInfoWindow()} */}
                   </WrapperInfoWindow>
                 </InfoWindow>
               )}
