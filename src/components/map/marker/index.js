@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 // import Icon from 'themes/markerIcon'
-import { Menu, Dropdown, Icon } from 'antd'
+import { Menu, Dropdown, Icon, Tabs } from 'antd'
 import LinkA from 'components/elements/link-a'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
@@ -20,8 +20,10 @@ import { colorLevels } from 'constants/warningLevels'
 import stStatus, { STATUS_OPTIONS } from 'constants/stationStatus'
 import moment from 'moment'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { get, isEmpty } from 'lodash'
 
 const MIN_WIDTH_INFO = 150
+const TabPane = Tabs.TabPane;
 
 const InfoTitle = styled.div`
   color: #37b44c;
@@ -34,6 +36,10 @@ const WrapperInfoWindow = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+`
+
+const MarkerImage = styled.img`
+width:100%; height: 145px; object-fit: cover;
 `
 
 @autobind
@@ -51,7 +57,8 @@ export default class MarkerStation extends PureComponent {
     options: PropTypes.array,
     visible: PropTypes.bool,
     stationStatus: PropTypes.string,
-    byStationStatus: PropTypes.string
+    byStationStatus: PropTypes.string,
+    image:PropTypes.object,
   }
   state = {
     isOpen: false,
@@ -173,11 +180,22 @@ export default class MarkerStation extends PureComponent {
         break
     }
   }
-
+  renderTabInfoWindow = (data, imageData) => {
+    const url = get(imageData, 'url')
+    return (
+    <Tabs defaultActiveKey="1">
+      <TabPane tab={<span><Icon type="info-circle" theme="outlined" />{translate('map.marker.info')}</span>} key="1"> 
+        {data}
+      </TabPane>
+      {
+        !isEmpty(url) && (<TabPane tab={<span><Icon type="picture" theme="outlined" />{translate('map.marker.image')}</span>} key="2">
+              <MarkerImage src={url}/>
+            </TabPane>)
+      }
+    </Tabs>
+    )
+  }
   render() {
-
-    console.log('status', this.props.status)
-
     return (
       <div>
         <Marker
@@ -262,7 +280,8 @@ export default class MarkerStation extends PureComponent {
                       </div>
                     )}
                     <Clearfix height={8} />
-                    {this.props.lastLog && this.state.tableData}
+                    {/* {this.props.lastLog && this.state.tableData} */}
+                    {this.renderTabInfoWindow(this.props.lastLog && this.state.tableData, this.props.image)}
                   </WrapperInfoWindow>
                 </InfoWindow>
               )}

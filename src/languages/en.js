@@ -179,8 +179,10 @@ export default {
     },
     marker: {
       dataLoss: 'Data Loss',
-      notUse: 'Not In Use'
-    }
+      notUse: 'Not In Use',
+      info: 'Info',
+      image: 'Image'
+    },
   },
   dataSearchFrom: {
     titleText: 'Data Search',

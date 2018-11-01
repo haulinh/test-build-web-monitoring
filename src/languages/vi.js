@@ -179,7 +179,9 @@ export default {
     },
     marker: {
       dataLoss: 'Mất kết nối',
-      notUse: 'Chưa kết nối'
+      notUse: 'Chưa kết nối',
+      info: 'Thông tin',
+      image: 'Hình ảnh'
     }
   },
   dataSearchFrom: {
