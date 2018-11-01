@@ -106,12 +106,12 @@ export default class HeaderView extends React.PureComponent {
             {
               name: notReceived,
               y: 100 - total,
-              color: 'red'
+              color: '#F03045'
             },
             {
               name: received,
               y: total,
-              color: 'rgb(149,206,255)'
+              color: '#008001'
             }
           ]
         }
@@ -134,8 +134,8 @@ export default class HeaderView extends React.PureComponent {
       }
     }
 
-    const series1 = { name: received, data: [], dataLabels }
-    const series2 = { name: notReceived, data: [], color: 'red', dataLabels }
+    const series1 = { name: received, data: [], dataLabels, color: '#008001' }
+    const series2 = { name: notReceived, data: [], color: '#F03045', dataLabels }
     let categories = []
 
     _.forEach(this.state.data, ({ ratio, name }) => {

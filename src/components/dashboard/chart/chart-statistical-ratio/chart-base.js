@@ -34,9 +34,9 @@ export default class ChartBaseView extends React.Component {
     isOpen: false
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState.isOpen !== this.state.isOpen
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return nextState.isOpen !== this.state.isOpen
+  // }
 
   toggle = e => {
     this.setState({ isOpen: !this.state.isOpen })

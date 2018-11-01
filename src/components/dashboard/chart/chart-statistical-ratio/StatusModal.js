@@ -21,20 +21,19 @@ export default class StatusModalView extends React.Component {
     const seriesReceived = {
       name: translate('dashboard.chartRatio.received'),
       data: [],
-      color: '',
+      color: '#008001',
       dataLabels
     }
     const seriesNotReceived = {
       name: translate('dashboard.chartRatio.notReceived'),
       data: [],
-      color: 'red',
+      color: '#F03045',
       dataLabels
     }
     let categories = []
 
     const list = _.get(this.props, ['data', `${this.props.title}`, 'list'], [])
 
-    console.log(list)
     _.forEach(list, ({ name, percent }) => {
       const received = percent || 0
       seriesReceived.data.push(received)

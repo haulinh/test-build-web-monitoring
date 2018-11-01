@@ -6,7 +6,7 @@ export default {
 }
 
 export const STATUS_OPTIONS = {
-  GOOD: { title: 'dashboard.good', color: 'green' },
-  DATA_LOSS: { title: 'dashboard.dataLoss', color: 'red' },
-  NOT_USE: { title: 'dashboard.notUse', color: 'black' }
+  GOOD: { title: 'dashboard.connected', color: '#008001' },
+  DATA_LOSS: { title: 'dashboard.dataLoss', color: '#F03045' },
+  NOT_USE: { title: 'dashboard.notUse', color: '#4D4E48' }
 }

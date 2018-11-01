@@ -86,17 +86,17 @@ export default class ChartStatusView extends React.PureComponent {
             {
               name: tittleUnActive,
               y: total,
-              color: 'red'
+              color: '#4D4E48'
             },
             {
               name: translate('dashboard.chartStatus.dataLoss'),
               y: lossData,
-              color: 'yellow'
+              color: '#F03045'
             },
             {
               name: titleActive,
               y: goodTotal,
-              color: 'rgb(149,206,255)'
+              color: '#008001'
             }
           ]
         }
