@@ -138,6 +138,7 @@ class CustomGoogleMap extends PureComponent {
                     lastLog={item.lastLog}
                     options={item.options}
                     measuringList={item.measuringList}
+                    image={item.image}
                   />
                 )
               } else return <div key={item.key} />

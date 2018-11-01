@@ -20,6 +20,7 @@ import { colorLevels } from 'constants/warningLevels'
 import stStatus from 'constants/stationStatus'
 import moment from 'moment'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { get, isEmpty } from 'lodash'
 
 const MIN_WIDTH_INFO = 150
 const TabPane = Tabs.TabPane;
@@ -37,6 +38,10 @@ const WrapperInfoWindow = styled.div`
   flex-direction: column;
 `
 
+const MarkerImage = styled.img`
+width:100%; height: 145px; object-fit: cover;
+`
+
 @autobind
 export default class MarkerStation extends PureComponent {
   static propTypes = {
@@ -51,7 +56,8 @@ export default class MarkerStation extends PureComponent {
     measuringList: PropTypes.array,
     options: PropTypes.array,
     visible: PropTypes.bool,
-    stationStatus: PropTypes.string
+    stationStatus: PropTypes.string,
+    image:PropTypes.object,
   }
   state = {
     isOpen: false,
@@ -169,18 +175,21 @@ export default class MarkerStation extends PureComponent {
         break
     }
   }
-  // renderTabInfoWindow = (data) => {
-  //   return (
-  //   <Tabs defaultActiveKey="1">
-  //     <TabPane tab={<span><Icon type="apple" />Table</span>} key="1">
-  //       Tab 1
-  //     </TabPane>
-  //     <TabPane tab={<span><Icon type="android" />Image</span>} key="2">
-  //       Tab 2
-  //     </TabPane>
-  //   </Tabs>
-  //   )
-  // }
+  renderTabInfoWindow = (data, imageData) => {
+    const url = get(imageData, 'url')
+    return (
+    <Tabs defaultActiveKey="1">
+      <TabPane tab={<span><Icon type="info-circle" theme="outlined" />{translate('map.marker.info')}</span>} key="1"> 
+        {data}
+      </TabPane>
+      {
+        !isEmpty(url) && (<TabPane tab={<span><Icon type="picture" theme="outlined" />{translate('map.marker.image')}</span>} key="2">
+              <MarkerImage src={url}/>
+            </TabPane>)
+      }
+    </Tabs>
+    )
+  }
   render() {
     return (
       <div>
@@ -266,8 +275,8 @@ export default class MarkerStation extends PureComponent {
                       </div>
                     )}
                     <Clearfix height={8} />
-                    {this.props.lastLog && this.state.tableData}
-                    {/* {this.renderTabInfoWindow()} */}
+                    {/* {this.props.lastLog && this.state.tableData} */}
+                    {this.renderTabInfoWindow(this.props.lastLog && this.state.tableData, this.props.image)}
                   </WrapperInfoWindow>
                 </InfoWindow>
               )}
