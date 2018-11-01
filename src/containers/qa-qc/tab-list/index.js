@@ -61,6 +61,17 @@ export default class TabeList extends React.PureComponent {
     }
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (_.isEqual(nextProps, this.props)) {
+      this.state = {
+        visible: false,
+        options: [],
+        checkedAll: _.get(nextProps, 'dataSelected.checked', false),
+        data: _.get(nextProps, 'dataSelected.list', [])
+      }
+    }
+  }
+
   handleOk = e => {
     this.setState({ visible: false })
   }
@@ -71,6 +82,10 @@ export default class TabeList extends React.PureComponent {
 
   handleCancelApprove = e => {
     this.setState({ visible: true })
+  }
+
+  onManualApprove = e => {
+    this.setState({visible: true})
   }
 
   renderButtonApprove() {
@@ -168,7 +183,6 @@ export default class TabeList extends React.PureComponent {
   }
 
   render() {
-    console.log('hihihihihi', this.props)
     return (
       <TabeListWrapper>
         {this.props.valueField !== 'original' && this.renderButton()}

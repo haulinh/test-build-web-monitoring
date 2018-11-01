@@ -100,7 +100,6 @@ class EditableCell extends React.Component {
       handleSave,
       ...restProps
     } = this.props
-    console.log(this.props, record)
     _.get(record, [`${dataIndex}.value`], '')
     return (
       <td ref={node => (this.cell = node)} {...restProps}>
@@ -146,7 +145,7 @@ class EditableCell extends React.Component {
 
 const TitleView = ({ name, unit, isPublish, onChange, code, checked }) => (
   <div style={{ textAlign: 'center'}}>
-    {isPublish && <div><Checkbox onChange={onChange} code={code} checked={checked}/></div>}
+    {isPublish && <div><Checkbox onChange={onChange} code={code} defaultChecked={checked}/></div>}
     {isPublish && <div style={{height: 1, background: '#cdcdcd', marginTop: 2, marginBottom: 2}}></div>}
     <div>{name} {unit && `(${unit})`}</div>
   </div>
@@ -209,14 +208,18 @@ class EditableTable extends React.Component {
     }
 
     const checkCol = {
-      title: <Checkbox value={props.checkedAll} onChange={me.onAllChange} />,
+      title: <Checkbox defaultChecked={props.checkedAll} onChange={me.onAllChange} />,
       dataIndex: 'Index',
       key: 'checked',
       width: 40,
       align: 'center',
       render(value, record, index) {
+
+
+        // Checked All = true
+
         return (
-          <Checkbox key={record} onChange={e => me.onItemChange(e, record)} />
+          <Checkbox key={record} checked={props.checkedAll ? !_.includes(props.listChecked, record._id) : _.includes(props.listChecked, record._id)} onChange={e => me.onItemChange(e, record)} />
         )
       }
     }
