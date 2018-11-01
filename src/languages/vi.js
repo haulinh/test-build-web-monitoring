@@ -5,10 +5,10 @@ export default {
   },
   dashboard: {
     good: 'Tốt',
-    dataLoss: 'Mất dữ liệu',
-    notUse: 'Chưa sử dụng',
-    connected: 'Đã kết nối',
-    exceeded: 'Vượt ngưỡng',
+    dataLoss: 'Mất kết nối',
+    notUse: 'Chưa chưa kết nối',
+    connected: 'Đang kết nối',
+    exceeded: 'Vượt QCVN',
     exceededPreparing: 'Chuẩn bị vượt',
     exceededTendency: 'Có xu hướng vượt',
     viewInMonitoring: 'Giám sát trực tuyến',
@@ -28,9 +28,9 @@ export default {
     chartStatus: {
       title: 'Tình trạng hoạt động của trạm',
       titleByUnit: 'Tình trạng hoạt động của {{=it.unit}}',
-      activate: 'Hoạt động',
+      activate: 'Đang kết nối',
       inactive: `Chưa kết nối`,
-      dataLoss: `Mất dữ liệu`,
+      dataLoss: `Mất kết nối`,
       max: 'Giới hạn trên: {{=it.max}}',
       min: 'Giới hạn duới: {{=it.min}}'
     },
@@ -51,7 +51,7 @@ export default {
     viewInMap: 'Bản đồ',
     sampling: 'Lấy mẫu',
     camera: 'Camera',
-    lossAt: 'Mất dữ liệu lúc',
+    lossAt: 'Mất kết nối lúc',
     notInUse: 'Chưa sử dụng',
     deviceStatus: {
       normal: 'Bình thường',
@@ -66,7 +66,7 @@ export default {
   qaqc: {
     publish: 'Cho phép công bố',
     title: `QA/QC`,
-    originalData: 'Số liệu gốc',
+    originalData: 'Dữ liệu gốc',
     approveData: 'Kiểm duyệt dữ liệu',
     removeDataBy: 'Loại bỏ dữ liệu theo',
     approveAll: 'Kiểm duyệt tất cả',
@@ -148,10 +148,10 @@ export default {
     WQI: 'Chất lượng nước',
     menuRight: {
       good: 'Tốt',
-      dataLoss: 'Mất dữ liệu',
+      dataLoss: 'Mất kết nối',
       notUse: 'Chưa sử dụng',
       connected: 'Đã kết nối',
-      exceeded: 'Vượt ngưỡng',
+      exceeded: 'Vượt QCVN',
       exceededPreparing: 'Chuẩn bị vượt',
       exceededTendency: 'Có xu hướng vượt',
       notify: 'Thông báo',
@@ -166,7 +166,7 @@ export default {
       measuring: 'Thông số',
       value: 'Giá trị',
       unit: 'Đơn vị',
-      dataLossAt: 'Mất dữ liệu lúc:',
+      dataLossAt: 'Mất kết nối lúc:',
       dataReceived: 'Có dữ liệu lúc:',
       longitude: 'Kinh độ',
       latitude: 'Vĩ độ',
@@ -178,8 +178,8 @@ export default {
       }
     },
     marker: {
-      dataLoss: 'Mất dữ liệu',
-      notUse: 'Chưa sử dụng'
+      dataLoss: 'Mất kết nối',
+      notUse: 'Chưa kết nối'
     }
   },
   dataSearchFrom: {
@@ -214,7 +214,7 @@ export default {
         require: 'Chọn ít nhất 1 thông số'
       },
       isExceeded: {
-        label: 'Dữ liệu vượt ngưỡng'
+        label: 'Dữ liệu vượt QCVN'
       },
       operator: {
         label: 'Phép toán'
@@ -278,7 +278,7 @@ export default {
         require: 'Chọn ít nhất 1 thông số'
       },
       isExceeded: {
-        label: 'Dữ liệu vượt ngưỡng'
+        label: 'Dữ liệu vượt QCVN'
       },
       operator: {
         label: 'Phép toán'
@@ -964,7 +964,7 @@ export default {
     good: 'Tốt',
     exceedTendency: 'Có xu hướng vượt',
     exceedPreparing: 'Chuẩn bị vượt',
-    exceed: 'Vượt ngưỡng'
+    exceed: 'Vượt QCVN'
   },
   addon: {
     create: 'Tạo mới',
