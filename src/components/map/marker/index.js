@@ -17,7 +17,7 @@ import Marker from '../utils/marker-with-label-animate'
 import { Table } from 'react-bootstrap'
 // import DateFormat from 'dateformat'
 import { colorLevels } from 'constants/warningLevels'
-import stStatus from 'constants/stationStatus'
+import stStatus, { STATUS_OPTIONS } from 'constants/stationStatus'
 import moment from 'moment'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
@@ -50,7 +50,8 @@ export default class MarkerStation extends PureComponent {
     measuringList: PropTypes.array,
     options: PropTypes.array,
     visible: PropTypes.bool,
-    stationStatus: PropTypes.string
+    stationStatus: PropTypes.string,
+    byStationStatus: PropTypes.string
   }
   state = {
     isOpen: false,
@@ -150,9 +151,13 @@ export default class MarkerStation extends PureComponent {
     )
   }
 
-  getColorLevel(status) {
+  getColorLevel(status, isStationStatus = false) {
+    if (isStationStatus && STATUS_OPTIONS[status]) return STATUS_OPTIONS[status].color    
+
+    if (!isStationStatus)
     if (status && status !== '') return colorLevels[status.toUpperCase()]
-    else return colorLevels.GOOD
+    
+    return colorLevels.GOOD
   }
 
   renderStationStatus(status) {
@@ -170,6 +175,9 @@ export default class MarkerStation extends PureComponent {
   }
 
   render() {
+
+    console.log('status', this.props.status)
+
     return (
       <div>
         <Marker
@@ -181,7 +189,7 @@ export default class MarkerStation extends PureComponent {
             scale: 8,
             strokeWeight: 1,
             strokeColor: '#00',
-            fillColor: this.getColorLevel(this.props.status),
+            fillColor: this.getColorLevel(this.props.byStationStatus ? this.props.stationStatus : this.props.status, this.props.byStationStatus),
             fillOpacity: 1
           }}
           onClick={this.toggleOpen}

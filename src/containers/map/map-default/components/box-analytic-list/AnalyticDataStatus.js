@@ -139,7 +139,7 @@ export default class BoxAnalyticList extends React.PureComponent {
         </Row>
         <Clearfix height={8} />
         <Row>
-          <Item
+          {/* <Item
             onClick={() => {
               this.handelFocusStatus(warningLevels.EXCEEDED_PREPARING)
             }}
@@ -151,8 +151,9 @@ export default class BoxAnalyticList extends React.PureComponent {
               focusStatus={warningLevels.EXCEEDED_PREPARING}
               focusParam={this.state.focusStatus}
             />
-          </Item>
+          </Item> */}
           <Item
+            isFullWidth
             onClick={() => {
               this.handelFocusStatus(warningLevels.EXCEEDED_TENDENCY)
             }}

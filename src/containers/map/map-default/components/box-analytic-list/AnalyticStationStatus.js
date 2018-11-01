@@ -3,7 +3,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import { SHAPE } from 'themes/color'
 import { translate as t } from 'hoc/create-lang'
-import stationStatus from 'constants/stationStatus'
+import stationStatus, { STATUS_OPTIONS } from 'constants/stationStatus'
 import { Row, Clearfix, Item, BoxNumberView } from './style'
 import PropTypes from 'prop-types'
 
@@ -87,8 +87,8 @@ export default class BoxAnalyticList extends React.PureComponent {
             }}
           >
             <BoxNumberView
-              color={SHAPE.RED}
-              type={t(pfKey + 'dataLoss')}
+              color={STATUS_OPTIONS['DATA_LOSS'].color}
+              type={t(STATUS_OPTIONS['DATA_LOSS'].title)}
               number={this.state.dataLoss}
               focusStatus={stationStatus.DATA_LOSS}
               focusParam={this.state.focusStatus}
@@ -100,8 +100,8 @@ export default class BoxAnalyticList extends React.PureComponent {
             }}
           >
             <BoxNumberView
-              color={SHAPE.YELLOW}
-              type={t(pfKey + 'notUse')}
+              color={STATUS_OPTIONS['NOT_USE'].color}
+              type={t(STATUS_OPTIONS['NOT_USE'].title)}
               number={this.state.notUse}
               focusStatus={stationStatus.NOT_USE}
               focusParam={this.state.focusStatus}
@@ -117,8 +117,8 @@ export default class BoxAnalyticList extends React.PureComponent {
             }}
           >
             <BoxNumberView
-              color={SHAPE.GREEN}
-              type={t(pfKey + 'connected')}
+              color={STATUS_OPTIONS['GOOD'].color}
+              type={t(STATUS_OPTIONS['GOOD'].title)}
               number={this.state.connected}
               focusStatus={stationStatus.CONNECTED}
               focusParam={this.state.focusStatus}

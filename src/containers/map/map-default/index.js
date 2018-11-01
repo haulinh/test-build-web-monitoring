@@ -15,6 +15,7 @@ import Header from './Header'
 import connectWindowHeight from '../hoc-window-height'
 import SidebarNormal from './sidebar/SidebarNormal'
 import SidebarNotifications from './sidebar/SidebarNotifications'
+import { TYPE } from './components/box-analytic-list/SelectType'
 
 const MapDefaultWrapper = styled.div`
   display: flex;
@@ -59,7 +60,7 @@ export default class MapDefault extends React.PureComponent {
     zoom: 5,
     isHidden: false,
     isLeft: true,
-    isRight: true
+    isRight: true,
   }
 
   handleChangeSidebarType(e, sidebarType) {
@@ -145,6 +146,7 @@ export default class MapDefault extends React.PureComponent {
       }
 
       if (findBy === 'byStationStatus') {
+        element.byStationStatus = true
         if (element.status === stationStatus.DATA_LOSS) {
           status = stationStatus.DATA_LOSS
         }
@@ -154,6 +156,7 @@ export default class MapDefault extends React.PureComponent {
       }
 
       if (findBy === 'byDataStatus') {
+        element.byStationStatus = false
         let warLevel = warningLevels.GOOD
         let measuringLogs =
           element.lastLog && element.lastLog.measuringLogs
@@ -172,6 +175,7 @@ export default class MapDefault extends React.PureComponent {
       if (focusStatus.includes(status)) element.visible = true
       return element
     })
+    console.log(res)
 
     this.setState({
       stationsAuto: res

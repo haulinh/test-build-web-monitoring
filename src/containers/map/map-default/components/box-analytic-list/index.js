@@ -19,7 +19,7 @@ export default class BoxAnalytic extends React.PureComponent {
   }
 
   state = {
-    type: TYPE.DATA_STATUS
+    type: TYPE.STATION_STATUS
   }
 
   handleChangeType(type) {

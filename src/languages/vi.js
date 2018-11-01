@@ -167,7 +167,7 @@ export default {
       value: 'Giá trị',
       unit: 'Đơn vị',
       dataLossAt: 'Mất kết nối lúc:',
-      dataReceived: 'Có dữ liệu lúc:',
+      dataReceived: 'Dữ liệu lúc:',
       longitude: 'Kinh độ',
       latitude: 'Vĩ độ',
       address: 'Địa chỉ',

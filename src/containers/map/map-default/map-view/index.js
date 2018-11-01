@@ -85,6 +85,7 @@ class CustomGoogleMap extends PureComponent {
   }
 
   render() {
+    console.log('render', this.props)
     const defaultCenter = { lat: 10.7607494, lng: 106.6954122 }
     return (
       <GoogleMap
@@ -134,6 +135,7 @@ class CustomGoogleMap extends PureComponent {
                         : warningLevels.GOOD
                     }
                     stationStatus={item.status}
+                    byStationStatus={item.byStationStatus}
                     address={item.address}
                     lastLog={item.lastLog}
                     options={item.options}
@@ -215,9 +217,9 @@ export default class MapStationAuto extends PureComponent {
   render() {
     return (
       <MapContainer>
-        <LevelWrapper>
+        {/* <LevelWrapper>
           <LevelIntro />
-        </LevelWrapper>
+        </LevelWrapper> */}
         <CustomGoogleMap
           ref={map => {
             this.mapTamp = map
