@@ -102,7 +102,7 @@ export default class MeasuringItem extends React.PureComponent {
     //     else limitText = translate('monitoring.limit') + ': < ' + maxLimit
     //   }
     // }
-    return `${translate('monitoring.limit')}: ${unit || ''} `
+    return `${translate('monitoring.limit')} `
     //return limitText ? `${limitText} ${unit}` : ` `
   }
 

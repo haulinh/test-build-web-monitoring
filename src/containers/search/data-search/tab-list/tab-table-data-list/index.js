@@ -47,7 +47,7 @@ export default class TableDataList extends React.PureComponent {
         dataIndex: `measuringLogs.${measuring.key}`,
         key: measuring.key,
         render: value => {
-          if (value === null) return <div />
+          if (value === null || value === undefined) return <div />
           let color = SHAPE.BLACK
           if (
             value.warningLevel &&

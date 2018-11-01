@@ -32,7 +32,7 @@ export default class HeaderView extends React.PureComponent {
   render() {
     return (
       <WrapperView>
-        <ProvinceSelect label="Tat ca" onChange={this.handleItemSelected} />
+        <ProvinceSelect label="All" onChange={this.handleItemSelected} />
         <Label style={{ paddingTop: 8 }}>{this.props.stationStatus}</Label>
       </WrapperView>
     )

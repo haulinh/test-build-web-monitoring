@@ -34,7 +34,7 @@ export default {
       max: 'Maximum: {{=it.max}}',
       min: 'Minimum: {{=it.min}}'
     },
-    activeStationPer: 'Station Active {{=it.good}}/{{=it.total}}'
+    activeStationPer: 'Station Active ({{=it.good}}/{{=it.total}})'
   },
   monitoring: {
     title: 'Monitoring',

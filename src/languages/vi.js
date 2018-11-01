@@ -34,7 +34,7 @@ export default {
       max: 'Giới hạn trên: {{=it.max}}',
       min: 'Giới hạn duới: {{=it.min}}'
     },
-    activeStationPer: 'Trạm hoạt động {{=it.good}}/{{=it.total}}'
+    activeStationPer: 'Trạm hoạt động ({{=it.good}}/{{=it.total}})'
   },
   monitoring: {
     title: 'Giám sát trực tuyến',
@@ -545,9 +545,9 @@ export default {
         error: 'Vui lòng chọn đơn vị quản lý'
       },
       frequency: {
-        label: 'Tần xuất(phút/lần)',
+        label: 'Tần suất(phút/lần)',
         placeholder: 'phút/lần',
-        error: 'Vui lòng chọn tần xuất'
+        error: 'Vui lòng chọn tần suất'
       },
       dayOfOperation: {
         label: 'Ngày hoạt động',

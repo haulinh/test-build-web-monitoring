@@ -7,6 +7,7 @@ import { Collapse } from 'reactstrap'
 import StationAutoList from './station-auto-list'
 import HeadStationType from './HeadStationType'
 import { Icon } from 'antd'
+import { filter } from 'lodash'
 
 const StationTypeWrapper = styled.div``
 
@@ -44,6 +45,7 @@ export default class StationTypeSummary extends React.Component {
 
   render() {
     const { stationType, stationAutoList } = this.props
+    const goodTotal = filter(stationAutoList || [], ({status}) => status === 'GOOD').length
     if (stationAutoList.length === 0) return null
     return (
       <StickyContainer>
@@ -61,10 +63,9 @@ export default class StationTypeSummary extends React.Component {
                 <HeadStationType>
                   <TextSpan onClick={this.toggleOpen}>
                     <IconToggle isOpen={this.state.isOpen}>
-                      {' '}
-                      <Icon type="caret-right" />
+                      <Icon type="caret-right" /> 
                     </IconToggle>
-                    {stationType.name} ({stationAutoList.length})
+                    {stationType.name} ({goodTotal}/{stationAutoList.length})
                   </TextSpan>
                 </HeadStationType>
               </div>

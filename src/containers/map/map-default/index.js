@@ -15,7 +15,7 @@ import Header from './Header'
 import connectWindowHeight from '../hoc-window-height'
 import SidebarNormal from './sidebar/SidebarNormal'
 import SidebarNotifications from './sidebar/SidebarNotifications'
-import { TYPE } from './components/box-analytic-list/SelectType'
+// import { TYPE } from './components/box-analytic-list/SelectType'
 
 const MapDefaultWrapper = styled.div`
   display: flex;

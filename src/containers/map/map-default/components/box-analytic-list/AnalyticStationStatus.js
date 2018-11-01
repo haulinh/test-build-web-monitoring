@@ -1,7 +1,7 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import { SHAPE } from 'themes/color'
+// import { SHAPE } from 'themes/color'
 import { translate as t } from 'hoc/create-lang'
 import stationStatus, { STATUS_OPTIONS } from 'constants/stationStatus'
 import { Row, Clearfix, Item, BoxNumberView } from './style'
@@ -77,7 +77,7 @@ export default class BoxAnalyticList extends React.PureComponent {
   }
 
   render() {
-    const pfKey = 'map.menuRight.'
+    //const pfKey = 'map.menuRight.'
     return (
       <BoxAnalyticListWrapper>
         <Row>
