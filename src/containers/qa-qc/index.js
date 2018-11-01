@@ -2,6 +2,7 @@ import React from 'react'
 import { autobind } from 'core-decorators'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import QAQCApi from '../../api/QAQCApi'
+import { measurePublished } from 'api/StationAuto'
 import Clearfix from 'components/elements/clearfix/index'
 import { translate } from 'hoc/create-lang'
 import TabList from './tab-list'
@@ -33,12 +34,12 @@ export default class QaQcContainer extends React.Component {
       pageSize: 50
     },
     dataUpdate: {},
-    dataSelected: { checked: false, list: [] }
+    dataSelected: { checked: false, list: [] },
+    published: {}
   }
 
-  handleSubmitSearch(searchFormData) {
+  handleSubmitSearch(searchFormData, published) {
     let outOfRange = {}
-
     forEach(
       get(searchFormData, 'measuringData', []),
       ({ minRange, maxRange, key }) => {
@@ -54,18 +55,19 @@ export default class QaQcContainer extends React.Component {
     )
     if (!isEmpty(outOfRange))
       searchFormData.outOfRange = JSON.stringify(outOfRange)
-
     this.loadData(
       { ...this.state.pagination, current: 1 },
       searchFormData,
       {},
-      { checked: false, list: [] }
+      { checked: false, list: [] },
+      published
     )
   }
 
-  async loadData(pagination, searchFormData, dataUpdate, dataSelected) {
+  async loadData(pagination, searchFormData, dataUpdate, dataSelected, published) {
     this.setState({
-      isLoading: true
+      isLoading: true,
+      published
       //isHaveData: true
     })
 
@@ -115,7 +117,8 @@ export default class QaQcContainer extends React.Component {
       pagination,
       this.state.searchFormData,
       this.state.dataUpdate,
-      this.state.dataSelected
+      this.state.dataSelected,
+      this.state.published
     )
   }
 
@@ -147,7 +150,8 @@ export default class QaQcContainer extends React.Component {
         this.state.pagination,
         this.state.searchFormData,
         {},
-        { checked: false, list: [] }
+        { checked: false, list: [] },
+        this.state.published
       )
     } else {
       message.error(translate('qaqc.msg.failure'))
@@ -183,7 +187,8 @@ export default class QaQcContainer extends React.Component {
             me.state.pagination,
             me.state.searchFormData,
             {},
-            { checked: false, list: [] }
+            { checked: false, list: [] },
+            this.state.published
           )
         } else {
           message.error(translate('qaqc.msg.failure'))
@@ -194,6 +199,12 @@ export default class QaQcContainer extends React.Component {
         })
       }
     })
+  }
+
+  handerPublished = async (published) => {
+    this.setState({ published })
+    await measurePublished(published._id, {measureList: get(published, 'publishedList', [])})
+    console.log('published', published)
   }
 
   render() {
@@ -233,6 +244,8 @@ export default class QaQcContainer extends React.Component {
               isExporting={this.state.isExporting}
               onUnApprovedData={this.onUnApprovedData}
               dataSelected={this.state.dataSelected}
+              published={this.state.published}
+              onPublishChange={this.handerPublished}
               valueField={get(this.state, 'searchFormData.dataType', 'value')}
             />
           ) : null}

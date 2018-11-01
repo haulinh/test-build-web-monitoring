@@ -64,6 +64,7 @@ export default {
     paramsTitle: 'Giá trị AQI {{=it.day}} ngày của từng thông số'
   },
   qaqc: {
+    publish: 'Cho phép công bố',
     title: `QA/QC`,
     originalData: 'Số liệu gốc',
     approveData: 'Kiểm duyệt dữ liệu',

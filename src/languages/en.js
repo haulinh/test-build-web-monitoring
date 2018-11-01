@@ -64,6 +64,7 @@ export default {
     paramsTitle: 'The {{= it.day}}-day AQI value of each parameter'
   },
   qaqc: {
+    publish: 'Publish',
     title: `QA/QC`,
     originalData: 'Original Data',
     removeDataBy: 'Remove Data By',

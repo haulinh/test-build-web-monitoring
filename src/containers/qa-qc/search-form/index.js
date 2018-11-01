@@ -128,6 +128,8 @@ export default class SearchForm extends React.Component {
       })),
       measuringData: measuringData,
       stationAutoKey: stationAuto.key,
+      stationAutoID: stationAuto._id,
+      options: stationAuto.options,
       stationAutoName: stationAuto.name
     })
     this.props.change('measuringList', measuringData.map(m => m.key))
@@ -153,7 +155,10 @@ export default class SearchForm extends React.Component {
       params.dataFilterBy = _.get(values, 'dataFilterBy', [])
     }
 
-    this.props.onSubmit(params)
+    this.props.onSubmit(params, { 
+      _id: this.state.stationAutoID,
+      publishedList: _.get(this.state, 'options.published.measureList', [])
+    })
   }
 
   handleChoseOptions = e => {

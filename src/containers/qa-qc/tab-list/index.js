@@ -44,7 +44,9 @@ export default class TabeList extends React.PureComponent {
     onChangeData: PropTypes.func,
     onUnApprovedData: PropTypes.func,
     onItemChecked: PropTypes.func,
-    valueField: PropTypes.string
+    valueField: PropTypes.string,
+    published: PropTypes.object,
+    onPublishChange: PropTypes.func
   }
 
   //dataSelected
@@ -166,6 +168,7 @@ export default class TabeList extends React.PureComponent {
   }
 
   render() {
+    console.log('hihihihihi', this.props)
     return (
       <TabeListWrapper>
         {this.props.valueField !== 'original' && this.renderButton()}
@@ -182,6 +185,8 @@ export default class TabeList extends React.PureComponent {
           checkedAll={this.state.checkedAll}
           listChecked={this.state.data}
           onItemChecked={this.handleItemChecked}
+          published={this.props.published}
+          onPublishChange={this.props.onPublishChange}
         />
         <Modal
           title={translate('qaqc.manualApprove')}

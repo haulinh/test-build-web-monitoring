@@ -100,6 +100,7 @@ class EditableCell extends React.Component {
       handleSave,
       ...restProps
     } = this.props
+    console.log(this.props, record)
     _.get(record, [`${dataIndex}.value`], '')
     return (
       <td ref={node => (this.cell = node)} {...restProps}>
@@ -143,9 +144,19 @@ class EditableCell extends React.Component {
   }
 }
 
-const TitleView = ({ name, unit }) => (
-  <div style={{ textAlign: 'center' }}>
-    {name} {unit && `(${unit})`}
+const TitleView = ({ name, unit, isPublish, onChange, code, checked }) => (
+  <div style={{ textAlign: 'center'}}>
+    {isPublish && <div><Checkbox onChange={onChange} code={code} checked={checked}/></div>}
+    {isPublish && <div style={{height: 1, background: '#cdcdcd', marginTop: 2, marginBottom: 2}}></div>}
+    <div>{name} {unit && `(${unit})`}</div>
+  </div>
+)
+
+const TimeView = ({isPublish }) => (
+  <div style={{ textAlign: 'left'}}>
+    {isPublish && <div>{translate('qaqc.publish')}</div>}
+    {isPublish && <div style={{height: 1, background: '#cdcdcd', marginTop: 2, marginBottom: 2}}></div>}
+    <div>{translate('dataSearchFrom.table.receivedAt')}</div>
   </div>
 )
 
@@ -172,7 +183,19 @@ class EditableTable extends React.Component {
     this.props.onItemChecked(record._id, _.get(e, 'target.checked', false))
   }
 
+  onChangeApproved = e => {
+    const item = _.get(e, 'target.code', null)
+    let publishedList = _.get(this.props, 'published.publishedList', [])
+    if (_.get(e, 'target.checked', false)) {
+      publishedList = _.union(publishedList, [item])
+    } else {
+      publishedList = _.filter(publishedList, it => it !== item)
+    }
+    this.props.onPublishChange({...this.props.published, publishedList})
+  }
+
   getCols = props => {
+    const isOriginal = props.valueField === 'original'
     const me = this
     const indexCol = {
       title: '#',
@@ -186,7 +209,7 @@ class EditableTable extends React.Component {
     }
 
     const checkCol = {
-      title: <Checkbox checked={props.checkedAll} onChange={me.onAllChange} />,
+      title: <Checkbox value={props.checkedAll} onChange={me.onAllChange} />,
       dataIndex: 'Index',
       key: 'checked',
       width: 40,
@@ -199,7 +222,7 @@ class EditableTable extends React.Component {
     }
 
     const timeCol = {
-      title: translate('dataSearchFrom.table.receivedAt'),
+      title: <TimeView isPublish={!isOriginal}/>,//translate('dataSearchFrom.table.receivedAt'),
       dataIndex: 'receivedAt',
       key: 'receivedAt',
       render(value) {
@@ -207,15 +230,18 @@ class EditableTable extends React.Component {
       }
     }
 
-    const isOriginal = props.valueField === 'original'
+    
     const measureCols = _.filter(props.measuringData, measuring =>
       props.measuringList.includes(measuring.key)
     ).map(measuring => {
-      return {
-        title: <TitleView {...measuring} code={measuring.key} />,
+      const col = {
+        title: <TitleView isPublish={!isOriginal} {...measuring} 
+          code={measuring.key}
+          checked={_.includes(_.get(props, 'published.publishedList', []), measuring.key)}
+          onChange={me.onChangeApproved}/>,
         dataIndex: measuring.key,
         key: measuring.key,
-        editable: !_.isEqual(props.valueField, 'approvedValue'),
+        editable: _.isEqual(props.valueField, 'value'),
         render: (value, record) => {
           const statusDevice = _.get(
             record,
@@ -250,13 +276,18 @@ class EditableTable extends React.Component {
 
           if (value === null) return <div />
           return (
-            <div style={{ color }}>
+            <div style={{ color, textAlign: "right" }}>
               {value && value.toLocaleString(navigator.language)} {text}
               {st && st.icon}
             </div>
           )
         }
       }
+      return col
+      // return {
+      //   title: <Checkbox code={measuring.key} checked={_.includes(_.get(props, 'published.publishedList', []), measuring.key)} onChange={me.onChangeApproved}/>, 
+      //   children: [col]}
+    
     })
 
     if (isOriginal) return [indexCol, timeCol, ...measureCols]
@@ -276,6 +307,7 @@ class EditableTable extends React.Component {
         return rs
       }
     )
+    
     this.columns = this.getCols(props)
     this.state = {
       dataSource,
@@ -288,6 +320,8 @@ class EditableTable extends React.Component {
       !_.isEqual(nextProps.dataSource, this.props.dataSource) ||
       !_.isEqual(nextProps.checkedAll, this.props.checkedAll) ||
       !_.isEqual(nextProps.valueField, this.props.valueField) ||
+      !_.isEqual(nextProps.published, this.props.published) ||
+      !_.isEqual(nextProps.dataChange, this.props.dataChange) ||
       !_.isEqual(nextProps.listChecked, this.props.listChecked)
     ) {
       const dataSource = _.map(
