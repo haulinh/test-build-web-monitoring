@@ -16,7 +16,7 @@ export default {
     viewMore: 'Xem thêm',
     tableList: {
       name: 'Tên',
-      dataStatus: 'Trạng thái dữ liệu'
+      dataStatus: 'Tình trạng hoạt động'
     },
     chartRatio: {
       title: 'Tỉ lệ nhận dữ liệu',
@@ -119,7 +119,7 @@ export default {
       reset: 'Đặt lại thành công',
       success: 'Cấu hình thành công'
     },
-    bottle: 'Số chai',
+    bottle: 'Chai số',
     handMade: 'Thủ công',
     automatic: 'Tự động',
     total: 'Tổng số chai',
@@ -649,14 +649,14 @@ export default {
         placeholder: 'Nhập đường dẫn tập tin'
       },
       measuringSrc: {
-        label: 'Nguồn thông số',
-        placeholder: 'Nguồn thông số',
-        error: 'Vui lòng nhập nguồn thông số'
+        label: 'Thông số trong file .txt',
+        placeholder: 'Thông số trong file .txt',
+        error: 'Vui lòng nhập thông số trong file .txt'
       },
       measuringDes: {
-        label: 'Đích đến của thông số',
-        placeholder: 'Đích đến của thông số',
-        error: 'Vui lòng nhập đích đến của thông số'
+        label: 'Thông số trong CSDL',
+        placeholder: 'Thông số trong CSDL',
+        error: 'Vui lòng nhập thông số trong CSDL'
       },
       ratio: {
         label: 'Tỉ lệ',
@@ -667,7 +667,7 @@ export default {
         success: 'Cấu hình trạm thành công!',
         error: 'Cấu hình trạm thất bại!'
       },
-      buttonLoadSourceParameter: 'Tải nguồn thông số',
+      buttonLoadSourceParameter: 'Lấy danh sách thông số',
       errorLoadFile: 'Tải tệp từ đường đường dẫn không thành công'
     },
     options: {
@@ -677,13 +677,13 @@ export default {
       },
       allowApprove: {
         label: 'Cho phép cấu hình loại bỏ dữ liệu tự động',
-        note: ' *Ghi chú: Cấu hình loại bỏ dữ liệu tự động',
+        note: ' *Ghi chú: Khi cấu hình cho phép kiểm duyệt tự động với các điều kiện trên, hệ thống sẽ tự động kiểm duyệt và loại bỏ các dữ liệu không đủ điều kiện.',
         parameters: 'Tên thông số',
         rules: 'Loại bỏ dữ liệu theo các điều kiện',
         zero: 'Bằng 0',
         negative: 'Số âm',
-        outOfRange: 'Ngoài khoảng đo',
-        deviceStatus: 'Trạng thái của thiết bị',
+        outOfRange: 'Ngoài khoảng đo của thiết bị',
+        deviceStatus: 'Trạng thái thiết bị (hỏng hoặc bảo trì)',
         error: 'Vui lòng nhập khoảng đo'
       },
       allowSampling: {
@@ -863,11 +863,11 @@ export default {
   profileUser: {
     title: 'người dùng',
     success: 'Thay đổi thông tin thành công',
-    viewProfile: 'Hiển thị thông tin',
+    viewProfile: 'Thông tin cá nhân',
     configStation: 'Cấu hình trạm',
     security: 'Bảo mật',
     logOut: 'Đăng xuất',
-    changePassword: 'Thay đổi mật khẩu',
+    changePassword: 'Đổi mật khẩu',
     avatar: 'Ảnh đại diện',
     email: 'Email',
     LastName: 'Họ & Tên đệm',

@@ -21,6 +21,7 @@ export default class AqiContainer extends React.Component {
 
   async componentDidMount() {
     const rs = await fetchAqiByHour()
+    console.log(_.round((25/30000)*100,0))
     const aqiList = _.get(rs, 'data', [])
 
     this.setState({ aqiList })
