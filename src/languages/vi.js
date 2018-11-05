@@ -113,7 +113,7 @@ export default {
     trigger: {
       triggerSuccess: 'Kích hoạt thành công',
       triggerCancel: 'Huỷ lấy mẫu thành công',
-      triggerExceeded: 'Kích hoạt lấy mẫu vượt ngưỡng thành công'
+      triggerExceeded: 'Kích hoạt lấy mẫu vượt'
     },
     config: {
       reset: 'Đặt lại thành công',
@@ -685,6 +685,27 @@ export default {
         outOfRange: 'Ngoài khoảng đo của thiết bị',
         deviceStatus: 'Trạng thái thiết bị (hỏng hoặc bảo trì)',
         error: 'Vui lòng nhập khoảng đo'
+      },
+      outOfRangeConfig: {
+        title:'Cấu hình khoảng đo',
+        minRange:'Min',
+        maxRange:'Max',
+        timeFrom: 'Từ',
+        timeTo:'Đến',
+        placeholderTimeFrom:'Từ (giờ)',
+        placeholderTimeTo: 'Đến (giờ)',
+        btnCancel:'Hủy',
+        btnSave:'Lưu lại',
+        selectTile:'Lặp lại',
+        placeholderSelect:'Tùy chọn',
+        daily:'Hàng ngày',
+        monday:'Mọi thứ 2',
+        tuesday:'Mọi thứ 3',
+        wednesday:'Mọi thứ 4',
+        thursday:'Mọi thứ 5',
+        friday:'Mọi thứ 6',
+        saturday:'Mọi thứ 7',
+        sunday:'Mọi chủ nhật'
       },
       allowSampling: {
         label: 'Lấy mẫu',

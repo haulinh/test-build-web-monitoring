@@ -72,7 +72,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
           ]
         },
         marker: {
-          radius: 2
+          radius: 3
         },
         lineWidth: 1,
         states: {

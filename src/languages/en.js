@@ -113,7 +113,7 @@ export default {
     trigger: {
       triggerSuccess: 'Trigger Succeeded',
       triggerCancel: 'Trigger Cancel Succeeded',
-      triggerExceeded: 'Exceeded Succeeded'
+      triggerExceeded: ' Trigger Exceeded'
     },
     config: {
       reset: 'Reset Succeeded',
@@ -688,6 +688,27 @@ export default {
         outOfRange: 'Out of Range',
         deviceStatus: 'Status Devices',
         error: 'Please input range'
+      },
+      outOfRangeConfig: {
+        title:'Range Config',
+        minRange:'Min',
+        maxRange:'Max',
+        timeFrom: 'From',
+        timeTo:'To',
+        placeholderTimeFrom:'From (hours)',
+        placeholderTimeTo: 'To (hours)',
+        btnCancel:'Cancel',
+        btnSave:'Save',
+        selectTile:'Repeat',
+        placeholderSelect:'Options',
+        daily:'Daily',
+        monday:'Every monday',
+        tuesday:'Every tuesday',
+        wednesday:'Every wednesday',
+        thursday:'Every thursday',
+        friday:'Every friday',
+        saturday:'Every saturday',
+        sunday:'Every sunday'
       },
       allowSampling: {
         label: 'Allow Sampling',

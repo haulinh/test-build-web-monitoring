@@ -154,7 +154,6 @@ export default class MonitoringGeneral extends React.Component {
       good: countGood,
       total
     })
-
     return (
       <ContainerHeader>
         <HeaderView

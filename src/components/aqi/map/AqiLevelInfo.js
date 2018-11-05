@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import levels from '../../../constants/aqi-level'
+import { Tooltip  } from 'antd'
 
 const LevelWrapper = styled.div`
   position: absolute;
@@ -14,41 +15,6 @@ const LevelWrapper = styled.div`
 
 const LevelView = styled.div`
   display: flex;
-
-  .tooltipAQI {
-    position: relative;
-  }
-  .tooltiptextAQI {
-    width: 120px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.tooltiptextAQI::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-}
-
-.tooltipAQI:hover .tooltiptextAQI {
-    visibility: visible;
-    opacity: 1;
-}
 `
 
 const LevelItem = styled.div`
@@ -66,14 +32,15 @@ export default class AqiLevelInfo extends React.PureComponent {
       <LevelWrapper>
         <LevelView>
           {levels.map(({ color, status, level, description }) => (
-            <LevelItem color={color} key={status}>
-              <div className={'tooltipAQI'}>
-                <span style={{ fontSize: 11, fontWeight: 'bold'}}>
-                  {level}: {status}
-                </span>
-                <span className={'tooltiptextAQI'}> {description} </span>
-              </div>
-            </LevelItem>
+            <Tooltip placement="top" title={description}>
+              <LevelItem color={color} key={status}>
+                <div>
+                  <span style={{ fontSize: 11, fontWeight: 'bold'}}>
+                    {level}: {status}
+                  </span>
+                </div>
+              </LevelItem>
+            </Tooltip>
           ))}
         </LevelView>
       </LevelWrapper>
