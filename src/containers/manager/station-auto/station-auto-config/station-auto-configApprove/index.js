@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Checkbox, Table, Button, InputNumber, Modal, TimePicker, Collapse, Select  } from 'antd'
+import { Form, Checkbox, Table, Button, InputNumber, Modal, TimePicker, Collapse, Select, Icon  } from 'antd'
 import styled from 'styled-components'
 import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
+import moment from 'moment';
 
 const FormItem = Form.Item
 const Panel = Collapse.Panel;
@@ -52,7 +53,10 @@ export default class StationAutoConfigApprove extends React.Component {
       valueRules: _.get(this.props, 'options.approve.valueRules', {}),
       showModalConfig: false,
       dataConfigRange: {},
-      keyConfigRange:''
+      keyConfigRange:'',
+      keyEditConfigRange:'',
+      isEditConfigRange: false,
+      dataEditConfig:{}
     }
   }
 
@@ -107,44 +111,57 @@ export default class StationAutoConfigApprove extends React.Component {
   }
 
   handleRangeConfigCancel = () => {
-    this.setState({showModalConfig: false})
+    this.setState({showModalConfig: false, isEditConfigRange:false, dataEditConfig:{}})
   }
 
   handleRangeConfigSave = () => {
     let valueRules = this.state.valueRules
-    this.setState({showModalConfig: false})
+    this.setState({showModalConfig: false, isEditConfigRange: false, dataEditConfig:{}})
     _.update(valueRules, this.state.keyConfigRange, () => {
       return this.state.dataConfigRange
     })
   }
   renderItemConfigRange = () => {
+    let dataConfig = {}
+    let key = ''
+    if(this.state.isEditConfigRange){
+      dataConfig = _.get(this.state.valueRules, `${this.state.keyEditConfigRange}`,{})
+      key += `${this.state.keyEditConfigRange}`
+    } else {
+      dataConfig = {}
+    }
+    console.log(dataConfig)
     return (
       <div>
           <div class="row" style={{padding:5}}>
             <div class="col-md-2"><span> {translate('stationAutoManager.options.outOfRangeConfig.minRange')} : </span></div>
-            <div class="col-md-4"><InputNumber max={100000} style={{ width: '100%' }} onChange={this.onchangeMinRange}/></div>
+            <div class="col-md-4"><InputNumber defaultValue={_.get(dataConfig,'minRange', '')} max={100000} style={{ width: '100%' }} onChange={this.onchangeMinRange}/></div>
             <div class="col-md-2"><span>{translate('stationAutoManager.options.outOfRangeConfig.maxRange')} : </span></div>
-            <div class="col-md-4"><InputNumber max={100000} style={{ width: '100%' }} onChange={this.onchangeMaxRange}/></div>
+            <div class="col-md-4"><InputNumber defaultValue={_.get(dataConfig,'maxRange', '')} max={100000} style={{ width: '100%' }} onChange={this.onchangeMaxRange}/></div>
           </div>
           <div class="row" style={{padding:5}}>
             <div class="col-md-2"><span> {translate('stationAutoManager.options.outOfRangeConfig.timeFrom')} : </span></div>
-            <div class="col-md-4"><TimePicker format={format} style={{ width: '100%' }} placeholder={translate('stationAutoManager.options.outOfRangeConfig.placeholderTimeFrom')} onChange={this.onchangeTimeFrom}/></div>
+            <div class="col-md-4"><TimePicker defaultValue={moment(_.get(dataConfig,'from','00:00'), format)} format={format} style={{ width: '100%' }} placeholder={translate('stationAutoManager.options.outOfRangeConfig.placeholderTimeFrom')} onChange={this.onchangeTimeFrom}/></div>
             <div class="col-md-2"><span> {translate('stationAutoManager.options.outOfRangeConfig.timeTo')} : </span></div>
-            <div class="col-md-4"><TimePicker format={format} style={{ width: '100%' }} placeholder={translate('stationAutoManager.options.outOfRangeConfig.placeholderTimeTo')} onChange={this.onchangeTimeTo}/></div>
+            <div class="col-md-4"><TimePicker defaultValue={moment(_.get(dataConfig,'to','23:59'), format)} format={format} style={{ width: '100%' }} placeholder={translate('stationAutoManager.options.outOfRangeConfig.placeholderTimeTo')} onChange={this.onchangeTimeTo}/></div>
           </div>
           <div style={{padding:5}}>
-            <Collapse>
-              <Panel header={translate('stationAutoManager.options.outOfRangeConfig.selectTile')}>
+            <Collapse defaultActiveKey={['1']}>
+              <Panel header={translate('stationAutoManager.options.outOfRangeConfig.selectTile')} key="1">
                 <Select
                   mode="tags"
                   style={{ width: '100%' }}
                   placeholder={translate('stationAutoManager.options.outOfRangeConfig.placeholderSelect')}
                   onChange={this.handleChangeSelect}
+                  defaultValue={_.get(dataConfig,'autoRepeat',[])}
                 >
                   {repeatAuto}
                 </Select>
               </Panel>
             </Collapse>
+          </div>
+          <div style={{textAlign:'center', color:'red'}}>
+            <strong>-- {key} --</strong>
           </div>
       </div>
     )
@@ -174,6 +191,22 @@ export default class StationAutoConfigApprove extends React.Component {
     let dataConfigRange = this.state.dataConfigRange
     dataConfigRange = {...dataConfigRange, autoRepeat: value}
     this.setState({dataConfigRange})
+  }
+
+  returnInfoRangeConfig = (key) => {
+     const info = _.get(this.state.valueRules,`${key}`, {})
+     let textInfo = ''
+     if(!_.isEmpty(info) && !_.isEmpty(info.from) && !_.isEmpty(info.to))
+     {
+      textInfo += `(${translate('stationAutoManager.options.outOfRangeConfig.timeFrom')}: ${info.from} - ${translate('stationAutoManager.options.outOfRangeConfig.timeTo')}: ${info.to}...)`
+     } else {
+      textInfo += '...'
+     }
+     return textInfo
+  }
+
+  handleEdit = (key) => {
+    this.setState({showModalConfig: true, isEditConfigRange:true, dataEditConfig:_.get(this.state.valueRules,`${key}`,{}), keyEditConfigRange:key})
   }
 
 
@@ -240,12 +273,21 @@ export default class StationAutoConfigApprove extends React.Component {
             render: (value, row) => {
               const checkedOut = this.isItemChecked(row.key, 'OUT_RANGE')
               return (
-                  <Checkbox
+                <OutOfRangeView>
+                   <Checkbox
                     checked={checkedOut}
                     name="OUT_RANGE"
                     data={row}
                     onChange={this.onChangeCheckbox}
                   />
+                  {checkedOut && (
+                    <div>
+                      <span style={{color:'blue', paddingLeft:'15px'}}>{this.returnInfoRangeConfig(row.key)}</span>
+                      <span onClick={() => this.handleEdit(row.key)}><Icon type="edit" theme="outlined" style={{paddingLeft:'15px' ,color: 'blue'}}/>{' '}</span>
+                    </div>
+                    
+                  )}
+                </OutOfRangeView>
               )
             }
           },
@@ -316,7 +358,23 @@ export default class StationAutoConfigApprove extends React.Component {
         >
           {this.props.lang.t('addon.save')}
         </Button>
-        <Modal
+        {this.state.showModalConfig &&(
+          <Modal
+              visible={showModalConfig}
+              title={translate('stationAutoManager.options.outOfRangeConfig.title')}
+              onOk={this.handleRangeConfigSave}
+              onCancel={this.handleRangeConfigCancel}
+              footer={[
+                <Button key="back" onClick={this.handleRangeConfigCancel}>{translate('stationAutoManager.options.outOfRangeConfig.btnCancel')}</Button>,
+                <Button key="submit" type="primary" onClick={this.handleRangeConfigSave}>
+                  {translate('stationAutoManager.options.outOfRangeConfig.btnSave')}
+                </Button>,
+                  ]}
+          >
+          {this.renderItemConfigRange()}
+          </Modal> 
+        )}
+        {/* <Modal
             visible={showModalConfig}
             title={translate('stationAutoManager.options.outOfRangeConfig.title')}
             onOk={this.handleRangeConfigSave}
@@ -329,156 +387,9 @@ export default class StationAutoConfigApprove extends React.Component {
             ]}
         >
         {this.renderItemConfigRange()}
-        </Modal> 
+        </Modal>  */}
       </div>
     )
   }
-
-  // getColums = getFieldDecorator => {
-//   return [
-//     {
-//       title: this.props.lang.t(
-//         'stationAutoManager.options.allowApprove.parameters'
-//       ),
-//       align: 'center',
-//       dataIndex: 'name',
-//       key: 'name',
-//       render: value => value
-//     },
-//     {
-//       title: this.props.lang.t(
-//         'stationAutoManager.options.allowApprove.rules'
-//       ),
-//       children: [
-//         {
-//           title: this.props.lang.t(
-//             'stationAutoManager.options.allowApprove.zero'
-//           ),
-//           dataIndex: '',
-//           key: 'ZERO',
-//           align: 'center',
-//           width: '18%',
-//           render: (value, row) => (
-//             <Checkbox
-//               name="ZERO"
-//               data={row}
-//               checked={this.isItemChecked(row.key, 'ZERO')}
-//               onChange={this.onChangeCheckbox}
-//             />
-//           )
-//         },
-//         {
-//           title: this.props.lang.t(
-//             'stationAutoManager.options.allowApprove.negative'
-//           ),
-//           dataIndex: '',
-//           key: 'NEGATIVE',
-//           align: 'center',
-//           width: '18%',
-//           render: (value, row) => (
-//             <Checkbox
-//               checked={this.isItemChecked(row.key, 'NEGATIVE')}
-//               name="NEGATIVE"
-//               data={row}
-//               onChange={this.onChangeCheckbox}
-//             />
-//           )
-//         },
-//         {
-//           title: this.props.lang.t(
-//             'stationAutoManager.options.allowApprove.outOfRange'
-//           ),
-//           dataIndex: '',
-//           key: 'OUT_RANGE',
-//           align: 'center',
-//           width: '28%',
-//           render: (value, row) => {
-//             const checkedOut = this.isItemChecked(row.key, 'OUT_RANGE')
-//             return (
-//               <OutOfRangeView>
-//                 <Checkbox
-//                   checked={checkedOut}
-//                   name="OUT_RANGE"
-//                   data={row}
-//                   onChange={this.onChangeCheckbox}
-//                 />
-//                 {checkedOut && (
-//                   <FormItem
-//                     style={{
-//                       marginTop: 0,
-//                       marginBottom: 0,
-//                       marginLeft: 8,
-//                       marginRight: 8
-//                     }}
-//                   >
-//                     {getFieldDecorator(`${row.key}.minRange`, {
-//                       rules: [
-//                         {
-//                           required: true,
-//                           message: this.props.lang.t(
-//                             'stationAutoManager.options.allowApprove.error'
-//                           )
-//                         }
-//                       ],
-//                       initialValue: this.valueRuleMeasure(row.key).minRange
-//                     })(
-//                       <InputNumber
-//                         name="min"
-//                         defaultValue={this.valueRuleMeasure(row.key).minRange}
-//                         onChange={value =>
-//                           this.onChangeValue(row.key, value, false)
-//                         }
-//                       />
-//                     )}
-//                   </FormItem>
-//                 )}
-//                 {checkedOut && (
-//                   <FormItem style={{ margin: 0 }}>
-//                     {getFieldDecorator(`${row.key}.maxRange`, {
-//                       rules: [
-//                         {
-//                           required: true,
-//                           message: this.props.lang.t(
-//                             'stationAutoManager.options.allowApprove.error'
-//                           )
-//                         }
-//                       ],
-//                       initialValue: this.valueRuleMeasure(row.key).maxRange
-//                     })(
-//                       <InputNumber
-//                         name="max"
-//                         defaultValue={this.valueRuleMeasure(row.key).maxRange}
-//                         onChange={value =>
-//                           this.onChangeValue(row.key, value, true)
-//                         }
-//                       />
-//                     )}
-//                   </FormItem>
-//                 )}
-//               </OutOfRangeView>
-//             )
-//           }
-//         },
-//         {
-//           title: this.props.lang.t(
-//             'stationAutoManager.options.allowApprove.deviceStatus'
-//           ),
-//           dataIndex: '',
-//           key: 'DEVICE_STATUS',
-//           align: 'center',
-//           width: '18%',
-//           render: (value, row) => (
-//             <Checkbox
-//               checked={this.isItemChecked(row.key, 'DEVICE_STATUS')}
-//               name="DEVICE_STATUS"
-//               data={row}
-//               onChange={this.onChangeCheckbox}
-//             />
-//           )
-//         }
-//       ]
-//     }
-//   ]
-// }
 }
 
