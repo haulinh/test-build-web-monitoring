@@ -674,6 +674,9 @@ export default {
       errorLoadFile: 'Load file fail with path'
     },
     options: {
+      calibration: {
+        title: 'Equipment calibration'
+      },
       allowSendWarning: {
         label: 'Allow Send Warning',
         placeholder: 'Allow Send Warning'

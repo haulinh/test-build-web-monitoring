@@ -6,7 +6,7 @@ export default {
   dashboard: {
     good: 'Tốt',
     dataLoss: 'Mất kết nối',
-    notUse: 'Chưa chưa kết nối',
+    notUse: 'Chưa kết nối',
     connected: 'Đang kết nối',
     exceeded: 'Vượt QCVN',
     exceededPreparing: 'Chuẩn bị vượt',
@@ -671,6 +671,9 @@ export default {
       errorLoadFile: 'Tải tệp từ đường đường dẫn không thành công'
     },
     options: {
+      calibration: {
+        title: 'Hiệu chuẩn thiết bị'
+      },
       allowSendWarning: {
         label: 'Gửi cảnh báo',
         placeholder: 'Gửi cảnh báo'
