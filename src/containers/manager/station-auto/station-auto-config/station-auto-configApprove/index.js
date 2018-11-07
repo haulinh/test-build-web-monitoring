@@ -191,7 +191,7 @@ export default class StationAutoConfigApprove extends React.Component {
             )}
           },
           {
-            title: 'Hiệu chuẩn thiết bị',
+            title: translate('stationAutoManager.options.calibration.title'),
             dataIndex: '',
             key: 'DEVICE_CALIBRATION',
             align: 'center',

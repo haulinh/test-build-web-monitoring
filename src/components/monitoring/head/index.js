@@ -76,14 +76,14 @@ const Row = styled.div` display: flex; flex-direction: row; margin: 2px 4px; `
 const RowView = ({color, titleLag}) => (
   <Row>
     <ColorLevelInfo color={color}/>
-    <TextLevelInfo >{translate(titleLag)}</TextLevelInfo>
+    <TextLevelInfo >{titleLag}</TextLevelInfo>
   </Row>
 )
 
 const RowViewImg = ({src, titleLag}) => (
   <Row>
     <img src={src} style={{height:'20px', width:'20px'}}/>
-    <TextLevelInfo >{translate(titleLag)}</TextLevelInfo>
+    <TextLevelInfo >{titleLag}</TextLevelInfo>
   </Row>
 )
 
@@ -104,21 +104,21 @@ export default class Header extends React.PureComponent {
                 <div>
                   <RowWrapper>
                     <SectionView>{translate('dashboard.chartStatus.title')}</SectionView>
-                    <RowView color='#008001' titleLag='dashboard.connected'/>
-                    <RowView color='#F03045' titleLag='dashboard.dataLoss'/>
-                    <RowView color='#4D4E48' titleLag='dashboard.notUse'/>
+                    <RowView color='#008001' titleLag={translate('dashboard.connected')}/>
+                    <RowView color='#F03045' titleLag={translate('dashboard.dataLoss')}/>
+                    <RowView color='#4D4E48' titleLag={translate('dashboard.notUse')}/>
                   </RowWrapper>
                   <RowWrapper>
                     <SectionView>{translate('map.menuRight.dataStatus')}</SectionView>
-                    <RowView color={colorLevels.GOOD} titleLag='warningLevels.good'/>
-                    <RowView color={colorLevels.EXCEEDED_TENDENCY} titleLag='warningLevels.exceedTendency'/>
-                    <RowView color={colorLevels.EXCEEDED} titleLag='warningLevels.exceed'/>
+                    <RowView color={colorLevels.GOOD} titleLag={translate('warningLevels.good')}/>
+                    <RowView color={colorLevels.EXCEEDED_TENDENCY} titleLag={translate('warningLevels.exceedTendency')}/>
+                    <RowView color={colorLevels.EXCEEDED} titleLag={translate('warningLevels.exceed')}/>
                   </RowWrapper>
                   <RowWrapper>
                     <SectionView>{translate('qaqc.dataFilter.deviceStatus')}</SectionView>
-                    <RowViewImg src="/images/sensor1.png" titleLag='monitoring.deviceStatus.normal'/>
-                    <RowViewImg src="/images/sensor2.png" titleLag='monitoring.deviceStatus.maintenance'/>
-                    <RowViewImg src="/images/sensor3.png" titleLag='monitoring.deviceStatus.broken'/>
+                    <RowViewImg src="/images/sensor1.png" titleLag={`Sensor ${translate('monitoring.deviceStatus.normal')}`}/>
+                    <RowViewImg src="/images/sensor2.png" titleLag={`Sensor ${translate('monitoring.deviceStatus.maintenance')}`}/>
+                    <RowViewImg src="/images/sensor3.png" titleLag={`Sensor ${translate('monitoring.deviceStatus.broken')}`}/>
                   </RowWrapper>
                 </div>
       ),
