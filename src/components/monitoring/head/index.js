@@ -53,6 +53,7 @@ const TextLevel = styled.span`
 const ColorLevelInfo = styled.div`
   height: 20px;
   width: 20px;
+  border-radius: 3px;
   background-color: ${props => props.color};
 `
 
@@ -61,11 +62,31 @@ const TextLevelInfo = styled.span`
   font-style: normal;
   font-stretch: normal;
   line-height: normal;
+  padding-left: 8px;
 `
 
 const SpaceContainer = styled.span`
   width: 25%;
 `
+
+const RowWrapper = styled.div` display: flex; flex-direction: column; padding-top: 5px;`
+const SectionView = styled.h3` font-size: 15px;`
+const Row = styled.div` display: flex; flex-direction: row; margin: 2px 4px; `
+
+const RowView = ({color, titleLag}) => (
+  <Row>
+    <ColorLevelInfo color={color}/>
+    <TextLevelInfo >{translate(titleLag)}</TextLevelInfo>
+  </Row>
+)
+
+const RowViewImg = ({src, titleLag}) => (
+  <Row>
+    <img src={src} style={{height:'20px', width:'20px'}}/>
+    <TextLevelInfo >{translate(titleLag)}</TextLevelInfo>
+  </Row>
+)
+
 @autobind
 export default class Header extends React.PureComponent {
   static propTypes = {
@@ -80,46 +101,25 @@ export default class Header extends React.PureComponent {
     Modal.info({
       title: translate('stationAutoManager.form.note.label'),
       content: (
-                <div class="row">
-                    <div class="col-md-12"><strong>{translate('dashboard.chartStatus.title')}</strong></div>
-                      <div class="col-md-2"><ColorLevelInfo color='#008001'> </ColorLevelInfo></div>
-                      <div class="col-md-10">
-                        <TextLevelInfo >{translate('dashboard.connected')}</TextLevelInfo>
-                      </div>
-                      <div class="col-md-2"><ColorLevelInfo color='#F03045'> </ColorLevelInfo></div>
-                      <div class="col-md-10">
-                        <TextLevelInfo >{translate('dashboard.dataLoss')}</TextLevelInfo>
-                      </div>
-                      <div class="col-md-2"><ColorLevelInfo color='#4D4E48'> </ColorLevelInfo></div>
-                      <div class="col-md-10">
-                        <TextLevelInfo >{translate('dashboard.notUse')}</TextLevelInfo>
-                      </div>
-                    <div class="col-md-12"><strong>{translate('map.menuRight.dataStatus')}</strong></div>
-                      <div class="col-md-2"><ColorLevelInfo color={colorLevels.GOOD}> </ColorLevelInfo></div>
-                      <div class="col-md-10">
-                        <TextLevelInfo >{translate('warningLevels.good')}</TextLevelInfo>
-                      </div>
-                      <div class="col-md-2"><ColorLevelInfo color={colorLevels.EXCEEDED_TENDENCY}> </ColorLevelInfo></div>
-                      <div class="col-md-10">
-                        <TextLevelInfo >{translate('warningLevels.exceedTendency')}</TextLevelInfo>
-                      </div>
-                      <div class="col-md-2"><ColorLevelInfo color={colorLevels.EXCEEDED}> </ColorLevelInfo></div>
-                      <div class="col-md-10">
-                        <TextLevelInfo >{translate('warningLevels.exceed')}</TextLevelInfo>
-                      </div>
-                    <div class="col-md-12"><strong>{translate('map.menuRight.stationStatus')}</strong></div>
-                      <div class="col-md-2"> <Icon type="tags" theme="outlined" style={{color: '#1dce6c' }} /></div> 
-                      <div class="col-md-10">
-                        <TextLevelInfo >{`Sensor ${translate('monitoring.deviceStatus.normal')}`}</TextLevelInfo>
-                      </div>
-                      <div class="col-md-2"> <Icon type="tags" theme="outlined" style={{color: '#F1D748' }}/></div>
-                      <div class="col-md-10">
-                        <TextLevelInfo >{`Sensor ${translate('monitoring.deviceStatus.maintenance')}`}</TextLevelInfo>
-                      </div>
-                      <div class="col-md-2"> <Icon type="tags" theme="outlined" style={{color: '#EA3223' }}/></div>
-                      <div class="col-md-10">
-                        <TextLevelInfo >{`Sensor ${translate('monitoring.deviceStatus.broken')}`}</TextLevelInfo>
-                      </div>
+                <div>
+                  <RowWrapper>
+                    <SectionView>{translate('dashboard.chartStatus.title')}</SectionView>
+                    <RowView color='#008001' titleLag='dashboard.connected'/>
+                    <RowView color='#F03045' titleLag='dashboard.dataLoss'/>
+                    <RowView color='#4D4E48' titleLag='dashboard.notUse'/>
+                  </RowWrapper>
+                  <RowWrapper>
+                    <SectionView>{translate('map.menuRight.dataStatus')}</SectionView>
+                    <RowView color={colorLevels.GOOD} titleLag='warningLevels.good'/>
+                    <RowView color={colorLevels.EXCEEDED_TENDENCY} titleLag='warningLevels.exceedTendency'/>
+                    <RowView color={colorLevels.EXCEEDED} titleLag='warningLevels.exceed'/>
+                  </RowWrapper>
+                  <RowWrapper>
+                    <SectionView>{translate('qaqc.dataFilter.deviceStatus')}</SectionView>
+                    <RowViewImg src="/images/sensor1.png" titleLag='monitoring.deviceStatus.normal'/>
+                    <RowViewImg src="/images/sensor2.png" titleLag='monitoring.deviceStatus.maintenance'/>
+                    <RowViewImg src="/images/sensor3.png" titleLag='monitoring.deviceStatus.broken'/>
+                  </RowWrapper>
                 </div>
       ),
       onOk() {},

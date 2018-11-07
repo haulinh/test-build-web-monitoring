@@ -6,31 +6,9 @@ import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
-import moment from 'moment';
+import OutOfRangeView from './OutOfRange'
+import OptionModalConfigView from './OptionModalConfig'
 
-const FormItem = Form.Item
-const Panel = Collapse.Panel;
-const Option = Select.Option;
-const repeatAuto = [
-<Option key='DAILY'>{translate('stationAutoManager.options.outOfRangeConfig.daily')}</Option>,
-<Option key='MONDAY'>{translate('stationAutoManager.options.outOfRangeConfig.monday')}</Option>,
-<Option key='TUESDAY'>{translate('stationAutoManager.options.outOfRangeConfig.tuesday')}</Option>,
-<Option key='WEDNESDAY'>{translate('stationAutoManager.options.outOfRangeConfig.wednesday')}</Option>,
-<Option key='THURSDAY'>{translate('stationAutoManager.options.outOfRangeConfig.thursday')}</Option>,
-<Option key='FIREDAY'>{translate('stationAutoManager.options.outOfRangeConfig.friday')}</Option>,
-<Option key='SATURDAY'>{translate('stationAutoManager.options.outOfRangeConfig.saturday')}</Option>,
-<Option key='SUNDAY'>{translate('stationAutoManager.options.outOfRangeConfig.sunday')}</Option>
-]
-
-
-
-const OutOfRangeView = styled.div`
-  flex-direction: row;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-const format = 'HH:mm';
 @Form.create({
   mapPropsToFields: mapPropsToFields
 })
@@ -48,15 +26,11 @@ export default class StationAutoConfigApprove extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      allowed: _.get(props, 'options.approve.allowed', true),
+      allowed: _.get(props, 'options.approve.allowed', false),
       listRuleChange: _.get(props, 'options.approve.rules', {}),
       valueRules: _.get(this.props, 'options.approve.valueRules', {}),
       showModalConfig: false,
-      dataConfigRange: {},
-      keyConfigRange:'',
-      keyEditConfigRange:'',
-      isEditConfigRange: false,
-      dataEditConfig:{}
+      key: null
     }
   }
 
@@ -64,10 +38,10 @@ export default class StationAutoConfigApprove extends React.Component {
     if (
       !_.isEqual(nextProps.allowed, this.props.allowed) ||
       !_.isEqual(nextProps.valueRules, this.props.valueRules) ||
-      !_.isEqual(nextProps.listRuleChange, this.props.listRuleChange) 
+      !_.isEqual(nextProps.listRuleChange, this.props.listRuleChange)
     ) {
       this.setState({
-        allowed: _.get(nextProps, 'options.approve.allowed', true),
+        allowed: _.get(nextProps, 'options.approve.allowed', false),
         listRuleChange: _.get(nextProps, 'options.approve.rules', {}),
         valueRules: _.get(this.props, 'options.approve.valueRules', {})
       })
@@ -82,135 +56,67 @@ export default class StationAutoConfigApprove extends React.Component {
     const { checked, data, name } = e.target
     const listRuleChange = this.state.listRuleChange
     let valueRules = this.state.valueRules
-    let keyConfigRange = this.state.keyConfigRange
     if (checked) {
       listRuleChange[data.key] = _.union(
         _.get(listRuleChange, [data.key], []),
         [name]
       )
-      if (_.isEqual(name, 'OUT_RANGE')) {
-        keyConfigRange = data.key
-        this.setState({showModalConfig: true})
+
+      if (_.isEqual(name, 'OUT_RANGE')){
+        const result = this.valueRuleMeasure(data.key)
+        if (result) {
+          _.update(valueRules, data.key, () => {
+             return { minRange: result.minRange, maxRange: result.maxRange}
+            })
+        }
       }
+
     } else {
       listRuleChange[data.key] = _.filter(
         _.get(listRuleChange, [data.key], []),
         item => !_.isEqual(item, name)
       )
 
-      if (_.isEqual(name, 'OUT_RANGE')) {
+      if (_.isEqual(name, 'OUT_RANGE')){
         _.update(valueRules, data.key, () => undefined)
       }
     }
 
-    this.setState({ listRuleChange, valueRules, keyConfigRange })
+    this.setState({ listRuleChange, valueRules })
   }
 
   isItemChecked = (key, value) => {
     return _.includes(_.get(this.state, ['listRuleChange', key], []), value)
   }
 
-  handleRangeConfigCancel = () => {
-    this.setState({showModalConfig: false, isEditConfigRange:false, dataEditConfig:{}})
-  }
-
-  handleRangeConfigSave = () => {
-    let valueRules = this.state.valueRules
-    this.setState({showModalConfig: false, isEditConfigRange: false, dataEditConfig:{}})
-    _.update(valueRules, this.state.keyConfigRange, () => {
-      return this.state.dataConfigRange
-    })
-  }
-  renderItemConfigRange = () => {
-    let dataConfig = {}
-    let key = ''
-    if(this.state.isEditConfigRange){
-      dataConfig = _.get(this.state.valueRules, `${this.state.keyEditConfigRange}`,{})
-      key += `${this.state.keyEditConfigRange}`
-    } else {
-      dataConfig = {}
+  valueRuleMeasure = key => {
+    if (_.isEmpty(_.get(this.state.valueRules, key))){
+      const results = _.filter(this.props.measuringListSource, item => _.isEqual(item.key, key))
+      return _.get(results, '[0]', {})
     }
-    console.log(dataConfig)
-    return (
-      <div>
-          <div class="row" style={{padding:5}}>
-            <div class="col-md-2"><span> {translate('stationAutoManager.options.outOfRangeConfig.minRange')} : </span></div>
-            <div class="col-md-4"><InputNumber defaultValue={_.get(dataConfig,'minRange', '')} max={100000} style={{ width: '100%' }} onChange={this.onchangeMinRange}/></div>
-            <div class="col-md-2"><span>{translate('stationAutoManager.options.outOfRangeConfig.maxRange')} : </span></div>
-            <div class="col-md-4"><InputNumber defaultValue={_.get(dataConfig,'maxRange', '')} max={100000} style={{ width: '100%' }} onChange={this.onchangeMaxRange}/></div>
-          </div>
-          <div class="row" style={{padding:5}}>
-            <div class="col-md-2"><span> {translate('stationAutoManager.options.outOfRangeConfig.timeFrom')} : </span></div>
-            <div class="col-md-4"><TimePicker defaultValue={moment(_.get(dataConfig,'from','00:00'), format)} format={format} style={{ width: '100%' }} placeholder={translate('stationAutoManager.options.outOfRangeConfig.placeholderTimeFrom')} onChange={this.onchangeTimeFrom}/></div>
-            <div class="col-md-2"><span> {translate('stationAutoManager.options.outOfRangeConfig.timeTo')} : </span></div>
-            <div class="col-md-4"><TimePicker defaultValue={moment(_.get(dataConfig,'to','23:59'), format)} format={format} style={{ width: '100%' }} placeholder={translate('stationAutoManager.options.outOfRangeConfig.placeholderTimeTo')} onChange={this.onchangeTimeTo}/></div>
-          </div>
-          <div style={{padding:5}}>
-            <Collapse defaultActiveKey={['1']}>
-              <Panel header={translate('stationAutoManager.options.outOfRangeConfig.selectTile')} key="1">
-                <Select
-                  mode="tags"
-                  style={{ width: '100%' }}
-                  placeholder={translate('stationAutoManager.options.outOfRangeConfig.placeholderSelect')}
-                  onChange={this.handleChangeSelect}
-                  defaultValue={_.get(dataConfig,'autoRepeat',[])}
-                >
-                  {repeatAuto}
-                </Select>
-              </Panel>
-            </Collapse>
-          </div>
-          <div style={{textAlign:'center', color:'red'}}>
-            <strong>-- {key} --</strong>
-          </div>
-      </div>
-    )
+
+    return _.get(this.state.valueRules, key)
   }
 
-  onchangeMinRange(value){
-    let dataConfigRange = this.state.dataConfigRange
-    dataConfigRange = {...dataConfigRange, minRange: value}
-    this.setState({dataConfigRange})
-  }
-  onchangeMaxRange(value){
-    let dataConfigRange = this.state.dataConfigRange
-    dataConfigRange = {...dataConfigRange, maxRange: value}
-    this.setState({dataConfigRange})
-  }
-  onchangeTimeFrom(time, timeString){
-    let dataConfigRange = this.state.dataConfigRange
-    dataConfigRange = {...dataConfigRange, from: timeString}
-    this.setState({dataConfigRange})
-  }
-  onchangeTimeTo(time, timeString){
-    let dataConfigRange = this.state.dataConfigRange
-    dataConfigRange = {...dataConfigRange, to: timeString}
-    this.setState({dataConfigRange})
-  }
-  handleChangeSelect(value){
-    let dataConfigRange = this.state.dataConfigRange
-    dataConfigRange = {...dataConfigRange, autoRepeat: value}
-    this.setState({dataConfigRange})
+  onChangeValue = (key, value, isMax) => {
+    let valueRules = this.state.valueRules
+    _.update(valueRules, `${key}.${isMax ?  'maxRange' : 'minRange'}`, () => value)
+
+    this.setState({valueRules})
   }
 
-  returnInfoRangeConfig = (key) => {
-     const info = _.get(this.state.valueRules,`${key}`, {})
-     let textInfo = ''
-     if(!_.isEmpty(info) && !_.isEmpty(info.from) && !_.isEmpty(info.to))
-     {
-      textInfo += `(${translate('stationAutoManager.options.outOfRangeConfig.timeFrom')}: ${info.from} - ${translate('stationAutoManager.options.outOfRangeConfig.timeTo')}: ${info.to}...)`
-     } else {
-      textInfo += '...'
-     }
-     return textInfo
+  showConfigCalibration = (key, e) => {
+    const { checked, data, name } = e.target
+    if (checked) {
+      this.setState({ showModalConfig: true, key })
+    } else {
+      let valueRules = this.state.valueRules
+      _.update(valueRules, `${key}.configCalibration`, () => {})
+      this.setState({valueRules})
+    }
   }
 
-  handleEdit = (key) => {
-    this.setState({showModalConfig: true, isEditConfigRange:true, dataEditConfig:_.get(this.state.valueRules,`${key}`,{}), keyEditConfigRange:key})
-  }
-
-
-  getColums = () => {
+  getColums = getFieldDecorator => {
     return [
       {
         title: this.props.lang.t(
@@ -219,6 +125,7 @@ export default class StationAutoConfigApprove extends React.Component {
         align: 'center',
         dataIndex: 'name',
         key: 'name',
+        width: '15%',
         render: value => value
       },
       {
@@ -233,7 +140,7 @@ export default class StationAutoConfigApprove extends React.Component {
             dataIndex: '',
             key: 'ZERO',
             align: 'center',
-            width: '18%',
+            width: '15%',
             render: (value, row) => (
               <Checkbox
                 name="ZERO"
@@ -250,16 +157,14 @@ export default class StationAutoConfigApprove extends React.Component {
             dataIndex: '',
             key: 'NEGATIVE',
             align: 'center',
-            width: '18%',
+            width: '15%',
             render: (value, row) => (
-            <div>
               <Checkbox
                 checked={this.isItemChecked(row.key, 'NEGATIVE')}
                 name="NEGATIVE"
                 data={row}
                 onChange={this.onChangeCheckbox}
               />
-            </div>  
             )
           },
           {
@@ -269,27 +174,36 @@ export default class StationAutoConfigApprove extends React.Component {
             dataIndex: '',
             key: 'OUT_RANGE',
             align: 'center',
-            width: '28%',
+            width: '20%',
             render: (value, row) => {
               const checkedOut = this.isItemChecked(row.key, 'OUT_RANGE')
+              const range = this.valueRuleMeasure(row.key)
               return (
-                <OutOfRangeView>
-                   <Checkbox
-                    checked={checkedOut}
-                    name="OUT_RANGE"
-                    data={row}
-                    onChange={this.onChangeCheckbox}
-                  />
-                  {checkedOut && (
-                    <div>
-                      <span style={{color:'blue', paddingLeft:'15px'}}>{this.returnInfoRangeConfig(row.key)}</span>
-                      <span onClick={() => this.handleEdit(row.key)}><Icon type="edit" theme="outlined" style={{paddingLeft:'15px' ,color: 'blue'}}/>{' '}</span>
-                    </div>
-                    
-                  )}
-                </OutOfRangeView>
-              )
-            }
+                <OutOfRangeView
+                  checkedOut={checkedOut}
+                  row={row}
+                  onChangeCheckbox={this.onChangeCheckbox}
+                  minRange={range.minRange}
+                  maxRange={range.maxRange}
+                  onChangeValue={this.onChangeValue}
+                  getFieldDecorator={getFieldDecorator}
+                />
+            )}
+          },
+          {
+            title: 'Hiệu chuẩn thiết bị',
+            dataIndex: '',
+            key: 'DEVICE_CALIBRATION',
+            align: 'center',
+            width: '20%',
+            render: (value, row) => (
+              <Checkbox
+                checked={this.isItemChecked(row.key, 'DEVICE_CALIBRATION')}
+                name="DEVICE_CALIBRATION"
+                data={row}
+                onChange={e => this.showConfigCalibration(row.key, e)}
+              />
+            )
           },
           {
             title: this.props.lang.t(
@@ -298,7 +212,7 @@ export default class StationAutoConfigApprove extends React.Component {
             dataIndex: '',
             key: 'DEVICE_STATUS',
             align: 'center',
-            width: '18%',
+            width: '15%',
             render: (value, row) => (
               <Checkbox
                 checked={this.isItemChecked(row.key, 'DEVICE_STATUS')}
@@ -313,9 +227,22 @@ export default class StationAutoConfigApprove extends React.Component {
     ]
   }
 
+  handleRangeConfigCancel = () => {
+    this.setState({showModalConfig: false})
+  }
+
+  handleRangeConfigSave =  configCalibration => {
+    if (this.state.key){
+      let valueRules = this.state.valueRules
+      _.update(valueRules, `${this.state.key}.configCalibration`, () => configCalibration)
+      console.log('handleRangeConfigSave: ', valueRules)
+      this.setState({valueRules, showModalConfig: false, key: null})
+    }
+  }
+
   onSave = () => {
     this.props.form.validateFields((err, values) => {
-      if (!err) {
+      if (!err) {      
         this.props.onApproveSave({
           allowed: this.state.allowed,
           rules: this.state.listRuleChange,
@@ -326,7 +253,6 @@ export default class StationAutoConfigApprove extends React.Component {
   }
 
   render() {
-    const { showModalConfig} = this.state;
     return (
       <div>
         <Table
@@ -358,38 +284,13 @@ export default class StationAutoConfigApprove extends React.Component {
         >
           {this.props.lang.t('addon.save')}
         </Button>
-        {this.state.showModalConfig &&(
-          <Modal
-              visible={showModalConfig}
-              title={translate('stationAutoManager.options.outOfRangeConfig.title')}
-              onOk={this.handleRangeConfigSave}
-              onCancel={this.handleRangeConfigCancel}
-              footer={[
-                <Button key="back" onClick={this.handleRangeConfigCancel}>{translate('stationAutoManager.options.outOfRangeConfig.btnCancel')}</Button>,
-                <Button key="submit" type="primary" onClick={this.handleRangeConfigSave}>
-                  {translate('stationAutoManager.options.outOfRangeConfig.btnSave')}
-                </Button>,
-                  ]}
-          >
-          {this.renderItemConfigRange()}
-          </Modal> 
-        )}
-        {/* <Modal
-            visible={showModalConfig}
-            title={translate('stationAutoManager.options.outOfRangeConfig.title')}
-            onOk={this.handleRangeConfigSave}
-            onCancel={this.handleRangeConfigCancel}
-            footer={[
-              <Button key="back" onClick={this.handleRangeConfigCancel}>{translate('stationAutoManager.options.outOfRangeConfig.btnCancel')}</Button>,
-              <Button key="submit" type="primary" onClick={this.handleRangeConfigSave}>
-                {translate('stationAutoManager.options.outOfRangeConfig.btnSave')}
-              </Button>,
-            ]}
-        >
-        {this.renderItemConfigRange()}
-        </Modal>  */}
+        {this.state.showModalConfig && (
+        <OptionModalConfigView
+          showModalConfig={this.state.showModalConfig}
+          handleRangeConfigSave={this.handleRangeConfigSave}
+          handleRangeConfigCancel={this.handleRangeConfigCancel}
+           />)}
       </div>
     )
   }
 }
-

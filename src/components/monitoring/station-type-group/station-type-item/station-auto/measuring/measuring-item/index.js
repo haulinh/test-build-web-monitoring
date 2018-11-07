@@ -7,10 +7,11 @@ import { translate } from 'hoc/create-lang'
 import { Icon, Tooltip } from 'antd'
 import { get } from 'lodash'
 
+
 const DEVICE_STATUS = {
-  '0': { color: '#1dce6c', text: 'monitoring.deviceStatus.normal' },
-  '1': { color: 'orange', text: 'monitoring.deviceStatus.maintenance' },
-  '2': { color: 'red', text: 'monitoring.deviceStatus.broken' }
+  '0': { src: "/images/sensor1.png", text: 'monitoring.deviceStatus.normal' },
+  '1': { src: "/images/sensor2.png", text: 'monitoring.deviceStatus.maintenance' },
+  '2': { src: "/images/sensor3.png", text: 'monitoring.deviceStatus.broken' }
 }
 
 const MeasuringItemWrapper = styled.div`
@@ -118,13 +119,14 @@ export default class MeasuringItem extends React.PureComponent {
     if (item) {
       return (
         <Tooltip placement="top" title={`Sensor ${translate(item.text)}`}>
-          <Icon
-            type="tags"
+          <img
+            src={item.src}
             style={{
               position: 'absolute',
-              color: item.color,
               bottom: 4,
-              right: 8
+              right: 8,
+              width:'16px',
+              height:'16px'
             }}
           />
         </Tooltip>
