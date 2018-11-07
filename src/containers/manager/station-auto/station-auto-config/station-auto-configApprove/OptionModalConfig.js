@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
-import createLanguageHoc from 'hoc/create-lang'
+import createLanguageHoc, {translate} from 'hoc/create-lang'
 
 const Panel = Collapse.Panel;
 const Option = Select.Option;
@@ -130,7 +130,7 @@ export default class OptionModalConfig extends React.Component {
     return (
       <Modal
         visible={this.props.showModalConfig}
-        title={'Thời gian hiệu chuẩn'}
+        title={translate('stationAutoManager.options.calibration.title')}
         onOk={this.props.handleSave}
         onCancel={this.props.handleRangeConfigCancel}
         footer={[
