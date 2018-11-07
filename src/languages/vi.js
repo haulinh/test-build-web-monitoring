@@ -687,7 +687,7 @@ export default {
         error: 'Vui lòng nhập khoảng đo'
       },
       outOfRangeConfig: {
-        title:'Cấu hình khoảng đo',
+        title:'Thời gian hiệu chuẩn',
         minRange:'Min',
         maxRange:'Max',
         timeConfig: 'Chọn khung T/Gian',

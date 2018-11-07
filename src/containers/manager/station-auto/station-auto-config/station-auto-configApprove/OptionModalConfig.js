@@ -130,7 +130,7 @@ export default class OptionModalConfig extends React.Component {
     return (
       <Modal
         visible={this.props.showModalConfig}
-        title={'Thời gian hiệu chuẩn'}
+        title={this.props.lang.t('stationAutoManager.options.outOfRangeConfig.title')}
         onOk={this.props.handleSave}
         onCancel={this.props.handleRangeConfigCancel}
         footer={[

@@ -107,6 +107,7 @@ export default class StationAutoConfigApprove extends React.Component {
 
   showConfigCalibration = (key, e) => {
     const { checked, data, name } = e.target
+    this.onChangeCheckbox(e)
     if (checked) {
       this.setState({ showModalConfig: true, key })
     } else {

@@ -690,7 +690,7 @@ export default {
         error: 'Please input range'
       },
       outOfRangeConfig: {
-        title:'Range Config',
+        title:'Time Config',
         minRange:'Min',
         maxRange:'Max',
         timeConfig: 'Chose time',

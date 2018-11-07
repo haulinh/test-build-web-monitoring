@@ -125,7 +125,6 @@ export default class Header extends React.PureComponent {
       onOk() {},
     });
   }
-
   render() {
     return (
       <HeaderWrapper>
