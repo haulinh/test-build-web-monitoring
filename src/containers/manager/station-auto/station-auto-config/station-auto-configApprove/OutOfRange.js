@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Checkbox, InputNumber } from 'antd'
 import styled from 'styled-components';
-import * as _ from 'lodash'
+// import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
 import createLanguageHoc from 'hoc/create-lang'
 

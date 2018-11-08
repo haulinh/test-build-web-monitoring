@@ -180,10 +180,14 @@ export default {
       }
     },
     marker: {
-      dataLoss: 'Data Loss',
+      transmitting: 'Transmitting',
+      dataLoss: 'Disconnected',
       notUse: 'Not In Use',
       info: 'Info',
-      image: 'Image'
+      image: 'Image',
+      time: 'Time',
+      status: 'Status',
+      result: 'Results'
     },
   },
   dataSearchFrom: {

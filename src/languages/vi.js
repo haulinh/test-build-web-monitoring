@@ -180,10 +180,14 @@ export default {
       }
     },
     marker: {
+      transmitting: 'Đang truyền',
       dataLoss: 'Mất kết nối',
       notUse: 'Chưa kết nối',
       info: 'Thông tin',
-      image: 'Hình ảnh'
+      image: 'Hình ảnh',
+      time: 'Thời gian',
+      status: 'Trạng thái',
+      result: 'Kết quả'
     }
   },
   dataSearchFrom: {

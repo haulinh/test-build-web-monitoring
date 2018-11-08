@@ -20,7 +20,7 @@ import { colorLevels } from 'constants/warningLevels'
 import stStatus, { STATUS_OPTIONS } from 'constants/stationStatus'
 import moment from 'moment'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-import { get, isEmpty } from 'lodash'
+import { get, isEmpty, map, isEqual, round } from 'lodash'
 
 const MIN_WIDTH_INFO = 150
 const TabPane = Tabs.TabPane;
@@ -41,6 +41,20 @@ const WrapperInfoWindow = styled.div`
 const MarkerImage = styled.img`
 width:100%; height: 145px; object-fit: cover;
 `
+
+const MHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const MRow = props => (
+  <div>
+    <span style={{color: props.isLoss ? 'orange' : 'inherit'}}>
+    {props.title}
+    {props.value}
+    </span>
+  </div>
+)
+
 
 @autobind
 export default class MarkerStation extends PureComponent {
@@ -104,46 +118,48 @@ export default class MarkerStation extends PureComponent {
   renderTableData() {
     if (!this.props.lastLog) return ''
     let lastLog = this.props.lastLog
-    let measuringList = this.props.measuringList.map((item, index) => {
+    let measuringList = map(this.props.measuringList, ({name, key, unit}, index) => {
       return (
         <tr key={index + 1}>
           <td>{index + 1}</td>
-          <td>{item.name}</td>
+          <td>{name}</td>
           <td
             style={{
-              color: lastLog.measuringLogs[item.key]
-                ? colorLevels[lastLog.measuringLogs[item.key].warningLevel]
-                : colorLevels.DEFAULT
+              color: get(colorLevels, [lastLog.measuringLogs[key], 'warningLevel'], colorLevels.DEFAULT),
+              textAlign: 'right'
             }}
           >
-            {lastLog.measuringLogs[item.key]
-              ? lastLog.measuringLogs[item.key].value
-              : ''}
+            {
+              round(get(lastLog, ['measuringLogs', key, 'value'], ''), 2)
+              // lastLog.measuringLogs[item.key]
+              // ? lastLog.measuringLogs[item.key].value
+              // : ''
+              }
           </td>
-          <td>{item.unit}</td>
+          <td>{unit}</td>
         </tr>
       )
     })
     return (
       <div>
-        <span
-          style={{
-            color:
-              this.props.stationStatus !== stStatus.DATA_LOSS
-                ? 'inherit'
-                : 'orange'
-          }}
-        >
-          {this.props.stationStatus !== stStatus.DATA_LOSS
-            ? translate('map.dataTable.dataReceived')
-            : translate('map.dataTable.dataLossAt')}{' '}
-          {/* {DateFormat(new Date(lastLog.receivedAt), 'yyyy/mm/dd hh:mm:ss')} */}
-          {moment(lastLog.receivedAt, 'YYYY-MM-DD hh:mm').format(
-            DD_MM_YYYY_HH_MM
-          )}
-        </span>
+        <MHeader>
+          <MRow 
+            title={`${translate('map.marker.status')}: `} 
+            value={`${translate(`map.marker.${isEqual(this.props.stationStatus, stStatus.DATA_LOSS) ? 'dataLoss' : 'transmitting'}`)}`}
+          />
+          <MRow 
+            isLoss={isEqual(this.props.stationStatus, stStatus.DATA_LOSS)}
+            title={`${translate('map.marker.time')}: `} 
+            value={moment(this.props.lastLog.receivedAt, 'YYYY-MM-DD hh:mm').format(DD_MM_YYYY_HH_MM)}
+          />
+          <MRow 
+            title={`${translate('map.marker.result')}: `} 
+            value=''
+          />
+        </MHeader>
+        
         <Clearfix height={8} />
-        <Table striped={true} bordered condensed hover responsive={true}>
+        <Table striped bordered condensed hover responsive>
           <thead>
             <tr>
               <th>#</th>
@@ -180,20 +196,20 @@ export default class MarkerStation extends PureComponent {
         break
     }
   }
-  renderTabInfoWindow = (data, imageData) => {
+  renderTabInfoWindow = (html, imageData) => {
     const url = get(imageData, 'url')
-    return (
-    <Tabs defaultActiveKey="1">
-      <TabPane tab={<span><Icon type="info-circle" theme="outlined" />{translate('map.marker.info')}</span>} key="1"> 
-        {data}
-      </TabPane>
-      {
-        !isEmpty(url) && (<TabPane tab={<span><Icon type="picture" theme="outlined" />{translate('map.marker.image')}</span>} key="2">
-              <MarkerImage src={url}/>
-            </TabPane>)
-      }
-    </Tabs>
-    )
+    const views = isEmpty(url) ? html : <Tabs defaultActiveKey="1">
+    <TabPane tab={<span><Icon type="info-circle" theme="outlined" />{translate('map.marker.info')}</span>} key="1"> 
+      {html}
+    </TabPane>
+    {
+      !isEmpty(url) && (<TabPane tab={<span><Icon type="picture" theme="outlined" />{translate('map.marker.image')}</span>} key="2">
+            <MarkerImage src={url}/>
+          </TabPane>)
+    }
+  </Tabs>
+    return views
+    
   }
   render() {
     return (

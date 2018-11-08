@@ -4,7 +4,7 @@ import styled from 'styled-components'
 // import { SHAPE } from 'themes/color'
 import { translate as t } from 'hoc/create-lang'
 import stationStatus, { STATUS_OPTIONS } from 'constants/stationStatus'
-import { Row, Clearfix, Item, BoxNumberView } from './style'
+import { Row, Item, BoxNumberView } from './style'
 import PropTypes from 'prop-types'
 
 const BoxAnalyticListWrapper = styled.div``
@@ -96,6 +96,41 @@ export default class BoxAnalyticList extends React.PureComponent {
           </Item>
           <Item
             onClick={() => {
+              this.handelFocusStatus(stationStatus.CONNECTED)
+            }}
+          >
+            <BoxNumberView
+              color={STATUS_OPTIONS['GOOD'].color}
+              type={t(STATUS_OPTIONS['GOOD'].title)}
+              number={this.state.connected}
+              focusStatus={stationStatus.CONNECTED}
+              focusParam={this.state.focusStatus}
+            />
+          </Item>
+        </Row>
+      </BoxAnalyticListWrapper>
+    )
+  }
+}
+
+/*
+
+<Row>
+          <Item
+            onClick={() => {
+              this.handelFocusStatus(stationStatus.DATA_LOSS)
+            }}
+          >
+            <BoxNumberView
+              color={STATUS_OPTIONS['DATA_LOSS'].color}
+              type={t(STATUS_OPTIONS['DATA_LOSS'].title)}
+              number={this.state.dataLoss}
+              focusStatus={stationStatus.DATA_LOSS}
+              focusParam={this.state.focusStatus}
+            />
+          </Item>
+          <Item
+            onClick={() => {
               this.handelFocusStatus(stationStatus.NOT_USE)
             }}
           >
@@ -125,7 +160,4 @@ export default class BoxAnalyticList extends React.PureComponent {
             />
           </Item>
         </Row>
-      </BoxAnalyticListWrapper>
-    )
-  }
-}
+*/

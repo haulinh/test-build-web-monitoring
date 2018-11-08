@@ -4,7 +4,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import { colorLevels } from 'constants/warningLevels'
 import { translate } from 'hoc/create-lang'
-import { Icon, Tooltip } from 'antd'
+import { Tooltip } from 'antd'
 import { get } from 'lodash'
 
 
@@ -128,6 +128,7 @@ export default class MeasuringItem extends React.PureComponent {
               width:'16px',
               height:'16px'
             }}
+            alt={item.text}
           />
         </Tooltip>
       )

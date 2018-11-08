@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { Button, Modal, Icon  } from 'antd'
+import { Button, Modal  } from 'antd'
 import styled from 'styled-components'
 import { colorLevels } from 'constants/warningLevels'
 import { translate } from 'hoc/create-lang'
-import BookIcon from '@atlaskit/icon/glyph/book'
+// import BookIcon from '@atlaskit/icon/glyph/book'
 
 // align-items: center;
 // justify-content: space-between;
@@ -82,7 +82,7 @@ const RowView = ({color, titleLag}) => (
 
 const RowViewImg = ({src, titleLag}) => (
   <Row>
-    <img src={src} style={{height:'20px', width:'20px'}}/>
+    <img alt={titleLag} src={src} style={{height:'20px', width:'20px'} }/>
     <TextLevelInfo >{translate(titleLag)}</TextLevelInfo>
   </Row>
 )
