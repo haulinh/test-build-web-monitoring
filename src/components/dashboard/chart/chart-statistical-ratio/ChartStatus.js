@@ -165,6 +165,8 @@ export default class ChartStatusView extends React.PureComponent {
         title: {
           text: '',
         },
+        lineWidth: 1,
+        lineColor: '#ccc',
         labels: {
           formatter: function() {
             return `${this.value}%`;

@@ -162,13 +162,17 @@ export default class HeaderView extends React.PureComponent {
         enabled: false
       },
       xAxis: {
-        categories
+        categories,
+        lineWidth: 1,
+        lineColor: '#ccc',
       },
       yAxis: {
         min: 0, max: 100,
         title: {
           text: ''
         },
+        lineWidth: 1,
+        lineColor: '#ccc',
         labels: {
           formatter: function() {
             return `${this.value}%`;
