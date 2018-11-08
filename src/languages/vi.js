@@ -26,15 +26,15 @@ export default {
       byDay: '{{=it.day}} Ngày'
     },
     chartStatus: {
-      title: 'Tình trạng hoạt động của trạm',
-      titleByUnit: 'Tình trạng hoạt động của {{=it.unit}}',
+      title: 'Tình trạng kết nối',
+      titleByUnit: 'Tình trạng kết nối của {{=it.unit}}',
       activate: 'Đang kết nối',
       inactive: `Chưa kết nối`,
       dataLoss: `Mất kết nối`,
       max: 'Giới hạn trên: {{=it.max}}',
       min: 'Giới hạn duới: {{=it.min}}'
     },
-    activeStationPer: 'Trạm hoạt động ({{=it.good}}/{{=it.total}})'
+    activeStationPer: 'Tình trạng kết nối ({{=it.good}}/{{=it.total}})'
   },
   monitoring: {
     title: 'Giám sát trực tuyến',
@@ -54,10 +54,12 @@ export default {
     lossAt: 'Mất kết nối lúc',
     notInUse: 'Chưa sử dụng',
     deviceStatus: {
-      normal: 'Bình thường',
-      maintenance: 'Bảo trì',
-      broken: 'Bị hỏng'
-    }
+      normal: 'Đang đo',
+      maintenance: 'Hiệu chuẩn/Bảo trì',
+      broken: 'Báo lỗi'
+    },
+    statusResult: 'Kết quả quan trắc',
+    note: 'Chú thích'
   },
   aqi: {
     title: 'AQI',
@@ -185,7 +187,7 @@ export default {
     }
   },
   dataSearchFrom: {
-    titleText: 'Tìm kiếm dữ liệu',
+    titleText: 'Tra cứu dữ liệu gốc',
     options: {
       byHours: '{{=it.value}} Giờ',
       byDay: '{{=it.value}} Ngày',
@@ -289,8 +291,8 @@ export default {
         label: 'Giá trị'
       },
       type: {
-        label: 'Loại báo cáo',
-        error: 'Vui lòng chọn loại báo cáo'
+        label: 'Dữ liệu trung bình',
+        error: 'Vui lòng chọn dữ liệu trung bình'
       },
       advanced: {
         label: 'Nâng cao'

@@ -57,7 +57,9 @@ export default {
       normal: 'Normal',
       maintenance: 'Maintenance',
       broken: 'Broken'
-    }
+    },
+    statusResult: 'Monitoring results',
+    note: 'Note'
   },
   aqi: {
     title: 'Air Quality Index',
@@ -289,8 +291,8 @@ export default {
         label: 'Value'
       },
       type: {
-        label: 'Type Of Report',
-        error: 'Please Choose Type Of Report'
+        label: 'Average Data',
+        error: 'Please Choose Average Data'
       },
       advanced: {
         label: 'Advanced'

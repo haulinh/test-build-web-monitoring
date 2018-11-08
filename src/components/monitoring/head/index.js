@@ -69,21 +69,21 @@ const SpaceContainer = styled.span`
   width: 25%;
 `
 
-const RowWrapper = styled.div` display: flex; flex-direction: column; padding-top: 5px;`
+const RowWrapper = styled.div` display: flex; flex-direction: column; padding-bottom: 8px;`
 const SectionView = styled.h3` font-size: 15px;`
 const Row = styled.div` display: flex; flex-direction: row; margin: 2px 4px; `
 
 const RowView = ({color, titleLag}) => (
   <Row>
     <ColorLevelInfo color={color}/>
-    <TextLevelInfo >{titleLag}</TextLevelInfo>
+    <TextLevelInfo >{translate(titleLag)}</TextLevelInfo>
   </Row>
 )
 
 const RowViewImg = ({src, titleLag}) => (
   <Row>
     <img src={src} style={{height:'20px', width:'20px'}}/>
-    <TextLevelInfo >{titleLag}</TextLevelInfo>
+    <TextLevelInfo >{translate(titleLag)}</TextLevelInfo>
   </Row>
 )
 
@@ -96,34 +96,23 @@ export default class Header extends React.PureComponent {
     color: PropTypes.string
   }
 
+  state = {
+    isVisible: false
+  }
+
+
 
   hideInfoWarningLevels = () => {
-    Modal.info({
-      title: translate('stationAutoManager.form.note.label'),
-      content: (
-                <div>
-                  <RowWrapper>
-                    <SectionView>{translate('dashboard.chartStatus.title')}</SectionView>
-                    <RowView color='#008001' titleLag={translate('dashboard.connected')}/>
-                    <RowView color='#F03045' titleLag={translate('dashboard.dataLoss')}/>
-                    <RowView color='#4D4E48' titleLag={translate('dashboard.notUse')}/>
-                  </RowWrapper>
-                  <RowWrapper>
-                    <SectionView>{translate('map.menuRight.dataStatus')}</SectionView>
-                    <RowView color={colorLevels.GOOD} titleLag={translate('warningLevels.good')}/>
-                    <RowView color={colorLevels.EXCEEDED_TENDENCY} titleLag={translate('warningLevels.exceedTendency')}/>
-                    <RowView color={colorLevels.EXCEEDED} titleLag={translate('warningLevels.exceed')}/>
-                  </RowWrapper>
-                  <RowWrapper>
-                    <SectionView>{translate('qaqc.dataFilter.deviceStatus')}</SectionView>
-                    <RowViewImg src="/images/sensor1.png" titleLag={`Sensor ${translate('monitoring.deviceStatus.normal')}`}/>
-                    <RowViewImg src="/images/sensor2.png" titleLag={`Sensor ${translate('monitoring.deviceStatus.maintenance')}`}/>
-                    <RowViewImg src="/images/sensor3.png" titleLag={`Sensor ${translate('monitoring.deviceStatus.broken')}`}/>
-                  </RowWrapper>
-                </div>
-      ),
-      onOk() {},
-    });
+    this.setState({isVisible: true})
+    // Modal.info({
+    //   title: translate('stationAutoManager.form.note.label'),
+    //   content: (
+    //     <div>
+          
+    //     </div>
+    //   ),
+    //   onOk() {},
+    // });
   }
   render() {
     return (
@@ -149,6 +138,31 @@ export default class Header extends React.PureComponent {
             </ColorLevel>
           </WrapperColor>
           <Button type="primary" shape="circle" icon="info" style ={{width: '20px', height: '20px', fontSize: '10px'}} size="small" onClick={this.hideInfoWarningLevels}/>
+          <Modal
+            visible={this.state.isVisible}
+            footer={null}
+            title={translate('monitoring.note')}
+            onCancel={() => this.setState({isVisible: false})}
+          >
+            <RowWrapper>
+              <SectionView>{translate('dashboard.chartStatus.title')}</SectionView>
+              <RowView color='#008001' titleLag='dashboard.connected'/>
+              <RowView color='#F03045' titleLag='dashboard.dataLoss'/>
+              <RowView color='#4D4E48' titleLag='dashboard.notUse'/>
+            </RowWrapper>
+            <RowWrapper>
+              <SectionView>{translate('monitoring.statusResult')}</SectionView>
+              <RowView color={colorLevels.GOOD} titleLag='warningLevels.good'/>
+              <RowView color={colorLevels.EXCEEDED_TENDENCY} titleLag='warningLevels.exceedTendency'/>
+              <RowView color={colorLevels.EXCEEDED} titleLag='warningLevels.exceed'/>
+            </RowWrapper>
+            <RowWrapper>
+              <SectionView>{translate('qaqc.dataFilter.deviceStatus')}</SectionView>
+              <RowViewImg src="/images/sensor1.png" titleLag='monitoring.deviceStatus.normal'/>
+              <RowViewImg src="/images/sensor2.png" titleLag='monitoring.deviceStatus.maintenance'/>
+              <RowViewImg src="/images/sensor3.png" titleLag='monitoring.deviceStatus.broken'/>
+            </RowWrapper>
+          </Modal>
         </WarningWrapper>
       </HeaderWrapper>
     )
