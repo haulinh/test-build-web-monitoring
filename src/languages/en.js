@@ -242,7 +242,8 @@ export default {
     table: {
       emptyText: 'There Are No Records To Display',
       receivedAt: 'Received At',
-      all: 'All'
+      all: 'All',
+      numericalOrder: 'No.'
     },
     tab: {
       data: 'Data',

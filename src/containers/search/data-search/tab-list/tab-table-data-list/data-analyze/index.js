@@ -44,6 +44,7 @@ export default class TableDataList extends React.PureComponent {
         render(value, record, index) {
           let val =
             record.max.data.length > 0 ? record.max.data[0].value || '' : ''
+          if (val) val = val.toFixed(2)
           return <div>{val}</div>
         }
       },
@@ -67,6 +68,7 @@ export default class TableDataList extends React.PureComponent {
         render(value, record, index) {
           let val =
             record.min.data.length > 0 ? record.min.data[0].value || '' : ''
+          if (val) val = val.toFixed(2)
           return <div>{val}</div>
         }
       },
@@ -77,7 +79,7 @@ export default class TableDataList extends React.PureComponent {
         render(value, record, index) {
           let val =
             record.avg.data.length > 0 ? record.avg.data[0].value || '' : ''
-          if (val) val = Math.round(val, 2)
+          if (val) val = (Math.round(val, 2)).toFixed(2)
           return <div>{val}</div>
         }
       }
