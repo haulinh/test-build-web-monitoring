@@ -6,20 +6,20 @@ import { Link } from 'react-router-dom'
 import slug from 'constants/slug'
 const SummaryItemWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  opacity: 0.85;
+  flex: 1;
   border-radius: 4px;
   padding: 12px 16px;
   background-color: ${props => props.color};
   &:hover {
     cursor: pointer;
   }
+  flex-direction: column;
 `
 
 const StationTypeImg = styled.img`
-  width: 40px;
-  height: auto;
+  width: null;
+  height: 35px;
+
 `
 
 const Text = styled.span`
@@ -29,10 +29,19 @@ const Text = styled.span`
 
 const TextNumber = Text.extend`
   font-size: 20px;
+  flex: 1;
 `
 
 const TextDescription = Text.extend`
   font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  margin-top: 6px;
+`
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
 `
 
 @autobind
@@ -59,11 +68,11 @@ export default class SummaryItem extends React.PureComponent {
     return (
       <Link to={slug.monitoring.base + `?Id=${stationTypeKey}`}>
         <SummaryItemWrapper color={color}>
-          <div>
+          <Row>
             <TextNumber>{this.renderNumber()}</TextNumber>
-            <TextDescription>{name}</TextDescription>
-          </div>
-          <StationTypeImg src={image} />
+            <StationTypeImg src={image} />  
+          </Row>
+          <TextDescription>{name}</TextDescription>
         </SummaryItemWrapper>
       </Link>
     )
