@@ -137,7 +137,7 @@ export default {
     cycleSampling: 'Chu kỳ lấy mẫu',
     buttonTrigger: 'Kích hoạt',
     cancelTrigger: 'Huỷ kích hoạt',
-    triggerExceeded: 'Kích hoạt lấy mẫu vượt thành công',
+    triggerExceeded: 'Kích hoạt lấy mẫu vượt ngưỡng',
     cancelTriggerExceeded: 'Huỷ kích hoạt lấy mẫu vượt thành công',
     statusSampling: 'Đang lấy mẫu ...',
     viewMore: 'Xem thêm'
