@@ -14,7 +14,7 @@ import ChartBaseView from './chart-base'
 const dataLabels = {
   enabled: true,
   // rotation: -90,
-  color: '#FFFFFF',
+  color: '#000000',
   y: 12,
   // padding: 10,
   align: 'center',
@@ -123,7 +123,7 @@ export default class HeaderView extends React.PureComponent {
     const me = this
     const dataLabels = {
       enabled: true,
-      color: '#FFFFFF',
+      color: '#000000',
       verticalAlign: 'center',
       align: 'center',
       padding: 20,
@@ -151,7 +151,7 @@ export default class HeaderView extends React.PureComponent {
         type: 'bar',
         events: {
           click: function(event) {
-            alert(event)
+            
           }
         }
       },
@@ -162,12 +162,21 @@ export default class HeaderView extends React.PureComponent {
         enabled: false
       },
       xAxis: {
-        categories
+        categories,
+        lineWidth: 1,
+        lineColor: '#ccc',
       },
       yAxis: {
-        min: 0,
+        min: 0, max: 100,
         title: {
           text: ''
+        },
+        lineWidth: 1,
+        lineColor: '#ccc',
+        labels: {
+          formatter: function() {
+            return `${this.value}%`;
+          }
         }
       },
       legend: {

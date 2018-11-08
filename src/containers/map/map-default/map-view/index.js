@@ -85,7 +85,6 @@ class CustomGoogleMap extends PureComponent {
   }
 
   render() {
-    console.log('render', this.props)
     const defaultCenter = { lat: 10.7607494, lng: 106.6954122 }
     return (
       <GoogleMap

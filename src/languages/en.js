@@ -34,7 +34,8 @@ export default {
       max: 'Maximum: {{=it.max}}',
       min: 'Minimum: {{=it.min}}'
     },
-    activeStationPer: 'Station Active ({{=it.good}}/{{=it.total}})'
+    activeStationPer: 'Station Active ({{=it.good}}/{{=it.total}})',
+    unit: 'Unit'
   },
   monitoring: {
     title: 'Monitoring',
@@ -57,7 +58,9 @@ export default {
       normal: 'Normal',
       maintenance: 'Maintenance',
       broken: 'Broken'
-    }
+    },
+    statusResult: 'Monitoring results',
+    note: 'Note'
   },
   aqi: {
     title: 'Air Quality Index',
@@ -178,10 +181,14 @@ export default {
       }
     },
     marker: {
-      dataLoss: 'Data Loss',
+      transmitting: 'Transmitting',
+      dataLoss: 'Disconnected',
       notUse: 'Not In Use',
       info: 'Info',
-      image: 'Image'
+      image: 'Image',
+      time: 'Time',
+      status: 'Status',
+      result: 'Results'
     },
   },
   dataSearchFrom: {
@@ -290,8 +297,8 @@ export default {
         label: 'Value'
       },
       type: {
-        label: 'Type Of Report',
-        error: 'Please Choose Type Of Report'
+        label: 'Average Data',
+        error: 'Please Choose Average Data'
       },
       advanced: {
         label: 'Advanced'

@@ -1,7 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import { Form, Button, Modal, TimePicker, Collapse, Select, message  } from 'antd'
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'

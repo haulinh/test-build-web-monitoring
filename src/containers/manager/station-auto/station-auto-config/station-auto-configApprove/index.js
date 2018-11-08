@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Checkbox, Table, Button, InputNumber, Modal, TimePicker, Collapse, Select, Icon  } from 'antd'
-import styled from 'styled-components'
+import { Form, Checkbox, Table, Button, Icon  } from 'antd'
+// import styled from 'styled-components'
 import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
@@ -107,7 +107,7 @@ export default class StationAutoConfigApprove extends React.Component {
   }
 
   showConfigCalibration = (key, e) => {
-    const { checked, data, name } = e.target
+    const { checked } = e.target
     this.onChangeCheckbox(e)
     if (checked) {
       this.setState({ showModalConfig: true, key })

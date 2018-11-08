@@ -15,8 +15,8 @@ export default {
     viewInMap: 'Bản đồ',
     viewMore: 'Xem thêm',
     tableList: {
-      name: 'Tên',
-      dataStatus: 'Tình trạng hoạt động'
+      name: 'Tên trạm',
+      dataStatus: 'Tình trạng kết nối'
     },
     chartRatio: {
       title: 'Tỉ lệ nhận dữ liệu',
@@ -26,15 +26,16 @@ export default {
       byDay: '{{=it.day}} Ngày'
     },
     chartStatus: {
-      title: 'Tình trạng hoạt động của trạm',
-      titleByUnit: 'Tình trạng hoạt động của {{=it.unit}}',
+      title: 'Tình trạng kết nối',
+      titleByUnit: 'Tình trạng kết nối của {{=it.unit}}',
       activate: 'Đang kết nối',
       inactive: `Chưa kết nối`,
       dataLoss: `Mất kết nối`,
       max: 'Giới hạn trên: {{=it.max}}',
       min: 'Giới hạn duới: {{=it.min}}'
     },
-    activeStationPer: 'Trạm hoạt động ({{=it.good}}/{{=it.total}})'
+    activeStationPer: 'Tình trạng kết nối ({{=it.good}}/{{=it.total}})',
+    unit: 'Đơn vị'
   },
   monitoring: {
     title: 'Giám sát trực tuyến',
@@ -54,10 +55,12 @@ export default {
     lossAt: 'Mất kết nối lúc',
     notInUse: 'Chưa sử dụng',
     deviceStatus: {
-      normal: 'Bình thường',
-      maintenance: 'Bảo trì',
-      broken: 'Bị hỏng'
-    }
+      normal: 'Đang đo',
+      maintenance: 'Hiệu chuẩn/Bảo trì',
+      broken: 'Báo lỗi'
+    },
+    statusResult: 'Kết quả quan trắc',
+    note: 'Chú thích'
   },
   aqi: {
     title: 'AQI',
@@ -178,14 +181,18 @@ export default {
       }
     },
     marker: {
+      transmitting: 'Đang truyền',
       dataLoss: 'Mất kết nối',
       notUse: 'Chưa kết nối',
       info: 'Thông tin',
-      image: 'Hình ảnh'
+      image: 'Hình ảnh',
+      time: 'Thời gian',
+      status: 'Trạng thái',
+      result: 'Kết quả'
     }
   },
   dataSearchFrom: {
-    titleText: 'Tìm kiếm dữ liệu',
+    titleText: 'Tra cứu dữ liệu gốc',
     options: {
       byHours: '{{=it.value}} Giờ',
       byDay: '{{=it.value}} Ngày',
@@ -290,8 +297,8 @@ export default {
         label: 'Giá trị'
       },
       type: {
-        label: 'Loại báo cáo',
-        error: 'Vui lòng chọn loại báo cáo'
+        label: 'Dữ liệu trung bình',
+        error: 'Vui lòng chọn dữ liệu trung bình'
       },
       advanced: {
         label: 'Nâng cao'

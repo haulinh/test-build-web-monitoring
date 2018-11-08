@@ -9,12 +9,12 @@ export default class StatusModalView extends React.Component {
   getConfig = () => {
     const dataLabels = {
       enabled: true,
-      color: '#FFFFFF',
+      color: '#000',
       verticalAlign: 'center',
       align: 'center',
       formatter: function() {
         if (this.y === 0) return ''
-        return `${this.y}%`
+        return `${this.y}`
       }
     }
 
@@ -55,8 +55,14 @@ export default class StatusModalView extends React.Component {
         min: 0,
         max: 100,
         title: {
-          text: ''
+          text: `${translate('dashboard.unit')} (%)`,
+          align: 'high',
+          offset: 0,
+          rotation: 0,
+          y: -10
         },
+        lineWidth: 1,
+        lineColor: '#ccc',
         stackLabels: {
           enabled: false
         }
@@ -73,7 +79,9 @@ export default class StatusModalView extends React.Component {
           dataLabels: {
             enabled: true
             //color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-          }
+          },
+          pointPadding: 0,
+          borderWidth: 0
         }
       },
       series: [seriesNotReceived, seriesReceived]
@@ -87,9 +95,7 @@ export default class StatusModalView extends React.Component {
           title={this.props.title}
           visible={this.props.visible}
           onCancel={this.props.onClose}
-          onOk={this.props.onClose}
-          okText="OK"
-          cancelText="Đóng"
+          footer={null}
           width={800}
           cancelButtonProps={{ visible: false }}
         >
