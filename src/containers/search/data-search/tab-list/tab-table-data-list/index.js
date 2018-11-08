@@ -18,7 +18,7 @@ export default class TableDataList extends React.PureComponent {
   getColumns() {
     let me = this
     const columnIndex = {
-      title: 'TT',
+      title: translate('dataSearchFrom.table.numericalOrder'),
       dataIndex: 'Index',
       key: 'Index',
       render(value, record, index) {

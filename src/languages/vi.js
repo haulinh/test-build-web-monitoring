@@ -235,7 +235,8 @@ export default {
     table: {
       emptyText: 'Không có dữ liệu',
       receivedAt: 'Thời gian',
-      all: 'Tất cả'
+      all: 'Tất cả',
+      numericalOrder: 'TT'
     },
     tab: {
       data: 'Dữ liệu',
