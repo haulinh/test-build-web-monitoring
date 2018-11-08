@@ -15,8 +15,8 @@ export default {
     viewInMap: 'Bản đồ',
     viewMore: 'Xem thêm',
     tableList: {
-      name: 'Tên',
-      dataStatus: 'Tình trạng hoạt động'
+      name: 'Tên trạm',
+      dataStatus: 'Tình trạng kết nối'
     },
     chartRatio: {
       title: 'Tỉ lệ nhận dữ liệu',
@@ -34,7 +34,8 @@ export default {
       max: 'Giới hạn trên: {{=it.max}}',
       min: 'Giới hạn duới: {{=it.min}}'
     },
-    activeStationPer: 'Tình trạng kết nối ({{=it.good}}/{{=it.total}})'
+    activeStationPer: 'Tình trạng kết nối ({{=it.good}}/{{=it.total}})',
+    unit: 'Đơn vị'
   },
   monitoring: {
     title: 'Giám sát trực tuyến',

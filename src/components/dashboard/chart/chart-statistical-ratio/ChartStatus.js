@@ -12,7 +12,7 @@ export default class ChartStatusView extends React.PureComponent {
   configStatusChartSemi = (dataGroup, title, titleActive, tittleUnActive) => {
     const dataLabels = {
       enabled: true,
-      color: '#FFFFFF',
+      color: '#000',
       verticalAlign: 'center',
       align: 'center',
       allowOverlap: true,
@@ -26,7 +26,7 @@ export default class ChartStatusView extends React.PureComponent {
       center: ['50%', '75%'],
       events: {
         click: function(event) {
-          console.log('onClick', event)
+          
         }
       }
     }
@@ -35,12 +35,12 @@ export default class ChartStatusView extends React.PureComponent {
     let lossData = 0
     const tpm = _.head(_.values(dataGroup))
 
-    let total = 0
+    //let total = 0
 
     if (!_.isEmpty(tpm)) {
       goodTotal = _.filter(tpm, { status: 'GOOD' }).length
-      lossData = _.filter(tpm, { status: 'DATA_LOSS' }).length
-      total = _.size(tpm) - goodTotal - lossData
+      lossData = _.size(tpm) - goodTotal//_.filter(tpm, { status: 'DATA_LOSS' }).length
+      //total = _.size(tpm) - goodTotal - lossData
     }
 
     return {
@@ -83,11 +83,11 @@ export default class ChartStatusView extends React.PureComponent {
           name: title,
           innerSize: '40%',
           data: [
-            {
-              name: tittleUnActive,
-              y: total,
-              color: '#4D4E48'
-            },
+            // {
+            //   name: tittleUnActive,
+            //   y: total,
+            //   color: '#4D4E48'
+            // },
             {
               name: translate('dashboard.chartStatus.dataLoss'),
               y: lossData,
@@ -107,14 +107,15 @@ export default class ChartStatusView extends React.PureComponent {
   configStatusChartColumn = (dataGroup, title, titleActive, tittleUnActive) => {
     const dataLabels = {
       enabled: true,
-      color: '#FFFFFF',
+      color: '#000',
       y: 15,
+      shadow: false,
       verticalAlign: 'center',
       align: 'center',
       allowOverlap: true,
       formatter: function() {
         if (this.y === 0) return ''
-        return `${this.y} (${_.round((this.y / this.total) * 100, 2)}%)`
+        return `${this.y} (${_.round((this.y / this.total) * 100)}%)`
       }
     }
     // events
@@ -130,23 +131,23 @@ export default class ChartStatusView extends React.PureComponent {
       dataLabels,
       color: '#008001'
     }
-    const seriesUnActive = {
-      name: tittleUnActive,
-      data: [],
-      color: '#4D4E48',
-      dataLabels
-    }
+    // const seriesUnActive = {
+    //   name: tittleUnActive,
+    //   data: [],
+    //   color: '#4D4E48',
+    //   dataLabels
+    // }
     let categories = []
     _.forEach(_.keys(dataGroup), key => {
       const ls = _.get(dataGroup, key, [])
 
       const good = _.filter(ls, ({ status }) => status === 'GOOD').length
-      const dataLoss = _.filter(ls, ({ status }) => status === 'DATA_LOSS')
-        .length
+      // const dataLoss = _.filter(ls, ({ status }) => status === 'DATA_LOSS')
+      //   .length
 
-      seriesDataLoss.data.push(dataLoss)
+      seriesDataLoss.data.push(ls.length - good)
       seriesActive.data.push(good)
-      seriesUnActive.data.push(ls.length - good - dataLoss)
+      //seriesUnActive.data.push(ls.length - good - dataLoss)
       categories.push(_.get(_.head(dataGroup[key]), 'province.name', 'Other'))
     })
     return {
@@ -162,13 +163,18 @@ export default class ChartStatusView extends React.PureComponent {
       yAxis: {
         min: 0,
         title: {
-          text: ''
+          text: '',
+        },
+        labels: {
+          formatter: function() {
+            return `${this.value}%`;
+          }
         }
       },
       legend: {
         reversed: true
       },
-      series: [seriesActive, seriesDataLoss, seriesUnActive],
+      series: [seriesActive, seriesDataLoss],
       tooltip: {
         pointFormat:
           '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
