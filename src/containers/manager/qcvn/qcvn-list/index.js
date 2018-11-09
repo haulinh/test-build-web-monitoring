@@ -45,7 +45,7 @@ export default class QCVNList extends React.Component {
     const { t } = this.props.lang
     return (
       <div>
-        {protectRole(ROLE.STATION_AUTO.CREATE)(
+        {protectRole(ROLE.QCVN.CREATE)(
           <Link to={slug.qcvn.create}>
             <Button type="primary">
               <Icon type="plus" />
@@ -91,7 +91,7 @@ export default class QCVNList extends React.Component {
       {
         content: (
           <span>
-            {protectRole(ROLE.STATION_AUTO.EDIT)(
+            {protectRole(ROLE.QCVN.EDIT)(
               <Link to={slug.qcvn.editWithKey + '/' + row._id}>
                 {' '}
                 {t('qcvn.edit.label')}{' '}
@@ -99,7 +99,7 @@ export default class QCVNList extends React.Component {
             )}
 
             <Divider type="vertical" />
-            {protectRole(ROLE.STATION_AUTO.DELETE)(
+            {protectRole(ROLE.QCVN.DELETE)(
               <a
                 onClick={() =>
                   this.props.onDeleteItem(row._id, this.props.fetchData)

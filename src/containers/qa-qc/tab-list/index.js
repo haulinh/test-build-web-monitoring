@@ -3,6 +3,8 @@ import { autobind } from 'core-decorators'
 import { Button, Modal, Checkbox } from 'antd'
 import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 import styled from 'styled-components'
 import * as _ from 'lodash'
 import BoxShadow from 'components/elements/box-shadow'
@@ -90,60 +92,69 @@ export default class TabeList extends React.PureComponent {
 
   renderButtonApprove() {
     return (
-      <Button
-        disabled={
-          !(
-            this.state.checkedAll ||
-            (!this.state.checkedAll && _.size(this.state.data) > 0)
-          )
-        }
-        type="primary"
-        icon="schedule"
-        style={{ float: 'right', margin: '5px' }}
-        onClick={this.props.onApprovedData}
-        loading={this.props.isExporting}
-      >
-        {translate('qaqc.approve')}
-      </Button>
+      <div>{protectRole(ROLE.QAQC.APPROVE)(
+          <Button
+            disabled={
+              !(
+                this.state.checkedAll ||
+                (!this.state.checkedAll && _.size(this.state.data) > 0)
+              )
+            }
+            type="primary"
+            icon="schedule"
+            style={{ float: 'right', margin: '5px' }}
+            onClick={this.props.onApprovedData}
+            loading={this.props.isExporting}
+          >
+            {translate('qaqc.approve')}
+          </Button>
+      )}
+      </div>
     )
   }
 
   renderButton = () => {
     if (this.props.valueField === 'value') {
       return (
-        <ButtonAbsolute>
-          <Button
-            type="primary"
-            icon="schedule"
-            style={{ float: 'right', margin: '5px' }}
-            onClick={this.onManualApprove}
-            loading={this.props.isExporting}
-          >
-            {translate('qaqc.manualApprove')}
-          </Button>
-          {this.renderButtonApprove()}
-        </ButtonAbsolute>
+        <div>{protectRole(ROLE.QAQC.MANUALAPPROVE)(
+          <ButtonAbsolute>
+            <Button
+              type="primary"
+              icon="schedule"
+              style={{ float: 'right', margin: '5px' }}
+              onClick={this.onManualApprove}
+              loading={this.props.isExporting}
+            >
+              {translate('qaqc.manualApprove')}
+            </Button>
+            {this.renderButtonApprove()}
+          </ButtonAbsolute>
+         )}
+       </div>
       )
     }
 
     return (
-      <ButtonAbsolute>
-        <Button
-          disabled={
-            !(
-              this.state.checkedAll ||
-              (!this.state.checkedAll && _.size(this.state.data) > 0)
-            )
-          }
-          type="danger"
-          icon="schedule"
-          style={{ float: 'right', margin: '5px' }}
-          onClick={this.props.onUnApprovedData}
-          loading={this.props.isExporting}
-        >
-          {translate('qaqc.unApprove')}
-        </Button>
-      </ButtonAbsolute>
+      <div>{protectRole(ROLE.QAQC.UNAPPROVE)(
+          <ButtonAbsolute>
+            <Button
+              disabled={
+                !(
+                  this.state.checkedAll ||
+                  (!this.state.checkedAll && _.size(this.state.data) > 0)
+                )
+              }
+              type="danger"
+              icon="schedule"
+              style={{ float: 'right', margin: '5px' }}
+              onClick={this.props.onUnApprovedData}
+              loading={this.props.isExporting}
+            >
+              {translate('qaqc.unApprove')}
+            </Button>
+          </ButtonAbsolute>
+       )}
+     </div>
     )
   }
 

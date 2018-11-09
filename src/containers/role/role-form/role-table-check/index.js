@@ -28,7 +28,6 @@ export default class RoleTableList extends React.PureComponent {
   }
 
   render() {
-    console.log(this.getInfo())
     return <RoleTableListWrapper />
   }
 }

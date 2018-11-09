@@ -34,7 +34,11 @@ const aqiMenu = {
 }
 
 const groupQAQC = {
-  component: (
+  component: protectRole(
+    '',
+    [ROLE.QAQC.VIEW],
+    'group'
+  )(
     <NavigationWrapper text={translate('qaqc.title')}>
       <AkNavigationItemGroup title={translate('qaqc.title')} />
     </NavigationWrapper>
@@ -42,7 +46,7 @@ const groupQAQC = {
 }
 
 const qaqcMenu = {
-  component: (
+  component: protectRole(ROLE.QAQC.VIEW)(
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
       icon={Icon.qaqc}
@@ -122,7 +126,7 @@ const avgDataMenu = {
 const groupManager = {
   component: protectRole(
     '',
-    [ROLE.MEASURING.VIEW, ROLE.STATION_TYPE.VIEW, ROLE.STATION_AUTO.VIEW],
+    [ROLE.MEASURING.VIEW, ROLE.STATION_TYPE.VIEW, ROLE.STATION_AUTO.VIEW, ROLE.PROVINCE.VIEW, ROLE.QCVN.VIEW],
     'group'
   )(
     <NavigationWrapper text={translate('menuApp.manage')}>
@@ -165,7 +169,7 @@ const stationAutoMenu = {
 }
 
 const provinceMenu = {
-  component: protectRole(ROLE.STATION_AUTO.VIEW)(
+  component: protectRole(ROLE.PROVINCE.VIEW)(
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
       href={slug.province.base}
@@ -175,7 +179,7 @@ const provinceMenu = {
   )
 }
 const qcvnMenu = {
-  component: protectRole(ROLE.STATION_AUTO.VIEW)(
+  component: protectRole(ROLE.QCVN.VIEW)(
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
       href={slug.qcvn.base}

@@ -50,5 +50,23 @@ export default {
     VIEW: 'menu.monitoring.actions.view',
     CONTROL: 'menu.monitoring.actions.control',
     CAMERA: 'menu.monitoring.actions.camera'
+  },
+  QAQC: {
+    VIEW: 'menu.qaqc.actions.view',
+    MANUALAPPROVE:'menu.qaqc.actions.manualapprove',
+    UNAPPROVE:'menu.qaqc.actions.unapprove',
+    APPROVE:'menu.qaqc.actions.approve'
+  },
+  QCVN: {
+    VIEW: 'menu.qcvn.actions.view',
+    CREATE: 'menu.qcvn.actions.create',
+    EDIT: 'menu.qcvn.actions.edit',
+    DELETE: 'menu.qcvn.actions.delete'
+  },
+  PROVINCE: {
+    VIEW: 'menu.province.actions.view',
+    CREATE: 'menu.province.actions.create',
+    EDIT: 'menu.province.actions.edit',
+    DELETE: 'menu.province.actions.delete'
   }
 }

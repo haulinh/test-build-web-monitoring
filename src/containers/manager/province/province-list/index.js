@@ -45,7 +45,7 @@ export default class ProvinceList extends React.Component {
     const { t } = this.props.lang
     return (
       <div>
-        {protectRole(ROLE.STATION_AUTO.CREATE)(
+        {protectRole(ROLE.PROVINCE.CREATE)(
           <Link to={slug.province.create}>
             <Button type="primary">
               <Icon type="plus" />
@@ -89,7 +89,7 @@ export default class ProvinceList extends React.Component {
       {
         content: (
           <span>
-            {protectRole(ROLE.STATION_AUTO.EDIT)(
+            {protectRole(ROLE.PROVINCE.EDIT)(
               <Link to={slug.province.editWithKey + '/' + row._id}>
                 {' '}
                 {t('province.edit.label')}{' '}
@@ -97,7 +97,7 @@ export default class ProvinceList extends React.Component {
             )}
 
             <Divider type="vertical" />
-            {protectRole(ROLE.STATION_AUTO.DELETE)(
+            {protectRole(ROLE.PROVINCE.DELETE)(
               <a
                 onClick={() =>
                   this.props.onDeleteItem(row._id, this.props.fetchData)
