@@ -15,7 +15,6 @@ const createManagerDelete = ({ apiDelete }) => Component => {
         onOk() {
           return new Promise(async (resolve, reject) => {
             const res = await apiDelete(key)
-            console.log(res)
             if (res.success) {
               message.info('Delete success!')
               callbackSuccess()

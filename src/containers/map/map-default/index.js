@@ -175,7 +175,6 @@ export default class MapDefault extends React.PureComponent {
       if (focusStatus.includes(status)) element.visible = true
       return element
     })
-    console.log(res)
 
     this.setState({
       stationsAuto: res
