@@ -140,8 +140,8 @@ export default {
     cycleSampling: 'Chu kỳ lấy mẫu',
     buttonTrigger: 'Kích hoạt',
     cancelTrigger: 'Huỷ kích hoạt',
-    triggerExceeded: 'Kích hoạt lấy mẫu vượt ngưỡng',
-    cancelTriggerExceeded: 'Huỷ kích hoạt lấy mẫu vượt thành công',
+    triggerExceeded: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
+    cancelTriggerExceeded: 'Huỷ kích hoạt thành công',
     statusSampling: 'Đang lấy mẫu ...',
     viewMore: 'Xem thêm'
   },
@@ -469,7 +469,7 @@ export default {
     },
     delete: {
       label: 'Xóa',
-      require: 'Bạn chắc chắn xoá dữ liệu'
+      require: 'Bạn chắc chắn xoá dữ liệu?'
     },
     add: {
       label: 'Thêm'
@@ -504,16 +504,16 @@ export default {
     },
     create: {
       label: 'Tạo mới',
-      success: 'Thêm tên trạm thành công',
+      success: 'Thêm trạm thành công',
       keyExisted: 'Tên trạm đã tồn tại'
     },
     edit: {
       label: 'Sửa',
-      success: 'Cập nhật tên trạm thành công'
+      success: 'Cập nhật trạm thành công'
     },
     delete: {
       label: 'Xoá',
-      require: 'Bạn chắc chắn xoá dữ liệu'
+      require: 'Bạn chắc chắn xoá dữ liệu?'
     },
     add: {
       label: 'Thêm'

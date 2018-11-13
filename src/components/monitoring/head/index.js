@@ -148,7 +148,7 @@ export default class Header extends React.PureComponent {
               <SectionView>{translate('dashboard.chartStatus.title')}</SectionView>
               <RowView color='#008001' titleLag='dashboard.connected'/>
               <RowView color='#F03045' titleLag='dashboard.dataLoss'/>
-              <RowView color='#4D4E48' titleLag='dashboard.notUse'/>
+              {/* <RowView color='#4D4E48' titleLag='dashboard.notUse'/> */}
             </RowWrapper>
             <RowWrapper>
               <SectionView>{translate('monitoring.statusResult')}</SectionView>
