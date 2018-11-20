@@ -69,6 +69,7 @@ export default {
   qaqc: {
     publish: 'Publish',
     title: `QA/QC`,
+    removeData: 'Data removed',
     originalData: 'Original Data',
     removeDataBy: 'Remove Data By',
     approveData: 'Approve Data',
@@ -79,11 +80,13 @@ export default {
       negative: 'Negative',
       outOfRange: 'Out of range',
       isZero: 'Is Zero',
-      deviceStatus: 'Device Status'
+      deviceStatus: 'Device Status' 
     },
     data: 'Data Type',
     approve: 'Approve',
     cancel: 'Cancel',
+    remove: 'Removed Data',
+    restore: 'Restore Data',
     allCancel: 'All Cancel',
     unApprove: 'UnApprove',
     yetApprove: 'Yet Approved',
@@ -104,7 +107,7 @@ export default {
       from: 'From Date',
       to: 'To Date'
     },
-    outOfRange: 'Out of range (Sensor is Broken or Maintenance)'
+    outOfRange: 'Out of range'
   },
   controlStation: {
     text: 'Sampling',

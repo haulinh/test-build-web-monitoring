@@ -69,9 +69,10 @@ export default {
   qaqc: {
     publish: 'Cho phép công bố',
     title: `QA/QC`,
+    removeData: 'Dữ liệu đã loại bỏ',
     originalData: 'Dữ liệu gốc',
     approveData: 'Kiểm duyệt dữ liệu',
-    removeDataBy: 'Loại bỏ dữ liệu theo',
+    removeDataBy: 'Chỉ kiểm duyệt dữ liệu khác điều kiện sau:',
     approveAll: 'Kiểm duyệt tất cả',
     manualApprove: 'Kiểm duyệt tùy chọn',
     dataFilter: {
@@ -84,6 +85,8 @@ export default {
     data: 'Loại dữ liệu',
     approve: 'Kiểm duyệt',
     cancel: 'Hủy bỏ',
+    remove: 'Loại bỏ dữ liệu',
+    restore: 'Khôi phục',
     allCancel: 'Hủy bỏ tất cả',
     unApprove: 'Hủy kiểm duyệt',
     yetApprove: 'Chưa kiểm duyệt',
@@ -104,7 +107,7 @@ export default {
       from: 'Từ ngày',
       to: 'Đến ngày'
     },
-    outOfRange: 'Ngoài vùng đo (Sensor Bảo trì hoặc bị hỏng)'
+    outOfRange: 'Ngoài vùng đo'
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',

@@ -6,9 +6,10 @@ import { translate } from 'hoc/create-lang'
 import createValidateComponent from 'components/elements/redux-form-validate'
 
 const options = [
-  { key: 'value', label: 'qaqc.yetApprove' },
+  { key: 'yetApprove', label: 'qaqc.yetApprove' },
   { key: 'approvedValue', label: 'qaqc.approved' },
-  { key: 'original', label: 'qaqc.originalData' }
+  { key: 'value', label: 'qaqc.originalData' },
+  { key: 'removeValue', label: 'qaqc.removeData' }
 ]
 
 @autobind

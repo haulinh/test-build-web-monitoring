@@ -1,22 +1,16 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import QAQCApi from '../../api/QAQCApi'
+import QAQCApi from 'api/QAQCApi'
 import { measurePublished } from 'api/StationAuto'
-import Clearfix from 'components/elements/clearfix/index'
 import { translate } from 'hoc/create-lang'
 import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
-// import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
 import { Spin, message } from 'antd'
-// import ROLE from 'constants/role'
-// import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
-import { get, size, isEmpty, forEach, isNumber } from 'lodash'
-
-// @protectRole(ROLE.DATA_SEARCH.VIEW)
+import { get, size, isEmpty, forEach, isNumber, union, filter, includes } from 'lodash'
 @queryFormDataBrowser(['submit'])
 @autobind
 export default class QaQcContainer extends React.Component {
@@ -44,7 +38,6 @@ export default class QaQcContainer extends React.Component {
       get(searchFormData, 'measuringData', []),
       ({ minRange, maxRange, key }) => {
         let val = {}
-
         if (isNumber(minRange)) val.minRange = minRange
         if (isNumber(maxRange)) val.maxRange = maxRange
 
@@ -104,15 +97,9 @@ export default class QaQcContainer extends React.Component {
     })
   }
 
-  onChangeData = dataUpdate => {
-    this.setState({ dataUpdate })
-  }
+  // UPDATE CODE
 
-  onItemChecked = (checked, list) => {
-    this.setState({ dataSelected: { checked, list } })
-  }
-
-  handleChangePage(pagination) {
+  handleChangePage = pagination => {
     this.loadData(
       pagination,
       this.state.searchFormData,
@@ -122,15 +109,40 @@ export default class QaQcContainer extends React.Component {
     )
   }
 
-  onApprovedData = async (e, options) => {
-    this.setState({
-      isExporting: true
-    })
+  handerPublished = async (published) => {
+    this.setState({ published })
+    await measurePublished(published._id, {measureList: get(published, 'publishedList', [])})
+  }
 
+  updateRow = (dataStationAuto, dataChange) => {
+    this.setState({dataStationAuto, dataChange})
+  }
+
+  handleRowChecked = (type, checked) => {
+    const dataSelected = get(this.state, 'dataSelected', { checked: false, list: [] })
+    if (type === '__ALL__') {
+      dataSelected.checked = checked
+      dataSelected.list = []
+    } else {
+      if (includes(dataSelected.list, type)) {
+        dataSelected.list = filter(dataSelected.list, _id => _id !== type)
+      } else {
+        dataSelected.list = union(dataSelected.list, [type])
+      }
+    }
+
+    this.setState({ dataSelected })
+  }
+
+  handleApproved = async (options, putType = undefined) => {
     let body = {}
-    if (options) {
-      body.removeBy = options
+    if (!isEmpty(options)) {
+      body.manualOptions = options
       body.measuringData = this.state.measuringData
+    }
+
+    if (putType) {
+      body.putType = putType
     }
 
     if (!isEmpty(this.state.dataUpdate)) {
@@ -156,99 +168,53 @@ export default class QaQcContainer extends React.Component {
     } else {
       message.error(translate('qaqc.msg.failure'))
     }
-    this.setState({
-      isExporting: false
-    })
   }
 
-  onUnApprovedData = async e => {
-    const me = this
-    swal({
-      type: 'question',
-      title: '',
-      titleText: translate('qaqc.msg.confirmUnApprove'),
-      showCancelButton: true,
-      confirmButtonText: translate('qaqc.ok'),
-      cancelButtonText: translate('qaqc.cancel'),
-      preConfirm: async () => {
-        me.setState({
-          isExporting: true
-        })
-        let body = {}
-
-        if (!isEmpty(me.state.dataSelected)) {
-          body.dataSelected = me.state.dataSelected
-        }
-
-        const rs = await QAQCApi.deleteData(me.state.searchFormData, body)
-        if (rs && rs.success) {
-          message.success(translate('qaqc.msg.success'))
-          me.loadData(
-            me.state.pagination,
-            me.state.searchFormData,
-            {},
-            { checked: false, list: [] },
-            this.state.published
-          )
-        } else {
-          message.error(translate('qaqc.msg.failure'))
-        }
-
-        me.setState({
-          isExporting: false
-        })
-      }
-    })
+  handleRemoved = () => {
+    this.handleApproved(undefined, 'REMOVE')
   }
 
-  handerPublished = async (published) => {
-    this.setState({ published })
-    await measurePublished(published._id, {measureList: get(published, 'publishedList', [])})
-    console.log('published', published)
+  handleRestoreData = () => {
+    this.handleApproved(undefined, 'RESTORE')
+  }
+
+  handleUnApprove = () => {
+    this.handleApproved(undefined, 'UN_APPROVE')
+  }
+
+  handleManualApproved = options => {
+    this.handleApproved(options, 'MANUAL_APPROVE')
   }
 
   render() {
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-        <Spin
-          size="large"
-          tip={translate(
-            get(this.state, 'searchFormData.dataType', 'value') === 'value'
-              ? 'qaqc.approved'
-              : 'qaqc.unApprove'
-          )}
-          spinning={this.state.isExporting}
-        >
-          <Breadcrumb items={['list']} />
+        <Breadcrumb items={['list']} />
+        <Spin spinning={false} title='Đang xử lý...'>
           <SearchFrom
             initialValues={this.props.formData}
             measuringData={this.props.formData.measuringData}
             onSubmit={this.handleSubmitSearch}
             searchNow={this.props.formData.searchNow}
           />
-          <Clearfix height={16} />
-          {this.state.isHaveData ? (
-            <TabList
-              dataUpdate={this.state.dataUpdate}
-              isLoading={this.state.isLoading}
-              measuringData={this.state.measuringData}
-              measuringList={this.state.measuringList}
-              dataStationAuto={this.state.dataStationAuto}
+          {
+            this.state.dataStationAuto.length > 0 && 
+            <TabList 
+              data={this.state.dataStationAuto}
+              searchFormData={this.state.searchFormData}
               pagination={this.state.pagination}
-              dataFilterBy={get(this.state, 'searchFormData.dataFilterBy', [])}
               onChangePage={this.handleChangePage}
-              onApprovedData={this.onApprovedData}
-              onChangeData={this.onChangeData}
-              onItemChecked={this.onItemChecked}
-              nameChart={this.state.searchFormData.name}
-              isExporting={this.state.isExporting}
-              onUnApprovedData={this.onUnApprovedData}
+              dataChange={this.state.dataChange}
+              handleSave={this.updateRow}
               dataSelected={this.state.dataSelected}
-              published={this.state.published}
-              onPublishChange={this.handerPublished}
-              valueField={get(this.state, 'searchFormData.dataType', 'value')}
+              onRowChecked={this.handleRowChecked}
+              onApproved={this.handleApproved}
+              onRemoved={this.handleRemoved}
+              onRestoreData={this.handleRestoreData}
+              onUnApprove={this.handleUnApprove}
+              onManualApproved={this.handleManualApproved}
             />
-          ) : null}
+          }
         </Spin>
       </PageContainer>
     )
