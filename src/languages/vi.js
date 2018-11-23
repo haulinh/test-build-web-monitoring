@@ -1,7 +1,9 @@
 export default {
   chart: {
     all: 'Tất cả',
-    time: 'Thời gian'
+    time: 'Thời gian',
+    from: 'Từ',
+    to: 'Đến'
   },
   dashboard: {
     good: 'Tốt',
