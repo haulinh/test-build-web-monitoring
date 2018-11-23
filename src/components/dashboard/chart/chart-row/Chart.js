@@ -11,7 +11,8 @@ import { getDataStationAutos } from 'api/DataStationAutoApi'
 
 const ChartWrapper = styled.div``
 
-const configChart = (data, title, minLimit, maxLimit, maxChart) => {
+const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
+  console.log('configChart: ', maxChart, minChart )
   return {
     chart: {
       type: 'spline',
@@ -24,14 +25,15 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
       type: 'datetime'
     },
     yAxis: {
-     // max: maxChart,
+      max: maxChart,
+      min: minChart,
       title: {
         text: ''
       },
       plotLines: [
         {
           value: _.isNumber(minLimit) ? minLimit : undefined,
-          color: 'Orange',
+          color: 'red',
           width: 2,
           label: {
             text: translate(`dashboard.chartStatus.min`, { min: minLimit })
@@ -39,7 +41,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart) => {
         },
         {
           value: _.isNumber(maxLimit) ? maxLimit : undefined,
-          color: 'Orange',
+          color: 'red',
           width: 1,
           label: {
             text: translate(`dashboard.chartStatus.max`, { max: maxLimit })
@@ -102,6 +104,11 @@ export default class ChartRowToChart extends React.Component {
     }
   }
 
+
+  componentDidMount() {
+    this.loadDataBy(this.props.station)
+  }
+
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.station, this.props.station)) {
       this.loadDataBy(nextProps.station)
@@ -136,27 +143,27 @@ export default class ChartRowToChart extends React.Component {
       )
 
       let data = _.orderBy(_.get(dataSources, 'data', []), 'receivedAt')
+      let heightChart = {}
       _.forEach(data, ({ measuringLogs, receivedAt }) => {
-        _.forEach(_.keys(measuringLogs), key => {
-          if (_.has(measuringLogs, `${key}.value`)) {
-            results[key] = _.concat(_.get(results, key, []), [
-              [moment(receivedAt).valueOf(), measuringLogs[key]['value']]
-            ])
+        _.mapKeys(measuringLogs, (value, key) => {
+          results[key] = _.concat(_.get(results, key, []), [[moment(receivedAt).valueOf(), _.get(value, 'value')]])
+          if (_.has(categories, `${key}`)) {
+            if (_.get(value, 'maxLimit') || _.get(value, 'maxLimit') === 0 || _.get(value, 'maxLimit') ||  _.get(value, 'maxLimit') > 0) {
+              const maxCurrent = _.get(heightChart, `${key}.maxChart`) || _.get(value, 'maxLimit') || _.get(value, 'minLimit')
+              _.update(heightChart, `${key}.maxChart`, () => maxCurrent)
+              categories[key].maxChart = _.max([maxCurrent, _.get(value, 'value')])
 
-            if (_.has(categories, `${key}`)) {
-              let maxChart = _.get(categories, `${key}.maxLimit`)
-              if (maxChart > 0) {
-                maxChart = _.max([maxChart, measuringLogs[key]['value']])
-                categories[key].maxChart = maxChart
-              }
+              const minCurrent =  _.get(heightChart, `${key}.minChart`) || _.get(value, 'minLimit') || _.get(value, 'maxLimit')
+              _.update(heightChart, `${key}.minChart`, () => minCurrent)
+              categories[key].minChart = _.min([minCurrent, _.get(value, 'value')])
             }
           }
+
+          return key
         })
       })
 
-      categories = _.toArray(categories)
       current = _.toArray(categories)
-     // current = _.head(categories)
     }
 
     this.setState({ categories, current, day, data: results, isShowAll: true })
@@ -213,10 +220,13 @@ export default class ChartRowToChart extends React.Component {
     let maxLimit = null
     let minLimit = null
     let maxChart = undefined
+    let minChart = undefined
     let title = _.get(this.props, 'station.name', '')
     if(!this.state.isShowAll){
         dataSeries = []
-        maxLimit = _.get(this.state.current, '0.maxLimit', 10000000)
+        maxLimit = _.get(this.state.current, '0.maxLimit', undefined)
+        minLimit = _.get(this.state.current, '0.minLimit', undefined)
+        
         dataSeries.push({
           type: 'spline',
           name: _.get(this.state.current, '0.name', ''),
@@ -226,9 +236,8 @@ export default class ChartRowToChart extends React.Component {
           negativeColor: 'rgb(124, 181, 236)',
           color: 'red',
         })
-      maxLimit = _.get(this.state.current, '0.maxLimit', undefined)
-      minLimit = _.get(this.state.current, '0.minLimit', undefined)
       maxChart = _.get(this.state.current, '0.maxChart', undefined)
+      minChart = _.get(this.state.current, '0.minChart', undefined)
       title += `- ${_.get(this.state.current, '0.name', '')}`
     } else {
       dataSeries = []
@@ -241,7 +250,7 @@ export default class ChartRowToChart extends React.Component {
         })
       ))
     }
-    return (configChart(dataSeries, title , minLimit, maxLimit, maxChart))
+    return (configChart(dataSeries, title , minLimit, maxLimit, maxChart, minChart))
   }
 
   render() {
