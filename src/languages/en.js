@@ -1,7 +1,9 @@
 export default {
   chart: {
     all: 'All',
-    time: 'Time'
+    time: 'Time',
+    from: 'From',
+    to: 'To'
   },
   dashboard: {
     good: 'Good',

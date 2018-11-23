@@ -4,13 +4,19 @@ import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts/ReactHighstock'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
-import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
-import chartAutoResize from 'hoc/chart-autoresize'
 
 const TabChartWrapper = styled.div`
+  justify-content: center;
+  align-items: center;
   display: flex;
-  flex-direction: column;
+  width: 100%;
+`
+const ChartWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;  
 `
 
 const Thumbnail = styled.div`
@@ -32,8 +38,6 @@ const Line = styled.div` height: 3px; width: 7px; margin-right: 4px; background-
 
 
 const colors = ['#058DC7', '#50B432', '#7D5611', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
-
-
 ReactHighcharts.Highcharts.wrap(ReactHighcharts.Highcharts.RangeSelector.prototype, 'drawInput', function (proceed, name) {    
   proceed.call(this, name);
   this[name + 'DateBox'].on('click', function () {} );    
@@ -41,25 +45,12 @@ ReactHighcharts.Highcharts.wrap(ReactHighcharts.Highcharts.RangeSelector.prototy
 
 ReactHighcharts.Highcharts.setOptions({
   lang: {
-    rangeSelectorFrom: 'From',
-    rangeSelectorTo: 'To',
+    rangeSelectorFrom: translate('chart.from'),
+    rangeSelectorTo: translate('chart.to'),
     rangeSelectorZoom:''
-  },
-  rangeSelector:{
-    inputDateFormat: '%d/%m/%Y',
-    inputEditDateFormat: '%d/%m/%Y',                    
-    inputDateParser: function (value) {
-        value = value.split('/');
-        console.log(value);
-        return Date.UTC(
-          parseInt(value[0]),
-          parseInt(value[1]) - 1,
-          parseInt(value[2])
-        );
-    }
   }
 });
-//@chartAutoResize
+
 @autobind
 export default class TabChart extends React.PureComponent {
   static propTypes = {
@@ -98,7 +89,7 @@ export default class TabChart extends React.PureComponent {
     })
 
     _.forEachRight(props.dataStationAuto, ({measuringLogs, receivedAt}) => {
-      const time = moment(receivedAt).unix()
+      const time = new Date(receivedAt).getTime()//moment(receivedAt).unix()
       
       _.mapKeys(seriesData, function(value, key) {
         seriesData[key].data.push([time, _.get(measuringLogs ,[key, 'value'], 0)])
@@ -106,13 +97,14 @@ export default class TabChart extends React.PureComponent {
       })
     })
 
-    mesureList.unshift({code: '__ALL__', name: 'Tất cả'})
+    mesureList.unshift({code: '__ALL__', name: translate('chart.all')})
     if (isInit) {
       this.state = {
         seriesData,
         mesureList,
         plotLines: [],
         minChart: undefined,
+        nameChart:'',
         series: _.values(seriesData),
         measureCurrent: '__ALL__'
       }
@@ -135,12 +127,15 @@ export default class TabChart extends React.PureComponent {
     let series = []
     let plotLines = []
     let minChart = undefined
+    let nameChart = ''
     if (measureCurrent === '__ALL__'){
       series = _.values(this.state.seriesData)
+      nameChart = this.props.nameChart
     } else {
       const dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
       series = [dataSeries]
       minChart = _.get(dataSeries,'minLimit', undefined)
+      nameChart = `${this.props.nameChart} - ${measureCurrent}`
       plotLines = [
         {
           value: _.get(dataSeries,'minLimit', undefined),
@@ -161,13 +156,14 @@ export default class TabChart extends React.PureComponent {
       }
       ]
     }
-    this.setState({measureCurrent, series, plotLines, minChart})
+    this.setState({measureCurrent, series, plotLines, minChart, nameChart})
   }
 
-  configChar = (series, plotLines = [], minChart) => {
+  configChar = (series, plotLines = [], minChart, width, nameChart) => {
     return {
       chart: {
-        type: 'line'
+        type: 'line',
+        width: width - 160
       },
       credits: {
         enabled: false
@@ -177,17 +173,9 @@ export default class TabChart extends React.PureComponent {
         buttons: [],
         allButtonsEnabled: true,
         inputEnabled: true,
-        // inputEditDateFormat:'%d/%m/%Y:%k:%M',
-        // inputDateFormat:'%d/%m/%Y:%k:%M',
-        // inputDateParser: function (value) {
-        //   value = value.split('/');
-        //   console.log(value);
-        //   return Date.UTC(
-        //       parseInt(value[0]),
-        //       parseInt(value[1]) - 1,
-        //       parseInt(value[2])
-        //   );
-        // }
+        inputEditDateFormat:'%d/%m/%Y:%k:%M',
+        inputDateFormat:'%d/%m/%Y:%k:%M',
+        inputBoxWidth: 120
       },
       navigation: {
         buttonOptions: {
@@ -195,8 +183,7 @@ export default class TabChart extends React.PureComponent {
         }
       },
       title: {
-       // text: this.props.nameChart
-       text: 'Ma Diem'
+       text: nameChart //this.props.nameChart
       },
       yAxis: {
         min: minChart,
@@ -205,32 +192,33 @@ export default class TabChart extends React.PureComponent {
           text: ''
         }
       },
-      series,
-      responsive: {
-        rules: [{
-          condition:{
-            maxWidth: 400,
-            minHeight: 250,
-            minWidth: 200
-          }
-        }]
-      }
+      series
     }
+  }
+  
+  componentDidMount() {
+    this.setState({
+      width: this.chartWrapper.offsetWidth
+    })
   }
 
   render() {
     return (
-      <TabChartWrapper>
-        <ReactHighcharts config={this.configChar(this.state.series, this.state.plotLines, this.state.minChart)} />
-        <Thumbnail>
+      <TabChartWrapper >
+        <ChartWrapper innerRef={ref => (this.chartWrapper = ref)}>
           {
-            this.state.mesureList.map(({name, code, color}) => <ThumbnailItem
-              onClick={() => this.hanldleMeasureChange(code)}
-              selected={this.state.measureCurrent === code}
-              color={color}
-              key={code} code={code}><Line color={color}/>{name}</ThumbnailItem>)
-          }  
-        </Thumbnail>
+            (this.state.width > 160) && <ReactHighcharts config={this.configChar(this.state.series, this.state.plotLines, this.state.minChart, this.state.width, this.state.nameChart)} />
+          }
+          <Thumbnail>
+            {
+              this.state.mesureList.map(({name, code, color}) => <ThumbnailItem
+                onClick={() => this.hanldleMeasureChange(code)}
+                selected={this.state.measureCurrent === code}
+                color={color}
+                key={code} code={code}><Line color={color}/>{name}</ThumbnailItem>)
+            }  
+          </Thumbnail>
+        </ChartWrapper>
       </TabChartWrapper>
     )
   }
