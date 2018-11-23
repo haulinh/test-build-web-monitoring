@@ -51,7 +51,7 @@ export default class TableDataList extends React.PureComponent {
       {
         title: translate('dataSearchFrom.analyze.minTime'),
         dataIndex: 'MinTime',
-        key: 'Min',
+        key: 'MinTime',
         render(value, record, index) {
           let val =
             record.min.data.length > 0

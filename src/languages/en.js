@@ -14,6 +14,7 @@ export default {
     viewInMonitoring: 'View In Monitoring',
     viewInMap: 'View In Map',
     viewMore: 'View More',
+    all:'All',
     tableList: {
       name: 'Name',
       dataStatus: 'Data Status'

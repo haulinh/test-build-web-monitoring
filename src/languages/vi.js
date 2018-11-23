@@ -14,6 +14,7 @@ export default {
     viewInMonitoring: 'Giám sát trực tuyến',
     viewInMap: 'Bản đồ',
     viewMore: 'Xem thêm',
+    all:'Tất cả thông số',
     tableList: {
       name: 'Tên trạm',
       dataStatus: 'Tình trạng kết nối'
