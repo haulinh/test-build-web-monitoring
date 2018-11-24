@@ -148,7 +148,7 @@ export default class ChartRowToChart extends React.Component {
         _.mapKeys(measuringLogs, (value, key) => {
           results[key] = _.concat(_.get(results, key, []), [[moment(receivedAt).valueOf(), _.get(value, 'value')]])
           if (_.has(categories, `${key}`)) {
-            if (_.get(value, 'maxLimit') || _.get(value, 'maxLimit') === 0 || _.get(value, 'maxLimit') ||  _.get(value, 'maxLimit') > 0) {
+            if (_.isNumber(_.get(value, 'maxLimit')) || _.isNumber(_.get(value, 'minLimit'))) {
               const maxCurrent = _.get(heightChart, `${key}.maxChart`) || _.get(value, 'maxLimit') || _.get(value, 'minLimit')
               _.update(heightChart, `${key}.maxChart`, () => maxCurrent)
               categories[key].maxChart = _.max([maxCurrent, _.get(value, 'value')])
@@ -188,6 +188,7 @@ export default class ChartRowToChart extends React.Component {
         })
     } else {
         const current = [_.get(_.keyBy(this.state.categories, 'key'), e, null)]
+        console.log('current: ', current)
         const isShowAll = false
         this.setState({
           current, isShowAll
@@ -236,6 +237,19 @@ export default class ChartRowToChart extends React.Component {
           negativeColor: 'rgb(124, 181, 236)',
           color: 'red',
         })
+
+        if (_.isNumber(minLimit)) {
+          dataSeries.push({
+            type: 'spline',
+            name: _.get(this.state.current, '0.name', ''),
+            data: _.get(this.state.data, _.get(this.state.current, '0.key', ''), []),
+            lineWidth: 2,
+            threshold: minLimit,
+            negativeColor: 'red',
+            color: 'transparent',
+          })
+        }
+
       maxChart = _.get(this.state.current, '0.maxChart', undefined)
       minChart = _.get(this.state.current, '0.minChart', undefined)
       title += `- ${_.get(this.state.current, '0.name', '')}`
