@@ -9,6 +9,7 @@ import TabTableDataList from './tab-table-data-list/index'
 import TabChart from './tab-chart/index'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import * as _ from 'lodash'
 
 const TabeListWrapper = BoxShadow.extend`
   padding: 0px 16px 16px 16px;
@@ -66,10 +67,8 @@ export default class TabeList extends React.PureComponent {
           </Tabs.TabPane>
           <Tabs.TabPane tab={translate('dataSearchFrom.tab.chart')} key="2">
             <TabChart
-              dataStationAuto={this.props.dataStationAuto}
-              measuringData={this.props.measuringData.filter(item =>
-                this.props.measuringList.includes(item.key)
-              )}
+              dataStationAuto={this.props.dataStationAuto || []}
+              measuringData={_.filter(this.props.measuringData, ({key}) => _.includes(this.props.measuringList||[], key) )}
               nameChart={this.props.nameChart}
             />
           </Tabs.TabPane>

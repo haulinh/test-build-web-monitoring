@@ -1,7 +1,9 @@
 export default {
   chart: {
     all: 'Tất cả',
-    time: 'Thời gian'
+    time: 'Thời gian',
+    from: 'Từ',
+    to: 'Đến'
   },
   dashboard: {
     good: 'Tốt',
@@ -14,6 +16,7 @@ export default {
     viewInMonitoring: 'Giám sát trực tuyến',
     viewInMap: 'Bản đồ',
     viewMore: 'Xem thêm',
+    all:'Tất cả thông số',
     tableList: {
       name: 'Tên trạm',
       dataStatus: 'Tình trạng kết nối'

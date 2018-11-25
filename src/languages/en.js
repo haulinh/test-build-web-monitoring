@@ -1,7 +1,9 @@
 export default {
   chart: {
     all: 'All',
-    time: 'Time'
+    time: 'Time',
+    from: 'From',
+    to: 'To'
   },
   dashboard: {
     good: 'Good',
@@ -14,6 +16,7 @@ export default {
     viewInMonitoring: 'View In Monitoring',
     viewInMap: 'View In Map',
     viewMore: 'View More',
+    all:'All',
     tableList: {
       name: 'Name',
       dataStatus: 'Data Status'
