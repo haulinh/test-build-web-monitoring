@@ -4,6 +4,8 @@ import { Row, Table, Button, Checkbox, Modal } from 'antd'
 import { translate } from 'hoc/create-lang'
 import moment from 'moment'
 import * as _ from 'lodash'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { EditableFormRow, EditableCell } from './table-row'
@@ -216,23 +218,24 @@ export default class TableList extends React.PureComponent {
     return (
       <ToolbarView>
         {
-          hasApprove && <Button type='danger' icon='delete' style={{marginRight: 8}} onClick={this.props.onRemoved}>{translate('qaqc.remove')}</Button>
+          hasApprove && protectRole(ROLE.QAQC.REMOVE)(<Button type='danger' icon='delete' style={{marginRight: 8}} onClick={this.props.onRemoved}>{translate('qaqc.remove')}</Button>)
         }
 
         {
-          fieldValue === 'yetApprove'  && <Button type='primary' style={{marginRight: 8}} onClick={() => this.setState({manualVisible: true})}>{translate('qaqc.manualApprove')}</Button>
+          fieldValue === 'yetApprove'  && 
+          protectRole(ROLE.QAQC.MANUAL_APPROVE)(<Button type='primary' style={{marginRight: 8}} onClick={() => this.setState({manualVisible: true})}>{translate('qaqc.manualApprove')}</Button>)
         }
 
         {
-          hasApprove && <Button type='primary' onClick={this.props.onApproved}>{translate('qaqc.approve')}</Button>
+          hasApprove && protectRole(ROLE.QAQC.APPROVE)(<Button type='primary' onClick={this.props.onApproved}>{translate('qaqc.approve')}</Button>)
         }
 
         {
-          fieldValue === 'removeValue' && <Button type='primary' onClick={this.props.onRestoreData}>{translate('qaqc.restore')}</Button>
+          fieldValue === 'removeValue' && protectRole(ROLE.QAQC.RESTORE)(<Button type='primary' onClick={this.props.onRestoreData}>{translate('qaqc.restore')}</Button>)
         }
 
         {
-          fieldValue === 'approvedValue' && <Button type='primary' onClick={this.props.onUnApprove}>{translate('qaqc.unApprove')}</Button>
+          fieldValue === 'approvedValue' && protectRole(ROLE.QAQC.UN_APPROVE)(<Button type='primary' onClick={this.props.onUnApprove}>{translate('qaqc.unApprove')}</Button>)
         }
 
       </ToolbarView>
