@@ -56,11 +56,9 @@ export default class TableList extends React.PureComponent {
 
     const originValue = _.get(value, fieldValue === 'value' ? 'approvedValue' : 'value', '')
     let updateValue = `${_.get(value, fieldValue, '')}`
-    if (updateValue !== '' && `${updateValue}` !== `${originValue}`) {
+    if (fieldValue === 'value' && updateValue !== '' && `${updateValue}` !== `${originValue}` && originValue !== '') {
       updateValue = `${updateValue} (${originValue})`
-    } else {
-      
-    }
+    } 
 
     let color = 'back'
     if (fieldValue === 'value') {
