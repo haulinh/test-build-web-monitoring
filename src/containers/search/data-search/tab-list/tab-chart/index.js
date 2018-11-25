@@ -5,6 +5,7 @@ import ReactHighcharts from 'react-highcharts/ReactHighstock'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
+import moment from 'moment'
 
 const TabChartWrapper = styled.div`
   justify-content: center;
@@ -68,6 +69,7 @@ export default class TabChart extends React.PureComponent {
   }
 
   initData  = (props, isInit = false) => {
+    console.log('props: ', props)
     const seriesData = {}
     const mesureList = _.map(_.clone(props.measuringData), (item, index) => {
       const color = _.get(colors, [index], 'yellow')
@@ -88,11 +90,22 @@ export default class TabChart extends React.PureComponent {
       }
     })
 
+      let heightChart = {}
     _.forEachRight(props.dataStationAuto, ({measuringLogs, receivedAt}) => {
-      const time = new Date(receivedAt).getTime()//moment(receivedAt).unix()
-      
+      const time = moment(receivedAt).valueOf()
       _.mapKeys(seriesData, function(value, key) {
-        seriesData[key].data.push([time, _.get(measuringLogs ,[key, 'value'], 0)])
+        const val = _.get(measuringLogs ,[key, 'value'])
+        seriesData[key].data.push([time, val])
+       
+        const minCureent = _.get(heightChart, `${key}.minChart`) || _.get(measuringLogs ,[key, 'minLimit']) ||  _.get(measuringLogs ,[key, 'maxLimit'])
+        const maxCurrent = _.get(heightChart, `${key}.maxChart`) || _.get(measuringLogs ,[key, 'maxLimit']) ||  _.get(measuringLogs ,[key, 'minLimit'])
+        if (_.isNumber(minCureent)) {
+          _.update(heightChart, `${key}.minChart`, () => _.min([minCureent, val]))
+        }
+        if (_.isNumber(maxCurrent)) {
+          _.update(heightChart, `${key}.maxChart`, () => _.max([maxCurrent, val]))
+        }
+
         return key;
       })
     })
@@ -104,12 +117,14 @@ export default class TabChart extends React.PureComponent {
         mesureList,
         plotLines: [],
         minChart: undefined,
+        maxChart: undefined,
         nameChart:'',
         series: _.values(seriesData),
-        measureCurrent: '__ALL__'
+        measureCurrent: '__ALL__',
+        heightChart
       }
     } else {
-      this.setState({ seriesData, mesureList, plotLines: [], series: _.values(seriesData) })
+      this.setState({ heightChart, seriesData, mesureList, plotLines: [], series: _.values(seriesData) })
     }
     
   }
@@ -127,19 +142,31 @@ export default class TabChart extends React.PureComponent {
     let series = []
     let plotLines = []
     let minChart = undefined
+    let maxChart = undefined
     let nameChart = ''
     if (measureCurrent === '__ALL__'){
       series = _.values(this.state.seriesData)
       nameChart = this.props.nameChart
     } else {
-      const dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
+      let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
+      dataSeries.negativeColor = '#058DC7'
+      const minLimit = _.get(dataSeries, 'minLimit')
       series = [dataSeries]
-      minChart = _.get(dataSeries,'minLimit', undefined)
+      if (_.isNumber(minLimit)) {
+        let data = _.clone(dataSeries)//_.get(this.state.seriesData, [measureCurrent], {})
+        _.update(data, 'threshold' , () => minLimit)
+        _.update(data, 'color' , () => 'transparent')
+        _.update(data, 'negativeColor' , () => 'red')
+        series.push(data)
+      }
+
+      minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
+      maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart'])//_.get(dataSeries,'minLimit', undefined)
       nameChart = `${this.props.nameChart} - ${measureCurrent}`
       plotLines = [
         {
           value: _.get(dataSeries,'minLimit', undefined),
-          color: 'green',
+          color: 'red',
           dashStyle: 'shortdash',
           width: 2,
           label: {
@@ -149,17 +176,18 @@ export default class TabChart extends React.PureComponent {
           value: _.get(dataSeries,'maxLimit', undefined),
           color: 'red',
           dashStyle: 'shortdash',
-          width: 2,
+          width: 1,
           label: {
               text: translate(`dashboard.chartStatus.max`, {max:_.get(dataSeries,'maxLimit', '')})
           }
       }
       ]
     }
-    this.setState({measureCurrent, series, plotLines, minChart, nameChart})
+    this.setState({measureCurrent, series, plotLines, minChart, nameChart, maxChart})
   }
 
-  configChar = (series, plotLines = [], minChart, width, nameChart) => {
+  configChart = (series, plotLines = [], minChart, width, nameChart, maxChart) => {
+    console.log('minmax: ', minChart, maxChart)
     return {
       chart: {
         type: 'line',
@@ -187,6 +215,7 @@ export default class TabChart extends React.PureComponent {
       },
       yAxis: {
         min: minChart,
+        max: maxChart,
         plotLines,
         title: {
           text: ''
@@ -207,7 +236,7 @@ export default class TabChart extends React.PureComponent {
       <TabChartWrapper >
         <ChartWrapper innerRef={ref => (this.chartWrapper = ref)}>
           {
-            (this.state.width > 160) && <ReactHighcharts config={this.configChar(this.state.series, this.state.plotLines, this.state.minChart, this.state.width, this.state.nameChart)} />
+            (this.state.width > 160) && <ReactHighcharts config={this.configChart(this.state.series, this.state.plotLines, this.state.minChart, this.state.width, this.state.nameChart, this.state.maxChart)} />
           }
           <Thumbnail>
             {
