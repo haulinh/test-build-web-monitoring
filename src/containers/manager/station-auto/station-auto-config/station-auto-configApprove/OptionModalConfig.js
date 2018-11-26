@@ -13,35 +13,35 @@ const Option = Select.Option;
 const format = 'HH:mm';
 const dataTime = [
   {
-    key: 1,
+    key: 7,
     value: 'stationAutoManager.options.outOfRangeConfig.daily'
   },
   {
-    key: 2,
+    key: 1,
     value: 'stationAutoManager.options.outOfRangeConfig.monday'
   },
   {
-    key: 3,
+    key: 2,
     value: 'stationAutoManager.options.outOfRangeConfig.tuesday'
   },
   {
-    key: 4,
+    key: 3,
     value: 'stationAutoManager.options.outOfRangeConfig.wednesday'
   },
   {
-    key: 5,
+    key: 4,
     value: 'stationAutoManager.options.outOfRangeConfig.thursday'
   },
   {
-    key: 6,
+    key: 5,
     value: 'stationAutoManager.options.outOfRangeConfig.friday'
   },
   {
-    key: 7,
+    key: 6,
     value: 'stationAutoManager.options.outOfRangeConfig.saturday'
   },
   {
-    key: 8,
+    key: 0,
     value: 'stationAutoManager.options.outOfRangeConfig.sunday'
   }
 ];
@@ -56,7 +56,7 @@ export default class OptionModalConfig extends React.Component {
       from: _.get(this.props.dataEditCalibration,'hours.from',''),
       to: _.get(this.props.dataEditCalibration,'hours.to','')
     },
-    dayList: _.get(this.props.dataEditCalibration,'dayList',[2]),
+    dayList: _.get(this.props.dataEditCalibration, 'dayList',[8]),
     isCustom: false
   }
 
@@ -106,7 +106,7 @@ export default class OptionModalConfig extends React.Component {
   }
 
   handleChangeDays = dayList => {
-    if (dayList.includes(1)){
+    if (dayList.includes(7)){
       this.setState({ dayList: _.size(this.state.dayList) ===  7 ? [] : _.map(_.slice(dataTime, 1, dataTime.length), 'key') });
     } else {
       this.setState({ dayList });

@@ -35,10 +35,10 @@ const ThumbnailItem = styled.div`
 
 `
 
-const Line = styled.div` height: 3px; width: 7px; margin-right: 4px; background-color:  ${props => props.color || 'transparent'} `
+const Line = styled.div` height: 2px; width: 7px; margin-right: 4px; background-color:  ${props => props.color || 'transparent'} `
 
 
-const colors = ['#058DC7', '#50B432', '#7D5611', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+const colors = ['#058DC0', '#50B432', '#7D5611', '#DDDF00', '#24CBE8', '#64E572', '#FF9655', '#FFF26f', '#6AF9C0']
 ReactHighcharts.Highcharts.wrap(ReactHighcharts.Highcharts.RangeSelector.prototype, 'drawInput', function (proceed, name) {    
   proceed.call(this, name);
   this[name + 'DateBox'].on('click', function () {} );    
@@ -75,7 +75,7 @@ export default class TabChart extends React.PureComponent {
       const color = _.get(colors, [index], 'yellow')
       seriesData[item.key] = {
         name: item.name, 
-        data: [], color, 
+        data: [],
         tooltip: {valueDecimals: 4}, 
         minLimit: item.minLimit, 
         maxLimit: item.maxLimit,
@@ -149,7 +149,7 @@ export default class TabChart extends React.PureComponent {
       nameChart = this.props.nameChart
     } else {
       let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
-      dataSeries.negativeColor = '#058DC7'
+     // dataSeries.negativeColor = '#058DC7'
       const minLimit = _.get(dataSeries, 'minLimit')
       series = [dataSeries]
       if (_.isNumber(minLimit)) {
