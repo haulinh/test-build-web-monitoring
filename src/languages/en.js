@@ -663,6 +663,7 @@ export default {
     },
     config: {
       label: 'Config',
+      extensionFile: 'Extension File',
       fileName: {
         label: 'File Name',
         placeholder: 'File Name'

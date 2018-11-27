@@ -85,9 +85,10 @@ export default class StationAutoEdit extends React.PureComponent {
       }
       if (this.state.tabActive === 'MEASURE') {
         let dataConfig = this.getDataConfigForm(values)
+        const configLogger = _.get(this.state.data, 'configLogger', {})
         data = {
           options: _.get(this.state.data, 'options', {}),
-          configLogger: dataConfig
+          configLogger: _.merge(dataConfig, configLogger)
         }
         this.updateData(data)
       }
@@ -98,7 +99,7 @@ export default class StationAutoEdit extends React.PureComponent {
   }
 
   async updateData(data) {
-    //  console.log(data)
+    // console.log('data: ', data)
     if (data) {
       const key = this.props.match.params.key
       const res = await StationAutoApi.updateStationAutoConfig(key, data)
@@ -138,8 +139,9 @@ export default class StationAutoEdit extends React.PureComponent {
   getDataConfigForm(values) {
     let data
     data = {
+      extensionFile: values.extensionFile,
       fileName: values.fileName,
-      path: values.path,
+      //path: values.path,
       measuringList: values.measuringList.filter(
         item => item.measuringDes && item.measuringDes !== ''
       )

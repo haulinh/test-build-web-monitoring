@@ -660,6 +660,7 @@ export default {
     },
     config: {
       label: 'Cấu hình',
+      extensionFile: 'Loại tập tin',
       fileName: {
         label: 'Tên tập tin',
         placeholder: 'Nhập tên tập tin'
