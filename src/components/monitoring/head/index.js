@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { Button, Modal  } from 'antd'
+import { Button, Modal } from 'antd'
 import styled from 'styled-components'
 import { colorLevels } from 'constants/warningLevels'
 import { translate } from 'hoc/create-lang'
@@ -69,21 +69,31 @@ const SpaceContainer = styled.span`
   width: 25%;
 `
 
-const RowWrapper = styled.div` display: flex; flex-direction: column; padding-bottom: 8px;`
-const SectionView = styled.h3` font-size: 15px;`
-const Row = styled.div` display: flex; flex-direction: row; margin: 2px 4px; `
+const RowWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 8px;
+`
+const SectionView = styled.h3`
+  font-size: 15px;
+`
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: 2px 4px;
+`
 
-const RowView = ({color, titleLag}) => (
+const RowView = ({ color, titleLag }) => (
   <Row>
-    <ColorLevelInfo color={color}/>
-    <TextLevelInfo >{translate(titleLag)}</TextLevelInfo>
+    <ColorLevelInfo color={color} />
+    <TextLevelInfo>{translate(titleLag)}</TextLevelInfo>
   </Row>
 )
 
-const RowViewImg = ({src, titleLag}) => (
+const RowViewImg = ({ src, titleLag }) => (
   <Row>
-    <img alt={titleLag} src={src} style={{height:'20px', width:'20px'} }/>
-    <TextLevelInfo >{translate(titleLag)}</TextLevelInfo>
+    <img alt={titleLag} src={src} style={{ height: '20px', width: '20px' }} />
+    <TextLevelInfo>{translate(titleLag)}</TextLevelInfo>
   </Row>
 )
 
@@ -100,15 +110,13 @@ export default class Header extends React.PureComponent {
     isVisible: false
   }
 
-
-
   hideInfoWarningLevels = () => {
-    this.setState({isVisible: true})
+    this.setState({ isVisible: true })
     // Modal.info({
     //   title: translate('stationAutoManager.form.note.label'),
     //   content: (
     //     <div>
-          
+
     //     </div>
     //   ),
     //   onOk() {},
@@ -137,30 +145,56 @@ export default class Header extends React.PureComponent {
               <TextLevel>{translate('warningLevels.exceed')}</TextLevel>
             </ColorLevel>
           </WrapperColor>
-          <Button type="primary" shape="circle" icon="info" style ={{width: '20px', height: '20px', fontSize: '10px'}} size="small" onClick={this.hideInfoWarningLevels}/>
+          <Button
+            type="primary"
+            shape="circle"
+            icon="info"
+            style={{ width: '20px', height: '20px', fontSize: '10px' }}
+            size="small"
+            onClick={this.hideInfoWarningLevels}
+          />
           <Modal
             visible={this.state.isVisible}
             footer={null}
             title={translate('monitoring.note')}
-            onCancel={() => this.setState({isVisible: false})}
+            onCancel={() => this.setState({ isVisible: false })}
           >
             <RowWrapper>
-              <SectionView>{translate('dashboard.chartStatus.title')}</SectionView>
-              <RowView color='#008001' titleLag='dashboard.connected'/>
-              <RowView color='#F03045' titleLag='dashboard.dataLoss'/>
+              <SectionView>
+                {translate('dashboard.chartStatus.title')}
+              </SectionView>
+              <RowView color="#008001" titleLag="dashboard.connected" />
+              <RowView color="#F03045" titleLag="dashboard.dataLoss" />
               {/* <RowView color='#4D4E48' titleLag='dashboard.notUse'/> */}
             </RowWrapper>
             <RowWrapper>
               <SectionView>{translate('monitoring.statusResult')}</SectionView>
-              <RowView color={colorLevels.GOOD} titleLag='warningLevels.good'/>
-              <RowView color={colorLevels.EXCEEDED_TENDENCY} titleLag='warningLevels.exceedTendency'/>
-              <RowView color={colorLevels.EXCEEDED} titleLag='warningLevels.exceed'/>
+              <RowView color={colorLevels.GOOD} titleLag="warningLevels.good" />
+              <RowView
+                color={colorLevels.EXCEEDED_TENDENCY}
+                titleLag="warningLevels.exceedTendency"
+              />
+              <RowView
+                color={colorLevels.EXCEEDED}
+                titleLag="warningLevels.exceed"
+              />
             </RowWrapper>
             <RowWrapper>
-              <SectionView>{translate('qaqc.dataFilter.deviceStatus')}</SectionView>
-              <RowViewImg src="/images/sensor1.png" titleLag='monitoring.deviceStatus.normal'/>
-              <RowViewImg src="/images/sensor2.png" titleLag='monitoring.deviceStatus.maintenance'/>
-              <RowViewImg src="/images/sensor3.png" titleLag='monitoring.deviceStatus.broken'/>
+              <SectionView>
+                {translate('qaqc.dataFilter.deviceStatus')}
+              </SectionView>
+              <RowViewImg
+                src="/images/sensor1.png"
+                titleLag="monitoring.deviceStatus.normal"
+              />
+              <RowViewImg
+                src="/images/sensor2.png"
+                titleLag="monitoring.deviceStatus.maintenance"
+              />
+              <RowViewImg
+                src="/images/sensor3.png"
+                titleLag="monitoring.deviceStatus.broken"
+              />
             </RowWrapper>
           </Modal>
         </WarningWrapper>

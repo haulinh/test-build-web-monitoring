@@ -85,8 +85,8 @@ export default class TableListCustom extends React.PureComponent {
     onChangeItem: PropTypes.func
   }
 
-  constructor (props) {
-    super (props)
+  constructor(props) {
+    super(props)
     this.state = {
       stationStatus: stationStatus.GOOD,
       filter: FILTER.status,
@@ -96,7 +96,7 @@ export default class TableListCustom extends React.PureComponent {
       {
         title: 'Name',
         dataIndex: 'name',
-        key: 'name',
+        key: 'name'
       },
       {
         title: 'Status',
@@ -235,15 +235,15 @@ export default class TableListCustom extends React.PureComponent {
   render() {
     return (
       // <div style={{ height: 450, minWidth: 300, overflow: 'scroll' }}>
-        // <Row>
-        //   <IndexColumn isTh>#</IndexColumn>
-        //   <NameColumn onClick={() => this.handleFilter('name')} isTh>
-        //     {translate('dashboard.tableList.name')}
-        //   </NameColumn>
-        //   <StatusColumn onClick={() => this.handleFilter('status')} isTh>
-        //     {translate('dashboard.tableList.dataStatus')}
-        //   </StatusColumn>
-        // </Row>
+      // <Row>
+      //   <IndexColumn isTh>#</IndexColumn>
+      //   <NameColumn onClick={() => this.handleFilter('name')} isTh>
+      //     {translate('dashboard.tableList.name')}
+      //   </NameColumn>
+      //   <StatusColumn onClick={() => this.handleFilter('status')} isTh>
+      //     {translate('dashboard.tableList.dataStatus')}
+      //   </StatusColumn>
+      // </Row>
       //   {this.props.data.map((item, index) => (
       //     <Row
       //       onClick={e => this.props.onChangeItem(e, item)}
@@ -268,16 +268,15 @@ export default class TableListCustom extends React.PureComponent {
         </Row>
         <Table
           useFixedHeader
-          scroll={{y: 450}}
-          rowKey='key'
-          size='small'
+          scroll={{ y: 450 }}
+          rowKey="key"
+          size="small"
           pagination={false}
           showHeader={false}
           dataSource={this.props.data}
           columns={this.columns}
         />
       </div>
-      
     )
   }
 }

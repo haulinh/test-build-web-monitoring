@@ -9,5 +9,11 @@ export default createBreadcrumb({
     id: 'base',
     icon: '',
     href: slug.qaqc.base
+  },
+  config: {
+    name: translate('qaqc.configPublish.title'),
+    id: 'config',
+    icon: '',
+    href: slug.qaqc.config
   }
 })

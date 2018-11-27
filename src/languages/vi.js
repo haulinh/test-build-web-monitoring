@@ -16,7 +16,7 @@ export default {
     viewInMonitoring: 'Giám sát trực tuyến',
     viewInMap: 'Bản đồ',
     viewMore: 'Xem thêm',
-    all:'Tất cả thông số',
+    all: 'Tất cả thông số',
     tableList: {
       name: 'Tên trạm',
       dataStatus: 'Tình trạng kết nối'
@@ -70,6 +70,12 @@ export default {
     paramsTitle: 'Giá trị AQI {{=it.day}} ngày của từng thông số'
   },
   qaqc: {
+    configPublish: {
+      title: 'Cấu hình công bố',
+      stationName: 'Tên trạm',
+      publish: 'Công bố',
+      measurePublish: 'Cho phép công bố thông số'
+    },
     publish: 'Cho phép công bố',
     title: `QA/QC`,
     removeData: 'Dữ liệu đã loại bỏ',
@@ -694,7 +700,8 @@ export default {
       },
       allowApprove: {
         label: 'Cho phép cấu hình loại bỏ dữ liệu tự động',
-        note: ' *Ghi chú: Khi cấu hình cho phép kiểm duyệt tự động với các điều kiện trên, hệ thống sẽ tự động kiểm duyệt và loại bỏ các dữ liệu không đủ điều kiện.',
+        note:
+          ' *Ghi chú: Khi cấu hình cho phép kiểm duyệt tự động với các điều kiện trên, hệ thống sẽ tự động kiểm duyệt và loại bỏ các dữ liệu không đủ điều kiện.',
         parameters: 'Tên thông số',
         rules: 'Loại bỏ dữ liệu theo các điều kiện',
         zero: 'Bằng 0',
@@ -704,28 +711,28 @@ export default {
         error: 'Vui lòng nhập khoảng đo'
       },
       outOfRangeConfig: {
-        title:'Thời gian hiệu chuẩn',
-        minRange:'Min',
-        maxRange:'Max',
-        note:'* Lưu ý',
-        warning:'Bạn chưa chọn khoảng thời gian',
-        to:'Đến',
-        from:'Từ',
+        title: 'Thời gian hiệu chuẩn',
+        minRange: 'Min',
+        maxRange: 'Max',
+        note: '* Lưu ý',
+        warning: 'Bạn chưa chọn khoảng thời gian',
+        to: 'Đến',
+        from: 'Từ',
         timeConfig: 'Chọn khung T/Gian',
-        placeholderTimeFrom:'Từ (giờ)',
+        placeholderTimeFrom: 'Từ (giờ)',
         placeholderTimeTo: 'Đến (giờ)',
-        btnCancel:'Hủy',
-        btnSave:'Lưu lại',
-        selectTile:'Lặp lại',
-        placeholderSelect:'Tùy chọn',
-        daily:'Hàng ngày',
-        monday:'Mọi thứ 2',
-        tuesday:'Mọi thứ 3',
-        wednesday:'Mọi thứ 4',
-        thursday:'Mọi thứ 5',
-        friday:'Mọi thứ 6',
-        saturday:'Mọi thứ 7',
-        sunday:'Mọi chủ nhật'
+        btnCancel: 'Hủy',
+        btnSave: 'Lưu lại',
+        selectTile: 'Lặp lại',
+        placeholderSelect: 'Tùy chọn',
+        daily: 'Hàng ngày',
+        monday: 'Mọi thứ 2',
+        tuesday: 'Mọi thứ 3',
+        wednesday: 'Mọi thứ 4',
+        thursday: 'Mọi thứ 5',
+        friday: 'Mọi thứ 6',
+        saturday: 'Mọi thứ 7',
+        sunday: 'Mọi chủ nhật'
       },
       allowSampling: {
         label: 'Lấy mẫu',

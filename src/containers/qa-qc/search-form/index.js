@@ -155,7 +155,7 @@ export default class SearchForm extends React.Component {
       params.dataFilterBy = _.get(values, 'dataFilterBy', [])
     }
 
-    this.props.onSubmit(params, { 
+    this.props.onSubmit(params, {
       _id: this.state.stationAutoID,
       publishedList: _.get(this.state, 'options.published.measureList', [])
     })

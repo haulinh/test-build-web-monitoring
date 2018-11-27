@@ -118,6 +118,7 @@ export default {
     base: '/aqi'
   },
   qaqc: {
-    base: '/qaqc'
+    base: '/qaqc',
+    config: '/qaqc-config'
   }
 }

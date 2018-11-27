@@ -79,7 +79,7 @@ export default class TableDataList extends React.PureComponent {
         render(value, record, index) {
           let val =
             record.avg.data.length > 0 ? record.avg.data[0].value || '' : ''
-          if (val) val = (Math.round(val, 2)).toFixed(2)
+          if (val) val = Math.round(val, 2).toFixed(2)
           return <div>{val}</div>
         }
       }

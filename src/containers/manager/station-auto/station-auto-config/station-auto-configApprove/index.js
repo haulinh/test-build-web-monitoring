@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Checkbox, Table, Button, Icon  } from 'antd'
+import { Form, Checkbox, Table, Button, Icon } from 'antd'
 // import styled from 'styled-components'
 import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
@@ -31,7 +31,7 @@ export default class StationAutoConfigApprove extends React.Component {
       valueRules: _.get(this.props, 'options.approve.valueRules', {}),
       showModalConfig: false,
       key: null,
-      dataEditCalibration:{}
+      dataEditCalibration: {}
     }
   }
 
@@ -63,22 +63,21 @@ export default class StationAutoConfigApprove extends React.Component {
         [name]
       )
 
-      if (_.isEqual(name, 'OUT_RANGE')){
+      if (_.isEqual(name, 'OUT_RANGE')) {
         const result = this.valueRuleMeasure(data.key)
         if (result) {
           _.update(valueRules, data.key, () => {
-             return { minRange: result.minRange, maxRange: result.maxRange}
-            })
+            return { minRange: result.minRange, maxRange: result.maxRange }
+          })
         }
       }
-
     } else {
       listRuleChange[data.key] = _.filter(
         _.get(listRuleChange, [data.key], []),
         item => !_.isEqual(item, name)
       )
 
-      if (_.isEqual(name, 'OUT_RANGE')){
+      if (_.isEqual(name, 'OUT_RANGE')) {
         _.update(valueRules, data.key, () => undefined)
       }
     }
@@ -91,8 +90,10 @@ export default class StationAutoConfigApprove extends React.Component {
   }
 
   valueRuleMeasure = key => {
-    if (_.isEmpty(_.get(this.state.valueRules, key))){
-      const results = _.filter(this.props.measuringListSource, item => _.isEqual(item.key, key))
+    if (_.isEmpty(_.get(this.state.valueRules, key))) {
+      const results = _.filter(this.props.measuringListSource, item =>
+        _.isEqual(item.key, key)
+      )
       return _.get(results, '[0]', {})
     }
 
@@ -101,9 +102,13 @@ export default class StationAutoConfigApprove extends React.Component {
 
   onChangeValue = (key, value, isMax) => {
     let valueRules = this.state.valueRules
-    _.update(valueRules, `${key}.${isMax ?  'maxRange' : 'minRange'}`, () => value)
+    _.update(
+      valueRules,
+      `${key}.${isMax ? 'maxRange' : 'minRange'}`,
+      () => value
+    )
 
-    this.setState({valueRules})
+    this.setState({ valueRules })
   }
 
   showConfigCalibration = (key, e) => {
@@ -114,26 +119,36 @@ export default class StationAutoConfigApprove extends React.Component {
     } else {
       let valueRules = this.state.valueRules
       _.update(valueRules, `${key}.configCalibration`, () => {})
-      this.setState({valueRules})
+      this.setState({ valueRules })
     }
   }
 
-  infoConfigCalibration = (key) => {
-    const info = _.get(this.state.valueRules,`${key}.configCalibration`, {})
+  infoConfigCalibration = key => {
+    const info = _.get(this.state.valueRules, `${key}.configCalibration`, {})
     let textInfo = ''
-    if(!_.isEmpty(info) && !_.isEmpty(info.hours))
-    {
-     textInfo += `(${translate('stationAutoManager.options.outOfRangeConfig.from')}: ${info.hours.from} - ${translate('stationAutoManager.options.outOfRangeConfig.to')}: ${info.hours.to}...)`
+    if (!_.isEmpty(info) && !_.isEmpty(info.hours)) {
+      textInfo += `(${translate(
+        'stationAutoManager.options.outOfRangeConfig.from'
+      )}: ${info.hours.from} - ${translate(
+        'stationAutoManager.options.outOfRangeConfig.to'
+      )}: ${info.hours.to}...)`
     } else {
-     textInfo += '...'
+      textInfo += '...'
     }
     return textInfo
   }
 
-  handleEdit = (keyEdit) => {
-    this.setState({showModalConfig: true, dataEditCalibration:_.get(this.state.valueRules,`${keyEdit}.configCalibration`,{}), key:keyEdit})
+  handleEdit = keyEdit => {
+    this.setState({
+      showModalConfig: true,
+      dataEditCalibration: _.get(
+        this.state.valueRules,
+        `${keyEdit}.configCalibration`,
+        {}
+      ),
+      key: keyEdit
+    })
   }
-  
 
   getColums = getFieldDecorator => {
     return [
@@ -207,7 +222,8 @@ export default class StationAutoConfigApprove extends React.Component {
                   onChangeValue={this.onChangeValue}
                   getFieldDecorator={getFieldDecorator}
                 />
-            )}
+              )
+            }
           },
           {
             title: translate('stationAutoManager.options.calibration.title'),
@@ -216,21 +232,32 @@ export default class StationAutoConfigApprove extends React.Component {
             align: 'center',
             width: '20%',
             render: (value, row) => {
-              const checkedOut = this.isItemChecked(row.key, 'DEVICE_CALIBRATION')
+              const checkedOut = this.isItemChecked(
+                row.key,
+                'DEVICE_CALIBRATION'
+              )
               return (
                 <div>
-                    <Checkbox
+                  <Checkbox
                     checked={this.isItemChecked(row.key, 'DEVICE_CALIBRATION')}
                     name="DEVICE_CALIBRATION"
                     data={row}
                     onChange={e => this.showConfigCalibration(row.key, e)}
-                    />
-                    {checkedOut && (
-                      <div>
-                        <span style={{color:'blue', paddingLeft:'15px'}}>{this.infoConfigCalibration(row.key)}</span>
-                        <span onClick={() => this.handleEdit(row.key)}><Icon type="edit" theme="outlined" style={{paddingLeft:'15px' ,color: 'blue'}}/>{' '}</span>
-                      </div>
-                    )}
+                  />
+                  {checkedOut && (
+                    <div>
+                      <span style={{ color: 'blue', paddingLeft: '15px' }}>
+                        {this.infoConfigCalibration(row.key)}
+                      </span>
+                      <span onClick={() => this.handleEdit(row.key)}>
+                        <Icon
+                          type="edit"
+                          theme="outlined"
+                          style={{ paddingLeft: '15px', color: 'blue' }}
+                        />{' '}
+                      </span>
+                    </div>
+                  )}
                 </div>
               )
             }
@@ -258,21 +285,34 @@ export default class StationAutoConfigApprove extends React.Component {
   }
 
   handleRangeConfigCancel = () => {
-    this.setState({showModalConfig: false, key: null, dataEditCalibration:{}})
+    this.setState({
+      showModalConfig: false,
+      key: null,
+      dataEditCalibration: {}
+    })
   }
 
-  handleRangeConfigSave =  configCalibration => {
-    if (this.state.key){
+  handleRangeConfigSave = configCalibration => {
+    if (this.state.key) {
       let valueRules = this.state.valueRules
-      _.update(valueRules, `${this.state.key}.configCalibration`, () => configCalibration)
-    //  console.log('handleRangeConfigSave: ', valueRules)
-      this.setState({valueRules, showModalConfig: false, key: null, dataEditCalibration:{}})
+      _.update(
+        valueRules,
+        `${this.state.key}.configCalibration`,
+        () => configCalibration
+      )
+      //  console.log('handleRangeConfigSave: ', valueRules)
+      this.setState({
+        valueRules,
+        showModalConfig: false,
+        key: null,
+        dataEditCalibration: {}
+      })
     }
   }
 
   onSave = () => {
     this.props.form.validateFields((err, values) => {
-      if (!err) {      
+      if (!err) {
         this.props.onApproveSave({
           allowed: this.state.allowed,
           rules: this.state.listRuleChange,
@@ -315,12 +355,13 @@ export default class StationAutoConfigApprove extends React.Component {
           {this.props.lang.t('addon.save')}
         </Button>
         {this.state.showModalConfig && (
-        <OptionModalConfigView 
-          dataEditCalibration={this.state.dataEditCalibration}
-          showModalConfig={this.state.showModalConfig}
-          handleRangeConfigSave={this.handleRangeConfigSave}
-          handleRangeConfigCancel={this.handleRangeConfigCancel}
-           />)}
+          <OptionModalConfigView
+            dataEditCalibration={this.state.dataEditCalibration}
+            showModalConfig={this.state.showModalConfig}
+            handleRangeConfigSave={this.handleRangeConfigSave}
+            handleRangeConfigCancel={this.handleRangeConfigCancel}
+          />
+        )}
       </div>
     )
   }

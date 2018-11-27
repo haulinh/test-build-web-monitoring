@@ -4,7 +4,7 @@ import { get } from 'lodash'
 export function getConfigApi() {
   const config = window.config
   function c(prefix) {
-   return config.apiGateway + '/' + prefix
+    return config.apiGateway + '/' + prefix
   }
   return {
     gateway: config.apiGateway,

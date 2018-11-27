@@ -135,7 +135,12 @@ export default class HeaderView extends React.PureComponent {
     }
 
     const series1 = { name: received, data: [], dataLabels, color: '#008001' }
-    const series2 = { name: notReceived, data: [], color: '#F03045', dataLabels }
+    const series2 = {
+      name: notReceived,
+      data: [],
+      color: '#F03045',
+      dataLabels
+    }
     let categories = []
 
     _.forEach(this.state.data, ({ ratio, name }) => {
@@ -150,9 +155,7 @@ export default class HeaderView extends React.PureComponent {
       chart: {
         type: 'bar',
         events: {
-          click: function(event) {
-            
-          }
+          click: function(event) {}
         }
       },
       title: {
@@ -164,10 +167,11 @@ export default class HeaderView extends React.PureComponent {
       xAxis: {
         categories,
         lineWidth: 1,
-        lineColor: '#ccc',
+        lineColor: '#ccc'
       },
       yAxis: {
-        min: 0, max: 100,
+        min: 0,
+        max: 100,
         title: {
           text: ''
         },
@@ -175,7 +179,7 @@ export default class HeaderView extends React.PureComponent {
         lineColor: '#ccc',
         labels: {
           formatter: function() {
-            return `${this.value}%`;
+            return `${this.value}%`
           }
         }
       },

@@ -45,7 +45,10 @@ export default class StationTypeSummary extends React.Component {
 
   render() {
     const { stationType, stationAutoList } = this.props
-    const goodTotal = filter(stationAutoList || [], ({status}) => status === 'GOOD').length
+    const goodTotal = filter(
+      stationAutoList || [],
+      ({ status }) => status === 'GOOD'
+    ).length
     if (stationAutoList.length === 0) return null
     return (
       <StickyContainer>
@@ -63,7 +66,7 @@ export default class StationTypeSummary extends React.Component {
                 <HeadStationType>
                   <TextSpan onClick={this.toggleOpen}>
                     <IconToggle isOpen={this.state.isOpen}>
-                      <Icon type="caret-right" /> 
+                      <Icon type="caret-right" />
                     </IconToggle>
                     {stationType.name} ({goodTotal}/{stationAutoList.length})
                   </TextSpan>

@@ -19,7 +19,6 @@ const SummaryItemWrapper = styled.div`
 const StationTypeImg = styled.img`
   width: null;
   height: 35px;
-
 `
 
 const Text = styled.span`
@@ -70,7 +69,7 @@ export default class SummaryItem extends React.PureComponent {
         <SummaryItemWrapper color={color}>
           <Row>
             <TextNumber>{this.renderNumber()}</TextNumber>
-            <StationTypeImg src={image} />  
+            <StationTypeImg src={image} />
           </Row>
           <TextDescription>{name}</TextDescription>
         </SummaryItemWrapper>

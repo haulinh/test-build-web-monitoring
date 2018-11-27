@@ -17,12 +17,20 @@ export const myKeyframes = props => keyframes`
 `
 
 const Wrapper = styled.div``
-const FooterView = styled.div` display: flex; flex-direction: row; justify-content: flex-start;`
-const FooterItem = styled.span` padding-left: 4px; padding-right: 4px; 
-  animation: ${props => `${myKeyframes(props)} ${props.tick || 0.5}s infinite;`}`
+const FooterView = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`
+const FooterItem = styled.span`
+  padding-left: 4px;
+  padding-right: 4px;
+  animation: ${props =>
+    `${myKeyframes(props)} ${props.tick || 0.5}s infinite;`};
+`
 
-  // color: props.color || 'black', color1: props.color1
-  // `${myKeyframes(props)} ${props.tick || 0.5}s infinite;`};
+// color: props.color || 'black', color1: props.color1
+// `${myKeyframes(props)} ${props.tick || 0.5}s infinite;`};
 
 const ToolbarView = styled.div`
   display: flex;
@@ -33,15 +41,14 @@ const ToolbarView = styled.div`
 `
 
 export default class TableList extends React.PureComponent {
-
-  constructor (props) {
-    super (props)
+  constructor(props) {
+    super(props)
     this.state = {
       list: [],
       manualVisible: false,
       optionsManual: []
     }
-    this.setColumns(props)    
+    this.setColumns(props)
   }
 
   renderValue = (value, record, index, code) => {
@@ -51,14 +58,27 @@ export default class TableList extends React.PureComponent {
     }
 
     if (_.has(this.props, ['dataChange', record._id, code])) {
-      _.setWith(value, `${fieldValue}`, _.get(this.props, ['dataChange', record._id, code], ''))
+      _.setWith(
+        value,
+        `${fieldValue}`,
+        _.get(this.props, ['dataChange', record._id, code], '')
+      )
     }
 
-    const originValue = _.get(value, fieldValue === 'value' ? 'approvedValue' : 'value', '')
+    const originValue = _.get(
+      value,
+      fieldValue === 'value' ? 'approvedValue' : 'value',
+      ''
+    )
     let updateValue = `${_.get(value, fieldValue, '')}`
-    if (fieldValue === 'value' && updateValue !== '' && `${updateValue}` !== `${originValue}` && originValue !== '') {
+    if (
+      fieldValue === 'value' &&
+      updateValue !== '' &&
+      `${updateValue}` !== `${originValue}` &&
+      originValue !== ''
+    ) {
       updateValue = `${updateValue} (${originValue})`
-    } 
+    }
 
     let color = 'back'
     if (fieldValue === 'value') {
@@ -86,7 +106,7 @@ export default class TableList extends React.PureComponent {
     dataChange[row._id] = _.merge(oldData, value)
     const newData = _.clone(this.props.data)
     const index = newData.findIndex(item => row._id === item._id)
-    newData[index] = row  
+    newData[index] = row
     if (this.props.handleSave) {
       this.props.handleSave(newData, dataChange)
     }
@@ -94,27 +114,31 @@ export default class TableList extends React.PureComponent {
 
   onAllChecked = e => {
     this.props.onRowChecked('__ALL__', _.get(e, 'target.checked', false))
-    this.setState({list: []})
+    this.setState({ list: [] })
   }
 
   onItemChecked = e => {
     e.preventDefault()
     const record = e.target.record
-    this.setState({list: [record]})
+    this.setState({ list: [record] })
     this.props.onRowChecked(record._id, _.get(e, 'target.checked', false))
   }
 
   setColumns = props => {
     const fieldValue = _.get(props, 'searchFormData.dataType', 'value')
-    const measureCol = _.map(_.get(props, 'searchFormData.measuringData', []), ({ key, name, unit }) => ({
-      title: `${name} ${unit ? `(${unit})` : ''}`,
-      dataIndex: `measuringLogs.${key}`,
-      key,
-      align: 'center',
-      fieldValue,
-      editable: fieldValue === 'yetApprove',
-      render: (value, record, index) => this.renderValue(value, record, index, key),
-    }))
+    const measureCol = _.map(
+      _.get(props, 'searchFormData.measuringData', []),
+      ({ key, name, unit }) => ({
+        title: `${name} ${unit ? `(${unit})` : ''}`,
+        dataIndex: `measuringLogs.${key}`,
+        key,
+        align: 'center',
+        fieldValue,
+        editable: fieldValue === 'yetApprove',
+        render: (value, record, index) =>
+          this.renderValue(value, record, index, key)
+      })
+    )
 
     this.columns = [
       {
@@ -124,7 +148,8 @@ export default class TableList extends React.PureComponent {
         width: 60,
         align: 'center',
         render: this.setIndex
-      }, {
+      },
+      {
         title: translate('dataSearchFrom.table.receivedAt'),
         dataIndex: 'receivedAt',
         key: 'receivedAt',
@@ -138,7 +163,12 @@ export default class TableList extends React.PureComponent {
     if (fieldValue !== 'value') {
       const isAllChecked = _.get(props, 'dataSelected.checked', false)
       this.columns.unshift({
-        title: <Checkbox onChange={this.onAllChecked} defaultChecked={isAllChecked} />,
+        title: (
+          <Checkbox
+            onChange={this.onAllChecked}
+            defaultChecked={isAllChecked}
+          />
+        ),
         dataIndex: 'checked',
         key: 'checked',
         width: 30,
@@ -146,57 +176,68 @@ export default class TableList extends React.PureComponent {
         render: (value, record) => {
           const _checked = _.get(props, 'dataSelected.checked', false)
           const ls = _.get(props, 'dataSelected.list', [])
-          const itemChecked = _checked ? !_.includes(ls, record._id) : _.includes(ls, record._id)
-          return <Checkbox 
-            onChange={this.onItemChecked}
-            record={record}
-            checked={itemChecked}
-          />
+          const itemChecked = _checked
+            ? !_.includes(ls, record._id)
+            : _.includes(ls, record._id)
+          return (
+            <Checkbox
+              onChange={this.onItemChecked}
+              record={record}
+              checked={itemChecked}
+            />
+          )
         }
       })
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     // if (!_.isEqual(this.props, nextProps)) {
-      this.setColumns(nextProps)
+    this.setColumns(nextProps)
     // }
   }
 
   renderTableFooter = () => {
-    if (_.get(this.props, 'searchFormData.dataType', 'value') === 'value') 
-    return (
-      <FooterView>
-        <FooterItem color='black'>{translate('qaqc.yetApprove')}</FooterItem>
-        <FooterItem tick={0.8} color='blue'>{translate('qaqc.approved')}</FooterItem>
-        <FooterItem color='red'>{translate('qaqc.removeData')}</FooterItem>
-      </FooterView>
-    )
+    if (_.get(this.props, 'searchFormData.dataType', 'value') === 'value')
+      return (
+        <FooterView>
+          <FooterItem color="black">{translate('qaqc.yetApprove')}</FooterItem>
+          <FooterItem tick={0.8} color="blue">
+            {translate('qaqc.approved')}
+          </FooterItem>
+          <FooterItem color="red">{translate('qaqc.removeData')}</FooterItem>
+        </FooterView>
+      )
 
     return null
   }
 
   preRender = () => {
-    const columns = this.columns.map((col) => {
+    const columns = this.columns.map(col => {
       if (!col.editable) {
-        return col;
+        return col
       }
       return {
         ...col,
         onCell: record => {
           if (_.has(this.props, ['dataChange', record._id, col.key])) {
-            _.setWith(record, `measuringLogs.${col.key}.${col.fieldValue}`, _.get(this.props, ['dataChange', record._id, col.key], ''))
+            _.setWith(
+              record,
+              `measuringLogs.${col.key}.${col.fieldValue}`,
+              _.get(this.props, ['dataChange', record._id, col.key], '')
+            )
           }
-          return ({
-            record, code: col.key,
+          return {
+            record,
+            code: col.key,
             editable: col.editable,
             dataIndex: col.dataIndex,
             title: col.title,
             fieldValue: col.fieldValue,
-            handleSave: this.handleSave,
-          })
-        },
-      };
+            handleSave: this.handleSave
+          }
+        }
+      }
     })
 
     return {
@@ -212,39 +253,64 @@ export default class TableList extends React.PureComponent {
 
   renderToolbar = () => {
     const fieldValue = _.get(this.props, 'searchFormData.dataType', 'value')
-    const hasApprove = fieldValue === 'yetApprove' && (this.props.dataSelected.checked || this.props.dataSelected.list.length > 0)
+    const hasApprove =
+      fieldValue === 'yetApprove' &&
+      (this.props.dataSelected.checked ||
+        this.props.dataSelected.list.length > 0)
     return (
       <ToolbarView>
-        {
-          hasApprove && protectRole(ROLE.QAQC.REMOVE)(<Button type='danger' icon='delete' style={{marginRight: 8}} onClick={this.props.onRemoved}>{translate('qaqc.remove')}</Button>)
-        }
+        {hasApprove &&
+          protectRole(ROLE.QAQC.REMOVE)(
+            <Button
+              type="danger"
+              icon="delete"
+              style={{ marginRight: 8 }}
+              onClick={this.props.onRemoved}
+            >
+              {translate('qaqc.remove')}
+            </Button>
+          )}
 
-        {
-          fieldValue === 'yetApprove'  && 
-          protectRole(ROLE.QAQC.MANUAL_APPROVE)(<Button type='primary' style={{marginRight: 8}} onClick={() => this.setState({manualVisible: true})}>{translate('qaqc.manualApprove')}</Button>)
-        }
+        {fieldValue === 'yetApprove' &&
+          protectRole(ROLE.QAQC.MANUAL_APPROVE)(
+            <Button
+              type="primary"
+              style={{ marginRight: 8 }}
+              onClick={() => this.setState({ manualVisible: true })}
+            >
+              {translate('qaqc.manualApprove')}
+            </Button>
+          )}
 
-        {
-          hasApprove && protectRole(ROLE.QAQC.APPROVE)(<Button type='primary' onClick={this.props.onApproved}>{translate('qaqc.approve')}</Button>)
-        }
+        {hasApprove &&
+          protectRole(ROLE.QAQC.APPROVE)(
+            <Button type="primary" onClick={this.props.onApproved}>
+              {translate('qaqc.approve')}
+            </Button>
+          )}
 
-        {
-          fieldValue === 'removeValue' && protectRole(ROLE.QAQC.RESTORE)(<Button type='primary' onClick={this.props.onRestoreData}>{translate('qaqc.restore')}</Button>)
-        }
+        {fieldValue === 'removeValue' &&
+          protectRole(ROLE.QAQC.RESTORE)(
+            <Button type="primary" onClick={this.props.onRestoreData}>
+              {translate('qaqc.restore')}
+            </Button>
+          )}
 
-        {
-          fieldValue === 'approvedValue' && protectRole(ROLE.QAQC.UN_APPROVE)(<Button type='primary' onClick={this.props.onUnApprove}>{translate('qaqc.unApprove')}</Button>)
-        }
-
+        {fieldValue === 'approvedValue' &&
+          protectRole(ROLE.QAQC.UN_APPROVE)(
+            <Button type="primary" onClick={this.props.onUnApprove}>
+              {translate('qaqc.unApprove')}
+            </Button>
+          )}
       </ToolbarView>
     )
   }
 
   onRuleChecked = optionsManual => {
-    this.setState({optionsManual})
+    this.setState({ optionsManual })
   }
 
-  renderManualModal = ()  => {
+  renderManualModal = () => {
     return (
       <Modal
         title={translate('qaqc.manualApprove')}
@@ -255,7 +321,9 @@ export default class TableList extends React.PureComponent {
           this.props.onManualApproved(this.state.optionsManual)
           this.setState({ manualVisible: false, optionsManual: [] })
         }}
-        onCancel={() => this.setState({ manualVisible: false, optionsManual: [] })}
+        onCancel={() =>
+          this.setState({ manualVisible: false, optionsManual: [] })
+        }
       >
         <Checkbox.Group
           style={{ width: '100%' }}
@@ -299,19 +367,19 @@ export default class TableList extends React.PureComponent {
         {this.renderToolbar()}
         <Row>
           <Table
-            rowKey='_id'
+            rowKey="_id"
             components={me.components}
-            bordered size='small'
+            bordered
+            size="small"
             dataSource={this.props.data || []}
             columns={me.columns}
             onChange={this.props.onChangePage}
-            pagination={{...this.props.pagination, showTotal: this.showTotal}}
+            pagination={{ ...this.props.pagination, showTotal: this.showTotal }}
             // title={() => this.renderTableHeader()}
             footer={() => this.renderTableFooter()}
-
           />
         </Row>
-        { this.renderManualModal() }
+        {this.renderManualModal()}
       </Wrapper>
     )
   }
