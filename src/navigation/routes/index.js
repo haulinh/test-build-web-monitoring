@@ -30,6 +30,7 @@ import SupportRoute from 'containers/support'
 import AqiContainer from 'containers/aqi'
 import QaQcContainer from 'containers/qa-qc'
 import PublishConfigContainer from 'containers/qa-qc/config-publish'
+import FtpTransferRoute from 'containers/manager/config-ftp-transfer'
 
 @autobind
 export default class RouteDefault extends React.Component {
@@ -50,6 +51,7 @@ export default class RouteDefault extends React.Component {
         />
         <LayoutRoute path={slug.province.base} component={ProvinceRoute} />
         <LayoutRoute path={slug.qcvn.base} component={QCVNRoute} />
+        <LayoutRoute path={slug.ftpTransfer.base} component={FtpTransferRoute} />
         <LayoutRoute
           path={slug.onlineMonitoring.base}
           component={OnlineMonitoring}

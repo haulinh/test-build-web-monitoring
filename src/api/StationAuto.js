@@ -40,6 +40,10 @@ export function measurePublished(_id, data) {
   return putFetch(getStationAutoUrl(`measure-published/${_id}`), data)
 }
 
+export function transferFtp(_id, data) {
+  return putFetch(getStationAutoUrl(`transfer-ftp-info/${_id}`), data)
+}
+
 export function stationPublished(_id, data) {
   return putFetch(getStationAutoUrl(`station-published/${_id}`), data)
 }
@@ -77,5 +81,6 @@ export default {
   updateStationAutoConfig,
   getTotalCount,
   stationPublished,
+  transferFtp,
   measurePublished
 }

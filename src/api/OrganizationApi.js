@@ -11,7 +11,13 @@ export function updateOrganizationNameLogo(organization) {
   return putFetch(url, organization)
 }
 
+export function updatetransferFtpInfo(_id, data) {
+  let url = getConfigApi().organization + `/transfer-ftp-info/${_id}`
+  return putFetch(url, data)
+}
+
 export default {
   getSubscription,
-  updateOrganizationNameLogo
+  updateOrganizationNameLogo,
+  updatetransferFtpInfo
 }

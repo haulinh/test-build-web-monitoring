@@ -31,6 +31,10 @@ export default {
     edit: '/qcvn/edit/:key',
     editWithKey: '/qcvn/edit'
   },
+  ftpTransfer: {
+    list: '/ftp-transfer',
+    base: '/ftp-transfer'
+  },
   stationType: {
     list: '/station-type',
     base: '/station-type',

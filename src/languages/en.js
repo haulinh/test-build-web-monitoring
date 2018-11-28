@@ -507,6 +507,46 @@ export default {
       }
     }
   },
+  ftpTranfer: {
+    allowFtpTranfer: 'Send FTP',
+    stationName: 'Station Name',
+    measureTranfer: 'Measure Tranfer',
+    ftpInfo: 'FTP Info',
+    ftpConfig:'Config Info FTP',
+    configTranferFTP: 'Config gen file TXT',
+    formInFoFTP: {
+      ipAddress: {
+        title: 'IP Address',
+        addonBefore: 'ftp://',
+        message: 'Please input ip address'
+      },
+      port: {
+        title: 'Ex: 21',
+        addonBefore: 'Port:',
+        message: 'Please input port'
+      },
+      user: {
+        title: 'UserName',
+        addonBefore: 'UserName: ',
+        message: 'Please input username'
+      },
+      pass: {
+        title: 'Pass Word',
+        addonBefore: 'Pass:',
+        message: 'Please input pass word'
+      },
+      path: {
+        title: 'Path folder TXT',
+        addonBefore: 'Path:',
+        message: 'Please input path TXT'
+      },
+      pathImported: {
+        title: 'Path TXT move',
+        addonBefore: 'Imported:',
+        message: 'Please input path TXT move'
+      }
+    }
+  },
   stationAutoManager: {
     list: {
       title: 'Station Name',
@@ -1078,7 +1118,8 @@ export default {
     role: 'Role',
     subscription: 'Subscription',
     support: 'Support',
-    province: 'Management Unit'
+    province: 'Management Unit',
+    ftpTranfer: 'FTP Tranfer'
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'
