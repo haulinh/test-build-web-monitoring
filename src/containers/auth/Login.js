@@ -41,7 +41,7 @@ const Header = {
     justify-content: space-between;
   `,
   Logo: styled.img`
-    height: 96px;
+    height: 38px;
     width: auto;
   `
 }
