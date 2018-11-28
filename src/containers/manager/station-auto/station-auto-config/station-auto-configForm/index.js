@@ -8,16 +8,19 @@ import {
   InputNumber,
   Button,
   Select,
-  message
+  message,
+  Radio
 } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
+import { get } from 'lodash'
 import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import FtpApi from 'api/FtpApi'
 
 const FormItem = Form.Item
 const Option = Select.Option
+const RadioGroup = Radio.Group;
 
 @Form.create({
   mapPropsToFields: mapPropsToFields
@@ -207,9 +210,7 @@ export default class StationAutoForm extends React.PureComponent {
               label={t('stationAutoManager.config.fileName.label')}
             >
               {getFieldDecorator('fileName', {
-                initialValue: this.props.initialValues
-                  ? this.props.initialValues.fileName
-                  : '',
+                initialValue: get(this.props, 'initialValues.fileName', ''),
                 rules: [
                   {
                     required: true,
@@ -255,6 +256,23 @@ export default class StationAutoForm extends React.PureComponent {
               )}
             </FormItem>
           </Col> */}
+        </Row>
+        <Row>
+        <Col span={12}>
+          <FormItem
+              {...formItemLayout}
+              label={t('stationAutoManager.config.extensionFile')}
+            >
+              {getFieldDecorator('extensionFile', {
+                initialValue: get(this.props, 'initialValues.extensionFile', 'txt')
+              })(
+                <RadioGroup>
+                  <Radio value='txt'>.TXT</Radio>
+                  <Radio value='csv'>.CSV</Radio>
+                </RadioGroup>
+              )}
+            </FormItem>
+          </Col>
         </Row>
 
         <Table
