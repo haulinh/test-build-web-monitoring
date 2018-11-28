@@ -88,7 +88,7 @@ export default class StationAutoEdit extends React.PureComponent {
         const configLogger = _.get(this.state.data, 'configLogger', {})
         data = {
           options: _.get(this.state.data, 'options', {}),
-          configLogger: _.merge(dataConfig, configLogger)
+          configLogger: _.merge(configLogger, dataConfig)
         }
         this.updateData(data)
       }
@@ -100,6 +100,7 @@ export default class StationAutoEdit extends React.PureComponent {
 
   async updateData(data) {
     // console.log('data: ', data)
+    // return
     if (data) {
       const key = this.props.match.params.key
       const res = await StationAutoApi.updateStationAutoConfig(key, data)
