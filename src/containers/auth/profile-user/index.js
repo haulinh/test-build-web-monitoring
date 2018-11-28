@@ -294,7 +294,6 @@ export default class ProfileUser extends PureComponent {
 
   async componentWillMount() {
     const record = await AuthApi.getMe()
-    console.log('record', record.data.birthday)
     this.setState({
       userInfo: {
         ...record.data,

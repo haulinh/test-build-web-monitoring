@@ -504,6 +504,46 @@ export default {
       }
     }
   },
+  ftpTranfer: {
+    allowFtpTranfer: 'Truyền FTP',
+    stationName: 'Tên trạm',
+    measureTranfer: 'Chỉ tiêu được truyền',
+    ftpInfo: 'Thông tin FTP',
+    ftpConfig:'Cấu hình thông tin FTP',
+    configTranferFTP: 'Cấu hình gen file TXT',
+    formInFoFTP: {
+      ipAddress: {
+        title: 'Địa chỉ IP',
+        addonBefore: 'ftp://',
+        message: 'Bạn chưa nhập địa chỉ IP'
+      },
+      port: {
+        title: 'VD: 21',
+        addonBefore: 'Cổng(Port):',
+        message: 'Bạn chưa điền cổng(port)'
+      },
+      user: {
+        title: 'Tên đăng nhập',
+        addonBefore: 'Tên đăng nhập: ',
+        message: 'Bạn chưa điền tên đăng nhập'
+      },
+      pass: {
+        title: 'Mật khẩu',
+        addonBefore: 'Mật khẩu:',
+        message: 'Bạn chưa điền mật khẩu'
+      },
+      path: {
+        title: 'Đường dẫn đến thư mục chứa file TXT cần truyền',
+        addonBefore: 'Đường dẫn:',
+        message: 'Bạn chưa điền đường dẫn đến thư mục cần truyền file TXT'
+      },
+      pathImported: {
+        title: 'Đường dẫn đến thư mục lưu file TXT sau khi truyền',
+        addonBefore: 'Đường dẫn:',
+        message: 'Bạn chưa điền đường dẫn đến thư mục lưu file TXT sau khi truyền'
+      }
+    }
+  },
   stationAutoManager: {
     list: {
       title: 'Trạm quan trắc',
@@ -554,7 +594,8 @@ export default {
         label: 'Địa chỉ',
         placeholder: 'Nhập địa chỉ'
       },
-      qcvn: {
+      qcvn: 
+      {
         label: 'QCVN',
         placeholder: 'QCVN',
         error: 'Vui lòng chọn QCVN'
@@ -1076,7 +1117,8 @@ export default {
     role: 'Nhóm quyền',
     subscription: 'Hệ thống',
     support: 'Hỗ trợ',
-    province: 'Đơn vị quản lý'
+    province: 'Đơn vị quản lý',
+    ftpTranfer: 'Truyền FTP'
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'

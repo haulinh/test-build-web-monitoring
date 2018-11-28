@@ -233,6 +233,17 @@ const roleMenu = {
   )
 }
 
+const ftpTransferMenu = {
+  component: //protectRole(ROLE.ROLE.VIEW)(
+    (<AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.ftpTransfer.base}
+      icon={Icon.ftpTranfer}
+      text={translate('menuApp.ftpTranfer')}
+    />
+  )
+}
+
 export default [
   dashboardMenu,
   monitoringMenu,
@@ -251,6 +262,7 @@ export default [
   stationAutoMenu,
   provinceMenu,
   qcvnMenu,
+  ftpTransferMenu,
   groupAdmin,
   userMenu,
   roleMenu
