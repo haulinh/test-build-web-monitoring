@@ -27,7 +27,9 @@ export function getExportData({
   key,
   advanced,
   measuringList,
-  isExceeded
+  isExceeded,
+  dataType,
+  name
 }) {
   var url = getDataStationAutoUrl(`${key}/export-download?`)
   if (fromDate) url += `&from=${fromDate}`
@@ -35,6 +37,8 @@ export function getExportData({
   if (advanced) url += `&advanced=${JSON.stringify(advanced)}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
   if (isExceeded) url += `&isExceeded=${isExceeded}`
+  if (dataType) url += `&dataType=${dataType}`
+  if(name) url += `&name=${name}`
   return getFetch(url)
   //window.location = url
 }
@@ -58,13 +62,15 @@ export function getDataStationAutoExportAvg({
   toDate,
   key,
   measuringList,
-  type
+  type,
+  name
 }) {
   var url = getDataStationAutoUrl(`${key}/export-avg?`)
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
   if (type) url += `&type=${type}`
+  if (name) url += `&name=${name}`
   return getFetch(url)
 }
 
