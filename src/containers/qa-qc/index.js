@@ -10,7 +10,16 @@ import SearchFrom from './search-form'
 import { Spin, message } from 'antd'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
-import { get, size, isEmpty, forEach, isNumber, union, filter, includes } from 'lodash'
+import {
+  get,
+  size,
+  isEmpty,
+  forEach,
+  isNumber,
+  union,
+  filter,
+  includes
+} from 'lodash'
 @queryFormDataBrowser(['submit'])
 @autobind
 export default class QaQcContainer extends React.Component {
@@ -57,7 +66,13 @@ export default class QaQcContainer extends React.Component {
     )
   }
 
-  async loadData(pagination, searchFormData, dataUpdate, dataSelected, published) {
+  async loadData(
+    pagination,
+    searchFormData,
+    dataUpdate,
+    dataSelected,
+    published
+  ) {
     this.setState({
       isLoading: true,
       published
@@ -109,17 +124,22 @@ export default class QaQcContainer extends React.Component {
     )
   }
 
-  handerPublished = async (published) => {
+  handerPublished = async published => {
     this.setState({ published })
-    await measurePublished(published._id, {measureList: get(published, 'publishedList', [])})
+    await measurePublished(published._id, {
+      measureList: get(published, 'publishedList', [])
+    })
   }
 
   updateRow = (dataStationAuto, dataChange) => {
-    this.setState({dataStationAuto, dataChange})
+    this.setState({ dataStationAuto, dataChange })
   }
 
   handleRowChecked = (type, checked) => {
-    const dataSelected = get(this.state, 'dataSelected', { checked: false, list: [] })
+    const dataSelected = get(this.state, 'dataSelected', {
+      checked: false,
+      list: []
+    })
     if (type === '__ALL__') {
       dataSelected.checked = checked
       dataSelected.list = []
@@ -190,16 +210,15 @@ export default class QaQcContainer extends React.Component {
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Breadcrumb items={['list']} />
-        <Spin spinning={false} title='Đang xử lý...'>
+        <Spin spinning={false} title="Đang xử lý...">
           <SearchFrom
             initialValues={this.props.formData}
             measuringData={this.props.formData.measuringData}
             onSubmit={this.handleSubmitSearch}
             searchNow={this.props.formData.searchNow}
           />
-          {
-            this.state.dataStationAuto.length > 0 && 
-            <TabList 
+          {this.state.dataStationAuto.length > 0 && (
+            <TabList
               data={this.state.dataStationAuto}
               searchFormData={this.state.searchFormData}
               pagination={this.state.pagination}
@@ -214,7 +233,7 @@ export default class QaQcContainer extends React.Component {
               onUnApprove={this.handleUnApprove}
               onManualApproved={this.handleManualApproved}
             />
-          }
+          )}
         </Spin>
       </PageContainer>
     )

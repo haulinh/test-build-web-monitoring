@@ -86,7 +86,9 @@ export default class Header extends React.PureComponent {
           sidebarType.NOTIFICATIONS,
           <NotificationWrapper>
             <Icon size={25} type="bell" />
-            {this.props.badge && <BadgeNotification>{this.props.badge}</BadgeNotification>}
+            {this.props.badge && (
+              <BadgeNotification>{this.props.badge}</BadgeNotification>
+            )}
           </NotificationWrapper>
         )}
       </HeaderWrapper>

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import levels from '../../../constants/aqi-level'
-import { Tooltip  } from 'antd'
+import { Tooltip } from 'antd'
 
 const LevelWrapper = styled.div`
   position: absolute;
@@ -20,7 +20,7 @@ const LevelView = styled.div`
 const LevelItem = styled.div`
   // padding: 2px 8px;
   width: 125px;
-  height:25px;
+  height: 25px;
   color: #fff;
   background: ${props => props.color || 'green'};
   text-align: center;
@@ -35,7 +35,7 @@ export default class AqiLevelInfo extends React.PureComponent {
             <Tooltip placement="top" title={description}>
               <LevelItem color={color} key={status}>
                 <div>
-                  <span style={{ fontSize: 11, fontWeight: 'bold'}}>
+                  <span style={{ fontSize: 11, fontWeight: 'bold' }}>
                     {level}: {status}
                   </span>
                 </div>

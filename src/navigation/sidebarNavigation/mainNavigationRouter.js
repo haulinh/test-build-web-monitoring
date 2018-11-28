@@ -34,11 +34,7 @@ const aqiMenu = {
 }
 
 const groupQAQC = {
-  component: protectRole(
-    '',
-    [ROLE.QAQC.VIEW],
-    'group'
-  )(
+  component: protectRole('', [ROLE.QAQC.VIEW], 'group')(
     <NavigationWrapper text={translate('qaqc.title')}>
       <AkNavigationItemGroup title={translate('qaqc.title')} />
     </NavigationWrapper>
@@ -52,6 +48,18 @@ const qaqcMenu = {
       icon={Icon.qaqc}
       href={slug.qaqc.base}
       text={translate('qaqc.approveData')}
+    />
+  )
+}
+
+const configPublishMenu = {
+  // component: protectRole(ROLE.QAQC.VIEW)(
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      icon={Icon.publishConfig}
+      href={slug.qaqc.config}
+      text={translate('qaqc.configPublish.title')}
     />
   )
 }
@@ -126,7 +134,13 @@ const avgDataMenu = {
 const groupManager = {
   component: protectRole(
     '',
-    [ROLE.MEASURING.VIEW, ROLE.STATION_TYPE.VIEW, ROLE.STATION_AUTO.VIEW, ROLE.PROVINCE.VIEW, ROLE.QCVN.VIEW],
+    [
+      ROLE.MEASURING.VIEW,
+      ROLE.STATION_TYPE.VIEW,
+      ROLE.STATION_AUTO.VIEW,
+      ROLE.PROVINCE.VIEW,
+      ROLE.QCVN.VIEW
+    ],
     'group'
   )(
     <NavigationWrapper text={translate('menuApp.manage')}>
@@ -230,6 +244,7 @@ export default [
   avgDataMenu,
   groupQAQC,
   qaqcMenu,
+  configPublishMenu,
   groupManager,
   measuringMenu,
   stationTypeMenu,

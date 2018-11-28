@@ -53,11 +53,12 @@ export default {
   },
   QAQC: {
     VIEW: 'menu.qaqc.actions.view',
-    MANUAL_APPROVE:'menu.qaqc.actions.manualapprove',
-    UN_APPROVE:'menu.qaqc.actions.unapprove',
-    APPROVE:'menu.qaqc.actions.approve',
-    RESTORE:'menu.qaqc.actions.restore',
-    REMOVE:'menu.qaqc.actions.remove'
+    MANUAL_APPROVE: 'menu.qaqc.actions.manualapprove',
+    UN_APPROVE: 'menu.qaqc.actions.unapprove',
+    APPROVE: 'menu.qaqc.actions.approve',
+    RESTORE: 'menu.qaqc.actions.restore',
+    REMOVE: 'menu.qaqc.actions.remove',
+    CONFIG_PUBLISH: 'menu.qaqc.actions.config_publish'
   },
   QCVN: {
     VIEW: 'menu.qcvn.actions.view',

@@ -12,7 +12,7 @@ import { getDataStationAutos } from 'api/DataStationAutoApi'
 const ChartWrapper = styled.div``
 
 const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
-  console.log('configChart: ', maxChart, minChart )
+  console.log('configChart: ', maxChart, minChart)
   return {
     chart: {
       type: 'spline',
@@ -104,7 +104,6 @@ export default class ChartRowToChart extends React.Component {
     }
   }
 
-
   componentDidMount() {
     this.loadDataBy(this.props.station)
   }
@@ -146,16 +145,33 @@ export default class ChartRowToChart extends React.Component {
       let heightChart = {}
       _.forEach(data, ({ measuringLogs, receivedAt }) => {
         _.mapKeys(measuringLogs, (value, key) => {
-          results[key] = _.concat(_.get(results, key, []), [[moment(receivedAt).valueOf(), _.get(value, 'value')]])
+          results[key] = _.concat(_.get(results, key, []), [
+            [moment(receivedAt).valueOf(), _.get(value, 'value')]
+          ])
           if (_.has(categories, `${key}`)) {
-            if (_.isNumber(_.get(value, 'maxLimit')) || _.isNumber(_.get(value, 'minLimit'))) {
-              const maxCurrent = _.get(heightChart, `${key}.maxChart`) || _.get(value, 'maxLimit') || _.get(value, 'minLimit')
+            if (
+              _.isNumber(_.get(value, 'maxLimit')) ||
+              _.isNumber(_.get(value, 'minLimit'))
+            ) {
+              const maxCurrent =
+                _.get(heightChart, `${key}.maxChart`) ||
+                _.get(value, 'maxLimit') ||
+                _.get(value, 'minLimit')
               _.update(heightChart, `${key}.maxChart`, () => maxCurrent)
-              categories[key].maxChart = _.max([maxCurrent, _.get(value, 'value')])
+              categories[key].maxChart = _.max([
+                maxCurrent,
+                _.get(value, 'value')
+              ])
 
-              const minCurrent =  _.get(heightChart, `${key}.minChart`) || _.get(value, 'minLimit') || _.get(value, 'maxLimit')
+              const minCurrent =
+                _.get(heightChart, `${key}.minChart`) ||
+                _.get(value, 'minLimit') ||
+                _.get(value, 'maxLimit')
               _.update(heightChart, `${key}.minChart`, () => minCurrent)
-              categories[key].minChart = _.min([minCurrent, _.get(value, 'value')])
+              categories[key].minChart = _.min([
+                minCurrent,
+                _.get(value, 'value')
+              ])
             }
           }
 
@@ -180,19 +196,21 @@ export default class ChartRowToChart extends React.Component {
   }
 
   handleClick = e => {
-    if(e === '1'){
-        const current = this.state.categories
-        const isShowAll = true
-        this.setState({
-          current, isShowAll
-        })
+    if (e === '1') {
+      const current = this.state.categories
+      const isShowAll = true
+      this.setState({
+        current,
+        isShowAll
+      })
     } else {
-        const current = [_.get(_.keyBy(this.state.categories, 'key'), e, null)]
-        console.log('current: ', current)
-        const isShowAll = false
-        this.setState({
-          current, isShowAll
-        })
+      const current = [_.get(_.keyBy(this.state.categories, 'key'), e, null)]
+      console.log('current: ', current)
+      const isShowAll = false
+      this.setState({
+        current,
+        isShowAll
+      })
     }
   }
 
@@ -223,48 +241,63 @@ export default class ChartRowToChart extends React.Component {
     let maxChart = undefined
     let minChart = undefined
     let title = _.get(this.props, 'station.name', '')
-    if(!this.state.isShowAll){
-        dataSeries = []
-        maxLimit = _.get(this.state.current, '0.maxLimit', undefined)
-        minLimit = _.get(this.state.current, '0.minLimit', undefined)
-        
+    if (!this.state.isShowAll) {
+      dataSeries = []
+      maxLimit = _.get(this.state.current, '0.maxLimit', undefined)
+      minLimit = _.get(this.state.current, '0.minLimit', undefined)
+
+      dataSeries.push({
+        type: 'spline',
+        name: _.get(this.state.current, '0.name', ''),
+        data: _.get(
+          this.state.data,
+          _.get(this.state.current, '0.key', ''),
+          []
+        ),
+        lineWidth: 2,
+        threshold: _.isNumber(maxLimit) ? maxLimit : 10000000,
+        negativeColor: 'rgb(124, 181, 236)',
+        color: 'red'
+      })
+
+      if (_.isNumber(minLimit)) {
         dataSeries.push({
           type: 'spline',
           name: _.get(this.state.current, '0.name', ''),
-          data: _.get(this.state.data, _.get(this.state.current, '0.key', ''), []),
+          data: _.get(
+            this.state.data,
+            _.get(this.state.current, '0.key', ''),
+            []
+          ),
           lineWidth: 2,
-          threshold: _.isNumber(maxLimit) ? maxLimit : 10000000,
-          negativeColor: 'rgb(124, 181, 236)',
-          color: 'red',
+          threshold: minLimit,
+          negativeColor: 'red',
+          color: 'transparent'
         })
-
-        if (_.isNumber(minLimit)) {
-          dataSeries.push({
-            type: 'spline',
-            name: _.get(this.state.current, '0.name', ''),
-            data: _.get(this.state.data, _.get(this.state.current, '0.key', ''), []),
-            lineWidth: 2,
-            threshold: minLimit,
-            negativeColor: 'red',
-            color: 'transparent',
-          })
-        }
+      }
 
       maxChart = _.get(this.state.current, '0.maxChart', undefined)
       minChart = _.get(this.state.current, '0.minChart', undefined)
       title += `- ${_.get(this.state.current, '0.name', '')}`
     } else {
       dataSeries = []
-      _.map(this.state.current,({ key, name, maxLimit }) => (
+      _.map(this.state.current, ({ key, name, maxLimit }) =>
         dataSeries.push({
           type: 'spline',
           name: name,
           data: _.get(this.state.data, key, []),
           lineWidth: 2
         })
-      ))
+      )
     }
-    return (configChart(dataSeries, title , minLimit, maxLimit, maxChart, minChart))
+    return configChart(
+      dataSeries,
+      title,
+      minLimit,
+      maxLimit,
+      maxChart,
+      minChart
+    )
   }
 
   render() {
@@ -292,17 +325,13 @@ export default class ChartRowToChart extends React.Component {
           defaultActiveKey="1"
           onTabClick={this.handleClick}
         >
-             <Tabs.TabPane
-                tab={translate('dashboard.all')}
-                key="1"
-            />
+          <Tabs.TabPane tab={translate('dashboard.all')} key="1" />
           {_.map(this.state.categories, ({ key, name, unit }) => (
             <Tabs.TabPane
               tab={unit ? `${name} ${unit}` : `${name}`}
               key={key}
             />
           ))}
-           
         </Tabs>
       </ChartWrapper>
     )

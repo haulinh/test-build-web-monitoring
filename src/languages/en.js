@@ -16,7 +16,7 @@ export default {
     viewInMonitoring: 'View In Monitoring',
     viewInMap: 'View In Map',
     viewMore: 'View More',
-    all:'All',
+    all: 'All',
     tableList: {
       name: 'Name',
       dataStatus: 'Data Status'
@@ -70,6 +70,12 @@ export default {
     paramsTitle: 'The {{= it.day}}-day AQI value of each parameter'
   },
   qaqc: {
+    configPublish: {
+      title: 'Publish Configuration',
+      stationName: 'Station Name',
+      publish: 'Publish',
+      measurePublish: 'Measuring Publish'
+    },
     publish: 'Publish',
     title: `QA/QC`,
     removeData: 'Data removed',
@@ -83,7 +89,7 @@ export default {
       negative: 'Negative',
       outOfRange: 'Out of range',
       isZero: 'Is Zero',
-      deviceStatus: 'Device Status' 
+      deviceStatus: 'Device Status'
     },
     data: 'Data Type',
     approve: 'Approve',
@@ -195,7 +201,7 @@ export default {
       time: 'Time',
       status: 'Status',
       result: 'Results'
-    },
+    }
   },
   dataSearchFrom: {
     titleText: 'Data Search',
@@ -657,6 +663,7 @@ export default {
     },
     config: {
       label: 'Config',
+      extensionFile: 'Extension File',
       fileName: {
         label: 'File Name',
         placeholder: 'File Name'
@@ -707,28 +714,28 @@ export default {
         error: 'Please input range'
       },
       outOfRangeConfig: {
-        title:'Time Config',
-        minRange:'Min',
-        maxRange:'Max',
-        to:'To',
-        from:'From',
-        note:'* Note',
-        warning:'Please chose time',
+        title: 'Time Config',
+        minRange: 'Min',
+        maxRange: 'Max',
+        to: 'To',
+        from: 'From',
+        note: '* Note',
+        warning: 'Please chose time',
         timeConfig: 'Chose time',
-        placeholderTimeFrom:'From (hours)',
+        placeholderTimeFrom: 'From (hours)',
         placeholderTimeTo: 'To (hours)',
-        btnCancel:'Cancel',
-        btnSave:'Save',
-        selectTile:'Repeat',
-        placeholderSelect:'Options',
-        daily:'Daily',
-        monday:'Every monday',
-        tuesday:'Every tuesday',
-        wednesday:'Every wednesday',
-        thursday:'Every thursday',
-        friday:'Every friday',
-        saturday:'Every saturday',
-        sunday:'Every sunday'
+        btnCancel: 'Cancel',
+        btnSave: 'Save',
+        selectTile: 'Repeat',
+        placeholderSelect: 'Options',
+        daily: 'Daily',
+        monday: 'Every monday',
+        tuesday: 'Every tuesday',
+        wednesday: 'Every wednesday',
+        thursday: 'Every thursday',
+        friday: 'Every friday',
+        saturday: 'Every saturday',
+        sunday: 'Every sunday'
       },
       allowSampling: {
         label: 'Allow Sampling',

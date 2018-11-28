@@ -50,13 +50,15 @@ export default class TableDataList extends React.PureComponent {
         title: `${measuring.name}(${measuring.unit})`,
         dataIndex: `${measuring.key}`,
         key: measuring.key,
-        align:'right',
+        align: 'right',
         // format number to LocaleString(language bowser)
         render: value => (
           <div>
             {value.toLocaleString(navigator.language) &&
               value.toLocaleString(navigator.language) !== '' &&
-              (roundTo(value, 2)).toFixed(2).toLocaleString(navigator.language)}
+              roundTo(value, 2)
+                .toFixed(2)
+                .toLocaleString(navigator.language)}
           </div>
         )
       }))

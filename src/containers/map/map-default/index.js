@@ -60,7 +60,7 @@ export default class MapDefault extends React.PureComponent {
     zoom: 5,
     isHidden: false,
     isLeft: true,
-    isRight: true,
+    isRight: true
   }
 
   handleChangeSidebarType(e, sidebarType) {

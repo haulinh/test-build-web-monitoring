@@ -25,9 +25,7 @@ export default class ChartStatusView extends React.PureComponent {
       },
       center: ['50%', '75%'],
       events: {
-        click: function(event) {
-          
-        }
+        click: function(event) {}
       }
     }
 
@@ -39,7 +37,7 @@ export default class ChartStatusView extends React.PureComponent {
 
     if (!_.isEmpty(tpm)) {
       goodTotal = _.filter(tpm, { status: 'GOOD' }).length
-      lossData = _.size(tpm) - goodTotal//_.filter(tpm, { status: 'DATA_LOSS' }).length
+      lossData = _.size(tpm) - goodTotal //_.filter(tpm, { status: 'DATA_LOSS' }).length
       //total = _.size(tpm) - goodTotal - lossData
     }
 
@@ -163,13 +161,13 @@ export default class ChartStatusView extends React.PureComponent {
       yAxis: {
         min: 0,
         title: {
-          text: '',
+          text: ''
         },
         lineWidth: 1,
         lineColor: '#ccc',
         labels: {
           formatter: function() {
-            return `${this.value}%`;
+            return `${this.value}%`
           }
         }
       },

@@ -23,7 +23,7 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { get, isEmpty, map, isEqual, round } from 'lodash'
 
 const MIN_WIDTH_INFO = 150
-const TabPane = Tabs.TabPane;
+const TabPane = Tabs.TabPane
 
 const InfoTitle = styled.div`
   color: #37b44c;
@@ -39,7 +39,9 @@ const WrapperInfoWindow = styled.div`
 `
 
 const MarkerImage = styled.img`
-width:100%; height: 145px; object-fit: cover;
+  width: 100%;
+  height: 145px;
+  object-fit: cover;
 `
 
 const MHeader = styled.div`
@@ -48,13 +50,12 @@ const MHeader = styled.div`
 `
 const MRow = props => (
   <div>
-    <span style={{color: props.isLoss ? 'orange' : 'inherit'}}>
-    {props.title}
-    {props.value}
+    <span style={{ color: props.isLoss ? 'orange' : 'inherit' }}>
+      {props.title}
+      {props.value}
     </span>
   </div>
 )
-
 
 @autobind
 export default class MarkerStation extends PureComponent {
@@ -72,7 +73,7 @@ export default class MarkerStation extends PureComponent {
     visible: PropTypes.bool,
     stationStatus: PropTypes.string,
     byStationStatus: PropTypes.string,
-    image:PropTypes.object,
+    image: PropTypes.object
   }
   state = {
     isOpen: false,
@@ -118,46 +119,58 @@ export default class MarkerStation extends PureComponent {
   renderTableData() {
     if (!this.props.lastLog) return ''
     let lastLog = this.props.lastLog
-    let measuringList = map(this.props.measuringList, ({name, key, unit}, index) => {
-      return (
-        <tr key={index + 1}>
-          <td>{index + 1}</td>
-          <td>{name}</td>
-          <td
-            style={{
-              color: get(colorLevels, [lastLog.measuringLogs[key], 'warningLevel'], colorLevels.DEFAULT),
-              textAlign: 'right'
-            }}
-          >
-            {
-              round(get(lastLog, ['measuringLogs', key, 'value'], ''), 2)
+    let measuringList = map(
+      this.props.measuringList,
+      ({ name, key, unit }, index) => {
+        return (
+          <tr key={index + 1}>
+            <td>{index + 1}</td>
+            <td>{name}</td>
+            <td
+              style={{
+                color: get(
+                  colorLevels,
+                  [lastLog.measuringLogs[key], 'warningLevel'],
+                  colorLevels.DEFAULT
+                ),
+                textAlign: 'right'
+              }}
+            >
+              {round(get(lastLog, ['measuringLogs', key, 'value'], ''), 2)
               // lastLog.measuringLogs[item.key]
               // ? lastLog.measuringLogs[item.key].value
               // : ''
               }
-          </td>
-          <td>{unit}</td>
-        </tr>
-      )
-    })
+            </td>
+            <td>{unit}</td>
+          </tr>
+        )
+      }
+    )
     return (
       <div>
         <MHeader>
-          <MRow 
-            title={`${translate('map.marker.status')}: `} 
-            value={`${translate(`map.marker.${isEqual(this.props.stationStatus, stStatus.DATA_LOSS) ? 'dataLoss' : 'transmitting'}`)}`}
+          <MRow
+            title={`${translate('map.marker.status')}: `}
+            value={`${translate(
+              `map.marker.${
+                isEqual(this.props.stationStatus, stStatus.DATA_LOSS)
+                  ? 'dataLoss'
+                  : 'transmitting'
+              }`
+            )}`}
           />
-          <MRow 
+          <MRow
             isLoss={isEqual(this.props.stationStatus, stStatus.DATA_LOSS)}
-            title={`${translate('map.marker.time')}: `} 
-            value={moment(this.props.lastLog.receivedAt, 'YYYY-MM-DD hh:mm').format(DD_MM_YYYY_HH_MM)}
+            title={`${translate('map.marker.time')}: `}
+            value={moment(
+              this.props.lastLog.receivedAt,
+              'YYYY-MM-DD hh:mm'
+            ).format(DD_MM_YYYY_HH_MM)}
           />
-          <MRow 
-            title={`${translate('map.marker.result')}: `} 
-            value=''
-          />
+          <MRow title={`${translate('map.marker.result')}: `} value="" />
         </MHeader>
-        
+
         <Clearfix height={8} />
         <Table striped bordered condensed hover responsive>
           <thead>
@@ -175,11 +188,12 @@ export default class MarkerStation extends PureComponent {
   }
 
   getColorLevel(status, isStationStatus = false) {
-    if (isStationStatus && STATUS_OPTIONS[status]) return STATUS_OPTIONS[status].color    
+    if (isStationStatus && STATUS_OPTIONS[status])
+      return STATUS_OPTIONS[status].color
 
     if (!isStationStatus)
-    if (status && status !== '') return colorLevels[status.toUpperCase()]
-    
+      if (status && status !== '') return colorLevels[status.toUpperCase()]
+
     return colorLevels.GOOD
   }
 
@@ -198,18 +212,37 @@ export default class MarkerStation extends PureComponent {
   }
   renderTabInfoWindow = (html, imageData) => {
     const url = get(imageData, 'url')
-    const views = isEmpty(url) ? html : <Tabs defaultActiveKey="1">
-    <TabPane tab={<span><Icon type="info-circle" theme="outlined" />{translate('map.marker.info')}</span>} key="1"> 
-      {html}
-    </TabPane>
-    {
-      !isEmpty(url) && (<TabPane tab={<span><Icon type="picture" theme="outlined" />{translate('map.marker.image')}</span>} key="2">
-            <MarkerImage src={url}/>
-          </TabPane>)
-    }
-  </Tabs>
+    const views = isEmpty(url) ? (
+      html
+    ) : (
+      <Tabs defaultActiveKey="1">
+        <TabPane
+          tab={
+            <span>
+              <Icon type="info-circle" theme="outlined" />
+              {translate('map.marker.info')}
+            </span>
+          }
+          key="1"
+        >
+          {html}
+        </TabPane>
+        {!isEmpty(url) && (
+          <TabPane
+            tab={
+              <span>
+                <Icon type="picture" theme="outlined" />
+                {translate('map.marker.image')}
+              </span>
+            }
+            key="2"
+          >
+            <MarkerImage src={url} />
+          </TabPane>
+        )}
+      </Tabs>
+    )
     return views
-    
   }
   render() {
     return (
@@ -223,7 +256,12 @@ export default class MarkerStation extends PureComponent {
             scale: 8,
             strokeWeight: 1,
             strokeColor: '#00',
-            fillColor: this.getColorLevel(this.props.byStationStatus ? this.props.stationStatus : this.props.status, this.props.byStationStatus),
+            fillColor: this.getColorLevel(
+              this.props.byStationStatus
+                ? this.props.stationStatus
+                : this.props.status,
+              this.props.byStationStatus
+            ),
             fillOpacity: 1
           }}
           onClick={this.toggleOpen}
@@ -297,7 +335,10 @@ export default class MarkerStation extends PureComponent {
                     )}
                     <Clearfix height={8} />
                     {/* {this.props.lastLog && this.state.tableData} */}
-                    {this.renderTabInfoWindow(this.props.lastLog && this.state.tableData, this.props.image)}
+                    {this.renderTabInfoWindow(
+                      this.props.lastLog && this.state.tableData,
+                      this.props.image
+                    )}
                   </WrapperInfoWindow>
                 </InfoWindow>
               )}

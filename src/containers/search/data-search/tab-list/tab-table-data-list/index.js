@@ -46,7 +46,7 @@ export default class TableDataList extends React.PureComponent {
             : ''),
         dataIndex: `measuringLogs.${measuring.key}`,
         key: measuring.key,
-        align:'right',
+        align: 'right',
         render: value => {
           if (value === null || value === undefined) return <div />
           let color = SHAPE.BLACK
@@ -59,7 +59,7 @@ export default class TableDataList extends React.PureComponent {
           // Format number toLocalString(national)
           return (
             <div style={{ color: color }}>
-              {(value.value).toFixed(2).toLocaleString(navigator.language)}
+              {value.value.toFixed(2).toLocaleString(navigator.language)}
             </div>
           )
         }

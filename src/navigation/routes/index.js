@@ -27,8 +27,9 @@ import Camera from 'containers/camera'
 import AccountActive from 'containers/auth/account-active'
 import CameraControl from 'containers/camera-control'
 import SupportRoute from 'containers/support'
-import AqiContainer from '../../containers/aqi'
-import QaQcContainer from '../../containers/qa-qc'
+import AqiContainer from 'containers/aqi'
+import QaQcContainer from 'containers/qa-qc'
+import PublishConfigContainer from 'containers/qa-qc/config-publish'
 
 @autobind
 export default class RouteDefault extends React.Component {
@@ -57,6 +58,10 @@ export default class RouteDefault extends React.Component {
         <LayoutRoute path={slug.dataSearch.base} component={DataSearch} />
         <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />
         <LayoutRoute path={slug.qaqc.base} component={QaQcContainer} />
+        <LayoutRoute
+          path={slug.qaqc.config}
+          component={PublishConfigContainer}
+        />
         <Route path={slug.login} component={LoginRoute} />
         <LayoutRoute path={slug.user.base} component={UserRoute} />
         <LayoutRoute path={slug.role.base} component={RoleRoute} />

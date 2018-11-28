@@ -36,8 +36,12 @@ export function deleteStationAuto(key) {
   return putFetch(getStationAutoUrl(`delete/${key}`))
 }
 
-export function measurePublished(key, data) {
-  return putFetch(getStationAutoUrl(`measure-published/${key}`), data)
+export function measurePublished(_id, data) {
+  return putFetch(getStationAutoUrl(`measure-published/${_id}`), data)
+}
+
+export function stationPublished(_id, data) {
+  return putFetch(getStationAutoUrl(`station-published/${_id}`), data)
 }
 
 export function restoreStationAuto(key) {
@@ -71,5 +75,7 @@ export default {
   restoreStationAuto,
   getLastLog,
   updateStationAutoConfig,
-  getTotalCount
+  getTotalCount,
+  stationPublished,
+  measurePublished
 }
