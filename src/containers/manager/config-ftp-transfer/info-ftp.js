@@ -6,11 +6,10 @@ import {
   Button,
   message
 } from 'antd'
-import PropTypes from 'prop-types'
 import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
-import createLanguageHoc, { translate, langPropTypes } from 'hoc/create-lang'
+import createLanguageHoc, { translate } from 'hoc/create-lang'
 import AuthApi from 'api/AuthApi'
 import organizationAPI from 'api/OrganizationApi'
 const FormItem = Form.Item
