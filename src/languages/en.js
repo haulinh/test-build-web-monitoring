@@ -514,6 +514,8 @@ export default {
     ftpInfo: 'FTP Info',
     ftpConfig:'Config Info FTP',
     configTranferFTP: 'Config gen file TXT',
+    success:'Update success',
+    error:'Error..!',
     formInFoFTP: {
       ipAddress: {
         title: 'IP Address',
@@ -534,16 +536,6 @@ export default {
         title: 'Pass Word',
         addonBefore: 'Pass:',
         message: 'Please input pass word'
-      },
-      path: {
-        title: 'Path folder TXT',
-        addonBefore: 'Path:',
-        message: 'Please input path TXT'
-      },
-      pathImported: {
-        title: 'Path TXT move',
-        addonBefore: 'Imported:',
-        message: 'Please input path TXT move'
       }
     }
   },

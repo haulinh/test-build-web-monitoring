@@ -505,12 +505,15 @@ export default {
     }
   },
   ftpTranfer: {
-    allowFtpTranfer: 'Truyền FTP',
+    allowFtpTranfer: 'Cho phép truyền',
     stationName: 'Tên trạm',
-    measureTranfer: 'Chỉ tiêu được truyền',
+    measureTranfer: 'Thông số được truyền',
     ftpInfo: 'Thông tin FTP',
-    ftpConfig:'Cấu hình thông tin FTP',
-    configTranferFTP: 'Cấu hình gen file TXT',
+    ftpConfig:'Thông tin FTP',
+    breadCrumb:'Cấu hình truyền file TXT về Bộ TNMT',
+    configTranferFTP: 'Danh sách trạm',
+    success:'Cập nhật thành công',
+    error:'Thât bại..!',
     formInFoFTP: {
       ipAddress: {
         title: 'Địa chỉ IP',
@@ -531,16 +534,6 @@ export default {
         title: 'Mật khẩu',
         addonBefore: 'Mật khẩu:',
         message: 'Bạn chưa điền mật khẩu'
-      },
-      path: {
-        title: 'Đường dẫn đến thư mục chứa file TXT cần truyền',
-        addonBefore: 'Đường dẫn:',
-        message: 'Bạn chưa điền đường dẫn đến thư mục cần truyền file TXT'
-      },
-      pathImported: {
-        title: 'Đường dẫn đến thư mục lưu file TXT sau khi truyền',
-        addonBefore: 'Đường dẫn:',
-        message: 'Bạn chưa điền đường dẫn đến thư mục lưu file TXT sau khi truyền'
       }
     }
   },
@@ -1118,7 +1111,7 @@ export default {
     subscription: 'Hệ thống',
     support: 'Hỗ trợ',
     province: 'Đơn vị quản lý',
-    ftpTranfer: 'Truyền FTP'
+    ftpTranfer: 'Truyền FTP về bộ'
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'

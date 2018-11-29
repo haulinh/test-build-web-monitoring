@@ -71,5 +71,17 @@ export default {
     CREATE: 'menu.province.actions.create',
     EDIT: 'menu.province.actions.edit',
     DELETE: 'menu.province.actions.delete'
+  },
+  FTPTRANSFER: {
+    VIEW: 'menu.ftpTransfer.actions.view',
+    // CREATE: 'menu.ftpTransfer.actions.create',
+    // EDIT: 'menu.ftpTransfer.actions.edit',
+    // DELETE: 'menu.ftpTransfer.actions.delete'
+  },
+  QAQCCONFIG: {
+    VIEW: 'menu.qaqcConfig.actions.view',
+    // CREATE: 'menu.ftpTransfer.actions.create',
+    // EDIT: 'menu.ftpTransfer.actions.edit',
+    // DELETE: 'menu.ftpTransfer.actions.delete'
   }
 }

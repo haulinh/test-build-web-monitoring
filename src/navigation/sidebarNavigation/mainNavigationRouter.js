@@ -53,8 +53,7 @@ const qaqcMenu = {
 }
 
 const configPublishMenu = {
-  // component: protectRole(ROLE.QAQC.VIEW)(
-  component: (
+  component: protectRole(ROLE.QAQCCONFIG.VIEW)(
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
       icon={Icon.publishConfig}
@@ -139,7 +138,8 @@ const groupManager = {
       ROLE.STATION_TYPE.VIEW,
       ROLE.STATION_AUTO.VIEW,
       ROLE.PROVINCE.VIEW,
-      ROLE.QCVN.VIEW
+      ROLE.QCVN.VIEW,
+      ROLE.FTPTRANSFER.VIEW
     ],
     'group'
   )(
@@ -203,6 +203,18 @@ const qcvnMenu = {
   )
 }
 
+const ftpTransferMenu = {
+  component: protectRole(ROLE.FTPTRANSFER.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.ftpTransfer.base}
+      icon={Icon.ftpTranfer}
+      text={translate('menuApp.ftpTranfer')}
+    />
+  )
+}
+
+
 const groupAdmin = {
   component: protectRole('', [ROLE.USER.VIEW, ROLE.ROLE.VIEW], 'group')(
     <NavigationWrapper text={translate('menuApp.adminManagement')}>
@@ -233,16 +245,7 @@ const roleMenu = {
   )
 }
 
-const ftpTransferMenu = {
-  component: //protectRole(ROLE.ROLE.VIEW)(
-    (<AkNavigationItem
-      linkComponent={WrapperLinkComponent}
-      href={slug.ftpTransfer.base}
-      icon={Icon.ftpTranfer}
-      text={translate('menuApp.ftpTranfer')}
-    />
-  )
-}
+
 
 export default [
   dashboardMenu,

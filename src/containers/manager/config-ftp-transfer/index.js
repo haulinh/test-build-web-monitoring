@@ -9,6 +9,8 @@ import * as _ from 'lodash'
 import { replaceVietnameseStr } from 'utils/string'
 import InfoFTP from './info-ftp'
 import Breadcrumb from './breadcrumb'
+import AuthApi from 'api/AuthApi'
+import organizationAPI from 'api/OrganizationApi'
 
 const CheckboxGroup = Checkbox.Group
 const TabPane = Tabs.TabPane;
@@ -19,7 +21,6 @@ export default class ConfigPublishContainer extends React.Component {
   }
 
   handleStationPublish = async (record, event) => {
-    
     this.updateData(record, {allowed: _.get(event, 'target.checked', false)})
   }
 
@@ -36,7 +37,8 @@ export default class ConfigPublishContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      list: []
+      list: [],
+      organization: {}
     }
     this.columns = [
       {
@@ -63,7 +65,7 @@ export default class ConfigPublishContainer extends React.Component {
         dataIndex: 'measuringList',
         key: 'measuringList',
         align: 'left',
-        render: (value, record, index) => {
+        render: (value, record) => {
           const options = _.map(value, ({ key, name }) => ({
             label: name,
             value: key
@@ -92,21 +94,33 @@ export default class ConfigPublishContainer extends React.Component {
   handleEdit = keyEdit => {
     this.setState({showModalFTP: true})
   }
+  
   getData = () => {
-    let ls = _.clone(this.state.list)
     let search = _.lowerCase(this.state.textSearch)
     if (search) {
       search = replaceVietnameseStr(search)
-      return _.filter(ls => ({ name }) =>
-        replaceVietnameseStr(name).indexOf(search)
+      return _.filter(_.clone(this.state.list), ({ name }) =>
+        replaceVietnameseStr(_.lowerCase(name)).indexOf(search) >= 0
       )
     }
 
-    return ls
+    return _.clone(this.state.list)
+  }
+
+  async getDataOganization (){
+    const userInfo = await AuthApi.getMe()
+    const id = _.get(userInfo, 'data.organization._id','vasoft')
+    const organizationInfo = await organizationAPI.getOrganization(id)
+    this.setState({ organization: _.get(organizationInfo, 'data', {}) })
   }
 
   componentDidMount() {
     this.loadData()
+    this.getDataOganization()
+  }
+
+  handleSaveFtpConfig = () => {
+    this.getDataOganization()
   }
 
   async loadData() {
@@ -128,7 +142,10 @@ export default class ConfigPublishContainer extends React.Component {
                 />
             </TabPane >
             <TabPane tab={<span><Icon type="info-circle" />{translate('ftpTranfer.ftpConfig')}</span>} key="2">
-              <InfoFTP/>
+              <InfoFTP onSaveFtpConfig={this.handleSaveFtpConfig} 
+              transferFtpInfo={_.get(this.state, 'organization.transferFtpInfo', {})}
+              _id={_.get(this.state, 'organization._id', 'vasoft-2018')}
+              />
             </TabPane>
           </Tabs>
       </PageContainer>

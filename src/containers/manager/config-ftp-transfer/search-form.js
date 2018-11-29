@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Input } from 'antd'
+import { translate } from 'hoc/create-lang'
 const Search = Input.Search
 
 const Toolbar = styled.div`
@@ -12,9 +13,9 @@ export default class SearchForm extends React.PureComponent {
     return (
       <Toolbar>
         <Search
-          placeholder="input search text"
+          placeholder={translate('qaqc.configPublish.stationName')}
           onSearch={this.props.onSearch}
-          onChange={this.props.onSearch}
+          //onChange={this.props.onSearch}
           enterButton
         />
       </Toolbar>
