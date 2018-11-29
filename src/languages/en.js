@@ -516,6 +516,7 @@ export default {
     configTranferFTP: 'Config gen file TXT',
     success:'Update success',
     error:'Error..!',
+    breadCrumb:'Config sent file TXT to CEM',
     formInFoFTP: {
       ipAddress: {
         title: 'IP Address',
