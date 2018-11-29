@@ -64,7 +64,7 @@ export default class OptionModalConfig extends React.Component {
       from: _.get(this.props.dataEditCalibration, 'hours.from', ''),
       to: _.get(this.props.dataEditCalibration, 'hours.to', '')
     },
-    dayList: _.get(this.props.dataEditCalibration, 'dayList', [8]),
+    dayList: _.get(this.props.dataEditCalibration, 'dayList', [7]),
     isCustom: false
   }
 

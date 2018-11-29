@@ -21,7 +21,6 @@ export default class UpdateLogo extends React.PureComponent {
   }
 
   async componentWillMount() {
-    console.log(this.props.organization)
     if (this.props.organization && this.props.organization.logo) {
       this.updateFiles(this.props.organization.logo)
     }
@@ -40,7 +39,6 @@ export default class UpdateLogo extends React.PureComponent {
       fileList: newFileList
     })
     if (file.status === 'done') {
-      // this.props.onChange(file.response.url)
       this.updateFiles(file.response.url)
       let data = this.props.organization
       if (data.logo) {

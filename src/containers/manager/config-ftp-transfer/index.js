@@ -24,7 +24,7 @@ export default class ConfigPublishContainer extends React.Component {
     this.updateData(record, {allowed: _.get(event, 'target.checked', false)})
   }
 
-  updateData = async (record, data) => { // {allowed: true, measureList: []}
+  updateData = async (record, data) => { 
     const originData = _.get(record, 'options.transferFtp', {})
     const rs = await StationAutoApi.transferFtp(record._id, {transferFtp: _.merge(originData, data)})
     if (_.get(rs, 'success')) {
@@ -52,7 +52,7 @@ export default class ConfigPublishContainer extends React.Component {
             defaultChecked={_.get(value, ['transferFtp', 'allowed'])}
             onChange={checked => this.handleStationPublish(record, checked)}
           />
-        ) // "allowed" : false
+        )
       },
       {
         title: translate('ftpTranfer.stationName'),
@@ -91,10 +91,6 @@ export default class ConfigPublishContainer extends React.Component {
     this.setState({ textSearch })
   }
 
-  handleEdit = keyEdit => {
-    this.setState({showModalFTP: true})
-  }
-  
   getData = () => {
     let search = _.lowerCase(this.state.textSearch)
     if (search) {

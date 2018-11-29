@@ -1,5 +1,4 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 import {
   Form,
   Input,
@@ -40,7 +39,6 @@ export default class OptionModalConfig extends React.Component {
     if(rs.success){
       message.info(translate('ftpTranfer.success'))
       this.props.onSaveFtpConfig()
-      //this.getDataOganization()
     } else {
       message.info(translate('ftpTranfer.error'))
     } 
@@ -48,7 +46,6 @@ export default class OptionModalConfig extends React.Component {
 
 
   render() {
-    console.log('initialValues', _.get(this.props, 'transferFtpInfo.ip', ''))
     const { getFieldDecorator } = this.props.form;
     return (
       <Form className="login-form">
@@ -64,19 +61,6 @@ export default class OptionModalConfig extends React.Component {
             <Input placeholder={translate('ftpTranfer.formInFoFTP.ipAddress.title')} addonBefore={translate('ftpTranfer.formInFoFTP.ipAddress.addonBefore')}/>
           )}
         </FormItem>
-        {/* <FormItem>
-          {getFieldDecorator('ip', 
-          {
-            initialValues: _.get(this.props, 'transferFtpInfo.ip', ''),
-            rules: [{ required: true, message: translate('ftpTranfer.formInFoFTP.ipAddress.message') }]
-            
-          })(
-            <Input 
-              placeholder={translate('ftpTranfer.formInFoFTP.ipAddress.title')} 
-              addonBefore={translate('ftpTranfer.formInFoFTP.ipAddress.addonBefore')}
-            />
-          )}
-        </FormItem> */}
         <FormItem>
           {getFieldDecorator('port', {
             rules: [{ required: true, message: translate('ftpTranfer.formInFoFTP.port.message') }],
