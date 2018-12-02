@@ -516,6 +516,9 @@ export default {
     configTranferFTP: 'Config gen file TXT',
     success:'Update success',
     error:'Error..!',
+    save: 'Save',
+    cancel: 'Cancel',
+    timeStart: 'Time Start',
     breadCrumb:'Config sent file TXT to CEM',
     formInFoFTP: {
       ipAddress: {
@@ -537,6 +540,12 @@ export default {
         title: 'Pass Word',
         addonBefore: 'Pass:',
         message: 'Please input pass word'
+      },
+      fileName: {
+        name:'File Name FTP',
+        title: 'File Name',
+        addonBefore: 'File Name:',
+        message: 'Please input file name'
       }
     }
   },

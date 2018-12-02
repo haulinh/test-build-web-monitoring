@@ -158,7 +158,6 @@ export default class StationAutoForm extends React.PureComponent {
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null
       }
       // Callback submit form Container Component
-      //console.log(data.measuringList)
       this.props.onSubmit(data)
     })
   }

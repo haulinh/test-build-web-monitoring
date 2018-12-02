@@ -514,6 +514,9 @@ export default {
     configTranferFTP: 'Danh sách trạm',
     success:'Cập nhật thành công',
     error:'Thât bại..!',
+    save: 'Lưu lại',
+    cancel: 'Đóng',
+    timeStart: 'Thời gian truyền',
     formInFoFTP: {
       ipAddress: {
         title: 'Địa chỉ IP',
@@ -534,6 +537,12 @@ export default {
         title: 'Mật khẩu',
         addonBefore: 'Mật khẩu:',
         message: 'Bạn chưa điền mật khẩu'
+      },
+      fileName: {
+        name:'Tên file FTP',
+        title: 'Tên file truyền về Bộ',
+        addonBefore: 'Tên file:',
+        message: 'Bạn chưa nhập tên file'
       }
     }
   },
