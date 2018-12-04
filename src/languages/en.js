@@ -1122,7 +1122,8 @@ export default {
     subscription: 'Subscription',
     support: 'Support',
     province: 'Management Unit',
-    ftpTranfer: 'FTP Tranfer'
+    ftpTranfer: 'FTP Tranfer',
+    publishShare: 'publish & Sharing'
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'
