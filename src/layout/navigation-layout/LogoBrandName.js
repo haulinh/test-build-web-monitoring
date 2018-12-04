@@ -20,7 +20,7 @@ const InfoWrapper = styled.div`
 
 const TextPlaceholder = styled.div`
   color: ${SHAPE.GRAYTEXT};
-  font-size: 12px;
+  font-size: 11px;
   position: relative;
 `
 
@@ -44,9 +44,7 @@ export function LogoBrandName(props) {
         src={props.logo ? props.logo : '/images/logo/icon/enviroment.png'}
       />
       <InfoWrapper>
-        <TextPlaceholder>
-          Envi Soft <RegisterBrand>&trade;</RegisterBrand>
-        </TextPlaceholder>
+        <TextPlaceholder>iLotusLand for Environment <RegisterBrand>&trade;</RegisterBrand></TextPlaceholder>
         <BrandName>{props.name}</BrandName>
       </InfoWrapper>
     </LogoContainer>
