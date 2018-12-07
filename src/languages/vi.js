@@ -1120,7 +1120,8 @@ export default {
     subscription: 'Hệ thống',
     support: 'Hỗ trợ',
     province: 'Đơn vị quản lý',
-    ftpTranfer: 'Truyền FTP về bộ'
+    ftpTranfer: 'Truyền FTP về bộ',
+    publishShare: 'Công bố và Chia sẻ'
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'

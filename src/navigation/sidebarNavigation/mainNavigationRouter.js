@@ -52,17 +52,6 @@ const qaqcMenu = {
   )
 }
 
-const configPublishMenu = {
-  component: protectRole(ROLE.QAQCCONFIG.VIEW)(
-    <AkNavigationItem
-      linkComponent={WrapperLinkComponent}
-      icon={Icon.publishConfig}
-      href={slug.qaqc.config}
-      text={translate('qaqc.configPublish.title')}
-    />
-  )
-}
-
 const monitoringMenu = {
   component: protectRole(ROLE.MONITORING.VIEW)(
     <AkNavigationItem
@@ -138,8 +127,7 @@ const groupManager = {
       ROLE.STATION_TYPE.VIEW,
       ROLE.STATION_AUTO.VIEW,
       ROLE.PROVINCE.VIEW,
-      ROLE.QCVN.VIEW,
-      ROLE.FTPTRANSFER.VIEW
+      ROLE.QCVN.VIEW
     ],
     'group'
   )(
@@ -203,17 +191,6 @@ const qcvnMenu = {
   )
 }
 
-const ftpTransferMenu = {
-  component: protectRole(ROLE.FTPTRANSFER.VIEW)(
-    <AkNavigationItem
-      linkComponent={WrapperLinkComponent}
-      href={slug.ftpTransfer.base}
-      icon={Icon.ftpTranfer}
-      text={translate('menuApp.ftpTranfer')}
-    />
-  )
-}
-
 
 const groupAdmin = {
   component: protectRole('', [ROLE.USER.VIEW, ROLE.ROLE.VIEW], 'group')(
@@ -245,6 +222,43 @@ const roleMenu = {
   )
 }
 
+const ftpTransferMenu = {
+  component: protectRole(ROLE.FTPTRANSFER.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.ftpTransfer.base}
+      icon={Icon.ftpTranfer}
+      text={translate('menuApp.ftpTranfer')}
+    />
+  )
+}
+
+const configPublishMenu = {
+  component: protectRole(ROLE.QAQCCONFIG.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      icon={Icon.publishConfig}
+      href={slug.qaqc.config}
+      text={translate('qaqc.configPublish.title')}
+    />
+  )
+}
+
+const groupPubShare = {
+  component: protectRole(
+    '',
+    [
+      ROLE.QAQCCONFIG.VIEW,
+      ROLE.FTPTRANSFER.VIEW
+    ],
+    'group'
+  )(
+    <NavigationWrapper text={translate('menuApp.publishShare')}>
+      <AkNavigationItemGroup title={translate('menuApp.publishShare')} />
+    </NavigationWrapper>
+  )
+}
+
 
 
 export default [
@@ -256,16 +270,17 @@ export default [
   groupData,
   dataSearchMenu,
   avgDataMenu,
+  groupPubShare,
+  configPublishMenu,
+  ftpTransferMenu,
   groupQAQC,
   qaqcMenu,
-  configPublishMenu,
   groupManager,
   measuringMenu,
   stationTypeMenu,
   stationAutoMenu,
   provinceMenu,
   qcvnMenu,
-  ftpTransferMenu,
   groupAdmin,
   userMenu,
   roleMenu
