@@ -121,6 +121,9 @@ export default {
   aqi: {
     base: '/aqi'
   },
+  wqi: {
+    base: '/wqi'
+  },
   qaqc: {
     base: '/qaqc',
     config: '/qaqc-config'
