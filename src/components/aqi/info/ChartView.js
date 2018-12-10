@@ -8,15 +8,15 @@ import levels from 'constants/aqi-level'
 export default class ChartView extends React.Component {
   getConfig = () => {
     const data = []
-    _.forEachRight(this.props.aqiDays, ({ time, aqiDayOf }) => {
-      const y = _.get(aqiDayOf, `${this.props.title}`, 0)
+    _.forEachRight(this.props.aqiDays, ({ receivedAt, measuringLogs }) => {
+      const y = _.get(measuringLogs, `${this.props.title}`, 0)
       let color = 'green'
       const tmp = _.find(levels, ({ min, max }) => _.inRange(y, min, max))
       if (tmp) {
         color = tmp.color
       }
       data.push({
-        name: moment(time).format('DD'),
+        name: moment(receivedAt).format('DD'),
         y,
         color
       })

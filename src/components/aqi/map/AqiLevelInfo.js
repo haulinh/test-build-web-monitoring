@@ -32,7 +32,7 @@ export default class AqiLevelInfo extends React.PureComponent {
       <LevelWrapper>
         <LevelView>
           {levels.map(({ color, status, level, description }) => (
-            <Tooltip placement="top" title={description}>
+            <Tooltip key={status} placement="top" title={description}>
               <LevelItem color={color} key={status}>
                 <div>
                   <span style={{ fontSize: 11, fontWeight: 'bold' }}>

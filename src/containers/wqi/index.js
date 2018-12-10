@@ -1,12 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import InfoComponent from '../../components/wqi/info'
-import MapComponent from '../../components/wqi/map'
+import InfoComponent from 'components/wqi/info'
+import MapComponent from 'components/wqi/map'
 import * as _ from 'lodash'
-
-import { fetchAqiByHour } from '../../api/AqiApi'
-import wqiApi from '../../api/WqiApi'
+import wqiApi from 'api/WqiApi'
 
 const WrapperContainer = styled.div`
   display: flex;

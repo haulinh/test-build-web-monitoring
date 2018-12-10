@@ -6,11 +6,11 @@ function getAqiUrl(prefix = '') {
 }
 
 export function fetchAqiByHour() {
-  return getFetch(getAqiUrl('AIR_QUALITY/hour'))
+  return getFetch(getAqiUrl('AIR_QUALITY/hour-last-logs'))
 }
 
 export function fetchAqiByDay(key, params = {}) {
-  return getFetch(getAqiUrl(`${key}/day`), undefined, { params })
+  return getFetch(getAqiUrl(`${key}/aqi-day-last-logs`), undefined, { params })
 }
 
 export default {

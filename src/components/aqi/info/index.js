@@ -24,32 +24,30 @@ export default class InfoComponent extends React.Component {
   }
 
   handleChange = async value => {
-    let station = _.get(_.keyBy(this.props.aqiList, '_id'), value.key, null)
+    let station = _.get(_.keyBy(this.props.aqiList, 'key'), value.key, null)
     if (station && !_.isEqual(station.key, value.key)) {
       this.setState({ station })
     }
-
-    this.getAqiByStation(value.key)
+    
+    this.getAqiByStation(station)
   }
 
-  getAqiByStation = async key => {
-    const rs = await fetchAqiByDay(key, {
-      from: moment()
-        .subtract(day, 'days')
-        .format('YYYY/MM/DD'),
-      to: moment().format('YYYY/MM/DD')
+  getAqiByStation = async (station) => {
+    const rs = await fetchAqiByDay(station.key, {
+      to: moment(_.get(station, 'aqi.receivedAt', new Date())).toJSON(),
+      size: 7
     })
 
-    const aqiDays = _.get(rs, 'data.aqi', [])
+    const aqiDays = _.get(rs, 'data', [])
     let aqiKeys = []
-    _.forEach(aqiDays, item => _.merge(aqiKeys, _.keys(item.aqiDayOf)))
+    _.forEach(aqiDays, item => _.merge(aqiKeys, _.keys(item.measuringLogs)))
     this.setState({ aqiDays, aqiKeys })
   }
 
   componentDidMount() {
     const station = _.head(this.props.aqiList)
     if (!_.isEmpty(station)) {
-      this.getAqiByStation(station._id)
+      this.getAqiByStation(station)
       this.setState({ station })
     }
   }
@@ -68,17 +66,17 @@ export default class InfoComponent extends React.Component {
       const station = nextProps.station //_.head(nextProps.aqiList)
       if (!_.isEmpty(station)) {
         this.setState({ station })
-        this.getAqiByStation(station._id)
+        this.getAqiByStation(station)
       }
     }
   }
 
   renderOptions = () => {
-    const defaultValue = _.get(this.state.station, '_id', '')
+    const defaultValue = _.get(this.state.station, 'key', '')
     return (
       <Select
         value={{
-          key: _.get(this.state.station, '_id', ''),
+          key: _.get(this.state.station, 'key', ''),
           label: _.get(this.state.station, 'name', '')
         }}
         labelInValue
@@ -86,8 +84,8 @@ export default class InfoComponent extends React.Component {
         style={{ width: '100%', marginBottom: 16 }}
         onChange={this.handleChange}
       >
-        {_.map(this.props.aqiList || [], ({ _id, name }) => (
-          <Option key={_id} value={_id}>
+        {_.map(this.props.aqiList || [], ({ key, name }) => (
+          <Option key={key} value={key}>
             {name}
           </Option>
         ))}

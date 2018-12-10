@@ -7,10 +7,8 @@ import ChartAqiView from './ChartView'
 import WqiInfo from './wqi-info'
 
 import connectWindowHeight from 'hoc/window-height'
-import { translate } from 'hoc/create-lang'
 
 const Option = Select.Option
-const day = 7
 
 @connectWindowHeight
 export default class InfoComponent extends React.Component {
