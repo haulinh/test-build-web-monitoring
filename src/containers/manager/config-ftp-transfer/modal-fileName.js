@@ -62,7 +62,7 @@ export default class ModalFileName extends React.Component {
     return (
       <Modal
         visible={this.props.showModal}
-        title="Cấu hình tên File"
+        title={translate('ftpTranfer.formInFoFTP.fileName.title')}
         onOk={this.props.handleSubmit}
         onCancel={this.props.modalCancel}
         footer={[

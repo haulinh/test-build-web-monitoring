@@ -33,6 +33,17 @@ const aqiMenu = {
   )
 }
 
+const wqiMenu = {
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.wqi.base}
+      icon={Icon.wqi}
+      text=  "WQI"//{translate('aqi.title')}
+    />
+  )
+}
+
 const groupQAQC = {
   component: protectRole('', [ROLE.QAQC.VIEW], 'group')(
     <NavigationWrapper text={translate('qaqc.title')}>
@@ -267,6 +278,7 @@ export default [
   mapMenu,
   CameraMenu,
   aqiMenu,
+  wqiMenu,
   groupData,
   dataSearchMenu,
   avgDataMenu,

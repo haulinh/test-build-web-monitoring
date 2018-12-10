@@ -28,6 +28,7 @@ export function getConfigApi() {
     province: c('province'),
     qcvn: c('qcvn'),
     aqi: c('aqi'),
+    wqi:c('wqi'), //'http://10.28.85.117:5016/wqi'
     // support: 'http://localhost:5014/support', //comemnt lcoal
     sampleConfig: c('configSample') // local.
   }
