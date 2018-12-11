@@ -23,7 +23,7 @@ const dashboardMenu = {
 }
 
 const aqiMenu = {
-  component: (
+  component: protectRole(ROLE.AQI.VIEW)(
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
       href={slug.aqi.base}
@@ -34,7 +34,7 @@ const aqiMenu = {
 }
 
 const wqiMenu = {
-  component: (
+  component: protectRole(ROLE.WQI.VIEW)(
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
       href={slug.wqi.base}

@@ -83,5 +83,11 @@ export default {
     // CREATE: 'menu.ftpTransfer.actions.create',
     // EDIT: 'menu.ftpTransfer.actions.edit',
     // DELETE: 'menu.ftpTransfer.actions.delete'
+  },
+  AQI: {
+    VIEW: 'menu.aqi.actions.view',
+  },
+  WQI: {
+    VIEW: 'menu.wqi.actions.view',
   }
 }
