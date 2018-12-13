@@ -65,7 +65,6 @@ export default class MinutesDataSearch extends React.Component {
       searchFormData
     )
 
-    console.log('dataAnalyzeStationAuto: ', dataAnalyzeStationAuto)
     this.setState({
       isLoading: false,
       dataAnalyzeStationAuto: dataAnalyzeStationAuto.success
