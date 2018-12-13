@@ -6,6 +6,7 @@ import MediaApi from 'api/MediaApi'
 import styled from 'styled-components'
 import { SketchPicker } from 'react-color'
 import createLanguageHoc from 'hoc/create-lang'
+import * as _ from 'lodash'
 
 const AvatarWrapper = styled.div`
   padding: 4px;
@@ -35,6 +36,7 @@ const AvatarWrapper = styled.div`
 `
 
 const HeaderWrapper = styled.div`
+  background-color: #fafafa;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -92,11 +94,15 @@ export default class SelectImage extends PureComponent {
       if (
         this.props.initialValues.urlIcon &&
         this.props.initialValues.urlIcon !== ''
-      )
+      ) {
         updateState.urlIcon = this.props.initialValues.urlIcon
+        updateState.urlIconList = _.union(this.state.urlIconList || [], [this.props.initialValues.urlIcon])
+      }
       if (this.props.initialValues.color)
         updateState.color = this.props.initialValues.color
-      console.log(updateState)
+      
+        
+
       this.setState(updateState)
     }
   }
@@ -114,28 +120,18 @@ export default class SelectImage extends PureComponent {
       headers: {
         authorization: 'authorization-text'
       },
-      onChange(info) {
-        if (
-          info.file.status !==
-          t('stationAutoManager.uploadFile.status.uploading')
-        ) {
-          console.log(info.file, info.fileList)
-        }
-        if (
-          info.file.status === t('stationAutoManager.uploadFile.status.finish')
-        ) {
-          console.log(info)
-          me.setState({
-            urlIconList: [...me.state.urlIconList, info.file.response.url]
-          })
-          message.success(
-            `${info.file.name} ${t('stationAutoManager.uploadFile.success')}`
-          )
-        } else if (info.file.status === 'error') {
-          message.error(
-            `${info.file.name} ${t('stationAutoManager.uploadFile.error')}`
-          )
-        }
+      onSuccess({url}, file) {
+        message.success(
+          `${file.name} ${t('stationAutoManager.uploadFile.success')}`
+        )
+        me.setState({
+          urlIconList: _.union(me.state.urlIconList, [url])
+        })
+      },
+      onError(error, response, file) {
+        message.error(
+          `${file.name} ${t('stationAutoManager.uploadFile.error')}`
+        )
       }
     }
 
@@ -165,6 +161,7 @@ export default class SelectImage extends PureComponent {
     )
     return (
       <Popover
+        style={{backgroundColor: 'yellows'}}
         visible={this.state.visiblePop}
         content={content}
         title={t('stationTypeManager.form.icon.placeholder')}

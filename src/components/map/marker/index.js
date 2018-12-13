@@ -123,7 +123,7 @@ export default class MarkerStation extends PureComponent {
       this.props.measuringList,
       ({ name, key, unit }, index) => {
         return (
-          <tr key={index + 1}>
+          <tr key={`${index + 1}`}>
             <td>{index + 1}</td>
             <td>{name}</td>
             <td

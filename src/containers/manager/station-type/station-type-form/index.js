@@ -121,7 +121,14 @@ export default class StationTypeForm extends React.PureComponent {
         <Row gutter={16}>
           <Col span={12}>
             <FormItem
-              {...formItemLayout}
+              {...{labelCol: {
+                xs: { span: 16, offset: 0 },
+                sm: { span: 4, offset: 0 }
+              },
+              wrapperCol: {
+                xs: { span: 12 },
+                sm: { span: 12 }
+              }}}
               label={t('stationTypeManager.form.icon.label')}
             >
               <SelectIcon
