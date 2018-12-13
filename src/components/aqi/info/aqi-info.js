@@ -65,7 +65,7 @@ const VnAqiView = ({ value, color, time }) => {
 
 export default class AQI_Info extends React.Component {
   render() {
-    let time = _.get(this.props.station, 'aqi.time', null)
+    let time = _.get(this.props.station, 'aqi.receivedAt', null)
     if (time) {
       time = moment(time).format('HH:00 DD/MM/YYYY')
     }
@@ -76,7 +76,7 @@ export default class AQI_Info extends React.Component {
           value={_.get(this.props.station, 'aqi.value', '')}
           time={time}
         />
-        <ChartMeasure measure={_.get(this.props.station, 'aqi.measure', {})} />
+        <ChartMeasure measure={_.get(this.props.station, 'aqi.measuringLogs', {})} />
       </WrapperView>
     )
   }

@@ -126,6 +126,7 @@ export default {
   },
   qaqc: {
     base: '/qaqc',
+    list: '/qaqc',
     config: '/qaqc-config'
   }
 }

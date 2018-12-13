@@ -32,8 +32,8 @@ export default class WqiLevelInfo extends React.PureComponent {
       <LevelWrapper>
         <LevelView>
           {levels.map(({ color, status, level, description }) => (
-            <Tooltip placement="top" title={description}>
-              <LevelItem color={color} key={status}>
+            <Tooltip placement="top" title={description} key={status}>
+              <LevelItem color={color}>
                 <div>
                   <span style={{ fontSize: 11, fontWeight: 'bold' }}>
                     {level}: {status}
