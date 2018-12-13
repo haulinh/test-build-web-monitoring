@@ -68,6 +68,7 @@ export default class SearchForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      timeRange: 7,
       provinceKey: props.initialValues.provinceKey,
       stationTypeKey: props.initialValues.stationType,
       stationAutoKey: props.initialValues.stationAuto,
@@ -79,7 +80,8 @@ export default class SearchForm extends React.Component {
           }))
         : [],
       fromDate: props.initialValues.fromDate,
-      toDate: props.initialValues.toDate
+      toDate: props.initialValues.toDate,
+      receivedAt: this.props.initialValues.toDate
     }
   }
 
@@ -103,15 +105,27 @@ export default class SearchForm extends React.Component {
     const measuringData = stationAuto.measuringList.sort(function(a, b) {
       return a.numericalOrder - b.numericalOrder
     })
-    this.setState({
+    const params = {
       measuringList: measuringData.map(measuring => ({
         value: measuring.key,
         name: measuring.name
       })),
       measuringData: measuringData,
       stationAutoKey: stationAuto.key,
-      stationAutoName: stationAuto.name
-    })
+      stationAutoName: stationAuto.name,
+      receivedAt: moment()
+    }
+    const time = _.get(stationAuto, 'lastLog.receivedAt')
+    if (time) {
+      params.receivedAt = moment(time)
+    }
+
+    if (this.state.timeRange) {
+      params.fromDate = params.receivedAt.clone().subtract(this.state.timeRange, 'days')
+      params.toDate =  params.receivedAt.clone()
+    }
+
+    this.setState(params)
     this.props.change('measuringList', measuringData.map(m => m.key))
   }
 
@@ -122,12 +136,14 @@ export default class SearchForm extends React.Component {
   handleChangeRanges(ranges) {
     if (_.isNumber(ranges)) {
       this.setState({
-        fromDate: moment().subtract(ranges, 'days'),
-        toDate: moment()
+        timeRange: ranges,
+        fromDate: this.state.receivedAt.clone().subtract(ranges, 'days'),
+        toDate: this.state.receivedAt.clone()
       })
     } else {
       if (_.size(ranges) > 1) {
         this.setState({
+          timeRange: null,
           fromDate: ranges[0],
           toDate: ranges[1]
         })

@@ -84,7 +84,6 @@ export default class TabChart extends React.PureComponent {
   }
 
   initData = (props, isInit = false) => {
-    console.log('props: ', props)
     const seriesData = {}
     const mesureList = _.map(_.clone(props.measuringData), (item, index) => {
       const color = _.get(colors, [index], 'yellow')
@@ -236,7 +235,6 @@ export default class TabChart extends React.PureComponent {
     nameChart,
     maxChart
   ) => {
-    console.log('minmax: ', minChart, maxChart)
     return {
       chart: {
         type: 'line',
@@ -281,6 +279,7 @@ export default class TabChart extends React.PureComponent {
   }
 
   render() {
+    console.log(this.props.dataStationAuto)
     return (
       <TabChartWrapper>
         <ChartWrapper innerRef={ref => (this.chartWrapper = ref)}>
@@ -297,7 +296,7 @@ export default class TabChart extends React.PureComponent {
             />
           )}
           <Thumbnail>
-            {this.state.mesureList.map(({ name, code, color }) => (
+            {this.state.mesureList.map(({ name, code, color, unit }) => (
               <ThumbnailItem
                 onClick={() => this.hanldleMeasureChange(code)}
                 selected={this.state.measureCurrent === code}
@@ -306,7 +305,7 @@ export default class TabChart extends React.PureComponent {
                 code={code}
               >
                 <Line color={color} />
-                {name}
+                { unit != '' && code != '__ALL__'? `${name} (${unit})` : `${name}`}
               </ThumbnailItem>
             ))}
           </Thumbnail>

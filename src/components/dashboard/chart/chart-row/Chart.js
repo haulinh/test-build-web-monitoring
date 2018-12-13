@@ -205,7 +205,6 @@ export default class ChartRowToChart extends React.Component {
       })
     } else {
       const current = [_.get(_.keyBy(this.state.categories, 'key'), e, null)]
-      console.log('current: ', current)
       const isShowAll = false
       this.setState({
         current,
@@ -328,7 +327,7 @@ export default class ChartRowToChart extends React.Component {
           <Tabs.TabPane tab={translate('dashboard.all')} key="1" />
           {_.map(this.state.categories, ({ key, name, unit }) => (
             <Tabs.TabPane
-              tab={unit ? `${name} ${unit}` : `${name}`}
+              tab={unit ? `${name} (${unit})` : `${name}`}
               key={key}
             />
           ))}
