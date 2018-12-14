@@ -36,7 +36,6 @@ const AvatarWrapper = styled.div`
 `
 
 const HeaderWrapper = styled.div`
-  background-color: #fafafa;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -150,7 +149,7 @@ export default class SelectImage extends PureComponent {
         {this.state.urlIconList.map((item, index) => {
           return (
             <AvatarWrapper key={index} onClick={() => this.setIcon(item)}>
-              <Avatar shape="square" src={item} />
+              <Avatar shape="square" src={item} style={{ backgroundColor: '#fafafa' }}/>
             </AvatarWrapper>
           )
         })}
