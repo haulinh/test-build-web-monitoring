@@ -8,7 +8,9 @@ import 'sweetalert2/dist/sweetalert2.css'
 import 'animate.css/animate.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'antd/dist/antd.css'
+import 'video-react/dist/video-react.css'
 import './index.css'
+
 
 import { AppContainer } from 'react-hot-loader'
 import browserHistory from 'history/createBrowserHistory'
