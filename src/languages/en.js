@@ -549,6 +549,11 @@ export default {
       }
     }
   },
+  stationFixedManager: {
+    list: {
+      title: 'Fixed Station'
+    }
+  },
   stationAutoManager: {
     list: {
       title: 'Station Name',
@@ -1116,6 +1121,7 @@ export default {
     measuring: 'Parameter',
     stationType: 'Type Of Station',
     stationAuto: 'Station Name',
+    stationFixed:'Fixed Station',
     adminManagement: 'Administration',
     user: 'User',
     role: 'Role',

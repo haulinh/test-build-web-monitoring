@@ -8,6 +8,7 @@ import LayoutRoute from 'layout/default-sidebar-layout/routeCombine'
 
 import MeasuringRoute from 'containers/manager/measuring'
 import StationAutoRoute from 'containers/manager/station-auto'
+import StationFixedRoute from 'containers/manager/station-fixed'
 import StationTypeRoute from 'containers/manager/station-type'
 import ProvinceRoute from 'containers/manager/province'
 import QCVNRoute from 'containers/manager/qcvn'
@@ -46,6 +47,10 @@ export default class RouteDefault extends React.Component {
         <LayoutRoute
           path={slug.stationAuto.base}
           component={StationAutoRoute}
+        />
+        <LayoutRoute
+          path={slug.stationFixed.base}
+          component={StationFixedRoute}
         />
         <LayoutRoute
           path={slug.stationType.base}

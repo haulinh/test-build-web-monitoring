@@ -138,7 +138,8 @@ const groupManager = {
       ROLE.STATION_TYPE.VIEW,
       ROLE.STATION_AUTO.VIEW,
       ROLE.PROVINCE.VIEW,
-      ROLE.QCVN.VIEW
+      ROLE.QCVN.VIEW,
+      ROLE.STATION_FIXED.VIEW
     ],
     'group'
   )(
@@ -177,6 +178,17 @@ const stationAutoMenu = {
       href={slug.stationAuto.base}
       icon={Icon.book}
       text={translate('menuApp.stationAuto')}
+    />
+  )
+}
+
+const stationFixedMenu = {
+  component: protectRole(ROLE.STATION_FIXED.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.stationFixed.base}
+      icon={Icon.stationFixed}
+      text={translate('menuApp.stationFixed')}
     />
   )
 }
@@ -291,6 +303,7 @@ export default [
   measuringMenu,
   stationTypeMenu,
   stationAutoMenu,
+  stationFixedMenu,
   provinceMenu,
   qcvnMenu,
   groupAdmin,

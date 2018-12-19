@@ -546,6 +546,11 @@ export default {
       }
     }
   },
+  stationFixedManager: {
+    list: {
+      title: 'Trạm quan trắc cố định'
+    }
+  },
   stationAutoManager: {
     list: {
       title: 'Trạm quan trắc',
@@ -1114,6 +1119,7 @@ export default {
     measuring: 'Thông số',
     stationType: 'Loại trạm',
     stationAuto: 'Trạm quan trắc',
+    stationFixed:'Trạm cố định',
     adminManagement: 'Quản trị',
     user: 'Người dùng',
     role: 'Nhóm quyền',

@@ -8,6 +8,7 @@ import DashboardIcon from '@atlaskit/icon/glyph/dashboard'
 import GraphBarIcon from '@atlaskit/icon/glyph/graph-bar'
 import GraphLineIcon from '@atlaskit/icon/glyph/graph-line'
 import BookIcon from '@atlaskit/icon/glyph/book'
+import StationFixed from '@atlaskit/icon/glyph/tray'
 import HipchatIcon from '@atlaskit/icon/glyph/hipchat'
 import PersonIcon from '@atlaskit/icon/glyph/person'
 import PeopleGroupIcon from '@atlaskit/icon/glyph/people-group'
@@ -32,6 +33,7 @@ export default {
   graphBar: <GraphBarIcon label={''} size={'medium'} />,
   graphLine: <GraphLineIcon label={''} size={'medium'} />,
   book: <BookIcon label={''} size={'medium'} />,
+  stationFixed: <StationFixed label={''} size={'medium'} />,
   hipchat: <HipchatIcon label={''} size={'medium'} />,
   person: <PersonIcon label={''} size={'medium'} />,
   peopleGroup: <PeopleGroupIcon label={''} size={'medium'} />,
