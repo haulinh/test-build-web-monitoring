@@ -64,6 +64,10 @@ export default {
     edit: '/station-fixed/edit/:key',
     editWithKey: '/station-fixed/edit'
   },
+  configWQI: {
+    list: '/config-wqi',
+    base: '/config-wqi'
+  },
   onlineMonitoring: {
     base: '/online-monitoring'
   },

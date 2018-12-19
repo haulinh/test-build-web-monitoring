@@ -504,6 +504,11 @@ export default {
       }
     }
   },
+  configWQI : {
+    breadCrumb:'Cấu hình tính WQI',
+    stationAuto: 'Trạm tự động',
+    stationFixed: 'Trạm cố định'
+  },
   ftpTranfer: {
     allowFtpTranfer: 'Cho phép truyền',
     stationName: 'Tên trạm',
@@ -1127,7 +1132,8 @@ export default {
     support: 'Hỗ trợ',
     province: 'Đơn vị quản lý',
     ftpTranfer: 'Truyền FTP về bộ',
-    publishShare: 'Công bố và Chia sẻ'
+    publishShare: 'Công bố và Chia sẻ',
+    configWQI: 'Cấu hình WQI'
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'

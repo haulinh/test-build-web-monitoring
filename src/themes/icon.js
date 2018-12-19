@@ -22,6 +22,7 @@ import ProvinceIcon from '@atlaskit/icon/glyph/media-services/blur'
 import QCVNIcon from '@atlaskit/icon/glyph/media-services/zip'
 import PublishConfigIcon from '@atlaskit/icon/glyph/preferences' 
 import FtpTranferIcon from '@atlaskit/icon/glyph/pdf'
+import ConfigWQI from '@atlaskit/icon/glyph/jira/capture'
 
 export default {
   quizLists: <QuizListIcon label={''} size={'medium'} />,
@@ -46,5 +47,6 @@ export default {
   publishConfig: <PublishConfigIcon label={''} size={'medium'} />,
   province: <ProvinceIcon label={''} size={'medium'} />,
   qcvn: <QCVNIcon label={''} size={'medium'} />,
-  ftpTranfer: <FtpTranferIcon label={''} size={'medium'} />
+  ftpTranfer: <FtpTranferIcon label={''} size={'medium'} />,
+  configWQI: <ConfigWQI label={''} size={'medium'} />
 }

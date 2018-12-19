@@ -33,6 +33,8 @@ import WqiContainer from 'containers/wqi'
 import QaQcContainer from 'containers/qa-qc'
 import PublishConfigContainer from 'containers/qa-qc/config-publish'
 import FtpTransferRoute from 'containers/manager/config-ftp-transfer'
+import ConfigWQIRoute from 'containers/manager/config-wqi'
+
 
 @autobind
 export default class RouteDefault extends React.Component {
@@ -51,6 +53,10 @@ export default class RouteDefault extends React.Component {
         <LayoutRoute
           path={slug.stationFixed.base}
           component={StationFixedRoute}
+        />
+         <LayoutRoute
+          path={slug.configWQI.base}
+          component={ConfigWQIRoute}
         />
         <LayoutRoute
           path={slug.stationType.base}

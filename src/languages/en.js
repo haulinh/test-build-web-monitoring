@@ -507,6 +507,11 @@ export default {
       }
     }
   },
+  configWQI : {
+    breadCrumb:'Config WQI',
+    stationAuto: 'Station Auto',
+    stationFixed: 'Staion Fixed'
+  },
   ftpTranfer: {
     allowFtpTranfer: 'Send FTP',
     stationName: 'Station Name',
@@ -1129,7 +1134,8 @@ export default {
     support: 'Support',
     province: 'Management Unit',
     ftpTranfer: 'FTP Tranfer',
-    publishShare: 'publish & Sharing'
+    publishShare: 'publish & Sharing',
+    configWQI: 'Config WQI'
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'
