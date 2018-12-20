@@ -6,7 +6,10 @@ export function getMeasuringUrl(prefix = '') {
 }
 
 export function getStationTypeUrl(prefix = '') {
-  return getConfigApi().stationType + '/' + prefix
+  if (prefix)
+    return getConfigApi().stationType + '/' + prefix
+  return getConfigApi().stationType
+
 }
 
 export function getMeasurings(
@@ -37,12 +40,16 @@ export function deleteMeasuring(key) {
 
 export function getStationTypes(
   { page = 1, itemPerPage = 10 },
-  { key = null, name = null } = {}
+  { key = null, name = null, isAuto = null } = {}
 ) {
-  var urlSearch = `${getStationTypeUrl()}?page=${page}&itemPerPage=${itemPerPage}`
-  if (key) urlSearch += `&key=${key}`
-  if (name) urlSearch += `&name=${name}`
-  return getFetch(urlSearch)
+  const params = { itemPerPage, page  }
+  if (isAuto !== null) params.isAuto = isAuto
+  if (key) params.key = key
+  if (name) params.name = name
+  // if (key) urlSearch += `&key=${key}`
+  // if (name) urlSearch += `&name=${name}`
+
+  return getFetch(getStationTypeUrl(), undefined, { params })
 }
 
 export function getStationType(key) {

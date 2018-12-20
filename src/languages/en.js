@@ -507,6 +507,11 @@ export default {
       }
     }
   },
+  configWQI : {
+    breadCrumb:'Config WQI',
+    stationAuto: 'Station Auto',
+    stationFixed: 'Staion Fixed'
+  },
   ftpTranfer: {
     allowFtpTranfer: 'Send FTP',
     stationName: 'Station Name',
@@ -547,6 +552,11 @@ export default {
         addonBefore: 'File Name:',
         message: 'Please input file name'
       }
+    }
+  },
+  stationFixedManager: {
+    list: {
+      title: 'Fixed Station'
     }
   },
   stationAutoManager: {
@@ -1116,6 +1126,7 @@ export default {
     measuring: 'Parameter',
     stationType: 'Type Of Station',
     stationAuto: 'Station Name',
+    stationFixed:'Fixed Station',
     adminManagement: 'Administration',
     user: 'User',
     role: 'Role',
@@ -1123,7 +1134,8 @@ export default {
     support: 'Support',
     province: 'Management Unit',
     ftpTranfer: 'FTP Tranfer',
-    publishShare: 'publish & Sharing'
+    publishShare: 'publish & Sharing',
+    configWQI: 'Config WQI'
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'

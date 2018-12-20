@@ -21,6 +21,15 @@ export default {
     DELETE: 'menu.stationAuto.actions.delete',
     CONFIG: 'menu.stationAuto.actions.config'
   },
+  STATION_FIXED: {
+    VIEW: 'menu.stationAuto.actions.view',
+    CREATE: 'menu.stationAuto.actions.create',
+    EDIT: 'menu.stationAuto.actions.edit',
+    DELETE: 'menu.stationAuto.actions.delete'
+  },
+  CONFIG_WQI: {
+    VIEW: 'menu.stationAuto.actions.view'
+  },
   USER: {
     VIEW: 'menu.user.actions.view',
     CREATE: 'menu.user.actions.create',

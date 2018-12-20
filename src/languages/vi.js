@@ -504,6 +504,11 @@ export default {
       }
     }
   },
+  configWQI : {
+    breadCrumb:'Cấu hình tính WQI',
+    stationAuto: 'Trạm tự động',
+    stationFixed: 'Trạm cố định'
+  },
   ftpTranfer: {
     allowFtpTranfer: 'Cho phép truyền',
     stationName: 'Tên trạm',
@@ -544,6 +549,11 @@ export default {
         addonBefore: 'Tên file:',
         message: 'Bạn chưa nhập tên file'
       }
+    }
+  },
+  stationFixedManager: {
+    list: {
+      title: 'Trạm quan trắc cố định'
     }
   },
   stationAutoManager: {
@@ -1114,6 +1124,7 @@ export default {
     measuring: 'Thông số',
     stationType: 'Loại trạm',
     stationAuto: 'Trạm quan trắc',
+    stationFixed:'Trạm cố định',
     adminManagement: 'Quản trị',
     user: 'Người dùng',
     role: 'Nhóm quyền',
@@ -1121,7 +1132,8 @@ export default {
     support: 'Hỗ trợ',
     province: 'Đơn vị quản lý',
     ftpTranfer: 'Truyền FTP về bộ',
-    publishShare: 'Công bố và Chia sẻ'
+    publishShare: 'Công bố và Chia sẻ',
+    configWQI: 'Cấu hình WQI'
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'

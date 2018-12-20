@@ -279,7 +279,6 @@ export default class TabChart extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props.dataStationAuto)
     return (
       <TabChartWrapper>
         <ChartWrapper innerRef={ref => (this.chartWrapper = ref)}>

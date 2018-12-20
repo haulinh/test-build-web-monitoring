@@ -138,7 +138,9 @@ const groupManager = {
       ROLE.STATION_TYPE.VIEW,
       ROLE.STATION_AUTO.VIEW,
       ROLE.PROVINCE.VIEW,
-      ROLE.QCVN.VIEW
+      ROLE.QCVN.VIEW,
+      ROLE.STATION_FIXED.VIEW,
+      ROLE.CONFIG_WQI.VIEW
     ],
     'group'
   )(
@@ -177,6 +179,28 @@ const stationAutoMenu = {
       href={slug.stationAuto.base}
       icon={Icon.book}
       text={translate('menuApp.stationAuto')}
+    />
+  )
+}
+
+const stationFixedMenu = {
+  component: protectRole(ROLE.STATION_FIXED.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.stationFixed.base}
+      icon={Icon.stationFixed}
+      text={translate('menuApp.stationFixed')}
+    />
+  )
+}
+
+const configWQI = {
+  component: protectRole(ROLE.CONFIG_WQI.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.configWQI.base}
+      icon={Icon.configWQI}
+      text={translate('menuApp.configWQI')}
     />
   )
 }
@@ -291,6 +315,8 @@ export default [
   measuringMenu,
   stationTypeMenu,
   stationAutoMenu,
+  stationFixedMenu,
+  configWQI,
   provinceMenu,
   qcvnMenu,
   groupAdmin,
