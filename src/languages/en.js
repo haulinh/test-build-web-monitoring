@@ -510,7 +510,12 @@ export default {
   configWQI : {
     breadCrumb:'Config WQI',
     stationAuto: 'Station Auto',
-    stationFixed: 'Staion Fixed'
+    stationFixed: 'Staion Fixed',
+    stationName: 'Station Name',
+    allowWQI: 'Allow WQI',
+    stationType: 'Station Type',
+    success : 'Update success !',
+    error: 'Error!'
   },
   ftpTranfer: {
     allowFtpTranfer: 'Send FTP',

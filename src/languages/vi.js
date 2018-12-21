@@ -507,7 +507,12 @@ export default {
   configWQI : {
     breadCrumb:'Cấu hình tính WQI',
     stationAuto: 'Trạm tự động',
-    stationFixed: 'Trạm cố định'
+    stationFixed: 'Trạm cố định',
+    stationName: 'Tên trạm',
+    allowWQI: 'Cho phép tính WQI',
+    stationType: 'Loại trạm',
+    success : 'Cập nhật thành công !',
+    error: 'Cập nhật thất bại..!'
   },
   ftpTranfer: {
     allowFtpTranfer: 'Cho phép truyền',
