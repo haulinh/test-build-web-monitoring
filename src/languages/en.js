@@ -508,14 +508,15 @@ export default {
     }
   },
   configWQI : {
-    breadCrumb:'Config WQI',
+    breadCrumb:'Config WQI, AQI',
     stationAuto: 'Station Auto',
     stationFixed: 'Staion Fixed',
     stationName: 'Station Name',
-    allowWQI: 'Allow WQI',
+    allow: 'Allow caculate',
     stationType: 'Station Type',
     success : 'Update success !',
-    error: 'Error!'
+    error: 'Error!',
+    unckecked: 'unchecked'
   },
   ftpTranfer: {
     allowFtpTranfer: 'Send FTP',
