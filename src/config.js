@@ -10,8 +10,8 @@ export function getConfigApi() {
     gateway: config.apiGateway,
     media: config.apiMedia,
     camera: config.apiCamera,
-    auth: c('auth'), //'http://localhost:5001/auth',
-    user: c('user'), //'http://localhost:5005/user',
+    auth: c('auth'),
+    user: c('user'),
     trialRegister: c('trial-register'),
     measuring: c('measuring'),
     stationType: c('station-type'),
@@ -19,18 +19,16 @@ export function getConfigApi() {
     dataStationAuto: c('data-station-auto'),
     stationFixed: c('station-fixed'),
     dataStationFixed: c('data-station-fixed'),
-    // dataStationAuto: 'http://localhost:5004/data-station-auto',
     ftp: c('ftp'),
-    // ftp: 'http://localhost:5009/ftp', //comemnt lcoal
     fcmMessages: c('fcm-messages'),
-    organization: c('organization'), //'http://localhost:5005/organization',
+    organization: c('organization'),
     role: c('role'),
     sampling: c('sampling'),
     support: c('support'),
     province: c('province'),
     qcvn: c('qcvn'),
     aqi: c('aqi'),
-    wqi:c('wqi'), //'http://10.28.85.117:5016/wqi'
+    wqi:c('wqi'),
     // support: 'http://localhost:5014/support', //comemnt lcoal
     sampleConfig: c('configSample') // local.
   }

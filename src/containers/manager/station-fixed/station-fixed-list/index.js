@@ -2,7 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button, Icon, Form, Menu, Dropdown } from 'antd'
+<<<<<<< HEAD
 import stationFixedApi from 'api/StationFixedApi'
+=======
+import StationFixedApi from 'api/StationFixedApi'
+>>>>>>> ems-dev-doanh
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'

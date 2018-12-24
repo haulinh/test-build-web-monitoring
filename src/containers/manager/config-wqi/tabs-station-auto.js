@@ -9,16 +9,16 @@ import { replaceVietnameseStr } from 'utils/string'
 
 @createLanguageHoc
 @autobind
-export default class TabsStationFixed extends React.Component {
+export default class TabsStationAuto extends React.Component {
+
   constructor(props) {
     super(props)
     this.state = {
-      listStationFixed: this.props.listDataFixed,
+      listStationAuto: props.listDataAuto,
       listStationConfig: props.listStationConfig,
-      stationTypeFixed: props.stationTypeFixed
+      stationTypeAuto: props.stationTypeAuto
     }
   }
-
 
   getColums () {
     const colums = [
@@ -31,7 +31,7 @@ export default class TabsStationFixed extends React.Component {
       {
         title: translate('configWQI.stationType'),
         dataIndex: 'stationType',
-        filters: this.state.stationTypeFixed,
+        filters: this.state.stationTypeAuto,
         filterIcon: filtered => <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />,
         onFilter: (value, record) => _.get(record, 'stationType.key').indexOf(value) === 0,
         key: 'stationType',
@@ -50,7 +50,7 @@ export default class TabsStationFixed extends React.Component {
         render: (value, record) => (
           <Checkbox
             defaultChecked={this.getdefaultChecked(value)}
-            onChange={checked => this.handleCheckedFixed(record, checked)}
+            onChange={checked => this.handleCheckedAuto(record, checked)}
           />
         )
       }
@@ -61,33 +61,33 @@ export default class TabsStationFixed extends React.Component {
   handleSearch = textSearch => {
     this.setState({ textSearch })
   }
+ 
 
   getData = () => {
     let search = _.lowerCase(this.state.textSearch)
     if (search) {
       search = replaceVietnameseStr(search)
-      return _.filter(_.clone(this.state.listStationFixed), ({ name }) =>
+      return _.filter(_.clone(this.state.listStationAuto), ({ name }) =>
         replaceVietnameseStr(_.lowerCase(name)).indexOf(search) >= 0
       )
     }
-    return _.clone(this.state.listStationFixed)
+    return _.clone(this.state.listStationAuto)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.listStationFixed, this.props.listStationFixed)) {
-      this.setState({ listStationFixed: nextProps.listStationFixed })
+    if (!_.isEqual(nextProps.listDataAuto, this.props.listDataAuto)) {
+      this.setState({ listStationAuto: nextProps.listDataAuto })
     }
     if (!_.isEqual(nextProps.listStationConfig, this.props.listStationConfig)) {
       this.setState({ listStationConfig: nextProps.listStationConfig })
     }
-    if (!_.isEqual(nextProps.stationTypeFixed, this.props.stationTypeFixed)) {
-      this.setState({ stationTypeFixed: nextProps.stationTypeFixed })
+    if (!_.isEqual(nextProps.stationTypeAuto, this.props.stationTypeAuto)) {
+      this.setState({ stationTypeAuto: nextProps.stationTypeAuto })
     }
   }
 
-
-  handleCheckedFixed = async (record, event) => {
-    this.updateDataFixed(record, {allowed: _.get(event, 'target.checked', false)})
+  handleCheckedAuto = async (record, event) => {
+    this.updateDataAuto(record, {allowed: _.get(event, 'target.checked', false)})
   }
 
   getdefaultChecked = (key) => {
@@ -99,7 +99,7 @@ export default class TabsStationFixed extends React.Component {
     }
   }
 
-  updateDataFixed = async (record, data) => { 
+  updateDataAuto = async (record, data) => { 
     const keyFilter = _.get(record, 'key', '')
     const obj = _.filter(this.state.listStationConfig, ['key', `${keyFilter}`])
     const dataStationConfig = {
@@ -139,6 +139,7 @@ export default class TabsStationFixed extends React.Component {
       message.info(translate('configWQI.error'))
     }
   }
+
 
   showTotal = (total, range) => ` ${range[1]}/${total}`
   render() {
