@@ -203,6 +203,12 @@ export default {
       result: 'Kết quả'
     }
   },
+  dataSearchFixed: {
+    downloadTemplate: 'Tải file mẫu',
+    importData: 'Nhập dữ liệu từ file',
+    importSuccess: 'Nhập dũ liệu thành công!',
+    importFailed: 'Nhập dữ liệu không thành công!',
+  },
   dataSearchFrom: {
     titleText: 'Tra cứu dữ liệu gốc',
     options: {
@@ -1119,6 +1125,7 @@ export default {
     map: 'Bản đồ',
     data: 'Khai thác dữ liệu',
     dataSearch: 'Dữ liệu gốc',
+    dataSearchFixed: 'Dữ liệu trạm cố định',
     avgData: 'Dữ liệu tổng hợp',
     manage: 'Quản lý',
     measuring: 'Thông số',

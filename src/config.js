@@ -16,9 +16,9 @@ export function getConfigApi() {
     measuring: c('measuring'),
     stationType: c('station-type'),
     stationAuto: c('station-auto'),
-    // stationFixed: 'http://localhost:5019/station-fixed',
-    stationFixed: c('station-fixed'),
     dataStationAuto: c('data-station-auto'),
+    stationFixed: c('station-fixed'),
+    dataStationFixed: c('data-station-fixed'),
     // dataStationAuto: 'http://localhost:5004/data-station-auto',
     ftp: c('ftp'),
     // ftp: 'http://localhost:5009/ftp', //comemnt lcoal

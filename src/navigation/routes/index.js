@@ -16,6 +16,8 @@ import OnlineMonitoring from 'containers/online-monitoring'
 import Map from 'containers/map'
 import DataSearch from 'containers/search/data-search'
 import AvgSearch from 'containers/search/avg-search'
+import DataSearchFixed from 'containers/search/data-search-fixed'
+
 import Monitoring from 'containers/monitoring'
 import EmailConfirm from 'containers/auth/reset-password/email-confirm'
 import CodeConfirm from 'containers/auth/reset-password/code-confirm'
@@ -72,6 +74,8 @@ export default class RouteDefault extends React.Component {
         <LayoutRoute path={slug.monitoring.base} component={Monitoring} />
         <LayoutRoute path={slug.dataSearch.base} component={DataSearch} />
         <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />
+        <LayoutRoute path={slug.dataSearchFixed.base} component={DataSearchFixed} />
+        
         <LayoutRoute path={slug.qaqc.base} component={QaQcContainer} />
         <LayoutRoute
           path={slug.qaqc.config}
