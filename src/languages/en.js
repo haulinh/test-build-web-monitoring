@@ -203,6 +203,12 @@ export default {
       result: 'Results'
     }
   },
+  dataSearchFixed: {
+    downloadTemplate: 'Download Template',
+    importData: 'Import Data',
+    importSuccess: 'Import Data Success',
+    importFailed: 'Import Data Failed',
+  },
   dataSearchFrom: {
     titleText: 'Data Search',
     options: {
@@ -1127,6 +1133,7 @@ export default {
     map: 'Map',
     data: 'Data',
     dataSearch: 'Data Search',
+    dataSearchFixed: 'Fixed Data Search',
     avgData: 'Average Data',
     manage: 'Manage',
     measuring: 'Parameter',

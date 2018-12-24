@@ -16,7 +16,7 @@ export default {
     viewInMonitoring: 'Giám sát trực tuyến',
     viewInMap: 'Bản đồ',
     viewMore: 'Xem thêm',
-    all: 'Tất cả thông số',
+    all: 'Tất cả',
     tableList: {
       name: 'Tên trạm',
       dataStatus: 'Tình trạng kết nối'
@@ -202,6 +202,12 @@ export default {
       status: 'Trạng thái',
       result: 'Kết quả'
     }
+  },
+  dataSearchFixed: {
+    downloadTemplate: 'Tải file mẫu',
+    importData: 'Nhập dữ liệu từ file',
+    importSuccess: 'Nhập dũ liệu thành công!',
+    importFailed: 'Nhập dữ liệu không thành công!',
   },
   dataSearchFrom: {
     titleText: 'Tra cứu dữ liệu gốc',
@@ -1125,6 +1131,7 @@ export default {
     map: 'Bản đồ',
     data: 'Khai thác dữ liệu',
     dataSearch: 'Dữ liệu gốc',
+    dataSearchFixed: 'Dữ liệu trạm cố định',
     avgData: 'Dữ liệu tổng hợp',
     manage: 'Quản lý',
     measuring: 'Thông số',

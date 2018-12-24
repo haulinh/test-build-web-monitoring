@@ -74,7 +74,7 @@ const monitoringMenu = {
   )
 }
 
-const CameraMenu = {
+const cameraMenu = {
   component: protectRole(ROLE.MONITORING.CAMERA)(
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
@@ -115,6 +115,17 @@ const dataSearchMenu = {
       icon={Icon.graphBar}
       href={slug.dataSearch.base}
       text={translate('menuApp.dataSearch')}
+    />
+  )
+}
+
+const dataSearchFixedMenu = {
+  component: protectRole(ROLE.DATA_SEARCH.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      icon={Icon.graphBar}
+      href={slug.dataSearchFixed.base}
+      text={translate('menuApp.dataSearchFixed')}
     />
   )
 }
@@ -300,12 +311,13 @@ export default [
   dashboardMenu,
   monitoringMenu,
   mapMenu,
-  CameraMenu,
+  cameraMenu,
   aqiMenu,
   wqiMenu,
   groupData,
   dataSearchMenu,
   avgDataMenu,
+  dataSearchFixedMenu,
   groupPubShare,
   configPublishMenu,
   ftpTransferMenu,

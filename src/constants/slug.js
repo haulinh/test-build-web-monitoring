@@ -90,6 +90,9 @@ export default {
   avgSearch: {
     base: '/avg-search'
   },
+  dataSearchFixed: {
+    base: '/fixed-data-search'
+  },
   password: {
     emailConfirm: '/password/email-confirm',
     codeConfirm: '/password/code-confirm/:key',

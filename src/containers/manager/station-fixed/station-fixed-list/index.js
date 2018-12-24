@@ -2,7 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button, Icon, Form, Menu, Dropdown } from 'antd'
+<<<<<<< HEAD
+import stationFixedApi from 'api/StationFixedApi'
+=======
 import StationFixedApi from 'api/StationFixedApi'
+>>>>>>> ems-dev-doanh
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
@@ -40,10 +44,10 @@ const IconButton = styled(Icon)`
 
 @protectRole(ROLE.STATION_AUTO.VIEW)
 @createManagerList({
-  apiList: StationFixedApi.getStationFixeds
+  apiList: stationFixedApi.getStationFixeds
 })
 @createManagerDelete({
-  apiDelete: StationFixedApi.removeStationFixed
+  apiDelete: stationFixedApi.removeStationFixed
 })
 @Form.create({
   mapPropsToFields: mapPropsToFields
@@ -88,7 +92,7 @@ export default class StationFixedList extends React.Component {
       title: 'Do you want to delete these items?',
       onOk() {
         return new Promise(async (resolve, reject) => {
-          const res = await StationFixedApi.deleteStationFixed(_id)
+          const res = await stationFixedApi.deleteStationFixed(_id)
           if (res.success) {
             message.info(t('addon.onDelete.success'))
             callback()
@@ -108,7 +112,7 @@ export default class StationFixedList extends React.Component {
       title: 'Do you want to restore these items?',
       onOk() {
         return new Promise(async (resolve, reject) => {
-          const res = await StationFixedApi.restoreStationFixed(_id)
+          const res = await stationFixedApi.restoreStationFixed(_id)
           if (res.success) {
             message.info(t('addon.onRestore.success'))
             callback()
