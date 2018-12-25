@@ -511,14 +511,15 @@ export default {
     }
   },
   configWQI : {
-    breadCrumb:'Cấu hình tính WQI',
+    breadCrumb:'Cấu hình tính WQI, AQI',
     stationAuto: 'Trạm tự động',
     stationFixed: 'Trạm cố định',
     stationName: 'Tên trạm',
-    allowWQI: 'Cho phép tính WQI',
+    allow: 'Cho phép tính',
     stationType: 'Loại trạm',
     success : 'Cập nhật thành công !',
-    error: 'Cập nhật thất bại..!'
+    error: 'Cập nhật thất bại..!',
+    unckecked: 'Bỏ chọn'
   },
   ftpTranfer: {
     allowFtpTranfer: 'Cho phép truyền',
