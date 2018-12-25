@@ -1148,7 +1148,7 @@ export default {
     province: 'Management Unit',
     ftpTranfer: 'FTP Tranfer',
     publishShare: 'publish & Sharing',
-    configWQI: 'Config WQI',
+    configWQI: 'Config WQI, AQI',
     groupStatistic: 'Statistic',
     mapFixed: 'Map'
   },

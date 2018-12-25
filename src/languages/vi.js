@@ -1146,7 +1146,7 @@ export default {
     province: 'Đơn vị quản lý',
     ftpTranfer: 'Truyền FTP về bộ',
     publishShare: 'Công bố và Chia sẻ',
-    configWQI: 'Cấu hình WQI',
+    configWQI: 'Cấu hình WQI, AQI',
     groupStatistic: 'Thống kê',
     mapFixed: 'Bản đồ'
   },
