@@ -1145,7 +1145,9 @@ export default {
     province: 'Đơn vị quản lý',
     ftpTranfer: 'Truyền FTP về bộ',
     publishShare: 'Công bố và Chia sẻ',
-    configWQI: 'Cấu hình WQI'
+    configWQI: 'Cấu hình WQI',
+    groupStatistic: 'Thống kê',
+    mapFixed: 'Bản đồ'
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'
@@ -1182,5 +1184,9 @@ export default {
       title: 'Chức năng này đang phát triển',
       process: 'Chúng tôi sẽ cập nhật nó cho phiên bản sau'
     }
+  },
+  statistic: {
+    exceeded: 'Vượt ngưỡng',
+    perRecData: 'Tỉ lệ nhận dữ liệu'
   }
 }

@@ -12,6 +12,13 @@ export default {
     const url = getDataStationFixedUrl(`${_id}/template`)
     return getFetch(url)
   },
+  exportData: ({toDate, fromDate, stationID, measuringList}) => {
+    const params = {}
+    if (fromDate) params.from= fromDate
+    if (toDate) params.to = toDate
+    if (measuringList) params.measuringList= measuringList.join(',')
+    return getFetch(getDataStationFixedUrl(`${stationID}/export-data`), undefined, { params })
+  },
   find: ({
     fromDate,
     toDate,

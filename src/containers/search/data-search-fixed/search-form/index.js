@@ -161,6 +161,7 @@ export default class SearchForm extends React.Component {
       name: this.state.stationFixedName,
       measuringList: values.measuringList,
       measuringData: this.state.measuringData,
+      stationID: this.state.stationFixedID,
       dataType: values.dataType,
       isExceeded: values.isExceeded,
       advanced: values.advanced

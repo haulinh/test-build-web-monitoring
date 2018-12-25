@@ -108,6 +108,18 @@ const groupData = {
   )
 }
 
+const groupStationFixed = {
+  component: protectRole(
+    '',
+    [ROLE.MAP_STATION_FIXED.VIEW, ROLE.STATION_FIXED.VIEW, ROLE.STATION_FIXED_SEARCH.VIEW],
+    'group'
+  )(
+    <NavigationWrapper text={translate('menuApp.stationFixed')}>
+      <AkNavigationItemGroup title={translate('menuApp.stationFixed')} />
+    </NavigationWrapper>
+  )
+}
+
 const dataSearchMenu = {
   component: protectRole(ROLE.DATA_SEARCH.VIEW)(
     <AkNavigationItem
@@ -120,7 +132,7 @@ const dataSearchMenu = {
 }
 
 const dataSearchFixedMenu = {
-  component: protectRole(ROLE.DATA_SEARCH.VIEW)(
+  component: protectRole(ROLE.STATION_FIXED_SEARCH.VIEW)(
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
       icon={Icon.graphBar}
@@ -305,7 +317,50 @@ const groupPubShare = {
   )
 }
 
+const mapFixedMenu = {
+  component: protectRole(ROLE.MAP_STATION_FIXED.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      icon={Icon.publishConfig}
+      href={slug.mapFixed.base}
+      text={translate('menuApp.mapFixed')}
+    />
+  )
+}
 
+const statisticPerRecMenu = {
+  component: protectRole(ROLE.STATISTIC.PER_REC_DATA)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      icon={Icon.publishConfig}
+      href={slug.statistic.perRecData}
+      text={translate('statistic.perRecData')}
+    />
+  )
+}
+
+const statisticExceededMenu = {
+  component: protectRole(ROLE.STATISTIC.EXCEEDED)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      icon={Icon.publishConfig}
+      href={slug.statistic.exceeded}
+      text={translate('statistic.exceeded')}
+    />
+  )
+}
+
+const groupStatistic = {
+  component: protectRole(
+    '',
+    [ROLE.STATISTIC.EXCEEDED, ROLE.STATISTIC.PER_REC_DATA],
+    'group'
+  )(
+    <NavigationWrapper text={translate('menuApp.groupStatistic')}>
+      <AkNavigationItemGroup title={translate('menuApp.groupStatistic')} />
+    </NavigationWrapper>
+  )
+}
 
 export default [
   dashboardMenu,
@@ -317,17 +372,22 @@ export default [
   groupData,
   dataSearchMenu,
   avgDataMenu,
-  dataSearchFixedMenu,
   groupPubShare,
   configPublishMenu,
   ftpTransferMenu,
   groupQAQC,
   qaqcMenu,
+  groupStationFixed,
+  mapFixedMenu,
+  dataSearchFixedMenu,
+  stationFixedMenu,
+  groupStatistic,
+  statisticPerRecMenu,
+  statisticExceededMenu,
   groupManager,
   measuringMenu,
   stationTypeMenu,
   stationAutoMenu,
-  stationFixedMenu,
   configWQI,
   provinceMenu,
   qcvnMenu,

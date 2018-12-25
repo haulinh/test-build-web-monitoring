@@ -142,5 +142,12 @@ export default {
     base: '/qaqc',
     list: '/qaqc',
     config: '/qaqc-config'
+  },
+  statistic: {
+    exceeded: '/exceeded-statistic',
+    perRecData: 'per-rec-data-statistic'
+  },
+  mapFixed: {
+    base: '/fixed-map'
   }
 }

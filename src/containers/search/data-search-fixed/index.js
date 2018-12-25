@@ -14,7 +14,7 @@ import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 
-@protectRole(ROLE.DATA_SEARCH.VIEW)
+@protectRole(ROLE.STATION_FIXED_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
 @autobind
 export default class MinutesDataSearch extends React.Component {
@@ -85,7 +85,7 @@ export default class MinutesDataSearch extends React.Component {
     this.setState({
       isExporting: true
     })
-    let res = await dataStationFixedApi.getExportData(this.state.searchFormData)
+    let res = await dataStationFixedApi.exportData(this.state.searchFormData)
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
 

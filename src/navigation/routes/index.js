@@ -36,6 +36,9 @@ import QaQcContainer from 'containers/qa-qc'
 import PublishConfigContainer from 'containers/qa-qc/config-publish'
 import FtpTransferRoute from 'containers/manager/config-ftp-transfer'
 import ConfigWQIRoute from 'containers/manager/config-wqi'
+import MapFixedContainer from 'containers/fixed-map'
+import ExceededContainer from 'containers/statistic/exceeded'
+import PercentReceivedData from 'containers/statistic/per-rec-data'
 
 
 @autobind
@@ -75,6 +78,9 @@ export default class RouteDefault extends React.Component {
         <LayoutRoute path={slug.dataSearch.base} component={DataSearch} />
         <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />
         <LayoutRoute path={slug.dataSearchFixed.base} component={DataSearchFixed} />
+        <LayoutRoute path={slug.mapFixed.base} component={MapFixedContainer} />
+        <LayoutRoute path={slug.statistic.exceeded} component={ExceededContainer} />
+        <LayoutRoute path={slug.statistic.perRecData} component={PercentReceivedData} />
         
         <LayoutRoute path={slug.qaqc.base} component={QaQcContainer} />
         <LayoutRoute

@@ -1147,7 +1147,9 @@ export default {
     province: 'Management Unit',
     ftpTranfer: 'FTP Tranfer',
     publishShare: 'publish & Sharing',
-    configWQI: 'Config WQI'
+    configWQI: 'Config WQI',
+    groupStatistic: 'Statistic',
+    mapFixed: 'Map'
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'
@@ -1184,5 +1186,9 @@ export default {
       title: 'This function is developing',
       process: 'We will send newsletter when we complete'
     }
+  },
+  statistic: {
+    exceeded: 'Exceeded',
+    perRecData: 'Percent Of Received Data'
   }
 }
