@@ -8,6 +8,7 @@ import LayoutRoute from 'layout/default-sidebar-layout/routeCombine'
 
 import MeasuringRoute from 'containers/manager/measuring'
 import StationAutoRoute from 'containers/manager/station-auto'
+import StationFixedRoute from 'containers/manager/station-fixed'
 import StationTypeRoute from 'containers/manager/station-type'
 import ProvinceRoute from 'containers/manager/province'
 import QCVNRoute from 'containers/manager/qcvn'
@@ -15,6 +16,8 @@ import OnlineMonitoring from 'containers/online-monitoring'
 import Map from 'containers/map'
 import DataSearch from 'containers/search/data-search'
 import AvgSearch from 'containers/search/avg-search'
+import DataSearchFixed from 'containers/search/data-search-fixed'
+
 import Monitoring from 'containers/monitoring'
 import EmailConfirm from 'containers/auth/reset-password/email-confirm'
 import CodeConfirm from 'containers/auth/reset-password/code-confirm'
@@ -25,13 +28,18 @@ import RoleRoute from 'containers/role'
 import ControlStation from 'containers/control-station'
 import Camera from 'containers/camera'
 import AccountActive from 'containers/auth/account-active'
-import CameraControl from 'containers/camera-control'
+import CameraControl from 'containers/camera-video'
 import SupportRoute from 'containers/support'
 import AqiContainer from 'containers/aqi'
 import WqiContainer from 'containers/wqi'
 import QaQcContainer from 'containers/qa-qc'
 import PublishConfigContainer from 'containers/qa-qc/config-publish'
 import FtpTransferRoute from 'containers/manager/config-ftp-transfer'
+import ConfigWQIRoute from 'containers/manager/config-wqi'
+import MapFixedContainer from 'containers/fixed-map'
+import ExceededContainer from 'containers/statistic/exceeded'
+import PercentReceivedData from 'containers/statistic/per-rec-data'
+
 
 @autobind
 export default class RouteDefault extends React.Component {
@@ -48,6 +56,14 @@ export default class RouteDefault extends React.Component {
           component={StationAutoRoute}
         />
         <LayoutRoute
+          path={slug.stationFixed.base}
+          component={StationFixedRoute}
+        />
+         <LayoutRoute
+          path={slug.configWQI.base}
+          component={ConfigWQIRoute}
+        />
+        <LayoutRoute
           path={slug.stationType.base}
           component={StationTypeRoute}
         />
@@ -61,6 +77,11 @@ export default class RouteDefault extends React.Component {
         <LayoutRoute path={slug.monitoring.base} component={Monitoring} />
         <LayoutRoute path={slug.dataSearch.base} component={DataSearch} />
         <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />
+        <LayoutRoute path={slug.dataSearchFixed.base} component={DataSearchFixed} />
+        <LayoutRoute path={slug.mapFixed.base} component={MapFixedContainer} />
+        <LayoutRoute path={slug.statistic.exceeded} component={ExceededContainer} />
+        <LayoutRoute path={slug.statistic.perRecData} component={PercentReceivedData} />
+        
         <LayoutRoute path={slug.qaqc.base} component={QaQcContainer} />
         <LayoutRoute
           path={slug.qaqc.config}

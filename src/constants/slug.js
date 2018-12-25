@@ -59,6 +59,17 @@ export default {
     ftpFile: '/station-auto/ftpFile/:key',
     ftpFileWithKey: '/station-auto/ftpFile'
   },
+  stationFixed: {
+    list: '/station-fixed',
+    base: '/station-fixed',
+    create: '/station-fixed/create',
+    edit: '/station-fixed/edit/:key',
+    editWithKey: '/station-fixed/edit'
+  },
+  configWQI: {
+    list: '/config-wqi',
+    base: '/config-wqi'
+  },
   onlineMonitoring: {
     base: '/online-monitoring'
   },
@@ -80,6 +91,9 @@ export default {
   },
   avgSearch: {
     base: '/avg-search'
+  },
+  dataSearchFixed: {
+    base: '/fixed-data-search'
   },
   password: {
     emailConfirm: '/password/email-confirm',
@@ -130,5 +144,12 @@ export default {
     base: '/qaqc',
     list: '/qaqc',
     config: '/qaqc-config'
+  },
+  statistic: {
+    exceeded: '/exceeded-statistic',
+    perRecData: 'per-rec-data-statistic'
+  },
+  mapFixed: {
+    base: '/fixed-map'
   }
 }

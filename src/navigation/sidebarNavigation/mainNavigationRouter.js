@@ -74,7 +74,7 @@ const monitoringMenu = {
   )
 }
 
-const CameraMenu = {
+const cameraMenu = {
   component: protectRole(ROLE.MONITORING.CAMERA)(
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
@@ -108,6 +108,18 @@ const groupData = {
   )
 }
 
+const groupStationFixed = {
+  component: protectRole(
+    '',
+    [ROLE.MAP_STATION_FIXED.VIEW, ROLE.STATION_FIXED.VIEW, ROLE.STATION_FIXED_SEARCH.VIEW],
+    'group'
+  )(
+    <NavigationWrapper text={translate('menuApp.stationFixed')}>
+      <AkNavigationItemGroup title={translate('menuApp.stationFixed')} />
+    </NavigationWrapper>
+  )
+}
+
 const dataSearchMenu = {
   component: protectRole(ROLE.DATA_SEARCH.VIEW)(
     <AkNavigationItem
@@ -115,6 +127,17 @@ const dataSearchMenu = {
       icon={Icon.graphBar}
       href={slug.dataSearch.base}
       text={translate('menuApp.dataSearch')}
+    />
+  )
+}
+
+const dataSearchFixedMenu = {
+  component: protectRole(ROLE.STATION_FIXED_SEARCH.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      icon={Icon.graphBar}
+      href={slug.dataSearchFixed.base}
+      text={translate('menuApp.dataSearchFixed')}
     />
   )
 }
@@ -138,7 +161,9 @@ const groupManager = {
       ROLE.STATION_TYPE.VIEW,
       ROLE.STATION_AUTO.VIEW,
       ROLE.PROVINCE.VIEW,
-      ROLE.QCVN.VIEW
+      ROLE.QCVN.VIEW,
+      ROLE.STATION_FIXED.VIEW,
+      ROLE.CONFIG_WQI.VIEW
     ],
     'group'
   )(
@@ -177,6 +202,28 @@ const stationAutoMenu = {
       href={slug.stationAuto.base}
       icon={Icon.book}
       text={translate('menuApp.stationAuto')}
+    />
+  )
+}
+
+const stationFixedMenu = {
+  component: protectRole(ROLE.STATION_FIXED.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.stationFixed.base}
+      icon={Icon.stationFixed}
+      text={translate('menuApp.stationFixed')}
+    />
+  )
+}
+
+const configWQI = {
+  component: protectRole(ROLE.CONFIG_WQI.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.configWQI.base}
+      icon={Icon.configWQI}
+      text={translate('menuApp.configWQI')}
     />
   )
 }
@@ -270,13 +317,56 @@ const groupPubShare = {
   )
 }
 
+const mapFixedMenu = {
+  component: protectRole(ROLE.MAP_STATION_FIXED.VIEW)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      icon={Icon.publishConfig}
+      href={slug.mapFixed.base}
+      text={translate('menuApp.mapFixed')}
+    />
+  )
+}
 
+const statisticPerRecMenu = {
+  component: protectRole(ROLE.STATISTIC.PER_REC_DATA)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      icon={Icon.publishConfig}
+      href={slug.statistic.perRecData}
+      text={translate('statistic.perRecData')}
+    />
+  )
+}
+
+const statisticExceededMenu = {
+  component: protectRole(ROLE.STATISTIC.EXCEEDED)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      icon={Icon.publishConfig}
+      href={slug.statistic.exceeded}
+      text={translate('statistic.exceeded')}
+    />
+  )
+}
+
+const groupStatistic = {
+  component: protectRole(
+    '',
+    [ROLE.STATISTIC.EXCEEDED, ROLE.STATISTIC.PER_REC_DATA],
+    'group'
+  )(
+    <NavigationWrapper text={translate('menuApp.groupStatistic')}>
+      <AkNavigationItemGroup title={translate('menuApp.groupStatistic')} />
+    </NavigationWrapper>
+  )
+}
 
 export default [
   dashboardMenu,
   monitoringMenu,
   mapMenu,
-  CameraMenu,
+  cameraMenu,
   aqiMenu,
   wqiMenu,
   groupData,
@@ -287,10 +377,18 @@ export default [
   ftpTransferMenu,
   groupQAQC,
   qaqcMenu,
+  groupStationFixed,
+  mapFixedMenu,
+  dataSearchFixedMenu,
+  stationFixedMenu,
+  groupStatistic,
+  statisticPerRecMenu,
+  statisticExceededMenu,
   groupManager,
   measuringMenu,
   stationTypeMenu,
   stationAutoMenu,
+  configWQI,
   provinceMenu,
   qcvnMenu,
   groupAdmin,

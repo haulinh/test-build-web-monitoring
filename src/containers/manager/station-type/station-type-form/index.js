@@ -6,6 +6,7 @@ import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import SelectIcon from 'components/elements/select-icon-station-type'
 import InputNumberCell from 'components/elements/input-number-cell'
+import * as _ from 'lodash'
 
 const FormItem = Form.Item
 @Form.create({
@@ -35,7 +36,7 @@ export default class StationTypeForm extends React.PureComponent {
       const data = {
         key: values.key,
         name: values.name,
-        isAuto: values.isAuto,
+        isAuto: _.isUndefined(values.isAuto)? false : values.isAuto ,
         icon: this.state.urlIcon,
         color: this.state.color,
         numericalOrder: values.numericalOrder

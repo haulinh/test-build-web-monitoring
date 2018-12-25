@@ -41,7 +41,7 @@ export default class OverviewDashboard extends Component {
 
   getStationInfo = async province => {
     let provinceKey = null
-    let stationTypes = await getStationTypes({}, {})
+    let stationTypes = await getStationTypes({}, {isAuto:true})
     let stationTypeList = _.get(stationTypes, 'data', [])
 
     let stationCount = {}

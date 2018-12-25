@@ -21,6 +21,15 @@ export default {
     DELETE: 'menu.stationAuto.actions.delete',
     CONFIG: 'menu.stationAuto.actions.config'
   },
+  STATION_FIXED: {
+    VIEW: 'menu.stationFixed.actions.view',
+    CREATE: 'menu.stationFixed.actions.create',
+    EDIT: 'menu.stationFixed.actions.edit',
+    DELETE: 'menu.stationFixed.actions.delete'
+  },
+  CONFIG_WQI: {
+    VIEW: 'menu.stationAuto.actions.view'
+  },
   USER: {
     VIEW: 'menu.user.actions.view',
     CREATE: 'menu.user.actions.create',
@@ -89,5 +98,18 @@ export default {
   },
   WQI: {
     VIEW: 'menu.wqi.actions.view',
+  },
+  STATISTIC: {
+    EXCEEDED: 'menu.statistic.actions.exceeded',
+    PER_REC_DATA: 'menu.statistic.actions.per_received_data'
+  },
+  STATION_FIXED_SEARCH: {
+    VIEW: 'menu.dataSearchFixed.actions.view',
+    DOWNLOAD: 'menu.dataSearchFixed.actions.download',
+    IMPORT: 'menu.dataSearchFixed.actions.import',
+    EXPORT: 'menu.dataSearchFixed.actions.export'
+  },
+  MAP_STATION_FIXED: {
+    VIEW: 'menu.mapStationFixed.actions.view'
   }
 }

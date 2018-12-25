@@ -203,6 +203,12 @@ export default {
       result: 'Results'
     }
   },
+  dataSearchFixed: {
+    downloadTemplate: 'Download Template',
+    importData: 'Import Data',
+    importSuccess: 'Import Data Success',
+    importFailed: 'Import Data Failed',
+  },
   dataSearchFrom: {
     titleText: 'Data Search',
     options: {
@@ -507,6 +513,17 @@ export default {
       }
     }
   },
+  configWQI : {
+    breadCrumb:'Config WQI, AQI',
+    stationAuto: 'Station Auto',
+    stationFixed: 'Staion Fixed',
+    stationName: 'Station Name',
+    allow: 'Allow caculate',
+    stationType: 'Station Type',
+    success : 'Update success !',
+    error: 'Error!',
+    unckecked: 'unchecked'
+  },
   ftpTranfer: {
     allowFtpTranfer: 'Send FTP',
     stationName: 'Station Name',
@@ -556,6 +573,11 @@ export default {
       failed: 'Tranfer failed'
     },
     tryUploadFile: 'Try upload file'
+  },
+  stationFixedManager: {
+    list: {
+      title: 'Fixed Station'
+    }
   },
   stationAutoManager: {
     list: {
@@ -1119,11 +1141,13 @@ export default {
     map: 'Map',
     data: 'Data',
     dataSearch: 'Data Search',
+    dataSearchFixed: 'Fixed Data Search',
     avgData: 'Average Data',
     manage: 'Manage',
     measuring: 'Parameter',
     stationType: 'Type Of Station',
     stationAuto: 'Station Name',
+    stationFixed:'Fixed Station',
     adminManagement: 'Administration',
     user: 'User',
     role: 'Role',
@@ -1131,7 +1155,10 @@ export default {
     support: 'Support',
     province: 'Management Unit',
     ftpTranfer: 'FTP Tranfer',
-    publishShare: 'publish & Sharing'
+    publishShare: 'publish & Sharing',
+    configWQI: 'Config WQI, AQI',
+    groupStatistic: 'Statistic',
+    mapFixed: 'Map'
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'
@@ -1168,5 +1195,9 @@ export default {
       title: 'This function is developing',
       process: 'We will send newsletter when we complete'
     }
+  },
+  statistic: {
+    exceeded: 'Exceeded',
+    perRecData: 'Percent Of Received Data'
   }
 }

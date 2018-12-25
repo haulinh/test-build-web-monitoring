@@ -16,7 +16,7 @@ export default {
     viewInMonitoring: 'Giám sát trực tuyến',
     viewInMap: 'Bản đồ',
     viewMore: 'Xem thêm',
-    all: 'Tất cả thông số',
+    all: 'Tất cả',
     tableList: {
       name: 'Tên trạm',
       dataStatus: 'Tình trạng kết nối'
@@ -202,6 +202,12 @@ export default {
       status: 'Trạng thái',
       result: 'Kết quả'
     }
+  },
+  dataSearchFixed: {
+    downloadTemplate: 'Tải file mẫu',
+    importData: 'Nhập dữ liệu từ file',
+    importSuccess: 'Nhập dũ liệu thành công!',
+    importFailed: 'Nhập dữ liệu không thành công!',
   },
   dataSearchFrom: {
     titleText: 'Tra cứu dữ liệu gốc',
@@ -504,6 +510,17 @@ export default {
       }
     }
   },
+  configWQI : {
+    breadCrumb:'Cấu hình tính WQI, AQI',
+    stationAuto: 'Trạm tự động',
+    stationFixed: 'Trạm cố định',
+    stationName: 'Tên trạm',
+    allow: 'Cho phép tính',
+    stationType: 'Loại trạm',
+    success : 'Cập nhật thành công !',
+    error: 'Cập nhật thất bại..!',
+    unckecked: 'Bỏ chọn'
+  },
   ftpTranfer: {
     allowFtpTranfer: 'Cho phép truyền',
     stationName: 'Tên trạm',
@@ -553,6 +570,11 @@ export default {
       failed: 'Truyền file thất bại'
     },
     tryUploadFile: 'Truyền lại file'
+  },
+  stationFixedManager: {
+    list: {
+      title: 'Trạm quan trắc cố định'
+    }
   },
   stationAutoManager: {
     list: {
@@ -1117,11 +1139,13 @@ export default {
     map: 'Bản đồ',
     data: 'Khai thác dữ liệu',
     dataSearch: 'Dữ liệu gốc',
+    dataSearchFixed: 'Dữ liệu trạm cố định',
     avgData: 'Dữ liệu tổng hợp',
     manage: 'Quản lý',
     measuring: 'Thông số',
     stationType: 'Loại trạm',
     stationAuto: 'Trạm quan trắc',
+    stationFixed:'Trạm cố định',
     adminManagement: 'Quản trị',
     user: 'Người dùng',
     role: 'Nhóm quyền',
@@ -1129,7 +1153,10 @@ export default {
     support: 'Hỗ trợ',
     province: 'Đơn vị quản lý',
     ftpTranfer: 'Truyền FTP về bộ',
-    publishShare: 'Công bố và Chia sẻ'
+    publishShare: 'Công bố và Chia sẻ',
+    configWQI: 'Cấu hình WQI, AQI',
+    groupStatistic: 'Thống kê',
+    mapFixed: 'Bản đồ'
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'
@@ -1166,5 +1193,9 @@ export default {
       title: 'Chức năng này đang phát triển',
       process: 'Chúng tôi sẽ cập nhật nó cho phiên bản sau'
     }
+  },
+  statistic: {
+    exceeded: 'Vượt ngưỡng',
+    perRecData: 'Tỉ lệ nhận dữ liệu'
   }
 }
