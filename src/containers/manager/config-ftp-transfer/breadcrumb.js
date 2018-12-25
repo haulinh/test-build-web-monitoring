@@ -9,5 +9,10 @@ export default createBreadcrumb({
     //icon: Icon.car,
     href: slug.ftpTransfer.list,
     name: translate('ftpTranfer.breadCrumb')
+  },
+  history: {
+    id: 'history',
+    href: slug.ftpTransfer.history,
+    name: 'History'
   }
 })

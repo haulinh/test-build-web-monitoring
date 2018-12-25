@@ -547,7 +547,15 @@ export default {
         addonBefore: 'File Name:',
         message: 'Please input file name'
       }
-    }
+    },
+    summary: 'Summary',
+    history: 'History tranfer',
+    status: {
+      title: 'Tranfer status',
+      success: 'Tranfer success',
+      failed: 'Tranfer failed'
+    },
+    tryUploadFile: 'Try upload file'
   },
   stationAutoManager: {
     list: {
