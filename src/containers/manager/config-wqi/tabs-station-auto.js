@@ -94,16 +94,16 @@ export default class TabsStationAuto extends React.Component {
   handleRadioAuto (record, event) {
     const type = _.get(event, 'target.value', null)
     if(type === 'UNCHECK') {
-      this.updateDataAuto(record , {caculateType: null})
+      this.updateDataAuto(record , {calculateType: null})
     } else {
-      this.updateDataAuto(record , {caculateType: type})
+      this.updateDataAuto(record , {calculateType: type})
     }
   }
 
   getdefaultRadio = (key) => {
     const stationConfig = _.filter(this.state.listStationConfig, ['key', `${key}`])
     if(_.size(stationConfig) > 0) {
-      return _.get(stationConfig[0], 'config.caculateType', null)
+      return _.get(stationConfig[0], 'config.calculateType', null)
     } else {
       return null
     }
