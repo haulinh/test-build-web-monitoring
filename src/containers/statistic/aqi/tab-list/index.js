@@ -27,9 +27,8 @@ const ButtonAbsolute = styled.div`
 export default class TabeList extends React.PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool,
-    dataAQI: PropTypes.array,
-    pagination: PropTypes.object,
-    onChangePage: PropTypes.func,
+    dataAqiHours: PropTypes.array,
+    dataAqiDays: PropTypes.array,
     onExportExcel: PropTypes.func,
     nameChart: PropTypes.string,
     isExporting: PropTypes.bool
@@ -56,8 +55,8 @@ export default class TabeList extends React.PureComponent {
             <TabTableDataList
               loading={this.props.isLoading}
               dataAnalyzeStationAuto={this.props.dataAnalyzeStationAuto}
-              dataSource={this.props.dataAQI}
-              pagination={this.props.pagination}
+              dataAqiHours={this.props.dataAqiHours}
+              dataAqiDays={this.props.dataAqiDays}
               onChange={this.props.onChangePage}
             />
           </Tabs.TabPane>

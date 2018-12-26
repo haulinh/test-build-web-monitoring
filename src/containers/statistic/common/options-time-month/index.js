@@ -20,7 +20,7 @@ export default class OptionsMonth extends React.Component {
           onChange = { (date, dateString) => this.pickMonth(date, dateString)}  
           placeholder={translate('statistic.aqi.selectMonths')}
           format="MM-YYYY"
-          style = {{width: 560}}
+          style = {{width: '100%'}}
         />
       </div>
     )
