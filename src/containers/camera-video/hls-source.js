@@ -3,25 +3,24 @@ import Hls from 'hls.js'
 
 export default class HLSSource extends React.Component {
   constructor(props, context) {
-    super(props, context);
-    this.hls = new Hls();
+    super(props, context)
+    this.hls = new Hls()
   }
 
   componentDidMount() {
-    const { src, video } = this.props;
+    const { src, video } = this.props
     if (Hls.isSupported()) {
-      this.hls.loadSource(src);
-      this.hls.attachMedia(video);
+      this.hls.loadSource(src)
+      this.hls.attachMedia(video)
       this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-       // video.play();
-      });
+        // video.play();
+      })
     }
   }
 
-
   componentWillUnmount() {
     if (this.hls) {
-      this.hls.destroy();
+      this.hls.destroy()
     }
   }
 
@@ -31,6 +30,6 @@ export default class HLSSource extends React.Component {
         src={this.props.src}
         type={this.props.type || 'application/x-mpegURL'}
       />
-    );
+    )
   }
 }

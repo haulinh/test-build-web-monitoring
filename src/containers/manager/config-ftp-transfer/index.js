@@ -14,7 +14,8 @@ export default props => (
     <Route
       path={slug.ftpTransfer.history}
       // render={matchProps => <FtpHistory {...matchProps} {...props} />}
-      path={slug.ftpTransfer.history} component={FtpHistory}
+      path={slug.ftpTransfer.history}
+      component={FtpHistory}
     />
   </Switch>
 )

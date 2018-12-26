@@ -9,7 +9,6 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 @autobind
 export default class TableDataList extends React.PureComponent {
-
   getColumns() {
     const columnIndex = {
       title: translate('dataSearchFrom.table.numericalOrder'),
@@ -43,19 +42,33 @@ export default class TableDataList extends React.PureComponent {
       dataIndex: 'isTransferred',
       key: 'isTransferred',
       align: 'center',
-      sorter: (x, y) => (x.isTransferred === y.isTransferred)? 0 : x.isTransferred? -1 : 1,
+      sorter: (x, y) =>
+        x.isTransferred === y.isTransferred ? 0 : x.isTransferred ? -1 : 1,
       render(value) {
-        return  <Tooltip key={value} placement="top" title={value? translate('ftpTranfer.status.success'): translate('ftpTranfer.status.failed')}>
+        return (
+          <Tooltip
+            key={value}
+            placement="top"
+            title={
+              value
+                ? translate('ftpTranfer.status.success')
+                : translate('ftpTranfer.status.failed')
+            }
+          >
             <div>
               <span onClick={() => {}}>
                 <Icon
-                  type={value ? "check" : "close"}
+                  type={value ? 'check' : 'close'}
                   theme="outlined"
-                  style={{ paddingLeft: '15px', color: `${value ? 'blue' : 'red'}` }}
+                  style={{
+                    paddingLeft: '15px',
+                    color: `${value ? 'blue' : 'red'}`
+                  }}
                 />{' '}
               </span>
             </div>
-        </Tooltip>
+          </Tooltip>
+        )
       }
     }
 

@@ -13,7 +13,7 @@ export default class SelectStationType extends PureComponent {
     onChange: PropTypes.func,
     value: PropTypes.string,
     isShowAll: PropTypes.bool,
-    isAuto: PropTypes.bool,
+    isAuto: PropTypes.bool
   }
 
   static defaultProps = {
@@ -26,7 +26,7 @@ export default class SelectStationType extends PureComponent {
   }
 
   async componentDidMount() {
-    let query = {isAuto: this.props.isAuto}
+    let query = { isAuto: this.props.isAuto }
     const stationTypes = await CategoryApi.getStationTypes({}, query)
     if (stationTypes.success)
       this.setState({

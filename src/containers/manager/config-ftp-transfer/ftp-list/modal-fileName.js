@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  Form,
-  Button,
-  Modal,
-  Input,
-  message
-} from 'antd'
+import { Form, Button, Modal, Input, message } from 'antd'
 import * as _ from 'lodash'
 import StationAutoApi from 'api/StationAuto'
 import { autobind } from 'core-decorators'
@@ -18,19 +12,20 @@ const FormItem = Form.Item
 @createLanguageHoc
 @autobind
 export default class ModalFileName extends React.Component {
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = e => {
+    e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.updateData(this.props.data, values)
       }
-    });
-    
+    })
   }
 
-  updateData = async (record, data) => { 
+  updateData = async (record, data) => {
     const originData = _.get(record, 'options.transferFtp', {})
-    const rs = await StationAutoApi.transferFtp(record._id, {transferFtp: _.merge(originData, data)})
+    const rs = await StationAutoApi.transferFtp(record._id, {
+      transferFtp: _.merge(originData, data)
+    })
     if (_.get(rs, 'success')) {
       message.info(translate('ftpTranfer.success'))
       this.props.modalSave()
@@ -40,18 +35,29 @@ export default class ModalFileName extends React.Component {
   }
 
   returnInput = () => {
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = this.props.form
     return (
       <Form className="login-form">
-        <FormItem
-        >
+        <FormItem>
           {getFieldDecorator('fileName', {
-            initialValue: _.get(this.props, 'data.options.transferFtp.fileName', ''),
+            initialValue: _.get(
+              this.props,
+              'data.options.transferFtp.fileName',
+              ''
+            ),
             rules: [
-              { required: true,  message: translate('ftpTranfer.formInFoFTP.fileName.message') }
+              {
+                required: true,
+                message: translate('ftpTranfer.formInFoFTP.fileName.message')
+              }
             ]
           })(
-            <Input placeholder={translate('ftpTranfer.formInFoFTP.fileName.title')} addonBefore={translate('ftpTranfer.formInFoFTP.fileName.addonBefore')}/>
+            <Input
+              placeholder={translate('ftpTranfer.formInFoFTP.fileName.title')}
+              addonBefore={translate(
+                'ftpTranfer.formInFoFTP.fileName.addonBefore'
+              )}
+            />
           )}
         </FormItem>
       </Form>
@@ -67,18 +73,19 @@ export default class ModalFileName extends React.Component {
         onCancel={this.props.modalCancel}
         footer={[
           <Button key="back" onClick={this.props.modalCancel}>
-            {this.props.lang.t(
-              'ftpTranfer.cancel'
-            )}
+            {this.props.lang.t('ftpTranfer.cancel')}
           </Button>,
-          <Button key="submit" type="primary" htmlType="button" onClick={this.handleSubmit}>
-            {this.props.lang.t(
-              'ftpTranfer.save'
-            )}
+          <Button
+            key="submit"
+            type="primary"
+            htmlType="button"
+            onClick={this.handleSubmit}
+          >
+            {this.props.lang.t('ftpTranfer.save')}
           </Button>
         ]}
       >
-       {this.returnInput()}
+        {this.returnInput()}
       </Modal>
     )
   }

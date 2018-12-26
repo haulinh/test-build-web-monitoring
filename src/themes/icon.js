@@ -16,11 +16,11 @@ import CreditcardIcon from '@atlaskit/icon/glyph/creditcard'
 import CameraIcon from '@atlaskit/icon/glyph/camera'
 import RoadmapIcon from '@atlaskit/icon/glyph/creditcard'
 import AqiIcon from '@atlaskit/icon/glyph/emoji'
-import WQIIcon from '@atlaskit/icon/glyph/ship';
+import WQIIcon from '@atlaskit/icon/glyph/ship'
 import QAQCIcon from '@atlaskit/icon/glyph/queues'
 import ProvinceIcon from '@atlaskit/icon/glyph/media-services/blur'
 import QCVNIcon from '@atlaskit/icon/glyph/media-services/zip'
-import PublishConfigIcon from '@atlaskit/icon/glyph/preferences' 
+import PublishConfigIcon from '@atlaskit/icon/glyph/preferences'
 import FtpTranferIcon from '@atlaskit/icon/glyph/pdf'
 import ConfigWQI from '@atlaskit/icon/glyph/jira/capture'
 
@@ -42,7 +42,7 @@ export default {
   camera: <CameraIcon label={''} size={'medium'} />,
   roadmap: <RoadmapIcon label={''} size={'medium'} />,
   aqi: <AqiIcon label={''} size={'medium'} />,
-  wqi:<WQIIcon label={''} size={'medium'} />,
+  wqi: <WQIIcon label={''} size={'medium'} />,
   qaqc: <QAQCIcon label={''} size={'medium'} />,
   publishConfig: <PublishConfigIcon label={''} size={'medium'} />,
   province: <ProvinceIcon label={''} size={'medium'} />,

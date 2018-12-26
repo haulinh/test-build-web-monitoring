@@ -38,7 +38,7 @@ export function getExportData({
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
   if (isExceeded) url += `&isExceeded=${isExceeded}`
   if (dataType) url += `&dataType=${dataType}`
-  if(name) url += `&name=${name}`
+  if (name) url += `&name=${name}`
   return getFetch(url)
   //window.location = url
 }
@@ -110,8 +110,7 @@ export const getHistoryFtpTranfer = key => {
 }
 
 export const putDataFtpTranfer = params => {
-  
-  return putFetch( getDataStationAutoUrl('ftp-tranfer/put-data'), params)
+  return putFetch(getDataStationAutoUrl('ftp-tranfer/put-data'), params)
 }
 
 export default {

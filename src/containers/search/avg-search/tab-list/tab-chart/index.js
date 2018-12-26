@@ -305,7 +305,9 @@ export default class TabChart extends React.PureComponent {
                 code={code}
               >
                 <Line color={color} />
-                { unit !== '' && code !== '__ALL__'? `${name} (${unit})` : `${name}`}
+                {unit !== '' && code !== '__ALL__'
+                  ? `${name} (${unit})`
+                  : `${name}`}
               </ThumbnailItem>
             ))}
           </Thumbnail>

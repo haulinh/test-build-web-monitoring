@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import ListItem from "../camera-list/list-item"
+import ListItem from '../camera-list/list-item'
 import { Button } from 'antd'
 import * as _ from 'lodash'
 
@@ -9,8 +9,7 @@ const WrapperContainer = styled.div`
 `
 
 export default class CameraList extends React.Component {
-
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       size: 5,
@@ -18,7 +17,7 @@ export default class CameraList extends React.Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.cameraList !== nextProps.cameraList) {
       this.setState({ cameraList: nextProps.cameraList })
     }
@@ -33,22 +32,28 @@ export default class CameraList extends React.Component {
   handleLoadMore = () => {
     this.setState(state => ({
       size: state.size + 5
-    }));
+    }))
   }
 
   getData = () => {
     return _.clone(this.state.cameraList).slice(0, this.state.size)
   }
 
-  render () {
+  render() {
     return (
       <WrapperContainer>
-        {
-          this.getData().map((camera, inx) => <ListItem key={`${inx}`} camera={camera} onCameraClick={this.handleCamera}/>)
-        }
-        {
-          this.state.cameraList.length > 10 ? <Button onClick={this.handleLoadMore}>Load more</Button> : ` `
-        }
+        {this.getData().map((camera, inx) => (
+          <ListItem
+            key={`${inx}`}
+            camera={camera}
+            onCameraClick={this.handleCamera}
+          />
+        ))}
+        {this.state.cameraList.length > 10 ? (
+          <Button onClick={this.handleLoadMore}>Load more</Button>
+        ) : (
+          ` `
+        )}
       </WrapperContainer>
     )
   }

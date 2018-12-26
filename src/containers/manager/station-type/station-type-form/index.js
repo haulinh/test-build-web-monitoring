@@ -36,7 +36,7 @@ export default class StationTypeForm extends React.PureComponent {
       const data = {
         key: values.key,
         name: values.name,
-        isAuto: _.isUndefined(values.isAuto)? false : values.isAuto ,
+        isAuto: _.isUndefined(values.isAuto) ? false : values.isAuto,
         icon: this.state.urlIcon,
         color: this.state.color,
         numericalOrder: values.numericalOrder
@@ -122,14 +122,16 @@ export default class StationTypeForm extends React.PureComponent {
         <Row gutter={16}>
           <Col span={12}>
             <FormItem
-              {...{labelCol: {
-                xs: { span: 16, offset: 0 },
-                sm: { span: 4, offset: 0 }
-              },
-              wrapperCol: {
-                xs: { span: 12 },
-                sm: { span: 12 }
-              }}}
+              {...{
+                labelCol: {
+                  xs: { span: 16, offset: 0 },
+                  sm: { span: 4, offset: 0 }
+                },
+                wrapperCol: {
+                  xs: { span: 12 },
+                  sm: { span: 12 }
+                }
+              }}
               label={t('stationTypeManager.form.icon.label')}
             >
               <SelectIcon

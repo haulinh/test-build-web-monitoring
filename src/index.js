@@ -11,7 +11,6 @@ import 'antd/dist/antd.css'
 import 'video-react/dist/video-react.css'
 import './index.css'
 
-
 import { AppContainer } from 'react-hot-loader'
 import browserHistory from 'history/createBrowserHistory'
 import configureStore from './redux/createStore'

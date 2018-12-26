@@ -39,7 +39,7 @@ const wqiMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.wqi.base}
       icon={Icon.wqi}
-      text=  "WQI"//{translate('aqi.title')}
+      text="WQI" //{translate('aqi.title')}
     />
   )
 }
@@ -111,7 +111,11 @@ const groupData = {
 const groupStationFixed = {
   component: protectRole(
     '',
-    [ROLE.MAP_STATION_FIXED.VIEW, ROLE.STATION_FIXED.VIEW, ROLE.STATION_FIXED_SEARCH.VIEW],
+    [
+      ROLE.MAP_STATION_FIXED.VIEW,
+      ROLE.STATION_FIXED.VIEW,
+      ROLE.STATION_FIXED_SEARCH.VIEW
+    ],
     'group'
   )(
     <NavigationWrapper text={translate('menuApp.stationFixed')}>
@@ -249,7 +253,6 @@ const qcvnMenu = {
   )
 }
 
-
 const groupAdmin = {
   component: protectRole('', [ROLE.USER.VIEW, ROLE.ROLE.VIEW], 'group')(
     <NavigationWrapper text={translate('menuApp.adminManagement')}>
@@ -305,10 +308,7 @@ const configPublishMenu = {
 const groupPubShare = {
   component: protectRole(
     '',
-    [
-      ROLE.QAQCCONFIG.VIEW,
-      ROLE.FTPTRANSFER.VIEW
-    ],
+    [ROLE.QAQCCONFIG.VIEW, ROLE.FTPTRANSFER.VIEW],
     'group'
   )(
     <NavigationWrapper text={translate('menuApp.publishShare')}>

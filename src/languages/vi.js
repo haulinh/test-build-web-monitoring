@@ -207,7 +207,7 @@ export default {
     downloadTemplate: 'Tải file mẫu',
     importData: 'Nhập dữ liệu từ file',
     importSuccess: 'Nhập dũ liệu thành công!',
-    importFailed: 'Nhập dữ liệu không thành công!',
+    importFailed: 'Nhập dữ liệu không thành công!'
   },
   dataSearchFrom: {
     titleText: 'Tra cứu dữ liệu gốc',
@@ -510,14 +510,14 @@ export default {
       }
     }
   },
-  configWQI : {
-    breadCrumb:'Cấu hình tính WQI, AQI',
+  configWQI: {
+    breadCrumb: 'Cấu hình tính WQI, AQI',
     stationAuto: 'Trạm tự động',
     stationFixed: 'Trạm cố định',
     stationName: 'Tên trạm',
     allow: 'Cho phép tính',
     stationType: 'Loại trạm',
-    success : 'Cập nhật thành công !',
+    success: 'Cập nhật thành công !',
     error: 'Cập nhật thất bại..!',
     unckecked: 'Bỏ chọn'
   },
@@ -526,11 +526,11 @@ export default {
     stationName: 'Tên trạm',
     measureTranfer: 'Thông số được truyền',
     ftpInfo: 'Thông tin FTP',
-    ftpConfig:'Thông tin FTP',
-    breadCrumb:'Cấu hình truyền file TXT về Bộ TNMT',
+    ftpConfig: 'Thông tin FTP',
+    breadCrumb: 'Cấu hình truyền file TXT về Bộ TNMT',
     configTranferFTP: 'Danh sách trạm',
-    success:'Cập nhật thành công',
-    error:'Thât bại..!',
+    success: 'Cập nhật thành công',
+    error: 'Thât bại..!',
     save: 'Lưu lại',
     cancel: 'Đóng',
     timeStart: 'Thời gian truyền',
@@ -556,7 +556,7 @@ export default {
         message: 'Bạn chưa điền mật khẩu'
       },
       fileName: {
-        name:'Tên file FTP',
+        name: 'Tên file FTP',
         title: 'Tên file truyền về Bộ',
         addonBefore: 'Tên file:',
         message: 'Bạn chưa nhập tên file'
@@ -626,8 +626,7 @@ export default {
         label: 'Địa chỉ',
         placeholder: 'Nhập địa chỉ'
       },
-      qcvn: 
-      {
+      qcvn: {
         label: 'QCVN',
         placeholder: 'QCVN',
         error: 'Vui lòng chọn QCVN'
@@ -1145,7 +1144,7 @@ export default {
     measuring: 'Thông số',
     stationType: 'Loại trạm',
     stationAuto: 'Trạm quan trắc',
-    stationFixed:'Trạm cố định',
+    stationFixed: 'Trạm cố định',
     adminManagement: 'Quản trị',
     user: 'Người dùng',
     role: 'Nhóm quyền',

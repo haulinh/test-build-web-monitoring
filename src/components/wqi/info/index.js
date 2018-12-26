@@ -26,14 +26,17 @@ export default class InfoComponent extends React.Component {
     // if (station && !_.isEqual(station.key, value.key)) {
     //   this.setState({ station })
     // }
-    this.setState({station})
-    this.getWqiByStation(station.key, _.get(station,'wqi.receivedAt', moment().toJSON()))
+    this.setState({ station })
+    this.getWqiByStation(
+      station.key,
+      _.get(station, 'wqi.receivedAt', moment().toJSON())
+    )
   }
 
   getWqiByStation = async (key, time) => {
     const rs = await fetchWqiData(key, time)
     const wqiDays = _.get(rs, 'data', [])
-    this.setState({wqiDays})
+    this.setState({ wqiDays })
     // let wqiKeys = []
     // _.forEach(wqiDays, item => _.merge(wqiKeys, _.keys(item)))
     // this.setState({ wqiDays, wqiKeys })
@@ -42,7 +45,10 @@ export default class InfoComponent extends React.Component {
   componentDidMount() {
     const station = _.head(this.props.wqiList)
     if (!_.isEmpty(station)) {
-      this.getWqiByStation(station.key, _.get(station,'wqi.receivedAt', moment().toJSON()))
+      this.getWqiByStation(
+        station.key,
+        _.get(station, 'wqi.receivedAt', moment().toJSON())
+      )
       this.setState({ station })
     }
   }
@@ -51,7 +57,7 @@ export default class InfoComponent extends React.Component {
     return (
       !_.isEqual(nextProps.wqiList, this.props.wqiList) ||
       !_.isEqual(nextState.station, this.state.station) ||
-       !_.isEqual(nextState.wqiDays, this.state.wqiDays) ||
+      !_.isEqual(nextState.wqiDays, this.state.wqiDays) ||
       !_.isEqual(nextState.wqiKeys, this.state.wqiKeys)
     )
   }
@@ -61,7 +67,10 @@ export default class InfoComponent extends React.Component {
       const station = nextProps.station //_.head(nextProps.aqiList)
       if (!_.isEmpty(station)) {
         this.setState({ station })
-        this.getWqiByStation(station.key, _.get(station,'wqi.receivedAt', moment().toJSON()))
+        this.getWqiByStation(
+          station.key,
+          _.get(station, 'wqi.receivedAt', moment().toJSON())
+        )
       }
     }
   }
@@ -133,7 +142,12 @@ export default class InfoComponent extends React.Component {
             </span>
           </div>
         )}
-        {<ChartAqiView wqiDays={this.state.wqiDays} title = {_.get(this.state.station, 'name', '')}/>}
+        {
+          <ChartAqiView
+            wqiDays={this.state.wqiDays}
+            title={_.get(this.state.station, 'name', '')}
+          />
+        }
         {/* {_.map(this.state.wqiKeys, item => (
           <ChartAqiView wqiDays={this.state.wqiDays} key={item} title={item} />
         ))} */}

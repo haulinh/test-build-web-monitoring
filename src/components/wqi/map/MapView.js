@@ -17,7 +17,7 @@ import moment from 'moment'
 import { DD_MM_YYYY_HH_MM } from '../../../constants/format-date'
 import wqiLevel from 'constants/wqi-level'
 import { GOOGLE_MAP } from 'config'
-import { isNumber } from 'util';
+import { isNumber } from 'util'
 
 const StationNameView = styled.b`
   color: white;
@@ -47,9 +47,10 @@ const WindowInfo = ({ aqi, name }) => {
 }
 
 const WqiMarker = ({ item, onMapClick }) => {
-  const value = get(item, 'wqi.value',' - ')
+  const value = get(item, 'wqi.value', ' - ')
   let level = null
-  if (isNumber(value)) level = find(wqiLevel, ({ min, max }) => inRange(value, min, max))
+  if (isNumber(value))
+    level = find(wqiLevel, ({ min, max }) => inRange(value, min, max))
   const color = get(level, 'color', null)
   return (
     <InfoBox

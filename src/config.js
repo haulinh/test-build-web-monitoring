@@ -19,8 +19,7 @@ export function getConfigApi() {
     dataStationAuto: c('data-station-auto'), //dataStationAuto: 'http://localhost:5004/data-station-auto',
     stationFixed: c('station-fixed'),
     dataStationFixed: c('data-station-fixed'),
-  //  stationConfig: c('config/station'), //stationConfig: 'http://localhost:5002/config/station'
-    stationConfig: 'http://localhost:5002/config/station',
+    stationConfig: c('config/station'), //stationConfig: 'http://localhost:5002/config/station'
     ftp: c('ftp'),
     fcmMessages: c('fcm-messages'),
     organization: c('organization'),
@@ -30,7 +29,7 @@ export function getConfigApi() {
     province: c('province'),
     qcvn: c('qcvn'),
     aqi: c('aqi'),
-    wqi:c('wqi'),
+    wqi: c('wqi'),
     // support: 'http://localhost:5014/support', //comemnt lcoal
     sampleConfig: c('configSample') // local.
   }

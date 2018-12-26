@@ -183,12 +183,12 @@ export default class MapDefault extends React.PureComponent {
 
   renderSidebar() {
     switch (this.state.sidebarType) {
-    //   case searchSidebarType.NOTIFICATIONS:
-    //     return (
-    //       <SidebarNotifications
-    //         onClickNotificationItem={this.handleClickNotification}
-    //       />
-    //     )
+      //   case searchSidebarType.NOTIFICATIONS:
+      //     return (
+      //       <SidebarNotifications
+      //         onClickNotificationItem={this.handleClickNotification}
+      //       />
+      //     )
       default:
         return (
           <SidebarNormal

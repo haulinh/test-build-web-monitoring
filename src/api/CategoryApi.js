@@ -6,10 +6,8 @@ export function getMeasuringUrl(prefix = '') {
 }
 
 export function getStationTypeUrl(prefix = '') {
-  if (prefix)
-    return getConfigApi().stationType + '/' + prefix
+  if (prefix) return getConfigApi().stationType + '/' + prefix
   return getConfigApi().stationType
-
 }
 
 export function getMeasurings(
@@ -42,7 +40,7 @@ export function getStationTypes(
   { page = 1, itemPerPage = 10 },
   { key = null, name = null, isAuto = null } = {}
 ) {
-  const params = { itemPerPage, page  }
+  const params = { itemPerPage, page }
   if (isAuto !== null) params.isAuto = isAuto
   if (key) params.key = key
   if (name) params.name = name

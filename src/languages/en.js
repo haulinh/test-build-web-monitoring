@@ -207,7 +207,7 @@ export default {
     downloadTemplate: 'Download Template',
     importData: 'Import Data',
     importSuccess: 'Import Data Success',
-    importFailed: 'Import Data Failed',
+    importFailed: 'Import Data Failed'
   },
   dataSearchFrom: {
     titleText: 'Data Search',
@@ -513,14 +513,14 @@ export default {
       }
     }
   },
-  configWQI : {
-    breadCrumb:'Config WQI, AQI',
+  configWQI: {
+    breadCrumb: 'Config WQI, AQI',
     stationAuto: 'Station Auto',
     stationFixed: 'Staion Fixed',
     stationName: 'Station Name',
     allow: 'Allow caculate',
     stationType: 'Station Type',
-    success : 'Update success !',
+    success: 'Update success !',
     error: 'Error!',
     unckecked: 'unchecked'
   },
@@ -529,14 +529,14 @@ export default {
     stationName: 'Station Name',
     measureTranfer: 'Measure Tranfer',
     ftpInfo: 'FTP Info',
-    ftpConfig:'Config Info FTP',
+    ftpConfig: 'Config Info FTP',
     configTranferFTP: 'Config gen file TXT',
-    success:'Update success',
-    error:'Error..!',
+    success: 'Update success',
+    error: 'Error..!',
     save: 'Save',
     cancel: 'Cancel',
     timeStart: 'Time Start',
-    breadCrumb:'Config sent file TXT to CEM',
+    breadCrumb: 'Config sent file TXT to CEM',
     formInFoFTP: {
       ipAddress: {
         title: 'IP Address',
@@ -559,7 +559,7 @@ export default {
         message: 'Please input pass word'
       },
       fileName: {
-        name:'File Name FTP',
+        name: 'File Name FTP',
         title: 'File Name',
         addonBefore: 'File Name:',
         message: 'Please input file name'
@@ -1147,7 +1147,7 @@ export default {
     measuring: 'Parameter',
     stationType: 'Type Of Station',
     stationAuto: 'Station Name',
-    stationFixed:'Fixed Station',
+    stationFixed: 'Fixed Station',
     adminManagement: 'Administration',
     user: 'User',
     role: 'Role',

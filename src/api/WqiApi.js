@@ -1,7 +1,6 @@
 import { getConfigApi } from '../config'
 import { getFetch } from 'utils/fetch'
 
-
 // SURFACE_WATER
 function getWqiUrl(prefix = '') {
   return getConfigApi().wqi + '/' + prefix

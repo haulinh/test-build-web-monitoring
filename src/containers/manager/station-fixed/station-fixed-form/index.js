@@ -241,7 +241,9 @@ export default class StationFixedForm extends React.PureComponent {
   render() {
     const { getFieldDecorator } = this.props.form
     const { t } = this.props.lang
-    const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory('station-fixeds')
+    const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory(
+      'station-fixeds'
+    )
     const { previewVisible, previewImage, fileList } = this.state
     const uploadButton = (
       <div>

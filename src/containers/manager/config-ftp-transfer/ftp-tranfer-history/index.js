@@ -21,7 +21,6 @@ const TabeListWrapper = BoxShadow.extend`
 `
 
 export default class FtpTranferHistory extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -34,7 +33,7 @@ export default class FtpTranferHistory extends React.Component {
   }
 
   componentDidMount() {
-   this.processData()
+    this.processData()
   }
 
   handleTryUploadFile = async () => {
@@ -56,9 +55,11 @@ export default class FtpTranferHistory extends React.Component {
     }
   }
 
-  async processData ( isHandTryUpload ) {
-    const rs = await dataStationAutoApi.getHistoryFtpTranfer(_.get(this.props, 'match.params.key', ''))
-    const data = (rs && rs.data) ? rs.data : []
+  async processData(isHandTryUpload) {
+    const rs = await dataStationAutoApi.getHistoryFtpTranfer(
+      _.get(this.props, 'match.params.key', '')
+    )
+    const data = rs && rs.data ? rs.data : []
     const countTranferred = _.filter(data, item => item.isTransferred).length
 
     this.setState({
@@ -66,7 +67,9 @@ export default class FtpTranferHistory extends React.Component {
       hasTranferFaild: data.length > countTranferred,
       dataSource: data,
       isLoading: false,
-      titleTab: `${translate('ftpTranfer.history')} (${countTranferred}/${data.length})`
+      titleTab: `${translate('ftpTranfer.history')} (${countTranferred}/${
+        data.length
+      })`
     })
 
     if (isHandTryUpload) {
@@ -76,17 +79,18 @@ export default class FtpTranferHistory extends React.Component {
 
   render() {
     return (
-      <PageContainer
-        backgroundColor={'#fff'}>
-        <Breadcrumb items={['list', 
-         {
-          id: 'history',
-          name: _.get(this.props, 'match.params.name', '')
-        }
-      ]} />
+      <PageContainer backgroundColor={'#fff'}>
+        <Breadcrumb
+          items={[
+            'list',
+            {
+              id: 'history',
+              name: _.get(this.props, 'match.params.name', '')
+            }
+          ]}
+        />
         <TabeListWrapper>
-          {
-            this.state.hasTranferFaild &&
+          {this.state.hasTranferFaild && (
             <ButtonAbsolute>
               <Button
                 type="primary"
@@ -98,14 +102,14 @@ export default class FtpTranferHistory extends React.Component {
                 {translate('ftpTranfer.tryUploadFile')}
               </Button>
             </ButtonAbsolute>
-          }
+          )}
           <Tabs defaultActiveKey="1">
             <Tabs.TabPane tab={this.state.titleTab} key="1">
               <TabDataList
                 loading={this.state.isLoading}
                 dataSource={this.state.dataSource}
               />
-              </Tabs.TabPane>
+            </Tabs.TabPane>
           </Tabs>
         </TabeListWrapper>
       </PageContainer>

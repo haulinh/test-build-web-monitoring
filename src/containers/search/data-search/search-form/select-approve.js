@@ -10,7 +10,7 @@ const options = [
   // { key: 'approvedValue', label: 'qaqc.approved' }
   { key: 'yetApprove', label: 'qaqc.yetApprove' },
   { key: 'approvedValue', label: 'qaqc.approved' },
-  { key: 'value', label: 'qaqc.originalData' },
+  { key: 'value', label: 'qaqc.originalData' }
 ]
 
 @autobind

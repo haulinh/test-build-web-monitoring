@@ -7,12 +7,11 @@ import stationFixedApi from 'api/StationFixedApi'
 import stationConfigApi from 'api/StationConfigApi'
 import stationTypeApi from 'api/CategoryApi'
 import { translate } from 'hoc/create-lang'
-import {Icon, Tabs} from 'antd'
+import { Icon, Tabs } from 'antd'
 import * as _ from 'lodash'
 import Breadcrumb from './breadcrumb'
 
-
-const TabPane = Tabs.TabPane;
+const TabPane = Tabs.TabPane
 
 export default class ConfigWQIContainer extends React.Component {
   constructor(props) {
@@ -26,88 +25,102 @@ export default class ConfigWQIContainer extends React.Component {
     }
   }
 
-  
-
-
   async loadDataAuto() {
     const rs = await stationAutoApi.getLastLog()
-    this.setState({ listStationAuto: _.get(rs, 'data', [])})
+    const listStationAuto = _.get(rs, 'data', [])
+    const stationTypeAuto = []
+    const keys = []
+    const data = _.forEach(
+      listStationAuto,
+      ({ stationType: { key, name } }) => {
+        if (!_.includes(keys, key)) {
+          keys.push(key)
+          stationTypeAuto.push({ text: name, value: key })
+        }
+      }
+    )
+    this.setState({ listStationAuto, stationTypeAuto })
   }
+
   async loadDataStationFixed() {
-    const rs = await stationFixedApi.getStationFixeds({},{})
-    this.setState({ listStationfixed: _.get(rs, 'data', [])})
-  }
-  async loadDataConfigStation () {
-    const rs = await stationConfigApi.getStationsConfig({},{})
-    this.setState({ listStationConfig: _.get(rs, 'data', [])})
+    const rs = await stationFixedApi.getStationFixeds({}, {})
+
+    const listStationfixed = _.get(rs, 'data', [])
+
+    const stationTypeFixed = []
+    const keys = []
+    const data = _.forEach(
+      listStationfixed,
+      ({ stationType: { key, name } }) => {
+        if (!_.includes(keys, key)) {
+          keys.push(key)
+          stationTypeFixed.push({ text: name, value: key })
+        }
+      }
+    )
+
+    this.setState({ listStationfixed, stationTypeFixed })
   }
 
-  async getStationTypeAuto() {
-    const filterStationType = []
-    const rs = await stationTypeApi.getStationTypes({}, {isAuto: true})
-    _.forEach(rs.data, (item) => {
-        filterStationType.push({
-          text: item.name,
-          value: item.key
-        })
-    })
-    this.setState({stationTypeAuto: filterStationType})
-  }
-
-  async getStationTypeFixed() {
-    const filterStationType = []
-    const rs = await stationTypeApi.getStationTypes({}, {isAuto: false})
-    _.forEach(rs.data, (item) => {
-        filterStationType.push({
-          text: item.name,
-          value: item.key
-        })
-    })
-    this.setState({stationTypeFixed: filterStationType})
+  async loadDataConfigStation() {
+    const rs = await stationConfigApi.getStationsConfig({}, {})
+    this.setState({ listStationConfig: _.get(rs, 'data', []) })
   }
 
   componentDidMount() {
     this.loadDataAuto()
     this.loadDataStationFixed()
-    this.loadDataConfigStation ()
-    this.getStationTypeAuto()
-    this.getStationTypeFixed()
+    this.loadDataConfigStation()
   }
 
   handleSuccess = () => {
-    this.refeshLoadData()
+    this.refreshLoadData()
   }
 
-  async refeshLoadData(){
+  async refreshLoadData() {
     this.loadDataAuto()
     this.loadDataStationFixed()
-    this.loadDataConfigStation ()
-    this.getStationTypeAuto()
-    this.getStationTypeFixed()
+    this.loadDataConfigStation()
   }
 
   render() {
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Breadcrumb items={['list']} />
-          <Tabs defaultActiveKey="tabAuto">
-            <TabPane tab={<span><Icon type="reconciliation" />{translate('configWQI.stationAuto')}</span>} key="tabAuto" >
-               <TabsStationAuto 
-                    listStationAuto={this.state.listStationAuto}
-                    listStationConfig = {this.state.listStationConfig}
-                    handleSuccess = {this.handleSuccess}
-                    stationTypeAuto= {this.state.stationTypeAuto}
-               />
-            </TabPane >
-            <TabPane tab={<span><Icon type="cluster" />{translate('configWQI.stationFixed')}</span>} key="tabFixed">
-              <TabsStationFixed 
-                    listStationFixed={this.state.listStationfixed}
-                    listStationConfig = {this.state.listStationConfig}
-                    handleSuccess = {this.handleSuccess}
-                    stationTypeFixed= {this.state.stationTypeFixed}
-              />
-            </TabPane>
-          </Tabs>        
+        <Tabs defaultActiveKey="tabAuto">
+          <TabPane
+            tab={
+              <span>
+                <Icon type="reconciliation" />
+                {translate('configWQI.stationAuto')}
+              </span>
+            }
+            key="tabAuto"
+          >
+            <TabsStationAuto
+              listStationAuto={this.state.listStationAuto}
+              listStationConfig={this.state.listStationConfig}
+              handleSuccess={this.handleSuccess}
+              stationTypeAuto={this.state.stationTypeAuto}
+            />
+          </TabPane>
+          <TabPane
+            tab={
+              <span>
+                <Icon type="cluster" />
+                {translate('configWQI.stationFixed')}
+              </span>
+            }
+            key="tabFixed"
+          >
+            <TabsStationFixed
+              listStationFixed={this.state.listStationfixed}
+              listStationConfig={this.state.listStationConfig}
+              handleSuccess={this.handleSuccess}
+              stationTypeFixed={this.state.stationTypeFixed}
+            />
+          </TabPane>
+        </Tabs>
       </PageContainer>
     )
   }

@@ -19,50 +19,67 @@ const Left = styled.div`
 `
 
 const Right = styled.div`
-  flex: 1
+  flex: 1;
 `
 
 const Empty = styled.div``
 
 export default class PlayerViewer extends React.Component {
-
   state = {
     cameraList: [],
     camera: {}
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     console.log(this.props.match.params.name)
     const rs = await StationAutoApi.getCamera()
     let cameraList = []
     _.forEach(rs.data || [], ({ _id, key, name, stationType, options }) => {
-      cameraList = cameraList.concat(_.map(_.get(options, 'camera.list', []), item => ({
-        key, stationName: name, stationType, src: item.rtspUrl, name: item.name, _id
-      })))
+      cameraList = cameraList.concat(
+        _.map(_.get(options, 'camera.list', []), item => ({
+          key,
+          stationName: name,
+          stationType,
+          src: item.rtspUrl,
+          name: item.name,
+          _id
+        }))
+      )
     })
 
     this.setState({ cameraList })
   }
 
   handleCamera = camera => {
-    this.setState({camera})
+    this.setState({ camera })
   }
 
-  render () {
+  render() {
     return (
       <PageContainer>
-        <Breadcrumb items={['list']}/>
+        <Breadcrumb items={['list']} />
         <Container>
           <Left>
-            <Card cover={this.state.camera.src ? <Player src={this.state.camera.src} /> : <Empty />}>
-              <Card.Meta 
+            <Card
+              cover={
+                this.state.camera.src ? (
+                  <Player src={this.state.camera.src} />
+                ) : (
+                  <Empty />
+                )
+              }
+            >
+              <Card.Meta
                 title={this.state.camera.name || ' '}
-                description={this.state.camera.stationName || ' ' }
+                description={this.state.camera.stationName || ' '}
               />
             </Card>
           </Left>
           <Right>
-            <ListView cameraList={this.state.cameraList} onItemClick={this.handleCamera}/>
+            <ListView
+              cameraList={this.state.cameraList}
+              onItemClick={this.handleCamera}
+            />
           </Right>
         </Container>
       </PageContainer>

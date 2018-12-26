@@ -40,7 +40,6 @@ import MapFixedContainer from 'containers/fixed-map'
 import ExceededContainer from 'containers/statistic/exceeded'
 import PercentReceivedData from 'containers/statistic/per-rec-data'
 
-
 @autobind
 export default class RouteDefault extends React.Component {
   render() {
@@ -59,17 +58,17 @@ export default class RouteDefault extends React.Component {
           path={slug.stationFixed.base}
           component={StationFixedRoute}
         />
-         <LayoutRoute
-          path={slug.configWQI.base}
-          component={ConfigWQIRoute}
-        />
+        <LayoutRoute path={slug.configWQI.base} component={ConfigWQIRoute} />
         <LayoutRoute
           path={slug.stationType.base}
           component={StationTypeRoute}
         />
         <LayoutRoute path={slug.province.base} component={ProvinceRoute} />
         <LayoutRoute path={slug.qcvn.base} component={QCVNRoute} />
-        <LayoutRoute path={slug.ftpTransfer.base} component={FtpTransferRoute} />
+        <LayoutRoute
+          path={slug.ftpTransfer.base}
+          component={FtpTransferRoute}
+        />
         <LayoutRoute
           path={slug.onlineMonitoring.base}
           component={OnlineMonitoring}
@@ -77,11 +76,20 @@ export default class RouteDefault extends React.Component {
         <LayoutRoute path={slug.monitoring.base} component={Monitoring} />
         <LayoutRoute path={slug.dataSearch.base} component={DataSearch} />
         <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />
-        <LayoutRoute path={slug.dataSearchFixed.base} component={DataSearchFixed} />
+        <LayoutRoute
+          path={slug.dataSearchFixed.base}
+          component={DataSearchFixed}
+        />
         <LayoutRoute path={slug.mapFixed.base} component={MapFixedContainer} />
-        <LayoutRoute path={slug.statistic.exceeded} component={ExceededContainer} />
-        <LayoutRoute path={slug.statistic.perRecData} component={PercentReceivedData} />
-        
+        <LayoutRoute
+          path={slug.statistic.exceeded}
+          component={ExceededContainer}
+        />
+        <LayoutRoute
+          path={slug.statistic.perRecData}
+          component={PercentReceivedData}
+        />
+
         <LayoutRoute path={slug.qaqc.base} component={QaQcContainer} />
         <LayoutRoute
           path={slug.qaqc.config}

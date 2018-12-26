@@ -28,11 +28,11 @@ export default class InfoComponent extends React.Component {
     if (station && !_.isEqual(station.key, value.key)) {
       this.setState({ station })
     }
-    
+
     this.getAqiByStation(station)
   }
 
-  getAqiByStation = async (station) => {
+  getAqiByStation = async station => {
     const rs = await fetchAqiByDay(station.key, {
       to: moment(_.get(station, 'aqi.receivedAt', new Date())).toJSON(),
       size: 7

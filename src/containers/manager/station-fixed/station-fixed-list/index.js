@@ -195,7 +195,7 @@ export default class StationFixedList extends React.Component {
             content: (
               <div>
                 <Span deleted={row.removeStatus && row.removeStatus.allowed}>
-                  {_.get(row, 'province.name', '   ')}  
+                  {_.get(row, 'province.name', '   ')}
                 </Span>
               </div>
             )

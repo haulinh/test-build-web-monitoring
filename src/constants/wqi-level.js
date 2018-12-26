@@ -12,7 +12,8 @@ export default [
     max: 90,
     level: '76 – 90',
     status: 'Loại II',
-    description: 'Sử dụng cho mục đích cấp nước sinh hoạt nhưng cần các biện pháp xử lý phù hợp',
+    description:
+      'Sử dụng cho mục đích cấp nước sinh hoạt nhưng cần các biện pháp xử lý phù hợp',
     color: '#00A065'
   },
   {
@@ -20,7 +21,8 @@ export default [
     max: 75,
     level: '51 – 75',
     status: 'Loại III',
-    description: 'Sử dụng cho mục đích tưới tiêu và các mục đích tương đương khác',
+    description:
+      'Sử dụng cho mục đích tưới tiêu và các mục đích tương đương khác',
     color: '#FFEB3B'
   },
   {
@@ -36,8 +38,7 @@ export default [
     max: 25,
     level: '0 – 25',
     status: 'Loại V',
-    description:'Nước ô nhiễm nặng, cần các biện pháp xử lý trong tương lai',
+    description: 'Nước ô nhiễm nặng, cần các biện pháp xử lý trong tương lai',
     color: '#F44336'
   }
-  
 ]

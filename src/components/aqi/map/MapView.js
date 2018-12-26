@@ -32,7 +32,9 @@ import aqiLevel from 'constants/aqi-level'
 import { GOOGLE_MAP } from 'config'
 
 const WindowInfo = ({ aqi, name }) => {
-  const time = moment(get(aqi, 'receivedAt', new Date())).format(DD_MM_YYYY_HH_MM)
+  const time = moment(get(aqi, 'receivedAt', new Date())).format(
+    DD_MM_YYYY_HH_MM
+  )
 
   return (
     <div>

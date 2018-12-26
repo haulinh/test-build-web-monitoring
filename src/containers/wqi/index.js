@@ -20,12 +20,12 @@ export default class WqiContainer extends React.Component {
 
   async componentDidMount() {
     const rsWqi = await wqiApi.fetchWqi()
-    const wqiList =  _.get(rsWqi, 'data', [])
+    const wqiList = _.get(rsWqi, 'data', [])
 
     this.setState({ wqiList })
 
-   // const station = _.head(wqiList)
-   const station = wqiList[1]
+    // const station = _.head(wqiList)
+    const station = wqiList[1]
 
     if (!_.isEmpty(station)) {
       this.setState({ station })

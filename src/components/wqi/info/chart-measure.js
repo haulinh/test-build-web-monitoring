@@ -10,7 +10,9 @@ export default class ChartView extends React.Component {
 
     _.mapKeys(this.props.measure, (value, key) => {
       let color = 'green'
-      const tmp = _.find(levels, ({ min, max }) => _.inRange(value, min, max+0.01))
+      const tmp = _.find(levels, ({ min, max }) =>
+        _.inRange(value, min, max + 0.01)
+      )
       if (tmp) {
         color = tmp.color
       }

@@ -5,52 +5,64 @@ import { getAuthToken } from 'utils/auth'
 import { getConfigApi } from 'config'
 import { translate } from 'hoc/create-lang'
 
-const Container = styled.div`margin-top: 16px; display: flex; flex-direction: row; justify-content: flex-end;`
+const Container = styled.div`
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`
 
 export default class ToolbarView extends React.Component {
-
   state = {
     token: null,
     importLoading: false
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     const token = await getAuthToken()
     if (token) {
-      this.setState({token})
+      this.setState({ token })
     }
   }
 
-  render () {
+  render() {
     return (
       <Container>
-        <Button style={{marginLeft: 8}} type='primary' icon='cloud-download' onClick={this.props.onDownloadTemplate}>
-          {
-            translate('dataSearchFixed.downloadTemplate')
-          }
+        <Button
+          style={{ marginLeft: 8 }}
+          type="primary"
+          icon="cloud-download"
+          onClick={this.props.onDownloadTemplate}
+        >
+          {translate('dataSearchFixed.downloadTemplate')}
         </Button>
-        <Upload 
-          onStart={() => this.setState({importLoading: true})}
-          headers={{'Authorization': this.state.token}}
-          accept='.xls,.xlsx'
+        <Upload
+          onStart={() => this.setState({ importLoading: true })}
+          headers={{ Authorization: this.state.token }}
+          accept=".xls,.xlsx"
           showUploadList={false}
           multiple={false}
-          name='importFile'
+          name="importFile"
           onSuccess={file => {
             this.props.importSuccess()
-            this.setState({importLoading: false})
+            this.setState({ importLoading: false })
             message.success(translate('dataSearchFixed.importSuccess'))
           }}
-          onError={(err) => {
+          onError={err => {
             message.error(translate('dataSearchFixed.importFailed'))
-            this.setState({importLoading: false})
+            this.setState({ importLoading: false })
           }}
-          action={`${getConfigApi().dataStationFixed}/${this.props.stationFixedID}/import-data`}
+          action={`${getConfigApi().dataStationFixed}/${
+            this.props.stationFixedID
+          }/import-data`}
         >
-          <Button style={{marginLeft: 8}} type='primary' icon='upload' loading={this.state.importLoading}>
-            {
-              translate('dataSearchFixed.importData')
-            }
+          <Button
+            style={{ marginLeft: 8 }}
+            type="primary"
+            icon="upload"
+            loading={this.state.importLoading}
+          >
+            {translate('dataSearchFixed.importData')}
           </Button>
         </Upload>
       </Container>

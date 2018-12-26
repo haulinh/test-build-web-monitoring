@@ -97,7 +97,6 @@ export default class SearchForm extends React.Component {
       stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
       stationFixedKey: '',
       stationFixedID: ''
-
     })
     this.props.change('stationFixed', '')
   }
@@ -115,7 +114,7 @@ export default class SearchForm extends React.Component {
       stationFixedKey: stationFixed.key,
       stationFixedName: stationFixed.name,
       receivedAt: moment(),
-      stationFixedID: stationFixed._id,
+      stationFixedID: stationFixed._id
     }
     const time = _.get(stationFixed, 'lastLog.receivedAt')
     if (time) {
@@ -123,8 +122,10 @@ export default class SearchForm extends React.Component {
     }
 
     if (this.state.timeRange) {
-      params.fromDate = params.receivedAt.clone().subtract(this.state.timeRange, 'days')
-      params.toDate =  params.receivedAt.clone()
+      params.fromDate = params.receivedAt
+        .clone()
+        .subtract(this.state.timeRange, 'days')
+      params.toDate = params.receivedAt.clone()
     }
 
     this.setState(params)
@@ -291,13 +292,14 @@ export default class SearchForm extends React.Component {
               />
             </Col> */}
           </Row>
-          
-          {
-            this.state.stationFixedID && <ToolbarView 
-            stationFixedID={this.state.stationFixedID} 
-            importSuccess={() => this.props.handleSubmit(this.handleSubmit)}
-            onDownloadTemplate={this.handleDownloadTemplate} />
-          }
+
+          {this.state.stationFixedID && (
+            <ToolbarView
+              stationFixedID={this.state.stationFixedID}
+              importSuccess={() => this.props.handleSubmit(this.handleSubmit)}
+              onDownloadTemplate={this.handleDownloadTemplate}
+            />
+          )}
 
           {/* {this.state.measuringList.length > 0 ? (
             <div>

@@ -93,12 +93,12 @@ export default class MinutesDataSearch extends React.Component {
     })
   }
 
-  handleDownload = async (_id) => {
-    const rs = await dataStationFixedApi.downloadTemplate({_id})
+  handleDownload = async _id => {
+    const rs = await dataStationFixedApi.downloadTemplate({ _id })
     window.location = rs.data
   }
 
-  importSuccess = (searchFormData) => {
+  importSuccess = searchFormData => {
     this.loadData(this.state.pagination, searchFormData)
   }
 

@@ -95,12 +95,12 @@ export default class SelectImage extends PureComponent {
         this.props.initialValues.urlIcon !== ''
       ) {
         updateState.urlIcon = this.props.initialValues.urlIcon
-        updateState.urlIconList = _.union(this.state.urlIconList || [], [this.props.initialValues.urlIcon])
+        updateState.urlIconList = _.union(this.state.urlIconList || [], [
+          this.props.initialValues.urlIcon
+        ])
       }
       if (this.props.initialValues.color)
         updateState.color = this.props.initialValues.color
-      
-        
 
       this.setState(updateState)
     }
@@ -119,7 +119,7 @@ export default class SelectImage extends PureComponent {
       headers: {
         authorization: 'authorization-text'
       },
-      onSuccess({url}, file) {
+      onSuccess({ url }, file) {
         message.success(
           `${file.name} ${t('stationAutoManager.uploadFile.success')}`
         )
@@ -149,7 +149,11 @@ export default class SelectImage extends PureComponent {
         {this.state.urlIconList.map((item, index) => {
           return (
             <AvatarWrapper key={index} onClick={() => this.setIcon(item)}>
-              <Avatar shape="square" src={item} style={{ backgroundColor: '#fafafa' }}/>
+              <Avatar
+                shape="square"
+                src={item}
+                style={{ backgroundColor: '#fafafa' }}
+              />
             </AvatarWrapper>
           )
         })}
@@ -160,7 +164,7 @@ export default class SelectImage extends PureComponent {
     )
     return (
       <Popover
-        style={{backgroundColor: 'yellows'}}
+        style={{ backgroundColor: 'yellows' }}
         visible={this.state.visiblePop}
         content={content}
         title={t('stationTypeManager.form.icon.placeholder')}

@@ -38,7 +38,7 @@ const VnWqiView = ({ value, color, time }) => {
           textAlign: 'center'
         }}
       >
-        VN WQI 
+        VN WQI
       </span>
       <span
         style={{
@@ -77,7 +77,9 @@ export default class WQI_Info extends React.Component {
           value={_.get(this.props.station, 'wqi.value', '')}
           time={time}
         />
-        <ChartMeasure measure={_.get(this.props.station, 'wqi.measuringLogs', {})} />
+        <ChartMeasure
+          measure={_.get(this.props.station, 'wqi.measuringLogs', {})}
+        />
       </WrapperView>
     )
   }

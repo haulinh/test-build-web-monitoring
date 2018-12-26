@@ -60,7 +60,6 @@ export function getLastLog() {
   return getFetch(getStationFixedUrl('last-log'))
 }
 
-
 export function getCamera() {
   return getFetch(getStationFixedUrl(`camera`))
 }

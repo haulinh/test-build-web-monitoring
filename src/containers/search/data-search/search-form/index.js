@@ -121,8 +121,10 @@ export default class SearchForm extends React.Component {
     }
 
     if (this.state.timeRange) {
-      params.fromDate = params.receivedAt.clone().subtract(this.state.timeRange, 'days')
-      params.toDate =  params.receivedAt.clone()
+      params.fromDate = params.receivedAt
+        .clone()
+        .subtract(this.state.timeRange, 'days')
+      params.toDate = params.receivedAt.clone()
     }
 
     this.setState(params)

@@ -82,22 +82,22 @@ export default {
     DELETE: 'menu.province.actions.delete'
   },
   FTPTRANSFER: {
-    VIEW: 'menu.ftpTransfer.actions.view',
+    VIEW: 'menu.ftpTransfer.actions.view'
     // CREATE: 'menu.ftpTransfer.actions.create',
     // EDIT: 'menu.ftpTransfer.actions.edit',
     // DELETE: 'menu.ftpTransfer.actions.delete'
   },
   QAQCCONFIG: {
-    VIEW: 'menu.qaqcConfig.actions.view',
+    VIEW: 'menu.qaqcConfig.actions.view'
     // CREATE: 'menu.ftpTransfer.actions.create',
     // EDIT: 'menu.ftpTransfer.actions.edit',
     // DELETE: 'menu.ftpTransfer.actions.delete'
   },
   AQI: {
-    VIEW: 'menu.aqi.actions.view',
+    VIEW: 'menu.aqi.actions.view'
   },
   WQI: {
-    VIEW: 'menu.wqi.actions.view',
+    VIEW: 'menu.wqi.actions.view'
   },
   STATISTIC: {
     EXCEEDED: 'menu.statistic.actions.exceeded',

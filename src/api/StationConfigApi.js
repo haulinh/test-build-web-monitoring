@@ -1,8 +1,11 @@
 import { getConfigApi } from '../config'
-import {getFetch, postFetch, putFetch } from '../utils/fetch'
+import { getFetch, postFetch, putFetch } from '../utils/fetch'
 
 function getStationConfigUrl(prefix = '') {
-  return getConfigApi().stationConfig + '/' + prefix
+  if (prefix) {
+    return getConfigApi().stationConfig + '/' + prefix
+  }
+  return getConfigApi().stationConfig
 }
 
 export function getStationsConfig(
@@ -27,10 +30,9 @@ export function updateStationConfig(_id, measuring = {}) {
   return putFetch(getStationConfigUrl(_id), measuring)
 }
 
-
 export default {
   getStationsConfig,
   getStationConfigByKey,
   createStationConfig,
-  updateStationConfig,
+  updateStationConfig
 }

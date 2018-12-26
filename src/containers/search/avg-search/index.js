@@ -48,7 +48,7 @@ export default class AvgSearch extends React.Component {
     )
     if (dataStationAuto.error) {
       // console.log('ERRROR', dataStationAuto)
-      message.error("ERRROR")
+      message.error('ERRROR')
       return
     }
     if (dataStationAuto.data.length === 0) {

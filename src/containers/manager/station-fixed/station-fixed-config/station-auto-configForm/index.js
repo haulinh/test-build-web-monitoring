@@ -20,7 +20,7 @@ import FtpApi from 'api/FtpApi'
 
 const FormItem = Form.Item
 const Option = Select.Option
-const RadioGroup = Radio.Group;
+const RadioGroup = Radio.Group
 
 @Form.create({
   mapPropsToFields: mapPropsToFields
@@ -258,17 +258,21 @@ export default class StationAutoForm extends React.PureComponent {
           </Col> */}
         </Row>
         <Row>
-        <Col span={12}>
-          <FormItem
+          <Col span={12}>
+            <FormItem
               {...formItemLayout}
               label={t('stationAutoManager.config.extensionFile')}
             >
               {getFieldDecorator('extensionFile', {
-                initialValue: get(this.props, 'initialValues.extensionFile', 'txt')
+                initialValue: get(
+                  this.props,
+                  'initialValues.extensionFile',
+                  'txt'
+                )
               })(
                 <RadioGroup>
-                  <Radio value='txt'>.TXT</Radio>
-                  <Radio value='csv'>.CSV</Radio>
+                  <Radio value="txt">.TXT</Radio>
+                  <Radio value="csv">.CSV</Radio>
                 </RadioGroup>
               )}
             </FormItem>

@@ -19,7 +19,9 @@ export default class SelectStationAuto extends React.Component {
   }
 
   async componentWillMount() {
-    const responseStationAuto = await stationFixedApi.getStationFixeds({itemPerPage: 10000000})
+    const responseStationAuto = await stationFixedApi.getStationFixeds({
+      itemPerPage: 10000000
+    })
 
     this.setState({
       stationFixedSelects: responseStationAuto.data,
@@ -60,7 +62,9 @@ export default class SelectStationAuto extends React.Component {
         {...this.props}
         onChange={this.handleChange}
         showSearch
-        value={this.props.setKey ? this.props.stationFixedKey : this.props.value}
+        value={
+          this.props.setKey ? this.props.stationFixedKey : this.props.value
+        }
       >
         {this.getStationAutos().map(item => (
           <Select.Option key={item.key} value={item.key}>
