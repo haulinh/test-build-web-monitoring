@@ -6,7 +6,7 @@ function getStationConfigUrl(prefix = '') {
 }
 
 export function getStationsConfig(
-  { page = 1, itemPerPage = 10 },
+  { page = 1, itemPerPage = 10000 },
   { stationType, name } = {}
 ) {
   var url = getStationConfigUrl(`?page=${page}&itemPerPage=${itemPerPage}`)

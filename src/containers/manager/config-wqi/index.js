@@ -26,13 +26,8 @@ export default class ConfigWQIContainer extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.loadDataAuto()
-    this.loadDataStationFixed()
-    this.loadDataConfigStation ()
-    this.getStationTypeAuto()
-    this.getStationTypeFixed()
-  }
+  
+
 
   async loadDataAuto() {
     const rs = await stationAutoApi.getLastLog()
@@ -71,6 +66,14 @@ export default class ConfigWQIContainer extends React.Component {
     this.setState({stationTypeFixed: filterStationType})
   }
 
+  componentDidMount() {
+    this.loadDataAuto()
+    this.loadDataStationFixed()
+    this.loadDataConfigStation ()
+    this.getStationTypeAuto()
+    this.getStationTypeFixed()
+  }
+
   handleSuccess = () => {
     this.refeshLoadData()
   }
@@ -79,6 +82,8 @@ export default class ConfigWQIContainer extends React.Component {
     this.loadDataAuto()
     this.loadDataStationFixed()
     this.loadDataConfigStation ()
+    this.getStationTypeAuto()
+    this.getStationTypeFixed()
   }
 
   render() {
@@ -88,7 +93,7 @@ export default class ConfigWQIContainer extends React.Component {
           <Tabs defaultActiveKey="tabAuto">
             <TabPane tab={<span><Icon type="reconciliation" />{translate('configWQI.stationAuto')}</span>} key="tabAuto" >
                <TabsStationAuto 
-                    listDataAuto={this.state.listStationAuto}
+                    listStationAuto={this.state.listStationAuto}
                     listStationConfig = {this.state.listStationConfig}
                     handleSuccess = {this.handleSuccess}
                     stationTypeAuto= {this.state.stationTypeAuto}
@@ -96,7 +101,7 @@ export default class ConfigWQIContainer extends React.Component {
             </TabPane >
             <TabPane tab={<span><Icon type="cluster" />{translate('configWQI.stationFixed')}</span>} key="tabFixed">
               <TabsStationFixed 
-                    listDataFixed={this.state.listStationfixed}
+                    listStationFixed={this.state.listStationfixed}
                     listStationConfig = {this.state.listStationConfig}
                     handleSuccess = {this.handleSuccess}
                     stationTypeFixed= {this.state.stationTypeFixed}

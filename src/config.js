@@ -19,7 +19,8 @@ export function getConfigApi() {
     dataStationAuto: c('data-station-auto'),
     stationFixed: c('station-fixed'),
     dataStationFixed: c('data-station-fixed'),
-    stationConfig: c('config/station'), //stationConfig: 'http://localhost:5002/config/station'
+  //  stationConfig: c('config/station'), //stationConfig: 'http://localhost:5002/config/station'
+    stationConfig: 'http://localhost:5002/config/station',
     ftp: c('ftp'),
     fcmMessages: c('fcm-messages'),
     organization: c('organization'),

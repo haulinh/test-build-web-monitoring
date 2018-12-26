@@ -14,7 +14,7 @@ export default class TabsStationAuto extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      listStationAuto: props.listDataAuto,
+      listStationAuto: props.listStationAuto,
       listStationConfig: props.listStationConfig,
       stationTypeAuto: props.stationTypeAuto
     }
@@ -80,8 +80,8 @@ export default class TabsStationAuto extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.listDataAuto, this.props.listDataAuto)) {
-      this.setState({ listStationAuto: nextProps.listDataAuto })
+    if (!_.isEqual(nextProps.listStationAuto, this.props.listStationAuto)) {
+      this.setState({ listStationAuto: nextProps.listStationAuto })
     }
     if (!_.isEqual(nextProps.listStationConfig, this.props.listStationConfig)) {
       this.setState({ listStationConfig: nextProps.listStationConfig })

@@ -13,7 +13,7 @@ export default class TabsStationFixed extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      listStationFixed: this.props.listDataFixed,
+      listStationFixed: this.props.listStationFixed,
       listStationConfig: props.listStationConfig,
       stationTypeFixed: props.stationTypeFixed
     }
