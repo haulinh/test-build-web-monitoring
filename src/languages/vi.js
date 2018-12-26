@@ -561,7 +561,15 @@ export default {
         addonBefore: 'Tên file:',
         message: 'Bạn chưa nhập tên file'
       }
-    }
+    },
+    summary: 'Thống Kê',
+    history: 'Lịch sử truyền',
+    status: {
+      title: 'Trạng thái truyền',
+      success: 'Truyền file thành công',
+      failed: 'Truyền file thất bại'
+    },
+    tryUploadFile: 'Truyền lại file'
   },
   stationFixedManager: {
     list: {

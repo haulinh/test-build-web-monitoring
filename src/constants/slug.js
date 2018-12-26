@@ -33,7 +33,9 @@ export default {
   },
   ftpTransfer: {
     list: '/ftp-transfer',
-    base: '/ftp-transfer'
+    base: '/ftp-transfer',
+    history: '/ftp-transfer/history/:key/:name',
+    historyWithKey: '/ftp-transfer/history'
   },
   stationType: {
     list: '/station-type',

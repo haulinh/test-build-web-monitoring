@@ -1,5 +1,5 @@
 import { getConfigApi } from 'config'
-import { getFetch } from 'utils/fetch'
+import { getFetch, putFetch } from 'utils/fetch'
 
 function getDataStationAutoUrl(prefix = '') {
   return getConfigApi().dataStationAuto + '/' + prefix
@@ -99,11 +99,29 @@ export const getDataStationAutoRatioCount = (to, from) => {
   })
 }
 
+export const getCountStatusFtpTranfer = () => {
+  const url = getDataStationAutoUrl('ftp-tranfer/count')
+  return getFetch(url)
+}
+
+export const getHistoryFtpTranfer = key => {
+  const url = getDataStationAutoUrl(`${key}/ftp-tranfer/history`)
+  return getFetch(url)
+}
+
+export const putDataFtpTranfer = params => {
+  
+  return putFetch( getDataStationAutoUrl('ftp-tranfer/put-data'), params)
+}
+
 export default {
   getDataStationAutos,
   getExportData,
   getDataStationAutoAvg,
   getDataStationAutoExportAvg,
   getDataAnalyzeStationAutos,
-  getDataStationAutoRatioCount
+  getDataStationAutoRatioCount,
+  getCountStatusFtpTranfer,
+  getHistoryFtpTranfer,
+  putDataFtpTranfer
 }
