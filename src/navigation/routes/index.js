@@ -39,6 +39,8 @@ import ConfigWQIRoute from 'containers/manager/config-wqi'
 import MapFixedContainer from 'containers/fixed-map'
 import ExceededContainer from 'containers/statistic/exceeded'
 import PercentReceivedData from 'containers/statistic/per-rec-data'
+import AqiStatistic from 'containers/statistic/aqi'
+import WqiStatistic from 'containers/statistic/wqi'
 
 @autobind
 export default class RouteDefault extends React.Component {
@@ -81,6 +83,14 @@ export default class RouteDefault extends React.Component {
           component={DataSearchFixed}
         />
         <LayoutRoute path={slug.mapFixed.base} component={MapFixedContainer} />
+        <LayoutRoute
+          path={slug.statistic.aqi}
+          component={AqiStatistic}
+        />
+        <LayoutRoute
+          path={slug.statistic.wqi}
+          component={WqiStatistic}
+        />
         <LayoutRoute
           path={slug.statistic.exceeded}
           component={ExceededContainer}

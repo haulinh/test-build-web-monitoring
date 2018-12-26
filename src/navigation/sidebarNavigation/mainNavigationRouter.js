@@ -350,10 +350,32 @@ const statisticExceededMenu = {
   )
 }
 
+const statisticAQIMenu = {
+  component: protectRole(ROLE.STATISTIC.AQI)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      icon={Icon.aqiStatistic}
+      href={slug.statistic.aqi}
+      text={translate('statistic.aqi.menuApp')}
+    />
+  )
+}
+
+const statisticWQIMenu = {
+  component: protectRole(ROLE.STATISTIC.WQI)(
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      icon={Icon.wqiStatistic}
+      href={slug.statistic.wqi}
+      text={translate('statistic.wqi.menuApp')}
+    />
+  )
+}
+
 const groupStatistic = {
   component: protectRole(
     '',
-    [ROLE.STATISTIC.EXCEEDED, ROLE.STATISTIC.PER_REC_DATA],
+    [ROLE.STATISTIC.EXCEEDED, ROLE.STATISTIC.PER_REC_DATA, ROLE.STATISTIC.AQI, ROLE.STATISTIC.WQI],
     'group'
   )(
     <NavigationWrapper text={translate('menuApp.groupStatistic')}>
@@ -382,6 +404,8 @@ export default [
   dataSearchFixedMenu,
   stationFixedMenu,
   groupStatistic,
+  statisticAQIMenu,
+  statisticWQIMenu,
   statisticPerRecMenu,
   statisticExceededMenu,
   groupManager,

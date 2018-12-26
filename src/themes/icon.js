@@ -23,6 +23,8 @@ import QCVNIcon from '@atlaskit/icon/glyph/media-services/zip'
 import PublishConfigIcon from '@atlaskit/icon/glyph/preferences'
 import FtpTranferIcon from '@atlaskit/icon/glyph/pdf'
 import ConfigWQI from '@atlaskit/icon/glyph/jira/capture'
+import AqiStatisticIcon from '@atlaskit/icon/glyph/vid-connection-circle'
+import WqiStatisticIcon from '@atlaskit/icon/glyph/media-services/pdf';
 
 export default {
   quizLists: <QuizListIcon label={''} size={'medium'} />,
@@ -42,6 +44,8 @@ export default {
   camera: <CameraIcon label={''} size={'medium'} />,
   roadmap: <RoadmapIcon label={''} size={'medium'} />,
   aqi: <AqiIcon label={''} size={'medium'} />,
+  aqiStatistic: <AqiStatisticIcon label={''} size={'medium'} />,
+  wqiStatistic: <WqiStatisticIcon label={''} size={'medium'} />,
   wqi: <WQIIcon label={''} size={'medium'} />,
   qaqc: <QAQCIcon label={''} size={'medium'} />,
   publishConfig: <PublishConfigIcon label={''} size={'medium'} />,

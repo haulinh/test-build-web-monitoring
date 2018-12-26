@@ -13,7 +13,13 @@ export function fetchAqiByDay(key, params = {}) {
   return getFetch(getAqiUrl(`${key}/aqi-day-last-logs`), undefined, { params })
 }
 
+export function fetchAqiHistory(key, { from, to, type } = {}) {
+  var url = getAqiUrl(`${key}/histories?to=${to}&from=${from}&type=${type}`)
+  return getFetch(url)
+}
+
 export default {
   fetchAqiByHour,
-  fetchAqiByDay
+  fetchAqiByDay,
+  fetchAqiHistory
 }

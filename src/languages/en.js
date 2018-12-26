@@ -1198,6 +1198,16 @@ export default {
   },
   statistic: {
     exceeded: 'Exceeded',
-    perRecData: 'Percent Of Received Data'
+    perRecData: 'Percent Of Received Data',
+    aqi: {
+      menuApp:'AQI',
+      breadCrumb: 'AQI hours - days',
+      selectMonths: 'Select months'
+    },
+    wqi: {
+      menuApp:'WQI',
+      breadCrumb: 'WQI',
+      selectMonths: 'Select months'
+    }
   }
 }

@@ -101,7 +101,9 @@ export default {
   },
   STATISTIC: {
     EXCEEDED: 'menu.statistic.actions.exceeded',
-    PER_REC_DATA: 'menu.statistic.actions.per_received_data'
+    PER_REC_DATA: 'menu.statistic.actions.per_received_data',
+    AQI: 'menu.statistic.actions.per_received_data',
+    WQI: 'menu.statistic.actions.per_received_data'
   },
   STATION_FIXED_SEARCH: {
     VIEW: 'menu.dataSearchFixed.actions.view',

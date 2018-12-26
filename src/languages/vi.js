@@ -1195,6 +1195,16 @@ export default {
   },
   statistic: {
     exceeded: 'Vượt ngưỡng',
-    perRecData: 'Tỉ lệ nhận dữ liệu'
+    perRecData: 'Tỉ lệ nhận dữ liệu',
+    aqi: {
+      menuApp:'Chỉ số AQI',
+      breadCrumb: 'Chỉ số AQI giờ - ngày',
+      selectMonths: 'Chọn tháng'
+    },
+    wqi: {
+      menuApp:'Chỉ số WQI',
+      breadCrumb: 'Chỉ số WQI',
+      selectMonths: 'Chọn tháng'
+    }
   }
 }

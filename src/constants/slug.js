@@ -147,7 +147,9 @@ export default {
   },
   statistic: {
     exceeded: '/exceeded-statistic',
-    perRecData: 'per-rec-data-statistic'
+    perRecData: '/per-rec-data-statistic',
+    aqi: '/statistic-aqi',
+    wqi:'/statistic-wqi'
   },
   mapFixed: {
     base: '/fixed-map'

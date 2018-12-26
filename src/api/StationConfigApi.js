@@ -10,11 +10,12 @@ function getStationConfigUrl(prefix = '') {
 
 export function getStationsConfig(
   { page = 1, itemPerPage = 10000 },
-  { stationType, name } = {}
+  { stationType, name, config } = {}
 ) {
   var url = getStationConfigUrl(`?page=${page}&itemPerPage=${itemPerPage}`)
   if (stationType) url += `&stationType=${stationType}`
   if (name) url += `&name=${name}`
+  if (config) url += `&config=${config}`
   return getFetch(url)
 }
 
