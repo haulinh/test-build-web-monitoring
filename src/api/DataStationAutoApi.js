@@ -113,6 +113,11 @@ export const putDataFtpTranfer = params => {
   return putFetch(getDataStationAutoUrl('ftp-tranfer/put-data'), params)
 }
 
+export function fetchListData(key, { from, to } = {}) {
+  var url = getDataStationAutoUrl(`${key}/statistict?to=${to}&from=${from}`)
+  return getFetch(url)
+}
+
 export default {
   getDataStationAutos,
   getExportData,
@@ -122,5 +127,6 @@ export default {
   getDataStationAutoRatioCount,
   getCountStatusFtpTranfer,
   getHistoryFtpTranfer,
-  putDataFtpTranfer
+  putDataFtpTranfer,
+  fetchListData
 }

@@ -2,11 +2,11 @@ import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { message, Button, Form, Spin, Tabs, Icon } from 'antd'
 import { autobind } from 'core-decorators'
-import StationAutoApi from 'api/StationAuto'
+import StationFixedApi from 'api/StationFixedApi'
 import * as _ from 'lodash'
-import StationAutoConfigForm from './station-auto-configForm'
-import StationAutoConfigOptions from './station-auto-configOptions'
-import SationAutoConfigApprove from './station-auto-configApprove'
+import StationFixedConfigForm from './station-fixed-configForm'
+import StationFixedConfigOptions from './station-fixed-configOptions'
+import SationFixedConfigApprove from './station-fixed-configApprove'
 import createManagerDelete from 'hoc/manager-delete'
 import createManagerEdit from 'hoc/manager-edit'
 import PropTypes from 'prop-types'
@@ -21,11 +21,11 @@ const TabPane = Tabs.TabPane
 
 @protectRole(ROLE.STATION_AUTO.CONFIG)
 @createManagerDelete({
-  apiDelete: StationAutoApi.deleteStationAuto
+  apiDelete: StationFixedApi.deleteStationAuto
 })
 @createManagerEdit({
-  apiUpdate: StationAutoApi.updateStationAuto,
-  apiGetByKey: StationAutoApi.getStationAuto
+  apiUpdate: StationFixedApi.updateStationAuto,
+  apiGetByKey: StationFixedApi.getStationAuto
 })
 @Form.create({
   mapPropsToFields: mapPropsToFields
@@ -103,7 +103,7 @@ export default class StationAutoEdit extends React.PureComponent {
     // return
     if (data) {
       const key = this.props.match.params.key
-      const res = await StationAutoApi.updateStationAutoConfig(key, data)
+      const res = await StationFixedApi.updateStationAutoConfig(key, data)
       if (res.success) {
         this.setState({ data })
         message.info(
@@ -217,7 +217,7 @@ export default class StationAutoEdit extends React.PureComponent {
               key="OPTION"
             >
               {this.props.isLoaded && (
-                <StationAutoConfigOptions
+                <StationFixedConfigOptions
                   form={this.props.form}
                   ref={comp => (this.optionsForm = comp)}
                   initialValues={
@@ -238,7 +238,7 @@ export default class StationAutoEdit extends React.PureComponent {
               key="MEASURE"
             >
               {this.props.isLoaded && (
-                <StationAutoConfigForm
+                <StationFixedConfigForm
                   form={this.props.form}
                   ref={comp => (this.configForm = comp)}
                   initialValues={
@@ -263,7 +263,7 @@ export default class StationAutoEdit extends React.PureComponent {
               }
               key="APPROVE"
             >
-              <SationAutoConfigApprove
+              <SationFixedConfigApprove
                 ref={comp => (this.refApprove = comp)}
                 options={
                   this.props.data && this.props.data.options

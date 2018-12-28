@@ -1196,15 +1196,29 @@ export default {
   statistic: {
     exceeded: 'Vượt ngưỡng',
     perRecData: 'Tỉ lệ nhận dữ liệu',
+    perRecDataFrom: {
+      breadCrumb: 'Thống kê tỉ lệ nhận dữ liệu',
+      time:'Thời gian',
+      totalFile: 'Tổng số file/ngày',
+      totalFileReceivedAt: 'Tổng số file truyền về',
+      perFileReceivedAt:'Tỉ lệ file truyền về (%)'
+    },
     aqi: {
       menuApp:'Chỉ số AQI',
       breadCrumb: 'Chỉ số AQI giờ - ngày',
-      selectMonths: 'Chọn tháng'
+      selectMonths: 'Chọn tháng',
+      time:'Thời gian',
+      day:'Ngày',
+      title:'Giá trị AQI theo giờ',
+
     },
     wqi: {
       menuApp:'Chỉ số WQI',
       breadCrumb: 'Chỉ số WQI',
-      selectMonths: 'Chọn tháng'
+      selectMonths: 'Chọn tháng',
+      time:'Thời gian',
+      day:'Ngày',
+      title:'Giá trị WQI theo giờ'
     }
   }
 }

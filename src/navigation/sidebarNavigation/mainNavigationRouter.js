@@ -166,7 +166,7 @@ const groupManager = {
       ROLE.STATION_AUTO.VIEW,
       ROLE.PROVINCE.VIEW,
       ROLE.QCVN.VIEW,
-      ROLE.STATION_FIXED.VIEW,
+     // ROLE.STATION_FIXED.VIEW,
       ROLE.CONFIG_WQI.VIEW
     ],
     'group'

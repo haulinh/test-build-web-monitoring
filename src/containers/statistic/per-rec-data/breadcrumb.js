@@ -3,8 +3,8 @@ import { translate } from 'hoc/create-lang'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
 
 export default createBreadcrumb({
-  perRecData: {
-    name: translate('statistic.perRecData'),
+  list: {
+    name: translate('statistic.perRecDataFrom.breadCrumb'),
     id: 'perRecData',
     icon: '',
     href: slug.statistic.perRecData

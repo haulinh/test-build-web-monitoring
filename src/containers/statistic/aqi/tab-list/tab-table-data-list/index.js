@@ -10,16 +10,17 @@ import moment from 'moment/moment'
 export default class TableDataList extends React.PureComponent {
   static propTypes = {
     dataAqiHours: PropTypes.array,
-    dataAqiDays: PropTypes.array
+    dataAqiDays: PropTypes.array,
+    loading: PropTypes.bool
   }
 
   getColumns() {
     const columns = [
       {
-        title: 'Thời gian',
+        title: translate('statistic.aqi.time'),
         children:[
           {
-            title: 'Ngày',
+            title: translate('statistic.aqi.day'),
             align:'center',
             dataIndex: 'timeDay',
             key: 'timeDay',
@@ -28,7 +29,7 @@ export default class TableDataList extends React.PureComponent {
         ]
       },
       {
-        title: 'Giá trị AQI theo giờ',
+        title: translate('statistic.aqi.title'),
         children:[
           {
             title: '00',
@@ -204,7 +205,7 @@ export default class TableDataList extends React.PureComponent {
         title: 'AQI',
         children:[
           {
-            title: 'Ngày',
+            title: translate('statistic.aqi.day'),
             align:'center',
             dataIndex: 'AQI',
             key: 'AQI',
@@ -257,11 +258,12 @@ export default class TableDataList extends React.PureComponent {
       <div>
         <Table
           size="small"
-          rowKey="_id"
+          rowKey="timeDay"
           bordered
           columns={this.getColumns()}
           dataSource = {this.getDataAQI()}
           pagination={{ showTotal: this.showTotal }}
+          loading={this.props.loading}
           locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}
         />
       </div>

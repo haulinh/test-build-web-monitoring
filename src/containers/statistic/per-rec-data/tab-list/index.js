@@ -27,8 +27,8 @@ const ButtonAbsolute = styled.div`
 export default class TabeList extends React.PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool,
-    dataWQI: PropTypes.array,
-    pagination: PropTypes.object,
+    dataSource: PropTypes.array,
+    dataFrequency: PropTypes.number,
     onExportExcel: PropTypes.func,
     nameChart: PropTypes.string,
     isExporting: PropTypes.bool
@@ -38,7 +38,7 @@ export default class TabeList extends React.PureComponent {
     return (
       <TabeListWrapper>
         <ButtonAbsolute>
-          {protectRole(ROLE.STATION_FIXED_SEARCH.EXPORT)(
+          {protectRole(ROLE.STATISTIC.EXPORT_AQI)(
             <Button
               type="primary"
               icon="file-excel"
@@ -55,8 +55,8 @@ export default class TabeList extends React.PureComponent {
             <TabTableDataList
               loading={this.props.isLoading}
               dataAnalyzeStationAuto={this.props.dataAnalyzeStationAuto}
-              dataWQI={this.props.dataWQI}
-              pagination={this.props.pagination}
+              dataSource={this.props.dataSource}
+              dataFrequency={this.props.dataFrequency}
               onChange={this.props.onChangePage}
             />
           </Tabs.TabPane>

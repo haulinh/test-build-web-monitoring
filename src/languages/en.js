@@ -1199,15 +1199,28 @@ export default {
   statistic: {
     exceeded: 'Exceeded',
     perRecData: 'Percent Of Received Data',
+    perRecDataFrom: {
+      breadCrumb: 'Percent Of Received Data',
+      time:'Thời gian',
+      totalFile: 'Total file/day',
+      totalFileReceivedAt: 'Total file received',
+      perFileReceivedAt:'Ratio file received (%)'
+    },
     aqi: {
       menuApp:'AQI',
       breadCrumb: 'AQI hours - days',
-      selectMonths: 'Select months'
+      selectMonths: 'Select months',
+      time:'Time',
+      day:'Day',
+      title:'AQI By Hours'
     },
     wqi: {
       menuApp:'WQI',
       breadCrumb: 'WQI',
-      selectMonths: 'Select months'
+      selectMonths: 'Select months',
+      time:'Time',
+      day:'Day',
+      title:'WQI By Hours',
     }
   }
 }

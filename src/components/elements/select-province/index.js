@@ -12,7 +12,7 @@ export default class SelectProvice extends PureComponent {
     query: PropTypes.object,
     label: PropTypes.string,
     onChange: PropTypes.func,
-    value: PropTypes.object,
+    value: PropTypes.string,
     isShowAll: PropTypes.bool
   }
 

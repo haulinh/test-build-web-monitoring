@@ -7,13 +7,14 @@ import { translate } from 'hoc/create-lang'
 import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
+import * as _ from 'lodash'
 import { message, Spin } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 
-@protectRole(ROLE.STATION_FIXED_SEARCH.VIEW)
+@protectRole(ROLE.STATISTIC.AQI)
 @queryFormDataBrowser(['submit'])
 @autobind
 export default class AQIStatistics extends React.Component {
@@ -46,13 +47,12 @@ export default class AQIStatistics extends React.Component {
       from: searchFormData.fromDate,
       to: searchFormData.toDate
     }
-    let dataAqiHours = await aqiApi.fetchAqiHistory(key, {...params, type: 'H'})
-    let dataAqiDays = await aqiApi.fetchAqiHistory(key, {...params, type: 'D'})
+    let dataAQI = await aqiApi.fetchAqiHistory(key, {...params})
+    const aqiHours = _.groupBy(_.get(dataAQI, 'data', []), item => item.type === 'H')
+    const aqiDays = _.groupBy(_.get(dataAQI, 'data', []), item => item.type === 'D')  
     if (
-      dataAqiHours &&
-      (Array.isArray(dataAqiHours.data) && dataAqiHours.data.length === 0) &&
-      dataAqiDays &&
-      (Array.isArray(dataAqiDays.data) && dataAqiDays.data.length === 0)
+      dataAQI &&
+      (Array.isArray(dataAQI.data) && dataAQI.data.length === 0) 
     ) {
       swal({
         type: 'success',
@@ -62,8 +62,8 @@ export default class AQIStatistics extends React.Component {
 
     this.setState({
       isLoading: false,
-      dataAqiHours: dataAqiHours.data,
-      dataAqiDays: dataAqiDays.data,
+      dataAqiHours: _.get(aqiHours,'true',[]),
+      dataAqiDays: _.get(aqiDays,'true',[]),
       searchFormData: searchFormData
     })
   }
