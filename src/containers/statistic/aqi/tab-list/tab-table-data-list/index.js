@@ -222,15 +222,15 @@ export default class TableDataList extends React.PureComponent {
       this.setState({ dataAqiHours: nextProps.dataAqiHours })
     }
     if (!_.isEqual(nextProps.dataAqiDays, this.props.dataAqiDays)) {
-      this.setState({ dataAqiDays:nextProps.dataAqiDays })
+      this.setState({ dataAqiDays: nextProps.dataAqiDays })
     }
   }
 
   getDataAQI () {
     const dataAQI = []
     _.forEachRight(this.props.dataAqiDays, (item) => {
-      const dataAqiHours = _.groupBy(this.props.dataAqiHours, record => moment(record.receivedAt).format('DD/MM/YYYY') === moment(item.receivedAt).format('DD/MM/YYYY'))
-      const listAqiHours = _.get(dataAqiHours, 'true', [])
+      const dataAqiHours = _.groupBy(this.props.dataAqiHours, record => moment(record.receivedAt).format('DD/MM/YYYY'))
+      const listAqiHours = _.get(dataAqiHours, moment(item.receivedAt).format('DD/MM/YYYY'), [])
       const dataAqiday = {
         AQI: item.value,
         timeDay: moment(item.receivedAt).format('DD')

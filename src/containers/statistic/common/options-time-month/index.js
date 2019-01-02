@@ -9,7 +9,6 @@ const { MonthPicker } = DatePicker;
 export default class OptionsMonth extends React.Component {
  
   pickMonth = (date) => {
-    console.log(date)
     this.props.onChangeMonth(date)
   }
 
