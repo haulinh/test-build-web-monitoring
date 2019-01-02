@@ -129,6 +129,7 @@ export default class TabsStationFixed extends React.Component {
         key: _.get(record, 'key', ''),
         name: _.get(record, 'name', ''),
         stationType: _.get(record, 'stationType', {}),
+        province: _.get(record,'province', {}),
         config: { ...data }
       }
 

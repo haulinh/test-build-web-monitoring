@@ -1206,6 +1206,13 @@ export default {
       totalFileReceivedAt: 'Total file received',
       perFileReceivedAt:'Ratio file received (%)'
     },
+    exceededFrom: {
+      breadCrumb: 'Statistics of the number of passes/days',
+      time:'Thời gian',
+      totalFile: 'Total file/day',
+      totalFileReceivedAt: 'Total file received',
+      perFileReceivedAt:'Ratio file received (%)'
+    },
     aqi: {
       menuApp:'AQI',
       breadCrumb: 'AQI hours - days',

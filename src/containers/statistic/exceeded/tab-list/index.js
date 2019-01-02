@@ -56,7 +56,7 @@ export default class TabeList extends React.PureComponent {
               loading={this.props.isLoading}
               dataAnalyzeStationAuto={this.props.dataAnalyzeStationAuto}
               dataSource={this.props.dataSource}
-              dataFrequency={_.isNumber(this.props.dataFrequency)? this.props.dataFrequency : 5}
+              dataFrequency={this.props.dataFrequency}
               onChange={this.props.onChangePage}
             />
           </Tabs.TabPane>

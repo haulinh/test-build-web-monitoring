@@ -1203,6 +1203,13 @@ export default {
       totalFileReceivedAt: 'Tổng số file truyền về',
       perFileReceivedAt:'Tỉ lệ file truyền về (%)'
     },
+    exceededFrom: {
+      breadCrumb: 'Thống kê số lần vượt ngưỡng/ngày',
+      time:'Thời gian',
+      totalFile: 'Tổng số file/ngày',
+      totalFileReceivedAt: 'Tổng số file truyền về',
+      perFileReceivedAt:'Tỉ lệ file truyền về (%)'
+    },
     aqi: {
       menuApp:'Chỉ số AQI',
       breadCrumb: 'Chỉ số AQI giờ - ngày',

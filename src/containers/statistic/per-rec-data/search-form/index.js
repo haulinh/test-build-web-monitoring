@@ -15,14 +15,14 @@ import SelectStationAuto from '../../common/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
-import OptionsMonth from '../../common/options-time-month'
+import OptionsMonthRange from '../../common/options-time-month-range'
 import * as _ from 'lodash'
 
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FSelectStationType = createValidateComponent(SelectStationType)
-const FOptionsMonth = createValidateComponent(OptionsMonth)
+const FOptionsMonthRange = createValidateComponent(OptionsMonthRange)
 
 const SearchFormContainer = BoxShadowStyle.extend``
 const Container = styled.div`
@@ -123,9 +123,9 @@ export default class SearchForm extends React.Component {
     this.props.change('station', '')
   }
 
-  handleChangeMonth = (month) => {
-    const fromTime = moment(month).startOf('months').format('YYYY-MM-DD 00:00:00')
-    const toTime = moment(month).endOf('months').format('YYYY-MM-DD 23:59:59')
+  handleChangeDate = (fromDate, toDate) => {
+    const fromTime = moment(fromDate).format('YYYY-MM-DD 00:00:00')
+    const toTime = moment(toDate).format('YYYY-MM-DD 23:59:59')
     this.setState({
       fromDate: fromTime,
       toDate: toTime
@@ -196,8 +196,8 @@ export default class SearchForm extends React.Component {
                 label={t('time')}
                 name="rangesDate"
                 size="large"
-                onChangeMonth={this.handleChangeMonth}
-                component={FOptionsMonth}
+                onChangeDate={this.handleChangeDate}
+                component={FOptionsMonthRange}
               />
             </Col>
           </Row>

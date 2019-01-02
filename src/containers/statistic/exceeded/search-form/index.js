@@ -11,18 +11,20 @@ import createValidateComponent from 'components/elements/redux-form-validate'
 import moment from 'moment'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import SelectStationConfigAQI from '../../common/select-station-config-aqi'
-import SelectStationTypeConfigAQI from '../../common/select-station-type-config-aqi'
+import SelectAnt from 'components/elements/select-ant/index'
+import SelectStationAuto from '../../common/select-station-auto'
+import SelectStationType from 'components/elements/select-station-type'
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
-import OptionsMonth from '../../common/options-time-month'
+import OptionsMonthRange from '../../common/options-time-month-range'
 import * as _ from 'lodash'
 
 
 const FSelectProvince = createValidateComponent(SelectProvince)
-const FSelectStationTypeConfigAQI = createValidateComponent(SelectStationTypeConfigAQI)
-const FSelectStationConfigAQI = createValidateComponent(SelectStationConfigAQI)
-const FOptionsMonth = createValidateComponent(OptionsMonth)
+const FSelectStationAuto = createValidateComponent(SelectStationAuto)
+const FSelectStationType = createValidateComponent(SelectStationType)
+const FOptionsMonthRange = createValidateComponent(OptionsMonthRange)
+const FSelectAnt = createValidateComponent(SelectAnt)
 
 const SearchFormContainer = BoxShadowStyle.extend``
 const Container = styled.div`
@@ -33,14 +35,18 @@ function validate(values) {
   const errors = {}
   if (!values.stationType)
     errors.stationType = translate('avgSearchFrom.form.stationType.error')
-  if (!values.stationFixed || values.stationFixed === '')
-    errors.stationFixed = translate('avgSearchFrom.form.stationAuto.error')
+  if (!values.stationAuto || values.stationAuto === '')
+    errors.stationAuto = translate('avgSearchFrom.form.stationAuto.error')
   if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
+  if (values.measuringList && values.measuringList.length === 0)
+  errors.measuringList = translate('avgSearchFrom.form.measuringList.require')
   return errors
 }
 
 @connect((state, ownProps) => ({
   initialValues: {
+    fromDate: moment().subtract(7, 'days'),
+    toDate: moment(),
     ...(ownProps.initialValues ? ownProps.initialValues : {})
   }
 }))
@@ -61,10 +67,12 @@ export default class SearchForm extends React.Component {
     this.state = {
       provinceKey: props.initialValues.provinceKey,
       stationTypeKey: props.initialValues.stationType,
-      stationKey: props.initialValues.stationFixed,
+      stationKey: props.initialValues.stationAuto,
       stationID: null,
+      measuringList: [],
       fromDate: props.initialValues.fromDate,
-      toDate: props.initialValues.toDate
+      toDate: props.initialValues.toDate,
+      dataFrequency: null
     }
   }
 
@@ -86,13 +94,22 @@ export default class SearchForm extends React.Component {
   }
 
   handleChangeStationAuto(station) {
+    const measuringData = station.measuringList.sort(function(a, b) {
+      return a.numericalOrder - b.numericalOrder
+    })
     const params = {
+      measuringList: measuringData.map(measuring => ({
+        value: measuring.key,
+        name: measuring.name
+      })),
       stationKey: station.key,
       stationName: station.name,
       receivedAt: moment(),
-      stationID: station._id
+      stationID: station._id,
+      dataFrequency: station.dataFrequency
     }
     this.setState(params)
+    this.props.change('measuringList', measuringData.map(m => m.key))
   }
 
   handleSubmit(values) {
@@ -101,7 +118,8 @@ export default class SearchForm extends React.Component {
       toDate: this.convertDateToString(this.state.toDate),
       key: values.station,
       name: this.state.stationName,
-      stationID: this.state.stationID
+      stationID: this.state.stationID,
+      dataFrequency: this.state.dataFrequency
     })
   }
 
@@ -118,9 +136,9 @@ export default class SearchForm extends React.Component {
     this.props.change('station', '')
   }
 
-  handleChangeMonth = (month) => {
-    const fromTime = moment(month).startOf('months').format('YYYY-MM-DD 00:00:00')
-    const toTime = moment(month).endOf('months').format('YYYY-MM-DD 23:59:59')
+  handleChangeDate = (fromDate, toDate) => {
+    const fromTime = moment(fromDate).format('YYYY-MM-DD 00:00:00')
+    const toTime = moment(toDate).format('YYYY-MM-DD 23:59:59')
     this.setState({
       fromDate: fromTime,
       toDate: toTime
@@ -151,7 +169,7 @@ export default class SearchForm extends React.Component {
         </Heading>
         <Container>
           <Row gutter={24}>
-            <Col span={12}>
+            <Col span={8}>
               <Field
                 label={translate('qaqc.province.label')}
                 name="province"
@@ -160,39 +178,50 @@ export default class SearchForm extends React.Component {
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               <Field
                 label={t('stationType.label')}
                 name="stationType"
                 size="large"
                 onHandleChange={this.handleChangeStationType}
-                component={FSelectStationTypeConfigAQI}
+                component={FSelectStationType}
                 isAuto= {null}
               />
             </Col>
-          </Row>
-          <Clearfix height={16} />
-          <Row gutter={24}>
-            <Col span={12}>
+            <Col span={8}>
                 <Field
                   label={t('stationAuto.label')}
                   name="station"
                   size="large"
                   provinceKey={this.state.provinceKey}
                   stationTypeKey={this.state.stationTypeKey}
-                  component={FSelectStationConfigAQI}
+                  component={FSelectStationAuto}
                   onChangeObject={this.handleChangeStationAuto}
                   stationKey={this.state.stationKey}
                   setKey
                 />
+            </Col>
+          </Row>
+          <Clearfix height={16} />
+          <Row gutter={24}>
+            <Col span={12}>
+              <Field
+                label={t('measuringList.label')}
+                name="measuringList"
+                size="large"
+                showSearch
+                mode="multiple"
+                options={this.state.measuringList}
+                component={FSelectAnt}
+              />
             </Col>
             <Col span={12}>
               <Field
                 label={t('time')}
                 name="rangesDate"
                 size="large"
-                onChangeMonth={this.handleChangeMonth}
-                component={FOptionsMonth}
+                onChangeDate={this.handleChangeDate}
+                component={FOptionsMonthRange}
               />
             </Col>
           </Row>
