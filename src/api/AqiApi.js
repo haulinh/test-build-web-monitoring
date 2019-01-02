@@ -14,13 +14,18 @@ export function fetchAqiByDay(key, params = {}) {
 }
 
 export function fetchAqiHistory(key, { from, to, type } = {}) {
-  var url = getAqiUrl(`${key}/histories?to=${to}&from=${from}`)
+  var url = getAqiUrl(`${key}/histories-statistics?to=${to}&from=${from}`)
   if(type) url += `&type=${type}`
+  return getFetch(url)
+}
+export function exportFileHistory(key, { from, to } = {}) {
+  var url = getAqiUrl(`${key}/export-data?to=${to}&from=${from}`)
   return getFetch(url)
 }
 
 export default {
   fetchAqiByHour,
   fetchAqiByDay,
-  fetchAqiHistory
+  fetchAqiHistory,
+  exportFileHistory
 }

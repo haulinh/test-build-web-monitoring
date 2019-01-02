@@ -69,9 +69,14 @@ export default class AQIStatistics extends React.Component {
     this.setState({
       isExporting: true
     })
-    // let res = await dataStationFixedApi.exportData(this.state.searchFormData)
-    // if (res && res.success) window.location = res.data
-    // else message.error('Export Error') //message.error(res.message)
+     const key = _.get(this.state.searchFormData, 'key', '')
+     const params = {
+       from: _.get(this.state.searchFormData, 'fromDate', ''),
+       to: _.get(this.state.searchFormData, 'toDate', '')
+     }
+     let res = await wqiApi.exportFileHistory(key, {...params})
+     if (res && res.success) window.location = res.data
+     else message.error('Export Error') //message.error(res.message)
 
     this.setState({
       isExporting: false

@@ -15,12 +15,18 @@ export function fetchWqiData(key, from) {
 }
 
 export function fetchWqiHistory(key, { from, to } = {}) {
-  var url = getWqiUrl(`${key}/histories?to=${to}&from=${from}`)
+  var url = getWqiUrl(`${key}/histories-statistics?to=${to}&from=${from}`)
+  return getFetch(url)
+}
+
+export function exportFileHistory(key, { from, to } = {}) {
+  var url = getWqiUrl(`${key}/export-data?to=${to}&from=${from}`)
   return getFetch(url)
 }
 
 export default {
   fetchWqi,
   fetchWqiData,
-  fetchWqiHistory
+  fetchWqiHistory,
+  exportFileHistory
 }

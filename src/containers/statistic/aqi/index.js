@@ -19,8 +19,7 @@ import swal from 'sweetalert2'
 @autobind
 export default class AQIStatistics extends React.Component {
   state = {
-    dataAqiHours: [],
-    dataAqiDays: [],
+    dataAQI: [],
     searchFormData: {},
     lines: [],
     isLoading: false,
@@ -48,8 +47,6 @@ export default class AQIStatistics extends React.Component {
       to: searchFormData.toDate
     }
     let dataAQI = await aqiApi.fetchAqiHistory(key, {...params})
-    const aqiHours = _.groupBy(_.get(dataAQI, 'data', []), item => item.type === 'H')
-    const aqiDays = _.groupBy(_.get(dataAQI, 'data', []), item => item.type === 'D')  
     if (
       dataAQI &&
       (Array.isArray(dataAQI.data) && dataAQI.data.length === 0) 
@@ -62,8 +59,7 @@ export default class AQIStatistics extends React.Component {
 
     this.setState({
       isLoading: false,
-      dataAqiHours: _.get(aqiHours,'true',[]),
-      dataAqiDays: _.get(aqiDays,'true',[]),
+      dataAQI: _.get(dataAQI,'data',[]),
       searchFormData: searchFormData
     })
   }
@@ -72,9 +68,14 @@ export default class AQIStatistics extends React.Component {
     this.setState({
       isExporting: true
     })
-    // let res = await dataStationFixedApi.exportData(this.state.searchFormData)
-    // if (res && res.success) window.location = res.data
-    // else message.error('Export Error') //message.error(res.message)
+     const key = _.get(this.state.searchFormData, 'key', '')
+     const params = {
+       from: _.get(this.state.searchFormData, 'fromDate', ''),
+       to: _.get(this.state.searchFormData, 'toDate', '')
+     }
+     let res = await aqiApi.exportFileHistory(key, {...params})
+     if (res && res.success) window.location = res.data
+     else message.error('Export Error') //message.error(res.message)
 
     this.setState({
       isExporting: false
@@ -101,8 +102,7 @@ export default class AQIStatistics extends React.Component {
             <TabList
               isLoading={this.state.isLoading}
               dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
-              dataAqiHours={this.state.dataAqiHours}
-              dataAqiDays={this.state.dataAqiDays}
+              dataAQI={this.state.dataAQI}
               pagination={this.state.pagination}
               onExportExcel={this.handleExportExcel}
               nameChart={this.state.searchFormData.name}

@@ -99,8 +99,10 @@ export default class SearchForm extends React.Component {
 
   handleSubmit(values) {
     this.props.onSubmit({
-      fromDate: this.convertDateToString(this.state.fromDate),
-      toDate: this.convertDateToString(this.state.toDate),
+      // fromDate: this.convertDateToString(this.state.fromDate),
+      // toDate: this.convertDateToString(this.state.toDate),
+      fromDate: this.state.fromDate,
+      toDate: this.state.toDate,
       key: values.station,
       name: this.state.stationName,
       stationID: this.state.stationID
@@ -108,7 +110,7 @@ export default class SearchForm extends React.Component {
   }
 
   convertDateToString(date) {
-    return moment(date, 'YYYY-MM-DD HH:mm').toISOString()
+    return moment(date, 'YYYY-MM-DD').toISOString()
   }
 
   handleProvinceChange = province => {
@@ -121,8 +123,8 @@ export default class SearchForm extends React.Component {
   }
 
   handleChangeMonth = (month) => {
-    const fromTime = moment(month).startOf('months').format('YYYY-MM-DD 00:00:00')
-    const toTime = moment(month).endOf('months').format('YYYY-MM-DD 23:59:59')
+    const fromTime = month.startOf('months').format('YYYY-MM-DD')
+    const toTime = month.endOf('months').format('YYYY-MM-DD')
     this.setState({
       fromDate: fromTime,
       toDate: toTime
