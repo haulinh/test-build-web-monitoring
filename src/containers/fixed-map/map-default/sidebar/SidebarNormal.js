@@ -2,7 +2,6 @@ import React from 'react'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import BoxAnalyticList from '../components/box-analytic-list'
 import SearchStation from '../components/search-station'
 import connectWindowHeight from '../../hoc-window-height'
 

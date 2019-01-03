@@ -17,7 +17,6 @@ import SelectStationType from 'components/elements/select-station-type'
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import OptionsMonthRange from '../../common/options-time-month-range'
-import * as _ from 'lodash'
 
 
 const FSelectProvince = createValidateComponent(SelectProvince)

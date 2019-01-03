@@ -5,7 +5,6 @@ import TabsStationFixed from './tabs-station-fixed'
 import stationAutoApi from 'api/StationAuto'
 import stationFixedApi from 'api/StationFixedApi'
 import stationConfigApi from 'api/StationConfigApi'
-import stationTypeApi from 'api/CategoryApi'
 import { translate } from 'hoc/create-lang'
 import { Icon, Tabs } from 'antd'
 import * as _ from 'lodash'
@@ -30,7 +29,7 @@ export default class ConfigWQIContainer extends React.Component {
     const listStationAuto = _.get(rs, 'data', [])
     const stationTypeAuto = []
     const keys = []
-    const data = _.forEach(
+    _.forEach(
       listStationAuto,
       ({ stationType: { key, name } }) => {
         if (!_.includes(keys, key)) {
@@ -49,7 +48,7 @@ export default class ConfigWQIContainer extends React.Component {
 
     const stationTypeFixed = []
     const keys = []
-    const data = _.forEach(
+    _.forEach(
       listStationfixed,
       ({ stationType: { key, name } }) => {
         if (!_.includes(keys, key)) {
