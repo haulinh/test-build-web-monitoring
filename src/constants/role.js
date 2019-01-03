@@ -102,10 +102,11 @@ export default {
   STATISTIC: {
     EXCEEDED: 'menu.statistic.actions.exceeded',
     PER_REC_DATA: 'menu.statistic.actions.per_received_data',
-    AQI: 'menu.statistic.actions.per_received_data',
-    WQI: 'menu.statistic.actions.per_received_data',
-    EXPORT_AQI: 'menu.statistic.actions.per_received_data',
-    EXPORT_WQI: 'menu.statistic.actions.per_received_data'
+    PER_REC_DATA_EXPORT: 'menu.statistic.actions.per_received_data_export',
+    AQI: 'menu.statistic.aqi',
+    WQI: 'menu.statistic.wqi',
+    EXPORT_AQI: 'menu.statistic.aqi_export',
+    EXPORT_WQI: 'menu.statistic.wqi_export'
   },
   STATION_FIXED_SEARCH: {
     VIEW: 'menu.dataSearchFixed.actions.view',
