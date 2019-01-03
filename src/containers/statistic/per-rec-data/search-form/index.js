@@ -92,11 +92,10 @@ export default class SearchForm extends React.Component {
   handleChangeStationAuto(station) {
     const params = {
       stationKey: station.key,
-      stationName: station.name,
       receivedAt: moment(),
       stationID: station._id,
       dataFrequency: _.get(station, 'dataFrequency', 5),
-      stationName: _.get(station, 'name', 5)
+      stationName: _.get(station, 'name')
     }
     this.setState(params)
   }

@@ -16,8 +16,6 @@ import SelectStationTypeConfigWQI from '../../common/select-station-type-config-
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import OptionsMonth from '../../common/options-time-month'
-import * as _ from 'lodash'
-
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationTypeConfigWQI = createValidateComponent(SelectStationTypeConfigWQI)

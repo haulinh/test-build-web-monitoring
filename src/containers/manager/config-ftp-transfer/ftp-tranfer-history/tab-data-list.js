@@ -1,11 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
 import { autobind } from 'core-decorators'
 import { Table, Icon, Tooltip } from 'antd'
 import moment from 'moment/moment'
-import { SHAPE } from 'themes/color'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 @autobind
 export default class TableDataList extends React.PureComponent {

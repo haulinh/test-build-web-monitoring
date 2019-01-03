@@ -13,7 +13,6 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
-import moment from 'moment/moment'
 
 @protectRole(ROLE.STATISTIC.PER_REC_DATA)
 @queryFormDataBrowser(['submit'])

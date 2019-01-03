@@ -1,10 +1,8 @@
 import React from 'react'
-import { translate } from 'hoc/create-lang'
 import { DatePicker } from 'antd'
 import * as _ from 'lodash'
 import moment from 'moment'
 
-const { MonthPicker } = DatePicker;
 const RangePicker = DatePicker.RangePicker;
 
 
