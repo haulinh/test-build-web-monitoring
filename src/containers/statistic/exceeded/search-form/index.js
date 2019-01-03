@@ -69,7 +69,15 @@ export default class SearchForm extends React.Component {
       stationTypeKey: props.initialValues.stationType,
       stationKey: props.initialValues.stationAuto,
       stationID: null,
-      measuringList: [],
+      stationName: '',
+      measuringListOrigin: [],
+      measuringData: props.measuringData ? props.measuringData : [],
+      measuringList: props.measuringData
+        ? props.measuringData.map(measuring => ({
+            value: measuring.key,
+            name: measuring.name
+          }))
+        : [],
       fromDate: props.initialValues.fromDate,
       toDate: props.initialValues.toDate,
       dataFrequency: null
@@ -106,7 +114,8 @@ export default class SearchForm extends React.Component {
       stationName: station.name,
       receivedAt: moment(),
       stationID: station._id,
-      dataFrequency: station.dataFrequency
+      dataFrequency: station.dataFrequency,
+      measuringListOrigin: station.measuringList
     }
     this.setState(params)
     this.props.change('measuringList', measuringData.map(m => m.key))
@@ -117,9 +126,12 @@ export default class SearchForm extends React.Component {
       fromDate: this.convertDateToString(this.state.fromDate),
       toDate: this.convertDateToString(this.state.toDate),
       key: values.station,
-      name: this.state.stationName,
+      stationName: this.state.stationName,
+      measuringList: values.measuringList,
+      measuringData: this.state.measuringData,
       stationID: this.state.stationID,
-      dataFrequency: this.state.dataFrequency
+      dataFrequency: this.state.dataFrequency,
+      measuringListOrigin: this.state.measuringListOrigin
     })
   }
 

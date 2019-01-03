@@ -69,6 +69,9 @@ export default {
     title: 'Air Quality Index',
     paramsTitle: 'The {{= it.day}}-day AQI value of each parameter'
   },
+  wqi: {
+    title: 'Water Quality Index'
+  },
   qaqc: {
     configPublish: {
       title: 'Publish Configuration',

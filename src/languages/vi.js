@@ -69,6 +69,9 @@ export default {
     title: 'AQI',
     paramsTitle: 'Giá trị AQI {{=it.day}} ngày của từng thông số'
   },
+  wqi: {
+    title: 'WQI'
+  },
   qaqc: {
     configPublish: {
       title: 'Cấu hình công bố',
@@ -1211,7 +1214,7 @@ export default {
       perFileReceivedAt:'Tỉ lệ file truyền về (%)'
     },
     aqi: {
-      menuApp:'Chỉ số AQI',
+      menuApp:'AQI',
       breadCrumb: 'Chỉ số AQI giờ - ngày',
       selectMonths: 'Chọn tháng',
       time:'Thời gian',
@@ -1220,7 +1223,7 @@ export default {
 
     },
     wqi: {
-      menuApp:'Chỉ số WQI',
+      menuApp:'WQI',
       breadCrumb: 'Chỉ số WQI',
       selectMonths: 'Chọn tháng',
       time:'Thời gian',

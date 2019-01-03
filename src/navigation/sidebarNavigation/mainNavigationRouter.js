@@ -39,7 +39,7 @@ const wqiMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.wqi.base}
       icon={Icon.wqi}
-      text="WQI" //{translate('aqi.title')}
+      text={translate('wqi.title')} //{translate('aqi.title')}
     />
   )
 }

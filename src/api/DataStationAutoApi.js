@@ -123,6 +123,18 @@ export function exportDataStatistict(key, { from, to, dataFrequency, stationName
   return getFetch(url)
 }
 
+export function getDataStatistictExceeded(key,
+  { from, to, measuringList} = {}
+) {
+  var url = getDataStationAutoUrl(`${key}/exceeded-statistict?to=${to}&from=${from}&measuringList=${measuringList.join(',')}`)
+  return getFetch(url)
+}
+
+export function exportStatistictExceeded(key, data) {
+  var url = getDataStationAutoUrl(`${key}/export-exceeded`)
+  return putFetch(url, data)
+}
+
 export default {
   getDataStationAutos,
   getExportData,
@@ -134,5 +146,7 @@ export default {
   getHistoryFtpTranfer,
   putDataFtpTranfer,
   fetchDataStatistict,
-  exportDataStatistict
+  exportDataStatistict,
+  getDataStatistictExceeded,
+  exportStatistictExceeded
 }

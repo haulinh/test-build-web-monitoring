@@ -10,75 +10,39 @@ import moment from 'moment/moment'
 export default class TableDataList extends React.PureComponent {
   static propTypes = {
     dataSource: PropTypes.array,
-    dataFrequency: PropTypes.number,
+    measuringList: PropTypes.array,
+    measuringListOrigin: PropTypes.array,
     loading: PropTypes.bool
   }
 
+  getTitle = ({unit, name, key}) => {
+    if (!name) name = key
+    if (unit) return `${name} (${unit})`
+    return name
+  }
+
   getColumns() {
-    const columns = [
-      {
+    const objMeasure = _.keyBy(this.props.measuringListOrigin, 'key')
+    const cols = _.map(this.props.measuringList, item => ({
+      title: this.getTitle(objMeasure[item]),
+      dataIndex: item,
+      key: item,
+      align: 'center',
+      render: value => value ? <div style={{color: 'red'}}>{value}</div> : value
+    }))
+
+    const columnReceivedAt = {
         title: translate('statistic.perRecDataFrom.time'),
         align:'center',
-        dataIndex: 'timeDay',
-        key: 'timeDay',
-        flex: 1
-      },
-      {
-        title: translate('statistic.perRecDataFrom.totalFile'),
-        align:'center',
-        dataIndex: 'totalFile',
-        key: 'totalFile',
-        flex: 1
-      },
-      {
-        title: translate('statistic.perRecDataFrom.totalFileReceivedAt'),
-        align:'center',
-        dataIndex: 'totalFileReceivedAt',
-        key: 'totalFileReceivedAt',
-        flex: 1
-      },
-      {
-        title: translate('statistic.perRecDataFrom.perFileReceivedAt'),
-        align:'center',
-        dataIndex: 'perFileReceivedAt',
-        key: 'perFileReceivedAt',
-        flex: 1,
-        render: (value, record) => {
-          return value 
-        }
-      }
-    ]
-    return columns
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.dataAqiHours, this.props.dataAqiHours)) {
-      this.setState({ dataAqiHours: nextProps.dataAqiHours })
+        dataIndex: 'receivedAt',
+        key: 'receivedAt'
     }
-    if (!_.isEqual(nextProps.dataAqiDays, this.props.dataAqiDays)) {
-      this.setState({ dataAqiDays:nextProps.dataAqiDays })
-    }
-  }
-
-  getDataAQI () {
-    const listData = []
-    _.forEachRight(this.props.dataSource, (item) => {
-       const timeDay = moment(_.get(item, '[0].receivedAt', null)).format('DD/MM/YYYY')
-       const total = (60/this.props.dataFrequency) *24
-       listData.push({
-        timeDay: timeDay,
-        totalFile: total,
-        totalFileReceivedAt: item.length,
-        perFileReceivedAt: _.round(((item.length)/total) * 100, 2)
-       })
-      })
-    return listData
+    return [columnReceivedAt, ...cols]
   }
 
 
   showTotal = (total, range) => ` ${range[1]}/${total}`
   render() {
-    this.getDataAQI()
     return (
       <div>
         <Table
@@ -86,7 +50,7 @@ export default class TableDataList extends React.PureComponent {
           rowKey="timeDay"
           bordered
           columns={this.getColumns()}
-          dataSource = {this.getDataAQI()}
+          dataSource = {this.props.dataSource}
           pagination={{ showTotal: this.showTotal }}
           loading={this.props.loading}
           locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}

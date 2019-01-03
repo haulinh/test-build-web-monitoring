@@ -26,6 +26,8 @@ const ButtonAbsolute = styled.div`
 @autobind
 export default class TabeList extends React.PureComponent {
   static propTypes = {
+    measuringList: PropTypes.array,
+    measuringListOrigin: PropTypes.array,
     isLoading: PropTypes.bool,
     dataSource: PropTypes.array,
     dataFrequency: PropTypes.number,
@@ -55,6 +57,8 @@ export default class TabeList extends React.PureComponent {
             <TabTableDataList
               loading={this.props.isLoading}
               dataAnalyzeStationAuto={this.props.dataAnalyzeStationAuto}
+              measuringListOrigin={this.props.measuringListOrigin}
+              measuringList={this.props.measuringList}
               dataSource={this.props.dataSource}
               dataFrequency={this.props.dataFrequency}
               onChange={this.props.onChangePage}

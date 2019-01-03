@@ -8,7 +8,7 @@ import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import * as _ from 'lodash'
-import { Spin } from 'antd'
+import { Spin, message } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
@@ -23,6 +23,9 @@ export default class PercentReceivedDataContainer extends React.Component {
     dataSource: [],
     searchFormData: {},
     dataFrequency: null,
+    measuringListOrigin: [],
+    measuringList: [],
+    stationName: '',
     lines: [],
     isLoading: false,
     isHaveData: false,
@@ -34,6 +37,7 @@ export default class PercentReceivedDataContainer extends React.Component {
   }
 
   handleSubmitSearch(searchFormData) {
+    console.log(searchFormData)
     this.loadData(this.state.pagination, searchFormData)
   }
 
@@ -46,9 +50,10 @@ export default class PercentReceivedDataContainer extends React.Component {
     const key = searchFormData.key
     const params = {
       from: searchFormData.fromDate,
-      to: searchFormData.toDate
+      to: searchFormData.toDate,
+      measuringList: searchFormData.measuringList
     }
-    let listData = await aqiDataStationAuto.fetchListData(key, {...params})
+    let listData = await aqiDataStationAuto.getDataStatistictExceeded(key, {...params})
     if (
       listData &&
       (Array.isArray(listData.data) && listData.data.length === 0) 
@@ -63,17 +68,27 @@ export default class PercentReceivedDataContainer extends React.Component {
       isLoading: false,
       dataSource: _.get(listData,'data',[]),
       searchFormData: searchFormData,
-      dataFrequency: searchFormData.dataFrequency
+      dataFrequency: searchFormData.dataFrequency,
+      measuringListOrigin: searchFormData.measuringListOrigin,
+      measuringList: searchFormData.measuringList,
+      stationName: searchFormData.stationName
     })
   }
 
   async handleExportExcel() {
+    const data = {
+      stationName: this.state.stationName,
+      measuringListOrigin: this.state.measuringListOrigin,
+      measuringList: this.state.measuringList,
+      dataExport: this.state.dataSource
+    }
+    console.log(data)
     this.setState({
       isExporting: true
     })
-    // let res = await dataStationFixedApi.exportData(this.state.searchFormData)
-    // if (res && res.success) window.location = res.data
-    // else message.error('Export Error') //message.error(res.message)
+    let res = await aqiDataStationAuto.exportStatistictExceeded(this.state.searchFormData.key, data)
+    if (res && res.success) window.location = res.data
+    else message.error('Export Error') //message.error(res.message)
 
     this.setState({
       isExporting: false
@@ -101,6 +116,8 @@ export default class PercentReceivedDataContainer extends React.Component {
               dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
               dataSource={this.state.dataSource}
               dataFrequency={this.state.dataFrequency}
+              measuringList={this.state.measuringList}
+              measuringListOrigin = {this.state.measuringListOrigin}
               pagination={this.state.pagination}
               onExportExcel={this.handleExportExcel}
               nameChart={this.state.searchFormData.name}
