@@ -10,7 +10,6 @@ import moment from 'moment/moment'
 export default class TableDataList extends React.PureComponent {
   static propTypes = {
     dataSource: PropTypes.array,
-    dataFrequency: PropTypes.number,
     loading: PropTypes.bool
   }
 
@@ -60,25 +59,10 @@ export default class TableDataList extends React.PureComponent {
     }
   }
 
-  getDataAQI () {
-    const listData = []
-    _.forEachRight(this.props.dataSource, (item) => {
-       const timeDay = moment(_.get(item, '[0].receivedAt', null)).format('DD/MM/YYYY')
-       const total = (60/this.props.dataFrequency) *24
-       listData.push({
-        timeDay: timeDay,
-        totalFile: total,
-        totalFileReceivedAt: item.length,
-        perFileReceivedAt: _.round(((item.length)/total) * 100, 2)
-       })
-      })
-    return listData
-  }
 
 
   showTotal = (total, range) => ` ${range[1]}/${total}`
   render() {
-    this.getDataAQI()
     return (
       <div>
         <Table
@@ -86,7 +70,7 @@ export default class TableDataList extends React.PureComponent {
           rowKey="timeDay"
           bordered
           columns={this.getColumns()}
-          dataSource = {this.getDataAQI()}
+          dataSource = {this.props.dataSource}
           pagination={{ showTotal: this.showTotal }}
           loading={this.props.loading}
           locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}

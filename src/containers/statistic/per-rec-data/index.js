@@ -8,7 +8,7 @@ import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import * as _ from 'lodash'
-import { Spin } from 'antd'
+import { message, Spin } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
@@ -23,6 +23,7 @@ export default class PercentReceivedDataContainer extends React.Component {
     dataSource: [],
     searchFormData: {},
     dataFrequency: null,
+    stationName: null,
     lines: [],
     isLoading: false,
     isHaveData: false,
@@ -46,9 +47,10 @@ export default class PercentReceivedDataContainer extends React.Component {
     const key = searchFormData.key
     const params = {
       from: searchFormData.fromDate,
-      to: searchFormData.toDate
+      to: searchFormData.toDate,
+      dataFrequency: searchFormData.dataFrequency
     }
-    let listData = await aqiDataStationAuto.fetchListData(key, {...params})
+    let listData = await aqiDataStationAuto.fetchDataStatistict(key, {...params})
     if (
       listData &&
       (Array.isArray(listData.data) && listData.data.length === 0) 
@@ -71,9 +73,16 @@ export default class PercentReceivedDataContainer extends React.Component {
     this.setState({
       isExporting: true
     })
-    // let res = await dataStationFixedApi.exportData(this.state.searchFormData)
-    // if (res && res.success) window.location = res.data
-    // else message.error('Export Error') //message.error(res.message)
+     const key = _.get(this.state.searchFormData, 'key', '')
+     const params = {
+       from: _.get(this.state.searchFormData, 'fromDate', ''),
+       to: _.get(this.state.searchFormData, 'toDate', ''),
+       dataFrequency: _.get(this.state.searchFormData, 'dataFrequency', 5),
+       stationName: _.get(this.state.searchFormData, 'stationName', '')
+     }
+     let res = await aqiDataStationAuto.exportDataStatistict(key, {...params})
+     if (res && res.success) window.location = res.data
+     else message.error('Export Error') //message.error(res.message)
 
     this.setState({
       isExporting: false
@@ -100,7 +109,6 @@ export default class PercentReceivedDataContainer extends React.Component {
               isLoading={this.state.isLoading}
               dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
               dataSource={this.state.dataSource}
-              dataFrequency={this.state.dataFrequency}
               pagination={this.state.pagination}
               onExportExcel={this.handleExportExcel}
               nameChart={this.state.searchFormData.name}

@@ -67,7 +67,8 @@ export default class SearchForm extends React.Component {
       stationID: null,
       fromDate: props.initialValues.fromDate,
       toDate: props.initialValues.toDate,
-      dataFrequency: null
+      dataFrequency: null,
+      stationName: null
     }
   }
 
@@ -94,7 +95,8 @@ export default class SearchForm extends React.Component {
       stationName: station.name,
       receivedAt: moment(),
       stationID: station._id,
-      dataFrequency: station.dataFrequency
+      dataFrequency: _.get(station, 'dataFrequency', 5),
+      stationName: _.get(station, 'name', 5)
     }
     this.setState(params)
   }
@@ -106,7 +108,8 @@ export default class SearchForm extends React.Component {
       key: values.station,
       name: this.state.stationName,
       stationID: this.state.stationID,
-      dataFrequency: this.state.dataFrequency
+      dataFrequency: this.state.dataFrequency,
+      stationName: this.state.stationName
     })
   }
 

@@ -28,7 +28,6 @@ export default class TabeList extends React.PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool,
     dataSource: PropTypes.array,
-    dataFrequency: PropTypes.number,
     onExportExcel: PropTypes.func,
     nameChart: PropTypes.string,
     isExporting: PropTypes.bool
@@ -56,7 +55,6 @@ export default class TabeList extends React.PureComponent {
               loading={this.props.isLoading}
               dataAnalyzeStationAuto={this.props.dataAnalyzeStationAuto}
               dataSource={this.props.dataSource}
-              dataFrequency={_.isNumber(this.props.dataFrequency)? this.props.dataFrequency : 5}
               onChange={this.props.onChangePage}
             />
           </Tabs.TabPane>
