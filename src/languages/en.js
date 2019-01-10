@@ -944,7 +944,10 @@ export default {
       login: 'Login',
       status: 'Status',
       roleAssign: 'Assign Role',
-      createdAt: 'Created At'
+      createdAt: 'Created At',
+      setPassword: 'Set Password',
+      setPasswordSuccess: 'Update Password Successfully',
+      setPasswordFailure: 'Update Password Failure',
     },
     roleAssign: {
       role: 'Role',

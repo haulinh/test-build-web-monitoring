@@ -942,7 +942,10 @@ export default {
       login: 'Đăng nhập',
       status: 'Trạng thái',
       roleAssign: 'Uỷ quyền',
-      createdAt: 'Tạo lúc'
+      createdAt: 'Tạo lúc',
+      setPassword: 'Cập nhật mật khẩu',
+      setPasswordSuccess: 'Cập nhật mật khẩu thành công',
+      setPasswordFailure: 'Cập nhật mật khẩu thất bại'
     },
     roleAssign: {
       role: 'Nhóm quền',

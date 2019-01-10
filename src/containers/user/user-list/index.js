@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Button, Icon, Menu, Dropdown } from 'antd'
+import { Button, Icon, Menu, Dropdown, Input, Modal, message } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
@@ -19,10 +19,10 @@ import AvatarCharacter from 'components/elements/avatar-character'
 import ClearFix from 'components/elements/clearfix'
 import styled from 'styled-components'
 import TimeAgo from 'react-timeago'
-import { Modal, message } from 'antd'
 import format from 'string-format'
 import { translate } from 'hoc/create-lang'
 import moment from 'moment/moment'
+import authApi from 'api/AuthApi'
 
 const AccountWapper = styled.div`
   display: flex;
@@ -84,6 +84,10 @@ export default class UserList extends React.Component {
     onDeleteItem: PropTypes.func,
     fetchData: PropTypes.func,
     lang: langPropTypes
+  }
+
+  state = { 
+    user_id: null, password: ''
   }
 
   async componentWillMount() {}
@@ -164,6 +168,33 @@ export default class UserList extends React.Component {
     )
   }
 
+  handleModalOpen = (e, user_id) => {
+    this.setState({ user_id, password: '' })
+  }
+
+  handleModalClose = e => {
+    this.setState({ user_id: null, password: '' })
+  }
+
+  async handleModalSubmit () {
+    try {
+      const { user_id, password } = this.state
+
+      if (password) {
+        const rs = await authApi.postSetPassword({ _id: user_id, password })
+        if (!rs) message.error(this.props.lang.t('userManager.list.setPasswordFailure'))
+      }
+      message.success(this.props.lang.t('userManager.list.setPasswordSuccess')) 
+    } catch (error) {
+      message.error(this.props.lang.t('userManager.list.setPasswordFailure'))
+    }
+    this.handleModalClose()
+  }
+
+  handlePasswordText = ({ target }) => {
+    this.setState({ password: target.value })
+  }
+
   getMenuNotDeleting(row, t, accountEnable) {
     return (
       <Menu>
@@ -216,6 +247,16 @@ export default class UserList extends React.Component {
                 </div>
               )}
             </a>
+          </Menu.Item>
+        )}
+        {protectRole('')(
+          <Menu.Item key="4">
+            <div
+              onClick={e => this.handleModalOpen(e, row._id)}
+            >
+              <IconButton type="lock" />
+              {t('userManager.list.setPassword')}
+            </div>
           </Menu.Item>
         )}
       </Menu>
@@ -406,6 +447,16 @@ export default class UserList extends React.Component {
           onSetPage={this.props.onChangePage}
           pagination={this.props.pagination}
         />
+         <Modal
+          title={this.props.lang.t('userManager.list.setPassword')}
+          visible={!!this.state.user_id}
+          onOk={() => this.handleModalSubmit()}
+          onCancel={this.handleModalClose}
+          cancelText={this.props.lang.t('addon.reset')}
+          okText={this.props.lang.t('addon.save')}
+        >
+          <Input value={this.state.password} type='password' placeholder={this.props.lang.t('userManager.form.password.label')} onChange={this.handlePasswordText}/>
+        </Modal>
       </PageContainer>
     )
   }
