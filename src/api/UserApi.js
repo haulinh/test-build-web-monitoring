@@ -66,6 +66,14 @@ export function accountEnable(_id, data = {}) {
   return putFetch(getUserUrl('organization/enable/' + _id), data)
 }
 
+export function confirmSms(type, data = {}) {
+  return putFetch(getUserUrl(`organization/security/2fa/sms`), data)
+}
+
+export function getSmsCode(type) {
+  return getFetch(getUserUrl(`organization/security/2fa/sms`))
+}
+
 export default {
   searchUser,
   registerUser,
@@ -77,5 +85,7 @@ export default {
   updateRole,
   accountActivate,
   getTotalCount,
-  accountEnable
+  accountEnable,
+  confirmSms,
+  getSmsCode
 }

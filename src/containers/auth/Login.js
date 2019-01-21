@@ -16,6 +16,7 @@ import Button from 'components/elements/button'
 import Clearfix from 'components/elements/clearfix'
 import { userLogin, userLogin2Factor } from 'redux/actions/authAction'
 import Errors from 'constants/errors'
+import * as _ from 'lodash'
 
 const FInput = createValidateComponent(InputLabel)
 
@@ -127,6 +128,15 @@ export default class Login extends PureComponent {
     }
   }
 
+
+  getEmail_Sms () {
+    if (_.get(this.props, 'userInfo.twoFactorAuth.type') === 'sms') {
+      return _.get(this.props, 'userInfo.phone.phoneNumber')
+    } 
+
+    return _.get(this.state, 'formData.email')
+  }
+
   render() {
     const { t } = this.props.lang
     return (
@@ -160,7 +170,7 @@ export default class Login extends PureComponent {
             <div>
               <p>
                 {t('login.twoFactorAlert', {
-                  email: this.state.formData.email
+                  email: this.getEmail_Sms()
                 })}
               </p>
               <Field
