@@ -4,7 +4,7 @@ import { translate } from 'hoc/create-lang'
 import { autobind } from 'core-decorators'
 import { Table } from 'antd'
 import * as _ from 'lodash'
-import moment from 'moment/moment'
+
 
 @autobind
 export default class TableDataList extends React.PureComponent {
