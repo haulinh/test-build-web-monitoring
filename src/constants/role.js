@@ -28,7 +28,7 @@ export default {
     DELETE: 'menu.stationFixed.actions.delete'
   },
   CONFIG_WQI: {
-    VIEW: 'menu.stationAuto.actions.view'
+    VIEW: 'menu.configWQI.actions.view'
   },
   USER: {
     VIEW: 'menu.user.actions.view',
