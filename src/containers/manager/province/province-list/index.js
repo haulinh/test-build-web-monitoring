@@ -14,6 +14,7 @@ import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import DynamicTable from 'components/elements/dynamic-table'
+import * as _ from 'lodash'
 
 @protectRole(ROLE.STATION_AUTO.VIEW)
 @createManagerList({
@@ -69,7 +70,7 @@ export default class ProvinceList extends React.Component {
     const {
       lang: { t }
     } = this.props
-    return this.props.dataSource.map((row, index) => [
+    return _.get(this.props,'dataSource',[]).map((row, index) => [
       {
         content: (
           <strong>

@@ -36,6 +36,10 @@ export function putSecurity(data) {
   return putFetch(getUserUrl('organization/security/2fa'), data)
 }
 
+export function postSetPassword (data) {
+  return postFetch(getAuthUrl('set-password'), data)
+}
+
 //Send Code
 export function getForgotSendCode(email) {
   return getFetch(getAuthUrl(`forgot-password?email=${email}`))
@@ -61,5 +65,6 @@ export default {
   getForgotSendCode,
   postConfirmCode,
   putResetPassword,
-  updateConfigStataion
+  updateConfigStataion,
+  postSetPassword
 }

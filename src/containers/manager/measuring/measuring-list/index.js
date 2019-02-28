@@ -15,6 +15,7 @@ import Breadcrumb from '../breadcrumb'
 import MeasuringSearchForm from '../measuring-search'
 import MeasuringSearchAdvancedForm from '../measuring-search/advanced'
 import ROLE from 'constants/role'
+import * as _ from 'lodash'
 
 @protectRole(ROLE.MEASURING.VIEW)
 @createManagerList({
@@ -86,7 +87,7 @@ export default class MeasuringList extends React.Component {
     const {
       lang: { t }
     } = this.props
-    return this.props.dataSource.map((row, index) => [
+    return _.get(this.props,'dataSource', []).map((row, index) => [
       {
         content: (
           <strong>

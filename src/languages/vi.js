@@ -942,7 +942,10 @@ export default {
       login: 'Đăng nhập',
       status: 'Trạng thái',
       roleAssign: 'Uỷ quyền',
-      createdAt: 'Tạo lúc'
+      createdAt: 'Tạo lúc',
+      setPassword: 'Cập nhật mật khẩu',
+      setPasswordSuccess: 'Cập nhật mật khẩu thành công',
+      setPasswordFailure: 'Cập nhật mật khẩu thất bại'
     },
     roleAssign: {
       role: 'Nhóm quền',
@@ -1055,7 +1058,21 @@ export default {
     label: 'Bảo mật 2 lớp',
     note:
       'Nếu bạn bật tính năng Xác thực hai lớp. Hệ thống sẽ gửi mã xác thực đến địa chỉ email của bạn mỗi khi bạn đăng nhập.',
-    success: 'Thành công'
+    success: 'Thành công',
+    failure: 'Kích hoạt bảo mật 2 lớp thành công',
+    message: {
+      userUse: 'Bạn đang sử dụng tính năng bảo mật 2 lớp qua {{=it.type}}',
+      code: 'Mã xác thực đã được gửi tới: {{=it.phone}}' ,
+      info: `Kích hoạt xác thực hai lớp. Khi truy cập ứng dụng bạn sẽ phải nhập mã xác thực được gửi qua tin nhắn.`
+    },
+    step1: 'Nhập code',
+    step2: 'Chờ xác thực',
+    step3: 'Xong',
+    send: 'Gửi',
+    use: {
+      email: 'Sử dụng Email',
+      sms: 'Sử dụng SMS'
+    }
   },
   login: {
     title: 'Đăng nhập',

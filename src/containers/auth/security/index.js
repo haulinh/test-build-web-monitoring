@@ -11,6 +11,8 @@ import Breadcrumb from 'containers/auth/breadcrumb'
 import { fetchUserMe } from 'redux/actions/authAction'
 import { connectAutoDispatch } from 'redux/connect'
 import styled from 'styled-components'
+import ModalActive from './modal-select'
+import * as _ from 'lodash'
 
 const Note = styled.i`
   font-size: 12px;
@@ -25,8 +27,53 @@ export class SecurityForm extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      isVisible: false,
       enable: objectPath.get(props.initialValues, 'twoFactorAuth.enable')
     }
+  }
+
+  async handleUpdate (enable) {
+    try {
+      const { success } = await AuthApi.putSecurity({enable})
+      return !!success
+    } catch (error) {
+      return false
+    }
+  }
+
+  handleClose = () => {
+    this.setState({isVisible: false})
+  }
+
+  handleOpen = () => {
+    this.setState({isVisible: true})
+  }
+
+  handleSuccess = status => {
+    this.setState({ isVisible: false, enable: true })
+    if (status) {
+      swal({
+        type: 'success',
+        title: translate('security.success')
+      })
+    } else {
+      swal({
+        type: 'error',
+        title: translate('security.failure')
+      })
+    }
+  }
+
+  _render2FA_Note () {
+    if (_.get(this.props, 'initialValues.twoFactorAuth.enable', false)) {
+      return <div>
+        <Note style={{ color: 'red', fontWeight: '600' }}>{
+            translate('security.message.userUse', {
+              type: _.get(this.props, 'initialValues.twoFactorAuth.type', 'email') === 'sms' ? 'SMS' : 'Email' })
+          }</Note>
+      </div>
+    }
+    return null
   }
 
   render() {
@@ -38,15 +85,22 @@ export class SecurityForm extends PureComponent {
           unCheckedChildren="Off"
           checked={this.state.enable}
           onChange={checked => {
+            if (checked) {
+              this.handleOpen()
+            } else {
+              this.handleUpdate(false)
+            }
             this.setState({
               enable: checked
             })
-            this.props.onChange(checked)
+            //this.props.onChange(checked)
           }}
         />
+        {this._render2FA_Note()}
         <div>
           <Note>{translate('security.note')}</Note>
         </div>
+        <ModalActive user={this.props.initialValues} onSuccess={this.handleSuccess} visible={this.state.isVisible} onCancel={this.handleClose}/>
       </div>
     )
   }
@@ -77,29 +131,12 @@ export default class Security extends PureComponent {
     })
   }
 
-  async onChange(enable) {
-    const data = { enable }
-    const result = await AuthApi.putSecurity(data)
-    if (result.error) {
-      swal({
-        type: 'error',
-        title: result.message
-      })
-    } else {
-      swal({
-        type: 'success',
-        title: translate('security.success')
-      })
-    }
-  }
-
   render() {
     return (
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb items={['security']} />
         {this.state.isLoaded && (
           <SecurityForm
-            onChange={this.onChange}
             initialValues={this.state.userInfo}
           />
         )}

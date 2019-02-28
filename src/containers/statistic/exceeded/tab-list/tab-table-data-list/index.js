@@ -5,7 +5,6 @@ import { autobind } from 'core-decorators'
 import { Table } from 'antd'
 import * as _ from 'lodash'
 
-
 @autobind
 export default class TableDataList extends React.PureComponent {
   static propTypes = {

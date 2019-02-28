@@ -207,7 +207,7 @@ export default class StationAutoFormTable extends React.Component {
                 onChange={value =>
                   this.handleChangeMeasuring(value, index, 'name')
                 }
-                options={this.props.measuringListSource.map(d => (
+                options={_.get(this.props,'measuringListSource',[]).map(d => (
                   <Select.Option key={d.key} value={d.key}>
                     {d.name}
                   </Select.Option>

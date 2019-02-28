@@ -15,6 +15,7 @@ import styled from 'styled-components'
 import DynamicTable from 'components/elements/dynamic-table'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
+import * as _ from 'lodash'
 
 const AvatarWrapper = styled.div`
   .ant-avatar {
@@ -93,7 +94,7 @@ export default class StationTypeList extends React.Component {
     const {
       lang: { t }
     } = this.props
-    return this.props.dataSource.map((row, index) => [
+    return _.get(this.props, 'dataSource', []).map((row, index) => [
       {
         content: (
           <strong>

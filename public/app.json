@@ -1,5 +1,5 @@
 {
-  "apiGateway": "http://123.25.234.93:5000",
+  "apiGateway": "http://27.74.251.0:5000",
   "apiMedia": "http://27.74.251.0:1234",
   "apiCamera": "http://27.74.251.0:5020"
 }
