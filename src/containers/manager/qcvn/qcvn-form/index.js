@@ -84,11 +84,9 @@ export default class QCVNForm extends React.PureComponent {
         key: values.key,
         name: values.name,
         measuringList: values.measuringList,
-        options: this.state.options,
         numericalOrder: values.numericalOrder
       }
       // Callback submit form Container Component
-      console.log(data)
       this.props.onSubmit(data)
     })
   }

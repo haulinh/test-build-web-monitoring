@@ -112,7 +112,7 @@ export default class StationAutoForm extends React.PureComponent {
                     message: t('stationAutoManager.config.ratio.error')
                   }
                 ]
-              })(<InputNumber min={1} />)}
+              })(<InputNumber/>)}
             </FormItem>
           )
         }
