@@ -6,6 +6,8 @@
 /node_modules
 /.idea
 /database
+package-lock.json
+yarn.lock
 
 # testing
 /coverage
