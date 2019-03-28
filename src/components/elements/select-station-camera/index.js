@@ -25,7 +25,7 @@ export default class SelectStation extends PureComponent {
 
     if (stations.success)
       this.setState({
-        stations: stations.data,
+        stations: stations.data || [],
         value: this.props.value
       })
   }
