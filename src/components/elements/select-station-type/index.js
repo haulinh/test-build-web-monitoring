@@ -30,7 +30,7 @@ export default class SelectStationType extends PureComponent {
     const stationTypes = await CategoryApi.getStationTypes({}, query)
     if (stationTypes.success)
       this.setState({
-        stationTypes: stationTypes.data,
+        stationTypes: stationTypes.data || [],
         value: this.props.value
       })
   }

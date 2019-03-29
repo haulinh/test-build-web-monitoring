@@ -40,7 +40,7 @@ export default class SelectStationType extends PureComponent {
   async componentDidMount() {
     let query = { isAuto: true }
     const stationTypes = await CategoryApi.getStationTypes({}, query)
-    this.setState({ stationTypes: stationTypes.data })
+    this.setState({ stationTypes: stationTypes.data || []})
   }
 
   render() {
