@@ -1,11 +1,16 @@
 import { get } from 'lodash'
 
+//dev: http://35.198.234.113:5000
+//deploy: http://Duong dan public
+const WEB_GATEWAY_API = 'http://35.198.234.113:5000'
+
 /* eslint-disable */
 export function getConfigApi() {
   const config = window.config
   function c(prefix) {
     // return config.apiGateway + '/' + prefix
-    return 'http://35.198.234.113:5000' + '/' + prefix
+    // return 'http://35.198.234.113:5000' + '/' + prefix
+    return WEB_GATEWAY_API + '/' + prefix
   }
   return {
     gateway: config.apiGateway,
