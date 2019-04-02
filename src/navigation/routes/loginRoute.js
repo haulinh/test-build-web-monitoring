@@ -9,7 +9,7 @@ export default class LoginRoute extends React.Component {
   render() {
     return (
       <div>
-        <Route exact path="/" component={LoginContainer} />
+        <Route extract path="/" component={LoginContainer} />
       </div>
     )
   }
