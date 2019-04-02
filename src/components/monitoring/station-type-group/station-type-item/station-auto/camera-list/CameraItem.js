@@ -45,12 +45,10 @@ export default class CameraItem extends React.PureComponent {
             <strong>{this.props.name}</strong>
           </CardHeader>
           {this.state.width ? (
-            <iframe
-              style={{ border: '0px', overflow: 'hidden' }}
-              src={`${getConfigApi().camera}?url=${this.props.rtspUrl}`}
-              scrolling="no"
-              title={this.props.name + this.props.index}
-              {...this.getIframeProps()}
+            <video
+              style={{width: this.state.width}}
+              controls
+              src={this.props.rtspUrl}
             />
           ) : null}
         </Card>

@@ -60,7 +60,7 @@ export default class PlayerViewer extends React.Component {
         <Breadcrumb items={['list']} />
         <Container>
           <Left>
-            <Card
+            {/* <Card
               cover={
                 this.state.camera.src ? (
                   <Player src={this.state.camera.src} />
@@ -73,7 +73,13 @@ export default class PlayerViewer extends React.Component {
                 title={this.state.camera.name || ' '}
                 description={this.state.camera.stationName || ' '}
               />
-            </Card>
+            </Card> */}
+            
+            <video
+              src="http://35.247.172.138:7001/media/c25efecb-d465-6122-1e28-ef56f2865856.webm?auth=YWRtaW46NTg1ODNmYzZkOTdlMDoxODAyNTc5ZDIyZjdiMzdiM2YyMGFhMGExMzQ0MzMyOA=="
+              controls
+              autoPlay
+            ></video>
           </Left>
           <Right>
             <ListView

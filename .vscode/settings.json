@@ -1,0 +1,11 @@
+{
+  "sshfs.configs": [
+    {
+      "host": "35.198.234.113",
+      "name": "ThoPham",
+      "privateKeyPath": "/Users/apple/Downloads/id_rsaTho",
+      "root": "/home",
+      "username": "tho.phamkim"
+    }
+  ]
+}
