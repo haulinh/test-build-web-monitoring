@@ -66,7 +66,8 @@ function getClientEnvironment(publicUrl) {
         return env;
       },
       {
-        WEB_GATEWAY_API: process.env.WEB_GATEWAY_API || 'chua setup .env WEB_GATEWAY_API',
+        // WEB_GATEWAY_API: process.env.WEB_GATEWAY_API || 'chua setup .env WEB_GATEWAY_API',
+        WEB_GATEWAY_API: process.env.WEB_GATEWAY_API || 'http://35.247.148.25:5000',
         // Useful for determining whether we’re running in production mode.
         // Most importantly, it switches React into the correct mode.
         NODE_ENV: process.env.NODE_ENV || 'development',
