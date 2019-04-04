@@ -1,20 +1,26 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Card } from 'antd'
-import Player from '../player-view'
-import { Link } from 'react-router-dom'
-import slug from 'constants/slug'
-import * as _ from 'lodash'
-const { Meta } = Card
+import React from "react";
+import styled from "styled-components";
+import { Card } from "antd";
+import Player from "../player-view";
+import { Link } from "react-router-dom";
+import slug from "constants/slug";
+import * as _ from "lodash";
+import PropTypes from "prop-types";
 
-const DescriptionView = styled.div``
+const { Meta } = Card;
+
+const DescriptionView = styled.div``;
 
 export default class ListItemView extends React.PureComponent {
+  static propTypes = {
+    auth: PropTypes.string.isRequired
+  };
+
   handleCamera = e => {
     if (this.props.onCameraClick) {
-      this.props.onCameraClick(this.props.camera)
+      this.props.onCameraClick(this.props.camera);
     }
-  }
+  };
 
   render() {
     const {
@@ -23,12 +29,12 @@ export default class ListItemView extends React.PureComponent {
       name,
       _id,
       stationType: { key }
-    } = this.props.camera
+    } = this.props.camera;
 
     return (
       <Card
         style={{ width: 250, marginRight: 12, marginBottom: 12 }}
-        cover={<Player src={src} />}
+        cover={<Player src={`${src}&auth=${this.props.auth}`} />}
       >
         <Link
           onClick={this.handleCamera}
@@ -42,6 +48,6 @@ export default class ListItemView extends React.PureComponent {
           />
         </Link>
       </Card>
-    )
+    );
   }
 }

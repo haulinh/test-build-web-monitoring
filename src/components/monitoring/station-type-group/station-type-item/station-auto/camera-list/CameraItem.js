@@ -14,7 +14,8 @@ export default class CameraItem extends React.PureComponent {
   static propTypes = {
     name: PropTypes.string,
     rtspUrl: PropTypes.string,
-    index: PropTypes.number
+    index: PropTypes.number,
+    auth: PropTypes.string.isRequired
   }
 
   state = {
@@ -48,7 +49,7 @@ export default class CameraItem extends React.PureComponent {
             <video
               style={{width: this.state.width}}
               controls
-              src={this.props.rtspUrl}
+              src={`${this.props.rtspUrl}&auth=${this.props.auth}`}
             />
           ) : null}
         </Card>

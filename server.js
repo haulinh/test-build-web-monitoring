@@ -9,7 +9,12 @@ app.get('/app.json', function(req, res) {
     apiGateway: process.env.WEB_GATEWAY_API || 'http://35.198.234.113:5000', //http://27.74.251.0:5000
     apiMedia: process.env.WEB_MEDIA_API || 'http://171.244.21.99:5000',
     apiCamera: process.env.WEB_CAMERA_API || 'http://171.244.21.99:5000',
-    googleMapKey: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4'
+    googleMapKey: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4',
+    caemra: {
+      host: process.env.CAMERA_HOST,
+      username: process.env.CAMERA_USERNAME,
+      password: process.env.CAMERA_PASSWORD
+    }
   })
 })
 app.use(express.static(path.join(__dirname, 'build')))

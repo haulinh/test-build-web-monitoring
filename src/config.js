@@ -42,7 +42,9 @@ export function getConfigApi() {
     notify: c('notify'),
    // wqi: 'http://192.168.1.72:5017/wqi',
     // support: 'http://localhost:5014/support', //comemnt lcoal
-    sampleConfig: c('configSample') // local.
+    sampleConfig: c('configSample'), // local.,
+    
+    camera: config.camera
   }
 }
 

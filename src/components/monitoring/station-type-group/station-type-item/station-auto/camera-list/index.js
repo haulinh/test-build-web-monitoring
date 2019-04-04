@@ -7,6 +7,10 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 // import Clearfix from 'components/elements/clearfix'
 import CameraItem from './CameraItem'
+import { getAuthToken } from "api/CameraApi";
+import { Spin } from "antd";
+import swal from 'sweetalert2'
+
 
 const Wrapper = styled.div`
   margin-top: 8px;
@@ -28,15 +32,39 @@ const WrapperItem = styled.div`
   width: ${props => (props.isFullWidth ? '100%' : '50%')};
 `
 
+const SpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 100%;
+`;
+
 @autobind
 export default class CameraForm extends PureComponent {
+  state={
+    isLoaded: false
+  }
+
+  async componentDidMount(){
+       //todo
+       const auth = await getAuthToken();
+       if (!auth) {
+         swal({
+           title: "Unauthorized Camera fail",
+           type: 'error'
+         })
+       }
+       this.setState({  auth: auth, isLoaded: true });
+  }
+
   renderPanel(item, index) {
     // const isFullWidth =
     //   this.props.cameraList.length % 2 === 1 &&
     //   index === this.props.cameraList.length - 1
     return (
       <WrapperItem key={item.name} isFullWidth={false}>
-        <CameraItem {...item} index={index} />
+        <CameraItem auth={this.state.auth} {...item} index={index} />
       </WrapperItem>
     )
   }
@@ -44,7 +72,13 @@ export default class CameraForm extends PureComponent {
   render() {
     return (
       <Wrapper>
-        {this.props.cameraList.map((item, index) => {
+          {!this.state.isLoaded && (
+            <SpinnerContainer>
+              <Spin size="large" loading={!this.state.isLoaded} />
+            </SpinnerContainer>
+          )}
+
+        {this.state.isLoaded && this.props.cameraList.map((item, index) => {
           return this.renderPanel(item, index)
         })}
       </Wrapper>
