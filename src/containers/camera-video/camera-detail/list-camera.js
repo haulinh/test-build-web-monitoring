@@ -44,6 +44,7 @@ export default class CameraList extends React.Component {
       <WrapperContainer>
         {this.getData().map((camera, inx) => (
           <ListItem
+            auth={this.props.auth}
             key={`${inx}`}
             camera={camera}
             onCameraClick={this.handleCamera}
