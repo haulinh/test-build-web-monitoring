@@ -10,7 +10,7 @@ app.get('/app.json', function(req, res) {
     apiMedia: process.env.WEB_MEDIA_API || 'http://171.244.21.99:5000',
     apiCamera: process.env.WEB_CAMERA_API || 'http://171.244.21.99:5000',
     googleMapKey: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4',
-    caemra: {
+    camera: {
       host: process.env.CAMERA_HOST,
       username: process.env.CAMERA_USERNAME,
       password: process.env.CAMERA_PASSWORD
