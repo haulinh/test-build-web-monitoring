@@ -47,8 +47,8 @@ export default class CameraList extends React.Component {
     let cameraList = [];
     _.forEach(rs.data || [], ({ _id, key, name, stationType, options }) => {
       cameraList = cameraList.concat(
-        _.map(_.get(options, "camera.list", []), item => ({
-          key,
+        _.map(_.get(options, "camera.list", []), (item, index) => ({
+          key: `${key}_${index}`,
           stationName: name,
           stationType,
           src: item.rtspUrl,
