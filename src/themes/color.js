@@ -25,4 +25,11 @@ export const TEXT = {
   GRAY: '#999999'
 }
 
-export default { PRIMARY }
+export const COLOR_STATUS = {
+  DATA_LOST: '#6AA84F',
+  EXCEEDED: '#CC0000',
+  EXCEEDED_PREPARING: '#E69138',
+  GOOD: '#6AA84F'
+}
+
+export default { PRIMARY, COLOR_STATUS }
