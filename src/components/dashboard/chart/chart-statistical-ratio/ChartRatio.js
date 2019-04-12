@@ -10,6 +10,7 @@ import { translate } from 'hoc/create-lang'
 import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
 import StatusModalView from './StatusModal'
 import ChartBaseView from './chart-base'
+import color from 'themes/color';
 
 const dataLabels = {
   enabled: true,
@@ -123,7 +124,7 @@ export default class HeaderView extends React.PureComponent {
     const me = this
     const dataLabels = {
       enabled: true,
-      color: '#000000',
+      color: 'white',
       verticalAlign: 'center',
       align: 'center',
       padding: 20,
@@ -153,48 +154,30 @@ export default class HeaderView extends React.PureComponent {
 
     return {
       chart: {
-        type: 'bar',
-        events: {
-          click: function(event) {}
-        }
+        plotBackgroundColor: null,
+        plotBorderWidth: 0,
+        plotShadow: false
       },
       title: {
-        text: '' //title
-      },
-      credits: {
-        enabled: false
-      },
-      xAxis: {
-        categories,
-        lineWidth: 1,
-        lineColor: '#ccc'
-      },
-      yAxis: {
-        min: 0,
-        max: 100,
-        title: {
-          text: ''
-        },
-        lineWidth: 1,
-        lineColor: '#ccc',
-        labels: {
-          formatter: function() {
-            return `${this.value}%`
-          }
-        }
+        text: '' //translate('dashboard.chartStatus.titleByUnit', { unit: title })
       },
       legend: {
-        reversed: true
+        enabled: true,
       },
-      series: [series1, series2],
       tooltip: {
-        pointFormat:
-          '<span style="color:{series.color}">{series.name}</span>: ({point.y}%)<br/>',
-        shared: true
+        pointFormat: '<b>{point.percentage:.1f}%</b>'
       },
       plotOptions: {
-        series: {
-          stacking: 'normal',
+        pie: {
+          dataLabels: {
+            enabled: true,
+            distance: -50,
+            style: {
+              fontWeight: 'bold',
+              color: 'white',
+              textOutline: false
+            }
+          },
           events: {
             click: function(event) {
               const stationKey = _.get(event, 'point.category', '')
@@ -203,9 +186,32 @@ export default class HeaderView extends React.PureComponent {
                 stationKey
               })
             }
-          }
+          },
+          showInLegend: true
+        },
+      },
+      credits: {
+        enabled: false
+      },
+      series: [
+        {
+          dataLabels,
+          type: 'pie',
+          name: title,
+          data: [
+            {
+              name: notReceived,
+              y: series2,
+              color: color.COLOR_STATUS.DATA_LOSS
+            },
+            {
+              name: received,
+              y: series1,
+              color: color.COLOR_STATUS.GOOD
+            }
+          ]
         }
-      }
+      ]
     }
   }
 
