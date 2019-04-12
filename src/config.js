@@ -17,7 +17,6 @@ export function getConfigApi() {
   return {
     gateway: config.apiGateway,
     media: config.apiMedia,
-    camera: config.apiCamera,
     auth: c('auth'),
     user: c('user'),
     trialRegister: c('trial-register'),
