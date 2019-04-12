@@ -4,6 +4,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import slug from 'constants/slug'
+import { COLOR_STATUS } from 'themes/color';
 const SummaryItemWrapper = styled.div`
   display: flex;
   flex: 1;
@@ -29,13 +30,15 @@ const Text = styled.span`
 const TextNumber = Text.extend`
   font-size: 20px;
   flex: 1;
+  text-align: right;
+  margin-top: 4px;
 `
 
 const TextDescription = Text.extend`
   font-size: 14px;
   font-weight: 600;
-  text-align: left;
-  margin-top: 6px;
+  text-align: right;
+  // margin-top: 6px;
 `
 
 const Row = styled.div`
@@ -63,13 +66,15 @@ export default class SummaryItem extends React.PureComponent {
   }
 
   render() {
-    const { name, image, color, stationTypeKey } = this.props
+    const { name, image, color, stationTypeKey, statusStation } = this.props
+    const colorStatus = (this.props.number == 0)? COLOR_STATUS.DATA_LOSS : COLOR_STATUS[statusStation]
     return (
       <Link to={slug.monitoring.base + `?Id=${stationTypeKey}`}>
-        <SummaryItemWrapper color={color}>
+        <SummaryItemWrapper color={colorStatus}>
           <Row>
-            <TextNumber>{this.renderNumber()}</TextNumber>
-            <StationTypeImg src={image} />
+          <StationTypeImg src={image} />
+            <TextNumber>22/99</TextNumber>
+         
           </Row>
           <TextDescription>{name}</TextDescription>
         </SummaryItemWrapper>
