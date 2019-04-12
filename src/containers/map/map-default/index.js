@@ -14,7 +14,7 @@ import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import Header from './Header'
 import connectWindowHeight from '../hoc-window-height'
 import SidebarNormal from './sidebar/SidebarNormal'
-import SidebarNotifications from './sidebar/SidebarNotifications'
+// import SidebarNotifications from './sidebar/SidebarNotifications.remove'
 // import { TYPE } from './components/box-analytic-list/SelectType'
 
 const MapDefaultWrapper = styled.div`
@@ -183,12 +183,13 @@ export default class MapDefault extends React.PureComponent {
 
   renderSidebar() {
     switch (this.state.sidebarType) {
-      case searchSidebarType.NOTIFICATIONS:
-        return (
-          <SidebarNotifications
-            onClickNotificationItem={this.handleClickNotification}
-          />
-        )
+      /* MARK  LAUNCHING REMOVE CAI CHUONG */
+      // case searchSidebarType.NOTIFICATIONS:
+      //   return (
+      //     <SidebarNotifications
+      //       onClickNotificationItem={this.handleClickNotification}
+      //     />
+      //   )
       default:
         return (
           <SidebarNormal
@@ -229,10 +230,10 @@ export default class MapDefault extends React.PureComponent {
         />
         {this.state.isRight && (
           <ColRight>
-            <Header
+            {/* <Header
               selectedType={this.state.sidebarType}
               onChange={this.handleChangeSidebarType}
-            />
+            /> */}
             <RightWrapper>{this.renderSidebar()}</RightWrapper>
           </ColRight>
         )}
