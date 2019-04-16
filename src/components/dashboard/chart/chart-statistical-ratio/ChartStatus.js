@@ -33,11 +33,6 @@ export default class ChartStatusView extends React.PureComponent {
     let goodTotal = 0
     let lossData = 0
     const tpms = _.values(dataGroup)
-    
-    console.log('__---__-___-tpm____-__',tpms)
-
-    //let total = 0
-
 
     _.forEach(tpms, tpm => {
       goodTotal += _.filter(tpm, { status: 'GOOD' }).length
@@ -100,6 +95,7 @@ export default class ChartStatusView extends React.PureComponent {
     }
   }
 
+  /* MARK  removed trong phiên bản launching */
   configStatusChartColumn = (dataGroup, title, titleActive, tittleUnActive) => {
     const dataLabels = {
       enabled: true,

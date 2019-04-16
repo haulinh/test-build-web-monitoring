@@ -159,8 +159,8 @@ export default class HeaderView extends React.PureComponent {
     })
 
 
-    let averageSeries1 = series1.data.length === 0 ? 0 : _.sum(series1.data) / series1.data.length
-    let averageSeries2 = 100 - averageSeries1
+    let averageSeries1 = series1.data.length === 0 ? 0 : _.round(_.sum(series1.data) / series1.data.length, 2)
+    let averageSeries2 = _.round(100 - averageSeries1, 2)
 
     return {
       chart: {
