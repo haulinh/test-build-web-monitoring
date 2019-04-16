@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Spin} from 'antd';
 import createContentLoader from "hoc/content-loader";
 import ListLoaderCp from "components/content-loader/list-loader";
 import BoxLoaderCp from "components/content-loader/box-loader";
@@ -14,6 +15,9 @@ import { translate } from "hoc/create-lang";
 import * as _ from "lodash";
 import { STATUS_STATION, getStatusPriority } from "constants/stationStatus";
 import WarningLevel from 'components/elements/warning-level'
+
+const GET_LAST_LOG_INTERVAL_TIME = 1000*5; // every 1min will get last log
+let getLastLogIntervalID = null;
 
 const ListLoader = createContentLoader({
   component: <ListLoaderCp />,
@@ -39,31 +43,12 @@ export default class OverviewDashboard extends Component {
     lineSeries: {},
     isLoaded: false,
     province: null,
-    groupLastLog: null
+    groupLastLog: null,
+    isGetLastLogLoading: false
   };
 
-  getStationInfo = async province => {
-    let provinceKey = null;
-    let stationTypes = await getStationTypes({}, { isAuto: true });
-    let stationTypeList = _.get(stationTypes, "data", []);
-
-    let stationCount = {};
-    let rows = {};
-    let lineSeries = {};
-
-    stationTypeList.forEach(({ key }) => {
-      stationCount[key] = 0;
-      rows[key] = [];
-      lineSeries[key] = [];
-    });
-
-    this.setState({
-      stationTypeList,
-      stationCount,
-      rows,
-      lineSeries,
-      isLoaded: true
-    });
+  getLastLog = async (province, provinceKey, rows, stationCount) => {
+    this.setState({isGetLastLogLoading: true})
 
     let stationLastLog = await getLastLog();
     let dataLastLog = [];
@@ -95,8 +80,44 @@ export default class OverviewDashboard extends Component {
       stationStatus: translate("dashboard.activeStationPer", {
         good: goodCount,
         total: _.size(dataLastLog)
-      })
+      }),
+      isGetLastLogLoading: false
     });
+  }
+
+  getStationInfo = async province => {
+    let provinceKey = null;
+    let stationTypes = await getStationTypes({}, { isAuto: true });
+    let stationTypeList = _.get(stationTypes, "data", []);
+
+    let stationCount = {};
+    let rows = {};
+    let lineSeries = {};
+
+    stationTypeList.forEach(({ key }) => {
+      stationCount[key] = 0;
+      rows[key] = [];
+      lineSeries[key] = [];
+    });
+
+    this.setState({
+      stationTypeList,
+      stationCount,
+      rows,
+      lineSeries,
+      isLoaded: true
+    });
+
+    // MARK  lấy last log 1 lần, sau đó cứ mỗi giây lại lấy last log
+    this.getLastLog(province, provinceKey, rows, stationCount)
+    if (getLastLogIntervalID) clearInterval(getLastLogIntervalID)
+    getLastLogIntervalID = setInterval(
+      () => {
+        this.getLastLog(province, provinceKey, rows, stationCount)
+        this.getSummaryList()
+      }, 
+      GET_LAST_LOG_INTERVAL_TIME
+    );
   };
 
   async componentDidMount() {
@@ -201,10 +222,13 @@ export default class OverviewDashboard extends Component {
           onChange={this.handleProvinceChange}
         />
         {this.state.groupLastLog && (
-          <SummaryList data={this.getSummaryList()} />
+          <Spin spinning={this.state.isGetLastLogLoading}>
+            <SummaryList data={this.getSummaryList()} />
+          </Spin>
         )}
         <WarningLevel />
         <ChartStatisticalRatio
+          loading={this.state.isGetLastLogLoading}
           data={this.state.stationList}
           province={this.state.province}
         />

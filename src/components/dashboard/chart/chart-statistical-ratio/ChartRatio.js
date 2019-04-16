@@ -1,6 +1,6 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { Card } from 'antd'
+import { Card, Spin } from 'antd'
 import ReactHighcharts from 'react-highcharts'
 import moment from 'moment'
 import * as _ from 'lodash'
@@ -27,7 +27,8 @@ export default class HeaderView extends React.PureComponent {
   state = {
     data: [],
     day: 7,
-    visible: false
+    visible: false,
+    isLoading: false
   }
 
   handleItemSelected = value => {
@@ -41,13 +42,19 @@ export default class HeaderView extends React.PureComponent {
   }
 
   getDataRatioBy = async day => {
+    this.setState({isLoading: true})
     const rs = await getDataStationAutoRatioCount(
       moment().format('DD-MM-YYYY HH:ss'),
       moment()
         .subtract(day, 'days')
         .format('DD-MM-YYYY HH:ss')
     )
-    this.setState({ day, data: _.get(rs, 'data', []) })
+
+    this.setState({
+      day, 
+      data: _.get(rs, 'data', []),
+      isLoading: false
+    })
   }
 
   configRatioSemi = (title, received, notReceived) => {
@@ -273,13 +280,18 @@ export default class HeaderView extends React.PureComponent {
               <Icon type="down" />
             </span>
           </Dropdown>
-          <ReactHighcharts config={this.getConfigRatio()} />
-          <StatusModalView
+
+          <Spin spinning={this.state.isLoading || this.props.loading}>
+            <ReactHighcharts config={this.getConfigRatio()} />
+          </Spin>
+
+          {/* NOTE  launching required: khong can show modal */}
+          {/* <StatusModalView
             title={this.state.stationKey || ''}
             data={_.keyBy(_.values(this.state.data), 'name')}
             visible={this.state.visible}
             onClose={this.onModalClose}
-          />
+          /> */}
         </Card>
       </ChartBaseView>
     )
