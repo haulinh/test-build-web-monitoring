@@ -6,6 +6,7 @@ import { colorLevels } from "constants/warningLevels";
 import { translate } from "hoc/create-lang";
 import { Tooltip } from "antd";
 import { get } from "lodash";
+import { COLOR_DEVICE_STATUS } from "themes/color";
 
 const DEVICE_STATUS = {
   "0": { src: "/images/sensor1.png", text: "monitoring.deviceStatus.normal" },
@@ -157,6 +158,7 @@ export default class MeasuringItem extends React.PureComponent {
     return null;
   };
 
+
   render() {
     const { value, unit, name } = this.props;
     return (
@@ -187,7 +189,9 @@ export default class MeasuringItem extends React.PureComponent {
           </div>
         </LeftContainer>
         <RightContainer>
-          <Dot />
+          <Dot style={{
+            backgroundColor: COLOR_DEVICE_STATUS[get(this.props, 'statusDevice', '')]
+          }} />
         </RightContainer>
 
         {/* <MeasuringItemText>
@@ -211,3 +215,5 @@ export default class MeasuringItem extends React.PureComponent {
     );
   }
 }
+
+// 0 xanh, 1 vang, 2 do
