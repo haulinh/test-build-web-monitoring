@@ -10,6 +10,7 @@ import { translate } from 'hoc/create-lang'
 import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
 import StatusModalView from './StatusModal'
 import ChartBaseView from './chart-base'
+import color from 'themes/color';
 
 const dataLabels = {
   enabled: true,
@@ -63,6 +64,7 @@ export default class HeaderView extends React.PureComponent {
       total = item.ratio
     }
 
+    console.log('___--___--___--___--_--_-__-',notReceived)
     return {
       chart: {
         plotBackgroundColor: null,
@@ -106,12 +108,12 @@ export default class HeaderView extends React.PureComponent {
             {
               name: notReceived,
               y: 100 - total,
-              color: '#F03045'
+              color: color.COLOR_STATUS.GOOD
             },
             {
               name: received,
               y: total,
-              color: '#008001'
+              color: color.COLOR_STATUS.DATA_LOSS
             }
           ]
         }
@@ -134,11 +136,11 @@ export default class HeaderView extends React.PureComponent {
       }
     }
 
-    const series1 = { name: received, data: [], dataLabels, color: '#008001' }
+    const series1 = { name: received, data: [], dataLabels, color: color.COLOR_STATUS.GOOD }
     const series2 = {
       name: notReceived,
       data: [],
-      color: '#F03045',
+      color: color.COLOR_STATUS.DATA_LOSS,
       dataLabels
     }
     let categories = []
@@ -151,61 +153,63 @@ export default class HeaderView extends React.PureComponent {
       categories.push(name)
     })
 
+
+    let averageSeries1 = series1.data.length === 0 ? 0 : _.sum(series1.data) / series1.data.length
+    let averageSeries2 = 100 - averageSeries1
+
     return {
       chart: {
-        type: 'bar',
-        events: {
-          click: function(event) {}
-        }
+        plotBackgroundColor: null,
+        plotBorderWidth: 0,
+        plotShadow: false
       },
       title: {
-        text: '' //title
+        text: '' //translate('dashboard.chartStatus.titleByUnit', { unit: title })
+      },
+      legend: {
+        enabled: true,
+        squareSymbol: false
+      },
+      tooltip: {
+        pointFormat: '<b>{point.percentage:.1f}%</b>'
+      },
+      plotOptions: {
+        pie: {
+          dataLabels: {
+            enabled: true,
+            distance: -50,
+            style: {
+              fontWeight: 'bold',
+              color: 'white',
+              textOutline: false
+            }
+          },
+          showInLegend: true
+        }
       },
       credits: {
         enabled: false
       },
-      xAxis: {
-        categories,
-        lineWidth: 1,
-        lineColor: '#ccc'
-      },
-      yAxis: {
-        min: 0,
-        max: 100,
-        title: {
-          text: ''
-        },
-        lineWidth: 1,
-        lineColor: '#ccc',
-        labels: {
-          formatter: function() {
-            return `${this.value}%`
-          }
-        }
-      },
-      legend: {
-        reversed: true
-      },
-      series: [series1, series2],
-      tooltip: {
-        pointFormat:
-          '<span style="color:{series.color}">{series.name}</span>: ({point.y}%)<br/>',
-        shared: true
-      },
-      plotOptions: {
-        series: {
-          stacking: 'normal',
-          events: {
-            click: function(event) {
-              const stationKey = _.get(event, 'point.category', '')
-              me.setState({
-                visible: true,
-                stationKey
-              })
+      series: [
+        {
+          // dataLabels,
+          type: 'pie',
+          name: title,
+          // innerSize: '40%',
+          data: [
+            {
+              name: translate('dashboard.chartRatio.notReceived'),
+              y: averageSeries2,
+              color: color.COLOR_STATUS.DATA_LOSS
+            },
+            {
+              name: translate('dashboard.chartRatio.received'),
+              y: averageSeries1,
+              color: color.COLOR_STATUS.GOOD
             }
-          }
+          ]
         }
-      }
+      ]
     }
   }
 
