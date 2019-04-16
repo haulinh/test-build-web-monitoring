@@ -16,8 +16,12 @@ export default class ChartStatisticalView extends React.PureComponent {
   render() {
     return (
       <WrapperView>
-        <ChartStatusView data={this.props.data} />
+        <ChartStatusView 
+          loading={this.props.loading}
+          data={this.props.data}
+        />
         <ChartRatioView
+          loading={this.props.loading}
           onChange={this.props.onChange}
           province={this.props.province}
         />

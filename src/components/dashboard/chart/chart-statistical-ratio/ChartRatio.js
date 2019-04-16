@@ -1,6 +1,6 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { Card } from 'antd'
+import { Card, Spin } from 'antd'
 import ReactHighcharts from 'react-highcharts'
 import moment from 'moment'
 import * as _ from 'lodash'
@@ -27,7 +27,7 @@ export default class HeaderView extends React.PureComponent {
   state = {
     data: [],
     day: 7,
-    visible: false
+    isLoading: false
   }
 
   handleItemSelected = value => {
@@ -41,13 +41,19 @@ export default class HeaderView extends React.PureComponent {
   }
 
   getDataRatioBy = async day => {
+    this.setState({isLoading: true})
     const rs = await getDataStationAutoRatioCount(
       moment().format('DD-MM-YYYY HH:ss'),
       moment()
         .subtract(day, 'days')
         .format('DD-MM-YYYY HH:ss')
     )
-    this.setState({ day, data: _.get(rs, 'data', []) })
+
+    this.setState({
+      day, 
+      data: _.get(rs, 'data', []),
+      isLoading: false
+    })
   }
 
   configRatioSemi = (title, received, notReceived) => {
@@ -64,7 +70,6 @@ export default class HeaderView extends React.PureComponent {
       total = item.ratio
     }
 
-    console.log('___--___--___--___--_--_-__-',notReceived)
     return {
       chart: {
         plotBackgroundColor: null,
@@ -154,8 +159,8 @@ export default class HeaderView extends React.PureComponent {
     })
 
 
-    let averageSeries1 = series1.data.length === 0 ? 0 : _.sum(series1.data) / series1.data.length
-    let averageSeries2 = 100 - averageSeries1
+    let averageSeries1 = series1.data.length === 0 ? 0 : _.round(_.sum(series1.data) / series1.data.length, 2)
+    let averageSeries2 = _.round(100 - averageSeries1, 2)
 
     return {
       chart: {
@@ -168,7 +173,6 @@ export default class HeaderView extends React.PureComponent {
       },
       legend: {
         enabled: true,
-        squareSymbol: false
       },
       tooltip: {
         pointFormat: '<b>{point.percentage:.1f}%</b>'
@@ -198,12 +202,12 @@ export default class HeaderView extends React.PureComponent {
           // innerSize: '40%',
           data: [
             {
-              name: translate('dashboard.chartRatio.notReceived'),
+              name: translate('dashboard.chartRatio.notReceived') + ` ${averageSeries2}%`,
               y: averageSeries2,
               color: color.COLOR_STATUS.DATA_LOSS
             },
             {
-              name: translate('dashboard.chartRatio.received'),
+              name: translate('dashboard.chartRatio.received') + ` ${averageSeries1}%`,
               y: averageSeries1,
               color: color.COLOR_STATUS.GOOD
             }
@@ -251,10 +255,6 @@ export default class HeaderView extends React.PureComponent {
     )
   }
 
-  onModalClose = () => {
-    this.setState({ visible: false })
-  }
-
   render() {
     return (
       <ChartBaseView
@@ -273,13 +273,11 @@ export default class HeaderView extends React.PureComponent {
               <Icon type="down" />
             </span>
           </Dropdown>
-          <ReactHighcharts config={this.getConfigRatio()} />
-          <StatusModalView
-            title={this.state.stationKey || ''}
-            data={_.keyBy(_.values(this.state.data), 'name')}
-            visible={this.state.visible}
-            onClose={this.onModalClose}
-          />
+
+          <Spin spinning={this.state.isLoading || this.props.loading}>
+            <ReactHighcharts config={this.getConfigRatio()} />
+          </Spin>
+
         </Card>
       </ChartBaseView>
     )
