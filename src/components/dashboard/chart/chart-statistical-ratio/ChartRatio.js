@@ -125,7 +125,7 @@ export default class HeaderView extends React.PureComponent {
     const me = this
     const dataLabels = {
       enabled: true,
-      color: '#000000',
+      color: 'white',
       verticalAlign: 'center',
       align: 'center',
       padding: 20,
