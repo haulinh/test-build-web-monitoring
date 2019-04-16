@@ -13,7 +13,7 @@ import { getLastLog } from "api/StationAuto";
 import { translate } from "hoc/create-lang";
 import * as _ from "lodash";
 import { STATUS_STATION, getStatusPriority } from "constants/stationStatus";
-import WarningLevel from 'components/elements/warning-level'
+import WarningLevel from "components/elements/warning-level";
 
 const ListLoader = createContentLoader({
   component: <ListLoaderCp />,
@@ -140,33 +140,34 @@ export default class OverviewDashboard extends Component {
     }));
   }
 
-  timKiemStatusQuaLastLog = (dataLog = []) =>{
+  timKiemStatusQuaLastLog = (dataLog = []) => {
     let resStatus = STATUS_STATION.GOOD;
 
-    const me = this
+    const me = this;
     _.forEach(dataLog, function(item) {
       // MARK  check status trạm truớc
-      if (item.status === STATUS_STATION.DATA_LOSS){
+      if (item.status === STATUS_STATION.DATA_LOSS) {
         resStatus = item.status;
-        return false // break loop lodash
+        return false; // break loop lodash
       }
-      
-      // MARK  check tới lastLog 
-      let statusMeasuring = me.timKiemStatusQuaMeasuringLog(item.lastLog.measuringLogs)
-      resStatus = getStatusPriority(resStatus, statusMeasuring)
+
+      // MARK  check tới lastLog
+      let statusMeasuring = me.timKiemStatusQuaMeasuringLog(
+        item.lastLog.measuringLogs
+      );
+      resStatus = getStatusPriority(resStatus, statusMeasuring);
     });
 
-    return resStatus
-  }
+    return resStatus;
+  };
 
-  timKiemStatusQuaMeasuringLog = (measuringLogs = {})=> {
-    let resWarningLevel = null
+  timKiemStatusQuaMeasuringLog = (measuringLogs = {}) => {
+    let resWarningLevel = null;
     _.forEach(measuringLogs, function(item, key) {
-
-      resWarningLevel = getStatusPriority(resWarningLevel, item.warningLevel)
+      resWarningLevel = getStatusPriority(resWarningLevel, item.warningLevel);
     });
-    return resWarningLevel
-  }
+    return resWarningLevel;
+  };
 
   getChartList() {
     return _.map(this.state.stationTypeList, item => ({
@@ -203,7 +204,17 @@ export default class OverviewDashboard extends Component {
         {this.state.groupLastLog && (
           <SummaryList data={this.getSummaryList()} />
         )}
-        <WarningLevel />
+        <div
+          style={{
+            width: "50%",
+            marginLeft: "50%",
+            padding: 4,
+            paddingRight: 0
+          }}
+        >
+          <WarningLevel />
+        </div>
+
         <ChartStatisticalRatio
           data={this.state.stationList}
           province={this.state.province}
