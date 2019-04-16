@@ -50,7 +50,6 @@ export default class ChartStatusView extends React.PureComponent {
       },
       legend: {
         enabled: true,
-        squareSymbol: false
       },
       tooltip: {
         pointFormat: '<b>{point.percentage:.1f}%</b>'
