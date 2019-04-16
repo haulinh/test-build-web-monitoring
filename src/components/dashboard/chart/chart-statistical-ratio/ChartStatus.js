@@ -12,7 +12,7 @@ export default class ChartStatusView extends React.PureComponent {
   configStatusChartSemi = (dataGroup, title, titleActive, tittleUnActive) => {
     const dataLabels = {
       enabled: true,
-      color: '#000',
+      color: 'white',
       verticalAlign: 'center',
       align: 'center',
       allowOverlap: true,
@@ -41,6 +41,7 @@ export default class ChartStatusView extends React.PureComponent {
       //total = _.size(tpm) - goodTotal - lossData
     }
 
+    console.log('__---__-___-____-__',lossData)
     return {
       chart: {
         plotBackgroundColor: null,
@@ -51,7 +52,8 @@ export default class ChartStatusView extends React.PureComponent {
         text: '' //translate('dashboard.chartStatus.titleByUnit', { unit: title })
       },
       legend: {
-        enabled: true
+        enabled: true,
+        squareSymbol: false
       },
       tooltip: {
         pointFormat: '<b>{point.percentage:.1f}%</b>'
@@ -63,12 +65,11 @@ export default class ChartStatusView extends React.PureComponent {
             distance: -50,
             style: {
               fontWeight: 'bold',
-              color: 'white'
+              color: 'white',
+              textOutline: false
             }
           },
-          startAngle: -90,
-          endAngle: 90,
-          center: ['50%', '75%']
+          showInLegend: true
         }
       },
       credits: {
@@ -79,13 +80,8 @@ export default class ChartStatusView extends React.PureComponent {
           dataLabels,
           type: 'pie',
           name: title,
-          innerSize: '40%',
+          // innerSize: '40%',
           data: [
-            // {
-            //   name: tittleUnActive,
-            //   y: total,
-            //   color: '#4D4E48'
-            // },
             {
               name: translate('dashboard.chartStatus.dataLoss'),
               y: lossData,
@@ -94,7 +90,7 @@ export default class ChartStatusView extends React.PureComponent {
             {
               name: titleActive,
               y: goodTotal,
-              color: '#008001'
+              color: '#1DCE6C'
             }
           ]
         }
@@ -172,7 +168,7 @@ export default class ChartStatusView extends React.PureComponent {
         }
       },
       legend: {
-        reversed: true
+        reversed: false
       },
       series: [seriesActive, seriesDataLoss],
       tooltip: {

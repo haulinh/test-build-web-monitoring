@@ -31,7 +31,7 @@ const TitleView = styled.div`
 
 export default class ChartBaseView extends React.Component {
   state = {
-    isOpen: false
+    isOpen: true
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -47,16 +47,17 @@ export default class ChartBaseView extends React.Component {
       <WrapperView style={{ flex: 1, ...this.props.style }}>
         <HeaderView onClick={this.toggle}>
           <TitleView>{this.props.title}</TitleView>
-          <Icon
+          {/* MARK  LAUNCHING V1: remove icon & default open true */}
+          {/* <Icon
             type="down"
             theme="outlined"
             onClick={this.toggle}
             style={{
               transform: `rotate(${this.state.isOpen ? 0 : -90}deg)`
             }}
-          />
+          /> */}
         </HeaderView>
-        {this.state.isOpen && this.props.children}
+        {this.props.children}
       </WrapperView>
     )
   }
