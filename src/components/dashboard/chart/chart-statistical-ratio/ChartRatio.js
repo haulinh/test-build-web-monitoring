@@ -27,7 +27,6 @@ export default class HeaderView extends React.PureComponent {
   state = {
     data: [],
     day: 7,
-    visible: false,
     isLoading: false
   }
 
@@ -71,7 +70,6 @@ export default class HeaderView extends React.PureComponent {
       total = item.ratio
     }
 
-    console.log('___--___--___--___--_--_-__-',notReceived)
     return {
       chart: {
         plotBackgroundColor: null,
@@ -205,12 +203,12 @@ export default class HeaderView extends React.PureComponent {
           // innerSize: '40%',
           data: [
             {
-              name: translate('dashboard.chartRatio.notReceived'),
+              name: translate('dashboard.chartRatio.notReceived') + ` ${averageSeries2}%`,
               y: averageSeries2,
               color: color.COLOR_STATUS.DATA_LOSS
             },
             {
-              name: translate('dashboard.chartRatio.received'),
+              name: translate('dashboard.chartRatio.received') + ` ${averageSeries1}%`,
               y: averageSeries1,
               color: color.COLOR_STATUS.GOOD
             }
@@ -258,10 +256,6 @@ export default class HeaderView extends React.PureComponent {
     )
   }
 
-  onModalClose = () => {
-    this.setState({ visible: false })
-  }
-
   render() {
     return (
       <ChartBaseView
@@ -285,13 +279,6 @@ export default class HeaderView extends React.PureComponent {
             <ReactHighcharts config={this.getConfigRatio()} />
           </Spin>
 
-          {/* NOTE  launching required: khong can show modal */}
-          {/* <StatusModalView
-            title={this.state.stationKey || ''}
-            data={_.keyBy(_.values(this.state.data), 'name')}
-            visible={this.state.visible}
-            onClose={this.onModalClose}
-          /> */}
         </Card>
       </ChartBaseView>
     )

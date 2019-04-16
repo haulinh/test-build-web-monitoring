@@ -16,7 +16,7 @@ import * as _ from "lodash";
 import { STATUS_STATION, getStatusPriority } from "constants/stationStatus";
 import WarningLevel from 'components/elements/warning-level'
 
-const GET_LAST_LOG_INTERVAL_TIME = 1000*5; // every 1min will get last log
+const GET_LAST_LOG_INTERVAL_TIME = 1000*60; // NOTE  every 1min will get last log
 let getLastLogIntervalID = null;
 
 const ListLoader = createContentLoader({
