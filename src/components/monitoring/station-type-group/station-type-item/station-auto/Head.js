@@ -6,7 +6,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import Clearfix from 'components/elements/clearfix'
 import { SHAPE } from 'themes/color'
-import { Icon, Tooltip, Spin } from 'antd'
+import { Icon, Tooltip, Spin, Button } from 'antd'
 import ROLE from 'constants/role'
 import moment from 'moment/moment'
 import protectRole from 'hoc/protect-role'
@@ -75,17 +75,30 @@ const ActionWrapper = styled.div`
   margin-left: -8px;
   margin-right: -8px;
   .actionItem {
-    padding: 0px 8px;
-    color: #1890ff;
-    border-right: 1px solid ${SHAPE.GRAYBOLD};
-    &:hover {
-      cursor: pointer;
-    }
+    margin-right: 4px;
   }
   .actionItem:last-child {
-    border-right: 0px;
+    margin-right: 0px;
   }
 `
+/* NOTE  KHÔNG XOÁ, DÙNG CHO Ở DƯỚI */
+// const ActionWrapper = styled.div`
+//   display: flex;
+//   align-items: center;
+//   margin-left: -8px;
+//   margin-right: -8px;
+//   .actionItem {
+//     padding: 0px 8px;
+//     color: #1890ff;
+//     border-right: 1px solid ${SHAPE.GRAYBOLD};
+//     &:hover {
+//       cursor: pointer;
+//     }
+//   }
+//   .actionItem:last-child {
+//     border-right: 0px;
+//   }
+// `
 @connect(state => ({
   organization: state.auth.userInfo.organization
 }))
@@ -188,7 +201,21 @@ export default class StationAutoHead extends React.PureComponent {
             {this.toReceivedAt(status, receivedAt)}
           </ReceivedAt>
         </TitleWrapper>
+        
+        {/* MARK  translate */}
         <ActionWrapper>
+          <Button className="actionItem">Lấy mẫu</Button>
+          <Button className="actionItem">Camera</Button>
+          <Button className="actionItem">Biểu đồ</Button>
+          <Button className="actionItem">Bản đổ</Button>
+          <Button className="actionItem">Hình ảnh</Button>
+          <Button className="actionItem">Thông tin trạm</Button>
+          <Button className="actionItem">Đánh giá trạm</Button>
+        </ActionWrapper>
+        
+
+        {/* NOTE  không xoá, để sau này dùng đến, hiện tại dùng ActionWrapper ở trên trong bản launching */}
+        {/* <ActionWrapper>
           {isSampling &&
             protectRole(ROLE.MONITORING.CONTROL)(
               <Spin spinning={!this.state.isLoaded} size="small">
@@ -236,7 +263,7 @@ export default class StationAutoHead extends React.PureComponent {
               <Icon type="area-chart" />
             </Tooltip>
           </div>
-        </ActionWrapper>
+        </ActionWrapper> */}
       </StationHeadItemWrapper>
     )
   }

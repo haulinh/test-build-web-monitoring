@@ -311,7 +311,7 @@ export default class MonitoringGeneral extends React.Component {
     const result = this.getData()
     return (
       <PageContainer
-        style={{ height: 96 }}
+        style={{ height: 200 }}
         isLoading={!this.state.isLoadedFirst}
         backgroundColor="#fafbfb"
         headerCustom={this.renderHeader(result.total, result.countGood)}
