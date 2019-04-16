@@ -26,7 +26,7 @@ export const TEXT = {
 }
 
 export const COLOR_STATUS = {
-  DATA_LOST: '#6AA84F',
+  DATA_LOSS: '#666666',
   EXCEEDED: '#CC0000',
   EXCEEDED_PREPARING: '#E69138',
   GOOD: '#6AA84F'

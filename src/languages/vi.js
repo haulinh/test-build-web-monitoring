@@ -1107,7 +1107,8 @@ export default {
     good: 'Tốt',
     exceedTendency: 'Có xu hướng vượt',
     exceedPreparing: 'Chuẩn bị vượt',
-    exceed: 'Vượt QCVN'
+    exceed: 'Vượt nguỡng',
+    dataLoss: 'Mất dữ liệu'
   },
   addon: {
     create: 'Tạo mới',

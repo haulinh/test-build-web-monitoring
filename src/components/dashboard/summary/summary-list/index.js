@@ -22,6 +22,10 @@ export default class SummaryList extends React.PureComponent {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape(SummaryItem.propTypes))
   }
+  componentDidMount(){
+    //day la du lieu da dc group cac loai tram
+    console.log('groupLastLoggroupLastLog',this.props.data)
+  }
 
   render() {
     return (
