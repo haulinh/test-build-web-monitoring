@@ -17,6 +17,7 @@ export default {
     viewInMap: 'View In Map',
     viewMore: 'View More',
     all: 'All',
+    selectProvince: 'Select Site',
     tableList: {
       name: 'Name',
       dataStatus: 'Data Status'

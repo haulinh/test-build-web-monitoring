@@ -17,6 +17,7 @@ export default {
     viewInMap: 'Bản đồ',
     viewMore: 'Xem thêm',
     all: 'Tất cả',
+    selectProvince: 'Chọn Đơn vị quản lý',
     tableList: {
       name: 'Tên trạm',
       dataStatus: 'Tình trạng kết nối'

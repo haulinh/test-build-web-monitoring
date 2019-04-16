@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Spin} from 'antd';
+import {Spin, Affix} from 'antd';
 import createContentLoader from "hoc/content-loader";
 import ListLoaderCp from "components/content-loader/list-loader";
 import BoxLoaderCp from "components/content-loader/box-loader";
@@ -218,6 +218,8 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
+      <Affix  offsetTop={16}>
+        <div style={{background: '#FBFBFB'}}>
         <HeaderView
           stationStatus={this.state.stationStatus}
           onChange={this.handleProvinceChange}
@@ -237,6 +239,9 @@ export default class OverviewDashboard extends Component {
         >
           <WarningLevel />
         </div>
+        </div>
+      </Affix>
+    
 
         <ChartStatisticalRatio
           loading={this.state.isGetLastLogLoading}
