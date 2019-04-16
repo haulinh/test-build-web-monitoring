@@ -23,18 +23,19 @@ export default {
       dataStatus: 'Data Status'
     },
     chartRatio: {
-      title: 'Receive data rate',
+      title: 'Data receiving rate',
       dataByDate: 'The {{=it.day}}-day {{=it.unit}} data rate',
-      received: 'Received',
-      notReceived: `Don't receive`,
-      byDay: '{{=it.day}} Day'
+      received: 'Recieved Data',
+      notReceived: `Not Recieved`,
+      byDay: '{{=it.day}} days'
     },
     chartStatus: {
-      title: 'Operating status of the station',
+      title: 'Connection status of the station',
       titleByUnit: 'Rate of receiving data of {{=it.unit}} unit',
-      activate: 'Activate',
+      activate: 'Connecting',
       inactive: `Inactive`,
-      dataLoss: `Data Loss`,
+      dataLoss: `Disconnected`,
+      stations: 'stations',
       max: 'Maximum: {{=it.max}}',
       min: 'Minimum: {{=it.min}}'
     },
