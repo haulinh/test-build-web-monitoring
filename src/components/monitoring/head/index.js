@@ -20,7 +20,7 @@ const WarningWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  // margin-top: 8px;
+  margin-top: 4px;
   flex: 1;
 `;
 const WarningTitle = styled.span`
@@ -104,7 +104,7 @@ const DotContainer = styled.div`
 
 const StationStatusContainer = styled.div`
   width: 400px;
-  margin-top: 12px;
+  margin-top: 8px;
   display: flex;
 `;
 
@@ -148,7 +148,6 @@ export default class Header extends React.PureComponent {
     // });
   };
   render() {
-    COLOR_DEVICE_STATUS;
     return (
       <HeaderWrapper>
         {this.props.children}
@@ -165,7 +164,7 @@ export default class Header extends React.PureComponent {
               {translate("monitoring.deviceStatus.sensorNormal")}
             </DotContainer>
           </StationStatusContainer>
-          <WarningLevel />
+          <WarningLevel style={{marginTop: 4}} />
         </WarningWrapper>
       </HeaderWrapper>
     );
