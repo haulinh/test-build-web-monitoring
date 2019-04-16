@@ -19,7 +19,14 @@ const dataLabels = {
   y: 12,
   // padding: 10,
   align: 'center',
-  allowOverlap: true
+  allowOverlap: true,
+  formatter: function() {
+    if (this.y === 0) return ''
+    return `${this.key} ${this.y} (${_.round(
+      (this.y / this.total) * 100,
+      2
+    )}%)`
+  },
 }
 
 @autobind
@@ -126,7 +133,7 @@ export default class HeaderView extends React.PureComponent {
     }
   }
 
-  configRatioBar = (title, received, notReceived) => {
+  configRatioBar = (isFilter,title, received, notReceived) => {
     const me = this
     const dataLabels = {
       enabled: true,
@@ -141,6 +148,15 @@ export default class HeaderView extends React.PureComponent {
       }
     }
 
+    let dataStation = this.state.data
+    if(isFilter){
+      dataStation = _.filter(
+        this.state.data,
+        ({ provinceId }) => provinceId === this.props.province
+      )
+    }
+ 
+    
     const series1 = { name: received, data: [], dataLabels, color: color.COLOR_STATUS.GOOD }
     const series2 = {
       name: notReceived,
@@ -150,7 +166,7 @@ export default class HeaderView extends React.PureComponent {
     }
     let categories = []
 
-    _.forEach(this.state.data, ({ ratio, name }) => {
+    _.forEach(dataStation, ({ ratio, name }) => {
       series1.key = name
       series2.key = name
       series1.data.push(_.round(ratio, 2))
@@ -196,18 +212,18 @@ export default class HeaderView extends React.PureComponent {
       },
       series: [
         {
-          // dataLabels,
+          dataLabels,
           type: 'pie',
           name: title,
           // innerSize: '40%',
           data: [
             {
-              name: translate('dashboard.chartRatio.notReceived') + ` ${averageSeries2}%`,
+              name: translate('dashboard.chartRatio.notReceived'), //+ ` ${averageSeries2}%`,
               y: averageSeries2,
               color: color.COLOR_STATUS.DATA_LOSS
             },
             {
-              name: translate('dashboard.chartRatio.received') + ` ${averageSeries1}%`,
+              name: translate('dashboard.chartRatio.received'), //+ ` ${averageSeries1}%`,
               y: averageSeries1,
               color: color.COLOR_STATUS.GOOD
             }
@@ -221,13 +237,21 @@ export default class HeaderView extends React.PureComponent {
     if (_.isEmpty(this.props.province)) {
       return this.configRatioBar(
         //translate('dashboard.chartRatio.title'),
+        false,
         '',
         translate('dashboard.chartRatio.received'),
         translate('dashboard.chartRatio.notReceived')
       )
     } else {
-      return this.configRatioSemi(
-        // translate('dashboard.chartRatio.title'),
+      // return this.configRatioSemi(
+      //   // translate('dashboard.chartRatio.title'),
+      //   '',
+      //   translate('dashboard.chartRatio.received'),
+      //   translate('dashboard.chartRatio.notReceived')
+      // )
+      return this.configRatioBar(
+        //translate('dashboard.chartRatio.title'),
+        true,
         '',
         translate('dashboard.chartRatio.received'),
         translate('dashboard.chartRatio.notReceived')

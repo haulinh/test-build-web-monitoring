@@ -44,10 +44,10 @@ export default class HeaderView extends React.PureComponent {
   render() {
     return (
       <WrapperView>
-        <View flex={1} style={{ minWidth: 250 }}>
+        <View style={{ minWidth: 250 }}>
           <ProvinceSelect label="Tat ca" onChange={this.handleItemSelected} />
         </View>
-        <View flex={2}>
+        <View >
           <Label style={{ paddingTop: 4 }}>{this.props.stationStatus}</Label>
         </View>
       </WrapperView>

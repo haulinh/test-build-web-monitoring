@@ -17,16 +17,16 @@ const HeaderView = styled.div`
   zoom: 1;
   margin-bottom: -1px;
   min-height: 48px;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   border: 1px solid #e8e8e8;
 `
 const TitleView = styled.div`
   font-size: 16px;
   overflow: hidden;
-  flex: 1;
   color: rgba(0, 0, 0, 0.85);
   font-weight: 500;
+  text-align: center;
 `
 
 export default class ChartBaseView extends React.Component {

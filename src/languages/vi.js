@@ -17,23 +17,25 @@ export default {
     viewInMap: 'Bản đồ',
     viewMore: 'Xem thêm',
     all: 'Tất cả',
+    selectProvince: 'Chọn Đơn vị quản lý',
     tableList: {
       name: 'Tên trạm',
       dataStatus: 'Tình trạng kết nối'
     },
     chartRatio: {
-      title: 'Tỉ lệ nhận dữ liệu',
+      title: 'Biểu đồ tỷ lệ nhận dữ liệu',
       dataByDate: 'Tỉ lệ dữ liệu {{=it.day}} ngày của {{=it.unit}}',
-      received: 'Nhận được',
-      notReceived: 'Không nhận được',
-      byDay: '{{=it.day}} Ngày'
+      received: 'Nhận được dữ liệu',
+      notReceived: 'Không nhận được dữ liệu',
+      byDay: '{{=it.day}} ngày'
     },
     chartStatus: {
-      title: 'Tình trạng kết nối',
+      title: 'Biểu đồ tình trạng kết nối',
       titleByUnit: 'Tình trạng kết nối của {{=it.unit}}',
       activate: 'Đang kết nối',
       inactive: `Chưa kết nối`,
       dataLoss: `Mất kết nối`,
+      stations: 'trạm',
       max: 'Giới hạn trên: {{=it.max}}',
       min: 'Giới hạn duới: {{=it.min}}'
     },

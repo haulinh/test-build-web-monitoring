@@ -19,7 +19,7 @@ export default class ChartStatusView extends React.PureComponent {
       allowOverlap: true,
       formatter: function() {
         if (this.y === 0) return ''
-        return `${this.key} ${this.y} (${_.round(
+        return `${this.y} ${translate('dashboard.chartStatus.stations')} (${_.round(
           (this.y / this.total) * 100,
           2
         )}%)`
