@@ -99,6 +99,8 @@ const ActionWrapper = styled.div`
 //     border-right: 0px;
 //   }
 // `
+
+
 @connect(state => ({
   organization: state.auth.userInfo.organization
 }))
@@ -125,11 +127,13 @@ export default class StationAutoHead extends React.PureComponent {
   componentWillMount() {
     this.startTimer()
   }
+
   startTimer() {
     clearInterval(this.timer)
     this.timer = setInterval(this.loadData.bind(this), 600000) //10 phút
     this.loadData()
   }
+
   loadData() {
     const { options } = this.props
     if (options && options.sampling && options.sampling.allowed) {
@@ -202,15 +206,15 @@ export default class StationAutoHead extends React.PureComponent {
           </ReceivedAt>
         </TitleWrapper>
         
-        {/* MARK  translate */}
+        {/* TODO  translate */}
         <ActionWrapper>
-          <Button className="actionItem">Lấy mẫu</Button>
-          <Button className="actionItem">Camera</Button>
-          <Button className="actionItem">Biểu đồ</Button>
-          <Button className="actionItem">Bản đổ</Button>
-          <Button className="actionItem">Hình ảnh</Button>
-          <Button className="actionItem">Thông tin trạm</Button>
-          <Button className="actionItem">Đánh giá trạm</Button>
+          <Button className="actionItem" onClick={() => this.props.onClickActionButton('sampling')}>Lấy mẫu</Button>
+          <Button className="actionItem" onClick={() => this.props.onClickActionButton('camera')}>Camera</Button>
+          <Button className="actionItem" onClick={() => this.props.onClickActionButton('chart')}>Biểu đồ</Button>
+          <Button className="actionItem" onClick={() => this.props.onClickActionButton('map')}>Bản đổ</Button>
+          <Button className="actionItem" onClick={() => this.props.onClickActionButton('image')}>Hình ảnh</Button>
+          <Button className="actionItem" onClick={() => this.props.onClickActionButton('station')}>Thông tin trạm</Button>
+          <Button className="actionItem" onClick={() => this.props.onClickActionButton('rating')}>Đánh giá trạm</Button>
         </ActionWrapper>
         
 
