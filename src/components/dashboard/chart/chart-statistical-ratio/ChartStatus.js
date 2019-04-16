@@ -1,11 +1,12 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { Card } from 'antd'
+import { Card, Spin } from 'antd'
 import ReactHighcharts from 'react-highcharts'
 import * as _ from 'lodash'
 
 import { translate } from 'hoc/create-lang'
 import ChartBaseView from './chart-base'
+import color from 'themes/color';
 
 @autobind
 export default class ChartStatusView extends React.PureComponent {
@@ -31,17 +32,18 @@ export default class ChartStatusView extends React.PureComponent {
 
     let goodTotal = 0
     let lossData = 0
-    const tpm = _.head(_.values(dataGroup))
+    const tpms = _.values(dataGroup)
+    
+    console.log('__---__-___-tpm____-__',tpms)
 
     //let total = 0
 
-    if (!_.isEmpty(tpm)) {
-      goodTotal = _.filter(tpm, { status: 'GOOD' }).length
-      lossData = _.size(tpm) - goodTotal //_.filter(tpm, { status: 'DATA_LOSS' }).length
-      //total = _.size(tpm) - goodTotal - lossData
-    }
 
-    console.log('__---__-___-____-__',lossData)
+    _.forEach(tpms, tpm => {
+      goodTotal += _.filter(tpm, { status: 'GOOD' }).length
+      lossData += _.filter(tpm, { status: 'DATA_LOSS' }).length
+    })
+
     return {
       chart: {
         plotBackgroundColor: null,
@@ -85,12 +87,12 @@ export default class ChartStatusView extends React.PureComponent {
             {
               name: translate('dashboard.chartStatus.dataLoss'),
               y: lossData,
-              color: '#F03045'
+              color: color.COLOR_STATUS.DATA_LOSS
             },
             {
               name: titleActive,
               y: goodTotal,
-              color: '#1DCE6C'
+              color: color.COLOR_STATUS.GOOD
             }
           ]
         }
@@ -189,19 +191,9 @@ export default class ChartStatusView extends React.PureComponent {
 
   getConfigStatus = () => {
     const dataGroup = _.groupBy(this.props.data, 'province.key')
-    if (_.size(dataGroup) === 1) {
-      const title = _.get(_.head(this.props.data), 'province.name', '')
-      return this.configStatusChartSemi(
-        dataGroup,
-        title,
-        translate('dashboard.chartStatus.activate'),
-        translate('dashboard.chartStatus.inactive')
-      )
-    }
-
-    return this.configStatusChartColumn(
+    return this.configStatusChartSemi(
       dataGroup,
-      translate('dashboard.chartStatus.title'),
+      '',
       translate('dashboard.chartStatus.activate'),
       translate('dashboard.chartStatus.inactive')
     )
@@ -214,7 +206,9 @@ export default class ChartStatusView extends React.PureComponent {
         style={{ flex: 1, marginRight: 8 }}
       >
         <Card bordered style={{ paddingBottom: 21 }}>
-          <ReactHighcharts config={this.getConfigStatus()} />
+          <Spin spinning={this.props.loading}>
+            <ReactHighcharts config={this.getConfigStatus()} />
+          </Spin>
         </Card>
       </ChartBaseView>
     )
