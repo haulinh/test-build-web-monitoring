@@ -32,4 +32,9 @@ export const COLOR_STATUS = {
   GOOD: '#6AA84F'
 }
 
-export default { PRIMARY, COLOR_STATUS }
+export const COLOR_DEVICE_STATUS = {
+  ERROR: '#CC0000',
+  NORMAL: '#6AA84F'
+}
+
+export default { PRIMARY, COLOR_STATUS, COLOR_DEVICE_STATUS }

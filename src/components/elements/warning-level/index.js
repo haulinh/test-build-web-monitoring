@@ -14,7 +14,7 @@ const WarningWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 8px;
+  // margin-top: 8px;
   flex: 1;
 `
 const WarningTitle = styled.span`
@@ -66,7 +66,7 @@ export default class Header extends React.PureComponent {
       <HeaderWrapper>
         {/* {this.props.children} */}
         <WarningWrapper>
-          <SpaceContainer />
+          {/* <SpaceContainer /> */}
           {/* <WarningTitle> {translate('warningLevels.title')}</WarningTitle> */}
           <WrapperColor>
           <ColorLevel color={COLOR_STATUS.DATA_LOSS}>

@@ -60,7 +60,9 @@ export default {
     deviceStatus: {
       normal: 'Normal',
       maintenance: 'Maintenance',
-      broken: 'Broken'
+      broken: 'Broken',
+      sensorNormal: 'Sensor Normal',
+      sensorError: 'Sensor Error'
     },
     statusResult: 'Monitoring results',
     note: 'Note'
