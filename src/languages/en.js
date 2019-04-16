@@ -1109,8 +1109,9 @@ export default {
     title: 'Warning Levels',
     good: 'Good',
     exceedTendency: 'Tend To Exceed',
-    exceedPreparing: 'Almost Exceed',
-    exceed: 'Exceeded'
+    exceedPreparing: 'Tend To Exceed',
+    exceed: 'Exceeded',
+    dataLoss: 'Lost Data'
   },
   addon: {
     create: 'Create',

@@ -73,7 +73,7 @@ export default class SummaryItem extends React.PureComponent {
         <SummaryItemWrapper color={colorStatus}>
           <Row>
           <StationTypeImg src={image} />
-            <TextNumber>22/99</TextNumber>
+            <TextNumber>{this.renderNumber()}</TextNumber>
          
           </Row>
           <TextDescription>{name}</TextDescription>

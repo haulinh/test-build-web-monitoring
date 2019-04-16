@@ -12,8 +12,8 @@ import { getStationTypes } from "api/CategoryApi";
 import { getLastLog } from "api/StationAuto";
 import { translate } from "hoc/create-lang";
 import * as _ from "lodash";
-import color from "themes/color";
 import { STATUS_STATION, getStatusPriority } from "constants/stationStatus";
+import WarningLevel from 'components/elements/warning-level'
 
 const ListLoader = createContentLoader({
   component: <ListLoaderCp />,
@@ -203,7 +203,7 @@ export default class OverviewDashboard extends Component {
         {this.state.groupLastLog && (
           <SummaryList data={this.getSummaryList()} />
         )}
-
+        <WarningLevel />
         <ChartStatisticalRatio
           data={this.state.stationList}
           province={this.state.province}
