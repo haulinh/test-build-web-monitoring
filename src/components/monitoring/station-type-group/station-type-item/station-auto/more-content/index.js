@@ -17,9 +17,27 @@ import MoreStation from './station';
 
 
 const MoreContentWrapper = styled.div`
-  background-color: red;
+.example-enter {
+  opacity: 0.01;
+  height: 0px;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
   height: auto;
-  transition: all 1s ease
+  transition: all 2s ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+  height: auto;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  height: 0px;
+  transition: all 2s ease-in;
+}
 `
 
 
@@ -42,13 +60,19 @@ export default class SamplingMoreInfo extends React.Component {
     if (!this.props.isActive) return null;
     return ((
       <MoreContentWrapper>  
-        <MoreCamera isActive={this.props.panel === "camera"}/>
-        <MoreChart isActive={this.props.panel === "chart"}/>
-        <MoreImage isActive={this.props.panel === "image"}/>
-        <MoreMap isActive={this.props.panel === "map"}/>
-        <MoreRating isActive={this.props.panel === "rating"}/>
-        <MoreSampling isActive={this.props.panel === "sampling"}/>
-        <MoreStation isActive={this.props.panel === "station"}/>
+        <ReactCSSTransitionGroup
+          transitionName="example"
+          transitionEnterTimeout={400}
+          transitionLeaveTimeout={400}
+        >
+          { this.props.panel === "camera"   && <MoreCamera/> }
+          { this.props.panel === "chart"    && <MoreChart/> }
+          { this.props.panel === "image"    && <MoreImage/> }
+          { this.props.panel === "map"      && <MoreMap/> }
+          { this.props.panel === "rating"   && <MoreRating/> }
+          { this.props.panel === "sampling" && <MoreSampling/> }
+          { this.props.panel === "station"  && <MoreStation/> }
+        </ReactCSSTransitionGroup>
       </MoreContentWrapper>
     ))
   }

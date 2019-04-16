@@ -13,7 +13,6 @@ export default class SamplingMoreInfo extends React.Component {
 
 
   render(){
-    if (!this.props.isActive) return null
     return <div>Station Info panel...</div>
   }
 }

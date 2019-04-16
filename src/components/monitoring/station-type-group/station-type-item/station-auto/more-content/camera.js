@@ -17,7 +17,6 @@ export default class SamplingMoreInfo extends React.Component {
 
 
   render(){
-    if (!this.props.isActive) return null
     return <div style={{backgroundColor: 'yellow'}}>Camera panel...</div>
   }
 }
