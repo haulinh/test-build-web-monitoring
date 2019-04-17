@@ -16,6 +16,7 @@ import StationControl from 'api/SamplingApi'
 import stationStatus from 'constants/stationStatus'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { isEmpty } from 'lodash'
+import { action } from 'shared/breadcrumb';
 
 const StationHeadItemWrapper = styled.div`
   display: flex;
@@ -121,7 +122,8 @@ export default class StationAutoHead extends React.PureComponent {
 
   state = {
     isLoaded: false,
-    isEnable: false
+    isEnable: false,
+    currentAction: ''
   }
 
   componentWillMount() {
@@ -171,6 +173,16 @@ export default class StationAutoHead extends React.PureComponent {
     return `${receivedAtStr}`
   }
 
+  handleActionOnClick(actionName) {
+    if (this.state.currentAction === actionName) {
+      this.setState({currentAction: ''})
+    }
+    else {
+      this.setState({currentAction: actionName})
+    }
+    this.props.onClickActionButton(actionName)
+  }
+
   render() {
     const {
       name,
@@ -181,6 +193,7 @@ export default class StationAutoHead extends React.PureComponent {
       options,
       status
     } = this.props
+    const {currentAction} = this.state
     const isCamera = options && options.camera && options.camera.allowed
     const isSampling = options && options.sampling && options.sampling.allowed
     return (
@@ -206,15 +219,28 @@ export default class StationAutoHead extends React.PureComponent {
           </ReceivedAt>
         </TitleWrapper>
         
-        {/* TODO  translate */}
         <ActionWrapper>
-          <Button className="actionItem" onClick={() => this.props.onClickActionButton('sampling')}>Lấy mẫu</Button>
-          <Button className="actionItem" onClick={() => this.props.onClickActionButton('camera')}>Camera</Button>
-          <Button className="actionItem" onClick={() => this.props.onClickActionButton('chart')}>Biểu đồ</Button>
-          <Button className="actionItem" onClick={() => this.props.onClickActionButton('map')}>Bản đổ</Button>
-          <Button className="actionItem" onClick={() => this.props.onClickActionButton('image')}>Hình ảnh</Button>
-          <Button className="actionItem" onClick={() => this.props.onClickActionButton('station')}>Thông tin trạm</Button>
-          <Button className="actionItem" onClick={() => this.props.onClickActionButton('rating')}>Đánh giá trạm</Button>
+          <Button className="actionItem" type={currentAction === "sampling" && "primary"} onClick={() => this.handleActionOnClick('sampling')}>
+            {translate('monitoring.actions.sampling')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "camera" && "primary"} onClick={() => this.handleActionOnClick('camera')}>
+            {translate('monitoring.actions.camera')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "chart" && "primary"} onClick={() => this.handleActionOnClick('chart')}>
+            {translate('monitoring.actions.chart')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "map" && "primary"} onClick={() => this.handleActionOnClick('map')}>
+            {translate('monitoring.actions.map')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "image" && "primary"} onClick={() => this.handleActionOnClick('image')}>
+            {translate('monitoring.actions.images')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "station" && "primary"} onClick={() => this.handleActionOnClick('station')}>
+            {translate('monitoring.actions.stationInfo')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "rating" && "primary"} onClick={() => this.handleActionOnClick('rating')}>
+            {translate('monitoring.actions.reviewStation')}
+          </Button>
         </ActionWrapper>
         
 

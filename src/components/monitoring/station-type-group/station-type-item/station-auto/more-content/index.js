@@ -2,44 +2,30 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import styled from 'styled-components'
+import {Tabs} from 'antd'
 import {withRouter} from 'react-router'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 /* user import */
 import { translate } from 'hoc/create-lang'
+import MoreSampling from './sampling';
 import MoreCamera from './camera';
 import MoreChart from './chart';
-import MoreImage from './image';
 import MoreMap from './map';
-import MoreRating from './rating';
-import MoreSampling from './sampling';
+import MoreImage from './image';
 import MoreStation from './station';
+import MoreRating from './rating';
 
 
 const MoreContentWrapper = styled.div`
-.example-enter {
-  opacity: 0.01;
-  height: 0px;
-}
-
-.example-enter.example-enter-active {
-  opacity: 1;
-  height: auto;
-  transition: all 2s ease-in;
-}
-
-.example-leave {
-  opacity: 1;
-  height: auto;
-}
-
-.example-leave.example-leave-active {
-  opacity: 0.01;
-  height: 0px;
-  transition: all 2s ease-in;
-}
+  min-width: 300px;
 `
 
+const tabsStyle = (panel) => ({
+  minHeight: panel === '' ? 0 : 300, 
+  border: panel === '' ? 'none' : 'solid 1px #80808030', 
+  borderRadius: 4,
+
+})
 
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
@@ -58,22 +44,34 @@ export default class SamplingMoreInfo extends React.Component {
 
   render(){
     if (!this.props.isActive) return null;
+    const {panel} = this.props;
     return ((
-      <MoreContentWrapper>  
-        <ReactCSSTransitionGroup
-          transitionName="example"
-          transitionEnterTimeout={400}
-          transitionLeaveTimeout={400}
-        >
-          { this.props.panel === "camera"   && <MoreCamera/> }
-          { this.props.panel === "chart"    && <MoreChart/> }
-          { this.props.panel === "image"    && <MoreImage/> }
-          { this.props.panel === "map"      && <MoreMap/> }
-          { this.props.panel === "rating"   && <MoreRating/> }
-          { this.props.panel === "sampling" && <MoreSampling/> }
-          { this.props.panel === "station"  && <MoreStation/> }
-        </ReactCSSTransitionGroup>
-      </MoreContentWrapper>
+      <Tabs 
+        activeKey={panel} 
+        style={tabsStyle(panel)} 
+        renderTabBar={() => <div></div>}>
+        <Tabs.TabPane tab="sampling" key="sampling">
+          <MoreSampling/>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="camera" key="camera">
+          <MoreCamera/>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="chart" key="chart">
+          <MoreChart/>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="map" key="map">
+          <MoreMap/>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="image" key="image">
+          <MoreImage/>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="station" key="station">
+          <MoreStation/>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="rating" key="rating">
+          <MoreRating/>
+        </Tabs.TabPane>
+      </Tabs>
     ))
   }
 }

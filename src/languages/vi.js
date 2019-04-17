@@ -67,7 +67,16 @@ export default {
       sensorError: 'Đang đo'
     },
     statusResult: 'Kết quả quan trắc',
-    note: 'Chú thích'
+    note: 'Chú thích',
+    actions: {
+      sampling: 'Lấy mẫu',
+      camera: 'Camera',
+      chart: 'Biểu đồ',
+      map: 'Bản đồ',
+      images: 'Hình ảnh',
+      stationInfo: 'Thông tin trạm',
+      reviewStation: 'Đánh giá trạm'
+    }
   },
   aqi: {
     title: 'AQI',

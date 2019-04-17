@@ -67,7 +67,16 @@ export default {
       sensorError: 'Sensor Error'
     },
     statusResult: 'Monitoring results',
-    note: 'Note'
+    note: 'Note',
+    actions: {
+      sampling: 'Sampling',
+      camera: 'Camera',
+      chart: 'Chart',
+      map: 'Map',
+      images: 'Images',
+      stationInfo: 'Station Infomation',
+      reviewStation: 'Review Station'
+    }
   },
   aqi: {
     title: 'Air Quality Index',

@@ -5,7 +5,7 @@ import {withRouter} from 'react-router'
 import { translate } from 'hoc/create-lang'
 
 @withRouter
-export default class SamplingMoreInfo extends React.Component {
+export default class MapMoreInfo extends React.Component {
   static propTypes = {}
   static defaultProps = {}
 
