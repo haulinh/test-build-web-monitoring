@@ -85,14 +85,14 @@ export default class HeaderView extends React.PureComponent {
         pie: {
           dataLabels: {
             enabled: true,
-            distance: -50,
+            // distance: -50,
             style: {
               fontWeight: 'bold',
               color: 'white'
             }
           },
-          startAngle: -90,
-          endAngle: 90,
+          // startAngle: -90,
+          // endAngle: 90,
           center: ['50%', '75%']
         }
       },
