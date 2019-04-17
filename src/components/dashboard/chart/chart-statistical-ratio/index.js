@@ -9,7 +9,8 @@ const WrapperView = styled.div`
 margin-top: 16px;
 border-radius: 4px;
 display: flex;
-height: 50px background: #ccd `
+height: 50px background: #ccd 
+`
 
 @autobind
 export default class ChartStatisticalView extends React.PureComponent {

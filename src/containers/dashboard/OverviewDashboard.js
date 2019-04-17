@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Spin, Affix} from 'antd';
+import { Spin, Affix } from "antd";
 import createContentLoader from "hoc/content-loader";
 import ListLoaderCp from "components/content-loader/list-loader";
 import BoxLoaderCp from "components/content-loader/box-loader";
@@ -15,8 +15,9 @@ import { translate } from "hoc/create-lang";
 import * as _ from "lodash";
 import { STATUS_STATION, getStatusPriority } from "constants/stationStatus";
 import WarningLevel from "components/elements/warning-level";
+import ReactFullpage from "@fullpage/react-fullpage";
 
-const GET_LAST_LOG_INTERVAL_TIME = 1000*60; // NOTE  every 1min will get last log
+const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60; // NOTE  every 1min will get last log
 let getLastLogIntervalID = null;
 
 const ListLoader = createContentLoader({
@@ -48,7 +49,7 @@ export default class OverviewDashboard extends Component {
   };
 
   getLastLog = async (province, provinceKey, rows, stationCount) => {
-    this.setState({isGetLastLogLoading: true})
+    this.setState({ isGetLastLogLoading: true });
 
     let stationLastLog = await getLastLog();
     let dataLastLog = [];
@@ -83,7 +84,7 @@ export default class OverviewDashboard extends Component {
       }),
       isGetLastLogLoading: false
     });
-  }
+  };
 
   getStationInfo = async province => {
     let provinceKey = null;
@@ -109,15 +110,12 @@ export default class OverviewDashboard extends Component {
     });
 
     // MARK  lấy last log 1 lần, sau đó cứ mỗi giây lại lấy last log
-    this.getLastLog(province, provinceKey, rows, stationCount)
-    if (getLastLogIntervalID) clearInterval(getLastLogIntervalID)
-    getLastLogIntervalID = setInterval(
-      () => {
-        this.getLastLog(province, provinceKey, rows, stationCount)
-        this.getSummaryList()
-      }, 
-      GET_LAST_LOG_INTERVAL_TIME
-    );
+    this.getLastLog(province, provinceKey, rows, stationCount);
+    if (getLastLogIntervalID) clearInterval(getLastLogIntervalID);
+    getLastLogIntervalID = setInterval(() => {
+      this.getLastLog(province, provinceKey, rows, stationCount);
+      this.getSummaryList();
+    }, GET_LAST_LOG_INTERVAL_TIME);
   };
 
   async componentDidMount() {
@@ -218,38 +216,64 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
-      <Affix  offsetTop={16}>
-        <div style={{background: '#FBFBFB'}}>
-        <HeaderView
-          stationStatus={this.state.stationStatus}
-          onChange={this.handleProvinceChange}
-        />
-        {this.state.groupLastLog && (
-          <Spin spinning={this.state.isGetLastLogLoading}>
-            <SummaryList data={this.getSummaryList()} />
-          </Spin>
-        )}
-        <div
-          style={{
-            width: "50%",
-            marginLeft: "50%",
-            padding: 4,
-            paddingRight: 0
-          }}
-        >
-          <WarningLevel />
+     
+        <Affix className='dsads' style={{height: 200}} offsetTop={1}>
+        <div style={{ background: "#FBFBFB", height:15.9 }}>
         </div>
-        </div>
-      </Affix>
-    
+          <div style={{ background: "#FBFBFB" }}>
+            <HeaderView
+              stationStatus={this.state.stationStatus}
+              onChange={this.handleProvinceChange}
+            />
+            {this.state.groupLastLog && (
+              <Spin spinning={this.state.isGetLastLogLoading}>
+                <SummaryList data={this.getSummaryList()} />
+              </Spin>
+            )}
+            <div
+              style={{
+                width: "50%",
+                marginLeft: "50%",
+                padding: 4,
+                paddingRight: 0
+              }}
+            >
+              <WarningLevel />
+            </div>
+          </div>
+        </Affix>
 
-        <ChartStatisticalRatio
-          loading={this.state.isGetLastLogLoading}
-          data={this.state.stationList}
-          province={this.state.province}
+          <ReactFullpage
+          render={({ state, fullpageApi }) => {
+            return (
+              <ReactFullpage.Wrapper>
+                <div className="section tableFix">
+                  <ChartStatisticalRatio
+                    loading={this.state.isGetLastLogLoading}
+                    data={this.state.stationList}
+                    province={this.state.province}
+                  />
+                </div>
+                <div className="section">
+                  <ChartList data={this.getChartList()} />
+                </div>
+                <div className="section">
+                  <div>Section3</div>
+                </div>
+                <div className="section">
+                  <div>Section4</div>
+                </div>
+                <div className="section">
+                  <div>Section5</div>
+                </div>
+              </ReactFullpage.Wrapper>
+            );
+          }}
         />
+
+           
+
         {/* this.state.stationList */}
-        <ChartList data={this.getChartList()} />
       </PageContainer>
     );
   }
