@@ -6,3 +6,7 @@
   src: local('Open Sans'), local('OpenSans'),
     url('fonts/OpenSans/OpenSans-Regular.ttf') format('embedded-opentype'); /* IE6-IE8 */
 }
+
+.section.tableFix > .fp-tableCell {
+  display: inherit !important;
+}
