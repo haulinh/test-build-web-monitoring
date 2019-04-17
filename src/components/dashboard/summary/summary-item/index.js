@@ -54,7 +54,8 @@ export default class SummaryItem extends React.PureComponent {
     name: PropTypes.string,
     image: PropTypes.string,
     color: PropTypes.string,
-    stationTypeKey: PropTypes.string
+    stationTypeKey: PropTypes.string,
+    index: PropTypes.number
   }
 
   renderNumber = () => {
@@ -66,19 +67,21 @@ export default class SummaryItem extends React.PureComponent {
   }
 
   render() {
-    const { name, image, color, stationTypeKey, statusStation } = this.props
+    const { name, image, color, stationTypeKey, statusStation, index } = this.props
     const colorStatus = (this.props.number == 0)? COLOR_STATUS.DATA_LOSS : COLOR_STATUS[statusStation]
     return (
-      <Link to={slug.monitoring.base + `?Id=${stationTypeKey}`}>
+      // MARK  logic cũ là dùng thẻ Link, giở change thành div
+      <div onClick={(e)=>{
+        if(window.fullpage_api) window.fullpage_api.moveTo(index +2) // MARK  +2 vì pieChart và stt từ 1
+      }} >
         <SummaryItemWrapper color={colorStatus}>
           <Row>
           <StationTypeImg src={image} />
             <TextNumber>{this.renderNumber()}</TextNumber>
-         
           </Row>
           <TextDescription>{name}</TextDescription>
         </SummaryItemWrapper>
-      </Link>
+      </div>
     )
   }
 }
