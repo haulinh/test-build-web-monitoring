@@ -409,6 +409,14 @@
   dependencies:
     babel-runtime "^6.11.6"
 
+"@babel/polyfill@^7.2.5":
+  version "7.4.3"
+  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.4.3.tgz#332dc6f57b718017c3a8b37b4eea8aa6eeac1187"
+  integrity sha512-rkv8WIvJshA5Ev8iNMGgz5WZkRtgtiPexiT7w5qevGTuT7ZBfM3de9ox1y9JR5/OXb/sWGBbWlHNa7vQKqku3Q==
+  dependencies:
+    core-js "^2.6.5"
+    regenerator-runtime "^0.13.2"
+
 "@babel/runtime-corejs2@^7.0.0":
   version "7.4.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime-corejs2/-/runtime-corejs2-7.4.3.tgz#40271fc260e570fb356da984e42e5990bd275860"
@@ -423,6 +431,14 @@
   integrity sha512-9lsJwJLxDh/T3Q3SZszfWOTkk3pHbkmH+3KY+zwIDmsNlxsumuhS2TH3NIpktU4kNvfzy+k3eLT7aTJSPTo0OA==
   dependencies:
     regenerator-runtime "^0.13.2"
+
+"@fullpage/react-fullpage@^0.1.14":
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/@fullpage/react-fullpage/-/react-fullpage-0.1.14.tgz#b248dc32c049de680fd4dc14f1893a715a809fc0"
+  integrity sha512-yAFlEtpQCCD2PDB9LCW9goPCvy3BXiE0bjgbe4Lw1oteeeywv+jmljXCodDQjWXFNcup3gGN0ZH9D7Hiq+W5HQ==
+  dependencies:
+    "@babel/polyfill" "^7.2.5"
+    fullpage.js "^3.0.5"
 
 "@icons/material@^0.2.4":
   version "0.2.4"
@@ -4479,6 +4495,11 @@ fsevents@^1.0.0, fsevents@^1.2.7:
   dependencies:
     nan "^2.12.1"
     node-pre-gyp "^0.12.0"
+
+fullpage.js@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/fullpage.js/-/fullpage.js-3.0.5.tgz#ed223ec81ea354bffcac37c24c946981a1124171"
+  integrity sha512-80zJ12tqIkwNgVRnrJiP2RDy1okF9wXj5I7BDg5dsJcHCpgzb052ATCjz+3g7Zp1fjGsaDmEu1m92MafGqcO3w==
 
 function-bind@^1.1.1:
   version "1.1.1"

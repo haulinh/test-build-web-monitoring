@@ -81,7 +81,8 @@ export default class HeaderView extends React.PureComponent {
       chart: {
         plotBackgroundColor: null,
         plotBorderWidth: 0,
-        plotShadow: false
+        plotShadow: false,
+        height: document.body.clientHeight - 340 // MARK  height vừa khung màn hình
       },
       credits: {
         enabled: false
@@ -182,7 +183,8 @@ export default class HeaderView extends React.PureComponent {
       chart: {
         plotBackgroundColor: null,
         plotBorderWidth: 0,
-        plotShadow: false
+        plotShadow: false,
+        height: document.body.clientHeight - 340  // MARK  height vừa khung màn hình
       },
       title: {
         text: '' //translate('dashboard.chartStatus.titleByUnit', { unit: title })

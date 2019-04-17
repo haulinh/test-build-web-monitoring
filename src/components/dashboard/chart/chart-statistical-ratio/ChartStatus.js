@@ -39,11 +39,13 @@ export default class ChartStatusView extends React.PureComponent {
       lossData += _.filter(tpm, { status: 'DATA_LOSS' }).length
     })
 
+
     return {
       chart: {
         plotBackgroundColor: null,
         plotBorderWidth: 0,
-        plotShadow: false
+        plotShadow: false,
+        height: document.body.clientHeight - 340  // MARK  height vừa khung màn hình
       },
       title: {
         text: '' //translate('dashboard.chartStatus.titleByUnit', { unit: title })
