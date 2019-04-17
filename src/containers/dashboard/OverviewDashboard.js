@@ -217,7 +217,7 @@ export default class OverviewDashboard extends Component {
         hideTitle
       >
      
-        <Affix className='dsads' style={{height: 200}} offsetTop={1}>
+        <Affix style={{height: 200}} offsetTop={1}>
         <div style={{ background: "#FBFBFB", height:15.9 }}>
         </div>
           <div style={{ background: "#FBFBFB" }}>
@@ -246,26 +246,16 @@ export default class OverviewDashboard extends Component {
           <ReactFullpage
           render={({ state, fullpageApi }) => {
             return (
-              <ReactFullpage.Wrapper>
-                <div className="section tableFix">
+              <ReactFullpage.Wrapper >
+                <div  className="section tableFix">
                   <ChartStatisticalRatio
                     loading={this.state.isGetLastLogLoading}
                     data={this.state.stationList}
                     province={this.state.province}
                   />
                 </div>
-                <div className="section">
+
                   <ChartList data={this.getChartList()} />
-                </div>
-                <div className="section">
-                  <div>Section3</div>
-                </div>
-                <div className="section">
-                  <div>Section4</div>
-                </div>
-                <div className="section">
-                  <div>Section5</div>
-                </div>
               </ReactFullpage.Wrapper>
             );
           }}

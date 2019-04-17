@@ -15,6 +15,7 @@ import Highcharts from 'highcharts'
 import { translate } from 'hoc/create-lang'
 import ReactGA from 'react-ga'
 import * as _ from 'lodash'
+import { Clearfix } from '../../../elements';
 
 ReactGA.initialize('UA-36620912-2')
 
@@ -163,13 +164,13 @@ export class ChartSummary extends React.Component {
         <ChartSummaryWrapper>
           <Heading rightChildren={this.rightChilren(this.props.stationList)}>
             <TextSpan onClick={this.toggleOpen}>
-              <IconToggle isOpen={this.state.isOpen}>
-                {' '}
-                <Icon type="caret-right" />
-              </IconToggle>
               {this.props.title}
             </TextSpan>
             {this.renderSubTitle()}
+            <IconToggle style={{marginLeft: 4}} isOpen={this.state.isOpen}>
+                {' '}
+                <Icon type="caret-right" />
+              </IconToggle>
           </Heading>
           <Collapse isOpen={this.state.isOpen}>
             <ChartWrapper>

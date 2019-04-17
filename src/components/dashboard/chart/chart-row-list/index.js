@@ -20,14 +20,23 @@ export default class ChartRowList extends React.PureComponent {
   }
 
   render() {
+    if(this.props.data && this.props.data.length ===0) return null
     return (
-      <ChartRowListWrapper>
-        {this.props.data.map(item => (
-          <ChartRowWrapper key={item.key}>
-            <ChartRow {...item} />
-          </ChartRowWrapper>
-        ))}
-      </ChartRowListWrapper>
+      // <ChartRowListWrapper>
+      //   {this.props.data.map(item => (
+      //     <ChartRowWrapper className="section" key={item.key}>
+      //       <ChartRow {...item} />
+      //     </ChartRowWrapper>
+      //   ))}
+      // </ChartRowListWrapper>
+      this.props.data.map(item => {
+        if(item.totalStation ===0) return  null
+        return  <div className="section">
+        <ChartRowWrapper style={{height: '100%'}}>
+        <ChartRow {...item} />
+      </ChartRowWrapper>
+     </div>
+      })
     )
   }
 }
