@@ -13,7 +13,7 @@ import StationTypeSearchForm from '../station-type-search-form'
 import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
 import styled from 'styled-components'
 import DynamicTable from 'components/elements/dynamic-table'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 import ROLE from 'constants/role'
 import * as _ from 'lodash'
 

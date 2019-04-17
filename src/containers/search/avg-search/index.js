@@ -8,7 +8,7 @@ import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form/index'
 import { message, Spin } from 'antd'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 import swal from 'sweetalert2'
 import { translate } from 'hoc/create-lang'
 

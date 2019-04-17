@@ -10,7 +10,7 @@ import styled from 'styled-components'
 // import playSound from 'utils/audio'
 import dateFormat from 'dateformat'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 
 const StyledTabs = styled(Tabs)`
   .ant-tabs-tab {
