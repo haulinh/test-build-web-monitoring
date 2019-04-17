@@ -13,7 +13,7 @@ import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import DynamicTable from 'components/elements/dynamic-table'
 import Breadcrumb from 'containers/role/breadcrumb'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 
 const FloatRight = styled.div`
   text-align: right;

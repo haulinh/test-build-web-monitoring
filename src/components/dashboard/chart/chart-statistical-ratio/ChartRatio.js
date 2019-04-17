@@ -34,6 +34,7 @@ export default class HeaderView extends React.PureComponent {
   state = {
     data: [],
     day: 7,
+    visible: false,
     isLoading: false
   }
 
@@ -63,76 +64,77 @@ export default class HeaderView extends React.PureComponent {
     })
   }
 
-  configRatioSemi = (title, received, notReceived) => {
-    let total = 0
-    const item = _.find(
-      this.state.data,
-      ({ provinceId }) => provinceId === this.props.province
-    )
-    if (item && item.ratio) {
-      title = translate('dashboard.chartRatio.dataByDate', {
-        day: this.state.day,
-        unit: item.name
-      })
-      total = item.ratio
-    }
+  /* MARK  not used */
+  // configRatioSemi = (title, received, notReceived) => {
+  //   let total = 0
+  //   const item = _.find(
+  //     this.state.data,
+  //     ({ provinceId }) => provinceId === this.props.province
+  //   )
+  //   if (item && item.ratio) {
+  //     title = translate('dashboard.chartRatio.dataByDate', {
+  //       day: this.state.day,
+  //       unit: item.name
+  //     })
+  //     total = item.ratio
+  //   }
 
-    return {
-      chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: 0,
-        plotShadow: false,
-        height: document.body.clientHeight - 340 // MARK  height vừa khung màn hình
-      },
-      credits: {
-        enabled: false
-      },
-      title: {
-        text: '' //title
-      },
-      legend: {
-        enabled: true
-      },
-      tooltip: {
-        pointFormat: '<b>{point.percentage:.1f}%</b>'
-      },
-      plotOptions: {
-        pie: {
-          dataLabels: {
-            enabled: true,
-            distance: -50,
-            style: {
-              fontWeight: 'bold',
-              color: 'white'
-            }
-          },
-          startAngle: -90,
-          endAngle: 90,
-          center: ['50%', '75%']
-        }
-      },
-      series: [
-        {
-          dataLabels,
-          type: 'pie',
-          name: title,
-          innerSize: '40%',
-          data: [
-            {
-              name: notReceived,
-              y: 100 - total,
-              color: color.COLOR_STATUS.GOOD
-            },
-            {
-              name: received,
-              y: total,
-              color: color.COLOR_STATUS.DATA_LOSS
-            }
-          ]
-        }
-      ]
-    }
-  }
+  //   return {
+  //     chart: {
+  //       plotBackgroundColor: null,
+  //       plotBorderWidth: 0,
+  //       plotShadow: false,
+  //       height: document.body.clientHeight - 340 // MARK  height vừa khung màn hình
+  //     },
+  //     credits: {
+  //       enabled: false
+  //     },
+  //     title: {
+  //       text: '' //title
+  //     },
+  //     legend: {
+  //       enabled: true
+  //     },
+  //     tooltip: {
+  //       pointFormat: '<b>{point.percentage:.1f}%</b>'
+  //     },
+  //     plotOptions: {
+  //       pie: {
+  //         dataLabels: {
+  //           enabled: true,
+  //           distance: -50,
+  //           style: {
+  //             fontWeight: 'bold',
+  //             color: 'white'
+  //           }
+  //         },
+  //         startAngle: -90,
+  //         endAngle: 90,
+  //         center: ['50%', '75%']
+  //       }
+  //     },
+  //     series: [
+  //       {
+  //         dataLabels,
+  //         type: 'pie',
+  //         name: title,
+  //         innerSize: '40%',
+  //         data: [
+  //           {
+  //             name: notReceived,
+  //             y: 100 - total,
+  //             color: color.COLOR_STATUS.GOOD
+  //           },
+  //           {
+  //             name: received,
+  //             y: total,
+  //             color: color.COLOR_STATUS.DATA_LOSS
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   }
+  // }
 
   configRatioBar = (isFilter,title, received, notReceived) => {
     const me = this
@@ -206,7 +208,16 @@ export default class HeaderView extends React.PureComponent {
               textOutline: false
             }
           },
-          showInLegend: true
+          showInLegend: true,
+          events: {
+            click: function(event) {
+              const stationKey = _.get(event, 'point.category', '')
+              me.setState({
+                visible: true,
+                stationKey
+              })
+            }
+          }
         }
       },
       credits: {
@@ -245,12 +256,6 @@ export default class HeaderView extends React.PureComponent {
         translate('dashboard.chartRatio.notReceived')
       )
     } else {
-      // return this.configRatioSemi(
-      //   // translate('dashboard.chartRatio.title'),
-      //   '',
-      //   translate('dashboard.chartRatio.received'),
-      //   translate('dashboard.chartRatio.notReceived')
-      // )
       return this.configRatioBar(
         //translate('dashboard.chartRatio.title'),
         true,
@@ -263,6 +268,10 @@ export default class HeaderView extends React.PureComponent {
 
   onChange = value => {
     this.getDataRatioBy(Number(value.key))
+  }
+
+  onModalClose = () => {
+    this.setState({ visible: false })
   }
 
   menu = () => {
@@ -304,6 +313,12 @@ export default class HeaderView extends React.PureComponent {
             <ReactHighcharts config={this.getConfigRatio()} />
           </Spin>
 
+          <StatusModalView
+            title={this.state.stationKey || ''}
+            data={_.keyBy(_.values(this.state.data), 'name')}
+            visible={this.state.visible}
+            onClose={this.onModalClose}
+          />
         </Card>
       </ChartBaseView>
     )

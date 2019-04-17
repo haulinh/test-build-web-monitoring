@@ -12,7 +12,7 @@ import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 import DynamicTable from 'components/elements/dynamic-table'
 import * as _ from 'lodash'
 

@@ -9,7 +9,7 @@ import createManagerEdit from 'hoc/manager-edit'
 import PropTypes from 'prop-types'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 
 @protectRole(ROLE.USER.EDIT)
 @createManagerEdit({

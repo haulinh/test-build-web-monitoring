@@ -7,7 +7,7 @@ import slug from 'constants/slug'
 import ProvinceForm from '../province-form'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 
 @protectRole(ROLE.STATION_AUTO.CREATE)
 @autobind

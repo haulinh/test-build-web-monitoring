@@ -32,7 +32,7 @@ export default class StatusModalView extends React.Component {
       dataLabels
     }
     let categories = []
-
+    console.log('__--___-__-___-__--_-_-_-_-', this.props.title, this.props.data)
     const list = _.get(this.props, ['data', `${this.props.title}`, 'list'], [])
 
     _.forEach(list, ({ name, percent }) => {
