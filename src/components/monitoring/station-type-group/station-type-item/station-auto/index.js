@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { withRouter } from 'react-router'
 import StationAutoHead from './Head'
 import MeasuringList from './measuring/measuring-list'
+import MoreContent from './more-content'
 import PropTypes from 'prop-types'
 import slug from 'constants/slug'
 import stationStatus from 'constants/stationStatus'
@@ -36,7 +37,15 @@ export default class StationAutoItem extends React.PureComponent {
   }
 
   state = {
-    isOpenCamera: false
+    isOpenCamera: false,
+    showPanel: ''
+  }
+
+  handleShowPanel(panelName) {
+    if (this.state.showPanel === panelName)
+      return this.setState({showPanel: ''})
+    else 
+      return this.setState({showPanel: panelName})
   }
 
   handleClickDataSearchWithMeasuring(measuringItem) {
@@ -145,6 +154,7 @@ export default class StationAutoItem extends React.PureComponent {
           stationID={stationID}
           options={options}
           status={status}
+          onClickActionButton={this.handleShowPanel}
           onClickDataSearch={this.handleClickDataSearch}
           onClickViewMap={this.handleClickViewMap}
           onClickViewCamera={this.onClickViewCamera}
@@ -154,6 +164,8 @@ export default class StationAutoItem extends React.PureComponent {
           onClickItem={this.handleClickDataSearchWithMeasuring}
           data={this.measuringLastLog()}
         />
+
+        <MoreContent isActive={true} panel={this.state.showPanel}></MoreContent>
         {this.state.isOpenCamera &&
           get(options, 'camera.allowed') && (
             <CameraListView cameraList={get(options, 'camera.list', [])} />

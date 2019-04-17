@@ -6,7 +6,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import Clearfix from 'components/elements/clearfix'
 import { SHAPE } from 'themes/color'
-import { Icon, Tooltip, Spin } from 'antd'
+import { Icon, Tooltip, Spin, Button } from 'antd'
 import ROLE from 'constants/role'
 import moment from 'moment/moment'
 import protectRole from 'hoc/protect-role'
@@ -16,6 +16,7 @@ import StationControl from 'api/SamplingApi'
 import stationStatus from 'constants/stationStatus'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { isEmpty } from 'lodash'
+import { action } from 'shared/breadcrumb';
 
 const StationHeadItemWrapper = styled.div`
   display: flex;
@@ -75,17 +76,32 @@ const ActionWrapper = styled.div`
   margin-left: -8px;
   margin-right: -8px;
   .actionItem {
-    padding: 0px 8px;
-    color: #1890ff;
-    border-right: 1px solid ${SHAPE.GRAYBOLD};
-    &:hover {
-      cursor: pointer;
-    }
+    margin-right: 4px;
   }
   .actionItem:last-child {
-    border-right: 0px;
+    margin-right: 0px;
   }
 `
+/* NOTE  KHÔNG XOÁ, DÙNG CHO Ở DƯỚI */
+// const ActionWrapper = styled.div`
+//   display: flex;
+//   align-items: center;
+//   margin-left: -8px;
+//   margin-right: -8px;
+//   .actionItem {
+//     padding: 0px 8px;
+//     color: #1890ff;
+//     border-right: 1px solid ${SHAPE.GRAYBOLD};
+//     &:hover {
+//       cursor: pointer;
+//     }
+//   }
+//   .actionItem:last-child {
+//     border-right: 0px;
+//   }
+// `
+
+
 @connect(state => ({
   organization: state.auth.userInfo.organization
 }))
@@ -106,17 +122,20 @@ export default class StationAutoHead extends React.PureComponent {
 
   state = {
     isLoaded: false,
-    isEnable: false
+    isEnable: false,
+    currentAction: ''
   }
 
   componentWillMount() {
     this.startTimer()
   }
+
   startTimer() {
     clearInterval(this.timer)
     this.timer = setInterval(this.loadData.bind(this), 600000) //10 phút
     this.loadData()
   }
+
   loadData() {
     const { options } = this.props
     if (options && options.sampling && options.sampling.allowed) {
@@ -154,6 +173,16 @@ export default class StationAutoHead extends React.PureComponent {
     return `${receivedAtStr}`
   }
 
+  handleActionOnClick(actionName) {
+    if (this.state.currentAction === actionName) {
+      this.setState({currentAction: ''})
+    }
+    else {
+      this.setState({currentAction: actionName})
+    }
+    this.props.onClickActionButton(actionName)
+  }
+
   render() {
     const {
       name,
@@ -164,6 +193,7 @@ export default class StationAutoHead extends React.PureComponent {
       options,
       status
     } = this.props
+    const {currentAction} = this.state
     const isCamera = options && options.camera && options.camera.allowed
     const isSampling = options && options.sampling && options.sampling.allowed
     return (
@@ -188,7 +218,34 @@ export default class StationAutoHead extends React.PureComponent {
             {this.toReceivedAt(status, receivedAt)}
           </ReceivedAt>
         </TitleWrapper>
+        
         <ActionWrapper>
+          <Button className="actionItem" type={currentAction === "sampling" && "primary"} onClick={() => this.handleActionOnClick('sampling')}>
+            {translate('monitoring.actions.sampling')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "camera" && "primary"} onClick={() => this.handleActionOnClick('camera')}>
+            {translate('monitoring.actions.camera')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "chart" && "primary"} onClick={() => this.handleActionOnClick('chart')}>
+            {translate('monitoring.actions.chart')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "map" && "primary"} onClick={() => this.handleActionOnClick('map')}>
+            {translate('monitoring.actions.map')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "image" && "primary"} onClick={() => this.handleActionOnClick('image')}>
+            {translate('monitoring.actions.images')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "station" && "primary"} onClick={() => this.handleActionOnClick('station')}>
+            {translate('monitoring.actions.stationInfo')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "rating" && "primary"} onClick={() => this.handleActionOnClick('rating')}>
+            {translate('monitoring.actions.reviewStation')}
+          </Button>
+        </ActionWrapper>
+        
+
+        {/* NOTE  không xoá, để sau này dùng đến, hiện tại dùng ActionWrapper ở trên trong bản launching */}
+        {/* <ActionWrapper>
           {isSampling &&
             protectRole(ROLE.MONITORING.CONTROL)(
               <Spin spinning={!this.state.isLoaded} size="small">
@@ -236,7 +293,7 @@ export default class StationAutoHead extends React.PureComponent {
               <Icon type="area-chart" />
             </Tooltip>
           </div>
-        </ActionWrapper>
+        </ActionWrapper> */}
       </StationHeadItemWrapper>
     )
   }
