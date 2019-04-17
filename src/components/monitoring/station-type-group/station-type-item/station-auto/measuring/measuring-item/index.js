@@ -6,7 +6,7 @@ import { colorLevels } from "constants/warningLevels";
 import { translate } from "hoc/create-lang";
 import { Tooltip } from "antd";
 import { get } from "lodash";
-import { COLOR_DEVICE_STATUS } from "themes/color";
+import { COLOR_DEVICE_STATUS, COLOR_STATUS } from "themes/color";
 
 const DEVICE_STATUS = {
   "0": { src: "/images/sensor1.png", text: "monitoring.deviceStatus.normal" },
@@ -75,8 +75,8 @@ const RightContainer = styled.div`
 `;
 
 const Dot = styled.div`
-  height: 48px;
-  width: 48px;
+  height: 25px;
+  width: 25px;
   background-color: #bbb;
   border-radius: 50%;
   display: inline-block;
@@ -131,8 +131,8 @@ export default class MeasuringItem extends React.PureComponent {
   getColorLevel() {
     const { warningLevel } = this.props;
     if (warningLevel && colorLevels[warningLevel])
-      return colorLevels[warningLevel];
-    return colorLevels.GOOD;
+      return COLOR_STATUS[warningLevel];
+    return COLOR_STATUS.GOOD
   }
 
   renderDeviceIcon = status => {

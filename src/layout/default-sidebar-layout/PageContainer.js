@@ -99,10 +99,10 @@ export default class PageContainer extends React.PureComponent {
           />
           {!this.props.hideTitle ? this.renderHeader() : null}
           {this.props.headerBottom}
-          <Affix>
+          <Affix offsetTop={0}>
             <div
               style={{
-                height: 16,
+                height: 15.9,
                 background: "#FBFBFB"
               }}
             />
