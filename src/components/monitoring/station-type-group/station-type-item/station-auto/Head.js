@@ -262,7 +262,7 @@ export default class StationAutoHead extends React.PureComponent {
             className="actionItem" 
             type={currentAction === "camera" && "primary"} 
             onClick={() => this.handleActionOnClick('camera')}
-            disabled={!isCamera || !this.checkRole(ROLE.MONITORING.CONTROL)}>
+            disabled={!isCamera || !this.checkRole(ROLE.MONITORING.CAMERA)}>
             {translate('monitoring.actions.camera')}
           </Button>
           <Button className="actionItem" type={currentAction === "chart" && "primary"} onClick={() => this.handleActionOnClick('chart')}>
