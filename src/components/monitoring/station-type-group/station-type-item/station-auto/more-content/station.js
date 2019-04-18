@@ -13,6 +13,6 @@ export default class StationMoreInfo extends React.Component {
 
 
   render(){
-    return <div>Station Info panel...</div>
+    return <div></div>
   }
 }
