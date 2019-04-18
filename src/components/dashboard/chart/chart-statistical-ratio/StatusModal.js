@@ -35,6 +35,7 @@ export default class StatusModalView extends React.Component {
 
     const list = _.get(this.props, ['data', `${this.props.title}`, 'list'], [])
 
+
     _.forEach(list, ({ name, percent }) => {
       const received = percent || 0
       seriesReceived.data.push(received)

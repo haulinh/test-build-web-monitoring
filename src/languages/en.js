@@ -20,7 +20,7 @@ export default {
     selectProvince: 'Select Site',
     tableList: {
       name: 'Name',
-      dataStatus: 'Data Status'
+      dataStatus: 'Status'
     },
     chartRatio: {
       title: 'Data receiving rate',

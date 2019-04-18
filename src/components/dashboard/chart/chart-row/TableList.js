@@ -116,13 +116,14 @@ export default class TableListCustom extends React.PureComponent {
   }
 
   renderStatusView = station => {
-    let item = _.get(STATUS_OPTIONS, [station.status]); //
+    let item = _.get(STATUS_OPTIONS, [station.statusAnalytic]); //
+  
     if (item) {
       return (
         <Tooltip placement="top" title={translate(item.title)}>
           <Status
             style={{
-              backgroundColor: station.colorStatus
+              backgroundColor: item.color
             }}
           />
         </Tooltip>
@@ -160,6 +161,21 @@ export default class TableListCustom extends React.PureComponent {
     return COLOR_STATUS.GOOD;
   }
 
+  getStatusItem(item) {
+    if (item.status === STATUS_STATION.HIGHTGEST)
+      return STATUS_STATION.HIGHTGEST
+
+    if (item.lastLog) {
+      let warLevel = warningLevels.GOOD;
+      let measuringLogs = item.lastLog.measuringLogs;
+      for (let key in measuringLogs) {
+        warLevel = getStatusPriority(warLevel, measuringLogs[key].warningLevel);
+      }
+      return warLevel
+    }
+    return STATUS_STATION.GOOD;
+  }
+
   sortNameList(data, key, asc = true) {
     // return data.sort(function(a, b) {
     //   const last = objectPath.get(a, key)
@@ -173,7 +189,6 @@ export default class TableListCustom extends React.PureComponent {
     //   }
     //   return 0
     // })
-
     return _.orderBy(data, [key], [asc ? FILTER_TYPE.desc : FILTER_TYPE.asc]);
   }
 
@@ -196,23 +211,22 @@ export default class TableListCustom extends React.PureComponent {
   }
 
   cleanData() {
-    console.log('cleanData, cleanData')
     return this.props.data.map(item => ({
       ...item,
-      colorStatus: this.getColorItem(item)
+      statusAnalytic: this.getStatusItem(item),
+      // colorStatus: this.getColorItem(item)
     }));
   }
 
   getData() {
     let data = this.cleanData();
-    console.log()
     const filterAsc = this.state.filterType === FILTER_TYPE.asc;
     switch (this.state.filter) {
       case FILTER.name:
         data = this.sortNameList(data, "name", filterAsc);
         break;
       case FILTER.status:
-        data = this.sortNameList(data, "status", filterAsc);
+        data = this.sortNameList(data, "statusAnalytic", filterAsc);
         break;
       default:
     }
@@ -220,7 +234,6 @@ export default class TableListCustom extends React.PureComponent {
   }
 
   render() {
-    console.log("this.state.filter", this.state.filter);
     return (
       <div style={{ height: 450, minWidth: 300, overflow: "scroll" }}>
         <Row>

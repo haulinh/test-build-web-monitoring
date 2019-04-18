@@ -20,7 +20,7 @@ export default {
     selectProvince: 'Chọn Đơn vị quản lý',
     tableList: {
       name: 'Tên trạm',
-      dataStatus: 'Tình trạng kết nối'
+      dataStatus: 'Tình trạng'
     },
     chartRatio: {
       title: 'Biểu đồ tỷ lệ nhận dữ liệu',

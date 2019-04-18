@@ -1,3 +1,5 @@
+import { COLOR_STATUS } from "themes/color";
+
 export default {
   GOOD: "GOOD",
   CONNECTED: "CONNECTED",
@@ -6,10 +8,21 @@ export default {
 };
 
 export const STATUS_OPTIONS = {
-  GOOD: { title: "dashboard.connected", color: "#008001" },
-  DATA_LOSS: { title: "dashboard.dataLoss", color: "#F03045" },
-  NOT_USE: { title: "dashboard.notUse", color: "#4D4E48" }
+  GOOD: { title: "warningLevels.good", color: COLOR_STATUS.GOOD },
+  DATA_LOSS: { title: "warningLevels.dataLoss", color: COLOR_STATUS.DATA_LOSS },
+  // NOT_USE: { title: "dashboard.notUse", color: COLOR_STATUS.DATA_LOSS },
+
+  EXCEEDED: { title: "warningLevels.exceed", color: COLOR_STATUS.EXCEEDED },
+  EXCEEDED_PREPARING: { title: "warningLevels.exceedPreparing", color: COLOR_STATUS.EXCEEDED_PREPARING },
 };
+
+
+
+// good: 'Good',
+// exceedTendency: 'Tend To Exceed',
+// exceedPreparing: 'Tend To Exceed',
+// exceed: 'Exceeded',
+// dataLoss: 'Lost Data'
 
 export const STATUS_STATION = {
   HIGHTGEST: "DATA_LOSS",
