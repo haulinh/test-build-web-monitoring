@@ -13,6 +13,6 @@ export default class ImageMoreInfo extends React.Component {
 
 
   render(){
-    return <div>Image panel...</div>
+    return <div></div>
   }
 }

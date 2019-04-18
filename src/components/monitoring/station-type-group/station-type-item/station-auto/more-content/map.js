@@ -13,6 +13,6 @@ export default class MapMoreInfo extends React.Component {
 
 
   render(){
-    return <div>Map panel...</div>
+    return <div></div>
   }
 }

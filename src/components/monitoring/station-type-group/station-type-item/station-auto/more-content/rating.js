@@ -13,6 +13,6 @@ export default class RatingMoreInfo extends React.Component {
 
 
   render(){
-    return <div>Rating panel...</div>
+    return <div></div>
   }
 }
