@@ -14,14 +14,17 @@ height: 50px background: #ccd
 
 @autobind
 export default class ChartStatisticalView extends React.PureComponent {
+
   render() {
     return (
       <WrapperView>
         <ChartStatusView 
+        isGroupProvince={this.props.isGroupProvince}
           loading={this.props.loading}
           data={this.props.data}
         />
         <ChartRatioView
+          isGroupProvince={this.props.isGroupProvince}
           loading={this.props.loading}
           onChange={this.props.onChange}
           province={this.props.province}
