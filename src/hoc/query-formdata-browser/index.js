@@ -7,6 +7,8 @@ const createQueryFormDataBrowser = (queryParams = []) => Component => {
   // @withRouter
   @autobind
   class QueryFormDataBrowser extends React.Component {
+    // NOTE: mục đích decode chuỗi query thành data Json để lấy initialValues
+    // Input: truyền query với format: formData với chuỗi json đã đc encode
     getFormData() {
       const formDataStr = getParameterByName('formData')
       if (formDataStr)
@@ -14,6 +16,8 @@ const createQueryFormDataBrowser = (queryParams = []) => Component => {
       return {}
     }
 
+    // NOTE: mục đích chưa hiểu
+    // Input: 
     getQuery() {
       let query = {}
       queryParams.forEach(key => {

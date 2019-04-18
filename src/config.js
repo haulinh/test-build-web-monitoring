@@ -24,7 +24,7 @@ export function getConfigApi() {
     stationType: c('station-type'), // stationType: 'http://localhost:5002/station-type',
     stationAuto: c('station-auto'),
     dataStationAuto: c('data-station-auto'), //dataStationAuto: 'http://localhost:5004/data-station-auto',
-   // dataStationAuto: 'http://localhost:5004/data-station-auto',
+   dataStationAuto: 'http://localhost:5004/data-station-auto',
     stationFixed: c('station-fixed'),
     dataStationFixed: c('data-station-fixed'),
     stationConfig: c('config/station'), //stationConfig: 'http://localhost:5002/config/station'
