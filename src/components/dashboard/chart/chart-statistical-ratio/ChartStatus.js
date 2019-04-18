@@ -1,11 +1,13 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { Card } from 'antd'
+import { Card, Spin } from 'antd'
 import ReactHighcharts from 'react-highcharts'
 import * as _ from 'lodash'
 
 import { translate } from 'hoc/create-lang'
 import ChartBaseView from './chart-base'
+import { COLOR_STATUS } from 'themes/color';
+import { STATUS_STATION } from 'constants/stationStatus';
 
 @autobind
 export default class ChartStatusView extends React.PureComponent {
@@ -18,25 +20,35 @@ export default class ChartStatusView extends React.PureComponent {
       allowOverlap: true,
       formatter: function() {
         if (this.y === 0) return ''
-        return `${this.key} ${this.y} (${_.round(
+        return `${this.y} ${translate('dashboard.chartStatus.stations')} (${_.round(
           (this.y / this.total) * 100,
           2
         )}%)`
       },
+
       center: ['50%', '75%'],
       events: {
         click: function(event) {}
       }
     }
 
+
     let goodTotal = 0
     let lossData = 0
-    const tpm = _.head(_.values(dataGroup))
+    let tpm = _.values(dataGroup)
+
+    if(_.isArray(tpm) && tpm.length >0){
+      tpm = tpm[0]
+    }
+
+    // let goodTotal = 0
+    // let lossData = 0
+    // const tpm = _.head(_.values(dataGroup))
 
     //let total = 0
 
     if (!_.isEmpty(tpm)) {
-      goodTotal = _.filter(tpm, { status: 'GOOD' }).length
+      goodTotal = _.filter(tpm, { status: STATUS_STATION.GOOD }).length
       lossData = _.size(tpm) - goodTotal //_.filter(tpm, { status: 'DATA_LOSS' }).length
       //total = _.size(tpm) - goodTotal - lossData
     }
@@ -45,7 +57,8 @@ export default class ChartStatusView extends React.PureComponent {
       chart: {
         plotBackgroundColor: null,
         plotBorderWidth: 0,
-        plotShadow: false
+        plotShadow: false,
+        height: document.body.clientHeight - 340
       },
       title: {
         text: '' //translate('dashboard.chartStatus.titleByUnit', { unit: title })
@@ -63,12 +76,11 @@ export default class ChartStatusView extends React.PureComponent {
             distance: -50,
             style: {
               fontWeight: 'bold',
-              color: 'white'
+              color: 'white',
+              textOutline: false
             }
           },
-          startAngle: -90,
-          endAngle: 90,
-          center: ['50%', '75%']
+          showInLegend: true
         }
       },
       credits: {
@@ -79,7 +91,7 @@ export default class ChartStatusView extends React.PureComponent {
           dataLabels,
           type: 'pie',
           name: title,
-          innerSize: '40%',
+          // innerSize: '40%',
           data: [
             // {
             //   name: tittleUnActive,
@@ -89,12 +101,12 @@ export default class ChartStatusView extends React.PureComponent {
             {
               name: translate('dashboard.chartStatus.dataLoss'),
               y: lossData,
-              color: '#F03045'
+              color: COLOR_STATUS.DATA_LOSS
             },
             {
               name: titleActive,
               y: goodTotal,
-              color: '#008001'
+              color: COLOR_STATUS.GOOD
             }
           ]
         }
@@ -120,14 +132,14 @@ export default class ChartStatusView extends React.PureComponent {
     const seriesDataLoss = {
       name: translate('dashboard.chartStatus.dataLoss'),
       data: [],
-      color: '#F03045',
+      color: COLOR_STATUS.DATA_LOSS,
       dataLabels
     }
     const seriesActive = {
       name: titleActive,
       data: [],
       dataLabels,
-      color: '#008001'
+      color: COLOR_STATUS.GOOD,
     }
     // const seriesUnActive = {
     //   name: tittleUnActive,
@@ -139,7 +151,7 @@ export default class ChartStatusView extends React.PureComponent {
     _.forEach(_.keys(dataGroup), key => {
       const ls = _.get(dataGroup, key, [])
 
-      const good = _.filter(ls, ({ status }) => status === 'GOOD').length
+      const good = _.filter(ls, ({ status }) => status === STATUS_STATION.GOOD).length
       // const dataLoss = _.filter(ls, ({ status }) => status === 'DATA_LOSS')
       //   .length
 
@@ -150,7 +162,8 @@ export default class ChartStatusView extends React.PureComponent {
     })
     return {
       chart: {
-        type: 'column'
+        type: 'column',
+        height: document.body.clientHeight - 340
       },
       title: {
         text: '' //title
@@ -218,7 +231,9 @@ export default class ChartStatusView extends React.PureComponent {
         style={{ flex: 1, marginRight: 8 }}
       >
         <Card bordered style={{ paddingBottom: 21 }}>
-          <ReactHighcharts config={this.getConfigStatus()} />
+        <Spin spinning={this.props.loading}>
+            <ReactHighcharts config={this.getConfigStatus()} />
+          </Spin>
         </Card>
       </ChartBaseView>
     )

@@ -4,12 +4,13 @@ import { Card } from 'antd'
 import ReactHighcharts from 'react-highcharts'
 import moment from 'moment'
 import * as _ from 'lodash'
-import { Menu, Dropdown, Icon } from 'antd'
+import { Menu, Dropdown, Icon, Spin } from 'antd'
 
 import { translate } from 'hoc/create-lang'
 import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
 import StatusModalView from './StatusModal'
 import ChartBaseView from './chart-base'
+import { COLOR_STATUS } from 'themes/color';
 
 const dataLabels = {
   enabled: true,
@@ -26,7 +27,8 @@ export default class HeaderView extends React.PureComponent {
   state = {
     data: [],
     day: 7,
-    visible: false
+    visible: false,
+    isLoading: false
   }
 
   handleItemSelected = value => {
@@ -55,6 +57,7 @@ export default class HeaderView extends React.PureComponent {
       this.state.data,
       ({ provinceId }) => provinceId === this.props.province
     )
+    
     if (item && item.ratio) {
       title = translate('dashboard.chartRatio.dataByDate', {
         day: this.state.day,
@@ -62,12 +65,26 @@ export default class HeaderView extends React.PureComponent {
       })
       total = item.ratio
     }
+    const dataLabels = {
+      enabled: true,
+      color: 'white',
+      verticalAlign: 'center',
+      align: 'center',
+      padding: 20,
+      allowOverlap: true,
+      formatter: function() {
+        if (this.y === 0) return ''
+        return `${this.y}%`
+      }
+    }
+    let me = this
 
     return {
       chart: {
         plotBackgroundColor: null,
         plotBorderWidth: 0,
-        plotShadow: false
+        plotShadow: false,
+        height: document.body.clientHeight - 340
       },
       credits: {
         enabled: false
@@ -85,15 +102,22 @@ export default class HeaderView extends React.PureComponent {
         pie: {
           dataLabels: {
             enabled: true,
-            // distance: -50,
+            distance: -50,
             style: {
               fontWeight: 'bold',
-              color: 'white'
+              color: 'white',
+              textOutline: false
             }
           },
-          // startAngle: -90,
-          // endAngle: 90,
-          center: ['50%', '75%']
+          showInLegend: true,
+          events: {
+            click: function(event) {
+              me.setState({
+                visible: true,
+                stationKey: item.name  // NOTE  stationKey: là đưa vào name của province mới chạy
+              })
+            }
+          }
         }
       },
       series: [
@@ -101,17 +125,17 @@ export default class HeaderView extends React.PureComponent {
           dataLabels,
           type: 'pie',
           name: title,
-          innerSize: '40%',
+          // innerSize: '40%',
           data: [
             {
               name: notReceived,
               y: 100 - total,
-              color: '#F03045'
+              color: COLOR_STATUS.DATA_LOSS
             },
             {
               name: received,
               y: total,
-              color: '#008001'
+              color: COLOR_STATUS.GOOD
             }
           ]
         }
@@ -134,11 +158,11 @@ export default class HeaderView extends React.PureComponent {
       }
     }
 
-    const series1 = { name: received, data: [], dataLabels, color: '#008001' }
+    const series1 = { name: received, data: [], dataLabels, color: COLOR_STATUS.GOOD }
     const series2 = {
       name: notReceived,
       data: [],
-      color: '#F03045',
+      color: COLOR_STATUS.DATA_LOSS,
       dataLabels
     }
     let categories = []
@@ -156,7 +180,8 @@ export default class HeaderView extends React.PureComponent {
         type: 'bar',
         events: {
           click: function(event) {}
-        }
+        },
+        height: document.body.clientHeight - 340
       },
       title: {
         text: '' //title
@@ -269,7 +294,11 @@ export default class HeaderView extends React.PureComponent {
               <Icon type="down" />
             </span>
           </Dropdown>
-          <ReactHighcharts config={this.getConfigRatio()} />
+
+           <Spin spinning={this.state.isLoading || this.props.loading}>
+            <ReactHighcharts config={this.getConfigRatio()} />
+          </Spin>
+
           <StatusModalView
             title={this.state.stationKey || ''}
             data={_.keyBy(_.values(this.state.data), 'name')}

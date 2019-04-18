@@ -17,7 +17,7 @@ import { STATUS_STATION, getStatusPriority } from "constants/stationStatus";
 import WarningLevel from "components/elements/warning-level";
 import ReactFullpage from "@fullpage/react-fullpage";
 
-const GET_LAST_LOG_INTERVAL_TIME = 1000 * 10; // NOTE  every 1min will get last log
+const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60; // NOTE  every 1min will get last log
 let getLastLogIntervalID = null;
 
 const ListLoader = createContentLoader({
@@ -198,8 +198,10 @@ export default class OverviewDashboard extends Component {
   }
 
   handleProvinceChange = province => {
-    this.setState({ province });
-    this.getStationInfo(province);
+    this.setState({ province, isGetLastLogLoading: true }, ()=>{
+      this.getStationInfo(province);
+    });
+    
   };
 
   render() {
