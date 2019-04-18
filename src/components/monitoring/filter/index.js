@@ -14,6 +14,7 @@ const MonitoringHeaderFilterWrapper = styled.div`
   display: flex;
   flex: 1;
 `
+
 @autobind
 export default class MonitoringHeaderFilter extends React.PureComponent {
   static propTypes = {
@@ -41,16 +42,18 @@ export default class MonitoringHeaderFilter extends React.PureComponent {
   render() {
     return (
       <MonitoringHeaderFilterWrapper>
-        <div style={{ width: '25%' }}>
-          <Input
-            placeholder="Search"
-            {...this.getPropsSelect(
-              'search',
-              translate('monitoring.keywordSearch')
-            )}
-          />
-        </div>
+        <SelectType
+          style={{ width: '25%' }}
+          placeholder="Select station type"
+          isShowAll
+          {...this.getPropsSelect(
+            'stationType',
+            translate('monitoring.selectStationType')
+          )}
+        />
+
         <Clearfix width={8} />
+
         <SelectAnt
           style={{ width: '25%' }}
           //  options={GROUP_OPTIONS}
@@ -66,7 +69,9 @@ export default class MonitoringHeaderFilter extends React.PureComponent {
           ]}
           {...this.getPropsSelect('group', translate('monitoring.selectGroup'))}
         />
+
         <Clearfix width={8} />
+
         <SelectAnt
           style={{ width: '25%' }}
           //  options={ORDER_OPTIONS}
@@ -78,20 +83,22 @@ export default class MonitoringHeaderFilter extends React.PureComponent {
             {
               value: 'number',
               name: translate('monitoring.sortByValues')
-            }
+            },
           ]}
           {...this.getPropsSelect('order', translate('monitoring.selectOrder'))}
         />
+
         <Clearfix width={8} />
-        <SelectType
-          style={{ width: '25%' }}
-          placeholder="Select station type"
-          isShowAll
-          {...this.getPropsSelect(
-            'stationType',
-            translate('monitoring.selectStationType')
-          )}
-        />
+
+        <div style={{ width: '25%' }}>
+          <Input
+            placeholder="Search"
+            {...this.getPropsSelect(
+              'search',
+              translate('monitoring.keywordSearch')
+            )}
+          />
+        </div>
       </MonitoringHeaderFilterWrapper>
     )
   }
