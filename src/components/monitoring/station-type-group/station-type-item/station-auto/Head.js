@@ -202,28 +202,16 @@ export default class StationAutoHead extends React.PureComponent {
   }
 
   /* NOTE  ROLSE: kiem tra role của user, copy từ file index.backup.js */
-  // getRoleForItem() {
-  //   return this.checkRole(keyRole)
-  // }
-
-  // getRoleForGroup() {
-  //   let isShow = false
-  //   otherKeyRoles.forEach(oKeyRole => {
-  //     if (this.checkRole(oKeyRole)) isShow = true
-  //   })
-  //   return isShow
-  // }
-
-  // getRole() {
-  //   switch (type) {
-  //     case 'item':
-  //       return this.getRoleForItem()
-  //     case 'group':
-  //       return this.getRoleForGroup()
-  //     default:
-  //       return this.getRoleForItem()
-  //   }
-  // }
+  checkRole(role) {
+    // check role in organization first
+    let isRole = objectPath.get(this.props.organization, role)
+    console.log('isRole',isRole)
+    console.log('isAdmin', this.props.isAdmin)
+    console.log('authRole', this.props.authRole)
+    if (!isRole) return isRole
+    else if (this.props.isAdmin) return true
+    else return objectPath.get(this.props.authRole, role)
+  }
 
   render() {
     const {
@@ -235,7 +223,7 @@ export default class StationAutoHead extends React.PureComponent {
       options,
       status
     } = this.props
-    console.log('___--___-___-__--_---', stationID, options)
+
     const {currentAction} = this.state
     const isCamera = options && options.camera && options.camera.allowed
     const isSampling = options && options.sampling && options.sampling.allowed
@@ -267,14 +255,14 @@ export default class StationAutoHead extends React.PureComponent {
             className="actionItem" 
             type={currentAction === "sampling" && "primary"} 
             onClick={() => this.handleActionOnClick('sampling')}
-            disabled={!isSampling}>
+            disabled={!isSampling && !this.checkRole(ROLE.MONITORING.CONTROL)}>
             {translate('monitoring.actions.sampling')}
           </Button>
           <Button 
             className="actionItem" 
             type={currentAction === "camera" && "primary"} 
             onClick={() => this.handleActionOnClick('camera')}
-            disabled={!isCamera}>
+            disabled={!isCamera || !this.checkRole(ROLE.MONITORING.CONTROL)}>
             {translate('monitoring.actions.camera')}
           </Button>
           <Button className="actionItem" type={currentAction === "chart" && "primary"} onClick={() => this.handleActionOnClick('chart')}>
