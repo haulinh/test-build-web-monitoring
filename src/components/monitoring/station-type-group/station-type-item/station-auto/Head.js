@@ -13,7 +13,7 @@ import protectRole from 'hoc/protect-role/index.backup'
 import { translate } from 'hoc/create-lang'
 import { connect } from 'react-redux'
 import StationControl from 'api/SamplingApi'
-import stationStatus from 'constants/stationStatus'
+import stationStatus, { STATUS_STATION } from 'constants/stationStatus'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { isEmpty } from 'lodash'
 import { action } from 'shared/breadcrumb';
@@ -165,8 +165,11 @@ export default class StationAutoHead extends React.PureComponent {
   }
 
   toReceivedAt = (status, receivedAt) => {
-    const statusStr =
-      status === stationStatus.DATA_LOSS ? translate('monitoring.lossAt') : ''
+    // MARK  thay đổi logic, k0 cần thông báo mat ket noi
+    // const statusStr =
+    //   status === stationStatus.DATA_LOSS ? translate('monitoring.lossAt') : ''
+
+    const statusStr = ''
     const receivedAtStr = receivedAt
       ? moment(receivedAt).format(DD_MM_YYYY_HH_MM)
       : ''
@@ -245,7 +248,8 @@ export default class StationAutoHead extends React.PureComponent {
             </StationName>
           )}
           <Clearfix width={8} />
-          <ReceivedAt status={status}>
+          {/* MARK  Bỏ status={status} vì k0 can phan biet status nua */}
+          <ReceivedAt status={STATUS_STATION.GOOD}>
             {this.toReceivedAt(status, receivedAt)}
           </ReceivedAt>
         </TitleWrapper>

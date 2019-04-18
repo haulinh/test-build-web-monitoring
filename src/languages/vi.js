@@ -64,8 +64,8 @@ export default {
       normal: 'Đang đo',
       maintenance: 'Hiệu chuẩn/Bảo trì',
       broken: 'Báo lỗi',
-      sensorNormal: 'Lỗi thiết bị',
-      sensorError: 'Đang đo'
+      sensorNormal: 'Đang đo',
+      sensorError: 'Lỗi thiết bị'
     },
     statusResult: 'Kết quả quan trắc',
     note: 'Chú thích',

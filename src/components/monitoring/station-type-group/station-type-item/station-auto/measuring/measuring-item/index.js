@@ -7,6 +7,8 @@ import { translate } from "hoc/create-lang";
 import { Tooltip } from "antd";
 import { get } from "lodash";
 import { COLOR_DEVICE_STATUS, COLOR_STATUS } from "themes/color";
+import { STATUS_STATION } from "constants/stationStatus";
+import { getFormatNumber } from "constants/format-number";
 
 const DEVICE_STATUS = {
   "0": { src: "/images/sensor1.png", text: "monitoring.deviceStatus.normal" },
@@ -92,7 +94,8 @@ export default class MeasuringItem extends React.PureComponent {
     name: PropTypes.string,
     minLimit: PropTypes.number,
     maxLimit: PropTypes.number,
-    warningLevel: PropTypes.string
+    warningLevel: PropTypes.string,
+    statusStation: PropTypes.string
   };
 
   getLimitText() {
@@ -129,6 +132,9 @@ export default class MeasuringItem extends React.PureComponent {
   }
 
   getColorLevel() {
+    if(this.props.statusStation && this.props.statusStation === STATUS_STATION.HIGHTGEST)
+      return COLOR_STATUS[STATUS_STATION.HIGHTGEST]
+
     const { warningLevel } = this.props;
     if (warningLevel && colorLevels[warningLevel])
       return COLOR_STATUS[warningLevel];
@@ -161,6 +167,11 @@ export default class MeasuringItem extends React.PureComponent {
 
   render() {
     const { value, unit, name } = this.props;
+
+    let colorDeviceStatus = COLOR_DEVICE_STATUS[get(this.props, 'statusDevice', '')]
+    if(this.props.statusStation && this.props.statusStation === STATUS_STATION.HIGHTGEST)
+      colorDeviceStatus = COLOR_STATUS[STATUS_STATION.HIGHTGEST]
+
     return (
       <MeasuringItemWrapper
         onClick={this.props.onClick}
@@ -173,7 +184,7 @@ export default class MeasuringItem extends React.PureComponent {
             <span style={{ marginRight: 8, fontWeight: 100 }}>{name}</span>
             <MeasuringValue color={this.getColorLevel()}>
               {value !== undefined
-                ? value.toLocaleString(navigator.language)
+                ? getFormatNumber(value)
                 : ""}{" "}
               {unit ? (
                 <MeasuringUnit color={this.getColorLevel()} className="unit">
@@ -190,7 +201,7 @@ export default class MeasuringItem extends React.PureComponent {
         </LeftContainer>
         <RightContainer>
           <Dot style={{
-            backgroundColor: COLOR_DEVICE_STATUS[get(this.props, 'statusDevice', '')]
+            backgroundColor: colorDeviceStatus
           }} />
         </RightContainer>
 
