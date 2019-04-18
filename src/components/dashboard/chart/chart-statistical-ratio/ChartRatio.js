@@ -48,7 +48,7 @@ export default class HeaderView extends React.PureComponent {
         .subtract(day, 'days')
         .format('DD-MM-YYYY HH:ss')
     )
-    this.setState({ day, data: _.get(rs, 'data', []) })
+    this.setState({ day, data: _.get(rs, 'data', []), isLoading: false })
   }
 
   configRatioSemi = (title, received, notReceived) => {
@@ -235,7 +235,7 @@ export default class HeaderView extends React.PureComponent {
   }
 
   getConfigRatio = () => {
-    if (_.isEmpty(this.props.province)) {
+    if (_.isEmpty(this.props.province) &&  this.props.isGroupProvince) {
       return this.configRatioBar(
         //translate('dashboard.chartRatio.title'),
         '',
@@ -253,7 +253,10 @@ export default class HeaderView extends React.PureComponent {
   }
 
   onChange = value => {
-    this.getDataRatioBy(Number(value.key))
+    this.setState({isLoading: true}, ()=>{
+      this.getDataRatioBy(Number(value.key))
+    })
+   
   }
 
   menu = () => {
@@ -296,7 +299,9 @@ export default class HeaderView extends React.PureComponent {
           </Dropdown>
 
            <Spin spinning={this.state.isLoading || this.props.loading}>
-            <ReactHighcharts config={this.getConfigRatio()} />
+           <ReactHighcharts config={this.getConfigRatio()} />
+        
+           
           </Spin>
 
           <StatusModalView

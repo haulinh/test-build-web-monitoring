@@ -122,7 +122,7 @@ export default class TableListCustom extends React.PureComponent {
         <Tooltip placement="top" title={translate(item.title)}>
           <Status
             style={{
-              backgroundColor: item.color
+              backgroundColor: station.colorStatus
             }}
           />
         </Tooltip>
@@ -196,6 +196,7 @@ export default class TableListCustom extends React.PureComponent {
   }
 
   cleanData() {
+    console.log('cleanData, cleanData')
     return this.props.data.map(item => ({
       ...item,
       colorStatus: this.getColorItem(item)
@@ -204,6 +205,7 @@ export default class TableListCustom extends React.PureComponent {
 
   getData() {
     let data = this.cleanData();
+    console.log()
     const filterAsc = this.state.filterType === FILTER_TYPE.asc;
     switch (this.state.filter) {
       case FILTER.name:

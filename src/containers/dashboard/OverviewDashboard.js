@@ -35,6 +35,7 @@ const BoxLoader = createContentLoader({
 
 export default class OverviewDashboard extends Component {
   state = {
+    isGroupProvince: null,
     stationStatus: "",
     stationTypeList: [],
     stationList: [],
@@ -69,10 +70,14 @@ export default class OverviewDashboard extends Component {
       rows[key] = groupLastLog[key];
       stationCount[key] = _.size(rows[key]);
     });
+    
+    let groupProvince = _.groupBy(dataLastLog, "province.key");
+    let isGroupProvince = Object.keys(groupProvince).length > 1
 
     const goodCount = _.filter(dataLastLog, ({ status }) => status === "GOOD")
       .length;
     this.setState({
+      isGroupProvince: isGroupProvince,
       province: provinceKey,
       stationList: dataLastLog,
       rows,
@@ -251,6 +256,7 @@ export default class OverviewDashboard extends Component {
               <ReactFullpage.Wrapper >
                 <div  className="section tableFix">
                   <ChartStatisticalRatio
+                  isGroupProvince={this.state.isGroupProvince}
                     loading={this.state.isGetLastLogLoading}
                     data={this.state.stationList}
                     province={this.state.province}
