@@ -3,9 +3,11 @@ export const FORMAT_VALUE_MEASURING = 2 // '*,00'
 export function getFormatNumber(value, numberToFixed) {
   if (typeof value === "number") {
     let tempNumber = value.toLocaleString(navigator.language, {
-      minimumFractionDigits: numberToFixed
+      minimumFractionDigits: numberToFixed,
+      maximumFractionDigits: numberToFixed
     })
-    return tempNumber
+     
+    return value === 0 ? "0" : tempNumber
   } else {
     return "0"
   }
