@@ -1,6 +1,6 @@
 export default {
   chart: {
-    all: 'Tất cả',
+    all: 'Chọn Đơn vị quản lý',
     time: 'Thời gian',
     from: 'Từ',
     to: 'Đến'
@@ -44,15 +44,16 @@ export default {
   },
   monitoring: {
     title: 'Giám sát trực tuyến',
-    group: 'Nhóm',
+    selectProvince: 'Chọn Đơn vị quản lý',
+    selectStationType: 'Chọn loại trạm',
+    group: 'Nhóm loại trạm',
     unGroup: 'Bỏ nhóm',
     sortByStationName: 'Sắp xếp theo tên trạm',
     sortByValues: 'Sắp xếp theo giá trị',
+    keywordSearch: 'Nhập tên trạm',
     limit: 'Giới hạn',
-    keywordSearch: 'Từ khoá',
     selectGroup: 'Chọn nhóm',
     selectOrder: 'Thứ tự theo',
-    selectStationType: 'Loại trạm',
     dataSearch: 'Tìm kiếm dữ liệu',
     viewInMap: 'Bản đồ',
     sampling: 'Lấy mẫu',
