@@ -161,6 +161,7 @@ export default class StationAutoItem extends React.PureComponent {
           _id={_id}
         />
         <MeasuringList
+          statusStation={status}
           onClickItem={this.handleClickDataSearchWithMeasuring}
           data={this.measuringLastLog()}
         />

@@ -14,7 +14,7 @@ export default class ChartStatusView extends React.PureComponent {
   configStatusChartSemi = (dataGroup, title, titleActive, tittleUnActive) => {
     const dataLabels = {
       enabled: true,
-      color: '#000',
+      color: '#FFF',
       verticalAlign: 'center',
       align: 'center',
       allowOverlap: true,
@@ -117,7 +117,7 @@ export default class ChartStatusView extends React.PureComponent {
   configStatusChartColumn = (dataGroup, title, titleActive, tittleUnActive) => {
     const dataLabels = {
       enabled: true,
-      color: '#000',
+      color: '#FFF',
       y: 15,
       shadow: false,
       verticalAlign: 'center',

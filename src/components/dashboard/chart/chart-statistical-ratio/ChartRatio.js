@@ -15,7 +15,7 @@ import { COLOR_STATUS } from 'themes/color';
 const dataLabels = {
   enabled: true,
   // rotation: -90,
-  color: '#000000',
+  color: '#FFF',
   y: 12,
   // padding: 10,
   align: 'center',
@@ -57,6 +57,8 @@ export default class HeaderView extends React.PureComponent {
       this.state.data,
       ({ provinceId }) => provinceId === this.props.province
     )
+
+    console.log('adasdsad', this.props)
     
     if (item && item.ratio) {
       title = translate('dashboard.chartRatio.dataByDate', {
@@ -114,7 +116,7 @@ export default class HeaderView extends React.PureComponent {
             click: function(event) {
               me.setState({
                 visible: true,
-                stationKey: item.name  // NOTE  stationKey: là đưa vào name của province mới chạy
+                stationKey: item? item.name: "Other"  // NOTE  stationKey: là đưa vào name của province mới chạy, neu k0 co thi Other
               })
             }
           }
@@ -147,7 +149,7 @@ export default class HeaderView extends React.PureComponent {
     const me = this
     const dataLabels = {
       enabled: true,
-      color: '#000000',
+      color: '#FFF',
       verticalAlign: 'center',
       align: 'center',
       padding: 20,

@@ -20,7 +20,7 @@ export default {
     selectProvince: 'Chọn Đơn vị quản lý',
     tableList: {
       name: 'Tên trạm',
-      dataStatus: 'Tình trạng kết nối'
+      dataStatus: 'Tình trạng'
     },
     chartRatio: {
       title: 'Biểu đồ tỷ lệ nhận dữ liệu',
@@ -49,7 +49,7 @@ export default {
     group: 'Nhóm loại trạm',
     unGroup: 'Bỏ nhóm',
     sortByStationName: 'Sắp xếp theo tên trạm',
-    sortByValues: 'Sắp xếp theo giá trị',
+    sortByValues: 'Sắp xếp theo tình trạng',
     keywordSearch: 'Nhập tên trạm',
     limit: 'Giới hạn',
     selectGroup: 'Chọn nhóm',
@@ -64,8 +64,8 @@ export default {
       normal: 'Đang đo',
       maintenance: 'Hiệu chuẩn/Bảo trì',
       broken: 'Báo lỗi',
-      sensorNormal: 'Lỗi thiết bị',
-      sensorError: 'Đang đo'
+      sensorNormal: 'Đang đo',
+      sensorError: 'Lỗi thiết bị'
     },
     statusResult: 'Kết quả quan trắc',
     note: 'Chú thích',

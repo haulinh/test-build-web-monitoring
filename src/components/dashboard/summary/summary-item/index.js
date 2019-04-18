@@ -12,7 +12,8 @@ const SummaryItemWrapper = styled.div`
   padding: 12px 16px;
   background-color: ${props => props.color};
   &:hover {
-    cursor: pointer;
+    cursor: ${props => props.disable? 'not-allowed': 'pointer'};
+    
   }
   flex-direction: column;
 `
@@ -67,14 +68,14 @@ export default class SummaryItem extends React.PureComponent {
   }
 
   render() {
-    const { name, image, color, stationTypeKey, statusStation, index } = this.props
+    const { name, image, color, stationTypeKey, statusStation, indexScroll, number } = this.props
     const colorStatus = (this.props.number == 0)? COLOR_STATUS.DATA_LOSS : COLOR_STATUS[statusStation]
     return (
       // MARK  logic cũ là dùng thẻ Link, giở change thành div
       <div onClick={(e)=>{
-        if(window.fullpage_api) window.fullpage_api.moveTo(index +2) // MARK  +2 vì pieChart và stt từ 1
+        if(number > 0 && window.fullpage_api) window.fullpage_api.moveTo(indexScroll) // MARK  +2 vì pieChart và stt từ 1
       }} >
-        <SummaryItemWrapper color={colorStatus}>
+        <SummaryItemWrapper disable={number === 0} color={colorStatus}>
           <Row>
           <StationTypeImg src={image} />
             <TextNumber>{this.renderNumber()}</TextNumber>
