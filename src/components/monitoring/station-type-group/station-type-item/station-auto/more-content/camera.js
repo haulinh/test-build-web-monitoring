@@ -17,6 +17,6 @@ export default class CameraMoreInfo extends React.Component {
 
 
   render(){
-    return <div style={{backgroundColor: 'yellow'}}>Camera panel...</div>
+    return <div></div>
   }
 }

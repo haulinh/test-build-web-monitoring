@@ -14,7 +14,7 @@ export default class SamplingMoreInfo extends React.Component {
 
 
   render(){
-    return <div>sampling panel...</div>
+    return <div></div>
   }
 }
 

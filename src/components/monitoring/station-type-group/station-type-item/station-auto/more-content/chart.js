@@ -13,6 +13,6 @@ export default class ChartMoreInfo extends React.Component {
 
 
   render(){
-    return <div style={{backgroundColor: 'blue', height:'300px'}}>Chart panel...</div>
+    return <div></div>
   }
 }
