@@ -49,7 +49,7 @@ export default {
     group: 'Group by Type',
     unGroup: 'Ungroup',
     sortByStationName: 'Sort By Station Name',
-    sortByValues: 'Sort By Value',
+    sortByValues: 'Sort By Status',
     keywordSearch: 'Station Name',
     limit: 'Limit',
     selectGroup: 'Select Group',

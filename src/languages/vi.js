@@ -49,7 +49,7 @@ export default {
     group: 'Nhóm loại trạm',
     unGroup: 'Bỏ nhóm',
     sortByStationName: 'Sắp xếp theo tên trạm',
-    sortByValues: 'Sắp xếp theo giá trị',
+    sortByValues: 'Sắp xếp theo tình trạng',
     keywordSearch: 'Nhập tên trạm',
     limit: 'Giới hạn',
     selectGroup: 'Chọn nhóm',
