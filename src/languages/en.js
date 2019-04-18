@@ -1,6 +1,6 @@
 export default {
   chart: {
-    all: 'All',
+    all: 'Select Site',
     time: 'Time',
     from: 'From',
     to: 'To'
@@ -44,15 +44,16 @@ export default {
   },
   monitoring: {
     title: 'Monitoring',
-    group: 'Group',
+    selectProvince: 'Select Site',
+    selectStationType: 'Type of Station',
+    group: 'Group by Type',
     unGroup: 'Ungroup',
     sortByStationName: 'Sort By Station Name',
-    sortByValues: 'Sort By Values',
+    sortByValues: 'Sort By Value',
+    keywordSearch: 'Station Name',
     limit: 'Limit',
-    keywordSearch: 'Search Keyword',
     selectGroup: 'Select Group',
     selectOrder: 'Order By',
-    selectStationType: 'Station Type',
     dataSearch: 'Data Search',
     viewInMap: 'View In Map',
     sampling: 'Sampling',

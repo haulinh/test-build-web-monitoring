@@ -65,10 +65,10 @@ export default class StationTypeSummary extends React.Component {
               >
                 <HeadStationType>
                   <TextSpan onClick={this.toggleOpen}>
-                    <IconToggle isOpen={this.state.isOpen}>
+                    {stationType.name} ({goodTotal}/{stationAutoList.length})
+                    <IconToggle isOpen={this.state.isOpen} style={{marginLeft: 20}}>
                       <Icon type="caret-right" />
                     </IconToggle>
-                    {stationType.name} ({goodTotal}/{stationAutoList.length})
                   </TextSpan>
                 </HeadStationType>
               </div>
