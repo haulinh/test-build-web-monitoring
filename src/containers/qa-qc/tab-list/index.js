@@ -4,7 +4,7 @@ import { Row, Table, Button, Checkbox, Modal } from 'antd'
 import { translate } from 'hoc/create-lang'
 import moment from 'moment'
 import * as _ from 'lodash'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 import ROLE from 'constants/role'
 
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'

@@ -8,7 +8,7 @@ import BoxShadow from 'components/elements/box-shadow/index'
 import TabTableDataList from './tab-table-data-list/index'
 import TabChart from './tab-chart/index'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 import * as _ from 'lodash'
 
 const TabeListWrapper = BoxShadow.extend`

@@ -9,7 +9,7 @@ import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import { message, Spin } from 'antd'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 

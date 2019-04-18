@@ -9,7 +9,7 @@ import { SHAPE } from 'themes/color'
 import { Icon, Tooltip, Spin, Button } from 'antd'
 import ROLE from 'constants/role'
 import moment from 'moment/moment'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 import { translate } from 'hoc/create-lang'
 import { connect } from 'react-redux'
 import StationControl from 'api/SamplingApi'
@@ -17,6 +17,7 @@ import stationStatus from 'constants/stationStatus'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { isEmpty } from 'lodash'
 import { action } from 'shared/breadcrumb';
+import objectPath from 'object-path'
 
 const StationHeadItemWrapper = styled.div`
   display: flex;
@@ -103,6 +104,9 @@ const ActionWrapper = styled.div`
 
 
 @connect(state => ({
+  organization: state.auth.userInfo.organization,
+  authRole: state.auth.userInfo.role,
+  isAdmin: state.auth.userInfo.isAdmin,
   organization: state.auth.userInfo.organization
 }))
 @autobind
@@ -183,6 +187,44 @@ export default class StationAutoHead extends React.PureComponent {
     this.props.onClickActionButton(actionName)
   }
 
+  checkRole(role) {
+    // check role in organization first
+    let isRole = objectPath.get(this.props.organization, role)
+    if (!isRole) return isRole
+    else {
+      // and then check role in user
+      if (this.props.isAdmin) {
+        return true
+      } else {
+        return objectPath.get(this.props.authRole, role)
+      }
+    }
+  }
+
+  /* NOTE  ROLSE: kiem tra role của user, copy từ file index.backup.js */
+  // getRoleForItem() {
+  //   return this.checkRole(keyRole)
+  // }
+
+  // getRoleForGroup() {
+  //   let isShow = false
+  //   otherKeyRoles.forEach(oKeyRole => {
+  //     if (this.checkRole(oKeyRole)) isShow = true
+  //   })
+  //   return isShow
+  // }
+
+  // getRole() {
+  //   switch (type) {
+  //     case 'item':
+  //       return this.getRoleForItem()
+  //     case 'group':
+  //       return this.getRoleForGroup()
+  //     default:
+  //       return this.getRoleForItem()
+  //   }
+  // }
+
   render() {
     const {
       name,
@@ -193,6 +235,7 @@ export default class StationAutoHead extends React.PureComponent {
       options,
       status
     } = this.props
+    console.log('___--___-___-__--_---', stationID, options)
     const {currentAction} = this.state
     const isCamera = options && options.camera && options.camera.allowed
     const isSampling = options && options.sampling && options.sampling.allowed
@@ -220,10 +263,18 @@ export default class StationAutoHead extends React.PureComponent {
         </TitleWrapper>
         
         <ActionWrapper>
-          <Button className="actionItem" type={currentAction === "sampling" && "primary"} onClick={() => this.handleActionOnClick('sampling')}>
+          <Button 
+            className="actionItem" 
+            type={currentAction === "sampling" && "primary"} 
+            onClick={() => this.handleActionOnClick('sampling')}
+            disabled={!isSampling}>
             {translate('monitoring.actions.sampling')}
           </Button>
-          <Button className="actionItem" type={currentAction === "camera" && "primary"} onClick={() => this.handleActionOnClick('camera')}>
+          <Button 
+            className="actionItem" 
+            type={currentAction === "camera" && "primary"} 
+            onClick={() => this.handleActionOnClick('camera')}
+            disabled={!isCamera}>
             {translate('monitoring.actions.camera')}
           </Button>
           <Button className="actionItem" type={currentAction === "chart" && "primary"} onClick={() => this.handleActionOnClick('chart')}>

@@ -100,7 +100,7 @@ export default class OverviewDashboard extends Component {
       rows[key] = [];
       lineSeries[key] = [];
     });
-
+    
     this.setState({
       stationTypeList,
       stationCount,
@@ -170,7 +170,7 @@ export default class OverviewDashboard extends Component {
         return false; // break loop lodash
       }
 
-      // MARK  check tới lastLog
+      // MARK  check lastLog
       let statusMeasuring = me.timKiemStatusQuaMeasuringLog(
         item.lastLog.measuringLogs
       );
@@ -198,8 +198,10 @@ export default class OverviewDashboard extends Component {
   }
 
   handleProvinceChange = province => {
-    this.setState({ province });
-    this.getStationInfo(province);
+    this.setState({ province, isGetLastLogLoading: true }, ()=>{
+      this.getStationInfo(province);
+    });
+    
   };
 
   render() {
