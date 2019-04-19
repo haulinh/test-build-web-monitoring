@@ -2,8 +2,10 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router'
+import {Row, Col} from 'antd';
 /* user import */
 import { translate } from 'hoc/create-lang'
+
 
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
@@ -12,9 +14,8 @@ export default class SamplingMoreInfo extends React.Component {
 
   state = {}
 
-
   render(){
-    return <div></div>
+    return <div>History pane</div>
   }
 }
 
