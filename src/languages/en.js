@@ -77,6 +77,28 @@ export default {
       images: 'Images',
       stationInfo: 'Station Infomation',
       reviewStation: 'Review Station'
+    },
+    moreContent: {
+      sampling: {
+        tabs: {
+          sampling: 'Sampling',
+          history: 'History',
+          config: 'Config'
+        },
+        content: {
+          totalBottles: 'Total bottles:',
+          sampledBottles: 'Sampled bottles:',
+          typeOfSampling: 'Type of Sampling',
+          immediatelySampling: 'Immediately Sampling',
+          scheduleSampling: 'Schedule Sampling',
+          bottlesNeedToTake: 'Bottles need to take:',
+          frequency: 'Frequency (minutes):',
+          timeStartSampling: 'Time start sampling:',
+          dateStartSampling: 'Date start sampling:',
+          takeSample: 'Take Sample',
+          activeTakeSample: 'Active Take sample when data over-range'
+        }
+      }
     }
   },
   aqi: {

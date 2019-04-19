@@ -77,6 +77,28 @@ export default {
       images: 'Hình ảnh',
       stationInfo: 'Thông tin trạm',
       reviewStation: 'Đánh giá trạm'
+    },
+    moreContent: {
+      sampling: {
+        tabs: {
+          sampling: 'Lấy mẫu',
+          history: 'Lịch sử',
+          config: 'Cấu hình'
+        },
+        content: {
+          totalBottles: 'Tổng số chai:',
+          sampledBottles: 'Số chai đã lấy:',
+          typeOfSampling: 'Hình thức lấy mẫu',
+          immediatelySampling: 'Thủ công',
+          scheduleSampling: 'Tự động',
+          bottlesNeedToTake: 'Số chai cần lấy:',
+          frequency: 'Chu kỳ lấy mẫu (phút):',
+          timeStartSampling: 'Giờ bắt đầu lấy mẫu:',
+          dateStartSampling: 'Ngày bắt đầu lấy mẫu:',
+          takeSample: 'Kích hoạt',
+          activeTakeSample: 'Kích hoạt lấy mẫu khi vượt ngưỡng'
+        }
+      }
     }
   },
   aqi: {
