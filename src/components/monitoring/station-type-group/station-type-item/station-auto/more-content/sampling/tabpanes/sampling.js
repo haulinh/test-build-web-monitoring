@@ -13,6 +13,22 @@ import moment from 'moment';
 /* user import */
 import { translate } from 'hoc/create-lang'
 
+const i18n = {
+  totalBottles        : translate('monitoring.moreContent.sampling.content.totalBottles'),
+  sampledBottles      : translate('monitoring.moreContent.sampling.content.sampledBottles'),
+  immediatelySampling : translate('monitoring.moreContent.sampling.content.immediatelySampling'),
+  scheduleSampling    : translate('monitoring.moreContent.sampling.content.scheduleSampling'),
+  bottlesNeedToTake   : translate('monitoring.moreContent.sampling.content.bottlesNeedToTake'),
+  timeStartSampling   : translate('monitoring.moreContent.sampling.content.timeStartSampling'),
+  frequency           : translate('monitoring.moreContent.sampling.content.frequency'),
+  dateStartSampling   : translate('monitoring.moreContent.sampling.content.dateStartSampling'),
+  takeSample          : translate('monitoring.moreContent.sampling.content.takeSample'),
+  commanded           : translate('monitoring.moreContent.sampling.content.commanded'),
+  takingSample        : translate('monitoring.moreContent.sampling.content.takingSample'),
+  activeTakeSample    : translate('monitoring.moreContent.sampling.content.activeTakeSample'),
+  typeOfSampling      : translate('monitoring.moreContent.sampling.content.typeOfSampling')
+}
+
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const InputGroup = Input.Group;
@@ -65,8 +81,8 @@ export default class SamplingMoreInfo extends React.Component {
         {/* -- FORM NHAP SO CHAI -- */}
         <Row style={{marginBottom: 30}}> 
           <Row gutter={16}>
-            <Col span={11}>{translate('monitoring.moreContent.sampling.content.totalBottles')}</Col>
-            <Col span={11}>{translate('monitoring.moreContent.sampling.content.sampledBottles')}</Col>
+            <Col span={11}>{i18n.totalBottles}</Col>
+            <Col span={11}>{i18n.sampledBottles}</Col>
             <Col span={2}></Col>
           </Row>
           <Form layout="inline" onSubmit={this.handleSubmit} wrapperCol={{span: 24}}>
@@ -93,23 +109,24 @@ export default class SamplingMoreInfo extends React.Component {
         {/* -- SAMPLING TYPE --*/}
         <Row>
           <Row>
-            <span>{translate('monitoring.moreContent.sampling.content.typeOfSampling')}</span>
+            <span>{i18n.typeOfSampling}</span>
             <RadioGroup defaultValue={samplingType} onChange={this.handleSamplingTypeChange} buttonStyle="solid"  style={{margin: '0 0 30px 15px'}}>
-              <RadioButton value="manual">{translate('monitoring.moreContent.sampling.content.immediatelySampling')}</RadioButton>
-              <RadioButton value="auto">{translate('monitoring.moreContent.sampling.content.scheduleSampling')}</RadioButton>
+              <RadioButton value="manual">{i18n.immediatelySampling}</RadioButton>
+              <RadioButton value="auto">{i18n.scheduleSampling}</RadioButton>
             </RadioGroup> 
           </Row>
+          
           {/* -- SAMPLING TYPE: AUTO */}
           { samplingType === "auto" && (
             <Row gutter={16}>
               <Col span={12}>
-                <Row>{translate('monitoring.moreContent.sampling.content.bottlesNeedToTake')}</Row>
+                <Row>{i18n.bottlesNeedToTake}</Row>
                 <Row>
                   <Form.Item style={{width: '100%'}}>
                     <InputNumber defaultValue="2" style={{width: '100%'}}/>
                   </Form.Item>
                 </Row>
-                <Row>{translate('monitoring.moreContent.sampling.content.timeStartSampling')}</Row>
+                <Row>{i18n.timeStartSampling}</Row>
                 <Row>
                   <Form.Item style={{width: '100%'}}>
                     <InputNumber defaultValue="0" style={{width: '100%'}}/>
@@ -117,13 +134,13 @@ export default class SamplingMoreInfo extends React.Component {
                 </Row>
               </Col>
               <Col span={12}>
-                <Row>{translate('monitoring.moreContent.sampling.content.frequency')}</Row>
+                <Row>{i18n.frequency}</Row>
                 <Row>
                   <Form.Item style={{width: '100%'}}>
                     <TimePicker defaultValue={moment(Date.now(), "HH:mm")} format="HH:mm" style={{width: '100%'}}/>
                   </Form.Item>
                 </Row>
-                <Row>{translate('monitoring.moreContent.sampling.content.dateStartSampling')}</Row>
+                <Row>{i18n.dateStartSampling}</Row>
                 <Row>
                   <Form.Item style={{width: '100%'}}>
                     <DatePicker defaultValue={moment(Date.now(), "dd/mm/yyyy")} format="dd/mm/yyyy" style={{width: '100%'}}/>
@@ -142,12 +159,12 @@ export default class SamplingMoreInfo extends React.Component {
             style={{marginBottom: 8}}  
             onClick={this.handleSampling} 
             loading={statusSampling === STATUS_SAMPLING.SAMPLING || statusSampling === STATUS_SAMPLING.COMMANDED}>
-            { statusSampling === STATUS_SAMPLING.READY && translate('monitoring.moreContent.sampling.content.takeSample') }
-            { statusSampling === STATUS_SAMPLING.COMMANDED && translate('monitoring.moreContent.sampling.content.commanded') }
-            { statusSampling === STATUS_SAMPLING.SAMPLING && translate('monitoring.moreContent.sampling.content.takingSample') }
+            { statusSampling === STATUS_SAMPLING.READY && i18n.takeSample }
+            { statusSampling === STATUS_SAMPLING.COMMANDED && i18n.commanded }
+            { statusSampling === STATUS_SAMPLING.SAMPLING && i18n.takingSample }
           </Button>
           {/* NOTE  nút này chưa cần xử lý*/}
-          <Button block type="primary">{translate('monitoring.moreContent.sampling.content.activeTakeSample')}</Button>
+          <Button block type="primary">{i18n.activeTakeSample}</Button>
         </Row>
       </div>
     )
