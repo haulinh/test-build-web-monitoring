@@ -112,7 +112,8 @@ export default {
           config: {
             totalBottles: 'Total bottles:',
             controlTagName: 'Controlling Tag name:',
-            timeToTakeOneBottle: 'Time to take one bottle (minutes):'
+            timeToTakeOneBottle: 'Time to take one bottle (minutes):',
+            save: 'Save'
           }
         }
       }

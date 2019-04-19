@@ -112,7 +112,8 @@ export default {
           config: {
             totalBottles: 'Tổng số chai:',
             controlTagName: 'Tag name điều khiển:',
-            timeToTakeOneBottle: 'Thời gian lấy mẫu xong 1 chai (phút):'
+            timeToTakeOneBottle: 'Thời gian lấy mẫu xong 1 chai (phút):',
+            save: 'Lưu'
           }
         }
       }
