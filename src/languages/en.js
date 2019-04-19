@@ -98,7 +98,7 @@ export default {
           active: 'Active',
           actived: 'Actived',
           takeSample: 'Take Sample',
-          commanded: 'Command passed',
+          commandSent: 'Command sent',
           takingSample: 'Sampling...',
           activeTakeSample: 'Active Take sample when data over-range',
           activedTakeSample: 'Actived Take sample when data over-range'

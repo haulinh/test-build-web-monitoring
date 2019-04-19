@@ -23,7 +23,7 @@ const i18n = {
   frequency           : translate('monitoring.moreContent.sampling.content.frequency'),
   dateStartSampling   : translate('monitoring.moreContent.sampling.content.dateStartSampling'),
   takeSample          : translate('monitoring.moreContent.sampling.content.takeSample'),
-  commanded           : translate('monitoring.moreContent.sampling.content.commanded'),
+  commandSent         : translate('monitoring.moreContent.sampling.content.commandSent'),
   takingSample        : translate('monitoring.moreContent.sampling.content.takingSample'),
   activeTakeSample    : translate('monitoring.moreContent.sampling.content.activeTakeSample'),
   typeOfSampling      : translate('monitoring.moreContent.sampling.content.typeOfSampling')
@@ -115,7 +115,7 @@ export default class SamplingMoreInfo extends React.Component {
               <RadioButton value="auto">{i18n.scheduleSampling}</RadioButton>
             </RadioGroup> 
           </Row>
-          
+
           {/* -- SAMPLING TYPE: AUTO */}
           { samplingType === "auto" && (
             <Row gutter={16}>
@@ -160,7 +160,7 @@ export default class SamplingMoreInfo extends React.Component {
             onClick={this.handleSampling} 
             loading={statusSampling === STATUS_SAMPLING.SAMPLING || statusSampling === STATUS_SAMPLING.COMMANDED}>
             { statusSampling === STATUS_SAMPLING.READY && i18n.takeSample }
-            { statusSampling === STATUS_SAMPLING.COMMANDED && i18n.commanded }
+            { statusSampling === STATUS_SAMPLING.COMMANDED && i18n.commandSent }
             { statusSampling === STATUS_SAMPLING.SAMPLING && i18n.takingSample }
           </Button>
           {/* NOTE  nút này chưa cần xử lý*/}
