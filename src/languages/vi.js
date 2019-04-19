@@ -108,6 +108,11 @@ export default {
             dateTime: 'Thời gian lấy',
             typeOfSampling: 'Hình thức lấy',
             activedUser: 'Người kích hoạt'
+          },
+          config: {
+            totalBottles: 'Tổng số chai:',
+            controlTagName: 'Tag name điều khiển:',
+            timeToTakeOneBottle: 'Thời gian lấy mẫu xong 1 chai (phút):'
           }
         }
       }

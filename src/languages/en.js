@@ -108,6 +108,11 @@ export default {
             dateTime: 'Date time',
             typeOfSampling: 'Type of Sampling',
             activedUser: 'Actived User'
+          },
+          config: {
+            totalBottles: 'Total bottles:',
+            controlTagName: 'Controlling Tag name:',
+            timeToTakeOneBottle: 'Time to take one bottle (minutes):'
           }
         }
       }
