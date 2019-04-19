@@ -95,8 +95,13 @@ export default {
           frequency: 'Frequency (minutes):',
           timeStartSampling: 'Time start sampling:',
           dateStartSampling: 'Date start sampling:',
+          active: 'Active',
+          actived: 'Actived',
           takeSample: 'Take Sample',
-          activeTakeSample: 'Active Take sample when data over-range'
+          commanded: 'Command passed',
+          takingSample: 'Sampling...',
+          activeTakeSample: 'Active Take sample when data over-range',
+          activedTakeSample: 'Actived Take sample when data over-range'
         }
       }
     }
