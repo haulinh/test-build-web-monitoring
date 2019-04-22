@@ -5,8 +5,10 @@ import { Table } from "antd"
 import moment from "moment/moment"
 import BoxShadow from "components/elements/box-shadow/index"
 import { DD_MM_YYYY_HH_MM } from "constants/format-date"
-import { FORMAT_VALUE_MEASURING, getFormatNumber } from "constants/format-number"
-
+import {
+  FORMAT_VALUE_MEASURING,
+  getFormatNumber
+} from "constants/format-number"
 
 const TabeListWrapper = BoxShadow.extend`
   padding: 16px 16px 16px 16px;
@@ -35,7 +37,7 @@ export default class TableDataList extends React.PureComponent {
             record.max.data.length > 0
               ? record.max.data[0].receivedAt || ""
               : ""
-          if (val) val = moment(val).format(DD_MM_YYYY_HH_MM)
+          val = moment(val).format(DD_MM_YYYY_HH_MM)
           return <div>{val}</div>
         }
       },
@@ -46,7 +48,7 @@ export default class TableDataList extends React.PureComponent {
         render(value, record, index) {
           let val =
             record.max.data.length > 0 ? record.max.data[0].value || "" : ""
-          if (val) val = getFormatNumber(val, FORMAT_VALUE_MEASURING)
+          val = getFormatNumber(val, FORMAT_VALUE_MEASURING)
           return <div>{val}</div>
         }
       },
@@ -70,7 +72,7 @@ export default class TableDataList extends React.PureComponent {
         render(value, record, index) {
           let val =
             record.min.data.length > 0 ? record.min.data[0].value || "" : ""
-          if (val) val = getFormatNumber(val, FORMAT_VALUE_MEASURING)
+          val = getFormatNumber(val, FORMAT_VALUE_MEASURING)
           return <div>{val}</div>
         }
       },
@@ -81,7 +83,7 @@ export default class TableDataList extends React.PureComponent {
         render(value, record, index) {
           let val =
             record.avg.data.length > 0 ? record.avg.data[0].value || "" : ""
-          if (val) val = getFormatNumber(Math.round(val, 2), FORMAT_VALUE_MEASURING) 
+          val = getFormatNumber(val, FORMAT_VALUE_MEASURING)
           return <div>{val}</div>
         }
       }

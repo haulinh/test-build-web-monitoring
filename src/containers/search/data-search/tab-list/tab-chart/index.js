@@ -1,11 +1,11 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import ReactHighcharts from 'react-highcharts/ReactHighstock'
-import * as _ from 'lodash'
-import PropTypes from 'prop-types'
-import { translate } from 'hoc/create-lang'
-import moment from 'moment'
+import React from "react"
+import { autobind } from "core-decorators"
+import styled from "styled-components"
+import ReactHighcharts from "react-highcharts/ReactHighstock"
+import * as _ from "lodash"
+import PropTypes from "prop-types"
+import { translate } from "hoc/create-lang"
+import moment from "moment"
 
 const TabChartWrapper = styled.div`
   justify-content: center;
@@ -38,34 +38,37 @@ const Line = styled.div`
   height: 2px;
   width: 7px;
   margin-right: 4px;
-  background-color: ${props => props.color || 'transparent'};
+  background-color: ${props => props.color || "transparent"};
 `
 
 const colors = [
-  '#058DC0',
-  '#50B432',
-  '#7D5611',
-  '#DDDF00',
-  '#24CBE8',
-  '#64E572',
-  '#FF9655',
-  '#FFF26f',
-  '#6AF9C0'
+  "#058DC0",
+  "#50B432",
+  "#7D5611",
+  "#DDDF00",
+  "#24CBE8",
+  "#64E572",
+  "#FF9655",
+  "#FFF26f",
+  "#6AF9C0"
 ]
 ReactHighcharts.Highcharts.wrap(
   ReactHighcharts.Highcharts.RangeSelector.prototype,
-  'drawInput',
+  "drawInput",
   function(proceed, name) {
     proceed.call(this, name)
-    this[name + 'DateBox'].on('click', function() {})
+    this[name + "DateBox"].on("click", function() {})
   }
 )
 
 ReactHighcharts.Highcharts.setOptions({
   lang: {
-    rangeSelectorFrom: translate('chart.from'),
-    rangeSelectorTo: translate('chart.to'),
-    rangeSelectorZoom: ''
+    rangeSelectorFrom: translate("chart.from"),
+    rangeSelectorTo: translate("chart.to"),
+    rangeSelectorZoom: ""
+  },
+  global: {
+    useUTC: false
   }
 })
 
@@ -86,7 +89,7 @@ export default class TabChart extends React.PureComponent {
   initData = (props, isInit = false) => {
     const seriesData = {}
     const mesureList = _.map(_.clone(props.measuringData), (item, index) => {
-      const color = _.get(colors, [index], 'yellow')
+      const color = _.get(colors, [index], "yellow")
       seriesData[item.key] = {
         name: item.name,
         data: [],
@@ -95,7 +98,7 @@ export default class TabChart extends React.PureComponent {
         maxLimit: item.maxLimit,
         threshold: _.isNumber(item.maxLimit) ? item.maxLimit : 10000000,
         negativeColor: color,
-        color: 'red'
+        color: "red"
       }
       return {
         code: item.key,
@@ -108,17 +111,17 @@ export default class TabChart extends React.PureComponent {
     _.forEachRight(props.dataStationAuto, ({ measuringLogs, receivedAt }) => {
       const time = moment(receivedAt).valueOf()
       _.mapKeys(seriesData, function(value, key) {
-        const val = _.get(measuringLogs, [key, 'value'])
+        const val = _.get(measuringLogs, [key, "value"])
         seriesData[key].data.push([time, val])
 
         const minCureent =
           _.get(heightChart, `${key}.minChart`) ||
-          _.get(measuringLogs, [key, 'minLimit']) ||
-          _.get(measuringLogs, [key, 'maxLimit'])
+          _.get(measuringLogs, [key, "minLimit"]) ||
+          _.get(measuringLogs, [key, "maxLimit"])
         const maxCurrent =
           _.get(heightChart, `${key}.maxChart`) ||
-          _.get(measuringLogs, [key, 'maxLimit']) ||
-          _.get(measuringLogs, [key, 'minLimit'])
+          _.get(measuringLogs, [key, "maxLimit"]) ||
+          _.get(measuringLogs, [key, "minLimit"])
         if (_.isNumber(minCureent)) {
           _.update(heightChart, `${key}.minChart`, () =>
             _.min([minCureent, val])
@@ -134,7 +137,7 @@ export default class TabChart extends React.PureComponent {
       })
     })
 
-    mesureList.unshift({ code: '__ALL__', name: translate('chart.all') })
+    mesureList.unshift({ code: "__ALL__", name: translate("chart.all") })
     if (isInit) {
       this.state = {
         seriesData,
@@ -142,9 +145,9 @@ export default class TabChart extends React.PureComponent {
         plotLines: [],
         minChart: undefined,
         maxChart: undefined,
-        nameChart: '',
+        nameChart: "",
         series: _.values(seriesData),
-        measureCurrent: '__ALL__',
+        measureCurrent: "__ALL__",
         heightChart
       }
     } else {
@@ -172,46 +175,46 @@ export default class TabChart extends React.PureComponent {
     let plotLines = []
     let minChart = undefined
     let maxChart = undefined
-    let nameChart = ''
-    if (measureCurrent === '__ALL__') {
+    let nameChart = ""
+    if (measureCurrent === "__ALL__") {
       series = _.values(this.state.seriesData)
       nameChart = this.props.nameChart
     } else {
       let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
       // dataSeries.negativeColor = '#058DC7'
-      const minLimit = _.get(dataSeries, 'minLimit')
+      const minLimit = _.get(dataSeries, "minLimit")
       series = [dataSeries]
       if (_.isNumber(minLimit)) {
         let data = _.clone(dataSeries) //_.get(this.state.seriesData, [measureCurrent], {})
-        _.update(data, 'threshold', () => minLimit)
-        _.update(data, 'color', () => 'transparent')
-        _.update(data, 'negativeColor', () => 'red')
+        _.update(data, "threshold", () => minLimit)
+        _.update(data, "color", () => "transparent")
+        _.update(data, "negativeColor", () => "red")
         series.push(data)
       }
 
-      minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
-      maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
+      minChart = _.get(this.state.heightChart, [measureCurrent, "minChart"])
+      maxChart = _.get(this.state.heightChart, [measureCurrent, "maxChart"]) //_.get(dataSeries,'minLimit', undefined)
       nameChart = `${this.props.nameChart} - ${measureCurrent}`
       plotLines = [
         {
-          value: _.get(dataSeries, 'minLimit', undefined),
-          color: 'red',
-          dashStyle: 'shortdash',
+          value: _.get(dataSeries, "minLimit", undefined),
+          color: "red",
+          dashStyle: "shortdash",
           width: 2,
           label: {
             text: translate(`dashboard.chartStatus.min`, {
-              min: _.get(dataSeries, 'minLimit', '')
+              min: _.get(dataSeries, "minLimit", "")
             })
           }
         },
         {
-          value: _.get(dataSeries, 'maxLimit', undefined),
-          color: 'red',
-          dashStyle: 'shortdash',
+          value: _.get(dataSeries, "maxLimit", undefined),
+          color: "red",
+          dashStyle: "shortdash",
           width: 1,
           label: {
             text: translate(`dashboard.chartStatus.max`, {
-              max: _.get(dataSeries, 'maxLimit', '')
+              max: _.get(dataSeries, "maxLimit", "")
             })
           }
         }
@@ -237,7 +240,7 @@ export default class TabChart extends React.PureComponent {
   ) => {
     return {
       chart: {
-        type: 'line',
+        type: "line",
         width: width - 160
       },
       credits: {
@@ -248,8 +251,8 @@ export default class TabChart extends React.PureComponent {
         buttons: [],
         allButtonsEnabled: true,
         inputEnabled: true,
-        inputEditDateFormat: '%d/%m/%Y:%k:%M',
-        inputDateFormat: '%d/%m/%Y:%k:%M',
+        inputEditDateFormat: "%d/%m/%Y:%k:%M",
+        inputDateFormat: "%d/%m/%Y:%k:%M",
         inputBoxWidth: 120
       },
       navigation: {
@@ -265,7 +268,7 @@ export default class TabChart extends React.PureComponent {
         max: maxChart,
         plotLines,
         title: {
-          text: ''
+          text: ""
         }
       },
       series
@@ -304,7 +307,7 @@ export default class TabChart extends React.PureComponent {
                 code={code}
               >
                 <Line color={color} />
-                {unit !== '' && code !== '__ALL__'
+                {unit !== "" && code !== "__ALL__"
                   ? `${name} (${unit})`
                   : `${name}`}
               </ThumbnailItem>
