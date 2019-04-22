@@ -38,7 +38,7 @@ export default class SamplingMoreInfo extends React.Component {
   static defaultProps = {
     isActive: false,
     panel: '',
-    stationID: null,
+    stationID: '',
   }
 
   state = {}

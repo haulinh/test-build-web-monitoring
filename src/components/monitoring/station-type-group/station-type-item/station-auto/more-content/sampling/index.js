@@ -31,28 +31,29 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   static defaultProps = {
-    stationID: null,
+    stationID: '',
   }
 
   state = {
     isLoading: false,
     isConfig: false,
-    stationData: {}
+    stationData: null
   }
 
   async componentWillMount(){
     this.setState({isLoading: true})
-    console.log(StationAPI)
     const res = await StationAPI.getStatus(this.props.stationID)
+    console.log('res.datares.data',res.data)
     this.setState({
       isConfig: res.data.configSampling ? true : false,
       isLoading: false,
-      stationData: res.data
+      configSampling: res.data.configSampling? res.data.configSampling: undefined
     })
   }
 
   render(){
-    const {isLoading, isConfig, stationData} = this.state
+    const {stationID} = this.props
+    const {isLoading, isConfig, configSampling} = this.state
     return (
       <div>
         { isLoading ? (<LoadingCmp />) : (
@@ -61,18 +62,18 @@ export default class SamplingMoreInfo extends React.Component {
               key="sampling"
               tab={translate('monitoring.moreContent.sampling.tabs.sampling')}
               disabled={!isConfig}>
-              <Sampling />
+              <Sampling stationID={stationID}/>
             </TabPane>
             <TabPane 
               key="history"
               disabled={!isConfig}
               tab={translate('monitoring.moreContent.sampling.tabs.history')}>
-              <History />
+              <History stationID={stationID}/>
             </TabPane>
             <TabPane 
               key="config"
               tab={translate('monitoring.moreContent.sampling.tabs.config')}>
-              <Config stationData={stationData.configSampling}/>
+              <Config stationID={stationID} configSampling={configSampling}/>
             </TabPane>
           </Tabs>
         )}

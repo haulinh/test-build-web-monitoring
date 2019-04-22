@@ -57,6 +57,11 @@ export function getStatus(stationID) {
   console.log('phat is getting stationID :', stationID)
 }
 
+export function updateConfig(stationID, values) {
+  console.log('valuesvaluesvaluesvalues',values)
+  return putFetch(getSamplingUrl(`updateConfig/${stationID}`), values)
+}
+
 export default {
   getStationControl,
   getHistory_StationControl,
@@ -65,5 +70,6 @@ export default {
   triggerExceeded_StationControl,
   checkStationControl,
   uploadSampleConfig,
-  getStatus
+  getStatus,
+  updateConfig
 }

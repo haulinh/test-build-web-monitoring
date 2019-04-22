@@ -1200,7 +1200,8 @@ export default {
   error: {
     text: 'Lỗi',
     require: 'Yêu cầu',
-    email: 'Địa chỉ Email không hợp lệ'
+    email: 'Địa chỉ Email không hợp lệ',
+    nullValue: 'Dữ liệu không được rỗng'
   },
   form: {
     save: 'Lưu',
