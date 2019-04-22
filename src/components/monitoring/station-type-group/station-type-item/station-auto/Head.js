@@ -6,16 +6,18 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import Clearfix from 'components/elements/clearfix'
 import { SHAPE } from 'themes/color'
-import { Icon, Tooltip, Spin } from 'antd'
+import { Icon, Tooltip, Spin, Button } from 'antd'
 import ROLE from 'constants/role'
 import moment from 'moment/moment'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 import { translate } from 'hoc/create-lang'
 import { connect } from 'react-redux'
 import StationControl from 'api/SamplingApi'
-import stationStatus from 'constants/stationStatus'
+import stationStatus, { STATUS_STATION } from 'constants/stationStatus'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { isEmpty } from 'lodash'
+import { action } from 'shared/breadcrumb';
+import objectPath from 'object-path'
 
 const StationHeadItemWrapper = styled.div`
   display: flex;
@@ -75,18 +77,36 @@ const ActionWrapper = styled.div`
   margin-left: -8px;
   margin-right: -8px;
   .actionItem {
-    padding: 0px 8px;
-    color: #1890ff;
-    border-right: 1px solid ${SHAPE.GRAYBOLD};
-    &:hover {
-      cursor: pointer;
-    }
+    margin-right: 4px;
   }
   .actionItem:last-child {
-    border-right: 0px;
+    margin-right: 0px;
   }
 `
+/* NOTE  KHÔNG XOÁ, DÙNG CHO Ở DƯỚI */
+// const ActionWrapper = styled.div`
+//   display: flex;
+//   align-items: center;
+//   margin-left: -8px;
+//   margin-right: -8px;
+//   .actionItem {
+//     padding: 0px 8px;
+//     color: #1890ff;
+//     border-right: 1px solid ${SHAPE.GRAYBOLD};
+//     &:hover {
+//       cursor: pointer;
+//     }
+//   }
+//   .actionItem:last-child {
+//     border-right: 0px;
+//   }
+// `
+
+
 @connect(state => ({
+  organization: state.auth.userInfo.organization,
+  authRole: state.auth.userInfo.role,
+  isAdmin: state.auth.userInfo.isAdmin,
   organization: state.auth.userInfo.organization
 }))
 @autobind
@@ -106,17 +126,20 @@ export default class StationAutoHead extends React.PureComponent {
 
   state = {
     isLoaded: false,
-    isEnable: false
+    isEnable: false,
+    currentAction: ''
   }
 
   componentWillMount() {
     this.startTimer()
   }
+
   startTimer() {
     clearInterval(this.timer)
     this.timer = setInterval(this.loadData.bind(this), 600000) //10 phút
     this.loadData()
   }
+
   loadData() {
     const { options } = this.props
     if (options && options.sampling && options.sampling.allowed) {
@@ -142,8 +165,11 @@ export default class StationAutoHead extends React.PureComponent {
   }
 
   toReceivedAt = (status, receivedAt) => {
-    const statusStr =
-      status === stationStatus.DATA_LOSS ? translate('monitoring.lossAt') : ''
+    // MARK  thay đổi logic, k0 cần thông báo mat ket noi
+    // const statusStr =
+    //   status === stationStatus.DATA_LOSS ? translate('monitoring.lossAt') : ''
+
+    const statusStr = ''
     const receivedAtStr = receivedAt
       ? moment(receivedAt).format(DD_MM_YYYY_HH_MM)
       : ''
@@ -152,6 +178,42 @@ export default class StationAutoHead extends React.PureComponent {
     }
 
     return `${receivedAtStr}`
+  }
+
+  handleActionOnClick(actionName) {
+    if (this.state.currentAction === actionName) {
+      this.setState({currentAction: ''})
+    }
+    else {
+      this.setState({currentAction: actionName})
+    }
+    this.props.onClickActionButton(actionName)
+  }
+
+  checkRole(role) {
+    // check role in organization first
+    let isRole = objectPath.get(this.props.organization, role)
+    if (!isRole) return isRole
+    else {
+      // and then check role in user
+      if (this.props.isAdmin) {
+        return true
+      } else {
+        return objectPath.get(this.props.authRole, role)
+      }
+    }
+  }
+
+  /* NOTE  ROLSE: kiem tra role của user, copy từ file index.backup.js */
+  checkRole(role) {
+    // check role in organization first
+    let isRole = objectPath.get(this.props.organization, role)
+    console.log('isRole',isRole)
+    console.log('isAdmin', this.props.isAdmin)
+    console.log('authRole', this.props.authRole)
+    if (!isRole) return isRole
+    else if (this.props.isAdmin) return true
+    else return objectPath.get(this.props.authRole, role)
   }
 
   render() {
@@ -164,6 +226,8 @@ export default class StationAutoHead extends React.PureComponent {
       options,
       status
     } = this.props
+
+    const {currentAction} = this.state
     const isCamera = options && options.camera && options.camera.allowed
     const isSampling = options && options.sampling && options.sampling.allowed
     return (
@@ -184,11 +248,47 @@ export default class StationAutoHead extends React.PureComponent {
             </StationName>
           )}
           <Clearfix width={8} />
-          <ReceivedAt status={status}>
+          {/* MARK  Bỏ status={status} vì k0 can phan biet status nua */}
+          <ReceivedAt status={STATUS_STATION.GOOD}>
             {this.toReceivedAt(status, receivedAt)}
           </ReceivedAt>
         </TitleWrapper>
+        
         <ActionWrapper>
+          <Button 
+            className="actionItem" 
+            type={currentAction === "sampling" && "primary"} 
+            onClick={() => this.handleActionOnClick('sampling')}
+            disabled={!isSampling && !this.checkRole(ROLE.MONITORING.CONTROL)}>
+            {translate('monitoring.actions.sampling')}
+          </Button>
+          <Button 
+            className="actionItem" 
+            type={currentAction === "camera" && "primary"} 
+            onClick={() => this.handleActionOnClick('camera')}
+            disabled={!isCamera || !this.checkRole(ROLE.MONITORING.CAMERA)}>
+            {translate('monitoring.actions.camera')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "chart" && "primary"} onClick={() => this.handleActionOnClick('chart')}>
+            {translate('monitoring.actions.chart')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "map" && "primary"} onClick={() => this.handleActionOnClick('map')}>
+            {translate('monitoring.actions.map')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "image" && "primary"} onClick={() => this.handleActionOnClick('image')}>
+            {translate('monitoring.actions.images')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "station" && "primary"} onClick={() => this.handleActionOnClick('station')}>
+            {translate('monitoring.actions.stationInfo')}
+          </Button>
+          <Button className="actionItem" type={currentAction === "rating" && "primary"} onClick={() => this.handleActionOnClick('rating')}>
+            {translate('monitoring.actions.reviewStation')}
+          </Button>
+        </ActionWrapper>
+        
+
+        {/* NOTE  không xoá, để sau này dùng đến, hiện tại dùng ActionWrapper ở trên trong bản launching */}
+        {/* <ActionWrapper>
           {isSampling &&
             protectRole(ROLE.MONITORING.CONTROL)(
               <Spin spinning={!this.state.isLoaded} size="small">
@@ -236,7 +336,7 @@ export default class StationAutoHead extends React.PureComponent {
               <Icon type="area-chart" />
             </Tooltip>
           </div>
-        </ActionWrapper>
+        </ActionWrapper> */}
       </StationHeadItemWrapper>
     )
   }

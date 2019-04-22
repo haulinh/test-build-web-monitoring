@@ -1,6 +1,6 @@
 export default {
   chart: {
-    all: 'Tất cả',
+    all: 'Chọn Đơn vị quản lý',
     time: 'Thời gian',
     from: 'Từ',
     to: 'Đến'
@@ -17,23 +17,25 @@ export default {
     viewInMap: 'Bản đồ',
     viewMore: 'Xem thêm',
     all: 'Tất cả',
+    selectProvince: 'Chọn Đơn vị quản lý',
     tableList: {
       name: 'Tên trạm',
-      dataStatus: 'Tình trạng kết nối'
+      dataStatus: 'Tình trạng'
     },
     chartRatio: {
-      title: 'Tỉ lệ nhận dữ liệu',
+      title: 'Biểu đồ tỷ lệ nhận dữ liệu',
       dataByDate: 'Tỉ lệ dữ liệu {{=it.day}} ngày của {{=it.unit}}',
-      received: 'Nhận được',
-      notReceived: 'Không nhận được',
-      byDay: '{{=it.day}} Ngày'
+      received: 'Nhận được dữ liệu',
+      notReceived: 'Không nhận được dữ liệu',
+      byDay: '{{=it.day}} ngày'
     },
     chartStatus: {
-      title: 'Tình trạng kết nối',
+      title: 'Biểu đồ tình trạng kết nối',
       titleByUnit: 'Tình trạng kết nối của {{=it.unit}}',
       activate: 'Đang kết nối',
       inactive: `Chưa kết nối`,
       dataLoss: `Mất kết nối`,
+      stations: 'trạm',
       max: 'Giới hạn trên: {{=it.max}}',
       min: 'Giới hạn duới: {{=it.min}}'
     },
@@ -42,15 +44,16 @@ export default {
   },
   monitoring: {
     title: 'Giám sát trực tuyến',
-    group: 'Nhóm',
+    selectProvince: 'Chọn Đơn vị quản lý',
+    selectStationType: 'Chọn loại trạm',
+    group: 'Nhóm loại trạm',
     unGroup: 'Bỏ nhóm',
     sortByStationName: 'Sắp xếp theo tên trạm',
-    sortByValues: 'Sắp xếp theo giá trị',
+    sortByValues: 'Sắp xếp theo tình trạng',
+    keywordSearch: 'Nhập tên trạm',
     limit: 'Giới hạn',
-    keywordSearch: 'Từ khoá',
     selectGroup: 'Chọn nhóm',
     selectOrder: 'Thứ tự theo',
-    selectStationType: 'Loại trạm',
     dataSearch: 'Tìm kiếm dữ liệu',
     viewInMap: 'Bản đồ',
     sampling: 'Lấy mẫu',
@@ -60,10 +63,61 @@ export default {
     deviceStatus: {
       normal: 'Đang đo',
       maintenance: 'Hiệu chuẩn/Bảo trì',
-      broken: 'Báo lỗi'
+      broken: 'Báo lỗi',
+      sensorNormal: 'Đang đo',
+      sensorError: 'Lỗi thiết bị'
     },
     statusResult: 'Kết quả quan trắc',
-    note: 'Chú thích'
+    note: 'Chú thích',
+    actions: {
+      sampling: 'Lấy mẫu',
+      camera: 'Camera',
+      chart: 'Biểu đồ',
+      map: 'Bản đồ',
+      images: 'Hình ảnh',
+      stationInfo: 'Thông tin trạm',
+      reviewStation: 'Đánh giá trạm'
+    },
+    moreContent: {
+      sampling: {
+        tabs: {
+          sampling: 'Lấy mẫu',
+          history: 'Lịch sử',
+          config: 'Cấu hình'
+        },
+        content: {
+          totalBottles: 'Tổng số chai:',
+          sampledBottles: 'Số chai đã lấy:',
+          typeOfSampling: 'Hình thức lấy mẫu',
+          immediatelySampling: 'Thủ công',
+          scheduleSampling: 'Tự động',
+          bottlesNeedToTake: 'Số chai cần lấy:',
+          frequency: 'Chu kỳ lấy mẫu (phút):',
+          timeStartSampling: 'Giờ bắt đầu lấy mẫu:',
+          dateStartSampling: 'Ngày bắt đầu lấy mẫu:',
+          active: 'Kích hoạt',
+          actived: 'Đã kích hoạt',
+          takeSample: 'Lấy mẫu',
+          commanded: 'Đã truyền lệnh',
+          takingSample: 'Đang lấy mẫu...',
+          activeTakeSample: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
+          activedTakeSample: "Đã kích hoạt lấy mẫu khi vượt ngưỡng",
+          history: {
+            stt: 'STT',
+            bottleNo: 'Chai số',
+            dateTime: 'Thời gian lấy',
+            typeOfSampling: 'Hình thức lấy',
+            activedUser: 'Người kích hoạt'
+          },
+          config: {
+            totalBottles: 'Tổng số chai:',
+            controlTagName: 'Tag name điều khiển:',
+            timeToTakeOneBottle: 'Thời gian lấy mẫu xong 1 chai (phút):',
+            save: 'Lưu'
+          }
+        }
+      }
+    }
   },
   aqi: {
     title: 'AQI',

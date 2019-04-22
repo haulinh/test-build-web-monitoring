@@ -1,22 +1,27 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import stationStatus, { STATUS_OPTIONS } from 'constants/stationStatus'
-import { translate } from 'hoc/create-lang'
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import stationStatus, {
+  STATUS_OPTIONS,
+  STATUS_STATION,
+  getStatusPriority
+} from "constants/stationStatus";
+import { translate } from "hoc/create-lang";
 import {
   warningLevelsNumber,
   warningLevels,
   colorLevels
-} from 'constants/warningLevels'
-import { Tooltip } from 'antd'
-import * as _ from 'lodash'
+} from "constants/warningLevels";
+import { Tooltip, Icon } from "antd";
+import * as _ from "lodash";
+import { COLOR_STATUS } from "themes/color";
 
 const Status = styled.div`
   width: 16px;
   height: 16px;
   background-color: #1dce6c;
   border-radius: 8px;
-`
+`;
 
 const Row = styled.div`
   display: flex;
@@ -30,44 +35,55 @@ const Row = styled.div`
         color: #0052CC;
       }
       `
-      : ''} border-bottom: 1px solid rgba(241, 241, 241, .9);
+      : ""} border-bottom: 1px solid rgba(241, 241, 241, .9);
   &:hover {
     background-color: rgba(241, 241, 241, 0.7);
     cursor: pointer;
   }
-`
+`;
 
 const Column = styled.div`
-  ${props => (props.isTh ? 'font-weight: 600;' : '')};
-`
+  ${props => (props.isTh ? "font-weight: 600;" : "")};
+`;
 
 const IndexColumn = Column.extend`
   width: 30px;
   text-align: center;
   font-weight: 600;
-`
+`;
 
 const NameColumn = Column.extend`
   flex: 1;
   padding-left: 8px;
-`
+`;
 
 const StatusColumn = Column.extend`
   display: flex;
   justify-content: center;
   align-items: center;
   padding-right: 16px;
+`;
+
+const IconToggle = styled.span`
+  transition: all 0.3s linear;
+  transform: rotate(-0deg);
+  display: inline-block;
+  margin-right: 4px;
+  margin-left: 4px;
+  font-size: 10px;
+  position: relative;
+  ${props => (props.isOpen ? `transform: rotate(90deg);` : `transform: rotate(-90deg);`)};
 `
 
 const FILTER = {
-  name: 'name',
-  status: 'status'
-}
+  name: "name",
+  status: "status"
+};
 
 const FILTER_TYPE = {
-  desc: 'desc',
-  asc: 'asc'
-}
+  desc: "desc",
+  asc: "asc"
+};
 
 export default class TableListCustom extends React.PureComponent {
   static propTypes = {
@@ -83,26 +99,25 @@ export default class TableListCustom extends React.PureComponent {
       key: PropTypes.string
     }),
     onChangeItem: PropTypes.func
-  }
+  };
 
   state = {
     stationStatus: stationStatus.GOOD,
     filter: FILTER.status,
     filterType: FILTER_TYPE.desc
-  }
-
-  async componentWillMount() {}
+  };
 
   renderStationStatus(station) {
     if (station.status === stationStatus.DATA_LOSS)
-      return '(' + translate('dashboard.dataLoss') + ')'
+      return "(" + translate("dashboard.dataLoss") + ")";
     if (station.status === stationStatus.NOT_USE)
-      return '(' + translate('dashboard.notUse') + ')'
-    return ''
+      return "(" + translate("dashboard.notUse") + ")";
+    return "";
   }
 
   renderStatusView = station => {
-    let item = _.get(STATUS_OPTIONS, [station.status]) //
+    let item = _.get(STATUS_OPTIONS, [station.statusAnalytic]); //
+  
     if (item) {
       return (
         <Tooltip placement="top" title={translate(item.title)}>
@@ -112,31 +127,53 @@ export default class TableListCustom extends React.PureComponent {
             }}
           />
         </Tooltip>
-      )
+      );
     }
     return (
       <Status
         style={{
-          backgroundColor: 'transparent'
+          backgroundColor: "transparent"
         }}
       />
-    )
-  }
+    );
+  };
+
+  timKiemStatusQuaMeasuringLog = (measuringLogs = {}) => {
+    let resWarningLevel = null;
+    _.forEach(measuringLogs, function(item, key) {
+      resWarningLevel = getStatusPriority(resWarningLevel, item.warningLevel);
+    });
+    return resWarningLevel;
+  };
 
   getColorItem(item) {
+    if (item.status === STATUS_STATION.HIGHTGEST)
+      return COLOR_STATUS[STATUS_STATION.HIGHTGEST];
+
     if (item.lastLog) {
-      let warLevel = warningLevels.GOOD
-      let measuringLogs = item.lastLog.measuringLogs
+      let warLevel = warningLevels.GOOD;
+      let measuringLogs = item.lastLog.measuringLogs;
       for (let key in measuringLogs) {
-        if (
-          warningLevelsNumber[warLevel] <
-          warningLevelsNumber[measuringLogs[key].warningLevel]
-        )
-          warLevel = measuringLogs[key].warningLevel
+        warLevel = getStatusPriority(warLevel, measuringLogs[key].warningLevel);
       }
-      return colorLevels[warLevel]
+      return COLOR_STATUS[warLevel];
     }
-    return colorLevels.GOOD
+    return COLOR_STATUS.GOOD;
+  }
+
+  getStatusItem(item) {
+    if (item.status === STATUS_STATION.HIGHTGEST)
+      return STATUS_STATION.HIGHTGEST
+
+    if (item.lastLog) {
+      let warLevel = warningLevels.GOOD;
+      let measuringLogs = item.lastLog.measuringLogs;
+      for (let key in measuringLogs) {
+        warLevel = getStatusPriority(warLevel, measuringLogs[key].warningLevel);
+      }
+      return warLevel
+    }
+    return STATUS_STATION.GOOD;
   }
 
   sortNameList(data, key, asc = true) {
@@ -152,8 +189,7 @@ export default class TableListCustom extends React.PureComponent {
     //   }
     //   return 0
     // })
-
-    return _.orderBy(data, [key], [asc ? FILTER_TYPE.desc : FILTER_TYPE.asc])
+    return _.orderBy(data, [key], [asc ? FILTER_TYPE.desc : FILTER_TYPE.asc]);
   }
 
   handleFilter(filterColumn) {
@@ -161,7 +197,7 @@ export default class TableListCustom extends React.PureComponent {
       this.setState({
         filter: filterColumn,
         filterType: FILTER_TYPE.asc
-      })
+      });
     }
     if (this.state.filter === filterColumn) {
       this.setState({
@@ -170,42 +206,51 @@ export default class TableListCustom extends React.PureComponent {
           this.state.filterType === FILTER_TYPE.asc
             ? FILTER_TYPE.desc
             : FILTER_TYPE.asc
-      })
+      });
     }
   }
 
   cleanData() {
     return this.props.data.map(item => ({
       ...item,
-      colorStatus: this.getColorItem(item)
-    }))
+      statusAnalytic: this.getStatusItem(item),
+      // colorStatus: this.getColorItem(item)
+    }));
   }
 
   getData() {
-    let data = this.cleanData()
-    const filterAsc = this.state.filterType === FILTER_TYPE.asc
+    let data = this.cleanData();
+    const filterAsc = this.state.filterType === FILTER_TYPE.asc;
     switch (this.state.filter) {
       case FILTER.name:
-        data = this.sortNameList(data, 'name', filterAsc)
-        break
+        data = this.sortNameList(data, "name", filterAsc);
+        break;
       case FILTER.status:
-        data = this.sortNameList(data, 'status', filterAsc)
-        break
+        data = this.sortNameList(data, "statusAnalytic", filterAsc);
+        break;
       default:
     }
-    return data
+    return data;
   }
 
   render() {
     return (
-      <div style={{ height: 450, minWidth: 300, overflow: 'scroll' }}>
+      <div style={{ height: 450, minWidth: 300, overflow: "scroll" }}>
         <Row>
           <IndexColumn isTh>#</IndexColumn>
-          <NameColumn onClick={() => this.handleFilter('name')} isTh>
-            {translate('dashboard.tableList.name')}
+          <NameColumn onClick={() => this.handleFilter("name")} isTh>
+            {translate("dashboard.tableList.name")}
+            <IconToggle isOpen={this.state.filter==='name'&& this.state.filterType === FILTER_TYPE.asc}>
+                {' '}
+                <Icon type="caret-right" />
+              </IconToggle>
           </NameColumn>
-          <StatusColumn onClick={() => this.handleFilter('status')} isTh>
-            {translate('dashboard.tableList.dataStatus')}
+          <StatusColumn onClick={() => this.handleFilter("status")} isTh>
+            {translate("dashboard.tableList.dataStatus")}
+            <IconToggle isOpen={this.state.filter==='status'&& this.state.filterType === FILTER_TYPE.asc}>
+                {' '}
+                <Icon type="caret-right" />
+              </IconToggle>
           </StatusColumn>
         </Row>
         {this.getData().map((item, index) => (
@@ -220,6 +265,6 @@ export default class TableListCustom extends React.PureComponent {
           </Row>
         ))}
       </div>
-    )
+    );
   }
 }

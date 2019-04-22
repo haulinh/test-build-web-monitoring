@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Spin, Affix } from "antd";
 import createContentLoader from "hoc/content-loader";
 import ListLoaderCp from "components/content-loader/list-loader";
 import BoxLoaderCp from "components/content-loader/box-loader";
@@ -13,7 +14,11 @@ import { getLastLog } from "api/StationAuto";
 import { translate } from "hoc/create-lang";
 import * as _ from "lodash";
 import { STATUS_STATION, getStatusPriority } from "constants/stationStatus";
-import WarningLevel from 'components/elements/warning-level'
+import WarningLevel from "components/elements/warning-level";
+import ReactFullpage from "@fullpage/react-fullpage";
+
+const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60; // NOTE  every 1min will get last log
+let getLastLogIntervalID = null;
 
 const ListLoader = createContentLoader({
   component: <ListLoaderCp />,
@@ -30,6 +35,7 @@ const BoxLoader = createContentLoader({
 
 export default class OverviewDashboard extends Component {
   state = {
+    isGroupProvince: null,
     stationStatus: "",
     stationTypeList: [],
     stationList: [],
@@ -39,31 +45,12 @@ export default class OverviewDashboard extends Component {
     lineSeries: {},
     isLoaded: false,
     province: null,
-    groupLastLog: null
+    groupLastLog: null,
+    isGetLastLogLoading: false
   };
 
-  getStationInfo = async province => {
-    let provinceKey = null;
-    let stationTypes = await getStationTypes({}, { isAuto: true });
-    let stationTypeList = _.get(stationTypes, "data", []);
-
-    let stationCount = {};
-    let rows = {};
-    let lineSeries = {};
-
-    stationTypeList.forEach(({ key }) => {
-      stationCount[key] = 0;
-      rows[key] = [];
-      lineSeries[key] = [];
-    });
-
-    this.setState({
-      stationTypeList,
-      stationCount,
-      rows,
-      lineSeries,
-      isLoaded: true
-    });
+  getLastLog = async (province, provinceKey, rows, stationCount) => {
+    this.setState({ isGetLastLogLoading: true });
 
     let stationLastLog = await getLastLog();
     let dataLastLog = [];
@@ -83,10 +70,14 @@ export default class OverviewDashboard extends Component {
       rows[key] = groupLastLog[key];
       stationCount[key] = _.size(rows[key]);
     });
+    
+    let groupProvince = _.groupBy(dataLastLog, "province.key");
+    let isGroupProvince = Object.keys(groupProvince).length > 1
 
     const goodCount = _.filter(dataLastLog, ({ status }) => status === "GOOD")
       .length;
     this.setState({
+      isGroupProvince: isGroupProvince,
       province: provinceKey,
       stationList: dataLastLog,
       rows,
@@ -95,8 +86,41 @@ export default class OverviewDashboard extends Component {
       stationStatus: translate("dashboard.activeStationPer", {
         good: goodCount,
         total: _.size(dataLastLog)
-      })
+      }),
+      isGetLastLogLoading: false
     });
+  };
+
+  getStationInfo = async province => {
+    let provinceKey = null;
+    let stationTypes = await getStationTypes({}, { isAuto: true });
+    let stationTypeList = _.get(stationTypes, "data", []);
+
+    let stationCount = {};
+    let rows = {};
+    let lineSeries = {};
+
+    stationTypeList.forEach(({ key }) => {
+      stationCount[key] = 0;
+      rows[key] = [];
+      lineSeries[key] = [];
+    });
+    
+    this.setState({
+      stationTypeList,
+      stationCount,
+      rows,
+      lineSeries,
+      isLoaded: true
+    });
+
+    // MARK  lấy last log 1 lần, sau đó cứ mỗi giây lại lấy last log
+    this.getLastLog(province, provinceKey, rows, stationCount);
+    if (getLastLogIntervalID) clearInterval(getLastLogIntervalID);
+    getLastLogIntervalID = setInterval(() => {
+      this.getLastLog(province, provinceKey, rows, stationCount);
+      this.getSummaryList();
+    }, GET_LAST_LOG_INTERVAL_TIME);
   };
 
   async componentDidMount() {
@@ -140,33 +164,34 @@ export default class OverviewDashboard extends Component {
     }));
   }
 
-  timKiemStatusQuaLastLog = (dataLog = []) =>{
+  timKiemStatusQuaLastLog = (dataLog = []) => {
     let resStatus = STATUS_STATION.GOOD;
 
-    const me = this
+    const me = this;
     _.forEach(dataLog, function(item) {
       // MARK  check status trạm truớc
-      if (item.status === STATUS_STATION.DATA_LOSS){
+      if (item.status === STATUS_STATION.DATA_LOSS) {
         resStatus = item.status;
-        return false // break loop lodash
+        return false; // break loop lodash
       }
-      
-      // MARK  check tới lastLog 
-      let statusMeasuring = me.timKiemStatusQuaMeasuringLog(item.lastLog.measuringLogs)
-      resStatus = getStatusPriority(resStatus, statusMeasuring)
+
+      // MARK  check lastLog
+      let statusMeasuring = me.timKiemStatusQuaMeasuringLog(
+        item.lastLog.measuringLogs
+      );
+      resStatus = getStatusPriority(resStatus, statusMeasuring);
     });
 
-    return resStatus
-  }
+    return resStatus;
+  };
 
-  timKiemStatusQuaMeasuringLog = (measuringLogs = {})=> {
-    let resWarningLevel = null
+  timKiemStatusQuaMeasuringLog = (measuringLogs = {}) => {
+    let resWarningLevel = null;
     _.forEach(measuringLogs, function(item, key) {
-
-      resWarningLevel = getStatusPriority(resWarningLevel, item.warningLevel)
+      resWarningLevel = getStatusPriority(resWarningLevel, item.warningLevel);
     });
-    return resWarningLevel
-  }
+    return resWarningLevel;
+  };
 
   getChartList() {
     return _.map(this.state.stationTypeList, item => ({
@@ -178,8 +203,10 @@ export default class OverviewDashboard extends Component {
   }
 
   handleProvinceChange = province => {
-    this.setState({ province });
-    this.getStationInfo(province);
+    this.setState({ province, isGetLastLogLoading: true }, ()=>{
+      this.getStationInfo(province);
+    });
+    
   };
 
   render() {
@@ -196,20 +223,55 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
-        <HeaderView
-          stationStatus={this.state.stationStatus}
-          onChange={this.handleProvinceChange}
+     
+        <Affix style={{height: 200}} offsetTop={1}>
+        <div style={{ background: "#FBFBFB", height:15.9 }}>
+        </div>
+          <div style={{ background: "#FBFBFB" }}>
+            <HeaderView
+              stationStatus={this.state.stationStatus}
+              onChange={this.handleProvinceChange}
+            />
+            {this.state.groupLastLog && (
+              <Spin spinning={this.state.isGetLastLogLoading}>
+                <SummaryList data={this.getSummaryList()} />
+              </Spin>
+            )}
+            <div
+              style={{
+                width: "50%",
+                marginLeft: "50%",
+                padding: 4,
+                paddingRight: 0
+              }}
+            >
+              <WarningLevel />
+            </div>
+          </div>
+        </Affix>
+
+          <ReactFullpage
+          render={({ state, fullpageApi }) => {
+            return (
+              <ReactFullpage.Wrapper >
+                <div  className="section tableFix">
+                  <ChartStatisticalRatio
+                  isGroupProvince={this.state.isGroupProvince}
+                    loading={this.state.isGetLastLogLoading}
+                    data={this.state.stationList}
+                    province={this.state.province}
+                  />
+                </div>
+
+                  <ChartList data={this.getChartList()} />
+              </ReactFullpage.Wrapper>
+            );
+          }}
         />
-        {this.state.groupLastLog && (
-          <SummaryList data={this.getSummaryList()} />
-        )}
-        <WarningLevel />
-        <ChartStatisticalRatio
-          data={this.state.stationList}
-          province={this.state.province}
-        />
+
+           
+
         {/* this.state.stationList */}
-        <ChartList data={this.getChartList()} />
       </PageContainer>
     );
   }

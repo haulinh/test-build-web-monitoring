@@ -13,10 +13,12 @@ const ChartWrapper = styled.div``
 
 const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
   console.log('configChart: ', maxChart, minChart)
+
   return {
     chart: {
       type: 'spline',
-      zoomType: 'x'
+      zoomType: 'x',
+      height: document.body.clientHeight - 340  // MARK  height vừa khung màn hình
     },
     title: {
       text: title

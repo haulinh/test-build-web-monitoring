@@ -8,7 +8,7 @@ import LinkA from 'components/elements/link-a'
 import { translate } from 'hoc/create-lang'
 import { SHAPE } from 'themes/color'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 
 const WrapperViewMore = styled.div`
   position: absolute;

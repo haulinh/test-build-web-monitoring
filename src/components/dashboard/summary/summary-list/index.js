@@ -22,19 +22,21 @@ export default class SummaryList extends React.PureComponent {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape(SummaryItem.propTypes))
   }
+
   componentDidMount(){
-    //day la du lieu da dc group cac loai tram
-    console.log('groupLastLoggroupLastLog',this.props.data)
+    console.log('this.props.data', this.props.data)
   }
 
   render() {
+    let indexScroll = 1
     return (
       <SummaryListWrapper>
-        {this.props.data.map(item => (
-          <SummaryItemContainer key={item.name}>
-            <SummaryItem {...item} stationTypeKey={item.key} />
-          </SummaryItemContainer>
-        ))}
+        {this.props.data.map((item, index) => {
+          if(item.number > 0) indexScroll++
+          return  <SummaryItemContainer key={item.name}>
+          <SummaryItem {...item} stationTypeKey={item.key} indexScroll={indexScroll} />
+        </SummaryItemContainer>
+        })}
       </SummaryListWrapper>
     )
   }

@@ -10,7 +10,7 @@ import StationAutoApi from 'api/StationAuto'
 import RoleApi from 'api/RoleApi'
 import UserApi from 'api/UserApi'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import protectRole from 'hoc/protect-role/index.backup'
 
 const FormItem = Form.Item
 const Option = Select.Option

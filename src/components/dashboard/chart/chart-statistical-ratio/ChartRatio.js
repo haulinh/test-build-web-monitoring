@@ -4,18 +4,18 @@ import { Card } from 'antd'
 import ReactHighcharts from 'react-highcharts'
 import moment from 'moment'
 import * as _ from 'lodash'
-import { Menu, Dropdown, Icon } from 'antd'
+import { Menu, Dropdown, Icon, Spin } from 'antd'
 
 import { translate } from 'hoc/create-lang'
 import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
 import StatusModalView from './StatusModal'
 import ChartBaseView from './chart-base'
-import color from 'themes/color';
+import { COLOR_STATUS } from 'themes/color';
 
 const dataLabels = {
   enabled: true,
   // rotation: -90,
-  color: '#000000',
+  color: '#FFF',
   y: 12,
   // padding: 10,
   align: 'center',
@@ -27,7 +27,8 @@ export default class HeaderView extends React.PureComponent {
   state = {
     data: [],
     day: 7,
-    visible: false
+    visible: false,
+    isLoading: false
   }
 
   handleItemSelected = value => {
@@ -47,7 +48,7 @@ export default class HeaderView extends React.PureComponent {
         .subtract(day, 'days')
         .format('DD-MM-YYYY HH:ss')
     )
-    this.setState({ day, data: _.get(rs, 'data', []) })
+    this.setState({ day, data: _.get(rs, 'data', []), isLoading: false })
   }
 
   configRatioSemi = (title, received, notReceived) => {
@@ -56,6 +57,9 @@ export default class HeaderView extends React.PureComponent {
       this.state.data,
       ({ provinceId }) => provinceId === this.props.province
     )
+
+    console.log('adasdsad', this.props)
+    
     if (item && item.ratio) {
       title = translate('dashboard.chartRatio.dataByDate', {
         day: this.state.day,
@@ -63,13 +67,26 @@ export default class HeaderView extends React.PureComponent {
       })
       total = item.ratio
     }
+    const dataLabels = {
+      enabled: true,
+      color: 'white',
+      verticalAlign: 'center',
+      align: 'center',
+      padding: 20,
+      allowOverlap: true,
+      formatter: function() {
+        if (this.y === 0) return ''
+        return `${this.y}%`
+      }
+    }
+    let me = this
 
-    console.log('___--___--___--___--_--_-__-',notReceived)
     return {
       chart: {
         plotBackgroundColor: null,
         plotBorderWidth: 0,
-        plotShadow: false
+        plotShadow: false,
+        height: document.body.clientHeight - 340
       },
       credits: {
         enabled: false
@@ -90,12 +107,19 @@ export default class HeaderView extends React.PureComponent {
             distance: -50,
             style: {
               fontWeight: 'bold',
-              color: 'white'
+              color: 'white',
+              textOutline: false
             }
           },
-          startAngle: -90,
-          endAngle: 90,
-          center: ['50%', '75%']
+          showInLegend: true,
+          events: {
+            click: function(event) {
+              me.setState({
+                visible: true,
+                stationKey: item? item.name: "Other"  // NOTE  stationKey: là đưa vào name của province mới chạy, neu k0 co thi Other
+              })
+            }
+          }
         }
       },
       series: [
@@ -103,17 +127,17 @@ export default class HeaderView extends React.PureComponent {
           dataLabels,
           type: 'pie',
           name: title,
-          innerSize: '40%',
+          // innerSize: '40%',
           data: [
             {
               name: notReceived,
               y: 100 - total,
-              color: color.COLOR_STATUS.GOOD
+              color: COLOR_STATUS.DATA_LOSS
             },
             {
               name: received,
               y: total,
-              color: color.COLOR_STATUS.DATA_LOSS
+              color: COLOR_STATUS.GOOD
             }
           ]
         }
@@ -125,7 +149,7 @@ export default class HeaderView extends React.PureComponent {
     const me = this
     const dataLabels = {
       enabled: true,
-      color: 'white',
+      color: '#FFF',
       verticalAlign: 'center',
       align: 'center',
       padding: 20,
@@ -136,11 +160,11 @@ export default class HeaderView extends React.PureComponent {
       }
     }
 
-    const series1 = { name: received, data: [], dataLabels, color: color.COLOR_STATUS.GOOD }
+    const series1 = { name: received, data: [], dataLabels, color: COLOR_STATUS.GOOD }
     const series2 = {
       name: notReceived,
       data: [],
-      color: color.COLOR_STATUS.DATA_LOSS,
+      color: COLOR_STATUS.DATA_LOSS,
       dataLabels
     }
     let categories = []
@@ -153,68 +177,67 @@ export default class HeaderView extends React.PureComponent {
       categories.push(name)
     })
 
-
-    let averageSeries1 = series1.data.length === 0 ? 0 : _.sum(series1.data) / series1.data.length
-    let averageSeries2 = 100 - averageSeries1
-
     return {
       chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: 0,
-        plotShadow: false
+        type: 'bar',
+        events: {
+          click: function(event) {}
+        },
+        height: document.body.clientHeight - 340
       },
       title: {
-        text: '' //translate('dashboard.chartStatus.titleByUnit', { unit: title })
-      },
-      legend: {
-        enabled: true,
-        squareSymbol: false
-      },
-      tooltip: {
-        pointFormat: '<b>{point.percentage:.1f}%</b>'
-      },
-      plotOptions: {
-        pie: {
-          dataLabels: {
-            enabled: true,
-            distance: -50,
-            style: {
-              fontWeight: 'bold',
-              color: 'white',
-              textOutline: false
-            }
-          },
-          showInLegend: true
-        }
+        text: '' //title
       },
       credits: {
         enabled: false
       },
-      series: [
-        {
-          // dataLabels,
-          type: 'pie',
-          name: title,
-          // innerSize: '40%',
-          data: [
-            {
-              name: translate('dashboard.chartRatio.notReceived'),
-              y: averageSeries2,
-              color: color.COLOR_STATUS.DATA_LOSS
-            },
-            {
-              name: translate('dashboard.chartRatio.received'),
-              y: averageSeries1,
-              color: color.COLOR_STATUS.GOOD
-            }
-          ]
+      xAxis: {
+        categories,
+        lineWidth: 1,
+        lineColor: '#ccc'
+      },
+      yAxis: {
+        min: 0,
+        max: 100,
+        title: {
+          text: ''
+        },
+        lineWidth: 1,
+        lineColor: '#ccc',
+        labels: {
+          formatter: function() {
+            return `${this.value}%`
+          }
         }
-      ]
+      },
+      legend: {
+        reversed: true
+      },
+      series: [series1, series2],
+      tooltip: {
+        pointFormat:
+          '<span style="color:{series.color}">{series.name}</span>: ({point.y}%)<br/>',
+        shared: true
+      },
+      plotOptions: {
+        series: {
+          stacking: 'normal',
+          events: {
+            click: function(event) {
+              const stationKey = _.get(event, 'point.category', '')
+              me.setState({
+                visible: true,
+                stationKey
+              })
+            }
+          }
+        }
+      }
     }
   }
 
   getConfigRatio = () => {
-    if (_.isEmpty(this.props.province)) {
+    if (_.isEmpty(this.props.province) &&  this.props.isGroupProvince) {
       return this.configRatioBar(
         //translate('dashboard.chartRatio.title'),
         '',
@@ -232,7 +255,10 @@ export default class HeaderView extends React.PureComponent {
   }
 
   onChange = value => {
-    this.getDataRatioBy(Number(value.key))
+    this.setState({isLoading: true}, ()=>{
+      this.getDataRatioBy(Number(value.key))
+    })
+   
   }
 
   menu = () => {
@@ -273,7 +299,13 @@ export default class HeaderView extends React.PureComponent {
               <Icon type="down" />
             </span>
           </Dropdown>
-          <ReactHighcharts config={this.getConfigRatio()} />
+
+           <Spin spinning={this.state.isLoading || this.props.loading}>
+           <ReactHighcharts config={this.getConfigRatio()} />
+        
+           
+          </Spin>
+
           <StatusModalView
             title={this.state.stationKey || ''}
             data={_.keyBy(_.values(this.state.data), 'name')}

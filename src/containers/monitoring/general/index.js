@@ -22,6 +22,8 @@ import {
 } from 'components/monitoring/filter/options'
 import createContentLoader from 'hoc/content-loader'
 import { translate } from 'hoc/create-lang'
+import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus';
+import { warningLevels } from 'constants/warningLevels';
 
 const ContainerHeader = styled.div`
   flex-direction: row;
@@ -58,6 +60,20 @@ export default class MonitoringGeneral extends React.Component {
     province: null
   }
 
+  getStatusItem(item) {
+    if (item.status === STATUS_STATION.HIGHTGEST)
+      return STATUS_STATION.HIGHTGEST
+    if (item.lastLog) {
+      let warLevel = warningLevels.GOOD;
+      let measuringLogs = item.lastLog.measuringLogs;
+      for (let key in measuringLogs) {
+        warLevel = getStatusPriority(warLevel, measuringLogs[key].warningLevel);
+      }
+      return warLevel
+    }
+    return STATUS_STATION.GOOD;
+  }
+
   appendWarningLevelStationAuto(stationAutoList) {
     return stationAutoList.map(stationAuto => {
       let totalWarning = 0
@@ -71,7 +87,8 @@ export default class MonitoringGeneral extends React.Component {
       }
       return {
         ...stationAuto,
-        totalWarning
+        totalWarning,
+        statusAnalytic: this.getStatusItem(stationAuto),
       }
     })
   }
@@ -172,7 +189,8 @@ export default class MonitoringGeneral extends React.Component {
 
   sortNameList(data, key, asc = true, sortByValue = false) {
     if (sortByValue) {
-      return _.orderBy(data, [key, 'status'], [asc ? 'asc' : 'desc', 'asc'])
+      // MARK  old:  return _.orderBy(data, [key, 'statusAnalytic'], [asc ? 'asc' : 'desc', 'desc'])
+      return _.orderBy(data, ['statusAnalytic'], ['asc'])
     }
     return _.orderBy(data, [key], [asc ? 'asc' : 'desc'])
   }
@@ -249,7 +267,6 @@ export default class MonitoringGeneral extends React.Component {
   getData() {
     const dataResult = this.getFilterProvince(this.state.data)
     let stationTypeList = dataResult.stationTypeList
-    console.log('stationTypeList: ', stationTypeList)
     // filter by STATION TYPE
     if (this.state.filter.stationType) {
       stationTypeList = stationTypeList.filter(

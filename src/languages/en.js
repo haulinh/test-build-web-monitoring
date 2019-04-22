@@ -1,6 +1,6 @@
 export default {
   chart: {
-    all: 'All',
+    all: 'Select Site',
     time: 'Time',
     from: 'From',
     to: 'To'
@@ -17,23 +17,25 @@ export default {
     viewInMap: 'View In Map',
     viewMore: 'View More',
     all: 'All',
+    selectProvince: 'Select Site',
     tableList: {
       name: 'Name',
-      dataStatus: 'Data Status'
+      dataStatus: 'Status'
     },
     chartRatio: {
-      title: 'Receive data rate',
+      title: 'Data receiving rate',
       dataByDate: 'The {{=it.day}}-day {{=it.unit}} data rate',
-      received: 'Received',
-      notReceived: `Don't receive`,
-      byDay: '{{=it.day}} Day'
+      received: 'Recieved Data',
+      notReceived: `Not Recieved`,
+      byDay: '{{=it.day}} days'
     },
     chartStatus: {
-      title: 'Operating status of the station',
+      title: 'Connection status of the station',
       titleByUnit: 'Rate of receiving data of {{=it.unit}} unit',
-      activate: 'Activate',
+      activate: 'Connecting',
       inactive: `Inactive`,
-      dataLoss: `Data Loss`,
+      dataLoss: `Disconnected`,
+      stations: 'stations',
       max: 'Maximum: {{=it.max}}',
       min: 'Minimum: {{=it.min}}'
     },
@@ -42,15 +44,16 @@ export default {
   },
   monitoring: {
     title: 'Monitoring',
-    group: 'Group',
+    selectProvince: 'Select Site',
+    selectStationType: 'Type of Station',
+    group: 'Group by Type',
     unGroup: 'Ungroup',
     sortByStationName: 'Sort By Station Name',
-    sortByValues: 'Sort By Values',
+    sortByValues: 'Sort By Status',
+    keywordSearch: 'Station Name',
     limit: 'Limit',
-    keywordSearch: 'Search Keyword',
     selectGroup: 'Select Group',
     selectOrder: 'Order By',
-    selectStationType: 'Station Type',
     dataSearch: 'Data Search',
     viewInMap: 'View In Map',
     sampling: 'Sampling',
@@ -60,10 +63,61 @@ export default {
     deviceStatus: {
       normal: 'Normal',
       maintenance: 'Maintenance',
-      broken: 'Broken'
+      broken: 'Broken',
+      sensorNormal: 'Sensor Normal',
+      sensorError: 'Sensor Error'
     },
     statusResult: 'Monitoring results',
-    note: 'Note'
+    note: 'Note',
+    actions: {
+      sampling: 'Sampling',
+      camera: 'Camera',
+      chart: 'Chart',
+      map: 'Map',
+      images: 'Images',
+      stationInfo: 'Station Infomation',
+      reviewStation: 'Review Station'
+    },
+    moreContent: {
+      sampling: {
+        tabs: {
+          sampling: 'Sampling',
+          history: 'History',
+          config: 'Config'
+        },
+        content: {
+          totalBottles: 'Total bottles:',
+          sampledBottles: 'Sampled bottles:',
+          typeOfSampling: 'Type of Sampling',
+          immediatelySampling: 'Immediately Sampling',
+          scheduleSampling: 'Schedule Sampling',
+          bottlesNeedToTake: 'Bottles need to take:',
+          frequency: 'Frequency (minutes):',
+          timeStartSampling: 'Time start sampling:',
+          dateStartSampling: 'Date start sampling:',
+          active: 'Active',
+          actived: 'Actived',
+          takeSample: 'Take Sample',
+          commandSent: 'Command sent',
+          takingSample: 'Sampling...',
+          activeTakeSample: 'Active Take sample when data over-range',
+          activedTakeSample: 'Actived Take sample when data over-range',
+          history: {
+            stt: 'STT',
+            bottleNo: 'Bottle No',
+            dateTime: 'Date time',
+            typeOfSampling: 'Type of Sampling',
+            activedUser: 'Actived User'
+          },
+          config: {
+            totalBottles: 'Total bottles:',
+            controlTagName: 'Controlling Tag name:',
+            timeToTakeOneBottle: 'Time to take one bottle (minutes):',
+            save: 'Save'
+          }
+        }
+      }
+    }
   },
   aqi: {
     title: 'Air Quality Index',

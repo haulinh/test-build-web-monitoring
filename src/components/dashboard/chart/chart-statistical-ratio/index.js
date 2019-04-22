@@ -9,15 +9,23 @@ const WrapperView = styled.div`
 margin-top: 16px;
 border-radius: 4px;
 display: flex;
-height: 50px background: #ccd `
+height: 50px background: #ccd 
+`
 
 @autobind
 export default class ChartStatisticalView extends React.PureComponent {
+
   render() {
     return (
       <WrapperView>
-        <ChartStatusView data={this.props.data} />
+        <ChartStatusView 
+        isGroupProvince={this.props.isGroupProvince}
+          loading={this.props.loading}
+          data={this.props.data}
+        />
         <ChartRatioView
+          isGroupProvince={this.props.isGroupProvince}
+          loading={this.props.loading}
           onChange={this.props.onChange}
           province={this.props.province}
         />
