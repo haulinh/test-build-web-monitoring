@@ -101,7 +101,14 @@ export default {
           commanded: 'Đã truyền lệnh',
           takingSample: 'Đang lấy mẫu...',
           activeTakeSample: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
-          activedTakeSample: "Đã kích hoạt lấy mẫu khi vượt ngưỡng"
+          activedTakeSample: "Đã kích hoạt lấy mẫu khi vượt ngưỡng",
+          history: {
+            stt: 'STT',
+            bottleNo: 'Chai số',
+            dateTime: 'Thời gian lấy',
+            typeOfSampling: 'Hình thức lấy',
+            activedUser: 'Người kích hoạt'
+          }
         }
       }
     }

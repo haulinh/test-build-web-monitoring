@@ -101,7 +101,14 @@ export default {
           commandSent: 'Command sent',
           takingSample: 'Sampling...',
           activeTakeSample: 'Active Take sample when data over-range',
-          activedTakeSample: 'Actived Take sample when data over-range'
+          activedTakeSample: 'Actived Take sample when data over-range',
+          history: {
+            stt: 'STT',
+            bottleNo: 'Bottle No',
+            dateTime: 'Date time',
+            typeOfSampling: 'Type of Sampling',
+            activedUser: 'Actived User'
+          }
         }
       }
     }
