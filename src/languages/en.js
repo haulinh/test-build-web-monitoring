@@ -95,8 +95,26 @@ export default {
           frequency: 'Frequency (minutes):',
           timeStartSampling: 'Time start sampling:',
           dateStartSampling: 'Date start sampling:',
+          active: 'Active',
+          actived: 'Actived',
           takeSample: 'Take Sample',
-          activeTakeSample: 'Active Take sample when data over-range'
+          commandSent: 'Command sent',
+          takingSample: 'Sampling...',
+          activeTakeSample: 'Active Take sample when data over-range',
+          activedTakeSample: 'Actived Take sample when data over-range',
+          history: {
+            stt: 'STT',
+            bottleNo: 'Bottle No',
+            dateTime: 'Date time',
+            typeOfSampling: 'Type of Sampling',
+            activedUser: 'Actived User'
+          },
+          config: {
+            totalBottles: 'Total bottles:',
+            controlTagName: 'Controlling Tag name:',
+            timeToTakeOneBottle: 'Time to take one bottle (minutes):',
+            save: 'Save'
+          }
         }
       }
     }

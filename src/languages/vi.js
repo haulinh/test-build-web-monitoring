@@ -95,8 +95,26 @@ export default {
           frequency: 'Chu kỳ lấy mẫu (phút):',
           timeStartSampling: 'Giờ bắt đầu lấy mẫu:',
           dateStartSampling: 'Ngày bắt đầu lấy mẫu:',
-          takeSample: 'Kích hoạt',
-          activeTakeSample: 'Kích hoạt lấy mẫu khi vượt ngưỡng'
+          active: 'Kích hoạt',
+          actived: 'Đã kích hoạt',
+          takeSample: 'Lấy mẫu',
+          commanded: 'Đã truyền lệnh',
+          takingSample: 'Đang lấy mẫu...',
+          activeTakeSample: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
+          activedTakeSample: "Đã kích hoạt lấy mẫu khi vượt ngưỡng",
+          history: {
+            stt: 'STT',
+            bottleNo: 'Chai số',
+            dateTime: 'Thời gian lấy',
+            typeOfSampling: 'Hình thức lấy',
+            activedUser: 'Người kích hoạt'
+          },
+          config: {
+            totalBottles: 'Tổng số chai:',
+            controlTagName: 'Tag name điều khiển:',
+            timeToTakeOneBottle: 'Thời gian lấy mẫu xong 1 chai (phút):',
+            save: 'Lưu'
+          }
         }
       }
     }
