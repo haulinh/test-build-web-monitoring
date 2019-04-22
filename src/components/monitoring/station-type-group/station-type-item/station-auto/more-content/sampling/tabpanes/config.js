@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router'
 import styled from 'styled-components'
-import {Row, Col, InputNumber, Button} from 'antd';
+import {Row, Col, Input, InputNumber, Button} from 'antd';
 /* user import */
 import { translate } from 'hoc/create-lang'
 
@@ -20,8 +20,11 @@ const RowWrapper = styled(Row)`
 
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
-  static propTypes = {}
-  static defaultProps = {}
+  static propTypes = {
+    stationData: PropTypes.object
+  }
+  static defaultProps = {
+  }
 
   state = {
     isSaving: false
@@ -35,6 +38,11 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   render(){
+    const {
+      totalBottles,
+      controlTagName,
+      timeToTakeOneBottle
+    } = this.props.stationData
     const {isSaving} = this.state
     return (
       <div style={{padding: 8}}>
@@ -43,19 +51,19 @@ export default class SamplingMoreInfo extends React.Component {
             <RowWrapper>
               <Row>{i18n.totalBottles}</Row>
               <Row>
-                <InputNumber defaultValue="12" style={{width: '100%'}}/>
+                <InputNumber defaultValue={totalBottles} style={{width: '100%'}}/>
               </Row>
             </RowWrapper>
             <RowWrapper>
               <Row>{i18n.controlTagName}</Row>
               <Row>
-                <InputNumber defaultValue="12" style={{width: '100%'}}/>
+                <Input defaultValue={controlTagName} style={{width: '100%'}}/>
               </Row>
             </RowWrapper>
             <RowWrapper>
               <Row>{i18n.timeToTakeOneBottle}</Row>
               <Row>
-                <InputNumber defaultValue="15" style={{width: '100%'}}/>
+                <Input defaultValue={timeToTakeOneBottle} style={{width: '100%'}}/>
               </Row>
             </RowWrapper>
             <RowWrapper>

@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import styled from 'styled-components'
-import {Tabs} from 'antd'
+import {Row, Col, Tabs} from 'antd'
 import {withRouter} from 'react-router'
 
 /* user import */
@@ -31,12 +31,14 @@ const tabsStyle = (panel) => ({
 export default class SamplingMoreInfo extends React.Component {
   static propTypes = {
     isActive: PropTypes.bool,
-    panel: PropTypes.string
+    panel: PropTypes.string,
+    stationID: PropTypes.string
   }
 
   static defaultProps = {
     isActive: false,
-    panel: ''
+    panel: '',
+    stationID: null,
   }
 
   state = {}
@@ -44,34 +46,36 @@ export default class SamplingMoreInfo extends React.Component {
 
   render(){
     if (!this.props.isActive) return null;
-    const {panel} = this.props;
+    const {panel, stationID} = this.props;
     return ((
-      <Tabs 
-        activeKey={panel} 
-        style={tabsStyle(panel)} 
-        renderTabBar={() => <div></div>}>
-        <Tabs.TabPane tab="sampling" key="sampling">
-          <MoreSampling/>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="camera" key="camera">
-          <MoreCamera/>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="chart" key="chart">
-          <MoreChart/>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="map" key="map">
-          <MoreMap/>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="image" key="image">
-          <MoreImage/>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="station" key="station">
-          <MoreStation/>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="rating" key="rating">
-          <MoreRating/>
-        </Tabs.TabPane>
-      </Tabs>
+      <Row style={{height: `100%`}}>
+        <Tabs
+          activeKey={panel} 
+          style={tabsStyle(panel)} 
+          renderTabBar={() => <div></div>}>
+          <Tabs.TabPane tab="sampling" key="sampling">
+            <MoreSampling stationID={stationID}/>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="camera" key="camera">
+            <MoreCamera stationID={stationID}/>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="chart" key="chart">
+            <MoreChart stationID={stationID}/>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="map" key="map">
+            <MoreMap stationID={stationID}/>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="image" key="image">
+            <MoreImage stationID={stationID}/>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="station" key="station">
+            <MoreStation stationID={stationID}/>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="rating" key="rating">
+            <MoreRating stationID={stationID}/>
+          </Tabs.TabPane>
+        </Tabs>
+      </Row>
     ))
   }
 }

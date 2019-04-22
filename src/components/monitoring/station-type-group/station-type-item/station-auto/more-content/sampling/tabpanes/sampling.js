@@ -37,7 +37,9 @@ const STATUS_SAMPLING = { READY:'READY', COMMANDED:'COMMANDED', SAMPLING:'SAMPLI
 
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
-  static propTypes = {}
+  static propTypes = {
+    isDisabled: PropTypes.bool,
+  }
   static defaultProps = {}
 
   state = {

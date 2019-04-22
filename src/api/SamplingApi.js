@@ -48,6 +48,15 @@ export function uploadSampleConfig(files) {
   )
 }
 
+/* --------------------------------------- */
+/* NOTE  dùng sampling-linux-api của @Thảo */
+/* --------------------------------------- */
+
+export function getStatus(stationID) {
+  return getFetch(getSamplingUrl(`getStatus/${stationID}`))
+  console.log('phat is getting stationID :', stationID)
+}
+
 export default {
   getStationControl,
   getHistory_StationControl,
@@ -55,5 +64,6 @@ export default {
   config_StationControl,
   triggerExceeded_StationControl,
   checkStationControl,
-  uploadSampleConfig
+  uploadSampleConfig,
+  getStatus
 }
