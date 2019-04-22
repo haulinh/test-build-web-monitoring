@@ -43,11 +43,11 @@ export default class SamplingMoreInfo extends React.Component {
   async componentWillMount(){
     this.setState({isLoading: true})
     const res = await StationAPI.getStatus(this.props.stationID)
-    console.log('res.datares.data',res.data)
+    console.log('res.datares.data',this.props.stationID)
     this.setState({
       isConfig: res.data.configSampling ? true : false,
       isLoading: false,
-      configSampling: res.data.configSampling? res.data.configSampling: undefined
+      configSampling: res.data.configSampling ? res.data.configSampling: undefined
     })
   }
 
