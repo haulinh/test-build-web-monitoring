@@ -131,7 +131,7 @@ export default class SamplingMoreInfo extends React.Component {
                 <Row>{i18n.timeStartSampling}</Row>
                 <Row>
                   <Form.Item style={{width: '100%'}}>
-                    <InputNumber defaultValue="0" style={{width: '100%'}}/>
+                    <TimePicker defaultValue={moment(Date.now(), "HH:mm")} format="HH:mm" style={{width: '100%'}}/>
                   </Form.Item>
                 </Row>
               </Col>
@@ -139,13 +139,13 @@ export default class SamplingMoreInfo extends React.Component {
                 <Row>{i18n.frequency}</Row>
                 <Row>
                   <Form.Item style={{width: '100%'}}>
-                    <TimePicker defaultValue={moment(Date.now(), "HH:mm")} format="HH:mm" style={{width: '100%'}}/>
+                    <InputNumber defaultValue="30" style={{width: '100%'}}/>
                   </Form.Item>
                 </Row>
                 <Row>{i18n.dateStartSampling}</Row>
                 <Row>
                   <Form.Item style={{width: '100%'}}>
-                    <DatePicker defaultValue={moment(Date.now(), "dd/mm/yyyy")} format="dd/mm/yyyy" style={{width: '100%'}}/>
+                    <DatePicker defaultValue={Date.now()} format="DD/MM/YYYY"  style={{width: '100%'}}/>
                   </Form.Item>
                 </Row>
               </Col>
