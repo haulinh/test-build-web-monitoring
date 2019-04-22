@@ -43,7 +43,9 @@ export function getConfigApi() {
     // support: 'http://localhost:5014/support', //comemnt lcoal
     sampleConfig: c('configSample'), // local.,
     
-    camera: config.camera
+    camera: config.camera,
+
+    sampling: 'http://localhost:5033/samplingNew'
   }
 }
 
