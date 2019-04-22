@@ -19,6 +19,18 @@ import { isEmpty } from 'lodash'
 import { action } from 'shared/breadcrumb';
 import objectPath from 'object-path'
 
+const i18n = {
+  notInUse: translate('monitoring.notInUse'),
+  sampling: translate('monitoring.actions.sampling'),
+  camera: translate('monitoring.actions.camera'),
+  chart: translate('monitoring.actions.chart'),
+  map: translate('monitoring.actions.map'),
+  images: translate('monitoring.actions.images'),
+  stationInfo: translate('monitoring.actions.stationInfo'),
+  reviewStation: translate('monitoring.actions.reviewStation'),
+}
+
+
 const StationHeadItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -244,7 +256,7 @@ export default class StationAutoHead extends React.PureComponent {
             <StationName>
               {name}{' '}
               {status === stationStatus.NOT_USE &&
-                ' - ' + translate('monitoring.notInUse')}
+                ' - ' + i18n.notInUse}
             </StationName>
           )}
           <Clearfix width={8} />
@@ -260,29 +272,29 @@ export default class StationAutoHead extends React.PureComponent {
             type={currentAction === "sampling" && "primary"} 
             onClick={() => this.handleActionOnClick('sampling')}
             disabled={!isSampling && !this.checkRole(ROLE.MONITORING.CONTROL)}>
-            {translate('monitoring.actions.sampling')}
+            {i18n.sampling}
           </Button>
           <Button 
             className="actionItem" 
             type={currentAction === "camera" && "primary"} 
             onClick={() => this.handleActionOnClick('camera')}
             disabled={!isCamera || !this.checkRole(ROLE.MONITORING.CAMERA)}>
-            {translate('monitoring.actions.camera')}
+            {i18n.camera}
           </Button>
           <Button className="actionItem" type={currentAction === "chart" && "primary"} onClick={() => this.handleActionOnClick('chart')}>
-            {translate('monitoring.actions.chart')}
+            {i18n.chart}
           </Button>
           <Button className="actionItem" type={currentAction === "map" && "primary"} onClick={() => this.handleActionOnClick('map')}>
-            {translate('monitoring.actions.map')}
+            {i18n.map}
           </Button>
           <Button className="actionItem" type={currentAction === "image" && "primary"} onClick={() => this.handleActionOnClick('image')}>
-            {translate('monitoring.actions.images')}
+            {i18n.images}
           </Button>
           <Button className="actionItem" type={currentAction === "station" && "primary"} onClick={() => this.handleActionOnClick('station')}>
-            {translate('monitoring.actions.stationInfo')}
+            {i18n.stationInfo}
           </Button>
           <Button className="actionItem" type={currentAction === "rating" && "primary"} onClick={() => this.handleActionOnClick('rating')}>
-            {translate('monitoring.actions.reviewStation')}
+            {i18n.reviewStation}
           </Button>
         </ActionWrapper>
         
