@@ -53,7 +53,6 @@ export function uploadSampleConfig(files) {
 /* --------------------------------------- */
 
 export function getStatus(stationID) {
-  console.log('phat is getting stationID :', stationID)
   return getFetch(getSamplingUrl(`getStatus/${stationID}`))
 }
 

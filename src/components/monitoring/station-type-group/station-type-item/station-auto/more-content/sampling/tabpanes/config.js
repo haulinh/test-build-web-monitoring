@@ -18,10 +18,10 @@ const i18n = {
   timeToTakeOneBottle: translate('monitoring.moreContent.sampling.content.config.timeToTakeOneBottle'),
   save: translate('monitoring.moreContent.sampling.content.config.save'),
   alertNull: translate('error.nullValue'),
-  alertSuccess: translate('success.text')
+  alertSuccess: translate('success.text'),
+  alertError: translate('error.text'),
 }
 
-const RowWrapper = styled(Row)``
 
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -64,7 +64,12 @@ export default class SamplingMoreInfo extends React.Component {
         const data = await SamplingAPI.updateConfig(stationID, {configSampling: values})
         this.setState({isSaving: false})
         swal({ title: i18n.alertSuccess, type: 'success' })
+        this.props.updateParentState({isConfig: true})
+        return
       }
+      this.setState({isSaving: false})
+      swal({ title: i18n.alertError, type: 'error' })
+
     });
   }
 
@@ -83,65 +88,57 @@ export default class SamplingMoreInfo extends React.Component {
         <Form onSubmit={this.handleSubmit}>
           <Row>
             <Col>
-              <RowWrapper>
-                <Row>{i18n.totalBottles}</Row>
-                <Row>
-                  <Form.Item
-                    validateStatus={this.checkErr('totalBottles') ? 'error' : ''}
-                    help={this.checkErr('totalBottles') || ''}
-                  >
-                    {getFieldDecorator('totalBottles', {
-                      rules: [{ required: true, message: i18n.alertNull}],
-                      initialValue: totalBottles
-                    })(
-                      <Input type="number" style={{width: '100%'}}/>
-                    )}
-                  </Form.Item>
-                </Row>
-              </RowWrapper>
-              <RowWrapper>
-                <Row>{i18n.controlTagName}</Row>
-                <Row>
-                  <Form.Item
-                    validateStatus={this.checkErr('controlTagName') ? 'error' : ''}
-                    help={this.checkErr('controlTagName') || ''}
-                  >
-                    {getFieldDecorator('controlTagName', {
-                      rules: [{ required: true, message: i18n.alertNull }],
-                      initialValue: controlTagName
-                    })(
-                      <Input style={{width: '100%'}}/>
-                    )}
-                  </Form.Item>
-                </Row>
-              </RowWrapper>
-              <RowWrapper>
-                <Row>{i18n.timeToTakeOneBottle}</Row>
-                <Row>
-                  <Form.Item
-                    validateStatus={this.checkErr('timeToTakeOneBottle') ? 'error' : ''}
-                    help={this.checkErr('timeToTakeOneBottle') || ''}
-                  >
-                    {getFieldDecorator('timeToTakeOneBottle', {
-                      rules: [{ required: true, message: i18n.alertNull }],
-                      initialValue: timeToTakeOneBottle
-                    })(
-                      <Input type="number" style={{width: '100%'}}/>
-                    )}
-                  </Form.Item>
-                </Row>
-              </RowWrapper>
-              <RowWrapper>
-                <Button 
-                  block
-                  isLoading={isSaving}
-                  type="primary"
-                  loading={isSaving}
-                  disabled={hasErrors(getFieldsError())}
-                  htmlType="submit">
-                  {i18n.save}
-                </Button>
-              </RowWrapper>
+              <Row>{i18n.totalBottles}</Row>
+              <Row>
+                <Form.Item
+                  validateStatus={this.checkErr('totalBottles') ? 'error' : ''}
+                  help={this.checkErr('totalBottles') || ''}
+                >
+                  {getFieldDecorator('totalBottles', {
+                    rules: [{ required: true, message: i18n.alertNull}],
+                    initialValue: totalBottles
+                  })(
+                    <Input type="number" style={{width: '100%'}}/>
+                  )}
+                </Form.Item>
+              </Row>
+              <Row>{i18n.controlTagName}</Row>
+              <Row>
+                <Form.Item
+                  validateStatus={this.checkErr('controlTagName') ? 'error' : ''}
+                  help={this.checkErr('controlTagName') || ''}
+                >
+                  {getFieldDecorator('controlTagName', {
+                    rules: [{ required: true, message: i18n.alertNull }],
+                    initialValue: controlTagName
+                  })(
+                    <Input style={{width: '100%'}}/>
+                  )}
+                </Form.Item>
+              </Row>
+              <Row>{i18n.timeToTakeOneBottle}</Row>
+              <Row>
+                <Form.Item
+                  validateStatus={this.checkErr('timeToTakeOneBottle') ? 'error' : ''}
+                  help={this.checkErr('timeToTakeOneBottle') || ''}
+                >
+                  {getFieldDecorator('timeToTakeOneBottle', {
+                    rules: [{ required: true, message: i18n.alertNull }],
+                    initialValue: timeToTakeOneBottle
+                  })(
+                    <Input type="number" style={{width: '100%'}}/>
+                  )}
+                </Form.Item>
+              </Row>
+              <Button 
+                block
+                isLoading={isSaving}
+                type="primary"
+                loading={isSaving}
+                disabled={hasErrors(getFieldsError())}
+                htmlType="submit">
+                {i18n.save}
+              </Button>
             </Col>
           </Row>
         </Form>

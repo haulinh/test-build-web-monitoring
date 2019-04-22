@@ -40,10 +40,11 @@ export default class SamplingMoreInfo extends React.Component {
     stationData: null
   }
 
+  updateState = state => this.setState(state)
+
   async componentWillMount(){
     this.setState({isLoading: true})
     const res = await StationAPI.getStatus(this.props.stationID)
-    console.log('res.datares.data',this.props.stationID)
     this.setState({
       isConfig: res.data.configSampling ? true : false,
       isLoading: false,
@@ -73,7 +74,7 @@ export default class SamplingMoreInfo extends React.Component {
             <TabPane 
               key="config"
               tab={translate('monitoring.moreContent.sampling.tabs.config')}>
-              <Config stationID={stationID} configSampling={configSampling}/>
+              <Config stationID={stationID} configSampling={configSampling} updateParentState={this.updateState}/>
             </TabPane>
           </Tabs>
         )}
