@@ -100,7 +100,13 @@ export default class InfoWindowViewMore extends React.PureComponent {
     )
     return (
       <WrapperViewMore>
-        <Dropdown overlay={dropdown} trigger={['click']}>
+        <Dropdown getPopupContainer={()=> {
+          if(window.map){
+            return window.map.getDiv().firstChild
+          }else{
+            return document.body
+          }
+        }} overlay={dropdown} trigger={['click']}>
           <LinkSpan className="ant-dropdown-link">
             <Icon type="right" /> {translate('dashboard.viewMore')}
           </LinkSpan>

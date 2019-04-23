@@ -1,19 +1,19 @@
 /* eslint-disable */
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
+import React, { PureComponent } from "react"
+import styled from "styled-components"
 import {
   GoogleMap,
   withScriptjs,
   withGoogleMap,
   Polygon
-} from 'react-google-maps'
-import { getGoogleMapProps } from 'components/map/utils'
-import MarkerStation from 'components/map/marker'
-import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer'
-import LevelIntro from 'components/map/level-intro'
-import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
-import { warningLevelsNumber, warningLevels } from 'constants/warningLevels'
+} from "react-google-maps"
+import { getGoogleMapProps } from "components/map/utils"
+import MarkerStation from "components/map/marker"
+import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer"
+import LevelIntro from "components/map/level-intro"
+import PropTypes from "prop-types"
+import { autobind } from "core-decorators"
+import { warningLevelsNumber, warningLevels } from "constants/warningLevels"
 
 const MapContainer = styled.div`
   position: relative;
@@ -89,6 +89,7 @@ class CustomGoogleMap extends PureComponent {
     return (
       <GoogleMap
         ref={map => {
+          window.map = map
           if (!this.state.isBounds) this.getBounds()
           this.map = map
         }}
@@ -152,11 +153,11 @@ class CustomGoogleMap extends PureComponent {
                 { lat: 14.453348, lng: 116.446871 }
               ]}
               options={{
-                fillColor: '#B3D9FB',
-                strokeColor: '#B3D9FB',
+                fillColor: "#B3D9FB",
+                strokeColor: "#B3D9FB",
                 strokeOpacity: 1,
                 strokeWeight: 1,
-                fillColor: '#B3D9FB',
+                fillColor: "#B3D9FB",
                 fillOpacity: 1
               }}
             />
@@ -231,13 +232,13 @@ export default class MapStationAuto extends PureComponent {
           zoom={this.props.zoom}
           {...getGoogleMapProps()}
           loadingElement={
-            <div style={{ height: this.props.windowHeight + 'px' }} />
+            <div style={{ height: this.props.windowHeight + "px" }} />
           }
           containerElement={
-            <div style={{ height: this.props.windowHeight + 'px' }} />
+            <div style={{ height: this.props.windowHeight + "px" }} />
           }
           mapElement={
-            <div style={{ height: this.props.windowHeight + 'px' }} />
+            <div  style={{ height: this.props.windowHeight + "px" }} />
           }
         />
       </MapContainer>
