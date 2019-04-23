@@ -159,8 +159,8 @@ export default {
     approved: 'Approved',
     ok: 'OK',
     province: {
-      label: 'Management Unit',
-      placeholder: 'Management Unit'
+      label: 'Select Site',
+      placeholder: 'Select Site'
     },
     notEmpty: '{{=it.value}} is required!',
     pageInfo: '{{=it.from}}-{{=it.to}} of {{it.total}} items',
@@ -1203,7 +1203,8 @@ export default {
   error: {
     text: 'Errors',
     require: 'Require',
-    email: 'Invalid Email Address'
+    email: 'Invalid Email Address',
+    nullValue: 'Not null value'
   },
   form: {
     save: 'Save',

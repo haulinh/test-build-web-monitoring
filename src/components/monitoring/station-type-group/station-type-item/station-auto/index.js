@@ -166,7 +166,12 @@ export default class StationAutoItem extends React.PureComponent {
           data={this.measuringLastLog()}
         />
 
-        <MoreContent isActive={true} panel={this.state.showPanel}></MoreContent>
+        <MoreContent 
+          isActive={true} 
+          stationID={_id}
+          panel={this.state.showPanel} 
+        />
+
         {this.state.isOpenCamera &&
           get(options, 'camera.allowed') && (
             <CameraListView cameraList={get(options, 'camera.list', [])} />
