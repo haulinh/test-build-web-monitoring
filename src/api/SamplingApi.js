@@ -48,6 +48,19 @@ export function uploadSampleConfig(files) {
   )
 }
 
+/* --------------------------------------- */
+/* NOTE  dùng sampling-linux-api của @Thảo */
+/* --------------------------------------- */
+
+export function getStatus(stationID) {
+  return getFetch(getSamplingUrl(`getStatus/${stationID}`))
+}
+
+export function updateConfig(stationID, values) {
+  console.log('valuesvaluesvaluesvalues',values)
+  return putFetch(getSamplingUrl(`updateConfig/${stationID}`), values)
+}
+
 export default {
   getStationControl,
   getHistory_StationControl,
@@ -55,5 +68,7 @@ export default {
   config_StationControl,
   triggerExceeded_StationControl,
   checkStationControl,
-  uploadSampleConfig
+  uploadSampleConfig,
+  getStatus,
+  updateConfig
 }
