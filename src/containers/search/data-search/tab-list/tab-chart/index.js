@@ -6,6 +6,10 @@ import * as _ from "lodash"
 import PropTypes from "prop-types"
 import { translate } from "hoc/create-lang"
 import moment from "moment"
+import {
+  FORMAT_VALUE_MEASURING,
+  getFormatNumber
+} from "constants/format-number"
 
 const TabChartWrapper = styled.div`
   justify-content: center;
@@ -93,7 +97,7 @@ export default class TabChart extends React.PureComponent {
       seriesData[item.key] = {
         name: item.name,
         data: [],
-        tooltip: { valueDecimals: 4 },
+        tooltip: { valueDecimals: FORMAT_VALUE_MEASURING },
         minLimit: item.minLimit,
         maxLimit: item.maxLimit,
         threshold: _.isNumber(item.maxLimit) ? item.maxLimit : 10000000,
@@ -111,7 +115,8 @@ export default class TabChart extends React.PureComponent {
     _.forEachRight(props.dataStationAuto, ({ measuringLogs, receivedAt }) => {
       const time = moment(receivedAt).valueOf()
       _.mapKeys(seriesData, function(value, key) {
-        const val = _.get(measuringLogs, [key, "value"])
+        let val = _.get(measuringLogs, [key, "value"])
+
         seriesData[key].data.push([time, val])
 
         const minCureent =
@@ -230,6 +235,7 @@ export default class TabChart extends React.PureComponent {
     })
   }
 
+  //hightStock không có nút reset khi Zoom x
   configChart = (
     series,
     plotLines = [],
@@ -241,7 +247,8 @@ export default class TabChart extends React.PureComponent {
     return {
       chart: {
         type: "line",
-        width: width - 160
+        width: width - 160,
+        zoomType: "x"
       },
       credits: {
         enabled: false
@@ -251,8 +258,8 @@ export default class TabChart extends React.PureComponent {
         buttons: [],
         allButtonsEnabled: true,
         inputEnabled: true,
-        inputEditDateFormat: "%d/%m/%Y:%k:%M",
-        inputDateFormat: "%d/%m/%Y:%k:%M",
+        inputEditDateFormat: "%d/%m/%Y %k:%M",
+        inputDateFormat: "%d/%m/%Y %k:%M",
         inputBoxWidth: 120
       },
       navigation: {
@@ -271,7 +278,19 @@ export default class TabChart extends React.PureComponent {
           text: ""
         }
       },
-      series
+      // dùng để custom hiển thị
+      tooltip: {
+        formatter: function() {
+          return this.points.map(function(point) {
+            return (
+              `<b>${point.series.name}</b>` + ": " + getFormatNumber(point.y)
+            )
+          })
+        }
+      },
+      series,
+      
+      
     }
   }
 

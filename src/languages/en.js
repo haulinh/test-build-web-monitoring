@@ -1,6 +1,6 @@
 export default {
   chart: {
-    all: 'Select Site',
+    all: 'All',
     time: 'Time',
     from: 'From',
     to: 'To'

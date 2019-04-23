@@ -1,6 +1,6 @@
 export default {
   chart: {
-    all: 'Chọn Đơn vị quản lý',
+    all: 'Tất cả',
     time: 'Thời gian',
     from: 'Từ',
     to: 'Đến'
