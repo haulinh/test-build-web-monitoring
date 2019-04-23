@@ -21,7 +21,6 @@ export default class TableDataList extends React.PureComponent {
 
   getColumns() {
     let formatDate = ""
-    console.log(this.props.typeReport,"type")
     switch (this.props.typeReport) {
       case "year":
         formatDate = "YYYY"
@@ -29,7 +28,7 @@ export default class TableDataList extends React.PureComponent {
       case "month":
         formatDate = "MM/YYYY"
         break
-      case 1440:// kiểu dữ liệu ngày
+      case "1440":// kiểu dữ liệu ngày
         formatDate = DD_MM_YYYY
         break
 
