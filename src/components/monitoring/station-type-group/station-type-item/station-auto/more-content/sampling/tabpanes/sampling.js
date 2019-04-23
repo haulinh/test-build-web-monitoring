@@ -66,14 +66,10 @@ export default class SamplingMoreInfo extends React.Component {
     }
   }
 
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   return {...nextProps}
-  // }
-
   state = {
     isReseting: false,
     statusSampling: STATUS_SAMPLING.READY,        /* ready || commanded || sampling */
-    samplingType: 'manual',    /* manual || auto */
+    samplingType: 'manual',                       /* manual || auto */
   }
 
   handleSubmit = (e) => {
@@ -199,9 +195,5 @@ export default class SamplingMoreInfo extends React.Component {
       </div>
     )
   }
-
-  // shouldComponentUpdate(nextProps) {
-  //   return this.props.configSampling !== nextProps.configSampling;
-  // }
 }
 
