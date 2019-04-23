@@ -66,6 +66,9 @@ ReactHighcharts.Highcharts.setOptions({
     rangeSelectorFrom: translate('chart.from'),
     rangeSelectorTo: translate('chart.to'),
     rangeSelectorZoom: ''
+  },
+  global: {
+    useUTC: false
   }
 })
 

@@ -5,8 +5,9 @@ export function getFormatNumber(value, numberToFixed = FORMAT_VALUE_MEASURING) {
     let tempNumber = value.toLocaleString(navigator.language, {
       minimumFractionDigits: numberToFixed,
       maximumFractionDigits: numberToFixed
-    });
-    return value === 0 ? "0" : tempNumber;
+    })
+     
+    return value === 0 ? "0" : tempNumber
   } else {
     return "0";
   }

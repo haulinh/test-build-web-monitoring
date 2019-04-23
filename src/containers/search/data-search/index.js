@@ -102,7 +102,6 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   render() {
-    console.log(this.props.formData,"run 1")
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Spin
