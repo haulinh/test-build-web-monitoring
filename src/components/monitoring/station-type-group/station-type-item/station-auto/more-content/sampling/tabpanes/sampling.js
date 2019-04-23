@@ -35,12 +35,40 @@ const InputGroup = Input.Group;
 
 const STATUS_SAMPLING = { READY:'READY', COMMANDED:'COMMANDED', SAMPLING:'SAMPLING' }
 
+// const Orange = {
+//   backgroundColor: statusSampling === STATUS_SAMPLING.SAMPLING ? 'orange' : null,
+//   borderColor: statusSampling === STATUS_SAMPLING.SAMPLING ? 'orange' : null
+// }
+
+const STATUS_COLOR = {
+  READY: '',
+  COMMANDED: '',
+  SAMPLING: {
+    backgroundColor: 'orange',
+    borderColor: 'orange'
+  }
+}
+
+
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
   static propTypes = {
-    isDisabled: PropTypes.bool,
+    stationID: PropTypes.string,
+    configSampling: PropTypes.object,
   }
-  static defaultProps = {}
+
+  static defaultProps = {
+    stationID: '',
+    configSampling: {
+      totalBottles: 0,
+      controlTagName: '',
+      timeToTakeOneBottle: 0
+    }
+  }
+
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   return {...nextProps}
+  // }
 
   state = {
     isReseting: false,
@@ -76,7 +104,7 @@ export default class SamplingMoreInfo extends React.Component {
 
   render(){
     const {isReseting, statusSampling, samplingType} = this.state;
-    const {} = this.props;
+    const {totalBottles} = this.props.configSampling;
 
     return (
       <div style={{padding: 8}}>
@@ -91,28 +119,28 @@ export default class SamplingMoreInfo extends React.Component {
             <Row gutter={16}>
               <Col span={11}>
                 <Form.Item style={{width: '100%'}}>
-                  <InputNumber disabled defaultValue="8" style={{width: '100%'}}/>
+                  <InputNumber disabled value={totalBottles} style={{width: '100%'}}/>
                 </Form.Item>
               </Col>
               <Col span={11}>
                 <Form.Item style={{width: '100%'}}>
-                  <InputNumber disabled defaultValue="0" style={{width: '100%'}}/>
+                  <InputNumber disabled value="0" style={{width: '100%'}}/>
                 </Form.Item>
               </Col>
-              <Col>
+              <Col span={2} style={{textAlign: 'center'}} >
                 <Form.Item>
                   <Button type="primary" block onClick={this.handleReset}>Reset</Button>
                 </Form.Item>
               </Col>
-            </Row>
+            </Row> 
           </Form>
         </Row>
 
         {/* -- SAMPLING TYPE --*/}
         <Row>
-          <Row>
-            <span>{i18n.typeOfSampling}</span>
-            <RadioGroup defaultValue={samplingType} onChange={this.handleSamplingTypeChange} buttonStyle="solid"  style={{margin: '0 0 30px 15px'}}>
+          <Row style={{marginBottom: 30}}>
+            <Row style={{marginBottom: 5}}>{i18n.typeOfSampling}</Row>
+            <RadioGroup defaultValue={samplingType} onChange={this.handleSamplingTypeChange} buttonStyle="solid">
               <RadioButton value="manual">{i18n.immediatelySampling}</RadioButton>
               <RadioButton value="auto">{i18n.scheduleSampling}</RadioButton>
             </RadioGroup> 
@@ -145,7 +173,7 @@ export default class SamplingMoreInfo extends React.Component {
                 <Row>{i18n.dateStartSampling}</Row>
                 <Row>
                   <Form.Item style={{width: '100%'}}>
-                    <DatePicker defaultValue={Date.now()} format="DD/MM/YYYY"  style={{width: '100%'}}/>
+                    <DatePicker defaultValue={moment(Date.now())} format="DD/MM/YYYY"  style={{width: '100%'}}/>
                   </Form.Item>
                 </Row>
               </Col>
@@ -158,7 +186,7 @@ export default class SamplingMoreInfo extends React.Component {
           <Button 
             block 
             type="primary" 
-            style={{marginBottom: 8}}  
+            style={{marginBottom: 8, ...STATUS_COLOR[statusSampling] }}  
             onClick={this.handleSampling} 
             loading={statusSampling === STATUS_SAMPLING.SAMPLING || statusSampling === STATUS_SAMPLING.COMMANDED}>
             { statusSampling === STATUS_SAMPLING.READY && i18n.takeSample }
@@ -171,5 +199,9 @@ export default class SamplingMoreInfo extends React.Component {
       </div>
     )
   }
+
+  // shouldComponentUpdate(nextProps) {
+  //   return this.props.configSampling !== nextProps.configSampling;
+  // }
 }
 

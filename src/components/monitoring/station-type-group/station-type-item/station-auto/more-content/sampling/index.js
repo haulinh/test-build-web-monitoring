@@ -37,7 +37,7 @@ export default class SamplingMoreInfo extends React.Component {
   state = {
     isLoading: false,
     isConfig: false,
-    stationData: null
+    stationData: {}
   }
 
   updateState = state => this.setState(state)
@@ -63,7 +63,7 @@ export default class SamplingMoreInfo extends React.Component {
               key="sampling"
               tab={translate('monitoring.moreContent.sampling.tabs.sampling')}
               disabled={!isConfig}>
-              <Sampling stationID={stationID}/>
+              <Sampling stationID={stationID} configSampling={configSampling}/>
             </TabPane>
             <TabPane 
               key="history"

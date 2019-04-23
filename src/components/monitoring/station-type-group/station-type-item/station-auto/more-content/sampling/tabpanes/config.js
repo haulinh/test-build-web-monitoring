@@ -31,8 +31,9 @@ function hasErrors(fieldsError) {
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
   static propTypes = {
-    stationID: PropTypes.string,
-    configSampling: PropTypes.object,
+    stationID: PropTypes.string.isRequired,
+    configSampling: PropTypes.object.isRequired,
+    updateParentState: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -64,7 +65,10 @@ export default class SamplingMoreInfo extends React.Component {
         const data = await SamplingAPI.updateConfig(stationID, {configSampling: values})
         this.setState({isSaving: false})
         swal({ title: i18n.alertSuccess, type: 'success' })
-        this.props.updateParentState({isConfig: true})
+        this.props.updateParentState({
+          isConfig: true, 
+          configSampling: values
+          })
         return
       }
       this.setState({isSaving: false})
