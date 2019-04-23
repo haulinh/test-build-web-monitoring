@@ -73,7 +73,7 @@ export default class SamplingMoreInfo extends React.Component {
           size="small"
           scroll={{ y: 500 }} 
           onRow={(record, index) => {console.log(record)}}
-        />,
+        />
       </div>
     )
   }

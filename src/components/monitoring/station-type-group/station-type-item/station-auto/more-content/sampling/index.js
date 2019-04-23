@@ -2,42 +2,83 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router'
-import {Tabs} from 'antd';
+import {Row, Col, Tabs, Icon} from 'antd';
 /* user import */
+import StationAPI from 'api/SamplingApi'
 import { translate } from 'hoc/create-lang'
 import Sampling from './tabpanes/sampling'
 import History from './tabpanes/history'
 import Config from './tabpanes/config'
+import styled from 'styled-components';
 
+const LoadingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px
+`
+
+const LoadingCmp = ()=> <LoadingContainer>
+  <Icon type="loading" theme="outlined" style={{color: "#4090ff", fontSize: 25}} />
+</LoadingContainer>
 
 const TabPane = Tabs.TabPane;
 
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
-  static propTypes = {}
-  static defaultProps = {}
+  static propTypes = {
+    stationID: PropTypes.string
+  }
 
-  state = {}
+  static defaultProps = {
+    stationID: '',
+  }
+
+  state = {
+    isLoading: false,
+    isConfig: false,
+    stationData: {}
+  }
+
+  updateState = state => this.setState(state)
+
+  async componentWillMount(){
+    this.setState({isLoading: true})
+    const res = await StationAPI.getStatus(this.props.stationID)
+    this.setState({
+      isConfig: res.data.configSampling ? true : false,
+      isLoading: false,
+      configSampling: res.data.configSampling ? res.data.configSampling: undefined
+    })
+  }
 
   render(){
+    const {stationID} = this.props
+    const {isLoading, isConfig, configSampling} = this.state
     return (
-      <Tabs defaultActiveKey="1">
-        <TabPane 
-          tab={translate('monitoring.moreContent.sampling.tabs.sampling')}
-          key="1">
-          <Sampling />
-        </TabPane>
-        <TabPane 
-          tab={translate('monitoring.moreContent.sampling.tabs.history')}
-          key="2">
-          <History />
-        </TabPane>
-        <TabPane 
-          tab={translate('monitoring.moreContent.sampling.tabs.config')}
-          key="3">
-          <Config />
-        </TabPane>
-      </Tabs>
+      <div>
+        { isLoading ? (<LoadingCmp />) : (
+          <Tabs defaultActiveKey={isConfig ? "sampling" : "config"}>
+            <TabPane 
+              key="sampling"
+              tab={translate('monitoring.moreContent.sampling.tabs.sampling')}
+              disabled={!isConfig}>
+              <Sampling stationID={stationID} configSampling={configSampling}/>
+            </TabPane>
+            <TabPane 
+              key="history"
+              disabled={!isConfig}
+              tab={translate('monitoring.moreContent.sampling.tabs.history')}>
+              <History stationID={stationID}/>
+            </TabPane>
+            <TabPane 
+              key="config"
+              tab={translate('monitoring.moreContent.sampling.tabs.config')}>
+              <Config stationID={stationID} configSampling={configSampling} updateParentState={this.updateState}/>
+            </TabPane>
+          </Tabs>
+        )}
+      </div>
     )
   }
 }
