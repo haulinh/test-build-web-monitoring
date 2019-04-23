@@ -6,6 +6,10 @@ import * as _ from "lodash"
 import PropTypes from "prop-types"
 import { translate } from "hoc/create-lang"
 import moment from "moment"
+import {
+  FORMAT_VALUE_MEASURING,
+  getFormatNumber
+} from "constants/format-number"
 
 const TabChartWrapper = styled.div`
   justify-content: center;
@@ -78,7 +82,8 @@ export default class TabChart extends React.PureComponent {
     getChart: PropTypes.func,
     dataStationAuto: PropTypes.array,
     measuringData: PropTypes.array,
-    nameChart: PropTypes.string
+    nameChart: PropTypes.string,
+    formatDatetime: PropTypes.string
   }
 
   constructor(props) {
@@ -93,7 +98,7 @@ export default class TabChart extends React.PureComponent {
       seriesData[item.key] = {
         name: item.name,
         data: [],
-        tooltip: { valueDecimals: 4 },
+        tooltip: { valueDecimals: FORMAT_VALUE_MEASURING },
         minLimit: item.minLimit,
         maxLimit: item.maxLimit,
         threshold: _.isNumber(item.maxLimit) ? item.maxLimit : 10000000,
@@ -230,6 +235,25 @@ export default class TabChart extends React.PureComponent {
     })
   }
 
+  getFormatDateChart = () => {
+    let formatDate = ""
+    switch (this.props.typeReport) {
+      case "year":
+        formatDate = "%Y"
+        break
+      case "month":
+        formatDate = "%m/%Y"
+        break
+      case "1440": // kiểu dữ liệu ngày
+        formatDate = "%d/%m/%Y"
+        break
+      default:
+        formatDate = "%d/%m/%Y %k:%M"
+        break
+    }
+    return formatDate
+  }
+
   configChart = (
     series,
     plotLines = [],
@@ -241,7 +265,8 @@ export default class TabChart extends React.PureComponent {
     return {
       chart: {
         type: "line",
-        width: width - 160
+        width: width - 160,
+        zoomType: "x"
       },
       credits: {
         enabled: false
@@ -251,8 +276,8 @@ export default class TabChart extends React.PureComponent {
         buttons: [],
         allButtonsEnabled: true,
         inputEnabled: true,
-        inputEditDateFormat: "%d/%m/%Y:%k:%M",
-        inputDateFormat: "%d/%m/%Y:%k:%M",
+        inputEditDateFormat: this.getFormatDateChart(),
+        inputDateFormat: this.getFormatDateChart(),
         inputBoxWidth: 120
       },
       navigation: {
@@ -269,6 +294,14 @@ export default class TabChart extends React.PureComponent {
         plotLines,
         title: {
           text: ""
+        }
+      },
+      // dùng để custom hiển thị
+      tooltip: {
+        formatter: function() {
+          return this.points.map(function(point) {
+            return `<b>${point.series.name}</b> : ${getFormatNumber(point.y)}`
+          })
         }
       },
       series
