@@ -107,7 +107,8 @@ export default {
             bottleNo: 'Bottle No',
             dateTime: 'Date time',
             typeOfSampling: 'Type of Sampling',
-            activedUser: 'Actived User'
+            activedUser: 'Actived User',
+            result: 'Result'
           },
           config: {
             totalBottles: 'Total bottles:',

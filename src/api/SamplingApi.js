@@ -61,6 +61,14 @@ export function updateConfig(stationID, values) {
   return putFetch(getSamplingUrl(`updateConfig/${stationID}`), values)
 }
 
+export function getHistory({ page = 1, itemPerPage = 10 }) {
+  return getFetch(getSamplingUrl('log'),{
+    page,
+    itemPerPage
+  })
+}
+
+
 export default {
   getStationControl,
   getHistory_StationControl,

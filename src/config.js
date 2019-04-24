@@ -45,8 +45,6 @@ export function getConfigApi() {
     sampleConfig: c('configSample'), // local.,
     
     camera: config.camera,
-
-    sampling: 'http://localhost:5033/samplingNew'
   }
 }
 
