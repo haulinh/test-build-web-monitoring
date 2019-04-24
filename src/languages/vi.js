@@ -107,7 +107,8 @@ export default {
             bottleNo: 'Chai số',
             dateTime: 'Thời gian lấy',
             typeOfSampling: 'Hình thức lấy',
-            activedUser: 'Người kích hoạt'
+            activedUser: 'Người kích hoạt',
+            result: 'Kết quả'
           },
           config: {
             totalBottles: 'Tổng số chai:',
