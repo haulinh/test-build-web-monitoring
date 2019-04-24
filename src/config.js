@@ -32,7 +32,7 @@ export function getConfigApi() {
     fcmMessages: c('fcm-messages'),
     organization: c('organization'),
     role: c('role'),
-    sampling: 'http://192.168.11.104:5018/samplingNew',
+    sampling: c('samplingNew'),
     // sampling: c('sampling'),
     support: c('support'),
     province: c('province'),
