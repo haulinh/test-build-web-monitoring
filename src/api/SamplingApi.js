@@ -64,6 +64,14 @@ export function takeSampling(stationID, configSampling) {
   return postFetch(getSamplingUrl(`takeSampling/${stationID}`), configSampling)
 }
 
+export function getHistory({ page = 1, itemPerPage = 10 }) {
+  return getFetch(getSamplingUrl('log'),{
+    page,
+    itemPerPage
+  })
+}
+
+
 export default {
   getStationControl,
   getHistory_StationControl,

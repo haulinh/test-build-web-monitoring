@@ -1,6 +1,6 @@
 export default {
   chart: {
-    all: 'Select Site',
+    all: 'All',
     time: 'Time',
     from: 'From',
     to: 'To'
@@ -160,8 +160,8 @@ export default {
     approved: 'Approved',
     ok: 'OK',
     province: {
-      label: 'Management Unit',
-      placeholder: 'Management Unit'
+      label: 'Select Site',
+      placeholder: 'Select Site'
     },
     notEmpty: '{{=it.value}} is required!',
     pageInfo: '{{=it.from}}-{{=it.to}} of {{it.total}} items',
