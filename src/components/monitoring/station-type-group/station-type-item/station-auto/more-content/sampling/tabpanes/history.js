@@ -1,7 +1,7 @@
 /* libs import */
 import React from "react";
 import { withRouter } from "react-router";
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 /* user import */
 import { translate } from "hoc/create-lang";
 import { getHistory } from "api/SamplingApi";
@@ -29,43 +29,7 @@ const i18n = {
   success: translate('monitoring.moreContent.sampling.content.history.result')
 };
 
-/* MARK  [START] - MOCKUP DATA */
-const columns = [
-  {
-    title: i18n.stt,
-    dataIndex: 'stt',
-    align: 'center',
-    width: 30,
-  },
-  {
-    title: i18n.bottleNo,
-    dataIndex: 'bottleNo',
-    width: 50,
-  },
-  {
-    title: <div style={{backgroundColor: "red", display: 'block', }}>{i18n.dateTime}</div>,
-    dataIndex: 'dateTime',
-    align: 'center',
-    width: 150,
-  },
-  {
-    title: i18n.typeOfSampling,
-    dataIndex: "typeOfSampling",
-    width: 150
-  },
-  {
-    title: i18n.activedUser,
-    dataIndex: "user",
-    width: 150
-  },
-  {
-    title: i18n.result,
-    dataIndex: "result",
-    width: 150
-  }
-];
-
-/* MARK  [END] - MOCKUP DATA */
+const {Column, ColumnGroup} = Table
 
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
@@ -128,7 +92,6 @@ export default class SamplingMoreInfo extends React.Component {
       <div style={{ padding: 8 }}>
         <Table
           loading={this.state.isLoading}
-          columns={columns}
           dataSource={this.state.dataSource}
           pagination={{
             pageSize: this.state.pageSize,
@@ -137,9 +100,58 @@ export default class SamplingMoreInfo extends React.Component {
             total: this.state.total
           }}
           size="small"
-          scroll={{ y: 379 }} 
-          onRow={(record, index) => {console.log(record)}}
-        />
+          rowKey={(record) => record._id }  // https://ant.design/components/table/#Note
+        >
+          <Column 
+            align="center"
+            title="STT"
+            dataIndex="stt"
+            width={30}
+          />
+
+           <Column 
+            title={i18n.bottleNo}
+            align="center"
+            dataIndex="bottleNumber"
+            width={50}
+          />
+          
+          <Column 
+            title={i18n.dateTime}
+            align="center"
+            dataIndex="createdAt"
+            width={70}
+          />
+
+          <Column 
+            title={i18n.typeOfSampling}
+            align="center"
+            dataIndex="typeOfSampling"
+            width={150}
+          />
+
+          <Column 
+            title={i18n.activedUser}
+            align="center"
+            dataIndex="user"
+            width={150}
+      
+          />
+
+          <Column 
+            title={i18n.result}
+            align="center"
+            dataIndex="result"
+            width={50}
+            render={(...args) => {
+              const [data, record] = args
+              switch(data) {
+                case 'SUCCESS': return <Tag color="#6ba84f">{data}</Tag>
+                case 'FAILED' : return <Tag color="#cc1200">{data}</Tag>
+              }
+            }}
+          /> 
+        </Table>
       </div>
     );
   }
