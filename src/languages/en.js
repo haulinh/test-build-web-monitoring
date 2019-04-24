@@ -1205,7 +1205,7 @@ export default {
     text: 'Errors',
     require: 'Require',
     email: 'Invalid Email Address',
-    nullValue: 'Not null value'
+    nullValue: 'Value is not available'
   },
   form: {
     save: 'Save',

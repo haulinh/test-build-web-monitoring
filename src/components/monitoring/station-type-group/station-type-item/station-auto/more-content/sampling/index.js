@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router'
-import {Row, Col, Tabs, Icon} from 'antd';
+import {Row, Col, Tabs, Icon,message} from 'antd';
 /* user import */
 import StationAPI from 'api/SamplingApi'
 import { translate } from 'hoc/create-lang'
@@ -11,12 +11,22 @@ import History from './tabpanes/history'
 import Config from './tabpanes/config'
 import styled from 'styled-components';
 
+const TIME_INTERVAL_GET_STATUS = 1000 * 60  // 1 PHUT
+const STATUS_SAMPLING = { READY:'READY', COMMANDED:'COMMANDED', SAMPLING:'SAMPLING' }
+
 const LoadingContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 250px
 `
+
+const i18n = {
+  /* NOTE  chưa dịch */
+  getStatusFail: 'Không thể lấy trạng thái, hãy thử lại'
+}
+
+function showMessageError(msg) {message.error(msg)}
 
 const LoadingCmp = ()=> <LoadingContainer>
   <Icon type="loading" theme="outlined" style={{color: "#4090ff", fontSize: 25}} />
@@ -35,26 +45,69 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   state = {
+    isSampling: false,
     isLoading: false,
     isConfig: false,
-    stationData: {}
+    configSampling: undefined,
+    timerId_getStatus: null,
   }
 
-  updateState = state => this.setState(state)
+  constructor(props){
+    super(props)
 
+    /* NOTE  viết theo kiểu này để fix lỗi ReferenceError: _this6...*/
+    this.startTimer = this.startTimer.bind(this)
+    this.getStatus = this.getStatus.bind(this)
+
+  }
+
+  updateState = newState => {
+    console.log('newState', newState)
+    this.setState(prevState => ({...prevState, ...newState}))
+  }
+
+  async getStatus  ()  {
+    const res = await StationAPI.getStatus(this.props.stationID)
+
+    let configSampling = res.data.configSampling ? res.data.configSampling: undefined
+    if(configSampling && this.state.configSampling.status === STATUS_SAMPLING.COMMANDED && configSampling.status === STATUS_SAMPLING.READY )
+    configSampling.status = STATUS_SAMPLING.COMMANDED
+
+    this.setState({
+      configSampling: configSampling
+    })
+  }
+
+  startTimer() {
+    this.timer = setInterval(this.getStatus, TIME_INTERVAL_GET_STATUS)
+  }
+  
   async componentWillMount(){
     this.setState({isLoading: true})
     const res = await StationAPI.getStatus(this.props.stationID)
-    this.setState({
-      isConfig: res.data.configSampling ? true : false,
-      isLoading: false,
-      configSampling: res.data.configSampling ? res.data.configSampling: undefined
-    })
+    if (res.data) {
+      this.setState({
+        isConfig: res.data.configSampling ? true : false,
+        isLoading: false,
+        configSampling: res.data.configSampling ? res.data.configSampling: undefined
+      })
+    }
+    else {
+      showMessageError(i18n.getStatusFail)
+    }
+  }
+
+  componentDidMount() {
+    this.startTimer()
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer)
   }
 
   render(){
     const {stationID} = this.props
-    const {isLoading, isConfig, configSampling} = this.state
+    const {isSampling, isLoading, isConfig, configSampling} = this.state
     return (
       <div>
         { isLoading ? (<LoadingCmp />) : (
@@ -63,7 +116,7 @@ export default class SamplingMoreInfo extends React.Component {
               key="sampling"
               tab={translate('monitoring.moreContent.sampling.tabs.sampling')}
               disabled={!isConfig}>
-              <Sampling stationID={stationID} configSampling={configSampling}/>
+              <Sampling stationID={stationID} configSampling={configSampling} updateParentState={this.updateState} STATUS_SAMPLING={STATUS_SAMPLING}/>
             </TabPane>
             <TabPane 
               key="history"
@@ -74,7 +127,7 @@ export default class SamplingMoreInfo extends React.Component {
             <TabPane 
               key="config"
               tab={translate('monitoring.moreContent.sampling.tabs.config')}>
-              <Config stationID={stationID} configSampling={configSampling} updateParentState={this.updateState}/>
+              <Config stationID={stationID} isSampling={isSampling} configSampling={configSampling} updateParentState={this.updateState} STATUS_SAMPLING={STATUS_SAMPLING}/>
             </TabPane>
           </Tabs>
         )}

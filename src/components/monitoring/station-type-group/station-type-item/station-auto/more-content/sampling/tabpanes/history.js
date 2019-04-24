@@ -25,24 +25,27 @@ const i18n = {
   ),
   result: translate(
     "monitoring.moreContent.sampling.content.history.result"
-  )
+  ),
+  success: translate('monitoring.moreContent.sampling.content.history.result')
 };
 
 /* MARK  [START] - MOCKUP DATA */
 const columns = [
   {
     title: i18n.stt,
-    dataIndex: "stt",
-    width: 150
+    dataIndex: 'stt',
+    align: 'center',
+    width: 30,
   },
   {
     title: i18n.bottleNo,
-    dataIndex: "bottleNumber",
-    width: 150
+    dataIndex: 'bottleNo',
+    width: 50,
   },
   {
-    title: i18n.dateTime,
-    dataIndex: "createdAt",
+    title: <div style={{backgroundColor: "red", display: 'block', }}>{i18n.dateTime}</div>,
+    dataIndex: 'dateTime',
+    align: 'center',
     width: 150,
   },
   {
@@ -134,10 +137,8 @@ export default class SamplingMoreInfo extends React.Component {
             total: this.state.total
           }}
           size="small"
-          scroll={{ y: 500 }}
-          onRow={(record, index) => {
-            console.log(record);
-          }}
+          scroll={{ y: 379 }} 
+          onRow={(record, index) => {console.log(record)}}
         />
       </div>
     );
