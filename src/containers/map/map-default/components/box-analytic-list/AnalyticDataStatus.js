@@ -106,7 +106,7 @@ export default class BoxAnalyticList extends React.PureComponent {
   }
 
   render() {
-    const pfKey = 'map.menuRight.'
+    const pfKey = 'warningLevels.'
     return (
       <BoxAnalyticListWrapper>
         <Row>
@@ -130,7 +130,7 @@ export default class BoxAnalyticList extends React.PureComponent {
           >
             <BoxNumberView
               color={colorLevels.EXCEEDED}
-              type={t(pfKey + 'exceeded')}
+              type={t(pfKey + 'exceed')}
               number={this.state.exceeded}
               focusStatus={warningLevels.EXCEEDED}
               focusParam={this.state.focusStatus}
@@ -139,30 +139,17 @@ export default class BoxAnalyticList extends React.PureComponent {
         </Row>
         <Clearfix height={8} />
         <Row>
-          {/* <Item
+          <Item
+            isFullWidth
             onClick={() => {
               this.handelFocusStatus(warningLevels.EXCEEDED_PREPARING)
             }}
           >
             <BoxNumberView
               color={colorLevels.EXCEEDED_PREPARING}
-              type={t(pfKey + 'exceededPreparing')}
+              type={t(pfKey + 'exceedPreparing')}
               number={this.state.exceededPreparing}
               focusStatus={warningLevels.EXCEEDED_PREPARING}
-              focusParam={this.state.focusStatus}
-            />
-          </Item> */}
-          <Item
-            isFullWidth
-            onClick={() => {
-              this.handelFocusStatus(warningLevels.EXCEEDED_TENDENCY)
-            }}
-          >
-            <BoxNumberView
-              color={colorLevels.EXCEEDED_TENDENCY}
-              type={t(pfKey + 'exceededTendency')}
-              number={this.state.exceededTendency}
-              focusStatus={warningLevels.EXCEEDED_TENDENCY}
               focusParam={this.state.focusStatus}
             />
           </Item>
