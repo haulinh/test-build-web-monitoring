@@ -12,6 +12,7 @@ const i18n = {
   dateTime: translate('monitoring.moreContent.sampling.content.history.dateTime'),
   typeOfSampling: translate('monitoring.moreContent.sampling.content.history.typeOfSampling'),
   activedUser: translate('monitoring.moreContent.sampling.content.history.activedUser'),
+  success: translate('monitoring.moreContent.sampling.content.history.result')
 }
 
 /* MARK  [START] - MOCKUP DATA */
@@ -19,26 +20,34 @@ const columns = [
   {
     title: i18n.stt,
     dataIndex: 'stt',
-    width: 150,
+    align: 'center',
+    width: 30,
   },
   {
     title: i18n.bottleNo,
     dataIndex: 'bottleNo',
-    width: 150,
+    width: 50,
   },
   {
-    title: i18n.dateTime,
+    title: <div style={{backgroundColor: "red", display: 'block', }}>{i18n.dateTime}</div>,
     dataIndex: 'dateTime',
+    align: 'center',
     width: 150,
   },
   {
     title: i18n.typeOfSampling,
     dataIndex: 'typeOfSampling',
+    align: 'center',
     width: 150,
   },
   {
     title: i18n.activedUser,
     dataIndex: 'activedUser',
+    width: 150,
+  },
+  {
+    title: i18n.activedUser,
+    dataIndex: 'result',
     width: 150,
   },
 ];
@@ -47,11 +56,16 @@ const data = [];
 for (let i = 0; i < 100; i++) {
   data.push({
     key: i,
-    stt: i + 1,
-    bottleNo: i % 8,
-    dateTime: `${i%30}/${i%12}/2019`,
-    typeOfSampling: ['manual', 'auto'][i%2],
-    activedUser: ['Phát', 'Thảo', 'Quí'][i % 3]
+    stt: <div style={{textAlign: 'center', width: 30}}>{ i + 1 }</div>,
+    bottleNo:  <div style={{textAlign: 'center', width: 50}}>{ i + 8 }</div>,
+    dateTime: <div style={{textAlign: "center",backgroundColor: 'blue', height: 100, width: 150}}>{`${i%30}/${i%12}/2019 15:32`}</div>,
+    typeOfSampling: ['manual', 'auto'][i % 2],
+    activedUser: [
+      'Phát <phat.duong@vietan-software.com>', 
+      'Thảo <thao.mai@gmail.com>', 
+      'Quí <qui@yahoo.com>'
+    ][i % 3],
+    result: ["successful", "error"][i % 2]
   });
 }
 /* MARK  [END] - MOCKUP DATA */
@@ -71,7 +85,7 @@ export default class SamplingMoreInfo extends React.Component {
           dataSource={data} 
           pagination={{ pageSize: 50 }} 
           size="small"
-          scroll={{ y: 500 }} 
+          scroll={{ y: 379 }} 
           onRow={(record, index) => {console.log(record)}}
         />
       </div>

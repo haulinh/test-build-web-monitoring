@@ -56,9 +56,12 @@ export function getStatus(stationID) {
   return getFetch(getSamplingUrl(`getStatus/${stationID}`))
 }
 
-export function updateConfig(stationID, values) {
-  console.log('valuesvaluesvaluesvalues',values)
-  return putFetch(getSamplingUrl(`updateConfig/${stationID}`), values)
+export function updateConfig(stationID, configSampling) {
+  return putFetch(getSamplingUrl(`updateConfig/${stationID}`), configSampling)
+}
+
+export function takeSampling(stationID, configSampling) {
+  return postFetch(getSamplingUrl(`takeSampling/${stationID}`), configSampling)
 }
 
 export default {
@@ -70,5 +73,6 @@ export default {
   checkStationControl,
   uploadSampleConfig,
   getStatus,
-  updateConfig
+  updateConfig,
+  takeSampling
 }

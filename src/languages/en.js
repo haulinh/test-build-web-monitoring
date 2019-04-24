@@ -107,7 +107,8 @@ export default {
             bottleNo: 'Bottle No',
             dateTime: 'Date time',
             typeOfSampling: 'Type of Sampling',
-            activedUser: 'Actived User'
+            activedUser: 'Actived User',
+            result: 'Result'
           },
           config: {
             totalBottles: 'Total bottles:',
@@ -1204,7 +1205,7 @@ export default {
     text: 'Errors',
     require: 'Require',
     email: 'Invalid Email Address',
-    nullValue: 'Not null value'
+    nullValue: 'Value is not available'
   },
   form: {
     save: 'Save',
