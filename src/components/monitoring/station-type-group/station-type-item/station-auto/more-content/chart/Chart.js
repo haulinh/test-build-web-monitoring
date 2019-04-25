@@ -19,13 +19,16 @@ const ChartWrapper = styled.div`
 
   .monitoring-chart--to-from {
     position: absolute;
-    top: -5px;
+    top: -35px;
     z-index: 1;
     right: 0px;
   }
 
   .monitoring-chart--to-from__align-right {
     text-align: right;
+  }
+  .monitoring-chart--to-from__font-weight{
+    font-weight: 300;
   }
 `
 const i18n = {
@@ -306,22 +309,24 @@ export default class ChartRowToChart extends React.Component {
         <div className="monitoring-chart--to-from">
           <Row gutter={4}>
             <Col sm={3} className="monitoring-chart--to-from__align-right">
-              <Label>{i18n.to}</Label>
+              <Label className="monitoring-chart--to-from__font-weight" >{i18n.to}</Label>
             </Col>
             <Col sm={9}>
               <InputEditCell
                 disabled={true}
                 editable={true}
+                size="small"
                 value={this.state.strFromDate}
               />
             </Col>
             <Col sm={3} className="monitoring-chart--to-from__align-right">
-              <Label>{i18n.from}</Label>
+              <Label className="monitoring-chart--to-from__font-weight">{i18n.from}</Label>
             </Col>
             <Col sm={9}>
               <InputEditCell
                 disabled={true}
                 editable={true}
+                size="small"
                 value={this.state.strToDate}
               />
             </Col>
