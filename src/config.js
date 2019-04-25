@@ -3,16 +3,16 @@ import { get } from 'lodash'
 
 //dev: http://35.198.234.113:5000
 //deploy: http://Duong dan public
-const WEB_GATEWAY_API = process.env.WEB_GATEWAY_API
-console.log(WEB_GATEWAY_API)
+// const WEB_GATEWAY_API = process.env.WEB_GATEWAY_API
+
 /* eslint-disable */
 export function getConfigApi() {
 // console.log(process.env.haha)
   const config = window.config
   function c(prefix) {
-    // return config.apiGateway + '/' + prefix
+    return config.apiGateway + '/' + prefix
     // return 'http://35.198.234.113:5000' + '/' + prefix
-    return WEB_GATEWAY_API + '/' + prefix
+    // return WEB_GATEWAY_API + '/' + prefix
   }
   return {
     gateway: config.apiGateway,
