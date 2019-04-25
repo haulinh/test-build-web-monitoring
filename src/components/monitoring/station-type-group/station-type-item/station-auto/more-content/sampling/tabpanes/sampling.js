@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import swal from 'sweetalert2';
 import {
   Row, Col,
-  Card,
   Form, InputNumber, Button,Radio, Input,
   TimePicker, DatePicker, message
 } from 'antd';
@@ -35,9 +34,7 @@ const i18n = {
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-const InputGroup = Input.Group;
-
-// const STATUS_SAMPLING = { READY:'READY', COMMANDED:'COMMANDED', SAMPLING:'SAMPLING' }
+const FormItem = Form.Item
 
 const STATUS_COLOR = {
   READY: '',
@@ -47,9 +44,6 @@ const STATUS_COLOR = {
     borderColor: 'orange'
   }
 }
-
-
-function showMessageError(text) { message.error(text) }
 
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
@@ -80,6 +74,10 @@ export default class SamplingMoreInfo extends React.Component {
     setTimeout(() => {
       this.setState({isReseting: false})
     }, 1000);
+  }
+
+  handleSamplingTypeChange = (e) => {
+    this.setState({samplingType: e.target.value})
   }
 
   takeSample = () => {
@@ -134,27 +132,22 @@ export default class SamplingMoreInfo extends React.Component {
       <div style={{padding: 8}}>
         {/* -- FORM NHAP SO CHAI -- */}
         <Row style={{marginBottom: 30}}> 
-          <Row gutter={16}>
-            <Col span={11}>{i18n.totalBottles}</Col>
-            <Col span={11}>{i18n.sampledBottles}</Col>
-            <Col span={2}></Col>
-          </Row>
-          <Form layout="inline" onSubmit={this.handleSubmit} wrapperCol={{span: 24}}>
+          <Form layout="vertical" onSubmit={this.handleSubmit} wrapperCol={{span: 24}}>
             <Row gutter={16}>
               <Col span={11}>
-                <Form.Item style={{width: '100%'}}>
+                <FormItem style={{width: '100%'}} label={i18n.totalBottles}>
                   <InputNumber disabled value={totalBottles} style={{width: '100%'}}/>
-                </Form.Item>
+                </FormItem>
               </Col>
               <Col span={11}>
-                <Form.Item style={{width: '100%'}}>
+                <FormItem style={{width: '100%'}} label={i18n.sampledBottles}>
                   <InputNumber disabled value={sampledBottles} style={{width: '100%'}}/>
-                </Form.Item>
+                </FormItem>
               </Col>
               <Col span={2} style={{textAlign: 'center'}} >
-                <Form.Item>
+                <FormItem label="&nbsp;">
                   <Button block type="primary" disabled={isSampling} onClick={this.handleReset}>Reset</Button>
-                </Form.Item>
+                </FormItem>
               </Col>
             </Row> 
           </Form>
@@ -174,32 +167,20 @@ export default class SamplingMoreInfo extends React.Component {
           { samplingType === "auto" && (
             <Row gutter={16}>
               <Col span={12}>
-                <Row>{i18n.bottlesNeedToTake}</Row>
-                <Row>
-                  <Form.Item style={{width: '100%'}}>
-                    <InputNumber defaultValue="2" style={{width: '100%'}}/>
-                  </Form.Item>
-                </Row>
-                <Row>{i18n.timeStartSampling}</Row>
-                <Row>
-                  <Form.Item style={{width: '100%'}}>
-                    <TimePicker defaultValue={moment(Date.now(), "HH:mm")} format="HH:mm" style={{width: '100%'}}/>
-                  </Form.Item>
-                </Row>
+                <FormItem style={{width: '100%'}} label={i18n.bottlesNeedToTake}>
+                  <InputNumber defaultValue="2" style={{width: '100%'}}/>
+                </FormItem>
+                <FormItem style={{width: '100%'}} label={i18n.timeStartSampling}>
+                  <TimePicker defaultValue={moment(Date.now(), "HH:mm")} format="HH:mm" style={{width: '100%'}}/>
+                </FormItem>
               </Col>
               <Col span={12}>
-                <Row>{i18n.frequency}</Row>
-                <Row>
-                  <Form.Item style={{width: '100%'}}>
-                    <InputNumber defaultValue="30" style={{width: '100%'}}/>
-                  </Form.Item>
-                </Row>
-                <Row>{i18n.dateStartSampling}</Row>
-                <Row>
-                  <Form.Item style={{width: '100%'}}>
-                    <DatePicker defaultValue={moment(Date.now())} format="DD/MM/YYYY"  style={{width: '100%'}}/>
-                  </Form.Item>
-                </Row>
+                <FormItem style={{width: '100%'}} label={i18n.frequency}>
+                  <InputNumber defaultValue="30" style={{width: '100%'}}/>
+                </FormItem>
+                <FormItem style={{width: '100%'}} label={i18n.dateStartSampling}>
+                  <DatePicker defaultValue={moment(Date.now())} format="DD/MM/YYYY"  style={{width: '100%'}}/>
+                </FormItem>
               </Col>
             </Row>
           )}
