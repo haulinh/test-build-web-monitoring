@@ -116,6 +116,18 @@ export default {
             save: 'Save'
           }
         }
+      },
+      chart:{
+        tab:{
+          avgHour:"Hourly",
+          avgDay:"Daily",
+        },
+        content:{
+          minLimit: "Minimum",
+          maxLimit:"Maximum",
+          to:"To",
+          from:"From",
+        }
       }
     }
   },
