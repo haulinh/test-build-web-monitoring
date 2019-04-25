@@ -142,39 +142,39 @@ export default class StationAutoHead extends React.PureComponent {
     currentAction: ''
   }
 
-  componentWillMount() {
-    this.startTimer()
-  }
+  // componentWillMount() {
+  //   this.startTimer()
+  // }
 
-  startTimer() {
-    clearInterval(this.timer)
-    this.timer = setInterval(this.loadData.bind(this), 600000) //10 phút
-    this.loadData()
-  }
+  // startTimer() {
+  //   clearInterval(this.timer)
+  //   this.timer = setInterval(this.loadData.bind(this), 600000) //10 phút
+  //   this.loadData()
+  // }
 
-  loadData() {
-    const { options } = this.props
-    if (options && options.sampling && options.sampling.allowed) {
-      StationControl.checkStationControl(
-        this.props.stationID,
-        this.props.organization._id
-      ).then(record => {
-        if (record.success) {
-          this.setState({
-            isLoaded: true,
-            //isEnable: record.data
-            isEnable: true
-          })
-        } else {
-          this.setState({
-            isLoaded: true,
-            //isEnable: false
-            isEnable: true
-          })
-        }
-      })
-    }
-  }
+  // loadData() {
+  //   const { options } = this.props
+  //   if (options && options.sampling && options.sampling.allowed) {
+  //     StationControl.checkStationControl(
+  //       this.props.stationID,
+  //       this.props.organization._id
+  //     ).then(record => {
+  //       if (record.success) {
+  //         this.setState({
+  //           isLoaded: true,
+  //           //isEnable: record.data
+  //           isEnable: true
+  //         })
+  //       } else {
+  //         this.setState({
+  //           isLoaded: true,
+  //           //isEnable: false
+  //           isEnable: true
+  //         })
+  //       }
+  //     })
+  //   }
+  // }
 
   toReceivedAt = (status, receivedAt) => {
     // MARK  thay đổi logic, k0 cần thông báo mat ket noi

@@ -9,6 +9,7 @@ import swal from 'sweetalert2';
 import { translate } from 'hoc/create-lang'
 import SamplingAPI from 'api/SamplingApi'
 import { prop } from 'cramda';
+import { resetAuthToken } from 'utils/auth';
 
 const FormItem = Form.Item
 
@@ -61,19 +62,19 @@ export default class SamplingMoreInfo extends React.Component {
     const {stationID} = this.props
     e.preventDefault();
     this.props.form.validateFields( async (err, values) => {
+      console.log(err)
       if (!err) {
-        const data = await SamplingAPI.updateConfig(stationID, {configSampling: values})
+        const res = await SamplingAPI.updateConfig(stationID, {configSampling: values})
         this.setState({isSaving: false})
         swal({ title: i18n.alertSuccess, type: 'success' })
         this.props.updateParentState({
           isConfig: true, 
-          configSampling: values
+          configSampling: res.data.configSampling
           })
         return
       }
       this.setState({isSaving: false})
       swal({ title: i18n.alertError, type: 'error' })
-
     });
   }
 
@@ -83,9 +84,11 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   render(){
-    const { totalBottles, controlTagName, timeToTakeOneBottle } = this.props.configSampling
+    const {STATUS_SAMPLING} = this.props
+    const { isSaving } = this.state;
+    const { totalBottles, controlTagName, timeToTakeOneBottle, status } = this.props.configSampling;
     const { getFieldDecorator, getFieldsError } = this.props.form;
-    const { isSaving } = this.state
+    const isSampling = status !== STATUS_SAMPLING.READY
 
     return (
       <div style={{padding: 8}}>
@@ -99,10 +102,14 @@ export default class SamplingMoreInfo extends React.Component {
                   help={this.checkErr('totalBottles') || ''}
                 >
                   {getFieldDecorator('totalBottles', {
-                    rules: [{ required: true, message: i18n.alertNull}],
-                    initialValue: totalBottles
+                    rules: [{ 
+                      required: true, 
+                      min: 1,
+                      type: 'integer',
+                      message: i18n.alertNull}],
+                      initialValue: totalBottles
                   })(
-                    <Input type="number" style={{width: '100%'}}/>
+                    <InputNumber style={{width: '100%'}}/>
                   )}
                 </Form.Item>
               </Row>
@@ -127,10 +134,15 @@ export default class SamplingMoreInfo extends React.Component {
                   help={this.checkErr('timeToTakeOneBottle') || ''}
                 >
                   {getFieldDecorator('timeToTakeOneBottle', {
-                    rules: [{ required: true, message: i18n.alertNull }],
+                    rules: [{ 
+                      required: true, 
+                      min: 1, 
+                      type: 'integer',
+                      message: i18n.alertNull 
+                    }],
                     initialValue: timeToTakeOneBottle
                   })(
-                    <Input type="number" style={{width: '100%'}}/>
+                    <InputNumber style={{width: '100%'}}/>
                   )}
                 </Form.Item>
               </Row>
@@ -139,7 +151,7 @@ export default class SamplingMoreInfo extends React.Component {
                 isLoading={isSaving}
                 type="primary"
                 loading={isSaving}
-                disabled={hasErrors(getFieldsError())}
+                disabled={hasErrors(getFieldsError()) || isSampling}
                 htmlType="submit">
                 {i18n.save}
               </Button>

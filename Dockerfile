@@ -8,8 +8,8 @@ WORKDIR /usr/src/app
 
 # install package
 COPY package.json .
-COPY package-lock.json .
-RUN npm install
+COPY yarn.lock .
+RUN yarn install
 
 COPY . .
 RUN npm run build

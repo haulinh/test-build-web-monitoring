@@ -65,7 +65,8 @@ export function putFetch(url, data, props) {
 export function getFetch(url, data, props) {
   let attributes = Object.assign(
     {
-      headers: getHeaders()
+      headers: getHeaders(),
+      params: data
     },
     props
   )
