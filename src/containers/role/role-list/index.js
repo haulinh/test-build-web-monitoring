@@ -22,7 +22,6 @@ const FloatRight = styled.div`
 @protectRole(ROLE.ROLE.VIEW)
 @createManagerList({
   apiList: RoleApi.getRoles,
-  itemPerPage: 2
 })
 @createManagerDelete({
   apiDelete: RoleApi.deleteRole
@@ -79,7 +78,14 @@ export default class RoleList extends React.Component {
     } = this.props
     return this.props.dataSource.map((row, index) => [
       {
-        content: <strong>{index + 1}</strong>
+        content: (
+          <strong>
+            {(this.props.pagination.page - 1) *
+              this.props.pagination.itemPerPage +
+              index +
+              1}
+          </strong>
+        )
       },
       {
         content: (
