@@ -9,7 +9,7 @@ import {withRouter} from 'react-router'
 import { translate } from 'hoc/create-lang'
 import MoreSampling from './sampling/';
 import MoreCamera from './camera';
-import MoreChart from './chart';
+import MoreChart from './chart/index';
 import MoreMap from './map';
 import MoreImage from './image';
 import MoreStation from './station';

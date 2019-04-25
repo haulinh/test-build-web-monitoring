@@ -117,6 +117,18 @@ export default {
             save: 'Lưu'
           }
         }
+      },
+      chart:{
+        tab:{
+          avgHour:"Trung bình giờ",
+          avgDay:"Trung bình ngày",
+        },
+        content:{
+          minLimit: "Giới hạn dưới",
+          maxLimit:"Giới hạn trên",
+          to:"Từ",
+          from:"Đến",
+        }
       }
     }
   },
