@@ -14,13 +14,13 @@ import { resetAuthToken } from 'utils/auth';
 const FormItem = Form.Item
 
 const i18n = {
-  totalBottles: translate('monitoring.moreContent.sampling.content.config.totalBottles'),
-  controlTagName: translate('monitoring.moreContent.sampling.content.config.controlTagName'),
+  totalBottles       : translate('monitoring.moreContent.sampling.content.config.totalBottles'),
+  controlTagName     : translate('monitoring.moreContent.sampling.content.config.controlTagName'),
   timeToTakeOneBottle: translate('monitoring.moreContent.sampling.content.config.timeToTakeOneBottle'),
-  save: translate('monitoring.moreContent.sampling.content.config.save'),
-  alertNull: translate('error.nullValue'),
-  alertSuccess: translate('success.text'),
-  alertError: translate('error.text'),
+  save               : translate('monitoring.moreContent.sampling.content.config.save'),
+  alertNull          : translate('error.nullValue'),
+  alertSuccess       : translate('success.text'),
+  alertError         : translate('error.text'),
 }
 
 
@@ -58,9 +58,10 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   handleSubmit = (e) => {
+    e.preventDefault();
     this.setState({isSaving: true})
     const {stationID} = this.props
-    e.preventDefault();
+  
     this.props.form.validateFields( async (err, values) => {
       console.log(err)
       if (!err) {
@@ -84,20 +85,20 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   render(){
-    const {STATUS_SAMPLING} = this.props
+    const {STATUS_SAMPLING, isScheduled, isConfig} = this.props
     const { isSaving } = this.state;
     const { totalBottles, controlTagName, timeToTakeOneBottle, status } = this.props.configSampling;
     const { getFieldDecorator, getFieldsError } = this.props.form;
     const isSampling = status !== STATUS_SAMPLING.READY
-
+    console.log('configSampling', this.props.configSampling)
     return (
       <div style={{padding: 8}}>
-        <Form onSubmit={this.handleSubmit}>
+        <Form>
           <Row>
             <Col>
-              <Row>{i18n.totalBottles}</Row>
               <Row>
-                <Form.Item
+                <FormItem
+                  label={i18n.totalBottles}
                   validateStatus={this.checkErr('totalBottles') ? 'error' : ''}
                   help={this.checkErr('totalBottles') || ''}
                 >
@@ -109,13 +110,13 @@ export default class SamplingMoreInfo extends React.Component {
                       message: i18n.alertNull}],
                       initialValue: totalBottles
                   })(
-                    <InputNumber style={{width: '100%'}}/>
+                    <InputNumber style={{width: '100%'}} disabled={isSampling || isScheduled}/>
                   )}
-                </Form.Item>
+                </FormItem>
               </Row>
-              <Row>{i18n.controlTagName}</Row>
               <Row>
-                <Form.Item
+                <FormItem
+                  label={i18n.controlTagName}
                   validateStatus={this.checkErr('controlTagName') ? 'error' : ''}
                   help={this.checkErr('controlTagName') || ''}
                 >
@@ -123,13 +124,13 @@ export default class SamplingMoreInfo extends React.Component {
                     rules: [{ required: true, message: i18n.alertNull }],
                     initialValue: controlTagName
                   })(
-                    <Input style={{width: '100%'}}/>
+                    <Input style={{width: '100%'}} disabled={isSampling || isScheduled}/>
                   )}
-                </Form.Item>
+                </FormItem>
               </Row>
-              <Row>{i18n.timeToTakeOneBottle}</Row>
               <Row>
-                <Form.Item
+                <FormItem
+                  label={i18n.timeToTakeOneBottle}
                   validateStatus={this.checkErr('timeToTakeOneBottle') ? 'error' : ''}
                   help={this.checkErr('timeToTakeOneBottle') || ''}
                 >
@@ -142,17 +143,18 @@ export default class SamplingMoreInfo extends React.Component {
                     }],
                     initialValue: timeToTakeOneBottle
                   })(
-                    <InputNumber style={{width: '100%'}}/>
+                    <InputNumber style={{width: '100%'}} disabled={isSampling || isScheduled}/>
                   )}
-                </Form.Item>
+                </FormItem>
               </Row>
               <Button 
                 block
                 isLoading={isSaving}
                 type="primary"
                 loading={isSaving}
-                disabled={hasErrors(getFieldsError()) || isSampling}
-                htmlType="submit">
+                disabled={hasErrors(getFieldsError()) || isSampling || isScheduled}
+                onClick={this.handleSubmit}
+                >
                 {i18n.save}
               </Button>
             </Col>

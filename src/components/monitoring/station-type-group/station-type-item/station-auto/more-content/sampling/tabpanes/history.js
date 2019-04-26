@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 import { Table, Tag } from "antd";
 /* user import */
 import { translate } from "hoc/create-lang";
-import { getHistory } from "api/SamplingApi";
+import SamplingAPI from "api/SamplingApi";
 import moment from 'moment'
 import { DD_MM_YYYY_HH_MM } from "constants/format-date";
 import swal from "sweetalert2";
@@ -52,7 +52,7 @@ export default class SamplingMoreInfo extends React.Component {
   async loadData(page, pageSize) {
     this.setState({ isLoading: true }, async () => {
       try{
-        let res = await getHistory({
+        let res = await SamplingAPI.getHistory({
           page,
           itemPerPage: pageSize
         });
