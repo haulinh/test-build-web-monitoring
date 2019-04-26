@@ -13,9 +13,11 @@ export default class InputEditCell extends React.Component {
       <div>
         {this.props.editable ? (
           <Input
+            {...this.props}
             style={{ margin: '-5px 0' }}
             value={this.props.value}
             onChange={e => this.props.onChange(e.target.value)}
+            
           />
         ) : (
           this.props.value

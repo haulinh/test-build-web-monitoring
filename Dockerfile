@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 # install package
 COPY package.json .
 COPY yarn.lock .
-RUN npm install
+RUN yarn install
 
 COPY . .
 RUN npm run build
