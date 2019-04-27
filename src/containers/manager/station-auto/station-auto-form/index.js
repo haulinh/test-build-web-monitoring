@@ -292,6 +292,10 @@ export default class StationAutoForm extends React.PureComponent {
                   {
                     required: true,
                     message: t('stationAutoManager.form.name.error')
+                  },
+                  {
+                    max: 25,
+                    message: t('stationAutoManager.form.name.error_length_max')
                   }
                 ]
               })(
@@ -554,33 +558,6 @@ export default class StationAutoForm extends React.PureComponent {
         <Row gutter={8}>
           <Col span={24} />
         </Row>
-
-        {/* <Row
-          gutter={8}
-          style={{
-          display: 'none'
-          }}
-        >
-          <Col span={24}>
-            <Upload
-              action={urlPhotoUpload}
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={this.handlePreview}
-              onChange={this.handleImageChange}
-            >
-              {fileList.length >= 1 ? null : uploadButton}
-            </Upload>
-            <Modal
-              visible={previewVisible}
-              footer={null}
-              onCancel={this.handleCancel}
-            >
-              <img alt="example" style={{ width: '100%' }} src={previewImage} />
-            </Modal>
-          </Col>
-        </Row> */}
-
         <MeasuringTable
           lang={this.props.lang}
           form={this.props.form}

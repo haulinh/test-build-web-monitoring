@@ -545,7 +545,7 @@ export default {
   },
   province: {
     list: {
-      title: 'Management Unit',
+      title: 'Site',
       key: 'Key',
       numericalOrder: 'Numerical Order'
     },
@@ -651,7 +651,7 @@ export default {
   },
   stationAutoManager: {
     list: {
-      title: 'Station Name',
+      title: 'Station',
       ftpInfo: 'FTP Info',
       ftpFile: 'FTP File',
       restore: 'Restore',
@@ -688,7 +688,8 @@ export default {
       name: {
         label: 'Name',
         placeholder: 'Input Station Name',
-        error: 'Please input Station Name'
+        error: 'Please input Station Name',
+        error_length_max: 'Please input no more than 25 characters'
       },
       stationType: {
         label: 'Type',
@@ -705,9 +706,9 @@ export default {
         error: 'Please Choose Type Of Standards VN'
       },
       province: {
-        label: 'Management Unit',
-        placeholder: 'Management Unit',
-        error: 'Please Choose Management Unit'
+        label: 'Site',
+        placeholder: 'Site',
+        error: 'Please Choose Site'
       },
       frequency: {
         label: 'Frequency(m/t)',
@@ -1248,7 +1249,7 @@ export default {
     role: 'Role',
     subscription: 'Subscription',
     support: 'Support',
-    province: 'Management Unit',
+    province: 'Management',
     ftpTranfer: 'FTP Tranfer',
     publishShare: 'publish & Sharing',
     configWQI: 'Config WQI, AQI',

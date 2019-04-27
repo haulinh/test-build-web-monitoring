@@ -685,7 +685,8 @@ export default {
       name: {
         label: 'Tên trạm',
         placeholder: 'Nhập tên trạm',
-        error: 'Vui lòng nhập tên trạm'
+        error: 'Vui lòng nhập tên trạm',
+        error_length_max: 'Vui lòng nhập dưới 25 kí tự',
       },
       stationType: {
         label: 'Loại trạm',
