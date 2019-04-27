@@ -95,7 +95,8 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
         )
       },
       split: true
-    }
+    },
+    
   }
 }
 
