@@ -651,7 +651,7 @@ export default {
   },
   stationAutoManager: {
     list: {
-      title: 'Station Name',
+      title: 'Station',
       ftpInfo: 'FTP Info',
       ftpFile: 'FTP File',
       restore: 'Restore',
@@ -688,7 +688,8 @@ export default {
       name: {
         label: 'Name',
         placeholder: 'Input Station Name',
-        error: 'Please input Station Name'
+        error: 'Please input Station Name',
+        error_length_max: 'Please input no more than 25 characters'
       },
       stationType: {
         label: 'Type',
