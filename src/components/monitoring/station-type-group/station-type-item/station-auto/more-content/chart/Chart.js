@@ -16,6 +16,7 @@ import { COLOR_STATUS } from "themes/color"
 const ChartWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
 
   .monitoring-chart--to-from {
     position: absolute;
@@ -23,6 +24,14 @@ const ChartWrapper = styled.div`
     z-index: 1;
     right: 0px;
   }
+
+  .monitoring-chart--highchart{
+    display: flex;
+    justify-content: center;
+  }
+    .monitoring-chart--highchart__center{
+      width:70vw;
+    }
 
   .monitoring-chart--to-from__align-right {
     text-align: right;
@@ -306,7 +315,7 @@ export default class ChartRowToChart extends React.Component {
 
   render() {
     return (
-      <ChartWrapper className="monitoring-chart">
+      <ChartWrapper className="monitoring-chart" >
         <div className="monitoring-chart--to-from">
           <Row gutter={4}>
             <Col sm={3} className="monitoring-chart--to-from__align-right">
@@ -334,7 +343,10 @@ export default class ChartRowToChart extends React.Component {
           </Row>
         </div>
         <div className="monitoring-chart--highchart">
+          <div className="monitoring-chart--highchart__center">
           <ReactHighcharts config={this.getConfigData()} />
+          </div>
+          
         </div>
         <div className="monitoring-chart--tab">
           {this.state.categories && (

@@ -14,7 +14,6 @@ const RadioButton = Radio.Button
 const RadioGroup = Radio.Group
 
 const BieuDoMonitoringWrapper = styled.div`
-  width: 100%;
   padding: 8px;
   justify-content: center;
   display: flex;
@@ -24,8 +23,8 @@ const BieuDoMonitoringWrapper = styled.div`
     flex: 1;
   }
   .monitoring-bieudo--Chart {
-    flex: 1;
-    
+    flex:1;
+    display: inline-block;
   }
 `
 
