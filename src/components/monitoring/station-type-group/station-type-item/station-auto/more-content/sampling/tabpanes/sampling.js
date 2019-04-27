@@ -215,9 +215,6 @@ export default class SamplingMoreInfo extends React.Component {
     const {stationID} = this.props
     let me = this
     Modal.confirm({
-      /* MARK  -- NHAC A.HUNG TRANSLATE */
-      /* en:  Do you want to cancel scheduled? */
-      /* vi:  Bạn có chắc muốn hủy lấy mẫu tự động */
       title: i18n.modalConfirm,
       content: i18n.cancelConfigSchedule,
       async onOk() {
@@ -282,7 +279,7 @@ export default class SamplingMoreInfo extends React.Component {
     const isSampling = status !== STATUS_SAMPLING.READY
     // NOTE  -- MOCK DATA
     let {isActivedOverRange } = this.state;
-
+    console.log('---_~_-`_~-_~-~-', dateTimeStart, moment(dateTimeStart))
     return (
       <div style={{padding: 8}}>
         {/* -- FORM NHAP SO CHAI -- */}
@@ -314,7 +311,7 @@ export default class SamplingMoreInfo extends React.Component {
             <Row style={{marginBottom: 5}}>{i18n.typeOfSampling}</Row>
             <RadioGroup defaultValue={samplingType} onChange={this.handleSamplingTypeChange} buttonStyle="solid">
               <RadioButton value={SAMPLING_TYPE.MANUAL} disabled={isScheduled}>{i18n.immediatelySampling}</RadioButton>
-              <RadioButton value={SAMPLING_TYPE.AUTO} disabled={isSampling}>{i18n.scheduleSampling}</RadioButton>
+              <RadioButton value={SAMPLING_TYPE.AUTO} disabled={isSampling && !isScheduled}>{i18n.scheduleSampling}</RadioButton>
             </RadioGroup> 
           </Row>
 
@@ -341,7 +338,7 @@ export default class SamplingMoreInfo extends React.Component {
                       rules: [{ 
                         required: true, 
                         message: i18n.alertNull}],
-                        initialValue:  moment(dateTimeStart, "HH:mm") // MARK   MOCK DATA
+                        initialValue:  moment(dateTimeStart)
                     })(
                       <TimePicker disabled={isScheduled}  format="HH:mm" style={{width: '100%'}}/>
                     )}
@@ -405,6 +402,7 @@ export default class SamplingMoreInfo extends React.Component {
               { isScheduled ? i18n.actived : i18n.active}
             </Button>
           )}
+          {/* actived button */}
           { samplingType === SAMPLING_TYPE.AUTO && isScheduled && (
             <Button 
               block 

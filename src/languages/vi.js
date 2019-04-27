@@ -99,9 +99,9 @@ export default {
           commandSent: 'Đã truyền lệnh',
           takingSample: 'Đang lấy mẫu...',
           active: 'Kích hoạt',
-          actived: 'Đã kích hoạt lấy mẫu tự động (Click để hủy hẹn giờ lấy mẫu)',
+          actived: 'Đã kích hoạt lấy mẫu tự động (Nhấn để hủy hẹn giờ lấy mẫu)',
           activeOverRange: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
-          activedOverRange: "Đã kích hoạt lấy mẫu khi vượt ngưỡng",
+          activedOverRange: "Đã kích hoạt lấy mẫu khi vượt ngưỡng (Nhấn để hủy)",
           history: {
             stt: 'STT',
             bottleNo: 'Chai số',
