@@ -292,6 +292,10 @@ export default class StationAutoForm extends React.PureComponent {
                   {
                     required: true,
                     message: t('stationAutoManager.form.name.error')
+                  },
+                  {
+                    max: 25,
+                    message: t('stationAutoManager.form.name.error_length_max')
                   }
                 ]
               })(
