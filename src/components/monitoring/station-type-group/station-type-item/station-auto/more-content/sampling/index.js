@@ -60,6 +60,7 @@ export default class SamplingMoreInfo extends React.Component {
     /* NOTE  viết theo kiểu này để fix lỗi ReferenceError: _this6...*/
     this.startTimer = this.startTimer.bind(this)
     this.getStatus = this.getStatus.bind(this)
+    this.handleChangeTab = this.handleChangeTab.bind(this)
 
   }
 
@@ -90,6 +91,7 @@ export default class SamplingMoreInfo extends React.Component {
   async componentWillMount(){
     this.setState({isLoading: true})
     const res = await StationAPI.getStatus(this.props.stationID)
+    console.log('___----_____get stataus:', res.data)
     if (res.data) {
       this.setState({
         isConfig: res.data.configSampling ? true : false,
@@ -112,13 +114,20 @@ export default class SamplingMoreInfo extends React.Component {
     clearInterval(this.timer)
   }
 
+  handleChangeTab(tabActive){
+    console.log('ahsadhasdhsadh', this.historyRef)
+    if(tabActive === 'history'){
+      if(this.historyRef) this.historyRef.componentWillMount()
+    }
+  }
+
   render(){
     const {stationID} = this.props
     const {isSampling, isLoading, isConfig, isScheduled, configSampling, configSamplingSchedule} = this.state
     return (
       <div>
         { isLoading ? (<LoadingCmp />) : (
-          <Tabs  defaultActiveKey={isConfig ? "sampling" : "config"}>
+          <Tabs onChange={this.handleChangeTab}  defaultActiveKey={isConfig ? "sampling" : "config"}>
             <TabPane 
               key="sampling"
               tab={translate('monitoring.moreContent.sampling.tabs.sampling')}
@@ -136,7 +145,7 @@ export default class SamplingMoreInfo extends React.Component {
               key="history"
               disabled={!isConfig}
               tab={translate('monitoring.moreContent.sampling.tabs.history')}>
-              <History  stationID={stationID}/>
+              <History getRef={(ref)=> this.historyRef = ref}  stationID={stationID}/>
             </TabPane>
             <TabPane 
               key="config"
@@ -145,6 +154,7 @@ export default class SamplingMoreInfo extends React.Component {
                 stationID={stationID} 
                 isSampling={isSampling} 
                 configSampling={configSampling}
+                configSamplingSchedule={configSamplingSchedule}
                 updateParentState={this.updateState} 
                 STATUS_SAMPLING={STATUS_SAMPLING}
                 isScheduled={isScheduled}

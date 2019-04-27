@@ -87,6 +87,11 @@ export default class SamplingMoreInfo extends React.Component {
     this.loadData(this.state.page, this.state.pageSize);
   }
 
+  /* load history on tab change */
+  componentDidMount(){
+    if(this.props.getRef) this.props.getRef(this)
+  }
+
   render() {
     return (
       <div style={{ padding: 8 }}>
@@ -103,8 +108,8 @@ export default class SamplingMoreInfo extends React.Component {
           rowKey={(record) => record._id }  // https://ant.design/components/table/#Note
         >
           <Column 
-            align="center"
             title="STT"
+            align="center"
             dataIndex="stt"
             width={30}
           />

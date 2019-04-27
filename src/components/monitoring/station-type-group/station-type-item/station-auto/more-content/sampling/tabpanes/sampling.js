@@ -323,7 +323,7 @@ export default class SamplingMoreInfo extends React.Component {
                         max: totalBottles-sampledBottles,
                         type: 'integer',
                         message: i18n.alertNull}],
-                        initialValue: numberBottles // MARK   MOCK DATA
+                        initialValue: numberBottles 
                     })(
                       <InputNumber disabled={isScheduled } style={{width: '100%'}}/>
                     )}
@@ -332,11 +332,10 @@ export default class SamplingMoreInfo extends React.Component {
                     {getFieldDecorator('timeStartSampling', {
                       rules: [{ 
                         required: true, 
-                        type: 'date',
                         message: i18n.alertNull}],
                         initialValue:  moment(dateTimeStart, "HH:mm") // MARK   MOCK DATA
                     })(
-                      <TimePicker disabled={isScheduled} format="HH:mm" style={{width: '100%'}}/>
+                      <TimePicker disabled={isScheduled}  format="HH:mm" style={{width: '100%'}}/>
                     )}
                   </FormItem>
                 </Col>
@@ -348,7 +347,7 @@ export default class SamplingMoreInfo extends React.Component {
                         min: 1,
                         type: 'integer',
                         message: i18n.alertNull}],
-                        initialValue:  frequency // MARK   MOCK DATA
+                        initialValue:  frequency 
                     })(
                       <InputNumber disabled={isScheduled} style={{width: '100%'}}/>
                     )}
@@ -357,9 +356,8 @@ export default class SamplingMoreInfo extends React.Component {
                     {getFieldDecorator('dateStartSampling', {
                       rules: [{ 
                         required: true, 
-                        type: 'date',
                         message: i18n.alertNull}],
-                        initialValue:  moment(dateTimeStart) // MARK   MOCK DATA
+                        initialValue:  moment(dateTimeStart)
                     })(
                       <DatePicker disabled={isScheduled} format="DD/MM/YYYY"  style={{width: '100%'}}/>
                     )}

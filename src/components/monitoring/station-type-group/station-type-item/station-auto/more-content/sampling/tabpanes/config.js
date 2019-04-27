@@ -34,15 +34,16 @@ export default class SamplingMoreInfo extends React.Component {
   static propTypes = {
     stationID: PropTypes.string.isRequired,
     configSampling: PropTypes.object.isRequired,
+    configSamplingSchedule: PropTypes.object.isRequired,
     updateParentState: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     stationID: '',
     configSampling: {
-      totalBottles: 0,
+      totalBottles: 1,
       controlTagName: '',
-      timeToTakeOneBottle: 0
+      timeToTakeOneBottle: 1
     }
   }
 
@@ -64,7 +65,12 @@ export default class SamplingMoreInfo extends React.Component {
   
     this.props.form.validateFields( async (err, values) => {
       console.log(err)
+      if(err){
+        this.setState({isSaving: false})
+      }
+
       if (!err) {
+      
         const res = await SamplingAPI.updateConfig(stationID, {configSampling: values})
         this.setState({isSaving: false})
         swal({ title: i18n.alertSuccess, type: 'success' })
@@ -85,15 +91,15 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   render(){
-    const {STATUS_SAMPLING, isScheduled, isConfig} = this.props
+    const {STATUS_SAMPLING, isConfig, isScheduled} = this.props
     const { isSaving } = this.state;
     const { totalBottles, controlTagName, timeToTakeOneBottle, status } = this.props.configSampling;
-    const { getFieldDecorator, getFieldsError } = this.props.form;
-    const isSampling = status !== STATUS_SAMPLING.READY
-    console.log('configSampling', this.props.configSampling)
+    const { getFieldDecorator, getFieldsError } = this.props.form; 
+    const isSampling = isConfig && status !== STATUS_SAMPLING.READY
+    
     return (
       <div style={{padding: 8}}>
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
           <Row>
             <Col>
               <Row>
@@ -110,7 +116,7 @@ export default class SamplingMoreInfo extends React.Component {
                       message: i18n.alertNull}],
                       initialValue: totalBottles
                   })(
-                    <InputNumber style={{width: '100%'}} disabled={isSampling || isScheduled}/>
+                    <InputNumber style={{width: '100%'}} disabled={ isSampling || isScheduled}/>
                   )}
                 </FormItem>
               </Row>
@@ -147,13 +153,13 @@ export default class SamplingMoreInfo extends React.Component {
                   )}
                 </FormItem>
               </Row>
-              <Button 
+              <Button
                 block
                 isLoading={isSaving}
                 type="primary"
                 loading={isSaving}
                 disabled={hasErrors(getFieldsError()) || isSampling || isScheduled}
-                onClick={this.handleSubmit}
+                htmlType="submit"
                 >
                 {i18n.save}
               </Button>
