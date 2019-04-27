@@ -95,13 +95,13 @@ export default {
           frequency: 'Frequency (minutes):',
           timeStartSampling: 'Time start sampling:',
           dateStartSampling: 'Date start sampling:',
-          active: 'Active',
-          actived: 'Actived',
           takeSample: 'Take Sample',
           commandSent: 'Command sent',
           takingSample: 'Sampling...',
-          activeTakeSample: 'Active Take sample when data over-range',
-          activedTakeSample: 'Actived Take sample when data over-range',
+          active: 'Active',
+          actived: 'Actived (Click to cancel Sampling by Scheduled)',
+          activeTakeSampleOverRange: 'Active Take sample when data over-range',
+          activedTakeSampleOverRange: 'Actived Take sample when data over-range',
           history: {
             stt: 'STT',
             bottleNo: 'Bottle No',
@@ -1218,7 +1218,13 @@ export default {
     text: 'Errors',
     require: 'Require',
     email: 'Invalid Email Address',
-    nullValue: 'Value is not available'
+    nullValue: 'Value is not available',
+    monitoring: {
+      sampling: {
+        resetTitle: 'Confirm',
+        resetSubtitle: 'Do you want to reset sampled bottle to zero?'
+      }
+    }
   },
   form: {
     save: 'Save',

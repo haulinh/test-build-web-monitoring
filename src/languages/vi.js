@@ -95,13 +95,13 @@ export default {
           frequency: 'Chu kỳ lấy mẫu (phút):',
           timeStartSampling: 'Giờ bắt đầu lấy mẫu:',
           dateStartSampling: 'Ngày bắt đầu lấy mẫu:',
-          active: 'Kích hoạt',
-          actived: 'Đã kích hoạt',
           takeSample: 'Lấy mẫu',
-          commanded: 'Đã truyền lệnh',
+          commandSent: 'Đã truyền lệnh',
           takingSample: 'Đang lấy mẫu...',
-          activeTakeSample: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
-          activedTakeSample: "Đã kích hoạt lấy mẫu khi vượt ngưỡng",
+          active: 'Kích hoạt',
+          actived: 'Đã kích hoạt lấy mẫu tự động (Click để hủy hẹn giờ lấy mẫu)',
+          activeOverRange: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
+          activedOverRange: "Đã kích hoạt lấy mẫu khi vượt ngưỡng",
           history: {
             stt: 'STT',
             bottleNo: 'Chai số',
@@ -1215,7 +1215,13 @@ export default {
     text: 'Lỗi',
     require: 'Yêu cầu',
     email: 'Địa chỉ Email không hợp lệ',
-    nullValue: 'Dữ liệu không hợp lệ'
+    nullValue: 'Dữ liệu không hợp lệ',
+    monitoring: {
+      sampling: {
+        resetTitle: 'Xác nhận',
+        resetSubtitle: 'Bạn có muốn reset số chai đã lấy về 0?'
+      }
+    }
   },
   form: {
     save: 'Lưu',
@@ -1317,5 +1323,5 @@ export default {
       day:'Ngày',
       title:'Giá trị WQI theo giờ'
     }
-  }
+  },
 }
