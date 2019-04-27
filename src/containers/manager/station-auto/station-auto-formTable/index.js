@@ -212,7 +212,7 @@ export default class StationAutoFormTable extends React.Component {
                     {d.name}
                   </Select.Option>
                 ))}
-                autoFocus={true}
+                // autoFocus={true}
               />
             )}
           </FormItem>
