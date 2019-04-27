@@ -95,13 +95,13 @@ export default {
           frequency: 'Frequency (minutes):',
           timeStartSampling: 'Time start sampling:',
           dateStartSampling: 'Date start sampling:',
-          active: 'Active',
-          actived: 'Actived',
           takeSample: 'Take Sample',
           commandSent: 'Command sent',
           takingSample: 'Sampling...',
-          activeTakeSample: 'Active Take sample when data over-range',
-          activedTakeSample: 'Actived Take sample when data over-range',
+          active: 'Active',
+          actived: 'Actived (Click to cancel Sampling by Scheduled)',
+          activeOverRange: 'Active Take sample when data over-range',
+          activedOverRange: 'Actived Take sample when data over-range',
           history: {
             stt: 'STT',
             bottleNo: 'Bottle No',
@@ -1218,7 +1218,25 @@ export default {
     text: 'Errors',
     require: 'Require',
     email: 'Invalid Email Address',
-    nullValue: 'Value is not available'
+    nullValue: 'Value is not available',
+    monitoring: {
+      sampling: {
+        resetTitle: 'Confirm',
+        resetSubtitle: 'Do you want to reset sampled bottle to zero?',
+        updateScheduleTitle: "Confirm",
+        updateScheduleSubtitle: "The number of bottles you want to get is invalid or the start time is less than 5 minutes compared to the current time"
+      }
+    }
+  },
+  modal: {
+    confirm: {
+      title: 'Confirm',
+      monitoring: {
+        sampling: {
+          cancelSchedule: "Are you sure you want to Cancel automatically sampling?"
+        }
+      }
+    }
   },
   form: {
     save: 'Save',

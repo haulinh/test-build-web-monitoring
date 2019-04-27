@@ -37,7 +37,7 @@ const TabPane = Tabs.TabPane;
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
   static propTypes = {
-    stationID: PropTypes.string
+    stationID: PropTypes.string,
   }
 
   static defaultProps = {
@@ -48,16 +48,19 @@ export default class SamplingMoreInfo extends React.Component {
     isSampling: false,
     isLoading: false,
     isConfig: false,
+    isScheduled: false,
     configSampling: undefined,
+    configSamplingSchedule: undefined,
     timerId_getStatus: null,
   }
 
   constructor(props){
     super(props)
-
+    this.tabHistory = React.createRef()
     /* NOTE  viết theo kiểu này để fix lỗi ReferenceError: _this6...*/
     this.startTimer = this.startTimer.bind(this)
     this.getStatus = this.getStatus.bind(this)
+    this.handleChangeTab = this.handleChangeTab.bind(this)
 
   }
 
@@ -70,12 +73,15 @@ export default class SamplingMoreInfo extends React.Component {
     const res = await StationAPI.getStatus(this.props.stationID)
 
     let configSampling = res.data.configSampling ? res.data.configSampling: undefined
+    let configSamplingSchedule = res.data.configSamplingSchedule ? res.data.configSamplingSchedule: undefined
     if(configSampling && this.state.configSampling.status === STATUS_SAMPLING.COMMANDED && configSampling.status === STATUS_SAMPLING.READY )
     configSampling.status = STATUS_SAMPLING.COMMANDED
 
-    this.setState({
-      configSampling: configSampling
-    })
+    this.setState({ 
+      configSampling, 
+      configSamplingSchedule,
+      isScheduled: res.data.configSamplingSchedule ? true : false,
+     })
   }
 
   startTimer() {
@@ -85,11 +91,14 @@ export default class SamplingMoreInfo extends React.Component {
   async componentWillMount(){
     this.setState({isLoading: true})
     const res = await StationAPI.getStatus(this.props.stationID)
+    console.log('___----_____get stataus:', res.data)
     if (res.data) {
       this.setState({
         isConfig: res.data.configSampling ? true : false,
+        isScheduled: res.data.configSamplingSchedule ? true : false,
         isLoading: false,
-        configSampling: res.data.configSampling ? res.data.configSampling: undefined
+        configSampling: res.data.configSampling ? res.data.configSampling: undefined,
+        configSamplingSchedule: res.data.configSamplingSchedule ? res.data.configSamplingSchedule: undefined
       })
     }
     else {
@@ -105,29 +114,52 @@ export default class SamplingMoreInfo extends React.Component {
     clearInterval(this.timer)
   }
 
+  handleChangeTab(tabActive){
+    console.log('ahsadhasdhsadh', this.historyRef)
+    if(tabActive === 'history'){
+      if(this.historyRef) this.historyRef.componentWillMount()
+    }
+  }
+
   render(){
     const {stationID} = this.props
-    const {isSampling, isLoading, isConfig, configSampling} = this.state
+    const {isSampling, isLoading, isConfig, isScheduled, configSampling, configSamplingSchedule} = this.state
     return (
       <div>
         { isLoading ? (<LoadingCmp />) : (
-          <Tabs defaultActiveKey={isConfig ? "sampling" : "config"}>
+          <Tabs onChange={this.handleChangeTab}  defaultActiveKey={isConfig ? "sampling" : "config"}>
             <TabPane 
               key="sampling"
               tab={translate('monitoring.moreContent.sampling.tabs.sampling')}
               disabled={!isConfig}>
-              <Sampling stationID={stationID} configSampling={configSampling} updateParentState={this.updateState} STATUS_SAMPLING={STATUS_SAMPLING}/>
+              <Sampling 
+                stationID={stationID} 
+                configSampling={configSampling} 
+                updateParentState={this.updateState} 
+                configSamplingSchedule={configSamplingSchedule}
+                STATUS_SAMPLING={STATUS_SAMPLING}
+                isScheduled={isScheduled}
+              />
             </TabPane>
             <TabPane 
               key="history"
               disabled={!isConfig}
               tab={translate('monitoring.moreContent.sampling.tabs.history')}>
-              <History stationID={stationID}/>
+              <History getRef={(ref)=> this.historyRef = ref}  stationID={stationID}/>
             </TabPane>
             <TabPane 
               key="config"
               tab={translate('monitoring.moreContent.sampling.tabs.config')}>
-              <Config stationID={stationID} isSampling={isSampling} configSampling={configSampling} updateParentState={this.updateState} STATUS_SAMPLING={STATUS_SAMPLING}/>
+              <Config 
+                stationID={stationID} 
+                isSampling={isSampling} 
+                configSampling={configSampling}
+                configSamplingSchedule={configSamplingSchedule}
+                updateParentState={this.updateState} 
+                STATUS_SAMPLING={STATUS_SAMPLING}
+                isScheduled={isScheduled}
+                isConfig={isConfig}
+              />
             </TabPane>
           </Tabs>
         )}
