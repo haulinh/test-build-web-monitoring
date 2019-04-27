@@ -31,6 +31,8 @@ export function getConfigApi() {
     fcmMessages: c('fcm-messages'),
     organization: c('organization'),
     role: c('role'),
+
+    // sampling: 'http://localhost:5020/samplingNew',
     sampling: c('samplingNew'),
     // sampling: c('sampling'),
     support: c('support'),

@@ -278,7 +278,7 @@ export default class SamplingMoreInfo extends React.Component {
     return (
       <div style={{padding: 8}}>
         {/* -- FORM NHAP SO CHAI -- */}
-        <Row style={{marginBottom: 30}}> 
+        <Row> 
           <Form id="form-sample-reset" layout="vertical" onSubmit={this.handleSubmitFormReset} wrapperCol={{span: 24}}>
             <Row gutter={16}>
               <Col span={11}>
@@ -302,7 +302,7 @@ export default class SamplingMoreInfo extends React.Component {
 
         {/* -- SAMPLING TYPE --*/}
         <Row>
-          <Row style={{marginBottom: 30}}>
+          <Row style={{marginBottom: 20}}>
             <Row style={{marginBottom: 5}}>{i18n.typeOfSampling}</Row>
             <RadioGroup defaultValue={samplingType} onChange={this.handleSamplingTypeChange} buttonStyle="solid">
               <RadioButton value={SAMPLING_TYPE.MANUAL} disabled={isScheduled}>{i18n.immediatelySampling}</RadioButton>
