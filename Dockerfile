@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:10.11
 
 # Install yarrn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -

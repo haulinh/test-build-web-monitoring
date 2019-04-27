@@ -1222,7 +1222,19 @@ export default {
     monitoring: {
       sampling: {
         resetTitle: 'Confirm',
-        resetSubtitle: 'Do you want to reset sampled bottle to zero?'
+        resetSubtitle: 'Do you want to reset sampled bottle to zero?',
+        updateScheduleTitle: "Confirm",
+        updateScheduleSubtitle: "The number of bottles you want to get is invalid or the start time is less than 5 minutes compared to the current time"
+      }
+    }
+  },
+  modal: {
+    confirm: {
+      title: 'Confirm',
+      monitoring: {
+        sampling: {
+          cancelSchedule: "Are you sure you want to Cancel automatically sampling?"
+        }
       }
     }
   },

@@ -1219,7 +1219,19 @@ export default {
     monitoring: {
       sampling: {
         resetTitle: 'Xác nhận',
-        resetSubtitle: 'Bạn có muốn reset số chai đã lấy về 0?'
+        resetSubtitle: 'Bạn có muốn reset số chai đã lấy về 0?',
+        updateScheduleTitle: "Xác nhận",
+        updateScheduleSubtitle: "Số chai muốn lấy không hợp lệ hoặc thời gian bắt đầu lấy nhỏ hơn 5 phút so với thời điểm hiện tại"
+      }
+    }
+  },
+  modal: {
+    confirm: {
+      title: 'Xác nhận',
+      monitoring: {
+        sampling: {
+          cancelSchedule: "Bạn có chắc muốn hủy lấy mẫu tự động?"
+        }
       }
     }
   },

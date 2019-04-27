@@ -47,6 +47,9 @@ const i18n = {
   alertError              : translate('error.text'),
   alertModalResetTitle    : translate('error.monitoring.sampling.resetTitle'),
   alertModalResetSubtitle : translate('error.monitoring.sampling.resetSubtitle'),
+  /*  */
+  modalConfirm: translate('modal.confirm.title'),
+  cancelConfigSchedule: translate('modal.confirm.monitoring.sampling.cancelSchedule')
 }     
 
 const RadioButton = Radio.Button;
@@ -213,8 +216,10 @@ export default class SamplingMoreInfo extends React.Component {
     let me = this
     Modal.confirm({
       /* MARK  -- NHAC A.HUNG TRANSLATE */
-      title: 'Confirm',
-      content: '----Do you want to cancel scheduled? ----',
+      /* en:  Do you want to cancel scheduled? */
+      /* vi:  Bạn có chắc muốn hủy lấy mẫu tự động */
+      title: i18n.modalConfirm,
+      content: i18n.cancelConfigSchedule,
       async onOk() {
         const res = await SamplingAPI.cancelConfigSchedule(stationID)
         if (res.data.configSamplingSchedule === null) {
@@ -254,7 +259,10 @@ export default class SamplingMoreInfo extends React.Component {
         })
       }
       catch(e) {
-        swal({title: `---${e.response.data.error.message}---`, type: 'error'})
+        /* MARK  -- NHAC A.HUNG TRANSLATE */
+        /* en: Number Bottle unavailable or Time start is conflic */
+        /* vi: Số chai không hợp lệ hoặc thời gian bắt đầu bị xung đột */
+        swal({title: `${e.response.data.error.message}`, type: 'error'}) 
         this.props.updateParentState({
           isScheduled: false
         })
