@@ -68,10 +68,11 @@ export function resetSampledBottle(stationID){
   return postFetch(getSamplingUrl(`resetSampledBottle/${stationID}`))
 }
 
-export function getHistory({ page = 1, itemPerPage = 10 }) {
+export function getHistory({ page = 1, itemPerPage = 10, stationAutoId }) {
   return getFetch(getSamplingUrl('log'),{
     page,
-    itemPerPage
+    itemPerPage,
+    stationAutoId
   })
 }
 

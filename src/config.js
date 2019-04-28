@@ -3,7 +3,7 @@ import { get } from 'lodash'
 
 //dev: http://35.198.234.113:5000
 //deploy: http://Duong dan public
-const WEB_GATEWAY_API = process.env.WEB_GATEWAY_API
+// const WEB_GATEWAY_API = process.env.WEB_GATEWAY_API
 
 /* eslint-disable */
 export function getConfigApi() {
@@ -31,7 +31,7 @@ export function getConfigApi() {
     fcmMessages: c('fcm-messages'),
     organization: c('organization'),
     role: c('role'),
-    sampling: c('samplingNew'),
+    sampling: 'http://localhost:5020/samplingNew',
     // sampling: c('sampling'),
     support: c('support'),
     province: c('province'),
