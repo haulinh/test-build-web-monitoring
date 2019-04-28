@@ -76,7 +76,7 @@ export default class SamplingMoreInfo extends React.Component {
     let configSamplingSchedule = res.data.configSamplingSchedule ? res.data.configSamplingSchedule: undefined
     if(configSampling && this.state.configSampling.status === STATUS_SAMPLING.COMMANDED && configSampling.status === STATUS_SAMPLING.READY )
     configSampling.status = STATUS_SAMPLING.COMMANDED
-
+    console.log('timer getStatus: ', configSamplingSchedule)
     this.setState({ 
       configSampling, 
       configSamplingSchedule,
@@ -91,7 +91,6 @@ export default class SamplingMoreInfo extends React.Component {
   async componentWillMount(){
     this.setState({isLoading: true})
     const res = await StationAPI.getStatus(this.props.stationID)
-    console.log('___----_____get stataus:', res.data)
     if (res.data) {
       this.setState({
         isConfig: res.data.configSampling ? true : false,

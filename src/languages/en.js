@@ -101,7 +101,7 @@ export default {
           active: 'Active',
           actived: 'Actived (Click to cancel Sampling by Scheduled)',
           activeOverRange: 'Active Take sample when data over-range',
-          activedOverRange: 'Actived Take sample when data over-range',
+          activedOverRange: 'Actived Take sample when data over-range (Click to Cancel)',
           history: {
             stt: 'STT',
             bottleNo: 'Bottle No',
