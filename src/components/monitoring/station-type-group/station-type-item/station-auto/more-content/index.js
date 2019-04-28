@@ -35,6 +35,7 @@ export default class SamplingMoreInfo extends React.Component {
     stationID: PropTypes.string
   }
 
+  
   static defaultProps = {
     isActive: false,
     panel: '',
