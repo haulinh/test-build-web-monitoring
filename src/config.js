@@ -10,6 +10,7 @@ export function getConfigApi() {
 // console.log(process.env.haha)
   const config = window.config
   function c(prefix) {
+    console.log(config.apiGateway,"config.apiGateway")
     return config.apiGateway + '/' + prefix
     // return WEB_GATEWAY_API + '/' + prefix
   }
