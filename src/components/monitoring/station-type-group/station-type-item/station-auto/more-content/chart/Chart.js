@@ -17,7 +17,6 @@ const { TabPane } = Tabs
 const ChartWrapper = styled.div`
   flex-direction: column;
   position: relative;
-  max-width: 1000px;
 
   .monitoring-chart--to-from {
     position: absolute;
@@ -36,8 +35,6 @@ const ChartWrapper = styled.div`
     justify-content: center;
   }
   .monitoring-chart--highchart__center {
-    min-width: 600px;
-    max-width: 1000px;
     flex: 1;
   }
 
