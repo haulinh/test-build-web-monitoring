@@ -24,7 +24,12 @@ const ChartWrapper = styled.div`
     z-index: 1;
     right: 0px;
   }
-
+      .monitoring-chart--to-from__align-right {
+        text-align: right;
+      }
+      .monitoring-chart--to-from__font-weight{
+        font-weight: 300;
+      }
   .monitoring-chart--highchart{
     display: flex;
     justify-content: center;
@@ -33,12 +38,7 @@ const ChartWrapper = styled.div`
       width:70vw;
     }
 
-  .monitoring-chart--to-from__align-right {
-    text-align: right;
-  }
-  .monitoring-chart--to-from__font-weight{
-    font-weight: 300;
-  }
+  
 `
 const i18n = {
   minLimit: translate("monitoring.moreContent.chart.content.minLimit"),
