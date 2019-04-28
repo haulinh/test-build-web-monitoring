@@ -21,6 +21,7 @@ const i18n = {
   alertNull          : translate('error.nullValue'),
   alertSuccess       : translate('success.text'),
   alertError         : translate('error.text'),
+  alertSaveConfigError         : translate('alert.error.monitoring.saveSampingConfig'),
 }
 
 
@@ -64,13 +65,13 @@ export default class SamplingMoreInfo extends React.Component {
     const {stationID} = this.props
   
     this.props.form.validateFields( async (err, values) => {
-      console.log(err)
       if(err){
         this.setState({isSaving: false})
+        swal({ title: i18n.alertSaveConfigError, type: 'error' })
+        return
       }
 
-      if (!err) {
-      
+      try {
         const res = await SamplingAPI.updateConfig(stationID, {configSampling: values})
         this.setState({isSaving: false})
         swal({ title: i18n.alertSuccess, type: 'success' })
@@ -78,10 +79,12 @@ export default class SamplingMoreInfo extends React.Component {
           isConfig: true, 
           configSampling: res.data.configSampling
           })
-        return
       }
-      this.setState({isSaving: false})
-      swal({ title: i18n.alertError, type: 'error' })
+      catch(error) {
+        this.setState({isSaving: false})
+        const {name, message} = err.response.data.error
+        swal({ title: message, type: 'error' })
+      }
     });
   }
 
@@ -94,9 +97,9 @@ export default class SamplingMoreInfo extends React.Component {
     const {STATUS_SAMPLING, isConfig, isScheduled} = this.props
     const { isSaving } = this.state;
     const { totalBottles, controlTagName, timeToTakeOneBottle, status } = this.props.configSampling;
-    const { getFieldDecorator, getFieldsError } = this.props.form; 
+    const { getFieldDecorator, getFieldsError, isFieldsTouched } = this.props.form; 
     const isSampling = isConfig && status !== STATUS_SAMPLING.READY
-    
+    console.log('fffdasfdsafas', hasErrors(getFieldsError()))
     return (
       <div style={{padding: 8}}>
         <Form onSubmit={this.handleSubmit}>
@@ -158,7 +161,7 @@ export default class SamplingMoreInfo extends React.Component {
                 isLoading={isSaving}
                 type="primary"
                 loading={isSaving}
-                disabled={hasErrors(getFieldsError()) || isSampling || isScheduled}
+                disabled={(hasErrors(getFieldsError()) && isFieldsTouched()) || isSampling || isScheduled}
                 htmlType="submit"
                 >
                 {i18n.save}
