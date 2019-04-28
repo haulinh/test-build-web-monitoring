@@ -121,7 +121,6 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   render(){
-    console.log('~~~~~~~~~~~~~~', this.props.stationID, this.state)
     const {stationID} = this.props
     const {isSampling, isLoading, isConfig, isScheduled, configSampling, configSamplingSchedule} = this.state
     return (

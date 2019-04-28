@@ -279,7 +279,6 @@ export default class SamplingMoreInfo extends React.Component {
     const isSampling = status !== STATUS_SAMPLING.READY
     // NOTE  -- MOCK DATA
     let {isActivedOverRange } = this.state;
-    console.log('---_~_-`_~-_~-~-', dateTimeStart, moment(dateTimeStart))
     return (
       <div style={{padding: 8}}>
         {/* -- FORM NHAP SO CHAI -- */}
