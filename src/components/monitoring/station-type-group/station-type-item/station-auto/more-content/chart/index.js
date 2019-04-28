@@ -14,8 +14,18 @@ const RadioButton = Radio.Button
 const RadioGroup = Radio.Group
 
 const BieuDoMonitoringWrapper = styled.div`
-  flex: 1;
   padding: 8px;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+
+  .monitoring-bieudo--Type {
+    flex: 1;
+  }
+  .monitoring-bieudo--Chart {
+    flex:1;
+    display: inline-block;
+  }
 `
 
 const defaultChartType = "hours"
@@ -68,30 +78,30 @@ export default class ChartMoreInfo extends React.Component {
   render() {
     // console.log(this.props.stationID, "stationID")
     return (
-      <BieuDoMonitoringWrapper className="">
-        <Row>
-          <Col span={12}>
-            <RadioGroup
-              buttonStyle="solid"
-              defaultValue={defaultChartType}
-              onChange={this.handleChartTypeOnChange}
-              // buttonStyle="solid"
-            >
-              <RadioButton value="hours">{i18n.avgHour}</RadioButton>
-              <RadioButton value="days">{i18n.avgDay}</RadioButton>
-            </RadioGroup>
-          </Col>
-        </Row>
-        <Clearfix height={8} />
-        {!this.state.isLoading && (
+      <BieuDoMonitoringWrapper className="monitoring-bieudo">
+        <div className="monitoring-bieudo--Type">
           <Row>
-            <Col span={24}>
-              <Chart
-                stationData={this.state.stationData}
-                chartType={this.state.chartType}
-              />
+            <Col span={12}>
+              <RadioGroup
+                buttonStyle="solid"
+                defaultValue={defaultChartType}
+                onChange={this.handleChartTypeOnChange}
+                // buttonStyle="solid"
+              >
+                <RadioButton value="hours">{i18n.avgHour}</RadioButton>
+                <RadioButton value="days">{i18n.avgDay}</RadioButton>
+              </RadioGroup>
             </Col>
           </Row>
+        </div>
+        {!this.state.isLoading && (
+          <div className="monitoring-bieudo--Chart">
+            <Clearfix height={8} />
+            <Chart
+              stationData={this.state.stationData}
+              chartType={this.state.chartType}
+            />
+          </div>
         )}
       </BieuDoMonitoringWrapper>
     )
