@@ -35,7 +35,8 @@ export default class SamplingMoreInfo extends React.Component {
   static propTypes = {
     isActive: PropTypes.bool,
     panel: PropTypes.string,
-    stationID: PropTypes.string
+    stationID: PropTypes.string,
+    stationInfo: PropTypes.object
   }
 
   static defaultProps = {
@@ -47,9 +48,9 @@ export default class SamplingMoreInfo extends React.Component {
   state = {}
 
   render() {
-    console.log(this.props.isOpen, "this.props.isOpen")
     if (!this.props.isActive) return null
-    const { panel, stationID } = this.props
+    console.log('------ stationInfo ------', this.props.stationInfo)
+    const { panel, stationID, stationInfo} = this.props
     return (
       <MoreContentWrapper panel={panel} isOpen ={this.props.isOpen}>
         {panel !== "" && (
@@ -66,7 +67,7 @@ export default class SamplingMoreInfo extends React.Component {
                   <MoreSampling stationID={stationID} />
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="camera" key="camera">
-                  <MoreCamera stationID={stationID} />
+                  <MoreCamera stationInfo={stationInfo} />
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="chart" key="chart">
                   <MoreChart stationID={stationID} />

@@ -1238,6 +1238,13 @@ export default {
       }
     }
   },
+  alert: {
+    error: {
+      monitoring: {
+        saveSampingConfig: 'Please enter all information before Saving'
+      }
+    }
+  },
   form: {
     save: 'Save',
     update: 'Update'

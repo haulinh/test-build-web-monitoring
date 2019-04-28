@@ -132,7 +132,8 @@ export default class SamplingMoreInfo extends React.Component {
       <SamplingWrapper>
         { isLoading ? (<LoadingCmp />) : (
           <Tabs onChange={this.handleChangeTab}  defaultActiveKey={isConfig ? "sampling" : "config"}>
-            <TabPane 
+            <TabPane
+              style={{width: '100%'}}
               key="sampling"
               tab={translate('monitoring.moreContent.sampling.tabs.sampling')}
               disabled={!isConfig}>
