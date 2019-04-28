@@ -144,6 +144,8 @@ export default class StationAutoItem extends React.PureComponent {
       receivedAt = translate('monitoring.notUse')
     }
 
+    
+
     return (
       <StationAutoWrapper className="stationAutoWrapper">
         <StationAutoHead

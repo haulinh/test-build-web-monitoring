@@ -9,7 +9,6 @@ import { map as _map, pick as _pick } from "lodash"
 
 const MapWrapper = styled.div`
   flex: 1;
-  padding: 8px;
 `
 
 @withRouter

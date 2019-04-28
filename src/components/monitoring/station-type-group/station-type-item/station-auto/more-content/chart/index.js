@@ -24,7 +24,6 @@ const BieuDoMonitoringWrapper = styled.div`
   }
   .monitoring-bieudo--Chart {
     flex:1;
-    display: inline-block;
   }
 `
 
@@ -78,6 +77,7 @@ export default class ChartMoreInfo extends React.Component {
   render() {
     // console.log(this.props.stationID, "stationID")
     return (
+      
       <BieuDoMonitoringWrapper className="monitoring-bieudo">
         <div className="monitoring-bieudo--Type">
           <Row>

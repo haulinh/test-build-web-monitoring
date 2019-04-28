@@ -14,6 +14,11 @@ import styled from 'styled-components';
 const TIME_INTERVAL_GET_STATUS = 1000 * 60  // 1 PHUT
 const STATUS_SAMPLING = { READY:'READY', COMMANDED:'COMMANDED', SAMPLING:'SAMPLING' }
 
+
+const SamplingWrapper = styled.div`
+  flex:1;
+`
+
 const LoadingContainer = styled.div`
   display: flex;
   align-items: center;
@@ -124,7 +129,7 @@ export default class SamplingMoreInfo extends React.Component {
     const {stationID} = this.props
     const {isSampling, isLoading, isConfig, isScheduled, configSampling, configSamplingSchedule} = this.state
     return (
-      <div>
+      <SamplingWrapper>
         { isLoading ? (<LoadingCmp />) : (
           <Tabs onChange={this.handleChangeTab}  defaultActiveKey={isConfig ? "sampling" : "config"}>
             <TabPane 
@@ -162,7 +167,7 @@ export default class SamplingMoreInfo extends React.Component {
             </TabPane>
           </Tabs>
         )}
-      </div>
+      </SamplingWrapper>
     )
   }
 }
