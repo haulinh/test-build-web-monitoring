@@ -24,7 +24,7 @@ const tabsStyle = (panel) => ({
   minHeight: panel === '' ? 0 : 300, 
   border: panel === '' ? 'none' : 'solid 1px #80808030', 
   borderRadius: 4,
-
+  padding: 8
 })
 
 @withRouter
@@ -32,7 +32,8 @@ export default class SamplingMoreInfo extends React.Component {
   static propTypes = {
     isActive: PropTypes.bool,
     panel: PropTypes.string,
-    stationID: PropTypes.string
+    stationID: PropTypes.string,
+    stationInfo: PropTypes.object
   }
 
   
@@ -46,8 +47,10 @@ export default class SamplingMoreInfo extends React.Component {
 
 
   render(){
+    console.log('------ stationInfo ------', this.props.stationInfo)
+    
     if (!this.props.isActive) return null;
-    const {panel, stationID} = this.props;
+    const {panel, stationID, stationInfo} = this.props;
     return ((
       <Row style={{height: `100%`}}>
         <Tabs
@@ -58,7 +61,7 @@ export default class SamplingMoreInfo extends React.Component {
             <MoreSampling stationID={stationID}/>
           </Tabs.TabPane>
           <Tabs.TabPane tab="camera" key="camera">
-            <MoreCamera stationID={stationID}/>
+            <MoreCamera stationInfo={stationInfo}/>
           </Tabs.TabPane>
           <Tabs.TabPane tab="chart" key="chart">
             <MoreChart stationID={stationID}/>

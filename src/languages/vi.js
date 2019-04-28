@@ -1235,6 +1235,13 @@ export default {
       }
     }
   },
+  alert: {
+    error: {
+      monitoring: {
+        saveSampingConfig: 'Bạn vui lòng nhập đầy đủ thông tin trước khi Lưu'
+      }
+    }
+  },
   form: {
     save: 'Lưu',
     update: 'Cập nhật'
