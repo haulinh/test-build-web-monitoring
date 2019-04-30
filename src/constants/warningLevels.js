@@ -1,4 +1,5 @@
 export const warningLevels = {
+  LOSS: 'DATA_LOSS',
   GOOD: 'GOOD',
   EXCEEDED_TENDENCY: 'EXCEEDED_TENDENCY',
   EXCEEDED_PREPARING: 'EXCEEDED_PREPARING',
@@ -7,6 +8,7 @@ export const warningLevels = {
 }
 
 export const colorLevels = {
+  LOSS: 'DATA_LOSS',
   GOOD: '#1dce6c',
   EXCEEDED_TENDENCY: '#F1D748',
   EXCEEDED_PREPARING: '#F08432',

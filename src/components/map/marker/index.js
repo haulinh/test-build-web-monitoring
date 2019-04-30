@@ -6,7 +6,7 @@ import { Menu, Dropdown, Icon, Tabs } from 'antd'
 import LinkA from 'components/elements/link-a'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import { SHAPE } from 'themes/color'
+import { SHAPE, COLOR_STATUS } from 'themes/color'
 import Clearfix from 'components/elements/clearfix'
 import Viewmore from './info-window-viewmore'
 import { translate } from 'hoc/create-lang'
@@ -192,9 +192,9 @@ export default class MarkerStation extends PureComponent {
       return STATUS_OPTIONS[status].color
 
     if (!isStationStatus)
-      if (status && status !== '') return colorLevels[status.toUpperCase()]
+      if (status && status !== '') return COLOR_STATUS[status.toUpperCase()]
 
-    return colorLevels.GOOD
+    return COLOR_STATUS.GOOD
   }
 
   renderStationStatus(status) {
@@ -256,10 +256,14 @@ export default class MarkerStation extends PureComponent {
             scale: 8,
             strokeWeight: 1,
             strokeColor: '#00',
+            // fillColor: this.getColorLevel(
+            //   this.props.byStationStatus
+            //     ? this.props.stationStatus
+            //     : this.props.status,
+            //   this.props.byStationStatus
+            // ),
             fillColor: this.getColorLevel(
-              this.props.byStationStatus
-                ? this.props.stationStatus
-                : this.props.status,
+              this.props.status,
               this.props.byStationStatus
             ),
             fillOpacity: 1
@@ -294,54 +298,51 @@ export default class MarkerStation extends PureComponent {
           }}
         >
           <div>
-            {this.state.isOpen &&
-              this.props.name &&
-              this.props.name != '' && (
-                <InfoWindow
-                  ref={info => {
-                    if (!info && this.state.isOpen)
-                      this.setState({ isOpen: false })
-                  }}
-                  options={{
-                    //disableAutoPan: true,
-                    maxWidth: 300
-                  }}
-                  onCloseClick={this.toggleOpen.bind(this)}
-                >
-                  <WrapperInfoWindow>
-                    <Viewmore
-                      measuringList={this.props.measuringList}
-                      stationId={this.props.stationId}
-                      stationName={this.props.name}
-                      stationKey={this.props.stationKey}
-                      stationTypeKey={this.props.stationTypeKey}
-                      options={this.props.options}
-                    />
-                    <InfoTitle>{this.props.name}</InfoTitle>
-                    <Clearfix height={8} />
+            {this.state.isOpen && this.props.name && this.props.name != '' && (
+              <InfoWindow
+                ref={info => {
+                  if (!info && this.state.isOpen)
+                    this.setState({ isOpen: false })
+                }}
+                options={{
+                  //disableAutoPan: true,
+                  maxWidth: 300
+                }}
+                onCloseClick={this.toggleOpen.bind(this)}
+              >
+                <WrapperInfoWindow>
+                  <Viewmore
+                    measuringList={this.props.measuringList}
+                    stationId={this.props.stationId}
+                    stationName={this.props.name}
+                    stationKey={this.props.stationKey}
+                    stationTypeKey={this.props.stationTypeKey}
+                    options={this.props.options}
+                  />
+                  <InfoTitle>{this.props.name}</InfoTitle>
+                  <Clearfix height={8} />
+                  <div>
+                    {translate('map.dataTable.longitude')}:{' '}
+                    {this.props.mapLocation.lng} -{' '}
+                    {translate('map.dataTable.latitude')}:{' '}
+                    {this.props.mapLocation.lat}
+                  </div>
+                  <Clearfix height={8} />
+                  {this.props.address && (
                     <div>
-                      {translate('map.dataTable.longitude')}:{' '}
-                      {this.props.mapLocation.lng} -{' '}
-                      {translate('map.dataTable.latitude')}:{' '}
-                      {this.props.mapLocation.lat}
+                      {' '}
+                      {translate('map.dataTable.address')}: {this.props.address}
                     </div>
-                    <Clearfix height={8} />
-                    {this.props.address && (
-                      <div>
-                        {' '}
-                        {translate('map.dataTable.address')}:{' '}
-                        {this.props.address}
-                      </div>
-                    )}
-                    <Clearfix height={8} />
-                    {/* {this.props.lastLog && this.state.tableData} */}
-                    {this.renderTabInfoWindow(
-                      this.props.lastLog && this.state.tableData,
-                      this.props.image
-                    )}
-                  </WrapperInfoWindow>
-                </InfoWindow>
-              )}
+                  )}
+                  <Clearfix height={8} />
+                  {/* {this.props.lastLog && this.state.tableData} */}
+                  {this.renderTabInfoWindow(
+                    this.props.lastLog && this.state.tableData,
+                    this.props.image
+                  )}
+                </WrapperInfoWindow>
+              </InfoWindow>
+            )}
           </div>
         </Marker>
       </div>
