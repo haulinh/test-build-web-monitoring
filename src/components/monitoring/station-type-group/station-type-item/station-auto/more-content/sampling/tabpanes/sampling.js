@@ -48,6 +48,7 @@ const i18n = {
   alertModalResetTitle    : translate('error.monitoring.sampling.resetTitle'),
   alertModalResetSubtitle : translate('error.monitoring.sampling.resetSubtitle'),
   alertErrorUpdateScheduleSubtitle : translate('error.monitoring.sampling.updateScheduleSubtitle'),
+  alertErrorTakeSampling : translate('error.monitoring.sampling.takeSampling'),
   /*  */
   modalConfirm: translate('modal.confirm.title'),
   cancelConfigSchedule: translate('modal.confirm.monitoring.sampling.cancelSchedule')
@@ -129,7 +130,6 @@ export default class SamplingMoreInfo extends React.Component {
     this.state.samplingType = this.props.isScheduled? SAMPLING_TYPE.AUTO: SAMPLING_TYPE.MANUAL
   }
 
-
   async resetSampledBottle(e) {
     let {stationID} = this.props
     let res = await SamplingAPI.resetSampledBottle(stationID)
@@ -201,7 +201,12 @@ export default class SamplingMoreInfo extends React.Component {
         })
         .catch(err => {
           const {name, message} = err.response.data.error
-          swal({title: message, type: 'error'})
+          /* MARK  -- @Thao: backend trả về code để frontend biết mà translate */
+          swal({
+            title: i18n.alertError,
+            html: i18n.alertErrorTakeSampling,
+            width: 600,
+            type: 'error'})
           this.props.updateParentState({
             configSampling: {
               ...this.props.configSampling,
