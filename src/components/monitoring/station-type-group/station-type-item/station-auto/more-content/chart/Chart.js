@@ -394,6 +394,7 @@ export default class ChartRowToChart extends React.Component {
   }
 
   render() {
+    console.log(this.state, "this.state.categories")
     return (
       <ChartWrapper className="monitoring-chart">
         <div className="monitoring-chart--to-from">
@@ -421,16 +422,17 @@ export default class ChartRowToChart extends React.Component {
         )}
         {!this.state.isLoading && (
           <div className="monitoring-chart--tab">
-            {this.state.categories && (
+            {this.state.current.length > 0 && (
               <Tabs
                 style={{
                   width: 900,
                   paddingLeft: 8,
                   paddingRight: 8
                 }}
-                defaultActiveKey={() => this.state.categories[0].key}
+                defaultActiveKey={ _.get(this.state.current[0],'key','')}
                 onTabClick={this.handleClick}
               >
+              {console.log(this.state.isLoading, "this.state.isLoading")}
                 {_.map(this.state.categories, ({ key, name, unit }) => (
                   <TabPane tab={unit ? `${name} (${unit})` : `${name}`} key={key} />
                 ))}
