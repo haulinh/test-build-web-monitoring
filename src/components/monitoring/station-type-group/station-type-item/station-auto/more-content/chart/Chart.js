@@ -12,6 +12,7 @@ import { getFormatNumber } from 'constants/format-number'
 import InputEditCell from 'components/elements/input-edit-cell'
 import Label from 'components/elements/label'
 import { COLOR_STATUS } from 'themes/color'
+import { connect } from 'react-redux'
 
 const { TabPane } = Tabs
 const ChartWrapper = styled.div`
@@ -162,7 +163,9 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
     }
   }
 }
-
+@connect(state => ({
+  isOpen: state.theme.navigation.isOpen
+}))
 export default class ChartRowToChart extends React.Component {
   constructor(props) {
     super(props)
@@ -187,8 +190,9 @@ export default class ChartRowToChart extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.chartType, this.props.chartType)) {
-      console.log(this.state.current, 'current 1')
+    if (!_.isEqual(nextProps.chartType, this.props.chartType) ||
+        !_.isEqual(nextProps.isOpen, this.props.isOpen)) {
+          debugger
       this.loadDataBy(this.props.stationData, nextProps.chartType)
     }
   }
@@ -197,6 +201,7 @@ export default class ChartRowToChart extends React.Component {
     this.setState({
       isLoading: true
     })
+    
     let categories = []
     let current = null
     let measuringKeys = []
@@ -344,14 +349,14 @@ export default class ChartRowToChart extends React.Component {
   }
 
   //Kiểm tra có gì có thay đổi props và state không
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      !_.isEqual(nextProps.stationData, this.props.stationData) ||
-      !_.isEqual(nextState.categories, this.state.categories) ||
-      !_.isEqual(nextState.data, this.state.data) ||
-      !_.isEqual(nextState.current, this.state.current)
-    )
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return (
+  //     !_.isEqual(nextProps.stationData, this.props.stationData) ||
+  //     !_.isEqual(nextState.categories, this.state.categories) ||
+  //     !_.isEqual(nextState.data, this.state.data) ||
+  //     !_.isEqual(nextState.current, this.state.current)
+  //   )
+  // }
 
   handleClick = e => {
     const current = [_.get(_.keyBy(this.state.categories, 'key'), e, null)]
