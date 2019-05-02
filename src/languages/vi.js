@@ -1221,7 +1221,15 @@ export default {
         resetTitle: 'Xác nhận',
         resetSubtitle: 'Bạn có muốn reset số chai đã lấy về 0?',
         updateScheduleTitle: "Xác nhận",
-        updateScheduleSubtitle: "Số chai muốn lấy không hợp lệ hoặc thời gian bắt đầu lấy nhỏ hơn 5 phút so với thời điểm hiện tại"
+        updateScheduleSubtitle: "Số chai muốn lấy không hợp lệ hoặc thời gian bắt đầu lấy nhỏ hơn 5 phút so với thời điểm hiện tại",
+        takeSampling: `
+        <div style="text-align: left">
+          <p>Không kết nối được với thiết bị điều khiển, vui lòng kiểm tra các thông tin:</p>
+            <p style="margin-left: 20px">1. Thông tin cấu hình với thiết bị điều khiển </p>
+            <p style="margin-left: 20px">2. Tình trạng hoạt động của thiết bị điều khiển </p>
+            <p style="margin-left: 20px">3. Tín hiệu mạng tới thiết bị điều khiển </p>
+        </div>
+        `
       }
     }
   },
