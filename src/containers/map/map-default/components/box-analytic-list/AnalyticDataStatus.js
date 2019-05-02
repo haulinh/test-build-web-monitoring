@@ -8,8 +8,10 @@ import {
   warningLevels,
   colorLevels
 } from 'constants/warningLevels'
+import {  STATUS_STATION } from 'constants/stationStatus';
 import { Row, Clearfix, Item, BoxNumberView } from './style'
 import PropTypes from 'prop-types'
+import { COLOR_STATUS } from 'themes/color';
 
 const BoxAnalyticListWrapper = styled.div``
 
@@ -20,16 +22,16 @@ export default class BoxAnalyticList extends React.PureComponent {
   }
 
   state = {
+    loss:-1,
     exceeded: -1,
     exceededPreparing: -1,
-    exceededTendency: -1,
     good: -1,
     stationsAutoList: [],
     focusStatus: [
+      warningLevels.LOSS,
       warningLevels.GOOD,
       warningLevels.EXCEEDED,
-      warningLevels.EXCEEDED_PREPARING,
-      warningLevels.EXCEEDED_TENDENCY
+      warningLevels.EXCEEDED_PREPARING
     ]
   }
   async componentWillMount() {
@@ -47,44 +49,34 @@ export default class BoxAnalyticList extends React.PureComponent {
 
   renderMap(stationsAutoList) {
     let res = {
+      loss:0,
       exceeded: 0,
       exceededPreparing: 0,
-      exceededTendency: 0,
       good: 0
     }
     stationsAutoList.forEach(element => {
       let isFind = false
-      let warLevel = warningLevels.GOOD
-      let measuringLogs =
-        element.lastLog && element.lastLog.measuringLogs
-          ? element.lastLog.measuringLogs
-          : []
-      for (let key in measuringLogs) {
-        if (
-          warningLevelsNumber[warLevel] <
-          warningLevelsNumber[measuringLogs[key].warningLevel]
-        )
-          warLevel = measuringLogs[key].warningLevel
+      let warLevel = element.statusAnalytic ? element.statusAnalytic :  warningLevels.GOOD 
+
+      if (warLevel === STATUS_STATION.DATA_LOSS) {
+        res.loss++
+        isFind = true
       }
-      if (warLevel === warningLevels.EXCEEDED) {
+      if (warLevel === STATUS_STATION.EXCEEDED) {
         res.exceeded++
         isFind = true
       }
-      if (!isFind && warLevel === warningLevels.EXCEEDED_PREPARING) {
+      if (!isFind && warLevel === STATUS_STATION.EXCEEDED_PREPARING) {
         res.exceededPreparing++
-        isFind = true
-      }
-      if (!isFind && warLevel === warningLevels.EXCEEDED_TENDENCY) {
-        res.exceededTendency++
         isFind = true
       }
       if (!isFind) res.good++
     })
 
     this.setState({
+      loss:res.loss,
       exceeded: res.exceeded,
       exceededPreparing: res.exceededPreparing,
-      exceededTendency: res.exceededTendency,
       good: res.good
     })
   }
@@ -110,43 +102,56 @@ export default class BoxAnalyticList extends React.PureComponent {
     return (
       <BoxAnalyticListWrapper>
         <Row>
+        <Item
+            onClick={() => {
+              this.handelFocusStatus(warningLevels.LOSS)
+            }}
+          >
+            <BoxNumberView
+              color={COLOR_STATUS.DATA_LOSS}
+              type={t(pfKey+'dataLoss')}
+              number={this.state.loss}
+              focusStatus={warningLevels.LOSS}
+              focusParam={this.state.focusStatus}
+            />
+          </Item>
           <Item
             onClick={() => {
               this.handelFocusStatus(warningLevels.GOOD)
             }}
           >
             <BoxNumberView
-              color={colorLevels.GOOD}
+              color={COLOR_STATUS.GOOD}
               type={t(pfKey + 'good')}
               number={this.state.good}
               focusStatus={warningLevels.GOOD}
               focusParam={this.state.focusStatus}
             />
           </Item>
-          <Item
+          
+        </Row>
+        <Clearfix height={8} />
+        <Row>
+        <Item
             onClick={() => {
               this.handelFocusStatus(warningLevels.EXCEEDED)
             }}
           >
             <BoxNumberView
-              color={colorLevels.EXCEEDED}
+              color={COLOR_STATUS.EXCEEDED}
               type={t(pfKey + 'exceed')}
               number={this.state.exceeded}
               focusStatus={warningLevels.EXCEEDED}
               focusParam={this.state.focusStatus}
             />
           </Item>
-        </Row>
-        <Clearfix height={8} />
-        <Row>
           <Item
-            isFullWidth
             onClick={() => {
               this.handelFocusStatus(warningLevels.EXCEEDED_PREPARING)
             }}
           >
             <BoxNumberView
-              color={colorLevels.EXCEEDED_PREPARING}
+              color={COLOR_STATUS.EXCEEDED_PREPARING}
               type={t(pfKey + 'exceedPreparing')}
               number={this.state.exceededPreparing}
               focusStatus={warningLevels.EXCEEDED_PREPARING}

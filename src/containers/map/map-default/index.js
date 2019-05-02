@@ -13,6 +13,8 @@ import protectRole from "hoc/protect-role/index.backup"
 import queryFormDataBrowser from "hoc/query-formdata-browser"
 import connectWindowHeight from "../hoc-window-height"
 import SidebarNormal from "./sidebar/SidebarNormal"
+import { getStatusItem, STATUS_STATION } from 'constants/stationStatus';
+
 // import SidebarNotifications from './sidebar/SidebarNotifications.remove'
 // import { TYPE } from './components/box-analytic-list/SelectType'
 
@@ -106,8 +108,19 @@ export default class MapDefault extends React.PureComponent {
         return item
       })
       stationAutoList = await resolveMapLocation(stationAutoList)
+
+      //Qui: Phân tích trạng thái của trạng trước khi view
+      const dataAnalytic =  stationAutoList.map( (item) => {
+        const statusAnalytic = getStatusItem(item)
+        return {
+          ...item,
+          statusAnalytic
+        }
+      })
+
+
       this.setState({
-        stationsAuto: stationAutoList
+        stationsAuto: dataAnalytic
       })
     }
   }
@@ -135,12 +148,12 @@ export default class MapDefault extends React.PureComponent {
 
   fillStatusChange(focusStatus, findBy) {
     let res = this.state.stationsAuto
-
+    
     res = res.map(element => {
       element.visible = false
       let status
 
-      if (element.status === stationStatus.GOOD) {
+      if (element.statusAnalytic === stationStatus.GOOD) {
         status = stationStatus.CONNECTED
       }
 
@@ -155,20 +168,7 @@ export default class MapDefault extends React.PureComponent {
       }
 
       if (findBy === "byDataStatus") {
-        element.byStationStatus = false
-        let warLevel = warningLevels.GOOD
-        let measuringLogs =
-          element.lastLog && element.lastLog.measuringLogs
-            ? element.lastLog.measuringLogs
-            : []
-        for (let key in measuringLogs) {
-          if (
-            warningLevelsNumber[warLevel] <
-            warningLevelsNumber[measuringLogs[key].warningLevel]
-          )
-            warLevel = measuringLogs[key].warningLevel
-          status = warLevel
-        }
+        status = element.statusAnalytic
       }
 
       if (focusStatus.includes(status)) element.visible = true
