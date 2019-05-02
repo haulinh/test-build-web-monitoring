@@ -10,6 +10,7 @@ import {
 import { translate } from 'hoc/create-lang'
 import CameraAPI from 'api/CameraApi'
 
+
 @withRouter
 export default class CameraMoreInfo extends React.Component {
   static propTypes = {
