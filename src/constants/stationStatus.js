@@ -56,8 +56,6 @@ export const getStatusPriority = (status1, status2) => {
 export const getStatusItem = (item) => {
   if (item.status === STATUS_STATION.HIGHTGEST) return STATUS_STATION.HIGHTGEST
   if (item.lastLog) {
-
-
     let warLevel = warningLevels.GOOD
     let measuringLogs = item.lastLog.measuringLogs
     for (let key in measuringLogs) {
