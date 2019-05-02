@@ -1224,7 +1224,15 @@ export default {
         resetTitle: 'Confirm',
         resetSubtitle: 'Do you want to reset sampled bottle to zero?',
         updateScheduleTitle: "Confirm",
-        updateScheduleSubtitle: "The number of bottles you want to get is invalid or the start time is less than 5 minutes compared to the current time"
+        updateScheduleSubtitle: "The number of bottles you want to get is invalid or the start time is less than 5 minutes compared to the current time",
+        takeSampling: `
+          <div style="text-align: left">
+          <p>Unable to connect to the control device, please check the information:</p>
+            <p style="margin-left: 20px">1. Configuration information with control device</p>
+            <p style="margin-left: 20px">2. Operation status of control device</p>
+            <p style="margin-left: 20px">3. Network signal to control device</p>
+          </div>  
+        `
       }
     }
   },
