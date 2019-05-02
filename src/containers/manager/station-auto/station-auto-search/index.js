@@ -59,7 +59,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
       if (values.address) data.address = values.address
       if (values.name) data.name = values.name
       if (values.stationType) data.stationType = values.stationType
-      debugger
+      
       // Callback submit form Container Component
       this.setState({ dataSearch: data }, () => this.props.onChangeSearch(data))
     })
