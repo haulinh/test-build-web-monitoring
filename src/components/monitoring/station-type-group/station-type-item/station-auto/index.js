@@ -171,7 +171,8 @@ export default class StationAutoItem extends React.PureComponent {
         <MoreContent 
           isActive={true} 
           stationID={_id}
-          panel={this.state.showPanel} 
+          panel={this.state.showPanel}
+          stationInfo={this.props}
         />
 
         {this.state.isOpenCamera &&

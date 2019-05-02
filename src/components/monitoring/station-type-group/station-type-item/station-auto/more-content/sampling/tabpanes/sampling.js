@@ -47,6 +47,7 @@ const i18n = {
   alertError              : translate('error.text'),
   alertModalResetTitle    : translate('error.monitoring.sampling.resetTitle'),
   alertModalResetSubtitle : translate('error.monitoring.sampling.resetSubtitle'),
+  alertErrorUpdateScheduleSubtitle : translate('error.monitoring.sampling.updateScheduleSubtitle'),
   /*  */
   modalConfirm: translate('modal.confirm.title'),
   cancelConfigSchedule: translate('modal.confirm.monitoring.sampling.cancelSchedule')
@@ -256,10 +257,9 @@ export default class SamplingMoreInfo extends React.Component {
         })
       }
       catch(e) {
-        /* MARK  -- NHAC A.HUNG TRANSLATE */
-        /* en: Number Bottle unavailable or Time start is conflic */
-        /* vi: Số chai không hợp lệ hoặc thời gian bắt đầu bị xung đột */
-        swal({title: `${e.response.data.error.message}`, type: 'error'}) 
+        /* MARK  -- @Thao: tra ve code phia server de frontend translate */
+        swal({title: i18n.alertErrorUpdateScheduleSubtitle, type: 'error'}) 
+        // swal({title: `${e.response.data.error.message}`, type: 'error'}) 
         this.props.updateParentState({
           isScheduled: false
         })
