@@ -231,12 +231,12 @@
     styled-components "1.4.6 - 3"
     uuid "^3.1.0"
 
-"@atlaskit/icon@^16.0.9":
-  version "16.0.9"
-  resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-16.0.9.tgz#4dff47273165671e907f78835c984cff29c4a98e"
-  integrity sha512-1gWuWgBsX6XZwX12iAPjoU0B0na92BZuCG0k8vHAIHJnhrgFpMJP7bqqV1IEob39qgbahk/4G9zagLBaNHWxoQ==
+"@atlaskit/icon@^17.0.0":
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-17.0.0.tgz#eaba4a78db5a2353f27fe138b71fb3302e0ae94c"
+  integrity sha512-K+I2U0uSIGMeT/7LoQSOmtw92mNiLeYxRKyT2wNggpsMgQI+6kUPnPGqiB6meu57pNJ1ciZVRMg325fU3o5NnQ==
   dependencies:
-    "@atlaskit/theme" "^8.1.7"
+    "@atlaskit/theme" "^9.0.0"
     "@babel/runtime" "^7.0.0"
     uuid "^3.1.0"
 
@@ -399,10 +399,10 @@
     prop-types "^15.5.10"
     styled-components "1.4.6 - 3"
 
-"@atlaskit/theme@^8.1.7":
-  version "8.1.7"
-  resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-8.1.7.tgz#dadeef5a8afccb8b5ac2ddc1d9e304d064c797ac"
-  integrity sha512-G7LUwdUW9dYMC3Fijpopxh+UeVIUjIB44NJB3MaqzneBmPnSP394Ys1m/pQUaCOMaZYXrwT3oct/jjnp7/nHWQ==
+"@atlaskit/theme@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-9.0.0.tgz#09eee5433a6084dfd506d8f303fd1913bdf6e5c5"
+  integrity sha512-FxPubfXMBidzyG3YrzH4T1MstpxJXg6CsW09aBvW25tmafrAlrj+gSnd5/ky9Oa4zKgXk4itZNSCdefxgwqs7w==
   dependencies:
     "@babel/runtime" "^7.0.0"
     exenv "^1.2.2"
@@ -3895,6 +3895,15 @@ eslint-plugin-jsx-a11y@5.1.1:
     emoji-regex "^6.1.0"
     jsx-ast-utils "^1.4.0"
 
+eslint-plugin-react@7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.1.0.tgz#27770acf39f5fd49cd0af4083ce58104eb390d4c"
+  integrity sha1-J3cKzzn1/UnNCvQIPOWBBOs5DUw=
+  dependencies:
+    doctrine "^2.0.0"
+    has "^1.0.1"
+    jsx-ast-utils "^1.4.1"
+
 eslint-scope@^3.7.1:
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-3.7.3.tgz#bb507200d3d17f60247636160b4826284b108535"
@@ -6183,7 +6192,7 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jsx-ast-utils@^1.4.0:
+jsx-ast-utils@^1.4.0, jsx-ast-utils@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-1.4.1.tgz#3867213e8dd79bf1e8f2300c0cfc1efb182c0df1"
   integrity sha1-OGchPo3Xm/Ho8jAMDPwe+xgsDfE=
@@ -10794,14 +10803,6 @@ url-parse-lax@^1.0.0:
     prepend-http "^1.0.1"
 
 url-parse@^1.1.8, url-parse@^1.4.3:
-  version "1.4.7"
-  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.4.7.tgz#a8a83535e8c00a316e403a5db4ac1b9b853ae278"
-  integrity sha512-d3uaVyzDB9tQoSXFvuSUNFibTd9zxd2bkVrDRvF5TmvWWQwqE4lgYJ5m+x1DbecWkw+LK4RNl2CU1hHuOKPVlg==
-  dependencies:
-    querystringify "^2.1.1"
-    requires-port "^1.0.0"
-
-url-parse@^1.4.7:
   version "1.4.7"
   resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.4.7.tgz#a8a83535e8c00a316e403a5db4ac1b9b853ae278"
   integrity sha512-d3uaVyzDB9tQoSXFvuSUNFibTd9zxd2bkVrDRvF5TmvWWQwqE4lgYJ5m+x1DbecWkw+LK4RNl2CU1hHuOKPVlg==
