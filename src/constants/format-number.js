@@ -1,14 +1,16 @@
 export const FORMAT_VALUE_MEASURING = 2 // '*,00'
+export const FORMAT_LOCAL = 'en'
 
+// Hien tai qui ve mot kieu la "EN"
 export function getFormatNumber(value, numberToFixed = FORMAT_VALUE_MEASURING) {
-  if (typeof value === "number") {
-    let tempNumber = value.toLocaleString(navigator.language, {
+  if (typeof value === 'number') {
+    let tempNumber = value.toLocaleString(FORMAT_LOCAL, {
       minimumFractionDigits: numberToFixed,
       maximumFractionDigits: numberToFixed
     })
-    return value === 0 ? "0" : tempNumber
+    return value === 0 ? '0' : tempNumber
   } else {
-    return "0"
+    return '0'
   }
 }
 

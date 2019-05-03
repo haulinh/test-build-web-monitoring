@@ -64,12 +64,26 @@ export function takeSampling(stationID, configSampling) {
   return postFetch(getSamplingUrl(`takeSampling/${stationID}`), configSampling)
 }
 
-export function getHistory({ page = 1, itemPerPage = 10 }) {
+export function resetSampledBottle(stationID){
+  return postFetch(getSamplingUrl(`resetSampledBottle/${stationID}`))
+}
+
+export function getHistory({ page = 1, itemPerPage = 10, stationAutoId }) {
   return getFetch(getSamplingUrl('log'),{
     page,
-    itemPerPage
+    itemPerPage,
+    stationAutoId
   })
 }
+
+export function updateConfigSchedule(stationID, data) {
+  return postFetch(getSamplingUrl(`updateConfigSchedule/${stationID}`), data)
+}
+
+export function cancelConfigSchedule(stationID) {
+  return postFetch(getSamplingUrl(`cancelConfigSchedule/${stationID}`))
+}
+
 
 
 export default {
@@ -82,5 +96,9 @@ export default {
   uploadSampleConfig,
   getStatus,
   updateConfig,
-  takeSampling
+  takeSampling,
+  resetSampledBottle,
+  updateConfigSchedule,
+  getHistory,
+  cancelConfigSchedule
 }

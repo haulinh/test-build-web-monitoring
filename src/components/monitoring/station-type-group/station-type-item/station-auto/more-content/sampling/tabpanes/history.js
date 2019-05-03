@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 import { Table, Tag } from "antd";
 /* user import */
 import { translate } from "hoc/create-lang";
-import { getHistory } from "api/SamplingApi";
+import SamplingAPI from "api/SamplingApi";
 import moment from 'moment'
 import { DD_MM_YYYY_HH_MM } from "constants/format-date";
 import swal from "sweetalert2";
@@ -36,25 +36,31 @@ export default class SamplingMoreInfo extends React.Component {
   static propTypes = {};
   static defaultProps = {};
 
-  constructor(props) {
-    super(props);
-    this.loadData = this.loadData.bind(this);
-  }
-
   state = {
     page: 1,
     pageSize: 10,
     total: 0,
     dataSource: [],
-    isLoading: true
+    isLoading: true,
   };
+
+  constructor(props) {
+    super(props);
+    this.loadData = this.loadData.bind(this);
+    this.state.stationID = this.props.stationID
+    console.log('constructor', this.props )
+  }
+
+
 
   async loadData(page, pageSize) {
     this.setState({ isLoading: true }, async () => {
       try{
-        let res = await getHistory({
+        let {stationID} = this.state
+        let res = await SamplingAPI.getHistory({
           page,
-          itemPerPage: pageSize
+          itemPerPage: pageSize,
+          stationAutoId: stationID
         });
         if (res.success) {
           const { page, totalItem } = res.pagination;
@@ -84,7 +90,14 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   async componentWillMount() {
-    this.loadData(this.state.page, this.state.pageSize);
+    this.loadData(
+      this.state.page, 
+      this.state.pageSize);
+  }
+
+  /* load history on tab change */
+  componentDidMount(){
+    if(this.props.getRef) this.props.getRef(this)
   }
 
   render() {
@@ -103,8 +116,8 @@ export default class SamplingMoreInfo extends React.Component {
           rowKey={(record) => record._id }  // https://ant.design/components/table/#Note
         >
           <Column 
-            align="center"
             title="STT"
+            align="center"
             dataIndex="stt"
             width={30}
           />

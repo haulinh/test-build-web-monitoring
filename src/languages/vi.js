@@ -95,13 +95,13 @@ export default {
           frequency: 'Chu kỳ lấy mẫu (phút):',
           timeStartSampling: 'Giờ bắt đầu lấy mẫu:',
           dateStartSampling: 'Ngày bắt đầu lấy mẫu:',
-          active: 'Kích hoạt',
-          actived: 'Đã kích hoạt',
           takeSample: 'Lấy mẫu',
-          commanded: 'Đã truyền lệnh',
+          commandSent: 'Đã truyền lệnh',
           takingSample: 'Đang lấy mẫu...',
-          activeTakeSample: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
-          activedTakeSample: "Đã kích hoạt lấy mẫu khi vượt ngưỡng",
+          active: 'Kích hoạt',
+          actived: 'Đã kích hoạt lấy mẫu tự động (Nhấn để hủy hẹn giờ lấy mẫu)',
+          activeOverRange: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
+          activedOverRange: "Đã kích hoạt lấy mẫu khi vượt ngưỡng (Nhấn để hủy)",
           history: {
             stt: 'STT',
             bottleNo: 'Chai số',
@@ -1215,7 +1215,40 @@ export default {
     text: 'Lỗi',
     require: 'Yêu cầu',
     email: 'Địa chỉ Email không hợp lệ',
-    nullValue: 'Dữ liệu không hợp lệ'
+    nullValue: 'Dữ liệu không hợp lệ',
+    monitoring: {
+      sampling: {
+        resetTitle: 'Xác nhận',
+        resetSubtitle: 'Bạn có muốn reset số chai đã lấy về 0?',
+        updateScheduleTitle: "Xác nhận",
+        updateScheduleSubtitle: "Số chai muốn lấy không hợp lệ hoặc thời gian bắt đầu lấy nhỏ hơn 5 phút so với thời điểm hiện tại",
+        takeSampling: `
+        <div style="text-align: left">
+          <p>Không kết nối được với thiết bị điều khiển, vui lòng kiểm tra các thông tin:</p>
+            <p style="margin-left: 20px">1. Thông tin cấu hình với thiết bị điều khiển </p>
+            <p style="margin-left: 20px">2. Tình trạng hoạt động của thiết bị điều khiển </p>
+            <p style="margin-left: 20px">3. Tín hiệu mạng tới thiết bị điều khiển </p>
+        </div>
+        `
+      }
+    }
+  },
+  modal: {
+    confirm: {
+      title: 'Xác nhận',
+      monitoring: {
+        sampling: {
+          cancelSchedule: "Bạn có chắc muốn hủy lấy mẫu tự động?"
+        }
+      }
+    }
+  },
+  alert: {
+    error: {
+      monitoring: {
+        saveSampingConfig: 'Bạn vui lòng nhập đầy đủ thông tin trước khi Lưu'
+      }
+    }
   },
   form: {
     save: 'Lưu',
@@ -1359,5 +1392,6 @@ export default {
       day:'Ngày',
       title:'Giá trị WQI theo giờ'
     }
-  }
+  },
 }
+// 

@@ -10,7 +10,7 @@ const HeadingWrapper = styled.div`
   align-items: center;
   background-color: ${PRIMARY};
   color: #ffffff;
-  ${props => (props.noPadding ? 'width: 100%;' : 'padding: 8px 16px;')};
+  ${props => (props.noPadding ? 'width: 100%;' : 'padding: 8px 8px;')};
 `
 
 @autobind

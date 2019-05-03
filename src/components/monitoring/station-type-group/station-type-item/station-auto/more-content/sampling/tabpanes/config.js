@@ -14,13 +14,14 @@ import { resetAuthToken } from 'utils/auth';
 const FormItem = Form.Item
 
 const i18n = {
-  totalBottles: translate('monitoring.moreContent.sampling.content.config.totalBottles'),
-  controlTagName: translate('monitoring.moreContent.sampling.content.config.controlTagName'),
+  totalBottles       : translate('monitoring.moreContent.sampling.content.config.totalBottles'),
+  controlTagName     : translate('monitoring.moreContent.sampling.content.config.controlTagName'),
   timeToTakeOneBottle: translate('monitoring.moreContent.sampling.content.config.timeToTakeOneBottle'),
-  save: translate('monitoring.moreContent.sampling.content.config.save'),
-  alertNull: translate('error.nullValue'),
-  alertSuccess: translate('success.text'),
-  alertError: translate('error.text'),
+  save               : translate('monitoring.moreContent.sampling.content.config.save'),
+  alertNull          : translate('error.nullValue'),
+  alertSuccess       : translate('success.text'),
+  alertError         : translate('error.text'),
+  alertSaveConfigError         : translate('alert.error.monitoring.saveSampingConfig'),
 }
 
 
@@ -34,15 +35,16 @@ export default class SamplingMoreInfo extends React.Component {
   static propTypes = {
     stationID: PropTypes.string.isRequired,
     configSampling: PropTypes.object.isRequired,
+    configSamplingSchedule: PropTypes.object.isRequired,
     updateParentState: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     stationID: '',
     configSampling: {
-      totalBottles: 0,
+      totalBottles: 1,
       controlTagName: '',
-      timeToTakeOneBottle: 0
+      timeToTakeOneBottle: 1
     }
   }
 
@@ -58,12 +60,18 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   handleSubmit = (e) => {
+    e.preventDefault();
     this.setState({isSaving: true})
     const {stationID} = this.props
-    e.preventDefault();
+  
     this.props.form.validateFields( async (err, values) => {
-      console.log(err)
-      if (!err) {
+      if(err){
+        this.setState({isSaving: false})
+        swal({ title: i18n.alertSaveConfigError, type: 'error' })
+        return
+      }
+
+      try {
         const res = await SamplingAPI.updateConfig(stationID, {configSampling: values})
         this.setState({isSaving: false})
         swal({ title: i18n.alertSuccess, type: 'success' })
@@ -71,10 +79,12 @@ export default class SamplingMoreInfo extends React.Component {
           isConfig: true, 
           configSampling: res.data.configSampling
           })
-        return
       }
-      this.setState({isSaving: false})
-      swal({ title: i18n.alertError, type: 'error' })
+      catch(error) {
+        this.setState({isSaving: false})
+        const {name, message} = err.response.data.error
+        swal({ title: message, type: 'error' })
+      }
     });
   }
 
@@ -84,20 +94,20 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   render(){
-    const {STATUS_SAMPLING} = this.props
+    const {STATUS_SAMPLING, isConfig, isScheduled} = this.props
     const { isSaving } = this.state;
     const { totalBottles, controlTagName, timeToTakeOneBottle, status } = this.props.configSampling;
-    const { getFieldDecorator, getFieldsError } = this.props.form;
-    const isSampling = status !== STATUS_SAMPLING.READY
-
+    const { getFieldDecorator, getFieldsError, isFieldsTouched } = this.props.form; 
+    const isSampling = isConfig && status !== STATUS_SAMPLING.READY
+    console.log('fffdasfdsafas', hasErrors(getFieldsError()))
     return (
       <div style={{padding: 8}}>
         <Form onSubmit={this.handleSubmit}>
           <Row>
             <Col>
-              <Row>{i18n.totalBottles}</Row>
               <Row>
-                <Form.Item
+                <FormItem
+                  label={i18n.totalBottles}
                   validateStatus={this.checkErr('totalBottles') ? 'error' : ''}
                   help={this.checkErr('totalBottles') || ''}
                 >
@@ -109,13 +119,13 @@ export default class SamplingMoreInfo extends React.Component {
                       message: i18n.alertNull}],
                       initialValue: totalBottles
                   })(
-                    <InputNumber style={{width: '100%'}}/>
+                    <InputNumber style={{width: '100%'}} disabled={ isSampling || isScheduled}/>
                   )}
-                </Form.Item>
+                </FormItem>
               </Row>
-              <Row>{i18n.controlTagName}</Row>
               <Row>
-                <Form.Item
+                <FormItem
+                  label={i18n.controlTagName}
                   validateStatus={this.checkErr('controlTagName') ? 'error' : ''}
                   help={this.checkErr('controlTagName') || ''}
                 >
@@ -123,13 +133,13 @@ export default class SamplingMoreInfo extends React.Component {
                     rules: [{ required: true, message: i18n.alertNull }],
                     initialValue: controlTagName
                   })(
-                    <Input style={{width: '100%'}}/>
+                    <Input style={{width: '100%'}} disabled={isSampling || isScheduled}/>
                   )}
-                </Form.Item>
+                </FormItem>
               </Row>
-              <Row>{i18n.timeToTakeOneBottle}</Row>
               <Row>
-                <Form.Item
+                <FormItem
+                  label={i18n.timeToTakeOneBottle}
                   validateStatus={this.checkErr('timeToTakeOneBottle') ? 'error' : ''}
                   help={this.checkErr('timeToTakeOneBottle') || ''}
                 >
@@ -142,17 +152,18 @@ export default class SamplingMoreInfo extends React.Component {
                     }],
                     initialValue: timeToTakeOneBottle
                   })(
-                    <InputNumber style={{width: '100%'}}/>
+                    <InputNumber style={{width: '100%'}} disabled={isSampling || isScheduled}/>
                   )}
-                </Form.Item>
+                </FormItem>
               </Row>
-              <Button 
+              <Button
                 block
                 isLoading={isSaving}
                 type="primary"
                 loading={isSaving}
-                disabled={hasErrors(getFieldsError()) || isSampling}
-                htmlType="submit">
+                disabled={(hasErrors(getFieldsError()) && isFieldsTouched()) || isSampling || isScheduled}
+                htmlType="submit"
+                >
                 {i18n.save}
               </Button>
             </Col>

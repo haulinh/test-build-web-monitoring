@@ -11,7 +11,6 @@ export function getConfigApi() {
   const config = window.config
   function c(prefix) {
     return config.apiGateway + '/' + prefix
-    // return 'http://35.198.234.113:5000' + '/' + prefix
     // return WEB_GATEWAY_API + '/' + prefix
   }
   return {
@@ -32,7 +31,7 @@ export function getConfigApi() {
     fcmMessages: c('fcm-messages'),
     organization: c('organization'),
     role: c('role'),
-    // sampling: 'http://localhost:5020/samplingNew', //dev local
+    // sampling: 'http://localhost:5020/samplingNew',
     sampling: c('samplingNew'),
     // sampling: c('sampling'),
     support: c('support'),
