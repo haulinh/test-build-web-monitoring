@@ -1393,5 +1393,10 @@ export default {
       title:'Giá trị WQI theo giờ'
     }
   },
+  pageInfo: {
+    header: 'Thông báo',
+    body1: 'Đây là chức năng thuộc phiên bản Nâng cao, vui lòng liên hệ với chúng tôi để biết thêm thông tin:',
+    body2: 'Email: sales@vietan-software.com'
+  }
 }
 // 

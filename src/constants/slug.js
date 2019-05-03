@@ -155,6 +155,9 @@ export default {
   },
   mapFixed: {
     base: "/fixed-map"
+  },
+  report: {
+    base: "/report"
   }
 };
 

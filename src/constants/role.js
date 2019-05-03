@@ -116,5 +116,8 @@ export default {
   },
   MAP_STATION_FIXED: {
     VIEW: 'menu.mapStationFixed.actions.view'
+  },
+  REPORT:  {
+    VIEW: 'menu.report.actions.view'
   }
 }
