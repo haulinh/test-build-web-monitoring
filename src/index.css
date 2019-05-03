@@ -12,37 +12,74 @@
 }
 
 .ant-menu {
-  padding-right: 22px;
+  padding-right: 8px;
 }
 
+/* thanh doc ben trai */
 .ant-menu.ant-menu-sub.ant-menu-inline{
   background-color: #F4F5F7;
   border-left: 2px solid rgba(66,82,110, 0.1);
-  margin-left: 26px;
+  margin-left: 35px;
 }
+.ant-menu.ant-menu-sub > li.ant-menu-submenu.ant-menu-submenu-inline{
+  margin-bottom: -8px;
+}
+/* end thanh doc ben trai */
 
 
 .ant-menu-submenu-active > .ant-menu-submenu-title{
-  background-color: rgba(9, 30, 66, 0.04) !important ;
-  color: #0052CC !important;
+  /* background-color: rgba(9, 30, 66, 0.04) !important ;
+  color: #1d89ce !important; */
+}
+
+.ant-menu-submenu-active:active > .ant-menu-submenu-title {
+  color: #fff !important;
+  background: #1d89ce !important;
+  font-weight: 600;
 }
 
 
 .ant-menu-item.ant-menu-item-selected, .ant-menu-item.ant-menu-item-active  {
   background-color: rgba(9, 30, 66, 0.04) !important ;
-  color: #0052CC !important;
+  color: #1d89ce !important;
 }
 
 .ant-menu-sub.ant-menu-inline > .ant-menu-item, .ant-menu-sub.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
-  padding-left: 22px !important;
+  padding-left: 12px !important;
 }
 
-.ant-menu-submenu-active:active {
-  color: #fff !important;
-  background: #0052CC !important;
+ul.ant-menu-sub.ant-menu-inline > li.ant-menu-item:last-child {
+  /* margin-bottom: -16px; */
 }
+
+
+ul.ant-menu.ant-menu-sub.ant-menu-inline{
+  margin-bottom: 12px !important;
+}
+
 
 .ant-menu-item-active:active{
   color: #fff !important;
-  background: #0052CC !important;
+  background: #1d89ce !important;
+}
+
+li.ant-menu-item {
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+
+
+.ant-menu-vertical .ant-menu-item::after, .ant-menu-vertical-left .ant-menu-item::after, .ant-menu-vertical-right .ant-menu-item::after, .ant-menu-inline .ant-menu-item::after {
+  border-right: none;
+}
+
+.ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
+  border-right: none;
+}
+
+.ant-menu-item > a {
+  color: #42526e;
+}
+.ant-menu-vertical > .ant-menu-item, .ant-menu-vertical-left > .ant-menu-item, .ant-menu-vertical-right > .ant-menu-item, .ant-menu-inline > .ant-menu-item, .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+  color: #42526e;
 }

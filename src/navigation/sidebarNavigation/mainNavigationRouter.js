@@ -10,10 +10,6 @@ import NavigationWrapper from './NavigationWrapper'
 import protectRole from 'hoc/protect-role/index.backup'
 import ROLE from 'constants/role'
 import { translate } from 'hoc/create-lang'
-import { Menu } from 'antd';
-
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
 
 const dashboardMenu = {
   component: (
@@ -23,22 +19,6 @@ const dashboardMenu = {
       icon={Icon.dashboard}
       text={translate('menuApp.dashboard')}
     />
-  //   <Menu
-  //   onClick={this.handleClick}
-  //   style={{ width: 220, backgroundColor: '#F4F5F7'}}
-  //   defaultSelectedKeys={['1']}
-  //   defaultOpenKeys={['sub1']}
-  //   mode="inline"
-  // >
-  //      <SubMenu  key="sub2" title={<span><span>Navigation Two</span></span>}>
-  //     <Menu.Item style={{paddingLeft: 1}} key="5">Option 5</Menu.Item>
-  //     <Menu.Item key="6">Option 6</Menu.Item>
-  //     <SubMenu key="sub3" title="Submenu">
-  //       <Menu.Item key="7">Option 7</Menu.Item>
-  //       <Menu.Item key="8">Option 8</Menu.Item>
-  //     </SubMenu>
-  //   </SubMenu>
-  // </Menu>
   )
 }
 

@@ -13,7 +13,7 @@ import { message } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role/index.backup'
 
-@protectRole(ROLE.STATION_AUTO.EDIT)
+@protectRole(ROLE.PROVINCE.EDIT)
 @createManagerDelete({
   apiDelete: ProvinceApi.deleteProvince
 })

@@ -1256,7 +1256,49 @@ export default {
   },
   menuApp: {
     dashboard: 'Trang Chủ',
-    monitoring: 'Giám sát trực tuyến',
+    
+    monitoringSub: 'Khai thác dữ liệu',
+    monitoring: {
+      base: 'Giám sát trực tuyến',
+      map: 'Bản đồ',
+      camera: 'Camera',
+      historyData: 'Tra cứu dữ liệu',
+      avgData: 'Dữ liệu trung bình',
+      report: 'Báo cáo',
+    },
+
+    processDataSub: 'Xử lý dữ liệu',
+    processData: {
+      approveData: 'Kiểm duyệt dữ liệu'
+    },
+
+    shareDataSub: 'Chia sẽ dữ liệu',
+    shareData: {
+      shareConfig: 'Cấu hình chia sẽ dữ liệu',
+      ftpConfig: 'Cấu hình truyền FTP',
+    },
+
+    advanceSub: 'Nâng cao',
+    advance: {
+      aqiMap: 'Bản đồ AQI',
+      aqiStatistic: 'Tra cứu dữ liệu AQI',
+      wqiMap: 'Bản đồ WQI',
+      wqiStatistic: 'Tra cứu dữ liệu WQI',
+      config: 'Cấu hình AQI & WQI'
+    },
+
+    configSub: 'Cấu hình',
+    config: {
+      stationAuto: 'Trạm quan trắc',
+      parameter: 'Chỉ tiêu quan trắc',
+      stationType: 'Loại trạm',
+      site: 'Đơn vị quản lý',
+      standard: 'Quy chuẩn',
+      role: 'Nhóm quyền',
+      user: 'Tài khoản'
+    },
+
+
     camera: 'Camera',
     map: 'Bản đồ',
     data: 'Khai thác dữ liệu',
