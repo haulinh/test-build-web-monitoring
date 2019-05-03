@@ -58,7 +58,7 @@ export default class BasicNestedNavigation extends React.Component {
   static defaultProps = {
     navigation: {
       isOpen: true,
-      width: 280
+      width: 320
     }
   }
 

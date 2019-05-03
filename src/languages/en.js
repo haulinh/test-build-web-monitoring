@@ -1393,6 +1393,11 @@ export default {
       day:'Day',
       title:'WQI By Hours',
     }
+  },
+  pageInfo: {
+    header: 'Information',
+    body1: 'This is a function of the Advanced version, please contact us for more information::',
+    body2: 'Email: sales@vietan-software.com'
   }
 }
 
