@@ -271,7 +271,7 @@ export default class StationAutoHead extends React.PureComponent {
             className="actionItem" 
             type={currentAction === "sampling" && "primary"} 
             onClick={() => this.handleActionOnClick('sampling')}
-            disabled={!isSampling && !this.checkRole(ROLE.MONITORING.CONTROL)}>
+            disabled={!isSampling || !this.checkRole(ROLE.MONITORING.CONTROL)}>
             {i18n.sampling}
           </Button>
           <Button 
