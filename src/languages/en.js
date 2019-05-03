@@ -1225,8 +1225,49 @@ export default {
     update: 'Update'
   },
   menuApp: {
-    dashboard: 'Home',
-    monitoring: 'Monitoring',
+    dashboard: 'Dashboard',
+    
+    monitoringSub: 'Data Monitoring',
+    monitoring: {
+      base: 'Real-time Monitoring',
+      map: 'Map',
+      camera: 'Camera',
+      historyData: 'History Data',
+      avgData: 'Average Data',
+      report: 'Reports',
+    },
+
+    processDataSub: 'Data Processing',
+    processData: {
+      approveData: 'Data approval'
+    },
+
+    shareDataSub: 'Sharing Data',
+    shareData: {
+      shareConfig: 'Sharing Configurations',
+      ftpConfig: 'FTP Transfer Configurations',
+    },
+
+    advanceSub: 'Advanced',
+    advance: {
+      aqiMap: 'AQI Map',
+      aqiStatistic: 'AQI Historical',
+      wqiMap: 'WQI Map',
+      wqiStatistic: 'WQI Historical',
+      config: 'AQI & WQI Configurations'
+    },
+
+    configSub: 'Settings',
+    config: {
+      stationAuto: 'Station',
+      parameter: 'Parameter',
+      stationType: 'Type of Station',
+      site: 'Site',
+      standard: 'Standard',
+      role: 'Role',
+      user: 'User'
+    },
+
     camera: 'Camera',
     map: 'Map',
     data: 'Data',

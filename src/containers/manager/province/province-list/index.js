@@ -16,7 +16,7 @@ import protectRole from 'hoc/protect-role/index.backup'
 import DynamicTable from 'components/elements/dynamic-table'
 import * as _ from 'lodash'
 
-@protectRole(ROLE.STATION_AUTO.VIEW)
+@protectRole(ROLE.PROVINCE.VIEW)
 @createManagerList({
   apiList: ProvinceApi.getProvices
 })
