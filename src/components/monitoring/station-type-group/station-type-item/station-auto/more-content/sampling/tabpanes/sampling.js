@@ -45,6 +45,7 @@ const i18n = {
   alertNull               : translate('error.nullValue'),
   alertSuccess            : translate('success.text'),
   alertError              : translate('error.text'),
+  alertWarning            : translate('error.warningText'),
   alertModalResetTitle    : translate('error.monitoring.sampling.resetTitle'),
   alertModalResetSubtitle : translate('error.monitoring.sampling.resetSubtitle'),
   alertErrorUpdateScheduleSubtitle : translate('error.monitoring.sampling.updateScheduleSubtitle'),
@@ -203,10 +204,10 @@ export default class SamplingMoreInfo extends React.Component {
           const {name, message} = err.response.data.error
           /* MARK  -- @Thao: backend trả về code để frontend biết mà translate */
           swal({
-            title: i18n.alertError,
+            title: i18n.alertWarning,
             html: i18n.alertErrorTakeSampling,
             width: 600,
-            type: 'error'})
+            type: 'warning'})
           this.props.updateParentState({
             configSampling: {
               ...this.props.configSampling,
@@ -263,7 +264,7 @@ export default class SamplingMoreInfo extends React.Component {
       }
       catch(e) {
         /* MARK  -- @Thao: tra ve code phia server de frontend translate */
-        swal({title: i18n.alertErrorUpdateScheduleSubtitle, type: 'error'}) 
+        swal({title: i18n.alertWarning,text: i18n.alertErrorUpdateScheduleSubtitle, type: 'warning'}) 
         // swal({title: `${e.response.data.error.message}`, type: 'error'}) 
         this.props.updateParentState({
           isScheduled: false

@@ -1133,7 +1133,7 @@ export default {
     failure: 'Save failure',
     message: {
       userUse: 'You are using 2-layer authentication with {{=it.type}}',
-      code: 'Your verification code has been sent to: {{=it.phone}}' ,
+      code: 'Your verification code has been sent to: {{=it.phone}} (will expire after 10 minutes)' ,
       info: `Select authentication method when logging in:`
     },
     step1: 'Enter code',
@@ -1216,6 +1216,7 @@ export default {
   },
   error: {
     text: 'Errors',
+    warningText: "Warning",
     require: 'Require',
     email: 'Invalid Email Address',
     nullValue: 'Value is not available',

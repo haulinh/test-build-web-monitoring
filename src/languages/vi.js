@@ -1130,7 +1130,7 @@ export default {
     failure: 'Kích hoạt bảo mật 2 lớp thành công',
     message: {
       userUse: 'Bạn đang sử dụng tính năng bảo mật 2 lớp qua {{=it.type}}',
-      code: 'Mã xác thực đã được gửi tới: {{=it.phone}}' ,
+      code: 'Mã xác thực đã được gửi tới: {{=it.phone}} (sẽ hết hạn sau 10 phút)' ,
       info: `Lựa chọn phương thức xác thực khi đăng nhập:`
     },
     step1: 'Nhập code',
@@ -1213,6 +1213,7 @@ export default {
   },
   error: {
     text: 'Lỗi',
+  warningText: 'Chú ý',
     require: 'Yêu cầu',
     email: 'Địa chỉ Email không hợp lệ',
     nullValue: 'Dữ liệu không hợp lệ',
