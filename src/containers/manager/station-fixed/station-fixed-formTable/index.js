@@ -65,7 +65,7 @@ export default class StationAutoFormTable extends React.Component {
 
   async componentWillMount() {
     let measuringList = []
-    console.log('this.props.dataSource', this.props.dataSource)
+
     if (
       this.props.allowUpdateStandardsVN &&
       !_.isEmpty(this.props.standardsVN)

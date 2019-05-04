@@ -18,6 +18,7 @@ import Highcharts from 'highcharts/highstock'
 import withSize from 'react-sizes'
 import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
+import { DATETIME_LABEL_FORMAT } from 'constants/chart-format';
 
 const TabChartWrapper = styled.div`
   display: flex;
@@ -96,10 +97,7 @@ export class TabChart extends React.PureComponent {
 
           <XAxis
             type="datetime"
-            dateTimeLabelFormats={{
-              hour: '%d/%m/%Y:%k:%M',
-              minute: '%d/%m/%Y:%k:%M'
-            }}
+            dateTimeLabelFormats={DATETIME_LABEL_FORMAT}
           >
             <XAxis.Title>{translate('chart.time')}</XAxis.Title>
           </XAxis>

@@ -164,6 +164,8 @@ export default class TableListCustom extends React.PureComponent {
   getStatusItem(item) {
     if (item.status === STATUS_STATION.HIGHTGEST)
       return STATUS_STATION.HIGHTGEST
+    if (item.status === STATUS_STATION.NOT_USE)
+      return STATUS_STATION.HIGHTGEST
 
     if (item.lastLog) {
       let warLevel = warningLevels.GOOD;

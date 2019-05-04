@@ -3,6 +3,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import ChartRow from '../chart-row'
+import * as _ from "lodash";
 
 const ChartRowListWrapper = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ const ChartRowWrapper = styled.div`
 `
 
 @autobind
-export default class ChartRowList extends React.PureComponent {
+export default class ChartRowList extends React.Component {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape(ChartRow.propTypes))
   }
@@ -31,7 +32,7 @@ export default class ChartRowList extends React.PureComponent {
       // </ChartRowListWrapper>
       this.props.data.map(item => {
         if(item.totalStation ===0) return  null
-        return  <div className="section">
+        return  <div key={item.key} className="section">
         <ChartRowWrapper style={{height: '100%'}}>
         <ChartRow {...item} />
       </ChartRowWrapper>
