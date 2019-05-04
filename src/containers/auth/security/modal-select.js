@@ -3,6 +3,7 @@ import { Modal, Button, Steps, Icon, InputNumber, Alert, Input } from 'antd'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
 import * as _ from 'lodash'
+import moment from 'moment'
 import userApi from 'api/UserApi'
 import authApi from 'api/AuthApi'
 
@@ -67,8 +68,9 @@ export default class ModalSelect extends React.PureComponent {
     if (code) {
       this.setState({ stepCurrent: 1 })
       const { success } = await userApi.confirmSms('sms', { code })
-      this.setState({ stepCurrent: 2 })
+      this.setState({ stepCurrent: 2})
       this.props.onSuccess(success)
+      this.setState({type: null})
     }
   }
 
@@ -90,7 +92,7 @@ export default class ModalSelect extends React.PureComponent {
         <RowView>
           <Steps current={this.state.stepCurrent}>
             <Step key='0' title={translate('security.step1')} icon={<Icon type="solution" />} />
-            <Step key='1' status='process' title={translate('security.step2')} icon={<Icon type="clock-circle" />} />
+            <Step key='1' title={translate('security.step2')} icon={<Icon type="clock-circle" />} />
             <Step key='2' title={translate('security.step3')} icon={<Icon type="smile-o" />} />
           </Steps>
         </RowView>
@@ -112,6 +114,12 @@ export default class ModalSelect extends React.PureComponent {
   }
 
   render () {
+    // console.log('----- 2FA -----', this.props.user)
+    // let {code, enable, expired} = this.props.user.twoFactorAuth
+    // console.log('----- 2FA -----', moment(), expired)
+    // const isExpired = moment().isSameOrAfter(moment(expired))
+    // console.log('----- 2FA -----', isExpired)
+
     return (
       <Modal
           footer={null}
@@ -121,6 +129,12 @@ export default class ModalSelect extends React.PureComponent {
           onCancel={this.props.onCancel}
         >
           {
+            /*
+              NOTE  logic
+              Nếu hết hạn hoặc còn hạn mà chưa nhập code thì show form sms
+              ngoài ra show form action
+            */
+            // (!enable && code != "" && !isExpired) || this.state.type === 'sms' ? this._renderSms() : this._renderAction()
             this.state.type === 'sms' ? this._renderSms() : this._renderAction()
           }
         </Modal>
