@@ -17,7 +17,7 @@ import { STATUS_STATION, getStatusPriority } from "constants/stationStatus";
 import WarningLevel from "components/elements/warning-level";
 import ReactFullpage from "@fullpage/react-fullpage";
 
-const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60; // NOTE  every 1min will get last log
+const GET_LAST_LOG_INTERVAL_TIME = 1000 * 10; // NOTE  every 1min will get last log
 let getLastLogIntervalID = null;
 
 const ListLoader = createContentLoader({
@@ -170,8 +170,8 @@ export default class OverviewDashboard extends Component {
     const me = this;
     _.forEach(dataLog, function(item) {
       // MARK  check status trạm truớc
-      if (item.status === STATUS_STATION.DATA_LOSS) {
-        resStatus = item.status;
+      if (item.status === STATUS_STATION.HIGHTGEST || item.status === STATUS_STATION.NOT_USE) {
+        resStatus = STATUS_STATION.HIGHTGEST;
         return false; // break loop lodash
       }
 
@@ -199,7 +199,7 @@ export default class OverviewDashboard extends Component {
       title: item.name,
       totalStation: this.state.stationCount[item.key],
       stationList: this.state.rows[item.key]
-    }));
+    }))
   }
 
   handleProvinceChange = province => {
@@ -267,9 +267,7 @@ export default class OverviewDashboard extends Component {
               </ReactFullpage.Wrapper>
             );
           }}
-        />
-
-           
+        />           
 
         {/* this.state.stationList */}
       </PageContainer>

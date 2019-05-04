@@ -11,6 +11,8 @@ import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
 import StatusModalView from './StatusModal'
 import ChartBaseView from './chart-base'
 import { COLOR_STATUS } from 'themes/color';
+import { isNumber } from 'util';
+import formatNumber, { getFormatNumber, ROUND_DIGIT } from 'constants/format-number';
 
 const dataLabels = {
   enabled: true,
@@ -55,10 +57,9 @@ export default class HeaderView extends React.PureComponent {
     let total = 0
     const item = _.find(
       this.state.data,
-      ({ provinceId }) => provinceId === this.props.province
+      ({ provinceId }) => provinceId === (this.props.province || 'other') // NOTE  k0 có province thì key là other
     )
 
-    console.log('adasdsad', this.props)
     
     if (item && item.ratio) {
       title = translate('dashboard.chartRatio.dataByDate', {
@@ -98,7 +99,7 @@ export default class HeaderView extends React.PureComponent {
         enabled: true
       },
       tooltip: {
-        pointFormat: '<b>{point.percentage:.1f}%</b>'
+        pointFormat: `<b>{point.percentage:.${ROUND_DIGIT}f}%</b>`
       },
       plotOptions: {
         pie: {
@@ -131,12 +132,12 @@ export default class HeaderView extends React.PureComponent {
           data: [
             {
               name: notReceived,
-              y: 100 - total,
+              y:  100 - _.round(total,2),
               color: COLOR_STATUS.DATA_LOSS
             },
             {
               name: received,
-              y: total,
+              y: _.round(total,2),
               color: COLOR_STATUS.GOOD
             }
           ]

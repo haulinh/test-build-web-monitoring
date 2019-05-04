@@ -7,7 +7,6 @@ import { withRouter } from "react-router"
 import { connect } from "react-redux"
 
 /* user import */
-import { translate } from "hoc/create-lang"
 import MoreSampling from "./sampling/"
 import MoreCamera from "./camera"
 import MoreChart from "./chart/index"
