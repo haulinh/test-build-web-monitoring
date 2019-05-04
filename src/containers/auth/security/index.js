@@ -50,13 +50,15 @@ export class SecurityForm extends PureComponent {
   }
 
   handleSuccess = status => {
-    this.setState({ isVisible: false, enable: true })
+    this.setState({ isVisible: false })
     if (status) {
+      this.setState({enable: true})
       swal({
         type: 'success',
         title: translate('security.success')
       })
     } else {
+      this.setState({enable: false})
       swal({
         type: 'error',
         title: translate('security.failure')

@@ -69,8 +69,8 @@ export default class ModalSelect extends React.PureComponent {
       this.setState({ stepCurrent: 1 })
       const { success } = await userApi.confirmSms('sms', { code })
       this.setState({ stepCurrent: 2})
-      this.props.onSuccess(success)
       this.setState({type: null})
+      this.props.onSuccess(success)
     }
   }
 
@@ -114,12 +114,10 @@ export default class ModalSelect extends React.PureComponent {
   }
 
   render () {
-    // console.log('----- 2FA -----', this.props.user)
-    // let {code, enable, expired} = this.props.user.twoFactorAuth
-    // console.log('----- 2FA -----', moment(), expired)
-    // const isExpired = moment().isSameOrAfter(moment(expired))
-    // console.log('----- 2FA -----', isExpired)
-
+    console.log('----- 2FA -----', this.props.user)
+    const {code, enable, expired} = this.props.user.twoFactorAuth
+    const isExpired = moment().subtract(1, 'days').isSameOrAfter(moment(expired))
+    const isSmsVerifyInProgress = !enable && code != "" && !isExpired
     return (
       <Modal
           footer={null}
@@ -131,11 +129,11 @@ export default class ModalSelect extends React.PureComponent {
           {
             /*
               NOTE  logic
-              Nếu hết hạn hoặc còn hạn mà chưa nhập code thì show form sms
+              Nếu đã có code, còn hạn mà chưa nhập code thì show form sms
               ngoài ra show form action
             */
-            // (!enable && code != "" && !isExpired) || this.state.type === 'sms' ? this._renderSms() : this._renderAction()
-            this.state.type === 'sms' ? this._renderSms() : this._renderAction()
+            isSmsVerifyInProgress || this.state.type === 'sms' ? this._renderSms() : this._renderAction()
+            // this.state.type === 'sms' ? this._renderSms() : this._renderAction()
           }
         </Modal>
     )
