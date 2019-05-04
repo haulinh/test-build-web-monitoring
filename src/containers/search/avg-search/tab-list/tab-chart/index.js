@@ -10,6 +10,7 @@ import {
   FORMAT_VALUE_MEASURING,
   getFormatNumber
 } from "constants/format-number"
+import { DATETIME_LABEL_FORMAT } from "constants/chart-format";
 
 const TabChartWrapper = styled.div`
   justify-content: center;
@@ -304,7 +305,15 @@ export default class TabChart extends React.PureComponent {
           })
         }
       },
-      series
+      series,
+      xAxis: {
+        dateTimeLabelFormats: DATETIME_LABEL_FORMAT
+      },
+      navigator: {
+        xAxis: {
+          dateTimeLabelFormats: DATETIME_LABEL_FORMAT
+        }
+      }
     }
   }
 

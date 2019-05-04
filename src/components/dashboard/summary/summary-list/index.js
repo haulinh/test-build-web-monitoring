@@ -24,7 +24,7 @@ export default class SummaryList extends React.PureComponent {
   }
 
   componentDidMount(){
-    console.log('this.props.data', this.props.data)
+
   }
 
   render() {

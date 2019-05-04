@@ -170,8 +170,8 @@ export default class OverviewDashboard extends Component {
     const me = this;
     _.forEach(dataLog, function(item) {
       // MARK  check status trạm truớc
-      if (item.status === STATUS_STATION.DATA_LOSS) {
-        resStatus = item.status;
+      if (item.status === STATUS_STATION.HIGHTGEST || item.status === STATUS_STATION.NOT_USE) {
+        resStatus = STATUS_STATION.HIGHTGEST;
         return false; // break loop lodash
       }
 
@@ -199,7 +199,7 @@ export default class OverviewDashboard extends Component {
       title: item.name,
       totalStation: this.state.stationCount[item.key],
       stationList: this.state.rows[item.key]
-    }));
+    }))
   }
 
   handleProvinceChange = province => {
@@ -267,9 +267,7 @@ export default class OverviewDashboard extends Component {
               </ReactFullpage.Wrapper>
             );
           }}
-        />
-
-           
+        />           
 
         {/* this.state.stationList */}
       </PageContainer>

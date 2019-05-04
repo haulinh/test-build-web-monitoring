@@ -8,6 +8,7 @@ import { translate } from 'hoc/create-lang'
 import ChartBaseView from './chart-base'
 import { COLOR_STATUS } from 'themes/color';
 import { STATUS_STATION } from 'constants/stationStatus';
+import { ROUND_DIGIT } from 'constants/format-number';
 
 @autobind
 export default class ChartStatusView extends React.PureComponent {
@@ -67,7 +68,7 @@ export default class ChartStatusView extends React.PureComponent {
         enabled: true
       },
       tooltip: {
-        pointFormat: '<b>{point.percentage:.1f}%</b>'
+        pointFormat: `<b>{point.percentage:.${ROUND_DIGIT}f}%</b>`
       },
       plotOptions: {
         pie: {
