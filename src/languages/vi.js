@@ -1272,9 +1272,9 @@ export default {
       approveData: 'Kiểm duyệt dữ liệu'
     },
 
-    shareDataSub: 'Chia sẽ dữ liệu',
+    shareDataSub: 'Chia sẻ dữ liệu',
     shareData: {
-      shareConfig: 'Cấu hình chia sẽ dữ liệu',
+      shareConfig: 'Cấu hình chia sẻ dữ liệu',
       ftpConfig: 'Cấu hình truyền FTP',
     },
 

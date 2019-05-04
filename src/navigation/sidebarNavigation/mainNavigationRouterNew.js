@@ -125,7 +125,7 @@ export const shareDataMenu = (
      }
   >
     <Menu.Item key={slug.qaqc.config}>
-      <Link to={slug.qaqc.config}>Cấu hình chia sẽ dữ liệu</Link>
+      <Link to={slug.qaqc.config}>Cấu hình chia sẻ dữ liệu</Link>
     </Menu.Item>
     <Menu.Item key={slug.ftpTransfer.base}>
       <Link to={slug.ftpTransfer.base}>Cấu hình truyền FTP</Link>
