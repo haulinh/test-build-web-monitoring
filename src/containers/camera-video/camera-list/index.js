@@ -128,6 +128,7 @@ export default class CameraList extends React.Component {
   }
 }
 
+/* NOTE  function dùng để remove dấu trong Tiếng Việt */
 function removeUnicodeText(str) {
   var defaultDiacriticsRemovalMap = [
     {
