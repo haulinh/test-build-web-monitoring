@@ -63,7 +63,7 @@ export default class ModalSelect extends React.PureComponent {
     this.setState({ code: target.value })
   }
 
-  async handleConfirmSms () {
+  handleConfirmSms = async () => {
     const { code } = this.state
     if (code) {
       this.setState({ stepCurrent: 1 })
@@ -104,7 +104,8 @@ export default class ModalSelect extends React.PureComponent {
           <Input 
             onChange={this.handleChangeCode}
             addonBefore={<strong>Code</strong>}
-            addonAfter={<strong onClick={() => this.handleConfirmSms()}>{translate('security.send')}</strong>} />
+            onPressEnter={this.handleConfirmSms}
+            addonAfter={<strong onClick={this.handleConfirmSms}>{translate('security.send')}</strong>} />
         </RowViewCenter>
         {/* <RowViewCenter> */}
           {/* <Button style={{ marginRight: 16 }} onClick={() => this.handleNextStep(0)}>Close</Button> */}
@@ -114,9 +115,8 @@ export default class ModalSelect extends React.PureComponent {
   }
 
   render () {
-    console.log('----- 2FA -----', this.props.user)
     const {code, enable, expired} = this.props.user.twoFactorAuth
-    const isExpired = moment().subtract(1, 'days').isSameOrAfter(moment(expired))
+    const isExpired = moment().isSameOrAfter(moment(expired))
     const isSmsVerifyInProgress = !enable && code != "" && !isExpired
     return (
       <Modal
@@ -133,7 +133,6 @@ export default class ModalSelect extends React.PureComponent {
               ngoài ra show form action
             */
             isSmsVerifyInProgress || this.state.type === 'sms' ? this._renderSms() : this._renderAction()
-            // this.state.type === 'sms' ? this._renderSms() : this._renderAction()
           }
         </Modal>
     )
