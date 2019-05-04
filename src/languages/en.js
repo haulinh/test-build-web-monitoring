@@ -1128,13 +1128,13 @@ export default {
   security: {
     label: 'Two-Factor Authentication',
     note:
-      'If you turn on Two-Factor Authentication feature, The system will send the verification code to your email address every time you sign in',
+      'If you turn on Two-Factor Authentication feature, The system will send the verification code to your email address or phone number every time you sign in',
     success: 'Success',
     failure: 'Save failure',
     message: {
       userUse: 'You are using 2-layer authentication with {{=it.type}}',
       code: 'Your verification code has been sent to: {{=it.phone}}' ,
-      info: `Enabling two-factor authentication adds an extra layer of security when accessing your account by requiring you to enter a one time passcode. If you use the iLotusLand REST API, you'll no longer be able to authenticate with your email and password.`
+      info: `Select authentication method when logging in:`
     },
     step1: 'Enter code',
     step2: 'Loading',

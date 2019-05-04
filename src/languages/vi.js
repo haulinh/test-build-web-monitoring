@@ -1125,13 +1125,13 @@ export default {
   security: {
     label: 'Bảo mật 2 lớp',
     note:
-      'Nếu bạn bật tính năng Xác thực hai lớp. Hệ thống sẽ gửi mã xác thực đến địa chỉ email của bạn mỗi khi bạn đăng nhập.',
+      'Nếu bạn bật tính năng Xác thực hai lớp. Hệ thống sẽ gửi mã xác thực đến địa chỉ email hoặc số điện thoại của bạn mỗi khi bạn đăng nhập.',
     success: 'Thành công',
     failure: 'Kích hoạt bảo mật 2 lớp thành công',
     message: {
       userUse: 'Bạn đang sử dụng tính năng bảo mật 2 lớp qua {{=it.type}}',
       code: 'Mã xác thực đã được gửi tới: {{=it.phone}}' ,
-      info: `Kích hoạt xác thực hai lớp. Khi truy cập ứng dụng bạn sẽ phải nhập mã xác thực được gửi qua tin nhắn.`
+      info: `Lựa chọn phương thức xác thực khi đăng nhập:`
     },
     step1: 'Nhập code',
     step2: 'Chờ xác thực',

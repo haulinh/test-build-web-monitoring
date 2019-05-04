@@ -77,6 +77,7 @@ export class SecurityForm extends PureComponent {
   }
 
   render() {
+    console.log('---- 2FA ----', this.props)
     return (
       <div>
         <strong>{translate('security.label')} </strong>
@@ -88,11 +89,10 @@ export class SecurityForm extends PureComponent {
             if (checked) {
               this.handleOpen()
             } else {
-              this.handleUpdate(false)
+              let isSuccess = this.handleUpdate(false)
+              if (isSuccess) return this.setState({enable: false})
+              return
             }
-            this.setState({
-              enable: checked
-            })
             //this.props.onChange(checked)
           }}
         />
