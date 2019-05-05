@@ -28,7 +28,6 @@ const RowViewCenter =  RowView.extend`
 const Text = styled.p``
 
 export default class ModalSelect extends React.PureComponent {
-
   state = {
     stepCurrent: 0,
     type: null,
@@ -115,6 +114,13 @@ export default class ModalSelect extends React.PureComponent {
   }
 
   render () {
+    const {twoFactorAuth} = this.props.user
+    if (!twoFactorAuth) {
+      this.props.user.twoFactorAuth = {
+        enable: false,
+        code: ''
+      }
+    }
     const {code, enable, expired} = this.props.user.twoFactorAuth
     const isExpired = moment().isSameOrAfter(moment(expired))
     const isSmsVerifyInProgress = !enable && code != "" && !isExpired
