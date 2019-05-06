@@ -1,35 +1,109 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import {Drawer, Icon, Tabs} from 'antd'
-import { prop } from 'cramda';
+import {Drawer, Icon, Tabs, Badge} from 'antd'
+
+import { translate } from 'hoc/create-lang'
+import ExceededTabContent from './tabs/exceeded'
+import LostDataTabContent from './tabs/lostData'
+import SensorErrorTabContent from './tabs/sensorError'
+
+const TabPane = Tabs.TabPane
 
 const i18n = {
+  exceeded: translate('warningLevels.exceed'),
+  lostData: translate('warningLevels.lostData'),
+  sensorError: translate('warningLevels.sensorError'),
+}
 
+const TAB_KEYS = {
+  EXCEEDED: 'EXCEEDED',
+  LOST_DATA: 'LOST_DATA',
+  DEVICE_ERROR: 'DEVICE_ERROR' 
 }
 
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
-    onClose: propTypes.func.isRequired,
-    visible: propTypes.bool.isRequired
+    closeDrawer: propTypes.func.isRequired,
+    visible: propTypes.bool.isRequired,
+    notificationNumbers: propTypes.object.isRequired
   }
-  static defaultProps = {}
-  state = {}
+
+  static defaultProps = {
+    notificationNumbers: {
+      exceeded: 0,
+      lostData: 0,
+      deviceError: 0
+    }
+  }
+
+  state = {
+    currentTabKey: TAB_KEYS.EXCEEDED,
+    notifications: {
+      exceeded: [],
+      lostData: [],
+      deviceError: [],
+    }
+  }
 
   render() {
+    const {currentTabKey, notifications} = this.state
+    const { notificationNumbers, closeDrawer } = this.props
     return (
       <Drawer
         width='40vw'
-        title={<React.Fragment>
+        title={<div onClick={closeDrawer}>
           <Icon type="double-left" /> Notifications
-        </React.Fragment>}
+        </div>}
         placement="left"
         closable={false}
-        onClose={this.props.onClose}
+        onClose={closeDrawer}
         visible={this.props.visible}
       >
+        <Tabs
+          activeKey={currentTabKey}
+          onChange={this.handleChangeTab}>
+          
+          {/* NOTE  TAB EXCEEDED */}
+          <TabPane
+            key={TAB_KEYS.EXCEEDED}
+            tab={<Badge count={notificationNumbers.exceeded}>{i18n.exceeded}</Badge>}>
+            <ExceededTabContent loadNotifications={this.loadNotifications} />
+          </TabPane>
+
+          {/* NOTE  TAB LOST_DATA */}
+          <TabPane 
+            key={TAB_KEYS.LOST_DATA}
+            tab={<Badge count={notificationNumbers.lostData}>{i18n.lostData}</Badge>}>
+            <LostDataTabContent loadNotifications={this.loadNotifications} />
+          </TabPane>
+
+          {/* NOTE  TAB DEVICE_ERROR */}
+          <TabPane 
+            key={TAB_KEYS.DEVICE_ERROR}
+            tab={<Badge count={notificationNumbers.deviceError}>{i18n.sensorError}</Badge>}>
+            <SensorErrorTabContent loadNotifications={this.loadNotifications} />
+          </TabPane>
+
+        </Tabs>
       </Drawer>
     )
   }
+
+  handleChangeTab = (tabKey) => {
+    this.setState({currentTabKey: tabKey})
+    this.clearNotificationNumberByTabKey(tabKey)
+  }
+
+  clearNotificationNumberByTabKey = (tabKey) => {
+    /* TODO   */
+  }
+
+  loadNotifications = (tabKey, page) => {
+    const {currentTabKey} = this.state
+    console.log('loadNotifications: ',page, currentTabKey)
+    /* TODO  getNotification(tabKey, page)*/
+  }
+
 }
 
 

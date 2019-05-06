@@ -1176,7 +1176,8 @@ export default {
     exceedTendency: 'Có xu hướng vượt',
     exceedPreparing: 'Chuẩn bị vượt',
     exceed: 'Vượt nguỡng',
-    dataLoss: 'Mất tín hiệu'
+    lostData: 'Mất tín hiệu',
+    sensorError: 'Lỗi thiết bị'
   },
   addon: {
     create: 'Tạo mới',

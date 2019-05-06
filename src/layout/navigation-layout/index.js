@@ -237,7 +237,7 @@ export default class BasicNestedNavigation extends React.Component {
         
         {/* NOTE  NOTIFICATION COMPONENT */}
         <NotificationDrawer 
-          onClose={() => this.setState({isShowNotifyDrawer: false})}
+          closeDrawer={() => this.setState({isShowNotifyDrawer: false})}
           visible={this.state.isShowNotifyDrawer}
         />
       </StyleWrapper>

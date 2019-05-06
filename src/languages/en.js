@@ -1179,7 +1179,8 @@ export default {
     exceedTendency: 'Tend To Exceed',
     exceedPreparing: 'Tend To Exceed',
     exceed: 'Exceeded',
-    dataLoss: 'Lost Data'
+    lostData: 'Lost Data',
+    sensorError: 'Sensor Error'
   },
   addon: {
     create: 'Create',
