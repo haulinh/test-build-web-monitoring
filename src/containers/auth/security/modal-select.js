@@ -71,6 +71,9 @@ export default class ModalSelect extends React.PureComponent {
       if (success) {
         this.setState({type: null})
       }
+      else {
+        this.setState({ stepCurrent: 0 })
+      }
       this.props.onSuccess(success)
     }
   }
