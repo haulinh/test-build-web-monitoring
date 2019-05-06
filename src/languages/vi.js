@@ -1010,14 +1010,16 @@ export default {
       login: 'Đăng nhập',
       status: 'Trạng thái',
       roleAssign: 'Uỷ quyền',
+      roleName: 'Nhóm quyền',
       createdAt: 'Tạo lúc',
       setPassword: 'Cập nhật mật khẩu',
       setPasswordSuccess: 'Cập nhật mật khẩu thành công',
       setPasswordFailure: 'Cập nhật mật khẩu thất bại'
     },
     roleAssign: {
-      role: 'Nhóm quền',
+      role: 'Nhóm quyền',
       name: 'Tên nhóm quyền',
+      nameStation: 'Danh sách trạm quản lý',
       success: 'Cập nhật qui định thành công',
       error: 'Cập nhật qui định thất bại',
       address: 'Địa chỉ',
@@ -1199,7 +1201,8 @@ export default {
     },
     onDelete: {
       success: 'Xoá thành công',
-      error: 'Xoá thất bại'
+      error: 'Xoá thất bại',
+      warning: 'Bạn không thể xóa tài khoản của chính mình'
     },
     onRestore: {
       success: 'Khôi phục thành công',

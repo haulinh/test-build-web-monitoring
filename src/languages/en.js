@@ -1012,6 +1012,7 @@ export default {
       login: 'Login',
       status: 'Status',
       roleAssign: 'Assign Role',
+      roleName: 'Role Name',
       createdAt: 'Created At',
       setPassword: 'Set Password',
       setPasswordSuccess: 'Update Password Successfully',
@@ -1019,7 +1020,8 @@ export default {
     },
     roleAssign: {
       role: 'Role',
-      name: 'Name',
+      name: 'Role Name',
+      nameStation: 'Management Stations',
       success: 'Update Rule User Successfully',
       error: 'Update Rule User Failed',
       address: 'Address',
@@ -1202,7 +1204,8 @@ export default {
     },
     onDelete: {
       success: 'Deleted Successfully',
-      error: 'Delete Error'
+      error: 'Delete Error',
+      warning: 'You cannot delete your own account'
     },
     onRestore: {
       success: 'Restored Successfully',
