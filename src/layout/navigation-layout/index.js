@@ -6,13 +6,16 @@ import ArrowLeftIcon from '@atlaskit/icon/glyph/arrow-left'
 import Tooltip from '@atlaskit/tooltip'
 import { withRouter } from 'react-router-dom'
 import AvatarCharacter from 'components/elements/avatar-character'
+import {Drawer, Badge, Icon} from 'antd'
 import Link from 'components/elements/link'
 import slug from 'constants/slug'
 import StyleWrapper from './StyleWrapper'
 import LogoSubIcon from './LogoSubIcon'
 import DocumentIcon from '@atlaskit/icon/glyph/question-circle'
+import NotificationIcon from '@atlaskit/icon/glyph/notification';
 import DocumentDrawer from './DocumentDrawer'
 import AppDrawer from './AppDrawer'
+import NotificationDrawer from './NotificationDrawer'
 import ChangeLanguage from './ChangeLanguage'
 import LogoBrandName from './LogoBrandName'
 import { translate } from 'hoc/create-lang'
@@ -65,7 +68,8 @@ export default class BasicNestedNavigation extends React.Component {
   state = {
     drawers: {
       create: false
-    }
+    },
+    isShowNotifyDrawer: false,
   }
 
   toggleDrawer(type) {
@@ -120,8 +124,14 @@ export default class BasicNestedNavigation extends React.Component {
   handleConfigStation() {
     this.props.history.push(slug.user.configStation)
   }
+
+  /* NOTE  UI-NAVIGATOR-BELOW (list of icons same position as language) */
   globalSecondaryActions() {
     return [
+      /* MARK */
+      <Badge count={100} onClick={() => this.setState({isShowNotifyDrawer: true})}>
+        <NotificationIcon size="large" primaryColor="orange" />
+      </Badge>,
       <AkDropdownMenu
         appearance="tall"
         position="right bottom"
@@ -195,6 +205,7 @@ export default class BasicNestedNavigation extends React.Component {
   }
 
   render() {
+    console.log('---- authInfo ----', this.props.authInfo)
     let logo = ''
     if (this.props.authInfo.organization) {
       logo = this.props.authInfo.organization.logo
@@ -223,6 +234,12 @@ export default class BasicNestedNavigation extends React.Component {
         >
           {this.props.children}
         </Navigation>
+        
+        {/* NOTE  NOTIFICATION COMPONENT */}
+        <NotificationDrawer 
+          onClose={() => this.setState({isShowNotifyDrawer: false})}
+          visible={this.state.isShowNotifyDrawer}
+        />
       </StyleWrapper>
     )
   }
