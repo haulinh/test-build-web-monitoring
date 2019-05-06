@@ -14,7 +14,7 @@ const CENTER = {
 };
 
 export default {
-  renderComp: (props) => (
+  renderComp: props => (
     <Menu.SubMenu
       key={MENU_GROUP.MONITORING}
       title={
@@ -24,7 +24,7 @@ export default {
         </div>
       }
     >
-      {protectRole(ROLE.MONITORING.VIEW) (
+      {protectRole(ROLE.MONITORING.VIEW)(
         <Menu.Item
           key={slug.monitoring.base}
           onClick={() => {
@@ -35,16 +35,18 @@ export default {
         </Menu.Item>
       )}
 
-      <Menu.Item
-        key={slug.map.base}
-        onClick={() => {
-          props.selectMenu(slug.map.base);
-        }}
-      >
-        <Link to={slug.map.base}>{MENU_NAME.monitoring.map}</Link>
-      </Menu.Item>
+      {protectRole(ROLE.MAP.VIEW)(
+        <Menu.Item
+          key={slug.map.base}
+          onClick={() => {
+            props.selectMenu(slug.map.base);
+          }}
+        >
+          <Link to={slug.map.base}>{MENU_NAME.monitoring.map}</Link>
+        </Menu.Item>
+      )}
 
-      {protectRole(ROLE.MONITORING.CAMERA) (
+      {protectRole(ROLE.MONITORING.CAMERA)(
         <Menu.Item
           key={slug.cameraControl.base}
           onClick={() => {
@@ -57,29 +59,32 @@ export default {
         </Menu.Item>
       )}
 
-      <Menu.Item
-        key={slug.dataSearch.base}
-        onClick={() => {
-          props.selectMenu(slug.dataSearch.base);
-        }}
-      >
-        <Link to={slug.dataSearch.base}>
-          {MENU_NAME.monitoring.historyData}
-        </Link>
-      </Menu.Item>
-      <Menu.Item
-        key={slug.avgSearch.base}
-        onClick={() => {
-          props.selectMenu(slug.avgSearch.base);
-        }}
-      >
-        <Link to={slug.avgSearch.base}>{MENU_NAME.monitoring.avgData}</Link>
-      </Menu.Item>
+      {protectRole(ROLE.DATA_SEARCH.VIEW)(
+        <Menu.Item
+          key={slug.dataSearch.base}
+          onClick={() => {
+            props.selectMenu(slug.dataSearch.base);
+          }}
+        >
+          <Link to={slug.dataSearch.base}>
+            {MENU_NAME.monitoring.historyData}
+          </Link>
+        </Menu.Item>
+      )}
 
-      {/* {protectRole(ROLE.REPORT.VIEW) (
-        
-      )} */}
-      <Menu.Item
+      {protectRole(ROLE.AVG_SEARCH.VIEW)(
+        <Menu.Item
+          key={slug.avgSearch.base}
+          onClick={() => {
+            props.selectMenu(slug.avgSearch.base);
+          }}
+        >
+          <Link to={slug.avgSearch.base}>{MENU_NAME.monitoring.avgData}</Link>
+        </Menu.Item>
+      )}
+
+      {protectRole(ROLE.REPORT.VIEW)(
+        <Menu.Item
           key={slug.report.base}
           onClick={() => {
             props.selectMenu(slug.report.base);
@@ -87,6 +92,7 @@ export default {
         >
           <Link to={slug.report.base}>{MENU_NAME.monitoring.report}</Link>
         </Menu.Item>
+      )}
     </Menu.SubMenu>
   )
 };
