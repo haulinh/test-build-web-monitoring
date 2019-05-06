@@ -68,7 +68,9 @@ export default class ModalSelect extends React.PureComponent {
       this.setState({ stepCurrent: 1 })
       const { success } = await userApi.confirmSms('sms', { code })
       this.setState({ stepCurrent: 2})
-      this.setState({type: null})
+      if (success) {
+        this.setState({type: null})
+      }
       this.props.onSuccess(success)
     }
   }
