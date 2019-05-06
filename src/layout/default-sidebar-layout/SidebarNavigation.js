@@ -240,20 +240,29 @@ class MenuApp extends React.PureComponent {
         mode="inline"
       >
         {/* Dashboard */}
-        <Menu.Item key={slug.dashboard}>
-          <Link
-            style={CENTER}
-            to={slug.dashboard}
-            onClick={() => {
-              this.props.selectMenu(slug.dashboard);
-            }}
-          >
-            {Icon.dashboard}
-            <span style={{ marginLeft: 12 }}>{MENU_NAME.dashboard}</span>
-          </Link>
-        </Menu.Item>
+        {protectRole(ROLE.DASHBOARD.VIEW)(
+          <Menu.Item key={slug.dashboard}>
+            <Link
+              style={CENTER}
+              to={slug.dashboard}
+              onClick={() => {
+                this.props.selectMenu(slug.dashboard);
+              }}
+            >
+              {Icon.dashboard}
+              <span style={{ marginLeft: 12 }}>{MENU_NAME.dashboard}</span>
+            </Link>
+          </Menu.Item>
+        )}
 
-        {MonitoringMenu.renderComp(this.props)}
+        {this.checkRoleForGroup([
+          ROLE.MONITORING.VIEW,
+          ROLE.MAP.VIEW,
+          ROLE.MONITORING.CAMERA,
+          ROLE.DATA_SEARCH.VIEW,
+          ROLE.AVG_SEARCH.VIEW,
+          ROLE.REPORT.VIEW
+        ]) && MonitoringMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([ROLE.QAQC.VIEW]) &&
           HandleDataMenu.renderComp(this.props)}
