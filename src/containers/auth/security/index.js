@@ -67,7 +67,7 @@ export class SecurityForm extends PureComponent {
   }
 
   _render2FA_Note () {
-    if (_.get(this.props, 'initialValues.twoFactorAuth.enable', false)) {
+    if (_.get(this.props, 'initialValues.twoFactorAuth.enable', true)) {
       return <div>
         <Note style={{ color: 'red', fontWeight: '600' }}>{
             translate('security.message.userUse', {
