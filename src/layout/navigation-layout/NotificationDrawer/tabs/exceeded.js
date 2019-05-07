@@ -1,11 +1,10 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import moment from 'moment'
 import _ from 'lodash'
 import styled from 'styled-components'
-import {Row, Col, Card, Button} from 'antd'
 import { translate } from 'hoc/create-lang'
-import { FORMAT_LOCAL } from 'constants/format-number';
+import { connectAutoDispatch } from 'redux/connect'
+import {Row, Col, Card, Button} from 'antd'
 
 const i18n = {
   station: '--- Trạm ---',
@@ -59,7 +58,11 @@ function Cells(props) {
   return dataSource.map(cellContent => <Cell cellContent={cellContent}/>)
 }
 
-/* TODO  lấy dataSource từ redux */
+@connectAutoDispatch(
+  (state) => ({
+    dataSource: state.notification.logs.exceeded
+  })
+)
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
     loadNotifications: propTypes.func.isRequired,
@@ -67,20 +70,7 @@ export default class NotificationDrawer extends React.Component {
     dataSource: propTypes.array.isRequired
   }
 
-  static defaultProps = {
-    dataSource: [{
-      station: 'Trạm Formosa Hà Tĩnh',
-      exceededTime: moment().format(),
-      exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L'],
-      exceededPreparingParams: ['pH 7 (7.5)']
-    },
-    {
-      station: 'Trạm Formosa Hà Tĩnh',
-      exceededTime: moment().format(),
-      exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L'],
-      exceededPreparingParams: ['pH 7 (7.5)']
-    }]
-  }
+  static defaultProps = {}
 
   state = {
     page: 1,

@@ -15,10 +15,13 @@ export default class NotificationDrawer extends React.Component {
   }
   state = {}
 
+  componentWillMount() {
+    this.props.loadNotifications(1)
+  }
+
   render() {
-    this.props.loadNotifications(this.props.tabKey, 4)
     return (
-      <div onClick={ this.props.loadNotifications( 1)}>Lost data</div>
+      <div>Lost data</div>
     )
   }
 }

@@ -3,9 +3,14 @@ import propTypes from 'prop-types'
 import {Drawer, Icon, Tabs, Badge} from 'antd'
 
 import { translate } from 'hoc/create-lang'
+import { TAB_KEYS } from 'constants/notification'
+import { connectAutoDispatch } from 'redux/connect'
+import {loadNotificationsByType} from 'redux/actions/notification'
 import ExceededTabContent from './tabs/exceeded'
 import LostDataTabContent from './tabs/lostData'
 import SensorErrorTabContent from './tabs/sensorError'
+
+
 
 const TabPane = Tabs.TabPane
 
@@ -15,17 +20,17 @@ const i18n = {
   sensorError: translate('warningLevels.sensorError'),
 }
 
-const TAB_KEYS = {
-  EXCEEDED: 'EXCEEDED',
-  LOST_DATA: 'LOST_DATA',
-  DEVICE_ERROR: 'DEVICE_ERROR' 
-}
-
+@connectAutoDispatch(
+  (state) => {},
+  { loadNotificationsByType }
+)
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
     closeDrawer: propTypes.func.isRequired,
     visible: propTypes.bool.isRequired,
-    notificationNumbers: propTypes.object.isRequired
+    notificationNumbers: propTypes.object.isRequired,
+    dataSources: propTypes.object.isRequired,
+    // notificationNumbers: propTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -47,7 +52,10 @@ export default class NotificationDrawer extends React.Component {
 
   render() {
     const {currentTabKey, notifications} = this.state
-    const { notificationNumbers, closeDrawer } = this.props
+    const { 
+      notificationNumbers, closeDrawer,
+      dataSources,
+     } = this.props
     return (
       <Drawer
         width='40vw'
@@ -99,7 +107,8 @@ export default class NotificationDrawer extends React.Component {
   }
 
   loadNotifications = (page) => {
-    const {currentTabKey} = this.state
+    const { currentTabKey } = this.state
+    this.props.loadNotificationsByType()
     console.log('loadNotifications: ',page, currentTabKey)
     /* TODO  getNotification(tabKey, page)*/
   }

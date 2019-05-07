@@ -11,14 +11,19 @@ export default class NotificationDrawer extends React.Component {
     loadNotifications: propTypes.func.isRequired,
     tabKey: propTypes.string.isRequired
   }
+  
   static defaultProps = {
   }
+  
   state = {}
 
+  componentWillMount() {
+    this.props.loadNotifications(1)
+  }
+
   render() {
-    this.props.loadNotifications(this.props.tabKey, 99)
     return (
-      <div onClick={ this.props.loadNotifications(1)}>Sensor error</div>
+      <div>Sensor error</div>
     )
   }
 }
