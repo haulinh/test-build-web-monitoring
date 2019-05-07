@@ -30,6 +30,9 @@ export function getConfigApi() {
     stationConfig: c('config/station'), //stationConfig: 'http://localhost:5002/config/station'
     ftp: c('ftp'),
     fcmMessages: c('fcm-messages'),
+    fcmNotification: c('fcm-notification'),
+    fcmToken: c('fcm-token'),
+    // fcmToken: 'http://localhost:5008/fcm-token',
     organization: c('organization'),
     role: c('role'),
     // role: 'http://localhost:5006/role',
@@ -45,11 +48,7 @@ export function getConfigApi() {
     // wqi: 'http://192.168.1.72:5017/wqi',
     // support: 'http://localhost:5014/support', //comemnt lcoal
     sampleConfig: c('configSample'), // local.,
-
-    camera: config.camera
+    camera: config.camera,
+    firebase: config.firebase
   }
-}
-
-export const GOOGLE_MAP = {
-  KEY: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4'
 }

@@ -16,6 +16,7 @@ import browserHistory from 'history/createBrowserHistory'
 import configureStore from './redux/createStore'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
+import registerServiceWorkerFireBase from './registerServiceWorkerFireBase'
 
 const rootEl = document.getElementById('root')
 
@@ -30,8 +31,10 @@ const store = configureStore(getStoreDefault(), {
 })
 
 getFetch('/app.json').then(dataConfig => {
+  console.log('dataConfig',dataConfig)
   window.config = dataConfig
 
+  console.log('dataConfig',dataConfig)
   const render = Component => {
     ReactDOM.render(
       <AppContainer>
@@ -50,4 +53,5 @@ getFetch('/app.json').then(dataConfig => {
     })
   }
   registerServiceWorker()
+  registerServiceWorkerFireBase()
 })

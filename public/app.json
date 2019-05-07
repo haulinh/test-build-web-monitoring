@@ -6,6 +6,9 @@
     "host": "http://35.247.172.138:7001",
     "username": "admin",
     "password": "DichVuSo1"
+  },
+  "firebase": {
+    "id": "378057037919",
+    "key": "BFl94_PkChgm29pzLORmK3ontJsbkGmWDoO4z1gJBjIiW-j5vbp8IlVy18OydRo4GBrPF2l-dLl0OANbDFxYtHM"
   }
 }
-
