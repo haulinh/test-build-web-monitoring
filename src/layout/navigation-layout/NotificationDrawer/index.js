@@ -98,7 +98,7 @@ export default class NotificationDrawer extends React.Component {
     /* TODO   */
   }
 
-  loadNotifications = (tabKey, page) => {
+  loadNotifications = (page) => {
     const {currentTabKey} = this.state
     console.log('loadNotifications: ',page, currentTabKey)
     /* TODO  getNotification(tabKey, page)*/
