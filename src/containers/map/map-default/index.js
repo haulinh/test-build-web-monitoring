@@ -1,19 +1,19 @@
-import React from "react"
-import { autobind } from "core-decorators"
-import styled from "styled-components"
-import StationAutoApi from "api/StationAuto"
-import MapView from "./map-view"
-import { resolveMapLocation } from "utils/resolveMapLocation"
-import BoxHideLayout from "components/map/box-hide-layout"
-import stationStatus from "constants/stationStatus"
-import { warningLevelsNumber, warningLevels } from "constants/warningLevels"
-import searchSidebarType from "constants/searchSidebarType"
-import ROLE from "constants/role"
-import protectRole from "hoc/protect-role/index.backup"
-import queryFormDataBrowser from "hoc/query-formdata-browser"
-import connectWindowHeight from "../hoc-window-height"
-import SidebarNormal from "./sidebar/SidebarNormal"
-import { getStatusItem, STATUS_STATION } from 'constants/stationStatus';
+import React from 'react'
+import { autobind } from 'core-decorators'
+import styled from 'styled-components'
+import StationAutoApi from 'api/StationAuto'
+import MapView from './map-view'
+import { resolveMapLocation } from 'utils/resolveMapLocation'
+import BoxHideLayout from 'components/map/box-hide-layout'
+import stationStatus from 'constants/stationStatus'
+import { warningLevelsNumber, warningLevels } from 'constants/warningLevels'
+import searchSidebarType from 'constants/searchSidebarType'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role/index.backup'
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import connectWindowHeight from '../hoc-window-height'
+import SidebarNormal from './sidebar/SidebarNormal'
+import { getStatusItem, STATUS_STATION } from 'constants/stationStatus'
 
 // import SidebarNotifications from './sidebar/SidebarNotifications.remove'
 // import { TYPE } from './components/box-analytic-list/SelectType'
@@ -110,14 +110,13 @@ export default class MapDefault extends React.PureComponent {
       stationAutoList = await resolveMapLocation(stationAutoList)
 
       //Qui: Phân tích trạng thái của trạng trước khi view
-      const dataAnalytic =  stationAutoList.map( (item) => {
+      const dataAnalytic = stationAutoList.map(item => {
         const statusAnalytic = getStatusItem(item)
         return {
           ...item,
           statusAnalytic
         }
       })
-
 
       this.setState({
         stationsAuto: dataAnalytic
@@ -148,7 +147,7 @@ export default class MapDefault extends React.PureComponent {
 
   fillStatusChange(focusStatus, findBy) {
     let res = this.state.stationsAuto
-    
+
     res = res.map(element => {
       element.visible = false
       let status
@@ -157,7 +156,7 @@ export default class MapDefault extends React.PureComponent {
         status = stationStatus.CONNECTED
       }
 
-      if (findBy === "byStationStatus") {
+      if (findBy === 'byStationStatus') {
         element.byStationStatus = true
         if (element.status === stationStatus.DATA_LOSS) {
           status = stationStatus.DATA_LOSS
@@ -167,7 +166,7 @@ export default class MapDefault extends React.PureComponent {
         }
       }
 
-      if (findBy === "byDataStatus") {
+      if (findBy === 'byDataStatus') {
         status = element.statusAnalytic
       }
 

@@ -78,6 +78,7 @@ export default class Login extends PureComponent {
 
   userError(user) {
     let title = user.message
+    console.log(Errors.ACCOUNT_DELETE, 'Errors.ACCOUNT_DELETE')
     if (user.message === Errors.USER_PASSWORD_INCORRECT) {
       title = translate('login.errors.emailOrPasswordIncorrect')
     } else if (user.message === Errors.ACCOUNT_DISABLE) {
@@ -88,6 +89,9 @@ export default class Login extends PureComponent {
       title = translate('login.errors.codeNotEqual')
     } else if (user.message === Errors.ORGANIZATION_NOT_EXIST) {
       title = translate('login.errors.organizationNotExist')
+    }
+    if (user.message === Errors.ACCOUNT_DELETE) {
+      title = translate('login.errors.accountDelete')
     }
     swal({
       title: title,
@@ -107,6 +111,7 @@ export default class Login extends PureComponent {
     if (!this.state.isTwoFactorAuth) {
       const user = await this.props.userLogin(values)
       if (user.error) {
+        console.log(user, 'user')
         this.userError(user)
       } else {
         if (user.data.twoFactorAuth && user.data.twoFactorAuth.enable) {
@@ -128,11 +133,10 @@ export default class Login extends PureComponent {
     }
   }
 
-
-  getEmail_Sms () {
+  getEmail_Sms() {
     if (_.get(this.props, 'userInfo.twoFactorAuth.type') === 'sms') {
       return _.get(this.props, 'userInfo.phone.phoneNumber')
-    } 
+    }
 
     return _.get(this.state, 'formData.email')
   }

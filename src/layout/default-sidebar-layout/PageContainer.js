@@ -1,37 +1,37 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import BreadcrumbBar from "shared/breadcrumb/BreadcrumbBar";
-import { SHAPE } from "themes/color";
-import Clearfix from "components/elements/clearfix";
-import { StickyContainer, Sticky } from "react-sticky";
-import LoaderCircle from "components/elements/loader-circle";
-import { Affix } from "antd";
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import BreadcrumbBar from 'shared/breadcrumb/BreadcrumbBar'
+import { SHAPE } from 'themes/color'
+import Clearfix from 'components/elements/clearfix'
+import { StickyContainer, Sticky } from 'react-sticky'
+import LoaderCircle from 'components/elements/loader-circle'
+import { Affix } from 'antd'
 
 const HeaderFlex = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`
 
 export const Grid = styled.div`
   width: 95%;
   margin-left: auto;
   margin-right: auto;
-`;
+`
 
 const BreadcrumbContainer = styled.div`
   padding: 16px 0px;
   background-color: ${SHAPE.GRAYLIGHT};
   height: 68.8px;
-`;
+`
 
 const PageBodyWrapper = styled.div`
-  background-color: ${props => (props.color ? props.color : "#ffffff")};
+  background-color: ${props => (props.color ? props.color : '#ffffff')};
   flex: 1 1 auto;
   position: relative;
   z-index: 1;
-`;
+`
 
 const AbsoluteLoading = styled.div`
   position: absolute;
@@ -43,7 +43,7 @@ const AbsoluteLoading = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-`;
+`
 
 export default class PageContainer extends React.PureComponent {
   static propTypes = {
@@ -54,7 +54,7 @@ export default class PageContainer extends React.PureComponent {
     headerCustom: PropTypes.any,
     componentLoading: PropTypes.any,
     right: PropTypes.any
-  };
+  }
 
   renderHeader() {
     return (
@@ -65,7 +65,7 @@ export default class PageContainer extends React.PureComponent {
               ...props.style,
               top: 0,
               zIndex: 2,
-              borderBottom: props.isSticky ? "1px solid #eeeeee" : ""
+              borderBottom: props.isSticky ? '1px solid #eeeeee' : ''
             }}
           >
             <BreadcrumbContainer style={this.props.style}>
@@ -84,7 +84,7 @@ export default class PageContainer extends React.PureComponent {
           </div>
         )}
       </Sticky>
-    );
+    )
   }
 
   render() {
@@ -94,7 +94,7 @@ export default class PageContainer extends React.PureComponent {
           <style
             type="text/css"
             dangerouslySetInnerHTML={{
-              __html: "body{background-color: #fafbfb;}"
+              __html: 'body{background-color: #fafbfb;}'
             }}
           />
           {!this.props.hideTitle ? this.renderHeader() : null}
@@ -127,6 +127,6 @@ export default class PageContainer extends React.PureComponent {
             ))}
         </PageBodyWrapper>
       </StickyContainer>
-    );
+    )
   }
 }

@@ -114,19 +114,31 @@ export const putDataFtpTranfer = params => {
 }
 
 export function fetchDataStatistict(key, { from, to, dataFrequency } = {}) {
-  var url = getDataStationAutoUrl(`${key}/statistict?to=${to}&from=${from}&dataFrequency=${dataFrequency}`)
+  var url = getDataStationAutoUrl(
+    `${key}/statistict?to=${to}&from=${from}&dataFrequency=${dataFrequency}`
+  )
   return getFetch(url)
 }
 
-export function exportDataStatistict(key, { from, to, dataFrequency, stationName } = {}) {
-  var url = getDataStationAutoUrl(`${key}/export-statistict?to=${to}&from=${from}&dataFrequency=${dataFrequency}&stationName=${stationName}`)
-  return getFetch(url)
-}
-
-export function getDataStatistictExceeded(key,
-  { from, to, measuringList} = {}
+export function exportDataStatistict(
+  key,
+  { from, to, dataFrequency, stationName } = {}
 ) {
-  var url = getDataStationAutoUrl(`${key}/exceeded-statistict?to=${to}&from=${from}&measuringList=${measuringList.join(',')}`)
+  var url = getDataStationAutoUrl(
+    `${key}/export-statistict?to=${to}&from=${from}&dataFrequency=${dataFrequency}&stationName=${stationName}`
+  )
+  return getFetch(url)
+}
+
+export function getDataStatistictExceeded(
+  key,
+  { from, to, measuringList } = {}
+) {
+  var url = getDataStationAutoUrl(
+    `${key}/exceeded-statistict?to=${to}&from=${from}&measuringList=${measuringList.join(
+      ','
+    )}`
+  )
   return getFetch(url)
 }
 

@@ -83,7 +83,7 @@ export default class MonitoringHeaderFilter extends React.PureComponent {
             {
               value: 'number',
               name: translate('monitoring.sortByValues')
-            },
+            }
           ]}
           {...this.getPropsSelect('order', translate('monitoring.selectOrder'))}
         />

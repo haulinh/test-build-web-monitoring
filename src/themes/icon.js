@@ -24,11 +24,10 @@ import PublishConfigIcon from '@atlaskit/icon/glyph/preferences'
 import FtpTranferIcon from '@atlaskit/icon/glyph/pdf'
 import ConfigWQI from '@atlaskit/icon/glyph/jira/capture'
 import AqiStatisticIcon from '@atlaskit/icon/glyph/vid-connection-circle'
-import WqiStatisticIcon from '@atlaskit/icon/glyph/media-services/pdf';
-import DepartmentIcon from '@atlaskit/icon/glyph/department';
-import FeedbackIcon from '@atlaskit/icon/glyph/feedback';
-import IssuesIcon from '@atlaskit/icon/glyph/issues';
-
+import WqiStatisticIcon from '@atlaskit/icon/glyph/media-services/pdf'
+import DepartmentIcon from '@atlaskit/icon/glyph/department'
+import FeedbackIcon from '@atlaskit/icon/glyph/feedback'
+import IssuesIcon from '@atlaskit/icon/glyph/issues'
 
 export default {
   quizLists: <QuizListIcon label={''} size={'medium'} />,
@@ -59,6 +58,5 @@ export default {
   configWQI: <ConfigWQI label={''} size={'medium'} />,
   handleData: <DepartmentIcon label={''} size={'medium'} />,
   advance: <FeedbackIcon label={''} size={'medium'} />,
-  config: <IssuesIcon label={''} size={'medium'} />,
-  
+  config: <IssuesIcon label={''} size={'medium'} />
 }

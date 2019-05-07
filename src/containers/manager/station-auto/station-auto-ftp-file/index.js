@@ -275,20 +275,19 @@ export default class StationAutoFtpFile extends React.PureComponent {
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb items={this.state.breadcrumb} />
         <Spin style={{ width: '100%' }} spinning={!this.props.isLoaded}>
-          {this.props.isLoaded &&
-            this.props.success && (
-              <DynamicTable
-                isFixedSize
-                isLoading={this.state.isLoading}
-                paginationOptions={{
-                  isSticky: true
-                }}
-                head={this.getHead()}
-                rows={this.getRows()}
-                pagination={this.state.pagination}
-                onSetPage={this.onChangePage}
-              />
-            )}
+          {this.props.isLoaded && this.props.success && (
+            <DynamicTable
+              isFixedSize
+              isLoading={this.state.isLoading}
+              paginationOptions={{
+                isSticky: true
+              }}
+              head={this.getHead()}
+              rows={this.getRows()}
+              pagination={this.state.pagination}
+              onSetPage={this.onChangePage}
+            />
+          )}
         </Spin>
       </PageContainer>
     )

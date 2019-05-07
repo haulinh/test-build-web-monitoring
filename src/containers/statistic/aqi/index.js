@@ -40,17 +40,14 @@ export default class AQIStatistics extends React.Component {
       isLoading: true,
       isHaveData: true
     })
- 
+
     const key = searchFormData.key
     const params = {
       from: searchFormData.fromDate,
       to: searchFormData.toDate
     }
-    let dataAQI = await aqiApi.fetchAqiHistory(key, {...params})
-    if (
-      dataAQI &&
-      (Array.isArray(dataAQI.data) && dataAQI.data.length === 0) 
-    ) {
+    let dataAQI = await aqiApi.fetchAqiHistory(key, { ...params })
+    if (dataAQI && (Array.isArray(dataAQI.data) && dataAQI.data.length === 0)) {
       swal({
         type: 'success',
         title: translate('dataSearchFrom.table.emptyText')
@@ -59,7 +56,7 @@ export default class AQIStatistics extends React.Component {
 
     this.setState({
       isLoading: false,
-      dataAQI: _.get(dataAQI,'data',[]),
+      dataAQI: _.get(dataAQI, 'data', []),
       searchFormData: searchFormData
     })
   }
@@ -68,20 +65,19 @@ export default class AQIStatistics extends React.Component {
     this.setState({
       isExporting: true
     })
-     const key = _.get(this.state.searchFormData, 'key', '')
-     const params = {
-       from: _.get(this.state.searchFormData, 'fromDate', ''),
-       to: _.get(this.state.searchFormData, 'toDate', '')
-     }
-     let res = await aqiApi.exportFileHistory(key, {...params})
-     if (res && res.success) window.location = res.data
-     else message.error('Export Error') //message.error(res.message)
+    const key = _.get(this.state.searchFormData, 'key', '')
+    const params = {
+      from: _.get(this.state.searchFormData, 'fromDate', ''),
+      to: _.get(this.state.searchFormData, 'toDate', '')
+    }
+    let res = await aqiApi.exportFileHistory(key, { ...params })
+    if (res && res.success) window.location = res.data
+    else message.error('Export Error') //message.error(res.message)
 
     this.setState({
       isExporting: false
     })
   }
-
 
   render() {
     return (

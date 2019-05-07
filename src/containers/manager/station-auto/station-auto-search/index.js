@@ -59,7 +59,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
       if (values.address) data.address = values.address
       if (values.name) data.name = values.name
       if (values.stationType) data.stationType = values.stationType
-      
+
       // Callback submit form Container Component
       this.setState({ dataSearch: data }, () => this.props.onChangeSearch(data))
     })
@@ -72,9 +72,19 @@ export default class StationAutoSearchForm extends React.PureComponent {
     const { t } = this.props.lang
     return (
       <Form className="fadeIn animated" onSubmit={this.changeSearch}>
-        <FormItem>{getFieldDecorator(`name`)(<Input placeholder={t('stationAutoManager.form.name.label')} />)}</FormItem>
+        <FormItem>
+          {getFieldDecorator(`name`)(
+            <Input placeholder={t('stationAutoManager.form.name.label')} />
+          )}
+        </FormItem>
         <Clearfix />
-        <FormItem>{getFieldDecorator(`address`)(<Input placeholder={t('stationAutoManager.form.address.placeholder')} />)}</FormItem>
+        <FormItem>
+          {getFieldDecorator(`address`)(
+            <Input
+              placeholder={t('stationAutoManager.form.address.placeholder')}
+            />
+          )}
+        </FormItem>
         <Clearfix />
         <SelectWrapper>
           {getFieldDecorator(`stationType`)(

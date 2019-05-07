@@ -36,7 +36,7 @@ export function putSecurity(data) {
   return putFetch(getUserUrl('organization/security/2fa'), data)
 }
 
-export function postSetPassword (data) {
+export function postSetPassword(data) {
   return postFetch(getAuthUrl('set-password'), data)
 }
 

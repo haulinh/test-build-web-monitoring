@@ -10,6 +10,5 @@ export default props => (
       path={slug.report.base}
       render={matchProps => <PageInfo {...matchProps} {...props} />}
     />
-  
   </Switch>
 )

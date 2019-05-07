@@ -87,7 +87,7 @@ export default class MeasuringList extends React.Component {
     const {
       lang: { t }
     } = this.props
-    return _.get(this.props,'dataSource', []).map((row, index) => [
+    return _.get(this.props, 'dataSource', []).map((row, index) => [
       {
         content: (
           <strong>

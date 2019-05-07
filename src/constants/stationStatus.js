@@ -33,7 +33,7 @@ export const STATUS_STATION = {
   DATA_LOSS: 'DATA_LOSS',
   EXCEEDED: 'EXCEEDED',
   EXCEEDED_PREPARING: 'EXCEEDED_PREPARING',
-  GOOD: 'GOOD',
+  GOOD: 'GOOD'
 }
 
 export const STATUS_STATION_LEVEL = {
@@ -55,7 +55,7 @@ export const getStatusPriority = (status1, status2) => {
   else return status2 ? status2 : STATUS_STATION.GOOD
 }
 
-export const getStatusItem = (item) => {
+export const getStatusItem = item => {
   if (item.status === STATUS_STATION.HIGHTGEST) return STATUS_STATION.HIGHTGEST
   if (item.status === STATUS_STATION.NOT_USE) return STATUS_STATION.HIGHTGEST // MARK  status cũ do back-end trả về, vẫn còn trạng thái NOT_USE
   if (item.lastLog) {

@@ -1,24 +1,24 @@
 /* libs import */
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { Row, Col, Tabs } from "antd"
-import { withRouter } from "react-router"
-import { connect } from "react-redux"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Row, Col, Tabs } from 'antd'
+import { withRouter } from 'react-router'
+import { connect } from 'react-redux'
 
 /* user import */
-import MoreSampling from "./sampling/"
-import MoreCamera from "./camera"
-import MoreChart from "./chart/index"
-import MoreMap from "./map"
-import MoreImage from "./image"
-import MoreStation from "./station"
-import MoreRating from "./rating"
+import MoreSampling from './sampling/'
+import MoreCamera from './camera'
+import MoreChart from './chart/index'
+import MoreMap from './map'
+import MoreImage from './image'
+import MoreStation from './station'
+import MoreRating from './rating'
 
 const MoreContentWrapper = styled.div`
   min-width: 300px;
-  border: ${props => (props.panel === "" ? "none" : " solid 1px #80808030")};
-  max-width: ${props => (props.isOpen ? "73vw" : "88vw")};
+  border: ${props => (props.panel === '' ? 'none' : ' solid 1px #80808030')};
+  max-width: ${props => (props.isOpen ? '73vw' : '88vw')};
 `
 
 const tabsStyle = panel => ({
@@ -40,8 +40,8 @@ export default class SamplingMoreInfo extends React.Component {
 
   static defaultProps = {
     isActive: false,
-    panel: "",
-    stationID: ""
+    panel: '',
+    stationID: ''
   }
 
   state = {}
@@ -49,13 +49,11 @@ export default class SamplingMoreInfo extends React.Component {
   render() {
     if (!this.props.isActive) return null
     console.log('------ stationInfo ------', this.props.stationInfo)
-    const { panel, stationID, stationInfo} = this.props
+    const { panel, stationID, stationInfo } = this.props
     return (
-      <MoreContentWrapper panel={panel} isOpen ={this.props.isOpen}>
-        {panel !== "" && (
-          <Row
-            style={{height: `100%`}}
-          >
+      <MoreContentWrapper panel={panel} isOpen={this.props.isOpen}>
+        {panel !== '' && (
+          <Row style={{ height: `100%` }}>
             <Col span={24}>
               <Tabs
                 activeKey={panel}

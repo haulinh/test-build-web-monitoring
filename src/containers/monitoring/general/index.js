@@ -22,8 +22,8 @@ import {
 } from 'components/monitoring/filter/options'
 import createContentLoader from 'hoc/content-loader'
 import { translate } from 'hoc/create-lang'
-import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus';
-import { warningLevels } from 'constants/warningLevels';
+import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
+import { warningLevels } from 'constants/warningLevels'
 
 const ContainerHeader = styled.div`
   flex-direction: row;
@@ -64,14 +64,14 @@ export default class MonitoringGeneral extends React.Component {
     if (item.status === STATUS_STATION.HIGHTGEST)
       return STATUS_STATION.HIGHTGEST
     if (item.lastLog) {
-      let warLevel = warningLevels.GOOD;
-      let measuringLogs = item.lastLog.measuringLogs;
+      let warLevel = warningLevels.GOOD
+      let measuringLogs = item.lastLog.measuringLogs
       for (let key in measuringLogs) {
-        warLevel = getStatusPriority(warLevel, measuringLogs[key].warningLevel);
+        warLevel = getStatusPriority(warLevel, measuringLogs[key].warningLevel)
       }
       return warLevel
     }
-    return STATUS_STATION.GOOD;
+    return STATUS_STATION.GOOD
   }
 
   appendWarningLevelStationAuto(stationAutoList) {
@@ -88,7 +88,7 @@ export default class MonitoringGeneral extends React.Component {
       return {
         ...stationAuto,
         totalWarning,
-        statusAnalytic: this.getStatusItem(stationAuto),
+        statusAnalytic: this.getStatusItem(stationAuto)
       }
     })
   }

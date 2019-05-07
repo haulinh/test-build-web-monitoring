@@ -17,7 +17,7 @@ const createQueryFormDataBrowser = (queryParams = []) => Component => {
     }
 
     // NOTE: mục đích chưa hiểu
-    // Input: 
+    // Input:
     getQuery() {
       let query = {}
       queryParams.forEach(key => {
