@@ -6,9 +6,9 @@ import * as _ from 'lodash'
 
 import { translate } from 'hoc/create-lang'
 import ChartBaseView from './chart-base'
-import { COLOR_STATUS } from 'themes/color';
-import { STATUS_STATION } from 'constants/stationStatus';
-import { ROUND_DIGIT } from 'constants/format-number';
+import { COLOR_STATUS } from 'themes/color'
+import { STATUS_STATION } from 'constants/stationStatus'
+import { ROUND_DIGIT } from 'constants/format-number'
 
 @autobind
 export default class ChartStatusView extends React.PureComponent {
@@ -21,10 +21,9 @@ export default class ChartStatusView extends React.PureComponent {
       allowOverlap: true,
       formatter: function() {
         if (this.y === 0) return ''
-        return `${this.y} ${translate('dashboard.chartStatus.stations')} (${_.round(
-          (this.y / this.total) * 100,
-          2
-        )}%)`
+        return `${this.y} ${translate(
+          'dashboard.chartStatus.stations'
+        )} (${_.round((this.y / this.total) * 100, 2)}%)`
       },
 
       center: ['50%', '75%'],
@@ -33,12 +32,11 @@ export default class ChartStatusView extends React.PureComponent {
       }
     }
 
-
     let goodTotal = 0
     let lossData = 0
     let tpm = _.values(dataGroup)
 
-    if(_.isArray(tpm) && tpm.length >0){
+    if (_.isArray(tpm) && tpm.length > 0) {
       tpm = tpm[0]
     }
 
@@ -140,7 +138,7 @@ export default class ChartStatusView extends React.PureComponent {
       name: titleActive,
       data: [],
       dataLabels,
-      color: COLOR_STATUS.GOOD,
+      color: COLOR_STATUS.GOOD
     }
     // const seriesUnActive = {
     //   name: tittleUnActive,
@@ -152,7 +150,8 @@ export default class ChartStatusView extends React.PureComponent {
     _.forEach(_.keys(dataGroup), key => {
       const ls = _.get(dataGroup, key, [])
 
-      const good = _.filter(ls, ({ status }) => status === STATUS_STATION.GOOD).length
+      const good = _.filter(ls, ({ status }) => status === STATUS_STATION.GOOD)
+        .length
       // const dataLoss = _.filter(ls, ({ status }) => status === 'DATA_LOSS')
       //   .length
 
@@ -232,7 +231,7 @@ export default class ChartStatusView extends React.PureComponent {
         style={{ flex: 1, marginRight: 8 }}
       >
         <Card bordered style={{ paddingBottom: 21 }}>
-        <Spin spinning={this.props.loading}>
+          <Spin spinning={this.props.loading}>
             <ReactHighcharts config={this.getConfigStatus()} />
           </Spin>
         </Card>

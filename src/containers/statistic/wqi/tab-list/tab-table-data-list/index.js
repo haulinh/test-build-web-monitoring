@@ -31,10 +31,10 @@ export default class TableDataList extends React.PureComponent {
     const columns = [
       {
         title: translate('statistic.wqi.time'),
-        children:[
+        children: [
           {
             title: translate('statistic.wqi.day'),
-            align:'center',
+            align: 'center',
             dataIndex: 'label',
             key: 'timeDay',
             width: 100

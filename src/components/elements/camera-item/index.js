@@ -55,7 +55,7 @@ export default class CameraItem extends React.PureComponent {
       )
     else
       return (
-        <video width="100%" autoplay="autoplay" loop="loop" src={rtspUrl}></video>
+        <video width="100%" autoplay="autoplay" loop="loop" src={rtspUrl} />
       )
   }
 

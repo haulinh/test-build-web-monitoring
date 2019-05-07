@@ -1,11 +1,11 @@
-import React from "react"
-import { withRouter } from "react-router"
-import PropTypes from 'prop-types';
+import React from 'react'
+import { withRouter } from 'react-router'
+import PropTypes from 'prop-types'
 
-import styled from "styled-components"
-import MonitoringMapView from "./map"
-import { getLastLog } from "api/StationAuto"
-import { map as _map, pick as _pick } from "lodash"
+import styled from 'styled-components'
+import MonitoringMapView from './map'
+import { getLastLog } from 'api/StationAuto'
+import { map as _map, pick as _pick } from 'lodash'
 
 const MapWrapper = styled.div`
   flex: 1;
@@ -20,7 +20,7 @@ export default class MapMoreInfo extends React.Component {
   state = {
     isLoading: false,
     stationMap: [],
-    stationFocus:null
+    stationFocus: null
   }
 
   async componentWillMount() {
@@ -29,16 +29,16 @@ export default class MapMoreInfo extends React.Component {
     let res = await getLastLog()
     if (res.success) {
       res.data = _map(res.data, item => {
-        const customNew = _pick(item, ["_id", "key", "name", "stationType"])
+        const customNew = _pick(item, ['_id', 'key', 'name', 'stationType'])
         const mapLocation = {
           lat: parseFloat(item.mapLocation.lat),
           lng: parseFloat(item.mapLocation.long)
         }
         let focusStaion = false
-        if(this.props.stationID === customNew._id){
+        if (this.props.stationID === customNew._id) {
           focusStaion = true
           this.setState({
-            stationFocus:mapLocation
+            stationFocus: mapLocation
           })
         }
         return { ...customNew, mapLocation, focusStaion }
@@ -54,7 +54,10 @@ export default class MapMoreInfo extends React.Component {
     return (
       <MapWrapper>
         {!this.state.isLoading && (
-          <MonitoringMapView  stationFocus={this.state.stationFocus} stationMap={this.state.stationMap ? this.state.stationMap : []} />
+          <MonitoringMapView
+            stationFocus={this.state.stationFocus}
+            stationMap={this.state.stationMap ? this.state.stationMap : []}
+          />
         )}
       </MapWrapper>
     )

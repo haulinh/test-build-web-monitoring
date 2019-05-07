@@ -1,6 +1,6 @@
 export const FORMAT_VALUE_MEASURING = 2 // '*,00'
 export const FORMAT_LOCAL = 'en'
-export const ROUND_DIGIT = 2  // Làm tròn số thap phan
+export const ROUND_DIGIT = 2 // Làm tròn số thap phan
 
 // Hien tai qui ve mot kieu la "EN"
 export function getFormatNumber(value, numberToFixed = FORMAT_VALUE_MEASURING) {

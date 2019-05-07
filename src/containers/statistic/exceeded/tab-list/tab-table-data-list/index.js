@@ -14,7 +14,7 @@ export default class TableDataList extends React.PureComponent {
     loading: PropTypes.bool
   }
 
-  getTitle = ({unit, name, key}) => {
+  getTitle = ({ unit, name, key }) => {
     if (!name) name = key
     if (unit) return `${name} (${unit})`
     return name
@@ -27,18 +27,18 @@ export default class TableDataList extends React.PureComponent {
       dataIndex: item,
       key: item,
       align: 'center',
-      render: value => value ? <div style={{color: 'red'}}>{value}</div> : value
+      render: value =>
+        value ? <div style={{ color: 'red' }}>{value}</div> : value
     }))
 
     const columnReceivedAt = {
-        title: translate('statistic.perRecDataFrom.time'),
-        align:'center',
-        dataIndex: 'receivedAt',
-        key: 'receivedAt'
+      title: translate('statistic.perRecDataFrom.time'),
+      align: 'center',
+      dataIndex: 'receivedAt',
+      key: 'receivedAt'
     }
     return [columnReceivedAt, ...cols]
   }
-
 
   showTotal = (total, range) => ` ${range[1]}/${total}`
   render() {
@@ -49,7 +49,7 @@ export default class TableDataList extends React.PureComponent {
           rowKey="timeDay"
           bordered
           columns={this.getColumns()}
-          dataSource = {this.props.dataSource}
+          dataSource={this.props.dataSource}
           pagination={{ showTotal: this.showTotal }}
           loading={this.props.loading}
           locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}

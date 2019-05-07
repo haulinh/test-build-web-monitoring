@@ -1,5 +1,3 @@
-
-
 import React from 'react'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'

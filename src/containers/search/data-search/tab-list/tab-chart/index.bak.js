@@ -18,7 +18,7 @@ import Highcharts from 'highcharts/highstock'
 import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
 import chartAutoResize from 'hoc/chart-autoresize'
-import { DATETIME_LABEL_FORMAT } from 'constants/chart-format';
+import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
 
 const TabChartWrapper = styled.div`
   display: flex;

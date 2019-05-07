@@ -105,7 +105,7 @@ export default class RoleList extends React.Component {
     } = this.props
     return [
       {
-        title: t('userManager.roleAssign.name'),
+        title: t('userManager.roleAssign.nameStation'),
         dataIndex: 'name'
       },
       {
@@ -157,11 +157,11 @@ export default class RoleList extends React.Component {
               <Col span={12}>
                 <FormItem
                   label={t('userManager.roleAssign.role')}
-                  labelCol={{ span: 2 }}
+                  labelCol={{ span: 4 }}
                   wrapperCol={{ span: 10 }}
                 >
                   <Select
-                    style={{ width: 240 }}
+                    style={{ width: 240, paddingLeft: '4px' }}
                     onChange={this.onChangeRole}
                     value={this.state.selectedRole._id}
                   >
@@ -185,17 +185,19 @@ export default class RoleList extends React.Component {
                 </FormItem>
               </Col>
             </Row>
+            {this.state.dataStations && (
+              <Table
+                rowSelection={rowSelection}
+                loading={!this.state.isLoaded}
+                columns={this.getColumns()}
+                dataSource={this.state.dataStations}
+                pagination={{
+                  pageSize: 1000,
+                  hideOnSinglePage: true
+                }}
+              />
+            )}
 
-            <Table
-              rowSelection={rowSelection}
-              loading={!this.state.isLoaded}
-              columns={this.getColumns()}
-              dataSource={this.state.dataStations}
-              pagination={{
-                pageSize: 1000,
-                hideOnSinglePage: true
-              }}
-            />
             <br />
             <FormItem>
               <Button

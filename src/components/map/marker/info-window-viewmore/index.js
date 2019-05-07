@@ -64,49 +64,51 @@ export default class InfoWindowViewMore extends React.PureComponent {
             {translate('map.dataTable.viewMore.viewData')}
           </LinkA>
         </Menu.Item>
-        {isCamera &&
-          protectRole(ROLE.MONITORING.CAMERA) && (
-            <Menu.Item key="1">
-              <LinkA
-                onClick={this.handleClickCamera}
-                target="_blank"
-                href={
-                  slug.monitoring.viewCameraWithKey + '/' + this.props.stationId
-                }
-              >
-                {translate('map.dataTable.viewMore.camera')}
-              </LinkA>
-            </Menu.Item>
-          )}
-        {isSampling &&
-          protectRole(ROLE.MONITORING.CONTROL) && (
-            <Menu.Item key="2">
-              <LinkA
-                onClick={this.handleClickSampling}
-                target="_blank"
-                href={
-                  slug.controlStation.triggerWithKey +
-                  `/` +
-                  this.props.stationKey +
-                  '/' +
-                  this.props.stationName
-                }
-              >
-                {translate('map.dataTable.viewMore.sampling')}
-              </LinkA>
-            </Menu.Item>
-          )}
+        {isCamera && protectRole(ROLE.MONITORING.CAMERA) && (
+          <Menu.Item key="1">
+            <LinkA
+              onClick={this.handleClickCamera}
+              target="_blank"
+              href={
+                slug.monitoring.viewCameraWithKey + '/' + this.props.stationId
+              }
+            >
+              {translate('map.dataTable.viewMore.camera')}
+            </LinkA>
+          </Menu.Item>
+        )}
+        {isSampling && protectRole(ROLE.MONITORING.CONTROL) && (
+          <Menu.Item key="2">
+            <LinkA
+              onClick={this.handleClickSampling}
+              target="_blank"
+              href={
+                slug.controlStation.triggerWithKey +
+                `/` +
+                this.props.stationKey +
+                '/' +
+                this.props.stationName
+              }
+            >
+              {translate('map.dataTable.viewMore.sampling')}
+            </LinkA>
+          </Menu.Item>
+        )}
       </Menu>
     )
     return (
       <WrapperViewMore>
-        <Dropdown getPopupContainer={()=> {
-          if(window.map){
-            return window.map.getDiv().firstChild
-          }else{
-            return document.body
-          }
-        }} overlay={dropdown} trigger={['click']}>
+        <Dropdown
+          getPopupContainer={() => {
+            if (window.map) {
+              return window.map.getDiv().firstChild
+            } else {
+              return document.body
+            }
+          }}
+          overlay={dropdown}
+          trigger={['click']}
+        >
           <LinkSpan className="ant-dropdown-link">
             <Icon type="right" /> {translate('dashboard.viewMore')}
           </LinkSpan>

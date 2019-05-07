@@ -101,7 +101,8 @@ export default {
           active: 'Active',
           actived: 'Actived (Click to cancel Sampling by Scheduled)',
           activeOverRange: 'Active Take sample when data over-range',
-          activedOverRange: 'Actived Take sample when data over-range (Click to Cancel)',
+          activedOverRange:
+            'Actived Take sample when data over-range (Click to Cancel)',
           history: {
             stt: 'STT',
             bottleNo: 'Bottle No',
@@ -118,16 +119,16 @@ export default {
           }
         }
       },
-      chart:{
-        tab:{
-          avgHour:"Hourly",
-          avgDay:"Daily",
+      chart: {
+        tab: {
+          avgHour: 'Hourly',
+          avgDay: 'Daily'
         },
-        content:{
-          minLimit: "Minimum",
-          maxLimit:"Maximum",
-          to:"To",
-          from:"From",
+        content: {
+          minLimit: 'Minimum',
+          maxLimit: 'Maximum',
+          to: 'To',
+          from: 'From'
         }
       }
     }
@@ -1012,14 +1013,16 @@ export default {
       login: 'Login',
       status: 'Status',
       roleAssign: 'Assign Role',
+      roleName: 'Role Name',
       createdAt: 'Created At',
       setPassword: 'Set Password',
       setPasswordSuccess: 'Update Password Successfully',
-      setPasswordFailure: 'Update Password Failure',
+      setPasswordFailure: 'Update Password Failure'
     },
     roleAssign: {
       role: 'Role',
-      name: 'Name',
+      name: 'Role Name',
+      nameStation: 'Management Stations',
       success: 'Update Rule User Successfully',
       error: 'Update Rule User Failed',
       address: 'Address',
@@ -1032,6 +1035,10 @@ export default {
       create: 'Create',
       edit: 'Edit'
     },
+    tableHeader: {
+      menu: 'Module',
+      action: 'Action'
+    },
     form: {
       name: {
         label: 'Name',
@@ -1042,6 +1049,68 @@ export default {
         label: 'Description',
         placeholder: 'Input Description',
         error: 'Please Input Description'
+      },
+      dashboard: {
+        name: 'Dashboard'
+      },
+      monitoring: {
+        name: 'Monitoring'
+      },
+      map: {
+        name: 'Map'
+      },
+      dataSearch: {
+        name: 'Data Search'
+      },
+      avgSearch: {
+        name: 'avg Search'
+      },
+      measuring: {
+        name: 'Measuring'
+      },
+      stationType: {
+        name: 'Station Type'
+      },
+      stationAuto: { name: 'Station Auto' },
+      user: { name: 'User' },
+      role: { name: 'Role' },
+      aqi: { name: 'AQI' },
+      wqi: { name: 'WQI' },
+      qaqc: { name: 'QAQC' },
+      qcvn: { name: 'QCVN' },
+      province: { name: 'Province' },
+      ftpTransfer: { name: 'Ftp Transfer' },
+      qaqcConfig: { name: 'Sharing Configurations' },
+      stationFixed: { name: 'Station Fixed' },
+      statistic: { name: 'Statistic' },
+      dataSearchFixed: { name: 'DataSearch Fixed' },
+      mapStationFixed: { name: 'Map Station Fixed' },
+      configWQI: { name: 'Config WQI' },
+      actions: {
+        camera: 'Camera',
+        control: 'Control',
+        export: 'Export',
+        Export: 'Xuất dữ liệu',
+        delete: 'Delete',
+        edit: 'Edit',
+        create: 'Create',
+        config: 'Config',
+        enableAccount: 'Enable Account',
+        role: 'Role',
+        remove: 'Remove',
+        approve: 'Approve',
+        restore: 'Restore',
+        unapprove: 'Un Approve',
+        manualapprove: 'Manual Approve',
+        exceeded: 'Exceeded',
+        per_received_data: 'Percent Received data',
+        per_received_data_export: 'Percent Received Data Export',
+        aqi: 'AQI',
+        wqi: 'WQI',
+        aqi_export: 'Export AQI',
+        wqi_export: 'Export WQI',
+        download: 'Download',
+        import: 'Import'
       }
     }
   },
@@ -1133,7 +1202,8 @@ export default {
     failure: 'Save failure',
     message: {
       userUse: 'You are using 2-layer authentication with {{=it.type}}',
-      code: 'Your verification code has been sent to: {{=it.phone}} (will expire after 10 minutes)' ,
+      code:
+        'Your verification code has been sent to: {{=it.phone}} (will expire after 10 minutes)',
       info: `Select authentication method when logging in:`
     },
     step1: 'Enter code',
@@ -1168,6 +1238,7 @@ export default {
     errors: {
       emailOrPasswordIncorrect: 'The email or password is incorrect.',
       accountDisable: 'Your account is disabled',
+      accountDelete: 'Your account is delete',
       accountNotActivated: 'Your account is not activated.',
       codeNotEqual: 'Authentication code is incorrect.',
       organizationNotExist: 'Your organization is not exist.'
@@ -1202,7 +1273,8 @@ export default {
     },
     onDelete: {
       success: 'Deleted Successfully',
-      error: 'Delete Error'
+      error: 'Delete Error',
+      warning: 'You cannot delete your own account'
     },
     onRestore: {
       success: 'Restored Successfully',
@@ -1216,7 +1288,7 @@ export default {
   },
   error: {
     text: 'Errors',
-    warningText: "Warning",
+    warningText: 'Warning',
     require: 'Require',
     email: 'Invalid Email Address',
     nullValue: 'Value is not available',
@@ -1224,8 +1296,9 @@ export default {
       sampling: {
         resetTitle: 'Confirm',
         resetSubtitle: 'Do you want to reset sampled bottle to zero?',
-        updateScheduleTitle: "Confirm",
-        updateScheduleSubtitle: "The number of bottles you want to get is invalid or the start time is less than 5 minutes compared to the current time",
+        updateScheduleTitle: 'Confirm',
+        updateScheduleSubtitle:
+          'The number of bottles you want to get is invalid or the start time is less than 5 minutes compared to the current time',
         takeSampling: `
           <div style="text-align: left">
           <p>Unable to connect to the control device, please check the information:</p>
@@ -1242,7 +1315,8 @@ export default {
       title: 'Confirm',
       monitoring: {
         sampling: {
-          cancelSchedule: "Are you sure you want to Cancel automatically sampling?"
+          cancelSchedule:
+            'Are you sure you want to Cancel automatically sampling?'
         }
       }
     }
@@ -1260,7 +1334,7 @@ export default {
   },
   menuApp: {
     dashboard: 'Dashboard',
-    
+
     monitoringSub: 'Data Monitoring',
     monitoring: {
       base: 'Real-time Monitoring',
@@ -1268,7 +1342,7 @@ export default {
       camera: 'Camera',
       historyData: 'History Data',
       avgData: 'Average Data',
-      report: 'Reports',
+      report: 'Reports'
     },
 
     processDataSub: 'Data Processing',
@@ -1279,7 +1353,7 @@ export default {
     shareDataSub: 'Sharing Data',
     shareData: {
       shareConfig: 'Sharing Configurations',
-      ftpConfig: 'FTP Transfer Configurations',
+      ftpConfig: 'FTP Transfer Configurations'
     },
 
     advanceSub: 'Advanced',
@@ -1366,39 +1440,39 @@ export default {
     perRecData: 'Percent Of Received Data',
     perRecDataFrom: {
       breadCrumb: 'Percent Of Received Data',
-      time:'Thời gian',
+      time: 'Thời gian',
       totalFile: 'Total file/day',
       totalFileReceivedAt: 'Total file received',
-      perFileReceivedAt:'Ratio file received (%)'
+      perFileReceivedAt: 'Ratio file received (%)'
     },
     exceededFrom: {
       breadCrumb: 'Statistics of the number of passes/days',
-      time:'Thời gian',
+      time: 'Thời gian',
       totalFile: 'Total file/day',
       totalFileReceivedAt: 'Total file received',
-      perFileReceivedAt:'Ratio file received (%)'
+      perFileReceivedAt: 'Ratio file received (%)'
     },
     aqi: {
-      menuApp:'AQI',
+      menuApp: 'AQI',
       breadCrumb: 'AQI hours - days',
       selectMonths: 'Select months',
-      time:'Time',
-      day:'Day',
-      title:'AQI By Hours'
+      time: 'Time',
+      day: 'Day',
+      title: 'AQI By Hours'
     },
     wqi: {
-      menuApp:'WQI',
+      menuApp: 'WQI',
       breadCrumb: 'WQI',
       selectMonths: 'Select months',
-      time:'Time',
-      day:'Day',
-      title:'WQI By Hours',
+      time: 'Time',
+      day: 'Day',
+      title: 'WQI By Hours'
     }
   },
   pageInfo: {
     header: 'Information',
-    body1: 'This is a function of the Advanced version, please contact us for more information::',
+    body1:
+      'This is a function of the Advanced version, please contact us for more information::',
     body2: 'Email: sales@vietan-software.com'
   }
 }
-

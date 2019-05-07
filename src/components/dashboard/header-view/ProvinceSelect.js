@@ -63,7 +63,9 @@ export default class ProvinceSelect extends PureComponent {
           onChange={this.handerOnChange}
           defaultValue=""
         >
-          <Select.Option value={''}>{translate('dashboard.selectProvince')}</Select.Option>
+          <Select.Option value={''}>
+            {translate('dashboard.selectProvince')}
+          </Select.Option>
           {this.state.provinceList.map(({ key, name }) => (
             <Select.Option key={key} value={key}>
               {name}

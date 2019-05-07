@@ -18,7 +18,6 @@ import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import OptionsMonthRange from '../../common/options-time-month-range'
 
-
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FSelectStationType = createValidateComponent(SelectStationType)
@@ -38,7 +37,7 @@ function validate(values) {
     errors.stationAuto = translate('avgSearchFrom.form.stationAuto.error')
   if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
   if (values.measuringList && values.measuringList.length === 0)
-  errors.measuringList = translate('avgSearchFrom.form.measuringList.require')
+    errors.measuringList = translate('avgSearchFrom.form.measuringList.require')
   return errors
 }
 
@@ -196,21 +195,21 @@ export default class SearchForm extends React.Component {
                 size="large"
                 onHandleChange={this.handleChangeStationType}
                 component={FSelectStationType}
-                isAuto= {null}
+                isAuto={null}
               />
             </Col>
             <Col span={8}>
-                <Field
-                  label={t('stationAuto.label')}
-                  name="station"
-                  size="large"
-                  provinceKey={this.state.provinceKey}
-                  stationTypeKey={this.state.stationTypeKey}
-                  component={FSelectStationAuto}
-                  onChangeObject={this.handleChangeStationAuto}
-                  stationKey={this.state.stationKey}
-                  setKey
-                />
+              <Field
+                label={t('stationAuto.label')}
+                name="station"
+                size="large"
+                provinceKey={this.state.provinceKey}
+                stationTypeKey={this.state.stationTypeKey}
+                component={FSelectStationAuto}
+                onChangeObject={this.handleChangeStationAuto}
+                stationKey={this.state.stationKey}
+                setKey
+              />
             </Col>
           </Row>
           <Clearfix height={16} />

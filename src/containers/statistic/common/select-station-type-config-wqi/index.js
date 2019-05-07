@@ -26,20 +26,20 @@ export default class SelectStationTypeConfigAQI extends PureComponent {
   }
 
   async componentDidMount() {
-    const stationConfigs = await stationConfigApi.getStationsConfig({},{config: 'WQI'})
+    const stationConfigs = await stationConfigApi.getStationsConfig(
+      {},
+      { config: 'WQI' }
+    )
     if (stationConfigs.success) {
       const listStationConfig = _.get(stationConfigs, 'data', [])
       const stationTypeConfigAQI = []
       const keys = []
-      _.forEach(
-        listStationConfig,
-        ({ stationType: { key, name } }) => {
-          if (!_.includes(keys, key)) {
-            keys.push(key)
-            stationTypeConfigAQI.push({ name: name, key: key })
-          }
+      _.forEach(listStationConfig, ({ stationType: { key, name } }) => {
+        if (!_.includes(keys, key)) {
+          keys.push(key)
+          stationTypeConfigAQI.push({ name: name, key: key })
         }
-      )
+      })
       this.setState({
         stationTypes: stationTypeConfigAQI,
         value: this.props.value

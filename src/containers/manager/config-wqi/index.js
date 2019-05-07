@@ -29,15 +29,12 @@ export default class ConfigWQIContainer extends React.Component {
     const listStationAuto = _.get(rs, 'data', [])
     const stationTypeAuto = []
     const keys = []
-    _.forEach(
-      listStationAuto,
-      ({ stationType: { key, name } }) => {
-        if (!_.includes(keys, key)) {
-          keys.push(key)
-          stationTypeAuto.push({ text: name, value: key })
-        }
+    _.forEach(listStationAuto, ({ stationType: { key, name } }) => {
+      if (!_.includes(keys, key)) {
+        keys.push(key)
+        stationTypeAuto.push({ text: name, value: key })
       }
-    )
+    })
     this.setState({ listStationAuto, stationTypeAuto })
   }
 
@@ -48,15 +45,12 @@ export default class ConfigWQIContainer extends React.Component {
 
     const stationTypeFixed = []
     const keys = []
-    _.forEach(
-      listStationfixed,
-      ({ stationType: { key, name } }) => {
-        if (!_.includes(keys, key)) {
-          keys.push(key)
-          stationTypeFixed.push({ text: name, value: key })
-        }
+    _.forEach(listStationfixed, ({ stationType: { key, name } }) => {
+      if (!_.includes(keys, key)) {
+        keys.push(key)
+        stationTypeFixed.push({ text: name, value: key })
       }
-    )
+    })
 
     this.setState({ listStationfixed, stationTypeFixed })
   }

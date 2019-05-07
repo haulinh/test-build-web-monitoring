@@ -15,7 +15,7 @@ export function fetchAqiByDay(key, params = {}) {
 
 export function fetchAqiHistory(key, { from, to, type } = {}) {
   var url = getAqiUrl(`${key}/histories-statistics?to=${to}&from=${from}`)
-  if(type) url += `&type=${type}`
+  if (type) url += `&type=${type}`
   return getFetch(url)
 }
 export function exportFileHistory(key, { from, to } = {}) {

@@ -129,7 +129,7 @@ export default class TabsStationAuto extends React.Component {
         key: _.get(record, 'key', ''),
         name: _.get(record, 'name', ''),
         stationType: _.get(record, 'stationType', {}),
-        province: _.get(record,'province', {}),
+        province: _.get(record, 'province', {}),
         config: { ...data }
       }
 

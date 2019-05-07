@@ -4,7 +4,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import slug from 'constants/slug'
-import { COLOR_STATUS } from 'themes/color';
+import { COLOR_STATUS } from 'themes/color'
 const SummaryItemWrapper = styled.div`
   display: flex;
   flex: 1;
@@ -12,8 +12,7 @@ const SummaryItemWrapper = styled.div`
   padding: 12px 16px;
   background-color: ${props => props.color};
   &:hover {
-    cursor: ${props => props.disable? 'not-allowed': 'pointer'};
-    
+    cursor: ${props => (props.disable ? 'not-allowed' : 'pointer')};
   }
   flex-direction: column;
 `
@@ -68,16 +67,30 @@ export default class SummaryItem extends React.PureComponent {
   }
 
   render() {
-    const { name, image, color, stationTypeKey, statusStation, indexScroll, number } = this.props
-    const colorStatus = (this.props.number == 0)? COLOR_STATUS.DATA_LOSS : COLOR_STATUS[statusStation]
+    const {
+      name,
+      image,
+      color,
+      stationTypeKey,
+      statusStation,
+      indexScroll,
+      number
+    } = this.props
+    const colorStatus =
+      this.props.number == 0
+        ? COLOR_STATUS.DATA_LOSS
+        : COLOR_STATUS[statusStation]
     return (
       // MARK  logic cũ là dùng thẻ Link, giở change thành div
-      <div onClick={(e)=>{
-        if(number > 0 && window.fullpage_api) window.fullpage_api.moveTo(indexScroll) // MARK  +2 vì pieChart và stt từ 1
-      }} >
+      <div
+        onClick={e => {
+          if (number > 0 && window.fullpage_api)
+            window.fullpage_api.moveTo(indexScroll) // MARK  +2 vì pieChart và stt từ 1
+        }}
+      >
         <SummaryItemWrapper disable={number === 0} color={colorStatus}>
           <Row>
-          <StationTypeImg src={image} />
+            <StationTypeImg src={image} />
             <TextNumber>{this.renderNumber()}</TextNumber>
           </Row>
           <TextDescription>{name}</TextDescription>

@@ -1,17 +1,17 @@
-import PropTypes from "prop-types";
-import React from "react";
-import { Menu } from "antd";
-import slug, { MENU_NAME, MENU_GROUP } from "constants/slug";
-import protectRole from "hoc/protect-role/index.backup";
-import ROLE from "constants/role";
-import Icon from "themes/icon";
-import { Link } from "react-router-dom";
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Menu } from 'antd'
+import slug, { MENU_NAME, MENU_GROUP } from 'constants/slug'
+import protectRole from 'hoc/protect-role/index.backup'
+import ROLE from 'constants/role'
+import Icon from 'themes/icon'
+import { Link } from 'react-router-dom'
 
 const CENTER = {
-  display: "flex",
-  alignItems: "center",
+  display: 'flex',
+  alignItems: 'center',
   fontWeight: 600
-};
+}
 
 export default {
   renderComp: props => (
@@ -28,7 +28,7 @@ export default {
         <Menu.Item
           key={slug.monitoring.base}
           onClick={() => {
-            props.selectMenu(slug.monitoring.base);
+            props.selectMenu(slug.monitoring.base)
           }}
         >
           <Link to={slug.monitoring.base}>{MENU_NAME.monitoring.base}</Link>
@@ -50,7 +50,7 @@ export default {
         <Menu.Item
           key={slug.cameraControl.base}
           onClick={() => {
-            props.selectMenu(slug.cameraControl.base);
+            props.selectMenu(slug.cameraControl.base)
           }}
         >
           <Link to={slug.cameraControl.base}>
@@ -95,4 +95,4 @@ export default {
       )}
     </Menu.SubMenu>
   )
-};
+}

@@ -19,7 +19,10 @@ export default class SelectStationConfigAQI extends React.Component {
   }
 
   async componentWillMount() {
-    const responseStationConfig = await stationConfigApi.getStationsConfig({},{config: 'AQI'})
+    const responseStationConfig = await stationConfigApi.getStationsConfig(
+      {},
+      { config: 'AQI' }
+    )
     this.setState({
       stationConfigSelects: responseStationConfig.data,
       isLoaded: true
@@ -59,9 +62,7 @@ export default class SelectStationConfigAQI extends React.Component {
         {...this.props}
         onChange={this.handleChange}
         showSearch
-        value={
-          this.props.setKey ? this.props.stationKey : this.props.value
-        }
+        value={this.props.setKey ? this.props.stationKey : this.props.value}
       >
         {this.getStationAutos().map(item => (
           <Select.Option key={item.key} value={item.key}>

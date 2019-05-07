@@ -45,17 +45,19 @@ export default class PercentReceivedDataContainer extends React.Component {
       isLoading: true,
       isHaveData: true
     })
- 
+
     const key = searchFormData.key
     const params = {
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
       measuringList: searchFormData.measuringList
     }
-    let listData = await aqiDataStationAuto.getDataStatistictExceeded(key, {...params})
+    let listData = await aqiDataStationAuto.getDataStatistictExceeded(key, {
+      ...params
+    })
     if (
       listData &&
-      (Array.isArray(listData.data) && listData.data.length === 0) 
+      (Array.isArray(listData.data) && listData.data.length === 0)
     ) {
       swal({
         type: 'success',
@@ -65,7 +67,7 @@ export default class PercentReceivedDataContainer extends React.Component {
 
     this.setState({
       isLoading: false,
-      dataSource: _.get(listData,'data',[]),
+      dataSource: _.get(listData, 'data', []),
       searchFormData: searchFormData,
       dataFrequency: searchFormData.dataFrequency,
       measuringListOrigin: searchFormData.measuringListOrigin,
@@ -85,7 +87,10 @@ export default class PercentReceivedDataContainer extends React.Component {
     this.setState({
       isExporting: true
     })
-    let res = await aqiDataStationAuto.exportStatistictExceeded(this.state.searchFormData.key, data)
+    let res = await aqiDataStationAuto.exportStatistictExceeded(
+      this.state.searchFormData.key,
+      data
+    )
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
 
@@ -93,7 +98,7 @@ export default class PercentReceivedDataContainer extends React.Component {
       isExporting: false
     })
   }
-  
+
   render() {
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
@@ -116,7 +121,7 @@ export default class PercentReceivedDataContainer extends React.Component {
               dataSource={this.state.dataSource}
               dataFrequency={this.state.dataFrequency}
               measuringList={this.state.measuringList}
-              measuringListOrigin = {this.state.measuringListOrigin}
+              measuringListOrigin={this.state.measuringListOrigin}
               pagination={this.state.pagination}
               onExportExcel={this.handleExportExcel}
               nameChart={this.state.searchFormData.name}
