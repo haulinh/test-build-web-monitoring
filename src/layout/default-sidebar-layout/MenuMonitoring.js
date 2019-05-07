@@ -35,16 +35,6 @@ export default {
         </Menu.Item>
       )}
 
-<<<<<<< HEAD
-      <Menu.Item
-        key={slug.map.base}
-        onClick={() => {
-          props.selectMenu(slug.map.base)
-        }}
-      >
-        <Link to={slug.map.base}>{MENU_NAME.monitoring.map}</Link>
-      </Menu.Item>
-=======
       {protectRole(ROLE.MAP.VIEW)(
         <Menu.Item
           key={slug.map.base}
@@ -55,7 +45,6 @@ export default {
           <Link to={slug.map.base}>{MENU_NAME.monitoring.map}</Link>
         </Menu.Item>
       )}
->>>>>>> 7cb6c132972502b8b138306886c640e2500f576c
 
       {protectRole(ROLE.MONITORING.CAMERA)(
         <Menu.Item
@@ -70,38 +59,6 @@ export default {
         </Menu.Item>
       )}
 
-<<<<<<< HEAD
-      <Menu.Item
-        key={slug.dataSearch.base}
-        onClick={() => {
-          props.selectMenu(slug.dataSearch.base)
-        }}
-      >
-        <Link to={slug.dataSearch.base}>
-          {MENU_NAME.monitoring.historyData}
-        </Link>
-      </Menu.Item>
-      <Menu.Item
-        key={slug.avgSearch.base}
-        onClick={() => {
-          props.selectMenu(slug.avgSearch.base)
-        }}
-      >
-        <Link to={slug.avgSearch.base}>{MENU_NAME.monitoring.avgData}</Link>
-      </Menu.Item>
-
-      {/* {protectRole(ROLE.REPORT.VIEW) (
-        
-      )} */}
-      <Menu.Item
-        key={slug.report.base}
-        onClick={() => {
-          props.selectMenu(slug.report.base)
-        }}
-      >
-        <Link to={slug.report.base}>{MENU_NAME.monitoring.report}</Link>
-      </Menu.Item>
-=======
       {protectRole(ROLE.DATA_SEARCH.VIEW)(
         <Menu.Item
           key={slug.dataSearch.base}
@@ -136,7 +93,6 @@ export default {
           <Link to={slug.report.base}>{MENU_NAME.monitoring.report}</Link>
         </Menu.Item>
       )}
->>>>>>> 7cb6c132972502b8b138306886c640e2500f576c
     </Menu.SubMenu>
   )
 }
