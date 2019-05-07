@@ -64,7 +64,7 @@ export default class UserSearchForm extends React.PureComponent {
             : ''
       }
 
-      console.log(dataSearch,"dataSearch")
+      console.log(dataSearch, 'dataSearch')
       // Callback submit form Container Component
       this.setState({ dataSearch: dataSearch }, () =>
         this.props.onChangeSearch(dataSearch)
@@ -112,7 +112,7 @@ export default class UserSearchForm extends React.PureComponent {
             <Input placeholder={t('userManager.form.lastName.placeholder')} />
           )}
         </FormItem>
-      {/* tạm thời bỏ số dt đi
+        {/* tạm thời bỏ số dt đi
         <Clearfix />
         <FormItem {...formItemLayout}>
           {getFieldDecorator(`phone`, {

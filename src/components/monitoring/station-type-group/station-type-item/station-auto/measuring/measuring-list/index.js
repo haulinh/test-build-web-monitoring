@@ -26,7 +26,7 @@ export default class MeasuringList extends React.PureComponent {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape(MeasuringItem.propTypes)),
     onClickItem: PropTypes.func,
-    statusStation: PropTypes.string 
+    statusStation: PropTypes.string
   }
   render() {
     return (
@@ -39,7 +39,10 @@ export default class MeasuringList extends React.PureComponent {
               navigationIsOpen={this.props.navigationIsOpen}
               key={item.key}
             >
-              <MeasuringItem {...item} statusStation={this.props.statusStation} />
+              <MeasuringItem
+                {...item}
+                statusStation={this.props.statusStation}
+              />
             </MeasuringItemWrapper>
           ))}
       </MeasuringListWrapper>

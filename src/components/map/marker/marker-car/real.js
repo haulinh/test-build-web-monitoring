@@ -186,10 +186,9 @@ export default class MarkerRealCar extends PureComponent {
               </div>
             </Marker>
           )}
-        {this.state.isShowDirection &&
-          this.state.directions != null && (
-            <DirectionsRenderer directions={this.state.directions} />
-          )}
+        {this.state.isShowDirection && this.state.directions != null && (
+          <DirectionsRenderer directions={this.state.directions} />
+        )}
       </div>
     )
   }

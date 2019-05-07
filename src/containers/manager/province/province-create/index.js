@@ -9,7 +9,7 @@ import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role/index.backup'
 
-@protectRole(ROLE.STATION_AUTO.CREATE)
+@protectRole(ROLE.PROVINCE.CREATE)
 @autobind
 export default class ProvinceCreate extends React.PureComponent {
   async handleSubmit(data) {

@@ -77,15 +77,14 @@ export default class UserEdit extends React.PureComponent {
             }
           ]}
         />
-        {this.props.isLoaded &&
-          this.props.data && (
-            <UserForm
-              initialValues={this.props.data}
-              onSubmit={this.handleSubmit}
-              isEdit
-              isLoading={this.state.isLoading}
-            />
-          )}
+        {this.props.isLoaded && this.props.data && (
+          <UserForm
+            initialValues={this.props.data}
+            onSubmit={this.handleSubmit}
+            isEdit
+            isLoading={this.state.isLoading}
+          />
+        )}
       </PageContainer>
     )
   }

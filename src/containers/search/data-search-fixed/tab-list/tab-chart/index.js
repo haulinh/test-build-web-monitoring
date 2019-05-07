@@ -6,6 +6,7 @@ import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
 import moment from 'moment'
+import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
 
 const TabChartWrapper = styled.div`
   justify-content: center;
@@ -268,7 +269,10 @@ export default class TabChart extends React.PureComponent {
           text: ''
         }
       },
-      series
+      series,
+      xAxis: {
+        dateTimeLabelFormats: DATETIME_LABEL_FORMAT
+      }
     }
   }
 

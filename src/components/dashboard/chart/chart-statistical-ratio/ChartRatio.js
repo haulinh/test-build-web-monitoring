@@ -10,7 +10,12 @@ import { translate } from 'hoc/create-lang'
 import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
 import StatusModalView from './StatusModal'
 import ChartBaseView from './chart-base'
-import { COLOR_STATUS } from 'themes/color';
+import { COLOR_STATUS } from 'themes/color'
+import { isNumber } from 'util'
+import formatNumber, {
+  getFormatNumber,
+  ROUND_DIGIT
+} from 'constants/format-number'
 
 const dataLabels = {
   enabled: true,
@@ -55,11 +60,9 @@ export default class HeaderView extends React.PureComponent {
     let total = 0
     const item = _.find(
       this.state.data,
-      ({ provinceId }) => provinceId === this.props.province
+      ({ provinceId }) => provinceId === (this.props.province || 'other') // NOTE  k0 có province thì key là other
     )
 
-    console.log('adasdsad', this.props)
-    
     if (item && item.ratio) {
       title = translate('dashboard.chartRatio.dataByDate', {
         day: this.state.day,
@@ -98,7 +101,7 @@ export default class HeaderView extends React.PureComponent {
         enabled: true
       },
       tooltip: {
-        pointFormat: '<b>{point.percentage:.1f}%</b>'
+        pointFormat: `<b>{point.percentage:.${ROUND_DIGIT}f}%</b>`
       },
       plotOptions: {
         pie: {
@@ -116,7 +119,7 @@ export default class HeaderView extends React.PureComponent {
             click: function(event) {
               me.setState({
                 visible: true,
-                stationKey: item? item.name: "Other"  // NOTE  stationKey: là đưa vào name của province mới chạy, neu k0 co thi Other
+                stationKey: item ? item.name : 'Other' // NOTE  stationKey: là đưa vào name của province mới chạy, neu k0 co thi Other
               })
             }
           }
@@ -131,12 +134,12 @@ export default class HeaderView extends React.PureComponent {
           data: [
             {
               name: notReceived,
-              y: 100 - total,
+              y: 100 - _.round(total, 2),
               color: COLOR_STATUS.DATA_LOSS
             },
             {
               name: received,
-              y: total,
+              y: _.round(total, 2),
               color: COLOR_STATUS.GOOD
             }
           ]
@@ -160,7 +163,12 @@ export default class HeaderView extends React.PureComponent {
       }
     }
 
-    const series1 = { name: received, data: [], dataLabels, color: COLOR_STATUS.GOOD }
+    const series1 = {
+      name: received,
+      data: [],
+      dataLabels,
+      color: COLOR_STATUS.GOOD
+    }
     const series2 = {
       name: notReceived,
       data: [],
@@ -237,7 +245,7 @@ export default class HeaderView extends React.PureComponent {
   }
 
   getConfigRatio = () => {
-    if (_.isEmpty(this.props.province) &&  this.props.isGroupProvince) {
+    if (_.isEmpty(this.props.province) && this.props.isGroupProvince) {
       return this.configRatioBar(
         //translate('dashboard.chartRatio.title'),
         '',
@@ -255,10 +263,9 @@ export default class HeaderView extends React.PureComponent {
   }
 
   onChange = value => {
-    this.setState({isLoading: true}, ()=>{
+    this.setState({ isLoading: true }, () => {
       this.getDataRatioBy(Number(value.key))
     })
-   
   }
 
   menu = () => {
@@ -300,10 +307,8 @@ export default class HeaderView extends React.PureComponent {
             </span>
           </Dropdown>
 
-           <Spin spinning={this.state.isLoading || this.props.loading}>
-           <ReactHighcharts config={this.getConfigRatio()} />
-        
-           
+          <Spin spinning={this.state.isLoading || this.props.loading}>
+            <ReactHighcharts config={this.getConfigRatio()} />
           </Spin>
 
           <StatusModalView

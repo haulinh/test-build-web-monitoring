@@ -16,7 +16,7 @@ import protectRole from 'hoc/protect-role/index.backup'
 import DynamicTable from 'components/elements/dynamic-table'
 import * as _ from 'lodash'
 
-@protectRole(ROLE.STATION_AUTO.VIEW)
+@protectRole(ROLE.PROVINCE.VIEW)
 @createManagerList({
   apiList: ProvinceApi.getProvices
 })
@@ -70,7 +70,7 @@ export default class ProvinceList extends React.Component {
     const {
       lang: { t }
     } = this.props
-    return _.get(this.props,'dataSource',[]).map((row, index) => [
+    return _.get(this.props, 'dataSource', []).map((row, index) => [
       {
         content: (
           <strong>

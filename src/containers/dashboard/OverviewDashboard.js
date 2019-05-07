@@ -1,42 +1,42 @@
-import React, { Component } from "react";
-import { Spin, Affix } from "antd";
-import createContentLoader from "hoc/content-loader";
-import ListLoaderCp from "components/content-loader/list-loader";
-import BoxLoaderCp from "components/content-loader/box-loader";
-import PageContainer from "layout/default-sidebar-layout/PageContainer";
-import SummaryList from "components/dashboard/summary/summary-list";
-import HeaderView from "../../components/dashboard/header-view";
-import ChartStatisticalRatio from "../../components/dashboard/chart/chart-statistical-ratio";
-import ChartList from "components/dashboard/chart/chart-row-list";
-import Clearfix from "components/elements/clearfix";
-import { getStationTypes } from "api/CategoryApi";
-import { getLastLog } from "api/StationAuto";
-import { translate } from "hoc/create-lang";
-import * as _ from "lodash";
-import { STATUS_STATION, getStatusPriority } from "constants/stationStatus";
-import WarningLevel from "components/elements/warning-level";
-import ReactFullpage from "@fullpage/react-fullpage";
+import React, { Component } from 'react'
+import { Spin, Affix } from 'antd'
+import createContentLoader from 'hoc/content-loader'
+import ListLoaderCp from 'components/content-loader/list-loader'
+import BoxLoaderCp from 'components/content-loader/box-loader'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import SummaryList from 'components/dashboard/summary/summary-list'
+import HeaderView from '../../components/dashboard/header-view'
+import ChartStatisticalRatio from '../../components/dashboard/chart/chart-statistical-ratio'
+import ChartList from 'components/dashboard/chart/chart-row-list'
+import Clearfix from 'components/elements/clearfix'
+import { getStationTypes } from 'api/CategoryApi'
+import { getLastLog } from 'api/StationAuto'
+import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
+import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
+import WarningLevel from 'components/elements/warning-level'
+import ReactFullpage from '@fullpage/react-fullpage'
 
-const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60; // NOTE  every 1min will get last log
-let getLastLogIntervalID = null;
+const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60 // NOTE  every 1min will get last log
+let getLastLogIntervalID = null
 
 const ListLoader = createContentLoader({
   component: <ListLoaderCp />,
   isAutoLoader: true,
   items: 5
-})(null);
+})(null)
 
 const BoxLoader = createContentLoader({
   component: <BoxLoaderCp />,
   isAutoLoader: true,
   items: 4,
   colSize: 3
-})(null);
+})(null)
 
 export default class OverviewDashboard extends Component {
   state = {
     isGroupProvince: null,
-    stationStatus: "",
+    stationStatus: '',
     stationTypeList: [],
     stationList: [],
     stationCount: {},
@@ -47,35 +47,35 @@ export default class OverviewDashboard extends Component {
     province: null,
     groupLastLog: null,
     isGetLastLogLoading: false
-  };
+  }
 
   getLastLog = async (province, provinceKey, rows, stationCount) => {
-    this.setState({ isGetLastLogLoading: true });
+    this.setState({ isGetLastLogLoading: true })
 
-    let stationLastLog = await getLastLog();
-    let dataLastLog = [];
+    let stationLastLog = await getLastLog()
+    let dataLastLog = []
 
     if (province && province.key) {
-      provinceKey = province.key;
+      provinceKey = province.key
       dataLastLog = _.filter(
-        _.get(stationLastLog, "data", []),
-        item => _.get(item, "province.key", "") === provinceKey
-      );
+        _.get(stationLastLog, 'data', []),
+        item => _.get(item, 'province.key', '') === provinceKey
+      )
     } else {
-      dataLastLog = _.get(stationLastLog, "data", []);
+      dataLastLog = _.get(stationLastLog, 'data', [])
     }
 
-    let groupLastLog = _.groupBy(dataLastLog, "stationType.key");
+    let groupLastLog = _.groupBy(dataLastLog, 'stationType.key')
     _.forEach(_.keys(groupLastLog), key => {
-      rows[key] = groupLastLog[key];
-      stationCount[key] = _.size(rows[key]);
-    });
-    
-    let groupProvince = _.groupBy(dataLastLog, "province.key");
+      rows[key] = groupLastLog[key]
+      stationCount[key] = _.size(rows[key])
+    })
+
+    let groupProvince = _.groupBy(dataLastLog, 'province.key')
     let isGroupProvince = Object.keys(groupProvince).length > 1
 
-    const goodCount = _.filter(dataLastLog, ({ status }) => status === "GOOD")
-      .length;
+    const goodCount = _.filter(dataLastLog, ({ status }) => status === 'GOOD')
+      .length
     this.setState({
       isGroupProvince: isGroupProvince,
       province: provinceKey,
@@ -83,71 +83,71 @@ export default class OverviewDashboard extends Component {
       rows,
       stationCount,
       groupLastLog,
-      stationStatus: translate("dashboard.activeStationPer", {
+      stationStatus: translate('dashboard.activeStationPer', {
         good: goodCount,
         total: _.size(dataLastLog)
       }),
       isGetLastLogLoading: false
-    });
-  };
+    })
+  }
 
   getStationInfo = async province => {
-    let provinceKey = null;
-    let stationTypes = await getStationTypes({}, { isAuto: true });
-    let stationTypeList = _.get(stationTypes, "data", []);
+    let provinceKey = null
+    let stationTypes = await getStationTypes({}, { isAuto: true })
+    let stationTypeList = _.get(stationTypes, 'data', [])
 
-    let stationCount = {};
-    let rows = {};
-    let lineSeries = {};
+    let stationCount = {}
+    let rows = {}
+    let lineSeries = {}
 
     stationTypeList.forEach(({ key }) => {
-      stationCount[key] = 0;
-      rows[key] = [];
-      lineSeries[key] = [];
-    });
-    
+      stationCount[key] = 0
+      rows[key] = []
+      lineSeries[key] = []
+    })
+
     this.setState({
       stationTypeList,
       stationCount,
       rows,
       lineSeries,
       isLoaded: true
-    });
+    })
 
     // MARK  lấy last log 1 lần, sau đó cứ mỗi giây lại lấy last log
-    this.getLastLog(province, provinceKey, rows, stationCount);
-    if (getLastLogIntervalID) clearInterval(getLastLogIntervalID);
+    this.getLastLog(province, provinceKey, rows, stationCount)
+    if (getLastLogIntervalID) clearInterval(getLastLogIntervalID)
     getLastLogIntervalID = setInterval(() => {
-      this.getLastLog(province, provinceKey, rows, stationCount);
-      this.getSummaryList();
-    }, GET_LAST_LOG_INTERVAL_TIME);
-  };
+      this.getLastLog(province, provinceKey, rows, stationCount)
+      this.getSummaryList()
+    }, GET_LAST_LOG_INTERVAL_TIME)
+  }
 
   async componentDidMount() {
-    this.getStationInfo(null);
+    this.getStationInfo(null)
   }
 
   getSummaryList() {
     let arrayColor = [
-      "#1dce6c",
-      "#389bff",
-      "#7ece23",
-      "#e74c3c",
-      "#1dce6c",
-      "#389bff",
-      "#7ece23",
-      "#e74c3c"
-    ];
+      '#1dce6c',
+      '#389bff',
+      '#7ece23',
+      '#e74c3c',
+      '#1dce6c',
+      '#389bff',
+      '#7ece23',
+      '#e74c3c'
+    ]
     let arrayIcon = [
-      "/images/dashboard/cloud.png",
-      "/images/dashboard/groundwater.png",
-      "/images/dashboard/surfaceWater.png",
-      "/images/dashboard/wasteWater.png",
-      "/images/dashboard/cloud.png",
-      "/images/dashboard/groundwater.png",
-      "/images/dashboard/surfaceWater.png",
-      "/images/dashboard/wasteWater.png"
-    ];
+      '/images/dashboard/cloud.png',
+      '/images/dashboard/groundwater.png',
+      '/images/dashboard/surfaceWater.png',
+      '/images/dashboard/wasteWater.png',
+      '/images/dashboard/cloud.png',
+      '/images/dashboard/groundwater.png',
+      '/images/dashboard/surfaceWater.png',
+      '/images/dashboard/wasteWater.png'
+    ]
 
     return this.state.stationTypeList.map((item, index) => ({
       statusStation: this.timKiemStatusQuaLastLog(
@@ -159,39 +159,42 @@ export default class OverviewDashboard extends Component {
       image: item.icon ? item.icon : arrayIcon[index],
       number: this.state.stationCount[item.key],
       totalStationGood: this.state.rows[item.key].filter(
-        ({ status }) => status === "GOOD"
+        ({ status }) => status === 'GOOD'
       ).length
-    }));
+    }))
   }
 
   timKiemStatusQuaLastLog = (dataLog = []) => {
-    let resStatus = STATUS_STATION.GOOD;
+    let resStatus = STATUS_STATION.GOOD
 
-    const me = this;
+    const me = this
     _.forEach(dataLog, function(item) {
       // MARK  check status trạm truớc
-      if (item.status === STATUS_STATION.DATA_LOSS) {
-        resStatus = item.status;
-        return false; // break loop lodash
+      if (
+        item.status === STATUS_STATION.HIGHTGEST ||
+        item.status === STATUS_STATION.NOT_USE
+      ) {
+        resStatus = STATUS_STATION.HIGHTGEST
+        return false // break loop lodash
       }
 
       // MARK  check lastLog
       let statusMeasuring = me.timKiemStatusQuaMeasuringLog(
         item.lastLog.measuringLogs
-      );
-      resStatus = getStatusPriority(resStatus, statusMeasuring);
-    });
+      )
+      resStatus = getStatusPriority(resStatus, statusMeasuring)
+    })
 
-    return resStatus;
-  };
+    return resStatus
+  }
 
   timKiemStatusQuaMeasuringLog = (measuringLogs = {}) => {
-    let resWarningLevel = null;
+    let resWarningLevel = null
     _.forEach(measuringLogs, function(item, key) {
-      resWarningLevel = getStatusPriority(resWarningLevel, item.warningLevel);
-    });
-    return resWarningLevel;
-  };
+      resWarningLevel = getStatusPriority(resWarningLevel, item.warningLevel)
+    })
+    return resWarningLevel
+  }
 
   getChartList() {
     return _.map(this.state.stationTypeList, item => ({
@@ -199,15 +202,14 @@ export default class OverviewDashboard extends Component {
       title: item.name,
       totalStation: this.state.stationCount[item.key],
       stationList: this.state.rows[item.key]
-    }));
+    }))
   }
 
   handleProvinceChange = province => {
-    this.setState({ province, isGetLastLogLoading: true }, ()=>{
-      this.getStationInfo(province);
-    });
-    
-  };
+    this.setState({ province, isGetLastLogLoading: true }, () => {
+      this.getStationInfo(province)
+    })
+  }
 
   render() {
     return (
@@ -223,11 +225,9 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
-     
-        <Affix style={{height: 200}} offsetTop={1}>
-        <div style={{ background: "#FBFBFB", height:15.9 }}>
-        </div>
-          <div style={{ background: "#FBFBFB" }}>
+        <Affix style={{ height: 200 }} offsetTop={1}>
+          <div style={{ background: '#FBFBFB', height: 15.9 }} />
+          <div style={{ background: '#FBFBFB' }}>
             <HeaderView
               stationStatus={this.state.stationStatus}
               onChange={this.handleProvinceChange}
@@ -239,8 +239,8 @@ export default class OverviewDashboard extends Component {
             )}
             <div
               style={{
-                width: "50%",
-                marginLeft: "50%",
+                width: '50%',
+                marginLeft: '50%',
                 padding: 4,
                 paddingRight: 0
               }}
@@ -250,29 +250,27 @@ export default class OverviewDashboard extends Component {
           </div>
         </Affix>
 
-          <ReactFullpage
+        <ReactFullpage
           render={({ state, fullpageApi }) => {
             return (
-              <ReactFullpage.Wrapper >
-                <div  className="section tableFix">
+              <ReactFullpage.Wrapper>
+                <div className="section tableFix">
                   <ChartStatisticalRatio
-                  isGroupProvince={this.state.isGroupProvince}
+                    isGroupProvince={this.state.isGroupProvince}
                     loading={this.state.isGetLastLogLoading}
                     data={this.state.stationList}
                     province={this.state.province}
                   />
                 </div>
 
-                  <ChartList data={this.getChartList()} />
+                <ChartList data={this.getChartList()} />
               </ReactFullpage.Wrapper>
-            );
+            )
           }}
         />
 
-           
-
         {/* this.state.stationList */}
       </PageContainer>
-    );
+    )
   }
 }

@@ -13,7 +13,7 @@ import { message } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role/index.backup'
 
-@protectRole(ROLE.STATION_AUTO.EDIT)
+@protectRole(ROLE.PROVINCE.EDIT)
 @createManagerDelete({
   apiDelete: ProvinceApi.deleteProvince
 })
@@ -86,14 +86,13 @@ export default class ProvinceEdit extends React.PureComponent {
           ]}
         />
         <Spin style={{ width: '100%' }} spinning={!this.props.isLoaded}>
-          {this.props.isLoaded &&
-            this.props.success && (
-              <ProvinceForm
-                initialValues={this.cleanData()}
-                onSubmit={this.handleSubmit}
-                isEdit={true}
-              />
-            )}
+          {this.props.isLoaded && this.props.success && (
+            <ProvinceForm
+              initialValues={this.cleanData()}
+              onSubmit={this.handleSubmit}
+              isEdit={true}
+            />
+          )}
         </Spin>
       </PageContainer>
     )

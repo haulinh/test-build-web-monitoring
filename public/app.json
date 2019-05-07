@@ -3,8 +3,9 @@
   "apiMedia": "http://27.74.251.0:1234",
   "apiCamera": "http://27.74.251.0:5020",
   "camera": {
-    "host": "https://cameraazu.ilotusland.website",
+    "host": "http://35.247.172.138:7001",
     "username": "admin",
-    "password": "vietan@123"
+    "password": "DichVuSo1"
   }
 }
+

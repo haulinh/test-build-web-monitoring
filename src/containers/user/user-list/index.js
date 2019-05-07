@@ -100,7 +100,12 @@ export default class UserList extends React.Component {
 
   async onEnableAccount(_id, enable, callback) {
     Modal.confirm({
-      title: format(translate('userManager.list.confirmEnableAccount'), enable ? translate('userManager.list.enable') : translate('userManager.list.disable')),
+      title: format(
+        translate('userManager.list.confirmEnableAccount'),
+        enable
+          ? translate('userManager.list.enable')
+          : translate('userManager.list.disable')
+      ),
       onOk() {
         return new Promise(async (resolve, reject) => {
           const data = await UserApi.accountEnable(_id, { enable })
@@ -156,7 +161,8 @@ export default class UserList extends React.Component {
 
     let dropdown
 
-    if (row.removeStatus && row.removeStatus.allowed) dropdown = this.getMenuIsDeleting(row, t, accountEnable)
+    if (row.removeStatus && row.removeStatus.allowed)
+      dropdown = this.getMenuIsDeleting(row, t, accountEnable)
     else dropdown = this.getMenuNotDeleting(row, t, accountEnable)
 
     return (
@@ -182,7 +188,10 @@ export default class UserList extends React.Component {
 
       if (password) {
         const rs = await authApi.postSetPassword({ _id: user_id, password })
-        if (!rs) message.error(this.props.lang.t('userManager.list.setPasswordFailure'))
+        if (!rs)
+          message.error(
+            this.props.lang.t('userManager.list.setPasswordFailure')
+          )
       }
       message.success(this.props.lang.t('userManager.list.setPasswordSuccess'))
     } catch (error) {
@@ -224,7 +233,15 @@ export default class UserList extends React.Component {
         )}
         {protectRole(ROLE.USER.ENABLE_ACCOUNT)(
           <Menu.Item key="3">
-            <a onClick={() => this.onEnableAccount(row._id, !accountEnable, this.props.fetchData)}>
+            <a
+              onClick={() =>
+                this.onEnableAccount(
+                  row._id,
+                  !accountEnable,
+                  this.props.fetchData
+                )
+              }
+            >
               {accountEnable ? (
                 <div>
                   {' '}
@@ -263,7 +280,11 @@ export default class UserList extends React.Component {
           </a>
         </Menu.Item>
         <Menu.Item key="2">
-          <a onClick={() => this.props.onDeleteItem(row._id, this.props.fetchData)}>
+          <a
+            onClick={() =>
+              this.props.onDeleteItem(row._id, this.props.fetchData)
+            }
+          >
             <IconButton type="close-square-o" color={'red'} />
             {t('addon.remove')}
           </a>
@@ -291,20 +312,37 @@ export default class UserList extends React.Component {
   getRows() {
     return this.props.dataSource.map((row, index) => [
       {
-        content: <strong>{(this.props.pagination.page - 1) * this.props.pagination.itemPerPage + index + 1}</strong>
+        content: (
+          <strong>
+            {(this.props.pagination.page - 1) *
+              this.props.pagination.itemPerPage +
+              index +
+              1}
+          </strong>
+        )
       },
       {
         content: (
           <div>
             {row.phone && row.phone.iso2 && (
               <AccountWapper>
-                <AvatarCharacter size={32} username={row.email} avatarUrl={row.avatar} />
+                <AvatarCharacter
+                  size={32}
+                  username={row.email}
+                  avatarUrl={row.avatar}
+                />
                 <ClearFix width={4} />
                 <AccountInfo>
-                  <Span className={'email'} deleted={row.removeStatus && row.removeStatus.allowed}>
+                  <Span
+                    className={'email'}
+                    deleted={row.removeStatus && row.removeStatus.allowed}
+                  >
                     {row.email}
                   </Span>
-                  <Span className={'full-name '} deleted={row.removeStatus && row.removeStatus.allowed}>{`${row.lastName} ${row.firstName}`}</Span>
+                  <Span
+                    className={'full-name '}
+                    deleted={row.removeStatus && row.removeStatus.allowed}
+                  >{`${row.lastName} ${row.firstName}`}</Span>
                 </AccountInfo>
               </AccountWapper>
             )}
@@ -316,11 +354,13 @@ export default class UserList extends React.Component {
           <div>
             {row.phone && row.phone.iso2 && (
               <div style={{ display: 'flex', justifyItems: 'center' }}>
-                <div style={{paddingRight: '4px'}}>
-                <ReactCountryFlag code={row.phone.iso2} />
+                <div style={{ paddingRight: '4px' }}>
+                  <ReactCountryFlag code={row.phone.iso2} />
                 </div>
                 <div>
-                  <Span deleted={row.removeStatus && row.removeStatus.allowed}>{row.phone ? row.phone.name : ''}</Span>
+                  <Span deleted={row.removeStatus && row.removeStatus.allowed}>
+                    {row.phone ? row.phone.name : ''}
+                  </Span>
                 </div>
               </div>
             )}
@@ -329,11 +369,26 @@ export default class UserList extends React.Component {
       },
       {
         content: (
-          <SpanEnable enable={row.accountStatus && row.accountStatus.enable === false ? false : true}>{row.accountStatus && row.accountStatus.enable === false ? 'Disable' : 'Enable'}</SpanEnable>
+          <SpanEnable
+            enable={
+              row.accountStatus && row.accountStatus.enable === false
+                ? false
+                : true
+            }
+          >
+            {row.accountStatus && row.accountStatus.enable === false
+              ? 'Disable'
+              : 'Enable'}
+          </SpanEnable>
         )
       },
       {
-        content: <Span deleted={row.removeStatus && row.removeStatus.allowed}> {moment(row.createdAt).format('YYYY-MM-DD HH:mm')}</Span>
+        content: (
+          <Span deleted={row.removeStatus && row.removeStatus.allowed}>
+            {' '}
+            {moment(row.createdAt).format('YYYY-MM-DD HH:mm')}
+          </Span>
+        )
       },
       {
         content: <Span> {_get(row, 'role.name', '')}</Span>
@@ -421,7 +476,12 @@ export default class UserList extends React.Component {
           cancelText={this.props.lang.t('addon.reset')}
           okText={this.props.lang.t('addon.save')}
         >
-          <Input value={this.state.password} type="password" placeholder={this.props.lang.t('userManager.form.password.label')} onChange={this.handlePasswordText} />
+          <Input
+            value={this.state.password}
+            type="password"
+            placeholder={this.props.lang.t('userManager.form.password.label')}
+            onChange={this.handlePasswordText}
+          />
         </Modal>
       </PageContainer>
     )

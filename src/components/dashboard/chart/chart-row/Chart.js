@@ -8,23 +8,30 @@ import Highcharts from 'highcharts'
 import * as _ from 'lodash'
 import { Menu, Dropdown, Icon, Tabs } from 'antd'
 import { getDataStationAutos } from 'api/DataStationAutoApi'
+import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
+import { ROUND_DIGIT } from 'constants/format-number'
 
 const ChartWrapper = styled.div``
 
-const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
-  console.log('configChart: ', maxChart, minChart)
+ReactHighcharts.Highcharts.setOptions({
+  global: {
+    useUTC: false
+  }
+})
 
+const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
   return {
     chart: {
       type: 'spline',
       zoomType: 'x',
-      height: document.body.clientHeight - 340  // MARK  height vừa khung màn hình
+      height: document.body.clientHeight - 340 // MARK  height vừa khung màn hình
     },
     title: {
       text: title
     },
     xAxis: {
-      type: 'datetime'
+      type: 'datetime',
+      dateTimeLabelFormats: DATETIME_LABEL_FORMAT
     },
     yAxis: {
       max: maxChart,
@@ -89,6 +96,18 @@ const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
     series: data,
     credits: {
       enabled: false
+    },
+    tooltip: {
+      formatter: function(tooltip) {
+        if (this.point.isNull) {
+          return 'Null'
+        }
+        if (this.point && this.point.y) {
+          this.point.y = _.round(this.point.y, ROUND_DIGIT)
+        }
+        // If not null, use the default formatter
+        return tooltip.defaultFormatter.call(this, tooltip)
+      }
     }
   }
 }

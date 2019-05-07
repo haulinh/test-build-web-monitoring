@@ -20,7 +20,8 @@ import { translate } from 'hoc/create-lang'
 import Navigation, {
   AkNavigationItem,
   AkGlobalItem,
-  createGlobalTheme
+  createGlobalTheme,
+  presetThemes
 } from '@atlaskit/navigation'
 import AkDropdownMenu, {
   DropdownItemGroup,
@@ -36,7 +37,6 @@ const WrapperTitle = styled.div`
 `
 
 const globalTheme = createGlobalTheme('#ffffff', '#1d89ce')
-
 @connectAutoDispatch(
   state => ({
     authInfo: state.auth.userInfo
@@ -58,7 +58,7 @@ export default class BasicNestedNavigation extends React.Component {
   static defaultProps = {
     navigation: {
       isOpen: true,
-      width: 280
+      width: 320
     }
   }
 
@@ -204,6 +204,7 @@ export default class BasicNestedNavigation extends React.Component {
       <StyleWrapper>
         <Navigation
           globalTheme={globalTheme}
+          // containerTheme={presetThemes.global}
           width={this.props.hide ? 0 : this.props.navigation.width}
           globalPrimaryIcon={<LogoSubIcon />}
           containerHeaderComponent={() =>

@@ -221,7 +221,7 @@
     "@atlaskit/theme" "^2.4.1"
     styled-components "1.4.6 - 3"
 
-"@atlaskit/icon@^10.1.2", "@atlaskit/icon@^10.12.1", "@atlaskit/icon@^10.13.0", "@atlaskit/icon@^10.3.2", "@atlaskit/icon@^10.5.0":
+"@atlaskit/icon@^10.1.2", "@atlaskit/icon@^10.12.1", "@atlaskit/icon@^10.13.0", "@atlaskit/icon@^10.5.0":
   version "10.13.0"
   resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-10.13.0.tgz#d662c212ced45aea03644e5375bebf8c52dc4efa"
   integrity sha512-0J1DKBNFbIrr42CEfJP2Lxkm7YvqmCQ4EegljW8ieYfmSm+iXQQ5LFIpwQEbP5+tCHZIGYx2b62EVb7BqR7gdw==
@@ -229,6 +229,15 @@
     "@atlaskit/theme" "^2.4.1"
     babel-runtime "^6.26.0"
     styled-components "1.4.6 - 3"
+    uuid "^3.1.0"
+
+"@atlaskit/icon@^17.0.0":
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/icon/-/icon-17.0.0.tgz#eaba4a78db5a2353f27fe138b71fb3302e0ae94c"
+  integrity sha512-K+I2U0uSIGMeT/7LoQSOmtw92mNiLeYxRKyT2wNggpsMgQI+6kUPnPGqiB6meu57pNJ1ciZVRMg325fU3o5NnQ==
+  dependencies:
+    "@atlaskit/theme" "^9.0.0"
+    "@babel/runtime" "^7.0.0"
     uuid "^3.1.0"
 
 "@atlaskit/inline-dialog@^5.0.5", "@atlaskit/inline-dialog@^5.3.2":
@@ -389,6 +398,15 @@
   dependencies:
     prop-types "^15.5.10"
     styled-components "1.4.6 - 3"
+
+"@atlaskit/theme@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@atlaskit/theme/-/theme-9.0.0.tgz#09eee5433a6084dfd506d8f303fd1913bdf6e5c5"
+  integrity sha512-FxPubfXMBidzyG3YrzH4T1MstpxJXg6CsW09aBvW25tmafrAlrj+gSnd5/ky9Oa4zKgXk4itZNSCdefxgwqs7w==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    exenv "^1.2.2"
+    prop-types "^15.5.10"
 
 "@atlaskit/tooltip@^8.0.2", "@atlaskit/tooltip@^8.1.0", "@atlaskit/tooltip@^8.1.1", "@atlaskit/tooltip@^8.4.1", "@atlaskit/tooltip@^8.4.2":
   version "8.4.2"
@@ -3877,6 +3895,15 @@ eslint-plugin-jsx-a11y@5.1.1:
     emoji-regex "^6.1.0"
     jsx-ast-utils "^1.4.0"
 
+eslint-plugin-react@7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.1.0.tgz#27770acf39f5fd49cd0af4083ce58104eb390d4c"
+  integrity sha1-J3cKzzn1/UnNCvQIPOWBBOs5DUw=
+  dependencies:
+    doctrine "^2.0.0"
+    has "^1.0.1"
+    jsx-ast-utils "^1.4.1"
+
 eslint-scope@^3.7.1:
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-3.7.3.tgz#bb507200d3d17f60247636160b4826284b108535"
@@ -4050,7 +4077,7 @@ execa@^0.7.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exenv@^1.2.1:
+exenv@^1.2.1, exenv@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
   integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
@@ -6165,7 +6192,7 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jsx-ast-utils@^1.4.0:
+jsx-ast-utils@^1.4.0, jsx-ast-utils@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-1.4.1.tgz#3867213e8dd79bf1e8f2300c0cfc1efb182c0df1"
   integrity sha1-OGchPo3Xm/Ho8jAMDPwe+xgsDfE=

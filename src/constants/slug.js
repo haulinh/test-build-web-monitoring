@@ -1,3 +1,5 @@
+import { translate } from 'hoc/create-lang'
+
 export default {
   dashboard: '/',
   login: '/login',
@@ -149,9 +151,87 @@ export default {
     exceeded: '/exceeded-statistic',
     perRecData: '/per-rec-data-statistic',
     aqi: '/statistic-aqi',
-    wqi:'/statistic-wqi'
+    wqi: '/statistic-wqi'
   },
   mapFixed: {
     base: '/fixed-map'
+  },
+  report: {
+    base: '/report'
+  }
+}
+
+export const MENU_GROUP = {
+  DASHBOARD: 'dashboard',
+  MONITORING: 'monitoring',
+  HANDLE_DATA: 'handleData',
+  SHARE_DATA: 'shareData',
+  ADVANCE: 'advance',
+  CONFIG: 'config'
+}
+
+export const parentMenuFromSub = {
+  '/qaqc': MENU_GROUP.HANDLE_DATA,
+
+  '/qaqc-config': MENU_GROUP.SHARE_DATA,
+  '/ftp-transfer': MENU_GROUP.SHARE_DATA,
+
+  '/aqi': MENU_GROUP.ADVANCE,
+  '/statistic-aqi': MENU_GROUP.ADVANCE,
+  '/wqi': MENU_GROUP.ADVANCE,
+  '/statistic-wqi': MENU_GROUP.ADVANCE,
+  '/config-wqi': MENU_GROUP.ADVANCE,
+
+  '/station-auto': MENU_GROUP.CONFIG,
+  '/measuring': MENU_GROUP.CONFIG,
+  '/station-type': MENU_GROUP.CONFIG,
+  '/province': MENU_GROUP.CONFIG,
+  '/qcvn': MENU_GROUP.CONFIG,
+  '/role': MENU_GROUP.CONFIG,
+  '/user': MENU_GROUP.CONFIG
+}
+
+export const MENU_NAME = {
+  dashboard: translate('menuApp.dashboard'),
+
+  monitoringSub: translate('menuApp.monitoringSub'),
+  monitoring: {
+    base: translate('menuApp.monitoring.base'),
+    map: translate('menuApp.monitoring.map'),
+    camera: translate('menuApp.monitoring.camera'),
+    historyData: translate('menuApp.monitoring.historyData'),
+    avgData: translate('menuApp.monitoring.avgData'),
+    report: translate('menuApp.monitoring.report')
+  },
+
+  processDataSub: translate('menuApp.processDataSub'),
+  processData: {
+    approveData: translate('menuApp.processData.approveData')
+  },
+
+  shareDataSub: translate('menuApp.shareDataSub'),
+  shareData: {
+    shareConfig: translate('menuApp.shareData.shareConfig'),
+    ftpConfig: translate('menuApp.shareData.ftpConfig')
+  },
+
+  advanceSub: translate('menuApp.advanceSub'),
+  advance: {
+    aqiMap: translate('menuApp.advance.aqiMap'),
+    aqiStatistic: translate('menuApp.advance.aqiStatistic'),
+    wqiMap: translate('menuApp.advance.wqiMap'),
+    wqiStatistic: translate('menuApp.advance.wqiStatistic'),
+    config: translate('menuApp.advance.config')
+  },
+
+  configSub: translate('menuApp.configSub'),
+  config: {
+    stationAuto: translate('menuApp.config.stationAuto'),
+    parameter: translate('menuApp.config.parameter'),
+    stationType: translate('menuApp.config.stationType'),
+    site: translate('menuApp.config.site'),
+    standard: translate('menuApp.config.standard'),
+    role: translate('menuApp.config.role'),
+    user: translate('menuApp.config.user')
   }
 }

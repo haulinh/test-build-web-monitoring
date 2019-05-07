@@ -45,7 +45,10 @@ export default class RoleList extends React.Component {
     const MAX_VALUE = 99999
     const key = this.props.match.params.key
 
-    let stations = await StationAutoApi.getStationAutos({ itemPerPage: MAX_VALUE }, {})
+    let stations = await StationAutoApi.getStationAutos(
+      { itemPerPage: MAX_VALUE },
+      {}
+    )
     let roles = await RoleApi.getRoles({ itemPerPage: MAX_VALUE })
     if (roles.error) message.error(roles.message)
     let user = await UserApi.getOne(key)
@@ -54,11 +57,19 @@ export default class RoleList extends React.Component {
       isLoaded: true,
       dataStations: stations && stations.data ? stations.data : [],
       dataRoles: roles && roles.data ? roles.data : [],
-      selectedRole: user.success && user.data.role ? user.data.role : { _id: '' },
-      selectedRows: user.success && user.data.stationAutos ? user.data.stationAutos : [],
-      selectedRowKeys: user.success && user.data.stationAutos ? user.data.stationAutos.map(item => item.key) : [],
+      selectedRole:
+        user.success && user.data.role ? user.data.role : { _id: '' },
+      selectedRows:
+        user.success && user.data.stationAutos ? user.data.stationAutos : [],
+      selectedRowKeys:
+        user.success && user.data.stationAutos
+          ? user.data.stationAutos.map(item => item.key)
+          : [],
       isAdmin: user.success && user.data.isAdmin ? user.data.isAdmin : false,
-      userName: user.success && user.data.firstName ? user.data.firstName + user.data.lastName : ''
+      userName:
+        user.success && user.data.firstName
+          ? user.data.firstName + user.data.lastName
+          : ''
     })
   }
 
@@ -144,8 +155,16 @@ export default class RoleList extends React.Component {
             />
             <Row gutter={16}>
               <Col span={12}>
-                <FormItem label={t('userManager.roleAssign.role')} labelCol={{ span: 4 }} wrapperCol={{ span: 10 }}>
-                  <Select style={{ width: 240 }} onChange={this.onChangeRole} value={this.state.selectedRole._id}>
+                <FormItem
+                  label={t('userManager.roleAssign.role')}
+                  labelCol={{ span: 4 }}
+                  wrapperCol={{ span: 10 }}
+                >
+                  <Select
+                    style={{ width: 240, paddingLeft: '4px' }}
+                    onChange={this.onChangeRole}
+                    value={this.state.selectedRole._id}
+                  >
                     {this.state.dataRoles.map(role => (
                       <Option key={role._id} value={role._id}>
                         {' '}
@@ -157,7 +176,10 @@ export default class RoleList extends React.Component {
               </Col>
               <Col span={12}>
                 <FormItem>
-                  <Checkbox checked={this.state.isAdmin} onChange={this.onChangeIsAdmin}>
+                  <Checkbox
+                    checked={this.state.isAdmin}
+                    onChange={this.onChangeIsAdmin}
+                  >
                     {t('userManager.roleAssign.isAdmin')}
                   </Checkbox>
                 </FormItem>
@@ -178,7 +200,12 @@ export default class RoleList extends React.Component {
 
             <br />
             <FormItem>
-              <Button style={{ width: '100%' }} type="primary" htmlType="submit" loading={this.state.isLoading}>
+              <Button
+                style={{ width: '100%' }}
+                type="primary"
+                htmlType="submit"
+                loading={this.state.isLoading}
+              >
                 {t('addon.save')}
               </Button>
             </FormItem>

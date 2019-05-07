@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
-import { COLOR_STATUS } from 'themes/color';
+import { COLOR_STATUS } from 'themes/color'
 
 const HeaderWrapper = styled.div`
   flex: 1;
@@ -60,7 +60,6 @@ export default class Header extends React.PureComponent {
     color: PropTypes.string
   }
 
-
   render() {
     return (
       <HeaderWrapper>
@@ -69,20 +68,22 @@ export default class Header extends React.PureComponent {
           {/* <SpaceContainer /> */}
           {/* <WarningTitle> {translate('warningLevels.title')}</WarningTitle> */}
           <WrapperColor>
-          <ColorLevel color={COLOR_STATUS.DATA_LOSS}>
+            <ColorLevel color={COLOR_STATUS.DATA_LOSS}>
               <TextLevel>{translate('warningLevels.dataLoss')}</TextLevel>
             </ColorLevel>
             <ColorLevel color={COLOR_STATUS.EXCEEDED}>
               <TextLevel>{translate('warningLevels.exceed')}</TextLevel>
             </ColorLevel>
             <ColorLevel color={COLOR_STATUS.EXCEEDED_PREPARING}>
-              <TextLevel>{translate('warningLevels.exceedPreparing')}</TextLevel>
+              <TextLevel>
+                {translate('warningLevels.exceedPreparing')}
+              </TextLevel>
             </ColorLevel>
             <ColorLevel color={COLOR_STATUS.GOOD}>
               <TextLevel>{translate('warningLevels.good')}</TextLevel>
             </ColorLevel>
           </WrapperColor>
-       </WarningWrapper>
+        </WarningWrapper>
       </HeaderWrapper>
     )
   }

@@ -88,14 +88,13 @@ export default class StationFixedEdit extends React.PureComponent {
           ]}
         />
         <Spin style={{ width: '100%' }} spinning={!this.props.isLoaded}>
-          {this.props.isLoaded &&
-            this.props.success && (
-              <StationFixedForm
-                initialValues={this.cleanData()}
-                onSubmit={this.handleSubmit}
-                isEdit={true}
-              />
-            )}
+          {this.props.isLoaded && this.props.success && (
+            <StationFixedForm
+              initialValues={this.cleanData()}
+              onSubmit={this.handleSubmit}
+              isEdit={true}
+            />
+          )}
         </Spin>
       </PageContainer>
     )

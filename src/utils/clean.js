@@ -15,8 +15,8 @@ export function cleanUser(user) {
     avatar: user.avatar_url
       ? user.avatar_url
       : user.avatar
-        ? `${AUTH_API}/uploads/avatars/${user.avatar}`
-        : '',
+      ? `${AUTH_API}/uploads/avatars/${user.avatar}`
+      : '',
     balance: user.balance ? user.balance : 0
   }
 }

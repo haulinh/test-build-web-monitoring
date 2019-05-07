@@ -7,4 +7,4 @@ BRAND_NAME=$(git symbolic-ref --short HEAD)
 docker build . -t ${DOCKER_IMAGE}:${BRAND_NAME}
 docker push ${DOCKER_IMAGE}:${BRAND_NAME}
 echo --------------------------------------------------
-echo "success deploy web gis with name ${DOCKER_IMAGE}:${BRAND_NAME}"
+echo "success deploy with name ${DOCKER_IMAGE}:${BRAND_NAME}"

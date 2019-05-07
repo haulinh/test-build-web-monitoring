@@ -40,11 +40,11 @@ export default class AQIStatistics extends React.Component {
       isLoading: true,
       isHaveData: true
     })
- 
+
     const key = searchFormData.key
     const params = {
       from: searchFormData.fromDate,
-      to: searchFormData.toDate,
+      to: searchFormData.toDate
     }
     let listdataWQI = await wqiApi.fetchWqiHistory(key, params)
     if (
@@ -64,25 +64,23 @@ export default class AQIStatistics extends React.Component {
     })
   }
 
-
   async handleExportExcel() {
     this.setState({
       isExporting: true
     })
-     const key = _.get(this.state.searchFormData, 'key', '')
-     const params = {
-       from: _.get(this.state.searchFormData, 'fromDate', ''),
-       to: _.get(this.state.searchFormData, 'toDate', '')
-     }
-     let res = await wqiApi.exportFileHistory(key, {...params})
-     if (res && res.success) window.location = res.data
-     else message.error('Export Error') //message.error(res.message)
+    const key = _.get(this.state.searchFormData, 'key', '')
+    const params = {
+      from: _.get(this.state.searchFormData, 'fromDate', ''),
+      to: _.get(this.state.searchFormData, 'toDate', '')
+    }
+    let res = await wqiApi.exportFileHistory(key, { ...params })
+    if (res && res.success) window.location = res.data
+    else message.error('Export Error') //message.error(res.message)
 
     this.setState({
       isExporting: false
     })
   }
-
 
   render() {
     return (

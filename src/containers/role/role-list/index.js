@@ -21,7 +21,7 @@ const FloatRight = styled.div`
 
 @protectRole(ROLE.ROLE.VIEW)
 @createManagerList({
-  apiList: RoleApi.getRoles,
+  apiList: RoleApi.getRoles
 })
 @createManagerDelete({
   apiDelete: RoleApi.deleteRole

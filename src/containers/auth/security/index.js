@@ -32,9 +32,9 @@ export class SecurityForm extends PureComponent {
     }
   }
 
-  async handleUpdate (enable) {
+  async handleUpdate(enable) {
     try {
-      const { success } = await AuthApi.putSecurity({enable})
+      const { success } = await AuthApi.putSecurity({ enable })
       return !!success
     } catch (error) {
       return false
@@ -42,21 +42,23 @@ export class SecurityForm extends PureComponent {
   }
 
   handleClose = () => {
-    this.setState({isVisible: false})
+    this.setState({ isVisible: false, enable: this.state.enable })
   }
 
   handleOpen = () => {
-    this.setState({isVisible: true})
+    this.setState({ isVisible: true })
   }
 
   handleSuccess = status => {
-    this.setState({ isVisible: false, enable: true })
+    this.setState({ isVisible: false })
     if (status) {
+      this.setState({ enable: true })
       swal({
         type: 'success',
         title: translate('security.success')
       })
     } else {
+      this.setState({ enable: false })
       swal({
         type: 'error',
         title: translate('security.failure')
@@ -64,14 +66,24 @@ export class SecurityForm extends PureComponent {
     }
   }
 
-  _render2FA_Note () {
-    if (_.get(this.props, 'initialValues.twoFactorAuth.enable', false)) {
-      return <div>
-        <Note style={{ color: 'red', fontWeight: '600' }}>{
-            translate('security.message.userUse', {
-              type: _.get(this.props, 'initialValues.twoFactorAuth.type', 'email') === 'sms' ? 'SMS' : 'Email' })
-          }</Note>
-      </div>
+  _render2FA_Note() {
+    if (_.get(this.props, 'initialValues.twoFactorAuth.enable', true)) {
+      return (
+        <div>
+          <Note style={{ color: 'red', fontWeight: '600' }}>
+            {translate('security.message.userUse', {
+              type:
+                _.get(
+                  this.props,
+                  'initialValues.twoFactorAuth.type',
+                  'email'
+                ) === 'sms'
+                  ? 'SMS'
+                  : 'Email'
+            })}
+          </Note>
+        </div>
+      )
     }
     return null
   }
@@ -88,19 +100,22 @@ export class SecurityForm extends PureComponent {
             if (checked) {
               this.handleOpen()
             } else {
-              this.handleUpdate(false)
+              let isSuccess = this.handleUpdate(false)
+              if (isSuccess) return this.setState({ enable: false })
+              return
             }
-            this.setState({
-              enable: checked
-            })
-            //this.props.onChange(checked)
           }}
         />
         {this._render2FA_Note()}
         <div>
           <Note>{translate('security.note')}</Note>
         </div>
-        <ModalActive user={this.props.initialValues} onSuccess={this.handleSuccess} visible={this.state.isVisible} onCancel={this.handleClose}/>
+        <ModalActive
+          user={this.props.initialValues}
+          onSuccess={this.handleSuccess}
+          visible={this.state.isVisible}
+          onCancel={this.handleClose}
+        />
       </div>
     )
   }
@@ -136,9 +151,7 @@ export default class Security extends PureComponent {
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb items={['security']} />
         {this.state.isLoaded && (
-          <SecurityForm
-            initialValues={this.state.userInfo}
-          />
+          <SecurityForm initialValues={this.state.userInfo} />
         )}
       </PageContainer>
     )

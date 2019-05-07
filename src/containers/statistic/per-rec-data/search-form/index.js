@@ -18,7 +18,6 @@ import SelectProvince from 'components/elements/select-province'
 import OptionsMonthRange from '../../common/options-time-month-range'
 import * as _ from 'lodash'
 
-
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FSelectStationType = createValidateComponent(SelectStationType)
@@ -174,24 +173,24 @@ export default class SearchForm extends React.Component {
                 size="large"
                 onHandleChange={this.handleChangeStationType}
                 component={FSelectStationType}
-                isAuto= {null}
+                isAuto={null}
               />
             </Col>
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
             <Col span={12}>
-                <Field
-                  label={t('stationAuto.label')}
-                  name="station"
-                  size="large"
-                  provinceKey={this.state.provinceKey}
-                  stationTypeKey={this.state.stationTypeKey}
-                  component={FSelectStationAuto}
-                  onChangeObject={this.handleChangeStationAuto}
-                  stationKey={this.state.stationKey}
-                  setKey
-                />
+              <Field
+                label={t('stationAuto.label')}
+                name="station"
+                size="large"
+                provinceKey={this.state.provinceKey}
+                stationTypeKey={this.state.stationTypeKey}
+                component={FSelectStationAuto}
+                onChangeObject={this.handleChangeStationAuto}
+                stationKey={this.state.stationKey}
+                setKey
+              />
             </Col>
             <Col span={12}>
               <Field

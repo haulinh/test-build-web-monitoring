@@ -58,10 +58,12 @@ export default function createValidateComponent(InputComponent) {
             <Label style={{ display: 'block' }}>{this.props.label}</Label>
           ) : null}
           <InputComponent {...input} {...otherProps} {...refProps} />
-          {meta.touched &&
-            meta.error && <FormFeedback>{meta.error}</FormFeedback>}
-          {meta.touched &&
-            meta.warning && <FormFeedback>{meta.warning}</FormFeedback>}
+          {meta.touched && meta.error && (
+            <FormFeedback>{meta.error}</FormFeedback>
+          )}
+          {meta.touched && meta.warning && (
+            <FormFeedback>{meta.warning}</FormFeedback>
+          )}
         </View>
       )
     }

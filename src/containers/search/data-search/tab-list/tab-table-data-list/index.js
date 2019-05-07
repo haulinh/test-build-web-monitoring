@@ -7,8 +7,10 @@ import moment from 'moment/moment'
 import { SHAPE } from 'themes/color'
 import { warningLevels, colorLevels } from 'constants/warningLevels'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-import { FORMAT_VALUE_MEASURING, getFormatNumber } from "constants/format-number"
-
+import {
+  FORMAT_VALUE_MEASURING,
+  getFormatNumber
+} from 'constants/format-number'
 
 @autobind
 export default class TableDataList extends React.PureComponent {

@@ -65,7 +65,7 @@ export default class StationAutoFormTable extends React.Component {
 
   async componentWillMount() {
     let measuringList = []
-    console.log('this.props.dataSource', this.props.dataSource)
+
     if (
       this.props.allowUpdateStandardsVN &&
       !_.isEmpty(this.props.standardsVN)
@@ -207,7 +207,7 @@ export default class StationAutoFormTable extends React.Component {
                 onChange={value =>
                   this.handleChangeMeasuring(value, index, 'name')
                 }
-                options={_.get(this.props,'measuringListSource',[]).map(d => (
+                options={_.get(this.props, 'measuringListSource', []).map(d => (
                   <Select.Option key={d.key} value={d.key}>
                     {d.name}
                   </Select.Option>

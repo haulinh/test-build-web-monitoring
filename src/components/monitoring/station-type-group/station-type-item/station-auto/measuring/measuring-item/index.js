@@ -1,23 +1,23 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { autobind } from "core-decorators";
-import styled from "styled-components";
-import { colorLevels } from "constants/warningLevels";
-import { translate } from "hoc/create-lang";
-import { Tooltip } from "antd";
-import { get } from "lodash";
-import { COLOR_DEVICE_STATUS, COLOR_STATUS } from "themes/color";
-import { STATUS_STATION } from "constants/stationStatus";
-import { getFormatNumber } from "constants/format-number";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { autobind } from 'core-decorators'
+import styled from 'styled-components'
+import { colorLevels } from 'constants/warningLevels'
+import { translate } from 'hoc/create-lang'
+import { Tooltip } from 'antd'
+import { get } from 'lodash'
+import { COLOR_DEVICE_STATUS, COLOR_STATUS } from 'themes/color'
+import { STATUS_STATION } from 'constants/stationStatus'
+import { getFormatNumber } from 'constants/format-number'
 
 const DEVICE_STATUS = {
-  "0": { src: "/images/sensor1.png", text: "monitoring.deviceStatus.normal" },
-  "1": {
-    src: "/images/sensor2.png",
-    text: "monitoring.deviceStatus.maintenance"
+  '0': { src: '/images/sensor1.png', text: 'monitoring.deviceStatus.normal' },
+  '1': {
+    src: '/images/sensor2.png',
+    text: 'monitoring.deviceStatus.maintenance'
   },
-  "2": { src: "/images/sensor3.png", text: "monitoring.deviceStatus.broken" }
-};
+  '2': { src: '/images/sensor3.png', text: 'monitoring.deviceStatus.broken' }
+}
 
 const MeasuringItemWrapper = styled.div`
   position: relative;
@@ -30,11 +30,11 @@ const MeasuringItemWrapper = styled.div`
   &:hover {
     cursor: pointer;
   }
-`;
+`
 const MeasuringItemText = styled.div`
   display: flex;
   // justify-content: space-between;
-`;
+`
 
 const MeasuringName = styled.span`
   padding: 0px 6px;
@@ -45,14 +45,14 @@ const MeasuringName = styled.span`
   justify-content: center;
   border-radius: 3px;
   background-color: ${props => props.color};
-`;
+`
 
 const MeasuringUnit = styled.span`
   position: relative;
   top: -10px;
   font-size: 8px;
   color: ${props => props.color};
-`;
+`
 
 const MeasuringValue = styled.div`
   font-size: 16px;
@@ -60,21 +60,21 @@ const MeasuringValue = styled.div`
   // font-weight: 600;
   color: ${props => props.color};
   position: relative;
-`;
+`
 
 const MeasuringLimit = styled.span`
   font-size: 10px;
   color: #b9b9b9;
-`;
+`
 
 const LeftContainer = styled.div`
   // display: flex;
   // flex: 1;
-`;
+`
 const RightContainer = styled.div`
   display: flex;
   align-items: center;
-`;
+`
 
 const Dot = styled.div`
   height: 25px;
@@ -83,7 +83,7 @@ const Dot = styled.div`
   border-radius: 50%;
   display: inline-block;
   margin-right: 8px;
-`;
+`
 
 @autobind
 export default class MeasuringItem extends React.PureComponent {
@@ -96,27 +96,27 @@ export default class MeasuringItem extends React.PureComponent {
     maxLimit: PropTypes.number,
     warningLevel: PropTypes.string,
     statusStation: PropTypes.string
-  };
+  }
 
   getLimitText() {
-    const { unit } = this.props;
-    let minLimit = get(this.props, "minLimit", null);
-    let maxLimit = get(this.props, "maxLimit", null);
-    if (minLimit === "") minLimit = null;
-    if (maxLimit === "") maxLimit = null;
+    const { unit } = this.props
+    let minLimit = get(this.props, 'minLimit', null)
+    let maxLimit = get(this.props, 'maxLimit', null)
+    if (minLimit === '') minLimit = null
+    if (maxLimit === '') maxLimit = null
 
     if (minLimit !== null && maxLimit !== null) {
       return ` ${translate(
-        "monitoring.limit"
-      )}: ${minLimit} -> ${maxLimit} ${unit || ""}`;
+        'monitoring.limit'
+      )}: ${minLimit} -> ${maxLimit} ${unit || ''}`
     }
 
     if (minLimit !== null) {
-      return ` ${translate("monitoring.limit")}: > ${minLimit}  ${unit || ""}`;
+      return ` ${translate('monitoring.limit')}: > ${minLimit}  ${unit || ''}`
     }
 
     if (maxLimit !== null) {
-      return `${translate("monitoring.limit")}: < ${maxLimit}  ${unit || ""}`;
+      return `${translate('monitoring.limit')}: < ${maxLimit}  ${unit || ''}`
     }
 
     // if (minLimit || maxLimit) {
@@ -127,49 +127,55 @@ export default class MeasuringItem extends React.PureComponent {
     //     else limitText = translate('monitoring.limit') + ': < ' + maxLimit
     //   }
     // }
-    return `${translate("monitoring.limit")} `;
+    return `${translate('monitoring.limit')} `
     //return limitText ? `${limitText} ${unit}` : ` `
   }
 
   getColorLevel() {
-    if(this.props.statusStation && this.props.statusStation === STATUS_STATION.HIGHTGEST)
+    if (
+      this.props.statusStation &&
+      this.props.statusStation === STATUS_STATION.HIGHTGEST
+    )
       return COLOR_STATUS[STATUS_STATION.HIGHTGEST]
 
-    const { warningLevel } = this.props;
+    const { warningLevel } = this.props
     if (warningLevel && colorLevels[warningLevel])
-      return COLOR_STATUS[warningLevel];
+      return COLOR_STATUS[warningLevel]
     return COLOR_STATUS.GOOD
   }
 
   renderDeviceIcon = status => {
-    let item = DEVICE_STATUS[`${status}`];
+    let item = DEVICE_STATUS[`${status}`]
     if (item) {
       return (
         <Tooltip placement="top" title={`Sensor ${translate(item.text)}`}>
           <img
             src={item.src}
             style={{
-              position: "absolute",
+              position: 'absolute',
               bottom: 4,
               right: 8,
-              width: "16px",
-              height: "16px"
+              width: '16px',
+              height: '16px'
             }}
             alt={item.text}
           />
         </Tooltip>
-      );
+      )
     }
 
-    return null;
-  };
-
+    return null
+  }
 
   render() {
-    const { value, unit, name } = this.props;
+    const { value, unit, name } = this.props
 
-    let colorDeviceStatus = COLOR_DEVICE_STATUS[get(this.props, 'statusDevice', '')]
-    if(this.props.statusStation && this.props.statusStation === STATUS_STATION.HIGHTGEST)
+    let colorDeviceStatus =
+      COLOR_DEVICE_STATUS[get(this.props, 'statusDevice', '')]
+    if (
+      this.props.statusStation &&
+      this.props.statusStation === STATUS_STATION.HIGHTGEST
+    )
       colorDeviceStatus = COLOR_STATUS[STATUS_STATION.HIGHTGEST]
 
     return (
@@ -183,15 +189,13 @@ export default class MeasuringItem extends React.PureComponent {
           >
             <span style={{ marginRight: 8, fontWeight: 100 }}>{name}</span>
             <MeasuringValue color={this.getColorLevel()}>
-              {value !== undefined
-                ? getFormatNumber(value)
-                : ""}{" "}
+              {value !== undefined ? getFormatNumber(value) : ''}{' '}
               {unit ? (
                 <MeasuringUnit color={this.getColorLevel()} className="unit">
                   {unit}
                 </MeasuringUnit>
               ) : (
-                ""
+                ''
               )}
             </MeasuringValue>
           </MeasuringItemText>
@@ -200,9 +204,11 @@ export default class MeasuringItem extends React.PureComponent {
           </div>
         </LeftContainer>
         <RightContainer>
-          <Dot style={{
-            backgroundColor: colorDeviceStatus
-          }} />
+          <Dot
+            style={{
+              backgroundColor: colorDeviceStatus
+            }}
+          />
         </RightContainer>
 
         {/* <MeasuringItemText>
@@ -223,7 +229,7 @@ export default class MeasuringItem extends React.PureComponent {
         {/* <MeasuringLimit>{this.getLimitText()}</MeasuringLimit>
         {this.renderDeviceIcon(get(this.props, 'statusDevice', ''))} */}
       </MeasuringItemWrapper>
-    );
+    )
   }
 }
 
