@@ -29,6 +29,9 @@ export function getConfigApi() {
     stationConfig: c('config/station'), //stationConfig: 'http://localhost:5002/config/station'
     ftp: c('ftp'),
     fcmMessages: c('fcm-messages'),
+    fcmNotification: c('fcm-notification'),
+    fcmToken: c('fcm-token'),
+    fcmToken: 'http://localhost:5008/fcm-token',
     organization: c('organization'),
     role: c('role'),
     // sampling: 'http://localhost:5020/samplingNew',
@@ -45,6 +48,7 @@ export function getConfigApi() {
     sampleConfig: c('configSample'), // local.,
     
     camera: config.camera,
+    firebase: config.firebase
   }
 }
 

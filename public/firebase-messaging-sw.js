@@ -1,0 +1,57 @@
+importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js");
+
+self.addEventListener("notificationclick", function(event) {
+  // do what you want
+  // ...
+  event.notification.close();
+  var url = event.notification.data.FCM_MSG.notification.click_action;
+  if (!url) return;
+  event.waitUntil(
+    clients
+      .matchAll({
+        type: "window",
+        includeUncontrolled: true
+      })
+      .then(function(windowClients) {
+        for (var i = 0; i < windowClients.length; i++) {
+          var client = windowClients[i];
+          if (
+            (client.url === url || client.url.includes(url)) &&
+            "focus" in client
+          ) {
+            return client.focus();
+          }
+        }
+        if (clients.openWindow) {
+            return clients.openWindow(url);
+        }
+      })
+  );
+});
+
+importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js");
+
+// MARK  fire_id
+firebase.initializeApp({
+  messagingSenderId: "378057037919"
+});
+
+const messaging = firebase.messaging();
+
+// messaging.setBackgroundMessageHandler(function(payload) {
+//   const promiseChain = clients
+//     .matchAll({
+//       type: "window",
+//       includeUncontrolled: true
+//     })
+//     .then(windowClients => {
+//       for (let i = 0; i < windowClients.length; i++) {
+//         const windowClient = windowClients[i];
+//         windowClient.postMessage(payload);
+//       }
+//     })
+//     .then(() => {
+//       return registration.showNotification("my notification title");
+//     });
+//   return promiseChain;
+// });
