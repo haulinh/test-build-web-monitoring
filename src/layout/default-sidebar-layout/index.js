@@ -37,7 +37,7 @@ export default class PageWrapper extends Component {
         // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
         try{
           let response = await linkToken2Email(token)
-          console.log('linkToken2Email respon', response)
+          console.log('linkToken2Email respon',  token ,response)
         }catch(e){
           console.log('error linkToken2Email',  e)
         }
@@ -48,7 +48,7 @@ export default class PageWrapper extends Component {
       });
     
    
-    navigator.serviceWorker.addEventListener("message", message =>{
+     navigator.serviceWorker.addEventListener("message", message =>{
        // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
       console.log('message noti',message)
     }

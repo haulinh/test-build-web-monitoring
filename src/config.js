@@ -52,3 +52,8 @@ export function getConfigApi() {
     firebase: config.firebase
   }
 }
+
+
+export const GOOGLE_MAP = {
+  KEY: process.env.GOOGLE_MAP_KEY || "AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4"
+}

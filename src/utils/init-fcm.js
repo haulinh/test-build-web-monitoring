@@ -14,4 +14,11 @@ messaging.usePublicVapidKey(
   // "BFl94_PkChgm29pzLORmK3ontJsbkGmWDoO4z1gJBjIiW-j5vbp8IlVy18OydRo4GBrPF2l-dLl0OANbDFxYtHM"
   getConfigApi().firebase.key
 );
+
+// MARK  fire when focus tab web
+messaging.onMessage(function(payload) {
+  console.log('Message code. ', payload);
+  // ...
+  
+});
 export { messaging };
