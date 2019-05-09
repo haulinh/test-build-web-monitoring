@@ -4,11 +4,16 @@ import _ from 'lodash'
 import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
 import { connectAutoDispatch } from 'redux/connect'
-import {Row, Col, Card, Button} from 'antd'
+import {Row, Col, Card, Button, message} from 'antd'
+import InfiniteScroll from 'react-infinite-scroller';
+import { prop } from 'cramda';
+import { COLOR_STATUS } from 'themes/color';
+import { loadNotificationsByType} from 'redux/actions/notification'
+
 
 const i18n = {
   station: '--- Trạm ---',
-  parameters: '--- Các chỉ tiêu ---',
+  parameters: 'Các chỉ tiêu',
   gotoRealtimeMonitoringPage: 'Đến trang Xem chi tiết trạm',
   viewDataAroundThisTime: 'Xem giá trị quanh thời điểm vượt',
   exceeded: translate('stationStatus.exceeded'),
@@ -22,23 +27,41 @@ function Cell(props) {
   const CustomRow = styled(Row)`
     margin-bottom: 8px
   `
+
+  const CustomParamsRow = styled(Row)`
+    margin-bottom: 8px;
+    padding-left: 8px;
+  `
+
   return (
     <CustomRow>
       <Card style={{ width: '100%' }} bodyStyle={{padding: 8}}>
-        <CustomRow type="flex" justify="center">
-          <Col span={12}>{cellContent.station}</Col>
-          <Col span={12} style={{textAlign: "right"}}>{cellContent.exceededTime}</Col>
+        <CustomRow type="flex" justify="center" align="middle">
+          <Col span={12}>
+            <strong>{cellContent.station}</strong>
+          </Col>
+          <Col span={12} style={{textAlign: "right", fontSize: 11}}>
+            <i>{cellContent.exceededTime}</i>
+          </Col>
         </CustomRow>
-        <CustomRow>
-          <span style={{color: 'red'}}>{i18n.parameters}:</span>
-          &nbsp;
-          {_.join(cellContent.exceededParams, ', ')}
-        </CustomRow>
-        <CustomRow>
-          <span style={{color: 'orange'}}>{i18n.parameters}:</span>
-          &nbsp;
-          {_.join(cellContent.exceededPreparingParams, ', ')}
-        </CustomRow>
+        { cellContent.exceededParams.length !== 0 && (
+          <CustomParamsRow>
+            {i18n.parameters}
+            &nbsp;
+            <span style={{color: COLOR_STATUS.EXCEEDED}}>{i18n.exceeded}:</span>
+            &nbsp;
+            {_.join(cellContent.exceededParams, ', ')}
+          </CustomParamsRow>
+        )}
+        { cellContent.exceededPreparingParams.length !== 0 && (
+          <CustomParamsRow>
+            {i18n.parameters}
+            &nbsp;
+            <span style={{color: COLOR_STATUS.EXCEEDED_PREPARING}}>{i18n.exceededPreparing}:</span>
+            &nbsp;
+            {_.join(cellContent.exceededPreparingParams, ', ')}
+          </CustomParamsRow>
+        )}
         <CustomRow type="flex" gutter={16}>
           <Col>
             <Button type="primary" ghost>{i18n.gotoRealtimeMonitoringPage}</Button>
@@ -60,14 +83,21 @@ function Cells(props) {
 
 @connectAutoDispatch(
   (state) => ({
+    loading: state.notification.loading,
+    currentPage: state.notification.currentPage,
     dataSource: state.notification.logs.exceeded
-  })
+  }),
+  {loadNotificationsByType}
 )
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
+    /* component's props */
     loadNotifications: propTypes.func.isRequired,
     tabKey: propTypes.string.isRequired,
-    dataSource: propTypes.array.isRequired
+    /* redux's props */
+    loading: propTypes.bool.isRequired,
+    currentPage: propTypes.number.isRequired,
+    dataSource: propTypes.array.isRequired,
   }
 
   static defaultProps = {}
@@ -81,14 +111,25 @@ export default class NotificationDrawer extends React.Component {
   }
 
   render() {
-    const { dataSource } = this.props
+    const { loading, currentPage, dataSource } = this.props
     return (
-      <Row>
-        <Cells dataSource={dataSource}/>
-        <Card loading />
+      <Row style={{height: '100%'}}>
+        <InfiniteScroll
+          // initialLoad
+          pageStart={1}
+          // hasMore={loading}
+          threshold={250}
+          // loader={<Card loading />}
+          // loadMore={this.showInfo}
+          useWindow={false}>
+            <Cells dataSource={dataSource}/>
+        </InfiniteScroll>
       </Row>
     )
   }
+
+  showInfo = (page) => {
+    message.info('This is a normal message');
+    this.props.loadNotifications(page)
+  }
 }
-
-

@@ -4,7 +4,9 @@ import { TAB_KEYS } from 'constants/notification'
 import {
   GET_COUNTS,
   PREPEND_DATA_SOURCE,
-  UPDATE_DATA_SOURCE
+  UPDATE_DATA_SOURCE,
+  TOGGLE_LOADING,
+  UPDATE_CURRENT_PAGE,
 } from '../actions/notification'
 
 const {
@@ -15,6 +17,14 @@ const {
 
 
 const initialState = {
+  loading: true,
+  currentPage: 0,
+  count: {
+    total: 23,
+    exceeded: 9,
+    lostSignal: 55,
+    sensorError: 123456789
+  },
   logs: {
     exceeded: [],
     lostSignal: [],
@@ -23,22 +33,25 @@ const initialState = {
 }
 
 export default function createReducer(state = initialState, action) {
+  const cloneState = _.clone(state)
   const {type, payload} = action
   switch (type) {
-    case GET_COUNTS: return state
-    case PREPEND_DATA_SOURCE: return state
-    case UPDATE_DATA_SOURCE: {
-      const result = _.merge(
-        ...state, 
-        {
-          logs: {
-            exceeded: payload.data
-          }
-        }
-      )
-      console.log(result)
-      return result
+    case TOGGLE_LOADING: {
+      cloneState.loading = payload
+      return cloneState
     }
+    // case TOGGLE_LOADING: return {...state, loading: payload.data}
+
+    case GET_COUNTS: return state
+
+    case PREPEND_DATA_SOURCE: return state
+
+    case UPDATE_DATA_SOURCE: {
+      const merged = [ ...cloneState.logs.exceeded, ...payload.data]
+      cloneState.logs.exceeded = merged
+      return cloneState
+    }
+
     default:
       return state
   }
