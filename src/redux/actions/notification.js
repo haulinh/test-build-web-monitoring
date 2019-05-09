@@ -1,30 +1,21 @@
 import moment from 'moment'
+import { TAB_KEYS } from 'constants/notification'
 import { getFetch } from 'utils/fetch';
 
 export const GET_COUNTS            = 'NOTIFICATION/GET_COUNTS'
+export const UPDATE_COUNTS         = 'NOTIFICATION/UPDATE_COUNTS'
 export const PREPEND_DATA_SOURCE   = 'NOTIFICATION/PREPEND_DATA_SOURCE'
 export const UPDATE_DATA_SOURCE    = 'NOTIFICATION/UPDATE_DATA_SOURCE'
 export const TOGGLE_LOADING        = 'NOTIFICATION/TOGGLE_LOADING'
 export const UPDATE_CURRENT_PAGE   = 'NOTIFICATION/UPDATE_CURRENT_PAGE'
 
-export function loadNotificationsByType(page, errorType) {
+export function loadNotificationsByType(page, type) {
   return async dispatch => {
-    // let url = `http://jsonplaceholder.typicode.com/albums?userId=${page}`
-    // let res = await getFetch(url)
-    console.log('------------', page)
-    // const data = new Array(2).fill(1).map((e, i) => {
-    //   return {
-    //     station: `tram nuoc thai ${i+1}`,
-    //     exceededTime: moment().format(),
-    //     exceededParams: ['co2 12', 'php 1.5mg'],
-    //     exceededPreparingParams: ['golang 6.7']
-    //   }
-    // })
     toggleLoading(true)
     dispatch({
       type: UPDATE_DATA_SOURCE,
       payload: {
-        type: 'EXCEEDED',
+        type: type,
         data: [
           {
             station: `tram nuoc thai ${1}`,

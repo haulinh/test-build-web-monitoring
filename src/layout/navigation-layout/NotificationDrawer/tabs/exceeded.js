@@ -18,7 +18,6 @@ const i18n = {
   viewDataAroundThisTime: 'Xem giá trị quanh thời điểm vượt',
   exceeded: translate('stationStatus.exceeded'),
   exceededPreparing: translate('stationStatus.exceededPreparing'),
-  errorData: '--- Du lieu truyen vao k dung dinh dang ---'
 }
 
 function Cell(props) {
@@ -77,15 +76,15 @@ function Cell(props) {
 
 function Cells(props) {
   const { dataSource } = props
-  if(!_.isArray(dataSource)) return <div>{i18n.errorData}</div>
   return dataSource.map(cellContent => <Cell cellContent={cellContent}/>)
 }
 
 @connectAutoDispatch(
   (state) => ({
     loading: state.notification.loading,
+    defaultStartPage: state.notification.defaultStartPage,
     currentPage: state.notification.currentPage,
-    dataSource: state.notification.logs.exceeded
+    dataSource: state.notification.logs.exceeded,
   }),
   {loadNotificationsByType}
 )
@@ -111,12 +110,12 @@ export default class NotificationDrawer extends React.Component {
   }
 
   render() {
-    const { loading, currentPage, dataSource } = this.props
+    const { loading, defaultStartPage, currentPage, dataSource } = this.props
     return (
       <Row style={{height: '100%'}}>
         <InfiniteScroll
           // initialLoad
-          pageStart={1}
+          pageStart={defaultStartPage}
           // hasMore={loading}
           threshold={250}
           // loader={<Card loading />}

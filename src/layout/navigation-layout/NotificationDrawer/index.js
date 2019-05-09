@@ -107,16 +107,16 @@ export default class NotificationDrawer extends React.Component {
             <ExceededTabContent loadNotifications={this.loadNotifications} />
           </TabPane>
 
-          {/* NOTE  TAB LOST_DATA */}
+          {/* NOTE  TAB LOST_SIGNAL */}
           <TabPane 
-            key={TAB_KEYS.LOST_DATA}
+            key={TAB_KEYS.LOST_SIGNAL}
             tab={<BadgeWrapper count={notificationCount.lostSignal}>{i18n.lostSignal}</BadgeWrapper>}>
             <LostDataTabContent loadNotifications={this.loadNotifications} />
           </TabPane>
 
-          {/* NOTE  TAB DEVICE_ERROR */}
+          {/* NOTE  TAB SENSOR_ERROR */}
           <TabPane 
-            key={TAB_KEYS.DEVICE_ERROR}
+            key={TAB_KEYS.SENSOR_ERROR}
             tab={<BadgeWrapper count={notificationCount.sensorError}>{i18n.sensorError}</BadgeWrapper>}>
             <SensorErrorTabContent loadNotifications={this.loadNotifications} />
           </TabPane>
