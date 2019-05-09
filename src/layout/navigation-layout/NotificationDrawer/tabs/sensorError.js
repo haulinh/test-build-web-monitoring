@@ -7,7 +7,7 @@ import { connectAutoDispatch } from 'redux/connect'
 import {Row, Col, Card, Button, message} from 'antd'
 import InfiniteScroll from 'react-infinite-scroller';
 import { prop } from 'cramda';
-import { COLOR_STATUS } from 'themes/color';
+import { COLOR_STATUS, COLOR_DEVICE_STATUS } from 'themes/color';
 import { loadNotificationsByType} from 'redux/actions/notification'
 
 
@@ -43,30 +43,19 @@ function Cell(props) {
             <i>{cellContent.exceededTime}</i>
           </Col>
         </CustomRow>
-        { cellContent.exceededParams.length !== 0 && (
+        { cellContent.status === "deviceGood" && (
           <CustomParamsRow>
-            {i18n.parameters}
-            &nbsp;
-            <span style={{color: COLOR_STATUS.EXCEEDED}}>{i18n.exceeded}:</span>
-            &nbsp;
-            {_.join(cellContent.exceededParams, ', ')}
+            <span style={{color: COLOR_DEVICE_STATUS.NORMAL}}>{cellContent.content}:</span>{/* MARK */}
           </CustomParamsRow>
         )}
-        { cellContent.exceededPreparingParams.length !== 0 && (
+        { cellContent.status === "deviceError" && (
           <CustomParamsRow>
-            {i18n.parameters}
-            &nbsp;
-            <span style={{color: COLOR_STATUS.EXCEEDED_PREPARING}}>{i18n.exceededPreparing}:</span>
-            &nbsp;
-            {_.join(cellContent.exceededPreparingParams, ', ')}
+            <span style={{color: COLOR_DEVICE_STATUS.ERROR}}>{cellContent.content}:</span>{/* MARK */}
           </CustomParamsRow>
         )}
         <CustomRow type="flex" gutter={16}>
           <Col>
             <Button type="primary" ghost>{i18n.gotoRealtimeMonitoringPage}</Button>
-          </Col>
-          <Col>
-            <Button type="primary" ghost>{i18n.viewDataAroundThisTime}</Button>
           </Col>
         </CustomRow>
       </Card>

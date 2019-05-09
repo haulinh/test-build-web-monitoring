@@ -6,7 +6,7 @@ import {Drawer, Icon, Tabs, Badge} from 'antd'
 import { translate } from 'hoc/create-lang'
 import { TAB_KEYS } from 'constants/notification'
 import { connectAutoDispatch } from 'redux/connect'
-import { toggleLoading, loadNotificationsByType} from 'redux/actions/notification'
+import { toggleLoading, loadNotificationsByType, clearNotificationCountByType} from 'redux/actions/notification'
 import ExceededTabContent from './tabs/exceeded'
 import LostDataTabContent from './tabs/lostData'
 import SensorErrorTabContent from './tabs/sensorError'
@@ -52,7 +52,7 @@ const TabsWrapper = styled(Tabs)`
   (state) => ({
     notificationCount: state.notification.count,
   }),
-  { toggleLoading, loadNotificationsByType }
+  { toggleLoading, loadNotificationsByType, clearNotificationCountByType }
 )
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
@@ -61,9 +61,10 @@ export default class NotificationDrawer extends React.Component {
     visible: propTypes.bool.isRequired,
     notificationNumbers: propTypes.object.isRequired,
     /* Redux's props */
+    notificationCount: propTypes.number.isRequired,
     toggleLoading: propTypes.func.isRequired,
     loadNotificationsByType: propTypes.func.isRequired,
-    notificationCount: propTypes.number.isRequired
+    clearNotificationCountByType: propTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -128,16 +129,13 @@ export default class NotificationDrawer extends React.Component {
 
   closeDrawer = () => {
     this.props.toggleLoading(false)
+    this.props.clearNotificationCountByType( this.state.currentTabKey )
     this.props.closeDrawer()
   }
 
-  handleChangeTab = (tabKey) => {
-    this.setState({currentTabKey: tabKey})
-    this.clearNotificationNumberByTabKey(tabKey)
-  }
-
-  clearNotificationNumberByTabKey = (tabKey) => {
-    /* TODO   */
+  handleChangeTab = (newTabKey) => {
+    this.props.clearNotificationCountByType( this.state.currentTabKey )
+    this.setState({currentTabKey: newTabKey})
   }
 
   loadNotifications = (page) => {

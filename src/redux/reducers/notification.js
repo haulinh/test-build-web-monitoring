@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import { TAB_KEYS } from 'constants/notification'
 import {
-  GET_COUNTS,
   UPDATE_COUNTS,
   PREPEND_DATA_SOURCE,
   UPDATE_DATA_SOURCE,
@@ -24,8 +23,8 @@ const initialState = {
   count: {
     total: 23,
     exceeded: 9,
-    lostSignal: 55,
-    sensorError: 123456789
+    lostSignal: 4,
+    sensorError: 10
   },
   logs: {
     exceeded: [],
@@ -38,33 +37,58 @@ export default function createReducer(state = initialState, action) {
   const cloneState = _.clone(state)
   const {type, payload} = action
   switch (type) {
-    case TOGGLE_LOADING: {
-      cloneState.loading = payload
-      return cloneState
-    }
-    // case TOGGLE_LOADING: return {...state, loading: payload.data}
-
-    case GET_COUNTS: return state
-
-    case PREPEND_DATA_SOURCE: return state
-
-    case UPDATE_DATA_SOURCE: {
-      if (payload.type === EXCEEDED) {
-        cloneState.logs.exceeded = _.concat(cloneState.logs.exceeded, payload.data)
-        // merged = [ ...cloneState.logs.exceeded, ...payload.data]
-      }
-      else if (payload.type === LOST_SIGNAL) {
-        cloneState.logs.lostSignal = _.concat(cloneState.logs.lostSignal, payload.data)
-        // merged = [ ...cloneState.logs.lostSignal, ...payload.data]
-      }
-      else if (payload.type === SENSOR_ERROR) {
-        cloneState.logs.sensorError = _.concat(cloneState.logs.sensorError, payload.data)
-        // merged = [ ...cloneState.logs.sensorError, ...payload.data]
-      }
-      return cloneState
-    }
-
+    case TOGGLE_LOADING: 
+      return handleToggleLoading(cloneState, payload)
+    case UPDATE_COUNTS: 
+      return handleUpdateCounts(cloneState, payload)
+    case PREPEND_DATA_SOURCE: 
+      return state
+    case UPDATE_DATA_SOURCE: 
+      return handleUpdateDataSource(cloneState, payload)
     default:
       return state
   }
+}
+
+function handleToggleLoading(cloneState, flag) {
+  cloneState.loading = flag
+  return cloneState
+}
+
+function handleUpdateCounts(cloneState, type) {
+  let { total, exceeded, lostSignal, sensorError } = cloneState.count
+  switch(type) {
+    case EXCEEDED: {
+      exceeded = 0
+      break
+    }
+    case LOST_SIGNAL: {
+      lostSignal = 0
+      break
+    }
+    case SENSOR_ERROR: {
+      sensorError = 0
+      break
+    }
+  }
+  total = exceeded + lostSignal + sensorError
+  console.log('----- total -----: ', total)
+  cloneState.count.total = total
+  cloneState.count.exceeded = exceeded
+  cloneState.count.lostSignal = lostSignal
+  cloneState.count.sensorError = sensorError
+  return cloneState
+}
+
+function handleUpdateDataSource(cloneState, payload) {
+  if (payload.type === EXCEEDED) {
+    cloneState.logs.exceeded = _.concat(cloneState.logs.exceeded, payload.data)
+  }
+  else if (payload.type === LOST_SIGNAL) {
+    cloneState.logs.lostSignal = _.concat(cloneState.logs.lostSignal, payload.data)
+  }
+  else if (payload.type === SENSOR_ERROR) {
+    cloneState.logs.sensorError = _.concat(cloneState.logs.sensorError, payload.data)
+  }
+  return cloneState
 }
