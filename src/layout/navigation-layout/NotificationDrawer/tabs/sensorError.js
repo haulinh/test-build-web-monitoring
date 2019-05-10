@@ -45,12 +45,12 @@ function Cell(props) {
         </CustomRow>
         { cellContent.status === "deviceGood" && (
           <CustomParamsRow>
-            <span style={{color: COLOR_DEVICE_STATUS.NORMAL}}>{cellContent.content}:</span>{/* MARK */}
+            <span style={{color: COLOR_DEVICE_STATUS.NORMAL}}>{cellContent.content}:</span>
           </CustomParamsRow>
         )}
         { cellContent.status === "deviceError" && (
           <CustomParamsRow>
-            <span style={{color: COLOR_DEVICE_STATUS.ERROR}}>{cellContent.content}:</span>{/* MARK */}
+            <span style={{color: COLOR_DEVICE_STATUS.ERROR}}>{cellContent.content}:</span>
           </CustomParamsRow>
         )}
         <CustomRow type="flex" gutter={16}>
@@ -75,7 +75,7 @@ function Cells(props) {
     currentPage: state.notification.currentPage,
     dataSource: state.notification.logs.sensorError
   }),
-  {loadNotificationsByType}
+  {}
 )
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
@@ -99,25 +99,18 @@ export default class NotificationDrawer extends React.Component {
   }
 
   render() {
-    const { loading, defaultStartPage, currentPage, dataSource } = this.props
+    const { loading, defaultStartPage, dataSource } = this.props
     return (
-      <Row style={{height: '100%'}}>
         <InfiniteScroll
-          // initialLoad
+          initialLoad
           pageStart={defaultStartPage}
-          // hasMore={loading}
+          hasMore={loading}
           threshold={250}
-          // loader={<Card loading />}
-          // loadMore={this.showInfo}
+          loader={<Card loading />}
+          loadMore={this.props.loadNotifications}
           useWindow={false}>
             <Cells dataSource={dataSource}/>
         </InfiniteScroll>
-      </Row>
     )
-  }
-
-  showInfo = (page) => {
-    message.info('This is a normal message');
-    this.props.loadNotifications(page)
   }
 }

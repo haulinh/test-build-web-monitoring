@@ -76,7 +76,7 @@ function Cells(props) {
     currentPage: state.notification.currentPage,
     dataSource: state.notification.logs.lostSignal
   }),
-  {loadNotificationsByType}
+  {}
 )
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
@@ -100,25 +100,18 @@ export default class NotificationDrawer extends React.Component {
   }
 
   render() {
-    const { loading, defaultStartPage, currentPage, dataSource } = this.props
+    const { loading, defaultStartPage, dataSource } = this.props
     return (
-      <Row style={{height: '100%'}}>
         <InfiniteScroll
-          // initialLoad
+          initialLoad
           pageStart={defaultStartPage}
-          // hasMore={loading}
+          hasMore={loading}
           threshold={250}
-          // loader={<Card loading />}
-          // loadMore={this.showInfo}
+          loader={<Card loading />}
+          loadMore={this.props.loadNotifications}
           useWindow={false}>
             <Cells dataSource={dataSource}/>
         </InfiniteScroll>
-      </Row>
     )
-  }
-
-  showInfo = (page) => {
-    message.info('This is a normal message');
-    this.props.loadNotifications(page)
   }
 }

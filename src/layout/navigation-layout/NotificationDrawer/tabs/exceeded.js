@@ -6,9 +6,7 @@ import { translate } from 'hoc/create-lang'
 import { connectAutoDispatch } from 'redux/connect'
 import {Row, Col, Card, Button, message} from 'antd'
 import InfiniteScroll from 'react-infinite-scroller';
-import { prop } from 'cramda';
 import { COLOR_STATUS } from 'themes/color';
-import { loadNotificationsByType} from 'redux/actions/notification'
 
 
 const i18n = {
@@ -78,15 +76,15 @@ function Cells(props) {
   const { dataSource } = props
   return dataSource.map(cellContent => <Cell cellContent={cellContent}/>)
 }
-
 @connectAutoDispatch(
   (state) => ({
     loading: state.notification.loading,
     defaultStartPage: state.notification.defaultStartPage,
     currentPage: state.notification.currentPage,
     dataSource: state.notification.logs.exceeded,
+    isHasMoreExceed: state.notification.isHasMoreExceed
   }),
-  {loadNotificationsByType}
+  {}
 )
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
@@ -101,34 +99,25 @@ export default class NotificationDrawer extends React.Component {
 
   static defaultProps = {}
 
-  state = {
-    page: 1,
-  }
-
   componentDidMount() {
     this.props.loadNotifications(1)
   }
 
   render() {
-    const { loading, defaultStartPage, currentPage, dataSource } = this.props
+    const { loading, defaultStartPage, dataSource } = this.props
+    
     return (
-      <Row style={{height: '100%'}}>
-        <InfiniteScroll
-          // initialLoad
-          pageStart={defaultStartPage}
-          // hasMore={loading}
-          threshold={250}
-          // loader={<Card loading />}
-          // loadMore={this.showInfo}
-          useWindow={false}>
-            <Cells dataSource={dataSource}/>
-        </InfiniteScroll>
-      </Row>
+      <InfiniteScroll
+        initialLoad={false}
+        pageStart={defaultStartPage}
+        hasMore={loading}
+        threshold={500}
+        loader={<Card loading />}
+        loadMore={this.props.loadNotifications}
+        useWindow={false}>
+          <Cells dataSource={dataSource}/>
+      </InfiniteScroll>
     )
   }
-
-  showInfo = (page) => {
-    message.info('This is a normal message');
-    this.props.loadNotifications(page)
-  }
 }
+

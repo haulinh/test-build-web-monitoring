@@ -1,17 +1,33 @@
 import moment from 'moment'
 import { TAB_KEYS } from 'constants/notification'
-import { getFetch } from 'utils/fetch';
-import { branch } from 'recompose';
+import NotificationAPI from 'api/NotificationApi'
 
 export const UPDATE_COUNTS         = 'NOTIFICATION/UPDATE_COUNTS'
+export const CLEAR_COUNTS          = 'NOTIFICATION/CLEAR_COUNTS'
 export const PREPEND_DATA_SOURCE   = 'NOTIFICATION/PREPEND_DATA_SOURCE'
 export const UPDATE_DATA_SOURCE    = 'NOTIFICATION/UPDATE_DATA_SOURCE'
 export const TOGGLE_LOADING        = 'NOTIFICATION/TOGGLE_LOADING'
 export const UPDATE_CURRENT_PAGE   = 'NOTIFICATION/UPDATE_CURRENT_PAGE'
 
+
+
+
+/* NOTE  emit to reducer: handleToggleLoading */
+/* DONE */
+export function setIsLoading(flag) {
+  return {
+    type: TOGGLE_LOADING,
+    payload: flag
+  }
+}
+
+/* NOTE  emit to reducer: handleUpdateDataSource */
+/* TODO */
 export function loadNotificationsByType(page, type) {
   return async dispatch => {
-    toggleLoading(true)
+    dispatch(setIsLoading(false))
+    let res = await fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${page}`)
+    let data = res.json()
     switch(type) {
       case TAB_KEYS.EXCEEDED: {
         dispatch({
@@ -22,33 +38,27 @@ export function loadNotificationsByType(page, type) {
               {
                 station: `tram nuoc thai ${1}`,
                 exceededTime: moment().format(),
-                exceededParams: ['co2 12', 'php 1.5mg'],
+                exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
                 exceededPreparingParams: []
               },
               {
                 station: `tram nuoc thai ${1}`,
                 exceededTime: moment().format(),
                 exceededParams: [],
-                exceededPreparingParams: ['golang 6.7']
+                exceededPreparingParams: ['pH 7 (7.5)']
               },
               {
                 station: `tram nuoc thai ${1}`,
                 exceededTime: moment().format(),
-                exceededParams: ['FLOW 40,470.00', 'php 3.56 (mg/l)', 'FLOW 40,470.00', 'php 3.56 (mg/l)', 'FLOW 40,470.00', 'php 3.56 (mg/l)', 'FLOW 40,470.00', 'php 3.56 (mg/l)', 'FLOW 40,470.00', 'php 3.56 (mg/l)', 'FLOW 40,470.00', 'php 3.56 (mg/l)', 'FLOW 40,470.00', 'php 3.56 (mg/l)',],
-                exceededPreparingParams: ['golang 6.7']
+                exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
+                exceededPreparingParams: ['pH 7 (7.5)']
               },
               {
                 station: `tram nuoc thai ${1}`,
                 exceededTime: moment().format(),
-                exceededParams: ['co2 12', 'php 1.5mg'],
-                exceededPreparingParams: ['co2 12', 'php 1.5mg','co2 12', 'php 1.5mg','co2 12', 'php 1.5mg','co2 12', 'php 1.5mg','co2 12', 'php 1.5mg']
-              },
-              {
-                station: `tram nuoc thai ${1}`,
-                exceededTime: moment().format(),
-                exceededParams: ['FLOW 40,470.00', 'php 3.56 (mg/l)','FLOW 40,470.00', 'php 3.56 (mg/l)','FLOW 40,470.00', 'php 3.56 (mg/l)','FLOW 40,470.00', 'php 3.56 (mg/l)','FLOW 40,470.00', 'php 3.56 (mg/l)',],
-                exceededPreparingParams: ['FLOW 40,470.00', 'php 3.56 (mg/l)','FLOW 40,470.00', 'php 3.56 (mg/l)','FLOW 40,470.00', 'php 3.56 (mg/l)','FLOW 40,470.00', 'php 3.56 (mg/l)','FLOW 40,470.00', 'php 3.56 (mg/l)','FLOW 40,470.00', 'php 3.56 (mg/l)','FLOW 40,470.00', 'php 3.56 (mg/l)','FLOW 40,470.00', 'php 3.56 (mg/l)',]
-              },
+                exceededParams: ['COD 30 (20 mg/L)'],
+                exceededPreparingParams: ['TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)']
+              }
             ]
           }
         })
@@ -101,34 +111,39 @@ export function loadNotificationsByType(page, type) {
         break;
       }
     }
-    toggleLoading(false)
+    dispatch(setIsLoading(true))
   }
 }
 
-export function toggleLoading(flag) {
-  return dispatch => {
-    dispatch({
-      type: TOGGLE_LOADING,
-      payload: flag
-    })
-  }
-}
-
+/* NOTE  emit to reducer: handleClearCount */
+/* DONE */
 export function clearNotificationCountByType(type) {
-  return dispatch => {
-    dispatch({
-      type: UPDATE_COUNTS,
-      payload: type
-    })
+  return async dispatch => {
+    let res = await NotificationAPI.updateIsSeenByType(type)
+    console.log('success', res.success)
+    if(res.success) {
+      dispatch({
+        type: CLEAR_COUNTS,
+        payload: type
+      })
+    }
   }
 }
 
+/* NOTE  emit to reducer: handleUpdateCount */
+/* DONE */
+export function getTotalByNotificationType() {
+  return async dispatch => {
+    let res = await NotificationAPI.getTotalByNotificationType()
+    const {success, data} = res
 
-// export function updateCurrentPage(page) {
-//   return dispatch => {
-//     dispatch({
-//       type: UPDATE_CURRENT_PAGE,
-//       data: page
-//     })
-//   }
-// }
+    if (data.length === 0 || !success) return;
+
+    if(success) {
+      dispatch({
+        type: UPDATE_COUNTS,
+        payload: data
+      })
+    }
+  }
+}

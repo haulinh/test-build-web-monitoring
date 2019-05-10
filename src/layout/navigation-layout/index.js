@@ -1,25 +1,11 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-
+import { withRouter } from 'react-router-dom'
 import { autobind } from 'core-decorators'
 import ArrowLeftIcon from '@atlaskit/icon/glyph/arrow-left'
 import Tooltip from '@atlaskit/tooltip'
-import { withRouter } from 'react-router-dom'
-import AvatarCharacter from 'components/elements/avatar-character'
-import {Drawer, Badge, Icon} from 'antd'
-import Link from 'components/elements/link'
-import slug from 'constants/slug'
-import StyleWrapper from './StyleWrapper'
-import LogoSubIcon from './LogoSubIcon'
 import DocumentIcon from '@atlaskit/icon/glyph/question-circle'
 import NotificationIcon from '@atlaskit/icon/glyph/notification';
-import DocumentDrawer from './DocumentDrawer'
-import AppDrawer from './AppDrawer'
-import NotificationDrawer from './NotificationDrawer'
-import ChangeLanguage from './ChangeLanguage'
-import LogoBrandName from './LogoBrandName'
-import { translate } from 'hoc/create-lang'
-
 import Navigation, {
   AkNavigationItem,
   AkGlobalItem,
@@ -31,8 +17,23 @@ import AkDropdownMenu, {
   DropdownItem
 } from '@atlaskit/dropdown-menu'
 import styled from 'styled-components'
+import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper';
+
 import { connectAutoDispatch } from 'redux/connect'
+import { getTotalByNotificationType } from 'redux/actions/notification'
 import { logout } from 'redux/actions/authAction'
+import AvatarCharacter from 'components/elements/avatar-character'
+import {Drawer, Badge, Icon} from 'antd'
+import Link from 'components/elements/link'
+import slug from 'constants/slug'
+import StyleWrapper from './StyleWrapper'
+import LogoSubIcon from './LogoSubIcon'
+import DocumentDrawer from './DocumentDrawer'
+import AppDrawer from './AppDrawer'
+import NotificationDrawer from './NotificationDrawer'
+import ChangeLanguage from './ChangeLanguage'
+import LogoBrandName from './LogoBrandName'
+import { translate } from 'hoc/create-lang'
 
 const WrapperTitle = styled.div`
   margin-left: -8px;
@@ -45,7 +46,7 @@ const globalTheme = createGlobalTheme('#ffffff', '#1d89ce')
     authInfo: state.auth.userInfo,
     notificationTotal: state.notification.count.total,
   }),
-  { logout }
+  { logout, getTotalByNotificationType }
 )
 @withRouter
 @autobind
@@ -58,7 +59,8 @@ export default class BasicNestedNavigation extends React.Component {
     logout: PropTypes.func,
     navigation: PropTypes.object,
     /* Redux's props */
-    notificationTotal: PropTypes.number.isRequired
+    notificationTotal: PropTypes.number.isRequired,
+    getTotalByNotificationType: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -205,6 +207,10 @@ export default class BasicNestedNavigation extends React.Component {
         </Tooltip>
       </AkGlobalItem>
     )
+  }
+
+  async componentDidMount() {
+    this.props.getTotalByNotificationType()
   }
 
   render() {

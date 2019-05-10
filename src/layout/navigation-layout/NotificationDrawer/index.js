@@ -6,7 +6,7 @@ import {Drawer, Icon, Tabs, Badge} from 'antd'
 import { translate } from 'hoc/create-lang'
 import { TAB_KEYS } from 'constants/notification'
 import { connectAutoDispatch } from 'redux/connect'
-import { toggleLoading, loadNotificationsByType, clearNotificationCountByType} from 'redux/actions/notification'
+import { setIsLoading, loadNotificationsByType, clearNotificationCountByType} from 'redux/actions/notification'
 import ExceededTabContent from './tabs/exceeded'
 import LostDataTabContent from './tabs/lostData'
 import SensorErrorTabContent from './tabs/sensorError'
@@ -52,7 +52,7 @@ const TabsWrapper = styled(Tabs)`
   (state) => ({
     notificationCount: state.notification.count,
   }),
-  { toggleLoading, loadNotificationsByType, clearNotificationCountByType }
+  { setIsLoading, loadNotificationsByType, clearNotificationCountByType }
 )
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
@@ -62,9 +62,9 @@ export default class NotificationDrawer extends React.Component {
     notificationNumbers: propTypes.object.isRequired,
     /* Redux's props */
     notificationCount: propTypes.number.isRequired,
-    toggleLoading: propTypes.func.isRequired,
     loadNotificationsByType: propTypes.func.isRequired,
     clearNotificationCountByType: propTypes.func.isRequired,
+    setIsLoading: propTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -80,7 +80,6 @@ export default class NotificationDrawer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.toggleLoading(true)
   }
 
   render() {
@@ -128,7 +127,6 @@ export default class NotificationDrawer extends React.Component {
   }
 
   closeDrawer = () => {
-    this.props.toggleLoading(false)
     this.props.clearNotificationCountByType( this.state.currentTabKey )
     this.props.closeDrawer()
   }

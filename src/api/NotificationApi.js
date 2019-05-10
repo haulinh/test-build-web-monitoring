@@ -1,15 +1,14 @@
+import querystring from 'querystring'
 import { getFetch, putFetch } from 'utils/fetch'
 import { getConfigApi } from 'config'
 
-const fcmNotificationRoute = getConfigApi().fcmNotification 
-
 
 export function getNotification() {
-  return getFetch(getConfigApi().fcmMessages)
+  return getFetch(fcmNotificationRoute().fcmMessages)
 }
 
 export function get() {
-  return getFetch(getConfigApi().notify)
+  return getFetch(fcmNotificationRoute().notify)
 }
 
 
@@ -19,11 +18,23 @@ export function get() {
 https://www.getpostman.com/collections/cef48462029130ceafb9?fbclid=IwAR0LaBhlJ6h3MtjjoKOywFyZGEf6XmKo31v5sZ4FeD7BH3DqwEQAEf1Q0EY
 */
 
-export function updateIsSeenByType({type}){
-  return putFetch(`${fcmNotificationRoute}/updateIsSeen`, {type})
+const fcmNotificationRoute = () => getConfigApi().fcmNotification 
+
+export function updateIsSeenByType(type){
+  return putFetch(`${fcmNotificationRoute()}/updateIsSeen`, {type})
+}
+
+export function loadNotificationsByType(params){  // params: {page, itemPerPage, type}
+  let qryString = querystring.stringify(params)
+  return getFetch(`${fcmNotificationRoute()}/?${qryString}`)
+}
+
+export function getTotalByNotificationType(){
+  return getFetch(`${fcmNotificationRoute()}/getTotalByNotificationType`)
 }
 
 export default {
   getNotification,
-  updateIsSeenByType
+  updateIsSeenByType,
+  getTotalByNotificationType
 }
