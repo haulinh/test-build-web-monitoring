@@ -256,7 +256,7 @@ class MenuApp extends React.PureComponent {
         {this.checkRoleForGroup([
           ROLE.MONITORING.VIEW,
           ROLE.MAP.VIEW,
-          ROLE.MONITORING.CAMERA,
+          ROLE.CAMERA.VIEW,
           ROLE.DATA_SEARCH.VIEW,
           ROLE.AVG_SEARCH.VIEW,
           ROLE.REPORT.VIEW
@@ -266,15 +266,15 @@ class MenuApp extends React.PureComponent {
           HandleDataMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
-          ROLE.QAQC.CONFIG_PUBLISH,
+          ROLE.QAQCCONFIG.VIEW,
           ROLE.FTPTRANSFER.VIEW
         ]) && ShareDataMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
           ROLE.AQI.VIEW,
-          ROLE.STATISTIC.AQI,
+          ROLE.AQI_SEARCHDATA.VIEW,
           ROLE.WQI.VIEW,
-          ROLE.STATISTIC.WQI,
+          ROLE.WQI_SEARCHDATA.VIEW,
           ROLE.CONFIG_WQI.VIEW
         ]) && AdvanceMenu.renderComp(this.props)}
 

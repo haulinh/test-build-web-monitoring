@@ -46,7 +46,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.MONITORING.CAMERA)(
+      {protectRole(ROLE.CAMERA.VIEW)(
         <Menu.Item
           key={slug.cameraControl.base}
           onClick={() => {
