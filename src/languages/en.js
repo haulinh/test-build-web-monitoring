@@ -1037,7 +1037,8 @@ export default {
     },
     tableHeader: {
       menu: 'Module',
-      action: 'Action'
+      action: 'Action',
+      stt:'#'
     },
     form: {
       name: {
@@ -1050,69 +1051,99 @@ export default {
         placeholder: 'Input Description',
         error: 'Please Input Description'
       },
+    },
+    rule: {
+      label: 'Rule',
+      orderby: {
+        label: '#',
+        placeholder: '#',
+      },
+      menu: {
+        label: 'menu',
+        placeholder: 'menu'
+      },
+      action: {
+        label: 'action',
+        placeholder: 'action',
+        package: 'Package'
+      },
       dashboard: {
         name: 'Dashboard'
       },
       monitoring: {
-        name: 'Monitoring'
+        name: 'Real-time Monitoring'
       },
       map: {
         name: 'Map'
       },
+      camera: {
+        name: 'Camera'
+      },
       dataSearch: {
-        name: 'Data Search'
+        name: 'History Data'
       },
       avgSearch: {
-        name: 'avg Search'
+        name: 'Average Data'
       },
-      measuring: {
-        name: 'Measuring'
+      qaqc: {
+        name: 'Data Approval'
       },
-      stationType: {
-        name: 'Station Type'
+      qaqcConfig: {
+        name: 'Sharing Configurations'
       },
-      stationAuto: { name: 'Station Auto' },
-      user: { name: 'User' },
+      ftpTransfer: {
+        name: 'FTP Transfer Configurations'
+      },
+      aqiMap: {
+        name: 'AQI Map'
+      },
+      aqiSearchData: { name: 'AQI Historical' },
+      wqiMap: { name: 'WQI Map ' },
+      wqiSearchData: { name: 'WQI Historical' },
+      configWQI: { name: 'AQI & WQI Configurations' },
+      mapStationFixed: { name: 'Map Fixed Station' },
+      dataSearchFixed: { name: 'Fixed Data Search' },
+      stationFixed: { name: 'Fixed Station' },
+      per_received_data: { name: 'Percent of Received Data' },
+      dataExceeded: { name: 'Exceeded Data' },
+      stationAuto: { name: 'Station' },
+      measuring: { name: 'Parameter' },
+      stationType: { name: 'Type of Station' },
+      province: { name: 'Site' },
+      qcvn: { name: 'Standard' },
       role: { name: 'Role' },
-      aqi: { name: 'AQI' },
-      wqi: { name: 'WQI' },
-      qaqc: { name: 'QAQC' },
-      qcvn: { name: 'QCVN' },
-      province: { name: 'Province' },
-      ftpTransfer: { name: 'Ftp Transfer' },
-      qaqcConfig: { name: 'Sharing Configurations' },
-      stationFixed: { name: 'Station Fixed' },
-      statistic: { name: 'Statistic' },
-      dataSearchFixed: { name: 'DataSearch Fixed' },
-      mapStationFixed: { name: 'Map Station Fixed' },
-      configWQI: { name: 'Config WQI' },
+      user: { name: 'User' },
+      report: { name: 'Report' },
       actions: {
-        camera: 'Camera',
-        control: 'Control',
-        export: 'Export',
-        Export: 'Xuất dữ liệu',
-        delete: 'Delete',
-        edit: 'Edit',
-        create: 'Create',
+        role:'Role Assignment',
+        enableAccount:'Enable/Disable Account',
         config: 'Config',
-        enableAccount: 'Enable Account',
-        role: 'Role',
-        remove: 'Remove',
+        download: 'Download',
+        import: 'Import',
+        wqi_export: 'Export',
+        aqi_export: 'Export',
+        isTransfer: 'Edit Send FTP Station',
+        updateFTP: 'Edit Info FTP',
+        publicStation: 'Edit Publish Station',
+        view: 'Xem',
+        camera: 'Camera',
+        control: 'Sampling',
+        chart: 'Chart',
+        map: 'Map',
+        images: 'Images',
+        infoStation: 'Station Information	',
+        reviewStation: 'Review Station',
+        create: 'Create',
+        edit: 'Edit',
+        delete: 'Delete',
+        export: 'Export',
+        manualapprove: 'Manual Approve',
+        unapprove: 'Unapprove',
         approve: 'Approve',
         restore: 'Restore',
-        unapprove: 'Un Approve',
-        manualapprove: 'Manual Approve',
-        exceeded: 'Exceeded',
-        per_received_data: 'Percent Received data',
-        per_received_data_export: 'Percent Received Data Export',
-        aqi: 'AQI',
-        wqi: 'WQI',
-        aqi_export: 'Export AQI',
-        wqi_export: 'Export WQI',
-        download: 'Download',
-        import: 'Import'
+        remove: 'Remove'
       }
-    }
+    },
   },
   subscriptionStatus: {
     breadcrumb: {
