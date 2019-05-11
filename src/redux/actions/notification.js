@@ -2,6 +2,7 @@ import moment from 'moment'
 import _ from 'lodash'
 import { TAB_KEYS } from 'constants/notification'
 import NotificationAPI from 'api/NotificationApi'
+import { initialState } from '../reducers/notification'
 
 export const UPDATE_COUNTS         = 'NOTIFICATION/UPDATE_COUNTS'
 export const CLEAR_COUNTS          = 'NOTIFICATION/CLEAR_COUNTS'
@@ -71,6 +72,98 @@ export function loadNotificationsByType(page, type) {
 
 /* NOTE  emit to reducer: handleClearCount */
 /* DONE */
+export function updateNotificationOnMessage(message) {
+  return async dispatch => {
+    const {count, logs} = initialState
+    const {data, notification} = message
+
+    switch(data.type) { // EXCEEDED || ERROR || DATA_LOST
+      case TAB_KEYS.EXCEEDED: {
+        const item = {
+          station: notification.title,
+          exceededTime: moment(data.createdAt).format('DD-MM-YYYY hh:mm'),
+          fullBody: {__html: data.full_body}
+        }
+
+        dispatch({
+          type: UPDATE_COUNTS,
+          payload: {
+            count: {
+              ...count,
+              total: count.total + 1,
+              exceeded: count.exceeded + 1
+            }
+          }
+        })
+
+        dispatch({
+          type: UPDATE_DATA_SOURCE,
+          payload: {
+            type: TAB_KEYS.EXCEEDED,
+            data: logs.exceeded.unshift(item)
+          }
+        })
+        break;
+        }
+      case TAB_KEYS.LOST_SIGNAL: {
+        const item = {
+          station: notification.title,
+          exceededTime: moment(data.createdAt).format('DD-MM-YYYY hh:mm'),
+          fullBody: {__html: data.full_body}
+        }
+
+        dispatch({
+          type: UPDATE_COUNTS,
+          payload: {
+            count: {
+              ...count,
+              total: count.total + 1,
+              exceeded: count.lostSignal + 1
+            }
+          }
+        })
+        dispatch({
+          type: UPDATE_DATA_SOURCE,
+          payload: {
+            type: TAB_KEYS.LOST_SIGNAL,
+            data: logs.lostSignal.unshift(item)
+          }
+        })
+        break;
+      }
+      case TAB_KEYS.SENSOR_ERROR: {
+        const item = {
+          station: notification.title,
+          exceededTime: moment(data.createdAt).format('DD-MM-YYYY hh:mm'),
+          fullBody: {__html: data.full_body}
+        }
+
+        dispatch({
+          type: UPDATE_COUNTS,
+          payload: {
+            count: {
+              ...count,
+              total: count.total + 1,
+              exceeded: count.lostSignal + 1
+            }
+          }
+        })
+        dispatch({
+          type: UPDATE_DATA_SOURCE,
+          payload: {
+            type: TAB_KEYS.SENSOR_ERROR,
+            data: logs.sensorError.unshift(item)
+          }
+        })
+        break;
+      }
+    }
+  }
+}
+
+
+/* NOTE  emit to reducer: handleClearCount */
+/* DONE */
 export function clearNotificationCountByType(type) {
   return async dispatch => {
     let res = await NotificationAPI.updateIsSeenByType(type)
@@ -127,67 +220,66 @@ function mockupDataExceeded() {
   return [
     {
       station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
-      exceededPreparingParams: []
+      exceededTime: moment().format('DD-MM-YYYY hh:mm'),
+      body: {__html: '<p style="color: red">tanphat custom html</p>'}
     },
     {
       station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
+      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
       exceededParams: [],
       exceededPreparingParams: ['pH 7 (7.5)']
     },
     {
       station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
+      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
       exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
       exceededPreparingParams: ['pH 7 (7.5)']
     },
     {
       station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
+      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
       exceededParams: ['COD 30 (20 mg/L)'],
       exceededPreparingParams: ['TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)']
     },
     {
       station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
+      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
       exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
       exceededPreparingParams: []
     },
     {
       station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
+      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
       exceededParams: [],
       exceededPreparingParams: ['pH 7 (7.5)']
     },
     {
       station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
+      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
       exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
       exceededPreparingParams: ['pH 7 (7.5)']
     },
     {
       station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
+      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
       exceededParams: ['COD 30 (20 mg/L)'],
       exceededPreparingParams: ['TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)']
     },
     {
       station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
+      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
       exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
       exceededPreparingParams: []
     },
     {
       station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
+      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
       exceededParams: [],
       exceededPreparingParams: ['pH 7 (7.5)']
     },
     {
       station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
+      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
       exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
       exceededPreparingParams: ['pH 7 (7.5)']
     },

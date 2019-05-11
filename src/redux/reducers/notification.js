@@ -10,8 +10,6 @@ import {
 
   EXCEEDED_LOADING,
   EXCEEDED_LOADED
-
-
 } from '../actions/notification'
 
 const {
@@ -21,7 +19,7 @@ const {
 } = TAB_KEYS
 
 
-const initialState = {
+export const initialState = {
   loading: true,
   defaultStartPage: 1,
   currentPage: 0,

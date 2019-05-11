@@ -43,7 +43,11 @@ function Cell(props) {
             <i>{cellContent.exceededTime}</i>
           </Col>
         </CustomRow>
-        { cellContent.status === "deviceGood" && (
+        <CustomParamsRow>
+        <div dangerouslySetInnerHTML={cellContent.fullBody} />
+        </CustomParamsRow>
+        {/* NOTE  đừng xóa, xem có thay đổi gì không */}
+        {/* { cellContent.status === "deviceGood" && (
           <CustomParamsRow>
             <span style={{color: COLOR_DEVICE_STATUS.NORMAL}}>{cellContent.content}:</span>
           </CustomParamsRow>
@@ -52,7 +56,7 @@ function Cell(props) {
           <CustomParamsRow>
             <span style={{color: COLOR_DEVICE_STATUS.ERROR}}>{cellContent.content}:</span>
           </CustomParamsRow>
-        )}
+        )} */}
         <CustomRow type="flex" gutter={16}>
           <Col>
             <Button type="primary" ghost>{i18n.gotoRealtimeMonitoringPage}</Button>
@@ -81,7 +85,6 @@ export default class NotificationDrawer extends React.Component {
   static propTypes = {
     /* component's props */
     loadNotifications: propTypes.func.isRequired,
-    tabKey: propTypes.string.isRequired,
     /* redux's props */
     loading: propTypes.bool.isRequired,
     currentPage: propTypes.number.isRequired,

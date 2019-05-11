@@ -42,6 +42,6 @@ export function linkToken2Email(token){
 export default {
   getNotification,
   updateIsSeenByType,
-  getTotalByNotificationType
+  getTotalByNotificationType,
   linkToken2Email
 }

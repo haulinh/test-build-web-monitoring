@@ -5,6 +5,7 @@ import createProtectedAuth from "hoc/protected-auth";
 import styled from "styled-components";
 import { connectAutoDispatch } from "redux/connect";
 import { toggleNavigation } from "redux/actions/themeAction";
+import { updateNotificationOnMessage } from "redux/actions/notification";
 import { autobind } from "core-decorators";
 import { linkToken2Email } from 'api/NotificationApi'
 
@@ -17,9 +18,10 @@ const Wrapper = styled.div`
 @createProtectedAuth
 @connectAutoDispatch(
   state => ({
+    state,
     navigationIsOpen: state.theme.navigation.isOpen
   }),
-  { toggleNavigation }
+  { toggleNavigation, updateNotificationOnMessage }
 )
 @autobind
 export default class PageWrapper extends Component {
@@ -47,12 +49,14 @@ export default class PageWrapper extends Component {
         console.log("Unable to get permission to notify.", err);
       });
     
+    messaging.onMessage((payload) => {
+      this.props.updateNotificationOnMessage(payload)
+    });
    
-     navigator.serviceWorker.addEventListener("message", message =>{
-       // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
-      console.log('message noti',message)
-    }
-    );
+    //  navigator.serviceWorker.addEventListener("message", message =>{
+    //    // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
+    //   console.log('message noti',message)
+    // });
   }
 
   state = {
