@@ -22,8 +22,10 @@ import {
 } from 'components/monitoring/filter/options'
 import createContentLoader from 'hoc/content-loader'
 import { translate } from 'hoc/create-lang'
-import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus';
-import { warningLevels } from 'constants/warningLevels';
+import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
+import { warningLevels } from 'constants/warningLevels'
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
+
 
 const ContainerHeader = styled.div`
   flex-direction: row;
@@ -50,6 +52,7 @@ export const defaultFilter = {
 }
 
 @withRouter
+@queryFormDataBrowser(['submit'])
 @autobind
 export default class MonitoringGeneral extends React.Component {
   state = {
@@ -57,21 +60,22 @@ export default class MonitoringGeneral extends React.Component {
     isLoadedFirst: false,
     filter: getMonitoringFilter() ? getMonitoringFilter() : defaultFilter,
     data: [],
-    province: null
+    province: null ,
+    followStation: null
   }
 
   getStatusItem(item) {
     if (item.status === STATUS_STATION.HIGHTGEST)
       return STATUS_STATION.HIGHTGEST
     if (item.lastLog) {
-      let warLevel = warningLevels.GOOD;
-      let measuringLogs = item.lastLog.measuringLogs;
+      let warLevel = warningLevels.GOOD
+      let measuringLogs = item.lastLog.measuringLogs
       for (let key in measuringLogs) {
-        warLevel = getStatusPriority(warLevel, measuringLogs[key].warningLevel);
+        warLevel = getStatusPriority(warLevel, measuringLogs[key].warningLevel)
       }
       return warLevel
     }
-    return STATUS_STATION.GOOD;
+    return STATUS_STATION.GOOD
   }
 
   appendWarningLevelStationAuto(stationAutoList) {
@@ -88,7 +92,7 @@ export default class MonitoringGeneral extends React.Component {
       return {
         ...stationAuto,
         totalWarning,
-        statusAnalytic: this.getStatusItem(stationAuto),
+        statusAnalytic: this.getStatusItem(stationAuto)
       }
     })
   }
@@ -108,25 +112,52 @@ export default class MonitoringGeneral extends React.Component {
       itemPerPage: 10
     })
     let dataStationAutos = await StationAutoApi.getLastLog()
+    dataStationAutos =  _.get(dataStationAutos, 'data', [])
+
+    // MARK  logic focus trạm từ trang map
+    if(this.state.followStation){
+      dataStationAutos  = _.filter(dataStationAutos,(item)=>{
+        return item.key == this.state.followStation
+      })
+      console.log(dataStationAutos,"dataStationAutos")
+    }
+
+
 
     const tmp = _.get(dataStationTypes, 'data', [])
-    const dataMonitoring = _.map(tmp, stationType => {
-      const stationAutoList = _.filter(
-        _.get(dataStationAutos, 'data', []),
-        stationAuto => stationAuto.stationType.key === stationType.key
-      )
-      return {
-        stationType,
-        stationAutoList: this.appendWarningLevelStationAuto(stationAutoList),
-        totalWarning: this.getTotalWarning(
-          this.appendWarningLevelStationAuto(stationAutoList)
+    if(tmp && tmp.length > 0){
+      const dataMonitoring = _.map(tmp, stationType => {
+        const stationAutoList = _.filter(
+          dataStationAutos,
+          stationAuto => stationAuto.stationType.key === stationType.key
         )
-      }
-    })
-    this.setState({
-      data: dataMonitoring.length > 0 ? dataMonitoring : this.state.data,
-      isLoading: true
-    })
+        return {
+          stationType,
+          stationAutoList: this.appendWarningLevelStationAuto(stationAutoList),
+          totalWarning: this.getTotalWarning(
+            this.appendWarningLevelStationAuto(stationAutoList)
+          )
+        }
+      })
+      
+      this.setState({
+        data: dataMonitoring.length > 0 ? dataMonitoring : this.state.data,
+        isLoading: true
+      })
+    }
+    
+  }
+
+  getFollowStation = (stations) => {
+    debugger
+    if(this.state.followStation){
+      const aa = _.find(stations, function(o) { return o.key = this.state.followStation })
+      return aa
+    }else{
+      return stations
+    }
+     
+
   }
 
   startTimer() {
@@ -143,6 +174,13 @@ export default class MonitoringGeneral extends React.Component {
       const query = queryString.parse(this.props.location.search)
       if (query)
         this.handleChangeFilter({ ...this.state.filter, stationType: query.Id })
+    }
+    // NOTE lấy mã trạm từ url
+    if(this.props.formData){
+      console.log(this.props.formData,"formData")
+      this.setState({
+        followStation : _.get(this.props.formData,'stationAuto','')
+      })
     }
     await this.loadData()
     this.setState({

@@ -8,10 +8,10 @@ import {
   warningLevels,
   colorLevels
 } from 'constants/warningLevels'
-import {  STATUS_STATION } from 'constants/stationStatus';
+import { STATUS_STATION } from 'constants/stationStatus'
 import { Row, Clearfix, Item, BoxNumberView } from './style'
 import PropTypes from 'prop-types'
-import { COLOR_STATUS } from 'themes/color';
+import { COLOR_STATUS } from 'themes/color'
 
 const BoxAnalyticListWrapper = styled.div``
 
@@ -22,7 +22,7 @@ export default class BoxAnalyticList extends React.PureComponent {
   }
 
   state = {
-    loss:-1,
+    loss: -1,
     exceeded: -1,
     exceededPreparing: -1,
     good: -1,
@@ -49,14 +49,16 @@ export default class BoxAnalyticList extends React.PureComponent {
 
   renderMap(stationsAutoList) {
     let res = {
-      loss:0,
+      loss: 0,
       exceeded: 0,
       exceededPreparing: 0,
       good: 0
     }
     stationsAutoList.forEach(element => {
       let isFind = false
-      let warLevel = element.statusAnalytic ? element.statusAnalytic :  warningLevels.GOOD 
+      let warLevel = element.statusAnalytic
+        ? element.statusAnalytic
+        : warningLevels.GOOD
 
       if (warLevel === STATUS_STATION.DATA_LOSS) {
         res.loss++
@@ -74,7 +76,7 @@ export default class BoxAnalyticList extends React.PureComponent {
     })
 
     this.setState({
-      loss:res.loss,
+      loss: res.loss,
       exceeded: res.exceeded,
       exceededPreparing: res.exceededPreparing,
       good: res.good
@@ -102,14 +104,14 @@ export default class BoxAnalyticList extends React.PureComponent {
     return (
       <BoxAnalyticListWrapper>
         <Row>
-        <Item
+          <Item
             onClick={() => {
               this.handelFocusStatus(warningLevels.LOSS)
             }}
           >
             <BoxNumberView
               color={COLOR_STATUS.DATA_LOSS}
-              type={t(pfKey+'dataLoss')}
+              type={t(pfKey + 'dataLoss')}
               number={this.state.loss}
               focusStatus={warningLevels.LOSS}
               focusParam={this.state.focusStatus}
@@ -128,11 +130,10 @@ export default class BoxAnalyticList extends React.PureComponent {
               focusParam={this.state.focusStatus}
             />
           </Item>
-          
         </Row>
         <Clearfix height={8} />
         <Row>
-        <Item
+          <Item
             onClick={() => {
               this.handelFocusStatus(warningLevels.EXCEEDED)
             }}

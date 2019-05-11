@@ -16,33 +16,33 @@ export default class TableDataList extends React.PureComponent {
     const columns = [
       {
         title: translate('statistic.perRecDataFrom.time'),
-        align:'center',
+        align: 'center',
         dataIndex: 'timeDay',
         key: 'timeDay',
         flex: 1
       },
       {
         title: translate('statistic.perRecDataFrom.totalFile'),
-        align:'center',
+        align: 'center',
         dataIndex: 'totalFile',
         key: 'totalFile',
         flex: 1
       },
       {
         title: translate('statistic.perRecDataFrom.totalFileReceivedAt'),
-        align:'center',
+        align: 'center',
         dataIndex: 'totalFileReceivedAt',
         key: 'totalFileReceivedAt',
         flex: 1
       },
       {
         title: translate('statistic.perRecDataFrom.perFileReceivedAt'),
-        align:'center',
+        align: 'center',
         dataIndex: 'perFileReceivedAt',
         key: 'perFileReceivedAt',
         flex: 1,
         render: (value, record) => {
-          return value 
+          return value
         }
       }
     ]
@@ -54,11 +54,9 @@ export default class TableDataList extends React.PureComponent {
       this.setState({ dataAqiHours: nextProps.dataAqiHours })
     }
     if (!_.isEqual(nextProps.dataAqiDays, this.props.dataAqiDays)) {
-      this.setState({ dataAqiDays:nextProps.dataAqiDays })
+      this.setState({ dataAqiDays: nextProps.dataAqiDays })
     }
   }
-
-
 
   showTotal = (total, range) => ` ${range[1]}/${total}`
   render() {
@@ -69,7 +67,7 @@ export default class TableDataList extends React.PureComponent {
           rowKey="timeDay"
           bordered
           columns={this.getColumns()}
-          dataSource = {this.props.dataSource}
+          dataSource={this.props.dataSource}
           pagination={{ showTotal: this.showTotal }}
           loading={this.props.loading}
           locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}

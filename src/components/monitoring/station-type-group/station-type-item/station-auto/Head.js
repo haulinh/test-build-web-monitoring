@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import Clearfix from 'components/elements/clearfix'
 import { SHAPE } from 'themes/color'
 import { Icon, Tooltip, Spin, Button } from 'antd'
-import ROLE from 'constants/role'
+import ROLE, { checkRolePriority } from 'constants/role'
 import moment from 'moment/moment'
 import protectRole from 'hoc/protect-role/index.backup'
 import { translate } from 'hoc/create-lang'
@@ -16,7 +16,7 @@ import StationControl from 'api/SamplingApi'
 import stationStatus, { STATUS_STATION } from 'constants/stationStatus'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { isEmpty } from 'lodash'
-import { action } from 'shared/breadcrumb';
+import { action } from 'shared/breadcrumb'
 import objectPath from 'object-path'
 
 const i18n = {
@@ -27,9 +27,8 @@ const i18n = {
   map: translate('monitoring.actions.map'),
   images: translate('monitoring.actions.images'),
   stationInfo: translate('monitoring.actions.stationInfo'),
-  reviewStation: translate('monitoring.actions.reviewStation'),
+  reviewStation: translate('monitoring.actions.reviewStation')
 }
-
 
 const StationHeadItemWrapper = styled.div`
   display: flex;
@@ -114,12 +113,11 @@ const ActionWrapper = styled.div`
 //   }
 // `
 
-
 @connect(state => ({
-  organization: state.auth.userInfo.organization,
   authRole: state.auth.userInfo.role,
   isAdmin: state.auth.userInfo.isAdmin,
-  organization: state.auth.userInfo.organization
+  organization: state.auth.userInfo.organization,
+  userInfo: state.auth.userInfo
 }))
 @autobind
 export default class StationAutoHead extends React.PureComponent {
@@ -194,39 +192,24 @@ export default class StationAutoHead extends React.PureComponent {
 
   handleActionOnClick(actionName) {
     if (this.state.currentAction === actionName) {
-      this.setState({currentAction: ''})
-    }
-    else {
-      this.setState({currentAction: actionName})
+      this.setState({ currentAction: '' })
+    } else {
+      this.setState({ currentAction: actionName })
     }
     this.props.onClickActionButton(actionName)
   }
 
-  checkRole(role) {
-    // check role in organization first
-    let isRole = objectPath.get(this.props.organization, role)
-    if (!isRole) return isRole
-    else {
-      // and then check role in user
-      if (this.props.isAdmin) {
-        return true
-      } else {
-        return objectPath.get(this.props.authRole, role)
-      }
-    }
-  }
-
   /* NOTE  ROLSE: kiem tra role của user, copy từ file index.backup.js */
-  checkRole(role) {
-    // check role in organization first
-    let isRole = objectPath.get(this.props.organization, role)
-    console.log('isRole',isRole)
-    console.log('isAdmin', this.props.isAdmin)
-    console.log('authRole', this.props.authRole)
-    if (!isRole) return isRole
-    else if (this.props.isAdmin) return true
-    else return objectPath.get(this.props.authRole, role)
-  }
+  // checkRole(role) {
+  //   // check role in organization first
+  //   let isRole = objectPath.get(this.props.organization, role)
+  //   console.log('isRole', isRole)
+  //   console.log('isAdmin', this.props.isAdmin)
+  //   console.log('authRole', this.props.authRole)
+  //   if (!isRole) return isRole
+  //   else if (this.props.isAdmin) return true
+  //   else return objectPath.get(this.props.authRole, role)
+  // }
 
   render() {
     const {
@@ -239,7 +222,7 @@ export default class StationAutoHead extends React.PureComponent {
       status
     } = this.props
 
-    const {currentAction} = this.state
+    const { currentAction } = this.state
     const isCamera = options && options.camera && options.camera.allowed
     const isSampling = options && options.sampling && options.sampling.allowed
     return (
@@ -254,9 +237,7 @@ export default class StationAutoHead extends React.PureComponent {
             </WrapperNameStationTypeName>
           ) : (
             <StationName>
-              {name}{' '}
-              {status === stationStatus.NOT_USE &&
-                ' - ' + i18n.notInUse}
+              {name} {status === stationStatus.NOT_USE && ' - ' + i18n.notInUse}
             </StationName>
           )}
           <Clearfix width={8} />
@@ -265,39 +246,65 @@ export default class StationAutoHead extends React.PureComponent {
             {this.toReceivedAt(status, receivedAt)}
           </ReceivedAt>
         </TitleWrapper>
-        
+
         <ActionWrapper>
-          <Button 
-            className="actionItem" 
-            type={currentAction === "sampling" && "primary"} 
+          <Button
+            className="actionItem"
+            type={currentAction === 'sampling' && 'primary'}
             onClick={() => this.handleActionOnClick('sampling')}
-            disabled={!isSampling || !this.checkRole(ROLE.MONITORING.CONTROL)}>
+            disabled={!isSampling || !checkRolePriority(this.props.userInfo,ROLE.MONITORING.CONTROL)}
+          >
             {i18n.sampling}
           </Button>
-          <Button 
-            className="actionItem" 
-            type={currentAction === "camera" && "primary"} 
+          <Button
+            className="actionItem"
+            type={currentAction === 'camera' && 'primary'}
             onClick={() => this.handleActionOnClick('camera')}
-            disabled={!isCamera || !this.checkRole(ROLE.MONITORING.CAMERA)}>
+            disabled={!isCamera || !checkRolePriority(this.props.userInfo,ROLE.MONITORING.CAMERA)}
+          >
             {i18n.camera}
           </Button>
-          <Button className="actionItem" type={currentAction === "chart" && "primary"} onClick={() => this.handleActionOnClick('chart')}>
+          <Button
+            className="actionItem"
+            type={currentAction === 'chart' && 'primary'}
+            onClick={() => this.handleActionOnClick('chart')}
+            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.CHART)}
+          >
             {i18n.chart}
           </Button>
-          <Button className="actionItem" type={currentAction === "map" && "primary"} onClick={() => this.handleActionOnClick('map')}>
+          <Button
+            className="actionItem"
+            type={currentAction === 'map' && 'primary'}
+            onClick={() => this.handleActionOnClick('map')}
+            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.MAP)}
+          >
             {i18n.map}
           </Button>
-          <Button className="actionItem" type={currentAction === "image" && "primary"} onClick={() => this.handleActionOnClick('image')}>
+          <Button
+            className="actionItem"
+            type={currentAction === 'image' && 'primary'}
+            onClick={() => this.handleActionOnClick('image')}
+            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.IMAGES)}
+          >
             {i18n.images}
           </Button>
-          <Button className="actionItem" type={currentAction === "station" && "primary"} onClick={() => this.handleActionOnClick('station')}>
+          <Button
+            className="actionItem"
+            type={currentAction === 'station' && 'primary'}
+            onClick={() => this.handleActionOnClick('station')}
+            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.INFOSTATION)}
+          >
             {i18n.stationInfo}
           </Button>
-          <Button className="actionItem" type={currentAction === "rating" && "primary"} onClick={() => this.handleActionOnClick('rating')}>
+          <Button
+            className="actionItem"
+            type={currentAction === 'rating' && 'primary'}
+            onClick={() => this.handleActionOnClick('rating')}
+            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.REVIEWSTATION)}
+          >
             {i18n.reviewStation}
           </Button>
         </ActionWrapper>
-        
 
         {/* NOTE  không xoá, để sau này dùng đến, hiện tại dùng ActionWrapper ở trên trong bản launching */}
         {/* <ActionWrapper>

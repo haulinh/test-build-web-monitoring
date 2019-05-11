@@ -1,27 +1,27 @@
-import React, { PureComponent, Component } from "react";
-import { AkNavigationItemGroup, AkNavigationItem } from "@atlaskit/navigation";
+import React, { PureComponent, Component } from 'react'
+import { AkNavigationItemGroup, AkNavigationItem } from '@atlaskit/navigation'
 import {
   // createChildListMenuItem,
   WrapperLinkComponent
-} from "../../utils/sidebarNavigation";
-import slug from "constants/slug";
-import Icon from "themes/icon";
-import NavigationWrapper from "./NavigationWrapper";
-import protectRole from "hoc/protect-role/index.backup";
-import ROLE from "constants/role";
-import { translate } from "hoc/create-lang";
-import { Menu } from "antd";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+} from '../../utils/sidebarNavigation'
+import slug from 'constants/slug'
+import Icon from 'themes/icon'
+import NavigationWrapper from './NavigationWrapper'
+import protectRole from 'hoc/protect-role/index.backup'
+import ROLE from 'constants/role'
+import { translate } from 'hoc/create-lang'
+import { Menu } from 'antd'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
+const SubMenu = Menu.SubMenu
+const MenuItemGroup = Menu.ItemGroup
 
 const CENTER = {
-  display: "flex",
-  alignItems: "center",
+  display: 'flex',
+  alignItems: 'center',
   fontWeight: 600
-};
+}
 
 // linkComponent={WrapperLinkComponent}
 // href={slug.dashboard}
@@ -48,15 +48,14 @@ title={
 
 export const dashboardMenu = (
   <Menu.Item>
-  <Link style={CENTER} to={slug.dashboard}>
-    {/* <IconContainer>{Icon.dashboard}</IconContainer>{" "}
+    <Link style={CENTER} to={slug.dashboard}>
+      {/* <IconContainer>{Icon.dashboard}</IconContainer>{" "}
     {translate("menuApp.dashboard")} */}
       {Icon.dashboard}
-      <span style={{marginLeft: 12}}>{translate("menuApp.dashboard")}</span>
-  </Link>
-</Menu.Item>
+      <span style={{ marginLeft: 12 }}>{translate('menuApp.dashboard')}</span>
+    </Link>
+  </Menu.Item>
 )
-
 
 //       linkComponent={WrapperLinkComponent}
 //       href={slug.monitoring.base}
@@ -72,10 +71,10 @@ export const monitoringMenu = (
     //   </div>
     // }
     title={
-     <div style={CENTER}>
-       {Icon.screen}
-        <span style={{marginLeft: 12}}>Khai tác dữ liệu</span>
-     </div>
+      <div style={CENTER}>
+        {Icon.screen}
+        <span style={{ marginLeft: 12 }}>Khai tác dữ liệu</span>
+      </div>
     }
   >
     <Menu.Item key={slug.monitoring.base}>
@@ -94,25 +93,23 @@ export const monitoringMenu = (
       <Link to={slug.avgSearch.base}>Dữ liệu trung bình</Link>
     </Menu.Item>
   </SubMenu>
-);
-
-
+)
 
 export const handleDataMenu = (
   <SubMenu
     key="handleData"
     title={
       <div style={CENTER}>
-      {Icon.handleData}
-       <span style={{marginLeft: 12}}>Xử lý dữ liệu</span>
-    </div>
+        {Icon.handleData}
+        <span style={{ marginLeft: 12 }}>Xử lý dữ liệu</span>
+      </div>
     }
   >
     <Menu.Item key={slug.qaqc.base}>
       <Link to={slug.qaqc.base}>Kiểm duyệt dữ liệu</Link>
     </Menu.Item>
   </SubMenu>
-);
+)
 
 export const shareDataMenu = (
   <SubMenu
@@ -120,9 +117,9 @@ export const shareDataMenu = (
     title={
       <div style={CENTER}>
         {Icon.configWQI}
-         <span style={{marginLeft: 12}}>Chia sẻ dữ liệu</span>
+        <span style={{ marginLeft: 12 }}>Chia sẻ dữ liệu</span>
       </div>
-     }
+    }
   >
     <Menu.Item key={slug.qaqc.config}>
       <Link to={slug.qaqc.config}>Cấu hình chia sẻ dữ liệu</Link>
@@ -131,7 +128,7 @@ export const shareDataMenu = (
       <Link to={slug.ftpTransfer.base}>Cấu hình truyền FTP</Link>
     </Menu.Item>
   </SubMenu>
-);
+)
 
 export const advanceMenu = (
   <SubMenu
@@ -139,9 +136,9 @@ export const advanceMenu = (
     title={
       <div style={CENTER}>
         {Icon.advance}
-         <span style={{marginLeft: 12}}>Nâng cao</span>
+        <span style={{ marginLeft: 12 }}>Nâng cao</span>
       </div>
-     }
+    }
   >
     <Menu.Item key={slug.aqi.base}>
       <Link to={slug.aqi.base}>Bản đồ AQI</Link>
@@ -158,10 +155,10 @@ export const advanceMenu = (
     </Menu.Item>
 
     <Menu.Item key={slug.configWQI.base}>
-      <Link to={slug.configWQI.base}>Cấu hình AQI {"&"} WQI</Link>
+      <Link to={slug.configWQI.base}>Cấu hình AQI {'&'} WQI</Link>
     </Menu.Item>
   </SubMenu>
-);
+)
 
 export const configMenu = (
   <SubMenu
@@ -169,9 +166,9 @@ export const configMenu = (
     title={
       <div style={CENTER}>
         {Icon.config}
-         <span style={{marginLeft: 12}}>Cấu hình</span>
+        <span style={{ marginLeft: 12 }}>Cấu hình</span>
       </div>
-     }
+    }
   >
     <Menu.Item key={slug.stationAuto.base}>
       <Link to={slug.stationAuto.base}>Trạm quan trắc</Link>
@@ -199,7 +196,7 @@ export const configMenu = (
       <Link to={slug.user.base}>Tài khoản</Link>
     </Menu.Item>
   </SubMenu>
-);
+)
 
 const aqiMenu = {
   component: protectRole(ROLE.AQI.VIEW)(
@@ -207,10 +204,10 @@ const aqiMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.aqi.base}
       icon={Icon.aqi}
-      text={translate("aqi.title")}
+      text={translate('aqi.title')}
     />
   )
-};
+}
 
 const wqiMenu = {
   component: protectRole(ROLE.WQI.VIEW)(
@@ -218,18 +215,18 @@ const wqiMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.wqi.base}
       icon={Icon.wqi}
-      text={translate("wqi.title")} //{translate('aqi.title')}
+      text={translate('wqi.title')} //{translate('aqi.title')}
     />
   )
-};
+}
 
 const groupQAQC = {
-  component: protectRole("", [ROLE.QAQC.VIEW], "group")(
-    <NavigationWrapper text={translate("qaqc.title")}>
-      <AkNavigationItemGroup title={translate("qaqc.title")} />
+  component: protectRole('', [ROLE.QAQC.VIEW], 'group')(
+    <NavigationWrapper text={translate('qaqc.title')}>
+      <AkNavigationItemGroup title={translate('qaqc.title')} />
     </NavigationWrapper>
   )
-};
+}
 
 const qaqcMenu = {
   component: protectRole(ROLE.QAQC.VIEW)(
@@ -237,10 +234,10 @@ const qaqcMenu = {
       linkComponent={WrapperLinkComponent}
       icon={Icon.qaqc}
       href={slug.qaqc.base}
-      text={translate("qaqc.approveData")}
+      text={translate('qaqc.approveData')}
     />
   )
-};
+}
 
 // const monitoringMenu = {
 //   component: protectRole(ROLE.MONITORING.VIEW)(
@@ -259,10 +256,10 @@ const cameraMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.cameraControl.base}
       icon={Icon.camera}
-      text={translate("menuApp.camera")}
+      text={translate('menuApp.camera')}
     />
   )
-};
+}
 
 const mapMenu = {
   component: protectRole(ROLE.MAP.VIEW)(
@@ -270,38 +267,38 @@ const mapMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.map.base}
       icon={Icon.location}
-      text={translate("menuApp.map")}
+      text={translate('menuApp.map')}
     />
   )
-};
+}
 
 const groupData = {
   component: protectRole(
-    "",
+    '',
     [ROLE.DATA_SEARCH.VIEW, ROLE.AVG_SEARCH.VIEW],
-    "group"
+    'group'
   )(
-    <NavigationWrapper text={translate("menuApp.data")}>
-      <AkNavigationItemGroup title={translate("menuApp.data")} />
+    <NavigationWrapper text={translate('menuApp.data')}>
+      <AkNavigationItemGroup title={translate('menuApp.data')} />
     </NavigationWrapper>
   )
-};
+}
 
 const groupStationFixed = {
   component: protectRole(
-    "",
+    '',
     [
       ROLE.MAP_STATION_FIXED.VIEW,
       ROLE.STATION_FIXED.VIEW,
       ROLE.STATION_FIXED_SEARCH.VIEW
     ],
-    "group"
+    'group'
   )(
-    <NavigationWrapper text={translate("menuApp.stationFixed")}>
-      <AkNavigationItemGroup title={translate("menuApp.stationFixed")} />
+    <NavigationWrapper text={translate('menuApp.stationFixed')}>
+      <AkNavigationItemGroup title={translate('menuApp.stationFixed')} />
     </NavigationWrapper>
   )
-};
+}
 
 const dataSearchMenu = {
   component: protectRole(ROLE.DATA_SEARCH.VIEW)(
@@ -309,10 +306,10 @@ const dataSearchMenu = {
       linkComponent={WrapperLinkComponent}
       icon={Icon.graphBar}
       href={slug.dataSearch.base}
-      text={translate("menuApp.dataSearch")}
+      text={translate('menuApp.dataSearch')}
     />
   )
-};
+}
 
 const dataSearchFixedMenu = {
   component: protectRole(ROLE.STATION_FIXED_SEARCH.VIEW)(
@@ -320,10 +317,10 @@ const dataSearchFixedMenu = {
       linkComponent={WrapperLinkComponent}
       icon={Icon.graphBar}
       href={slug.dataSearchFixed.base}
-      text={translate("menuApp.dataSearchFixed")}
+      text={translate('menuApp.dataSearchFixed')}
     />
   )
-};
+}
 
 const avgDataMenu = {
   component: protectRole(ROLE.AVG_SEARCH.VIEW)(
@@ -331,14 +328,14 @@ const avgDataMenu = {
       linkComponent={WrapperLinkComponent}
       icon={Icon.graphLine}
       href={slug.avgSearch.base}
-      text={translate("menuApp.avgData")}
+      text={translate('menuApp.avgData')}
     />
   )
-};
+}
 
 const groupManager = {
   component: protectRole(
-    "",
+    '',
     [
       ROLE.MEASURING.VIEW,
       ROLE.STATION_TYPE.VIEW,
@@ -348,13 +345,13 @@ const groupManager = {
       // ROLE.STATION_FIXED.VIEW,
       ROLE.CONFIG_WQI.VIEW
     ],
-    "group"
+    'group'
   )(
-    <NavigationWrapper text={translate("menuApp.manage")}>
-      <AkNavigationItemGroup title={translate("menuApp.manage")} />
+    <NavigationWrapper text={translate('menuApp.manage')}>
+      <AkNavigationItemGroup title={translate('menuApp.manage')} />
     </NavigationWrapper>
   )
-};
+}
 
 const measuringMenu = {
   component: protectRole(ROLE.MEASURING.VIEW)(
@@ -362,10 +359,10 @@ const measuringMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.measuring.base}
       icon={Icon.quizLists}
-      text={translate("menuApp.measuring")}
+      text={translate('menuApp.measuring')}
     />
   )
-};
+}
 
 const stationTypeMenu = {
   component: protectRole(ROLE.STATION_TYPE.VIEW)(
@@ -373,10 +370,10 @@ const stationTypeMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.stationType.base}
       icon={Icon.hipchat}
-      text={translate("menuApp.stationType")}
+      text={translate('menuApp.stationType')}
     />
   )
-};
+}
 
 const stationAutoMenu = {
   component: protectRole(ROLE.STATION_AUTO.VIEW)(
@@ -384,10 +381,10 @@ const stationAutoMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.stationAuto.base}
       icon={Icon.book}
-      text={translate("menuApp.stationAuto")}
+      text={translate('menuApp.stationAuto')}
     />
   )
-};
+}
 
 const stationFixedMenu = {
   component: protectRole(ROLE.STATION_FIXED.VIEW)(
@@ -395,10 +392,10 @@ const stationFixedMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.stationFixed.base}
       icon={Icon.stationFixed}
-      text={translate("menuApp.stationFixed")}
+      text={translate('menuApp.stationFixed')}
     />
   )
-};
+}
 
 const configWQI = {
   component: protectRole(ROLE.CONFIG_WQI.VIEW)(
@@ -406,10 +403,10 @@ const configWQI = {
       linkComponent={WrapperLinkComponent}
       href={slug.configWQI.base}
       icon={Icon.configWQI}
-      text={translate("menuApp.configWQI")}
+      text={translate('menuApp.configWQI')}
     />
   )
-};
+}
 
 const provinceMenu = {
   component: protectRole(ROLE.PROVINCE.VIEW)(
@@ -417,28 +414,28 @@ const provinceMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.province.base}
       icon={Icon.province}
-      text={translate("menuApp.province")}
+      text={translate('menuApp.province')}
     />
   )
-};
+}
 const qcvnMenu = {
   component: protectRole(ROLE.QCVN.VIEW)(
     <AkNavigationItem
       linkComponent={WrapperLinkComponent}
       href={slug.qcvn.base}
       icon={Icon.qcvn}
-      text={"QCVN"}
+      text={'QCVN'}
     />
   )
-};
+}
 
 const groupAdmin = {
-  component: protectRole("", [ROLE.USER.VIEW, ROLE.ROLE.VIEW], "group")(
-    <NavigationWrapper text={translate("menuApp.adminManagement")}>
-      <AkNavigationItemGroup title={translate("menuApp.adminManagement")} />
+  component: protectRole('', [ROLE.USER.VIEW, ROLE.ROLE.VIEW], 'group')(
+    <NavigationWrapper text={translate('menuApp.adminManagement')}>
+      <AkNavigationItemGroup title={translate('menuApp.adminManagement')} />
     </NavigationWrapper>
   )
-};
+}
 
 const userMenu = {
   component: protectRole(ROLE.USER.VIEW)(
@@ -446,10 +443,10 @@ const userMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.user.base}
       icon={Icon.person}
-      text={translate("menuApp.user")}
+      text={translate('menuApp.user')}
     />
   )
-};
+}
 
 const roleMenu = {
   component: protectRole(ROLE.ROLE.VIEW)(
@@ -457,10 +454,10 @@ const roleMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.role.base}
       icon={Icon.peopleGroup}
-      text={translate("menuApp.role")}
+      text={translate('menuApp.role')}
     />
   )
-};
+}
 
 const ftpTransferMenu = {
   component: protectRole(ROLE.FTPTRANSFER.VIEW)(
@@ -468,10 +465,10 @@ const ftpTransferMenu = {
       linkComponent={WrapperLinkComponent}
       href={slug.ftpTransfer.base}
       icon={Icon.ftpTranfer}
-      text={translate("menuApp.ftpTranfer")}
+      text={translate('menuApp.ftpTranfer')}
     />
   )
-};
+}
 
 const configPublishMenu = {
   component: protectRole(ROLE.QAQCCONFIG.VIEW)(
@@ -479,22 +476,22 @@ const configPublishMenu = {
       linkComponent={WrapperLinkComponent}
       icon={Icon.publishConfig}
       href={slug.qaqc.config}
-      text={translate("qaqc.configPublish.title")}
+      text={translate('qaqc.configPublish.title')}
     />
   )
-};
+}
 
 const groupPubShare = {
   component: protectRole(
-    "",
+    '',
     [ROLE.QAQCCONFIG.VIEW, ROLE.FTPTRANSFER.VIEW],
-    "group"
+    'group'
   )(
-    <NavigationWrapper text={translate("menuApp.publishShare")}>
-      <AkNavigationItemGroup title={translate("menuApp.publishShare")} />
+    <NavigationWrapper text={translate('menuApp.publishShare')}>
+      <AkNavigationItemGroup title={translate('menuApp.publishShare')} />
     </NavigationWrapper>
   )
-};
+}
 
 const mapFixedMenu = {
   component: protectRole(ROLE.MAP_STATION_FIXED.VIEW)(
@@ -502,10 +499,10 @@ const mapFixedMenu = {
       linkComponent={WrapperLinkComponent}
       icon={Icon.publishConfig}
       href={slug.mapFixed.base}
-      text={translate("menuApp.mapFixed")}
+      text={translate('menuApp.mapFixed')}
     />
   )
-};
+}
 
 const statisticPerRecMenu = {
   component: protectRole(ROLE.STATISTIC.PER_REC_DATA)(
@@ -513,10 +510,10 @@ const statisticPerRecMenu = {
       linkComponent={WrapperLinkComponent}
       icon={Icon.publishConfig}
       href={slug.statistic.perRecData}
-      text={translate("statistic.perRecData")}
+      text={translate('statistic.perRecData')}
     />
   )
-};
+}
 
 const statisticExceededMenu = {
   component: protectRole(ROLE.STATISTIC.EXCEEDED)(
@@ -524,10 +521,10 @@ const statisticExceededMenu = {
       linkComponent={WrapperLinkComponent}
       icon={Icon.publishConfig}
       href={slug.statistic.exceeded}
-      text={translate("statistic.exceeded")}
+      text={translate('statistic.exceeded')}
     />
   )
-};
+}
 
 const statisticAQIMenu = {
   component: protectRole(ROLE.STATISTIC.AQI)(
@@ -535,10 +532,10 @@ const statisticAQIMenu = {
       linkComponent={WrapperLinkComponent}
       icon={Icon.aqiStatistic}
       href={slug.statistic.aqi}
-      text={translate("statistic.aqi.menuApp")}
+      text={translate('statistic.aqi.menuApp')}
     />
   )
-};
+}
 
 const statisticWQIMenu = {
   component: protectRole(ROLE.STATISTIC.WQI)(
@@ -546,27 +543,27 @@ const statisticWQIMenu = {
       linkComponent={WrapperLinkComponent}
       icon={Icon.wqiStatistic}
       href={slug.statistic.wqi}
-      text={translate("statistic.wqi.menuApp")}
+      text={translate('statistic.wqi.menuApp')}
     />
   )
-};
+}
 
 const groupStatistic = {
   component: protectRole(
-    "",
+    '',
     [
       ROLE.STATISTIC.EXCEEDED,
       ROLE.STATISTIC.PER_REC_DATA,
       ROLE.STATISTIC.AQI,
       ROLE.STATISTIC.WQI
     ],
-    "group"
+    'group'
   )(
-    <NavigationWrapper text={translate("menuApp.groupStatistic")}>
-      <AkNavigationItemGroup title={translate("menuApp.groupStatistic")} />
+    <NavigationWrapper text={translate('menuApp.groupStatistic')}>
+      <AkNavigationItemGroup title={translate('menuApp.groupStatistic')} />
     </NavigationWrapper>
   )
-};
+}
 
 // export default [
 //   dashboardMenu

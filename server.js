@@ -14,7 +14,11 @@ app.get('/app.json', function(req, res) {
       host: process.env.CAMERA_HOST,
       username: process.env.CAMERA_USERNAME,
       password: process.env.CAMERA_PASSWORD
-    }
+    },
+    firebase: {
+      id: process.env.FIREBASE_ID,
+      key: process.env.FIREBASE_KEY
+    }  
   })
 })
 app.use(express.static(path.join(__dirname, 'build')))

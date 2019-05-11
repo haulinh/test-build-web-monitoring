@@ -55,7 +55,7 @@ const intDay = 30
 const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
   // console.log(minLimit, "minLimit")
   // console.log(maxLimit, "maxLimit")
-  if (dataSeries.length ===  0 || dataSeries[0].data.length === 0) {
+  if (dataSeries.length === 0 || dataSeries[0].data.length === 0) {
     return {}
   }
   let minLimitValue = null
@@ -65,7 +65,7 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
   const isMaxLimit = typeof maxLimit === 'number'
   // console.log(minLimit, maxLimit, 'input limit')
   // console.log(dataSeries[0].data, isMinLimit, isMaxLimit, 'ABC')
-  
+
   // console.log(dataSeries[0], 'dataSeries[0].data[0].y')
   // lay so nho nhất
   const tempMin = _.reduce(
@@ -84,6 +84,8 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
     },
     dataSeries[0].data[0].y
   )
+
+  const plusMax = 10
   // console.log(tempMin, tempMax, 'tempMin, tempMax')
   if (isMinLimit && isMaxLimit) {
     if (tempMin < minLimit) {
@@ -91,10 +93,10 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
       maxLimitValue = maxLimit
     }
   } else if (isMinLimit && isMaxLimit === false) {
-    if(tempMax > minLimit){
-      maxLimitValue = tempMax + 10 // cong them
-    }else if (tempMin < minLimit) {
-      maxLimitValue = minLimit + 10 // cong them
+    if (tempMax > minLimit) {
+      maxLimitValue = tempMax + plusMax // cong them
+    } else if (tempMin < minLimit) {
+      maxLimitValue = minLimit + plusMax // cong them
     }
   } else if (isMinLimit === false && isMaxLimit) {
     if (tempMax > maxLimit) {
@@ -131,7 +133,7 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
           color: 'red',
           width: 1,
           label: {
-            text: `${i18n.minLimit}: ${getFormatNumber(minLimit)}`
+            text: `${i18n.minLimit}: ${getFormatNumber(minLimit)}`,
           },
           zIndex: 4
         },
@@ -140,7 +142,8 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
           color: 'red',
           width: 1,
           label: {
-            text: `${i18n.maxLimit}: ${getFormatNumber(maxLimit)}`
+            text: `${i18n.maxLimit}: ${getFormatNumber(maxLimit)}`,
+            y:12,
           },
           zIndex: 4
         }
@@ -190,9 +193,8 @@ export default class ChartRowToChart extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.chartType, this.props.chartType) ||
-        !_.isEqual(nextProps.isOpen, this.props.isOpen)) {
-          debugger
+    if (!_.isEqual(nextProps.chartType, this.props.chartType) || !_.isEqual(nextProps.isOpen, this.props.isOpen)) {
+      debugger
       this.loadDataBy(this.props.stationData, nextProps.chartType)
     }
   }
@@ -201,7 +203,7 @@ export default class ChartRowToChart extends React.Component {
     this.setState({
       isLoading: true
     })
-    
+
     let categories = []
     let current = null
     let measuringKeys = []
@@ -366,7 +368,7 @@ export default class ChartRowToChart extends React.Component {
   }
 
   getConfigData = () => {
-    if(this.state.current.length === 0){
+    if (this.state.current.length === 0) {
       return {}
     }
     let dataSeries = []
@@ -379,7 +381,7 @@ export default class ChartRowToChart extends React.Component {
     minLimit = _.get(this.state.current, '0.minLimit', null)
 
     // console.log(this.state.data, this.state.current, 'getConfigData')
-    
+
     dataSeries.push({
       type: 'column',
       min: minLimit,
@@ -394,7 +396,7 @@ export default class ChartRowToChart extends React.Component {
   }
 
   render() {
-    console.log(this.state, "this.state.categories")
+    console.log(this.state, 'this.state.categories')
     return (
       <ChartWrapper className="monitoring-chart">
         <div className="monitoring-chart--to-from">
@@ -429,10 +431,10 @@ export default class ChartRowToChart extends React.Component {
                   paddingLeft: 8,
                   paddingRight: 8
                 }}
-                defaultActiveKey={ _.get(this.state.current[0],'key','')}
+                defaultActiveKey={_.get(this.state.current[0], 'key', '')}
                 onTabClick={this.handleClick}
               >
-              {console.log(this.state.isLoading, "this.state.isLoading")}
+                {console.log(this.state.isLoading, 'this.state.isLoading')}
                 {_.map(this.state.categories, ({ key, name, unit }) => (
                   <TabPane tab={unit ? `${name} (${unit})` : `${name}`} key={key} />
                 ))}

@@ -6,6 +6,7 @@ import { autobind } from 'core-decorators'
 import update from 'react-addons-update'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import AuthApi from 'api/AuthApi'
+import { orderBy as _orderBy } from 'lodash'
 
 const View = styled.div``
 
@@ -33,11 +34,9 @@ export default class CheckBoxRole extends PureComponent {
       key: key,
       ...record.data.organization.menu[key]
     }))
-    arr.sort(function(a, b) {
-      if (a.numericalOrder && b.numericalOrder)
-        return a.numericalOrder - b.numericalOrder
-      else return 0
-    })
+    arr = _orderBy(arr,['numericalOrder'],['asc'])
+
+
     this.setState(
       {
         menu: this.props.value ? initialValues : record.data.organization.menu,
@@ -95,10 +94,17 @@ export default class CheckBoxRole extends PureComponent {
     } = this.props
     return [
       {
-        title: t('organization.rule.menu.label'),
+        title: t('roleManager.tableHeader.stt'),
+        dataIndex: 'key',
+        render: (text, record, index) => {
+          return <strong>{index+1}</strong>
+        }
+      },
+      {
+        title: t('roleManager.tableHeader.menu'),
         dataIndex: 'key',
         key: 'key',
-        render: (text, record) => {
+        render: (text, record, index) => {
           return (
             <Checkbox
               onChange={e => {
@@ -106,13 +112,13 @@ export default class CheckBoxRole extends PureComponent {
               }}
               checked={this.state.menu[record.key] ? true : false}
             >
-              {text}
+              {t(`roleManager.rule.${record.key}.name`)}
             </Checkbox>
           )
         }
       },
       {
-        title: t('organization.rule.action.label'),
+        title: t('roleManager.tableHeader.action'),
         key: 'action',
         render: (text, record) => {
           const objActions = this.state.dataMenus.find(function(item) {
@@ -127,25 +133,35 @@ export default class CheckBoxRole extends PureComponent {
               ? this.state.menu[record.key].actions
               : {}
 
-          return arrActions.map((actionName, index) => {
-            if (actionName === 'view') return <div />
-            return (
-              record.actions[actionName] && (
-                <Checkbox
-                  key={index}
-                  onChange={e => {
-                    this.onChangeRule(e, record.key, actionName)
-                  }}
-                  checked={actionsOrganization[actionName]}
-                  disabled={
-                    this.state.menu ? !this.state.menu[record.key] : true
-                  }
-                >
-                  {actionName}
-                </Checkbox>
-              )
-            )
-          })
+          return (
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              {arrActions &&
+                arrActions.map((actionName, index) => {
+                  if (actionName === 'view') return <div />
+
+                  return (
+                    <div style={{ paddingBottom: '8px', width: '25%' }}>
+                      {record.actions[actionName] && (
+                        <Checkbox
+                          key={index}
+                          onChange={e => {
+                            this.onChangeRule(e, record.key, actionName)
+                          }}
+                          checked={actionsOrganization[actionName]}
+                          disabled={
+                            this.state.menu
+                              ? !this.state.menu[record.key]
+                              : true
+                          }
+                        >
+                          {t(`roleManager.rule.actions.${actionName}`)}
+                        </Checkbox>
+                      )}
+                    </div>
+                  )
+                })}
+            </div>
+          )
         }
       }
     ]

@@ -18,7 +18,9 @@ import SelectProvince from 'components/elements/select-province'
 import OptionsMonth from '../../common/options-time-month'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
-const FSelectStationTypeConfigWQI = createValidateComponent(SelectStationTypeConfigWQI)
+const FSelectStationTypeConfigWQI = createValidateComponent(
+  SelectStationTypeConfigWQI
+)
 const FSelectStationConfigwQI = createValidateComponent(SelectStationConfigwQI)
 const FOptionsMonth = createValidateComponent(OptionsMonth)
 
@@ -120,7 +122,7 @@ export default class SearchForm extends React.Component {
     this.props.change('station', '')
   }
 
-  handleChangeMonth = (month) => {
+  handleChangeMonth = month => {
     const fromTime = month.startOf('months').format('YYYY-MM-DD')
     const toTime = month.endOf('months').format('YYYY-MM-DD')
     this.setState({
@@ -169,24 +171,24 @@ export default class SearchForm extends React.Component {
                 size="large"
                 onHandleChange={this.handleChangeStationType}
                 component={FSelectStationTypeConfigWQI}
-                isAuto= {null}
+                isAuto={null}
               />
             </Col>
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
             <Col span={12}>
-                <Field
-                  label={t('stationAuto.label')}
-                  name="station"
-                  size="large"
-                  provinceKey={this.state.provinceKey}
-                  stationTypeKey={this.state.stationTypeKey}
-                  component={FSelectStationConfigwQI}
-                  onChangeObject={this.handleChangeStationAuto}
-                  stationKey={this.state.stationKey}
-                  setKey
-                />
+              <Field
+                label={t('stationAuto.label')}
+                name="station"
+                size="large"
+                provinceKey={this.state.provinceKey}
+                stationTypeKey={this.state.stationTypeKey}
+                component={FSelectStationConfigwQI}
+                onChangeObject={this.handleChangeStationAuto}
+                stationKey={this.state.stationKey}
+                setKey
+              />
             </Col>
             <Col span={12}>
               <Field

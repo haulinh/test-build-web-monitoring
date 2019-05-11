@@ -8,6 +8,7 @@ import Breadcrumb from 'containers/role/breadcrumb'
 import RoleApi from 'api/RoleApi'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role/index.backup'
+import {get as _get} from 'lodash' 
 
 @withRouter
 @protectRole(ROLE.ROLE.EDIT)
@@ -32,7 +33,7 @@ export default class RoleEdit extends PureComponent {
     } else {
       this.setState({
         isLoaded: true,
-        dataEdit: { ...record.data, menu: [record.data.menu] }
+        dataEdit: { ...record.data, menu: [_get(record.data,'menu')] }
       })
     }
   }

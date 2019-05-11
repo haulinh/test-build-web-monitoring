@@ -11,8 +11,8 @@ export default ({ component: ChildComponent, ...otherProps }) => (
       //   <ChildComponent {...matchProps} />
       // </DefaultLayout>
       <div>
-      <ChildComponent {...matchProps} />
-    </div>
+        <ChildComponent {...matchProps} />
+      </div>
     )}
   />
 )

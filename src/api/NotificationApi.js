@@ -1,7 +1,6 @@
 import querystring from 'querystring'
-import { getFetch, putFetch } from 'utils/fetch'
+import { getFetch, postFetch, putFetch } from 'utils/fetch'
 import { getConfigApi } from 'config'
-
 
 export function getNotification() {
   return getFetch(fcmNotificationRoute().fcmMessages)
@@ -33,8 +32,16 @@ export function getTotalByNotificationType(){
   return getFetch(`${fcmNotificationRoute()}/getTotalByNotificationType`)
 }
 
+export function linkToken2Email(token){
+  return postFetch(getConfigApi().fcmToken, {
+    token,
+    device: 'webapp' // MARK  webapp is constaint
+  })
+}
+
 export default {
   getNotification,
   updateIsSeenByType,
   getTotalByNotificationType
+  linkToken2Email
 }

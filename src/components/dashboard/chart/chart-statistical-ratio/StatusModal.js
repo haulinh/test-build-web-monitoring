@@ -4,7 +4,7 @@ import { Modal } from 'antd'
 import * as _ from 'lodash'
 import Highcharts from 'react-highcharts'
 import { translate } from 'hoc/create-lang'
-import { COLOR_STATUS } from 'themes/color';
+import { COLOR_STATUS } from 'themes/color'
 
 export default class StatusModalView extends React.Component {
   getConfig = () => {
@@ -34,7 +34,6 @@ export default class StatusModalView extends React.Component {
     let categories = []
 
     const list = _.get(this.props, ['data', `${this.props.title}`, 'list'], [])
-
 
     _.forEach(list, ({ name, percent }) => {
       const received = percent || 0

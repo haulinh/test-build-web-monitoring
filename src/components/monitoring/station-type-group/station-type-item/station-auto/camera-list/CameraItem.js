@@ -47,7 +47,7 @@ export default class CameraItem extends React.PureComponent {
           </CardHeader>
           {this.state.width ? (
             <video
-              style={{width: this.state.width}}
+              style={{ width: this.state.width }}
               controls
               src={`${this.props.rtspUrl}&auth=${this.props.auth}`}
             />

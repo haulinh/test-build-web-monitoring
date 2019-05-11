@@ -12,7 +12,7 @@ export default class TableDataList extends React.PureComponent {
     loading: PropTypes.bool
   }
 
-  getColumns () {
+  getColumns() {
     const childrenValue = []
     for (let index = 0; index < 24; index++) {
       const ti = _.padStart(`${index}`, 2, '0')
@@ -39,7 +39,7 @@ export default class TableDataList extends React.PureComponent {
             dataIndex: 'label',
             key: 'timeDay',
             width: 100,
-            render: (value) => {
+            render: value => {
               return <div>{value}</div>
             }
           }
@@ -57,7 +57,7 @@ export default class TableDataList extends React.PureComponent {
             width: 100
           }
         ]
-      },
+      }
     ]
     return columns
   }

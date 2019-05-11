@@ -101,7 +101,8 @@ export default {
           active: 'Kích hoạt',
           actived: 'Đã kích hoạt lấy mẫu tự động (Nhấn để hủy hẹn giờ lấy mẫu)',
           activeOverRange: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
-          activedOverRange: "Đã kích hoạt lấy mẫu khi vượt ngưỡng (Nhấn để hủy)",
+          activedOverRange:
+            'Đã kích hoạt lấy mẫu khi vượt ngưỡng (Nhấn để hủy)',
           history: {
             stt: 'STT',
             bottleNo: 'Chai số',
@@ -118,16 +119,16 @@ export default {
           }
         }
       },
-      chart:{
-        tab:{
-          avgHour:"Trung bình giờ",
-          avgDay:"Trung bình ngày",
+      chart: {
+        tab: {
+          avgHour: 'Trung bình giờ',
+          avgDay: 'Trung bình ngày'
         },
-        content:{
-          minLimit: "Giới hạn dưới",
-          maxLimit:"Giới hạn trên",
-          to:"Từ",
-          from:"Đến",
+        content: {
+          minLimit: 'Giới hạn dưới',
+          maxLimit: 'Giới hạn trên',
+          to: 'Từ',
+          from: 'Đến'
         }
       }
     }
@@ -259,7 +260,8 @@ export default {
       viewMore: {
         sampling: 'Lấy mẫu',
         camera: 'Camera',
-        viewData: 'Hiển thị dữ liệu'
+        viewData: 'Hiển thị dữ liệu',
+        detail: 'Chi tiết'
       }
     },
     marker: {
@@ -686,7 +688,7 @@ export default {
         label: 'Tên trạm',
         placeholder: 'Nhập tên trạm',
         error: 'Vui lòng nhập tên trạm',
-        error_length_max: 'Vui lòng nhập dưới 25 kí tự',
+        error_length_max: 'Vui lòng nhập dưới 25 kí tự'
       },
       stationType: {
         label: 'Loại trạm',
@@ -1010,14 +1012,16 @@ export default {
       login: 'Đăng nhập',
       status: 'Trạng thái',
       roleAssign: 'Uỷ quyền',
+      roleName: 'Nhóm quyền',
       createdAt: 'Tạo lúc',
       setPassword: 'Cập nhật mật khẩu',
       setPasswordSuccess: 'Cập nhật mật khẩu thành công',
       setPasswordFailure: 'Cập nhật mật khẩu thất bại'
     },
     roleAssign: {
-      role: 'Nhóm quền',
+      role: 'Nhóm quyền',
       name: 'Tên nhóm quyền',
+      nameStation: 'Danh sách trạm quản lý',
       success: 'Cập nhật qui định thành công',
       error: 'Cập nhật qui định thất bại',
       address: 'Địa chỉ',
@@ -1030,6 +1034,11 @@ export default {
       create: 'Tạo mới',
       edit: 'Chỉnh sửa'
     },
+    tableHeader: {
+      menu: 'Danh sách module',
+      action: 'Chức năng',
+      stt:'STT'
+    },
     form: {
       name: {
         label: 'Tên tổ chức',
@@ -1040,8 +1049,100 @@ export default {
         label: 'Mô tả',
         placeholder: 'Nhập mô tả',
         error: 'Vui lòng nhập mô tả'
+      },
+    },
+    rule: {
+      label: 'Rule',
+      orderby: {
+        label: 'STT',
+        placeholder: 'STT',
+      },
+      menu: {
+        label: 'menu',
+        placeholder: 'menu'
+      },
+      action: {
+        label: 'action',
+        placeholder: 'action',
+        package: 'Package'
+      },
+      dashboard: {
+        name: 'Trang chủ'
+      },
+      monitoring: {
+        name: 'Giám sát trực tuyến'
+      },
+      map: {
+        name: 'Bản đồ'
+      },
+      camera: {
+        name: 'Camera'
+      },
+      dataSearch: {
+        name: 'Tra cứu dữ liệu'
+      },
+      avgSearch: {
+        name: 'Dữ liệu trung bình'
+      },
+      qaqc: {
+        name: 'Kiểm duyệt dữ liệu'
+      },
+      qaqcConfig: {
+        name: 'Cấu hình chia sẻ dữ liệu'
+      },
+      ftpTransfer: {
+        name: 'Cấu hình truyền FTP'
+      },
+      aqiMap: {
+        name: 'Bản đồ AQI'
+      },
+      aqiSearchData: { name: 'Tra cứu dữ liệu AQI' },
+      wqiMap: { name: 'Bản đồ WQI' },
+      wqiSearchData: { name: 'Tra cứu dữ liệu WQI' },
+      configWQI: { name: 'Cấu hình tính WQI, AQI' },
+      mapStationFixed: { name: 'Bản đồ trạm cố định' },
+      dataSearchFixed: { name: 'Dữ liệu trạm cố định' },
+      stationFixed: { name: 'Trạm cố định' },
+      per_received_data: { name: 'Tỷ lệ nhận dữ liệu' },
+      dataExceeded: { name: 'Dữ liệu vượt ngưỡng' },
+      stationAuto: { name: 'Trạm quan trắc' },
+      measuring: { name: 'Chỉ tiêu quan trắc' },
+      stationType: { name: 'Loại trạm' },
+      province: { name: 'Đơn vị quản lý' },
+      qcvn: { name: 'Quy chuẩn' },
+      role: { name: 'Nhóm quyền' },
+      user: { name: 'Người dùng' },
+      report: { name: 'Báo cáo' },
+      actions: {
+        role:'Ủy quyền',
+        enableAccount:'Kích hoạt/Vô hiệu hóa tài khoản',
+        config: 'Cấu hình',
+        download: 'Tải mẫu nhập liệu',
+        import: 'Nhập dữ liệu từ file',
+        wqi_export: 'Xuất dữ liệu',
+        aqi_export: 'Xuất dữ liệu',
+        isTransfer: 'Cập nhật trạm cho phép truyền',
+        updateFTP: 'Cập nhật thông tin FTP',
+        publicStation: 'Cập nhật trạm công bố',
+        view: 'Xem',
+        camera: 'Camera',
+        control: 'Lấy mẫu',
+        chart: 'Biểu đồ',
+        map: 'Bản đồ',
+        images: 'Hình ảnh',
+        infoStation: 'Thông tin trạm',
+        reviewStation: 'Đánh giá trạm',
+        create: 'Thêm mới',
+        edit: 'Cập nhật',
+        delete: 'Xóa',
+        export: 'Xuất dữ liệu',
+        manualapprove: 'Kiểm duyệt tùy chọn',
+        unapprove: 'Hủy kiểm duyệt',
+        approve: 'Kiểm duyệt',
+        restore: 'Khôi phục',
+        remove: 'Loại bỏ dữ liệu'
       }
-    }
+    },
   },
   subscriptionStatus: {
     breadcrumb: {
@@ -1130,7 +1231,8 @@ export default {
     failure: 'Kích hoạt bảo mật 2 lớp thành công',
     message: {
       userUse: 'Bạn đang sử dụng tính năng bảo mật 2 lớp qua {{=it.type}}',
-      code: 'Mã xác thực đã được gửi tới: {{=it.phone}} (sẽ hết hạn sau 10 phút)' ,
+      code:
+        'Mã xác thực đã được gửi tới: {{=it.phone}} (sẽ hết hạn sau 10 phút)',
       info: `Lựa chọn phương thức xác thực khi đăng nhập:`
     },
     step1: 'Nhập code',
@@ -1165,6 +1267,7 @@ export default {
     errors: {
       emailOrPasswordIncorrect: 'Emai hoặc mật khẩu không đúng',
       accountDisable: 'Tài khoản của bạn bị vô hiệu hoá',
+      accountDelete: 'Tài khoản của bạn bị xóa',
       accountNotActivated: 'Tài khoản chưa được kích hoạt',
       codeNotEqual: 'Mã xác thực không chính xác',
       organizationNotExist: 'Tổ chức của bạn không tồn tại'
@@ -1200,7 +1303,8 @@ export default {
     },
     onDelete: {
       success: 'Xoá thành công',
-      error: 'Xoá thất bại'
+      error: 'Xoá thất bại',
+      warning: 'Bạn không thể xóa tài khoản của chính mình'
     },
     onRestore: {
       success: 'Khôi phục thành công',
@@ -1214,7 +1318,7 @@ export default {
   },
   error: {
     text: 'Lỗi',
-  warningText: 'Chú ý',
+    warningText: 'Chú ý',
     require: 'Yêu cầu',
     email: 'Địa chỉ Email không hợp lệ',
     nullValue: 'Dữ liệu không hợp lệ',
@@ -1222,8 +1326,9 @@ export default {
       sampling: {
         resetTitle: 'Xác nhận',
         resetSubtitle: 'Bạn có muốn reset số chai đã lấy về 0?',
-        updateScheduleTitle: "Xác nhận",
-        updateScheduleSubtitle: "Số chai muốn lấy không hợp lệ hoặc thời gian bắt đầu lấy nhỏ hơn 5 phút so với thời điểm hiện tại",
+        updateScheduleTitle: 'Xác nhận',
+        updateScheduleSubtitle:
+          'Số chai muốn lấy không hợp lệ hoặc thời gian bắt đầu lấy nhỏ hơn 5 phút so với thời điểm hiện tại',
         takeSampling: `
         <div style="text-align: left">
           <p>Không kết nối được với thiết bị điều khiển, vui lòng kiểm tra các thông tin:</p>
@@ -1240,7 +1345,7 @@ export default {
       title: 'Xác nhận',
       monitoring: {
         sampling: {
-          cancelSchedule: "Bạn có chắc muốn hủy lấy mẫu tự động?"
+          cancelSchedule: 'Bạn có chắc muốn hủy lấy mẫu tự động?'
         }
       }
     }
@@ -1258,7 +1363,7 @@ export default {
   },
   menuApp: {
     dashboard: 'Trang Chủ',
-    
+
     monitoringSub: 'Khai thác dữ liệu',
     monitoring: {
       base: 'Giám sát trực tuyến',
@@ -1266,7 +1371,7 @@ export default {
       camera: 'Camera',
       historyData: 'Tra cứu dữ liệu',
       avgData: 'Dữ liệu trung bình',
-      report: 'Báo cáo',
+      report: 'Báo cáo'
     },
 
     processDataSub: 'Xử lý dữ liệu',
@@ -1277,7 +1382,7 @@ export default {
     shareDataSub: 'Chia sẻ dữ liệu',
     shareData: {
       shareConfig: 'Cấu hình chia sẻ dữ liệu',
-      ftpConfig: 'Cấu hình truyền FTP',
+      ftpConfig: 'Cấu hình truyền FTP'
     },
 
     advanceSub: 'Nâng cao',
@@ -1299,7 +1404,6 @@ export default {
       role: 'Nhóm quyền',
       user: 'Tài khoản'
     },
-
 
     camera: 'Camera',
     map: 'Bản đồ',
@@ -1365,39 +1469,39 @@ export default {
     perRecData: 'Tỉ lệ nhận dữ liệu',
     perRecDataFrom: {
       breadCrumb: 'Thống kê tỉ lệ nhận dữ liệu',
-      time:'Thời gian',
+      time: 'Thời gian',
       totalFile: 'Tổng số file/ngày',
       totalFileReceivedAt: 'Tổng số file truyền về',
-      perFileReceivedAt:'Tỉ lệ file truyền về (%)'
+      perFileReceivedAt: 'Tỉ lệ file truyền về (%)'
     },
     exceededFrom: {
       breadCrumb: 'Thống kê số lần vượt ngưỡng/ngày',
-      time:'Thời gian',
+      time: 'Thời gian',
       totalFile: 'Tổng số file/ngày',
       totalFileReceivedAt: 'Tổng số file truyền về',
-      perFileReceivedAt:'Tỉ lệ file truyền về (%)'
+      perFileReceivedAt: 'Tỉ lệ file truyền về (%)'
     },
     aqi: {
-      menuApp:'AQI',
+      menuApp: 'AQI',
       breadCrumb: 'Chỉ số AQI giờ - ngày',
       selectMonths: 'Chọn tháng',
-      time:'Thời gian',
-      day:'Ngày',
-      title:'Giá trị AQI theo giờ',
-
+      time: 'Thời gian',
+      day: 'Ngày',
+      title: 'Giá trị AQI theo giờ'
     },
     wqi: {
-      menuApp:'WQI',
+      menuApp: 'WQI',
       breadCrumb: 'Chỉ số WQI',
       selectMonths: 'Chọn tháng',
-      time:'Thời gian',
-      day:'Ngày',
-      title:'Giá trị WQI theo giờ'
+      time: 'Thời gian',
+      day: 'Ngày',
+      title: 'Giá trị WQI theo giờ'
     }
   },
   pageInfo: {
     header: 'Thông báo',
-    body1: 'Đây là chức năng thuộc phiên bản Nâng cao, vui lòng liên hệ với chúng tôi để biết thêm thông tin:',
+    body1:
+      'Đây là chức năng thuộc phiên bản Nâng cao, vui lòng liên hệ với chúng tôi để biết thêm thông tin:',
     body2: 'Email: sales@vietan-software.com'
   },
   stationStatus: {
@@ -1411,4 +1515,4 @@ export default {
     exceededTendency: 'Có xu hướng vượt',
   }
 }
-// 
+//

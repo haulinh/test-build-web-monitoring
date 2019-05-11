@@ -166,7 +166,7 @@ const groupManager = {
       ROLE.STATION_AUTO.VIEW,
       ROLE.PROVINCE.VIEW,
       ROLE.QCVN.VIEW,
-     // ROLE.STATION_FIXED.VIEW,
+      // ROLE.STATION_FIXED.VIEW,
       ROLE.CONFIG_WQI.VIEW
     ],
     'group'
@@ -375,7 +375,12 @@ const statisticWQIMenu = {
 const groupStatistic = {
   component: protectRole(
     '',
-    [ROLE.STATISTIC.EXCEEDED, ROLE.STATISTIC.PER_REC_DATA, ROLE.STATISTIC.AQI, ROLE.STATISTIC.WQI],
+    [
+      ROLE.STATISTIC.EXCEEDED,
+      ROLE.STATISTIC.PER_REC_DATA,
+      ROLE.STATISTIC.AQI,
+      ROLE.STATISTIC.WQI
+    ],
     'group'
   )(
     <NavigationWrapper text={translate('menuApp.groupStatistic')}>

@@ -43,9 +43,8 @@ export default class StationAutoItem extends React.PureComponent {
 
   handleShowPanel(panelName) {
     if (this.state.showPanel === panelName)
-      return this.setState({showPanel: ''})
-    else 
-      return this.setState({showPanel: panelName})
+      return this.setState({ showPanel: '' })
+    else return this.setState({ showPanel: panelName })
   }
 
   handleClickDataSearchWithMeasuring(measuringItem) {
@@ -144,8 +143,6 @@ export default class StationAutoItem extends React.PureComponent {
       receivedAt = translate('monitoring.notUse')
     }
 
-    
-
     return (
       <StationAutoWrapper className="stationAutoWrapper">
         <StationAutoHead
@@ -168,17 +165,16 @@ export default class StationAutoItem extends React.PureComponent {
           data={this.measuringLastLog()}
         />
 
-        <MoreContent 
-          isActive={true} 
+        <MoreContent
+          isActive={true}
           stationID={_id}
           panel={this.state.showPanel}
           stationInfo={this.props}
         />
 
-        {this.state.isOpenCamera &&
-          get(options, 'camera.allowed') && (
-            <CameraListView cameraList={get(options, 'camera.list', [])} />
-          )}
+        {this.state.isOpenCamera && get(options, 'camera.allowed') && (
+          <CameraListView cameraList={get(options, 'camera.list', [])} />
+        )}
       </StationAutoWrapper>
     )
   }

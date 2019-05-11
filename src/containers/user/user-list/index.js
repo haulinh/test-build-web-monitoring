@@ -23,6 +23,8 @@ import format from 'string-format'
 import { translate } from 'hoc/create-lang'
 import moment from 'moment/moment'
 import authApi from 'api/AuthApi'
+import { connect } from 'react-redux'
+import { get as _get } from 'lodash'
 
 const AccountWapper = styled.div`
   display: flex;
@@ -74,6 +76,9 @@ const Span = styled.span`
   apiDelete: UserApi.removeOne
 })
 @createLanguageHoc
+@connect(state => ({
+  userInfo: state.auth.userInfo
+}))
 @autobind
 export default class UserList extends React.Component {
   static propTypes = {
@@ -86,8 +91,9 @@ export default class UserList extends React.Component {
     lang: langPropTypes
   }
 
-  state = { 
-    user_id: null, password: ''
+  state = {
+    user_id: null,
+    password: ''
   }
 
   async componentWillMount() {}
@@ -176,15 +182,18 @@ export default class UserList extends React.Component {
     this.setState({ user_id: null, password: '' })
   }
 
-  async handleModalSubmit () {
+  async handleModalSubmit() {
     try {
       const { user_id, password } = this.state
 
       if (password) {
         const rs = await authApi.postSetPassword({ _id: user_id, password })
-        if (!rs) message.error(this.props.lang.t('userManager.list.setPasswordFailure'))
+        if (!rs)
+          message.error(
+            this.props.lang.t('userManager.list.setPasswordFailure')
+          )
       }
-      message.success(this.props.lang.t('userManager.list.setPasswordSuccess')) 
+      message.success(this.props.lang.t('userManager.list.setPasswordSuccess'))
     } catch (error) {
       message.error(this.props.lang.t('userManager.list.setPasswordFailure'))
     }
@@ -251,9 +260,7 @@ export default class UserList extends React.Component {
         )}
         {protectRole('')(
           <Menu.Item key="4">
-            <div
-              onClick={e => this.handleModalOpen(e, row._id)}
-            >
+            <div onClick={e => this.handleModalOpen(e, row._id)}>
               <IconButton type="lock" />
               {t('userManager.list.setPassword')}
             </div>
@@ -293,11 +300,12 @@ export default class UserList extends React.Component {
     return [
       { content: '#', width: 2 },
       { content: t('userManager.list.email'), width: 30 },
-      { content: t('userManager.list.country'), width: 20 },
-      { content: t('userManager.list.status'), width: 10 },
+      { content: t('userManager.list.country'), width: 17 },
+      { content: t('userManager.list.status'), width: 8 },
       { content: t('userManager.list.createdAt'), width: 15 },
-      { content: t('userManager.list.action'), width: 10 },
-      { content: t('userManager.list.login'), width: 15 }
+      { content: t('userManager.list.roleName'), width: 10 },
+      { content: t('userManager.list.action'), width: 8 },
+      { content: t('userManager.list.login') }
     ]
   }
 
@@ -316,44 +324,46 @@ export default class UserList extends React.Component {
       {
         content: (
           <div>
-            {row.phone &&
-              row.phone.iso2 && (
-                <AccountWapper>
-                  <AvatarCharacter
-                    size={32}
-                    username={row.email}
-                    avatarUrl={row.avatar}
-                  />
-                  <ClearFix width={4} />
-                  <AccountInfo>
-                    <Span
-                      className={'email'}
-                      deleted={row.removeStatus && row.removeStatus.allowed}
-                    >
-                      {row.email}
-                    </Span>
-                    <Span
-                      className={'full-name '}
-                      deleted={row.removeStatus && row.removeStatus.allowed}
-                    >{`${row.lastName} ${row.firstName}`}</Span>
-                  </AccountInfo>
-                </AccountWapper>
-              )}
+            {row.phone && row.phone.iso2 && (
+              <AccountWapper>
+                <AvatarCharacter
+                  size={32}
+                  username={row.email}
+                  avatarUrl={row.avatar}
+                />
+                <ClearFix width={4} />
+                <AccountInfo>
+                  <Span
+                    className={'email'}
+                    deleted={row.removeStatus && row.removeStatus.allowed}
+                  >
+                    {row.email}
+                  </Span>
+                  <Span
+                    className={'full-name '}
+                    deleted={row.removeStatus && row.removeStatus.allowed}
+                  >{`${row.lastName} ${row.firstName}`}</Span>
+                </AccountInfo>
+              </AccountWapper>
+            )}
           </div>
         )
       },
       {
         content: (
           <div>
-            {row.phone &&
-              row.phone.iso2 && (
-                <div style={{ display: 'flex' }}>
+            {row.phone && row.phone.iso2 && (
+              <div style={{ display: 'flex', justifyItems: 'center' }}>
+                <div style={{ paddingRight: '4px' }}>
                   <ReactCountryFlag code={row.phone.iso2} />
+                </div>
+                <div>
                   <Span deleted={row.removeStatus && row.removeStatus.allowed}>
                     {row.phone ? row.phone.name : ''}
                   </Span>
                 </div>
-              )}
+              </div>
+            )}
           </div>
         )
       },
@@ -381,6 +391,9 @@ export default class UserList extends React.Component {
         )
       },
       {
+        content: <Span> {_get(row, 'role.name', '')}</Span>
+      },
+      {
         content: <span>{this.actionGroup(row)}</span>
       },
       {
@@ -395,22 +408,27 @@ export default class UserList extends React.Component {
 
   async onDeleteItem(_id, callback) {
     const {
-      lang: { t }
+      lang: { t },
+      userInfo
     } = this.props
-    Modal.confirm({
-      title: 'Do you want to delete these items?',
-      onOk() {
-        return new Promise(async (resolve, reject) => {
-          const res = await UserApi.deleteOne(_id)
-          if (res.success) {
-            message.info(t('addon.onDelete.success'))
-            callback()
-          } else message.error(t('addon.onDelete.error'))
-          resolve()
-        }).catch(() => console.log('Oops errors!'))
-      },
-      onCancel() {}
-    })
+    if (userInfo._id === _id) {
+      message.warning(t('addon.onDelete.warning'))
+    } else {
+      Modal.confirm({
+        title: 'Do you want to delete these items?',
+        onOk() {
+          return new Promise(async (resolve, reject) => {
+            const res = await UserApi.deleteOne(_id)
+            if (res.success) {
+              message.info(t('addon.onDelete.success'))
+              callback()
+            } else message.error(t('addon.onDelete.error'))
+            resolve()
+          }).catch(() => console.log('Oops errors!'))
+        },
+        onCancel() {}
+      })
+    }
   }
 
   async onRestoreItem(_id, callback) {
@@ -437,17 +455,20 @@ export default class UserList extends React.Component {
     return (
       <PageContainer center={this.renderSearchForm()} right={this.buttonAdd()}>
         <Breadcrumb items={['list']} />
-        <DynamicTable
-          loading={this.props.isLoading}
-          rows={this.getRows()}
-          head={this.getHead()}
-          paginationOptions={{
-            isSticky: true
-          }}
-          onSetPage={this.props.onChangePage}
-          pagination={this.props.pagination}
-        />
-         <Modal
+        {this.props.dataSource && (
+          <DynamicTable
+            loading={this.props.isLoading}
+            rows={this.getRows()}
+            head={this.getHead()}
+            paginationOptions={{
+              isSticky: true
+            }}
+            onSetPage={this.props.onChangePage}
+            pagination={this.props.pagination}
+          />
+        )}
+
+        <Modal
           title={this.props.lang.t('userManager.list.setPassword')}
           visible={!!this.state.user_id}
           onOk={() => this.handleModalSubmit()}
@@ -455,7 +476,12 @@ export default class UserList extends React.Component {
           cancelText={this.props.lang.t('addon.reset')}
           okText={this.props.lang.t('addon.save')}
         >
-          <Input value={this.state.password} type='password' placeholder={this.props.lang.t('userManager.form.password.label')} onChange={this.handlePasswordText}/>
+          <Input
+            value={this.state.password}
+            type="password"
+            placeholder={this.props.lang.t('userManager.form.password.label')}
+            onChange={this.handlePasswordText}
+          />
         </Modal>
       </PageContainer>
     )
