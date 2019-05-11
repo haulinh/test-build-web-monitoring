@@ -260,7 +260,8 @@ export default {
       viewMore: {
         sampling: 'Sampling',
         camera: 'Camera',
-        viewData: 'View Data'
+        viewData: 'View Data',
+        detail: 'Detail'
       }
     },
     marker: {

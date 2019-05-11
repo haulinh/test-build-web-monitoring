@@ -260,7 +260,8 @@ export default {
       viewMore: {
         sampling: 'Lấy mẫu',
         camera: 'Camera',
-        viewData: 'Hiển thị dữ liệu'
+        viewData: 'Hiển thị dữ liệu',
+        detail: 'Chi tiết'
       }
     },
     marker: {

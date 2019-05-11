@@ -52,6 +52,19 @@ export default class InfoWindowViewMore extends React.PureComponent {
   handleClickCamera() {}
 
   handleClickSampling() {}
+
+  handleClickDetail(e){
+    e.preventDefault()
+    const formSearch = {
+      stationType: this.props.stationTypeKey,
+      stationAuto: this.props.stationKey,
+      measuringList: this.props.measuringList.map(m => m.key),
+      measuringData: this.props.measuringList,
+      searchNow: true
+    }
+    const url = slug.monitoring.base + '?formData=' +encodeURIComponent(JSON.stringify(formSearch))
+    window.open(url, '_blank')
+  }
   render() {
     const options = this.props.options
     const isCamera = options && options.camera && options.camera.allowed
@@ -98,7 +111,7 @@ export default class InfoWindowViewMore extends React.PureComponent {
     )
     return (
       <WrapperViewMore>
-        <Dropdown
+        {/* <Dropdown
           getPopupContainer={() => {
             if (window.map) {
               return window.map.getDiv().firstChild
@@ -108,11 +121,18 @@ export default class InfoWindowViewMore extends React.PureComponent {
           }}
           overlay={dropdown}
           trigger={['click']}
-        >
+        > */}
           <LinkSpan className="ant-dropdown-link">
-            <Icon type="right" /> {translate('dashboard.viewMore')}
-          </LinkSpan>
-        </Dropdown>
+            <Icon type="right" />
+            <LinkA
+              onClick={this.handleClickDetail} 
+              target="_blank"
+            >
+              {translate('map.dataTable.viewMore.detail')}
+            </LinkA>
+            
+          </LinkSpan> 
+        {/* </Dropdown> */}
       </WrapperViewMore>
     )
   }

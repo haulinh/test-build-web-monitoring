@@ -84,6 +84,8 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
     },
     dataSeries[0].data[0].y
   )
+
+  const plusMax = 10
   // console.log(tempMin, tempMax, 'tempMin, tempMax')
   if (isMinLimit && isMaxLimit) {
     if (tempMin < minLimit) {
@@ -92,9 +94,9 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
     }
   } else if (isMinLimit && isMaxLimit === false) {
     if (tempMax > minLimit) {
-      maxLimitValue = tempMax + 10 // cong them
+      maxLimitValue = tempMax + plusMax // cong them
     } else if (tempMin < minLimit) {
-      maxLimitValue = minLimit + 10 // cong them
+      maxLimitValue = minLimit + plusMax // cong them
     }
   } else if (isMinLimit === false && isMaxLimit) {
     if (tempMax > maxLimit) {
@@ -131,7 +133,7 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
           color: 'red',
           width: 1,
           label: {
-            text: `${i18n.minLimit}: ${getFormatNumber(minLimit)}`
+            text: `${i18n.minLimit}: ${getFormatNumber(minLimit)}`,
           },
           zIndex: 4
         },
@@ -140,7 +142,8 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
           color: 'red',
           width: 1,
           label: {
-            text: `${i18n.maxLimit}: ${getFormatNumber(maxLimit)}`
+            text: `${i18n.maxLimit}: ${getFormatNumber(maxLimit)}`,
+            y:12,
           },
           zIndex: 4
         }
@@ -190,10 +193,7 @@ export default class ChartRowToChart extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      !_.isEqual(nextProps.chartType, this.props.chartType) ||
-      !_.isEqual(nextProps.isOpen, this.props.isOpen)
-    ) {
+    if (!_.isEqual(nextProps.chartType, this.props.chartType) || !_.isEqual(nextProps.isOpen, this.props.isOpen)) {
       debugger
       this.loadDataBy(this.props.stationData, nextProps.chartType)
     }
@@ -236,8 +236,7 @@ export default class ChartRowToChart extends React.Component {
           )
 
           //Cập nhật trạng thái to from cho chart
-          const station_FORMAT =
-            type === 'hours' ? DD_MM_YYYY_HH_MM : DD_MM_YYYY
+          const station_FORMAT = type === 'hours' ? DD_MM_YYYY_HH_MM : DD_MM_YYYY
           this.setState({
             strToDate: moment(toDate).format(station_FORMAT),
             strFromDate: moment(fromDate).format(station_FORMAT)
@@ -339,10 +338,7 @@ export default class ChartRowToChart extends React.Component {
         }
       }
       //Nếu đã chọn chỉ tiêu rồi thì không cần refresh lại
-      current =
-        this.state.current.length > 0
-          ? this.state.current
-          : _.toArray(categories)
+      current = this.state.current.length > 0 ? this.state.current : _.toArray(categories)
     }
     // this.setState({ categories, current, day, data: results, isShowAll: true })
     this.setState({
@@ -406,30 +402,16 @@ export default class ChartRowToChart extends React.Component {
         <div className="monitoring-chart--to-from">
           <Row gutter={4}>
             <Col sm={3} className="monitoring-chart--to-from__align-right">
-              <Label className="monitoring-chart--to-from__font-weight">
-                {i18n.to}
-              </Label>
+              <Label className="monitoring-chart--to-from__font-weight">{i18n.to}</Label>
             </Col>
             <Col sm={9}>
-              <InputEditCell
-                disabled={true}
-                editable={true}
-                size="small"
-                value={this.state.strFromDate}
-              />
+              <InputEditCell disabled={true} editable={true} size="small" value={this.state.strFromDate} />
             </Col>
             <Col sm={3} className="monitoring-chart--to-from__align-right">
-              <Label className="monitoring-chart--to-from__font-weight">
-                {i18n.from}
-              </Label>
+              <Label className="monitoring-chart--to-from__font-weight">{i18n.from}</Label>
             </Col>
             <Col sm={9}>
-              <InputEditCell
-                disabled={true}
-                editable={true}
-                size="small"
-                value={this.state.strToDate}
-              />
+              <InputEditCell disabled={true} editable={true} size="small" value={this.state.strToDate} />
             </Col>
           </Row>
         </div>
@@ -454,10 +436,7 @@ export default class ChartRowToChart extends React.Component {
               >
                 {console.log(this.state.isLoading, 'this.state.isLoading')}
                 {_.map(this.state.categories, ({ key, name, unit }) => (
-                  <TabPane
-                    tab={unit ? `${name} (${unit})` : `${name}`}
-                    key={key}
-                  />
+                  <TabPane tab={unit ? `${name} (${unit})` : `${name}`} key={key} />
                 ))}
                 {/* {_.map(this.state.categories, ({ key, name, unit }) => {
                 if(! (key === 'COD')) return null
