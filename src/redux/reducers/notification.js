@@ -7,6 +7,11 @@ import {
   PREPEND_DATA_SOURCE,
   UPDATE_DATA_SOURCE,
   TOGGLE_LOADING,
+
+  EXCEEDED_LOADING,
+  EXCEEDED_LOADED
+
+
 } from '../actions/notification'
 
 const {
@@ -21,28 +26,32 @@ const initialState = {
   defaultStartPage: 1,
   currentPage: 0,
   count: {
-    total: 0,
-    exceeded: 0,
-    lostSignal: 0,
-    sensorError: 0
+    total: 23,
+    exceeded: 10,
+    lostSignal: 4,
+    sensorError: 9
   },
   logs: {
     exceeded: [],
     lostSignal: [],
     sensorError: [],
-  }
+  },
+  isLoadingExceeded: false
 }
 
 export default function handleNotificationStore(state = initialState, action) {
   const cloneState = _.clone(state)
   const {type, payload} = action
   switch (type) {
+    case EXCEEDED_LOADING: return {...state, isLoadingExceeded: true }
+    case EXCEEDED_LOADED: return {...state, isLoadingExceeded: false }
+
     case TOGGLE_LOADING: 
       return handleToggleLoading(cloneState, payload)
     case CLEAR_COUNTS: 
       return handleClearCount(cloneState, payload)
     case UPDATE_COUNTS: 
-      return handleUpdateCount(cloneState, payload)
+      return {...state, ...payload}
     case PREPEND_DATA_SOURCE: 
       return state
     case UPDATE_DATA_SOURCE:
@@ -96,28 +105,6 @@ function handleClearCount(cloneState, type) {
   
   return _.assign(
     cloneState,
-    { count: {total, exceeded, lostSignal, sensorError} }
-  )
-}
-
-/* NOTE  handle action: getTotalByNotificationType */
-/* DONE */
-function handleUpdateCount(cloneState, data) {
-  let exceeded = _.find(data, {_id: 'EXCEEDED'})
-  let lostSignal = _.find(data, {_id: 'DATA_LOSS'})
-  let sensorError = _.find(data, {_id: 'ERROR'})
-
-  let rawExceeded = cloneState.count.exceeded
-  let rawLostSignal = cloneState.count.lostSignal
-  let rawSensorError = cloneState.count.sensorError
-
-  exceeded = exceeded ? exceeded.count + rawExceeded : rawExceeded
-  lostSignal = lostSignal ? lostSignal.count + rawLostSignal : lostSignal
-  sensorError = sensorError ? sensorError.count + rawSensorError : rawSensorError
-  const total = _.sum([exceeded, lostSignal, sensorError])
-
-  return _.assign(
-    cloneState, 
     { count: {total, exceeded, lostSignal, sensorError} }
   )
 }

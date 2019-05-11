@@ -29,7 +29,8 @@ export function getConfigApi() {
     stationConfig: c('config/station'), //stationConfig: 'http://localhost:5002/config/station'
     ftp: c('ftp'),
     fcmMessages: c('fcm-messages'),
-    fcmNotification: c('fcm-notification'),
+    fcmNotification: 'http://localhost:5008/fcm-notification',
+    // fcmNotification: c('fcm-notification'),
     organization: c('organization'),
     role: c('role'),
     // sampling: 'http://localhost:5020/samplingNew',

@@ -44,7 +44,7 @@ const globalTheme = createGlobalTheme('#ffffff', '#1d89ce')
 @connectAutoDispatch(
   state => ({
     authInfo: state.auth.userInfo,
-    notificationTotal: state.notification.count.total,
+    notificationCount: state.notification.count,
   }),
   { logout, getTotalByNotificationType }
 )
@@ -59,7 +59,7 @@ export default class BasicNestedNavigation extends React.Component {
     logout: PropTypes.func,
     navigation: PropTypes.object,
     /* Redux's props */
-    notificationTotal: PropTypes.number.isRequired,
+    notificationCount: PropTypes.object.isRequired,
     getTotalByNotificationType: PropTypes.func.isRequired
   }
 
@@ -134,7 +134,7 @@ export default class BasicNestedNavigation extends React.Component {
   globalSecondaryActions() {
     return [
       /* MARK  icon notification */
-      <Badge style={{cursor: 'pointer'}} count={this.props.notificationTotal} onClick={() => this.setState({isShowNotifyDrawer: true})}>
+      <Badge style={{cursor: 'pointer'}} count={this.props.notificationCount.total} onClick={() => this.setState({isShowNotifyDrawer: true})}>
         <NotificationIcon size="large" primaryColor="orange" />
       </Badge>,
       <AkDropdownMenu
@@ -210,7 +210,7 @@ export default class BasicNestedNavigation extends React.Component {
   }
 
   async componentDidMount() {
-    this.props.getTotalByNotificationType()
+    this.props.getTotalByNotificationType(this.props.notificationCount)
   }
 
   render() {
