@@ -491,6 +491,7 @@ export default {
         label: 'Action'
       },
       error: 'Error',
+      errorStationExist: 'Cannot Delete Because There Station Using This Station Type',
       color: {
         label: 'Color',
         placeholder: 'Choose Color'
