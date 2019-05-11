@@ -491,6 +491,7 @@ export default {
         label: ' '
       },
       error: 'Lỗi',
+      errorStationExist: 'Không thể xóa vì có trạm sử dụng loại trạm này',
       color: {
         label: 'Màu sắc',
         placeholder: 'Chọn màu'

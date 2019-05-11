@@ -152,7 +152,6 @@ export default class StationAutoList extends React.Component {
     )
 
     let stationCount = _.countBy(sourceSorted, 'stationType.key')
-    console.log('stationCount: ', stationCount)
     //logic return groupRow or groupRow and Row
     let result = [].concat.apply(
       [],

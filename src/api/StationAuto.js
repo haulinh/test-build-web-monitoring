@@ -20,6 +20,13 @@ export function getStationAuto(key) {
   return getFetch(getStationAutoUrl(key))
 }
 
+// NOTE stationType_id là _id của stationType
+export function getTotalCount_by_type(stationType_id) {
+  let url = getStationAutoUrl(`/count/total-station-by-type`)
+  if (stationType_id) url += `?stationType=${stationType_id}`
+  return getFetch(url)
+}
+
 export function getTotalCount() {
   return getFetch(getStationAutoUrl('subscription/total-count'))
 }
