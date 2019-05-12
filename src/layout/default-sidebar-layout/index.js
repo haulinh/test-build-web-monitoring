@@ -11,6 +11,16 @@ import { linkToken2Email } from 'api/NotificationApi'
 import { notification } from 'antd'
 import { TAB_KEYS } from 'constants/notification'
 
+function _showNotification(title, description) {
+  notification['info']({
+    message: title,
+    description: description,
+    onClick: () => {
+      console.log('Notification Clicked!');
+    },
+  });
+}
+
 const Wrapper = styled.div`
   .zJwEi {
     min-height: 100vh;
@@ -52,23 +62,9 @@ export default class PageWrapper extends Component {
       });
     
     messaging.onMessage((payload) => {
-      // this._showNotification(payload)
-      this.props.updateNotificationOnMessage(payload)
-    });
-   
-    //  navigator.serviceWorker.addEventListener("message", message =>{
-    //    // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
-    //   console.log('message noti',message)
-    // });
-  }
+      console.log('------', payload)
+      const {data, notification} = payload
 
-  state = {
-    navigationWidth: 320
-  };
-
-  _showNotification(payload) {
-    console.log('------', payload)
-    const {data, notification} = payload
       let description = ''
       switch(data.type) {
         case TAB_KEYS.EXCEEDED: {
@@ -84,11 +80,20 @@ export default class PageWrapper extends Component {
           break;
         }
       }
-      notification['info']({
-        message: notification.title,
-        description: description,
-      });
+      
+      _showNotification(notification.title, description)
+      this.props.updateNotificationOnMessage(payload)
+    });
+   
+    //  navigator.serviceWorker.addEventListener("message", message =>{
+    //    // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
+    //   console.log('message noti',message)
+    // });
   }
+
+  state = {
+    navigationWidth: 320
+  };
 
   getNavigation() {
     return {
