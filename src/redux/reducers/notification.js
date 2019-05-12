@@ -3,8 +3,9 @@ import _ from 'lodash';
 import { TAB_KEYS } from 'constants/notification'
 import {
   UPDATE_COUNTS,
+  UPDATE_ALL_COUNTS,
   CLEAR_COUNTS,
-  PREPEND_DATA_SOURCE,
+  NEW_MESSAGE,
   UPDATE_DATA_SOURCE,
   TOGGLE_LOADING,
 
@@ -12,11 +13,11 @@ import {
   EXCEEDED_LOADED
 } from '../actions/notification'
 
-const {
-  EXCEEDED,
-  LOST_SIGNAL,
-  SENSOR_ERROR
-} = TAB_KEYS
+// const {
+//   EXCEEDED,
+//   LOST_SIGNAL,
+//   SENSOR_ERROR
+// } = TAB_KEYS
 
 
 export const initialState = {
@@ -24,10 +25,10 @@ export const initialState = {
   defaultStartPage: 1,
   currentPage: 0,
   count: {
-    total: 23,
-    exceeded: 10,
-    lostSignal: 4,
-    sensorError: 9
+    total: 0,
+    exceeded: 0,
+    lostSignal: 0,
+    sensorError: 0
   },
   logs: {
     exceeded: [],
@@ -49,9 +50,11 @@ export default function handleNotificationStore(state = initialState, action) {
     case CLEAR_COUNTS: 
       return handleClearCount(cloneState, payload)
     case UPDATE_COUNTS: 
-      return {...state, ...payload}
-    case PREPEND_DATA_SOURCE: 
-      return state
+      return handleUpdateCount(cloneState, payload)
+    case UPDATE_ALL_COUNTS: 
+      return handleUpdateAllCount(cloneState, payload)
+    case NEW_MESSAGE: 
+      return handleNewMessage(cloneState, payload)
     case UPDATE_DATA_SOURCE:
       return handleUpdateDataSource(cloneState, payload)
     default:
@@ -60,6 +63,7 @@ export default function handleNotificationStore(state = initialState, action) {
 }
 
 /* NOTE  handle action: toggleLoading */
+/* DONE  */
 function handleToggleLoading(cloneState, flag) {
   console.log('---- loading ----', flag)
   cloneState.loading = flag
@@ -67,42 +71,41 @@ function handleToggleLoading(cloneState, flag) {
 }
 
 /* NOTE  handle action: loadNotificationsByType */
-/* TODO  MOCKUP, NO REAL */
+/* DONE  */
 function handleUpdateDataSource(cloneState, payload) {
-  if (payload.type === EXCEEDED) {
-    cloneState.logs.exceeded = _.concat(cloneState.logs.exceeded, payload.data)
-  }
-  else if (payload.type === LOST_SIGNAL) {
-    cloneState.logs.lostSignal = _.concat(cloneState.logs.lostSignal, payload.data)
-  }
-  else if (payload.type === SENSOR_ERROR) {
-    cloneState.logs.sensorError = _.concat(cloneState.logs.sensorError, payload.data)
-  }
+  const {type, data} = payload
+  cloneState.logs[type] = [...cloneState.logs[type], ...data]
   return cloneState
 }
 
 /* NOTE  handle action: clearNotificationCountByType */
 /* DONE */
 function handleClearCount(cloneState, type) {
-  let { total, exceeded, lostSignal, sensorError } = cloneState.count
-  switch(type) {
-    case EXCEEDED: {
-      exceeded = 0
-      break
-    }
-    case LOST_SIGNAL: {
-      lostSignal = 0
-      break
-    }
-    case SENSOR_ERROR: {
-      sensorError = 0
-      break
-    }
-  }
-  total = _.sum([exceeded, lostSignal, sensorError])
+  cloneState.count[type] = 0
+
+  let { exceeded, lostSignal, sensorError } = cloneState.count
+  cloneState.count.total = _.sum([exceeded, lostSignal, sensorError])
   
-  return _.assign(
-    cloneState,
-    { count: {total, exceeded, lostSignal, sensorError} }
-  )
+  return cloneState
+}
+
+/* DONE */
+function handleUpdateCount(cloneState, payload) {
+  let {type, count} = payload
+  cloneState.count[type] += count
+  cloneState.count.total += count
+  return cloneState
+}
+
+/* DONE */
+function handleUpdateAllCount(cloneState, payload) {
+  cloneState.count = payload
+  return cloneState
+}
+
+/* DONE */
+function handleNewMessage(cloneState, payload) {
+  const {type, data} = payload
+  cloneState.logs[type] = [data, ...cloneState.logs[type]]
+  return cloneState
 }

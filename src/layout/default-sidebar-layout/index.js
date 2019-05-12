@@ -8,6 +8,8 @@ import { toggleNavigation } from "redux/actions/themeAction";
 import { updateNotificationOnMessage } from "redux/actions/notification";
 import { autobind } from "core-decorators";
 import { linkToken2Email } from 'api/NotificationApi'
+import { notification } from 'antd'
+import { TAB_KEYS } from 'constants/notification'
 
 const Wrapper = styled.div`
   .zJwEi {
@@ -50,6 +52,7 @@ export default class PageWrapper extends Component {
       });
     
     messaging.onMessage((payload) => {
+      // this._showNotification(payload)
       this.props.updateNotificationOnMessage(payload)
     });
    
@@ -62,6 +65,30 @@ export default class PageWrapper extends Component {
   state = {
     navigationWidth: 320
   };
+
+  _showNotification(payload) {
+    console.log('------', payload)
+    const {data, notification} = payload
+      let description = ''
+      switch(data.type) {
+        case TAB_KEYS.EXCEEDED: {
+          description = 'Thông báo vượt ngưỡng' /* MARK  @translate */
+          break;
+        }
+        case TAB_KEYS.LOST_SIGNAL: {
+          description = 'Thông báo mất dữ liệu' /* MARK  @translate */
+          break;
+        }
+        case TAB_KEYS.SENSOR_ERROR: {
+          description = 'Thông báo trạng thái thiết bị' /* MARK  @translate */
+          break;
+        }
+      }
+      notification['info']({
+        message: notification.title,
+        description: description,
+      });
+  }
 
   getNavigation() {
     return {

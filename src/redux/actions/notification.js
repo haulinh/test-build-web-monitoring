@@ -5,9 +5,11 @@ import NotificationAPI from 'api/NotificationApi'
 import { initialState } from '../reducers/notification'
 
 export const UPDATE_COUNTS         = 'NOTIFICATION/UPDATE_COUNTS'
+export const UPDATE_ALL_COUNTS         = 'NOTIFICATION/UPDATE_ALL_COUNTS'
 export const CLEAR_COUNTS          = 'NOTIFICATION/CLEAR_COUNTS'
-export const PREPEND_DATA_SOURCE   = 'NOTIFICATION/PREPEND_DATA_SOURCE'
+export const NEW_MESSAGE   = 'NOTIFICATION/NEW_MESSAGE'
 export const UPDATE_DATA_SOURCE    = 'NOTIFICATION/UPDATE_DATA_SOURCE'
+export const UPDATE_DATA_SOURCE_ON_MESSAGE    = 'NOTIFICATION/UPDATE_DATA_SOURCE_ON_MESSAGE'
 export const TOGGLE_LOADING        = 'NOTIFICATION/TOGGLE_LOADING'
 export const UPDATE_CURRENT_PAGE   = 'NOTIFICATION/UPDATE_CURRENT_PAGE'
 
@@ -37,69 +39,40 @@ export function loadNotificationsByType(page, type) {
     if (!res.success) return console.log('Notification action: Error khi load: ', type)
     
     const {data} = res
+
     const transformedData = _.map(data, item => ({
       station: item.title,
       exceededTime: moment(item.createdAt).format('DD-MM-YYYY hh:mm'),
       fullBody: {__html: item.full_body}
     }))
-
+    
     switch(type) {
       case TAB_KEYS.EXCEEDED: {
         dispatch({
-          type: UPDATE_COUNTS,
-          payload: {
-            count: {
-              ...initialState.count,
-              total: initialState.count.total + data.length,
-              exceeded: initialState.count.exceeded + data.length
-            }
-          }
-        })
-        dispatch({
           type: UPDATE_DATA_SOURCE,
           payload: {
-            type: TAB_KEYS.EXCEEDED,
-            data: initialState.logs.exceeded.concat(transformedData)
+            type: 'exceeded',
+            data: transformedData
           }
         })
         break;
       }
       case TAB_KEYS.LOST_SIGNAL: {
         dispatch({
-          type: UPDATE_COUNTS,
-          payload: {
-            count: {
-              ...initialState.count,
-              total: initialState.count.total + data.length,
-              exceeded: initialState.count.lostSignal + data.length
-            }
-          }
-        })
-        dispatch({
           type: UPDATE_DATA_SOURCE,
           payload: {
-            type: TAB_KEYS.LOST_SIGNAL,
-            data: initialState.logs.lostSignal.concat(transformedData)
+            type: 'lostSignal',
+            data: transformedData
           }
         })
         break;
       }
       case TAB_KEYS.SENSOR_ERROR: {
         dispatch({
-          type: UPDATE_COUNTS,
-          payload: {
-            count: {
-              ...initialState.count,
-              total: initialState.count.total + data.length,
-              exceeded: initialState.count.sensorError + data.length
-            }
-          }
-        })
-        dispatch({
           type: UPDATE_DATA_SOURCE,
           payload: {
-            type: TAB_KEYS.SENSOR_ERROR,
-            data: initialState.logs.sensorError.concat(transformedData)
+            type: 'sensorError',
+            data: transformedData
           }
         })
         break;
@@ -109,89 +82,67 @@ export function loadNotificationsByType(page, type) {
   }
 }
 
-/* NOTE  emit to reducer: handleClearCount */
+/* NOTE  emit to reducer: handleUpdateDataSource */
 /* DONE */
 export function updateNotificationOnMessage(message) {
   return async dispatch => {
-    const {count, logs} = initialState
+    console.log('have a new message: ', message)
     const {data, notification} = message
+
+    const item = {
+      station: notification.title,
+      exceededTime: moment(data.createdAt).format('DD-MM-YYYY hh:mm'),
+      fullBody: {__html: data.full_body}
+    }
 
     switch(data.type) { // EXCEEDED || ERROR || DATA_LOST
       case TAB_KEYS.EXCEEDED: {
-        const item = {
-          station: notification.title,
-          exceededTime: moment(data.createdAt).format('DD-MM-YYYY hh:mm'),
-          fullBody: {__html: data.full_body}
-        }
-
         dispatch({
           type: UPDATE_COUNTS,
           payload: {
-            count: {
-              ...count,
-              total: count.total + 1,
-              exceeded: count.exceeded + 1
-            }
+            type: 'exceeded',
+            count: 1
           }
         })
-
         dispatch({
-          type: UPDATE_DATA_SOURCE,
+          type: NEW_MESSAGE,
           payload: {
-            type: TAB_KEYS.EXCEEDED,
-            data: logs.exceeded.unshift(item)
+            type: 'exceeded',
+            data: item
           }
         })
         break;
         }
       case TAB_KEYS.LOST_SIGNAL: {
-        const item = {
-          station: notification.title,
-          exceededTime: moment(data.createdAt).format('DD-MM-YYYY hh:mm'),
-          fullBody: {__html: data.full_body}
-        }
-
         dispatch({
           type: UPDATE_COUNTS,
           payload: {
-            count: {
-              ...count,
-              total: count.total + 1,
-              exceeded: count.lostSignal + 1
-            }
+            type: 'lostSignal',
+            count: 1
           }
         })
         dispatch({
-          type: UPDATE_DATA_SOURCE,
+          type: NEW_MESSAGE,
           payload: {
-            type: TAB_KEYS.LOST_SIGNAL,
-            data: logs.lostSignal.unshift(item)
+            type: 'lostSignal',
+            data: item
           }
         })
         break;
       }
       case TAB_KEYS.SENSOR_ERROR: {
-        const item = {
-          station: notification.title,
-          exceededTime: moment(data.createdAt).format('DD-MM-YYYY hh:mm'),
-          fullBody: {__html: data.full_body}
-        }
-
         dispatch({
           type: UPDATE_COUNTS,
           payload: {
-            count: {
-              ...count,
-              total: count.total + 1,
-              exceeded: count.lostSignal + 1
-            }
+            type: 'sensorError',
+            count: 1
           }
         })
         dispatch({
-          type: UPDATE_DATA_SOURCE,
+          type: NEW_MESSAGE,
           payload: {
-            type: TAB_KEYS.SENSOR_ERROR,
-            data: logs.sensorError.unshift(item)
+            type: 'sensorError',
+            data: item
           }
         })
         break;
@@ -206,11 +157,27 @@ export function updateNotificationOnMessage(message) {
 export function clearNotificationCountByType(type) {
   return async dispatch => {
     let res = await NotificationAPI.updateIsSeenByType(type)
-    console.log('success', res.success)
+
+    let target = ''
+    switch(type) {
+      case TAB_KEYS.EXCEEDED: {
+        target = 'exceeded'
+        break;
+      }
+      case TAB_KEYS.LOST_SIGNAL: {
+        target = 'lostSignal'
+        break;
+      }
+      case TAB_KEYS.SENSOR_ERROR: {
+        target = 'sensorError'
+        break;
+      }
+    }
+
     if(res.success) {
       dispatch({
         type: CLEAR_COUNTS,
-        payload: type
+        payload: target
       })
     }
   }
@@ -225,27 +192,19 @@ export function getTotalByNotificationType(rawState) {
 
     if (data.length === 0 || !success) return;
 
-    let {total, exceeded, lostSignal, sensorError} = rawState
+    let exceeded = _.find(data, {_id: TAB_KEYS.EXCEEDED})
+    let lostSignal = _.find(data, {_id: TAB_KEYS.LOST_SIGNAL})
+    let sensorError = _.find(data, {_id: TAB_KEYS.SENSOR_ERROR})
 
-    let newExceeded = _.find(data, {_id: 'EXCEEDED'})
-    let newLostSignal = _.find(data, {_id: 'DATA_LOSS'})
-    let newSensorError = _.find(data, {_id: 'ERROR'})
+    exceeded = exceeded ? exceeded.count : 0
+    lostSignal = lostSignal ? lostSignal.count : 0
+    sensorError = sensorError ? sensorError.count : 0
 
-    newExceeded = newExceeded ? newExceeded.count : 0
-    newLostSignal = newLostSignal ? newLostSignal.count : 0
-    newSensorError = newSensorError ? newSensorError.count : 0
+    let total = _.sum([exceeded, lostSignal, sensorError])
 
-    total = _.sum([exceeded, lostSignal, sensorError, newExceeded, newLostSignal, newSensorError])
-
-    exceeded += newExceeded
-    lostSignal += newLostSignal
-    sensorError += newSensorError
-
-    if(success) {
-      dispatch({
-        type: UPDATE_COUNTS,
-        payload: { count: {total, exceeded, lostSignal, sensorError} }
-      })
-    }
+    dispatch({
+      type: UPDATE_ALL_COUNTS,
+      payload: {total, exceeded, lostSignal, sensorError }
+    })
   }
 }

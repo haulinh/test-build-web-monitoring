@@ -214,6 +214,7 @@ export default class BasicNestedNavigation extends React.Component {
   }
 
   render() {
+    console.log('hahahahah', this.props.notificationCount.total)
     let logo = ''
     if (this.props.authInfo.organization) {
       logo = this.props.authInfo.organization.logo
