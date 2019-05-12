@@ -32,35 +32,74 @@ export function setIsLoading(flag) {
 export function loadNotificationsByType(page, type) {
   return async dispatch => {
     dispatch(setIsLoading(false))
-    let res = await fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${page}`)
-    let data = res.json()
+
+    let res = await NotificationAPI.loadNotificationsByType({ type, page, itemPerPage:16 })
+    if (!res.success) return console.log('Notification action: Error khi load: ', type)
+    
+    const {data} = res
+    const transformedData = _.map(data, item => ({
+      station: item.title,
+      exceededTime: moment(item.createdAt).format('DD-MM-YYYY hh:mm'),
+      fullBody: {__html: item.full_body}
+    }))
+
     switch(type) {
       case TAB_KEYS.EXCEEDED: {
+        dispatch({
+          type: UPDATE_COUNTS,
+          payload: {
+            count: {
+              ...initialState.count,
+              total: initialState.count.total + data.length,
+              exceeded: initialState.count.exceeded + data.length
+            }
+          }
+        })
         dispatch({
           type: UPDATE_DATA_SOURCE,
           payload: {
             type: TAB_KEYS.EXCEEDED,
-            data: mockupDataExceeded()
+            data: initialState.logs.exceeded.concat(transformedData)
           }
         })
         break;
       }
       case TAB_KEYS.LOST_SIGNAL: {
         dispatch({
+          type: UPDATE_COUNTS,
+          payload: {
+            count: {
+              ...initialState.count,
+              total: initialState.count.total + data.length,
+              exceeded: initialState.count.lostSignal + data.length
+            }
+          }
+        })
+        dispatch({
           type: UPDATE_DATA_SOURCE,
           payload: {
             type: TAB_KEYS.LOST_SIGNAL,
-            data: mockupDataLostSignal()
+            data: initialState.logs.lostSignal.concat(transformedData)
           }
         })
         break;
       }
       case TAB_KEYS.SENSOR_ERROR: {
         dispatch({
+          type: UPDATE_COUNTS,
+          payload: {
+            count: {
+              ...initialState.count,
+              total: initialState.count.total + data.length,
+              exceeded: initialState.count.sensorError + data.length
+            }
+          }
+        })
+        dispatch({
           type: UPDATE_DATA_SOURCE,
           payload: {
             type: TAB_KEYS.SENSOR_ERROR,
-            data: mockupDataSensorError()
+            data: initialState.logs.sensorError.concat(transformedData)
           }
         })
         break;
@@ -209,311 +248,4 @@ export function getTotalByNotificationType(rawState) {
       })
     }
   }
-}
-
-
-/* ---------------------------- */
-/* MARK  MOCKUP DATA: xóa sau khi add API */
-/* ---------------------------- */
-
-function mockupDataExceeded() {
-  return [
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format('DD-MM-YYYY hh:mm'),
-      body: {__html: '<p style="color: red">tanphat custom html</p>'}
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
-      exceededParams: [],
-      exceededPreparingParams: ['pH 7 (7.5)']
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
-      exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
-      exceededPreparingParams: ['pH 7 (7.5)']
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
-      exceededParams: ['COD 30 (20 mg/L)'],
-      exceededPreparingParams: ['TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)']
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
-      exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
-      exceededPreparingParams: []
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
-      exceededParams: [],
-      exceededPreparingParams: ['pH 7 (7.5)']
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
-      exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
-      exceededPreparingParams: ['pH 7 (7.5)']
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
-      exceededParams: ['COD 30 (20 mg/L)'],
-      exceededPreparingParams: ['TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)']
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
-      exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
-      exceededPreparingParams: []
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
-      exceededParams: [],
-      exceededPreparingParams: ['pH 7 (7.5)']
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format('dd-MM-yyyy hh:mm'),
-      exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
-      exceededPreparingParams: ['pH 7 (7.5)']
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      exceededParams: ['COD 30 (20 mg/L)'],
-      exceededPreparingParams: ['TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)']
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
-      exceededPreparingParams: []
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      exceededParams: [],
-      exceededPreparingParams: ['pH 7 (7.5)']
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      exceededParams: ['COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)', 'COD 30 (20 mg/L)', 'TSS 12 (10 mg/L)'],
-      exceededPreparingParams: ['pH 7 (7.5)']
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      exceededParams: ['COD 30 (20 mg/L)'],
-      exceededPreparingParams: ['TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)', 'TSS 9.5 (10 mg/L)', 'pH 7 (7.5)', 'COD 19 (20 mg/L)']
-    }
-  ]
-}
-
-function mockupDataLostSignal() {
-  return [
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'receivedSignal',
-      content: 'Có tín hiệu trở lại'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'lostSignal',
-      content: 'Mất tín hiệu'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'receivedSignal',
-      content: 'Có tín hiệu trở lại'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'lostSignal',
-      content: 'Mất tín hiệu'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'receivedSignal',
-      content: 'Có tín hiệu trở lại'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'lostSignal',
-      content: 'Mất tín hiệu'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'receivedSignal',
-      content: 'Có tín hiệu trở lại'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'lostSignal',
-      content: 'Mất tín hiệu'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'receivedSignal',
-      content: 'Có tín hiệu trở lại'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'lostSignal',
-      content: 'Mất tín hiệu'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'receivedSignal',
-      content: 'Có tín hiệu trở lại'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'lostSignal',
-      content: 'Mất tín hiệu'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'receivedSignal',
-      content: 'Có tín hiệu trở lại'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'lostSignal',
-      content: 'Mất tín hiệu'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'receivedSignal',
-      content: 'Có tín hiệu trở lại'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'lostSignal',
-      content: 'Mất tín hiệu'
-    },
-  ]
-}
-
-function mockupDataSensorError() {
-  return [
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceGood',
-      content: 'Sensor hoạt động trở lại: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceError',
-      content: 'Sensor lỗi: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceGood',
-      content: 'Sensor hoạt động trở lại: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceError',
-      content: 'Sensor lỗi: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceGood',
-      content: 'Sensor hoạt động trở lại: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceError',
-      content: 'Sensor lỗi: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceGood',
-      content: 'Sensor hoạt động trở lại: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceError',
-      content: 'Sensor lỗi: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceGood',
-      content: 'Sensor hoạt động trở lại: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceError',
-      content: 'Sensor lỗi: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceGood',
-      content: 'Sensor hoạt động trở lại: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceError',
-      content: 'Sensor lỗi: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceGood',
-      content: 'Sensor hoạt động trở lại: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceError',
-      content: 'Sensor lỗi: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceGood',
-      content: 'Sensor hoạt động trở lại: TSS'
-    },
-    {
-      station: `tram nuoc thai ${1}`,
-      exceededTime: moment().format(),
-      status: 'deviceError',
-      content: 'Sensor lỗi: TSS'
-    },
-  ]
 }

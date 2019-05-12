@@ -114,6 +114,7 @@ export default class NotificationDrawer extends React.Component {
           loadMore={this.props.loadNotifications}
           useWindow={false}>
             <Cells dataSource={dataSource}/>
+            <Card loading />
         </InfiniteScroll>
     )
   }

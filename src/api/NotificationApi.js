@@ -43,5 +43,6 @@ export default {
   getNotification,
   updateIsSeenByType,
   getTotalByNotificationType,
+  loadNotificationsByType,
   linkToken2Email
 }

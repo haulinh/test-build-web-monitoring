@@ -14,8 +14,8 @@ import SensorErrorTabContent from './tabs/sensorError'
 const TabPane = Tabs.TabPane
 
 const i18n = {
-  exceeded: translate('warningLevels.exceed'),
-  lostSignal: translate('warningLevels.lostData'),
+  exceeded   : translate('warningLevels.exceed'),
+  lostSignal : translate('warningLevels.lostData'),
   sensorError: translate('warningLevels.sensorError'),
 }
 
