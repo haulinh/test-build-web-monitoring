@@ -17,7 +17,7 @@ import protectRole from 'hoc/protect-role/index.backup'
 import ROLE from 'constants/role'
 import * as _ from 'lodash'
 import { getTotalCount_by_type } from 'api/StationAuto';
-import {  message } from 'antd'
+import {  message, Modal } from 'antd'
 
 
 const AvatarWrapper = styled.div`
@@ -165,7 +165,10 @@ export default class StationTypeList extends React.Component {
     const countStation = await  getTotalCount_by_type(_id)
     if(countStation.success){
       if(countStation.count > 0){
-        message.error(t('stationTypeManager.form.errorStationExist'))
+        Modal.error({
+          title: 'Error',
+          content: t('stationTypeManager.form.errorStationExist'),
+        })
       }else{
         this.props.onDeleteItem(_id, this.props.fetchData)
       }
