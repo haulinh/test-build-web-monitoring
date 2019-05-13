@@ -1,6 +1,92 @@
+/**
+ *
+ * @param {*} role  ví dụ: 'menu.monitoring.actions.chart'
+ * @param {*} userInfo ví dụ: state.auth.userInfo Lấy trong redux
+ */
+const objectPath = require('object-path')
+export function checkRolePriority(userInfo, role) {
+  // check role in organization first
+  let isRole = objectPath.get(userInfo.organization, role)
+  if (!isRole) {
+    return isRole
+  } else if (userInfo.isAdmin) {
+    return true
+  } else {
+    return objectPath.get(userInfo.role, role)
+  }
+}
+
 export default {
   DASHBOARD: {
     VIEW: 'menu.dashboard.actions.view'
+  },
+  MONITORING: {
+    VIEW: 'menu.monitoring.actions.view',
+    CONTROL: 'menu.monitoring.actions.control',
+    CAMERA: 'menu.monitoring.actions.camera',
+    CHART: 'menu.monitoring.actions.chart',
+    MAP: 'menu.monitoring.actions.map',
+    IMAGES: 'menu.monitoring.actions.images',
+    INFOSTATION : 'menu.monitoring.actions.infoStation',
+    REVIEWSTATION :'menu.monitoring.actions.reviewStation',
+  },
+  MAP: {
+    VIEW: 'menu.map.actions.view'
+  },
+  CAMERA:{
+    VIEW: 'menu.camera.actions.view',
+  },
+  DATA_SEARCH: {
+    VIEW: 'menu.dataSearch.actions.view',
+    EXPORT: 'menu.dataSearch.actions.export'
+  },
+  AVG_SEARCH: {
+    VIEW: 'menu.avgSearch.actions.view',
+    EXPORT: 'menu.avgSearch.actions.export'
+  },
+  REPORT: {
+    VIEW: 'menu.report.actions.view'
+  },
+  QAQCCONFIG: {
+    VIEW: 'menu.qaqcConfig.actions.view'
+    // CREATE: 'menu.ftpTransfer.actions.create',
+    // EDIT: 'menu.ftpTransfer.actions.edit',
+    // DELETE: 'menu.ftpTransfer.actions.delete'
+  },
+  FTPTRANSFER: {
+    VIEW: 'menu.ftpTransfer.actions.view'
+    // CREATE: 'menu.ftpTransfer.actions.create',
+    // EDIT: 'menu.ftpTransfer.actions.edit',
+    // DELETE: 'menu.ftpTransfer.actions.delete'
+  },
+
+
+  QAQC: {
+    VIEW: 'menu.qaqc.actions.view',
+    MANUAL_APPROVE: 'menu.qaqc.actions.manualapprove',
+    UN_APPROVE: 'menu.qaqc.actions.unapprove',
+    APPROVE: 'menu.qaqc.actions.approve',
+    RESTORE: 'menu.qaqc.actions.restore',
+    REMOVE: 'menu.qaqc.actions.remove',
+    CONFIG_PUBLISH: 'menu.qaqc.actions.config_publish'
+  },
+  AQI: {
+    VIEW: 'menu.aqiMap.actions.view'
+  },
+  AQI_SEARCHDATA:{
+    VIEW:'menu.aqiSearchData.actions.view',
+    AQI_EXPORT:'menu.aqiSearchData.actions.aqi_export'
+  },
+  WQI: {
+    VIEW: 'menu.wqiMap.actions.view'
+  },
+  WQI_SEARCHDATA:{
+    VIEW:'menu.wqiSearchData.actions.view',
+    WQI_EXPORT:'menu.wqiSearchData.actions.aqi_export'
+  },
+  STATISTIC: {
+    PER_REC_DATA: 'menu.statistic.actions.per_received_data',
+    PER_REC_DATA_EXPORT: 'menu.statistic.actions.per_received_data_export',
   },
   MEASURING: {
     VIEW: 'menu.measuring.actions.view',
@@ -44,31 +130,7 @@ export default {
     EDIT: 'menu.role.actions.edit',
     DELETE: 'menu.role.actions.delete'
   },
-  MAP: {
-    VIEW: 'menu.map.actions.view'
-  },
-  DATA_SEARCH: {
-    VIEW: 'menu.dataSearch.actions.view',
-    EXPORT: 'menu.dataSearch.actions.export'
-  },
-  AVG_SEARCH: {
-    VIEW: 'menu.avgSearch.actions.view',
-    EXPORT: 'menu.avgSearch.actions.export'
-  },
-  MONITORING: {
-    VIEW: 'menu.monitoring.actions.view',
-    CONTROL: 'menu.monitoring.actions.control',
-    CAMERA: 'menu.monitoring.actions.camera'
-  },
-  QAQC: {
-    VIEW: 'menu.qaqc.actions.view',
-    MANUAL_APPROVE: 'menu.qaqc.actions.manualapprove',
-    UN_APPROVE: 'menu.qaqc.actions.unapprove',
-    APPROVE: 'menu.qaqc.actions.approve',
-    RESTORE: 'menu.qaqc.actions.restore',
-    REMOVE: 'menu.qaqc.actions.remove',
-    CONFIG_PUBLISH: 'menu.qaqc.actions.config_publish'
-  },
+  
   QCVN: {
     VIEW: 'menu.qcvn.actions.view',
     CREATE: 'menu.qcvn.actions.create',
@@ -81,33 +143,6 @@ export default {
     EDIT: 'menu.province.actions.edit',
     DELETE: 'menu.province.actions.delete'
   },
-  FTPTRANSFER: {
-    VIEW: 'menu.ftpTransfer.actions.view'
-    // CREATE: 'menu.ftpTransfer.actions.create',
-    // EDIT: 'menu.ftpTransfer.actions.edit',
-    // DELETE: 'menu.ftpTransfer.actions.delete'
-  },
-  QAQCCONFIG: {
-    VIEW: 'menu.qaqcConfig.actions.view'
-    // CREATE: 'menu.ftpTransfer.actions.create',
-    // EDIT: 'menu.ftpTransfer.actions.edit',
-    // DELETE: 'menu.ftpTransfer.actions.delete'
-  },
-  AQI: {
-    VIEW: 'menu.aqi.actions.view'
-  },
-  WQI: {
-    VIEW: 'menu.wqi.actions.view'
-  },
-  STATISTIC: {
-    EXCEEDED: 'menu.statistic.actions.exceeded',
-    PER_REC_DATA: 'menu.statistic.actions.per_received_data',
-    PER_REC_DATA_EXPORT: 'menu.statistic.actions.per_received_data_export',
-    AQI: 'menu.statistic.actions.aqi',
-    WQI: 'menu.statistic.actions.wqi',
-    EXPORT_AQI: 'menu.statistic.actions.aqi_export',
-    EXPORT_WQI: 'menu.statistic.actions.wqi_export'
-  },
   STATION_FIXED_SEARCH: {
     VIEW: 'menu.dataSearchFixed.actions.view',
     DOWNLOAD: 'menu.dataSearchFixed.actions.download',
@@ -117,7 +152,5 @@ export default {
   MAP_STATION_FIXED: {
     VIEW: 'menu.mapStationFixed.actions.view'
   },
-  REPORT: {
-    VIEW: 'menu.report.actions.view'
-  }
+  
 }

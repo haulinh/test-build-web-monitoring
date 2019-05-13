@@ -260,7 +260,8 @@ export default {
       viewMore: {
         sampling: 'Lấy mẫu',
         camera: 'Camera',
-        viewData: 'Hiển thị dữ liệu'
+        viewData: 'Hiển thị dữ liệu',
+        detail: 'Chi tiết'
       }
     },
     marker: {
@@ -490,6 +491,7 @@ export default {
         label: ' '
       },
       error: 'Lỗi',
+      errorStationExist: 'Không thể xóa vì có trạm sử dụng loại trạm này',
       color: {
         label: 'Màu sắc',
         placeholder: 'Chọn màu'
@@ -1035,7 +1037,8 @@ export default {
     },
     tableHeader: {
       menu: 'Danh sách module',
-      action: 'Chức năng'
+      action: 'Chức năng',
+      stt:'STT'
     },
     form: {
       name: {
@@ -1048,6 +1051,22 @@ export default {
         placeholder: 'Nhập mô tả',
         error: 'Vui lòng nhập mô tả'
       },
+    },
+    rule: {
+      label: 'Rule',
+      orderby: {
+        label: 'STT',
+        placeholder: 'STT',
+      },
+      menu: {
+        label: 'menu',
+        placeholder: 'menu'
+      },
+      action: {
+        label: 'action',
+        placeholder: 'action',
+        package: 'Package'
+      },
       dashboard: {
         name: 'Trang chủ'
       },
@@ -1057,59 +1076,74 @@ export default {
       map: {
         name: 'Bản đồ'
       },
+      camera: {
+        name: 'Camera'
+      },
       dataSearch: {
         name: 'Tra cứu dữ liệu'
       },
       avgSearch: {
-        name: 'Dữ liệu tổng hợp'
+        name: 'Dữ liệu trung bình'
       },
-      measuring: {
-        name: 'Thông số'
+      qaqc: {
+        name: 'Kiểm duyệt dữ liệu'
       },
-      stationType: {
-        name: 'Loại trạm'
+      qaqcConfig: {
+        name: 'Cấu hình chia sẻ dữ liệu'
       },
-      stationAuto: { name: 'Trạm quan trắc' },
-      user: { name: 'Người dùng' },
-      role: { name: 'Nhóm quyền' },
-      aqi: { name: 'AQI' },
-      wqi: { name: 'WQI' },
-      qaqc: { name: 'Kiểm duyệt dữ liệu' },
-      qcvn: { name: 'QCVN' },
-      province: { name: 'Đơn vị quản lý' },
-      ftpTransfer: { name: 'Cấu hình FTP' },
-      qaqcConfig: { name: 'Cấu hình chia sẻ dữ liệu' },
-      stationFixed: { name: 'Trạm cố định' },
-      statistic: { name: 'Thống kê' },
-      dataSearchFixed: { name: 'Dữ liệu quan trắc' },
-      mapStationFixed: { name: 'Bản đồ' },
+      ftpTransfer: {
+        name: 'Cấu hình truyền FTP'
+      },
+      aqiMap: {
+        name: 'Bản đồ AQI'
+      },
+      aqiSearchData: { name: 'Tra cứu dữ liệu AQI' },
+      wqiMap: { name: 'Bản đồ WQI' },
+      wqiSearchData: { name: 'Tra cứu dữ liệu WQI' },
       configWQI: { name: 'Cấu hình tính WQI, AQI' },
+      mapStationFixed: { name: 'Bản đồ trạm cố định' },
+      dataSearchFixed: { name: 'Dữ liệu trạm cố định' },
+      stationFixed: { name: 'Trạm cố định' },
+      per_received_data: { name: 'Tỷ lệ nhận dữ liệu' },
+      dataExceeded: { name: 'Dữ liệu vượt ngưỡng' },
+      stationAuto: { name: 'Trạm quan trắc' },
+      measuring: { name: 'Chỉ tiêu quan trắc' },
+      stationType: { name: 'Loại trạm' },
+      province: { name: 'Đơn vị quản lý' },
+      qcvn: { name: 'Quy chuẩn' },
+      role: { name: 'Nhóm quyền' },
+      user: { name: 'Người dùng' },
+      report: { name: 'Báo cáo' },
       actions: {
-        camera: 'Xem Camera',
-        control: 'Điều khiển lấy mẫu',
-        export: 'Xuất dữ liệu',
-        delete: 'Xóa',
-        edit: 'Cập nhật',
-        create: 'Thêm mới',
+        role:'Ủy quyền',
+        enableAccount:'Kích hoạt/Vô hiệu hóa tài khoản',
         config: 'Cấu hình',
-        enableAccount: 'Kích hoạt tài khoản',
-        role: 'Quyền',
-        remove: 'Kiểm duyệt tùy chọn',
+        download: 'Tải mẫu nhập liệu',
+        import: 'Nhập dữ liệu từ file',
+        wqi_export: 'Xuất dữ liệu',
+        aqi_export: 'Xuất dữ liệu',
+        isTransfer: 'Cập nhật trạm cho phép truyền',
+        updateFTP: 'Cập nhật thông tin FTP',
+        publicStation: 'Cập nhật trạm công bố',
+        view: 'Xem',
+        camera: 'Camera',
+        control: 'Lấy mẫu',
+        chart: 'Biểu đồ',
+        map: 'Bản đồ',
+        images: 'Hình ảnh',
+        infoStation: 'Thông tin trạm',
+        reviewStation: 'Đánh giá trạm',
+        create: 'Thêm mới',
+        edit: 'Cập nhật',
+        delete: 'Xóa',
+        export: 'Xuất dữ liệu',
+        manualapprove: 'Kiểm duyệt tùy chọn',
+        unapprove: 'Hủy kiểm duyệt',
         approve: 'Kiểm duyệt',
         restore: 'Khôi phục',
-        unapprove: 'Hủy kiểm duyệt',
-        manualapprove: 'Loại bỏ dữ liệu',
-        exceeded: 'Vượt ngưỡng',
-        per_received_data: 'Tỉ lệ nhận dữ liệu',
-        per_received_data_export: 'Xuất dữ liệu',
-        aqi: 'AQI',
-        wqi: 'WQI',
-        aqi_export: 'Xuất dữ liệu AQI',
-        wqi_export: 'Xuất dữ liệu WQI',
-        download: 'Tải mẫu nhập liệu',
-        import: 'Nhập liệu từ file'
+        remove: 'Loại bỏ dữ liệu'
       }
-    }
+    },
   },
   subscriptionStatus: {
     breadcrumb: {

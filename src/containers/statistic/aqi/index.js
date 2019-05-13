@@ -14,7 +14,7 @@ import protectRole from 'hoc/protect-role/index.backup'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 
-@protectRole(ROLE.STATISTIC.AQI)
+@protectRole(ROLE.AQI_SEARCHDATA.VIEW)
 @queryFormDataBrowser(['submit'])
 @autobind
 export default class AQIStatistics extends React.Component {

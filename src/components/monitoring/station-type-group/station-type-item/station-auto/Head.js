@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import Clearfix from 'components/elements/clearfix'
 import { SHAPE } from 'themes/color'
 import { Icon, Tooltip, Spin, Button } from 'antd'
-import ROLE from 'constants/role'
+import ROLE, { checkRolePriority } from 'constants/role'
 import moment from 'moment/moment'
 import protectRole from 'hoc/protect-role/index.backup'
 import { translate } from 'hoc/create-lang'
@@ -114,10 +114,10 @@ const ActionWrapper = styled.div`
 // `
 
 @connect(state => ({
-  organization: state.auth.userInfo.organization,
   authRole: state.auth.userInfo.role,
   isAdmin: state.auth.userInfo.isAdmin,
-  organization: state.auth.userInfo.organization
+  organization: state.auth.userInfo.organization,
+  userInfo: state.auth.userInfo
 }))
 @autobind
 export default class StationAutoHead extends React.PureComponent {
@@ -199,31 +199,17 @@ export default class StationAutoHead extends React.PureComponent {
     this.props.onClickActionButton(actionName)
   }
 
-  checkRole(role) {
-    // check role in organization first
-    let isRole = objectPath.get(this.props.organization, role)
-    if (!isRole) return isRole
-    else {
-      // and then check role in user
-      if (this.props.isAdmin) {
-        return true
-      } else {
-        return objectPath.get(this.props.authRole, role)
-      }
-    }
-  }
-
   /* NOTE  ROLSE: kiem tra role của user, copy từ file index.backup.js */
-  checkRole(role) {
-    // check role in organization first
-    let isRole = objectPath.get(this.props.organization, role)
-    console.log('isRole', isRole)
-    console.log('isAdmin', this.props.isAdmin)
-    console.log('authRole', this.props.authRole)
-    if (!isRole) return isRole
-    else if (this.props.isAdmin) return true
-    else return objectPath.get(this.props.authRole, role)
-  }
+  // checkRole(role) {
+  //   // check role in organization first
+  //   let isRole = objectPath.get(this.props.organization, role)
+  //   console.log('isRole', isRole)
+  //   console.log('isAdmin', this.props.isAdmin)
+  //   console.log('authRole', this.props.authRole)
+  //   if (!isRole) return isRole
+  //   else if (this.props.isAdmin) return true
+  //   else return objectPath.get(this.props.authRole, role)
+  // }
 
   render() {
     const {
@@ -266,7 +252,7 @@ export default class StationAutoHead extends React.PureComponent {
             className="actionItem"
             type={currentAction === 'sampling' && 'primary'}
             onClick={() => this.handleActionOnClick('sampling')}
-            disabled={!isSampling || !this.checkRole(ROLE.MONITORING.CONTROL)}
+            disabled={!isSampling || !checkRolePriority(this.props.userInfo,ROLE.MONITORING.CONTROL)}
           >
             {i18n.sampling}
           </Button>
@@ -274,7 +260,7 @@ export default class StationAutoHead extends React.PureComponent {
             className="actionItem"
             type={currentAction === 'camera' && 'primary'}
             onClick={() => this.handleActionOnClick('camera')}
-            disabled={!isCamera || !this.checkRole(ROLE.MONITORING.CAMERA)}
+            disabled={!isCamera || !checkRolePriority(this.props.userInfo,ROLE.MONITORING.CAMERA)}
           >
             {i18n.camera}
           </Button>
@@ -282,6 +268,7 @@ export default class StationAutoHead extends React.PureComponent {
             className="actionItem"
             type={currentAction === 'chart' && 'primary'}
             onClick={() => this.handleActionOnClick('chart')}
+            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.CHART)}
           >
             {i18n.chart}
           </Button>
@@ -289,6 +276,7 @@ export default class StationAutoHead extends React.PureComponent {
             className="actionItem"
             type={currentAction === 'map' && 'primary'}
             onClick={() => this.handleActionOnClick('map')}
+            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.MAP)}
           >
             {i18n.map}
           </Button>
@@ -296,6 +284,7 @@ export default class StationAutoHead extends React.PureComponent {
             className="actionItem"
             type={currentAction === 'image' && 'primary'}
             onClick={() => this.handleActionOnClick('image')}
+            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.IMAGES)}
           >
             {i18n.images}
           </Button>
@@ -303,6 +292,7 @@ export default class StationAutoHead extends React.PureComponent {
             className="actionItem"
             type={currentAction === 'station' && 'primary'}
             onClick={() => this.handleActionOnClick('station')}
+            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.INFOSTATION)}
           >
             {i18n.stationInfo}
           </Button>
@@ -310,6 +300,7 @@ export default class StationAutoHead extends React.PureComponent {
             className="actionItem"
             type={currentAction === 'rating' && 'primary'}
             onClick={() => this.handleActionOnClick('rating')}
+            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.REVIEWSTATION)}
           >
             {i18n.reviewStation}
           </Button>

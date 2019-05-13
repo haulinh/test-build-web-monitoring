@@ -35,7 +35,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.STATISTIC.AQI)(
+      {protectRole(ROLE.AQI_SEARCHDATA.VIEW)(
         <Menu.Item
           key={slug.statistic.aqi}
           onClick={() => {
@@ -57,7 +57,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.STATISTIC.WQI)(
+      {protectRole(ROLE.WQI_SEARCHDATA.VIEW)(
         <Menu.Item
           key={slug.statistic.wqi}
           onClick={() => {
