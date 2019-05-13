@@ -491,7 +491,7 @@ export default {
         label: 'Action'
       },
       error: 'Error',
-      errorStationExist: 'Cannot Delete Because There Station Using This Station Type',
+      errorStationExist: `The Action Can't Be Completed Because There Are Stations In This Type Of Station`,
       color: {
         label: 'Color',
         placeholder: 'Choose Color'

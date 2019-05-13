@@ -88,13 +88,19 @@ export default class ConfigPublishContainer extends React.Component {
   }
 
   getData = () => {
-    let search = _.lowerCase(this.state.textSearch)
+    let search = this.state.textSearch
     if (search) {
       search = replaceVietnameseStr(search)
       return _.filter(
         _.clone(this.state.list),
-        ({ name }) =>
-          replaceVietnameseStr(_.lowerCase(name)).indexOf(search) >= 0
+        ({ name }) => {
+          // console.log(search)
+          // console.log(_.toLower(name))
+          // console.log(replaceVietnameseStr(_.lowerCase(name)))
+          // console.log('---------------')
+          return replaceVietnameseStr(_.lowerCase(name)).indexOf(search) >= 0
+        }
+          
       )
     }
 

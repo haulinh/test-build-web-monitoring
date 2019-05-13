@@ -78,7 +78,7 @@ export default class TabsStationAuto extends React.Component {
   }
 
   getData = () => {
-    let search = _.lowerCase(this.state.textSearch)
+    let search = this.state.textSearch
     if (search) {
       search = replaceVietnameseStr(search)
       return _.filter(
