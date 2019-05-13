@@ -30,7 +30,7 @@ export function setIsLoading(flag) {
 }
 
 /* NOTE  emit to reducer: handleUpdateDataSource */
-/* TODO */
+/* TODO  add actions */
 export function loadNotificationsByType(page, type) {
   return async dispatch => {
     dispatch(setIsLoading(false))
@@ -39,7 +39,7 @@ export function loadNotificationsByType(page, type) {
     if (!res.success) return console.log('Notification action: Error khi load: ', type)
     
     const {data} = res
-
+    console.log(data)
     const transformedData = _.map(data, item => ({
       station: item.title,
       exceededTime: moment(item.createdAt).format('DD-MM-YYYY hh:mm'),
@@ -83,16 +83,19 @@ export function loadNotificationsByType(page, type) {
 }
 
 /* NOTE  emit to reducer: handleUpdateDataSource */
-/* DONE */
+/* TODO  add actions */
 export function updateNotificationOnMessage(message) {
   return async dispatch => {
     console.log('have a new message: ', message)
     const {data, notification} = message
-
+    console.log('payload on new message', data)
     const item = {
       station: notification.title,
-      exceededTime: moment(data.createdAt).format('DD-MM-YYYY hh:mm'),
-      fullBody: {__html: data.full_body}
+      exceededTime: moment(Number(data.createdAt)).format('DD-MM-YYYY hh:mm'),
+      fullBody: {__html: data.full_body},
+      actions: {
+        viewDetail: ''
+      }
     }
 
     switch(data.type) { // EXCEEDED || ERROR || DATA_LOST

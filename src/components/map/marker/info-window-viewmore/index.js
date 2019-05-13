@@ -42,6 +42,7 @@ export default class InfoWindowViewMore extends React.PureComponent {
       measuringData: this.props.measuringList,
       searchNow: true
     }
+
     const url =
       slug.dataSearch.base +
       '?formData=' +

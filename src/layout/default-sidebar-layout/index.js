@@ -4,22 +4,16 @@ import SidebarNavigation from "./SidebarNavigation";
 import createProtectedAuth from "hoc/protected-auth";
 import styled from "styled-components";
 import { connectAutoDispatch } from "redux/connect";
+import { withRouter } from 'react-router-dom'
 import { toggleNavigation } from "redux/actions/themeAction";
 import { updateNotificationOnMessage } from "redux/actions/notification";
+import { getTotalByNotificationType } from "redux/actions/stationAuto";
 import { autobind } from "core-decorators";
 import { linkToken2Email } from 'api/NotificationApi'
 import { notification } from 'antd'
 import { TAB_KEYS } from 'constants/notification'
-
-function _showNotification(title, description) {
-  notification['info']({
-    message: title,
-    description: description,
-    onClick: () => {
-      console.log('Notification Clicked!');
-    },
-  });
-}
+import slug from 'constants/slug'
+import _ from 'lodash'
 
 const Wrapper = styled.div`
   .zJwEi {
@@ -31,10 +25,12 @@ const Wrapper = styled.div`
 @connectAutoDispatch(
   state => ({
     state,
-    navigationIsOpen: state.theme.navigation.isOpen
+    navigationIsOpen: state.theme.navigation.isOpen,
+    stationAuto: state.stationAuto.list
   }),
-  { toggleNavigation, updateNotificationOnMessage }
+  { toggleNavigation, updateNotificationOnMessage, getTotalByNotificationType }
 )
+@withRouter
 @autobind
 export default class PageWrapper extends Component {
 
@@ -80,8 +76,8 @@ export default class PageWrapper extends Component {
           break;
         }
       }
-      
-      _showNotification(notification.title, description)
+
+      this._showNotification(notification.title, description)
       this.props.updateNotificationOnMessage(payload)
     });
    
@@ -94,6 +90,26 @@ export default class PageWrapper extends Component {
   state = {
     navigationWidth: 320
   };
+
+  _showNotification(title, description) {
+    notification['info']({
+      message: title,
+      description: description,
+      onClick: () => {
+        const formSearch = {
+          stationType: 'WASTE_WATER',
+          stationAuto: 'CONGTONMPM1',
+          measuringList: 'FLOW',
+          searchNow: true
+        }
+        this.props.history.push(
+          slug.dataSearch.base +
+            '?formData=' +
+            encodeURIComponent(JSON.stringify(formSearch))
+        )
+      },
+    });
+  }
 
   getNavigation() {
     return {

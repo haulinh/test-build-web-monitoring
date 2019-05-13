@@ -68,6 +68,10 @@ export function getCamera() {
   return getFetch(getStationAutoUrl(`camera`))
 }
 
+export function getWarningConfig() {
+  return getFetch(getStationAutoUrl('warning/config'))
+}
+
 export default {
   getCamera,
   getStationAutos,
@@ -82,5 +86,6 @@ export default {
   getTotalCount,
   stationPublished,
   transferFtp,
-  measurePublished
+  measurePublished,
+  getWarningConfig
 }

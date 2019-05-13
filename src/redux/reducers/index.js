@@ -5,6 +5,7 @@ import breadcrumbs from 'shared/breadcrumb/reducer'
 import language from './language'
 import theme from './theme'
 import notification from './notification'
+import stationAuto from './stationAuto'
 
 export default {
   auth,
@@ -13,5 +14,6 @@ export default {
   await: awaitReducer,
   form: reduxForm,
   breadcrumbs,
-  notification
+  notification,
+  stationAuto
 }
