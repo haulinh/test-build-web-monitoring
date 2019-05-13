@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { connectAutoDispatch } from "redux/connect";
 import { toggleNavigation } from "redux/actions/themeAction";
 import { autobind } from "core-decorators";
-import { linkToken2Email } from 'api/NotificationApi'
+import { linkToken2Email } from "api/NotificationApi";
 
 const Wrapper = styled.div`
   .zJwEi {
@@ -23,36 +23,36 @@ const Wrapper = styled.div`
 )
 @autobind
 export default class PageWrapper extends Component {
-
   componentDidMount() {
     // import { messaging } from "utils/init-fcm";
     // MARK  vì phải chờ app.json nen phải load o day
-    
-    // const {messaging} = require('utils/init-fcm')
-    // // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
-    // messaging
-    //   .requestPermission()
-    //   .then(async function() {
-    //     const token = await messaging.getToken();
-    //     // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
-    //     try{
-    //       let response = await linkToken2Email(token)
-    //       console.log('linkToken2Email respon',  token ,response)
-    //     }catch(e){
-    //       console.log('error linkToken2Email',  e)
-    //     }
 
-    //   })
-    //   .catch(function(err) {
-    //     console.log("Unable to get permission to notify.", err);
-    //   });
-    
-   
-    //  navigator.serviceWorker.addEventListener("message", message =>{
-    //    // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
-    //   console.log('message noti',message)
-    // }
-    // );
+    try {
+      const { messaging } = require("utils/init-fcm");
+      // // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
+      messaging
+        .requestPermission()
+        .then(async function() {
+          const token = await messaging.getToken();
+          // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
+          try {
+            let response = await linkToken2Email(token);
+            console.log("linkToken2Email respon", token, response);
+          } catch (e) {
+            console.log("error linkToken2Email", e);
+          }
+        })
+        .catch(function(err) {
+          console.log("Unable to get permission to notify.", err);
+        });
+
+      navigator.serviceWorker.addEventListener("message", message => {
+        // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
+        console.log("message noti", message);
+      });
+    } catch (e) {
+      console.error('Notification only start witl https')
+    }
   }
 
   state = {
