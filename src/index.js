@@ -16,7 +16,7 @@ import browserHistory from 'history/createBrowserHistory'
 import configureStore from './redux/createStore'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
-import registerServiceWorkerFireBase from './registerServiceWorkerFireBase'
+// import registerServiceWorkerFireBase from './registerServiceWorkerFireBase'
 
 const rootEl = document.getElementById('root')
 
@@ -53,5 +53,5 @@ getFetch('/app.json').then(dataConfig => {
     })
   }
   registerServiceWorker()
-  registerServiceWorkerFireBase()
+  // registerServiceWorkerFireBase()
 })
