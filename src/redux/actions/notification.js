@@ -20,7 +20,6 @@ export const EXCEEDED_LOADED               = 'NOTIFICATION/EXCEEDED_LOADED'
 
 
 /* NOTE  emit to reducer: handleToggleLoading */
-/* DONE */
 export function setIsLoading(flag) {
   return {
     type: TOGGLE_LOADING,
@@ -29,7 +28,6 @@ export function setIsLoading(flag) {
 }
 
 /* NOTE  emit to reducer: handleUpdateDataSource */
-/* DONE */
 export function loadNotificationsByType(page, type, stations) {
   return async dispatch => {
     dispatch(setIsLoading(false))
@@ -81,7 +79,6 @@ export function loadNotificationsByType(page, type, stations) {
 }
 
 /* NOTE  emit to reducer: handleUpdateDataSource */
-/* TODO  add actions */
 export function updateNotificationOnMessage(message, stations) {
   return async dispatch => {
   
@@ -145,9 +142,7 @@ export function updateNotificationOnMessage(message, stations) {
   }
 }
 
-
 /* NOTE  emit to reducer: handleClearCount */
-/* DONE */
 export function clearNotificationCountByType(type) {
   return async dispatch => {
     let res = await NotificationAPI.updateIsSeenByType(type)
@@ -177,8 +172,6 @@ export function clearNotificationCountByType(type) {
   }
 }
 
-
-/* DONE */
 export function getTotalByNotificationType(rawState) {
   return async dispatch => {
     let res = await NotificationAPI.getTotalByNotificationType()
@@ -236,39 +229,4 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
       cellContent.actions.aroundAtExceededTime = RawDataURL
 
       return cellContent
-}   
-
-// function _generateNotificationCellByType(rawContent, stationInfo) {
-//       // generate ra link filter station monitoring
-//       const formSearchViewDetail = {
-//         stationAuto: stationInfo.key,
-//       }
-//       let viewDetailURL = slug.monitoring.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchViewDetail))
-      
-//       // generate ra link xem giá trị quanh thời điểm vượt ngưỡng
-//       const fromDate = moment(rawContent.createdAt).subtract(2, 'hours').format('DD/MM/YYYY hh:mm')
-//       const toDate = moment(rawContent.createdAt).add(2, 'hours').format('DD/MM/YYYY hh:mm')
-//       const formSearchRawData = {
-//         stationType: stationInfo.stationType.key,
-//         stationAuto: stationInfo.key,
-//         measuringList: rawContent.dataFilter, // NOTE  measuringList phai la array
-//         timeRange: `${fromDate} - ${toDate}`,
-//         searchNow: true
-//       }
-//       const RawDataURL = slug.dataSearch.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchRawData))
-
-//       // new content of cell
-//       const cellContent = {
-//         station: stationInfo.name,
-//         exceededTime: moment(rawContent.createdAt).format('DD-MM-YYYY hh:mm'),
-//         fullBody: {__html: rawContent.full_body},
-//         actions: {
-//           viewDetail: '',
-//           aroundAtExceededTime: ''
-//         }
-//       }
-//       cellContent.actions.viewDetail = viewDetailURL
-//       cellContent.actions.aroundAtExceededTime = RawDataURL
-
-//       return cellContent
-// }   
+}
