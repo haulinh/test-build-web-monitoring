@@ -17,20 +17,12 @@ import ChangeLanguage from "./ChangeLanguage";
 import LogoBrandName from "./LogoBrandName";
 import { translate } from "hoc/create-lang";
 import { deleteToken } from "api/NotificationApi";
+import Navigation, { AkNavigationItem, AkGlobalItem, createGlobalTheme, presetThemes } from '@atlaskit/navigation'
+import AkDropdownMenu, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu'
+import styled from 'styled-components'
+import { connectAutoDispatch } from 'redux/connect'
+import { logout } from 'redux/actions/authAction'
 
-import Navigation, {
-  AkNavigationItem,
-  AkGlobalItem,
-  createGlobalTheme,
-  presetThemes
-} from "@atlaskit/navigation";
-import AkDropdownMenu, {
-  DropdownItemGroup,
-  DropdownItem
-} from "@atlaskit/dropdown-menu";
-import styled from "styled-components";
-import { connectAutoDispatch } from "redux/connect";
-import { logout } from "redux/actions/authAction";
 
 const WrapperTitle = styled.div`
   margin-left: -8px;
@@ -71,23 +63,18 @@ export default class BasicNestedNavigation extends React.Component {
   };
 
   toggleDrawer(type) {
-    this.setState({
-      drawers: {
-        ...this.state.drawers,
-        [type]: !this.state.drawers[type]
-      }
-    });
+    window.open('http://help.ilotusland.com', '_blank')
+    // console.log(this.state.drawers,"toggleDrawer")
+    // this.setState({
+    //   drawers: {
+    //     ...this.state.drawers,
+    //     [type]: !this.state.drawers[type]
+    //   }
+    // })
   }
 
   getContainerHeaderComponent = logo => {
-    const backButton = this.props.isShowBack ? (
-      <AkNavigationItem
-        icon={<ArrowLeftIcon label="Back" />}
-        onClick={this.props.onBack}
-        text="Back"
-        key="2"
-      />
-    ) : null;
+    const backButton = this.props.isShowBack ? <AkNavigationItem icon={<ArrowLeftIcon label="Back" />} onClick={this.props.onBack} text="Back" key="2" /> : null
 
     /* eslint-disable jsx-a11y/no-static-element-interactions */
     if (!this.props.navigation.isOpen) return [];
@@ -130,36 +117,18 @@ export default class BasicNestedNavigation extends React.Component {
         position="right bottom"
         trigger={
           <AkGlobalItem>
-            <Tooltip position="right" content={translate("profileUser.title")}>
-              <AvatarCharacter
-                size={32}
-                username={this.props.authInfo.email}
-                avatarUrl={this.props.authInfo.avatar}
-              />
+            <Tooltip position="right" content={translate('profileUser.title')}>
+              <AvatarCharacter size={32} username={this.props.authInfo.email} avatarUrl={this.props.authInfo.avatar} />
             </Tooltip>
           </AkGlobalItem>
         }
       >
-        <DropdownItemGroup
-          title={`${this.props.authInfo.lastName} ${
-            this.props.authInfo.firstName
-          }`}
-        >
-          <DropdownItem onClick={this.handleProfile}>
-            {translate("profileUser.viewProfile")}
-          </DropdownItem>
-          <DropdownItem onClick={this.handleChangePassword}>
-            {translate("profileUser.changePassword")}
-          </DropdownItem>
-          <DropdownItem onClick={this.handleConfigStation}>
-            {translate("profileUser.configStation")}
-          </DropdownItem>
-          <DropdownItem onClick={this.handleSecurity}>
-            {translate("profileUser.security")}
-          </DropdownItem>
-          <DropdownItem onClick={this.handleLogout}>
-            {translate("profileUser.logOut")}
-          </DropdownItem>
+        <DropdownItemGroup title={`${this.props.authInfo.lastName} ${this.props.authInfo.firstName}`}>
+          <DropdownItem onClick={this.handleProfile}>{translate('profileUser.viewProfile')}</DropdownItem>
+          <DropdownItem onClick={this.handleChangePassword}>{translate('profileUser.changePassword')}</DropdownItem>
+          <DropdownItem onClick={this.handleConfigStation}>{translate('profileUser.configStation')}</DropdownItem>
+          <DropdownItem onClick={this.handleSecurity}>{translate('profileUser.security')}</DropdownItem>
+          <DropdownItem onClick={this.handleLogout}>{translate('profileUser.logOut')}</DropdownItem>
         </DropdownItemGroup>
       </AkDropdownMenu>,
       <ChangeLanguage />
@@ -173,25 +142,14 @@ export default class BasicNestedNavigation extends React.Component {
   }
 
   renderDrawer(Component, key) {
-    return (
-      <Component
-        key={key}
-        onBackButton={() => this.toggleDrawer(key)}
-        isOpen={this.state.drawers[key] ? true : false}
-        primaryIcon={<span />}
-      />
-    );
+    return <Component key={key} onBackButton={() => this.toggleDrawer(key)} isOpen={this.state.drawers[key] ? true : false} primaryIcon={<span />} />
   }
 
-  renderIconDrawer(IconComponent, key, content) {
+  renderIconDrawer = (IconComponent, key, content) => {
     return (
       <AkGlobalItem size="medium" onClick={() => this.toggleDrawer(key)}>
         <Tooltip position="right" content={content}>
-          <IconComponent
-            label={content}
-            secondaryColor="inherit"
-            size="medium"
-          />
+          <IconComponent label={content} secondaryColor="inherit" size="medium" />
         </Tooltip>
       </AkGlobalItem>
     );
@@ -210,18 +168,11 @@ export default class BasicNestedNavigation extends React.Component {
           // containerTheme={presetThemes.global}
           width={this.props.hide ? 0 : this.props.navigation.width}
           globalPrimaryIcon={<LogoSubIcon />}
-          containerHeaderComponent={() =>
-            this.getContainerHeaderComponent(logo)
-          }
+          containerHeaderComponent={() => this.getContainerHeaderComponent(logo)}
           onResize={this.handleResize}
           isOpen={this.props.navigation.isOpen}
-          drawers={[
-            this.renderDrawer(DocumentDrawer, "document"),
-            this.renderDrawer(AppDrawer, "app")
-          ]}
-          globalPrimaryActions={[
-            this.renderIconDrawer(DocumentIcon, "document", "Document")
-          ]}
+          drawers={[this.renderDrawer(DocumentDrawer, 'document'), this.renderDrawer(AppDrawer, 'app')]}
+          globalPrimaryActions={[this.renderIconDrawer(DocumentIcon, 'document', 'Document')]}
           globalSecondaryActions={this.globalSecondaryActions()}
         >
           {this.props.children}
