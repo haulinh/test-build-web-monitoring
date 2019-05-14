@@ -87,7 +87,7 @@ export function updateNotificationOnMessage(message, stations) {
   
     let stationInfo = _.find(stations, {_id: message.data.station_id})
     console.log('--- message ---', message)
-    let item = _generateNotificationCellOnMessage(message, stationInfo)
+    let item = _generateNotificationCellByType(message, stationInfo)
 
     switch(message.data.type) { // EXCEEDED || ERROR || DATA_LOST
       case TAB_KEYS.EXCEEDED: {
@@ -238,37 +238,37 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
       return cellContent
 }   
 
-function _generateNotificationCellOnMessage(rawContent, stationInfo) {
-      // generate ra link filter station monitoring
-      const formSearchViewDetail = {
-        stationAuto: stationInfo.key,
-      }
-      let viewDetailURL = slug.monitoring.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchViewDetail))
+// function _generateNotificationCellByType(rawContent, stationInfo) {
+//       // generate ra link filter station monitoring
+//       const formSearchViewDetail = {
+//         stationAuto: stationInfo.key,
+//       }
+//       let viewDetailURL = slug.monitoring.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchViewDetail))
       
-      // generate ra link xem giá trị quanh thời điểm vượt ngưỡng
-      const fromDate = moment(rawContent.createdAt).subtract(2, 'hours').format('DD/MM/YYYY hh:mm')
-      const toDate = moment(rawContent.createdAt).add(2, 'hours').format('DD/MM/YYYY hh:mm')
-      const formSearchRawData = {
-        stationType: stationInfo.stationType.key,
-        stationAuto: stationInfo.key,
-        measuringList: rawContent.dataFilter, // NOTE  measuringList phai la array
-        timeRange: `${fromDate} - ${toDate}`,
-        searchNow: true
-      }
-      const RawDataURL = slug.dataSearch.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchRawData))
+//       // generate ra link xem giá trị quanh thời điểm vượt ngưỡng
+//       const fromDate = moment(rawContent.createdAt).subtract(2, 'hours').format('DD/MM/YYYY hh:mm')
+//       const toDate = moment(rawContent.createdAt).add(2, 'hours').format('DD/MM/YYYY hh:mm')
+//       const formSearchRawData = {
+//         stationType: stationInfo.stationType.key,
+//         stationAuto: stationInfo.key,
+//         measuringList: rawContent.dataFilter, // NOTE  measuringList phai la array
+//         timeRange: `${fromDate} - ${toDate}`,
+//         searchNow: true
+//       }
+//       const RawDataURL = slug.dataSearch.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchRawData))
 
-      // new content of cell
-      const cellContent = {
-        station: stationInfo.name,
-        exceededTime: moment(rawContent.createdAt).format('DD-MM-YYYY hh:mm'),
-        fullBody: {__html: rawContent.full_body},
-        actions: {
-          viewDetail: '',
-          aroundAtExceededTime: ''
-        }
-      }
-      cellContent.actions.viewDetail = viewDetailURL
-      cellContent.actions.aroundAtExceededTime = RawDataURL
+//       // new content of cell
+//       const cellContent = {
+//         station: stationInfo.name,
+//         exceededTime: moment(rawContent.createdAt).format('DD-MM-YYYY hh:mm'),
+//         fullBody: {__html: rawContent.full_body},
+//         actions: {
+//           viewDetail: '',
+//           aroundAtExceededTime: ''
+//         }
+//       }
+//       cellContent.actions.viewDetail = viewDetailURL
+//       cellContent.actions.aroundAtExceededTime = RawDataURL
 
-      return cellContent
-}   
+//       return cellContent
+// }   
