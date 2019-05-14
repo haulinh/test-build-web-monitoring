@@ -67,8 +67,9 @@ export default class SearchForm extends React.Component {
 
   constructor(props) {
     super(props)
+    
     this.state = {
-      timeRange: 7,
+      timeRange: props.initialValues.timeRange || 7,
       provinceKey: props.initialValues.provinceKey,
       stationTypeKey: props.initialValues.stationType,
       stationAutoKey: props.initialValues.stationAuto,
@@ -79,9 +80,9 @@ export default class SearchForm extends React.Component {
             name: measuring.name
           }))
         : [],
-      fromDate: props.initialValues.fromDate,
-      toDate: props.initialValues.toDate,
-      receivedAt: this.props.initialValues.toDate
+      fromDate: moment(props.initialValues.fromDate),
+      toDate: moment(props.initialValues.toDate),
+      receivedAt: moment(props.initialValues.receivedAt) || this.props.initialValues.toDate
     }
   }
 
@@ -272,6 +273,7 @@ export default class SearchForm extends React.Component {
                 size="large"
                 onChangeObject={this.handleChangeRanges}
                 component={FOptionsTimeRange}
+                defaultValue={this.state.timeRange}
               />
             </Col>
             <Col span={6}>

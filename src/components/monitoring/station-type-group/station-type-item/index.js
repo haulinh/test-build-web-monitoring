@@ -68,7 +68,7 @@ export default class StationTypeSummary extends React.Component {
                     {stationType.name} ({goodTotal}/{stationAutoList.length})
                     <IconToggle
                       isOpen={this.state.isOpen}
-                      style={{ marginLeft: 20 }}
+                      style={{ marginLeft: 10 }}
                     >
                       <Icon type="caret-right" />
                     </IconToggle>

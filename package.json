@@ -108,6 +108,7 @@
     "react-google-maps": "^9.4.5",
     "react-highcharts": "^16.0.2",
     "react-hot-loader": "^3.1.3",
+    "react-infinite-scroller": "^1.2.4",
     "react-input-colorpicker": "^1.0.13",
     "react-jsx-highstock": "^2.2.1",
     "react-jsx-highstock-datepickers": "^2.1.0",

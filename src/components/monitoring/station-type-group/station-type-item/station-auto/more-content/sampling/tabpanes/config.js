@@ -8,8 +8,6 @@ import swal from 'sweetalert2';
 /* user import */
 import { translate } from 'hoc/create-lang'
 import SamplingAPI from 'api/SamplingApi'
-import { prop } from 'cramda';
-import { resetAuthToken } from 'utils/auth';
 
 const FormItem = Form.Item
 

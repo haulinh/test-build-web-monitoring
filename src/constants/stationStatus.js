@@ -10,7 +10,7 @@ export default {
 
 export const STATUS_OPTIONS = {
   GOOD: { title: 'warningLevels.good', color: COLOR_STATUS.GOOD },
-  DATA_LOSS: { title: 'warningLevels.dataLoss', color: COLOR_STATUS.DATA_LOSS },
+  DATA_LOSS: { title: 'warningLevels.lostData', color: COLOR_STATUS.DATA_LOSS },
   // NOT_USE: { title: "dashboard.notUse", color: COLOR_STATUS.DATA_LOSS },
 
   EXCEEDED: { title: 'warningLevels.exceed', color: COLOR_STATUS.EXCEEDED },

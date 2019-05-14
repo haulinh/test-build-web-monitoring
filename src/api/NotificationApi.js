@@ -1,12 +1,35 @@
-import { getFetch, postFetch, deleteFetch } from 'utils/fetch'
+import querystring from 'querystring'
+import { getFetch, postFetch, putFetch, deleteFetch } from 'utils/fetch'
 import { getConfigApi } from 'config'
 
 export function getNotification() {
-  return getFetch(getConfigApi().fcmMessages)
+  return getFetch(fcmNotificationRoute().fcmMessages)
 }
 
 export function get() {
-  return getFetch(getConfigApi().notify)
+  return getFetch(fcmNotificationRoute().notify)
+}
+
+
+/* --------- launching --------- */
+
+/* TIP  link postman
+https://www.getpostman.com/collections/cef48462029130ceafb9?fbclid=IwAR0LaBhlJ6h3MtjjoKOywFyZGEf6XmKo31v5sZ4FeD7BH3DqwEQAEf1Q0EY
+*/
+
+const fcmNotificationRoute = () => getConfigApi().fcmNotification 
+
+export function updateIsSeenByType(type){
+  return putFetch(`${fcmNotificationRoute()}/updateIsSeen`, {type})
+}
+
+export function loadNotificationsByType(params){  // params: {page, itemPerPage, type}
+  let qryString = querystring.stringify(params)
+  return getFetch(`${fcmNotificationRoute()}/?${qryString}`)
+}
+
+export function getTotalByNotificationType(){
+  return getFetch(`${fcmNotificationRoute()}/getTotalByNotificationType`)
 }
 
 export function deleteToken(token,email) {
@@ -22,14 +45,9 @@ export function linkToken2Email(token){
 
 export default {
   getNotification,
+  updateIsSeenByType,
+  getTotalByNotificationType,
+  loadNotificationsByType,
   linkToken2Email,
   deleteToken
 }
-
-
-
-
-
-// fcmMessages: c('fcm-messages'),
-// fcmNotification: c('fcm-notification'),
-// fcmToken: c('fcm-token'),

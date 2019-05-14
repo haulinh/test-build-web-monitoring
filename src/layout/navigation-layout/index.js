@@ -5,12 +5,12 @@ import { autobind } from "core-decorators";
 import ArrowLeftIcon from "@atlaskit/icon/glyph/arrow-left";
 import Tooltip from "@atlaskit/tooltip";
 import { withRouter } from "react-router-dom";
-import AvatarCharacter from "components/elements/avatar-character";
 import Link from "components/elements/link";
 import slug from "constants/slug";
 import StyleWrapper from "./StyleWrapper";
 import LogoSubIcon from "./LogoSubIcon";
 import DocumentIcon from "@atlaskit/icon/glyph/question-circle";
+import NotificationIcon from '@atlaskit/icon/glyph/notification';
 import DocumentDrawer from "./DocumentDrawer";
 import AppDrawer from "./AppDrawer";
 import ChangeLanguage from "./ChangeLanguage";
@@ -20,8 +20,17 @@ import { deleteToken } from "api/NotificationApi";
 import Navigation, { AkNavigationItem, AkGlobalItem, createGlobalTheme, presetThemes } from '@atlaskit/navigation'
 import AkDropdownMenu, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu'
 import styled from 'styled-components'
+import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper';
+/* 
+-------------------------------
+ */
 import { connectAutoDispatch } from 'redux/connect'
+import { getTotalByNotificationType, setDrawerVisible } from 'redux/actions/notification'
+import { getListOfStationAuto } from "redux/actions/stationAuto";
 import { logout } from 'redux/actions/authAction'
+import AvatarCharacter from 'components/elements/avatar-character'
+import {Drawer, Badge, Icon} from 'antd'
+import NotificationDrawer from './NotificationDrawer'
 
 
 const WrapperTitle = styled.div`
@@ -33,9 +42,15 @@ const globalTheme = createGlobalTheme("#ffffff", "#1d89ce");
 @connectAutoDispatch(
   state => ({
     authInfo: state.auth.userInfo,
+    notificationCount: state.notification.count,
+    drawerVisible: state.notification.visible,
     tokenFCM: state.auth.tokenFCM
   }),
-  { logout }
+  { 
+    logout, 
+    getListOfStationAuto,
+    getTotalByNotificationType, setDrawerVisible,
+  }
 )
 @withRouter
 @autobind
@@ -46,8 +61,14 @@ export default class BasicNestedNavigation extends React.Component {
     onBack: PropTypes.func,
     onChangeSize: PropTypes.func,
     logout: PropTypes.func,
-    navigation: PropTypes.object
-  };
+    navigation: PropTypes.object,
+    /* Redux's props */
+    drawerVisible: PropTypes.bool.isRequired,
+    notificationCount: PropTypes.object.isRequired,
+    stationAuto: PropTypes.array.isRequired,
+    getTotalByNotificationType: PropTypes.func.isRequired,
+    setDrawerVisible: PropTypes.func.isRequired
+  }
 
   static defaultProps = {
     navigation: {
@@ -59,8 +80,9 @@ export default class BasicNestedNavigation extends React.Component {
   state = {
     drawers: {
       create: false
-    }
-  };
+    },
+    isShowNotifyDrawer: false,
+  }
 
   toggleDrawer(type) {
     window.open('http://help.ilotusland.com', '_blank')
@@ -110,8 +132,14 @@ export default class BasicNestedNavigation extends React.Component {
   handleConfigStation() {
     this.props.history.push(slug.user.configStation);
   }
+
+  /* NOTE  UI-NAVIGATOR-BELOW (list of icons same position as language) */
   globalSecondaryActions() {
     return [
+      /* MARK  icon notification */
+      <Badge style={{cursor: 'pointer'}} count={this.props.notificationCount.total} onClick={() => this.props.setDrawerVisible(true)}>
+        <NotificationIcon size="large" primaryColor="orange" />
+      </Badge>,
       <AkDropdownMenu
         appearance="tall"
         position="right bottom"
@@ -155,8 +183,13 @@ export default class BasicNestedNavigation extends React.Component {
     );
   }
 
+  async componentDidMount() {
+    this.props.getTotalByNotificationType(this.props.notificationCount)
+    this.props.getListOfStationAuto()
+  }
+
   render() {
-    let logo = "";
+    let logo = ''
     if (this.props.authInfo.organization) {
       logo = this.props.authInfo.organization.logo;
     }
@@ -177,6 +210,12 @@ export default class BasicNestedNavigation extends React.Component {
         >
           {this.props.children}
         </Navigation>
+        
+        {/* NOTE  NOTIFICATION COMPONENT */}
+        <NotificationDrawer 
+          closeDrawer={() => this.props.setDrawerVisible(false)}
+          visible={this.props.drawerVisible}
+        />
       </StyleWrapper>
     );
   }

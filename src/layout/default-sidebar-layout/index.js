@@ -4,10 +4,16 @@ import SidebarNavigation from "./SidebarNavigation";
 import createProtectedAuth from "hoc/protected-auth";
 import styled from "styled-components";
 import { connectAutoDispatch } from "redux/connect";
+import { withRouter } from 'react-router-dom'
 import { toggleNavigation } from "redux/actions/themeAction";
-import { setFcmToken } from "redux/actions/authAction";
+import { updateNotificationOnMessage } from "redux/actions/notification";
 import { autobind } from "core-decorators";
-import { linkToken2Email } from "api/NotificationApi";
+import { linkToken2Email } from 'api/NotificationApi'
+import { notification } from 'antd'
+import { TAB_KEYS } from 'constants/notification'
+import slug from 'constants/slug'
+import _ from 'lodash'
+import { setFcmToken } from "redux/actions/authAction";
 
 const Wrapper = styled.div`
   .zJwEi {
@@ -18,10 +24,13 @@ const Wrapper = styled.div`
 @createProtectedAuth
 @connectAutoDispatch(
   state => ({
-    navigationIsOpen: state.theme.navigation.isOpen
+    state,
+    navigationIsOpen: state.theme.navigation.isOpen,
+    stationAuto: state.stationAuto.list
   }),
-  { toggleNavigation, setFcmToken }
+  { toggleNavigation, updateNotificationOnMessage, setFcmToken }
 )
+@withRouter
 @autobind
 export default class PageWrapper extends Component {
   componentDidMount() {
@@ -52,6 +61,21 @@ export default class PageWrapper extends Component {
         // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
         console.log("message noti", message);
       });
+    
+    messaging.onMessage((payload) => {
+      this._showNotification(payload)
+
+      /* note: format data de tuong thich code */
+      payload.createdAt  = Number(payload.data.createdAt)
+      payload.dataFilter = payload.data.dataFilter.split(";")
+      payload.full_body  = payload.data.full_body
+      this.props.updateNotificationOnMessage(payload, this.props.stationAuto)
+    });
+   
+    //  navigator.serviceWorker.addEventListener("message", message =>{
+    //    // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
+    //   console.log('message noti',message)
+    // });
     } catch (e) {
       console.error('Notification only start witl https')
     }
@@ -60,6 +84,30 @@ export default class PageWrapper extends Component {
   state = {
     navigationWidth: 320
   };
+
+  _showNotification(payload) {
+    let stationInfo = _.find(this.props.stationAuto, {_id: payload.data.station_id})
+    let description = ''
+    switch(payload.data.type) {
+      case TAB_KEYS.EXCEEDED: {
+        description = 'Thông báo vượt ngưỡng' /* MARK  @translate */
+        break;
+      }
+      case TAB_KEYS.LOST_SIGNAL: {
+        description = 'Thông báo mất dữ liệu' /* MARK  @translate */
+        break;
+      }
+      case TAB_KEYS.SENSOR_ERROR: {
+        description = 'Thông báo trạng thái thiết bị' /* MARK  @translate */
+        break;
+      }
+    }
+
+    notification['info']({
+      message: stationInfo.name,
+      description: description,
+    });
+  }
 
   getNavigation() {
     return {

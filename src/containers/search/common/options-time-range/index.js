@@ -18,7 +18,7 @@ export default class OptionsTimeRange extends React.Component {
   state = {
     open: false,
     rangesView: '',
-    defaultValue: 7
+    defaultValue: this.props.defaultValue
   }
 
   shouldComponentUpdate(nextProps, nextState) {

@@ -1280,7 +1280,8 @@ export default {
     exceedTendency: 'Có xu hướng vượt',
     exceedPreparing: 'Chuẩn bị vượt',
     exceed: 'Vượt nguỡng',
-    dataLoss: 'Mất dữ liệu'
+    lostData: 'Mất tín hiệu',
+    sensorError: 'Lỗi thiết bị'
   },
   addon: {
     create: 'Tạo mới',
@@ -1503,6 +1504,16 @@ export default {
     body1:
       'Đây là chức năng thuộc phiên bản Nâng cao, vui lòng liên hệ với chúng tôi để biết thêm thông tin:',
     body2: 'Email: sales@vietan-software.com'
+  },
+  stationStatus: {
+    good: 'Tốt',
+    lostSignal: 'Mất tín hiệu',
+    notConnected: 'Chưa kết nối',
+    connecting: 'Đang kết nối',
+    connected: 'Đã kết nối',
+    exceeded: 'Vượt ngưỡng',
+    exceededPreparing: 'Chuẩn bị vượt',
+    exceededTendency: 'Có xu hướng vượt',
   }
 }
 //
