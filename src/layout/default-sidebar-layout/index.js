@@ -5,6 +5,7 @@ import createProtectedAuth from "hoc/protected-auth";
 import styled from "styled-components";
 import { connectAutoDispatch } from "redux/connect";
 import { toggleNavigation } from "redux/actions/themeAction";
+import { setFcmToken } from "redux/actions/authAction";
 import { autobind } from "core-decorators";
 import { linkToken2Email } from "api/NotificationApi";
 
@@ -19,14 +20,14 @@ const Wrapper = styled.div`
   state => ({
     navigationIsOpen: state.theme.navigation.isOpen
   }),
-  { toggleNavigation }
+  { toggleNavigation, setFcmToken }
 )
 @autobind
 export default class PageWrapper extends Component {
   componentDidMount() {
     // import { messaging } from "utils/init-fcm";
     // MARK  vì phải chờ app.json nen phải load o day
-
+    const me = this
     try {
       const { messaging } = require("utils/init-fcm");
       // // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
@@ -37,6 +38,7 @@ export default class PageWrapper extends Component {
           // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
           try {
             let response = await linkToken2Email(token);
+            me.props.setFcmToken(token)
             console.log("linkToken2Email respon", token, response);
           } catch (e) {
             console.log("error linkToken2Email", e);

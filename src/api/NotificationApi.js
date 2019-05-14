@@ -1,4 +1,4 @@
-import { getFetch, postFetch } from 'utils/fetch'
+import { getFetch, postFetch, deleteFetch } from 'utils/fetch'
 import { getConfigApi } from 'config'
 
 export function getNotification() {
@@ -7,6 +7,10 @@ export function getNotification() {
 
 export function get() {
   return getFetch(getConfigApi().notify)
+}
+
+export function deleteToken(token,email) {
+  return deleteFetch(`${getConfigApi().fcmToken}?token=${token}&email=${email}`)
 }
 
 export function linkToken2Email(token){
@@ -18,7 +22,8 @@ export function linkToken2Email(token){
 
 export default {
   getNotification,
-  linkToken2Email
+  linkToken2Email,
+  deleteToken
 }
 
 

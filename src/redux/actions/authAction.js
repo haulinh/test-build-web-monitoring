@@ -6,6 +6,7 @@ export const FETCH_PENDING_USER = 'AUTH/fetch-pending-user'
 export const FETCH_SUCCESS_USER = 'AUTH/fetch-success-user'
 export const FETCH_FAIL_USER = 'AUTH/fetch-fail-user'
 export const USER_LOGOUT = 'AUTH/user-lgoout'
+export const SET_FCM_TOKEN = 'AUTH/SET_FCM_TOKEN'
 
 export function fetchUserMe() {
   return async dispatch => {
@@ -66,5 +67,14 @@ export function userLogin2Factor(reqData) {
       })
     }
     return auth
+  }
+}
+
+export function setFcmToken(token) {
+  return async dispatch => {
+    dispatch({
+      type: SET_FCM_TOKEN,
+      payload: token
+    })
   }
 }

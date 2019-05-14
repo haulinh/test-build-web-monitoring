@@ -1,45 +1,47 @@
-import PropTypes from 'prop-types'
-import React from 'react'
+import PropTypes from "prop-types";
+import React from "react";
 
-import { autobind } from 'core-decorators'
-import ArrowLeftIcon from '@atlaskit/icon/glyph/arrow-left'
-import Tooltip from '@atlaskit/tooltip'
-import { withRouter } from 'react-router-dom'
-import AvatarCharacter from 'components/elements/avatar-character'
-import Link from 'components/elements/link'
-import slug from 'constants/slug'
-import StyleWrapper from './StyleWrapper'
-import LogoSubIcon from './LogoSubIcon'
-import DocumentIcon from '@atlaskit/icon/glyph/question-circle'
-import DocumentDrawer from './DocumentDrawer'
-import AppDrawer from './AppDrawer'
-import ChangeLanguage from './ChangeLanguage'
-import LogoBrandName from './LogoBrandName'
-import { translate } from 'hoc/create-lang'
+import { autobind } from "core-decorators";
+import ArrowLeftIcon from "@atlaskit/icon/glyph/arrow-left";
+import Tooltip from "@atlaskit/tooltip";
+import { withRouter } from "react-router-dom";
+import AvatarCharacter from "components/elements/avatar-character";
+import Link from "components/elements/link";
+import slug from "constants/slug";
+import StyleWrapper from "./StyleWrapper";
+import LogoSubIcon from "./LogoSubIcon";
+import DocumentIcon from "@atlaskit/icon/glyph/question-circle";
+import DocumentDrawer from "./DocumentDrawer";
+import AppDrawer from "./AppDrawer";
+import ChangeLanguage from "./ChangeLanguage";
+import LogoBrandName from "./LogoBrandName";
+import { translate } from "hoc/create-lang";
+import { deleteToken } from "api/NotificationApi";
 
 import Navigation, {
   AkNavigationItem,
   AkGlobalItem,
   createGlobalTheme,
   presetThemes
-} from '@atlaskit/navigation'
+} from "@atlaskit/navigation";
 import AkDropdownMenu, {
   DropdownItemGroup,
   DropdownItem
-} from '@atlaskit/dropdown-menu'
-import styled from 'styled-components'
-import { connectAutoDispatch } from 'redux/connect'
-import { logout } from 'redux/actions/authAction'
+} from "@atlaskit/dropdown-menu";
+import styled from "styled-components";
+import { connectAutoDispatch } from "redux/connect";
+import { logout } from "redux/actions/authAction";
 
 const WrapperTitle = styled.div`
   margin-left: -8px;
   margin-right: -8px;
-`
+`;
 
-const globalTheme = createGlobalTheme('#ffffff', '#1d89ce')
+const globalTheme = createGlobalTheme("#ffffff", "#1d89ce");
 @connectAutoDispatch(
   state => ({
-    authInfo: state.auth.userInfo
+    authInfo: state.auth.userInfo,
+    tokenFCM: state.auth.tokenFCM
   }),
   { logout }
 )
@@ -53,20 +55,20 @@ export default class BasicNestedNavigation extends React.Component {
     onChangeSize: PropTypes.func,
     logout: PropTypes.func,
     navigation: PropTypes.object
-  }
+  };
 
   static defaultProps = {
     navigation: {
       isOpen: true,
       width: 320
     }
-  }
+  };
 
   state = {
     drawers: {
       create: false
     }
-  }
+  };
 
   toggleDrawer(type) {
     this.setState({
@@ -74,7 +76,7 @@ export default class BasicNestedNavigation extends React.Component {
         ...this.state.drawers,
         [type]: !this.state.drawers[type]
       }
-    })
+    });
   }
 
   getContainerHeaderComponent = logo => {
@@ -85,10 +87,10 @@ export default class BasicNestedNavigation extends React.Component {
         text="Back"
         key="2"
       />
-    ) : null
+    ) : null;
 
     /* eslint-disable jsx-a11y/no-static-element-interactions */
-    if (!this.props.navigation.isOpen) return []
+    if (!this.props.navigation.isOpen) return [];
     return [
       <Tooltip key="1" position="right" content="Admin system">
         <WrapperTitle>
@@ -98,27 +100,28 @@ export default class BasicNestedNavigation extends React.Component {
         </WrapperTitle>
       </Tooltip>,
       backButton
-    ]
+    ];
     /* eslint-enable jsx-a11y/no-static-element-interactions */
-  }
+  };
 
   handleLogout() {
-    this.props.logout()
-    this.props.history.push('/login')
+    this.props.logout();
+    deleteToken(this.props.tokenFCM, this.props.authInfo.email);
+    this.props.history.push("/login");
   }
 
   handleChangePassword() {
-    this.props.history.push(slug.user.changePassword)
+    this.props.history.push(slug.user.changePassword);
   }
 
   handleProfile() {
-    this.props.history.push(slug.user.profile)
+    this.props.history.push(slug.user.profile);
   }
   handleSecurity() {
-    this.props.history.push(slug.user.security)
+    this.props.history.push(slug.user.security);
   }
   handleConfigStation() {
-    this.props.history.push(slug.user.configStation)
+    this.props.history.push(slug.user.configStation);
   }
   globalSecondaryActions() {
     return [
@@ -127,7 +130,7 @@ export default class BasicNestedNavigation extends React.Component {
         position="right bottom"
         trigger={
           <AkGlobalItem>
-            <Tooltip position="right" content={translate('profileUser.title')}>
+            <Tooltip position="right" content={translate("profileUser.title")}>
               <AvatarCharacter
                 size={32}
                 username={this.props.authInfo.email}
@@ -143,29 +146,29 @@ export default class BasicNestedNavigation extends React.Component {
           }`}
         >
           <DropdownItem onClick={this.handleProfile}>
-            {translate('profileUser.viewProfile')}
+            {translate("profileUser.viewProfile")}
           </DropdownItem>
           <DropdownItem onClick={this.handleChangePassword}>
-            {translate('profileUser.changePassword')}
+            {translate("profileUser.changePassword")}
           </DropdownItem>
           <DropdownItem onClick={this.handleConfigStation}>
-            {translate('profileUser.configStation')}
+            {translate("profileUser.configStation")}
           </DropdownItem>
           <DropdownItem onClick={this.handleSecurity}>
-            {translate('profileUser.security')}
+            {translate("profileUser.security")}
           </DropdownItem>
           <DropdownItem onClick={this.handleLogout}>
-            {translate('profileUser.logOut')}
+            {translate("profileUser.logOut")}
           </DropdownItem>
         </DropdownItemGroup>
       </AkDropdownMenu>,
       <ChangeLanguage />
-    ]
+    ];
   }
 
   handleResize(e) {
     if (this.props.onChangeSize) {
-      this.props.onChangeSize(e)
+      this.props.onChangeSize(e);
     }
   }
 
@@ -177,7 +180,7 @@ export default class BasicNestedNavigation extends React.Component {
         isOpen={this.state.drawers[key] ? true : false}
         primaryIcon={<span />}
       />
-    )
+    );
   }
 
   renderIconDrawer(IconComponent, key, content) {
@@ -191,13 +194,13 @@ export default class BasicNestedNavigation extends React.Component {
           />
         </Tooltip>
       </AkGlobalItem>
-    )
+    );
   }
 
   render() {
-    let logo = ''
+    let logo = "";
     if (this.props.authInfo.organization) {
-      logo = this.props.authInfo.organization.logo
+      logo = this.props.authInfo.organization.logo;
     }
 
     return (
@@ -213,17 +216,17 @@ export default class BasicNestedNavigation extends React.Component {
           onResize={this.handleResize}
           isOpen={this.props.navigation.isOpen}
           drawers={[
-            this.renderDrawer(DocumentDrawer, 'document'),
-            this.renderDrawer(AppDrawer, 'app')
+            this.renderDrawer(DocumentDrawer, "document"),
+            this.renderDrawer(AppDrawer, "app")
           ]}
           globalPrimaryActions={[
-            this.renderIconDrawer(DocumentIcon, 'document', 'Document')
+            this.renderIconDrawer(DocumentIcon, "document", "Document")
           ]}
           globalSecondaryActions={this.globalSecondaryActions()}
         >
           {this.props.children}
         </Navigation>
       </StyleWrapper>
-    )
+    );
   }
 }
