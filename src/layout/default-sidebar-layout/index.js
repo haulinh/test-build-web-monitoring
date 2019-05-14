@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { connectAutoDispatch } from "redux/connect";
 import { withRouter } from 'react-router-dom'
 import { toggleNavigation } from "redux/actions/themeAction";
-<<<<<<< HEAD
 import { updateNotificationOnMessage } from "redux/actions/notification";
 import { autobind } from "core-decorators";
 import { linkToken2Email } from 'api/NotificationApi'
@@ -14,11 +13,7 @@ import { notification } from 'antd'
 import { TAB_KEYS } from 'constants/notification'
 import slug from 'constants/slug'
 import _ from 'lodash'
-=======
 import { setFcmToken } from "redux/actions/authAction";
-import { autobind } from "core-decorators";
-import { linkToken2Email } from "api/NotificationApi";
->>>>>>> launching
 
 const Wrapper = styled.div`
   .zJwEi {
@@ -33,11 +28,7 @@ const Wrapper = styled.div`
     navigationIsOpen: state.theme.navigation.isOpen,
     stationAuto: state.stationAuto.list
   }),
-<<<<<<< HEAD
-  { toggleNavigation, updateNotificationOnMessage }
-=======
-  { toggleNavigation, setFcmToken }
->>>>>>> launching
+  { toggleNavigation, updateNotificationOnMessage, setFcmToken }
 )
 @withRouter
 @autobind
@@ -70,7 +61,6 @@ export default class PageWrapper extends Component {
         // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
         console.log("message noti", message);
       });
-<<<<<<< HEAD
     
     messaging.onMessage((payload) => {
       this._showNotification(payload)
@@ -86,11 +76,9 @@ export default class PageWrapper extends Component {
     //    // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
     //   console.log('message noti',message)
     // });
-=======
     } catch (e) {
       console.error('Notification only start witl https')
     }
->>>>>>> launching
   }
 
   state = {

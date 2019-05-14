@@ -5,7 +5,6 @@ import { autobind } from "core-decorators";
 import ArrowLeftIcon from "@atlaskit/icon/glyph/arrow-left";
 import Tooltip from "@atlaskit/tooltip";
 import { withRouter } from "react-router-dom";
-import AvatarCharacter from "components/elements/avatar-character";
 import Link from "components/elements/link";
 import slug from "constants/slug";
 import StyleWrapper from "./StyleWrapper";
@@ -22,23 +21,16 @@ import Navigation, { AkNavigationItem, AkGlobalItem, createGlobalTheme, presetTh
 import AkDropdownMenu, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu'
 import styled from 'styled-components'
 import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper';
-
+/* 
+-------------------------------
+ */
 import { connectAutoDispatch } from 'redux/connect'
 import { getTotalByNotificationType, setDrawerVisible } from 'redux/actions/notification'
 import { getListOfStationAuto } from "redux/actions/stationAuto";
 import { logout } from 'redux/actions/authAction'
 import AvatarCharacter from 'components/elements/avatar-character'
 import {Drawer, Badge, Icon} from 'antd'
-import Link from 'components/elements/link'
-import slug from 'constants/slug'
-import StyleWrapper from './StyleWrapper'
-import LogoSubIcon from './LogoSubIcon'
-import DocumentDrawer from './DocumentDrawer'
-import AppDrawer from './AppDrawer'
 import NotificationDrawer from './NotificationDrawer'
-import ChangeLanguage from './ChangeLanguage'
-import LogoBrandName from './LogoBrandName'
-import { translate } from 'hoc/create-lang'
 
 
 const WrapperTitle = styled.div`
