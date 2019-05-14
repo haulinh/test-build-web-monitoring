@@ -15,10 +15,13 @@ const options = [
 
 @autobind
 export default class OptionsTimeRange extends React.Component {
-  state = {
-    open: false,
-    rangesView: '',
-    defaultValue: this.props.defaultValue
+  constructor(props) {
+    super(props)
+    this.state = {
+      open: false,
+      rangesView: props.rangesView,
+      defaultValue: props.rangesView
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -63,6 +66,8 @@ export default class OptionsTimeRange extends React.Component {
   }
 
   render() {
+    console.log(this.state.defaultValue,"this.state.defaultValue")
+    console.log(this.props.value,"this.props.value")
     return (
       <div>
         <Select
