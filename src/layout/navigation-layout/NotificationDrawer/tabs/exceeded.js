@@ -31,6 +31,11 @@ function Cell(props) {
     padding-left: 8px;
   `
 
+  function handleActionClick(url) {
+    props.history.push(url)
+    props.closeDrawer()
+  }
+
   return (
     <CustomRow>
       <Card style={{ width: '100%' }} bodyStyle={{padding: 8}}>
@@ -69,14 +74,14 @@ function Cell(props) {
           <Col>
             <Button 
               type="primary" ghost 
-              onClick={() => props.history.push(cellContent.actions.viewDetail)}>
+              onClick={() => handleActionClick(cellContent.actions.viewDetail)}>
               {i18n.gotoRealtimeMonitoringPage}
             </Button>
           </Col>
           <Col>
             <Button 
               type="primary" ghost 
-              onClick={() => props.history.push(cellContent.actions.aroundAtExceededTime)}>
+              onClick={() => handleActionClick(cellContent.actions.aroundAtExceededTime)}>
               {i18n.viewDataAroundThisTime}
             </Button>
           </Col>
@@ -88,7 +93,13 @@ function Cell(props) {
 
 function Cells(props) {
   const { dataSource } = props
-  return dataSource.map(cellContent => <Cell cellContent={cellContent} history={props.history}/>)
+  return dataSource.map(cellContent => (
+    <Cell 
+      cellContent={cellContent} 
+      history={props.history} 
+      closeDrawer={props.closeDrawer}
+    />
+  ))
 }
 
 @connectAutoDispatch(
@@ -130,7 +141,7 @@ export default class NotificationDrawer extends React.Component {
         loader={<Card loading />}
         loadMore={this.props.loadNotifications}
         useWindow={false}>
-          <Cells dataSource={dataSource} history={this.props.history}/>
+          <Cells dataSource={dataSource} history={this.props.history} closeDrawer={this.props.closeDrawer}/>
       </InfiniteScroll>
     )
   }

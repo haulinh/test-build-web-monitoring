@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { TAB_KEYS } from 'constants/notification'
 import {
   UPDATE_COUNTS,
   UPDATE_ALL_COUNTS,
@@ -8,19 +7,11 @@ import {
   NEW_MESSAGE,
   UPDATE_DATA_SOURCE,
   TOGGLE_LOADING,
-
-  EXCEEDED_LOADING,
-  EXCEEDED_LOADED
+  TOGGLE_VISIBLE_NOTIFICATION_DRAWER
 } from '../actions/notification'
 
-// const {
-//   EXCEEDED,
-//   LOST_SIGNAL,
-//   SENSOR_ERROR
-// } = TAB_KEYS
-
-
 export const initialState = {
+  visible: false,
   loading: true,
   defaultStartPage: 1,
   currentPage: 0,
@@ -35,16 +26,12 @@ export const initialState = {
     lostSignal: [],
     sensorError: [],
   },
-  isLoadingExceeded: false
 }
 
 export default function handleNotificationStore(state = initialState, action) {
   const cloneState = _.clone(state)
   const {type, payload} = action
   switch (type) {
-    case EXCEEDED_LOADING: return {...state, isLoadingExceeded: true }
-    case EXCEEDED_LOADED: return {...state, isLoadingExceeded: false }
-
     case TOGGLE_LOADING: 
       return handleToggleLoading(cloneState, payload)
     case CLEAR_COUNTS: 
@@ -57,6 +44,8 @@ export default function handleNotificationStore(state = initialState, action) {
       return handleNewMessage(cloneState, payload)
     case UPDATE_DATA_SOURCE:
       return handleUpdateDataSource(cloneState, payload)
+    case TOGGLE_VISIBLE_NOTIFICATION_DRAWER:
+      return {...state, ...{visible: payload}}
     default:
       return state
   }

@@ -13,11 +13,18 @@ export const UPDATE_DATA_SOURCE            = 'NOTIFICATION/UPDATE_DATA_SOURCE'
 export const UPDATE_DATA_SOURCE_ON_MESSAGE = 'NOTIFICATION/UPDATE_DATA_SOURCE_ON_MESSAGE'
 export const TOGGLE_LOADING                = 'NOTIFICATION/TOGGLE_LOADING'
 export const UPDATE_CURRENT_PAGE           = 'NOTIFICATION/UPDATE_CURRENT_PAGE'
-export const EXCEEDED_LOADING              = 'NOTIFICATION/EXCEEDED_LOADING'
-export const EXCEEDED_LOADED               = 'NOTIFICATION/EXCEEDED_LOADED'
+export const TOGGLE_VISIBLE_NOTIFICATION_DRAWER               = 'NOTIFICATION/TOGGLE_VISIBLE_NOTIFICATION_DRAWER'
 
 
-
+/* NOTE  emit to reducer: handleToggleLoading */
+export function setDrawerVisible(flag) {
+  return dispatch => {
+    dispatch({
+      type: TOGGLE_VISIBLE_NOTIFICATION_DRAWER,
+      payload: flag
+    })
+  }
+}
 
 /* NOTE  emit to reducer: handleToggleLoading */
 export function setIsLoading(flag) {

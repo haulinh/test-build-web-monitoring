@@ -20,7 +20,7 @@ import styled from 'styled-components'
 import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper';
 
 import { connectAutoDispatch } from 'redux/connect'
-import { getTotalByNotificationType } from 'redux/actions/notification'
+import { getTotalByNotificationType, setDrawerVisible } from 'redux/actions/notification'
 import { getListOfStationAuto } from "redux/actions/stationAuto";
 import { logout } from 'redux/actions/authAction'
 import AvatarCharacter from 'components/elements/avatar-character'
@@ -46,8 +46,13 @@ const globalTheme = createGlobalTheme('#ffffff', '#1d89ce')
   state => ({
     authInfo: state.auth.userInfo,
     notificationCount: state.notification.count,
+    drawerVisible: state.notification.visible
   }),
-  { logout, getTotalByNotificationType, getListOfStationAuto }
+  { 
+    logout, 
+    getListOfStationAuto,
+    getTotalByNotificationType, setDrawerVisible,
+  }
 )
 @withRouter
 @autobind
@@ -60,9 +65,11 @@ export default class BasicNestedNavigation extends React.Component {
     logout: PropTypes.func,
     navigation: PropTypes.object,
     /* Redux's props */
+    drawerVisible: PropTypes.bool.isRequired,
     notificationCount: PropTypes.object.isRequired,
     stationAuto: PropTypes.array.isRequired,
     getTotalByNotificationType: PropTypes.func.isRequired,
+    setDrawerVisible: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -136,7 +143,7 @@ export default class BasicNestedNavigation extends React.Component {
   globalSecondaryActions() {
     return [
       /* MARK  icon notification */
-      <Badge style={{cursor: 'pointer'}} count={this.props.notificationCount.total} onClick={() => this.setState({isShowNotifyDrawer: true})}>
+      <Badge style={{cursor: 'pointer'}} count={this.props.notificationCount.total} onClick={() => this.props.setDrawerVisible(true)}>
         <NotificationIcon size="large" primaryColor="orange" />
       </Badge>,
       <AkDropdownMenu
@@ -249,8 +256,8 @@ export default class BasicNestedNavigation extends React.Component {
         
         {/* NOTE  NOTIFICATION COMPONENT */}
         <NotificationDrawer 
-          closeDrawer={() => this.setState({isShowNotifyDrawer: false})}
-          visible={this.state.isShowNotifyDrawer}
+          closeDrawer={() => this.props.setDrawerVisible(false)}
+          visible={this.props.drawerVisible}
         />
       </StyleWrapper>
     )
