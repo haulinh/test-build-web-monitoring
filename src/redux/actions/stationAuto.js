@@ -4,7 +4,7 @@ export const GET_STATIONS_AUTO = 'STATION/GET_STATIONS_AUTO'
 
 
 /* DONE */
-export function getTotalByNotificationType(rawState) {
+export function getListOfStationAuto(rawState) {
   return async dispatch => {
     let res = await StationAutoAPI.getWarningConfig()
     let {success, data} = res

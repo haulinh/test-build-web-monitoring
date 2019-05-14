@@ -6,6 +6,7 @@ import { translate } from 'hoc/create-lang'
 import { connectAutoDispatch } from 'redux/connect'
 import {Row, Col, Card, Button, message} from 'antd'
 import InfiniteScroll from 'react-infinite-scroller';
+import { withRouter } from 'react-router'
 import { COLOR_STATUS } from 'themes/color';
 
 
@@ -66,10 +67,18 @@ function Cell(props) {
         )} */}
         <CustomRow type="flex" gutter={16}>
           <Col>
-            <Button type="primary" ghost>{i18n.gotoRealtimeMonitoringPage}</Button>
+            <Button 
+              type="primary" ghost 
+              onClick={() => props.history.push(cellContent.actions.viewDetail)}>
+              {i18n.gotoRealtimeMonitoringPage}
+            </Button>
           </Col>
           <Col>
-            <Button type="primary" ghost>{i18n.viewDataAroundThisTime}</Button>
+            <Button 
+              type="primary" ghost 
+              onClick={() => props.history.push(cellContent.actions.aroundAtExceededTime)}>
+              {i18n.viewDataAroundThisTime}
+            </Button>
           </Col>
         </CustomRow>
       </Card>
@@ -79,8 +88,9 @@ function Cell(props) {
 
 function Cells(props) {
   const { dataSource } = props
-  return dataSource.map(cellContent => <Cell cellContent={cellContent}/>)
+  return dataSource.map(cellContent => <Cell cellContent={cellContent} history={props.history}/>)
 }
+
 @connectAutoDispatch(
   (state) => ({
     loading: state.notification.loading,
@@ -91,6 +101,7 @@ function Cells(props) {
   }),
   {}
 )
+@withRouter
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
     /* component's props */
@@ -119,7 +130,7 @@ export default class NotificationDrawer extends React.Component {
         loader={<Card loading />}
         loadMore={this.props.loadNotifications}
         useWindow={false}>
-          <Cells dataSource={dataSource}/>
+          <Cells dataSource={dataSource} history={this.props.history}/>
       </InfiniteScroll>
     )
   }

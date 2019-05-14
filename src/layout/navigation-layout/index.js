@@ -21,6 +21,7 @@ import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper';
 
 import { connectAutoDispatch } from 'redux/connect'
 import { getTotalByNotificationType } from 'redux/actions/notification'
+import { getListOfStationAuto } from "redux/actions/stationAuto";
 import { logout } from 'redux/actions/authAction'
 import AvatarCharacter from 'components/elements/avatar-character'
 import {Drawer, Badge, Icon} from 'antd'
@@ -46,7 +47,7 @@ const globalTheme = createGlobalTheme('#ffffff', '#1d89ce')
     authInfo: state.auth.userInfo,
     notificationCount: state.notification.count,
   }),
-  { logout, getTotalByNotificationType }
+  { logout, getTotalByNotificationType, getListOfStationAuto }
 )
 @withRouter
 @autobind
@@ -60,7 +61,8 @@ export default class BasicNestedNavigation extends React.Component {
     navigation: PropTypes.object,
     /* Redux's props */
     notificationCount: PropTypes.object.isRequired,
-    getTotalByNotificationType: PropTypes.func.isRequired
+    stationAuto: PropTypes.array.isRequired,
+    getTotalByNotificationType: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -211,6 +213,7 @@ export default class BasicNestedNavigation extends React.Component {
 
   async componentDidMount() {
     this.props.getTotalByNotificationType(this.props.notificationCount)
+    this.props.getListOfStationAuto()
   }
 
   render() {

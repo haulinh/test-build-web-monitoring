@@ -7,7 +7,6 @@ import { connectAutoDispatch } from "redux/connect";
 import { withRouter } from 'react-router-dom'
 import { toggleNavigation } from "redux/actions/themeAction";
 import { updateNotificationOnMessage } from "redux/actions/notification";
-import { getTotalByNotificationType } from "redux/actions/stationAuto";
 import { autobind } from "core-decorators";
 import { linkToken2Email } from 'api/NotificationApi'
 import { notification } from 'antd'
@@ -28,12 +27,11 @@ const Wrapper = styled.div`
     navigationIsOpen: state.theme.navigation.isOpen,
     stationAuto: state.stationAuto.list
   }),
-  { toggleNavigation, updateNotificationOnMessage, getTotalByNotificationType }
+  { toggleNavigation, updateNotificationOnMessage }
 )
 @withRouter
 @autobind
 export default class PageWrapper extends Component {
-
   componentDidMount() {
     // import { messaging } from "utils/init-fcm";
     // MARK  vì phải chờ app.json nen phải load o day
@@ -58,27 +56,13 @@ export default class PageWrapper extends Component {
       });
     
     messaging.onMessage((payload) => {
-      console.log('------', payload)
-      const {data, notification} = payload
+      this._showNotification(payload)
 
-      let description = ''
-      switch(data.type) {
-        case TAB_KEYS.EXCEEDED: {
-          description = 'Thông báo vượt ngưỡng' /* MARK  @translate */
-          break;
-        }
-        case TAB_KEYS.LOST_SIGNAL: {
-          description = 'Thông báo mất dữ liệu' /* MARK  @translate */
-          break;
-        }
-        case TAB_KEYS.SENSOR_ERROR: {
-          description = 'Thông báo trạng thái thiết bị' /* MARK  @translate */
-          break;
-        }
-      }
-
-      this._showNotification(notification.title, description)
-      this.props.updateNotificationOnMessage(payload)
+      /* note: format data de tuong thich code */
+      payload.createdAt  = Number(payload.data.createdAt)
+      payload.dataFilter = payload.data.dataFilter.split(";")
+      payload.full_body  = payload.data.full_body
+      this.props.updateNotificationOnMessage(payload, this.props.stationAuto)
     });
    
     //  navigator.serviceWorker.addEventListener("message", message =>{
@@ -91,23 +75,27 @@ export default class PageWrapper extends Component {
     navigationWidth: 320
   };
 
-  _showNotification(title, description) {
+  _showNotification(payload) {
+    let stationInfo = _.find(this.props.stationAuto, {_id: payload.data.station_id})
+    let description = ''
+    switch(payload.data.type) {
+      case TAB_KEYS.EXCEEDED: {
+        description = 'Thông báo vượt ngưỡng' /* MARK  @translate */
+        break;
+      }
+      case TAB_KEYS.LOST_SIGNAL: {
+        description = 'Thông báo mất dữ liệu' /* MARK  @translate */
+        break;
+      }
+      case TAB_KEYS.SENSOR_ERROR: {
+        description = 'Thông báo trạng thái thiết bị' /* MARK  @translate */
+        break;
+      }
+    }
+
     notification['info']({
-      message: title,
+      message: stationInfo.name,
       description: description,
-      onClick: () => {
-        const formSearch = {
-          stationType: 'WASTE_WATER',
-          stationAuto: 'CONGTONMPM1',
-          measuringList: 'FLOW',
-          searchNow: true
-        }
-        this.props.history.push(
-          slug.dataSearch.base +
-            '?formData=' +
-            encodeURIComponent(JSON.stringify(formSearch))
-        )
-      },
     });
   }
 

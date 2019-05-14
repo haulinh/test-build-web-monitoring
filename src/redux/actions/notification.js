@@ -1,21 +1,20 @@
 import moment from 'moment'
 import _ from 'lodash'
+import slug from 'constants/slug'
 import { TAB_KEYS } from 'constants/notification'
 import NotificationAPI from 'api/NotificationApi'
 import { initialState } from '../reducers/notification'
 
-export const UPDATE_COUNTS         = 'NOTIFICATION/UPDATE_COUNTS'
-export const UPDATE_ALL_COUNTS         = 'NOTIFICATION/UPDATE_ALL_COUNTS'
-export const CLEAR_COUNTS          = 'NOTIFICATION/CLEAR_COUNTS'
-export const NEW_MESSAGE   = 'NOTIFICATION/NEW_MESSAGE'
-export const UPDATE_DATA_SOURCE    = 'NOTIFICATION/UPDATE_DATA_SOURCE'
-export const UPDATE_DATA_SOURCE_ON_MESSAGE    = 'NOTIFICATION/UPDATE_DATA_SOURCE_ON_MESSAGE'
-export const TOGGLE_LOADING        = 'NOTIFICATION/TOGGLE_LOADING'
-export const UPDATE_CURRENT_PAGE   = 'NOTIFICATION/UPDATE_CURRENT_PAGE'
-
-
-export const EXCEEDED_LOADING        = 'NOTIFICATION/EXCEEDED_LOADING'
-export const EXCEEDED_LOADED       = 'NOTIFICATION/EXCEEDED_LOADED'
+export const UPDATE_COUNTS                 = 'NOTIFICATION/UPDATE_COUNTS'
+export const UPDATE_ALL_COUNTS             = 'NOTIFICATION/UPDATE_ALL_COUNTS'
+export const CLEAR_COUNTS                  = 'NOTIFICATION/CLEAR_COUNTS'
+export const NEW_MESSAGE                   = 'NOTIFICATION/NEW_MESSAGE'
+export const UPDATE_DATA_SOURCE            = 'NOTIFICATION/UPDATE_DATA_SOURCE'
+export const UPDATE_DATA_SOURCE_ON_MESSAGE = 'NOTIFICATION/UPDATE_DATA_SOURCE_ON_MESSAGE'
+export const TOGGLE_LOADING                = 'NOTIFICATION/TOGGLE_LOADING'
+export const UPDATE_CURRENT_PAGE           = 'NOTIFICATION/UPDATE_CURRENT_PAGE'
+export const EXCEEDED_LOADING              = 'NOTIFICATION/EXCEEDED_LOADING'
+export const EXCEEDED_LOADED               = 'NOTIFICATION/EXCEEDED_LOADED'
 
 
 
@@ -30,8 +29,8 @@ export function setIsLoading(flag) {
 }
 
 /* NOTE  emit to reducer: handleUpdateDataSource */
-/* TODO  add actions */
-export function loadNotificationsByType(page, type) {
+/* DONE */
+export function loadNotificationsByType(page, type, stations) {
   return async dispatch => {
     dispatch(setIsLoading(false))
 
@@ -39,12 +38,11 @@ export function loadNotificationsByType(page, type) {
     if (!res.success) return console.log('Notification action: Error khi load: ', type)
     
     const {data} = res
-    console.log(data)
-    const transformedData = _.map(data, item => ({
-      station: item.title,
-      exceededTime: moment(item.createdAt).format('DD-MM-YYYY hh:mm'),
-      fullBody: {__html: item.full_body}
-    }))
+
+    const transformedData = _.map(data, item => {
+      const stationInfo = _.find(stations, {_id: item.station_id})
+      return _generateNotificationCellByType(item, stationInfo)
+    })
     
     switch(type) {
       case TAB_KEYS.EXCEEDED: {
@@ -84,21 +82,14 @@ export function loadNotificationsByType(page, type) {
 
 /* NOTE  emit to reducer: handleUpdateDataSource */
 /* TODO  add actions */
-export function updateNotificationOnMessage(message) {
+export function updateNotificationOnMessage(message, stations) {
   return async dispatch => {
-    console.log('have a new message: ', message)
-    const {data, notification} = message
-    console.log('payload on new message', data)
-    const item = {
-      station: notification.title,
-      exceededTime: moment(Number(data.createdAt)).format('DD-MM-YYYY hh:mm'),
-      fullBody: {__html: data.full_body},
-      actions: {
-        viewDetail: ''
-      }
-    }
+  
+    let stationInfo = _.find(stations, {_id: message.data.station_id})
+    console.log('--- message ---', message)
+    let item = _generateNotificationCellOnMessage(message, stationInfo)
 
-    switch(data.type) { // EXCEEDED || ERROR || DATA_LOST
+    switch(message.data.type) { // EXCEEDED || ERROR || DATA_LOST
       case TAB_KEYS.EXCEEDED: {
         dispatch({
           type: UPDATE_COUNTS,
@@ -211,3 +202,73 @@ export function getTotalByNotificationType(rawState) {
     })
   }
 }
+
+function _generateNotificationCellByType(rawContent, stationInfo) {
+      // generate ra link filter station monitoring
+      const formSearchViewDetail = {
+        stationAuto: stationInfo.key,
+      }
+      let viewDetailURL = slug.monitoring.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchViewDetail))
+
+      // generate ra link xem giá trị quanh thời điểm vượt ngưỡng
+      const fromDate = moment(rawContent.createdAt).subtract(2, 'hours').format('DD/MM/YYYY hh:mm')
+      const toDate = moment(rawContent.createdAt).add(2, 'hours').format('DD/MM/YYYY hh:mm')
+      const formSearchRawData = {
+        stationType: stationInfo.stationType.key,
+        stationAuto: stationInfo.key,
+        measuringList: rawContent.dataFilter,
+        timeRange: `${fromDate} - ${toDate}`,
+        searchNow: true
+      }
+      const RawDataURL = slug.dataSearch.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchRawData))
+
+      // new content of cell
+      const cellContent = {
+        station: stationInfo.name,
+        exceededTime: moment(rawContent.createdAt).format('DD-MM-YYYY hh:mm'),
+        fullBody: {__html: rawContent.full_body},
+        actions: {
+          viewDetail: '',
+          aroundAtExceededTime: ''
+        }
+      }
+      cellContent.actions.viewDetail = viewDetailURL
+      cellContent.actions.aroundAtExceededTime = RawDataURL
+
+      return cellContent
+}   
+
+function _generateNotificationCellOnMessage(rawContent, stationInfo) {
+      // generate ra link filter station monitoring
+      const formSearchViewDetail = {
+        stationAuto: stationInfo.key,
+      }
+      let viewDetailURL = slug.monitoring.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchViewDetail))
+      
+      // generate ra link xem giá trị quanh thời điểm vượt ngưỡng
+      const fromDate = moment(rawContent.createdAt).subtract(2, 'hours').format('DD/MM/YYYY hh:mm')
+      const toDate = moment(rawContent.createdAt).add(2, 'hours').format('DD/MM/YYYY hh:mm')
+      const formSearchRawData = {
+        stationType: stationInfo.stationType.key,
+        stationAuto: stationInfo.key,
+        measuringList: rawContent.dataFilter, // NOTE  measuringList phai la array
+        timeRange: `${fromDate} - ${toDate}`,
+        searchNow: true
+      }
+      const RawDataURL = slug.dataSearch.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchRawData))
+
+      // new content of cell
+      const cellContent = {
+        station: stationInfo.name,
+        exceededTime: moment(rawContent.createdAt).format('DD-MM-YYYY hh:mm'),
+        fullBody: {__html: rawContent.full_body},
+        actions: {
+          viewDetail: '',
+          aroundAtExceededTime: ''
+        }
+      }
+      cellContent.actions.viewDetail = viewDetailURL
+      cellContent.actions.aroundAtExceededTime = RawDataURL
+
+      return cellContent
+}   

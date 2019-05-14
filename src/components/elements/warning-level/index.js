@@ -69,7 +69,7 @@ export default class Header extends React.PureComponent {
           {/* <WarningTitle> {translate('warningLevels.title')}</WarningTitle> */}
           <WrapperColor>
             <ColorLevel color={COLOR_STATUS.DATA_LOSS}>
-              <TextLevel>{translate('warningLevels.dataLoss')}</TextLevel>
+              <TextLevel>{translate('warningLevels.lostData')}</TextLevel>
             </ColorLevel>
             <ColorLevel color={COLOR_STATUS.EXCEEDED}>
               <TextLevel>{translate('warningLevels.exceed')}</TextLevel>

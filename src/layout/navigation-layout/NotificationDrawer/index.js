@@ -51,6 +51,7 @@ const TabsWrapper = styled(Tabs)`
 @connectAutoDispatch(
   (state) => ({
     notificationCount: state.notification.count,
+    stationAuto: state.stationAuto.list
   }),
   { setIsLoading, loadNotificationsByType, clearNotificationCountByType }
 )
@@ -61,6 +62,7 @@ export default class NotificationDrawer extends React.Component {
     visible: propTypes.bool.isRequired,
     notificationNumbers: propTypes.object.isRequired,
     /* Redux's props */
+    stationAuto: propTypes.array.isRequired,
     notificationCount: propTypes.number.isRequired,
     loadNotificationsByType: propTypes.func.isRequired,
     clearNotificationCountByType: propTypes.func.isRequired,
@@ -138,9 +140,8 @@ export default class NotificationDrawer extends React.Component {
 
   loadNotifications = (page) => {
     const { currentTabKey } = this.state
-    this.props.loadNotificationsByType(page, currentTabKey)
-    console.log('loadNotifications: ',page, currentTabKey)
-    /* TODO  getNotification(tabKey, page)*/
+    const { stationAuto } = this.props
+    this.props.loadNotificationsByType(page, currentTabKey, stationAuto)
   }
 
 }
