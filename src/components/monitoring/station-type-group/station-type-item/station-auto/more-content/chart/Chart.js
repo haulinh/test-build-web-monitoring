@@ -92,6 +92,9 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
       minLimitValue = tempMin
       maxLimitValue = maxLimit
     }
+    if (tempMax > maxLimit) {
+      maxLimitValue = tempMax
+    }
   } else if (isMinLimit && isMaxLimit === false) {
     if (tempMax > minLimit) {
       maxLimitValue = tempMax + plusMax // cong them
@@ -133,7 +136,7 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
           color: 'red',
           width: 1,
           label: {
-            text: `${i18n.minLimit}: ${getFormatNumber(minLimit)}`,
+            text: `${i18n.minLimit}: ${getFormatNumber(minLimit)}`
           },
           zIndex: 4
         },
@@ -143,7 +146,7 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
           width: 1,
           label: {
             text: `${i18n.maxLimit}: ${getFormatNumber(maxLimit)}`,
-            y:12,
+            y: 12
           },
           zIndex: 4
         }
@@ -301,7 +304,8 @@ export default class ChartRowToChart extends React.Component {
                     const maxLimit = _.get(categories[key], 'maxLimit', null)
                     let statusMin = true
                     let statusMax = true
-
+                    // NOTE Business tính vượt ngưỡng
+                    
                     if (!minLimit) {
                       statusMin = true
                     } else if (!(minLimit && minLimit <= value)) {
@@ -314,7 +318,20 @@ export default class ChartRowToChart extends React.Component {
                       statusMax = false
                     }
 
-                    if (statusMin && statusMax) {
+                    // NOTE Business tính chuẩn bị vươt ngưỡng/ chỉ tính đc dựa vào giá trị max, còn min k tính
+
+                    const PERCENT_EXCEEDED_PREPARING = 90
+                    let stausChuanBiVuot = false
+                    if (maxLimit) {
+                      const calculate = (value * 100) / maxLimit
+                      if (calculate >= PERCENT_EXCEEDED_PREPARING && calculate < 100) {
+                        stausChuanBiVuot = true
+                      }
+                    }
+                    
+                    if (stausChuanBiVuot) {
+                      colorColumn = COLOR_STATUS.EXCEEDED_PREPARING
+                    } else if (statusMin && statusMax) {
                       colorColumn = COLOR_STATUS.GOOD
                     } else {
                       colorColumn = COLOR_STATUS.EXCEEDED
@@ -434,7 +451,6 @@ export default class ChartRowToChart extends React.Component {
                 defaultActiveKey={_.get(this.state.current[0], 'key', '')}
                 onTabClick={this.handleClick}
               >
-                {console.log(this.state.isLoading, 'this.state.isLoading')}
                 {_.map(this.state.categories, ({ key, name, unit }) => (
                   <TabPane tab={unit ? `${name} (${unit})` : `${name}`} key={key} />
                 ))}
