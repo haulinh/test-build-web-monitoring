@@ -1,7 +1,7 @@
 import React from 'react'
 import { Menu } from 'antd'
 import slug, { MENU_NAME, MENU_GROUP } from 'constants/slug'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
 import Icon from 'themes/icon'
 import { Link } from 'react-router-dom'
@@ -80,7 +80,8 @@ export default {
 
       {protectRole(ROLE.ROLE.VIEW)(
         <Menu.Item
-          key={slug.role.base}
+          key="/role"
+          // key={slug.role.base}
           onClick={() => {
             props.selectMenu(slug.role.base)
           }}
