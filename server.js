@@ -7,7 +7,7 @@ var app = express()
 
 app.get('/app.json', function(req, res) {
   res.json({
-    apiGateway: process.env.WEB_GATEWAY_API || 'http://35.198.234.113:5000', //http://27.74.251.0:5000
+    apiGateway: process.env.WEB_GATEWAY_API || 'http://35.198.238.95:5000', //http://27.74.251.0:5000
     apiMedia: process.env.WEB_MEDIA_API || 'http://171.244.21.99:5000',
     apiCamera: process.env.WEB_CAMERA_API || 'http://171.244.21.99:5000',
     googleMapKey: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4',
@@ -19,7 +19,7 @@ app.get('/app.json', function(req, res) {
     firebase: {
       id: process.env.FIREBASE_ID,
       key: process.env.FIREBASE_KEY
-    }  
+    },
   })
 })
 app.use(express.static(path.join(__dirname, 'build')))

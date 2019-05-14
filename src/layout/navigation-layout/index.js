@@ -1,21 +1,25 @@
-import PropTypes from 'prop-types'
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { autobind } from 'core-decorators'
-import ArrowLeftIcon from '@atlaskit/icon/glyph/arrow-left'
-import Tooltip from '@atlaskit/tooltip'
-import DocumentIcon from '@atlaskit/icon/glyph/question-circle'
+import PropTypes from "prop-types";
+import React from "react";
+
+import { autobind } from "core-decorators";
+import ArrowLeftIcon from "@atlaskit/icon/glyph/arrow-left";
+import Tooltip from "@atlaskit/tooltip";
+import { withRouter } from "react-router-dom";
+import AvatarCharacter from "components/elements/avatar-character";
+import Link from "components/elements/link";
+import slug from "constants/slug";
+import StyleWrapper from "./StyleWrapper";
+import LogoSubIcon from "./LogoSubIcon";
+import DocumentIcon from "@atlaskit/icon/glyph/question-circle";
 import NotificationIcon from '@atlaskit/icon/glyph/notification';
-import Navigation, {
-  AkNavigationItem,
-  AkGlobalItem,
-  createGlobalTheme,
-  presetThemes
-} from '@atlaskit/navigation'
-import AkDropdownMenu, {
-  DropdownItemGroup,
-  DropdownItem
-} from '@atlaskit/dropdown-menu'
+import DocumentDrawer from "./DocumentDrawer";
+import AppDrawer from "./AppDrawer";
+import ChangeLanguage from "./ChangeLanguage";
+import LogoBrandName from "./LogoBrandName";
+import { translate } from "hoc/create-lang";
+import { deleteToken } from "api/NotificationApi";
+import Navigation, { AkNavigationItem, AkGlobalItem, createGlobalTheme, presetThemes } from '@atlaskit/navigation'
+import AkDropdownMenu, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu'
 import styled from 'styled-components'
 import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper';
 
@@ -36,17 +40,19 @@ import ChangeLanguage from './ChangeLanguage'
 import LogoBrandName from './LogoBrandName'
 import { translate } from 'hoc/create-lang'
 
+
 const WrapperTitle = styled.div`
   margin-left: -8px;
   margin-right: -8px;
-`
+`;
 
-const globalTheme = createGlobalTheme('#ffffff', '#1d89ce')
+const globalTheme = createGlobalTheme("#ffffff", "#1d89ce");
 @connectAutoDispatch(
   state => ({
     authInfo: state.auth.userInfo,
     notificationCount: state.notification.count,
-    drawerVisible: state.notification.visible
+    drawerVisible: state.notification.visible,
+    tokenFCM: state.auth.tokenFCM
   }),
   { 
     logout, 
@@ -77,7 +83,7 @@ export default class BasicNestedNavigation extends React.Component {
       isOpen: true,
       width: 320
     }
-  }
+  };
 
   state = {
     drawers: {
@@ -87,26 +93,21 @@ export default class BasicNestedNavigation extends React.Component {
   }
 
   toggleDrawer(type) {
-    this.setState({
-      drawers: {
-        ...this.state.drawers,
-        [type]: !this.state.drawers[type]
-      }
-    })
+    window.open('http://help.ilotusland.com', '_blank')
+    // console.log(this.state.drawers,"toggleDrawer")
+    // this.setState({
+    //   drawers: {
+    //     ...this.state.drawers,
+    //     [type]: !this.state.drawers[type]
+    //   }
+    // })
   }
 
   getContainerHeaderComponent = logo => {
-    const backButton = this.props.isShowBack ? (
-      <AkNavigationItem
-        icon={<ArrowLeftIcon label="Back" />}
-        onClick={this.props.onBack}
-        text="Back"
-        key="2"
-      />
-    ) : null
+    const backButton = this.props.isShowBack ? <AkNavigationItem icon={<ArrowLeftIcon label="Back" />} onClick={this.props.onBack} text="Back" key="2" /> : null
 
     /* eslint-disable jsx-a11y/no-static-element-interactions */
-    if (!this.props.navigation.isOpen) return []
+    if (!this.props.navigation.isOpen) return [];
     return [
       <Tooltip key="1" position="right" content="Admin system">
         <WrapperTitle>
@@ -116,27 +117,28 @@ export default class BasicNestedNavigation extends React.Component {
         </WrapperTitle>
       </Tooltip>,
       backButton
-    ]
+    ];
     /* eslint-enable jsx-a11y/no-static-element-interactions */
-  }
+  };
 
   handleLogout() {
-    this.props.logout()
-    this.props.history.push('/login')
+    this.props.logout();
+    deleteToken(this.props.tokenFCM, this.props.authInfo.email);
+    this.props.history.push("/login");
   }
 
   handleChangePassword() {
-    this.props.history.push(slug.user.changePassword)
+    this.props.history.push(slug.user.changePassword);
   }
 
   handleProfile() {
-    this.props.history.push(slug.user.profile)
+    this.props.history.push(slug.user.profile);
   }
   handleSecurity() {
-    this.props.history.push(slug.user.security)
+    this.props.history.push(slug.user.security);
   }
   handleConfigStation() {
-    this.props.history.push(slug.user.configStation)
+    this.props.history.push(slug.user.configStation);
   }
 
   /* NOTE  UI-NAVIGATOR-BELOW (list of icons same position as language) */
@@ -152,70 +154,41 @@ export default class BasicNestedNavigation extends React.Component {
         trigger={
           <AkGlobalItem>
             <Tooltip position="right" content={translate('profileUser.title')}>
-              <AvatarCharacter
-                size={32}
-                username={this.props.authInfo.email}
-                avatarUrl={this.props.authInfo.avatar}
-              />
+              <AvatarCharacter size={32} username={this.props.authInfo.email} avatarUrl={this.props.authInfo.avatar} />
             </Tooltip>
           </AkGlobalItem>
         }
       >
-        <DropdownItemGroup
-          title={`${this.props.authInfo.lastName} ${
-            this.props.authInfo.firstName
-          }`}
-        >
-          <DropdownItem onClick={this.handleProfile}>
-            {translate('profileUser.viewProfile')}
-          </DropdownItem>
-          <DropdownItem onClick={this.handleChangePassword}>
-            {translate('profileUser.changePassword')}
-          </DropdownItem>
-          <DropdownItem onClick={this.handleConfigStation}>
-            {translate('profileUser.configStation')}
-          </DropdownItem>
-          <DropdownItem onClick={this.handleSecurity}>
-            {translate('profileUser.security')}
-          </DropdownItem>
-          <DropdownItem onClick={this.handleLogout}>
-            {translate('profileUser.logOut')}
-          </DropdownItem>
+        <DropdownItemGroup title={`${this.props.authInfo.lastName} ${this.props.authInfo.firstName}`}>
+          <DropdownItem onClick={this.handleProfile}>{translate('profileUser.viewProfile')}</DropdownItem>
+          <DropdownItem onClick={this.handleChangePassword}>{translate('profileUser.changePassword')}</DropdownItem>
+          <DropdownItem onClick={this.handleConfigStation}>{translate('profileUser.configStation')}</DropdownItem>
+          <DropdownItem onClick={this.handleSecurity}>{translate('profileUser.security')}</DropdownItem>
+          <DropdownItem onClick={this.handleLogout}>{translate('profileUser.logOut')}</DropdownItem>
         </DropdownItemGroup>
       </AkDropdownMenu>,
       <ChangeLanguage />
-    ]
+    ];
   }
 
   handleResize(e) {
     if (this.props.onChangeSize) {
-      this.props.onChangeSize(e)
+      this.props.onChangeSize(e);
     }
   }
 
   renderDrawer(Component, key) {
-    return (
-      <Component
-        key={key}
-        onBackButton={() => this.toggleDrawer(key)}
-        isOpen={this.state.drawers[key] ? true : false}
-        primaryIcon={<span />}
-      />
-    )
+    return <Component key={key} onBackButton={() => this.toggleDrawer(key)} isOpen={this.state.drawers[key] ? true : false} primaryIcon={<span />} />
   }
 
-  renderIconDrawer(IconComponent, key, content) {
+  renderIconDrawer = (IconComponent, key, content) => {
     return (
       <AkGlobalItem size="medium" onClick={() => this.toggleDrawer(key)}>
         <Tooltip position="right" content={content}>
-          <IconComponent
-            label={content}
-            secondaryColor="inherit"
-            size="medium"
-          />
+          <IconComponent label={content} secondaryColor="inherit" size="medium" />
         </Tooltip>
       </AkGlobalItem>
-    )
+    );
   }
 
   async componentDidMount() {
@@ -224,10 +197,9 @@ export default class BasicNestedNavigation extends React.Component {
   }
 
   render() {
-    console.log('hahahahah', this.props.notificationCount.total)
     let logo = ''
     if (this.props.authInfo.organization) {
-      logo = this.props.authInfo.organization.logo
+      logo = this.props.authInfo.organization.logo;
     }
 
     return (
@@ -237,18 +209,11 @@ export default class BasicNestedNavigation extends React.Component {
           // containerTheme={presetThemes.global}
           width={this.props.hide ? 0 : this.props.navigation.width}
           globalPrimaryIcon={<LogoSubIcon />}
-          containerHeaderComponent={() =>
-            this.getContainerHeaderComponent(logo)
-          }
+          containerHeaderComponent={() => this.getContainerHeaderComponent(logo)}
           onResize={this.handleResize}
           isOpen={this.props.navigation.isOpen}
-          drawers={[
-            this.renderDrawer(DocumentDrawer, 'document'),
-            this.renderDrawer(AppDrawer, 'app')
-          ]}
-          globalPrimaryActions={[
-            this.renderIconDrawer(DocumentIcon, 'document', 'Document')
-          ]}
+          drawers={[this.renderDrawer(DocumentDrawer, 'document'), this.renderDrawer(AppDrawer, 'app')]}
+          globalPrimaryActions={[this.renderIconDrawer(DocumentIcon, 'document', 'Document')]}
           globalSecondaryActions={this.globalSecondaryActions()}
         >
           {this.props.children}
@@ -260,6 +225,6 @@ export default class BasicNestedNavigation extends React.Component {
           visible={this.props.drawerVisible}
         />
       </StyleWrapper>
-    )
+    );
   }
 }

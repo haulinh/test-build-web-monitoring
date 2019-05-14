@@ -1,5 +1,5 @@
 import querystring from 'querystring'
-import { getFetch, postFetch, putFetch } from 'utils/fetch'
+import { getFetch, postFetch, putFetch, deleteFetch } from 'utils/fetch'
 import { getConfigApi } from 'config'
 
 export function getNotification() {
@@ -32,6 +32,10 @@ export function getTotalByNotificationType(){
   return getFetch(`${fcmNotificationRoute()}/getTotalByNotificationType`)
 }
 
+export function deleteToken(token,email) {
+  return deleteFetch(`${getConfigApi().fcmToken}?token=${token}&email=${email}`)
+}
+
 export function linkToken2Email(token){
   return postFetch(getConfigApi().fcmToken, {
     token,
@@ -44,5 +48,6 @@ export default {
   updateIsSeenByType,
   getTotalByNotificationType,
   loadNotificationsByType,
-  linkToken2Email
+  linkToken2Email,
+  deleteToken
 }

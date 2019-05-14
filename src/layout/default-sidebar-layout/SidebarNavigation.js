@@ -25,7 +25,7 @@ import slug, { parentMenuFromSub, MENU_GROUP, MENU_NAME } from 'constants/slug'
 import { translate } from 'hoc/create-lang'
 import { selectMenu, changeOpenSubMenu } from 'redux/actions/themeAction'
 // import { adapt } from "chromatism";
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
 import MonitoringMenu from './MenuMonitoring'
 import HandleDataMenu from './HandleDataMenu'
@@ -232,6 +232,7 @@ class MenuApp extends React.PureComponent {
         // defaultOpenKeys={this.props.openSubMenu}
         openKeys={this.props.openSubMenu}
         onOpenChange={openKeys => {
+          console.log('this.props.menuSelected',this.props.menuSelected)
           this.props.changeOpenSubMenu(openKeys)
         }}
         selectedKeys={[this.props.menuSelected]}
@@ -287,6 +288,7 @@ class MenuApp extends React.PureComponent {
           ROLE.ROLE.VIEW,
           ROLE.USER.VIEW
         ]) && ConfigMenu.renderComp(this.props)}
+
       </Menu>
     )
   }

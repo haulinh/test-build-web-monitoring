@@ -3,7 +3,8 @@ import {
   FETCH_SUCCESS_USER,
   FETCH_PENDING_USER,
   FETCH_FAIL_USER,
-  USER_LOGOUT
+  USER_LOGOUT,
+  SET_FCM_TOKEN
 } from '../actions/authAction'
 import update from 'react-addons-update'
 
@@ -15,7 +16,8 @@ const initialState = {
   userInfo: {
     username: '',
     fullname: ''
-  }
+  },
+  tokenFCM: null
 }
 
 export default function createReducer(state = initialState, action) {
@@ -30,6 +32,12 @@ export default function createReducer(state = initialState, action) {
       return fetchPendingUser(state, action)
     case USER_LOGOUT:
       return userLogout(state)
+    case SET_FCM_TOKEN:
+      return update(state,{
+        tokenFCM: {
+          $set: action.payload
+        }
+      })
     default:
       return state
   }
