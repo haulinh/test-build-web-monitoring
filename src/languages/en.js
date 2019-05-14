@@ -313,7 +313,7 @@ export default {
         require: 'Choose At Least 1 Parameter'
       },
       isExceeded: {
-        label: 'Only Exceeded Data'
+        label: 'Only Exceeded'
       },
       operator: {
         label: 'Operator'

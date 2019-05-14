@@ -39,7 +39,7 @@ export default class PageWrapper extends Component {
     const me = this
     try {
       const { messaging } = require("utils/init-fcm");
-      // // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
+      // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
       messaging
         .requestPermission()
         .then(async function() {
@@ -86,7 +86,6 @@ export default class PageWrapper extends Component {
   };
 
   _showNotification(payload) {
-    let stationInfo = _.find(this.props.stationAuto, {_id: payload.data.station_id})
     let description = ''
     switch(payload.data.type) {
       case TAB_KEYS.EXCEEDED: {
@@ -104,7 +103,7 @@ export default class PageWrapper extends Component {
     }
 
     notification['info']({
-      message: stationInfo.name,
+      message: payload.notification.title,
       description: description,
     });
   }

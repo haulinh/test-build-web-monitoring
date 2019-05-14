@@ -254,7 +254,7 @@ export default class SearchForm extends React.Component {
             </Col>
           </Row>
           <Clearfix height={16} />
-          <Row gutter={24}>
+          <Row gutter={16}>
             <Col span={12}>
               <Field
                 label={t('measuringList.label')}
@@ -266,7 +266,7 @@ export default class SearchForm extends React.Component {
                 component={FSelectAnt}
               />
             </Col>
-            <Col span={6}>
+            <Col span={9}>
               <Field
                 label={t('time')}
                 name="rangesDate"
@@ -276,7 +276,7 @@ export default class SearchForm extends React.Component {
                 defaultValue={this.state.timeRange}
               />
             </Col>
-            <Col span={6}>
+            <Col span={3}>
               <Field
                 label={t('isExceeded.label')}
                 name="isExceeded"

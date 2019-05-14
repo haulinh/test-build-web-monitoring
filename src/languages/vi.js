@@ -313,7 +313,7 @@ export default {
         require: 'Chọn ít nhất 1 thông số'
       },
       isExceeded: {
-        label: 'Dữ liệu vượt QCVN'
+        label: 'Vượt QCVN'
       },
       operator: {
         label: 'Phép toán'
