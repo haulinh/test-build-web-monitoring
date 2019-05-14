@@ -20,6 +20,7 @@ import SelectProvince from 'components/elements/select-province'
 import OptionsTimeRange from '../../common/options-time-range'
 import * as _ from 'lodash'
 import { FSelectApprove } from './select-approve'
+import { prop } from 'cramda';
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
@@ -67,9 +68,21 @@ export default class SearchForm extends React.Component {
 
   constructor(props) {
     super(props)
-    
+
+    let fromDate = moment(props.initialValues.fromDate)
+    let toDate = moment(props.initialValues.toDate)
+    let timeRange = 7
+    let rangesView = undefined
+    if(props.initialValues.searchRange) {
+      rangesView = `${fromDate.format('DD/MM/YYYY hh:mm')} - ${toDate.format('DD/MM/YYYY hh:mm')}`
+      timeRange = rangesView
+    }
+
     this.state = {
-      timeRange: props.initialValues.timeRange || 7,
+      fromDate,
+      toDate,
+      timeRange,
+      rangesView,
       provinceKey: props.initialValues.provinceKey,
       stationTypeKey: props.initialValues.stationType,
       stationAutoKey: props.initialValues.stationAuto,
@@ -80,8 +93,6 @@ export default class SearchForm extends React.Component {
             name: measuring.name
           }))
         : [],
-      fromDate: moment(props.initialValues.fromDate),
-      toDate: moment(props.initialValues.toDate),
       receivedAt: moment(props.initialValues.receivedAt) || this.props.initialValues.toDate
     }
   }
@@ -273,7 +284,8 @@ export default class SearchForm extends React.Component {
                 size="large"
                 onChangeObject={this.handleChangeRanges}
                 component={FOptionsTimeRange}
-                defaultValue={this.state.timeRange}
+                value={this.state.rangesView}
+                rangesView={this.state.rangesView}
               />
             </Col>
             <Col span={3}>

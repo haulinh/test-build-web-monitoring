@@ -211,13 +211,15 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
       let viewDetailURL = slug.monitoring.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchViewDetail))
 
       // generate ra link xem giá trị quanh thời điểm vượt ngưỡng
-      const fromDate = moment(rawContent.createdAt).subtract(2, 'hours').format('DD/MM/YYYY hh:mm')
-      const toDate = moment(rawContent.createdAt).add(2, 'hours').format('DD/MM/YYYY hh:mm')
+      const fromDate = moment(rawContent.createdAt).subtract(2, 'hours').format()
+      const toDate = moment(rawContent.createdAt).add(2, 'hours').format()
       const formSearchRawData = {
         stationType: stationInfo.stationType.key,
         stationAuto: stationInfo.key,
         measuringList: rawContent.dataFilter,
-        timeRange: `${fromDate} - ${toDate}`,
+        fromDate,
+        toDate,
+        searchRange: true,
         searchNow: true
       }
       const RawDataURL = slug.dataSearch.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchRawData))
