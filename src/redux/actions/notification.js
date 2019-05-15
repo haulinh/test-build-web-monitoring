@@ -36,10 +36,20 @@ export function setDrawerVisible(flag) {
 }
 
 /* NOTE  emit to reducer: handleToggleLoading */
-export function setIsLoading(flag) {
-  return {
-    type: TOGGLE_LOADING,
-    payload: flag
+export function setIsLoading(type, flag) {
+  switch(type) {
+    case TAB_KEYS.EXCEEDED: return {
+      type: TOGGLE_LOADING,
+      payload: {type: 'loading', value: flag}
+    }
+    case TAB_KEYS.LOST_SIGNAL: return {
+      type: TOGGLE_LOADING,
+      payload: {type: 'isLoadmoreLostSignal', value: flag}
+    }
+    case TAB_KEYS.SENSOR_ERROR: return {
+      type: TOGGLE_LOADING,
+      payload: {type: 'isLoadmoreSensorError', value: flag}
+    }
   }
 }
 
@@ -47,12 +57,13 @@ export function setIsLoading(flag) {
 const ITEM_PER_PAGE = 8
 export function loadNotificationsByType(page, type, stations) {
   return async dispatch => {
-    dispatch(setIsLoading(false))
+    dispatch(setIsLoading(type, false))
 
     let res = await NotificationAPI.loadNotificationsByType({ type, page, itemPerPage: ITEM_PER_PAGE })
-    if (!res.success) return console.log('Notification action: Error khi load: ', type)
-    
-    const {data} = res
+    const {success, data} = res
+    if (!success || data.length === 0) {
+      return dispatch(setIsLoading(type, false))
+    }
 
     const transformedData = _.map(data, item => {
       const stationInfo = _.find(stations, {_id: item.station_id})
@@ -91,7 +102,7 @@ export function loadNotificationsByType(page, type, stations) {
         break;
       }
     }
-    dispatch(setIsLoading(true))
+    dispatch(setIsLoading(type, true))
   }
 }
 

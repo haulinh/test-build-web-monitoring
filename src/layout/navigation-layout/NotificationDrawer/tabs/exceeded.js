@@ -118,6 +118,7 @@ function Cells(props) {
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
     /* component's props */
+    tabName: propTypes.string.isRequired,
     loadNotifications: propTypes.func.isRequired,
     /* redux's props */
     loading: propTypes.bool.isRequired,
@@ -128,7 +129,7 @@ export default class NotificationDrawer extends React.Component {
   static defaultProps = {}
 
   componentDidMount() {
-    this.props.loadNotifications(1)
+    this.props.loadNotifications(1, this.props.tabName)
   }
 
   render() {
@@ -141,7 +142,7 @@ export default class NotificationDrawer extends React.Component {
         hasMore={loading}
         threshold={500}
         loader={<Card key="loading" loading />}
-        loadMore={this.props.loadNotifications}
+        loadMore={(page) => this.props.loadNotifications(page, this.props.tabName)}
         useWindow={false}>
           <Cells dataSource={dataSource} history={this.props.history} closeDrawer={this.props.closeDrawer}/>
       </InfiniteScroll>

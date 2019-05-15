@@ -14,7 +14,9 @@ import {
 
 export const initialState = {
   visible: false,
-  loading: true,
+  loading: true, // exceeded loading
+  isLoadmoreLostSignal: true,
+  isLoadmoreSensorError: true,
   defaultStartPage: 1,
   currentPage: 0,
   count: {
@@ -43,7 +45,7 @@ export default function handleNotificationStore(state = initialState, action) {
       }
     })
     case TOGGLE_LOADING: 
-      return handleToggleLoading(cloneState, payload)
+      return handleToggleLoading(state, payload)
     case CLEAR_COUNTS: 
       return handleClearCount(cloneState, payload)
     case UPDATE_COUNTS: 
@@ -63,10 +65,13 @@ export default function handleNotificationStore(state = initialState, action) {
 
 /* NOTE  handle action: toggleLoading */
 /* DONE  */
-function handleToggleLoading(cloneState, flag) {
-  console.log('---- loading ----', flag)
-  cloneState.loading = flag
-  return cloneState
+function handleToggleLoading(state, payload) {
+  const {type, value} = payload
+  return update(state,{
+    [type]: {
+      '$set': value
+    }
+  })
 }
 
 /* NOTE  handle action: loadNotificationsByType */

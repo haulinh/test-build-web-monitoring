@@ -80,8 +80,9 @@ function Cell(props) {
 function Cells(props) {
   const { dataSource } = props
   console.log('loadData datasource: ', dataSource)
-  return dataSource.map(cellContent => (
-    <Cell 
+  return dataSource.map((cellContent, index) => (
+    <Cell
+      key={index}
       cellContent={cellContent} 
       history={props.history} 
       closeDrawer={props.closeDrawer}
@@ -91,7 +92,7 @@ function Cells(props) {
 
 @connectAutoDispatch(
   (state) => ({
-    loading: state.notification.loading,
+    isLoadmoreLostSignal: state.notification.isLoadmoreLostSignal,
     defaultStartPage: state.notification.defaultStartPage,
     currentPage: state.notification.currentPage,
     dataSource: state.notification.logs.lostSignal
@@ -102,9 +103,10 @@ function Cells(props) {
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
     /* component's props */
+    tabName: propTypes.string.isRequired,
     loadNotifications: propTypes.func.isRequired,
     /* redux's props */
-    loading: propTypes.bool.isRequired,
+    isLoadmoreLostSignal: propTypes.bool.isRequired,
     currentPage: propTypes.number.isRequired,
     dataSource: propTypes.array.isRequired,
   }
@@ -116,19 +118,19 @@ export default class NotificationDrawer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadNotifications(1)
+    this.props.loadNotifications(1, this.props.tabName)
   }
 
   render() {
-    const { loading, defaultStartPage, dataSource } = this.props
+    const { isLoadmoreLostSignal, defaultStartPage, dataSource } = this.props
     return (
         <InfiniteScroll
-          initialLoad
+          initialLoad={false}
           pageStart={defaultStartPage}
-          hasMore={loading}
+          hasMore={isLoadmoreLostSignal}
           threshold={250}
           loader={<Card loading />}
-          loadMore={this.props.loadNotifications}
+          loadMore={(page) => this.props.loadNotifications(page, this.props.tabName)}
           useWindow={false}>
           <Cells dataSource={dataSource} history={this.props.history} closeDrawer={this.props.closeDrawer}/>
         </InfiniteScroll>
