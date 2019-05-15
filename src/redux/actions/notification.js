@@ -5,6 +5,7 @@ import { TAB_KEYS } from 'constants/notification'
 import NotificationAPI from 'api/NotificationApi'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date';
 
+export const RESET_ALL_COUNTS                   = 'NOTIFICATION/RESET_ALL_COUNTS'
 export const UPDATE_COUNTS                      = 'NOTIFICATION/UPDATE_COUNTS'
 export const UPDATE_ALL_COUNTS                  = 'NOTIFICATION/UPDATE_ALL_COUNTS'
 export const CLEAR_COUNTS                       = 'NOTIFICATION/CLEAR_COUNTS'
@@ -15,6 +16,14 @@ export const TOGGLE_LOADING                     = 'NOTIFICATION/TOGGLE_LOADING'
 export const UPDATE_CURRENT_PAGE                = 'NOTIFICATION/UPDATE_CURRENT_PAGE'
 export const TOGGLE_VISIBLE_NOTIFICATION_DRAWER = 'NOTIFICATION/TOGGLE_VISIBLE_NOTIFICATION_DRAWER'
 
+
+export function resetAllCounts(){
+  return dispatch => {
+    dispatch({
+      type: RESET_ALL_COUNTS
+    })
+  }
+}
 
 /* NOTE  emit to reducer: handleToggleLoading */
 export function setDrawerVisible(flag) {
@@ -182,6 +191,7 @@ export function clearNotificationCountByType(type) {
 
 export function getTotalByNotificationType(rawState) {
   return async dispatch => {
+    dispatch({type: RESET_ALL_COUNTS})
     let res = await NotificationAPI.getTotalByNotificationType()
     const {success, data} = res
 

@@ -25,13 +25,12 @@ import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper';
 -------------------------------
  */
 import { connectAutoDispatch } from 'redux/connect'
-import { getTotalByNotificationType, setDrawerVisible } from 'redux/actions/notification'
+import { getTotalByNotificationType, setDrawerVisible, resetAllCounts } from 'redux/actions/notification'
 import { getListOfStationAuto } from "redux/actions/stationAuto";
 import { logout } from 'redux/actions/authAction'
 import AvatarCharacter from 'components/elements/avatar-character'
 import {Drawer, Badge, Icon} from 'antd'
 import NotificationDrawer from './NotificationDrawer'
-
 
 const WrapperTitle = styled.div`
   margin-left: -8px;
@@ -49,7 +48,7 @@ const globalTheme = createGlobalTheme("#ffffff", "#1d89ce");
   { 
     logout, 
     getListOfStationAuto,
-    getTotalByNotificationType, setDrawerVisible,
+    getTotalByNotificationType, setDrawerVisible, resetAllCounts
   }
 )
 @withRouter
@@ -67,7 +66,8 @@ export default class BasicNestedNavigation extends React.Component {
     notificationCount: PropTypes.object.isRequired,
     stationAuto: PropTypes.array.isRequired,
     getTotalByNotificationType: PropTypes.func.isRequired,
-    setDrawerVisible: PropTypes.func.isRequired
+    setDrawerVisible: PropTypes.func.isRequired,
+    resetAllCounts: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -116,6 +116,7 @@ export default class BasicNestedNavigation extends React.Component {
   handleLogout() {
     this.props.logout();
     deleteToken(this.props.tokenFCM, this.props.authInfo.email);
+    this.props.resetAllCounts() //action
     this.props.history.push("/login");
   }
 

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import update from 'react-addons-update'
 
 import {
   UPDATE_COUNTS,
@@ -7,7 +8,8 @@ import {
   NEW_MESSAGE,
   UPDATE_DATA_SOURCE,
   TOGGLE_LOADING,
-  TOGGLE_VISIBLE_NOTIFICATION_DRAWER
+  TOGGLE_VISIBLE_NOTIFICATION_DRAWER,
+  RESET_ALL_COUNTS
 } from '../actions/notification'
 
 export const initialState = {
@@ -32,6 +34,14 @@ export default function handleNotificationStore(state = initialState, action) {
   const cloneState = _.clone(state)
   const {type, payload} = action
   switch (type) {
+    case RESET_ALL_COUNTS: return update(state,{
+      count:{
+        total: {$set: 0},
+        exceeded: {$set: 0},
+        lostSignal: {$set: 0},
+        sensorError: {$set: 0},
+      }
+    })
     case TOGGLE_LOADING: 
       return handleToggleLoading(cloneState, payload)
     case CLEAR_COUNTS: 
@@ -88,8 +98,7 @@ function handleUpdateCount(cloneState, payload) {
 
 /* DONE */
 function handleUpdateAllCount(cloneState, payload) {
-  cloneState.count = payload
-  return cloneState
+  return {...cloneState, ...{count: payload}}
 }
 
 /* DONE */
