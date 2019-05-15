@@ -101,6 +101,7 @@ export default class UserList extends React.Component {
   async onEnableAccount(_id, enable, callback) {
     if (this.props.userInfo._id === _id) {
       message.warning(translate('userManager.list.warning'))
+      
     }else{
       Modal.confirm({
         title: format(
