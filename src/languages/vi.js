@@ -1003,6 +1003,7 @@ export default {
     list: {
       enableAccount: 'Kích hoạt tài khoản',
       disableAccount: 'Vô hiệu hoá tài khoản',
+      warning:'Bạn không thể vô hiệu hóa tài khoản của chính mình',
       confirmEnableAccount: 'Bạn có muốn {0} tài khoản này không?',
       enable: 'Kích hoạt',
       disable: 'Vô hiệu',
