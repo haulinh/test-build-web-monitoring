@@ -1005,6 +1005,7 @@ export default {
     list: {
       enableAccount: 'Enable Account',
       disableAccount: 'Disable Account',
+      warning:'You Cannot Disable Your Own Account',
       confirmEnableAccount: 'Do You Want To {0} These Accounts?',
       enable: 'Enable',
       disable: 'Disable',

@@ -99,26 +99,31 @@ export default class UserList extends React.Component {
   async componentWillMount() {}
 
   async onEnableAccount(_id, enable, callback) {
-    Modal.confirm({
-      title: format(
-        translate('userManager.list.confirmEnableAccount'),
-        enable
-          ? translate('userManager.list.enable')
-          : translate('userManager.list.disable')
-      ),
-      onOk() {
-        return new Promise(async (resolve, reject) => {
-          const data = await UserApi.accountEnable(_id, { enable })
-          if (data.success) {
-            callback()
-          } else {
-            message.error(data.message)
-          }
-          resolve()
-        }).catch(() => console.log('Oops errors!'))
-      },
-      onCancel() {}
-    })
+    if (this.props.userInfo._id === _id) {
+      message.warning(translate('userManager.list.warning'))
+    }else{
+      Modal.confirm({
+        title: format(
+          translate('userManager.list.confirmEnableAccount'),
+          enable
+            ? translate('userManager.list.enable')
+            : translate('userManager.list.disable')
+        ),
+        onOk() {
+          return new Promise(async (resolve, reject) => {
+            const data = await UserApi.accountEnable(_id, { enable })
+            if (data.success) {
+              callback()
+            } else {
+              message.error(data.message)
+            }
+            resolve()
+          }).catch(() => console.log('Oops errors!'))
+        },
+        onCancel() {}
+      })
+    }
+    
   }
 
   buttonAdd() {
