@@ -177,7 +177,7 @@ export default class MonitoringGeneral extends React.Component {
     }
     // NOTE lấy mã trạm từ url
     if(this.props.formData){
-      console.log(this.props.formData,"formData")
+      console.log(this.props.formData,"monitoring formData")
       this.setState({
         followStation : _.get(this.props.formData,'stationAuto','')
       })

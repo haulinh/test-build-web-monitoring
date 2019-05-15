@@ -149,7 +149,7 @@
     "styled-jsx": "^2.2.6"
   },
   "scripts": {
-    "dev": "node scripts/start.js",
+    "dev": "node --inspect scripts/start.js",
     "dev-window": "nodemon src/app.js --exec babel-node --presets=es2015,stage-2",
     "build": "node scripts/build.js",
     "start": "NODE_ENV=production nodemon server.js",

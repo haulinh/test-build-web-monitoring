@@ -3,17 +3,17 @@ import _ from 'lodash'
 import slug from 'constants/slug'
 import { TAB_KEYS } from 'constants/notification'
 import NotificationAPI from 'api/NotificationApi'
-import { initialState } from '../reducers/notification'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date';
 
-export const UPDATE_COUNTS                 = 'NOTIFICATION/UPDATE_COUNTS'
-export const UPDATE_ALL_COUNTS             = 'NOTIFICATION/UPDATE_ALL_COUNTS'
-export const CLEAR_COUNTS                  = 'NOTIFICATION/CLEAR_COUNTS'
-export const NEW_MESSAGE                   = 'NOTIFICATION/NEW_MESSAGE'
-export const UPDATE_DATA_SOURCE            = 'NOTIFICATION/UPDATE_DATA_SOURCE'
-export const UPDATE_DATA_SOURCE_ON_MESSAGE = 'NOTIFICATION/UPDATE_DATA_SOURCE_ON_MESSAGE'
-export const TOGGLE_LOADING                = 'NOTIFICATION/TOGGLE_LOADING'
-export const UPDATE_CURRENT_PAGE           = 'NOTIFICATION/UPDATE_CURRENT_PAGE'
-export const TOGGLE_VISIBLE_NOTIFICATION_DRAWER               = 'NOTIFICATION/TOGGLE_VISIBLE_NOTIFICATION_DRAWER'
+export const UPDATE_COUNTS                      = 'NOTIFICATION/UPDATE_COUNTS'
+export const UPDATE_ALL_COUNTS                  = 'NOTIFICATION/UPDATE_ALL_COUNTS'
+export const CLEAR_COUNTS                       = 'NOTIFICATION/CLEAR_COUNTS'
+export const NEW_MESSAGE                        = 'NOTIFICATION/NEW_MESSAGE'
+export const UPDATE_DATA_SOURCE                 = 'NOTIFICATION/UPDATE_DATA_SOURCE'
+export const UPDATE_DATA_SOURCE_ON_MESSAGE      = 'NOTIFICATION/UPDATE_DATA_SOURCE_ON_MESSAGE'
+export const TOGGLE_LOADING                     = 'NOTIFICATION/TOGGLE_LOADING'
+export const UPDATE_CURRENT_PAGE                = 'NOTIFICATION/UPDATE_CURRENT_PAGE'
+export const TOGGLE_VISIBLE_NOTIFICATION_DRAWER = 'NOTIFICATION/TOGGLE_VISIBLE_NOTIFICATION_DRAWER'
 
 
 /* NOTE  emit to reducer: handleToggleLoading */
@@ -35,11 +35,12 @@ export function setIsLoading(flag) {
 }
 
 /* NOTE  emit to reducer: handleUpdateDataSource */
+const ITEM_PER_PAGE = 8
 export function loadNotificationsByType(page, type, stations) {
   return async dispatch => {
     dispatch(setIsLoading(false))
 
-    let res = await NotificationAPI.loadNotificationsByType({ type, page, itemPerPage:16 })
+    let res = await NotificationAPI.loadNotificationsByType({ type, page, itemPerPage: ITEM_PER_PAGE })
     if (!res.success) return console.log('Notification action: Error khi load: ', type)
     
     const {data} = res
@@ -223,11 +224,10 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
         searchNow: true
       }
       const RawDataURL = slug.dataSearch.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchRawData))
-
       // new content of cell
       const cellContent = {
         station: stationInfo.name,
-        exceededTime: moment(rawContent.createdAt).format('DD-MM-YYYY hh:mm'),
+        exceededTime: moment(rawContent.createdAt).format(DD_MM_YYYY_HH_MM),
         fullBody: {__html: rawContent.full_body},
         actions: {
           viewDetail: '',

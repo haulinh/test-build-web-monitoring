@@ -59,17 +59,21 @@ export default class PageWrapper extends Component {
 
       navigator.serviceWorker.addEventListener("message", message => {
         // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
-        console.log("message noti", message);
+        console.log("service worker message: ", message);
+        let payload = message.data["firebase-messaging-msg-data"]
+        console.log("service worker data: ", payload);
+        // payload.createdAt  = payload.createdAt
+        // payload.dataFilter = payload.dataFilter.split(";")
+        // payload.full_body  = payload.data.full_body
+        // this._handleOnNewMessage(payload)
       });
     
     messaging.onMessage((payload) => {
-      this._showNotification(payload)
-
       /* note: format data de tuong thich code */
       payload.createdAt  = Number(payload.data.createdAt)
       payload.dataFilter = payload.data.dataFilter.split(";")
       payload.full_body  = payload.data.full_body
-      this.props.updateNotificationOnMessage(payload, this.props.stationAuto)
+      this._handleOnNewMessage(payload)
     });
    
     //  navigator.serviceWorker.addEventListener("message", message =>{
@@ -85,26 +89,31 @@ export default class PageWrapper extends Component {
     navigationWidth: 320
   };
 
+  _handleOnNewMessage(payload) {
+    this._showNotification(payload)
+    this.props.updateNotificationOnMessage(payload, this.props.stationAuto)
+  }
+
   _showNotification(payload) {
-    let description = ''
-    switch(payload.data.type) {
-      case TAB_KEYS.EXCEEDED: {
-        description = 'Thông báo vượt ngưỡng' /* MARK  @translate */
-        break;
-      }
-      case TAB_KEYS.LOST_SIGNAL: {
-        description = 'Thông báo mất dữ liệu' /* MARK  @translate */
-        break;
-      }
-      case TAB_KEYS.SENSOR_ERROR: {
-        description = 'Thông báo trạng thái thiết bị' /* MARK  @translate */
-        break;
-      }
-    }
+    // let description = ''
+    // switch(payload.data.type) {
+    //   case TAB_KEYS.EXCEEDED: {
+    //     description = 'Thông báo vượt ngưỡng' /* MARK  @translate */
+    //     break;
+    //   }
+    //   case TAB_KEYS.LOST_SIGNAL: {
+    //     description = 'Thông báo mất dữ liệu' /* MARK  @translate */
+    //     break;
+    //   }
+    //   case TAB_KEYS.SENSOR_ERROR: {
+    //     description = 'Thông báo trạng thái thiết bị' /* MARK  @translate */
+    //     break;
+    //   }
+    // }
 
     notification['info']({
       message: payload.notification.title,
-      description: description,
+      description: payload.notification.body,
     });
   }
 

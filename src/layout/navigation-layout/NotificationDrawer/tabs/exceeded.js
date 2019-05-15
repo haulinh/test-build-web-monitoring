@@ -9,7 +9,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { withRouter } from 'react-router'
 import { COLOR_STATUS } from 'themes/color';
 
-
+/* MARK  @translate */
 const i18n = {
   station: '--- Trạm ---',
   parameters: 'Các chỉ tiêu',
@@ -35,7 +35,7 @@ function Cell(props) {
     props.history.push(url)
     props.closeDrawer()
   }
-
+  
   return (
     <CustomRow>
       <Card style={{ width: '100%' }} bodyStyle={{padding: 8}}>
@@ -48,6 +48,7 @@ function Cell(props) {
           </Col>
         </CustomRow>
         <CustomParamsRow>
+          {/* MARK  @remove */}
           {/* <div dangerouslySetInnerHTML={<p>fdafdsafsa fda fjdsal; fjds fjs</p>} /> */}
           <div dangerouslySetInnerHTML={cellContent.fullBody}></div>
         </CustomParamsRow>
@@ -93,8 +94,9 @@ function Cell(props) {
 
 function Cells(props) {
   const { dataSource } = props
-  return dataSource.map(cellContent => (
-    <Cell 
+  return dataSource.map((cellContent, index) => (
+    <Cell
+      key={index}
       cellContent={cellContent} 
       history={props.history} 
       closeDrawer={props.closeDrawer}
@@ -138,7 +140,7 @@ export default class NotificationDrawer extends React.Component {
         pageStart={defaultStartPage}
         hasMore={loading}
         threshold={500}
-        loader={<Card loading />}
+        loader={<Card key="loading" loading />}
         loadMore={this.props.loadNotifications}
         useWindow={false}>
           <Cells dataSource={dataSource} history={this.props.history} closeDrawer={this.props.closeDrawer}/>
