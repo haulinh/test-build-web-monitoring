@@ -138,7 +138,7 @@ export default class BasicNestedNavigation extends React.Component {
     return [
       /* MARK  icon notification */
       <Badge style={{cursor: 'pointer'}} count={this.props.notificationCount.total} onClick={() => this.props.setDrawerVisible(true)}>
-        <NotificationIcon size="large" primaryColor="orange" />
+        <NotificationIcon size="large" />
       </Badge>,
       <AkDropdownMenu
         appearance="tall"
