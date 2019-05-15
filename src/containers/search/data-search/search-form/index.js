@@ -22,6 +22,9 @@ import * as _ from 'lodash'
 import { FSelectApprove } from './select-approve'
 import { prop } from 'cramda';
 
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date';
+
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
@@ -59,6 +62,7 @@ function validate(values) {
   validate
 })
 @createLang
+// @queryFormDataBrowser()
 @autobind
 export default class SearchForm extends React.Component {
   static propTypes = {
@@ -68,13 +72,14 @@ export default class SearchForm extends React.Component {
 
   constructor(props) {
     super(props)
+    console.log(this.props.formData,"this.props.query")
 
     let fromDate = moment(props.initialValues.fromDate)
     let toDate = moment(props.initialValues.toDate)
     let timeRange = 7
     let rangesView = undefined
     if(props.initialValues.searchRange) {
-      rangesView = `${fromDate.format('DD/MM/YYYY hh:mm')} - ${toDate.format('DD/MM/YYYY hh:mm')}`
+      rangesView = `${fromDate.format(DD_MM_YYYY_HH_MM)} - ${toDate.format(DD_MM_YYYY_HH_MM)}`
       timeRange = rangesView
     }
 
@@ -201,6 +206,7 @@ export default class SearchForm extends React.Component {
   }
 
   render() {
+    
     const t = this.props.lang.createNameSpace('dataSearchFrom.form')
     return (
       <SearchFormContainer>
