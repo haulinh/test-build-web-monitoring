@@ -108,7 +108,6 @@ function Cells(props) {
 @connectAutoDispatch(
   (state) => ({
     loading: state.notification.loading,
-    defaultStartPage: state.notification.defaultStartPage,
     currentPage: state.notification.currentPage,
     dataSource: state.notification.logs.exceeded,
     isHasMoreExceed: state.notification.isHasMoreExceed,
@@ -132,6 +131,10 @@ export default class NotificationDrawer extends React.Component {
 
   static defaultProps = {}
 
+  state = {
+    defaultStartPage: 0
+  }
+
   componentDidMount() {
     // const {tabName, stationAuto} = this.props
     // this.props.loadNotificationsByType(1, tabName, stationAuto)
@@ -143,7 +146,7 @@ export default class NotificationDrawer extends React.Component {
     return (
       <InfiniteScroll
         initialLoad
-        pageStart={defaultStartPage}
+        pageStart={this.state.defaultStartPage}
         hasMore={loading}
         threshold={500}
         loader={<Card key="loading" loading />}

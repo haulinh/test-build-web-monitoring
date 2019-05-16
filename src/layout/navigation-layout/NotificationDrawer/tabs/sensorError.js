@@ -92,7 +92,6 @@ function Cells(props) {
 @connectAutoDispatch(
   (state) => ({
     isLoadmoreSensorError: state.notification.isLoadmoreSensorError,
-    defaultStartPage: state.notification.defaultStartPage,
     currentPage: state.notification.currentPage,
     dataSource: state.notification.logs.sensorError,
     stationAuto: state.stationAuto.list
@@ -116,7 +115,7 @@ export default class NotificationDrawer extends React.Component {
   static defaultProps = {}
 
   state = {
-    page: 1,
+    defaultStartPage: 0
   }
 
   componentDidMount() {
@@ -129,7 +128,7 @@ export default class NotificationDrawer extends React.Component {
     return (
         <InfiniteScroll
           initialLoad
-          pageStart={defaultStartPage}
+          pageStart={this.state.defaultStartPage}
           hasMore={isLoadmoreSensorError}
           threshold={250}
           loader={<Card loading />}

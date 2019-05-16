@@ -17,7 +17,6 @@ export const initialState = {
   loading: true, // exceeded loading
   isLoadmoreLostSignal: true,
   isLoadmoreSensorError: true,
-  defaultStartPage: 1,
   currentPage: 0,
   count: {
     total: 0,
