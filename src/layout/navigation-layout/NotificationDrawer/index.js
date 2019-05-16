@@ -107,7 +107,6 @@ export default class NotificationDrawer extends React.Component {
             key={TAB_KEYS.EXCEEDED}
             tab={<BadgeWrapper count={notificationCount.exceeded}>{i18n.exceeded}</BadgeWrapper>}>
             <ExceededTabContent 
-              loadNotifications={this.loadNotifications} 
               closeDrawer={this.closeDrawer}
               tabName={TAB_KEYS.EXCEEDED}/>
           </TabPane>
@@ -117,7 +116,6 @@ export default class NotificationDrawer extends React.Component {
             key={TAB_KEYS.LOST_SIGNAL}
             tab={<BadgeWrapper count={notificationCount.lostSignal}>{i18n.lostSignal}</BadgeWrapper>}>
             <LostDataTabContent 
-            loadNotifications={this.loadNotifications} 
             closeDrawer={this.closeDrawer}
             tabName={TAB_KEYS.LOST_SIGNAL}/>
           </TabPane>
@@ -127,7 +125,6 @@ export default class NotificationDrawer extends React.Component {
             key={TAB_KEYS.SENSOR_ERROR}
             tab={<BadgeWrapper count={notificationCount.sensorError}>{i18n.sensorError}</BadgeWrapper>}>
             <SensorErrorTabContent 
-            loadNotifications={this.loadNotifications} 
             closeDrawer={this.closeDrawer}
             tabName={TAB_KEYS.SENSOR_ERROR}/>
           </TabPane>
@@ -146,13 +143,6 @@ export default class NotificationDrawer extends React.Component {
     this.props.clearNotificationCountByType( this.state.currentTabKey )
     this.setState({currentTabKey: newTabKey})
   }
-
-  loadNotifications = (page, tabName) => {
-    const { stationAuto } = this.props
-    this.props.loadNotificationsByType(page, tabName, stationAuto)
-    console.log("loadNotifications", tabName, page)
-  }
-
 }
 
 

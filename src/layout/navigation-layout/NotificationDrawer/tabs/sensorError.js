@@ -9,7 +9,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { withRouter } from 'react-router'
 import { prop } from 'cramda';
 import { COLOR_STATUS, COLOR_DEVICE_STATUS } from 'themes/color';
-import { loadNotificationsByType} from 'redux/actions/notification'
+import { loadNotificationsByType } from 'redux/actions/notification'
 
 
 const i18n = {
@@ -94,9 +94,10 @@ function Cells(props) {
     isLoadmoreSensorError: state.notification.isLoadmoreSensorError,
     defaultStartPage: state.notification.defaultStartPage,
     currentPage: state.notification.currentPage,
-    dataSource: state.notification.logs.sensorError
+    dataSource: state.notification.logs.sensorError,
+    stationAuto: state.stationAuto.list
   }),
-  {}
+  {loadNotificationsByType}
 )
 @withRouter
 export default class NotificationDrawer extends React.Component {
@@ -105,9 +106,11 @@ export default class NotificationDrawer extends React.Component {
     tabName: propTypes.string.isRequired,
     loadNotifications: propTypes.func.isRequired,
     /* redux's props */
+    stationAuto: propTypes.array.isRequired,
     isLoadmoreSensorError: propTypes.bool.isRequired,
     currentPage: propTypes.number.isRequired,
     dataSource: propTypes.array.isRequired,
+    loadNotificationsByType: propTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -117,19 +120,20 @@ export default class NotificationDrawer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadNotifications(1, this.props.tabName)
+    // const {tabName, stationAuto} = this.props
+    // this.props.loadNotificationsByType(1, tabName, stationAuto)
   }
 
   render() {
-    const { isLoadmoreSensorError, defaultStartPage, dataSource } = this.props
+    const { isLoadmoreSensorError, defaultStartPage, dataSource, tabName, stationAuto } = this.props
     return (
         <InfiniteScroll
-          initialLoad={false}
+          initialLoad
           pageStart={defaultStartPage}
           hasMore={isLoadmoreSensorError}
           threshold={250}
           loader={<Card loading />}
-          loadMore={(page) => this.props.loadNotifications(page, this.props.tabName)}
+          loadMore={(page) => this.props.loadNotificationsByType(page, tabName, stationAuto)}
           useWindow={false}>
           <Cells dataSource={dataSource} history={this.props.history} closeDrawer={this.props.closeDrawer}/>
         </InfiniteScroll>
