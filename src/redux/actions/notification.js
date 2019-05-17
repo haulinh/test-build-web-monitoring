@@ -65,10 +65,15 @@ export function loadNotificationsByType(page, type, stations) {
       return dispatch(setIsLoading(type, false))
     }
 
-    const transformedData = _.map(data, item => {
-      const stationInfo = _.find(stations, {_id: item.station_id})
+    const transformedData = _.compact(_.map(data, item => {
+      let stationInfo = _.find(stations, {_id: item.station_id})
+      /* NOTE  lý do không có stationInfo: có thể đã bị xóa khỏi tổ chức */
+      /* PROBLEM  cần họp mọi người giải quyết vấn đề này, @thao nắm vấn đề */
+      if (!stationInfo) return
       return _generateNotificationCellByType(item, stationInfo)
-    })
+    }))
+
+
     
     switch(type) {
       case TAB_KEYS.EXCEEDED: {

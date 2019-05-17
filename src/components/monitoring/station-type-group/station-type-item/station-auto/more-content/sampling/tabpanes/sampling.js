@@ -333,7 +333,7 @@ export default class SamplingMoreInfo extends React.Component {
                         max: totalBottles-sampledBottles,
                         type: 'integer',
                         message: i18n.alertNull}],
-                        initialValue: numberBottles 
+                        initialValue: numberBottles   
                     })(
                       <InputNumber disabled={isScheduled } style={{width: '100%'}}/>
                     )}
