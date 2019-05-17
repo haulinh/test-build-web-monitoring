@@ -6,6 +6,7 @@ import { Table, Tag } from "antd";
 import { translate } from "hoc/create-lang";
 import SamplingAPI from "api/SamplingApi";
 import moment from 'moment'
+import { toLower as _toLower} from 'lodash'
 import { DD_MM_YYYY_HH_MM } from "constants/format-date";
 import swal from "sweetalert2";
 
@@ -26,7 +27,14 @@ const i18n = {
   result: translate(
     "monitoring.moreContent.sampling.content.history.result"
   ),
-  success: translate('monitoring.moreContent.sampling.content.history.result')
+  success: translate('monitoring.moreContent.sampling.content.history.result'),
+  history:{
+    manual:translate('monitoring.moreContent.sampling.content.history.manual'),
+    cancel_schedule:translate('monitoring.moreContent.sampling.content.history.cancel_schedule'),
+    active_schedule:translate('monitoring.moreContent.sampling.content.history.active_schedule'),
+    config:translate('monitoring.moreContent.sampling.content.history.config'),
+    reset_bottles:translate('monitoring.moreContent.sampling.content.history.reset_bottles'),
+  }
 };
 
 const {Column, ColumnGroup} = Table
@@ -141,6 +149,10 @@ export default class SamplingMoreInfo extends React.Component {
             align="center"
             dataIndex="typeOfSampling"
             width={150}
+            render={(...args) => {
+              const [data, record] = args
+              return <div>{i18n.history[_toLower(data)]}</div>
+            }}
           />
 
           <Column 
