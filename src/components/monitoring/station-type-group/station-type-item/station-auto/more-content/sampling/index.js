@@ -10,6 +10,7 @@ import Sampling from './tabpanes/sampling'
 import History from './tabpanes/history'
 import Config from './tabpanes/config'
 import styled from 'styled-components'
+import Disconnection from 'components/elements/disconnection'
 
 const TIME_INTERVAL_GET_STATUS = 1000 * 60 // 1 PHUT
 const STATUS_SAMPLING = {
@@ -27,6 +28,14 @@ const LoadingContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 250px;
+  
+  .information{
+    display: flex;
+    align-items: center;
+  }
+  .information--text{
+    font-weight: bold;
+  }
 `
 
 const i18n = {
@@ -45,6 +54,7 @@ const LoadingCmp = () => (
       theme="outlined"
       style={{ color: '#4090ff', fontSize: 25 }}
     />
+    {/* <Disconnection messages ='Không kết nối được với dịch vụ lấy mẫu vui lòng liên hệ quản trị viên!'/> */}
   </LoadingContainer>
 )
 
@@ -125,6 +135,11 @@ export default class SamplingMoreInfo extends React.Component {
         configSamplingSchedule: res.data.configSamplingSchedule
           ? res.data.configSamplingSchedule
           : undefined
+      })
+
+      // MARK  nhớ bỏ test
+      this.setState({
+        isLoading: true,
       })
     } else {
       showMessageError(i18n.getStatusFail)
