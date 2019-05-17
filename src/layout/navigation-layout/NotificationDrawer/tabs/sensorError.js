@@ -112,7 +112,7 @@ export default class NotificationDrawer extends React.Component {
   static defaultProps = {}
 
   state = {
-    defaultStartPage: 0
+    defaultStartPage: 1
   }
 
   componentDidMount() {
