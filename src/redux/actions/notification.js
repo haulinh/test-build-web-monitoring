@@ -61,7 +61,7 @@ export function loadNotificationsByType(page, type, stations) {
 
     let res = await NotificationAPI.loadNotificationsByType({ type, page, itemPerPage: ITEM_PER_PAGE })
     const {success, data} = res
-    if (!success || data.length === 0) {
+    if (!success || data.length === 0 || data.length < ITEM_PER_PAGE) {
       return dispatch(setIsLoading(type, false))
     }
 
@@ -107,6 +107,7 @@ export function loadNotificationsByType(page, type, stations) {
         break;
       }
     }
+    
     dispatch(setIsLoading(type, true))
   }
 }
