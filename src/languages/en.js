@@ -109,7 +109,12 @@ export default {
             dateTime: 'Date time',
             typeOfSampling: 'Type of Sampling',
             activedUser: 'Actived User',
-            result: 'Result'
+            result: 'Result',
+            manual:'Immediately Sampling',
+            cancel_schedule:'Cancel Sampling By Scheduled',
+            active_schedule:'Active Sampling By Scheduled',
+            config:'Modify Configuration',
+            reset_bottles:'Reset Sampled Bottles'
           },
           config: {
             totalBottles: 'Total bottles:',

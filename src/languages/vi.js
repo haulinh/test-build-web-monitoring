@@ -109,7 +109,12 @@ export default {
             dateTime: 'Thời gian lấy',
             typeOfSampling: 'Hình thức lấy',
             activedUser: 'Người kích hoạt',
-            result: 'Kết quả lấy mẫu'
+            result: 'Kết quả lấy mẫu',
+            manual:'Lấy mẫu tức thời',
+            cancel_schedule:'Hủy hẹn giờ lấy mẫu',
+            active_schedule:'Kích hoạt hẹn giờ lấy mẫu',
+            config:'Thay đổi cấu hình',
+            reset_bottles:'Reset số chai đã lấy'
           },
           config: {
             totalBottles: 'Tổng số chai:',
