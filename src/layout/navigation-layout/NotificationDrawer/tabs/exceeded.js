@@ -10,12 +10,9 @@ import { withRouter } from 'react-router'
 import { COLOR_STATUS } from 'themes/color';
 import { loadNotificationsByType } from 'redux/actions/notification'
 
-/* MARK  @translate */
 const i18n = {
-  station: '--- Trạm ---',
-  parameters: 'Các chỉ tiêu',
-  gotoRealtimeMonitoringPage: 'Đến trang Xem chi tiết trạm',
-  viewDataAroundThisTime: 'Xem giá trị quanh thời điểm vượt',
+  gotoRealtimeMonitoringPage: translate('actions.gotoMonitoring'),
+  viewDataAroundThisTime: translate('actions.gotoMonitoring.viewDataAroundThisTime'),
   exceeded: translate('stationStatus.exceeded'),
   exceededPreparing: translate('stationStatus.exceededPreparing'),
 }
@@ -49,8 +46,6 @@ function Cell(props) {
           </Col>
         </CustomRow>
         <CustomParamsRow>
-          {/* MARK  @remove */}
-          {/* <div dangerouslySetInnerHTML={<p>fdafdsafsa fda fjdsal; fjds fjs</p>} /> */}
           <div dangerouslySetInnerHTML={cellContent.fullBody}></div>
         </CustomParamsRow>
         {/* NOTE  đừng xóa, xem có thay đổi gì không */}

@@ -13,10 +13,7 @@ import { loadNotificationsByType } from 'redux/actions/notification'
 
 
 const i18n = {
-  station: '--- Trạm ---',
-  parameters: 'Các chỉ tiêu',
-  gotoRealtimeMonitoringPage: 'Đến trang Xem chi tiết trạm',
-  viewDataAroundThisTime: 'Xem giá trị quanh thời điểm vượt',
+  gotoRealtimeMonitoringPage: translate('actions.gotoMonitoring'),
   exceeded: translate('stationStatus.exceeded'),
   exceededPreparing: translate('stationStatus.exceededPreparing'),
 }

@@ -1519,5 +1519,9 @@ export default {
     exceeded: 'Exceeded',
     exceededPreparing: 'Almost Exceed',
     exceededTendency: 'Tend To Exceed',
+  },
+  actions: {
+    "gotoMonitoring": "Go to Real-time Monitoring Page",
+    "viewDataAroundThisTime": "View data around this time"
   }
 }
