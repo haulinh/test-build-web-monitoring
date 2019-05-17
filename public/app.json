@@ -3,9 +3,9 @@
   "apiMedia": "http://27.74.251.0:1234",
   "apiCamera": "http://27.74.251.0:5020",
   "camera": {
-    "host": "http://35.247.172.138:7001",
+    "host": "https://global-camera.ilotusland.com",
     "username": "admin",
-    "password": "DichVuSo1"
+    "password": "vietan@123"
   },
   "firebase": {
     "id": "851178570095",
