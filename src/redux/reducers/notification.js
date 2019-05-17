@@ -35,14 +35,8 @@ export default function handleNotificationStore(state = initialState, action) {
   const cloneState = _.clone(state)
   const {type, payload} = action
   switch (type) {
-    case RESET_ALL_COUNTS: return update(state,{
-      count:{
-        total: {$set: 0},
-        exceeded: {$set: 0},
-        lostSignal: {$set: 0},
-        sensorError: {$set: 0},
-      }
-    })
+    case RESET_ALL_COUNTS: 
+      return handleResetAllCount(state)
     case TOGGLE_LOADING: 
       return handleToggleLoading(state, payload)
     case CLEAR_COUNTS: 
@@ -60,6 +54,17 @@ export default function handleNotificationStore(state = initialState, action) {
     default:
       return state
   }
+}
+
+function handleResetAllCount(state) {
+  return update(state,{
+    count:{
+      total: {$set: 0},
+      exceeded: {$set: 0},
+      lostSignal: {$set: 0},
+      sensorError: {$set: 0},
+    }
+  })
 }
 
 /* NOTE  handle action: toggleLoading */
