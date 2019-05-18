@@ -156,8 +156,10 @@ export default class ChartRowToChart extends React.Component {
       const dataSources = await getDataStationAutos(
         { page: 1, itemPerPage: 3000 },
         {
-          fromDate: fromDate.format('YYYY-MM-DD HH:mm'),
-          toDate: toDate.format('YYYY-MM-DD HH:mm'),
+          fromDate: fromDate.utc().format('YYYY-MM-DD 04:mm'),
+          toDate: toDate.utc().format('YYYY-MM-DD HH:mm'),
+          // fromDate: fromDate.utc().format('YYYY-MM-DD HH:mm'),
+          // toDate: toDate.utc().format('YYYY-MM-DD HH:mm'),
           key: _.get(station, 'key', 'vas'),
           measuringList: measuringKeys
         }
