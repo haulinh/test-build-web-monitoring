@@ -1,5 +1,5 @@
 {
-  "apiGateway": "http://35.198.238.95:5000",
+  "apiGateway": "https://api2.ilotusland.com",
   "apiMedia": "http://27.74.251.0:1234",
   "apiCamera": "http://27.74.251.0:5020",
   "camera": {
