@@ -93,7 +93,7 @@ class CustomGoogleMap extends PureComponent {
 }
 
 const defaultCenter = { lat: 10.7607494, lng: 106.6954122 }
-const defaultZoom = 11
+const defaultZoom = 19
 
 @connect(state => ({
   lang: state.language.locale
@@ -106,7 +106,7 @@ export default class MonitoringMapView extends PureComponent {
   state = {}
 
   render() {
-    console.log(getGoogleMapProps(), 'getGoogleMapProps()')
+    // console.log(getGoogleMapProps(), 'getGoogleMapProps()')
     return (
       <MapContainer>
         <CustomGoogleMap

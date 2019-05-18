@@ -8,7 +8,7 @@ import ProvinceSelect from './ProvinceSelect'
 const WrapperView = styled.div`
   border-radius: 4px;
   flex-direction: column;
-  min-width: 250px;
+  min-width: 200px;
 `
 
 const Label = styled.label`
@@ -33,7 +33,7 @@ export default class HeaderView extends React.PureComponent {
     return (
       <WrapperView>
         <ProvinceSelect label="All" onChange={this.handleItemSelected} />
-        <Label style={{ paddingTop: 8 }}>{this.props.stationStatus}</Label>
+        <Label style={{ paddingTop: 16 }}>{this.props.stationStatus}</Label>
       </WrapperView>
     )
   }

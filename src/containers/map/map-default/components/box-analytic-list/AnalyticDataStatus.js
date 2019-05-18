@@ -111,7 +111,7 @@ export default class BoxAnalyticList extends React.PureComponent {
           >
             <BoxNumberView
               color={COLOR_STATUS.DATA_LOSS}
-              type={t(pfKey + 'dataLoss')}
+              type={t(pfKey + 'lossData')}
               number={this.state.loss}
               focusStatus={warningLevels.LOSS}
               focusParam={this.state.focusStatus}

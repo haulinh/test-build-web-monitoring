@@ -15,7 +15,7 @@ const TabPane = Tabs.TabPane
 
 const i18n = {
   exceeded   : translate('warningLevels.exceed'),
-  lostSignal : translate('warningLevels.lostData'),
+  lostSignal : translate('warningLevels.lossData'),
   sensorError: translate('warningLevels.sensorError'),
 }
 

@@ -121,8 +121,7 @@ export default class OnlineMonitoring extends React.Component {
           if (!existItems || existItems.length === 0)
             columns.push({
               dataIndex: measuring.key,
-              title:
-                measuring.name + (measuring.unit ? ` (${measuring.unit})` : ''),
+              title: `${measuring.name} (${measuring.unit})`,
               render: (value, record) => {
                 let color = currentState.config.normal
                 if (value) {

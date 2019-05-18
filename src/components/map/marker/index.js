@@ -284,11 +284,14 @@ export default class MarkerStation extends PureComponent {
               -15
             ),
             labelStyle: {
-              backgroundColor: '#2ecc71',
-              borderRadius: '3px',
-              fontSize: '12px',
-              padding: '2px',
               color: 'white',
+              fontSize: '14px',
+              fontFamily: 'Roboto, Arial, sans-serif',
+              background: '#6AA84F',
+              padding: '0px 4px',
+              
+              
+              padding: '2px',
               textAlign: 'center',
               whiteteSpace: 'nowrap',
               width:

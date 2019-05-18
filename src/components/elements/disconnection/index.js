@@ -22,7 +22,7 @@ export default class Disconnection extends React.PureComponent {
     return (
       <DisconnectionWrapper className="information">
         <div className="information--icon">
-          <img src="/images/warning/disconnection.jpg" />
+          <img alt='' src="/images/warning/disconnection.jpg" />
         </div>
         <div className="information--text">{messages}</div>
       </DisconnectionWrapper>

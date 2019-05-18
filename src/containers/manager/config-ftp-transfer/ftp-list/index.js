@@ -16,10 +16,13 @@ import ModalFileName from './modal-fileName'
 import dataStationAutoApi from 'api/DataStationAutoApi'
 import { Link } from 'react-router-dom'
 import slug from 'constants/slug'
+import protectRole from 'hoc/protect-role/index.backup'
+import ROLE from 'constants/role'
 
 const CheckboxGroup = Checkbox.Group
 const TabPane = Tabs.TabPane
 
+@protectRole(ROLE.FTPTRANSFER.VIEW)
 export default class ConfigPublishContainer extends React.Component {
   constructor(props) {
     super(props)
@@ -36,11 +39,7 @@ export default class ConfigPublishContainer extends React.Component {
           width: 100,
           align: 'center',
           render: (value, record) => (
-            <Checkbox
-              defaultChecked={_.get(value, ['transferFtp', 'allowed'])}
-              checked={_.get(value, ['transferFtp', 'allowed'])}
-              onChange={checked => this.handleStationPublish(record, checked)}
-            />
+            <Checkbox defaultChecked={_.get(value, ['transferFtp', 'allowed'])} checked={_.get(value, ['transferFtp', 'allowed'])} onChange={checked => this.handleStationPublish(record, checked)} />
           )
         },
         {
@@ -60,20 +59,9 @@ export default class ConfigPublishContainer extends React.Component {
               label: name,
               value: key
             }))
-            const defaultValue = _.get(
-              record,
-              ['options', 'transferFtp', 'measureList'],
-              []
-            )
+            const defaultValue = _.get(record, ['options', 'transferFtp', 'measureList'], [])
 
-            return (
-              <CheckboxGroup
-                defaultValue={defaultValue}
-                value={defaultValue}
-                options={options}
-                onChange={option => this.handleOptionChange(record, option)}
-              />
-            )
+            return <CheckboxGroup defaultValue={defaultValue} value={defaultValue} options={options} onChange={option => this.handleOptionChange(record, option)} />
           }
         },
         {
@@ -83,19 +71,13 @@ export default class ConfigPublishContainer extends React.Component {
           // width: 100,
           align: 'center',
           render: (value, record) => {
-            const defaultValueTime = _.get(
-              record,
-              ['options', 'transferFtp', 'timeStart'],
-              new Date()
-            )
+            const defaultValueTime = _.get(record, ['options', 'transferFtp', 'timeStart'], new Date())
             return (
               <DatePicker
                 format="DD-MM-YYYY"
                 placeholder={translate('ftpTranfer.timeStart')}
                 defaultValue={moment(defaultValueTime, 'DD-MM-YYYY')}
-                onChange={(time, timeString) =>
-                  this.onchangeTime(timeString, record)
-                }
+                onChange={(time, timeString) => this.onchangeTime(timeString, record)}
               />
             )
           }
@@ -109,15 +91,9 @@ export default class ConfigPublishContainer extends React.Component {
           render: (value, record) => {
             return (
               <div>
-                <span style={{ color: 'blue', paddingLeft: '15px' }}>
-                  {this.infoConfigFileName(record)}
-                </span>
+                <span style={{ color: 'blue', paddingLeft: '15px' }}>{this.infoConfigFileName(record)}</span>
                 <span onClick={() => this.handleEdit(record)}>
-                  <Icon
-                    type="edit"
-                    theme="outlined"
-                    style={{ paddingLeft: '15px', color: 'blue' }}
-                  />{' '}
+                  <Icon type="edit" theme="outlined" style={{ paddingLeft: '15px', color: 'blue' }} />{' '}
                 </span>
               </div>
             )
@@ -147,10 +123,7 @@ export default class ConfigPublishContainer extends React.Component {
         originData.timeStart = moment().format('DD-MM-YYYY')
       }
 
-      originData.measureList = _.map(
-        _.get(record, 'measuringList', []),
-        item => item.key
-      )
+      originData.measureList = _.map(_.get(record, 'measuringList', []), item => item.key)
     } else {
       originData.measureList = []
     }
@@ -206,14 +179,10 @@ export default class ConfigPublishContainer extends React.Component {
   }
 
   getData = () => {
-    let search = this.state.textSearch 
+    let search = this.state.textSearch
     if (search) {
       search = replaceVietnameseStr(search)
-      return _.filter(
-        _.clone(this.state.list),
-        ({ name }) =>
-          replaceVietnameseStr(_.lowerCase(name)).indexOf(search) >= 0
-      )
+      return _.filter(_.clone(this.state.list), ({ name }) => replaceVietnameseStr(_.lowerCase(name)).indexOf(search) >= 0)
     }
 
     return _.clone(this.state.list)
@@ -250,13 +219,7 @@ export default class ConfigPublishContainer extends React.Component {
               <div>
                 <span style={{ color: 'blue', paddingLeft: '15px' }}>
                   {
-                    <Link
-                      params={{ testvalue: 'hello' }}
-                      to={
-                        slug.ftpTransfer.historyWithKey +
-                        `/${record.key}/${record.name}`
-                      }
-                    >
+                    <Link params={{ testvalue: 'hello' }} to={slug.ftpTransfer.historyWithKey + `/${record.key}/${record.name}`}>
                       {info ? `${info.transferred}/${info.total}` : '0/0'}
                     </Link>
                   }
@@ -283,57 +246,43 @@ export default class ConfigPublishContainer extends React.Component {
   }
 
   render() {
-    console.log('render ne')
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-        <Breadcrumb items={['list']} />
-        <Tabs defaultActiveKey="1">
-          <TabPane
-            tab={
-              <span>
-                <Icon type="diff" />
-                {translate('ftpTranfer.configTranferFTP')}
-              </span>
-            }
-            key="1"
-          >
-            <SearchForm onSearch={this.handleSearch} />
-            <Table
-              rowKey="key"
-              dataSource={this.getData()}
-              columns={this.state.columns}
-            />
-            {this.state.showModal && (
-              <ModalFileName
-                showModal={this.state.showModal}
-                modalCancel={this.modalCancel}
-                modalSave={this.modalSave}
-                data={this.state.dataModal}
-                loadData={this.loadData}
-              />
-            )}
-          </TabPane>
-          <TabPane
-            tab={
-              <span>
-                <Icon type="info-circle" />
-                {translate('ftpTranfer.ftpConfig')}
-              </span>
-            }
-            key="2"
-          >
-            <InfoFTP
-              onSaveFtpConfig={this.handleSaveFtpConfig}
-              transferFtpInfo={_.get(
-                this.state,
-                'organization.transferFtpInfo',
-                {}
-              )}
-              _id={_.get(this.state, 'organization._id', 'vasoft-2018')}
-            />
-          </TabPane>
-        </Tabs>
-      </PageContainer>
+            <Breadcrumb items={['list']} />
+            <Tabs defaultActiveKey="1">
+              <TabPane
+                tab={
+                  <span>
+                    <Icon type="diff" />
+                    {translate('ftpTranfer.configTranferFTP')}
+                  </span>
+                }
+                key="1"
+              >
+                <SearchForm onSearch={this.handleSearch} />
+                <Table rowKey="key" dataSource={this.getData()} columns={this.state.columns} />
+                {this.state.showModal && (
+                  <ModalFileName showModal={this.state.showModal} modalCancel={this.modalCancel} modalSave={this.modalSave} data={this.state.dataModal} loadData={this.loadData} />
+                )}
+              </TabPane>
+              <TabPane
+                tab={
+                  <span>
+                    <Icon type="info-circle" />
+                    {translate('ftpTranfer.ftpConfig')}
+                  </span>
+                }
+                key="2"
+              >
+                <InfoFTP
+                  onSaveFtpConfig={this.handleSaveFtpConfig}
+                  transferFtpInfo={_.get(this.state, 'organization.transferFtpInfo', {})}
+                  _id={_.get(this.state, 'organization._id', 'vasoft-2018')}
+                />
+              </TabPane>
+            </Tabs>
+          </PageContainer>
+        
     )
   }
 }

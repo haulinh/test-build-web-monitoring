@@ -7,7 +7,7 @@ export default {
   },
   dashboard: {
     good: 'Good',
-    dataLoss: 'Loss',
+    dataLoss: 'Lost',
     notUse: 'Not In Use',
     connected: 'Connected',
     exceeded: 'Exceeded',
@@ -58,14 +58,15 @@ export default {
     viewInMap: 'View In Map',
     sampling: 'Sampling',
     camera: 'Camera',
-    lossAt: 'Loss at',
+    lossAt: 'Lost at',
     notInUse: 'Not In Use',
     deviceStatus: {
-      normal: 'Normal',
+      dataloss: 'Lost Connection',
+      sensorError: 'Sensor Error',
       maintenance: 'Maintenance',
-      broken: 'Broken',
       sensorNormal: 'Sensor Normal',
-      sensorError: 'Sensor Error'
+      normal: 'Normal',
+      broken: 'Broken',
     },
     statusResult: 'Monitoring results',
     note: 'Note',
@@ -239,7 +240,7 @@ export default {
     WQI: 'WQI',
     menuRight: {
       good: 'Good',
-      dataLoss: 'Data Loss',
+      dataLoss: 'Data Lost',
       notUse: 'Not In Use',
       connected: 'Connected',
       exceeded: 'Exceeded',
@@ -721,7 +722,8 @@ export default {
       frequency: {
         label: 'Frequency(m/t)',
         placeholder: 'minutes/time',
-        error: 'Please Choose Frequency'
+        error: 'Please Choose Frequency',
+        description:'Note: When sampling control will be based on frequency'
       },
       dayOfOperation: {
         label: 'Actived At',
@@ -1289,7 +1291,7 @@ export default {
     exceedTendency: 'Tend To Exceed',
     exceedPreparing: 'Tend To Exceed',
     exceed: 'Exceeded',
-    lostData: 'Lost Data',
+    lossData: 'Lost Connection',
     sensorError: 'Sensor Error'
   },
   addon: {
@@ -1517,7 +1519,7 @@ export default {
   },
   stationStatus: {
     good: 'Good',
-    lostSignal: 'Loss Signal',
+    lostSignal: 'Lost Signal',
     notConnected: 'Chưa kết nối',
     connecting: 'Connecting',
     connected: 'Connected',

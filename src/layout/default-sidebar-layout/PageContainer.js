@@ -21,7 +21,7 @@ export const Grid = styled.div`
 `
 
 const BreadcrumbContainer = styled.div`
-  padding: 16px 0px;
+  // padding: 8px 0px;
   background-color: ${SHAPE.GRAYLIGHT};
   height: 68.8px;
 `
@@ -99,15 +99,6 @@ export default class PageContainer extends React.PureComponent {
           />
           {!this.props.hideTitle ? this.renderHeader() : null}
           {this.props.headerBottom}
-          {/* <Affix offsetTop={0}>
-            <div
-              style={{
-                height: 15.9,
-                background: "#FBFBFB"
-              }}
-            />
-          </Affix> */}
-
           {!this.props.isLoading && (
             <Grid>
               <div className="animated fadeIn">{this.props.children}</div>
