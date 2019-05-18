@@ -90,7 +90,7 @@ export default {
         content: {
           totalBottles: 'Tổng số chai:',
           sampledBottles: 'Số chai đã lấy:',
-          typeOfSampling: 'Hình thức lấy mẫu',
+          typeOfSampling: 'Hành động',
           immediatelySampling: 'Thủ công',
           scheduleSampling: 'Tự động',
           bottlesNeedToTake: 'Số chai cần lấy:',
@@ -109,7 +109,7 @@ export default {
             stt: 'STT',
             bottleNo: 'Chai số',
             dateTime: 'Thời gian lấy',
-            typeOfSampling: 'Hình thức lấy',
+            typeOfSampling: 'Hành động',
             activedUser: 'Người kích hoạt',
             result: 'Kết quả lấy mẫu',
             manual:'Lấy mẫu tức thời',
@@ -365,6 +365,9 @@ export default {
         label: 'Loại trạm',
         placeholder: 'Chọn loại trạm',
         error: 'Vui lòng chọn loại trạm'
+      },
+      rangesDate:{
+        error: 'Vui lòng chọn thời gian'
       },
       stationAuto: {
         label: 'Tên trạm',
@@ -721,7 +724,7 @@ export default {
         label: 'Tần suất (phút/lần)',
         placeholder: 'phút/lần',
         error: 'Vui lòng chọn tần suất',
-        description:'Chú ý: Khi điều kiển lấy mẫu sẽ dựa vào tần suất'
+        description:'Chú ý: Phục vụ cho việc thống kê tỷ lệ nhận dữ liệu và gửi cảnh báo'
       },
       dayOfOperation: {
         label: 'Ngày hoạt động',
