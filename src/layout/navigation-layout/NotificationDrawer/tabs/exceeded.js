@@ -10,12 +10,9 @@ import { withRouter } from 'react-router'
 import { COLOR_STATUS } from 'themes/color';
 import { loadNotificationsByType } from 'redux/actions/notification'
 
-/* MARK  @translate */
 const i18n = {
-  station: '--- Trạm ---',
-  parameters: 'Các chỉ tiêu',
-  gotoRealtimeMonitoringPage: 'Đến trang Xem chi tiết trạm',
-  viewDataAroundThisTime: 'Xem giá trị quanh thời điểm vượt',
+  gotoRealtimeMonitoringPage: translate('actions.gotoMonitoring'),
+  viewDataAroundThisTime: translate('actions.viewDataAroundThisTime'),
   exceeded: translate('stationStatus.exceeded'),
   exceededPreparing: translate('stationStatus.exceededPreparing'),
 }
@@ -49,8 +46,6 @@ function Cell(props) {
           </Col>
         </CustomRow>
         <CustomParamsRow>
-          {/* MARK  @remove */}
-          {/* <div dangerouslySetInnerHTML={<p>fdafdsafsa fda fjdsal; fjds fjs</p>} /> */}
           <div dangerouslySetInnerHTML={cellContent.fullBody}></div>
         </CustomParamsRow>
         {/* NOTE  đừng xóa, xem có thay đổi gì không */}
@@ -132,20 +127,21 @@ export default class NotificationDrawer extends React.Component {
   static defaultProps = {}
 
   state = {
-    defaultStartPage: 0
+    defaultStartPage: 1
   }
 
   componentDidMount() {
-    // const {tabName, stationAuto} = this.props
-    // this.props.loadNotificationsByType(1, tabName, stationAuto)
+    const {tabName, stationAuto} = this.props
+    const {defaultStartPage } = this.state
+    this.props.loadNotificationsByType(defaultStartPage, tabName, stationAuto)
   }
 
   render() {
-    const { loading, defaultStartPage, dataSource, tabName, stationAuto } = this.props
+    const { loading, dataSource, tabName, stationAuto } = this.props
     
     return (
       <InfiniteScroll
-        initialLoad
+        initialLoad={false} /* NOTE : không load chỗ này sẽ dẫn đến vòng lập vô hạn */
         pageStart={this.state.defaultStartPage}
         hasMore={loading}
         threshold={500}

@@ -1522,6 +1522,17 @@ export default {
     exceeded: 'Vượt ngưỡng',
     exceededPreparing: 'Chuẩn bị vượt',
     exceededTendency: 'Có xu hướng vượt',
+  },
+  actions: {
+    "gotoMonitoring": "Đến trang Xem chi tiết trạm",
+    "viewDataAroundThisTime": "Xem giá trị quanh thời điểm vượt"
+  },
+  network: {
+    sampling: {
+      lostConnection: "Không kết nối được với dịch vụ lấy mẫu, vui lòng liên hệ quản trị viên!"
+    },
+    camera: {
+      lostConnection: "Không kết nối được với Camera, vui lòng kiểm tra lại!"
+    }
   }
 }
-//

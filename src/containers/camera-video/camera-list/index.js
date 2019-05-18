@@ -51,7 +51,7 @@ export default class CameraList extends React.Component {
           key: `${key}_${index}`,
           stationName: name,
           stationType,
-          src: item.rtspUrl,
+          src: `${item.rtspUrl}?resolution=360p&sfd&rt`,
           name: item.name,
           _id
         }))

@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import slug from 'constants/slug'
 import stationStatus from 'constants/stationStatus'
 import { translate } from 'hoc/create-lang'
-import { get } from 'lodash'
+import { get, isObject } from 'lodash'
 
 import CameraListView from './camera-list'
 
@@ -99,6 +99,7 @@ export default class StationAutoItem extends React.PureComponent {
     let { measuringList, lastLog } = this.props
     if (!lastLog) return
     let measuringLogs = lastLog.measuringLogs
+    if (!measuringLogs || isObject(measuringLogs)) return
     measuringList.sort(function(a, b) {
       return a.numericalOrder - b.numericalOrder
     })
