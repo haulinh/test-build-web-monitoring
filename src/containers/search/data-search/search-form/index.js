@@ -44,8 +44,11 @@ function validate(values) {
   if (!values.stationAuto || values.stationAuto === '')
     errors.stationAuto = translate('avgSearchFrom.form.stationAuto.error')
   if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
-  if (!values.rangesDate)
+  
+  if (!values.rangesDate){
     errors.rangesDate = translate('avgSearchFrom.form.rangesDate.error')
+  }
+    
   if (values.measuringList && values.measuringList.length === 0)
     errors.measuringList = translate('avgSearchFrom.form.measuringList.require')
 
@@ -74,15 +77,17 @@ export default class SearchForm extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log(this.props.formData,"this.props.query")
+    // console.log(this.props.formData,"this.props.query")
 
     let fromDate = moment(props.initialValues.fromDate)
     let toDate = moment(props.initialValues.toDate)
     let timeRange = 7
     let rangesView = undefined
+    // debugger
+    console.log(props.initialValues,"props.initialValues")
     if(props.initialValues.searchRange) {
       rangesView = `${fromDate.format(DD_MM_YYYY_HH_MM)} - ${toDate.format(DD_MM_YYYY_HH_MM)}`
-      timeRange = rangesView
+      timeRange = 'ranges'
     }
 
     this.state = {
@@ -155,6 +160,7 @@ export default class SearchForm extends React.Component {
   }
 
   handleChangeRanges(ranges) {
+    console.log('aaa', ranges)
     if (_.isNumber(ranges)) {
       this.setState({
         timeRange: ranges,
