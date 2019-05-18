@@ -57,59 +57,64 @@ export function setIsLoading(type, flag) {
 const ITEM_PER_PAGE = 8
 export function loadNotificationsByType(page, type, stations) {
   return async dispatch => {
-    dispatch(setIsLoading(type, false))
+    try {
+      dispatch(setIsLoading(type, false))
+      let res = await NotificationAPI.loadNotificationsByType({ type, page, itemPerPage: ITEM_PER_PAGE })
+      const {success, data} = res
 
-    let res = await NotificationAPI.loadNotificationsByType({ type, page, itemPerPage: ITEM_PER_PAGE })
-    const {success, data} = res
-
-    if (!success || data.length === 0) {
-      return 
-    }
-
-    const transformedData = _.compact(_.map(data, item => {
-      let stationInfo = _.find(stations, {_id: item.station_id})
-      /* NOTE  lý do không có stationInfo: có thể đã bị xóa khỏi tổ chức */
-      /* PROBLEM  cần họp mọi người giải quyết vấn đề này, @thao nắm vấn đề */
-      if (!stationInfo) return
-      return _generateNotificationCellByType(item, stationInfo)
-    }))
-      
-    switch(type) {
-      case TAB_KEYS.EXCEEDED: {
-        dispatch({
-          type: UPDATE_DATA_SOURCE,
-          payload: {
-            type: 'exceeded',
-            data: transformedData
-          }
-        })
-        break;
+      if (!success || data.length === 0) {
+        return 
       }
-      case TAB_KEYS.LOST_SIGNAL: {
-        dispatch({
-          type: UPDATE_DATA_SOURCE,
-          payload: {
-            type: 'lostSignal',
-            data: transformedData
-          }
-        })
-        break;
-      }
-      case TAB_KEYS.SENSOR_ERROR: {
-        dispatch({
-          type: UPDATE_DATA_SOURCE,
-          payload: {
-            type: 'sensorError',
-            data: transformedData
-          }
-        })
-        break;
-      }
-    }
 
-    if (data.length >= ITEM_PER_PAGE) {
-      dispatch(setIsLoading(type, true))
+      const transformedData = _.compact(_.map(data, item => {
+        let stationInfo = _.find(stations, {_id: item.station_id})
+        /* NOTE  lý do không có stationInfo: có thể đã bị xóa khỏi tổ chức */
+        /* PROBLEM  cần họp mọi người giải quyết vấn đề này, @thao nắm vấn đề */
+        if (!stationInfo) return
+        return _generateNotificationCellByType(item, stationInfo)
+      }))
+        
+      switch(type) {
+        case TAB_KEYS.EXCEEDED: {
+          dispatch({
+            type: UPDATE_DATA_SOURCE,
+            payload: {
+              type: 'exceeded',
+              data: transformedData
+            }
+          })
+          break;
+        }
+        case TAB_KEYS.LOST_SIGNAL: {
+          dispatch({
+            type: UPDATE_DATA_SOURCE,
+            payload: {
+              type: 'lostSignal',
+              data: transformedData
+            }
+          })
+          break;
+        }
+        case TAB_KEYS.SENSOR_ERROR: {
+          dispatch({
+            type: UPDATE_DATA_SOURCE,
+            payload: {
+              type: 'sensorError',
+              data: transformedData
+            }
+          })
+          break;
+        }
+      }
+
+      if (data.length >= ITEM_PER_PAGE) {
+        dispatch(setIsLoading(type, true))
+      }
     }
+    catch(err) {
+      console.log(err.message)
+    }
+    
   }
 }
 
