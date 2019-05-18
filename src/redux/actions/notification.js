@@ -61,9 +61,6 @@ export function loadNotificationsByType(page, type, stations) {
 
     let res = await NotificationAPI.loadNotificationsByType({ type, page, itemPerPage: ITEM_PER_PAGE })
     const {success, data} = res
-    if (!success || data.length === 0 || data.length < ITEM_PER_PAGE) {
-      return dispatch(setIsLoading(type, false))
-    }
 
     const transformedData = _.compact(_.map(data, item => {
       let stationInfo = _.find(stations, {_id: item.station_id})
@@ -108,7 +105,11 @@ export function loadNotificationsByType(page, type, stations) {
       }
     }
     
-    dispatch(setIsLoading(type, true))
+    if (!success || data.length === 0 || data.length < ITEM_PER_PAGE) {
+      //
+    } else {
+      dispatch(setIsLoading(type, true))
+    }
   }
 }
 
