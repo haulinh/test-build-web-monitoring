@@ -113,19 +113,20 @@ export default class NotificationDrawer extends React.Component {
   static defaultProps = {}
 
   state = {
-    defaultStartPage: 0
+    defaultStartPage: 1
   }
 
   componentDidMount() {
-    // const {tabName, stationAuto} = this.props
-    // this.props.loadNotificationsByType(1, tabName, stationAuto)
+    const {tabName, stationAuto} = this.props
+    const {defaultStartPage } = this.state
+    this.props.loadNotificationsByType(defaultStartPage, tabName, stationAuto)
   }
 
   render() {
-    const { isLoadmoreLostSignal, defaultStartPage, dataSource, tabName, stationAuto } = this.props
+    const { isLoadmoreLostSignal, dataSource, tabName, stationAuto } = this.props
     return (
         <InfiniteScroll
-          initialLoad
+          initialLoad={false} /* NOTE : không load chỗ này sẽ dẫn đến vòng lập vô hạn */
           pageStart={this.state.defaultStartPage}
           hasMore={isLoadmoreLostSignal}
           threshold={250}

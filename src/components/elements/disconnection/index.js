@@ -4,10 +4,9 @@ import PropTypes from 'prop-types'
 
 
 const DisconnectionWrapper = styled.div`
-  .information{
     display: flex;
     align-items: center;
-  }
+    height: 300px;
     .information--text{
         font-weight: bold;
     }

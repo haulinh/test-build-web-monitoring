@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { Row, Col, Tabs, Icon, message } from 'antd'
+import { Row, Col, Tabs, Icon, message, Spin } from 'antd'
 /* user import */
 import StationAPI from 'api/SamplingApi'
 import { translate } from 'hoc/create-lang'
@@ -75,6 +75,8 @@ export default class SamplingMoreInfo extends React.Component {
     isLoading: false,
     isConfig: false,
     isScheduled: false,
+    isDisconnection: false,
+    disconnectionMsg: translate('network.sampling.lostConnection'),
     configSampling: undefined,
     configSamplingSchedule: undefined,
     timerId_getStatus: null
@@ -87,6 +89,7 @@ export default class SamplingMoreInfo extends React.Component {
     this.startTimer = this.startTimer.bind(this)
     this.getStatus = this.getStatus.bind(this)
     this.handleChangeTab = this.handleChangeTab.bind(this)
+    this.componentDidMount = this.componentDidMount.bind(this)
   }
 
   updateState = newState => {
@@ -96,7 +99,7 @@ export default class SamplingMoreInfo extends React.Component {
 
   async getStatus() {
     const res = await StationAPI.getStatus(this.props.stationID)
-
+    
     let configSampling = res.data.configSampling
       ? res.data.configSampling
       : undefined
@@ -121,33 +124,35 @@ export default class SamplingMoreInfo extends React.Component {
     this.timer = setInterval(this.getStatus, TIME_INTERVAL_GET_STATUS)
   }
 
-  async componentWillMount() {
-    this.setState({ isLoading: true })
-    const res = await StationAPI.getStatus(this.props.stationID)
-    if (res.data) {
-      this.setState({
-        isConfig: res.data.configSampling ? true : false,
-        isScheduled: res.data.configSamplingSchedule ? true : false,
-        isLoading: false,
-        configSampling: res.data.configSampling
-          ? res.data.configSampling
-          : undefined,
-        configSamplingSchedule: res.data.configSamplingSchedule
-          ? res.data.configSamplingSchedule
-          : undefined
-      })
-
-      // MARK  nhớ bỏ test
-      this.setState({
-        isLoading: true,
-      })
-    } else {
-      showMessageError(i18n.getStatusFail)
+  async componentDidMount() {
+    try {
+      const res = await StationAPI.getStatus(this.props.stationID)
+      this.setState({isLoading: false})
+      this.startTimer()
+      if (res.data) {
+        this.setState({
+          isConfig: res.data.configSampling ? true : false,
+          isScheduled: res.data.configSamplingSchedule ? true : false,
+          isLoading: false,
+          configSampling: res.data.configSampling
+            ? res.data.configSampling
+            : undefined,
+          configSamplingSchedule: res.data.configSamplingSchedule
+            ? res.data.configSamplingSchedule
+            : undefined
+        })
+      } else {
+        showMessageError(i18n.getStatusFail)
+        this.setState({isLoading: false})
+      }
     }
-  }
-
-  componentDidMount() {
-    this.startTimer()
+    catch(err) {
+      console.log('sampling lost connection')
+      this.setState({
+        isLoading: false,
+        isDisconnection: true
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -161,7 +166,7 @@ export default class SamplingMoreInfo extends React.Component {
     }
   }
 
-  render() {
+  _renderTabs = () => {
     const { stationID } = this.props
     const {
       isSampling,
@@ -172,57 +177,74 @@ export default class SamplingMoreInfo extends React.Component {
       configSamplingSchedule
     } = this.state
     return (
-      <SamplingWrapper>
-        {isLoading ? (
-          <LoadingCmp />
-        ) : (
-          <Tabs
-            onChange={this.handleChangeTab}
-            defaultActiveKey={isConfig ? 'sampling' : 'config'}
+        <SamplingWrapper>
+          <Spin 
+            indicator={<Icon type="loading" style={{ fontSize: 24 }}/>}
+            spinning={isLoading}
           >
-            <TabPane
-              style={{ width: '100%' }}
-              key="sampling"
-              tab={translate('monitoring.moreContent.sampling.tabs.sampling')}
-              disabled={!isConfig}
+            <Tabs
+              onChange={this.handleChangeTab}
+              defaultActiveKey={isConfig ? 'sampling' : 'config'}
             >
-              <Sampling
-                stationID={stationID}
-                configSampling={configSampling}
-                updateParentState={this.updateState}
-                configSamplingSchedule={configSamplingSchedule}
-                STATUS_SAMPLING={STATUS_SAMPLING}
-                isScheduled={isScheduled}
-              />
-            </TabPane>
-            <TabPane
-              key="history"
-              disabled={!isConfig}
-              tab={translate('monitoring.moreContent.sampling.tabs.history')}
-            >
-              <History
-                getRef={ref => (this.historyRef = ref)}
-                stationID={stationID}
-              />
-            </TabPane>
-            <TabPane
-              key="config"
-              tab={translate('monitoring.moreContent.sampling.tabs.config')}
-            >
-              <Config
-                stationID={stationID}
-                isSampling={isSampling}
-                configSampling={configSampling}
-                configSamplingSchedule={configSamplingSchedule}
-                updateParentState={this.updateState}
-                STATUS_SAMPLING={STATUS_SAMPLING}
-                isScheduled={isScheduled}
-                isConfig={isConfig}
-              />
-            </TabPane>
-          </Tabs>
-        )}
-      </SamplingWrapper>
+              <TabPane
+                style={{ width: '100%' }}
+                key="sampling"
+                tab={translate('monitoring.moreContent.sampling.tabs.sampling')}
+                disabled={!isConfig}
+              >
+                <Sampling
+                  stationID={stationID}
+                  configSampling={configSampling}
+                  updateParentState={this.updateState}
+                  configSamplingSchedule={configSamplingSchedule}
+                  STATUS_SAMPLING={STATUS_SAMPLING}
+                  isScheduled={isScheduled}
+                />
+              </TabPane>
+              <TabPane
+                key="history"
+                disabled={!isConfig}
+                tab={translate('monitoring.moreContent.sampling.tabs.history')}
+              >
+                <History
+                  getRef={ref => (this.historyRef = ref)}
+                  stationID={stationID}
+                />
+              </TabPane>
+              <TabPane
+                key="config"
+                tab={translate('monitoring.moreContent.sampling.tabs.config')}
+              >
+                <Config
+                  stationID={stationID}
+                  isSampling={isSampling}
+                  configSampling={configSampling}
+                  configSamplingSchedule={configSamplingSchedule}
+                  updateParentState={this.updateState}
+                  STATUS_SAMPLING={STATUS_SAMPLING}
+                  isScheduled={isScheduled}
+                  isConfig={isConfig}
+                />
+              </TabPane>
+            </Tabs>
+          </Spin>
+        </SamplingWrapper>
+    )
+  }
+
+  _renderDisconnection = (message) => (
+    <Row type="flex" justify="center" align="middle">
+      <Disconnection messages={this.state.disconnectionMsg} />
+    </Row>
+  )
+
+  render() {
+    return (
+      <React.Fragment>
+          {
+            this.state.isDisconnection ? this._renderDisconnection(this.state.disconnectionMsg) : this._renderTabs()
+          }
+      </React.Fragment>
     )
   }
 }

@@ -12,7 +12,7 @@ import { loadNotificationsByType } from 'redux/actions/notification'
 
 const i18n = {
   gotoRealtimeMonitoringPage: translate('actions.gotoMonitoring'),
-  viewDataAroundThisTime: translate('actions.gotoMonitoring.viewDataAroundThisTime'),
+  viewDataAroundThisTime: translate('actions.viewDataAroundThisTime'),
   exceeded: translate('stationStatus.exceeded'),
   exceededPreparing: translate('stationStatus.exceededPreparing'),
 }
@@ -127,20 +127,21 @@ export default class NotificationDrawer extends React.Component {
   static defaultProps = {}
 
   state = {
-    defaultStartPage: 0
+    defaultStartPage: 1
   }
 
   componentDidMount() {
-    // const {tabName, stationAuto} = this.props
-    // this.props.loadNotificationsByType(1, tabName, stationAuto)
+    const {tabName, stationAuto} = this.props
+    const {defaultStartPage } = this.state
+    this.props.loadNotificationsByType(defaultStartPage, tabName, stationAuto)
   }
 
   render() {
-    const { loading, defaultStartPage, dataSource, tabName, stationAuto } = this.props
+    const { loading, dataSource, tabName, stationAuto } = this.props
     
     return (
       <InfiniteScroll
-        initialLoad
+        initialLoad={false} /* NOTE : không load chỗ này sẽ dẫn đến vòng lập vô hạn */
         pageStart={this.state.defaultStartPage}
         hasMore={loading}
         threshold={500}

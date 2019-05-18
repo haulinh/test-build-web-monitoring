@@ -1528,5 +1528,13 @@ export default {
   actions: {
     "gotoMonitoring": "Go to Real-time Monitoring Page",
     "viewDataAroundThisTime": "View data around this time"
+  },
+  network: {
+    sampling: {
+      lostConnection: "Unable to connect to the sampling service, please contact the administrator!"
+    },
+    camera: {
+      lostConnection: "Can't connect with Camera, Please check the connection!"
+    }
   }
 }
