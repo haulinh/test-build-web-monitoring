@@ -79,7 +79,7 @@ export default class HeaderView extends React.PureComponent {
       allowOverlap: true,
       formatter: function() {
         if (this.y === 0) return ''
-        return `${this.y}%`
+        return `${_.round(this.y, 2)}%`
       }
     }
     let me = this
@@ -159,7 +159,7 @@ export default class HeaderView extends React.PureComponent {
       allowOverlap: true,
       formatter: function() {
         if (this.y === 0) return ''
-        return `${this.y}%`
+        return `${_.round(this.y, 2)}%`
       }
     }
 
