@@ -8,7 +8,7 @@ import Highcharts from 'highcharts'
 import * as _ from 'lodash'
 import { Menu, Dropdown, Icon, Tabs } from 'antd'
 import { getDataStationAutos } from 'api/DataStationAutoApi'
-import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
+import { DATETIME_LABEL_FORMAT, DATETIME_TOOLTIP_FORMAT } from 'constants/chart-format'
 import { ROUND_DIGIT } from 'constants/format-number'
 
 const ChartWrapper = styled.div``
@@ -98,6 +98,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
       enabled: false
     },
     tooltip: {
+      dateTimeLabelFormats: DATETIME_TOOLTIP_FORMAT,
       formatter: function(tooltip) {
         if (this.point.isNull) {
           return 'Null'
