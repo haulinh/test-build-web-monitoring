@@ -158,8 +158,6 @@ export default class ChartRowToChart extends React.Component {
         {
           fromDate: fromDate.utc().format('YYYY-MM-DD 04:mm'),
           toDate: toDate.utc().format('YYYY-MM-DD HH:mm'),
-          // fromDate: fromDate.utc().format('YYYY-MM-DD HH:mm'),
-          // toDate: toDate.utc().format('YYYY-MM-DD HH:mm'),
           key: _.get(station, 'key', 'vas'),
           measuringList: measuringKeys
         }
