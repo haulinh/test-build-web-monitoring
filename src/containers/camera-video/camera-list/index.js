@@ -91,7 +91,7 @@ export default class CameraList extends React.Component {
     //todo: chuyển search camera thành đa ngôn ngữ, dùng translate
     return (
       <Input.Search
-        placeholder="search camera"
+        placeholder="Search camera"
         onChange={this.saveSearchString}
       />
     )

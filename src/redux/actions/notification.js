@@ -251,12 +251,14 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
         stationType: stationInfo.stationType.key,
         stationAuto: stationInfo.key,
         measuringList: rawContent.dataFilter,
+        rangesDate:'ranges',
         fromDate,
         toDate,
         searchRange: true,
         searchNow: true
       }
       const RawDataURL = slug.dataSearch.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchRawData))
+      
       // new content of cell
       const cellContent = {
         station: stationInfo.name,
