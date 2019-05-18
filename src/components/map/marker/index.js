@@ -115,7 +115,7 @@ export default class MarkerStation extends PureComponent {
   }
 
   renderTableData() {
-    if (!this.props.lastLog) return ''
+    if (!this.props.lastLog || !this.props.lastLog.measuringLogs) return ''
     let lastLog = this.props.lastLog
     let measuringList = map(this.props.measuringList, ({ name, key, unit }, index) => {
       return (
