@@ -63,7 +63,7 @@ export default {
     deviceStatus: {
       dataloss: 'Lost Connection',
       sensorError: 'Sensor Error',
-      maintenance: 'Maintenance',
+      maintenance: 'Calibration',
       sensorNormal: 'Sensor Normal',
       normal: 'Normal',
       broken: 'Broken',
@@ -89,7 +89,7 @@ export default {
         content: {
           totalBottles: 'Total bottles:',
           sampledBottles: 'Sampled bottles:',
-          typeOfSampling: 'Type of Sampling',
+          typeOfSampling: 'Action',
           immediatelySampling: 'Immediately Sampling',
           scheduleSampling: 'Schedule Sampling',
           bottlesNeedToTake: 'Bottles need to take:',
@@ -108,7 +108,7 @@ export default {
             stt: 'STT',
             bottleNo: 'Bottle No',
             dateTime: 'Date time',
-            typeOfSampling: 'Type of Sampling',
+            typeOfSampling: 'Action',
             activedUser: 'Actived User',
             result: 'Result',
             manual:'Immediately Sampling',
@@ -723,7 +723,7 @@ export default {
         label: 'Frequency (m/t)',
         placeholder: 'minutes/time',
         error: 'Please Choose Frequency',
-        description:'Note: When sampling control will be based on frequency'
+        description:'Note: Used for statistics of data receiving rate and sending alerts'
       },
       dayOfOperation: {
         label: 'Actived At',

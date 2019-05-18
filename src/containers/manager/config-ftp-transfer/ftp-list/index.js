@@ -18,6 +18,8 @@ import { Link } from 'react-router-dom'
 import slug from 'constants/slug'
 import protectRole from 'hoc/protect-role/index.backup'
 import ROLE from 'constants/role'
+import { getConfigApi } from 'config'
+import PageInfo from 'components/pageInfo'
 
 const CheckboxGroup = Checkbox.Group
 const TabPane = Tabs.TabPane
@@ -247,7 +249,9 @@ export default class ConfigPublishContainer extends React.Component {
 
   render() {
     return (
-      <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+      <div>
+        {getConfigApi().isAdvanced && (
+          <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
             <Breadcrumb items={['list']} />
             <Tabs defaultActiveKey="1">
               <TabPane
@@ -282,7 +286,9 @@ export default class ConfigPublishContainer extends React.Component {
               </TabPane>
             </Tabs>
           </PageContainer>
-        
+        )}
+        {!getConfigApi().isAdvanced && <PageInfo />}
+      </div>
     )
   }
 }

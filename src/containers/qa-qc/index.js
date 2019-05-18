@@ -10,16 +10,13 @@ import SearchFrom from './search-form'
 import { Spin, message } from 'antd'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
-import {
-  get,
-  size,
-  isEmpty,
-  forEach,
-  isNumber,
-  union,
-  filter,
-  includes
-} from 'lodash'
+import { get, size, isEmpty, forEach, isNumber, union, filter, includes } from 'lodash'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role/index.backup'
+import { getConfigApi } from 'config'
+import PageInfo from 'components/pageInfo'
+
+@protectRole(ROLE.QAQC.VIEW)
 @queryFormDataBrowser(['submit'])
 @autobind
 export default class QaQcContainer extends React.Component {
@@ -43,36 +40,20 @@ export default class QaQcContainer extends React.Component {
 
   handleSubmitSearch(searchFormData, published) {
     let outOfRange = {}
-    forEach(
-      get(searchFormData, 'measuringData', []),
-      ({ minRange, maxRange, key }) => {
-        let val = {}
-        if (isNumber(minRange)) val.minRange = minRange
-        if (isNumber(maxRange)) val.maxRange = maxRange
+    forEach(get(searchFormData, 'measuringData', []), ({ minRange, maxRange, key }) => {
+      let val = {}
+      if (isNumber(minRange)) val.minRange = minRange
+      if (isNumber(maxRange)) val.maxRange = maxRange
 
-        if (!isEmpty(val)) {
-          outOfRange[key] = val
-        }
+      if (!isEmpty(val)) {
+        outOfRange[key] = val
       }
-    )
-    if (!isEmpty(outOfRange))
-      searchFormData.outOfRange = JSON.stringify(outOfRange)
-    this.loadData(
-      { ...this.state.pagination, current: 1 },
-      searchFormData,
-      {},
-      { checked: false, list: [] },
-      published
-    )
+    })
+    if (!isEmpty(outOfRange)) searchFormData.outOfRange = JSON.stringify(outOfRange)
+    this.loadData({ ...this.state.pagination, current: 1 }, searchFormData, {}, { checked: false, list: [] }, published)
   }
 
-  async loadData(
-    pagination,
-    searchFormData,
-    dataUpdate,
-    dataSelected,
-    published
-  ) {
+  async loadData(pagination, searchFormData, dataUpdate, dataSelected, published) {
     this.setState({
       isLoading: true,
       published
@@ -115,13 +96,7 @@ export default class QaQcContainer extends React.Component {
   // UPDATE CODE
 
   handleChangePage = pagination => {
-    this.loadData(
-      pagination,
-      this.state.searchFormData,
-      this.state.dataUpdate,
-      this.state.dataSelected,
-      this.state.published
-    )
+    this.loadData(pagination, this.state.searchFormData, this.state.dataUpdate, this.state.dataSelected, this.state.published)
   }
 
   handerPublished = async published => {
@@ -178,13 +153,7 @@ export default class QaQcContainer extends React.Component {
     //else message.error('Export Error') //message.error(res.message)
     if (rs && rs.success) {
       message.success(translate('qaqc.msg.success'))
-      this.loadData(
-        this.state.pagination,
-        this.state.searchFormData,
-        {},
-        { checked: false, list: [] },
-        this.state.published
-      )
+      this.loadData(this.state.pagination, this.state.searchFormData, {}, { checked: false, list: [] }, this.state.published)
     } else {
       message.error(translate('qaqc.msg.failure'))
     }
@@ -208,34 +177,34 @@ export default class QaQcContainer extends React.Component {
 
   render() {
     return (
-      <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-        <Breadcrumb items={['list']} />
-        <Spin spinning={false} title="Đang xử lý...">
-          <SearchFrom
-            initialValues={this.props.formData}
-            measuringData={this.props.formData.measuringData}
-            onSubmit={this.handleSubmitSearch}
-            searchNow={this.props.formData.searchNow}
-          />
-          {this.state.dataStationAuto.length > 0 && (
-            <TabList
-              data={this.state.dataStationAuto}
-              searchFormData={this.state.searchFormData}
-              pagination={this.state.pagination}
-              onChangePage={this.handleChangePage}
-              dataChange={this.state.dataChange}
-              handleSave={this.updateRow}
-              dataSelected={this.state.dataSelected}
-              onRowChecked={this.handleRowChecked}
-              onApproved={this.handleApproved}
-              onRemoved={this.handleRemoved}
-              onRestoreData={this.handleRestoreData}
-              onUnApprove={this.handleUnApprove}
-              onManualApproved={this.handleManualApproved}
-            />
-          )}
-        </Spin>
-      </PageContainer>
+      <div>
+        {getConfigApi().isAdvanced && (
+          <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+            <Breadcrumb items={['list']} />
+            <Spin spinning={false} title="Đang xử lý...">
+              <SearchFrom initialValues={this.props.formData} measuringData={this.props.formData.measuringData} onSubmit={this.handleSubmitSearch} searchNow={this.props.formData.searchNow} />
+              {this.state.dataStationAuto.length > 0 && (
+                <TabList
+                  data={this.state.dataStationAuto}
+                  searchFormData={this.state.searchFormData}
+                  pagination={this.state.pagination}
+                  onChangePage={this.handleChangePage}
+                  dataChange={this.state.dataChange}
+                  handleSave={this.updateRow}
+                  dataSelected={this.state.dataSelected}
+                  onRowChecked={this.handleRowChecked}
+                  onApproved={this.handleApproved}
+                  onRemoved={this.handleRemoved}
+                  onRestoreData={this.handleRestoreData}
+                  onUnApprove={this.handleUnApprove}
+                  onManualApproved={this.handleManualApproved}
+                />
+              )}
+            </Spin>
+          </PageContainer>
+        )}
+        {!getConfigApi().isAdvanced && <PageInfo />}
+      </div>
     )
   }
 }
