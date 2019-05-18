@@ -16,7 +16,7 @@ const { InfoWindow, Circle } = require('react-google-maps')
 import Marker from '../utils/marker-with-label-animate'
 import { Table } from 'react-bootstrap'
 // import DateFormat from 'dateformat'
-import { colorLevels } from 'constants/warningLevels'
+import { colorLevels, warningLevels } from 'constants/warningLevels'
 import stStatus, { STATUS_OPTIONS } from 'constants/stationStatus'
 import moment from 'moment'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
@@ -100,9 +100,7 @@ export default class MarkerStation extends PureComponent {
   getTextWidth(text, font) {
     // if given, use cached canvas for better performance
     // else, create new canvas
-    var canvas =
-      this.getTextWidth.canvas ||
-      (this.getTextWidth.canvas = document.createElement('canvas'))
+    var canvas = this.getTextWidth.canvas || (this.getTextWidth.canvas = document.createElement('canvas'))
     var context = canvas.getContext('2d')
     context.font = 'Roboto'
     var metrics = context.measureText(text)
@@ -119,54 +117,35 @@ export default class MarkerStation extends PureComponent {
   renderTableData() {
     if (!this.props.lastLog) return ''
     let lastLog = this.props.lastLog
-    let measuringList = map(
-      this.props.measuringList,
-      ({ name, key, unit }, index) => {
-        return (
-          <tr key={`${index + 1}`}>
-            <td>{index + 1}</td>
-            <td>{name}</td>
-            <td
-              style={{
-                color: get(
-                  colorLevels,
-                  [lastLog.measuringLogs[key], 'warningLevel'],
-                  colorLevels.DEFAULT
-                ),
-                textAlign: 'right'
-              }}
-            >
-              {round(get(lastLog, ['measuringLogs', key, 'value'], ''), 2)
-              // lastLog.measuringLogs[item.key]
-              // ? lastLog.measuringLogs[item.key].value
-              // : ''
-              }
-            </td>
-            <td>{unit}</td>
-          </tr>
-        )
-      }
-    )
+    let measuringList = map(this.props.measuringList, ({ name, key, unit }, index) => {
+      return (
+        <tr key={`${index + 1}`}>
+          <td>{index + 1}</td>
+          <td>{name}</td>
+          <td
+            style={{
+              color: get(colorLevels, [lastLog.measuringLogs[key], 'warningLevel'], colorLevels.DEFAULT),
+              textAlign: 'right'
+            }}
+          >
+            {round(get(lastLog, ['measuringLogs', key, 'value'], ''), 2)
+            // lastLog.measuringLogs[item.key]
+            // ? lastLog.measuringLogs[item.key].value
+            // : ''
+            }
+          </td>
+          <td>{unit}</td>
+        </tr>
+      )
+    })
     return (
       <div>
         <MHeader>
-          <MRow
-            title={`${translate('map.marker.status')}: `}
-            value={`${translate(
-              `map.marker.${
-                isEqual(this.props.stationStatus, stStatus.DATA_LOSS)
-                  ? 'dataLoss'
-                  : 'transmitting'
-              }`
-            )}`}
-          />
+          <MRow title={`${translate('map.marker.status')}: `} value={`${translate(`map.marker.${isEqual(this.props.stationStatus, stStatus.DATA_LOSS) ? 'dataLoss' : 'transmitting'}`)}`} />
           <MRow
             isLoss={isEqual(this.props.stationStatus, stStatus.DATA_LOSS)}
             title={`${translate('map.marker.time')}: `}
-            value={moment(
-              this.props.lastLog.receivedAt,
-              'YYYY-MM-DD hh:mm'
-            ).format(DD_MM_YYYY_HH_MM)}
+            value={moment(this.props.lastLog.receivedAt, 'YYYY-MM-DD hh:mm').format(DD_MM_YYYY_HH_MM)}
           />
           <MRow title={`${translate('map.marker.result')}: `} value="" />
         </MHeader>
@@ -187,14 +166,32 @@ export default class MarkerStation extends PureComponent {
     )
   }
 
-  getColorLevel(status, isStationStatus = false) {
-    if (isStationStatus && STATUS_OPTIONS[status])
-      return STATUS_OPTIONS[status].color
 
-    if (!isStationStatus)
-      if (status && status !== '') return COLOR_STATUS[status.toUpperCase()]
+  // getColorLevel(status, isStationStatus = false) {
+  //   if (isStationStatus && STATUS_OPTIONS[status]) return STATUS_OPTIONS[status].color
 
-    return COLOR_STATUS.GOOD
+  //   if (!isStationStatus) if (status && status !== '') return COLOR_STATUS[status.toUpperCase()]
+
+  //   return COLOR_STATUS.GOOD
+  // }
+
+  getIconByStatus(status) {
+    let icon = ''
+    switch (status) {
+      case warningLevels.GOOD:
+        icon = '/images/marker-icon/station-good.png'
+        break
+      case warningLevels.LOSS:
+        icon = '/images/marker-icon/station-lost-connection.png'
+        break
+      case warningLevels.EXCEEDED_PREPARING:
+        icon = '/images/marker-icon/staion-tend-to-exceed.png'
+        break
+      case warningLevels.EXCEEDED:
+        icon = '/images/marker-icon/station-exceed.png'
+        break
+    }
+    return icon
   }
 
   renderStationStatus(status) {
@@ -250,50 +247,39 @@ export default class MarkerStation extends PureComponent {
         <Marker
           //visible={this.props.visible}
           icon={{
-            // url: this.getIconByStatus(this.props.status), // url
+            url: this.getIconByStatus(this.props.status) //this.getIconByStatus(this.props.status),
             // scaledSize: new google.maps.Size(30, 30)
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: 8,
-            strokeWeight: 1,
-            strokeColor: '#00',
+            // path:  google.maps.SymbolPath.CIRCLE,
+            // scale: 8,
+            // strokeWeight: 1,
+            // strokeColor: '#00',
             // fillColor: this.getColorLevel(
             //   this.props.byStationStatus
             //     ? this.props.stationStatus
             //     : this.props.status,
             //   this.props.byStationStatus
             // ),
-            fillColor: this.getColorLevel(
-              this.props.status,
-              this.props.byStationStatus
-            ),
-            fillOpacity: 1
+            // fillColor: this.getColorLevel(
+            //   this.props.status,
+            //   this.props.byStationStatus
+            // ),
+            // fillOpacity: 1
           }}
           onClick={this.toggleOpen}
           position={this.props.mapLocation}
           labelProps={{
-            labelContent: this.props.name
-              ? this.props.stationStatus === stStatus.GOOD
-                ? this.props.name
-                : this.props.name +
-                  '<br/>' +
-                  this.renderStationStatus(this.props.stationStatus)
-              : 'label',
-            labelAnchor: new google.maps.Point(
-              this.getTextWidth(this.props.name ? this.props.name : 'label') /
-                2,
-              -15
-            ),
+            labelContent: this.props.name ? (this.props.stationStatus === stStatus.GOOD ? this.props.name : this.props.name + '<br/>' + this.renderStationStatus(this.props.stationStatus)) : 'label',
+            labelAnchor: new google.maps.Point(this.getTextWidth(this.props.name ? this.props.name : 'label') / 2, -1),
             labelStyle: {
-              backgroundColor: '#2ecc71',
-              borderRadius: '3px',
-              fontSize: '12px',
-              padding: '2px',
               color: 'white',
+              fontSize: '14px',
+              fontFamily: 'Roboto, Arial, sans-serif',
+              background: '#6AA84F',
+              padding: '0px 4px',
+              padding: '2px',
               textAlign: 'center',
               whiteteSpace: 'nowrap',
-              width:
-                this.getTextWidth(this.props.name ? this.props.name : 'label') +
-                'px'
+              width: this.getTextWidth(this.props.name ? this.props.name : 'label') + 'px'
             }
           }}
         >
@@ -301,8 +287,7 @@ export default class MarkerStation extends PureComponent {
             {this.state.isOpen && this.props.name && this.props.name != '' && (
               <InfoWindow
                 ref={info => {
-                  if (!info && this.state.isOpen)
-                    this.setState({ isOpen: false })
+                  if (!info && this.state.isOpen) this.setState({ isOpen: false })
                 }}
                 options={{
                   //disableAutoPan: true,
@@ -322,10 +307,7 @@ export default class MarkerStation extends PureComponent {
                   <InfoTitle>{this.props.name}</InfoTitle>
                   <Clearfix height={8} />
                   <div>
-                    {translate('map.dataTable.longitude')}:{' '}
-                    {this.props.mapLocation.lng} -{' '}
-                    {translate('map.dataTable.latitude')}:{' '}
-                    {this.props.mapLocation.lat}
+                    {translate('map.dataTable.longitude')}: {this.props.mapLocation.lng} - {translate('map.dataTable.latitude')}: {this.props.mapLocation.lat}
                   </div>
                   <Clearfix height={8} />
                   {this.props.address && (
@@ -336,10 +318,7 @@ export default class MarkerStation extends PureComponent {
                   )}
                   <Clearfix height={8} />
                   {/* {this.props.lastLog && this.state.tableData} */}
-                  {this.renderTabInfoWindow(
-                    this.props.lastLog && this.state.tableData,
-                    this.props.image
-                  )}
+                  {this.renderTabInfoWindow(this.props.lastLog && this.state.tableData, this.props.image)}
                 </WrapperInfoWindow>
               </InfoWindow>
             )}

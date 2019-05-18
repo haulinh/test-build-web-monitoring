@@ -36,7 +36,7 @@ class CustomGoogleMap extends PureComponent {
     return value.length * 3.7
   }
   render() {
-    console.log(this.props.stationMap, 'stationMap')
+    // console.log(this.props.stationMap, 'stationMap')
     return (
       <GoogleMap
         defaultZoom={this.props.defaultZoom}
@@ -61,15 +61,14 @@ class CustomGoogleMap extends PureComponent {
                 background: '#6AA84F',
                 padding: '0px 4px'
               }
-              let item_icon =
-                'http://maps.google.com/mapfiles/ms/icons/orange.png'
+              let item_icon ='/images/marker-icon/station-normal.png'
               if (item.focusStaion) {
                 styleLable = {
                   ...styleLable,
                   color: 'white',
                   fontWeight: '600'
                 }
-                item_icon = ''
+                item_icon = '/images/marker-icon/station-select-1.png'
               }
               return (
                 <MarkerWithLabel
@@ -93,7 +92,7 @@ class CustomGoogleMap extends PureComponent {
 }
 
 const defaultCenter = { lat: 10.7607494, lng: 106.6954122 }
-const defaultZoom = 11
+const defaultZoom = 19
 
 @connect(state => ({
   lang: state.language.locale
@@ -106,7 +105,7 @@ export default class MonitoringMapView extends PureComponent {
   state = {}
 
   render() {
-    console.log(getGoogleMapProps(), 'getGoogleMapProps()')
+    // console.log(getGoogleMapProps(), 'getGoogleMapProps()')
     return (
       <MapContainer>
         <CustomGoogleMap

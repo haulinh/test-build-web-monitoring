@@ -33,7 +33,8 @@ export function getConfigApi() {
     notify: c('notify'),
     sampleConfig: c('configSample'), // local.,
     camera: config.camera,
-    firebase: config.firebase
+    firebase: config.firebase,
+    isAdvanced:config.isAdvanced,
   }
 }
 

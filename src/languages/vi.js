@@ -61,11 +61,13 @@ export default {
     lossAt: 'Mất kết nối lúc',
     notInUse: 'Chưa sử dụng',
     deviceStatus: {
-      normal: 'Đang đo',
-      maintenance: 'Hiệu chuẩn/Bảo trì',
-      broken: 'Báo lỗi',
+      dataloss: 'Mất tín hiệu',
+      sensorError: 'Lỗi thiết bị',
+      maintenance: 'Hiệu chuẩn',
       sensorNormal: 'Đang đo',
-      sensorError: 'Lỗi thiết bị'
+      normal: 'Đang đo',
+      broken: 'Báo lỗi',
+      
     },
     statusResult: 'Kết quả quan trắc',
     note: 'Chú thích',
@@ -716,9 +718,10 @@ export default {
         error: 'Vui lòng chọn đơn vị quản lý'
       },
       frequency: {
-        label: 'Tần suất(phút/lần)',
+        label: 'Tần suất (phút/lần)',
         placeholder: 'phút/lần',
-        error: 'Vui lòng chọn tần suất'
+        error: 'Vui lòng chọn tần suất',
+        description:'Chú ý: Khi điều kiển lấy mẫu sẽ dựa vào tần suất'
       },
       dayOfOperation: {
         label: 'Ngày hoạt động',
@@ -744,8 +747,7 @@ export default {
         label: 'Địa chỉ Email',
         placeholder: 'Nhập địa chỉ Email',
         error: 'Vui lòng nhập địa chỉ Email',
-        description:
-          'Chú ý: Khi dữ liệu gặp sự cố. Hệ thống sẽ gửi thông tin sự cố thông qua email này.'
+        description:'Chú ý: Khi dữ liệu gặp sự cố. Hệ thống sẽ gửi thông tin sự cố thông qua email này.'
       },
       image: {
         label: 'Hình ảnh trạm'
@@ -1286,7 +1288,7 @@ export default {
     exceedTendency: 'Có xu hướng vượt',
     exceedPreparing: 'Chuẩn bị vượt',
     exceed: 'Vượt nguỡng',
-    lostData: 'Mất tín hiệu',
+    lossData: 'Mất tín hiệu',
     sensorError: 'Lỗi thiết bị'
   },
   addon: {

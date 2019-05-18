@@ -435,7 +435,10 @@ export default class StationAutoForm extends React.PureComponent {
               label={t('stationAutoManager.form.frequency.label')}
             >
               {getFieldDecorator('dataFrequency', {
-                rules: [{ required: false }]
+                rules: [{ 
+                  required: true,
+                  message: t('stationAutoManager.form.frequency.error') 
+                }]
               })(
                 <InputNumberCell
                   editable={true}
@@ -444,6 +447,7 @@ export default class StationAutoForm extends React.PureComponent {
                   max={1000000}
                 />
               )}
+              <i>{t('stationAutoManager.form.frequency.description')}</i>
             </FormItem>
           </Col>
           <Col span={12}>
@@ -483,7 +487,7 @@ export default class StationAutoForm extends React.PureComponent {
                   onChange={this.handleEmailsChange}
                 />
               )}
-              <i>{t('stationAutoManager.form.emails.description')}</i>
+              {/* <i>{t('stationAutoManager.form.emails.description')}</i> */}
             </FormItem>
           </Col>
           <Col

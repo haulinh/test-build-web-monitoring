@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import StationGroupItem from './station-group-item'
 
 const StationsGroupListWrapper = styled.div`
+  max-height:35vh;
   .stationGroupItem {
     margin-bottom: 16px;
     &:last-child {

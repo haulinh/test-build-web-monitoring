@@ -7,9 +7,13 @@ import { Spin, Table, Checkbox, message } from 'antd'
 import SearchForm from './search-form'
 import * as _ from 'lodash'
 import { replaceVietnameseStr } from 'utils/string'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role/index.backup'
+import { getConfigApi } from 'config'
+import PageInfo from 'components/pageInfo'
 
 const CheckboxGroup = Checkbox.Group
-
+@protectRole(ROLE.QAQCCONFIG.VIEW)
 export default class ConfigPublishContainer extends React.Component {
   handleOptionChange = async (_id, measureList) => {
     console.log(_id, { measureList })
@@ -43,12 +47,7 @@ export default class ConfigPublishContainer extends React.Component {
         key: 'options',
         width: 100,
         align: 'center',
-        render: (value, record) => (
-          <Checkbox
-            defaultChecked={_.get(value, ['published', 'allowed'])}
-            onChange={checked => this.handleStationPublish(record._id, checked)}
-          />
-        ) // "allowed" : false
+        render: (value, record) => <Checkbox defaultChecked={_.get(value, ['published', 'allowed'])} onChange={checked => this.handleStationPublish(record._id, checked)} /> // "allowed" : false
       },
       {
         title: translate('qaqc.configPublish.stationName'),
@@ -66,18 +65,8 @@ export default class ConfigPublishContainer extends React.Component {
             label: name,
             value: key
           }))
-          const defaultValue = _.get(
-            record,
-            ['options', 'published', 'measureList'],
-            []
-          )
-          return (
-            <CheckboxGroup
-              defaultValue={defaultValue}
-              options={options}
-              onChange={option => this.handleOptionChange(record._id, option)}
-            />
-          )
+          const defaultValue = _.get(record, ['options', 'published', 'measureList'], [])
+          return <CheckboxGroup defaultValue={defaultValue} options={options} onChange={option => this.handleOptionChange(record._id, option)} />
         }
       }
     ]
@@ -91,17 +80,13 @@ export default class ConfigPublishContainer extends React.Component {
     let search = this.state.textSearch
     if (search) {
       search = replaceVietnameseStr(search)
-      return _.filter(
-        _.clone(this.state.list),
-        ({ name }) => {
-          // console.log(search)
-          // console.log(_.toLower(name))
-          // console.log(replaceVietnameseStr(_.lowerCase(name)))
-          // console.log('---------------')
-          return replaceVietnameseStr(_.lowerCase(name)).indexOf(search) >= 0
-        }
-          
-      )
+      return _.filter(_.clone(this.state.list), ({ name }) => {
+        // console.log(search)
+        // console.log(_.toLower(name))
+        // console.log(replaceVietnameseStr(_.lowerCase(name)))
+        // console.log('---------------')
+        return replaceVietnameseStr(_.lowerCase(name)).indexOf(search) >= 0
+      })
     }
 
     return _.clone(this.state.list)
@@ -118,17 +103,18 @@ export default class ConfigPublishContainer extends React.Component {
 
   render() {
     return (
-      <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-        <Breadcrumb items={['config']} />
-        <Spin spinning={false} title="Đang xử lý...">
-          <SearchForm onSearch={this.handleSearch} />
-          <Table
-            rowKey="key"
-            dataSource={this.getData()}
-            columns={this.columns}
-          />
-        </Spin>
-      </PageContainer>
+      <div>
+        {getConfigApi().isAdvanced && (
+          <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+            <Breadcrumb items={['config']} />
+            <Spin spinning={false} title="Đang xử lý...">
+              <SearchForm onSearch={this.handleSearch} />
+              <Table rowKey="key" dataSource={this.getData()} columns={this.columns} />
+            </Spin>
+          </PageContainer>
+        )}
+        {!getConfigApi().isAdvanced && <PageInfo />}
+      </div>
     )
   }
 }

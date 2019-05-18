@@ -33,7 +33,9 @@ export const COLOR_STATUS = {
 }
 
 export const COLOR_DEVICE_STATUS = {
+  DATA_LOSS: '#666666',
   ERROR: '#CC0000',
+  MAINTENACE:'#E69138',
   NORMAL: '#6AA84F',
 
   [0]: '#6AA84F',

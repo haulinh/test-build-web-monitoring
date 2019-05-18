@@ -8,13 +8,11 @@ import { COLOR_STATUS } from 'themes/color'
 const HeaderWrapper = styled.div`
   flex: 1;
   flex-direction: column;
-  margin-left: 16px;
 `
 const WarningWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  // margin-top: 8px;
   flex: 1;
 `
 const WarningTitle = styled.span`
@@ -25,14 +23,13 @@ const WarningTitle = styled.span`
 
 const WrapperColor = styled.div`
   display: flex;
-  margin-top: 4px;
   margin-left: 8px;
   margin-right: 4px;
   flex: 1;
 `
 
 const ColorLevel = styled.span`
-  min-width: 64px;
+  min-width: 100px;
   padding: 4;
   flex: 1;
   background-color: ${props => props.color};
@@ -69,7 +66,7 @@ export default class Header extends React.PureComponent {
           {/* <WarningTitle> {translate('warningLevels.title')}</WarningTitle> */}
           <WrapperColor>
             <ColorLevel color={COLOR_STATUS.DATA_LOSS}>
-              <TextLevel>{translate('warningLevels.lostData')}</TextLevel>
+              <TextLevel>{translate('warningLevels.lossData')}</TextLevel>
             </ColorLevel>
             <ColorLevel color={COLOR_STATUS.EXCEEDED}>
               <TextLevel>{translate('warningLevels.exceed')}</TextLevel>

@@ -9,9 +9,13 @@ import { translate } from 'hoc/create-lang'
 import { Icon, Tabs } from 'antd'
 import * as _ from 'lodash'
 import Breadcrumb from './breadcrumb'
+import { getConfigApi } from 'config'
+import PageInfo from 'components/pageInfo'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role/index.backup'
 
 const TabPane = Tabs.TabPane
-
+@protectRole(ROLE.CONFIG_WQI.VIEW)
 export default class ConfigWQIContainer extends React.Component {
   constructor(props) {
     super(props)
@@ -78,43 +82,48 @@ export default class ConfigWQIContainer extends React.Component {
 
   render() {
     return (
-      <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-        <Breadcrumb items={['list']} />
-        <Tabs defaultActiveKey="tabAuto">
-          <TabPane
-            tab={
-              <span>
-                <Icon type="reconciliation" />
-                {translate('configWQI.stationAuto')}
-              </span>
-            }
-            key="tabAuto"
-          >
-            <TabsStationAuto
-              listStationAuto={this.state.listStationAuto}
-              listStationConfig={this.state.listStationConfig}
-              handleSuccess={this.handleSuccess}
-              stationTypeAuto={this.state.stationTypeAuto}
-            />
-          </TabPane>
-          <TabPane
-            tab={
-              <span>
-                <Icon type="cluster" />
-                {translate('configWQI.stationFixed')}
-              </span>
-            }
-            key="tabFixed"
-          >
-            <TabsStationFixed
-              listStationFixed={this.state.listStationfixed}
-              listStationConfig={this.state.listStationConfig}
-              handleSuccess={this.handleSuccess}
-              stationTypeFixed={this.state.stationTypeFixed}
-            />
-          </TabPane>
-        </Tabs>
-      </PageContainer>
+      <div>
+        {getConfigApi().isAdvanced && (
+          <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+            <Breadcrumb items={['list']} />
+            <Tabs defaultActiveKey="tabAuto">
+              <TabPane
+                tab={
+                  <span>
+                    <Icon type="reconciliation" />
+                    {translate('configWQI.stationAuto')}
+                  </span>
+                }
+                key="tabAuto"
+              >
+                <TabsStationAuto
+                  listStationAuto={this.state.listStationAuto}
+                  listStationConfig={this.state.listStationConfig}
+                  handleSuccess={this.handleSuccess}
+                  stationTypeAuto={this.state.stationTypeAuto}
+                />
+              </TabPane>
+              <TabPane
+                tab={
+                  <span>
+                    <Icon type="cluster" />
+                    {translate('configWQI.stationFixed')}
+                  </span>
+                }
+                key="tabFixed"
+              >
+                <TabsStationFixed
+                  listStationFixed={this.state.listStationfixed}
+                  listStationConfig={this.state.listStationConfig}
+                  handleSuccess={this.handleSuccess}
+                  stationTypeFixed={this.state.stationTypeFixed}
+                />
+              </TabPane>
+            </Tabs>
+          </PageContainer>
+        )}
+        {!getConfigApi().isAdvanced && <PageInfo />}
+      </div>
     )
   }
 }

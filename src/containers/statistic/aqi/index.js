@@ -9,10 +9,12 @@ import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import * as _ from 'lodash'
 import { message, Spin } from 'antd'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role/index.backup'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
+import { getConfigApi } from 'config'
+import PageInfo from 'components/pageInfo'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role/index.backup'
 
 @protectRole(ROLE.AQI_SEARCHDATA.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -81,32 +83,29 @@ export default class AQIStatistics extends React.Component {
 
   render() {
     return (
-      <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-        <Spin
-          size="large"
-          tip={translate('dataSearchFrom.tab.statusExport')}
-          spinning={this.state.isExporting}
-        >
-          <Breadcrumb items={['list']} />
-          <SearchFrom
-            initialValues={this.props.formData}
-            onSubmit={this.handleSubmitSearch}
-            searchNow={this.props.formData.searchNow}
-          />
-          <Clearfix height={16} />
-          {this.state.isHaveData ? (
-            <TabList
-              isLoading={this.state.isLoading}
-              dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
-              dataAQI={this.state.dataAQI}
-              pagination={this.state.pagination}
-              onExportExcel={this.handleExportExcel}
-              nameChart={this.state.searchFormData.name}
-              isExporting={this.state.isExporting}
-            />
-          ) : null}
-        </Spin>
-      </PageContainer>
+      <div>
+        {getConfigApi().isAdvanced && (
+          <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+            <Spin size="large" tip={translate('dataSearchFrom.tab.statusExport')} spinning={this.state.isExporting}>
+              <Breadcrumb items={['list']} />
+              <SearchFrom initialValues={this.props.formData} onSubmit={this.handleSubmitSearch} searchNow={this.props.formData.searchNow} />
+              <Clearfix height={16} />
+              {this.state.isHaveData ? (
+                <TabList
+                  isLoading={this.state.isLoading}
+                  dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
+                  dataAQI={this.state.dataAQI}
+                  pagination={this.state.pagination}
+                  onExportExcel={this.handleExportExcel}
+                  nameChart={this.state.searchFormData.name}
+                  isExporting={this.state.isExporting}
+                />
+              ) : null}
+            </Spin>
+          </PageContainer>
+        )}
+        {!getConfigApi().isAdvanced && <PageInfo />}
+      </div>
     )
   }
 }
