@@ -44,6 +44,8 @@ function validate(values) {
   if (!values.stationAuto || values.stationAuto === '')
     errors.stationAuto = translate('avgSearchFrom.form.stationAuto.error')
   if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
+  if (!values.rangesDate)
+    errors.rangesDate = translate('avgSearchFrom.form.rangesDate.error')
   if (values.measuringList && values.measuringList.length === 0)
     errors.measuringList = translate('avgSearchFrom.form.measuringList.require')
 

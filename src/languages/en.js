@@ -365,6 +365,9 @@ export default {
         placeholder: 'Select Type Of Station',
         error: 'Please Choose Type Of Station'
       },
+      rangesDate:{
+        error: 'Please Choose Time'
+      },
       stationAuto: {
         label: 'Station Name',
         placeholder: 'Select Station Name',

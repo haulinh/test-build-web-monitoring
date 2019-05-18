@@ -366,6 +366,9 @@ export default {
         placeholder: 'Chọn loại trạm',
         error: 'Vui lòng chọn loại trạm'
       },
+      rangesDate:{
+        error: 'Vui lòng chọn thời gian'
+      },
       stationAuto: {
         label: 'Tên trạm',
         placeholder: 'Chọn tên trạm',
