@@ -66,7 +66,6 @@ export function loadNotificationsByType(page, type, stations) {
       return 
     }
 
-    if (data.length < ITEM_PER_PAGE) {
       const transformedData = _.compact(_.map(data, item => {
         let stationInfo = _.find(stations, {_id: item.station_id})
         /* NOTE  lý do không có stationInfo: có thể đã bị xóa khỏi tổ chức */
@@ -109,9 +108,10 @@ export function loadNotificationsByType(page, type, stations) {
           break;
         }
       }
-    }
 
-    dispatch(setIsLoading(type, true))
+    if (data.length >= ITEM_PER_PAGE) {
+      dispatch(setIsLoading(type, true))
+    }
   }
 }
 
