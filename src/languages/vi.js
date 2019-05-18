@@ -718,7 +718,7 @@ export default {
         error: 'Vui lòng chọn đơn vị quản lý'
       },
       frequency: {
-        label: 'Tần suất(phút/lần)',
+        label: 'Tần suất (phút/lần)',
         placeholder: 'phút/lần',
         error: 'Vui lòng chọn tần suất',
         description:'Chú ý: Khi điều kiển lấy mẫu sẽ dựa vào tần suất'

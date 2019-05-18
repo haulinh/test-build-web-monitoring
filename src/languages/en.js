@@ -720,7 +720,7 @@ export default {
         error: 'Please Choose Site'
       },
       frequency: {
-        label: 'Frequency(m/t)',
+        label: 'Frequency (m/t)',
         placeholder: 'minutes/time',
         error: 'Please Choose Frequency',
         description:'Note: When sampling control will be based on frequency'
