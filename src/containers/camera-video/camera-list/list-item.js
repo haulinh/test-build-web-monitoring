@@ -17,9 +17,9 @@ export default class ListItemView extends React.PureComponent {
   }
 
   handleCamera = e => {
-    if (this.props.onCameraClick) {
-      this.props.onCameraClick(this.props.camera)
-    }
+    // if (this.props.onCameraClick) {
+    //   this.props.onCameraClick(this.props.camera)
+    // }
   }
 
   render() {
@@ -36,17 +36,17 @@ export default class ListItemView extends React.PureComponent {
         style={{ width: 250, marginRight: 12, marginBottom: 12 }}
         cover={<Player src={`${src}&auth=${this.props.auth}`} />}
       >
-        <Link
+        {/* <Link
           onClick={this.handleCamera}
           to={`${
             slug.cameraControl.detailWithKey
           }/${key}/${_id}?name=${encodeURIComponent(_.deburr(name))}`}
-        >
+        > */}
           <Meta
             title={name}
             description={<DescriptionView>{stationName}</DescriptionView>}
           />
-        </Link>
+        {/* </Link> */}
       </Card>
     )
   }
