@@ -250,6 +250,7 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
       const formSearchRawData = {
         stationType: stationInfo.stationType.key,
         stationAuto: stationInfo.key,
+        measuringData: stationInfo.measuringList,
         measuringList: rawContent.dataFilter,
         rangesDate:'ranges',
         fromDate,
