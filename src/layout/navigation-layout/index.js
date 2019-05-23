@@ -155,7 +155,8 @@ export default class BasicNestedNavigation extends React.Component {
         <DropdownItemGroup title={`${this.props.authInfo.lastName} ${this.props.authInfo.firstName}`}>
           <DropdownItem onClick={this.handleProfile}>{translate('profileUser.viewProfile')}</DropdownItem>
           <DropdownItem onClick={this.handleChangePassword}>{translate('profileUser.changePassword')}</DropdownItem>
-          <DropdownItem onClick={this.handleConfigStation}>{translate('profileUser.configStation')}</DropdownItem>
+          {/* TASK  JIRA::ILOTUSLAND-98 */}
+          {/* <DropdownItem onClick={this.handleConfigStation}>{translate('profileUser.configStation')}</DropdownItem> */}
           <DropdownItem onClick={this.handleSecurity}>{translate('profileUser.security')}</DropdownItem>
           <DropdownItem onClick={this.handleLogout}>{translate('profileUser.logOut')}</DropdownItem>
         </DropdownItemGroup>
