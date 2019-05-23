@@ -6,8 +6,12 @@ import * as _ from 'lodash'
 import moment from 'moment'
 import userApi from 'api/UserApi'
 import authApi from 'api/AuthApi'
+import {Row} from 'antd'
 
 const Step = Steps.Step
+
+const RESET_2FA_SMS = 60 * 10
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,7 +51,8 @@ export default class ModalSelect extends React.PureComponent {
     if (type === 'sms') {
       this.setState({ type, stepCurrent: 0 })
       await userApi.getSmsCode('sms')
-    } else {
+    } 
+    else {
       const success = await this.handleUpdate(true)
       this.props.onSuccess(success)
       this.setState({ type })
@@ -77,7 +82,11 @@ export default class ModalSelect extends React.PureComponent {
     }
   }
 
-  _renderAction() {
+  _setTimeoutReset = () => {
+    setTimeout(() => this.handleUpdate(false), RESET_2FA_SMS)
+  }
+
+  _renderOptions() {
     return (
       <Container>
         <Text>{translate('security.message.info')}</Text>
@@ -94,7 +103,8 @@ export default class ModalSelect extends React.PureComponent {
     )
   }
 
-  _renderSms() {
+  _renderSms = () => {
+    // this._setTimeoutReset()
     return (
       <Container>
         <RowView>
@@ -137,41 +147,33 @@ export default class ModalSelect extends React.PureComponent {
             }
           />
         </RowViewCenter>
-        {/* <RowViewCenter> */}
-        {/* <Button style={{ marginRight: 16 }} onClick={() => this.handleNextStep(0)}>Close</Button> */}
-        {/* </RowViewCenter> */}
       </Container>
     )
   }
 
   render() {
-    const { twoFactorAuth } = this.props.user
-    if (!twoFactorAuth) {
-      this.props.user.twoFactorAuth = {
-        enable: false,
-        code: ''
-      }
-    }
-    const { code, enable, expired } = this.props.user.twoFactorAuth
-    const isExpired = moment().isSameOrAfter(moment(expired))
-    const isSmsVerifyInProgress = !enable && code != '' && !isExpired
+    // const { twoFactorAuth } = this.props.user
+    // if (!twoFactorAuth) {
+    //   this.props.user.twoFactorAuth = {
+    //     enable: false,
+    //     code: ''
+    //   }
+    // }
+    // const { code, enable, expired } = this.props.user.twoFactorAuth
+    // const isExpired = moment().isSameOrAfter(moment(expired))
+    // const isSmsVerifyInProgress = !enable && code != '' && !isExpired
     return (
-      <Modal
-        footer={null}
-        title={translate('security.label')}
-        visible={this.props.visible}
-        onOk={this.props.handleOk}
-        onCancel={this.props.onCancel}
-      >
+      <Row>
         {/*
-              NOTE  logic
-              Nếu đã có code, còn hạn mà chưa nhập code thì show form sms
-              ngoài ra show form action
-            */
-        isSmsVerifyInProgress || this.state.type === 'sms'
+          NOTE  logic
+          Nếu đã có code, còn hạn mà chưa nhập code thì show form sms
+          ngoài ra show form action
+        */
+          this.props.isSmsVerifyInProgress || this.state.type === 'sms'
           ? this._renderSms()
-          : this._renderAction()}
-      </Modal>
+          : this._renderOptions()
+        }
+      </Row>
     )
   }
 }

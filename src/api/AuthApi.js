@@ -55,6 +55,10 @@ export function putResetPassword(_id, data) {
   return putFetch(getAuthUrl(`forgot-password/${_id}`), data)
 }
 
+export function checkPassword({email, password}) {
+  return postFetch(getAuthUrl(`check-password`), {email, password})
+}
+
 export default {
   loginUser,
   loginUser2Factor,
@@ -66,5 +70,6 @@ export default {
   postConfirmCode,
   putResetPassword,
   updateConfigStataion,
-  postSetPassword
+  postSetPassword,
+  checkPassword
 }
