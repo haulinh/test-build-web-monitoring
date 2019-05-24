@@ -1240,6 +1240,12 @@ export default {
   },
   security: {
     label: 'Two-Factor Authentication',
+    enable2FA: 'Enable 2FA Authentication',
+    disable2FA: 'Disable 2FA Authentication',
+    confirmPasswordLabel: "To continue, first verify it's you",
+    confirmPasswordError: "Password not match",
+    enterPassword: 'Enter your password',
+    confirm: 'Confirm',
     note:
       'If you turn on Two-Factor Authentication feature, The system will send the verification code to your email address or phone number every time you sign in',
     success: 'Success',

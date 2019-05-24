@@ -4,7 +4,8 @@ import {
   FETCH_PENDING_USER,
   FETCH_FAIL_USER,
   USER_LOGOUT,
-  SET_FCM_TOKEN
+  SET_FCM_TOKEN,
+  SET_2FA_STATUS
 } from '../actions/authAction'
 import update from 'react-addons-update'
 
@@ -15,13 +16,17 @@ const initialState = {
   token: null,
   userInfo: {
     username: '',
-    fullname: ''
+    fullname: '',
+    twoFactorAuth: {
+      enable: false
+    }
   },
   tokenFCM: null
 }
 
 export default function createReducer(state = initialState, action) {
-  switch (action.type) {
+  const {type, payload} = action
+  switch (type) {
     case UPDATE_USER_INFO:
       return updateUserInfo(state, action)
     case FETCH_SUCCESS_USER:
@@ -38,6 +43,8 @@ export default function createReducer(state = initialState, action) {
           $set: action.payload
         }
       })
+    case SET_2FA_STATUS:
+      return set2FAEnable(state, payload)
     default:
       return state
   }
@@ -103,6 +110,18 @@ export function updateUserInfo(state, { auth: { token, data } }) {
     },
     userInfo: {
       $set: data
+    }
+  })
+}
+
+function set2FAEnable(state, payload) {
+  return update(state, {
+    userInfo: {
+      twoFactorAuth: {
+        enable: {
+          $set: payload
+        }
+      }
     }
   })
 }
