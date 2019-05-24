@@ -7,6 +7,7 @@ export const FETCH_SUCCESS_USER = 'AUTH/fetch-success-user'
 export const FETCH_FAIL_USER = 'AUTH/fetch-fail-user'
 export const USER_LOGOUT = 'AUTH/user-lgoout'
 export const SET_FCM_TOKEN = 'AUTH/SET_FCM_TOKEN'
+export const SET_2FA_STATUS = 'AUTH/SET_2FA_STATUS'
 
 export function fetchUserMe() {
   return async dispatch => {
@@ -78,3 +79,13 @@ export function setFcmToken(token) {
     })
   }
 }
+
+export function set2FAStatus(value) {
+  return dispatch => {
+    dispatch({
+      type: SET_2FA_STATUS,
+      payload: value
+    })
+  }
+}
+
