@@ -15,12 +15,12 @@ const FormItem = Form.Item
 
 /* MARK  @translate */
 const i18n = {
-  enterYourPwd: '--Enter your password',
-  confirmPwd: '--Confirm',
-  confirmPwdLabel: "--To continue, first verify it's you",
-  confirmPwdError: '--Password not match',
-  disable2FA: '--Disable 2FA',
-  enable2FA: '--Enable 2FA',
+  enable2FA: translate('security.enable2FA'),
+  disable2FA: translate('security.disable2FA'),
+  enterYourPwd: translate('security.enterPassword'),
+  confirmPwd: translate('security.confirm'),
+  confirmPwdLabel: translate('security.confirmPasswordLabel'),
+  confirmPwdError: translate('security.confirmPasswordError'),
 }
 
 
@@ -71,7 +71,6 @@ export default class SecurityForm extends PureComponent {
         isSmsVerifyInProgress: true
       })
     }
-    console.log(this, "fdsfsfadsfasf----")
   }
 
   render() {

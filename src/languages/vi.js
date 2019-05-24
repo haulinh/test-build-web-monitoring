@@ -1237,6 +1237,12 @@ export default {
   },
   security: {
     label: 'Bảo mật 2 lớp',
+    enable2FA: 'Kích hoạt bảo mật 2 lớp',
+    disable2FA: 'Hủy kích hoạt bảo mật 2 lớp',
+    confirmPasswordLabel: "Xác thực trước khi tiếp tục:",
+    confirmPasswordError: "Mật khẩu không chính xác",
+    enterPassword: 'Nhập mật khẩu',
+    confirm: 'Xác nhận',
     note:
       'Nếu bạn bật tính năng Xác thực hai lớp. Hệ thống sẽ gửi mã xác thực đến địa chỉ email hoặc số điện thoại của bạn mỗi khi bạn đăng nhập.',
     success: 'Thành công',
