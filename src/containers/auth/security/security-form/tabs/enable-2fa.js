@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
 import { autobind } from 'core-decorators'
 import { connectAutoDispatch } from 'redux/connect'
-import { set2FAStatus } from 'redux/actions/authAction'
+import { set2FAStatus, set2FAType } from 'redux/actions/authAction'
 import AuthApi from 'api/AuthApi'
 
 
@@ -21,12 +21,15 @@ const i18n = {
     enable: state.auth.userInfo.twoFactorAuth.enable,
     twoFactorType: state.auth.userInfo.twoFactorAuth.type,
   }),
-  { set2FAStatus }
+  { set2FAStatus, set2FAType }
 )
 @autobind
 export default class SecurityFormEnable extends PureComponent {
   static propTypes = {
-    enable: PropTypes.bool.isRequired
+    /* Redux props */
+    enable: PropTypes.bool.isRequired,
+    set2FAStatus: PropTypes.func.isRequired,
+    set2FAType: PropTypes.func.isRequired
   }
 
   state = {
@@ -53,7 +56,7 @@ export default class SecurityFormEnable extends PureComponent {
         <Col>
           <span style={{ color: 'green', fontWeight: '600', marginTop: 20 }}>
             {translate('security.message.userUse', {
-              type: this.props.twoFactorType === '' ? 'Email' : 'SMS'
+              type: this.props.twoFactorType ? 'SMS' : 'Email'
             })}
           </span>
         </Col>
@@ -83,7 +86,10 @@ export default class SecurityFormEnable extends PureComponent {
       this.setState({isSwitchingStatus: true})
       let { success } = await AuthApi.putSecurity({ enable: false })
       this.setState({isSwitchingStatus: false})
-      if (success) return this.props.set2FAStatus(false)
+      if (success) {
+        this.props.set2FAStatus(false)
+        this.props.set2FAType(null)
+      }
     } catch (error) {
       console.log("eror putSucurity", error)
       this.setState({isSwitchingStatus: false})

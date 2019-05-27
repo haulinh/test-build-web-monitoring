@@ -10,11 +10,9 @@ import { autobind } from 'core-decorators'
 import userApi from 'api/UserApi'
 import authApi from 'api/AuthApi'
 import { connectAutoDispatch } from 'redux/connect'
-import { set2FAStatus } from 'redux/actions/authAction'
+import { set2FAStatus, set2FAType } from 'redux/actions/authAction'
 
 const Step = Steps.Step
-
-const RESET_2FA_SMS = 60 * 10
 
 const Container = styled.div`
   display: flex;
@@ -37,7 +35,7 @@ const RowViewCenter = RowView.extend`
   (state) => ({
     user: state.auth.userInfo
   }),
-  { set2FAStatus }
+  { set2FAStatus, set2FAType }
 )
 @autobind
 export default class ModalSelectSMS extends React.PureComponent {
@@ -47,7 +45,8 @@ export default class ModalSelectSMS extends React.PureComponent {
     clearSmsVerifyInProgress: PropTypes.func.isRequired,
     /* redux props */
     user: PropTypes.object.isRequired,
-    set2FAStatus: PropTypes.func.isRequired
+    set2FAStatus: PropTypes.func.isRequired,
+    set2FAType: PropTypes.func.isRequired
   }
 
   state = {
@@ -115,6 +114,7 @@ export default class ModalSelectSMS extends React.PureComponent {
         title: translate('security.success')
       })
       this.props.set2FAStatus(true)
+      this.props.set2FAType('sms')
       this.props.clearSmsVerifyInProgress()
       this.props.switchToTab(1)
     } else {
