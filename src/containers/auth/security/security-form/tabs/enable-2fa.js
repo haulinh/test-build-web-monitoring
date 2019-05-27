@@ -18,12 +18,13 @@ const i18n = {
 
 @connectAutoDispatch(
   (state) => ({
-    enable: state.auth.userInfo.twoFactorAuth.enable
+    enable: state.auth.userInfo.twoFactorAuth.enable,
+    twoFactorType: state.auth.userInfo.twoFactorAuth.type,
   }),
   { set2FAStatus }
 )
 @autobind
-export default class SecurityForm extends PureComponent {
+export default class SecurityFormEnable extends PureComponent {
   static propTypes = {
     enable: PropTypes.bool.isRequired
   }
@@ -52,14 +53,7 @@ export default class SecurityForm extends PureComponent {
         <Col>
           <span style={{ color: 'green', fontWeight: '600', marginTop: 20 }}>
             {translate('security.message.userUse', {
-              type:
-                _.get(
-                  this.props,
-                  'twoFactorAuth.type',
-                  'email'
-                ) === 'sms'
-                  ? 'SMS'
-                  : 'Email'
+              type: this.props.twoFactorType === '' ? 'Email' : 'SMS'
             })}
           </span>
         </Col>

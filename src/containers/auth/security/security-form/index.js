@@ -5,7 +5,7 @@ import moment from 'moment'
 import _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { connectAutoDispatch } from 'redux/connect'
-import ModalActive from './tabs/modal-select'
+import ModalActive from './tabs/modal-select/'
 import Enable2FA from './tabs/enable-2fa'
 import ConfirmPssword2FA from './tabs/confirm-pwd'
 const TabPane = Tabs.TabPane
@@ -58,12 +58,12 @@ export default class SecurityForm extends PureComponent {
   render() {
     return (
       <Row type="flex" justify='center' style={{height: '100%'}}>
-         <Card
+        <Card
           style={{ width: 450 }}
           cover={
             <img
               alt="example"
-              src="https://www.gstatic.com/identity/boq/accountsettingsmobile/recovery_scene_316x112_a71256f365c17ad4f8a1b82c5b03a173.png"
+              src="/images/2fa.png"
             />
           }
         >
@@ -74,7 +74,7 @@ export default class SecurityForm extends PureComponent {
                 switchToTab={this._switchToTab}
               />
             </TabPane>
-            <TabPane key="2">
+            <TabPane key="2" forceRender>
               <ConfirmPssword2FA 
                 switchToTab={this._switchToTab}
               />
@@ -82,7 +82,6 @@ export default class SecurityForm extends PureComponent {
             <TabPane key="3">
               <ModalActive
                 isSmsVerifyInProgress={this.state.isSmsVerifyInProgress}
-                onSuccess={this.handle2FARegister}
                 switchToTab={this._switchToTab}
               />
             </TabPane>

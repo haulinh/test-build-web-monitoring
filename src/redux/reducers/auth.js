@@ -38,11 +38,7 @@ export default function createReducer(state = initialState, action) {
     case USER_LOGOUT:
       return userLogout(state)
     case SET_FCM_TOKEN:
-      return update(state,{
-        tokenFCM: {
-          $set: action.payload
-        }
-      })
+      return setFCMToken(state, payload)
     case SET_2FA_STATUS:
       return set2FAEnable(state, payload)
     default:
@@ -110,6 +106,16 @@ export function updateUserInfo(state, { auth: { token, data } }) {
     },
     userInfo: {
       $set: data
+    }
+  })
+}
+
+
+
+function setFCMToken(state, payload) {
+  return update(state,{
+    tokenFCM: {
+      $set: payload
     }
   })
 }
