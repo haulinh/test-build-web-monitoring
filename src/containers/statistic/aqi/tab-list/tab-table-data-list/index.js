@@ -4,7 +4,8 @@ import { translate } from 'hoc/create-lang'
 import { autobind } from 'core-decorators'
 import { Table } from 'antd'
 import * as _ from 'lodash'
-
+import { DD_MM_YYYY } from 'constants/format-date'
+import moment from 'moment'
 @autobind
 export default class TableDataList extends React.PureComponent {
   static propTypes = {
@@ -12,14 +13,14 @@ export default class TableDataList extends React.PureComponent {
     loading: PropTypes.bool
   }
 
-  getColumns() {
+  getColumns () {
     const childrenValue = []
     for (let index = 0; index < 24; index++) {
-      const ti = _.padStart(`${index}`, 2, '0')
+      const ti = _.padStart(`${index}`, 2, '0') 
       childrenValue.push({
         title: ti,
         align: 'center',
-        dataIndex: ti,
+        dataIndex: `${ti}:00`,
         key: ti,
         width: 50
       })
@@ -36,11 +37,13 @@ export default class TableDataList extends React.PureComponent {
           {
             title: translate('statistic.aqi.day'),
             align: 'center',
-            dataIndex: 'label',
-            key: 'timeDay',
+            dataIndex: 'time',
+            key: 'time',
             width: 100,
-            render: value => {
-              return <div>{value}</div>
+            render: (value, record) => {
+              // console.log( moment(value).format(DD_MM_YYYY) )
+              // console.log(record,"record")
+              return (<div>{moment(value).format(DD_MM_YYYY) }</div>)
             }
           }
         ]
@@ -52,12 +55,12 @@ export default class TableDataList extends React.PureComponent {
           {
             title: translate('statistic.aqi.day'),
             align: 'center',
-            dataIndex: 'aqi',
-            key: 'AQI',
+            dataIndex: 'aqiDay',
+            key: 'aqiDay',
             width: 100
           }
         ]
-      }
+      },
     ]
     return columns
   }

@@ -15,7 +15,7 @@ import Highcharts from 'highcharts'
 import { translate } from 'hoc/create-lang'
 import ReactGA from 'react-ga'
 import * as _ from 'lodash'
-import { Clearfix } from '../../../elements'
+// import { Clearfix } from '../../../elements'
 
 ReactGA.initialize('UA-36620912-2')
 

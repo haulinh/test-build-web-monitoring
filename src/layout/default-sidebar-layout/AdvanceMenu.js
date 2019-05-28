@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import React from 'react'
 import { Menu } from 'antd'
 import slug, { MENU_NAME, MENU_GROUP } from 'constants/slug'

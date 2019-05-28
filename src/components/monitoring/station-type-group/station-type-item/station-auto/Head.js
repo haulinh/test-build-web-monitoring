@@ -1,23 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import Clearfix from 'components/elements/clearfix'
 import { SHAPE } from 'themes/color'
-import { Icon, Tooltip, Spin, Button } from 'antd'
+import { Button } from 'antd'
 import ROLE, { checkRolePriority } from 'constants/role'
 import moment from 'moment/moment'
-import protectRole from 'hoc/protect-role/index.backup'
+// import protectRole from 'hoc/protect-role/index.backup'
 import { translate } from 'hoc/create-lang'
 import { connect } from 'react-redux'
-import StationControl from 'api/SamplingApi'
+// import StationControl from 'api/SamplingApi'
 import stationStatus, { STATUS_STATION } from 'constants/stationStatus'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { isEmpty } from 'lodash'
-import { action } from 'shared/breadcrumb'
-import objectPath from 'object-path'
+// import { action } from 'shared/breadcrumb'
+// import objectPath from 'object-path'
 
 const i18n = {
   notInUse: translate('monitoring.notInUse'),
@@ -217,7 +215,7 @@ export default class StationAutoHead extends React.PureComponent {
       stationTypeName,
       receivedAt,
       orderNumber,
-      stationID,
+      // stationID,
       options,
       status
     } = this.props

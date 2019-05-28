@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { translate as t } from 'hoc/create-lang'
 
 import {
-  warningLevelsNumber,
+  // warningLevelsNumber,
   warningLevels,
-  colorLevels
+  // colorLevels
 } from 'constants/warningLevels'
 import { STATUS_STATION } from 'constants/stationStatus'
 import { Row, Clearfix, Item, BoxNumberView } from './style'

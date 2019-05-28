@@ -3,7 +3,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Card, CardHeader } from 'reactstrap'
-import { getConfigApi } from 'config'
+// import { getConfigApi } from 'config'
 
 const CameraItemWrapper = styled.div``
 

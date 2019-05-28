@@ -15,11 +15,11 @@ const WarningWrapper = styled.div`
   align-items: center;
   flex: 1;
 `
-const WarningTitle = styled.span`
-  font-weight: 600;
-  font-size: 12px;
-  margin-left: 4px;
-`
+// const WarningTitle = styled.span`
+//   font-weight: 600;
+//   font-size: 12px;
+//   margin-left: 4px;
+// `
 
 const WrapperColor = styled.div`
   display: flex;
@@ -44,9 +44,9 @@ const TextLevel = styled.span`
   color: #ffffff;
 `
 
-const SpaceContainer = styled.span`
-  width: 25%;
-`
+// const SpaceContainer = styled.span`
+//   width: 25%;
+// `
 
 @autobind
 export default class Header extends React.PureComponent {

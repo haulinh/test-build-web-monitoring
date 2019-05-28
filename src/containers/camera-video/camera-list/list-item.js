@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Card } from 'antd'
 import Player from '../player-view'
-import { Link } from 'react-router-dom'
-import slug from 'constants/slug'
-import * as _ from 'lodash'
+// import { Link } from 'react-router-dom'
+// import slug from 'constants/slug'
+// import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 
 const { Meta } = Card
@@ -27,8 +27,8 @@ export default class ListItemView extends React.PureComponent {
       src,
       stationName,
       name,
-      _id,
-      stationType: { key }
+      // _id,
+      // stationType: { key }
     } = this.props.camera
 
     return (

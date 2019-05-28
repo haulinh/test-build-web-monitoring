@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import BreadcrumbBar from 'shared/breadcrumb/BreadcrumbBar'
 import { SHAPE } from 'themes/color'
-import Clearfix from 'components/elements/clearfix'
+// import Clearfix from 'components/elements/clearfix'
 import { StickyContainer, Sticky } from 'react-sticky'
 import LoaderCircle from 'components/elements/loader-circle'
-import { Affix } from 'antd'
+// import { Affix } from 'antd'
 
 const HeaderFlex = styled.div`
   display: flex;

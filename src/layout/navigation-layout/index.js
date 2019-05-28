@@ -17,10 +17,10 @@ import ChangeLanguage from "./ChangeLanguage";
 import LogoBrandName from "./LogoBrandName";
 import { translate } from "hoc/create-lang";
 import { deleteToken } from "api/NotificationApi";
-import Navigation, { AkNavigationItem, AkGlobalItem, createGlobalTheme, presetThemes } from '@atlaskit/navigation'
+import Navigation, { AkNavigationItem, AkGlobalItem, createGlobalTheme } from '@atlaskit/navigation'
 import AkDropdownMenu, { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu'
 import styled from 'styled-components'
-import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper';
+// import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper';
 /* 
 -------------------------------
  */
@@ -29,7 +29,7 @@ import { getTotalByNotificationType, setDrawerVisible, resetAllCounts } from 're
 import { getListOfStationAuto } from "redux/actions/stationAuto";
 import { logout } from 'redux/actions/authAction'
 import AvatarCharacter from 'components/elements/avatar-character'
-import {Drawer, Badge, Icon} from 'antd'
+import { Badge} from 'antd'
 import NotificationDrawer from './NotificationDrawer'
 
 const WrapperTitle = styled.div`

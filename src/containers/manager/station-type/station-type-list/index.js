@@ -17,7 +17,7 @@ import protectRole from 'hoc/protect-role/index.backup'
 import ROLE from 'constants/role'
 import * as _ from 'lodash'
 import { getTotalCount_by_type } from 'api/StationAuto';
-import {  message, Modal } from 'antd'
+import {   Modal } from 'antd'
 
 
 const AvatarWrapper = styled.div`

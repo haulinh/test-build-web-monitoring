@@ -284,7 +284,7 @@ export default class TabChart extends React.PureComponent {
         formatter: function() {
           return this.points.map(function(point) {
             return (
-              `<b>${point.series.name}</b>` + ': ' + getFormatNumber(point.y)
+              `<b>${point.series.name}</b>: ${getFormatNumber(point.y)}`
             )
           })
         }

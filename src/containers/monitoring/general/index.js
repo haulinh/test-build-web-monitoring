@@ -11,7 +11,7 @@ import StationTypeList from 'components/monitoring/station-type-group/station-ty
 import monitoringFilter from 'constants/monitoringFilter'
 import ListLoaderCp from 'components/content-loader/list-loader'
 import Clearfix from 'components/elements/clearfix'
-import { getMonitoringFilter, setMonitoringFilter } from 'utils/localStorage'
+import { getMonitoringFilter } from 'utils/localStorage'
 import { replaceVietnameseStr } from 'utils/string'
 import * as _ from 'lodash'
 import HeaderView from '../../../components/monitoring/header-view'
@@ -112,7 +112,7 @@ export default class MonitoringGeneral extends React.Component {
     // MARK  logic focus trạm từ trang map
     if (this.state.followStation) {
       dataStationAutos = _.filter(dataStationAutos, item => {
-        return item.key == this.state.followStation
+        return item.key === this.state.followStation
       })
       console.log(dataStationAutos, 'dataStationAutos')
     }

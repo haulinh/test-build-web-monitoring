@@ -50,6 +50,8 @@ export function setIsLoading(type, flag) {
       type: TOGGLE_LOADING,
       payload: {type: 'isLoadmoreSensorError', value: flag}
     }
+    default:
+    break
   }
 }
 
@@ -105,6 +107,8 @@ export function loadNotificationsByType(page, type, stations) {
           })
           break;
         }
+        default:
+        break
       }
 
       if (data.length >= ITEM_PER_PAGE) {
@@ -178,6 +182,8 @@ export function updateNotificationOnMessage(message, stations) {
         })
         break;
       }
+      default:
+      break
     }
   }
 }
@@ -201,6 +207,8 @@ export function clearNotificationCountByType(type) {
         target = 'sensorError'
         break;
       }
+      default:
+      break
     }
 
     if(res.success) {

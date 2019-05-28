@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Icon } from 'antd'
+// import { Icon } from 'antd'
 
 const WrapperView = styled.div``
 const HeaderView = styled.div`
