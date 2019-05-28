@@ -41,8 +41,8 @@ const Text = styled.p``
   }),
   { set2FAStatus }
 )
-@autobind
-export default class ModalSelect extends React.PureComponent {
+
+export default class ModalSelectEmail extends React.PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
     set2FAStatus: PropTypes.func.isRequired

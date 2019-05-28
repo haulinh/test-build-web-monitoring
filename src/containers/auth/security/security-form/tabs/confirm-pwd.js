@@ -26,7 +26,7 @@ const i18n = {
 )
 @Form.create()
 @autobind
-export default class SecurityForm extends PureComponent {
+export default class SecurityFormConfirm extends PureComponent {
   static propTypes = { }
 
   constructor(props) {
@@ -59,7 +59,7 @@ export default class SecurityForm extends PureComponent {
             {getFieldDecorator('password', {
               initialValue: '',
             })(
-              <Input size="large" placeholder={i18n.enterYourPwd} />
+              <Input size="large" placeholder={i18n.enterYourPwd} autoComplete="off"/>
             )}
             </FormItem>
           </Col>
