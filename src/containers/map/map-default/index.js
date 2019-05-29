@@ -232,7 +232,6 @@ export default class MapDefault extends React.PureComponent {
           </ColRight>
         )}
         <Clearfix />
-        <Clearfix />
       </MapDefaultWrapper>
     )
   }

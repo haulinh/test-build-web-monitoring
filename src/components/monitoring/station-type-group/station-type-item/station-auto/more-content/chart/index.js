@@ -43,7 +43,7 @@ export default class ChartMoreInfo extends React.Component {
   }
 
   state = {
-    isLoading: false,
+    isLoading: true,
     stationData: {},
     chartType: ''
   }
@@ -78,7 +78,6 @@ export default class ChartMoreInfo extends React.Component {
 
   render() {
     // console.log(this.props.stationID, "stationID")
-    console.log(this.props, 'stationID')
     return (
       <BieuDoMonitoringWrapper className="monitoring-bieudo">
         <div className="monitoring-bieudo--Type">
@@ -100,7 +99,7 @@ export default class ChartMoreInfo extends React.Component {
           <div className="monitoring-bieudo--Chart">
             <Clearfix height={8} />
             <Chart
-              stationData={this.state.stationData}
+              stationData={typeof this.state.stationData === "object" ? this.state.stationData : null}
               chartType={this.state.chartType}
             />
           </div>

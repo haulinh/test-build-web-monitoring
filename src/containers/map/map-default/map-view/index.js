@@ -34,7 +34,7 @@ class CustomGoogleMap extends PureComponent {
   static propTypes = {
     getMap: PropTypes.func,
     getRefMarker: PropTypes.func,
-    stationAutoMarker: []
+    stationAutoMarker: PropTypes.array
   }
   state = {
     zoom: 12,

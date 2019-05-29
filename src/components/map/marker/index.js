@@ -69,7 +69,7 @@ export default class MarkerStation extends PureComponent {
     stationTypeKey: PropTypes.string,
     lastLog: PropTypes.object,
     measuringList: PropTypes.array,
-    options: PropTypes.array,
+    options: PropTypes.object,
     visible: PropTypes.bool,
     stationStatus: PropTypes.string,
     byStationStatus: PropTypes.string,

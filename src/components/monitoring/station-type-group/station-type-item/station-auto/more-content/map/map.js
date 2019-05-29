@@ -72,6 +72,7 @@ class CustomGoogleMap extends PureComponent {
               }
               return (
                 <MarkerWithLabel
+                  key={index}
                   position={item_location}
                   labelAnchor={
                     new google.maps.Point(this.calculateString(item.name), 0)
