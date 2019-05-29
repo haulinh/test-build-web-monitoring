@@ -44,22 +44,24 @@ export default class SamplingMoreInfo extends React.Component {
   static propTypes = {};
   static defaultProps = {};
 
-  state = {
-    page: 1,
-    pageSize: 10,
-    total: 0,
-    dataSource: [],
-    isLoading: true,
+  static state = {
+   
   };
 
   constructor(props) {
     super(props);
     this.loadData = this.loadData.bind(this);
-    this.setState({
-      stationID : this.props.stationID
-    })
-    console.log('constructor', this.props )
+
+    this.state = {
+      page: 1,
+      pageSize: 10,
+      total: 0,
+      dataSource: [],
+      isLoading: true,
+      stationID: this.props.stationID
+    }
   }
+
 
 
 
@@ -67,6 +69,7 @@ export default class SamplingMoreInfo extends React.Component {
     this.setState({ isLoading: true }, async () => {
       try{
         let {stationID} = this.state
+        console.log('this.state',  this.state)
         let res = await SamplingAPI.getHistory({
           page,
           itemPerPage: pageSize,

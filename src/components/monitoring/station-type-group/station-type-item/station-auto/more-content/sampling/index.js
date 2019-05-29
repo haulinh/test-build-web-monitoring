@@ -71,6 +71,8 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   state = {
+    activeTabKey: 'config',
+    isInitLoaded: false,
     isSampling: false,
     isLoading: false,
     isConfig: false,
@@ -127,11 +129,13 @@ export default class SamplingMoreInfo extends React.Component {
   async componentDidMount() {
     try {
       const res = await StationAPI.getStatus(this.props.stationID)
-      this.setState({isLoading: false})
+      console.log('isInitLoaded',this.state.isInitLoaded)
+      this.setState({isLoading: false, isInitLoaded: true})
       this.startTimer()
       if (res.data) {
         this.setState({
           isConfig: res.data.configSampling ? true : false,
+          activeTabKey: res.data.configSampling ? 'sampling' : 'config',
           isScheduled: res.data.configSamplingSchedule ? true : false,
           isLoading: false,
           configSampling: res.data.configSampling
@@ -160,7 +164,6 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   handleChangeTab(tabActive) {
-    console.log('ahsadhasdhsadh', this.historyRef)
     if (tabActive === 'history') {
       if (this.historyRef) this.historyRef.componentWillMount()
     }
@@ -174,17 +177,21 @@ export default class SamplingMoreInfo extends React.Component {
       isConfig,
       isScheduled,
       configSampling,
-      configSamplingSchedule
+      configSamplingSchedule,
+      isInitLoaded,
+      activeTabKey
     } = this.state
     return (
         <SamplingWrapper>
           <Spin 
             indicator={<Icon type="loading" style={{ fontSize: 24 }}/>}
-            spinning={isLoading}
+            spinning={isLoading || !isInitLoaded}
           >
             <Tabs
               onChange={this.handleChangeTab}
               defaultActiveKey={isConfig ? 'sampling' : 'config'}
+              activeKey={activeTabKey}
+              onTabClick={(key)=> this.setState({activeTabKey: key})}
             >
               <TabPane
                 style={{ width: '100%' }}
