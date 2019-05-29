@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Card, Row, Tabs } from 'antd'
 import moment from 'moment'
-import _ from 'lodash'
+// import _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { connectAutoDispatch } from 'redux/connect'
 import ModalActive from './tabs/modal-select/'
@@ -46,7 +46,7 @@ export default class SecurityForm extends PureComponent {
     }
     const { code, enable, expired } = this.props.userInfo.twoFactorAuth
     const isExpired = moment().isSameOrAfter(moment(expired))
-    const isSmsVerifyInProgress = !enable && code != '' && !isExpired
+    const isSmsVerifyInProgress = !enable && code !== '' && !isExpired
     if (isSmsVerifyInProgress) {
       this.setState({
         activeTabKey: 3,

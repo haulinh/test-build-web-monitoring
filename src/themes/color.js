@@ -32,15 +32,18 @@ export const COLOR_STATUS = {
   GOOD: '#6AA84F'
 }
 
+/* eslint-disable */
+// do logic code cũ gía trị đang là 0, 1, 2
 export const COLOR_DEVICE_STATUS = {
   DATA_LOSS: '#666666',
   ERROR: '#CC0000',
   MAINTENACE:'#E69138',
   NORMAL: '#6AA84F',
 
-  [0]: '#6AA84F',
+  [0]: '#6AA84F', 
   [1]: '#CC0000',
   [2]: '#CC0000'
 }
+/* eslint-enable */
 
 export default { PRIMARY, COLOR_STATUS, COLOR_DEVICE_STATUS }

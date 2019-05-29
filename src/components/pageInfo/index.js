@@ -2,7 +2,7 @@ import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { Icon } from 'antd'
 import { autobind } from 'core-decorators'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
 
 const lang = {

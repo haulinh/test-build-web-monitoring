@@ -36,16 +36,16 @@ const MeasuringItemText = styled.div`
   // justify-content: space-between;
 `
 
-const MeasuringName = styled.span`
-  padding: 0px 6px;
-  display: flex;
-  font-size: 10px;
-  color: #ffffff;
-  align-items: center;
-  justify-content: center;
-  border-radius: 3px;
-  background-color: ${props => props.color};
-`
+// const MeasuringName = styled.span`
+//   padding: 0px 6px;
+//   display: flex;
+//   font-size: 10px;
+//   color: #ffffff;
+//   align-items: center;
+//   justify-content: center;
+//   border-radius: 3px;
+//   background-color: ${props => props.color};
+// `
 
 const MeasuringUnit = styled.span`
   position: relative;

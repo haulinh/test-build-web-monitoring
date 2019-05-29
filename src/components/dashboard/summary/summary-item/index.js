@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import slug from 'constants/slug'
+// import { Link } from 'react-router-dom'
+// import slug from 'constants/slug'
 import { COLOR_STATUS } from 'themes/color'
 const SummaryItemWrapper = styled.div`
   display: flex;
@@ -70,14 +70,14 @@ export default class SummaryItem extends React.PureComponent {
     const {
       name,
       image,
-      color,
-      stationTypeKey,
+      // color,
+      // stationTypeKey,
       statusStation,
       indexScroll,
       number
     } = this.props
     const colorStatus =
-      this.props.number == 0
+      this.props.number === 0
         ? COLOR_STATUS.DATA_LOSS
         : COLOR_STATUS[statusStation]
     return (

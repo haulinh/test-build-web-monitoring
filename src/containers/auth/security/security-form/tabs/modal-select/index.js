@@ -1,41 +1,41 @@
 import React from 'react'
-import { Button, Steps, Icon, Alert, Input } from 'antd'
-import { translate } from 'hoc/create-lang'
-import styled from 'styled-components'
+// import {  Steps} from 'antd'
+// import { translate } from 'hoc/create-lang'
+// import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
+// import _ from 'lodash'
 import {Row} from 'antd'
-import swal from 'sweetalert2'
+// import swal from 'sweetalert2'
 import { autobind } from 'core-decorators'
-import userApi from 'api/UserApi'
-import authApi from 'api/AuthApi'
+// import userApi from 'api/UserApi'
+// import authApi from 'api/AuthApi'
 import { connectAutoDispatch } from 'redux/connect'
 import { set2FAStatus } from 'redux/actions/authAction'
 import CompSMS from './sms'
 import CompOptions from './options'
 
-const Step = Steps.Step
+// const Step = Steps.Step
 
-const RESET_2FA_SMS = 60 * 10
+// const RESET_2FA_SMS = 60 * 10
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`
+// const Container = styled.div`
+//   display: flex;
+//   flex-direction: column;
+// `
 
-const RowView = styled.div`
-  margin-bottom: 12px;
-  justify-content: center;
-  align-items: center;
-`
+// const RowView = styled.div`
+//   margin-bottom: 12px;
+//   justify-content: center;
+//   align-items: center;
+// `
 
-const RowViewCenter = RowView.extend`
-  justify-content: center;
-  display: flex;
-  flex-direction: row;
-`
+// const RowViewCenter = RowView.extend`
+//   justify-content: center;
+//   display: flex;
+//   flex-direction: row;
+// `
 
-const Text = styled.p``
+// const Text = styled.p``
 
 @connectAutoDispatch(
   (state) => ({

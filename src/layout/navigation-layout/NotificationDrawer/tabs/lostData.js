@@ -1,14 +1,14 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import _ from 'lodash'
+// import _ from 'lodash'
 import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
 import { connectAutoDispatch } from 'redux/connect'
-import {Row, Col, Card, Button, message} from 'antd'
+import {Row, Col, Card, Button} from 'antd'
 import InfiniteScroll from 'react-infinite-scroller';
 import { withRouter } from 'react-router'
-import { prop } from 'cramda';
-import { COLOR_STATUS } from 'themes/color';
+// import { prop } from 'cramda';
+// import { COLOR_STATUS } from 'themes/color';
 import { loadNotificationsByType } from 'redux/actions/notification'
 
 

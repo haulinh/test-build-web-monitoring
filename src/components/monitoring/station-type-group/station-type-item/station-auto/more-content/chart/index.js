@@ -9,7 +9,7 @@ import { translate } from 'hoc/create-lang'
 import { Row, Col, Radio } from 'antd'
 import Chart from './Chart'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
-import { isEqual as _isEqual } from 'lodash'
+// import { isEqual as _isEqual } from 'lodash'
 
 const RadioButton = Radio.Button
 const RadioGroup = Radio.Group

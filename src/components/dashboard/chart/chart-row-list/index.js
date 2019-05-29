@@ -3,12 +3,12 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import ChartRow from '../chart-row'
-import * as _ from 'lodash'
+// import * as _ from 'lodash'
 
-const ChartRowListWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`
+// const ChartRowListWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+// `
 
 const ChartRowWrapper = styled.div`
   margin-bottom: 8px;

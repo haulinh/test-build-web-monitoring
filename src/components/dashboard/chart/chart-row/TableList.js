@@ -8,9 +8,9 @@ import stationStatus, {
 } from 'constants/stationStatus'
 import { translate } from 'hoc/create-lang'
 import {
-  warningLevelsNumber,
+  // warningLevelsNumber,
   warningLevels,
-  colorLevels
+  // colorLevels
 } from 'constants/warningLevels'
 import { Tooltip, Icon } from 'antd'
 import * as _ from 'lodash'

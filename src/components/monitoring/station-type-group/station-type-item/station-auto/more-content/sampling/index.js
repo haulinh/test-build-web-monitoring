@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { Row, Col, Tabs, Icon, message, Spin } from 'antd'
+import { Row, Tabs, Icon, message, Spin } from 'antd'
 /* user import */
 import StationAPI from 'api/SamplingApi'
 import { translate } from 'hoc/create-lang'
@@ -23,20 +23,20 @@ const SamplingWrapper = styled.div`
   flex: 1;
 `
 
-const LoadingContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 250px;
+// const LoadingContainer = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   min-height: 250px;
   
-  .information{
-    display: flex;
-    align-items: center;
-  }
-  .information--text{
-    font-weight: bold;
-  }
-`
+//   .information{
+//     display: flex;
+//     align-items: center;
+//   }
+//   .information--text{
+//     font-weight: bold;
+//   }
+// `
 
 const i18n = {
   /* NOTE  chưa dịch */
@@ -47,16 +47,16 @@ function showMessageError(msg) {
   message.error(msg)
 }
 
-const LoadingCmp = () => (
-  <LoadingContainer>
-    <Icon
-      type="loading"
-      theme="outlined"
-      style={{ color: '#4090ff', fontSize: 25 }}
-    />
-    {/* <Disconnection messages ='Không kết nối được với dịch vụ lấy mẫu vui lòng liên hệ quản trị viên!'/> */}
-  </LoadingContainer>
-)
+// const LoadingCmp = () => (
+//   <LoadingContainer>
+//     <Icon
+//       type="loading"
+//       theme="outlined"
+//       style={{ color: '#4090ff', fontSize: 25 }}
+//     />
+//     {/* <Disconnection messages ='Không kết nối được với dịch vụ lấy mẫu vui lòng liên hệ quản trị viên!'/> */}
+//   </LoadingContainer>
+// )
 
 const TabPane = Tabs.TabPane
 

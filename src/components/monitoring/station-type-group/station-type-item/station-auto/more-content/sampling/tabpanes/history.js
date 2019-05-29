@@ -37,7 +37,7 @@ const i18n = {
   }
 };
 
-const {Column, ColumnGroup} = Table
+const {Column} = Table
 
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
@@ -55,7 +55,9 @@ export default class SamplingMoreInfo extends React.Component {
   constructor(props) {
     super(props);
     this.loadData = this.loadData.bind(this);
-    this.state.stationID = this.props.stationID
+    this.setState({
+      stationID : this.props.stationID
+    })
     console.log('constructor', this.props )
   }
 
@@ -150,7 +152,7 @@ export default class SamplingMoreInfo extends React.Component {
             dataIndex="typeOfSampling"
             width={150}
             render={(...args) => {
-              const [data, record] = args
+              const [data] = args
               return <div>{i18n.history[_toLower(data)]}</div>
             }}
           />
@@ -169,10 +171,12 @@ export default class SamplingMoreInfo extends React.Component {
             dataIndex="result"
             width={50}
             render={(...args) => {
-              const [data, record] = args
+              const [data] = args
               switch(data) {
                 case 'SUCCESS': return <Tag color="#6ba84f">{data}</Tag>
                 case 'FAILED' : return <Tag color="#cc1200">{data}</Tag>
+                default:
+                break
               }
             }}
           /> 

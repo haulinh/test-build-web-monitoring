@@ -1,7 +1,7 @@
 import React from 'react'
-import { Card } from 'antd'
+// import { Card } from 'antd'
 import ListView from './list-camera'
-import Player from '../player-view'
+// import Player from '../player-view'
 import styled from 'styled-components'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from '../breadcrumb'
@@ -24,16 +24,16 @@ const Container = styled.div`
   flex-direction: row;
 `
 
-const Left = styled.div`
-  flex: 3;
-  padding-right: 20px;
-`
+// const Left = styled.div`
+//   flex: 3;
+//   padding-right: 20px;
+// `
 
 const Right = styled.div`
   flex: 1;
 `
 
-const Empty = styled.div``
+// const Empty = styled.div``
 
 export default class PlayerViewer extends React.Component {
   state = {

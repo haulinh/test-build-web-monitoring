@@ -20,9 +20,9 @@ import SelectProvince from 'components/elements/select-province'
 import OptionsTimeRange from '../../common/options-time-range'
 import * as _ from 'lodash'
 import { FSelectApprove } from './select-approve'
-import { prop } from 'cramda';
+// import { prop } from 'cramda';
 
-import queryFormDataBrowser from 'hoc/query-formdata-browser'
+// import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date';
 
 const FSelectProvince = createValidateComponent(SelectProvince)

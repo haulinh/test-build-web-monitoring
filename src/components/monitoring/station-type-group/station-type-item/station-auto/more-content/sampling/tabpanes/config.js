@@ -2,8 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router'
-import styled from 'styled-components'
-import {Row, Col, Form, Input, InputNumber, Button, cr} from 'antd';
+import {Row, Col, Form, Input, InputNumber, Button} from 'antd';
 import swal from 'sweetalert2';
 /* user import */
 import { translate } from 'hoc/create-lang'
@@ -80,14 +79,14 @@ export default class SamplingMoreInfo extends React.Component {
       }
       catch(error) {
         this.setState({isSaving: false})
-        const {name, message} = err.response.data.error
+        const { message} = err.response.data.error
         swal({ title: message, type: 'error' })
       }
     });
   }
 
   checkErr = (name) => {
-    const { getFieldDecorator, isFieldTouched, getFieldError } = this.props.form;
+    const { isFieldTouched, getFieldError } = this.props.form;
     return isFieldTouched(name) && getFieldError(name);
   }
 

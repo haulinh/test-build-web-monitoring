@@ -10,9 +10,9 @@ import { updateNotificationOnMessage } from "redux/actions/notification";
 import { autobind } from "core-decorators";
 import { linkToken2Email } from 'api/NotificationApi'
 import { notification } from 'antd'
-import { TAB_KEYS } from 'constants/notification'
-import slug from 'constants/slug'
-import _ from 'lodash'
+// import { TAB_KEYS } from 'constants/notification'
+// import slug from 'constants/slug'
+// import _ from 'lodash'
 import { setFcmToken } from "redux/actions/authAction";
 
 const Wrapper = styled.div`

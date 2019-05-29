@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Row, Button, Col } from 'antd'
-import _ from 'lodash'
+// import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
 import { autobind } from 'core-decorators'
 import { connectAutoDispatch } from 'redux/connect'

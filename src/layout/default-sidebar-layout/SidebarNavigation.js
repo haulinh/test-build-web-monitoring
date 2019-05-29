@@ -2,27 +2,27 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { autobind } from 'core-decorators'
-import { AkContainerNavigationNested } from '@atlaskit/navigation'
+// import { AkContainerNavigationNested } from '@atlaskit/navigation'
 import { getIndexLocationWithNavigationRouter } from 'utils/sidebarNavigation'
 import navigationRouterStack from 'navigation/sidebarNavigation/mainNavigationRouter'
 import NavigationLayout from '../navigation-layout'
 import { connect } from 'react-redux'
 import { Menu } from 'antd'
-import {
-  dashboardMenu,
-  monitoringMenu,
-  handleDataMenu,
-  shareDataMenu,
-  advanceMenu,
-  configMenu,
-  DashboardMenu
-} from 'navigation/sidebarNavigation/mainNavigationRouterNew'
+// import {
+//   dashboardMenu,
+//   monitoringMenu,
+//   handleDataMenu,
+//   shareDataMenu,
+//   advanceMenu,
+//   configMenu,
+//   DashboardMenu
+// } from 'navigation/sidebarNavigation/mainNavigationRouterNew'
 // mainNavigationRouterNew
 
 import { Link } from 'react-router-dom'
 import Icon from 'themes/icon'
-import slug, { parentMenuFromSub, MENU_GROUP, MENU_NAME } from 'constants/slug'
-import { translate } from 'hoc/create-lang'
+import slug, { parentMenuFromSub, MENU_NAME } from 'constants/slug'
+// import { translate } from 'hoc/create-lang'
 import { selectMenu, changeOpenSubMenu } from 'redux/actions/themeAction'
 // import { adapt } from "chromatism";
 import protectRole from 'hoc/protect-role/forMenu'
@@ -40,8 +40,8 @@ const CENTER = {
   fontWeight: 600
 }
 
-const SubMenu = Menu.SubMenu
-const MenuItemGroup = MenuItemGroup
+// const SubMenu = Menu.SubMenu
+// const MenuItemGroup = MenuItemGroup
 
 @connect(state => ({
   isOpenNavigation: state.theme.navigation.isOpen

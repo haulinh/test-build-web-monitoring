@@ -57,7 +57,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
               }}
               theme="filled"
             />
-            <a href="javascript:;">{text}</a>
+            <a href="blank" onClick={(e)=> {e.preventDefault()}} >{text} aniw w ự</a>
           </span>
         )
       },

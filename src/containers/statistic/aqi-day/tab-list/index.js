@@ -4,8 +4,10 @@ import { Tabs, Button } from 'antd'
 import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
-import BoxShadow from 'components/elements/box-shadow/index'
+import BoxShadow from 'components/elements/box-shadow'
 import TabTableDataList from './tab-table-data-list/index'
+import TabChart from './tab-chart'
+
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 
@@ -47,22 +49,17 @@ export default class TabeList extends React.PureComponent {
             </Button>
           )}
         </ButtonAbsolute>
-        <Tabs defaultActiveKey="1">
+        <Tabs defaultActiveKey="2">
           <Tabs.TabPane tab={translate('dataSearchFrom.tab.data')} key="1">
             <TabTableDataList
               loading={this.props.isLoading}
-              dataAnalyzeStationAuto={this.props.dataAnalyzeStationAuto}
-              dataAQI={this.props.dataAQI}
+              dataSource={this.props.dataAQI}
               onChange={this.props.onChangePage}
             />
           </Tabs.TabPane>
-          {/* <Tabs.TabPane tab={translate('dataSearchFrom.tab.chart')} key="2">
-            <TabChart
-             // dataAQI={this.props.dataAQI || []}
-              dataAQI={[]}
-              nameChart={this.props.nameChart}
-            />
-          </Tabs.TabPane> */}
+          <Tabs.TabPane tab={translate('dataSearchFrom.tab.chart')} key="2">
+            <TabChart dataAQI={this.props.dataAQI || []} nameChart={this.props.nameChart} />
+          </Tabs.TabPane>
         </Tabs>
       </TabeListWrapper>
     )

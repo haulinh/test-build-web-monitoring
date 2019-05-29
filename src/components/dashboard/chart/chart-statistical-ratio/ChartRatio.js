@@ -11,21 +11,20 @@ import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
 import StatusModalView from './StatusModal'
 import ChartBaseView from './chart-base'
 import { COLOR_STATUS } from 'themes/color'
-import { isNumber } from 'util'
-import formatNumber, {
-  getFormatNumber,
+// import { isNumber } from 'util'
+import  {
   ROUND_DIGIT
 } from 'constants/format-number'
 
-const dataLabels = {
-  enabled: true,
-  // rotation: -90,
-  color: '#FFF',
-  y: 12,
-  // padding: 10,
-  align: 'center',
-  allowOverlap: true
-}
+// const dataLabels = {
+//   enabled: true,
+//   // rotation: -90,
+//   color: '#FFF',
+//   y: 12,
+//   // padding: 10,
+//   align: 'center',
+//   allowOverlap: true
+// }
 
 @autobind
 export default class HeaderView extends React.PureComponent {
