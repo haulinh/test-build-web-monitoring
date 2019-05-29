@@ -41,7 +41,7 @@ export const COLOR_DEVICE_STATUS = {
   NORMAL: '#6AA84F',
 
   [0]: '#6AA84F', 
-  [1]: '#CC0000',
+  [1]: '#E69138',
   [2]: '#CC0000'
 }
 /* eslint-enable */
