@@ -28,11 +28,11 @@ function hasErrors(fieldsError) {
 
 @Form.create()
 @withRouter
-export default class SamplingMoreInfo extends React.Component {
+export default class SamplingConfig extends React.Component {
   static propTypes = {
     stationID: PropTypes.string.isRequired,
     configSampling: PropTypes.object.isRequired,
-    configSamplingSchedule: PropTypes.object.isRequired,
+    configSamplingSchedule: PropTypes.object,
     updateParentState: PropTypes.func.isRequired
   }
 
@@ -96,7 +96,7 @@ export default class SamplingMoreInfo extends React.Component {
     const { totalBottles, controlTagName, timeToTakeOneBottle, status } = this.props.configSampling;
     const { getFieldDecorator, getFieldsError, isFieldsTouched } = this.props.form; 
     const isSampling = isConfig && status !== STATUS_SAMPLING.READY
-    console.log('fffdasfdsafas', hasErrors(getFieldsError()))
+    // console.log('fffdasfdsafas', hasErrors(getFieldsError()))
     return (
       <div style={{padding: 8}}>
         <Form onSubmit={this.handleSubmit}>
@@ -155,7 +155,6 @@ export default class SamplingMoreInfo extends React.Component {
               </Row>
               <Button
                 block
-                isLoading={isSaving}
                 type="primary"
                 loading={isSaving}
                 disabled={(hasErrors(getFieldsError()) && isFieldsTouched()) || isSampling || isScheduled}

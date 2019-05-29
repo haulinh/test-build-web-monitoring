@@ -48,7 +48,7 @@ export default class SamplingMoreInfo extends React.Component {
 
   render() {
     if (!this.props.isActive) return null
-    console.log('------ stationInfo ------', this.props.stationInfo)
+    // console.log('------ stationInfo ------', this.props.stationInfo)
     const { panel, stationID, stationInfo } = this.props
     return (
       <MoreContentWrapper panel={panel} isOpen={this.props.isOpen}>

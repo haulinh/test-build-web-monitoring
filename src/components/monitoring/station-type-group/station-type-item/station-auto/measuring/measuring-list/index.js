@@ -24,7 +24,7 @@ const MeasuringItemWrapper = styled.div`
 @autobind
 export default class MeasuringList extends React.PureComponent {
   static propTypes = {
-    data: PropTypes.arrayOf(PropTypes.shape(MeasuringItem.propTypes)),
+    data: PropTypes.array,
     onClickItem: PropTypes.func,
     statusStation: PropTypes.string
   }
@@ -41,6 +41,8 @@ export default class MeasuringList extends React.PureComponent {
             >
               <MeasuringItem
                 {...item}
+                minLimit={typeof item.minLimit === 'number' ? item.minLimit: null}
+                maxLimit={typeof item.maxLimit === 'number' ? item.maxLimit: null}
                 statusStation={this.props.statusStation}
               />
             </MeasuringItemWrapper>

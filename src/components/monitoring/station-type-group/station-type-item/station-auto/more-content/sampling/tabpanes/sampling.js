@@ -104,13 +104,6 @@ export default class SamplingMoreInfo extends React.Component {
     }
   }
 
-  state = {
-    isReseting: false,
-    samplingType: SAMPLING_TYPE.MANUAL /* manual || auto */,
-    // mock states
-    isActivedOverRange: false,
-    isScheduleUpdating: false
-  }
 
   constructor(props) {
     super(props)
@@ -120,9 +113,13 @@ export default class SamplingMoreInfo extends React.Component {
     this.handleClickActive = this.handleClickActive.bind(this)
     this.cancelConfigSchedule = this.cancelConfigSchedule.bind(this)
 
-    this.setState({
+    this.state = {
+      isReseting: false,
+      // mock states
+      isActivedOverRange: false,
+      isScheduleUpdating: false,
       samplingType: this.props.isScheduled ? SAMPLING_TYPE.AUTO : SAMPLING_TYPE.MANUAL
-    })
+    }
   }
 
   async resetSampledBottle(e) {

@@ -129,7 +129,7 @@ export default class SamplingMoreInfo extends React.Component {
   async componentDidMount() {
     try {
       const res = await StationAPI.getStatus(this.props.stationID)
-      console.log('isInitLoaded',this.state.isInitLoaded)
+      // console.log('isInitLoaded',this.state.isInitLoaded)
       this.setState({isLoading: false, isInitLoaded: true})
       this.startTimer()
       if (res.data) {

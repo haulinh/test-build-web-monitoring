@@ -69,7 +69,7 @@ export default class SamplingMoreInfo extends React.Component {
     this.setState({ isLoading: true }, async () => {
       try{
         let {stationID} = this.state
-        console.log('this.state',  this.state)
+        // console.log('this.state',  this.state)
         let res = await SamplingAPI.getHistory({
           page,
           itemPerPage: pageSize,
