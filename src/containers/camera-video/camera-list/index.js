@@ -106,7 +106,7 @@ export default class CameraList extends React.Component {
         <Breadcrumb items={['list']} />
         {!this.state.isLoaded && (
           <SpinnerContainer>
-            <Spin size="large" loading={!this.state.isLoaded} />
+            <Spin size="large"  />
           </SpinnerContainer>
         )}
 
