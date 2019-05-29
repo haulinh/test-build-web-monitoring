@@ -12,7 +12,7 @@ import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 import { get, size, isEmpty, forEach, isNumber, union, filter, includes } from 'lodash'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role'
 import { getConfigApi } from 'config'
 import PageInfo from 'components/pageInfo'
 

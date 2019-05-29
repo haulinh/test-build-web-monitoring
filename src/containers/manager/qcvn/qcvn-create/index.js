@@ -7,7 +7,7 @@ import slug from 'constants/slug'
 import QCVNForm from '../qcvn-form'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role'
 
 @protectRole(ROLE.STATION_AUTO.CREATE)
 @autobind

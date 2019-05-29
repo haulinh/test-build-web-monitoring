@@ -14,7 +14,7 @@ import swal from 'sweetalert2'
 import { getConfigApi } from 'config'
 import PageInfo from 'components/pageInfo'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role'
 
 @protectRole(ROLE.AQI_SEARCHDATA.VIEW)
 @queryFormDataBrowser(['submit'])

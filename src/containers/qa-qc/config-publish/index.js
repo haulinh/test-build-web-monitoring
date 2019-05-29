@@ -8,7 +8,7 @@ import SearchForm from './search-form'
 import * as _ from 'lodash'
 import { replaceVietnameseStr } from 'utils/string'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role'
 import { getConfigApi } from 'config'
 import PageInfo from 'components/pageInfo'
 

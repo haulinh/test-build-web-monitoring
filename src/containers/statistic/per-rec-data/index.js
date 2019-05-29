@@ -10,7 +10,7 @@ import SearchFrom from './search-form'
 import * as _ from 'lodash'
 import { message, Spin } from 'antd'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 

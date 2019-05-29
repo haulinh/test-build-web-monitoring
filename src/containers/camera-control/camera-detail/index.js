@@ -3,7 +3,7 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { autobind } from 'core-decorators'
 import Breadcrumb from '../breadcrumb'
 import createLanguageHoc from 'hoc/create-lang'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 import CameraItem from 'components/elements/camera-item'
 

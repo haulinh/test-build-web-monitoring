@@ -7,7 +7,7 @@ import {
 import slug from 'constants/slug'
 import Icon from 'themes/icon'
 import NavigationWrapper from './NavigationWrapper'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 import { translate } from 'hoc/create-lang'
 import { Menu } from 'antd'

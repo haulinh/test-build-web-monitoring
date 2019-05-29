@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow/index'
 import TabTableDataList from './tab-table-data-list/index'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role'
 
 const TabeListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
