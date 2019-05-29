@@ -54,15 +54,9 @@ export default class TabeList extends React.PureComponent {
               dataAnalyzeStationAuto={this.props.dataAnalyzeStationAuto}
               dataAQI={this.props.dataAQI}
               onChange={this.props.onChangePage}
-            />
-          </Tabs.TabPane>
-          {/* <Tabs.TabPane tab={translate('dataSearchFrom.tab.chart')} key="2">
-            <TabChart
-             // dataAQI={this.props.dataAQI || []}
-              dataAQI={[]}
               nameChart={this.props.nameChart}
             />
-          </Tabs.TabPane> */}
+          </Tabs.TabPane>
         </Tabs>
       </TabeListWrapper>
     )

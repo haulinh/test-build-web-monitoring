@@ -67,7 +67,7 @@ export default class QCVNList extends React.Component {
   }
 
   getRows() {
-    console.log(this.props.dataSource)
+    // console.log(this.props.dataSource)
     const {
       lang: { t }
     } = this.props

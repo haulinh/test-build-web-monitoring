@@ -234,7 +234,7 @@ class MenuApp extends React.PureComponent {
         // defaultOpenKeys={this.props.openSubMenu}
         openKeys={this.props.openSubMenu}
         onOpenChange={openKeys => {
-          console.log('this.props.menuSelected',this.props.menuSelected)
+          // console.log('this.props.menuSelected',this.props.menuSelected)
           this.props.changeOpenSubMenu(openKeys)
         }}
         selectedKeys={[this.props.menuSelected]}

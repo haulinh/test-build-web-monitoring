@@ -19,14 +19,16 @@ export default class DynamicTableCustom extends PureComponent {
       itemPerPage: PropTypes.number,
       page: PropTypes.number
     }),
-    paginationOptions: PropTypes.shape({
-      isSticky: PropTypes.bool
-    })
+    // paginationOptions: PropTypes.shape({
+    //   isSticky: PropTypes.oneOfType([
+    //     PropTypes.number,
+    //   ])
+    // })
   }
 
-  static defaultProps = {
-    paginationOptions: PropTypes.object
-  }
+  // static defaultProps = {
+  //   paginationOptions: PropTypes.object
+  // }
 
   renderHead() {
     return {

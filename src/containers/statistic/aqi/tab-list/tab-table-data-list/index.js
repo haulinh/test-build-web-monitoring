@@ -80,8 +80,8 @@ export default class TableDataList extends React.PureComponent {
       <div>
         <Table
           size="small"
-          rowKey="timeDay"
           bordered
+          rowKey="time"
           columns={this.getColumns()}
           dataSource={this.props.dataAQI}
           pagination={{ showTotal: this.showTotal }}

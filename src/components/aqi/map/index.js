@@ -12,9 +12,9 @@ export default class MapComponent extends React.Component {
       <div style={{ height: this.props.windowHeight, flex: 2 }}>
         <AqiLevelInfo />
         <MapView
-          ref={map => {
-            this.mapTamp = map
-          }}
+          // ref={map => {
+          //   this.mapTamp = map
+          // }}
           aqiList={this.props.aqiList}
           // center={this.props.center}
           // getMap={this.setMap}
