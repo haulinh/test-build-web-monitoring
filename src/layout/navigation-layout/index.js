@@ -64,7 +64,6 @@ export default class BasicNestedNavigation extends React.Component {
     /* Redux's props */
     drawerVisible: PropTypes.bool.isRequired,
     notificationCount: PropTypes.object.isRequired,
-    stationAuto: PropTypes.array.isRequired,
     getTotalByNotificationType: PropTypes.func.isRequired,
     setDrawerVisible: PropTypes.func.isRequired,
     resetAllCounts: PropTypes.func.isRequired

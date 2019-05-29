@@ -23,7 +23,7 @@ const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FOptionsMonthRange = createValidateComponent(OptionsMonthRange)
 
-const SearchFormContainer = BoxShadowStyle.extend``
+const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
   padding: 16px 16px;
 `

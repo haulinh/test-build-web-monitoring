@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { autobind } from 'core-decorators'
 // import { AkContainerNavigationNested } from '@atlaskit/navigation'
@@ -168,6 +168,8 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
   }
 )
 class MenuApp extends React.PureComponent {
+
+
   state = {
     openSubMenu: ['monitoring']
   }

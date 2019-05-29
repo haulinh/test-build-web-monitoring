@@ -28,7 +28,7 @@ const FTimerPicker = createValidateComponent(TimerPicker)
 
 // const optionTimeZoneDay = [{ value: '24', name: '00:00 - 23:59' }, { value: '17', name: '17:00 - 16:59' }, { value: '1', name: '24:00' }, { value: '2', name: '17:00' }]
 
-const SearchFormContainer = BoxShadowStyle.extend``
+const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
   padding: 16px 16px;
 `

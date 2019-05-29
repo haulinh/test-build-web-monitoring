@@ -27,14 +27,14 @@ const Text = styled.span`
   display: block;
 `
 
-const TextNumber = Text.extend`
+const TextNumber = styled(Text)`
   font-size: 20px;
   flex: 1;
   text-align: right;
   margin-top: 4px;
 `
 
-const TextDescription = Text.extend`
+const TextDescription = styled(Text)`
   font-size: 14px;
   font-weight: 600;
   text-align: right;

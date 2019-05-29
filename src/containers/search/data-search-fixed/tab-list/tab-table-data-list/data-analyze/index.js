@@ -6,7 +6,7 @@ import moment from 'moment/moment'
 import BoxShadow from 'components/elements/box-shadow/index'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
-const TabeListWrapper = BoxShadow.extend`
+const TabeListWrapper = styled(BoxShadow)`
   padding: 16px 16px 16px 16px;
   position: relative;
 `

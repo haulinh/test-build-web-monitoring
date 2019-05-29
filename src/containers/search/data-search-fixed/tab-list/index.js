@@ -11,7 +11,7 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role/index.backup'
 import * as _ from 'lodash'
 
-const TabeListWrapper = BoxShadow.extend`
+const TabeListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
   position: relative;
 `

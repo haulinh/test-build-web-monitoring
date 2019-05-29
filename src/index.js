@@ -12,7 +12,7 @@ import 'video-react/dist/video-react.css'
 import './index.css'
 
 import { AppContainer } from 'react-hot-loader'
-import browserHistory from 'history/createBrowserHistory'
+import   { createBrowserHistory } from 'history'
 import configureStore from './redux/createStore'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
@@ -27,14 +27,14 @@ const getStoreDefault = () => {
 }
 
 const store = configureStore(getStoreDefault(), {
-  routerHistory: browserHistory()
+  routerHistory: createBrowserHistory
 })
 
 getFetch('/app.json').then(dataConfig => {
-  console.log('dataConfig',dataConfig)
+  // console.log('dataConfig',dataConfig)
   window.config = dataConfig
 
-  console.log('dataConfig',dataConfig)
+  // console.log('dataConfig',dataConfig)
   const render = Component => {
     ReactDOM.render(
       <AppContainer>

@@ -26,7 +26,7 @@ const FSelectStationFixed = createValidateComponent(SelectStationFixed)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
 
-const SearchFormContainer = BoxShadowStyle.extend``
+const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
   padding: 16px 16px;
 `

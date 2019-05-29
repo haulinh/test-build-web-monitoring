@@ -22,7 +22,7 @@ const FSelectStationTypeConfigAQI = createValidateComponent(SelectStationTypeCon
 const FSelectStationConfigAQI = createValidateComponent(SelectStationConfigAQI)
 const FOptionsMonth = createValidateComponent(OptionsMonth)
 
-const SearchFormContainer = BoxShadowStyle.extend``
+const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
   padding: 16px 16px;
 `

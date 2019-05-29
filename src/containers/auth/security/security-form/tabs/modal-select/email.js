@@ -27,7 +27,7 @@ const RowView = styled.div`
   align-items: center;
 `
 
-const RowViewCenter = RowView.extend`
+const RowViewCenter = styled(RowView)`
   justify-content: center;
   display: flex;
   flex-direction: row;

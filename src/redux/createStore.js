@@ -9,7 +9,7 @@ export default function create(
 ) {
   var devTool = f => f
   if (typeof window !== 'undefined') {
-    devTool = window.devToolsExtension ? window.devToolsExtension() : f => f
+    devTool = window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
   }
   const store = createStore(
     combineReducers({

@@ -30,7 +30,7 @@ const FDatePicker = createValidateComponent(DatePicker)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FDataFilterBy = createValidateComponent(DataFilterBy)
 
-const SearchFormContainer = BoxShadowStyle.extend``
+const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
   padding: 16px 16px;
 `
