@@ -147,7 +147,7 @@ module.exports = {
             options: {
               plugins: [
                 'transform-decorators-legacy',
-                ['styled-jsx/babel', { optimizeForSpeed: true }],
+                // ['styled-jsx/babel', { optimizeForSpeed: true }],
                 [
                   'module-resolver',
                   {

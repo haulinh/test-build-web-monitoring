@@ -46,11 +46,7 @@ const OrderNumber = styled.div`
   border-radius: 5px;
   text-align: center;
   vertical-align: middle;
-  background: linear-gradient(
-    135deg,
-    rgb(29, 137, 206) 0%,
-    rgb(86, 210, 243) 100%
-  );
+  background: linear-gradient(135deg, rgb(29, 137, 206) 0%, rgb(86, 210, 243) 100%);
   font-weight: 700;
   color: #ffffff;
 `
@@ -77,8 +73,7 @@ const WrapperNameStationTypeName = styled.div`
 
 const ReceivedAt = styled.span`
   color: ${props => (props.status !== 'GOOD' ? SHAPE.RED : '#000')};
-  font-style: ${props =>
-    props.status === stationStatus.DATA_LOSS ? 'italic' : 'normal'};
+  font-style: ${props => (props.status === stationStatus.DATA_LOSS ? 'italic' : 'normal')};
 `
 const ActionWrapper = styled.div`
   display: flex;
@@ -178,9 +173,7 @@ export default class StationAutoHead extends React.PureComponent {
     //   status === stationStatus.DATA_LOSS ? translate('monitoring.lossAt') : ''
 
     const statusStr = ''
-    const receivedAtStr = receivedAt
-      ? moment(receivedAt).format(DD_MM_YYYY_HH_MM)
-      : ''
+    const receivedAtStr = receivedAt ? moment(receivedAt).format(DD_MM_YYYY_HH_MM) : ''
     if (!isEmpty(statusStr) && !isEmpty(receivedAtStr)) {
       return `(${statusStr} ${receivedAtStr})`
     }
@@ -240,65 +233,63 @@ export default class StationAutoHead extends React.PureComponent {
           )}
           <Clearfix width={8} />
           {/* MARK  Bỏ status={status} vì k0 can phan biet status nua */}
-          <ReceivedAt status={STATUS_STATION.GOOD}>
-            {this.toReceivedAt(status, receivedAt)}
-          </ReceivedAt>
+          <ReceivedAt status={STATUS_STATION.GOOD}>{this.toReceivedAt(status, receivedAt)}</ReceivedAt>
         </TitleWrapper>
 
         <ActionWrapper>
           <Button
             className="actionItem"
-            type={currentAction === 'sampling' && 'primary'}
+            type={currentAction === 'sampling' ? 'primary' : 'default'}
             onClick={() => this.handleActionOnClick('sampling')}
-            disabled={!isSampling || !checkRolePriority(this.props.userInfo,ROLE.MONITORING.CONTROL)}
+            disabled={!isSampling || !checkRolePriority(this.props.userInfo, ROLE.MONITORING.CONTROL)}
           >
             {i18n.sampling}
           </Button>
           <Button
             className="actionItem"
-            type={currentAction === 'camera' && 'primary'}
+            type={currentAction === 'camera' ? 'primary' : 'default'}
             onClick={() => this.handleActionOnClick('camera')}
-            disabled={!isCamera || !checkRolePriority(this.props.userInfo,ROLE.MONITORING.CAMERA)}
+            disabled={!isCamera || !checkRolePriority(this.props.userInfo, ROLE.MONITORING.CAMERA)}
           >
             {i18n.camera}
           </Button>
           <Button
             className="actionItem"
-            type={currentAction === 'chart' && 'primary'}
+            type={currentAction === 'chart'  ? 'primary' : 'default'}
             onClick={() => this.handleActionOnClick('chart')}
-            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.CHART)}
+            disabled={!checkRolePriority(this.props.userInfo, ROLE.MONITORING.CHART)}
           >
             {i18n.chart}
           </Button>
           <Button
             className="actionItem"
-            type={currentAction === 'map' && 'primary'}
+            type={currentAction === 'map'  ? 'primary' : 'default'}
             onClick={() => this.handleActionOnClick('map')}
-            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.MAP)}
+            disabled={!checkRolePriority(this.props.userInfo, ROLE.MONITORING.MAP)}
           >
             {i18n.map}
           </Button>
           <Button
             className="actionItem"
-            type={currentAction === 'image' && 'primary'}
+            type={currentAction === 'image'  ? 'primary' : 'default'}
             onClick={() => this.handleActionOnClick('image')}
-            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.IMAGES)}
+            disabled={!checkRolePriority(this.props.userInfo, ROLE.MONITORING.IMAGES)}
           >
             {i18n.images}
           </Button>
           <Button
             className="actionItem"
-            type={currentAction === 'station' && 'primary'}
+            type={currentAction === 'station'  ? 'primary' : 'default'}
             onClick={() => this.handleActionOnClick('station')}
-            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.INFOSTATION)}
+            disabled={!checkRolePriority(this.props.userInfo, ROLE.MONITORING.INFOSTATION)}
           >
             {i18n.stationInfo}
           </Button>
           <Button
             className="actionItem"
-            type={currentAction === 'rating' && 'primary'}
+            type={currentAction === 'rating'  ? 'primary' : 'default'}
             onClick={() => this.handleActionOnClick('rating')}
-            disabled={!checkRolePriority(this.props.userInfo,ROLE.MONITORING.REVIEWSTATION)}
+            disabled={!checkRolePriority(this.props.userInfo, ROLE.MONITORING.REVIEWSTATION)}
           >
             {i18n.reviewStation}
           </Button>
