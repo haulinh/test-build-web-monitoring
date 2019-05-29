@@ -46,18 +46,18 @@ const Column = styled.div`
   ${props => (props.isTh ? 'font-weight: 600;' : '')};
 `
 
-const IndexColumn = Column.extend`
+const IndexColumn = styled(Column)`
   width: 30px;
   text-align: center;
   font-weight: 600;
 `
 
-const NameColumn = Column.extend`
+const NameColumn = styled(Column)`
   flex: 1;
   padding-left: 8px;
 `
 
-const StatusColumn = Column.extend`
+const StatusColumn = styled(Column)`
   display: flex;
   justify-content: center;
   align-items: center;

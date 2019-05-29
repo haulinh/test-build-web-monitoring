@@ -33,13 +33,13 @@ const SpanStationTitle = styled.span`
 const SpanMeta = styled.span`
   font-size: 12px;
 `
-const SpanNumberMeta = SpanMeta.extend`
+const SpanNumberMeta = styled(SpanMeta)`
   color: #9b9b9b;
 `
-const SpanColor = SpanMeta.extend`
+const SpanColor = styled(SpanMeta)`
   color: ${props => props.color || colorLevels['GOOD']};
 `
-const SpanTimeAgo = SpanMeta.extend`
+const SpanTimeAgo = styled(SpanMeta)`
   color: #c6cbd4;
   with: 80px;
 `

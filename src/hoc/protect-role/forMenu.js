@@ -54,18 +54,19 @@ const createProtectRole = (
     }
 
     render() {
+      let {authRole, isAdmin, dispatch, ...ortherProps} = this.props
       //if role undefined||false return empty
       //if (!this.getRole()) return null
       if (this.getRole()) {
         if (isReact.component(Component)) {
-          return <Component {...this.props} key={Component.key} />
-        } else return React.cloneElement(Component, {...this.props, key: Component.key})
+          return <Component {...ortherProps} key={Component.key} />
+        } else return React.cloneElement(Component, {...ortherProps, key: Component.key})
       } else return null
     }
   }
   if (isReact.component(Component)) {
     return ProtectRole
-  } else return <ProtectRole {...Component.props} key={Component.key} />
+  } else return <ProtectRole {...Component.props}  key={Component.key} />
 }
 
 export default createProtectRole

@@ -3,6 +3,7 @@ import { translate } from 'hoc/create-lang'
 import { autobind } from 'core-decorators'
 import { Table } from 'antd'
 import moment from 'moment/moment'
+import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow/index'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import {
@@ -10,7 +11,7 @@ import {
   getFormatNumber
 } from 'constants/format-number'
 
-const TabeListWrapper = BoxShadow.extend`
+const TabeListWrapper = styled(BoxShadow)`
   padding: 16px 16px 16px 16px;
   position: relative;
 `

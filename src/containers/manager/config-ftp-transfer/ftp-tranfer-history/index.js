@@ -15,7 +15,7 @@ const ButtonAbsolute = styled.div`
   right: 16px;
   z-index: 3;
 `
-const TabeListWrapper = BoxShadow.extend`
+const TabeListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
   position: relative;
 `

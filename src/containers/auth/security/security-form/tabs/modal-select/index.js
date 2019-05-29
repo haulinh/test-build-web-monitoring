@@ -29,12 +29,6 @@ import CompOptions from './options'
 //   align-items: center;
 // `
 
-// const RowViewCenter = RowView.extend`
-//   justify-content: center;
-//   display: flex;
-//   flex-direction: row;
-// `
-
 // const Text = styled.p``
 
 @connectAutoDispatch(

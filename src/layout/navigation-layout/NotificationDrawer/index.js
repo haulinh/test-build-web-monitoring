@@ -63,7 +63,7 @@ export default class NotificationDrawer extends React.Component {
     notificationNumbers: propTypes.object.isRequired,
     /* Redux's props */
     stationAuto: propTypes.array.isRequired,
-    notificationCount: propTypes.number.isRequired,
+    notificationCount: propTypes.object.isRequired,
     loadNotificationsByType: propTypes.func.isRequired,
     clearNotificationCountByType: propTypes.func.isRequired,
     setIsLoading: propTypes.func.isRequired,

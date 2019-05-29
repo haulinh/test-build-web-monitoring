@@ -46,11 +46,12 @@ export default class PageWrapper extends Component {
           const token = await messaging.getToken();
           // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
           try {
-            let response = await linkToken2Email(token);
+            // let response = 
+            await linkToken2Email(token);
             me.props.setFcmToken(token)
-            console.log("linkToken2Email respon", token, response);
+            // console.log("linkToken2Email respon", token, response);
           } catch (e) {
-            console.log("error linkToken2Email", e);
+            // console.log("error linkToken2Email", e);
           }
         })
         .catch(function(err) {
@@ -59,9 +60,9 @@ export default class PageWrapper extends Component {
 
       navigator.serviceWorker.addEventListener("message", message => {
         // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
-        console.log("service worker message: ", message);
-        let payload = message.data["firebase-messaging-msg-data"]
-        console.log("service worker data: ", payload);
+        // console.log("service worker message: ", message);
+        // let payload = message.data["firebase-messaging-msg-data"]
+        // console.log("service worker data: ", payload);
         // payload.createdAt  = payload.createdAt
         // payload.dataFilter = payload.dataFilter.split(";")
         // payload.full_body  = payload.data.full_body
