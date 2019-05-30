@@ -84,7 +84,7 @@ export default class SearchForm extends React.Component {
     let timeRange = 7
     let rangesView = undefined
     // debugger
-    console.log(props.initialValues,"props.initialValues")
+    // console.log(props.initialValues,"props.initialValues")
     if(props.initialValues.searchRange) {
       rangesView = `${fromDate.format(DD_MM_YYYY_HH_MM)} - ${toDate.format(DD_MM_YYYY_HH_MM)}`
       timeRange = 'ranges'
@@ -160,7 +160,7 @@ export default class SearchForm extends React.Component {
   }
 
   handleChangeRanges(ranges) {
-    console.log('aaa', ranges)
+    // console.log('aaa', ranges)
     if (_.isNumber(ranges)) {
       this.setState({
         timeRange: ranges,

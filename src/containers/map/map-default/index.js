@@ -9,7 +9,7 @@ import stationStatus from 'constants/stationStatus'
 // import { warningLevelsNumber, warningLevels } from 'constants/warningLevels'
 import searchSidebarType from 'constants/searchSidebarType'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import connectWindowHeight from '../hoc-window-height'
 import SidebarNormal from './sidebar/SidebarNormal'
@@ -231,7 +231,6 @@ export default class MapDefault extends React.PureComponent {
             <RightWrapper>{this.renderSidebar()}</RightWrapper>
           </ColRight>
         )}
-        <Clearfix />
         <Clearfix />
       </MapDefaultWrapper>
     )

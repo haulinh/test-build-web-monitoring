@@ -187,7 +187,7 @@ export default class ChartRowToChart extends React.Component {
   }
 
   static propTypes = {
-    stationData: Proptypes.shape,
+    stationData: Proptypes.object,
     chartType: Proptypes.string
   }
 
@@ -197,12 +197,13 @@ export default class ChartRowToChart extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.chartType, this.props.chartType) || !_.isEqual(nextProps.isOpen, this.props.isOpen)) {
-      debugger
+      
       this.loadDataBy(this.props.stationData, nextProps.chartType)
     }
   }
 
   async loadDataBy(station, type = 'hours') {
+    
     this.setState({
       isLoading: true
     })
@@ -367,16 +368,6 @@ export default class ChartRowToChart extends React.Component {
     })
   }
 
-  //Kiểm tra có gì có thay đổi props và state không
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return (
-  //     !_.isEqual(nextProps.stationData, this.props.stationData) ||
-  //     !_.isEqual(nextState.categories, this.state.categories) ||
-  //     !_.isEqual(nextState.data, this.state.data) ||
-  //     !_.isEqual(nextState.current, this.state.current)
-  //   )
-  // }
-
   handleClick = e => {
     const current = [_.get(_.keyBy(this.state.categories, 'key'), e, null)]
     this.setState({
@@ -413,7 +404,7 @@ export default class ChartRowToChart extends React.Component {
   }
 
   render() {
-    console.log(this.state, 'this.state.categories')
+    // console.log(this.state, this.props, 'this.state.categories')
     return (
       <ChartWrapper className="monitoring-chart">
         <div className="monitoring-chart--to-from">
@@ -422,13 +413,13 @@ export default class ChartRowToChart extends React.Component {
               <Label className="monitoring-chart--to-from__font-weight">{i18n.to}</Label>
             </Col>
             <Col sm={9}>
-              <InputEditCell disabled={true} editable={true} size="small" value={this.state.strFromDate} />
+              <InputEditCell disabled={true} editable={"true"} size="small" value={this.state.strFromDate} />
             </Col>
             <Col sm={3} className="monitoring-chart--to-from__align-right">
               <Label className="monitoring-chart--to-from__font-weight">{i18n.from}</Label>
             </Col>
             <Col sm={9}>
-              <InputEditCell disabled={true} editable={true} size="small" value={this.state.strToDate} />
+              <InputEditCell disabled={true} editable={"true"} size="small" value={this.state.strToDate} />
             </Col>
           </Row>
         </div>

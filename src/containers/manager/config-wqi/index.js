@@ -12,7 +12,7 @@ import Breadcrumb from './breadcrumb'
 import { getConfigApi } from 'config'
 import PageInfo from 'components/pageInfo'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role'
 
 const TabPane = Tabs.TabPane
 @protectRole(ROLE.CONFIG_WQI.VIEW)

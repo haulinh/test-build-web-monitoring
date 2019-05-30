@@ -10,7 +10,7 @@ function getInfo() {
   const instance = axios.create({
     baseURL: getConfigApi().camera.host
   })
-  console.log('getInfo', instance, getConfigApi())
+  // console.log('getInfo', instance, getConfigApi())
   const username = getConfigApi().camera.username
   const password = getConfigApi().camera.password
   return {

@@ -66,8 +66,8 @@ export default class OptionsTimeRange extends React.Component {
   }
 
   render() {
-    console.log(this.state.defaultValue,"this.state.defaultValue")
-    console.log(this.props.value,"this.props.value")
+    // console.log(this.state.defaultValue,"this.state.defaultValue")
+    // console.log(this.props.value,"this.props.value")
     return (
       <div>
         <Select

@@ -12,7 +12,7 @@ import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role'
 import DynamicTable from 'components/elements/dynamic-table'
 
 @protectRole(ROLE.STATION_AUTO.VIEW)
@@ -67,7 +67,7 @@ export default class QCVNList extends React.Component {
   }
 
   getRows() {
-    console.log(this.props.dataSource)
+    // console.log(this.props.dataSource)
     const {
       lang: { t }
     } = this.props

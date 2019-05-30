@@ -210,24 +210,6 @@ export default class MeasuringItem extends React.PureComponent {
             }}
           />
         </RightContainer>
-
-        {/* <MeasuringItemText>
-          <MeasuringValue color={this.getColorLevel()}>
-            {value !== undefined
-              ? value.toLocaleString(navigator.language)
-              : ''}{' '}
-            {unit ? (
-              <MeasuringUnit color={this.getColorLevel()} className="unit">
-                {unit}
-              </MeasuringUnit>
-            ) : (
-              ''
-            )}
-          </MeasuringValue>
-          <MeasuringName color={this.getColorLevel()}>{name}</MeasuringName>
-        </MeasuringItemText> */}
-        {/* <MeasuringLimit>{this.getLimitText()}</MeasuringLimit>
-        {this.renderDeviceIcon(get(this.props, 'statusDevice', ''))} */}
       </MeasuringItemWrapper>
     )
   }

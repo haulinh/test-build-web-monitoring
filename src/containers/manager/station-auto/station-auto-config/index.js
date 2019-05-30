@@ -13,7 +13,7 @@ import PropTypes from 'prop-types'
 import Breadcrumb from '../breadcrumb'
 import { mapPropsToFields } from 'utils/form'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role/index.backup'
+import protectRole from 'hoc/protect-role'
 
 const FormItem = Form.Item
 

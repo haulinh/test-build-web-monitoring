@@ -114,7 +114,7 @@ export default class MonitoringGeneral extends React.Component {
       dataStationAutos = _.filter(dataStationAutos, item => {
         return item.key === this.state.followStation
       })
-      console.log(dataStationAutos, 'dataStationAutos')
+      // console.log(dataStationAutos, 'dataStationAutos')
     }
 
     const tmp = _.get(dataStationTypes, 'data', [])
@@ -163,7 +163,7 @@ export default class MonitoringGeneral extends React.Component {
     }
     // NOTE lấy mã trạm từ url
     if (this.props.formData) {
-      console.log(this.props.formData, 'monitoring formData')
+      // console.log(this.props.formData, 'monitoring formData')
       this.setState({
         followStation: _.get(this.props.formData, 'stationAuto', '')
       })

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 export default class InputEditCell extends React.Component {
   static propTypes = {
-    editable: PropTypes.bool,
+    editable: PropTypes.string,
     onChange: PropTypes.func
   }
 
