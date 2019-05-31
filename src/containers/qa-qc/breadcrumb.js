@@ -21,5 +21,11 @@ export default createBreadcrumb({
     id: 'transfer',
     icon: '',
     href: slug.stationAuto.ftpTransfer
-  }
+  },
+  configNew: {
+    name: translate('qaqcConfig.title'),
+    id: 'configNew',
+    icon: '',
+    href: slug.qaqc.configNew
+  },
 })

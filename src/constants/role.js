@@ -68,7 +68,8 @@ export default {
     APPROVE: 'menu.qaqc.actions.approve',
     RESTORE: 'menu.qaqc.actions.restore',
     REMOVE: 'menu.qaqc.actions.remove',
-    CONFIG_PUBLISH: 'menu.qaqc.actions.config_publish'
+    CONFIG_PUBLISH: 'menu.qaqc.actions.config_publish',
+    CONFIG_NEW: 'menu.qaqc.action.configNew',
   },
   AQI: {
     VIEW: 'menu.aqiMap.actions.view'

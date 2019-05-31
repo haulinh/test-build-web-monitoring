@@ -145,7 +145,8 @@ export default {
   qaqc: {
     base: '/qaqc',
     list: '/qaqc',
-    config: '/qaqc-config'
+    config: '/qaqc-config',
+    configNew: '/qaqc-configNew',
   },
   statistic: {
     exceeded: '/exceeded-statistic',
@@ -172,6 +173,7 @@ export const MENU_GROUP = {
 
 export const parentMenuFromSub = {
   '/qaqc': MENU_GROUP.HANDLE_DATA,
+  '/qaqc-configNew': MENU_GROUP.HANDLE_DATA,
 
   '/qaqc-config': MENU_GROUP.SHARE_DATA,
   '/ftp-transfer': MENU_GROUP.SHARE_DATA,
@@ -206,7 +208,8 @@ export const MENU_NAME = {
 
   processDataSub: translate('menuApp.processDataSub'),
   processData: {
-    approveData: translate('menuApp.processData.approveData')
+    approveData: translate('menuApp.processData.approveData'),
+    configNew: translate('menuApp.processData.config'),
   },
 
   shareDataSub: translate('menuApp.shareDataSub'),

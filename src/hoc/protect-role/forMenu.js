@@ -20,6 +20,7 @@ const createProtectRole = (
       // check role in organization first
       let isRole = objectPath.get(this.props.organization, role)
       if (!isRole) return isRole
+     
       else {
         // and then check role in user
         if (this.props.isAdmin) {
