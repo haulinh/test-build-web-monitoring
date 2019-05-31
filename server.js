@@ -20,8 +20,9 @@ app.get('/app.json', function(req, res) {
       id: process.env.FIREBASE_ID,
       key: process.env.FIREBASE_KEY
     },
+    isAdvanced: process.env.isAdvanced
   })
-})
+})  
 app.use(express.static(path.join(__dirname, 'build')))
 app.use(bodyParser.urlencoded({ extended: true, limit: '100mb' }))
 app.use(bodyParser.json())
