@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
-import { Select } from 'antd'
-import PropTypes from 'prop-types'
-import CategoryApi from 'api/CategoryApi'
-import { autobind } from 'core-decorators'
-import { translate } from 'hoc/create-lang'
+import React, { PureComponent } from "react";
+import { Select } from "antd";
+import PropTypes from "prop-types";
+import CategoryApi from "api/CategoryApi";
+import { autobind } from "core-decorators";
+import { translate } from "hoc/create-lang";
 
 @autobind
 export default class SelectStationType extends PureComponent {
@@ -13,35 +13,49 @@ export default class SelectStationType extends PureComponent {
     onChange: PropTypes.func,
     value: PropTypes.string,
     isShowAll: PropTypes.bool,
-    isAuto: PropTypes.bool
-  }
+    isAuto: PropTypes.bool,
+    getRef: PropTypes.func
+  };
 
   static defaultProps = {
     isAuto: true
-  }
+  };
 
   state = {
     stationTypes: [],
-    value: ''
-  }
+    value: ""
+  };
 
   async componentDidMount() {
-    let query = { isAuto: this.props.isAuto }
-    const stationTypes = await CategoryApi.getStationTypes({}, query)
+    let query = { isAuto: this.props.isAuto };
+    const stationTypes = await CategoryApi.getStationTypes({}, query);
     if (stationTypes.success)
       this.setState({
         stationTypes: stationTypes.data || [],
         value: this.props.value
-      })
+      });
+
+    if (this.props.getRef) this.props.getRef(this);
+  }
+
+  getFirstValue() {
+    if (this.state.stationTypes.length > 0) return this.state.stationTypes[0];
+  }
+
+  setFirstValue() {
+    if (this.state.stationTypes.length > 0)
+      this.setState({
+        value: this.state.stationTypes[0].key
+      });
   }
 
   onChange(value) {
-    let res = this.state.stationTypes.find(item => item.key === value)
+    let res = this.state.stationTypes.find(item => item.key === value);
     this.setState({
       value: value
-    })
-    if (this.props.onHandleChange) this.props.onHandleChange(res, this)
-    if (this.props.onChange) this.props.onChange(value)
+    });
+    if (this.props.onHandleChange) this.props.onHandleChange(res, this);
+    if (this.props.onChange) this.props.onChange(value);
   }
 
   render() {
@@ -53,8 +67,8 @@ export default class SelectStationType extends PureComponent {
         value={this.state.value}
       >
         {this.props.isShowAll && (
-          <Select.Option value={''}>
-            {translate('dataSearchFrom.form.all')}
+          <Select.Option value={""}>
+            {translate("dataSearchFrom.form.all")}
           </Select.Option>
         )}
         {this.state.stationTypes.map(stationType => (
@@ -63,6 +77,6 @@ export default class SelectStationType extends PureComponent {
           </Select.Option>
         ))}
       </Select>
-    )
+    );
   }
 }

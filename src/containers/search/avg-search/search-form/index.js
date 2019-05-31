@@ -49,7 +49,10 @@ function validate(values) {
 @connect(state => ({
   initialValues: {
     fromDate: moment().subtract(7, 'days'),
-    toDate: moment()
+    toDate: moment(),
+    rangesView: 1,
+    rangesDate: 1,
+    type: 15
   }
 }))
 @reduxForm({
@@ -155,6 +158,27 @@ export default class SearchAvgForm extends React.Component {
     this.props.change('stationAuto', '')
   }
 
+  searchInit(){
+    // NOTE  do gấp, code chạy còn thừa, chưa có time check
+    if(this.StationType && this.StationType.getFirstValue &&  this.StationAuto ) {
+      // console.log('this.props.change',this.props.change)
+      this.handleChangeStationType(this.StationType.getFirstValue())
+      this.StationType.setFirstValue()
+      this.props.change('stationType', this.StationType.getFirstValue().key)
+      
+      let stationAutoData = this.StationAuto.getStationAutos()
+      if(stationAutoData.length>0){
+        this.handleChangeStationAuto(stationAutoData[0])
+        this.props.change('stationAuto', stationAutoData[0].key)
+        this.setState({
+          stationAutoKey: stationAutoData[0].key
+        },()=>{
+          this.props.handleSubmit(this.handleSubmit)()
+        })
+      }
+    }
+  }
+
   render() {
     const t = this.props.lang.createNameSpace('avgSearchFrom.form')
     return (
@@ -195,6 +219,10 @@ export default class SearchAvgForm extends React.Component {
                 size="large"
                 onHandleChange={this.handleChangeStationType}
                 component={FSelectStationType}
+                getRef={(ref)=> {
+                  this.StationType = ref
+                  this.searchInit()
+                }}
               />
             </Col>
             <Col span={8}>
@@ -207,6 +235,10 @@ export default class SearchAvgForm extends React.Component {
                 stationAutoKey={this.state.stationAutoKey}
                 setKey
                 provinceKey={this.state.provinceKey}
+                getRef={(ref)=> {
+                  this.StationAuto = ref
+                  this.searchInit()
+                }}
                 onChangeObject={this.handleChangeStationAuto}
               />
             </Col>
@@ -231,6 +263,8 @@ export default class SearchAvgForm extends React.Component {
                 size="large"
                 onChangeObject={this.handleChangeRanges}
                 component={FOptionsTimeRange}
+                value={this.state.rangesView}
+                rangesView={this.state.rangesView}
               />
             </Col>
             <Col span={8}>

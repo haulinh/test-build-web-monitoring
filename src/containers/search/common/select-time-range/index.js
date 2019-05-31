@@ -5,7 +5,7 @@ import { Select } from 'antd'
 export default class SelectTimeRange extends React.PureComponent {
   render() {
     return (
-      <Select {...this.props} showSearch>
+      <Select {...this.props}  defaultValue={15} showSearch>
         <Select.Option value={15}>
           15 {translate('avgSearchFrom.selectTimeRange.minute')}
         </Select.Option>

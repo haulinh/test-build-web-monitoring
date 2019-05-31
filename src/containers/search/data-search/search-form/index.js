@@ -59,7 +59,9 @@ function validate(values) {
   initialValues: {
     fromDate: moment().subtract(7, 'days'),
     toDate: moment(),
-    ...(ownProps.initialValues ? ownProps.initialValues : {})
+    rangesView: 1,
+    rangesDate: 1,
+    ...(ownProps.initialValues ? ownProps.initialValues : {}),
   }
 }))
 @reduxForm({
@@ -81,8 +83,9 @@ export default class SearchForm extends React.Component {
 
     let fromDate = moment(props.initialValues.fromDate)
     let toDate = moment(props.initialValues.toDate)
+    console.log('props.initialValues',props.initialValues)
     let timeRange = 7
-    let rangesView = undefined
+    let rangesView = 1
     // debugger
     // console.log(props.initialValues,"props.initialValues")
     if(props.initialValues.searchRange) {
@@ -112,8 +115,36 @@ export default class SearchForm extends React.Component {
   componentDidMount() {
     if (this.props.searchNow) {
       setTimeout(() => {
-        this.props.handleSubmit(this.handleSubmit)()
-      }, 100)
+        this.setState({
+          timeRange: 1,
+          fromDate: this.state.receivedAt.clone().subtract(1, 'days'),
+          toDate: this.state.receivedAt.clone()
+        }, ()=>{
+          this.props.handleSubmit(this.handleSubmit)()
+        })
+        
+      }, 200)
+    }
+  }
+
+  searchInit(){
+    // NOTE  do gấp, code chạy còn thừa, chưa có time check
+    if(this.StationType && this.StationType.getFirstValue &&  this.StationAuto ) {
+      // console.log('this.props.change',this.props.change)
+      this.handleChangeStationType(this.StationType.getFirstValue())
+      this.StationType.setFirstValue()
+      this.props.change('stationType', this.StationType.getFirstValue().key)
+      
+      let stationAutoData = this.StationAuto.getStationAutos()
+      if(stationAutoData.length>0){
+        this.handleChangeStationAuto(stationAutoData[0])
+        this.props.change('stationAuto', stationAutoData[0].key)
+        this.setState({
+          stationAutoKey: stationAutoData[0].key
+        },()=>{
+          this.props.handleSubmit(this.handleSubmit)()
+        })
+      }
     }
   }
 
@@ -254,6 +285,10 @@ export default class SearchForm extends React.Component {
                 size="large"
                 onHandleChange={this.handleChangeStationType}
                 component={FSelectStationType}
+                getRef={(ref)=> {
+                  this.StationType = ref
+                  this.searchInit()
+                }}
               />
             </Col>
             <Col span={6}>
@@ -266,6 +301,10 @@ export default class SearchForm extends React.Component {
                 component={FSelectStationAuto}
                 onChangeObject={this.handleChangeStationAuto}
                 stationAutoKey={this.state.stationAutoKey}
+                getRef={(ref)=> {
+                  this.StationAuto = ref
+                  this.searchInit()
+                }}
                 setKey
               />
             </Col>

@@ -10,7 +10,8 @@ export default class SelectStationAuto extends React.Component {
   static propTypes = {
     stationTypeKey: PropTypes.string,
     onChangeObject: PropTypes.func,
-    provinceKey: PropTypes.string
+    provinceKey: PropTypes.string,
+    getRef: PropTypes.func
   }
 
   state = {
@@ -28,6 +29,8 @@ export default class SelectStationAuto extends React.Component {
       stationAutoSelects: responseStationAuto.data,
       isLoaded: true
     })
+
+    if(this.props.getRef) this.props.getRef(this)
   }
 
   getStationAutos() {
