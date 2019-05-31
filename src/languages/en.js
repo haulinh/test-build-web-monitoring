@@ -158,7 +158,8 @@ export default {
     removeData: 'Data removed',
     originalData: 'Original Data',
     removeDataBy: 'Remove Data By',
-    approveData: 'Approve Data',
+    approveData: 'Check Data',
+    config: 'Config',
     approveAll: 'Approve All',
     manualApprove: 'Manual Approve',
     dataFilter: {
@@ -194,6 +195,14 @@ export default {
       to: 'To Date'
     },
     outOfRange: 'Out of range'
+  },
+  qaqcConfig: {
+    title: 'QAQC Config',
+    beyondMeasuringRange: 'Out of range',
+    deviceError: 'Sensor error',
+    deviceCalibration: "Sensor Calibration",
+    zero: 'Zero value',
+    negative: "Negative value"
   },
   controlStation: {
     text: 'Sampling',
@@ -919,7 +928,7 @@ export default {
     header: {
       option: 'Options',
       dataLogger: 'DataLogger',
-      approve: 'Approve Data'
+      approve: 'Check Data'
     },
     upload: {
       label: 'Upload',
@@ -1099,7 +1108,7 @@ export default {
         name: 'Average Data'
       },
       qaqc: {
-        name: 'Data Approval'
+        name: 'Check Data'
       },
       qaqcConfig: {
         name: 'Sharing Configurations'
@@ -1398,7 +1407,8 @@ export default {
 
     processDataSub: 'Data Processing',
     processData: {
-      approveData: 'Data approval'
+      approveData: 'Check Data',
+      config: 'Config'
     },
 
     shareDataSub: 'Sharing Data',

@@ -265,7 +265,7 @@ class MenuApp extends React.PureComponent {
           ROLE.REPORT.VIEW
         ]) && MonitoringMenu.renderComp(this.props)}
 
-        {this.checkRoleForGroup([ROLE.QAQC.VIEW]) &&
+        {this.checkRoleForGroup([ROLE.QAQC.VIEW, ROLE.QAQC.CONFIG_NEW]) &&
           HandleDataMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([

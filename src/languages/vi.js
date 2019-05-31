@@ -159,6 +159,7 @@ export default {
     removeData: 'Dữ liệu đã loại bỏ',
     originalData: 'Dữ liệu gốc',
     approveData: 'Kiểm duyệt dữ liệu',
+    config: 'Cấu hình',
     removeDataBy: 'Chỉ kiểm duyệt dữ liệu khác điều kiện sau:',
     approveAll: 'Kiểm duyệt tất cả',
     manualApprove: 'Kiểm duyệt tùy chọn',
@@ -195,6 +196,14 @@ export default {
       to: 'Đến ngày'
     },
     outOfRange: 'Ngoài vùng đo'
+  },
+  qaqcConfig: {
+    title: 'Cấu hình QAQC',
+    beyondMeasuringRange: 'Ngoài dải đo',
+    deviceError: 'Thiết bị lỗi',
+    deviceCalibration: "Thiết bị hiệu chuẩn",
+    zero: 'Giá trị 0',
+    negative: "Giá trị Âm"
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',
@@ -1394,7 +1403,8 @@ export default {
 
     processDataSub: 'Xử lý dữ liệu',
     processData: {
-      approveData: 'Kiểm duyệt dữ liệu'
+      approveData: 'Kiểm duyệt dữ liệu',
+      config: 'Cấu hình'
     },
 
     shareDataSub: 'Chia sẻ dữ liệu',
