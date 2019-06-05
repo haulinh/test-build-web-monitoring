@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Card, Row, Tabs } from 'antd'
-import moment from 'moment'
 // import _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { connectAutoDispatch } from 'redux/connect'
@@ -11,14 +10,18 @@ import ConfirmPssword2FA from './tabs/confirm-pwd'
 const TabPane = Tabs.TabPane
 
 @connectAutoDispatch(
-  (state) => ({}),
+  (state) => ({
+    userInfo: state.auth.userInfo
+  }),
   {}
 )
 @autobind
 export default class SecurityForm extends PureComponent {
   static propTypes = {
+    /* comp's props */
     onChange: PropTypes.func,
-    userInfo: PropTypes.object
+    /* redux's props */
+    userInfo: PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -32,26 +35,6 @@ export default class SecurityForm extends PureComponent {
         validateStatus: "default",
         help: '',
       },
-    }
-  }
-
-  /* nếu chưa hết hạn sms thì di chuyển đến form nhập code sms */
-  componentDidMount() {
-    const { twoFactorAuth } = this.props.userInfo
-    if (!twoFactorAuth) {
-      this.props.userInfo.twoFactorAuth = {
-        enable: false,
-        code: ''
-      }
-    }
-    const { code, enable, expired } = this.props.userInfo.twoFactorAuth
-    const isExpired = moment().isSameOrAfter(moment(expired))
-    const isSmsVerifyInProgress = !enable && code !== '' && !isExpired
-    if (isSmsVerifyInProgress) {
-      this.setState({
-        activeTabKey: 3,
-        isSmsVerifyInProgress: true
-      })
     }
   }
 
@@ -79,9 +62,8 @@ export default class SecurityForm extends PureComponent {
                 switchToTab={this._switchToTab}
               />
             </TabPane>
-            <TabPane key="3">
+            <TabPane key="3" forceRender>
               <ModalActive
-                isSmsVerifyInProgress={this.state.isSmsVerifyInProgress}
                 switchToTab={this._switchToTab}
               />
             </TabPane>

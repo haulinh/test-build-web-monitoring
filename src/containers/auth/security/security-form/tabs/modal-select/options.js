@@ -5,22 +5,28 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 // import _ from 'lodash'
 import swal from 'sweetalert2'
+import { message } from 'antd'
 import { autobind } from 'core-decorators'
 import userApi from 'api/UserApi'
 import authApi from 'api/AuthApi'
 import { connectAutoDispatch } from 'redux/connect'
-import { set2FAStatus } from 'redux/actions/authAction'
+import { update2FA, set2FAStatus } from 'redux/actions/authAction'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
 `
 
+const showMsgInfo = (msg) => {
+  msg = msg || ''
+  message.info(msg);
+};
+
 @connectAutoDispatch(
   (state) => ({
     user: state.auth.userInfo
   }),
-  { set2FAStatus }
+  { update2FA, set2FAStatus }
 )
 @autobind
 export default class ModalSelectOptions extends React.PureComponent {
@@ -61,7 +67,14 @@ export default class ModalSelectOptions extends React.PureComponent {
   async _handleSelectSms() {
     this.props.switchToOption('sms')
     this.setState({isLoadingSms: true})
-    await userApi.getSmsCode('sms')
+    try {
+      const res = await userApi.getSmsCode('sms')
+      const {twoFactorAuth} = res.data
+      this.props.update2FA(twoFactorAuth)
+    }
+    catch(error) {
+      showMsgInfo('ERROR')
+    }
     this.setState({ type: 'sms', stepCurrent: 0, isLoadingSms: false })
   }
   
