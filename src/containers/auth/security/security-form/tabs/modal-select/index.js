@@ -1,35 +1,12 @@
 import React from 'react'
-// import {  Steps} from 'antd'
-// import { translate } from 'hoc/create-lang'
-// import styled from 'styled-components'
 import PropTypes from 'prop-types'
-// import _ from 'lodash'
+import moment from 'moment'
 import {Row} from 'antd'
-// import swal from 'sweetalert2'
 import { autobind } from 'core-decorators'
-// import userApi from 'api/UserApi'
-// import authApi from 'api/AuthApi'
 import { connectAutoDispatch } from 'redux/connect'
 import { set2FAStatus } from 'redux/actions/authAction'
 import CompSMS from './sms'
 import CompOptions from './options'
-
-// const Step = Steps.Step
-
-// const RESET_2FA_SMS = 60 * 10
-
-// const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-// `
-
-// const RowView = styled.div`
-//   margin-bottom: 12px;
-//   justify-content: center;
-//   align-items: center;
-// `
-
-// const Text = styled.p``
 
 @connectAutoDispatch(
   (state) => ({
@@ -52,7 +29,20 @@ export default class ModalSelect extends React.PureComponent {
     super(props)
     this.state = {
       option: null,
-      isSmsVerifyInProgress: this.props.isSmsVerifyInProgress,
+      isSmsVerifyInProgress: false
+    }
+  }
+
+  /* nếu chưa hết hạn sms thì di chuyển đến form nhập code sms */
+  componentDidMount() {
+    const { twoFactorAuth } = this.props.user
+    const { code, enable, expired } = twoFactorAuth
+    const isExpired = moment().isSameOrAfter(moment(expired))
+    const isSmsVerifyInProgress = !enable && code !== '' && !isExpired
+    if (isSmsVerifyInProgress) {
+      this.setState({
+        isSmsVerifyInProgress: true
+      })
     }
   }
   

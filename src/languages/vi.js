@@ -1,4 +1,11 @@
 export default {
+  unit: {
+    time: {
+      second: 'giây',
+      minute: 'phút',
+      hour: 'giờ'
+    }
+  },
   chart: {
     all: 'Tất cả',
     time: 'Thời gian',
@@ -1259,7 +1266,7 @@ export default {
     message: {
       userUse: 'Bạn đang sử dụng tính năng bảo mật 2 lớp qua {{=it.type}}',
       code:
-        'Mã xác thực đã được gửi tới: {{=it.phone}} (sẽ hết hạn sau 10 phút)',
+        'Mã xác thực đã được gửi tới: {{=it.phone}} (sẽ hết hạn sau {{=it.expired}})',
       info: `Lựa chọn phương thức xác thực khi đăng nhập:`
     },
     step1: 'Nhập code',

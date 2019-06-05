@@ -1,4 +1,11 @@
 export default {
+  unit: {
+    time: {
+      second: 'second',
+      minute: 'minute',
+      hour: 'hour'
+    }
+  },
   chart: {
     all: 'All',
     time: 'Time',
@@ -1262,7 +1269,7 @@ export default {
     message: {
       userUse: 'You are using 2-layer authentication with {{=it.type}}',
       code:
-        'Your verification code has been sent to: {{=it.phone}} (will expire after 10 minutes)',
+        'Your verification code has been sent to: {{=it.phone}} (will expire after {{=it.expired}})',
       info: `Select authentication method when logging in:`
     },
     step1: 'Enter code',
