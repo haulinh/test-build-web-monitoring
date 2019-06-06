@@ -163,7 +163,6 @@ export default {
     publish: 'Publish',
     title: `QA/QC`,
     removeData: 'Data removed',
-    originalData: 'Original Data',
     removeDataBy: 'Remove Data By',
     approveData: 'Check Data',
     config: 'Config',
@@ -184,7 +183,9 @@ export default {
     allCancel: 'All Cancel',
     unApprove: 'UnApprove',
     yetApprove: 'Yet Approved',
+    originalData: 'Original Data',
     approved: 'Approved',
+    notValid: 'Not Value @translate',
     ok: 'OK',
     province: {
       label: 'Select Site',

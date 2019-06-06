@@ -70,6 +70,7 @@ export default class SearchForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      enabledDataFilters: false,
       provinceKey: '',
       stationTypeKey: props.initialValues.stationType,
       stationAutoKey: props.initialValues.stationAuto,
@@ -79,7 +80,14 @@ export default class SearchForm extends React.Component {
             value: measuring.key,
             name: measuring.name
           }))
-        : []
+        : [],
+      dataFilters: [/* MARK  MOCK DATA */
+        {name: '--Ngoài dải đo', value: 'a'},
+        {name: '--Thiết bị lỗi', value: 'b'},
+        {name: '--Thiết bị hiệu chuẩn', value: 'c'},
+        {name: '--Giá trị 0', value: 'd'},
+        {name: '--Giá trị âm', value: 'e'},
+      ]
     }
   }
 
@@ -140,6 +148,7 @@ export default class SearchForm extends React.Component {
   }
 
   handleSubmit(values) {
+    console.log(values,"values")
     const params = {
       from: this.convertDateToString(values.fromDate),
       to: this.convertDateToString(values.toDate),
@@ -163,6 +172,16 @@ export default class SearchForm extends React.Component {
 
   handleChoseOptions = e => {
     console.log(e)
+  }
+
+  _handleChangeDataType = (e, newValue, prevValue, name) => {
+    if (newValue === 'notValid') {
+      this.setState({enabledDataFilters: true})
+    }
+    else {
+      this.setState({enabledDataFilters: false})
+      this.props.change('dataFilterBy', [])
+    }
   }
 
   render() {
@@ -258,15 +277,29 @@ export default class SearchForm extends React.Component {
                 name="dataType"
                 size="large"
                 component={FSelectApprove}
+                onChange={this._handleChangeDataType}
               />
             </Col>
             <Col span={6}>
-              <Field
+              {/* <Field
                 label={translate('qaqc.dataFilter.label')}
                 size="large"
                 name="dataFilterBy"
                 component={FDataFilterBy}
-              />
+              /> */}
+              {
+                this.state.enabledDataFilters && 
+                <Field
+                  label={translate('qaqc.dataFilter.label')}
+                  name="dataFilterBy"
+                  size="large"
+                  showSearch
+                  mode="multiple"
+                  type="hidden"
+                  options={this.state.dataFilters}
+                  component={FSelectAnt}
+                />
+              }
             </Col>
           </Row>
         </Container>
