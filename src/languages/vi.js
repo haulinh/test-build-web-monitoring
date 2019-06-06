@@ -164,7 +164,6 @@ export default {
     publish: 'Cho phép công bố',
     title: `QA/QC`,
     removeData: 'Dữ liệu đã loại bỏ',
-    originalData: 'Dữ liệu gốc',
     approveData: 'Kiểm duyệt dữ liệu',
     config: 'Cấu hình',
     removeDataBy: 'Chỉ kiểm duyệt dữ liệu khác điều kiện sau:',
@@ -185,7 +184,9 @@ export default {
     allCancel: 'Hủy bỏ tất cả',
     unApprove: 'Hủy kiểm duyệt',
     yetApprove: 'Chưa kiểm duyệt',
-    approved: 'Đã kiểm duyệt',
+    originalData: 'Dữ liệu gốc',
+    approved: 'Sau kiểm duyệt',
+    notValid: 'Không hợp lệ',
     ok: 'Đồng ý',
     province: {
       label: 'Đơn vị quản lý',
