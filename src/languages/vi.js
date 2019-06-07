@@ -1,4 +1,11 @@
 export default {
+  unit: {
+    time: {
+      second: 'giây',
+      minute: 'phút',
+      hour: 'giờ'
+    }
+  },
   chart: {
     all: 'Tất cả',
     time: 'Thời gian',
@@ -157,7 +164,6 @@ export default {
     publish: 'Cho phép công bố',
     title: `QA/QC`,
     removeData: 'Dữ liệu đã loại bỏ',
-    originalData: 'Dữ liệu gốc',
     approveData: 'Kiểm duyệt dữ liệu',
     config: 'Cấu hình',
     removeDataBy: 'Chỉ kiểm duyệt dữ liệu khác điều kiện sau:',
@@ -178,7 +184,9 @@ export default {
     allCancel: 'Hủy bỏ tất cả',
     unApprove: 'Hủy kiểm duyệt',
     yetApprove: 'Chưa kiểm duyệt',
-    approved: 'Đã kiểm duyệt',
+    originalData: 'Dữ liệu gốc',
+    approved: 'Sau kiểm duyệt',
+    notValid: 'Không hợp lệ',
     ok: 'Đồng ý',
     province: {
       label: 'Đơn vị quản lý',
@@ -1259,7 +1267,7 @@ export default {
     message: {
       userUse: 'Bạn đang sử dụng tính năng bảo mật 2 lớp qua {{=it.type}}',
       code:
-        'Mã xác thực đã được gửi tới: {{=it.phone}} (sẽ hết hạn sau 10 phút)',
+        'Mã xác thực đã được gửi tới: {{=it.phone}} (sẽ hết hạn sau {{=it.expired}})',
       info: `Lựa chọn phương thức xác thực khi đăng nhập:`
     },
     step1: 'Nhập code',

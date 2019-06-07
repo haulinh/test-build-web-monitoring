@@ -6,7 +6,8 @@ import {
   USER_LOGOUT,
   SET_FCM_TOKEN,
   SET_2FA_STATUS,
-  SET_2FA_TYPE
+  SET_2FA_TYPE,
+  UPDATE_2FA
 } from '../actions/authAction'
 import update from 'react-addons-update'
 
@@ -41,6 +42,8 @@ export default function createReducer(state = initialState, action) {
       return userLogout(state)
     case SET_FCM_TOKEN:
       return setFCMToken(state, payload)
+    case UPDATE_2FA:
+      return update2FA(state, payload)
     case SET_2FA_STATUS:
       return set2FAEnable(state, payload)
     case SET_2FA_TYPE:
@@ -120,6 +123,16 @@ function setFCMToken(state, payload) {
   return update(state,{
     tokenFCM: {
       $set: payload
+    }
+  })
+}
+
+function update2FA(state, payload) {
+  return update(state, {
+    userInfo: {
+      twoFactorAuth: {
+        $set: payload
+      }
     }
   })
 }
