@@ -178,33 +178,40 @@ export default class QaQcContainer extends React.Component {
   render() {
     return (
       <div>
-        {getConfigApi().isAdvanced && (
-          <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-            <Breadcrumb items={['list']} />
-            <Spin spinning={false} title="Đang xử lý...">
-              <SearchFrom initialValues={this.props.formData} measuringData={this.props.formData.measuringData} onSubmit={this.handleSubmitSearch} searchNow={this.props.formData.searchNow} />
-              {this.state.dataStationAuto.length > 0 && (
-                <TabList
-                  data={this.state.dataStationAuto}
-                  searchFormData={this.state.searchFormData}
-                  pagination={this.state.pagination}
-                  onChangePage={this.handleChangePage}
-                  dataChange={this.state.dataChange}
-                  handleSave={this.updateRow}
-                  dataSelected={this.state.dataSelected}
-                  onRowChecked={this.handleRowChecked}
-                  onApproved={this.handleApproved}
-                  onRemoved={this.handleRemoved}
-                  onRestoreData={this.handleRestoreData}
-                  onUnApprove={this.handleUnApprove}
-                  onManualApproved={this.handleManualApproved}
-                />
-              )}
-            </Spin>
-          </PageContainer>
-        )}
-        {!getConfigApi().isAdvanced && <PageInfo />}
+        {getConfigApi().isAdvanced ? this._renderPageContent() : this.renderPageInfo()}
       </div>
     )
+  }
+
+  _renderPageContent() {
+    return (
+      <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+        <Breadcrumb items={['list']} />
+        <Spin spinning={false} title="Đang xử lý...">
+          <SearchFrom initialValues={this.props.formData} measuringData={this.props.formData.measuringData} onSubmit={this.handleSubmitSearch} searchNow={this.props.formData.searchNow} />
+          {this.state.dataStationAuto.length > 0 && (
+            <TabList
+              data={this.state.dataStationAuto}
+              searchFormData={this.state.searchFormData}
+              pagination={this.state.pagination}
+              onChangePage={this.handleChangePage}
+              dataChange={this.state.dataChange}
+              handleSave={this.updateRow}
+              dataSelected={this.state.dataSelected}
+              onRowChecked={this.handleRowChecked}
+              onApproved={this.handleApproved}
+              onRemoved={this.handleRemoved}
+              onRestoreData={this.handleRestoreData}
+              onUnApprove={this.handleUnApprove}
+              onManualApproved={this.handleManualApproved}
+            />
+          )}
+        </Spin>
+      </PageContainer>
+    )
+  }
+
+  _renderPageInfo() {
+    return <PageInfo />
   }
 }
