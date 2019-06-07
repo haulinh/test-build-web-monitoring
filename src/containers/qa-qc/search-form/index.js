@@ -20,7 +20,7 @@ import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
-import DataFilterBy from './data-filter-by'
+// import DataFilterBy from './data-filter-by'
 import { FSelectApprove } from './select-approve'
 
 const FSelectStationType = createValidateComponent(SelectStationType)
@@ -28,7 +28,7 @@ const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FDatePicker = createValidateComponent(DatePicker)
 const FSelectAnt = createValidateComponent(SelectAnt)
-const FDataFilterBy = createValidateComponent(DataFilterBy)
+// const FDataFilterBy = createValidateComponent(DataFilterBy)
 
 const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`

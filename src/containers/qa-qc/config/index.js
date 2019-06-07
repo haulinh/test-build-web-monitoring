@@ -1,5 +1,5 @@
 import React from "react";
-import { Checkbox, Form, Button, Tabs, Card, Skeleton } from "antd";
+import { Checkbox, Form, Button, Tabs, Card, Skeleton, Row, message } from "antd";
 import PageContainer from "layout/default-sidebar-layout/PageContainer";
 import Breadcrumb from "../breadcrumb";
 import { translate } from "hoc/create-lang";
@@ -8,6 +8,7 @@ import * as _ from "lodash";
 import { connect } from "react-redux";
 import TableConfig from "./table";
 import { getConfigQAQC, putConfigQAQC } from "api/CategoryApi";
+import Disconnection from "components/elements/disconnection";
 
 const { TabPane } = Tabs;
 
@@ -16,7 +17,10 @@ const i18n = {
   deviceError: translate("qaqcConfig.deviceError"),
   deviceCalibration: translate("qaqcConfig.deviceCalibration"),
 
-  btnSave: translate("addon.save")
+  btnSave: translate("addon.save"),
+  disconnectionMessage: translate("network.qaqc.lostConnection"),
+
+  updateSuccess: translate("addon.onSave.update.success"),
 };
 
 @connect(state => ({
@@ -30,17 +34,23 @@ export default class QAQC_Config extends React.Component {
     this.state = {
       isInitLoaded: false,
       activeTabkey: "tab1",
-      tabList: []
+      tabList: [],
+      isDisconnection: false,
+      isLoading: false
     };
     this.getData = this.getData.bind(this);
   }
 
   dataTable = [];
 
+  _renderDisconnection = message => (
+    <Row type="flex" justify="center" align="middle">
+      <Disconnection messages={i18n.disconnectionMessage} />
+    </Row>
+  );
+
   handleSubmit = () => {
-    console.log("aaa");
     this.props.form.validateFields(async (err, values) => {
-      console.log("aaa");
       if (!err) {
         console.log("Received values of form: ", values);
       }
@@ -50,7 +60,13 @@ export default class QAQC_Config extends React.Component {
         ...values,
         measureConfig
       });
+
+      if(response.success) message.success(i18n.updateSuccess)
+      else message.error(response.message)
+
       console.log("response", response);
+
+      this.setState({ isLoading: false });
     });
   };
 
@@ -70,51 +86,49 @@ export default class QAQC_Config extends React.Component {
   };
 
   async componentDidMount() {
-    let stationTypes = await getStationTypes({}, { isAuto: true });
-    if (stationTypes.success) {
-      let tabList = stationTypes.data.map(item => {
-        return {
-          key: item.key,
-          tab: item.name,
-          name: item.name
+    try {
+      let stationTypes = await getStationTypes({}, { isAuto: true });
+      if (stationTypes.success) {
+        let tabList = stationTypes.data.map(item => {
+          return {
+            key: item.key,
+            tab: item.name,
+            name: item.name
+          };
+        });
+        this.setState({
+          tabList,
+          activeTabkey: _.result(stationTypes.data, "[0].key", "")
+        });
+      } else {
+        this.setState({ isDisconnection: true });
+      }
+
+      let response = await getConfigQAQC();
+
+      let dataForm = {};
+      if (response.success) {
+        const { data } = response;
+        console.log("data,", data);
+
+        dataForm = {
+          beyondMeasuringRange: data.beyondMeasuringRange,
+          deviceError: data.deviceError,
+          deviceCalibration: data.deviceCalibration,
+          ...data.measureConfig
         };
+      } else {
+        this.setState({ isDisconnection: true });
+      }
+
+      this.setState({ isInitLoaded: true }, () => {
+        const { setFieldsValue } = this.props.form;
+        setFieldsValue(dataForm);
       });
-      this.setState({
-        tabList,
-        activeTabkey: _.result(stationTypes.data, "[0].key", "")
-      });
+    } catch (e) {
+      console.log("qaqc service error");
+      this.setState({ isDisconnection: true });
     }
-
-    let response = await getConfigQAQC();
-
-    let dataForm = {};
-    if (response.success) {
-      const { data } = response;
-      console.log("data,", data);
-      // const { setFieldsValue } = this.props.form;
-
-      // setTimeout(()=>{
-
-      // },5000)
-      // setFieldsValue({
-      //   beyondMeasuringRange: data.beyondMeasuringRange,
-      //   deviceError: data.deviceError,
-      //   deviceCalibration: data.deviceCalibration,
-      //   ...data.measureConfig
-      // })
-      dataForm = {
-        beyondMeasuringRange: data.beyondMeasuringRange,
-        deviceError: data.deviceError,
-        deviceCalibration: data.deviceCalibration,
-        ...data.measureConfig
-      };
-    }
-    // console.log('datqa',data)
-
-    this.setState({ isInitLoaded: true }, () => {
-      const { setFieldsValue } = this.props.form;
-      setFieldsValue(dataForm);
-    });
   }
 
   getMeasuring() {
@@ -157,68 +171,82 @@ export default class QAQC_Config extends React.Component {
           backgroundColor={"#fafbfb"}
         />
         <Breadcrumb items={["configNew"]} />
-        <Form style={{ padding: 24 }}>
-          {!this.state.isInitLoaded && (
-            <Skeleton
-              title={false}
-              paragraph={{ rows: 3, width: [200, 200, 200] }}
-            />
-          )}
+        {this.state.isDisconnection ? (
+          this._renderDisconnection()
+        ) : (
+          <Form style={{ padding: 24 }}>
+            {!this.state.isInitLoaded && (
+              <Skeleton
+                title={false}
+                paragraph={{ rows: 3, width: [200, 200, 200] }}
+              />
+            )}
 
-          {this.state.isInitLoaded && (
-            <div>
-              <Form.Item style={{ marginBottom: 8 }}>
-                {getFieldDecorator("beyondMeasuringRange", {
-                  valuePropName: "checked"
-                })(<Checkbox>{i18n.beyondMeasuringRange}</Checkbox>)}
-              </Form.Item>
-              <Form.Item style={{ marginBottom: 8 }}>
-                {getFieldDecorator("deviceError", {
-                  valuePropName: "checked"
-                })(<Checkbox>{i18n.deviceError}</Checkbox>)}
-              </Form.Item>
-              <Form.Item style={{ marginBottom: 8 }}>
-                {getFieldDecorator("deviceCalibration", {
-                  valuePropName: "checked"
-                })(<Checkbox>{i18n.deviceCalibration}</Checkbox>)}
-              </Form.Item>
-            </div>
-          )}
+            {this.state.isInitLoaded && (
+              <div>
+                <Form.Item style={{ marginBottom: 8 }}>
+                  {getFieldDecorator("beyondMeasuringRange", {
+                    valuePropName: "checked"
+                  })(<Checkbox>{i18n.beyondMeasuringRange}</Checkbox>)}
+                </Form.Item>
+                <Form.Item style={{ marginBottom: 8 }}>
+                  {getFieldDecorator("deviceError", {
+                    valuePropName: "checked"
+                  })(<Checkbox>{i18n.deviceError}</Checkbox>)}
+                </Form.Item>
+                <Form.Item style={{ marginBottom: 8 }}>
+                  {getFieldDecorator("deviceCalibration", {
+                    valuePropName: "checked"
+                  })(<Checkbox>{i18n.deviceCalibration}</Checkbox>)}
+                </Form.Item>
+              </div>
+            )}
 
-          <Card
-            loading={!this.state.isInitLoaded || !this.props.isInitLoaded}
-            style={{ width: "100%" }}
-          >
-            <Tabs defaultActiveKey={this.state.activeTabkey} onChange={e => {}}>
-              {this.state.tabList.map(tab => {
-                let measures = this.getMeasuringByType(tab.key);
+            <Card
+              loading={!this.state.isInitLoaded || !this.props.isInitLoaded}
+              style={{ width: "100%" }}
+            >
+              <Tabs
+                defaultActiveKey={this.state.activeTabkey}
+                onChange={e => {}}
+              >
+                {this.state.tabList.map(tab => {
+                  let measures = this.getMeasuringByType(tab.key);
 
-                let dataTableMeasures = measures.map(item => {
-                  return {
-                    key: item,
-                    zero: false,
-                    negative: false
-                  };
-                });
-                return (
-                  <TabPane forceRender={true} tab={tab.name} key={tab.key}>
-                    <TableConfig
-                      form={this.props.form}
-                      getRef={ref => this.dataTable.push(ref)}
-                      dataTableMeasures={dataTableMeasures}
-                      type={tab.key}
-                    />
-                  </TabPane>
-                );
-              })}
-            </Tabs>
-          </Card>
+                  let dataTableMeasures = measures.map(item => {
+                    return {
+                      key: item,
+                      zero: false,
+                      negative: false
+                    };
+                  });
+                  return (
+                    <TabPane forceRender={true} tab={tab.name} key={tab.key}>
+                      <TableConfig
+                        form={this.props.form}
+                        getRef={ref => this.dataTable.push(ref)}
+                        dataTableMeasures={dataTableMeasures}
+                        type={tab.key}
+                      />
+                    </TabPane>
+                  );
+                })}
+              </Tabs>
+            </Card>
 
-          <br />
-          <Button block type="primary" onClick={this.handleSubmit}>
-            {i18n.btnSave}
-          </Button>
-        </Form>
+            <br />
+            <Button
+              loading={this.state.isLoading}
+              block
+              type="primary"
+              onClick={() => {
+                this.setState({ isLoading: true }, this.handleSubmit);
+              }}
+            >
+              {i18n.btnSave}
+            </Button>
+          </Form>
+        )}
       </div>
     );
   }
