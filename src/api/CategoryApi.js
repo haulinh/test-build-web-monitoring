@@ -10,6 +10,10 @@ export function getStationTypeUrl(prefix = '') {
   return getConfigApi().stationType
 }
 
+export function getConfigSysUrl() {
+  return getConfigApi().qaqcConfig
+}
+
 export function getMeasurings(
   { page = 1, itemPerPage = 10 },
   { unit = null, name = null }
@@ -66,6 +70,14 @@ export function deleteStationType(key) {
   return deleteFetch(getStationTypeUrl(key))
 }
 
+export function getConfigQAQC() {
+  return getFetch(getConfigSysUrl())
+}
+
+export function putConfigQAQC(data) {
+  return putFetch(getConfigSysUrl(), data)
+}
+
 export default {
   getMeasurings,
   getMeasuring,
@@ -76,5 +88,7 @@ export default {
   getStationType,
   createStationType,
   updateStationType,
-  deleteStationType
+  deleteStationType,
+  getConfigQAQC,
+  putConfigQAQC
 }
