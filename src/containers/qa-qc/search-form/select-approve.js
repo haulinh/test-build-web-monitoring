@@ -7,8 +7,8 @@ import createValidateComponent from 'components/elements/redux-form-validate'
 
 const options = [
   { key: 'value', label: 'qaqc.originalData' },
-  { key: 'approvedValue', label: 'qaqc.approved' },
-  { key: 'notValid', label: 'qaqc.notValid' },
+  { key: 'validData', label: 'qaqc.validData' },
+  { key: 'inValidData', label: 'qaqc.inValidData' },
 ]
 
 @autobind

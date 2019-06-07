@@ -35,6 +35,24 @@ const Container = styled.div`
   padding: 16px 16px;
 `
 
+/* TODO  @translate */
+const i18n = {
+  __ngoaidaido: translate('qaqc.dataFilter.outOfRange'),
+  __deviceError: translate('qaqc.dataFilter.deviceError'),
+  __deviceCalibration: translate('qaqc.dataFilter.deviceCalibration'),
+  __zero: translate('qaqc.dataFilter.zero'),
+  __negative: translate('qaqc.dataFilter.negative'),
+}
+
+/* TODO  HANDLE MOCK DATA */
+const mockDataFilterBy = [
+  {name: i18n.__ngoaidaido, value: 'outOfRange'},
+  {name: i18n.__deviceError, value: 'deviceError'},
+  {name: i18n.__deviceCalibration, value: 'deviceCalibration'},
+  {name: i18n.__zero, value: 'zero'},
+  {name: i18n.__negative, value: 'negative'},
+]
+
 function validate(values) {
   const errors = {}
   if (!values.stationType)
@@ -81,13 +99,7 @@ export default class SearchForm extends React.Component {
             name: measuring.name
           }))
         : [],
-      dataFilters: [/* MARK  MOCK DATA */
-        {name: '--Ngoài dải đo', value: 'a'},
-        {name: '--Thiết bị lỗi', value: 'b'},
-        {name: '--Thiết bị hiệu chuẩn', value: 'c'},
-        {name: '--Giá trị 0', value: 'd'},
-        {name: '--Giá trị âm', value: 'e'},
-      ]
+      dataFilters: mockDataFilterBy
     }
   }
 
@@ -175,7 +187,7 @@ export default class SearchForm extends React.Component {
   }
 
   _handleChangeDataType = (e, newValue, prevValue, name) => {
-    if (newValue === 'notValid') {
+    if (newValue === 'inValidData') {
       this.setState({enabledDataFilters: true})
     }
     else {
@@ -208,7 +220,7 @@ export default class SearchForm extends React.Component {
         </Heading>
         <Container>
           <Row gutter={24}>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={translate('qaqc.province.label')}
                 name="province"
@@ -217,7 +229,7 @@ export default class SearchForm extends React.Component {
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('stationType.label')}
                 name="stationType"
@@ -226,7 +238,7 @@ export default class SearchForm extends React.Component {
                 component={FSelectStationType}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('stationAuto.label')}
                 name="stationAuto"
@@ -239,7 +251,10 @@ export default class SearchForm extends React.Component {
                 setKey
               />
             </Col>
-            <Col span={6}>
+          </Row>
+          <Clearfix height={16} />
+          <Row>
+            <Col span={24}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -253,7 +268,7 @@ export default class SearchForm extends React.Component {
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={translate('qaqc.date.from')}
                 name="fromDate"
@@ -262,7 +277,7 @@ export default class SearchForm extends React.Component {
                 dateFormat={DD_MM_YYYY_HH_MM}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={translate('qaqc.date.to')}
                 name="toDate"
@@ -271,7 +286,7 @@ export default class SearchForm extends React.Component {
                 dateFormat={DD_MM_YYYY_HH_MM}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={translate('qaqc.data')}
                 name="dataType"
@@ -280,7 +295,10 @@ export default class SearchForm extends React.Component {
                 onChange={this._handleChangeDataType}
               />
             </Col>
-            <Col span={6}>
+          </Row>
+          <Clearfix height={16} />
+          <Row>
+            <Col span={24}>
               {/* <Field
                 label={translate('qaqc.dataFilter.label')}
                 size="large"
