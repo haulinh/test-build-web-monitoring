@@ -18,7 +18,7 @@ export function getConfigApi() {
     dataStationFixed: c('data-station-fixed'),
     stationConfig: c('config/station'),
     qaqcConfig: c('config/qaqc'),
-    qaqcConfig: 'http://localhost:5002/config/qaqc',
+    // qaqcConfig: 'http://localhost:5002/config/qaqc',
     ftp: c('ftp'),
     fcmMessages: c('fcm-messages'),
     fcmNotification: c('fcm-notification'),
