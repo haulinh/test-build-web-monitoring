@@ -103,6 +103,7 @@
     "react-day-picker": "^7.1.4",
     "react-dev-utils": "^4.1.0",
     "react-dom": "^16.0.0",
+    "react-export-excel": "^0.5.3",
     "react-flag-kit": "^0.2.3",
     "react-ga": "^2.5.3",
     "react-google-maps": "^9.4.5",

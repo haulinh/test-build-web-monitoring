@@ -15,20 +15,19 @@ import createValidateComponent from 'components/elements/redux-form-validate'
 import moment from 'moment'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import SelectStationAuto from '../../search/common/select-station-auto'
+import SelectStationAuto from '../../../search/common/select-station-auto'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
-import DataFilterBy from './data-filter-by'
 import { FSelectApprove } from './select-approve'
+import {QAQC_TABLES} from 'constants/qaqc'
 
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FDatePicker = createValidateComponent(DatePicker)
 const FSelectAnt = createValidateComponent(SelectAnt)
-const FDataFilterBy = createValidateComponent(DataFilterBy)
 
 const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
@@ -109,14 +108,6 @@ export default class SearchForm extends React.Component {
         this.props.handleSubmit(this.handleSubmit)()
       }, 100)
     }
-
-    // if(this.props.initialValuesOther){
-    //   const {stationAuto, stationType, measuringList} = this.props.initialValuesOther
-    //   this.props.change('stationType', stationType)
-    //   this.props.change('stationAuto', stationAuto)
-    //   this.props.change('measuringList', measuringList)
-    //
-    // }
   }
 
   handleChangeStationType(stationTypeKey, e) {
@@ -137,10 +128,7 @@ export default class SearchForm extends React.Component {
       stationAuto.measuringList || [],
       'numericalOrder'
     )
-
-    // const measuringData = stationAuto.measuringList.sort(function(a, b) {
-    //   return a.numericalOrder - b.numericalOrder
-    // })
+    
     this.setState({
       measuringList: measuringData.map(measuring => ({
         value: measuring.key,
@@ -160,7 +148,6 @@ export default class SearchForm extends React.Component {
   }
 
   handleSubmit(values) {
-    console.log(values,"values")
     const params = {
       from: this.convertDateToString(values.fromDate),
       to: this.convertDateToString(values.toDate),
@@ -169,11 +156,8 @@ export default class SearchForm extends React.Component {
       measuringList: values.measuringList,
       measuringData: this.state.measuringData,
       province: _.get(values, 'province', ''),
-      dataType: _.get(values, 'dataType', 'value')
-    }
-
-    if (values.dataFilterBy) {
-      params.dataFilterBy = _.get(values, 'dataFilterBy', [])
+      dataType: _.get(values, 'dataType', QAQC_TABLES.original),
+      dataFilterBy: _.get(values, 'dataFilterBy', [])
     }
 
     this.props.onSubmit(params, {
@@ -187,13 +171,8 @@ export default class SearchForm extends React.Component {
   }
 
   _handleChangeDataType = (e, newValue, prevValue, name) => {
-    if (newValue === 'inValidData') {
-      this.setState({enabledDataFilters: true})
-    }
-    else {
-      this.setState({enabledDataFilters: false})
-      this.props.change('dataFilterBy', [])
-    }
+    this._setSelectedTableFromType(newValue)
+    this._setDataFiltersOptionsEnabledBy(newValue)
   }
 
   render() {
@@ -299,12 +278,6 @@ export default class SearchForm extends React.Component {
           <Clearfix height={16} />
           <Row>
             <Col span={24}>
-              {/* <Field
-                label={translate('qaqc.dataFilter.label')}
-                size="large"
-                name="dataFilterBy"
-                component={FDataFilterBy}
-              /> */}
               {
                 this.state.enabledDataFilters && 
                 <Field
@@ -315,6 +288,7 @@ export default class SearchForm extends React.Component {
                   mode="multiple"
                   type="hidden"
                   options={this.state.dataFilters}
+                  initialValues={mockDataFilterBy.map(item=>item.value)}
                   component={FSelectAnt}
                 />
               }
@@ -323,5 +297,32 @@ export default class SearchForm extends React.Component {
         </Container>
       </SearchFormContainer>
     )
+  }
+
+  _setSelectedTableFromType(type) {
+    switch(type) {
+      case 'original': {
+        this.props.changeDataType(QAQC_TABLES.original)
+        break;
+      }
+      case 'valid': {
+        this.props.changeDataType(QAQC_TABLES.valid)
+        break;
+      }
+      case 'invalid': {
+        this.props.changeDataType(QAQC_TABLES.invalid)
+        break;
+      }
+      default: break;
+    }
+  }
+  _setDataFiltersOptionsEnabledBy(value) {
+    if (value === 'invalid') {
+      this.setState({enabledDataFilters: true})
+    }
+    else {
+      this.setState({enabledDataFilters: false})
+      this.props.change('dataFilterBy', [])
+    }
   }
 }
