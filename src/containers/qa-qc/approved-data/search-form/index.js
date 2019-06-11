@@ -43,8 +43,8 @@ const i18n = {
   __negative: translate('qaqc.dataFilter.negative'),
 }
 
-/* TODO  HANDLE MOCK DATA */
-const mockDataFilterBy = [
+/* MARK  @mockup */
+let mockDataFilterBy = [
   {name: i18n.__ngoaidaido, value: 'outOfRange'},
   {name: i18n.__deviceError, value: 'deviceError'},
   {name: i18n.__deviceCalibration, value: 'deviceCalibration'},
@@ -288,7 +288,6 @@ export default class SearchForm extends React.Component {
                   mode="multiple"
                   type="hidden"
                   options={this.state.dataFilters}
-                  initialValues={mockDataFilterBy.map(item=>item.value)}
                   component={FSelectAnt}
                 />
               }
@@ -319,6 +318,7 @@ export default class SearchForm extends React.Component {
   _setDataFiltersOptionsEnabledBy(value) {
     if (value === 'invalid') {
       this.setState({enabledDataFilters: true})
+      this.props.change('dataFilterBy', mockDataFilterBy.map(item=>item.value))
     }
     else {
       this.setState({enabledDataFilters: false})
