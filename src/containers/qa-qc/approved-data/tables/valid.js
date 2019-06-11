@@ -28,7 +28,7 @@ export default class QAQCValidTable extends React.Component {
     let {dataSource, measuringList, measuringData} = this.props
     let columns = this._transformedColumns(measuringList, measuringData)
     let data = this._transformedData(dataSource);
-    return <Table dataSource={data} columns={columns}></Table>
+    return <Table dataSource={data} columns={columns} size="small"></Table>
   }
 
 
@@ -54,6 +54,7 @@ export default class QAQCValidTable extends React.Component {
         title: `${measuringInfo.key} (${measuringInfo.unit})`,
         dataIndex: measuringInfo.key,
         align: "center",
+        width: measuringInfo.key === 'pH' && 50,
         render(text) {
           return text;
         }

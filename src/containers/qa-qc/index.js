@@ -11,7 +11,8 @@ import TableList from './approved-data/tables/'
 import { Spin } from 'antd'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
-import { get, size, isEmpty, forEach, isNumber } from 'lodash'
+import _, { get, size, isEmpty, forEach, isNumber } from 'lodash'
+import moment from 'moment'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { getConfigApi } from 'config'
@@ -100,12 +101,15 @@ export default class QaQcContainer extends React.Component {
 
   async loadData(pagination, searchFormData) {
     this.setState({ isLoading: true })
+
+    /* MARK  @mockup MOCKUP API */
     let res = await fetch('https://my.api.mockaroo.com/dataSearch.json?key=b2a3b960')
     let data = await res.json()
     let dataStationAuto = {
-      data
+      data: _.orderBy(data, o => moment(o.receivedAt).valueOf(), 'desc')
     }
 
+    /* MARK  @mockup KHONG XOA, DO chưa có server nên xài mockup ở trên */
     // let dataStationAuto = await QAQCApi.fetchData(
     //   {
     //     page: pagination.current,

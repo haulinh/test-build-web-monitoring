@@ -29,7 +29,7 @@ export default class QAQCOriginalTable extends React.Component {
     let {dataSource, measuringList, measuringData} = this.props
     let columns = this._transformedColumns(measuringList, measuringData)
     let data = this._transformedData(dataSource);
-    return <Table dataSource={data} columns={columns}></Table>
+    return <Table dataSource={data} columns={columns} size="small"></Table>
   }
 
   _transformedColumns(measuringList, measuringData) {
@@ -43,7 +43,7 @@ export default class QAQCOriginalTable extends React.Component {
       {
         title: "Received At",
         dataIndex: "receivedAt",
-        align: "center"
+        align: "center",
       }
     ];
   
@@ -52,15 +52,18 @@ export default class QAQCOriginalTable extends React.Component {
         measuringData,
         itemInfo => itemInfo.key === measuringName
       );
-  
-      return {
+
+      let result =  {
         title: `${measuringInfo.key} (${measuringInfo.unit})`,
         dataIndex: measuringInfo.key,
         align: "center",
+        width: measuringInfo.key === 'pH' && 50,
         render(text) {
           return text;
         }
       };
+
+      return result
     });
   
     return [...defaultColumns, ...measuringColumns];
