@@ -83,7 +83,7 @@ export default class QAQCInvalidTable extends React.Component {
             <div 
               style={{
                 textAlign: 'center', 
-                backgroundColor: 'red'
+                backgroundColor: '#d86873'
               }}
             >
               {_.get(record,`measuringLogs[${name}].value`, '')}
