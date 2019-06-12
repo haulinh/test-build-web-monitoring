@@ -105,8 +105,9 @@ export default class QaQcContainer extends React.Component {
     /* MARK  @mockup MOCKUP API */
     let res = await fetch('https://my.api.mockaroo.com/dataSearch.json?key=b2a3b960')
     let data = await res.json()
+    let sortedData = _.orderBy(data, o => moment(o.receivedAt).valueOf(), 'desc')
     let dataStationAuto = {
-      data: _.orderBy(data, o => moment(o.receivedAt).valueOf(), 'desc')
+      data
     }
 
     /* MARK  @mockup KHONG XOA, DO chưa có server nên xài mockup ở trên */
