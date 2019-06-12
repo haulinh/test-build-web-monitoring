@@ -183,9 +183,9 @@ export default {
     allCancel: 'All Cancel',
     unApprove: 'UnApprove',
     yetApprove: 'Yet Approved',
-    originalData: 'Original Data',
-    approved: 'Approved',
-    notValid: 'Not Value @translate',
+    originalData: 'Original data',
+    validData: 'Valid data',
+    inValidData: 'Invalid data',
     ok: 'OK',
     province: {
       label: 'Select Site',

@@ -171,10 +171,11 @@ export default {
     manualApprove: 'Kiểm duyệt tùy chọn',
     dataFilter: {
       label: 'Lọc dữ liệu theo',
-      negative: 'Số âm',
-      outOfRange: 'Ngoài vùng đo',
-      isZero: ' Bằng 0',
-      deviceStatus: 'Trạng thái thiết bị'
+      outOfRange: 'Ngoài dải đo',
+      deviceError: 'Thiết bị lỗi',
+      deviceCalibration: "Thiết bị hiệu chuẩn",
+      zero: 'Giá trị 0',
+      negative: "Giá trị Âm"
     },
     data: 'Loại dữ liệu',
     approve: 'Kiểm duyệt',
@@ -185,8 +186,8 @@ export default {
     unApprove: 'Hủy kiểm duyệt',
     yetApprove: 'Chưa kiểm duyệt',
     originalData: 'Dữ liệu gốc',
-    approved: 'Sau kiểm duyệt',
-    notValid: 'Không hợp lệ',
+    validData: 'Dữ liệu hợp lệ',
+    inValidData: 'Dữ liệu không hợp lệ',
     ok: 'Đồng ý',
     province: {
       label: 'Đơn vị quản lý',

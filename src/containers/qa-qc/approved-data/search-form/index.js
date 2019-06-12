@@ -15,25 +15,42 @@ import createValidateComponent from 'components/elements/redux-form-validate'
 import moment from 'moment'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import SelectStationAuto from '../../search/common/select-station-auto'
+import SelectStationAuto from '../../../search/common/select-station-auto'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
-// import DataFilterBy from './data-filter-by'
 import { FSelectApprove } from './select-approve'
+import {QAQC_TABLES} from 'constants/qaqc'
 
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FDatePicker = createValidateComponent(DatePicker)
 const FSelectAnt = createValidateComponent(SelectAnt)
-// const FDataFilterBy = createValidateComponent(DataFilterBy)
 
 const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
   padding: 16px 16px;
 `
+
+/* TODO  @translate */
+const i18n = {
+  __ngoaidaido: translate('qaqc.dataFilter.outOfRange'),
+  __deviceError: translate('qaqc.dataFilter.deviceError'),
+  __deviceCalibration: translate('qaqc.dataFilter.deviceCalibration'),
+  __zero: translate('qaqc.dataFilter.zero'),
+  __negative: translate('qaqc.dataFilter.negative'),
+}
+
+/* MARK  @mockup */
+let mockDataFilterBy = [
+  {name: i18n.__ngoaidaido, value: 'outOfRange'},
+  {name: i18n.__deviceError, value: 'deviceError'},
+  {name: i18n.__deviceCalibration, value: 'deviceCalibration'},
+  {name: i18n.__zero, value: 'zero'},
+  {name: i18n.__negative, value: 'negative'},
+]
 
 function validate(values) {
   const errors = {}
@@ -81,13 +98,7 @@ export default class SearchForm extends React.Component {
             name: measuring.name
           }))
         : [],
-      dataFilters: [/* MARK  MOCK DATA */
-        {name: '--Ngoài dải đo', value: 'a'},
-        {name: '--Thiết bị lỗi', value: 'b'},
-        {name: '--Thiết bị hiệu chuẩn', value: 'c'},
-        {name: '--Giá trị 0', value: 'd'},
-        {name: '--Giá trị âm', value: 'e'},
-      ]
+      dataFilters: mockDataFilterBy
     }
   }
 
@@ -97,14 +108,6 @@ export default class SearchForm extends React.Component {
         this.props.handleSubmit(this.handleSubmit)()
       }, 100)
     }
-
-    // if(this.props.initialValuesOther){
-    //   const {stationAuto, stationType, measuringList} = this.props.initialValuesOther
-    //   this.props.change('stationType', stationType)
-    //   this.props.change('stationAuto', stationAuto)
-    //   this.props.change('measuringList', measuringList)
-    //
-    // }
   }
 
   handleChangeStationType(stationTypeKey, e) {
@@ -125,10 +128,7 @@ export default class SearchForm extends React.Component {
       stationAuto.measuringList || [],
       'numericalOrder'
     )
-
-    // const measuringData = stationAuto.measuringList.sort(function(a, b) {
-    //   return a.numericalOrder - b.numericalOrder
-    // })
+    
     this.setState({
       measuringList: measuringData.map(measuring => ({
         value: measuring.key,
@@ -148,7 +148,6 @@ export default class SearchForm extends React.Component {
   }
 
   handleSubmit(values) {
-    console.log(values,"values")
     const params = {
       from: this.convertDateToString(values.fromDate),
       to: this.convertDateToString(values.toDate),
@@ -157,11 +156,8 @@ export default class SearchForm extends React.Component {
       measuringList: values.measuringList,
       measuringData: this.state.measuringData,
       province: _.get(values, 'province', ''),
-      dataType: _.get(values, 'dataType', 'value')
-    }
-
-    if (values.dataFilterBy) {
-      params.dataFilterBy = _.get(values, 'dataFilterBy', [])
+      dataType: _.get(values, 'dataType', QAQC_TABLES.original),
+      dataFilterBy: _.get(values, 'dataFilterBy', [])
     }
 
     this.props.onSubmit(params, {
@@ -175,13 +171,8 @@ export default class SearchForm extends React.Component {
   }
 
   _handleChangeDataType = (e, newValue, prevValue, name) => {
-    if (newValue === 'notValid') {
-      this.setState({enabledDataFilters: true})
-    }
-    else {
-      this.setState({enabledDataFilters: false})
-      this.props.change('dataFilterBy', [])
-    }
+    this._setSelectedTableFromType(newValue)
+    this._setDataFiltersOptionsEnabledBy(newValue)
   }
 
   render() {
@@ -208,7 +199,7 @@ export default class SearchForm extends React.Component {
         </Heading>
         <Container>
           <Row gutter={24}>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={translate('qaqc.province.label')}
                 name="province"
@@ -217,7 +208,7 @@ export default class SearchForm extends React.Component {
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('stationType.label')}
                 name="stationType"
@@ -226,7 +217,7 @@ export default class SearchForm extends React.Component {
                 component={FSelectStationType}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('stationAuto.label')}
                 name="stationAuto"
@@ -239,7 +230,10 @@ export default class SearchForm extends React.Component {
                 setKey
               />
             </Col>
-            <Col span={6}>
+          </Row>
+          <Clearfix height={16} />
+          <Row>
+            <Col span={24}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -253,7 +247,7 @@ export default class SearchForm extends React.Component {
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={translate('qaqc.date.from')}
                 name="fromDate"
@@ -262,7 +256,7 @@ export default class SearchForm extends React.Component {
                 dateFormat={DD_MM_YYYY_HH_MM}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={translate('qaqc.date.to')}
                 name="toDate"
@@ -271,7 +265,7 @@ export default class SearchForm extends React.Component {
                 dateFormat={DD_MM_YYYY_HH_MM}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={translate('qaqc.data')}
                 name="dataType"
@@ -280,13 +274,10 @@ export default class SearchForm extends React.Component {
                 onChange={this._handleChangeDataType}
               />
             </Col>
-            <Col span={6}>
-              {/* <Field
-                label={translate('qaqc.dataFilter.label')}
-                size="large"
-                name="dataFilterBy"
-                component={FDataFilterBy}
-              /> */}
+          </Row>
+          <Clearfix height={16} />
+          <Row>
+            <Col span={24}>
               {
                 this.state.enabledDataFilters && 
                 <Field
@@ -305,5 +296,33 @@ export default class SearchForm extends React.Component {
         </Container>
       </SearchFormContainer>
     )
+  }
+
+  _setSelectedTableFromType(type) {
+    switch(type) {
+      case 'original': {
+        this.props.changeDataType(QAQC_TABLES.original)
+        break;
+      }
+      case 'valid': {
+        this.props.changeDataType(QAQC_TABLES.valid)
+        break;
+      }
+      case 'invalid': {
+        this.props.changeDataType(QAQC_TABLES.invalid)
+        break;
+      }
+      default: break;
+    }
+  }
+  _setDataFiltersOptionsEnabledBy(value) {
+    if (value === 'invalid') {
+      this.setState({enabledDataFilters: true})
+      this.props.change('dataFilterBy', mockDataFilterBy.map(item=>item.value))
+    }
+    else {
+      this.setState({enabledDataFilters: false})
+      this.props.change('dataFilterBy', [])
+    }
   }
 }

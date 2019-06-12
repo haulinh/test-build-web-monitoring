@@ -6,9 +6,9 @@ import { translate } from 'hoc/create-lang'
 import createValidateComponent from 'components/elements/redux-form-validate'
 
 const options = [
-  { key: 'value', label: 'qaqc.originalData' },
-  { key: 'approvedValue', label: 'qaqc.approved' },
-  { key: 'notValid', label: 'qaqc.notValid' },
+  { key: 'original', label: 'qaqc.originalData' },
+  { key: 'valid', label: 'qaqc.validData' },
+  { key: 'invalid', label: 'qaqc.inValidData' },
 ]
 
 @autobind
@@ -19,7 +19,7 @@ class SelectApprove extends PureComponent {
   }
 
   state = {
-    value: 'value'
+    value: 'original'
   }
 
   onChange = value => {

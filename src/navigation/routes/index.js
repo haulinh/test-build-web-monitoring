@@ -33,7 +33,7 @@ import SupportRoute from "containers/support";
 import AqiContainer from "containers/aqi";
 import WqiContainer from "containers/wqi";
 import QaQcContainer from "containers/qa-qc";
-import PublishConfigContainer from "containers/qa-qc/config-publish";
+import PublishConfigContainer from "containers/qa-qc/approved-data/config-publish";
 import QaQcConfig from "containers/qa-qc/config";
 import FtpTransferRoute from "containers/manager/config-ftp-transfer";
 import ConfigWQIRoute from "containers/manager/config-wqi";
@@ -60,83 +60,38 @@ export default class RouteDefault extends React.Component {
           <Layout>
             <LayoutRoute path="/" exact component={OverviewDashboard} />
             <LayoutRoute path={slug.map.base} exact component={Map} />
-            <LayoutRoute
-              path={slug.measuring.base}
-              component={MeasuringRoute}
-            />
+            <LayoutRoute path={slug.measuring.base} component={MeasuringRoute} />
             <LayoutRoute path={slug.aqi.base} component={AqiContainer} />
             <LayoutRoute path={slug.wqi.base} component={WqiContainer} />
-            <LayoutRoute
-              path={slug.stationAuto.base}
-              component={StationAutoRoute}
-            />
-            <LayoutRoute
-              path={slug.stationFixed.base}
-              component={StationFixedRoute}
-            />
-            <LayoutRoute
-              path={slug.configWQI.base}
-              component={ConfigWQIRoute}
-            />
-            <LayoutRoute
-              path={slug.stationType.base}
-              component={StationTypeRoute}
-            />
+            <LayoutRoute path={slug.stationAuto.base} component={StationAutoRoute} />
+            <LayoutRoute path={slug.stationFixed.base} component={StationFixedRoute} />
+            <LayoutRoute path={slug.configWQI.base} component={ConfigWQIRoute} />
+            <LayoutRoute path={slug.stationType.base} component={StationTypeRoute} />
             <LayoutRoute path={slug.province.base} component={ProvinceRoute} />
             <LayoutRoute path={slug.qcvn.base} component={QCVNRoute} />
-            <LayoutRoute
-              path={slug.ftpTransfer.base}
-              component={FtpTransferRoute}
-            />
-            <LayoutRoute
-              path={slug.onlineMonitoring.base}
-              component={OnlineMonitoring}
-            />
+            <LayoutRoute path={slug.ftpTransfer.base} component={FtpTransferRoute} />
+            <LayoutRoute path={slug.onlineMonitoring.base} component={OnlineMonitoring} />
             <LayoutRoute path={slug.monitoring.base} component={Monitoring} />
             <LayoutRoute path={slug.dataSearch.base} component={DataSearch} />
             <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />
-            <LayoutRoute
-              path={slug.dataSearchFixed.base}
-              component={DataSearchFixed}
-            />
-            <LayoutRoute
-              path={slug.mapFixed.base}
-              component={MapFixedContainer}
-            />
+            <LayoutRoute path={slug.dataSearchFixed.base} component={DataSearchFixed} />
+            <LayoutRoute path={slug.mapFixed.base} component={MapFixedContainer} />
             <LayoutRoute path={slug.statistic.aqi} component={AqiStatistic} />
             <LayoutRoute path={slug.statistic.wqi} component={WqiStatistic} />
-            <LayoutRoute
-              path={slug.statistic.exceeded}
-              component={ExceededContainer}
-            />
-            <LayoutRoute
-              path={slug.statistic.perRecData}
-              component={PercentReceivedData}
-            />
+            <LayoutRoute path={slug.statistic.exceeded} component={ExceededContainer} />
+            <LayoutRoute path={slug.statistic.perRecData} component={PercentReceivedData} />
 
             <LayoutRoute path={slug.qaqc.base} component={QaQcContainer} />
-            <LayoutRoute
-              path={slug.qaqc.config}
-              component={PublishConfigContainer}
-            />
+            <LayoutRoute path={slug.qaqc.config} component={PublishConfigContainer} />
             <LayoutRoute path={slug.qaqc.configNew} component={QaQcConfig} />
 
             <LayoutRoute path={slug.user.base} component={UserRoute} />
             <LayoutRoute path={slug.role.base} component={RoleRoute} />
-            <LayoutRoute
-              path={slug.subscription.base}
-              component={SubscriptionRoute}
-            />
+            <LayoutRoute path={slug.subscription.base} component={SubscriptionRoute} />
 
-            <LayoutRoute
-              path={slug.controlStation.base}
-              component={ControlStation}
-            />
+            <LayoutRoute path={slug.controlStation.base} component={ControlStation} />
             <LayoutRoute path={slug.camera.base} component={Camera} />
-            <LayoutRoute
-              path={slug.cameraControl.base}
-              component={CameraControl}
-            />
+            <LayoutRoute path={slug.cameraControl.base} component={CameraControl} />
             <LayoutRoute path={slug.support.base} component={SupportRoute} />
             <LayoutRoute path={slug.report.base} component={Report} />
           </Layout>
