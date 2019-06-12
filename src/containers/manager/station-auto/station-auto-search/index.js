@@ -1,37 +1,35 @@
 import React from 'react'
-import { Form as FormStyle, Input, Button, Icon } from 'antd'
-import styled from 'styled-components'
+import {Link} from 'react-router-dom'
+import { Row, Col, Form, Input, Button, Icon } from 'antd'
+
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
+import slug from 'constants/slug'
 import SelectStationType from 'components/elements/select-station-type'
-import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import { translate } from 'hoc/create-lang'
+import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
+import ROLE from 'constants/role'
 
-const FormItem = FormStyle.Item
+const FormItem = Form.Item
 
-const Form = styled(FormStyle)`
-  display: flex;
-  .ant-form-item-control {
-    line-height: 0px;
-  }
-  .ant-form-item {
-    margin-bottom: 0px;
-  }
-  .flex-grow {
-    flex-grow: 1;
-  }
-`
+const i18n = {
+  addButton: translate('stationAutoManager.create.label'),
+  stationType: translate('stationAutoManager.form.stationType.placeholder'),
+  stationName: translate('stationAutoManager.form.name.placeholder'),
+}
 
-const Clearfix = styled.div`
-  width: 8px;
-`
+const BtnAdd = (props) => (
+  <Link to={slug.stationAuto.create}>
+    <Button type="primary">
+      <Icon type="plus" />
+      {i18n.addButton}
+    </Button>
+  </Link>
+)
 
-const SelectWrapper = styled.div`
-  width: 140px;
-  margin-right: 5px;
-`
-
-@FormStyle.create({
+@Form.create({
   mapPropsToFields: mapPropsToFields
 })
 @createLanguageHoc
@@ -71,36 +69,47 @@ export default class StationAutoSearchForm extends React.PureComponent {
     const { getFieldDecorator } = this.props.form
     const { t } = this.props.lang
     return (
-      <Form className="fadeIn animated" onSubmit={this.changeSearch}>
-        <FormItem>
-          {getFieldDecorator(`name`)(
-            <Input placeholder={t('stationAutoManager.form.name.label')} />
-          )}
-        </FormItem>
-        <Clearfix />
-        <FormItem>
-          {getFieldDecorator(`address`)(
-            <Input
-              placeholder={t('stationAutoManager.form.address.placeholder')}
-            />
-          )}
-        </FormItem>
-        <Clearfix />
-        <SelectWrapper>
-          {getFieldDecorator(`stationType`)(
-            <SelectStationType
-              classNane="select-form-auto"
-              getFieldDecorator={getFieldDecorator}
-              isShowAll
-              // onChangeStationType={this.changeStationType}
-              placeholder={t('stationAutoManager.form.stationType.placeholder')}
-            />
-          )}
-        </SelectWrapper>
-        <Button shape="circle" htmlType="submit">
-          <Icon type="search" />
-        </Button>
-      </Form>
+      <Row type="flex" align="middle">
+        <Col span={24}>
+          <Form className="fadeIn animated" onSubmit={this.changeSearch} style={{width: '100%'}}>
+            <Row gutter={16}>
+              {/* CHỌN LOẠI TRẠM */}
+              <Col span={10}>
+                {getFieldDecorator(`stationType`)(
+                  <SelectStationType
+                    classNane="select-form-auto"
+                    getFieldDecorator={getFieldDecorator}
+                    isShowAll
+                    // onChangeStationType={this.changeStationType}
+                    placeholder={i18n.stationType}
+                  />
+                )}
+              </Col>
+
+              {/* NHẬP TÊN TRẠM */}
+              <Col span={10}>
+                {getFieldDecorator(`name`)(
+                  <Input placeholder={i18n.stationName} />
+                )}
+              </Col>
+
+              {/* BUTTON SEARCH */}
+              <Col span={2} style={{textAlign: "center"}}>
+                <Button shape="circle" htmlType="submit">
+                  <Icon type="search" />
+                </Button>
+              </Col>
+
+              {/* BUTTON */}
+              {protectRole(ROLE.STATION_AUTO.CREATE)(
+                <Col span={2} style={{textAlign: 'right'}}>
+                  <BtnAdd />
+                </Col>
+              )}
+            </Row>
+          </Form>
+        </Col>
+      </Row>
     )
   }
 }

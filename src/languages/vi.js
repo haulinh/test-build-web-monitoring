@@ -721,8 +721,8 @@ export default {
       },
       stationType: {
         label: 'Loại trạm',
-        placeholder: 'Nhập loại trạm',
-        error: 'Vui lòng nhập loại trạm'
+        placeholder: 'Chọn loại trạm',
+        error: 'Vui lòng chọn loại trạm'
       },
       address: {
         label: 'Địa chỉ',

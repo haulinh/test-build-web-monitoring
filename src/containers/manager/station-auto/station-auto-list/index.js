@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Button, Icon, Form, Menu, Dropdown } from 'antd'
+import { Row, Col, Button, Icon, Form, Menu, Dropdown } from 'antd'
 import StationAutoApi from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
@@ -21,6 +21,7 @@ import { DD_MM_YYYY } from 'constants/format-date'
 import * as _ from 'lodash'
 
 import DynamicTable from 'components/elements/dynamic-table'
+
 const LinkSpan = styled.span`
   color: #000;
   &:hover {
@@ -64,22 +65,6 @@ export default class StationAutoList extends React.Component {
     lang: langPropTypes
   }
 
-  buttonAdd() {
-    const { t } = this.props.lang
-    return (
-      <div>
-        {protectRole(ROLE.STATION_AUTO.CREATE)(
-          <Link to={slug.stationAuto.create}>
-            <Button type="primary">
-              <Icon type="plus" />
-              {t('stationAutoManager.create.label')}
-            </Button>
-          </Link>
-        )}
-      </div>
-    )
-  }
-
   async onDeleteItem(_id, callback) {
     const {
       lang: { t }
@@ -118,15 +103,6 @@ export default class StationAutoList extends React.Component {
       },
       onCancel() {}
     })
-  }
-
-  renderSearch() {
-    return (
-      <StationAutoSearchForm
-        onChangeSearch={this.props.onChangeSearch}
-        initialValues={this.props.data}
-      />
-    )
   }
 
   getHead() {
@@ -329,8 +305,18 @@ export default class StationAutoList extends React.Component {
 
   render() {
     return (
-      <PageContainer center={this.renderSearch()} right={this.buttonAdd()}>
+      <PageContainer>
         <Breadcrumb items={['list']} />
+
+        {/* FORM CONTROL */}
+        <Row style={{marginBottom: 20}}>
+          <StationAutoSearchForm
+            onChangeSearch={this.props.onChangeSearch}
+            initialValues={this.props.data}
+          />
+        </Row>
+
+        {/* TABLE */}
         <DynamicTable
           isFixedSize
           isLoading={this.props.isLoading}
