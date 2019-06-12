@@ -107,7 +107,7 @@ export default class QaQcContainer extends React.Component {
     let data = await res.json()
     let sortedData = _.orderBy(data, o => moment(o.receivedAt).valueOf(), 'desc')
     let dataStationAuto = {
-      data
+      data: sortedData
     }
 
     /* MARK  @mockup KHONG XOA, DO chưa có server nên xài mockup ở trên */
