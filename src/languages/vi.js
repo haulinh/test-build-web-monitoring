@@ -1561,6 +1561,9 @@ export default {
     },
     camera: {
       lostConnection: "Không kết nối được với Camera, vui lòng kiểm tra lại!"
+    },
+    qaqc: {
+      lostConnection: "Không kết nối được với dịch vụ QAQC, vui lòng liên hệ quản trị viên!"
     }
   }
 }

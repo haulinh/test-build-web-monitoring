@@ -1563,6 +1563,9 @@ export default {
     },
     camera: {
       lostConnection: "Can't connect with Camera, Please check the connection!"
+    },
+    qaqc: {
+      lostConnection: "Unable to connect to the QAQC service, please contact the administrator!"
     }
   }
 }
