@@ -262,7 +262,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb
           items={[
-            'list',
+            'config',
             {
               id: 'ftpInfo',
               name:

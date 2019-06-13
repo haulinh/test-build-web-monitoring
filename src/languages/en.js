@@ -686,7 +686,14 @@ export default {
       restore: 'Restore',
       remove: 'Remove',
       action: 'Action',
-      createdAt: 'Created At'
+      createdAt: 'Created At',
+      config: {
+        title: 'Cấu hình kết nối', /* MARK  @translate */
+      },
+      actions: {
+        ftpFolder: 'FTP Folder',
+        fileMapping: 'File Mapping',
+      }
     },
     create: {
       label: 'Create',
@@ -1437,6 +1444,7 @@ export default {
     configSub: 'Settings',
     config: {
       stationAuto: 'Station',
+      stationAutoConnection: 'Cấu hình kết nối', /*  MARK  @translate */
       parameter: 'Parameter',
       stationType: 'Type of Station',
       site: 'Site',

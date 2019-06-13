@@ -191,7 +191,7 @@ export default class StationAutoEdit extends React.PureComponent {
         <Spin spinning={!this.props.isLoaded} delay={500}>
           <Breadcrumb
             items={[
-              'list',
+              'config',
               {
                 id: 'edit',
                 name:
@@ -201,84 +201,22 @@ export default class StationAutoEdit extends React.PureComponent {
               }
             ]}
           />
-          <Tabs
-            defaultActiveKey={this.state.tabActive}
-            type="line"
-            onTabClick={this.clickTabs}
-            onChange={this.changeTab}
-          >
-            <TabPane
-              tab={
-                <span>
-                  <Icon type="bars" />
-                  {t('stationAutoManager.header.option')}
-                </span>
+          {this.props.isLoaded && (
+            <StationAutoConfigForm
+              form={this.props.form}
+              ref={comp => (this.configForm = comp)}
+              initialValues={
+                this.props.data && this.props.data.configLogger
+                  ? this.props.data.configLogger
+                  : { measuringList: [] }
               }
-              key="OPTION"
-            >
-              {this.props.isLoaded && (
-                <StationAutoConfigOptions
-                  form={this.props.form}
-                  ref={comp => (this.optionsForm = comp)}
-                  initialValues={
-                    this.props.data && this.props.data.options
-                      ? this.props.data.options
-                      : {}
-                  }
-                />
-              )}
-            </TabPane>
-            <TabPane
-              tab={
-                <span>
-                  <Icon type="database" />
-                  {t('stationAutoManager.header.dataLogger')}
-                </span>
+              measuringListSource={
+                this.props.data && this.props.data.measuringList
+                  ? this.props.data.measuringList
+                  : []
               }
-              key="MEASURE"
-            >
-              {this.props.isLoaded && (
-                <StationAutoConfigForm
-                  form={this.props.form}
-                  ref={comp => (this.configForm = comp)}
-                  initialValues={
-                    this.props.data && this.props.data.configLogger
-                      ? this.props.data.configLogger
-                      : { measuringList: [] }
-                  }
-                  measuringListSource={
-                    this.props.data && this.props.data.measuringList
-                      ? this.props.data.measuringList
-                      : []
-                  }
-                />
-              )}
-            </TabPane>
-            <TabPane
-              tab={
-                <span>
-                  <Icon type="scan" />
-                  {t('stationAutoManager.header.approve')}
-                </span>
-              }
-              key="APPROVE"
-            >
-              <SationAutoConfigApprove
-                ref={comp => (this.refApprove = comp)}
-                options={
-                  this.props.data && this.props.data.options
-                    ? this.props.data.options
-                    : {}
-                }
-                measuringListSource={
-                  this.props.data && this.props.data.measuringList
-                    ? this.props.data.measuringList
-                    : []
-                }
-                onApproveSave={this.handlApproveSave}
-              />
-            </TabPane>
-          </Tabs>
+            />
+          )}
           {this.renderSubmitButton()}
         </Spin>
       </PageContainer>
