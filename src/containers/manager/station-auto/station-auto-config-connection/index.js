@@ -241,6 +241,7 @@ export default class StationAutoConfigConnection extends React.Component {
         </Dropdown>
       )
     } else {
+      console.log('---row---: ', row)
       defaultComp =  (
         <Row>
           {protectRole(ROLE.STATION_AUTO.EDIT)(

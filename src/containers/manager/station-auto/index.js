@@ -31,10 +31,10 @@ export default props => (
       path={slug.stationAuto.configConnection.file} 
       component={StationAutoConfig}
     />
-    {/* <Route path={slug.stationAuto.edit} component={StationAutoEdit} /> */}
-    {/* <Route path={slug.stationAuto.ftpFile} component={StationAutoFtpFile} /> */}
-    {/* <Route path={slug.stationAuto.range} component={StationAutoRange} /> */}
-    {/* <Route path={slug.stationAuto.create} component={StationAutoCreate} /> */}
+    <Route path={slug.stationAuto.edit} component={StationAutoEdit} />
+    <Route path={slug.stationAuto.ftpFile} component={StationAutoFtpFile} />
+    <Route path={slug.stationAuto.range} component={StationAutoRange} />
+    <Route path={slug.stationAuto.create} component={StationAutoCreate} />
   </Switch>
 )
 
