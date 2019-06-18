@@ -9,9 +9,6 @@ import moment from 'moment'
 import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
-import {QAQC_TABLES} from 'constants/qaqc'
-
-
 @connect((state, ownProps) => ({
   /* states */
 }), {

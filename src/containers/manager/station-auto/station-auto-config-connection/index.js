@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Row, Col, Icon, Form, Menu, Dropdown } from 'antd'
+import { Row, Icon, Form, Menu, Dropdown } from 'antd'
 import StationAutoApi from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
@@ -10,14 +10,12 @@ import createManagerList from 'hoc/manager-list'
 import createManagerDelete from 'hoc/manager-delete'
 import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
-import StationAutoSearchForm from '../station-auto-search'
+import StationAutoSearchForm from '../station-auto-search.1'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import styled from 'styled-components'
 import { Modal, message } from 'antd'
-import moment from 'moment'
-import { DD_MM_YYYY } from 'constants/format-date'
 import _ from 'lodash'
 
 import DynamicTable from 'components/elements/dynamic-table'
@@ -51,7 +49,7 @@ const IconButton = styled(Icon)`
 })
 @createLanguageHoc
 @autobind
-export default class StationAutoList extends React.Component {
+export default class StationAutoConfigConnection extends React.Component {
   static propTypes = {
     dataSource: PropTypes.array,
     isLoading: PropTypes.bool,
@@ -112,9 +110,7 @@ export default class StationAutoList extends React.Component {
       { content: t('stationAutoManager.form.key.label'), width: 15 },
       { content: t('stationAutoManager.form.name.label'), width: 15 },
       { content: t('stationAutoManager.form.address.label'), width: 20 },
-      { content: t('stationAutoManager.form.province.label'), width: 15 },
-      { content: t('stationAutoManager.form.dayOfOperation.label'), width: 10 },
-      { content: t('stationAutoManager.list.action'), width: 10 }
+      { content: t('stationAutoManager.list.action'), width: 15 }
     ]
   }
 
@@ -164,20 +160,6 @@ export default class StationAutoList extends React.Component {
               <Span deleted={row.removeStatus && row.removeStatus.allowed}>
                 {row.address}
               </Span>
-            )
-          },
-          {
-            content: (
-              <div>
-                <Span deleted={row.removeStatus && row.removeStatus.allowed}>
-                  {_.get(row, 'province.name', '   ')}
-                </Span>
-              </div>
-            )
-          },
-          {
-            content: row.activatedAt && (
-              <span>{moment(row.activatedAt).format(DD_MM_YYYY)}</span>
             )
           },
           {
@@ -257,18 +239,19 @@ export default class StationAutoList extends React.Component {
         </Dropdown>
       )
     } else {
+      console.log('---row---: ', row)
       defaultComp =  (
         <Row>
           {protectRole(ROLE.STATION_AUTO.EDIT)(
-            <Link to={slug.stationAuto.editWithKey + '/' + row._id}>
-              {t('stationAutoManager.edit.label')}{' '}
+            <Link to={slug.stationAuto.configConnection.ftp + '/' + row._id}>
+              {t('stationAutoManager.list.actions.ftpFolder')}
             </Link>
           )}
-          &nbsp;| &nbsp;
-          {protectRole(ROLE.STATION_AUTO.DELETE)(
-            <a onClick={() => this.onDeleteItem(row._id, this.props.fetchData)} style={{color: 'red'}} >
-              {t('stationAutoManager.delete.label')}
-            </a>
+          &nbsp;|&nbsp;
+          {protectRole(ROLE.STATION_AUTO.EDIT)(
+            <Link to={slug.stationAuto.configConnection.file + '/' + row._id}>
+              {t('stationAutoManager.list.actions.fileMapping')}
+            </Link>
           )}
         </Row>
       )
@@ -280,16 +263,14 @@ export default class StationAutoList extends React.Component {
   render() {
     return (
       <PageContainer>
-        <Breadcrumb items={['list']} />
+        <Breadcrumb items={['config']} />
 
         {/* FORM CONTROL */}
-        <Row style={{marginBottom: 20}} type="flex">
-          <Col span={24}>
-            <StationAutoSearchForm
-              onChangeSearch={this.props.onChangeSearch}
-              initialValues={this.props.data}
-            />
-          </Col>
+        <Row style={{marginBottom: 20}}>
+          <StationAutoSearchForm
+            onChangeSearch={this.props.onChangeSearch}
+            initialValues={this.props.data}
+          />
         </Row>
 
         {/* TABLE */}

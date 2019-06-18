@@ -34,6 +34,15 @@ export default {
         </Menu.Item>
       )}
 
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.stationAuto.configConnection.base}
+          onClick={() => props.selectMenu(slug.stationAuto.configConnection.base)}
+        >
+          <Link to={slug.stationAuto.configConnection.base}>{MENU_NAME.config.stationAutoConnection}</Link>
+        </Menu.Item>
+      )}
+
       {protectRole(ROLE.MEASURING.VIEW)(
         <Menu.Item
           key={slug.measuring.base}

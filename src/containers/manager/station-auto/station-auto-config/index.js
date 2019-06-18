@@ -1,12 +1,10 @@
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { message, Button, Form, Spin, Tabs, Icon } from 'antd'
+import { message, Button, Form, Spin } from 'antd'
 import { autobind } from 'core-decorators'
 import StationAutoApi from 'api/StationAuto'
 import * as _ from 'lodash'
 import StationAutoConfigForm from './station-auto-configForm'
-import StationAutoConfigOptions from './station-auto-configOptions'
-import SationAutoConfigApprove from './station-auto-configApprove'
 import createManagerDelete from 'hoc/manager-delete'
 import createManagerEdit from 'hoc/manager-edit'
 import PropTypes from 'prop-types'
@@ -16,8 +14,6 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 
 const FormItem = Form.Item
-
-const TabPane = Tabs.TabPane
 
 @protectRole(ROLE.STATION_AUTO.CONFIG)
 @createManagerDelete({
@@ -185,13 +181,12 @@ export default class StationAutoEdit extends React.PureComponent {
   }
 
   render() {
-    const { t } = this.props.lang
     return (
       <PageContainer {...this.props.wrapperProps}>
         <Spin spinning={!this.props.isLoaded} delay={500}>
           <Breadcrumb
             items={[
-              'list',
+              'config',
               {
                 id: 'edit',
                 name:
@@ -201,84 +196,22 @@ export default class StationAutoEdit extends React.PureComponent {
               }
             ]}
           />
-          <Tabs
-            defaultActiveKey={this.state.tabActive}
-            type="line"
-            onTabClick={this.clickTabs}
-            onChange={this.changeTab}
-          >
-            <TabPane
-              tab={
-                <span>
-                  <Icon type="bars" />
-                  {t('stationAutoManager.header.option')}
-                </span>
+          {this.props.isLoaded && (
+            <StationAutoConfigForm
+              form={this.props.form}
+              ref={comp => (this.configForm = comp)}
+              initialValues={
+                this.props.data && this.props.data.configLogger
+                  ? this.props.data.configLogger
+                  : { measuringList: [] }
               }
-              key="OPTION"
-            >
-              {this.props.isLoaded && (
-                <StationAutoConfigOptions
-                  form={this.props.form}
-                  ref={comp => (this.optionsForm = comp)}
-                  initialValues={
-                    this.props.data && this.props.data.options
-                      ? this.props.data.options
-                      : {}
-                  }
-                />
-              )}
-            </TabPane>
-            <TabPane
-              tab={
-                <span>
-                  <Icon type="database" />
-                  {t('stationAutoManager.header.dataLogger')}
-                </span>
+              measuringListSource={
+                this.props.data && this.props.data.measuringList
+                  ? this.props.data.measuringList
+                  : []
               }
-              key="MEASURE"
-            >
-              {this.props.isLoaded && (
-                <StationAutoConfigForm
-                  form={this.props.form}
-                  ref={comp => (this.configForm = comp)}
-                  initialValues={
-                    this.props.data && this.props.data.configLogger
-                      ? this.props.data.configLogger
-                      : { measuringList: [] }
-                  }
-                  measuringListSource={
-                    this.props.data && this.props.data.measuringList
-                      ? this.props.data.measuringList
-                      : []
-                  }
-                />
-              )}
-            </TabPane>
-            <TabPane
-              tab={
-                <span>
-                  <Icon type="scan" />
-                  {t('stationAutoManager.header.approve')}
-                </span>
-              }
-              key="APPROVE"
-            >
-              <SationAutoConfigApprove
-                ref={comp => (this.refApprove = comp)}
-                options={
-                  this.props.data && this.props.data.options
-                    ? this.props.data.options
-                    : {}
-                }
-                measuringListSource={
-                  this.props.data && this.props.data.measuringList
-                    ? this.props.data.measuringList
-                    : []
-                }
-                onApproveSave={this.handlApproveSave}
-              />
-            </TabPane>
-          </Tabs>
+            />
+          )}
           {this.renderSubmitButton()}
         </Spin>
       </PageContainer>

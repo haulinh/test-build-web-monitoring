@@ -685,7 +685,14 @@ export default {
       restore: 'Khôi phục',
       remove: 'Loại bỏ',
       action: ' ',
-      createdAt: 'Tạo lúc'
+      createdAt: 'Tạo lúc',
+      config: {
+        title: 'Cấu hình kết nối',
+      },
+      actions: {
+        ftpFolder: 'FTP Folder' /* MARK  @translate */,
+        fileMapping: 'File Mapping' /* MARK  @translate */,
+      }
     },
     create: {
       label: 'Tạo mới',
@@ -721,8 +728,8 @@ export default {
       },
       stationType: {
         label: 'Loại trạm',
-        placeholder: 'Nhập loại trạm',
-        error: 'Vui lòng nhập loại trạm'
+        placeholder: 'Chọn loại trạm',
+        error: 'Vui lòng chọn loại trạm'
       },
       address: {
         label: 'Địa chỉ',
@@ -1434,6 +1441,7 @@ export default {
     configSub: 'Cấu hình',
     config: {
       stationAuto: 'Trạm quan trắc',
+      stationAutoConnection: 'Cấu hình kết nối', 
       parameter: 'Chỉ tiêu quan trắc',
       stationType: 'Loại trạm',
       site: 'Đơn vị quản lý',

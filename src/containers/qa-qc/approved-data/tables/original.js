@@ -6,11 +6,7 @@ import PropTypes from 'prop-types'
 import { Table } from 'antd'
 import moment from 'moment'
 import _ from 'lodash'
-// import { translate } from 'hoc/create-lang'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-
-import {QAQC_TABLES} from 'constants/qaqc'
-
 
 @connect((state, ownProps) => ({
   /* states */

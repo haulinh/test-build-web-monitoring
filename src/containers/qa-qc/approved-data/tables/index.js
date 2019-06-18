@@ -1,11 +1,8 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-// import styled from 'styled-components'
+
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-// import { translate } from 'hoc/create-lang'
-import * as _ from 'lodash'
-// import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 import OriginalTable from './original'
 import ValidTable from './valid'

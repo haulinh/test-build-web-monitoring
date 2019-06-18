@@ -52,7 +52,13 @@ export default {
     create: '/station-auto/create',
     edit: '/station-auto/edit/:key',
     editWithKey: '/station-auto/edit',
-    config: '/station-auto/config/:key',
+    configConnection:{
+      base: '/station-auto/config/connection',
+      ftp: '/station-auto/config/connection/ftp',
+      ftpWithKey: '/station-auto/config/connection/ftp/:key',
+      file: '/station-auto/config/connection/file',
+      fileWithKey: '/station-auto/config/connection/file/:key',
+    },
     range: '/station-auto/range/:key',
     configWithKey: '/station-auto/config',
     rangeWithKey: '/station-auto/range',
@@ -230,6 +236,7 @@ export const MENU_NAME = {
   configSub: translate('menuApp.configSub'),
   config: {
     stationAuto: translate('menuApp.config.stationAuto'),
+    stationAutoConnection: translate('menuApp.config.stationAutoConnection'),
     parameter: translate('menuApp.config.parameter'),
     stationType: translate('menuApp.config.stationType'),
     site: translate('menuApp.config.site'),

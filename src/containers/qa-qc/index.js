@@ -1,7 +1,6 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import QAQCApi from 'api/QAQCApi'
 // import { measurePublished } from 'api/StationAuto'
 import { translate } from 'hoc/create-lang'
 // import TabList from './approved-data/tab-list'

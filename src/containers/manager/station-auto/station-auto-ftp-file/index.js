@@ -49,7 +49,7 @@ export default class StationAutoFtpFile extends React.PureComponent {
             {
               id: 'ftpInfo',
               name: this.props.data.name,
-              href: slug.stationAuto.ftpFileWithKey + '/' + this.props.data._id,
+              href: slug.stationAuto.configConnection.ftp + '/' + this.props.data._id,
               path: this.props.data.configLogger.path
             }
           ],
