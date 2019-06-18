@@ -1,12 +1,10 @@
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { message, Button, Form, Spin, Tabs, Icon } from 'antd'
+import { message, Button, Form, Spin } from 'antd'
 import { autobind } from 'core-decorators'
 import StationAutoApi from 'api/StationAuto'
 import * as _ from 'lodash'
 import StationAutoConfigForm from './station-auto-configForm'
-import StationAutoConfigOptions from './station-auto-configOptions'
-import SationAutoConfigApprove from './station-auto-configApprove'
 import createManagerDelete from 'hoc/manager-delete'
 import createManagerEdit from 'hoc/manager-edit'
 import PropTypes from 'prop-types'
@@ -16,8 +14,6 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 
 const FormItem = Form.Item
-
-const TabPane = Tabs.TabPane
 
 @protectRole(ROLE.STATION_AUTO.CONFIG)
 @createManagerDelete({
@@ -185,7 +181,6 @@ export default class StationAutoEdit extends React.PureComponent {
   }
 
   render() {
-    const { t } = this.props.lang
     return (
       <PageContainer {...this.props.wrapperProps}>
         <Spin spinning={!this.props.isLoaded} delay={500}>

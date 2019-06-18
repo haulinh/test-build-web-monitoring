@@ -55,7 +55,9 @@ export default {
     configConnection:{
       base: '/station-auto/config/connection',
       ftp: '/station-auto/config/connection/ftp',
+      ftpWithKey: '/station-auto/config/connection/ftp/:key',
       file: '/station-auto/config/connection/file',
+      fileWithKey: '/station-auto/config/connection/file/:key',
     },
     range: '/station-auto/range/:key',
     configWithKey: '/station-auto/config',

@@ -24,11 +24,11 @@ export default props => (
       render={matchProps => <StationAutoConfigConnection {...matchProps} {...props} />}
     />
     <Route 
-      path={slug.stationAuto.configConnection.ftp} 
+      path={slug.stationAuto.configConnection.ftpWithKey} 
       component={StationAutoFtpInfo}
     />
     <Route
-      path={slug.stationAuto.configConnection.file} 
+      path={slug.stationAuto.configConnection.fileWithKey} 
       component={StationAutoConfig}
     />
     <Route path={slug.stationAuto.edit} component={StationAutoEdit} />

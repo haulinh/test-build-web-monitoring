@@ -12,8 +12,6 @@ import { translate } from 'hoc/create-lang'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import ROLE from 'constants/role'
 
-const FormItem = Form.Item
-
 const i18n = {
   addButton: translate('stationAutoManager.create.label'),
   stationType: translate('stationAutoManager.form.stationType.placeholder'),
@@ -67,7 +65,6 @@ export default class StationAutoSearchForm extends React.PureComponent {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { t } = this.props.lang
     return (
       <Row type="flex" align="middle" justify="center">
         <Col span={24}>

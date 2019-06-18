@@ -27,14 +27,12 @@ export default createBreadcrumb({
   },
   ftpInfo: {
     id: 'ftpInfo',
-    //icon: Icon.car,
     href: slug.stationAuto.configConnection.ftp,
     name: translate('stationAutoManager.list.ftpInfo')
   },
   ftpFile: {
     id: 'ftpFile',
-    //icon: Icon.car,
-    href: slug.stationAuto.ftpFile,
+    href: slug.stationAuto.configConnection.file,
     name: translate('stationAutoManager.list.ftpFile')
   }
 })
