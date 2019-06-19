@@ -59,6 +59,9 @@ export default {
       file: '/station-auto/config/connection/file',
       fileWithKey: '/station-auto/config/connection/file/:key',
     },
+    configSendNotification: {
+      base: '/station-auto/config/notification'
+    },
     range: '/station-auto/range/:key',
     configWithKey: '/station-auto/config',
     rangeWithKey: '/station-auto/range',
@@ -237,6 +240,7 @@ export const MENU_NAME = {
   config: {
     stationAuto: translate('menuApp.config.stationAuto'),
     stationAutoConnection: translate('menuApp.config.stationAutoConnection'),
+    sendNotification:  translate('menuApp.config.sendNotification'),
     parameter: translate('menuApp.config.parameter'),
     stationType: translate('menuApp.config.stationType'),
     site: translate('menuApp.config.site'),

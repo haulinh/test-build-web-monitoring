@@ -23,6 +23,7 @@ export default {
         </div>
       }
     >
+      {/* NOTE  TRẠM QUAN TRẮC */}
       {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
           key={slug.stationAuto.base}
@@ -34,6 +35,7 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE   CẤU HÌNH KẾT NỐI */}
       {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
           key={slug.stationAuto.configConnection.base}
@@ -43,6 +45,17 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE   CẤU HÌNH GỞI CẢNH BÁO */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.stationAuto.configConnection.base}
+          onClick={() => props.selectMenu(slug.stationAuto.configSendNotification.base)}
+        >
+          <Link to={slug.stationAuto.configSendNotification.base}>{MENU_NAME.config.sendNotification}</Link>
+        </Menu.Item>
+      )}
+
+      {/* NOTE  CHỈ TIÊU QUAN TRẮC */}
       {protectRole(ROLE.MEASURING.VIEW)(
         <Menu.Item
           key={slug.measuring.base}
@@ -54,6 +67,7 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  LOẠI TRẠM */}
       {protectRole(ROLE.STATION_TYPE.VIEW)(
         <Menu.Item
           key={slug.stationType.base}
@@ -65,6 +79,7 @@ export default {
         </Menu.Item>
       )}
 
+      {/*  */}
       {protectRole(ROLE.PROVINCE.VIEW)(
         <Menu.Item
           key={slug.province.base}

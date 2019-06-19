@@ -1441,7 +1441,8 @@ export default {
     configSub: 'Cấu hình',
     config: {
       stationAuto: 'Trạm quan trắc',
-      stationAutoConnection: 'Cấu hình kết nối', 
+      stationAutoConnection: 'Cấu hình kết nối',
+      sendNotification: 'Cấu hình gởi cảnh báo',  /*  MARK  @translate */
       parameter: 'Chỉ tiêu quan trắc',
       stationType: 'Loại trạm',
       site: 'Đơn vị quản lý',

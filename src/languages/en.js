@@ -1445,6 +1445,7 @@ export default {
     config: {
       stationAuto: 'Station',
       stationAutoConnection: 'Cấu hình kết nối', /*  MARK  @translate */
+      sendNotification: 'Cấu hình gởi cảnh báo',  /*  MARK  @translate */
       parameter: 'Parameter',
       stationType: 'Type of Station',
       site: 'Site',
