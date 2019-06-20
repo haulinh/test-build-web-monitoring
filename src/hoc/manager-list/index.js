@@ -1,6 +1,7 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { get } from 'lodash'
+import _, { get, findIndex } from 'lodash'
+import { temperature } from 'chromatism';
 
 /**
  * Manager list data
@@ -12,7 +13,9 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
   class ManagerListHoc extends React.Component {
     state = {
       dataSource: [],
+      dataSourceOriginal: [],
       isLoading: false,
+      isSave: false,
       pagination: {
         itemPerPage: itemPerPage,
         page: 1,
@@ -34,7 +37,8 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       const res = await apiList(this.state.pagination, this.state.data)
 
       this.setState({
-        dataSource: res.data,
+        dataSource: _.cloneDeep(res.data),
+        dataSourceOriginal: _.cloneDeep(res.data),
         pagination: {
           ...res.pagination,
           total: get(res, 'pagination.totalItem', 0)
@@ -108,9 +112,39 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       )
     }
 
+    onChangeStationConfig({row, key, value}) {
+      let _dataSource = this.state.dataSource
+      let indexOfRow = findIndex(this.state.dataSource, stationAuto => stationAuto._id === row._id)
+      _.set(_dataSource, `[${indexOfRow}].options[${key}].allowed`, value)
+      this.setState({dataSource: _dataSource})
+    }
+
+    onClearCache() {
+      let originalData = _.cloneDeep(this.state.dataSourceOriginal)
+      this.setState({
+        dataSource: [...originalData]
+      })
+    }
+    
+
+    onSubmitCache() {
+      this.setState({isSave: true})
+      setTimeout(() => {
+
+        this.setState({isSave: false})
+      }, 2000)
+    }
+
     showTotal = (total, range) => `${range[1]}/${total}`
 
+    // temp() {
+    //   let dataSourceItem = this.state.dataSource.find(item => item._id === "5cdbde4c25f0fe00106cc8e3" )
+    //   let dataSourceOriginalItem = this.state.dataSourceOriginal.find(item => item._id === "5cdbde4c25f0fe00106cc8e3" )
+    //   console.log(dataSourceItem.options, dataSourceOriginalItem.options)
+    // }
+
     render() {
+        // console.log(this.state.dataSource[0], this.state.dataSourceOriginal[0])
       // Truyền các tham số cho Component con (props)
       const props = {
         dataSource: this.state.dataSource,
@@ -121,7 +155,11 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
         fetchData: this.fetchData,
         pathImg: this.state.pathImg,
         onChangeSearch: this.onChangeSearch,
-        data: this.state.data
+        data: this.state.data,
+        updateStationConfig: this.onChangeStationConfig,
+        isSave: this.state.isSave,
+        clearCache: this.onClearCache,
+        submitCache: this.onSubmitCache,
       }
       return <Component {...this.props} {...props} />
     }
