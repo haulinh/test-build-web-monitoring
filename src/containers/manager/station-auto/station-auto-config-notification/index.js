@@ -18,7 +18,7 @@ import _ from 'lodash'
 import DynamicTable from 'components/elements/dynamic-table'
 
 const i18n = {
-  cancel: 'Hủy', /* MARK  @translate */
+  cancel: 'Bõ chọn', /* MARK  @translate */
   save: 'Lưu' /* MARK  @translate */
 }
 
@@ -183,7 +183,7 @@ export default class StationAutoConfigNotification extends React.Component {
         </Row>
 
         {/* TABLE */}
-        <Row>
+        <Row style={{marginBottom: 50}}>
           <DynamicTable
             isFixedSize
             isLoading={this.props.isLoading}
@@ -197,13 +197,15 @@ export default class StationAutoConfigNotification extends React.Component {
           />
         </Row>
 
-        <Row type="flex" justify="end" gutter={16} style={{marginBottom: 20}}>
-          <Button onClick={this.props.clearCache}>{i18n.cancel}</Button>
+        <Row style={{marginBottom: 16}}>
+          {/* NOTE  KHONG XOA, uncomment khi a @hung thay đổi yêu cầu */}
+          {/* <Button onClick={this.props.clearCache}>{i18n.cancel}</Button> */}
           <Button 
+            block
             type="primary" 
             loading={this.props.isSave} 
             onClick={this.props.submitCache}
-            style={{marginLeft: 16}}
+            disabled={_.keys(this.props.cachedData).length === 0}
             >
             {i18n.save}
           </Button>

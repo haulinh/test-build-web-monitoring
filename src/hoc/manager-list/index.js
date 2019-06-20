@@ -14,6 +14,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
     state = {
       dataSource: [],
       dataSourceOriginal: [],
+      cachedData: {},
       isLoading: false,
       isSave: false,
       pagination: {
@@ -39,7 +40,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       this.setState({
         dataSource: _.cloneDeep(res.data),
         dataSourceOriginal: _.cloneDeep(res.data),
-        changedCache: {},
+        cachedData: {},
         pagination: {
           ...res.pagination,
           total: get(res, 'pagination.totalItem', 0)
@@ -119,12 +120,20 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       let indexOfRow = findIndex(this.state.dataSource, stationAuto => stationAuto._id === row._id)
       _.set(_dataSource, `[${indexOfRow}].options[${key}].allowed`, value)
       /* update changed cache */
-      let _changedCache = _.clone(this.state.changedCache)
-      _.set(_changedCache, `[${row._id}][${key}].allowed`, value)
+      let _cachedData = _.clone(this.state.cachedData)
+      if (_.get(_cachedData, `[${row._id}][${key}]`)){
+        delete _cachedData[row._id][key]
+        if (_.keys(_cachedData[row._id]).length === 0) {
+          delete _cachedData[row._id]
+        }
+      }
+      else {
+        _.set(_cachedData, `[${row._id}][${key}].allowed`, value)
+      }
 
       this.setState({
         dataSource: _dataSource,
-        changedCache: _changedCache
+        cachedData: _cachedData
       })
     }
 
@@ -132,26 +141,20 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       let originalData = _.cloneDeep(this.state.dataSourceOriginal)
       this.setState({
         dataSource: [...originalData],
-        changedCache: {}
+        cachedData: {}
       })
     }
     
 
     onSubmitCache() {
       this.setState({isSave: true})
-      console.log('--- will commit: ', this.state.changedCache)
+      console.log('--- will commit: ', this.state.cachedData)
       setTimeout(() => {
         this.setState({isSave: false})
       }, 2000)
     }
 
     showTotal = (total, range) => `${range[1]}/${total}`
-
-    // temp() {
-    //   let dataSourceItem = this.state.dataSource.find(item => item._id === "5cdbde4c25f0fe00106cc8e3" )
-    //   let dataSourceOriginalItem = this.state.dataSourceOriginal.find(item => item._id === "5cdbde4c25f0fe00106cc8e3" )
-    //   console.log(dataSourceItem.options, dataSourceOriginalItem.options)
-    // }
 
     render() {
       // Truyền các tham số cho Component con (props)
@@ -169,6 +172,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
         isSave: this.state.isSave,
         clearCache: this.onClearCache,
         submitCache: this.onSubmitCache,
+        cachedData: this.state.cachedData
       }
       return <Component {...this.props} {...props} />
     }
