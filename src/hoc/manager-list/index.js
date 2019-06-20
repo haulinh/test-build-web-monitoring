@@ -1,7 +1,14 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import _, { get, findIndex } from 'lodash'
-import { temperature } from 'chromatism';
+import _, { get } from 'lodash'
+import swal from 'sweetalert2'
+
+import { updateStationAutoOptions } from 'api/StationAuto'
+
+const i18n = {
+  success: 'Lưu thành công',  /* MARK  @translate */
+  error: 'Lỗi'                /* MARK  @translate */
+}
 
 /**
  * Manager list data
@@ -117,7 +124,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
     onChangeStationConfig({row, key, value}) {
       /* update datasource */
       let _dataSource = _.clone(this.state.dataSource)
-      let indexOfRow = findIndex(this.state.dataSource, stationAuto => stationAuto._id === row._id)
+      let indexOfRow = _.findIndex(this.state.dataSource, stationAuto => stationAuto._id === row._id)
       _.set(_dataSource, `[${indexOfRow}].options[${key}].allowed`, value)
       /* update changed cache */
       let _cachedData = _.clone(this.state.cachedData)
@@ -146,12 +153,29 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
     }
     
 
-    onSubmitCache() {
+    async onSubmitCache() {
       this.setState({isSave: true})
       console.log('--- will commit: ', this.state.cachedData)
-      setTimeout(() => {
-        this.setState({isSave: false})
-      }, 2000)
+      const res = await updateStationAutoOptions(this.state.cachedData)
+      if (res.success) {
+        this.setState({
+          dataSourceOriginal: _.cloneDeep(this.state.dataSource),
+          cachedData: {}
+        })
+        swal({
+          title: i18n.success,
+          type: 'success'
+        })
+      }
+      else if (res.error) {
+        console.log(res.message)
+        swal({
+          title: i18n.error,
+          type: 'error'
+        })
+      }
+    
+      this.setState({isSave: false})
     }
 
     showTotal = (total, range) => `${range[1]}/${total}`
