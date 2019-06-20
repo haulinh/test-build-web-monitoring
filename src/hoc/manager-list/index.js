@@ -39,6 +39,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       this.setState({
         dataSource: _.cloneDeep(res.data),
         dataSourceOriginal: _.cloneDeep(res.data),
+        changedCache: {},
         pagination: {
           ...res.pagination,
           total: get(res, 'pagination.totalItem', 0)
@@ -113,24 +114,33 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
     }
 
     onChangeStationConfig({row, key, value}) {
-      let _dataSource = this.state.dataSource
+      /* update datasource */
+      let _dataSource = _.clone(this.state.dataSource)
       let indexOfRow = findIndex(this.state.dataSource, stationAuto => stationAuto._id === row._id)
       _.set(_dataSource, `[${indexOfRow}].options[${key}].allowed`, value)
-      this.setState({dataSource: _dataSource})
+      /* update changed cache */
+      let _changedCache = _.clone(this.state.changedCache)
+      _.set(_changedCache, `[${row._id}][${key}].allowed`, value)
+
+      this.setState({
+        dataSource: _dataSource,
+        changedCache: _changedCache
+      })
     }
 
     onClearCache() {
       let originalData = _.cloneDeep(this.state.dataSourceOriginal)
       this.setState({
-        dataSource: [...originalData]
+        dataSource: [...originalData],
+        changedCache: {}
       })
     }
     
 
     onSubmitCache() {
       this.setState({isSave: true})
+      console.log('--- will commit: ', this.state.changedCache)
       setTimeout(() => {
-
         this.setState({isSave: false})
       }, 2000)
     }
@@ -144,7 +154,6 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
     // }
 
     render() {
-        // console.log(this.state.dataSource[0], this.state.dataSourceOriginal[0])
       // Truyền các tham số cho Component con (props)
       const props = {
         dataSource: this.state.dataSource,

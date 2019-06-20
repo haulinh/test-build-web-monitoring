@@ -53,12 +53,6 @@ export default class StationAutoConfigNotification extends React.Component {
     lang: langPropTypes
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.dataSource !== this.props.dataSource) {
-      console.log('fdsafdasfdaf--f-das-f-dsa-f-sd')
-    }
-  }
-
   getHead() {
     const { t } = this.props.lang
     return [
@@ -176,7 +170,6 @@ export default class StationAutoConfigNotification extends React.Component {
   }
 
   render() {
-    console.log(this.props.dataSource,"jeee")
     return (
       <PageContainer>
         <Breadcrumb items={['config']} />
