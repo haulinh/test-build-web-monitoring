@@ -65,7 +65,8 @@ export default class StationAutoConfigNotification extends React.Component {
         content: (
           <div style={{textAlign: 'center'}}>
             <Checkbox
-              indeterminate={!this.props.isWarningIndeterminate}
+              indeterminate={this.props.isWarningIndeterminate}
+              checked={this.props.isWarningCheckAll}
               onChange={(e) => this.props.handleCheckAll(STATION_AUTO_OPTIONS.warning, e.target.checked)}>
               Gửi cảnh báo
             </Checkbox>
@@ -75,7 +76,8 @@ export default class StationAutoConfigNotification extends React.Component {
         content: (
           <div style={{textAlign: 'center'}}>
             <Checkbox
-              indeterminate={!this.props.isSmsIndeterminate}
+              indeterminate={this.props.isSmsIndeterminate}
+              checked={this.props.isSmsCheckAll}
               onChange={(e) => this.props.handleCheckAll(STATION_AUTO_OPTIONS.sms, e.target.checked)}>
               SMS
             </Checkbox>
@@ -85,7 +87,8 @@ export default class StationAutoConfigNotification extends React.Component {
         content: (
           <div style={{textAlign: 'center'}}>
             <Checkbox
-              indeterminate={!this.props.isEmailIndeterminate}
+              indeterminate={this.props.isEmailIndeterminate}
+              checked={this.props.isEmailCheckAll}
               onChange={(e) => this.props.handleCheckAll(STATION_AUTO_OPTIONS.email, e.target.checked)}>
               Email
             </Checkbox>

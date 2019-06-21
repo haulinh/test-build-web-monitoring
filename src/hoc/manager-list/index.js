@@ -31,6 +31,9 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       isWarningIndeterminate: true,
       isSmsIndeterminate: true,
       isEmailIndeterminate: true,
+      isWarningCheckAll: false,
+      isSmsCheckAll: false,
+      isEmailCheckAll: false,
 
       pagination: {
         itemPerPage: itemPerPage,
@@ -148,6 +151,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
     }
 
     updateCache(row, key, value) {
+      console.log(row, key, value)
       let _cachedData = _.clone(this.state.cachedData)
       if (_.get(_cachedData, `[${row._id}][${key}]`)){
         delete _cachedData[row._id][key]
@@ -200,9 +204,37 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       _.forEach(_dataSource, (station, index) => {
         if (_.get(station, ['options', column, 'allowed']) !== checked) {
           _.set(_dataSource[index], ['options', column, 'allowed'], checked)
+          // this.updateCache(station, column, checked)
         }
       })
-      this.setState({dataSource: _.cloneDeep(_dataSource)})
+
+      switch(column) {
+        case STATION_AUTO_OPTIONS.warning: {
+          this.setState({
+            isWarningCheckAll: checked, 
+            isWarningIndeterminate: false
+          })
+          break;
+        }
+        case STATION_AUTO_OPTIONS.sms: {
+          this.setState({
+            isSmsCheckAll: checked, 
+            isSmsIndeterminate: false
+          })
+          break;
+        }
+        case STATION_AUTO_OPTIONS.email: {
+          this.setState({
+            isEmailCheckAll: checked, 
+            isEmailIndeterminate: false
+          })
+          break;
+        }
+      }
+
+      this.setState({
+        dataSource: _.cloneDeep(_dataSource),
+      })
     }
 
     checkIndeterminate(column, data) {
@@ -212,12 +244,13 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       })
       
       let countBy = _.countBy(result, Boolean)
-      let isSame = countBy.false && countBy.true
+      let isSame = countBy.false === undefined || countBy.true === undefined
+      let isCheckAll = _.every(result)
       
       switch(column) {
-        case STATION_AUTO_OPTIONS.warning: this.setState({isWarningIndeterminate: !isSame }); break;
-        case STATION_AUTO_OPTIONS.sms    : this.setState({isSmsIndeterminate    : !isSame }); break;
-        case STATION_AUTO_OPTIONS.email  : this.setState({isEmailIndeterminate  : !isSame }); break;
+        case STATION_AUTO_OPTIONS.warning : this.setState({isWarningIndeterminate : !isSame, isWarningCheckAll : isCheckAll }); break;
+        case STATION_AUTO_OPTIONS.sms     : this.setState({isSmsIndeterminate     : !isSame, isSmsCheckAll     : isCheckAll }); break;
+        case STATION_AUTO_OPTIONS.email   : this.setState({isEmailIndeterminate   : !isSame, isEmailCheckAll   : isCheckAll }); break;
       }
     }
 
@@ -244,6 +277,9 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
         isWarningIndeterminate: this.state.isWarningIndeterminate,
         isSmsIndeterminate: this.state.isSmsIndeterminate,
         isEmailIndeterminate: this.state.isEmailIndeterminate,
+        isWarningCheckAll: this.state.isWarningCheckAll,
+        isSmsCheckAll: this.state.isSmsCheckAll,
+        isEmailCheckAll: this.state.isEmailCheckAll,
       }
       return <Component {...this.props} {...props} />
     }
