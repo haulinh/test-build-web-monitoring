@@ -1,18 +1,29 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { get } from 'lodash'
+import _, { get } from 'lodash'
+import swal from 'sweetalert2'
+
+import { updateStationAutoOptions } from 'api/StationAuto'
+
+const i18n = {
+  success: 'Lưu thành công',  /* MARK  @translate */
+  error: 'Lỗi'                /* MARK  @translate */
+}
 
 /**
  * Manager list data
  * @param apiList
  * @param apiDelete
  */
-const createManagerList = ({ apiList, itemPerPage = 20 }) => Component => {
+const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
   @autobind
   class ManagerListHoc extends React.Component {
     state = {
       dataSource: [],
+      dataSourceOriginal: [],
+      cachedData: {},
       isLoading: false,
+      isSave: false,
       pagination: {
         itemPerPage: itemPerPage,
         page: 1,
@@ -34,7 +45,9 @@ const createManagerList = ({ apiList, itemPerPage = 20 }) => Component => {
       const res = await apiList(this.state.pagination, this.state.data)
 
       this.setState({
-        dataSource: res.data,
+        dataSource: _.cloneDeep(res.data),
+        dataSourceOriginal: _.cloneDeep(res.data),
+        cachedData: {},
         pagination: {
           ...res.pagination,
           total: get(res, 'pagination.totalItem', 0)
@@ -108,6 +121,63 @@ const createManagerList = ({ apiList, itemPerPage = 20 }) => Component => {
       )
     }
 
+    onChangeStationConfig({row, key, value}) {
+      /* update datasource */
+      let _dataSource = _.clone(this.state.dataSource)
+      let indexOfRow = _.findIndex(this.state.dataSource, stationAuto => stationAuto._id === row._id)
+      _.set(_dataSource, `[${indexOfRow}].options[${key}].allowed`, value)
+      /* update changed cache */
+      let _cachedData = _.clone(this.state.cachedData)
+      if (_.get(_cachedData, `[${row._id}][${key}]`)){
+        delete _cachedData[row._id][key]
+        if (_.keys(_cachedData[row._id]).length === 0) {
+          delete _cachedData[row._id]
+        }
+      }
+      else {
+        _.set(_cachedData, `[${row._id}][${key}].allowed`, value)
+      }
+
+      this.setState({
+        dataSource: _dataSource,
+        cachedData: _cachedData
+      })
+    }
+
+    onClearCache() {
+      let originalData = _.cloneDeep(this.state.dataSourceOriginal)
+      this.setState({
+        dataSource: [...originalData],
+        cachedData: {}
+      })
+    }
+    
+
+    async onSubmitCache() {
+      this.setState({isSave: true})
+      console.log('--- will commit: ', this.state.cachedData)
+      const res = await updateStationAutoOptions(this.state.cachedData)
+      if (res.success) {
+        this.setState({
+          dataSourceOriginal: _.cloneDeep(this.state.dataSource),
+          cachedData: {}
+        })
+        swal({
+          title: i18n.success,
+          type: 'success'
+        })
+      }
+      else if (res.error) {
+        console.log(res.message)
+        swal({
+          title: i18n.error,
+          type: 'error'
+        })
+      }
+    
+      this.setState({isSave: false})
+    }
+
     showTotal = (total, range) => `${range[1]}/${total}`
 
     render() {
@@ -121,7 +191,12 @@ const createManagerList = ({ apiList, itemPerPage = 20 }) => Component => {
         fetchData: this.fetchData,
         pathImg: this.state.pathImg,
         onChangeSearch: this.onChangeSearch,
-        data: this.state.data
+        data: this.state.data,
+        updateStationConfig: this.onChangeStationConfig,
+        isSave: this.state.isSave,
+        clearCache: this.onClearCache,
+        submitCache: this.onSubmitCache,
+        cachedData: this.state.cachedData
       }
       return <Component {...this.props} {...props} />
     }

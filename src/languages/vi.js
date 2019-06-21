@@ -689,6 +689,9 @@ export default {
       config: {
         title: 'Cấu hình kết nối',
       },
+      notification: {
+        title: 'Cấu hình gửi cảnh báo'
+      },
       actions: {
         ftpFolder: 'FTP Folder' /* MARK  @translate */,
         fileMapping: 'File Mapping' /* MARK  @translate */,
@@ -1441,7 +1444,8 @@ export default {
     configSub: 'Cấu hình',
     config: {
       stationAuto: 'Trạm quan trắc',
-      stationAutoConnection: 'Cấu hình kết nối', 
+      stationAutoConnection: 'Cấu hình kết nối',
+      sendNotification: 'Cấu hình gửi cảnh báo',  /*  MARK  @translate */
       parameter: 'Chỉ tiêu quan trắc',
       stationType: 'Loại trạm',
       site: 'Đơn vị quản lý',

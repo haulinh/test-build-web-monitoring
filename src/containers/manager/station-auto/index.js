@@ -9,6 +9,7 @@ import StationAutoFtpInfo from './station-auto-ftp-info'
 import StationAutoFtpFile from './station-auto-ftp-file'
 import StationAutoRange from './station-auto-range'
 import StationAutoConfigConnection from './station-auto-config-connection'
+import StationAutoConfigNotification from './station-auto-config-notification'
 
 export default props => (
   <Switch>
@@ -22,6 +23,11 @@ export default props => (
       exact
       path={slug.stationAuto.configConnection.base}
       render={matchProps => <StationAutoConfigConnection {...matchProps} {...props} />}
+    />
+    <Route
+      exact
+      path={slug.stationAuto.configSendNotification.base}
+      render={matchProps => <StationAutoConfigNotification {...matchProps} {...props} />}
     />
     <Route 
       path={slug.stationAuto.configConnection.ftpWithKey} 
@@ -37,24 +43,3 @@ export default props => (
     <Route path={slug.stationAuto.create} component={StationAutoCreate} />
   </Switch>
 )
-
-
-
-// {/* <Switch>
-// {/*Lấy ra các thành phần props từ component bên ngoài truyền vào như default layout*/}
-// <Route
-//   exact
-//   path={slug.stationAuto.list}
-//   render={matchProps => <StationAutoList {...matchProps} {...props} />}
-// />
-// <Route
-//   path={slug.stationAuto.create}
-//   render={matchProps => <StationAutoCreate {...matchProps} {...props} />}
-// />
-// <Route path={slug.stationAuto.edit} component={StationAutoEdit} />
-// <Route path={slug.stationAuto.config} component={StationAutoConfig} />
-// <Route path={slug.stationAuto.ftpInfo} component={StationAutoFtpInfo} />
-// <Route path={slug.stationAuto.ftpFile} component={StationAutoFtpFile} />
-// <Route path={slug.stationAuto.range} component={StationAutoRange} />
-// {/*<Route path={slug.stationAuto.create} component={StationAutoCreate} />*/}
-// </Switch> */}
