@@ -4,6 +4,7 @@ import _, { get } from 'lodash'
 import swal from 'sweetalert2'
 
 import { updateStationAutoOptions } from 'api/StationAuto'
+import { STATION_AUTO_OPTIONS } from 'constants/labels'
 
 const i18n = {
   success: 'Lưu thành công',  /* MARK  @translate */
@@ -19,11 +20,18 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
   @autobind
   class ManagerListHoc extends React.Component {
     state = {
-      dataSource: [],
-      dataSourceOriginal: [],
-      cachedData: {},
+      /* giông cách hoạt động của git */  
+      cachedData: {},             /* commit */
+      dataSource: [],             /* working dir */
+      dataSourceOriginal: [],     /* index */
+
       isLoading: false,
       isSave: false,
+
+      isWarningIndeterminate: true,
+      isSmsIndeterminate: true,
+      isEmailIndeterminate: true,
+
       pagination: {
         itemPerPage: itemPerPage,
         page: 1,
@@ -54,6 +62,10 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
         },
         isLoading: false,
         pathImg: res.path
+      })
+
+      _.forEach(_.values(STATION_AUTO_OPTIONS), column => {
+        this.checkIndeterminate(column, _.cloneDeep(res.data))
       })
     }
 
@@ -122,11 +134,20 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
     }
 
     onChangeStationConfig({row, key, value}) {
-      /* update datasource */
+      this.updateDataSource(row, key, value)
+      this.updateCache(row, key, value)
+      this.checkIndeterminate(key, this.state.dataSource)
+    }
+
+    updateDataSource(row, key, value) {
       let _dataSource = _.clone(this.state.dataSource)
       let indexOfRow = _.findIndex(this.state.dataSource, stationAuto => stationAuto._id === row._id)
       _.set(_dataSource, `[${indexOfRow}].options[${key}].allowed`, value)
-      /* update changed cache */
+  
+      this.setState({ dataSource: _dataSource })
+    }
+
+    updateCache(row, key, value) {
       let _cachedData = _.clone(this.state.cachedData)
       if (_.get(_cachedData, `[${row._id}][${key}]`)){
         delete _cachedData[row._id][key]
@@ -137,11 +158,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       else {
         _.set(_cachedData, `[${row._id}][${key}].allowed`, value)
       }
-
-      this.setState({
-        dataSource: _dataSource,
-        cachedData: _cachedData
-      })
+      this.setState({cachedData: _cachedData})
     }
 
     onClearCache() {
@@ -151,7 +168,6 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
         cachedData: {}
       })
     }
-    
 
     async onSubmitCache() {
       this.setState({isSave: true})
@@ -178,6 +194,33 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       this.setState({isSave: false})
     }
 
+    /* TODO C HANDLE SAVE CACHE */
+    onCheckAllTableHeader(column, checked) {
+      let _dataSource = _.cloneDeep(this.state.dataSource)
+      _.forEach(_dataSource, (station, index) => {
+        if (_.get(station, ['options', column, 'allowed']) !== checked) {
+          _.set(_dataSource[index], ['options', column, 'allowed'], checked)
+        }
+      })
+      this.setState({dataSource: _.cloneDeep(_dataSource)})
+    }
+
+    checkIndeterminate(column, data) {
+      let _dataSource = _.cloneDeep(this.state.dataSource)
+      let result = _.map(_dataSource, station => {
+        return _.get(station, ['options', column, 'allowed'])
+      })
+      
+      let countBy = _.countBy(result, Boolean)
+      let isSame = countBy.false && countBy.true
+      
+      switch(column) {
+        case STATION_AUTO_OPTIONS.warning: this.setState({isWarningIndeterminate: !isSame }); break;
+        case STATION_AUTO_OPTIONS.sms    : this.setState({isSmsIndeterminate    : !isSame }); break;
+        case STATION_AUTO_OPTIONS.email  : this.setState({isEmailIndeterminate  : !isSame }); break;
+      }
+    }
+
     showTotal = (total, range) => `${range[1]}/${total}`
 
     render() {
@@ -196,7 +239,11 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
         isSave: this.state.isSave,
         clearCache: this.onClearCache,
         submitCache: this.onSubmitCache,
-        cachedData: this.state.cachedData
+        cachedData: this.state.cachedData,
+        handleCheckAll: this.onCheckAllTableHeader,
+        isWarningIndeterminate: this.state.isWarningIndeterminate,
+        isSmsIndeterminate: this.state.isSmsIndeterminate,
+        isEmailIndeterminate: this.state.isEmailIndeterminate,
       }
       return <Component {...this.props} {...props} />
     }

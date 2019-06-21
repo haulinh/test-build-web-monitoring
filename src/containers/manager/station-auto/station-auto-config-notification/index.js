@@ -1,18 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Row, Form, Checkbox, Button } from 'antd'
+import { autobind } from 'core-decorators'
+import styled from 'styled-components'
 import StationAutoApi from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { autobind } from 'core-decorators'
 import createManagerList from 'hoc/manager-list'
 import createManagerDelete from 'hoc/manager-delete'
-import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import { mapPropsToFields } from 'utils/form'
 import StationAutoSearchForm from '../station-auto-search.1'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
-import styled from 'styled-components'
+import { STATION_AUTO_OPTIONS } from 'constants/labels'
 
 import _ from 'lodash'
 
@@ -63,19 +64,31 @@ export default class StationAutoConfigNotification extends React.Component {
       { 
         content: (
           <div style={{textAlign: 'center'}}>
-            <Checkbox>Gửi cảnh báo</Checkbox>
+            <Checkbox
+              indeterminate={!this.props.isWarningIndeterminate}
+              onChange={(e) => this.props.handleCheckAll(STATION_AUTO_OPTIONS.warning, e.target.checked)}>
+              Gửi cảnh báo
+            </Checkbox>
           </div>), 
         width: 15 },
       { 
         content: (
           <div style={{textAlign: 'center'}}>
-            <Checkbox>SMS</Checkbox>
+            <Checkbox
+              indeterminate={!this.props.isSmsIndeterminate}
+              onChange={(e) => this.props.handleCheckAll(STATION_AUTO_OPTIONS.sms, e.target.checked)}>
+              SMS
+            </Checkbox>
           </div>), 
         width: 15 },
       { 
         content: (
           <div style={{textAlign: 'center'}}>
-            <Checkbox>Email</Checkbox>
+            <Checkbox
+              indeterminate={!this.props.isEmailIndeterminate}
+              onChange={(e) => this.props.handleCheckAll(STATION_AUTO_OPTIONS.email, e.target.checked)}>
+              Email
+            </Checkbox>
           </div>), 
         width: 15 },
     ]
@@ -126,8 +139,8 @@ export default class StationAutoConfigNotification extends React.Component {
             content: (
               <div style={{textAlign: 'center'}}>
                 <Checkbox 
-                  checked= {_.get(row, `options.warning.allowed`, false)} 
-                  onChange={(e) => this.props.updateStationConfig({row, key: 'warning', value: e.target.checked})}
+                  checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.warning, 'allowed'], false)} 
+                  onChange={(e) => this.props.updateStationConfig({row, key: STATION_AUTO_OPTIONS.warning, value: e.target.checked})}
                 />
               </div>
             )
@@ -137,8 +150,8 @@ export default class StationAutoConfigNotification extends React.Component {
             content: (
               <div style={{textAlign: 'center'}}>
                 <Checkbox 
-                  checked= {_.get(row, `options.sms.allowed`, false)} 
-                  onChange={(e) => this.props.updateStationConfig({row, key: 'sms', value: e.target.checked})}
+                  checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.sms, 'allowed'], false)} 
+                  onChange={(e) => this.props.updateStationConfig({row, key: STATION_AUTO_OPTIONS.sms, value: e.target.checked})}
                 />
               </div>
             )
@@ -148,8 +161,8 @@ export default class StationAutoConfigNotification extends React.Component {
             content: (
               <div style={{textAlign: 'center'}}>
                 <Checkbox 
-                  checked= {_.get(row, `options.email.allowed`, false)} 
-                  onChange={(e) => this.props.updateStationConfig({row, key: 'email', value: e.target.checked})}
+                  checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.email, 'allowed'], false)} 
+                  onChange={(e) => this.props.updateStationConfig({row, key: STATION_AUTO_OPTIONS.email, value: e.target.checked})}
                 />
               </div>
             )
