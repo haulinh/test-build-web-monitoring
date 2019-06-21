@@ -204,7 +204,7 @@ export default class StationAutoConfigNotification extends React.Component {
   render() {
     return (
       <PageContainer>
-        <Breadcrumb items={['config']} />
+        <Breadcrumb items={['configNotification']} />
 
         {/* FORM CONTROL */}
         <Row style={{marginBottom: 20}}>
