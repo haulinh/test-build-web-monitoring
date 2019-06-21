@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Form, Checkbox, Button } from 'antd'
+import { Row, Form, Checkbox, Button } from 'antd'
 import StationAutoApi from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { autobind } from 'core-decorators'
@@ -60,9 +60,24 @@ export default class StationAutoConfigNotification extends React.Component {
       { content: '#', width: 2 },
       { content: t('stationAutoManager.form.name.label'), width: 15 },
       { content: t('stationAutoManager.form.address.label'), width: 20 },
-      { content: <div style={{textAlign: 'center'}}>Gởi cảnh báo</div>, width: 15 },
-      { content: <div style={{textAlign: 'center'}}>SMS</div>, width: 15 },
-      { content: <div style={{textAlign: 'center'}}>Email</div>, width: 15 },
+      { 
+        content: (
+          <div style={{textAlign: 'center'}}>
+            <Checkbox>Gửi cảnh báo</Checkbox>
+          </div>), 
+        width: 15 },
+      { 
+        content: (
+          <div style={{textAlign: 'center'}}>
+            <Checkbox>SMS</Checkbox>
+          </div>), 
+        width: 15 },
+      { 
+        content: (
+          <div style={{textAlign: 'center'}}>
+            <Checkbox>Email</Checkbox>
+          </div>), 
+        width: 15 },
     ]
   }
 
