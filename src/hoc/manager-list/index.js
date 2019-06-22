@@ -150,18 +150,38 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       this.setState({ dataSource: _dataSource })
     }
 
+    /* handle update cache khi nhấn chọn từng row */
     updateCache(row, key, value) {
-      console.log(row, key, value)
       let _cachedData = _.clone(this.state.cachedData)
-      if (_.get(_cachedData, `[${row._id}][${key}]`)){
+      if (_.get(_cachedData, [row._id, key])){
         delete _cachedData[row._id][key]
         if (_.keys(_cachedData[row._id]).length === 0) {
           delete _cachedData[row._id]
         }
       }
       else {
-        _.set(_cachedData, `[${row._id}][${key}].allowed`, value)
+        _.set(_cachedData, [row._id, key, 'allowed'], value)
       }
+      this.setState({cachedData: _cachedData})
+    }
+
+
+    /* handle update cache khi chọn select all */
+    updateCaches(rows, key, value) {
+      let _cachedData = _.clone(this.state.cachedData)
+
+      _.forEach(rows, row => {
+        if (_.get(_cachedData, [row._id, key])){
+          delete _cachedData[row._id][key]
+          if (_.keys(_cachedData[row._id]).length === 0) {
+            delete _cachedData[row._id]
+          }
+        }
+        else {
+          _.set(_cachedData, [row._id, key, 'allowed'], value)
+        }
+      })
+
       this.setState({cachedData: _cachedData})
     }
 
@@ -198,15 +218,21 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       this.setState({isSave: false})
     }
 
-    /* TODO C HANDLE SAVE CACHE */
+    
     onCheckAllTableHeader(column, checked) {
       let _dataSource = _.cloneDeep(this.state.dataSource)
+      let selectedRows = []
+       /* tìm và thay đổi giá trị không giống với với checkbox select all và update caches*/
       _.forEach(_dataSource, (station, index) => {
         if (_.get(station, ['options', column, 'allowed']) !== checked) {
+          selectedRows.push(station)
           _.set(_dataSource[index], ['options', column, 'allowed'], checked)
-          // this.updateCache(station, column, checked)
         }
       })
+
+      this.updateCaches(selectedRows, column, checked)
+
+      console.log('---- cached: ', this.state.cachedData)
 
       switch(column) {
         case STATION_AUTO_OPTIONS.warning: {
@@ -233,7 +259,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       }
 
       this.setState({
-        dataSource: _.cloneDeep(_dataSource),
+        dataSource: _dataSource,
       })
     }
 
