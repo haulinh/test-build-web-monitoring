@@ -48,7 +48,7 @@ export default {
       {/* NOTE   CẤU HÌNH GỞI CẢNH BÁO */}
       {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
-          key={slug.stationAuto.configConnection.base}
+          key={slug.stationAuto.configSendNotification.base}
           onClick={() => props.selectMenu(slug.stationAuto.configSendNotification.base)}
         >
           <Link to={slug.stationAuto.configSendNotification.base}>{MENU_NAME.config.sendNotification}</Link>

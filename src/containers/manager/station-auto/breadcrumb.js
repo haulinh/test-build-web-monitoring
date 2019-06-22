@@ -16,7 +16,7 @@ export default createBreadcrumb({
     href: slug.stationAuto.configConnection.base,
     name: translate('stationAutoManager.list.config.title')
   },
-  config: {
+  configNotification: {
     id: 'configNotification',
     //icon: Icon.car,
     href: slug.stationAuto.configSendNotification.base,

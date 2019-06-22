@@ -1,18 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Form, Checkbox, Button } from 'antd'
+import { Row, Form, Checkbox, Button } from 'antd'
+import { autobind } from 'core-decorators'
+import styled from 'styled-components'
 import StationAutoApi from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { autobind } from 'core-decorators'
 import createManagerList from 'hoc/manager-list'
 import createManagerDelete from 'hoc/manager-delete'
-import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import { translate } from 'hoc/create-lang'
+import { mapPropsToFields } from 'utils/form'
 import StationAutoSearchForm from '../station-auto-search.1'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
-import styled from 'styled-components'
+import { STATION_AUTO_OPTIONS } from 'constants/labels'
 
 import _ from 'lodash'
 
@@ -20,7 +22,9 @@ import DynamicTable from 'components/elements/dynamic-table'
 
 const i18n = {
   cancel: 'Bõ chọn', /* MARK  @translate */
-  save: 'Lưu' /* MARK  @translate */
+  save: 'Lưu', /* MARK  @translate */
+  stationName: translate('stationAutoManager.form.name.label'),
+  stationAddr: translate('stationAutoManager.form.address.label')
 }
 
 const Span = styled.span`
@@ -43,30 +47,74 @@ const Span = styled.span`
 export default class StationAutoConfigNotification extends React.Component {
   static propTypes = {
     dataSource: PropTypes.array,
-    isLoading: PropTypes.bool,
     pagination: PropTypes.object,
-    onChangePage: PropTypes.func,
-    onChangePageSize: PropTypes.func,
-    onRemoveItem: PropTypes.func,
-    fetchData: PropTypes.func,
-    onChangeSearch: PropTypes.func,
     data: PropTypes.object,
-    lang: langPropTypes
+    cachedData: PropTypes.object,
+
+    onChangeSearch: PropTypes.func,
+    handleCheckAll: PropTypes.func,
+    updateStationOption: PropTypes.func,
+    clearCache: PropTypes.func,
+    submitCache: PropTypes.func,
+
+    isSave: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    isWarningIndeterminate: PropTypes.bool,
+    isSmsIndeterminate: PropTypes.bool,
+    isEmailIndeterminate: PropTypes.bool,
+    isWarningCheckAll: PropTypes.bool,
+    isSmsCheckAll: PropTypes.bool,
+    isEmailCheckAll: PropTypes.bool,
+    
   }
 
   getHead() {
-    const { t } = this.props.lang
+    const isDisabledCheckAll = !this.props.isWarningCheckAll && !this.props.isWarningIndeterminate
     return [
       { content: '#', width: 2 },
-      { content: t('stationAutoManager.form.name.label'), width: 15 },
-      { content: t('stationAutoManager.form.address.label'), width: 20 },
-      { content: <div style={{textAlign: 'center'}}>Gởi cảnh báo</div>, width: 15 },
-      { content: <div style={{textAlign: 'center'}}>SMS</div>, width: 15 },
-      { content: <div style={{textAlign: 'center'}}>Email</div>, width: 15 },
+      { content: i18n.stationName, width: 15 },
+      { content: i18n.stationAddr, width: 20 },
+      { 
+        content: (
+          <div style={{textAlign: 'center'}}>
+            <Checkbox
+              indeterminate={this.props.isWarningIndeterminate}
+              checked={this.props.isWarningCheckAll}
+              onChange={(e) => this.props.handleCheckAll(STATION_AUTO_OPTIONS.warning, e.target.checked)}>
+              Gửi cảnh báo
+            </Checkbox>
+          </div>), 
+        width: 15 },
+      { 
+        content: (
+          <div style={{textAlign: 'center'}}>
+            <Checkbox
+              indeterminate={this.props.isSmsIndeterminate}
+              checked={this.props.isSmsCheckAll}
+              disabled={isDisabledCheckAll}
+              onChange={(e) => this.props.handleCheckAll(STATION_AUTO_OPTIONS.sms, e.target.checked)}>
+              SMS
+            </Checkbox>
+          </div>), 
+        width: 15 },
+      { 
+        content: (
+          <div style={{textAlign: 'center'}}>
+            <Checkbox
+              indeterminate={this.props.isEmailIndeterminate}
+              checked={this.props.isEmailCheckAll}
+              disabled={isDisabledCheckAll}
+              onChange={(e) => this.props.handleCheckAll(STATION_AUTO_OPTIONS.email, e.target.checked)}>
+              Email
+            </Checkbox>
+          </div>), 
+        width: 15 },
     ]
   }
 
   getRows() {
+    const isDisabledCheckAll = !this.props.isWarningCheckAll && !this.props.isWarningIndeterminate
+
     let stationTypeArr = []
 
     let sourceSorted = _.orderBy(
@@ -80,6 +128,7 @@ export default class StationAutoConfigNotification extends React.Component {
     let result = [].concat.apply(
       [],
       sourceSorted.map((row, index) => {
+        const isWarningCheckboxDisabled =  _.get(row, ['options', STATION_AUTO_OPTIONS.warning, 'allowed'], false) === false
         //content Row
         let resultRow = [
           {
@@ -111,8 +160,8 @@ export default class StationAutoConfigNotification extends React.Component {
             content: (
               <div style={{textAlign: 'center'}}>
                 <Checkbox 
-                  checked= {_.get(row, `options.warning.allowed`, false)} 
-                  onChange={(e) => this.props.updateStationConfig({row, key: 'warning', value: e.target.checked})}
+                  checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.warning, 'allowed'], false)} 
+                  onChange={(e) => this.props.updateStationOption({row, key: STATION_AUTO_OPTIONS.warning, value: e.target.checked})}
                 />
               </div>
             )
@@ -121,9 +170,10 @@ export default class StationAutoConfigNotification extends React.Component {
           {
             content: (
               <div style={{textAlign: 'center'}}>
-                <Checkbox 
-                  checked= {_.get(row, `options.sms.allowed`, false)} 
-                  onChange={(e) => this.props.updateStationConfig({row, key: 'sms', value: e.target.checked})}
+                <Checkbox
+                  disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
+                  checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.sms, 'allowed'], false)}
+                  onChange={(e) => this.props.updateStationOption({row, key: STATION_AUTO_OPTIONS.sms, value: e.target.checked})}
                 />
               </div>
             )
@@ -132,9 +182,10 @@ export default class StationAutoConfigNotification extends React.Component {
           {
             content: (
               <div style={{textAlign: 'center'}}>
-                <Checkbox 
-                  checked= {_.get(row, `options.email.allowed`, false)} 
-                  onChange={(e) => this.props.updateStationConfig({row, key: 'email', value: e.target.checked})}
+                <Checkbox
+                  disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
+                  checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.email, 'allowed'], false)} 
+                  onChange={(e) => this.props.updateStationOption({row, key: STATION_AUTO_OPTIONS.email, value: e.target.checked})}
                 />
               </div>
             )
@@ -173,7 +224,7 @@ export default class StationAutoConfigNotification extends React.Component {
   render() {
     return (
       <PageContainer>
-        <Breadcrumb items={['config']} />
+        <Breadcrumb items={['configNotification']} />
 
         {/* FORM CONTROL */}
         <Row style={{marginBottom: 20}}>
@@ -193,8 +244,6 @@ export default class StationAutoConfigNotification extends React.Component {
             }}
             head={this.getHead()}
             rows={this.getRows()}
-            // pagination={this.props.pagination}
-            // onSetPage={this.props.onChangePage}
           />
         </Row>
 
