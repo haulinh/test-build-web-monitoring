@@ -68,7 +68,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       })
 
       _.forEach(_.values(STATION_AUTO_OPTIONS), column => {
-        this.checkIndeterminate(column, _.cloneDeep(res.data))
+        this.checkIndeterminate(column, res.data)
       })
     }
 
@@ -136,103 +136,38 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       )
     }
 
-    onChangeStationConfig({row, key, value}) {
-      this.updateDataSource(row, key, value)
-      this.updateCache(row, key, value)
-      this.checkIndeterminate(key, this.state.dataSource)
-    }
+    onChagedOptionOfHeader(column, checked) {
+      let _dataSource = this.state.dataSource
 
-    updateDataSource(row, key, value) {
-      let _dataSource = _.clone(this.state.dataSource)
-      let indexOfRow = _.findIndex(this.state.dataSource, stationAuto => stationAuto._id === row._id)
-      _.set(_dataSource, `[${indexOfRow}].options[${key}].allowed`, value)
-  
-      this.setState({ dataSource: _dataSource })
-    }
+      if (column === STATION_AUTO_OPTIONS.warning) {
+        /*  TODO  @phat: this.clearAllCheckbox() */
+        /* clear checkboxs trên table header */
+        this.setState({
+          isWarningIndeterminate: false,
+          isSmsIndeterminate: false,
+          isEmailIndeterminate: false,
+          isWarningCheckAll: false,
+          isSmsCheckAll: false,
+          isEmailCheckAll: false,
+        })
 
-    /* handle update cache khi nhấn chọn từng row */
-    updateCache(row, key, value) {
-      let _cachedData = _.clone(this.state.cachedData)
-      if (_.get(_cachedData, [row._id, key])){
-        delete _cachedData[row._id][key]
-        if (_.keys(_cachedData[row._id]).length === 0) {
-          delete _cachedData[row._id]
-        }
+        _.forEach(_dataSource, (station) => {
+          this.onChagedOptionOfRow({row: station, key: STATION_AUTO_OPTIONS.warning, value: checked})
+        })
       }
       else {
-        _.set(_cachedData, [row._id, key, 'allowed'], value)
-      }
-      this.setState({cachedData: _cachedData})
-    }
-
-
-    /* handle update cache khi chọn select all */
-    updateCaches(rows, key, value) {
-      let _cachedData = _.clone(this.state.cachedData)
-
-      _.forEach(rows, row => {
-        if (_.get(_cachedData, [row._id, key])){
-          delete _cachedData[row._id][key]
-          if (_.keys(_cachedData[row._id]).length === 0) {
-            delete _cachedData[row._id]
+        /* 
+        - tìm và thay đổi giá trị không giống với với checkbox select all và warning == enabled
+        - update cached
+        */
+        _.forEach(_dataSource, (station) => {
+          let isDiffValue = _.get(station, ['options', column, 'allowed']) !== checked
+          let isWarningCheckBoxEnabled = _.get(station, ['options', 'warning', 'allowed']) === true
+          if (isDiffValue && isWarningCheckBoxEnabled) {
+            this.onChagedOptionOfRow({row: station, key: column, value: checked})
           }
-        }
-        else {
-          _.set(_cachedData, [row._id, key, 'allowed'], value)
-        }
-      })
-
-      this.setState({cachedData: _cachedData})
-    }
-
-    onClearCache() {
-      let originalData = _.cloneDeep(this.state.dataSourceOriginal)
-      this.setState({
-        dataSource: [...originalData],
-        cachedData: {}
-      })
-    }
-
-    async onSubmitCache() {
-      this.setState({isSave: true})
-      console.log('--- will commit: ', this.state.cachedData)
-      const res = await updateStationAutoOptions(this.state.cachedData)
-      if (res.success) {
-        this.setState({
-          dataSourceOriginal: _.cloneDeep(this.state.dataSource),
-          cachedData: {}
-        })
-        swal({
-          title: i18n.success,
-          type: 'success'
         })
       }
-      else if (res.error) {
-        console.log(res.message)
-        swal({
-          title: i18n.error,
-          type: 'error'
-        })
-      }
-    
-      this.setState({isSave: false})
-    }
-
-    
-    onCheckAllTableHeader(column, checked) {
-      let _dataSource = _.cloneDeep(this.state.dataSource)
-      let selectedRows = []
-       /* tìm và thay đổi giá trị không giống với với checkbox select all và update caches*/
-      _.forEach(_dataSource, (station, index) => {
-        if (_.get(station, ['options', column, 'allowed']) !== checked) {
-          selectedRows.push(station)
-          _.set(_dataSource[index], ['options', column, 'allowed'], checked)
-        }
-      })
-
-      this.updateCaches(selectedRows, column, checked)
-
-      console.log('---- cached: ', this.state.cachedData)
 
       switch(column) {
         case STATION_AUTO_OPTIONS.warning: {
@@ -257,14 +192,73 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
           break;
         }
       }
+    }
 
+    onChagedOptionOfRow({row, key, value}) {
+      if (key === STATION_AUTO_OPTIONS.warning) {
+        let columns = _.values(STATION_AUTO_OPTIONS)
+        console.log(columns, "columns_removedWarning")
+        _.forEach(columns, column => {
+          this.updateDataSource(row, column, value)
+          this.updateCache(row, column, value)
+          this.checkIndeterminate(column, this.state.dataSource)
+        })
+      }
+      else {
+        this.updateDataSource(row, key, value)
+        this.updateCache(row, key, value)
+        this.checkIndeterminate(key, this.state.dataSource)
+      }
+    }
+
+    updateDataSource(row, key, value) {
+      let _dataSource = this.state.dataSource
+      let indexOfRow = _.findIndex(this.state.dataSource, stationAuto => stationAuto._id === row._id)
+      _.set(_dataSource, `[${indexOfRow}].options[${key}].allowed`, value)
+  
+      this.setState({ dataSource: _dataSource })
+    }
+
+    updateCache(row, key, value) {
+      /* NOTE  cached content
+        {
+          "_id": {
+            warning: true,
+            sms: false,
+            email: true
+          }
+        }
+      */
+      let _cachedData = this.state.cachedData
+      let _dataSourceOriginal = this.state.dataSourceOriginal
+
+      let indexOfRow = _.findIndex(_dataSourceOriginal, stationAuto => stationAuto._id === row._id)
+      let originalOption = _.get(_dataSourceOriginal[indexOfRow], ['options', key, 'allowed'], false)
+      let currentValueInCache = _.get(_cachedData, [row._id, key])
+      
+      if (currentValueInCache){
+        delete _cachedData[row._id][key]
+        if (_.keys(_cachedData[row._id]).length === 0) {
+          delete _cachedData[row._id]
+        }
+      }
+      else if (originalOption !== value) {
+        _.set(_cachedData, [row._id, key, 'allowed'], value)
+      }
+
+      this.setState({cachedData: _cachedData})
+    }
+
+    onClearCache() {
+      let originalData = this.state.dataSourceOriginal
       this.setState({
-        dataSource: _dataSource,
+        dataSource: [...originalData],
+        cachedData: {}
       })
     }
 
     checkIndeterminate(column, data) {
-      let _dataSource = _.cloneDeep(this.state.dataSource)
+      let _dataSource = this.state.dataSource
       let result = _.map(_dataSource, station => {
         return _.get(station, ['options', column, 'allowed'])
       })
@@ -280,9 +274,38 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       }
     }
 
+    checkCheckboxAvailable(row, key, value) {
+
+    }
+
+    async onSubmitCache() {
+      this.setState({isSave: true})
+      const res = await updateStationAutoOptions(this.state.cachedData)
+      if (res.success) {
+        this.setState({
+          dataSourceOriginal: this.state.dataSource,
+          cachedData: {}
+        })
+        swal({
+          title: i18n.success,
+          type: 'success'
+        })
+      }
+      else if (res.error) {
+        console.log(res.message)
+        swal({
+          title: i18n.error,
+          type: 'error'
+        })
+      }
+    
+      this.setState({isSave: false})
+    }
+
     showTotal = (total, range) => `${range[1]}/${total}`
 
     render() {
+      console.log('--- cached: ', this.state.cachedData)
       // Truyền các tham số cho Component con (props)
       const props = {
         dataSource: this.state.dataSource,
@@ -294,12 +317,12 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
         pathImg: this.state.pathImg,
         onChangeSearch: this.onChangeSearch,
         data: this.state.data,
-        updateStationConfig: this.onChangeStationConfig,
+        updateStationOption: this.onChagedOptionOfRow,
         isSave: this.state.isSave,
         clearCache: this.onClearCache,
         submitCache: this.onSubmitCache,
         cachedData: this.state.cachedData,
-        handleCheckAll: this.onCheckAllTableHeader,
+        handleCheckAll: this.onChagedOptionOfHeader,
         isWarningIndeterminate: this.state.isWarningIndeterminate,
         isSmsIndeterminate: this.state.isSmsIndeterminate,
         isEmailIndeterminate: this.state.isEmailIndeterminate,
