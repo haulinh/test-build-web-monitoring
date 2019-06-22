@@ -1,6 +1,7 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import _, { get } from 'lodash'
+import { message } from 'antd'
 import swal from 'sweetalert2'
 
 import { updateStationAutoOptions } from 'api/StationAuto'
@@ -10,6 +11,10 @@ const i18n = {
   success: 'Lưu thành công',  /* MARK  @translate */
   error: 'Lỗi'                /* MARK  @translate */
 }
+
+const showSuccess = (msg) => {
+  message.success(`${msg}`);
+};
 
 /**
  * Manager list data
@@ -286,10 +291,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
           dataSourceOriginal: this.state.dataSource,
           cachedData: {}
         })
-        swal({
-          title: i18n.success,
-          type: 'success'
-        })
+        showSuccess(i18n.success)
       }
       else if (res.error) {
         console.log(res.message)
