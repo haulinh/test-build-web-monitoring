@@ -288,7 +288,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       const res = await updateStationAutoOptions(this.state.cachedData)
       if (res.success) {
         this.setState({
-          dataSourceOriginal: this.state.dataSource,
+          dataSourceOriginal: _.cloneDeep(this.state.dataSource),
           cachedData: {}
         })
         showSuccess(i18n.success)
