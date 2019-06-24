@@ -87,14 +87,11 @@ export default class StationAutoConfigNotification extends React.Component {
         dataSourceOriginal: _.cloneDeep(nextProps.dataSource),
         dataSource: _.cloneDeep(nextProps.dataSource)
       })
+      _.forEach(_.values(STATION_AUTO_OPTIONS), column => {
+        this.checkIndeterminate(column, nextProps.dataSource)
+      })
     }
   }
-
-  // componentDidMount() {
-  //   _.forEach(_.values(STATION_AUTO_OPTIONS), column => {
-  //     this.checkIndeterminate(column, this.state.dataSourceOriginal)
-  //   })
-  // }
 
   render() {
     return (
@@ -413,7 +410,7 @@ export default class StationAutoConfigNotification extends React.Component {
   }
 
   checkIndeterminate(column, data) {
-    let _dataSource = this.state.dataSource
+    let _dataSource = _.cloneDeep(data)
     let result = _.map(_dataSource, station => {
       return _.get(station, ['options', column, 'allowed'])
     })
