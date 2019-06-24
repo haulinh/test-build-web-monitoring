@@ -79,7 +79,7 @@ export default {
         </Menu.Item>
       )}
 
-      {/*  */}
+      {/* NOTE  ĐƠN VỊ QUẢN LÝ */}
       {protectRole(ROLE.PROVINCE.VIEW)(
         <Menu.Item
           key={slug.province.base}
@@ -91,6 +91,7 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  QUY CHUẨN */}
       {protectRole(ROLE.QCVN.VIEW)(
         <Menu.Item
           key={slug.qcvn.base}
@@ -102,6 +103,7 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  NHÓM QUYỀN */}
       {protectRole(ROLE.ROLE.VIEW)(
         <Menu.Item
           key="/role"
@@ -114,6 +116,7 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  TÀI KHOẢN */}
       {protectRole(ROLE.USER.VIEW)(
         <Menu.Item
           key={slug.user.base}
