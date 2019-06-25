@@ -26,6 +26,8 @@ import authApi from 'api/AuthApi'
 import { connect } from 'react-redux'
 import { get as _get } from 'lodash'
 
+
+
 const AccountWapper = styled.div`
   display: flex;
   align-items: center;
@@ -127,35 +129,6 @@ export default class UserList extends React.Component {
     
   }
 
-  buttonAdd() {
-    const {
-      lang: { t }
-    } = this.props
-    return (
-      <div>
-        {protectRole(ROLE.USER.CREATE)(
-          <Link to={slug.user.create}>
-            <Button type="primary">
-              <Icon type="plus" />
-              {t('addon.create')}
-            </Button>
-          </Link>
-        )}
-      </div>
-    )
-  }
-
-  renderSearchForm() {
-    return (
-      <UserSearchForm
-        onChangeSearch={query => {
-          this.props.onChangeSearch(query)
-        }}
-        initialValues={this.props.data}
-      />
-    )
-  }
-
   actionGroup(row) {
     const {
       lang: { t }
@@ -227,14 +200,6 @@ export default class UserList extends React.Component {
               <IconButton type="delete" color={'red'} />
               {t('addon.delete')}
             </a>
-          </Menu.Item>
-        )}
-        {protectRole(ROLE.USER.ROLE)(
-          <Menu.Item key="2">
-            <Link to={slug.user.ruleWithKey + '/' + row._id}>
-              <IconButton type="usergroup-add" />
-              {t('userManager.list.roleAssign')}
-            </Link>
           </Menu.Item>
         )}
         {protectRole(ROLE.USER.ENABLE_ACCOUNT)(
@@ -459,8 +424,16 @@ export default class UserList extends React.Component {
 
   render() {
     return (
-      <PageContainer center={this.renderSearchForm()} right={this.buttonAdd()}>
+      <PageContainer>
         <Breadcrumb items={['list']} />
+
+        <UserSearchForm
+          onChangeSearch={query => {
+            this.props.onChangeSearch(query)
+          }}
+          initialValues={this.props.data}
+        />
+
         {this.props.dataSource && (
           <DynamicTable
             loading={this.props.isLoading}

@@ -1,7 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import { Row, Col, Form as FormStyle, Input, Button, Icon } from 'antd'
+import { Row, Col, Form, Input, Button, Icon } from 'antd'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
@@ -10,32 +11,15 @@ import { translate } from 'hoc/create-lang'
 import slug from 'constants/slug'
 import ROLE from 'constants/role'
 
-// import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
-import styled from 'styled-components'
-// import { getOrganizations } from 'api/OrganizationApi'
 
-require('./index.css')
-
-const FormItem = FormStyle.Item
+const FormItem = Form.Item
 
 const i18n = {
   create: translate('addon.create'),
   roleAssign: translate('userManager.list.roleAssign')
 }
 
-const Form = styled(FormStyle)`
-  display: flex;
-  align-items: flex-end;
-  .ant-form-item-control {
-    line-height: 0px;
-  }
-  .ant-form-item {
-    margin-bottom: 0px;
-    max-width: 140px;
-  }
-`
-
-@FormStyle.create({
+@Form.create({
   mapPropsToFields: mapPropsToFields
 })
 @createLanguage
@@ -98,6 +82,7 @@ export default class UserSearchForm extends React.PureComponent {
 
     return (
       <Row gutter={16}>
+        {/* NOTE  INPUTS */}
         <Col span={18}>
           <Form className="fadeIn animated" onSubmit={this.changeSearch}>
             <Row gutter={16} style={{width: '100%'}}>
@@ -121,31 +106,10 @@ export default class UserSearchForm extends React.PureComponent {
                   <Icon type="search" />
                 </Button>
               </Col>
-            
-              {/* tạm thời bỏ số dt đi
-              <Clearfix />
-              <FormItem {...formItemLayout}>
-                {getFieldDecorator(`phone`, {
-                  initialValue: this.props.initialValues.type,
-                  rules: [
-                    {
-                      //required: true,
-                      message: t('userManager.form.phone.label')
-                    }
-                  ]
-                })(
-                  <ReactTelephoneInput
-                    defaultCountry="vn"
-                    flagsImagePath="./images/flags.png"
-                    onChange={this.handleInputChange}
-                    // onBlur={this.handleInputBlur}
-                  />
-                )}
-              </FormItem>
-                */}
             </Row>
           </Form>
         </Col>
+        {/* NOTE  BUTTONS */}
         <Col span={6} style={{textAlign: "right"}}>
           {protectRole(ROLE.USER.ROLE)(
             <Link to={slug.user.rule}>

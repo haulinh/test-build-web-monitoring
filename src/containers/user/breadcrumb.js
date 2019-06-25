@@ -10,6 +10,12 @@ export default createBreadcrumb({
     href: slug.user.list,
     name: translate('userManager.breadcrumb.list')
   },
+  rule: {
+    id: 'rule',
+    //icon: Icon.car,
+    href: slug.user.rule,
+    name: translate('userManager.breadcrumb.rule')
+  },
   create: {
     id: 'create',
     href: slug.user.create,

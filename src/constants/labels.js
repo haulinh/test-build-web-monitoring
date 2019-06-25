@@ -8,7 +8,7 @@ export const STATION_AUTO_OPTIONS = {
 }
 
 export const USER_RULE_TABLE_OPTIONS = {
-  manager: "manager",
+  primary: "manager",
   warning: 'warning',
   sms: 'sms',
   email: 'email'

@@ -23,7 +23,7 @@ export default props => (
     />
     <Route path={slug.user.edit} component={UserEdit} />
 
-    <Route path={slug.user.rule} component={UserRule} />
+    <Route exact path={slug.user.rule} component={UserRule} />
     <Route path={slug.user.changePassword} component={ChangePassword} />
     <Route path={slug.user.configStation} component={ConfigStation} />
     <Route path={slug.user.profile} component={ProfileUser} />

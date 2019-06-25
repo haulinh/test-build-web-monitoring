@@ -144,7 +144,7 @@ export default class StationAutoConfigNotification extends React.Component {
       { content: i18n.stationAddr, width: 20 },
       { 
         content: (
-          <div style={{textAlign: 'center'}}>
+          <div>
             <Checkbox
               indeterminate={this.state.isWarningIndeterminate}
               checked={this.state.isWarningCheckAll}
@@ -155,7 +155,7 @@ export default class StationAutoConfigNotification extends React.Component {
         width: 15 },
       { 
         content: (
-          <div style={{textAlign: 'center'}}>
+          <div>
             <Checkbox
               indeterminate={this.state.isSmsIndeterminate}
               checked={this.state.isSmsCheckAll}
@@ -167,7 +167,7 @@ export default class StationAutoConfigNotification extends React.Component {
         width: 15 },
       { 
         content: (
-          <div style={{textAlign: 'center'}}>
+          <div>
             <Checkbox
               indeterminate={this.state.isEmailIndeterminate}
               checked={this.state.isEmailCheckAll}
@@ -226,7 +226,7 @@ export default class StationAutoConfigNotification extends React.Component {
           /* checkbox gởi cảnh báo */
           {
             content: (
-              <div style={{textAlign: 'center'}}>
+              <div>
                 <Checkbox 
                   checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.warning, 'allowed'], false)} 
                   onChange={(e) => this.onChagedOptionOfRow({row, key: STATION_AUTO_OPTIONS.warning, value: e.target.checked})}
@@ -237,7 +237,7 @@ export default class StationAutoConfigNotification extends React.Component {
           /* checkbox SMS */
           {
             content: (
-              <div style={{textAlign: 'center'}}>
+              <div>
                 <Checkbox
                   disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
                   checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.sms, 'allowed'], false)}
@@ -249,7 +249,7 @@ export default class StationAutoConfigNotification extends React.Component {
           /* checkbox Email */
           {
             content: (
-              <div style={{textAlign: 'center'}}>
+              <div>
                 <Checkbox
                   disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
                   checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.email, 'allowed'], false)} 
