@@ -1,26 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { Table, Checkbox } from 'antd'
+import { Row, Table, Checkbox, Button, Icon, message } from 'antd'
 import _ from 'lodash'
 import swal from 'sweetalert2'
 
 import { translate } from 'hoc/create-lang'
-import createManagerList from 'hoc/manager-list'
-import StationAutoApi from 'api/StationAuto'
 import {USER_RULE_TABLE_OPTIONS}  from 'constants/labels'
 
 const i18n = {
+  submit: translate('addon.save'),
+  success: translate("addon.onSave.update.success"),
+  error: translate("addon.onSave.update.error"),
   stationName: translate('stationAutoManager.form.name.label'),
   stationAddr: translate('stationAutoManager.form.address.label')
 }
 
-@createManagerList({
-  apiList: StationAutoApi.getStationAutos
-})
+const showSuccess = (msg) => {
+  message.success(`${msg}`);
+};
+
 @autobind
 export default class UserRuleTable extends React.Component {
-  static propTypes = {}
+  static propTypes = {
+    dataSource: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+  }
+
   static defaultProps = {}
   
   constructor(props) {
@@ -28,8 +34,8 @@ export default class UserRuleTable extends React.Component {
     this.state = {
       /* giông cách hoạt động của git */  
       cachedData: {},             /* commit */
-      dataSource: [],             /* working dir */
-      dataSourceOriginal: [],     /* index */
+      dataSourceWorking: [],             /* working dir */
+      dataSourceCommited: [],     /* index */
 
       isSave: false,
 
@@ -45,10 +51,10 @@ export default class UserRuleTable extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dataSource.length !== this.state.dataSourceOriginal.length ) {
+    if (nextProps.dataSource.length !== this.state.dataSourceCommited.length ) {
       this.setState({
-        dataSourceOriginal: _.cloneDeep(nextProps.dataSource),
-        dataSource: _.cloneDeep(nextProps.dataSource)
+        dataSourceCommited: _.cloneDeep(nextProps.dataSource),
+        dataSourceWorking: _.cloneDeep(nextProps.dataSource)
       })
       _.forEach(_.values(USER_RULE_TABLE_OPTIONS), column => {
         this.checkIndeterminate(column, nextProps.dataSource)
@@ -58,13 +64,24 @@ export default class UserRuleTable extends React.Component {
 
   /* NOTE  RENDER */
   render() {
-    let mockColumns = this.getTableHeader()
-    let mockDataSource = this.getTableRows(this.state.dataSource)
     return (
-      <Table 
-        dataSource={mockDataSource} 
-        columns={mockColumns} 
-      />
+      <Row>
+        <Table
+          size="middle"
+          pagination={false}
+          loading={{spinning: this.props.isGettingStationsAuto, indicator: <Icon type="loading" style={{ fontSize: 24 }} spin />}}
+          dataSource={this.getTableRows(this.state.dataSourceWorking)} 
+          columns={this.getTableHeader()} 
+        />
+        <Button
+          style={{margin: '20px 0'}}
+          type="primary" 
+          block 
+          loading={this.state.isSave} 
+          onClick={this.submitCache}>
+          {i18n.submit}
+        </Button>
+      </Row>
     )
   }
 
@@ -188,6 +205,7 @@ export default class UserRuleTable extends React.Component {
   getTableRows(data) {
     return data.map(row => {
       return {
+        _id: row._id,
         name: row.name,
         address: row.address,
         primary: _.get(row, ['options', USER_RULE_TABLE_OPTIONS.primary, 'allowed'], false),
@@ -200,8 +218,7 @@ export default class UserRuleTable extends React.Component {
 
 
   onChagedOptionOfHeader(column, checked) {
-    let _dataSource = this.state.dataSource
-    console.log(column, checked)
+    let _dataSourceWorking = this.state.dataSourceWorking
     if (column === USER_RULE_TABLE_OPTIONS.primary) {
       this.setState({
         isManagerIndeterminate: false,
@@ -214,7 +231,7 @@ export default class UserRuleTable extends React.Component {
         isEmailCheckAll: checked,
       })
 
-      _.forEach(_dataSource, (row, index) => {
+      _.forEach(_dataSourceWorking, (row, index) => {
         this.onChagedOptionOfRow({index, row, key: USER_RULE_TABLE_OPTIONS.primary, value: checked})
       })
     }
@@ -223,7 +240,7 @@ export default class UserRuleTable extends React.Component {
       - tìm và thay đổi giá trị không giống với với checkbox select all và warning == enabled
       - update cached
       */
-      _.forEach(_dataSource, (row, index) => {
+      _.forEach(_dataSourceWorking, (row, index) => {
         let isDiffValue = _.get(row, ['options', column, 'allowed']) !== checked
         let isPrimaryCheckBoxEnabled = _.get(row, ['options', USER_RULE_TABLE_OPTIONS.primary, 'allowed']) === true
         if (isDiffValue && isPrimaryCheckBoxEnabled) {
@@ -263,41 +280,41 @@ export default class UserRuleTable extends React.Component {
       let columns = _.values(USER_RULE_TABLE_OPTIONS)
       _.forEach(columns, column => {
         this.updateDataSource(index, column, value)
-        this.updateCache(row, column, value)
-        this.checkIndeterminate(column, this.state.dataSource)
+        this.updateCache(index, row, column, value)
+        this.checkIndeterminate(column, this.state.dataSourceWorking)
       })
     }
     else {
       this.updateDataSource(index, key, value)
-      this.updateCache(row, key, value)
-      this.checkIndeterminate(key, this.state.dataSource)
+      this.updateCache(index, row, key, value)
+      this.checkIndeterminate(key, this.state.dataSourceWorking)
     }
   }
 
   updateDataSource(index, key, value) {
-    let _dataSource = this.state.dataSource
-    _.set(_dataSource, `[${index}].options[${key}].allowed`, value)
-    this.setState({ dataSource: _dataSource })
+    let _dataSourceWorking = this.state.dataSourceWorking
+    _.set(_dataSourceWorking, `[${index}].options[${key}].allowed`, value)
+    this.setState({ dataSourceWorking: _dataSourceWorking })
   }
 
-  updateCache(row, key, value) {
+  updateCache(index, row, key, value) {
     /* NOTE  cached content
       {
         "_id": {
-          warning: true,
-          sms: false,
-          email: true
+          manager: {allowed: true },
+          warning: {allowed: true },
+          sms    : {allowed: false},
+          email  : {allowed: true }
         }
       }
     */
     let _cachedData = this.state.cachedData
-    let _dataSourceOriginal = this.state.dataSourceOriginal
+    let _dataSourceOriginal = this.state.dataSourceCommited
 
-    let indexOfRow = _.findIndex(_dataSourceOriginal, stationAuto => stationAuto._id === row._id)
-    let originalOption = _.get(_dataSourceOriginal[indexOfRow], ['options', key, 'allowed'], false)
-    let currentValueInCache = _.get(_cachedData, [row._id, key])
+    let originalOption = _.get(_dataSourceOriginal[index], ['options', key, 'allowed'], false)
+    let isHasValueInCached = _.get(_cachedData, [row._id, key])
     
-    if (currentValueInCache){
+    if (isHasValueInCached){
       delete _cachedData[row._id][key]
       if (_.keys(_cachedData[row._id]).length === 0) {
         delete _cachedData[row._id]
@@ -311,16 +328,16 @@ export default class UserRuleTable extends React.Component {
   }
 
   clearCache() {
-    let originalData = this.state.dataSourceOriginal
+    let originalData = this.state.dataSourceCommited
     this.setState({
-      dataSource: [...originalData],
+      dataSourceWorking: [...originalData],
       cachedData: {}
     })
   }
 
   checkIndeterminate(column, data) {
-    let _dataSource = _.cloneDeep(data)
-    let result = _.map(_dataSource, station => {
+    let _dataSourceWorking = _.cloneDeep(data)
+    let result = _.map(_dataSourceWorking, station => {
       return _.get(station, ['options', column, 'allowed'])
     })
     
@@ -337,11 +354,18 @@ export default class UserRuleTable extends React.Component {
   }
 
   async submitCache() {
+    console.log("-- submited data -- ", this.state.cachedData)
+    this.setState({isSave: true})
+    setTimeout(() => {
+      showSuccess(i18n.success)
+      this.setState({isSave: false})
+    }, 1000)
+    /* ------------------------------------------------------------------------------------ */
     // this.setState({isSave: true})
     // const res = await updateStationAutoOptions(this.state.cachedData)
     // if (res.success) {
     //   this.setState({
-    //     dataSourceOriginal: _.cloneDeep(this.state.dataSource),
+    //     dataSourceCommited: _.cloneDeep(this.state.dataSourceWorking),
     //     cachedData: {}
     //   })
     //   showSuccess(i18n.success)

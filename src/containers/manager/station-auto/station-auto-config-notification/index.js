@@ -23,9 +23,9 @@ import DynamicTable from 'components/elements/dynamic-table'
 
 const i18n = {
   cancel: 'Bõ chọn', /* MARK  @translate */
-  save: 'Lưu', /* MARK  @translate */
-  success: 'Lưu thành công',  /* MARK  @translate */
-  error: 'Lỗi',               /* MARK  @translate */
+  submit: translate('addon.save'),
+  updateSuccess: translate("addon.onSave.update.success"),
+  updateError: translate("addon.onSave.update.error"),             /* MARK  @translate */
   stationName: translate('stationAutoManager.form.name.label'),
   stationAddr: translate('stationAutoManager.form.address.label')
 }
@@ -434,12 +434,12 @@ export default class StationAutoConfigNotification extends React.Component {
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),
         cachedData: {}
       })
-      showSuccess(i18n.success)
+      showSuccess(i18n.updateSuccess)
     }
     else if (res.error) {
       console.log(res.message)
       swal({
-        title: i18n.error,
+        title: i18n.updateError,
         type: 'error'
       })
     }
