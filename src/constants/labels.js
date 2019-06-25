@@ -6,3 +6,10 @@ export const STATION_AUTO_OPTIONS = {
   sms: 'sms',
   email: 'email'
 }
+
+export const USER_RULE_TABLE_OPTIONS = {
+  primary: "manager",
+  warning: 'warning',
+  sms: 'sms',
+  email: 'email'
+}

@@ -1,217 +1,123 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, Button, Checkbox, Form, Select, Row, Col, Spin } from 'antd'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { autobind } from 'core-decorators'
-import Breadcrumb from '../breadcrumb'
-import createLanguage, { langPropTypes } from 'hoc/create-lang'
-import { message } from 'antd'
-import StationAutoApi from 'api/StationAuto'
-import RoleApi from 'api/RoleApi'
+import { Row } from 'antd'
+import _ from 'lodash'
+import swal from 'sweetalert2'
+
 import UserApi from 'api/UserApi'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import RoleApi from 'api/RoleApi'
+import StationAutoApi from 'api/StationAuto'
+import { translate } from 'hoc/create-lang'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import SearchForm from './search-form'
+import Breadcrumb from '../breadcrumb'
+import UserRuleTable from './table'
 
-const FormItem = Form.Item
-const Option = Select.Option
+const i18n = {
+  error: translate("addon.onSave.update.error"),
+}
 
-@protectRole(ROLE.USER.ROLE)
-@createLanguage
 @autobind
-export default class RoleList extends React.Component {
+export default class UserRole extends React.Component {
   static propTypes = {
+    dataSource: PropTypes.array,
     pagination: PropTypes.object,
-    pathImg: PropTypes.string,
-    onChangePage: PropTypes.func,
-    onChangePageSize: PropTypes.func,
-    onDeleteItem: PropTypes.func,
-    fetchData: PropTypes.func,
-    lang: langPropTypes
-  }
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoaded: false,
-      dataStations: [],
-      dataRoles: [],
-      selectedRowKeys: [],
-      selectedRows: [],
-      selectedRole: {},
-      isAdmin: false,
-      userName: ''
-    }
-  }
-  async componentWillMount() {
-    const MAX_VALUE = 99999
-    const key = this.props.match.params.key
-
-    let stations = await StationAutoApi.getStationAutos(
-      { itemPerPage: MAX_VALUE },
-      {}
-    )
-    let roles = await RoleApi.getRoles({ itemPerPage: MAX_VALUE })
-    if (roles.error) message.error(roles.message)
-    let user = await UserApi.getOne(key)
-
-    this.setState({
-      isLoaded: true,
-      dataStations: stations && stations.data ? stations.data : [],
-      dataRoles: roles && roles.data ? roles.data : [],
-      selectedRole:
-        user.success && user.data.role ? user.data.role : { _id: '' },
-      selectedRows:
-        user.success && user.data.stationAutos ? user.data.stationAutos : [],
-      selectedRowKeys:
-        user.success && user.data.stationAutos
-          ? user.data.stationAutos.map(item => item.key)
-          : [],
-      isAdmin: user.success && user.data.isAdmin ? user.data.isAdmin : false,
-      userName:
-        user.success && user.data.firstName
-          ? user.data.firstName + user.data.lastName
-          : ''
-    })
+    data: PropTypes.object,
+    onChangeSearch: PropTypes.func,
+    isLoading: PropTypes.bool,
   }
 
-  async handleSubmit(e) {
-    const {
-      lang: { t }
-    } = this.props
-    e.preventDefault()
-    this.setState({
-      isLoading: true
-    })
-    let data = {
-      role: this.state.selectedRole,
-      stationAutos: this.state.selectedRows.map(item => {
-        delete item.lastLog
-        return item
-      }),
-      isAdmin: this.state.isAdmin
+  state = {
+    isGettingUsers: true,
+    isGettingRoles: true,
+    isGettingStationsAuto: false,
+    dataSourceUsers: [],
+    dataSourceRoles: [],
+    dataSourceStationsAuto: [],
+  }
+
+  async componentDidMount() {
+    await Promise.all([
+      this.getUsers(),
+      this.getRoles(),
+      this.getStationAutos()  
+    ])
+  }
+  
+  /* NOTE */
+  render(){
+    const propsSearchForm = {
+      isGettingUsers: this.state.isGettingUsers,
+      isGettingRoles: this.state.isGettingRoles,
+      dataSourceUsers: this.state.dataSourceUsers,
+      dataSourceRoles: this.state.dataSourceRoles
     }
 
-    const key = this.props.match.params.key
-    const res = await UserApi.updateRole(key, data)
-    this.setState({
-      isLoading: false
-    })
-    if (res.success) message.info(t('userManager.roleAssign.success'))
-    else message.info(res.message)
-  }
-
-  getColumns() {
-    const {
-      lang: { t }
-    } = this.props
-    return [
-      {
-        title: t('userManager.roleAssign.nameStation'),
-        dataIndex: 'name'
-      },
-      {
-        title: t('userManager.roleAssign.address'),
-        dataIndex: 'address'
-      }
-    ]
-  }
-
-  onSelectChange = (selectedRowKeys, selectedRows) => {
-    this.setState({ selectedRowKeys, selectedRows })
-  }
-
-  onChangeRole(value) {
-    this.setState({
-      selectedRole: this.state.dataRoles.find(item => item._id === value)
-    })
-  }
-
-  onChangeIsAdmin(e) {
-    this.setState({
-      isAdmin: e.target.checked
-    })
-  }
-
-  render() {
-    const { selectedRowKeys } = this.state
-    const {
-      lang: { t }
-    } = this.props
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange
+    const propsUserRuleTable = {
+      isGettingStationsAuto: this.state.isGettingStationsAuto,
+      dataSource: this.state.dataSourceStationsAuto
     }
+
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <PageContainer>
-          <Spin spinning={!this.state.isLoaded} delay={500}>
-            <Breadcrumb
-              items={[
-                'list',
-                {
-                  id: t('userManager.roleAssign.role'),
-                  name: this.state.isLoaded ? this.state.userName : ''
-                }
-              ]}
-            />
-            <Row gutter={16}>
-              <Col span={12}>
-                <FormItem
-                  label={t('userManager.roleAssign.role')}
-                  labelCol={{ span: 4 }}
-                  wrapperCol={{ span: 10 }}
-                >
-                  <Select
-                    style={{ width: 240, paddingLeft: '4px' }}
-                    onChange={this.onChangeRole}
-                    value={this.state.selectedRole._id}
-                  >
-                    {this.state.dataRoles.map(role => (
-                      <Option key={role._id} value={role._id}>
-                        {' '}
-                        {role.name}
-                      </Option>
-                    ))}
-                  </Select>
-                </FormItem>
-              </Col>
-              <Col span={12}>
-                <FormItem>
-                  <Checkbox
-                    checked={this.state.isAdmin}
-                    onChange={this.onChangeIsAdmin}
-                  >
-                    {t('userManager.roleAssign.isAdmin')}
-                  </Checkbox>
-                </FormItem>
-              </Col>
-            </Row>
-            {this.state.dataStations && (
-              <Table
-                rowSelection={rowSelection}
-                loading={!this.state.isLoaded}
-                columns={this.getColumns()}
-                dataSource={this.state.dataStations}
-                pagination={{
-                  pageSize: 1000,
-                  hideOnSinglePage: true
-                }}
-              />
-            )}
-
-            <br />
-            <FormItem>
-              <Button
-                style={{ width: '100%' }}
-                type="primary"
-                htmlType="submit"
-                loading={this.state.isLoading}
-              >
-                {t('addon.save')}
-              </Button>
-            </FormItem>
-          </Spin>
-        </PageContainer>
-      </Form>
+      <PageContainer>
+        <Breadcrumb items={['list', 'rule']}/>
+        <Row style={{marginBottom: 30}}>
+          <SearchForm {...propsSearchForm}/>
+        </Row>
+        <UserRuleTable {...propsUserRuleTable}/>
+      </PageContainer>
     )
+  }
+
+  componentDidCatch() {
+    swal({
+      title: i18n.error,
+      type: 'error'
+    })
+  }
+
+
+  /* NOTE */
+  /* TODO  api chua co, phai viet them */
+  async getUsers() {
+    this.setState({
+      isGettingUsers: true,
+    })
+
+    let resUsers = await UserApi.searchUser()
+
+    this.setState({
+      isGettingUsers: false,
+      dataSourceUsers: _.get(resUsers, 'data', []),
+    })
+  }
+
+  /* NOTE */
+  async getRoles() {
+    this.setState({
+      isGettingRoles: true,
+    })
+
+    let resRoles = await RoleApi.getRoles()
+
+    this.setState({
+      isGettingRoles: false,
+      dataSourceRoles: _.get(resRoles, 'data', []),
+    })
+  }
+
+  /* NOTE */
+  async getStationAutos() {
+    this.setState({
+      isGettingStationsAuto: true
+    })
+
+    let resStationsAuto = await StationAutoApi.getStationAutos()
+
+    this.setState({
+      isGettingStationsAuto: false,
+      dataSourceStationsAuto: _.get(resStationsAuto, 'data', []),
+    })
   }
 }

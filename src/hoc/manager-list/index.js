@@ -111,7 +111,6 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
     showTotal = (total, range) => `${range[1]}/${total}`
 
     render() {
-      console.log('--- cached: ', this.state.cachedData)
       // Truyền các tham số cho Component con (props)
       const props = {
         dataSource: this.state.dataSource,

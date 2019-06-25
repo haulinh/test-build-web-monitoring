@@ -996,6 +996,7 @@ export default {
   userManager: {
     breadcrumb: {
       list: 'Danh sách người dùng',
+      rule: 'Ủy quyền',
       create: 'Tạo mới',
       edit: 'Chỉnh sửa'
     },

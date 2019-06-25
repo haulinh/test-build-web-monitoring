@@ -1,9 +1,15 @@
 import React from 'react'
-import { Form as FormStyle, Input, Button, Icon } from 'antd'
+import {Link} from 'react-router-dom'
+import { Row, Col, Form as FormStyle, Input, Button, Icon } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import { translate } from 'hoc/create-lang'
+import slug from 'constants/slug'
+import ROLE from 'constants/role'
+
 // import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
 import styled from 'styled-components'
 // import { getOrganizations } from 'api/OrganizationApi'
@@ -11,6 +17,12 @@ import styled from 'styled-components'
 require('./index.css')
 
 const FormItem = FormStyle.Item
+
+const i18n = {
+  create: translate('addon.create'),
+  roleAssign: translate('userManager.list.roleAssign')
+}
+
 const Form = styled(FormStyle)`
   display: flex;
   align-items: flex-end;
@@ -21,9 +33,6 @@ const Form = styled(FormStyle)`
     margin-bottom: 0px;
     max-width: 140px;
   }
-`
-const Clearfix = styled.div`
-  width: 8px;
 `
 
 @FormStyle.create({
@@ -86,58 +95,75 @@ export default class UserSearchForm extends React.PureComponent {
     const {
       lang: { t }
     } = this.props
-    const formItemLayout = {
-      // wrapperCol: {
-      //   xs: { span: 16 },
-      //   sm: { span: 16 },
-      // },
-    }
 
     return (
-      <Form className="fadeIn animated" onSubmit={this.changeSearch}>
-        <FormItem {...formItemLayout}>
-          {getFieldDecorator(`email`)(
-            <Input placeholder={t('userManager.form.email.placeholder')} />
+      <Row gutter={16}>
+        <Col span={18}>
+          <Form className="fadeIn animated" onSubmit={this.changeSearch}>
+            <Row gutter={16} style={{width: '100%'}}>
+              <Col span={8}>
+                {getFieldDecorator(`email`)(
+                  <Input placeholder={t('userManager.form.email.placeholder')}/>
+                )}
+              </Col>
+              <Col span={8}>
+                {getFieldDecorator(`firstName`)(
+                  <Input placeholder={t('userManager.form.firstName.placeholder')} />
+                )}
+              </Col>
+              <Col span={7}>
+                {getFieldDecorator(`lastName`)(
+                  <Input placeholder={t('userManager.form.lastName.placeholder')}/>
+                )}
+              </Col>
+              <Col span={1}>
+                <Button shape="circle" htmlType="submit">
+                  <Icon type="search" />
+                </Button>
+              </Col>
+            
+              {/* tạm thời bỏ số dt đi
+              <Clearfix />
+              <FormItem {...formItemLayout}>
+                {getFieldDecorator(`phone`, {
+                  initialValue: this.props.initialValues.type,
+                  rules: [
+                    {
+                      //required: true,
+                      message: t('userManager.form.phone.label')
+                    }
+                  ]
+                })(
+                  <ReactTelephoneInput
+                    defaultCountry="vn"
+                    flagsImagePath="./images/flags.png"
+                    onChange={this.handleInputChange}
+                    // onBlur={this.handleInputBlur}
+                  />
+                )}
+              </FormItem>
+                */}
+            </Row>
+          </Form>
+        </Col>
+        <Col span={6} style={{textAlign: "right"}}>
+          {protectRole(ROLE.USER.ROLE)(
+            <Link to={slug.user.rule}>
+              <Button type="primary">
+                <Icon type="usergroup-add" /> {i18n.roleAssign}
+              </Button>
+            </Link>
           )}
-        </FormItem>
-        <Clearfix />
-        <FormItem {...formItemLayout}>
-          {getFieldDecorator(`firstName`)(
-            <Input placeholder={t('userManager.form.firstName.placeholder')} />
+
+          {protectRole(ROLE.USER.CREATE)(
+            <Link to={slug.user.create} style={{marginLeft: 16}}>
+              <Button type="primary">
+                <Icon type="plus" /> {i18n.create}
+              </Button>
+            </Link>
           )}
-        </FormItem>
-        <Clearfix />
-        <FormItem {...formItemLayout}>
-          {getFieldDecorator(`lastName`)(
-            <Input placeholder={t('userManager.form.lastName.placeholder')} />
-          )}
-        </FormItem>
-        {/* tạm thời bỏ số dt đi
-        <Clearfix />
-        <FormItem {...formItemLayout}>
-          {getFieldDecorator(`phone`, {
-            initialValue: this.props.initialValues.type,
-            rules: [
-              {
-                //required: true,
-                message: t('userManager.form.phone.label')
-              }
-            ]
-          })(
-            <ReactTelephoneInput
-              defaultCountry="vn"
-              flagsImagePath="./images/flags.png"
-              onChange={this.handleInputChange}
-              // onBlur={this.handleInputBlur}
-            />
-          )}
-        </FormItem>
-          */}
-        <Clearfix />
-        <Button shape="circle" htmlType="submit">
-          <Icon type="search" />
-        </Button>
-      </Form>
+        </Col>
+      </Row>
     )
   }
 }

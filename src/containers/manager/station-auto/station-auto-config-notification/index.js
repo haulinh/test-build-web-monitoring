@@ -23,9 +23,9 @@ import DynamicTable from 'components/elements/dynamic-table'
 
 const i18n = {
   cancel: 'Bõ chọn', /* MARK  @translate */
-  save: 'Lưu', /* MARK  @translate */
-  success: 'Lưu thành công',  /* MARK  @translate */
-  error: 'Lỗi',               /* MARK  @translate */
+  submit: translate('addon.save'),
+  updateSuccess: translate("addon.onSave.update.success"),
+  updateError: translate("addon.onSave.update.error"),             /* MARK  @translate */
   stationName: translate('stationAutoManager.form.name.label'),
   stationAddr: translate('stationAutoManager.form.address.label')
 }
@@ -87,14 +87,11 @@ export default class StationAutoConfigNotification extends React.Component {
         dataSourceOriginal: _.cloneDeep(nextProps.dataSource),
         dataSource: _.cloneDeep(nextProps.dataSource)
       })
+      _.forEach(_.values(STATION_AUTO_OPTIONS), column => {
+        this.checkIndeterminate(column, nextProps.dataSource)
+      })
     }
   }
-
-  // componentDidMount() {
-  //   _.forEach(_.values(STATION_AUTO_OPTIONS), column => {
-  //     this.checkIndeterminate(column, this.state.dataSourceOriginal)
-  //   })
-  // }
 
   render() {
     return (
@@ -147,7 +144,7 @@ export default class StationAutoConfigNotification extends React.Component {
       { content: i18n.stationAddr, width: 20 },
       { 
         content: (
-          <div style={{textAlign: 'center'}}>
+          <div>
             <Checkbox
               indeterminate={this.state.isWarningIndeterminate}
               checked={this.state.isWarningCheckAll}
@@ -158,7 +155,7 @@ export default class StationAutoConfigNotification extends React.Component {
         width: 15 },
       { 
         content: (
-          <div style={{textAlign: 'center'}}>
+          <div>
             <Checkbox
               indeterminate={this.state.isSmsIndeterminate}
               checked={this.state.isSmsCheckAll}
@@ -170,7 +167,7 @@ export default class StationAutoConfigNotification extends React.Component {
         width: 15 },
       { 
         content: (
-          <div style={{textAlign: 'center'}}>
+          <div>
             <Checkbox
               indeterminate={this.state.isEmailIndeterminate}
               checked={this.state.isEmailCheckAll}
@@ -229,7 +226,7 @@ export default class StationAutoConfigNotification extends React.Component {
           /* checkbox gởi cảnh báo */
           {
             content: (
-              <div style={{textAlign: 'center'}}>
+              <div>
                 <Checkbox 
                   checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.warning, 'allowed'], false)} 
                   onChange={(e) => this.onChagedOptionOfRow({row, key: STATION_AUTO_OPTIONS.warning, value: e.target.checked})}
@@ -240,7 +237,7 @@ export default class StationAutoConfigNotification extends React.Component {
           /* checkbox SMS */
           {
             content: (
-              <div style={{textAlign: 'center'}}>
+              <div>
                 <Checkbox
                   disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
                   checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.sms, 'allowed'], false)}
@@ -252,7 +249,7 @@ export default class StationAutoConfigNotification extends React.Component {
           /* checkbox Email */
           {
             content: (
-              <div style={{textAlign: 'center'}}>
+              <div>
                 <Checkbox
                   disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
                   checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.email, 'allowed'], false)} 
@@ -413,7 +410,7 @@ export default class StationAutoConfigNotification extends React.Component {
   }
 
   checkIndeterminate(column, data) {
-    let _dataSource = this.state.dataSource
+    let _dataSource = _.cloneDeep(data)
     let result = _.map(_dataSource, station => {
       return _.get(station, ['options', column, 'allowed'])
     })
@@ -437,12 +434,12 @@ export default class StationAutoConfigNotification extends React.Component {
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),
         cachedData: {}
       })
-      showSuccess(i18n.success)
+      showSuccess(i18n.updateSuccess)
     }
     else if (res.error) {
       console.log(res.message)
       swal({
-        title: i18n.error,
+        title: i18n.updateError,
         type: 'error'
       })
     }

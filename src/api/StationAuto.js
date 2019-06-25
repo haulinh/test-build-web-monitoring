@@ -6,7 +6,7 @@ function getStationAutoUrl(prefix = '') {
 }
 
 export function getStationAutos(
-  { page = 1, itemPerPage = 10 },
+  { page = 1, itemPerPage = 1000 } = {},
   { address, stationType, name } = {}
 ) {
   var url = getStationAutoUrl(`?page=${page}&itemPerPage=${itemPerPage}`)

@@ -10,8 +10,8 @@ function getTrialRegisterUrl(prefix = '') {
 }
 
 export function searchUser(
-  { page = 1, itemPerPage = 10 },
-  { userName, email, firstName, lastName, organization, phone }
+  { page = 1, itemPerPage = 1000 } = {},
+  { userName, email, firstName, lastName, organization, phone } = {}
 ) {
   var urlSearch = getUserUrl(
     `organization/?page=${page}&itemPerPage=${itemPerPage}`

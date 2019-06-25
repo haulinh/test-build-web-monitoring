@@ -997,6 +997,7 @@ export default {
   userManager: {
     breadcrumb: {
       list: 'Users',
+      rule: 'Ủy quyền', /* MARK  @translate */
       create: 'Create',
       edit: 'Edit'
     },
