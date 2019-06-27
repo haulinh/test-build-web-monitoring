@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { Row } from 'antd'
+import { Row, Button } from 'antd'
 import _ from 'lodash'
 import swal from 'sweetalert2'
 
+import { connectAutoDispatch } from 'redux/connect'
 import UserApi from 'api/UserApi'
 import RoleApi from 'api/RoleApi'
-import StationAutoApi from 'api/StationAuto'
+import ROLE from 'constants/role'
+import {USER_RULE_TABLE_OPTIONS}  from 'constants/labels'
+import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import SearchForm from './search-form'
@@ -16,33 +19,36 @@ import UserRuleTable from './table'
 
 const i18n = {
   error: translate("addon.onSave.update.error"),
+  submit: translate('addon.save'),
+  success: translate("addon.onSave.update.success"),
 }
 
+
+@protectRole(ROLE.USER.ROLE)
+@connectAutoDispatch(state => ({
+  stationAutos: state.stationAuto.list
+}), {
+
+})
 @autobind
 export default class UserRole extends React.Component {
   static propTypes = {
-    dataSource: PropTypes.array,
-    pagination: PropTypes.object,
-    data: PropTypes.object,
-    onChangeSearch: PropTypes.func,
-    isLoading: PropTypes.bool,
+    stationAutos: PropTypes.array.isRequired
   }
 
   state = {
+    isSave: false,
     isGettingUsers: true,
     isGettingRoles: true,
-    isGettingStationsAuto: false,
     dataSourceUsers: [],
     dataSourceRoles: [],
-    dataSourceStationsAuto: [],
+    selectedUserID: '',
+    selectedRoleID: '',
   }
 
   async componentDidMount() {
-    await Promise.all([
-      this.getUsers(),
-      this.getRoles(),
-      this.getStationAutos()  
-    ])
+    this.getUsers()
+    this.getRoles()
   }
   
   /* NOTE */
@@ -51,12 +57,33 @@ export default class UserRole extends React.Component {
       isGettingUsers: this.state.isGettingUsers,
       isGettingRoles: this.state.isGettingRoles,
       dataSourceUsers: this.state.dataSourceUsers,
-      dataSourceRoles: this.state.dataSourceRoles
+      dataSourceRoles: this.state.dataSourceRoles,
+      updateDataForSubmit: this.updateDataForSubmit
     }
+    
+    let _stations = _.map(this.props.stationAutos, station => {
+      let data = {
+        _id: station._id,
+        name: station.name,
+        address: station.address,
+        options: undefined
+      }
 
+      let columns = _.values(USER_RULE_TABLE_OPTIONS)
+      _.forEach(columns, column => {
+        _.set(data, ['options', column],false)
+      })
+
+      return data
+    })
+    
     const propsUserRuleTable = {
+      stations: _stations,
+      updateDataForSubmit: this.updateDataForSubmit,
       isGettingStationsAuto: this.state.isGettingStationsAuto,
-      dataSource: this.state.dataSourceStationsAuto
+      userInfo: _.find(this.state.dataSourceUsers, {_id: this.state.selectedUserID}),
+      selectedUserID: this.state.selectedUserID,
+      selectedRoleID: this.state.selectedRoleID,
     }
 
     return (
@@ -77,15 +104,36 @@ export default class UserRole extends React.Component {
     })
   }
 
+  updateDataForSubmit({name, value}) {
+    this.setState({
+      [name]: value
+    })
+  }  
 
   /* NOTE */
-  /* TODO  api chua co, phai viet them */
   async getUsers() {
     this.setState({
       isGettingUsers: true,
     })
 
     let resUsers = await UserApi.searchUser()
+    /* MARK   MOCKUP DATA */
+    if(resUsers.data.length !== 0) {
+      resUsers.data[0].options = {
+        "5c357b79822dc80011f0d8b2": {
+          manager: true,
+          warning: false,
+          sms: true,
+          email: false
+        },
+        "5c357f9d822dc80011f0d8b5": {
+          manager: true,
+          warning: true,
+          sms: true,
+          email: true
+        }
+      }
+    }
 
     this.setState({
       isGettingUsers: false,
@@ -104,20 +152,6 @@ export default class UserRole extends React.Component {
     this.setState({
       isGettingRoles: false,
       dataSourceRoles: _.get(resRoles, 'data', []),
-    })
-  }
-
-  /* NOTE */
-  async getStationAutos() {
-    this.setState({
-      isGettingStationsAuto: true
-    })
-
-    let resStationsAuto = await StationAutoApi.getStationAutos()
-
-    this.setState({
-      isGettingStationsAuto: false,
-      dataSourceStationsAuto: _.get(resStationsAuto, 'data', []),
     })
   }
 }

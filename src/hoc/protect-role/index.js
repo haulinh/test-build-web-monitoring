@@ -64,6 +64,7 @@ const createProtectRole = (
       } else return null
     }
   }
+  
   if (isReact.component(Component)) {
     return ProtectRole
   } else return <ProtectRole {...Component.props} />
