@@ -55,6 +55,16 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE   CẤU HÌNH LẤY MẪU */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.stationAuto.configSampling.base}
+          onClick={() => props.selectMenu(slug.stationAuto.configWithKey.base)}
+        >
+          <Link to={slug.stationAuto.configSampling.base}>{MENU_NAME.config.sampling}</Link>
+        </Menu.Item>
+      )}
+
       {/* NOTE  CHỈ TIÊU QUAN TRẮC */}
       {protectRole(ROLE.MEASURING.VIEW)(
         <Menu.Item
