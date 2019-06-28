@@ -59,7 +59,7 @@ export default {
       {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
           key={slug.stationAuto.configSampling.base}
-          onClick={() => props.selectMenu(slug.stationAuto.configWithKey.base)}
+          onClick={() => props.selectMenu(slug.stationAuto.configSampling.base)}
         >
           <Link to={slug.stationAuto.configSampling.base}>{MENU_NAME.config.sampling}</Link>
         </Menu.Item>

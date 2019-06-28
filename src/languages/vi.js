@@ -923,7 +923,7 @@ export default {
         sunday: 'Mọi chủ nhật'
       },
       allowSampling: {
-        label: 'Lấy mẫu',
+        label: 'Cho phép lấy mẫu',
         placeholder: 'Lấy mẫu'
       },
       apiAddress: {
