@@ -692,6 +692,9 @@ export default {
       notification: {
         title: 'Cấu hình gửi cảnh báo'
       },
+      sampling: {
+        title: 'Cấu hình lấy mẫu'
+      },
       actions: {
         ftpFolder: 'FTP Folder' /* MARK  @translate */,
         fileMapping: 'File Mapping' /* MARK  @translate */,

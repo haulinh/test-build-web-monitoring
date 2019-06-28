@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { translate } from 'hoc/create-lang'
 import Breadcrumb from '../breadcrumb'
+import Page from '@atlaskit/page/dist/cjs/Page';
 
 
 @autobind
@@ -18,6 +19,10 @@ export default class StationAutoConfigSampling extends React.Component {
   }
 
   render() {
-    return <div>page</div>
+    return (
+      <PageContainer>
+        <Breadcrumb items={['configSampling']}/>
+      </PageContainer>
+    )
   }
 }
