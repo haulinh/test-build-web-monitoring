@@ -694,7 +694,7 @@ export default {
         title: 'Cấu hình gửi cảnh báo' /* MARK  @translate */
       },
       sampling: {
-        title: 'Cấu hình lấy mẫu' /* MARK  @translate */
+        title: 'Sampling configuration'
       },
       actions: {
         ftpFolder: 'FTP Folder',
