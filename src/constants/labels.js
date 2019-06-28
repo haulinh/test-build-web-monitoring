@@ -13,3 +13,7 @@ export const USER_RULE_TABLE_OPTIONS = {
   sms: 'sms',
   email: 'email'
 }
+
+export const SAMPLING_CONFIG_TABLE_COLUMN = {
+  SAMPLING: 'sampling'
+}

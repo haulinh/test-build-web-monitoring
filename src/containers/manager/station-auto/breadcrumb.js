@@ -22,6 +22,12 @@ export default createBreadcrumb({
     href: slug.stationAuto.configSendNotification.base,
     name: translate('stationAutoManager.list.notification.title')
   },
+  configSampling: {
+    id: 'configSampling',
+    //icon: Icon.car,
+    href: slug.stationAuto.configSampling.base,
+    name: translate('stationAutoManager.list.sampling.title')
+  },
   create: {
     id: 'create',
     href: slug.stationAuto.create,
