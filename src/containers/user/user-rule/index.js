@@ -391,12 +391,13 @@ export default class StationAutoConfigNotification extends React.Component {
           [SMS]: checked,
           [EMAIL]: checked,
         })
-        this.updateCache(index, station, PRIMARY, checked)
-        this.updateCache(index, station, WARNING, checked)
-        this.updateCache(index, station, SMS, checked)
-        this.updateCache(index, station, EMAIL, checked)
+
+        let columns = _.values(USER_RULE_TABLE_COLUMN)
+        _.forEach(columns, column => {
+          this.updateCache(index, station, column, checked)
+        })
       })
-      
+
       this.forceUpdate()
     }
     else {
