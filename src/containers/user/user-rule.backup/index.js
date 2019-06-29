@@ -120,13 +120,13 @@ export default class UserRole extends React.Component {
     /* MARK   MOCKUP DATA */
     if(resUsers.data.length !== 0) {
       resUsers.data[0].options = {
-        "5c357b79822dc80011f0d8b2": {
+        "5c3812e83d26bb00100510ab": {
           manager: true,
           warning: false,
           sms: true,
           email: false
         },
-        "5c357f9d822dc80011f0d8b5": {
+        "5c628395afbc770010cbe04b": {
           manager: true,
           warning: true,
           sms: true,

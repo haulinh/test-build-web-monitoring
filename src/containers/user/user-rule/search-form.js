@@ -6,6 +6,8 @@ import swal from 'sweetalert2'
 import _ from 'lodash'
 
 import { translate } from 'hoc/create-lang'
+import UserApi from 'api/UserApi'
+import RoleApi from 'api/RoleApi'
 
 const { Option } = Select
 const { Meta } = Card
@@ -22,11 +24,21 @@ const BACKGROUND_COLORS = [ '#87d068', '#f56a00', '#7265e6', '#ffbf00', '#00a2ae
 @autobind
 export default class UserSearchForm extends React.PureComponent {
   static propTypes = {
-    isGettingUsers: PropTypes.bool.isRequired,
-    isGettingRoles: PropTypes.bool.isRequired,
-    dataSourceUsers: PropTypes.array.isRequired,
-    dataSourceRoles: PropTypes.array.isRequired,
     updateDataForSubmit: PropTypes.func.isRequired
+  }
+
+  static defaultProps= { }
+
+  state = {
+    isGettingUsers: false,
+    isGettingRoles: false,
+    dataSourceUsers: [],
+    dataSourceRoles: [],
+  }
+
+  componentDidMount() {
+    this.getUsers()
+    this.getRoles()
   }
 
   render() {
@@ -35,14 +47,14 @@ export default class UserSearchForm extends React.PureComponent {
         <Col span={12}>
           <Select
             style={{width: '100%'}} 
-            loading={this.props.isGettingUsers}
+            loading={this.state.isGettingUsers}
             optionLabelProp="label"
-            onSelect={value => this.props.updateDataForSubmit({name: 'selectedUserID', value: value})}
+            onSelect={this.handleSelectUser}
             showSearch
             optionFilterProp="search"
             filterOption={this.handleFilter}
           >
-            {this.props.dataSourceUsers.map((user, index) => (
+            {this.state.dataSourceUsers.map((user, index) => (
               <Option key={user._id} value={user._id} label={user.email} search={`${user.lastName} ${user.firstName}`}>
                 <Meta
                   avatar={
@@ -64,13 +76,13 @@ export default class UserSearchForm extends React.PureComponent {
         <Col span={12}>
           <Select 
             style={{width: '100%'}} 
-            loading={this.props.isGettingRoles}
+            loading={this.state.isGettingRoles}
             onSelect={value => this.props.updateDataForSubmit({name: 'selectedRoleID', value: value})}
             showSearch
             optionFilterProp="search"
             filterOption={this.handleFilter}
           >
-            {this.props.dataSourceRoles.map(role => (
+            {this.state.dataSourceRoles.map(role => (
               <Option key={role._id} value={role._id} search={role.name}>{role.name}</Option>
             ))}
           </Select>
@@ -79,8 +91,65 @@ export default class UserSearchForm extends React.PureComponent {
     )
   }
 
+  componentDidCatch() {
+    swal({
+      title: i18n.error,
+      type: 'error'
+    })
+  }
+
   handleFilter(input, option) {
     let regex = new RegExp(input, 'gi')
     return regex.test(option.props.search)
+  }
+
+  handleSelectUser(userID) {
+    let user = _.find(this.state.dataSourceUsers, user => user._id === userID)
+    this.props.updateDataForSubmit({name: 'selectedUser', value: user})
+  }
+
+  /* NOTE */
+  async getUsers() {
+    this.setState({
+      isGettingUsers: true,
+    })
+
+    let resUsers = await UserApi.searchUser()
+    /* MARK   MOCKUP DATA */
+    if(resUsers.data.length !== 0) {
+      resUsers.data[0].options = {
+        "5cf0d81d4e1d520016f912e1": {
+          manager: true,
+          warning: false,
+          sms: true,
+          email: false
+        },
+        "5cf0d8914e1d520016f912e2": {
+          manager: true,
+          warning: true,
+          sms: true,
+          email: true
+        }
+      }
+    }
+
+    this.setState({
+      isGettingUsers: false,
+      dataSourceUsers: _.get(resUsers, 'data', []),
+    })
+  }
+
+  /* NOTE */
+  async getRoles() {
+    this.setState({
+      isGettingRoles: true,
+    })
+
+    let resRoles = await RoleApi.getRoles()
+
+    this.setState({
+      isGettingRoles: false,
+      dataSourceRoles: _.get(resRoles, 'data', []),
+    })
   }
 }
