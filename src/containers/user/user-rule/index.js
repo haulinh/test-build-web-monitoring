@@ -1,157 +1,505 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Row, Form, Checkbox, Button, message } from 'antd'
 import { autobind } from 'core-decorators'
-import { Row, Button } from 'antd'
+import styled from 'styled-components'
 import _ from 'lodash'
-import swal from 'sweetalert2'
-
-import { connectAutoDispatch } from 'redux/connect'
-import UserApi from 'api/UserApi'
-import RoleApi from 'api/RoleApi'
-import ROLE from 'constants/role'
-import {USER_RULE_TABLE_OPTIONS}  from 'constants/labels'
+import StationAutoApi from 'api/StationAuto'
+import { updateStationAutoOptions } from 'api/StationAuto'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import createManagerList from 'hoc/manager-list'
+import createManagerDelete from 'hoc/manager-delete'
+import createLanguageHoc from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import SearchForm from './search-form'
+import { mapPropsToFields } from 'utils/form'
+// import StationAutoSearchForm from './search-form'
 import Breadcrumb from '../breadcrumb'
-import UserRuleTable from './table'
+import ROLE from 'constants/role'
+import { USER_RULE_TABLE_COLUMN } from 'constants/labels'
+import swal from 'sweetalert2'
+
+import DynamicTable from 'components/elements/dynamic-table'
 
 const i18n = {
-  error: translate("addon.onSave.update.error"),
+  cancel: 'Bõ chọn', /* MARK  @translate */
   submit: translate('addon.save'),
-  success: translate("addon.onSave.update.success"),
+  updateSuccess: translate("addon.onSave.update.success"),
+  updateError: translate("addon.onSave.update.error"),             /* MARK  @translate */
+  stationName: translate('stationAutoManager.form.name.label'),
+  stationAddr: translate('stationAutoManager.form.address.label')
 }
 
 
-@protectRole(ROLE.USER.ROLE)
-@connectAutoDispatch(state => ({
-  stationAutos: state.stationAuto.list
-}), {
+const showSuccess = (msg) => {
+  message.success(`${msg}`);
+};
 
+const Span = styled.span`
+  color: ${props => (props.deleted ? '#999999' : '')};
+  text-decoration: ${props => (props.deleted ? 'line-through' : '')};
+`
+
+@protectRole(ROLE.STATION_AUTO.VIEW)
+@createManagerList({
+  apiList: StationAutoApi.getStationAutos
 })
+@createManagerDelete({
+  apiDelete: StationAutoApi.removeStationAuto
+})
+@Form.create({
+  mapPropsToFields: mapPropsToFields
+})
+@createLanguageHoc
 @autobind
-export default class UserRole extends React.Component {
+export default class StationAutoConfigNotification extends React.Component {
   static propTypes = {
-    stationAutos: PropTypes.array.isRequired
+    dataSource: PropTypes.array,
+    pagination: PropTypes.object,
+    data: PropTypes.object,
+    onChangeSearch: PropTypes.func,
+    isLoading: PropTypes.bool,
   }
 
-  state = {
-    isSave: false,
-    isGettingUsers: true,
-    isGettingRoles: true,
-    dataSourceUsers: [],
-    dataSourceRoles: [],
-    selectedUserID: '',
-    selectedRoleID: '',
-  }
+  constructor(props) {
+    super(props)
+    console.log(props.dataSource, "dataSource")
+    this.state = {
+      /* giông cách hoạt động của git */  
+      cachedData: {},             /* commit */
+      dataSource: [],             /* working dir */
+      dataSourceOriginal: [],     /* index */
 
-  async componentDidMount() {
-    this.getUsers()
-    this.getRoles()
-  }
-  
-  /* NOTE */
-  render(){
-    const propsSearchForm = {
-      isGettingUsers: this.state.isGettingUsers,
-      isGettingRoles: this.state.isGettingRoles,
-      dataSourceUsers: this.state.dataSourceUsers,
-      dataSourceRoles: this.state.dataSourceRoles,
-      updateDataForSubmit: this.updateDataForSubmit
+      isSave: false,
+
+      isManagerIndeterminate: true,
+      isWarningIndeterminate: true,
+      isSmsIndeterminate: true,
+      isEmailIndeterminate: true,
+      isManagerCheckAll: false,
+      isWarningCheckAll: false,
+      isSmsCheckAll: false,
+      isEmailCheckAll: false,
     }
-    
-    let _stations = _.map(this.props.stationAutos, station => {
-      let data = {
-        _id: station._id,
-        name: station.name,
-        address: station.address,
-        options: undefined
-      }
+  }
 
-      let columns = _.values(USER_RULE_TABLE_OPTIONS)
-      _.forEach(columns, column => {
-        _.set(data, ['options', column],false)
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.dataSource.length !== this.state.dataSourceOriginal.length ) {
+      let _dataSource = this.transformDataSource(nextProps.dataSource)
+
+      let sortedDataSource = _.orderBy(
+        _dataSource || [],
+        ['stationType.key'],
+        ['asc']
+      )
+      this.setState({
+        dataSourceOriginal: _.cloneDeep(sortedDataSource),
+        dataSource: _.cloneDeep(sortedDataSource)
       })
-
-      return data
-    })
-    
-    const propsUserRuleTable = {
-      stations: _stations,
-      updateDataForSubmit: this.updateDataForSubmit,
-      isGettingStationsAuto: this.state.isGettingStationsAuto,
-      userInfo: _.find(this.state.dataSourceUsers, {_id: this.state.selectedUserID}),
-      selectedUserID: this.state.selectedUserID,
-      selectedRoleID: this.state.selectedRoleID,
+      _.forEach(_.values(USER_RULE_TABLE_COLUMN), column => {
+        this.checkIndeterminate(column, sortedDataSource)
+      })
     }
+  }
 
+  render() {
     return (
       <PageContainer>
-        <Breadcrumb items={['list', 'rule']}/>
-        <Row style={{marginBottom: 30}}>
-          <SearchForm {...propsSearchForm}/>
+        <Breadcrumb items={['list', 'rule']} />
+
+        {/* FORM CONTROL */}
+        {/* <Row style={{marginBottom: 20}}>
+          <StationAutoSearchForm
+            onChangeSearch={this.props.onChangeSearch}
+            initialValues={this.props.data}
+          />
+        </Row> */}
+
+        {/* TABLE */}
+        <Row style={{marginBottom: 50}}>
+          <DynamicTable
+            isFixedSize
+            isLoading={this.props.isLoading}
+            paginationOptions={{
+              isSticky: true
+            }}
+            head={this.getHead()}
+            rows={this.getRows()}
+          />
         </Row>
-        <UserRuleTable {...propsUserRuleTable}/>
+
+        <Row style={{marginBottom: 16}}>
+          {/* NOTE  KHONG XOA, uncomment khi a @hung thay đổi yêu cầu */}
+          {/* <Button onClick={this.props.clearCache}>{i18n.cancel}</Button> */}
+          <Button 
+            block
+            type="primary" 
+            loading={this.state.isSave} 
+            onClick={this.submitCache}
+            disabled={_.keys(this.state.cachedData).length === 0}
+            >
+            {i18n.save}
+          </Button>
+        </Row>
       </PageContainer>
     )
   }
 
-  componentDidCatch() {
-    swal({
-      title: i18n.error,
-      type: 'error'
+  getHead() {
+    const isDisabledCheckAll = !this.state.isManagerCheckAll && !this.state.isManagerIndeterminate
+    return [
+      { content: '#', width: 2 },
+      { content: i18n.stationName, width: 15 },
+      { content: i18n.stationAddr, width: 20 },
+      { 
+        content: (
+          <div>
+            <Checkbox
+              indeterminate={this.state.isManagerIndeterminate}
+              checked={this.state.isManagerCheckAll}
+              onChange={(e) => this.onChagedOptionOfHeader(USER_RULE_TABLE_COLUMN.PRIMARY, e.target.checked)}>
+              Quản lý trạm
+            </Checkbox>
+          </div>), 
+        width: 15 
+      },
+      { 
+        content: (
+          <div>
+            <Checkbox
+              indeterminate={this.state.isWarningIndeterminate}
+              checked={this.state.isWarningCheckAll}
+              disabled={isDisabledCheckAll}
+              onChange={(e) => this.onChagedOptionOfHeader(USER_RULE_TABLE_COLUMN.WARNING, e.target.checked)}>
+              Gửi cảnh báo
+            </Checkbox>
+          </div>), 
+        width: 15 
+      },
+      { 
+        content: (
+          <div>
+            <Checkbox
+              indeterminate={this.state.isSmsIndeterminate}
+              checked={this.state.isSmsCheckAll}
+              disabled={isDisabledCheckAll}
+              onChange={(e) => this.onChagedOptionOfHeader(USER_RULE_TABLE_COLUMN.SMS, e.target.checked)}>
+              SMS
+            </Checkbox>
+          </div>), 
+        width: 15
+      },
+      { 
+        content: (
+          <div>
+            <Checkbox
+              indeterminate={this.state.isEmailIndeterminate}
+              checked={this.state.isEmailCheckAll}
+              disabled={isDisabledCheckAll}
+              onChange={(e) => this.onChagedOptionOfHeader(USER_RULE_TABLE_COLUMN.EMAIL, e.target.checked)}>
+              Email
+            </Checkbox>
+          </div>), 
+        width: 15
+      },
+    ]
+  }
+
+  getRows() {
+    const isDisabledCheckAll = !this.state.isManagerCheckAll && !this.state.isManagerIndeterminate
+
+    let stationTypeArr = []
+
+    let stationCount = _.countBy(this.state.dataSource, 'stationType.key')
+    //logic return groupRow or groupRow and Row
+    let result = [].concat.apply(
+      [],
+      this.state.dataSource.map((row, index) => {
+        const isManagerCheckboxDisabled =  _.get(row, ['options', USER_RULE_TABLE_COLUMN.PRIMARY], false) === false
+        //content Row
+        let resultRow = [
+          {
+            content: (
+              <strong>
+                {(this.props.pagination.page - 1) *
+                  this.props.pagination.itemPerPage +
+                  index +
+                  1}
+              </strong>
+            )
+          },
+          {
+            content: (
+              <Span deleted={row.removeStatus && row.removeStatus.allowed}>
+                {row.name}
+              </Span>
+            )
+          },
+          {
+            content: (
+              <Span deleted={row.removeStatus && row.removeStatus.allowed}>
+                {row.address}
+              </Span>
+            )
+          },
+          /* checkbox gởi cảnh báo */
+          {
+            content: (
+              <div>
+                <Checkbox 
+                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.PRIMARY], false)} 
+                  onChange={(e) => this.onChagedOptionOfRow({index, row, key: USER_RULE_TABLE_COLUMN.PRIMARY, value: e.target.checked})}
+                />
+              </div>
+            )
+          },
+          /* checkbox gởi cảnh báo */
+          {
+            content: (
+              <div>
+                <Checkbox
+                  disabled={isDisabledCheckAll || isManagerCheckboxDisabled}
+                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.WARNING], false)} 
+                  onChange={(e) => this.onChagedOptionOfRow({index, row, key: USER_RULE_TABLE_COLUMN.WARNING, value: e.target.checked})}
+                />
+              </div>
+            )
+          },
+          /* checkbox SMS */
+          {
+            content: (
+              <div>
+                <Checkbox
+                  disabled={isDisabledCheckAll || isManagerCheckboxDisabled}
+                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.SMS], false)}
+                  onChange={(e) => this.onChagedOptionOfRow({index, row, key: USER_RULE_TABLE_COLUMN.SMS, value: e.target.checked})}
+                />
+              </div>
+            )
+          },
+          /* checkbox Email */
+          {
+            content: (
+              <div>
+                <Checkbox
+                  disabled={isDisabledCheckAll || isManagerCheckboxDisabled}
+                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.EMAIL], false)} 
+                  onChange={(e) => this.onChagedOptionOfRow({index, row, key: USER_RULE_TABLE_COLUMN.EMAIL, value: e.target.checked})}
+                />
+              </div>
+            )
+          },
+          
+        ]
+        //check if Group exist or not
+        if (row.stationType && stationTypeArr.indexOf(row.stationType.key) > -1)
+          return [resultRow]
+        else {
+          stationTypeArr.push(row.stationType.key)
+          return [
+            [
+              { content: '' },
+              {
+                content: (
+                  <div>
+                    <strong>
+                      {row.stationType.name}{' '}
+                      {stationCount[row.stationType.key]
+                        ? '(' + stationCount[row.stationType.key] + ')'
+                        : ''}
+                    </strong>
+                  </div>
+                )
+              }
+            ],
+            resultRow
+          ]
+        }
+      })
+    )
+    return result
+  }
+
+  transformDataSource(stationAutos) {
+    return _.map(stationAutos, station => {
+      let defaultOptions = {
+        manager: false,
+        warning: false,
+        sms: false,
+        email: false
+      }
+      _.set(station, ['options'], defaultOptions)
+      return _.clone(station)
     })
   }
 
-  updateDataForSubmit({name, value}) {
-    this.setState({
-      [name]: value
-    })
-  }  
+  
+  onChagedOptionOfHeader(column, checked) {
+    let _dataSource = this.state.dataSource
+    const { PRIMARY, WARNING, SMS, EMAIL } = USER_RULE_TABLE_COLUMN
 
-  /* NOTE */
-  async getUsers() {
-    this.setState({
-      isGettingUsers: true,
-    })
+    if (column === PRIMARY) {
+      this.setState({
+        isManagerIndeterminate: false,
+        isWarningIndeterminate: false,
+        isSmsIndeterminate: false,
+        isEmailIndeterminate: false,
+        isManagerCheckAll: false,
+        isWarningCheckAll: false,
+        isSmsCheckAll: false,
+        isEmailCheckAll: false,
+      })
 
-    let resUsers = await UserApi.searchUser()
-    /* MARK   MOCKUP DATA */
-    if(resUsers.data.length !== 0) {
-      resUsers.data[0].options = {
-        "5c357b79822dc80011f0d8b2": {
-          manager: true,
-          warning: false,
-          sms: true,
-          email: false
-        },
-        "5c357f9d822dc80011f0d8b5": {
-          manager: true,
-          warning: true,
-          sms: true,
-          email: true
+      _.forEach(_dataSource, (station, index) => {
+        this.onChagedOptionOfRow({index, row: station, key: PRIMARY, value: checked})
+      })
+    }
+    else {
+      /* 
+      - tìm và thay đổi giá trị không giống với với checkbox select all và warning == enabled
+      - update cached
+      */
+      _.forEach(_dataSource, (station, index) => {
+        let isDiffValue = _.get(station, ['options', column]) !== checked
+        let isWarningCheckBoxEnabled = _.get(station, ['options', PRIMARY]) === true
+        if (isDiffValue && isWarningCheckBoxEnabled) {
+          this.onChagedOptionOfRow({index, row: station, key: column, value: checked})
         }
+      })
+    }
+
+    switch(column) {
+      case PRIMARY: {
+        this.setState({
+          isManagerCheckAll: checked, 
+          isManagerIndeterminate: false
+        })
+        break;
+      }
+      case WARNING: {
+        this.setState({
+          isWarningCheckAll: checked, 
+          isWarningIndeterminate: false
+        })
+        break;
+      }
+      case SMS: {
+        this.setState({
+          isSmsCheckAll: checked, 
+          isSmsIndeterminate: false
+        })
+        break;
+      }
+      case EMAIL: {
+        this.setState({
+          isEmailCheckAll: checked, 
+          isEmailIndeterminate: false
+        })
+        break;
       }
     }
 
+    this.forceUpdate()
+  }
+
+  onChagedOptionOfRow({index, row, column, value}) {
+    if (column === USER_RULE_TABLE_COLUMN.PRIMARY) {
+      let columns = _.values(USER_RULE_TABLE_COLUMN)
+      _.forEach(columns, column => {
+        this.updateDataSource(index, row, column, value)
+        this.updateCache(row, column, value)
+        this.checkIndeterminate(column, this.state.dataSource)
+      })
+    }
+    else {
+      this.updateDataSource(index, row, column, value)
+      this.updateCache(row, column, value)
+      this.checkIndeterminate(column, this.state.dataSource)
+    }
+  }
+
+  updateDataSource(index, row, column, value) {
+    let _dataSource = this.state.dataSource
+    // let indexOfRow = _.findIndex(this.state.dataSource, stationAuto => stationAuto._id === row._id)
+    _.set(_dataSource, `[${index}].options[${column}]`, value)
+
+    this.setState({ dataSource: _dataSource })
+  }
+
+  updateCache(row, column, value) {
+    /* NOTE  cached content
+      {
+        "_id": {
+          warning: true,
+          sms: false,
+          email: true
+        }
+      }
+    */
+    let _cachedData = this.state.cachedData
+    let _dataSourceOriginal = this.state.dataSourceOriginal
+
+    let indexOfRow = _.findIndex(_dataSourceOriginal, stationAuto => stationAuto._id === row._id)
+    let originalOption = _.get(_dataSourceOriginal[indexOfRow], ['options', column], false)
+    let currentValueInCache = _.get(_cachedData, [row._id, column])
+    
+    if (currentValueInCache){
+      delete _cachedData[row._id][column]
+      if (_.keys(_cachedData[row._id]).length === 0) {
+        delete _cachedData[row._id]
+      }
+    }
+    else if (originalOption !== value) {
+      _.set(_cachedData, [row._id, column], value)
+    }
+
+    this.setState({cachedData: _cachedData})
+  }
+
+  clearCache() {
     this.setState({
-      isGettingUsers: false,
-      dataSourceUsers: _.get(resUsers, 'data', []),
+      dataSource: _.clone(this.state.dataSourceOriginal),
+      cachedData: {}
     })
   }
 
-  /* NOTE */
-  async getRoles() {
-    this.setState({
-      isGettingRoles: true,
+  checkIndeterminate(column, data) {
+    let _dataSource = _.cloneDeep(data)
+    let result = _.map(_dataSource, station => {
+      return _.get(station, ['options', column])
     })
+    
+    let countBy = _.countBy(result, Boolean)
+    let isSame = countBy.false === undefined || countBy.true === undefined
+    let isCheckAll = _.every(result)
+    
+    let { PRIMARY, WARNING, SMS, EMAIL } = USER_RULE_TABLE_COLUMN
+    switch(column) {
+      case PRIMARY : this.setState({isManagerIndeterminate : !isSame, isManagerCheckAll : isCheckAll }); break;
+      case WARNING : this.setState({isWarningIndeterminate : !isSame, isWarningCheckAll : isCheckAll }); break;
+      case SMS     : this.setState({isSmsIndeterminate     : !isSame, isSmsCheckAll     : isCheckAll }); break;
+      case EMAIL   : this.setState({isEmailIndeterminate   : !isSame, isEmailCheckAll   : isCheckAll }); break;
+    }
+  }
 
-    let resRoles = await RoleApi.getRoles()
-
-    this.setState({
-      isGettingRoles: false,
-      dataSourceRoles: _.get(resRoles, 'data', []),
-    })
+  async submitCache() {
+    this.setState({isSave: true})
+    const res = await updateStationAutoOptions(this.state.cachedData)
+    if (res.success) {
+      this.setState({
+        dataSourceOriginal: _.cloneDeep(this.state.dataSource),
+        cachedData: {}
+      })
+      showSuccess(i18n.updateSuccess)
+    }
+    else if (res.error) {
+      console.log(res.message)
+      swal({
+        title: i18n.updateError,
+        type: 'error'
+      })
+    }
+  
+    this.setState({isSave: false})
   }
 }

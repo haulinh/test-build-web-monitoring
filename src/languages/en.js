@@ -1000,7 +1000,7 @@ export default {
   userManager: {
     breadcrumb: {
       list: 'Users',
-      rule: 'Ủy quyền', /* MARK  @translate */
+      rule: 'Assign Role',
       create: 'Create',
       edit: 'Edit'
     },
@@ -1453,7 +1453,7 @@ export default {
       stationAuto: 'Station',
       stationAutoConnection: 'Cấu hình kết nối', /*  MARK  @translate */
       sendNotification: 'Cấu hình gửi cảnh báo',  /*  MARK  @translate */
-      sampling: 'Cấu hình lấy mẫu', /* MARK  @translate */
+      sampling: 'Sampling configuration',
       parameter: 'Parameter',
       stationType: 'Type of Station',
       site: 'Site',
