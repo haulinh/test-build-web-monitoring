@@ -2,9 +2,9 @@
   - trang cấu hình gởi cảnh báo
 */
 export const STATION_AUTO_OPTIONS = {
-  warning: 'warning',
-  sms: 'sms',
-  email: 'email'
+  PRIMARY: 'warning',
+  SMS: 'sms',
+  EMAIL: 'email'
 }
 
 export const USER_RULE_TABLE_COLUMN = {
