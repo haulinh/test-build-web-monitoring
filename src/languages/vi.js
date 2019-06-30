@@ -879,6 +879,12 @@ export default {
       errorLoadFile: 'Tải tệp từ đường đường dẫn không thành công'
     },
     options: {
+      userRole: {
+        stationManager: 'Quản lý trạm',
+        allowSendWarning: 'Gửi cảnh báo',
+        sms: 'SMS',
+        email: 'Email'
+      },
       calibration: {
         title: 'Hiệu chuẩn thiết bị'
       },

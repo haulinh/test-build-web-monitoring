@@ -27,7 +27,11 @@ const i18n = {
   updateSuccess: translate("addon.onSave.update.success"),
   updateError: translate("addon.onSave.update.error"),
   stationName: translate('stationAutoManager.form.name.label'),
-  stationAddr: translate('stationAutoManager.form.address.label')
+  stationAddr: translate('stationAutoManager.form.address.label'),
+  manager: translate('stationAutoManager.options.userRole.stationManager'),
+  sendNotification: translate('stationAutoManager.options.userRole.allowSendWarning'),
+  sms: translate('stationAutoManager.options.userRole.sms'),
+  email: translate('stationAutoManager.options.userRole.email')
 }
 
 
@@ -108,6 +112,7 @@ export default class StationAutoConfigNotification extends React.Component {
   }
 
   render() {
+    let isAllowSubmit = this.isAllowSubmit()
     return (
       <PageContainer>
         <Breadcrumb items={['list', 'rule']} />
@@ -140,7 +145,7 @@ export default class StationAutoConfigNotification extends React.Component {
             type="primary" 
             loading={this.state.isSave} 
             onClick={this.submitCache}
-            disabled={_.keys(this.state.cachedData).length === 0}
+            disabled={isAllowSubmit}
             >
             {i18n.submit}
           </Button>
@@ -152,23 +157,7 @@ export default class StationAutoConfigNotification extends React.Component {
   updateDataForSubmit({name, value}) {
     if (name === 'selectedUser') {
       this.clearCache()
-      let rows = _.cloneDeep(this.state.dataSourceDefault)
-      let userID = value._id
-      if (userID) {
-        _.forEach(rows, row => {
-          if (_.get(value.options, [row._id])) {
-            row.options = _.clone(value.options[row._id])
-          }
-        })
-        this.setState({
-          [name]: value,
-          dataSource: _.cloneDeep(rows),
-          dataSourceOriginal: _.cloneDeep(rows)
-        })
-        _.forEach(_.values(USER_RULE_TABLE_COLUMN), column => {
-          this.checkIndeterminate(column, rows)
-        })
-      }
+      this.resetDataSource(name, value)
     } else {
       this.setState({
         [name]: value
@@ -190,7 +179,7 @@ export default class StationAutoConfigNotification extends React.Component {
               indeterminate={this.state.isManagerIndeterminate}
               checked={this.state.isManagerCheckAll}
               onChange={(e) => this.onChagedOptionOfHeader(USER_RULE_TABLE_COLUMN.PRIMARY, e.target.checked)}>
-              Quản lý trạm
+              {i18n.manager}
             </Checkbox>
           </div>), 
         width: 15 
@@ -203,7 +192,7 @@ export default class StationAutoConfigNotification extends React.Component {
               checked={this.state.isWarningCheckAll}
               disabled={isDisabledCheckAll}
               onChange={(e) => this.onChagedOptionOfHeader(USER_RULE_TABLE_COLUMN.WARNING, e.target.checked)}>
-              Gửi cảnh báo
+              {i18n.sendNotification}
             </Checkbox>
           </div>), 
         width: 15 
@@ -216,10 +205,10 @@ export default class StationAutoConfigNotification extends React.Component {
               checked={this.state.isSmsCheckAll}
               disabled={isDisabledCheckAll}
               onChange={(e) => this.onChagedOptionOfHeader(USER_RULE_TABLE_COLUMN.SMS, e.target.checked)}>
-              SMS
+              {i18n.sms}
             </Checkbox>
           </div>), 
-        width: 15
+        width: 10
       },
       { 
         content: (
@@ -229,10 +218,10 @@ export default class StationAutoConfigNotification extends React.Component {
               checked={this.state.isEmailCheckAll}
               disabled={isDisabledCheckAll}
               onChange={(e) => this.onChagedOptionOfHeader(USER_RULE_TABLE_COLUMN.EMAIL, e.target.checked)}>
-              Email
+              {i18n.email}
             </Checkbox>
           </div>), 
-        width: 15
+        width: 10
       },
     ]
   }
@@ -504,11 +493,24 @@ export default class StationAutoConfigNotification extends React.Component {
     })
   }
 
-  resetDataSource() {
-    this.setState({
-      dataSource: this.state.dataSourceDefault,
-      dataSourceOriginal: this.state.dataSourceDefault,
-    })
+  resetDataSource(name , value) {
+    let rows = _.cloneDeep(this.state.dataSourceDefault)
+    let userID = value._id
+    if (userID) {
+      _.forEach(rows, row => {
+        if (_.get(value.options, [row._id])) {
+          row.options = _.clone(value.options[row._id])
+        }
+      })
+      this.setState({
+        [name]: value,
+        dataSource: _.cloneDeep(rows),
+        dataSourceOriginal: _.cloneDeep(rows)
+      })
+      _.forEach(_.values(USER_RULE_TABLE_COLUMN), column => {
+        this.checkIndeterminate(column, rows)
+      })
+    }
   }
 
   checkIndeterminate(column, _dataSource) {
@@ -529,23 +531,44 @@ export default class StationAutoConfigNotification extends React.Component {
     }
   }
 
+  isAllowSubmit() {
+    let isHasCache = _.keys(this.state.cachedData).length !== 0
+    let isSelectedUser = _.get(this.state.selectedUser, '_id')
+    let isSelectedRole = this.state.selectedRoleID
+
+    return !(isHasCache && isSelectedUser && isSelectedRole)
+  }
+
   async submitCache() {
+    let { cachedData, selectedUser, selectedRoleID } = this.state
+    console.log("submitted data: ", {
+      userID: selectedUser._id,
+      roleID: selectedRoleID, 
+      stationAutos: cachedData
+    })
+
+
     this.setState({isSave: true})
-    const res = await updateStationAutoOptions(this.state.cachedData)
-    if (res.success) {
-      this.setState({
-        dataSourceOriginal: _.cloneDeep(this.state.dataSource),
-        cachedData: {}
-      })
+    setTimeout(() => {
       showSuccess(i18n.updateSuccess)
-    }
-    else if (res.error) {
-      swal({
-        title: i18n.updateError,
-        type: 'error'
-      })
-    }
+      this.setState({isSave: false})
+    }, 1000)
+    // this.setState({isSave: true})
+    // const res = await updateStationAutoOptions(this.state.cachedData)
+    // if (res.success) {
+    //   this.setState({
+    //     dataSourceOriginal: _.cloneDeep(this.state.dataSource),
+    //     cachedData: {}
+    //   })
+    //   showSuccess(i18n.updateSuccess)
+    // }
+    // else if (res.error) {
+    //   swal({
+    //     title: i18n.updateError,
+    //     type: 'error'
+    //   })
+    // }
   
-    this.setState({isSave: false})
+    // this.setState({isSave: false})
   }
 }

@@ -688,10 +688,10 @@ export default {
       action: 'Action',
       createdAt: 'Created At',
       config: {
-        title: 'Cấu hình kết nối', /* MARK  @translate */
+        title: 'Connection configuration',
       },
       notification: {
-        title: 'Cấu hình gửi cảnh báo' /* MARK  @translate */
+        title: 'Configure to Send Notifications'
       },
       sampling: {
         title: 'Sampling configuration'
@@ -881,11 +881,17 @@ export default {
       errorLoadFile: 'Load file fail with path'
     },
     options: {
+      userRole: {
+        stationManager: 'Station Manager',
+        allowSendWarning: 'Send Notification',
+        sms: 'SMS',
+        email: 'Email'
+      },
       calibration: {
         title: 'Equipment calibration'
       },
       allowSendWarning: {
-        label: 'Allow Send Warning',
+        label: 'Send Notification',
         placeholder: 'Allow Send Warning'
       },
       allowApprove: {
@@ -1205,7 +1211,7 @@ export default {
     title: 'User Profile',
     success: 'Change Information Successfully',
     viewProfile: 'View Profile',
-    configStation: 'Config Station',
+    configStation: 'Configure to Receive Notifications',
     security: 'Security',
     logOut: 'Log Out',
     changePassword: 'Change Password',
@@ -1451,8 +1457,8 @@ export default {
     configSub: 'Settings',
     config: {
       stationAuto: 'Station',
-      stationAutoConnection: 'Cấu hình kết nối', /*  MARK  @translate */
-      sendNotification: 'Cấu hình gửi cảnh báo',  /*  MARK  @translate */
+      stationAutoConnection: 'Connection configuration',
+      sendNotification: 'Configure to Send Notifications',
       sampling: 'Sampling configuration',
       parameter: 'Parameter',
       stationType: 'Type of Station',
