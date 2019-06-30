@@ -1225,8 +1225,8 @@ export default {
   },
   configStation: {
     name: 'Station Name',
-    breadCrumb: 'Config Station By User',
-    warningStatus: 'Receive Warning',
+    breadCrumb: 'Configure to Receive Notifications',
+    warningStatus: 'Receive Notifications',
     showStation: 'Show Station',
     numericalOrder: 'Numerical Order',
     action: 'Action',

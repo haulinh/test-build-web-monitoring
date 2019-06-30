@@ -1224,7 +1224,7 @@ export default {
   },
   configStation: {
     name: 'Tên trạm',
-    breadCrumb: 'Cấu hình trạm theo tài khoản',
+    breadCrumb: 'Cấu hình nhận cảnh báo',
     warningStatus: 'Nhận cảnh báo',
     showStation: 'Hiển thị trạm',
     numericalOrder: 'Số thứ tự',
