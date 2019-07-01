@@ -12,12 +12,14 @@ const HeaderFlex = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 100%
 `
 
 export const Grid = styled.div`
   width: 95%;
   margin-left: auto;
   margin-right: auto;
+  height: 100%
 `
 
 const BreadcrumbContainer = styled.div`
