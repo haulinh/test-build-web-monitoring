@@ -277,6 +277,7 @@ export default {
       measuring: 'Thông số',
       value: 'Giá trị',
       unit: 'Đơn vị',
+      statusSensor: 'Trạng thái thiết bị',
       dataLossAt: 'Mất kết nối lúc:',
       dataReceived: 'Dữ liệu lúc:',
       longitude: 'Kinh độ',

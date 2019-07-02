@@ -34,6 +34,7 @@ export const COLOR_STATUS = {
 
 /* eslint-disable */
 // do logic code cũ gía trị đang là 0, 1, 2
+
 export const COLOR_DEVICE_STATUS = {
   DATA_LOSS: '#666666',
   ERROR: '#CC0000',
