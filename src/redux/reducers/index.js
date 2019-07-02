@@ -6,6 +6,8 @@ import language from './language'
 import theme from './theme'
 import notification from './notification'
 import stationAuto from './stationAuto'
+import map from './map'
+
 
 export default {
   auth,
@@ -15,5 +17,6 @@ export default {
   form: reduxForm,
   breadcrumbs,
   notification,
-  stationAuto
+  stationAuto,
+  map
 }
