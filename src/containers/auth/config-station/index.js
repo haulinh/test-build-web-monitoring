@@ -65,7 +65,6 @@ export default class StationAutoConfigNotification extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log(props.dataSource, "dataSource")
     this.state = {
       /* giông cách hoạt động của git */  
       cachedData: {},             /* commit */
