@@ -5,7 +5,6 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import _ from 'lodash'
 import StationAutoApi from 'api/StationAuto'
-import { updateStationAutoOptions } from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import createManagerList from 'hoc/manager-list'
 import createManagerDelete from 'hoc/manager-delete'
@@ -17,7 +16,6 @@ import StationAutoSearchForm from './search-form'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import { USER_RULE_TABLE_COLUMN } from 'constants/labels'
-import swal from 'sweetalert2'
 
 import DynamicTable from 'components/elements/dynamic-table'
 
@@ -432,6 +430,8 @@ export default class StationAutoConfigNotification extends React.Component {
         })
         break;
       }
+      default:
+      break
     }
   }
 
@@ -528,6 +528,8 @@ export default class StationAutoConfigNotification extends React.Component {
       case WARNING : this.setState({isWarningIndeterminate : !isSame, isWarningCheckAll : isCheckAll }); break;
       case SMS     : this.setState({isSmsIndeterminate     : !isSame, isSmsCheckAll     : isCheckAll }); break;
       case EMAIL   : this.setState({isEmailIndeterminate   : !isSame, isEmailCheckAll   : isCheckAll }); break;
+      default:
+      break
     }
   }
 

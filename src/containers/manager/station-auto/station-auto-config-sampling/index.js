@@ -321,6 +321,8 @@ export default class StationAutoConfigNotification extends React.Component {
     
     switch(column) {
       case SAMPLING_CONFIG_TABLE_COLUMN.SAMPLING : this.setState({isSamplingIndeterminate : !isSame, isSamplingCheckAll : isCheckAll }); break;
+      default:
+      break
     }
   }
 

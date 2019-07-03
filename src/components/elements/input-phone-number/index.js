@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { autobind } from 'core-decorators'
-import ReactTelephoneInput from 'react-telephone-input/lib/ReactTelephoneInput'
+import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
 
 const View = styled.div`
   .react-tel-input input[type='tel'] {
     height: initial;
-    line-height: 22px;
+    height: 32px;
     box-shadow: none;
     border: 1px solid #d4d4d4;
   }
