@@ -1,6 +1,6 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import _, { get } from 'lodash'
+import { get } from 'lodash'
 
 /**
  * Manager list data

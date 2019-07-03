@@ -16,7 +16,7 @@ import styled from 'styled-components'
 
 require('./index.css')
 
-const FormItem = FormStyle.Item
+// const FormItem = FormStyle.Item
 
 const i18n = {
   create: translate('addon.create'),

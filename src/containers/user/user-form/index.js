@@ -3,8 +3,9 @@ import { Form, Input, Button, Row, Col } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
-import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
+// import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
+import InputPhoneNumber from 'components/elements/input-phone-number';
 
 require('../user-search-form/index.css')
 
@@ -13,9 +14,6 @@ const FormItem = Form.Item
 @Form.create({
   mapPropsToFields: ({ initialValues }) => {
     if (!initialValues) return
-    if (initialValues.phone) {
-      initialValues.phone = initialValues.phone.phoneNumber
-    }
     return mapPropsToFields({ initialValues })
   }
 })
@@ -34,26 +32,22 @@ export default class UserForm extends React.PureComponent {
     this.state = {
       confirmDirty: false,
       selectOrganizations: [],
-      phone: {}
+      phone: undefined
     }
   }
 
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
-      console.log(values)
+      // console.log(values)
       if (err) return
       const data = {
         email: values.email,
         password: values.password,
         firstName: values.firstName,
         lastName: values.lastName,
-        phone: this.state.phone,
-        organization: values.organization
-          ? this.state.selectOrganizations.find(
-              item => item._id === values.organization
-            )
-          : null
+        phone: values.phone,
+        organization: values.organization ? this.state.selectOrganizations.find(item => item._id === values.organization) : null
       }
       // Callback submit form Container Component
       this.props.onSubmit(data)
@@ -113,14 +107,9 @@ export default class UserForm extends React.PureComponent {
       <Form onSubmit={this.handleSubmit}>
         <Row gutter={16}>
           <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label={t('userManager.form.email.label')}
-            >
+            <FormItem {...formItemLayout} label={t('userManager.form.email.label')}>
               {getFieldDecorator('email', {
-                initialValue: this.props.initialValues
-                  ? this.props.initialValues.email
-                  : null,
+                initialValue: this.props.initialValues ? this.props.initialValues.email : null,
                 rules: [
                   {
                     type: 'email',
@@ -131,19 +120,11 @@ export default class UserForm extends React.PureComponent {
                     message: t('userManager.form.email.label')
                   }
                 ]
-              })(
-                <Input
-                  disabled={this.props.isEdit}
-                  placeholder={t('userManager.form.email.label')}
-                />
-              )}
+              })(<Input disabled={this.props.isEdit} placeholder={t('userManager.form.email.label')} />)}
             </FormItem>
           </Col>
           <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label={t('userManager.form.phone.label')}
-            >
+            <FormItem {...formItemLayout} label={t('userManager.form.phone.label')}>
               {getFieldDecorator(`phone`, {
                 rules: [
                   {
@@ -151,28 +132,16 @@ export default class UserForm extends React.PureComponent {
                     message: t('userManager.form.phone.label')
                   }
                 ]
-              })(
-                <ReactTelephoneInput
-                  defaultCountry="vn"
-                  flagsImagePath={
-                    !this.props.isEdit
-                      ? '../images/flags.png'
-                      : '../../images/flags.png'
-                  }
-                  onChange={this.handleTelChange}
-                />
-              )}
-            </FormItem>
+              // })(<ReactTelephoneInput defaultCountry="vn" flagsImagePath={!this.props.isEdit ? '../images/flags.png' : '../../images/flags.png'} onChange={this.handleTelChange} />)}
+              })(<InputPhoneNumber  />)}
+              </FormItem>
           </Col>
         </Row>
 
         {!this.props.isEdit && (
           <Row gutter={16}>
             <Col span={12}>
-              <FormItem
-                {...formItemLayout}
-                label={t('userManager.form.password.label')}
-              >
+              <FormItem {...formItemLayout} label={t('userManager.form.password.label')}>
                 {getFieldDecorator('password', {
                   rules: [
                     {
@@ -183,20 +152,11 @@ export default class UserForm extends React.PureComponent {
                       validator: this.validateToNextPassword
                     }
                   ]
-                })(
-                  <Input
-                    type="password"
-                    disabled={this.props.isEdit}
-                    placeholder={t('userManager.form.password.placeholder')}
-                  />
-                )}
+                })(<Input type="password" disabled={this.props.isEdit} placeholder={t('userManager.form.password.placeholder')} />)}
               </FormItem>
             </Col>
             <Col span={12}>
-              <FormItem
-                {...formItemLayout}
-                label={t('userManager.form.confirmPassword.label')}
-              >
+              <FormItem {...formItemLayout} label={t('userManager.form.confirmPassword.label')}>
                 {getFieldDecorator('confirmPassword', {
                   rules: [
                     {
@@ -207,13 +167,7 @@ export default class UserForm extends React.PureComponent {
                       validator: this.compareToFirstPassword
                     }
                   ]
-                })(
-                  <Input
-                    type="password"
-                    placeholder={t('userManager.form.confirmPassword.label')}
-                    onBlur={this.handleConfirmBlur}
-                  />
-                )}
+                })(<Input type="password" placeholder={t('userManager.form.confirmPassword.label')} onBlur={this.handleConfirmBlur} />)}
               </FormItem>
             </Col>
           </Row>
@@ -221,36 +175,22 @@ export default class UserForm extends React.PureComponent {
 
         <Row gutter={16}>
           <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label={t('userManager.form.firstName.label')}
-            >
+            <FormItem {...formItemLayout} label={t('userManager.form.firstName.label')}>
               {getFieldDecorator('firstName', {
-                initialValue: this.props.initialValues
-                  ? this.props.initialValues.firstName
-                  : null,
+                initialValue: this.props.initialValues ? this.props.initialValues.firstName : null,
                 rules: [
                   {
                     required: true,
                     message: t('userManager.form.firstName.label')
                   }
                 ]
-              })(
-                <Input
-                  placeholder={t('userManager.form.firstName.placeholder')}
-                />
-              )}
+              })(<Input placeholder={t('userManager.form.firstName.placeholder')} />)}
             </FormItem>
           </Col>
           <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label={t('userManager.form.lastName.label')}
-            >
+            <FormItem {...formItemLayout} label={t('userManager.form.lastName.label')}>
               {getFieldDecorator('lastName', {
-                initialValue: this.props.initialValues
-                  ? this.props.initialValues.lastName
-                  : null,
+                initialValue: this.props.initialValues ? this.props.initialValues.lastName : null,
                 rules: [
                   {
                     required: true,
@@ -263,12 +203,7 @@ export default class UserForm extends React.PureComponent {
         </Row>
 
         <FormItem>
-          <Button
-            style={{ width: '100%' }}
-            type="primary"
-            htmlType="submit"
-            loading={this.props.isLoading}
-          >
+          <Button style={{ width: '100%' }} type="primary" htmlType="submit" loading={this.props.isLoading}>
             {t('addon.save')}
           </Button>
         </FormItem>
