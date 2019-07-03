@@ -21,13 +21,15 @@ import * as _ from 'lodash'
 const FInput = createValidateComponent(InputLabel)
 
 const Form = styled.form`
+  position: fixed;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%,-50%);
   width: 450px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 100px;
   box-shadow: 0 2px 10px 0 rgba(238, 238, 238, 0.5);
   background-color: #ffffff;
   padding: 24px 32px;
+  
 `
 
 const FloatRight = styled.div`
@@ -40,6 +42,7 @@ const Header = {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 0px 8px;
   `,
   Logo: styled.img`
     height: 38px;
@@ -48,7 +51,26 @@ const Header = {
 }
 
 const bodyStyle = `
-  body { background: linear-gradient(135deg,#1d89ce 0%,#56d2f3 100%) !important; }
+  body { 
+    background: linear-gradient(135deg,#1d89ce 0%,#56d2f3 100%) !important; 
+  }
+  video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    background: url(/images/clouds.png) no-repeat;
+    background-size: cover;
+    -webkit-transition: 1s opacity;
+    transition: 1s opacity;
+}
+
 `
 
 @createLang
@@ -146,6 +168,11 @@ export default class Login extends PureComponent {
     return (
       <Container>
         <style dangerouslySetInnerHTML={{ __html: bodyStyle }} />
+        <video   loop autoPlay muted>
+           <source src="/video/login.webm" type="video/webm"/>
+            <source src="/video/login.mp4" type="video/mp4" />
+        </video>
+        
         <Form onSubmit={this.props.handleSubmit(this.handleLogin.bind(this))}>
           <Header.Wrapper>
             <Heading fontSize={28}>{t('login.title')}</Heading>
