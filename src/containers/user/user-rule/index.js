@@ -5,7 +5,6 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import _ from 'lodash'
 import StationAutoApi from 'api/StationAuto'
-import { updateStationAutoOptions } from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import createManagerList from 'hoc/manager-list'
 import createManagerDelete from 'hoc/manager-delete'
@@ -17,7 +16,6 @@ import StationAutoSearchForm from './search-form'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import { USER_RULE_TABLE_COLUMN } from 'constants/labels'
-import swal from 'sweetalert2'
 
 import DynamicTable from 'components/elements/dynamic-table'
 
@@ -341,10 +339,45 @@ export default class StationAutoConfigNotification extends React.Component {
       this.updateCache(index, station, PRIMARY, checked)
     })
 
+<<<<<<< HEAD
     this.setState({
       isManagerCheckAll: checked, 
       isManagerCheckAll: checked,
     })
+=======
+    switch(column) {
+      case PRIMARY: {
+        this.setState({
+          isManagerCheckAll: checked, 
+          isManagerIndeterminate: false
+        })
+        break;
+      }
+      case WARNING: {
+        this.setState({
+          isWarningCheckAll: checked, 
+          isWarningIndeterminate: false
+        })
+        break;
+      }
+      case SMS: {
+        this.setState({
+          isSmsCheckAll: checked, 
+          isSmsIndeterminate: false
+        })
+        break;
+      }
+      case EMAIL: {
+        this.setState({
+          isEmailCheckAll: checked, 
+          isEmailIndeterminate: false
+        })
+        break;
+      }
+      default:
+      break
+    }
+>>>>>>> 026d7952009f4d53b22d35797926a86a97c675ae
   }
 
   onChagedOptionOfRow({index, row, column, value}) {
@@ -424,7 +457,19 @@ export default class StationAutoConfigNotification extends React.Component {
     let isSame = countBy.false === undefined || countBy.true === undefined
     let isCheckAll = _.every(result)
     
+<<<<<<< HEAD
     this.setState({isManagerIndeterminate : !isSame, isManagerCheckAll : isCheckAll })
+=======
+    let { PRIMARY, WARNING, SMS, EMAIL } = USER_RULE_TABLE_COLUMN
+    switch(column) {
+      case PRIMARY : this.setState({isManagerIndeterminate : !isSame, isManagerCheckAll : isCheckAll }); break;
+      case WARNING : this.setState({isWarningIndeterminate : !isSame, isWarningCheckAll : isCheckAll }); break;
+      case SMS     : this.setState({isSmsIndeterminate     : !isSame, isSmsCheckAll     : isCheckAll }); break;
+      case EMAIL   : this.setState({isEmailIndeterminate   : !isSame, isEmailCheckAll   : isCheckAll }); break;
+      default:
+      break
+    }
+>>>>>>> 026d7952009f4d53b22d35797926a86a97c675ae
   }
 
   isAllowSubmit() {

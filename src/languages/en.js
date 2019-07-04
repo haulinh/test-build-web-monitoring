@@ -275,6 +275,7 @@ export default {
       measuring: 'Measuring',
       value: 'Value',
       unit: 'Unit',
+      statusSensor: 'Sensor Status',
       dataLossAt: 'Data Lost At:',
       dataReceived: 'Received At:',
       longitude: 'Longitude',

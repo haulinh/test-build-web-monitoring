@@ -5,7 +5,7 @@ import {
 
 let initstate = {
   isInitLoaded: false,
-  list: []
+  list: [],
 }
 
 export default function stationAuto(state=initstate, action) {

@@ -136,7 +136,6 @@ export default class MonitoringGeneral extends React.Component {
   }
 
   getFollowStation = stations => {
-    debugger
     if (this.state.followStation) {
       const aa = _.find(stations, function(o) {
         return (o.key = this.state.followStation)

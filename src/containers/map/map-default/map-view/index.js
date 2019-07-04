@@ -11,6 +11,7 @@ import { getGoogleMapProps } from 'components/map/utils'
 import MarkerStation from 'components/map/marker'
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer'
 import LevelIntro from 'components/map/level-intro'
+
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { warningLevelsNumber, warningLevels } from 'constants/warningLevels'
@@ -27,6 +28,7 @@ const LevelWrapper = styled.div`
   padding: 4px;
   z-index: 2;
 `
+
 
 @withScriptjs
 @withGoogleMap
@@ -168,12 +170,15 @@ class CustomGoogleMap extends PureComponent {
     )
   }
 }
+
+
 @autobind
 export default class MapStationAuto extends PureComponent {
   static propTypes = {
     handleGetStationAuto: PropTypes.func,
     stationAutoMarker: PropTypes.array,
-    getMap: PropTypes.func
+    getMap: PropTypes.func,
+    lang: PropTypes.string
   }
   state = {
     map: {},
@@ -219,9 +224,9 @@ export default class MapStationAuto extends PureComponent {
   render() {
     return (
       <MapContainer>
-        {/* <LevelWrapper>
+        <LevelWrapper>
           <LevelIntro />
-        </LevelWrapper> */}
+        </LevelWrapper>
         <CustomGoogleMap
           ref={map => {
             this.mapTamp = map
@@ -231,7 +236,7 @@ export default class MapStationAuto extends PureComponent {
           getMap={this.setMap}
           getRefMarker={this.setListMarker}
           zoom={this.props.zoom}
-          {...getGoogleMapProps()}
+          {...getGoogleMapProps(this.props.lang)}
           loadingElement={
             <div style={{ height: this.props.windowHeight + 'px' }} />
           }

@@ -359,6 +359,7 @@ export default class StationAutoConfigNotification extends React.Component {
         })
         break;
       }
+      default:break
     }
   }
 
@@ -444,6 +445,7 @@ export default class StationAutoConfigNotification extends React.Component {
       case STATION_AUTO_OPTIONS.PRIMARY : this.setState({isWarningIndeterminate : !isSame, isWarningCheckAll : isCheckAll }); break;
       case STATION_AUTO_OPTIONS.SMS     : this.setState({isSmsIndeterminate     : !isSame, isSmsCheckAll     : isCheckAll }); break;
       case STATION_AUTO_OPTIONS.EMAIL   : this.setState({isEmailIndeterminate   : !isSame, isEmailCheckAll   : isCheckAll }); break;
+      default: break
     }
   }
 

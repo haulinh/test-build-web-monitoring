@@ -5,7 +5,7 @@ import stationFixedApi from 'api/StationFixedApi'
 import MapView from './map-view'
 import { resolveMapLocation } from 'utils/resolveMapLocation'
 import BoxHideLayout from 'components/map/box-hide-layout'
-import stationStatus from 'constants/stationStatus'
+import {STATUS_STATION} from 'constants/stationStatus'
 import { warningLevelsNumber, warningLevels } from 'constants/warningLevels'
 import searchSidebarType from 'constants/searchSidebarType'
 import ROLE from 'constants/role'
@@ -140,17 +140,17 @@ export default class MapDefault extends React.PureComponent {
       element.visible = false
       let status
 
-      if (element.status === stationStatus.GOOD) {
-        status = stationStatus.CONNECTED
+      if (element.status === STATUS_STATION.GOOD) {
+        status = STATUS_STATION.GOOD
       }
 
       if (findBy === 'byStationStatus') {
         element.byStationStatus = true
-        if (element.status === stationStatus.DATA_LOSS) {
-          status = stationStatus.DATA_LOSS
+        if (element.status === STATUS_STATION.DATA_LOSS) {
+          status = STATUS_STATION.DATA_LOSS
         }
-        if (element.status === stationStatus.NOT_USE) {
-          status = stationStatus.NOT_USE
+        if (element.status === STATUS_STATION.NOT_USE) {
+          status = STATUS_STATION.NOT_USE
         }
       }
 

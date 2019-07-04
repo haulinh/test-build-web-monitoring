@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import stationStatus, {
+import  {
   STATUS_OPTIONS,
   STATUS_STATION,
   getStatusPriority
@@ -103,15 +103,15 @@ export default class TableListCustom extends React.PureComponent {
   }
 
   state = {
-    stationStatus: stationStatus.GOOD,
+    stationStatus: STATUS_STATION.GOOD,
     filter: FILTER.status,
     filterType: FILTER_TYPE.desc
   }
 
   renderStationStatus(station) {
-    if (station.status === stationStatus.DATA_LOSS)
+    if (station.status === STATUS_STATION.DATA_LOSS)
       return '(' + translate('dashboard.dataLoss') + ')'
-    if (station.status === stationStatus.NOT_USE)
+    if (station.status === STATUS_STATION.NOT_USE)
       return '(' + translate('dashboard.notUse') + ')'
     return ''
   }

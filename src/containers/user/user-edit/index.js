@@ -32,13 +32,7 @@ export default class UserEdit extends React.PureComponent {
   }
 
   async handleSubmit(data) {
-    this.setState({
-      isLoading: true
-    })
     await this.props.onUpdateItem(data)
-    this.setState({
-      isLoading: false
-    })
   }
 
   //Su kien truoc khi component duoc tao ra
