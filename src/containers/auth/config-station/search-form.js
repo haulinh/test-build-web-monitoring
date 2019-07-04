@@ -21,15 +21,17 @@ const i18n = {
 @autobind
 export default class StationAutoSearchForm extends React.PureComponent {
   static propTypes = {
-    onSubmit: PropTypes.func,
     initialValues: PropTypes.object,
-    onChangeSearch: PropTypes.func,
-    lang: langPropTypes
+    onChangeSearch: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      dataSearch: {
+        data: {}
+      }
+    }
   }
 
   async componentWillMount() {}

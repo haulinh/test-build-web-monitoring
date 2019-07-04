@@ -210,7 +210,7 @@ export default class StationAutoConfigNotification extends React.Component {
     let result = [].concat.apply(
       [],
       this.state.dataSource.map((row, index) => {
-        const isManagerCheckboxDisabled =  _.get(row, ['options', USER_RULE_TABLE_COLUMN.PRIMARY], false) === false
+        const isManagerCheckboxDisabled =  _.get(row, ['options', USER_RULE_TABLE_COLUMN.PRIMARY, 'allowed'], false) === false
         //content Row
         let resultRow = [
           {
@@ -242,7 +242,7 @@ export default class StationAutoConfigNotification extends React.Component {
             content: (
               <div>
                 <Checkbox
-                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.PRIMARY], false)} 
+                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.PRIMARY, 'allowed'], false)} 
                   onChange={(e) => this.onChagedOptionOfRow({index, row, column: USER_RULE_TABLE_COLUMN.PRIMARY, value: e.target.checked})}
                 />
               </div>
@@ -254,7 +254,7 @@ export default class StationAutoConfigNotification extends React.Component {
               <div>
                 <Checkbox
                   disabled={true}
-                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.WARNING], false)} 
+                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.WARNING, 'allowed'], false)} 
                 />
               </div>
             )
@@ -265,7 +265,7 @@ export default class StationAutoConfigNotification extends React.Component {
               <div>
                 <Checkbox
                   disabled={true}
-                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.SMS], false)}
+                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.SMS, 'allowed'], false)}
                 />
               </div>
             )
@@ -276,7 +276,7 @@ export default class StationAutoConfigNotification extends React.Component {
               <div>
                 <Checkbox
                   disabled={true}
-                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.EMAIL], false)} 
+                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.EMAIL, 'allowed'], false)} 
                 />
               </div>
             )
@@ -316,10 +316,10 @@ export default class StationAutoConfigNotification extends React.Component {
   transformDataSource(stationAutos) {
     return _.map(stationAutos, station => {
       let defaultOptions = {
-        manager: false,
-        warning: true,
-        sms: true,
-        email: true
+        manager: {allowed: false},
+        warning: {allowed: true},
+        sms: {allowed: true},
+        email: {allowed: true}
       }
       _.set(station, ['options'], defaultOptions)
       return station
@@ -337,7 +337,7 @@ export default class StationAutoConfigNotification extends React.Component {
     })
 
     _.forEach(_dataSource, (station, index) => {
-      _.set(station, ['options', PRIMARY], checked)
+      _.set(station, ['options', PRIMARY, 'allowed'], checked)
       this.updateCache(index, station, PRIMARY, checked)
     })
 
@@ -356,7 +356,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
   updateDataSource(index, row, column, value) {
     let _dataSource = this.state.dataSource
-    _.set(_dataSource, `[${index}].options[${column}]`, value)
+    _.set(_dataSource, [index, 'options', column, 'allowed'], value)
     this.setState({ dataSource: _dataSource })
   }
 
@@ -373,8 +373,7 @@ export default class StationAutoConfigNotification extends React.Component {
     let _cachedData = this.state.cachedData
     let _dataSourceOriginal = this.state.dataSourceOriginal
 
-    // let indexOfRow = _.findIndex(_dataSourceOriginal, stationAuto => stationAuto._id === row._id)
-    let originalOption = _.get(_dataSourceOriginal[indexOfRow], ['options', column], false)
+    let originalOption = _.get(_dataSourceOriginal[indexOfRow], ['options', column, , 'allowed'], false)
     let currentValueInCache = _.has(_cachedData, [row._id, column])
     
     if (currentValueInCache){
@@ -384,7 +383,7 @@ export default class StationAutoConfigNotification extends React.Component {
       }
     }
     else if (originalOption !== value) {
-      _.set(_cachedData, [row._id, column], value)
+      _.set(_cachedData, [row._id, column, 'allowed'], value)
     }
 
     this.setState({cachedData: _cachedData})
@@ -418,7 +417,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
   checkIndeterminate(_dataSource) {
     let result = _.map(_dataSource, station => {
-      return _.get(station, ['options', USER_RULE_TABLE_COLUMN.PRIMARY])
+      return _.get(station, ['options', USER_RULE_TABLE_COLUMN.PRIMARY, 'allowed'])
     })
     
     let countBy = _.countBy(result, Boolean)
@@ -448,9 +447,9 @@ export default class StationAutoConfigNotification extends React.Component {
     */
     let { cachedData, selectedUser, selectedRoleID } = this.state
     console.log("submitted data: ", {
-      userID: selectedUser._id,
-      roleID: selectedRoleID, 
-      stationAutos: cachedData
+      userId: selectedUser._id,
+      roleId: selectedRoleID, 
+      options: cachedData
     })
 
 

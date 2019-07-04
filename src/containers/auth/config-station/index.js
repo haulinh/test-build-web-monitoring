@@ -14,6 +14,7 @@ import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
 import { mapPropsToFields } from 'utils/form'
 import StationAutoSearchForm from './search-form'
+import { connectAutoDispatch } from 'redux/connect'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import { STATION_AUTO_OPTIONS } from 'constants/labels'
@@ -43,24 +44,35 @@ const Span = styled.span`
 `
 
 @protectRole(ROLE.STATION_AUTO.VIEW)
-@createManagerList({
-  apiList: StationAutoApi.getStationAutos
-})
-@createManagerDelete({
-  apiDelete: StationAutoApi.removeStationAuto
-})
-@Form.create({
-  mapPropsToFields: mapPropsToFields
-})
-@createLanguageHoc
+@connectAutoDispatch(
+  state => ({
+    stationAutos: state.stationAuto.list,
+    userOptions: state.auth.userInfo.options
+  })
+)
 @autobind
 export default class StationAutoConfigNotification extends React.Component {
   static propTypes = {
-    dataSource: PropTypes.array,
-    pagination: PropTypes.object,
-    data: PropTypes.object,
-    onChangeSearch: PropTypes.func,
-    isLoading: PropTypes.bool,
+    stationAutos: PropTypes.array.isRequired,
+    userOptions: PropTypes.object.isRequired
+  }
+
+  static defaultProps = {
+    stationAutos: [],
+    userOptions: {/* MARK  @mockup */
+      "5cf0d81d4e1d520016f912e1": {
+        manager: {allowed: true}, 
+        warning: {allowed: false}, 
+        sms: {allowed: true}, 
+        email: {allowed: false}, 
+      },
+      "5cf0d8914e1d520016f912e2": {
+        manager: {allowed: true}, 
+        warning: {allowed: true}, 
+        sms: {allowed: true}, 
+        email: {allowed: true},
+      }
+    }
   }
 
   constructor(props) {
@@ -70,6 +82,9 @@ export default class StationAutoConfigNotification extends React.Component {
       cachedData: {},             /* commit */
       dataSource: [],             /* working dir */
       dataSourceOriginal: [],     /* index */
+
+      selectedStationType: undefined,
+      selectedStationName: undefined,
 
       isSave: false,
 
@@ -84,15 +99,30 @@ export default class StationAutoConfigNotification extends React.Component {
 
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dataSource.length !== this.state.dataSourceOriginal.length ) {
-      this.setState({
-        dataSourceOriginal: _.cloneDeep(nextProps.dataSource),
-        dataSource: _.cloneDeep(nextProps.dataSource)
-      })
-      _.forEach(_.values(STATION_AUTO_OPTIONS), column => {
-        this.checkIndeterminate(column, nextProps.dataSource)
-      })
-    }
+    let arrStationsOfUser = []
+    _.forEach(nextProps.stationAutos, station => {
+      let isAllowStationManager = _.get(nextProps.userOptions, [station._id, 'manager'], false)
+      if(isAllowStationManager) {
+        let userOptions = _.get(nextProps.userOptions, [station._id])
+        station.options = userOptions
+        arrStationsOfUser.push(station)
+      }
+    })
+
+    let sortedDataSource = _.orderBy(
+      arrStationsOfUser || [],
+      ['stationType.key'],
+      ['asc']
+    )
+
+    this.setState({
+      dataSource: _.cloneDeep(arrStationsOfUser),
+      dataSourceOriginal: _.cloneDeep(arrStationsOfUser),
+    })
+
+    _.forEach(_.values(STATION_AUTO_OPTIONS), column => {
+      this.checkIndeterminate(sortedDataSource)
+    })
   }
 
 
@@ -111,8 +141,7 @@ export default class StationAutoConfigNotification extends React.Component {
         {/* FORM CONTROL */}
         <Row style={{marginBottom: 20}}>
           <StationAutoSearchForm
-            onChangeSearch={this.props.onChangeSearch}
-            initialValues={this.props.data}
+            onChangeSearch={this.onChangeSearch}
           />
         </Row>
 
@@ -144,6 +173,21 @@ export default class StationAutoConfigNotification extends React.Component {
         </Row>
       </PageContainer>
     )
+  }
+
+
+  onChangeSearch({name, stationType}) {
+    console.log(stationType)
+    if (name) {
+      this.setState({
+        selectedStationName: name
+      })
+    }
+    if (stationType) {
+      this.setState({
+        selectedStationType: stationType
+      })
+    }
   }
 
 
@@ -195,10 +239,30 @@ export default class StationAutoConfigNotification extends React.Component {
   getRows() {
     const isDisabledCheckAll = !this.state.isWarningCheckAll && !this.state.isWarningIndeterminate
 
-    let stationTypeArr = []
-
+    let stationTypeArr = []   /* chứa các group name */
+    let filteredStation = []  /* chứa stations sau khi search */
+    
+    let stationName = this.state.selectedStationName
+    let stationType = this.state.selectedStationType
+    if (!stationName && !stationType) {
+      filteredStation = this.state.dataSource
+    }
+    else {
+      filteredStation = _.filter(this.state.dataSource, station => {
+        if (stationName && stationType) {
+          return station.stationType.key === stationType && station.name === stationName
+        }
+        else if(stationType) {
+          return station.stationType.key === stationType
+        }
+        else if (stationName) {
+          return station.name === stationName
+        }
+      })
+    }
+    
     let sourceSorted = _.orderBy(
-      this.state.dataSource || [],
+      filteredStation || [],
       ['stationType.key'],
       ['asc']
     )
@@ -214,10 +278,11 @@ export default class StationAutoConfigNotification extends React.Component {
           {
             content: (
               <strong>
-                {(this.props.pagination.page - 1) *
+                {/* {(this.props.pagination.page - 1) *
                   this.props.pagination.itemPerPage +
                   index +
-                  1}
+                  1} */}
+                  1
               </strong>
             )
           },
