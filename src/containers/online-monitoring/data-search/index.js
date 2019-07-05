@@ -17,7 +17,7 @@ import {
   LineSeries
 } from 'react-jsx-highstock'
 import Highcharts from 'highcharts/highstock'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 const FormItem = Form.Item
 

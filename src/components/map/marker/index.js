@@ -19,7 +19,7 @@ import { Table } from 'react-bootstrap'
 // import DateFormat from 'dateformat'
 import { colorLevels, warningLevels } from 'constants/warningLevels'
 import { STATUS_STATION } from 'constants/stationStatus'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { isEmpty, map, get as _get } from 'lodash'
 import { getFormatNumber } from 'constants/format-number';

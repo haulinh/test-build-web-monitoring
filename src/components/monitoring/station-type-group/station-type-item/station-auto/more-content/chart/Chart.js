@@ -1,7 +1,7 @@
 import React from 'react'
 import Proptypes from 'prop-types'
 import styled from 'styled-components'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { translate } from 'hoc/create-lang'
 import ReactHighcharts from 'react-highcharts'
 import * as _ from 'lodash'

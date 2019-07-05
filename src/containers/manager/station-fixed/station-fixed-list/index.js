@@ -16,7 +16,7 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import styled from 'styled-components'
 import { Modal, message } from 'antd'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { DD_MM_YYYY } from 'constants/format-date'
 import * as _ from 'lodash'
 

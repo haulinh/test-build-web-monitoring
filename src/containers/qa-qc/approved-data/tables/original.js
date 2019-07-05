@@ -4,7 +4,7 @@ import { autobind } from 'core-decorators'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Table } from 'antd'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
