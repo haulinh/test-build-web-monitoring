@@ -77,7 +77,7 @@ export default class UserSearchForm extends React.PureComponent {
           <Select 
             style={{width: '100%'}} 
             loading={this.state.isGettingRoles}
-            onSelect={value => this.props.updateDataForSubmit({name: 'selectedRoleID', value: value})}
+            onSelect={this.handleSelectRole}
             showSearch
             optionFilterProp="search"
             filterOption={this.handleFilter}
@@ -107,6 +107,11 @@ export default class UserSearchForm extends React.PureComponent {
   handleSelectUser(userID) {
     let user = _.find(this.state.dataSourceUsers, user => user._id === userID)
     this.props.updateDataForSubmit({name: 'selectedUser', value: user})
+  }
+
+  handleSelectRole(roleID) {
+    let role = _.find(this.state.dataSourceRoles, role => role._id === roleID)
+    this.props.updateDataForSubmit({name: 'selectedRoleID', value: role})
   }
 
   /* NOTE */

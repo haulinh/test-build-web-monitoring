@@ -87,7 +87,7 @@ export default class StationAutoConfigNotification extends React.Component {
       isEmailCheckAll: false,
 
       selectedUser: {},
-      selectedRoleID: ''
+      selectedRoleID: {}
     }
   }
 
@@ -441,7 +441,7 @@ export default class StationAutoConfigNotification extends React.Component {
   isAllowSubmit() {
     let isHasCache = _.keys(this.state.cachedData).length !== 0
     let isSelectedUser = _.get(this.state.selectedUser, '_id')
-    let isSelectedRole = this.state.selectedRoleID
+    let isSelectedRole = this.state.selectedRoleID._id
 
     return !(isHasCache && isSelectedUser && isSelectedRole)
   }
@@ -463,7 +463,8 @@ export default class StationAutoConfigNotification extends React.Component {
     let { cachedData, selectedUser, selectedRoleID } = this.state
     let submittedData = {
       userId: selectedUser._id,
-      roleId: selectedRoleID, 
+      roleId: selectedRoleID._id,
+      role: selectedRoleID, 
       options: cachedData
     }
 

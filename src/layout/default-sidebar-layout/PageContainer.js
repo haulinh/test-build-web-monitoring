@@ -19,7 +19,7 @@ export const Grid = styled.div`
   width: 95%;
   margin-left: auto;
   margin-right: auto;
-  height: 100%
+  height: 100%;
 `
 
 const BreadcrumbContainer = styled.div`
@@ -67,7 +67,8 @@ export default class PageContainer extends React.PureComponent {
               ...props.style,
               top: 0,
               zIndex: 2,
-              borderBottom: props.isSticky ? '1px solid #eeeeee' : ''
+              borderBottom: props.isSticky ? '1px solid #eeeeee' : '',
+              marginBottom: 16
             }}
           >
             <BreadcrumbContainer style={this.props.style}>
