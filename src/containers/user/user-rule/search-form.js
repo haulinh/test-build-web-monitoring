@@ -116,22 +116,22 @@ export default class UserSearchForm extends React.PureComponent {
 
     let resUsers = await UserApi.searchUser()
     /* MARK   MOCKUP DATA */
-    if(resUsers.data.length !== 0) {
-      resUsers.data[0].options = {
-        "5cf0d81d4e1d520016f912e1": {
-          manager: true,
-          warning: false,
-          sms: true,
-          email: false
-        },
-        "5cf0d8914e1d520016f912e2": {
-          manager: true,
-          warning: true,
-          sms: true,
-          email: true
-        }
-      }
-    }
+    // if(resUsers.data.length !== 0) {
+    //   resUsers.data[0].options = {
+    //     "5cf0d81d4e1d520016f912e1": {
+    //       manager: true,
+    //       warning: false,
+    //       sms: true,
+    //       email: false
+    //     },
+    //     "5cf0d8914e1d520016f912e2": {
+    //       manager: true,
+    //       warning: true,
+    //       sms: true,
+    //       email: true
+    //     }
+    //   }
+    // }
 
     this.setState({
       isGettingUsers: false,

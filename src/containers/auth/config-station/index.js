@@ -4,7 +4,7 @@ import { Row, Form, Checkbox, Button, message } from 'antd'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import _ from 'lodash'
-import StationAutoApi from 'api/StationAuto'
+import { updateRole } from 'api/UserApi'
 import { updateStationAutoOptions } from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import createManagerList from 'hoc/manager-list'
@@ -47,6 +47,8 @@ const Span = styled.span`
 @connectAutoDispatch(
   state => ({
     stationAutos: state.stationAuto.list,
+    userId: state.auth.userInfo._id,
+    roleId: state.auth.userInfo.roleId,
     userOptions: state.auth.userInfo.options
   })
 )
@@ -521,7 +523,12 @@ export default class StationAutoConfigNotification extends React.Component {
 
   async submitCache() {
     this.setState({isSave: true})
-    const res = await updateStationAutoOptions(this.state.cachedData)
+    let dataForSubmit = {
+      userId: this.props.userId,
+      roleId: this.props.roleId,
+      options: this.state.cachedData
+    }
+    const res = await updateRole(dataForSubmit)
     if (res.success) {
       this.setState({
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),
