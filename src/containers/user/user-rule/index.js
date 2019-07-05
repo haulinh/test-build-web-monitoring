@@ -469,7 +469,6 @@ export default class StationAutoConfigNotification extends React.Component {
 
     this.setState({isSave: true})
     const res = await updateRole(submittedData)
-    console.log("updateRole: ", res)
     if (res.success) {
       this.setState({
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),

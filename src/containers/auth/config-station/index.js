@@ -1,24 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Form, Checkbox, Button, message } from 'antd'
+import { Row, Checkbox, Button, message } from 'antd'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import _ from 'lodash'
+import swal from 'sweetalert2'
+
+// import AuthAPI from 'api/AuthApi'
 import { updateRole } from 'api/UserApi'
-import { updateStationAutoOptions } from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import createManagerList from 'hoc/manager-list'
-import createManagerDelete from 'hoc/manager-delete'
-import createLanguageHoc from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
-import { mapPropsToFields } from 'utils/form'
 import StationAutoSearchForm from './search-form'
 import { connectAutoDispatch } from 'redux/connect'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import { STATION_AUTO_OPTIONS } from 'constants/labels'
-import swal from 'sweetalert2'
 
 import DynamicTable from 'components/elements/dynamic-table'
 
@@ -61,20 +58,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
   static defaultProps = {
     stationAutos: [],
-    userOptions: {/* MARK  @mockup */
-      "5cf0d81d4e1d520016f912e1": {
-        manager: {allowed: true}, 
-        warning: {allowed: false}, 
-        sms: {allowed: true}, 
-        email: {allowed: false}, 
-      },
-      "5cf0d8914e1d520016f912e2": {
-        manager: {allowed: true}, 
-        warning: {allowed: true}, 
-        sms: {allowed: true}, 
-        email: {allowed: true},
-      }
-    }
+    userOptions: {}
   }
 
   constructor(props) {
@@ -88,6 +72,8 @@ export default class StationAutoConfigNotification extends React.Component {
       selectedStationType: undefined,
       selectedStationName: undefined,
 
+      // isGettingMe: false,
+      // isGettingStations: false,
       isSave: false,
 
       isWarningIndeterminate: true,
@@ -100,10 +86,29 @@ export default class StationAutoConfigNotification extends React.Component {
   }
 
 
+  // componentDidMount() {
+  //   this.getMe()
+  //   this.getStations()
+  // }
+
+
+  // async getMe() {
+  //   this.setState({isGettingMe: true})
+  //   let res = await AuthAPI.getMe()
+  //   console.log(res.data, 'tanphat')
+  //   this.setState({isGettingMe: false})
+  // }
+
+
+  // async getStations() {
+
+  // }
+
+
   componentWillReceiveProps(nextProps) {
     let arrStationsOfUser = []
     _.forEach(nextProps.stationAutos, station => {
-      let isAllowStationManager = _.get(nextProps.userOptions, [station._id, 'manager'], false)
+      let isAllowStationManager = _.get(nextProps.userOptions, [station._id, 'manager', 'allowed'], false)
       if(isAllowStationManager) {
         let userOptions = _.get(nextProps.userOptions, [station._id])
         station.options = userOptions
@@ -179,7 +184,6 @@ export default class StationAutoConfigNotification extends React.Component {
 
 
   onChangeSearch({name, stationType}) {
-    console.log(stationType)
     if (name) {
       this.setState({
         selectedStationName: name
@@ -284,7 +288,7 @@ export default class StationAutoConfigNotification extends React.Component {
                   this.props.pagination.itemPerPage +
                   index +
                   1} */}
-                  1
+                  {index + 1}
               </strong>
             )
           },
