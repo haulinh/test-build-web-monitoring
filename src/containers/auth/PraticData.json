@@ -1,0 +1,151 @@
+{
+  "particles": {
+    "number": {
+      "value": 150,
+      "density": {
+        "enable": true,
+        "value_area": 4419.226793140727
+      }
+    },
+    "color": {
+      "value": "#ffffff"
+    },
+    "shape": {
+      "type": "images",
+      "stroke": {
+        "width": 0,
+        "color": "#000000"
+      },
+      "polygon": {
+        "nb_sides": 5
+      },
+      "images": [
+        { "src": "/images/measuring-icon/COD-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/COD-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/COD-meter-xanh.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/PM-10-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/PM-10-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/PM-10-meter-xanh.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/PM-25-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/PM-25-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/PM-25-meter-xanh.svg", "height": 20, "width": 20 },
+
+
+
+        { "src": "/images/measuring-icon/ph-meter-xanh.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/ph-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/ph-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/NO2-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/NO2-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/NO2-meter-xanh.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/SO2-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/SO2-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/SO2-meter-xanh.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/CO-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/CO-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/CO-meter-xanh.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/Pb-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/Pb-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/Pb-meter-xanh.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/O3-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/O3-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/O3-meter-xanh.svg", "height": 20, "width": 20 },
+        
+        { "src": "/images/measuring-icon/TSS-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/TSS-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/TSS-meter-xanh.svg", "height": 20, "width": 20 },
+        
+        { "src": "/images/measuring-icon/NOx-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/NOx-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/NOx-meter-xanh.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/O2-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/O2-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/O2-meter-xanh.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/DO-meter-do.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/DO-meter-cam.svg", "height": 20, "width": 20 },
+        { "src": "/images/measuring-icon/DO-meter-xanh.svg", "height": 20, "width": 20 }
+      ]
+    },
+    "opacity": {
+      "value": 0.3,
+      "random": true,
+      "anim": {
+        "enable": false,
+        "speed": 1,
+        "opacity_min": 0.1,
+        "sync": false
+      }
+    },
+    "size": {
+      "value": 25,
+      "random": true,
+      "anim": {
+        "enable": true,
+        "speed": 10,
+        "size_min": 10,
+        "sync": false
+      }
+    },
+    "line_linked": {
+      "enable": true,
+      "distance": 150,
+      "color": "#42526e",
+      "opacity": 0.6,
+      "width": 1
+    },
+    "move": {
+      "enable": true,
+      "speed": 2,
+      "direction": "top",
+      "random": false,
+      "straight": false,
+      "out_mode": "out",
+      "bounce": false,
+      "attract": {
+        "enable": false,
+        "rotateX": 600,
+        "rotateY": 1200
+      }
+    }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": {
+        "enable": true,
+        "mode": "bubble"
+      },
+      "onclick": {
+        "enable": false,
+        "mode": "push"
+      },
+      "resize": true
+    },
+    "modes": {
+      "grab": {
+        "distance": 400,
+        "line_linked": {
+          "opacity": 1
+        }
+      },
+      "bubble": {
+        "distance": 400,
+        "size": 40,
+        "duration": 2,
+        "opacity": 8,
+        "speed": 3
+      },
+      "repulse": {
+        "distance": 200,
+        "duration": 0.4
+      },
+      "push": {
+        "particles_nb": 4
+      },
+      "remove": {
+        "particles_nb": 2
+      }
+    }
+  },
+  "retina_detect": true
+}
