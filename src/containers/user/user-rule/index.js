@@ -16,6 +16,9 @@ import StationAutoSearchForm from './search-form'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import { USER_RULE_TABLE_COLUMN } from 'constants/labels'
+import { updateRole } from 'api/UserApi'
+
+import swal from 'sweetalert2'
 
 import DynamicTable from 'components/elements/dynamic-table'
 
@@ -252,7 +255,7 @@ export default class StationAutoConfigNotification extends React.Component {
               <div>
                 <Checkbox
                   disabled={true}
-                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.WARNING, 'allowed'], false)} 
+                  checked= {_.get(row, ['options', USER_RULE_TABLE_COLUMN.WARNING, 'allowed'], false)}
                 />
               </div>
             )
@@ -312,14 +315,14 @@ export default class StationAutoConfigNotification extends React.Component {
 
 
   transformDataSource(stationAutos) {
+    let { PRIMARY, WARNING, SMS, EMAIL } = USER_RULE_TABLE_COLUMN
     return _.map(stationAutos, station => {
       let defaultOptions = {
-        manager: {allowed: false},
-        warning: {allowed: true},
-        sms: {allowed: true},
-        email: {allowed: true}
+        [WARNING]: {allowed: true},
+        [SMS]: {allowed: true},
+        [EMAIL]: {allowed: true}
       }
-      _.set(station, ['options'], defaultOptions)
+      _.set(station, ['options'], _.cloneDeep(defaultOptions))
       return station
     })
   }
@@ -339,49 +342,13 @@ export default class StationAutoConfigNotification extends React.Component {
       this.updateCache(index, station, PRIMARY, checked)
     })
 
-<<<<<<< HEAD
     this.setState({
       isManagerCheckAll: checked, 
       isManagerCheckAll: checked,
     })
-=======
-    switch(column) {
-      case PRIMARY: {
-        this.setState({
-          isManagerCheckAll: checked, 
-          isManagerIndeterminate: false
-        })
-        break;
-      }
-      case WARNING: {
-        this.setState({
-          isWarningCheckAll: checked, 
-          isWarningIndeterminate: false
-        })
-        break;
-      }
-      case SMS: {
-        this.setState({
-          isSmsCheckAll: checked, 
-          isSmsIndeterminate: false
-        })
-        break;
-      }
-      case EMAIL: {
-        this.setState({
-          isEmailCheckAll: checked, 
-          isEmailIndeterminate: false
-        })
-        break;
-      }
-      default:
-      break
-    }
->>>>>>> 026d7952009f4d53b22d35797926a86a97c675ae
   }
 
   onChagedOptionOfRow({index, row, column, value}) {
-    let columns = _.values(USER_RULE_TABLE_COLUMN)
     this.updateDataSource(index, row, column, value)
     this.updateCache(index, row, column, value)
     this.checkIndeterminate(this.state.dataSource)
@@ -403,20 +370,31 @@ export default class StationAutoConfigNotification extends React.Component {
         }
       }
     */
+
+    let { PRIMARY, WARNING, SMS, EMAIL } = USER_RULE_TABLE_COLUMN
     let _cachedData = this.state.cachedData
     let _dataSourceOriginal = this.state.dataSourceOriginal
-
-    let originalOption = _.get(_dataSourceOriginal[indexOfRow], ['options', column, , 'allowed'], false)
-    let currentValueInCache = _.has(_cachedData, [row._id, column])
     
-    if (currentValueInCache){
-      delete _cachedData[row._id][column]
-      if (_.keys(_cachedData[row._id]).length === 0) {
-        delete _cachedData[row._id]
+    /* NOTE  giải thích 
+      - kiểm tra xem trạm này đã từng được cấu hình chưa
+        - nếu chưa thì save all hoặc delete all trong cache
+        - nêu có rồi thì thì save hoặc delete manager checkbox
+    */
+    let isConfiged = _.get(_dataSourceOriginal[indexOfRow], ['options', PRIMARY], false)
+    let isDiffWithOriginalData = _.get(_dataSourceOriginal[indexOfRow], ['options', PRIMARY, 'allowed'], false) !== value
+    if (isConfiged && isDiffWithOriginalData) {
+      _.set(_cachedData, [row._id, PRIMARY, 'allowed'], value)
+    }
+    else if (!isConfiged && value) {
+      _cachedData[row._id] = {
+        [PRIMARY]: { allowed: true },
+        [WARNING]: { allowed: true },
+        [SMS]: { allowed: true },
+        [EMAIL]: { allowed: true },
       }
     }
-    else if (originalOption !== value) {
-      _.set(_cachedData, [row._id, column, 'allowed'], value)
+    else {
+      delete _cachedData[row._id]
     }
 
     this.setState({cachedData: _cachedData})
@@ -457,19 +435,7 @@ export default class StationAutoConfigNotification extends React.Component {
     let isSame = countBy.false === undefined || countBy.true === undefined
     let isCheckAll = _.every(result)
     
-<<<<<<< HEAD
     this.setState({isManagerIndeterminate : !isSame, isManagerCheckAll : isCheckAll })
-=======
-    let { PRIMARY, WARNING, SMS, EMAIL } = USER_RULE_TABLE_COLUMN
-    switch(column) {
-      case PRIMARY : this.setState({isManagerIndeterminate : !isSame, isManagerCheckAll : isCheckAll }); break;
-      case WARNING : this.setState({isWarningIndeterminate : !isSame, isWarningCheckAll : isCheckAll }); break;
-      case SMS     : this.setState({isSmsIndeterminate     : !isSame, isSmsCheckAll     : isCheckAll }); break;
-      case EMAIL   : this.setState({isEmailIndeterminate   : !isSame, isEmailCheckAll   : isCheckAll }); break;
-      default:
-      break
-    }
->>>>>>> 026d7952009f4d53b22d35797926a86a97c675ae
   }
 
   isAllowSubmit() {
@@ -486,39 +452,38 @@ export default class StationAutoConfigNotification extends React.Component {
         userID: '',
         roleID: '',
         stationAutos: {
-          stationID: {manager: true, warning: true, sms: true, email: true}
+          stationID: {
+            manager: { allowed: true }, 
+            warning: { allowed: true }, 
+            sms: { allowed: true }, 
+            email: { allowed: true }
         }
       } 
     */
     let { cachedData, selectedUser, selectedRoleID } = this.state
-    console.log("submitted data: ", {
+    let submittedData = {
       userId: selectedUser._id,
       roleId: selectedRoleID, 
       options: cachedData
-    })
-
+    }
 
     this.setState({isSave: true})
-    setTimeout(() => {
+    const res = await updateRole(submittedData)
+    console.log("updateRole: ", res)
+    if (res.success) {
+      this.setState({
+        dataSourceOriginal: _.cloneDeep(this.state.dataSource),
+        cachedData: {}
+      })
       showSuccess(i18n.updateSuccess)
-      this.setState({isSave: false})
-    }, 1000)
-    // this.setState({isSave: true})
-    // const res = await updateStationAutoOptions(this.state.cachedData)
-    // if (res.success) {
-    //   this.setState({
-    //     dataSourceOriginal: _.cloneDeep(this.state.dataSource),
-    //     cachedData: {}
-    //   })
-    //   showSuccess(i18n.updateSuccess)
-    // }
-    // else if (res.error) {
-    //   swal({
-    //     title: i18n.updateError,
-    //     type: 'error'
-    //   })
-    // }
+    }
+    else if (res.error) {
+      swal({
+        title: i18n.updateError,
+        type: 'error'
+      })
+    }
   
-    // this.setState({isSave: false})
+    this.setState({isSave: false})
   }
 }
