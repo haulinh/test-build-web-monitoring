@@ -12,7 +12,7 @@ import Breadcrumb from 'containers/control-station/breadcrumb'
 import ControlStationTriggerForm from 'containers/control-station/control-station-trigger/control-station-trigger-form'
 import SamplingApi from 'api/SamplingApi'
 import AuthApi from 'api/AuthApi'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { connect } from 'react-redux'
 
 const LinkSpan = styled.span`

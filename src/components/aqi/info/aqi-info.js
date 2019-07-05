@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import * as _ from 'lodash'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import levels from 'constants/aqi-level'
 import ChartMeasure from './chart-measure'
 

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { DatePicker } from 'antd'
 import styled from 'styled-components'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 const Container = styled.div`
   .react-datepicker-wrapper,

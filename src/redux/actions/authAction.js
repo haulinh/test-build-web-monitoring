@@ -1,5 +1,7 @@
 import AuthApi from '../../api/AuthApi'
 import { setAuthToken, getAuthToken, resetAuthToken } from 'utils/auth'
+import moment from 'moment-timezone'
+import {result as _result} from 'lodash'
 
 export const UPDATE_USER_INFO = 'AUTH/update-user-info'
 export const FETCH_PENDING_USER = 'AUTH/fetch-pending-user'
@@ -23,6 +25,7 @@ export function fetchUserMe() {
       type: FETCH_PENDING_USER
     })
     const auth = await AuthApi.getMe()
+    moment.tz.setDefault(_result(auth, 'data.organization.timeZone.value') ,"Asia/Saigon");
     if (auth.error) {
       dispatch({
         type: FETCH_FAIL_USER

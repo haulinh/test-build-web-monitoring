@@ -5,7 +5,7 @@ import { autobind } from 'core-decorators'
 import { Table } from 'antd'
 import * as _ from 'lodash'
 import { DD_MM_YYYY } from 'constants/format-date'
-import moment from 'moment'
+import moment from 'moment-timezone'
 @autobind
 export default class TableDataList extends React.PureComponent {
   static propTypes = {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { translate } from 'hoc/create-lang'
 import { Select, DatePicker } from 'antd'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { autobind } from 'core-decorators'
 import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'

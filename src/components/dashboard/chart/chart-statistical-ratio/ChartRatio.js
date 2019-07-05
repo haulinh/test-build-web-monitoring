@@ -2,7 +2,7 @@ import React from 'react'
 import { autobind } from 'core-decorators'
 import { Card } from 'antd'
 import ReactHighcharts from 'react-highcharts'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import * as _ from 'lodash'
 import { Menu, Dropdown, Icon, Spin } from 'antd'
 

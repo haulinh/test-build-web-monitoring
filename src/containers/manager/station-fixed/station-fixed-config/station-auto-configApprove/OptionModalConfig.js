@@ -14,7 +14,7 @@ import * as _ from 'lodash'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 const Panel = Collapse.Panel
 const Option = Select.Option

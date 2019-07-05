@@ -1,7 +1,7 @@
 import React from 'react'
 import Chart from 'react-highcharts'
 import * as _ from 'lodash'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { Card } from 'antd'
 import levels from 'constants/wqi-level'
 

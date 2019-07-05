@@ -23,7 +23,7 @@ import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
 import MeasuringTable from '../station-fixed-formTable/'
 import InputNumberCell from 'components/elements/input-number-cell'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { get, keyBy } from 'lodash'
 
 const FormItem = Form.Item

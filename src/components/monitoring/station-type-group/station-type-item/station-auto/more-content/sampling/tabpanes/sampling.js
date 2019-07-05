@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import swal from 'sweetalert2'
 import { Row, Col, Form, InputNumber, Button, Radio, TimePicker, DatePicker, Modal } from 'antd'
-import moment from 'moment'
+import moment from 'moment-timezone'
 /* user import */
 import { translate } from 'hoc/create-lang'
 import SamplingAPI from 'api/SamplingApi'

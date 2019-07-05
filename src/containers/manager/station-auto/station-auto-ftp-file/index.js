@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import Breadcrumb from '../breadcrumb'
 import DynamicTable from 'components/elements/dynamic-table'
 import FtpApi from 'api/FtpApi'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 @createManagerEdit({
   apiGetByKey: StationAutoApi.getStationAuto

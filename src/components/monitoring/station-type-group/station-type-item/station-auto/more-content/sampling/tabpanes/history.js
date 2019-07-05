@@ -5,7 +5,7 @@ import { Table, Tag } from "antd";
 /* user import */
 import { translate } from "hoc/create-lang";
 import SamplingAPI from "api/SamplingApi";
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { toLower as _toLower} from 'lodash'
 import { DD_MM_YYYY_HH_MM } from "constants/format-date";
 import swal from "sweetalert2";
