@@ -266,7 +266,7 @@ export default class StationAutoList extends React.Component {
           )}
           &nbsp;| &nbsp;
           {protectRole(ROLE.STATION_AUTO.DELETE)(
-            <a onClick={() => this.onDeleteItem(row._id, this.props.fetchData)} style={{color: 'red'}} >
+            <a onClick={() => this.onDeleteItem(row._id, this.props.fetchData)} style={{color: '#595959'}} >
               {t('stationAutoManager.delete.label')}
             </a>
           )}
