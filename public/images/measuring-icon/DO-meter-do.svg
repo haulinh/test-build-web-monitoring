@@ -1,0 +1,20 @@
+<svg width="260" height="300" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="300"  width="260" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <ellipse ry="128" rx="128" cy="128.75" cx="128.75" stroke-width="1.5"  fill="rgb(204, 0, 0)"/>
+  <text stroke="#000" transform="matrix(3.4765784740448,0,0,3.4765784740448,-632.7658001184464,-365.14053876698017) " 
+  xml:space="preserve" text-anchor="start" 
+  font-family="Helvetica, Arial, sans-serif" 
+  font-size="35"  y="154" x="193" 
+  style="font-weight: bold;font-family: Helvetica;"
+  stroke-opacity="null" stroke-width="0" fill="rgb(255, 255, 255)">DO</text>
+ </g>
+</svg>

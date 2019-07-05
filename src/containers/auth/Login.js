@@ -17,6 +17,8 @@ import Clearfix from 'components/elements/clearfix'
 import { userLogin, userLogin2Factor } from 'redux/actions/authAction'
 import Errors from 'constants/errors'
 import * as _ from 'lodash'
+import Particles from 'react-particles-js'
+import PraticData from 'containers/auth/PraticData.json'
 
 const FInput = createValidateComponent(InputLabel)
 
@@ -24,12 +26,11 @@ const Form = styled.form`
   position: fixed;
   left: 50%;
   top: 40%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   width: 450px;
   box-shadow: 0 2px 10px 0 rgba(238, 238, 238, 0.5);
   background-color: #ffffff;
   padding: 24px 32px;
-  
 `
 
 const FloatRight = styled.div`
@@ -52,25 +53,10 @@ const Header = {
 
 const bodyStyle = `
   body { 
-    background: linear-gradient(135deg,#1d89ce 0%,#56d2f3 100%) !important; 
-  }
-  video {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: -100;
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-    background: url(/images/clouds.png) no-repeat;
-    background-size: cover;
-    -webkit-transition: 1s opacity;
-    transition: 1s opacity;
-}
+    // background: linear-gradient(135deg,#1d89ce 0%,#56d2f3 100%) !important; 
+    background: url(/images/clouds.png) no-repeat !important; 
 
+  }
 `
 
 @createLang
@@ -168,11 +154,15 @@ export default class Login extends PureComponent {
     return (
       <Container>
         <style dangerouslySetInnerHTML={{ __html: bodyStyle }} />
-        <video   loop autoPlay muted>
-           <source src="/video/login.webm" type="video/webm"/>
-            <source src="/video/login.mp4" type="video/mp4" />
-        </video>
-        
+        <Particles
+        style={{
+          position: 'fixed',
+            left: '0px',
+            top: '0px'
+
+        }}
+          params={PraticData}
+        />
         <Form onSubmit={this.props.handleSubmit(this.handleLogin.bind(this))}>
           <Header.Wrapper>
             <Heading fontSize={28}>{t('login.title')}</Heading>
@@ -181,21 +171,9 @@ export default class Login extends PureComponent {
           <Clearfix height={8} />
           {!this.state.isTwoFactorAuth ? (
             <div>
-              <Field
-                label={t('login.form.email.label')}
-                placeholder={t('login.form.email.placeholder')}
-                name="email"
-                icon="fa fa-user"
-                component={FInput}
-              />
+              <Field label={t('login.form.email.label')} placeholder={t('login.form.email.placeholder')} name="email" icon="fa fa-user" component={FInput} />
               <Clearfix height={16} />
-              <Field
-                label={t('login.form.password.label')}
-                placeholder={t('login.form.password.placeholder')}
-                type="password"
-                name="password"
-                component={FInput}
-              />
+              <Field label={t('login.form.password.label')} placeholder={t('login.form.password.placeholder')} type="password" name="password" component={FInput} />
             </div>
           ) : (
             <div>
@@ -204,25 +182,16 @@ export default class Login extends PureComponent {
                   email: this.getEmail_Sms()
                 })}
               </p>
-              <Field
-                label={t('login.form.twoFactor.label')}
-                placeholder={t('login.form.twoFactor.placeholder')}
-                name="code"
-                component={FInput}
-              />
+              <Field label={t('login.form.twoFactor.label')} placeholder={t('login.form.twoFactor.placeholder')} name="code" component={FInput} />
             </div>
           )}
           <Clearfix height={16} />
           <Button isLoading={this.props.submitting} block color="primary">
-            {!this.state.isTwoFactorAuth
-              ? t('login.form.buttonLogin')
-              : t('login.form.buttonTwoFactor')}
+            {!this.state.isTwoFactorAuth ? t('login.form.buttonLogin') : t('login.form.buttonTwoFactor')}
           </Button>
           <Clearfix height={16} />
           <FloatRight>
-            <Link to={slug.password.emailConfirm}>
-              {translate('resetPassword.key')}
-            </Link>
+            <Link to={slug.password.emailConfirm}>{translate('resetPassword.key')}</Link>
           </FloatRight>
         </Form>
       </Container>
