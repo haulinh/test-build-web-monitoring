@@ -347,28 +347,6 @@ export default class StationAutoConfigNotification extends React.Component {
     })
     return result
   }
-
-  _transformUserOptionsFromObjectToArray(cache = {}) {
-    /* FROM
-      {
-        <id>: {manager: {allowed: true, ...}},
-        ...
-      }
-
-      TO:
-      [
-        {_id: '', options: {manager: {allowed: true}} },
-        ....
-      ]
-    */
-    let stations = _.keys(cache)
-    return stations.map(stationID => {
-      return {
-        _id: stationID,
-        options: cache[stationID]
-      }
-    })
-  }
   
   onChagedOptionOfHeader(checked) {
     let _dataSource = this.state.dataSource
@@ -452,10 +430,11 @@ export default class StationAutoConfigNotification extends React.Component {
     let rows = _.cloneDeep(this.state.dataSourceDefault)
     let userID = value._id
     if (userID) {
-      // let stationsOptions = this._transformUserOptionsFromArrayToObject(value.stationAutos)
+      let stationsOptions = this._transformUserOptionsFromArrayToObject(value.stationAutos)
+      console.log(stationsOptions,"stationsOptions")
       _.forEach(rows, row => {
-        if (_.get(value.options, [row._id])) {
-          row.options = _.clone(value.options[row._id])
+        if (_.get(stationsOptions, [row._id])) {
+          row.options = _.clone(stationsOptions[row._id])
         }
       })
       this.setState({
