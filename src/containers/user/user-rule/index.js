@@ -16,7 +16,7 @@ import StationAutoSearchForm from './search-form'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import { USER_RULE_TABLE_COLUMN } from 'constants/labels'
-import { updateRole } from 'api/UserApi'
+import { updateRole_v1 } from 'api/UserApi'
 
 import swal from 'sweetalert2'
 
@@ -87,7 +87,7 @@ export default class StationAutoConfigNotification extends React.Component {
       isEmailCheckAll: false,
 
       selectedUser: {},
-      selectedRoleID: {}
+      selectedRole: {}
     }
   }
 
@@ -113,6 +113,7 @@ export default class StationAutoConfigNotification extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     let isAllowSubmit = this.isAllowSubmit()
     return (
       <PageContainer>
@@ -315,7 +316,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
 
   transformDataSource(stationAutos) {
-    let { PRIMARY, WARNING, SMS, EMAIL } = USER_RULE_TABLE_COLUMN
+    let { WARNING, SMS, EMAIL } = USER_RULE_TABLE_COLUMN
     return _.map(stationAutos, station => {
       let defaultOptions = {
         [WARNING]: {allowed: true},
@@ -327,6 +328,25 @@ export default class StationAutoConfigNotification extends React.Component {
     })
   }
 
+  _transformUserOptionsFromArrayToObject(userOptions = []) {
+    /* FROM
+      [
+        {_id: '', options: {manager: {allowed: true}} },
+        ....
+      ]
+
+      TO:
+      {
+        <id>: {manager: {allowed: true, ...}},
+        ...
+      }
+    */
+    let result = {}
+    userOptions.forEach(option => {
+      _.set(result, [option._id], option.options)
+    })
+    return result
+  }
   
   onChagedOptionOfHeader(checked) {
     let _dataSource = this.state.dataSource
@@ -410,9 +430,11 @@ export default class StationAutoConfigNotification extends React.Component {
     let rows = _.cloneDeep(this.state.dataSourceDefault)
     let userID = value._id
     if (userID) {
+      let stationsOptions = this._transformUserOptionsFromArrayToObject(value.stationAutos)
+      console.log(stationsOptions,"stationsOptions")
       _.forEach(rows, row => {
-        if (_.get(value.options, [row._id])) {
-          row.options = _.clone(value.options[row._id])
+        if (_.get(stationsOptions, [row._id])) {
+          row.options = _.clone(stationsOptions[row._id])
         }
       })
       this.setState({
@@ -441,35 +463,21 @@ export default class StationAutoConfigNotification extends React.Component {
   isAllowSubmit() {
     let isHasCache = _.keys(this.state.cachedData).length !== 0
     let isSelectedUser = _.get(this.state.selectedUser, '_id')
-    let isSelectedRole = this.state.selectedRoleID._id
+    let isSelectedRole = this.state.selectedRole._id
 
     return !(isHasCache && isSelectedUser && isSelectedRole)
   }
 
   async submitCache() {
-    /* NOTE  CAU TRÚC DỮ LIỆU SUBMIT
-      {
-        userID: '',
-        roleID: '',
-        stationAutos: {
-          stationID: {
-            manager: { allowed: true }, 
-            warning: { allowed: true }, 
-            sms: { allowed: true }, 
-            email: { allowed: true }
-        }
-      } 
-    */
-    let { cachedData, selectedUser, selectedRoleID } = this.state
+    let { cachedData, selectedUser, selectedRole } = this.state
     let submittedData = {
-      userId: selectedUser._id,
-      roleId: selectedRoleID._id,
-      role: selectedRoleID, 
-      options: cachedData
+      role: selectedRole, 
+      stationAutos: cachedData,
+      isAdmin: selectedUser.isAdmin
     }
 
     this.setState({isSave: true})
-    const res = await updateRole(submittedData)
+    const res = await updateRole_v1(selectedUser._id, submittedData)
     if (res.success) {
       this.setState({
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),

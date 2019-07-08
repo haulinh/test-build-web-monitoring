@@ -7,7 +7,7 @@ import _ from 'lodash'
 import swal from 'sweetalert2'
 
 // import AuthAPI from 'api/AuthApi'
-import { updateRole } from 'api/UserApi'
+import { updateRole_v1 } from 'api/UserApi'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
@@ -44,16 +44,17 @@ const Span = styled.span`
 @connectAutoDispatch(
   state => ({
     stationAutos: state.stationAuto.list,
+    isAdmin: state.auth.userInfo.isAdmin,
     userId: state.auth.userInfo._id,
-    roleId: state.auth.userInfo.roleId,
-    userOptions: state.auth.userInfo.options
+    role: state.auth.userInfo.role,
+    userOptions: state.auth.userInfo.stationAutos
   })
 )
 @autobind
 export default class StationAutoConfigNotification extends React.Component {
   static propTypes = {
     stationAutos: PropTypes.array.isRequired,
-    userOptions: PropTypes.object.isRequired
+    userOptions: PropTypes.array.isRequired
   }
 
   static defaultProps = {
@@ -107,10 +108,11 @@ export default class StationAutoConfigNotification extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     let arrStationsOfUser = []
+    let userOptions = this._transformUserOptionsFromArrayToObject(nextProps.userOptions)
     _.forEach(nextProps.stationAutos, station => {
-      let isAllowStationManager = _.get(nextProps.userOptions, [station._id, 'manager', 'allowed'], false)
+      let isAllowStationManager = _.get(userOptions, [station._id, 'manager', 'allowed'], false)
       if(isAllowStationManager) {
-        let userOptions = _.get(nextProps.userOptions, [station._id])
+        let userOptions = _.get(userOptions, [station._id])
         station.options = userOptions
         arrStationsOfUser.push(station)
       }
@@ -180,6 +182,26 @@ export default class StationAutoConfigNotification extends React.Component {
         </Row>
       </PageContainer>
     )
+  }
+
+  _transformUserOptionsFromArrayToObject(userOptions = []) {
+    /* FROM
+      [
+        {_id: '', options: {manager: {allowed: true}} },
+        ....
+      ]
+
+      TO:
+      {
+        <id>: {manager: {allowed: true, ...}},
+        ...
+      }
+    */
+    let result = {}
+    userOptions.forEach(option => {
+      _.set(result, [option._id], option.options)
+    })
+    return result
   }
 
 
@@ -528,11 +550,11 @@ export default class StationAutoConfigNotification extends React.Component {
   async submitCache() {
     this.setState({isSave: true})
     let dataForSubmit = {
-      userId: this.props.userId,
-      roleId: this.props.roleId,
-      options: this.state.cachedData
+      isAdmin: this.props.isAdmin,
+      role: this.props.role,
+      stationAutos: this.state.cachedData
     }
-    const res = await updateRole(dataForSubmit)
+    const res = await updateRole_v1(this.props.userId, dataForSubmit)
     if (res.success) {
       this.setState({
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),
