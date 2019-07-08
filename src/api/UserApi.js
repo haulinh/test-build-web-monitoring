@@ -54,8 +54,12 @@ export function restoreOne(_id) {
   return putFetch(getUserUrl('organization/restore/' + _id))
 }
 
-export function updateRole(data = {}) {
-  return putFetch(getUserUrl(`organization/role`), data)
+export function updateRole(_id, data = {}) {
+  return putFetch(getUserUrl(`organization/role/${_id}`), data)
+}
+
+export function updateRole_v1(_id, data = {}) {
+  return putFetch(getUserUrl(`organization/v1/role/${_id}`), data)
 }
 
 export function accountActivate(code) {
