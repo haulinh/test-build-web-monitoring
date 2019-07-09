@@ -45,7 +45,7 @@ const Span = styled.span`
   text-decoration: ${props => (props.deleted ? 'line-through' : '')};
 `
 
-@protectRole(ROLE.STATION_AUTO.VIEW)
+@protectRole(ROLE.USER.VIEW)
 @createManagerList({
   apiList: StationAutoApi.getStationAutos
 })
