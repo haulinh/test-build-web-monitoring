@@ -1012,6 +1012,10 @@ export default {
       edit: 'Edit'
     },
     form: {
+      placeholder: {
+        selectUser: 'Select User',
+        selectRoleGroup: 'Select Role'
+      },
       email: {
         label: 'Email Address',
         placeholder: 'Email Address',

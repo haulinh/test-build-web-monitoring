@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Select, Card, Avatar } from 'antd'
+import { Row, Col, Select, Card, Avatar, Form } from 'antd'
 import { autobind } from 'core-decorators'
 import swal from 'sweetalert2'
 import _ from 'lodash'
@@ -13,6 +13,8 @@ const { Option } = Select
 const { Meta } = Card
 
 const i18n = {
+  selectUser: translate('userManager.form.placeholder.selectUser'), 
+  selectRoleGroup: translate('userManager.form.placeholder.selectRoleGroup'), 
   create: translate('addon.create'),
   error: translate("addon.error"),
   roleAssign: translate('userManager.list.roleAssign')
@@ -46,6 +48,7 @@ export default class UserSearchForm extends React.PureComponent {
       <Row type="flex" gutter={100} justify="space-around">
         <Col span={12}>
           <Select
+            placeholder={i18n.selectUser}
             style={{width: '100%'}} 
             loading={this.state.isGettingUsers}
             optionLabelProp="label"
@@ -75,6 +78,7 @@ export default class UserSearchForm extends React.PureComponent {
         </Col>
         <Col span={12}>
           <Select 
+            placeholder={i18n.selectRoleGroup}
             style={{width: '100%'}} 
             loading={this.state.isGettingRoles}
             onSelect={this.handleSelectRole}

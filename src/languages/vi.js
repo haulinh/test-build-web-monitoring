@@ -1011,6 +1011,10 @@ export default {
       edit: 'Chỉnh sửa'
     },
     form: {
+      placeholder: {
+        selectUser: 'Chọn user',
+        selectRoleGroup: 'Chọn nhóm quyền'
+      },
       email: {
         label: 'Địa chỉ Email',
         placeholder: 'Địa chỉ Email',
