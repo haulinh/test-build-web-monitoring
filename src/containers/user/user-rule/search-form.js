@@ -20,9 +20,14 @@ const i18n = {
   roleAssign: translate('userManager.list.roleAssign')
 }
 
+const formFields = {
+  selectUser: 'selectUser',
+  selectRole: 'selectRole',
+}
+
 const BACKGROUND_COLORS = [ '#87d068', '#f56a00', '#7265e6', '#ffbf00', '#00a2ae' ]
 
-
+@Form.create()
 @autobind
 export default class UserSearchForm extends React.PureComponent {
   static propTypes = {
@@ -44,53 +49,58 @@ export default class UserSearchForm extends React.PureComponent {
   }
 
   render() {
+    const { getFieldDecorator } = this.props.form;
     return (
       <Row type="flex" gutter={100} justify="space-around">
         <Col span={12}>
-          <Select
-            placeholder={i18n.selectUser}
-            style={{width: '100%'}} 
-            loading={this.state.isGettingUsers}
-            optionLabelProp="label"
-            onSelect={this.handleSelectUser}
-            showSearch
-            optionFilterProp="search"
-            filterOption={this.handleFilter}
-          >
-            {this.state.dataSourceUsers.map((user, index) => (
-              <Option key={user._id} value={user._id} label={user.email} search={`${user.lastName} ${user.firstName}`}>
-                <Meta
-                  avatar={
-                    <Avatar 
-                      // size="large"
-                      icon="user"
-                      src={user.avatar}
-                      style={{ backgroundColor: BACKGROUND_COLORS[index % BACKGROUND_COLORS.length], marginTop: 5}}
-                    />
-                  }
-                  style={{padding: '5px 0'}}
-                  title={user.email}
-                  description={`${user.lastName} ${user.firstName}`}
-                />
-              </Option>
-            ))}
-          </Select>
+          {getFieldDecorator(formFields.selectUser)(
+            <Select
+              placeholder={i18n.selectUser}
+              style={{width: '100%'}} 
+              loading={this.state.isGettingUsers}
+              optionLabelProp="label"
+              onSelect={this.handleSelectUser}
+              showSearch
+              optionFilterProp="search"
+              filterOption={this.handleFilter}
+            >
+              {this.state.dataSourceUsers.map((user, index) => (
+                <Option key={user._id} value={user._id} label={user.email} search={`${user.lastName} ${user.firstName}`}>
+                  <Meta
+                    avatar={
+                      <Avatar 
+                        // size="large"
+                        icon="user"
+                        src={user.avatar}
+                        style={{ backgroundColor: BACKGROUND_COLORS[index % BACKGROUND_COLORS.length], marginTop: 5}}
+                      />
+                    }
+                    style={{padding: '5px 0'}}
+                    title={user.email}
+                    description={`${user.lastName} ${user.firstName}`}
+                  />
+                </Option>
+              ))}
+            </Select>
+          )}
         </Col>
         <Col span={12}>
-          <Select 
-            placeholder={i18n.selectRoleGroup}
-            style={{width: '100%'}} 
-            loading={this.state.isGettingRoles}
-            onSelect={this.handleSelectRole}
-            showSearch
-            optionFilterProp="search"
-            filterOption={this.handleFilter}
-            // defaultValue={}
-          >
-            {this.state.dataSourceRoles.map(role => (
-              <Option key={role._id} value={role._id} search={role.name}>{role.name}</Option>
-            ))}
-          </Select>
+          {getFieldDecorator(formFields.selectRole)(
+            <Select 
+              placeholder={i18n.selectRoleGroup}
+              style={{width: '100%'}} 
+              loading={this.state.isGettingRoles}
+              onSelect={this.handleSelectRole}
+              showSearch
+              optionFilterProp="search"
+              filterOption={this.handleFilter}
+              // defaultValue={}
+            >
+              {this.state.dataSourceRoles.map(role => (
+                <Option key={role._id} value={role._id} search={role.name}>{role.name}</Option>
+              ))}
+            </Select>
+          )}
         </Col>
       </Row>
     )
@@ -110,6 +120,10 @@ export default class UserSearchForm extends React.PureComponent {
 
   handleSelectUser(userID) {
     let user = _.find(this.state.dataSourceUsers, user => user._id === userID)
+    let roleID = user.role._id
+    this.props.form.setFieldsValue({
+      [formFields.selectRole]: roleID
+    })
     this.props.updateDataForSubmit({name: 'selectedUser', value: user})
   }
 
