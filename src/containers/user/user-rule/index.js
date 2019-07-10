@@ -503,10 +503,18 @@ export default class StationAutoConfigNotification extends React.Component {
           cancelButtonText: i18n.cancel,
           focusConfirm: true,
           confirmButtonText: i18n.refresh,
+          showLoaderOnConfirm: true,
           allowOutsideClick: () => !swal.isLoading(),
           preConfirm: async () => {
             return this.refSearchForm.refreshUsers(selectedUser._id)
           }
+        }).then(() => {
+          showSuccess(i18n.updateSuccess)
+        }).catch(() => {
+          swal({
+            title: i18n.updateError,
+            type: 'error'
+          })
         })
       }
       else {
