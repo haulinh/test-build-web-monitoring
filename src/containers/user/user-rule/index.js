@@ -25,6 +25,9 @@ import DynamicTable from 'components/elements/dynamic-table'
 const i18n = {
   cancel: 'Bõ chọn', /* MARK  @translate */
   submit: translate('addon.save'),
+  warning:translate('addon.warning'),
+  refresh: translate('addon.refresh'),
+  cancel: translate('addon.cancel'),
   updateSuccess: translate("addon.onSave.update.success"),
   updateError: translate("addon.onSave.update.error"),
   stationName: translate('stationAutoManager.form.name.label'),
@@ -32,7 +35,8 @@ const i18n = {
   manager: translate('stationAutoManager.options.userRole.stationManager'),
   sendNotification: translate('stationAutoManager.options.userRole.allowSendWarning'),
   sms: translate('stationAutoManager.options.userRole.sms'),
-  email: translate('stationAutoManager.options.userRole.email')
+  email: translate('stationAutoManager.options.userRole.email'),
+  VersionError: translate('serverResponse.error.VersionError') 
 }
 
 
@@ -68,6 +72,8 @@ export default class StationAutoConfigNotification extends React.Component {
 
   constructor(props) {
     super(props)
+
+    // this.refSearchForm = React.createRef()
 
     this.state = {
       /* giông cách hoạt động của git */  
@@ -113,7 +119,6 @@ export default class StationAutoConfigNotification extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     let isAllowSubmit = this.isAllowSubmit()
     return (
       <PageContainer>
@@ -122,6 +127,7 @@ export default class StationAutoConfigNotification extends React.Component {
         {/* FORM CONTROL */}
         <Row style={{marginBottom: 20}}>
           <StationAutoSearchForm
+            getRef={(el) => this.refSearchForm = el }
             updateDataForSubmit={this.updateDataForSubmit}
           />
         </Row>
@@ -473,7 +479,8 @@ export default class StationAutoConfigNotification extends React.Component {
     let submittedData = {
       role: selectedRole, 
       stationAutos: cachedData,
-      isAdmin: selectedUser.isAdmin
+      isAdmin: selectedUser.isAdmin,
+      "__v": selectedUser.__v
     }
 
     this.setState({isSave: true})
@@ -483,15 +490,33 @@ export default class StationAutoConfigNotification extends React.Component {
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),
         cachedData: {}
       })
+      this.refSearchForm.updateUserVersion(selectedUser._id)
       showSuccess(i18n.updateSuccess)
     }
     else if (res.error) {
-      swal({
-        title: i18n.updateError,
-        type: 'error'
-      })
+      if (res.code === "VersionError") {
+        swal({
+          type: 'warning',
+          title: i18n.warning,
+          text: i18n.VersionError,
+          showCancelButton: true,
+          cancelButtonText: i18n.cancel,
+          focusConfirm: true,
+          confirmButtonText: i18n.refresh,
+          allowOutsideClick: () => !swal.isLoading(),
+          preConfirm: async () => {
+            return this.refSearchForm.refreshUsers(selectedUser._id)
+          }
+        })
+      }
+      else {
+        swal({
+          title: i18n.updateError,
+          type: 'error'
+        })
+      }
     }
-  
+    
     this.setState({isSave: false})
   }
 }

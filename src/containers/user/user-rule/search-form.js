@@ -31,6 +31,7 @@ const BACKGROUND_COLORS = [ '#87d068', '#f56a00', '#7265e6', '#ffbf00', '#00a2ae
 @autobind
 export default class UserSearchForm extends React.PureComponent {
   static propTypes = {
+    getRef: PropTypes.func,
     updateDataForSubmit: PropTypes.func.isRequired
   }
 
@@ -44,6 +45,7 @@ export default class UserSearchForm extends React.PureComponent {
   }
 
   componentDidMount() {
+    if(this.props.getRef) this.props.getRef(this)
     this.getUsers()
     this.getRoles()
   }
@@ -113,6 +115,13 @@ export default class UserSearchForm extends React.PureComponent {
     })
   }
 
+  updateUserVersion(userId) {
+    let users = this.state.dataSourceUsers
+    let index = _.findIndex(users, {'_id': userId})
+    users[index].__v += 1
+    this.setState({dataSourceUsers: users})
+  }
+
   handleFilter(input, option) {
     let regex = new RegExp(input, 'gi')
     return regex.test(option.props.search)
@@ -147,6 +156,11 @@ export default class UserSearchForm extends React.PureComponent {
       isGettingUsers: false,
       dataSourceUsers: _.get(resUsers, 'data', []),
     })
+  }
+
+  async refreshUsers(userId) {
+    await this.getUsers()
+    this.handleSelectUser(userId)
   }
 
   /* NOTE */

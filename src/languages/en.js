@@ -1374,7 +1374,10 @@ export default {
       error: 'Restore Error'
     },
     search: 'Search',
-    error: 'Something Went Wrong!!!'
+    error: 'Something Went Wrong!!!',
+    warning: 'Warning',
+    refresh: 'Refresh',
+    cancel: 'Cancel'
   },
   success: {
     text: 'Success'
@@ -1594,6 +1597,11 @@ export default {
     },
     qaqc: {
       lostConnection: "Unable to connect to the QAQC service, please contact the administrator!"
+    }
+  },
+  serverResponse: {
+    error: {
+      VersionError: "Data has been updated by other users, please refresh!"
     }
   }
 }

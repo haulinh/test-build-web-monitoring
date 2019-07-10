@@ -1372,7 +1372,10 @@ export default {
       error: 'Khôi phục thất bại'
     },
     search: 'Tìm kiếm',
-    error: 'Đã xảy ra sự cố!!!'
+    error: 'Đã xảy ra sự cố!!!',
+    warning: 'Chú ý',
+    refresh: 'Làm mới',
+    cancel: 'Hủy'
   },
   success: {
     text: 'Thành công'
@@ -1592,6 +1595,11 @@ export default {
     },
     qaqc: {
       lostConnection: "Không kết nối được với dịch vụ QAQC, vui lòng liên hệ quản trị viên!"
+    }
+  },
+  serverResponse: {
+    error: {
+      VersionError: "Dữ liệu đã được cập nhật bởi người dùng khác, hãy làm mới lại!"
     }
   }
 }
