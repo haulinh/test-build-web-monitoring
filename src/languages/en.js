@@ -1377,7 +1377,8 @@ export default {
     error: 'Something Went Wrong!!!',
     warning: 'Warning',
     refresh: 'Refresh',
-    cancel: 'Cancel'
+    cancel: 'Cancel',
+    ok: 'Ok'
   },
   success: {
     text: 'Success'
@@ -1602,6 +1603,12 @@ export default {
   serverResponse: {
     error: {
       VersionError: "Data has been updated by other users, please refresh!"
+    }
+  },
+  confirm: {
+    msg: {
+      restore: 'Do you want to restore this item?',
+      delete: 'Do you want to delete this item?'
     }
   }
 }

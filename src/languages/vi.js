@@ -1375,7 +1375,8 @@ export default {
     error: 'Đã xảy ra sự cố!!!',
     warning: 'Chú ý',
     refresh: 'Làm mới',
-    cancel: 'Hủy'
+    cancel: 'Hủy',
+    ok: 'Đồng ý'
   },
   success: {
     text: 'Thành công'
@@ -1600,6 +1601,12 @@ export default {
   serverResponse: {
     error: {
       VersionError: "Dữ liệu đã được cập nhật bởi người dùng khác, hãy làm mới lại!"
+    }
+  },
+  confirm: {
+    msg: {
+      restore: 'Bạn có muốn khôi phục mục này không?',
+      delete: 'Bạn có muốn xóa mục này không?'
     }
   }
 }

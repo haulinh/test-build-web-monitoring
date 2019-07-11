@@ -26,7 +26,12 @@ import authApi from 'api/AuthApi'
 import { connect } from 'react-redux'
 import { get as _get } from 'lodash'
 
-
+const i18n = {
+  cancelText: translate('addon.cancel'),
+  okText: translate('addon.ok'),
+  restoreConfirmMsg: translate('confirm.msg.restore'),
+  deleteConfirmMsg: translate('confirm.msg.delete')
+}
 
 const AccountWapper = styled.div`
   display: flex;
@@ -386,7 +391,9 @@ export default class UserList extends React.Component {
       message.warning(t('addon.onDelete.warning'))
     } else {
       Modal.confirm({
-        title: 'Do you want to delete these items?',
+        title: i18n.deleteConfirmMsg,
+        okText: i18n.okText,
+        cancelText: i18n.cancelText,
         onOk() {
           return new Promise(async (resolve, reject) => {
             const res = await UserApi.deleteOne(_id)
@@ -407,7 +414,9 @@ export default class UserList extends React.Component {
       lang: { t }
     } = this.props
     Modal.confirm({
-      title: 'Do you want to restore these items?',
+      title: i18n.restoreConfirmMsg,
+      okText: i18n.okText,
+      cancelText: i18n.cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
           const res = await UserApi.restoreOne(_id)

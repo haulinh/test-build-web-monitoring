@@ -19,8 +19,16 @@ import { Modal, message } from 'antd'
 import moment from 'moment-timezone'
 import { DD_MM_YYYY } from 'constants/format-date'
 import _ from 'lodash'
+import { translate } from 'hoc/create-lang'
 
 import DynamicTable from 'components/elements/dynamic-table'
+
+const i18n = {
+  cancelText: translate('addon.cancel'),
+  okText: translate('addon.ok'),
+  restoreConfirmMsg: translate('confirm.msg.restore'),
+  deleteConfirmMsg: translate('confirm.msg.delete')
+}
 
 const LinkSpan = styled.span`
   color: #000;
@@ -70,7 +78,9 @@ export default class StationAutoList extends React.Component {
       lang: { t }
     } = this.props
     Modal.confirm({
-      title: 'Do you want to delete these items?',
+      title: i18n.deleteConfirmMsg,
+      okText: i18n.okText,
+      cancelText: i18n.cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
           const res = await StationAutoApi.deleteStationAuto(_id)
@@ -90,7 +100,9 @@ export default class StationAutoList extends React.Component {
       lang: { t }
     } = this.props
     Modal.confirm({
-      title: 'Do you want to restore these items?',
+      title: i18n.restoreConfirmMsg,
+      okText: i18n.okText,
+      cancelText: i18n.cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
           const res = await StationAutoApi.restoreStationAuto(_id)
