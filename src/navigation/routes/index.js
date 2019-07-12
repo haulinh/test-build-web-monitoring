@@ -32,7 +32,7 @@ import CameraControl from "containers/camera-video";
 import SupportRoute from "containers/support";
 import AqiContainer from "containers/aqi";
 import WqiContainer from "containers/wqi";
-import QaQcContainer from "containers/qa-qc";
+import QaQcContainer from "containers/qa-qc/approved-data";
 import PublishConfigContainer from "containers/qa-qc/approved-data/config-publish";
 import QaQcConfig from "containers/qa-qc/config";
 import FtpTransferRoute from "containers/manager/config-ftp-transfer";

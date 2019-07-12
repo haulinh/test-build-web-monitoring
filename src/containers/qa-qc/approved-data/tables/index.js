@@ -33,8 +33,8 @@ export default class QAQCTables extends React.Component {
         <div>export to excel</div>
         <Table
           dataSource={this.props.dataSource}
-          measuringList={measuringList}
-          measuringData={measuringData}
+          measuringList={measuringList} // danh sach do user lựa chọn 
+          measuringData={measuringData} // danh sach full cua station
         />
       </div>
     )

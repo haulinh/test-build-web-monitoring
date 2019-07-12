@@ -4,9 +4,9 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 // import { measurePublished } from 'api/StationAuto'
 import { translate } from 'hoc/create-lang'
 // import TabList from './approved-data/tab-list'
-import Breadcrumb from './breadcrumb'
-import SearchFrom from './approved-data/search-form'
-import TableList from './approved-data/tables/'
+import Breadcrumb from '../breadcrumb'
+import SearchFrom from './search-form'
+import TableList from './tables'
 import { Spin } from 'antd'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
@@ -53,7 +53,7 @@ export default class QaQcContainer extends React.Component {
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Breadcrumb items={['list']} />
-        <Spin spinning={false} title="Đang xử lý...">
+        <Spin spinning={false}>
           <SearchFrom 
             initialValues={this.props.formData} 
             measuringData={this.props.formData.measuringData} 
