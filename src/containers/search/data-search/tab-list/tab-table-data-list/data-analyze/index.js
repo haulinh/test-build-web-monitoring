@@ -12,7 +12,7 @@ import {
 } from 'constants/format-number'
 
 const TabeListWrapper = styled(BoxShadow)`
-  padding: 16px 16px 16px 16px;
+  padding: 16px;
   position: relative;
 `
 
