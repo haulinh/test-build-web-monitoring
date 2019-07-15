@@ -48,6 +48,18 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  LOAI 3 */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.report.type3}
+          onClick={() => {
+            props.selectMenu(slug.report.type3)
+          }}
+        >
+          <Link to={slug.report.type3}>{MENU_NAME.report.type3}</Link>
+        </Menu.Item>
+      )}
+
       
     </Menu.SubMenu>
   )

@@ -15,5 +15,12 @@ export default createBreadcrumb({
     // icon: '',
     href: slug.report.type2,
     name: 'Báo cáo tháng khí 2'
-  }
+  },
+
+  type3: {
+    id: 'type3',
+    // icon: '',
+    href: slug.report.type3,
+    name: 'Báo cáo tháng khí 3'
+  },
 })
