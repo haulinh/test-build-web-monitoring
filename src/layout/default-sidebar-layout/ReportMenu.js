@@ -24,7 +24,7 @@ export default {
       }
     >
 
-      {/* NOTE  LOAI 1 */}
+      {/* NOTE  LOAI 1 - Tỷ lệ số liệu thu được */}
       {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
           key={slug.report.type1}
@@ -33,6 +33,18 @@ export default {
           }}
         >
           <Link to={slug.report.type1}>{MENU_NAME.report.type1}</Link>
+        </Menu.Item>
+      )}
+
+      {/* NOTE  LOAI 2 */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.report.type2}
+          onClick={() => {
+            props.selectMenu(slug.report.type2)
+          }}
+        >
+          <Link to={slug.report.type2}>{MENU_NAME.report.type2}</Link>
         </Menu.Item>
       )}
 

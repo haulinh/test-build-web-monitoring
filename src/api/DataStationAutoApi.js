@@ -156,6 +156,11 @@ export function getUrlReportType1(token, key, time, measuringListStr) {
   return url
 }
 
+export function getUrlReportType2(token, key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type2/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+  return url
+}
+
 export default {
   getDataStationAutos,
   getExportData,
@@ -171,4 +176,5 @@ export default {
   getDataStatistictExceeded,
   exportStatistictExceeded,
   getUrlReportType1,
+  getUrlReportType2
 }

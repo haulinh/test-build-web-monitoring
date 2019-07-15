@@ -243,7 +243,15 @@ export const MENU_NAME = {
 
   reportSub: translate('menuApp.reportSub'),
   report: {
-    type1: translate('menuApp.report.type1')
+    type1: translate('menuApp.report.type1'),
+    type2: translate('menuApp.report.type2'),
+    type3: translate('menuApp.report.type3'),
+    type4: translate('menuApp.report.type4'),
+    type5: translate('menuApp.report.type5'),
+    type6: translate('menuApp.report.type6'),
+    type7: translate('menuApp.report.type7'),
+    type8: translate('menuApp.report.type8'),
+    type9: translate('menuApp.report.type9'),
   },
 
   advanceSub: translate('menuApp.advanceSub'),
