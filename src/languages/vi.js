@@ -1495,7 +1495,24 @@ export default {
     publishShare: 'Công bố và Chia sẻ',
     configWQI: 'Cấu hình WQI, AQI',
     groupStatistic: 'Thống kê',
-    mapFixed: 'Bản đồ'
+    mapFixed: 'Bản đồ',
+    
+    reportSub: 'Báo cáo',
+    report: {
+      type1: 'Tỉ lệ số liệu thu đuợc',
+      type2: 'Tỉ lệ số liệu hợp lệ',
+      type3: 'Kết quả quan trắc trung bình 24 giờ',
+      type4: 'Kết quả quan trắc trung bình 1 giờ',
+      type5: 'Báo cáo > Giá trị AQI các giờ/ngày trong tháng',
+      type6: 'Báo cáo > Báo cáo chỉ số AQI theo ngày',
+      type7: 'Thống kê số liệu quan trắc nhận được trong năm',
+      type8: 'Thống kê giá trị AQI ngày trong nằm theo các khoảng giá trị',
+      type9: 'Thống kê giá trị AQI ngày lớn hơn 100 của tháng',
+      type10: 'Báo cáo lưu lượng trong tháng',
+      type11: 'Tỉ lệ dữ liệu vượt ngưỡng',
+      type12: 'Lỗi thiết bị',
+      type13: 'Thống kê số liệu quan trắc nhận được trong năm',
+    },
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'

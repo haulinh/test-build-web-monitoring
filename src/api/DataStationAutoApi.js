@@ -5,6 +5,10 @@ function getDataStationAutoUrl(prefix = '') {
   return getConfigApi().dataStationAuto + '/' + prefix
 }
 
+function getReportUrl(prefix = '') {
+  return getConfigApi().report + '/' + prefix
+}
+
 export function getDataStationAutos(
   { page = 1, itemPerPage = 10 },
   { fromDate, toDate, key, advanced, measuringList, isExceeded, dataType }
@@ -147,6 +151,11 @@ export function exportStatistictExceeded(key, data) {
   return putFetch(url, data)
 }
 
+export function getUrlReportType1(token, key, time, measuringListStr) {
+  let url = getReportUrl(`type1/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}`)
+  return url
+}
+
 export default {
   getDataStationAutos,
   getExportData,
@@ -160,5 +169,6 @@ export default {
   fetchDataStatistict,
   exportDataStatistict,
   getDataStatistictExceeded,
-  exportStatistictExceeded
+  exportStatistictExceeded,
+  getUrlReportType1,
 }

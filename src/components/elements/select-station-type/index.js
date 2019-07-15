@@ -62,6 +62,7 @@ export default class SelectStationType extends PureComponent {
     return (
       <Select
         showSearch
+        style={{width: '100%'}}
         {...this.props}
         onChange={this.onChange}
         value={this.state.value}

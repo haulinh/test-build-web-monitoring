@@ -87,3 +87,7 @@ li.ant-menu-item {
 /* .ant-drawer-open.hidden-overflow .ant-drawer-wrapper-body {
   overflow: hidden !important;
 } */
+
+.noMarginBot, .noMarginBot > *, .noMarginBot * {
+  margin-bottom: 0 !important;
+}

@@ -169,7 +169,18 @@ export default {
     base: '/fixed-map'
   },
   report: {
-    base: '/report'
+    base: '/report',
+    type1: '/report/type1',
+    type2: '/report/type2',
+    type3: '/report/type3',
+    type4: '/report/type4',
+    type5: '/report/type5',
+    type6: '/report/type6',
+    type7: '/report/type7',
+    type8: '/report/type8',
+    type9: '/report/type9',
+    type10: '/report/type10',
+    type11: '/report/type11',
   }
 }
 
@@ -178,6 +189,7 @@ export const MENU_GROUP = {
   MONITORING: 'monitoring',
   HANDLE_DATA: 'handleData',
   SHARE_DATA: 'shareData',
+  REPORT: 'report',
   ADVANCE: 'advance',
   CONFIG: 'config'
 }
@@ -227,6 +239,11 @@ export const MENU_NAME = {
   shareData: {
     shareConfig: translate('menuApp.shareData.shareConfig'),
     ftpConfig: translate('menuApp.shareData.ftpConfig')
+  },
+
+  reportSub: translate('menuApp.reportSub'),
+  report: {
+    type1: translate('menuApp.report.type1')
   },
 
   advanceSub: translate('menuApp.advanceSub'),
