@@ -5,15 +5,10 @@ import PageInfo from 'components/pageInfo'
 import ReportType1 from './type1'
 import ReportType2 from './type2'
 import ReportType3 from './type3'
+import ReportType4 from './type4'
 
 export default props => (
   <Switch>
-    {/* <Route
-      exact
-      path={slug.report.type1}
-      render={matchProps => <PageInfo {...matchProps} {...props} />}
-    />   */}
-
     <Route
       exact
       path={slug.report.type1}
@@ -28,6 +23,11 @@ export default props => (
     <Route
       path={slug.report.type3}
       render={matchProps => <ReportType3 {...matchProps} {...props} />}
+    />
+
+    <Route
+      path={slug.report.type4}
+      render={matchProps => <ReportType4 {...matchProps} {...props} />}
     />
   </Switch>
 )

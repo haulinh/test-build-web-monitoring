@@ -1500,13 +1500,13 @@ export default {
     groupStatistic: 'Statistic',
     mapFixed: 'Map'
   },
-report: 'Báo cáo',                                                        /* MARK  @translate */
+  report: 'Báo cáo',                                                      /* MARK  @translate */
   reportMenu: {
-    type1: 'Tỉ lệ số liệu thu đuợc',                                      /* MARK  @translate */
-    type2: 'Tỉ lệ số liệu hợp lệ',                                        /* MARK  @translate */
-    type3: 'Kết quả quan trắc trung bình 24 giờ',                         /* MARK  @translate */
-    type4: 'Kết quả quan trắc trung bình 1 giờ',                          /* MARK  @translate */
-    type5: 'Báo cáo > Giá trị AQI các giờ/ngày trong tháng',              /* MARK  @translate */
+    type1: 'Dữ liệu thô',                                                 /* MARK  @translate */
+    type2: 'TB 24H',                                                      /* MARK  @translate */
+    type3: 'TB 1H Max',                                                   /* MARK  @translate */
+    type4: 'TB 8H Max',                                                   /* MARK  @translate */
+    type5: 'AQI Tháng',                                                   /* MARK  @translate */
     type6: 'Báo cáo > Báo cáo chỉ số AQI theo ngày',                      /* MARK  @translate */
     type7: 'Thống kê số liệu quan trắc nhận được trong năm',              /* MARK  @translate */
     type8: 'Thống kê giá trị AQI ngày trong nằm theo các khoảng giá trị', /* MARK  @translate */

@@ -1499,11 +1499,11 @@ export default {
     
     reportSub: 'Báo cáo',
     report: {
-      type1: 'Tỉ lệ số liệu thu đuợc',
-      type2: 'Tỉ lệ số liệu hợp lệ',
-      type3: 'Kết quả quan trắc trung bình 24 giờ',
-      type4: 'Kết quả quan trắc trung bình 1 giờ',
-      type5: 'Báo cáo > Giá trị AQI các giờ/ngày trong tháng',
+      type1: 'Dữ liệu thô',
+      type2: 'TB 24H',
+      type3: 'TB 1H Max',
+      type4: 'TB 8H Max',
+      type5: 'AQI Tháng',
       type6: 'Báo cáo > Báo cáo chỉ số AQI theo ngày',
       type7: 'Thống kê số liệu quan trắc nhận được trong năm',
       type8: 'Thống kê giá trị AQI ngày trong nằm theo các khoảng giá trị',

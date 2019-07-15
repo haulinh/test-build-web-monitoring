@@ -23,4 +23,11 @@ export default createBreadcrumb({
     href: slug.report.type3,
     name: 'Báo cáo tháng khí 3'
   },
+
+  type4: {
+    id: 'type4',
+    // icon: '',
+    href: slug.report.type4,
+    name: 'TB 8H Max'
+  },
 })
