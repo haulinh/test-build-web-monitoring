@@ -44,7 +44,7 @@ export default class QaQcContainer extends React.Component {
   render() {
     return (
       <div>
-        {getConfigApi().isAdvanced ? this._renderPageContent() : this.renderPageInfo()}
+        {getConfigApi().isAdvanced ? this._renderPageContent() : this._renderPageInfo()}
       </div>
     )
   }
