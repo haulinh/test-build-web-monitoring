@@ -58,4 +58,11 @@ export default createBreadcrumb({
     href: slug.report.type8,
     name: 'Nuớc - Tỷ lệ dữ liệu'
   },
+
+  type9: {
+    id: 'type9',
+    // icon: '',
+    href: slug.report.type9,
+    name: 'Nuớc - Tỷ lệ dữ liệu'
+  },
 })
