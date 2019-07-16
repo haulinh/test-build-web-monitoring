@@ -151,8 +151,8 @@ export function exportStatistictExceeded(key, data) {
   return putFetch(url, data)
 }
 
-export function getUrlReportType1(token, key, time, measuringListStr) {
-  let url = getReportUrl(`type1/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}`)
+export function getUrlReportType1(token, key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type1/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
   return url
 }
 
