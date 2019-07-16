@@ -1495,7 +1495,20 @@ export default {
     publishShare: 'Công bố và Chia sẻ',
     configWQI: 'Cấu hình WQI, AQI',
     groupStatistic: 'Thống kê',
-    mapFixed: 'Bản đồ'
+    mapFixed: 'Bản đồ',
+    
+    reportSub: 'Báo cáo',
+    report: {
+      type1: 'Khí - Dữ liệu thô',
+      type2: 'Khí - TB 24H',
+      type3: 'Khí - TB 1H Max',
+      type4: 'Khí - TB 8H Max',
+      type5: 'Khí - AQI Tháng',
+      type6: 'Khí - AQI Thông Số Giờ',
+      type7: 'Khí - AQI Thông Số Ngày',
+      type8: 'Nước - Tỷ lệ dữ liệu',
+      type9: 'Nước - Trung bình ngày',
+    },
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'
