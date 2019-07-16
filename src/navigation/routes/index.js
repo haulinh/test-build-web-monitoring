@@ -43,10 +43,7 @@ import PercentReceivedData from "containers/statistic/per-rec-data";
 import AqiStatistic from "containers/statistic/aqi";
 import WqiStatistic from "containers/statistic/wqi";
 import Layout from "layout/default-sidebar-layout";
-import ReportType1 from "containers/report/type1";
-import ReportType2 from "containers/report/type2";
-import ReportType3 from "containers/report/type3";
-import ReportType4 from "containers/report/type4";
+import Report from "containers/report";
 
 @autobind
 export default class RouteDefault extends React.Component {
@@ -97,10 +94,7 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute path={slug.cameraControl.base} component={CameraControl} />
             <LayoutRoute path={slug.support.base} component={SupportRoute} />
 
-            <LayoutRoute  path={slug.report.type1} component={ReportType1} />
-            <LayoutRoute  path={slug.report.type2} component={ReportType2} />
-            <LayoutRoute  path={slug.report.type3} component={ReportType3} />
-            <LayoutRoute  path={slug.report.type4} component={ReportType4} />
+            <LayoutRoute  path={slug.report.bast} component={Report} />
           </Layout>
         </Switch>
       </div>

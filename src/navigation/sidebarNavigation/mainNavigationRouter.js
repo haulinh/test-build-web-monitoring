@@ -496,28 +496,6 @@ const reportType9Menu = {
   ) 
 };
 
-const reportType10Menu = {
-  component: (
-    <AkNavigationItem
-      linkComponent={WrapperLinkComponent}
-      href={slug.report.type10}
-      icon={Icon.trayIcon}
-      text={translate("menuApp.report.type10")}
-    />
-  ) 
-};
-
-const reportType11Menu = {
-  component: (
-    <AkNavigationItem
-      linkComponent={WrapperLinkComponent}
-      href={slug.report.type11}
-      icon={Icon.trayIcon}
-      text={translate("menuApp.report.type11")}
-    />
-  ) 
-};
-
 export default [
   dashboardMenu,
   monitoringMenu,
@@ -562,6 +540,4 @@ export default [
   reportType7Menu,
   reportType8Menu,
   reportType9Menu,
-  reportType10Menu,
-  reportType11Menu,
 ]
