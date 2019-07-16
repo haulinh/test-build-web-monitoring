@@ -128,6 +128,7 @@ export default class SearchForm extends React.Component {
                         this.setState({ measuringList: station.measuringList });
                       else this.setState({ measuringList: [] });
                     }}
+                    style={{ width: "100%" }}
                   />
                 )}
               </Item>
@@ -140,7 +141,7 @@ export default class SearchForm extends React.Component {
                       required: true
                     }
                   ]
-                })(<MonthPicker style={{ width: "100%" }} />)}
+                })(<MonthPicker style={{ width: "100%" }} size="large"/>)}
               </Item>
             </Col>
           </Row>
