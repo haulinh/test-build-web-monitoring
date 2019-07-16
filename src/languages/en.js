@@ -1507,7 +1507,7 @@ export default {
     type3: 'TB 1H Max',                                                   /* MARK  @translate */
     type4: 'TB 8H Max',                                                   /* MARK  @translate */
     type5: 'AQI Tháng',                                                   /* MARK  @translate */
-    type6: 'Báo cáo > Báo cáo chỉ số AQI theo ngày',                      /* MARK  @translate */
+    type6: 'AQI Thông Số Giờ',                      /* MARK  @translate */
     type7: 'Thống kê số liệu quan trắc nhận được trong năm',              /* MARK  @translate */
     type8: 'Thống kê giá trị AQI ngày trong nằm theo các khoảng giá trị', /* MARK  @translate */
     type9: 'Thống kê giá trị AQI ngày lớn hơn 100 của tháng',             /* MARK  @translate */

@@ -7,21 +7,21 @@ export default createBreadcrumb({
     id: 'base',
     // icon: '',
     href: slug.report.type1,
-    name: 'Báo cáo tháng khí'
+    name: 'Dữ Liệu Thô'
   },
 
   type2: {
     id: 'base',
     // icon: '',
     href: slug.report.type2,
-    name: 'Báo cáo tháng khí 2'
+    name: 'TB 24H'
   },
 
   type3: {
     id: 'type3',
     // icon: '',
     href: slug.report.type3,
-    name: 'Báo cáo tháng khí 3'
+    name: 'TB 1H Max'
   },
 
   type4: {
@@ -36,5 +36,12 @@ export default createBreadcrumb({
     // icon: '',
     href: slug.report.type5,
     name: 'AQI Tháng'
+  },
+
+  type6: {
+    id: 'type6',
+    // icon: '',
+    href: slug.report.type6,
+    name: 'AQI Thông Số Giờ'
   }
 })

@@ -1504,7 +1504,7 @@ export default {
       type3: 'TB 1H Max',
       type4: 'TB 8H Max',
       type5: 'AQI Tháng',
-      type6: 'Báo cáo > Báo cáo chỉ số AQI theo ngày',
+      type6: 'AQI Thông Số Giờ',
       type7: 'Thống kê số liệu quan trắc nhận được trong năm',
       type8: 'Thống kê giá trị AQI ngày trong nằm theo các khoảng giá trị',
       type9: 'Thống kê giá trị AQI ngày lớn hơn 100 của tháng',
