@@ -1509,8 +1509,8 @@ export default {
     type5: 'Khí - AQI Tháng',                                 /* MARK  @translate */
     type6: 'Khí - AQI Thông Số Giờ',                          /* MARK  @translate */
     type7: 'Khí - AQI Thông Số Ngày',                         /* MARK  @translate */
-    type8: 'Nuớc - Tỷ lệ dữ liệu',                            /* MARK  @translate */
-    type9: 'Nuớc - Trung bình ngày',                          /* MARK  @translate */
+    type8: 'Nước - Tỷ lệ dữ liệu',                            /* MARK  @translate */
+    type9: 'Nước - Trung bình ngày',                          /* MARK  @translate */
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'

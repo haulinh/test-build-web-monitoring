@@ -1506,8 +1506,8 @@ export default {
       type5: 'Khí - AQI Tháng',
       type6: 'Khí - AQI Thông Số Giờ',
       type7: 'Khí - AQI Thông Số Ngày',
-      type8: 'Nuớc - Tỷ lệ dữ liệu',
-      type9: 'Nuớc - Trung bình ngày',
+      type8: 'Nước - Tỷ lệ dữ liệu',
+      type9: 'Nước - Trung bình ngày',
     },
   },
   cameraControl: {
