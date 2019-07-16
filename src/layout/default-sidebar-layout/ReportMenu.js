@@ -84,6 +84,54 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  LOAI 6 */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.report.type6}
+          onClick={() => {
+            props.selectMenu(slug.report.type6)
+          }}
+        >
+          <Link to={slug.report.type6}>{MENU_NAME.report.type6}</Link>
+        </Menu.Item>
+      )}
+
+      {/* NOTE  LOAI 7 */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.report.type7}
+          onClick={() => {
+            props.selectMenu(slug.report.type7)
+          }}
+        >
+          <Link to={slug.report.type7}>{MENU_NAME.report.type7}</Link>
+        </Menu.Item>
+      )}
+
+      {/* NOTE  LOAI 8 */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.report.type8}
+          onClick={() => {
+            props.selectMenu(slug.report.type8)
+          }}
+        >
+          <Link to={slug.report.type8}>{MENU_NAME.report.type8}</Link>
+        </Menu.Item>
+      )}
+
+      {/* NOTE  LOAI 9 */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.report.type9}
+          onClick={() => {
+            props.selectMenu(slug.report.type9)
+          }}
+        >
+          <Link to={slug.report.type9}>{MENU_NAME.report.type9}</Link>
+        </Menu.Item>
+      )}
+
       
     </Menu.SubMenu>
   )

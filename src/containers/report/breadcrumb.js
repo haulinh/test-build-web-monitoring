@@ -51,4 +51,11 @@ export default createBreadcrumb({
     href: slug.report.type7,
     name: 'Khí - AQI Thông Số Ngày'
   },
+
+  type8: {
+    id: 'type8',
+    // icon: '',
+    href: slug.report.type8,
+    name: 'Nuớc - Tỷ lệ dữ liệu'
+  },
 })
