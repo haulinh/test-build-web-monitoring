@@ -47,7 +47,6 @@ import ReportType1 from "containers/report/type1";
 import ReportType2 from "containers/report/type2";
 import ReportType3 from "containers/report/type3";
 import ReportType4 from "containers/report/type4";
-// import ReportType1 from "containers/report/type1";
 
 @autobind
 export default class RouteDefault extends React.Component {

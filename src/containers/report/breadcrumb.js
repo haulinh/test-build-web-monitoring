@@ -30,4 +30,11 @@ export default createBreadcrumb({
     href: slug.report.type4,
     name: 'TB 8H Max'
   },
+
+  type5: {
+    id: 'type5',
+    // icon: '',
+    href: slug.report.type5,
+    name: 'AQI Tháng'
+  }
 })
