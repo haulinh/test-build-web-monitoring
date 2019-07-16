@@ -5,6 +5,10 @@ function getDataStationAutoUrl(prefix = '') {
   return getConfigApi().dataStationAuto + '/' + prefix
 }
 
+function getReportUrl(prefix = '') {
+  return getConfigApi().report + '/' + prefix
+}
+
 export function getDataStationAutos(
   { page = 1, itemPerPage = 10 },
   { fromDate, toDate, key, advanced, measuringList, isExceeded, dataType }
@@ -147,6 +151,51 @@ export function exportStatistictExceeded(key, data) {
   return putFetch(url, data)
 }
 
+export function getUrlReportType1(token, key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type1/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+  return url
+}
+
+export function getUrlReportType2(token, key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type2/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+  return url
+}
+
+export function getUrlReportType3(token, key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type3/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+  return url
+}
+
+export function getUrlReportType4(token, key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type4/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+  return url
+}
+
+export function getUrlReportType5(token, key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type5/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+  return url
+}
+
+export function getUrlReportType6(token, key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type6/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+  return url
+}
+
+export function getUrlReportType7(token, key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type7/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+  return url
+}
+
+export function getUrlReportType8(token, key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type8/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+  return url
+}
+
+export function getUrlReportType9(token, key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type9/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+  return url
+}
+
 export default {
   getDataStationAutos,
   getExportData,
@@ -160,5 +209,14 @@ export default {
   fetchDataStatistict,
   exportDataStatistict,
   getDataStatistictExceeded,
-  exportStatistictExceeded
+  exportStatistictExceeded,
+  getUrlReportType1,
+  getUrlReportType2,
+  getUrlReportType3,
+  getUrlReportType4,
+  getUrlReportType5,
+  getUrlReportType6,
+  getUrlReportType7,
+  getUrlReportType8,
+  getUrlReportType9,
 }

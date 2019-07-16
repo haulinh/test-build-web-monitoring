@@ -389,6 +389,113 @@ const groupStatistic = {
   )
 }
 
+const groupReport = {
+  component: (
+    <NavigationWrapper text={translate("menuApp.reportSub")}>
+      <AkNavigationItemGroup title={translate("menuApp.reportSub")} />
+    </NavigationWrapper>
+  )
+};
+
+const reportType1Menu = {
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.report.type1}
+      icon={Icon.trayIcon}
+      text={translate("menuApp.report.type1")}
+    />
+  ) 
+};
+
+const reportType2Menu = {
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.report.type2}
+      icon={Icon.trayIcon}
+      text={translate("menuApp.report.type2")}
+    />
+  ) 
+};
+
+const reportType3Menu = {
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.report.type3}
+      icon={Icon.trayIcon}
+      text={translate("menuApp.report.type3")}
+    />
+  ) 
+};
+
+const reportType4Menu = {
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.report.type4}
+      icon={Icon.trayIcon}
+      text={translate("menuApp.report.type4")}
+    />
+  ) 
+};
+
+const reportType5Menu = {
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.report.type5}
+      icon={Icon.trayIcon}
+      text={translate("menuApp.report.type5")}
+    />
+  ) 
+};
+
+const reportType6Menu = {
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.report.type6}
+      icon={Icon.trayIcon}
+      text={translate("menuApp.report.type6")}
+    />
+  ) 
+};
+
+const reportType7Menu = {
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.report.type7}
+      icon={Icon.trayIcon}
+      text={translate("menuApp.report.type7")}
+    />
+  ) 
+};
+
+const reportType8Menu = {
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.report.type8}
+      icon={Icon.trayIcon}
+      text={translate("menuApp.report.type8")}
+    />
+  ) 
+};
+
+const reportType9Menu = {
+  component: (
+    <AkNavigationItem
+      linkComponent={WrapperLinkComponent}
+      href={slug.report.type9}
+      icon={Icon.trayIcon}
+      text={translate("menuApp.report.type9")}
+    />
+  ) 
+};
+
 export default [
   dashboardMenu,
   monitoringMenu,
@@ -422,5 +529,15 @@ export default [
   qcvnMenu,
   groupAdmin,
   userMenu,
-  roleMenu
+  roleMenu,
+  groupReport,
+  reportType1Menu,
+  reportType2Menu,
+  reportType3Menu,
+  reportType4Menu,
+  reportType5Menu,
+  reportType6Menu,
+  reportType7Menu,
+  reportType8Menu,
+  reportType9Menu,
 ]

@@ -1500,6 +1500,18 @@ export default {
     groupStatistic: 'Statistic',
     mapFixed: 'Map'
   },
+  report: 'Báo cáo',                                          /* MARK  @translate */
+  reportMenu: {
+    type1: 'Khí - Dữ liệu thô',                               /* MARK  @translate */
+    type2: 'Khí - TB 24H',                                    /* MARK  @translate */
+    type3: 'Khí - TB 1H Max',                                 /* MARK  @translate */
+    type4: 'Khí - TB 8H Max',                                 /* MARK  @translate */
+    type5: 'Khí - AQI Tháng',                                 /* MARK  @translate */
+    type6: 'Khí - AQI Thông Số Giờ',                          /* MARK  @translate */
+    type7: 'Khí - AQI Thông Số Ngày',                         /* MARK  @translate */
+    type8: 'Nước - Tỷ lệ dữ liệu',                            /* MARK  @translate */
+    type9: 'Nước - Trung bình ngày',                          /* MARK  @translate */
+  },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'
   },
