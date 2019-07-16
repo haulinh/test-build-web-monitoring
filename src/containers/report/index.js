@@ -7,6 +7,7 @@ import ReportType2 from './type2'
 import ReportType3 from './type3'
 import ReportType4 from './type4'
 import ReportType5 from './type5'
+import ReportType6 from './type6'
 
 export default props => (
   <Switch>
@@ -34,6 +35,11 @@ export default props => (
     <Route
       path={slug.report.type5}
       render={matchProps => <ReportType5 {...matchProps} {...props} />}
+    />
+
+    <Route
+      path={slug.report.type6}
+      render={matchProps => <ReportType6 {...matchProps} {...props} />}
     />
   </Switch>
 )
