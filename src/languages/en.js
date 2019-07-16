@@ -1500,21 +1500,17 @@ export default {
     groupStatistic: 'Statistic',
     mapFixed: 'Map'
   },
-  report: 'Báo cáo',                                                      /* MARK  @translate */
+  report: 'Báo cáo',                                          /* MARK  @translate */
   reportMenu: {
-    type1: 'Dữ liệu thô',                                                 /* MARK  @translate */
-    type2: 'TB 24H',                                                      /* MARK  @translate */
-    type3: 'TB 1H Max',                                                   /* MARK  @translate */
-    type4: 'TB 8H Max',                                                   /* MARK  @translate */
-    type5: 'AQI Tháng',                                                   /* MARK  @translate */
-    type6: 'AQI Thông Số Giờ',                      /* MARK  @translate */
-    type7: 'Thống kê số liệu quan trắc nhận được trong năm',              /* MARK  @translate */
-    type8: 'Thống kê giá trị AQI ngày trong nằm theo các khoảng giá trị', /* MARK  @translate */
-    type9: 'Thống kê giá trị AQI ngày lớn hơn 100 của tháng',             /* MARK  @translate */
-    type10: 'Báo cáo lưu lượng trong tháng',                              /* MARK  @translate */
-    type11: 'Tỉ lệ dữ liệu vượt ngưỡng',                                  /* MARK  @translate */
-    type12: 'Lỗi thiết bị',                                               /* MARK  @translate */
-    type13: 'Thống kê số liệu quan trắc nhận được trong năm',             /* MARK  @translate */
+    type1: 'Khí - Dữ liệu thô',                               /* MARK  @translate */
+    type2: 'Khí - TB 24H',                                    /* MARK  @translate */
+    type3: 'Khí - TB 1H Max',                                 /* MARK  @translate */
+    type4: 'Khí - TB 8H Max',                                 /* MARK  @translate */
+    type5: 'Khí - AQI Tháng',                                 /* MARK  @translate */
+    type6: 'Khí - AQI Thông Số Giờ',                          /* MARK  @translate */
+    type7: 'Khí - AQI Thông Số Ngày',                         /* MARK  @translate */
+    type8: 'Nuớc - Tỷ lệ dữ liệu',                            /* MARK  @translate */
+    type9: 'Nuớc - Trung bình ngày',                          /* MARK  @translate */
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'
