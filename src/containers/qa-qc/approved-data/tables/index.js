@@ -1,14 +1,16 @@
 import React from 'react'
-import { autobind } from 'core-decorators'
-
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { autobind } from 'core-decorators'
+import { Button } from 'antd'
+
+import { translate } from 'hoc/create-lang'
+import {QAQC_TABLES} from 'constants/qaqc'
 
 import OriginalTable from './original'
 import ValidTable from './valid'
 import InvalidTable from './invalid'
 
-import {QAQC_TABLES} from 'constants/qaqc'
 
 
 @connect((state, ownProps) => ({
@@ -30,7 +32,16 @@ export default class QAQCTables extends React.Component {
     let Table = this._getSelectedTable(this.props.selectedTable)
     return (
       <div>
-        <div>export to excel</div>
+        <div style={{textAlign: 'right', marginBottom: 16}}>
+          <Button
+            type="primary"
+            icon="file-excel"
+            // onClick={this.submit}
+            // loading={this.props.isExporting}
+          >
+            {translate("dataSearchFrom.tab.exportExcel")}
+          </Button>
+        </div>
         <Table
           dataSource={this.props.dataSource}
           measuringList={measuringList}
