@@ -7,7 +7,7 @@ import { translate } from 'hoc/create-lang'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './approved-data/search-form'
 import TableList from './approved-data/tables/'
-import { Spin } from 'antd'
+import { Row, Col, Spin } from 'antd'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 import _, { get, size, isEmpty, forEach, isNumber } from 'lodash'
@@ -54,20 +54,24 @@ export default class QaQcContainer extends React.Component {
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Breadcrumb items={['list']} />
         <Spin spinning={false} title="Đang xử lý...">
-          <SearchFrom 
-            initialValues={this.props.formData} 
-            measuringData={this.props.formData.measuringData} 
-            onSubmit={this.handleSubmitSearch}
-            changeDataType={this._handleChangeDataType}
-            searchNow={this.props.formData.searchNow}
-          />
-          {this.state.isHaveData && (   
-            <TableList 
-              dataSource={this.state.dataStationAuto}
-              measuringData={this.state.measuringData}
-              measuringList={this.state.measuringList}
-              selectedTable={this.state.selectedTable}
+          <Row>
+            <SearchFrom 
+              initialValues={this.props.formData} 
+              measuringData={this.props.formData.measuringData} 
+              onSubmit={this.handleSubmitSearch}
+              changeDataType={this._handleChangeDataType}
+              searchNow={this.props.formData.searchNow}
             />
+          </Row>
+          {this.state.isHaveData && (   
+            <Row style={{paddingTop: 8 }}>
+              <TableList 
+                dataSource={this.state.dataStationAuto}
+                measuringData={this.state.measuringData}
+                measuringList={this.state.measuringList}
+                selectedTable={this.state.selectedTable}
+              />
+            </Row>
           )}
         </Spin>
       </PageContainer>
