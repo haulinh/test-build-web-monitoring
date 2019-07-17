@@ -29,7 +29,7 @@ export default class ReportType1 extends React.Component {
  
     return (
       <PageContainer>
-        <Breadcrumb items={["type8"]} />
+        <Breadcrumb items={["type9"]} />
         <SearchForm cbSubmit={this.handleSubmit} />
       </PageContainer>
     );
