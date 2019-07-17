@@ -73,7 +73,7 @@ export default {
       )}
 
       {/* NOTE  LOAI 5 */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {/* {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
           key={slug.report.type5}
           onClick={() => {
@@ -82,10 +82,10 @@ export default {
         >
           <Link to={slug.report.type5}>{MENU_NAME.report.type5}</Link>
         </Menu.Item>
-      )}
+      )} */}
 
       {/* NOTE  LOAI 6 */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {/* {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
           key={slug.report.type6}
           onClick={() => {
@@ -94,10 +94,10 @@ export default {
         >
           <Link to={slug.report.type6}>{MENU_NAME.report.type6}</Link>
         </Menu.Item>
-      )}
+      )} */}
 
       {/* NOTE  LOAI 7 */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {/* {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
           key={slug.report.type7}
           onClick={() => {
@@ -106,7 +106,7 @@ export default {
         >
           <Link to={slug.report.type7}>{MENU_NAME.report.type7}</Link>
         </Menu.Item>
-      )}
+      )} */}
 
       {/* NOTE  LOAI 8 */}
       {protectRole(ROLE.STATION_AUTO.VIEW)(
@@ -120,8 +120,8 @@ export default {
         </Menu.Item>
       )}
 
-      {/* NOTE  LOAI 9 */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {/* NOTE  LOAI 9 - Ẩn vì @trường thấy giống loại 1 (Khí - Dữ liệu gốc)*/}
+      {/* {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
           key={slug.report.type9}
           onClick={() => {
@@ -130,7 +130,7 @@ export default {
         >
           <Link to={slug.report.type9}>{MENU_NAME.report.type9}</Link>
         </Menu.Item>
-      )}
+      )} */}
 
       
     </Menu.SubMenu>
