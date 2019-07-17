@@ -1498,19 +1498,18 @@ export default {
     publishShare: 'publish & Sharing',
     configWQI: 'Config WQI, AQI',
     groupStatistic: 'Statistic',
-    mapFixed: 'Map'
-  },
-  report: 'Báo cáo',                                          /* MARK  @translate */
-  reportMenu: {
-    type1: 'Khí - Dữ liệu thô',                               /* MARK  @translate */
-    type2: 'Khí - TB 24H',                                    /* MARK  @translate */
-    type3: 'Khí - TB 1H Max',                                 /* MARK  @translate */
-    type4: 'Khí - TB 8H Max',                                 /* MARK  @translate */
-    type5: 'Khí - AQI Tháng',                                 /* MARK  @translate */
-    type6: 'Khí - AQI Thông Số Giờ',                          /* MARK  @translate */
-    type7: 'Khí - AQI Thông Số Ngày',                         /* MARK  @translate */
-    type8: 'Nước - Tỷ lệ dữ liệu',                            /* MARK  @translate */
-    type9: 'Nước - Trung bình ngày',                          /* MARK  @translate */
+    mapFixed: 'Map',
+    reportSub: 'Report',           
+    report: {
+      type1: 'Original data',
+      type2: '24 hour average',      
+      type3: 'Average maximum of 1 hour',   
+      type4: 'Average maximum of 8 hour',   
+      type5: 'AQI hours / day',    
+      type6: 'AQI average 24h by parameter',     
+      type7: 'AQI day by parameter',     
+      type8: 'Percentage of data',  
+    },
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'

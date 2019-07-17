@@ -3,7 +3,10 @@
 #-----------------------------------------------------------------------
 REGISTRY=vagregistry.azurecr.io
 DOCKER_IMAGE=ilotusland/enviro-web-gis
-BRAND_NAME=$(git symbolic-ref --short HEAD)
+
+# replace "/" by "-", vì docker tag không cho phép dấu "/"
+ORIGINAL_BRAND_NAME=$(git symbolic-ref --short HEAD)
+BRAND_NAME=${ORIGINAL_BRAND_NAME//[\/]/-}
 
 #-----------------------------------------------------------------------
 docker build . -t ${REGISTRY}/${DOCKER_IMAGE}:${BRAND_NAME}
