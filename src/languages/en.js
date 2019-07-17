@@ -1508,8 +1508,18 @@ export default {
       type5: 'AQI hours / day',    
       type6: 'AQI average 24h by parameter',     
       type7: 'AQI day by parameter',     
-      type8: 'Percentage of data',  
+      type9: 'Percentage of data',  
     },
+    reportBreadcrum: {
+      type1: 'Original data',
+      type2: '24 hour average',      
+      type3: 'Average maximum 1 hour of the day',   
+      type4: 'Average maximum 8 hour of the day',   
+      type5: 'AQI hours / day',    
+      type6: 'AQI average 24h by parameter',     
+      type7: 'AQI day by parameter',   
+      type9: 'Percentage of data',
+    }  
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'

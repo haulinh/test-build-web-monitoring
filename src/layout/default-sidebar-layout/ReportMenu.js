@@ -109,7 +109,7 @@ export default {
       )} */}
 
       {/* NOTE  LOAI 8 */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {/* {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
           key={slug.report.type8}
           onClick={() => {
@@ -118,10 +118,10 @@ export default {
         >
           <Link to={slug.report.type8}>{MENU_NAME.report.type8}</Link>
         </Menu.Item>
-      )}
+      )} */}
 
       {/* NOTE  LOAI 9 - Ẩn vì @trường thấy giống loại 1 (Khí - Dữ liệu gốc)*/}
-      {/* {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
           key={slug.report.type9}
           onClick={() => {
@@ -130,7 +130,7 @@ export default {
         >
           <Link to={slug.report.type9}>{MENU_NAME.report.type9}</Link>
         </Menu.Item>
-      )} */}
+      )}
 
       
     </Menu.SubMenu>
