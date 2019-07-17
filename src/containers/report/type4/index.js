@@ -1,7 +1,7 @@
 import React from "react";
 import PageContainer from "layout/default-sidebar-layout/PageContainer";
 import Breadcrumb from "../breadcrumb";
-import SearchForm from "./search-form";
+import SearchForm from "../search-form";
 import {getUrlReportType4} from 'api/DataStationAutoApi'
 import { connect } from 'react-redux'
 import axios from 'axios'
