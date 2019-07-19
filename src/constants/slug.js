@@ -52,7 +52,19 @@ export default {
     create: '/station-auto/create',
     edit: '/station-auto/edit/:key',
     editWithKey: '/station-auto/edit',
-    config: '/station-auto/config/:key',
+    configConnection:{
+      base: '/station-auto/config/connection',
+      ftp: '/station-auto/config/connection/ftp',
+      ftpWithKey: '/station-auto/config/connection/ftp/:key',
+      file: '/station-auto/config/connection/file',
+      fileWithKey: '/station-auto/config/connection/file/:key',
+    },
+    configSendNotification: {
+      base: '/station-auto/config/notification'
+    },
+    configSampling: {
+      base: '/station-auto/config/sampling',
+    },
     range: '/station-auto/range/:key',
     configWithKey: '/station-auto/config',
     rangeWithKey: '/station-auto/range',
@@ -113,8 +125,7 @@ export default {
     configStation: '/user/config-station',
     profile: '/user/profile',
     security: '/user/security',
-    rule: '/user/rule/:key',
-    ruleWithKey: '/user/rule',
+    rule: '/user/rule',
     accountActive: '/account/activate/:key'
   },
   role: {
@@ -158,7 +169,18 @@ export default {
     base: '/fixed-map'
   },
   report: {
-    base: '/report'
+    base: '/report',
+    type1: '/report/type1',
+    type2: '/report/type2',
+    type3: '/report/type3',
+    type4: '/report/type4',
+    type5: '/report/type5',
+    type6: '/report/type6',
+    type7: '/report/type7',
+    type8: '/report/type8',
+    type9: '/report/type9',
+    type10: '/report/type10',
+    type11: '/report/type11',
   }
 }
 
@@ -167,6 +189,7 @@ export const MENU_GROUP = {
   MONITORING: 'monitoring',
   HANDLE_DATA: 'handleData',
   SHARE_DATA: 'shareData',
+  REPORT: 'report',
   ADVANCE: 'advance',
   CONFIG: 'config'
 }
@@ -218,6 +241,19 @@ export const MENU_NAME = {
     ftpConfig: translate('menuApp.shareData.ftpConfig')
   },
 
+  reportSub: translate('menuApp.reportSub'),
+  report: {
+    type1: translate('menuApp.report.type1'),
+    type2: translate('menuApp.report.type2'),
+    type3: translate('menuApp.report.type3'),
+    type4: translate('menuApp.report.type4'),
+    type5: translate('menuApp.report.type5'),
+    type6: translate('menuApp.report.type6'),
+    type7: translate('menuApp.report.type7'),
+    type8: translate('menuApp.report.type8'),
+    type9: translate('menuApp.report.type9'),
+  },
+
   advanceSub: translate('menuApp.advanceSub'),
   advance: {
     aqiMap: translate('menuApp.advance.aqiMap'),
@@ -230,6 +266,9 @@ export const MENU_NAME = {
   configSub: translate('menuApp.configSub'),
   config: {
     stationAuto: translate('menuApp.config.stationAuto'),
+    stationAutoConnection: translate('menuApp.config.stationAutoConnection'),
+    sendNotification:  translate('menuApp.config.sendNotification'),
+    sampling: translate('menuApp.config.sampling'),
     parameter: translate('menuApp.config.parameter'),
     stationType: translate('menuApp.config.stationType'),
     site: translate('menuApp.config.site'),

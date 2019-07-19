@@ -16,11 +16,20 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import styled from 'styled-components'
 import { Modal, message } from 'antd'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { DD_MM_YYYY } from 'constants/format-date'
 import * as _ from 'lodash'
+import { translate } from 'hoc/create-lang'
 
 import DynamicTable from 'components/elements/dynamic-table'
+
+const i18n = {
+  cancelText: translate('addon.cancel'),
+  okText: translate('addon.ok'),
+  restoreConfirmMsg: translate('confirm.msg.restore'),
+  deleteConfirmMsg: translate('confirm.msg.delete')
+}
+
 const LinkSpan = styled.span`
   color: #000;
   &:hover {
@@ -85,7 +94,9 @@ export default class StationFixedList extends React.Component {
       lang: { t }
     } = this.props
     Modal.confirm({
-      title: 'Do you want to delete these items?',
+      title: i18n.deleteConfirmMsg,
+      okText: i18n.okText,
+      cancelText: i18n.cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
           const res = await stationFixedApi.deleteStationFixed(_id)
@@ -105,7 +116,9 @@ export default class StationFixedList extends React.Component {
       lang: { t }
     } = this.props
     Modal.confirm({
-      title: 'Do you want to restore these items?',
+      title: i18n.restoreConfirmMsg,
+      okText: i18n.okText,
+      cancelText: i18n.cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
           const res = await stationFixedApi.restoreStationFixed(_id)

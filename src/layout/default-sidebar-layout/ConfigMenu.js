@@ -23,6 +23,7 @@ export default {
         </div>
       }
     >
+      {/* NOTE  TRẠM QUAN TRẮC */}
       {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
           key={slug.stationAuto.base}
@@ -34,6 +35,37 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE   CẤU HÌNH KẾT NỐI */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.stationAuto.configConnection.base}
+          onClick={() => props.selectMenu(slug.stationAuto.configConnection.base)}
+        >
+          <Link to={slug.stationAuto.configConnection.base}>{MENU_NAME.config.stationAutoConnection}</Link>
+        </Menu.Item>
+      )}
+
+      {/* NOTE   CẤU HÌNH GỞI CẢNH BÁO */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.stationAuto.configSendNotification.base}
+          onClick={() => props.selectMenu(slug.stationAuto.configSendNotification.base)}
+        >
+          <Link to={slug.stationAuto.configSendNotification.base}>{MENU_NAME.config.sendNotification}</Link>
+        </Menu.Item>
+      )}
+
+      {/* NOTE   CẤU HÌNH LẤY MẪU */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.stationAuto.configSampling.base}
+          onClick={() => props.selectMenu(slug.stationAuto.configSampling.base)}
+        >
+          <Link to={slug.stationAuto.configSampling.base}>{MENU_NAME.config.sampling}</Link>
+        </Menu.Item>
+      )}
+
+      {/* NOTE  CHỈ TIÊU QUAN TRẮC */}
       {protectRole(ROLE.MEASURING.VIEW)(
         <Menu.Item
           key={slug.measuring.base}
@@ -45,6 +77,7 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  LOẠI TRẠM */}
       {protectRole(ROLE.STATION_TYPE.VIEW)(
         <Menu.Item
           key={slug.stationType.base}
@@ -56,6 +89,7 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  ĐƠN VỊ QUẢN LÝ */}
       {protectRole(ROLE.PROVINCE.VIEW)(
         <Menu.Item
           key={slug.province.base}
@@ -67,6 +101,7 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  QUY CHUẨN */}
       {protectRole(ROLE.QCVN.VIEW)(
         <Menu.Item
           key={slug.qcvn.base}
@@ -78,6 +113,7 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  NHÓM QUYỀN */}
       {protectRole(ROLE.ROLE.VIEW)(
         <Menu.Item
           key="/role"
@@ -90,6 +126,7 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  TÀI KHOẢN */}
       {protectRole(ROLE.USER.VIEW)(
         <Menu.Item
           key={slug.user.base}

@@ -1,7 +1,7 @@
 import React from 'react'
 import * as _ from 'lodash'
 import { Select } from 'antd'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { fetchWqiData } from 'api/WqiApi'
 import ChartAqiView from './ChartView'
 import WqiInfo from './wqi-info'

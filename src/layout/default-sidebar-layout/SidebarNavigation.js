@@ -30,6 +30,7 @@ import ROLE from 'constants/role'
 import MonitoringMenu from './MenuMonitoring'
 import HandleDataMenu from './HandleDataMenu'
 import ShareDataMenu from './ShareDataMenu'
+import ReportMenu from './ReportMenu'
 import AdvanceMenu from './AdvanceMenu'
 import ConfigMenu from './ConfigMenu'
 import objectPath from 'object-path'
@@ -272,6 +273,15 @@ class MenuApp extends React.PureComponent {
           ROLE.QAQCCONFIG.VIEW,
           ROLE.FTPTRANSFER.VIEW
         ]) && ShareDataMenu.renderComp(this.props)}
+
+        {/* TODO  Chưa có role nên dùng tạm của Advance, xem lại */}
+        {this.checkRoleForGroup([
+          ROLE.AQI.VIEW,
+          ROLE.AQI_SEARCHDATA.VIEW,
+          ROLE.WQI.VIEW,
+          ROLE.WQI_SEARCHDATA.VIEW,
+          ROLE.CONFIG_WQI.VIEW
+        ]) && ReportMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
           ROLE.AQI.VIEW,

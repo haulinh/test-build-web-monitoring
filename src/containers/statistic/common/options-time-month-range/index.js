@@ -1,7 +1,7 @@
 import React from 'react'
 import { DatePicker } from 'antd'
 import * as _ from 'lodash'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 const RangePicker = DatePicker.RangePicker
 

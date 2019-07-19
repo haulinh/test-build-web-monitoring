@@ -5,6 +5,8 @@ import { Table } from 'antd'
 import moment from 'moment/moment'
 import BoxShadow from 'components/elements/box-shadow/index'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import * as _ from 'lodash'
 
 const TabeListWrapper = styled(BoxShadow)`
   padding: 16px 16px 16px 16px;
@@ -79,7 +81,7 @@ export default class TableDataList extends React.PureComponent {
         render(value, record, index) {
           let val =
             record.avg.data.length > 0 ? record.avg.data[0].value || '' : ''
-          if (val) val = Math.round(val, 2).toFixed(2)
+          if (val) val = _.round(val,2)
           return <div>{val}</div>
         }
       }

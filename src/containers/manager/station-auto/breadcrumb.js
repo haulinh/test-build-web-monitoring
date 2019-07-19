@@ -10,6 +10,24 @@ export default createBreadcrumb({
     href: slug.stationAuto.list,
     name: translate('stationAutoManager.list.title')
   },
+  config: {
+    id: 'config',
+    //icon: Icon.car,
+    href: slug.stationAuto.configConnection.base,
+    name: translate('stationAutoManager.list.config.title')
+  },
+  configNotification: {
+    id: 'configNotification',
+    //icon: Icon.car,
+    href: slug.stationAuto.configSendNotification.base,
+    name: translate('stationAutoManager.list.notification.title')
+  },
+  configSampling: {
+    id: 'configSampling',
+    //icon: Icon.car,
+    href: slug.stationAuto.configSampling.base,
+    name: translate('stationAutoManager.list.sampling.title')
+  },
   create: {
     id: 'create',
     href: slug.stationAuto.create,
@@ -21,14 +39,12 @@ export default createBreadcrumb({
   },
   ftpInfo: {
     id: 'ftpInfo',
-    //icon: Icon.car,
-    href: slug.stationAuto.ftpInfo,
+    href: slug.stationAuto.configConnection.ftp,
     name: translate('stationAutoManager.list.ftpInfo')
   },
   ftpFile: {
     id: 'ftpFile',
-    //icon: Icon.car,
-    href: slug.stationAuto.ftpFile,
+    href: slug.stationAuto.configConnection.file,
     name: translate('stationAutoManager.list.ftpFile')
   }
 })

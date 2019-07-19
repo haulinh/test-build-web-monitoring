@@ -1,24 +1,22 @@
 import React from "react";
-import { Table, Checkbox, Form } from "antd";
+import { Table, Checkbox } from "antd";
 import PropTypes from "prop-types";
 import * as _ from "lodash";
-import { translate } from 'hoc/create-lang'
+import { translate } from "hoc/create-lang";
 
 const i18n = {
-  zero: translate('qaqcConfig.zero'),
-  negative: translate('qaqcConfig.negative'),
-
-}
-
+  zero: translate("qaqcConfig.zero"),
+  negative: translate("qaqcConfig.negative")
+};
 
 const OPTION = {
   ZERO: "zero",
   NEGATIVE: "negative"
 };
 
-@Form.create()
 export default class TableConfig extends React.Component {
   static propTypes = {
+    form: PropTypes.object.isRequired,
     dataTableMeasures: PropTypes.array.isRequired,
     type: PropTypes.string.isRequired
   };
@@ -33,6 +31,26 @@ export default class TableConfig extends React.Component {
 
   componentDidMount() {
     if (this.props.getRef) this.props.getRef(this);
+    this.handleCheckedAllInit();
+  }
+
+  handleCheckedAllInit() {
+    let tamp = _.result(this.props.form.getFieldsValue(), this.props.type, {});
+
+    let resZero = this.tinhToanChecked(OPTION.ZERO, tamp);
+    let resNega = this.tinhToanChecked(OPTION.NEGATIVE, tamp);
+
+    this.setState({
+      zeroIsIndeterminate: resZero.isIndeterminate,
+      zeroIsCheckAll: resZero.isCheckedAll,
+
+      negativeIsIndeterminate: resNega.isIndeterminate,
+      negativeIsCheckAll: resNega.isCheckedAll
+    });
+  }
+
+  componentWillReceiveProps() {
+    this.handleCheckedAllInit();
   }
 
   getRef() {
@@ -99,7 +117,7 @@ export default class TableConfig extends React.Component {
               this.checkAllOption(OPTION.NEGATIVE, e.target.checked);
             }}
           >
-             {i18n.negative}
+            {i18n.negative}
           </Checkbox>
         );
       },
@@ -180,7 +198,11 @@ export default class TableConfig extends React.Component {
     if (countIsChecked > 0 && countIsChecked < Object.keys(dataCompare).length)
       isIndeterminate = true;
 
-    if (countIsChecked === Object.keys(dataCompare).length) isCheckedAll = true;
+    if (
+      countIsChecked === Object.keys(dataCompare).length &&
+      Object.keys(dataCompare).length !== 0
+    )
+      isCheckedAll = true;
 
     return {
       isIndeterminate,
@@ -189,15 +211,16 @@ export default class TableConfig extends React.Component {
   }
 
   getTableData() {
-    let data = this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log("Received values of form: ", values);
-      }
-      console.log("getTableData", values);
-      return values;
+    let me = this;
+    return new Promise(function(resolve, reject) {
+      me.props.form.validateFields((err, values) => {
+        if (!err) {
+          // console.log("Received values of form: ", values);
+          resolve(values);
+        }
+        resolve(values);
+      });
     });
-
-    return data;
   }
 
   render() {

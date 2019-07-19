@@ -5,7 +5,7 @@ import ReactHighcharts from 'react-highcharts/ReactHighstock'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import {
   FORMAT_VALUE_MEASURING,
   getFormatNumber

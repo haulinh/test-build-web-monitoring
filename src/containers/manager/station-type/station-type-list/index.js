@@ -18,6 +18,11 @@ import ROLE from 'constants/role'
 import * as _ from 'lodash'
 import { getTotalCount_by_type } from 'api/StationAuto';
 import {   Modal } from 'antd'
+import { translate } from 'hoc/create-lang'
+
+const i18n = {
+  errorStationExist: translate('stationTypeManager.form.errorStationExist')
+}
 
 
 const AvatarWrapper = styled.div`
@@ -167,7 +172,7 @@ export default class StationTypeList extends React.Component {
       if(countStation.count > 0){
         Modal.error({
           title: 'Error',
-          content: t('stationTypeManager.form.errorStationExist'),
+          content: i18n.errorStationExist
         })
       }else{
         this.props.onDeleteItem(_id, this.props.fetchData)

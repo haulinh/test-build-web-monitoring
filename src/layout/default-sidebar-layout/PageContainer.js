@@ -12,12 +12,24 @@ const HeaderFlex = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 100%
 `
 
 export const Grid = styled.div`
-  width: 95%;
+  background-color: white;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
+  height: 100%;
+  padding: 16px 24px;
+`
+
+export const GridSticky = styled.div`
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  padding: 0px 24px;
 `
 
 const BreadcrumbContainer = styled.div`
@@ -27,7 +39,6 @@ const BreadcrumbContainer = styled.div`
 `
 
 const PageBodyWrapper = styled.div`
-  background-color: ${props => (props.color ? props.color : '#ffffff')};
   flex: 1 1 auto;
   position: relative;
   z-index: 1;
@@ -65,11 +76,12 @@ export default class PageContainer extends React.PureComponent {
               ...props.style,
               top: 0,
               zIndex: 2,
-              borderBottom: props.isSticky ? '1px solid #eeeeee' : ''
+              borderBottom: props.isSticky ? '1px solid #eeeeee' : '',
+              marginBottom: 16
             }}
           >
             <BreadcrumbContainer style={this.props.style}>
-              <Grid>
+              <GridSticky>
                 {this.props.headerCustom ? (
                   this.props.headerCustom
                 ) : (
@@ -79,7 +91,7 @@ export default class PageContainer extends React.PureComponent {
                     {this.props.right}
                   </HeaderFlex>
                 )}
-              </Grid>
+              </GridSticky>
             </BreadcrumbContainer>
           </div>
         )}
@@ -90,7 +102,10 @@ export default class PageContainer extends React.PureComponent {
   render() {
     return (
       <StickyContainer>
-        <PageBodyWrapper color={this.props.backgroundColor}>
+        <PageBodyWrapper 
+          color={this.props.backgroundColor} 
+          style={{marginTop: 16}}
+          >
           <style
             type="text/css"
             dangerouslySetInnerHTML={{

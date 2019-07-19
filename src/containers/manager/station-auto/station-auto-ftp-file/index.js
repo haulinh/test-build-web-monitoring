@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import Breadcrumb from '../breadcrumb'
 import DynamicTable from 'components/elements/dynamic-table'
 import FtpApi from 'api/FtpApi'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 @createManagerEdit({
   apiGetByKey: StationAutoApi.getStationAuto
@@ -49,7 +49,7 @@ export default class StationAutoFtpFile extends React.PureComponent {
             {
               id: 'ftpInfo',
               name: this.props.data.name,
-              href: slug.stationAuto.ftpFileWithKey + '/' + this.props.data._id,
+              href: slug.stationAuto.configConnection.ftp + '/' + this.props.data._id,
               path: this.props.data.configLogger.path
             }
           ],

@@ -4,7 +4,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import Label from '../label'
 import { TimePicker } from 'antd'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 const Container = styled.div`
   display: flex;

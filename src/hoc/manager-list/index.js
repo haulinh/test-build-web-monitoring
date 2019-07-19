@@ -7,7 +7,7 @@ import { get } from 'lodash'
  * @param apiList
  * @param apiDelete
  */
-const createManagerList = ({ apiList, itemPerPage = 20 }) => Component => {
+const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
   @autobind
   class ManagerListHoc extends React.Component {
     state = {
@@ -121,7 +121,7 @@ const createManagerList = ({ apiList, itemPerPage = 20 }) => Component => {
         fetchData: this.fetchData,
         pathImg: this.state.pathImg,
         onChangeSearch: this.onChangeSearch,
-        data: this.state.data
+        data: this.state.data,
       }
       return <Component {...this.props} {...props} />
     }

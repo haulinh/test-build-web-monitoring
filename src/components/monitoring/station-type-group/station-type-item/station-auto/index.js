@@ -7,7 +7,7 @@ import MeasuringList from './measuring/measuring-list'
 import MoreContent from './more-content'
 import PropTypes from 'prop-types'
 import slug from 'constants/slug'
-import stationStatus from 'constants/stationStatus'
+import  {STATUS_STATION} from 'constants/stationStatus'
 import { translate } from 'hoc/create-lang'
 import { get } from 'lodash'
 
@@ -137,7 +137,7 @@ export default class StationAutoItem extends React.PureComponent {
       // receivedAt = moment(lastLog.receivedAt)
       //   .format('YYYY-MM-DD HH:MM')
       //   .toString()
-      if (status === stationStatus.DATA_LOSS) {
+      if (status === STATUS_STATION.DATA_LOSS) {
         receivedAt = `${translate('monitoring.dataLoss')}  ${receivedAt}`
       }
     } else {

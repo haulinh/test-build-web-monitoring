@@ -4,7 +4,7 @@ import Breadcrumb from '../breadcrumb'
 import { connect } from 'react-redux'
 import { autobind } from 'core-decorators'
 import { Icon, Card, Table, Button, Spin, message, Input } from 'antd'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import FtpApi from 'api/FtpApi'
 import * as _ from 'lodash'
 import StationAutoApi from 'api/StationAuto'
@@ -258,11 +258,12 @@ export default class StationAutoFtpInfo extends React.PureComponent {
   }
 
   render() {
+    console.log(this.props.data)
     return (
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb
           items={[
-            'list',
+            'config',
             {
               id: 'ftpInfo',
               name:

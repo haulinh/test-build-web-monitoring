@@ -1,4 +1,11 @@
 export default {
+  unit: {
+    time: {
+      second: 'second',
+      minute: 'minute',
+      hour: 'hour'
+    }
+  },
   chart: {
     all: 'All',
     time: 'Time',
@@ -156,7 +163,6 @@ export default {
     publish: 'Publish',
     title: `QA/QC`,
     removeData: 'Data removed',
-    originalData: 'Original Data',
     removeDataBy: 'Remove Data By',
     approveData: 'Check Data',
     config: 'Config',
@@ -177,7 +183,9 @@ export default {
     allCancel: 'All Cancel',
     unApprove: 'UnApprove',
     yetApprove: 'Yet Approved',
-    approved: 'Approved',
+    originalData: 'Original data',
+    validData: 'Valid data',
+    inValidData: 'Invalid data',
     ok: 'OK',
     province: {
       label: 'Select Site',
@@ -267,6 +275,7 @@ export default {
       measuring: 'Measuring',
       value: 'Value',
       unit: 'Unit',
+      statusSensor: 'Sensor Status',
       dataLossAt: 'Data Lost At:',
       dataReceived: 'Received At:',
       longitude: 'Longitude',
@@ -678,7 +687,20 @@ export default {
       restore: 'Restore',
       remove: 'Remove',
       action: 'Action',
-      createdAt: 'Created At'
+      createdAt: 'Created At',
+      config: {
+        title: 'Connection configuration',
+      },
+      notification: {
+        title: 'Configure to Send Notifications'
+      },
+      sampling: {
+        title: 'Sampling configuration'
+      },
+      actions: {
+        ftpFolder: 'FTP Folder',
+        fileMapping: 'File Mapping',
+      }
     },
     create: {
       label: 'Create',
@@ -860,11 +882,17 @@ export default {
       errorLoadFile: 'Load file fail with path'
     },
     options: {
+      userRole: {
+        stationManager: 'Station Manager',
+        allowSendWarning: 'Send Notification',
+        sms: 'SMS',
+        email: 'Email'
+      },
       calibration: {
         title: 'Equipment calibration'
       },
       allowSendWarning: {
-        label: 'Allow Send Warning',
+        label: 'Send Notification',
         placeholder: 'Allow Send Warning'
       },
       allowApprove: {
@@ -979,10 +1007,15 @@ export default {
   userManager: {
     breadcrumb: {
       list: 'Users',
+      rule: 'Assign Role',
       create: 'Create',
       edit: 'Edit'
     },
     form: {
+      placeholder: {
+        selectUser: 'Select User',
+        selectRoleGroup: 'Select Role'
+      },
       email: {
         label: 'Email Address',
         placeholder: 'Email Address',
@@ -1183,7 +1216,7 @@ export default {
     title: 'User Profile',
     success: 'Change Information Successfully',
     viewProfile: 'View Profile',
-    configStation: 'Config Station',
+    configStation: 'Configure to Receive Notifications',
     security: 'Security',
     logOut: 'Log Out',
     changePassword: 'Change Password',
@@ -1203,8 +1236,8 @@ export default {
   },
   configStation: {
     name: 'Station Name',
-    breadCrumb: 'Config Station By User',
-    warningStatus: 'Receive Warning',
+    breadCrumb: 'Configure to Receive Notifications',
+    warningStatus: 'Receive Notifications',
     showStation: 'Show Station',
     numericalOrder: 'Numerical Order',
     action: 'Action',
@@ -1262,7 +1295,7 @@ export default {
     message: {
       userUse: 'You are using 2-layer authentication with {{=it.type}}',
       code:
-        'Your verification code has been sent to: {{=it.phone}} (will expire after 10 minutes)',
+        'Your verification code has been sent to: {{=it.phone}} (will expire after {{=it.expired}})',
       info: `Select authentication method when logging in:`
     },
     step1: 'Enter code',
@@ -1341,7 +1374,11 @@ export default {
       error: 'Restore Error'
     },
     search: 'Search',
-    error: 'Something Went Wrong!!!'
+    error: 'Something Went Wrong!!!',
+    warning: 'Warning',
+    refresh: 'Refresh',
+    cancel: 'Cancel',
+    ok: 'Ok'
   },
   success: {
     text: 'Success'
@@ -1429,6 +1466,9 @@ export default {
     configSub: 'Settings',
     config: {
       stationAuto: 'Station',
+      stationAutoConnection: 'Connection configuration',
+      sendNotification: 'Configure to Send Notifications',
+      sampling: 'Sampling configuration',
       parameter: 'Parameter',
       stationType: 'Type of Station',
       site: 'Site',
@@ -1458,7 +1498,28 @@ export default {
     publishShare: 'publish & Sharing',
     configWQI: 'Config WQI, AQI',
     groupStatistic: 'Statistic',
-    mapFixed: 'Map'
+    mapFixed: 'Map',
+    reportSub: 'Report',           
+    report: {
+      type1: 'Original data',
+      type2: '24 hour average',      
+      type3: 'Average maximum of 1 hour',   
+      type4: 'Average maximum of 8 hour',   
+      type5: 'AQI hours / day',    
+      type6: 'AQI average 24h by parameter',     
+      type7: 'AQI day by parameter',     
+      type9: 'Percentage of data',  
+    },
+    reportBreadcrum: {
+      type1: 'Original data',
+      type2: '24 hour average',      
+      type3: 'Average maximum 1 hour of the day',   
+      type4: 'Average maximum 8 hour of the day',   
+      type5: 'AQI hours / day',    
+      type6: 'AQI average 24h by parameter',     
+      type7: 'AQI day by parameter',   
+      type9: 'Percentage of data',
+    }  
   },
   cameraControl: {
     selectStationPlaceholder: 'Input Station Name'
@@ -1555,6 +1616,20 @@ export default {
     },
     camera: {
       lostConnection: "Can't connect with Camera, Please check the connection!"
+    },
+    qaqc: {
+      lostConnection: "Unable to connect to the QAQC service, please contact the administrator!"
+    }
+  },
+  serverResponse: {
+    error: {
+      VersionError: "Data has been updated by other users, please refresh!"
+    }
+  },
+  confirm: {
+    msg: {
+      restore: 'Do you want to restore this item?',
+      delete: 'Do you want to delete this item?'
     }
   }
 }

@@ -44,6 +44,7 @@ export default class SelectProvice extends PureComponent {
   render() {
     return (
       <Select
+        style={{ width: '100%' }} 
         showSearch
         {...this.props}
         onChange={this.onChange}

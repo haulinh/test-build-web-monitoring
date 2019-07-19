@@ -2,11 +2,12 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 // import Icon from 'themes/markerIcon'
-import { Menu, Dropdown, Icon, Tabs } from 'antd'
-import LinkA from 'components/elements/link-a'
+import { Icon, Tabs } from 'antd'
+import { connectAutoDispatch } from 'redux/connect'
+import { getStationAuto } from 'redux/actions/map'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import { SHAPE, COLOR_STATUS } from 'themes/color'
+import { SHAPE, COLOR_STATUS, COLOR_DEVICE_STATUS } from 'themes/color'
 import Clearfix from 'components/elements/clearfix'
 import Viewmore from './info-window-viewmore'
 import { translate } from 'hoc/create-lang'
@@ -17,23 +18,27 @@ import Marker from '../utils/marker-with-label-animate'
 import { Table } from 'react-bootstrap'
 // import DateFormat from 'dateformat'
 import { colorLevels, warningLevels } from 'constants/warningLevels'
-import stStatus, { STATUS_OPTIONS } from 'constants/stationStatus'
-import moment from 'moment'
+import { STATUS_STATION } from 'constants/stationStatus'
+import moment from 'moment-timezone'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-import { get, isEmpty, map, isEqual, round } from 'lodash'
+import { isEmpty, map, get as _get } from 'lodash'
+import { getFormatNumber } from 'constants/format-number';
 
-const MIN_WIDTH_INFO = 150
 const TabPane = Tabs.TabPane
 
 const InfoTitle = styled.div`
-  color: #37b44c;
+  color: ${props => (props.color ? props.color : '#37b44c')};
   font-size: 14px;
   font-weight: 600;
 `
+const Label = styled.span`
+  font-size: inherit;
+  font-weight: bold;
+`
 
 const WrapperInfoWindow = styled.div`
-  min-width: ${MIN_WIDTH_INFO}px;
   position: relative;
+  max-height: 335px;
   display: flex;
   flex-direction: column;
 `
@@ -48,15 +53,37 @@ const MHeader = styled.div`
   display: flex;
   flex-direction: column;
 `
-const MRow = props => (
-  <div>
-    <span style={{ color: props.isLoss ? 'orange' : 'inherit' }}>
-      {props.title}
+const MRow = props => {
+  //mất kết nối
+  if (props.isLoss) {
+    return null
+  }
+  return (
+    <div>
+      <Label>{props.title}</Label>
       {props.value}
-    </span>
-  </div>
-)
+      {/* <span style={{ color: props.isLoss ? 'orange' : 'inherit' }}>
+          {props.value}
+        </span> */}
+    </div>
+  )
+}
 
+const Dot = styled.div`
+  height: 20px;
+  width: 20px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+`
+@connectAutoDispatch(
+  state => ({
+    focusStationKey: _get(state,'map.stationAuto.key','')
+  }),
+  {
+    getStationAuto
+  }
+)
 @autobind
 export default class MarkerStation extends PureComponent {
   static propTypes = {
@@ -76,25 +103,15 @@ export default class MarkerStation extends PureComponent {
     image: PropTypes.object
   }
   state = {
-    isOpen: false,
     tableData: ''
   }
 
   toggleOpen() {
-    this.setState({ isOpen: !this.state.isOpen })
-  }
-
-  closeToggle() {
-    this.setState({
-      isOpen: false
-    })
-  }
-
-  openToggle() {
-    if (!this.state.isOpen)
-      this.setState({
-        isOpen: true
-      })
+    const stationSelected ={
+      key: this.props.stationKey,
+      name: this.props.name
+    }
+    this.props.getStationAuto(stationSelected)
   }
 
   getTextWidth(text, font) {
@@ -114,40 +131,77 @@ export default class MarkerStation extends PureComponent {
     })
   }
 
+  getColorLevel(warningLevel) {
+
+    if (
+      this.props.stationStatus &&
+      this.props.stationStatus === STATUS_STATION.HIGHTGEST
+    )
+      return COLOR_STATUS[STATUS_STATION.HIGHTGEST]
+
+    if (warningLevel && colorLevels[warningLevel])
+      return COLOR_STATUS[warningLevel]
+    return COLOR_STATUS.GOOD
+  }
+
   renderTableData() {
     if (!this.props.lastLog || !this.props.lastLog.measuringLogs) return ''
     let lastLog = this.props.lastLog
+
     let measuringList = map(this.props.measuringList, ({ name, key, unit }, index) => {
+      const statusDevice = _get(lastLog.measuringLogs[key], 'statusDevice', null)
+      const warningLevel = _get(lastLog.measuringLogs[key], 'warningLevel', null)
+
+      let colorDeviceStatus = COLOR_DEVICE_STATUS[statusDevice]
+      // console.log("--------")
+      // console.log(lastLog.measuringLogs[key],this.props.statusStation, 'this.props.statusStation')
+      // Nếu trạm mất kết nối thì các sensor cũng mất kêt nối theo
+      if (this.props.stationStatus && this.props.stationStatus === STATUS_STATION.HIGHTGEST) {
+        colorDeviceStatus = COLOR_STATUS[STATUS_STATION.HIGHTGEST]
+      }
+      // console.log( this.props, 'statusDevice')
+
+      const value = _get(lastLog, ['measuringLogs', key, 'value'], '')
+      // console.log(value, "value")
       return (
         <tr key={`${index + 1}`}>
-          <td>{index + 1}</td>
-          <td>{name}</td>
+          <td >{index + 1}</td>
+          <td >{name}</td>
           <td
             style={{
-              color: get(colorLevels, [lastLog.measuringLogs[key], 'warningLevel'], colorLevels.DEFAULT),
+              color: this.getColorLevel(warningLevel),
+              fontWeight: '600',
               textAlign: 'right'
             }}
           >
-            {round(get(lastLog, ['measuringLogs', key, 'value'], ''), 2)
-            // lastLog.measuringLogs[item.key]
-            // ? lastLog.measuringLogs[item.key].value
-            // : ''
-            }
+            {typeof value === 'number' ?  getFormatNumber(value) : ''}
           </td>
-          <td>{unit}</td>
+          <td >{unit}</td>
+          <td
+            style={{
+              textAlign: 'center',
+              padding: '0px',
+              'verticalAlign': 'middle'
+
+            }}
+            
+          >
+            <Dot
+              style={{
+                backgroundColor: colorDeviceStatus
+              }}
+            />
+          </td>
         </tr>
       )
     })
+
     return (
       <div>
         <MHeader>
-          <MRow title={`${translate('map.marker.status')}: `} value={`${translate(`map.marker.${isEqual(this.props.stationStatus, stStatus.DATA_LOSS) ? 'dataLoss' : 'transmitting'}`)}`} />
-          <MRow
-            isLoss={isEqual(this.props.stationStatus, stStatus.DATA_LOSS)}
-            title={`${translate('map.marker.time')}: `}
-            value={moment(this.props.lastLog.receivedAt, 'YYYY-MM-DD hh:mm').format(DD_MM_YYYY_HH_MM)}
-          />
-          <MRow title={`${translate('map.marker.result')}: `} value="" />
+          <MRow title={`${translate('map.marker.time')}: `} value={moment(this.props.lastLog.receivedAt).format(DD_MM_YYYY_HH_MM)} />
+          <Clearfix height={8} />
+          <InfoTitle color={'rgba(0, 0, 0, 0.65)'}>{translate('map.marker.result')}:</InfoTitle>
         </MHeader>
 
         <Clearfix height={8} />
@@ -158,6 +212,7 @@ export default class MarkerStation extends PureComponent {
               <th>{translate('map.dataTable.measuring')}</th>
               <th>{translate('map.dataTable.value')}</th>
               <th>{translate('map.dataTable.unit')}</th>
+              <th>{translate('map.dataTable.statusSensor')}</th>
             </tr>
           </thead>
           <tbody>{measuringList}</tbody>
@@ -165,7 +220,6 @@ export default class MarkerStation extends PureComponent {
       </div>
     )
   }
-
 
   // getColorLevel(status, isStationStatus = false) {
   //   if (isStationStatus && STATUS_OPTIONS[status]) return STATUS_OPTIONS[status].color
@@ -196,10 +250,10 @@ export default class MarkerStation extends PureComponent {
 
   renderStationStatus(status) {
     switch (status) {
-      case stStatus.DATA_LOSS:
+      case STATUS_STATION.DATA_LOSS:
         return translate('map.marker.dataLoss')
         break
-      case stStatus.NOT_USE:
+      case STATUS_STATION.NOT_USE:
         return translate('map.marker.notUse')
         break
       default:
@@ -208,7 +262,7 @@ export default class MarkerStation extends PureComponent {
     }
   }
   renderTabInfoWindow = (html, imageData) => {
-    const url = get(imageData, 'url')
+    const url = _get(imageData, 'url')
     const views = isEmpty(url) ? (
       html
     ) : (
@@ -268,7 +322,11 @@ export default class MarkerStation extends PureComponent {
           onClick={this.toggleOpen}
           position={this.props.mapLocation}
           labelProps={{
-            labelContent: this.props.name ? (this.props.stationStatus === stStatus.GOOD ? this.props.name : this.props.name + '<br/>' + this.renderStationStatus(this.props.stationStatus)) : 'label',
+            labelContent: this.props.name
+              ? this.props.stationStatus === STATUS_STATION.GOOD
+                ? this.props.name
+                : this.props.name + '<br/>' + this.renderStationStatus(this.props.stationStatus)
+              : 'label',
             labelAnchor: new google.maps.Point(this.getTextWidth(this.props.name ? this.props.name : 'label') / 2, -1),
             labelStyle: {
               color: 'white',
@@ -284,16 +342,12 @@ export default class MarkerStation extends PureComponent {
           }}
         >
           <div>
-            {this.state.isOpen && this.props.name && this.props.name != '' && (
+            {this.props.stationKey === this.props.focusStationKey && this.props.name && this.props.name != '' && (
               <InfoWindow
-                ref={info => {
-                  if (!info && this.state.isOpen) this.setState({ isOpen: false })
-                }}
                 options={{
                   //disableAutoPan: true,
-                  maxWidth: 300
+                  maxWidth: 450,
                 }}
-                onCloseClick={this.toggleOpen.bind(this)}
               >
                 <WrapperInfoWindow>
                   <Viewmore
@@ -307,15 +361,16 @@ export default class MarkerStation extends PureComponent {
                   <InfoTitle>{this.props.name}</InfoTitle>
                   <Clearfix height={8} />
                   <div>
-                    {translate('map.dataTable.longitude')}: {this.props.mapLocation.lng} - {translate('map.dataTable.latitude')}: {this.props.mapLocation.lat}
+                    <Label>{translate('map.dataTable.longitude')}: </Label>
+                    {`${this.props.mapLocation.lng} - `}
+                    <Label>{translate('map.dataTable.latitude')}: </Label>
+                    {`${this.props.mapLocation.lat}`}
                   </div>
                   <Clearfix height={8} />
-                  {this.props.address && (
-                    <div>
-                      {' '}
-                      {translate('map.dataTable.address')}: {this.props.address}
-                    </div>
-                  )}
+                  <div>
+                    <Label>{translate('map.dataTable.address')}: </Label>
+                    {_get(this.props, 'address', '')}
+                  </div>
                   <Clearfix height={8} />
                   {/* {this.props.lastLog && this.state.tableData} */}
                   {this.renderTabInfoWindow(this.props.lastLog && this.state.tableData, this.props.image)}

@@ -1,13 +1,6 @@
 import { COLOR_STATUS } from 'themes/color'
 import { warningLevels } from 'constants/warningLevels'
 
-export default {
-  GOOD: 'GOOD',
-  CONNECTED: 'CONNECTED',
-  DATA_LOSS: 'DATA_LOSS',
-  NOT_USE: 'NOT_USE'
-}
-
 export const STATUS_OPTIONS = {
   GOOD: { title: 'warningLevels.good', color: COLOR_STATUS.GOOD },
   DATA_LOSS: { title: 'warningLevels.lossData', color: COLOR_STATUS.DATA_LOSS },

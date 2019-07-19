@@ -11,7 +11,7 @@ import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
 import { connect } from 'react-redux'
 // import StationControl from 'api/SamplingApi'
-import stationStatus, { STATUS_STATION } from 'constants/stationStatus'
+import  { STATUS_STATION } from 'constants/stationStatus'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { isEmpty } from 'lodash'
 // import { action } from 'shared/breadcrumb'
@@ -73,7 +73,7 @@ const WrapperNameStationTypeName = styled.div`
 
 const ReceivedAt = styled.span`
   color: ${props => (props.status !== 'GOOD' ? SHAPE.RED : '#000')};
-  font-style: ${props => (props.status === stationStatus.DATA_LOSS ? 'italic' : 'normal')};
+  font-style: ${props => (props.status === STATUS_STATION.DATA_LOSS ? 'italic' : 'normal')};
 `
 const ActionWrapper = styled.div`
   display: flex;
@@ -170,7 +170,7 @@ export default class StationAutoHead extends React.PureComponent {
   toReceivedAt = (status, receivedAt) => {
     // MARK  thay đổi logic, k0 cần thông báo mat ket noi
     // const statusStr =
-    //   status === stationStatus.DATA_LOSS ? translate('monitoring.lossAt') : ''
+    //   status === STATUS_STATION.DATA_LOSS ? translate('monitoring.lossAt') : ''
 
     const statusStr = ''
     const receivedAtStr = receivedAt ? moment(receivedAt).format(DD_MM_YYYY_HH_MM) : ''
@@ -228,7 +228,7 @@ export default class StationAutoHead extends React.PureComponent {
             </WrapperNameStationTypeName>
           ) : (
             <StationName>
-              {name} {status === stationStatus.NOT_USE && ' - ' + i18n.notInUse}
+              {name} {status === STATUS_STATION.NOT_USE && ' - ' + i18n.notInUse}
             </StationName>
           )}
           <Clearfix width={8} />

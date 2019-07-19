@@ -3,7 +3,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 // import { SHAPE } from 'themes/color'
 import { translate as t } from 'hoc/create-lang'
-import stationStatus, { STATUS_OPTIONS } from 'constants/stationStatus'
+import  { STATUS_STATION , STATUS_OPTIONS } from 'constants/stationStatus'
 import { Row, Item, BoxNumberView } from './style'
 import PropTypes from 'prop-types'
 
@@ -21,9 +21,9 @@ export default class BoxAnalyticList extends React.PureComponent {
     connected: -1,
     stationsAutoList: [],
     focusStatus: [
-      stationStatus.DATA_LOSS,
-      stationStatus.NOT_USE,
-      stationStatus.CONNECTED
+      STATUS_STATION.DATA_LOSS,
+      STATUS_STATION.NOT_USE,
+      STATUS_STATION.GOOD
     ]
   }
 
@@ -47,9 +47,9 @@ export default class BoxAnalyticList extends React.PureComponent {
       connected: 0
     }
     stationsAutoList.forEach(element => {
-      if (element.status === stationStatus.DATA_LOSS) {
+      if (element.status === STATUS_STATION.DATA_LOSS) {
         res.dataLoss++
-      } else if (element.status === stationStatus.NOT_USE) {
+      } else if (element.status === STATUS_STATION.NOT_USE) {
         res.notUse++
       } else res.connected++
     })
@@ -83,27 +83,27 @@ export default class BoxAnalyticList extends React.PureComponent {
         <Row>
           <Item
             onClick={() => {
-              this.handelFocusStatus(stationStatus.DATA_LOSS)
+              this.handelFocusStatus(STATUS_STATION.DATA_LOSS)
             }}
           >
             <BoxNumberView
               color={STATUS_OPTIONS['DATA_LOSS'].color}
               type={t(STATUS_OPTIONS['DATA_LOSS'].title)}
               number={this.state.dataLoss}
-              focusStatus={stationStatus.DATA_LOSS}
+              focusStatus={STATUS_STATION.DATA_LOSS}
               focusParam={this.state.focusStatus}
             />
           </Item>
           <Item
             onClick={() => {
-              this.handelFocusStatus(stationStatus.CONNECTED)
+              this.handelFocusStatus(STATUS_STATION.GOOD)
             }}
           >
             <BoxNumberView
               color={STATUS_OPTIONS['GOOD'].color}
               type={t(STATUS_OPTIONS['GOOD'].title)}
               number={this.state.connected}
-              focusStatus={stationStatus.CONNECTED}
+              focusStatus={STATUS_STATION.GOOD}
               focusParam={this.state.focusStatus}
             />
           </Item>

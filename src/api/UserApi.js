@@ -10,8 +10,8 @@ function getTrialRegisterUrl(prefix = '') {
 }
 
 export function searchUser(
-  { page = 1, itemPerPage = 10 },
-  { userName, email, firstName, lastName, organization, phone }
+  { page = 1, itemPerPage = 1000 } = {},
+  { userName, email, firstName, lastName, organization, phone } = {}
 ) {
   var urlSearch = getUserUrl(
     `organization/?page=${page}&itemPerPage=${itemPerPage}`
@@ -56,6 +56,10 @@ export function restoreOne(_id) {
 
 export function updateRole(_id, data = {}) {
   return putFetch(getUserUrl(`organization/role/${_id}`), data)
+}
+
+export function updateRole_v1(_id, data = {}) {
+  return putFetch(getUserUrl(`organization/v1/role/${_id}`), data)
 }
 
 export function accountActivate(code) {

@@ -59,7 +59,7 @@ export default class SecurityFormConfirm extends PureComponent {
             {getFieldDecorator('password', {
               initialValue: '',
             })(
-              <Input size="large" placeholder={i18n.enterYourPwd} autoComplete="off"/>
+              <Input.Password size="large" placeholder={i18n.enterYourPwd} autoComplete="off"/>
             )}
             </FormItem>
           </Col>

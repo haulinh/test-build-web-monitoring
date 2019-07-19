@@ -1,4 +1,11 @@
 export default {
+  unit: {
+    time: {
+      second: 'giây',
+      minute: 'phút',
+      hour: 'giờ'
+    }
+  },
   chart: {
     all: 'Tất cả',
     time: 'Thời gian',
@@ -157,7 +164,6 @@ export default {
     publish: 'Cho phép công bố',
     title: `QA/QC`,
     removeData: 'Dữ liệu đã loại bỏ',
-    originalData: 'Dữ liệu gốc',
     approveData: 'Kiểm duyệt dữ liệu',
     config: 'Cấu hình',
     removeDataBy: 'Chỉ kiểm duyệt dữ liệu khác điều kiện sau:',
@@ -165,10 +171,11 @@ export default {
     manualApprove: 'Kiểm duyệt tùy chọn',
     dataFilter: {
       label: 'Lọc dữ liệu theo',
-      negative: 'Số âm',
-      outOfRange: 'Ngoài vùng đo',
-      isZero: ' Bằng 0',
-      deviceStatus: 'Trạng thái thiết bị'
+      outOfRange: 'Ngoài dải đo',
+      deviceError: 'Thiết bị lỗi',
+      deviceCalibration: "Thiết bị hiệu chuẩn",
+      zero: 'Giá trị 0',
+      negative: "Giá trị Âm"
     },
     data: 'Loại dữ liệu',
     approve: 'Kiểm duyệt',
@@ -178,7 +185,9 @@ export default {
     allCancel: 'Hủy bỏ tất cả',
     unApprove: 'Hủy kiểm duyệt',
     yetApprove: 'Chưa kiểm duyệt',
-    approved: 'Đã kiểm duyệt',
+    originalData: 'Dữ liệu gốc',
+    validData: 'Dữ liệu hợp lệ',
+    inValidData: 'Dữ liệu không hợp lệ',
     ok: 'Đồng ý',
     province: {
       label: 'Đơn vị quản lý',
@@ -268,6 +277,7 @@ export default {
       measuring: 'Thông số',
       value: 'Giá trị',
       unit: 'Đơn vị',
+      statusSensor: 'Trạng thái thiết bị',
       dataLossAt: 'Mất kết nối lúc:',
       dataReceived: 'Dữ liệu lúc:',
       longitude: 'Kinh độ',
@@ -676,7 +686,20 @@ export default {
       restore: 'Khôi phục',
       remove: 'Loại bỏ',
       action: ' ',
-      createdAt: 'Tạo lúc'
+      createdAt: 'Tạo lúc',
+      config: {
+        title: 'Cấu hình kết nối',
+      },
+      notification: {
+        title: 'Cấu hình gửi cảnh báo'
+      },
+      sampling: {
+        title: 'Cấu hình lấy mẫu'
+      },
+      actions: {
+        ftpFolder: 'FTP Folder' /* MARK  @translate */,
+        fileMapping: 'File Mapping' /* MARK  @translate */,
+      }
     },
     create: {
       label: 'Tạo mới',
@@ -712,8 +735,8 @@ export default {
       },
       stationType: {
         label: 'Loại trạm',
-        placeholder: 'Nhập loại trạm',
-        error: 'Vui lòng nhập loại trạm'
+        placeholder: 'Chọn loại trạm',
+        error: 'Vui lòng chọn loại trạm'
       },
       address: {
         label: 'Địa chỉ',
@@ -857,6 +880,12 @@ export default {
       errorLoadFile: 'Tải tệp từ đường đường dẫn không thành công'
     },
     options: {
+      userRole: {
+        stationManager: 'Quản lý trạm',
+        allowSendWarning: 'Gửi cảnh báo',
+        sms: 'SMS',
+        email: 'Email'
+      },
       calibration: {
         title: 'Hiệu chuẩn thiết bị'
       },
@@ -901,7 +930,7 @@ export default {
         sunday: 'Mọi chủ nhật'
       },
       allowSampling: {
-        label: 'Lấy mẫu',
+        label: 'Cho phép lấy mẫu',
         placeholder: 'Lấy mẫu'
       },
       apiAddress: {
@@ -977,10 +1006,15 @@ export default {
   userManager: {
     breadcrumb: {
       list: 'Danh sách người dùng',
+      rule: 'Ủy quyền',
       create: 'Tạo mới',
       edit: 'Chỉnh sửa'
     },
     form: {
+      placeholder: {
+        selectUser: 'Chọn user',
+        selectRoleGroup: 'Chọn nhóm quyền'
+      },
       email: {
         label: 'Địa chỉ Email',
         placeholder: 'Địa chỉ Email',
@@ -1201,7 +1235,7 @@ export default {
   },
   configStation: {
     name: 'Tên trạm',
-    breadCrumb: 'Cấu hình trạm theo tài khoản',
+    breadCrumb: 'Cấu hình nhận cảnh báo',
     warningStatus: 'Nhận cảnh báo',
     showStation: 'Hiển thị trạm',
     numericalOrder: 'Số thứ tự',
@@ -1259,7 +1293,7 @@ export default {
     message: {
       userUse: 'Bạn đang sử dụng tính năng bảo mật 2 lớp qua {{=it.type}}',
       code:
-        'Mã xác thực đã được gửi tới: {{=it.phone}} (sẽ hết hạn sau 10 phút)',
+        'Mã xác thực đã được gửi tới: {{=it.phone}} (sẽ hết hạn sau {{=it.expired}})',
       info: `Lựa chọn phương thức xác thực khi đăng nhập:`
     },
     step1: 'Nhập code',
@@ -1338,7 +1372,11 @@ export default {
       error: 'Khôi phục thất bại'
     },
     search: 'Tìm kiếm',
-    error: 'Đã xảy ra sự cố!!!'
+    error: 'Đã xảy ra sự cố!!!',
+    warning: 'Chú ý',
+    refresh: 'Làm mới',
+    cancel: 'Hủy',
+    ok: 'Đồng ý'
   },
   success: {
     text: 'Thành công'
@@ -1425,6 +1463,9 @@ export default {
     configSub: 'Cấu hình',
     config: {
       stationAuto: 'Trạm quan trắc',
+      stationAutoConnection: 'Cấu hình kết nối',
+      sendNotification: 'Cấu hình gửi cảnh báo',
+      sampling: 'Cấu hình lấy mẫu',
       parameter: 'Chỉ tiêu quan trắc',
       stationType: 'Loại trạm',
       site: 'Đơn vị quản lý',
@@ -1454,7 +1495,29 @@ export default {
     publishShare: 'Công bố và Chia sẻ',
     configWQI: 'Cấu hình WQI, AQI',
     groupStatistic: 'Thống kê',
-    mapFixed: 'Bản đồ'
+    mapFixed: 'Bản đồ',
+    
+    reportSub: 'Báo cáo',
+    report: {
+      type1: 'Tỷ lệ dữ liệu',
+      type2: 'TB 24 giờ',
+      type3: 'TB 1 giờ Max',
+      type4: 'TB 8 giờ Max',
+      type5: 'AQI các giờ/ngày',
+      type6: 'AQI TB 24h theo thông số',
+      type7: 'AQI ngày theo thông số',
+      type9: 'Trung bình ngày',
+    },
+    reportBreadcrum: {
+      type1: 'Tỷ lệ dữ liệu',
+      type2: 'Trung bình 24 giờ',
+      type3: 'Trung bình 1 giờ lớn nhất trong ngày',
+      type4: 'Trung bình 8 giờ lớn nhất trong ngày',
+      type5: 'AQI các giờ/ngày',
+      type6: 'AQI trung bình 24h theo thông số',
+      type7: 'AQI ngày theo thông số',
+      type9: 'Trung bình ngày',
+    }
   },
   cameraControl: {
     selectStationPlaceholder: 'Nhập tên trạm'
@@ -1552,6 +1615,20 @@ export default {
     },
     camera: {
       lostConnection: "Không kết nối được với Camera, vui lòng kiểm tra lại!"
+    },
+    qaqc: {
+      lostConnection: "Không kết nối được với dịch vụ QAQC, vui lòng liên hệ quản trị viên!"
+    }
+  },
+  serverResponse: {
+    error: {
+      VersionError: "Dữ liệu đã được cập nhật bởi người dùng khác, hãy làm mới lại!"
+    }
+  },
+  confirm: {
+    msg: {
+      restore: 'Bạn có muốn khôi phục mục này không?',
+      delete: 'Bạn có muốn xóa mục này không?'
     }
   }
 }

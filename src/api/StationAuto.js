@@ -6,7 +6,7 @@ function getStationAutoUrl(prefix = '') {
 }
 
 export function getStationAutos(
-  { page = 1, itemPerPage = 10 },
+  { page = 1, itemPerPage = 1000 } = {},
   { address, stationType, name } = {}
 ) {
   var url = getStationAutoUrl(`?page=${page}&itemPerPage=${itemPerPage}`)
@@ -67,8 +67,16 @@ export function getLastLog() {
   return getFetch(getStationAutoUrl('last-log'))
 }
 
+/* TODO  xem xet bỏ do không dùng đến nữa
+  trước đây:  mỗi lần update 1 trạm nên cần key
+  bây giờ:    update 1 lúc nhiều trạm nên dùng `updateStationAutoConfigs` ở dưới
+*/
 export function updateStationAutoConfig(key, data = {}) {
   return putFetch(getStationAutoUrl(`config-logger/${key}`), data)
+}
+
+export function updateStationAutoOptions(data) {
+  return putFetch(getStationAutoUrl('options'), data)
 }
 
 export function getCamera() {
@@ -94,5 +102,6 @@ export default {
   stationPublished,
   transferFtp,
   measurePublished,
-  getWarningConfig
+  getWarningConfig,
+  updateStationAutoOptions
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Button, Icon, Menu, Dropdown, Input, Modal, message } from 'antd'
+import {Icon, Menu, Dropdown, Input, Modal, message } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
@@ -25,6 +25,13 @@ import moment from 'moment/moment'
 import authApi from 'api/AuthApi'
 import { connect } from 'react-redux'
 import { get as _get } from 'lodash'
+
+const i18n = {
+  cancelText: translate('addon.cancel'),
+  okText: translate('addon.ok'),
+  restoreConfirmMsg: translate('confirm.msg.restore'),
+  deleteConfirmMsg: translate('confirm.msg.delete')
+}
 
 const AccountWapper = styled.div`
   display: flex;
@@ -127,35 +134,6 @@ export default class UserList extends React.Component {
     
   }
 
-  buttonAdd() {
-    const {
-      lang: { t }
-    } = this.props
-    return (
-      <div>
-        {protectRole(ROLE.USER.CREATE)(
-          <Link to={slug.user.create}>
-            <Button type="primary">
-              <Icon type="plus" />
-              {t('addon.create')}
-            </Button>
-          </Link>
-        )}
-      </div>
-    )
-  }
-
-  renderSearchForm() {
-    return (
-      <UserSearchForm
-        onChangeSearch={query => {
-          this.props.onChangeSearch(query)
-        }}
-        initialValues={this.props.data}
-      />
-    )
-  }
-
   actionGroup(row) {
     const {
       lang: { t }
@@ -227,14 +205,6 @@ export default class UserList extends React.Component {
               <IconButton type="delete" color={'red'} />
               {t('addon.delete')}
             </a>
-          </Menu.Item>
-        )}
-        {protectRole(ROLE.USER.ROLE)(
-          <Menu.Item key="2">
-            <Link to={slug.user.ruleWithKey + '/' + row._id}>
-              <IconButton type="usergroup-add" />
-              {t('userManager.list.roleAssign')}
-            </Link>
           </Menu.Item>
         )}
         {protectRole(ROLE.USER.ENABLE_ACCOUNT)(
@@ -421,7 +391,9 @@ export default class UserList extends React.Component {
       message.warning(t('addon.onDelete.warning'))
     } else {
       Modal.confirm({
-        title: 'Do you want to delete these items?',
+        title: i18n.deleteConfirmMsg,
+        okText: i18n.okText,
+        cancelText: i18n.cancelText,
         onOk() {
           return new Promise(async (resolve, reject) => {
             const res = await UserApi.deleteOne(_id)
@@ -442,7 +414,9 @@ export default class UserList extends React.Component {
       lang: { t }
     } = this.props
     Modal.confirm({
-      title: 'Do you want to restore these items?',
+      title: i18n.restoreConfirmMsg,
+      okText: i18n.okText,
+      cancelText: i18n.cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
           const res = await UserApi.restoreOne(_id)
@@ -459,8 +433,16 @@ export default class UserList extends React.Component {
 
   render() {
     return (
-      <PageContainer center={this.renderSearchForm()} right={this.buttonAdd()}>
+      <PageContainer>
         <Breadcrumb items={['list']} />
+
+        <UserSearchForm
+          onChangeSearch={query => {
+            this.props.onChangeSearch(query)
+          }}
+          initialValues={this.props.data}
+        />
+
         {this.props.dataSource && (
           <DynamicTable
             loading={this.props.isLoading}

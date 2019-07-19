@@ -5,8 +5,9 @@ import StationAutoApi from 'api/StationAuto'
 import MapView from './map-view'
 import { resolveMapLocation } from 'utils/resolveMapLocation'
 import BoxHideLayout from 'components/map/box-hide-layout'
-import stationStatus from 'constants/stationStatus'
-// import { warningLevelsNumber, warningLevels } from 'constants/warningLevels'
+import { STATUS_STATION } from 'constants/stationStatus'
+import { connectAutoDispatch } from 'redux/connect'
+import { getStationAuto } from 'redux/actions/map'
 import searchSidebarType from 'constants/searchSidebarType'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
@@ -14,6 +15,7 @@ import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import connectWindowHeight from '../hoc-window-height'
 import SidebarNormal from './sidebar/SidebarNormal'
 import { getStatusItem } from 'constants/stationStatus'
+import { pick as _pick } from 'lodash'
 
 // import SidebarNotifications from './sidebar/SidebarNotifications.remove'
 // import { TYPE } from './components/box-analytic-list/SelectType'
@@ -50,6 +52,14 @@ const RightWrapper = styled.div`
 @queryFormDataBrowser([])
 @protectRole(ROLE.MAP.VIEW)
 @connectWindowHeight
+@connectAutoDispatch(
+  state => ({
+    lang: state.language.locale
+  }),
+  {
+    getStationAuto
+  }
+)
 @autobind
 export default class MapDefault extends React.PureComponent {
   state = {
@@ -74,20 +84,9 @@ export default class MapDefault extends React.PureComponent {
   handleSelectStation(stationSelected) {
     const defaultZoom = 12
     let updateState = { stationSelected }
-    if (this.state.map && this.state.map.getZoom() !== defaultZoom)
-      updateState.zoom = defaultZoom
-    updateState.timeUpdate = new Date()
+    if (this.state.map && this.state.map.getZoom() !== defaultZoom) updateState.zoom = defaultZoom
     this.setState(updateState, () => {
-      if (this.state.map) {
-        const panToMap = {
-          lat: parseFloat(stationSelected.mapLocation.lat),
-          lng: parseFloat(stationSelected.mapLocation.lng)
-        }
-        // console.log(panToMap)
-        this.state.map.panTo(panToMap)
-      }
-      //this.mapView.closeInfoMarker()
-      this.mapView.openInfoMarkerByKey(stationSelected.key)
+      this.props.getStationAuto(_pick( stationSelected, ['_id', 'key','name']))
     })
   }
 
@@ -137,9 +136,7 @@ export default class MapDefault extends React.PureComponent {
   }
 
   handleClickNotification(nf) {
-    const stationAuto = this.state.stationsAuto.find(
-      s => s.key === nf.stationKey
-    )
+    const stationAuto = this.state.stationsAuto.find(s => s.key === nf.stationKey)
     if (stationAuto) {
       this.handleSelectStation(stationAuto)
     }
@@ -152,17 +149,17 @@ export default class MapDefault extends React.PureComponent {
       element.visible = false
       let status
 
-      if (element.statusAnalytic === stationStatus.GOOD) {
-        status = stationStatus.CONNECTED
+      if (element.statusAnalytic === STATUS_STATION.GOOD) {
+        status = STATUS_STATION.GOOD
       }
 
       if (findBy === 'byStationStatus') {
         element.byStationStatus = true
-        if (element.status === stationStatus.DATA_LOSS) {
-          status = stationStatus.DATA_LOSS
+        if (element.status === STATUS_STATION.DATA_LOSS) {
+          status = STATUS_STATION.DATA_LOSS
         }
-        if (element.status === stationStatus.NOT_USE) {
-          status = stationStatus.NOT_USE
+        if (element.status === STATUS_STATION.NOT_USE) {
+          status = STATUS_STATION.NOT_USE
         }
       }
 
@@ -219,13 +216,11 @@ export default class MapDefault extends React.PureComponent {
             center={this.state.center}
             getMap={map => this.setState({ map })}
             zoom={this.state.zoom}
+            lang={this.props.lang}
             stationsAutoList={this.state.stationsAuto}
           />
         </MapCenter>
-        <BoxHideLayout
-          isRight={true}
-          handelOnLick={this.handelOnLickHideRightLayout}
-        />
+        <BoxHideLayout isRight={true} handelOnLick={this.handelOnLickHideRightLayout} />
         {this.state.isRight && (
           <ColRight>
             <RightWrapper>{this.renderSidebar()}</RightWrapper>

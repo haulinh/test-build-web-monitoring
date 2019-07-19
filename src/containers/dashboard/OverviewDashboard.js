@@ -17,7 +17,8 @@ import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
 import WarningLevel from 'components/elements/warning-level'
 import ReactFullpage from '@fullpage/react-fullpage'
 
-const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60 // NOTE  every 1min will get last log
+// NOTE  every 1min will get last log
+const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60
 let getLastLogIntervalID = null
 
 const ListLoader = createContentLoader({
@@ -114,7 +115,7 @@ export default class OverviewDashboard extends Component {
       isLoaded: true
     })
 
-    // MARK  lấy last log 1 lần, sau đó cứ mỗi giây lại lấy last log
+    // NOTE  lấy last log 1 lần, sau đó cứ mỗi giây lại lấy last log
     this.getLastLog(province, provinceKey, rows, stationCount)
     if (getLastLogIntervalID) clearInterval(getLastLogIntervalID)
     getLastLogIntervalID = setInterval(() => {
@@ -169,7 +170,7 @@ export default class OverviewDashboard extends Component {
 
     const me = this
     _.forEach(dataLog, function(item) {
-      // MARK  check status trạm truớc
+      // NOTE  check status trạm truớc
       if (
         item.status === STATUS_STATION.HIGHTGEST ||
         item.status === STATUS_STATION.NOT_USE
@@ -178,7 +179,7 @@ export default class OverviewDashboard extends Component {
         return false // break loop lodash
       }
 
-      // MARK  check lastLog
+      // NOTE  check lastLog
       let statusMeasuring = me.timKiemStatusQuaMeasuringLog(
         item.lastLog.measuringLogs
       )
