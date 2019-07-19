@@ -274,13 +274,9 @@ class MenuApp extends React.PureComponent {
           ROLE.FTPTRANSFER.VIEW
         ]) && ShareDataMenu.renderComp(this.props)}
 
-        {/* TODO  Chưa có role nên dùng tạm của Advance, xem lại */}
+        {/* TODO  Chưa có role nên dùng tạm của STATION_AUTO, xem lại */}
         {this.checkRoleForGroup([
-          ROLE.AQI.VIEW,
-          ROLE.AQI_SEARCHDATA.VIEW,
-          ROLE.WQI.VIEW,
-          ROLE.WQI_SEARCHDATA.VIEW,
-          ROLE.CONFIG_WQI.VIEW
+          ROLE.STATION_AUTO.VIEW,
         ]) && ReportMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
