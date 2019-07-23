@@ -1096,9 +1096,9 @@ export default {
     },
     form: {
       name: {
-        label: 'Tên tổ chức',
-        placeholder: 'Nhập tên tổ chức',
-        error: 'Vui lòng nhập tên tổ chức'
+        label: 'Tên nhóm',
+        placeholder: 'Nhập tên nhóm',
+        error: 'Vui lòng nhập tên nhóm'
       },
       description: {
         label: 'Mô tả',
