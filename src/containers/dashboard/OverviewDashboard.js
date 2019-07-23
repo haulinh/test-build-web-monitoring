@@ -16,10 +16,20 @@ import * as _ from 'lodash'
 import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
 import WarningLevel from 'components/elements/warning-level'
 import ReactFullpage from '@fullpage/react-fullpage'
+import styled from 'styled-components'
+
 
 // NOTE  every 1min will get last log
 const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60
+
 let getLastLogIntervalID = null
+
+const HeaderWrapper = styled.div`
+  width: 100% !important;
+  z-index: 100;
+  position: relative;
+  top: -33;
+`
 
 const ListLoader = createContentLoader({
   component: <ListLoaderCp />,
@@ -226,8 +236,7 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
-        <Affix style={{ height: 200, position: "relative", top: -33,zIndex: 100 }} offsetTop={0}>
-          <div style={{ background: '#FBFBFB', height: 15.9 }} />
+        <HeaderWrapper style={{ height: 200}}>
           <div style={{ background: '#FBFBFB' }}>
             <HeaderView
               stationStatus={this.state.stationStatus}
@@ -249,7 +258,7 @@ export default class OverviewDashboard extends Component {
               <WarningLevel />
             </div>
           </div>
-        </Affix>
+        </HeaderWrapper>
 
         <ReactFullpage
           render={({ state, fullpageApi }) => {
