@@ -83,16 +83,6 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.REPORT.VIEW)(
-        <Menu.Item
-          key={slug.report.base}
-          onClick={() => {
-            props.selectMenu(slug.report.base);
-          }}
-        >
-          <Link to={slug.report.base}>{MENU_NAME.monitoring.report}</Link>
-        </Menu.Item>
-      )}
     </Menu.SubMenu>
   )
 }
