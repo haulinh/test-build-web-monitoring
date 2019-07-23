@@ -226,7 +226,7 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
-        <Affix style={{ height: 200 }} offsetTop={1}>
+        <Affix style={{ height: 200, position: "relative", top: -33,zIndex: 100 }} offsetTop={0}>
           <div style={{ background: '#FBFBFB', height: 15.9 }} />
           <div style={{ background: '#FBFBFB' }}>
             <HeaderView
