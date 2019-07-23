@@ -77,7 +77,6 @@ export default class PageContainer extends React.PureComponent {
               top: 0,
               zIndex: 2,
               borderBottom: props.isSticky ? '1px solid #eeeeee' : '',
-              marginBottom: 16
             }}
           >
             <BreadcrumbContainer style={this.props.style}>
@@ -104,7 +103,7 @@ export default class PageContainer extends React.PureComponent {
       <StickyContainer>
         <PageBodyWrapper 
           color={this.props.backgroundColor} 
-          style={{marginTop: 16}}
+          style={{width: '100%'}}
           >
           <style
             type="text/css"
