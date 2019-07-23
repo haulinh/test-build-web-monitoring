@@ -31,8 +31,9 @@ const Header = {
     justify-content: center;
   `,
   Logo: styled.img`
-    height: 116px;
-    width: auto;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 25px;
   `
 }
 
