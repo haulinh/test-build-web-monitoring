@@ -73,6 +73,10 @@ const SAMPLING_TYPE = {
   AUTO: 'AUTO'
 }
 
+const fieldNames = {
+  sampledBottles: "sampledBottles"
+}
+
 function isFormError(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field])
 }
@@ -178,7 +182,16 @@ export default class SamplingMoreInfo extends React.Component {
       return this.takeSample()
         .then(res => {
           if (res.success) {
-            const { status } = res.data.configSampling
+            const { status, sampledBottles } = res.data.configSampling
+            
+            /* tăng số chai đã lấy */
+            if ( status === STATUS_SAMPLING.SAMPLING) {
+              this.props.form.setFieldsValue({
+                [fieldNames.sampledBottles]: sampledBottles
+              })
+            }
+
+            /* update data lên parent component để các component khác biết trạng thái lấy mẫu */
             this.props.updateParentState({
               configSampling: {
                 ...this.props.configSampling,
@@ -285,7 +298,11 @@ export default class SamplingMoreInfo extends React.Component {
               </Col>
               <Col span={11}>
                 <FormItem style={{ width: '100%' }} label={i18n.sampledBottles}>
-                  <InputNumber disabled value={sampledBottles} style={{ width: '100%' }} />
+                  {getFieldDecorator(fieldNames.sampledBottles, {
+                    initialValue: sampledBottles
+                  })(
+                    <InputNumber disabled style={{ width: '100%' }} />
+                  )}
                 </FormItem>
               </Col>
               <Col span={2} style={{ textAlign: 'center' }}>
