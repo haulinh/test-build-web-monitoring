@@ -197,7 +197,6 @@ export default class TableConfig extends React.Component {
     });
     if (countIsChecked > 0 && countIsChecked < Object.keys(dataCompare).length)
       isIndeterminate = true;
-
     if (
       countIsChecked === Object.keys(dataCompare).length &&
       Object.keys(dataCompare).length !== 0
