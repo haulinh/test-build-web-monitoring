@@ -237,7 +237,7 @@ export default class OverviewDashboard extends Component {
         hideTitle
       >
         <HeaderWrapper style={{ height: 200}}>
-          <div style={{ background: '#FBFBFB' }}>
+          <div style={{ background: '#FBFBFB', padding: '16px 0' }}>
             <HeaderView
               stationStatus={this.state.stationStatus}
               onChange={this.handleProvinceChange}

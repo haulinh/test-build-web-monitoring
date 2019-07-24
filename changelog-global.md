@@ -5,3 +5,4 @@
 
 ## v1.1
   - layout lại UX cho các trang: `trạm quan trắc`, `Cấu hình kết nối`, `Cấu hình gởi cảnh báo`, `Cấu hình lấy mẫu`, `Tài khoản > Ủy quyền`
+  - Gởi thông báo (eg: `email`, `sms` ) theo config của từng tổ chức

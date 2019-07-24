@@ -21,7 +21,7 @@ export const Grid = styled.div`
   margin-left: auto;
   margin-right: auto;
   height: 100%;
-  padding: 16px 24px;
+  padding: 0px 24px;
 `
 
 export const GridSticky = styled.div`
@@ -75,7 +75,7 @@ export default class PageContainer extends React.PureComponent {
             style={{
               ...props.style,
               top: 0,
-              zIndex: 2,
+              zIndex: 100,
               borderBottom: props.isSticky ? '1px solid #eeeeee' : '',
             }}
           >
