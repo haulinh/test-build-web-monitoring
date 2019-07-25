@@ -73,34 +73,24 @@ export default class StationAutoEdit extends React.PureComponent {
     let data
     this.props.form.validateFields((err, values) => {
       if (err) return
-      if (this.state.tabActive === 'OPTION') {
-        let dataOptions = this.getDataOptionsForm(values)
-        const rpOptions = _.get(this.state.data, 'options', {})
-        data = {
-          // options: dataOptions,
-          options: { ...rpOptions, ...dataOptions },
-          configLogger: _.get(this.state.data, 'configLogger', {})
-        }
-        this.updateData(data)
+
+      let dataConfig = this.getDataConfigForm(values)
+      const configLogger = _.get(this.state.data, 'configLogger', {})
+
+      data = {
+        options: _.get(this.state.data, 'options', {}),
+        configLogger: _.merge(configLogger, dataConfig)
       }
-      if (this.state.tabActive === 'MEASURE') {
-        let dataConfig = this.getDataConfigForm(values)
-        const configLogger = _.get(this.state.data, 'configLogger', {})
-        data = {
-          options: _.get(this.state.data, 'options', {}),
-          configLogger: _.merge(configLogger, dataConfig)
-        }
-        this.updateData(data)
-      }
+
+      this.updateData(data)
     })
+
     this.setState({
       isSubmitting: false
     })
   }
 
   async updateData(data) {
-    // console.log('data: ', data)
-    // return
     if (data) {
       const key = this.props.match.params.key
       const res = await StationAutoApi.updateStationAutoConfig(key, data)
@@ -115,7 +105,7 @@ export default class StationAutoEdit extends React.PureComponent {
         )
     }
   }
-  //Su kien truoc khi component duoc tao ra
+
 
   getDataOptionsForm(values) {
     let data
@@ -163,25 +153,19 @@ export default class StationAutoEdit extends React.PureComponent {
   }
 
   renderSubmitButton = () => {
-    if (
-      this.state.tabActive === 'OPTION' ||
-      this.state.tabActive === 'MEASURE'
-    ) {
-      return (
-        <FormItem>
-          <Button
-            loading={this.state.isSubmitting}
-            style={{ width: '100%' }}
-            type="primary"
-            htmlType="submit"
-            onClick={this.handleSubmit}
-          >
-            {this.props.lang.t('addon.save')}
-          </Button>
-        </FormItem>
-      )
-    }
-    return ` `
+    return (
+      <FormItem>
+        <Button
+          loading={this.state.isSubmitting}
+          style={{ width: '100%' }}
+          type="primary"
+          htmlType="submit"
+          onClick={this.handleSubmit}
+        >
+          {this.props.lang.t('addon.save')}
+        </Button>
+      </FormItem>
+    )
   }
 
   render() {
