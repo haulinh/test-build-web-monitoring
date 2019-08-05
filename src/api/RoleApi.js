@@ -5,7 +5,7 @@ function getUrl(path = '') {
   return getConfigApi().role + '/' + path
 }
 
-export function getRoles({ page = 1, itemPerPage = 2 } = {}) {
+export function getRoles({ page = 1, itemPerPage = Infinity } = {}) {
   return getFetch(getUrl(`?itemPerPage=${itemPerPage}&page=${page}`))
 }
 
