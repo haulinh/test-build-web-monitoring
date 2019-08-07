@@ -6,7 +6,7 @@ import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import SelectStationType from 'components/elements/select-station-type'
 import { translate } from 'hoc/create-lang'
-import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
+import createLanguageHoc from 'hoc/create-lang'
 
 const i18n = {
   addButton: translate('stationAutoManager.create.label'),

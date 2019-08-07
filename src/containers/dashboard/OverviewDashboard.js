@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Spin, Affix } from 'antd'
+import { Spin } from 'antd'
 import createContentLoader from 'hoc/content-loader'
 import ListLoaderCp from 'components/content-loader/list-loader'
 import BoxLoaderCp from 'components/content-loader/box-loader'

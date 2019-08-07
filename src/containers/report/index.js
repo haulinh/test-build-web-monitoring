@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import slug from 'constants/slug'
-import PageInfo from 'components/pageInfo'
+// import PageInfo from 'components/pageInfo'
 import ReportType1 from './type1'
 import ReportType2 from './type2'
 import ReportType3 from './type3'

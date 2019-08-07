@@ -166,7 +166,7 @@ export default class StationTypeList extends React.Component {
   }
 
   async hanldeOnDelete(_id){
-    const { t } = this.props.lang
+    // const { t } = this.props.lang
     const countStation = await  getTotalCount_by_type(_id)
     if(countStation.success){
       if(countStation.count > 0){
