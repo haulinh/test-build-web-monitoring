@@ -70,6 +70,10 @@ export default class StationAutoConfigNotification extends React.Component {
     isLoading: PropTypes.bool,
   }
 
+  static defaultProps = {
+    dataSource: []
+  }
+
   constructor(props) {
     super(props)
 
