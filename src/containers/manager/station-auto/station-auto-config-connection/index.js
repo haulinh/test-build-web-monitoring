@@ -71,6 +71,10 @@ export default class StationAutoConfigConnection extends React.Component {
     lang: langPropTypes
   }
 
+  static defaultProps = {
+    dataSource:  []
+  }
+
   async onDeleteItem(_id, callback) {
     const {
       lang: { t }

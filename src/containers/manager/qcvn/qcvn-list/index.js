@@ -41,6 +41,10 @@ export default class QCVNList extends React.Component {
     lang: langPropTypes
   }
 
+  static defaultProps = {
+    dataSource: []
+  }
+  
   buttonAdd() {
     const { t } = this.props.lang
     return (

@@ -40,6 +40,10 @@ export default class RoleList extends React.Component {
     lang: langPropTypes
   }
 
+  static defaultProps = {
+    dataSource: []
+  }
+
   state = {
     isAdvanced: false
   }
