@@ -474,7 +474,9 @@ export default class StationAutoConfigNotification extends React.Component {
     let isSelectedUser = _.get(this.state.selectedUser, '_id')
     let isSelectedRole = this.state.selectedRole._id
 
-    return !(isHasCache && isSelectedUser && isSelectedRole)
+    const condition1 = isSelectedUser && isSelectedRole
+    const condition2 = isSelectedUser && isSelectedRole && isHasCache
+    return !(condition1 || condition2)
   }
 
   async submitCache() {
