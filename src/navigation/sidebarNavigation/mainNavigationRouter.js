@@ -11,6 +11,10 @@ import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 import { translate } from 'hoc/create-lang'
 
+
+// NOTE  không sử dụng
+
+
 const dashboardMenu = {
   component: (
     <AkNavigationItem
@@ -496,6 +500,17 @@ const reportType9Menu = {
   ) 
 };
 
+// const reportType10Menu = {
+//   component: (
+//     <AkNavigationItem
+//       linkComponent={WrapperLinkComponent}
+//       href={slug.report.type10}
+//       icon={Icon.trayIcon}
+//       text={translate("menuApp.report.type10")}
+//     />
+//   ) 
+// };
+
 export default [
   dashboardMenu,
   monitoringMenu,
@@ -540,4 +555,5 @@ export default [
   reportType7Menu,
   reportType8Menu,
   reportType9Menu,
+  // reportType10Menu,
 ]
