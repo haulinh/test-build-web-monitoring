@@ -767,6 +767,9 @@ export default {
         placeholder: 'Standards VN',
         error: 'Please Choose Type Of Standards VN'
       },
+      tendToExceed: {
+        label: 'Tend To Exceed',
+      },
       province: {
         label: 'Site',
         placeholder: 'Site',

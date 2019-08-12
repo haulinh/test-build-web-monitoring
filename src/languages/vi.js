@@ -767,6 +767,9 @@ export default {
         placeholder: 'QCVN',
         error: 'Vui lòng chọn QCVN'
       },
+      tendToExceed: {
+        label: 'Chuẩn Bị Vượt',
+      },
       province: {
         label: 'Đơn vị quản lý',
         placeholder: 'Đơn vị quản lý',

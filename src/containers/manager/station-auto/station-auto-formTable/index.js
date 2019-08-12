@@ -7,8 +7,22 @@ import AutoCompleteCell from 'components/elements/auto-complete-cell'
 import InputNumberCell from '../../../../components/elements/input-number-cell'
 import update from 'immutability-helper'
 import * as _ from 'lodash'
+import { translate } from 'hoc/create-lang'
 
 const FormItem = Form.Item
+
+const i18n = {
+  sensorRange: translate('stationAutoManager.form.range.label'),
+  sensorRangeMin: translate('stationAutoManager.form.measuringMinRange.label'),
+  sensorRangeMax: translate('stationAutoManager.form.measuringMaxRange.label'),
+  tendToExceed: translate('stationAutoManager.form.tendToExceed.label'),
+  tendToExceedMin: translate('stationAutoManager.form.measuringMinLimit.label'),
+  tendToExceedMax: translate('stationAutoManager.form.measuringMaxLimit.label'),
+  qcvn: translate('stationAutoManager.form.qcvn.label'),
+  qcvnMin: translate('stationAutoManager.form.measuringMinLimit.label'),
+  qcvnMax: translate('stationAutoManager.form.measuringMaxLimit.label'),
+  unit: translate('stationAutoManager.form.measuringUnit.label')
+}
 
 @autobind
 export default class StationAutoFormTable extends React.Component {
@@ -148,6 +162,7 @@ export default class StationAutoFormTable extends React.Component {
       })(<span>{text}</span>)}
     </FormItem>
   )
+  
   renderItemNumberCell = (text, record, index, key, autoFill = false) => {
     if (autoFill) {
       if (!_.isNumber(text) && this.props.allowUpdateStandardsVN) {
@@ -219,18 +234,18 @@ export default class StationAutoFormTable extends React.Component {
         )
       },
       {
-        title: t('stationAutoManager.form.range.label'),
+        title: i18n.sensorRange,
         children: [
           {
             dataIndex: 'minRange',
-            title: t('stationAutoManager.form.measuringMinRange.label'),
+            title: i18n.sensorRangeMin,
             width: 150,
             render: (text, record, index) =>
               this.renderItemNumberCell(text, record, index, 'minRange')
           },
           {
             dataIndex: 'maxRange',
-            title: t('stationAutoManager.form.measuringMaxRange.label'),
+            title: i18n.sensorRangeMax,
             width: 150,
             render: (text, record, index) =>
               this.renderItemNumberCell(text, record, index, 'maxRange')
@@ -238,18 +253,37 @@ export default class StationAutoFormTable extends React.Component {
         ]
       },
       {
-        title: t('stationAutoManager.form.qcvn.label'),
+        title: i18n.tendToExceed,
+        children: [
+          {
+            dataIndex: 'minTend',
+            title: i18n.tendToExceedMin,
+            width: 150,
+            render: (text, record, index) =>
+              this.renderItemNumberCell(text, record, index, 'minTend', true)
+          },
+          {
+            dataIndex: 'maxTend',
+            title: i18n.tendToExceedMax,
+            width: 150,
+            render: (text, record, index) =>
+              this.renderItemNumberCell(text, record, index, 'maxTend', true)
+          }
+        ]
+      },
+      {
+        title: i18n.qcvn,
         children: [
           {
             dataIndex: 'minLimit',
-            title: t('stationAutoManager.form.measuringMinLimit.label'),
+            title: i18n.qcvnMin,
             width: 150,
             render: (text, record, index) =>
               this.renderItemNumberCell(text, record, index, 'minLimit', true)
           },
           {
             dataIndex: 'maxLimit',
-            title: t('stationAutoManager.form.measuringMaxLimit.label'),
+            title: i18n.qcvnMax,
             width: 150,
             render: (text, record, index) =>
               this.renderItemNumberCell(text, record, index, 'maxLimit', true)
@@ -258,7 +292,7 @@ export default class StationAutoFormTable extends React.Component {
       },
       {
         dataIndex: 'unit',
-        title: t('stationAutoManager.form.measuringUnit.label'),
+        title: i18n.unit,
         width: 150,
         render: (text, record, index) => (
           <FormItem style={{ marginBottom: 0 }}>
