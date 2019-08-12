@@ -65,8 +65,9 @@ export default class SearchForm extends React.Component {
             <Button
               type="primary"
               icon="file-excel"
-              style={{ float: "right", margin: "5px" }}
+              style={{ float: "right"}}
               onClick={this.submit}
+              size='small'
               // loading={this.props.isExporting}
             >
               {translate("dataSearchFrom.tab.exportExcel")}
@@ -77,7 +78,7 @@ export default class SearchForm extends React.Component {
           fontSize={14}
           style={{ padding: "8px 16px" }}
         >
-          {this.props.lang.t("addon.search")}
+          {this.props.lang.t("addon.searchSeclect")}
         </Heading>
         <div style={{ padding: "8px 16px" }}>
           <Row gutter={16}>

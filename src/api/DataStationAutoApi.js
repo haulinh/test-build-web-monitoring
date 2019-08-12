@@ -196,6 +196,35 @@ export function getUrlReportType9(token, key, time, measuringListStr, measuringL
   return url
 }
 
+
+export function getUrlReportType10({
+  stationType,
+  fromDate,
+  toDate,
+}) {
+  var url = getReportUrl(`type10?1=1`)
+  if (stationType) url += `&stationTypeId=${stationType}`
+  if (fromDate) url += `&fromDate=${fromDate}`
+  if (toDate) url += `&toDate=${toDate}`
+  // console.log(url,"url")
+  return  getFetch(url)
+}
+
+export function getUrlReportType10Excel({
+  stationType,
+  fromDate,
+  toDate,
+}) {
+  var url = getReportUrl(`type10-excel?1=1`)
+  if (stationType) url += `&stationTypeId=${stationType}`
+  if (fromDate) url += `&fromDate=${fromDate}`
+  if (toDate) url += `&toDate=${toDate}`
+  // console.log(url,"url")
+  return  getFetch(url)
+}
+
+
+
 export default {
   getDataStationAutos,
   getExportData,
@@ -219,4 +248,6 @@ export default {
   getUrlReportType7,
   getUrlReportType8,
   getUrlReportType9,
+  getUrlReportType10,
+  getUrlReportType10Excel
 }

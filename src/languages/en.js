@@ -399,6 +399,17 @@ export default {
         label: 'End',
         placeholder: 'Select Ending Date'
       },
+      fromMonth: {
+        label: 'From Month/Year',
+        placeholder: 'Select Month/Year',
+        error: 'Please Choose The Time',
+      },
+      toMonth: {
+        label: 'To  Month/Year',
+        placeholder: 'Select Month/Year',
+        error: 'Please Choose The Time',
+        error1: 'The Start Date Is Greater Than The End Date',
+      },
       measuringList: {
         label: 'Parameters',
         placeholder: 'Select Parameter',
@@ -424,7 +435,15 @@ export default {
     table: {
       receivedAt: 'Received At',
       all: 'All',
-      emptyText: 'There Are No Records To Display'
+      emptyText: 'There Are No Records To Display',
+      header1: 'Station Name',
+      header2:'Frequency of data transmission  (minutes/times)',
+      header3:'Total records by design',
+      header4:'Total records by the fact',
+      header5:'Percentage of received data (%)',
+      header6:'The starting date of data transmission',
+      title: 'REPORT THE PERCENTAGE OF OBTAINED DATA',
+      description:'Statistics about the Percentage of data obtained of stations from {{=it.fromMonth}} to {{=it.toMonth}}'
     },
     selectTimeRange: {
       minute: 'Minute',
@@ -1374,6 +1393,7 @@ export default {
       error: 'Restore Error'
     },
     search: 'Search',
+    searchSeclect: 'Select conditions',
     error: 'Something Went Wrong!!!',
     warning: 'Warning',
     refresh: 'Refresh',
@@ -1508,7 +1528,8 @@ export default {
       type5: 'AQI hours / day',    
       type6: 'AQI average 24h by parameter',     
       type7: 'AQI day by parameter',     
-      type9: 'Percentage of data',  
+      type9: 'Percentage of data', 
+      type10: 'Percentage of obtained data', 
     },
     reportBreadcrum: {
       type1: 'Original data',
@@ -1519,6 +1540,7 @@ export default {
       type6: 'AQI average 24h by parameter',     
       type7: 'AQI day by parameter',   
       type9: 'Percentage of data',
+      type10: 'Percentage of obtained data',
     }  
   },
   cameraControl: {

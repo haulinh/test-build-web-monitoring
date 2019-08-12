@@ -401,6 +401,18 @@ export default {
         label: 'Kết thúc',
         placeholder: 'Chọn ngày kết thúc'
       },
+      fromMonth: {
+        label: 'Từ tháng/năm',
+        placeholder: 'Chọn Tháng/Năm',
+        error: 'Vui lòng chọn thời gian',
+        
+      },
+      toMonth: {
+        label: 'Đến  tháng/năm',
+        placeholder: 'Chọn Tháng/Năm',
+        error: 'Vui lòng chọn thời gian',
+        error1: 'Ngày bắt đầu lớn hơn ngày kết thúc',
+      },
       measuringList: {
         label: 'Thông số',
         placeholder: 'Chọn thông số',
@@ -426,7 +438,15 @@ export default {
     table: {
       receivedAt: 'Thời gian',
       all: 'Tất cả',
-      emptyText: 'Không có giá trị'
+      emptyText: 'Không có giá trị',
+      header1: 'Tên trạm',
+      header2:'Tần suất truyền dữ liệu (phút/lần)',
+      header3:'Tổng số bản ghi theo thiết kế',
+      header4:'Tổng số bản ghi thực tế',
+      header5:'Tỷ lệ nhận dữ liệu (%)',
+      header6:'Ngày bắt đầu truyền dữ liệu',
+      title: 'BÁO CÁO TỈ LỆ SỐ LIỆU THU ĐƯỢC',
+      description:'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.fromMonth}} đến tháng {{=it.toMonth}}'
     },
     selectTimeRange: {
       minute: 'Phút',
@@ -1372,6 +1392,7 @@ export default {
       error: 'Khôi phục thất bại'
     },
     search: 'Tìm kiếm',
+    searchSeclect: 'Chọn điều kiện',
     error: 'Đã xảy ra sự cố!!!',
     warning: 'Chú ý',
     refresh: 'Làm mới',
@@ -1507,6 +1528,7 @@ export default {
       type6: 'AQI TB 24h theo thông số',
       type7: 'AQI ngày theo thông số',
       type9: 'Trung bình ngày',
+      type10: 'Tỷ lệ dữ liệu thu được',
     },
     reportBreadcrum: {
       type1: 'Tỷ lệ dữ liệu',
@@ -1517,6 +1539,7 @@ export default {
       type6: 'AQI trung bình 24h theo thông số',
       type7: 'AQI ngày theo thông số',
       type9: 'Trung bình ngày',
+      type10: 'Tỷ lệ dữ liệu thu được',
     }
   },
   cameraControl: {
