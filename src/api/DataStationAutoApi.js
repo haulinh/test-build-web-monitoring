@@ -156,11 +156,6 @@ export function getUrlReportType1(token, key, time, measuringListStr, measuringL
   return url
 }
 
-export function getUrlReportType2(token, key, time, measuringListStr, measuringListUnitStr) {
-  var url = getReportUrl(`type2/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
-  return url
-}
-
 export function getUrlReportType3(token, key, time, measuringListStr, measuringListUnitStr) {
   var url = getReportUrl(`type3/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
   return url
@@ -224,6 +219,22 @@ export function getUrlReportType10Excel({
 }
 
 
+export function getUrlReportType2Excel(token, key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type2-excel/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+  return url
+}
+
+
+export function getUrlReportType2(key, time, measuringListStr, measuringListUnitStr) {
+  var url = getReportUrl(`type2/${key}?1=1`)
+  if (time) url += `&time=${time}`
+  if (measuringListStr) url += `&measuringList=${measuringListStr}`
+  if (measuringListUnitStr) url += `&measuringListUnit=${measuringListUnitStr}`
+
+  // var url = getReportUrl(`type2/${key}?&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+  return  getFetch(url)
+}
+
 
 export default {
   getDataStationAutos,
@@ -241,6 +252,7 @@ export default {
   exportStatistictExceeded,
   getUrlReportType1,
   getUrlReportType2,
+  getUrlReportType2Excel,
   getUrlReportType3,
   getUrlReportType4,
   getUrlReportType5,
@@ -249,5 +261,6 @@ export default {
   getUrlReportType8,
   getUrlReportType9,
   getUrlReportType10,
-  getUrlReportType10Excel
+  getUrlReportType10Excel,
+ 
 }

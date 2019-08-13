@@ -442,15 +442,19 @@ export default {
       header4:'Total records by the fact',
       header5:'Percentage of received data (%)',
       header6:'The starting date of data transmission',
+      header7:'Day/Month',
       title: 'REPORT THE PERCENTAGE OF OBTAINED DATA',
-      description:'Statistics about the Percentage of data obtained of stations from {{=it.fromMonth}} to {{=it.toMonth}}'
+      description:'Statistics about the Percentage of data obtained of stations from {{=it.fromMonth}} to {{=it.toMonth}}',
+      title2: 'REPORT THE RESULTS OF 24-HOUR AVERAGE MONITORING',
+      description2:'Statistics about Results of 24-hour average monitoring of  {{=it.stationName}} station in {{=it.monthYear}}'
     },
     selectTimeRange: {
       minute: 'Minute',
       hour: 'Hour',
       day: 'Day',
       month: 'Month',
-      year: 'Year'
+      year: 'Year',
+      errorMonth: 'Please Choose The Month',
     },
     tab: {
       data: 'Data',
@@ -1533,7 +1537,7 @@ export default {
     },
     reportBreadcrum: {
       type1: 'Original data',
-      type2: '24 hour average',      
+      type2: 'Results of 24-hour average monitoring',      
       type3: 'Average maximum 1 hour of the day',   
       type4: 'Average maximum 8 hour of the day',   
       type5: 'AQI hours / day',    

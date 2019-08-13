@@ -445,15 +445,19 @@ export default {
       header4:'Tổng số bản ghi thực tế',
       header5:'Tỷ lệ nhận dữ liệu (%)',
       header6:'Ngày bắt đầu truyền dữ liệu',
+      header7:'Ngày/tháng',
       title: 'BÁO CÁO TỈ LỆ SỐ LIỆU THU ĐƯỢC',
-      description:'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.fromMonth}} đến tháng {{=it.toMonth}}'
+      description:'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.fromMonth}} đến tháng {{=it.toMonth}}',
+      title2: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 24 GIỜ',
+      description2:'Các số liệu thống kê về kết quả quan trắc trung bình 24 giờ của trạm {{=it.stationName}} trong tháng {{=it.monthYear}}'
     },
     selectTimeRange: {
       minute: 'Phút',
       hour: 'Giờ',
       day: 'Ngày',
       month: 'Tháng',
-      year: 'Năm'
+      year: 'Năm',
+      errorMonth: 'Vui lòng chọn tháng',
     },
     tab: {
       data: 'Dữ liệu',
@@ -1532,7 +1536,7 @@ export default {
     },
     reportBreadcrum: {
       type1: 'Tỷ lệ dữ liệu',
-      type2: 'Trung bình 24 giờ',
+      type2: 'Kết quả quan trắc trung bình 24 giờ',
       type3: 'Trung bình 1 giờ lớn nhất trong ngày',
       type4: 'Trung bình 8 giờ lớn nhất trong ngày',
       type5: 'AQI các giờ/ngày',

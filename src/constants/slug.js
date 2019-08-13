@@ -180,6 +180,7 @@ export default {
     type8: '/report/type8',
     type9: '/report/type9',
     type10: '/report/type10', // tỉ lệ dữ liệu thu đươc
+    type11: '/report/type11', // Quan trắc TB 24h
   }
 }
 
@@ -252,6 +253,7 @@ export const MENU_NAME = {
     type8: translate('menuApp.report.type8'),
     type9: translate('menuApp.report.type9'),
     type10: translate('menuApp.report.type10'),
+    type11: translate('menuApp.report.type11'),
   },
 
   advanceSub: translate('menuApp.advanceSub'),
