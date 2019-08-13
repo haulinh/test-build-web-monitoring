@@ -171,7 +171,7 @@ export default {
   report: {
     base: '/report',
     type1: '/report/type1',
-    type2: '/report/type2',
+    type2: '/report/type2',// Quan trắc TB 24h
     type3: '/report/type3',
     type4: '/report/type4',
     type5: '/report/type5',

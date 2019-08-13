@@ -4,7 +4,7 @@ import { translate } from "hoc/create-lang";
 import { connect } from "react-redux";
 import Breadcrumb from "../breadcrumb";
 import { get as _get, pick as _pick } from "lodash";
-import SearchForm from "../search-form-2";
+import SearchForm from "../search-form/search-form-2";
 import { Table, Typography, Button, Spin } from "antd";
 import Clearfix from "components/elements/clearfix";
 import moment from "moment-timezone";
