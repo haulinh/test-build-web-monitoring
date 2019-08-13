@@ -77,7 +77,6 @@ export default class SearchForm extends React.Component {
       getFieldValue,
       setFieldsValue
     } = this.props.form;
-    const t = this.props.lang.createNameSpace("dataSearchFrom.form");
 
     return (
       <SearchFormContainer>
