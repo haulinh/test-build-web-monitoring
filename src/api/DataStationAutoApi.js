@@ -77,6 +77,24 @@ export function getDataStationAutoExportAvg({
   if (name) url += `&name=${name}`
   return getFetch(url)
 }
+export function downloadExcel_DataStationAutov1(token
+  ,{
+  fromDate,
+  toDate,
+  key,
+  measuringList,
+  measuringListUnitStr,
+  type
+}) {
+
+  let url = getDataStationAutoUrl(`${key}/export-avg-v1?token=${token}`)
+  if (fromDate) url += `&from=${fromDate}`
+  if (toDate) url += `&to=${toDate}`
+  if (measuringList) url += `&measuringList=${measuringList.join(',')}`
+  if (measuringListUnitStr) url += `&measuringListUnit=${measuringListUnitStr.join(',')}`
+  if (type) url += `&type=${type}`
+  return  url
+}
 
 export function getDataAnalyzeStationAutos({
   fromDate,

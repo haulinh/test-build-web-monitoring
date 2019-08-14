@@ -61,6 +61,18 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  LOAI 1 - trung binh theo giờ */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.report.type11}
+          onClick={() => {
+            props.selectMenu(slug.report.type11)
+          }}
+        >
+          <Link to={slug.report.type11}>{MENU_NAME.report.type11}</Link>
+        </Menu.Item>
+      )}
+
       {/* NOTE  LOAI 3 */}
       {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item

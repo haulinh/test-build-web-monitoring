@@ -51,17 +51,22 @@ export default class ReportType10 extends React.Component {
     return [
       {
         title: i18n.header1,
-        dataIndex: "name"
+        dataIndex: "name",
+        align: "center",
+        render: value => {
+          return <div  style={{ textAlign: "left" }}>{value}</div>;
+        }
       },
       {
         title: i18n.header6,
         dataIndex: "activatedAt",
+        align: "center",
         render: value => {
           if (!value) {
             return null;
           }
           return (
-            <div>
+            <div style={{ textAlign: "left" }}>
               {moment(value)
                 .tz(_get(this.props, "timeZone.value", ""))
                 .format(DD_MM_YYYY)}
@@ -72,31 +77,38 @@ export default class ReportType10 extends React.Component {
       {
         title: i18n.header2,
         dataIndex: "dataFrequency",
-        align: "right"
+        align: "center",
+        render: value => {
+          return <div  style={{ textAlign: "right" }}>{getFormatNumber(value, 0)}</div>;
+        }
       },
       {
         title: i18n.header3,
         dataIndex: "totalDesign",
-        align: "right",
+        align: "center",
         render: value => {
-          return <div>{getFormatNumber(value, 0)}</div>;
+          return <div  style={{ textAlign: "right" }}>{getFormatNumber(value, 0)}</div>;
         }
       },
       {
         title: i18n.header4,
         dataIndex: "totalFact",
-        align: "right",
+        align: "center",
         render: value => {
-          return <div>{getFormatNumber(value, 0)}</div>;
+          return <div  style={{ textAlign: "right" }}>{getFormatNumber(value, 0)}</div>;
         }
       },
       {
         title: i18n.header5,
         dataIndex: "percentageReceived",
-        align: "right",
+        align: "center",
         render: value => {
           if (!value) return null;
-          return <div>{getFormatNumber(value, ROUND_DIGIT)}</div>;
+          return (
+            <div style={{ textAlign: "right" }}>
+              {getFormatNumber(value, ROUND_DIGIT)}
+            </div>
+          );
         }
       }
     ];

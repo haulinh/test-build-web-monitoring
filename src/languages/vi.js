@@ -446,10 +446,13 @@ export default {
       header5:'Tỷ lệ nhận dữ liệu (%)',
       header6:'Ngày bắt đầu truyền dữ liệu',
       header7:'Ngày/tháng',
+      header8:'Giờ',
       title: 'BÁO CÁO TỈ LỆ SỐ LIỆU THU ĐƯỢC',
       description:'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.fromMonth}} đến tháng {{=it.toMonth}}',
       title2: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 24 GIỜ',
-      description2:'Các số liệu thống kê về kết quả quan trắc trung bình 24 giờ của trạm {{=it.stationName}} trong tháng {{=it.monthYear}}'
+      description2:'Các số liệu thống kê về kết quả quan trắc trung bình 24 giờ của trạm {{=it.stationName}} trong tháng {{=it.monthYear}}',
+      title3: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 1 GIỜ',
+      description3:'Các số liệu thống kê về kết quả quan trắc trung bình 1 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}'
     },
     selectTimeRange: {
       minute: 'Phút',
@@ -458,6 +461,7 @@ export default {
       month: 'Tháng',
       year: 'Năm',
       errorMonth: 'Vui lòng chọn tháng',
+      errorDay: 'Vui lòng chọn ngày',
     },
     tab: {
       data: 'Dữ liệu',
@@ -1533,6 +1537,7 @@ export default {
       type7: 'AQI ngày theo thông số',
       type9: 'Trung bình ngày',
       type10: 'Tỷ lệ dữ liệu thu được',
+      type11: 'Quan trắc trung bình 1 giờ',
     },
     reportBreadcrum: {
       type1: 'Tỷ lệ dữ liệu',
@@ -1544,6 +1549,7 @@ export default {
       type7: 'AQI ngày theo thông số',
       type9: 'Trung bình ngày',
       type10: 'Tỷ lệ dữ liệu thu được',
+      type11: 'Kết quả quan trắc trung bình 1 giờ',
     }
   },
   cameraControl: {
