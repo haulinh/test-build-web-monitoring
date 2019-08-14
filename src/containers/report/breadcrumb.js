@@ -60,7 +60,13 @@ export default createBreadcrumb({
   type10: {
     id: 'type10',
     // icon: '',
-    href: slug.report.type9,
+    href: slug.report.type10,
     name: translate('menuApp.reportBreadcrum.type10')
+  },
+  type11: {
+    id: 'type11',
+    // icon: '',
+    href: slug.report.type11,
+    name: translate('menuApp.reportBreadcrum.type11')
   }
 })

@@ -26,25 +26,28 @@ const Item = props => (
 );
 
 const i18n = {
-  label:{
-    buttonSearch:translate("addon.search"),
-    headerSearch:translate("addon.searchSeclect"),
-    province:translate("qaqc.province.label"),
+  label: {
+    buttonSearch: translate("addon.search"),
+    headerSearch: translate("addon.searchSeclect"),
+    province: translate("qaqc.province.label"),
     stationType: translate("dataSearchFrom.form.stationType.label"),
-    stationAuto:translate("dataSearchFrom.form.stationAuto.label"),
+    stationAuto: translate("dataSearchFrom.form.stationAuto.label"),
     selectTimeRange: translate("avgSearchFrom.selectTimeRange.month"),
+    selectTimeRange2: translate("avgSearchFrom.selectTimeRange.day")
   },
-  error:{
-    stationAuto:translate("avgSearchFrom.form.stationAuto.error"),
-    selectTimeRange:translate("avgSearchFrom.selectTimeRange.errorMonth"),
+  error: {
+    stationAuto: translate("avgSearchFrom.form.stationAuto.error"),
+    selectTimeRange: translate("avgSearchFrom.selectTimeRange.errorMonth"),
+    selectTimeRange2: translate("avgSearchFrom.selectTimeRange.errorDay")
   }
-}
+};
 
 @Form.create()
 @createLang
 export default class SearchForm extends React.Component {
   static propTypes = {
-    cbSubmit: PropTypes.func
+    cbSubmit: PropTypes.func,
+    isDatePicker: PropTypes.bool
   };
 
   constructor(props) {
@@ -60,13 +63,22 @@ export default class SearchForm extends React.Component {
     // let me = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
-        if (this.props.cbSubmit)
+        // console.log("Received values of form: ", values);
+        if (this.props.cbSubmit) {
+          const measuringListStr = this.state.measuringList
+            .map(item => encodeURIComponent(item.key))
+          
+            const measuringListUnitStr = this.state.measuringList
+            .map(item => encodeURIComponent(item.unit))
+            // .join(",");
           this.props.cbSubmit({
             ...values,
+            measuringListStr,
+            measuringListUnitStr,
             measuringList: this.state.measuringList,
             stationName: this.state.stationName
           });
+        }
       }
     });
   };
@@ -125,7 +137,7 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.stationAuto 
+                      message: i18n.error.stationAuto
                     }
                   ]
                 })(
@@ -135,7 +147,7 @@ export default class SearchForm extends React.Component {
                     provinceKey={getFieldValue("province")}
                     onChangeObject={station => {
                       if (station && station.measuringList)
-                        this.setState({ 
+                        this.setState({
                           measuringList: station.measuringList,
                           stationName: station.name
                         });
@@ -146,18 +158,34 @@ export default class SearchForm extends React.Component {
                 )}
               </Item>
             </Col>
-            <Col span={6}>
-              <Item label={i18n.label.selectTimeRange}>
-                {getFieldDecorator("time", {
-                  rules: [
-                    {
-                      required: true,
-                      message: i18n.error.selectTimeRange 
-                    }
-                  ]
-                })(<MonthPicker style={{ width: "100%" }} size="large" />)}
-              </Item>
-            </Col>
+            {!this.props.isDatePicker && (
+              <Col span={6}>
+                <Item label={i18n.label.selectTimeRange}>
+                  {getFieldDecorator("time", {
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n.error.selectTimeRange
+                      }
+                    ]
+                  })(<MonthPicker style={{ width: "100%" }} size="large" />)}
+                </Item>
+              </Col>
+            )}
+            {this.props.isDatePicker && (
+              <Col span={6}>
+                <Item label={i18n.label.selectTimeRange2}>
+                  {getFieldDecorator("time", {
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n.error.selectTimeRange2
+                      }
+                    ]
+                  })(<DatePicker style={{ width: "100%" }} size="large" />)}
+                </Item>
+              </Col>
+            )}
           </Row>
           <Clearfix height={16} />
         </div>

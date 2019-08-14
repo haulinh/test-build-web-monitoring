@@ -443,10 +443,13 @@ export default {
       header5:'Percentage of received data (%)',
       header6:'The starting date of data transmission',
       header7:'Day/Month',
+      header8:'Hours',
       title: 'REPORT THE PERCENTAGE OF OBTAINED DATA',
       description:'Statistics about the Percentage of data obtained of stations from {{=it.fromMonth}} to {{=it.toMonth}}',
       title2: 'REPORT THE RESULTS OF 24-HOUR AVERAGE MONITORING',
-      description2:'Statistics about Results of 24-hour average monitoring of  {{=it.stationName}} station in {{=it.monthYear}}'
+      description2:'Statistics about Results of 24-hour average monitoring of  {{=it.stationName}} station in {{=it.monthYear}}',
+      title3: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
+      description3:'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} in {{=it.monthYear}}'
     },
     selectTimeRange: {
       minute: 'Minute',
@@ -455,6 +458,7 @@ export default {
       month: 'Month',
       year: 'Year',
       errorMonth: 'Please Choose The Month',
+      errorDay: 'Please Choose The Day',
     },
     tab: {
       data: 'Data',
@@ -1534,6 +1538,7 @@ export default {
       type7: 'AQI day by parameter',     
       type9: 'Percentage of data', 
       type10: 'Percentage of obtained data', 
+      type11: 'Results of 1-hour average monitoring',
     },
     reportBreadcrum: {
       type1: 'Original data',
@@ -1545,6 +1550,7 @@ export default {
       type7: 'AQI day by parameter',   
       type9: 'Percentage of data',
       type10: 'Percentage of obtained data',
+      type11: 'Results of 1-hour average monitoring',
     }  
   },
   cameraControl: {
