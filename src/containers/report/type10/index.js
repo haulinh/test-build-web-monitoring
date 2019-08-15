@@ -3,7 +3,7 @@ import PageContainer from "layout/default-sidebar-layout/PageContainer";
 import { translate } from "hoc/create-lang";
 import { connect } from "react-redux";
 import Breadcrumb from "../breadcrumb";
-import { get as _get, pick as _pick } from "lodash";
+import { get as _get } from "lodash";
 import SearchForm from "../search-form/search-form-2";
 import { Table, Typography, Button, Spin } from "antd";
 import Clearfix from "components/elements/clearfix";
@@ -120,15 +120,28 @@ export default class ReportType10 extends React.Component {
       isHaveData: false,
       isLoading: true
     });
+    const params = {
+      stationType: values.stationType,
+      fromDate: moment(values.fromMonth)
+        .utcOffset(this.props.timeZone.time)
+        .startOf("day")
+        .utc()
+        .format(),
+      toDate: moment(values.toMonth)
+        .utcOffset(this.props.timeZone.time)
+        .endOf("day")
+        .utc()
+        .format(),
+    };
     const res = await getUrlReportType10(
-      _pick(values, ["stationType", "fromDate", "toDate"])
+      params
     );
     if (res.success) {
       this.setState({
         dataSource: res.data,
         isHaveData: true,
         isLoading: false,
-        dataSearch: _pick(values, ["stationType", "fromDate", "toDate"]),
+        dataSearch: params,
         fromMonth: moment(values.fromMonth).format(MM_YYYY),
         toMonth: moment(values.toMonth).format(MM_YYYY)
       });

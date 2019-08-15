@@ -444,12 +444,15 @@ export default {
       header6:'The starting date of data transmission',
       header7:'Day/Month',
       header8:'Hours',
+      header9:'Percentage of exceeded data (%)',
       title: 'REPORT THE PERCENTAGE OF OBTAINED DATA',
       description:'Statistics about the Percentage of data obtained of stations from {{=it.fromMonth}} to {{=it.toMonth}}',
       title2: 'REPORT THE RESULTS OF 24-HOUR AVERAGE MONITORING',
       description2:'Statistics about Results of 24-hour average monitoring of  {{=it.stationName}} station in {{=it.monthYear}}',
       title3: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
-      description3:'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} in {{=it.monthYear}}'
+      description3:'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} in {{=it.monthYear}}',
+      title4: 'REPORT THE PERCENTAGE OF EXCEEDED DATA',
+      description4:'Statistics about the percentage of exceeded of {{=it.fromMonth}}  trong ngày {{=it.toMonth}}',
     },
     selectTimeRange: {
       minute: 'Minute',
@@ -1539,6 +1542,7 @@ export default {
       type9: 'Percentage of data', 
       type10: 'Percentage of obtained data', 
       type11: 'Results of 1-hour average monitoring',
+      type12: 'Percentage of exceeded data',
     },
     reportBreadcrum: {
       type1: 'Original data',
@@ -1551,6 +1555,7 @@ export default {
       type9: 'Percentage of data',
       type10: 'Percentage of obtained data',
       type11: 'Results of 1-hour average monitoring',
+      type12: 'Percentage of exceeded data',
     }  
   },
   cameraControl: {
