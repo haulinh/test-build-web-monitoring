@@ -58,11 +58,13 @@ export default class SearchForm extends React.Component {
       if (!err) {
         // console.log("Received values of form: ", values);
 
+        values.fromMonth = moment(values.toMonth).startOf("month")
+        values.toMonth = moment(values.toMonth).endOf("month") > moment() ?  moment() : moment(values.toMonth).endOf("month")
         if (this.props.cbSubmit) {
           this.props.cbSubmit({
             ...values,
-            fromDate: moment(values.fromMonth).startOf("month").utc().format(), // NOTE lấy thời điẻm người dung mún seartch sau đó convert sang giờ UTC để rếarch data
-            toDate: moment(values.toMonth).endOf("month").utc().format()
+            // fromDate: moment(values.fromMonth).startOf("month").utc().format(), // NOTE lấy thời điẻm người dung mún seartch sau đó convert sang giờ UTC để rếarch data
+            // toDate: moment(values.toMonth).endOf("month").utc().format()
           });
         }
       }

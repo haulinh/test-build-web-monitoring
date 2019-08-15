@@ -157,6 +157,18 @@ export default {
         </Menu.Item>
       )}
 
+       {/* NOTE  LOAI 11 */}
+       {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.report.type12}
+          onClick={() => {
+            props.selectMenu(slug.report.type12)
+          }}
+        >
+          <Link to={slug.report.type12}>{MENU_NAME.report.type12}</Link>
+        </Menu.Item>
+      )}
+
       
     </Menu.SubMenu>
   )

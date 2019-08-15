@@ -181,6 +181,7 @@ export default {
     type9: '/report/type9',
     type10: '/report/type10', // tỉ lệ dữ liệu thu đươc
     type11: '/report/type11', // Ket qua quan trac trung binh gio cua 1 ngay
+    type12: '/report/type12', // tỷ lệ dữ liệu vượt ngưỡng của 1 trạm
   }
 }
 
@@ -254,6 +255,7 @@ export const MENU_NAME = {
     type9: translate('menuApp.report.type9'),
     type10: translate('menuApp.report.type10'),
     type11: translate('menuApp.report.type11'),
+    type12: translate('menuApp.report.type12'),
   },
 
   advanceSub: translate('menuApp.advanceSub'),

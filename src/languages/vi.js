@@ -447,12 +447,15 @@ export default {
       header6:'Ngày bắt đầu truyền dữ liệu',
       header7:'Ngày/tháng',
       header8:'Giờ',
+      header9:'Tỉ lệ số liệu vượt ngưỡng (%)',
       title: 'BÁO CÁO TỈ LỆ SỐ LIỆU THU ĐƯỢC',
       description:'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.fromMonth}} đến tháng {{=it.toMonth}}',
       title2: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 24 GIỜ',
       description2:'Các số liệu thống kê về kết quả quan trắc trung bình 24 giờ của trạm {{=it.stationName}} trong tháng {{=it.monthYear}}',
       title3: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 1 GIỜ',
-      description3:'Các số liệu thống kê về kết quả quan trắc trung bình 1 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}'
+      description3:'Các số liệu thống kê về kết quả quan trắc trung bình 1 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}',
+      title4: 'BÁO CÁO TỈ LỆ VƯỢT NGƯỠNG',
+      description4:'Các số liệu thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm {{=it.fromMonth}}  trong ngày {{=it.toMonth}}',
     },
     selectTimeRange: {
       minute: 'Phút',
@@ -1538,6 +1541,7 @@ export default {
       type9: 'Trung bình ngày',
       type10: 'Tỷ lệ dữ liệu thu được',
       type11: 'Quan trắc trung bình 1 giờ',
+      type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
     },
     reportBreadcrum: {
       type1: 'Tỷ lệ dữ liệu',
@@ -1550,6 +1554,7 @@ export default {
       type9: 'Trung bình ngày',
       type10: 'Tỷ lệ dữ liệu thu được',
       type11: 'Kết quả quan trắc trung bình 1 giờ',
+      type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
     }
   },
   cameraControl: {
