@@ -57,9 +57,6 @@ function validate(values) {
 
 @connect((state, ownProps) => ({
   initialValues: {
-    fromDate: moment().subtract(7, 'days'),
-    toDate: moment(),
-    rangesView: 1,
     rangesDate: 1,
     ...(ownProps.initialValues ? ownProps.initialValues : {}),
   }
@@ -82,15 +79,14 @@ export default class SearchForm extends React.Component {
     // console.log(this.props.formData,"this.props.query")
 
     let fromDate = moment(props.initialValues.fromDate)
-    let toDate = moment(props.initialValues.toDate)
-    console.log('props.initialValues',props.initialValues)
-    let timeRange = 7
-    let rangesView = 1
+    let toDate = moment(props.initialValues.toDate) 
+    let timeRange = props.initialValues.rangesDate
+    let rangesView = null
     // debugger
-    // console.log(props.initialValues,"props.initialValues")
+    console.log(props.initialValues,fromDate.format(DD_MM_YYYY_HH_MM), toDate.format(DD_MM_YYYY_HH_MM),"props.initialValues")
     if(props.initialValues.searchRange) {
       rangesView = `${fromDate.format(DD_MM_YYYY_HH_MM)} - ${toDate.format(DD_MM_YYYY_HH_MM)}`
-      timeRange = 'ranges'
+      timeRange = null
     }
 
     this.state = {
@@ -112,22 +108,24 @@ export default class SearchForm extends React.Component {
     }
   }
 
-  componentDidMount() {
-    if (this.props.searchNow) {
-      setTimeout(() => {
-        this.setState({
-          timeRange: 1,
-          fromDate: this.state.receivedAt.clone().subtract(1, 'days'),
-          toDate: this.state.receivedAt.clone()
-        }, ()=>{
-          this.props.handleSubmit(this.handleSubmit)()
-        })
+  // componentDidMount() {
+  //   if (this.props.searchNow) {
+  //     setTimeout(() => {
+  //       this.setState({
+  //         timeRange: 1,
+  //         fromDate: this.state.receivedAt.clone().subtract(1, 'days'),
+  //         toDate: this.state.receivedAt.clone()
+  //       }, ()=>{
+  //         this.props.handleSubmit(this.handleSubmit)()
+  //       })
         
-      }, 200)
-    }
-  }
+  //     }, 200)
+  //   }
+  // }
 
   searchInit(){
+    
+    // return
     // NOTE  do gấp, code chạy còn thừa, chưa có time check
     if(this.StationType && this.StationType.getFirstValue &&  this.StationAuto ) {
       // console.log('this.props.change',this.props.change)
@@ -136,9 +134,11 @@ export default class SearchForm extends React.Component {
       this.props.change('stationType', this.StationType.getFirstValue().key)
       
       let stationAutoData = this.StationAuto.getStationAutos()
+      // console.log("run 1")
       if(stationAutoData.length>0){
         this.handleChangeStationAuto(stationAutoData[0])
         this.props.change('stationAuto', stationAutoData[0].key)
+        // console.log("run 2")
         this.setState({
           stationAutoKey: stationAutoData[0].key
         },()=>{
@@ -170,10 +170,6 @@ export default class SearchForm extends React.Component {
       stationAutoName: stationAuto.name,
       receivedAt: moment()
     }
-    const time = _.get(stationAuto, 'lastLog.receivedAt')
-    if (time) {
-      params.receivedAt = moment(time)
-    }
 
     if (this.state.timeRange) {
       params.fromDate = params.receivedAt
@@ -186,12 +182,8 @@ export default class SearchForm extends React.Component {
     this.props.change('measuringList', measuringData.map(m => m.key))
   }
 
-  convertDateToString(date) {
-    return moment(date, 'YYYY-MM-DD HH:mm').toISOString()
-  }
-
   handleChangeRanges(ranges) {
-    // console.log('aaa', ranges)
+    // console.log('ranges', ranges)
     if (_.isNumber(ranges)) {
       this.setState({
         timeRange: ranges,
@@ -209,7 +201,13 @@ export default class SearchForm extends React.Component {
     }
   }
 
+  convertDateToString(date) {
+    // console.log(date.format(),"date-date")
+    return moment(date).utc().format()
+  }
+
   handleSubmit(values) {
+    // console.log(values,"handleSubmit")
     this.props.onSubmit({
       fromDate: this.convertDateToString(this.state.fromDate),
       toDate: this.convertDateToString(this.state.toDate),
@@ -245,6 +243,8 @@ export default class SearchForm extends React.Component {
   }
 
   render() {
+
+    // console.log(this.state.fromDate.format(),this.state.toDate.format(),"render")
     
     const t = this.props.lang.createNameSpace('dataSearchFrom.form')
     return (
@@ -337,7 +337,7 @@ export default class SearchForm extends React.Component {
                 size="large"
                 onChangeObject={this.handleChangeRanges}
                 component={FOptionsTimeRange}
-                value={this.state.rangesView}
+                // value={this.state.rangesDate}
                 rangesView={this.state.rangesView}
               />
             </Col>
