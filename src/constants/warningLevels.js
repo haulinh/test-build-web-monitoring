@@ -21,4 +21,17 @@ export const warningLevelsNumber = {
   EXCEEDED_PREPARING: 3,
   EXCEEDED: 4
 }
+
+
+export const getcolorMeasure = (value, {maxLimit, minLimit, maxTend, minTend}, colorGood ) => {
+  if(value < minLimit || value > maxLimit){
+    return colorLevels.EXCEEDED
+  }else if(value < minTend || value > maxTend){
+    return colorLevels.EXCEEDED_TENDENCY
+  }else{
+    return colorGood ? colorGood : colorLevels.GOOD
+  }
+  
+}
+
 export default { warningLevels, colorLevels, warningLevelsNumber }
