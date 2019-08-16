@@ -172,28 +172,73 @@ export default class StationAutoFormTable extends React.Component {
     return (
       <FormItem style={{ marginBottom: 0 }}>
         {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
-          initialValue: text
+          initialValue: text,
+          rules: [
+            {
+              validator: (rule, value, callback) => this.validateValue(index, rule, value, callback),
+            },
+          ]
         })(<InputNumberCell style={{ width: 120 }} editable={true} />)}
       </FormItem>
     )
   }
 
+  validateValue = (indexOfRow, rule, value, callback) => {
+    // const { form } = this.props;
+    
+    // const nameOfInputChanged = rule.field.split('.')[1]
+    // let rowData = form.getFieldsValue().measuringList[indexOfRow]
+    // let arrName = ['minRange', 'minLimit', 'minTend', 'maxTend', 'maxLimit', 'maxRange']
+    // let lengthOfArrName = arrName.length
+    
+    // /* Dùng thuật toán two pointer */
+    // let indexOfNameChanged = arrName.indexOf(nameOfInputChanged)
+    // let nameOfIndex = arrName[indexOfNameChanged]
+    // let valueOfNameChanged = rowData[nameOfIndex]
+
+    // let indexOfLeftPointer = indexOfNameChanged
+    // let nameOfLeftPointer = nameOfIndex
+    // let valueOfLeftPointer = valueOfNameChanged
+
+    // let indexOfRightPointer = indexOfNameChanged
+    // let nameOfRightPointer = nameOfIndex
+    // let valueOfRightPointer = valueOfNameChanged
+
+    // while(true) {
+    //   if (valueOfNameChanged < valueOfLeftPointer || valueOfNameChanged > valueOfRightPointer) {
+    //     console.log('error roi ban oi')
+    //     callback('error roi ban oi')
+    //     break;
+    //   }
+
+    //   if (indexOfLeftPointer == 0 && indexOfRightPointer == lengthOfArrName - 1) {
+    //     console.log("complete");
+    //     callback()
+    //     break;
+    //   }
+      
+    //   if (indexOfLeftPointer > 0) {
+    //     indexOfLeftPointer = indexOfLeftPointer - 1;
+    //     valueOfLeftPointer = rowData[rowData[arrName[indexOfLeftPointer]]]
+    //   }
+      
+    //   if (indexOfRightPointer < lengthOfArrName) {
+    //     indexOfRightPointer = indexOfRightPointer + 1;
+    //     valueOfRightPointer = rowData[rowData[arrName[indexOfRightPointer]]]
+    //   } 
+    // }
+
+    callback()
+  };
+
   getColumns = () => {
     const { t } = this.props.lang
     const { getFieldDecorator } = this.props.form
-    let textTitle = ''
-    if (!this.props.allowUpdateStandardsVN) {
-      if (_.isObject(this.props.standardsVNObject)) {
-        textTitle =
-          t('stationAutoManager.form.qcvn.label') +
-          ` : (${this.props.standardsVNObject.name})`
-      }
-    } else {
-      textTitle = t('stationAutoManager.form.qcvn.label')
-    }
+    
     return [
       {
         dataIndex: 'measuringKey',
+        align: 'center',
         title: t('stationAutoManager.form.measuringKey.label'),
         width: 130,
         render: (text, record, index) =>
@@ -201,7 +246,8 @@ export default class StationAutoFormTable extends React.Component {
       },
       {
         dataIndex: 'measuringName',
-        title: textTitle, // t('stationAutoManager.form.measuringName.label'),
+        align: 'center',
+        title: t('stationAutoManager.form.measuringName.label'),
         width: 130,
         render: (text, record, index) => (
           <FormItem style={{ marginBottom: 0 }}>
@@ -234,48 +280,11 @@ export default class StationAutoFormTable extends React.Component {
         )
       },
       {
-        title: i18n.sensorRange,
-        children: [
-          {
-            dataIndex: 'minRange',
-            title: i18n.sensorRangeMin,
-            width: 150,
-            render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'minRange')
-          },
-          {
-            dataIndex: 'maxRange',
-            title: i18n.sensorRangeMax,
-            width: 150,
-            render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'maxRange')
-          }
-        ]
-      },
-      {
-        title: i18n.tendToExceed,
-        children: [
-          {
-            dataIndex: 'minTend',
-            title: i18n.tendToExceedMin,
-            width: 150,
-            render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'minTend', true)
-          },
-          {
-            dataIndex: 'maxTend',
-            title: i18n.tendToExceedMax,
-            width: 150,
-            render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'maxTend', true)
-          }
-        ]
-      },
-      {
         title: i18n.qcvn,
         children: [
           {
             dataIndex: 'minLimit',
+            align: 'center',
             title: i18n.qcvnMin,
             width: 150,
             render: (text, record, index) =>
@@ -283,6 +292,7 @@ export default class StationAutoFormTable extends React.Component {
           },
           {
             dataIndex: 'maxLimit',
+            align: 'center',
             title: i18n.qcvnMax,
             width: 150,
             render: (text, record, index) =>
@@ -291,8 +301,51 @@ export default class StationAutoFormTable extends React.Component {
         ]
       },
       {
+        title: i18n.tendToExceed,
+        children: [
+          {
+            dataIndex: 'minTend',
+            align: 'center',
+            title: i18n.tendToExceedMin,
+            width: 150,
+            render: (text, record, index) =>
+              this.renderItemNumberCell(text, record, index, 'minTend', true)
+          },
+          {
+            dataIndex: 'maxTend',
+            align: 'center',
+            title: i18n.tendToExceedMax,
+            width: 150,
+            render: (text, record, index) =>
+              this.renderItemNumberCell(text, record, index, 'maxTend', true)
+          }
+        ]
+      },
+      {
+        title: i18n.sensorRange,
+        children: [
+          {
+            dataIndex: 'minRange',
+            align: 'center',
+            title: i18n.sensorRangeMin,
+            width: 150,
+            render: (text, record, index) =>
+              this.renderItemNumberCell(text, record, index, 'minRange')
+          },
+          {
+            dataIndex: 'maxRange',
+            align: 'center',
+            title: i18n.sensorRangeMax,
+            width: 150,
+            render: (text, record, index) =>
+              this.renderItemNumberCell(text, record, index, 'maxRange')
+          }
+        ]
+      },
+      {
         dataIndex: 'unit',
         title: i18n.unit,
+        align: 'center',
         width: 150,
         render: (text, record, index) => (
           <FormItem style={{ marginBottom: 0 }}>

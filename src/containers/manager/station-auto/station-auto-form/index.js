@@ -131,6 +131,8 @@ export default class StationAutoForm extends React.PureComponent {
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
+      if (err) return
+      
       if (!values.measuringList) {
         const { t } = this.props.lang
         swal({
@@ -139,7 +141,7 @@ export default class StationAutoForm extends React.PureComponent {
         })
         return
       }
-      if (err) return
+      
       const data = {
         key: values.key,
         name: values.name,
