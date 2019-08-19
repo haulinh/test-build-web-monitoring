@@ -76,8 +76,8 @@ export default class TableDataList extends React.PureComponent {
 
           /* #endregion */
           let color = getcolorMeasure(value.value, measuring, SHAPE.BLACK);
-          // console.log("---------");
-          // console.log(measuring, color, value);
+          console.log("---------");
+          console.log(measuring, color, value);
           // Format number toLocalString(national)
           return (
             <div style={{ color: color }}>
