@@ -774,9 +774,12 @@ export default {
         placeholder: 'Address'
       },
       qcvn: {
-        label: 'Standards VN',
+        label: 'Excess Limit',
         placeholder: 'Standards VN',
         error: 'Please Choose Type Of Standards VN'
+      },
+      tendToExceed: {
+        label: 'Tend To Exceed Limit',
       },
       province: {
         label: 'Site',
@@ -825,7 +828,7 @@ export default {
         error: 'Please Input Phone Number'
       },
       range: {
-        label: 'Range'
+        label: 'Measuring Device Limit'
       },
       measuringKey: {
         label: 'Parameter code',
@@ -843,22 +846,22 @@ export default {
         error: 'Please Input Parameter Unit'
       },
       measuringMinLimit: {
-        label: 'Min Limit',
+        label: 'Min',
         placeholder: 'Input Min Limit',
         error: 'Please Input Min Limit'
       },
       measuringMaxLimit: {
-        label: 'Max Limit',
+        label: 'Max',
         placeholder: 'Input Max Limit',
         error: 'Please Input Max Limit'
       },
       measuringMinRange: {
-        label: 'Min Range',
+        label: 'Min',
         placeholder: 'Input Min Range',
         error: 'Please Input Min Range'
       },
       measuringMaxRange: {
-        label: 'Max Range',
+        label: 'Max',
         placeholder: 'Input Max Range',
         error: 'Please Input Max Range'
       },

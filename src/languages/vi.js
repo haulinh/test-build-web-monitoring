@@ -774,9 +774,12 @@ export default {
         placeholder: 'Nhập địa chỉ'
       },
       qcvn: {
-        label: 'QCVN',
+        label: 'Giới hạn vượt ngưỡng',
         placeholder: 'QCVN',
         error: 'Vui lòng chọn QCVN'
+      },
+      tendToExceed: {
+        label: 'Giới hạn chuẩn bị vượt',
       },
       province: {
         label: 'Đơn vị quản lý',
@@ -824,7 +827,7 @@ export default {
         error: 'Vui lòng nhập số điện thoại'
       },
       range: {
-        label: 'Giới hạn đo'
+        label: 'Giới hạn đo thiết bị'
       },
       measuringKey: {
         label: 'Mã thông số',
@@ -842,22 +845,22 @@ export default {
         error: 'Vui lòng nhập đơn vị của thông số'
       },
       measuringMinLimit: {
-        label: 'Giới hạn tối thiểu',
+        label: 'Tối thiểu',
         placeholder: 'Nhập giới hạn tối thiểu',
         error: 'Vui lòng nhập giới hạn tối thiểu'
       },
       measuringMaxLimit: {
-        label: 'Giới hạn tối đa',
+        label: 'Tối đa',
         placeholder: 'Nhập giới hạn tôí đa',
         error: 'Vui lòng nhập giới hạn tối đa'
       },
       measuringMinRange: {
-        label: 'Giới hạn tối thiểu',
+        label: 'Tối thiểu',
         placeholder: 'Nhập giới hạn đo tối thiểu',
         error: 'Vui lòng nhập giới hạn đo tối thiểu'
       },
       measuringMaxRange: {
-        label: 'Giới hạn tối đa',
+        label: 'Tối đa',
         placeholder: 'Input Max Range',
         error: 'Vui lòng nhập giới hạn đo tối đa'
       },
