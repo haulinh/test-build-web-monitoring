@@ -212,13 +212,11 @@ export default class StationAutoFormTable extends React.Component {
       if (!valueOfNameChanged) break;
 
       if (valueOfNameChanged < valueOfLeftPointer) {
-        callback(`field < ${longNameOfLeftPointer}`)
-        break;
+        return callback(`field < ${longNameOfLeftPointer}`)
       }
 
       if (valueOfNameChanged > valueOfRightPointer) {
-        callback(`field > ${longNameOfRightPointer}`)
-        break;
+        return callback(`field > ${longNameOfRightPointer}`)
       }
 
       if (indexOfLeftPointer == 0 && indexOfRightPointer == lengthOfArrName - 1) {
@@ -240,6 +238,7 @@ export default class StationAutoFormTable extends React.Component {
         valueOfRightPointer = rowData[nameOfRightPointer]
       } 
     }
+    callback()
   };
 
   getColumns = () => {
