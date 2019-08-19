@@ -173,10 +173,9 @@ export default class StationAutoFormTable extends React.Component {
       <FormItem style={{ marginBottom: 0 }}>
         {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
           initialValue: text,
+          validateFirst: true,
           rules: [
-            {
-              validator: (rule, value, callback) => this.validateValue(index, rule, value, callback),
-            },
+            { validator: (rule, value, callback) => this.validateValue(index, rule, value, callback) },
           ]
         })(<InputNumberCell style={{ width: 120 }} editable={true} />)}
       </FormItem>
@@ -184,51 +183,63 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   validateValue = (indexOfRow, rule, value, callback) => {
-    // const { form } = this.props;
+    const { form } = this.props;
     
-    // const nameOfInputChanged = rule.field.split('.')[1]
-    // let rowData = form.getFieldsValue().measuringList[indexOfRow]
-    // let arrName = ['minRange', 'minLimit', 'minTend', 'maxTend', 'maxLimit', 'maxRange']
-    // let lengthOfArrName = arrName.length
+    const nameOfInputChanged = rule.field.split('.')[1]
+    let rowData = form.getFieldsValue().measuringList[indexOfRow]
+    let arrLongName = ['min Range', 'min Limit', 'min Tend', 'max Tend', 'max Limit', 'max Range']
+    let arrName = ['minRange', 'minLimit', 'minTend', 'maxTend', 'maxLimit', 'maxRange']
+    let lengthOfArrName = arrName.length
     
-    // /* Dùng thuật toán two pointer */
-    // let indexOfNameChanged = arrName.indexOf(nameOfInputChanged)
-    // let nameOfIndex = arrName[indexOfNameChanged]
-    // let valueOfNameChanged = rowData[nameOfIndex]
+    /* Dùng thuật toán two pointer */
 
-    // let indexOfLeftPointer = indexOfNameChanged
-    // let nameOfLeftPointer = nameOfIndex
-    // let valueOfLeftPointer = valueOfNameChanged
+    let indexOfNameChanged = arrName.indexOf(nameOfInputChanged)
+    let nameOfIndex = arrName[indexOfNameChanged]
+    let longNameOfIndex = arrLongName[indexOfNameChanged]
+    let valueOfNameChanged = rowData[nameOfIndex]
 
-    // let indexOfRightPointer = indexOfNameChanged
-    // let nameOfRightPointer = nameOfIndex
-    // let valueOfRightPointer = valueOfNameChanged
+    let indexOfLeftPointer = indexOfNameChanged
+    let nameOfLeftPointer = nameOfIndex
+    let longNameOfLeftPointer = longNameOfIndex
+    let valueOfLeftPointer = valueOfNameChanged
 
-    // while(true) {
-    //   if (valueOfNameChanged < valueOfLeftPointer || valueOfNameChanged > valueOfRightPointer) {
-    //     console.log('error roi ban oi')
-    //     callback('error roi ban oi')
-    //     break;
-    //   }
+    let indexOfRightPointer = indexOfNameChanged
+    let nameOfRightPointer = nameOfIndex
+    let longNameOfRightPointer = longNameOfIndex
+    let valueOfRightPointer = valueOfNameChanged
 
-    //   if (indexOfLeftPointer == 0 && indexOfRightPointer == lengthOfArrName - 1) {
-    //     console.log("complete");
-    //     callback()
-    //     break;
-    //   }
+    while(true) {
+      if (!valueOfNameChanged) break;
+
+      if (valueOfNameChanged < valueOfLeftPointer) {
+        callback(`field < ${longNameOfLeftPointer}`)
+        break;
+      }
+
+      if (valueOfNameChanged > valueOfRightPointer) {
+        callback(`field > ${longNameOfRightPointer}`)
+        break;
+      }
+
+      if (indexOfLeftPointer == 0 && indexOfRightPointer == lengthOfArrName - 1) {
+        callback()
+        break;
+      }
       
-    //   if (indexOfLeftPointer > 0) {
-    //     indexOfLeftPointer = indexOfLeftPointer - 1;
-    //     valueOfLeftPointer = rowData[rowData[arrName[indexOfLeftPointer]]]
-    //   }
+      if (indexOfLeftPointer > 0) {
+        indexOfLeftPointer = indexOfLeftPointer - 1;
+        nameOfLeftPointer = arrName[indexOfLeftPointer]
+        longNameOfLeftPointer = arrLongName[indexOfLeftPointer]
+        valueOfLeftPointer = rowData[nameOfLeftPointer]
+      }
       
-    //   if (indexOfRightPointer < lengthOfArrName) {
-    //     indexOfRightPointer = indexOfRightPointer + 1;
-    //     valueOfRightPointer = rowData[rowData[arrName[indexOfRightPointer]]]
-    //   } 
-    // }
-
-    callback()
+      if (indexOfRightPointer < lengthOfArrName - 1) {
+        indexOfRightPointer = indexOfRightPointer + 1;
+        nameOfRightPointer = arrName[indexOfRightPointer]
+        longNameOfRightPointer = arrLongName[indexOfRightPointer]
+        valueOfRightPointer = rowData[nameOfRightPointer]
+      } 
+    }
   };
 
   getColumns = () => {
