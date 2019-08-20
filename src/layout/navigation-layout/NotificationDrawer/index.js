@@ -4,31 +4,24 @@ import styled from 'styled-components'
 import {Drawer, Icon} from 'antd'
 
 import { connectAutoDispatch } from 'redux/connect'
-import { setIsLoading, loadNotificationsByType, clearNotificationCountByType} from 'redux/actions/notification'
+import { clearNotificationCountByType} from 'redux/actions/notification'
 import NotificationContent from './notificationContent'
 
 @connectAutoDispatch(
   (state) => ({
-    stationAuto: state.stationAuto.list
   }),
-  { setIsLoading, loadNotificationsByType, clearNotificationCountByType }
+  { clearNotificationCountByType }
 )
 export default class NotificationDrawer extends React.Component {
   static propTypes = {
     /* Component's props */
     closeDrawer: propTypes.func.isRequired,
     visible: propTypes.bool.isRequired,
-    notificationNumbers: propTypes.object.isRequired,
     /* Redux's props */
-    stationAuto: propTypes.array.isRequired,
-    loadNotificationsByType: propTypes.func.isRequired,
     clearNotificationCountByType: propTypes.func.isRequired,
-    setIsLoading: propTypes.func.isRequired,
   }
 
-  static defaultProps = {
-    stationAuto: [],
-  }
+  static defaultProps = {}
 
   render() {
     return (

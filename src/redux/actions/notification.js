@@ -2,19 +2,19 @@ import moment from 'moment-timezone'
 import _ from 'lodash'
 import slug from 'constants/slug'
 import { TAB_KEYS } from 'constants/notification'
-import NotificationAPI from 'api/NotificationApi'
+import FcmAPI from 'api/NotificationApi'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date';
 
-export const RESET_ALL_COUNTS                   = 'NOTIFICATION/RESET_ALL_COUNTS'
-export const UPDATE_COUNTS                      = 'NOTIFICATION/UPDATE_COUNTS'
-export const UPDATE_ALL_COUNTS                  = 'NOTIFICATION/UPDATE_ALL_COUNTS'
-export const CLEAR_COUNTS                       = 'NOTIFICATION/CLEAR_COUNTS'
-export const NEW_MESSAGE                        = 'NOTIFICATION/NEW_MESSAGE'
-export const UPDATE_DATA_SOURCE                 = 'NOTIFICATION/UPDATE_DATA_SOURCE'
-export const UPDATE_DATA_SOURCE_ON_MESSAGE      = 'NOTIFICATION/UPDATE_DATA_SOURCE_ON_MESSAGE'
-export const TOGGLE_LOADING                     = 'NOTIFICATION/TOGGLE_LOADING'
-export const UPDATE_CURRENT_PAGE                = 'NOTIFICATION/UPDATE_CURRENT_PAGE'
-export const TOGGLE_VISIBLE_NOTIFICATION_DRAWER = 'NOTIFICATION/TOGGLE_VISIBLE_NOTIFICATION_DRAWER'
+export const RESET_ALL_COUNTS                   = 'NOTIFICATION / RESET_ALL_COUNTS'
+export const UPDATE_COUNTS                      = 'NOTIFICATION / UPDATE_COUNTS'
+export const UPDATE_ALL_COUNTS                  = 'NOTIFICATION / UPDATE_ALL_COUNTS'
+export const CLEAR_COUNTS                       = 'NOTIFICATION / CLEAR_COUNTS'
+export const NEW_MESSAGE                        = 'NOTIFICATION / NEW_MESSAGE'
+export const UPDATE_DATA_SOURCE                 = 'NOTIFICATION / UPDATE_DATA_SOURCE'
+export const UPDATE_DATA_SOURCE_ON_MESSAGE      = 'NOTIFICATION / UPDATE_DATA_SOURCE_ON_MESSAGE'
+export const TOGGLE_LOADING                     = 'NOTIFICATION / TOGGLE_LOADING'
+export const UPDATE_CURRENT_PAGE                = 'NOTIFICATION / UPDATE_CURRENT_PAGE'
+export const TOGGLE_VISIBLE_NOTIFICATION_DRAWER = 'NOTIFICATION / TOGGLE_VISIBLE_NOTIFICATION_DRAWER'
 
 
 export function resetAllCounts(){
@@ -60,7 +60,7 @@ const ITEM_PER_PAGE = 8
 export function loadNotificationsByType(page, stations) {
   return async dispatch => {
     try {
-      let res = await NotificationAPI.loadNotificationsByType({ page, itemPerPage: ITEM_PER_PAGE })
+      let res = await FcmAPI.loadNotificationsByType({ page, itemPerPage: ITEM_PER_PAGE })
       const {success, data} = res
 
       if (!success || data.length === 0) {
@@ -110,7 +110,7 @@ export function updateNotificationOnMessage(message, stations) {
 /* NOTE  emit to reducer: handleClearCount */
 export function clearNotificationCountByType(type) {
   return async dispatch => {
-    let res = await NotificationAPI.updateIsSeenByType(type)
+    let res = await FcmAPI.updateIsSeenByType(type)
 
     let target = ''
     switch(type) {
@@ -139,10 +139,10 @@ export function clearNotificationCountByType(type) {
   }
 }
 
-export function getTotalByNotificationType(rawState) {
+export function getTotalByNotificationType() {
   return async dispatch => {
     dispatch({type: RESET_ALL_COUNTS})
-    let res = await NotificationAPI.getTotalByNotificationType()
+    let res = await FcmAPI.getTotalByNotificationType()
     const {success, data} = res
 
     if (data.length === 0 || !success) return;
@@ -197,12 +197,10 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
         shortBody: rawContent.short_body,
         fullBody: rawContent.full_body,
         actions: {
-          viewDetail: '',
-          aroundAtExceededTime: ''
+          viewDetail: viewDetailURL,
+          aroundAtExceededTime: RawDataURL
         }
       }
-      cellContent.actions.viewDetail = viewDetailURL
-      cellContent.actions.aroundAtExceededTime = RawDataURL
 
       return cellContent
 }

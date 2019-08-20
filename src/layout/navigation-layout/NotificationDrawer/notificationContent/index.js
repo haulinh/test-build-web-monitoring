@@ -1,10 +1,8 @@
 import React from 'react'
 import propTypes from 'prop-types'
 // import _ from 'lodash'
-import styled from 'styled-components'
-import { translate } from 'hoc/create-lang'
 import { connectAutoDispatch } from 'redux/connect'
-import {Row, Col, Card, Button} from 'antd'
+import { Card } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller';
 import { withRouter } from 'react-router'
 // import { COLOR_STATUS } from 'themes/color';
@@ -17,7 +15,6 @@ import Cells from './cells'
     loading: state.notification.loading,
     currentPage: state.notification.currentPage,
     dataSource: state.notification.logs,
-    isHasMoreExceed: state.notification.isHasMoreExceed,
     stationAuto: state.stationAuto.list
   }),
   {loadNotificationsByType}
@@ -43,8 +40,8 @@ export default class NotificationDrawer extends React.Component {
   }
 
   componentDidMount() {
-    const {tabName, stationAuto} = this.props
-    const {defaultStartPage } = this.state
+    const { stationAuto } = this.props
+    const { defaultStartPage } = this.state
     this.props.loadNotificationsByType(defaultStartPage, stationAuto)
   }
 
