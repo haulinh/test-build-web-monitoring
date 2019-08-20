@@ -14,21 +14,10 @@ import {
 
 export const initialState = {
   visible: false,
-  loading: true, // exceeded loading
-  isLoadmoreLostSignal: true,
-  isLoadmoreSensorError: true,
+  loading: true,
   currentPage: 0,
-  count: {
-    total: 0,
-    exceeded: 0,
-    lostSignal: 0,
-    sensorError: 0
-  },
-  logs: {
-    exceeded: [],
-    lostSignal: [],
-    sensorError: [],
-  },
+  count: 0,
+  logs: []
 }
 
 export default function handleNotificationStore(state = initialState, action) {
@@ -58,12 +47,7 @@ export default function handleNotificationStore(state = initialState, action) {
 
 function handleResetAllCount(state) {
   return update(state,{
-    count:{
-      total: {$set: 0},
-      exceeded: {$set: 0},
-      lostSignal: {$set: 0},
-      sensorError: {$set: 0},
-    }
+    count:{ $set: 0 }
   })
 }
 
@@ -80,28 +64,24 @@ function handleToggleLoading(state, payload) {
 
 /* NOTE  handle action: loadNotificationsByType */
 /* DONE  */
-function handleUpdateDataSource(cloneState, payload) {
-  const {type, data} = payload
-  cloneState.logs[type] = [...cloneState.logs[type], ...data]
-  return cloneState
+function handleUpdateDataSource(state, payload) {
+  state.logs = [...state.logs, ...payload]
+  return update(state, {
+    logs: { $push: payload}
+  })
 }
 
 /* NOTE  handle action: clearNotificationCountByType */
 /* DONE */
 function handleClearCount(cloneState, type) {
-  cloneState.count[type] = 0
-
-  let { exceeded, lostSignal, sensorError } = cloneState.count
-  cloneState.count.total = _.sum([exceeded, lostSignal, sensorError])
-  
-  return cloneState
+  return update(cloneState, {
+    count: {$set: 0}
+  })
 }
 
 /* DONE */
 function handleUpdateCount(cloneState, payload) {
-  let {type, count} = payload
-  cloneState.count[type] += count
-  cloneState.count.total += count
+  cloneState.count += payload
   return cloneState
 }
 
@@ -111,8 +91,7 @@ function handleUpdateAllCount(cloneState, payload) {
 }
 
 /* DONE */
-function handleNewMessage(cloneState, payload) {
-  const {type, data} = payload
-  cloneState.logs[type] = [data, ...cloneState.logs[type]]
-  return cloneState
+function handleNewMessage(state, payload) {
+  state.logs = [payload, ...state.logs]
+  return state
 }

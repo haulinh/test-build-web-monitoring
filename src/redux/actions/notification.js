@@ -57,11 +57,10 @@ export function setIsLoading(type, flag) {
 
 /* NOTE  emit to reducer: handleUpdateDataSource */
 const ITEM_PER_PAGE = 8
-export function loadNotificationsByType(page, type, stations) {
+export function loadNotificationsByType(page, stations) {
   return async dispatch => {
     try {
-      dispatch(setIsLoading(type, false))
-      let res = await NotificationAPI.loadNotificationsByType({ type, page, itemPerPage: ITEM_PER_PAGE })
+      let res = await NotificationAPI.loadNotificationsByType({ page, itemPerPage: ITEM_PER_PAGE })
       const {success, data} = res
 
       if (!success || data.length === 0) {
@@ -75,45 +74,11 @@ export function loadNotificationsByType(page, type, stations) {
         if (!stationInfo) return
         return _generateNotificationCellByType(item, stationInfo)
       }))
-        
-      switch(type) {
-        case TAB_KEYS.EXCEEDED: {
-          dispatch({
-            type: UPDATE_DATA_SOURCE,
-            payload: {
-              type: 'exceeded',
-              data: transformedData
-            }
-          })
-          break;
-        }
-        case TAB_KEYS.LOST_SIGNAL: {
-          dispatch({
-            type: UPDATE_DATA_SOURCE,
-            payload: {
-              type: 'lostSignal',
-              data: transformedData
-            }
-          })
-          break;
-        }
-        case TAB_KEYS.SENSOR_ERROR: {
-          dispatch({
-            type: UPDATE_DATA_SOURCE,
-            payload: {
-              type: 'sensorError',
-              data: transformedData
-            }
-          })
-          break;
-        }
-        default:
-        break
-      }
-
-      if (data.length >= ITEM_PER_PAGE) {
-        dispatch(setIsLoading(type, true))
-      }
+      
+      dispatch({
+        type: UPDATE_DATA_SOURCE,
+        payload: transformedData
+      })
     }
     catch(err) {
       console.log(err.message)
@@ -122,69 +87,23 @@ export function loadNotificationsByType(page, type, stations) {
   }
 }
 
+/* @task */
 /* NOTE  emit to reducer: handleUpdateDataSource */
 export function updateNotificationOnMessage(message, stations) {
   return async dispatch => {
   
     let stationInfo = _.find(stations, {_id: message.data.station_id})
-    console.log('--- message ---', message)
     let item = _generateNotificationCellByType(message, stationInfo)
 
-    switch(message.data.type) { // EXCEEDED || ERROR || DATA_LOST
-      case TAB_KEYS.EXCEEDED: {
-        dispatch({
-          type: UPDATE_COUNTS,
-          payload: {
-            type: 'exceeded',
-            count: 1
-          }
-        })
-        dispatch({
-          type: NEW_MESSAGE,
-          payload: {
-            type: 'exceeded',
-            data: item
-          }
-        })
-        break;
-        }
-      case TAB_KEYS.LOST_SIGNAL: {
-        dispatch({
-          type: UPDATE_COUNTS,
-          payload: {
-            type: 'lostSignal',
-            count: 1
-          }
-        })
-        dispatch({
-          type: NEW_MESSAGE,
-          payload: {
-            type: 'lostSignal',
-            data: item
-          }
-        })
-        break;
-      }
-      case TAB_KEYS.SENSOR_ERROR: {
-        dispatch({
-          type: UPDATE_COUNTS,
-          payload: {
-            type: 'sensorError',
-            count: 1
-          }
-        })
-        dispatch({
-          type: NEW_MESSAGE,
-          payload: {
-            type: 'sensorError',
-            data: item
-          }
-        })
-        break;
-      }
-      default:
-      break
-    }
+    dispatch({
+      type: UPDATE_COUNTS,
+      payload: 1
+    })
+
+    dispatch({
+      type: NEW_MESSAGE,
+      payload: item
+    })
   }
 }
 
@@ -232,9 +151,9 @@ export function getTotalByNotificationType(rawState) {
     let lostSignal = _.find(data, {_id: TAB_KEYS.LOST_SIGNAL})
     let sensorError = _.find(data, {_id: TAB_KEYS.SENSOR_ERROR})
 
-    exceeded = exceeded ? exceeded.count : 0
-    lostSignal = lostSignal ? lostSignal.count : 0
-    sensorError = sensorError ? sensorError.count : 0
+    exceeded = _.get(exceeded, 'count', 0) 
+    lostSignal = _.get(lostSignal, 'count', 0) 
+    sensorError = _.get(sensorError, 'count', 0)  
 
     let total = _.sum([exceeded, lostSignal, sensorError])
 
@@ -246,6 +165,7 @@ export function getTotalByNotificationType(rawState) {
 }
 
 function _generateNotificationCellByType(rawContent, stationInfo) {
+  console.log(rawContent, "rawContent")
       // generate ra link filter station monitoring
       const formSearchViewDetail = {
         stationAuto: stationInfo.key,
@@ -270,9 +190,12 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
       
       // new content of cell
       const cellContent = {
-        station: stationInfo.name,
+        isRead: rawContent.isRead,
+        station: rawContent.title,
+        status: rawContent.status || rawContent.type,
         exceededTime: moment(rawContent.createdAt).format(DD_MM_YYYY_HH_MM),
-        fullBody: {__html: rawContent.full_body},
+        shortBody: rawContent.short_body,
+        fullBody: rawContent.full_body,
         actions: {
           viewDetail: '',
           aroundAtExceededTime: ''
