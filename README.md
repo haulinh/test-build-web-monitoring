@@ -25,7 +25,7 @@ yarn run start // mở trình duyệt cổng 3000
 
 ## Đóng góp thay đổi code
 Để phát triển code của dự án, các thành viên vui lòng tạo branch mới từ nhánh develop.
-Quy trình thực hiện như sau:
+Quy trình thực hiện như sau:.
 ```
 git checkout develop
 git branch feature/[name] # tạo nhánh từ develop
