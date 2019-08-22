@@ -26,7 +26,7 @@ export default class NotificationDrawer extends React.Component {
   render() {
     return (
       <Drawer
-        width='40vw'
+        width='30vw'
         bodyStyle={{height: '100%', padding: 8}}
         title={<div onClick={this.closeDrawer}><Icon type="double-left" /> Notifications</div>}
         placement="left"

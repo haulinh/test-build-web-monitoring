@@ -1,56 +1,35 @@
 import React from 'react'
 import _ from 'lodash'
-import { Row, Col, Card, Button} from 'antd'
+import { Row, Col } from 'antd'
 
 import { translate } from 'hoc/create-lang'
+import DefaultCell from './_defaultCell'
+import { BoldTextWrap } from './_helperComponent'
 
 const i18n = {
-  gotoRealtimeMonitoringPage: translate('actions.gotoMonitoring'),
-  viewDataAroundThisTime: translate('actions.viewDataAroundThisTime'),
-  exceeded: translate('stationStatus.exceeded'),
-  exceededPreparing: translate('stationStatus.exceededPreparing'),
+  station: translate('common.station'),
+  device: translate('common.device'),
+  device: translate('common.device'),
 }
 
 export default function SensorGoodCell(props) {
   const { cellContent } = props
 
-  function handleActionClick(url) {
-    props.history.push(url)
-    props.closeDrawer()
-  }
-  console.log(cellContent, "cellContent")
+  const content = (
+    <React.Fragment>
+      <BoldTextWrap>{cellContent.shortBody} </BoldTextWrap>
+      {i18n.station}
+      <BoldTextWrap> {cellContent.title} </BoldTextWrap>
+      {i18n.device}
+      <BoldTextWrap> {cellContent.fullBody}</BoldTextWrap>
+    </React.Fragment>
+  )
+
   return (
-    <Row style={{padding: 8}}>
-      <Col>fda;f</Col>
-      <Col>fdaf</Col>
-      {/* <CustomRow type="flex" justify="center" align="middle">
-      <Col span={12}>
-        <strong>{cellContent.station}</strong>
-      </Col>
-      <Col span={12} style={{textAlign: "right", fontSize: 11}}>
-        <i>{cellContent.exceededTime}</i>
-      </Col>
-    </CustomRow>
-    <CustomParamsRow>
-      <div dangerouslySetInnerHTML={cellContent.fullBody}></div>
-    </CustomParamsRow>
-    
-    <CustomRow type="flex" gutter={16}>
-      <Col>
-        <Button 
-          type="primary" ghost 
-          onClick={() => handleActionClick(cellContent.actions.viewDetail)}>
-          {i18n.gotoRealtimeMonitoringPage}
-        </Button>
-      </Col>
-      <Col>
-        <Button 
-          type="primary" ghost 
-          onClick={() => handleActionClick(cellContent.actions.aroundAtExceededTime)}>
-          {i18n.viewDataAroundThisTime}
-        </Button>
-      </Col>
-    </CustomRow> */}
-    </Row>
+    <DefaultCell 
+      icon=" https://img.icons8.com/color/2x/ok.png"
+      content={content}
+      data={cellContent}
+    />
   )
 }

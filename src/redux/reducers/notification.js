@@ -9,7 +9,8 @@ import {
   UPDATE_DATA_SOURCE,
   TOGGLE_LOADING,
   TOGGLE_VISIBLE_NOTIFICATION_DRAWER,
-  RESET_ALL_COUNTS
+  RESET_ALL_COUNTS,
+  UPDATE_READ
 } from '../actions/notification'
 
 export const initialState = {
@@ -29,7 +30,7 @@ export default function handleNotificationStore(state = initialState, action) {
     case TOGGLE_LOADING: 
       return handleToggleLoading(state, payload)
     case CLEAR_COUNTS: 
-      return handleClearCount(cloneState, payload)
+      return handleClearCount(state)
     case UPDATE_COUNTS: 
       return handleUpdateCount(cloneState, payload)
     case UPDATE_ALL_COUNTS: 
@@ -40,6 +41,8 @@ export default function handleNotificationStore(state = initialState, action) {
       return handleUpdateDataSource(cloneState, payload)
     case TOGGLE_VISIBLE_NOTIFICATION_DRAWER:
       return {...state, ...{visible: payload}}
+    case UPDATE_READ:
+      return handleUpdateRead(state, payload)
     default:
       return state
   }
@@ -73,9 +76,9 @@ function handleUpdateDataSource(state, payload) {
 
 /* NOTE  handle action: clearNotificationCountByType */
 /* DONE */
-function handleClearCount(cloneState, type) {
+function handleClearCount(cloneState) {
   return update(cloneState, {
-    count: {$set: 0}
+    count: { $set: 0 }
   })
 }
 
@@ -94,4 +97,14 @@ function handleUpdateAllCount(cloneState, payload) {
 function handleNewMessage(state, payload) {
   state.logs = [payload, ...state.logs]
   return state
+}
+
+/* TODO */
+function handleUpdateRead(state, id) {
+  console.log('---handleUpdateRead---')
+  let indexOfId = state.logs.findIndex(item => item._id === id)
+  state.logs[indexOfId].isRead = true
+  return update(state, {
+    logs: {$set: state.logs}
+  })
 }

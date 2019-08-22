@@ -1671,5 +1671,19 @@ export default {
       restore: 'Bạn có muốn khôi phục mục này không?',
       delete: 'Bạn có muốn xóa mục này không?'
     }
+  },
+  common: {
+    station: 'trạm',
+    device: 'thiết bị',
+    measure: 'Chỉ tiêu',
+    measures: 'Các chỉ tiêu',
+    deviceStatus: {
+      sensorGood: 'Thiết bị tốt',
+      sensorError: 'Lỗi thiết bị',
+      dataExceeded: 'Vượt ngưỡng',
+      dataExceededPrepare: 'Chuẩn bị vượt ngưỡng',
+      dataLoss: 'Mất tín hiệu',
+      dataConnected: 'Có tín hiệu trở lại'
+    }
   }
 }

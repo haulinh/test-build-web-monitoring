@@ -15,6 +15,7 @@ export const UPDATE_DATA_SOURCE_ON_MESSAGE      = 'NOTIFICATION / UPDATE_DATA_SO
 export const TOGGLE_LOADING                     = 'NOTIFICATION / TOGGLE_LOADING'
 export const UPDATE_CURRENT_PAGE                = 'NOTIFICATION / UPDATE_CURRENT_PAGE'
 export const TOGGLE_VISIBLE_NOTIFICATION_DRAWER = 'NOTIFICATION / TOGGLE_VISIBLE_NOTIFICATION_DRAWER'
+export const UPDATE_READ                        = 'NOTIFICATION / UPDATE_READ'
 
 
 export function resetAllCounts(){
@@ -112,28 +113,9 @@ export function clearNotificationCountByType(type) {
   return async dispatch => {
     let res = await FcmAPI.updateIsSeenByType(type)
 
-    let target = ''
-    switch(type) {
-      case TAB_KEYS.EXCEEDED: {
-        target = 'exceeded'
-        break;
-      }
-      case TAB_KEYS.LOST_SIGNAL: {
-        target = 'lostSignal'
-        break;
-      }
-      case TAB_KEYS.SENSOR_ERROR: {
-        target = 'sensorError'
-        break;
-      }
-      default:
-      break
-    }
-
     if(res.success) {
       dispatch({
         type: CLEAR_COUNTS,
-        payload: target
       })
     }
   }
@@ -164,8 +146,22 @@ export function getTotalByNotificationType() {
   }
 }
 
+export function updateNotifyRead(data) {
+  return async dispatch => {
+    /* TODO  update database */
+    let {_id} = data
+    let res = await FcmAPI.updateIsRead(_id)
+    console.log(res, "resres")
+    if(res.success) {
+      dispatch({
+        type: UPDATE_READ,
+        payload: _id
+      })
+    }
+  }
+}
+
 function _generateNotificationCellByType(rawContent, stationInfo) {
-  console.log(rawContent, "rawContent")
       // generate ra link filter station monitoring
       const formSearchViewDetail = {
         stationAuto: stationInfo.key,
@@ -190,12 +186,18 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
       
       // new content of cell
       const cellContent = {
+        _id: rawContent._id,
+        stationID: rawContent.station_id,
+        title: rawContent.title,
+        status: rawContent.status || rawContent.type,
         isRead: rawContent.isRead,
         station: rawContent.title,
-        status: rawContent.status || rawContent.type,
-        exceededTime: moment(rawContent.createdAt).format(DD_MM_YYYY_HH_MM),
+        receivedAt: moment(rawContent.receivedAt).format(DD_MM_YYYY_HH_MM),
+        rawAt: moment(rawContent.rawAt).format(DD_MM_YYYY_HH_MM),
         shortBody: rawContent.short_body,
         fullBody: rawContent.full_body,
+        measurings: rawContent.measurings,
+        dataFilter: rawContent.dataFilter, 
         actions: {
           viewDetail: viewDetailURL,
           aroundAtExceededTime: RawDataURL

@@ -1671,5 +1671,21 @@ export default {
       restore: 'Do you want to restore this item?',
       delete: 'Do you want to delete this item?'
     }
+  },
+  common: {
+    station: 'station',
+    device: 'device',
+    measure: 'measuring',
+    measures: 'measurings',
+    notUse: 'Not In Use',
+    deviceStatus: {
+      sensorGood: 'Sensor Good',
+      sensorError: 'Sensor Error',
+      dataExceeded: 'Exceeded',
+      dataExceededPrepare: 'Almost Exceed',
+      dataExceededTendency: 'Tend To Exceed',
+      dataLoss: 'Lost Connection',
+      dataConnected: 'Go connected'
+    }
   }
 }

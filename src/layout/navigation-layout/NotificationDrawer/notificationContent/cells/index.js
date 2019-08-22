@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { NOTIFY_TYPE } from 'constants/notification'
+
 import { default as SensorErrorCell } from './cellSensorError'
 import { default as SensorGoodCell } from './cellSensorGood'
 import { default as DataLossCell } from './cellDataLoss'
@@ -37,6 +39,6 @@ export default function Cells(props) {
         break
     }
 
-    return <Cell data={cellContent} />
+    return <Cell cellContent={cellContent} key={cellContent._id}/>
   })
 }

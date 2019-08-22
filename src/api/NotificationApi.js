@@ -23,6 +23,10 @@ export function updateIsSeenByType(type){
   return putFetch(`${fcmNotificationRoute()}/updateIsSeen`, {type})
 }
 
+export function updateIsRead(_id){
+  return putFetch(`${fcmNotificationRoute()}/updateIsRead/${_id}`)
+}
+
 export function loadNotificationsByType(params){  // params: {page, itemPerPage, type}
   let qryString = querystring.stringify(params)
   return getFetch(`${fcmNotificationRoute()}/?${qryString}`)
@@ -49,5 +53,6 @@ export default {
   getTotalByNotificationType,
   loadNotificationsByType,
   linkToken2Email,
-  deleteToken
+  deleteToken,
+  updateIsRead
 }
