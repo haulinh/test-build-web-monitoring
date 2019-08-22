@@ -1,4 +1,4 @@
-Dự án frontend sử dụng các thư viện cốt lõi sau cho việc phát triển.
+Dự án frontend sử dụng các thư viện cốt lõi sau cho việc phát triển..
 
 * atlaskit (UI component)..
 * redux (Store management).
