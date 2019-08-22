@@ -23,7 +23,7 @@ yarn install
 yarn run start // mở trình duyệt cổng 3000
 ```
 
-## Đóng góp thay đổi code
+## Đóng góp thay đổi code.
 Để phát triển code của dự án, các thành viên vui lòng tạo branch mới từ nhánh develop.
 Quy trình thực hiện như sau:.
 ```
