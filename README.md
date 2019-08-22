@@ -38,4 +38,4 @@ Sau khi thực hiện sau quá trình phát triển feature, cần rà soát l�
 * Code warning: được báo trong phần terminal, các biến không sử dụng, cách đặt tên sai
 * Prettier: Prettiter các file code
 
-Sau đó thưc hiện push lên, vào tạo pull request yêu cầu `product owner` check và merge..
+Sau đó thưc hiện push lên, vào tạo pull request yêu cầu `product owner` check và merge...
