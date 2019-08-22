@@ -3,7 +3,7 @@ Dự án frontend sử dụng các thư viện cốt lõi sau cho việc phát t
 * atlaskit (UI component)
 * redux (Store management)
 * redux-await (Fetch await data)
-* react-router (Page router)
+* react-router (Page router).
 
 Để hiểu về thông tin dự án, vui lòng đọc tại trang `Wiki` của project này.
 
