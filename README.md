@@ -9,7 +9,7 @@ Dự án frontend sử dụng các thư viện cốt lõi sau cho việc phát t
 
 ## Các lệnh...
 ```
-yarn run start # Dev Server
+yarn run start # Dev Server.
 yarn run build # Build ra dự án
 yarn run prettier # Tự động format code
 ```
