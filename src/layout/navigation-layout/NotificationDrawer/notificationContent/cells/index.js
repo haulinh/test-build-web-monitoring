@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { List } from 'antd'
 import { NOTIFY_TYPE } from 'constants/notification'
 
 import { default as SensorErrorCell } from './cellSensorError'
@@ -12,9 +12,9 @@ import { default as EmptyCell } from './cellEmpty'
 
 export default function Cells(props) {
   const { dataSource } = props
-  return dataSource.map((cellContent, index) => {
+  let cells =  dataSource.map((cellContent, index) => {
     let Cell = <div></div>
-
+    console.log('cellContentMap', cellContent)
     switch (cellContent.status) {
       case NOTIFY_TYPE.SENSOR_GOOD: 
         Cell = SensorGoodCell
@@ -39,6 +39,21 @@ export default function Cells(props) {
         break
     }
 
-    return <Cell cellContent={cellContent} key={cellContent._id}/>
+    return (
+         <Cell cellContent={cellContent} key={cellContent._id}/>
+    )
   })
+
+
+  return (
+    <List
+      header={<div>Header</div>}
+      footer={<div>Footer</div>}
+      dataSource={cells}
+      renderItem={item => item}
+      // loadMore={"Loading...."}
+    >
+
+    </List>
+  )
 }

@@ -16,7 +16,7 @@ import {
 export const initialState = {
   visible: false,
   loading: true,
-  currentPage: 0,
+  currentPage: 1,
   count: 0,
   logs: []
 }
@@ -68,9 +68,8 @@ function handleToggleLoading(state, payload) {
 /* NOTE  handle action: loadNotificationsByType */
 /* DONE  */
 function handleUpdateDataSource(state, payload) {
-  state.logs = [...state.logs, ...payload]
   return update(state, {
-    logs: { $push: payload}
+    logs: { $push: payload }
   })
 }
 

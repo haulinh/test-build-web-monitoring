@@ -9,6 +9,7 @@ import { BoldTextWrap } from './_helperComponent'
 const i18n = {
   station: translate('common.station'),
   measurings: translate('common.measures'),
+  dataConnected: translate('common.deviceStatus.dataConnected'),
 }
 
 export default function DataConnectedCell(props) {
@@ -16,7 +17,7 @@ export default function DataConnectedCell(props) {
 
   const content = (
     <React.Fragment>
-      <BoldTextWrap>{cellContent.shortBody} </BoldTextWrap>
+      <BoldTextWrap>{i18n.dataConnected} </BoldTextWrap>
       {i18n.station}
       <BoldTextWrap> {cellContent.title}</BoldTextWrap>
     </React.Fragment>

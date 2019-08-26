@@ -37,30 +37,18 @@ export function setDrawerVisible(flag) {
 }
 
 /* NOTE  emit to reducer: handleToggleLoading */
-export function setIsLoading(type, flag) {
-  switch(type) {
-    case TAB_KEYS.EXCEEDED: return {
-      type: TOGGLE_LOADING,
-      payload: {type: 'loading', value: flag}
-    }
-    case TAB_KEYS.LOST_SIGNAL: return {
-      type: TOGGLE_LOADING,
-      payload: {type: 'isLoadmoreLostSignal', value: flag}
-    }
-    case TAB_KEYS.SENSOR_ERROR: return {
-      type: TOGGLE_LOADING,
-      payload: {type: 'isLoadmoreSensorError', value: flag}
-    }
-    default:
-    break
-  }
+export function setIsLoading(flag) {
+  return {type: 'loading', value: flag}
 }
 
 /* NOTE  emit to reducer: handleUpdateDataSource */
-const ITEM_PER_PAGE = 8
+const ITEM_PER_PAGE = 100
 export function loadNotificationsByType(page, stations) {
+  console.log("page", page)
   return async dispatch => {
     try {
+      dispatch(setIsLoading(false))
+
       let res = await FcmAPI.loadNotificationsByType({ page, itemPerPage: ITEM_PER_PAGE })
       const {success, data} = res
 
@@ -75,11 +63,17 @@ export function loadNotificationsByType(page, stations) {
         if (!stationInfo) return
         return _generateNotificationCellByType(item, stationInfo)
       }))
-      
+      console.log(transformedData, "transformedData")
       dispatch({
         type: UPDATE_DATA_SOURCE,
         payload: transformedData
       })
+
+      /* nếu vẫn còn data thì show loading load tiếp */
+      if (data.length >= ITEM_PER_PAGE) {
+        dispatch(setIsLoading(true))
+      }
+
     }
     catch(err) {
       console.log(err.message)
@@ -162,6 +156,7 @@ export function updateNotifyRead(data) {
 }
 
 function _generateNotificationCellByType(rawContent, stationInfo) {
+  console.log('rawContent', rawContent)
       // generate ra link filter station monitoring
       const formSearchViewDetail = {
         stationAuto: stationInfo.key,
@@ -192,8 +187,8 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
         status: rawContent.status || rawContent.type,
         isRead: rawContent.isRead,
         station: rawContent.title,
-        receivedAt: moment(rawContent.receivedAt).format(DD_MM_YYYY_HH_MM),
-        rawAt: moment(rawContent.rawAt).format(DD_MM_YYYY_HH_MM),
+        receivedAt: rawContent.receivedAt,
+        rawAt: rawContent.rawAt,
         shortBody: rawContent.short_body,
         fullBody: rawContent.full_body,
         measurings: rawContent.measurings,

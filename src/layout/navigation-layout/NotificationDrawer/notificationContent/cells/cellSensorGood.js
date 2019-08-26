@@ -9,7 +9,8 @@ import { BoldTextWrap } from './_helperComponent'
 const i18n = {
   station: translate('common.station'),
   device: translate('common.device'),
-  device: translate('common.device'),
+  sensorGood: translate('common.deviceStatus.sensorGood'),
+
 }
 
 export default function SensorGoodCell(props) {
@@ -17,7 +18,7 @@ export default function SensorGoodCell(props) {
 
   const content = (
     <React.Fragment>
-      <BoldTextWrap>{cellContent.shortBody} </BoldTextWrap>
+      <BoldTextWrap>{i18n.sensorGood} </BoldTextWrap>
       {i18n.station}
       <BoldTextWrap> {cellContent.title} </BoldTextWrap>
       {i18n.device}

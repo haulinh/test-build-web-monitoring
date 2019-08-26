@@ -9,6 +9,7 @@ import { BoldTextWrap } from './_helperComponent'
 const i18n = {
   station: translate('common.station'),
   measurings: translate('common.measures'),
+  dataExceededPrepare: translate('common.deviceStatus.dataExceededPrepare'),
 }
 
 export default function DataExceededPreparedCell(props) {
@@ -16,7 +17,7 @@ export default function DataExceededPreparedCell(props) {
 
   const content = (
     <React.Fragment>
-      <BoldTextWrap>{cellContent.shortBody} </BoldTextWrap>
+      <BoldTextWrap>{i18n.dataExceededPrepare} </BoldTextWrap>
       {i18n.station}
       <BoldTextWrap> {cellContent.title} </BoldTextWrap>
       {i18n.measurings}

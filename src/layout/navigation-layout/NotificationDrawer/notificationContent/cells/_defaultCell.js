@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import moment from 'moment'
 import { Row, Col, Tooltip, Dropdown, Menu, message} from 'antd'
 import styled from 'styled-components'
 
@@ -87,31 +88,35 @@ export default class DefaultCell extends React.Component {
         onMouseEnter={() => this.setState({isShowActions: true})}
         onMouseLeave={() => this.setState({isShowActions: false})}
       >
+
         {/* image */}
-        <Col span={3} style={{textAlign: "center"}} className="notify-image">
-          <img src={icon} width={50} />
+        <Col span={3} style={{textAlign: "center"}} className="notify-image" >
+          <img src={icon} width={50} width="100%"/>
         </Col>
+
         {/* contents */}
-        <Col span={this.state.isShowActions ? 20 : 21 } className="notify-content">
-          <Tooltip title={content} placement="right" overlayStyle={{width: 400}}>
+        <Col span={ 20 } className="notify-content" style={{paddingLeft: 8, paddingRight: 16}}>
+          <Tooltip title={content} placement="right" overlayStyle={{width: 800, marginLeft: 200}} mouseEnterDelay={1}>
             <MultilineText>
               {content}
             </MultilineText>
           </Tooltip>
           <Row>
             <Col style={{fontStyle: "italic", color: "#90949c", fontSize: 12}}>
-              { receivedAt }
+              { moment(receivedAt).format('MM/DD [at] HH:mm') }
             </Col>
           </Row>
         </Col>
+
         {/* actions */}
-        { this.state.isShowActions && (
-          <Dropdown overlay={menu} placement="bottomRight">
-            <Col className="notify-action" span={1}>
-              ...
-            </Col>
-          </Dropdown>
-        )}
+        <Col className="notify-action" span={1}>
+          { this.state.isShowActions && (
+            <Dropdown overlay={menu} placement="bottomRight">
+              <span>...</span>
+            </Dropdown>
+          )}
+        </Col>
+        
       </Row>
     )
   }

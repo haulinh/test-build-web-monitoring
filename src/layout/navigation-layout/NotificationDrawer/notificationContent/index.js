@@ -24,7 +24,6 @@ export default class NotificationDrawer extends React.Component {
   static propTypes = {
     /* component's props */
     tabName: propTypes.string.isRequired,
-    loadNotifications: propTypes.func.isRequired,
     /* redux's props */
     stationAuto: propTypes.array.isRequired,
     loading: propTypes.bool.isRequired,
@@ -36,31 +35,29 @@ export default class NotificationDrawer extends React.Component {
   static defaultProps = {}
 
   state = {
-    defaultStartPage: 1
+    currentPage: 1
   }
 
   componentDidMount() {
-    const { stationAuto } = this.props
-    const { defaultStartPage } = this.state
-    this.props.loadNotificationsByType(defaultStartPage, stationAuto)
+    const { stationAuto, currentPage } = this.props
+    this.props.loadNotificationsByType(currentPage, stationAuto)
   }
 
   render() {
-    const { loading, dataSource, tabName, stationAuto } = this.props
+    const { loading, dataSource, stationAuto, currentPage } = this.props
     
     return (
       <InfiniteScroll
         initialLoad={false} /* NOTE : không load chỗ này sẽ dẫn đến vòng lập vô hạn */
-        pageStart={this.state.defaultStartPage}
+        pageStart={currentPage}
         hasMore={loading}
-        threshold={500}
+        threshold={200}
         loader={<Card key="loading" loading />}
-        loadMore={(page) => this.props.loadNotificationsByType(page, tabName, stationAuto)}
+        loadMore={(page) => this.props.loadNotificationsByType(page, stationAuto)}
         useWindow={false}
        >
         <Cells 
-          dataSource={dataSource} 
-          history={this.props.history} 
+          dataSource={dataSource}
           closeDrawer={this.props.closeDrawer}
         />
       </InfiniteScroll>
