@@ -16,7 +16,8 @@ const i18n = {
     stationType: translate("avgSearchFrom.form.stationType.error"),
     fromMonth: translate("avgSearchFrom.form.fromMonth.error"),
     toMonth: translate("avgSearchFrom.form.toMonth.error"),
-    toMonth_1: translate("avgSearchFrom.form.toMonth.error1")
+    toMonth_1: translate("avgSearchFrom.form.toMonth.error1"),
+    toMonth_2: translate("avgSearchFrom.form.toMonth.error2")
   },
   label: {
     stationType: translate("avgSearchFrom.form.stationType.label"),
@@ -57,8 +58,9 @@ export default class SearchForm extends React.Component {
       // console.log(err, values)
       if (!err) {
         // console.log("Received values of form: ", values);
+        // console.log(moment(values.fromMonth).startOf("month").format())
 
-        values.fromMonth = moment(values.toMonth).startOf("month")
+        values.fromMonth = moment(values.fromMonth).startOf("month")
         values.toMonth = moment(values.toMonth).endOf("month") > moment() ?  moment() : moment(values.toMonth).endOf("month")
         if (this.props.cbSubmit) {
           this.props.cbSubmit({
@@ -73,8 +75,11 @@ export default class SearchForm extends React.Component {
 
   compareTofromDate = (rule, value, callback) => {
     const { form } = this.props;
+    console.log()
     if (value && value < form.getFieldValue('fromMonth')) {
       callback( i18n.error.toMonth_1);
+    }if (value && value.isAfter(moment(),'month') ) {
+      callback( i18n.error.toMonth_2);
     } else {
       callback();
     }
