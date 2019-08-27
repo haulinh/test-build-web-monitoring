@@ -11,7 +11,7 @@ import {
 import { STATUS_STATION } from 'constants/stationStatus'
 import { Row, Clearfix, Item, BoxNumberView } from './style'
 import PropTypes from 'prop-types'
-import { COLOR_STATUS } from 'themes/color'
+import { COLOR } from 'themes/color'
 
 const BoxAnalyticListWrapper = styled.div``
 
@@ -110,7 +110,7 @@ export default class BoxAnalyticList extends React.PureComponent {
             }}
           >
             <BoxNumberView
-              color={COLOR_STATUS.DATA_LOSS}
+              color={COLOR.DATA_LOSS}
               type={t(pfKey + 'lossData')}
               number={this.state.loss}
               focusStatus={warningLevels.LOSS}
@@ -123,7 +123,7 @@ export default class BoxAnalyticList extends React.PureComponent {
             }}
           >
             <BoxNumberView
-              color={COLOR_STATUS.GOOD}
+              color={COLOR.GOOD}
               type={t(pfKey + 'good')}
               number={this.state.good}
               focusStatus={warningLevels.GOOD}
@@ -139,7 +139,7 @@ export default class BoxAnalyticList extends React.PureComponent {
             }}
           >
             <BoxNumberView
-              color={COLOR_STATUS.EXCEEDED}
+              color={COLOR.EXCEEDED}
               type={t(pfKey + 'exceed')}
               number={this.state.exceeded}
               focusStatus={warningLevels.EXCEEDED}
@@ -152,7 +152,7 @@ export default class BoxAnalyticList extends React.PureComponent {
             }}
           >
             <BoxNumberView
-              color={COLOR_STATUS.EXCEEDED_PREPARING}
+              color={COLOR.EXCEEDED_PREPARING}
               type={t(pfKey + 'exceedPreparing')}
               number={this.state.exceededPreparing}
               focusStatus={warningLevels.EXCEEDED_PREPARING}

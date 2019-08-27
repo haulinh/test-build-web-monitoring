@@ -11,7 +11,7 @@ import { getDataStationAutoAvg } from 'api/DataStationAutoApi'
 import { getFormatNumber } from 'constants/format-number'
 import InputEditCell from 'components/elements/input-edit-cell'
 import Label from 'components/elements/label'
-import { COLOR_STATUS } from 'themes/color'
+import { COLOR } from 'themes/color'
 import { connect } from 'react-redux'
 
 const { TabPane } = Tabs
@@ -287,7 +287,7 @@ export default class ChartRowToChart extends React.Component {
                   results[key] = _.concat(array, [
                     {
                       y: null,
-                      color: COLOR_STATUS.GOOD
+                      color: COLOR.GOOD
                     }
                   ])
                   return key
@@ -297,7 +297,7 @@ export default class ChartRowToChart extends React.Component {
                 _.mapKeys(itemData, (value, key) => {
                   const array = _.get(results, key, [])
                   let valueObj = undefined
-                  let colorColumn = COLOR_STATUS.GOOD
+                  let colorColumn = COLOR.GOOD
 
                   // xét màu cho các column khi nằm ngoài limit
                   if (_.has(categories, `${key}`)) {
@@ -331,11 +331,11 @@ export default class ChartRowToChart extends React.Component {
                     }
                     
                     if (stausChuanBiVuot) {
-                      colorColumn = COLOR_STATUS.EXCEEDED_PREPARING
+                      colorColumn = COLOR.EXCEEDED_PREPARING
                     } else if (statusMin && statusMax) {
-                      colorColumn = COLOR_STATUS.GOOD
+                      colorColumn = COLOR.GOOD
                     } else {
-                      colorColumn = COLOR_STATUS.EXCEEDED
+                      colorColumn = COLOR.EXCEEDED
                     }
                   }
 

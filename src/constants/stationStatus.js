@@ -1,15 +1,15 @@
-import { COLOR_STATUS } from 'themes/color'
+import { COLOR } from 'themes/color'
 import { warningLevels } from 'constants/warningLevels'
 
 export const STATUS_OPTIONS = {
-  GOOD: { title: 'warningLevels.good', color: COLOR_STATUS.GOOD },
-  DATA_LOSS: { title: 'warningLevels.lossData', color: COLOR_STATUS.DATA_LOSS },
-  // NOT_USE: { title: "dashboard.notUse", color: COLOR_STATUS.DATA_LOSS },
+  GOOD: { title: 'warningLevels.good', color: COLOR.GOOD },
+  DATA_LOSS: { title: 'warningLevels.lossData', color: COLOR.DATA_LOSS },
+  // NOT_USE: { title: "dashboard.notUse", color: COLOR.DATA_LOSS },
 
-  EXCEEDED: { title: 'warningLevels.exceed', color: COLOR_STATUS.EXCEEDED },
+  EXCEEDED: { title: 'warningLevels.exceed', color: COLOR.EXCEEDED },
   EXCEEDED_PREPARING: {
     title: 'warningLevels.exceedPreparing',
-    color: COLOR_STATUS.EXCEEDED_PREPARING
+    color: COLOR.EXCEEDED_PREPARING
   }
 }
 
@@ -24,9 +24,11 @@ export const STATUS_STATION = {
 
   NOT_USE: 'NOT_USE',
   DATA_LOSS: 'DATA_LOSS',
-  EXCEEDED: 'EXCEEDED',
-  EXCEEDED_PREPARING: 'EXCEEDED_PREPARING',
-  GOOD: 'GOOD'
+  DATA_EXCEEDED: 'DATA_EXCEEDED',
+  DATA_EXCEEDED_PREPARED: 'DATA_EXCEEDED_PREPARED',
+  DATA_CONNECTED: 'GOOD',
+  SENSOR_ERROR: 'SENSOR_ERROR',
+  SENSOR_GOOD: 'SENSOR_GOOD'
 }
 
 export const STATUS_STATION_LEVEL = {

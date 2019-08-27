@@ -7,7 +7,7 @@ import { connectAutoDispatch } from 'redux/connect'
 import {Row, Col, Card, Button} from 'antd'
 import InfiniteScroll from 'react-infinite-scroller';
 import { withRouter } from 'react-router'
-// import { COLOR_STATUS } from 'themes/color';
+// import { COLOR } from 'themes/color';
 import { loadNotificationsByType } from 'redux/actions/notification'
 
 const i18n = {
@@ -53,7 +53,7 @@ function Cell(props) {
           <CustomParamsRow>
             {i18n.parameters}
             &nbsp;
-            <span style={{color: COLOR_STATUS.EXCEEDED}}>{i18n.exceeded}:</span>
+            <span style={{color: COLOR.EXCEEDED}}>{i18n.exceeded}:</span>
             &nbsp;
             {_.join(cellContent.exceededParams, ', ')}
           </CustomParamsRow>
@@ -62,7 +62,7 @@ function Cell(props) {
           <CustomParamsRow>
             {i18n.parameters}
             &nbsp;
-            <span style={{color: COLOR_STATUS.EXCEEDED_PREPARING}}>{i18n.exceededPreparing}:</span>
+            <span style={{color: COLOR.EXCEEDED_PREPARING}}>{i18n.exceededPreparing}:</span>
             &nbsp;
             {_.join(cellContent.exceededPreparingParams, ', ')}
           </CustomParamsRow>

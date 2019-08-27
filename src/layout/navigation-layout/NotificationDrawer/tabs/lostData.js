@@ -8,7 +8,7 @@ import {Row, Col, Card, Button} from 'antd'
 import InfiniteScroll from 'react-infinite-scroller';
 import { withRouter } from 'react-router'
 // import { prop } from 'cramda';
-// import { COLOR_STATUS } from 'themes/color';
+// import { COLOR } from 'themes/color';
 import { loadNotificationsByType } from 'redux/actions/notification'
 
 
@@ -52,12 +52,12 @@ function Cell(props) {
         {/* NOTE  đừng xóa, xem có thay đổi gì không */}
         {/* { cellContent.status === "receivedSignal" && (
           <CustomParamsRow>
-            <span style={{color: COLOR_STATUS.GOOD}}>{cellContent.content}:</span>
+            <span style={{color: COLOR.GOOD}}>{cellContent.content}:</span>
           </CustomParamsRow>
         )}
         { cellContent.status === "lostSignal" && (
           <CustomParamsRow>
-            <span style={{color: COLOR_STATUS.DATA_LOSS}}>{cellContent.content}:</span>
+            <span style={{color: COLOR.DATA_LOSS}}>{cellContent.content}:</span>
           </CustomParamsRow>
         )} */}
         <CustomRow type="flex" gutter={16}>

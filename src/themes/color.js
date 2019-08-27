@@ -25,21 +25,30 @@ export const TEXT = {
   GRAY: '#999999'
 }
 
-export const COLOR_STATUS = {
+export const COLOR = {
+  EXCEEDED: '#CC0000',            // @ dedicated
+  EXCEEDED_PREPARING: '#E69138',  // @ dedicated
+  GOOD: '#6AA84F',                // @ dedicated
+
   DATA_LOSS: '#666666',
-  EXCEEDED: '#CC0000',
-  EXCEEDED_PREPARING: '#E69138',
-  GOOD: '#6AA84F'
+  DATA_EXCEEDED: '#CC0000',
+  DATA_EXCEEDED_PREPARED: '#E69138',
+  DATA_CONNECTED: '#6AA84F',
+  SENSOR_GOOD: '#6AA84F',
+  SENSOR_ERROR: '#CC0000',
 }
 
 /* eslint-disable */
 // do logic code cũ gía trị đang là 0, 1, 2
 
 export const COLOR_DEVICE_STATUS = {
-  DATA_LOSS: '#666666',
-  ERROR: '#CC0000',
-  MAINTENACE:'#E69138',
-  NORMAL: '#6AA84F',
+  DATA_LOSS: '#666666',         // @ dedicated
+  ERROR: '#CC0000',             // @ dedicated
+  MAINTENACE:'#E69138',         // @ dedicated
+  NORMAL: '#6AA84F',            // @ dedicated
+
+  SENSOR_GOOD: '#6AA84F',
+  SENSOR_ERROR: '#CC0000',
 
   [0]: '#6AA84F', 
   [1]: '#E69138',
@@ -47,4 +56,4 @@ export const COLOR_DEVICE_STATUS = {
 }
 /* eslint-enable */
 
-export default { PRIMARY, COLOR_STATUS, COLOR_DEVICE_STATUS }
+export default { PRIMARY, COLOR, COLOR_DEVICE_STATUS }

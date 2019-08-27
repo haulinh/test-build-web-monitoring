@@ -8,7 +8,7 @@ import {Row, Col, Card, Button} from 'antd'
 import InfiniteScroll from 'react-infinite-scroller';
 import { withRouter } from 'react-router'
 // import { prop } from 'cramda';
-// import { COLOR_STATUS, COLOR_DEVICE_STATUS } from 'themes/color';
+// import { COLOR, COLOR_DEVICE_STATUS } from 'themes/color';
 import { loadNotificationsByType } from 'redux/actions/notification'
 
 

@@ -109,6 +109,8 @@ export default class StationAutoItem extends React.PureComponent {
         item.warningLevel = measuringLogs[item.key].warningLevel
         item.maxLimit = measuringLogs[item.key].maxLimit
         item.minLimit = measuringLogs[item.key].minLimit
+        item.minTend = measuringLogs[item.key].minTend
+        item.maxTend = measuringLogs[item.key].maxTend
         item.statusDevice = measuringLogs[item.key].statusDevice
       }
     })
