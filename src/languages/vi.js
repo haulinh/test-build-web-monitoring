@@ -412,6 +412,7 @@ export default {
         placeholder: 'Chọn Tháng/Năm',
         error: 'Vui lòng chọn thời gian',
         error1: 'Ngày bắt đầu lớn hơn ngày kết thúc',
+        error2: 'Không được vượt quá tháng hiện tại',
       },
       measuringList: {
         label: 'Thông số',

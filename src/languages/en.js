@@ -409,6 +409,7 @@ export default {
         placeholder: 'Select Month/Year',
         error: 'Please Choose The Time',
         error1: 'The Start Date Is Greater Than The End Date',
+        error2:'Do not exceed the current month'
       },
       measuringList: {
         label: 'Parameters',
