@@ -27,7 +27,7 @@ const createQueryFormDataBrowser = (queryParams = []) => Component => {
     }
 
     render() {
-      return <Component formData={this.getFormData()} query={this.getQuery()} />
+      return <Component {...this.props} formData={this.getFormData()} query={this.getQuery()} />
     }
   }
   return QueryFormDataBrowser

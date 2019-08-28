@@ -4,7 +4,7 @@ import Breadcrumb from "../breadcrumb";
 import SearchForm from "../search-form";
 import {getUrlReportType6} from 'api/DataStationAutoApi'
 import { connect } from 'react-redux'
-import axios from 'axios'
+// import axios from 'axios'
 
 @connect(state => ({
   token: state.auth.token

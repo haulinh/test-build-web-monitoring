@@ -14,7 +14,7 @@ import {
 } from 'constants/warningLevels'
 import { Tooltip, Icon } from 'antd'
 import * as _ from 'lodash'
-import { COLOR_STATUS } from 'themes/color'
+import { COLOR } from 'themes/color'
 
 const Status = styled.div`
   width: 16px;
@@ -149,7 +149,7 @@ export default class TableListCustom extends React.PureComponent {
 
   getColorItem(item) {
     if (item.status === STATUS_STATION.HIGHTGEST)
-      return COLOR_STATUS[STATUS_STATION.HIGHTGEST]
+      return COLOR[STATUS_STATION.HIGHTGEST]
 
     if (item.lastLog) {
       let warLevel = warningLevels.GOOD
@@ -157,9 +157,9 @@ export default class TableListCustom extends React.PureComponent {
       for (let key in measuringLogs) {
         warLevel = getStatusPriority(warLevel, measuringLogs[key].warningLevel)
       }
-      return COLOR_STATUS[warLevel]
+      return COLOR[warLevel]
     }
-    return COLOR_STATUS.GOOD
+    return COLOR.GOOD
   }
 
   getStatusItem(item) {

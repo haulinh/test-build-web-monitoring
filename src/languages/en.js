@@ -84,7 +84,14 @@ export default {
       map: 'Map',
       images: 'Images',
       stationInfo: 'Station Infomation',
-      reviewStation: 'Review Station'
+      reviewStation: 'Review Station',
+      more:{
+        label:'Link',
+        historyData:'History Data',
+        averageData:'Average Data',
+        checkData:'Check Data',
+        config:'Configure to Send Notifications'
+      }
     },
     moreContent: {
       sampling: {
@@ -399,6 +406,18 @@ export default {
         label: 'End',
         placeholder: 'Select Ending Date'
       },
+      fromMonth: {
+        label: 'From Month/Year',
+        placeholder: 'Select Month/Year',
+        error: 'Please Choose The Time',
+      },
+      toMonth: {
+        label: 'To  Month/Year',
+        placeholder: 'Select Month/Year',
+        error: 'Please Choose The Time',
+        error1: 'The Start Date Is Greater Than The End Date',
+        error2:'Do not exceed the current month'
+      },
       measuringList: {
         label: 'Parameters',
         placeholder: 'Select Parameter',
@@ -424,14 +443,33 @@ export default {
     table: {
       receivedAt: 'Received At',
       all: 'All',
-      emptyText: 'There Are No Records To Display'
+      emptyText: 'There Are No Records To Display',
+      header1: 'Station Name',
+      header2:'Frequency of data transmission  (minutes/times)',
+      header3:'Total records by design',
+      header4:'Total records by the fact',
+      header5:'Percentage of received data (%)',
+      header6:'The starting date of data transmission',
+      header7:'Day/Month',
+      header8:'Hours',
+      header9:'Percentage of exceeded data (%)',
+      title: 'REPORT THE PERCENTAGE OF OBTAINED DATA',
+      description:'Statistics about the Percentage of data obtained of stations from {{=it.fromMonth}} to {{=it.toMonth}}',
+      title2: 'REPORT THE RESULTS OF 24-HOUR AVERAGE MONITORING',
+      description2:'Statistics about Results of 24-hour average monitoring of  {{=it.stationName}} station in {{=it.monthYear}}',
+      title3: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
+      description3:'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} in {{=it.monthYear}}',
+      title4: 'REPORT THE PERCENTAGE OF EXCEEDED DATA',
+      description4:'Statistics about the percentage of exceeded of {{=it.fromMonth}}  trong ngày {{=it.toMonth}}',
     },
     selectTimeRange: {
       minute: 'Minute',
       hour: 'Hour',
       day: 'Day',
       month: 'Month',
-      year: 'Year'
+      year: 'Year',
+      errorMonth: 'Please Choose The Month',
+      errorDay: 'Please Choose The Day',
     },
     tab: {
       data: 'Data',
@@ -744,9 +782,12 @@ export default {
         placeholder: 'Address'
       },
       qcvn: {
-        label: 'Standards VN',
+        label: 'Excess Limit',
         placeholder: 'Standards VN',
         error: 'Please Choose Type Of Standards VN'
+      },
+      tendToExceed: {
+        label: 'Tend To Exceed Limit',
       },
       province: {
         label: 'Site',
@@ -795,7 +836,7 @@ export default {
         error: 'Please Input Phone Number'
       },
       range: {
-        label: 'Range'
+        label: 'Measuring Device Limit'
       },
       measuringKey: {
         label: 'Parameter code',
@@ -813,22 +854,22 @@ export default {
         error: 'Please Input Parameter Unit'
       },
       measuringMinLimit: {
-        label: 'Min Limit',
+        label: 'Min',
         placeholder: 'Input Min Limit',
         error: 'Please Input Min Limit'
       },
       measuringMaxLimit: {
-        label: 'Max Limit',
+        label: 'Max',
         placeholder: 'Input Max Limit',
         error: 'Please Input Max Limit'
       },
       measuringMinRange: {
-        label: 'Min Range',
+        label: 'Min',
         placeholder: 'Input Min Range',
         error: 'Please Input Min Range'
       },
       measuringMaxRange: {
-        label: 'Max Range',
+        label: 'Max',
         placeholder: 'Input Max Range',
         error: 'Please Input Max Range'
       },
@@ -1374,6 +1415,7 @@ export default {
       error: 'Restore Error'
     },
     search: 'Search',
+    searchSeclect: 'Select conditions',
     error: 'Something Went Wrong!!!',
     warning: 'Warning',
     refresh: 'Refresh',
@@ -1508,17 +1550,23 @@ export default {
       type5: 'AQI hours / day',    
       type6: 'AQI average 24h by parameter',     
       type7: 'AQI day by parameter',     
-      type9: 'Percentage of data',  
+      type9: 'Percentage of data', 
+      type10: 'Percentage of obtained data', 
+      type11: 'Results of 1-hour average monitoring',
+      type12: 'Percentage of exceeded data',
     },
     reportBreadcrum: {
       type1: 'Original data',
-      type2: '24 hour average',      
+      type2: 'Results of 24-hour average monitoring',      
       type3: 'Average maximum 1 hour of the day',   
       type4: 'Average maximum 8 hour of the day',   
       type5: 'AQI hours / day',    
       type6: 'AQI average 24h by parameter',     
       type7: 'AQI day by parameter',   
       type9: 'Percentage of data',
+      type10: 'Percentage of obtained data',
+      type11: 'Results of 1-hour average monitoring',
+      type12: 'Percentage of exceeded data',
     }  
   },
   cameraControl: {

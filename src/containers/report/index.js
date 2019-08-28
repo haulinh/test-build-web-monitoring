@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import slug from 'constants/slug'
-import PageInfo from 'components/pageInfo'
+// import PageInfo from 'components/pageInfo'
 import ReportType1 from './type1'
 import ReportType2 from './type2'
 import ReportType3 from './type3'
@@ -11,6 +11,13 @@ import ReportType6 from './type6'
 import ReportType7 from './type7'
 import ReportType8 from './type8'
 import ReportType9 from './type9'
+import ReportType10 from './type10'
+import ReportType11 from './type11'
+import ReportType12 from './type12'
+
+
+
+
 
 export default props => (
   <Switch>
@@ -58,6 +65,18 @@ export default props => (
     <Route
       path={slug.report.type9}
       render={matchProps => <ReportType9 {...matchProps} {...props} />}
+    />
+     <Route
+      path={slug.report.type10}
+      render={matchProps => <ReportType10 {...matchProps} {...props} />}
+    />
+    <Route
+      path={slug.report.type11}
+      render={matchProps => <ReportType11 {...matchProps} {...props} />}
+    />
+    <Route
+      path={slug.report.type12}
+      render={matchProps => <ReportType12 {...matchProps} {...props} />}
     />
   </Switch>
 )

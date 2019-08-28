@@ -10,7 +10,7 @@ import { translate } from 'hoc/create-lang'
 import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
 import StatusModalView from './StatusModal'
 import ChartBaseView from './chart-base'
-import { COLOR_STATUS } from 'themes/color'
+import { COLOR } from 'themes/color'
 // import { isNumber } from 'util'
 import  {
   ROUND_DIGIT
@@ -134,12 +134,12 @@ export default class HeaderView extends React.PureComponent {
             {
               name: notReceived,
               y: 100 - _.round(total, 2),
-              color: COLOR_STATUS.DATA_LOSS
+              color: COLOR.DATA_LOSS
             },
             {
               name: received,
               y: _.round(total, 2),
-              color: COLOR_STATUS.GOOD
+              color: COLOR.GOOD
             }
           ]
         }
@@ -166,12 +166,12 @@ export default class HeaderView extends React.PureComponent {
       name: received,
       data: [],
       dataLabels,
-      color: COLOR_STATUS.GOOD
+      color: COLOR.GOOD
     }
     const series2 = {
       name: notReceived,
       data: [],
-      color: COLOR_STATUS.DATA_LOSS,
+      color: COLOR.DATA_LOSS,
       dataLabels
     }
     let categories = []

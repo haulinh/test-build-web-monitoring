@@ -7,7 +7,7 @@ import { connectAutoDispatch } from 'redux/connect'
 import { getStationAuto } from 'redux/actions/map'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import { SHAPE, COLOR_STATUS, COLOR_DEVICE_STATUS } from 'themes/color'
+import { SHAPE, COLOR, COLOR_DEVICE_STATUS } from 'themes/color'
 import Clearfix from 'components/elements/clearfix'
 import Viewmore from './info-window-viewmore'
 import { translate } from 'hoc/create-lang'
@@ -17,11 +17,11 @@ const { InfoWindow, Circle } = require('react-google-maps')
 import Marker from '../utils/marker-with-label-animate'
 import { Table } from 'react-bootstrap'
 // import DateFormat from 'dateformat'
-import { colorLevels, warningLevels } from 'constants/warningLevels'
+import { warningLevels } from 'constants/warningLevels'
 import { STATUS_STATION } from 'constants/stationStatus'
 import moment from 'moment-timezone'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-import { isEmpty, map, get as _get } from 'lodash'
+import _, { isEmpty, map, get as _get } from 'lodash'
 import { getFormatNumber } from 'constants/format-number';
 
 const TabPane = Tabs.TabPane
@@ -132,16 +132,14 @@ export default class MarkerStation extends PureComponent {
   }
 
   getColorLevel(warningLevel) {
+    let stationStatus =  _get(this.props, 'stationStatus')
+    if (stationStatus === STATUS_STATION.HIGHTGEST)
+      return COLOR[STATUS_STATION.HIGHTGEST]
 
-    if (
-      this.props.stationStatus &&
-      this.props.stationStatus === STATUS_STATION.HIGHTGEST
-    )
-      return COLOR_STATUS[STATUS_STATION.HIGHTGEST]
-
-    if (warningLevel && colorLevels[warningLevel])
-      return COLOR_STATUS[warningLevel]
-    return COLOR_STATUS.GOOD
+    if (warningLevel && COLOR[warningLevel])
+      return COLOR[warningLevel]
+      
+    return COLOR.GOOD
   }
 
   renderTableData() {
@@ -157,7 +155,7 @@ export default class MarkerStation extends PureComponent {
       // console.log(lastLog.measuringLogs[key],this.props.statusStation, 'this.props.statusStation')
       // Nếu trạm mất kết nối thì các sensor cũng mất kêt nối theo
       if (this.props.stationStatus && this.props.stationStatus === STATUS_STATION.HIGHTGEST) {
-        colorDeviceStatus = COLOR_STATUS[STATUS_STATION.HIGHTGEST]
+        colorDeviceStatus = COLOR[STATUS_STATION.HIGHTGEST]
       }
       // console.log( this.props, 'statusDevice')
 
@@ -224,9 +222,9 @@ export default class MarkerStation extends PureComponent {
   // getColorLevel(status, isStationStatus = false) {
   //   if (isStationStatus && STATUS_OPTIONS[status]) return STATUS_OPTIONS[status].color
 
-  //   if (!isStationStatus) if (status && status !== '') return COLOR_STATUS[status.toUpperCase()]
+  //   if (!isStationStatus) if (status && status !== '') return COLOR[status.toUpperCase()]
 
-  //   return COLOR_STATUS.GOOD
+  //   return COLOR.GOOD
   // }
 
   getIconByStatus(status) {

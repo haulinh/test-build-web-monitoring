@@ -11,7 +11,7 @@ import { getDataStationAutoAvg } from 'api/DataStationAutoApi'
 import { getFormatNumber } from 'constants/format-number'
 import InputEditCell from 'components/elements/input-edit-cell'
 import Label from 'components/elements/label'
-import { COLOR_STATUS } from 'themes/color'
+import { COLOR } from 'themes/color'
 import { connect } from 'react-redux'
 
 const { TabPane } = Tabs
@@ -287,7 +287,7 @@ export default class ChartRowToChart extends React.Component {
                   results[key] = _.concat(array, [
                     {
                       y: null,
-                      color: COLOR_STATUS.GOOD
+                      color: COLOR.GOOD
                     }
                   ])
                   return key
@@ -297,45 +297,23 @@ export default class ChartRowToChart extends React.Component {
                 _.mapKeys(itemData, (value, key) => {
                   const array = _.get(results, key, [])
                   let valueObj = undefined
-                  let colorColumn = COLOR_STATUS.GOOD
+                  let colorColumn = COLOR.GOOD
 
-                  // xét màu cho các column khi nằm ngoài limit
+                  // check logic màu cho từng column
                   if (_.has(categories, `${key}`)) {
                     const minLimit = _.get(categories[key], 'minLimit', null)
                     const maxLimit = _.get(categories[key], 'maxLimit', null)
-                    let statusMin = true
-                    let statusMax = true
-                    // NOTE Business tính vượt ngưỡng
-                    
-                    if (!minLimit) {
-                      statusMin = true
-                    } else if (!(minLimit && minLimit <= value)) {
-                      statusMin = false
-                    }
+                    const minTend = _.get(categories[key], 'minTend', null) || minLimit
+                    const maxTend = _.get(categories[key], 'maxTend', null) || maxLimit
 
-                    if (!maxLimit) {
-                      statusMax = true
-                    } else if (!(maxLimit >= value)) {
-                      statusMax = false
+                    if (value < minLimit || value > maxLimit)  {
+                      colorColumn = COLOR.DATA_EXCEEDED
                     }
-
-                    // NOTE Business tính chuẩn bị vươt ngưỡng/ chỉ tính đc dựa vào giá trị max, còn min k tính
-
-                    const PERCENT_EXCEEDED_PREPARING = 90
-                    let stausChuanBiVuot = false
-                    if (maxLimit) {
-                      const calculate = (value * 100) / maxLimit
-                      if (calculate >= PERCENT_EXCEEDED_PREPARING && calculate < 100) {
-                        stausChuanBiVuot = true
-                      }
+                    else if (value < minTend || value > maxTend)  {
+                      colorColumn = COLOR.DATA_EXCEEDED_PREPARED
                     }
-                    
-                    if (stausChuanBiVuot) {
-                      colorColumn = COLOR_STATUS.EXCEEDED_PREPARING
-                    } else if (statusMin && statusMax) {
-                      colorColumn = COLOR_STATUS.GOOD
-                    } else {
-                      colorColumn = COLOR_STATUS.EXCEEDED
+                    else {
+                      colorColumn = COLOR.SENSOR_GOOD
                     }
                   }
 

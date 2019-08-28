@@ -25,30 +25,63 @@ const Item = props => (
   />
 );
 
+const i18n = {
+  label: {
+    buttonSearch: translate("addon.search"),
+    headerSearch: translate("addon.searchSeclect"),
+    province: translate("qaqc.province.label"),
+    stationType: translate("dataSearchFrom.form.stationType.label"),
+    stationAuto: translate("dataSearchFrom.form.stationAuto.label"),
+    selectTimeRange: translate("avgSearchFrom.selectTimeRange.month"),
+    selectTimeRange2: translate("avgSearchFrom.selectTimeRange.day")
+  },
+  error: {
+    stationAuto: translate("avgSearchFrom.form.stationAuto.error"),
+    selectTimeRange: translate("avgSearchFrom.selectTimeRange.errorMonth"),
+    selectTimeRange2: translate("avgSearchFrom.selectTimeRange.errorDay")
+  }
+};
+
 @Form.create()
 @createLang
 export default class SearchForm extends React.Component {
   static propTypes = {
-    cbSubmit: PropTypes.func
+    cbSubmit: PropTypes.func,
+    isDatePicker: PropTypes.bool
   };
 
   constructor(props) {
     super(props);
-    this.submit = this.submit.bind(this);
+    // this.submit = this.submit.bind(this);
     this.state = {
-      measuringList: []
+      measuringList: [],
+      stationName: ""
     };
   }
 
-  submit() {
-    let me = this;
+  submit = () => {
+    // let me = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
-        if (me.props.cbSubmit) me.props.cbSubmit({...values, measuringList: me.state.measuringList});
+        // console.log("Received values of form: ", values);
+        if (this.props.cbSubmit) {
+          const measuringListStr = this.state.measuringList
+            .map(item => encodeURIComponent(item.key))
+          
+            const measuringListUnitStr = this.state.measuringList
+            .map(item => encodeURIComponent(item.unit))
+            // .join(",");
+          this.props.cbSubmit({
+            ...values,
+            measuringListStr,
+            measuringListUnitStr,
+            measuringList: this.state.measuringList,
+            stationName: this.state.stationName
+          });
+        }
       }
     });
-  }
+  };
 
   render() {
     const {
@@ -56,7 +89,6 @@ export default class SearchForm extends React.Component {
       getFieldValue,
       setFieldsValue
     } = this.props.form;
-    const t = this.props.lang.createNameSpace("dataSearchFrom.form");
 
     return (
       <SearchFormContainer>
@@ -64,13 +96,12 @@ export default class SearchForm extends React.Component {
           rightChildren={
             <Button
               type="primary"
-              icon="file-excel"
-              style={{ float: "right"}}
+              icon="search"
+              style={{ float: "right" }}
               onClick={this.submit}
-              size='small'
-              // loading={this.props.isExporting}
+              size="small"
             >
-              {translate("dataSearchFrom.tab.exportExcel")}
+              {i18n.label.buttonSearch}
             </Button>
           }
           textColor="#ffffff"
@@ -78,12 +109,12 @@ export default class SearchForm extends React.Component {
           fontSize={14}
           style={{ padding: "8px 16px" }}
         >
-          {this.props.lang.t("addon.searchSeclect")}
+          {i18n.label.headerSearch}
         </Heading>
         <div style={{ padding: "8px 16px" }}>
           <Row gutter={16}>
             <Col span={6}>
-              <Item label={translate("qaqc.province.label")}>
+              <Item label={i18n.label.province}>
                 {getFieldDecorator("province", {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null });
@@ -92,7 +123,7 @@ export default class SearchForm extends React.Component {
               </Item>
             </Col>
             <Col span={6}>
-              <Item label={t("stationType.label")}>
+              <Item label={i18n.label.stationType}>
                 {getFieldDecorator("stationType", {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null });
@@ -101,12 +132,12 @@ export default class SearchForm extends React.Component {
               </Item>
             </Col>
             <Col span={6}>
-              <Item label={t("stationAuto.label")}>
+              <Item label={i18n.label.stationAuto}>
                 {getFieldDecorator("stationAuto", {
                   rules: [
                     {
                       required: true,
-                      message: translate("avgSearchFrom.form.stationAuto.error")
+                      message: i18n.error.stationAuto
                     }
                   ]
                 })(
@@ -116,7 +147,10 @@ export default class SearchForm extends React.Component {
                     provinceKey={getFieldValue("province")}
                     onChangeObject={station => {
                       if (station && station.measuringList)
-                        this.setState({ measuringList: station.measuringList });
+                        this.setState({
+                          measuringList: station.measuringList,
+                          stationName: station.name
+                        });
                       else this.setState({ measuringList: [] });
                     }}
                     style={{ width: "100%" }}
@@ -124,17 +158,34 @@ export default class SearchForm extends React.Component {
                 )}
               </Item>
             </Col>
-            <Col span={6}>
-              <Item label={translate("avgSearchFrom.selectTimeRange.month")}>
-                {getFieldDecorator("time", {
-                  rules: [
-                    {
-                      required: true
-                    }
-                  ]
-                })(<MonthPicker style={{ width: "100%" }} size="large" />)}
-              </Item>
-            </Col>
+            {!this.props.isDatePicker && (
+              <Col span={6}>
+                <Item label={i18n.label.selectTimeRange}>
+                  {getFieldDecorator("time", {
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n.error.selectTimeRange
+                      }
+                    ]
+                  })(<MonthPicker style={{ width: "100%" }} size="large" />)}
+                </Item>
+              </Col>
+            )}
+            {this.props.isDatePicker && (
+              <Col span={6}>
+                <Item label={i18n.label.selectTimeRange2}>
+                  {getFieldDecorator("time", {
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n.error.selectTimeRange2
+                      }
+                    ]
+                  })(<DatePicker style={{ width: "100%" }} size="large" />)}
+                </Item>
+              </Col>
+            )}
           </Row>
           <Clearfix height={16} />
         </div>

@@ -1,20 +1,20 @@
-Dự án frontend sử dụng các thư viện cốt lõi sau cho việc phát triển
+Dự án frontend sử dụng các thư viện cốt lõi sau cho việc phát triển....
 
-* atlaskit (UI component)
-* redux (Store management)
-* redux-await (Fetch await data)
-* react-router (Page router)
+* atlaskit (UI component)......
+* redux (Store management)...
+* redux-await (Fetch await data).
+* react-router (Page router).
 
 Để hiểu về thông tin dự án, vui lòng đọc tại trang `Wiki` của project này.
 
-## Các lệnh
+## Các lệnh.....
 ```
-yarn run start # Dev Server
+yarn run start # Dev Server.
 yarn run build # Build ra dự án
 yarn run prettier # Tự động format code
 ```
 
-## Cài đặt dự án
+## Cài đặt dự án..
 
 ```
 git clone git@gitlab.com:vietan-chatthairan/swm-cms-frontend.git
@@ -23,9 +23,9 @@ yarn install
 yarn run start // mở trình duyệt cổng 3000
 ```
 
-## Đóng góp thay đổi code
+## Đóng góp thay đổi code.
 Để phát triển code của dự án, các thành viên vui lòng tạo branch mới từ nhánh develop.
-Quy trình thực hiện như sau:
+Quy trình thực hiện như sau:.
 ```
 git checkout develop
 git branch feature/[name] # tạo nhánh từ develop

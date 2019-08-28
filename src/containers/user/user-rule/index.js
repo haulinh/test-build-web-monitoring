@@ -23,7 +23,7 @@ import swal from 'sweetalert2'
 import DynamicTable from 'components/elements/dynamic-table'
 
 const i18n = {
-  cancel: 'Bõ chọn', /* MARK  @translate */
+  // cancel: 'Bõ chọn', /* MARK  @translate */
   submit: translate('addon.save'),
   warning:translate('addon.warning'),
   refresh: translate('addon.refresh'),
@@ -179,7 +179,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
   
   getHead() {
-    const isDisabledCheckAll = !this.state.isManagerCheckAll && !this.state.isManagerIndeterminate
+    // const isDisabledCheckAll = !this.state.isManagerCheckAll && !this.state.isManagerIndeterminate
     return [
       { content: '#', width: 2 },
       { content: i18n.stationName, width: 15 },
@@ -213,7 +213,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
 
   getRows() {
-    const isDisabledCheckAll = !this.state.isManagerCheckAll && !this.state.isManagerIndeterminate
+    // const isDisabledCheckAll = !this.state.isManagerCheckAll && !this.state.isManagerIndeterminate
 
     let stationTypeArr = []
 
@@ -222,7 +222,7 @@ export default class StationAutoConfigNotification extends React.Component {
     let result = [].concat.apply(
       [],
       this.state.dataSource.map((row, index) => {
-        const isManagerCheckboxDisabled =  _.get(row, ['options', USER_RULE_TABLE_COLUMN.PRIMARY, 'allowed'], false) === false
+        // const isManagerCheckboxDisabled =  _.get(row, ['options', USER_RULE_TABLE_COLUMN.PRIMARY, 'allowed'], false) === false
         //content Row
         let resultRow = [
           {
@@ -373,7 +373,6 @@ export default class StationAutoConfigNotification extends React.Component {
     })
 
     this.setState({
-      isManagerCheckAll: checked, 
       isManagerCheckAll: checked,
     })
   }

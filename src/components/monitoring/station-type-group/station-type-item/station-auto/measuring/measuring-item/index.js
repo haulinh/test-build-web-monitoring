@@ -2,11 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import { colorLevels } from 'constants/warningLevels'
 import { translate } from 'hoc/create-lang'
 import { Tooltip } from 'antd'
 import { get } from 'lodash'
-import { COLOR_DEVICE_STATUS, COLOR_STATUS } from 'themes/color'
+import { COLOR_DEVICE_STATUS, COLOR } from 'themes/color'
 import { STATUS_STATION } from 'constants/stationStatus'
 import { getFormatNumber } from 'constants/format-number'
 
@@ -134,14 +133,14 @@ export default class MeasuringItem extends React.PureComponent {
   getColorLevel() {
     if (
       this.props.statusStation &&
-      this.props.statusStation === STATUS_STATION.HIGHTGEST
+      this.props.statusStation === STATUS_STATION.DATA_LOSS
     )
-      return COLOR_STATUS[STATUS_STATION.HIGHTGEST]
+      return COLOR[STATUS_STATION.DATA_LOSS]
 
     const { warningLevel } = this.props
-    if (warningLevel && colorLevels[warningLevel])
-      return COLOR_STATUS[warningLevel]
-    return COLOR_STATUS.GOOD
+    if (warningLevel && COLOR[warningLevel])
+      return COLOR[warningLevel]
+    return COLOR.GOOD
   }
 
   renderDeviceIcon = status => {
@@ -176,7 +175,7 @@ export default class MeasuringItem extends React.PureComponent {
       this.props.statusStation &&
       this.props.statusStation === STATUS_STATION.HIGHTGEST
     )
-      colorDeviceStatus = COLOR_STATUS[STATUS_STATION.HIGHTGEST]
+      colorDeviceStatus = COLOR[STATUS_STATION.HIGHTGEST]
 
     return (
       <MeasuringItemWrapper
@@ -214,5 +213,3 @@ export default class MeasuringItem extends React.PureComponent {
     )
   }
 }
-
-// 0 xanh, 1 vang, 2 do

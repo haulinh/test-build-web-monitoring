@@ -171,7 +171,7 @@ export default {
   report: {
     base: '/report',
     type1: '/report/type1',
-    type2: '/report/type2',
+    type2: '/report/type2',// Quan trắc TB 24h
     type3: '/report/type3',
     type4: '/report/type4',
     type5: '/report/type5',
@@ -179,8 +179,9 @@ export default {
     type7: '/report/type7',
     type8: '/report/type8',
     type9: '/report/type9',
-    type10: '/report/type10',
-    type11: '/report/type11',
+    type10: '/report/type10', // tỉ lệ dữ liệu thu đươc
+    type11: '/report/type11', // Ket qua quan trac trung binh gio cua 1 ngay
+    type12: '/report/type12', // tỷ lệ dữ liệu vượt ngưỡng của 1 trạm
   }
 }
 
@@ -252,6 +253,9 @@ export const MENU_NAME = {
     type7: translate('menuApp.report.type7'),
     type8: translate('menuApp.report.type8'),
     type9: translate('menuApp.report.type9'),
+    type10: translate('menuApp.report.type10'),
+    type11: translate('menuApp.report.type11'),
+    type12: translate('menuApp.report.type12'),
   },
 
   advanceSub: translate('menuApp.advanceSub'),

@@ -4,7 +4,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 // import { Link } from 'react-router-dom'
 // import slug from 'constants/slug'
-import { COLOR_STATUS } from 'themes/color'
+import { COLOR } from 'themes/color'
 const SummaryItemWrapper = styled.div`
   display: flex;
   flex: 1;
@@ -78,8 +78,8 @@ export default class SummaryItem extends React.PureComponent {
     } = this.props
     const colorStatus =
       this.props.number === 0
-        ? COLOR_STATUS.DATA_LOSS
-        : COLOR_STATUS[statusStation]
+        ? COLOR.DATA_LOSS
+        : COLOR[statusStation]
     return (
       // MARK  logic cũ là dùng thẻ Link, giở change thành div
       <div

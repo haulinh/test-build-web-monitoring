@@ -3,7 +3,6 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import AppRoutes from 'navigation/routes'
 import AppContainer from 'redux/AppContainer'
-import moment from 'moment-timezone'
 
 // import AppTest from './AppTest'
 

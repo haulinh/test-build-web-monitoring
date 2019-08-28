@@ -55,16 +55,14 @@ export default class QAQC_Config extends React.Component {
         console.log("Received values of form: ", values);
       }
       let measureConfig = await this.getData();
-      console.log("measureConfig", measureConfig);
+
       let response = await putConfigQAQC({
+        ...measureConfig,
         ...values,
-        measureConfig
       });
 
       if(response.success) message.success(i18n.updateSuccess)
       else message.error(response.message)
-
-      console.log("response", response);
 
       this.setState({ isLoading: false });
     });

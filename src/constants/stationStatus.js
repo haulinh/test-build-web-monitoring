@@ -1,15 +1,15 @@
-import { COLOR_STATUS } from 'themes/color'
+import { COLOR } from 'themes/color'
 import { warningLevels } from 'constants/warningLevels'
 
 export const STATUS_OPTIONS = {
-  GOOD: { title: 'warningLevels.good', color: COLOR_STATUS.GOOD },
-  DATA_LOSS: { title: 'warningLevels.lossData', color: COLOR_STATUS.DATA_LOSS },
-  // NOT_USE: { title: "dashboard.notUse", color: COLOR_STATUS.DATA_LOSS },
+  GOOD: { title: 'warningLevels.good', color: COLOR.GOOD },
+  DATA_LOSS: { title: 'warningLevels.lossData', color: COLOR.DATA_LOSS },
+  // NOT_USE: { title: "dashboard.notUse", color: COLOR.DATA_LOSS },
 
-  EXCEEDED: { title: 'warningLevels.exceed', color: COLOR_STATUS.EXCEEDED },
+  EXCEEDED: { title: 'warningLevels.exceed', color: COLOR.EXCEEDED },
   EXCEEDED_PREPARING: {
     title: 'warningLevels.exceedPreparing',
-    color: COLOR_STATUS.EXCEEDED_PREPARING
+    color: COLOR.EXCEEDED_PREPARING
   }
 }
 
@@ -24,28 +24,31 @@ export const STATUS_STATION = {
 
   NOT_USE: 'NOT_USE',
   DATA_LOSS: 'DATA_LOSS',
-  EXCEEDED: 'EXCEEDED',
-  EXCEEDED_PREPARING: 'EXCEEDED_PREPARING',
-  GOOD: 'GOOD'
+  DATA_EXCEEDED: 'DATA_EXCEEDED',
+  DATA_EXCEEDED_PREPARED: 'DATA_EXCEEDED_PREPARED',
+  DATA_CONNECTED: 'GOOD',
+  SENSOR_ERROR: 'SENSOR_ERROR',
+  SENSOR_GOOD: 'SENSOR_GOOD',
+  SENSOR_MAINTENACE: 'SENSOR_MAINTENACE'
 }
 
 export const STATUS_STATION_LEVEL = {
   DATA_LOSS: 1,
-  EXCEEDED: 2,
-  EXCEEDED_PREPARING: 3,
-  GOOD: 4
+  DATA_EXCEEDED: 2,
+  DATA_EXCEEDED_PREPARED: 3,
+  DATA_GOOD: 4
 }
 
 export const getStatusPriority = (status1, status2) => {
   let a = STATUS_STATION_LEVEL[status1]
     ? STATUS_STATION_LEVEL[status1]
-    : STATUS_STATION_LEVEL.GOOD
+    : STATUS_STATION_LEVEL.DATA_GOOD
   let b = STATUS_STATION_LEVEL[status2]
     ? STATUS_STATION_LEVEL[status2]
-    : STATUS_STATION_LEVEL.GOOD
+    : STATUS_STATION_LEVEL.DATA_GOOD
 
   if (a < b) return status1
-  else return status2 ? status2 : STATUS_STATION.GOOD
+  else return status2 ? status2 : STATUS_STATION.DATA_GOOD
 }
 
 export const getStatusItem = item => {
@@ -59,5 +62,5 @@ export const getStatusItem = item => {
     }
     return warLevel
   }
-  return STATUS_STATION.GOOD
+  return STATUS_STATION.DATA_GOOD
 }

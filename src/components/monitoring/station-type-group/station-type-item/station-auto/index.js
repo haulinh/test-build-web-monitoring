@@ -1,17 +1,18 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import { withRouter } from 'react-router'
-import StationAutoHead from './Head'
-import MeasuringList from './measuring/measuring-list'
-import MoreContent from './more-content'
-import PropTypes from 'prop-types'
-import slug from 'constants/slug'
-import  {STATUS_STATION} from 'constants/stationStatus'
-import { translate } from 'hoc/create-lang'
-import { get } from 'lodash'
+import React from "react"
+import { autobind } from "core-decorators"
+import styled from "styled-components"
+import { withRouter } from "react-router"
+import StationAutoHead from "./Head"
+import MeasuringList from "./measuring/measuring-list"
+import MoreContent from "./more-content"
+import PropTypes from "prop-types"
+import slug from "constants/slug"
+import { STATUS_STATION } from "constants/stationStatus"
+import { translate } from "hoc/create-lang"
+import { get, isEmpty as _isEmpty, map as _map } from "lodash"
+import queryFormDataBrowser from "hoc/query-formdata-browser"
 
-import CameraListView from './camera-list'
+import CameraListView from "./camera-list"
 
 const StationAutoWrapper = styled.div`
   background-color: #fff;
@@ -20,6 +21,7 @@ const StationAutoWrapper = styled.div`
 `
 
 @withRouter
+@queryFormDataBrowser(["submit"])
 @autobind
 export default class StationAutoItem extends React.PureComponent {
   static propTypes = {
@@ -38,13 +40,59 @@ export default class StationAutoItem extends React.PureComponent {
 
   state = {
     isOpenCamera: false,
-    showPanel: ''
+    showPanel: _isEmpty(this.props.formData) ? "" : "chart"
   }
 
-  handleShowPanel(panelName) {
-    if (this.state.showPanel === panelName)
-      return this.setState({ showPanel: '' })
-    else return this.setState({ showPanel: panelName })
+  handleShowPanel(panelName, keyOpenTab) {
+    // console.log(panelName, keyOpenTab, "anelName, keyOpenTab")
+    if (keyOpenTab) {
+      const arrMeasures = _map(this.props.measuringList, item => {
+        return item.key
+      })
+      let formSearch = null
+      let slugPrefix = ''
+      switch (keyOpenTab) {
+        case "historyData": {
+          // console.log(arrMeasures)
+          formSearch = {
+            stationType: this.props.stationType.key,
+            stationAuto: this.props.stationID,
+            measuringList: arrMeasures,
+            measuringData: this.props.measuringList,
+            searchNow: true
+          }
+          slugPrefix = slug.dataSearch.base
+          break
+        }
+        case "avgData": {
+          // console.log(arrMeasures)
+          formSearch = {
+            stationType: this.props.stationType.key,
+            stationAuto: this.props.stationID,
+            measuringList: arrMeasures,
+            measuringData: this.props.measuringList,
+            searchNow: true
+          }
+          slugPrefix = slug.avgSearch.base
+          break
+        }
+        default: {
+          break
+        }
+      }
+
+      if (formSearch) {
+        const url = `${slugPrefix}?formData=${encodeURIComponent(
+          JSON.stringify(formSearch)
+        )}`
+
+        window.open(url, "_blank")
+      }
+    } else {
+      if (this.state.showPanel === panelName)
+        return this.setState({ showPanel: "" })
+      else return this.setState({ showPanel: panelName })
+    }
   }
 
   handleClickDataSearchWithMeasuring(measuringItem) {
@@ -57,43 +105,51 @@ export default class StationAutoItem extends React.PureComponent {
     }
     this.props.history.push(
       slug.dataSearch.base +
-        '?formData=' +
+        "?formData=" +
         encodeURIComponent(JSON.stringify(formSearch))
     )
   }
 
-  handleClickDataSearch() {
-    const formSearch = {
-      stationType: this.props.stationType.key,
-      stationAuto: this.props.stationID,
-      measuringList: this.props.measuringList.map(m => m.key),
-      measuringData: this.props.measuringList,
-      searchNow: true
-    }
-    this.props.history.push(
-      slug.dataSearch.base +
-        '?formData=' +
-        encodeURIComponent(JSON.stringify(formSearch))
-    )
-  }
+  // /* #region  MARK Không sử dụng nữa */
 
-  handleClickViewMap() {
-    const formSearch = {
-      stationAuto: {
-        ...this.props,
-        mapLocation: {
-          lat: this.props.mapLocation.lat,
-          lng: this.props.mapLocation.long
-        },
-        key: this.props.stationID
-      }
-    }
-    this.props.history.push(
-      slug.map.base +
-        '?formData=' +
-        encodeURIComponent(JSON.stringify(formSearch))
-    )
-  }
+  // handleClickViewMap() {
+  //   const formSearch = {
+  //     stationAuto: {
+  //       ...this.props,
+  //       mapLocation: {
+  //         lat: this.props.mapLocation.lat,
+  //         lng: this.props.mapLocation.long
+  //       },
+  //       key: this.props.stationID
+  //     }
+  //   }
+  //   this.props.history.push(
+  //     slug.map.base +
+  //       "?formData=" +
+  //       encodeURIComponent(JSON.stringify(formSearch))
+  //   )
+  // }
+
+  // onClickViewCamera = () => {
+  //   this.setState({ isOpenCamera: !this.state.isOpenCamera })
+  // }
+
+  // handleClickDataSearch() {
+  //   const formSearch = {
+  //     stationType: this.props.stationType.key,
+  //     stationAuto: this.props.stationID,
+  //     measuringList: this.props.measuringList.map(m => m.key),
+  //     measuringData: this.props.measuringList,
+  //     searchNow: true
+  //   }
+  //   this.props.history.push(
+  //     slug.dataSearch.base +
+  //       "?formData=" +
+  //       encodeURIComponent(JSON.stringify(formSearch))
+  //   )
+  // }
+
+  // /* #endregion */
 
   measuringLastLog() {
     let { measuringList, lastLog } = this.props
@@ -109,17 +165,16 @@ export default class StationAutoItem extends React.PureComponent {
         item.warningLevel = measuringLogs[item.key].warningLevel
         item.maxLimit = measuringLogs[item.key].maxLimit
         item.minLimit = measuringLogs[item.key].minLimit
+        item.minTend = measuringLogs[item.key].minTend
+        item.maxTend = measuringLogs[item.key].maxTend
         item.statusDevice = measuringLogs[item.key].statusDevice
       }
     })
     return measuringList
   }
 
-  onClickViewCamera = () => {
-    this.setState({ isOpenCamera: !this.state.isOpenCamera })
-  }
-
   render() {
+    // console.log(this.props,"StationAutoWrapper")
     let {
       stationID,
       name,
@@ -131,17 +186,17 @@ export default class StationAutoItem extends React.PureComponent {
       status,
       _id
     } = this.props
-    let receivedAt = ''
+    let receivedAt = ""
     if (lastLog && lastLog.receivedAt) {
       receivedAt = lastLog.receivedAt
       // receivedAt = moment(lastLog.receivedAt)
       //   .format('YYYY-MM-DD HH:MM')
       //   .toString()
       if (status === STATUS_STATION.DATA_LOSS) {
-        receivedAt = `${translate('monitoring.dataLoss')}  ${receivedAt}`
+        receivedAt = `${translate("monitoring.dataLoss")}  ${receivedAt}`
       }
     } else {
-      receivedAt = translate('monitoring.notUse')
+      receivedAt = translate("monitoring.notUse")
     }
 
     return (
@@ -154,10 +209,11 @@ export default class StationAutoItem extends React.PureComponent {
           stationID={stationID}
           options={options}
           status={status}
+          currentActionDefault={this.state.showPanel}
           onClickActionButton={this.handleShowPanel}
-          onClickDataSearch={this.handleClickDataSearch}
-          onClickViewMap={this.handleClickViewMap}
-          onClickViewCamera={this.onClickViewCamera}
+          // onClickDataSearch={this.handleClickDataSearch}
+          // onClickViewMap={this.handleClickViewMap}
+          // onClickViewCamera={this.onClickViewCamera}
           _id={_id}
         />
         <MeasuringList
@@ -173,8 +229,8 @@ export default class StationAutoItem extends React.PureComponent {
           stationInfo={this.props}
         />
 
-        {this.state.isOpenCamera && get(options, 'camera.allowed') && (
-          <CameraListView cameraList={get(options, 'camera.list', [])} />
+        {this.state.isOpenCamera && get(options, "camera.allowed") && (
+          <CameraListView cameraList={get(options, "camera.list", [])} />
         )}
       </StationAutoWrapper>
     )

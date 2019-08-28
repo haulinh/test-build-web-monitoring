@@ -85,7 +85,14 @@ export default {
       map: 'Bản đồ',
       images: 'Hình ảnh',
       stationInfo: 'Thông tin trạm',
-      reviewStation: 'Đánh giá trạm'
+      reviewStation: 'Đánh giá trạm',
+      more:{
+        label:'Liên kết',
+        historyData:'Tra cứu số liệu lịch sử',
+        averageData:'Tổng hợp dữ liệu',
+        checkData:'Kiểm duyệt dữ liệu',
+        config:'Cấu hình gửi cảnh báo'
+      }
     },
     moreContent: {
       sampling: {
@@ -401,6 +408,19 @@ export default {
         label: 'Kết thúc',
         placeholder: 'Chọn ngày kết thúc'
       },
+      fromMonth: {
+        label: 'Từ tháng/năm',
+        placeholder: 'Chọn Tháng/Năm',
+        error: 'Vui lòng chọn thời gian',
+        
+      },
+      toMonth: {
+        label: 'Đến  tháng/năm',
+        placeholder: 'Chọn Tháng/Năm',
+        error: 'Vui lòng chọn thời gian',
+        error1: 'Ngày bắt đầu lớn hơn ngày kết thúc',
+        error2: 'Không được vượt quá tháng hiện tại',
+      },
       measuringList: {
         label: 'Thông số',
         placeholder: 'Chọn thông số',
@@ -426,14 +446,33 @@ export default {
     table: {
       receivedAt: 'Thời gian',
       all: 'Tất cả',
-      emptyText: 'Không có giá trị'
+      emptyText: 'Không có giá trị',
+      header1: 'Tên trạm',
+      header2:'Tần suất truyền dữ liệu (phút/lần)',
+      header3:'Tổng số bản ghi theo thiết kế',
+      header4:'Tổng số bản ghi thực tế',
+      header5:'Tỷ lệ nhận dữ liệu (%)',
+      header6:'Ngày bắt đầu truyền dữ liệu',
+      header7:'Ngày/tháng',
+      header8:'Giờ',
+      header9:'Tỉ lệ số liệu vượt ngưỡng (%)',
+      title: 'BÁO CÁO TỈ LỆ SỐ LIỆU THU ĐƯỢC',
+      description:'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.fromMonth}} đến tháng {{=it.toMonth}}',
+      title2: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 24 GIỜ',
+      description2:'Các số liệu thống kê về kết quả quan trắc trung bình 24 giờ của trạm {{=it.stationName}} trong tháng {{=it.monthYear}}',
+      title3: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 1 GIỜ',
+      description3:'Các số liệu thống kê về kết quả quan trắc trung bình 1 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}',
+      title4: 'BÁO CÁO TỈ LỆ VƯỢT NGƯỠNG',
+      description4:'Các số liệu thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm {{=it.fromMonth}}  trong ngày {{=it.toMonth}}',
     },
     selectTimeRange: {
       minute: 'Phút',
       hour: 'Giờ',
       day: 'Ngày',
       month: 'Tháng',
-      year: 'Năm'
+      year: 'Năm',
+      errorMonth: 'Vui lòng chọn tháng',
+      errorDay: 'Vui lòng chọn ngày',
     },
     tab: {
       data: 'Dữ liệu',
@@ -743,9 +782,12 @@ export default {
         placeholder: 'Nhập địa chỉ'
       },
       qcvn: {
-        label: 'QCVN',
+        label: 'Giới hạn vượt ngưỡng',
         placeholder: 'QCVN',
         error: 'Vui lòng chọn QCVN'
+      },
+      tendToExceed: {
+        label: 'Giới hạn chuẩn bị vượt',
       },
       province: {
         label: 'Đơn vị quản lý',
@@ -793,7 +835,7 @@ export default {
         error: 'Vui lòng nhập số điện thoại'
       },
       range: {
-        label: 'Giới hạn đo'
+        label: 'Giới hạn đo thiết bị'
       },
       measuringKey: {
         label: 'Mã thông số',
@@ -811,22 +853,22 @@ export default {
         error: 'Vui lòng nhập đơn vị của thông số'
       },
       measuringMinLimit: {
-        label: 'Giới hạn tối thiểu',
+        label: 'Tối thiểu',
         placeholder: 'Nhập giới hạn tối thiểu',
         error: 'Vui lòng nhập giới hạn tối thiểu'
       },
       measuringMaxLimit: {
-        label: 'Giới hạn tối đa',
+        label: 'Tối đa',
         placeholder: 'Nhập giới hạn tôí đa',
         error: 'Vui lòng nhập giới hạn tối đa'
       },
       measuringMinRange: {
-        label: 'Giới hạn tối thiểu',
+        label: 'Tối thiểu',
         placeholder: 'Nhập giới hạn đo tối thiểu',
         error: 'Vui lòng nhập giới hạn đo tối thiểu'
       },
       measuringMaxRange: {
-        label: 'Giới hạn tối đa',
+        label: 'Tối đa',
         placeholder: 'Input Max Range',
         error: 'Vui lòng nhập giới hạn đo tối đa'
       },
@@ -1372,6 +1414,7 @@ export default {
       error: 'Khôi phục thất bại'
     },
     search: 'Tìm kiếm',
+    searchSeclect: 'Chọn điều kiện',
     error: 'Đã xảy ra sự cố!!!',
     warning: 'Chú ý',
     refresh: 'Làm mới',
@@ -1507,16 +1550,22 @@ export default {
       type6: 'AQI TB 24h theo thông số',
       type7: 'AQI ngày theo thông số',
       type9: 'Trung bình ngày',
+      type10: 'Tỷ lệ dữ liệu thu được',
+      type11: 'Quan trắc trung bình 1 giờ',
+      type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
     },
     reportBreadcrum: {
       type1: 'Tỷ lệ dữ liệu',
-      type2: 'Trung bình 24 giờ',
+      type2: 'Kết quả quan trắc trung bình 24 giờ',
       type3: 'Trung bình 1 giờ lớn nhất trong ngày',
       type4: 'Trung bình 8 giờ lớn nhất trong ngày',
       type5: 'AQI các giờ/ngày',
       type6: 'AQI trung bình 24h theo thông số',
       type7: 'AQI ngày theo thông số',
       type9: 'Trung bình ngày',
+      type10: 'Tỷ lệ dữ liệu thu được',
+      type11: 'Kết quả quan trắc trung bình 1 giờ',
+      type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
     }
   },
   cameraControl: {

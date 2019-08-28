@@ -6,7 +6,7 @@ import * as _ from 'lodash'
 
 import { translate } from 'hoc/create-lang'
 import ChartBaseView from './chart-base'
-import { COLOR_STATUS } from 'themes/color'
+import { COLOR } from 'themes/color'
 import { STATUS_STATION } from 'constants/stationStatus'
 import { ROUND_DIGIT } from 'constants/format-number'
 
@@ -100,12 +100,12 @@ export default class ChartStatusView extends React.PureComponent {
             {
               name: translate('dashboard.chartStatus.dataLoss'),
               y: lossData,
-              color: COLOR_STATUS.DATA_LOSS
+              color: COLOR.DATA_LOSS
             },
             {
               name: titleActive,
               y: goodTotal,
-              color: COLOR_STATUS.GOOD
+              color: COLOR.GOOD
             }
           ]
         }
@@ -131,14 +131,14 @@ export default class ChartStatusView extends React.PureComponent {
     const seriesDataLoss = {
       name: translate('dashboard.chartStatus.dataLoss'),
       data: [],
-      color: COLOR_STATUS.DATA_LOSS,
+      color: COLOR.DATA_LOSS,
       dataLabels
     }
     const seriesActive = {
       name: titleActive,
       data: [],
       dataLabels,
-      color: COLOR_STATUS.GOOD
+      color: COLOR.GOOD
     }
     // const seriesUnActive = {
     //   name: tittleUnActive,

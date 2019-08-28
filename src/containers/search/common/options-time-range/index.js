@@ -52,7 +52,7 @@ export default class OptionsTimeRange extends React.Component {
   onOkDatePicker = ranges => {
     let rangesView = ''
     _.forEach(ranges, range => {
-      rangesView += moment(range._d, DD_MM_YYYY_HH_MM).format(DD_MM_YYYY_HH_MM)
+      rangesView += range.format(DD_MM_YYYY_HH_MM)
       if (!_.includes(rangesView, '-')) {
         rangesView += ' - '
       }
