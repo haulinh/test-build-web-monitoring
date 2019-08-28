@@ -1,18 +1,20 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import DataStationAutoApi from 'api/DataStationAutoApi'
-import Clearfix from 'components/elements/clearfix/index'
-import TabList from './tab-list/index'
-import Breadcrumb from './breadcrumb'
-import SearchFrom from './search-form/index'
-import { message, Spin } from 'antd'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
-import swal from 'sweetalert2'
-import { translate } from 'hoc/create-lang'
+import React from "react"
+import { autobind } from "core-decorators"
+import PageContainer from "layout/default-sidebar-layout/PageContainer"
+import DataStationAutoApi from "api/DataStationAutoApi"
+import Clearfix from "components/elements/clearfix/index"
+import TabList from "./tab-list/index"
+import Breadcrumb from "./breadcrumb"
+import SearchFrom from "./search-form/index"
+import { message, Spin } from "antd"
+import ROLE from "constants/role"
+import protectRole from "hoc/protect-role"
+import swal from "sweetalert2"
+import { translate } from "hoc/create-lang"
+import queryFormDataBrowser from "hoc/query-formdata-browser"
 
 @protectRole(ROLE.AVG_SEARCH.VIEW)
+@queryFormDataBrowser(["submit"])
 @autobind
 export default class AvgSearch extends React.Component {
   state = {
@@ -48,13 +50,13 @@ export default class AvgSearch extends React.Component {
     )
     if (dataStationAuto.error) {
       // console.log('ERRROR', dataStationAuto)
-      message.error('ERRROR')
+      message.error("ERRROR")
       return
     }
     if (dataStationAuto.data.length === 0) {
       swal({
-        type: 'success',
-        title: translate('avgSearchFrom.table.emptyText')
+        type: "success",
+        title: translate("avgSearchFrom.table.emptyText")
       })
     }
     this.setState({
@@ -92,11 +94,16 @@ export default class AvgSearch extends React.Component {
   }
 
   render() {
+    // console.log(this.props.formData.searchNow,  "this.props.formData.searchNow")
     return (
-      <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+      <PageContainer {...this.props.wrapperProps} backgroundColor={"#fafbfb"}>
         <Spin size="large" tip="Exporting..." spinning={this.state.isExporting}>
-          <Breadcrumb items={['list']} />
-          <SearchFrom onSubmit={this.handleSubmitSearch} />
+          <Breadcrumb items={["list"]} />
+          <SearchFrom
+            onSubmit={this.handleSubmitSearch}
+            initialValues={this.props.formData}
+            searchNow={this.props.formData.searchNow}
+          />
           <Clearfix height={16} />
           {this.state.isHaveData ? (
             <TabList

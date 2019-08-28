@@ -85,7 +85,14 @@ export default {
       map: 'Bản đồ',
       images: 'Hình ảnh',
       stationInfo: 'Thông tin trạm',
-      reviewStation: 'Đánh giá trạm'
+      reviewStation: 'Đánh giá trạm',
+      more:{
+        label:'Liên kết',
+        historyData:'Tra cứu số liệu lịch sử',
+        averageData:'Tổng hợp dữ liệu',
+        checkData:'Kiểm duyệt dữ liệu',
+        config:'Cấu hình gửi cảnh báo'
+      }
     },
     moreContent: {
       sampling: {

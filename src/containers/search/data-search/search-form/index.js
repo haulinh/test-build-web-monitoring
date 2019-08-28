@@ -1,29 +1,29 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { reduxForm, Field } from 'redux-form'
-import PropTypes from 'prop-types'
-import { Row, Col, Button, Switch } from 'antd'
-import createLang from 'hoc/create-lang'
-import SelectStationType from 'components/elements/select-station-type'
-import SelectAnt from 'components/elements/select-ant'
-import Clearfix from 'components/elements/clearfix'
-import createValidateComponent from 'components/elements/redux-form-validate'
-import moment from 'moment-timezone'
-import { default as BoxShadowStyle } from 'components/elements/box-shadow'
-import Heading from 'components/elements/heading'
-import AdvancedOperator from './AdvancedOperator'
-import SelectStationAuto from '../../common/select-station-auto'
-import { translate } from 'hoc/create-lang'
-import SelectProvince from 'components/elements/select-province'
-import OptionsTimeRange from '../../common/options-time-range'
-import * as _ from 'lodash'
-import { FSelectApprove } from './select-approve'
+import React from "react"
+import { autobind } from "core-decorators"
+import styled from "styled-components"
+import { connect } from "react-redux"
+import { reduxForm, Field } from "redux-form"
+import PropTypes from "prop-types"
+import { Row, Col, Button, Switch } from "antd"
+import createLang from "hoc/create-lang"
+import SelectStationType from "components/elements/select-station-type"
+import SelectAnt from "components/elements/select-ant"
+import Clearfix from "components/elements/clearfix"
+import createValidateComponent from "components/elements/redux-form-validate"
+import moment from "moment-timezone"
+import { default as BoxShadowStyle } from "components/elements/box-shadow"
+import Heading from "components/elements/heading"
+import AdvancedOperator from "./AdvancedOperator"
+import SelectStationAuto from "../../common/select-station-auto"
+import { translate } from "hoc/create-lang"
+import SelectProvince from "components/elements/select-province"
+import OptionsTimeRange from "../../common/options-time-range"
+import * as _ from "lodash"
+import { FSelectApprove } from "./select-approve"
 // import { prop } from 'cramda';
 
 // import queryFormDataBrowser from 'hoc/query-formdata-browser'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date';
+import { DD_MM_YYYY_HH_MM } from "constants/format-date"
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
@@ -40,29 +40,33 @@ const Container = styled.div`
 function validate(values) {
   const errors = {}
   if (!values.stationType)
-    errors.stationType = translate('avgSearchFrom.form.stationType.error')
-  if (!values.stationAuto || values.stationAuto === '')
-    errors.stationAuto = translate('avgSearchFrom.form.stationAuto.error')
-  if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
-  
-  if (!values.rangesDate){
-    errors.rangesDate = translate('avgSearchFrom.form.rangesDate.error')
+    errors.stationType = translate("avgSearchFrom.form.stationType.error")
+  if (!values.stationAuto || values.stationAuto === "")
+    errors.stationAuto = translate("avgSearchFrom.form.stationAuto.error")
+  if (!values.type) errors.type = translate("avgSearchFrom.form.type.error")
+
+  if (!values.rangesDate) {
+    errors.rangesDate = translate("avgSearchFrom.form.rangesDate.error")
   }
-    
+
   if (values.measuringList && values.measuringList.length === 0)
-    errors.measuringList = translate('avgSearchFrom.form.measuringList.require')
+    errors.measuringList = translate("avgSearchFrom.form.measuringList.require")
 
   return errors
 }
 
 @connect((state, ownProps) => ({
   initialValues: {
-    rangesDate: 1,
-    ...(ownProps.initialValues ? ownProps.initialValues : {}),
+    ...(ownProps.initialValues
+      ? {
+          ...ownProps.initialValues,
+          rangesDate: 1
+        }
+      : {})
   }
 }))
 @reduxForm({
-  form: 'dataSearchForm',
+  form: "dataSearchForm",
   validate
 })
 @createLang
@@ -79,13 +83,20 @@ export default class SearchForm extends React.Component {
     // console.log(this.props.formData,"this.props.query")
 
     let fromDate = moment(props.initialValues.fromDate)
-    let toDate = moment(props.initialValues.toDate) 
+    let toDate = moment(props.initialValues.toDate)
     let timeRange = props.initialValues.rangesDate
     let rangesView = null
     // debugger
-    console.log(props.initialValues,fromDate.format(DD_MM_YYYY_HH_MM), toDate.format(DD_MM_YYYY_HH_MM),"props.initialValues")
-    if(props.initialValues.searchRange) {
-      rangesView = `${fromDate.format(DD_MM_YYYY_HH_MM)} - ${toDate.format(DD_MM_YYYY_HH_MM)}`
+    // console.log(
+    //   props.initialValues,
+    //   fromDate.format(DD_MM_YYYY_HH_MM),
+    //   toDate.format(DD_MM_YYYY_HH_MM),
+    //   "props.initialValues"
+    // )
+    if (props.initialValues.searchRange) {
+      rangesView = `${fromDate.format(DD_MM_YYYY_HH_MM)} - ${toDate.format(
+        DD_MM_YYYY_HH_MM
+      )}`
       timeRange = null
     }
 
@@ -104,56 +115,61 @@ export default class SearchForm extends React.Component {
             name: measuring.name
           }))
         : [],
-      receivedAt: moment(props.initialValues.receivedAt) || this.props.initialValues.toDate
+      receivedAt:
+        moment(props.initialValues.receivedAt) ||
+        this.props.initialValues.toDate,
+      isSearchInit: props.initialValues.stationAuto ? false : true
     }
   }
 
-  // componentDidMount() {
-  //   if (this.props.searchNow) {
-  //     setTimeout(() => {
-  //       this.setState({
-  //         timeRange: 1,
-  //         fromDate: this.state.receivedAt.clone().subtract(1, 'days'),
-  //         toDate: this.state.receivedAt.clone()
-  //       }, ()=>{
-  //         this.props.handleSubmit(this.handleSubmit)()
-  //       })
-        
-  //     }, 200)
-  //   }
-  // }
+  componentDidMount() {
+    if (this.props.searchNow) {
+      this.props.handleSubmit(this.handleSubmit)()
+    }
+  }
 
-  searchInit(){
-    
+  searchInit() {
     // return
+
+    if (!this.state.isSearchInit) {
+      return
+    }
+    // console.log(_.pick(this.props.initialValues, ["stationAuto"]), "searchInit")
     // NOTE  do gấp, code chạy còn thừa, chưa có time check
-    if(this.StationType && this.StationType.getFirstValue &&  this.StationAuto ) {
+    if (
+      this.StationType &&
+      this.StationType.getFirstValue &&
+      this.StationAuto
+    ) {
       // console.log('this.props.change',this.props.change)
       this.handleChangeStationType(this.StationType.getFirstValue())
       this.StationType.setFirstValue()
-      this.props.change('stationType', this.StationType.getFirstValue().key)
-      
+      this.props.change("stationType", this.StationType.getFirstValue().key)
+
       let stationAutoData = this.StationAuto.getStationAutos()
       // console.log("run 1")
-      if(stationAutoData.length>0){
+      if (stationAutoData.length > 0) {
         this.handleChangeStationAuto(stationAutoData[0])
-        this.props.change('stationAuto', stationAutoData[0].key)
+        this.props.change("stationAuto", stationAutoData[0].key)
         // console.log("run 2")
-        this.setState({
-          stationAutoKey: stationAutoData[0].key
-        },()=>{
-          this.props.handleSubmit(this.handleSubmit)()
-        })
+        this.setState(
+          {
+            stationAutoKey: stationAutoData[0].key
+          },
+          () => {
+            this.props.handleSubmit(this.handleSubmit)()
+          }
+        )
       }
     }
   }
 
   handleChangeStationType(stationTypeKey, e) {
     this.setState({
-      stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
-      stationAutoKey: ''
+      stationTypeKey: stationTypeKey ? stationTypeKey.key : "",
+      stationAutoKey: ""
     })
-    this.props.change('stationAuto', '')
+    this.props.change("stationAuto", "")
   }
 
   handleChangeStationAuto(stationAuto) {
@@ -174,12 +190,12 @@ export default class SearchForm extends React.Component {
     if (this.state.timeRange) {
       params.fromDate = params.receivedAt
         .clone()
-        .subtract(this.state.timeRange, 'days')
+        .subtract(this.state.timeRange, "days")
       params.toDate = params.receivedAt.clone()
     }
 
     this.setState(params)
-    this.props.change('measuringList', measuringData.map(m => m.key))
+    this.props.change("measuringList", measuringData.map(m => m.key))
   }
 
   handleChangeRanges(ranges) {
@@ -187,7 +203,7 @@ export default class SearchForm extends React.Component {
     if (_.isNumber(ranges)) {
       this.setState({
         timeRange: ranges,
-        fromDate: this.state.receivedAt.clone().subtract(ranges, 'days'),
+        fromDate: this.state.receivedAt.clone().subtract(ranges, "days"),
         toDate: this.state.receivedAt.clone()
       })
     } else {
@@ -203,11 +219,13 @@ export default class SearchForm extends React.Component {
 
   convertDateToString(date) {
     // console.log(date.format(),"date-date")
-    return moment(date).utc().format()
+    return moment(date)
+      .utc()
+      .format()
   }
 
   handleSubmit(values) {
-    // console.log(values,"handleSubmit")
+    console.log(values, "handleSubmit")
     this.props.onSubmit({
       fromDate: this.convertDateToString(this.state.fromDate),
       toDate: this.convertDateToString(this.state.toDate),
@@ -223,30 +241,29 @@ export default class SearchForm extends React.Component {
               item.measuringKey &&
               item.operator &&
               item.value !== null &&
-              typeof item.value !== 'undefined'
+              typeof item.value !== "undefined"
           )
         : []
     })
   }
 
   handleResetAdvanced() {
-    this.props.array.removeAll('advanced')
+    this.props.array.removeAll("advanced")
   }
 
   handleProvinceChange = province => {
     this.setState({
       provinceKey: province.key,
-      stationAutoKey: ''
+      stationAutoKey: ""
     })
 
-    this.props.change('stationAuto', '')
+    this.props.change("stationAuto", "")
   }
 
   render() {
-
     // console.log(this.state.fromDate.format(),this.state.toDate.format(),"render")
-    
-    const t = this.props.lang.createNameSpace('dataSearchFrom.form')
+
+    const t = this.props.lang.createNameSpace("dataSearchFrom.form")
     return (
       <SearchFormContainer>
         <Heading
@@ -257,21 +274,21 @@ export default class SearchForm extends React.Component {
               size="small"
               onClick={this.props.handleSubmit(this.handleSubmit)}
             >
-              {this.props.lang.t('addon.search')}
+              {this.props.lang.t("addon.search")}
             </Button>
           }
           textColor="#ffffff"
           isBackground
           fontSize={14}
-          style={{ padding: '8px 16px' }}
+          style={{ padding: "8px 16px" }}
         >
-          {this.props.lang.t('addon.search')}
+          {this.props.lang.t("addon.search")}
         </Heading>
         <Container>
           <Row gutter={16}>
             <Col span={6}>
               <Field
-                label={translate('qaqc.province.label')}
+                label={translate("qaqc.province.label")}
                 name="province"
                 size="large"
                 component={FSelectProvince}
@@ -280,12 +297,12 @@ export default class SearchForm extends React.Component {
             </Col>
             <Col span={6}>
               <Field
-                label={t('stationType.label')}
+                label={t("stationType.label")}
                 name="stationType"
                 size="large"
                 onHandleChange={this.handleChangeStationType}
                 component={FSelectStationType}
-                getRef={(ref)=> {
+                getRef={ref => {
                   this.StationType = ref
                   this.searchInit()
                 }}
@@ -293,7 +310,7 @@ export default class SearchForm extends React.Component {
             </Col>
             <Col span={6}>
               <Field
-                label={t('stationAuto.label')}
+                label={t("stationAuto.label")}
                 name="stationAuto"
                 size="large"
                 provinceKey={this.state.provinceKey}
@@ -301,7 +318,7 @@ export default class SearchForm extends React.Component {
                 component={FSelectStationAuto}
                 onChangeObject={this.handleChangeStationAuto}
                 stationAutoKey={this.state.stationAutoKey}
-                getRef={(ref)=> {
+                getRef={ref => {
                   this.StationAuto = ref
                   this.searchInit()
                 }}
@@ -310,7 +327,7 @@ export default class SearchForm extends React.Component {
             </Col>
             <Col span={6}>
               <Field
-                label={translate('qaqc.data')}
+                label={translate("qaqc.data")}
                 name="dataType"
                 size="large"
                 component={FSelectApprove}
@@ -321,7 +338,7 @@ export default class SearchForm extends React.Component {
           <Row gutter={16}>
             <Col span={12}>
               <Field
-                label={t('measuringList.label')}
+                label={t("measuringList.label")}
                 name="measuringList"
                 size="large"
                 showSearch
@@ -332,7 +349,7 @@ export default class SearchForm extends React.Component {
             </Col>
             <Col span={9}>
               <Field
-                label={t('time')}
+                label={t("time")}
                 name="rangesDate"
                 size="large"
                 onChangeObject={this.handleChangeRanges}
@@ -343,7 +360,7 @@ export default class SearchForm extends React.Component {
             </Col>
             <Col span={3}>
               <Field
-                label={t('isExceeded.label')}
+                label={t("isExceeded.label")}
                 name="isExceeded"
                 size="large"
                 component={FSwitch}

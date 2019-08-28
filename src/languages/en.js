@@ -84,7 +84,14 @@ export default {
       map: 'Map',
       images: 'Images',
       stationInfo: 'Station Infomation',
-      reviewStation: 'Review Station'
+      reviewStation: 'Review Station',
+      more:{
+        label:'Link',
+        historyData:'History Data',
+        averageData:'Average Data',
+        checkData:'Check Data',
+        config:'Configure to Send Notifications'
+      }
     },
     moreContent: {
       sampling: {
