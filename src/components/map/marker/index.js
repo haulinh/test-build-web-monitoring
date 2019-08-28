@@ -17,11 +17,11 @@ const { InfoWindow, Circle } = require('react-google-maps')
 import Marker from '../utils/marker-with-label-animate'
 import { Table } from 'react-bootstrap'
 // import DateFormat from 'dateformat'
-import { colorLevels, warningLevels } from 'constants/warningLevels'
+import { warningLevels } from 'constants/warningLevels'
 import { STATUS_STATION } from 'constants/stationStatus'
 import moment from 'moment-timezone'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-import { isEmpty, map, get as _get } from 'lodash'
+import _, { isEmpty, map, get as _get } from 'lodash'
 import { getFormatNumber } from 'constants/format-number';
 
 const TabPane = Tabs.TabPane
@@ -132,15 +132,13 @@ export default class MarkerStation extends PureComponent {
   }
 
   getColorLevel(warningLevel) {
-
-    if (
-      this.props.stationStatus &&
-      this.props.stationStatus === STATUS_STATION.HIGHTGEST
-    )
+    let stationStatus =  _get(this.props, 'stationStatus')
+    if (stationStatus === STATUS_STATION.HIGHTGEST)
       return COLOR[STATUS_STATION.HIGHTGEST]
 
-    if (warningLevel && colorLevels[warningLevel])
+    if (warningLevel && COLOR[warningLevel])
       return COLOR[warningLevel]
+      
     return COLOR.GOOD
   }
 

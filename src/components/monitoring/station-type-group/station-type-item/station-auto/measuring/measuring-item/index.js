@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import { colorLevels } from 'constants/warningLevels'
 import { translate } from 'hoc/create-lang'
 import { Tooltip } from 'antd'
 import { get } from 'lodash'
@@ -214,5 +213,3 @@ export default class MeasuringItem extends React.PureComponent {
     )
   }
 }
-
-// 0 xanh, 1 vang, 2 do

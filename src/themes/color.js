@@ -36,23 +36,16 @@ export const COLOR = {
   DATA_CONNECTED: '#6AA84F',
   SENSOR_GOOD: '#6AA84F',
   SENSOR_ERROR: '#CC0000',
+  SENSOR_MAINTENACE:'#E69138'
 }
 
 /* eslint-disable */
 // do logic code cũ gía trị đang là 0, 1, 2
 
 export const COLOR_DEVICE_STATUS = {
-  DATA_LOSS: '#666666',         // @ dedicated
-  ERROR: '#CC0000',             // @ dedicated
-  MAINTENACE:'#E69138',         // @ dedicated
-  NORMAL: '#6AA84F',            // @ dedicated
-
-  SENSOR_GOOD: '#6AA84F',
-  SENSOR_ERROR: '#CC0000',
-
-  [0]: '#6AA84F', 
-  [1]: '#E69138',
-  [2]: '#CC0000'
+  [0]: COLOR.SENSOR_GOOD,
+  [1]: COLOR.SENSOR_MAINTENACE,
+  [2]: COLOR.SENSOR_ERROR,
 }
 /* eslint-enable */
 

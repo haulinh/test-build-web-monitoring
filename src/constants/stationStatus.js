@@ -28,26 +28,27 @@ export const STATUS_STATION = {
   DATA_EXCEEDED_PREPARED: 'DATA_EXCEEDED_PREPARED',
   DATA_CONNECTED: 'GOOD',
   SENSOR_ERROR: 'SENSOR_ERROR',
-  SENSOR_GOOD: 'SENSOR_GOOD'
+  SENSOR_GOOD: 'SENSOR_GOOD',
+  SENSOR_MAINTENACE: 'SENSOR_MAINTENACE'
 }
 
 export const STATUS_STATION_LEVEL = {
   DATA_LOSS: 1,
-  EXCEEDED: 2,
-  EXCEEDED_PREPARING: 3,
-  GOOD: 4
+  DATA_EXCEEDED: 2,
+  DATA_EXCEEDED_PREPARED: 3,
+  DATA_GOOD: 4
 }
 
 export const getStatusPriority = (status1, status2) => {
   let a = STATUS_STATION_LEVEL[status1]
     ? STATUS_STATION_LEVEL[status1]
-    : STATUS_STATION_LEVEL.GOOD
+    : STATUS_STATION_LEVEL.DATA_GOOD
   let b = STATUS_STATION_LEVEL[status2]
     ? STATUS_STATION_LEVEL[status2]
-    : STATUS_STATION_LEVEL.GOOD
+    : STATUS_STATION_LEVEL.DATA_GOOD
 
   if (a < b) return status1
-  else return status2 ? status2 : STATUS_STATION.GOOD
+  else return status2 ? status2 : STATUS_STATION.DATA_GOOD
 }
 
 export const getStatusItem = item => {
@@ -61,5 +62,5 @@ export const getStatusItem = item => {
     }
     return warLevel
   }
-  return STATUS_STATION.GOOD
+  return STATUS_STATION.DATA_GOOD
 }
