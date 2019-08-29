@@ -782,7 +782,7 @@ export default {
         placeholder: 'Address'
       },
       qcvn: {
-        label: 'Excess Limit',
+        label: 'Exceeded Limit',
         placeholder: 'Standards VN',
         error: 'Please Choose Type Of Standards VN'
       },
