@@ -1,27 +1,33 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import queryString from 'query-string'
-import { autobind } from 'core-decorators'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import StationAutoApi from 'api/StationAuto'
-import CategoriesApi from 'api/CategoryApi'
-import Header from 'components/monitoring/head'
-import HeaderFilter from 'components/monitoring/filter'
-import StationTypeList from 'components/monitoring/station-type-group/station-type-list'
-import monitoringFilter from 'constants/monitoringFilter'
-import ListLoaderCp from 'components/content-loader/list-loader'
-import Clearfix from 'components/elements/clearfix'
-import { getMonitoringFilter } from 'utils/localStorage'
-import { replaceVietnameseStr } from 'utils/string'
-import * as _ from 'lodash'
-import HeaderView from '../../../components/monitoring/header-view'
-import styled from 'styled-components'
-import { GROUP_OPTIONS, ORDER_OPTIONS } from 'components/monitoring/filter/options'
-import createContentLoader from 'hoc/content-loader'
-import { translate } from 'hoc/create-lang'
-import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
-import { warningLevels } from 'constants/warningLevels'
-import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import React from "react"
+import { withRouter } from "react-router-dom"
+import queryString from "query-string"
+import { autobind } from "core-decorators"
+import PageContainer from "layout/default-sidebar-layout/PageContainer"
+import StationAutoApi from "api/StationAuto"
+import CategoriesApi from "api/CategoryApi"
+import Header from "components/monitoring/head"
+import HeaderFilter from "components/monitoring/filter"
+import StationTypeList from "components/monitoring/station-type-group/station-type-list"
+import monitoringFilter from "constants/monitoringFilter"
+import ListLoaderCp from "components/content-loader/list-loader"
+import Clearfix from "components/elements/clearfix"
+import { getMonitoringFilter } from "utils/localStorage"
+import { replaceVietnameseStr } from "utils/string"
+import * as _ from "lodash"
+import HeaderView from "../../../components/monitoring/header-view"
+import styled from "styled-components"
+import {
+  GROUP_OPTIONS,
+  ORDER_OPTIONS
+} from "components/monitoring/filter/options"
+import createContentLoader from "hoc/content-loader"
+import { translate } from "hoc/create-lang"
+import { Anchor } from "antd"
+import { STATUS_STATION, getStatusPriority } from "constants/stationStatus"
+import { warningLevels } from "constants/warningLevels"
+import queryFormDataBrowser from "hoc/query-formdata-browser"
+
+const { Link } = Anchor
 
 const ContainerHeader = styled.div`
   flex-direction: row;
@@ -43,12 +49,12 @@ const ListLoader = createContentLoader({
 export const defaultFilter = {
   group: GROUP_OPTIONS[0].value,
   order: ORDER_OPTIONS[0].value,
-  stationType: '',
-  search: ''
+  stationType: "",
+  search: ""
 }
 
 @withRouter
-@queryFormDataBrowser(['submit'])
+@queryFormDataBrowser(["submit"])
 @autobind
 export default class MonitoringGeneral extends React.Component {
   state = {
@@ -61,7 +67,8 @@ export default class MonitoringGeneral extends React.Component {
   }
 
   getStatusItem(item) {
-    if (item.status === STATUS_STATION.HIGHTGEST) return STATUS_STATION.HIGHTGEST
+    if (item.status === STATUS_STATION.HIGHTGEST)
+      return STATUS_STATION.HIGHTGEST
     if (item.lastLog) {
       let warLevel = warningLevels.GOOD
       let measuringLogs = item.lastLog.measuringLogs
@@ -107,24 +114,29 @@ export default class MonitoringGeneral extends React.Component {
       itemPerPage: 10
     })
     let dataStationAutos = await StationAutoApi.getLastLog()
-    dataStationAutos = _.get(dataStationAutos, 'data', [])
+    dataStationAutos = _.get(dataStationAutos, "data", [])
 
-    // MARK  logic focus trạm từ trang map
-    if (this.state.followStation) {
-      dataStationAutos = _.filter(dataStationAutos, item => {
-        return item.key === this.state.followStation
-      })
-      // console.log(dataStationAutos, 'dataStationAutos')
-    }
+    // // MARK  logic focus trạm từ trang map
+    // if (this.state.followStation) {
+    //   dataStationAutos = _.filter(dataStationAutos, item => {
+    //     return item.key === this.state.followStation
+    //   })
+    //   // console.log(dataStationAutos, 'dataStationAutos')
+    // }
 
-    const tmp = _.get(dataStationTypes, 'data', [])
+    const tmp = _.get(dataStationTypes, "data", [])
     if (tmp && tmp.length > 0) {
       const dataMonitoring = _.map(tmp, stationType => {
-        const stationAutoList = _.filter(dataStationAutos, stationAuto => stationAuto.stationType.key === stationType.key)
+        const stationAutoList = _.filter(
+          dataStationAutos,
+          stationAuto => stationAuto.stationType.key === stationType.key
+        )
         return {
           stationType,
           stationAutoList: this.appendWarningLevelStationAuto(stationAutoList),
-          totalWarning: this.getTotalWarning(this.appendWarningLevelStationAuto(stationAutoList))
+          totalWarning: this.getTotalWarning(
+            this.appendWarningLevelStationAuto(stationAutoList)
+          )
         }
       })
 
@@ -158,13 +170,14 @@ export default class MonitoringGeneral extends React.Component {
   async componentWillMount() {
     if (this.props.location) {
       const query = queryString.parse(this.props.location.search)
-      if (query) this.handleChangeFilter({ ...this.state.filter, stationType: query.Id })
+      if (query)
+        this.handleChangeFilter({ ...this.state.filter, stationType: query.Id })
     }
     // NOTE lấy mã trạm từ url
     if (this.props.formData) {
-      // console.log(this.props.formData, 'monitoring formData')
+      // console.log(this.props.formData, "monitoring formData")
       this.setState({
-        followStation: _.get(this.props.formData, 'stationAuto', '')
+        followStation: _.get(this.props.formData, "stationAuto", "")
       })
     }
     await this.loadData()
@@ -191,15 +204,21 @@ export default class MonitoringGeneral extends React.Component {
   }
 
   renderHeader(total, countGood) {
-    const stationStatus = translate('dashboard.activeStationPer', {
+    const stationStatus = translate("dashboard.activeStationPer", {
       good: countGood,
       total
     })
     return (
       <ContainerHeader>
-        <HeaderView stationStatus={stationStatus} onChange={this.handleProvinceChange} />
+        <HeaderView
+          stationStatus={stationStatus}
+          onChange={this.handleProvinceChange}
+        />
         <Header>
-          <HeaderFilter filter={this.state.filter} onChange={this.handleChangeFilter} />
+          <HeaderFilter
+            filter={this.state.filter}
+            onChange={this.handleChangeFilter}
+          />
         </Header>
       </ContainerHeader>
     )
@@ -208,9 +227,9 @@ export default class MonitoringGeneral extends React.Component {
   sortNameList(data, key, asc = true, sortByValue = false) {
     if (sortByValue) {
       // MARK  old:  return _.orderBy(data, [key, 'statusAnalytic'], [asc ? 'asc' : 'desc', 'desc'])
-      return _.orderBy(data, ['statusAnalytic'], ['asc'])
+      return _.orderBy(data, ["statusAnalytic"], ["asc"])
     }
-    return _.orderBy(data, [key], [asc ? 'asc' : 'desc'])
+    return _.orderBy(data, [key], [asc ? "asc" : "desc"])
   }
 
   unGroupStation(stationTypeList) {
@@ -222,13 +241,13 @@ export default class MonitoringGeneral extends React.Component {
       })
     })
     if (this.state.filter.order === monitoringFilter.ORDER.NAME) {
-      newStationAutoList = this.sortNameList(newStationAutoList, 'name')
+      newStationAutoList = this.sortNameList(newStationAutoList, "name")
     }
     return [
       {
         stationType: {
           ...stationTypeList[0],
-          name: translate('dataSearchFrom.form.all')
+          name: translate("dataSearchFrom.form.all")
         },
         stationAutoList: newStationAutoList
       }
@@ -238,27 +257,42 @@ export default class MonitoringGeneral extends React.Component {
   getFilterProvince = dataList => {
     let total = 0
     let countGood = 0
-    const stationTypeList = _.map(dataList, ({ stationAutoList, totalWarning, stationType }) => {
-      const rs = _.filter(stationAutoList || [], ({ name, province, status }) => {
-        let hasFilterName = true
-        if (this.state.filter.search) {
-          hasFilterName = _.includes(replaceVietnameseStr(name).toLowerCase(), replaceVietnameseStr(this.state.filter.search).toLowerCase())
-        }
+    const stationTypeList = _.map(
+      dataList,
+      ({ stationAutoList, totalWarning, stationType }) => {
+        const rs = _.filter(
+          stationAutoList || [],
+          ({ name, province, status }) => {
+            let hasFilterName = true
+            if (this.state.filter.search) {
+              hasFilterName = _.includes(
+                replaceVietnameseStr(name).toLowerCase(),
+                replaceVietnameseStr(this.state.filter.search).toLowerCase()
+              )
+            }
 
-        let hasStation = hasFilterName && (!this.state.province || _.isEqual(_.get(province, 'key', ''), _.get(this.state.province, 'key', '')))
-        if (hasStation) {
-          total = total + 1
-          countGood = countGood + (_.isEqual(status, 'GOOD') ? 1 : 0)
-        }
+            let hasStation =
+              hasFilterName &&
+              (!this.state.province ||
+                _.isEqual(
+                  _.get(province, "key", ""),
+                  _.get(this.state.province, "key", "")
+                ))
+            if (hasStation) {
+              total = total + 1
+              countGood = countGood + (_.isEqual(status, "GOOD") ? 1 : 0)
+            }
 
-        return hasStation
-      })
-      return {
-        stationAutoList: rs,
-        totalWarning,
-        stationType
+            return hasStation
+          }
+        )
+        return {
+          stationAutoList: rs,
+          totalWarning,
+          stationType
+        }
       }
-    })
+    )
 
     return {
       total,
@@ -272,7 +306,10 @@ export default class MonitoringGeneral extends React.Component {
     let stationTypeList = dataResult.stationTypeList
     // filter by STATION TYPE
     if (this.state.filter.stationType) {
-      stationTypeList = stationTypeList.filter(stationType => stationType.stationType.key === this.state.filter.stationType)
+      stationTypeList = stationTypeList.filter(
+        stationType =>
+          stationType.stationType.key === this.state.filter.stationType
+      )
     }
     // filter by UNGROUP
     if (this.state.filter.group === monitoringFilter.GROUP.UNGROUP) {
@@ -281,22 +318,38 @@ export default class MonitoringGeneral extends React.Component {
 
     // filter by ORDER NAME
     if (this.state.filter.order === monitoringFilter.ORDER.NAME) {
-      stationTypeList = this.sortNameList(stationTypeList, 'stationType.name').map(stationType => {
+      stationTypeList = this.sortNameList(
+        stationTypeList,
+        "stationType.name"
+      ).map(stationType => {
         return {
           ...stationType,
           stationType: stationType.stationType,
-          stationAutoList: this.sortNameList(stationType.stationAutoList, 'name')
+          stationAutoList: this.sortNameList(
+            stationType.stationAutoList,
+            "name"
+          )
         }
       })
     }
 
     // filter by values
     if (this.state.filter.order === monitoringFilter.ORDER.NUMBER) {
-      stationTypeList = this.sortNameList(stationTypeList, 'totalWarning', true, true).map(stationType => {
+      stationTypeList = this.sortNameList(
+        stationTypeList,
+        "totalWarning",
+        true,
+        true
+      ).map(stationType => {
         return {
           ...stationType,
           stationType: stationType.stationType,
-          stationAutoList: this.sortNameList(stationType.stationAutoList, 'totalWarning', false, true)
+          stationAutoList: this.sortNameList(
+            stationType.stationAutoList,
+            "totalWarning",
+            false,
+            true
+          )
         }
       })
     }
@@ -308,11 +361,19 @@ export default class MonitoringGeneral extends React.Component {
     }
   }
 
+  componentDidMount = () => {
+    if (this.state.followStation) {
+      setTimeout(() => {
+        this.comptAnchor.handleClick()
+      }, 500)
+    }
+  }
+
   render() {
     const result = this.getData()
     return (
       <PageContainer
-        style={{ height: '100%'}}
+        style={{ height: "100%" }}
         isLoading={!this.state.isLoadedFirst}
         backgroundColor="#fafbfb"
         headerCustom={this.renderHeader(result.total, result.countGood)}
@@ -322,7 +383,24 @@ export default class MonitoringGeneral extends React.Component {
           </div>
         }
       >
-        <StationTypeList filter={this.state.filter} data={result.stationTypeList} />
+        {this.state.followStation && (
+          <Anchor
+            // targetOffset={window.innerHeight / 2}
+            style={{ display: "none" }}
+            offsetTop={140}
+          >
+            <Link
+              ref={link => (this.comptAnchor = link)}
+              href={`#${this.state.followStation}`}
+              title={this.state.followStation}
+            />
+          </Anchor>
+        )}
+
+        <StationTypeList
+          filter={this.state.filter}
+          data={result.stationTypeList}
+        />
         <Clearfix height={64} />
       </PageContainer>
     )

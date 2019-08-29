@@ -20,6 +20,7 @@ export default class StationAutoList extends React.Component {
   }
 
   render() {
+    // console.log(this.props.stationAutoList,"this.props.stationAutoList")
     return (
       <StationListWrapper>
         {this.props.stationAutoList
@@ -27,7 +28,7 @@ export default class StationAutoList extends React.Component {
           .map((item, index) => {
             const { key, ...otherProps } = item
             return (
-              <div className="stationAutoItem" key={key} index={index}>
+              <div className="stationAutoItem" key={key} index={index} >
                 <StationAuto
                   {...otherProps}
                   isShowStationName={this.props.isShowStationName}
