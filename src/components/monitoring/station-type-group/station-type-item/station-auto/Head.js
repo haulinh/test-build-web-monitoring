@@ -14,7 +14,8 @@ import { connect } from "react-redux"
 import { STATUS_STATION } from "constants/stationStatus"
 import { DD_MM_YYYY_HH_MM } from "constants/format-date"
 import { isEmpty } from "lodash"
-// import { action } from 'shared/breadcrumb'
+import queryFormDataBrowser from "hoc/query-formdata-browser"
+
 // import objectPath from 'object-path'
 
 const i18n = {
@@ -122,6 +123,7 @@ const ActionWrapper = styled.div`
   organization: state.auth.userInfo.organization,
   userInfo: state.auth.userInfo
 }))
+@queryFormDataBrowser(["submit"])
 @autobind
 export default class StationAutoHead extends React.PureComponent {
   static propTypes = {
@@ -167,6 +169,14 @@ export default class StationAutoHead extends React.PureComponent {
         : ""
     })
   }
+  UNSAFE_componentWillReceiveProps = (nextProps) =>{
+    // console.log(this.props.currentActionDefault, nextProps.currentActionDefault,"UNSAFE_componentWillReceiveProps")
+    if(this.props.currentActionDefault !== nextProps.currentActionDefault){
+      this.setState({
+        currentAction: nextProps.currentActionDefault
+      })
+    }
+  }
 
   handleActionOnClick(actionName, keyOpenTab) {
     if (!keyOpenTab) {
@@ -185,17 +195,28 @@ export default class StationAutoHead extends React.PureComponent {
       stationTypeName,
       receivedAt,
       orderNumber,
-      // stationID,
+      stationID,
       options,
       status
     } = this.props
+    // if (stationID === "NUOCTHAINMPM2_1MR") {
+    //   console.log(this.state, this.props.currentActionDefault , "currentAction")
+    // }
 
+    // console.log(this.props.stationID, "'#components-anchor-demo-static'")
     const { currentAction } = this.state
     const isCamera = options && options.camera && options.camera.allowed
     const isSampling = options && options.sampling && options.sampling.allowed
     return (
       <StationHeadItemWrapper>
         <TitleWrapper>
+          <a
+            style={{ display: "none" }}
+            href={`#${stationID}`}
+            className="anchor"
+          >
+            #
+          </a>
           <OrderNumber>{orderNumber}</OrderNumber>
           <Clearfix width={8} />
           {stationTypeName ? (
@@ -211,7 +232,7 @@ export default class StationAutoHead extends React.PureComponent {
           )}
           <Clearfix width={8} />
           {/* MARK  Bỏ status={status} vì k0 can phan biet status nua */}
-          <ReceivedAt status={STATUS_STATION.GOOD}>
+          <ReceivedAt id={stationID} status={STATUS_STATION.GOOD}>
             {this.toReceivedAt(status, receivedAt)}
           </ReceivedAt>
         </TitleWrapper>
@@ -326,15 +347,18 @@ export default class StationAutoHead extends React.PureComponent {
                   {i18n.averageData}
                 </Menu.Item>
                 <Divider style={{ margin: 0 }} />
-                <Menu.Item 
+                <Menu.Item
                   // disabled={
                   //   checkRolePriority(
                   //     this.props.userInfo,
                   //     ROLE.QAQCCONFIG.VIEW
                   //   )
-                  // } 
+                  // }
                   disabled={true}
-                  key="3">{i18n.checkData}</Menu.Item>
+                  key="3"
+                >
+                  {i18n.checkData}
+                </Menu.Item>
                 <Divider style={{ margin: 0 }} />
                 <Menu.Item
                   // disabled={

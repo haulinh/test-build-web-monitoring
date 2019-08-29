@@ -40,7 +40,7 @@ export default class StationAutoItem extends React.PureComponent {
 
   state = {
     isOpenCamera: false,
-    showPanel: _isEmpty(this.props.formData) ? "" : "chart"
+    showPanel: ''
   }
 
   handleShowPanel(panelName, keyOpenTab) {
@@ -171,6 +171,17 @@ export default class StationAutoItem extends React.PureComponent {
       }
     })
     return measuringList
+  }
+
+  componentDidMount = () =>{
+    // console.log(this.props.formData.stationAuto,this.props.stationID, "componentDidMount")
+    if(this.props.stationID === get(this.props,'formData.stationAuto','')){
+      // console.log(this.props.formData, "componentDidMount run 2")
+      this.setState({
+        showPanel:'chart'
+      })
+    }
+    
   }
 
   render() {
