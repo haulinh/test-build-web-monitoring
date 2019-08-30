@@ -143,11 +143,14 @@ export default class MapDefault extends React.PureComponent {
   }
 
   fillStatusChange(focusStatus, findBy) {
+
     let res = this.state.stationsAuto
 
     res = res.map(element => {
       element.visible = false
       let status
+
+      console.log(element.statusAnalytic, element, "statusAnalytic")
 
       if (element.statusAnalytic === STATUS_STATION.GOOD) {
         status = STATUS_STATION.GOOD
@@ -203,6 +206,7 @@ export default class MapDefault extends React.PureComponent {
   }
 
   render() {
+    // console.log(this.state.stationsAuto, "stationsAuto")
     return (
       <MapDefaultWrapper height={this.props.windowHeight}>
         <Clearfix />

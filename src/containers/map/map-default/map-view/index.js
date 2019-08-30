@@ -119,6 +119,7 @@ class CustomGoogleMap extends PureComponent {
                   return a.numericalOrder - b.numericalOrder
                 })
                 // debugger
+                // console.log(item.mapLocation,"mapLocationr")
                 return (
                   <MarkerStation
                     code={item.key}
