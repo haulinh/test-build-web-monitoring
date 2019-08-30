@@ -9,7 +9,7 @@ import PropTypes from "prop-types"
 import slug from "constants/slug"
 import { STATUS_STATION } from "constants/stationStatus"
 import { translate } from "hoc/create-lang"
-import { get, isEmpty as _isEmpty, map as _map } from "lodash"
+import { get, map as _map } from "lodash"
 import queryFormDataBrowser from "hoc/query-formdata-browser"
 
 import CameraListView from "./camera-list"
