@@ -9,26 +9,16 @@ import {
   UPDATE_DATA_SOURCE,
   TOGGLE_LOADING,
   TOGGLE_VISIBLE_NOTIFICATION_DRAWER,
-  RESET_ALL_COUNTS
+  RESET_ALL_COUNTS,
+  UPDATE_READ
 } from '../actions/notification'
 
 export const initialState = {
   visible: false,
-  loading: true, // exceeded loading
-  isLoadmoreLostSignal: true,
-  isLoadmoreSensorError: true,
-  currentPage: 0,
-  count: {
-    total: 0,
-    exceeded: 0,
-    lostSignal: 0,
-    sensorError: 0
-  },
-  logs: {
-    exceeded: [],
-    lostSignal: [],
-    sensorError: [],
-  },
+  loading: true,
+  currentPage: 1,
+  count: 0,
+  logs: []
 }
 
 export default function handleNotificationStore(state = initialState, action) {
@@ -40,7 +30,7 @@ export default function handleNotificationStore(state = initialState, action) {
     case TOGGLE_LOADING: 
       return handleToggleLoading(state, payload)
     case CLEAR_COUNTS: 
-      return handleClearCount(cloneState, payload)
+      return handleClearCount(state)
     case UPDATE_COUNTS: 
       return handleUpdateCount(cloneState, payload)
     case UPDATE_ALL_COUNTS: 
@@ -51,6 +41,8 @@ export default function handleNotificationStore(state = initialState, action) {
       return handleUpdateDataSource(cloneState, payload)
     case TOGGLE_VISIBLE_NOTIFICATION_DRAWER:
       return {...state, ...{visible: payload}}
+    case UPDATE_READ:
+      return handleUpdateRead(state, payload)
     default:
       return state
   }
@@ -58,12 +50,7 @@ export default function handleNotificationStore(state = initialState, action) {
 
 function handleResetAllCount(state) {
   return update(state,{
-    count:{
-      total: {$set: 0},
-      exceeded: {$set: 0},
-      lostSignal: {$set: 0},
-      sensorError: {$set: 0},
-    }
+    count:{ $set: 0 }
   })
 }
 
@@ -80,28 +67,23 @@ function handleToggleLoading(state, payload) {
 
 /* NOTE  handle action: loadNotificationsByType */
 /* DONE  */
-function handleUpdateDataSource(cloneState, payload) {
-  const {type, data} = payload
-  cloneState.logs[type] = [...cloneState.logs[type], ...data]
-  return cloneState
+function handleUpdateDataSource(state, payload) {
+  return update(state, {
+    logs: { $push: payload }
+  })
 }
 
 /* NOTE  handle action: clearNotificationCountByType */
 /* DONE */
-function handleClearCount(cloneState, type) {
-  cloneState.count[type] = 0
-
-  let { exceeded, lostSignal, sensorError } = cloneState.count
-  cloneState.count.total = _.sum([exceeded, lostSignal, sensorError])
-  
-  return cloneState
+function handleClearCount(cloneState) {
+  return update(cloneState, {
+    count: { $set: 0 }
+  })
 }
 
 /* DONE */
 function handleUpdateCount(cloneState, payload) {
-  let {type, count} = payload
-  cloneState.count[type] += count
-  cloneState.count.total += count
+  cloneState.count += payload
   return cloneState
 }
 
@@ -111,8 +93,17 @@ function handleUpdateAllCount(cloneState, payload) {
 }
 
 /* DONE */
-function handleNewMessage(cloneState, payload) {
-  const {type, data} = payload
-  cloneState.logs[type] = [data, ...cloneState.logs[type]]
-  return cloneState
+function handleNewMessage(state, payload) {
+  state.logs = [payload, ...state.logs]
+  return state
+}
+
+/* TODO */
+function handleUpdateRead(state, id) {
+  console.log('---handleUpdateRead---')
+  let indexOfId = state.logs.findIndex(item => item._id === id)
+  state.logs[indexOfId].isRead = true
+  return update(state, {
+    logs: {$set: state.logs}
+  })
 }
