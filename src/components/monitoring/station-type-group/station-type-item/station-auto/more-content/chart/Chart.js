@@ -307,13 +307,13 @@ export default class ChartRowToChart extends React.Component {
                     const maxTend = _.get(categories[key], 'maxTend', null) || maxLimit
 
                     if (value < minLimit || value > maxLimit)  {
-                      colorColumn = COLOR.DATA_EXCEEDED
+                      colorColumn = COLOR.EXCEEDED
                     }
                     else if (value < minTend || value > maxTend)  {
-                      colorColumn = COLOR.DATA_EXCEEDED_PREPARED
+                      colorColumn = COLOR.EXCEEDED_PREPARING
                     }
                     else {
-                      colorColumn = COLOR.SENSOR_GOOD
+                      colorColumn = COLOR.GOOD
                     }
                   }
 
