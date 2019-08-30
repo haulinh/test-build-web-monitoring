@@ -173,10 +173,10 @@ export default class StationAutoFormTable extends React.Component {
       <FormItem style={{ marginBottom: 0 }}>
         {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
           initialValue: text,
-          validateFirst: true,
-          rules: [
-            { validator: (rule, value, callback) => this.validateValue(index, rule, value, callback) },
-          ]
+          // validateFirst: true,
+          // rules: [
+          //   { validator: (rule, value, callback) => this.validateValue(index, rule, value, callback) },
+          // ]
         })(<InputNumberCell style={{ width: 120 }} editable={true} />)}
       </FormItem>
     )
