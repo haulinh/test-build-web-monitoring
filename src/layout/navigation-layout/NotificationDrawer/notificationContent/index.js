@@ -1,0 +1,67 @@
+import React from 'react'
+import propTypes from 'prop-types'
+// import _ from 'lodash'
+import { connectAutoDispatch } from 'redux/connect'
+import { Card } from 'antd'
+import InfiniteScroll from 'react-infinite-scroller';
+import { withRouter } from 'react-router'
+// import { COLOR_STATUS } from 'themes/color';
+import { loadNotificationsByType } from 'redux/actions/notification'
+
+import Cells from './cells'
+
+@connectAutoDispatch(
+  (state) => ({
+    loading: state.notification.loading,
+    currentPage: state.notification.currentPage,
+    dataSource: state.notification.logs,
+    stationAuto: state.stationAuto.list
+  }),
+  {loadNotificationsByType}
+)
+@withRouter
+export default class NotificationDrawer extends React.Component {
+  static propTypes = {
+    /* component's props */
+    tabName: propTypes.string.isRequired,
+    /* redux's props */
+    stationAuto: propTypes.array.isRequired,
+    loading: propTypes.bool.isRequired,
+    currentPage: propTypes.number.isRequired,
+    dataSource: propTypes.array.isRequired,
+    loadNotificationsByType: propTypes.func.isRequired,
+  }
+
+  static defaultProps = {}
+
+  state = {
+    currentPage: 1
+  }
+
+  componentDidMount() {
+    const { stationAuto, currentPage } = this.props
+    this.props.loadNotificationsByType(currentPage, stationAuto)
+  }
+
+  render() {
+    const { loading, dataSource, stationAuto, currentPage } = this.props
+    
+    return (
+      <InfiniteScroll
+        initialLoad={false} /* NOTE : không load chỗ này sẽ dẫn đến vòng lập vô hạn */
+        pageStart={currentPage}
+        hasMore={loading}
+        threshold={200}
+        loader={<Card key="loading" loading />}
+        loadMore={(page) => this.props.loadNotificationsByType(page, stationAuto)}
+        useWindow={false}
+       >
+        <Cells 
+          dataSource={dataSource}
+          closeDrawer={this.props.closeDrawer}
+        />
+      </InfiniteScroll>
+    )
+  }
+}
+
