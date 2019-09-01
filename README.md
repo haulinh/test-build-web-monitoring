@@ -14,7 +14,7 @@ yarn run build # Build ra dự án
 yarn run prettier # Tự động format code
 ```
 
-## Cài đặt dự án..
+## Cài đặt dự án...
 
 ```
 git clone git@gitlab.com:vietan-chatthairan/swm-cms-frontend.git
