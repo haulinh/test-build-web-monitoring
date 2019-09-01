@@ -47,8 +47,6 @@ export default function Cells(props) {
 
   return (
     <List
-      header={<div>Header</div>}
-      footer={<div>Footer</div>}
       dataSource={cells}
       renderItem={item => item}
       // loadMore={"Loading...."}
