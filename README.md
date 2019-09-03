@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-Dự án frontend sử dụng các thư viện cốt lõi sau cho việc phát triển....
-=======
-//  Dự án frontend sử dụng các thư viện cốt lõi sau cho việc phát triển
->>>>>>> feature/global/renew-notification-history
+Dự án frontend sử dụng các thư viện cốt lõi sau cho việc phát triển.
 
 * atlaskit (UI component)......
 * redux (Store management)...
@@ -18,7 +14,7 @@ yarn run build # Build ra dự án
 yarn run prettier # Tự động format code
 ```
 
-## Cài đặt dự án..
+## Cài đặt dự án...
 
 ```
 git clone git@gitlab.com:vietan-chatthairan/swm-cms-frontend.git
