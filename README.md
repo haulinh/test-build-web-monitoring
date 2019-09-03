@@ -7,7 +7,7 @@ Dự án frontend sử dụng các thư viện cốt lõi sau cho việc phát t
 
 Để hiểu về thông tin dự án, vui lòng đọc tại trang `Wiki` của project này.
 
-## Các lệnh.
+## Các lệnh
 ```
 yarn run start # Dev Server.
 yarn run build # Build ra dự án
