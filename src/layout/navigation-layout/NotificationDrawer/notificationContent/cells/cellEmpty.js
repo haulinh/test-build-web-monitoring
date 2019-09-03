@@ -12,5 +12,5 @@ const i18n = {
 }
 
 export default function EmptyCell(props) {
-  return <div>Enpty Cell</div>
+  return <div></div>
 }
