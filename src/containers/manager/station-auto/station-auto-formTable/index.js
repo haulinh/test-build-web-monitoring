@@ -219,7 +219,7 @@ export default class StationAutoFormTable extends React.Component {
         return callback(`field > ${longNameOfRightPointer}`)
       }
 
-      if (indexOfLeftPointer == 0 && indexOfRightPointer == lengthOfArrName - 1) {
+      if (indexOfLeftPointer === 0 && indexOfRightPointer === lengthOfArrName - 1) {
         callback()
         break;
       }

@@ -1,17 +1,13 @@
-import { getConfigApi } from 'config'
-import { deleteFetch, getFetch, postFetch, putFetch } from 'utils/fetch'
+import { getConfigApi } from "config"
+import { deleteFetch, getFetch, postFetch, putFetch } from "utils/fetch"
 
-export function getMeasuringUrl(prefix = '') {
-  return getConfigApi().measuring + '/' + prefix
+export function getMeasuringUrl(prefix = "") {
+  return getConfigApi().measuring + "/" + prefix
 }
 
-export function getStationTypeUrl(prefix = '') {
-  if (prefix) return getConfigApi().stationType + '/' + prefix
+export function getStationTypeUrl(prefix = "") {
+  if (prefix) return getConfigApi().stationType + "/" + prefix
   return getConfigApi().stationType
-}
-
-export function getConfigSysUrl() {
-  return getConfigApi().qaqcConfig
 }
 
 export function getMeasurings(
@@ -70,14 +66,25 @@ export function deleteStationType(key) {
   return deleteFetch(getStationTypeUrl(key))
 }
 
+/* #region  NOTE  cấu hình QAQC */
+
+export function getConfigSysUrl(prefix = null) {
+  if (prefix) return getConfigApi().qaqcConfig + "/" + prefix
+  return getConfigApi().qaqcConfig
+}
+
 export function getConfigQAQC() {
   return getFetch(getConfigSysUrl())
 }
-
-export function putConfigQAQC(data) {
-  return putFetch(getConfigSysUrl(), data)
+export function postConfigQAQC(data) {
+  return postFetch(getConfigSysUrl(), data)
 }
 
+export function putConfigQAQC(key, data) {
+  return putFetch(getConfigSysUrl(key), data)
+}
+
+/* #endregion */
 export default {
   getMeasurings,
   getMeasuring,
@@ -90,5 +97,6 @@ export default {
   updateStationType,
   deleteStationType,
   getConfigQAQC,
+  postConfigQAQC,
   putConfigQAQC
 }
