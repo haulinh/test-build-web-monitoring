@@ -16,22 +16,18 @@ export default function Cells(props) {
     console.log('---- cell content ----', cellContent)
     let Cell = EmptyCell
     switch (cellContent.status) {
-      case 'GOOD':
       case NOTIFY_TYPE.SENSOR_GOOD: 
         Cell = SensorGoodCell
         break
-      case 'ERROR':
       case NOTIFY_TYPE.SENSOR_ERROR: 
         Cell = SensorErrorCell
         break
       case NOTIFY_TYPE.DATA_CONNECTED: 
         Cell = DataConnectedCell
         break
-      case 'EXCEEDED':
       case NOTIFY_TYPE.DATA_EXCEEDED: 
         Cell = DataExceededCell
         break
-      case 'EXCEEDED_PREPARING':
       case NOTIFY_TYPE.DATA_EXCEEDED_PREPARED: 
         Cell = DataExceededPreparedCell
         break
@@ -49,7 +45,6 @@ export default function Cells(props) {
     <List
       dataSource={cells}
       renderItem={item => item}
-      // loadMore={"Loading...."}
     >
 
     </List>
