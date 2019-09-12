@@ -90,8 +90,8 @@ export default class DefaultCell extends React.Component {
       >
 
         {/* image */}
-        <Col span={3} style={{textAlign: "center"}} className="notify-image" >
-          <img src={icon} width={50} width="100%"/>
+        <Col span={3} style={{textAlign: "center"}} className="notify-image" style={{height: '100%'}}>
+          <img src={icon} height="100%"/>
         </Col>
 
         {/* contents */}
