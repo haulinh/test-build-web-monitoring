@@ -184,7 +184,7 @@ export default class BasicNestedNavigation extends React.Component {
   }
 
   async componentDidMount() {
-    this.props.getTotalByNotificationType(this.props.notificationCount)
+    this.props.getTotalByNotificationType()
     this.props.getListOfStationAuto()
   }
 
