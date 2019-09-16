@@ -24,6 +24,8 @@ export function getConfigApi() {
     // qaqcConfig: 'http://localhost:5002/config/qaqc',
     ftp: c('ftp'),
     fcmMessages: c('fcm-messages'),
+    // fcmMessages: 'http://localhost:5008:/fcm-messages',
+    // fcmNotification: 'http://localhost:5008:/fcm-notification',
     fcmNotification: c('fcm-notification'),
     fcmToken: c('fcm-token'),
     organization: c('organization'),
