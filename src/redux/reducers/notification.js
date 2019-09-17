@@ -17,7 +17,7 @@ export const initialState = {
   visible: false,
   loading: true,
   currentPage: 1,
-  count: 10,
+  count: 0,
   logs: []
 }
 
@@ -89,6 +89,7 @@ function handleUpdateCount(cloneState, payload) {
 
 /* DONE */
 function handleUpdateAllCount(cloneState, payload) {
+  console.log('payloadnoti', payload)
   return update(cloneState, {
     count: { $set: payload }
   })

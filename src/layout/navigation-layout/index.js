@@ -25,7 +25,7 @@ import styled from 'styled-components'
 -------------------------------
  */
 import { connectAutoDispatch } from 'redux/connect'
-import { getTotalByNotificationType, setDrawerVisible, resetAllCounts } from 'redux/actions/notification'
+import { getTotalByNotificationType, setDrawerVisible, resetAllCounts, clearTotalNotificationCount } from 'redux/actions/notification'
 import { getListOfStationAuto } from "redux/actions/stationAuto";
 import { logout } from 'redux/actions/authAction'
 import AvatarCharacter from 'components/elements/avatar-character'
@@ -48,7 +48,7 @@ const globalTheme = createGlobalTheme("#ffffff", "#1d89ce");
   { 
     logout, 
     getListOfStationAuto,
-    getTotalByNotificationType, setDrawerVisible, resetAllCounts
+    getTotalByNotificationType, setDrawerVisible, resetAllCounts, clearTotalNotificationCount
   }
 )
 @withRouter
@@ -66,7 +66,8 @@ export default class BasicNestedNavigation extends React.Component {
     notificationCount: PropTypes.object.isRequired,
     getTotalByNotificationType: PropTypes.func.isRequired,
     setDrawerVisible: PropTypes.func.isRequired,
-    resetAllCounts: PropTypes.func.isRequired
+    resetAllCounts: PropTypes.func.isRequired,
+    clearTotalNotificationCount: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -137,7 +138,15 @@ export default class BasicNestedNavigation extends React.Component {
   globalSecondaryActions() {
     return [
       /* MARK  icon notification */
-      <Badge style={{cursor: 'pointer'}} count={this.props.notificationCount} onClick={() => this.props.setDrawerVisible(true)}>
+      <Badge 
+        style={{cursor: 'pointer'}} 
+        count={this.props.notificationCount} 
+        onClick={() => {
+          this.props.setDrawerVisible(true)
+          this.props.resetAllCounts()
+          this.props.clearTotalNotificationCount()
+        }}
+      >
         <NotificationIcon size="large" />
       </Badge>,
       <AkDropdownMenu
@@ -184,6 +193,7 @@ export default class BasicNestedNavigation extends React.Component {
   }
 
   async componentDidMount() {
+    console.log('loadnoti')
     this.props.getTotalByNotificationType()
     this.props.getListOfStationAuto()
   }

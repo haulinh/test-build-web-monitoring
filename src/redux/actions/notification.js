@@ -102,7 +102,7 @@ export function updateNotificationOnMessage(message, stations) {
   }
 }
 
-/* NOTE  emit to reducer: handleClearCount */
+/* clear all count khi click vào cái chuông */
 export function clearNotificationCountByType(type) {
   return async dispatch => {
     let res = await FcmAPI.updateIsSeenByType(type)
@@ -115,28 +115,30 @@ export function clearNotificationCountByType(type) {
   }
 }
 
+export function clearTotalNotificationCount() {
+  return async dispatch => {
+    let res = await FcmAPI.updateIsSeenAll()
+
+    if(res.success) {
+      dispatch({
+        type: RESET_ALL_COUNTS,
+      })
+    }
+  }
+}
+
 export function getTotalByNotificationType() {
   return async dispatch => {
     dispatch({type: RESET_ALL_COUNTS})
 
     let res = await FcmAPI.getTotalByNotificationType()
     const {success, data} = res
-    console.log(data, 'noticount')
-    // if (data.length === 0 || !success) return;
 
-    // let exceeded = _.find(data, {_id: TAB_KEYS.EXCEEDED})
-    // let lostSignal = _.find(data, {_id: TAB_KEYS.LOST_SIGNAL})
-    // let sensorError = _.find(data, {_id: TAB_KEYS.SENSOR_ERROR})
-
-    // exceeded = _.get(exceeded, 'count', 0) 
-    // lostSignal = _.get(lostSignal, 'count', 0) 
-    // sensorError = _.get(sensorError, 'count', 0)  
-
-    // let total = _.sum([exceeded, lostSignal, sensorError])
+    if (data.totalIsNotSeen === 0 || !success) return;
 
     dispatch({
       type: UPDATE_ALL_COUNTS,
-      payload: 20
+      payload: data.totalIsNotSeen
     })
   }
 }
