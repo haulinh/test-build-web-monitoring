@@ -48,20 +48,8 @@ const menu = (
 export default class DefaultCell extends React.Component {
   static propTypes = {
     /* redux's props */
-    updateNotifyRead: PropTypes.func.isRequired
-  }
-
-  static defaultProps = {
-    updateNotifyRead() {
-      message.warning('tinh nang hien tai khong hop le')
-    }
-  }
-
-  state = {
-    isShowActions: false
-  }
-
-  static propTypes = {
+    updateNotifyRead: PropTypes.func.isRequired,
+    /* comp's props */
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     content: PropTypes.element.isRequired,
     data: PropTypes.object.isRequired
@@ -69,10 +57,18 @@ export default class DefaultCell extends React.Component {
 
   static defaultProps = {
     icon: '/images/logo/logo-icon.png',
+    updateNotifyRead() {
+      message.warning('tinh nang hien tai khong hop le')
+    }
+  }
+
+  state = {
+    isHoverOnCell: false
   }
 
   render() {
     console.log(this.props.data)
+    const { isHoverOnCell } = this.state
     const { icon, content, data } = this.props
     const { receivedAt, isRead } = data
     return (
@@ -80,13 +76,13 @@ export default class DefaultCell extends React.Component {
         type="flex" align="middle"
         style={{
           height: 60, 
-          backgroundColor: isRead ? '#fff' : '#edf2fa', 
+          backgroundColor: isHoverOnCell ? '#0000001a' : isRead ? '#fff' : '#edf2fa',
           borderBottom: '1px solid #dddfe2', 
           cursor: "pointer"
         }} 
         onClick={() => this.props.updateNotifyRead(data)}
-        onMouseEnter={() => this.setState({isShowActions: true})}
-        onMouseLeave={() => this.setState({isShowActions: false})}
+        onMouseEnter={() => this.setState({isHoverOnCell: true})}
+        onMouseLeave={() => this.setState({isHoverOnCell: false})}
       >
 
         {/* image */}
@@ -110,7 +106,7 @@ export default class DefaultCell extends React.Component {
 
         {/* actions */}
         <Col className="notify-action" span={1}>
-          { this.state.isShowActions && (
+          { this.state.isHoverOnCell && (
             <Dropdown overlay={menu} placement="bottomRight">
               <span>...</span>
             </Dropdown>

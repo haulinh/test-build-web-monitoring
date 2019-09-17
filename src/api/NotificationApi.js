@@ -23,6 +23,10 @@ export function updateIsSeenByType(type){
   return putFetch(`${fcmNotificationRoute()}/updateIsSeen`, {type})
 }
 
+export function updateIsSeenAll(){
+  return putFetch(`${fcmNotificationRoute()}/updateIsSeenAll`)
+}
+
 export function updateIsRead(_id){
   return putFetch(`${fcmNotificationRoute()}/updateIsRead/${_id}`)
 }
@@ -50,6 +54,7 @@ export function linkToken2Email(token){
 export default {
   getNotification,
   updateIsSeenByType,
+  updateIsSeenAll,
   getTotalByNotificationType,
   loadNotificationsByType,
   linkToken2Email,

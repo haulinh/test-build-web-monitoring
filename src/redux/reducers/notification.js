@@ -2,7 +2,7 @@ import _ from 'lodash';
 import update from 'react-addons-update'
 
 import {
-  UPDATE_COUNTS,
+  UPDATE_COUNT_ON_NEW_MSG,
   UPDATE_ALL_COUNTS,
   CLEAR_COUNTS,
   NEW_MESSAGE,
@@ -25,16 +25,16 @@ export default function handleNotificationStore(state = initialState, action) {
   const cloneState = _.clone(state)
   const {type, payload} = action
   switch (type) {
-    case RESET_ALL_COUNTS: 
-      return handleResetAllCount(state)
     case TOGGLE_LOADING: 
       return handleToggleLoading(state, payload)
-    case CLEAR_COUNTS: 
-      return handleClearCount(state)
-    case UPDATE_COUNTS: 
-      return handleUpdateCount(cloneState, payload)
+    case RESET_ALL_COUNTS: 
+      return handleResetAllCount(state)
     case UPDATE_ALL_COUNTS: 
       return handleUpdateAllCount(cloneState, payload)
+    case CLEAR_COUNTS: 
+      return handleClearCount(state)
+    case UPDATE_COUNT_ON_NEW_MSG: 
+      return handleUpdateCount(cloneState, payload)
     case NEW_MESSAGE: 
       return handleNewMessage(cloneState, payload)
     case UPDATE_DATA_SOURCE:
@@ -89,7 +89,10 @@ function handleUpdateCount(cloneState, payload) {
 
 /* DONE */
 function handleUpdateAllCount(cloneState, payload) {
-  return {...cloneState, ...{count: payload}}
+  console.log('payloadnoti', payload)
+  return update(cloneState, {
+    count: { $set: payload }
+  })
 }
 
 /* DONE */
