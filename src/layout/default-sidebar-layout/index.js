@@ -69,18 +69,13 @@ export default class PageWrapper extends Component {
         // this._handleOnNewMessage(payload)
       });
     
-    messaging.onMessage((payload) => {
-      /* note: format data de tuong thich code */
-      payload.createdAt  = Number(payload.data.createdAt)
-      payload.dataFilter = payload.data.dataFilter.split(";")
-      payload.full_body  = payload.data.full_body
-      this._handleOnNewMessage(payload)
-    });
-   
-    //  navigator.serviceWorker.addEventListener("message", message =>{
-    //    // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
-    //   console.log('message noti',message)
-    // });
+      messaging.onMessage((payload) => {
+        /* note: format data de tuong thich code */
+        payload.data.isRead = false
+        this._showNotification(payload)
+        this.props.updateNotificationOnMessage(payload.data, this.props.stationAuto)
+      });
+
     } catch (e) {
       console.error('Notification only start witl https')
     }
@@ -90,28 +85,7 @@ export default class PageWrapper extends Component {
     navigationWidth: 320
   };
 
-  _handleOnNewMessage(payload) {
-    this._showNotification(payload)
-    this.props.updateNotificationOnMessage(payload, this.props.stationAuto)
-  }
-
   _showNotification(payload) {
-    // let description = ''
-    // switch(payload.data.type) {
-    //   case TAB_KEYS.EXCEEDED: {
-    //     description = 'Thông báo vượt ngưỡng' /* MARK  @translate */
-    //     break;
-    //   }
-    //   case TAB_KEYS.LOST_SIGNAL: {
-    //     description = 'Thông báo mất dữ liệu' /* MARK  @translate */
-    //     break;
-    //   }
-    //   case TAB_KEYS.SENSOR_ERROR: {
-    //     description = 'Thông báo trạng thái thiết bị' /* MARK  @translate */
-    //     break;
-    //   }
-    // }
-
     notification['info']({
       message: payload.notification.title,
       description: payload.notification.body,

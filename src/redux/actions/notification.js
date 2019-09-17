@@ -84,11 +84,11 @@ export function loadNotificationsByType(page, stations) {
 
 /* @task */
 /* NOTE  emit to reducer: handleUpdateDataSource */
-export function updateNotificationOnMessage(message, stations) {
+export function updateNotificationOnMessage(data, stations) {
   return async dispatch => {
-  
-    let stationInfo = _.find(stations, {_id: message.data.station_id})
-    let item = _generateNotificationCellByType(message, stationInfo)
+    console.log(data, "messageee")
+    let stationInfo = _.find(stations, {_id: data.station_id})
+    let item = _generateNotificationCellByType(data, stationInfo)
 
     dispatch({
       type: UPDATE_COUNT_ON_NEW_MSG,
