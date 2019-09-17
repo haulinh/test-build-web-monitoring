@@ -44,7 +44,6 @@ export function setIsLoading(flag) {
 /* NOTE  emit to reducer: handleUpdateDataSource */
 const ITEM_PER_PAGE = 100
 export function loadNotificationsByType(page, stations) {
-  console.log("page", page)
   return async dispatch => {
     try {
       dispatch(setIsLoading(false))
@@ -63,7 +62,7 @@ export function loadNotificationsByType(page, stations) {
         if (!stationInfo) return
         return _generateNotificationCellByType(item, stationInfo)
       }))
-      console.log(transformedData, "transformedData")
+
       dispatch({
         type: UPDATE_DATA_SOURCE,
         payload: transformedData
@@ -84,11 +83,10 @@ export function loadNotificationsByType(page, stations) {
 
 /* @task */
 /* NOTE  emit to reducer: handleUpdateDataSource */
-export function updateNotificationOnMessage(message, stations) {
+export function updateNotificationOnMessage(data, stations) {
   return async dispatch => {
-  
-    let stationInfo = _.find(stations, {_id: message.data.station_id})
-    let item = _generateNotificationCellByType(message, stationInfo)
+    let stationInfo = _.find(stations, {_id: data.station_id})
+    let item = _generateNotificationCellByType(data, stationInfo)
 
     dispatch({
       type: UPDATE_COUNT_ON_NEW_MSG,
@@ -148,59 +146,59 @@ export function updateNotifyRead(data) {
     /* TODO  update database */
     let {_id} = data
     let res = await FcmAPI.updateIsRead(_id)
-    console.log(res, "resres")
+
     if(res.success) {
       dispatch({
         type: UPDATE_READ,
         payload: _id
       })
     }
+
   }
 }
 
 function _generateNotificationCellByType(rawContent, stationInfo) {
-  console.log('rawContent', rawContent)
-      // generate ra link filter station monitoring
-      const formSearchViewDetail = {
-        stationAuto: stationInfo.key,
-      }
-      let viewDetailURL = slug.monitoring.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchViewDetail))
+  // generate ra link filter station monitoring
+  const formSearchViewDetail = {
+    stationAuto: stationInfo.key,
+  }
+  let viewDetailURL = slug.monitoring.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchViewDetail))
 
-      // generate ra link xem giá trị quanh thời điểm vượt ngưỡng
-      const fromDate = moment(rawContent.createdAt).subtract(2, 'hours').format()
-      const toDate = moment(rawContent.createdAt).add(2, 'hours').format()
-      const formSearchRawData = {
-        stationType: stationInfo.stationType.key,
-        stationAuto: stationInfo.key,
-        measuringData: stationInfo.measuringList,
-        measuringList: rawContent.dataFilter,
-        rangesDate:'ranges',
-        fromDate,
-        toDate,
-        searchRange: true,
-        searchNow: true
-      }
-      const RawDataURL = slug.dataSearch.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchRawData))
-      
-      // new content of cell
-      const cellContent = {
-        _id: rawContent._id,
-        stationID: rawContent.station_id,
-        title: rawContent.title,
-        status: rawContent.status || rawContent.type,
-        isRead: rawContent.isRead,
-        station: rawContent.title,
-        receivedAt: rawContent.receivedAt,
-        rawAt: rawContent.rawAt,
-        shortBody: rawContent.short_body,
-        fullBody: rawContent.full_body,
-        measurings: rawContent.measurings,
-        dataFilter: rawContent.dataFilter, 
-        actions: {
-          viewDetail: viewDetailURL,
-          aroundAtExceededTime: RawDataURL
-        }
-      }
+  // generate ra link xem giá trị quanh thời điểm vượt ngưỡng
+  const fromDate = moment(rawContent.createdAt).subtract(2, 'hours').format()
+  const toDate = moment(rawContent.createdAt).add(2, 'hours').format()
+  const formSearchRawData = {
+    stationType: stationInfo.stationType.key,
+    stationAuto: stationInfo.key,
+    measuringData: stationInfo.measuringList,
+    measuringList: rawContent.dataFilter,
+    rangesDate:'ranges',
+    fromDate,
+    toDate,
+    searchRange: true,
+    searchNow: true
+  }
+  const RawDataURL = slug.dataSearch.base + '?formData=' + encodeURIComponent(JSON.stringify(formSearchRawData))
+  
+  // new content of cell
+  const cellContent = {
+    _id: rawContent._id,
+    stationID: rawContent.station_id,
+    title: rawContent.title,
+    status: rawContent.status || rawContent.type,
+    isRead: rawContent.isRead,
+    station: rawContent.title,
+    receivedAt: rawContent.receivedAt,
+    rawAt: rawContent.rawAt,
+    shortBody: rawContent.short_body,
+    fullBody: rawContent.full_body,
+    measurings: rawContent.measurings,
+    dataFilter: rawContent.dataFilter, 
+    actions: {
+      viewDetail: viewDetailURL,
+      aroundAtExceededTime: RawDataURL
+    }
+  }
 
-      return cellContent
+  return cellContent
 }
