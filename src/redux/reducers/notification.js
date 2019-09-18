@@ -9,6 +9,7 @@ import {
   UPDATE_DATA_SOURCE,
   TOGGLE_LOADING,
   TOGGLE_VISIBLE_NOTIFICATION_DRAWER,
+  UPDATE_CURRENT_PAGE,
   RESET_ALL_COUNTS,
   UPDATE_READ
 } from '../actions/notification'
@@ -16,7 +17,7 @@ import {
 export const initialState = {
   visible: false,
   loading: true,
-  currentPage: 1,
+  currentPage: 0,
   count: 0,
   logs: []
 }
@@ -43,6 +44,8 @@ export default function handleNotificationStore(state = initialState, action) {
       return {...state, ...{visible: payload}}
     case UPDATE_READ:
       return handleUpdateRead(state, payload)
+    case UPDATE_CURRENT_PAGE:
+      return handleUpdateCurrentPage(state)
     default:
       return state
   }
@@ -57,10 +60,9 @@ function handleResetAllCount(state) {
 /* NOTE  handle action: toggleLoading */
 /* DONE  */
 function handleToggleLoading(state, payload) {
-  const {type, value} = payload
-  return update(state,{
-    [type]: {
-      '$set': value
+  return update(state, {
+    loading: {
+      '$set': payload
     }
   })
 }
@@ -108,5 +110,12 @@ function handleUpdateRead(state, id) {
   state.logs[indexOfId].isRead = true
   return update(state, {
     logs: {$set: state.logs}
+  })
+}
+
+function handleUpdateCurrentPage(state, payload = 1) {
+  let currentPage = state.currentPage + payload
+  return update(state, {
+    currentPage: {$set: currentPage}
   })
 }

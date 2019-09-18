@@ -2,7 +2,7 @@ import React from 'react'
 import propTypes from 'prop-types'
 // import _ from 'lodash'
 import { connectAutoDispatch } from 'redux/connect'
-import { Card, Spin, Icon } from 'antd'
+import { Spin, Icon } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller';
 import { withRouter } from 'react-router'
 // import { COLOR_STATUS } from 'themes/color';
@@ -10,7 +10,7 @@ import { loadNotificationsByType } from 'redux/actions/notification'
 
 import Cells from './cells'
 
-function Loader() {
+function LoadMoreIcon() {
   const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
   return (
     <div style={{textAlign: 'center', paddingTop: 16}}>
@@ -18,6 +18,7 @@ function Loader() {
     </div>
   )
 }
+
 @connectAutoDispatch(
   (state) => ({
     loading: state.notification.loading,
@@ -59,15 +60,18 @@ export default class NotificationDrawer extends React.Component {
         initialLoad={false} /* NOTE : không load chỗ này sẽ dẫn đến vòng lập vô hạn */
         pageStart={currentPage}
         hasMore={loading}
-        threshold={200}
-        loader={<Loader />}
+        threshold={1000}
+        loader={<LoadMoreIcon />}
         loadMore={(page) => this.props.loadNotificationsByType(page, stationAuto)}
         useWindow={false}
-       >
+      >
         <Cells 
           dataSource={dataSource}
           closeDrawer={this.props.closeDrawer}
         />
+        
+        {/* thêm khoảng trắng bên dưới để người dùng biết là hết */}
+        <div style={{height: 100}}></div>
       </InfiniteScroll>
     )
   }
