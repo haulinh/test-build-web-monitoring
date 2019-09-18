@@ -56,23 +56,24 @@ export default class NotificationDrawer extends React.Component {
     const { loading, dataSource, stationAuto, currentPage } = this.props
     
     return (
-      <InfiniteScroll
-        initialLoad={false} /* NOTE : không load chỗ này sẽ dẫn đến vòng lập vô hạn */
-        pageStart={currentPage}
-        hasMore={loading}
-        threshold={1000}
-        loader={<LoadMoreIcon />}
-        loadMore={(page) => this.props.loadNotificationsByType(page, stationAuto)}
-        useWindow={false}
-      >
-        <Cells 
-          dataSource={dataSource}
-          closeDrawer={this.props.closeDrawer}
-        />
-        
-        {/* thêm khoảng trắng bên dưới để người dùng biết là hết */}
+      <div style={{height: '100%', overflow: 'scroll'}}>
+        <InfiniteScroll
+          initialLoad={false} /* NOTE : không load chỗ này sẽ dẫn đến vòng lập vô hạn */
+          pageStart={currentPage}
+          hasMore={loading}
+          threshold={1000}
+          loader={<LoadMoreIcon />}
+          loadMore={(page) => this.props.loadNotificationsByType(page, stationAuto)}
+          useWindow={false}
+        >
+          <Cells 
+            dataSource={dataSource}
+            closeDrawer={this.props.closeDrawer}
+          />
+        </InfiniteScroll>
+
         <div style={{height: 100}}></div>
-      </InfiniteScroll>
+      </div>
     )
   }
 }
