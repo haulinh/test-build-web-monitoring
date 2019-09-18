@@ -730,7 +730,10 @@ export default {
         title: 'Connection configuration',
       },
       notification: {
-        title: 'Configure to Send Notifications'
+        title: 'Configure to Send Notifications',
+        actions: {
+          viewDataAroundExceededTime: 'View data around this time'
+        }
       },
       sampling: {
         title: 'Sampling configuration'
