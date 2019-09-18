@@ -26,6 +26,13 @@ export function resetAllCounts(){
   }
 }
 
+function updateAllCounts(numberCountsIsNotSeen){
+  return {
+    type: UPDATE_ALL_COUNTS,
+    payload: numberCountsIsNotSeen
+  }
+}
+
 /* NOTE  emit to reducer: handleToggleLoading */
 export function setDrawerVisible(flag) {
   return dispatch => {
@@ -37,22 +44,59 @@ export function setDrawerVisible(flag) {
 }
 
 /* NOTE  emit to reducer: handleToggleLoading */
-export function setIsLoading(flag) {
-  return {type: 'loading', value: flag}
+function setLoadingStatus(flag) {
+  return {
+    type: TOGGLE_LOADING, 
+    payload: flag
+  }
 }
 
-/* NOTE  emit to reducer: handleUpdateDataSource */
-const ITEM_PER_PAGE = 100
+function updateCurrentPage() {
+  return {
+    type: UPDATE_CURRENT_PAGE
+  }
+}
+
+function updateDataSource(payload) {
+  return {
+    type: UPDATE_DATA_SOURCE,
+    payload
+  }
+}
+
+function updateCountOnNewMsg(num = 1) {
+  return {
+    type: UPDATE_COUNT_ON_NEW_MSG,
+    payload: num
+  }
+}
+
+function updateDataSourceOnNewMsg(data) {
+  return {
+    type: NEW_MESSAGE,
+    payload: data
+  }
+}
+
+/** @description
+ * - load notification logs and update to redux
+*/
+const ITEM_PER_PAGE = 20
 export function loadNotificationsByType(page, stations) {
   return async dispatch => {
     try {
-      dispatch(setIsLoading(false))
-
       let res = await FcmAPI.loadNotificationsByType({ page, itemPerPage: ITEM_PER_PAGE })
       const {success, data} = res
 
-      if (!success || data.length === 0) {
-        return 
+      if (!success) { return }
+
+      if (data.length < ITEM_PER_PAGE) {
+        dispatch(setLoadingStatus(false))
+      }
+
+      /* nếu vẫn còn data thì show loading và load tiếp */
+      if (data.length >= ITEM_PER_PAGE) {
+        dispatch(updateCurrentPage())
       }
 
       const transformedData = _.compact(_.map(data, item => {
@@ -63,15 +107,7 @@ export function loadNotificationsByType(page, stations) {
         return _generateNotificationCellByType(item, stationInfo)
       }))
 
-      dispatch({
-        type: UPDATE_DATA_SOURCE,
-        payload: transformedData
-      })
-
-      /* nếu vẫn còn data thì show loading load tiếp */
-      if (data.length >= ITEM_PER_PAGE) {
-        dispatch(setIsLoading(true))
-      }
+      dispatch(updateDataSource(transformedData))
 
     }
     catch(err) {
@@ -88,15 +124,8 @@ export function updateNotificationOnMessage(data, stations) {
     let stationInfo = _.find(stations, {_id: data.station_id})
     let item = _generateNotificationCellByType(data, stationInfo)
 
-    dispatch({
-      type: UPDATE_COUNT_ON_NEW_MSG,
-      payload: 1
-    })
-
-    dispatch({
-      type: NEW_MESSAGE,
-      payload: item
-    })
+    dispatch(updateCountOnNewMsg())
+    dispatch(updateDataSourceOnNewMsg(item))
   }
 }
 
@@ -118,26 +147,21 @@ export function clearTotalNotificationCount() {
     let res = await FcmAPI.updateIsSeenAll()
 
     if(res.success) {
-      dispatch({
-        type: RESET_ALL_COUNTS,
-      })
+      dispatch(resetAllCounts())
     }
   }
 }
 
 export function getTotalByNotificationType() {
   return async dispatch => {
-    dispatch({type: RESET_ALL_COUNTS})
+    dispatch(resetAllCounts())
 
     let res = await FcmAPI.getTotalByNotificationType()
     const {success, data} = res
 
     if (data.totalIsNotSeen === 0 || !success) return;
 
-    dispatch({
-      type: UPDATE_ALL_COUNTS,
-      payload: data.totalIsNotSeen
-    })
+    dispatch(updateAllCounts(data.totalIsNotSeen))
   }
 }
 
