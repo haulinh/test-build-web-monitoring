@@ -361,13 +361,17 @@ export default class MonitoringGeneral extends React.Component {
     }
   }
 
-  componentDidMount = () => {
-    if (this.state.followStation) {
-      setTimeout(() => {
-        this.comptAnchor.handleClick()
-      }, 500)
-    }
-  }
+  componentDidUpdate = (prevProps, prevState) =>{
+    // console.log(prevState.followStation, this.state.followStation , "this.state.followStation " )
+      if (this.state.followStation && this.state.followStation === prevState.followStation) {
+        setTimeout(() => {
+          if(this.comptAnchor){
+            this.comptAnchor.handleClick()
+          }
+        }, 500)
+      }
+
+  } 
 
   render() {
     const result = this.getData()
@@ -383,10 +387,12 @@ export default class MonitoringGeneral extends React.Component {
           </div>
         }
       >
+
+        // NOTE Qui chinh: feature focus toi tram can xem
         {this.state.followStation && (
           <Anchor
             // targetOffset={window.innerHeight / 2}
-            style={{ display: "none" }}
+            style={{ display: "none", }}
             offsetTop={140}
           >
             <Link
