@@ -730,7 +730,10 @@ export default {
         title: 'Cấu hình kết nối',
       },
       notification: {
-        title: 'Cấu hình gửi cảnh báo'
+        title: 'Cấu hình gửi cảnh báo',
+        actions: {
+          viewDataAroundExceededTime: 'Xem giá trị quanh thời điểm vượt'
+        }
       },
       sampling: {
         title: 'Cấu hình lấy mẫu'

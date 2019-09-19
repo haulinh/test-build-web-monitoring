@@ -388,7 +388,7 @@ export default class MonitoringGeneral extends React.Component {
         }
       >
 
-        // NOTE Qui chinh: feature focus toi tram can xem
+        {/* NOTE Qui chinh: feature focus toi tram can xem */}
         {this.state.followStation && (
           <Anchor
             // targetOffset={window.innerHeight / 2}

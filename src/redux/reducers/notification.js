@@ -2,13 +2,14 @@ import _ from 'lodash';
 import update from 'react-addons-update'
 
 import {
-  UPDATE_COUNTS,
+  UPDATE_COUNT_ON_NEW_MSG,
   UPDATE_ALL_COUNTS,
   CLEAR_COUNTS,
   NEW_MESSAGE,
   UPDATE_DATA_SOURCE,
   TOGGLE_LOADING,
   TOGGLE_VISIBLE_NOTIFICATION_DRAWER,
+  UPDATE_CURRENT_PAGE,
   RESET_ALL_COUNTS,
   UPDATE_READ
 } from '../actions/notification'
@@ -16,7 +17,7 @@ import {
 export const initialState = {
   visible: false,
   loading: true,
-  currentPage: 1,
+  currentPage: 0,
   count: 0,
   logs: []
 }
@@ -25,16 +26,16 @@ export default function handleNotificationStore(state = initialState, action) {
   const cloneState = _.clone(state)
   const {type, payload} = action
   switch (type) {
-    case RESET_ALL_COUNTS: 
-      return handleResetAllCount(state)
     case TOGGLE_LOADING: 
       return handleToggleLoading(state, payload)
-    case CLEAR_COUNTS: 
-      return handleClearCount(state)
-    case UPDATE_COUNTS: 
-      return handleUpdateCount(cloneState, payload)
+    case RESET_ALL_COUNTS: 
+      return handleResetAllCount(state)
     case UPDATE_ALL_COUNTS: 
       return handleUpdateAllCount(cloneState, payload)
+    case CLEAR_COUNTS: 
+      return handleClearCount(state)
+    case UPDATE_COUNT_ON_NEW_MSG: 
+      return handleUpdateCount(cloneState, payload)
     case NEW_MESSAGE: 
       return handleNewMessage(cloneState, payload)
     case UPDATE_DATA_SOURCE:
@@ -43,6 +44,8 @@ export default function handleNotificationStore(state = initialState, action) {
       return {...state, ...{visible: payload}}
     case UPDATE_READ:
       return handleUpdateRead(state, payload)
+    case UPDATE_CURRENT_PAGE:
+      return handleUpdateCurrentPage(state)
     default:
       return state
   }
@@ -57,10 +60,9 @@ function handleResetAllCount(state) {
 /* NOTE  handle action: toggleLoading */
 /* DONE  */
 function handleToggleLoading(state, payload) {
-  const {type, value} = payload
-  return update(state,{
-    [type]: {
-      '$set': value
+  return update(state, {
+    loading: {
+      '$set': payload
     }
   })
 }
@@ -89,7 +91,10 @@ function handleUpdateCount(cloneState, payload) {
 
 /* DONE */
 function handleUpdateAllCount(cloneState, payload) {
-  return {...cloneState, ...{count: payload}}
+  console.log('payloadnoti', payload)
+  return update(cloneState, {
+    count: { $set: payload }
+  })
 }
 
 /* DONE */
@@ -105,5 +110,12 @@ function handleUpdateRead(state, id) {
   state.logs[indexOfId].isRead = true
   return update(state, {
     logs: {$set: state.logs}
+  })
+}
+
+function handleUpdateCurrentPage(state, payload = 1) {
+  let currentPage = state.currentPage + payload
+  return update(state, {
+    currentPage: {$set: currentPage}
   })
 }
