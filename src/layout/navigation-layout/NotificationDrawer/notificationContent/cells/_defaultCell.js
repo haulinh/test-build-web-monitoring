@@ -102,7 +102,7 @@ export default class DefaultCell extends React.Component {
 
         {/* actions */}
         <Col className="notify-action" span={1}>
-          { this.state.isHoverOnCell && data.status === "DATA_EXCEEDED" && (
+          { data.status === "DATA_EXCEEDED" && (
             <Dropdown overlay={this.renderMenu(data)} placement="bottomRight">
               <span>...</span>
             </Dropdown>
