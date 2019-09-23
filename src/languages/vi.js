@@ -789,6 +789,9 @@ export default {
         placeholder: 'QCVN',
         error: 'Vui lòng chọn QCVN'
       },
+      standard: {
+        label: 'Qui chuẩn'
+      },
       tendToExceed: {
         label: 'Giới hạn chuẩn bị vượt',
       },
