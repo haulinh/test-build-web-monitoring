@@ -335,7 +335,7 @@ export default class StationAutoForm extends React.PureComponent {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.qcvn.label')}
+              label={t('stationAutoManager.form.standard.label')}
             >
               {getFieldDecorator('standardsVN', {
                 rules: [
