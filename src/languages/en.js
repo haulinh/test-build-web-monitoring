@@ -789,6 +789,9 @@ export default {
         placeholder: 'Standards VN',
         error: 'Please Choose Type Of Standards VN'
       },
+      standard: {
+        label: 'Standard'
+      },
       tendToExceed: {
         label: 'Tend To Exceed Limit',
       },
