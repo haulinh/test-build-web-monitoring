@@ -3,13 +3,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Row, Tabs, Icon, message, Spin } from 'antd'
+import styled from 'styled-components'
 /* user import */
 import StationAPI from 'api/SamplingApi'
 import { translate } from 'hoc/create-lang'
 import Sampling from './tabpanes/sampling'
 import History from './tabpanes/history'
 import Config from './tabpanes/config'
-import styled from 'styled-components'
 import Disconnection from 'components/elements/disconnection'
 
 const TIME_INTERVAL_GET_STATUS = 1000 * 60 // 1 PHUT
@@ -40,23 +40,13 @@ const SamplingWrapper = styled.div`
 
 const i18n = {
   /* NOTE  chưa dịch */
-  getStatusFail: 'Không thể lấy trạng thái, hãy thử lại'
+  getStatusFail: 'Không thể lấy trạng thái, hãy thử lại',
+  disconnected: translate('network.sampling.lostConnection')
 }
 
 function showMessageError(msg) {
   message.error(msg)
 }
-
-// const LoadingCmp = () => (
-//   <LoadingContainer>
-//     <Icon
-//       type="loading"
-//       theme="outlined"
-//       style={{ color: '#4090ff', fontSize: 25 }}
-//     />
-//     {/* <Disconnection messages ='Không kết nối được với dịch vụ lấy mẫu vui lòng liên hệ quản trị viên!'/> */}
-//   </LoadingContainer>
-// )
 
 const TabPane = Tabs.TabPane
 
@@ -75,10 +65,10 @@ export default class SamplingMoreInfo extends React.Component {
     isInitLoaded: false,
     isSampling: false,
     isLoading: false,
+    isLoadingTryAgain: false,
     isConfig: false,
     isScheduled: false,
     isDisconnection: false,
-    disconnectionMsg: translate('network.sampling.lostConnection'),
     configSampling: undefined,
     configSamplingSchedule: undefined,
     timerId_getStatus: null
@@ -127,6 +117,10 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   async componentDidMount() {
+    this.getSamplingInfo()
+  }
+
+  async getSamplingInfo() {
     try {
       const res = await StationAPI.getStatus(this.props.stationID)
       // console.log('isInitLoaded',this.state.isInitLoaded)
@@ -149,6 +143,7 @@ export default class SamplingMoreInfo extends React.Component {
         showMessageError(i18n.getStatusFail)
         this.setState({isLoading: false})
       }
+      this.setState({isDisconnection: false})
     }
     catch(err) {
       console.log('sampling lost connection')
@@ -168,6 +163,32 @@ export default class SamplingMoreInfo extends React.Component {
       if (this.historyRef) this.historyRef.componentWillMount()
     }
   }
+
+  
+
+  render() {
+    return (
+      <React.Fragment>
+          {
+            this.state.isDisconnection ? this._renderDisconnection(i18n.disconnected) : this._renderTabs()
+          }
+      </React.Fragment>
+    )
+  }
+
+  _renderDisconnection(message) { return (
+    <Row type="flex" justify="center" align="middle">
+      <Disconnection
+        isLoading={this.state.isLoadingTryAgain}
+        messages={message}
+        onClickTryAgain={() => {
+          this.setState({isLoadingTryAgain: true})
+          this.getSamplingInfo()
+          this.setState({isLoadingTryAgain: false})
+        }}
+      />
+    </Row>
+  )}
 
   _renderTabs = () => {
     const { stationID } = this.props
@@ -236,22 +257,6 @@ export default class SamplingMoreInfo extends React.Component {
             </Tabs>
           </Spin>
         </SamplingWrapper>
-    )
-  }
-
-  _renderDisconnection = (message) => (
-    <Row type="flex" justify="center" align="middle">
-      <Disconnection messages={this.state.disconnectionMsg} />
-    </Row>
-  )
-
-  render() {
-    return (
-      <React.Fragment>
-          {
-            this.state.isDisconnection ? this._renderDisconnection(this.state.disconnectionMsg) : this._renderTabs()
-          }
-      </React.Fragment>
     )
   }
 }

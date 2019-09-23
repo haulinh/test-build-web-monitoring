@@ -1659,7 +1659,8 @@ export default {
   },
   actions: {
     "gotoMonitoring": "Go to Real-time Monitoring Page",
-    "viewDataAroundThisTime": "View data around this time"
+    "viewDataAroundThisTime": "View data around this time",
+    "tryAgain": 'Try again',
   },
   network: {
     sampling: {
