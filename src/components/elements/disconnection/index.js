@@ -1,8 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Result, Button } from 'antd'
 import { translate } from 'hoc/create-lang'
+import DisconnectionImage from './disconnection.jpg'
 
 const i18n = {
   tryAgain: translate("actions.tryAgain")
@@ -19,7 +19,7 @@ export default class Disconnection extends React.Component {
     const {messages, onClickTryAgain, isLoading} = this.props
     return (
       <Result
-        icon={ <img alt='' src="/images/warning/disconnection.jpg" /> }
+        icon={ <img alt='' src={DisconnectionImage} width={200} /> }
         title={messages}
         extra={
           onClickTryAgain && (
