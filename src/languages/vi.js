@@ -1659,7 +1659,8 @@ export default {
   },
   actions: {
     "gotoMonitoring": "Đến trang Xem chi tiết trạm",
-    "viewDataAroundThisTime": "Xem giá trị quanh thời điểm vượt"
+    "viewDataAroundThisTime": "Xem giá trị quanh thời điểm vượt",
+    "tryAgain": 'Thử lại',
   },
   network: {
     sampling: {
