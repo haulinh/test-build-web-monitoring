@@ -19,13 +19,16 @@ export default class QAQCOriginalTable extends React.Component {
     dataSource: PropTypes.array.isRequired,
     measuringList: PropTypes.array.isRequired,
     measuringData: PropTypes.array.isRequired,
+    pagination: PropTypes.object,
+    onChangePage: PropTypes.func,
   }
 
   render() {
-    let {dataSource, measuringList, measuringData} = this.props
+    let {dataSource, measuringList, measuringData, pagination} = this.props
     let columns = this._transformedColumns(measuringList, measuringData)
     let data = this._transformedData(dataSource);
-    return <Table dataSource={data} columns={columns} size="small"></Table>
+    console.log(pagination,"pagination")
+    return <Table rowKey='_id' dataSource={data} columns={columns} pagination={pagination} size="small"></Table>
   }
 
   _transformedColumns(measuringList, measuringData) {

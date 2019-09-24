@@ -25,7 +25,7 @@ export default class QAQCInvalidTable extends React.Component {
     let {dataSource, measuringList, measuringData} = this.props
     let columns = this._transformedColumns(measuringList, measuringData)
     let data = this._transformedData(dataSource);
-    return <Table dataSource={data} columns={columns} size="small"></Table>
+    return <Table rowKey='_id' dataSource={data} columns={columns} size="small"></Table>
   }
 
   _transformedColumns(measuringList, measuringData) {

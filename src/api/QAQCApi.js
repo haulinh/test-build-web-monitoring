@@ -4,68 +4,24 @@ import { pick, get, join, includes } from 'lodash'
 
 const getDataStationAutoUrl = (prefix = '') => {
   return getConfigApi().dataStationAuto + '/' + prefix
-  // return 'http://localhost:5004/data-station-auto/' + prefix
-}
-
-const toParams = params => {
-  let selected = [
-    'to',
-    'from',
-    'measuringList',
-    'dataFilterBy',
-    'dataType',
-    'key'
-  ]
-
-  if (includes(get(params, 'dataFilterBy', []), 'out'))
-    selected.push('outOfRange')
-
-  params = pick(params, selected)
-  params.measuringList = join(get(params, 'measuringList', []), ',')
-  params.dataFilterBy = join(get(params, 'dataFilterBy', []), ',')
-  return params
 }
 
 export const fetchData = (
-  pagination = { page: 1, itemPerPage: 10 },
-  params = {}
+  { page = 1, itemPerPage = 10 },
+  {key,  fromDate, toDate, dataType, measuringList, stationAutoType }
 ) => {
-  params = toParams(params)
-
-  // return getFetch(getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`), undefined, {params: {...params, ...pagination}})
-  return getFetch(
-    getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`),
-    undefined,
-    { params: { ...params, ...pagination } }
-  )
+  var url = `${getDataStationAutoUrl(
+    `${key}/qa-qc?page=${page}&itemPerPage=${itemPerPage}`
+  )}`;
+  if (fromDate) url += `&from=${fromDate}`;
+  if (toDate) url += `&to=${toDate}`;
+  if (measuringList) url += `&measuringList=${measuringList.join(",")}`;
+  if (dataType) url += `&dataType=${dataType}`;
+  if (stationAutoType) url += `&stationAutoType=${stationAutoType}`;
+  return getFetch(url);
 }
 
-export const putData = (params, dataUpdate) => {
-  params = toParams(params)
-  //const url = `http://localhost:5004/data-station-auto/${get(params, 'key', 'vas')}/qa-qc`
-  // return getFetch(getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`), undefined, {params: {...params, ...pagination}})
-  return putFetch(
-    getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`),
-    //url,
-    dataUpdate,
-    { params: { ...params } }
-  )
-}
-
-export const deleteData = (params, data) => {
-  params = toParams(params)
-  //const url = `http://localhost:5004/data-station-auto/${get(params, 'key', 'vas')}/qa-qc`
-  // return getFetch(getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`), undefined, {params: {...params, ...pagination}})
-  return deleteFetch(
-    getDataStationAutoUrl(`${get(params, 'key', 'vas')}/qa-qc`),
-    //url,
-    undefined,
-    { params: { ...params }, data }
-  )
-}
 
 export default {
-  fetchData,
-  putData,
-  deleteData
+  fetchData
 }

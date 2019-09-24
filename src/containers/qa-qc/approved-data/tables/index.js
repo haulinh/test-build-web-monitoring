@@ -24,7 +24,9 @@ export default class QAQCTables extends React.Component {
     dataSource: PropTypes.array.isRequired,
     selectedTable: PropTypes.string.isRequired,
     measuringData: PropTypes.array.isRequired,
-    measuringList: PropTypes.array.isRequired
+    measuringList: PropTypes.array.isRequired,
+    pagination: PropTypes.object,
+    onChangePage: PropTypes.func,
   }
 
   render() {
@@ -46,6 +48,9 @@ export default class QAQCTables extends React.Component {
           dataSource={this.props.dataSource}
           measuringList={measuringList} // danh sach do user lựa chọn 
           measuringData={measuringData} // danh sach full cua station
+          pagination={this.props.pagination}
+          onChangePage={this.props.onChangePage}
+          
         />
       </div>
     )
