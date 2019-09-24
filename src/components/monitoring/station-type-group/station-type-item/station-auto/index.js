@@ -56,7 +56,7 @@ export default class StationAutoItem extends React.PureComponent {
         case "historyData": {
           // console.log(arrMeasures)
           let toDate = this.props.lastLog.receivedAt
-          let fromDate = moment(toDate).subtract(1, 'day').format
+          let fromDate = moment(toDate).subtract(1, 'day').format()
 
           formSearch = {
             stationType: this.props.stationType.key,
