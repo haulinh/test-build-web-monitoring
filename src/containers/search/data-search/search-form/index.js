@@ -72,7 +72,7 @@ function validate(values) {
 @createLang
 // @queryFormDataBrowser()
 @autobind
-export default class SearchForm extends React.Component {
+export default class SearchFormHistoryData extends React.Component {
   static propTypes = {
     measuringData: PropTypes.array,
     searchNow: PropTypes.bool
