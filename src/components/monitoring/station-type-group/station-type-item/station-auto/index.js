@@ -55,11 +55,17 @@ export default class StationAutoItem extends React.PureComponent {
       switch (keyOpenTab) {
         case "historyData": {
           // console.log(arrMeasures)
+          let toDate = this.props.lastLog.receivedAt
+          let fromDate = moment(toDate).subtract(1, 'day').format
+
           formSearch = {
             stationType: this.props.stationType.key,
             stationAuto: this.props.stationID,
             measuringList: arrMeasures,
             measuringData: this.props.measuringList,
+            fromDate,
+            toDate,
+            searchRange: true,
             searchNow: true
           }
           slugPrefix = slug.dataSearch.base
