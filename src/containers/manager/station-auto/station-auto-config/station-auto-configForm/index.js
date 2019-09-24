@@ -194,90 +194,68 @@ export default class StationAutoForm extends React.PureComponent {
     const { t } = this.props.lang
     const formItemLayout = {
       labelCol: {
-        sm: { span: 4, offset: 0 }
+        sm: { span: 8 },
+        lg: {span: 5},
+        xl: {span: 3 }
       },
       wrapperCol: {
-        sm: { span: 19, offset: 0 }
+        sm: { span: 16},
+        lg: {span: 19 },
+        xl: {span: 21 },
       }
     }
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Row gutter={8}>
-          <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label={t('stationAutoManager.config.fileName.label')}
-            >
-              {getFieldDecorator('fileName', {
-                initialValue: get(this.props, 'initialValues.fileName', ''),
-                rules: [
-                  {
-                    required: true,
-                    message: t('stationAutoManager.config.fileName.label')
-                  }
-                ]
-              })(
+        
+        <FormItem
+          {...formItemLayout}
+          label={t('stationAutoManager.config.fileName.label')}
+        >
+          {getFieldDecorator('fileName', {
+            initialValue: get(this.props, 'initialValues.fileName', ''),
+            rules: [
+              {
+                required: true,
+                message: t('stationAutoManager.config.fileName.label')
+              }
+            ]
+          })(
+            <Row gutter={8}>
+              <Col span={12}>
                 <Input
                   //disabled={this.props.isEdit}
                   placeholder={t(
                     'stationAutoManager.config.fileName.placeholder'
                   )}
                 />
-              )}
-            </FormItem>
-          </Col>
-          <Col>
-            <Button type="primary" onClick={this.loadSourceParameter}>
-              {t('stationAutoManager.config.buttonLoadSourceParameter')}
-            </Button>
-          </Col>
-          {/* <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label={t('stationAutoManager.config.path.label')}
-            >
-              {getFieldDecorator('path', {
-                initialValue: this.props.initialValues
-                  ? this.props.initialValues.path
-                  : '',
-                rules: [
-                  {
-                    required: true,
-                    message:
-                      'Please enter ' +
-                      t('stationAutoManager.config.path.label')
-                  }
-                ]
-              })(
-                <Input
-                  placeholder={t('stationAutoManager.config.path.placeholder')}
-                />
-              )}
-            </FormItem>
-          </Col> */}
-        </Row>
-        <Row>
-          <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label={t('stationAutoManager.config.extensionFile')}
-            >
-              {getFieldDecorator('extensionFile', {
-                initialValue: get(
-                  this.props,
-                  'initialValues.extensionFile',
-                  'txt'
-                )
-              })(
-                <RadioGroup>
-                  <Radio value="txt">.TXT</Radio>
-                  <Radio value="csv">.CSV</Radio>
-                </RadioGroup>
-              )}
-            </FormItem>
-          </Col>
-        </Row>
+              </Col>
+              <Col>
+                <Button type="primary" onClick={this.loadSourceParameter}>
+                  {t('stationAutoManager.config.buttonLoadSourceParameter')}
+                </Button>
+              </Col>
+            </Row>
+          )}
+        </FormItem>
+          
+        <FormItem
+          {...formItemLayout}
+          label={t('stationAutoManager.config.extensionFile')}
+        >
+          {getFieldDecorator('extensionFile', {
+            initialValue: get(
+              this.props,
+              'initialValues.extensionFile',
+              'txt'
+            )
+          })(
+            <RadioGroup>
+              <Radio value="txt">.TXT</Radio>
+              <Radio value="csv">.CSV</Radio>
+            </RadioGroup>
+          )}
+        </FormItem>
 
         <Table
           rowKey={record => record.key}
