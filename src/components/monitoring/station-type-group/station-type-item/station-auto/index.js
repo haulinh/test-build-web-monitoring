@@ -1,11 +1,12 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { autobind } from "core-decorators"
 import styled from "styled-components"
 import { withRouter } from "react-router"
+import moment from 'moment-timezone'
 import StationAutoHead from "./Head"
 import MeasuringList from "./measuring/measuring-list"
 import MoreContent from "./more-content"
-import PropTypes from "prop-types"
 import slug from "constants/slug"
 import { STATUS_STATION } from "constants/stationStatus"
 import { translate } from "hoc/create-lang"
@@ -95,14 +96,22 @@ export default class StationAutoItem extends React.PureComponent {
     }
   }
 
+  /* search data trong vòng 24h từ lúc nhận lastlog */
   handleClickDataSearchWithMeasuring(measuringItem) {
+    let toDate = measuringItem.receivedAt
+    let fromDate = moment(toDate).subtract(1, 'day').format()
+
     const formSearch = {
       stationType: this.props.stationType.key,
       stationAuto: this.props.stationID,
       measuringList: [measuringItem.key],
       measuringData: this.props.measuringList,
-      searchNow: true
+      fromDate,
+      toDate,
+      searchRange: true,
+      searchNow: true,
     }
+
     this.props.history.push(
       slug.dataSearch.base +
         "?formData=" +
@@ -231,6 +240,7 @@ export default class StationAutoItem extends React.PureComponent {
           statusStation={status}
           onClickItem={this.handleClickDataSearchWithMeasuring}
           data={this.measuringLastLog()}
+          receivedAt={receivedAt}
         />
 
         <MoreContent
