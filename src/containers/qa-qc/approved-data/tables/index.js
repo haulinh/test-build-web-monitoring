@@ -34,7 +34,7 @@ export default class QAQCTables extends React.Component {
     let Table = this._getSelectedTable(this.props.selectedTable)
     return (
       <div>
-        <div style={{textAlign: 'right', marginBottom: 16}}>
+        {/* <div style={{textAlign: 'right', marginBottom: 16}}>
           <Button
             type="primary"
             icon="file-excel"
@@ -43,7 +43,7 @@ export default class QAQCTables extends React.Component {
           >
             {translate("dataSearchFrom.tab.exportExcel")}
           </Button>
-        </div>
+        </div> */}
         <Table
           dataSource={this.props.dataSource}
           measuringList={measuringList} // danh sach do user lựa chọn 

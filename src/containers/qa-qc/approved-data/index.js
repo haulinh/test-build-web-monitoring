@@ -16,7 +16,7 @@ import _, { get, size, isEmpty, forEach, isNumber } from "lodash"
 // import moment from "moment-timezone"
 import ROLE from "constants/role"
 import protectRole from "hoc/protect-role"
-import { getConfigApi } from "config"
+// import { getConfigApi } from "config"
 import PageInfo from "components/pageInfo"
 import { QAQC_TABLES } from "constants/qaqc"
 
@@ -45,9 +45,10 @@ export default class QaQcContainer extends React.Component {
   render() {
     return (
       <div>
-        {getConfigApi().isAdvanced
+        {/* {getConfigApi().isAdvanced
           ? this._renderPageContent()
-          : this._renderPageInfo()}
+          : this._renderPageInfo()} */}
+          {this._renderPageContent()}
       </div>
     )
   }
@@ -63,9 +64,6 @@ export default class QaQcContainer extends React.Component {
           // changeDataType={this._handleChangeDataType}
         />
         <Spin spinning={this.state.isLoading}>
-          {/* {!this.state.isLoading && (
-           
-          )} */}
            <TableList
               dataSource={this.state.dataStationAuto}
               measuringData={this.state.measuringData}
