@@ -2,8 +2,8 @@ import React from "react"
 import { autobind } from "core-decorators"
 import PageContainer from "layout/default-sidebar-layout/PageContainer"
 // import { measurePublished } from 'api/StationAuto'
-import DataStationAutoApi from 'api/DataStationAutoApi'
-import QAQCApi from 'api/QAQCApi'
+import DataStationAutoApi from "api/DataStationAutoApi"
+import QAQCApi from "api/QAQCApi"
 import { translate } from "hoc/create-lang"
 // import TabList from './approved-data/tab-list'
 import Breadcrumb from "../breadcrumb"
@@ -56,22 +56,24 @@ export default class QaQcContainer extends React.Component {
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={"#fafbfb"}>
         <Breadcrumb items={["list"]} />
-        <Spin spinning={false}>
-          <SearchFrom
-            initialValues={this.props.formData}
-            measuringData={this.props.formData.measuringData}
-            onSubmit={this.handleSubmitSearch}
-            changeDataType={this._handleChangeDataType}
-          />
-          {!this.state.isLoading && (
-            <TableList
+        <SearchFrom
+          initialValues={this.props.formData}
+          measuringData={this.props.formData.measuringData}
+          onSubmit={this.handleSubmitSearch}
+          // changeDataType={this._handleChangeDataType}
+        />
+        <Spin spinning={this.state.isLoading}>
+          {/* {!this.state.isLoading && (
+           
+          )} */}
+           <TableList
               dataSource={this.state.dataStationAuto}
               measuringData={this.state.measuringData}
               measuringList={this.state.measuringList}
               selectedTable={this.state.selectedTable}
               pagination={this.state.pagination}
+              onChangePage={this.handleChangePage}
             />
-          )}
         </Spin>
       </PageContainer>
     )
@@ -103,31 +105,55 @@ export default class QaQcContainer extends React.Component {
     if (!isEmpty(outOfRange))
       searchFormData.outOfRange = JSON.stringify(outOfRange)
 
-    this.loadData({ ...this.state.pagination, current: 1 }, searchFormData)
+    this.loadData({ ...this.state.pagination }, searchFormData)
+  }
+
+  handleChangePage(pagination) {
+    this.loadData(pagination, this.state.searchFormData)
   }
 
   async loadData(pagination, searchFormData) {
+    // console.log(searchFormData,"searchFormData")
     this.setState({ isLoading: true })
-    pagination = {
-      page : pagination.current, itemPerPage : pagination.pageSize
-    }
 
     let dataStationAuto = []
 
-    if (searchFormData.dataType != QAQC_TABLES.original) {
+    if (searchFormData.dataType !== QAQC_TABLES.original) {
+      const query = _.pick(searchFormData, [
+        "fromDate",
+        "toDate",
+        "dataType",
+        "key",
+        "measuringList",
+        "stationAutoType"
+      ])
+      // console.log(searchFormData, "searchFormData")
 
-      const query = _.pick(searchFormData,['fromDate','toDate', 'dataType','key','measuringList','stationAutoType'])
-      console.log(searchFormData,"searchFormData")
-      console.log(pagination.pageSize,"pagination.pageSize")
-      const res = await QAQCApi.fetchData(pagination,query )
-      if(res.success){
+      const res = await QAQCApi.fetchData(
+        {
+          page: pagination.current,
+          itemPerPage: pagination.pageSize
+        },
+        query
+      )
+      if (res.success) {
         dataStationAuto = res
       }
-      
-    }else{
-      const query = _.pick(searchFormData,['fromDate','toDate','key','measuringList'])
-      const res = await DataStationAutoApi.getDataStationAutos(pagination,query )
-      if(res.success){
+    } else {
+      const query = _.pick(searchFormData, [
+        "fromDate",
+        "toDate",
+        "key",
+        "measuringList"
+      ])
+      const res = await DataStationAutoApi.getDataStationAutos(
+        {
+          page: pagination.current,
+          itemPerPage: pagination.pageSize
+        },
+        query
+      )
+      if (res.success) {
         dataStationAuto = res
       }
     }
@@ -146,6 +172,7 @@ export default class QaQcContainer extends React.Component {
       dataStationAuto: dataStationAutoList,
       measuringData: searchFormData.measuringData,
       measuringList: searchFormData.measuringList,
+      selectedTable: searchFormData.dataType,
       searchFormData: searchFormData,
       pagination: {
         ...pagination,

@@ -17,6 +17,7 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 export default class QAQCOriginalTable extends React.Component {
   static propTypes = {
     dataSource: PropTypes.array.isRequired,
+    columns: PropTypes.array,
     measuringList: PropTypes.array.isRequired,
     measuringData: PropTypes.array.isRequired,
     pagination: PropTypes.object,
@@ -27,8 +28,7 @@ export default class QAQCOriginalTable extends React.Component {
     let {dataSource, measuringList, measuringData, pagination} = this.props
     let columns = this._transformedColumns(measuringList, measuringData)
     let data = this._transformedData(dataSource);
-    console.log(pagination,"pagination")
-    return <Table rowKey='_id' dataSource={data} columns={columns} pagination={pagination} size="small"></Table>
+    return <Table rowKey='_id' dataSource={data} columns={columns} pagination={pagination} onChange={this.props.onChangePage} size="small"></Table>
   }
 
   _transformedColumns(measuringList, measuringData) {

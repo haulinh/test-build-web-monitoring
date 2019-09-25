@@ -1,6 +1,5 @@
 import { getConfigApi } from 'config'
-import { getFetch, putFetch, deleteFetch } from 'utils/fetch'
-import { pick, get, join, includes } from 'lodash'
+import { getFetch } from 'utils/fetch'
 
 const getDataStationAutoUrl = (prefix = '') => {
   return getConfigApi().dataStationAuto + '/' + prefix

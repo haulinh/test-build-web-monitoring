@@ -148,6 +148,7 @@ export default class SearchForm extends React.Component {
   }
 
   handleSubmit(values) {
+    // console.log(values, "handleSubmit")
     const params = {
       fromDate: this.convertDateToString(values.fromDate),
       toDate: this.convertDateToString(values.toDate),
@@ -167,12 +168,9 @@ export default class SearchForm extends React.Component {
     })
   }
 
-  handleChoseOptions = e => {
-    console.log(e)
-  }
 
   _handleChangeDataType = (e, newValue, prevValue, name) => {
-    this._setSelectedTableFromType(newValue)
+    // this._setSelectedTableFromType(newValue)
     this._setDataFiltersOptionsEnabledBy(newValue)
   }
 

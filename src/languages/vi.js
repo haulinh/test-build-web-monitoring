@@ -789,6 +789,9 @@ export default {
         placeholder: 'QCVN',
         error: 'Vui lòng chọn QCVN'
       },
+      standard: {
+        label: 'Qui chuẩn'
+      },
       tendToExceed: {
         label: 'Giới hạn chuẩn bị vượt',
       },
@@ -1659,7 +1662,8 @@ export default {
   },
   actions: {
     "gotoMonitoring": "Đến trang Xem chi tiết trạm",
-    "viewDataAroundThisTime": "Xem giá trị quanh thời điểm vượt"
+    "viewDataAroundThisTime": "Xem giá trị quanh thời điểm vượt",
+    "tryAgain": 'Thử lại',
   },
   network: {
     sampling: {

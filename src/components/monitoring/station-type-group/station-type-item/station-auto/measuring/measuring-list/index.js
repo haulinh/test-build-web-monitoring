@@ -26,27 +26,35 @@ export default class MeasuringList extends React.PureComponent {
   static propTypes = {
     data: PropTypes.array,
     onClickItem: PropTypes.func,
-    statusStation: PropTypes.string
+    statusStation: PropTypes.string,
+    receivedAt: PropTypes.string.isRequired
   }
   render() {
     return (
       <MeasuringListWrapper>
         {this.props.data &&
           this.props.data.length !== 0 &&
-          this.props.data.map(item => (
-            <MeasuringItemWrapper
-              onClick={() => this.props.onClickItem(item)}
-              navigationIsOpen={this.props.navigationIsOpen}
-              key={item.key}
-            >
-              <MeasuringItem
-                {...item}
-                minLimit={typeof item.minLimit === 'number' ? item.minLimit: null}
-                maxLimit={typeof item.maxLimit === 'number' ? item.maxLimit: null}
-                statusStation={this.props.statusStation}
-              />
-            </MeasuringItemWrapper>
-          ))}
+          this.props.data.map(item => {
+
+            /* thêm receivedAt để search dữ liệu gốc trong 24h khi click vào measuring item */
+            item.receivedAt = this.props.receivedAt
+
+            return (
+              <MeasuringItemWrapper
+                onClick={() => this.props.onClickItem(item)}
+                navigationIsOpen={this.props.navigationIsOpen}
+                key={item.key}
+              >
+                <MeasuringItem
+                  {...item}
+                  minLimit={typeof item.minLimit === 'number' ? item.minLimit: null}
+                  maxLimit={typeof item.maxLimit === 'number' ? item.maxLimit: null}
+                  statusStation={this.props.statusStation}
+                />
+              </MeasuringItemWrapper>
+            )
+          })
+        }
       </MeasuringListWrapper>
     )
   }
