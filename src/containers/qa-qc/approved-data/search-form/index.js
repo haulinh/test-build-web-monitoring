@@ -171,7 +171,7 @@ export default class SearchForm extends React.Component {
 
   _handleChangeDataType = (e, newValue, prevValue, name) => {
     // this._setSelectedTableFromType(newValue)
-    this._setDataFiltersOptionsEnabledBy(newValue)
+    // this._setDataFiltersOptionsEnabledBy(newValue)
   }
 
   render() {
