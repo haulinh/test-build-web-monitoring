@@ -2,9 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { Button } from 'antd'
 
-import { translate } from 'hoc/create-lang'
 import {QAQC_TABLES} from 'constants/qaqc'
 
 import OriginalTable from './original'
