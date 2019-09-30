@@ -200,8 +200,9 @@ export default class SearchAvgForm extends React.Component {
   }
 
   handleProvinceChange = province => {
+    console.log(province,"province")
     this.setState({
-      provinceKey: province.key,
+      provinceKey: province ? province.key : '',
       stationAutoKey: ""
     })
 
@@ -275,6 +276,7 @@ export default class SearchAvgForm extends React.Component {
                 label={translate("qaqc.province.label")}
                 name="province"
                 size="large"
+                isShowAll
                 component={FSelectProvince}
                 onHandleChange={this.handleProvinceChange}
               />
