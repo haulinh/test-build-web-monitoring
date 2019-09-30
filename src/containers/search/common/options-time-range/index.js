@@ -91,7 +91,10 @@ export default class OptionsTimeRange extends React.Component {
               Today: [moment(), moment()],
               'This Month': [moment(), moment().endOf('month')]
             }}
-            showTime
+            showTime={{
+              defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')],
+            }}
+
             format={DD_MM_YYYY_HH_MM}
             onOk={this.onOkDatePicker}
           />
