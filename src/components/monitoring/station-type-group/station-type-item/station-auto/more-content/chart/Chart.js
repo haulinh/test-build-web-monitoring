@@ -160,7 +160,7 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
     tooltip: {
       formatter: function() {
 
-        console.log(this.x, "this.x")
+        // console.log(this.x, "this.x")
         return ["<b>" + this.x + "</b>"].concat(
           this.points.map(function(point) {
             return `${point.series.name}: ${getFormatNumber(point.y)}`
