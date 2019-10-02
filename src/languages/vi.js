@@ -326,7 +326,8 @@ export default {
       time: 'Thời gian',
       stationType: {
         label: 'Loại trạm',
-        placeholder: 'Chọn loại trạm'
+        placeholder: 'Chọn loại trạm',
+        require: 'Vui lòng chọn loại trạm'
       },
       stationAuto: {
         label: 'Tên trạm',
@@ -473,6 +474,7 @@ export default {
       year: 'Năm',
       errorMonth: 'Vui lòng chọn tháng',
       errorDay: 'Vui lòng chọn ngày',
+      error: 'Vui lòng chọn thời gian'
     },
     tab: {
       data: 'Dữ liệu',

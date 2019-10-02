@@ -75,7 +75,7 @@ export default class ReportType2 extends React.Component {
   };
 
   handleSubmit = async values => {
-    console.log(values, "handleSubmit");
+    // console.log(values, "handleSubmit");
     let measuringListUnitStr = "";
     if (values.measuringList) {
       this.setState({
