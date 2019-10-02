@@ -57,7 +57,6 @@ export default class SearchForm extends React.Component {
       setFieldsValue
     } = this.props.form;
     const t = this.props.lang.createNameSpace("dataSearchFrom.form");
-
     return (
       <SearchFormContainer>
         <Heading
@@ -96,7 +95,13 @@ export default class SearchForm extends React.Component {
                 {getFieldDecorator("stationType", {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null });
-                  }
+                  },
+                  rules: [
+                    {
+                      required: true,
+                      message: translate("dataSearchFrom.form.stationType.require")
+                    }
+                  ]
                 })(<SelectStationType size="large" />)}
               </Item>
             </Col>
@@ -129,7 +134,8 @@ export default class SearchForm extends React.Component {
                 {getFieldDecorator("time", {
                   rules: [
                     {
-                      required: true
+                      required: true,
+                      message: translate("avgSearchFrom.selectTimeRange.error")
                     }
                   ]
                 })(<MonthPicker style={{ width: "100%" }} size="large" />)}

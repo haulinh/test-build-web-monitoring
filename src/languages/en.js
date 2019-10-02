@@ -324,7 +324,8 @@ export default {
       time: 'Time',
       stationType: {
         label: 'Type Of Station',
-        placeholder: 'Select Type Of Station'
+        placeholder: 'Select Type Of Station',
+        require: 'Please Choose Type Of Station'
       },
       stationAuto: {
         label: 'Station Name',
@@ -470,6 +471,7 @@ export default {
       year: 'Year',
       errorMonth: 'Please Choose The Month',
       errorDay: 'Please Choose The Day',
+      error: 'Please Choose The Time'
     },
     tab: {
       data: 'Data',
