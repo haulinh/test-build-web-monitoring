@@ -489,16 +489,16 @@ const reportType8Menu = {
   ) 
 };
 
-const reportType9Menu = {
-  component: (
-    <AkNavigationItem
-      linkComponent={WrapperLinkComponent}
-      href={slug.report.type9}
-      icon={Icon.trayIcon}
-      text={translate("menuApp.report.type9")}
-    />
-  ) 
-};
+// const reportType9Menu = {
+//   component: (
+//     <AkNavigationItem
+//       linkComponent={WrapperLinkComponent}
+//       href={slug.report.type9}
+//       icon={Icon.trayIcon}
+//       text={translate("menuApp.report.type9")}
+//     />
+//   ) 
+// };
 
 // const reportType10Menu = {
 //   component: (
@@ -554,6 +554,6 @@ export default [
   reportType6Menu,
   reportType7Menu,
   reportType8Menu,
-  reportType9Menu,
+  // reportType9Menu,
   // reportType10Menu,
 ]
