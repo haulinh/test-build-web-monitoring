@@ -170,12 +170,24 @@ export default class SearchAvgForm extends React.Component {
   }
 
   handleSubmit(values) {
+    const measuringListUnitStr = values.measuringList.map(item => {
+
+      // console.log(item, "item")
+      const itemFind = _.find(this.state.measuringData, (obj)=>{
+        return obj.key === item
+      })
+      // console.log(itemFind,"itemFind")
+      return encodeURIComponent(itemFind.unit)
+    })
+
+    
     this.props.onSubmit({
       fromDate: this.convertDateToString(this.state.fromDate),
       toDate: this.convertDateToString(this.state.toDate),
       key: values.stationAuto,
       name: this.state.stationAutoName,
       type: values.type,
+      measuringListUnitStr,
       measuringList: values.measuringList,
       measuringData: this.state.measuringData
     })
@@ -200,7 +212,6 @@ export default class SearchAvgForm extends React.Component {
   }
 
   handleProvinceChange = province => {
-    console.log(province,"province")
     this.setState({
       provinceKey: province ? province.key : '',
       stationAutoKey: ""
