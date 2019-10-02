@@ -78,7 +78,7 @@ export default class ReportType11 extends React.Component {
   };
 
   handleSubmit = async values => {
-    console.log(values, "handleSubmit");
+    // console.log(values, "handleSubmit");
     const params = {
       fromDate: moment(values.time)
         .utcOffset(this.props.timeZone.time)

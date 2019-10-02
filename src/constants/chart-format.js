@@ -1,6 +1,6 @@
 export const DATETIME_LABEL_FORMAT = {
   millisecond: '%H:%M',
-  second: '%H:%M'
+  second: '%H:%M',
   // minute: '%H:%M',
   // hour: '%H:%M',
   // day: '%e. %b',
