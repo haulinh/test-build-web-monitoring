@@ -472,11 +472,7 @@ export default class StationAutoConfigNotification extends React.Component {
   isAllowSubmit() {
     let isHasCache = _.keys(this.state.cachedData).length !== 0
     let isSelectedUser = _.get(this.state.selectedUser, '_id')
-<<<<<<< HEAD
-    let isSelectedRole = _.get(this.state.selectedRole, '_id', null) 
-=======
     let isSelectedRole = _.get(this.state.selectedRole, '_id', undefined) 
->>>>>>> hotfix/global/role
 
     const condition1 = isSelectedUser && isSelectedRole
     const condition2 = isSelectedUser && isSelectedRole && isHasCache
