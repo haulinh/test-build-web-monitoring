@@ -301,6 +301,7 @@ export default class SearchFormHistoryData extends React.Component {
                 label={translate("qaqc.province.label")}
                 name="province"
                 size="large"
+                isShowAll
                 component={FSelectProvince}
                 onHandleChange={this.handleProvinceChange}
               />
@@ -310,6 +311,7 @@ export default class SearchFormHistoryData extends React.Component {
                 label={t("stationType.label")}
                 name="stationType"
                 size="large"
+                
                 onHandleChange={this.handleChangeStationType}
                 component={FSelectStationType}
                 getRef={ref => {
