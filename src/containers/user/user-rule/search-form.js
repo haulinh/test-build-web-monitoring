@@ -129,12 +129,13 @@ export default class UserSearchForm extends React.PureComponent {
 
   handleSelectUser(userID) {
     let user = _.find(this.state.dataSourceUsers, user => user._id === userID)
-    let role = _.get(user, 'role', {})
+    let role = _.get(user, 'role') || {}
     if (role._id) {
       this.props.form.setFieldsValue({
         [formFields.selectRole]: role._id
       })
     }
+
     this.props.updateDataForSubmit({name: 'selectedRole', value: role})
     this.props.updateDataForSubmit({name: 'selectedUser', value: user})
   }
