@@ -9,6 +9,7 @@ import moment from 'moment-timezone'
 import { toLower as _toLower} from 'lodash'
 import { DD_MM_YYYY_HH_MM } from "constants/format-date";
 import swal from "sweetalert2";
+import _ from 'lodash'
 
 const i18n = {
   stt: translate("monitoring.moreContent.sampling.content.history.stt"),
@@ -93,7 +94,7 @@ export default class SamplingMoreInfo extends React.Component {
           });
         }
       } catch(e){
-        const { message} = e.response.data.error
+        const { message } = _.get(e.response, 'data.error')
         this.setState({
           isLoading: false
         });
