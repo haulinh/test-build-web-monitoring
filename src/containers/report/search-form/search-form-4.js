@@ -42,7 +42,9 @@ const i18n = {
     stationAuto: translate("avgSearchFrom.form.stationAuto.error"),
     fromMonth: translate("avgSearchFrom.form.fromMonth.error"),
     toMonth: translate("avgSearchFrom.form.toMonth.error"),
-    toMonth_1: translate("avgSearchFrom.form.toMonth.error1")
+    toMonth_1: translate("avgSearchFrom.form.toMonth.error1"),
+    stationType: translate("avgSearchFrom.form.stationType.error"),
+
     
   }
 };
@@ -136,6 +138,12 @@ export default class SearchForm extends React.Component {
             <Col span={12}>
               <Item label={i18n.label.stationType}>
                 {getFieldDecorator("stationType", {
+                  rules: [
+                    {
+                      required: true,
+                      message: i18n.error.stationType
+                    }
+                  ],
                   onChange: val => {
                     setFieldsValue({ stationAuto: null });
                   }
