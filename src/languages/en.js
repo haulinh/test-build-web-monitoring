@@ -740,6 +740,9 @@ export default {
       sampling: {
         title: 'Sampling configuration'
       },
+      camera: {
+        title: 'Camera configuration'
+      },
       actions: {
         ftpFolder: 'FTP Folder',
         fileMapping: 'File Mapping',

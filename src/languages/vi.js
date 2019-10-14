@@ -740,6 +740,9 @@ export default {
       sampling: {
         title: 'Cấu hình lấy mẫu'
       },
+      camera: {
+        title: 'Cấu hình camera'
+      },
       actions: {
         ftpFolder: 'FTP Folder' /* MARK  @translate */,
         fileMapping: 'File Mapping' /* MARK  @translate */,

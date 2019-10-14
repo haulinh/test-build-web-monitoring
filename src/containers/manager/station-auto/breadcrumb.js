@@ -28,6 +28,12 @@ export default createBreadcrumb({
     href: slug.stationAuto.configSampling.base,
     name: translate('stationAutoManager.list.sampling.title')
   },
+  configCamera: {
+    id: 'configCamera',
+    //icon: Icon.car,
+    href: slug.stationAuto.configCamera.base,
+    name: translate('stationAutoManager.list.camera.title')
+  },
   create: {
     id: 'create',
     href: slug.stationAuto.create,
