@@ -11,7 +11,7 @@ export function getFormatNumber(value, numberToFixed = FORMAT_VALUE_MEASURING) {
     })
     return value === 0 ? '0' : tempNumber
   } else {
-    return '0'
+    return '-'
   }
 }
 

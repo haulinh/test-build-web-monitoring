@@ -15,6 +15,8 @@ import Highcharts from 'highcharts'
 import { translate } from 'hoc/create-lang'
 import ReactGA from 'react-ga'
 import * as _ from 'lodash'
+import { selectMenu, changeOpenSubMenu } from 'redux/actions/themeAction'
+import { connect } from 'react-redux'
 // import { Clearfix } from '../../../elements'
 
 ReactGA.initialize('UA-36620912-2')
@@ -63,6 +65,14 @@ const LinkSpan = styled.span`
 
 @withRouter
 @autobind
+@connect(
+  state => ({
+  }),
+  {
+    selectMenu,
+    changeOpenSubMenu
+  }
+)
 export class ChartSummary extends React.Component {
   static propTypes = {
     title: PropTypes.string,
@@ -104,6 +114,7 @@ export class ChartSummary extends React.Component {
                 category: 'Dashboard',
                 action: translate('dashboard.viewInMonitoring')
               })
+              this.props.selectMenu(slug.monitoring.base);
             }}
             to={slug.monitoring.base + `?Id=${stationType.key}`}
           >
@@ -117,6 +128,7 @@ export class ChartSummary extends React.Component {
                 category: 'Dashboard',
                 action: translate('dashboard.viewInMap')
               })
+              this.props.selectMenu(slug.map.base);
             }}
             to={slug.map.base + `?Id=${stationType.key}`}
           >

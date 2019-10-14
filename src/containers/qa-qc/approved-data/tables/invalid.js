@@ -18,14 +18,17 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 export default class QAQCInvalidTable extends React.Component {
   static propTypes = {
     dataSource: PropTypes.array.isRequired,
-    columns: PropTypes.array.isRequired
+    columns: PropTypes.array,
+    measuringData: PropTypes.array.isRequired,
+    pagination: PropTypes.object,
+    onChangePage: PropTypes.func,
   }
   
   render() {
-    let {dataSource, measuringList, measuringData} = this.props
+    let {dataSource, measuringList, measuringData, pagination} = this.props
     let columns = this._transformedColumns(measuringList, measuringData)
     let data = this._transformedData(dataSource);
-    return <Table dataSource={data} columns={columns} size="small"></Table>
+    return <Table rowKey='_id' dataSource={data} columns={columns} pagination={pagination} onChange={this.props.onChangePage}  size="small"></Table>
   }
 
   _transformedColumns(measuringList, measuringData) {

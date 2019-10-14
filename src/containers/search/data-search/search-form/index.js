@@ -225,12 +225,22 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleSubmit(values) {
-    console.log(values, "handleSubmit")
+    // console.log(values, "handleSubmit")
+    const measuringListUnitStr = values.measuringList.map(item => {
+      // console.log(item, "item")
+      const itemFind = _.find(this.state.measuringData, (obj)=>{
+        return obj.key === item
+      })
+      // console.log(itemFind,"itemFind")
+      return encodeURIComponent(itemFind.unit)
+    })
+
     this.props.onSubmit({
       fromDate: this.convertDateToString(this.state.fromDate),
       toDate: this.convertDateToString(this.state.toDate),
       key: values.stationAuto,
       name: this.state.stationAutoName,
+      measuringListUnitStr,
       measuringList: values.measuringList,
       measuringData: this.state.measuringData,
       dataType: values.dataType,
@@ -291,6 +301,7 @@ export default class SearchFormHistoryData extends React.Component {
                 label={translate("qaqc.province.label")}
                 name="province"
                 size="large"
+                isShowAll
                 component={FSelectProvince}
                 onHandleChange={this.handleProvinceChange}
               />
@@ -300,6 +311,7 @@ export default class SearchFormHistoryData extends React.Component {
                 label={t("stationType.label")}
                 name="stationType"
                 size="large"
+                
                 onHandleChange={this.handleChangeStationType}
                 component={FSelectStationType}
                 getRef={ref => {

@@ -1,6 +1,4 @@
 import React from 'react'
-import _ from 'lodash'
-import { Row, Col } from 'antd'
 
 import { translate } from 'hoc/create-lang'
 import DefaultCell from './_defaultCell'

@@ -44,8 +44,12 @@ export default class SearchForm extends React.Component {
     let me = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
-        if (me.props.cbSubmit) me.props.cbSubmit({...values, measuringList: me.state.measuringList});
+        // console.log("Received values of form: ", values, me.state.measuringList);
+        const measuringListUnitStr  = me.state.measuringList.map(item => {
+          return encodeURIComponent(item.unit)
+        }).join(',')
+        // console.log(measuringListUnitStr)
+        if (me.props.cbSubmit) me.props.cbSubmit({...values, measuringList: me.state.measuringList, measuringListUnitStr});
       }
     });
   }
@@ -57,7 +61,6 @@ export default class SearchForm extends React.Component {
       setFieldsValue
     } = this.props.form;
     const t = this.props.lang.createNameSpace("dataSearchFrom.form");
-
     return (
       <SearchFormContainer>
         <Heading
@@ -96,7 +99,13 @@ export default class SearchForm extends React.Component {
                 {getFieldDecorator("stationType", {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null });
-                  }
+                  },
+                  rules: [
+                    {
+                      required: true,
+                      message: translate("dataSearchFrom.form.stationType.require")
+                    }
+                  ]
                 })(<SelectStationType size="large" />)}
               </Item>
             </Col>
@@ -129,7 +138,8 @@ export default class SearchForm extends React.Component {
                 {getFieldDecorator("time", {
                   rules: [
                     {
-                      required: true
+                      required: true,
+                      message: translate("avgSearchFrom.selectTimeRange.error")
                     }
                   ]
                 })(<MonthPicker style={{ width: "100%" }} size="large" />)}

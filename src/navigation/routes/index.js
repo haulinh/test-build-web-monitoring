@@ -94,7 +94,7 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute path={slug.cameraControl.base} component={CameraControl} />
             <LayoutRoute path={slug.support.base} component={SupportRoute} />
 
-            <LayoutRoute  path={slug.report.bast} component={Report} />
+            <LayoutRoute  path={slug.report.base} component={Report} />
           </Layout>
         </Switch>
       </div>

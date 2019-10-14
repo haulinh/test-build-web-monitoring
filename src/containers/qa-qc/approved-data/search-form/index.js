@@ -148,13 +148,15 @@ export default class SearchForm extends React.Component {
   }
 
   handleSubmit(values) {
+    // console.log(values, "handleSubmit")
     const params = {
-      from: this.convertDateToString(values.fromDate),
-      to: this.convertDateToString(values.toDate),
+      fromDate: this.convertDateToString(values.fromDate),
+      toDate: this.convertDateToString(values.toDate),
       key: values.stationAuto,
       name: this.state.stationAutoName,
       measuringList: values.measuringList,
       measuringData: this.state.measuringData,
+      stationAutoType: this.state.stationTypeKey,
       province: _.get(values, 'province', ''),
       dataType: _.get(values, 'dataType', QAQC_TABLES.original),
       dataFilterBy: _.get(values, 'dataFilterBy', [])
@@ -166,13 +168,10 @@ export default class SearchForm extends React.Component {
     })
   }
 
-  handleChoseOptions = e => {
-    console.log(e)
-  }
 
   _handleChangeDataType = (e, newValue, prevValue, name) => {
-    this._setSelectedTableFromType(newValue)
-    this._setDataFiltersOptionsEnabledBy(newValue)
+    // this._setSelectedTableFromType(newValue)
+    // this._setDataFiltersOptionsEnabledBy(newValue)
   }
 
   render() {

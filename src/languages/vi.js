@@ -326,7 +326,8 @@ export default {
       time: 'Thời gian',
       stationType: {
         label: 'Loại trạm',
-        placeholder: 'Chọn loại trạm'
+        placeholder: 'Chọn loại trạm',
+        require: 'Vui lòng chọn loại trạm'
       },
       stationAuto: {
         label: 'Tên trạm',
@@ -473,6 +474,7 @@ export default {
       year: 'Năm',
       errorMonth: 'Vui lòng chọn tháng',
       errorDay: 'Vui lòng chọn ngày',
+      error: 'Vui lòng chọn thời gian'
     },
     tab: {
       data: 'Dữ liệu',
@@ -1662,7 +1664,8 @@ export default {
   },
   actions: {
     "gotoMonitoring": "Đến trang Xem chi tiết trạm",
-    "viewDataAroundThisTime": "Xem giá trị quanh thời điểm vượt"
+    "viewDataAroundThisTime": "Xem giá trị quanh thời điểm vượt",
+    "tryAgain": 'Thử lại',
   },
   network: {
     sampling: {
