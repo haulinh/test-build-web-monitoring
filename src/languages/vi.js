@@ -1517,6 +1517,7 @@ export default {
       stationAutoConnection: 'Cấu hình kết nối',
       sendNotification: 'Cấu hình gửi cảnh báo',
       sampling: 'Cấu hình lấy mẫu',
+      camera: 'Cấu hình camera',
       parameter: 'Chỉ tiêu quan trắc',
       stationType: 'Loại trạm',
       site: 'Đơn vị quản lý',

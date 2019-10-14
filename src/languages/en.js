@@ -1519,6 +1519,7 @@ export default {
       stationAutoConnection: 'Connection configuration',
       sendNotification: 'Configure to Send Notifications',
       sampling: 'Sampling configuration',
+      camera: 'Camera configuration',
       parameter: 'Parameter',
       stationType: 'Type of Station',
       site: 'Site',

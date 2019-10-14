@@ -65,6 +65,9 @@ export default {
     configSampling: {
       base: '/station-auto/config/sampling',
     },
+    configCamera: {
+      base: '/station-auto/config/camera',
+    },
     range: '/station-auto/range/:key',
     configWithKey: '/station-auto/config',
     rangeWithKey: '/station-auto/range',
@@ -273,6 +276,7 @@ export const MENU_NAME = {
     stationAutoConnection: translate('menuApp.config.stationAutoConnection'),
     sendNotification:  translate('menuApp.config.sendNotification'),
     sampling: translate('menuApp.config.sampling'),
+    camera: translate('menuApp.config.camera'),
     parameter: translate('menuApp.config.parameter'),
     stationType: translate('menuApp.config.stationType'),
     site: translate('menuApp.config.site'),

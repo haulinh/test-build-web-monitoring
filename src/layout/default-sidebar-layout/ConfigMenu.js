@@ -65,6 +65,16 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE   CẤU HÌNH CAMERA */}
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.stationAuto.configCamera.base}
+          onClick={() => props.selectMenu(slug.stationAuto.configCamera.base)}
+        >
+          <Link to={slug.stationAuto.configCamera.base}>{MENU_NAME.config.camera}</Link>
+        </Menu.Item>
+      )}
+
       {/* NOTE  CHỈ TIÊU QUAN TRẮC */}
       {protectRole(ROLE.MEASURING.VIEW)(
         <Menu.Item
