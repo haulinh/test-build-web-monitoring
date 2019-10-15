@@ -22,6 +22,8 @@ import ROLE from 'constants/role'
 // import DynamicTable from 'components/elements/dynamic-table'
 // import { resetAllCounts } from 'redux/actions/notification'
 
+import FormAddCamera from './formAddCamera'
+
 const { Panel } = Collapse;
 
 const i18n = {
@@ -107,7 +109,6 @@ export default class StationAutoConfigCamera extends React.Component {
         </Row>
 
         <TableWrapper
-          indentSize={200}
           columns={columns}
           dataSource={dataSource}
           size="small"
@@ -116,18 +117,14 @@ export default class StationAutoConfigCamera extends React.Component {
           expandedRowKeys={defaultExpandedRowKeys}
           rowClassName={() => "table-row-camera"}
           expandIcon={() => null}
-          expandedRowRender={(record, parentIndex, indent, expanded) => {
+          expandedRowRender={(record) => {
             return (
               <Collapse accordion style={{marginLeft: -35}} key={record._id}>
-                {record.stations.map((station, index) => {
-                  return (
-                    <Panel header={this._renderCollapsePanelHeader(station)} key={station._id}>
-                      <Row>
-                        <Col>{station.name}</Col>
-                      </Row>
-                    </Panel>
-                  )
-                })}
+                {record.stations.map((station) => (
+                  <Panel header={this._renderCollapsePanelHeader(station)} key={station._id}>
+                    <FormAddCamera stationAuto={station}/>
+                  </Panel>
+                ))}
               </Collapse>
             )
           }}
