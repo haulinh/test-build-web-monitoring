@@ -31,6 +31,7 @@ import AccountActive from "containers/auth/account-active";
 import CameraControl from "containers/camera-video";
 import SupportRoute from "containers/support";
 import AqiContainer from "containers/aqi";
+import AqiConfigCalculationContainer from "containers/aqi/configCalculation";
 import WqiContainer from "containers/wqi";
 import QaQcContainer from "containers/qa-qc/approved-data";
 import PublishConfigContainer from "containers/qa-qc/approved-data/config-publish";
@@ -62,6 +63,7 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute path={slug.map.base} exact component={Map} />
             <LayoutRoute path={slug.measuring.base} component={MeasuringRoute} />
             <LayoutRoute path={slug.aqi.base} component={AqiContainer} />
+            <LayoutRoute path={slug.aqi.config} component={AqiConfigCalculationContainer} />
             <LayoutRoute path={slug.wqi.base} component={WqiContainer} />
             <LayoutRoute path={slug.stationAuto.base} component={StationAutoRoute} />
             <LayoutRoute path={slug.stationFixed.base} component={StationFixedRoute} />
