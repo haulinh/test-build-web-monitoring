@@ -23,6 +23,8 @@ export function getConfigApi() {
     stationConfig: c('config/station'),
     qaqcConfig: c('config/qaqc'),
     // qaqcConfig: 'http://localhost:5002/config/qaqc',
+    aqiConfigCalculation: c('config/aqi-calculation'),
+    // aqiConfigCalculation: 'http://localhost:5002/config/aqi-calculation',
     ftp: c('ftp'),
     fcmMessages: c('fcm-messages'),
     // fcmMessages: 'http://localhost:5008/fcm-messages',

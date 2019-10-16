@@ -145,8 +145,12 @@ export default {
     base: "/subscription"
   },
   support: {
-    base: "/support",
-    create: "/support/create"
+    base: '/support',
+    create: '/support/create'
+  },
+  aqi: {
+    base: '/aqi',
+    config: '/aqi-config'
   },
   wqi: {
     base: "/wqi"
@@ -265,9 +269,9 @@ export const MENU_NAME = {
     type10: translate("menuApp.report.type10"),
     type11: translate("menuApp.report.type11"),
     type12: translate("menuApp.report.type12"),
-    aqi_hour: "AQI - Giờ",
-    aqi_day: "AQI - Ngày",
-    aqi_878: "AQI - 878"
+    aqi_hour: translate("menuApp.report.aqiHour"), 
+    aqi_day: translate("menuApp.report.aqiDay"), 
+    aqi_878: translate("menuApp.report.aqi878"), 
   },
 
   advanceSub: translate("menuApp.advanceSub"),
@@ -290,6 +294,6 @@ export const MENU_NAME = {
     site: translate("menuApp.config.site"),
     standard: translate("menuApp.config.standard"),
     role: translate("menuApp.config.role"),
-    user: translate("menuApp.config.user")
+    user: translate("menuApp.config.user"),
   }
 }

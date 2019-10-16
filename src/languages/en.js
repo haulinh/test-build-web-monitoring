@@ -157,6 +157,15 @@ export default {
     title: 'Air Quality Index',
     paramsTitle: 'The {{= it.day}}-day AQI value of each parameter'
   },
+  aqiConfigCalculation: {
+    add: 'Add',
+    required: 'Please input value',
+    colLevel: 'Level Name',
+    colMin: 'Min',
+    colMax: 'Max',
+    colColor: 'Color',
+    colDescription: 'Description',
+  },
   wqi: {
     title: 'Water Quality Index'
   },
@@ -1536,6 +1545,7 @@ export default {
       stationAutoConnection: 'Connection configuration',
       sendNotification: 'Configure to Send Notifications',
       sampling: 'Sampling configuration',
+      configAQI: 'Configure AQI calculation',
       parameter: 'Parameter',
       stationType: 'Type of Station',
       site: 'Site',
@@ -1579,6 +1589,9 @@ export default {
       type10: 'Percentage of obtained data', 
       type11: 'Results of 1-hour average monitoring',
       type12: 'Percentage of exceeded data',
+      aqiHour: "AQI - Hour",
+      aqiDay: "AQI - Day",
+      aqi878: "AQI - 878"
     },
     reportBreadcrum: {
       type1: 'Original data',
@@ -1592,6 +1605,9 @@ export default {
       type10: 'Percentage of obtained data',
       type11: 'Results of 1-hour average monitoring',
       type12: 'Percentage of exceeded data',
+      aqiHour: "AQI - Hour",
+      aqiDay: "AQI - Day",
+      aqi878: "AQI - 878"
     }  
   },
   cameraControl: {

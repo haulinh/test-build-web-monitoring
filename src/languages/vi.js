@@ -158,6 +158,15 @@ export default {
     title: 'AQI',
     paramsTitle: 'Giá trị AQI {{=it.day}} ngày của từng thông số'
   },
+  aqiConfigCalculation: {
+    add: 'Thêm',
+    required: 'Vui nhập giá trị',
+    colLevel: 'Tên mức độ',
+    colMin: 'Cận dưới',
+    colMax: 'Cận trên',
+    colColor: 'Màu',
+    colDescription: 'Chú thích',
+  },
   wqi: {
     title: 'WQI'
   },
@@ -1534,6 +1543,7 @@ export default {
       stationAutoConnection: 'Cấu hình kết nối',
       sendNotification: 'Cấu hình gửi cảnh báo',
       sampling: 'Cấu hình lấy mẫu',
+      configAQI: 'Cấu hình tính toán AQI',
       parameter: 'Chỉ tiêu quan trắc',
       stationType: 'Loại trạm',
       site: 'Đơn vị quản lý',
@@ -1578,6 +1588,9 @@ export default {
       type10: 'Tỷ lệ dữ liệu thu được',
       type11: 'Quan trắc trung bình 1 giờ',
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
+      aqiHour: "AQI - Giờ",
+      aqiDay: "AQI - Ngày",
+      aqi878: "AQI - 878"
     },
     reportBreadcrum: {
       type1: 'Tỷ lệ dữ liệu',
@@ -1591,6 +1604,9 @@ export default {
       type10: 'Tỷ lệ dữ liệu thu được',
       type11: 'Kết quả quan trắc trung bình 1 giờ',
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
+      aqiHour: "AQI - Giờ",
+      aqiDay: "AQI - Ngày",
+      aqi878: "AQI - 878"
     }
   },
   cameraControl: {
