@@ -391,6 +391,22 @@ export default {
       parameters: 'Parameters'
     }
   },
+  aqiSearchForm:{
+    form:{
+      inRange:{
+        label:'In Range',
+        error: 'Please Choose In Range'
+      },
+      from:{
+        label:'Time Frame From',
+        error: 'Please Choose Time Frame'
+      },
+      to:{
+        label:'To',
+      },
+    }
+  },
+
   avgSearchFrom: {
     titleText: 'AVG Search',
     form: {
@@ -1495,6 +1511,7 @@ export default {
     monitoring: {
       base: 'Real-time Monitoring',
       map: 'Map',
+      mapAQI: 'Map AQI',
       camera: 'Camera',
       historyData: 'History Data',
       avgData: 'Average Data',
@@ -1572,6 +1589,9 @@ export default {
       type10: 'Percentage of obtained data', 
       type11: 'Results of 1-hour average monitoring',
       type12: 'Percentage of exceeded data',
+      aqiHour: "AQI - Hour",
+      aqiDay: "AQI - Day",
+      aqi878: "AQI - 878"
     },
     reportBreadcrum: {
       type1: 'Original data',
@@ -1585,6 +1605,9 @@ export default {
       type10: 'Percentage of obtained data',
       type11: 'Results of 1-hour average monitoring',
       type12: 'Percentage of exceeded data',
+      aqiHour: "AQI - Hour",
+      aqiDay: "AQI - Day",
+      aqi878: "AQI - 878"
     }  
   },
   cameraControl: {

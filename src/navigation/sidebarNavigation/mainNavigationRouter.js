@@ -26,16 +26,16 @@ const dashboardMenu = {
   )
 }
 
-const aqiMenu = {
-  component: protectRole(ROLE.AQI.VIEW)(
-    <AkNavigationItem
-      linkComponent={WrapperLinkComponent}
-      href={slug.aqi.base}
-      icon={Icon.aqi}
-      text={translate('aqi.title')}
-    />
-  )
-}
+// const aqiMenu = {
+//   component: protectRole(ROLE.AQI.VIEW)(
+//     <AkNavigationItem
+//       linkComponent={WrapperLinkComponent}
+//       href={slug.aqi.base}
+//       icon={Icon.aqi}
+//       text={translate('aqi.title')}
+//     />
+//   )
+// }
 
 const wqiMenu = {
   component: protectRole(ROLE.WQI.VIEW)(
@@ -516,7 +516,7 @@ export default [
   monitoringMenu,
   mapMenu,
   cameraMenu,
-  aqiMenu,
+  // aqiMenu,
   wqiMenu,
   groupData,
   dataSearchMenu,

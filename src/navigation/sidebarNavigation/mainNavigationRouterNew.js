@@ -92,6 +92,9 @@ export const monitoringMenu = (
     <Menu.Item key={slug.avgSearch.base}>
       <Link to={slug.avgSearch.base}>Dữ liệu trung bình</Link>
     </Menu.Item>
+    <Menu.Item key={slug.map.base}>
+      <Link to={slug.map.base}>Bản đồ AQI</Link>
+    </Menu.Item>
   </SubMenu>
 )
 

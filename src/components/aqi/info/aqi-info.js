@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import * as _ from 'lodash'
-import moment from 'moment-timezone'
+import moment from 'moment'
 import levels from 'constants/aqi-level'
 import ChartMeasure from './chart-measure'
+import { DD_MM_YYYY } from 'constants/format-date'
 
 const WrapperView = styled.div`
   height: 180px;
@@ -37,7 +38,7 @@ const VnAqiView = ({ value, color, time }) => {
           fontWeight: '600'
         }}
       >
-        VN AQI Giờ
+        VN AQI Ngày
       </span>
       <span
         style={{
@@ -65,19 +66,19 @@ const VnAqiView = ({ value, color, time }) => {
 
 export default class AQI_Info extends React.Component {
   render() {
-    let time = _.get(this.props.station, 'aqi.receivedAt', null)
+    let time = _.get(this.props.station, 'time', null)
     if (time) {
-      time = moment(time).format('HH:00 DD/MM/YYYY')
+      time = moment(time).format(DD_MM_YYYY)
     }
-
+    
     return (
       <WrapperView>
         <VnAqiView
-          value={_.get(this.props.station, 'aqi.value', '')}
+          value={_.get(this.props.station, 'aqiDay', '')}
           time={time}
         />
         <ChartMeasure
-          measure={_.get(this.props.station, 'aqi.measuringLogs', {})}
+          measure={_.get(this.props.station, 'aqiDayOf', {})}
         />
       </WrapperView>
     )

@@ -9,12 +9,12 @@ import {
 } from 'react-google-maps'
 import { withProps } from 'recompose'
 import { getGoogleMapProps } from 'components/map/utils'
-import { map as mapLodash, get, find, inRange } from 'lodash'
+import { map as mapLodash, get, find, inRange, values as _values, omit as _omit } from 'lodash'
 import InfoBox from 'react-google-maps/lib/components/addons/InfoBox'
 import MarkerWithLabel from 'react-google-maps/lib/components/addons/MarkerWithLabel'
 import { Tooltip } from 'antd'
-import moment from 'moment-timezone'
-import { DD_MM_YYYY_HH_MM } from '../../../constants/format-date'
+import moment from 'moment'
+import { DD_MM_YYYY } from '../../../constants/format-date'
 
 const StationNameView = styled.b`
   color: white;
@@ -31,9 +31,10 @@ const TimeView = styled.b`
 import aqiLevel from 'constants/aqi-level'
 import { GOOGLE_MAP } from 'config'
 
-const WindowInfo = ({ aqi, name }) => {
-  const time = moment(get(aqi, 'receivedAt', new Date())).format(
-    DD_MM_YYYY_HH_MM
+const WindowInfo = ({ name, time }) => {
+  // console.log(time,"WindowInfo")
+  const timeValue = moment(time).format(
+    DD_MM_YYYY
   )
 
   return (
@@ -42,14 +43,14 @@ const WindowInfo = ({ aqi, name }) => {
         <StationNameView>{name}</StationNameView>
       </div>
       <div>
-        <TimeView>{time}</TimeView>
+        <TimeView>{timeValue}</TimeView>
       </div>
     </div>
   )
 }
 
 const AqiMarker = ({ item, onMapClick }) => {
-  const value = get(item.aqi, 'value', '')
+  const value = get(item, 'aqiDay', '')
   const level = find(aqiLevel, ({ min, max }) => inRange(value, min, max))
   const color = get(level, 'color', null)
   return (

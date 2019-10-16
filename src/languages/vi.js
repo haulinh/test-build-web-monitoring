@@ -393,6 +393,22 @@ export default {
       parameters: 'Thông số'
     }
   },
+  aqiSearchForm:{
+    form:{
+      inRange:{
+        label:'Khoảng thời gian',
+        error: 'Vui lòng chọn khoảng thời gian'
+      },
+      from:{
+        label:'Khung giờ từ',
+        error: 'Vui lòng chọn khung giờ'
+      },
+      to:{
+        label:'Đến',
+      },
+    }
+  },
+
   avgSearchFrom: {
     titleText: 'Tra cứu dữ liệu tổng hợp',
     form: {
@@ -1493,6 +1509,7 @@ export default {
     monitoring: {
       base: 'Giám sát trực tuyến',
       map: 'Bản đồ',
+      mapAQI: 'Bản đồ AQI',
       camera: 'Camera',
       historyData: 'Tra cứu dữ liệu',
       avgData: 'Dữ liệu trung bình',
@@ -1571,6 +1588,9 @@ export default {
       type10: 'Tỷ lệ dữ liệu thu được',
       type11: 'Quan trắc trung bình 1 giờ',
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
+      aqiHour: "AQI - Giờ",
+      aqiDay: "AQI - Ngày",
+      aqi878: "AQI - 878"
     },
     reportBreadcrum: {
       type1: 'Tỷ lệ dữ liệu',
@@ -1584,6 +1604,9 @@ export default {
       type10: 'Tỷ lệ dữ liệu thu được',
       type11: 'Kết quả quan trắc trung bình 1 giờ',
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
+      aqiHour: "AQI - Giờ",
+      aqiDay: "AQI - Ngày",
+      aqi878: "AQI - 878"
     }
   },
   cameraControl: {

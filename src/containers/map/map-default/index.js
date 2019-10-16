@@ -91,6 +91,7 @@ export default class MapDefault extends React.PureComponent {
   }
 
   componentDidMount() {
+    
     if (this.props.formData.stationAuto) {
       setTimeout(() => {
         this.handleSelectStation(this.props.formData.stationAuto)

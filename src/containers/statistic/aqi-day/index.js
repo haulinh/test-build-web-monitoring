@@ -49,6 +49,8 @@ export default class AQIStatisticsDay extends React.Component {
       listKey: searchFormData.stationID,
       timezoneDay: searchFormData.timezoneDay
     }
+
+    console.log(params,searchFormData,"-----")
     let dataAQI = await aqiApi.fetchAqiDaybyListStation({ ...params })
     // console.log(dataAQI, "dataAQI")
     if (dataAQI && _.get(dataAQI,'data',[]).length === 0 ) {
