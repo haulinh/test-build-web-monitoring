@@ -1,13 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
-import { autobind } from 'core-decorators'
+import React from "react"
+import PropTypes from "prop-types"
+import { withRouter } from "react-router-dom"
+import { autobind } from "core-decorators"
 // import { AkContainerNavigationNested } from '@atlaskit/navigation'
-import { getIndexLocationWithNavigationRouter } from 'utils/sidebarNavigation'
-import navigationRouterStack from 'navigation/sidebarNavigation/mainNavigationRouter'
-import NavigationLayout from '../navigation-layout'
-import { connect } from 'react-redux'
-import { Menu } from 'antd'
+import { getIndexLocationWithNavigationRouter } from "utils/sidebarNavigation"
+import navigationRouterStack from "navigation/sidebarNavigation/mainNavigationRouter"
+import NavigationLayout from "../navigation-layout"
+import { connect } from "react-redux"
+import { Menu } from "antd"
+import { remove as _remove, join as _join } from "lodash"
 // import {
 //   dashboardMenu,
 //   monitoringMenu,
@@ -19,25 +20,25 @@ import { Menu } from 'antd'
 // } from 'navigation/sidebarNavigation/mainNavigationRouterNew'
 // mainNavigationRouterNew
 
-import { Link } from 'react-router-dom'
-import Icon from 'themes/icon'
-import slug, { parentMenuFromSub, MENU_NAME } from 'constants/slug'
+import { Link } from "react-router-dom"
+import Icon from "themes/icon"
+import slug, { parentMenuFromSub, MENU_NAME } from "constants/slug"
 // import { translate } from 'hoc/create-lang'
-import { selectMenu, changeOpenSubMenu } from 'redux/actions/themeAction'
+import { selectMenu, changeOpenSubMenu } from "redux/actions/themeAction"
 // import { adapt } from "chromatism";
-import protectRole from 'hoc/protect-role/forMenu'
-import ROLE from 'constants/role'
-import MonitoringMenu from './MenuMonitoring'
-import HandleDataMenu from './HandleDataMenu'
-import ShareDataMenu from './ShareDataMenu'
-import ReportMenu from './ReportMenu'
-import AdvanceMenu from './AdvanceMenu'
-import ConfigMenu from './ConfigMenu'
-import objectPath from 'object-path'
+import protectRole from "hoc/protect-role/forMenu"
+import ROLE from "constants/role"
+import MonitoringMenu from "./MenuMonitoring"
+import HandleDataMenu from "./HandleDataMenu"
+import ShareDataMenu from "./ShareDataMenu"
+import ReportMenu from "./ReportMenu"
+import AdvanceMenu from "./AdvanceMenu"
+import ConfigMenu from "./ConfigMenu"
+import objectPath from "object-path"
 
 const CENTER = {
-  display: 'flex',
-  alignItems: 'center',
+  display: "flex",
+  alignItems: "center",
   fontWeight: 600
 }
 
@@ -112,13 +113,13 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
       ? () => this.stackPush(item.childMenu)
       : () => console.log(`Link item clicked: '${item.component.props.text}'`)
     const text = item.component.props.text
-    const itemHref = item.component.props.href ? item.component.props.href : ''
+    const itemHref = item.component.props.href ? item.component.props.href : ""
     const pathname = this.props.location.pathname
     const isSelected =
       item.url === pathname ||
-      (pathname !== '/' &&
+      (pathname !== "/" &&
         pathname.indexOf(itemHref) > -1 &&
-        itemHref !== '/') ||
+        itemHref !== "/") ||
       // check navigation parent index
       (navigationIndex > -1
         ? navigationRouterStack[navigationIndex].component.props.text === text
@@ -169,10 +170,8 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
   }
 )
 class MenuApp extends React.PureComponent {
-
-
   state = {
-    openSubMenu: ['monitoring']
+    openSubMenu: ["monitoring"]
   }
   componentDidMount() {
     // set menu selected
@@ -182,21 +181,37 @@ class MenuApp extends React.PureComponent {
     // set expand menu
     let menuExpande = parentMenuFromSub[pathname]
     if (!menuExpande) {
-      let firstPath = this.getFirstPath(pathname)
-      menuExpande = parentMenuFromSub[firstPath]
-      menuSelect = firstPath
+      let pathObj = this.getPath(pathname)
+      menuExpande = parentMenuFromSub[pathObj.menuExpande]
+      menuSelect = pathObj.menuSelect
+      console.log(pathObj.menuExpande, "menuSelect")
     }
+
     this.props.selectMenu(menuSelect)
-    this.props.changeOpenSubMenu([...this.props.openSubMenu, menuExpande])
+    // this.props.changeOpenSubMenu([...this.props.openSubMenu, menuExpande])
+    this.props.changeOpenSubMenu([menuExpande])
   }
 
-  getFirstPath(path) {
-    let result = ''
+  getPath(path) {
+    let result = ""
 
-    let tampArr = path.split('/')
-    result = '/' + tampArr[1]
+    let tampArr = path.split("/")
 
-    return result
+    console.log(tampArr, "tampArr")
+    const menuExpande = "/" + tampArr[1]
+    let isStop = false
+    _remove(tampArr, item => {
+      if (item.includes("edit") || item.includes("create")) {
+        isStop = true
+      }
+      return isStop
+    })
+
+    result = _join(tampArr, "/")
+    return {
+      menuSelect: result,
+      menuExpande: menuExpande
+    }
   }
 
   checkRoleForGroup(otherKeyRoles) {
@@ -226,9 +241,9 @@ class MenuApp extends React.PureComponent {
       <Menu
         onClick={this.handleClick}
         style={{
-          width: 'auto',
+          width: "auto",
           minWidth: 240,
-          backgroundColor: '#F4F5F7',
+          backgroundColor: "#F4F5F7",
           marginLeft: -8
         }}
         defaultSelectedKeys={[this.props.menuSelected]}
@@ -248,7 +263,7 @@ class MenuApp extends React.PureComponent {
               style={CENTER}
               to={slug.dashboard}
               onClick={() => {
-                this.props.selectMenu(slug.dashboard);
+                this.props.selectMenu(slug.dashboard)
               }}
             >
               {Icon.dashboard}
@@ -275,9 +290,8 @@ class MenuApp extends React.PureComponent {
         ]) && ShareDataMenu.renderComp(this.props)}
 
         {/* TODO  Chưa có role nên dùng tạm của STATION_AUTO, xem lại */}
-        {this.checkRoleForGroup([
-          ROLE.STATION_AUTO.VIEW,
-        ]) && ReportMenu.renderComp(this.props)}
+        {this.checkRoleForGroup([ROLE.STATION_AUTO.VIEW]) &&
+          ReportMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
           ROLE.AQI.VIEW,
@@ -296,7 +310,6 @@ class MenuApp extends React.PureComponent {
           ROLE.ROLE.VIEW,
           ROLE.USER.VIEW
         ]) && ConfigMenu.renderComp(this.props)}
-
       </Menu>
     )
   }

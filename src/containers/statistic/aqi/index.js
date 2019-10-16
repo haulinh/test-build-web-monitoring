@@ -16,7 +16,7 @@ import PageInfo from 'components/pageInfo'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 
-@protectRole(ROLE.AQI_SEARCHDATA.VIEW)
+@protectRole(ROLE.STATISTIC.AQI)
 @queryFormDataBrowser(['submit'])
 @autobind
 export default class AQIStatistics extends React.Component {

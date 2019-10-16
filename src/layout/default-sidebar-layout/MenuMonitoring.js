@@ -1,15 +1,15 @@
 // import PropTypes from 'prop-types'
-import React from 'react'
-import { Menu } from 'antd'
-import slug, { MENU_NAME, MENU_GROUP } from 'constants/slug'
-import protectRole from 'hoc/protect-role/forMenu'
-import ROLE from 'constants/role'
-import Icon from 'themes/icon'
-import { Link } from 'react-router-dom'
+import React from "react"
+import { Menu } from "antd"
+import slug, { MENU_NAME, MENU_GROUP } from "constants/slug"
+import protectRole from "hoc/protect-role/forMenu"
+import ROLE from "constants/role"
+import Icon from "themes/icon"
+import { Link } from "react-router-dom"
 
 const CENTER = {
-  display: 'flex',
-  alignItems: 'center',
+  display: "flex",
+  alignItems: "center",
   fontWeight: 600
 }
 
@@ -39,7 +39,7 @@ export default {
         <Menu.Item
           key={slug.map.base}
           onClick={() => {
-            props.selectMenu(slug.map.base);
+            props.selectMenu(slug.map.base)
           }}
         >
           <Link to={slug.map.base}>{MENU_NAME.monitoring.map}</Link>
@@ -63,7 +63,7 @@ export default {
         <Menu.Item
           key={slug.dataSearch.base}
           onClick={() => {
-            props.selectMenu(slug.dataSearch.base);
+            props.selectMenu(slug.dataSearch.base)
           }}
         >
           <Link to={slug.dataSearch.base}>
@@ -76,13 +76,23 @@ export default {
         <Menu.Item
           key={slug.avgSearch.base}
           onClick={() => {
-            props.selectMenu(slug.avgSearch.base);
+            props.selectMenu(slug.avgSearch.base)
           }}
         >
           <Link to={slug.avgSearch.base}>{MENU_NAME.monitoring.avgData}</Link>
         </Menu.Item>
       )}
 
+      {protectRole(ROLE.MAP.VIEW)(
+        <Menu.Item
+          key={slug.map.aqi}
+          onClick={() => {
+            props.selectMenu(slug.map.aqi)
+          }}
+        >
+          <Link to={slug.map.aqi}>{MENU_NAME.monitoring.mapAQI}</Link>
+        </Menu.Item>
+      )}
     </Menu.SubMenu>
   )
 }

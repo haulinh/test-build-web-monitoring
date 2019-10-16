@@ -384,6 +384,22 @@ export default {
       parameters: 'Thông số'
     }
   },
+  aqiSearchForm:{
+    form:{
+      inRange:{
+        label:'Khoảng thời gian',
+        error: 'Vui lòng chọn khoảng thời gian'
+      },
+      from:{
+        label:'Khung giờ từ',
+        error: 'Vui lòng chọn khung giờ'
+      },
+      to:{
+        label:'Đến',
+      },
+    }
+  },
+
   avgSearchFrom: {
     titleText: 'Tra cứu dữ liệu tổng hợp',
     form: {
@@ -1484,6 +1500,7 @@ export default {
     monitoring: {
       base: 'Giám sát trực tuyến',
       map: 'Bản đồ',
+      mapAQI: 'Bản đồ AQI',
       camera: 'Camera',
       historyData: 'Tra cứu dữ liệu',
       avgData: 'Dữ liệu trung bình',
