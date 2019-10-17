@@ -7,6 +7,7 @@ import styled from "styled-components";
 import Clearfix from "components/elements/clearfix";
 import createBreadcrumb from "shared/breadcrumb/hoc";
 import TabMucDo from "./tabMucDo";
+import TabGiaTri from "./tabGiaTri";
 const Breadcrumb = createBreadcrumb();
 const { TabPane } = Tabs;
 const ButtonGroup = Button.Group;
@@ -89,7 +90,8 @@ export default class ConfigCalculationAQI extends PureComponent {
               <TabMucDo />
             </TabPane>
             <TabPane tab="Giá trị quy chuẩn" key={TAB_KEY.GIA_TRI}>
-              Content of Tab Pane 2
+            <Clearfix height={24} />
+              <TabGiaTri />
             </TabPane>
           </Tabs>
         </Wrapper>

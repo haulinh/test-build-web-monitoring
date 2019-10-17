@@ -165,6 +165,11 @@ export default {
     colMax: 'Max',
     colColor: 'Color',
     colDescription: 'Description',
+    colMeasureKey: 'Measure Key',
+    colMeasure: 'Measure',
+    colAvg1H: 'Average 1 hour',
+    colAvg1D: 'Average 1 day',
+    colUnit: 'Unit',
   },
   wqi: {
     title: 'Water Quality Index'

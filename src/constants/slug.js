@@ -289,6 +289,7 @@ export const MENU_NAME = {
     stationAutoConnection: translate("menuApp.config.stationAutoConnection"),
     sendNotification: translate("menuApp.config.sendNotification"),
     sampling: translate("menuApp.config.sampling"),
+    configAQI: translate("menuApp.config.configAQI"),
     parameter: translate("menuApp.config.parameter"),
     stationType: translate("menuApp.config.stationType"),
     site: translate("menuApp.config.site"),
