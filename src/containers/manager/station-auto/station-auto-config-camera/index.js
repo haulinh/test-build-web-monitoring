@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Form, Table, Checkbox, Collapse, Button} from 'antd'
+import { Row, Col, Form, Table, Checkbox, Collapse, Button, Icon} from 'antd'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import _ from 'lodash'
@@ -155,6 +155,9 @@ export default class StationAutoConfigCamera extends React.Component {
         align: 'right',
         render: (text, record, index) => <strong>{record.type.allowCamera}</strong>,
       },
+      {
+        title: ''
+      },
     ]
   }
 
@@ -197,24 +200,26 @@ export default class StationAutoConfigCamera extends React.Component {
 
   _renderCollapsePanelHeader(station) {
     const {getFieldDecorator} = this.props.form
-
+    const numOfCameras = _.get(station, 'options.camera.list', []).length
     return  (
       <Row type="flex" justify="center" align="middle">
         <Col span={8}>{`${station.stt}  ${station.name}`}</Col>
         <Col span={12}>{station.address}</Col>
-        <Col span={4} style={{textAlign: 'center'}}>{
+        <Col span={3} style={{textAlign: 'center'}}>{
           getFieldDecorator(station._id, {
             initialValue: _.get(station, 'options.camera.allowed'),
             valuePropName: 'checked'
           })(
-            <Checkbox></Checkbox>
+            <Checkbox>
+            </Checkbox>
           )
         }</Col>
+        <Col span={1}>{numOfCameras} <Icon type="camera" /></Col>
       </Row>
     )
   }
 
   _handleSubmit() {
-    
+
   }
 }
