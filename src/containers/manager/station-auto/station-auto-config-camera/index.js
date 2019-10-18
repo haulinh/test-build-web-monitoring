@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col, Form, Table, Checkbox, Collapse, Button, Icon, message} from 'antd'
 import { autobind } from 'core-decorators'
-import styled from 'styled-components'
+import styled, { consolidateStreamedStyles } from 'styled-components'
 import _ from 'lodash'
 import StationAutoApi from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
@@ -53,11 +53,12 @@ export default class StationAutoConfigCamera extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.dataSource.length !== this.state.dataSourceOriginal.length ) {
+      const allowedStations = nextProps.dataSource.map(station => _.get(station, 'options.camera.allowed'), false)
+      this._checkIndeterminate(allowedStations)
       this.setState({
         dataSourceOriginal: _.cloneDeep(nextProps.dataSource),
         dataSource: _.cloneDeep(nextProps.dataSource)
       })
-      // this.checkIndeterminate(SAMPLING_CONFIG_TABLE_COLUMN.SAMPLING, nextProps.dataSource)
     }
   }
 
@@ -79,10 +80,9 @@ export default class StationAutoConfigCamera extends React.Component {
 
     // this.stt = 0 // stt các record khi expanded
   }
-
   
   render() {
-    const { cachedData, submitingCameraAllow } = this.state
+    const { submitingCameraAllow } = this.state
 
     const columns = this._getTableColumns()
     const dataSource = this._getTableDataSource(this.state.dataSource)
@@ -137,6 +137,21 @@ export default class StationAutoConfigCamera extends React.Component {
     )
   }
 
+  _checkIndeterminate(allowedStations) {
+    const countBy = _.countBy(allowedStations)
+    console.log(countBy, 'oooo')
+    if(countBy.true && countBy.false) {
+      this.setState({isCameraIndeterminate: true})
+    }
+    else {
+      this.setState({isCameraIndeterminate: false})
+
+      const {setFieldsValue} = this.props.form
+      if (countBy['true']) setFieldsValue({'checkall': true})
+      if (countBy['false']) setFieldsValue({'checkall': false})
+    }
+  }
+
   _getTableColumns() {
     return [
       {
@@ -148,7 +163,13 @@ export default class StationAutoConfigCamera extends React.Component {
         render: (text, record, index) => <strong>{record.type.address}</strong>,
       },
       {
-        title: <Checkbox onClick={this._handleCheckAll} indeterminate={this.state.isCameraIndeterminate}>{i18n.tableHeaderAllowCamera}</Checkbox>,
+        title: <div>
+          {this.props.form.getFieldDecorator('checkall', {
+            valuePropName: 'checked',
+          })(
+            <Checkbox onClick={this._handleCheckAll} indeterminate={this.state.isCameraIndeterminate}>{i18n.tableHeaderAllowCamera}</Checkbox>
+          )}
+        </div>,
         align: 'right'
       },
       {
@@ -205,7 +226,8 @@ export default class StationAutoConfigCamera extends React.Component {
         <Col span={3} style={{textAlign: 'center'}}>{
           getFieldDecorator(`stations.${station._id}`, {
             initialValue: _.get(station, 'options.camera.allowed'),
-            valuePropName: 'checked'
+            valuePropName: 'checked',
+            onChange: this._handleChangedStationCheckbox,
           })(
             <Checkbox></Checkbox>
           )
@@ -213,6 +235,22 @@ export default class StationAutoConfigCamera extends React.Component {
         <Col span={1}>{numOfCameras} <Icon type="camera" /></Col>
       </Row>
     )
+  }
+
+  _handleChangedStationCheckbox(e) {
+    const {id, checked} = e.target
+
+    const { getFieldsValue } = this.props.form
+    const formValues = getFieldsValue()
+    _.set(formValues, id, checked)
+
+    const allowedStations = Object.values(formValues.stations)
+    console.log(allowedStations, 'abcc')
+    this._checkIndeterminate(allowedStations)
+  }
+
+  ABVFFF() {
+    console.log('TTTT')
   }
 
   _handleCheckAll(e) {
@@ -229,6 +267,8 @@ export default class StationAutoConfigCamera extends React.Component {
         setFieldsValue({[`stations.${stationID}`]: checkedAll})
       }
     }
+
+    this.setState({isCameraIndeterminate: false})
   }
 
   async _handleSubmit() {
