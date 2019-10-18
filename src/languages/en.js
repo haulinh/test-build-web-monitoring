@@ -159,6 +159,7 @@ export default {
   },
   aqiConfigCalculation: {
     add: 'Add',
+    required1D_1H: 'Enter at least AVG Date or AVG Hour',
     required: 'Please input value',
     colLevel: 'Level Name',
     colMin: 'Min',

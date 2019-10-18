@@ -160,7 +160,8 @@ export default {
   },
   aqiConfigCalculation: {
     add: 'Thêm',
-    required: 'Vui nhập giá trị',
+    required1D_1H: 'Nhập ít nhất AVG Ngày hoặc AVG Giờ',
+    required: 'Vui lòng nhập giá trị',
     colLevel: 'Tên mức độ',
     colMin: 'Cận dưới',
     colMax: 'Cận trên',
