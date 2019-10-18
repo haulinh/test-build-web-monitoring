@@ -770,6 +770,9 @@ export default {
       sampling: {
         title: 'Cấu hình lấy mẫu'
       },
+      camera: {
+        title: 'Cấu hình camera'
+      },
       actions: {
         ftpFolder: 'FTP Folder' /* MARK  @translate */,
         fileMapping: 'File Mapping' /* MARK  @translate */,
@@ -1549,6 +1552,7 @@ export default {
       sendNotification: 'Cấu hình gửi cảnh báo',
       sampling: 'Cấu hình lấy mẫu',
       configAQI: 'Cấu hình tính toán AQI',
+      camera: 'Cấu hình camera',
       parameter: 'Chỉ tiêu quan trắc',
       stationType: 'Loại trạm',
       site: 'Đơn vị quản lý',

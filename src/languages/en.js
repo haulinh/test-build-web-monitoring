@@ -770,6 +770,9 @@ export default {
       sampling: {
         title: 'Sampling configuration'
       },
+      camera: {
+        title: 'Camera configuration'
+      },
       actions: {
         ftpFolder: 'FTP Folder',
         fileMapping: 'File Mapping',
@@ -1551,6 +1554,7 @@ export default {
       sendNotification: 'Configure to Send Notifications',
       sampling: 'Sampling configuration',
       configAQI: 'Configure AQI calculation',
+      camera: 'Camera configuration',
       parameter: 'Parameter',
       stationType: 'Type of Station',
       site: 'Site',

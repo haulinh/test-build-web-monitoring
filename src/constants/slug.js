@@ -65,13 +65,16 @@ export default {
     configSampling: {
       base: "/station-auto/config/sampling"
     },
-    range: "/station-auto/range/:key",
-    configWithKey: "/station-auto/config",
-    rangeWithKey: "/station-auto/range",
-    ftpInfo: "/station-auto/ftpInfo/:key",
-    ftpInfoWithKey: "/station-auto/ftpInfo",
-    ftpFile: "/station-auto/ftpFile/:key",
-    ftpFileWithKey: "/station-auto/ftpFile"
+    configCamera: {
+      base: '/station-auto/config/camera',
+    },
+    range: '/station-auto/range/:key',
+    configWithKey: '/station-auto/config',
+    rangeWithKey: '/station-auto/range',
+    ftpInfo: '/station-auto/ftpInfo/:key',
+    ftpInfoWithKey: '/station-auto/ftpInfo',
+    ftpFile: '/station-auto/ftpFile/:key',
+    ftpFileWithKey: '/station-auto/ftpFile'
   },
   stationFixed: {
     list: "/station-fixed",
@@ -290,6 +293,7 @@ export const MENU_NAME = {
     sendNotification: translate("menuApp.config.sendNotification"),
     sampling: translate("menuApp.config.sampling"),
     configAQI: translate("menuApp.config.configAQI"),
+    camera: translate('menuApp.config.camera'),
     parameter: translate("menuApp.config.parameter"),
     stationType: translate("menuApp.config.stationType"),
     site: translate("menuApp.config.site"),
