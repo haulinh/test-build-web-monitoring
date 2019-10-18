@@ -166,6 +166,11 @@ export default {
     colMax: 'Cận trên',
     colColor: 'Màu',
     colDescription: 'Chú thích',
+    colMeasureKey: 'Mã thông số',
+    colMeasure: 'Thông số',
+    colAvg1H: 'Trung bình 1 giờ',
+    colAvg1D: 'Trung bình 1 ngày',
+    colUnit: 'Đơn vị',
   },
   wqi: {
     title: 'WQI'

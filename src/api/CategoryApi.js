@@ -97,6 +97,19 @@ export function postConfigAqiCalculation(data) {
 }
 
 /* #endregion */
+
+/* #region  NOTE  cấu hình AQI-QC */
+
+export function getConfigAqiQC() {
+  return getFetch(getConfigApi().aqiConfigQC);
+}
+
+export function postConfigAqiQC(data) {
+  return postFetch(getConfigApi().aqiConfigQC, data);
+}
+
+/* #endregion */
+
 export default {
   getMeasurings,
   getMeasuring,
@@ -112,5 +125,7 @@ export default {
   postConfigQAQC,
   putConfigQAQC,
   postConfigAqiCalculation,
-  getConfigAqiCalculation
+  getConfigAqiCalculation,
+  getConfigAqiQC,
+  postConfigAqiQC
 };
