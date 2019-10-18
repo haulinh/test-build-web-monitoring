@@ -159,6 +159,7 @@ export default {
   },
   aqiConfigCalculation: {
     add: 'Add',
+    required1D_1H: 'Enter at least AVG Date or AVG Hour',
     required: 'Please input value',
     colLevel: 'Level Name',
     colMin: 'Min',
@@ -769,6 +770,9 @@ export default {
       },
       sampling: {
         title: 'Sampling configuration'
+      },
+      camera: {
+        title: 'Camera configuration'
       },
       actions: {
         ftpFolder: 'FTP Folder',
@@ -1551,6 +1555,7 @@ export default {
       sendNotification: 'Configure to Send Notifications',
       sampling: 'Sampling configuration',
       configAQI: 'Configure AQI calculation',
+      camera: 'Camera configuration',
       parameter: 'Parameter',
       stationType: 'Type of Station',
       site: 'Site',

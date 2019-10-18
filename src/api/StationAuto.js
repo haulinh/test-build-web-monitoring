@@ -75,6 +75,7 @@ export function updateStationAutoConfig(key, data = {}) {
   return putFetch(getStationAutoUrl(`config-logger/${key}`), data)
 }
 
+/* update options of station auto */
 export function updateStationAutoOptions(data) {
   return putFetch(getStationAutoUrl('options'), data)
 }

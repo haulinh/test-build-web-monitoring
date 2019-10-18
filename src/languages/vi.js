@@ -160,7 +160,8 @@ export default {
   },
   aqiConfigCalculation: {
     add: 'Thêm',
-    required: 'Vui nhập giá trị',
+    required1D_1H: 'Nhập ít nhất AVG Ngày hoặc AVG Giờ',
+    required: 'Vui lòng nhập giá trị',
     colLevel: 'Tên mức độ',
     colMin: 'Cận dưới',
     colMax: 'Cận trên',
@@ -769,6 +770,9 @@ export default {
       },
       sampling: {
         title: 'Cấu hình lấy mẫu'
+      },
+      camera: {
+        title: 'Cấu hình camera'
       },
       actions: {
         ftpFolder: 'FTP Folder' /* MARK  @translate */,
@@ -1549,6 +1553,7 @@ export default {
       sendNotification: 'Cấu hình gửi cảnh báo',
       sampling: 'Cấu hình lấy mẫu',
       configAQI: 'Cấu hình tính toán AQI',
+      camera: 'Cấu hình camera',
       parameter: 'Chỉ tiêu quan trắc',
       stationType: 'Loại trạm',
       site: 'Đơn vị quản lý',
