@@ -197,7 +197,7 @@ class MenuApp extends React.PureComponent {
 
     let tampArr = path.split("/")
 
-    console.log(tampArr, "tampArr")
+    // console.log(tampArr, "tampArr")
     const menuExpande = "/" + tampArr[1]
     let isStop = false
     _remove(tampArr, item => {

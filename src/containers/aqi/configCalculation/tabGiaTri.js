@@ -31,6 +31,7 @@ const i18n = {
   updateError: translate("addon.onSave.update.error"),
 
   add: translate("aqiConfigCalculation.add"),
+  required1D_1H: translate("aqiConfigCalculation.required1D_1H"),
   required: translate("aqiConfigCalculation.required"),
   colLevel: translate("aqiConfigCalculation.colLevel"),
   colMin: translate("aqiConfigCalculation.colMin"),
@@ -95,14 +96,22 @@ export default class TabMucDo extends React.Component {
       key: "h",
       align: "center",
       render: (text, record, index) => {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator, getFieldValue } = this.props.form;
         return (
           <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
             {getFieldDecorator(`aqiQcList[${record.key}].h`, {
+              onChange: val => {
+                const { setFieldsValue, getFieldValue } = this.props.form;
+                setFieldsValue({
+                  [`aqiQcList[${record.key}].d`]: getFieldValue(
+                    `aqiQcList[${record.key}].d`
+                  )
+                });
+              },
               rules: [
                 {
-                  required: true,
-                  message: i18n.required
+                  required: !getFieldValue(`aqiQcList[${record.key}].d`),
+                  message: i18n.required1D_1H
                 }
               ]
             })(
@@ -121,14 +130,22 @@ export default class TabMucDo extends React.Component {
       key: "d",
       align: "center",
       render: (text, record, index) => {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator, getFieldValue } = this.props.form;
         return (
-          <Form.Item style={{ marginBottom: "initial" }}>
+          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
             {getFieldDecorator(`aqiQcList[${record.key}].d`, {
+              onChange: val => {
+                const { setFieldsValue, getFieldValue } = this.props.form;
+                setFieldsValue({
+                  [`aqiQcList[${record.key}].h`]: getFieldValue(
+                    `aqiQcList[${record.key}].h`
+                  )
+                });
+              },
               rules: [
                 {
-                  required: true,
-                  message: i18n.required
+                  required: !getFieldValue(`aqiQcList[${record.key}].h`),
+                  message: i18n.required1D_1H
                 }
               ]
             })(
@@ -199,7 +216,8 @@ export default class TabMucDo extends React.Component {
         console.log("Received values of form: ", values);
         try {
           let transformData = _.get(values, "aqiQcList", []).filter(
-            i => _.identity(i.h) && _.identity(i.d) && _.identity(i.keyMeasure)
+            i =>
+              (_.identity(i.h) || _.identity(i.d)) && _.identity(i.keyMeasure)
           );
 
           const response = await postConfigAqiQC(
