@@ -41,14 +41,15 @@ const i18n = {
 @autobind
 export default class FormAddCamera extends React.Component {
     static propTypes = {
-        stationAuto: PropTypes.object.isRequired
+        stationAuto: PropTypes.object.isRequired,
+        allowed: PropTypes.bool.isRequired
     }
 
     static defaultProps = { }
 
     constructor(props) {
         super(props)
-        
+
         this.state = {
             submitingCameraLinks: false,
             submitingCameraAllow: false,
@@ -156,7 +157,7 @@ export default class FormAddCamera extends React.Component {
 
     async _submitCameras() {
         const { getFieldsValue } = this.props.form
-
+        
         const fieldsValue = getFieldsValue()
 
         /* remove empty records */
@@ -181,11 +182,12 @@ export default class FormAddCamera extends React.Component {
         let submitData = {
             [stationID]: {
                 camera: {
+                    allowed: this.props.allowed,
                     list: submitedCameras
                 }
             }
         }
-
+        console.log(submitData, "allowed")
         const res = await StationAutoApi.updateStationAutoOptions(submitData)
 
         this.setState({submitingCameraLinks: false})

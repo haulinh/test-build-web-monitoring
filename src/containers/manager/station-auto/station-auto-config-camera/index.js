@@ -120,7 +120,7 @@ export default class StationAutoConfigCamera extends React.Component {
               <Collapse accordion style={{marginLeft: -35}} key={record._id}>
                 {record.stations.map((station) => (
                   <Panel header={this._renderCollapsePanelHeader(station)} key={station._id}>
-                    <FormAddCamera stationAuto={station}/>
+                    <FormAddCamera stationAuto={station} allowed={this.props.form.getFieldValue(`stations.${station._id}`)}/>
                   </Panel>
                 ))}
               </Collapse>
@@ -131,7 +131,7 @@ export default class StationAutoConfigCamera extends React.Component {
         <Button 
           block 
           type="primary" 
-          disabled={!hasCached}
+          // disabled={!hasCached}
           onClick={this._handleSubmit}
         >
           {i18n.btnSave}
@@ -151,12 +151,21 @@ export default class StationAutoConfigCamera extends React.Component {
         render: (text, record, index) => <strong>{record.type.address}</strong>,
       },
       {
-        title: <Checkbox>{i18n.tableHeaderAllowCamera}</Checkbox>,
-        align: 'right',
-        render: (text, record, index) => <strong>{record.type.allowCamera}</strong>,
+        title: (
+          <div>
+            {this.props.form.getFieldDecorator('checkAll',{
+              valuePropName: 'checked',
+              getValueFromEvent: () => this._handleCheckAll()
+            })(
+              <Checkbox>{i18n.tableHeaderAllowCamera}</Checkbox>
+            )}
+          </div>
+        ),
+        align: 'right'
       },
       {
-        title: ''
+        title: '',
+        align: 'right'
       },
     ]
   }
@@ -206,12 +215,11 @@ export default class StationAutoConfigCamera extends React.Component {
         <Col span={8}>{`${station.stt}  ${station.name}`}</Col>
         <Col span={12}>{station.address}</Col>
         <Col span={3} style={{textAlign: 'center'}}>{
-          getFieldDecorator(station._id, {
+          getFieldDecorator(`stations.${station._id}`, {
             initialValue: _.get(station, 'options.camera.allowed'),
             valuePropName: 'checked'
           })(
-            <Checkbox>
-            </Checkbox>
+            <Checkbox></Checkbox>
           )
         }</Col>
         <Col span={1}>{numOfCameras} <Icon type="camera" /></Col>
@@ -219,7 +227,19 @@ export default class StationAutoConfigCamera extends React.Component {
     )
   }
 
-  _handleSubmit() {
+  _handleCheckAll(e) {
 
+    const { getFieldsValue } = this.props.form
+    const values = getFieldsValue()
+
+    console.log(values, "valuesvalues")
+  }
+
+  _handleSubmit() {
+    
+
+    
+
+    
   }
 }
