@@ -151,16 +151,7 @@ export default class StationAutoConfigCamera extends React.Component {
         render: (text, record, index) => <strong>{record.type.address}</strong>,
       },
       {
-        title: (
-          <div>
-            {this.props.form.getFieldDecorator('checkAll',{
-              valuePropName: 'checked',
-              getValueFromEvent: () => this._handleCheckAll()
-            })(
-              <Checkbox>{i18n.tableHeaderAllowCamera}</Checkbox>
-            )}
-          </div>
-        ),
+        title: <Checkbox onClick={this._handleCheckAll}>{i18n.tableHeaderAllowCamera}</Checkbox>,
         align: 'right'
       },
       {
@@ -228,18 +219,62 @@ export default class StationAutoConfigCamera extends React.Component {
   }
 
   _handleCheckAll(e) {
-
-    const { getFieldsValue } = this.props.form
+    const { getFieldsValue, setFieldsValue } = this.props.form
     const values = getFieldsValue()
 
-    console.log(values, "valuesvalues")
+    const allowedStations = values.stations
+    const checkedAll = e.target.checked
+
+    /* chỉ set value các checkbox có giá trị khác so với checkbox checkAll */
+    for(let [stationID, value] of Object.entries(allowedStations)) {
+      value = value || false // vi value co the co gia tri undefined
+      if (value !== checkedAll) {
+        setFieldsValue({[`stations.${stationID}`]: checkedAll})
+      }
+    }
+
+
+
+    // console.log(e.target.checked, "valuesvalues")
   }
 
   _handleSubmit() {
-    
+    const { getFieldsValue } = this.props.form
+    const values = getFieldsValue()
 
+    const allowedStations = values.stations
     
+    console.log(this.props.dataSource, 'lalalala')
+    // let submitData = {}
+    // for(let [stationID, value] of Object.entries(allowedStations)) {
+    //   submitData = {
+    //     [stationID]: {
+    //         camera: {
+    //             allowed: value,
+    //             list: submitedCameras
+    //         }
+    //     }
+    //   }
+    // }
 
+    // submitData = {
+    //   [stationID]: {
+    //       camera: {
+    //           allowed: this.props.allowed,
+    //           list: submitedCameras
+    //       }
+    //   }
+    // }
+
+    // const res = await StationAutoApi.updateStationAutoOptions(submitData)
+
+    // this.setState({submitingCameraLinks: false})
+
+    // if (res.success) {
+    //     return message.success(i18n.successSubmit)
+    // }
+    
+    // message.error(i18n.errorSubmit)
     
   }
 }
