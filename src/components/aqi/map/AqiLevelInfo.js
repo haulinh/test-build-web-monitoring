@@ -1,7 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
-import levels from '../../../constants/aqi-level'
-import { Tooltip } from 'antd'
+import React from "react"
+import styled from "styled-components"
+import levels from "../../../constants/aqi-level"
+import { Tooltip } from "antd"
+import { getConfigAqiCalculation } from "api/CategoryApi.js"
+import { get as _get } from "lodash"
 
 const LevelWrapper = styled.div`
   position: absolute;
@@ -22,27 +24,57 @@ const LevelItem = styled.div`
   width: 125px;
   height: 25px;
   color: #fff;
-  background: ${props => props.color || 'green'};
+  background: ${props => props.color || "green"};
   text-align: center;
 `
 
 export default class AqiLevelInfo extends React.PureComponent {
+  state = {
+    isLoading: false,
+    dataLevelAQI: []
+  }
+
+  componentDidMount = async () => {
+    try {
+      this.setState({
+        isLoading: true
+      })
+      const res = await getConfigAqiCalculation()
+      // console.log(res, "componentDidMount")
+      if (res.success) {
+        this.setState({
+          dataLevelAQI: _get(res, "data.value", [])
+        })
+      }
+    } catch (ex) {
+      console.log(ex)
+    }finally{
+      this.setState({
+        isLoading: false
+      })
+    }
+  }
+
   render() {
+    // console.log(this.state.dataLevelAQI,"dataLevelAQI")
     return (
       <LevelWrapper>
-        <LevelView>
-          {levels.map(({ color, status, level, description }) => (
-            <Tooltip key={status} placement="top" title={description}>
-              <LevelItem color={color} key={status}>
+        {!this.state.isLoading && (
+          <LevelView>
+          {this.state.dataLevelAQI.map(({ color, name, level, description, min, max }, index) => (
+            <Tooltip key={index} placement="top" title={description}>
+              <LevelItem color={color} key={name}>
                 <div>
-                  <span style={{ fontSize: 11, fontWeight: 'bold' }}>
-                    {level}: {status}
+                  <span style={{ fontSize: 11, fontWeight: "bold" }}>
+                    {`${min} - ${max}`}: {name}
                   </span>
                 </div>
               </LevelItem>
             </Tooltip>
           ))}
         </LevelView>
+        )}
+        
       </LevelWrapper>
     )
   }
