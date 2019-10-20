@@ -19,12 +19,12 @@ import FormAddCamera from './formAddCamera'
 const { Panel } = Collapse;
 
 const i18n = {
-  tableHeaderName: 'Name',
-  tableHeaderAddress: 'Address',
-  tableHeaderAllowCamera: 'Allow Viewing Camera',
-  btnSave: 'Save',
-  successSubmit: 'Luu cau hinh camera thanh cong',
-  errorSubmit: 'Co loi khi save cau hinh camera'
+  tableHeaderName: translate('stationAutoManager.list.camera.name'),
+  tableHeaderAddress: translate('stationAutoManager.list.camera.addr'),
+  tableHeaderAllowCamera: translate('stationAutoManager.list.camera.allowView'),
+  btnSave: translate('addon.save'),
+  successSubmit: translate('addon.onSave.update.success'),
+  errorSubmit: translate('addon.onSave.update.error')
 }
 
 const TableWrapper = styled(Table)`

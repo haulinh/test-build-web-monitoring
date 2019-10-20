@@ -741,7 +741,10 @@ export default {
         title: 'Sampling configuration'
       },
       camera: {
-        title: 'Camera configuration'
+        title: 'Camera configuration',
+        name: 'Name',
+        addr: 'Address',
+        allowView: 'Allow Viewing Camera'
       },
       actions: {
         ftpFolder: 'FTP Folder',
@@ -1398,6 +1401,7 @@ export default {
     sensorError: 'Sensor Error'
   },
   addon: {
+    add: 'Add',
     create: 'Create',
     edit: 'Edit',
     delete: 'Delete',
