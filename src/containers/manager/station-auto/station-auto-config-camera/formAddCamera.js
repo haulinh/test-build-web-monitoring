@@ -46,6 +46,8 @@ export default class FormAddCamera extends React.Component {
     render() {
         let {cameras, submitingCameraAllow, submitingCameraLinks} = this.state
 
+        if (cameras.length === 0) this._addEmptyRow()
+
         return (
             <Row>
                 {/* ADD BUTTON */}
@@ -156,9 +158,10 @@ export default class FormAddCamera extends React.Component {
         let stationID = this.props.stationAuto._id
         const submitedCameras = Object.values(fieldsValue)
 
-        if (submitedCameras.length === 0) {
-            return message.warning(i18n.emptyCamera)
-        }
+        /* không submit khi cameras không có */
+        // if (submitedCameras.length === 0) {
+        //     return message.warning(i18n.emptyCamera)
+        // }
 
         this.setState({submitingCameraLinks: true})
 

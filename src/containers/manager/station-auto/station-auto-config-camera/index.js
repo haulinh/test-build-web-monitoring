@@ -249,7 +249,7 @@ export default class StationAutoConfigCamera extends React.Component {
     const { getFieldsValue, setFieldsValue } = this.props.form
     const values = getFieldsValue()
 
-    const allowedStations = values.stations
+    const allowedStations = _.get(values, 'stations', {})
     const checkedAll = e.target.checked
 
     /* chỉ set value các checkbox có giá trị khác so với checkbox checkAll */
