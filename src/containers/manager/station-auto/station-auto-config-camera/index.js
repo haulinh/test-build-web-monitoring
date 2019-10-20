@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col, Form, Table, Checkbox, Collapse, Button, Icon, message} from 'antd'
 import { autobind } from 'core-decorators'
-import styled, { consolidateStreamedStyles } from 'styled-components'
+import styled from 'styled-components'
 import _ from 'lodash'
 import StationAutoApi from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import createManagerList from 'hoc/manager-list'
 import createManagerDelete from 'hoc/manager-delete'
 import protectRole from 'hoc/protect-role'
-import { translate } from 'hoc/create-lang'
+// import { translate } from 'hoc/create-lang'
 import StationAutoSearchForm from '../station-auto-search.1'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
@@ -77,8 +77,6 @@ export default class StationAutoConfigCamera extends React.Component {
       isCameraIndeterminate: false,
       submitingCameraAllow: false
     }
-
-    // this.stt = 0 // stt các record khi expanded
   }
   
   render() {
@@ -128,7 +126,6 @@ export default class StationAutoConfigCamera extends React.Component {
           block 
           loading={submitingCameraAllow}
           type="primary" 
-          // disabled={!hasCached}
           onClick={this._handleSubmit}
         >
           {i18n.btnSave}
@@ -139,7 +136,7 @@ export default class StationAutoConfigCamera extends React.Component {
 
   _checkIndeterminate(allowedStations) {
     const countBy = _.countBy(allowedStations)
-    console.log(countBy, 'oooo')
+
     if(countBy.true && countBy.false) {
       this.setState({isCameraIndeterminate: true})
     }
@@ -245,7 +242,6 @@ export default class StationAutoConfigCamera extends React.Component {
     _.set(formValues, id, checked)
 
     const allowedStations = Object.values(formValues.stations)
-    console.log(allowedStations, 'abcc')
     this._checkIndeterminate(allowedStations)
   }
 
@@ -253,7 +249,7 @@ export default class StationAutoConfigCamera extends React.Component {
     const { getFieldsValue, setFieldsValue } = this.props.form
     const values = getFieldsValue()
 
-    const allowedStations = values.stations
+    const allowedStations = _.get(values, 'stations', {})
     const checkedAll = e.target.checked
 
     /* chỉ set value các checkbox có giá trị khác so với checkbox checkAll */
@@ -269,7 +265,7 @@ export default class StationAutoConfigCamera extends React.Component {
 
   async _handleSubmit() {
     const stationAutos = this.props.dataSource
-    const { getFieldValue, getFieldsValue} = this.props.form
+    const { getFieldValue} = this.props.form
 
     let submitData = {}
     stationAutos.forEach(station => {
