@@ -8,22 +8,6 @@ import camera from 'containers/camera'
 import { translate } from 'hoc/create-lang'
 import { rootCertificates } from 'tls'
 import StationAutoApi from 'api/StationAuto'
-// import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-// import createManagerList from 'hoc/manager-list'
-// import createManagerDelete from 'hoc/manager-delete'
-// import createLanguageHoc from 'hoc/create-lang'
-// import protectRole from 'hoc/protect-role'
-// import { translate } from 'hoc/create-lang'
-// import { mapPropsToFields } from 'utils/form'
-// import StationAutoSearchForm from '../station-auto-search.1'
-// import Breadcrumb from '../breadcrumb'
-// import ROLE from 'constants/role'
-// import { SAMPLING_CONFIG_TABLE_COLUMN } from 'constants/labels'
-// import swal from 'sweetalert2'
-
-// import DynamicTable from 'components/elements/dynamic-table'
-// import { resetAllCounts } from 'redux/actions/notification'
-
 
 const i18n = {
     addButton: 'Add',
@@ -151,7 +135,6 @@ export default class FormAddCamera extends React.Component {
     _removeCamera(index) {
         let cameras = [...this.state.cameras]
         cameras.splice(index, 1)
-        console.log(index)
         this.setState({cameras})
     }
 
@@ -187,7 +170,7 @@ export default class FormAddCamera extends React.Component {
                 }
             }
         }
-        console.log(submitData, "allowed")
+
         const res = await StationAutoApi.updateStationAutoOptions(submitData)
 
         this.setState({submitingCameraLinks: false})
