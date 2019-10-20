@@ -9,7 +9,7 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import createManagerList from 'hoc/manager-list'
 import createManagerDelete from 'hoc/manager-delete'
 import protectRole from 'hoc/protect-role'
-import { translate } from 'hoc/create-lang'
+// import { translate } from 'hoc/create-lang'
 import StationAutoSearchForm from '../station-auto-search.1'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
@@ -265,7 +265,7 @@ export default class StationAutoConfigCamera extends React.Component {
 
   async _handleSubmit() {
     const stationAutos = this.props.dataSource
-    const { getFieldValue, getFieldsValue} = this.props.form
+    const { getFieldValue} = this.props.form
 
     let submitData = {}
     stationAutos.forEach(station => {

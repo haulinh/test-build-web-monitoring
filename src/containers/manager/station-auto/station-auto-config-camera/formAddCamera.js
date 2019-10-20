@@ -1,12 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Form, Button, Table, Input, Icon, Popconfirm, message} from 'antd'
+import { Row, Form, Button, Table, Input, Icon, Popconfirm, message} from 'antd'
 import { autobind } from 'core-decorators'
-import styled from 'styled-components'
 import _ from 'lodash'
-import camera from 'containers/camera'
 import { translate } from 'hoc/create-lang'
-import { rootCertificates } from 'tls'
 import StationAutoApi from 'api/StationAuto'
 
 const i18n = {
@@ -36,7 +33,6 @@ export default class FormAddCamera extends React.Component {
 
         this.state = {
             submitingCameraLinks: false,
-            submitingCameraAllow: false,
             cameras: [],
         }
 
@@ -44,7 +40,7 @@ export default class FormAddCamera extends React.Component {
     }
 
     render() {
-        let {cameras, submitingCameraAllow, submitingCameraLinks} = this.state
+        let {cameras, submitingCameraLinks} = this.state
 
         if (cameras.length === 0) this._addEmptyRow()
 
@@ -146,7 +142,6 @@ export default class FormAddCamera extends React.Component {
         const fieldsValue = getFieldsValue()
 
         /* remove empty records */
-        const { cameras } = this.state
         for (let [k, record] of Object.entries(fieldsValue)) {
             const isEmptyCamera = record.name === ""
             const isEmptyRTSP = record.rtspUrl === ""
