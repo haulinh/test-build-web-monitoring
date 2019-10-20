@@ -7,15 +7,14 @@ import { translate } from 'hoc/create-lang'
 import StationAutoApi from 'api/StationAuto'
 
 const i18n = {
-    addButton: 'Add',
-    saveButton: 'Save',
-    cameraName: 'Name',
-    cameraURL: 'Link RTSP',
+    addButton: translate('addon.add'),
+    saveButton: translate('addon.save'),
+    cameraName: translate('stationAutoManager.options'),
+    cameraURL: translate('stationAutoManager.options.RTSP.label'),
     confirmDelCamera: translate('stationAutoManager.delete.require'),
-    inputNotEmpty: 'Please input your note!',
-    emptyCamera: 'Khong co camera nao!!',
-    successSubmit: 'Luu cau hinh camera thanh cong',
-    errorSubmit: 'Co loi khi save cau hinh camera'
+    // emptyCamera: 'Khong co camera nao!!',
+    successSubmit: translate('addon.onSave.update.success'),
+    errorSubmit: translate('addon.onSave.update.error')
 }
 
 @Form.create()
@@ -73,8 +72,7 @@ export default class FormAddCamera extends React.Component {
                     return (
                         <div>
                             {this.props.form.getFieldDecorator(`${record.key}.name`, {
-                                initialValue: record.name,
-                                rules: [{required: true, message: i18n.inputNotEmpty}]
+                                initialValue: record.name
                             })(
                                 <Input />
                             )}
@@ -89,8 +87,7 @@ export default class FormAddCamera extends React.Component {
                     return (
                         <div>
                             {this.props.form.getFieldDecorator(`${record.key}.rtspUrl`, {
-                                initialValue: record.rtspUrl,
-                                rules: [{required: true, message: i18n.inputNotEmpty}]
+                                initialValue: record.rtspUrl
                             })(
                                 <Input />
                             )}

@@ -772,7 +772,10 @@ export default {
         title: 'Cấu hình lấy mẫu'
       },
       camera: {
-        title: 'Cấu hình camera'
+        title: 'Cấu hình camera',
+        name: 'Tên trạm',
+        addr: 'Địa chỉ',
+        allowView: 'Cho phép xem camera'
       },
       actions: {
         ftpFolder: 'FTP Folder' /* MARK  @translate */,
@@ -1428,6 +1431,7 @@ export default {
     sensorError: 'Lỗi thiết bị'
   },
   addon: {
+    add: 'Thêm',
     create: 'Tạo mới',
     edit: 'Chỉnh sửa',
     delete: 'Xoá',
