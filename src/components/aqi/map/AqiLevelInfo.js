@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import levels from "../../../constants/aqi-level"
+// import levels from "../../../constants/aqi-level"
 import { Tooltip } from "antd"
 import { getConfigAqiCalculation } from "api/CategoryApi.js"
 import { get as _get } from "lodash"
