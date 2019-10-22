@@ -9,7 +9,7 @@ import StationAutoApi from 'api/StationAuto'
 const i18n = {
     addButton: translate('addon.add'),
     saveButton: translate('addon.save'),
-    cameraName: translate('stationAutoManager.options'),
+    cameraName: translate('stationAutoManager.options.name.label'),
     cameraURL: translate('stationAutoManager.options.RTSP.label'),
     confirmDelCamera: translate('stationAutoManager.delete.require'),
     // emptyCamera: 'Khong co camera nao!!',
