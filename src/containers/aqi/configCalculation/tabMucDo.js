@@ -38,14 +38,14 @@ const i18n = {
   colDescription: translate("aqiConfigCalculation.colDescription")
 };
 
-let idIncrement = 0;
-
 @Form.create({})
 export default class TabMucDo extends React.Component {
+  idIncrement = 0;
   state = {
     isLoaded: false,
     isSubmit: false,
-    dataSource: []
+    dataSource: [],
+    isLocked: false
   };
 
   columns = [
@@ -102,22 +102,53 @@ export default class TabMucDo extends React.Component {
       key: "max",
       align: "center",
       render: (text, record, index) => {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator, setFieldsValue } = this.props.form;
+        const isLast = this.state.dataSource.length === index + 1;
         return (
           <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
-            {getFieldDecorator(`levelList[${record.key}].max`, {
-              rules: [
-                {
-                  required: true,
-                  message: i18n.required
-                }
-              ]
-            })(
-              <InputNumber
-                style={{ width: "100%" }}
-                placeholder={i18n.colMax}
-              />
-            )}
+            <div style={{ display: "flex" }}>
+              {getFieldDecorator(`levelList[${record.key}].max`, {
+                rules: [
+                  {
+                    required: !this.state.isLocked,
+                    message: i18n.required
+                  }
+                ]
+              })(
+                <InputNumber
+                  style={{ width: "100%" }}
+                  placeholder={i18n.colMax}
+                  disabled={isLast && this.state.isLocked}
+                />
+              )}
+              {isLast && (
+                <div
+                  style={{
+                    display: "flex",
+                    marginLeft: 8,
+                    alignItems: "center"
+                  }}
+                >
+                  <Icon
+                    onClick={() => {
+                      this.setState({ isLocked: !this.state.isLocked }, () => {
+                        if (this.state.isLocked) {
+                          setFieldsValue({
+                            [`levelList[${record.key}].max`]: null
+                          });
+                        }
+                      });
+                    }}
+                    style={{
+                      fontSize: 24,
+                      color: this.state.isLocked ? "#1890ff" : "red",
+                      cursor: "pointer"
+                    }}
+                    type={this.state.isLocked ? "unlock" : "lock"}
+                  />
+                </div>
+              )}
+            </div>
           </Form.Item>
         );
       }
@@ -199,6 +230,8 @@ export default class TabMucDo extends React.Component {
           const transformData = _.get(values, "levelList", []).filter(i =>
             _.identity(i)
           );
+
+          // console.log("transformData", transformData);
           const response = await postConfigAqiCalculation(transformData);
           if (response.success) {
             message.success(i18n.updateSuccess);
@@ -215,7 +248,7 @@ export default class TabMucDo extends React.Component {
       dataSource: [
         ...this.state.dataSource,
         {
-          key: idIncrement++
+          key: this.idIncrement++
         }
       ]
     });
@@ -234,11 +267,13 @@ export default class TabMucDo extends React.Component {
       const transformData = _.get(response, "data.value", []).filter(i =>
         _.identity(i)
       );
-      transformData.map(i => (i.key = idIncrement++));
+      const lastRecord = transformData[transformData.length - 1];
+      transformData.map(i => (i.key = this.idIncrement++));
       this.setState(
         {
           dataSource: transformData,
-          isLoaded: true
+          isLoaded: true,
+          isLocked: lastRecord.max == null
         },
         () => {
           this.props.form.setFieldsValue({

@@ -46,10 +46,9 @@ const i18n = {
   colUnit: translate("aqiConfigCalculation.colUnit")
 };
 
-let idIncrement = 0;
-
 @Form.create({})
 export default class TabMucDo extends React.Component {
+  idIncrement = 0;
   state = {
     isLoaded: false,
     isSubmit: false,
@@ -238,7 +237,7 @@ export default class TabMucDo extends React.Component {
       dataSource: [
         ...this.state.dataSource,
         {
-          key: idIncrement++
+          key: this.idIncrement++
         }
       ]
     });
@@ -267,7 +266,7 @@ export default class TabMucDo extends React.Component {
       let dataSource = _.map(transformData, item => {
         return {
           ...item,
-          key: idIncrement++,
+          key: this.idIncrement++,
           keyMeasure: item.keyMeasure
         };
       });
