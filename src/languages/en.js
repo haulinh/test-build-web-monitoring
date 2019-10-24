@@ -845,6 +845,11 @@ export default {
         error: 'Please Choose Frequency',
         description:'Note: Used for statistics of data receiving rate and sending alerts'
       },
+      order: {
+        label: 'Order',
+        placeholder: 'Order',
+        error:  'Please input Order'
+      },
       dayOfOperation: {
         label: 'Actived At',
         placeholder: 'Actived At',
