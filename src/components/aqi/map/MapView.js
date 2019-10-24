@@ -28,7 +28,7 @@ const TimeView = styled.b`
   font-size: 10px;
 `
 
-import aqiLevel from 'constants/aqi-level'
+// import aqiLevel from 'constants/aqi-level'
 import { GOOGLE_MAP } from 'config'
 
 const WindowInfo = ({ name, time }) => {
@@ -49,9 +49,11 @@ const WindowInfo = ({ name, time }) => {
   )
 }
 
-const AqiMarker = ({ item, onMapClick }) => {
+const AqiMarker = ({ item, aqiLevel , onMapClick }) => {
   const value = get(item, 'aqiDay', '')
-  const level = find(aqiLevel, ({ min, max }) => inRange(value, min, max))
+  const level = find(aqiLevel, ({ min, max }) => {
+    return inRange(value, min, max) || (min < value && !max) || (max > value && !min)
+  })
   const color = get(level, 'color', null)
   return (
     <InfoBox
@@ -118,6 +120,7 @@ class CustomGoogleMap extends PureComponent {
   }
 
   render() {
+    // console.log(this.props.aqiList,"this.props.aqiList,")
     const defaultCenter = { lat: 10.7607494, lng: 106.6954122 }
     return (
       <GoogleMap
@@ -133,6 +136,7 @@ class CustomGoogleMap extends PureComponent {
           {mapLodash(this.props.aqiList, (item, index) => (
             <AqiMarker
               onMapClick={this.props.onMapClick}
+              aqiLevel={this.props.aqiLevel}
               mapLocation={item.mapLocation}
               item={item}
               key={`${index}`}

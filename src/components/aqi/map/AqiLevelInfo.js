@@ -48,7 +48,7 @@ export default class AqiLevelInfo extends React.PureComponent {
       }
     } catch (ex) {
       console.log(ex)
-    }finally{
+    } finally {
       this.setState({
         isLoading: false
       })
@@ -61,20 +61,32 @@ export default class AqiLevelInfo extends React.PureComponent {
       <LevelWrapper>
         {!this.state.isLoading && (
           <LevelView>
-          {this.state.dataLevelAQI.map(({ color, name, level, description, min, max }, index) => (
-            <Tooltip key={index} placement="top" title={description}>
-              <LevelItem color={color} key={name}>
-                <div>
-                  <span style={{ fontSize: 11, fontWeight: "bold" }}>
-                    {`${min} - ${max}`}: {name}
-                  </span>
-                </div>
-              </LevelItem>
-            </Tooltip>
-          ))}
-        </LevelView>
+            {this.state.dataLevelAQI.map(
+              ({ color, name, level, description, min, max }, index) => {
+
+                let strLevel = ''
+                if(min && max){
+                  strLevel = `${min} - ${max}`
+                }else if(min && !max){
+                  strLevel = `Trên ${min}`
+                }else if(!min && max){
+                  strLevel = `Dưới ${max}`
+                }
+                return (
+                  <Tooltip key={index} placement="top" title={description}>
+                    <LevelItem color={color} key={name}>
+                      <div>
+                        <span style={{ fontSize: 11, fontWeight: "bold" }}>
+                          {strLevel}: {name}
+                        </span>
+                      </div>
+                    </LevelItem>
+                  </Tooltip>
+                )
+              }
+            )}
+          </LevelView>
         )}
-        
       </LevelWrapper>
     )
   }
