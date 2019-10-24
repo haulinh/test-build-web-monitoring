@@ -1,7 +1,7 @@
 import React from 'react'
 import Chart from 'react-highcharts'
 import * as _ from 'lodash'
-import levels from 'constants/aqi-level'
+// import levels from 'constants/aqi-level'
 
 export default class ChartView extends React.Component {
   getConfig = () => {

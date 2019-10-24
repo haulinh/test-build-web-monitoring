@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import * as _ from "lodash"
 import moment from "moment"
-import levels from "constants/aqi-level"
+// import levels from "constants/aqi-level"
 import ChartMeasure from "./chart-measure"
 import { DD_MM_YYYY } from "constants/format-date"
 
