@@ -18,6 +18,7 @@ const WrapperContainer = styled.div`
 export default class AqiContainer extends React.Component {
   state = {
     aqiList: [],
+    aqiLevel: [],
     station: null
   }
 
@@ -59,9 +60,9 @@ export default class AqiContainer extends React.Component {
           return null
         }
       })
-      const aqiList =_.compact(dataRes) 
+      const aqiList = _.compact(dataRes)
       // console.log(aqiList, "aqiList")
-      this.setState({ aqiList })
+      this.setState({ aqiList, aqiLevel: _.get(rs, "aqiLevel", []) })
 
       const station = _.head(aqiList)
 
@@ -82,11 +83,13 @@ export default class AqiContainer extends React.Component {
       <WrapperContainer>
         <MapComponent
           aqiList={this.state.aqiList}
+          aqiLevel={this.state.aqiLevel}
           style={{ flex: 2, background: "blue" }}
           onMapClick={this.handleMarkerClick}
         />
         <InfoComponent
           station={this.state.station}
+          aqiLevel={this.state.aqiLevel}
           style={{ flex: 1 }}
           aqiList={this.state.aqiList}
         />

@@ -7,6 +7,7 @@ import AqiLevelInfo from './AqiLevelInfo'
 
 @connectWindowHeight
 export default class MapComponent extends React.Component {
+
   render() {
     return (
       <div style={{ height: this.props.windowHeight, flex: 2 }}>
@@ -15,6 +16,7 @@ export default class MapComponent extends React.Component {
           // ref={map => {
           //   this.mapTamp = map
           // }}
+          aqiLevel={this.props.aqiLevel}
           aqiList={this.props.aqiList}
           zoom={this.props.zoom}
           {...getGoogleMapProps()}

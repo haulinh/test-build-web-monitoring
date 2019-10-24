@@ -106,7 +106,7 @@ export default class InfoComponent extends React.Component {
         }}
       >
         {this.renderOptions()}
-        <AqiInfo station={this.state.station} />
+        <AqiInfo station={this.state.station} aqiLevel={this.props.aqiLevel} />
         {_.size(this.state.aqiDays) > 0 && (
           <div
             style={{
@@ -115,8 +115,7 @@ export default class InfoComponent extends React.Component {
               alignContent: "center",
               padding: "4px 8px",
               justifyContent: "center",
-              background:
-                "linear-gradient(135deg, rgb(29, 137, 206) 0%, rgb(86, 210, 243) 100%)",
+              background:"linear-gradient(135deg, rgb(29, 137, 206) 0%, rgb(86, 210, 243) 100%)",
               marginTop: 16
             }}
           >
