@@ -63,7 +63,7 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
   })
   const color = get(level, "color", null)
   const colorFont = get(level, "name", '').toUpperCase() === "TRUNG BÌNH" ? "#020202" : "#fff"
-  console.log(colorFont, get(level, "name", null), "colorFont")
+  // console.log(colorFont, get(level, "name", null), "colorFont")
   return (
     <InfoBox
       defaultPosition={
