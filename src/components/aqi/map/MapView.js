@@ -58,7 +58,7 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
   const value = get(item, "aqiDay", "")
   const level = find(aqiLevel, ({ min, max }) => {
     return (
-      inRange(value, min, max) || (min < value && !max) || (max > value && !min)
+      inRange(value, min, max) || value === max  || (min < value && !max) || (max > value && !min)
     )
   })
   const backgroundColor = get(level, "backgroundColor", null)
