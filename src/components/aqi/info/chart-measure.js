@@ -13,7 +13,7 @@ export default class ChartView extends React.Component {
       // const tmp = _.find(this.props.aqiLevel, ({ min, max }) => _.inRange(value, min, max))
       const tmp = _.find(this.props.aqiLevel, ({ min, max }) => {
         return (
-          _.inRange(value, min, max) || (min < value && !max) || (max > value && !min)
+          _.inRange(value, min, max) || value === max || (min < value && !max) || (max > value && !min)
         )
       })
       if (tmp) {
