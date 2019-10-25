@@ -1,6 +1,5 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import styled from 'styled-components'
 import {Drawer, Icon} from 'antd'
 
 import { connectAutoDispatch } from 'redux/connect'

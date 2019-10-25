@@ -1,7 +1,7 @@
 import React from 'react'
 import Chart from 'react-highcharts'
 import * as _ from 'lodash'
-import levels from 'constants/aqi-level'
+// import levels from 'constants/aqi-level'
 
 export default class ChartView extends React.Component {
   getConfig = () => {
@@ -10,9 +10,14 @@ export default class ChartView extends React.Component {
 
     _.mapKeys(this.props.measure, (value, key) => {
       let color = 'green'
-      const tmp = _.find(levels, ({ min, max }) => _.inRange(value, min, max))
+      // const tmp = _.find(this.props.aqiLevel, ({ min, max }) => _.inRange(value, min, max))
+      const tmp = _.find(this.props.aqiLevel, ({ min, max }) => {
+        return (
+          _.inRange(value, min, max) || (min < value && !max) || (max > value && !min)
+        )
+      })
       if (tmp) {
-        color = tmp.color
+        color = _.get(tmp,'backgroundColor', 'black' )
       }
       data.push({
         name: key,

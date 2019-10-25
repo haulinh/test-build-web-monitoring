@@ -2,9 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { Button } from 'antd'
 
-import { translate } from 'hoc/create-lang'
 import {QAQC_TABLES} from 'constants/qaqc'
 
 import OriginalTable from './original'
@@ -24,7 +22,9 @@ export default class QAQCTables extends React.Component {
     dataSource: PropTypes.array.isRequired,
     selectedTable: PropTypes.string.isRequired,
     measuringData: PropTypes.array.isRequired,
-    measuringList: PropTypes.array.isRequired
+    measuringList: PropTypes.array.isRequired,
+    pagination: PropTypes.object,
+    onChangePage: PropTypes.func,
   }
 
   render() {
@@ -32,7 +32,7 @@ export default class QAQCTables extends React.Component {
     let Table = this._getSelectedTable(this.props.selectedTable)
     return (
       <div>
-        <div style={{textAlign: 'right', marginBottom: 16}}>
+        {/* <div style={{textAlign: 'right', marginBottom: 16}}>
           <Button
             type="primary"
             icon="file-excel"
@@ -41,11 +41,14 @@ export default class QAQCTables extends React.Component {
           >
             {translate("dataSearchFrom.tab.exportExcel")}
           </Button>
-        </div>
+        </div> */}
         <Table
           dataSource={this.props.dataSource}
           measuringList={measuringList} // danh sach do user lựa chọn 
           measuringData={measuringData} // danh sach full cua station
+          pagination={this.props.pagination}
+          onChangePage={this.props.onChangePage}
+          
         />
       </div>
     )

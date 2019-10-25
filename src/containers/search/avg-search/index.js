@@ -12,6 +12,7 @@ import protectRole from "hoc/protect-role"
 import swal from "sweetalert2"
 import { translate } from "hoc/create-lang"
 import queryFormDataBrowser from "hoc/query-formdata-browser"
+import { isEqual as _isEqual } from "lodash"
 
 @protectRole(ROLE.AVG_SEARCH.VIEW)
 @queryFormDataBrowser(["submit"])
@@ -40,11 +41,18 @@ export default class AvgSearch extends React.Component {
       isLoading: true,
       isHaveData: true
     })
+    let paginationQuery = pagination
+    if (!_isEqual(searchFormData, this.state.searchFormData)) {
+      paginationQuery = {
+        ...paginationQuery,
+        current: 1
+      }
+    }
 
     const dataStationAuto = await DataStationAutoApi.getDataStationAutoAvg(
       {
-        page: pagination.current,
-        itemPerPage: pagination.pageSize
+        page: paginationQuery.current,
+        itemPerPage: paginationQuery.pageSize
       },
       searchFormData
     )
@@ -66,7 +74,7 @@ export default class AvgSearch extends React.Component {
       measuringList: searchFormData.measuringList,
       searchFormData: searchFormData,
       pagination: {
-        ...pagination,
+        ...paginationQuery,
         total: dataStationAuto.success
           ? dataStationAuto.pagination.totalItem
           : 0
@@ -82,6 +90,8 @@ export default class AvgSearch extends React.Component {
     this.setState({
       isExporting: true
     })
+
+    // console.log(this.state.searchFormData,"this.state.searchFormData")
     let res = await DataStationAutoApi.getDataStationAutoExportAvg(
       this.state.searchFormData
     )

@@ -11,7 +11,7 @@ import TabChart from './tab-chart'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 
-const TabeListWrapper = styled(BoxShadow)`
+const TabeListWrapper = BoxShadow.extend`
   padding: 0px 16px 16px 16px;
   position: relative;
 `

@@ -5,7 +5,7 @@ import ReactHighcharts from 'react-highcharts/ReactHighstock'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
-import moment from 'moment-timezone'
+import moment from 'moment'
 import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
 
 const TabChartWrapper = styled.div`

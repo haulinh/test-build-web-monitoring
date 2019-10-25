@@ -1,30 +1,34 @@
 import React from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { Result, Button } from 'antd'
+import { translate } from 'hoc/create-lang'
+import DisconnectionImage from './disconnection.jpg'
 
+const i18n = {
+  tryAgain: translate("actions.tryAgain")
+}
 
-const DisconnectionWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    height: 300px;
-    .information--text{
-        font-weight: bold;
-    }
-`
-export default class Disconnection extends React.PureComponent {
+export default class Disconnection extends React.Component {
   static propTypes = {
-    messages: PropTypes.string
+    messages: PropTypes.string.isRequired,
+    onClickTryAgain: PropTypes.func,
+    isLoading: PropTypes.bool.isRequired
   }
   
   render() {
-    const {messages} = this.props
+    const {messages, onClickTryAgain, isLoading} = this.props
     return (
-      <DisconnectionWrapper className="information">
-        <div className="information--icon">
-          <img alt='' src="/images/warning/disconnection.jpg" />
-        </div>
-        <div className="information--text">{messages}</div>
-      </DisconnectionWrapper>
+      <Result
+        icon={ <img alt='' src={DisconnectionImage} width={200} /> }
+        title={messages}
+        extra={
+          onClickTryAgain && (
+            <Button type="primary" key="console" onClick={onClickTryAgain} loading={isLoading}>
+              {i18n.tryAgain}
+            </Button>
+          )
+        }
+      />  
     )
   }
 }

@@ -13,6 +13,7 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
+import { isEqual as _isEqual} from 'lodash'
 
 @protectRole(ROLE.DATA_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -43,11 +44,18 @@ export default class MinutesDataSearch extends React.Component {
       isLoading: true,
       isHaveData: true
     })
+    let paginationQuery = pagination
+    if (!_isEqual(searchFormData, this.state.searchFormData)) {
+      paginationQuery = {
+        ...paginationQuery,
+        current: 1
+      }
+    }
 
     let dataStationAuto = await DataStationAutoApi.getDataStationAutos(
       {
-        page: pagination.current,
-        itemPerPage: pagination.pageSize
+        page: paginationQuery.current,
+        itemPerPage: paginationQuery.pageSize
       },
       searchFormData
     )
@@ -75,7 +83,7 @@ export default class MinutesDataSearch extends React.Component {
       measuringList: searchFormData.measuringList,
       searchFormData: searchFormData,
       pagination: {
-        ...pagination,
+        ...paginationQuery,
         total:
           dataStationAuto && dataStationAuto.pagination
             ? dataStationAuto.pagination.totalItem

@@ -4,7 +4,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import Label from '../label'
 import { TimePicker } from 'antd'
-import moment from 'moment-timezone'
+import moment from 'moment'
 
 const Container = styled.div`
   display: flex;
@@ -20,7 +20,9 @@ const format = 'HH:mm'
 export default class TimerPicker extends React.PureComponent {
   static propTypes = {
     onChange: PropTypes.func,
-    defaultValue: PropTypes.string
+    defaultValue: PropTypes.string,
+    timePickerFormat: PropTypes.string,
+    notDateNow: PropTypes.bool
   }
 
   render() {
@@ -32,8 +34,8 @@ export default class TimerPicker extends React.PureComponent {
           <TimePicker
             {...otherProps}
             onChange={this.props.onChange}
-            defaultValue={moment()}
-            format={format}
+            defaultValue={otherProps.defaultValue ? moment(otherProps.defaultValue, format) : moment() }
+            format={ otherProps.timePickerFormat ? otherProps.timePickerFormat : format}
           />
         </Container>
       </div>

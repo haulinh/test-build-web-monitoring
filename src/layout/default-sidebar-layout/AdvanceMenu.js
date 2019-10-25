@@ -24,7 +24,7 @@ export default {
         </div>
       }
     >
-      {protectRole(ROLE.AQI.VIEW)(
+      {/* {protectRole(ROLE.AQI.VIEW)(
         <Menu.Item
           key={slug.aqi.base}
           onClick={() => {
@@ -33,7 +33,7 @@ export default {
         >
           <Link to={slug.aqi.base}>{MENU_NAME.advance.aqiMap}</Link>
         </Menu.Item>
-      )}
+      )} */}
 
       {protectRole(ROLE.AQI_SEARCHDATA.VIEW)(
         <Menu.Item

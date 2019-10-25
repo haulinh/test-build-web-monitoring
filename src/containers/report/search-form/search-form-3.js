@@ -37,8 +37,9 @@ const i18n = {
   },
   error: {
     stationAuto: translate("avgSearchFrom.form.stationAuto.error"),
-    selectTimeRange: translate("avgSearchFrom.selectTimeRange.errorMonth"),
-    selectTimeRange2: translate("avgSearchFrom.selectTimeRange.errorDay")
+    selectTimeRange: translate("avgSearchFrom.selectTimeRange.error"),
+    stationType: translate("dataSearchFrom.form.stationType.require"),
+    
   }
 };
 
@@ -125,6 +126,12 @@ export default class SearchForm extends React.Component {
             <Col span={6}>
               <Item label={i18n.label.stationType}>
                 {getFieldDecorator("stationType", {
+                  rules: [
+                    {
+                      required: true,
+                      message: i18n.error.stationType
+                    }
+                  ],
                   onChange: val => {
                     setFieldsValue({ stationAuto: null });
                   }
@@ -179,7 +186,7 @@ export default class SearchForm extends React.Component {
                     rules: [
                       {
                         required: true,
-                        message: i18n.error.selectTimeRange2
+                        message: i18n.error.selectTimeRange
                       }
                     ]
                   })(<DatePicker style={{ width: "100%" }} size="large" />)}

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Router, Route, withRouter} from 'react-router-dom'
-import _ from 'lodash'
+import { withRouter} from 'react-router-dom'
 import moment from 'moment'
 import { Row, Col, Tooltip, Dropdown, Menu, message} from 'antd'
 import styled from 'styled-components'
@@ -80,8 +79,8 @@ export default class DefaultCell extends React.Component {
             }} 
           >
             {/* image */}
-            <Col span={3} style={{textAlign: "center"}} className="notify-image" style={{height: '100%'}}>
-              <img src={icon} height="100%" style={{objectFit: 'contain'}}/>
+            <Col span={3} style={{textAlign: "center", height: '100%'}} className="notify-image">
+              <img src={icon} alt="" height="100%" style={{objectFit: 'contain'}}/>
             </Col>
 
             {/* contents */}

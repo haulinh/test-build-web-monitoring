@@ -54,7 +54,7 @@ const Span = styled.span`
 })
 @createLanguageHoc
 @autobind
-export default class StationAutoConfigNotification extends React.Component {
+export default class StationAutoConfigSampling extends React.Component {
   static propTypes = {
     dataSource: PropTypes.array,
     pagination: PropTypes.object,

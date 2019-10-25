@@ -26,16 +26,16 @@ const dashboardMenu = {
   )
 }
 
-const aqiMenu = {
-  component: protectRole(ROLE.AQI.VIEW)(
-    <AkNavigationItem
-      linkComponent={WrapperLinkComponent}
-      href={slug.aqi.base}
-      icon={Icon.aqi}
-      text={translate('aqi.title')}
-    />
-  )
-}
+// const aqiMenu = {
+//   component: protectRole(ROLE.AQI.VIEW)(
+//     <AkNavigationItem
+//       linkComponent={WrapperLinkComponent}
+//       href={slug.aqi.base}
+//       icon={Icon.aqi}
+//       text={translate('aqi.title')}
+//     />
+//   )
+// }
 
 const wqiMenu = {
   component: protectRole(ROLE.WQI.VIEW)(
@@ -489,16 +489,16 @@ const reportType8Menu = {
   ) 
 };
 
-const reportType9Menu = {
-  component: (
-    <AkNavigationItem
-      linkComponent={WrapperLinkComponent}
-      href={slug.report.type9}
-      icon={Icon.trayIcon}
-      text={translate("menuApp.report.type9")}
-    />
-  ) 
-};
+// const reportType9Menu = {
+//   component: (
+//     <AkNavigationItem
+//       linkComponent={WrapperLinkComponent}
+//       href={slug.report.type9}
+//       icon={Icon.trayIcon}
+//       text={translate("menuApp.report.type9")}
+//     />
+//   ) 
+// };
 
 // const reportType10Menu = {
 //   component: (
@@ -516,7 +516,7 @@ export default [
   monitoringMenu,
   mapMenu,
   cameraMenu,
-  aqiMenu,
+  // aqiMenu,
   wqiMenu,
   groupData,
   dataSearchMenu,
@@ -554,6 +554,6 @@ export default [
   reportType6Menu,
   reportType7Menu,
   reportType8Menu,
-  reportType9Menu,
+  // reportType9Menu,
   // reportType10Menu,
 ]

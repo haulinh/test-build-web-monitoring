@@ -31,6 +31,7 @@ import AccountActive from "containers/auth/account-active";
 import CameraControl from "containers/camera-video";
 import SupportRoute from "containers/support";
 import AqiContainer from "containers/aqi";
+import AqiConfigCalculationContainer from "containers/aqi/configCalculation";
 import WqiContainer from "containers/wqi";
 import QaQcContainer from "containers/qa-qc/approved-data";
 import PublishConfigContainer from "containers/qa-qc/approved-data/config-publish";
@@ -40,8 +41,8 @@ import ConfigWQIRoute from "containers/manager/config-wqi";
 import MapFixedContainer from "containers/fixed-map";
 import ExceededContainer from "containers/statistic/exceeded";
 import PercentReceivedData from "containers/statistic/per-rec-data";
-import AqiStatistic from "containers/statistic/aqi";
-import WqiStatistic from "containers/statistic/wqi";
+// import AqiStatistic from "containers/statistic/aqi";
+// import WqiStatistic from "containers/statistic/wqi";
 import Layout from "layout/default-sidebar-layout";
 import Report from "containers/report";
 
@@ -59,9 +60,12 @@ export default class RouteDefault extends React.Component {
 
           <Layout>
             <LayoutRoute path="/" exact component={OverviewDashboard} />
-            <LayoutRoute path={slug.map.base} exact component={Map} />
+            <LayoutRoute path={slug.map.base}  component={Map} />
+            
+
             <LayoutRoute path={slug.measuring.base} component={MeasuringRoute} />
             <LayoutRoute path={slug.aqi.base} component={AqiContainer} />
+            <LayoutRoute path={slug.aqi.config} component={AqiConfigCalculationContainer} />
             <LayoutRoute path={slug.wqi.base} component={WqiContainer} />
             <LayoutRoute path={slug.stationAuto.base} component={StationAutoRoute} />
             <LayoutRoute path={slug.stationFixed.base} component={StationFixedRoute} />
@@ -76,8 +80,8 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />
             <LayoutRoute path={slug.dataSearchFixed.base} component={DataSearchFixed} />
             <LayoutRoute path={slug.mapFixed.base} component={MapFixedContainer} />
-            <LayoutRoute path={slug.statistic.aqi} component={AqiStatistic} />
-            <LayoutRoute path={slug.statistic.wqi} component={WqiStatistic} />
+            {/* <LayoutRoute path={slug.statistic.aqi} component={AqiStatistic} />
+            <LayoutRoute path={slug.statistic.wqi} component={WqiStatistic} /> */}
             <LayoutRoute path={slug.statistic.exceeded} component={ExceededContainer} />
             <LayoutRoute path={slug.statistic.perRecData} component={PercentReceivedData} />
 
@@ -94,7 +98,7 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute path={slug.cameraControl.base} component={CameraControl} />
             <LayoutRoute path={slug.support.base} component={SupportRoute} />
 
-            <LayoutRoute  path={slug.report.bast} component={Report} />
+            <LayoutRoute  path={slug.report.base} component={Report} />
           </Layout>
         </Switch>
       </div>

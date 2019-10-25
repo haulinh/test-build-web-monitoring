@@ -158,6 +158,22 @@ export default {
     title: 'AQI',
     paramsTitle: 'Giá trị AQI {{=it.day}} ngày của từng thông số'
   },
+  aqiConfigCalculation: {
+    add: 'Thêm',
+    required1D_1H: 'Nhập ít nhất AVG Ngày hoặc AVG Giờ',
+    required: 'Vui lòng nhập giá trị',
+    colLevel: 'Tên mức độ',
+    colMin: 'Cận dưới',
+    colMax: 'Cận trên',
+    colColor: 'Màu chữ',
+    colBackgroundColor: 'Màu nền',
+    colDescription: 'Chú thích',
+    colMeasureKey: 'Mã thông số',
+    colMeasure: 'Thông số',
+    colAvg1H: 'Trung bình 1 giờ',
+    colAvg1D: 'Trung bình 1 ngày',
+    colUnit: 'Đơn vị',
+  },
   wqi: {
     title: 'WQI'
   },
@@ -326,7 +342,8 @@ export default {
       time: 'Thời gian',
       stationType: {
         label: 'Loại trạm',
-        placeholder: 'Chọn loại trạm'
+        placeholder: 'Chọn loại trạm',
+        require: 'Vui lòng chọn loại trạm'
       },
       stationAuto: {
         label: 'Tên trạm',
@@ -383,6 +400,22 @@ export default {
       parameters: 'Thông số'
     }
   },
+  aqiSearchForm:{
+    form:{
+      inRange:{
+        label:'Khoảng thời gian',
+        error: 'Vui lòng chọn khoảng thời gian'
+      },
+      from:{
+        label:'Khung giờ từ',
+        error: 'Vui lòng chọn khung giờ'
+      },
+      to:{
+        label:'Đến',
+      },
+    }
+  },
+
   avgSearchFrom: {
     titleText: 'Tra cứu dữ liệu tổng hợp',
     form: {
@@ -473,6 +506,7 @@ export default {
       year: 'Năm',
       errorMonth: 'Vui lòng chọn tháng',
       errorDay: 'Vui lòng chọn ngày',
+      error: 'Vui lòng chọn thời gian'
     },
     tab: {
       data: 'Dữ liệu',
@@ -738,6 +772,12 @@ export default {
       sampling: {
         title: 'Cấu hình lấy mẫu'
       },
+      camera: {
+        title: 'Cấu hình camera',
+        name: 'Tên trạm',
+        addr: 'Địa chỉ',
+        allowView: 'Cho phép xem camera'
+      },
       actions: {
         ftpFolder: 'FTP Folder' /* MARK  @translate */,
         fileMapping: 'File Mapping' /* MARK  @translate */,
@@ -805,6 +845,11 @@ export default {
         placeholder: 'phút/lần',
         error: 'Vui lòng chọn tần suất',
         description:'Chú ý: Phục vụ cho việc thống kê tỷ lệ nhận dữ liệu và gửi cảnh báo'
+      },
+      order: {
+        label: 'Thứ tự',
+        placeholder: 'Thứ tự',
+        error: 'Vui lòng nhập thứ tự',
       },
       dayOfOperation: {
         label: 'Ngày hoạt động',
@@ -1392,6 +1437,7 @@ export default {
     sensorError: 'Lỗi thiết bị'
   },
   addon: {
+    add: 'Thêm',
     create: 'Tạo mới',
     edit: 'Chỉnh sửa',
     delete: 'Xoá',
@@ -1482,6 +1528,7 @@ export default {
     monitoring: {
       base: 'Giám sát trực tuyến',
       map: 'Bản đồ',
+      mapAQI: 'Bản đồ AQI',
       camera: 'Camera',
       historyData: 'Tra cứu dữ liệu',
       avgData: 'Dữ liệu trung bình',
@@ -1515,6 +1562,8 @@ export default {
       stationAutoConnection: 'Cấu hình kết nối',
       sendNotification: 'Cấu hình gửi cảnh báo',
       sampling: 'Cấu hình lấy mẫu',
+      configAQI: 'Cấu hình tính toán AQI',
+      camera: 'Cấu hình camera',
       parameter: 'Chỉ tiêu quan trắc',
       stationType: 'Loại trạm',
       site: 'Đơn vị quản lý',
@@ -1559,6 +1608,9 @@ export default {
       type10: 'Tỷ lệ dữ liệu thu được',
       type11: 'Quan trắc trung bình 1 giờ',
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
+      aqiHour: "AQI - Giờ",
+      aqiDay: "AQI - Ngày",
+      aqi878: "AQI - 878"
     },
     reportBreadcrum: {
       type1: 'Tỷ lệ dữ liệu',
@@ -1572,6 +1624,9 @@ export default {
       type10: 'Tỷ lệ dữ liệu thu được',
       type11: 'Kết quả quan trắc trung bình 1 giờ',
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
+      aqiHour: "AQI - Giờ",
+      aqiDay: "AQI - Ngày",
+      aqi878: "AQI - 878"
     }
   },
   cameraControl: {
@@ -1662,7 +1717,8 @@ export default {
   },
   actions: {
     "gotoMonitoring": "Đến trang Xem chi tiết trạm",
-    "viewDataAroundThisTime": "Xem giá trị quanh thời điểm vượt"
+    "viewDataAroundThisTime": "Xem giá trị quanh thời điểm vượt",
+    "tryAgain": 'Thử lại',
   },
   network: {
     sampling: {

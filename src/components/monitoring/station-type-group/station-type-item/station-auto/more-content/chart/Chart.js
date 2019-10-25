@@ -159,6 +159,8 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
     // dùng để custom hiển thị
     tooltip: {
       formatter: function() {
+
+        // console.log(this.x, "this.x")
         return ["<b>" + this.x + "</b>"].concat(
           this.points.map(function(point) {
             return `${point.series.name}: ${getFormatNumber(point.y)}`
@@ -248,7 +250,7 @@ export default class ChartRowToChart extends React.Component {
             strFromDate: moment(fromDate).format(station_FORMAT)
           })
 
-          let data = _.orderBy(_.get(dataSources, "data", []), "_id")
+          let data = _.orderBy(_.get(dataSources, "data", []), "date_utc")
           // console.log(data,"data")
 
           let arrDataX = []
@@ -271,7 +273,7 @@ export default class ChartRowToChart extends React.Component {
 
               const data_indexOf = _.findIndex(data, itemFillter => {
                 const FORMAT = type === "hours" ? DD_MM_YYYY_HH_MM : DD_MM_YYYY
-                const data_mmReceivedAt = moment(itemFillter._id)
+                const data_mmReceivedAt = moment(itemFillter.date_utc)
                   .minute(0)
                   .format(FORMAT)
                 const item_mmReceivedAt = moment(item)

@@ -1,9 +1,7 @@
 import moment from 'moment-timezone'
 import _ from 'lodash'
 import slug from 'constants/slug'
-import { TAB_KEYS } from 'constants/notification'
 import FcmAPI from 'api/NotificationApi'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date';
 
 export const RESET_ALL_COUNTS                   = 'NOTIFICATION / RESET_ALL_COUNTS'
 export const UPDATE_COUNT_ON_NEW_MSG            = 'NOTIFICATION / UPDATE_COUNT_ON_NEW_MSG'

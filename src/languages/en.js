@@ -157,6 +157,22 @@ export default {
     title: 'Air Quality Index',
     paramsTitle: 'The {{= it.day}}-day AQI value of each parameter'
   },
+  aqiConfigCalculation: {
+    add: 'Add',
+    required1D_1H: 'Enter at least AVG Date or AVG Hour',
+    required: 'Please input value',
+    colLevel: 'Level Name',
+    colMin: 'Min',
+    colMax: 'Max',
+    colColor: 'Color',
+    colBackgroundColor: 'Background Color',
+    colDescription: 'Description',
+    colMeasureKey: 'Measure Key',
+    colMeasure: 'Measure',
+    colAvg1H: 'Average 1 hour',
+    colAvg1D: 'Average 1 day',
+    colUnit: 'Unit',
+  },
   wqi: {
     title: 'Water Quality Index'
   },
@@ -324,7 +340,8 @@ export default {
       time: 'Time',
       stationType: {
         label: 'Type Of Station',
-        placeholder: 'Select Type Of Station'
+        placeholder: 'Select Type Of Station',
+        require: 'Please Choose Type Of Station'
       },
       stationAuto: {
         label: 'Station Name',
@@ -381,6 +398,22 @@ export default {
       parameters: 'Parameters'
     }
   },
+  aqiSearchForm:{
+    form:{
+      inRange:{
+        label:'In Range',
+        error: 'Please Choose In Range'
+      },
+      from:{
+        label:'Time Frame From',
+        error: 'Please Choose Time Frame'
+      },
+      to:{
+        label:'To',
+      },
+    }
+  },
+
   avgSearchFrom: {
     titleText: 'AVG Search',
     form: {
@@ -470,6 +503,7 @@ export default {
       year: 'Year',
       errorMonth: 'Please Choose The Month',
       errorDay: 'Please Choose The Day',
+      error: 'Please Choose The Time'
     },
     tab: {
       data: 'Data',
@@ -738,6 +772,12 @@ export default {
       sampling: {
         title: 'Sampling configuration'
       },
+      camera: {
+        title: 'Camera configuration',
+        name: 'Name',
+        addr: 'Address',
+        allowView: 'Allow Viewing Camera'
+      },
       actions: {
         ftpFolder: 'FTP Folder',
         fileMapping: 'File Mapping',
@@ -805,6 +845,11 @@ export default {
         placeholder: 'minutes/time',
         error: 'Please Choose Frequency',
         description:'Note: Used for statistics of data receiving rate and sending alerts'
+      },
+      order: {
+        label: 'Order',
+        placeholder: 'Order',
+        error:  'Please input Order'
       },
       dayOfOperation: {
         label: 'Actived At',
@@ -1393,6 +1438,7 @@ export default {
     sensorError: 'Sensor Error'
   },
   addon: {
+    add: 'Add',
     create: 'Create',
     edit: 'Edit',
     delete: 'Delete',
@@ -1484,6 +1530,7 @@ export default {
     monitoring: {
       base: 'Real-time Monitoring',
       map: 'Map',
+      mapAQI: 'Map AQI',
       camera: 'Camera',
       historyData: 'History Data',
       avgData: 'Average Data',
@@ -1517,6 +1564,8 @@ export default {
       stationAutoConnection: 'Connection configuration',
       sendNotification: 'Configure to Send Notifications',
       sampling: 'Sampling configuration',
+      configAQI: 'Configure AQI calculation',
+      camera: 'Camera configuration',
       parameter: 'Parameter',
       stationType: 'Type of Station',
       site: 'Site',
@@ -1560,6 +1609,9 @@ export default {
       type10: 'Percentage of obtained data', 
       type11: 'Results of 1-hour average monitoring',
       type12: 'Percentage of exceeded data',
+      aqiHour: "AQI - Hour",
+      aqiDay: "AQI - Day",
+      aqi878: "AQI - 878"
     },
     reportBreadcrum: {
       type1: 'Original data',
@@ -1573,6 +1625,9 @@ export default {
       type10: 'Percentage of obtained data',
       type11: 'Results of 1-hour average monitoring',
       type12: 'Percentage of exceeded data',
+      aqiHour: "AQI - Hour",
+      aqiDay: "AQI - Day",
+      aqi878: "AQI - 878"
     }  
   },
   cameraControl: {
@@ -1662,7 +1717,8 @@ export default {
   },
   actions: {
     "gotoMonitoring": "Go to Real-time Monitoring Page",
-    "viewDataAroundThisTime": "View data around this time"
+    "viewDataAroundThisTime": "View data around this time",
+    "tryAgain": 'Try again',
   },
   network: {
     sampling: {
