@@ -29,7 +29,7 @@ const VnAqiView = ({ aqiLevel, value, color, time }) => {
   // const level = _.find(aqiLevel, ({ min, max }) => _.inRange(value, min, max))
   const level = _.find(aqiLevel, ({ min, max }) => {
     return (
-      _.inRange(value, min, max) || (min < value && !max) || (max > value && !min)
+      _.inRange(value, min, max) || value === max || (min < value && !max) || (max > value && !min)
     )
   })
   color = _.get(level, "backgroundColor", null)
