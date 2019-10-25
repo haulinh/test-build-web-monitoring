@@ -1,23 +1,21 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import aqiApi from 'api/AqiApi'
-import Clearfix from 'components/elements/clearfix/index'
-import { translate } from 'hoc/create-lang'
-import TabList from './tab-list'
-import Breadcrumb from './breadcrumb'
-import SearchFrom from './search-form'
-import * as _ from 'lodash'
-import { message, Spin } from 'antd'
-import queryFormDataBrowser from 'hoc/query-formdata-browser'
-import swal from 'sweetalert2'
-import { getConfigApi } from 'config'
-import PageInfo from 'components/pageInfo'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import React from "react"
+import { autobind } from "core-decorators"
+import PageContainer from "layout/default-sidebar-layout/PageContainer"
+import aqiApi from "api/AqiApi"
+import Clearfix from "components/elements/clearfix/index"
+import { translate } from "hoc/create-lang"
+import TabList from "./tab-list"
+import Breadcrumb from "./breadcrumb"
+import SearchFrom from "./search-form"
+import * as _ from "lodash"
+import { message, Spin } from "antd"
+import queryFormDataBrowser from "hoc/query-formdata-browser"
+import swal from "sweetalert2"
+import ROLE from "constants/role"
+import protectRole from "hoc/protect-role"
 
-@protectRole(ROLE.AQI_SEARCHDATA.VIEW)
-@queryFormDataBrowser(['submit'])
+@protectRole(ROLE.STATISTIC.AQI)
+@queryFormDataBrowser(["submit"])
 @autobind
 export default class AQIStatistics extends React.Component {
   state = {
@@ -51,14 +49,14 @@ export default class AQIStatistics extends React.Component {
     let dataAQI = await aqiApi.fetchAqiHourbyStation({ ...params })
     if (dataAQI && (Array.isArray(dataAQI.data) && dataAQI.data.length === 0)) {
       swal({
-        type: 'success',
-        title: translate('dataSearchFrom.table.emptyText')
+        type: "success",
+        title: translate("dataSearchFrom.table.emptyText")
       })
     }
 
     this.setState({
       isLoading: false,
-      dataAQI: _.get(dataAQI, 'data', []),
+      dataAQI: _.get(dataAQI, "data", []),
       searchFormData: searchFormData
     })
   }
@@ -68,13 +66,13 @@ export default class AQIStatistics extends React.Component {
       isExporting: true
     })
     const params = {
-      from: _.get(this.state.searchFormData, 'fromDate', ''),
-      to: _.get(this.state.searchFormData, 'toDate', ''),
-      listKey: _.get(this.state.searchFormData, 'stationID', '')
+      from: _.get(this.state.searchFormData, "fromDate", ""),
+      to: _.get(this.state.searchFormData, "toDate", ""),
+      listKey: _.get(this.state.searchFormData, "stationID", "")
     }
     let res = await aqiApi.exportFileAqiHourbyStation({ ...params })
     if (res && res.success) window.location = res.data
-    else message.error('Export Error') //message.error(res.message)
+    else message.error("Export Error") //message.error(res.message)
 
     this.setState({
       isExporting: false
@@ -84,27 +82,32 @@ export default class AQIStatistics extends React.Component {
   render() {
     return (
       <div>
-        {getConfigApi().isAdvanced && (
-          <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-            <Spin size="large" tip={translate('dataSearchFrom.tab.statusExport')} spinning={this.state.isExporting}>
-              <Breadcrumb items={['list']} />
-              <SearchFrom initialValues={this.props.formData} onSubmit={this.handleSubmitSearch} searchNow={this.props.formData.searchNow} />
-              <Clearfix height={16} />
-              {this.state.isHaveData ? (
-                <TabList
-                  isLoading={this.state.isLoading}
-                  dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
-                  dataAQI={this.state.dataAQI}
-                  pagination={this.state.pagination}
-                  onExportExcel={this.handleExportExcel}
-                  nameChart={this.state.searchFormData.name}
-                  isExporting={this.state.isExporting}
-                />
-              ) : null}
-            </Spin>
-          </PageContainer>
-        )}
-        {!getConfigApi().isAdvanced && <PageInfo />}
+        <PageContainer {...this.props.wrapperProps} backgroundColor={"#fafbfb"}>
+          <Spin
+            size="large"
+            tip={translate("dataSearchFrom.tab.statusExport")}
+            spinning={this.state.isExporting}
+          >
+            <Breadcrumb items={["list"]} />
+            <SearchFrom
+              initialValues={this.props.formData}
+              onSubmit={this.handleSubmitSearch}
+              searchNow={this.props.formData.searchNow}
+            />
+            <Clearfix height={16} />
+            {this.state.isHaveData ? (
+              <TabList
+                isLoading={this.state.isLoading}
+                dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
+                dataAQI={this.state.dataAQI}
+                pagination={this.state.pagination}
+                onExportExcel={this.handleExportExcel}
+                nameChart={this.state.searchFormData.name}
+                isExporting={this.state.isExporting}
+              />
+            ) : null}
+          </Spin>
+        </PageContainer>
       </div>
     )
   }

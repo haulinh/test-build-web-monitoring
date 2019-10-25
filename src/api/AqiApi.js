@@ -31,6 +31,12 @@ export function fetchAqiDaybyListStation({ from, to, listKey, timezoneDay } = {}
   return getFetch(url)
 }
 
+
+export function fetchAqiDayLastLogs({ listKey } = {}) {
+  var url = getAqiV1Url(`aqi-day-last-logs?listKey=${listKey}`)
+  return getFetch(url)
+}
+
 export function exportFileAqiDaybyListStation({ from, to, listKey, timezoneDay } = {}) {
   var url = getAqiV1Url(`aqi-day-export-data?from=${from}&to=${to}&listKey=${listKey}&timezoneDay=${timezoneDay}`)
   return getFetch(url)
@@ -46,6 +52,16 @@ export function exportFileAqiHourbyStation( { from, to, listKey  } = {}) {
   return getFetch(url)
 }
 
+
+export function fetchListAqiReport( { fromDate, toDate, page = 1, itemPerPage = 10000  } = {}) {
+  var url = getAqiV1Url(`aqi-878-list?page=${page}&itemPerPage=${itemPerPage}&fromDate=${fromDate}&toDate=${toDate}`)
+  return getFetch(url)
+}
+export function createAqiReport( { reportDate, listKey, timezoneDay }) {
+  var url = getAqiV1Url(`aqi-878-new?reportDate=${reportDate}&listKey=${listKey}&timezoneDay=${timezoneDay}`)
+  return getFetch(url)
+}
+
 export default {
   fetchAqiByHour,
   fetchAqiByDay,
@@ -54,5 +70,8 @@ export default {
   fetchAqiDaybyListStation,
   exportFileAqiDaybyListStation,
   fetchAqiHourbyStation,
-  exportFileAqiHourbyStation
+  exportFileAqiHourbyStation,
+  fetchListAqiReport,
+  createAqiReport,
+  fetchAqiDayLastLogs
 }

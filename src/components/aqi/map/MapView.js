@@ -1,20 +1,27 @@
 /* eslint-disable */
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
+import React, { PureComponent } from "react"
+import styled from "styled-components"
 import {
   GoogleMap,
   withScriptjs,
   withGoogleMap,
   Polygon
-} from 'react-google-maps'
-import { withProps } from 'recompose'
-import { getGoogleMapProps } from 'components/map/utils'
-import { map as mapLodash, get, find, inRange } from 'lodash'
-import InfoBox from 'react-google-maps/lib/components/addons/InfoBox'
-import MarkerWithLabel from 'react-google-maps/lib/components/addons/MarkerWithLabel'
-import { Tooltip } from 'antd'
-import moment from 'moment-timezone'
-import { DD_MM_YYYY_HH_MM } from '../../../constants/format-date'
+} from "react-google-maps"
+import { withProps } from "recompose"
+import { getGoogleMapProps } from "components/map/utils"
+import {
+  map as mapLodash,
+  get,
+  find,
+  inRange,
+  values as _values,
+  omit as _omit
+} from "lodash"
+import InfoBox from "react-google-maps/lib/components/addons/InfoBox"
+import MarkerWithLabel from "react-google-maps/lib/components/addons/MarkerWithLabel"
+import { Tooltip } from "antd"
+import moment from "moment"
+import { DD_MM_YYYY } from "../../../constants/format-date"
 
 const StationNameView = styled.b`
   color: white;
@@ -28,13 +35,12 @@ const TimeView = styled.b`
   font-size: 10px;
 `
 
-import aqiLevel from 'constants/aqi-level'
-import { GOOGLE_MAP } from 'config'
+// import aqiLevel from 'constants/aqi-level'
+import { GOOGLE_MAP } from "config"
 
-const WindowInfo = ({ aqi, name }) => {
-  const time = moment(get(aqi, 'receivedAt', new Date())).format(
-    DD_MM_YYYY_HH_MM
-  )
+const WindowInfo = ({ name, time }) => {
+  // console.log(time,"WindowInfo")
+  const timeValue = moment(time).format(DD_MM_YYYY)
 
   return (
     <div>
@@ -42,16 +48,22 @@ const WindowInfo = ({ aqi, name }) => {
         <StationNameView>{name}</StationNameView>
       </div>
       <div>
-        <TimeView>{time}</TimeView>
+        <TimeView>{timeValue}</TimeView>
       </div>
     </div>
   )
 }
 
-const AqiMarker = ({ item, onMapClick }) => {
-  const value = get(item.aqi, 'value', '')
-  const level = find(aqiLevel, ({ min, max }) => inRange(value, min, max))
-  const color = get(level, 'color', null)
+const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
+  const value = get(item, "aqiDay", "")
+  const level = find(aqiLevel, ({ min, max }) => {
+    return (
+      inRange(value, min, max) || (min < value && !max) || (max > value && !min)
+    )
+  })
+  const backgroundColor = get(level, "backgroundColor", null)
+  const colorFont = get(level, "color", null)
+  // console.log(colorFont, get(level, "name", null), "colorFont")
   return (
     <InfoBox
       defaultPosition={
@@ -62,10 +74,11 @@ const AqiMarker = ({ item, onMapClick }) => {
       <Tooltip title={<WindowInfo {...item} />}>
         <div
           style={{
-            backgroundColor: color || 'yellow',
+            backgroundColor: backgroundColor || "yellow",
             padding: `4px 8px`,
             borderRadius: 3,
-            borderColor: '#fff',
+            borderColor: "#020202",
+            border: "solid",
             borderWidth: 1
           }}
           onClick={() => {
@@ -75,7 +88,7 @@ const AqiMarker = ({ item, onMapClick }) => {
           }}
         >
           <div>
-            <span style={{ fontSize: `16px`, color: `#fff` }}>{value}</span>
+            <span style={{ fontSize: `16px`, color: colorFont }}>{value}</span>
           </div>
         </div>
       </Tooltip>
@@ -117,6 +130,7 @@ class CustomGoogleMap extends PureComponent {
   }
 
   render() {
+    // console.log(this.props.aqiList,"this.props.aqiList,")
     const defaultCenter = { lat: 10.7607494, lng: 106.6954122 }
     return (
       <GoogleMap
@@ -132,6 +146,7 @@ class CustomGoogleMap extends PureComponent {
           {mapLodash(this.props.aqiList, (item, index) => (
             <AqiMarker
               onMapClick={this.props.onMapClick}
+              aqiLevel={this.props.aqiLevel}
               mapLocation={item.mapLocation}
               item={item}
               key={`${index}`}
