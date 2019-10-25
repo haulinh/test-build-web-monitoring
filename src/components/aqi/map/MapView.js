@@ -61,8 +61,8 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
       inRange(value, min, max) || (min < value && !max) || (max > value && !min)
     )
   })
-  const color = get(level, "color", null)
-  const colorFont = get(level, "name", '').toUpperCase() === "TRUNG BÌNH" ? "#020202" : "#fff"
+  const backgroundColor = get(level, "backgroundColor", null)
+  const colorFont = get(level, "color", null)
   // console.log(colorFont, get(level, "name", null), "colorFont")
   return (
     <InfoBox
@@ -74,12 +74,12 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
       <Tooltip title={<WindowInfo {...item} />}>
         <div
           style={{
-            backgroundColor: color || "yellow",
+            backgroundColor: backgroundColor || "yellow",
             padding: `4px 8px`,
             borderRadius: 3,
-            borderColor: '#020202',
-            border: 'solid',
-            borderWidth: 1,
+            borderColor: "#020202",
+            border: "solid",
+            borderWidth: 1
           }}
           onClick={() => {
             if (onMapClick) {

@@ -62,7 +62,7 @@ export default class AqiLevelInfo extends React.PureComponent {
         {!this.state.isLoading && (
           <LevelView>
             {this.state.dataLevelAQI.map(
-              ({ color, name, level, description, min, max }, index) => {
+              ({ color,backgroundColor,  name, level, description, min, max }, index) => {
 
                 let strLevel = ''
                 if(min && max){
@@ -72,10 +72,9 @@ export default class AqiLevelInfo extends React.PureComponent {
                 }else if(!min && max){
                   strLevel = `${min} - ${max}`
                 }
-                const colorFont = name.toUpperCase() === "TRUNG BÌNH" ? "#020202" : "#fff"
                 return (
                   <Tooltip key={index} placement="top" title={description}>
-                    <LevelItem color={color} key={name} colorFont={colorFont}>
+                    <LevelItem color={backgroundColor} key={name} colorFont={color}>
                       <div>
                         <span style={{ fontSize: 11, fontWeight: "bold" }}>
                           {strLevel}: {name}
