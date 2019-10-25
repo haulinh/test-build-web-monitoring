@@ -26,9 +26,14 @@ const AqiView = styled.div`
 `
 
 const VnAqiView = ({ aqiLevel, value, color, time }) => {
-  const level = _.find(aqiLevel, ({ min, max }) => _.inRange(value, min, max))
-  color = _.get(level, "color", null)
-  const colorFont = _.get(level, "name", '').toUpperCase() === "TRUNG BÌNH" ? "#020202" : "#fff"
+  // const level = _.find(aqiLevel, ({ min, max }) => _.inRange(value, min, max))
+  const level = _.find(aqiLevel, ({ min, max }) => {
+    return (
+      _.inRange(value, min, max) || (min < value && !max) || (max > value && !min)
+    )
+  })
+  color = _.get(level, "backgroundColor", null)
+  const colorFont = _.get(level, "color", null)
 
   return (
     <AqiView color={color}>
