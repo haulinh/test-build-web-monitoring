@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Form,
   Input,
@@ -10,46 +10,47 @@ import {
   Upload,
   Modal,
   DatePicker
-} from 'antd'
-import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
-import { mapPropsToFields } from 'utils/form'
-import CategoryApi from 'api/CategoryApi'
-import SelectStationType from 'components/elements/select-station-type'
-import SelectProvice from 'components/elements/select-province'
-import SelectQCVN from 'components/elements/select-qcvn'
-import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
-import MediaApi from 'api/MediaApi'
-import swal from 'sweetalert2'
-import MeasuringTable from '../station-auto-formTable/'
-import InputNumberCell from 'components/elements/input-number-cell'
-import moment from 'moment-timezone'
-import { get, keyBy } from 'lodash'
+} from "antd";
+import PropTypes from "prop-types";
+import { autobind } from "core-decorators";
+import { mapPropsToFields } from "utils/form";
+import CategoryApi from "api/CategoryApi";
+import SelectStationType from "components/elements/select-station-type";
+import SelectProvice from "components/elements/select-province";
+import SelectQCVN from "components/elements/select-qcvn";
+import createLanguageHoc, { langPropTypes } from "../../../../hoc/create-lang";
+import MediaApi from "api/MediaApi";
+import swal from "sweetalert2";
+import MeasuringTable from "../station-auto-formTable/";
+import InputNumberCell from "components/elements/input-number-cell";
+import moment from "moment-timezone";
+import { get, keyBy } from "lodash";
 
-const FormItem = Form.Item
-const { TextArea } = Input
+const FormItem = Form.Item;
+const { TextArea } = Input;
 
 @Form.create({
   mapPropsToFields: ({ initialValues }) => {
-    if (!initialValues) return
+    if (!initialValues) return;
     if (initialValues.stationType) {
-      initialValues.stationTypeObject = initialValues.stationType
-      initialValues.stationType = initialValues.stationType.key
+      initialValues.stationTypeObject = initialValues.stationType;
+      initialValues.stationType = initialValues.stationType.key;
     }
     if (initialValues.mapLocation) {
       initialValues = {
         ...initialValues,
         lat: initialValues.mapLocation.lat,
         long: initialValues.mapLocation.long
-      }
+      };
     }
 
     if (initialValues.activatedAt) {
-      initialValues.activatedAt = moment(initialValues.activatedAt)
+      initialValues.activatedAt = moment(initialValues.activatedAt);
     }
-    if (!initialValues.emails) initialValues.emails = []
-    if (!initialValues.phones) initialValues.phones = []
-    return mapPropsToFields({ initialValues })
+    if (!initialValues.emails) initialValues.emails = [];
+    if (!initialValues.phones) initialValues.phones = [];
+    
+    return mapPropsToFields({ initialValues });
   }
 })
 @createLanguageHoc
@@ -60,10 +61,10 @@ export default class StationAutoForm extends React.PureComponent {
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
     lang: langPropTypes
-  }
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       stationType: {},
@@ -74,35 +75,35 @@ export default class StationAutoForm extends React.PureComponent {
       options: {},
       phones: [],
       emails: [],
-      standardsVNObject: get(props, 'initialValues.standardsVN', null),
+      standardsVNObject: get(props, "initialValues.standardsVN", null),
       previewVisible: false,
-      previewImage: '',
+      previewImage: "",
       fileList: [],
       imgList: [],
       allowUpdateStandardsVN: !props.initialValues
-    }
+    };
   }
 
   async componentWillMount() {
     const measuringList = await CategoryApi.getMeasurings(
       { page: 1, itemPerPage: 100000 },
       {}
-    )
+    );
 
     this.setState({
       measuringListSource: measuringList.data
-    })
+    });
     if (this.props.initialValues) {
-      let fileList = []
+      let fileList = [];
       if (this.props.initialValues.image) {
         //set image display
-        let img = this.props.initialValues.image
+        let img = this.props.initialValues.image;
         fileList.push({
           uid: -1,
           url: img.url,
           name: img.file.originalname,
-          status: 'done'
-        })
+          status: "done"
+        });
       }
 
       this.setState({
@@ -115,33 +116,33 @@ export default class StationAutoForm extends React.PureComponent {
           ? this.props.initialValues.options
           : {},
         fileList: fileList
-      })
+      });
     }
   }
 
   handleChange(value, key, column) {
-    const newData = [...this.state.measuringList]
-    const target = newData.filter(item => key === item.key)[0]
+    const newData = [...this.state.measuringList];
+    const target = newData.filter(item => key === item.key)[0];
     if (target) {
-      target[column] = value
-      this.setState({ measuringList: newData })
+      target[column] = value;
+      this.setState({ measuringList: newData });
     }
   }
 
   handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      if (err) return
-      
+      if (err) return;
+
       if (!values.measuringList) {
-        const { t } = this.props.lang
+        const { t } = this.props.lang;
         swal({
-          title: t('stationAutoManager.addMeasuring.error'),
-          type: 'error'
-        })
-        return
+          title: t("stationAutoManager.addMeasuring.error"),
+          type: "error"
+        });
+        return;
       }
-      
+
       const data = {
         key: values.key,
         name: values.name,
@@ -157,101 +158,104 @@ export default class StationAutoForm extends React.PureComponent {
         note: values.note,
         measuringList: values.measuringList,
         options: this.state.options,
+        order: values.order,
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null
-      }
+      };
       // Callback submit form Container Component
-      this.props.onSubmit(data)
-    })
+      this.props.onSubmit(data);
+    });
   }
   changeStationType(stationTypeObject) {
-    this.props.form.setFieldsValue({ stationType: stationTypeObject.key })
+    this.props.form.setFieldsValue({ stationType: stationTypeObject.key });
     this.setState({
       stationType: stationTypeObject.key,
       stationTypeObject: stationTypeObject
-    })
+    });
   }
 
   changeProvince(provinceObject) {
-    this.props.form.setFieldsValue({ province: provinceObject.key })
+    this.props.form.setFieldsValue({ province: provinceObject.key });
     this.setState({
       province: provinceObject.key,
       provinceObject: provinceObject
-    })
+    });
   }
 
   changeQCVN(standardsVNObject) {
-    this.props.form.setFieldsValue({ standardsVN: standardsVNObject.key })
+    this.props.form.setFieldsValue({ standardsVN: standardsVNObject.key });
     this.setState({
       standardsVN: standardsVNObject.key,
       standardsVNObject: standardsVNObject
-    })
+    });
   }
 
   handlePreview = file => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true
-    })
-  }
+    });
+  };
 
   handleCancel = () => {
-    this.setState({ previewVisible: false })
-  }
+    this.setState({ previewVisible: false });
+  };
 
   handleImageChange = ({ fileList, file, event }) => {
     for (var i = 0; i < fileList.length; i++) {
-      if (fileList[i].response) fileList[i].status = 'done'
-      else fileList[i].status = 'uploading'
+      if (fileList[i].response) fileList[i].status = "done";
+      else fileList[i].status = "uploading";
     }
 
     const imgList = this.state.fileList
       .filter(img => img.response)
-      .map(img => img.response)
+      .map(img => img.response);
 
     if (file.response !== null && imgList.length > 0) {
       this.setState({
         fileList: fileList,
         imgList: imgList
-      })
+      });
     }
 
     //error
-    if (file.status === 'error') {
-      const { t } = this.props.lang
-      fileList = []
+    if (file.status === "error") {
+      const { t } = this.props.lang;
+      fileList = [];
       swal({
-        title: t('stationAutoManager.upload.error'),
-        type: 'error'
-      })
+        title: t("stationAutoManager.upload.error"),
+        type: "error"
+      });
     }
 
-    this.setState({ fileList: fileList })
-  }
+    this.setState({ fileList: fileList });
+  };
 
   handleEmailsChange(value) {
     this.setState({
       emails: value
-    })
+    });
   }
   handlePhonesChange(value) {
     this.setState({
       phones: value
-    })
+    });
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
-    const { t } = this.props.lang
-    const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory('station-autos')
-    const { previewVisible, previewImage, fileList } = this.state
+    const { getFieldDecorator } = this.props.form;
+    const { t } = this.props.lang;
+    const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory(
+      "station-autos"
+    );
+    const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
         <div className="ant-upload-text">
-          {t('stationAutoManager.upload.label')}
+          {t("stationAutoManager.upload.label")}
         </div>
       </div>
-    )
+    );
     const formItemLayout = {
       labelCol: {
         sm: { span: 6, offset: 0 }
@@ -259,7 +263,7 @@ export default class StationAutoForm extends React.PureComponent {
       wrapperCol: {
         sm: { span: 17, offset: 0 }
       }
-    }
+    };
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -267,19 +271,19 @@ export default class StationAutoForm extends React.PureComponent {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.key.label')}
+              label={t("stationAutoManager.form.key.label")}
             >
-              {getFieldDecorator('key', {
+              {getFieldDecorator("key", {
                 rules: [
                   {
                     required: true,
-                    message: t('stationAutoManager.form.key.error')
+                    message: t("stationAutoManager.form.key.error")
                   }
                 ]
               })(
                 <Input
                   disabled={this.props.isEdit}
-                  placeholder={t('stationAutoManager.form.key.placeholder')}
+                  placeholder={t("stationAutoManager.form.key.placeholder")}
                 />
               )}
             </FormItem>
@@ -287,22 +291,22 @@ export default class StationAutoForm extends React.PureComponent {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.name.label')}
+              label={t("stationAutoManager.form.name.label")}
             >
-              {getFieldDecorator('name', {
+              {getFieldDecorator("name", {
                 rules: [
                   {
                     required: true,
-                    message: t('stationAutoManager.form.name.error')
+                    message: t("stationAutoManager.form.name.error")
                   },
                   {
                     max: 25,
-                    message: t('stationAutoManager.form.name.error_length_max')
+                    message: t("stationAutoManager.form.name.error_length_max")
                   }
                 ]
               })(
                 <Input
-                  placeholder={t('stationAutoManager.form.name.placeholder')}
+                  placeholder={t("stationAutoManager.form.name.placeholder")}
                 />
               )}
             </FormItem>
@@ -312,20 +316,20 @@ export default class StationAutoForm extends React.PureComponent {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.province.label')}
+              label={t("stationAutoManager.form.province.label")}
             >
-              {getFieldDecorator('province', {
+              {getFieldDecorator("province", {
                 rules: [
                   {
                     required: false,
-                    message: t('stationAutoManager.form.province.error')
+                    message: t("stationAutoManager.form.province.error")
                   }
                 ]
               })(
                 <SelectProvice
                   //  label={t('stationAutoManager.form.province.label')}
                   placeholder={t(
-                    'stationAutoManager.form.province.placeholder'
+                    "stationAutoManager.form.province.placeholder"
                   )}
                   onHandleChange={this.changeProvince}
                 />
@@ -335,18 +339,18 @@ export default class StationAutoForm extends React.PureComponent {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.standard.label')}
+              label={t("stationAutoManager.form.standard.label")}
             >
-              {getFieldDecorator('standardsVN', {
+              {getFieldDecorator("standardsVN", {
                 rules: [
                   {
                     required: false,
-                    message: t('stationAutoManager.form.qcvn.error')
+                    message: t("stationAutoManager.form.qcvn.error")
                   }
                 ]
               })(
                 <SelectQCVN
-                  placeholder={t('stationAutoManager.form.qcvn.placeholder')}
+                  placeholder={t("stationAutoManager.form.qcvn.placeholder")}
                   onHandleChange={this.changeQCVN}
                 />
               )}
@@ -357,18 +361,18 @@ export default class StationAutoForm extends React.PureComponent {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.long.label')}
+              label={t("stationAutoManager.form.long.label")}
             >
-              {getFieldDecorator('long', {
+              {getFieldDecorator("long", {
                 rules: [
                   {
                     required: true,
-                    message: t('stationAutoManager.form.long.error')
+                    message: t("stationAutoManager.form.long.error")
                   }
                 ]
               })(
                 <Input
-                  placeholder={t('stationAutoManager.form.long.placeholder')}
+                  placeholder={t("stationAutoManager.form.long.placeholder")}
                 />
               )}
             </FormItem>
@@ -376,18 +380,18 @@ export default class StationAutoForm extends React.PureComponent {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.lat.label')}
+              label={t("stationAutoManager.form.lat.label")}
             >
-              {getFieldDecorator('lat', {
+              {getFieldDecorator("lat", {
                 rules: [
                   {
                     required: true,
-                    message: t('stationAutoManager.form.lat.error')
+                    message: t("stationAutoManager.form.lat.error")
                   }
                 ]
               })(
                 <Input
-                  placeholder={t('stationAutoManager.form.lat.placeholder')}
+                  placeholder={t("stationAutoManager.form.lat.placeholder")}
                 />
               )}
             </FormItem>
@@ -397,11 +401,11 @@ export default class StationAutoForm extends React.PureComponent {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.address.label')}
+              label={t("stationAutoManager.form.address.label")}
             >
-              {getFieldDecorator('address')(
+              {getFieldDecorator("address")(
                 <Input
-                  placeholder={t('stationAutoManager.form.address.placeholder')}
+                  placeholder={t("stationAutoManager.form.address.placeholder")}
                 />
               )}
             </FormItem>
@@ -409,20 +413,20 @@ export default class StationAutoForm extends React.PureComponent {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.stationType.label')}
+              label={t("stationAutoManager.form.stationType.label")}
             >
-              {getFieldDecorator('stationType', {
+              {getFieldDecorator("stationType", {
                 rules: [
                   {
                     required: true,
-                    message: t('stationAutoManager.form.stationType.error')
+                    message: t("stationAutoManager.form.stationType.error")
                   }
                 ]
               })(
                 <SelectStationType
-                  label={t('stationAutoManager.form.stationType.label')}
+                  label={t("stationAutoManager.form.stationType.label")}
                   placeholder={t(
-                    'stationAutoManager.form.stationType.placeholder'
+                    "stationAutoManager.form.stationType.placeholder"
                   )}
                   onHandleChange={this.changeStationType}
                 />
@@ -434,13 +438,15 @@ export default class StationAutoForm extends React.PureComponent {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.frequency.label')}
+              label={t("stationAutoManager.form.frequency.label")}
             >
-              {getFieldDecorator('dataFrequency', {
-                rules: [{ 
-                  required: true,
-                  message: t('stationAutoManager.form.frequency.error') 
-                }]
+              {getFieldDecorator("dataFrequency", {
+                rules: [
+                  {
+                    required: true,
+                    message: t("stationAutoManager.form.frequency.error")
+                  }
+                ]
               })(
                 <InputNumberCell
                   editable={true}
@@ -449,27 +455,53 @@ export default class StationAutoForm extends React.PureComponent {
                   max={1000000}
                 />
               )}
-              <i>{t('stationAutoManager.form.frequency.description')}</i>
+              <i>{t("stationAutoManager.form.frequency.description")}</i>
             </FormItem>
           </Col>
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.dayOfOperation.label')}
+              label={t("stationAutoManager.form.dayOfOperation.label")}
             >
-              {getFieldDecorator('activatedAt', {
+              {getFieldDecorator("activatedAt", {
                 rules: [{ required: false }]
               })(
                 <DatePicker
                   format="DD-MM-YYYY"
                   placeholder={t(
-                    'stationAutoManager.form.dayOfOperation.placeholder'
+                    "stationAutoManager.form.dayOfOperation.placeholder"
                   )}
                 />
               )}
             </FormItem>
           </Col>
         </Row>
+
+        <Row gutter={8}>
+          <Col span={12}>
+            <FormItem
+              {...formItemLayout}
+              label={t("stationAutoManager.form.order.label")}
+            >
+              {getFieldDecorator("order", {
+                rules: [
+                  {
+                    required: true,
+                    message: t("stationAutoManager.form.order.error")
+                  }
+                ]
+              })(
+                <InputNumberCell
+                  editable={true}
+                  size="small"
+                  min={1}
+                  max={1000000}
+                />
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+
         <Row gutter={8}>
           <Col span={24}>
             <FormItem
@@ -480,12 +512,12 @@ export default class StationAutoForm extends React.PureComponent {
               wrapperCol={{
                 sm: { span: 20, offset: 0 }
               }}
-              label={t('stationAutoManager.form.emails.label')}
+              label={t("stationAutoManager.form.emails.label")}
             >
-              {getFieldDecorator('emails', {})(
+              {getFieldDecorator("emails", {})(
                 <Select
                   mode="tags"
-                  placeholder={t('stationAutoManager.form.emails.placeholder')}
+                  placeholder={t("stationAutoManager.form.emails.placeholder")}
                   onChange={this.handleEmailsChange}
                 />
               )}
@@ -495,17 +527,17 @@ export default class StationAutoForm extends React.PureComponent {
           <Col
             span={12}
             style={{
-              display: 'none'
+              display: "none"
             }}
           >
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.phones.label')}
+              label={t("stationAutoManager.form.phones.label")}
             >
-              {getFieldDecorator('phones', {})(
+              {getFieldDecorator("phones", {})(
                 <Select
                   mode="tags"
-                  placeholder={t('stationAutoManager.form.phones.placeholder')}
+                  placeholder={t("stationAutoManager.form.phones.placeholder")}
                   onChange={this.handlePhonesChange}
                 />
               )}
@@ -522,11 +554,11 @@ export default class StationAutoForm extends React.PureComponent {
               wrapperCol={{
                 sm: { span: 20, offset: 0 }
               }}
-              label={t('stationAutoManager.form.note.label')}
+              label={t("stationAutoManager.form.note.label")}
             >
-              {getFieldDecorator('note')(
+              {getFieldDecorator("note")(
                 <TextArea
-                  placeholder={t('stationAutoManager.form.note.placeholder')}
+                  placeholder={t("stationAutoManager.form.note.placeholder")}
                 />
               )}
             </FormItem>
@@ -536,7 +568,7 @@ export default class StationAutoForm extends React.PureComponent {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label={t('stationAutoManager.form.image.label')}
+              label={t("stationAutoManager.form.image.label")}
             >
               <Upload
                 action={urlPhotoUpload}
@@ -554,7 +586,7 @@ export default class StationAutoForm extends React.PureComponent {
               >
                 <img
                   alt="example"
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   src={previewImage}
                 />
               </Modal>
@@ -569,28 +601,28 @@ export default class StationAutoForm extends React.PureComponent {
           form={this.props.form}
           allowUpdateStandardsVN={this.state.allowUpdateStandardsVN}
           standardsVN={keyBy(
-            get(this.state.standardsVNObject, 'measuringList', []),
-            'key'
+            get(this.state.standardsVNObject, "measuringList", []),
+            "key"
           )}
           dataSource={
             this.props.initialValues
               ? this.props.initialValues.measuringList
               : [
                   {
-                    key: '',
-                    name: '',
-                    unit: ''
+                    key: "",
+                    name: "",
+                    unit: ""
                   }
                 ]
           }
           measuringListSource={this.state.measuringListSource}
         />
         <FormItem>
-          <Button style={{ width: '100%' }} type="primary" htmlType="submit">
-            {t('addon.save')}
+          <Button style={{ width: "100%" }} type="primary" htmlType="submit">
+            {t("addon.save")}
           </Button>
         </FormItem>
       </Form>
-    )
+    );
   }
 }

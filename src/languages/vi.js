@@ -845,6 +845,11 @@ export default {
         error: 'Vui lòng chọn tần suất',
         description:'Chú ý: Phục vụ cho việc thống kê tỷ lệ nhận dữ liệu và gửi cảnh báo'
       },
+      order: {
+        label: 'Thứ tự',
+        placeholder: 'Thứ tự',
+        error: 'Vui lòng nhập thứ tự',
+      },
       dayOfOperation: {
         label: 'Ngày hoạt động',
         placeholder: 'Ngày hoạt động',
