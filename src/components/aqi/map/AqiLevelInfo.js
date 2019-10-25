@@ -23,7 +23,7 @@ const LevelItem = styled.div`
   // padding: 2px 8px;
   width: 125px;
   height: 25px;
-  color: #fff;
+  color: ${props => props.colorFont || "#fff"};
   background: ${props => props.color || "green"};
   text-align: center;
 `
@@ -70,11 +70,12 @@ export default class AqiLevelInfo extends React.PureComponent {
                 }else if(min && !max){
                   strLevel = `Trên ${min}`
                 }else if(!min && max){
-                  strLevel = `Dưới ${max}`
+                  strLevel = `${min} - ${max}`
                 }
+                const colorFont = name.toUpperCase() === "TRUNG BÌNH" ? "#020202" : "#fff"
                 return (
                   <Tooltip key={index} placement="top" title={description}>
-                    <LevelItem color={color} key={name}>
+                    <LevelItem color={color} key={name} colorFont={colorFont}>
                       <div>
                         <span style={{ fontSize: 11, fontWeight: "bold" }}>
                           {strLevel}: {name}

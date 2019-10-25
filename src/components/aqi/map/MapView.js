@@ -1,20 +1,27 @@
 /* eslint-disable */
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
+import React, { PureComponent } from "react"
+import styled from "styled-components"
 import {
   GoogleMap,
   withScriptjs,
   withGoogleMap,
   Polygon
-} from 'react-google-maps'
-import { withProps } from 'recompose'
-import { getGoogleMapProps } from 'components/map/utils'
-import { map as mapLodash, get, find, inRange, values as _values, omit as _omit } from 'lodash'
-import InfoBox from 'react-google-maps/lib/components/addons/InfoBox'
-import MarkerWithLabel from 'react-google-maps/lib/components/addons/MarkerWithLabel'
-import { Tooltip } from 'antd'
-import moment from 'moment'
-import { DD_MM_YYYY } from '../../../constants/format-date'
+} from "react-google-maps"
+import { withProps } from "recompose"
+import { getGoogleMapProps } from "components/map/utils"
+import {
+  map as mapLodash,
+  get,
+  find,
+  inRange,
+  values as _values,
+  omit as _omit
+} from "lodash"
+import InfoBox from "react-google-maps/lib/components/addons/InfoBox"
+import MarkerWithLabel from "react-google-maps/lib/components/addons/MarkerWithLabel"
+import { Tooltip } from "antd"
+import moment from "moment"
+import { DD_MM_YYYY } from "../../../constants/format-date"
 
 const StationNameView = styled.b`
   color: white;
@@ -29,13 +36,11 @@ const TimeView = styled.b`
 `
 
 // import aqiLevel from 'constants/aqi-level'
-import { GOOGLE_MAP } from 'config'
+import { GOOGLE_MAP } from "config"
 
 const WindowInfo = ({ name, time }) => {
   // console.log(time,"WindowInfo")
-  const timeValue = moment(time).format(
-    DD_MM_YYYY
-  )
+  const timeValue = moment(time).format(DD_MM_YYYY)
 
   return (
     <div>
@@ -49,12 +54,16 @@ const WindowInfo = ({ name, time }) => {
   )
 }
 
-const AqiMarker = ({ item, aqiLevel , onMapClick }) => {
-  const value = get(item, 'aqiDay', '')
+const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
+  const value = get(item, "aqiDay", "")
   const level = find(aqiLevel, ({ min, max }) => {
-    return inRange(value, min, max) || (min < value && !max) || (max > value && !min)
+    return (
+      inRange(value, min, max) || (min < value && !max) || (max > value && !min)
+    )
   })
-  const color = get(level, 'color', null)
+  const color = get(level, "color", null)
+  const colorFont = get(level, "name", '').toUpperCase() === "TRUNG BÌNH" ? "#020202" : "#fff"
+  // console.log(colorFont, get(level, "name", null), "colorFont")
   return (
     <InfoBox
       defaultPosition={
@@ -65,11 +74,12 @@ const AqiMarker = ({ item, aqiLevel , onMapClick }) => {
       <Tooltip title={<WindowInfo {...item} />}>
         <div
           style={{
-            backgroundColor: color || 'yellow',
+            backgroundColor: color || "yellow",
             padding: `4px 8px`,
             borderRadius: 3,
-            borderColor: '#fff',
-            borderWidth: 1
+            borderColor: '#020202',
+            border: 'solid',
+            borderWidth: 1,
           }}
           onClick={() => {
             if (onMapClick) {
@@ -78,7 +88,7 @@ const AqiMarker = ({ item, aqiLevel , onMapClick }) => {
           }}
         >
           <div>
-            <span style={{ fontSize: `16px`, color: `#fff` }}>{value}</span>
+            <span style={{ fontSize: `16px`, color: colorFont }}>{value}</span>
           </div>
         </div>
       </Tooltip>

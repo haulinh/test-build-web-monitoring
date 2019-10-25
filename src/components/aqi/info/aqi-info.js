@@ -28,13 +28,15 @@ const AqiView = styled.div`
 const VnAqiView = ({ aqiLevel, value, color, time }) => {
   const level = _.find(aqiLevel, ({ min, max }) => _.inRange(value, min, max))
   color = _.get(level, "color", null)
+  const colorFont = _.get(level, "name", '').toUpperCase() === "TRUNG BÌNH" ? "#020202" : "#fff"
+
   return (
     <AqiView color={color}>
       <span
         style={{
           fontSize: 18,
           paddingTop: 8,
-          color: "#fff",
+          color: colorFont,
           fontWeight: "600"
         }}
       >
@@ -43,7 +45,7 @@ const VnAqiView = ({ aqiLevel, value, color, time }) => {
       <span
         style={{
           fontSize: 60,
-          color: "#fff",
+          color: colorFont,
           fontWeight: "600",
           textShadow: "2px 1px #ddd"
         }}
@@ -53,7 +55,7 @@ const VnAqiView = ({ aqiLevel, value, color, time }) => {
       <span
         style={{
           fontSize: 12,
-          color: "#fff",
+          color: colorFont,
           fontWeight: "400",
           paddingBottom: 8
         }}
