@@ -165,6 +165,7 @@ export default {
     colMin: 'Min',
     colMax: 'Max',
     colColor: 'Color',
+    colBackgroundColor: 'Background Color',
     colDescription: 'Description',
     colMeasureKey: 'Measure Key',
     colMeasure: 'Measure',
