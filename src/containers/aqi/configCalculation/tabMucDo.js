@@ -35,6 +35,7 @@ const i18n = {
   colMin: translate("aqiConfigCalculation.colMin"),
   colMax: translate("aqiConfigCalculation.colMax"),
   colColor: translate("aqiConfigCalculation.colColor"),
+  colBackgroundColor: translate("aqiConfigCalculation.colBackgroundColor"),
   colDescription: translate("aqiConfigCalculation.colDescription")
 };
 
@@ -155,7 +156,7 @@ export default class TabMucDo extends React.Component {
     },
     {
       title: i18n.colColor,
-      dataIndex: "address",
+      dataIndex: "colColor",
       key: "color",
       align: "center",
       render: (text, record, index) => {
@@ -163,6 +164,28 @@ export default class TabMucDo extends React.Component {
         return (
           <Form.Item style={{ marginBottom: "initial" }}>
             {getFieldDecorator(`levelList[${record.key}].color`, {
+              initialValue: "#fff",
+              rules: [
+                {
+                  required: true,
+                  message: i18n.required
+                }
+              ]
+            })(<input type="color" />)}
+          </Form.Item>
+        );
+      }
+    },
+    {
+      title: i18n.colBackgroundColor,
+      dataIndex: "colBackgroundColor",
+      key: "backgroundColor",
+      align: "center",
+      render: (text, record, index) => {
+        const { getFieldDecorator } = this.props.form;
+        return (
+          <Form.Item style={{ marginBottom: "initial" }}>
+            {getFieldDecorator(`levelList[${record.key}].backgroundColor`, {
               initialValue: "#1d89ce",
               rules: [
                 {
