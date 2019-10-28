@@ -296,7 +296,7 @@ export default class TabMucDo extends React.Component {
         {
           dataSource: transformData,
           isLoaded: true,
-          isLocked: lastRecord.max == null
+          isLocked: lastRecord ? lastRecord.max == null : null
         },
         () => {
           this.props.form.setFieldsValue({
