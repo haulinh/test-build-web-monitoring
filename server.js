@@ -20,7 +20,8 @@ app.get('/app.json', function(req, res) {
       id: process.env.FIREBASE_ID,
       key: process.env.FIREBASE_KEY
     },
-    isAdvanced: process.env.isAdvanced
+    isAdvanced: process.env.isAdvanced,
+    defaultPage: process.env.DEFAULT_PAGE || '/'
   })
 })  
 app.use(express.static(path.join(__dirname, 'build')))
