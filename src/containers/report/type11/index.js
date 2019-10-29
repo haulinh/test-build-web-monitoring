@@ -22,7 +22,7 @@ import { connect } from "react-redux";
 const { Title, Text } = Typography;
 const i18n = {
   header8: translate("avgSearchFrom.table.header8"),
-  title: translate("avgSearchFrom.table.title2")
+  title: translate("avgSearchFrom.table.title3")
 };
 
 @connect(state => ({
@@ -143,7 +143,7 @@ export default class ReportType11 extends React.Component {
           <Title level={4}>{i18n.title}</Title>
           <Text>
             {" "}
-            {translate("avgSearchFrom.table.description2", {
+            {translate("avgSearchFrom.table.description3", {
               stationName: this.state.stationName,
               monthYear: this.state.monthYear
             })}
