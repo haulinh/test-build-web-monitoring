@@ -189,7 +189,7 @@ export class ChartSummary extends React.Component {
                   filter={this.state.filter}
                   filterType={this.state.filterType}
                   onFilter={this.handleFilter}
-                  onChangeItem={this.handleChangeItem}
+                  onChangeItem={this.handleChangeItem.bind(this)}
                   currentItem={this.state.currentItem}
                   data={this.props.stationList}
                 />
