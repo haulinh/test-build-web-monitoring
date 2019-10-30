@@ -23,7 +23,7 @@ const Option = Select.Option
 const RadioGroup = Radio.Group
 
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  //mapPropsToFields: mapPropsToFields
 })
 @createLanguageHoc
 @autobind
@@ -190,6 +190,7 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   render() {
+    console.log(this.props.initialValues, "ououououou")
     const { getFieldDecorator } = this.props.form
     const { t } = this.props.lang
     const formItemLayout = {
@@ -212,31 +213,30 @@ export default class StationAutoForm extends React.PureComponent {
           {...formItemLayout}
           label={t('stationAutoManager.config.fileName.label')}
         >
-          {getFieldDecorator('fileName', {
-            initialValue: get(this.props, 'initialValues.fileName', ''),
-            rules: [
-              {
-                required: true,
-                message: t('stationAutoManager.config.fileName.label')
-              }
-            ]
-          })(
-            <Row gutter={8}>
-              <Col span={12}>
-                <Input
-                  //disabled={this.props.isEdit}
-                  placeholder={t(
-                    'stationAutoManager.config.fileName.placeholder'
-                  )}
-                />
-              </Col>
-              <Col>
-                <Button type="primary" onClick={this.loadSourceParameter}>
-                  {t('stationAutoManager.config.buttonLoadSourceParameter')}
-                </Button>
-              </Col>
-            </Row>
-          )}
+          <Row gutter={8}>
+            <Col span={12}>
+              {getFieldDecorator('fileName', {
+                initialValue: get(this.props, 'initialValues.fileName', ''),
+                rules: [
+                  {
+                    required: true,
+                    message: t('stationAutoManager.config.fileName.label')
+                  }
+                ]
+              })(
+                    <Input
+                      placeholder={t(
+                        'stationAutoManager.config.fileName.placeholder'
+                      )}
+                    />
+              )}
+            </Col>
+            <Col>
+              <Button type="primary" onClick={this.loadSourceParameter}>
+                {t('stationAutoManager.config.buttonLoadSourceParameter')}
+              </Button>
+            </Col>
+          </Row>
         </FormItem>
           
         <FormItem
