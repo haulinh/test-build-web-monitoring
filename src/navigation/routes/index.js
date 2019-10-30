@@ -1,7 +1,9 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import { autobind } from "core-decorators";
 import slug from "constants/slug";
+import { getConfigApi } from "config";
+
 import OverviewDashboard from "containers/dashboard/OverviewDashboard";
 import LoginRoute from "./loginRoute";
 import LayoutRoute from "layout/default-sidebar-layout/routeCombine";
@@ -46,8 +48,17 @@ import PercentReceivedData from "containers/statistic/per-rec-data";
 import Layout from "layout/default-sidebar-layout";
 import Report from "containers/report";
 
+@withRouter
 @autobind
 export default class RouteDefault extends React.Component {
+  componentDidMount() {
+    const pathname = this.props.location.pathname
+    if (pathname === '/') {
+      const defaultPage = getConfigApi().defaultPage
+      this.props.history.push(defaultPage)
+    }
+  }
+
   render() {
     return (
       <div>
@@ -62,7 +73,6 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute path="/" exact component={OverviewDashboard} />
             <LayoutRoute path={slug.map.base}  component={Map} />
             
-
             <LayoutRoute path={slug.measuring.base} component={MeasuringRoute} />
             <LayoutRoute path={slug.aqi.base} component={AqiContainer} />
             <LayoutRoute path={slug.aqi.config} component={AqiConfigCalculationContainer} />

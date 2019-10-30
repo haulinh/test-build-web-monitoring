@@ -49,6 +49,8 @@ export function getConfigApi() {
     camera: config.camera,
     firebase: config.firebase,
     isAdvanced:config.isAdvanced,
+
+    defaultPage: config.defaultPage
   }
 }
 

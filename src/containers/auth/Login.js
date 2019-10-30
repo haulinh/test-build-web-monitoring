@@ -19,6 +19,7 @@ import Errors from 'constants/errors'
 import * as _ from 'lodash'
 import Particles from 'react-particles-js'
 import PraticData from 'containers/auth/PraticData.json'
+import { getConfigApi } from "config";
 
 const FInput = createValidateComponent(InputLabel)
 
@@ -86,7 +87,6 @@ export default class Login extends PureComponent {
 
   userError(user) {
     let title = user.message
-    console.log(Errors.ACCOUNT_DELETE, 'Errors.ACCOUNT_DELETE')
     if (user.message === Errors.USER_PASSWORD_INCORRECT) {
       title = translate('login.errors.emailOrPasswordIncorrect')
     } else if (user.message === Errors.ACCOUNT_DISABLE) {
@@ -98,9 +98,11 @@ export default class Login extends PureComponent {
     } else if (user.message === Errors.ORGANIZATION_NOT_EXIST) {
       title = translate('login.errors.organizationNotExist')
     }
+
     if (user.message === Errors.ACCOUNT_DELETE) {
       title = translate('login.errors.accountDelete')
     }
+
     swal({
       title: title,
       type: 'error'
@@ -112,7 +114,9 @@ export default class Login extends PureComponent {
       type: 'success',
       text: 'Welcome ' + user.data.email
     })
-    this.props.history.push('/')
+
+    const defaultPage = getConfigApi().defaultPage
+    this.props.history.push(defaultPage)
   }
 
   async handleLogin(values) {
