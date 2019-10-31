@@ -17,6 +17,7 @@ import ReportType12 from './type12'
 import ReportAQI from 'containers/statistic/aqi'
 import ReportAQIDay from 'containers/statistic/aqi-day'
 import ReportAQI878 from 'containers/statistic/aqi-day-878'
+import ReportStatusData from './status-data'
 
 
 
@@ -95,5 +96,10 @@ export default props => (
       path={slug.report.aqi_878}
       render={matchProps => <ReportAQI878 {...matchProps} {...props} />}
     /> 
+    <Route
+      path={slug.report.status_data}
+      render={matchProps => <ReportStatusData {...matchProps} {...props} />}
+    /> 
+
   </Switch>
 )

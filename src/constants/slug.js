@@ -189,7 +189,8 @@ export default {
     type12: "/report/type12", // tỷ lệ dữ liệu vượt ngưỡng của 1 trạm
     aqi_hour: "/report/aqi-hour",
     aqi_day: "/report/aqi-day",
-    aqi_878: "/report/aqi-878"
+    aqi_878: "/report/aqi-878",
+    status_data: "/report/status-data",
   }
 }
 
@@ -275,6 +276,7 @@ export const MENU_NAME = {
     aqi_hour: translate("menuApp.report.aqiHour"), 
     aqi_day: translate("menuApp.report.aqiDay"), 
     aqi_878: translate("menuApp.report.aqi878"), 
+    status_data: translate("menuApp.report.status_data"), 
   },
 
   advanceSub: translate("menuApp.advanceSub"),
