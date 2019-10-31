@@ -1611,7 +1611,12 @@ export default {
       type12: 'Percentage of exceeded data',
       aqiHour: "AQI - Hour",
       aqiDay: "AQI - Day",
-      aqi878: "AQI - 878"
+      aqi878: "AQI - 878",
+      status_data: "Status Data",
+      status_data_obj: {
+        title: "Report Status Data",
+        dateRange: "Date range"
+      }
     },
     reportBreadcrum: {
       type1: 'Original data',
@@ -1627,7 +1632,8 @@ export default {
       type12: 'Percentage of exceeded data',
       aqiHour: "AQI - Hour",
       aqiDay: "AQI - Day",
-      aqi878: "AQI - 878"
+      aqi878: "AQI - 878",
+      status_data: "Status Data"
     }  
   },
   cameraControl: {
