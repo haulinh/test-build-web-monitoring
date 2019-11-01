@@ -1610,7 +1610,12 @@ export default {
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
       aqiHour: "AQI - Giờ",
       aqiDay: "AQI - Ngày",
-      aqi878: "AQI - 878"
+      aqi878: "AQI - 878",
+      status_data: "Tình trạng dữ liệu",
+      status_data_obj: {
+        title: "Báo cáo đánh giá tình trạng dữ liệu",
+        dateRange: 'Khoảng thời gian'
+      }
     },
     reportBreadcrum: {
       type1: 'Tỷ lệ dữ liệu',
@@ -1626,7 +1631,8 @@ export default {
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
       aqiHour: "AQI - Giờ",
       aqiDay: "AQI - Ngày",
-      aqi878: "AQI - 878"
+      aqi878: "AQI - 878",
+      status_data: "Tình trạng dữ liệu"
     }
   },
   cameraControl: {

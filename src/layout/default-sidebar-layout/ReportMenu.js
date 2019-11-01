@@ -134,6 +134,17 @@ export default {
         </Menu.Item>
       )}
       {/* // NOTE Báo cáo AQI - END */}
+
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
+        <Menu.Item
+          key={slug.report.status_data}
+          onClick={() => {
+            props.selectMenu(slug.report.status_data)
+          }}
+        >
+          <Link to={slug.report.status_data}>{MENU_NAME.report.status_data}</Link>
+        </Menu.Item>
+      )}
     </Menu.SubMenu>
   )
 }
