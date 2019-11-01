@@ -74,5 +74,11 @@ export default createBreadcrumb({
     // icon: '',
     href: slug.report.type12,
     name: translate('menuApp.reportBreadcrum.type12')
+  },
+  status_data: {
+    id: 'status_data',
+    // icon: '',
+    href: slug.report.status_data,
+    name: translate('menuApp.reportBreadcrum.status_data')
   }
 })
