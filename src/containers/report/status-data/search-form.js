@@ -7,6 +7,7 @@ import createLang, { translate } from "hoc/create-lang";
 import SelectProvince from "components/elements/select-province";
 import SelectStationType from "components/elements/select-station-type";
 import SelectStationAuto from "containers/search/common/select-station-auto"; //'.././common/select-station-auto'
+import SelectStationTreeView from "containers/search/common/select-station-tree-view";
 import { Clearfix } from "containers/fixed-map/map-default/components/box-analytic-list/style";
 import moment from "moment-timezone";
 
@@ -104,50 +105,6 @@ export default class SearchForm extends React.Component {
               </Item>
             </Col>
             <Col span={12}>
-              <Item label={t("stationType.label")}>
-                {getFieldDecorator("stationType", {
-                  onChange: val => {
-                    setFieldsValue({ stationAutos: [] });
-                  },
-                  rules: [
-                    {
-                      required: true,
-                      message: translate(
-                        "dataSearchFrom.form.stationType.require"
-                      )
-                    }
-                  ]
-                })(<SelectStationType size="large" />)}
-              </Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Item label={t("stationAuto.label")}>
-                {getFieldDecorator("stationAutos", {
-                  rules: [
-                    {
-                      required: true,
-                      message: translate("avgSearchFrom.form.stationAuto.error")
-                    }
-                  ]
-                })(
-                  <SelectStationAuto
-                    mode="multiple"
-                    size="large"
-                    stationTypeKey={getFieldValue("stationType")}
-                    provinceKey={getFieldValue("province")}
-                    onChangeObject={station => {
-                      if (station && station.measuringList)
-                        this.setState({ measuringList: station.measuringList });
-                      else this.setState({ measuringList: [] });
-                    }}
-                    style={{ width: "100%" }}
-                  />
-                )}
-              </Item>
-            </Col>
-            <Col span={12}>
               <Item
                 label={translate("menuApp.report.status_data_obj.dateRange")}
               >
@@ -160,6 +117,9 @@ export default class SearchForm extends React.Component {
                   ]
                 })(
                   <RangePicker
+                  disabledDate={(current)=>{
+                    return current && current > moment().endOf('day');
+                  }}
                     showTime={{
                       format: "HH:mm",
                       defaultValue: [
@@ -177,6 +137,15 @@ export default class SearchForm extends React.Component {
             </Col>
           </Row>
           <Clearfix height={16} />
+          <Row gutter={16}>
+            <Col span={24}>
+              <Item label={translate("stationAuto.label")}>
+                {getFieldDecorator("stationAutos", {})(
+                  <SelectStationTreeView />
+                )}
+              </Item>
+            </Col>
+          </Row>
         </div>
       </SearchFormContainer>
     );
