@@ -67,9 +67,9 @@ function validate(values) {
 
 @connect((state, ownProps) => ({
   initialValues: {
-    fromDate: moment().subtract(7, 'days'),
-    toDate: moment(),
-    ...(ownProps.initialValues ? ownProps.initialValues : {})
+    fromDate: moment().subtract(1, 'month').startOf("month").hours(0).minutes(0),
+    toDate: moment().hours(23).minutes(59),
+  //   ...(ownProps.initialValues ? ownProps.initialValues : {})
   }
 }))
 @reduxForm({

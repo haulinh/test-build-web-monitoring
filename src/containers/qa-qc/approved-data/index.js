@@ -19,9 +19,14 @@ import protectRole from "hoc/protect-role"
 // import { getConfigApi } from "config"
 import PageInfo from "components/pageInfo"
 import { QAQC_TABLES } from "constants/qaqc"
+import { connect } from "react-redux"
 
 @protectRole(ROLE.QAQC.VIEW)
 @queryFormDataBrowser(["submit"])
+@connect(state => ({
+  token: get(state, "auth.token", ""),
+  timeZone: get(state, "auth.userInfo.organization.timeZone", null)
+}))
 @autobind
 export default class QaQcContainer extends React.Component {
   state = {
@@ -43,14 +48,37 @@ export default class QaQcContainer extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        {/* {getConfigApi().isAdvanced
-          ? this._renderPageContent()
-          : this._renderPageInfo()} */}
-          {this._renderPageContent()}
-      </div>
-    )
+    return <div>{this._renderPageContent()}</div>
+  }
+
+  handleExportExcel = async () => {
+    const { searchFormData } = this.state
+
+    console.log(searchFormData, "searchFormData")
+    let query = {}
+    if (searchFormData.dataType !== QAQC_TABLES.original) {
+      query = _.pick(searchFormData, [
+        "fromDate",
+        "toDate",
+        "dataType",
+        "key",
+        "measuringList",
+        "stationAutoType"
+      ])
+      // console.log(searchFormData, "searchFormData")
+      let url = QAQCApi.downloadExcel(this.props.token, query)
+      //  console.log(url, "url--------")
+      window.open(url, "_blank")
+    } else {
+      query = _.pick(searchFormData, [
+        "fromDate",
+        "toDate",
+        "key",
+        "measuringList"
+      ])
+      let res = await DataStationAutoApi.getExportData(query)
+      if (res && res.success) window.location = res.data
+    }
   }
 
   _renderPageContent() {
@@ -64,14 +92,16 @@ export default class QaQcContainer extends React.Component {
           // changeDataType={this._handleChangeDataType}
         />
         <Spin spinning={this.state.isLoading}>
-           <TableList
-              dataSource={this.state.dataStationAuto}
-              measuringData={this.state.measuringData}
-              measuringList={this.state.measuringList}
-              selectedTable={this.state.selectedTable}
-              pagination={this.state.pagination}
-              onChangePage={this.handleChangePage}
-            />
+          <TableList
+            isLoading={this.state.isLoading}
+            dataSource={this.state.dataStationAuto}
+            measuringData={this.state.measuringData}
+            measuringList={this.state.measuringList}
+            selectedTable={this.state.selectedTable}
+            pagination={this.state.pagination}
+            onChangePage={this.handleChangePage}
+            submitExcel={this.handleExportExcel}
+          />
         </Spin>
       </PageContainer>
     )
@@ -116,8 +146,9 @@ export default class QaQcContainer extends React.Component {
 
     let dataStationAuto = []
 
+    let query = {}
     if (searchFormData.dataType !== QAQC_TABLES.original) {
-      const query = _.pick(searchFormData, [
+      query = _.pick(searchFormData, [
         "fromDate",
         "toDate",
         "dataType",
@@ -138,7 +169,7 @@ export default class QaQcContainer extends React.Component {
         dataStationAuto = res
       }
     } else {
-      const query = _.pick(searchFormData, [
+      query = _.pick(searchFormData, [
         "fromDate",
         "toDate",
         "key",
