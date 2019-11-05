@@ -1,21 +1,22 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
+import React from "react"
+import { connect } from "react-redux"
+import PropTypes from "prop-types"
+import { autobind } from "core-decorators"
+import { Button } from "antd"
+import { QAQC_TABLES } from "constants/qaqc"
+import { translate } from "hoc/create-lang"
+import OriginalTable from "./original"
+import ValidTable from "./valid"
+import InvalidTable from "./invalid"
 
-import {QAQC_TABLES} from 'constants/qaqc'
-
-import OriginalTable from './original'
-import ValidTable from './valid'
-import InvalidTable from './invalid'
-
-
-
-@connect((state, ownProps) => ({
-  /* states */
-}), {
-  /* actions */
-})
+@connect(
+  (state, ownProps) => ({
+    /* states */
+  }),
+  {
+    /* actions */
+  }
+)
 @autobind
 export default class QAQCTables extends React.Component {
   static propTypes = {
@@ -25,30 +26,33 @@ export default class QAQCTables extends React.Component {
     measuringList: PropTypes.array.isRequired,
     pagination: PropTypes.object,
     onChangePage: PropTypes.func,
+    submitExcel: PropTypes.func,
+    isLoading: PropTypes.func
   }
 
   render() {
-    let {measuringList, measuringData} = this.props
+    let { measuringList, measuringData } = this.props
     let Table = this._getSelectedTable(this.props.selectedTable)
     return (
       <div>
-        {/* <div style={{textAlign: 'right', marginBottom: 16}}>
-          <Button
-            type="primary"
-            icon="file-excel"
-            // onClick={this.submit}
-            // loading={this.props.isExporting}
-          >
-            {translate("dataSearchFrom.tab.exportExcel")}
-          </Button>
-        </div> */}
+        {!this.props.isLoading  && (
+          <div style={{ textAlign: "right", marginBottom: 16 }}>
+            <Button
+              type="primary"
+              icon="file-excel"
+              onClick={this.props.submitExcel}
+            >
+              {translate("dataSearchFrom.tab.exportExcel")}
+            </Button>
+          </div>
+        )}
+
         <Table
           dataSource={this.props.dataSource}
-          measuringList={measuringList} // danh sach do user lựa chọn 
+          measuringList={measuringList} // danh sach do user lựa chọn
           measuringData={measuringData} // danh sach full cua station
           pagination={this.props.pagination}
           onChangePage={this.props.onChangePage}
-          
         />
       </div>
     )
@@ -56,8 +60,8 @@ export default class QAQCTables extends React.Component {
 
   _getSelectedTable(table) {
     let TableComp = <div />
-    
-    switch(table) {
+
+    switch (table) {
       case QAQC_TABLES.valid: {
         TableComp = ValidTable
         break
