@@ -1,7 +1,13 @@
+import { getConfigApi } from "config";
+
 export default function registerServiceWorkerFireBase() {
+  let dirFileBase = "./firebase-messaging-sw.js";
+  if (getConfigApi().NODE_ENV === "production")
+    dirFileBase = "./firebase-messaging-sw-pro.js";
+
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker
-      .register("./firebase-messaging-sw.js")
+      .register(dirFileBase)
       .then(function(registration) {
         console.log("Registration successful, scope is:", registration.scope);
       })
