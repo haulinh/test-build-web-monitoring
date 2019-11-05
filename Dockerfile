@@ -1,18 +1,14 @@
 FROM node:10.17-alpine
 
-# Install yarrn
-RUN apk add yarn
-
 WORKDIR /usr/src/app
 
 # install package
 COPY package.json .
-COPY yarn.lock .
-RUN yarn install
+RUN npm install
 
 COPY . .
 RUN npm run build
 RUN rm -r src
 
 EXPOSE 5555
-CMD [ "yarn", "run", "start" ]
+CMD [ "npm", "run", "start" ]
