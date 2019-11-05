@@ -1,7 +1,7 @@
 FROM node:10.17-alpine
 
 # Install yarrn
-apk add yarn
+RUN apk add yarn
 
 WORKDIR /usr/src/app
 
