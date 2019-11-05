@@ -1,9 +1,11 @@
 importScripts("https://www.gstatic.com/firebasejs/5.11.1/firebase-app.js");
-importScripts("https://www.gstatic.com/firebasejs/5.11.1/firebase-messaging.js");
+importScripts(
+  "https://www.gstatic.com/firebasejs/5.11.1/firebase-messaging.js"
+);
 
 // MARK  fire_id
 firebase.initializeApp({
-  messagingSenderId: "851178570095"
+  messagingSenderId: "378057037919"
 });
 
 const messaging = firebase.messaging();
@@ -20,7 +22,6 @@ const messaging = firebase.messaging();
 //   return self.registration.showNotification(notificationTitle,
 //     notificationOptions);
 // });
-
 
 // self.addEventListener("notificationclick", function(event) {
 //   // do what you want
