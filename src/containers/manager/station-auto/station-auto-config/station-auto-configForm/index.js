@@ -207,69 +207,55 @@ export default class StationAutoForm extends React.PureComponent {
     }
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        
-        <FormItem
-          {...formItemLayout}
-          label={t('stationAutoManager.config.fileName.label')}
-        >
-          <Row gutter={8}>
-            <Col span={12}>
-              {getFieldDecorator('fileName', {
-                initialValue: get(this.props, 'initialValues.fileName', ''),
-                rules: [
-                  {
-                    required: true,
-                    message: t('stationAutoManager.config.fileName.label')
-                  }
-                ]
-              })(
-                    <Input
-                      placeholder={t(
-                        'stationAutoManager.config.fileName.placeholder'
-                      )}
-                    />
-              )}
-            </Col>
-            <Col>
-              <Button type="primary" onClick={this.loadSourceParameter}>
-                {t('stationAutoManager.config.buttonLoadSourceParameter')}
-              </Button>
-            </Col>
-          </Row>
-        </FormItem>
-          
-        <FormItem
-          {...formItemLayout}
-          label={t('stationAutoManager.config.extensionFile')}
-        >
-          {getFieldDecorator('extensionFile', {
-            initialValue: get(
-              this.props,
-              'initialValues.extensionFile',
-              'txt'
-            )
-          })(
-            <RadioGroup>
-              <Radio value="txt">.TXT</Radio>
-              <Radio value="csv">.CSV</Radio>
-            </RadioGroup>
-          )}
-        </FormItem>
+      <div>
+        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+          <FormItem label={t('stationAutoManager.config.fileName.label')} >
+            <Row gutter={8} type="flex">
+              <Col span={12}>
+                {getFieldDecorator('fileName', {
+                  initialValue: get(this.props, 'initialValues.fileName', ''),
+                  rules: [
+                    {
+                      required: true,
+                      message: t('stationAutoManager.config.fileName.label')
+                    }
+                  ]
+                })(
+                    <Input placeholder={t( 'stationAutoManager.config.fileName.placeholder' )} />
+                )}
+              </Col>
+              <Col>
+                <Button type="primary" onClick={this.loadSourceParameter}>
+                  {t('stationAutoManager.config.buttonLoadSourceParameter')}
+                </Button>
+              </Col>
+            </Row>
+          </FormItem>   
+          <FormItem label={t('stationAutoManager.config.extensionFile')} >
+            {getFieldDecorator('extensionFile', {
+              initialValue: get(
+                this.props,
+                'initialValues.extensionFile',
+                'txt'
+              )
+            })(
+              <RadioGroup>
+                <Radio value="txt">.TXT</Radio>
+                <Radio value="csv">.CSV</Radio>
+              </RadioGroup>
+            )}
+          </FormItem>
+          <Table
+            rowKey={record => record.key}
+            bordered
+            dataSource={ this.props.measuringListSource && this.props.measuringListSource }
+            columns={this.columns}
+            pagination={{ pageSize: 1000, hideOnSinglePage: true }}
+          />
+        </Form>
 
-        <Table
-          rowKey={record => record.key}
-          bordered
-          dataSource={
-            this.props.measuringListSource && this.props.measuringListSource
-          }
-          columns={this.columns}
-          pagination={{
-            pageSize: 1000,
-            hideOnSinglePage: true
-          }}
-        />
-      </Form>
+      </div>
+
     )
   }
 }
