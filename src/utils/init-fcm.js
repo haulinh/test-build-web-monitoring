@@ -19,6 +19,5 @@ messaging.usePublicVapidKey(
 messaging.onMessage(function(payload) {
   console.log('Message code. ', payload);
   // ...
-  
 });
 export { messaging };
