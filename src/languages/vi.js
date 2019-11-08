@@ -1304,9 +1304,13 @@ export default {
     totalUsers: 'Tổng số người dùng',
     totalStation: 'Tổng số trạm'
   },
+  infoLicense: {
+    breadCrumb: 'Thông tin gói'
+  },
   profileUser: {
     title: 'người dùng',
     success: 'Thay đổi thông tin thành công',
+    infoLicense: 'Thông tin gói',
     viewProfile: 'Thông tin cá nhân',
     configStation: 'Cấu hình trạm',
     security: 'Bảo mật',
@@ -1706,10 +1710,9 @@ export default {
     }
   },
   pageInfo: {
-    header: 'Thông báo',
-    body1:
-      'Đây là chức năng thuộc phiên bản Nâng cao, vui lòng liên hệ với chúng tôi để biết thêm thông tin:',
-    body2: 'Email: sales@vietan-software.com'
+    header:'Thông báo',
+    body1:'Đây là chức năng thuộc phiên bản Nâng cao, vui lòng liên hệ với chúng tôi để biết thêm thông tin:',
+    body2: 'Email:'
   },
   stationStatus: {
     good: 'Tốt',

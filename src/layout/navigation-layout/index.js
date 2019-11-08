@@ -124,6 +124,10 @@ export default class BasicNestedNavigation extends React.Component {
     this.props.history.push(slug.user.changePassword);
   }
 
+  handleInfoLicense() {
+    this.props.history.push(slug.user.infoLicense);
+  }
+
   handleProfile() {
     this.props.history.push(slug.user.profile);
   }
@@ -161,6 +165,7 @@ export default class BasicNestedNavigation extends React.Component {
         }
       >
         <DropdownItemGroup title={`${this.props.authInfo.lastName} ${this.props.authInfo.firstName}`}>
+        <DropdownItem onClick={this.handleInfoLicense}>{translate('profileUser.infoLicense')}</DropdownItem>
           <DropdownItem onClick={this.handleProfile}>{translate('profileUser.viewProfile')}</DropdownItem>
           <DropdownItem onClick={this.handleChangePassword}>{translate('profileUser.changePassword')}</DropdownItem>
           <DropdownItem onClick={this.handleConfigStation}>{translate('profileUser.configStation')}</DropdownItem>

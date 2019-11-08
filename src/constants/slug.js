@@ -127,6 +127,7 @@ export default {
     editWithKey: "/user/edit",
     changePassword: "/user/change-password",
     configStation: "/user/config-station",
+    infoLicense: "/user/info-package",
     profile: "/user/profile",
     security: "/user/security",
     rule: "/user/rule",
