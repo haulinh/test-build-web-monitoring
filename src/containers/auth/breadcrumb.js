@@ -15,6 +15,12 @@ export default createBreadcrumb({
     href: slug.user.profile,
     name: translate('changePassword.breadcrumb.profileUser')
   },
+  infoLicense: {
+    id: 'infoLicense',
+    icon: '',
+    href: slug.user.infoLicense,
+    name: translate('infoLicense.breadCrumb')
+  },
   configStation: {
     id: 'configStation',
     icon: '',
@@ -26,5 +32,5 @@ export default createBreadcrumb({
     icon: '',
     href: slug.user.security,
     name: translate('changePassword.breadcrumb.security')
-  }
+  },
 })

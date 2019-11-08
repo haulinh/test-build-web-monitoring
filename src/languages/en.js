@@ -1306,6 +1306,7 @@ export default {
   },
   profileUser: {
     title: 'User Profile',
+    infoLicense: 'Information Package',
     success: 'Change Information Successfully',
     viewProfile: 'View Profile',
     configStation: 'Configure to Receive Notifications',
@@ -1709,7 +1710,7 @@ export default {
   pageInfo: {
     header: 'Information',
     body1:'This is a function of the Advanced version, please contact us for more information:',
-    body2: 'Email: sales@vietan-software.com'
+    body2: 'Email:'
   },
   stationStatus: {
     good: 'Good',

@@ -9,6 +9,7 @@ import ChangePassword from 'containers/auth/change-password'
 import ProfileUser from 'containers/auth/profile-user'
 import Security from 'containers/auth/security'
 import ConfigStation from 'containers/auth/config-station'
+import InfoLicense from 'containers/auth/info-package'
 
 export default props => (
   <Switch>
@@ -28,5 +29,6 @@ export default props => (
     <Route path={slug.user.configStation} component={ConfigStation} />
     <Route path={slug.user.profile} component={ProfileUser} />
     <Route path={slug.user.security} component={Security} />
+    <Route path={slug.user.infoLicense} component={InfoLicense} />
   </Switch>
 )
