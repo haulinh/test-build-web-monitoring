@@ -786,7 +786,15 @@ export default {
     create: {
       label: 'Create',
       success: 'Add Station Name Successfully',
-      keyExisted: 'Station Name Is Already Existed'
+      keyExisted: 'Station Name Is Already Existed',
+      modal: {
+        title: "Limited subscription",
+        back: "Back",
+        text: "Your maximum number of stations is 30, you cannot add new stations. Please contact or upgrade the service pack",
+        text1: "Increase the number of stations please contact",
+        text2: "Phone number",
+        text3: "Email"
+      }
     },
     edit: {
       label: 'Edit',
@@ -1303,6 +1311,27 @@ export default {
     expiredAt: 'Expired At',
     totalUsers: 'Total No. Of Users',
     totalStation: 'Total No. Of Station'
+  },
+  infoLicense: {
+    breadCrumb: 'Package information',
+    title1:'Time to register',
+    title2:'Maximum quantity to use',
+    title3:'Support, extension of use',
+    text1:'Date created organization',
+    text2:'Expiration date',
+    text3:'You have {{=it.total}} days to use the product',
+    text4:'Number of stations used',
+    text5: 'The maximum number of',
+    text6: 'Phone number',
+    text7: 'Email'
+  },
+  expLicenseInfo: {
+    title: "We are very sory",
+    subtitle1: "Your organization has expired application.",
+    subtitle2: "Please extend to continue using",
+    text1: "Phone number",
+    text2: "Renew immediately",
+    text3: "Email"
   },
   profileUser: {
     title: 'User Profile',

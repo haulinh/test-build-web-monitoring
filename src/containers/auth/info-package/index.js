@@ -1,16 +1,13 @@
 import React, { PureComponent } from "react"
 import styled from "styled-components"
 import PropTypes from "prop-types"
-// import swal from "sweetalert2"
-// import { translate } from "hoc/create-lang"
+import { translate } from "hoc/create-lang"
 import PageContainer from "layout/default-sidebar-layout/PageContainer"
 import { autobind } from "core-decorators"
 import Breadcrumb from "containers/auth/breadcrumb"
 import moment from "moment-timezone"
 import { SHAPE } from "themes/color"
 import { Row, Col, Typography, Skeleton } from "antd"
-import StationAutoApi from "api/StationAuto"
-
 import * as _ from "lodash"
 import Clearfix from "components/elements/clearfix"
 import { connect } from "react-redux"
@@ -37,8 +34,21 @@ const InfoLicenseWrapper = styled.div`
   }
 `
 
+const i18n = {
+  title1: translate("infoLicense.title1"),
+  title2: translate("infoLicense.title2"),
+  title3: translate("infoLicense.title3"),
+  text1: translate("infoLicense.text1"),
+  text2: translate("infoLicense.text2"),
+  text4: translate("infoLicense.text4"),
+  text5: translate("infoLicense.text5"),
+  text6: translate("infoLicense.text6"),
+  text7: translate("infoLicense.text7")
+}
+
 @connect(state => ({
-  organization: _.get(state, "auth.userInfo.organization", {})
+  organization: _.get(state, "auth.userInfo.organization", {}),
+  totalStationActived: _.get(state, "stationAuto.totalStationActived", 0)
 }))
 @autobind
 export class InfoLicenseForm extends PureComponent {
@@ -47,13 +57,11 @@ export class InfoLicenseForm extends PureComponent {
   }
 
   state = {
-    isLoading: true,
-    totalStation: 0
+    isLoading: true
   }
 
   componentWillMount() {
     try {
-      this.getStationCount()
     } finally {
       this.setState({
         isLoading: false
@@ -61,18 +69,9 @@ export class InfoLicenseForm extends PureComponent {
     }
   }
 
-  async getStationCount() {
-    const record = await StationAutoApi.getTotalCount()
-    if (record.success) {
-      this.setState({
-        totalStation: record.data
-      })
-    }
-  }
-
   render() {
-    const { organization } = this.props
-    const { totalStation } = this.state
+    const { organization, totalStationActived } = this.props
+
     let dateCreate, dateExp, totalDays, limitTotalStation
     if (organization) {
       const createdAt = _.get(organization, "createdAt")
@@ -99,14 +98,14 @@ export class InfoLicenseForm extends PureComponent {
               <Col span={12}>
                 <div className="info--package__col">
                   <div className="info--package__col__title">
-                    <Title level={4}>Thời gian đăng ký</Title>
+                    <Title level={4}>{i18n.title1}</Title>
                   </div>
                   <div className="info--package__col__content">
                     <Text
                       strong
                       className="info--package__col__content--padding"
                     >
-                      Ngày tạo tổ chức
+                      {i18n.text1}
                     </Text>
                     <Text disabled>{dateCreate}</Text>
                     <br />
@@ -114,18 +113,18 @@ export class InfoLicenseForm extends PureComponent {
                       strong
                       className="info--package__col__content--padding"
                     >
-                      Ngày hết hạn
+                      {i18n.text2}
                     </Text>
                     <Text disabled>{dateExp}</Text>
                     <br />
-                    {totalDays && (
+                    {totalDays > 0 && (
                       <Text
                         type="warning"
                         style={{
                           color: SHAPE.PRIMARY
                         }}
                       >
-                        {`Bạn còn ${totalDays} ngày để sử dụng sản phẩm`}
+                        {translate("infoLicense.text3", { total: totalDays })}
                       </Text>
                     )}
                   </div>
@@ -134,22 +133,22 @@ export class InfoLicenseForm extends PureComponent {
               <Col span={12}>
                 <div className="info--package__col">
                   <div className="info--package__col__title">
-                    <Title level={4}>Số lượng tối đa để sử dụng</Title>
+                    <Title level={4}> {i18n.title2}</Title>
                   </div>
                   <div className="info--package__col__content">
                     <Text
                       strong
                       className="info--package__col__content--padding"
                     >
-                      Số lượng trạm sử dụng
+                      {i18n.text4}
                     </Text>
-                    <Text disabled>{totalStation}</Text>
+                    <Text disabled>{totalStationActived}</Text>
                     <Clearfix height={8} />
                     <Text
                       strong
                       className="info--package__col__content--padding"
                     >
-                      Số lượng tối đa
+                      {i18n.text5}
                     </Text>
                     <Text disabled>{limitTotalStation}</Text>
                   </div>
@@ -161,14 +160,14 @@ export class InfoLicenseForm extends PureComponent {
               <Col span={12}>
                 <div className="info--package__col">
                   <div className="info--package__col__title">
-                    <Title level={4}>Hỗ trợ, gia hạn sử dụng</Title>
+                    <Title level={4}>{i18n.title3}</Title>
                   </div>
                   <div className="info--package__col__content">
                     <Text
                       strong
                       className="info--package__col__content--padding"
                     >
-                      Số điện thoại
+                      {i18n.text6}
                     </Text>
                     <Text
                       style={{
@@ -182,7 +181,7 @@ export class InfoLicenseForm extends PureComponent {
                       strong
                       className="info--package__col__content--padding"
                     >
-                      Email
+                      {i18n.text7}
                     </Text>
                     <Text
                       style={{

@@ -1,9 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
-import { connectAutoDispatch } from 'redux/connect'
-import { fetchUserMe } from 'redux/actions/authAction'
-import LoaderCircle from 'components/elements/loader-circle'
-import { withRouter } from 'react-router-dom'
+import React from "react"
+import styled from "styled-components"
+import { connectAutoDispatch } from "redux/connect"
+import { fetchUserMe } from "redux/actions/authAction"
+import LoaderCircle from "components/elements/loader-circle"
+import { withRouter } from "react-router-dom"
+import Errors from "constants/errors"
+import slug from "constants/slug"
 
 const StyledLoading = styled.div`
   position: fixed;
@@ -31,7 +33,12 @@ export default function createProtectedAuth(Component) {
       if (!this.props.isAuthenticated) {
         const auth = await this.props.fetchUserMe()
         if (auth.error === true) {
-          this.props.history.push('/login')
+          if (auth.message === Errors.ORGANIZATION_EXPIRED) {
+            this.props.history.push(slug.user.expLicense)
+          }else{
+            this.props.history.push('/login')
+          }
+          
         }
       }
     }

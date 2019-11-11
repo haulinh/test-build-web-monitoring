@@ -128,6 +128,7 @@ export default {
     changePassword: "/user/change-password",
     configStation: "/user/config-station",
     infoLicense: "/user/info-package",
+    expLicense:"/user/exp-license",
     profile: "/user/profile",
     security: "/user/security",
     rule: "/user/rule",
