@@ -48,6 +48,8 @@ import PercentReceivedData from "containers/statistic/per-rec-data";
 import Layout from "layout/default-sidebar-layout";
 import Report from "containers/report";
 
+import PageExpLicenseInfo from 'containers/license/exp-license-info'
+
 @withRouter
 @autobind
 export default class RouteDefault extends React.Component {
@@ -68,6 +70,9 @@ export default class RouteDefault extends React.Component {
           <Route path={slug.password.codeConfirm} component={CodeConfirm} />
           <Route path={slug.password.resetPassword} component={ResetPassword} />
           <Route path={slug.user.accountActive} component={AccountActive} />
+          <Route path={slug.user.expLicense} component={PageExpLicenseInfo} />
+
+
 
           <Layout>
             <LayoutRoute path="/" exact component={OverviewDashboard} />

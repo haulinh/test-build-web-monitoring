@@ -55,6 +55,7 @@ const createProtectRole = (
 
     render() {
       let {authRole, isAdmin, dispatch, ...ortherProps} = this.props
+      
       //if role undefined||false return empty
       //if (!this.getRole()) return null
       if (this.getRole()) {
