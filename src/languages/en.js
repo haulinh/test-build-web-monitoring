@@ -790,7 +790,7 @@ export default {
       modal: {
         title: "Limited subscription",
         back: "Back",
-        text: "Your maximum number of stations is 30, you cannot add new stations. Please contact or upgrade the service pack",
+        text: "Your maximum number of stations is  {{=it.total}}, you cannot add new stations. Please contact or upgrade the service pack",
         text1: "Increase the number of stations please contact",
         text2: "Phone number",
         text3: "Email"
@@ -1327,7 +1327,7 @@ export default {
   },
   expLicenseInfo: {
     title: "We are very sory",
-    subtitle1: "Your organization has expired application.",
+    subtitle1: " Your organization expired {{=it.totalDate}}.",
     subtitle2: "Please extend to continue using",
     text1: "Phone number",
     text2: "Renew immediately",

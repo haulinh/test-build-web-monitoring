@@ -7,8 +7,8 @@ export function getConfigApi() {
   return {
     gateway: config.apiGateway,
     media: config.apiMedia,
-    auth: c('auth'),
-    // auth: 'http://localhost:5001/auth',
+    // auth: c('auth'),
+    auth: 'http://localhost:5001/auth',
     user: c('user'),
     trialRegister: c('trial-register'),
     measuring: c('measuring'),

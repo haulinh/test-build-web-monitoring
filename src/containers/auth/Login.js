@@ -125,7 +125,7 @@ export default class Login extends PureComponent {
       if (user.error) {
         console.log(user,"----user-----")
         if (user.message === Errors.ORGANIZATION_EXPIRED) {
-          this.props.history.push(slug.user.expLicense)
+          this.props.history.push(`${slug.user.expLicense}?expDate=${user.userMessage}`)
         } else {
           this.userError(user)
         }
