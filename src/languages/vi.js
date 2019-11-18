@@ -792,7 +792,8 @@ export default {
       modal: {
         title: "Gói đăng ký giới hạn",
         back: "Quay lại",
-        text:"Số lượng trạm tối đa của bạn là {{=it.total}}, bạn không thể thêm trạm mới. Vui lòng liên hệ hoặc nâng cấp gói dịch vụ",
+        text:
+          "Số lượng trạm tối đa của bạn là {{=it.total}}, bạn không thể thêm trạm mới. Vui lòng liên hệ hoặc nâng cấp gói dịch vụ",
         text1: "Tăng số lượng trạm hãy liên hệ",
         text2: "Số điện thoại",
         text3: "Email"
@@ -1157,6 +1158,14 @@ export default {
       isAdmin: {
         label: "Quản trị hệ thống"
       }
+    },
+    modal: {
+      title: "Gói đăng ký giới hạn",
+      back: "Quay lại",
+      text: `<div>Số lượng "Thành viên" của bạn là <strong> {{=it.total}} </strong>, bạn không thể thêm thành viên mới. Vui lòng liên hệ hoặc nâng cấp gói dịch vụ</div>`,
+      text1: "Tăng số lượng thành viên hãy liên hệ",
+      text2: "Số điện thoại",
+      text3: "Email"
     },
     list: {
       enableAccount: "Kích hoạt tài khoản",
@@ -1799,4 +1808,4 @@ export default {
       dataConnected: "Có tín hiệu trở lại"
     }
   }
-}
+};
