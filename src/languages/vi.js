@@ -793,7 +793,7 @@ export default {
         title: "Gói đăng ký giới hạn",
         back: "Quay lại",
         text:
-          "Số lượng trạm tối đa của bạn là 30, bạn không thể thêm trạm mới. Vuilòng liên hệ hoặc nâng cấp gói dịch vụ",
+          "Số lượng trạm tối đa của bạn là {{=it.total}}, bạn không thể thêm trạm mới. Vui lòng liên hệ hoặc nâng cấp gói dịch vụ",
         text1: "Tăng số lượng trạm hãy liên hệ",
         text2: "Số điện thoại",
         text3: "Email"
@@ -1159,6 +1159,14 @@ export default {
         label: "Quản trị hệ thống"
       }
     },
+    modal: {
+      title: "Gói đăng ký giới hạn",
+      back: "Quay lại",
+      text: `<div>Số lượng "Thành viên" của bạn là <strong> {{=it.total}} </strong>, bạn không thể thêm thành viên mới. Vui lòng liên hệ hoặc nâng cấp gói dịch vụ</div>`,
+      text1: "Tăng số lượng thành viên hãy liên hệ",
+      text2: "Số điện thoại",
+      text3: "Email"
+    },
     list: {
       enableAccount: "Kích hoạt tài khoản",
       disableAccount: "Vô hiệu hoá tài khoản",
@@ -1332,7 +1340,7 @@ export default {
   },
   expLicenseInfo: {
     title: "Chúng tôi rất xin lỗi",
-    subtitle1: "Tổ chức của bạn đã hết hạn sử dụng ứng dụng.",
+    subtitle1: "Tổ chức của bạn đã hết hạn ngày {{=it.totalDate}}.",
     subtitle2: "Vui lòng gia hạn để tiếp tục sử dụng",
     text1: "Số điện thoại",
     text2: "Gia hạn sử dụng ngay",
@@ -1800,4 +1808,4 @@ export default {
       dataConnected: "Có tín hiệu trở lại"
     }
   }
-}
+};

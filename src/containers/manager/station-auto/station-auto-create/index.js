@@ -1,19 +1,19 @@
-import React from "react"
-import styled from "styled-components"
-import PageContainer from "layout/default-sidebar-layout/PageContainer"
-import { message, Modal, Button, Typography, Skeleton } from "antd"
-import { autobind } from "core-decorators"
-import StationAutoApi from "api/StationAuto"
-import slug from "constants/slug"
-import StationAutoForm from "../station-auto-form"
-import Breadcrumb from "../breadcrumb"
-import ROLE from "constants/role"
-import protectRole from "hoc/protect-role"
-import { connect } from "react-redux"
-import * as _ from "lodash"
-import { SHAPE } from "themes/color"
-import { EMAIL, PHONE } from "constants/info-contact.js"
-import { translate } from "hoc/create-lang"
+import React from "react";
+import styled from "styled-components";
+import PageContainer from "layout/default-sidebar-layout/PageContainer";
+import { message, Modal, Button, Typography, Skeleton } from "antd";
+import { autobind } from "core-decorators";
+import StationAutoApi from "api/StationAuto";
+import slug from "constants/slug";
+import StationAutoForm from "../station-auto-form";
+import Breadcrumb from "../breadcrumb";
+import ROLE from "constants/role";
+import protectRole from "hoc/protect-role";
+import { connect } from "react-redux";
+import * as _ from "lodash";
+import { SHAPE } from "themes/color";
+import { EMAIL, PHONE } from "constants/info-contact.js";
+import { translate } from "hoc/create-lang";
 
 const ModalContent = styled.div`
   width: fit-content;
@@ -24,9 +24,9 @@ const ModalContent = styled.div`
     float: left;
     width: 200px;
   }
-`
+`;
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const i18n = {
   title: translate("stationAutoManager.create.modal.title"),
@@ -35,7 +35,7 @@ const i18n = {
   text1: translate("stationAutoManager.create.modal.text1"),
   text2: translate("stationAutoManager.create.modal.text2"),
   text3: translate("stationAutoManager.create.modal.text3")
-}
+};
 
 @protectRole(ROLE.STATION_AUTO.CREATE)
 @connect(state => ({
@@ -50,41 +50,42 @@ const i18n = {
 export default class StationAutoCreate extends React.PureComponent {
   state = {
     isLicense: false
-  }
+  };
 
   async handleSubmit(data) {
-    const res = await StationAutoApi.createStationAuto(data)
+    const res = await StationAutoApi.createStationAuto(data);
     if (res.success) {
-      message.info("Add measuring success!")
-      this.props.history.push(slug.stationAuto.list)
+      message.info("Add measuring success!");
+      this.props.history.push(slug.stationAuto.list);
     }
   }
 
   componentDidMount = () => {
-    this.checkLicenseStation()
-  }
+    this.checkLicenseStation();
+  };
 
   componentDidUpdate = prevProps => {
     if (this.props.totalStationActived !== prevProps.totalStationActived) {
-      this.checkLicenseStation()
+      this.checkLicenseStation();
     }
-  }
+  };
 
   checkLicenseStation = () => {
-    const { totalStation, totalStationActived } = this.props
+    const { totalStation, totalStationActived } = this.props;
     if (totalStationActived >= totalStation) {
       this.setState({
         isLicense: true
-      })
+      });
     }
-  }
+  };
 
   hanldeClose = () => {
-    this.props.history.push(slug.stationAuto.list)
-  }
+    this.props.history.push(slug.stationAuto.list);
+  };
 
   render() {
     // console.log(this.props.totalStationActived, "totalStationActived")
+    const limitTotalStation = _.get(this.props, "totalStation", 0)
     return (
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb items={["list", "create"]} />
@@ -104,7 +105,12 @@ export default class StationAutoCreate extends React.PureComponent {
             </Button>
           ]}
         >
-          <Text type="secondary">{i18n.text}</Text>
+          <Text type="secondary">
+            {" "}
+            {translate("stationAutoManager.create.modal.text", {
+              total: limitTotalStation
+            })}
+          </Text>
           <br />
           <br />
           <br />
@@ -142,6 +148,6 @@ export default class StationAutoCreate extends React.PureComponent {
           </ModalContent>
         </Modal>
       </PageContainer>
-    )
+    );
   }
 }
