@@ -90,9 +90,9 @@ export default class UserCreate extends React.PureComponent {
     const { totalUser } = this.props;
     const { totalUserActive } = this.state;
     if (totalUserActive >= totalUser) {
-      // this.setState({
-      //   isLicense: true
-      // });
+      this.setState({
+        isLicense: true
+      });
     }
   };
 
