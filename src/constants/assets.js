@@ -11,6 +11,6 @@ const warningLevelImages = {
     dataLoss: `${HOST_MEDIA}/wifi_off.png`,
 }
 
-export default {
+export {
     warningLevelImages
 }
