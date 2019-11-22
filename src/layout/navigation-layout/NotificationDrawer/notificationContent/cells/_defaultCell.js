@@ -10,6 +10,8 @@ import { connectAutoDispatch } from 'redux/connect'
 import { updateNotifyRead } from 'redux/actions/notification'
 import { setDrawerVisible } from 'redux/actions/notification'
 
+import { getConfigApi } from 'config'
+
 const i18n = {
   viewDataAroundExceededTime: translate('stationAutoManager.list.notification.actions.viewDataAroundExceededTime')
 }
@@ -58,6 +60,8 @@ export default class DefaultCell extends React.Component {
     const { isHoverOnCell } = this.state
     const { icon, content, data } = this.props
     const { receivedAt, isRead } = data
+    const _icon = `${getConfigApi().media}/${icon}`
+    console.log(getConfigApi().media, "getConfigApi")
     return (
       <Row 
         type="flex" align="middle"
@@ -80,7 +84,7 @@ export default class DefaultCell extends React.Component {
           >
             {/* image */}
             <Col span={3} style={{textAlign: "center", height: '100%'}} className="notify-image">
-              <img src={icon} alt="" height="100%" style={{objectFit: 'contain'}}/>
+              <img src={_icon} alt="" height="100%" style={{objectFit: 'contain'}}/>
             </Col>
 
             {/* contents */}
