@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { warningLevelImages } from 'constants/assets'
 import { translate } from 'hoc/create-lang'
 import DefaultCell from './_defaultCell'
 import { BoldTextWrap } from './_helperComponent'
@@ -23,7 +24,7 @@ export default function DataConnectedCell(props) {
 
   return (
     <DefaultCell 
-      icon="https://img.icons8.com/color/2x/wifi.png"
+      icon={`${warningLevelImages}.dataConnected`}
       content={content}
       data={cellContent}
     />
