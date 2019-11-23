@@ -1,20 +1,21 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { autobind } from "core-decorators"
-import styled from "styled-components"
-import Clearfix from "components/elements/clearfix"
-import { SHAPE } from "themes/color"
-import { Dropdown, Button, Menu, Icon, Divider } from "antd"
-import ROLE, { checkRolePriority } from "constants/role"
-import moment from "moment/moment"
+import React from "react";
+import PropTypes from "prop-types";
+import { autobind } from "core-decorators";
+import styled from "styled-components";
+import Clearfix from "components/elements/clearfix";
+import { SHAPE } from "themes/color";
+import { Dropdown, Button, Menu, Icon, Divider } from "antd";
+import ROLE, { checkRolePriority } from "constants/role";
+import moment from "moment/moment";
 // import protectRole from 'hoc/protect-role'
-import { translate } from "hoc/create-lang"
-import { connect } from "react-redux"
+import { translate, removeAccents } from "hoc/create-lang";
+
+import { connect } from "react-redux";
 // import StationControl from 'api/SamplingApi'
-import { STATUS_STATION } from "constants/stationStatus"
-import { DD_MM_YYYY_HH_MM } from "constants/format-date"
-import { isEmpty } from "lodash"
-import queryFormDataBrowser from "hoc/query-formdata-browser"
+import { STATUS_STATION } from "constants/stationStatus";
+import { DD_MM_YYYY_HH_MM } from "constants/format-date";
+import { isEmpty, get as _get } from "lodash";
+import queryFormDataBrowser from "hoc/query-formdata-browser";
 
 // import objectPath from 'object-path'
 
@@ -32,17 +33,17 @@ const i18n = {
   averageData: translate("monitoring.actions.more.averageData"),
   checkData: translate("monitoring.actions.more.checkData"),
   config: translate("monitoring.actions.more.config")
-}
+};
 
 const StationHeadItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
+`;
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 const OrderNumber = styled.div`
   display: flex;
   align-items: center;
@@ -59,14 +60,14 @@ const OrderNumber = styled.div`
   );
   font-weight: 700;
   color: #ffffff;
-`
+`;
 
 const StationName = styled.h4`
   font-weight: 600;
   font-size: 14px;
   margin-top: 0px;
   margin-bottom: 0px;
-`
+`;
 
 const WrapperNameStationTypeName = styled.div`
   flex-direction: column;
@@ -79,13 +80,13 @@ const WrapperNameStationTypeName = styled.div`
     color: ${SHAPE.PRIMARY};
     opacity: 0.7;
   }
-`
+`;
 
 const ReceivedAt = styled.span`
   color: ${props => (props.status !== "GOOD" ? SHAPE.RED : "#000")};
   font-style: ${props =>
     props.status === STATUS_STATION.DATA_LOSS ? "italic" : "normal"};
-`
+`;
 const ActionWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -97,7 +98,7 @@ const ActionWrapper = styled.div`
   .actionItem:last-child {
     margin-right: 0px;
   }
-`
+`;
 /* NOTE  KHÔNG XOÁ, DÙNG CHO Ở DƯỚI */
 // const ActionWrapper = styled.div`
 //   display: flex;
@@ -121,7 +122,8 @@ const ActionWrapper = styled.div`
   authRole: state.auth.userInfo.role,
   isAdmin: state.auth.userInfo.isAdmin,
   organization: state.auth.userInfo.organization,
-  userInfo: state.auth.userInfo
+  userInfo: state.auth.userInfo,
+  language: _get(state, "language.locale")
 }))
 @queryFormDataBrowser(["submit"])
 @autobind
@@ -138,55 +140,55 @@ export default class StationAutoHead extends React.PureComponent {
     onClickViewMap: PropTypes.func,
     onClickViewCamera: PropTypes.func,
     currentActionDefault: PropTypes.string
-  }
+  };
 
   state = {
     isLoaded: false,
     isEnable: false,
     currentAction: ""
-  }
+  };
 
   toReceivedAt = (status, receivedAt) => {
     // MARK  thay đổi logic, k0 cần thông báo mat ket noi
     // const statusStr =
     //   status === STATUS_STATION.DATA_LOSS ? translate('monitoring.lossAt') : ''
 
-    const statusStr = ""
+    const statusStr = "";
     const receivedAtStr = receivedAt
       ? moment(receivedAt).format(DD_MM_YYYY_HH_MM)
-      : ""
+      : "";
     if (!isEmpty(statusStr) && !isEmpty(receivedAtStr)) {
-      return `(${statusStr} ${receivedAtStr})`
+      return `(${statusStr} ${receivedAtStr})`;
     }
 
-    return `${receivedAtStr}`
-  }
+    return `${receivedAtStr}`;
+  };
 
   componentDidMount = () => {
     this.setState({
       currentAction: this.props.currentActionDefault
         ? this.props.currentActionDefault
         : ""
-    })
-  }
-  UNSAFE_componentWillReceiveProps = (nextProps) =>{
+    });
+  };
+  UNSAFE_componentWillReceiveProps = nextProps => {
     // console.log(this.props.currentActionDefault, nextProps.currentActionDefault,"UNSAFE_componentWillReceiveProps")
-    if(this.props.currentActionDefault !== nextProps.currentActionDefault){
+    if (this.props.currentActionDefault !== nextProps.currentActionDefault) {
       this.setState({
         currentAction: nextProps.currentActionDefault
-      })
+      });
     }
-  }
+  };
 
   handleActionOnClick(actionName, keyOpenTab) {
     if (!keyOpenTab) {
       if (this.state.currentAction === actionName) {
-        this.setState({ currentAction: "" })
+        this.setState({ currentAction: "" });
       } else {
-        this.setState({ currentAction: actionName })
+        this.setState({ currentAction: actionName });
       }
     }
-    this.props.onClickActionButton(actionName, keyOpenTab)
+    this.props.onClickActionButton(actionName, keyOpenTab);
   }
 
   render() {
@@ -197,16 +199,17 @@ export default class StationAutoHead extends React.PureComponent {
       orderNumber,
       stationID,
       options,
-      status
-    } = this.props
+      status,
+      language
+    } = this.props;
     // if (stationID === "NUOCTHAINMPM2_1MR") {
     //   console.log(this.state, this.props.currentActionDefault , "currentAction")
     // }
 
     // console.log(this.props.stationID, "'#components-anchor-demo-static'")
-    const { currentAction } = this.state
-    const isCamera = options && options.camera && options.camera.allowed
-    const isSampling = options && options.sampling && options.sampling.allowed
+    const { currentAction } = this.state;
+    const isCamera = options && options.camera && options.camera.allowed;
+    const isSampling = options && options.sampling && options.sampling.allowed;
     return (
       <StationHeadItemWrapper>
         <TitleWrapper>
@@ -221,12 +224,16 @@ export default class StationAutoHead extends React.PureComponent {
           <Clearfix width={8} />
           {stationTypeName ? (
             <WrapperNameStationTypeName>
-              <StationName className="stationName">{name}</StationName>
-              <span className="stationTypeName">{stationTypeName}</span>
+              <StationName className="stationName">
+                {removeAccents(language, name)}
+              </StationName>
+              <span className="stationTypeName">
+                {removeAccents(language, stationTypeName)}
+              </span>
             </WrapperNameStationTypeName>
           ) : (
             <StationName>
-              {name}{" "}
+              {removeAccents(language, name)}{" "}
               {status === STATUS_STATION.NOT_USE && " - " + i18n.notInUse}
             </StationName>
           )}
@@ -432,6 +439,6 @@ export default class StationAutoHead extends React.PureComponent {
           </div>
         </ActionWrapper> */}
       </StationHeadItemWrapper>
-    )
+    );
   }
 }

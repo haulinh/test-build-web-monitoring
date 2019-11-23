@@ -2,9 +2,14 @@ import React, { PureComponent } from "react";
 import { Select } from "antd";
 import PropTypes from "prop-types";
 import CategoryApi from "api/CategoryApi";
+import { get as _get } from "lodash";
 import { autobind } from "core-decorators";
-import { translate } from "hoc/create-lang";
+import { translate, removeAccents } from "hoc/create-lang";
+import { connect } from "react-redux";
 
+@connect(state => ({
+  language: _get(state, "language.locale")
+}))
 @autobind
 export default class SelectStationType extends PureComponent {
   static propTypes = {
@@ -59,10 +64,12 @@ export default class SelectStationType extends PureComponent {
   }
 
   render() {
+    const { language } = this.props;
+
     return (
       <Select
         showSearch
-        style={{width: '100%'}}
+        style={{ width: "100%" }}
         {...this.props}
         onChange={this.onChange}
         value={this.state.value}
@@ -74,7 +81,7 @@ export default class SelectStationType extends PureComponent {
         )}
         {this.state.stationTypes.map(stationType => (
           <Select.Option key={stationType.key} value={stationType.key}>
-            {stationType.name}
+            {removeAccents(language, stationType.name)}
           </Select.Option>
         ))}
       </Select>
