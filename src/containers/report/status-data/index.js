@@ -4,8 +4,8 @@ import { translate } from "hoc/create-lang";
 import Breadcrumb from "../breadcrumb";
 import SearchForm from "./search-form";
 import { getUrlReportStatusData } from "api/DataStationAutoApi";
-import { Table, Typography, Button, Spin, message } from "antd";
-import { map as _map, get as _get } from "lodash";
+import { Typography } from "antd";
+import { get as _get } from "lodash";
 import Clearfix from "components/elements/clearfix";
 
 import { connect } from "react-redux";
@@ -24,17 +24,25 @@ export default class StatusDataReport extends React.Component {
     isLoading: true
   };
 
-  handleSubmit(values){
-    let url = getUrlReportStatusData(this.props.token, values.stationAutos, values.time[0], values.time[1])
-    console.log('getUrlReportStatusData', url)
-    window.open(url)
+  handleSubmit(values) {
+    let url = getUrlReportStatusData(
+      this.props.token,
+      values.stationAutos,
+      values.time[0],
+      values.time[1]
+    );
+    console.log("getUrlReportStatusData", url);
+    window.open(url);
   }
 
   render() {
     return (
       <PageContainer>
         <Breadcrumb items={["status_data"]} />
-        <SearchForm cbSubmit={this.handleSubmit.bind(this)} isDatePicker={true} />
+        <SearchForm
+          cbSubmit={this.handleSubmit.bind(this)}
+          isDatePicker={true}
+        />
         <Clearfix height={16} />
         <div style={{ position: "relative", textAlign: "center" }}>
           <Title level={4}>{i18n.title}</Title>

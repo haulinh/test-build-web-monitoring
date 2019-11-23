@@ -14,7 +14,7 @@ import {
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { get } from 'lodash'
-import { mapPropsToFields } from 'utils/form'
+// import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import FtpApi from 'api/FtpApi'
 

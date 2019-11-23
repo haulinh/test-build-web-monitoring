@@ -5,13 +5,13 @@ import Heading from "components/elements/heading";
 import { Row, Col, Button, Form, DatePicker } from "antd";
 import createLang, { translate } from "hoc/create-lang";
 import SelectProvince from "components/elements/select-province";
-import SelectStationType from "components/elements/select-station-type";
-import SelectStationAuto from "containers/search/common/select-station-auto"; //'.././common/select-station-auto'
+// import SelectStationType from "components/elements/select-station-type";
+// import SelectStationAuto from "containers/search/common/select-station-auto"; //'.././common/select-station-auto'
 import SelectStationTreeView from "containers/search/common/select-station-tree-view";
 import { Clearfix } from "containers/fixed-map/map-default/components/box-analytic-list/style";
 import moment from "moment-timezone";
 
-const { MonthPicker, RangePicker } = DatePicker;
+const { RangePicker } = DatePicker;
 
 const Item = props => (
   <Form.Item
@@ -67,10 +67,10 @@ export default class SearchForm extends React.Component {
   render() {
     const {
       getFieldDecorator,
-      getFieldValue,
+      // getFieldValue,
       setFieldsValue
     } = this.props.form;
-    const t = this.props.lang.createNameSpace("dataSearchFrom.form");
+    // const t = this.props.lang.createNameSpace("dataSearchFrom.form");
     return (
       <SearchFormContainer>
         <Heading
@@ -117,9 +117,9 @@ export default class SearchForm extends React.Component {
                   ]
                 })(
                   <RangePicker
-                  disabledDate={(current)=>{
-                    return current && current > moment().endOf('day');
-                  }}
+                    disabledDate={current => {
+                      return current && current > moment().endOf("day");
+                    }}
                     showTime={{
                       format: "HH:mm",
                       defaultValue: [
