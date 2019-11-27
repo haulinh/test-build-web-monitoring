@@ -89,21 +89,30 @@ export default class DefaultCell extends React.Component {
         onMouseLeave={() => this.setState({isShowActions: false})}
       >
 
-        {/* image */}
-        <Col span={3} style={{textAlign: "center"}} className="notify-image" >
-          <img src={icon} width={50} width="100%"/>
-        </Col>
+        <Col span={23} onClick={() => this._handleCellOnClick(data)}>
+          <Row 
+            type="flex" align="middle"
+            style={{
+              height: 60, 
+            }} 
+          >
+            {/* image */}
+            <Col span={3} style={{textAlign: "center", height: '100%'}} className="notify-image">
+              <img src={icon} alt="" height="100%" style={{objectFit: 'contain'}}/>
+            </Col>
 
-        {/* contents */}
-        <Col span={ 20 } className="notify-content" style={{paddingLeft: 8, paddingRight: 16}}>
-          <Tooltip title={content} placement="right" overlayStyle={{width: 800, marginLeft: 200}} mouseEnterDelay={1}>
-            <MultilineText>
-              {content}
-            </MultilineText>
-          </Tooltip>
-          <Row>
-            <Col style={{fontStyle: "italic", color: "#90949c", fontSize: 12}}>
-              { moment(receivedAt).format('MM/DD [at] HH:mm') }
+            {/* contents */}
+            <Col span={ 21 } className="notify-content" style={{paddingLeft: 16, paddingRight: 16}}>
+              <Tooltip title={content} placement="right" overlayStyle={{width: 800, marginLeft: 200}} mouseEnterDelay={1}>
+                <MultilineText>
+                  {content}
+                </MultilineText>
+              </Tooltip>
+              <Row>
+                <Col style={{fontStyle: "italic", color: "#90949c", fontSize: 12}}>
+                  { moment(receivedAt).format('MM/DD [at] HH:mm') }
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Col>

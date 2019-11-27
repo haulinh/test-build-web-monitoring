@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { Row, Col } from 'antd'
 
+import {warningLevelImages} from 'constants/assets'
 import { translate } from 'hoc/create-lang'
 import DefaultCell from './_defaultCell'
 import { BoldTextWrap } from './_helperComponent'
@@ -25,7 +26,7 @@ export default function DataLossCell(props) {
 
   return (
     <DefaultCell 
-      icon="https://img.icons8.com/color/2x/wifi-off.png"
+      icon={`${warningLevelImages.dataLoss}`}
       content={content}
       data={cellContent}
     />
