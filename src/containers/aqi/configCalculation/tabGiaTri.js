@@ -12,8 +12,6 @@ import {
   Icon,
   Popconfirm,
   Spin,
-  Select,
-  Skeleton
 } from "antd";
 import { Clearfix } from "containers/map/map-default/components/box-analytic-list/style";
 import {
