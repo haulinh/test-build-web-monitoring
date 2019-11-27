@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { warningLevelImages } from 'constants/assets'
 import { translate } from 'hoc/create-lang'
 import DefaultCell from './_defaultCell'
 import { BoldTextWrap } from './_helperComponent'
@@ -26,7 +27,7 @@ export default function SensorGoodCell(props) {
 
   return (
     <DefaultCell 
-      icon=" https://img.icons8.com/color/2x/ok.png"
+      icon={`${warningLevelImages}.sensorGood`}
       content={content}
       data={cellContent}
     />

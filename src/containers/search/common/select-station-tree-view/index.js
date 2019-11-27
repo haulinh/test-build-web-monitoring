@@ -1,11 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+// import PropTypes from "prop-types";
+// import styled from "styled-components";
 import { TreeSelect } from "antd";
 import StationAutoApi from "api/StationAuto";
 import * as _ from "lodash";
 
-const { SHOW_PARENT } = TreeSelect;
+// const { SHOW_PARENT } = TreeSelect;
 
 export default class SelectStationTreeView extends React.Component {
   state = {
