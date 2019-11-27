@@ -8,6 +8,8 @@ import Clearfix from "components/elements/clearfix";
 import createBreadcrumb from "shared/breadcrumb/hoc";
 import TabMucDo from "./tabMucDo";
 import TabGiaTri from "./tabGiaTri";
+import TabThongSo from "./tabThongSo";
+
 const Breadcrumb = createBreadcrumb();
 const { TabPane } = Tabs;
 const ButtonGroup = Button.Group;
@@ -30,14 +32,19 @@ const Wrapper = styled.div`
 
 const TAB_KEY = {
   MUC_DO: "MUC_DO",
-  GIA_TRI: "GIA_TRI"
+  GIA_TRI: "GIA_TRI",
+  THONG_SO: "THONG_SO",
 };
-
+const TAB_NAME = {
+  MUC_DO: "Ngưỡng mức độ",
+  GIA_TRI: " Bảng giá trị BPi",
+  THONG_SO: "Thống số tính toán",
+};
 @withRouter
 @autobind
 export default class ConfigCalculationAQI extends PureComponent {
   state = {
-    tabKey: TAB_KEY.MUC_DO
+    tabKey: TAB_KEY.GIA_TRI
   };
 
   setTabActive = tabKey => {
@@ -67,7 +74,7 @@ export default class ConfigCalculationAQI extends PureComponent {
               }
               style={{ flex: 1 }}
             >
-              Ngưỡng mức độ
+             {TAB_NAME.MUC_DO}
             </Button>
             <Button
               onClick={this.setTabActive.bind(this, TAB_KEY.GIA_TRI)}
@@ -76,7 +83,16 @@ export default class ConfigCalculationAQI extends PureComponent {
               }
               style={{ flex: 1 }}
             >
-              Giá trị quy chuẩn
+              {TAB_NAME.GIA_TRI}
+            </Button>
+            <Button
+              onClick={this.setTabActive.bind(this, TAB_KEY.THONG_SO)}
+              type={
+                this.state.tabKey === TAB_KEY.THONG_SO ? "primary" : "default"
+              }
+              style={{ flex: 1 }}
+            >
+               {TAB_NAME.THONG_SO}
             </Button>
           </ButtonGroup>
           <Tabs
@@ -89,13 +105,16 @@ export default class ConfigCalculationAQI extends PureComponent {
               <Clearfix height={24} />
               <TabMucDo />
             </TabPane>
-            <TabPane tab="Giá trị quy chuẩn" key={TAB_KEY.GIA_TRI}>
+            <TabPane tab="Bảng giá trị BPi" key={TAB_KEY.GIA_TRI}>
             <Clearfix height={24} />
               <TabGiaTri />
             </TabPane>
+            <TabPane tab="Thống số tính toán" key={TAB_KEY.THONG_SO}>
+            <Clearfix height={24} />
+              <TabThongSo />
+            </TabPane>
           </Tabs>
         </Wrapper>
-
         <Clearfix height={50} />
       </PageContainer>
     );

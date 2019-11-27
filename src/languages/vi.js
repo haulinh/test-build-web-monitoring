@@ -169,8 +169,10 @@ export default {
     colDescription: "Chú thích",
     colMeasureKey: "Mã thông số",
     colMeasure: "Thông số",
-    colAvg1H: "Trung bình 1 giờ",
-    colAvg1D: "Trung bình 1 ngày",
+    colBatBuoc:'Bắt buộc',
+    colAvg1H: "TB 1h",
+    colAvg1D: "TB 24h",
+    colAvg8H: 'TB 8h',
     colUnit: "Đơn vị"
   },
   wqi: {
