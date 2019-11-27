@@ -84,11 +84,11 @@ export default class DefaultCell extends React.Component {
           >
             {/* image */}
             <Col span={3} style={{textAlign: "center", height: '100%'}} className="notify-image">
-              <img src={_icon} alt="" height="100%" style={{objectFit: 'contain'}}/>
+              <img src={icon} alt="" height="100%" style={{objectFit: 'contain'}}/>
             </Col>
 
             {/* contents */}
-            <Col span={ 21 } className="notify-content" style={{paddingLeft: 8, paddingRight: 16}}>
+            <Col span={ 21 } className="notify-content" style={{paddingLeft: 16, paddingRight: 16}}>
               <Tooltip title={content} placement="right" overlayStyle={{width: 800, marginLeft: 200}} mouseEnterDelay={1}>
                 <MultilineText>
                   {content}

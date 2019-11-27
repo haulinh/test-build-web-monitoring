@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { warningLevelImages } from 'constants/assets'
+import {warningLevelImages} from 'constants/assets'
 import { translate } from 'hoc/create-lang'
 import DefaultCell from './_defaultCell'
 import { BoldTextWrap } from './_helperComponent'
@@ -26,7 +26,7 @@ export default function DataExceededPreparedCell(props) {
 
   return (
     <DefaultCell 
-      icon={`${warningLevelImages}.dataExceededPrepared`}
+      icon={`${warningLevelImages.dataExceededPrepared}`}
       content={content}
       data={cellContent}
     />
