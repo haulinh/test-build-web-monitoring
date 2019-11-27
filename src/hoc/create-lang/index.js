@@ -17,6 +17,14 @@ export const langPropTypes = PropTypes.shape({
   changeLanguage: PropTypes.func
 })
 
+// NOTE apply ES6
+export function removeAccents(language, str){
+  if (language === "en") {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+  return str;
+};
+
 export function translate(key, params = {}, isParse = true) {
   const languageData =
     typeof window !== 'undefined'

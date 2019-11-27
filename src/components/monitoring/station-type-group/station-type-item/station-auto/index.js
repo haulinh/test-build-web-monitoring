@@ -125,47 +125,6 @@ export default class StationAutoItem extends React.PureComponent {
     )
   }
 
-  // /* #region  MARK Không sử dụng nữa */
-
-  // handleClickViewMap() {
-  //   const formSearch = {
-  //     stationAuto: {
-  //       ...this.props,
-  //       mapLocation: {
-  //         lat: this.props.mapLocation.lat,
-  //         lng: this.props.mapLocation.long
-  //       },
-  //       key: this.props.stationID
-  //     }
-  //   }
-  //   this.props.history.push(
-  //     slug.map.base +
-  //       "?formData=" +
-  //       encodeURIComponent(JSON.stringify(formSearch))
-  //   )
-  // }
-
-  // onClickViewCamera = () => {
-  //   this.setState({ isOpenCamera: !this.state.isOpenCamera })
-  // }
-
-  // handleClickDataSearch() {
-  //   const formSearch = {
-  //     stationType: this.props.stationType.key,
-  //     stationAuto: this.props.stationID,
-  //     measuringList: this.props.measuringList.map(m => m.key),
-  //     measuringData: this.props.measuringList,
-  //     searchNow: true
-  //   }
-  //   this.props.history.push(
-  //     slug.dataSearch.base +
-  //       "?formData=" +
-  //       encodeURIComponent(JSON.stringify(formSearch))
-  //   )
-  // }
-
-  // /* #endregion */
-
   measuringLastLog() {
     let { measuringList, lastLog } = this.props
     if (!lastLog) return
