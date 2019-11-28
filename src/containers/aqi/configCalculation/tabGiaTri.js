@@ -8,10 +8,10 @@ import {
   Table,
   Form,
   InputNumber,
+  Input,
   Icon,
   Popconfirm,
   Spin,
-  Select
 } from "antd";
 import { Clearfix } from "containers/map/map-default/components/box-analytic-list/style";
 import {
@@ -53,159 +53,256 @@ export default class TabMucDo extends React.Component {
     isLoaded: false,
     isSubmit: false,
     dataSource: [],
-    dataMeasuringObj: {}
+    dataMeasuringObj: {},
+    dataMeasures: null
   };
 
-  columns = [
-    {
-      title: i18n.colMeasureKey,
-      dataIndex: "viewMeasure",
-      key: "viewMeasure",
+  createColumn = (keyMeasure, type) => {
+    return {
+      key: `${keyMeasure}_${type}`,
+      title: `Giá trị ${keyMeasure} ${type}`,
       align: "center",
-      render: (text, record, index) => {
-        const { getFieldValue } = this.props.form;
-        const aqiQcList = getFieldValue(`aqiQcList[${record.key}].keyMeasure`);
-        return aqiQcList;
-      }
-    },
-    {
-      title: i18n.colMeasure,
-      dataIndex: "selectMeasure",
-      key: "selectMeasure",
-      align: "center",
-      render: (text, record, index) => {
-        const { getFieldDecorator } = this.props.form;
-        return (
-          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
-            {getFieldDecorator(`aqiQcList[${record.key}].keyMeasure`, {
-              rules: [
-                {
-                  required: true,
-                  message: i18n.required
-                }
-              ]
-            })(<this.SelectMeasure />)}
-          </Form.Item>
-        );
-      }
-    },
-    {
-      title: i18n.colAvg1H,
-      dataIndex: "h",
-      key: "h",
-      align: "center",
-      render: (text, record, index) => {
-        const { getFieldDecorator, getFieldValue } = this.props.form;
-        return (
-          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
-            {getFieldDecorator(`aqiQcList[${record.key}].h`, {
-              onChange: val => {
-                const { setFieldsValue, getFieldValue } = this.props.form;
-                setFieldsValue({
-                  [`aqiQcList[${record.key}].d`]: getFieldValue(
-                    `aqiQcList[${record.key}].d`
-                  )
-                });
-              },
-              rules: [
-                {
-                  required: !getFieldValue(`aqiQcList[${record.key}].d`),
-                  message: i18n.required1D_1H
-                }
-              ]
-            })(
-              <InputNumber
-                style={{ width: "100%" }}
-                placeholder={i18n.colAvg1H}
-              />
-            )}
-          </Form.Item>
-        );
-      }
-    },
-    {
-      title: i18n.colAvg1D,
-      dataIndex: "d",
-      key: "d",
-      align: "center",
-      render: (text, record, index) => {
-        const { getFieldDecorator, getFieldValue } = this.props.form;
-        return (
-          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
-            {getFieldDecorator(`aqiQcList[${record.key}].d`, {
-              onChange: val => {
-                const { setFieldsValue, getFieldValue } = this.props.form;
-                setFieldsValue({
-                  [`aqiQcList[${record.key}].h`]: getFieldValue(
-                    `aqiQcList[${record.key}].h`
-                  )
-                });
-              },
-              rules: [
-                {
-                  required: !getFieldValue(`aqiQcList[${record.key}].h`),
-                  message: i18n.required1D_1H
-                }
-              ]
-            })(
-              <InputNumber
-                style={{ width: "100%" }}
-                placeholder={i18n.colAvg1D}
-              />
-            )}
-          </Form.Item>
-        );
-      }
-    },
-    {
-      title: i18n.colUnit,
-      dataIndex: "unit",
-      key: "unit",
-      align: "center",
-      render: (text, record, index) => {
-        const { getFieldValue } = this.props.form;
-        const aqiQcList = getFieldValue("aqiQcList");
-        const key = _.get(aqiQcList, `${record.key}.keyMeasure`);
-        return _.get(this.state.dataMeasuringObj, `${key}.unit`);
-      }
-    },
-    {
-      title: "",
-      dataIndex: "action",
-      key: "action",
-      align: "center",
-      render: (text, record, index) => {
-        return (
-          <Popconfirm
-            title="Are you sure delete this?"
-            onConfirm={this.delete.bind(this, record.key)}
-            // onCancel={cancel}
-            okText="Yes"
-            cancelText="No"
-            placement="left"
-          >
-            <Icon
-              type="delete"
-              style={{ color: "red", fontSize: 24, cursor: "pointer" }}
-            />
-          </Popconfirm>
-        );
-      }
-    }
-  ];
+      children: [
+        {
+          title: "Tối thiểu",
+          align: "center",
+          key: `${keyMeasure}_${type}_min`,
+          render: (text, record, index) => {
+            const { getFieldDecorator, getFieldValue } = this.props.form;
+            const path = `[${record.key}].${type}.${keyMeasure}`;
+            const fliedName = `aqiQCLevel${path}.min`;
+            // console.log(record, path, keyMeasure, "toios theieu");
+            // console.log(getFieldValue(`aqiQCLevel${path}.min`));
+            return (
+              <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+                {getFieldDecorator(fliedName, {
+                  onChange: val => {
+                    const { setFieldsValue, getFieldValue } = this.props.form;
+                    setFieldsValue({
+                      [fliedName]: getFieldValue(fliedName)
+                    });
+                  },
+                  rules: [
+                    {
+                      required: !getFieldValue(fliedName),
+                      message: i18n.required
+                    }
+                  ]
+                })(
+                  <InputNumber
+                    style={{ width: "100%" }}
+                    
+                  />
+                )}
+              </Form.Item>
+            );
+          }
+        },
+        {
+          title: "Tối đa",
+          align: "center",
+          key: `${keyMeasure}_${type}_max`,
+          render: (text, record, index) => {
+            const { getFieldDecorator, getFieldValue } = this.props.form;
+            // const path = `[${record.key}].${type}.${keyMeasure}`;
+            const path = `[${record.key}].${type}.${keyMeasure}`;
+            const fliedName = `aqiQCLevel${path}.max`;
 
-  SelectMeasure = props => {
-    return (
-      <Select {...props} style={{ width: "100%" }}>
-        {_.map(this.state.dataMeasuringObj, mea => {
+            return (
+              <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+                {getFieldDecorator(fliedName, {
+                  onChange: val => {
+                    const { setFieldsValue, getFieldValue } = this.props.form;
+                    setFieldsValue({
+                      [fliedName]: getFieldValue(fliedName)
+                    });
+                  },
+                  rules: [
+                    {
+                      required: !getFieldValue(fliedName),
+                      message: i18n.required
+                    }
+                  ]
+                })(
+                  <InputNumber
+                    style={{ width: "100%" }}
+                    
+                  />
+                )}
+              </Form.Item>
+            );
+          }
+        }
+      ]
+    };
+  };
+  getColumns = () => {
+    const { dataMeasures } = this.state;
+    // console.log("---------");
+    // console.log(dataMeasures);
+    let dynamicColumns = [];
+    _.forEach(dataMeasures, (item, index) => {
+      let column1h = {};
+      let column8h = {};
+      let column24h = {};
+      const type = {
+        "1h": "1h",
+        "8h": "8h",
+        "24h": "24h"
+      };
+      if (_.get(item, type["1h"], false)) {
+        // console.log(item,"----")
+        column1h = this.createColumn(item.keyMeasure, type["1h"]);
+        dynamicColumns.push(column1h);
+      }
+      if (_.get(item, type["8h"], false)) {
+        column8h = this.createColumn(item.keyMeasure, type["8h"]);
+        dynamicColumns.push(column8h);
+      }
+      if (_.get(item, type["24h"], false)) {
+        column24h = this.createColumn(item.keyMeasure, type["24h"]);
+        dynamicColumns.push(column24h);
+      }
+    });
+
+    return [
+      {
+        title: "Cấp độ",
+        dataIndex: "name",
+        key: "name",
+        width: 100,
+        align: "center",
+        fixed: "left",
+        render: (text, record, index) => {
+          const { getFieldDecorator, getFieldValue } = this.props.form;
+
           return (
-            <Select.Option key={mea.key} value={mea.key}>
-              {mea.name}
-            </Select.Option>
+            <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+              {getFieldDecorator(`aqiQCLevel[${record.key}].name`, {
+                onChange: val => {
+                  const { setFieldsValue, getFieldValue } = this.props.form;
+                  setFieldsValue({
+                    [`aqiQCLevel[${record.key}].name`]: getFieldValue(
+                      `aqiQCLevel[${record.key}].name`
+                    )
+                  });
+                },
+                rules: [
+                  {
+                    required: !getFieldValue(`aqiQCLevel[${record.key}].name`),
+                    message: i18n.required1D_1H
+                  }
+                ]
+              })(
+                <Input style={{ width: "100%" }}  />
+              )}
+            </Form.Item>
           );
-        })}
-      </Select>
-    );
+        }
+      },
+      {
+        title: "Giá trị i",
+        align: "center",
+        children: [
+          {
+            title: "Tối thiểu",
+            dataIndex: "min",
+            key: "min",
+            align: "center",
+            render: (text, record, index) => {
+              const { getFieldDecorator, getFieldValue } = this.props.form;
+              return (
+                <Form.Item
+                  style={{ textAlign: "left", marginBottom: "initial" }}
+                >
+                  {getFieldDecorator(`aqiQCLevel[${record.key}].min`, {
+                    onChange: val => {
+                      const { setFieldsValue, getFieldValue } = this.props.form;
+                      setFieldsValue({
+                        [`aqiQCLevel[${record.key}].min`]: getFieldValue(
+                          `aqiQCLevel[${record.key}].min`
+                        )
+                      });
+                    },
+                    rules: [
+                      {
+                        required: !getFieldValue(
+                          `aqiQCLevel[${record.key}].min`
+                        ),
+                        message: i18n.required
+                      }
+                    ]
+                  })(
+                    <InputNumber style={{ width: "100%" }}/>
+                  )}
+                </Form.Item>
+              );
+            }
+          },
+          {
+            title: "Tối đa",
+            dataIndex: "max",
+            key: "max",
+            align: "center",
+            render: (text, record, index) => {
+              const { getFieldDecorator, getFieldValue } = this.props.form;
+              return (
+                <Form.Item
+                  style={{ textAlign: "left", marginBottom: "initial" }}
+                >
+                  {getFieldDecorator(`aqiQCLevel[${record.key}].max`, {
+                    onChange: val => {
+                      const { setFieldsValue, getFieldValue } = this.props.form;
+                      setFieldsValue({
+                        [`aqiQCLevel[${record.key}].max`]: getFieldValue(
+                          `aqiQCLevel[${record.key}].max`
+                        )
+                      });
+                    },
+                    rules: [
+                      {
+                        required: !getFieldValue(
+                          `aqiQCLevel[${record.key}].max`
+                        ),
+                        message: i18n.required
+                      }
+                    ]
+                  })(
+                    <InputNumber
+                      style={{ width: "100%" }}
+                    />
+                  )}
+                </Form.Item>
+              );
+            }
+          }
+        ]
+      },
+      ...dynamicColumns,
+      {
+        title: "",
+        dataIndex: "action",
+        key: "action",
+        align: "center",
+        render: (text, record, index) => {
+          return (
+            <Popconfirm
+              title="Are you sure delete this?"
+              onConfirm={this.delete.bind(this, record.key)}
+              // onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
+              placement="left"
+            >
+              <Icon
+                type="delete"
+                style={{ color: "red", fontSize: 24, cursor: "pointer" }}
+              />
+            </Popconfirm>
+          );
+        }
+      }
+    ];
   };
 
   submit = () => {
@@ -214,14 +311,12 @@ export default class TabMucDo extends React.Component {
         this.setState({ isSubmit: true });
         console.log("Received values of form: ", values);
         try {
-          let transformData = _.get(values, "aqiQcList", []).filter(
-            i =>
-              (_.identity(i.h) || _.identity(i.d)) && _.identity(i.keyMeasure)
-          );
-
-          const response = await postConfigAqiQC(
-            _.keyBy(transformData, "keyMeasure")
-          );
+          const transformData = {
+            aqiQCMeasures: this.state.dataMeasures,
+            aqiQCLevel: _.get(values, "aqiQCLevel", [])
+          };
+          // console.log(transformData, "------");
+          const response = await postConfigAqiQC(transformData);
           if (response.success) {
             message.success(i18n.updateSuccess);
           }
@@ -233,11 +328,12 @@ export default class TabMucDo extends React.Component {
   };
 
   add = () => {
+    const index = this.idIncrement++;
     this.setState({
       dataSource: [
         ...this.state.dataSource,
         {
-          key: this.idIncrement++
+          key: index
         }
       ]
     });
@@ -262,23 +358,27 @@ export default class TabMucDo extends React.Component {
 
     const response = await getConfigAqiQC();
     if (response.success) {
-      let transformData = _.get(response, "data.value", {});
+      let transformData = _.get(response, "data.value.aqiQCLevel", []);
+      let DataMeasure = _.get(response, "data.value.aqiQCMeasures", {});
+      DataMeasure = _.values(DataMeasure);
+
       let dataSource = _.map(transformData, item => {
         return {
           ...item,
-          key: this.idIncrement++,
-          keyMeasure: item.keyMeasure
+          key: this.idIncrement++
         };
       });
       this.setState(
         {
           dataMeasuringObj,
+          dataMeasures: DataMeasure,
           dataSource: dataSource,
           isLoaded: true
         },
         () => {
+          // console.log(dataSource, "dataSource");
           this.props.form.setFieldsValue({
-            aqiQcList: dataSource
+            aqiQCLevel: dataSource
           });
         }
       );
@@ -295,8 +395,8 @@ export default class TabMucDo extends React.Component {
         <Table
           size="small"
           bordered
+          columns={this.getColumns()}
           dataSource={this.state.dataSource}
-          columns={this.columns}
           pagination={false}
         />
         <Clearfix height={16} />
