@@ -37,7 +37,6 @@ export default class AQIStatisticsDay878 extends React.Component {
       current: 1,
       pageSize: 50
     },
-    timeZone: 420,
     listKey: ""
   }
 

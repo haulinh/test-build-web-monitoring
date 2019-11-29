@@ -158,22 +158,21 @@ export default {
     paramsTitle: "Giá trị AQI {{=it.day}} ngày của từng thông số"
   },
   aqiConfigCalculation: {
-    add: "Thêm",
-    required1D_1H: "Nhập ít nhất AVG Ngày hoặc AVG Giờ",
-    required: "Vui lòng nhập giá trị",
-    colLevel: "Tên mức độ",
-    colMin: "Cận dưới",
-    colMax: "Cận trên",
-    colColor: "Màu chữ",
-    colBackgroundColor: "Màu nền",
-    colDescription: "Chú thích",
-    colMeasureKey: "Mã thông số",
-    colMeasure: "Thông số",
-    colBatBuoc:'Bắt buộc',
-    colAvg1H: "TB 1h",
-    colAvg1D: "TB 24h",
-    colAvg8H: 'TB 8h',
-    colUnit: "Đơn vị"
+    add: 'Thêm',
+    required1D_1H: 'Nhập ít nhất AVG Ngày hoặc AVG Giờ',
+    required: 'Vui lòng nhập giá trị',
+    colLevel: 'Tên mức độ',
+    colMin: 'Cận dưới',
+    colMax: 'Cận trên',
+    colColor: 'Màu chữ',
+    colBackgroundColor: 'Màu nền',
+    colDescription: 'Chú thích',
+    colMeasureKey: 'Mã thông số',
+    colMeasure: 'Thông số',
+    colAvg1H: 'Trung bình 1 giờ',
+    colAvg8H: 'Trung bình 8 giờ',
+    colAvg1D: 'Trung bình 1 ngày',
+    colUnit: 'Đơn vị',
   },
   wqi: {
     title: "WQI"
@@ -1655,7 +1654,7 @@ export default {
       type12: "Tỉ lệ dữ liệu vượt ngưỡng",
       aqiHour: "AQI - Giờ",
       aqiDay: "AQI - Ngày",
-      aqi878: "AQI - 878",
+      aqi878: "AQI - 1479",
       status_data: "Tình trạng dữ liệu",
       status_data_obj: {
         title: "Báo cáo đánh giá tình trạng dữ liệu",
@@ -1676,8 +1675,7 @@ export default {
       type12: "Tỉ lệ dữ liệu vượt ngưỡng",
       aqiHour: "AQI - Giờ",
       aqiDay: "AQI - Ngày",
-      aqi878: "AQI - 878",
-      status_data: "Tình trạng dữ liệu"
+      
     }
   },
   cameraControl: {
