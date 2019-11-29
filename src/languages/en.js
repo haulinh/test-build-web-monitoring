@@ -170,6 +170,7 @@ export default {
     colMeasureKey: 'Measure Key',
     colMeasure: 'Measure',
     colAvg1H: 'Average 1 hour',
+    colAvg8H: 'Average 8 hour',
     colAvg1D: 'Average 1 day',
     colUnit: 'Unit',
   },
@@ -1611,7 +1612,7 @@ export default {
       type12: 'Percentage of exceeded data',
       aqiHour: "AQI - Hour",
       aqiDay: "AQI - Day",
-      aqi878: "AQI - 878"
+      aqi878: "AQI - 1479"
     },
     reportBreadcrum: {
       type1: 'Original data',

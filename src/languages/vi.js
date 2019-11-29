@@ -171,6 +171,7 @@ export default {
     colMeasureKey: 'Mã thông số',
     colMeasure: 'Thông số',
     colAvg1H: 'Trung bình 1 giờ',
+    colAvg8H: 'Trung bình 8 giờ',
     colAvg1D: 'Trung bình 1 ngày',
     colUnit: 'Đơn vị',
   },
@@ -1610,7 +1611,7 @@ export default {
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
       aqiHour: "AQI - Giờ",
       aqiDay: "AQI - Ngày",
-      aqi878: "AQI - 878"
+      aqi878: "AQI - 1479"
     },
     reportBreadcrum: {
       type1: 'Tỷ lệ dữ liệu',
