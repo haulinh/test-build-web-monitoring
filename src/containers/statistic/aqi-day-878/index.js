@@ -14,7 +14,7 @@ import protectRole from "hoc/protect-role"
 import queryFormDataBrowser from "hoc/query-formdata-browser"
 import { fetchListAqiReport, createAqiReport } from "api/AqiApi"
 import { getStationsConfig } from "api/StationConfigApi"
-import moment from "moment"
+import moment from 'moment-timezone'
 import { DD_MM_YYYY } from "constants/format-date"
 
 
@@ -33,7 +33,6 @@ export default class AQIStatisticsDay878 extends React.Component {
       current: 1,
       pageSize: 50
     },
-    timeZone: 420,
     listKey: ""
   }
 
@@ -85,7 +84,7 @@ export default class AQIStatisticsDay878 extends React.Component {
         .format(DD_MM_YYYY)
     })
 
-    // console.log(dataConvert, "dataConvert")
+    // console.log(searchFormData.fromDate.format(), "searchFormData.fromDate")
 
     const soNgay = searchFormData.toDate.diff(searchFormData.fromDate, "days")
     for (let i = 0; i <= soNgay; i++) {
@@ -96,19 +95,20 @@ export default class AQIStatisticsDay878 extends React.Component {
         .format(DD_MM_YYYY)
 
       const dateClone = searchFormData.fromDate.clone().add(i, "days")
-      const fromLabel = dateClone.format(DD_MM_YYYY)
-      const toLabel = dateClone.add(1, "days").format(DD_MM_YYYY)
-      // console.log(key,"key")
+      const fromLabel = moment(dateClone.format()).format("HH:mm [NGÀY] DD/MM/YYYY")
+      const toLabel = moment(dateClone.format()).add(24, "hour").subtract(1,"minute").format("HH:mm [NGÀY] DD/MM/YYYY")
+      // console.log(fromLabel, toLabel, dateClone.format(),moment("2019-11-20T17:00:00Z").format() ,"key")
       let item = {
         stt: i + 1,
         key: i,
-        name: `TỪ 15:00 NGÀY ${fromLabel} ĐẾN 14:59 NGÀY ${toLabel}`,
+        name: `TỪ ${fromLabel} ĐẾN ${toLabel}`,
         urlDownload: "",
         reportDate: searchFormData.fromDate
           .clone()
           .add(i, "days")
           .format()
       }
+      console.log(item, key,"item")
       if (dataConvert[key]) {
         item = {
           stt: i + 1,
