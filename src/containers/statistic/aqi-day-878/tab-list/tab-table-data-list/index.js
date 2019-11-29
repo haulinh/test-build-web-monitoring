@@ -153,7 +153,7 @@ export default class TableDataList extends React.PureComponent {
     const param = {
       reportDate: reportDate,
       listKey: listKey,
-      timezoneDay: 14
+      timezoneDay: 0
     }
     if(this.props.onCreateReport){
       this.props.onCreateReport(param)
