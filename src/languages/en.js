@@ -1628,7 +1628,7 @@ export default {
       type12: 'Percentage of exceeded data',
       aqiHour: "AQI - Hour",
       aqiDay: "AQI - Day",
-      aqi878: "AQI - 878"
+      aqi878: "AQI - 1479"
     }  
   },
   cameraControl: {

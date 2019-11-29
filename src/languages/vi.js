@@ -1627,7 +1627,7 @@ export default {
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
       aqiHour: "AQI - Giờ",
       aqiDay: "AQI - Ngày",
-      aqi878: "AQI - 878"
+      aqi878: "AQI - 1479"
     }
   },
   cameraControl: {
