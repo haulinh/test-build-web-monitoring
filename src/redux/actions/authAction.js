@@ -1,7 +1,10 @@
 import AuthApi from '../../api/AuthApi'
+import CategoryApi from '../../api/CategoryApi'
 import { setAuthToken, getAuthToken, resetAuthToken } from 'utils/auth'
 import moment from 'moment-timezone'
 import {result as _result} from 'lodash'
+
+import { CONFIGS } from './config'
 
 export const UPDATE_USER_INFO = 'AUTH/update-user-info'
 export const FETCH_PENDING_USER = 'AUTH/fetch-pending-user'
@@ -13,6 +16,7 @@ export const UPDATE_2FA = 'AUTH/UPDATE_2FA'
 export const SET_2FA_STATUS = 'AUTH/SET_2FA_STATUS'
 export const SET_2FA_TYPE = 'AUTH/SET_2FA_TYPE'
 
+
 export function fetchUserMe() {
   return async dispatch => {
     if (!getAuthToken()) {
@@ -21,6 +25,17 @@ export function fetchUserMe() {
       })
       return { error: true }
     }
+    
+    const warningLevelColor = await CategoryApi.getWarningLevelColor()
+    if (warningLevelColor.error) {
+      return dispatch({
+        type: FETCH_FAIL_USER
+      })
+    }
+    dispatch({
+      type: CONFIGS.GET_WARNING_LEVELS_COLOR
+    })
+
     dispatch({
       type: FETCH_PENDING_USER
     })
@@ -52,6 +67,7 @@ export function userLogin(reqData) {
   return async dispatch => {
     const auth = await AuthApi.loginUser(reqData)
     if (auth.success) {
+
       setAuthToken(auth.token)
       dispatch({
         type: UPDATE_USER_INFO,
