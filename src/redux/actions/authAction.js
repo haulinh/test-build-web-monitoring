@@ -33,7 +33,8 @@ export function fetchUserMe() {
       })
     }
     dispatch({
-      type: CONFIGS.GET_WARNING_LEVELS_COLOR
+      type: CONFIGS.GET_WARNING_LEVELS_COLOR,
+      payload: warningLevelColor.data
     })
 
     dispatch({

@@ -4,7 +4,7 @@ export const CONFIGS = {
   GET_WARNING_LEVELS_COLOR : 'CATEGORY / GET_WARNING_LEVELS_COLOR'
 }
 
-export function getWarningLevelColors(reqData) {
+export function getWarningLevelColors() {
     return async dispatch => {
       const res = await CategoryAPI.getWarningLevelColor()
       if (res.success) {

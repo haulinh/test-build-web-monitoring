@@ -755,6 +755,14 @@ export default {
         button: {
           selectTabData: 'Tình trạng dữ liệu',
           selectTabSensor: 'Tình trạng thiết bị'
+        },
+        table: {
+          column: {
+            type: 'Loại',
+            alternative: 'Tên thay thế',
+            color: 'Màu',
+            desc: 'Chú thích',
+          }
         }
       }
     }

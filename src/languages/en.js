@@ -757,6 +757,14 @@ export default {
         button: {
           selectTabData: 'Data status',
           selectTabSensor: 'Sensor status'
+        },
+        table: {
+          column: {
+            type: 'Type',
+            alternative: 'Alternative',
+            color: 'Color',
+            desc: 'Description',
+          }
         }
       }
     }
