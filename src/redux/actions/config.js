@@ -12,7 +12,7 @@ export function getWarningLevelColors(reqData) {
           type: CONFIGS.GET_WARNING_LEVELS_COLOR,
           payload: res.value
         })
-      // }
+      }
       return res
     }
 }

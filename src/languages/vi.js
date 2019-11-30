@@ -749,6 +749,16 @@ export default {
     },
     tryUploadFile: "Truyền lại file"
   },
+  page: {
+    config: {
+      color: {
+        button: {
+          selectTabData: 'Tình trạng dữ liệu',
+          selectTabSensor: 'Tình trạng thiết bị'
+        }
+      }
+    }
+  },
   stationFixedManager: {
     list: {
       title: "Trạm quan trắc cố định"
@@ -780,6 +790,9 @@ export default {
         name: "Tên trạm",
         addr: "Địa chỉ",
         allowView: "Cho phép xem camera"
+      },
+      color: {
+        title: "Cấu hình màu cảnh báo",
       },
       actions: {
         ftpFolder: "FTP Folder" /* MARK  @translate */,
@@ -1608,6 +1621,7 @@ export default {
       sampling: "Cấu hình lấy mẫu",
       configAQI: "Cấu hình tính toán AQI",
       camera: "Cấu hình camera",
+      color: "Cấu hình màu cảnh báo",
       parameter: "Chỉ tiêu quan trắc",
       stationType: "Loại trạm",
       site: "Đơn vị quản lý",
