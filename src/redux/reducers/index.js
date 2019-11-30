@@ -7,9 +7,10 @@ import theme from './theme'
 import notification from './notification'
 import stationAuto from './stationAuto'
 import map from './map'
-
+import config from './config'
 
 export default {
+  config,
   auth,
   language,
   theme,

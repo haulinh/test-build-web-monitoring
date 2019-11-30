@@ -110,6 +110,23 @@ export function postConfigAqiQC(data) {
 
 /* #endregion */
 
+/* --------------------------- [ START ] config route on category service --------------------------- */
+
+function getConfigs(config) {
+  return getConfigApi().config + '/' + config
+}
+
+export function getWarningLevelColor() {
+  const url = getConfigs('color-station')
+  return getFetch(url)
+}
+
+
+
+/* --------------------------- [ END ] config route on category service --------------------------- */
+
+
+
 export default {
   getMeasurings,
   getMeasuring,
@@ -127,5 +144,6 @@ export default {
   postConfigAqiCalculation,
   getConfigAqiCalculation,
   getConfigAqiQC,
-  postConfigAqiQC
+  postConfigAqiQC,
+  getWarningLevelColor
 };
