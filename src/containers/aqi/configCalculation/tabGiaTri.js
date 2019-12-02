@@ -33,6 +33,8 @@ const i18n = {
   add: translate("aqiConfigCalculation.add"),
   required1D_1H: translate("aqiConfigCalculation.required1D_1H"),
   required: translate("aqiConfigCalculation.required"),
+  collevel: translate("aqiConfigCalculation.collevel"),
+  colValue: translate("aqiConfigCalculation.colValue"),
   colLevel: translate("aqiConfigCalculation.colLevel"),
   colMin: translate("aqiConfigCalculation.colMin"),
   colMax: translate("aqiConfigCalculation.colMax"),
@@ -60,11 +62,11 @@ export default class TabMucDo extends React.Component {
   createColumn = (keyMeasure, type) => {
     return {
       key: `${keyMeasure}_${type}`,
-      title: `Giá trị ${keyMeasure} ${type}`,
+      title: `${i18n.colValue} ${keyMeasure} ${type}`,
       align: "center",
       children: [
         {
-          title: "Tối thiểu",
+          title: i18n.colMin,
           align: "center",
           key: `${keyMeasure}_${type}_min`,
           render: (text, record, index) => {
@@ -99,7 +101,7 @@ export default class TabMucDo extends React.Component {
           }
         },
         {
-          title: "Tối đa",
+          title: i18n.colMax,
           align: "center",
           key: `${keyMeasure}_${type}_max`,
           render: (text, record, index) => {
@@ -167,7 +169,7 @@ export default class TabMucDo extends React.Component {
 
     return [
       {
-        title: "Cấp độ",
+        title: i18n.collevel,
         dataIndex: "name",
         key: "name",
         width: 100,
@@ -201,11 +203,11 @@ export default class TabMucDo extends React.Component {
         }
       },
       {
-        title: "Giá trị i",
+        title: `${i18n.colValue} i`,
         align: "center",
         children: [
           {
-            title: "Tối thiểu",
+            title: i18n.colMin,
             dataIndex: "min",
             key: "min",
             align: "center",
@@ -240,7 +242,7 @@ export default class TabMucDo extends React.Component {
             }
           },
           {
-            title: "Tối đa",
+            title: i18n.colMax,
             dataIndex: "max",
             key: "max",
             align: "center",

@@ -158,12 +158,18 @@ export default {
     paramsTitle: "Giá trị AQI {{=it.day}} ngày của từng thông số"
   },
   aqiConfigCalculation: {
+    pageName: 'Cấu hình tính toán AQI',
+    tab1:"Ngưỡng mức độ",
+    tab2:"Bảng giá trị BPi",
+    tab3:"Thống số tính toán",
     add: 'Thêm',
     required1D_1H: 'Nhập ít nhất AVG Ngày hoặc AVG Giờ',
     required: 'Vui lòng nhập giá trị',
+    collevel: 'Cấp độ',
+    colValue:'Giá trị',
     colLevel: 'Tên mức độ',
-    colMin: 'Cận dưới',
-    colMax: 'Cận trên',
+    colMin: 'Tối thiểu',
+    colMax: 'Tối đa',
     colColor: 'Màu chữ',
     colBackgroundColor: 'Màu nền',
     colDescription: 'Chú thích',
@@ -1675,7 +1681,8 @@ export default {
       type12: "Tỉ lệ dữ liệu vượt ngưỡng",
       aqiHour: "AQI - Giờ",
       aqiDay: "AQI - Ngày",
-      
+      aqi878: "AQI - 1479",
+      status_data: "Status Data", // Qui them cho dong bo voi file EN
     }
   },
   cameraControl: {

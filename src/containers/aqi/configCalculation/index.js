@@ -9,6 +9,8 @@ import createBreadcrumb from "shared/breadcrumb/hoc";
 import TabMucDo from "./tabMucDo";
 import TabGiaTri from "./tabGiaTri";
 import TabThongSo from "./tabThongSo";
+import { translate } from "hoc/create-lang"
+
 
 const Breadcrumb = createBreadcrumb();
 const { TabPane } = Tabs;
@@ -29,6 +31,12 @@ const Wrapper = styled.div`
   }
 `;
 
+const i18n = {
+  tabMucDo: translate('aqiConfigCalculation.tab1') , //"Ngưỡng mức độ",
+  tabGiaTri: translate('aqiConfigCalculation.tab2'),
+  tabThongSo: translate('aqiConfigCalculation.tab3'),
+  pageName: translate('aqiConfigCalculation.pageName'),
+}
 
 const TAB_KEY = {
   MUC_DO: "MUC_DO",
@@ -36,10 +44,11 @@ const TAB_KEY = {
   THONG_SO: "THONG_SO",
 };
 const TAB_NAME = {
-  MUC_DO: "Ngưỡng mức độ",
-  GIA_TRI: " Bảng giá trị BPi",
-  THONG_SO: "Thống số tính toán",
+  MUC_DO: i18n.tabMucDo, 
+  GIA_TRI: i18n.tabGiaTri,
+  THONG_SO: i18n.tabThongSo
 };
+
 @withRouter
 @autobind
 export default class ConfigCalculationAQI extends PureComponent {
@@ -60,7 +69,7 @@ export default class ConfigCalculationAQI extends PureComponent {
           items={[
             {
               id: "1",
-              name: "Cấu hình tính toán AQI"
+              name: i18n.pageName
             }
           ]}
         />
