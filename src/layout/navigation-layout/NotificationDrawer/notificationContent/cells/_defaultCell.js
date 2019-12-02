@@ -60,7 +60,7 @@ export default class DefaultCell extends React.Component {
     const { isHoverOnCell } = this.state
     const { icon, content, data } = this.props
     const { receivedAt, isRead } = data
-    const _icon = `${getConfigApi().media}/${icon}`
+    // const _icon = `${getConfigApi().media}/${icon}` // Qui bỏ dùng anh phát vì khong dùng
     console.log(getConfigApi().media, "getConfigApi")
     return (
       <Row 
