@@ -169,6 +169,18 @@ export default {
           <Link to={slug.user.base}>{MENU_NAME.config.user}</Link>
         </Menu.Item>
       )}
+
+       {/* NOTE  NHẬT KÝ */}
+       {protectRole(ROLE.USER.VIEW)(
+        <Menu.Item
+          key={slug.dataLogger.base}
+          onClick={() => {
+            props.selectMenu(slug.dataLogger.base);
+          }}
+        >
+          <Link to={slug.dataLogger.base}>{MENU_NAME.config.dataLogger}</Link>
+        </Menu.Item>
+      )}
     </Menu.SubMenu>
   )
 };

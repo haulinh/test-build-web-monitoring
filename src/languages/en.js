@@ -1617,7 +1617,8 @@ export default {
       site: "Site",
       standard: "Standard",
       role: "Role",
-      user: "User"
+      user: "User",
+      dataLogger:"View Diary",
     },
 
     camera: "Camera",
@@ -1680,6 +1681,26 @@ export default {
       aqiDay: "AQI - Day",
       aqi878: "AQI - 1479",
       status_data: "Status Data"
+    }
+  },
+  dataLogger:{
+    breadcrumb: {
+      base: "View Diary"
+    },
+    list:{
+      emptyView:'There Are No Records To Display',
+      colNo:'No.',
+      colUser:'User',
+      colTime:'Date time',
+      colAction:'Action',
+      colDevice:'Device',
+    },
+    searchForm :{
+      user:'Select user',
+      typeLog:'Type Log',
+      from: 'Select date',
+      to: 'Select date',
+      download:'Xuất Excel'
     }
   },
   cameraControl: {

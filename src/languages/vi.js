@@ -1613,7 +1613,8 @@ export default {
       site: "Đơn vị quản lý",
       standard: "Quy chuẩn",
       role: "Nhóm quyền",
-      user: "Tài khoản"
+      user: "Tài khoản",
+      dataLogger:"Xem nhật ký",
     },
 
     camera: "Camera",
@@ -1676,6 +1677,26 @@ export default {
       aqiHour: "AQI - Giờ",
       aqiDay: "AQI - Ngày",
       
+    }
+  },
+  dataLogger:{
+    breadcrumb: {
+      base: "Nhật ký dữ liệu"
+    },
+    list:{
+      emptyView:'Không có dữ liệu',
+      colNo:'STT',
+      colUser:'Tài khoản',
+      colTime:'Thời gian',
+      colAction:'Hành động',
+      colDevice:'Thiết bị'
+    },
+    searchForm :{
+      user:'Tài khoản',
+      typeLog:'Loại',
+      from: 'Từ ngày',
+      to: 'Đến ngày',
+      download:'Xuất Excel'
     }
   },
   cameraControl: {
