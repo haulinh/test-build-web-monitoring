@@ -47,6 +47,8 @@ import PercentReceivedData from "containers/statistic/per-rec-data";
 // import WqiStatistic from "containers/statistic/wqi";
 import Layout from "layout/default-sidebar-layout";
 import Report from "containers/report";
+import DataLoggerPage from "containers/data-logger";
+
 
 import PageExpLicenseInfo from 'containers/license/exp-license-info'
 
@@ -114,6 +116,9 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute path={slug.support.base} component={SupportRoute} />
 
             <LayoutRoute  path={slug.report.base} component={Report} />
+            {/* NOTE Nhật ký */}
+            <LayoutRoute path={slug.dataLogger.base} component={DataLoggerPage} />
+
           </Layout>
         </Switch>
       </div>

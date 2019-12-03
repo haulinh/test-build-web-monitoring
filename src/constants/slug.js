@@ -193,6 +193,10 @@ export default {
     aqi_day: "/report/aqi-day",
     aqi_878: "/report/aqi-878",
     status_data: "/report/status-data",
+  },
+  dataLogger:{
+    base: "/data-logger",
+    list: "/data-logger",
   }
 }
 
@@ -304,5 +308,6 @@ export const MENU_NAME = {
     standard: translate("menuApp.config.standard"),
     role: translate("menuApp.config.role"),
     user: translate("menuApp.config.user"),
+    dataLogger: translate("menuApp.config.dataLogger"),
   }
 }
