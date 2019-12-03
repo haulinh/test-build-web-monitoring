@@ -158,21 +158,27 @@ export default {
     paramsTitle: "The {{= it.day}}-day AQI value of each parameter"
   },
   aqiConfigCalculation: {
-    add: "Add",
-    required1D_1H: "Enter at least AVG Date or AVG Hour",
-    required: "Please input value",
-    colLevel: "Level Name",
-    colMin: "Min",
-    colMax: "Max",
-    colColor: "Color",
-    colBackgroundColor: "Background Color",
-    colDescription: "Description",
-    colMeasureKey: "Measure Key",
-    colMeasure: "Measure",
-    colAvg1H: "Average 1 hour",
-    colAvg8H: "Average 8 hour",
-    colAvg1D: "Average 1 day",
-    colUnit: "Unit"
+    pageName: 'Configure to AQI calculation',
+    tab1:"Prediction threshold",
+    tab2:"BPi value table",
+    tab3:"Calculation parameters",
+    add: 'Add',
+    required1D_1H: 'Enter at least AVG Date or AVG Hour',
+    required: 'Please input value',
+    collevel: 'Level',
+    colValue:'Value',
+    colLevel: 'Level Name',
+    colMin: 'Min',
+    colMax: 'Max',
+    colColor: 'Color',
+    colBackgroundColor: 'Background Color',
+    colDescription: 'Description',
+    colMeasureKey: 'Measure Key',
+    colMeasure: 'Measure',
+    colAvg1H: 'Average 1 hour',
+    colAvg8H: 'Average 8 hour',
+    colAvg1D: 'Average 1 day',
+    colUnit: 'Unit',
   },
   wqi: {
     title: "Water Quality Index"
@@ -1680,7 +1686,7 @@ export default {
       aqiDay: "AQI - Day",
       aqi878: "AQI - 1479",
       status_data: "Status Data"
-    }
+    }  
   },
   cameraControl: {
     selectStationPlaceholder: "Input Station Name"
