@@ -31,6 +31,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
       this.setState({
         isLoading: true
       })
+      console.log(this.state.data,"111s")
       const res = await apiList(this.state.pagination, this.state.data)
 
       this.setState({

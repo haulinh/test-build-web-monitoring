@@ -1693,17 +1693,22 @@ export default {
     list:{
       emptyView:'Không có dữ liệu',
       colNo:'STT',
-      colUser:'Tài khoản',
+      colUser:'Email',
       colTime:'Thời gian',
       colAction:'Hành động',
-      colDevice:'Thiết bị'
+      colDevice:'Thiết bị',
+      colDetail:'Chi tiết',
     },
     searchForm :{
-      user:'Tài khoản',
+      user:'Select email',
       typeLog:'Loại',
       from: 'Từ ngày',
       to: 'Đến ngày',
       download:'Xuất Excel'
+    },
+    action:{
+      login: 'Đăng nhập',
+      logout: 'Đăng xuất'
     }
   },
   cameraControl: {
