@@ -14,7 +14,6 @@ export function loginUser(data = {}) {
 }
 
 export function logoutUser( userId) {
-  console.log(userId,"userId")
   return postFetch(getAuthUrl("logout"), { userId });
 }
 
