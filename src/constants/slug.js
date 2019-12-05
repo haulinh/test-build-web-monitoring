@@ -195,8 +195,8 @@ export default {
     status_data: "/report/status-data",
   },
   dataLogger:{
-    base: "/data-logger",
-    list: "/data-logger",
+    base: "/log",
+    list: "/log",
   }
 }
 

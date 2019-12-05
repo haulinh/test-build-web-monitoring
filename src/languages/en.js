@@ -1690,17 +1690,22 @@ export default {
     list:{
       emptyView:'There Are No Records To Display',
       colNo:'No.',
-      colUser:'User',
+      colUser:'Email',
       colTime:'Date time',
       colAction:'Action',
       colDevice:'Device',
+      colDetail:'Detail',
     },
     searchForm :{
-      user:'Select user',
+      user:'Select email',
       typeLog:'Type Log',
       from: 'Select date',
       to: 'Select date',
       download:'Xuất Excel'
+    },
+    action:{
+      login: 'Login',
+      logout: 'Logout'
     }
   },
   cameraControl: {

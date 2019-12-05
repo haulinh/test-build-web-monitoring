@@ -1,6 +1,6 @@
 import React from "react";
 // import styled from "styled-components";
-import { Row, Col, Button, Form, DatePicker } from "antd";
+import { Row, Col, Button, Form } from "antd";
 import SelectAnt from "components/elements/select-ant";
 import Clearfix from "components/elements/clearfix";
 import PropTypes from "prop-types";
@@ -9,6 +9,9 @@ import { translate } from "hoc/create-lang";
 import UserApi from "api/UserApi";
 import * as _ from "lodash";
 import moment from "moment-timezone";
+import { DD_MM_YYYY } from "constants/format-date.js";
+import RangePickerCustom from 'components/elements/rangePicker'
+
 
 // import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
 
@@ -22,7 +25,8 @@ const i18n = {
 
 class DataLoggerSearchForm extends React.Component {
   static propTypes = {
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    isExcel: PropTypes.bool
   };
 
   state = {
@@ -53,15 +57,15 @@ class DataLoggerSearchForm extends React.Component {
       // console.log("validateFields", err, values);
       if (err) return;
       const dataSearch = {
-        ...values,
-        from: values.from
-          ? moment(values.from)
+        ..._.omit(values,['fromto']),
+        from: values.fromto
+          ? moment(values.fromto[0])
               .utc().startOf('days')
               .format()
           : undefined,
-        to: values.to
-          ? moment(values.to)
-              .utc().startOf('days')
+        to: values.fromto
+          ? moment(values.fromto[1])
+              .utc().endOf('days')
               .format()
           : undefined
       };
@@ -83,7 +87,7 @@ class DataLoggerSearchForm extends React.Component {
         <Clearfix heigth={8} />
         <Row gutter={8}>
           <Col span={6}>
-            {getFieldDecorator(`user`)(
+            {getFieldDecorator(`email`)(
               <SelectAnt
                 isAll
                 showSearch
@@ -97,10 +101,21 @@ class DataLoggerSearchForm extends React.Component {
               <Input placeholder={i18n.labelTypeLog} />
             )}
           </Col> */}
-          <Col span={4}>
+          
+          <Col span={8}>
+            {getFieldDecorator(`fromto`)(
+              <RangePickerCustom
+                formatDate={DD_MM_YYYY}
+                size={'default'}
+                // style={{ width: "100%" }}
+              />
+            )}
+          </Col>
+          {/* <Col span={4}>
             {getFieldDecorator(`from`)(
               <DatePicker
                 style={{ width: "100%" }}
+                format={DD_MM_YYYY}
                 placeholder={i18n.labelFrom}
               />
             )}
@@ -108,11 +123,12 @@ class DataLoggerSearchForm extends React.Component {
           <Col span={4}>
             {getFieldDecorator(`to`)(
               <DatePicker
+              format={DD_MM_YYYY}
                 style={{ width: "100%" }}
                 placeholder={i18n.labelTo}
               />
             )}
-          </Col>
+          </Col> */}
           <Col span={4}>
             <Button
               shape="circle"
@@ -120,9 +136,12 @@ class DataLoggerSearchForm extends React.Component {
               htmlType="submit"
               style={{ marginRight: "8px" }}
             />
-            <Button type="primary" icon="download">
+            {this.props.isExcel && (
+              <Button type="primary" icon="download">
               {i18n.download}
             </Button>
+            )}
+            
           </Col>
         </Row>
       </Form>
