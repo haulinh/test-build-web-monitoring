@@ -142,7 +142,7 @@ export default class BasicNestedNavigation extends React.Component {
 
   handleLogout() {
     const userId = _.get(this.props.authInfo, "_id");
-    this.props.logout({ userId });
+    this.props.logout(userId);
     deleteToken(this.props.tokenFCM, this.props.authInfo.email);
     this.props.resetAllCounts(); //action
     this.props.history.push("/login");
