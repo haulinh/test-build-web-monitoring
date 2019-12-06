@@ -1,8 +1,9 @@
 import { getConfigApi } from "config";
 import { getFetch } from "utils/fetch";
 
+const SLUG = "/log";
 function getUrl(path = "") {
-  return getConfigApi().log + "/" + path;
+  return getConfigApi().category + SLUG + "/" + path;
 }
 
 export function getList({ page = 1, itemPerPage = 50 }, { email, from, to }) {
