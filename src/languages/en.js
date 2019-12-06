@@ -763,6 +763,7 @@ export default {
             type: 'Type',
             alternative: 'Alternative',
             color: 'Color',
+            backgroundColor: 'Background color',
             desc: 'Description',
           }
         }

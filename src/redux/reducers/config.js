@@ -13,61 +13,52 @@ const initialState = {
 export default function configReducer(state = initialState, action) {
   switch (action.type) {
     case CONFIGS.GET_WARNING_LEVELS_COLOR: 
-      return _saveWarningLevelConfig(state, action.payload); break
+      return _saveWarningLevelConfig(state, action.payload)
+    case CONFIGS.UPDATE_WARNING_LEVELS_COLOR_DATA: 
+      return _updateWarningLevelColorData(state, action.payload)
+    case CONFIGS.UPDATE_WARNING_LEVELS_COLOR_SENSOR: 
+      return _updateWarningLevelColorSensor(state, action.payload)
     default:
       return state
   }
 }
 
+
 function _saveWarningLevelConfig(state, value) {
+  const colorData = value.find(o => o.key === 'color-station')
+  const colorSensor = value.find(o => o.key === 'color-sensor')
   return update(state, {
     color: {
       warningLevel: {
-        data: { $set: value },
-        sensor: { $set: value },
+        data: { $set: colorData },
+        sensor: { $set: colorSensor },
       }
     }
   })
 }
 
 
-/* fix cứng data tạm thời để làm frontend */
-function _generateSample() {
-  return [
-    {
-        "description": "Trạm mất tín hiệu ",
-        "backgroundColor": "#8f9bb3",
-        "color": "#ffffff",
-        "name": "Mất Tín Hiệu",
-        "altName": "Mất Tín Hiệu",
-    },
-    {
-        "description": "Trạm vượt tức thời ",
-        "backgroundColor": "#1d89ce",
-        "color": "#ffffff",
-        "name": "Vượt tức thời",
-        "altName": "Vượt tức thời",
-    },
-    {
-        "description": "Trạm chuẩn bị vượt  ",
-        "backgroundColor": "#884dff",
-        "color": "#ffffff",
-        "name": "Chuẩn bị vượt",
-        "altName": "Chuẩn bị vượt",
-    },
-    {
-        "description": "Trạm trong ngưỡng",
-        "backgroundColor": "#2ecc71",
-        "color": "#ffffff",
-        "name": "Trong ngưỡng",
-        "altName": "Trong ngưỡng",
-    },
-    {
-        "description": "Trạm vượt trung bình ngày ",
-        "backgroundColor": "#ff1000",
-        "color": "#ffffff",
-        "name": "Trung bình ngày ",
-        "altNname": "Trung bình ngày ",
+function _updateWarningLevelColorData(state, value) {
+  return update(state, {
+    color: {
+      warningLevel: {
+        data: { 
+          $set: { value }
+        }
+      }
     }
-  ]
+  })
+}
+
+
+function _updateWarningLevelColorSensor(state, value) {
+  return update(state, {
+    color: {
+      warningLevel: {
+        sensor: { 
+          value: {$set: value}
+        }
+      }
+    }
+  })
 }

@@ -112,16 +112,24 @@ export function postConfigAqiQC(data) {
 
 /* --------------------------- [ START ] config route on category service --------------------------- */
 
-function getConfigs(config) {
+function _getConfigs(config) {
   return getConfigApi().config + '/' + config
 }
 
 export function getWarningLevelColor() {
-  const url = getConfigs('color-station')
+  const url = _getConfigs('color-config')
   return getFetch(url)
 }
 
+export function updateWarningLevelColorData(id, data) {
+  const url = _getConfigs(`color-station/${id}`)
+  return putFetch(url, data)
+}
 
+export function updateWarningLevelColorSensor(id, data) {
+  const url = _getConfigs(`color-sensor/${id}`)
+  return putFetch(url, data)
+}
 
 /* --------------------------- [ END ] config route on category service --------------------------- */
 
@@ -145,5 +153,7 @@ export default {
   getConfigAqiCalculation,
   getConfigAqiQC,
   postConfigAqiQC,
-  getWarningLevelColor
+  getWarningLevelColor,
+  updateWarningLevelColorData,
+  updateWarningLevelColorSensor
 };

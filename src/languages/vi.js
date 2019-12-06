@@ -760,7 +760,8 @@ export default {
           column: {
             type: 'Loại',
             alternative: 'Tên thay thế',
-            color: 'Màu',
+            color: 'Màu chữ',
+            backgroundColor: 'Màu nền',
             desc: 'Chú thích',
           }
         }

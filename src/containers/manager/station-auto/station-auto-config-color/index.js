@@ -1,24 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import * as _ from "lodash";
 import { Tabs, Radio } from 'antd'
-import { connectAutoDispatch } from 'redux/connect'
 import TabItemColorData from './tabs/colorData'
 import TabItemColorSensor from './tabs/colorSensor'
 
-import {
-  message,
-  // Tabs,
-  Button,
-  Table,
-  Form,
-  Input,
-  InputNumber,
-  Icon,
-  Popconfirm,
-  Spin
-} from "antd";
+import { Form } from "antd";
 
 import { translate } from "hoc/create-lang";
 
@@ -32,12 +17,6 @@ const i18n = {
   tabColorSensor: translate('page.config.color.button.selectTabSensor'),
 }
 
-
-@connectAutoDispatch(
-  state => ({
-
-  })
-)
 @Form.create({})
 export default class StationAutoConfigColor extends React.Component {
   static defaultProps = {}
@@ -58,9 +37,9 @@ export default class StationAutoConfigColor extends React.Component {
       <PageContainer>
         <Breadcrumb items={['configColor']} />
 
-        <Radio.Group defaultValue={defaultTabKey} onChange={this._changeTabKey} style={{ marginBottom: 8 }} buttonStyle="solid" >
-          <Radio.Button value={keyData}>{i18n.tabColorData}</Radio.Button>
-          <Radio.Button value={keySensor}>{i18n.tabColorSensor}</Radio.Button>
+        <Radio.Group defaultValue={defaultTabKey} onChange={this._changeTabKey} style={{ marginBottom: 16, width: '100%' }} buttonStyle="solid" >
+          <Radio.Button value={keyData} style={{width: '50%', textAlign: 'center'}}>{i18n.tabColorData}</Radio.Button>
+          <Radio.Button value={keySensor} style={{width: '50%', textAlign: 'center'}}>{i18n.tabColorSensor}</Radio.Button>
         </Radio.Group>
         
         <Tabs defaultActiveKey={defaultTabKey} activeKey={activeTabKey} renderTabBar={() => <div></div>}>
