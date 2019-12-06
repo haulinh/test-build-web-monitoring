@@ -10,8 +10,7 @@ import UserApi from "api/UserApi";
 import * as _ from "lodash";
 import moment from "moment-timezone";
 import { DD_MM_YYYY } from "constants/format-date.js";
-import RangePickerCustom from 'components/elements/rangePicker'
-
+import RangePickerCustom from "components/elements/rangePicker";
 
 // import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
 
@@ -56,16 +55,23 @@ class DataLoggerSearchForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       // console.log("validateFields", err, values);
       if (err) return;
+      // const email = _.replace(values.email, "all", undefined);
+      if(values.email === 'all'){
+        delete values.email
+      }
+      // console.log("---", email)
       const dataSearch = {
-        ..._.omit(values,['fromto']),
+        ...values,
         from: values.fromto
           ? moment(values.fromto[0])
-              .utc().startOf('days')
+              .utc()
+              .startOf("days")
               .format()
           : undefined,
         to: values.fromto
           ? moment(values.fromto[1])
-              .utc().endOf('days')
+              .utc()
+              .endOf("days")
               .format()
           : undefined
       };
@@ -101,12 +107,12 @@ class DataLoggerSearchForm extends React.Component {
               <Input placeholder={i18n.labelTypeLog} />
             )}
           </Col> */}
-          
+
           <Col span={8}>
             {getFieldDecorator(`fromto`)(
               <RangePickerCustom
                 formatDate={DD_MM_YYYY}
-                size={'default'}
+                size={"default"}
                 // style={{ width: "100%" }}
               />
             )}
@@ -138,10 +144,9 @@ class DataLoggerSearchForm extends React.Component {
             />
             {this.props.isExcel && (
               <Button type="primary" icon="download">
-              {i18n.download}
-            </Button>
+                {i18n.download}
+              </Button>
             )}
-            
           </Col>
         </Row>
       </Form>

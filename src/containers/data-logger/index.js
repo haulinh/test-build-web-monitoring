@@ -41,7 +41,6 @@ class DataLoggerPage extends React.Component {
     return _.map(this.props.dataSource, (row, index) => {
       const dateLog = moment(row.createdAt).format(DD_MM_YYYY_HH_MM);
       const keyAction = _.toLower(_.get(row, "action", ""))
-      console.log("----", keyAction)
       return [
         {
           content: (
@@ -113,7 +112,7 @@ class DataLoggerPage extends React.Component {
   // };
 
   render() {
-    console.log(this.props.dataSource, "---");
+    // console.log(this.props.dataSource, "---");
     return (
       <PageContainer>
         <Breadcrumb items={["list"]} />
