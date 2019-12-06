@@ -74,12 +74,8 @@ export function userLogin(reqData) {
   return async dispatch => {
     const auth = await AuthApi.loginUser(reqData);
     if (auth.success) {
-<<<<<<< HEAD
-      setAuthToken(auth.token);
-=======
 
       setAuthToken(auth.token)
->>>>>>> feature/global/config-warning-level-color
       dispatch({
         type: UPDATE_USER_INFO,
         auth
