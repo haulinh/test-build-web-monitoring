@@ -757,6 +757,25 @@ export default {
     },
     tryUploadFile: "Try upload file"
   },
+  page: {
+    config: {
+      color: {
+        button: {
+          selectTabData: 'Data status',
+          selectTabSensor: 'Sensor status'
+        },
+        table: {
+          column: {
+            type: 'Type',
+            alternative: 'Alternative',
+            color: 'Color',
+            backgroundColor: 'Background color',
+            desc: 'Description',
+          }
+        }
+      }
+    }
+  },
   stationFixedManager: {
     list: {
       title: "Fixed Station"
@@ -788,6 +807,9 @@ export default {
         name: "Name",
         addr: "Address",
         allowView: "Allow Viewing Camera"
+      },
+      color: {
+        title: "Configure warning color",
       },
       actions: {
         ftpFolder: "FTP Folder",
@@ -1618,6 +1640,7 @@ export default {
       sampling: "Sampling configuration",
       configAQI: "Configure AQI calculation",
       camera: "Camera configuration",
+      color: "Configure warning color",
       parameter: "Parameter",
       stationType: "Type of Station",
       site: "Site",

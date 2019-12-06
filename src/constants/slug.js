@@ -65,6 +65,9 @@ export default {
     configSampling: {
       base: "/station-auto/config/sampling"
     },
+    configColor: {
+      base: "/station-auto/config/color"
+    },
     configCamera: {
       base: '/station-auto/config/camera',
     },
@@ -302,6 +305,7 @@ export const MENU_NAME = {
     sampling: translate("menuApp.config.sampling"),
     configAQI: translate("menuApp.config.configAQI"),
     camera: translate('menuApp.config.camera'),
+    color: translate('menuApp.config.color'),
     parameter: translate("menuApp.config.parameter"),
     stationType: translate("menuApp.config.stationType"),
     site: translate("menuApp.config.site"),

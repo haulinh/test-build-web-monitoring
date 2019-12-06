@@ -12,6 +12,7 @@ import StationAutoConfigConnection from './station-auto-config-connection'
 import StationAutoConfigNotification from './station-auto-config-notification'
 import StationAutoConfigSampling from './station-auto-config-sampling'
 import StationAutoConfigCamera from './station-auto-config-camera'
+import StationAutoConfigColor from './station-auto-config-color'
 
 
 export default props => (
@@ -46,6 +47,12 @@ export default props => (
       exact
       path={slug.stationAuto.configCamera.base}
       render={matchProps => <StationAutoConfigCamera {...matchProps} {...props} />}
+    />
+    {/* NOTE   trang cấu hình màu sắc */}
+    <Route
+      exact
+      path={slug.stationAuto.configColor.base}
+      render={matchProps => <StationAutoConfigColor {...matchProps} {...props} />}
     />
 
     <Route 

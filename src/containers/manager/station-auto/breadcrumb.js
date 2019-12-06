@@ -34,6 +34,12 @@ export default createBreadcrumb({
     href: slug.stationAuto.configCamera.base,
     name: translate('stationAutoManager.list.camera.title')
   },
+  configColor: {
+    id: 'configColor',
+    //icon: Icon.car,
+    href: slug.stationAuto.configColor.base,
+    name: translate('stationAutoManager.list.color.title')
+  },
   create: {
     id: 'create',
     href: slug.stationAuto.create,

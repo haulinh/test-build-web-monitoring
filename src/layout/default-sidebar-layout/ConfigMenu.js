@@ -87,6 +87,18 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE  CẤU HÌNH MÀU SẮC */}
+      {protectRole(ROLE.IS_ADMIN)(
+        <Menu.Item
+          key={slug.stationAuto.configColor.base}
+          onClick={() => props.selectMenu(slug.stationAuto.configColor.base)}
+        >
+          <Link to={slug.stationAuto.configColor.base}>
+            {MENU_NAME.config.color}
+          </Link>
+        </Menu.Item>
+      )}
+
       {/* NOTE   CẤU HÌNH CAMERA */}
       {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item

@@ -1,17 +1,21 @@
-import AuthApi from "../../api/AuthApi";
-import { setAuthToken, getAuthToken, resetAuthToken } from "utils/auth";
-import moment from "moment-timezone";
-import { result as _result } from "lodash";
+import AuthApi from '../../api/AuthApi'
+import CategoryApi from '../../api/CategoryApi'
+import { setAuthToken, getAuthToken, resetAuthToken } from 'utils/auth'
+import moment from 'moment-timezone'
+import {result as _result} from 'lodash'
 
-export const UPDATE_USER_INFO = "AUTH/update-user-info";
-export const FETCH_PENDING_USER = "AUTH/fetch-pending-user";
-export const FETCH_SUCCESS_USER = "AUTH/fetch-success-user";
-export const FETCH_FAIL_USER = "AUTH/fetch-fail-user";
-export const USER_LOGOUT = "AUTH/user-lgoout";
-export const SET_FCM_TOKEN = "AUTH/SET_FCM_TOKEN";
-export const UPDATE_2FA = "AUTH/UPDATE_2FA";
-export const SET_2FA_STATUS = "AUTH/SET_2FA_STATUS";
-export const SET_2FA_TYPE = "AUTH/SET_2FA_TYPE";
+import { CONFIGS } from './config'
+
+export const UPDATE_USER_INFO = 'AUTH/update-user-info'
+export const FETCH_PENDING_USER = 'AUTH/fetch-pending-user'
+export const FETCH_SUCCESS_USER = 'AUTH/fetch-success-user'
+export const FETCH_FAIL_USER = 'AUTH/fetch-fail-user'
+export const USER_LOGOUT = 'AUTH/user-lgoout'
+export const SET_FCM_TOKEN = 'AUTH/SET_FCM_TOKEN'
+export const UPDATE_2FA = 'AUTH/UPDATE_2FA'
+export const SET_2FA_STATUS = 'AUTH/SET_2FA_STATUS'
+export const SET_2FA_TYPE = 'AUTH/SET_2FA_TYPE'
+
 
 export function fetchUserMe() {
   return async dispatch => {
@@ -21,6 +25,18 @@ export function fetchUserMe() {
       });
       return { error: true };
     }
+    
+    const warningLevelColor = await CategoryApi.getWarningLevelColor()
+    if (warningLevelColor.error) {
+      return dispatch({
+        type: FETCH_FAIL_USER
+      })
+    }
+    dispatch({
+      type: CONFIGS.GET_WARNING_LEVELS_COLOR,
+      payload: warningLevelColor.data
+    })
+
     dispatch({
       type: FETCH_PENDING_USER
     });
@@ -58,7 +74,12 @@ export function userLogin(reqData) {
   return async dispatch => {
     const auth = await AuthApi.loginUser(reqData);
     if (auth.success) {
+<<<<<<< HEAD
       setAuthToken(auth.token);
+=======
+
+      setAuthToken(auth.token)
+>>>>>>> feature/global/config-warning-level-color
       dispatch({
         type: UPDATE_USER_INFO,
         auth

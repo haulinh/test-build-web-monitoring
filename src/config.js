@@ -13,6 +13,7 @@ export function getConfigApi() {
     // auth: 'http://localhost:5001/auth',
     user: c('user'),
     trialRegister: c('trial-register'),
+    config: c('config'),
     measuring: c('measuring'),
     stationType: c('station-type'),
     stationAuto: c('station-auto'),
