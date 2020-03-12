@@ -9,6 +9,7 @@ import {
 } from 'react-google-maps'
 import { withProps } from 'recompose'
 import { getGoogleMapProps } from 'components/map/utils'
+
 import { map as mapLodash, get, find, inRange } from 'lodash'
 import InfoBox from 'react-google-maps/lib/components/addons/InfoBox'
 import MarkerWithLabel from 'react-google-maps/lib/components/addons/MarkerWithLabel'
