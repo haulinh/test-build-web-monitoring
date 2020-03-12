@@ -1534,6 +1534,9 @@ export default {
       avgData: 'Dữ liệu trung bình',
       report: 'Báo cáo'
     },
+    monitoringList: {
+      base: 'Giám sát danh sách',
+    },
 
     processDataSub: 'Xử lý dữ liệu',
     processData: {
@@ -1756,10 +1759,16 @@ export default {
     deviceStatus: {
       sensorGood: 'Thiết bị tốt',
       sensorError: 'Lỗi thiết bị',
+      sensorMaintain: 'Hiệu chuẩn',
       dataExceeded: 'Vượt ngưỡng',
       dataExceededPrepare: 'Chuẩn bị vượt ngưỡng',
       dataLoss: 'Mất tín hiệu',
+      dataGood: 'Tốt',
       dataConnected: 'Có tín hiệu trở lại'
-    }
+    },
+    overview: 'Tổng quan',
+    list: 'Danh sách',
+    statusSensor: 'Trạng thái thiết bị',
+    statusData: 'Trạng thái dữ liệu'
   }
 }

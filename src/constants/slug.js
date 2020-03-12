@@ -1,4 +1,4 @@
-import { translate } from "hoc/create-lang"
+import { translate } from "hoc/create-lang";
 
 export default {
   dashboard: "/",
@@ -66,15 +66,15 @@ export default {
       base: "/station-auto/config/sampling"
     },
     configCamera: {
-      base: '/station-auto/config/camera',
+      base: "/station-auto/config/camera"
     },
-    range: '/station-auto/range/:key',
-    configWithKey: '/station-auto/config',
-    rangeWithKey: '/station-auto/range',
-    ftpInfo: '/station-auto/ftpInfo/:key',
-    ftpInfoWithKey: '/station-auto/ftpInfo',
-    ftpFile: '/station-auto/ftpFile/:key',
-    ftpFileWithKey: '/station-auto/ftpFile'
+    range: "/station-auto/range/:key",
+    configWithKey: "/station-auto/config",
+    rangeWithKey: "/station-auto/range",
+    ftpInfo: "/station-auto/ftpInfo/:key",
+    ftpInfoWithKey: "/station-auto/ftpInfo",
+    ftpFile: "/station-auto/ftpFile/:key",
+    ftpFileWithKey: "/station-auto/ftpFile"
   },
   stationFixed: {
     list: "/station-fixed",
@@ -94,6 +94,9 @@ export default {
     base: "/monitoring",
     viewCamera: "/monitoring/camera/:key",
     viewCameraWithKey: "/monitoring/camera"
+  },
+  monitoringList: {
+    base: "/monitoringList"
   },
   cameraControl: {
     base: "/cameraControl",
@@ -148,12 +151,12 @@ export default {
     base: "/subscription"
   },
   support: {
-    base: '/support',
-    create: '/support/create'
+    base: "/support",
+    create: "/support/create"
   },
   aqi: {
-    base: '/aqi',
-    config: '/aqi-config'
+    base: "/aqi",
+    config: "/aqi-config"
   },
   wqi: {
     base: "/wqi"
@@ -190,9 +193,9 @@ export default {
     aqi_hour: "/report/aqi-hour",
     aqi_day: "/report/aqi-day",
     aqi_878: "/report/aqi-878",
-    status_data: "/report/status-data",
+    status_data: "/report/status-data"
   }
-}
+};
 
 export const MENU_GROUP = {
   DASHBOARD: "dashboard",
@@ -202,7 +205,7 @@ export const MENU_GROUP = {
   REPORT: "report",
   ADVANCE: "advance",
   CONFIG: "config"
-}
+};
 
 export const parentMenuFromSub = {
   "/map": MENU_GROUP.MONITORING,
@@ -231,7 +234,7 @@ export const parentMenuFromSub = {
   "/role": MENU_GROUP.CONFIG,
   "/user": MENU_GROUP.CONFIG,
   "/report": MENU_GROUP.REPORT
-}
+};
 
 export const MENU_NAME = {
   dashboard: translate("menuApp.dashboard"),
@@ -245,6 +248,9 @@ export const MENU_NAME = {
     historyData: translate("menuApp.monitoring.historyData"),
     avgData: translate("menuApp.monitoring.avgData"),
     report: translate("menuApp.monitoring.report")
+  },
+  monitoringList: {
+    base: translate("menuApp.monitoringList.base"),
   },
 
   processDataSub: translate("menuApp.processDataSub"),
@@ -273,10 +279,10 @@ export const MENU_NAME = {
     type10: translate("menuApp.report.type10"),
     type11: translate("menuApp.report.type11"),
     type12: translate("menuApp.report.type12"),
-    aqi_hour: translate("menuApp.report.aqiHour"), 
-    aqi_day: translate("menuApp.report.aqiDay"), 
-    aqi_878: translate("menuApp.report.aqi878"), 
-    status_data: translate("menuApp.report.status_data"), 
+    aqi_hour: translate("menuApp.report.aqiHour"),
+    aqi_day: translate("menuApp.report.aqiDay"),
+    aqi_878: translate("menuApp.report.aqi878"),
+    status_data: translate("menuApp.report.status_data")
   },
 
   advanceSub: translate("menuApp.advanceSub"),
@@ -295,12 +301,12 @@ export const MENU_NAME = {
     sendNotification: translate("menuApp.config.sendNotification"),
     sampling: translate("menuApp.config.sampling"),
     configAQI: translate("menuApp.config.configAQI"),
-    camera: translate('menuApp.config.camera'),
+    camera: translate("menuApp.config.camera"),
     parameter: translate("menuApp.config.parameter"),
     stationType: translate("menuApp.config.stationType"),
     site: translate("menuApp.config.site"),
     standard: translate("menuApp.config.standard"),
     role: translate("menuApp.config.role"),
-    user: translate("menuApp.config.user"),
+    user: translate("menuApp.config.user")
   }
-}
+};
