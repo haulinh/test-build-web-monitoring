@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "apiGateway": "https://dev-api.ilotusland.asia",
-=======
-  "apiGateway": "http://113.190.254.225:5300",
->>>>>>> 2108b00f... AQI-Config vs map AQI
   "apiMedia": "http://27.74.251.0:1234",
   "apiCamera": "http://27.74.251.0:5020",
   "camera": {
