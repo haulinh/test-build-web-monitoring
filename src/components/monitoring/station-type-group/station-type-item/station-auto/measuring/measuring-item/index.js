@@ -152,10 +152,10 @@ export default class MeasuringItem extends React.PureComponent {
             src={item.src}
             style={{
               position: 'absolute',
-              bottom: 4,
-              right: 8,
-              width: '16px',
-              height: '16px'
+              left: 2,
+              top: 2,
+              width: '14px',
+              height: '14px'
             }}
             alt={item.text}
           />

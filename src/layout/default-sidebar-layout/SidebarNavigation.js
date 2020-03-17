@@ -1,14 +1,14 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { withRouter } from "react-router-dom"
-import { autobind } from "core-decorators"
+import React from "react";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
+import { autobind } from "core-decorators";
 // import { AkContainerNavigationNested } from '@atlaskit/navigation'
-import { getIndexLocationWithNavigationRouter } from "utils/sidebarNavigation"
-import navigationRouterStack from "navigation/sidebarNavigation/mainNavigationRouter"
-import NavigationLayout from "../navigation-layout"
-import { connect } from "react-redux"
-import { Menu } from "antd"
-import { remove as _remove, join as _join } from "lodash"
+import { getIndexLocationWithNavigationRouter } from "utils/sidebarNavigation";
+import navigationRouterStack from "navigation/sidebarNavigation/mainNavigationRouter";
+import NavigationLayout from "../navigation-layout";
+import { connect } from "react-redux";
+import { Menu } from "antd";
+import { remove as _remove, join as _join } from "lodash";
 // import {
 //   dashboardMenu,
 //   monitoringMenu,
@@ -20,27 +20,27 @@ import { remove as _remove, join as _join } from "lodash"
 // } from 'navigation/sidebarNavigation/mainNavigationRouterNew'
 // mainNavigationRouterNew
 
-import { Link } from "react-router-dom"
-import Icon from "themes/icon"
-import slug, { parentMenuFromSub, MENU_NAME } from "constants/slug"
+import { Link } from "react-router-dom";
+import Icon from "themes/icon";
+import slug, { parentMenuFromSub, MENU_NAME } from "constants/slug";
 // import { translate } from 'hoc/create-lang'
-import { selectMenu, changeOpenSubMenu } from "redux/actions/themeAction"
+import { selectMenu, changeOpenSubMenu } from "redux/actions/themeAction";
 // import { adapt } from "chromatism";
-import protectRole from "hoc/protect-role/forMenu"
-import ROLE from "constants/role"
-import MonitoringMenu from "./MenuMonitoring"
-import HandleDataMenu from "./HandleDataMenu"
-import ShareDataMenu from "./ShareDataMenu"
-import ReportMenu from "./ReportMenu"
-import AdvanceMenu from "./AdvanceMenu"
-import ConfigMenu from "./ConfigMenu"
-import objectPath from "object-path"
+import protectRole from "hoc/protect-role/forMenu";
+import ROLE from "constants/role";
+import MonitoringMenu from "./MenuMonitoring";
+import HandleDataMenu from "./HandleDataMenu";
+import ShareDataMenu from "./ShareDataMenu";
+import ReportMenu from "./ReportMenu";
+import AdvanceMenu from "./AdvanceMenu";
+import ConfigMenu from "./ConfigMenu";
+import objectPath from "object-path";
 
 const CENTER = {
   display: "flex",
   alignItems: "center",
   fontWeight: 600
-}
+};
 
 // const SubMenu = Menu.SubMenu
 // const MenuItemGroup = MenuItemGroup
@@ -53,22 +53,22 @@ const CENTER = {
 export default class DefaultSidebarNavigation extends React.PureComponent {
   static propTypes = {
     withtootips: PropTypes.bool
-  }
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       stack: props.location.pathname
         ? this.getStackInitial(props)
         : [navigationRouterStack]
-    }
+    };
   }
 
   getStackInitial(props) {
     const navigationIndex = getIndexLocationWithNavigationRouter(
       props.location,
       navigationRouterStack
-    )
+    );
     if (
       navigationIndex > -1 &&
       navigationRouterStack[navigationIndex].childMenu
@@ -76,9 +76,9 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
       return [
         navigationRouterStack,
         navigationRouterStack[navigationIndex].childMenu
-      ]
+      ];
     }
-    return [navigationRouterStack]
+    return [navigationRouterStack];
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
@@ -91,30 +91,30 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
   // }
 
   stackPush(newPage) {
-    const stack = [...this.state.stack, newPage]
-    this.setState({ stack })
+    const stack = [...this.state.stack, newPage];
+    this.setState({ stack });
   }
 
   stackPop() {
     if (this.state.stack.length <= 1) {
-      return false
+      return false;
     }
 
-    const stack = this.state.stack.slice(0, this.state.stack.length - 1)
-    return this.setState({ stack })
+    const stack = this.state.stack.slice(0, this.state.stack.length - 1);
+    return this.setState({ stack });
   }
 
   renderItem(item) {
     const navigationIndex = getIndexLocationWithNavigationRouter(
       this.props.location,
       navigationRouterStack
-    )
+    );
     const onClick = item.childMenu
       ? () => this.stackPush(item.childMenu)
-      : () => console.log(`Link item clicked: '${item.component.props.text}'`)
-    const text = item.component.props.text
-    const itemHref = item.component.props.href ? item.component.props.href : ""
-    const pathname = this.props.location.pathname
+      : () => console.log(`Link item clicked: '${item.component.props.text}'`);
+    const text = item.component.props.text;
+    const itemHref = item.component.props.href ? item.component.props.href : "";
+    const pathname = this.props.location.pathname;
     const isSelected =
       item.url === pathname ||
       (pathname !== "/" &&
@@ -123,7 +123,7 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
       // check navigation parent index
       (navigationIndex > -1
         ? navigationRouterStack[navigationIndex].component.props.text === text
-        : false)
+        : false);
     //        (pathname !== '/' && pathname.indexOf(itemHref) > -1)
     // console.log(itemHref + ' vs ' + pathname)
     // console.log(isSelected)
@@ -131,11 +131,13 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
       key: text,
       onClick,
       isSelected: isSelected
-    })
+    });
   }
 
   renderStack() {
-    return this.state.stack.map(page => page.map(item => this.renderItem(item)))
+    return this.state.stack.map(page =>
+      page.map(item => this.renderItem(item))
+    );
   }
 
   render() {
@@ -149,7 +151,7 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
         {this.props.isOpenNavigation && <MenuApp />}
         {/* <AkContainerNavigationNested stack={this.renderStack()} /> */}
       </NavigationLayout>
-    )
+    );
   }
 }
 
@@ -172,89 +174,94 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
 class MenuApp extends React.PureComponent {
   state = {
     openSubMenu: ["monitoring"]
-  }
+  };
   componentDidMount() {
     // set menu selected
-    const pathname = this.props.location.pathname
-    let menuSelect = pathname
+    const pathname = this.props.location.pathname;
+    let menuSelect = pathname;
 
     // set expand menu
-    let menuExpande = parentMenuFromSub[pathname]
+    let menuExpande = parentMenuFromSub[pathname];
     if (!menuExpande) {
-      let pathObj = this.getPath(pathname)
-      menuExpande = parentMenuFromSub[pathObj.menuExpande]
-      menuSelect = pathObj.menuSelect
-      console.log(pathObj.menuExpande, "menuSelect")
+      let pathObj = this.getPath(pathname);
+      menuExpande = parentMenuFromSub[pathObj.menuExpande];
+      menuSelect = pathObj.menuSelect;
+      console.log(pathObj.menuExpande, "menuSelect");
     }
 
-    this.props.selectMenu(menuSelect)
+    this.props.selectMenu(menuSelect);
     // this.props.changeOpenSubMenu([...this.props.openSubMenu, menuExpande])
-    this.props.changeOpenSubMenu([menuExpande])
+    this.props.changeOpenSubMenu([menuExpande]);
   }
 
   getPath(path) {
-    let result = ""
+    let result = "";
 
-    let tampArr = path.split("/")
+    let tampArr = path.split("/");
 
     // console.log(tampArr, "tampArr")
-    const menuExpande = "/" + tampArr[1]
-    let isStop = false
+    const menuExpande = "/" + tampArr[1];
+    let isStop = false;
     _remove(tampArr, item => {
       if (item.includes("edit") || item.includes("create")) {
-        isStop = true
+        isStop = true;
       }
-      return isStop
-    })
+      return isStop;
+    });
 
-    result = _join(tampArr, "/")
+    result = _join(tampArr, "/");
     return {
       menuSelect: result,
       menuExpande: menuExpande
-    }
+    };
   }
 
   checkRoleForGroup(otherKeyRoles) {
-    let isShow = false
+    let isShow = false;
     otherKeyRoles.forEach(oKeyRole => {
-      if (this.checkRole(oKeyRole)) isShow = true
-    })
-    return isShow
+      if (this.checkRole(oKeyRole)) isShow = true;
+    });
+    return isShow;
   }
 
   checkRole(role) {
     // check role in organization first
-    let isRole = objectPath.get(this.props.organization, role)
-    if (!isRole) return isRole
+    let isRole = objectPath.get(this.props.organization, role);
+    if (!isRole) return isRole;
     else {
       // and then check role in user
       if (this.props.isAdmin) {
-        return true
+        return true;
       } else {
-        return objectPath.get(this.props.authRole, role)
+        return objectPath.get(this.props.authRole, role);
       }
     }
   }
 
   render() {
+    const { pathname } = this.props.location;
+    const isOpen =
+      this.props.isOpenNavigation && pathname !== slug.monitoringList.base;
+
     return (
       <Menu
         onClick={this.handleClick}
         style={{
           width: "auto",
-          minWidth: 240,
+          minWidth: isOpen ? 240 : "initial",
           backgroundColor: "#F4F5F7",
-          marginLeft: -8
+          marginLeft: isOpen ? -8 : -18
         }}
         defaultSelectedKeys={[this.props.menuSelected]}
         // defaultOpenKeys={this.props.openSubMenu}
         openKeys={this.props.openSubMenu}
         onOpenChange={openKeys => {
           // console.log('this.props.menuSelected',this.props.menuSelected)
-          this.props.changeOpenSubMenu(openKeys)
+          this.props.changeOpenSubMenu(openKeys);
         }}
         selectedKeys={[this.props.menuSelected]}
         mode="inline"
+        inlineCollapsed={!isOpen}
       >
         {/* Dashboard */}
         {protectRole(ROLE.DASHBOARD.VIEW)(
@@ -263,7 +270,7 @@ class MenuApp extends React.PureComponent {
               style={CENTER}
               to={slug.dashboard}
               onClick={() => {
-                this.props.selectMenu(slug.dashboard)
+                this.props.selectMenu(slug.dashboard);
               }}
             >
               {Icon.dashboard}
@@ -311,6 +318,6 @@ class MenuApp extends React.PureComponent {
           ROLE.USER.VIEW
         ]) && ConfigMenu.renderComp(this.props)}
       </Menu>
-    )
+    );
   }
 }

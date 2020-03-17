@@ -1,0 +1,26 @@
+@keyframes wheelExceededColor {
+  /* from, to { background-color: #EA3223; } */
+  0%   { background-color: #ffccc7; }
+  25%  { background-color: #EA3223; }
+  50%   { background-color: #ffccc7; }
+  75%  { background-color: #EA3223; }
+  100% { background-color: #ffccc7;}
+}
+
+.wheelExceeded {
+  /* background-color: #EA3223; */
+  animation: wheelExceededColor 1s infinite;
+}
+
+@keyframes wheelPrepareColor {
+  0%   { background-color: #ffc069; }
+  25%  { background-color: #F08432; }
+  50%   { background-color: #ffc069; }
+  75%  { background-color: #F08432; }
+  100% { background-color: #ffc069;}
+}
+
+.wheelPrepare {
+  /* background-color: #F08432; */
+  /* animation: wheelPrepareColor 1s infinite; */
+}

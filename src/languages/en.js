@@ -1710,7 +1710,7 @@ export default {
       aqiDay: "AQI - Day",
       aqi878: "AQI - 1479",
       status_data: "Status Data"
-    }  
+    }
   },
   dataLogger:{
     breadcrumb: {
@@ -1861,11 +1861,17 @@ export default {
     deviceStatus: {
       sensorGood: "Sensor Good",
       sensorError: "Sensor Error",
+      sensorMaintain: "Sensor Maintain",
       dataExceeded: "Exceeded",
       dataExceededPrepare: "Almost Exceed",
       dataExceededTendency: "Tend To Exceed",
+      dataGood: 'Good',
       dataLoss: "Lost Connection",
       dataConnected: "Go connected"
-    }
+    },
+    overview: "Overview",
+    list: "List",
+    statusSensor: "Status Sensor",
+    statusData: "Status Data"
   }
 };

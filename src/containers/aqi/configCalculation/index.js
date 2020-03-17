@@ -48,7 +48,6 @@ const TAB_NAME = {
   GIA_TRI: i18n.tabGiaTri,
   THONG_SO: i18n.tabThongSo
 };
-
 @withRouter
 @autobind
 export default class ConfigCalculationAQI extends PureComponent {

@@ -15,6 +15,7 @@ import StationTypeRoute from "containers/manager/station-type";
 import ProvinceRoute from "containers/manager/province";
 import QCVNRoute from "containers/manager/qcvn";
 import OnlineMonitoring from "containers/online-monitoring";
+import MonitoringList from "containers/monitoring-list";
 import Map from "containers/map";
 import DataSearch from "containers/search/data-search";
 import AvgSearch from "containers/search/avg-search";
@@ -93,6 +94,7 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute path={slug.ftpTransfer.base} component={FtpTransferRoute} />
             <LayoutRoute path={slug.onlineMonitoring.base} component={OnlineMonitoring} />
             <LayoutRoute path={slug.monitoring.base} component={Monitoring} />
+            <LayoutRoute path={slug.monitoringList.base} component={MonitoringList} />
             <LayoutRoute path={slug.dataSearch.base} component={DataSearch} />
             <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />
             <LayoutRoute path={slug.dataSearchFixed.base} component={DataSearchFixed} />

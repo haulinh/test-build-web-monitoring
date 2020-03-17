@@ -14,6 +14,7 @@ import { notification } from 'antd'
 // import slug from 'constants/slug'
 // import _ from 'lodash'
 import { setFcmToken } from "redux/actions/authAction";
+import slug from "constants/slug";
 
 const Wrapper = styled.div`
   .zJwEi {
@@ -85,9 +86,12 @@ export default class PageWrapper extends Component {
   }
 
   getNavigation() {
+    const { pathname } = this.props.location;
+
     return {
       width: this.state.navigationWidth,
-      isOpen: this.props.navigationIsOpen
+      isOpen:
+        this.props.navigationIsOpen && pathname !== slug.monitoringList.base
     };
   }
 

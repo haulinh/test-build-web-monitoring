@@ -91,3 +91,15 @@ li.ant-menu-item {
 .noMarginBot, .noMarginBot > *, .noMarginBot * {
   margin-bottom: 0 !important;
 }
+
+.noPadding {
+  padding: 0 !important;
+}
+
+.fontSize12 {
+  font-size: 12px !important;
+}
+
+.fontSize10 {
+  font-size: 10px !important;
+}
