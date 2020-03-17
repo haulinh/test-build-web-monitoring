@@ -35,7 +35,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.MONITORING.VIEW)(
+      {protectRole(ROLE.MONITORING_BY_LIST.VIEW)(
         <Menu.Item
           key={slug.monitoringList.base}
           onClick={() => {
@@ -93,17 +93,6 @@ export default {
           }}
         >
           <Link to={slug.avgSearch.base}>{MENU_NAME.monitoring.avgData}</Link>
-        </Menu.Item>
-      )}
-
-      {protectRole(ROLE.MAP.VIEW)(
-        <Menu.Item
-          key={slug.map.aqi}
-          onClick={() => {
-            props.selectMenu(slug.map.aqi);
-          }}
-        >
-          <Link to={slug.map.aqi}>{MENU_NAME.monitoring.mapAQI}</Link>
         </Menu.Item>
       )}
     </Menu.SubMenu>

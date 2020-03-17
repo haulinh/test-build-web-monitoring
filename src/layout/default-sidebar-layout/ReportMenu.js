@@ -24,7 +24,7 @@ export default {
       }
     >
       {/* NOTE   Tỷ lệ số liệu thu được */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.TILE_DULIEU_THUDUOC.VIEW)(
         <Menu.Item
           key={slug.report.type10}
           onClick={() => {
@@ -35,7 +35,7 @@ export default {
         </Menu.Item>
       )}
       {/* NOTE  LOAI 1 - Tỷ lệ số liệu */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.TILE_DULIEU.VIEW)(
         <Menu.Item
           key={slug.report.type1}
           onClick={() => {
@@ -46,7 +46,7 @@ export default {
         </Menu.Item>
       )}
       {/* NOTE  LOAI 2 */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.TB24H.VIEW)(
         <Menu.Item
           key={slug.report.type2}
           onClick={() => {
@@ -57,7 +57,7 @@ export default {
         </Menu.Item>
       )}
       {/* NOTE  LOAI 1 - trung binh theo giờ */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.TB1H.VIEW)(
         <Menu.Item
           key={slug.report.type11}
           onClick={() => {
@@ -68,7 +68,7 @@ export default {
         </Menu.Item>
       )}
       {/* NOTE  LOAI 3 */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.TB1MAX.VIEW)(
         <Menu.Item
           key={slug.report.type3}
           onClick={() => {
@@ -79,7 +79,7 @@ export default {
         </Menu.Item>
       )}
       {/* NOTE  LOAI 4 */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.TB8MAX.VIEW)(
         <Menu.Item
           key={slug.report.type4}
           onClick={() => {
@@ -89,7 +89,7 @@ export default {
           <Link to={slug.report.type4}>{MENU_NAME.report.type4}</Link>
         </Menu.Item>
       )}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.TILE_DULIE_VUOTNGUONG.VIEW)(
         <Menu.Item
           key={slug.report.type12}
           onClick={() => {
@@ -101,7 +101,7 @@ export default {
       )}
 
       {/* // NOTE Báo cáo AQI - START */}
-      {protectRole(ROLE.STATISTIC.AQI)(
+      {protectRole(ROLE.AQI_GIO.AQI)(
         <Menu.Item
           key={slug.report.aqi_hour}
           onClick={() => {
@@ -112,7 +112,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.STATISTIC.AQI)(
+      {protectRole(ROLE.AQI_NGAY.AQI)(
         <Menu.Item
           key={slug.report.aqi_day}
           onClick={() => {
@@ -122,20 +122,9 @@ export default {
           <Link to={slug.report.aqi_day}>{MENU_NAME.report.aqi_day}</Link>
         </Menu.Item>
       )}
-
-      {protectRole(ROLE.STATISTIC.AQI)(
-        <Menu.Item
-          key={slug.report.aqi_878}
-          onClick={() => {
-            props.selectMenu(slug.report.aqi_878)
-          }}
-        >
-          <Link to={slug.report.aqi_878}>{MENU_NAME.report.aqi_878}</Link>
-        </Menu.Item>
-      )}
       {/* // NOTE Báo cáo AQI - END */}
 
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.TINH_TRANG_DU_LIEU.VIEW)(
         <Menu.Item
           key={slug.report.status_data}
           onClick={() => {

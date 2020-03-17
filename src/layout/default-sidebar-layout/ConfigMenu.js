@@ -36,7 +36,7 @@ export default {
       )}
 
       {/* NOTE   CẤU HÌNH KẾT NỐI */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.CAU_HINH_KET_NOI.VIEW)(
         <Menu.Item
           key={slug.stationAuto.configConnection.base}
           onClick={() =>
@@ -50,7 +50,7 @@ export default {
       )}
 
       {/* NOTE   CẤU HÌNH GỞI CẢNH BÁO */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.CAU_HINH_GUI_CANH_BAO.VIEW)(
         <Menu.Item
           key={slug.stationAuto.configSendNotification.base}
           onClick={() =>
@@ -64,7 +64,7 @@ export default {
       )}
 
       {/* NOTE   CẤU HÌNH LẤY MẪU */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.CAU_HINH_LAY_MAU.VIEW)(
         <Menu.Item
           key={slug.stationAuto.configSampling.base}
           onClick={() => props.selectMenu(slug.stationAuto.configSampling.base)}
@@ -76,7 +76,7 @@ export default {
       )}
 
       {/* NOTE  CẤU HÌNH TÍNH TOÁN AQI */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.CAU_HINH_TINH_TOAN_AQI.VIEW)(
         <Menu.Item
           key={slug.aqi.config}
           onClick={() => props.selectMenu(slug.aqi.config)}
@@ -100,7 +100,7 @@ export default {
       )}
 
       {/* NOTE   CẤU HÌNH CAMERA */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.CAU_HINH_CAMERA.VIEW)(
         <Menu.Item
           key={slug.stationAuto.configCamera.base}
           onClick={() => props.selectMenu(slug.stationAuto.configCamera.base)}
