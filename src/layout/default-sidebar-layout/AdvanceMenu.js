@@ -35,7 +35,7 @@ export default {
         </Menu.Item>
       )} */}
 
-      {protectRole(ROLE.AQI_SEARCHDATA.VIEW)(
+      {/* {protectRole(ROLE.AQI_SEARCHDATA.VIEW)(
         <Menu.Item
           key={slug.statistic.aqi}
           onClick={() => {
@@ -43,6 +43,16 @@ export default {
           }}
         >
           <Link to={slug.statistic.aqi}>{MENU_NAME.advance.aqiStatistic}</Link>
+        </Menu.Item>
+      )} */}
+      {protectRole(ROLE.MAP.VIEW)(
+        <Menu.Item
+          key={slug.map.aqi}
+          onClick={() => {
+            props.selectMenu(slug.map.aqi);
+          }}
+        >
+          <Link to={slug.map.aqi}>{MENU_NAME.monitoring.mapAQI}</Link>
         </Menu.Item>
       )}
 
@@ -57,7 +67,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.WQI_SEARCHDATA.VIEW)(
+      {/* {protectRole(ROLE.WQI_SEARCHDATA.VIEW)(
         <Menu.Item
           key={slug.statistic.wqi}
           onClick={() => {
@@ -66,7 +76,7 @@ export default {
         >
           <Link to={slug.statistic.wqi}>{MENU_NAME.advance.wqiStatistic}</Link>
         </Menu.Item>
-      )}
+      )} */}
 
       {protectRole(ROLE.CONFIG_WQI.VIEW)(
         <Menu.Item

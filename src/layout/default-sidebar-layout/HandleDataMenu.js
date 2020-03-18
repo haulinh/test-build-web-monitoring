@@ -26,16 +26,20 @@ export default {
       {/* {protectRole(ROLE.QAQC.CONFIG_NEW)(
 
         )} */}
-      <Menu.Item
-        key={slug.qaqc.configNew}
-        onClick={() => {
-          props.selectMenu(slug.qaqc.configNew);
-        }}
-      >
-        <Link to={slug.qaqc.configNew}>{MENU_NAME.processData.configNew}</Link>
-      </Menu.Item>
+      {protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW)(
+        <Menu.Item
+          key={slug.qaqc.configNew}
+          onClick={() => {
+            props.selectMenu(slug.qaqc.configNew);
+          }}
+        >
+          <Link to={slug.qaqc.configNew}>
+            {MENU_NAME.processData.configNew}
+          </Link>
+        </Menu.Item>
+      )}
 
-      {protectRole(ROLE.QAQC.VIEW)(
+      {protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW)(
         <Menu.Item
           key={slug.qaqc.base}
           onClick={() => {

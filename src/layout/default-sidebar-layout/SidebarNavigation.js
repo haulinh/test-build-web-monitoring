@@ -285,11 +285,14 @@ class MenuApp extends React.PureComponent {
           ROLE.CAMERA.VIEW,
           ROLE.DATA_SEARCH.VIEW,
           ROLE.AVG_SEARCH.VIEW,
-          ROLE.REPORT.VIEW
+          ROLE.REPORT.VIEW,
+          ROLE.MONITORING_BY_LIST.VIEW
         ]) && MonitoringMenu.renderComp(this.props)}
 
-        {this.checkRoleForGroup([ROLE.QAQC.VIEW, ROLE.QAQC.CONFIG_NEW]) &&
-          HandleDataMenu.renderComp(this.props)}
+        {this.checkRoleForGroup([
+          ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW,
+          ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW
+        ]) && HandleDataMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
           ROLE.QAQCCONFIG.VIEW,
@@ -297,14 +300,24 @@ class MenuApp extends React.PureComponent {
         ]) && ShareDataMenu.renderComp(this.props)}
 
         {/* TODO  Chưa có role nên dùng tạm của STATION_AUTO, xem lại */}
-        {this.checkRoleForGroup([ROLE.STATION_AUTO.VIEW]) &&
-          ReportMenu.renderComp(this.props)}
+        {this.checkRoleForGroup([
+          ROLE.TILE_DULIEU_THUDUOC.VIEW,
+          ROLE.TILE_DULIEU.VIEW,
+          ROLE.TB24H.VIEW,
+          ROLE.TB1H.VIEW,
+          ROLE.TB1MAX.VIEW,
+          ROLE.TB8MAX.VIEW,
+          ROLE.TILE_DULIE_VUOTNGUONG.VIEW,
+          ROLE.SO_LAN_MAT_KET_NOI.VIEW,
+          ROLE.TINH_TRANG_DU_LIEU.VIEW,
+          ROLE.WQI_GIO.VIEW,
+          ROLE.AQI_GIO.VIEW,
+          ROLE.AQI_NGAY.VIEW
+        ]) && ReportMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
-          ROLE.AQI.VIEW,
-          ROLE.AQI_SEARCHDATA.VIEW,
+          ROLE.MAP.VIEW,
           ROLE.WQI.VIEW,
-          ROLE.WQI_SEARCHDATA.VIEW,
           ROLE.CONFIG_WQI.VIEW
         ]) && AdvanceMenu.renderComp(this.props)}
 
@@ -317,6 +330,7 @@ class MenuApp extends React.PureComponent {
           ROLE.ROLE.VIEW,
           ROLE.USER.VIEW
         ]) && ConfigMenu.renderComp(this.props)}
+        
       </Menu>
     );
   }
