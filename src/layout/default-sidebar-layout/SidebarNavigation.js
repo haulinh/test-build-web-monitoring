@@ -281,12 +281,11 @@ class MenuApp extends React.PureComponent {
 
         {this.checkRoleForGroup([
           ROLE.MONITORING.VIEW,
+          ROLE.MONITORING_BY_LIST.VIEW,
           ROLE.MAP.VIEW,
           ROLE.CAMERA.VIEW,
           ROLE.DATA_SEARCH.VIEW,
-          ROLE.AVG_SEARCH.VIEW,
-          ROLE.REPORT.VIEW,
-          ROLE.MONITORING_BY_LIST.VIEW
+          ROLE.AVG_SEARCH.VIEW
         ]) && MonitoringMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
@@ -330,7 +329,6 @@ class MenuApp extends React.PureComponent {
           ROLE.ROLE.VIEW,
           ROLE.USER.VIEW
         ]) && ConfigMenu.renderComp(this.props)}
-        
       </Menu>
     );
   }
