@@ -108,6 +108,14 @@ export function postConfigWqiCalculation(data) {
   return postFetch(getConfigApi().wqiConfigCalculation, data);
 }
 
+export function getConfigWqiWeight() {
+  return getFetch(getConfigApi().wqiConfigWeight);
+}
+
+export function postConfigWqiWeight(data) {
+  return postFetch(getConfigApi().wqiConfigWeight, data);
+}
+
 /* #endregion */
 
 /* #region  NOTE  cấu hình AQI-QC */
