@@ -9,6 +9,7 @@ import createBreadcrumb from "shared/breadcrumb/hoc";
 import TabMucDo from "./tabMucDo";
 // import TabGiaTri from "./tabGiaTri";
 // import TabThongSo from "./tabThongSo";
+import TabTrongSo from "./tabTrongSo";
 import { translate } from "hoc/create-lang"
 
 
@@ -138,7 +139,7 @@ export default class ConfigCalculationWQI extends PureComponent {
             </TabPane>
             <TabPane tab="Trọng số nhóm thông số" key={TAB_KEY.TRONG_SO}>
             <Clearfix height={24} />
-              {/* <TabThongSo /> */}
+              <TabTrongSo />
               <div />
             </TabPane>
           </Tabs>

@@ -206,6 +206,13 @@ export default {
     colAvg8H: 'Trung bình 8 giờ',
     colAvg1D: 'Trung bình 1 ngày',
     colUnit: 'Đơn vị',
+    colGroupParam: 'Nhóm thông số',
+    valWeightParam: 'Trọng số',
+    colGroupI: 'Nhóm I',
+    colGroupII: 'Nhóm II',
+    colGroupIII: 'Nhóm III',
+    colGroupIV: 'Nhóm IV',
+    colGroupV: 'Nhóm V'
   },
   qaqc: {
     configPublish: {

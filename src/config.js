@@ -29,6 +29,7 @@ export function getConfigApi() {
     // qaqcConfig: 'http://localhost:5002/config/qaqc',
     aqiConfigCalculation: c('config/aqi-calculation'),
     wqiConfigCalculation: c('config/wqi-calculation'),
+    wqiConfigWeight: c('config/wqi-weight-param'),
     // aqiConfigCalculation: 'http://localhost:5002/config/aqi-calculation',
     aqiConfigQC: c('config/aqi-qc'),
     // aqiConfigQC: 'http://localhost:5002/config/aqi-qc',
