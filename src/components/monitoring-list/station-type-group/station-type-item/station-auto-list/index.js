@@ -105,6 +105,12 @@ const DeviceIcon = props => {
 
   return null;
 };
+
+const STATION_ICON = {
+  [stationStatus.DATA_LOSS]: "/images/station/data-loss.png",
+  [stationStatus.NOT_USE]: "/images/station/not-use.png",
+  [stationStatus.GOOD]: "/images/station/good.png"
+}
 class TableData extends React.Component {
   constructor(props) {
     super(props);
@@ -129,10 +135,7 @@ class TableData extends React.Component {
         className: "noPadding fontSize10",
         width: 20,
         render: (val, record, index) => {
-          const icon =
-            val === stationStatus.DATA_LOSS
-              ? "/images/station/data-loss.png"
-              : "/images/station/good.png";
+          const icon = STATION_ICON[val]
           return (
             <img
               src={icon}
@@ -184,10 +187,10 @@ class TableData extends React.Component {
         align: "center",
         // width,
         key: item.key,
-        render: measure => {
+        render: (measure, record) => {
           // console.log('measure',measure)
           if (measure === null || measure === undefined) return "";
-          let color = SHAPE.BLACK;
+          let color = colorLevels.GOOD//SHAPE.BLACK;
           let classCustom = "";
           let classContainer = "";
           if (
@@ -206,9 +209,17 @@ class TableData extends React.Component {
           if (
             measure.warningLevel &&
             measure.warningLevel === warningLevels.EXCEEDED_PREPARING
-          )
-            classCustom = "wheelPrepare";
+          ){
+              classCustom = "wheelPrepare";
+              color = colorLevels[measure.warningLevel];
+          }
           // Format number toLocalString(national)
+          if(record.status !== stationStatus.GOOD){
+            color = SHAPE.BLACK;
+            classCustom = ''
+            classContainer = ''
+          }
+
           return (
             <React.Fragment>
               <div key="left" style={{ position: "relative", float: "left" }}>
@@ -217,7 +228,7 @@ class TableData extends React.Component {
               <div
                 className={classContainer}
                 key="right"
-                style={{ position: "relative", float: "right", width: "100%" }}
+                style={{ position: "relative", float: "right", width: "100%", borderRadius: 3 }}
               >
                 {measure.value || measure.value === 0 ? (
                   <TextWithToolTip
