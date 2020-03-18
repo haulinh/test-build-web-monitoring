@@ -183,6 +183,30 @@ export default {
   wqi: {
     title: "WQI"
   },
+  wqiConfigCalculation: {
+    pageName: 'Cấu hình tính toán WQI',
+    tab1:"Ngưỡng mức độ",
+    tab2:"Bảng giá trị BPi",
+    tab3:"Thông số tính toán",
+    tab4:"Trọng số nhóm thông số",
+    add: 'Thêm',
+    required1D_1H: 'Nhập ít nhất AVG Ngày hoặc AVG Giờ',
+    required: 'Vui lòng nhập giá trị',
+    collevel: 'Cấp độ',
+    colValue:'Giá trị',
+    colLevel: 'Tên mức độ',
+    colMin: 'Cận dưới',
+    colMax: 'Cận trên',
+    colColor: 'Màu chữ',
+    colBackgroundColor: 'Màu nền',
+    colDescription: 'Chú thích',
+    colMeasureKey: 'Mã thông số',
+    colMeasure: 'Thông số',
+    colAvg1H: 'Trung bình 1 giờ',
+    colAvg8H: 'Trung bình 8 giờ',
+    colAvg1D: 'Trung bình 1 ngày',
+    colUnit: 'Đơn vị',
+  },
   qaqc: {
     configPublish: {
       title: "Cấu hình công bố",
@@ -1638,6 +1662,7 @@ export default {
       sendNotification: "Cấu hình gửi cảnh báo",
       sampling: "Cấu hình lấy mẫu",
       configAQI: "Cấu hình tính toán AQI",
+      configWQI: "Cấu hình tính toán WQI",
       camera: "Cấu hình camera",
       color: "Cấu hình màu cảnh báo",
       parameter: "Chỉ tiêu quan trắc",

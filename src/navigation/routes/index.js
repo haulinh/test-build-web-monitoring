@@ -36,6 +36,7 @@ import SupportRoute from "containers/support";
 import AqiContainer from "containers/aqi";
 import AqiConfigCalculationContainer from "containers/aqi/configCalculation";
 import WqiContainer from "containers/wqi";
+import WqiConfigCalculationContainer from "containers/wqi/configCalculation";
 import QaQcContainer from "containers/qa-qc/approved-data";
 import PublishConfigContainer from "containers/qa-qc/approved-data/config-publish";
 import QaQcConfig from "containers/qa-qc/config";
@@ -85,6 +86,7 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute path={slug.aqi.base} component={AqiContainer} />
             <LayoutRoute path={slug.aqi.config} component={AqiConfigCalculationContainer} />
             <LayoutRoute path={slug.wqi.base} component={WqiContainer} />
+            <LayoutRoute path={slug.wqi.config} component={WqiConfigCalculationContainer} />
             <LayoutRoute path={slug.stationAuto.base} component={StationAutoRoute} />
             <LayoutRoute path={slug.stationFixed.base} component={StationFixedRoute} />
             <LayoutRoute path={slug.configWQI.base} component={ConfigWQIRoute} />
