@@ -171,47 +171,47 @@ export default {
 
   /* #region   */
 
-  // QAQC: {
-  //   VIEW: "menu.qaqc.actions.view",
-  //   MANUAL_APPROVE: "menu.qaqc.actions.manualapprove",
-  //   UN_APPROVE: "menu.qaqc.actions.unapprove",
-  //   APPROVE: "menu.qaqc.actions.approve",
-  //   RESTORE: "menu.qaqc.actions.restore",
-  //   REMOVE: "menu.qaqc.actions.remove",
-  //   CONFIG_PUBLISH: "menu.qaqc.actions.config_publish",
-  //   CONFIG_NEW: "menu.qaqc.action.configNew"
-  // },
-  // AQI: {
-  //   VIEW: "menu.aqiMap.actions.view"
-  // },
-  // AQI_SEARCHDATA: {
-  //   VIEW: "menu.aqiSearchData.actions.view",
-  //   AQI_EXPORT: "menu.aqiSearchData.actions.aqi_export"
-  // },
+  QAQC: {
+    VIEW: "menu.qaqc.actions.view",
+    MANUAL_APPROVE: "menu.qaqc.actions.manualapprove",
+    UN_APPROVE: "menu.qaqc.actions.unapprove",
+    APPROVE: "menu.qaqc.actions.approve",
+    RESTORE: "menu.qaqc.actions.restore",
+    REMOVE: "menu.qaqc.actions.remove",
+    CONFIG_PUBLISH: "menu.qaqc.actions.config_publish",
+    CONFIG_NEW: "menu.qaqc.action.configNew"
+  },
+  AQI: {
+    VIEW: "menu.aqiMap.actions.view"
+  },
+  AQI_SEARCHDATA: {
+    VIEW: "menu.aqiSearchData.actions.view",
+    AQI_EXPORT: "menu.aqiSearchData.actions.aqi_export"
+  },
 
-  // WQI_SEARCHDATA: {
-  //   VIEW: "menu.wqiSearchData.actions.view",
-  //   WQI_EXPORT: "menu.wqiSearchData.actions.aqi_export"
-  // },
-  // STATISTIC: {
-  //   PER_REC_DATA: "menu.statistic.actions.per_received_data",
-  //   PER_REC_DATA_EXPORT: "menu.statistic.actions.per_received_data_export"
-  // },
-  // STATION_FIXED: {
-  //   VIEW: "menu.stationFixed.actions.view",
-  //   CREATE: "menu.stationFixed.actions.create",
-  //   EDIT: "menu.stationFixed.actions.edit",
-  //   DELETE: "menu.stationFixed.actions.delete"
-  // },
-  // STATION_FIXED_SEARCH: {
-  //   VIEW: "menu.dataSearchFixed.actions.view",
-  //   DOWNLOAD: "menu.dataSearchFixed.actions.download",
-  //   IMPORT: "menu.dataSearchFixed.actions.import",
-  //   EXPORT: "menu.dataSearchFixed.actions.export"
-  // },
-  // MAP_STATION_FIXED: {
-  //   VIEW: "menu.mapStationFixed.actions.view"
-  // }
+  WQI_SEARCHDATA: {
+    VIEW: "menu.wqiSearchData.actions.view",
+    WQI_EXPORT: "menu.wqiSearchData.actions.aqi_export"
+  },
+  STATISTIC: {
+    PER_REC_DATA: "menu.statistic.actions.per_received_data",
+    PER_REC_DATA_EXPORT: "menu.statistic.actions.per_received_data_export"
+  },
+  STATION_FIXED: {
+    VIEW: "menu.stationFixed.actions.view",
+    CREATE: "menu.stationFixed.actions.create",
+    EDIT: "menu.stationFixed.actions.edit",
+    DELETE: "menu.stationFixed.actions.delete"
+  },
+  STATION_FIXED_SEARCH: {
+    VIEW: "menu.dataSearchFixed.actions.view",
+    DOWNLOAD: "menu.dataSearchFixed.actions.download",
+    IMPORT: "menu.dataSearchFixed.actions.import",
+    EXPORT: "menu.dataSearchFixed.actions.export"
+  },
+  MAP_STATION_FIXED: {
+    VIEW: "menu.mapStationFixed.actions.view"
+  }
 
   /* #endregion */
 };
