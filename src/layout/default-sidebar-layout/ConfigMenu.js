@@ -81,9 +81,17 @@ export default {
           key={slug.aqi.config}
           onClick={() => props.selectMenu(slug.aqi.config)}
         >
-          <Link to={slug.aqi.config}>
-            {MENU_NAME.config.configAQI}
-          </Link>
+          <Link to={slug.aqi.config}>{MENU_NAME.config.configAQI}</Link>
+        </Menu.Item>
+      )}
+
+      {/* NOTE  CẤU HÌNH TÍNH TOÁN WQI */}
+      {protectRole(ROLE.CAU_HINH_TINH_TOAN_WQI.VIEW)(
+        <Menu.Item
+          key={slug.wqi.config}
+          onClick={() => props.selectMenu(slug.wqi.config)}
+        >
+          <Link to={slug.wqi.config}>{MENU_NAME.config.configWQI}</Link>
         </Menu.Item>
       )}
 
@@ -105,7 +113,9 @@ export default {
           key={slug.stationAuto.configCamera.base}
           onClick={() => props.selectMenu(slug.stationAuto.configCamera.base)}
         >
-          <Link to={slug.stationAuto.configCamera.base}>{MENU_NAME.config.camera}</Link>
+          <Link to={slug.stationAuto.configCamera.base}>
+            {MENU_NAME.config.camera}
+          </Link>
         </Menu.Item>
       )}
 
@@ -182,8 +192,8 @@ export default {
         </Menu.Item>
       )}
 
-       {/* NOTE  NHẬT KÝ */}
-       {protectRole(ROLE.USER.VIEW)(
+      {/* NOTE  NHẬT KÝ */}
+      {protectRole(ROLE.USER.VIEW)(
         <Menu.Item
           key={slug.dataLogger.base}
           onClick={() => {

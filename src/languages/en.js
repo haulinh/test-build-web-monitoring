@@ -183,6 +183,30 @@ export default {
   wqi: {
     title: "Water Quality Index"
   },
+  wqiConfigCalculation: {
+    pageName: 'Configure to WQI calculation',
+    tab1:"Prediction threshold",
+    tab2:"BPi value table",
+    tab3:"Calculation parameters",
+    tab4:"Weight of the parameter",
+    add: 'Add',
+    required1D_1H: 'Enter at least AVG Date or AVG Hour',
+    required: 'Please input value',
+    collevel: 'Level',
+    colValue:'Value',
+    colLevel: 'Level Name',
+    colMin: 'Min',
+    colMax: 'Max',
+    colColor: 'Color',
+    colBackgroundColor: 'Background Color',
+    colDescription: 'Description',
+    colMeasureKey: 'Measure Key',
+    colMeasure: 'Measure',
+    colAvg1H: 'Average 1 hour',
+    colAvg8H: 'Average 8 hour',
+    colAvg1D: 'Average 1 day',
+    colUnit: 'Unit',
+  },
   qaqc: {
     configPublish: {
       title: "Publish Configuration",
@@ -1610,6 +1634,9 @@ export default {
       avgData: "Average Data",
       report: "Reports"
     },
+    monitoringList: {
+      base: 'Real-time Monitoring List',
+    },
 
     processDataSub: "Data Processing",
     processData: {
@@ -1639,6 +1666,7 @@ export default {
       sendNotification: "Configure to Send Notifications",
       sampling: "Sampling configuration",
       configAQI: "Configure AQI calculation",
+      configWQI: "Configure WQI calculation",
       camera: "Camera configuration",
       color: "Configure warning color",
       parameter: "Parameter",

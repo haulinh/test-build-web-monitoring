@@ -98,6 +98,18 @@ export function postConfigAqiCalculation(data) {
 
 /* #endregion */
 
+/* #region  NOTE  cấu hình WQI-Calculation */
+
+export function getConfigWqiCalculation() {
+  return getFetch(getConfigApi().wqiConfigCalculation);
+}
+
+export function postConfigWqiCalculation(data) {
+  return postFetch(getConfigApi().wqiConfigCalculation, data);
+}
+
+/* #endregion */
+
 /* #region  NOTE  cấu hình AQI-QC */
 
 export function getConfigAqiQC() {

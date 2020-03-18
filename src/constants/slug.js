@@ -164,7 +164,8 @@ export default {
     config: "/aqi-config"
   },
   wqi: {
-    base: "/wqi"
+    base: "/wqi",
+    config: "/wqi-config"
   },
   qaqc: {
     base: "/qaqc",
@@ -310,6 +311,7 @@ export const MENU_NAME = {
     sendNotification: translate("menuApp.config.sendNotification"),
     sampling: translate("menuApp.config.sampling"),
     configAQI: translate("menuApp.config.configAQI"),
+    configWQI: translate("menuApp.config.configWQI"),
     camera: translate('menuApp.config.camera'),
     color: translate('menuApp.config.color'),
     parameter: translate("menuApp.config.parameter"),
