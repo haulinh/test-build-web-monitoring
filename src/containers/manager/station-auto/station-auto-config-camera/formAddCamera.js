@@ -44,10 +44,7 @@ export default class FormAddCamera extends React.Component {
       cameras: []
     };
 
-    // qui chinh cho het warring
-    this.setState({
-      cameras: _.get(this.props.stationAuto, "options.camera.list", [])
-    });
+    this.state.cameras = _.get(this.props.stationAuto, 'options.camera.list', [])
   }
 
   render() {
