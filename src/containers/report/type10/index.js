@@ -1,5 +1,7 @@
 import React from "react";
 import PageContainer from "layout/default-sidebar-layout/PageContainer";
+import ROLE from "constants/role"
+import protectRole from "hoc/protect-role/forMenu";
 import { translate } from "hoc/create-lang";
 import { connect } from "react-redux";
 import Breadcrumb from "../breadcrumb";
@@ -54,7 +56,7 @@ export default class ReportType10 extends React.Component {
         dataIndex: "name",
         align: "center",
         render: value => {
-          return <div  style={{ textAlign: "left" }}>{value}</div>;
+          return <div style={{ textAlign: "left" }}>{value}</div>;
         }
       },
       {
@@ -79,7 +81,11 @@ export default class ReportType10 extends React.Component {
         dataIndex: "dataFrequency",
         align: "center",
         render: value => {
-          return <div  style={{ textAlign: "right" }}>{getFormatNumber(value, 0)}</div>;
+          return (
+            <div style={{ textAlign: "right" }}>
+              {getFormatNumber(value, 0)}
+            </div>
+          );
         }
       },
       {
@@ -87,7 +93,11 @@ export default class ReportType10 extends React.Component {
         dataIndex: "totalDesign",
         align: "center",
         render: value => {
-          return <div  style={{ textAlign: "right" }}>{getFormatNumber(value, 0)}</div>;
+          return (
+            <div style={{ textAlign: "right" }}>
+              {getFormatNumber(value, 0)}
+            </div>
+          );
         }
       },
       {
@@ -95,7 +105,11 @@ export default class ReportType10 extends React.Component {
         dataIndex: "totalFact",
         align: "center",
         render: value => {
-          return <div  style={{ textAlign: "right" }}>{getFormatNumber(value, 0)}</div>;
+          return (
+            <div style={{ textAlign: "right" }}>
+              {getFormatNumber(value, 0)}
+            </div>
+          );
         }
       },
       {
@@ -131,11 +145,9 @@ export default class ReportType10 extends React.Component {
         .utcOffset(this.props.timeZone.time)
         .endOf("day")
         .utc()
-        .format(),
+        .format()
     };
-    const res = await getUrlReportType10(
-      params
-    );
+    const res = await getUrlReportType10(params);
     if (res.success) {
       this.setState({
         dataSource: res.data,
@@ -186,14 +198,16 @@ export default class ReportType10 extends React.Component {
                 right: "0px"
               }}
             >
-              <Button
-                type="primary"
-                icon="file-excel"
-                loading={this.state.isLoadingExcel}
-                onClick={this.hanldeExcel}
-              >
-                {translate("avgSearchFrom.tab.exportExcel")}
-              </Button>
+              {protectRole(ROLE.TILE_DULIEU_THUDUOC.EXPORT)(
+                <Button
+                  type="primary"
+                  icon="file-excel"
+                  loading={this.state.isLoadingExcel}
+                  onClick={this.hanldeExcel}
+                >
+                  {translate("avgSearchFrom.tab.exportExcel")}
+                </Button>
+              )}
             </div>
           )}
         </div>

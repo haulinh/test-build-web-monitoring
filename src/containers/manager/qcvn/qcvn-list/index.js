@@ -15,7 +15,7 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import DynamicTable from 'components/elements/dynamic-table'
 
-@protectRole(ROLE.STATION_AUTO.VIEW)
+@protectRole(ROLE.QCVN.VIEW)
 @createManagerList({
   apiList: QCVNApi.getQCVN
 })

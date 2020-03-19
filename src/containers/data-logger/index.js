@@ -28,7 +28,7 @@ const i18n = {
   colDetail: translate("dataLogger.list.colDetail")
 };
 
-@protectRole(ROLE.USER.VIEW)
+@protectRole(ROLE.XEM_NHAT_KY.VIEW)
 @createManagerList({
   apiList: LogApi.getList
 })

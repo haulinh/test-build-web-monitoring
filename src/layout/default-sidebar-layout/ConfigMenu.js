@@ -96,7 +96,7 @@ export default {
       )}
 
       {/* NOTE  CẤU HÌNH MÀU SẮC */}
-      {protectRole(ROLE.IS_ADMIN)(
+      {protectRole(ROLE.CONFIG_COLOR_NOTI.VIEW)(
         <Menu.Item
           key={slug.stationAuto.configColor.base}
           onClick={() => props.selectMenu(slug.stationAuto.configColor.base)}
@@ -193,7 +193,7 @@ export default {
       )}
 
       {/* NOTE  NHẬT KÝ */}
-      {protectRole(ROLE.USER.VIEW)(
+      {protectRole(ROLE.XEM_NHAT_KY.VIEW)(
         <Menu.Item
           key={slug.dataLogger.base}
           onClick={() => {

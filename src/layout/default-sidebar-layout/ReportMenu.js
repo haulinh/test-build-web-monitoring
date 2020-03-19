@@ -101,7 +101,7 @@ export default {
       )}
 
       {/* // NOTE Báo cáo AQI - START */}
-      {protectRole(ROLE.AQI_GIO.AQI)(
+      {protectRole(ROLE.AQI_GIO.VIEW)(
         <Menu.Item
           key={slug.report.aqi_hour}
           onClick={() => {
@@ -112,7 +112,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.AQI_NGAY.AQI)(
+      {protectRole(ROLE.AQI_NGAY.VIEW)(
         <Menu.Item
           key={slug.report.aqi_day}
           onClick={() => {
