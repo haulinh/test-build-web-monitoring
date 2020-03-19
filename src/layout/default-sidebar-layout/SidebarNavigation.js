@@ -322,6 +322,13 @@ class MenuApp extends React.PureComponent {
 
         {this.checkRoleForGroup([
           ROLE.STATION_AUTO.VIEW,
+          ROLE.CAU_HINH_KET_NOI.VIEW,
+          ROLE.CAU_HINH_GUI_CANH_BAO.VIEW,
+          ROLE.CAU_HINH_LAY_MAU.VIEW,
+          ROLE.CAU_HINH_TINH_TOAN_AQI.VIEW,
+          ROLE.CAU_HINH_TINH_TOAN_WQI.VIEW,
+          ROLE.CONFIG_COLOR_NOTI.VIEW,
+          ROLE.CAU_HINH_CAMERA.VIEW,
           ROLE.MEASURING.VIEW,
           ROLE.STATION_TYPE.VIEW,
           ROLE.PROVINCE.VIEW,
