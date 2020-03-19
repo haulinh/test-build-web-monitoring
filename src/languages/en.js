@@ -171,6 +171,8 @@ export default {
     colMin: 'Min',
     colMax: 'Max',
     colColor: 'Color',
+    colBatBuoc: 'Required',
+    colBelongTemp: 'Belong Temp',
     colBackgroundColor: 'Background Color',
     colDescription: 'Description',
     colMeasureKey: 'Measure Key',
@@ -208,6 +210,13 @@ export default {
     colAvg8H: 'Average 8 hour',
     colAvg1D: 'Average 1 day',
     colUnit: 'Unit',
+    colGroupParam: 'Parameter group',
+    valWeightParam: 'Weighted',
+    colGroupI: 'Group I',
+    colGroupII: 'Group II',
+    colGroupIII: 'Group III',
+    colGroupIV: 'Group IV',
+    colGroupV: 'Group V'
   },
   qaqc: {
     configPublish: {
