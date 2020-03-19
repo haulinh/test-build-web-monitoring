@@ -315,7 +315,7 @@ class MenuApp extends React.PureComponent {
         ]) && ReportMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
-          ROLE.MAP.VIEW,
+          ROLE.AQI.VIEW,
           ROLE.WQI.VIEW,
           ROLE.CONFIG_WQI.VIEW
         ]) && AdvanceMenu.renderComp(this.props)}
@@ -327,7 +327,8 @@ class MenuApp extends React.PureComponent {
           ROLE.PROVINCE.VIEW,
           ROLE.QCVN.VIEW,
           ROLE.ROLE.VIEW,
-          ROLE.USER.VIEW
+          ROLE.USER.VIEW,
+          ROLE.XEM_NHAT_KY.VIEW
         ]) && ConfigMenu.renderComp(this.props)}
       </Menu>
     );

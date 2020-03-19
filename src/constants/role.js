@@ -55,7 +55,7 @@ export default {
     VIEW: "menu.xuLyDuLieu_config.actions.view"
   },
   XU_LY_KIEM_DUYET_DU_LIEU: {
-    VIEW: "menu.xuLyDuLieu_config.actions.view"
+    VIEW: "menu.kiemDuyetDuLieu.actions.view"
   },
   QAQCCONFIG: {
     VIEW: "menu.qaqcConfig.actions.view"
@@ -64,7 +64,8 @@ export default {
     VIEW: "menu.ftpTransfer.actions.view"
   },
   TILE_DULIEU_THUDUOC: {
-    VIEW: "menu.tiLeDuLieuThuDuoc.actions.view"
+    VIEW: "menu.tiLeDuLieuThuDuoc.actions.view",
+    EXPORT: "menu.tiLeDuLieuThuDuoc.actions.export"
   },
   TILE_DULIEU: {
     VIEW: "menu.tiLeDuLieu.actions.view"
@@ -87,6 +88,9 @@ export default {
   SO_LAN_MAT_KET_NOI: {
     VIEW: "menu.soLanMatKetNoi.actions.view"
   },
+  AQI: {
+    VIEW: "menu.aqiMap.actions.view"
+  },
   AQI_GIO: {
     VIEW: "menu.aqiGio.actions.view"
   },
@@ -103,7 +107,8 @@ export default {
     VIEW: "menu.wqiMap.actions.view"
   },
   CONFIG_WQI: {
-    VIEW: "menu.configWQI.actions.view"
+    VIEW: "menu.configWQI.actions.view",
+    EDIT: "menu.configWQI.actions.edit"
   },
   STATION_AUTO: {
     VIEW: "menu.stationAuto.actions.view",
@@ -168,6 +173,13 @@ export default {
     ROLE: "menu.user.actions.role",
     ENABLE_ACCOUNT: "menu.user.actions.enableAccount"
   },
+  CONFIG_COLOR_NOTI: {
+    VIEW: "menu.config_color_noti.actions.view",
+    EDIT: "menu.config_color_noti.actions.edit"
+  },
+  XEM_NHAT_KY: {
+    VIEW: "menu.xem_Nhat_ky.actions.view"
+  },
 
   /* #region   */
 
@@ -181,9 +193,7 @@ export default {
     CONFIG_PUBLISH: "menu.qaqc.actions.config_publish",
     CONFIG_NEW: "menu.qaqc.action.configNew"
   },
-  AQI: {
-    VIEW: "menu.aqiMap.actions.view"
-  },
+
   AQI_SEARCHDATA: {
     VIEW: "menu.aqiSearchData.actions.view",
     AQI_EXPORT: "menu.aqiSearchData.actions.aqi_export"

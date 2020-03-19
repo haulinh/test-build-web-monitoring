@@ -45,7 +45,7 @@ export default {
           <Link to={slug.statistic.aqi}>{MENU_NAME.advance.aqiStatistic}</Link>
         </Menu.Item>
       )} */}
-      {protectRole(ROLE.MAP.VIEW)(
+      {protectRole(ROLE.AQI.VIEW)(
         <Menu.Item
           key={slug.map.aqi}
           onClick={() => {
