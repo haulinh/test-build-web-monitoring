@@ -8,7 +8,7 @@ import Clearfix from "components/elements/clearfix";
 import createBreadcrumb from "shared/breadcrumb/hoc";
 import TabMucDo from "./tabMucDo";
 // import TabGiaTri from "./tabGiaTri";
-// import TabThongSo from "./tabThongSo";
+import TabThongSo from "./tabThongSo";
 import TabTrongSo from "./tabTrongSo";
 import { translate } from "hoc/create-lang"
 
@@ -134,13 +134,11 @@ export default class ConfigCalculationWQI extends PureComponent {
             </TabPane>
             <TabPane tab="Thông số tính toán" key={TAB_KEY.THONG_SO}>
             <Clearfix height={24} />
-              {/* <TabThongSo /> */}
-              <div />
+              <TabThongSo />
             </TabPane>
             <TabPane tab="Trọng số nhóm thông số" key={TAB_KEY.TRONG_SO}>
             <Clearfix height={24} />
               <TabTrongSo />
-              <div />
             </TabPane>
           </Tabs>
         </Wrapper>
