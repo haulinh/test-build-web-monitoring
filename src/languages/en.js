@@ -198,6 +198,8 @@ export default {
     colMin: 'Min',
     colMax: 'Max',
     colColor: 'Color',
+    colBatBuoc: 'Required',
+    colBelongTemp: 'Belong Temp',
     colBackgroundColor: 'Background Color',
     colDescription: 'Description',
     colMeasureKey: 'Measure Key',
