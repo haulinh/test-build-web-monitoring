@@ -45,7 +45,7 @@ const IconButton = styled(Icon)`
   color: ${props => (props.color ? props.color : '#3E90F7')};
 `
 
-@protectRole(ROLE.STATION_AUTO.VIEW)
+@protectRole(ROLE.CAU_HINH_KET_NOI.VIEW)
 @createManagerList({
   apiList: StationAutoApi.getStationAutos
 })

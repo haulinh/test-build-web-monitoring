@@ -158,63 +158,63 @@ export default {
     paramsTitle: "Giá trị AQI {{=it.day}} ngày của từng thông số"
   },
   aqiConfigCalculation: {
-    pageName: 'Cấu hình tính toán AQI',
-    tab1:"Ngưỡng mức độ",
-    tab2:"Bảng giá trị BPi",
-    tab3:"Thống số tính toán",
-    add: 'Thêm',
-    required1D_1H: 'Nhập ít nhất AVG Ngày hoặc AVG Giờ',
-    required: 'Vui lòng nhập giá trị',
-    collevel: 'Cấp độ',
-    colValue:'Giá trị',
-    colLevel: 'Tên mức độ',
-    colMin: 'Tối thiểu',
-    colMax: 'Tối đa',
-    colColor: 'Màu chữ',
-    colBackgroundColor: 'Màu nền',
-    colDescription: 'Chú thích',
-    colMeasureKey: 'Mã thông số',
-    colMeasure: 'Thông số',
-    colAvg1H: 'Trung bình 1 giờ',
-    colAvg8H: 'Trung bình 8 giờ',
-    colAvg1D: 'Trung bình 1 ngày',
-    colUnit: 'Đơn vị',
+    pageName: "Cấu hình tính toán AQI",
+    tab1: "Ngưỡng mức độ",
+    tab2: "Bảng giá trị BPi",
+    tab3: "Thống số tính toán",
+    add: "Thêm",
+    required1D_1H: "Nhập ít nhất AVG Ngày hoặc AVG Giờ",
+    required: "Vui lòng nhập giá trị",
+    collevel: "Cấp độ",
+    colValue: "Giá trị",
+    colLevel: "Tên mức độ",
+    colMin: "Tối thiểu",
+    colMax: "Tối đa",
+    colColor: "Màu chữ",
+    colBackgroundColor: "Màu nền",
+    colDescription: "Chú thích",
+    colMeasureKey: "Mã thông số",
+    colMeasure: "Thông số",
+    colAvg1H: "Trung bình 1 giờ",
+    colAvg8H: "Trung bình 8 giờ",
+    colAvg1D: "Trung bình 1 ngày",
+    colUnit: "Đơn vị"
   },
   wqi: {
     title: "WQI"
   },
   wqiConfigCalculation: {
-    pageName: 'Cấu hình tính toán WQI',
-    tab1:"Ngưỡng mức độ",
-    tab2:"Bảng giá trị BPi",
-    tab3:"Thông số tính toán",
-    tab4:"Trọng số nhóm thông số",
-    add: 'Thêm',
-    required1D_1H: 'Nhập ít nhất AVG Ngày hoặc AVG Giờ',
-    required: 'Vui lòng nhập giá trị',
-    collevel: 'Cấp độ',
-    colValue:'Giá trị',
-    colLevel: 'Tên mức độ',
-    colMin: 'Cận dưới',
-    colMax: 'Cận trên',
-    colColor: 'Màu chữ',
-    colBackgroundColor: 'Màu nền',
-    colDescription: 'Chú thích',
-    colMeasureKey: 'Mã thông số',
-    colMeasure: 'Tên Thông số',
-    colAvg1H: 'Trung bình 1 giờ',
-    colAvg8H: 'Trung bình 8 giờ',
-    colAvg1D: 'Trung bình 1 ngày',
-    colUnit: 'Đơn vị',
-    colBatBuoc: 'Bắt buộc',
-    colBelongTemp: 'Phụ thuộc nhiệt độ',
-    colGroupParam: 'Nhóm thông số',
-    valWeightParam: 'Trọng số',
-    colGroupI: 'Nhóm I',
-    colGroupII: 'Nhóm II',
-    colGroupIII: 'Nhóm III',
-    colGroupIV: 'Nhóm IV',
-    colGroupV: 'Nhóm V'
+    pageName: "Cấu hình tính toán WQI",
+    tab1: "Ngưỡng mức độ",
+    tab2: "Bảng giá trị BPi",
+    tab3: "Thông số tính toán",
+    tab4: "Trọng số nhóm thông số",
+    add: "Thêm",
+    required1D_1H: "Nhập ít nhất AVG Ngày hoặc AVG Giờ",
+    required: "Vui lòng nhập giá trị",
+    collevel: "Cấp độ",
+    colValue: "Giá trị",
+    colLevel: "Tên mức độ",
+    colMin: "Cận dưới",
+    colMax: "Cận trên",
+    colColor: "Màu chữ",
+    colBackgroundColor: "Màu nền",
+    colDescription: "Chú thích",
+    colMeasureKey: "Mã thông số",
+    colMeasure: "Tên Thông số",
+    colAvg1H: "Trung bình 1 giờ",
+    colAvg8H: "Trung bình 8 giờ",
+    colAvg1D: "Trung bình 1 ngày",
+    colUnit: "Đơn vị",
+    colBatBuoc: "Bắt buộc",
+    colBelongTemp: "Phụ thuộc nhiệt độ",
+    colGroupParam: "Nhóm thông số",
+    valWeightParam: "Trọng số",
+    colGroupI: "Nhóm I",
+    colGroupII: "Nhóm II",
+    colGroupIII: "Nhóm III",
+    colGroupIV: "Nhóm IV",
+    colGroupV: "Nhóm V"
   },
   qaqc: {
     configPublish: {
@@ -792,16 +792,16 @@ export default {
     config: {
       color: {
         button: {
-          selectTabData: 'Tình trạng dữ liệu',
-          selectTabSensor: 'Tình trạng thiết bị'
+          selectTabData: "Tình trạng dữ liệu",
+          selectTabSensor: "Tình trạng thiết bị"
         },
         table: {
           column: {
-            type: 'Loại',
-            alternative: 'Tên thay thế',
-            color: 'Màu chữ',
-            backgroundColor: 'Màu nền',
-            desc: 'Chú thích',
+            type: "Loại",
+            alternative: "Tên thay thế",
+            color: "Màu chữ",
+            backgroundColor: "Màu nền",
+            desc: "Chú thích"
           }
         }
       }
@@ -840,7 +840,7 @@ export default {
         allowView: "Cho phép xem camera"
       },
       color: {
-        title: "Cấu hình màu cảnh báo",
+        title: "Cấu hình màu cảnh báo"
       },
       actions: {
         ftpFolder: "FTP Folder" /* MARK  @translate */,
@@ -1285,23 +1285,30 @@ export default {
     rule: {
       label: "Rule",
       orderby: {
-        label: "STT",
-        placeholder: "STT"
+        label: "#",
+        placeholder: "#"
       },
       menu: {
-        label: "menu",
-        placeholder: "menu"
+        label: "Danh dách",
+        placeholder: "Danh sách"
       },
       action: {
-        label: "action",
-        placeholder: "action",
+        label: "Hành động",
+        placeholder: "Hành động",
         package: "Package"
       },
+
       dashboard: {
         name: "Trang chủ"
       },
+      dashboard_2: {
+        name: "Trang chủ - giám sát"
+      },
       monitoring: {
         name: "Giám sát trực tuyến"
+      },
+      monitorByList: {
+        name: "Giám sát danh sách"
       },
       map: {
         name: "Bản đồ"
@@ -1315,7 +1322,10 @@ export default {
       avgSearch: {
         name: "Dữ liệu trung bình"
       },
-      qaqc: {
+      xuLyDuLieu_config: {
+        name: "Xử lý dữ liệu - Cấu hình"
+      },
+      kiemDuyetDuLieu: {
         name: "Kiểm duyệt dữ liệu"
       },
       qaqcConfig: {
@@ -1324,33 +1334,104 @@ export default {
       ftpTransfer: {
         name: "Cấu hình truyền FTP"
       },
+      tiLeDuLieuThuDuoc: {
+        name: "Tỉ lệ dữ liệu thu được"
+      },
+      tiLeDuLieu: {
+        name: "Tỉ lệ dữ liệu"
+      },
+      tb24H: {
+        name: "Trung bình 24 giờ"
+      },
+      tb1H: {
+        name: "Trung bình 1 giờ"
+      },
+      tb1HMax: {
+        name: "Trung bình 1h Max"
+      },
+      tb8HMax: {
+        name: "Trung bình 8h Max"
+      },
+      tileDuLieuVuotNguong: {
+        name: "Tỉ lệ dữ liệu vượt ngưỡng"
+      },
+      soLanMatKetNoi: {
+        name: "Số lần mất kết nối"
+      },
+      aqiGio: {
+        name: "AQI - giờ"
+      },
+      aqiNgay: {
+        name: "AQI - ngày"
+      },
+      wqiGio: {
+        name: "WQI - giờ"
+      },
+      tinhTrangDuLieu: {
+        name: "Tình trạng dữ liệu"
+      },
       aqiMap: {
         name: "Bản đồ AQI"
       },
-      aqiSearchData: { name: "Tra cứu dữ liệu AQI" },
-      wqiMap: { name: "Bản đồ WQI" },
-      wqiSearchData: { name: "Tra cứu dữ liệu WQI" },
+      wqiMap: {
+        name: "Bản đồ WQI"
+      },
       configWQI: { name: "Cấu hình tính WQI, AQI" },
-      mapStationFixed: { name: "Bản đồ trạm cố định" },
-      dataSearchFixed: { name: "Dữ liệu trạm cố định" },
-      stationFixed: { name: "Trạm cố định" },
-      per_received_data: { name: "Tỷ lệ nhận dữ liệu" },
-      dataExceeded: { name: "Dữ liệu vượt ngưỡng" },
+      stationFixMap: {
+        name: "Bản đồ trạm cố định"
+      },
+      stationFixData: {
+        name: "Dữ liệu trạm cố định"
+      },
+      stationFix: {
+        name: "Trạm cố định"
+      },
+      stationFixInput: {
+        name: "Nhập liệu trạm cố định"
+      },
       stationAuto: { name: "Trạm quan trắc" },
+      cauHinhKetNoi: {
+        name: "Cấu hình kết nối"
+      },
+      cauHinhGuiCanhBao: {
+        name: "Cấu hình gửi cảnh báo"
+      },
+      cauHinhLayMau: {
+        name: "Cấu hình lấy mẫu"
+      },
+      cauHinhTinhToanAQI: {
+        name: "Cấu hình tính toán AQI"
+      },
+      cauHinhTinhToanWQI: {
+        name: "Cấu hình tính toán WQI"
+      },
+      cauHinhCamera: {
+        name: "Cấu hình Camera"
+      },
       measuring: { name: "Chỉ tiêu quan trắc" },
       stationType: { name: "Loại trạm" },
       province: { name: "Đơn vị quản lý" },
       qcvn: { name: "Quy chuẩn" },
       role: { name: "Nhóm quyền" },
       user: { name: "Người dùng" },
-      report: { name: "Báo cáo" },
+      config_color_noti: {
+        name: "Cấu hình màu cảnh báo"
+      },
+      xem_Nhat_ky: {
+        name: "Xem nhật ký"
+      },
+      mobile_dashboard: {
+        name: "Trang chủ Mobile"
+      },
+      /////
       actions: {
         role: "Ủy quyền",
         enableAccount: "Kích hoạt/Vô hiệu hóa tài khoản",
         config: "Cấu hình",
         download: "Tải mẫu nhập liệu",
-        import: "Nhập dữ liệu từ file",
+        import: "Nhập liệu từ file",
         wqi_export: "Xuất dữ liệu",
+        pushDuLieu: "Push dữ liệu",
         aqi_export: "Xuất dữ liệu",
         isTransfer: "Cập nhật trạm cho phép truyền",
         updateFTP: "Cập nhật thông tin FTP",
@@ -1363,6 +1444,7 @@ export default {
         images: "Hình ảnh",
         infoStation: "Thông tin trạm",
         reviewStation: "Đánh giá trạm",
+        updateSelectStation: "Cập nhật chọn trạm",
         create: "Thêm mới",
         edit: "Cập nhật",
         delete: "Xóa",
@@ -1371,7 +1453,17 @@ export default {
         unapprove: "Hủy kiểm duyệt",
         approve: "Kiểm duyệt",
         restore: "Khôi phục",
-        remove: "Loại bỏ dữ liệu"
+        remove: "Loại bỏ dữ liệu",
+        statistics_device: "Tổng kết thiết bị",
+        statistics_exceeded_avgDay: "Vượt TB ngày",
+        vuotNguongTBNgay: "Vượt ngưỡng TB ngày",
+        bieuDoAQI: "Biểu đồ AQI",
+        bieuDoWQI: "Biểu đồ WQI",
+        bieuDoMatKetNoi: "Số lần mất kết nối",
+        bieuDoVuotNguong: "Số lần vượt ngưỡng",
+        thongKeLoaiTram: "Thống kê loại trạm",
+        fTPFloder: "FTP Floder",
+        fileMapping: "File Mapping "
       }
     }
   },
@@ -1640,7 +1732,7 @@ export default {
       report: "Báo cáo"
     },
     monitoringList: {
-      base: 'Giám sát danh sách',
+      base: "Giám sát danh sách"
     },
 
     processDataSub: "Xử lý dữ liệu",
@@ -1680,7 +1772,7 @@ export default {
       standard: "Quy chuẩn",
       role: "Nhóm quyền",
       user: "Tài khoản",
-      dataLogger:"Xem nhật ký",
+      dataLogger: "Xem nhật ký"
     },
 
     camera: "Camera",
@@ -1743,32 +1835,32 @@ export default {
       aqiHour: "AQI - Giờ",
       aqiDay: "AQI - Ngày",
       aqi878: "AQI - 1479",
-      status_data: "Status Data", // Qui them cho dong bo voi file EN
+      status_data: "Status Data" // Qui them cho dong bo voi file EN
     }
   },
-  dataLogger:{
+  dataLogger: {
     breadcrumb: {
       base: "Nhật ký dữ liệu"
     },
-    list:{
-      emptyView:'Không có dữ liệu',
-      colNo:'STT',
-      colUser:'Email',
-      colTime:'Thời gian',
-      colAction:'Hành động',
-      colDevice:'Thiết bị',
-      colDetail:'Chi tiết',
+    list: {
+      emptyView: "Không có dữ liệu",
+      colNo: "STT",
+      colUser: "Email",
+      colTime: "Thời gian",
+      colAction: "Hành động",
+      colDevice: "Thiết bị",
+      colDetail: "Chi tiết"
     },
-    searchForm :{
-      user:'Select email',
-      typeLog:'Loại',
-      from: 'Từ ngày',
-      to: 'Đến ngày',
-      download:'Xuất Excel'
+    searchForm: {
+      user: "Select email",
+      typeLog: "Loại",
+      from: "Từ ngày",
+      to: "Đến ngày",
+      download: "Xuất Excel"
     },
-    action:{
-      login: 'Đăng nhập',
-      logout: 'Đăng xuất'
+    action: {
+      login: "Đăng nhập",
+      logout: "Đăng xuất"
     }
   },
   cameraControl: {
@@ -1893,18 +1985,18 @@ export default {
     measure: "Chỉ tiêu",
     measures: "Các chỉ tiêu",
     deviceStatus: {
-      sensorGood: 'Thiết bị tốt',
-      sensorError: 'Lỗi thiết bị',
-      sensorMaintain: 'Hiệu chuẩn',
-      dataExceeded: 'Vượt ngưỡng',
-      dataExceededPrepare: 'Chuẩn bị vượt ngưỡng',
-      dataLoss: 'Mất tín hiệu',
-      dataGood: 'Tốt',
-      dataConnected: 'Có tín hiệu trở lại'
+      sensorGood: "Thiết bị tốt",
+      sensorError: "Lỗi thiết bị",
+      sensorMaintain: "Hiệu chuẩn",
+      dataExceeded: "Vượt ngưỡng",
+      dataExceededPrepare: "Chuẩn bị vượt ngưỡng",
+      dataLoss: "Mất tín hiệu",
+      dataGood: "Tốt",
+      dataConnected: "Có tín hiệu trở lại"
     },
-    overview: 'Tổng quan',
-    list: 'Danh sách',
-    statusSensor: 'Trạng thái thiết bị',
-    statusData: 'Trạng thái dữ liệu'
+    overview: "Tổng quan",
+    list: "Danh sách",
+    statusSensor: "Trạng thái thiết bị",
+    statusData: "Trạng thái dữ liệu"
   }
 };
