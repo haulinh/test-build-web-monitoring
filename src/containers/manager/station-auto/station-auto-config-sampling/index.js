@@ -42,7 +42,7 @@ const Span = styled.span`
 `
 
 
-@protectRole(ROLE.STATION_AUTO.VIEW)
+@protectRole(ROLE.CAU_HINH_LAY_MAU.VIEW)
 @createManagerList({
   apiList: StationAutoApi.getStationAutos
 })

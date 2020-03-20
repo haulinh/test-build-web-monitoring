@@ -1293,19 +1293,25 @@ export default {
         placeholder: "#"
       },
       menu: {
-        label: "menu",
-        placeholder: "menu"
+        label: "Menu",
+        placeholder: "Menu"
       },
       action: {
-        label: "action",
-        placeholder: "action",
+        label: "Action",
+        placeholder: "Action",
         package: "Package"
       },
       dashboard: {
-        name: "Dashboard"
+        name: "Home - Overview"
+      },
+      dashboard_2: {
+        name: "Home - Monitoring"
       },
       monitoring: {
         name: "Real-time Monitoring"
+      },
+      monitorByList: {
+        name: "Monitor by list"
       },
       map: {
         name: "Map"
@@ -1319,7 +1325,10 @@ export default {
       avgSearch: {
         name: "Average Data"
       },
-      qaqc: {
+      xuLyDuLieu_config: {
+        name: "Data Processing - Config"
+      },
+      kiemDuyetDuLieu: {
         name: "Check Data"
       },
       qaqcConfig: {
@@ -1328,26 +1337,97 @@ export default {
       ftpTransfer: {
         name: "FTP Transfer Configurations"
       },
+      tiLeDuLieuThuDuoc: {
+        name: "Percentage of obtained data"
+      },
+      tiLeDuLieu: {
+        name: "Percentage of data"
+      },
+      tb24H: {
+        name: "24-hour average"
+      },
+      tb1H: {
+        name: "1-hour average monitoring"
+      },
+      tb1HMax: {
+        name: "Average maximum 1 hour"
+      },
+      tb8HMax: {
+        name: "Average maximum 8 hour"
+      },
+      tileDuLieuVuotNguong: {
+        name: "Percentage of exceeded data"
+      },
+      soLanMatKetNoi: {
+        name: "Number of disconnections"
+      },
+      aqiGio: {
+        name: "AQI - Hour"
+      },
+      aqiNgay: {
+        name: "AQI - Day"
+      },
+      wqiGio: {
+        name: "WQI - Hour"
+      },
+      tinhTrangDuLieu: {
+        name: "Status Data"
+      },
       aqiMap: {
         name: "AQI Map"
       },
-      aqiSearchData: { name: "AQI Historical" },
-      wqiMap: { name: "WQI Map " },
-      wqiSearchData: { name: "WQI Historical" },
+      wqiMap: {
+        name: "WQI Map"
+      },
       configWQI: { name: "AQI & WQI Configurations" },
-      mapStationFixed: { name: "Map Fixed Station" },
-      dataSearchFixed: { name: "Fixed Data Search" },
-      stationFixed: { name: "Fixed Station" },
-      per_received_data: { name: "Percent of Received Data" },
-      dataExceeded: { name: "Exceeded Data" },
-      stationAuto: { name: "Station" },
+      stationFixMap: {
+        name: "Map Fixed Station"
+      },
+      stationFixData: {
+        name: "Fixed Data Search"
+      },
+      stationFix: {
+        name: "Fixed Station"
+      },
+      stationFixInput: {
+        name: "Input Station Fixed"
+      },
+      stationAuto: {
+        name: "Station"
+      },
+      cauHinhKetNoi: {
+        name: "Connection configuration"
+      },
+      cauHinhGuiCanhBao: {
+        name: "Configure to Send Notifications"
+      },
+      cauHinhLayMau: {
+        name: "Sampling configuration"
+      },
+      cauHinhTinhToanAQI: {
+        name: "Configure AQI calculation"
+      },
+      cauHinhTinhToanWQI: {
+        name: "Configure WQI calculation"
+      },
+      cauHinhCamera: {
+        name: "Camera configuration"
+      },
       measuring: { name: "Parameter" },
       stationType: { name: "Type of Station" },
       province: { name: "Site" },
       qcvn: { name: "Standard" },
       role: { name: "Role" },
       user: { name: "User" },
-      report: { name: "Report" },
+      config_color_noti: {
+        name: "Configure warning color"
+      },
+      xem_Nhat_ky: {
+        name: "View Diary"
+      },
+      mobile_dashboard: {
+        name: "Dashboard Mobile"
+      },
       actions: {
         role: "Role Assignment",
         enableAccount: "Enable/Disable Account",
@@ -1375,9 +1455,21 @@ export default {
         unapprove: "Unapprove",
         approve: "Approve",
         restore: "Restore",
-        remove: "Remove"
+        remove: "Remove",
+        statistics_device: "Statistics Device",
+        statistics_exceeded_avgDay: "Exceeded Avg Day",
+        pushDuLieu: "Push data",
+        vuotNguongTBNgay: "Average daily exceed",
+        bieuDoAQI: "AQI chart",
+        bieuDoWQI: "WQI chart",
+        bieuDoMatKetNoi: "Disconnections",
+        bieuDoVuotNguong: "Exceeded",
+        thongKeLoaiTram: "Statistics by station type",
+        fTPFloder: "FTP Floder",
+        fileMapping: "File Mapping",
+        updateSelectStation: "Update selected stations"
       }
-    }
+    },
   },
   subscriptionStatus: {
     breadcrumb: {

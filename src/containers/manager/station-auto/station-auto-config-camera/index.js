@@ -33,7 +33,7 @@ const TableWrapper = styled(Table)`
 }
 `
 
-@protectRole(ROLE.STATION_AUTO.VIEW)
+@protectRole(ROLE.CAU_HINH_CAMERA.VIEW)
 @createManagerList({
   apiList: StationAutoApi.getStationAutos
 })

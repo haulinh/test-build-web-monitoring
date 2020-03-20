@@ -42,7 +42,7 @@ const Span = styled.span`
   text-decoration: ${props => (props.deleted ? 'line-through' : '')};
 `
 
-@protectRole(ROLE.STATION_AUTO.VIEW)
+@protectRole(ROLE.CAU_HINH_GUI_CANH_BAO.VIEW)
 @createManagerList({
   apiList: StationAutoApi.getStationAutos
 })
@@ -69,7 +69,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log(props.dataSource, "dataSource")
+    // console.log(props.dataSource, "dataSource")
     this.state = {
       /* giông cách hoạt động của git */  
       cachedData: {},             /* commit */
