@@ -14,7 +14,10 @@ import FtpOptionView from './option-view'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { translate } from 'hoc/create-lang'
 import swal from 'sweetalert2'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
 
+@protectRole(ROLE.CAU_HINH_KET_NOI.FTP_FLODER)
 @connect(state => ({
   organization: state.auth.userInfo.organization
 }))
@@ -258,7 +261,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props.data)
+    // console.log(this.props.data, "---2--22---")
     return (
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb
