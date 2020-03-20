@@ -118,7 +118,9 @@ export default {
     CONFIG: "menu.stationAuto.actions.config"
   },
   CAU_HINH_KET_NOI: {
-    VIEW: "menu.cauHinhKetNoi.actions.view"
+    VIEW: "menu.cauHinhKetNoi.actions.view",
+    FTP_FLODER: "menu.cauHinhKetNoi.actions.fTPFloder",
+    FILE_MAPPING: "menu.cauHinhKetNoi.actions.fileMapping"
   },
   CAU_HINH_GUI_CANH_BAO: {
     VIEW: "menu.cauHinhGuiCanhBao.actions.view"

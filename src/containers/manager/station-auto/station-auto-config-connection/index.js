@@ -258,13 +258,13 @@ export default class StationAutoConfigConnection extends React.Component {
       console.log('---row---: ', row)
       defaultComp =  (
         <Row>
-          {protectRole(ROLE.STATION_AUTO.EDIT)(
+          {protectRole(ROLE.CAU_HINH_KET_NOI.FTP_FLODER)(
             <Link to={slug.stationAuto.configConnection.ftp + '/' + row._id}>
               {t('stationAutoManager.list.actions.ftpFolder')}
             </Link>
           )}
           &nbsp;|&nbsp;
-          {protectRole(ROLE.STATION_AUTO.EDIT)(
+          {protectRole(ROLE.CAU_HINH_KET_NOI.FILE_MAPPING)(
             <Link to={slug.stationAuto.configConnection.file + '/' + row._id}>
               {t('stationAutoManager.list.actions.fileMapping')}
             </Link>
