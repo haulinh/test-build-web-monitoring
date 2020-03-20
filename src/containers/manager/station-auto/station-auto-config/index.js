@@ -15,7 +15,7 @@ import protectRole from 'hoc/protect-role'
 
 const FormItem = Form.Item
 
-@protectRole(ROLE.STATION_AUTO.CONFIG)
+@protectRole(ROLE.CAU_HINH_KET_NOI.FILE_MAPPING)
 @createManagerDelete({
   apiDelete: StationAutoApi.deleteStationAuto
 })

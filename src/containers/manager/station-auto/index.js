@@ -58,6 +58,7 @@ export default props => (
     <Route 
       path={slug.stationAuto.configConnection.ftpWithKey} 
       component={StationAutoFtpInfo}
+
     />
     <Route
       path={slug.stationAuto.configConnection.fileWithKey} 
