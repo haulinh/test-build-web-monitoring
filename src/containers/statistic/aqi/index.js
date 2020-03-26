@@ -53,7 +53,7 @@ export default class AQIStatistics extends React.Component {
         title: translate("dataSearchFrom.table.emptyText")
       })
     }
-
+    // console.log(_.get(dataAQI, "data"), "----")
     this.setState({
       isLoading: false,
       dataAQI: _.get(dataAQI, "data", []),
@@ -98,7 +98,6 @@ export default class AQIStatistics extends React.Component {
             {this.state.isHaveData ? (
               <TabList
                 isLoading={this.state.isLoading}
-                dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
                 dataAQI={this.state.dataAQI}
                 pagination={this.state.pagination}
                 onExportExcel={this.handleExportExcel}
