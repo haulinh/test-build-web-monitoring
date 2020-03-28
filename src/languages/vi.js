@@ -419,10 +419,11 @@ export default {
       }
     },
     table: {
-      emptyText: "Không có dữ liệu",
-      receivedAt: "Thời gian",
-      all: "Tất cả",
-      numericalOrder: "TT"
+      emptyText: 'Không có dữ liệu',
+      receivedAt: 'Thời gian Truyền File',
+      time: 'Thời gian',
+      all: 'Tất cả',
+      numericalOrder: 'TT'
     },
     tab: {
       data: "Dữ liệu",
