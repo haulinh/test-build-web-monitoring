@@ -420,10 +420,11 @@ export default {
       }
     },
     table: {
-      emptyText: "There Are No Records To Display",
-      receivedAt: "Received At",
-      all: "All",
-      numericalOrder: "No."
+      emptyText: 'There Are No Records To Display',
+      receivedAt: 'Time Send File',
+      time: 'Date Time',
+      all: 'All',
+      numericalOrder: 'No.'
     },
     tab: {
       data: "Data",
