@@ -33,7 +33,7 @@ export function fetchAqiDaybyListStation({ from, to, listKey, timezoneDay } = {}
 
 
 export function fetchAqiDayLastLogs({ listKey } = {}) {
-  var url = getAqiV1Url(`aqi-day-last-logs?listKey=${listKey}`)
+  var url = getAqiV1Url(`aqi-hour-last-logs?listKey=${listKey}`)
   return getFetch(url)
 }
 
