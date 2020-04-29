@@ -8,7 +8,7 @@ import { withRouter } from "react-router";
 // import { COLOR_STATUS } from 'themes/color';
 import {
   loadNotificationsByType,
-  clearLoadNotificationsByType
+  clearLoadNotificationsByType,
 } from "redux/actions/notification";
 import { translate } from "hoc/create-lang";
 
@@ -26,15 +26,15 @@ function LoadMoreIcon() {
 }
 
 const i18n = {
-  timKiem: translate("addon.search")
+  timKiem: translate("addon.search"),
 };
 
 @connectAutoDispatch(
-  state => ({
+  (state) => ({
     loading: state.notification.loading,
     currentPage: state.notification.currentPage,
     dataSource: state.notification.logs,
-    stationAuto: state.stationAuto.list
+    stationAuto: state.stationAuto.list,
   }),
   { loadNotificationsByType, clearLoadNotificationsByType }
 )
@@ -49,7 +49,7 @@ export default class NotificationDrawer extends React.Component {
     currentPage: propTypes.number.isRequired,
     dataSource: propTypes.array.isRequired,
     loadNotificationsByType: propTypes.func.isRequired,
-    clearLoadNotificationsByType: propTypes.func
+    clearLoadNotificationsByType: propTypes.func,
   };
 
   static defaultProps = {};
@@ -57,7 +57,7 @@ export default class NotificationDrawer extends React.Component {
   state = {
     currentPage: 1,
     txtSearch: undefined,
-    isSearchLoading: false
+    isSearchLoading: false,
   };
 
   componentDidMount() {
@@ -69,13 +69,16 @@ export default class NotificationDrawer extends React.Component {
     );
   }
 
-  hanldeOnChange = _.debounce(value => {
-    const { stationAuto, currentPage } = this.props;
+  hanldeOnChange = _.debounce((value) => {
+    const {
+      stationAuto,
+      // , currentPage
+    } = this.props;
 
     this.setState(
       {
         txtSearch: value,
-        isSearchLoading: false
+        isSearchLoading: false,
       },
       () => {
         this.props.loadNotificationsByType(
@@ -96,10 +99,10 @@ export default class NotificationDrawer extends React.Component {
             <Search
               style={{ boxShadow: "4px 4px 6px #eee" }}
               placeholder={i18n.timKiem}
-              onChange={e => {
+              onChange={(e) => {
                 const value = e.target.value;
                 this.setState({
-                  isSearchLoading: true
+                  isSearchLoading: true,
                 });
                 this.props.clearLoadNotificationsByType();
                 this.hanldeOnChange(_.trim(value));
@@ -120,7 +123,7 @@ export default class NotificationDrawer extends React.Component {
               hasMore={loading}
               threshold={1000}
               loader={<LoadMoreIcon />}
-              loadMore={page =>
+              loadMore={(page) =>
                 this.props.loadNotificationsByType(
                   page,
                   stationAuto,

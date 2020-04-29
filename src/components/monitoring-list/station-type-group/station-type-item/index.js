@@ -7,7 +7,7 @@ import { Collapse } from "reactstrap";
 import StationAutoList from "./station-auto-list";
 import HeadStationType from "./HeadStationType";
 import { Icon, Select } from "antd";
-import { filter, uniqBy } from "lodash";
+import { filter, uniqBy, forEach as _forEach } from "lodash";
 
 const { Option } = Select;
 
@@ -49,9 +49,13 @@ export default class StationTypeSummary extends React.Component {
   componentDidMount() {
     const { stationAutoList } = this.props;
     let tamp = [];
-    stationAutoList.map(item => {
+    // qui chin de k bi bao warning
+    _forEach(stationAutoList, item =>{
       tamp = [...tamp, ...item.measuringList];
-    });
+    })
+    // stationAutoList.fo(item => {
+    //   tamp = [...tamp, ...item.measuringList];
+    // });
     let measureSource = uniqBy(tamp, "key");
     this.setState({
       measureSoure: measureSource,

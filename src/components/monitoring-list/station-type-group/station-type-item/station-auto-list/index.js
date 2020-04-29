@@ -56,6 +56,8 @@ export default class StationAutoList extends React.Component {
         [...this.measureData, ...item.measuringList],
         "key"
       );
+      // qui: k bi warning
+      return null
     });
   }
 
@@ -112,9 +114,9 @@ const STATION_ICON = {
   [stationStatus.GOOD]: "/images/station/good.png"
 }
 class TableData extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   khoiTaoColumn() {
     let radio = window.outerWidth / 1200;
