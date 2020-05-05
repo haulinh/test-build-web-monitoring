@@ -109,7 +109,7 @@ export default class SearchForm extends React.Component {
   }
 
   handleSubmit(values) {
-    console.log('handleSubmit', this.state)
+    // console.log('handleSubmit', this.state)
 
     this.props.onSubmit({
       fromDate: this.state.fromDate,
@@ -147,7 +147,7 @@ export default class SearchForm extends React.Component {
     this.setState({
       fromDate: fromTime,
       toDate: toTime,
-      isTimezoneDay: true
+      isTimezoneDay: false
     })
   }
   hanldeOnchangeFramTime = (time, timeString) => {

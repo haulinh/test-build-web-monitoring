@@ -30,7 +30,9 @@ export default class TabeList extends React.PureComponent {
     dataAQI: PropTypes.array,
     onExportExcel: PropTypes.func,
     nameChart: PropTypes.string,
-    isExporting: PropTypes.bool
+    isExporting: PropTypes.bool,
+    onManually: PropTypes.func,
+    isManually: PropTypes.bool
   };
 
   state = {
@@ -86,6 +88,15 @@ export default class TabeList extends React.PureComponent {
               {translate("dataSearchFrom.tab.exportExcel")}
             </Button>
           )}
+           <Button
+              type="primary"
+              icon="deployment-unit"
+              style={{ float: "right", margin: "5px" }}
+              onClick={this.props.onManually}
+              loading={this.props.isManually}
+            >
+               {translate("dataSearchFrom.tab.dataProcess")} 
+            </Button>
         </ButtonAbsolute>
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab={translate("dataSearchFrom.tab.data")} key="1">

@@ -60,7 +60,7 @@ export default class TableDataList extends React.PureComponent {
       <TableWrapper>
         <Table
           size="small"
-          rowKey="timeDay"
+          rowKey="time"
           bordered
           columns={this.getColumns()}
           dataSource={this.props.dataSource}

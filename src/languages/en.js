@@ -430,7 +430,8 @@ export default {
       data: "Data",
       chart: "Chart",
       exportExcel: "Export To Excel",
-      statusExport: "Exporting..."
+      statusExport: "Exporting...",
+      dataProcess: "Data Process",
     },
     analyze: {
       max: "Max",
