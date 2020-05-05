@@ -4,8 +4,8 @@ import { translate } from "hoc/create-lang";
 import { autobind } from "core-decorators";
 import { Table } from "antd";
 import * as _ from "lodash";
-import { DD_MM_YYYY } from "constants/format-date";
-import moment from "moment-timezone";
+// import { DD_MM_YYYY } from "constants/format-date";
+// import moment from "moment-timezone";
 @autobind
 export default class TableDataList extends React.PureComponent {
   static propTypes = {
@@ -44,7 +44,7 @@ export default class TableDataList extends React.PureComponent {
             render: (value, record) => {
               // console.log( moment(value).format(DD_MM_YYYY) )
               // console.log(record,"record")
-              return <div>{moment(value).format(DD_MM_YYYY)}</div>;
+              return <div>{value}</div>;
             }
           }
         ]

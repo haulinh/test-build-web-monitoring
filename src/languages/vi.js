@@ -432,7 +432,8 @@ export default {
       data: "Dữ liệu",
       chart: "Biểu đồ",
       exportExcel: "Xuất dữ liệu excel",
-      statusExport: "Đang xuất dữ liệu..."
+      statusExport: "Đang xuất dữ liệu...",
+      dataProcess: "Xử lý số liệu",
     },
     analyze: {
       max: "Giá trị tối đa",

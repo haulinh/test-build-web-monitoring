@@ -26,14 +26,19 @@ export function exportFileHistory(key, { from, to } = {}) {
   return getFetch(url)
 }
 
-export function fetchAqiDaybyListStation({ from, to, listKey, timezoneDay } = {}) {
-  var url = getAqiV1Url(`aqi-day?to=${to}&from=${from}&listKey=${listKey}&timezoneDay=${timezoneDay}`)
+export function fetchAqiDaybyListStation({ from, to, listKey } = {}) {
+  var url = getAqiV1Url(`day?to=${to}&from=${from}&listKey=${listKey}`)
+  return getFetch(url)
+}
+
+export function fetchAqiProcessCalDay({ from, to, listKey } = {}) {
+  var url = getAqiV1Url(`process-cal-day?to=${to}&from=${from}&listKey=${listKey}`)
   return getFetch(url)
 }
 
 
 export function fetchAqiDayLastLogs({ listKey } = {}) {
-  var url = getAqiV1Url(`aqi-day-last-logs?listKey=${listKey}`)
+  var url = getAqiV1Url(`hour-last-logs?listKey=${listKey}`)
   return getFetch(url)
 }
 
@@ -43,7 +48,12 @@ export function exportFileAqiDaybyListStation({ from, to, listKey, timezoneDay }
 }
 
 export function fetchAqiHourbyStation({ from, to, listKey } = {}) {
-  var url = getAqiV1Url(`aqi-hour?to=${to}&from=${from}&listKey=${listKey}`)
+  var url = getAqiV1Url(`hour?to=${to}&from=${from}&listKey=${listKey}`)
+  return getFetch(url)
+}
+
+export function fetchAqiProcessCalHour({ from, to, listKey } = {}) {
+  var url = getAqiV1Url(`process-cal-hour?to=${to}&from=${from}&listKey=${listKey}`)
   return getFetch(url)
 }
 
@@ -73,5 +83,7 @@ export default {
   exportFileAqiHourbyStation,
   fetchListAqiReport,
   createAqiReport,
-  fetchAqiDayLastLogs
+  fetchAqiDayLastLogs,
+  fetchAqiProcessCalHour,
+  fetchAqiProcessCalDay
 }
