@@ -124,6 +124,14 @@ export function postConfigWqiParams(data) {
   return postFetch(getConfigApi().wqiConfigCalParams, data);
 }
 
+export function getConfigWqiMeaTable() {
+  return getFetch(getConfigApi().wqiConfigMeaTable);
+}
+
+export function postConfigWqiMeaTable(data) {
+  return postFetch(getConfigApi().wqiConfigMeaTable, data);
+}
+
 /* #endregion */
 
 /* #region  NOTE  cấu hình AQI-QC */
@@ -179,6 +187,8 @@ export default {
   putConfigQAQC,
   postConfigAqiCalculation,
   getConfigAqiCalculation,
+  getConfigWqiMeaTable,
+  postConfigWqiMeaTable,
   getConfigAqiQC,
   postConfigAqiQC,
   getWarningLevelColor,

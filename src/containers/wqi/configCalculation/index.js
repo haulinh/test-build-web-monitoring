@@ -7,38 +7,24 @@ import styled from "styled-components";
 import Clearfix from "components/elements/clearfix";
 import createBreadcrumb from "shared/breadcrumb/hoc";
 import TabMucDo from "./tabMucDo";
-// import TabGiaTri from "./tabGiaTri";
+import TabGiaTri from "./tabGiaTri";
 import TabThongSo from "./tabThongSo";
 import TabTrongSo from "./tabTrongSo";
-import { translate } from "hoc/create-lang"
-
+import { translate } from "hoc/create-lang";
 
 const Breadcrumb = createBreadcrumb();
 const { TabPane } = Tabs;
 const ButtonGroup = Button.Group;
 
-const Wrapper = styled.div`
-  .ant-collapse {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
-  .ant-collapse-item {
-    width: 50%;
-  }
-  .ant-collapse-header {
-    text-align: center;
-  }
-`;
+const Wrapper = styled.div``;
 
 const i18n = {
-  tabMucDo: translate('wqiConfigCalculation.tab1') , //"Ngưỡng mức độ",
-  tabGiaTri: translate('wqiConfigCalculation.tab2'),
-  tabThongSo: translate('wqiConfigCalculation.tab3'),
-  tabTrongSo: translate('wqiConfigCalculation.tab4'),
-  pageName: translate('wqiConfigCalculation.pageName'),
-}
+  tabMucDo: translate("wqiConfigCalculation.tab1"), //"Ngưỡng mức độ",
+  tabGiaTri: translate("wqiConfigCalculation.tab2"),
+  tabThongSo: translate("wqiConfigCalculation.tab3"),
+  tabTrongSo: translate("wqiConfigCalculation.tab4"),
+  pageName: translate("wqiConfigCalculation.pageName"),
+};
 
 const TAB_KEY = {
   MUC_DO: "MUC_DO",
@@ -47,21 +33,21 @@ const TAB_KEY = {
   TRONG_SO: "TRONG_SO",
 };
 const TAB_NAME = {
-  MUC_DO: i18n.tabMucDo, 
+  MUC_DO: i18n.tabMucDo,
   GIA_TRI: i18n.tabGiaTri,
   THONG_SO: i18n.tabThongSo,
-  TRONG_SO: i18n.tabTrongSo
+  TRONG_SO: i18n.tabTrongSo,
 };
 @withRouter
 @autobind
 export default class ConfigCalculationWQI extends PureComponent {
   state = {
-    tabKey: TAB_KEY.MUC_DO
+    tabKey: TAB_KEY.MUC_DO,
   };
 
-  setTabActive = tabKey => {
+  setTabActive = (tabKey) => {
     this.setState({
-      tabKey
+      tabKey,
     });
   };
 
@@ -72,8 +58,8 @@ export default class ConfigCalculationWQI extends PureComponent {
           items={[
             {
               id: "1",
-              name: i18n.pageName
-            }
+              name: i18n.pageName,
+            },
           ]}
         />
         <Wrapper>
@@ -86,7 +72,7 @@ export default class ConfigCalculationWQI extends PureComponent {
               }
               style={{ flex: 1 }}
             >
-             {TAB_NAME.MUC_DO}
+              {TAB_NAME.MUC_DO}
             </Button>
             <Button
               onClick={this.setTabActive.bind(this, TAB_KEY.GIA_TRI)}
@@ -104,7 +90,7 @@ export default class ConfigCalculationWQI extends PureComponent {
               }
               style={{ flex: 1 }}
             >
-               {TAB_NAME.THONG_SO}
+              {TAB_NAME.THONG_SO}
             </Button>
             <Button
               onClick={this.setTabActive.bind(this, TAB_KEY.TRONG_SO)}
@@ -113,7 +99,7 @@ export default class ConfigCalculationWQI extends PureComponent {
               }
               style={{ flex: 1 }}
             >
-               {TAB_NAME.TRONG_SO}
+              {TAB_NAME.TRONG_SO}
             </Button>
           </ButtonGroup>
           <Tabs
@@ -128,16 +114,16 @@ export default class ConfigCalculationWQI extends PureComponent {
               <div />
             </TabPane>
             <TabPane tab="Bảng giá trị BPi" key={TAB_KEY.GIA_TRI}>
-            <Clearfix height={24} />
-              {/* <TabGiaTri /> */}
+              <Clearfix height={24} />
+              <TabGiaTri />
               <div />
             </TabPane>
             <TabPane tab="Thông số tính toán" key={TAB_KEY.THONG_SO}>
-            <Clearfix height={24} />
+              <Clearfix height={24} />
               <TabThongSo />
             </TabPane>
             <TabPane tab="Trọng số nhóm thông số" key={TAB_KEY.TRONG_SO}>
-            <Clearfix height={24} />
+              <Clearfix height={24} />
               <TabTrongSo />
             </TabPane>
           </Tabs>

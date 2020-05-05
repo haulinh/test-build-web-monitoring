@@ -14,13 +14,13 @@ import {
   Select,
   Checkbox,
   Row,
-  Col
+  Col,
 } from "antd";
 import { Clearfix } from "containers/map/map-default/components/box-analytic-list/style";
 import {
   getMeasurings,
   getConfigWqiParams,
-  postConfigWqiParams
+  postConfigWqiParams,
 } from "api/CategoryApi";
 import { translate } from "hoc/create-lang";
 import * as _ from "lodash";
@@ -58,7 +58,7 @@ const i18n = {
   colGroupIV: translate("wqiConfigCalculation.colGroupIV"),
   colGroupV: translate("wqiConfigCalculation.colGroupV"),
   colBelongTemp: translate("wqiConfigCalculation.colBelongTemp"),
-  colGroupParam: translate("wqiConfigCalculation.colGroupParam")
+  colGroupParam: translate("wqiConfigCalculation.colGroupParam"),
 };
 
 @Form.create({})
@@ -69,7 +69,7 @@ export default class TabThongSo extends React.Component {
     isSubmit: false,
     dataSource: [],
     dataMeasuringObj: {},
-    aqiQCLevel: []
+    aqiQCLevel: [],
   };
   columns = [
     {
@@ -83,7 +83,7 @@ export default class TabThongSo extends React.Component {
           `payload[${record.key}].keyMeasure`
         );
         return aqiQCMeasures;
-      }
+      },
     },
     {
       title: i18n.colMeasure,
@@ -98,13 +98,13 @@ export default class TabThongSo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(<this.SelectMeasure />)}
           </Form.Item>
         );
-      }
+      },
     },
     {
       title: i18n.colGroupParam,
@@ -119,14 +119,11 @@ export default class TabThongSo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(
-              <Select
-                style={{ width: "100%" }}
-                value={getFieldValue(`wqiGroup[${record.key}].keyMeasure`)}
-              >
+              <Select style={{ width: "100%" }}>
                 <Option value="groupI">{i18n.colGroupI}</Option>
                 <Option value="groupII">{i18n.colGroupII}</Option>
                 <Option value="groupIII">{i18n.colGroupIII}</Option>
@@ -136,7 +133,7 @@ export default class TabThongSo extends React.Component {
             )}
           </Form.Item>
         );
-      }
+      },
     },
     {
       title: i18n.colBatBuoc,
@@ -149,16 +146,13 @@ export default class TabThongSo extends React.Component {
         return (
           <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
             {getFieldDecorator(`payload[${record.key}].isrequired`, {
-              valuePropName: "checked"
+              valuePropName: "checked",
             })(
-              <Checkbox
-                checked={getFieldValue(`payload[${record.key}].isrequired`)}
-                style={{ display: "flex", justifyContent: "center" }}
-              />
+              <Checkbox style={{ display: "flex", justifyContent: "center" }} />
             )}
           </Form.Item>
         );
-      }
+      },
     },
     {
       title: i18n.colBelongTemp,
@@ -176,26 +170,33 @@ export default class TabThongSo extends React.Component {
               width: "100%",
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "center"
+              alignItems: "center",
             }}
           >
             {getFieldDecorator(`payload[${record.key}].isBelongTemp`, {
-              valuePropName: "checked"
+              valuePropName: "checked",
             })(<Checkbox style={{ marginRight: 8 }} />)}
 
-            <Form.Item style={{ textAlign: "left", marginBottom: "initial", width: "100%", flex: 1}}>
+            <Form.Item
+              style={{
+                textAlign: "left",
+                marginBottom: "initial",
+                width: "100%",
+                flex: 1,
+              }}
+            >
               {getFieldDecorator(`payload[${record.key}].belongTemp`, {
                 rules: [
                   {
                     required: isCheckedBelong,
-                    message: i18n.required
-                  }
-                ]
+                    message: i18n.required,
+                  },
+                ],
               })(<this.SelectMeasure disabled={!isCheckedBelong} />)}
             </Form.Item>
           </div>
         );
-      }
+      },
     },
     {
       title: i18n.colUnit,
@@ -207,7 +208,7 @@ export default class TabThongSo extends React.Component {
         const payload = getFieldValue("payload");
         const key = _.get(payload, `${record.key}.keyMeasure`);
         return _.get(this.state.dataMeasuringObj, `${key}.unit`);
-      }
+      },
     },
     {
       title: "",
@@ -229,14 +230,14 @@ export default class TabThongSo extends React.Component {
             />
           </Popconfirm>
         );
-      }
-    }
+      },
+    },
   ];
 
-  SelectMeasure = React.forwardRef(props => {
+  SelectMeasure = React.forwardRef((props) => {
     return (
       <Select {...props} showSearch style={{ width: "100%" }}>
-        {_.map(this.state.dataMeasuringObj, mea => {
+        {_.map(this.state.dataMeasuringObj, (mea) => {
           return (
             <Select.Option key={mea.key} value={mea.key}>
               {mea.name}
@@ -270,16 +271,16 @@ export default class TabThongSo extends React.Component {
       dataSource: [
         ...this.state.dataSource,
         {
-          key: this.idIncrement++
-        }
-      ]
+          key: this.idIncrement++,
+        },
+      ],
     });
   };
 
-  delete = key => {
-    let tamp = this.state.dataSource.filter(item => item.key !== key);
+  delete = (key) => {
+    let tamp = this.state.dataSource.filter((item) => item.key !== key);
     this.setState({
-      dataSource: [...tamp]
+      dataSource: [...tamp],
     });
   };
 
@@ -297,23 +298,23 @@ export default class TabThongSo extends React.Component {
     if (response.success) {
       let transformData = _.get(response, "data.value", []);
       // console.log(transformData, "transformData");
-      let dataSource = _.map(transformData, item => {
+      let dataSource = _.map(transformData, (item) => {
         return {
           ...item,
           key: this.idIncrement++,
-          keyMeasure: item.keyMeasure
+          keyMeasure: item.keyMeasure,
         };
       });
       this.setState(
         {
           dataMeasuringObj,
           dataSource: dataSource,
-          isLoaded: true
+          isLoaded: true,
         },
         () => {
           // console.log(dataSource, "dataSource");
           this.props.form.setFieldsValue({
-            payload: transformData
+            payload: transformData,
           });
         }
       );
