@@ -297,7 +297,7 @@ export default class TabThongSo extends React.Component {
     const response = await getConfigWqiParams();
     if (response.success) {
       let transformData = _.get(response, "data.value", []);
-      // console.log(transformData, "transformData");
+      transformData = transformData.filter(item=> item != null)
       let dataSource = _.map(transformData, (item) => {
         return {
           ...item,

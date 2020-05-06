@@ -76,11 +76,11 @@ export default class TabGiaTri extends React.Component {
       const config = _.get(response, "data.value", []);
       this.setState({
         isLoaded: true,
-        configGroupI: config.filter((item) => item.group === "groupI"),
-        configGroupII: config.filter((item) => item.group === "groupII"),
-        configGroupIII: config.filter((item) => item.group === "groupIII"),
-        configGroupIV: config.filter((item) => item.group === "groupIV"),
-        configGroupV: config.filter((item) => item.group === "groupV"),
+        configGroupI: config.filter((item) => item && item.group === "groupI"),
+        configGroupII: config.filter((item) => item && item.group === "groupII"),
+        configGroupIII: config.filter((item) => item && item.group === "groupIII"),
+        configGroupIV: config.filter((item) => item && item.group === "groupIV"),
+        configGroupV: config.filter((item) => item && item.group === "groupV"),
       });
     }
   }

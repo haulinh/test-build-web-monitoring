@@ -195,7 +195,7 @@ export default class TabGiaTri_NhomIII extends React.Component {
         title: i18n.colValue + " qi",
         children: [
           {
-            title: i18n.colMin2,
+            title: 'qi',
             dataIndex: "min_qi",
             key: "min_qi",
             align: "center",
@@ -206,7 +206,7 @@ export default class TabGiaTri_NhomIII extends React.Component {
                 <Form.Item
                   style={{ textAlign: "left", marginBottom: "initial" }}
                 >
-                  {getFieldDecorator(`levelList[${record.key}].qi.min`, {
+                  {getFieldDecorator(`levelList[${record.key}].qi`, {
                     rules: [
                       {
                         required: true,
@@ -224,7 +224,7 @@ export default class TabGiaTri_NhomIII extends React.Component {
             },
           },
           {
-            title: i18n.colMax2,
+            title: 'qi+1',
             dataIndex: "max_qi",
             key: "max_qi",
             align: "center",
@@ -235,7 +235,7 @@ export default class TabGiaTri_NhomIII extends React.Component {
                 <Form.Item
                   style={{ textAlign: "left", marginBottom: "initial" }}
                 >
-                  {getFieldDecorator(`levelList[${record.key}].qi.max`, {
+                  {getFieldDecorator(`levelList[${record.key}].qi_1`, {
                     rules: [
                       {
                         required: true,
@@ -259,8 +259,8 @@ export default class TabGiaTri_NhomIII extends React.Component {
         title: "",
         dataIndex: "action",
         key: "action",
-        align: "center",
         width: 80,
+        align: "center",
         render: (text, record, index) => {
           return (
             <Popconfirm
@@ -288,20 +288,19 @@ export default class TabGiaTri_NhomIII extends React.Component {
       const transformData = _.get(response, "data.value.groupIII", []).filter(
         (i) => _.identity(i)
       );
-      const lastRecord = transformData[transformData.length - 1];
       transformData.map((i) => (i.key = this.idIncrement++));
 
       const isLockFirst = this.state.isLockFirst
       const firstItem = transformData[0] || {}
       for(let key in firstItem){
-        if(_.get(firstItem, `${key}.min`) === null)
+        if(_.get(firstItem, `${key}.min`) == null)
           isLockFirst[key] = true
       }
 
       const isLockLast = this.state.isLockLast
-      const lastItem = transformData[lastRecord] || {}
+      const lastItem = transformData[transformData.length - 1];
       for(let key in lastItem){
-        if(_.get(lastItem, `${key}.max`) === null)
+        if(_.get(lastItem, `${key}.max`) == null)
           isLockLast[key] = true
       }
       this.setState(
