@@ -62,7 +62,7 @@ export default class AQIStatisticsDay extends React.Component {
 
     this.setState({
       isLoading: false,
-      dataAQI: _.get(dataAQI, "data", []),
+      dataAQI: _.reverse(_.get(dataAQI, "data", [])),
       searchFormData: searchFormData,
     });
   }
