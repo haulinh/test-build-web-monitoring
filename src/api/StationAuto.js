@@ -88,7 +88,17 @@ export function getWarningConfig() {
   return getFetch(getStationAutoUrl('warning/config'))
 }
 
+// Truyền file txt lên bộ theo thời gian truyền
+
+export function tranferBonusFTP({ _id, from, to }) {
+  return putFetch(getStationAutoUrl(`gen-process-ftp/${_id}`), {
+    from,
+    to,
+  });
+}
+
 export default {
+  transferFtp,
   getCamera,
   getStationAutos,
   getStationAuto,
@@ -101,8 +111,8 @@ export default {
   updateStationAutoConfig,
   getTotalCount,
   stationPublished,
-  transferFtp,
   measurePublished,
   getWarningConfig,
-  updateStationAutoOptions
+  updateStationAutoOptions,
+  tranferBonusFTP
 }
