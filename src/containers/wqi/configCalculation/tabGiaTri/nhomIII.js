@@ -74,6 +74,7 @@ export default class TabGiaTri_NhomIII extends React.Component {
                     style={{
                       display: "flex",
                       alignItems: "center",
+                      minWidth: 130
                     }}
                   >
                     {isFirst && <LockComp right={8} isLocked={this.state.isLockFirst[item.keyMeasure]} 
@@ -122,12 +123,13 @@ export default class TabGiaTri_NhomIII extends React.Component {
               const isLast = this.state.dataSource.length === index + 1;
               return (
                 <Form.Item
-                  style={{ textAlign: "left", marginBottom: "initial" }}
+                  style={{ textAlign: "left", marginBottom: "initial", }}
                 >
                   <div
                     style={{
                       display: "flex",
                       alignItems: "center",
+                      minWidth: 130
                     }}
                   >
                     {getFieldDecorator(
@@ -178,7 +180,7 @@ export default class TabGiaTri_NhomIII extends React.Component {
         render: (text, record, index) => {
           const { getFieldDecorator } = this.props.form;
           return (
-            <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+            <Form.Item style={{ textAlign: "left", marginBottom: "initial",minWidth: 100 }}>
               {getFieldDecorator(`levelList[${record.key}].name`, {
                 rules: [
                   {
@@ -204,7 +206,7 @@ export default class TabGiaTri_NhomIII extends React.Component {
               const { getFieldDecorator } = this.props.form;
               return (
                 <Form.Item
-                  style={{ textAlign: "left", marginBottom: "initial" }}
+                  style={{ textAlign: "left", marginBottom: "initial", minWidth: 100 }}
                 >
                   {getFieldDecorator(`levelList[${record.key}].qi`, {
                     rules: [
@@ -233,7 +235,7 @@ export default class TabGiaTri_NhomIII extends React.Component {
               const { getFieldDecorator } = this.props.form;
               return (
                 <Form.Item
-                  style={{ textAlign: "left", marginBottom: "initial" }}
+                  style={{ textAlign: "left", marginBottom: "initial", minWidth: 100 }}
                 >
                   {getFieldDecorator(`levelList[${record.key}].qi_1`, {
                     rules: [
