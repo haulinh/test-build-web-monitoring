@@ -27,8 +27,8 @@ export default class TableDataList extends React.PureComponent {
     };
     const columnReceivedAt = {
       title: translate("dataSearchFrom.table.receivedAt"),
-      dataIndex: "receivedAt",
-      key: "receivedAt",
+      dataIndex: "createdAt",
+      key: "createdAt",
       render(value) {
         return <div>{moment(value).format("DD-MM-YYYY HH:mm")}</div>;
       }
