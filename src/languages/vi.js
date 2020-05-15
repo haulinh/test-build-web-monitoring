@@ -795,7 +795,9 @@ export default {
     status: {
       title: "Trạng thái truyền",
       success: "Truyền file thành công",
-      failed: "Truyền file thất bại"
+      failed: "Truyền file thất bại",
+      success2:'Đặt lệnh truyền thành công',
+      failed2:'Không đặt lệnh truyền đối với các file trước thời gian truyền'
     },
     tryUploadFile: "Truyền lại file"
   },
