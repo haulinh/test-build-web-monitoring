@@ -95,7 +95,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                       {
                         rules: [
                           {
-                            required: !(isFirst && this.state.isLockFirst[item.keyMeasure]),
+                            required: !item.isBelongTemp && !(isFirst && this.state.isLockFirst[item.keyMeasure]),
                             message: i18n.required,
                           },
                         ],
@@ -104,7 +104,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                       <InputNumber
                         style={{ ...styleWidth }}
                         placeholder={i18n.colMin2}
-                        disabled={isFirst && this.state.isLockFirst[item.keyMeasure]}
+                        disabled={item.isBelongTemp || (isFirst && this.state.isLockFirst[item.keyMeasure])}
                       />
                     )}
                   </div>
@@ -137,7 +137,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                       {
                         rules: [
                           {
-                            required: !(isLast && this.state.isLockLast[item.keyMeasure]),
+                            required: !item.isBelongTemp && !(isLast && this.state.isLockLast[item.keyMeasure]),
                             message: i18n.required,
                           },
                         ],
@@ -146,7 +146,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                       <InputNumber
                         style={{ ...styleWidth }}
                         placeholder={i18n.colMax2}
-                        disabled={isLast && this.state.isLockLast[item.keyMeasure]}
+                        disabled={item.isBelongTemp || (isLast && this.state.isLockLast[item.keyMeasure])}
                       />
                     )}
                     {isLast && <LockComp left={8} isLocked={this.state.isLockLast[item.keyMeasure]}
