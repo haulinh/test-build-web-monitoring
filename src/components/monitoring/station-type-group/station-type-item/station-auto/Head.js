@@ -273,7 +273,7 @@ export default class StationAutoHead extends React.PureComponent {
             </Button>
           )}
 
-          <Button
+          {/* <Button
             className="actionItem"
             type={currentAction === "chart" ? "primary" : "default"}
             onClick={() => this.handleActionOnClick("chart")}
@@ -328,7 +328,8 @@ export default class StationAutoHead extends React.PureComponent {
             }
           >
             {i18n.reviewStation}
-          </Button>
+          </Button> */}
+          
           <Dropdown
             overlay={
               <Menu>
@@ -388,9 +389,91 @@ export default class StationAutoHead extends React.PureComponent {
               </Menu>
             }
           >
-            <Button>
+            <Button className="actionItem">
               {i18n.more} <Icon type="down" />
             </Button>
+          </Dropdown>
+
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item
+                  key="1"
+                  disabled={
+                    !checkRolePriority(
+                      this.props.userInfo,
+                      ROLE.MONITORING.CHART
+                    )
+                  }
+                  onClick={() => this.handleActionOnClick("chart")}
+                >
+                  {i18n.chart}
+                </Menu.Item>
+                <Divider style={{ margin: 0 }} />
+                <Menu.Item
+                  key="2"
+                  disabled={
+                    !checkRolePriority(this.props.userInfo, ROLE.MONITORING.MAP)
+                  }
+                  onClick={() => this.handleActionOnClick("map")}
+                >
+                  {i18n.map}
+                </Menu.Item>
+                <Divider style={{ margin: 0 }} />
+                <Menu.Item
+                  key="3"
+                  // disabled={
+                  //   checkRolePriority(
+                  //     this.props.userInfo,
+                  //     ROLE.QAQCCONFIG.VIEW
+                  //   )
+                  // }
+                  disabled={
+                    !checkRolePriority(
+                      this.props.userInfo,
+                      ROLE.MONITORING.IMAGES
+                    )
+                  }
+                  onClick={() => this.handleActionOnClick("image")}
+                >
+                  {i18n.images}
+                </Menu.Item>
+                <Divider style={{ margin: 0 }} />
+                <Menu.Item
+                  key="4"
+                  // disabled={
+                  //     this.props.userInfo,
+                  //   !checkRolePriority(
+                  //     ROLE.STATION_AUTO.EDIT
+                  //   )
+                  // }
+                  disabled={
+                    !checkRolePriority(
+                      this.props.userInfo,
+                      ROLE.MONITORING.INFOSTATION
+                    )
+                  }
+                  onClick={() => this.handleActionOnClick("station")}
+                >
+                  {i18n.stationInfo}{" "}
+                </Menu.Item>
+                <Divider style={{ margin: 0 }} />
+                <Menu.Item
+                  key="5"
+                  disabled={
+                    !checkRolePriority(
+                      this.props.userInfo,
+                      ROLE.MONITORING.REVIEWSTATION
+                    )
+                  }
+                  onClick={() => this.handleActionOnClick("rating")}
+                >
+                  {i18n.reviewStation}
+                </Menu.Item>
+              </Menu>
+            }
+          >
+            <Button className="actionItem">...</Button>
           </Dropdown>
         </ActionWrapper>
 
