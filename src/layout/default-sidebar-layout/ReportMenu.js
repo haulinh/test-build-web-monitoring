@@ -35,7 +35,7 @@ export default {
         </Menu.Item>
       )}
       {/* NOTE  LOAI 1 - Tỷ lệ số liệu */}
-      {protectRole(ROLE.TILE_DULIEU.VIEW)(
+      {/* {protectRole(ROLE.TILE_DULIEU.VIEW)(
         <Menu.Item
           key={slug.report.type1}
           onClick={() => {
@@ -44,7 +44,7 @@ export default {
         >
           <Link to={slug.report.type1}>{MENU_NAME.report.type1}</Link>
         </Menu.Item>
-      )}
+      )} */}
       {/* NOTE  LOAI 2 */}
       {protectRole(ROLE.TB24H.VIEW)(
         <Menu.Item
