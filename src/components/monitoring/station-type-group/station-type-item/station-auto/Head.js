@@ -32,7 +32,7 @@ const i18n = {
   historyData: translate("monitoring.actions.more.historyData"),
   averageData: translate("monitoring.actions.more.averageData"),
   checkData: translate("monitoring.actions.more.checkData"),
-  config: translate("monitoring.actions.more.config")
+  config: translate("monitoring.actions.more.config"),
 };
 
 const StationHeadItemWrapper = styled.div`
@@ -83,8 +83,8 @@ const WrapperNameStationTypeName = styled.div`
 `;
 
 const ReceivedAt = styled.span`
-  color: ${props => (props.status !== "GOOD" ? SHAPE.RED : "#000")};
-  font-style: ${props =>
+  color: ${(props) => (props.status !== "GOOD" ? SHAPE.RED : "#000")};
+  font-style: ${(props) =>
     props.status === STATUS_STATION.DATA_LOSS ? "italic" : "normal"};
 `;
 const ActionWrapper = styled.div`
@@ -118,12 +118,12 @@ const ActionWrapper = styled.div`
 //   }
 // `
 
-@connect(state => ({
+@connect((state) => ({
   authRole: state.auth.userInfo.role,
   isAdmin: state.auth.userInfo.isAdmin,
   organization: state.auth.userInfo.organization,
   userInfo: state.auth.userInfo,
-  language: _get(state, "language.locale")
+  language: _get(state, "language.locale"),
 }))
 @queryFormDataBrowser(["submit"])
 @autobind
@@ -139,13 +139,13 @@ export default class StationAutoHead extends React.PureComponent {
     onClickDataSearch: PropTypes.func,
     onClickViewMap: PropTypes.func,
     onClickViewCamera: PropTypes.func,
-    currentActionDefault: PropTypes.string
+    currentActionDefault: PropTypes.string,
   };
 
   state = {
     isLoaded: false,
     isEnable: false,
-    currentAction: ""
+    currentAction: "",
   };
 
   toReceivedAt = (status, receivedAt) => {
@@ -168,14 +168,14 @@ export default class StationAutoHead extends React.PureComponent {
     this.setState({
       currentAction: this.props.currentActionDefault
         ? this.props.currentActionDefault
-        : ""
+        : "",
     });
   };
-  UNSAFE_componentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     // console.log(this.props.currentActionDefault, nextProps.currentActionDefault,"UNSAFE_componentWillReceiveProps")
     if (this.props.currentActionDefault !== nextProps.currentActionDefault) {
       this.setState({
-        currentAction: nextProps.currentActionDefault
+        currentAction: nextProps.currentActionDefault,
       });
     }
   };
@@ -200,7 +200,7 @@ export default class StationAutoHead extends React.PureComponent {
       stationID,
       options,
       status,
-      language
+      language,
     } = this.props;
     // if (stationID === "NUOCTHAINMPM2_1MR") {
     //   console.log(this.state, this.props.currentActionDefault , "currentAction")
@@ -245,28 +245,34 @@ export default class StationAutoHead extends React.PureComponent {
         </TitleWrapper>
 
         <ActionWrapper>
-          <Button
-            className="actionItem"
-            type={currentAction === "sampling" ? "primary" : "default"}
-            onClick={() => this.handleActionOnClick("sampling")}
-            disabled={
-              !isSampling ||
-              !checkRolePriority(this.props.userInfo, ROLE.MONITORING.CONTROL)
-            }
-          >
-            {i18n.sampling}
-          </Button>
-          <Button
-            className="actionItem"
-            type={currentAction === "camera" ? "primary" : "default"}
-            onClick={() => this.handleActionOnClick("camera")}
-            disabled={
-              !isCamera ||
-              !checkRolePriority(this.props.userInfo, ROLE.MONITORING.CAMERA)
-            }
-          >
-            {i18n.camera}
-          </Button>
+          {!isSampling ||
+          !checkRolePriority(
+            this.props.userInfo,
+            ROLE.MONITORING.CONTROL
+          ) ? null : (
+            <Button
+              className="actionItem"
+              type={currentAction === "sampling" ? "primary" : "default"}
+              onClick={() => this.handleActionOnClick("sampling")}
+            >
+              {i18n.sampling}
+            </Button>
+          )}
+
+          {!isCamera ||
+          !checkRolePriority(
+            this.props.userInfo,
+            ROLE.MONITORING.CAMERA
+          ) ? null : (
+            <Button
+              className="actionItem"
+              type={currentAction === "camera" ? "primary" : "default"}
+              onClick={() => this.handleActionOnClick("camera")}
+            >
+              {i18n.camera}
+            </Button>
+          )}
+
           <Button
             className="actionItem"
             type={currentAction === "chart" ? "primary" : "default"}
@@ -369,8 +375,8 @@ export default class StationAutoHead extends React.PureComponent {
                 <Divider style={{ margin: 0 }} />
                 <Menu.Item
                   // disabled={
-                  //   !checkRolePriority(
                   //     this.props.userInfo,
+                  //   !checkRolePriority(
                   //     ROLE.STATION_AUTO.EDIT
                   //   )
                   // }
