@@ -18,12 +18,12 @@ export const langPropTypes = PropTypes.shape({
 })
 
 // NOTE apply ES6
-export function removeAccents(language, str){
-  if (language === "en") {
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+export function removeAccents(language, str) {
+  if (language === 'en') {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   }
-  return str;
-};
+  return str
+}
 
 export function translate(key, params = {}, isParse = true) {
   const languageData =

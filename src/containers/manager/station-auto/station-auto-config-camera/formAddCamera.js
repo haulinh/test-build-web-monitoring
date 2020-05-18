@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 import {
   Row,
   Form,
@@ -9,22 +9,22 @@ import {
   Icon,
   Popconfirm,
   message
-} from "antd";
-import { autobind } from "core-decorators";
-import _ from "lodash";
-import { translate } from "hoc/create-lang";
-import StationAutoApi from "api/StationAuto";
+} from 'antd'
+import { autobind } from 'core-decorators'
+import _ from 'lodash'
+import { translate } from 'hoc/create-lang'
+import StationAutoApi from 'api/StationAuto'
 
 const i18n = {
-  addButton: translate("addon.add"),
-  saveButton: translate("addon.save"),
-  cameraName: translate("stationAutoManager.options.name.label"),
-  cameraURL: translate("stationAutoManager.options.RTSP.label"),
-  confirmDelCamera: translate("stationAutoManager.delete.require"),
+  addButton: translate('addon.add'),
+  saveButton: translate('addon.save'),
+  cameraName: translate('stationAutoManager.options.name.label'),
+  cameraURL: translate('stationAutoManager.options.RTSP.label'),
+  confirmDelCamera: translate('stationAutoManager.delete.require'),
   // emptyCamera: 'Khong co camera nao!!',
-  successSubmit: translate("addon.onSave.update.success"),
-  errorSubmit: translate("addon.onSave.update.error")
-};
+  successSubmit: translate('addon.onSave.update.success'),
+  errorSubmit: translate('addon.onSave.update.error')
+}
 
 @Form.create()
 @autobind
@@ -32,25 +32,29 @@ export default class FormAddCamera extends React.Component {
   static propTypes = {
     stationAuto: PropTypes.object.isRequired,
     allowed: PropTypes.bool.isRequired
-  };
+  }
 
-  static defaultProps = {};
+  static defaultProps = {}
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       submitingCameraLinks: false,
       cameras: []
-    };
+    }
 
-    this.state.cameras = _.get(this.props.stationAuto, 'options.camera.list', [])
+    this.state.cameras = _.get(
+      this.props.stationAuto,
+      'options.camera.list',
+      []
+    )
   }
 
   render() {
-    let { cameras, submitingCameraLinks } = this.state;
+    let { cameras, submitingCameraLinks } = this.state
 
-    if (cameras.length === 0) this._addEmptyRow();
+    if (cameras.length === 0) this._addEmptyRow()
 
     return (
       <Row>
@@ -77,7 +81,7 @@ export default class FormAddCamera extends React.Component {
           </Button>
         </Row>
       </Row>
-    );
+    )
   }
 
   // TODO
@@ -93,7 +97,7 @@ export default class FormAddCamera extends React.Component {
                 initialValue: record.name
               })(<Input />)}
             </div>
-          );
+          )
         }
       },
       /* LINK RTSP */
@@ -106,67 +110,67 @@ export default class FormAddCamera extends React.Component {
                 initialValue: record.rtspUrl
               })(<Input />)}
             </div>
-          );
+          )
         }
       },
       /* ACTIONS */
       {
-        title: "",
+        title: '',
         width: 50,
         render: (text, record, index) => (
           <Popconfirm
             title={i18n.confirmDelCamera}
             onConfirm={() => this._removeCamera(index)}
           >
-            <Icon type="delete" style={{ marginLeft: "5px", color: "red" }} />
+            <Icon type="delete" style={{ marginLeft: '5px', color: 'red' }} />
           </Popconfirm>
         )
       }
-    ];
+    ]
   }
 
   _addEmptyRow() {
-    let cameras = [...this.state.cameras];
+    let cameras = [...this.state.cameras]
 
     let record = {
       key: Date.now() + cameras.length,
-      name: "",
-      rtspUrl: ""
-    };
+      name: '',
+      rtspUrl: ''
+    }
 
-    cameras.push(record);
-    this.setState({ cameras: cameras });
+    cameras.push(record)
+    this.setState({ cameras: cameras })
   }
 
   _removeCamera(index) {
-    let cameras = [...this.state.cameras];
-    cameras.splice(index, 1);
-    this.setState({ cameras });
+    let cameras = [...this.state.cameras]
+    cameras.splice(index, 1)
+    this.setState({ cameras })
   }
 
   async _submitCameras() {
-    const { getFieldsValue } = this.props.form;
+    const { getFieldsValue } = this.props.form
 
-    const fieldsValue = getFieldsValue();
+    const fieldsValue = getFieldsValue()
 
     /* remove empty records */
     for (let [k, record] of Object.entries(fieldsValue)) {
-      const isEmptyCamera = record.name === "";
-      const isEmptyRTSP = record.rtspUrl === "";
+      const isEmptyCamera = record.name === ''
+      const isEmptyRTSP = record.rtspUrl === ''
       if (isEmptyCamera || isEmptyRTSP) {
-        delete fieldsValue[k];
+        delete fieldsValue[k]
       }
     }
 
-    let stationID = this.props.stationAuto._id;
-    const submitedCameras = Object.values(fieldsValue);
+    let stationID = this.props.stationAuto._id
+    const submitedCameras = Object.values(fieldsValue)
 
     /* không submit khi cameras không có */
     // if (submitedCameras.length === 0) {
     //     return message.warning(i18n.emptyCamera)
     // }
 
-    this.setState({ submitingCameraLinks: true });
+    this.setState({ submitingCameraLinks: true })
 
     let submitData = {
       [stationID]: {
@@ -175,16 +179,16 @@ export default class FormAddCamera extends React.Component {
           list: submitedCameras
         }
       }
-    };
-
-    const res = await StationAutoApi.updateStationAutoOptions(submitData);
-
-    this.setState({ submitingCameraLinks: false });
-
-    if (res.success) {
-      return message.success(i18n.successSubmit);
     }
 
-    message.error(i18n.errorSubmit);
+    const res = await StationAutoApi.updateStationAutoOptions(submitData)
+
+    this.setState({ submitingCameraLinks: false })
+
+    if (res.success) {
+      return message.success(i18n.successSubmit)
+    }
+
+    message.error(i18n.errorSubmit)
   }
 }

@@ -1,11 +1,11 @@
-import React from "react"
-import styled from "styled-components"
-import { connectAutoDispatch } from "redux/connect"
-import { fetchUserMe } from "redux/actions/authAction"
-import LoaderCircle from "components/elements/loader-circle"
-import { withRouter } from "react-router-dom"
-import Errors from "constants/errors"
-import slug from "constants/slug"
+import React from 'react'
+import styled from 'styled-components'
+import { connectAutoDispatch } from 'redux/connect'
+import { fetchUserMe } from 'redux/actions/authAction'
+import LoaderCircle from 'components/elements/loader-circle'
+import { withRouter } from 'react-router-dom'
+import Errors from 'constants/errors'
+import slug from 'constants/slug'
 
 const StyledLoading = styled.div`
   position: fixed;
@@ -32,16 +32,17 @@ export default function createProtectedAuth(Component) {
     async componentWillMount() {
       if (!this.props.isAuthenticated) {
         const auth = await this.props.fetchUserMe()
-        if(!auth) return this.props.history.push('/login')
-        console.log(auth, "---auth")
+        if (!auth) return this.props.history.push('/login')
+        console.log(auth, '---auth')
         if (auth.error === true) {
           if (auth.message === Errors.ORGANIZATION_EXPIRED) {
             // this.props.history.push(slug.user.expLicense)
-            this.props.history.push(`${slug.user.expLicense}?expDate=${auth.userMessage}`)
-          }else{
+            this.props.history.push(
+              `${slug.user.expLicense}?expDate=${auth.userMessage}`
+            )
+          } else {
             this.props.history.push('/login')
           }
-          
         }
       }
     }

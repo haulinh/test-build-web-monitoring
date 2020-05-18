@@ -35,7 +35,6 @@ export default class MeasuringList extends React.PureComponent {
         {this.props.data &&
           this.props.data.length !== 0 &&
           this.props.data.map(item => {
-
             /* thêm receivedAt để search dữ liệu gốc trong 24h khi click vào measuring item */
             item.receivedAt = this.props.receivedAt
 
@@ -47,14 +46,17 @@ export default class MeasuringList extends React.PureComponent {
               >
                 <MeasuringItem
                   {...item}
-                  minLimit={typeof item.minLimit === 'number' ? item.minLimit: null}
-                  maxLimit={typeof item.maxLimit === 'number' ? item.maxLimit: null}
+                  minLimit={
+                    typeof item.minLimit === 'number' ? item.minLimit : null
+                  }
+                  maxLimit={
+                    typeof item.maxLimit === 'number' ? item.maxLimit : null
+                  }
                   statusStation={this.props.statusStation}
                 />
               </MeasuringItemWrapper>
             )
-          })
-        }
+          })}
       </MeasuringListWrapper>
     )
   }

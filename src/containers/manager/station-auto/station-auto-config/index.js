@@ -102,7 +102,6 @@ export default class StationAutoEdit extends React.PureComponent {
     }
   }
 
-
   getDataOptionsForm(values) {
     let data
     data = {

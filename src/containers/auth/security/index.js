@@ -8,15 +8,17 @@ import Breadcrumb from 'containers/auth/breadcrumb'
 import { connectAutoDispatch } from 'redux/connect'
 import SecurityForm from './security-form/'
 
-@connectAutoDispatch(state => ({
-  userInfo: state.auth.userInfo
-}), 
-{ })
+@connectAutoDispatch(
+  state => ({
+    userInfo: state.auth.userInfo
+  }),
+  {}
+)
 @autobind
 export default class Security extends PureComponent {
   render() {
     return (
-      <PageContainer {...this.props.wrapperProps} style={{height: '100%'}}>
+      <PageContainer {...this.props.wrapperProps} style={{ height: '100%' }}>
         <Breadcrumb items={['security']} />
         <SecurityForm />
       </PageContainer>

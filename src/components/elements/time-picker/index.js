@@ -34,8 +34,14 @@ export default class TimerPicker extends React.PureComponent {
           <TimePicker
             {...otherProps}
             onChange={this.props.onChange}
-            defaultValue={otherProps.defaultValue ? moment(otherProps.defaultValue, format) : moment() }
-            format={ otherProps.timePickerFormat ? otherProps.timePickerFormat : format}
+            defaultValue={
+              otherProps.defaultValue
+                ? moment(otherProps.defaultValue, format)
+                : moment()
+            }
+            format={
+              otherProps.timePickerFormat ? otherProps.timePickerFormat : format
+            }
           />
         </Container>
       </div>

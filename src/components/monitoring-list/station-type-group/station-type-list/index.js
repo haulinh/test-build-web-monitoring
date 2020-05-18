@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { autobind } from "core-decorators";
-import styled from "styled-components";
-import StationTypeItem from "../station-type-item";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { autobind } from 'core-decorators'
+import styled from 'styled-components'
+import StationTypeItem from '../station-type-item'
 
 const StationTypeListWrapper = styled.div`
   zoom: 0.8;
@@ -14,22 +14,22 @@ const StationTypeListWrapper = styled.div`
   .stationTypeItem {
     margin-bottom: 16px;
   }
-`;
+`
 
 const StationTypeContainer = styled.div`
   padding: 8px 8px;
   flex: 1;
   width: 100%;
-`;
+`
 
 @autobind
 export default class StationTypeList extends React.Component {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape(StationTypeItem.propTypes))
-  };
+  }
 
   sortStationType(a, b) {
-    return a.stationType.numericalOrder - b.stationType.numericalOrder;
+    return a.stationType.numericalOrder - b.stationType.numericalOrder
   }
 
   render() {
@@ -44,10 +44,10 @@ export default class StationTypeList extends React.Component {
                 <div key={index} className="stationTypeItem">
                   <StationTypeItem {...item} />
                 </div>
-              );
+              )
             })}
         </StationTypeContainer>
       </StationTypeListWrapper>
-    );
+    )
   }
 }

@@ -1,4 +1,8 @@
-import { INIT_LOADED, GET_STATIONS_AUTO, GET_TOTAL_STATIONS_AUTO_ACTIVED } from "../actions/stationAuto"
+import {
+  INIT_LOADED,
+  GET_STATIONS_AUTO,
+  GET_TOTAL_STATIONS_AUTO_ACTIVED
+} from '../actions/stationAuto'
 
 let initstate = {
   isInitLoaded: false,

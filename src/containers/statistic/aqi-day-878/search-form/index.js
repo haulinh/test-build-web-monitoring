@@ -24,9 +24,12 @@ const Container = styled.div`
 
 function validate(values) {
   const errors = {}
-  if (!values.inRange) errors.inRange = translate('aqiSearchForm.form.inRange.error')
-  if (!values.stationType) errors.stationType = translate('avgSearchFrom.form.stationType.error')
-  if (!values.station) errors.station = translate('avgSearchFrom.form.stationType.error')
+  if (!values.inRange)
+    errors.inRange = translate('aqiSearchForm.form.inRange.error')
+  if (!values.stationType)
+    errors.stationType = translate('avgSearchFrom.form.stationType.error')
+  if (!values.station)
+    errors.station = translate('avgSearchFrom.form.stationType.error')
   return errors
 }
 
@@ -45,25 +48,29 @@ export default class SearchForm extends React.Component {
     onSubmit: PropTypes.func
   }
 
-
   constructor(props) {
     super(props)
     this.state = {
       timeZone: 420
-    } 
+    }
   }
 
-  handleSubmit = (values) =>{
+  handleSubmit = values => {
     // console.log('handleSubmit', values)
 
-    const toDate = values.inRange[1].utcOffset(this.state.timeZone) < moment().utcOffset(this.state.timeZone) ? values.inRange[1].utcOffset(this.state.timeZone) : moment().utcOffset(this.state.timeZone)
-    if(this.props.onSubmit){
-      this.props.onSubmit({ 
-        fromDate: values.inRange[0].utcOffset(this.state.timeZone).startOf('day'),
+    const toDate =
+      values.inRange[1].utcOffset(this.state.timeZone) <
+      moment().utcOffset(this.state.timeZone)
+        ? values.inRange[1].utcOffset(this.state.timeZone)
+        : moment().utcOffset(this.state.timeZone)
+    if (this.props.onSubmit) {
+      this.props.onSubmit({
+        fromDate: values.inRange[0]
+          .utcOffset(this.state.timeZone)
+          .startOf('day'),
         toDate: toDate.startOf('day')
       })
     }
-    
   }
 
   render() {
@@ -72,7 +79,12 @@ export default class SearchForm extends React.Component {
       <SearchFormContainer>
         <Heading
           rightChildren={
-            <Button type="primary" icon="search" size="small" onClick={this.props.handleSubmit(this.handleSubmit)}>
+            <Button
+              type="primary"
+              icon="search"
+              size="small"
+              onClick={this.props.handleSubmit(this.handleSubmit)}
+            >
               {this.props.lang.t('addon.search')}
             </Button>
           }
@@ -84,10 +96,15 @@ export default class SearchForm extends React.Component {
           {this.props.lang.t('addon.search')}
         </Heading>
         <Container>
-        <Row gutter={24}>
+          <Row gutter={24}>
             <Col span={12}>
-              <Field label={translate('aqiSearchForm.form.inRange.label')} name="inRange" size="large" 
-              formatDate={DD_MM_YYYY}  component={FOptionsMonthRange} />
+              <Field
+                label={translate('aqiSearchForm.form.inRange.label')}
+                name="inRange"
+                size="large"
+                formatDate={DD_MM_YYYY}
+                component={FOptionsMonthRange}
+              />
             </Col>
           </Row>
         </Container>

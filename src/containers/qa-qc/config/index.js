@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 import {
   Checkbox,
   Form,
@@ -9,29 +9,29 @@ import {
   Row,
   message
   // Modal
-} from "antd"
-import PageContainer from "layout/default-sidebar-layout/PageContainer"
-import Breadcrumb from "../breadcrumb"
-import { translate } from "hoc/create-lang"
-import { getStationTypes } from "api/CategoryApi"
-import * as _ from "lodash"
-import { connect } from "react-redux"
-import TableConfig from "./table"
-import { getConfigQAQC, postConfigQAQC, putConfigQAQC } from "api/CategoryApi"
-import Disconnection from "components/elements/disconnection"
+} from 'antd'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import Breadcrumb from '../breadcrumb'
+import { translate } from 'hoc/create-lang'
+import { getStationTypes } from 'api/CategoryApi'
+import * as _ from 'lodash'
+import { connect } from 'react-redux'
+import TableConfig from './table'
+import { getConfigQAQC, postConfigQAQC, putConfigQAQC } from 'api/CategoryApi'
+import Disconnection from 'components/elements/disconnection'
 
 const { TabPane } = Tabs
 
 const i18n = {
-  beyondMeasuringRange: translate("qaqcConfig.beyondMeasuringRange"),
-  deviceError: translate("qaqcConfig.deviceError"),
-  deviceCalibration: translate("qaqcConfig.deviceCalibration"),
+  beyondMeasuringRange: translate('qaqcConfig.beyondMeasuringRange'),
+  deviceError: translate('qaqcConfig.deviceError'),
+  deviceCalibration: translate('qaqcConfig.deviceCalibration'),
 
-  btnEdit: translate("addon.save"),
-  btnSave: translate("addon.create"),
-  disconnectionMessage: translate("network.qaqc.lostConnection"),
+  btnEdit: translate('addon.save'),
+  btnSave: translate('addon.create'),
+  disconnectionMessage: translate('network.qaqc.lostConnection'),
 
-  updateSuccess: translate("addon.onSave.update.success")
+  updateSuccess: translate('addon.onSave.update.success')
 }
 
 @connect(state => ({
@@ -44,7 +44,7 @@ export default class QAQC_Config extends React.Component {
     super(props)
     this.state = {
       isInitLoaded: false,
-      activeTabkey: "tab1",
+      activeTabkey: 'tab1',
       tabList: [],
       isDisconnection: false,
       isLoading: false,
@@ -64,13 +64,13 @@ export default class QAQC_Config extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values)
+        console.log('Received values of form: ', values)
       }
       let measureConfig = await this.getData()
-      console.log("measureConfig", measureConfig)
+      console.log('measureConfig', measureConfig)
 
       let response = null
-      console.log(this.state.configId,"(this.state.configId")
+      console.log(this.state.configId, '(this.state.configId')
       if (this.state.configId) {
         response = await putConfigQAQC(this.state.configId, {
           measureConfig: {
@@ -87,15 +87,14 @@ export default class QAQC_Config extends React.Component {
         })
       }
 
-      if (response.success){
+      if (response.success) {
         message.success(i18n.updateSuccess)
-        if(!this.state.configId){
+        if (!this.state.configId) {
           this.setState({
-            configId: _.get(response, 'data._id',null)
+            configId: _.get(response, 'data._id', null)
           })
         }
-      }
-      else message.error(response.message)
+      } else message.error(response.message)
 
       this.setState({ isLoading: false })
     })
@@ -129,7 +128,7 @@ export default class QAQC_Config extends React.Component {
         })
         this.setState({
           tabList,
-          activeTabkey: _.result(stationTypes.data, "[0].key", "")
+          activeTabkey: _.result(stationTypes.data, '[0].key', '')
         })
       } else {
         this.setState({ isDisconnection: true })
@@ -139,7 +138,7 @@ export default class QAQC_Config extends React.Component {
       // console.log("response,", response)
       let dataForm = {}
       if (response.success) {
-        const data = _.get(response, "data.value", null)
+        const data = _.get(response, 'data.value', null)
         // console.log("data,", response)
         if (data) {
           dataForm = {
@@ -149,7 +148,7 @@ export default class QAQC_Config extends React.Component {
             ...data.measureConfig
           }
           this.setState({
-            configId: _.get(response, "data._id", null),
+            configId: _.get(response, 'data._id', null),
             isHaveConfig: true
           })
         }
@@ -162,7 +161,7 @@ export default class QAQC_Config extends React.Component {
         setFieldsValue(dataForm)
       })
     } catch (e) {
-      console.log("qaqc service error", e.message)
+      console.log('qaqc service error', e.message)
       this.setState({ isDisconnection: true })
     }
   }
@@ -170,7 +169,7 @@ export default class QAQC_Config extends React.Component {
   getMeasuring() {
     let result = []
     let stations = this.props.stationList.filter(
-      item => _.result(item, "stationType.key") === this.state.activeTabkey
+      item => _.result(item, 'stationType.key') === this.state.activeTabkey
     )
     stations.map(station => {
       let measures = station.measuringList.map(mea => mea.key)
@@ -185,7 +184,7 @@ export default class QAQC_Config extends React.Component {
   getMeasuringByType(type) {
     let result = []
     let stations = this.props.stationList.filter(
-      item => _.result(item, "stationType.key") === type
+      item => _.result(item, 'stationType.key') === type
     )
     stations.map(station => {
       let measures = station.measuringList.map(mea => mea.key)
@@ -204,9 +203,9 @@ export default class QAQC_Config extends React.Component {
       <div>
         <PageContainer
           {...this.props.wrapperProps}
-          backgroundColor={"#fafbfb"}
+          backgroundColor={'#fafbfb'}
         />
-        <Breadcrumb items={["configNew"]} />
+        <Breadcrumb items={['configNew']} />
         {this.state.isDisconnection ? (
           this._renderDisconnection()
         ) : (
@@ -221,18 +220,18 @@ export default class QAQC_Config extends React.Component {
             {this.state.isInitLoaded && (
               <div>
                 <Form.Item style={{ marginBottom: 8 }}>
-                  {getFieldDecorator("beyondMeasuringRange", {
-                    valuePropName: "checked"
+                  {getFieldDecorator('beyondMeasuringRange', {
+                    valuePropName: 'checked'
                   })(<Checkbox>{i18n.beyondMeasuringRange}</Checkbox>)}
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 8 }}>
-                  {getFieldDecorator("deviceError", {
-                    valuePropName: "checked"
+                  {getFieldDecorator('deviceError', {
+                    valuePropName: 'checked'
                   })(<Checkbox>{i18n.deviceError}</Checkbox>)}
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 8 }}>
-                  {getFieldDecorator("deviceCalibration", {
-                    valuePropName: "checked"
+                  {getFieldDecorator('deviceCalibration', {
+                    valuePropName: 'checked'
                   })(<Checkbox>{i18n.deviceCalibration}</Checkbox>)}
                 </Form.Item>
               </div>
@@ -240,7 +239,7 @@ export default class QAQC_Config extends React.Component {
 
             <Card
               loading={!this.state.isInitLoaded || !this.props.isInitLoaded}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
             >
               <Tabs
                 defaultActiveKey={this.state.activeTabkey}

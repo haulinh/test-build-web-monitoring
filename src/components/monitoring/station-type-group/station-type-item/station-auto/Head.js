@@ -1,49 +1,49 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { autobind } from "core-decorators";
-import styled from "styled-components";
-import Clearfix from "components/elements/clearfix";
-import { SHAPE } from "themes/color";
-import { Dropdown, Button, Menu, Icon, Divider } from "antd";
-import ROLE, { checkRolePriority } from "constants/role";
-import moment from "moment/moment";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { autobind } from 'core-decorators'
+import styled from 'styled-components'
+import Clearfix from 'components/elements/clearfix'
+import { SHAPE } from 'themes/color'
+import { Dropdown, Button, Menu, Icon, Divider } from 'antd'
+import ROLE, { checkRolePriority } from 'constants/role'
+import moment from 'moment/moment'
 // import protectRole from 'hoc/protect-role'
-import { translate, removeAccents } from "hoc/create-lang";
+import { translate, removeAccents } from 'hoc/create-lang'
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux'
 // import StationControl from 'api/SamplingApi'
-import { STATUS_STATION } from "constants/stationStatus";
-import { DD_MM_YYYY_HH_MM } from "constants/format-date";
-import { isEmpty, get as _get } from "lodash";
-import queryFormDataBrowser from "hoc/query-formdata-browser";
+import { STATUS_STATION } from 'constants/stationStatus'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { isEmpty, get as _get } from 'lodash'
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
 
 // import objectPath from 'object-path'
 
 const i18n = {
-  notInUse: translate("monitoring.notInUse"),
-  sampling: translate("monitoring.actions.sampling"),
-  camera: translate("monitoring.actions.camera"),
-  chart: translate("monitoring.actions.chart"),
-  map: translate("monitoring.actions.map"),
-  images: translate("monitoring.actions.images"),
-  stationInfo: translate("monitoring.actions.stationInfo"),
-  reviewStation: translate("monitoring.actions.reviewStation"),
-  more: translate("monitoring.actions.more.label"),
-  historyData: translate("monitoring.actions.more.historyData"),
-  averageData: translate("monitoring.actions.more.averageData"),
-  checkData: translate("monitoring.actions.more.checkData"),
-  config: translate("monitoring.actions.more.config")
-};
+  notInUse: translate('monitoring.notInUse'),
+  sampling: translate('monitoring.actions.sampling'),
+  camera: translate('monitoring.actions.camera'),
+  chart: translate('monitoring.actions.chart'),
+  map: translate('monitoring.actions.map'),
+  images: translate('monitoring.actions.images'),
+  stationInfo: translate('monitoring.actions.stationInfo'),
+  reviewStation: translate('monitoring.actions.reviewStation'),
+  more: translate('monitoring.actions.more.label'),
+  historyData: translate('monitoring.actions.more.historyData'),
+  averageData: translate('monitoring.actions.more.averageData'),
+  checkData: translate('monitoring.actions.more.checkData'),
+  config: translate('monitoring.actions.more.config')
+}
 
 const StationHeadItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
-`;
+`
 const OrderNumber = styled.div`
   display: flex;
   align-items: center;
@@ -60,14 +60,14 @@ const OrderNumber = styled.div`
   );
   font-weight: 700;
   color: #ffffff;
-`;
+`
 
 const StationName = styled.h4`
   font-weight: 600;
   font-size: 14px;
   margin-top: 0px;
   margin-bottom: 0px;
-`;
+`
 
 const WrapperNameStationTypeName = styled.div`
   flex-direction: column;
@@ -80,13 +80,13 @@ const WrapperNameStationTypeName = styled.div`
     color: ${SHAPE.PRIMARY};
     opacity: 0.7;
   }
-`;
+`
 
 const ReceivedAt = styled.span`
-  color: ${props => (props.status !== "GOOD" ? SHAPE.RED : "#000")};
+  color: ${props => (props.status !== 'GOOD' ? SHAPE.RED : '#000')};
   font-style: ${props =>
-    props.status === STATUS_STATION.DATA_LOSS ? "italic" : "normal"};
-`;
+    props.status === STATUS_STATION.DATA_LOSS ? 'italic' : 'normal'};
+`
 const ActionWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -98,7 +98,7 @@ const ActionWrapper = styled.div`
   .actionItem:last-child {
     margin-right: 0px;
   }
-`;
+`
 /* NOTE  KHÔNG XOÁ, DÙNG CHO Ở DƯỚI */
 // const ActionWrapper = styled.div`
 //   display: flex;
@@ -123,9 +123,9 @@ const ActionWrapper = styled.div`
   isAdmin: state.auth.userInfo.isAdmin,
   organization: state.auth.userInfo.organization,
   userInfo: state.auth.userInfo,
-  language: _get(state, "language.locale")
+  language: _get(state, 'language.locale')
 }))
-@queryFormDataBrowser(["submit"])
+@queryFormDataBrowser(['submit'])
 @autobind
 export default class StationAutoHead extends React.PureComponent {
   static propTypes = {
@@ -140,55 +140,55 @@ export default class StationAutoHead extends React.PureComponent {
     onClickViewMap: PropTypes.func,
     onClickViewCamera: PropTypes.func,
     currentActionDefault: PropTypes.string
-  };
+  }
 
   state = {
     isLoaded: false,
     isEnable: false,
-    currentAction: ""
-  };
+    currentAction: ''
+  }
 
   toReceivedAt = (status, receivedAt) => {
     // MARK  thay đổi logic, k0 cần thông báo mat ket noi
     // const statusStr =
     //   status === STATUS_STATION.DATA_LOSS ? translate('monitoring.lossAt') : ''
 
-    const statusStr = "";
+    const statusStr = ''
     const receivedAtStr = receivedAt
       ? moment(receivedAt).format(DD_MM_YYYY_HH_MM)
-      : "";
+      : ''
     if (!isEmpty(statusStr) && !isEmpty(receivedAtStr)) {
-      return `(${statusStr} ${receivedAtStr})`;
+      return `(${statusStr} ${receivedAtStr})`
     }
 
-    return `${receivedAtStr}`;
-  };
+    return `${receivedAtStr}`
+  }
 
   componentDidMount = () => {
     this.setState({
       currentAction: this.props.currentActionDefault
         ? this.props.currentActionDefault
-        : ""
-    });
-  };
+        : ''
+    })
+  }
   UNSAFE_componentWillReceiveProps = nextProps => {
     // console.log(this.props.currentActionDefault, nextProps.currentActionDefault,"UNSAFE_componentWillReceiveProps")
     if (this.props.currentActionDefault !== nextProps.currentActionDefault) {
       this.setState({
         currentAction: nextProps.currentActionDefault
-      });
+      })
     }
-  };
+  }
 
   handleActionOnClick(actionName, keyOpenTab) {
     if (!keyOpenTab) {
       if (this.state.currentAction === actionName) {
-        this.setState({ currentAction: "" });
+        this.setState({ currentAction: '' })
       } else {
-        this.setState({ currentAction: actionName });
+        this.setState({ currentAction: actionName })
       }
     }
-    this.props.onClickActionButton(actionName, keyOpenTab);
+    this.props.onClickActionButton(actionName, keyOpenTab)
   }
 
   render() {
@@ -201,20 +201,20 @@ export default class StationAutoHead extends React.PureComponent {
       options,
       status,
       language
-    } = this.props;
+    } = this.props
     // if (stationID === "NUOCTHAINMPM2_1MR") {
     //   console.log(this.state, this.props.currentActionDefault , "currentAction")
     // }
 
     // console.log(this.props.stationID, "'#components-anchor-demo-static'")
-    const { currentAction } = this.state;
-    const isCamera = options && options.camera && options.camera.allowed;
-    const isSampling = options && options.sampling && options.sampling.allowed;
+    const { currentAction } = this.state
+    const isCamera = options && options.camera && options.camera.allowed
+    const isSampling = options && options.sampling && options.sampling.allowed
     return (
       <StationHeadItemWrapper>
         <TitleWrapper>
           <a
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
             href={`#${stationID}`}
             className="anchor"
           >
@@ -233,8 +233,8 @@ export default class StationAutoHead extends React.PureComponent {
             </WrapperNameStationTypeName>
           ) : (
             <StationName>
-              {removeAccents(language, name)}{" "}
-              {status === STATUS_STATION.NOT_USE && " - " + i18n.notInUse}
+              {removeAccents(language, name)}{' '}
+              {status === STATUS_STATION.NOT_USE && ' - ' + i18n.notInUse}
             </StationName>
           )}
           <Clearfix width={8} />
@@ -247,8 +247,8 @@ export default class StationAutoHead extends React.PureComponent {
         <ActionWrapper>
           <Button
             className="actionItem"
-            type={currentAction === "sampling" ? "primary" : "default"}
-            onClick={() => this.handleActionOnClick("sampling")}
+            type={currentAction === 'sampling' ? 'primary' : 'default'}
+            onClick={() => this.handleActionOnClick('sampling')}
             disabled={
               !isSampling ||
               !checkRolePriority(this.props.userInfo, ROLE.MONITORING.CONTROL)
@@ -258,8 +258,8 @@ export default class StationAutoHead extends React.PureComponent {
           </Button>
           <Button
             className="actionItem"
-            type={currentAction === "camera" ? "primary" : "default"}
-            onClick={() => this.handleActionOnClick("camera")}
+            type={currentAction === 'camera' ? 'primary' : 'default'}
+            onClick={() => this.handleActionOnClick('camera')}
             disabled={
               !isCamera ||
               !checkRolePriority(this.props.userInfo, ROLE.MONITORING.CAMERA)
@@ -269,8 +269,8 @@ export default class StationAutoHead extends React.PureComponent {
           </Button>
           <Button
             className="actionItem"
-            type={currentAction === "chart" ? "primary" : "default"}
-            onClick={() => this.handleActionOnClick("chart")}
+            type={currentAction === 'chart' ? 'primary' : 'default'}
+            onClick={() => this.handleActionOnClick('chart')}
             disabled={
               !checkRolePriority(this.props.userInfo, ROLE.MONITORING.CHART)
             }
@@ -279,8 +279,8 @@ export default class StationAutoHead extends React.PureComponent {
           </Button>
           <Button
             className="actionItem"
-            type={currentAction === "map" ? "primary" : "default"}
-            onClick={() => this.handleActionOnClick("map")}
+            type={currentAction === 'map' ? 'primary' : 'default'}
+            onClick={() => this.handleActionOnClick('map')}
             disabled={
               !checkRolePriority(this.props.userInfo, ROLE.MONITORING.MAP)
             }
@@ -289,8 +289,8 @@ export default class StationAutoHead extends React.PureComponent {
           </Button>
           <Button
             className="actionItem"
-            type={currentAction === "image" ? "primary" : "default"}
-            onClick={() => this.handleActionOnClick("image")}
+            type={currentAction === 'image' ? 'primary' : 'default'}
+            onClick={() => this.handleActionOnClick('image')}
             disabled={
               !checkRolePriority(this.props.userInfo, ROLE.MONITORING.IMAGES)
             }
@@ -299,8 +299,8 @@ export default class StationAutoHead extends React.PureComponent {
           </Button>
           <Button
             className="actionItem"
-            type={currentAction === "station" ? "primary" : "default"}
-            onClick={() => this.handleActionOnClick("station")}
+            type={currentAction === 'station' ? 'primary' : 'default'}
+            onClick={() => this.handleActionOnClick('station')}
             disabled={
               !checkRolePriority(
                 this.props.userInfo,
@@ -312,8 +312,8 @@ export default class StationAutoHead extends React.PureComponent {
           </Button>
           <Button
             className="actionItem"
-            type={currentAction === "rating" ? "primary" : "default"}
-            onClick={() => this.handleActionOnClick("rating")}
+            type={currentAction === 'rating' ? 'primary' : 'default'}
+            onClick={() => this.handleActionOnClick('rating')}
             disabled={
               !checkRolePriority(
                 this.props.userInfo,
@@ -335,7 +335,7 @@ export default class StationAutoHead extends React.PureComponent {
                     )
                   }
                   onClick={() =>
-                    this.handleActionOnClick("more", "historyData")
+                    this.handleActionOnClick('more', 'historyData')
                   }
                 >
                   {i18n.historyData}
@@ -349,7 +349,7 @@ export default class StationAutoHead extends React.PureComponent {
                       ROLE.AVG_SEARCH.VIEW
                     )
                   }
-                  onClick={() => this.handleActionOnClick("more", "avgData")}
+                  onClick={() => this.handleActionOnClick('more', 'avgData')}
                 >
                   {i18n.averageData}
                 </Menu.Item>
@@ -439,6 +439,6 @@ export default class StationAutoHead extends React.PureComponent {
           </div>
         </ActionWrapper> */}
       </StationHeadItemWrapper>
-    );
+    )
   }
 }

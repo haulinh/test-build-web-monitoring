@@ -1,31 +1,31 @@
-import React from "react"
-import { autobind } from "core-decorators"
-import PageContainer from "layout/default-sidebar-layout/PageContainer"
+import React from 'react'
+import { autobind } from 'core-decorators'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 // import { measurePublished } from 'api/StationAuto'
-import DataStationAutoApi from "api/DataStationAutoApi"
-import QAQCApi from "api/QAQCApi"
-import { translate } from "hoc/create-lang"
+import DataStationAutoApi from 'api/DataStationAutoApi'
+import QAQCApi from 'api/QAQCApi'
+import { translate } from 'hoc/create-lang'
 // import TabList from './approved-data/tab-list'
-import Breadcrumb from "../breadcrumb"
-import SearchFrom from "./search-form"
-import TableList from "./tables"
-import { Spin } from "antd"
-import queryFormDataBrowser from "hoc/query-formdata-browser"
-import swal from "sweetalert2"
-import _, { get, size, isEmpty, forEach, isNumber } from "lodash"
+import Breadcrumb from '../breadcrumb'
+import SearchFrom from './search-form'
+import TableList from './tables'
+import { Spin } from 'antd'
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import swal from 'sweetalert2'
+import _, { get, size, isEmpty, forEach, isNumber } from 'lodash'
 // import moment from "moment-timezone"
-import ROLE from "constants/role"
-import protectRole from "hoc/protect-role"
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
 // import { getConfigApi } from "config"
-import PageInfo from "components/pageInfo"
-import { QAQC_TABLES } from "constants/qaqc"
-import { connect } from "react-redux"
+import PageInfo from 'components/pageInfo'
+import { QAQC_TABLES } from 'constants/qaqc'
+import { connect } from 'react-redux'
 
 @protectRole(ROLE.QAQC.VIEW)
-@queryFormDataBrowser(["submit"])
+@queryFormDataBrowser(['submit'])
 @connect(state => ({
-  token: get(state, "auth.token", ""),
-  timeZone: get(state, "auth.userInfo.organization.timeZone", null)
+  token: get(state, 'auth.token', ''),
+  timeZone: get(state, 'auth.userInfo.organization.timeZone', null)
 }))
 @autobind
 export default class QaQcContainer extends React.Component {
@@ -54,27 +54,27 @@ export default class QaQcContainer extends React.Component {
   handleExportExcel = async () => {
     const { searchFormData } = this.state
 
-    console.log(searchFormData, "searchFormData")
+    console.log(searchFormData, 'searchFormData')
     let query = {}
     if (searchFormData.dataType !== QAQC_TABLES.original) {
       query = _.pick(searchFormData, [
-        "fromDate",
-        "toDate",
-        "dataType",
-        "key",
-        "measuringList",
-        "stationAutoType"
+        'fromDate',
+        'toDate',
+        'dataType',
+        'key',
+        'measuringList',
+        'stationAutoType'
       ])
       // console.log(searchFormData, "searchFormData")
       let url = QAQCApi.downloadExcel(this.props.token, query)
       //  console.log(url, "url--------")
-      window.open(url, "_blank")
+      window.open(url, '_blank')
     } else {
       query = _.pick(searchFormData, [
-        "fromDate",
-        "toDate",
-        "key",
-        "measuringList"
+        'fromDate',
+        'toDate',
+        'key',
+        'measuringList'
       ])
       let res = await DataStationAutoApi.getExportData(query)
       if (res && res.success) window.location = res.data
@@ -83,8 +83,8 @@ export default class QaQcContainer extends React.Component {
 
   _renderPageContent() {
     return (
-      <PageContainer {...this.props.wrapperProps} backgroundColor={"#fafbfb"}>
-        <Breadcrumb items={["list"]} />
+      <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+        <Breadcrumb items={['list']} />
         <SearchFrom
           initialValues={this.props.formData}
           measuringData={this.props.formData.measuringData}
@@ -119,7 +119,7 @@ export default class QaQcContainer extends React.Component {
   handleSubmitSearch(searchFormData, published) {
     let outOfRange = {}
     forEach(
-      get(searchFormData, "measuringData", []),
+      get(searchFormData, 'measuringData', []),
       ({ minRange, maxRange, key }) => {
         let val = {}
         if (isNumber(minRange)) val.minRange = minRange
@@ -149,12 +149,12 @@ export default class QaQcContainer extends React.Component {
     let query = {}
     if (searchFormData.dataType !== QAQC_TABLES.original) {
       query = _.pick(searchFormData, [
-        "fromDate",
-        "toDate",
-        "dataType",
-        "key",
-        "measuringList",
-        "stationAutoType"
+        'fromDate',
+        'toDate',
+        'dataType',
+        'key',
+        'measuringList',
+        'stationAutoType'
       ])
       // console.log(searchFormData, "searchFormData")
 
@@ -170,10 +170,10 @@ export default class QaQcContainer extends React.Component {
       }
     } else {
       query = _.pick(searchFormData, [
-        "fromDate",
-        "toDate",
-        "key",
-        "measuringList"
+        'fromDate',
+        'toDate',
+        'key',
+        'measuringList'
       ])
       const res = await DataStationAutoApi.getDataStationAutos(
         {
@@ -187,12 +187,12 @@ export default class QaQcContainer extends React.Component {
       }
     }
 
-    let dataStationAutoList = get(dataStationAuto, "data", [])
+    let dataStationAutoList = get(dataStationAuto, 'data', [])
 
     if (size(dataStationAutoList) === 0) {
       swal({
-        type: "success",
-        title: translate("dataSearchFrom.table.emptyText")
+        type: 'success',
+        title: translate('dataSearchFrom.table.emptyText')
       })
     }
 
@@ -205,7 +205,7 @@ export default class QaQcContainer extends React.Component {
       searchFormData: searchFormData,
       pagination: {
         ...pagination,
-        total: get(dataStationAuto, "pagination.totalItem", 0)
+        total: get(dataStationAuto, 'pagination.totalItem', 0)
       }
     })
   }

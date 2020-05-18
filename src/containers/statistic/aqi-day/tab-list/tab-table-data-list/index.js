@@ -43,7 +43,11 @@ export default class TableDataList extends React.PureComponent {
           className: 'column-style',
           dataIndex: item.key,
           render: (obj, record) => {
-            return <div style={{ textAlign: 'right' }}>{getFormatNumber(obj.aqiDay, 0)}</div>
+            return (
+              <div style={{ textAlign: 'right' }}>
+                {getFormatNumber(obj.aqiDay, 0)}
+              </div>
+            )
           }
         }
         columns.push(column)

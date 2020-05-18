@@ -1,7 +1,7 @@
-import {message} from 'antd'
+import { message } from 'antd'
 
 import CategoryAPI from '../../api/CategoryApi'
-import { translate } from "hoc/create-lang";
+import { translate } from 'hoc/create-lang'
 
 const i18n = {
   submitError: translate('addon.onSave.update.error'),
@@ -9,9 +9,11 @@ const i18n = {
 }
 
 export const CONFIGS = {
-  GET_WARNING_LEVELS_COLOR : 'CATEGORY / GET_WARNING_LEVELS_COLOR',
-  UPDATE_WARNING_LEVELS_COLOR_DATA : 'CATEGORY / UPDATE_WARNING_LEVELS_COLOR_DATA',
-  UPDATE_WARNING_LEVELS_COLOR_SENSOR : 'CATEGORY / UPDATE_WARNING_LEVELS_COLOR_SENSOR',
+  GET_WARNING_LEVELS_COLOR: 'CATEGORY / GET_WARNING_LEVELS_COLOR',
+  UPDATE_WARNING_LEVELS_COLOR_DATA:
+    'CATEGORY / UPDATE_WARNING_LEVELS_COLOR_DATA',
+  UPDATE_WARNING_LEVELS_COLOR_SENSOR:
+    'CATEGORY / UPDATE_WARNING_LEVELS_COLOR_SENSOR'
 }
 
 export function getWarningLevelColors() {
@@ -38,8 +40,7 @@ export function updateWarningLevelColorData(id, data) {
         })
       }
       message.success(i18n.submitSuccess)
-    }
-    catch (e) {
+    } catch (e) {
       console.error('--updateWarningLevelColorData--', e)
       message.error(i18n.submitError)
     }
@@ -57,8 +58,7 @@ export function updateWarningLevelColorSensor(id, data) {
         })
         message.success(i18n.submitSuccess)
       }
-    }
-    catch (e) {
+    } catch (e) {
       console.error('--updateWarningLevelColorSensor--', e)
       message.error(i18n.submitError)
     }

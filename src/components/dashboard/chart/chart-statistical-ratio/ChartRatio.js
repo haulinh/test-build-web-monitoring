@@ -12,9 +12,7 @@ import StatusModalView from './StatusModal'
 import ChartBaseView from './chart-base'
 import { COLOR } from 'themes/color'
 // import { isNumber } from 'util'
-import  {
-  ROUND_DIGIT
-} from 'constants/format-number'
+import { ROUND_DIGIT } from 'constants/format-number'
 
 // const dataLabels = {
 //   enabled: true,

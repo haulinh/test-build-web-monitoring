@@ -1,49 +1,49 @@
-import React from "react";
-import PageContainer from "layout/default-sidebar-layout/PageContainer";
-import ROLE from "constants/role"
-import protectRole from "hoc/protect-role/forMenu";
-import { translate } from "hoc/create-lang";
-import { connect } from "react-redux";
-import Breadcrumb from "../breadcrumb";
-import { get as _get } from "lodash";
-import SearchForm from "../search-form/search-form-2";
-import { Table, Typography, Button, Spin } from "antd";
-import Clearfix from "components/elements/clearfix";
-import moment from "moment-timezone";
-import { MM_YYYY, DD_MM_YYYY } from "constants/format-date.js";
+import React from 'react'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role/forMenu'
+import { translate } from 'hoc/create-lang'
+import { connect } from 'react-redux'
+import Breadcrumb from '../breadcrumb'
+import { get as _get } from 'lodash'
+import SearchForm from '../search-form/search-form-2'
+import { Table, Typography, Button, Spin } from 'antd'
+import Clearfix from 'components/elements/clearfix'
+import moment from 'moment-timezone'
+import { MM_YYYY, DD_MM_YYYY } from 'constants/format-date.js'
 import {
   getUrlReportType10,
   getUrlReportType10Excel
-} from "api/DataStationAutoApi";
-import { getFormatNumber, ROUND_DIGIT } from "constants/format-number";
+} from 'api/DataStationAutoApi'
+import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 
-const { Title, Text } = Typography;
+const { Title, Text } = Typography
 
 const i18n = {
-  header1: translate("avgSearchFrom.table.header1"),
-  header2: translate("avgSearchFrom.table.header2"),
-  header3: translate("avgSearchFrom.table.header3"),
-  header4: translate("avgSearchFrom.table.header4"),
-  header5: translate("avgSearchFrom.table.header5"),
-  header6: translate("avgSearchFrom.table.header6"),
-  title: translate("avgSearchFrom.table.title")
-};
+  header1: translate('avgSearchFrom.table.header1'),
+  header2: translate('avgSearchFrom.table.header2'),
+  header3: translate('avgSearchFrom.table.header3'),
+  header4: translate('avgSearchFrom.table.header4'),
+  header5: translate('avgSearchFrom.table.header5'),
+  header6: translate('avgSearchFrom.table.header6'),
+  title: translate('avgSearchFrom.table.title')
+}
 
 @connect(state => ({
-  timeZone: _get(state, "auth.userInfo.organization.timeZone", null)
+  timeZone: _get(state, 'auth.userInfo.organization.timeZone', null)
 }))
 export default class ReportType10 extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isHaveData: false,
       isLoading: false,
       isLoadingExcel: false,
       dataSource: [],
       dataSearch: null,
-      fromMonth: "",
-      toMonth: ""
-    };
+      fromMonth: '',
+      toMonth: ''
+    }
   }
   componentDidMount() {
     // console.log("ABC", this.props.timeZone);
@@ -53,101 +53,101 @@ export default class ReportType10 extends React.Component {
     return [
       {
         title: i18n.header1,
-        dataIndex: "name",
-        align: "center",
+        dataIndex: 'name',
+        align: 'center',
         render: value => {
-          return <div style={{ textAlign: "left" }}>{value}</div>;
+          return <div style={{ textAlign: 'left' }}>{value}</div>
         }
       },
       {
         title: i18n.header6,
-        dataIndex: "activatedAt",
-        align: "center",
+        dataIndex: 'activatedAt',
+        align: 'center',
         render: value => {
           if (!value) {
-            return null;
+            return null
           }
           return (
-            <div style={{ textAlign: "left" }}>
+            <div style={{ textAlign: 'left' }}>
               {moment(value)
-                .tz(_get(this.props, "timeZone.value", ""))
+                .tz(_get(this.props, 'timeZone.value', ''))
                 .format(DD_MM_YYYY)}
             </div>
-          );
+          )
         }
       },
       {
         title: i18n.header2,
-        dataIndex: "dataFrequency",
-        align: "center",
+        dataIndex: 'dataFrequency',
+        align: 'center',
         render: value => {
           return (
-            <div style={{ textAlign: "right" }}>
+            <div style={{ textAlign: 'right' }}>
               {getFormatNumber(value, 0)}
             </div>
-          );
+          )
         }
       },
       {
         title: i18n.header3,
-        dataIndex: "totalDesign",
-        align: "center",
+        dataIndex: 'totalDesign',
+        align: 'center',
         render: value => {
           return (
-            <div style={{ textAlign: "right" }}>
+            <div style={{ textAlign: 'right' }}>
               {getFormatNumber(value, 0)}
             </div>
-          );
+          )
         }
       },
       {
         title: i18n.header4,
-        dataIndex: "totalFact",
-        align: "center",
+        dataIndex: 'totalFact',
+        align: 'center',
         render: value => {
           return (
-            <div style={{ textAlign: "right" }}>
+            <div style={{ textAlign: 'right' }}>
               {getFormatNumber(value, 0)}
             </div>
-          );
+          )
         }
       },
       {
         title: i18n.header5,
-        dataIndex: "percentageReceived",
-        align: "center",
+        dataIndex: 'percentageReceived',
+        align: 'center',
         render: value => {
-          if (!value) return null;
+          if (!value) return null
           return (
-            <div style={{ textAlign: "right" }}>
+            <div style={{ textAlign: 'right' }}>
               {getFormatNumber(value, ROUND_DIGIT)}
             </div>
-          );
+          )
         }
       }
-    ];
-  };
+    ]
+  }
 
   handleSubmit = async values => {
     // console.log(values, "values");
     this.setState({
       isHaveData: false,
       isLoading: true
-    });
+    })
     const params = {
       stationType: values.stationType,
       fromDate: moment(values.fromMonth)
         .utcOffset(this.props.timeZone.time)
-        .startOf("day")
+        .startOf('day')
         .utc()
         .format(),
       toDate: moment(values.toMonth)
         .utcOffset(this.props.timeZone.time)
-        .endOf("day")
+        .endOf('day')
         .utc()
         .format()
-    };
-    const res = await getUrlReportType10(params);
+    }
+    const res = await getUrlReportType10(params)
     if (res.success) {
       this.setState({
         dataSource: res.data,
@@ -156,36 +156,36 @@ export default class ReportType10 extends React.Component {
         dataSearch: params,
         fromMonth: moment(values.fromMonth).format(MM_YYYY),
         toMonth: moment(values.toMonth).format(MM_YYYY)
-      });
+      })
     }
-  };
+  }
 
   hanldeExcel = async () => {
     this.setState({
       isLoadingExcel: true
-    });
-    let res = await getUrlReportType10Excel(this.state.dataSearch);
+    })
+    let res = await getUrlReportType10Excel(this.state.dataSearch)
 
     if (res.success) {
       this.setState({
         isLoadingExcel: false
-      });
+      })
       // console.log("getUrlReportType1", res.data);
-      window.open(res.data, "_blank");
+      window.open(res.data, '_blank')
     }
-  };
+  }
 
   render() {
     return (
       <PageContainer>
-        <Breadcrumb items={["type10"]} />
+        <Breadcrumb items={['type10']} />
         <SearchForm cbSubmit={this.handleSubmit} />
         <Clearfix height={16} />
-        <div style={{ position: "relative", textAlign: "center" }}>
+        <div style={{ position: 'relative', textAlign: 'center' }}>
           <Title level={4}>{i18n.title}</Title>
           <Text>
-            {" "}
-            {translate("avgSearchFrom.table.description", {
+            {' '}
+            {translate('avgSearchFrom.table.description', {
               fromMonth: this.state.fromMonth,
               toMonth: this.state.toMonth
             })}
@@ -193,9 +193,9 @@ export default class ReportType10 extends React.Component {
           {this.state.isHaveData && (
             <div
               style={{
-                position: "absolute",
-                top: "0px",
-                right: "0px"
+                position: 'absolute',
+                top: '0px',
+                right: '0px'
               }}
             >
               {protectRole(ROLE.TILE_DULIEU_THUDUOC.EXPORT)(
@@ -205,7 +205,7 @@ export default class ReportType10 extends React.Component {
                   loading={this.state.isLoadingExcel}
                   onClick={this.hanldeExcel}
                 >
-                  {translate("avgSearchFrom.tab.exportExcel")}
+                  {translate('avgSearchFrom.tab.exportExcel')}
                 </Button>
               )}
             </div>
@@ -219,11 +219,11 @@ export default class ReportType10 extends React.Component {
             columns={this.getColumns()}
             bordered={true}
             dataSource={this.state.dataSource}
-            locale={{ emptyText: translate("dataSearchFrom.table.emptyText") }}
+            locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}
             pagination={false}
           />
         </Spin>
       </PageContainer>
-    );
+    )
   }
 }

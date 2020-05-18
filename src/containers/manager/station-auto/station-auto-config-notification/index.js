@@ -25,17 +25,18 @@ const i18n = {
   breadCrumb: translate('configStation.breadCrumb'),
   stationName: translate('stationAutoManager.form.name.label'),
   stationAddr: translate('stationAutoManager.form.address.label'),
-  allowSendWarning: translate('stationAutoManager.options.allowSendWarning.label'),
-  cancel: 'Bõ chọn', /* MARK  @translate */
+  allowSendWarning: translate(
+    'stationAutoManager.options.allowSendWarning.label'
+  ),
+  cancel: 'Bõ chọn' /* MARK  @translate */,
   submit: translate('addon.save'),
-  updateSuccess: translate("addon.onSave.update.success"),
-  updateError: translate("addon.onSave.update.error"), 
+  updateSuccess: translate('addon.onSave.update.success'),
+  updateError: translate('addon.onSave.update.error')
 }
 
-
-const showSuccess = (msg) => {
-  message.success(`${msg}`);
-};
+const showSuccess = msg => {
+  message.success(`${msg}`)
+}
 
 const Span = styled.span`
   color: ${props => (props.deleted ? '#999999' : '')};
@@ -60,21 +61,22 @@ export default class StationAutoConfigNotification extends React.Component {
     pagination: PropTypes.object,
     data: PropTypes.object,
     onChangeSearch: PropTypes.func,
-    isLoading: PropTypes.bool,
+    isLoading: PropTypes.bool
   }
 
   static defaultProps = {
-    dataSource:  []
+    dataSource: []
   }
 
   constructor(props) {
     super(props)
     // console.log(props.dataSource, "dataSource")
     this.state = {
-      /* giông cách hoạt động của git */  
-      cachedData: {},             /* commit */
-      dataSource: [],             /* working dir */
-      dataSourceOriginal: [],     /* index */
+      /* giông cách hoạt động của git */
+
+      cachedData: {} /* commit */,
+      dataSource: [] /* working dir */,
+      dataSourceOriginal: [] /* index */,
 
       isSave: false,
 
@@ -83,13 +85,12 @@ export default class StationAutoConfigNotification extends React.Component {
       isEmailIndeterminate: true,
       isWarningCheckAll: false,
       isSmsCheckAll: false,
-      isEmailCheckAll: false,
+      isEmailCheckAll: false
     }
   }
 
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dataSource.length !== this.state.dataSourceOriginal.length ) {
+    if (nextProps.dataSource.length !== this.state.dataSourceOriginal.length) {
       this.setState({
         dataSourceOriginal: _.cloneDeep(nextProps.dataSource),
         dataSource: _.cloneDeep(nextProps.dataSource)
@@ -100,16 +101,13 @@ export default class StationAutoConfigNotification extends React.Component {
     }
   }
 
-
   render() {
     return (
       <PageContainer>
-        <Breadcrumb 
-          items={['configNotification']}
-        />
+        <Breadcrumb items={['configNotification']} />
 
         {/* FORM CONTROL */}
-        <Row style={{marginBottom: 20}}>
+        <Row style={{ marginBottom: 20 }}>
           <StationAutoSearchForm
             onChangeSearch={this.props.onChangeSearch}
             initialValues={this.props.data}
@@ -117,7 +115,7 @@ export default class StationAutoConfigNotification extends React.Component {
         </Row>
 
         {/* TABLE */}
-        <Row style={{marginBottom: 50}}>
+        <Row style={{ marginBottom: 50 }}>
           <DynamicTable
             isFixedSize
             isLoading={this.props.isLoading}
@@ -129,16 +127,16 @@ export default class StationAutoConfigNotification extends React.Component {
           />
         </Row>
 
-        <Row style={{marginBottom: 16}}>
+        <Row style={{ marginBottom: 16 }}>
           {/* NOTE  KHONG XOA, uncomment khi a @hung thay đổi yêu cầu */}
           {/* <Button onClick={this.props.clearCache}>{i18n.cancel}</Button> */}
-          <Button 
+          <Button
             block
-            type="primary" 
-            loading={this.state.isSave} 
+            type="primary"
+            loading={this.state.isSave}
             onClick={this.submitCache}
             disabled={_.keys(this.state.cachedData).length === 0}
-            >
+          >
             {i18n.submit}
           </Button>
         </Row>
@@ -146,54 +144,78 @@ export default class StationAutoConfigNotification extends React.Component {
     )
   }
 
-
   getHead() {
-    const isDisabledCheckAll = !this.state.isWarningCheckAll && !this.state.isWarningIndeterminate
+    const isDisabledCheckAll =
+      !this.state.isWarningCheckAll && !this.state.isWarningIndeterminate
     return [
       { content: '#', width: 2 },
       { content: i18n.stationName, width: 15 },
       { content: i18n.stationAddr, width: 20 },
-      { 
+      {
         content: (
           <div>
             <Checkbox
               indeterminate={this.state.isWarningIndeterminate}
               checked={this.state.isWarningCheckAll}
-              onChange={(e) => this.onChagedOptionOfHeader(STATION_AUTO_OPTIONS.PRIMARY, e.target.checked)}>
+              onChange={e =>
+                this.onChagedOptionOfHeader(
+                  STATION_AUTO_OPTIONS.PRIMARY,
+                  e.target.checked
+                )
+              }
+            >
               {i18n.allowSendWarning}
             </Checkbox>
-          </div>), 
-        width: 15 },
-      { 
+          </div>
+        ),
+        width: 15
+      },
+      {
         content: (
           <div>
             <Checkbox
               indeterminate={this.state.isSmsIndeterminate}
               checked={this.state.isSmsCheckAll}
               disabled={isDisabledCheckAll}
-              onChange={(e) => this.onChagedOptionOfHeader(STATION_AUTO_OPTIONS.SMS, e.target.checked)}>
+              onChange={e =>
+                this.onChagedOptionOfHeader(
+                  STATION_AUTO_OPTIONS.SMS,
+                  e.target.checked
+                )
+              }
+            >
               SMS
             </Checkbox>
-          </div>), 
-        width: 10 },
-      { 
+          </div>
+        ),
+        width: 10
+      },
+      {
         content: (
           <div>
             <Checkbox
               indeterminate={this.state.isEmailIndeterminate}
               checked={this.state.isEmailCheckAll}
               disabled={isDisabledCheckAll}
-              onChange={(e) => this.onChagedOptionOfHeader(STATION_AUTO_OPTIONS.EMAIL, e.target.checked)}>
+              onChange={e =>
+                this.onChagedOptionOfHeader(
+                  STATION_AUTO_OPTIONS.EMAIL,
+                  e.target.checked
+                )
+              }
+            >
               Email
             </Checkbox>
-          </div>), 
-        width: 10 },
+          </div>
+        ),
+        width: 10
+      }
     ]
   }
 
-
   getRows() {
-    const isDisabledCheckAll = !this.state.isWarningCheckAll && !this.state.isWarningIndeterminate
+    const isDisabledCheckAll =
+      !this.state.isWarningCheckAll && !this.state.isWarningIndeterminate
 
     let stationTypeArr = []
 
@@ -208,7 +230,12 @@ export default class StationAutoConfigNotification extends React.Component {
     let result = [].concat.apply(
       [],
       sourceSorted.map((row, index) => {
-        const isWarningCheckboxDisabled =  _.get(row, ['options', STATION_AUTO_OPTIONS.PRIMARY, 'allowed'], false) === false
+        const isWarningCheckboxDisabled =
+          _.get(
+            row,
+            ['options', STATION_AUTO_OPTIONS.PRIMARY, 'allowed'],
+            false
+          ) === false
         //content Row
         let resultRow = [
           {
@@ -239,9 +266,19 @@ export default class StationAutoConfigNotification extends React.Component {
           {
             content: (
               <div>
-                <Checkbox 
-                  checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.PRIMARY, 'allowed'], false)} 
-                  onChange={(e) => this.onChagedOptionOfRow({row, key: STATION_AUTO_OPTIONS.PRIMARY, value: e.target.checked})}
+                <Checkbox
+                  checked={_.get(
+                    row,
+                    ['options', STATION_AUTO_OPTIONS.PRIMARY, 'allowed'],
+                    false
+                  )}
+                  onChange={e =>
+                    this.onChagedOptionOfRow({
+                      row,
+                      key: STATION_AUTO_OPTIONS.PRIMARY,
+                      value: e.target.checked
+                    })
+                  }
                 />
               </div>
             )
@@ -252,8 +289,18 @@ export default class StationAutoConfigNotification extends React.Component {
               <div>
                 <Checkbox
                   disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
-                  checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.SMS, 'allowed'], false)}
-                  onChange={(e) => this.onChagedOptionOfRow({row, key: STATION_AUTO_OPTIONS.SMS, value: e.target.checked})}
+                  checked={_.get(
+                    row,
+                    ['options', STATION_AUTO_OPTIONS.SMS, 'allowed'],
+                    false
+                  )}
+                  onChange={e =>
+                    this.onChagedOptionOfRow({
+                      row,
+                      key: STATION_AUTO_OPTIONS.SMS,
+                      value: e.target.checked
+                    })
+                  }
                 />
               </div>
             )
@@ -264,13 +311,22 @@ export default class StationAutoConfigNotification extends React.Component {
               <div>
                 <Checkbox
                   disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
-                  checked= {_.get(row, ['options', STATION_AUTO_OPTIONS.EMAIL, 'allowed'], false)} 
-                  onChange={(e) => this.onChagedOptionOfRow({row, key: STATION_AUTO_OPTIONS.EMAIL, value: e.target.checked})}
+                  checked={_.get(
+                    row,
+                    ['options', STATION_AUTO_OPTIONS.EMAIL, 'allowed'],
+                    false
+                  )}
+                  onChange={e =>
+                    this.onChagedOptionOfRow({
+                      row,
+                      key: STATION_AUTO_OPTIONS.EMAIL,
+                      value: e.target.checked
+                    })
+                  }
                 />
               </div>
             )
-          },
-          
+          }
         ]
         //check if Group exist or not
         if (row.stationType && stationTypeArr.indexOf(row.stationType.key) > -1)
@@ -301,7 +357,6 @@ export default class StationAutoConfigNotification extends React.Component {
     return result
   }
 
-  
   onChagedOptionOfHeader(column, checked) {
     let _dataSource = this.state.dataSource
 
@@ -312,7 +367,7 @@ export default class StationAutoConfigNotification extends React.Component {
         isEmailIndeterminate: false,
         isWarningCheckAll: checked,
         isSmsCheckAll: checked,
-        isEmailCheckAll: checked,
+        isEmailCheckAll: checked
       })
 
       let columns = _.values(STATION_AUTO_OPTIONS)
@@ -326,74 +381,83 @@ export default class StationAutoConfigNotification extends React.Component {
       this.setState({
         dataSource: _dataSource
       })
-    }
-    else {
+    } else {
       /* 
       - tìm và thay đổi giá trị không giống với với checkbox select all và warning == enabled
       - update cached
       */
-      _.forEach(_dataSource, (station) => {
-        let isDiffValue = _.get(station, ['options', column, 'allowed']) !== checked
-        let isWarningCheckBoxEnabled = _.get(station, ['options', STATION_AUTO_OPTIONS.PRIMARY, 'allowed']) === true
+      _.forEach(_dataSource, station => {
+        let isDiffValue =
+          _.get(station, ['options', column, 'allowed']) !== checked
+        let isWarningCheckBoxEnabled =
+          _.get(station, [
+            'options',
+            STATION_AUTO_OPTIONS.PRIMARY,
+            'allowed'
+          ]) === true
         if (isDiffValue && isWarningCheckBoxEnabled) {
-          this.onChagedOptionOfRow({row: station, key: column, value: checked})
+          this.onChagedOptionOfRow({
+            row: station,
+            key: column,
+            value: checked
+          })
         }
       })
     }
 
-    switch(column) {
+    switch (column) {
       case STATION_AUTO_OPTIONS.PRIMARY: {
         this.setState({
-          isWarningCheckAll: checked, 
+          isWarningCheckAll: checked,
           isWarningIndeterminate: false
         })
-        break;
+        break
       }
       case STATION_AUTO_OPTIONS.SMS: {
         this.setState({
-          isSmsCheckAll: checked, 
+          isSmsCheckAll: checked,
           isSmsIndeterminate: false
         })
-        break;
+        break
       }
       case STATION_AUTO_OPTIONS.EMAIL: {
         this.setState({
-          isEmailCheckAll: checked, 
+          isEmailCheckAll: checked,
           isEmailIndeterminate: false
         })
-        break;
+        break
       }
-      default:break
+      default:
+        break
     }
   }
 
-
-  onChagedOptionOfRow({row, key, value}) {
+  onChagedOptionOfRow({ row, key, value }) {
     if (key === STATION_AUTO_OPTIONS.PRIMARY) {
       let columns = _.values(STATION_AUTO_OPTIONS)
-      console.log(columns, "columns_removedWarning")
+      console.log(columns, 'columns_removedWarning')
       _.forEach(columns, column => {
         this.updateDataSource(row, column, value)
         this.updateCache(row, column, value)
         this.checkIndeterminate(column, this.state.dataSource)
       })
-    }
-    else {
+    } else {
       this.updateDataSource(row, key, value)
       this.updateCache(row, key, value)
       this.checkIndeterminate(key, this.state.dataSource)
     }
   }
 
-
   updateDataSource(row, key, value) {
     let _dataSource = this.state.dataSource
-    let indexOfRow = _.findIndex(this.state.dataSource, stationAuto => stationAuto._id === row._id)
+    let indexOfRow = _.findIndex(
+      this.state.dataSource,
+      stationAuto => stationAuto._id === row._id
+    )
     _.set(_dataSource, `[${indexOfRow}].options[${key}].allowed`, value)
 
     this.setState({ dataSource: _dataSource })
   }
-
 
   updateCache(row, key, value) {
     /* NOTE  cached content
@@ -408,23 +472,28 @@ export default class StationAutoConfigNotification extends React.Component {
     let _cachedData = this.state.cachedData
     let _dataSourceOriginal = this.state.dataSourceOriginal
 
-    let indexOfRow = _.findIndex(_dataSourceOriginal, stationAuto => stationAuto._id === row._id)
-    let originalOption = _.get(_dataSourceOriginal[indexOfRow], ['options', key, 'allowed'], false)
+    let indexOfRow = _.findIndex(
+      _dataSourceOriginal,
+      stationAuto => stationAuto._id === row._id
+    )
+    let originalOption = _.get(
+      _dataSourceOriginal[indexOfRow],
+      ['options', key, 'allowed'],
+      false
+    )
     let currentValueInCache = _.get(_cachedData, [row._id, key])
-    
-    if (currentValueInCache){
+
+    if (currentValueInCache) {
       delete _cachedData[row._id][key]
       if (_.keys(_cachedData[row._id]).length === 0) {
         delete _cachedData[row._id]
       }
-    }
-    else if (originalOption !== value) {
+    } else if (originalOption !== value) {
       _.set(_cachedData, [row._id, key, 'allowed'], value)
     }
 
-    this.setState({cachedData: _cachedData})
+    this.setState({ cachedData: _cachedData })
   }
-
 
   clearCache() {
     let originalData = this.state.dataSourceOriginal
@@ -434,28 +503,42 @@ export default class StationAutoConfigNotification extends React.Component {
     })
   }
 
-
   checkIndeterminate(column, data) {
     let _dataSource = _.cloneDeep(data)
     let result = _.map(_dataSource, station => {
       return _.get(station, ['options', column, 'allowed'])
     })
-    
+
     let countBy = _.countBy(result, Boolean)
     let isSame = countBy.false === undefined || countBy.true === undefined
     let isCheckAll = _.every(result)
-    
-    switch(column) {
-      case STATION_AUTO_OPTIONS.PRIMARY : this.setState({isWarningIndeterminate : !isSame, isWarningCheckAll : isCheckAll }); break;
-      case STATION_AUTO_OPTIONS.SMS     : this.setState({isSmsIndeterminate     : !isSame, isSmsCheckAll     : isCheckAll }); break;
-      case STATION_AUTO_OPTIONS.EMAIL   : this.setState({isEmailIndeterminate   : !isSame, isEmailCheckAll   : isCheckAll }); break;
-      default: break
+
+    switch (column) {
+      case STATION_AUTO_OPTIONS.PRIMARY:
+        this.setState({
+          isWarningIndeterminate: !isSame,
+          isWarningCheckAll: isCheckAll
+        })
+        break
+      case STATION_AUTO_OPTIONS.SMS:
+        this.setState({
+          isSmsIndeterminate: !isSame,
+          isSmsCheckAll: isCheckAll
+        })
+        break
+      case STATION_AUTO_OPTIONS.EMAIL:
+        this.setState({
+          isEmailIndeterminate: !isSame,
+          isEmailCheckAll: isCheckAll
+        })
+        break
+      default:
+        break
     }
   }
 
-
   async submitCache() {
-    this.setState({isSave: true})
+    this.setState({ isSave: true })
     const res = await updateStationAutoOptions(this.state.cachedData)
     if (res.success) {
       this.setState({
@@ -463,15 +546,14 @@ export default class StationAutoConfigNotification extends React.Component {
         cachedData: {}
       })
       showSuccess(i18n.updateSuccess)
-    }
-    else if (res.error) {
+    } else if (res.error) {
       console.log(res.message)
       swal({
         title: i18n.updateError,
         type: 'error'
       })
     }
-  
-    this.setState({isSave: false})
+
+    this.setState({ isSave: false })
   }
 }

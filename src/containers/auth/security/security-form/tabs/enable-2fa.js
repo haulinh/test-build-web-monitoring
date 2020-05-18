@@ -8,18 +8,16 @@ import { connectAutoDispatch } from 'redux/connect'
 import { set2FAStatus, set2FAType } from 'redux/actions/authAction'
 import AuthApi from 'api/AuthApi'
 
-
 /* MARK  @translate */
 const i18n = {
   enable2FA: translate('security.enable2FA'),
-  disable2FA: translate('security.disable2FA'),
+  disable2FA: translate('security.disable2FA')
 }
 
-
 @connectAutoDispatch(
-  (state) => ({
+  state => ({
     enable: state.auth.userInfo.twoFactorAuth.enable,
-    twoFactorType: state.auth.userInfo.twoFactorAuth.type,
+    twoFactorType: state.auth.userInfo.twoFactorAuth.type
   }),
   { set2FAStatus, set2FAType }
 )
@@ -37,20 +35,26 @@ export default class SecurityFormEnable extends PureComponent {
   }
 
   render() {
-    return this.props.enable 
+    return this.props.enable
       ? this._renderDisableButton()
-      : this._renderEnableButton() 
+      : this._renderEnableButton()
   }
 
   _renderDisableButton() {
     return (
-      <Row type="flex" justify="center" align="top" style={{height: 150, marginTop: 50}}>
+      <Row
+        type="flex"
+        justify="center"
+        align="top"
+        style={{ height: 150, marginTop: 50 }}
+      >
         <Col>
-          <Button 
+          <Button
             type="danger"
-            loading={this.state.isSwitchingStatus} 
+            loading={this.state.isSwitchingStatus}
             onClick={this._handleDisable2FA}
-            >{i18n.disable2FA}
+          >
+            {i18n.disable2FA}
           </Button>
         </Col>
         <Col>
@@ -66,12 +70,19 @@ export default class SecurityFormEnable extends PureComponent {
 
   _renderEnableButton() {
     return (
-      <Row type="flex" justify="center" align="top" style={{height: 150, marginTop: 50}}>
+      <Row
+        type="flex"
+        justify="center"
+        align="top"
+        style={{ height: 150, marginTop: 50 }}
+      >
         <Col>
-          <Button type="primary" onClick={this._handleEnable2FA}>{i18n.enable2FA}</Button>
+          <Button type="primary" onClick={this._handleEnable2FA}>
+            {i18n.enable2FA}
+          </Button>
         </Col>
         <Col>
-          <span style={{marginTop: 20}}>{translate('security.note')}</span>
+          <span style={{ marginTop: 20 }}>{translate('security.note')}</span>
         </Col>
       </Row>
     )
@@ -83,16 +94,16 @@ export default class SecurityFormEnable extends PureComponent {
 
   async _handleDisable2FA() {
     try {
-      this.setState({isSwitchingStatus: true})
+      this.setState({ isSwitchingStatus: true })
       let { success } = await AuthApi.putSecurity({ enable: false })
-      this.setState({isSwitchingStatus: false})
+      this.setState({ isSwitchingStatus: false })
       if (success) {
         this.props.set2FAStatus(false)
         this.props.set2FAType(null)
       }
     } catch (error) {
-      console.log("eror putSucurity", error)
-      this.setState({isSwitchingStatus: false})
+      console.log('eror putSucurity', error)
+      this.setState({ isSwitchingStatus: false })
     }
   }
 }

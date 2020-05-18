@@ -283,9 +283,7 @@ export default class TabChart extends React.PureComponent {
       tooltip: {
         formatter: function() {
           return this.points.map(function(point) {
-            return (
-              `<b>${point.series.name}</b>: ${getFormatNumber(point.y)}`
-            )
+            return `<b>${point.series.name}</b>: ${getFormatNumber(point.y)}`
           })
         }
       },

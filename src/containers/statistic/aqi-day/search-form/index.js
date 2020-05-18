@@ -1,24 +1,24 @@
-import React from "react"
-import { autobind } from "core-decorators"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { reduxForm, Field } from "redux-form"
-import PropTypes from "prop-types"
-import { Row, Col, Button } from "antd"
-import createLang from "hoc/create-lang"
-import Clearfix from "components/elements/clearfix"
-import createValidateComponent from "components/elements/redux-form-validate"
-import moment from "moment"
-import { default as BoxShadowStyle } from "components/elements/box-shadow"
-import Heading from "components/elements/heading"
-import SelectStationConfigAQI from "../../common/select-station-config-aqi-loai-2"
-import SelectStationTypeConfigAQI from "../../common/select-station-type-config-aqi"
-import { translate } from "hoc/create-lang"
-import SelectProvince from "components/elements/select-province"
-import OptionsMonthRange from "../../common/options-time-month-range"
-import { DD_MM_YYYY } from "constants/format-date"
-import TimerPicker from "components/elements/time-picker"
-import InputLabel from "components/elements/input-label"
+import React from 'react'
+import { autobind } from 'core-decorators'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { reduxForm, Field } from 'redux-form'
+import PropTypes from 'prop-types'
+import { Row, Col, Button } from 'antd'
+import createLang from 'hoc/create-lang'
+import Clearfix from 'components/elements/clearfix'
+import createValidateComponent from 'components/elements/redux-form-validate'
+import moment from 'moment'
+import { default as BoxShadowStyle } from 'components/elements/box-shadow'
+import Heading from 'components/elements/heading'
+import SelectStationConfigAQI from '../../common/select-station-config-aqi-loai-2'
+import SelectStationTypeConfigAQI from '../../common/select-station-type-config-aqi'
+import { translate } from 'hoc/create-lang'
+import SelectProvince from 'components/elements/select-province'
+import OptionsMonthRange from '../../common/options-time-month-range'
+import { DD_MM_YYYY } from 'constants/format-date'
+import TimerPicker from 'components/elements/time-picker'
+import InputLabel from 'components/elements/input-label'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationTypeConfigAQI = createValidateComponent(
@@ -38,11 +38,11 @@ const Container = styled.div`
 function validate(values) {
   const errors = {}
   if (!values.inRange)
-    errors.inRange = translate("aqiSearchForm.form.inRange.error")
+    errors.inRange = translate('aqiSearchForm.form.inRange.error')
   if (!values.stationType)
-    errors.stationType = translate("avgSearchFrom.form.stationType.error")
+    errors.stationType = translate('avgSearchFrom.form.stationType.error')
   if (!values.station)
-    errors.station = translate("avgSearchFrom.form.stationType.error")
+    errors.station = translate('avgSearchFrom.form.stationType.error')
   return errors
 }
 
@@ -52,7 +52,7 @@ function validate(values) {
   }
 }))
 @reduxForm({
-  form: "dataAQISearch",
+  form: 'dataAQISearch',
   validate
 })
 @createLang
@@ -66,7 +66,7 @@ export default class SearchForm extends React.Component {
 
   state = {
     timezoneDay: 0,
-    timezoneTo: ""
+    timezoneTo: ''
   }
 
   constructor(props) {
@@ -91,9 +91,9 @@ export default class SearchForm extends React.Component {
 
   handleChangeStationType(stationTypeKey, e) {
     this.setState({
-      stationTypeKey: stationTypeKey ? stationTypeKey.key : "",
-      stationKey: "",
-      stationID: ""
+      stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
+      stationKey: '',
+      stationID: ''
     })
     // this.props.change('station', '')
   }
@@ -122,16 +122,16 @@ export default class SearchForm extends React.Component {
   }
 
   convertDateToString(date) {
-    return moment(date, "YYYY-MM-DD").toISOString()
+    return moment(date, 'YYYY-MM-DD').toISOString()
   }
 
   handleProvinceChange = province => {
     this.setState({
       provinceKey: province.key,
-      stationKey: ""
+      stationKey: ''
     })
 
-    this.props.change("station", "")
+    this.props.change('station', '')
   }
 
   handleChangeDate = (fromDate, toDate) => {
@@ -152,12 +152,12 @@ export default class SearchForm extends React.Component {
   }
   hanldeOnchangeFramTime = (time, timeString) => {
     const to = moment(time)
-      .subtract(23, "hours")
-      .format("HH:mm")
+      .subtract(23, 'hours')
+      .format('HH:mm')
     // console.log(to,  'hanldeOnchangeFramTime')
     this.setState({
       timezoneTo: to,
-      timezoneDay: moment(time).format("HH")
+      timezoneDay: moment(time).format('HH')
     })
   }
 
@@ -166,7 +166,7 @@ export default class SearchForm extends React.Component {
   }
 
   render() {
-    const t = this.props.lang.createNameSpace("dataSearchFrom.form")
+    const t = this.props.lang.createNameSpace('dataSearchFrom.form')
     return (
       <SearchFormContainer>
         <Heading
@@ -177,21 +177,21 @@ export default class SearchForm extends React.Component {
               size="small"
               onClick={this.props.handleSubmit(this.handleSubmit)}
             >
-              {this.props.lang.t("addon.search")}
+              {this.props.lang.t('addon.search')}
             </Button>
           }
           textColor="#ffffff"
           isBackground
           fontSize={14}
-          style={{ padding: "8px 16px" }}
+          style={{ padding: '8px 16px' }}
         >
-          {this.props.lang.t("addon.search")}
+          {this.props.lang.t('addon.search')}
         </Heading>
         <Container>
           <Row gutter={24}>
             <Col span={12}>
               <Field
-                label={translate("qaqc.province.label")}
+                label={translate('qaqc.province.label')}
                 name="province"
                 size="large"
                 component={FSelectProvince}
@@ -200,7 +200,7 @@ export default class SearchForm extends React.Component {
             </Col>
             <Col span={12}>
               <Field
-                label={t("stationType.label")}
+                label={t('stationType.label')}
                 name="stationType"
                 size="large"
                 onHandleChange={this.handleChangeStationType}
@@ -213,7 +213,7 @@ export default class SearchForm extends React.Component {
           <Row gutter={24}>
             <Col span={24}>
               <Field
-                label={t("stationAuto.label")}
+                label={t('stationAuto.label')}
                 name="station"
                 size="large"
                 isMultiple={true}
@@ -228,7 +228,7 @@ export default class SearchForm extends React.Component {
           <Row gutter={24}>
             <Col span={12}>
               <Field
-                label={translate("aqiSearchForm.form.inRange.label")}
+                label={translate('aqiSearchForm.form.inRange.label')}
                 name="inRange"
                 size="large"
                 formatDate={DD_MM_YYYY}
@@ -241,11 +241,11 @@ export default class SearchForm extends React.Component {
               <div>
                 <Col span={5}>
                   <InputLabel
-                    size={"large"}
+                    size={'large'}
                     disabled={true}
-                    label={translate("aqiSearchForm.form.from.label")}
+                    label={translate('aqiSearchForm.form.from.label')}
                     value={
-                      this.state.timezoneTo ? this.state.timezoneTo : "01:00"
+                      this.state.timezoneTo ? this.state.timezoneTo : '01:00'
                     }
                   />
                 </Col>
@@ -254,8 +254,8 @@ export default class SearchForm extends React.Component {
                     size="large"
                     name="timezoneDay"
                     timePickerFormat="HH:00"
-                    label={translate("aqiSearchForm.form.to.label")}
-                    defaultValue={"00:00"}
+                    label={translate('aqiSearchForm.form.to.label')}
+                    defaultValue={'00:00'}
                     component={FTimerPicker}
                     onChange={this.hanldeOnchangeFramTime}
                   />

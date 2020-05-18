@@ -1,19 +1,19 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { autobind } from "core-decorators"
-import styled from "styled-components"
-import { withRouter } from "react-router"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { autobind } from 'core-decorators'
+import styled from 'styled-components'
+import { withRouter } from 'react-router'
 import moment from 'moment-timezone'
-import StationAutoHead from "./Head"
-import MeasuringList from "./measuring/measuring-list"
-import MoreContent from "./more-content"
-import slug from "constants/slug"
-import { STATUS_STATION } from "constants/stationStatus"
-import { translate } from "hoc/create-lang"
-import { get, map as _map } from "lodash"
-import queryFormDataBrowser from "hoc/query-formdata-browser"
+import StationAutoHead from './Head'
+import MeasuringList from './measuring/measuring-list'
+import MoreContent from './more-content'
+import slug from 'constants/slug'
+import { STATUS_STATION } from 'constants/stationStatus'
+import { translate } from 'hoc/create-lang'
+import { get, map as _map } from 'lodash'
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
 
-import CameraListView from "./camera-list"
+import CameraListView from './camera-list'
 
 const StationAutoWrapper = styled.div`
   background-color: #fff;
@@ -22,7 +22,7 @@ const StationAutoWrapper = styled.div`
 `
 
 @withRouter
-@queryFormDataBrowser(["submit"])
+@queryFormDataBrowser(['submit'])
 @autobind
 export default class StationAutoItem extends React.PureComponent {
   static propTypes = {
@@ -53,10 +53,12 @@ export default class StationAutoItem extends React.PureComponent {
       let formSearch = null
       let slugPrefix = ''
       switch (keyOpenTab) {
-        case "historyData": {
+        case 'historyData': {
           // console.log(arrMeasures)
           let toDate = this.props.lastLog.receivedAt
-          let fromDate = moment(toDate).subtract(1, 'day').format()
+          let fromDate = moment(toDate)
+            .subtract(1, 'day')
+            .format()
 
           formSearch = {
             stationType: this.props.stationType.key,
@@ -71,7 +73,7 @@ export default class StationAutoItem extends React.PureComponent {
           slugPrefix = slug.dataSearch.base
           break
         }
-        case "avgData": {
+        case 'avgData': {
           // console.log(arrMeasures)
           formSearch = {
             stationType: this.props.stationType.key,
@@ -93,11 +95,11 @@ export default class StationAutoItem extends React.PureComponent {
           JSON.stringify(formSearch)
         )}`
 
-        window.open(url, "_blank")
+        window.open(url, '_blank')
       }
     } else {
       if (this.state.showPanel === panelName)
-        return this.setState({ showPanel: "" })
+        return this.setState({ showPanel: '' })
       else return this.setState({ showPanel: panelName })
     }
   }
@@ -105,7 +107,9 @@ export default class StationAutoItem extends React.PureComponent {
   /* search data trong vòng 24h từ lúc nhận lastlog */
   handleClickDataSearchWithMeasuring(measuringItem) {
     let toDate = measuringItem.receivedAt
-    let fromDate = moment(toDate).subtract(1, 'day').format()
+    let fromDate = moment(toDate)
+      .subtract(1, 'day')
+      .format()
 
     const formSearch = {
       stationType: this.props.stationType.key,
@@ -115,12 +119,12 @@ export default class StationAutoItem extends React.PureComponent {
       fromDate,
       toDate,
       searchRange: true,
-      searchNow: true,
+      searchNow: true
     }
 
     this.props.history.push(
       slug.dataSearch.base +
-        "?formData=" +
+        '?formData=' +
         encodeURIComponent(JSON.stringify(formSearch))
     )
   }
@@ -147,15 +151,14 @@ export default class StationAutoItem extends React.PureComponent {
     return measuringList
   }
 
-  componentDidMount = () =>{
+  componentDidMount = () => {
     // console.log(this.props.formData.stationAuto,this.props.stationID, "componentDidMount")
-    if(this.props.stationID === get(this.props,'formData.stationAuto','')){
+    if (this.props.stationID === get(this.props, 'formData.stationAuto', '')) {
       // console.log(this.props.formData, "componentDidMount run 2")
       this.setState({
-        showPanel:'chart'
+        showPanel: 'chart'
       })
     }
-    
   }
 
   render() {
@@ -171,17 +174,17 @@ export default class StationAutoItem extends React.PureComponent {
       status,
       _id
     } = this.props
-    let receivedAt = ""
+    let receivedAt = ''
     if (lastLog && lastLog.receivedAt) {
       receivedAt = lastLog.receivedAt
       // receivedAt = moment(lastLog.receivedAt)
       //   .format('YYYY-MM-DD HH:MM')
       //   .toString()
       if (status === STATUS_STATION.DATA_LOSS) {
-        receivedAt = `${translate("monitoring.dataLoss")}  ${receivedAt}`
+        receivedAt = `${translate('monitoring.dataLoss')}  ${receivedAt}`
       }
     } else {
-      receivedAt = translate("monitoring.notUse")
+      receivedAt = translate('monitoring.notUse')
     }
 
     return (
@@ -215,8 +218,8 @@ export default class StationAutoItem extends React.PureComponent {
           stationInfo={this.props}
         />
 
-        {this.state.isOpenCamera && get(options, "camera.allowed") && (
-          <CameraListView cameraList={get(options, "camera.list", [])} />
+        {this.state.isOpenCamera && get(options, 'camera.allowed') && (
+          <CameraListView cameraList={get(options, 'camera.list', [])} />
         )}
       </StationAutoWrapper>
     )

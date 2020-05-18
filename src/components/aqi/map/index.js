@@ -7,7 +7,6 @@ import AqiLevelInfo from './AqiLevelInfo'
 
 @connectWindowHeight
 export default class MapComponent extends React.Component {
-
   render() {
     return (
       <div style={{ height: this.props.windowHeight, flex: 2 }}>

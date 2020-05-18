@@ -13,19 +13,25 @@ const { Option } = Select
 const { Meta } = Card
 
 const i18n = {
-  selectUser: translate('userManager.form.placeholder.selectUser'), 
-  selectRoleGroup: translate('userManager.form.placeholder.selectRoleGroup'), 
+  selectUser: translate('userManager.form.placeholder.selectUser'),
+  selectRoleGroup: translate('userManager.form.placeholder.selectRoleGroup'),
   create: translate('addon.create'),
-  error: translate("addon.error"),
+  error: translate('addon.error'),
   roleAssign: translate('userManager.list.roleAssign')
 }
 
 const formFields = {
   selectUser: 'selectUser',
-  selectRole: 'selectRole',
+  selectRole: 'selectRole'
 }
 
-const BACKGROUND_COLORS = [ '#87d068', '#f56a00', '#7265e6', '#ffbf00', '#00a2ae' ]
+const BACKGROUND_COLORS = [
+  '#87d068',
+  '#f56a00',
+  '#7265e6',
+  '#ffbf00',
+  '#00a2ae'
+]
 
 @Form.create()
 @autobind
@@ -35,30 +41,30 @@ export default class UserSearchForm extends React.PureComponent {
     updateDataForSubmit: PropTypes.func.isRequired
   }
 
-  static defaultProps= { }
+  static defaultProps = {}
 
   state = {
     isGettingUsers: false,
     isGettingRoles: false,
     dataSourceUsers: [],
-    dataSourceRoles: [],
+    dataSourceRoles: []
   }
 
   componentDidMount() {
-    if(this.props.getRef) this.props.getRef(this)
+    if (this.props.getRef) this.props.getRef(this)
     this.getUsers()
     this.getRoles()
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = this.props.form
     return (
       <Row type="flex" gutter={100} justify="space-around">
         <Col span={12}>
           {getFieldDecorator(formFields.selectUser)(
             <Select
               placeholder={i18n.selectUser}
-              style={{width: '100%'}} 
+              style={{ width: '100%' }}
               loading={this.state.isGettingUsers}
               optionLabelProp="label"
               onSelect={this.handleSelectUser}
@@ -67,17 +73,26 @@ export default class UserSearchForm extends React.PureComponent {
               filterOption={this.handleFilter}
             >
               {this.state.dataSourceUsers.map((user, index) => (
-                <Option key={user._id} value={user._id} label={user.email} search={`${user.lastName} ${user.firstName}`}>
+                <Option
+                  key={user._id}
+                  value={user._id}
+                  label={user.email}
+                  search={`${user.lastName} ${user.firstName}`}
+                >
                   <Meta
                     avatar={
-                      <Avatar 
+                      <Avatar
                         // size="large"
                         icon="user"
                         src={user.avatar}
-                        style={{ backgroundColor: BACKGROUND_COLORS[index % BACKGROUND_COLORS.length], marginTop: 5}}
+                        style={{
+                          backgroundColor:
+                            BACKGROUND_COLORS[index % BACKGROUND_COLORS.length],
+                          marginTop: 5
+                        }}
                       />
                     }
-                    style={{padding: '5px 0'}}
+                    style={{ padding: '5px 0' }}
                     title={user.email}
                     description={`${user.lastName} ${user.firstName}`}
                   />
@@ -88,9 +103,9 @@ export default class UserSearchForm extends React.PureComponent {
         </Col>
         <Col span={12}>
           {getFieldDecorator(formFields.selectRole)(
-            <Select 
+            <Select
               placeholder={i18n.selectRoleGroup}
-              style={{width: '100%'}} 
+              style={{ width: '100%' }}
               loading={this.state.isGettingRoles}
               onSelect={this.handleSelectRole}
               showSearch
@@ -99,7 +114,9 @@ export default class UserSearchForm extends React.PureComponent {
               // defaultValue={}
             >
               {this.state.dataSourceRoles.map(role => (
-                <Option key={role._id} value={role._id} search={role.name}>{role.name}</Option>
+                <Option key={role._id} value={role._id} search={role.name}>
+                  {role.name}
+                </Option>
               ))}
             </Select>
           )}
@@ -117,9 +134,9 @@ export default class UserSearchForm extends React.PureComponent {
 
   updateUserVersion(userId) {
     let users = this.state.dataSourceUsers
-    let index = _.findIndex(users, {'_id': userId})
+    let index = _.findIndex(users, { _id: userId })
     users[index].__v += 1
-    this.setState({dataSourceUsers: users})
+    this.setState({ dataSourceUsers: users })
   }
 
   handleFilter(input, option) {
@@ -136,26 +153,26 @@ export default class UserSearchForm extends React.PureComponent {
       })
     }
 
-    this.props.updateDataForSubmit({name: 'selectedRole', value: role})
-    this.props.updateDataForSubmit({name: 'selectedUser', value: user})
+    this.props.updateDataForSubmit({ name: 'selectedRole', value: role })
+    this.props.updateDataForSubmit({ name: 'selectedUser', value: user })
   }
 
   handleSelectRole(roleID) {
     let role = _.find(this.state.dataSourceRoles, role => role._id === roleID)
-    this.props.updateDataForSubmit({name: 'selectedRole', value: role})
+    this.props.updateDataForSubmit({ name: 'selectedRole', value: role })
   }
 
   /* NOTE */
   async getUsers() {
     this.setState({
-      isGettingUsers: true,
+      isGettingUsers: true
     })
 
     let resUsers = await UserApi.searchUser()
 
     this.setState({
       isGettingUsers: false,
-      dataSourceUsers: _.get(resUsers, 'data', []),
+      dataSourceUsers: _.get(resUsers, 'data', [])
     })
   }
 
@@ -167,14 +184,14 @@ export default class UserSearchForm extends React.PureComponent {
   /* NOTE */
   async getRoles() {
     this.setState({
-      isGettingRoles: true,
+      isGettingRoles: true
     })
 
     let resRoles = await RoleApi.getRoles()
 
     this.setState({
       isGettingRoles: false,
-      dataSourceRoles: _.get(resRoles, 'data', []),
+      dataSourceRoles: _.get(resRoles, 'data', [])
     })
   }
 }

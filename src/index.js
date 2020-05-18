@@ -12,7 +12,7 @@ import 'video-react/dist/video-react.css'
 import './index.css'
 
 import { AppContainer } from 'react-hot-loader'
-import   { createBrowserHistory } from 'history'
+import { createBrowserHistory } from 'history'
 import configureStore from './redux/createStore'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'

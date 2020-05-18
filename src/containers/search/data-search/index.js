@@ -13,7 +13,7 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
-import { isEqual as _isEqual} from 'lodash'
+import { isEqual as _isEqual } from 'lodash'
 
 @protectRole(ROLE.DATA_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])

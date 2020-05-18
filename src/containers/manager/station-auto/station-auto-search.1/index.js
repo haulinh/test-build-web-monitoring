@@ -11,7 +11,7 @@ import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 const i18n = {
   addButton: translate('stationAutoManager.create.label'),
   stationType: translate('stationAutoManager.form.stationType.placeholder'),
-  stationName: translate('stationAutoManager.form.name.placeholder'),
+  stationName: translate('stationAutoManager.form.name.placeholder')
 }
 
 @Form.create({
@@ -55,7 +55,11 @@ export default class StationAutoSearchForm extends React.PureComponent {
     return (
       <Row type="flex" align="middle" justify="center">
         <Col span={24}>
-          <Form className="fadeIn animated" onSubmit={this.changeSearch} style={{width: '100%'}}>
+          <Form
+            className="fadeIn animated"
+            onSubmit={this.changeSearch}
+            style={{ width: '100%' }}
+          >
             <Row gutter={16}>
               {/* CHỌN LOẠI TRẠM */}
               <Col span={11}>
@@ -78,7 +82,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
               </Col>
 
               {/* BUTTON SEARCH */}
-              <Col span={2} style={{textAlign: "center"}}>
+              <Col span={2} style={{ textAlign: 'center' }}>
                 <Button shape="circle" htmlType="submit">
                   <Icon type="search" />
                 </Button>

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import {Icon, Menu, Dropdown, Input, Modal, message } from 'antd'
+import { Icon, Menu, Dropdown, Input, Modal, message } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
@@ -108,8 +108,7 @@ export default class UserList extends React.Component {
   async onEnableAccount(_id, enable, callback) {
     if (this.props.userInfo._id === _id) {
       message.warning(translate('userManager.list.warning'))
-      
-    }else{
+    } else {
       Modal.confirm({
         title: format(
           translate('userManager.list.confirmEnableAccount'),
@@ -131,7 +130,6 @@ export default class UserList extends React.Component {
         onCancel() {}
       })
     }
-    
   }
 
   actionGroup(row) {

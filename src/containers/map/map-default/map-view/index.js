@@ -29,7 +29,6 @@ const LevelWrapper = styled.div`
   z-index: 2;
 `
 
-
 @withScriptjs
 @withGoogleMap
 class CustomGoogleMap extends PureComponent {
@@ -171,7 +170,6 @@ class CustomGoogleMap extends PureComponent {
     )
   }
 }
-
 
 @autobind
 export default class MapStationAuto extends PureComponent {

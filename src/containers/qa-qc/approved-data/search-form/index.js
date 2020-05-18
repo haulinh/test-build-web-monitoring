@@ -21,7 +21,7 @@ import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 import { FSelectApprove } from './select-approve'
-import {QAQC_TABLES} from 'constants/qaqc'
+import { QAQC_TABLES } from 'constants/qaqc'
 
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
@@ -40,16 +40,16 @@ const i18n = {
   __deviceError: translate('qaqc.dataFilter.deviceError'),
   __deviceCalibration: translate('qaqc.dataFilter.deviceCalibration'),
   __zero: translate('qaqc.dataFilter.zero'),
-  __negative: translate('qaqc.dataFilter.negative'),
+  __negative: translate('qaqc.dataFilter.negative')
 }
 
 /* MARK  @mockup */
 let mockDataFilterBy = [
-  {name: i18n.__ngoaidaido, value: 'outOfRange'},
-  {name: i18n.__deviceError, value: 'deviceError'},
-  {name: i18n.__deviceCalibration, value: 'deviceCalibration'},
-  {name: i18n.__zero, value: 'zero'},
-  {name: i18n.__negative, value: 'negative'},
+  { name: i18n.__ngoaidaido, value: 'outOfRange' },
+  { name: i18n.__deviceError, value: 'deviceError' },
+  { name: i18n.__deviceCalibration, value: 'deviceCalibration' },
+  { name: i18n.__zero, value: 'zero' },
+  { name: i18n.__negative, value: 'negative' }
 ]
 
 function validate(values) {
@@ -67,9 +67,15 @@ function validate(values) {
 
 @connect((state, ownProps) => ({
   initialValues: {
-    fromDate: moment().subtract(1, 'month').startOf("month").hours(0).minutes(0),
-    toDate: moment().hours(23).minutes(59),
-  //   ...(ownProps.initialValues ? ownProps.initialValues : {})
+    fromDate: moment()
+      .subtract(1, 'month')
+      .startOf('month')
+      .hours(0)
+      .minutes(0),
+    toDate: moment()
+      .hours(23)
+      .minutes(59)
+    //   ...(ownProps.initialValues ? ownProps.initialValues : {})
   }
 }))
 @reduxForm({
@@ -128,7 +134,7 @@ export default class SearchForm extends React.Component {
       stationAuto.measuringList || [],
       'numericalOrder'
     )
-    
+
     this.setState({
       measuringList: measuringData.map(measuring => ({
         value: measuring.key,
@@ -167,7 +173,6 @@ export default class SearchForm extends React.Component {
       publishedList: _.get(this.state, 'options.published.measureList', [])
     })
   }
-
 
   _handleChangeDataType = (e, newValue, prevValue, name) => {
     // this._setSelectedTableFromType(newValue)
@@ -277,8 +282,7 @@ export default class SearchForm extends React.Component {
           <Clearfix height={16} />
           <Row>
             <Col span={24}>
-              {
-                this.state.enabledDataFilters && 
+              {this.state.enabledDataFilters && (
                 <Field
                   label={translate('qaqc.dataFilter.label')}
                   name="dataFilterBy"
@@ -289,7 +293,7 @@ export default class SearchForm extends React.Component {
                   options={this.state.dataFilters}
                   component={FSelectAnt}
                 />
-              }
+              )}
             </Col>
           </Row>
         </Container>
@@ -298,29 +302,32 @@ export default class SearchForm extends React.Component {
   }
 
   _setSelectedTableFromType(type) {
-    switch(type) {
+    switch (type) {
       case 'original': {
         this.props.changeDataType(QAQC_TABLES.original)
-        break;
+        break
       }
       case 'valid': {
         this.props.changeDataType(QAQC_TABLES.valid)
-        break;
+        break
       }
       case 'invalid': {
         this.props.changeDataType(QAQC_TABLES.invalid)
-        break;
+        break
       }
-      default: break;
+      default:
+        break
     }
   }
   _setDataFiltersOptionsEnabledBy(value) {
     if (value === 'invalid') {
-      this.setState({enabledDataFilters: true})
-      this.props.change('dataFilterBy', mockDataFilterBy.map(item=>item.value))
-    }
-    else {
-      this.setState({enabledDataFilters: false})
+      this.setState({ enabledDataFilters: true })
+      this.props.change(
+        'dataFilterBy',
+        mockDataFilterBy.map(item => item.value)
+      )
+    } else {
+      this.setState({ enabledDataFilters: false })
       this.props.change('dataFilterBy', [])
     }
   }

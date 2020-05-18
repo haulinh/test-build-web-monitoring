@@ -72,7 +72,7 @@ export default class StationAutoConfigConnection extends React.Component {
   }
 
   static defaultProps = {
-    dataSource:  []
+    dataSource: []
   }
 
   async onDeleteItem(_id, callback) {
@@ -256,7 +256,7 @@ export default class StationAutoConfigConnection extends React.Component {
       )
     } else {
       console.log('---row---: ', row)
-      defaultComp =  (
+      defaultComp = (
         <Row>
           {protectRole(ROLE.CAU_HINH_KET_NOI.FTP_FLODER)(
             <Link to={slug.stationAuto.configConnection.ftp + '/' + row._id}>
@@ -282,7 +282,7 @@ export default class StationAutoConfigConnection extends React.Component {
         <Breadcrumb items={['config']} />
 
         {/* FORM CONTROL */}
-        <Row style={{marginBottom: 20}}>
+        <Row style={{ marginBottom: 20 }}>
           <StationAutoSearchForm
             onChangeSearch={this.props.onChangeSearch}
             initialValues={this.props.data}

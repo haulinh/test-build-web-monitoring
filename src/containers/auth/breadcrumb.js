@@ -32,5 +32,5 @@ export default createBreadcrumb({
     icon: '',
     href: slug.user.security,
     name: translate('changePassword.breadcrumb.security')
-  },
+  }
 })

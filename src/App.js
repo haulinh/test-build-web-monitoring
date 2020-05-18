@@ -9,7 +9,6 @@ import AppContainer from 'redux/AppContainer'
 // export default AppTest
 
 export default class App extends Component {
-
   render() {
     return (
       <Provider store={this.props.store}>

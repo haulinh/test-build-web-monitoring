@@ -11,7 +11,6 @@ import Heading from 'components/elements/heading'
 // `
 
 export default class HeadStypeType extends React.Component {
-
   render() {
     return (
       <Heading
@@ -19,7 +18,7 @@ export default class HeadStypeType extends React.Component {
         textColor="#ffffff"
         fontSize={14}
         style={{
-          padding: '8px 16px',
+          padding: '8px 16px'
         }}
       >
         {this.props.children}

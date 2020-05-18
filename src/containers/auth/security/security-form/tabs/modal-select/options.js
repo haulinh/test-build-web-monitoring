@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button} from 'antd'
+import { Button } from 'antd'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
@@ -17,13 +17,13 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-const showMsgInfo = (msg) => {
+const showMsgInfo = msg => {
   msg = msg || ''
-  message.info(msg);
-};
+  message.info(msg)
+}
 
 @connectAutoDispatch(
-  (state) => ({
+  state => ({
     user: state.auth.userInfo
   }),
   { update2FA, set2FAStatus }
@@ -49,15 +49,17 @@ export default class ModalSelectOptions extends React.PureComponent {
     return (
       <Container>
         <p>{translate('security.message.info')}</p>
-        <Button 
+        <Button
           onClick={this._handleSelectEmail}
-          loading={this.state.isLoadingEmail}>
+          loading={this.state.isLoadingEmail}
+        >
           {translate('security.use.email')}
         </Button>
         <Button
           loading={this.state.isLoadingSms}
           onClick={this._handleSelectSms}
-          style={{ marginTop: 16 }}>
+          style={{ marginTop: 16 }}
+        >
           {translate('security.use.sms')}
         </Button>
       </Container>
@@ -66,22 +68,21 @@ export default class ModalSelectOptions extends React.PureComponent {
 
   async _handleSelectSms() {
     this.props.switchToOption('sms')
-    this.setState({isLoadingSms: true})
+    this.setState({ isLoadingSms: true })
     try {
       const res = await userApi.getSmsCode('sms')
-      const {twoFactorAuth} = res.data
+      const { twoFactorAuth } = res.data
       this.props.update2FA(twoFactorAuth)
-    }
-    catch(error) {
+    } catch (error) {
       showMsgInfo('ERROR')
     }
     this.setState({ type: 'sms', stepCurrent: 0, isLoadingSms: false })
   }
-  
+
   async _handleSelectEmail() {
     this.props.switchToOption('email')
     try {
-      this.setState({isLoadingEmail: true})
+      this.setState({ isLoadingEmail: true })
       const { success } = await authApi.putSecurity({ enable: true })
       this.setState({ type: 'email', isLoadingEmail: false })
       this._showhandleInfo(success)

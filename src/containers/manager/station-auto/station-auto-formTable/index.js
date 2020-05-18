@@ -162,7 +162,7 @@ export default class StationAutoFormTable extends React.Component {
       })(<span>{text}</span>)}
     </FormItem>
   )
-  
+
   renderItemNumberCell = (text, record, index, key, autoFill = false) => {
     if (autoFill) {
       if (!_.isNumber(text) && this.props.allowUpdateStandardsVN) {
@@ -172,7 +172,7 @@ export default class StationAutoFormTable extends React.Component {
     return (
       <FormItem style={{ marginBottom: 0 }}>
         {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
-          initialValue: text,
+          initialValue: text
           // validateFirst: true,
           // rules: [
           //   { validator: (rule, value, callback) => this.validateValue(index, rule, value, callback) },
@@ -183,14 +183,28 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   validateValue = (indexOfRow, rule, value, callback) => {
-    const { form } = this.props;
-    
+    const { form } = this.props
+
     const nameOfInputChanged = rule.field.split('.')[1]
     let rowData = form.getFieldsValue().measuringList[indexOfRow]
-    let arrLongName = ['min Range', 'min Limit', 'min Tend', 'max Tend', 'max Limit', 'max Range']
-    let arrName = ['minRange', 'minLimit', 'minTend', 'maxTend', 'maxLimit', 'maxRange']
+    let arrLongName = [
+      'min Range',
+      'min Limit',
+      'min Tend',
+      'max Tend',
+      'max Limit',
+      'max Range'
+    ]
+    let arrName = [
+      'minRange',
+      'minLimit',
+      'minTend',
+      'maxTend',
+      'maxLimit',
+      'maxRange'
+    ]
     let lengthOfArrName = arrName.length
-    
+
     /* Dùng thuật toán two pointer */
 
     let indexOfNameChanged = arrName.indexOf(nameOfInputChanged)
@@ -208,8 +222,8 @@ export default class StationAutoFormTable extends React.Component {
     let longNameOfRightPointer = longNameOfIndex
     let valueOfRightPointer = valueOfNameChanged
 
-    while(true) {
-      if (!valueOfNameChanged) break;
+    while (true) {
+      if (!valueOfNameChanged) break
 
       if (valueOfNameChanged < valueOfLeftPointer) {
         return callback(`field < ${longNameOfLeftPointer}`)
@@ -219,32 +233,35 @@ export default class StationAutoFormTable extends React.Component {
         return callback(`field > ${longNameOfRightPointer}`)
       }
 
-      if (indexOfLeftPointer === 0 && indexOfRightPointer === lengthOfArrName - 1) {
+      if (
+        indexOfLeftPointer === 0 &&
+        indexOfRightPointer === lengthOfArrName - 1
+      ) {
         callback()
-        break;
+        break
       }
-      
+
       if (indexOfLeftPointer > 0) {
-        indexOfLeftPointer = indexOfLeftPointer - 1;
+        indexOfLeftPointer = indexOfLeftPointer - 1
         nameOfLeftPointer = arrName[indexOfLeftPointer]
         longNameOfLeftPointer = arrLongName[indexOfLeftPointer]
         valueOfLeftPointer = rowData[nameOfLeftPointer]
       }
-      
+
       if (indexOfRightPointer < lengthOfArrName - 1) {
-        indexOfRightPointer = indexOfRightPointer + 1;
+        indexOfRightPointer = indexOfRightPointer + 1
         nameOfRightPointer = arrName[indexOfRightPointer]
         longNameOfRightPointer = arrLongName[indexOfRightPointer]
         valueOfRightPointer = rowData[nameOfRightPointer]
-      } 
+      }
     }
     callback()
-  };
+  }
 
   getColumns = () => {
     const { t } = this.props.lang
     const { getFieldDecorator } = this.props.form
-    
+
     return [
       {
         dataIndex: 'measuringKey',

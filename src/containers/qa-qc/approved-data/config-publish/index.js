@@ -47,7 +47,12 @@ export default class ConfigPublishContainer extends React.Component {
         key: 'options',
         width: 100,
         align: 'center',
-        render: (value, record) => <Checkbox defaultChecked={_.get(value, ['published', 'allowed'])} onChange={checked => this.handleStationPublish(record._id, checked)} /> // "allowed" : false
+        render: (value, record) => (
+          <Checkbox
+            defaultChecked={_.get(value, ['published', 'allowed'])}
+            onChange={checked => this.handleStationPublish(record._id, checked)}
+          />
+        ) // "allowed" : false
       },
       {
         title: translate('qaqc.configPublish.stationName'),
@@ -65,8 +70,18 @@ export default class ConfigPublishContainer extends React.Component {
             label: name,
             value: key
           }))
-          const defaultValue = _.get(record, ['options', 'published', 'measureList'], [])
-          return <CheckboxGroup defaultValue={defaultValue} options={options} onChange={option => this.handleOptionChange(record._id, option)} />
+          const defaultValue = _.get(
+            record,
+            ['options', 'published', 'measureList'],
+            []
+          )
+          return (
+            <CheckboxGroup
+              defaultValue={defaultValue}
+              options={options}
+              onChange={option => this.handleOptionChange(record._id, option)}
+            />
+          )
         }
       }
     ]
@@ -105,11 +120,18 @@ export default class ConfigPublishContainer extends React.Component {
     return (
       <div>
         {getConfigApi().isAdvanced && (
-          <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+          <PageContainer
+            {...this.props.wrapperProps}
+            backgroundColor={'#fafbfb'}
+          >
             <Breadcrumb items={['config']} />
             <Spin spinning={false} title="Đang xử lý...">
               <SearchForm onSearch={this.handleSearch} />
-              <Table rowKey="key" dataSource={this.getData()} columns={this.columns} />
+              <Table
+                rowKey="key"
+                dataSource={this.getData()}
+                columns={this.columns}
+              />
             </Spin>
           </PageContainer>
         )}

@@ -1,13 +1,13 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { Form, Input, Button, message, Table, Divider, Popconfirm } from "antd"
-import Link from "components/elements/link"
-import * as _ from "lodash"
-import { mapPropsToFields } from "utils/form"
-import createLanguageHoc, { translate } from "hoc/create-lang"
-import organizationAPI from "api/OrganizationApi"
-import { Clearfix } from "components/elements"
-import moment from "moment"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Form, Input, Button, message, Table, Divider, Popconfirm } from 'antd'
+import Link from 'components/elements/link'
+import * as _ from 'lodash'
+import { mapPropsToFields } from 'utils/form'
+import createLanguageHoc, { translate } from 'hoc/create-lang'
+import organizationAPI from 'api/OrganizationApi'
+import { Clearfix } from 'components/elements'
+import moment from 'moment'
 const FormItem = Form.Item
 @Form.create({
   mapPropsToFields: mapPropsToFields
@@ -46,7 +46,7 @@ export default class OptionModalConfig extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         this.setState({ isLoaded: false })
-        const item = _.pick(values, ["ip", "port", "user", "pass"])
+        const item = _.pick(values, ['ip', 'port', 'user', 'pass'])
 
         let data
         if (this.state.statusForm.isAdd) {
@@ -71,7 +71,7 @@ export default class OptionModalConfig extends React.Component {
           transferFtpInfo: data
         })
         if (rs.success) {
-          message.info(translate("ftpTranfer.success"))
+          message.info(translate('ftpTranfer.success'))
 
           this.setState({
             itemEdit: null,
@@ -84,7 +84,7 @@ export default class OptionModalConfig extends React.Component {
           })
           this.props.onSaveFtpConfig()
         } else {
-          message.info(translate("ftpTranfer.error"))
+          message.info(translate('ftpTranfer.error'))
         }
       }
     })
@@ -125,7 +125,7 @@ export default class OptionModalConfig extends React.Component {
       transferFtpInfo: _.compact(data)
     })
     if (rs.success) {
-      message.info(translate("ftpTranfer.success"))
+      message.info(translate('ftpTranfer.success'))
       this.setState({
         itemEdit: null,
         dataConfig: _.compact(data),
@@ -135,7 +135,7 @@ export default class OptionModalConfig extends React.Component {
         }
       })
     } else {
-      message.info(translate("ftpTranfer.error"))
+      message.info(translate('ftpTranfer.error'))
     }
   }
 
@@ -144,11 +144,11 @@ export default class OptionModalConfig extends React.Component {
       isLoaded: false
     })
     const item = {
-      key: moment().format("YYYYMMDDHHmmss"),
-      ip: "",
-      port: "",
-      user: "",
-      pass: ""
+      key: moment().format('YYYYMMDDHHmmss'),
+      ip: '',
+      port: '',
+      user: '',
+      pass: ''
     }
     this.setState({
       itemEdit: item,
@@ -166,92 +166,91 @@ export default class OptionModalConfig extends React.Component {
       <div>
         {this.state.statusForm.isVisibleForm && (
           <Form className="login-form">
-            <FormItem
-            >
-              {getFieldDecorator("ip", {
-                initialValue: _.get(this.state, "itemEdit.ip", ""),
+            <FormItem>
+              {getFieldDecorator('ip', {
+                initialValue: _.get(this.state, 'itemEdit.ip', ''),
                 rules: [
                   {
                     required: true,
                     message: translate(
-                      "ftpTranfer.formInFoFTP.ipAddress.message"
+                      'ftpTranfer.formInFoFTP.ipAddress.message'
                     )
                   }
                 ]
               })(
                 <Input
                   placeholder={translate(
-                    "ftpTranfer.formInFoFTP.ipAddress.title"
+                    'ftpTranfer.formInFoFTP.ipAddress.title'
                   )}
                   addonBefore={translate(
-                    "ftpTranfer.formInFoFTP.ipAddress.addonBefore"
+                    'ftpTranfer.formInFoFTP.ipAddress.addonBefore'
                   )}
                 />
               )}
             </FormItem>
             <FormItem>
-              {getFieldDecorator("port", {
+              {getFieldDecorator('port', {
                 rules: [
                   {
                     required: true,
-                    message: translate("ftpTranfer.formInFoFTP.port.message")
+                    message: translate('ftpTranfer.formInFoFTP.port.message')
                   }
                 ],
-                initialValue: _.get(this.state, "itemEdit.port", "")
+                initialValue: _.get(this.state, 'itemEdit.port', '')
               })(
                 <Input
-                  placeholder={translate("ftpTranfer.formInFoFTP.port.title")}
+                  placeholder={translate('ftpTranfer.formInFoFTP.port.title')}
                   addonBefore={translate(
-                    "ftpTranfer.formInFoFTP.port.addonBefore"
+                    'ftpTranfer.formInFoFTP.port.addonBefore'
                   )}
                 />
               )}
             </FormItem>
             <FormItem>
-              {getFieldDecorator("user", {
+              {getFieldDecorator('user', {
                 rules: [
                   {
                     required: true,
-                    message: translate("ftpTranfer.formInFoFTP.user.message")
+                    message: translate('ftpTranfer.formInFoFTP.user.message')
                   }
                 ],
-                initialValue: _.get(this.state, "itemEdit.user", "")
+                initialValue: _.get(this.state, 'itemEdit.user', '')
               })(
                 <Input
-                  placeholder={translate("ftpTranfer.formInFoFTP.user.title")}
+                  placeholder={translate('ftpTranfer.formInFoFTP.user.title')}
                   addonBefore={translate(
-                    "ftpTranfer.formInFoFTP.user.addonBefore"
+                    'ftpTranfer.formInFoFTP.user.addonBefore'
                   )}
                 />
               )}
             </FormItem>
             <FormItem>
-              {getFieldDecorator("pass", {
+              {getFieldDecorator('pass', {
                 rules: [
                   {
                     required: true,
-                    message: translate("ftpTranfer.formInFoFTP.pass.message")
+                    message: translate('ftpTranfer.formInFoFTP.pass.message')
                   }
                 ],
-                initialValue: _.get(this.state, "itemEdit.pass", "")
+                initialValue: _.get(this.state, 'itemEdit.pass', '')
               })(
                 <Input
-                  placeholder={translate("ftpTranfer.formInFoFTP.pass.title")}
+                  placeholder={translate('ftpTranfer.formInFoFTP.pass.title')}
                   addonBefore={translate(
-                    "ftpTranfer.formInFoFTP.pass.addonBefore"
+                    'ftpTranfer.formInFoFTP.pass.addonBefore'
                   )}
                 />
               )}
             </FormItem>
-            
+
             <FormItem>
               <Button
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
                 type="primary"
                 htmlType="button"
                 onClick={this.handleSubmit}
               >
-                {translate("addon.save")}
+                {translate('addon.save')}
               </Button>
             </FormItem>
           </Form>
@@ -263,7 +262,7 @@ export default class OptionModalConfig extends React.Component {
             disabled={this.state.statusForm.isVisibleForm}
             onClick={this.handleAddConfig}
           >
-            {translate("ftpTranfer.add")}
+            {translate('ftpTranfer.add')}
           </Button>
         </div>
         <Clearfix height={8} />
@@ -275,39 +274,39 @@ export default class OptionModalConfig extends React.Component {
               dataSource={this.state.dataConfig}
               columns={[
                 {
-                  title: "IP",
-                  dataIndex: "ip"
+                  title: 'IP',
+                  dataIndex: 'ip'
                 },
                 {
-                  title: "Port",
-                  dataIndex: "port"
+                  title: 'Port',
+                  dataIndex: 'port'
                 },
                 {
-                  title: "User",
-                  dataIndex: "user"
+                  title: 'User',
+                  dataIndex: 'user'
                 },
                 {
-                  title: "Pass",
-                  dataIndex: "pass"
+                  title: 'Pass',
+                  dataIndex: 'pass'
                 },
                 {
-                  title: "Acction",
+                  title: 'Acction',
                   render: record => {
                     return (
                       <div>
                         <Link to="#" onClick={() => this.handleEdit(record)}>
-                          {translate("ftpTranfer.edit")}
+                          {translate('ftpTranfer.edit')}
                         </Link>
                         <Divider type="vertical" />
                         <Popconfirm
-                          title={translate("ftpTranfer.confirmTitle")}
+                          title={translate('ftpTranfer.confirmTitle')}
                           onConfirm={() => {
                             this.handlDelete(record)
                           }}
                           okText="Yes"
                           cancelText="No"
                         >
-                          <Link to="#">{translate("ftpTranfer.delete")}</Link>
+                          <Link to="#">{translate('ftpTranfer.delete')}</Link>
                         </Popconfirm>
                       </div>
                     )

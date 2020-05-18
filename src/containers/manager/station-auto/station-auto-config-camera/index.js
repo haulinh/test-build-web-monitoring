@@ -1,6 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Form, Table, Checkbox, Collapse, Button, Icon, message} from 'antd'
+import {
+  Row,
+  Col,
+  Form,
+  Table,
+  Checkbox,
+  Collapse,
+  Button,
+  Icon,
+  message
+} from 'antd'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import _ from 'lodash'
@@ -16,7 +26,7 @@ import ROLE from 'constants/role'
 
 import FormAddCamera from './formAddCamera'
 
-const { Panel } = Collapse;
+const { Panel } = Collapse
 
 const i18n = {
   tableHeaderName: translate('stationAutoManager.list.camera.name'),
@@ -28,9 +38,9 @@ const i18n = {
 }
 
 const TableWrapper = styled(Table)`
-.table-row-camera {
-  background-color: #d9d9d9;
-}
+  .table-row-camera {
+    background-color: #d9d9d9;
+  }
 `
 
 @protectRole(ROLE.CAU_HINH_CAMERA.VIEW)
@@ -48,12 +58,15 @@ export default class StationAutoConfigCamera extends React.Component {
     pagination: PropTypes.object,
     data: PropTypes.object,
     onChangeSearch: PropTypes.func,
-    isLoading: PropTypes.bool,
+    isLoading: PropTypes.bool
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dataSource.length !== this.state.dataSourceOriginal.length ) {
-      const allowedStations = nextProps.dataSource.map(station => _.get(station, 'options.camera.allowed'), false)
+    if (nextProps.dataSource.length !== this.state.dataSourceOriginal.length) {
+      const allowedStations = nextProps.dataSource.map(
+        station => _.get(station, 'options.camera.allowed'),
+        false
+      )
       this._checkIndeterminate(allowedStations)
       this.setState({
         dataSourceOriginal: _.cloneDeep(nextProps.dataSource),
@@ -63,22 +76,23 @@ export default class StationAutoConfigCamera extends React.Component {
   }
 
   static defaultProps = {
-    dataSource:  []
+    dataSource: []
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      /* giông cách hoạt động của git */  
-      cachedData: {},             /* commit */
-      dataSource: [],             /* working dir */
-      dataSourceOriginal: [],     /* index */
+      /* giông cách hoạt động của git */
+
+      cachedData: {} /* commit */,
+      dataSource: [] /* working dir */,
+      dataSourceOriginal: [] /* index */,
 
       isCameraIndeterminate: false,
       submitingCameraAllow: false
     }
   }
-  
+
   render() {
     const { submitingCameraAllow } = this.state
 
@@ -86,13 +100,13 @@ export default class StationAutoConfigCamera extends React.Component {
     const dataSource = this._getTableDataSource(this.state.dataSource)
 
     const defaultExpandedRowKeys = dataSource.map(item => item.key)
-    
+
     return (
       <PageContainer>
         <Breadcrumb items={['configCamera']} />
 
         {/* FORM CONTROL */}
-        <Row style={{marginBottom: 20}}>
+        <Row style={{ marginBottom: 20 }}>
           <StationAutoSearchForm
             onChangeSearch={this.props.onChangeSearch}
             initialValues={this.props.data}
@@ -107,14 +121,22 @@ export default class StationAutoConfigCamera extends React.Component {
           expandRowByClick
           rowKey="key"
           expandedRowKeys={defaultExpandedRowKeys}
-          rowClassName={() => "table-row-camera"}
+          rowClassName={() => 'table-row-camera'}
           expandIcon={() => null}
-          expandedRowRender={(record) => {
+          expandedRowRender={record => {
             return (
-              <Collapse accordion style={{marginLeft: -35}} key={record._id}>
-                {record.stations.map((station) => (
-                  <Panel header={this._renderCollapsePanelHeader(station)} key={station._id}>
-                    <FormAddCamera stationAuto={station} allowed={this.props.form.getFieldValue(`stations.${station._id}`)}/>
+              <Collapse accordion style={{ marginLeft: -35 }} key={record._id}>
+                {record.stations.map(station => (
+                  <Panel
+                    header={this._renderCollapsePanelHeader(station)}
+                    key={station._id}
+                  >
+                    <FormAddCamera
+                      stationAuto={station}
+                      allowed={this.props.form.getFieldValue(
+                        `stations.${station._id}`
+                      )}
+                    />
                   </Panel>
                 ))}
               </Collapse>
@@ -122,10 +144,10 @@ export default class StationAutoConfigCamera extends React.Component {
           }}
         />
 
-        <Button 
-          block 
+        <Button
+          block
           loading={submitingCameraAllow}
-          type="primary" 
+          type="primary"
           onClick={this._handleSubmit}
         >
           {i18n.btnSave}
@@ -137,15 +159,14 @@ export default class StationAutoConfigCamera extends React.Component {
   _checkIndeterminate(allowedStations) {
     const countBy = _.countBy(allowedStations)
 
-    if(countBy.true && countBy.false) {
-      this.setState({isCameraIndeterminate: true})
-    }
-    else {
-      this.setState({isCameraIndeterminate: false})
+    if (countBy.true && countBy.false) {
+      this.setState({ isCameraIndeterminate: true })
+    } else {
+      this.setState({ isCameraIndeterminate: false })
 
-      const {setFieldsValue} = this.props.form
-      if (countBy['true']) setFieldsValue({'checkall': true})
-      if (countBy['false']) setFieldsValue({'checkall': false})
+      const { setFieldsValue } = this.props.form
+      if (countBy['true']) setFieldsValue({ checkall: true })
+      if (countBy['false']) setFieldsValue({ checkall: false })
     }
   }
 
@@ -153,26 +174,37 @@ export default class StationAutoConfigCamera extends React.Component {
     return [
       {
         title: i18n.tableHeaderName,
-        render: (text, record, index) => <strong>{record.type.name} ({record.count})</strong>,
+        render: (text, record, index) => (
+          <strong>
+            {record.type.name} ({record.count})
+          </strong>
+        )
       },
       {
         title: i18n.tableHeaderAddress,
-        render: (text, record, index) => <strong>{record.type.address}</strong>,
+        render: (text, record, index) => <strong>{record.type.address}</strong>
       },
       {
-        title: <div>
-          {this.props.form.getFieldDecorator('checkall', {
-            valuePropName: 'checked',
-          })(
-            <Checkbox onClick={this._handleCheckAll} indeterminate={this.state.isCameraIndeterminate}>{i18n.tableHeaderAllowCamera}</Checkbox>
-          )}
-        </div>,
+        title: (
+          <div>
+            {this.props.form.getFieldDecorator('checkall', {
+              valuePropName: 'checked'
+            })(
+              <Checkbox
+                onClick={this._handleCheckAll}
+                indeterminate={this.state.isCameraIndeterminate}
+              >
+                {i18n.tableHeaderAllowCamera}
+              </Checkbox>
+            )}
+          </div>
+        ),
         align: 'right'
       },
       {
         title: '',
         align: 'right'
-      },
+      }
     ]
   }
 
@@ -187,7 +219,7 @@ export default class StationAutoConfigCamera extends React.Component {
    *  }
    * ]
    */
-  _getTableDataSource(dataSource = []) { 
+  _getTableDataSource(dataSource = []) {
     /* đánh số thứ  */
     let sortedDataSource = _.sortBy(dataSource, 'stationType.key')
     const _dataSource = sortedDataSource.map((item, index) => ({
@@ -197,45 +229,45 @@ export default class StationAutoConfigCamera extends React.Component {
     const result = _dataSource.reduce((prev, current) => {
       const stationType = current.stationType
       const stationTypeID = stationType._id
-      
+
       const prevItems = _.get(prev, [stationTypeID, 'stations'], [])
-      
+
       _.set(prev, [stationTypeID, 'stations'], [...prevItems, current])
       _.set(prev, [stationTypeID, 'count'], prevItems.length + 1)
       _.set(prev, [stationTypeID, 'type'], stationType)
       _.set(prev, [stationTypeID, 'key'], stationTypeID)
-      
+
       return prev
     }, {})
-    
+
     let data = Object.values(result)
-    
+
     return data
   }
 
   _renderCollapsePanelHeader(station) {
-    const {getFieldDecorator} = this.props.form
+    const { getFieldDecorator } = this.props.form
     const numOfCameras = _.get(station, 'options.camera.list', []).length
-    return  (
+    return (
       <Row type="flex" justify="center" align="middle">
         <Col span={8}>{`${station.stt}  ${station.name}`}</Col>
         <Col span={12}>{station.address}</Col>
-        <Col span={3} style={{textAlign: 'center'}}>{
-          getFieldDecorator(`stations.${station._id}`, {
+        <Col span={3} style={{ textAlign: 'center' }}>
+          {getFieldDecorator(`stations.${station._id}`, {
             initialValue: _.get(station, 'options.camera.allowed'),
             valuePropName: 'checked',
-            onChange: this._handleChangedStationCheckbox,
-          })(
-            <Checkbox></Checkbox>
-          )
-        }</Col>
-        <Col span={1}>{numOfCameras} <Icon type="camera" /></Col>
+            onChange: this._handleChangedStationCheckbox
+          })(<Checkbox />)}
+        </Col>
+        <Col span={1}>
+          {numOfCameras} <Icon type="camera" />
+        </Col>
       </Row>
     )
   }
 
   _handleChangedStationCheckbox(e) {
-    const {id, checked} = e.target
+    const { id, checked } = e.target
 
     const { getFieldsValue } = this.props.form
     const formValues = getFieldsValue()
@@ -253,19 +285,19 @@ export default class StationAutoConfigCamera extends React.Component {
     const checkedAll = e.target.checked
 
     /* chỉ set value các checkbox có giá trị khác so với checkbox checkAll */
-    for(let [stationID, value] of Object.entries(allowedStations)) {
+    for (let [stationID, value] of Object.entries(allowedStations)) {
       value = value || false // vi value co the co gia tri undefined
       if (value !== checkedAll) {
-        setFieldsValue({[`stations.${stationID}`]: checkedAll})
+        setFieldsValue({ [`stations.${stationID}`]: checkedAll })
       }
     }
 
-    this.setState({isCameraIndeterminate: false})
+    this.setState({ isCameraIndeterminate: false })
   }
 
   async _handleSubmit() {
     const stationAutos = this.props.dataSource
-    const { getFieldValue} = this.props.form
+    const { getFieldValue } = this.props.form
 
     let submitData = {}
     stationAutos.forEach(station => {
@@ -277,15 +309,15 @@ export default class StationAutoConfigCamera extends React.Component {
       }
     })
 
-    this.setState({submitingCameraAllow: true})
+    this.setState({ submitingCameraAllow: true })
     const res = await StationAutoApi.updateStationAutoOptions(submitData)
 
-    this.setState({submitingCameraAllow: false})
+    this.setState({ submitingCameraAllow: false })
 
     if (res.success) {
-        return message.success(i18n.successSubmit)
+      return message.success(i18n.successSubmit)
     }
-    
+
     return message.error(i18n.errorSubmit)
   }
 }

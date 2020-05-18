@@ -10,41 +10,41 @@ export function get() {
   return getFetch(fcmNotificationRoute().notify)
 }
 
-
 /* --------- launching --------- */
 
 /* TIP  link postman
 https://www.getpostman.com/collections/cef48462029130ceafb9?fbclid=IwAR0LaBhlJ6h3MtjjoKOywFyZGEf6XmKo31v5sZ4FeD7BH3DqwEQAEf1Q0EY
 */
 
-const fcmNotificationRoute = () => getConfigApi().fcmNotification 
+const fcmNotificationRoute = () => getConfigApi().fcmNotification
 
-export function updateIsSeenByType(type){
-  return putFetch(`${fcmNotificationRoute()}/updateIsSeen`, {type})
+export function updateIsSeenByType(type) {
+  return putFetch(`${fcmNotificationRoute()}/updateIsSeen`, { type })
 }
 
-export function updateIsSeenAll(){
+export function updateIsSeenAll() {
   return putFetch(`${fcmNotificationRoute()}/updateIsSeenAll`)
 }
 
-export function updateIsRead(_id){
+export function updateIsRead(_id) {
   return putFetch(`${fcmNotificationRoute()}/updateIsRead/${_id}`)
 }
 
-export function loadNotificationsByType(params){  // params: {page, itemPerPage, type}
+export function loadNotificationsByType(params) {
+  // params: {page, itemPerPage, type}
   let qryString = querystring.stringify(params)
   return getFetch(`${fcmNotificationRoute()}/?${qryString}`)
 }
 
-export function getTotalByNotificationType(){
+export function getTotalByNotificationType() {
   return getFetch(`${fcmNotificationRoute()}/getTotalByNotificationType`)
 }
 
-export function deleteToken(token,email) {
+export function deleteToken(token, email) {
   return deleteFetch(`${getConfigApi().fcmToken}?token=${token}&email=${email}`)
 }
 
-export function linkToken2Email(token){
+export function linkToken2Email(token) {
   return postFetch(getConfigApi().fcmToken, {
     token,
     device: 'webapp' // MARK  webapp is constaint

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 // import PropTypes from "prop-types";
 // import styled from "styled-components";
 import {
@@ -15,30 +15,30 @@ import {
   Checkbox,
   Row,
   Col,
-  Collapse,
-} from "antd";
-import { Clearfix } from "containers/map/map-default/components/box-analytic-list/style";
-import { getConfigWqiParams, postConfigWqiParams } from "api/CategoryApi";
-import { translate } from "hoc/create-lang";
-import * as _ from "lodash";
-import NhomI from "./nhomI";
-import NhomII from "./nhomII";
-import NhomIII from "./nhomIII";
-import NhomIV from "./nhomIV";
-import NhomV from "./nhomV";
+  Collapse
+} from 'antd'
+import { Clearfix } from 'containers/map/map-default/components/box-analytic-list/style'
+import { getConfigWqiParams, postConfigWqiParams } from 'api/CategoryApi'
+import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
+import NhomI from './nhomI'
+import NhomII from './nhomII'
+import NhomIII from './nhomIII'
+import NhomIV from './nhomIV'
+import NhomV from './nhomV'
 
-const { Panel } = Collapse;
+const { Panel } = Collapse
 
 const i18n = {
-  submit: translate("addon.save"),
-  warning: translate("addon.warning"),
-  refresh: translate("addon.refresh"),
-  cancel: translate("addon.cancel"),
-  updateSuccess: translate("addon.onSave.update.success"),
-  updateError: translate("addon.onSave.update.error"),
+  submit: translate('addon.save'),
+  warning: translate('addon.warning'),
+  refresh: translate('addon.refresh'),
+  cancel: translate('addon.cancel'),
+  updateSuccess: translate('addon.onSave.update.success'),
+  updateError: translate('addon.onSave.update.error'),
 
-  add: translate("wqiConfigCalculation.add"),
-};
+  add: translate('wqiConfigCalculation.add')
+}
 
 @Form.create({})
 export default class TabGiaTri extends React.Component {
@@ -48,40 +48,42 @@ export default class TabGiaTri extends React.Component {
     configGroupII: [],
     configGroupIII: [],
     configGroupIV: [],
-    configGroupV: [],
-  };
+    configGroupV: []
+  }
 
   submit = () => {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        this.setState({ isSubmit: true });
-        console.log("Received values of form: ", values);
+        this.setState({ isSubmit: true })
+        console.log('Received values of form: ', values)
         try {
-          let transformData = values.payload;
-          const response = await postConfigWqiParams(transformData);
+          let transformData = values.payload
+          const response = await postConfigWqiParams(transformData)
           if (response.success) {
-            message.success(i18n.updateSuccess);
+            message.success(i18n.updateSuccess)
           }
         } finally {
-          this.setState({ isSubmit: false });
+          this.setState({ isSubmit: false })
         }
       }
-    });
-  };
+    })
+  }
 
   async componentDidMount() {
-    const response = await getConfigWqiParams();
+    const response = await getConfigWqiParams()
     if (response.success) {
-      console.log("response", response);
-      const config = _.get(response, "data.value", []);
+      console.log('response', response)
+      const config = _.get(response, 'data.value', [])
       this.setState({
         isLoaded: true,
-        configGroupI: config.filter((item) => item && item.group === "groupI"),
-        configGroupII: config.filter((item) => item && item.group === "groupII"),
-        configGroupIII: config.filter((item) => item && item.group === "groupIII"),
-        configGroupIV: config.filter((item) => item && item.group === "groupIV"),
-        configGroupV: config.filter((item) => item && item.group === "groupV"),
-      });
+        configGroupI: config.filter(item => item && item.group === 'groupI'),
+        configGroupII: config.filter(item => item && item.group === 'groupII'),
+        configGroupIII: config.filter(
+          item => item && item.group === 'groupIII'
+        ),
+        configGroupIV: config.filter(item => item && item.group === 'groupIV'),
+        configGroupV: config.filter(item => item && item.group === 'groupV')
+      })
     }
   }
 
@@ -91,12 +93,12 @@ export default class TabGiaTri extends React.Component {
         <Spin spinning>
           <div style={{ height: 400 }} />
         </Spin>
-      );
+      )
     return (
       <div>
         <Clearfix height={16} />
         <div>
-          <Collapse defaultActiveKey={["I", "II", "III", "IV", "V"]}>
+          <Collapse defaultActiveKey={['I', 'II', 'III', 'IV', 'V']}>
             <Panel header="Nhóm I" key="I">
               <NhomI configMeasure={this.state.configGroupI} />
             </Panel>
@@ -115,6 +117,6 @@ export default class TabGiaTri extends React.Component {
           </Collapse>
         </div>
       </div>
-    );
+    )
   }
 }

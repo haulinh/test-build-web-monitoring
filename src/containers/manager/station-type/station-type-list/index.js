@@ -16,14 +16,13 @@ import DynamicTable from 'components/elements/dynamic-table'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 import * as _ from 'lodash'
-import { getTotalCount_by_type } from 'api/StationAuto';
-import {   Modal } from 'antd'
+import { getTotalCount_by_type } from 'api/StationAuto'
+import { Modal } from 'antd'
 import { translate } from 'hoc/create-lang'
 
 const i18n = {
   errorStationExist: translate('stationTypeManager.form.errorStationExist')
 }
-
 
 const AvatarWrapper = styled.div`
   .ant-avatar {
@@ -153,9 +152,7 @@ export default class StationTypeList extends React.Component {
 
             <Divider type="vertical" />
             {protectRole(ROLE.STATION_TYPE.DELETE)(
-              <a
-                onClick={() => this.hanldeOnDelete(row._id)}
-              >
+              <a onClick={() => this.hanldeOnDelete(row._id)}>
                 {t('stationTypeManager.delete.label')}
               </a>
             )}
@@ -165,22 +162,20 @@ export default class StationTypeList extends React.Component {
     ])
   }
 
-  async hanldeOnDelete(_id){
+  async hanldeOnDelete(_id) {
     // const { t } = this.props.lang
-    const countStation = await  getTotalCount_by_type(_id)
-    if(countStation.success){
-      if(countStation.count > 0){
+    const countStation = await getTotalCount_by_type(_id)
+    if (countStation.success) {
+      if (countStation.count > 0) {
         Modal.error({
           title: 'Error',
           content: i18n.errorStationExist
         })
-      }else{
+      } else {
         this.props.onDeleteItem(_id, this.props.fetchData)
       }
     }
   }
-
-  
 
   render() {
     return (

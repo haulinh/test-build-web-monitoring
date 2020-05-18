@@ -4,8 +4,7 @@ import { Icon } from 'antd'
 import { autobind } from 'core-decorators'
 // import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
-import { EMAIL } from "constants/info-contact.js"
-
+import { EMAIL } from 'constants/info-contact.js'
 
 const lang = {
   header: translate('pageInfo.header'),
@@ -35,7 +34,9 @@ export default class PageInfo extends React.PureComponent {
           <div style={{ height: 24 }} />
           <div style={{ width: 550, margin: 'auto' }}>
             <div>{lang.body1}</div>
-            <div>{lang.body2}: {EMAIL}</div>
+            <div>
+              {lang.body2}: {EMAIL}
+            </div>
           </div>
         </div>
       </PageContainer>

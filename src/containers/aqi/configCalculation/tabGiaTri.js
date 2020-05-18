@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 // import PropTypes from "prop-types";
 // import styled from "styled-components";
 import {
@@ -11,78 +11,74 @@ import {
   Input,
   Icon,
   Popconfirm,
-  Spin,
-} from "antd";
-import { Clearfix } from "containers/map/map-default/components/box-analytic-list/style";
-import {
-  getMeasurings,
-  getConfigAqiQC,
-  postConfigAqiQC
-} from "api/CategoryApi";
-import { translate } from "hoc/create-lang";
-import * as _ from "lodash";
+  Spin
+} from 'antd'
+import { Clearfix } from 'containers/map/map-default/components/box-analytic-list/style'
+import { getMeasurings, getConfigAqiQC, postConfigAqiQC } from 'api/CategoryApi'
+import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
 
 const i18n = {
-  submit: translate("addon.save"),
-  warning: translate("addon.warning"),
-  refresh: translate("addon.refresh"),
-  cancel: translate("addon.cancel"),
-  updateSuccess: translate("addon.onSave.update.success"),
-  updateError: translate("addon.onSave.update.error"),
+  submit: translate('addon.save'),
+  warning: translate('addon.warning'),
+  refresh: translate('addon.refresh'),
+  cancel: translate('addon.cancel'),
+  updateSuccess: translate('addon.onSave.update.success'),
+  updateError: translate('addon.onSave.update.error'),
 
-  add: translate("aqiConfigCalculation.add"),
-  required1D_1H: translate("aqiConfigCalculation.required1D_1H"),
-  required: translate("aqiConfigCalculation.required"),
-  collevel: translate("aqiConfigCalculation.collevel"),
-  colValue: translate("aqiConfigCalculation.colValue"),
-  colLevel: translate("aqiConfigCalculation.colLevel"),
-  colMin: translate("aqiConfigCalculation.colMin"),
-  colMax: translate("aqiConfigCalculation.colMax"),
-  colColor: translate("aqiConfigCalculation.colColor"),
-  colDescription: translate("aqiConfigCalculation.colDescription"),
+  add: translate('aqiConfigCalculation.add'),
+  required1D_1H: translate('aqiConfigCalculation.required1D_1H'),
+  required: translate('aqiConfigCalculation.required'),
+  collevel: translate('aqiConfigCalculation.collevel'),
+  colValue: translate('aqiConfigCalculation.colValue'),
+  colLevel: translate('aqiConfigCalculation.colLevel'),
+  colMin: translate('aqiConfigCalculation.colMin'),
+  colMax: translate('aqiConfigCalculation.colMax'),
+  colColor: translate('aqiConfigCalculation.colColor'),
+  colDescription: translate('aqiConfigCalculation.colDescription'),
 
-  colMeasureKey: translate("aqiConfigCalculation.colMeasureKey"),
-  colMeasure: translate("aqiConfigCalculation.colMeasure"),
-  colAvg1H: translate("aqiConfigCalculation.colAvg1H"),
-  colAvg1D: translate("aqiConfigCalculation.colAvg1D"),
-  colUnit: translate("aqiConfigCalculation.colUnit")
-};
+  colMeasureKey: translate('aqiConfigCalculation.colMeasureKey'),
+  colMeasure: translate('aqiConfigCalculation.colMeasure'),
+  colAvg1H: translate('aqiConfigCalculation.colAvg1H'),
+  colAvg1D: translate('aqiConfigCalculation.colAvg1D'),
+  colUnit: translate('aqiConfigCalculation.colUnit')
+}
 
 @Form.create({})
 export default class TabMucDo extends React.Component {
-  idIncrement = 0;
+  idIncrement = 0
   state = {
     isLoaded: false,
     isSubmit: false,
     dataSource: [],
     dataMeasuringObj: {},
     dataMeasures: null
-  };
+  }
 
   createColumn = (keyMeasure, type) => {
     return {
       key: `${keyMeasure}_${type}`,
       title: `${i18n.colValue} ${keyMeasure} ${type}`,
-      align: "center",
+      align: 'center',
       children: [
         {
           title: i18n.colMin,
-          align: "center",
+          align: 'center',
           key: `${keyMeasure}_${type}_min`,
           render: (text, record, index) => {
-            const { getFieldDecorator, getFieldValue } = this.props.form;
-            const path = `[${record.key}].${type}.${keyMeasure}`;
-            const fliedName = `aqiQCLevel${path}.min`;
+            const { getFieldDecorator, getFieldValue } = this.props.form
+            const path = `[${record.key}].${type}.${keyMeasure}`
+            const fliedName = `aqiQCLevel${path}.min`
             // console.log(record, path, keyMeasure, "toios theieu");
             // console.log(getFieldValue(`aqiQCLevel${path}.min`));
             return (
-              <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+              <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
                 {getFieldDecorator(fliedName, {
                   onChange: val => {
-                    const { setFieldsValue, getFieldValue } = this.props.form;
+                    const { setFieldsValue, getFieldValue } = this.props.form
                     setFieldsValue({
                       [fliedName]: getFieldValue(fliedName)
-                    });
+                    })
                   },
                   rules: [
                     {
@@ -90,34 +86,29 @@ export default class TabMucDo extends React.Component {
                       message: i18n.required
                     }
                   ]
-                })(
-                  <InputNumber
-                    style={{ width: "100%" }}
-                    
-                  />
-                )}
+                })(<InputNumber style={{ width: '100%' }} />)}
               </Form.Item>
-            );
+            )
           }
         },
         {
           title: i18n.colMax,
-          align: "center",
+          align: 'center',
           key: `${keyMeasure}_${type}_max`,
           render: (text, record, index) => {
-            const { getFieldDecorator, getFieldValue } = this.props.form;
+            const { getFieldDecorator, getFieldValue } = this.props.form
             // const path = `[${record.key}].${type}.${keyMeasure}`;
-            const path = `[${record.key}].${type}.${keyMeasure}`;
-            const fliedName = `aqiQCLevel${path}.max`;
+            const path = `[${record.key}].${type}.${keyMeasure}`
+            const fliedName = `aqiQCLevel${path}.max`
 
             return (
-              <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+              <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
                 {getFieldDecorator(fliedName, {
                   onChange: val => {
-                    const { setFieldsValue, getFieldValue } = this.props.form;
+                    const { setFieldsValue, getFieldValue } = this.props.form
                     setFieldsValue({
                       [fliedName]: getFieldValue(fliedName)
-                    });
+                    })
                   },
                   rules: [
                     {
@@ -125,69 +116,64 @@ export default class TabMucDo extends React.Component {
                       message: i18n.required
                     }
                   ]
-                })(
-                  <InputNumber
-                    style={{ width: "100%" }}
-                    
-                  />
-                )}
+                })(<InputNumber style={{ width: '100%' }} />)}
               </Form.Item>
-            );
+            )
           }
         }
       ]
-    };
-  };
+    }
+  }
   getColumns = () => {
-    const { dataMeasures } = this.state;
+    const { dataMeasures } = this.state
     // console.log("---------");
     // console.log(dataMeasures);
-    let dynamicColumns = [];
+    let dynamicColumns = []
     _.forEach(dataMeasures, (item, index) => {
-      let column1h = {};
-      let column8h = {};
-      let column24h = {};
+      let column1h = {}
+      let column8h = {}
+      let column24h = {}
       const type = {
-        "1h": "1h",
-        "8h": "8h",
-        "24h": "24h"
-      };
-      if (_.get(item, type["1h"], false)) {
+        '1h': '1h',
+        '8h': '8h',
+        '24h': '24h'
+      }
+      if (_.get(item, type['1h'], false)) {
         // console.log(item,"----")
-        column1h = this.createColumn(item.keyMeasure, type["1h"]);
-        dynamicColumns.push(column1h);
+        column1h = this.createColumn(item.keyMeasure, type['1h'])
+        dynamicColumns.push(column1h)
       }
-      if (_.get(item, type["8h"], false)) {
-        column8h = this.createColumn(item.keyMeasure, type["8h"]);
-        dynamicColumns.push(column8h);
+      if (_.get(item, type['8h'], false)) {
+        column8h = this.createColumn(item.keyMeasure, type['8h'])
+        dynamicColumns.push(column8h)
       }
-      if (_.get(item, type["24h"], false)) {
-        column24h = this.createColumn(item.keyMeasure, type["24h"]);
-        dynamicColumns.push(column24h);
+      if (_.get(item, type['24h'], false)) {
+        column24h = this.createColumn(item.keyMeasure, type['24h'])
+        dynamicColumns.push(column24h)
       }
-    });
+    })
 
     return [
       {
         title: i18n.collevel,
-        dataIndex: "name",
-        key: "name",
+        dataIndex: 'name',
+        key: 'name',
         width: 100,
-        align: "center",
-        fixed: "left",
+        align: 'center',
+        fixed: 'left',
         render: (text, record, index) => {
-          const { getFieldDecorator, getFieldValue } = this.props.form;
+          const { getFieldDecorator, getFieldValue } = this.props.form
 
           return (
-            <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+            <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
               {getFieldDecorator(`aqiQCLevel[${record.key}].name`, {
                 onChange: val => {
-                  const { setFieldsValue, getFieldValue } = this.props.form;
+                  const { setFieldsValue, getFieldValue } = this.props.form
                   setFieldsValue({
                     [`aqiQCLevel[${record.key}].name`]: getFieldValue(
                       `aqiQCLevel[${record.key}].name`
                     )
-                  });
+                  })
                 },
                 rules: [
                   {
@@ -195,36 +181,34 @@ export default class TabMucDo extends React.Component {
                     message: i18n.required1D_1H
                   }
                 ]
-              })(
-                <Input style={{ width: "100%" }}  />
-              )}
+              })(<Input style={{ width: '100%' }} />)}
             </Form.Item>
-          );
+          )
         }
       },
       {
         title: `${i18n.colValue} i`,
-        align: "center",
+        align: 'center',
         children: [
           {
             title: i18n.colMin,
-            dataIndex: "min",
-            key: "min",
-            align: "center",
+            dataIndex: 'min',
+            key: 'min',
+            align: 'center',
             render: (text, record, index) => {
-              const { getFieldDecorator, getFieldValue } = this.props.form;
+              const { getFieldDecorator, getFieldValue } = this.props.form
               return (
                 <Form.Item
-                  style={{ textAlign: "left", marginBottom: "initial" }}
+                  style={{ textAlign: 'left', marginBottom: 'initial' }}
                 >
                   {getFieldDecorator(`aqiQCLevel[${record.key}].min`, {
                     onChange: val => {
-                      const { setFieldsValue, getFieldValue } = this.props.form;
+                      const { setFieldsValue, getFieldValue } = this.props.form
                       setFieldsValue({
                         [`aqiQCLevel[${record.key}].min`]: getFieldValue(
                           `aqiQCLevel[${record.key}].min`
                         )
-                      });
+                      })
                     },
                     rules: [
                       {
@@ -234,32 +218,30 @@ export default class TabMucDo extends React.Component {
                         message: i18n.required
                       }
                     ]
-                  })(
-                    <InputNumber style={{ width: "100%" }}/>
-                  )}
+                  })(<InputNumber style={{ width: '100%' }} />)}
                 </Form.Item>
-              );
+              )
             }
           },
           {
             title: i18n.colMax,
-            dataIndex: "max",
-            key: "max",
-            align: "center",
+            dataIndex: 'max',
+            key: 'max',
+            align: 'center',
             render: (text, record, index) => {
-              const { getFieldDecorator, getFieldValue } = this.props.form;
+              const { getFieldDecorator, getFieldValue } = this.props.form
               return (
                 <Form.Item
-                  style={{ textAlign: "left", marginBottom: "initial" }}
+                  style={{ textAlign: 'left', marginBottom: 'initial' }}
                 >
                   {getFieldDecorator(`aqiQCLevel[${record.key}].max`, {
                     onChange: val => {
-                      const { setFieldsValue, getFieldValue } = this.props.form;
+                      const { setFieldsValue, getFieldValue } = this.props.form
                       setFieldsValue({
                         [`aqiQCLevel[${record.key}].max`]: getFieldValue(
                           `aqiQCLevel[${record.key}].max`
                         )
-                      });
+                      })
                     },
                     rules: [
                       {
@@ -269,23 +251,19 @@ export default class TabMucDo extends React.Component {
                         message: i18n.required
                       }
                     ]
-                  })(
-                    <InputNumber
-                      style={{ width: "100%" }}
-                    />
-                  )}
+                  })(<InputNumber style={{ width: '100%' }} />)}
                 </Form.Item>
-              );
+              )
             }
           }
         ]
       },
       ...dynamicColumns,
       {
-        title: "",
-        dataIndex: "action",
-        key: "action",
-        align: "center",
+        title: '',
+        dataIndex: 'action',
+        key: 'action',
+        align: 'center',
         render: (text, record, index) => {
           return (
             <Popconfirm
@@ -298,39 +276,39 @@ export default class TabMucDo extends React.Component {
             >
               <Icon
                 type="delete"
-                style={{ color: "red", fontSize: 24, cursor: "pointer" }}
+                style={{ color: 'red', fontSize: 24, cursor: 'pointer' }}
               />
             </Popconfirm>
-          );
+          )
         }
       }
-    ];
-  };
+    ]
+  }
 
   submit = () => {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        this.setState({ isSubmit: true });
-        console.log("Received values of form: ", values);
+        this.setState({ isSubmit: true })
+        console.log('Received values of form: ', values)
         try {
           const transformData = {
             aqiQCMeasures: this.state.dataMeasures,
-            aqiQCLevel: _.get(values, "aqiQCLevel", [])
-          };
+            aqiQCLevel: _.get(values, 'aqiQCLevel', [])
+          }
           // console.log(transformData, "------");
-          const response = await postConfigAqiQC(transformData);
+          const response = await postConfigAqiQC(transformData)
           if (response.success) {
-            message.success(i18n.updateSuccess);
+            message.success(i18n.updateSuccess)
           }
         } finally {
-          this.setState({ isSubmit: false });
+          this.setState({ isSubmit: false })
         }
       }
-    });
-  };
+    })
+  }
 
   add = () => {
-    const index = this.idIncrement++;
+    const index = this.idIncrement++
     this.setState({
       dataSource: [
         ...this.state.dataSource,
@@ -338,38 +316,38 @@ export default class TabMucDo extends React.Component {
           key: index
         }
       ]
-    });
-  };
+    })
+  }
 
   delete = key => {
-    let tamp = this.state.dataSource.filter(item => item.key !== key);
+    let tamp = this.state.dataSource.filter(item => item.key !== key)
     this.setState({
       dataSource: [...tamp]
-    });
-  };
+    })
+  }
 
   async componentDidMount() {
-    let dataMeasuringObj = {};
+    let dataMeasuringObj = {}
     const resMeasuringList = await getMeasurings(
       { page: 1, itemPerPage: 100000 },
       {}
-    );
+    )
     if (resMeasuringList.success) {
-      dataMeasuringObj = _.keyBy(resMeasuringList.data, "key");
+      dataMeasuringObj = _.keyBy(resMeasuringList.data, 'key')
     }
 
-    const response = await getConfigAqiQC();
+    const response = await getConfigAqiQC()
     if (response.success) {
-      let transformData = _.get(response, "data.value.aqiQCLevel", []);
-      let DataMeasure = _.get(response, "data.value.aqiQCMeasures", {});
-      DataMeasure = _.values(DataMeasure);
+      let transformData = _.get(response, 'data.value.aqiQCLevel', [])
+      let DataMeasure = _.get(response, 'data.value.aqiQCMeasures', {})
+      DataMeasure = _.values(DataMeasure)
 
       let dataSource = _.map(transformData, item => {
         return {
           ...item,
           key: this.idIncrement++
-        };
-      });
+        }
+      })
       this.setState(
         {
           dataMeasuringObj,
@@ -381,9 +359,9 @@ export default class TabMucDo extends React.Component {
           // console.log(dataSource, "dataSource");
           this.props.form.setFieldsValue({
             aqiQCLevel: dataSource
-          });
+          })
         }
-      );
+      )
     }
   }
 
@@ -411,6 +389,6 @@ export default class TabMucDo extends React.Component {
           {i18n.submit}
         </Button>
       </Spin>
-    );
+    )
   }
 }

@@ -23,7 +23,6 @@ const WarningWrapper = styled.div`
   flex: 1;
 `
 
-
 @autobind
 export default class Header extends React.PureComponent {
   static propTypes = {
@@ -45,7 +44,7 @@ export default class Header extends React.PureComponent {
       <HeaderWrapper>
         {this.props.children}
         <WarningWrapper>
-          <WarningLevelDevices/>
+          <WarningLevelDevices />
           <WarningLevel style={{ marginTop: 4 }} />
         </WarningWrapper>
       </HeaderWrapper>

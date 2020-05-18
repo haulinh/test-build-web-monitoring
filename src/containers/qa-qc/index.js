@@ -16,7 +16,7 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { getConfigApi } from 'config'
 import PageInfo from 'components/pageInfo'
-import {QAQC_TABLES} from 'constants/qaqc'
+import { QAQC_TABLES } from 'constants/qaqc'
 
 @protectRole(ROLE.QAQC.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -25,7 +25,7 @@ export default class QaQcContainer extends React.Component {
   state = {
     selectedTable: QAQC_TABLES.original,
     dataStationAuto: [],
-    measuringList: [], // danh sach do user lựa chọn 
+    measuringList: [], // danh sach do user lựa chọn
     measuringData: [], // danh sach full cua station
     searchFormData: {},
     lines: [],
@@ -44,7 +44,9 @@ export default class QaQcContainer extends React.Component {
   render() {
     return (
       <div>
-        {getConfigApi().isAdvanced ? this._renderPageContent() : this._renderPageInfo()}
+        {getConfigApi().isAdvanced
+          ? this._renderPageContent()
+          : this._renderPageInfo()}
       </div>
     )
   }
@@ -55,17 +57,17 @@ export default class QaQcContainer extends React.Component {
         <Breadcrumb items={['list']} />
         <Spin spinning={false} title="Đang xử lý...">
           <Row>
-            <SearchFrom 
-              initialValues={this.props.formData} 
-              measuringData={this.props.formData.measuringData} 
+            <SearchFrom
+              initialValues={this.props.formData}
+              measuringData={this.props.formData.measuringData}
               onSubmit={this.handleSubmitSearch}
               changeDataType={this._handleChangeDataType}
               searchNow={this.props.formData.searchNow}
             />
           </Row>
-          {this.state.isHaveData && (   
-            <Row style={{paddingTop: 8 }}>
-              <TableList 
+          {this.state.isHaveData && (
+            <Row style={{ paddingTop: 8 }}>
+              <TableList
                 dataSource={this.state.dataStationAuto}
                 measuringData={this.state.measuringData}
                 measuringList={this.state.measuringList}
@@ -84,21 +86,25 @@ export default class QaQcContainer extends React.Component {
 
   _handleChangeDataType(type) {
     // show từng table cụ thể theo loại dữ liệu
-    this.setState({selectedTable: type})
+    this.setState({ selectedTable: type })
   }
 
   handleSubmitSearch(searchFormData, published) {
     let outOfRange = {}
-    forEach(get(searchFormData, 'measuringData', []), ({ minRange, maxRange, key }) => {
-      let val = {}
-      if (isNumber(minRange)) val.minRange = minRange
-      if (isNumber(maxRange)) val.maxRange = maxRange
+    forEach(
+      get(searchFormData, 'measuringData', []),
+      ({ minRange, maxRange, key }) => {
+        let val = {}
+        if (isNumber(minRange)) val.minRange = minRange
+        if (isNumber(maxRange)) val.maxRange = maxRange
 
-      if (!isEmpty(val)) {
-        outOfRange[key] = val
+        if (!isEmpty(val)) {
+          outOfRange[key] = val
+        }
       }
-    })
-    if (!isEmpty(outOfRange)) searchFormData.outOfRange = JSON.stringify(outOfRange)
+    )
+    if (!isEmpty(outOfRange))
+      searchFormData.outOfRange = JSON.stringify(outOfRange)
     this.loadData({ ...this.state.pagination, current: 1 }, searchFormData)
   }
 
@@ -106,9 +112,15 @@ export default class QaQcContainer extends React.Component {
     this.setState({ isLoading: true })
 
     /* MARK  @mockup MOCKUP API */
-    let res = await fetch('https://my.api.mockaroo.com/dataSearch.json?key=b2a3b960')
+    let res = await fetch(
+      'https://my.api.mockaroo.com/dataSearch.json?key=b2a3b960'
+    )
     let data = await res.json()
-    let sortedData = _.orderBy(data, o => moment(o.receivedAt).valueOf(), 'desc')
+    let sortedData = _.orderBy(
+      data,
+      o => moment(o.receivedAt).valueOf(),
+      'desc'
+    )
     let dataStationAuto = {
       data: sortedData
     }

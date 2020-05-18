@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
-import { COLOR_DEVICE_STATUS
-  // ,COLOR 
+import {
+  COLOR_DEVICE_STATUS
+  // ,COLOR
 } from 'themes/color'
-
 
 const WarningWrapper = styled.div`
   display: flex;
@@ -15,10 +15,9 @@ const WarningWrapper = styled.div`
 `
 const StationStatusContainer = styled.div`
   display: flex;
-  flex:1;
+  flex: 1;
   max-width: 420px;
   justify-content: space-between;
-  
 `
 
 const DotContainer = styled.div`
@@ -70,7 +69,7 @@ export default class WarningLevelDevices extends React.PureComponent {
             <span>{translate('monitoring.deviceStatus.sensorNormal')}</span>
           </DotContainer>
         </StationStatusContainer>
-{/*         
+        {/*         
         <StationStatusContainer>
           <DotContainer>
             <Dot style={{ backgroundColor: COLOR.DATA_LOSS }} />

@@ -1,28 +1,27 @@
-import React from "react"
-import { autobind } from "core-decorators"
-import PageContainer from "layout/default-sidebar-layout/PageContainer"
-import Clearfix from "components/elements/clearfix"
-import { translate } from "hoc/create-lang"
-import {message} from 'antd'
-import TabList from "./tab-list"
-import Breadcrumb from "./breadcrumb"
-import SearchFrom from "./search-form"
-import * as _ from "lodash"
-import { Spin } from "antd"
-import ROLE from "constants/role"
-import protectRole from "hoc/protect-role"
-import queryFormDataBrowser from "hoc/query-formdata-browser"
-import { fetchListAqiReport, createAqiReport } from "api/AqiApi"
-import { getStationsConfig } from "api/StationConfigApi"
+import React from 'react'
+import { autobind } from 'core-decorators'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import Clearfix from 'components/elements/clearfix'
+import { translate } from 'hoc/create-lang'
+import { message } from 'antd'
+import TabList from './tab-list'
+import Breadcrumb from './breadcrumb'
+import SearchFrom from './search-form'
+import * as _ from 'lodash'
+import { Spin } from 'antd'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import { fetchListAqiReport, createAqiReport } from 'api/AqiApi'
+import { getStationsConfig } from 'api/StationConfigApi'
 import moment from 'moment-timezone'
-import { DD_MM_YYYY } from "constants/format-date"
-import { connect } from "react-redux";
-
+import { DD_MM_YYYY } from 'constants/format-date'
+import { connect } from 'react-redux'
 
 @protectRole(ROLE.STATISTIC.AQI)
-@queryFormDataBrowser(["submit"])
+@queryFormDataBrowser(['submit'])
 @connect(state => ({
-  timeZone: _.get(state, "auth.userInfo.organization.timeZone", null)
+  timeZone: _.get(state, 'auth.userInfo.organization.timeZone', null)
 }))
 @autobind
 export default class AQIStatisticsDay878 extends React.Component {
@@ -37,7 +36,7 @@ export default class AQIStatisticsDay878 extends React.Component {
       current: 1,
       pageSize: 50
     },
-    listKey: ""
+    listKey: ''
   }
 
   handleSubmitSearch(searchFormData) {
@@ -46,14 +45,14 @@ export default class AQIStatisticsDay878 extends React.Component {
   }
 
   componentDidMount = async () => {
-    const responseStationConfig = await getStationsConfig({}, { config: "AQI" })
+    const responseStationConfig = await getStationsConfig({}, { config: 'AQI' })
 
     if (responseStationConfig.success) {
       const strJoin = responseStationConfig.data
         .map(item => {
           return item.key
         })
-        .join(",")
+        .join(',')
 
       this.setState({
         listKey: strJoin
@@ -90,29 +89,34 @@ export default class AQIStatisticsDay878 extends React.Component {
 
     // console.log(searchFormData.fromDate.format(), "searchFormData.fromDate")
 
-    const soNgay = searchFormData.toDate.diff(searchFormData.fromDate, "days")
+    const soNgay = searchFormData.toDate.diff(searchFormData.fromDate, 'days')
     for (let i = 0; i <= soNgay; i++) {
       const key = searchFormData.fromDate
         .utc()
         .clone()
-        .add(i, "days")
+        .add(i, 'days')
         .format(DD_MM_YYYY)
 
-      const dateClone = searchFormData.fromDate.clone().add(i, "days")
-      const fromLabel = moment(dateClone.format()).format("HH:mm [NGÀY] DD/MM/YYYY")
-      const toLabel = moment(dateClone.format()).add(24, "hour").subtract(1,"minute").format("HH:mm [NGÀY] DD/MM/YYYY")
+      const dateClone = searchFormData.fromDate.clone().add(i, 'days')
+      const fromLabel = moment(dateClone.format()).format(
+        'HH:mm [NGÀY] DD/MM/YYYY'
+      )
+      const toLabel = moment(dateClone.format())
+        .add(24, 'hour')
+        .subtract(1, 'minute')
+        .format('HH:mm [NGÀY] DD/MM/YYYY')
       // console.log(fromLabel, toLabel, dateClone.format(),moment("2019-11-20T17:00:00Z").format() ,"key")
       let item = {
         stt: i + 1,
         key: i,
         name: `TỪ ${fromLabel} ĐẾN ${toLabel}`,
-        urlDownload: "",
+        urlDownload: '',
         reportDate: searchFormData.fromDate
           .clone()
-          .add(i, "days")
+          .add(i, 'days')
           .format()
       }
-      console.log(item, key,"item")
+      console.log(item, key, 'item')
       if (dataConvert[key]) {
         item = {
           stt: i + 1,
@@ -134,26 +138,25 @@ export default class AQIStatisticsDay878 extends React.Component {
     })
   }
 
-  hanldeOnCreateReport = async (param) => {
+  hanldeOnCreateReport = async param => {
     const res = await createAqiReport(param)
     if (res.success) {
-      message.success("Tạo báo cáo thành công", 3)
+      message.success('Tạo báo cáo thành công', 3)
       this.loadData(this.state.searchFormData)
-    }else{
-      message.success("Mạng gặp vẫn đề vui lòng tạo lại", 3)
+    } else {
+      message.success('Mạng gặp vẫn đề vui lòng tạo lại', 3)
     }
-    
   }
 
   render() {
     return (
-      <PageContainer {...this.props.wrapperProps} backgroundColor={"#fafbfb"}>
+      <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Spin
           size="large"
-          tip={translate("dataSearchFrom.tab.statusExport")}
+          tip={translate('dataSearchFrom.tab.statusExport')}
           spinning={this.state.isExporting}
         >
-          <Breadcrumb items={["list"]} />
+          <Breadcrumb items={['list']} />
           <SearchFrom onSubmit={this.handleSubmitSearch} />
           <Clearfix height={16} />
           {this.state.isHaveData ? (

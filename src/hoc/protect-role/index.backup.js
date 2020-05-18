@@ -3,8 +3,11 @@ import { connect } from 'react-redux'
 import isReact from 'is-react'
 import objectPath from 'object-path'
 
-
-const createProtectRole = (keyRole = '', otherKeyRoles = [], type = 'item') => Component => {
+const createProtectRole = (
+  keyRole = '',
+  otherKeyRoles = [],
+  type = 'item'
+) => Component => {
   @connect(state => ({
     authRole: state.auth.userInfo.role,
     isAdmin: state.auth.userInfo.isAdmin,
@@ -57,8 +60,7 @@ const createProtectRole = (keyRole = '', otherKeyRoles = [], type = 'item') => C
         if (isReact.component(Component)) {
           return <Component {...this.props} />
         } else return React.cloneElement(Component, this.props)
-      }
-      else return null
+      } else return null
     }
   }
   if (isReact.component(Component)) {

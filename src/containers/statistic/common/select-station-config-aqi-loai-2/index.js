@@ -20,7 +20,10 @@ export default class SelectStationConfigAQILoai2 extends React.Component {
   }
 
   async componentWillMount() {
-    const responseStationConfig = await stationConfigApi.getStationsConfig({},{config: 'AQI'})
+    const responseStationConfig = await stationConfigApi.getStationsConfig(
+      {},
+      { config: 'AQI' }
+    )
     this.setState({
       stationConfigSelects: responseStationConfig.data,
       isLoaded: true
@@ -44,12 +47,12 @@ export default class SelectStationConfigAQILoai2 extends React.Component {
   }
 
   handleChange(stationTypeValue) {
-    if(this.props.isMultiple){
+    if (this.props.isMultiple) {
       this.props.onChange(stationTypeValue)
       if (this.props.onChangeObject) {
-        this.props.onChangeObject(_.join(stationTypeValue,','))
+        this.props.onChangeObject(_.join(stationTypeValue, ','))
       }
-    }else{
+    } else {
       const stationType = this.state.stationConfigSelects.find(
         s => s.key === stationTypeValue
       )
@@ -58,7 +61,6 @@ export default class SelectStationConfigAQILoai2 extends React.Component {
         this.props.onChangeObject(stationType)
       }
     }
-    
   }
 
   render() {
@@ -67,12 +69,12 @@ export default class SelectStationConfigAQILoai2 extends React.Component {
       <Select
         {...this.props}
         onChange={this.handleChange}
-        mode= {this.props.isMultiple ? 'multiple' : false}
+        mode={this.props.isMultiple ? 'multiple' : false}
         showSearch
-        value={ this.props.value ? this.props.value : []}
+        value={this.props.value ? this.props.value : []}
       >
         {this.getStationAutos().map(item => (
-          <Select.Option key={item.key} value={item.key} >
+          <Select.Option key={item.key} value={item.key}>
             {item.name}
           </Select.Option>
         ))}

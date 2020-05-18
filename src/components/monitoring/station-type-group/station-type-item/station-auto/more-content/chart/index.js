@@ -1,14 +1,14 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { withRouter } from "react-router"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { withRouter } from 'react-router'
 
-import { getStationAuto } from "api/StationAuto"
+import { getStationAuto } from 'api/StationAuto'
 
-import { translate } from "hoc/create-lang"
-import { Row, Col, Radio } from "antd"
-import Chart from "./Chart"
-import { Clearfix } from "containers/fixed-map/map-default/components/box-analytic-list/style"
+import { translate } from 'hoc/create-lang'
+import { Row, Col, Radio } from 'antd'
+import Chart from './Chart'
+import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 // import { reverse as _reverse } from 'lodash'
 
 const RadioButton = Radio.Button
@@ -28,11 +28,11 @@ const BieuDoMonitoringWrapper = styled.div`
   }
 `
 
-const defaultChartType = "hours"
+const defaultChartType = 'hours'
 
 const i18n = {
-  avgHour: translate("monitoring.moreContent.chart.tab.avgHour"),
-  avgDay: translate("monitoring.moreContent.chart.tab.avgDay")
+  avgHour: translate('monitoring.moreContent.chart.tab.avgHour'),
+  avgDay: translate('monitoring.moreContent.chart.tab.avgDay')
 }
 
 @withRouter
@@ -45,7 +45,7 @@ export default class ChartMoreInfo extends React.Component {
   state = {
     isLoading: true,
     stationData: {},
-    chartType: ""
+    chartType: ''
   }
 
   async componentWillMount() {
@@ -100,7 +100,7 @@ export default class ChartMoreInfo extends React.Component {
             <Clearfix height={8} />
             <Chart
               stationData={
-                typeof this.state.stationData === "object"
+                typeof this.state.stationData === 'object'
                   ? this.state.stationData
                   : null
               }
