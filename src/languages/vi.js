@@ -836,46 +836,12 @@ export default {
       restore: 'Khôi phục',
       remove: 'Loại bỏ',
       action: ' ',
-      createdAt: 'Tạo lúc',
-      config: {
-        title: 'Cấu hình kết nối'
-      },
-      notification: {
-        title: 'Cấu hình gửi cảnh báo',
-        actions: {
-          viewDataAroundExceededTime: 'Xem giá trị quanh thời điểm vượt'
-        }
-      },
-      sampling: {
-        title: 'Cấu hình lấy mẫu'
-      },
-      camera: {
-        title: 'Cấu hình camera',
-        name: 'Tên trạm',
-        addr: 'Địa chỉ',
-        allowView: 'Cho phép xem camera'
-      },
-      color: {
-        title: 'Cấu hình màu cảnh báo'
-      },
-      actions: {
-        ftpFolder: 'FTP Folder' /* MARK  @translate */,
-        fileMapping: 'File Mapping' /* MARK  @translate */
-      }
+      createdAt: 'Tạo lúc'
     },
     create: {
       label: 'Tạo mới',
       success: 'Thêm trạm thành công',
-      keyExisted: 'Tên trạm đã tồn tại',
-      modal: {
-        title: 'Gói đăng ký giới hạn',
-        back: 'Quay lại',
-        text:
-          'Số lượng trạm tối đa của bạn là {{=it.total}}, bạn không thể thêm trạm mới. Vui lòng liên hệ hoặc nâng cấp gói dịch vụ',
-        text1: 'Tăng số lượng trạm hãy liên hệ',
-        text2: 'Số điện thoại',
-        text3: 'Email'
-      }
+      keyExisted: 'Tên trạm đã tồn tại'
     },
     edit: {
       label: 'Sửa',
@@ -893,6 +859,48 @@ export default {
       error: 'Tối thiểu phải có 1 thông số'
     },
     form: {
+      panel1: 'Thông tin trạm',
+      panel2: 'Thông tin khác',
+      website: {
+        label: 'Website',
+        placeholder: 'Website'
+      },
+      capacity: {
+        label: 'Công suất thiết kế',
+        placeholder: 'Công suất thiết kế'
+      },
+      career: {
+        label: 'Ngành nghề',
+        placeholder: 'Ngành nghề'
+      },
+      material: {
+        label: 'Nguyên liệu chính',
+        placeholder: 'Nguyên liệu chính'
+      },
+      userResponsible: {
+        label: 'Người vận hành',
+        placeholder: 'Người vận hành'
+      },
+      phoneResponsible: {
+        label: 'Số điện thoại',
+        placeholder: 'Nhập số điện thoại người chịu trách nhiệm'
+      },
+      processProdution: {
+        label: 'Quy trình sản xuất',
+        placeholder: 'Quy trình sản xuất'
+      },
+      yearOperate: {
+        label: 'Năm hoạt động',
+        placeholder: 'Năm hoạt động'
+      },
+      userSupervisor: {
+        label: 'Người quản lý',
+        placeholder: 'Người quản lý'
+      },
+      phoneSupervisor: {
+        label: 'Số điện thoại',
+        placeholder: 'Nhập số điện thoại người quản lý'
+      },
       key: {
         label: 'Mã trạm',
         placeholder: 'Nhập mã trạm',
@@ -901,28 +909,21 @@ export default {
       name: {
         label: 'Tên trạm',
         placeholder: 'Nhập tên trạm',
-        error: 'Vui lòng nhập tên trạm',
-        error_length_max: 'Vui lòng nhập dưới 25 kí tự'
+        error: 'Vui lòng nhập tên trạm'
       },
       stationType: {
         label: 'Loại trạm',
-        placeholder: 'Chọn loại trạm',
-        error: 'Vui lòng chọn loại trạm'
+        placeholder: 'Nhập loại trạm',
+        error: 'Vui lòng nhập loại trạm'
       },
       address: {
         label: 'Địa chỉ',
         placeholder: 'Nhập địa chỉ'
       },
       qcvn: {
-        label: 'Giới hạn vượt ngưỡng',
+        label: 'QCVN',
         placeholder: 'QCVN',
         error: 'Vui lòng chọn QCVN'
-      },
-      standard: {
-        label: 'Qui chuẩn'
-      },
-      tendToExceed: {
-        label: 'Giới hạn chuẩn bị vượt'
       },
       province: {
         label: 'Đơn vị quản lý',
@@ -930,21 +931,22 @@ export default {
         error: 'Vui lòng chọn đơn vị quản lý'
       },
       frequency: {
-        label: 'Tần suất (phút/lần)',
+        label: 'Tần suất(phút/lần)',
         placeholder: 'phút/lần',
-        error: 'Vui lòng chọn tần suất',
-        description:
-          'Chú ý: Phục vụ cho việc thống kê tỷ lệ nhận dữ liệu và gửi cảnh báo'
+        error: 'Vui lòng chọn tần suất'
       },
-      order: {
-        label: 'Thứ tự',
-        placeholder: 'Thứ tự',
-        error: 'Vui lòng nhập thứ tự'
+      typeSampling: {
+        label: 'Hình thức lấy mẫu',
+        placeholder: 'Chọn hình thức'
       },
       dayOfOperation: {
         label: 'Ngày hoạt động',
         placeholder: 'Ngày hoạt động',
         error: 'Vui lòng chọn ngày hoạt động'
+      },
+      isStopWorking: {
+        label: 'Ngừng hoạt động',
+        placeholder: 'Ngừng hoạt động'
       },
       note: {
         label: 'Ghi chú',
@@ -977,7 +979,7 @@ export default {
         error: 'Vui lòng nhập số điện thoại'
       },
       range: {
-        label: 'Giới hạn đo thiết bị'
+        label: 'Giới hạn đo'
       },
       measuringKey: {
         label: 'Mã thông số',
@@ -995,22 +997,22 @@ export default {
         error: 'Vui lòng nhập đơn vị của thông số'
       },
       measuringMinLimit: {
-        label: 'Tối thiểu',
+        label: 'Giới hạn tối thiểu',
         placeholder: 'Nhập giới hạn tối thiểu',
         error: 'Vui lòng nhập giới hạn tối thiểu'
       },
       measuringMaxLimit: {
-        label: 'Tối đa',
+        label: 'Giới hạn tối đa',
         placeholder: 'Nhập giới hạn tôí đa',
         error: 'Vui lòng nhập giới hạn tối đa'
       },
       measuringMinRange: {
-        label: 'Tối thiểu',
+        label: 'Giới hạn tối thiểu',
         placeholder: 'Nhập giới hạn đo tối thiểu',
         error: 'Vui lòng nhập giới hạn đo tối thiểu'
       },
       measuringMaxRange: {
-        label: 'Tối đa',
+        label: 'Giới hạn tối đa',
         placeholder: 'Input Max Range',
         error: 'Vui lòng nhập giới hạn đo tối đa'
       },
@@ -1023,7 +1025,11 @@ export default {
         placeholder: 'Vị trí trên bản đồ'
       },
       error: 'Lỗi',
-      require: 'Vui lòng nhập giá trị'
+      require: 'Vui lòng nhập giá trị',
+      order: {
+        label: 'Order',
+        placeholder: 'Order'
+      }
     },
     range: {
       label: 'Dải đo',
@@ -1064,12 +1070,6 @@ export default {
       errorLoadFile: 'Tải tệp từ đường đường dẫn không thành công'
     },
     options: {
-      userRole: {
-        stationManager: 'Quản lý trạm',
-        allowSendWarning: 'Gửi cảnh báo',
-        sms: 'SMS',
-        email: 'Email'
-      },
       calibration: {
         title: 'Hiệu chuẩn thiết bị'
       },
@@ -1114,7 +1114,7 @@ export default {
         sunday: 'Mọi chủ nhật'
       },
       allowSampling: {
-        label: 'Cho phép lấy mẫu',
+        label: 'Lấy mẫu',
         placeholder: 'Lấy mẫu'
       },
       apiAddress: {

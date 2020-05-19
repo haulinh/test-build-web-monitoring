@@ -834,52 +834,18 @@ export default {
   },
   stationAutoManager: {
     list: {
-      title: 'Station',
+      title: 'Station Name',
       ftpInfo: 'FTP Info',
       ftpFile: 'FTP File',
       restore: 'Restore',
       remove: 'Remove',
       action: 'Action',
-      createdAt: 'Created At',
-      config: {
-        title: 'Connection configuration'
-      },
-      notification: {
-        title: 'Configure to Send Notifications',
-        actions: {
-          viewDataAroundExceededTime: 'View data around this time'
-        }
-      },
-      sampling: {
-        title: 'Sampling configuration'
-      },
-      camera: {
-        title: 'Camera configuration',
-        name: 'Name',
-        addr: 'Address',
-        allowView: 'Allow Viewing Camera'
-      },
-      color: {
-        title: 'Configure warning color'
-      },
-      actions: {
-        ftpFolder: 'FTP Folder',
-        fileMapping: 'File Mapping'
-      }
+      createdAt: 'Created At'
     },
     create: {
       label: 'Create',
       success: 'Add Station Name Successfully',
-      keyExisted: 'Station Name Is Already Existed',
-      modal: {
-        title: 'Limited subscription',
-        back: 'Back',
-        text:
-          'Your maximum number of stations is  {{=it.total}}, you cannot add new stations. Please contact or upgrade the service pack',
-        text1: 'Increase the number of stations please contact',
-        text2: 'Phone number',
-        text3: 'Email'
-      }
+      keyExisted: 'Station Name Is Already Existed'
     },
     edit: {
       label: 'Edit',
@@ -897,6 +863,48 @@ export default {
       error: 'Measuring have at least 1'
     },
     form: {
+      panel1: 'Station Information',
+      panel2: 'Station Other',
+      website: {
+        label: 'Website',
+        placeholder: 'Website'
+      },
+      capacity: {
+        label: 'Design capacity',
+        placeholder: 'Design capacity'
+      },
+      career: {
+        label: 'Career',
+        placeholder: 'Career'
+      },
+      material: {
+        label: 'Main material',
+        placeholder: 'Main material'
+      },
+      userResponsible: {
+        label: 'Operators',
+        placeholder: 'Operators'
+      },
+      phoneResponsible: {
+        label: 'Phone',
+        placeholder: 'Input the phone number responsible person'
+      },
+      processProdution: {
+        label: 'Production process',
+        placeholder: 'Production process'
+      },
+      yearOperate: {
+        label: 'Years of Operation',
+        placeholder: 'Years of Operation'
+      },
+      userSupervisor: {
+        label: 'Manager',
+        placeholder: 'Manager'
+      },
+      phoneSupervisor: {
+        label: 'Phone',
+        placeholder: 'Input the Manager phone number'
+      },
       key: {
         label: 'Code',
         placeholder: 'Input Code Of Station Name',
@@ -905,8 +913,7 @@ export default {
       name: {
         label: 'Name',
         placeholder: 'Input Station Name',
-        error: 'Please input Station Name',
-        error_length_max: 'Please input no more than 25 characters'
+        error: 'Please input Station Name'
       },
       stationType: {
         label: 'Type',
@@ -918,37 +925,32 @@ export default {
         placeholder: 'Address'
       },
       qcvn: {
-        label: 'Exceeded Limit',
+        label: 'Standards VN',
         placeholder: 'Standards VN',
         error: 'Please Choose Type Of Standards VN'
       },
-      standard: {
-        label: 'Standard'
-      },
-      tendToExceed: {
-        label: 'Tend To Exceed Limit'
-      },
       province: {
-        label: 'Site',
-        placeholder: 'Site',
-        error: 'Please Choose Site'
+        label: 'Management Unit',
+        placeholder: 'Management Unit',
+        error: 'Please Choose Management Unit'
       },
       frequency: {
-        label: 'Frequency (m/t)',
+        label: 'Frequency(m/t)',
         placeholder: 'minutes/time',
-        error: 'Please Choose Frequency',
-        description:
-          'Note: Used for statistics of data receiving rate and sending alerts'
+        error: 'Please Choose Frequency'
       },
-      order: {
-        label: 'Order',
-        placeholder: 'Order',
-        error: 'Please input Order'
+      typeSampling: {
+        label: 'Form of sampling',
+        placeholder: 'Select form'
       },
       dayOfOperation: {
         label: 'Actived At',
         placeholder: 'Actived At',
         error: 'Please Choose Actived At'
+      },
+      isStopWorking: {
+        label: 'Stop working',
+        placeholder: 'Stop working'
       },
       note: {
         label: 'Note',
@@ -981,7 +983,7 @@ export default {
         error: 'Please Input Phone Number'
       },
       range: {
-        label: 'Measuring Device Limit'
+        label: 'Range'
       },
       measuringKey: {
         label: 'Parameter code',
@@ -999,22 +1001,22 @@ export default {
         error: 'Please Input Parameter Unit'
       },
       measuringMinLimit: {
-        label: 'Min',
+        label: 'Min Limit',
         placeholder: 'Input Min Limit',
         error: 'Please Input Min Limit'
       },
       measuringMaxLimit: {
-        label: 'Max',
+        label: 'Max Limit',
         placeholder: 'Input Max Limit',
         error: 'Please Input Max Limit'
       },
       measuringMinRange: {
-        label: 'Min',
+        label: 'Min Range',
         placeholder: 'Input Min Range',
         error: 'Please Input Min Range'
       },
       measuringMaxRange: {
-        label: 'Max',
+        label: 'Max Range',
         placeholder: 'Input Max Range',
         error: 'Please Input Max Range'
       },
@@ -1027,7 +1029,11 @@ export default {
         placeholder: 'Map Location'
       },
       error: 'Error',
-      require: 'Please Enter Value'
+      require: 'Please Enter Value',
+      order: {
+        label: 'Order',
+        placeholder: 'Order'
+      }
     },
     range: {
       label: 'Station Range',
@@ -1068,17 +1074,11 @@ export default {
       errorLoadFile: 'Load file fail with path'
     },
     options: {
-      userRole: {
-        stationManager: 'Station Manager',
-        allowSendWarning: 'Send Notification',
-        sms: 'SMS',
-        email: 'Email'
-      },
       calibration: {
         title: 'Equipment calibration'
       },
       allowSendWarning: {
-        label: 'Send Notification',
+        label: 'Allow Send Warning',
         placeholder: 'Allow Send Warning'
       },
       allowApprove: {
@@ -1142,7 +1142,7 @@ export default {
     header: {
       option: 'Options',
       dataLogger: 'DataLogger',
-      approve: 'Check Data'
+      approve: 'Approve Data'
     },
     upload: {
       label: 'Upload',
