@@ -90,8 +90,13 @@ export default class AQIStatistics extends React.Component {
       listKey: _.get(this.state.searchFormData, "stationID", ""),
     };
 
-    let res = await aqiApi.fetchAqiProcessCalHour({ ...params });
-    if (res && res.success) {
+    const processFunc = [
+      aqiApi.fetchAqiProcessCalDay({ ...params }),
+      aqiApi.fetchAqiProcessCalHour({ ...params }),
+    ];
+    let res = await Promise.all(processFunc);
+    // console.log("res: ", res);
+    if (res && res[0].success && res[1].success) {
       message.success("success");
       this.loadData(this.state.pagination, this.state.searchFormData);
     } else {
@@ -121,7 +126,6 @@ export default class AQIStatistics extends React.Component {
             <Clearfix height={16} />
             {this.state.isHaveData ? (
               <TabList
-                
                 isLoading={this.state.isLoading}
                 dataAQI={this.state.dataAQI}
                 pagination={this.state.pagination}

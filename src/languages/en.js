@@ -434,7 +434,7 @@ export default {
       chart: "Chart",
       exportExcel: "Export To Excel",
       statusExport: "Exporting...",
-      dataProcess: "Data Process",
+      dataProcess: "Recalculate the Result",
     },
     analyze: {
       max: "Max",
