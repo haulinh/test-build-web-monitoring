@@ -5,10 +5,7 @@ import { Button } from 'antd'
 import * as _ from 'lodash'
 
 const WrapperContainer = styled.div`
-  /* justify-content: center; */
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  justify-content: center;
 `
 
 export default class CameraList extends React.Component {
@@ -16,16 +13,13 @@ export default class CameraList extends React.Component {
     super(props)
     this.state = {
       size: 5,
-      cameraList: props.cameraList,
-      countStartCamera: 0
+      cameraList: props.cameraList
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.cameraList !== nextProps.cameraList) {
-      this.setState({
-        cameraList: nextProps.cameraList
-      })
+      this.setState({ cameraList: nextProps.cameraList })
     }
   }
 
@@ -33,18 +27,6 @@ export default class CameraList extends React.Component {
     if (this.props.onItemClick) {
       this.props.onItemClick(camera)
     }
-  }
-
-  cbPlay = () => {
-    this.setState(prevState => ({
-      countStartCamera: prevState.countStartCamera + 1
-    }))
-  }
-
-  cbStop = () => {
-    this.setState(prevState => ({
-      countStartCamera: prevState.countStartCamera - 1
-    }))
   }
 
   handleLoadMore = () => {
@@ -66,9 +48,6 @@ export default class CameraList extends React.Component {
             key={`${inx}`}
             camera={camera}
             onCameraClick={this.handleCamera}
-            countStartCamera={this.state.countStartCamera}
-            cbPlay={this.cbPlay}
-            cbStop={this.cbStop}
           />
         ))}
         {this.state.cameraList.length > 10 ? (
