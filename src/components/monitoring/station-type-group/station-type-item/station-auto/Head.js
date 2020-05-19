@@ -360,8 +360,8 @@ export default class StationAutoHead extends React.PureComponent {
                 >
                   {i18n.averageData}
                 </Menu.Item>
-                <Divider style={{ margin: 0 }} />
-                <Menu.Item
+                {/* <Divider style={{ margin: 0 }} /> */}
+                {/* <Menu.Item
                   // disabled={
                   //   checkRolePriority(
                   //     this.props.userInfo,
@@ -372,8 +372,8 @@ export default class StationAutoHead extends React.PureComponent {
                   key="3"
                 >
                   {i18n.checkData}
-                </Menu.Item>
-                <Divider style={{ margin: 0 }} />
+                </Menu.Item> */}
+                {/* <Divider style={{ margin: 0 }} />
                 <Menu.Item
                   // disabled={
                   //     this.props.userInfo,
@@ -385,7 +385,7 @@ export default class StationAutoHead extends React.PureComponent {
                   key="4"
                 >
                   {i18n.config}
-                </Menu.Item>
+                </Menu.Item> */}
               </Menu>
             }
           >
