@@ -66,8 +66,7 @@ const LinkSpan = styled.span`
 @withRouter
 @autobind
 @connect(
-  state => ({
-  }),
+  state => ({}),
   {
     selectMenu,
     changeOpenSubMenu
@@ -114,7 +113,7 @@ export class ChartSummary extends React.Component {
                 category: 'Dashboard',
                 action: translate('dashboard.viewInMonitoring')
               })
-              this.props.selectMenu(slug.monitoring.base);
+              this.props.selectMenu(slug.monitoring.base)
             }}
             to={slug.monitoring.base + `?Id=${stationType.key}`}
           >
@@ -128,7 +127,7 @@ export class ChartSummary extends React.Component {
                 category: 'Dashboard',
                 action: translate('dashboard.viewInMap')
               })
-              this.props.selectMenu(slug.map.base);
+              this.props.selectMenu(slug.map.base)
             }}
             to={slug.map.base + `?Id=${stationType.key}`}
           >

@@ -1,17 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import * as _ from "lodash";
+import React from 'react'
+import PropTypes from 'prop-types'
+import * as _ from 'lodash'
 import { connectAutoDispatch } from 'redux/connect'
-import {
-  Button,
-  Table,
-  Form,
-  Input,
-  Typography
-} from "antd";
-import { translate } from "hoc/create-lang";
-import {updateWarningLevelColorData} from 'redux/actions/config'
-
+import { Button, Table, Form, Input, Typography } from 'antd'
+import { translate } from 'hoc/create-lang'
+import { updateWarningLevelColorData } from 'redux/actions/config'
 
 const { Text } = Typography
 
@@ -19,17 +12,18 @@ const i18n = {
   columnType: translate('page.config.color.table.column.type'),
   columnTypeAlt: translate('page.config.color.table.column.alternative'),
   columnColor: translate('page.config.color.table.column.color'),
-  columnBackgroundColor: translate('page.config.color.table.column.backgroundColor'),
+  columnBackgroundColor: translate(
+    'page.config.color.table.column.backgroundColor'
+  ),
   columnDesc: translate('page.config.color.table.column.desc'),
   save: translate('addon.save')
-};
-
+}
 
 @connectAutoDispatch(
   state => ({
     colorData: state.config.color.warningLevel.data
   }),
-  {updateWarningLevelColorData}
+  { updateWarningLevelColorData }
 )
 @Form.create({})
 export default class WarningLevelColorOfSensor extends React.Component {
@@ -46,8 +40,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
     isLoaded: false,
     isSubmit: false,
     dataSource: []
-  };
-
+  }
 
   render() {
     return (
@@ -58,15 +51,22 @@ export default class WarningLevelColorOfSensor extends React.Component {
           dataSource={this.props.colorData.value}
           columns={this._getTableColumn()}
         />
-  
-        <Button onClick={this._saveConfigs} loading={this.state.isSubmit} block type="primary" style={{marginTop: 16}}>{i18n.save}</Button>
+
+        <Button
+          onClick={this._saveConfigs}
+          loading={this.state.isSubmit}
+          block
+          type="primary"
+          style={{ marginTop: 16 }}
+        >
+          {i18n.save}
+        </Button>
       </React.Fragment>
-    );
+    )
   }
 
-
   _getTableColumn = () => {
-    const {getFieldDecorator} = this.props.form
+    const { getFieldDecorator } = this.props.form
 
     return [
       {
@@ -77,13 +77,9 @@ export default class WarningLevelColorOfSensor extends React.Component {
           return (
             <React.Fragment>
               <Text>{text}</Text>
-              {
-                getFieldDecorator(`[${index}].name`, {
-                  initialValue: text
-                })(
-                  <Input type="hidden"/>
-                )
-              }
+              {getFieldDecorator(`[${index}].name`, {
+                initialValue: text
+              })(<Input type="hidden" />)}
             </React.Fragment>
           )
         }
@@ -95,9 +91,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
         render(text, record, index) {
           return getFieldDecorator(`[${index}].alternative`, {
             initialValue: text
-          })(
-            <Input />
-          )
+          })(<Input />)
         }
       },
       {
@@ -108,9 +102,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
         render(color, record, index) {
           return getFieldDecorator(`[${index}].color`, {
             initialValue: color
-          })(
-            <input type="color" />
-          )
+          })(<input type="color" />)
         }
       },
       {
@@ -121,9 +113,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
         render(backgroundColor, record, index) {
           return getFieldDecorator(`[${index}].backgroundColor`, {
             initialValue: backgroundColor
-          })(
-            <input type="color" />
-          )
+          })(<input type="color" />)
         }
       },
       {
@@ -133,27 +123,24 @@ export default class WarningLevelColorOfSensor extends React.Component {
         render(text, record, index) {
           return getFieldDecorator(`[${index}].description`, {
             initialValue: text
-          })(
-            <Input />
-          )
+          })(<Input />)
         }
       },
       {
         title: ''
-      },
+      }
     ]
   }
 
-
   _saveConfigs = () => {
-    const {validateFields} = this.props.form
+    const { validateFields } = this.props.form
 
     validateFields(async (error, values) => {
       const id = _.get(this.props.colorData, '_id')
       const data = Object.values(values)
-      this.setState({isSubmit: true})
+      this.setState({ isSubmit: true })
       await this.props.updateWarningLevelColorData(id, data)
-      this.setState({isSubmit: false})
+      this.setState({ isSubmit: false })
     })
   }
 }

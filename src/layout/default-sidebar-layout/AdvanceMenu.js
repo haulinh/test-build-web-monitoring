@@ -49,7 +49,7 @@ export default {
         <Menu.Item
           key={slug.map.aqi}
           onClick={() => {
-            props.selectMenu(slug.map.aqi);
+            props.selectMenu(slug.map.aqi)
           }}
         >
           <Link to={slug.map.aqi}>{MENU_NAME.monitoring.mapAQI}</Link>

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Row, Col, Form as FormStyle, Input, Button, Icon } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
@@ -100,20 +100,26 @@ export default class UserSearchForm extends React.PureComponent {
       <Row gutter={16}>
         <Col span={18}>
           <Form className="fadeIn animated" onSubmit={this.changeSearch}>
-            <Row gutter={16} style={{width: '100%'}}>
+            <Row gutter={16} style={{ width: '100%' }}>
               <Col span={8}>
                 {getFieldDecorator(`email`)(
-                  <Input placeholder={t('userManager.form.email.placeholder')}/>
+                  <Input
+                    placeholder={t('userManager.form.email.placeholder')}
+                  />
                 )}
               </Col>
               <Col span={8}>
                 {getFieldDecorator(`firstName`)(
-                  <Input placeholder={t('userManager.form.firstName.placeholder')} />
+                  <Input
+                    placeholder={t('userManager.form.firstName.placeholder')}
+                  />
                 )}
               </Col>
               <Col span={7}>
                 {getFieldDecorator(`lastName`)(
-                  <Input placeholder={t('userManager.form.lastName.placeholder')}/>
+                  <Input
+                    placeholder={t('userManager.form.lastName.placeholder')}
+                  />
                 )}
               </Col>
               <Col span={1}>
@@ -121,7 +127,7 @@ export default class UserSearchForm extends React.PureComponent {
                   <Icon type="search" />
                 </Button>
               </Col>
-            
+
               {/* tạm thời bỏ số dt đi
               <Clearfix />
               <FormItem {...formItemLayout}>
@@ -146,7 +152,7 @@ export default class UserSearchForm extends React.PureComponent {
             </Row>
           </Form>
         </Col>
-        <Col span={6} style={{textAlign: "right"}}>
+        <Col span={6} style={{ textAlign: 'right' }}>
           {protectRole(ROLE.USER.ROLE)(
             <Link to={slug.user.rule}>
               <Button type="primary">
@@ -156,7 +162,7 @@ export default class UserSearchForm extends React.PureComponent {
           )}
 
           {protectRole(ROLE.USER.CREATE)(
-            <Link to={slug.user.create} style={{marginLeft: 16}}>
+            <Link to={slug.user.create} style={{ marginLeft: 16 }}>
               <Button type="primary">
                 <Icon type="plus" /> {i18n.create}
               </Button>

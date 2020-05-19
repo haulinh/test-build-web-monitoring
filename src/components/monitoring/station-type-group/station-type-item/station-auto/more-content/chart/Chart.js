@@ -1,18 +1,18 @@
-import React from "react"
-import Proptypes from "prop-types"
-import styled from "styled-components"
-import moment from "moment-timezone"
-import { translate } from "hoc/create-lang"
-import ReactHighcharts from "react-highcharts"
-import * as _ from "lodash"
-import { Tabs, Row, Col } from "antd"
-import { DD_MM_YYYY_HH_MM, HH_MM, DD_MM_YYYY } from "constants/format-date"
-import { getDataStationAutoAvg } from "api/DataStationAutoApi"
-import { getFormatNumber } from "constants/format-number"
-import InputEditCell from "components/elements/input-edit-cell"
-import Label from "components/elements/label"
-import { COLOR } from "themes/color"
-import { connect } from "react-redux"
+import React from 'react'
+import Proptypes from 'prop-types'
+import styled from 'styled-components'
+import moment from 'moment-timezone'
+import { translate } from 'hoc/create-lang'
+import ReactHighcharts from 'react-highcharts'
+import * as _ from 'lodash'
+import { Tabs, Row, Col } from 'antd'
+import { DD_MM_YYYY_HH_MM, HH_MM, DD_MM_YYYY } from 'constants/format-date'
+import { getDataStationAutoAvg } from 'api/DataStationAutoApi'
+import { getFormatNumber } from 'constants/format-number'
+import InputEditCell from 'components/elements/input-edit-cell'
+import Label from 'components/elements/label'
+import { COLOR } from 'themes/color'
+import { connect } from 'react-redux'
 
 const { TabPane } = Tabs
 const ChartWrapper = styled.div`
@@ -43,10 +43,10 @@ const ChartWrapper = styled.div`
   }
 `
 const i18n = {
-  minLimit: translate("monitoring.moreContent.chart.content.minLimit"),
-  maxLimit: translate("monitoring.moreContent.chart.content.maxLimit"),
-  to: translate("monitoring.moreContent.chart.content.to"),
-  from: translate("monitoring.moreContent.chart.content.from")
+  minLimit: translate('monitoring.moreContent.chart.content.minLimit'),
+  maxLimit: translate('monitoring.moreContent.chart.content.maxLimit'),
+  to: translate('monitoring.moreContent.chart.content.to'),
+  from: translate('monitoring.moreContent.chart.content.from')
 }
 
 const intHour = 24
@@ -61,8 +61,8 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
   let minLimitValue = null
   let maxLimitValue = null
 
-  const isMinLimit = typeof minLimit === "number"
-  const isMaxLimit = typeof maxLimit === "number"
+  const isMinLimit = typeof minLimit === 'number'
+  const isMaxLimit = typeof maxLimit === 'number'
   // console.log(minLimit, maxLimit, 'input limit')
   // console.log(dataSeries[0].data, isMinLimit, isMaxLimit, 'ABC')
 
@@ -114,8 +114,8 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
 
   return {
     chart: {
-      type: "column",
-      zoomType: "x",
+      type: 'column',
+      zoomType: 'x',
       height: 350
     },
     title: {
@@ -126,14 +126,14 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
     },
     yAxis: {
       title: {
-        text: "" // tiêu đề của cột Y
+        text: '' // tiêu đề của cột Y
       },
       min: minLimitValue,
       max: maxLimitValue, //maxLimitValue,
       plotLines: [
         {
-          value: typeof minLimit === "number" ? minLimit : null,
-          color: "red",
+          value: typeof minLimit === 'number' ? minLimit : null,
+          color: 'red',
           width: 1,
           label: {
             text: `${i18n.minLimit}: ${getFormatNumber(minLimit)}`
@@ -141,8 +141,8 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
           zIndex: 4
         },
         {
-          value: typeof maxLimit === "number" ? maxLimit : null,
-          color: "red",
+          value: typeof maxLimit === 'number' ? maxLimit : null,
+          color: 'red',
           width: 1,
           label: {
             text: `${i18n.maxLimit}: ${getFormatNumber(maxLimit)}`,
@@ -159,9 +159,8 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
     // dùng để custom hiển thị
     tooltip: {
       formatter: function() {
-
         // console.log(this.x, "this.x")
-        return ["<b>" + this.x + "</b>"].concat(
+        return ['<b>' + this.x + '</b>'].concat(
           this.points.map(function(point) {
             return `${point.series.name}: ${getFormatNumber(point.y)}`
           })
@@ -182,8 +181,8 @@ export default class ChartRowToChart extends React.Component {
       current: [],
       data: {},
       dataX: [],
-      strToDate: "",
-      strFromDate: "",
+      strToDate: '',
+      strFromDate: '',
       isLoading: false
     }
   }
@@ -206,7 +205,7 @@ export default class ChartRowToChart extends React.Component {
     }
   }
 
-  async loadDataBy(station, type = "hours") {
+  async loadDataBy(station, type = 'hours') {
     this.setState({
       isLoading: true
     })
@@ -216,13 +215,13 @@ export default class ChartRowToChart extends React.Component {
     let measuringKeys = []
     let results = {}
     let tempDataX = []
-    const giaTriTinh = type === "hours" ? intHour : intDay // 24 | 30
+    const giaTriTinh = type === 'hours' ? intHour : intDay // 24 | 30
     if (!_.isEmpty(station)) {
-      categories = _.keyBy(_.get(station, "measuringList", []), "key")
+      categories = _.keyBy(_.get(station, 'measuringList', []), 'key')
       measuringKeys = _.keys(categories)
 
-      if (_.has(station, "lastLog.receivedAt")) {
-        let receivedAt = _.get(station, "lastLog.receivedAt")
+      if (_.has(station, 'lastLog.receivedAt')) {
+        let receivedAt = _.get(station, 'lastLog.receivedAt')
 
         let toDate = moment(receivedAt).toISOString()
         let fromDate = moment(receivedAt)
@@ -236,21 +235,21 @@ export default class ChartRowToChart extends React.Component {
             {
               fromDate: fromDate,
               toDate: toDate,
-              key: _.get(station, "key", ""),
+              key: _.get(station, 'key', ''),
               measuringList: measuringKeys,
-              type: type === "hours" ? 60 : 1440 // lấy giá trị trung bình theo giờ
+              type: type === 'hours' ? 60 : 1440 // lấy giá trị trung bình theo giờ
             }
           )
 
           //Cập nhật trạng thái to from cho chart
           const station_FORMAT =
-            type === "hours" ? DD_MM_YYYY_HH_MM : DD_MM_YYYY
+            type === 'hours' ? DD_MM_YYYY_HH_MM : DD_MM_YYYY
           this.setState({
             strToDate: moment(toDate).format(station_FORMAT),
             strFromDate: moment(fromDate).format(station_FORMAT)
           })
 
-          let data = _.orderBy(_.get(dataSources, "data", []), "date_utc")
+          let data = _.orderBy(_.get(dataSources, 'data', []), 'date_utc')
           // console.log(data,"data")
 
           let arrDataX = []
@@ -265,14 +264,14 @@ export default class ChartRowToChart extends React.Component {
             let arryDataXs = [] // data của dãy giá trị Y
 
             _.forEach(arrDataX.reverse(), item => {
-              const item_FORMAT = type === "hours" ? HH_MM : "DD/MM"
+              const item_FORMAT = type === 'hours' ? HH_MM : 'DD/MM'
               const itemX = moment(item)
                 .minute(0)
                 .format(item_FORMAT)
               arryDataXs.push(`<b>${itemX}</b>`) //xong
 
               const data_indexOf = _.findIndex(data, itemFillter => {
-                const FORMAT = type === "hours" ? DD_MM_YYYY_HH_MM : DD_MM_YYYY
+                const FORMAT = type === 'hours' ? DD_MM_YYYY_HH_MM : DD_MM_YYYY
                 const data_mmReceivedAt = moment(itemFillter.date_utc)
                   .minute(0)
                   .format(FORMAT)
@@ -305,10 +304,10 @@ export default class ChartRowToChart extends React.Component {
 
                   // check logic màu cho từng column
                   if (_.has(categories, `${key}`)) {
-                    const minLimit = _.get(categories[key], "minLimit", null)
-                    const maxLimit = _.get(categories[key], "maxLimit", null)
-                    const minTend = _.get(categories[key], "minTend", null)
-                    const maxTend = _.get(categories[key], "maxTend", null)
+                    const minLimit = _.get(categories[key], 'minLimit', null)
+                    const maxLimit = _.get(categories[key], 'maxLimit', null)
+                    const minTend = _.get(categories[key], 'minTend', null)
+                    const maxTend = _.get(categories[key], 'maxTend', null)
 
                     // if (categories[key].key === "pH") {
                     //   console.log(
@@ -321,13 +320,13 @@ export default class ChartRowToChart extends React.Component {
                     // }
 
                     if (
-                      ( value < minLimit && _.isNumber(minLimit) ) ||
-                      ( value > maxLimit && _.isNumber(maxLimit))
+                      (value < minLimit && _.isNumber(minLimit)) ||
+                      (value > maxLimit && _.isNumber(maxLimit))
                     ) {
                       colorColumn = COLOR.EXCEEDED
                     } else if (
-                      ( value < minTend && _.isNumber(minTend)) ||
-                      ( value > maxTend && _.isNumber(maxTend))
+                      (value < minTend && _.isNumber(minTend)) ||
+                      (value > maxTend && _.isNumber(maxTend))
                     ) {
                       colorColumn = COLOR.EXCEEDED_PREPARING
                     } else {
@@ -369,7 +368,7 @@ export default class ChartRowToChart extends React.Component {
   }
 
   handleClick = e => {
-    const current = [_.get(_.keyBy(this.state.categories, "key"), e, null)]
+    const current = [_.get(_.keyBy(this.state.categories, 'key'), e, null)]
     this.setState({
       current
     })
@@ -383,18 +382,18 @@ export default class ChartRowToChart extends React.Component {
     let dataXs = []
     let maxLimit = null
     let minLimit = null
-    let title = _.get(this.props, "station.name", "")
+    let title = _.get(this.props, 'station.name', '')
 
-    maxLimit = _.get(this.state.current, "0.maxLimit", null)
-    minLimit = _.get(this.state.current, "0.minLimit", null)
+    maxLimit = _.get(this.state.current, '0.maxLimit', null)
+    minLimit = _.get(this.state.current, '0.minLimit', null)
 
     // console.log(this.state.data, this.state.current, 'getConfigData')
 
     dataSeries.push({
-      type: "column",
+      type: 'column',
       min: minLimit,
-      name: _.get(this.state.current, "0.name", ""),
-      data: _.get(this.state.data, _.get(this.state.current, "0.key", ""), [])
+      name: _.get(this.state.current, '0.name', ''),
+      data: _.get(this.state.data, _.get(this.state.current, '0.key', ''), [])
     })
     if (dataSeries.length > 0) {
       dataXs = this.state.dataX
@@ -417,7 +416,7 @@ export default class ChartRowToChart extends React.Component {
             <Col sm={9}>
               <InputEditCell
                 disabled={true}
-                editable={"true"}
+                editable={'true'}
                 size="small"
                 value={this.state.strFromDate}
               />
@@ -430,7 +429,7 @@ export default class ChartRowToChart extends React.Component {
             <Col sm={9}>
               <InputEditCell
                 disabled={true}
-                editable={"true"}
+                editable={'true'}
                 size="small"
                 value={this.state.strToDate}
               />
@@ -453,7 +452,7 @@ export default class ChartRowToChart extends React.Component {
                   paddingLeft: 8,
                   paddingRight: 8
                 }}
-                defaultActiveKey={_.get(this.state.current[0], "key", "")}
+                defaultActiveKey={_.get(this.state.current[0], 'key', '')}
                 onTabClick={this.handleClick}
               >
                 {_.map(this.state.categories, ({ key, name, unit }) => (

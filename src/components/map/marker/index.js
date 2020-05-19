@@ -22,7 +22,7 @@ import { STATUS_STATION } from 'constants/stationStatus'
 import moment from 'moment-timezone'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import _, { isEmpty, map, get as _get } from 'lodash'
-import { getFormatNumber } from 'constants/format-number';
+import { getFormatNumber } from 'constants/format-number'
 
 const TabPane = Tabs.TabPane
 
@@ -78,7 +78,7 @@ const Dot = styled.div`
 `
 @connectAutoDispatch(
   state => ({
-    focusStationKey: _get(state,'map.stationAuto.key','')
+    focusStationKey: _get(state, 'map.stationAuto.key', '')
   }),
   {
     getStationAuto
@@ -107,7 +107,7 @@ export default class MarkerStation extends PureComponent {
   }
 
   toggleOpen() {
-    const stationSelected ={
+    const stationSelected = {
       key: this.props.stationKey,
       name: this.props.name
     }
@@ -117,7 +117,9 @@ export default class MarkerStation extends PureComponent {
   getTextWidth(text, font) {
     // if given, use cached canvas for better performance
     // else, create new canvas
-    var canvas = this.getTextWidth.canvas || (this.getTextWidth.canvas = document.createElement('canvas'))
+    var canvas =
+      this.getTextWidth.canvas ||
+      (this.getTextWidth.canvas = document.createElement('canvas'))
     var context = canvas.getContext('2d')
     context.font = 'Roboto'
     var metrics = context.measureText(text)
@@ -132,13 +134,12 @@ export default class MarkerStation extends PureComponent {
   }
 
   getColorLevel(warningLevel) {
-    let stationStatus =  _get(this.props, 'stationStatus')
+    let stationStatus = _get(this.props, 'stationStatus')
     if (stationStatus === STATUS_STATION.HIGHTGEST)
       return COLOR[STATUS_STATION.HIGHTGEST]
 
-    if (warningLevel && COLOR[warningLevel])
-      return COLOR[warningLevel]
-      
+    if (warningLevel && COLOR[warningLevel]) return COLOR[warningLevel]
+
     return COLOR.GOOD
   }
 
@@ -146,60 +147,79 @@ export default class MarkerStation extends PureComponent {
     if (!this.props.lastLog || !this.props.lastLog.measuringLogs) return ''
     let lastLog = this.props.lastLog
 
-    let measuringList = map(this.props.measuringList, ({ name, key, unit }, index) => {
-      const statusDevice = _get(lastLog.measuringLogs[key], 'statusDevice', null)
-      const warningLevel = _get(lastLog.measuringLogs[key], 'warningLevel', null)
+    let measuringList = map(
+      this.props.measuringList,
+      ({ name, key, unit }, index) => {
+        const statusDevice = _get(
+          lastLog.measuringLogs[key],
+          'statusDevice',
+          null
+        )
+        const warningLevel = _get(
+          lastLog.measuringLogs[key],
+          'warningLevel',
+          null
+        )
 
-      let colorDeviceStatus = COLOR_DEVICE_STATUS[statusDevice]
-      // console.log("--------")
-      // console.log(lastLog.measuringLogs[key],this.props.statusStation, 'this.props.statusStation')
-      // Nếu trạm mất kết nối thì các sensor cũng mất kêt nối theo
-      if (this.props.stationStatus && this.props.stationStatus === STATUS_STATION.HIGHTGEST) {
-        colorDeviceStatus = COLOR[STATUS_STATION.HIGHTGEST]
-      }
-      // console.log( this.props, 'statusDevice')
+        let colorDeviceStatus = COLOR_DEVICE_STATUS[statusDevice]
+        // console.log("--------")
+        // console.log(lastLog.measuringLogs[key],this.props.statusStation, 'this.props.statusStation')
+        // Nếu trạm mất kết nối thì các sensor cũng mất kêt nối theo
+        if (
+          this.props.stationStatus &&
+          this.props.stationStatus === STATUS_STATION.HIGHTGEST
+        ) {
+          colorDeviceStatus = COLOR[STATUS_STATION.HIGHTGEST]
+        }
+        // console.log( this.props, 'statusDevice')
 
-      const value = _get(lastLog, ['measuringLogs', key, 'value'], '')
-      // console.log(value, "value")
-      return (
-        <tr key={`${index + 1}`}>
-          <td >{index + 1}</td>
-          <td >{name}</td>
-          <td
-            style={{
-              color: this.getColorLevel(warningLevel),
-              fontWeight: '600',
-              textAlign: 'right'
-            }}
-          >
-            {typeof value === 'number' ?  getFormatNumber(value) : ''}
-          </td>
-          <td >{unit}</td>
-          <td
-            style={{
-              textAlign: 'center',
-              padding: '0px',
-              'verticalAlign': 'middle'
-
-            }}
-            
-          >
-            <Dot
+        const value = _get(lastLog, ['measuringLogs', key, 'value'], '')
+        // console.log(value, "value")
+        return (
+          <tr key={`${index + 1}`}>
+            <td>{index + 1}</td>
+            <td>{name}</td>
+            <td
               style={{
-                backgroundColor: colorDeviceStatus
+                color: this.getColorLevel(warningLevel),
+                fontWeight: '600',
+                textAlign: 'right'
               }}
-            />
-          </td>
-        </tr>
-      )
-    })
+            >
+              {typeof value === 'number' ? getFormatNumber(value) : ''}
+            </td>
+            <td>{unit}</td>
+            <td
+              style={{
+                textAlign: 'center',
+                padding: '0px',
+                verticalAlign: 'middle'
+              }}
+            >
+              <Dot
+                style={{
+                  backgroundColor: colorDeviceStatus
+                }}
+              />
+            </td>
+          </tr>
+        )
+      }
+    )
 
     return (
       <div>
         <MHeader>
-          <MRow title={`${translate('map.marker.time')}: `} value={moment(this.props.lastLog.receivedAt).format(DD_MM_YYYY_HH_MM)} />
+          <MRow
+            title={`${translate('map.marker.time')}: `}
+            value={moment(this.props.lastLog.receivedAt).format(
+              DD_MM_YYYY_HH_MM
+            )}
+          />
           <Clearfix height={8} />
-          <InfoTitle color={'rgba(0, 0, 0, 0.65)'}>{translate('map.marker.result')}:</InfoTitle>
+          <InfoTitle color={'rgba(0, 0, 0, 0.65)'}>
+            {translate('map.marker.result')}:
+          </InfoTitle>
         </MHeader>
 
         <Clearfix height={8} />
@@ -323,9 +343,15 @@ export default class MarkerStation extends PureComponent {
             labelContent: this.props.name
               ? this.props.stationStatus === STATUS_STATION.GOOD
                 ? this.props.name
-                : this.props.name + '<br/>' + this.renderStationStatus(this.props.stationStatus)
+                : this.props.name +
+                  '<br/>' +
+                  this.renderStationStatus(this.props.stationStatus)
               : 'label',
-            labelAnchor: new google.maps.Point(this.getTextWidth(this.props.name ? this.props.name : 'label') / 2, -1),
+            labelAnchor: new google.maps.Point(
+              this.getTextWidth(this.props.name ? this.props.name : 'label') /
+                2,
+              -1
+            ),
             labelStyle: {
               color: 'white',
               fontSize: '14px',
@@ -335,46 +361,53 @@ export default class MarkerStation extends PureComponent {
               padding: '2px',
               textAlign: 'center',
               whiteteSpace: 'nowrap',
-              width: this.getTextWidth(this.props.name ? this.props.name : 'label') + 'px'
+              width:
+                this.getTextWidth(this.props.name ? this.props.name : 'label') +
+                'px'
             }
           }}
         >
           <div>
-            {this.props.stationKey === this.props.focusStationKey && this.props.name && this.props.name != '' && (
-              <InfoWindow
-                options={{
-                  //disableAutoPan: true,
-                  maxWidth: 450,
-                }}
-              >
-                <WrapperInfoWindow>
-                  <Viewmore
-                    measuringList={this.props.measuringList}
-                    stationId={this.props.stationId}
-                    stationName={this.props.name}
-                    stationKey={this.props.stationKey}
-                    stationTypeKey={this.props.stationTypeKey}
-                    options={this.props.options}
-                  />
-                  <InfoTitle>{this.props.name}</InfoTitle>
-                  <Clearfix height={8} />
-                  <div>
-                    <Label>{translate('map.dataTable.longitude')}: </Label>
-                    {`${this.props.mapLocation.lng} - `}
-                    <Label>{translate('map.dataTable.latitude')}: </Label>
-                    {`${this.props.mapLocation.lat}`}
-                  </div>
-                  <Clearfix height={8} />
-                  <div>
-                    <Label>{translate('map.dataTable.address')}: </Label>
-                    {_get(this.props, 'address', '')}
-                  </div>
-                  <Clearfix height={8} />
-                  {/* {this.props.lastLog && this.state.tableData} */}
-                  {this.renderTabInfoWindow(this.props.lastLog && this.state.tableData, this.props.image)}
-                </WrapperInfoWindow>
-              </InfoWindow>
-            )}
+            {this.props.stationKey === this.props.focusStationKey &&
+              this.props.name &&
+              this.props.name != '' && (
+                <InfoWindow
+                  options={{
+                    //disableAutoPan: true,
+                    maxWidth: 450
+                  }}
+                >
+                  <WrapperInfoWindow>
+                    <Viewmore
+                      measuringList={this.props.measuringList}
+                      stationId={this.props.stationId}
+                      stationName={this.props.name}
+                      stationKey={this.props.stationKey}
+                      stationTypeKey={this.props.stationTypeKey}
+                      options={this.props.options}
+                    />
+                    <InfoTitle>{this.props.name}</InfoTitle>
+                    <Clearfix height={8} />
+                    <div>
+                      <Label>{translate('map.dataTable.longitude')}: </Label>
+                      {`${this.props.mapLocation.lng} - `}
+                      <Label>{translate('map.dataTable.latitude')}: </Label>
+                      {`${this.props.mapLocation.lat}`}
+                    </div>
+                    <Clearfix height={8} />
+                    <div>
+                      <Label>{translate('map.dataTable.address')}: </Label>
+                      {_get(this.props, 'address', '')}
+                    </div>
+                    <Clearfix height={8} />
+                    {/* {this.props.lastLog && this.state.tableData} */}
+                    {this.renderTabInfoWindow(
+                      this.props.lastLog && this.state.tableData,
+                      this.props.image
+                    )}
+                  </WrapperInfoWindow>
+                </InfoWindow>
+              )}
           </div>
         </Marker>
       </div>

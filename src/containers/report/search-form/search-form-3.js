@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { default as SearchFormContainer } from "components/elements/box-shadow";
-import Heading from "components/elements/heading";
-import { Row, Col, Button, Form, DatePicker } from "antd";
-import createLang, { translate } from "hoc/create-lang";
-import SelectProvince from "components/elements/select-province";
-import SelectStationType from "components/elements/select-station-type";
-import SelectStationAuto from "containers/search/common/select-station-auto"; //'.././common/select-station-auto'
-import { Clearfix } from "containers/fixed-map/map-default/components/box-analytic-list/style";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { default as SearchFormContainer } from 'components/elements/box-shadow'
+import Heading from 'components/elements/heading'
+import { Row, Col, Button, Form, DatePicker } from 'antd'
+import createLang, { translate } from 'hoc/create-lang'
+import SelectProvince from 'components/elements/select-province'
+import SelectStationType from 'components/elements/select-station-type'
+import SelectStationAuto from 'containers/search/common/select-station-auto' //'.././common/select-station-auto'
+import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 
-const { MonthPicker } = DatePicker;
+const { MonthPicker } = DatePicker
 
 const Item = props => (
   <Form.Item
@@ -17,31 +17,30 @@ const Item = props => (
     {...props}
     colon={false}
     style={{
-      color: "rgba(0,0,0,0.8)",
+      color: 'rgba(0,0,0,0.8)',
       fontSize: 14,
       fontWeight: 600,
       marginBottom: 0
     }}
   />
-);
+)
 
 const i18n = {
   label: {
-    buttonSearch: translate("addon.search"),
-    headerSearch: translate("addon.searchSeclect"),
-    province: translate("qaqc.province.label"),
-    stationType: translate("dataSearchFrom.form.stationType.label"),
-    stationAuto: translate("dataSearchFrom.form.stationAuto.label"),
-    selectTimeRange: translate("avgSearchFrom.selectTimeRange.month"),
-    selectTimeRange2: translate("avgSearchFrom.selectTimeRange.day")
+    buttonSearch: translate('addon.search'),
+    headerSearch: translate('addon.searchSeclect'),
+    province: translate('qaqc.province.label'),
+    stationType: translate('dataSearchFrom.form.stationType.label'),
+    stationAuto: translate('dataSearchFrom.form.stationAuto.label'),
+    selectTimeRange: translate('avgSearchFrom.selectTimeRange.month'),
+    selectTimeRange2: translate('avgSearchFrom.selectTimeRange.day')
   },
   error: {
-    stationAuto: translate("avgSearchFrom.form.stationAuto.error"),
-    selectTimeRange: translate("avgSearchFrom.selectTimeRange.error"),
-    stationType: translate("dataSearchFrom.form.stationType.require"),
-    
+    stationAuto: translate('avgSearchFrom.form.stationAuto.error'),
+    selectTimeRange: translate('avgSearchFrom.selectTimeRange.error'),
+    stationType: translate('dataSearchFrom.form.stationType.require')
   }
-};
+}
 
 @Form.create()
 @createLang
@@ -49,15 +48,15 @@ export default class SearchForm extends React.Component {
   static propTypes = {
     cbSubmit: PropTypes.func,
     isDatePicker: PropTypes.bool
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     // this.submit = this.submit.bind(this);
     this.state = {
       measuringList: [],
-      stationName: ""
-    };
+      stationName: ''
+    }
   }
 
   submit = () => {
@@ -66,30 +65,28 @@ export default class SearchForm extends React.Component {
       if (!err) {
         // console.log("Received values of form: ", values);
         if (this.props.cbSubmit) {
-          const measuringListStr = this.state.measuringList
-            .map(item => encodeURIComponent(item.key))
-          
-            const measuringListUnitStr = this.state.measuringList
-            .map(item => encodeURIComponent(item.unit))
-            // .join(",");
+          const measuringListStr = this.state.measuringList.map(item =>
+            encodeURIComponent(item.key)
+          )
+
+          const measuringListUnitStr = this.state.measuringList.map(item =>
+            encodeURIComponent(item.unit)
+          )
+          // .join(",");
           this.props.cbSubmit({
             ...values,
             measuringListStr,
             measuringListUnitStr,
             measuringList: this.state.measuringList,
             stationName: this.state.stationName
-          });
+          })
         }
       }
-    });
-  };
+    })
+  }
 
   render() {
-    const {
-      getFieldDecorator,
-      getFieldValue,
-      setFieldsValue
-    } = this.props.form;
+    const { getFieldDecorator, getFieldValue, setFieldsValue } = this.props.form
 
     return (
       <SearchFormContainer>
@@ -98,7 +95,7 @@ export default class SearchForm extends React.Component {
             <Button
               type="primary"
               icon="search"
-              style={{ float: "right" }}
+              style={{ float: 'right' }}
               onClick={this.submit}
               size="small"
             >
@@ -108,24 +105,24 @@ export default class SearchForm extends React.Component {
           textColor="#ffffff"
           isBackground
           fontSize={14}
-          style={{ padding: "8px 16px" }}
+          style={{ padding: '8px 16px' }}
         >
           {i18n.label.headerSearch}
         </Heading>
-        <div style={{ padding: "8px 16px" }}>
+        <div style={{ padding: '8px 16px' }}>
           <Row gutter={16}>
             <Col span={6}>
               <Item label={i18n.label.province}>
-                {getFieldDecorator("province", {
+                {getFieldDecorator('province', {
                   onChange: val => {
-                    setFieldsValue({ stationAuto: null });
+                    setFieldsValue({ stationAuto: null })
                   }
                 })(<SelectProvince size="large" />)}
               </Item>
             </Col>
             <Col span={6}>
               <Item label={i18n.label.stationType}>
-                {getFieldDecorator("stationType", {
+                {getFieldDecorator('stationType', {
                   rules: [
                     {
                       required: true,
@@ -133,14 +130,14 @@ export default class SearchForm extends React.Component {
                     }
                   ],
                   onChange: val => {
-                    setFieldsValue({ stationAuto: null });
+                    setFieldsValue({ stationAuto: null })
                   }
                 })(<SelectStationType size="large" />)}
               </Item>
             </Col>
             <Col span={6}>
               <Item label={i18n.label.stationAuto}>
-                {getFieldDecorator("stationAuto", {
+                {getFieldDecorator('stationAuto', {
                   rules: [
                     {
                       required: true,
@@ -150,17 +147,17 @@ export default class SearchForm extends React.Component {
                 })(
                   <SelectStationAuto
                     size="large"
-                    stationTypeKey={getFieldValue("stationType")}
-                    provinceKey={getFieldValue("province")}
+                    stationTypeKey={getFieldValue('stationType')}
+                    provinceKey={getFieldValue('province')}
                     onChangeObject={station => {
                       if (station && station.measuringList)
                         this.setState({
                           measuringList: station.measuringList,
                           stationName: station.name
-                        });
-                      else this.setState({ measuringList: [] });
+                        })
+                      else this.setState({ measuringList: [] })
                     }}
-                    style={{ width: "100%" }}
+                    style={{ width: '100%' }}
                   />
                 )}
               </Item>
@@ -168,28 +165,28 @@ export default class SearchForm extends React.Component {
             {!this.props.isDatePicker && (
               <Col span={6}>
                 <Item label={i18n.label.selectTimeRange}>
-                  {getFieldDecorator("time", {
+                  {getFieldDecorator('time', {
                     rules: [
                       {
                         required: true,
                         message: i18n.error.selectTimeRange
                       }
                     ]
-                  })(<MonthPicker style={{ width: "100%" }} size="large" />)}
+                  })(<MonthPicker style={{ width: '100%' }} size="large" />)}
                 </Item>
               </Col>
             )}
             {this.props.isDatePicker && (
               <Col span={6}>
                 <Item label={i18n.label.selectTimeRange2}>
-                  {getFieldDecorator("time", {
+                  {getFieldDecorator('time', {
                     rules: [
                       {
                         required: true,
                         message: i18n.error.selectTimeRange
                       }
                     ]
-                  })(<DatePicker style={{ width: "100%" }} size="large" />)}
+                  })(<DatePicker style={{ width: '100%' }} size="large" />)}
                 </Item>
               </Col>
             )}
@@ -197,6 +194,6 @@ export default class SearchForm extends React.Component {
           <Clearfix height={16} />
         </div>
       </SearchFormContainer>
-    );
+    )
   }
 }

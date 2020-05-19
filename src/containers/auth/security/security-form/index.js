@@ -10,7 +10,7 @@ import ConfirmPssword2FA from './tabs/confirm-pwd'
 const TabPane = Tabs.TabPane
 
 @connectAutoDispatch(
-  (state) => ({
+  state => ({
     userInfo: state.auth.userInfo
   }),
   {}
@@ -29,43 +29,37 @@ export default class SecurityForm extends PureComponent {
     this.state = {
       isConfirmPassword: false,
       isSmsVerifyInProgress: false,
-      activeTabKey: "1",
+      activeTabKey: '1',
       confirmPasswordInfo: {
         hasFeedback: true,
-        validateStatus: "default",
-        help: '',
-      },
+        validateStatus: 'default',
+        help: ''
+      }
     }
   }
 
   render() {
     return (
-      <Row type="flex" justify='center' style={{height: '100%'}}>
+      <Row type="flex" justify="center" style={{ height: '100%' }}>
         <Card
           style={{ width: 450 }}
-          cover={
-            <img
-              alt="example"
-              src="/images/2fa.png"
-            />
-          }
+          cover={<img alt="example" src="/images/2fa.png" />}
         >
-          <Tabs activeKey={`${this.state.activeTabKey}`} renderTabBar={() => <div></div>}>
+          <Tabs
+            activeKey={`${this.state.activeTabKey}`}
+            renderTabBar={() => <div />}
+          >
             <TabPane key="1">
-              <Enable2FA 
+              <Enable2FA
                 handleClick2FAButton={this.handleClick2FAButton}
                 switchToTab={this._switchToTab}
               />
             </TabPane>
             <TabPane key="2" forceRender>
-              <ConfirmPssword2FA 
-                switchToTab={this._switchToTab}
-              />
+              <ConfirmPssword2FA switchToTab={this._switchToTab} />
             </TabPane>
             <TabPane key="3" forceRender>
-              <ModalActive
-                switchToTab={this._switchToTab}
-              />
+              <ModalActive switchToTab={this._switchToTab} />
             </TabPane>
           </Tabs>
         </Card>
@@ -74,6 +68,6 @@ export default class SecurityForm extends PureComponent {
   }
 
   _switchToTab(tab) {
-    this.setState({activeTabKey: tab})
+    this.setState({ activeTabKey: tab })
   }
 }

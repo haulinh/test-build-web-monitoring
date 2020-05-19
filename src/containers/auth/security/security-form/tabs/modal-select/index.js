@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment-timezone'
-import {Row} from 'antd'
+import { Row } from 'antd'
 import { autobind } from 'core-decorators'
 import { connectAutoDispatch } from 'redux/connect'
 import { set2FAStatus } from 'redux/actions/authAction'
@@ -9,7 +9,7 @@ import CompSMS from './sms'
 import CompOptions from './options'
 
 @connectAutoDispatch(
-  (state) => ({
+  state => ({
     user: state.auth.userInfo
   }),
   { set2FAStatus }
@@ -45,7 +45,7 @@ export default class ModalSelect extends React.PureComponent {
       })
     }
   }
-  
+
   render() {
     return (
       <Row>
@@ -54,10 +54,15 @@ export default class ModalSelect extends React.PureComponent {
           Nếu đã có code, còn hạn mà chưa nhập code thì show form sms
           ngoài ra show form action
         */
-          this.state.isSmsVerifyInProgress || this.state.option === 'sms'
-          ? <CompSMS switchToOption={this._switchToOption} clearSmsVerifyInProgress={this._clearSmsVerifyInProgress} {...this.props}/>
-          : <CompOptions switchToOption={this._switchToOption} {...this.props}/>
-        }
+        this.state.isSmsVerifyInProgress || this.state.option === 'sms' ? (
+          <CompSMS
+            switchToOption={this._switchToOption}
+            clearSmsVerifyInProgress={this._clearSmsVerifyInProgress}
+            {...this.props}
+          />
+        ) : (
+          <CompOptions switchToOption={this._switchToOption} {...this.props} />
+        )}
       </Row>
     )
   }
@@ -67,6 +72,6 @@ export default class ModalSelect extends React.PureComponent {
   }
 
   _clearSmsVerifyInProgress() {
-    this.setState({isSmsVerifyInProgress: false})
+    this.setState({ isSmsVerifyInProgress: false })
   }
 }

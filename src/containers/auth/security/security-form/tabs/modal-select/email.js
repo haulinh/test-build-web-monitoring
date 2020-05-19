@@ -4,7 +4,7 @@ import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import {Row} from 'antd'
+import { Row } from 'antd'
 import swal from 'sweetalert2'
 import { autobind } from 'core-decorators'
 import userApi from 'api/UserApi'
@@ -36,12 +36,11 @@ const RowViewCenter = styled(RowView)`
 const Text = styled.p``
 
 @connectAutoDispatch(
-  (state) => ({
+  state => ({
     user: state.auth.userInfo
   }),
   { set2FAStatus }
 )
-
 export default class ModalSelectEmail extends React.PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
@@ -63,10 +62,9 @@ export default class ModalSelectEmail extends React.PureComponent {
           Nếu đã có code, còn hạn mà chưa nhập code thì show form sms
           ngoài ra show form action
         */
-          this.props.isSmsVerifyInProgress || this.state.type === 'sms'
+        this.props.isSmsVerifyInProgress || this.state.type === 'sms'
           ? this._renderSms()
-          : this._renderOptions()
-        }
+          : this._renderOptions()}
       </Row>
     )
   }
@@ -79,9 +77,10 @@ export default class ModalSelectEmail extends React.PureComponent {
     return (
       <Container>
         <Text>{translate('security.message.info')}</Text>
-        <Button 
+        <Button
           onClick={this._handleSelectEmail}
-          loading={this.state.isLoadingEmail}>
+          loading={this.state.isLoadingEmail}
+        >
           {translate('security.use.email')}
         </Button>
         <Button
@@ -143,7 +142,6 @@ export default class ModalSelectEmail extends React.PureComponent {
     )
   }
 
-
   handle2FARegister = type => {
     if (type) {
       swal({
@@ -171,13 +169,13 @@ export default class ModalSelectEmail extends React.PureComponent {
   }
 
   async _handleSelectSms() {
-    this.setState({isLoadingSms: true})
+    this.setState({ isLoadingSms: true })
     await userApi.getSmsCode('sms')
     this.setState({ type: 'sms', stepCurrent: 0, isLoadingSms: false })
   }
-  
+
   async _handleSelectEmail() {
-    this.setState({isLoadingEmail: true})
+    this.setState({ isLoadingEmail: true })
     const success = await this.handleUpdate(true)
     this.setState({ type: 'email', isLoadingEmail: false })
     this.handle2FARegister(success)

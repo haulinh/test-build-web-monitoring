@@ -1,103 +1,103 @@
-import AuthApi from "../../api/AuthApi";
-import CategoryApi from "../../api/CategoryApi";
-import { setAuthToken, getAuthToken, resetAuthToken } from "utils/auth";
-import moment from "moment-timezone";
-import { result as _result } from "lodash";
+import AuthApi from '../../api/AuthApi'
+import CategoryApi from '../../api/CategoryApi'
+import { setAuthToken, getAuthToken, resetAuthToken } from 'utils/auth'
+import moment from 'moment-timezone'
+import { result as _result } from 'lodash'
 
-import { CONFIGS } from "./config";
+import { CONFIGS } from './config'
 
-export const UPDATE_USER_INFO = "AUTH/update-user-info";
-export const FETCH_PENDING_USER = "AUTH/fetch-pending-user";
-export const FETCH_SUCCESS_USER = "AUTH/fetch-success-user";
-export const FETCH_FAIL_USER = "AUTH/fetch-fail-user";
-export const USER_LOGOUT = "AUTH/user-lgoout";
-export const SET_FCM_TOKEN = "AUTH/SET_FCM_TOKEN";
-export const UPDATE_2FA = "AUTH/UPDATE_2FA";
-export const SET_2FA_STATUS = "AUTH/SET_2FA_STATUS";
-export const SET_2FA_TYPE = "AUTH/SET_2FA_TYPE";
+export const UPDATE_USER_INFO = 'AUTH/update-user-info'
+export const FETCH_PENDING_USER = 'AUTH/fetch-pending-user'
+export const FETCH_SUCCESS_USER = 'AUTH/fetch-success-user'
+export const FETCH_FAIL_USER = 'AUTH/fetch-fail-user'
+export const USER_LOGOUT = 'AUTH/user-lgoout'
+export const SET_FCM_TOKEN = 'AUTH/SET_FCM_TOKEN'
+export const UPDATE_2FA = 'AUTH/UPDATE_2FA'
+export const SET_2FA_STATUS = 'AUTH/SET_2FA_STATUS'
+export const SET_2FA_TYPE = 'AUTH/SET_2FA_TYPE'
 
 export function fetchUserMe() {
   return async dispatch => {
     if (!getAuthToken()) {
       dispatch({
         type: FETCH_FAIL_USER
-      });
-      return { error: true };
+      })
+      return { error: true }
     }
 
-    const warningLevelColor = await CategoryApi.getWarningLevelColor();
-    console.log(warningLevelColor, "----warningLevelColor---")
+    const warningLevelColor = await CategoryApi.getWarningLevelColor()
+    console.log(warningLevelColor, '----warningLevelColor---')
     if (warningLevelColor.error) {
       return dispatch({
         type: FETCH_FAIL_USER
-      });
+      })
     }
 
     dispatch({
       type: CONFIGS.GET_WARNING_LEVELS_COLOR,
       payload: warningLevelColor.data
-    });
+    })
     dispatch({
       type: FETCH_PENDING_USER
-    });
+    })
 
-    const auth = await AuthApi.getMe();
+    const auth = await AuthApi.getMe()
 
     moment.tz.setDefault(
-      _result(auth, "data.organization.timeZone.value"),
-      "Asia/Saigon"
-    );
+      _result(auth, 'data.organization.timeZone.value'),
+      'Asia/Saigon'
+    )
     if (auth.error) {
       dispatch({
         type: FETCH_FAIL_USER
-      });
+      })
     } else {
       dispatch({
         type: FETCH_SUCCESS_USER,
         token: getAuthToken(),
         auth: auth.data
-      });
+      })
     }
-    return auth;
-  };
+    return auth
+  }
 }
 
 export function logout(userId) {
-  resetAuthToken();
+  resetAuthToken()
   try {
-    AuthApi.logoutUser(userId);
+    AuthApi.logoutUser(userId)
   } catch (ex) {}
   return {
     type: USER_LOGOUT
-  };
+  }
 }
 
 export function userLogin(reqData) {
   return async dispatch => {
-    const auth = await AuthApi.loginUser(reqData);
+    const auth = await AuthApi.loginUser(reqData)
     if (auth.success) {
-      setAuthToken(auth.token);
+      setAuthToken(auth.token)
       dispatch({
         type: UPDATE_USER_INFO,
         auth
-      });
+      })
     }
-    return auth;
-  };
+    return auth
+  }
 }
 
 export function userLogin2Factor(reqData) {
   return async dispatch => {
-    const auth = await AuthApi.loginUser2Factor(reqData);
+    const auth = await AuthApi.loginUser2Factor(reqData)
     if (auth.success) {
-      setAuthToken(auth.token);
+      setAuthToken(auth.token)
       dispatch({
         type: UPDATE_USER_INFO,
         auth
-      });
+      })
     }
-    return auth;
-  };
+    return auth
+  }
 }
 
 export function setFcmToken(token) {
@@ -105,8 +105,8 @@ export function setFcmToken(token) {
     dispatch({
       type: SET_FCM_TOKEN,
       payload: token
-    });
-  };
+    })
+  }
 }
 
 export function set2FAStatus(value) {
@@ -114,8 +114,8 @@ export function set2FAStatus(value) {
     dispatch({
       type: SET_2FA_STATUS,
       payload: value
-    });
-  };
+    })
+  }
 }
 
 export function set2FAType(value) {
@@ -123,8 +123,8 @@ export function set2FAType(value) {
     dispatch({
       type: SET_2FA_TYPE,
       payload: value
-    });
-  };
+    })
+  }
 }
 
 export function update2FA(value) {
@@ -132,6 +132,6 @@ export function update2FA(value) {
     dispatch({
       type: UPDATE_2FA,
       payload: value
-    });
-  };
+    })
+  }
 }

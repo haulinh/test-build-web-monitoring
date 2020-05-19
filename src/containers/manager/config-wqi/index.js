@@ -1,18 +1,18 @@
-import React from "react"
-import PageContainer from "layout/default-sidebar-layout/PageContainer"
-import TabsStationAuto from "./tabs-station-auto"
-import TabsStationFixed from "./tabs-station-fixed"
-import stationAutoApi from "api/StationAuto"
-import stationFixedApi from "api/StationFixedApi"
-import stationConfigApi from "api/StationConfigApi"
-import { translate } from "hoc/create-lang"
-import { Icon, Tabs } from "antd"
-import * as _ from "lodash"
-import Breadcrumb from "./breadcrumb"
+import React from 'react'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import TabsStationAuto from './tabs-station-auto'
+import TabsStationFixed from './tabs-station-fixed'
+import stationAutoApi from 'api/StationAuto'
+import stationFixedApi from 'api/StationFixedApi'
+import stationConfigApi from 'api/StationConfigApi'
+import { translate } from 'hoc/create-lang'
+import { Icon, Tabs } from 'antd'
+import * as _ from 'lodash'
+import Breadcrumb from './breadcrumb'
 // import { getConfigApi } from "config"
 // import PageInfo from "components/pageInfo"
-import ROLE from "constants/role"
-import protectRole from "hoc/protect-role"
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
 
 const TabPane = Tabs.TabPane
 @protectRole(ROLE.CONFIG_WQI.VIEW)
@@ -30,7 +30,7 @@ export default class ConfigWQIContainer extends React.Component {
 
   async loadDataAuto() {
     const rs = await stationAutoApi.getLastLog()
-    const listStationAuto = _.get(rs, "data", [])
+    const listStationAuto = _.get(rs, 'data', [])
     const stationTypeAuto = []
     const keys = []
     _.forEach(listStationAuto, ({ stationType: { key, name } }) => {
@@ -45,7 +45,7 @@ export default class ConfigWQIContainer extends React.Component {
   async loadDataStationFixed() {
     const rs = await stationFixedApi.getStationFixeds({}, {})
 
-    const listStationfixed = _.get(rs, "data", [])
+    const listStationfixed = _.get(rs, 'data', [])
 
     const stationTypeFixed = []
     const keys = []
@@ -61,7 +61,7 @@ export default class ConfigWQIContainer extends React.Component {
 
   async loadDataConfigStation() {
     const rs = await stationConfigApi.getStationsConfig({}, {})
-    this.setState({ listStationConfig: _.get(rs, "data", []) })
+    this.setState({ listStationConfig: _.get(rs, 'data', []) })
   }
 
   componentDidMount() {
@@ -83,14 +83,14 @@ export default class ConfigWQIContainer extends React.Component {
   render() {
     return (
       <div>
-        <PageContainer {...this.props.wrapperProps} backgroundColor={"#fafbfb"}>
-          <Breadcrumb items={["list"]} />
+        <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+          <Breadcrumb items={['list']} />
           <Tabs defaultActiveKey="tabAuto">
             <TabPane
               tab={
                 <span>
                   <Icon type="reconciliation" />
-                  {translate("configWQI.stationAuto")}
+                  {translate('configWQI.stationAuto')}
                 </span>
               }
               key="tabAuto"
@@ -106,7 +106,7 @@ export default class ConfigWQIContainer extends React.Component {
               tab={
                 <span>
                   <Icon type="cluster" />
-                  {translate("configWQI.stationFixed")}
+                  {translate('configWQI.stationFixed')}
                 </span>
               }
               key="tabFixed"

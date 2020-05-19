@@ -1,12 +1,12 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import InfoComponent from "../../components/aqi/info"
-import MapComponent from "../../components/aqi/map"
-import * as _ from "lodash"
+import InfoComponent from '../../components/aqi/info'
+import MapComponent from '../../components/aqi/map'
+import * as _ from 'lodash'
 
-import aqiApi from "api/AqiApi"
-import stationConfigApi from "api/StationConfigApi"
+import aqiApi from 'api/AqiApi'
+import stationConfigApi from 'api/StationConfigApi'
 // import moment from 'moment'
 
 const WrapperContainer = styled.div`
@@ -26,16 +26,16 @@ export default class AqiContainer extends React.Component {
     try {
       const stationConfigs = await stationConfigApi.getStationsConfig(
         {},
-        { config: "AQI" }
+        { config: 'AQI' }
       )
       const stationData = _.map(
-        _.get(stationConfigs, "data", []),
+        _.get(stationConfigs, 'data', []),
         itemStation => {
           return itemStation.key
         }
       )
 
-      const listKey = _.join(stationData, ",")
+      const listKey = _.join(stationData, ',')
       // console.log(listKey,'listKey')
       const params = {
         // from: moment().utc().startOf('day').format(),
@@ -46,11 +46,11 @@ export default class AqiContainer extends React.Component {
       let rs = await aqiApi.fetchAqiDayLastLogs({ ...params })
 
       // const rs = await fetchAqiByHour()
-      let dataRes = _.get(rs, "data", [])
+      let dataRes = _.get(rs, 'data', [])
       // console.log(dataRes,"dataRes")
       dataRes = _.map(dataRes, item => {
-        const time = _.get(item, "time", null)
-        const valuesData = _.values(_.omit(item, "time"))
+        const time = _.get(item, 'time', null)
+        const valuesData = _.values(_.omit(item, 'time'))
         if (time) {
           return {
             time,
@@ -62,7 +62,7 @@ export default class AqiContainer extends React.Component {
       })
       const aqiList = _.compact(dataRes)
       // console.log(aqiList, "aqiList")
-      this.setState({ aqiList, aqiLevel: _.get(rs, "aqiLevel", []) })
+      this.setState({ aqiList, aqiLevel: _.get(rs, 'aqiLevel', []) })
 
       const station = _.head(aqiList)
 
@@ -84,7 +84,7 @@ export default class AqiContainer extends React.Component {
         <MapComponent
           aqiList={this.state.aqiList}
           aqiLevel={this.state.aqiLevel}
-          style={{ flex: 2, background: "blue" }}
+          style={{ flex: 2, background: 'blue' }}
           onMapClick={this.handleMarkerClick}
         />
         <InfoComponent

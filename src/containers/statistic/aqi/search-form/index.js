@@ -18,7 +18,9 @@ import SelectProvince from 'components/elements/select-province'
 import OptionsMonth from '../../common/options-time-month'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
-const FSelectStationTypeConfigAQI = createValidateComponent(SelectStationTypeConfigAQI)
+const FSelectStationTypeConfigAQI = createValidateComponent(
+  SelectStationTypeConfigAQI
+)
 const FSelectStationConfigAQI = createValidateComponent(SelectStationConfigAQI)
 const FOptionsMonth = createValidateComponent(OptionsMonth)
 
@@ -95,8 +97,8 @@ export default class SearchForm extends React.Component {
 
   handleSubmit(values) {
     this.props.onSubmit({
-     // fromDate: this.convertDateToString(this.state.fromDate),
-     // toDate: this.convertDateToString(this.state.toDate),
+      // fromDate: this.convertDateToString(this.state.fromDate),
+      // toDate: this.convertDateToString(this.state.toDate),
       fromDate: this.state.fromDate,
       toDate: this.state.toDate,
       key: values.station,
@@ -118,9 +120,15 @@ export default class SearchForm extends React.Component {
     this.props.change('station', '')
   }
 
-  handleChangeMonth = (month) => {
-    const fromTime = moment(month).startOf('months').utc().format()
-    const toTime = moment(month).endOf('months').utc().format()
+  handleChangeMonth = month => {
+    const fromTime = moment(month)
+      .startOf('months')
+      .utc()
+      .format()
+    const toTime = moment(month)
+      .endOf('months')
+      .utc()
+      .format()
     // console.log("-------START-------")
     // console.log(moment(fromTime).format(DD_MM_YYYY_HH_MM),moment(toTime).format(DD_MM_YYYY_HH_MM))
     // console.log("------END--------")
@@ -170,24 +178,24 @@ export default class SearchForm extends React.Component {
                 size="large"
                 onHandleChange={this.handleChangeStationType}
                 component={FSelectStationTypeConfigAQI}
-                isAuto= {null}
+                isAuto={null}
               />
             </Col>
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
             <Col span={12}>
-                <Field
-                  label={t('stationAuto.label')}
-                  name="station"
-                  size="large"
-                  provinceKey={this.state.provinceKey}
-                  stationTypeKey={this.state.stationTypeKey}
-                  component={FSelectStationConfigAQI}
-                  onChangeObject={this.handleChangeStationAuto}
-                  stationKey={this.state.stationKey}
-                  setKey
-                />
+              <Field
+                label={t('stationAuto.label')}
+                name="station"
+                size="large"
+                provinceKey={this.state.provinceKey}
+                stationTypeKey={this.state.stationTypeKey}
+                component={FSelectStationConfigAQI}
+                onChangeObject={this.handleChangeStationAuto}
+                stationKey={this.state.stationKey}
+                setKey
+              />
             </Col>
             <Col span={12}>
               <Field

@@ -34,12 +34,11 @@ export default class TableDataList extends React.PureComponent {
         dataIndex: 'MaxTime',
         key: 'MaxTime',
         render(value, record, index) {
-         
           let val =
             record.max.data.length > 0
               ? record.max.data[0].receivedAt || ''
               : null
-          if(val){
+          if (val) {
             val = moment(val).format(DD_MM_YYYY_HH_MM)
           }
           // console.log(val,"val")

@@ -3,7 +3,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 // import { SHAPE } from 'themes/color'
 import { translate as t } from 'hoc/create-lang'
-import  { STATUS_STATION , STATUS_OPTIONS } from 'constants/stationStatus'
+import { STATUS_STATION, STATUS_OPTIONS } from 'constants/stationStatus'
 import { Row, Item, BoxNumberView } from './style'
 import PropTypes from 'prop-types'
 

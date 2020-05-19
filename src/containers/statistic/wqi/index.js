@@ -49,7 +49,10 @@ export default class AQIStatistics extends React.Component {
       to: searchFormData.toDate
     }
     let listdataWQI = await wqiApi.fetchWqiHistory(key, params)
-    if (listdataWQI && (Array.isArray(listdataWQI.data) && listdataWQI.data.length === 0)) {
+    if (
+      listdataWQI &&
+      (Array.isArray(listdataWQI.data) && listdataWQI.data.length === 0)
+    ) {
       swal({
         type: 'success',
         title: translate('dataSearchFrom.table.emptyText')
@@ -85,10 +88,21 @@ export default class AQIStatistics extends React.Component {
     return (
       <div>
         {getConfigApi().isAdvanced && (
-          <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-            <Spin size="large" tip={translate('dataSearchFrom.tab.statusExport')} spinning={this.state.isExporting}>
+          <PageContainer
+            {...this.props.wrapperProps}
+            backgroundColor={'#fafbfb'}
+          >
+            <Spin
+              size="large"
+              tip={translate('dataSearchFrom.tab.statusExport')}
+              spinning={this.state.isExporting}
+            >
               <Breadcrumb items={['list']} />
-              <SearchFrom initialValues={this.props.formData} onSubmit={this.handleSubmitSearch} searchNow={this.props.formData.searchNow} />
+              <SearchFrom
+                initialValues={this.props.formData}
+                onSubmit={this.handleSubmitSearch}
+                searchNow={this.props.formData.searchNow}
+              />
               <Clearfix height={16} />
               {this.state.isHaveData ? (
                 <TabList

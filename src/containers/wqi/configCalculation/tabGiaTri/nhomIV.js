@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 // import styled from "styled-components";
 import {
   message,
@@ -12,123 +12,141 @@ import {
   Popconfirm,
   Spin,
   Row,
-  Col,
-} from "antd";
-import { Clearfix } from "containers/map/map-default/components/box-analytic-list/style";
-import { getConfigWqiMeaTable, postConfigWqiMeaTable } from "api/CategoryApi";
-import { translate } from "hoc/create-lang";
-import * as _ from "lodash";
-import LockComp from "./lockComp";
+  Col
+} from 'antd'
+import { Clearfix } from 'containers/map/map-default/components/box-analytic-list/style'
+import { getConfigWqiMeaTable, postConfigWqiMeaTable } from 'api/CategoryApi'
+import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
+import LockComp from './lockComp'
 
 const i18n = {
-  submit: translate("addon.save"),
-  warning: translate("addon.warning"),
-  refresh: translate("addon.refresh"),
-  cancel: translate("addon.cancel"),
-  updateSuccess: translate("addon.onSave.update.success"),
-  updateError: translate("addon.onSave.update.error"),
-  required: translate("wqiConfigCalculation.required"),
+  submit: translate('addon.save'),
+  warning: translate('addon.warning'),
+  refresh: translate('addon.refresh'),
+  cancel: translate('addon.cancel'),
+  updateSuccess: translate('addon.onSave.update.success'),
+  updateError: translate('addon.onSave.update.error'),
+  required: translate('wqiConfigCalculation.required'),
 
-  add: translate("wqiConfigCalculation.add"),
-  collevel: translate("wqiConfigCalculation.collevel"),
-  colMin2: translate("wqiConfigCalculation.colMin2"),
-  colMax2: translate("wqiConfigCalculation.colMax2"),
-  colValue: translate("wqiConfigCalculation.colValue"),
-};
+  add: translate('wqiConfigCalculation.add'),
+  collevel: translate('wqiConfigCalculation.collevel'),
+  colMin2: translate('wqiConfigCalculation.colMin2'),
+  colMax2: translate('wqiConfigCalculation.colMax2'),
+  colValue: translate('wqiConfigCalculation.colValue')
+}
 
 @Form.create({})
 export default class TabGiaTri_NhomIV extends React.Component {
   static propTypes = {
-    configMeasure: PropTypes.array,
-  };
+    configMeasure: PropTypes.array
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isLoaded: false,
       isSubmit: false,
       dataSource: [],
       isLockFirst: {},
-      isLockLast: {},
-    };
-    const styleWidth = { width: "100%" };
-    const columnDynamic = [];
-    props.configMeasure.forEach((item) => {
+      isLockLast: {}
+    }
+    const styleWidth = { width: '100%' }
+    const columnDynamic = []
+    props.configMeasure.forEach(item => {
       columnDynamic.push({
         title: i18n.colValue + ' ' + item.keyMeasure,
         children: [
           {
             title: i18n.colMin2,
-            dataIndex: "min_" + item.keyMeasure,
-            key: "min_" + item.keyMeasure,
-            align: "center",
+            dataIndex: 'min_' + item.keyMeasure,
+            key: 'min_' + item.keyMeasure,
+            align: 'center',
             width: 150,
             render: (text, record, index) => {
-              const { getFieldDecorator, setFieldsValue } = this.props.form;
-              const isFirst = index === 0;
+              const { getFieldDecorator, setFieldsValue } = this.props.form
+              const isFirst = index === 0
               return (
                 <Form.Item
-                  style={{ textAlign: "left", marginBottom: "initial" }}
+                  style={{ textAlign: 'left', marginBottom: 'initial' }}
                 >
                   <div
                     style={{
-                      display: "flex",
-                      alignItems: "center",
+                      display: 'flex',
+                      alignItems: 'center',
                       minWidth: 130
                     }}
                   >
-                    {isFirst && <LockComp right={8} isLocked={this.state.isLockFirst[item.keyMeasure]} 
-                    onClick={()=>{
-                      this.setState({
-                        isLockFirst: {
-                          ...this.state.isLockFirst,
-                          [item.keyMeasure]: this.state.isLockFirst[item.keyMeasure]? false: true
-                        }
-                      })
-                      setFieldsValue({
-                        [`levelList[${record.key}].${item.keyMeasure}.min`]: null
-                      })
-                    }}
-                    />}
+                    {isFirst && (
+                      <LockComp
+                        right={8}
+                        isLocked={this.state.isLockFirst[item.keyMeasure]}
+                        onClick={() => {
+                          this.setState({
+                            isLockFirst: {
+                              ...this.state.isLockFirst,
+                              [item.keyMeasure]: this.state.isLockFirst[
+                                item.keyMeasure
+                              ]
+                                ? false
+                                : true
+                            }
+                          })
+                          setFieldsValue({
+                            [`levelList[${record.key}].${
+                              item.keyMeasure
+                            }.min`]: null
+                          })
+                        }}
+                      />
+                    )}
                     {getFieldDecorator(
                       `levelList[${record.key}].${item.keyMeasure}.min`,
                       {
                         rules: [
                           {
-                            required: !item.isBelongTemp && !(isFirst && this.state.isLockFirst[item.keyMeasure]),
-                            message: i18n.required,
-                          },
-                        ],
+                            required:
+                              !item.isBelongTemp &&
+                              !(
+                                isFirst &&
+                                this.state.isLockFirst[item.keyMeasure]
+                              ),
+                            message: i18n.required
+                          }
+                        ]
                       }
                     )(
                       <InputNumber
                         style={{ ...styleWidth }}
                         placeholder={i18n.colMin2}
-                        disabled={item.isBelongTemp || (isFirst && this.state.isLockFirst[item.keyMeasure])}
+                        disabled={
+                          item.isBelongTemp ||
+                          (isFirst && this.state.isLockFirst[item.keyMeasure])
+                        }
                       />
                     )}
                   </div>
                 </Form.Item>
-              );
-            },
+              )
+            }
           },
           {
             title: i18n.colMax2,
-            dataIndex: "max_" + item.keyMeasure,
-            key: "max_" + item.keyMeasure,
-            align: "center",
+            dataIndex: 'max_' + item.keyMeasure,
+            key: 'max_' + item.keyMeasure,
+            align: 'center',
             width: 150,
             render: (text, record, index) => {
-              const { getFieldDecorator, setFieldsValue } = this.props.form;
-              const isLast = this.state.dataSource.length === index + 1;
+              const { getFieldDecorator, setFieldsValue } = this.props.form
+              const isLast = this.state.dataSource.length === index + 1
               return (
                 <Form.Item
-                  style={{ textAlign: "left", marginBottom: "initial" }}
+                  style={{ textAlign: 'left', marginBottom: 'initial' }}
                 >
                   <div
                     style={{
-                      display: "flex",
-                      alignItems: "center",
+                      display: 'flex',
+                      alignItems: 'center',
                       minWidth: 130
                     }}
                   >
@@ -137,84 +155,111 @@ export default class TabGiaTri_NhomIV extends React.Component {
                       {
                         rules: [
                           {
-                            required: !item.isBelongTemp && !(isLast && this.state.isLockLast[item.keyMeasure]),
-                            message: i18n.required,
-                          },
-                        ],
+                            required:
+                              !item.isBelongTemp &&
+                              !(
+                                isLast && this.state.isLockLast[item.keyMeasure]
+                              ),
+                            message: i18n.required
+                          }
+                        ]
                       }
                     )(
                       <InputNumber
                         style={{ ...styleWidth }}
                         placeholder={i18n.colMax2}
-                        disabled={item.isBelongTemp || (isLast && this.state.isLockLast[item.keyMeasure])}
+                        disabled={
+                          item.isBelongTemp ||
+                          (isLast && this.state.isLockLast[item.keyMeasure])
+                        }
                       />
                     )}
-                    {isLast && <LockComp left={8} isLocked={this.state.isLockLast[item.keyMeasure]}
-                    onClick={()=>{
-                      this.setState({
-                        isLockLast: {
-                          ...this.state.isLockLast,
-                          [item.keyMeasure]: this.state.isLockLast[item.keyMeasure]? false: true
-                        }
-                      })
-                      setFieldsValue({
-                        [`levelList[${record.key}].${item.keyMeasure}.max`]: null
-                      })
-                    }}
-                    />}
+                    {isLast && (
+                      <LockComp
+                        left={8}
+                        isLocked={this.state.isLockLast[item.keyMeasure]}
+                        onClick={() => {
+                          this.setState({
+                            isLockLast: {
+                              ...this.state.isLockLast,
+                              [item.keyMeasure]: this.state.isLockLast[
+                                item.keyMeasure
+                              ]
+                                ? false
+                                : true
+                            }
+                          })
+                          setFieldsValue({
+                            [`levelList[${record.key}].${
+                              item.keyMeasure
+                            }.max`]: null
+                          })
+                        }}
+                      />
+                    )}
                   </div>
                 </Form.Item>
-              );
-            },
-          },
-        ],
-      });
-    });
+              )
+            }
+          }
+        ]
+      })
+    })
     this.columns = [
       {
         title: i18n.collevel,
-        dataIndex: "name",
-        key: "name",
-        align: "center",
+        dataIndex: 'name',
+        key: 'name',
+        align: 'center',
         width: 150,
         render: (text, record, index) => {
-          const { getFieldDecorator } = this.props.form;
+          const { getFieldDecorator } = this.props.form
           return (
-            <Form.Item style={{ textAlign: "left", marginBottom: "initial", minWidth: 100 }}>
+            <Form.Item
+              style={{
+                textAlign: 'left',
+                marginBottom: 'initial',
+                minWidth: 100
+              }}
+            >
               {getFieldDecorator(`levelList[${record.key}].name`, {
                 rules: [
                   {
                     required: true,
-                    message: i18n.required,
-                  },
-                ],
+                    message: i18n.required
+                  }
+                ]
               })(<Input placeholder={i18n.collevel} />)}
             </Form.Item>
-          );
-        },
+          )
+        }
       },
       {
-        title: i18n.colValue + " qi",
+        title: i18n.colValue + ' qi',
         children: [
           {
             title: 'qi',
-            dataIndex: "min_qi",
-            key: "min_qi",
-            align: "center",
+            dataIndex: 'min_qi',
+            key: 'min_qi',
+            align: 'center',
             width: 150,
             render: (text, record, index) => {
-              const { getFieldDecorator } = this.props.form;
+              const { getFieldDecorator } = this.props.form
               return (
                 <Form.Item
-                  style={{ textAlign: "left", marginBottom: "initial", minWidth: 100 }}
+                  style={{
+                    textAlign: 'left',
+                    marginBottom: 'initial',
+                    minWidth: 100
+                  }}
                 >
                   {getFieldDecorator(`levelList[${record.key}].qi`, {
                     rules: [
                       {
                         required: true,
-                        message: i18n.required,
-                      },
-                    ],
+                        message: i18n.required
+                      }
+                    ]
                   })(
                     <InputNumber
                       style={{ ...styleWidth }}
@@ -222,28 +267,32 @@ export default class TabGiaTri_NhomIV extends React.Component {
                     />
                   )}
                 </Form.Item>
-              );
-            },
+              )
+            }
           },
           {
             title: 'qi+1',
-            dataIndex: "max_qi",
-            key: "max_qi",
-            align: "center",
+            dataIndex: 'max_qi',
+            key: 'max_qi',
+            align: 'center',
             width: 150,
             render: (text, record, index) => {
-              const { getFieldDecorator } = this.props.form;
+              const { getFieldDecorator } = this.props.form
               return (
                 <Form.Item
-                  style={{ textAlign: "left", marginBottom: "initial", minWidth: 100 }}
+                  style={{
+                    textAlign: 'left',
+                    marginBottom: 'initial',
+                    minWidth: 100
+                  }}
                 >
                   {getFieldDecorator(`levelList[${record.key}].qi_1`, {
                     rules: [
                       {
                         required: true,
-                        message: i18n.required,
-                      },
-                    ],
+                        message: i18n.required
+                      }
+                    ]
                   })(
                     <InputNumber
                       style={{ ...styleWidth }}
@@ -251,18 +300,18 @@ export default class TabGiaTri_NhomIV extends React.Component {
                     />
                   )}
                 </Form.Item>
-              );
-            },
-          },
-        ],
+              )
+            }
+          }
+        ]
       },
       ...columnDynamic,
       {
-        title: "",
-        dataIndex: "action",
-        key: "action",
+        title: '',
+        dataIndex: 'action',
+        key: 'action',
         width: 80,
-        align: "center",
+        align: 'center',
         render: (text, record, index) => {
           return (
             <Popconfirm
@@ -274,36 +323,34 @@ export default class TabGiaTri_NhomIV extends React.Component {
             >
               <Icon
                 type="delete"
-                style={{ color: "red", fontSize: 24, cursor: "pointer" }}
+                style={{ color: 'red', fontSize: 24, cursor: 'pointer' }}
               />
             </Popconfirm>
-          );
-        },
-      },
-    ];
-    this.idIncrement = 0;
+          )
+        }
+      }
+    ]
+    this.idIncrement = 0
   }
 
   async componentDidMount() {
-    const response = await getConfigWqiMeaTable();
+    const response = await getConfigWqiMeaTable()
     if (response.success) {
-      const transformData = _.get(response, "data.value.groupIV", []).filter(
-        (i) => _.identity(i)
-      );
-      transformData.map((i) => (i.key = this.idIncrement++));
+      const transformData = _.get(response, 'data.value.groupIV', []).filter(
+        i => _.identity(i)
+      )
+      transformData.map(i => (i.key = this.idIncrement++))
 
       const isLockFirst = this.state.isLockFirst
       const firstItem = transformData[0] || {}
-      for(let key in firstItem){
-        if(_.get(firstItem, `${key}.min`) == null)
-          isLockFirst[key] = true
+      for (let key in firstItem) {
+        if (_.get(firstItem, `${key}.min`) == null) isLockFirst[key] = true
       }
 
       const isLockLast = this.state.isLockLast
-      const lastItem = transformData[transformData.length - 1];
-      for(let key in lastItem){
-        if(_.get(lastItem, `${key}.max`) == null)
-          isLockLast[key] = true
+      const lastItem = transformData[transformData.length - 1]
+      for (let key in lastItem) {
+        if (_.get(lastItem, `${key}.max`) == null) isLockLast[key] = true
       }
       this.setState(
         {
@@ -314,10 +361,10 @@ export default class TabGiaTri_NhomIV extends React.Component {
         },
         () => {
           this.props.form.setFieldsValue({
-            levelList: transformData,
-          });
+            levelList: transformData
+          })
         }
-      );
+      )
     }
   }
   add = () => {
@@ -325,38 +372,38 @@ export default class TabGiaTri_NhomIV extends React.Component {
       dataSource: [
         ...this.state.dataSource,
         {
-          key: this.idIncrement++,
-        },
-      ],
-    });
-  };
-  delete = (key) => {
-    let tamp = this.state.dataSource.filter((item) => item.key !== key);
+          key: this.idIncrement++
+        }
+      ]
+    })
+  }
+  delete = key => {
+    let tamp = this.state.dataSource.filter(item => item.key !== key)
     this.setState({
-      dataSource: [...tamp],
-    });
-  };
+      dataSource: [...tamp]
+    })
+  }
   submit = () => {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        this.setState({ isSubmit: true });
-        console.log("Received values of form: ", values);
+        this.setState({ isSubmit: true })
+        console.log('Received values of form: ', values)
         try {
-          const transformData = _.get(values, "levelList", []).filter((i) =>
+          const transformData = _.get(values, 'levelList', []).filter(i =>
             _.identity(i)
-          );
+          )
           const response = await postConfigWqiMeaTable({
-            groupIV: transformData,
-          });
+            groupIV: transformData
+          })
           if (response.success) {
-            message.success(i18n.updateSuccess);
+            message.success(i18n.updateSuccess)
           }
         } finally {
-          this.setState({ isSubmit: false });
+          this.setState({ isSubmit: false })
         }
       }
-    });
-  };
+    })
+  }
   render() {
     return (
       <Spin spinning={!this.state.isLoaded}>
@@ -387,6 +434,6 @@ export default class TabGiaTri_NhomIV extends React.Component {
           </Col>
         </Row>
       </Spin>
-    );
+    )
   }
 }

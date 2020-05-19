@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import moment from 'moment'
-import { Row, Col, Tooltip, Dropdown, Menu, message} from 'antd'
+import { Row, Col, Tooltip, Dropdown, Menu, message } from 'antd'
 import styled from 'styled-components'
 
 import { translate } from 'hoc/create-lang'
@@ -13,7 +13,9 @@ import { setDrawerVisible } from 'redux/actions/notification'
 import { getConfigApi } from 'config'
 
 const i18n = {
-  viewDataAroundExceededTime: translate('stationAutoManager.list.notification.actions.viewDataAroundExceededTime')
+  viewDataAroundExceededTime: translate(
+    'stationAutoManager.list.notification.actions.viewDataAroundExceededTime'
+  )
 }
 //View data around this time
 const MultilineText = styled(Row)`
@@ -29,11 +31,7 @@ const MultilineText = styled(Row)`
 `
 
 @withRouter
-@connectAutoDispatch(
-  (state) => ({
-  }),
-  { updateNotifyRead, setDrawerVisible }
-)
+@connectAutoDispatch(state => ({}), { updateNotifyRead, setDrawerVisible })
 export default class DefaultCell extends React.Component {
   static propTypes = {
     /* redux's props */
@@ -61,42 +59,69 @@ export default class DefaultCell extends React.Component {
     const { icon, content, data } = this.props
     const { receivedAt, isRead } = data
     // const _icon = `${getConfigApi().media}/${icon}` // Qui bỏ dùng anh phát vì khong dùng
-    console.log(getConfigApi().media, "getConfigApi")
+    console.log(getConfigApi().media, 'getConfigApi')
     return (
-      <Row 
-        type="flex" align="middle"
+      <Row
+        type="flex"
+        align="middle"
         style={{
-          height: 60, 
-          backgroundColor: isHoverOnCell ? '#0000001a' : isRead ? '#fff' : '#edf2fa',
-          borderBottom: '1px solid #dddfe2', 
-          cursor: "pointer"
-        }} 
-        onMouseEnter={() => this.setState({isHoverOnCell: true})}
-        onMouseLeave={() => this.setState({isHoverOnCell: false})}
+          height: 60,
+          backgroundColor: isHoverOnCell
+            ? '#0000001a'
+            : isRead
+            ? '#fff'
+            : '#edf2fa',
+          borderBottom: '1px solid #dddfe2',
+          cursor: 'pointer'
+        }}
+        onMouseEnter={() => this.setState({ isHoverOnCell: true })}
+        onMouseLeave={() => this.setState({ isHoverOnCell: false })}
       >
-
         <Col span={23} onClick={() => this._handleCellOnClick(data)}>
-          <Row 
-            type="flex" align="middle"
+          <Row
+            type="flex"
+            align="middle"
             style={{
-              height: 60, 
-            }} 
+              height: 60
+            }}
           >
             {/* image */}
-            <Col span={3} style={{textAlign: "center", height: '100%'}} className="notify-image">
-              <img src={icon} alt="" height="100%" style={{objectFit: 'contain'}}/>
+            <Col
+              span={3}
+              style={{ textAlign: 'center', height: '100%' }}
+              className="notify-image"
+            >
+              <img
+                src={icon}
+                alt=""
+                height="100%"
+                style={{ objectFit: 'contain' }}
+              />
             </Col>
 
             {/* contents */}
-            <Col span={ 21 } className="notify-content" style={{paddingLeft: 16, paddingRight: 16}}>
-              <Tooltip title={content} placement="right" overlayStyle={{width: 800, marginLeft: 200}} mouseEnterDelay={1}>
-                <MultilineText>
-                  {content}
-                </MultilineText>
+            <Col
+              span={21}
+              className="notify-content"
+              style={{ paddingLeft: 16, paddingRight: 16 }}
+            >
+              <Tooltip
+                title={content}
+                placement="right"
+                overlayStyle={{ width: 800, marginLeft: 200 }}
+                mouseEnterDelay={1}
+              >
+                <MultilineText>{content}</MultilineText>
               </Tooltip>
               <Row>
-                <Col style={{fontStyle: "italic", color: "#90949c", fontSize: 12}}>
-                  { moment(receivedAt).format('MM/DD [at] HH:mm') }
+                <Col
+                  style={{
+                    fontStyle: 'italic',
+                    color: '#90949c',
+                    fontSize: 12
+                  }}
+                >
+                  {moment(receivedAt).format('MM/DD [at] HH:mm')}
                 </Col>
               </Row>
             </Col>
@@ -105,36 +130,35 @@ export default class DefaultCell extends React.Component {
 
         {/* actions */}
         <Col className="notify-action" span={1}>
-          { data.status === "DATA_EXCEEDED" && (
+          {data.status === 'DATA_EXCEEDED' && (
             <Dropdown overlay={this.renderMenu(data)} placement="bottomRight">
               <span>...</span>
             </Dropdown>
           )}
         </Col>
-        
       </Row>
     )
   }
 
-  renderMenu = (data) => (
+  renderMenu = data => (
     <Menu>
       <Menu.Item onClick={() => this._navigateToDataSearch(data)}>
         {i18n.viewDataAroundExceededTime}
       </Menu.Item>
     </Menu>
-  );
+  )
 
-  _handleCellOnClick = (data) => {
+  _handleCellOnClick = data => {
     this.props.updateNotifyRead(data)
     this._navigateToStationOnMonitoring(data)
   }
 
-  _navigateToStationOnMonitoring = (data) => {
+  _navigateToStationOnMonitoring = data => {
     this.props.setDrawerVisible(false)
     this.props.history.replace(data.actions.viewDetail)
   }
 
-  _navigateToDataSearch = (data) => {
+  _navigateToDataSearch = data => {
     this.props.setDrawerVisible(false)
     this.props.history.replace(data.actions.aroundAtExceededTime)
   }

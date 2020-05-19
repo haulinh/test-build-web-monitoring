@@ -1,14 +1,14 @@
-import React from "react"
-import { Menu } from "antd"
-import slug, { MENU_NAME, MENU_GROUP } from "constants/slug"
-import protectRole from "hoc/protect-role/forMenu"
-import ROLE from "constants/role"
-import Icon from "themes/icon"
-import { Link } from "react-router-dom"
+import React from 'react'
+import { Menu } from 'antd'
+import slug, { MENU_NAME, MENU_GROUP } from 'constants/slug'
+import protectRole from 'hoc/protect-role/forMenu'
+import ROLE from 'constants/role'
+import Icon from 'themes/icon'
+import { Link } from 'react-router-dom'
 
 const CENTER = {
-  display: "flex",
-  alignItems: "center",
+  display: 'flex',
+  alignItems: 'center',
   fontWeight: 600
 }
 
@@ -131,7 +131,9 @@ export default {
             props.selectMenu(slug.report.status_data)
           }}
         >
-          <Link to={slug.report.status_data}>{MENU_NAME.report.status_data}</Link>
+          <Link to={slug.report.status_data}>
+            {MENU_NAME.report.status_data}
+          </Link>
         </Menu.Item>
       )}
     </Menu.SubMenu>

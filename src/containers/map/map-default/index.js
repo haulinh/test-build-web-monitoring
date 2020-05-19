@@ -1,22 +1,22 @@
-import React from "react";
-import { autobind } from "core-decorators";
-import styled from "styled-components";
-import StationAutoApi from "api/StationAuto";
-import MapView from "./map-view";
-import { resolveMapLocation } from "utils/resolveMapLocation";
-import BoxHideLayout from "components/map/box-hide-layout";
-import { STATUS_STATION } from "constants/stationStatus";
-import { connectAutoDispatch } from "redux/connect";
-import { getStationAuto } from "redux/actions/map";
-import { removeAccents } from "hoc/create-lang";
-import searchSidebarType from "constants/searchSidebarType";
-import ROLE from "constants/role";
-import protectRole from "hoc/protect-role";
-import queryFormDataBrowser from "hoc/query-formdata-browser";
-import connectWindowHeight from "../hoc-window-height";
-import SidebarNormal from "./sidebar/SidebarNormal";
-import { getStatusItem } from "constants/stationStatus";
-import { pick as _pick, set as _set, get as _get } from "lodash";
+import React from 'react'
+import { autobind } from 'core-decorators'
+import styled from 'styled-components'
+import StationAutoApi from 'api/StationAuto'
+import MapView from './map-view'
+import { resolveMapLocation } from 'utils/resolveMapLocation'
+import BoxHideLayout from 'components/map/box-hide-layout'
+import { STATUS_STATION } from 'constants/stationStatus'
+import { connectAutoDispatch } from 'redux/connect'
+import { getStationAuto } from 'redux/actions/map'
+import { removeAccents } from 'hoc/create-lang'
+import searchSidebarType from 'constants/searchSidebarType'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import connectWindowHeight from '../hoc-window-height'
+import SidebarNormal from './sidebar/SidebarNormal'
+import { getStatusItem } from 'constants/stationStatus'
+import { pick as _pick, set as _set, get as _get } from 'lodash'
 
 // import SidebarNotifications from './sidebar/SidebarNotifications.remove'
 // import { TYPE } from './components/box-analytic-list/SelectType'
@@ -26,11 +26,11 @@ const MapDefaultWrapper = styled.div`
   height: ${props => props.height}px;
   margin-top: 8px;
   margin-bottom: 8px;
-`;
+`
 
 const Clearfix = styled.div`
   width: 8px;
-`;
+`
 
 // const ColLeft = styled.div`
 //   width: 240px;
@@ -38,17 +38,17 @@ const Clearfix = styled.div`
 // `
 const MapCenter = styled.div`
   flex: 1;
-`;
+`
 const ColRight = styled.div`
   width: 280px;
   display: flex;
   flex-direction: column;
-`;
+`
 
 const RightWrapper = styled.div`
   flex: 1;
   display: flex;
-`;
+`
 
 @queryFormDataBrowser([])
 @protectRole(ROLE.MAP.VIEW)
@@ -73,121 +73,121 @@ export default class MapDefault extends React.PureComponent {
     isHidden: false,
     isLeft: true,
     isRight: true
-  };
+  }
 
   handleChangeSidebarType(e, sidebarType) {
-    if (e) e.preventDefault();
+    if (e) e.preventDefault()
     this.setState({
       sidebarType
-    });
+    })
   }
 
   handleSelectStation(stationSelected) {
-    const defaultZoom = 12;
-    let updateState = { stationSelected };
+    const defaultZoom = 12
+    let updateState = { stationSelected }
     if (this.state.map && this.state.map.getZoom() !== defaultZoom)
-      updateState.zoom = defaultZoom;
+      updateState.zoom = defaultZoom
     this.setState(updateState, () => {
-      this.props.getStationAuto(_pick(stationSelected, ["_id", "key", "name"]));
-    });
+      this.props.getStationAuto(_pick(stationSelected, ['_id', 'key', 'name']))
+    })
   }
 
   componentDidMount() {
     if (this.props.formData.stationAuto) {
       setTimeout(() => {
-        this.handleSelectStation(this.props.formData.stationAuto);
-      }, 1000);
+        this.handleSelectStation(this.props.formData.stationAuto)
+      }, 1000)
     }
   }
 
   async componentWillMount() {
-    const { lang } = this.props;
-    let resStationsAuto = await StationAutoApi.getLastLog();
+    const { lang } = this.props
+    let resStationsAuto = await StationAutoApi.getLastLog()
     if (resStationsAuto.success) {
-      let stationAutoList = resStationsAuto.data;
+      let stationAutoList = resStationsAuto.data
 
       stationAutoList = stationAutoList.map(item => {
-        _set(item, "name", removeAccents(lang, _get(item, "name", "")));
+        _set(item, 'name', removeAccents(lang, _get(item, 'name', '')))
         _set(
           item,
-          "stationType.name",
-          removeAccents(lang, _get(item, "stationType.name", ""))
-        );
-        item.visible = true;
-        return item;
-      });
-      stationAutoList = await resolveMapLocation(stationAutoList);
+          'stationType.name',
+          removeAccents(lang, _get(item, 'stationType.name', ''))
+        )
+        item.visible = true
+        return item
+      })
+      stationAutoList = await resolveMapLocation(stationAutoList)
 
       //Qui: Phân tích trạng thái của trạng trước khi view
       const dataAnalytic = stationAutoList.map(item => {
-        const statusAnalytic = getStatusItem(item);
+        const statusAnalytic = getStatusItem(item)
         return {
           ...item,
           statusAnalytic
-        };
-      });
+        }
+      })
 
       this.setState({
         stationsAuto: dataAnalytic
-      });
+      })
     }
   }
 
   handelOnLickHideLeftLayout({ isLeft, isRight }) {
     this.setState({
       isLeft: isLeft
-    });
+    })
   }
 
   handelOnLickHideRightLayout({ isLeft, isRight }) {
     this.setState({
       isRight: isRight
-    });
+    })
   }
 
   handleClickNotification(nf) {
     const stationAuto = this.state.stationsAuto.find(
       s => s.key === nf.stationKey
-    );
+    )
     if (stationAuto) {
-      this.handleSelectStation(stationAuto);
+      this.handleSelectStation(stationAuto)
     }
   }
 
   fillStatusChange(focusStatus, findBy) {
-    let res = this.state.stationsAuto;
+    let res = this.state.stationsAuto
 
     res = res.map(element => {
-      element.visible = false;
-      let status;
+      element.visible = false
+      let status
 
-      console.log(element.statusAnalytic, element, "statusAnalytic");
+      console.log(element.statusAnalytic, element, 'statusAnalytic')
 
       if (element.statusAnalytic === STATUS_STATION.GOOD) {
-        status = STATUS_STATION.GOOD;
+        status = STATUS_STATION.GOOD
       }
 
-      if (findBy === "byStationStatus") {
-        element.byStationStatus = true;
+      if (findBy === 'byStationStatus') {
+        element.byStationStatus = true
         if (element.status === STATUS_STATION.DATA_LOSS) {
-          status = STATUS_STATION.DATA_LOSS;
+          status = STATUS_STATION.DATA_LOSS
         }
         if (element.status === STATUS_STATION.NOT_USE) {
-          status = STATUS_STATION.NOT_USE;
+          status = STATUS_STATION.NOT_USE
         }
       }
 
-      if (findBy === "byDataStatus") {
-        status = element.statusAnalytic;
+      if (findBy === 'byDataStatus') {
+        status = element.statusAnalytic
       }
 
-      if (focusStatus.includes(status)) element.visible = true;
-      return element;
-    });
+      if (focusStatus.includes(status)) element.visible = true
+      return element
+    })
 
     this.setState({
       stationsAuto: res
-    });
+    })
   }
 
   renderSidebar() {
@@ -212,7 +212,7 @@ export default class MapDefault extends React.PureComponent {
               stationsAuto: this.state.stationsAuto
             }}
           />
-        );
+        )
     }
   }
 
@@ -225,7 +225,7 @@ export default class MapDefault extends React.PureComponent {
         <MapCenter>
           <MapView
             ref={mapView => {
-              this.mapView = mapView;
+              this.mapView = mapView
             }}
             windowHeight={this.props.windowHeight}
             center={this.state.center}
@@ -246,6 +246,6 @@ export default class MapDefault extends React.PureComponent {
         )}
         <Clearfix />
       </MapDefaultWrapper>
-    );
+    )
   }
 }

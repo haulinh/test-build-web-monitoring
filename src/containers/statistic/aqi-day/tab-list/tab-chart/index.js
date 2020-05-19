@@ -14,10 +14,14 @@ const TabChartWrapper = styled.div`
   flex: 1;
 `
 
-ReactHighcharts.Highcharts.wrap(ReactHighcharts.Highcharts.RangeSelector.prototype, 'drawInput', function(proceed, name) {
-  proceed.call(this, name)
-  this[name + 'DateBox'].on('click', function() {})
-})
+ReactHighcharts.Highcharts.wrap(
+  ReactHighcharts.Highcharts.RangeSelector.prototype,
+  'drawInput',
+  function(proceed, name) {
+    proceed.call(this, name)
+    this[name + 'DateBox'].on('click', function() {})
+  }
+)
 
 ReactHighcharts.Highcharts.setOptions({
   lang: {
@@ -56,13 +60,18 @@ export default class TabChart extends React.PureComponent {
     // console.log(arrKeys,"arrKeys")
     let seriesData = {}
 
-    const dataSort = _.sortBy(props.dataAQI,'time')
+    const dataSort = _.sortBy(props.dataAQI, 'time')
 
     _.forEach(dataSort, item => {
       _.forEach(arrKeys, key => {
         const tempData = _.get(seriesData[key], 'data', [])
-        const tempValue = _.get(item[key], 'aqiDay', null) ? _.get(item[key], 'aqiDay', null) : 0
-        const itemAdd = [moment(_.get(item[key], 'time', null)).valueOf(), tempValue]
+        const tempValue = _.get(item[key], 'aqiDay', null)
+          ? _.get(item[key], 'aqiDay', null)
+          : 0
+        const itemAdd = [
+          moment(_.get(item[key], 'time', null)).valueOf(),
+          tempValue
+        ]
         seriesData[key] = {
           name: item[key].name,
           data: _.concat(tempData, [itemAdd]),
@@ -113,7 +122,7 @@ export default class TabChart extends React.PureComponent {
           ...DATETIME_LABEL_FORMAT
         },
         labels: {
-          style: {  fontSize: '8px' }
+          style: { fontSize: '8px' }
         }
       },
       title: {
@@ -127,6 +136,12 @@ export default class TabChart extends React.PureComponent {
   }
 
   render() {
-    return <TabChartWrapper>{!this.state.isloading && <ReactHighcharts config={this.configChart(this.state.series)} />}</TabChartWrapper>
+    return (
+      <TabChartWrapper>
+        {!this.state.isloading && (
+          <ReactHighcharts config={this.configChart(this.state.series)} />
+        )}
+      </TabChartWrapper>
+    )
   }
 }

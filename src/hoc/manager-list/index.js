@@ -122,7 +122,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
         fetchData: this.fetchData,
         pathImg: this.state.pathImg,
         onChangeSearch: this.onChangeSearch,
-        data: this.state.data,
+        data: this.state.data
       }
       return <Component {...this.props} {...props} />
     }

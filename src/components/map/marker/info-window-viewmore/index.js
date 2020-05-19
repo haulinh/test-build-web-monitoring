@@ -2,7 +2,7 @@ import React from 'react'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import {  Icon } from 'antd'
+import { Icon } from 'antd'
 import slug from 'constants/slug'
 import LinkA from 'components/elements/link-a'
 import { translate } from 'hoc/create-lang'
@@ -54,7 +54,7 @@ export default class InfoWindowViewMore extends React.PureComponent {
 
   handleClickSampling() {}
 
-  handleClickDetail(e){
+  handleClickDetail(e) {
     e.preventDefault()
     const formSearch = {
       stationType: this.props.stationTypeKey,
@@ -63,7 +63,10 @@ export default class InfoWindowViewMore extends React.PureComponent {
       measuringData: this.props.measuringList,
       searchNow: true
     }
-    const url = slug.monitoring.base + '?formData=' +encodeURIComponent(JSON.stringify(formSearch))
+    const url =
+      slug.monitoring.base +
+      '?formData=' +
+      encodeURIComponent(JSON.stringify(formSearch))
     window.open(url, '_blank')
   }
   render() {
@@ -123,16 +126,12 @@ export default class InfoWindowViewMore extends React.PureComponent {
           overlay={dropdown}
           trigger={['click']}
         > */}
-          <LinkSpan className="ant-dropdown-link">
-            <Icon type="right" />
-            <LinkA
-              onClick={this.handleClickDetail} 
-              target="_blank"
-            >
-              {translate('map.dataTable.viewMore.detail')}
-            </LinkA>
-            
-          </LinkSpan> 
+        <LinkSpan className="ant-dropdown-link">
+          <Icon type="right" />
+          <LinkA onClick={this.handleClickDetail} target="_blank">
+            {translate('map.dataTable.viewMore.detail')}
+          </LinkA>
+        </LinkSpan>
         {/* </Dropdown> */}
       </WrapperViewMore>
     )

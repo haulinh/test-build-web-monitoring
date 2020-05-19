@@ -27,5 +27,5 @@ export default createBreadcrumb({
     id: 'configNew',
     icon: '',
     href: slug.qaqc.configNew
-  },
+  }
 })

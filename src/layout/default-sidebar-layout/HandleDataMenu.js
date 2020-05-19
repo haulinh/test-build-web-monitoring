@@ -1,16 +1,16 @@
-import React from "react";
-import { Menu } from "antd";
-import slug, { MENU_NAME, MENU_GROUP } from "constants/slug";
-import protectRole from "hoc/protect-role/forMenu";
-import ROLE from "constants/role";
-import Icon from "themes/icon";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Menu } from 'antd'
+import slug, { MENU_NAME, MENU_GROUP } from 'constants/slug'
+import protectRole from 'hoc/protect-role/forMenu'
+import ROLE from 'constants/role'
+import Icon from 'themes/icon'
+import { Link } from 'react-router-dom'
 
 const CENTER = {
-  display: "flex",
-  alignItems: "center",
+  display: 'flex',
+  alignItems: 'center',
   fontWeight: 600
-};
+}
 
 export default {
   renderComp: props => (
@@ -30,7 +30,7 @@ export default {
         <Menu.Item
           key={slug.qaqc.configNew}
           onClick={() => {
-            props.selectMenu(slug.qaqc.configNew);
+            props.selectMenu(slug.qaqc.configNew)
           }}
         >
           <Link to={slug.qaqc.configNew}>
@@ -43,7 +43,7 @@ export default {
         <Menu.Item
           key={slug.qaqc.base}
           onClick={() => {
-            props.selectMenu(slug.qaqc.base);
+            props.selectMenu(slug.qaqc.base)
           }}
         >
           <Link to={slug.qaqc.base}>{MENU_NAME.processData.approveData}</Link>
@@ -51,4 +51,4 @@ export default {
       )}
     </Menu.SubMenu>
   )
-};
+}

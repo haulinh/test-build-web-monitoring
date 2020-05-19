@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 // import PropTypes from "prop-types";
 // import styled from "styled-components";
 import {
@@ -13,75 +13,71 @@ import {
   Spin,
   Select,
   Checkbox
-} from "antd";
-import { Clearfix } from "containers/map/map-default/components/box-analytic-list/style";
-import {
-  getMeasurings,
-  getConfigAqiQC,
-  postConfigAqiQC
-} from "api/CategoryApi";
-import { translate } from "hoc/create-lang";
-import * as _ from "lodash";
+} from 'antd'
+import { Clearfix } from 'containers/map/map-default/components/box-analytic-list/style'
+import { getMeasurings, getConfigAqiQC, postConfigAqiQC } from 'api/CategoryApi'
+import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
 
 const i18n = {
-  submit: translate("addon.save"),
-  warning: translate("addon.warning"),
-  refresh: translate("addon.refresh"),
-  cancel: translate("addon.cancel"),
-  updateSuccess: translate("addon.onSave.update.success"),
-  updateError: translate("addon.onSave.update.error"),
+  submit: translate('addon.save'),
+  warning: translate('addon.warning'),
+  refresh: translate('addon.refresh'),
+  cancel: translate('addon.cancel'),
+  updateSuccess: translate('addon.onSave.update.success'),
+  updateError: translate('addon.onSave.update.error'),
 
-  add: translate("aqiConfigCalculation.add"),
-  required1D_1H: translate("aqiConfigCalculation.required1D_1H"),
-  required: translate("aqiConfigCalculation.required"),
-  colLevel: translate("aqiConfigCalculation.colLevel"),
-  colMin: translate("aqiConfigCalculation.colMin"),
-  colMax: translate("aqiConfigCalculation.colMax"),
-  colColor: translate("aqiConfigCalculation.colColor"),
-  colDescription: translate("aqiConfigCalculation.colDescription"),
+  add: translate('aqiConfigCalculation.add'),
+  required1D_1H: translate('aqiConfigCalculation.required1D_1H'),
+  required: translate('aqiConfigCalculation.required'),
+  colLevel: translate('aqiConfigCalculation.colLevel'),
+  colMin: translate('aqiConfigCalculation.colMin'),
+  colMax: translate('aqiConfigCalculation.colMax'),
+  colColor: translate('aqiConfigCalculation.colColor'),
+  colDescription: translate('aqiConfigCalculation.colDescription'),
 
-  colMeasureKey: translate("aqiConfigCalculation.colMeasureKey"),
-  colMeasure: translate("aqiConfigCalculation.colMeasure"),
-  colBatBuoc: translate("aqiConfigCalculation.colBatBuoc"),
-  colAvg1H: translate("aqiConfigCalculation.colAvg1H"),
-  colAvg8H: translate("aqiConfigCalculation.colAvg8H"),
-  colAvg1D: translate("aqiConfigCalculation.colAvg1D"),
-  colUnit: translate("aqiConfigCalculation.colUnit")
-};
+  colMeasureKey: translate('aqiConfigCalculation.colMeasureKey'),
+  colMeasure: translate('aqiConfigCalculation.colMeasure'),
+  colBatBuoc: translate('aqiConfigCalculation.colBatBuoc'),
+  colAvg1H: translate('aqiConfigCalculation.colAvg1H'),
+  colAvg8H: translate('aqiConfigCalculation.colAvg8H'),
+  colAvg1D: translate('aqiConfigCalculation.colAvg1D'),
+  colUnit: translate('aqiConfigCalculation.colUnit')
+}
 
 @Form.create({})
 export default class TabThongSo extends React.Component {
-  idIncrement = 0;
+  idIncrement = 0
   state = {
     isLoaded: false,
     isSubmit: false,
     dataSource: [],
     dataMeasuringObj: {},
-    aqiQCLevel:[]
-  };
+    aqiQCLevel: []
+  }
   columns = [
     {
       title: i18n.colMeasureKey,
-      dataIndex: "viewMeasure",
-      key: "viewMeasure",
-      align: "center",
+      dataIndex: 'viewMeasure',
+      key: 'viewMeasure',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldValue } = this.props.form;
+        const { getFieldValue } = this.props.form
         const aqiQCMeasures = getFieldValue(
           `aqiQCMeasures[${record.key}].keyMeasure`
-        );
-        return aqiQCMeasures;
+        )
+        return aqiQCMeasures
       }
     },
     {
       title: i18n.colMeasure,
-      dataIndex: "selectMeasure",
-      key: "selectMeasure",
-      align: "center",
+      dataIndex: 'selectMeasure',
+      key: 'selectMeasure',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator } = this.props.form
         return (
-          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`aqiQCMeasures[${record.key}].keyMeasure`, {
               rules: [
                 {
@@ -91,84 +87,84 @@ export default class TabThongSo extends React.Component {
               ]
             })(<this.SelectMeasure />)}
           </Form.Item>
-        );
+        )
       }
     },
     {
       title: i18n.colBatBuoc,
-      dataIndex: "isrequired",
-      key: "isrequired",
-      align: "center",
+      dataIndex: 'isrequired',
+      key: 'isrequired',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldDecorator, getFieldValue } = this.props.form;
+        const { getFieldDecorator, getFieldValue } = this.props.form
         return (
-          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`aqiQCMeasures[${record.key}].isrequired`, {
               onChange: val => {
-                const { setFieldsValue, getFieldValue } = this.props.form;
+                const { setFieldsValue, getFieldValue } = this.props.form
                 setFieldsValue({
                   [`aqiQCMeasures[${record.key}].isrequired`]: getFieldValue(
                     `aqiQCMeasures[${record.key}].isrequired`
                   )
-                });
+                })
               }
             })(
               <Checkbox
                 checked={getFieldValue(
                   `aqiQCMeasures[${record.key}].isrequired`
                 )}
-                style={{ display: "flex", justifyContent: "center" }}
+                style={{ display: 'flex', justifyContent: 'center' }}
               />
             )}
           </Form.Item>
-        );
+        )
       }
     },
     {
       title: i18n.colAvg1H,
-      dataIndex: "1h",
-      key: "1h",
-      align: "center",
+      dataIndex: '1h',
+      key: '1h',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldDecorator, getFieldValue } = this.props.form;
+        const { getFieldDecorator, getFieldValue } = this.props.form
         return (
-          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`aqiQCMeasures[${record.key}].1h`, {
               onChange: val => {
-                const { setFieldsValue, getFieldValue } = this.props.form;
+                const { setFieldsValue, getFieldValue } = this.props.form
                 setFieldsValue({
                   [`aqiQCMeasures[${record.key}].1h`]: getFieldValue(
                     `aqiQCMeasures[${record.key}].1h`
                   )
-                });
+                })
               }
             })(
               <Checkbox
                 checked={getFieldValue(`aqiQCMeasures[${record.key}].1h`)}
-                style={{ display: "flex", justifyContent: "center" }}
+                style={{ display: 'flex', justifyContent: 'center' }}
               />
             )}
           </Form.Item>
-        );
+        )
       }
     },
     {
       title: i18n.colAvg8H,
-      dataIndex: "8h",
-      key: "8h",
-      align: "center",
+      dataIndex: '8h',
+      key: '8h',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldDecorator, getFieldValue } = this.props.form;
+        const { getFieldDecorator, getFieldValue } = this.props.form
         return (
-          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`aqiQCMeasures[${record.key}].8h`, {
               onChange: val => {
-                const { setFieldsValue, getFieldValue } = this.props.form;
+                const { setFieldsValue, getFieldValue } = this.props.form
                 setFieldsValue({
                   [`aqiQCMeasures[${record.key}].8h`]: getFieldValue(
                     `aqiQCMeasures[${record.key}].8h`
                   )
-                });
+                })
               }
               // rules: [
               //   {
@@ -179,30 +175,30 @@ export default class TabThongSo extends React.Component {
             })(
               <Checkbox
                 checked={getFieldValue(`aqiQCMeasures[${record.key}].8h`)}
-                style={{ display: "flex", justifyContent: "center" }}
+                style={{ display: 'flex', justifyContent: 'center' }}
               />
             )}
           </Form.Item>
-        );
+        )
       }
     },
     {
       title: i18n.colAvg1D,
-      dataIndex: "24h",
-      key: "24h",
-      align: "center",
+      dataIndex: '24h',
+      key: '24h',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldDecorator, getFieldValue } = this.props.form;
+        const { getFieldDecorator, getFieldValue } = this.props.form
         return (
-          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`aqiQCMeasures[${record.key}].24h`, {
               onChange: val => {
-                const { setFieldsValue, getFieldValue } = this.props.form;
+                const { setFieldsValue, getFieldValue } = this.props.form
                 setFieldsValue({
                   [`aqiQCMeasures[${record.key}].24h`]: getFieldValue(
                     `aqiQCMeasures[${record.key}].24h`
                   )
-                });
+                })
               }
               // rules: [
               //   {
@@ -213,30 +209,30 @@ export default class TabThongSo extends React.Component {
             })(
               <Checkbox
                 checked={getFieldValue(`aqiQCMeasures[${record.key}].24h`)}
-                style={{ display: "flex", justifyContent: "center" }}
+                style={{ display: 'flex', justifyContent: 'center' }}
               />
             )}
           </Form.Item>
-        );
+        )
       }
     },
     {
       title: i18n.colUnit,
-      dataIndex: "unit",
-      key: "unit",
-      align: "center",
+      dataIndex: 'unit',
+      key: 'unit',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldValue } = this.props.form;
-        const aqiQCMeasures = getFieldValue("aqiQCMeasures");
-        const key = _.get(aqiQCMeasures, `${record.key}.keyMeasure`);
-        return _.get(this.state.dataMeasuringObj, `${key}.unit`);
+        const { getFieldValue } = this.props.form
+        const aqiQCMeasures = getFieldValue('aqiQCMeasures')
+        const key = _.get(aqiQCMeasures, `${record.key}.keyMeasure`)
+        return _.get(this.state.dataMeasuringObj, `${key}.unit`)
       }
     },
     {
-      title: "",
-      dataIndex: "action",
-      key: "action",
-      align: "center",
+      title: '',
+      dataIndex: 'action',
+      key: 'action',
+      align: 'center',
       render: (text, record, index) => {
         return (
           <Popconfirm
@@ -249,43 +245,43 @@ export default class TabThongSo extends React.Component {
           >
             <Icon
               type="delete"
-              style={{ color: "red", fontSize: 24, cursor: "pointer" }}
+              style={{ color: 'red', fontSize: 24, cursor: 'pointer' }}
             />
           </Popconfirm>
-        );
+        )
       }
     }
-  ];
+  ]
 
-  SelectMeasure = React.forwardRef((props) => {
+  SelectMeasure = React.forwardRef(props => {
     // console.log(props,"SelectMeasure")
     return (
-      <Select  {...props} showSearch style={{ width: "100%" }}>
+      <Select {...props} showSearch style={{ width: '100%' }}>
         {_.map(this.state.dataMeasuringObj, mea => {
           return (
             <Select.Option key={mea.key} value={mea.key}>
               {mea.name}
             </Select.Option>
-          );
+          )
         })}
       </Select>
-    );
+    )
   })
 
   submit = () => {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        this.setState({ isSubmit: true });
-        console.log("Received values of form: ", values);
+        this.setState({ isSubmit: true })
+        console.log('Received values of form: ', values)
         try {
-          let transformData = _.get(values, "aqiQCMeasures", []).filter(
+          let transformData = _.get(values, 'aqiQCMeasures', []).filter(
             i =>
-              (_.identity(i["1h"]) ||
-                _.identity(i["8h"]) ||
-                _.identity(i["24h"]) ||
-                _.identity(i["isrequired"])) &&
+              (_.identity(i['1h']) ||
+                _.identity(i['8h']) ||
+                _.identity(i['24h']) ||
+                _.identity(i['isrequired'])) &&
               _.identity(i.keyMeasure)
-          );
+          )
           // console.log({
           //   aqiQCLevel: this.state.aqiQCLevel,
           //   aqiQCMeasures: _.keyBy(transformData, "keyMeasure")
@@ -293,17 +289,17 @@ export default class TabThongSo extends React.Component {
 
           const response = await postConfigAqiQC({
             aqiQCLevel: this.state.aqiQCLevel,
-            aqiQCMeasures: _.keyBy(transformData, "keyMeasure")
-          });
+            aqiQCMeasures: _.keyBy(transformData, 'keyMeasure')
+          })
           if (response.success) {
-            message.success(i18n.updateSuccess);
+            message.success(i18n.updateSuccess)
           }
         } finally {
-          this.setState({ isSubmit: false });
+          this.setState({ isSubmit: false })
         }
       }
-    });
-  };
+    })
+  }
 
   add = () => {
     this.setState({
@@ -313,41 +309,41 @@ export default class TabThongSo extends React.Component {
           key: this.idIncrement++
         }
       ]
-    });
-  };
+    })
+  }
 
   delete = key => {
-    let tamp = this.state.dataSource.filter(item => item.key !== key);
+    let tamp = this.state.dataSource.filter(item => item.key !== key)
     this.setState({
       dataSource: [...tamp]
-    });
-  };
+    })
+  }
 
   async componentDidMount() {
-    let dataMeasuringObj = {};
+    let dataMeasuringObj = {}
     const resMeasuringList = await getMeasurings(
       { page: 1, itemPerPage: 100000 },
       {}
-    );
+    )
     if (resMeasuringList.success) {
-      dataMeasuringObj = _.keyBy(resMeasuringList.data, "key");
+      dataMeasuringObj = _.keyBy(resMeasuringList.data, 'key')
     }
 
-    const response = await getConfigAqiQC();
+    const response = await getConfigAqiQC()
     if (response.success) {
-      let transformData = _.get(response, "data.value.aqiQCMeasures", {});
+      let transformData = _.get(response, 'data.value.aqiQCMeasures', {})
       // console.log(transformData, "transformData");
       let dataSource = _.map(transformData, item => {
         return {
           ...item,
           key: this.idIncrement++,
           keyMeasure: item.keyMeasure
-        };
-      });
+        }
+      })
       this.setState(
         {
           dataMeasuringObj,
-          aqiQCLevel: _.get(response, "data.value.aqiQCLevel", []),
+          aqiQCLevel: _.get(response, 'data.value.aqiQCLevel', []),
           dataSource: dataSource,
           isLoaded: true
         },
@@ -355,9 +351,9 @@ export default class TabThongSo extends React.Component {
           // console.log(dataSource, "dataSource");
           this.props.form.setFieldsValue({
             aqiQCMeasures: dataSource
-          });
+          })
         }
-      );
+      )
     }
   }
 
@@ -385,6 +381,6 @@ export default class TabThongSo extends React.Component {
           {i18n.submit}
         </Button>
       </Spin>
-    );
+    )
   }
 }

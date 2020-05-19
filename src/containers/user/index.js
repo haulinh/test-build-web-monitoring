@@ -30,6 +30,5 @@ export default props => (
     <Route path={slug.user.profile} component={ProfileUser} />
     <Route path={slug.user.security} component={Security} />
     <Route path={slug.user.infoLicense} component={InfoLicense} />
-
   </Switch>
 )

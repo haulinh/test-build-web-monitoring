@@ -190,26 +190,26 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props.initialValues, "ououououou")
+    console.log(this.props.initialValues, 'ououououou')
     const { getFieldDecorator } = this.props.form
     const { t } = this.props.lang
     const formItemLayout = {
       labelCol: {
         sm: { span: 8 },
-        lg: {span: 5},
-        xl: {span: 3 }
+        lg: { span: 5 },
+        xl: { span: 3 }
       },
       wrapperCol: {
-        sm: { span: 16},
-        lg: {span: 19 },
-        xl: {span: 21 },
+        sm: { span: 16 },
+        lg: { span: 19 },
+        xl: { span: 21 }
       }
     }
 
     return (
       <div>
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-          <FormItem label={t('stationAutoManager.config.fileName.label')} >
+          <FormItem label={t('stationAutoManager.config.fileName.label')}>
             <Row gutter={8} type="flex">
               <Col span={12}>
                 {getFieldDecorator('fileName', {
@@ -221,7 +221,11 @@ export default class StationAutoForm extends React.PureComponent {
                     }
                   ]
                 })(
-                    <Input placeholder={t( 'stationAutoManager.config.fileName.placeholder' )} />
+                  <Input
+                    placeholder={t(
+                      'stationAutoManager.config.fileName.placeholder'
+                    )}
+                  />
                 )}
               </Col>
               <Col>
@@ -230,8 +234,8 @@ export default class StationAutoForm extends React.PureComponent {
                 </Button>
               </Col>
             </Row>
-          </FormItem>   
-          <FormItem label={t('stationAutoManager.config.extensionFile')} >
+          </FormItem>
+          <FormItem label={t('stationAutoManager.config.extensionFile')}>
             {getFieldDecorator('extensionFile', {
               initialValue: get(
                 this.props,
@@ -248,14 +252,14 @@ export default class StationAutoForm extends React.PureComponent {
           <Table
             rowKey={record => record.key}
             bordered
-            dataSource={ this.props.measuringListSource && this.props.measuringListSource }
+            dataSource={
+              this.props.measuringListSource && this.props.measuringListSource
+            }
             columns={this.columns}
             pagination={{ pageSize: 1000, hideOnSinglePage: true }}
           />
         </Form>
-
       </div>
-
     )
   }
 }

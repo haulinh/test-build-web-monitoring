@@ -1,25 +1,25 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { autobind } from "core-decorators"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { reduxForm, Field } from "redux-form"
-import { Row, Col, Button } from "antd"
-import createLang from "hoc/create-lang/index"
-import SelectStationType from "components/elements/select-station-type/index"
-import SelectAnt from "components/elements/select-ant/index"
-import Clearfix from "components/elements/clearfix/index"
-import createValidateComponent from "components/elements/redux-form-validate/index"
-import moment from "moment-timezone"
-import { default as BoxShadowStyle } from "components/elements/box-shadow/index"
-import Heading from "components/elements/heading/index"
-import SelectStationAuto from "../../common/select-station-auto"
-import SelectTimeRange from "../../common/select-time-range"
-import { translate } from "hoc/create-lang"
-import SelectProvince from "components/elements/select-province"
-import OptionsTimeRange from "../../common/options-time-range"
-import * as _ from "lodash"
-import { DD_MM_YYYY_HH_MM } from "constants/format-date"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { autobind } from 'core-decorators'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { reduxForm, Field } from 'redux-form'
+import { Row, Col, Button } from 'antd'
+import createLang from 'hoc/create-lang/index'
+import SelectStationType from 'components/elements/select-station-type/index'
+import SelectAnt from 'components/elements/select-ant/index'
+import Clearfix from 'components/elements/clearfix/index'
+import createValidateComponent from 'components/elements/redux-form-validate/index'
+import moment from 'moment-timezone'
+import { default as BoxShadowStyle } from 'components/elements/box-shadow/index'
+import Heading from 'components/elements/heading/index'
+import SelectStationAuto from '../../common/select-station-auto'
+import SelectTimeRange from '../../common/select-time-range'
+import { translate } from 'hoc/create-lang'
+import SelectProvince from 'components/elements/select-province'
+import OptionsTimeRange from '../../common/options-time-range'
+import * as _ from 'lodash'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
@@ -36,14 +36,14 @@ const Container = styled.div`
 function validate(values) {
   const errors = {}
   if (!values.stationType)
-    errors.stationType = translate("avgSearchFrom.form.stationType.error")
-  if (!values.stationAuto || values.stationAuto === "")
-    errors.stationAuto = translate("avgSearchFrom.form.stationAuto.error")
-  if (!values.type) errors.type = translate("avgSearchFrom.form.type.error")
+    errors.stationType = translate('avgSearchFrom.form.stationType.error')
+  if (!values.stationAuto || values.stationAuto === '')
+    errors.stationAuto = translate('avgSearchFrom.form.stationAuto.error')
+  if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
   if (!values.rangesDate)
-    errors.rangesDate = translate("avgSearchFrom.form.rangesDate.error")
+    errors.rangesDate = translate('avgSearchFrom.form.rangesDate.error')
   if (values.measuringList && values.measuringList.length === 0)
-    errors.measuringList = translate("avgSearchFrom.form.measuringList.require")
+    errors.measuringList = translate('avgSearchFrom.form.measuringList.require')
 
   return errors
 }
@@ -60,7 +60,7 @@ function validate(values) {
   }
 }))
 @reduxForm({
-  form: "avgSearchForm",
+  form: 'avgSearchForm',
   validate
 })
 @createLang
@@ -115,8 +115,8 @@ export default class SearchAvgForm extends React.Component {
   state = {
     timeRange: 7,
     provinceKey: this.props.initialValues.provinceKey,
-    stationTypeKey: "",
-    stationAutoKey: "",
+    stationTypeKey: '',
+    stationAutoKey: '',
     measuringData: [],
     measuringList: [],
     fromDate: this.props.initialValues.fromDate,
@@ -126,10 +126,10 @@ export default class SearchAvgForm extends React.Component {
 
   handleChangeStationType(stationTypeKey, e) {
     this.setState({
-      stationTypeKey: stationTypeKey ? stationTypeKey.key : "",
-      stationAutoKey: ""
+      stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
+      stationAutoKey: ''
     })
-    this.props.change("stationAuto", "")
+    this.props.change('stationAuto', '')
   }
 
   handleChangeStationAuto(stationAuto) {
@@ -148,7 +148,7 @@ export default class SearchAvgForm extends React.Component {
       receivedAt: moment()
     }
 
-    const time = _.get(stationAuto, "lastLog.receivedAt")
+    const time = _.get(stationAuto, 'lastLog.receivedAt')
     if (time) {
       params.receivedAt = moment(time)
     }
@@ -156,17 +156,17 @@ export default class SearchAvgForm extends React.Component {
     if (this.state.timeRange) {
       params.fromDate = params.receivedAt
         .clone()
-        .subtract(this.state.timeRange, "days")
+        .subtract(this.state.timeRange, 'days')
       params.toDate = params.receivedAt.clone()
     }
 
     this.setState(params)
 
-    this.props.change("measuringList", measuringData.map(m => m.key))
+    this.props.change('measuringList', measuringData.map(m => m.key))
   }
 
   convertDateToString(date) {
-    return moment(date, "YYYY-MM-DD HH:mm").toISOString()
+    return moment(date, 'YYYY-MM-DD HH:mm').toISOString()
   }
 
   handleSubmit(values) {
@@ -176,9 +176,9 @@ export default class SearchAvgForm extends React.Component {
       })
       // console.log(itemFind, "item")
       if (itemFind) {
-        return encodeURIComponent(_.get(itemFind, "unit", ""))
+        return encodeURIComponent(_.get(itemFind, 'unit', ''))
       } else {
-        return ""
+        return ''
       }
     })
 
@@ -200,7 +200,7 @@ export default class SearchAvgForm extends React.Component {
     if (_.isNumber(ranges)) {
       this.setState({
         timeRange: ranges,
-        fromDate: this.state.receivedAt.clone().subtract(ranges, "days"),
+        fromDate: this.state.receivedAt.clone().subtract(ranges, 'days'),
         toDate: this.state.receivedAt.clone()
       })
     } else {
@@ -216,11 +216,11 @@ export default class SearchAvgForm extends React.Component {
 
   handleProvinceChange = province => {
     this.setState({
-      provinceKey: province ? province.key : "",
-      stationAutoKey: ""
+      provinceKey: province ? province.key : '',
+      stationAutoKey: ''
     })
 
-    this.props.change("stationAuto", "")
+    this.props.change('stationAuto', '')
   }
   componentDidMount = () => {
     if (this.props.searchNow) {
@@ -243,12 +243,12 @@ export default class SearchAvgForm extends React.Component {
       // console.log('this.props.change',this.props.change)
       this.handleChangeStationType(this.StationType.getFirstValue())
       this.StationType.setFirstValue()
-      this.props.change("stationType", this.StationType.getFirstValue().key)
+      this.props.change('stationType', this.StationType.getFirstValue().key)
 
       let stationAutoData = this.StationAuto.getStationAutos()
       if (stationAutoData.length > 0) {
         this.handleChangeStationAuto(stationAutoData[0])
-        this.props.change("stationAuto", stationAutoData[0].key)
+        this.props.change('stationAuto', stationAutoData[0].key)
         this.setState(
           {
             stationAutoKey: stationAutoData[0].key
@@ -262,7 +262,7 @@ export default class SearchAvgForm extends React.Component {
   }
 
   render() {
-    const t = this.props.lang.createNameSpace("avgSearchFrom.form")
+    const t = this.props.lang.createNameSpace('avgSearchFrom.form')
     return (
       <SearchFormContainer>
         <Heading
@@ -273,21 +273,21 @@ export default class SearchAvgForm extends React.Component {
               size="small"
               onClick={this.props.handleSubmit(this.handleSubmit)}
             >
-              {this.props.lang.t("addon.search")}
+              {this.props.lang.t('addon.search')}
             </Button>
           }
           textColor="#ffffff"
           isBackground
           fontSize={14}
-          style={{ padding: "8px 16px" }}
+          style={{ padding: '8px 16px' }}
         >
-          {this.props.lang.t("addon.search")}
+          {this.props.lang.t('addon.search')}
         </Heading>
         <Container>
           <Row gutter={16}>
             <Col span={8}>
               <Field
-                label={translate("qaqc.province.label")}
+                label={translate('qaqc.province.label')}
                 name="province"
                 size="large"
                 isShowAll
@@ -297,7 +297,7 @@ export default class SearchAvgForm extends React.Component {
             </Col>
             <Col span={8}>
               <Field
-                label={t("stationType.label")}
+                label={t('stationType.label')}
                 name="stationType"
                 size="large"
                 onHandleChange={this.handleChangeStationType}
@@ -310,7 +310,7 @@ export default class SearchAvgForm extends React.Component {
             </Col>
             <Col span={8}>
               <Field
-                label={t("stationAuto.label")}
+                label={t('stationAuto.label')}
                 name="stationAuto"
                 size="large"
                 stationTypeKey={this.state.stationTypeKey}
@@ -330,7 +330,7 @@ export default class SearchAvgForm extends React.Component {
           <Row gutter={24}>
             <Col span={8}>
               <Field
-                label={t("measuringList.label")}
+                label={t('measuringList.label')}
                 name="measuringList"
                 size="large"
                 showSearch
@@ -341,7 +341,7 @@ export default class SearchAvgForm extends React.Component {
             </Col>
             <Col span={8}>
               <Field
-                label={t("time")}
+                label={t('time')}
                 name="rangesDate"
                 size="large"
                 onChangeObject={this.handleChangeRanges}
@@ -352,7 +352,7 @@ export default class SearchAvgForm extends React.Component {
             </Col>
             <Col span={8}>
               <Field
-                label={t("type.label")}
+                label={t('type.label')}
                 name="type"
                 size="large"
                 component={FSelectTimeRange}

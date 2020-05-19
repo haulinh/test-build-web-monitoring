@@ -26,7 +26,7 @@ export default class ListItemView extends React.PureComponent {
     const {
       src,
       stationName,
-      name,
+      name
       // _id,
       // stationType: { key }
     } = this.props.camera
@@ -42,10 +42,10 @@ export default class ListItemView extends React.PureComponent {
             slug.cameraControl.detailWithKey
           }/${key}/${_id}?name=${encodeURIComponent(_.deburr(name))}`}
         > */}
-          <Meta
-            title={name}
-            description={<DescriptionView>{stationName}</DescriptionView>}
-          />
+        <Meta
+          title={name}
+          description={<DescriptionView>{stationName}</DescriptionView>}
+        />
         {/* </Link> */}
       </Card>
     )

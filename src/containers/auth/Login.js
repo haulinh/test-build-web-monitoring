@@ -1,25 +1,25 @@
-import React, { PureComponent } from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { connectAutoDispatch } from "redux/connect"
-import { reduxForm, Field } from "redux-form"
-import { Container } from "reactstrap"
-import { Link } from "react-router-dom"
-import { translate } from "hoc/create-lang"
-import slug from "constants/slug"
-import swal from "sweetalert2"
-import { withRouter } from "react-router"
-import Heading from "components/elements/heading"
-import createLang from "hoc/create-lang"
-import { InputLabel, createValidateComponent } from "components/elements"
-import Button from "components/elements/button"
-import Clearfix from "components/elements/clearfix"
-import { userLogin, userLogin2Factor } from "redux/actions/authAction"
-import Errors from "constants/errors"
-import * as _ from "lodash"
-import Particles from "react-particles-js"
-import PraticData from "containers/auth/PraticData.json"
-import { getConfigApi } from "config"
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { connectAutoDispatch } from 'redux/connect'
+import { reduxForm, Field } from 'redux-form'
+import { Container } from 'reactstrap'
+import { Link } from 'react-router-dom'
+import { translate } from 'hoc/create-lang'
+import slug from 'constants/slug'
+import swal from 'sweetalert2'
+import { withRouter } from 'react-router'
+import Heading from 'components/elements/heading'
+import createLang from 'hoc/create-lang'
+import { InputLabel, createValidateComponent } from 'components/elements'
+import Button from 'components/elements/button'
+import Clearfix from 'components/elements/clearfix'
+import { userLogin, userLogin2Factor } from 'redux/actions/authAction'
+import Errors from 'constants/errors'
+import * as _ from 'lodash'
+import Particles from 'react-particles-js'
+import PraticData from 'containers/auth/PraticData.json'
+import { getConfigApi } from 'config'
 
 const FInput = createValidateComponent(InputLabel)
 
@@ -63,7 +63,7 @@ const bodyStyle = `
 @createLang
 @withRouter
 @reduxForm({
-  form: "LoginForm"
+  form: 'LoginForm'
 })
 @connectAutoDispatch(
   state => ({
@@ -88,31 +88,31 @@ export default class Login extends PureComponent {
   userError(user) {
     let title = user.message
     if (user.message === Errors.USER_PASSWORD_INCORRECT) {
-      title = translate("login.errors.emailOrPasswordIncorrect")
+      title = translate('login.errors.emailOrPasswordIncorrect')
     } else if (user.message === Errors.ACCOUNT_DISABLE) {
-      title = translate("login.errors.accountDisable")
+      title = translate('login.errors.accountDisable')
     } else if (user.m === Errors.ACCOUNT_NOT_ACTIVATED) {
-      title = translate("login.errors.accountNotActivated")
+      title = translate('login.errors.accountNotActivated')
     } else if (user.message === Errors.CODE_NOT_EQUAL) {
-      title = translate("login.errors.codeNotEqual")
+      title = translate('login.errors.codeNotEqual')
     } else if (user.message === Errors.ORGANIZATION_NOT_EXIST) {
-      title = translate("login.errors.organizationNotExist")
+      title = translate('login.errors.organizationNotExist')
     }
 
     if (user.message === Errors.ACCOUNT_DELETE) {
-      title = translate("login.errors.accountDelete")
+      title = translate('login.errors.accountDelete')
     }
 
     swal({
       title: title,
-      type: "error"
+      type: 'error'
     })
   }
 
   userSuccess(user) {
     swal({
-      type: "success",
-      text: "Welcome " + user.data.email
+      type: 'success',
+      text: 'Welcome ' + user.data.email
     })
 
     const defaultPage = getConfigApi().defaultPage
@@ -123,13 +123,14 @@ export default class Login extends PureComponent {
     if (!this.state.isTwoFactorAuth) {
       const user = await this.props.userLogin(values)
       if (user.error) {
-        console.log(user,"----user-----")
+        console.log(user, '----user-----')
         if (user.message === Errors.ORGANIZATION_EXPIRED) {
-          this.props.history.push(`${slug.user.expLicense}?expDate=${user.userMessage}`)
+          this.props.history.push(
+            `${slug.user.expLicense}?expDate=${user.userMessage}`
+          )
         } else {
           this.userError(user)
         }
-        
       } else {
         if (user.data.twoFactorAuth && user.data.twoFactorAuth.enable) {
           this.setState({
@@ -151,11 +152,11 @@ export default class Login extends PureComponent {
   }
 
   getEmail_Sms() {
-    if (_.get(this.props, "userInfo.twoFactorAuth.type") === "sms") {
-      return _.get(this.props, "userInfo.phone.phoneNumber")
+    if (_.get(this.props, 'userInfo.twoFactorAuth.type') === 'sms') {
+      return _.get(this.props, 'userInfo.phone.phoneNumber')
     }
 
-    return _.get(this.state, "formData.email")
+    return _.get(this.state, 'formData.email')
   }
 
   render() {
@@ -165,31 +166,31 @@ export default class Login extends PureComponent {
         <style dangerouslySetInnerHTML={{ __html: bodyStyle }} />
         <Particles
           style={{
-            position: "fixed",
-            left: "0px",
-            top: "0px"
+            position: 'fixed',
+            left: '0px',
+            top: '0px'
           }}
           params={PraticData}
         />
         <Form onSubmit={this.props.handleSubmit(this.handleLogin.bind(this))}>
           <Header.Wrapper>
-            <Heading fontSize={28}>{t("login.title")}</Heading>
+            <Heading fontSize={28}>{t('login.title')}</Heading>
             <Header.Logo src="/images/logo/logo.png" />
           </Header.Wrapper>
           <Clearfix height={8} />
           {!this.state.isTwoFactorAuth ? (
             <div>
               <Field
-                label={t("login.form.email.label")}
-                placeholder={t("login.form.email.placeholder")}
+                label={t('login.form.email.label')}
+                placeholder={t('login.form.email.placeholder')}
                 name="email"
                 icon="fa fa-user"
                 component={FInput}
               />
               <Clearfix height={16} />
               <Field
-                label={t("login.form.password.label")}
-                placeholder={t("login.form.password.placeholder")}
+                label={t('login.form.password.label')}
+                placeholder={t('login.form.password.placeholder')}
                 type="password"
                 name="password"
                 component={FInput}
@@ -198,13 +199,13 @@ export default class Login extends PureComponent {
           ) : (
             <div>
               <p>
-                {t("login.twoFactorAlert", {
+                {t('login.twoFactorAlert', {
                   email: this.getEmail_Sms()
                 })}
               </p>
               <Field
-                label={t("login.form.twoFactor.label")}
-                placeholder={t("login.form.twoFactor.placeholder")}
+                label={t('login.form.twoFactor.label')}
+                placeholder={t('login.form.twoFactor.placeholder')}
                 name="code"
                 component={FInput}
               />
@@ -213,13 +214,13 @@ export default class Login extends PureComponent {
           <Clearfix height={16} />
           <Button isLoading={this.props.submitting} block color="primary">
             {!this.state.isTwoFactorAuth
-              ? t("login.form.buttonLogin")
-              : t("login.form.buttonTwoFactor")}
+              ? t('login.form.buttonLogin')
+              : t('login.form.buttonTwoFactor')}
           </Button>
           <Clearfix height={16} />
           <FloatRight>
             <Link to={slug.password.emailConfirm}>
-              {translate("resetPassword.key")}
+              {translate('resetPassword.key')}
             </Link>
           </FloatRight>
         </Form>

@@ -1,8 +1,8 @@
 /* eslint-disable */
-import React, { PureComponent } from "react";
-import styled from "styled-components";
-import { GoogleMap, withScriptjs, withGoogleMap } from "react-google-maps";
-import { withProps } from "recompose";
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+import { GoogleMap, withScriptjs, withGoogleMap } from 'react-google-maps'
+import { withProps } from 'recompose'
 import {
   map as mapLodash,
   get,
@@ -10,17 +10,17 @@ import {
   inRange,
   values as _values,
   omit as _omit
-} from "lodash";
-import InfoBox from "react-google-maps/lib/components/addons/InfoBox";
-import { Tooltip, Popover, Typography, Row, Col } from "antd";
-const { Text } = Typography;
+} from 'lodash'
+import InfoBox from 'react-google-maps/lib/components/addons/InfoBox'
+import { Tooltip, Popover, Typography, Row, Col } from 'antd'
+const { Text } = Typography
 
 // import aqiLevel from 'constants/aqi-level'
-import { GOOGLE_MAP } from "config";
+import { GOOGLE_MAP } from 'config'
 
 const WinDowInfoWrapper = styled.div`
   max-width: 330px;
-`;
+`
 const WindowInfo = ({
   name,
   address,
@@ -35,7 +35,7 @@ const WindowInfo = ({
     <WinDowInfoWrapper>
       <div style={{ padding: 8 }}>
         <div>
-          <Text style={{ fontSize: 16, color: "#1890FF" }} strong>
+          <Text style={{ fontSize: 16, color: '#1890FF' }} strong>
             {name}
           </Text>
         </div>
@@ -49,7 +49,7 @@ const WindowInfo = ({
           background: backgroundColor,
           borderRadius: 10,
           color: color,
-          display: "flex"
+          display: 'flex'
         }}
       >
         <Row>
@@ -63,15 +63,15 @@ const WindowInfo = ({
           >
             <div>
               <div style={{ fontSize: 15 }}>AQI</div>
-              <div style={{ fontSize: 38, fontWeight: "bold" }}> {aqiDay}</div>
+              <div style={{ fontSize: 38, fontWeight: 'bold' }}> {aqiDay}</div>
             </div>
           </Col>
           <Col
             style={{
               padding: 8,
-              display: "flex",
-              alignItems: "center",
-              height: "100%"
+              display: 'flex',
+              alignItems: 'center',
+              height: '100%'
             }}
             span={14}
           >
@@ -80,32 +80,32 @@ const WindowInfo = ({
         </Row>
       </div>
     </WinDowInfoWrapper>
-  );
-};
+  )
+}
 
 const InfoBoxWrapper = styled.div`
   .ant-popover-inner-content {
     padding: 0px;
   }
-`;
+`
 
 const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
-  const value = get(item, "aqiDay", "");
-  const name = get(item, "name", "");
-  const address = get(item, "address", "");
+  const value = get(item, 'aqiDay', '')
+  const name = get(item, 'name', '')
+  const address = get(item, 'address', '')
   const level = find(aqiLevel, ({ min, max }) => {
     return (
       inRange(value, min, max) ||
       value === max ||
       (min < value && !max) ||
       (max > value && !min)
-    );
-  });
-  const backgroundColor = get(level, "backgroundColor", null);
-  const colorFont = get(level, "color", null);
-  const description = get(level, "description", null);
+    )
+  })
+  const backgroundColor = get(level, 'backgroundColor', null)
+  const colorFont = get(level, 'color', null)
+  const description = get(level, 'description', null)
   // console.log(colorFont, get(level, "name", null), "colorFont")
-  const colorBorder = "#FFFFFF";
+  const colorBorder = '#FFFFFF'
   return (
     <InfoBoxWrapper id="popover-marker">
       <InfoBox
@@ -127,23 +127,23 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
           }
           title=""
           trigger="click"
-          getPopupContainer={() => document.getElementById("popover-marker")}
+          getPopupContainer={() => document.getElementById('popover-marker')}
         >
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center"
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
             }}
           >
             <div
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: backgroundColor || "yellow",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: backgroundColor || 'yellow',
                 padding: `4px`,
-                borderRadius: "50%",
+                borderRadius: '50%',
                 border: `2px solid ${colorBorder}`,
                 width: 45,
                 height: 45,
@@ -151,7 +151,7 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
               }}
               onClick={() => {
                 if (onMapClick) {
-                  onMapClick(item);
+                  onMapClick(item)
                 }
               }}
             >
@@ -160,7 +160,7 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
                   style={{
                     fontSize: `16px`,
                     color: colorFont,
-                    fontWeight: "bold"
+                    fontWeight: 'bold'
                   }}
                 >
                   {value}
@@ -172,20 +172,20 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
               style={{
                 width: 0,
                 height: 0,
-                borderLeft: "7px solid transparent",
-                borderRight: "7px solid transparent",
+                borderLeft: '7px solid transparent',
+                borderRight: '7px solid transparent',
                 borderTop: `8px solid ${colorBorder}`,
                 zIndex: 2,
-                position: "absolute",
-                bottom: "-1px"
+                position: 'absolute',
+                bottom: '-1px'
               }}
             />
           </div>
         </Popover>
       </InfoBox>
     </InfoBoxWrapper>
-  );
-};
+  )
+}
 
 @withProps({
   googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${
@@ -197,19 +197,19 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
 class CustomGoogleMap extends PureComponent {
   state = {
     isBounds: false
-  };
+  }
 
   getBounds() {
     if (_.size(this.props.aqiList) > 0) {
-      const bounds = new window.google.maps.LatLngBounds();
+      const bounds = new window.google.maps.LatLngBounds()
       _.map(this.props.aqiList, item => {
         bounds.extend(
           new google.maps.LatLng(item.mapLocation.lat, item.mapLocation.long)
-        );
-      });
+        )
+      })
       if (this.map && this.map.fitBounds) {
-        this.state.isBounds = true;
-        this.map.fitBounds(bounds);
+        this.state.isBounds = true
+        this.map.fitBounds(bounds)
       }
     }
   }
@@ -217,17 +217,17 @@ class CustomGoogleMap extends PureComponent {
   componentWillReceiveProps(nextProps) {
     this.setState({
       zoom: nextProps.zoom
-    });
+    })
   }
 
   render() {
     // console.log(this.props.aqiList,"this.props.aqiList,")
-    const defaultCenter = { lat: 10.7607494, lng: 106.6954122 };
+    const defaultCenter = { lat: 10.7607494, lng: 106.6954122 }
     return (
       <GoogleMap
         ref={map => {
-          if (!this.state.isBounds) this.getBounds();
-          this.map = map;
+          if (!this.state.isBounds) this.getBounds()
+          this.map = map
         }}
         defaultZoom={12}
         defaultCenter={defaultCenter}
@@ -245,8 +245,8 @@ class CustomGoogleMap extends PureComponent {
           ))}
         </div>
       </GoogleMap>
-    );
+    )
   }
 }
 
-export default CustomGoogleMap;
+export default CustomGoogleMap

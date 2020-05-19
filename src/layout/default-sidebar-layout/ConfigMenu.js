@@ -1,16 +1,16 @@
-import React from "react";
-import { Menu } from "antd";
-import slug, { MENU_NAME, MENU_GROUP } from "constants/slug";
-import protectRole from "hoc/protect-role/forMenu";
-import ROLE from "constants/role";
-import Icon from "themes/icon";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Menu } from 'antd'
+import slug, { MENU_NAME, MENU_GROUP } from 'constants/slug'
+import protectRole from 'hoc/protect-role/forMenu'
+import ROLE from 'constants/role'
+import Icon from 'themes/icon'
+import { Link } from 'react-router-dom'
 
 const CENTER = {
-  display: "flex",
-  alignItems: "center",
+  display: 'flex',
+  alignItems: 'center',
   fontWeight: 600
-};
+}
 
 export default {
   renderComp: props => (
@@ -28,7 +28,7 @@ export default {
         <Menu.Item
           key={slug.stationAuto.base}
           onClick={() => {
-            props.selectMenu(slug.stationAuto.base);
+            props.selectMenu(slug.stationAuto.base)
           }}
         >
           <Link to={slug.stationAuto.base}>{MENU_NAME.config.stationAuto}</Link>
@@ -124,7 +124,7 @@ export default {
         <Menu.Item
           key={slug.measuring.base}
           onClick={() => {
-            props.selectMenu(slug.measuring.base);
+            props.selectMenu(slug.measuring.base)
           }}
         >
           <Link to={slug.measuring.base}>{MENU_NAME.config.parameter}</Link>
@@ -136,7 +136,7 @@ export default {
         <Menu.Item
           key={slug.stationType.base}
           onClick={() => {
-            props.selectMenu(slug.stationType.base);
+            props.selectMenu(slug.stationType.base)
           }}
         >
           <Link to={slug.stationType.base}>{MENU_NAME.config.stationType}</Link>
@@ -148,7 +148,7 @@ export default {
         <Menu.Item
           key={slug.province.base}
           onClick={() => {
-            props.selectMenu(slug.province.base);
+            props.selectMenu(slug.province.base)
           }}
         >
           <Link to={slug.province.base}>{MENU_NAME.config.site}</Link>
@@ -160,7 +160,7 @@ export default {
         <Menu.Item
           key={slug.qcvn.base}
           onClick={() => {
-            props.selectMenu(slug.qcvn.base);
+            props.selectMenu(slug.qcvn.base)
           }}
         >
           <Link to={slug.qcvn.base}>{MENU_NAME.config.standard}</Link>
@@ -173,7 +173,7 @@ export default {
           key="/role"
           // key={slug.role.base}
           onClick={() => {
-            props.selectMenu(slug.role.base);
+            props.selectMenu(slug.role.base)
           }}
         >
           <Link to={slug.role.base}>{MENU_NAME.config.role}</Link>
@@ -185,7 +185,7 @@ export default {
         <Menu.Item
           key={slug.user.base}
           onClick={() => {
-            props.selectMenu(slug.user.base);
+            props.selectMenu(slug.user.base)
           }}
         >
           <Link to={slug.user.base}>{MENU_NAME.config.user}</Link>
@@ -197,7 +197,7 @@ export default {
         <Menu.Item
           key={slug.dataLogger.base}
           onClick={() => {
-            props.selectMenu(slug.dataLogger.base);
+            props.selectMenu(slug.dataLogger.base)
           }}
         >
           <Link to={slug.dataLogger.base}>{MENU_NAME.config.dataLogger}</Link>
@@ -205,4 +205,4 @@ export default {
       )}
     </Menu.SubMenu>
   )
-};
+}

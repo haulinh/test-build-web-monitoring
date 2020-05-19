@@ -1,55 +1,55 @@
-import React, { PureComponent } from "react";
-import { Tabs, Button } from "antd";
-import { autobind } from "core-decorators";
-import { withRouter } from "react-router-dom";
-import PageContainer from "layout/default-sidebar-layout/PageContainer";
-import styled from "styled-components";
-import Clearfix from "components/elements/clearfix";
-import createBreadcrumb from "shared/breadcrumb/hoc";
-import TabMucDo from "./tabMucDo";
-import TabGiaTri from "./tabGiaTri";
-import TabThongSo from "./tabThongSo";
-import TabTrongSo from "./tabTrongSo";
-import { translate } from "hoc/create-lang";
+import React, { PureComponent } from 'react'
+import { Tabs, Button } from 'antd'
+import { autobind } from 'core-decorators'
+import { withRouter } from 'react-router-dom'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import styled from 'styled-components'
+import Clearfix from 'components/elements/clearfix'
+import createBreadcrumb from 'shared/breadcrumb/hoc'
+import TabMucDo from './tabMucDo'
+import TabGiaTri from './tabGiaTri'
+import TabThongSo from './tabThongSo'
+import TabTrongSo from './tabTrongSo'
+import { translate } from 'hoc/create-lang'
 
-const Breadcrumb = createBreadcrumb();
-const { TabPane } = Tabs;
-const ButtonGroup = Button.Group;
+const Breadcrumb = createBreadcrumb()
+const { TabPane } = Tabs
+const ButtonGroup = Button.Group
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div``
 
 const i18n = {
-  tabMucDo: translate("wqiConfigCalculation.tab1"), //"Ngưỡng mức độ",
-  tabGiaTri: translate("wqiConfigCalculation.tab2"),
-  tabThongSo: translate("wqiConfigCalculation.tab3"),
-  tabTrongSo: translate("wqiConfigCalculation.tab4"),
-  pageName: translate("wqiConfigCalculation.pageName"),
-};
+  tabMucDo: translate('wqiConfigCalculation.tab1'), //"Ngưỡng mức độ",
+  tabGiaTri: translate('wqiConfigCalculation.tab2'),
+  tabThongSo: translate('wqiConfigCalculation.tab3'),
+  tabTrongSo: translate('wqiConfigCalculation.tab4'),
+  pageName: translate('wqiConfigCalculation.pageName')
+}
 
 const TAB_KEY = {
-  MUC_DO: "MUC_DO",
-  GIA_TRI: "GIA_TRI",
-  THONG_SO: "THONG_SO",
-  TRONG_SO: "TRONG_SO",
-};
+  MUC_DO: 'MUC_DO',
+  GIA_TRI: 'GIA_TRI',
+  THONG_SO: 'THONG_SO',
+  TRONG_SO: 'TRONG_SO'
+}
 const TAB_NAME = {
   MUC_DO: i18n.tabMucDo,
   GIA_TRI: i18n.tabGiaTri,
   THONG_SO: i18n.tabThongSo,
-  TRONG_SO: i18n.tabTrongSo,
-};
+  TRONG_SO: i18n.tabTrongSo
+}
 @withRouter
 @autobind
 export default class ConfigCalculationWQI extends PureComponent {
   state = {
-    tabKey: TAB_KEY.MUC_DO,
-  };
+    tabKey: TAB_KEY.MUC_DO
+  }
 
-  setTabActive = (tabKey) => {
+  setTabActive = tabKey => {
     this.setState({
-      tabKey,
-    });
-  };
+      tabKey
+    })
+  }
 
   render() {
     return (
@@ -57,18 +57,18 @@ export default class ConfigCalculationWQI extends PureComponent {
         <Breadcrumb
           items={[
             {
-              id: "1",
-              name: i18n.pageName,
-            },
+              id: '1',
+              name: i18n.pageName
+            }
           ]}
         />
         <Wrapper>
           <Clearfix height={24} />
-          <ButtonGroup style={{ display: "flex" }}>
+          <ButtonGroup style={{ display: 'flex' }}>
             <Button
               onClick={this.setTabActive.bind(this, TAB_KEY.MUC_DO)}
               type={
-                this.state.tabKey === TAB_KEY.MUC_DO ? "primary" : "default"
+                this.state.tabKey === TAB_KEY.MUC_DO ? 'primary' : 'default'
               }
               style={{ flex: 1 }}
             >
@@ -77,7 +77,7 @@ export default class ConfigCalculationWQI extends PureComponent {
             <Button
               onClick={this.setTabActive.bind(this, TAB_KEY.GIA_TRI)}
               type={
-                this.state.tabKey === TAB_KEY.GIA_TRI ? "primary" : "default"
+                this.state.tabKey === TAB_KEY.GIA_TRI ? 'primary' : 'default'
               }
               style={{ flex: 1 }}
             >
@@ -86,7 +86,7 @@ export default class ConfigCalculationWQI extends PureComponent {
             <Button
               onClick={this.setTabActive.bind(this, TAB_KEY.THONG_SO)}
               type={
-                this.state.tabKey === TAB_KEY.THONG_SO ? "primary" : "default"
+                this.state.tabKey === TAB_KEY.THONG_SO ? 'primary' : 'default'
               }
               style={{ flex: 1 }}
             >
@@ -95,7 +95,7 @@ export default class ConfigCalculationWQI extends PureComponent {
             <Button
               onClick={this.setTabActive.bind(this, TAB_KEY.TRONG_SO)}
               type={
-                this.state.tabKey === TAB_KEY.TRONG_SO ? "primary" : "default"
+                this.state.tabKey === TAB_KEY.TRONG_SO ? 'primary' : 'default'
               }
               style={{ flex: 1 }}
             >
@@ -104,7 +104,7 @@ export default class ConfigCalculationWQI extends PureComponent {
           </ButtonGroup>
           <Tabs
             renderTabBar={() => {
-              return <div />;
+              return <div />
             }}
             activeKey={this.state.tabKey}
           >
@@ -130,6 +130,6 @@ export default class ConfigCalculationWQI extends PureComponent {
         </Wrapper>
         <Clearfix height={50} />
       </PageContainer>
-    );
+    )
   }
 }

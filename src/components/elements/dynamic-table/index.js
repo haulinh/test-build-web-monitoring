@@ -18,7 +18,7 @@ export default class DynamicTableCustom extends PureComponent {
     pagination: PropTypes.shape({
       itemPerPage: PropTypes.number,
       page: PropTypes.number
-    }),
+    })
     // paginationOptions: PropTypes.shape({
     //   isSticky: PropTypes.oneOfType([
     //     PropTypes.number,

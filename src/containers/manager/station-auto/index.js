@@ -14,7 +14,6 @@ import StationAutoConfigSampling from './station-auto-config-sampling'
 import StationAutoConfigCamera from './station-auto-config-camera'
 import StationAutoConfigColor from './station-auto-config-color'
 
-
 export default props => (
   <Switch>
     {/*Lấy ra các thành phần props từ component bên ngoài truyền vào như default layout*/}
@@ -28,40 +27,49 @@ export default props => (
     <Route
       exact
       path={slug.stationAuto.configConnection.base}
-      render={matchProps => <StationAutoConfigConnection {...matchProps} {...props} />}
+      render={matchProps => (
+        <StationAutoConfigConnection {...matchProps} {...props} />
+      )}
     />
     {/* NOTE   trang cấu hình gửi cảnh báo */}
     <Route
       exact
       path={slug.stationAuto.configSendNotification.base}
-      render={matchProps => <StationAutoConfigNotification {...matchProps} {...props} />}
+      render={matchProps => (
+        <StationAutoConfigNotification {...matchProps} {...props} />
+      )}
     />
     {/* NOTE   trang cấu hình lấy lẫu */}
     <Route
       exact
       path={slug.stationAuto.configSampling.base}
-      render={matchProps => <StationAutoConfigSampling {...matchProps} {...props} />}
+      render={matchProps => (
+        <StationAutoConfigSampling {...matchProps} {...props} />
+      )}
     />
     {/* NOTE   trang cấu hình camera */}
     <Route
       exact
       path={slug.stationAuto.configCamera.base}
-      render={matchProps => <StationAutoConfigCamera {...matchProps} {...props} />}
+      render={matchProps => (
+        <StationAutoConfigCamera {...matchProps} {...props} />
+      )}
     />
     {/* NOTE   trang cấu hình màu sắc */}
     <Route
       exact
       path={slug.stationAuto.configColor.base}
-      render={matchProps => <StationAutoConfigColor {...matchProps} {...props} />}
+      render={matchProps => (
+        <StationAutoConfigColor {...matchProps} {...props} />
+      )}
     />
 
-    <Route 
-      path={slug.stationAuto.configConnection.ftpWithKey} 
+    <Route
+      path={slug.stationAuto.configConnection.ftpWithKey}
       component={StationAutoFtpInfo}
-
     />
     <Route
-      path={slug.stationAuto.configConnection.fileWithKey} 
+      path={slug.stationAuto.configConnection.fileWithKey}
       component={StationAutoConfig}
     />
     <Route path={slug.stationAuto.edit} component={StationAutoEdit} />

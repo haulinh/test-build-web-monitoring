@@ -1,18 +1,18 @@
-import React, { PureComponent } from "react"
-import styled from "styled-components"
-import PropTypes from "prop-types"
-import { translate } from "hoc/create-lang"
-import PageContainer from "layout/default-sidebar-layout/PageContainer"
-import { autobind } from "core-decorators"
-import Breadcrumb from "containers/auth/breadcrumb"
-import moment from "moment-timezone"
-import { SHAPE } from "themes/color"
-import { Row, Col, Typography, Skeleton } from "antd"
-import * as _ from "lodash"
-import Clearfix from "components/elements/clearfix"
-import { connect } from "react-redux"
-import { DD_MM_YYYY } from "constants/format-date"
-import { EMAIL, PHONE } from "constants/info-contact.js"
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import { translate } from 'hoc/create-lang'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import { autobind } from 'core-decorators'
+import Breadcrumb from 'containers/auth/breadcrumb'
+import moment from 'moment-timezone'
+import { SHAPE } from 'themes/color'
+import { Row, Col, Typography, Skeleton } from 'antd'
+import * as _ from 'lodash'
+import Clearfix from 'components/elements/clearfix'
+import { connect } from 'react-redux'
+import { DD_MM_YYYY } from 'constants/format-date'
+import { EMAIL, PHONE } from 'constants/info-contact.js'
 
 const { Title, Text } = Typography
 
@@ -35,20 +35,20 @@ const InfoLicenseWrapper = styled.div`
 `
 
 const i18n = {
-  title1: translate("infoLicense.title1"),
-  title2: translate("infoLicense.title2"),
-  title3: translate("infoLicense.title3"),
-  text1: translate("infoLicense.text1"),
-  text2: translate("infoLicense.text2"),
-  text4: translate("infoLicense.text4"),
-  text5: translate("infoLicense.text5"),
-  text6: translate("infoLicense.text6"),
-  text7: translate("infoLicense.text7")
+  title1: translate('infoLicense.title1'),
+  title2: translate('infoLicense.title2'),
+  title3: translate('infoLicense.title3'),
+  text1: translate('infoLicense.text1'),
+  text2: translate('infoLicense.text2'),
+  text4: translate('infoLicense.text4'),
+  text5: translate('infoLicense.text5'),
+  text6: translate('infoLicense.text6'),
+  text7: translate('infoLicense.text7')
 }
 
 @connect(state => ({
-  organization: _.get(state, "auth.userInfo.organization", {}),
-  totalStationActived: _.get(state, "stationAuto.totalStationActived", 0)
+  organization: _.get(state, 'auth.userInfo.organization', {}),
+  totalStationActived: _.get(state, 'stationAuto.totalStationActived', 0)
 }))
 @autobind
 export class InfoLicenseForm extends PureComponent {
@@ -74,20 +74,20 @@ export class InfoLicenseForm extends PureComponent {
 
     let dateCreate, dateExp, totalDays, limitTotalStation
     if (organization) {
-      const createdAt = _.get(organization, "createdAt")
-        ? moment(_.get(organization, "createdAt"))
-        : ""
-      const expirationDate = _.get(organization, "license.expirationDate")
-        ? moment(_.get(organization, "license.expirationDate"))
-        : ""
+      const createdAt = _.get(organization, 'createdAt')
+        ? moment(_.get(organization, 'createdAt'))
+        : ''
+      const expirationDate = _.get(organization, 'license.expirationDate')
+        ? moment(_.get(organization, 'license.expirationDate'))
+        : ''
 
       if (expirationDate) {
-        totalDays = moment(expirationDate).diff(moment(), "days")
+        totalDays = moment(expirationDate).diff(moment(), 'days')
         dateExp = expirationDate.format(DD_MM_YYYY)
       }
       dateCreate = createdAt.format(DD_MM_YYYY)
 
-      limitTotalStation = _.get(organization, "license.totalStation", "")
+      limitTotalStation = _.get(organization, 'license.totalStation', '')
     }
     return (
       <InfoLicenseWrapper>
@@ -124,7 +124,7 @@ export class InfoLicenseForm extends PureComponent {
                           color: SHAPE.PRIMARY
                         }}
                       >
-                        {translate("infoLicense.text3", { total: totalDays })}
+                        {translate('infoLicense.text3', { total: totalDays })}
                       </Text>
                     )}
                   </div>
@@ -218,7 +218,7 @@ export default class ProfileUser extends PureComponent {
   render() {
     return (
       <PageContainer {...this.props.wrapperProps}>
-        <Breadcrumb items={["infoLicense"]} />
+        <Breadcrumb items={['infoLicense']} />
         <InfoLicenseForm />
       </PageContainer>
     )

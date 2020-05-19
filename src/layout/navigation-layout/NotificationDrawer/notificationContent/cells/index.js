@@ -12,41 +12,34 @@ import { default as EmptyCell } from './cellEmpty'
 
 export default function Cells(props) {
   const { dataSource } = props
-  let cells =  dataSource.map((cellContent) => {
+  let cells = dataSource.map(cellContent => {
     console.log('---- cell content ----', cellContent)
     let Cell = EmptyCell
     switch (cellContent.status) {
-      case NOTIFY_TYPE.SENSOR_GOOD: 
+      case NOTIFY_TYPE.SENSOR_GOOD:
         Cell = SensorGoodCell
         break
-      case NOTIFY_TYPE.SENSOR_ERROR: 
+      case NOTIFY_TYPE.SENSOR_ERROR:
         Cell = SensorErrorCell
         break
-      case NOTIFY_TYPE.DATA_CONNECTED: 
+      case NOTIFY_TYPE.DATA_CONNECTED:
         Cell = DataConnectedCell
         break
-      case NOTIFY_TYPE.DATA_EXCEEDED: 
+      case NOTIFY_TYPE.DATA_EXCEEDED:
         Cell = DataExceededCell
         break
-      case NOTIFY_TYPE.DATA_EXCEEDED_PREPARED: 
+      case NOTIFY_TYPE.DATA_EXCEEDED_PREPARED:
         Cell = DataExceededPreparedCell
         break
-      case NOTIFY_TYPE.DATA_LOSS: 
+      case NOTIFY_TYPE.DATA_LOSS:
         Cell = DataLossCell
         break
-      default: break;
+      default:
+        break
     }
 
-    return <Cell cellContent={cellContent} key={cellContent._id}/>
+    return <Cell cellContent={cellContent} key={cellContent._id} />
   })
 
-
-  return (
-    <List
-      dataSource={cells}
-      renderItem={item => item}
-    >
-
-    </List>
-  )
+  return <List dataSource={cells} renderItem={item => item} />
 }

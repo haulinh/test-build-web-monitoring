@@ -18,7 +18,6 @@ import WarningLevel from 'components/elements/warning-level'
 import ReactFullpage from '@fullpage/react-fullpage'
 import styled from 'styled-components'
 
-
 // NOTE  every 1min will get last log
 const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60
 
@@ -236,7 +235,7 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
-        <HeaderWrapper style={{ height: 200}}>
+        <HeaderWrapper style={{ height: 200 }}>
           <div style={{ background: '#FBFBFB', padding: '16px 0' }}>
             <HeaderView
               stationStatus={this.state.stationStatus}

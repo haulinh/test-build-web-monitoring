@@ -1,29 +1,29 @@
-import React from "react"
-import { autobind } from "core-decorators"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { reduxForm, Field } from "redux-form"
-import PropTypes from "prop-types"
-import { Row, Col, Button, Switch } from "antd"
-import createLang from "hoc/create-lang"
-import SelectStationType from "components/elements/select-station-type"
-import SelectAnt from "components/elements/select-ant"
-import Clearfix from "components/elements/clearfix"
-import createValidateComponent from "components/elements/redux-form-validate"
-import moment from "moment-timezone"
-import { default as BoxShadowStyle } from "components/elements/box-shadow"
-import Heading from "components/elements/heading"
-import AdvancedOperator from "./AdvancedOperator"
-import SelectStationAuto from "../../common/select-station-auto"
-import { translate } from "hoc/create-lang"
-import SelectProvince from "components/elements/select-province"
-import OptionsTimeRange from "../../common/options-time-range"
-import * as _ from "lodash"
-import { FSelectApprove } from "./select-approve"
+import React from 'react'
+import { autobind } from 'core-decorators'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { reduxForm, Field } from 'redux-form'
+import PropTypes from 'prop-types'
+import { Row, Col, Button, Switch } from 'antd'
+import createLang from 'hoc/create-lang'
+import SelectStationType from 'components/elements/select-station-type'
+import SelectAnt from 'components/elements/select-ant'
+import Clearfix from 'components/elements/clearfix'
+import createValidateComponent from 'components/elements/redux-form-validate'
+import moment from 'moment-timezone'
+import { default as BoxShadowStyle } from 'components/elements/box-shadow'
+import Heading from 'components/elements/heading'
+import AdvancedOperator from './AdvancedOperator'
+import SelectStationAuto from '../../common/select-station-auto'
+import { translate } from 'hoc/create-lang'
+import SelectProvince from 'components/elements/select-province'
+import OptionsTimeRange from '../../common/options-time-range'
+import * as _ from 'lodash'
+import { FSelectApprove } from './select-approve'
 // import { prop } from 'cramda';
 
 // import queryFormDataBrowser from 'hoc/query-formdata-browser'
-import { DD_MM_YYYY_HH_MM } from "constants/format-date"
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
@@ -40,17 +40,17 @@ const Container = styled.div`
 function validate(values) {
   const errors = {}
   if (!values.stationType)
-    errors.stationType = translate("avgSearchFrom.form.stationType.error")
-  if (!values.stationAuto || values.stationAuto === "")
-    errors.stationAuto = translate("avgSearchFrom.form.stationAuto.error")
-  if (!values.type) errors.type = translate("avgSearchFrom.form.type.error")
+    errors.stationType = translate('avgSearchFrom.form.stationType.error')
+  if (!values.stationAuto || values.stationAuto === '')
+    errors.stationAuto = translate('avgSearchFrom.form.stationAuto.error')
+  if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
 
   if (!values.rangesDate) {
-    errors.rangesDate = translate("avgSearchFrom.form.rangesDate.error")
+    errors.rangesDate = translate('avgSearchFrom.form.rangesDate.error')
   }
 
   if (values.measuringList && values.measuringList.length === 0)
-    errors.measuringList = translate("avgSearchFrom.form.measuringList.require")
+    errors.measuringList = translate('avgSearchFrom.form.measuringList.require')
 
   return errors
 }
@@ -66,7 +66,7 @@ function validate(values) {
   }
 }))
 @reduxForm({
-  form: "dataSearchForm",
+  form: 'dataSearchForm',
   validate
 })
 @createLang
@@ -144,13 +144,13 @@ export default class SearchFormHistoryData extends React.Component {
       // console.log('this.props.change',this.props.change)
       this.handleChangeStationType(this.StationType.getFirstValue())
       this.StationType.setFirstValue()
-      this.props.change("stationType", this.StationType.getFirstValue().key)
+      this.props.change('stationType', this.StationType.getFirstValue().key)
 
       let stationAutoData = this.StationAuto.getStationAutos()
       // console.log("run 1")
       if (stationAutoData.length > 0) {
         this.handleChangeStationAuto(stationAutoData[0])
-        this.props.change("stationAuto", stationAutoData[0].key)
+        this.props.change('stationAuto', stationAutoData[0].key)
         // console.log("run 2")
         this.setState(
           {
@@ -166,10 +166,10 @@ export default class SearchFormHistoryData extends React.Component {
 
   handleChangeStationType(stationTypeKey, e) {
     this.setState({
-      stationTypeKey: stationTypeKey ? stationTypeKey.key : "",
-      stationAutoKey: ""
+      stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
+      stationAutoKey: ''
     })
-    this.props.change("stationAuto", "")
+    this.props.change('stationAuto', '')
   }
 
   handleChangeStationAuto(stationAuto) {
@@ -190,12 +190,12 @@ export default class SearchFormHistoryData extends React.Component {
     if (this.state.timeRange) {
       params.fromDate = params.receivedAt
         .clone()
-        .subtract(this.state.timeRange, "days")
+        .subtract(this.state.timeRange, 'days')
       params.toDate = params.receivedAt.clone()
     }
 
     this.setState(params)
-    this.props.change("measuringList", measuringData.map(m => m.key))
+    this.props.change('measuringList', measuringData.map(m => m.key))
   }
 
   handleChangeRanges(ranges) {
@@ -203,7 +203,7 @@ export default class SearchFormHistoryData extends React.Component {
     if (_.isNumber(ranges)) {
       this.setState({
         timeRange: ranges,
-        fromDate: this.state.receivedAt.clone().subtract(ranges, "days"),
+        fromDate: this.state.receivedAt.clone().subtract(ranges, 'days'),
         toDate: this.state.receivedAt.clone()
       })
     } else {
@@ -228,7 +228,7 @@ export default class SearchFormHistoryData extends React.Component {
     // console.log(values, "handleSubmit")
     const measuringListUnitStr = values.measuringList.map(item => {
       // console.log(item, "item")
-      const itemFind = _.find(this.state.measuringData, (obj)=>{
+      const itemFind = _.find(this.state.measuringData, obj => {
         return obj.key === item
       })
       // console.log(itemFind,"itemFind")
@@ -251,29 +251,29 @@ export default class SearchFormHistoryData extends React.Component {
               item.measuringKey &&
               item.operator &&
               item.value !== null &&
-              typeof item.value !== "undefined"
+              typeof item.value !== 'undefined'
           )
         : []
     })
   }
 
   handleResetAdvanced() {
-    this.props.array.removeAll("advanced")
+    this.props.array.removeAll('advanced')
   }
 
   handleProvinceChange = province => {
     this.setState({
       provinceKey: province.key,
-      stationAutoKey: ""
+      stationAutoKey: ''
     })
 
-    this.props.change("stationAuto", "")
+    this.props.change('stationAuto', '')
   }
 
   render() {
     // console.log(this.state.fromDate.format(),this.state.toDate.format(),"render")
 
-    const t = this.props.lang.createNameSpace("dataSearchFrom.form")
+    const t = this.props.lang.createNameSpace('dataSearchFrom.form')
     return (
       <SearchFormContainer>
         <Heading
@@ -284,21 +284,21 @@ export default class SearchFormHistoryData extends React.Component {
               size="small"
               onClick={this.props.handleSubmit(this.handleSubmit)}
             >
-              {this.props.lang.t("addon.search")}
+              {this.props.lang.t('addon.search')}
             </Button>
           }
           textColor="#ffffff"
           isBackground
           fontSize={14}
-          style={{ padding: "8px 16px" }}
+          style={{ padding: '8px 16px' }}
         >
-          {this.props.lang.t("addon.search")}
+          {this.props.lang.t('addon.search')}
         </Heading>
         <Container>
           <Row gutter={16}>
             <Col span={6}>
               <Field
-                label={translate("qaqc.province.label")}
+                label={translate('qaqc.province.label')}
                 name="province"
                 size="large"
                 isShowAll
@@ -308,10 +308,9 @@ export default class SearchFormHistoryData extends React.Component {
             </Col>
             <Col span={6}>
               <Field
-                label={t("stationType.label")}
+                label={t('stationType.label')}
                 name="stationType"
                 size="large"
-                
                 onHandleChange={this.handleChangeStationType}
                 component={FSelectStationType}
                 getRef={ref => {
@@ -322,7 +321,7 @@ export default class SearchFormHistoryData extends React.Component {
             </Col>
             <Col span={6}>
               <Field
-                label={t("stationAuto.label")}
+                label={t('stationAuto.label')}
                 name="stationAuto"
                 size="large"
                 provinceKey={this.state.provinceKey}
@@ -339,7 +338,7 @@ export default class SearchFormHistoryData extends React.Component {
             </Col>
             <Col span={6}>
               <Field
-                label={translate("qaqc.data")}
+                label={translate('qaqc.data')}
                 name="dataType"
                 size="large"
                 component={FSelectApprove}
@@ -350,7 +349,7 @@ export default class SearchFormHistoryData extends React.Component {
           <Row gutter={16}>
             <Col span={12}>
               <Field
-                label={t("measuringList.label")}
+                label={t('measuringList.label')}
                 name="measuringList"
                 size="large"
                 showSearch
@@ -361,7 +360,7 @@ export default class SearchFormHistoryData extends React.Component {
             </Col>
             <Col span={9}>
               <Field
-                label={t("time")}
+                label={t('time')}
                 name="rangesDate"
                 size="large"
                 onChangeObject={this.handleChangeRanges}
@@ -372,7 +371,7 @@ export default class SearchFormHistoryData extends React.Component {
             </Col>
             <Col span={3}>
               <Field
-                label={t("isExceeded.label")}
+                label={t('isExceeded.label')}
                 name="isExceeded"
                 size="large"
                 component={FSwitch}

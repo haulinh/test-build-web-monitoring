@@ -9,5 +9,5 @@ export default createBreadcrumb({
     id: 'base',
     icon: '',
     href: slug.dataLogger.base
-  },
+  }
 })

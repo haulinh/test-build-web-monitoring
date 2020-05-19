@@ -138,8 +138,7 @@ export default class MeasuringItem extends React.PureComponent {
       return COLOR[STATUS_STATION.DATA_LOSS]
 
     const { warningLevel } = this.props
-    if (warningLevel && COLOR[warningLevel])
-      return COLOR[warningLevel]
+    if (warningLevel && COLOR[warningLevel]) return COLOR[warningLevel]
     return COLOR.GOOD
   }
 

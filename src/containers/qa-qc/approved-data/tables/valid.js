@@ -1,13 +1,13 @@
-import React from "react"
-import { autobind } from "core-decorators"
+import React from 'react'
+import { autobind } from 'core-decorators'
 // import styled from 'styled-components'
-import { connect } from "react-redux"
-import PropTypes from "prop-types"
-import { Table } from "antd"
-import moment from "moment-timezone"
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Table } from 'antd'
+import moment from 'moment-timezone'
 // import { translate } from 'hoc/create-lang'
-import * as _ from "lodash"
-import { DD_MM_YYYY_HH_MM } from "constants/format-date"
+import * as _ from 'lodash'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 @connect(
   (state, ownProps) => ({
@@ -24,31 +24,38 @@ export default class QAQCValidTable extends React.Component {
     columns: PropTypes.array,
     measuringData: PropTypes.array.isRequired,
     pagination: PropTypes.object,
-    onChangePage: PropTypes.func,
+    onChangePage: PropTypes.func
   }
 
   render() {
-    let { dataSource, measuringList, measuringData, pagination} = this.props
+    let { dataSource, measuringList, measuringData, pagination } = this.props
     let columns = this._transformedColumns(measuringList, measuringData)
     let data = this._transformedData(dataSource)
 
     return (
-      <Table rowKey="_id" dataSource={data} columns={columns} pagination={pagination} onChange={this.props.onChangePage}  size="small" />
+      <Table
+        rowKey="_id"
+        dataSource={data}
+        columns={columns}
+        pagination={pagination}
+        onChange={this.props.onChangePage}
+        size="small"
+      />
     )
   }
 
   _transformedColumns(measuringList, measuringData) {
     let defaultColumns = [
       {
-        title: "STT",
-        dataIndex: "stt",
-        align: "center",
+        title: 'STT',
+        dataIndex: 'stt',
+        align: 'center',
         width: 50
       },
       {
-        title: "Received At",
-        dataIndex: "receivedAt",
-        align: "center"
+        title: 'Received At',
+        dataIndex: 'receivedAt',
+        align: 'center'
       }
     ]
 
@@ -61,8 +68,8 @@ export default class QAQCValidTable extends React.Component {
       return {
         title: `${measuringInfo.key} (${measuringInfo.unit})`,
         dataIndex: measuringInfo.key,
-        align: "center",
-        width: measuringInfo.key === "pH" && 50,
+        align: 'center',
+        width: measuringInfo.key === 'pH' && 50,
         render(text) {
           return text
         }
@@ -84,7 +91,7 @@ export default class QAQCValidTable extends React.Component {
         let isHaveMeasuring = _.get(record, `measuringLogs[${name}]`, undefined)
         if (isHaveMeasuring && record.measuringLogs[name].isValid) {
           result[name] = (
-            <div style={{ textAlign: "center" }}>
+            <div style={{ textAlign: 'center' }}>
               {record.measuringLogs[name].value}
             </div>
           )
@@ -92,12 +99,12 @@ export default class QAQCValidTable extends React.Component {
           result[name] = (
             <div
               style={{
-                textDecoration: "line-through",
-                textDecorationColor: "red",
-                textAlign: "center"
+                textDecoration: 'line-through',
+                textDecorationColor: 'red',
+                textAlign: 'center'
               }}
             >
-              {_.get(record, `measuringLogs[${name}].value`, "")}
+              {_.get(record, `measuringLogs[${name}].value`, '')}
             </div>
           )
         }

@@ -1,22 +1,21 @@
-import React from "react";
-import styled from "styled-components";
-import PageContainer from "layout/default-sidebar-layout/PageContainer";
-import { message, Modal, Button, Typography, Skeleton } from "antd";
-import { autobind } from "core-decorators";
-import UserApi from "api/UserApi";
-import slug from "constants/slug";
-import UserForm from "../user-form";
-import Breadcrumb from "../breadcrumb";
-import ROLE from "constants/role";
-import protectRole from "hoc/protect-role";
-import { connect } from "react-redux";
-import * as _ from "lodash";
-import { translate } from "hoc/create-lang";
-import { SHAPE } from "themes/color";
-import { EMAIL, PHONE } from "constants/info-contact.js";
+import React from 'react'
+import styled from 'styled-components'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import { message, Modal, Button, Typography, Skeleton } from 'antd'
+import { autobind } from 'core-decorators'
+import UserApi from 'api/UserApi'
+import slug from 'constants/slug'
+import UserForm from '../user-form'
+import Breadcrumb from '../breadcrumb'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
+import { connect } from 'react-redux'
+import * as _ from 'lodash'
+import { translate } from 'hoc/create-lang'
+import { SHAPE } from 'themes/color'
+import { EMAIL, PHONE } from 'constants/info-contact.js'
 
-
-const { Text } = Typography;
+const { Text } = Typography
 
 const ModalContent = styled.div`
   width: fit-content;
@@ -27,28 +26,28 @@ const ModalContent = styled.div`
     float: left;
     width: 200px;
   }
-`;
+`
 
 const i18n = {
-  title: translate("userManager.modal.title"),
-  back: translate("userManager.modal.back"),
-  text: translate("userManager.modal.text"),
-  text1: translate("userManager.modal.text1"),
-  text2: translate("userManager.modal.text2"),
-  text3: translate("userManager.modal.text3")
-};
+  title: translate('userManager.modal.title'),
+  back: translate('userManager.modal.back'),
+  text: translate('userManager.modal.text'),
+  text1: translate('userManager.modal.text1'),
+  text2: translate('userManager.modal.text2'),
+  text3: translate('userManager.modal.text3')
+}
 
 @protectRole(ROLE.USER.CREATE)
 @connect(state => ({
-  totalUser: _.get(state, "auth.userInfo.organization.license.totalUser", 0)
+  totalUser: _.get(state, 'auth.userInfo.organization.license.totalUser', 0)
 }))
 @autobind
 export default class UserCreate extends React.PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isLoading: false
-    };
+    }
   }
 
   async handleSubmit(data) {
@@ -56,29 +55,29 @@ export default class UserCreate extends React.PureComponent {
       isLoading: true,
       totalUserActive: 0,
       isLicense: false
-    });
+    })
 
-    const res = await UserApi.registerUser(data);
+    const res = await UserApi.registerUser(data)
     if (res.success) {
-      message.info("Register User success!");
-      this.props.history.push(slug.user.list);
+      message.info('Register User success!')
+      this.props.history.push(slug.user.list)
     }
-    if (res.error) message.info(res.message);
+    if (res.error) message.info(res.message)
   }
 
   componentDidMount = async () => {
-    const res = await UserApi.getTotalCount();
+    const res = await UserApi.getTotalCount()
     if (res.success) {
       this.setState(
         {
-          totalUserActive: _.get(res, "data", 0)
+          totalUserActive: _.get(res, 'data', 0)
         },
         () => {
-          this.checkLicenseStation();
+          this.checkLicenseStation()
         }
-      );
+      )
     }
-  };
+  }
 
   // componentDidUpdate = prevProps => {
   //   if (this.props.totalStationActived !== prevProps.totalStationActived) {
@@ -87,26 +86,26 @@ export default class UserCreate extends React.PureComponent {
   // };
 
   checkLicenseStation = () => {
-    const { totalUser } = this.props;
-    const { totalUserActive } = this.state;
+    const { totalUser } = this.props
+    const { totalUserActive } = this.state
     if (totalUserActive >= totalUser) {
       this.setState({
         isLicense: true
-      });
+      })
     }
-  };
+  }
 
   hanldeClose = () => {
-    this.props.history.push(slug.stationAuto.list);
-  };
+    this.props.history.push(slug.stationAuto.list)
+  }
 
   render() {
-    console.log(this.props.totalUser, "----totalUser-----");
-    const limitTotalStation = _.get(this.props, "totalUser", 0);
+    console.log(this.props.totalUser, '----totalUser-----')
+    const limitTotalStation = _.get(this.props, 'totalUser', 0)
 
     return (
       <PageContainer title="Create station type" {...this.props.wrapperProps}>
-        <Breadcrumb items={["list", "create"]} />
+        <Breadcrumb items={['list', 'create']} />
         {!this.state.isLicense && (
           <UserForm
             onSubmit={this.handleSubmit}
@@ -127,10 +126,10 @@ export default class UserCreate extends React.PureComponent {
             </Button>
           ]}
         >
-          <Text type="secondary" >
+          <Text type="secondary">
             <div
               dangerouslySetInnerHTML={{
-                __html: translate("userManager.modal.text", {
+                __html: translate('userManager.modal.text', {
                   total: limitTotalStation
                 })
               }}
@@ -143,7 +142,7 @@ export default class UserCreate extends React.PureComponent {
             <Text
               style={{
                 color: SHAPE.PRIMARY,
-                fontWeight: "bold"
+                fontWeight: 'bold'
               }}
             >
               {i18n.text1}
@@ -173,6 +172,6 @@ export default class UserCreate extends React.PureComponent {
           </ModalContent>
         </Modal>
       </PageContainer>
-    );
+    )
   }
 }

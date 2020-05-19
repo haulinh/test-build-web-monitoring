@@ -35,33 +35,36 @@ export default class CameraMoreInfo extends React.Component {
       cameras = _.take(cameras, 2) // NOTE  -- chỉ lấy 2 camera đầu để hiển thị
       cameras = cameras.map(_camera => {
         let camera = _.clone(_camera)
-        const link = `${camera.rtspUrl}?auth=${authDigest}&resolution=360p&sfd&rt`
+        const link = `${
+          camera.rtspUrl
+        }?auth=${authDigest}&resolution=360p&sfd&rt`
         camera.link = link
         return camera
       })
       this.setState({ cameras, isLoading: false })
-    }
-    catch(err) {
+    } catch (err) {
       console.log('camera lost connection')
-      this.setState({isDisconnection: true})
+      this.setState({ isDisconnection: true })
     }
   }
 
-  _renderCamera = (cameras) => (
-    <Spin spinning={this.state.isLoading} indicator={<Icon type="loading" style={{fontSize: 24}}/>} style={{height: 300}}>
+  _renderCamera = cameras => (
+    <Spin
+      spinning={this.state.isLoading}
+      indicator={<Icon type="loading" style={{ fontSize: 24 }} />}
+      style={{ height: 300 }}
+    >
       <Row type="flex" gutter={16} style={{ height: '100%' }}>
-        {
-          cameras.map((camera, index) => (
-            <Col span={12} key={index}>
-              <video controls src={camera.link} style={{ width: '100%' }} />
-            </Col>
-          ))
-        }
+        {cameras.map((camera, index) => (
+          <Col span={12} key={index}>
+            <video controls src={camera.link} style={{ width: '100%' }} />
+          </Col>
+        ))}
       </Row>
     </Spin>
   )
 
-  _renderDisconnection = (message) => (
+  _renderDisconnection = message => (
     <Row type="flex" justify="center" align="middle">
       <Disconnection messages={this.state.disconnectionMessage} />
     </Row>
@@ -71,7 +74,9 @@ export default class CameraMoreInfo extends React.Component {
     let { cameras } = this.state
     return (
       <React.Fragment>
-        { this.state.isDisconnection ? this._renderDisconnection() : this._renderCamera(cameras) }
+        {this.state.isDisconnection
+          ? this._renderDisconnection()
+          : this._renderCamera(cameras)}
       </React.Fragment>
     )
   }

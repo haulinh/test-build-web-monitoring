@@ -1,5 +1,5 @@
 import React from 'react'
-import {  Steps, Icon, Alert, Input } from 'antd'
+import { Steps, Icon, Alert, Input } from 'antd'
 import { translate } from 'hoc/create-lang'
 import { withRouter } from 'react-router'
 import styled from 'styled-components'
@@ -40,7 +40,7 @@ const RowViewCenter = styled(RowView)`
 `
 
 @connectAutoDispatch(
-  (state) => ({
+  state => ({
     twoFactorAuth: state.auth.userInfo.twoFactorAuth
   }),
   { set2FAStatus, set2FAType, update2FA }
@@ -59,17 +59,17 @@ export default class ModalSelectSMS extends React.PureComponent {
   }
 
   constructor(props) {
-    super(props);
-    
+    super(props)
+
     this.state = {
       isLoadingSms: false,
       stepCurrent: 0,
       code: '',
-      smsExpiredTime: 600000,
+      smsExpiredTime: 600000
     }
   }
 
-  componentWillReceiveProps(props){
+  componentWillReceiveProps(props) {
     let remainTime = moment(props.twoFactorAuth.expired) - moment()
     this.setState({
       smsExpiredTime: remainTime
@@ -78,7 +78,7 @@ export default class ModalSelectSMS extends React.PureComponent {
 
   componentWillMount() {
     let remainTime = moment(this.props.twoFactorAuth.expired) - moment()
-    this.setState({smsExpiredTime: remainTime})
+    this.setState({ smsExpiredTime: remainTime })
     if (this.isExpired()) {
       clearInterval(this.countDownIntervalID)
       this.props.update2FA({
@@ -95,7 +95,7 @@ export default class ModalSelectSMS extends React.PureComponent {
   componentWillUnmount() {
     clearInterval(this.countDownIntervalID)
   }
-  
+
   render() {
     return (
       <Container>
@@ -136,7 +136,10 @@ export default class ModalSelectSMS extends React.PureComponent {
             addonBefore={<strong>Code</strong>}
             onPressEnter={this.handleConfirmSms}
             addonAfter={
-              <strong onClick={this.handleConfirmSms} style={{cursor: 'pointer'}}>
+              <strong
+                onClick={this.handleConfirmSms}
+                style={{ cursor: 'pointer' }}
+              >
                 {translate('security.send')}
               </strong>
             }
@@ -157,17 +160,16 @@ export default class ModalSelectSMS extends React.PureComponent {
         try {
           /* TODO */
           let res = await AuthApi.putSecurity({ enable: false })
-          let {twoFactorAuth} = res.data
+          let { twoFactorAuth } = res.data
           this.props.update2FA(twoFactorAuth)
           this.props.clearSmsVerifyInProgress()
           this.props.switchToTab(1)
-        }
-        catch(err) {
+        } catch (err) {
           /* TODO */
         }
       } else {
         this.setState(prevState => ({
-          smsExpiredTime: prevState.smsExpiredTime-1000
+          smsExpiredTime: prevState.smsExpiredTime - 1000
         }))
       }
     }, 1000)
@@ -196,7 +198,7 @@ export default class ModalSelectSMS extends React.PureComponent {
     }
   }
 
-  async handleConfirmSms()  {
+  async handleConfirmSms() {
     try {
       const { code } = this.state
       if (code) {
@@ -204,11 +206,11 @@ export default class ModalSelectSMS extends React.PureComponent {
         const { success, data } = await userApi.confirmSms('sms', { code })
         this.setState({ stepCurrent: 2 })
 
-        const {twoFactorAuth} = data
+        const { twoFactorAuth } = data
         this.props.update2FA(twoFactorAuth)
 
         let remainTime = moment(twoFactorAuth.expired) - moment()
-        this.setState({smsExpiredTime: remainTime})
+        this.setState({ smsExpiredTime: remainTime })
 
         if (success) {
           this.props.switchToOption({ option: 'sms' })
@@ -217,11 +219,8 @@ export default class ModalSelectSMS extends React.PureComponent {
         }
         this.handle2FARegister(success)
       }
-    }
-    catch(error) {
+    } catch (error) {
       this.setState({ stepCurrent: 0 })
     }
   }
-
-
 }

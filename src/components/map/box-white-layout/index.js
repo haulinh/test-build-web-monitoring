@@ -19,10 +19,7 @@ const WrapperWhite = styled.div`
 @autobind
 export default class BoxWhiteLayout extends React.PureComponent {
   static propTypes = {
-    title: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ]),
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     right: PropTypes.object,
     style: PropTypes.object,
     onlyTitle: PropTypes.bool,

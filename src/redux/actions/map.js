@@ -1,4 +1,4 @@
-export const GET_STATIONS_AUTO_DETAIL = "MAP/GET_STATIONS_AUTO_DETAIL";
+export const GET_STATIONS_AUTO_DETAIL = 'MAP/GET_STATIONS_AUTO_DETAIL'
 
 /* DONE */
 export function getStationAuto(station) {
@@ -6,6 +6,6 @@ export function getStationAuto(station) {
     dispatch({
       type: GET_STATIONS_AUTO_DETAIL,
       payload: station
-    });
-  };
+    })
+  }
 }

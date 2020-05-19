@@ -28,7 +28,7 @@ const initialState = {
 }
 
 export default function createReducer(state = initialState, action) {
-  const {type, payload} = action
+  const { type, payload } = action
   switch (type) {
     case UPDATE_USER_INFO:
       return updateUserInfo(state, action)
@@ -117,10 +117,8 @@ export function updateUserInfo(state, { auth: { token, data } }) {
   })
 }
 
-
-
 function setFCMToken(state, payload) {
-  return update(state,{
+  return update(state, {
     tokenFCM: {
       $set: payload
     }

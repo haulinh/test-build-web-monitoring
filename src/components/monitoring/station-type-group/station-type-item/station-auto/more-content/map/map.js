@@ -61,7 +61,7 @@ class CustomGoogleMap extends PureComponent {
                 background: '#6AA84F',
                 padding: '0px 4px'
               }
-              let item_icon ='/images/marker-icon/station-normal.png'
+              let item_icon = '/images/marker-icon/station-normal.png'
               if (item.focusStaion) {
                 styleLable = {
                   ...styleLable,

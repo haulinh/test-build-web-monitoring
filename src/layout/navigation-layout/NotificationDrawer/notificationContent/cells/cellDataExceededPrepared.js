@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {warningLevelImages} from 'constants/assets'
+import { warningLevelImages } from 'constants/assets'
 import { translate } from 'hoc/create-lang'
 import DefaultCell from './_defaultCell'
 import { BoldTextWrap } from './_helperComponent'
@@ -8,7 +8,7 @@ import { BoldTextWrap } from './_helperComponent'
 const i18n = {
   station: translate('common.station'),
   measurings: translate('common.measures'),
-  dataExceededPrepare: translate('common.deviceStatus.dataExceededPrepare'),
+  dataExceededPrepare: translate('common.deviceStatus.dataExceededPrepare')
 }
 
 export default function DataExceededPreparedCell(props) {
@@ -25,7 +25,7 @@ export default function DataExceededPreparedCell(props) {
   )
 
   return (
-    <DefaultCell 
+    <DefaultCell
       icon={`${warningLevelImages.dataExceededPrepared}`}
       content={content}
       data={cellContent}

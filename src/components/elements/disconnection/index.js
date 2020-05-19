@@ -5,7 +5,7 @@ import { translate } from 'hoc/create-lang'
 import DisconnectionImage from './disconnection.jpg'
 
 const i18n = {
-  tryAgain: translate("actions.tryAgain")
+  tryAgain: translate('actions.tryAgain')
 }
 
 export default class Disconnection extends React.Component {
@@ -14,21 +14,26 @@ export default class Disconnection extends React.Component {
     onClickTryAgain: PropTypes.func,
     isLoading: PropTypes.bool.isRequired
   }
-  
+
   render() {
-    const {messages, onClickTryAgain, isLoading} = this.props
+    const { messages, onClickTryAgain, isLoading } = this.props
     return (
       <Result
-        icon={ <img alt='' src={DisconnectionImage} width={200} /> }
+        icon={<img alt="" src={DisconnectionImage} width={200} />}
         title={messages}
         extra={
           onClickTryAgain && (
-            <Button type="primary" key="console" onClick={onClickTryAgain} loading={isLoading}>
+            <Button
+              type="primary"
+              key="console"
+              onClick={onClickTryAgain}
+              loading={isLoading}
+            >
               {i18n.tryAgain}
             </Button>
           )
         }
-      />  
+      />
     )
   }
 }

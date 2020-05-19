@@ -1,13 +1,13 @@
-import React from "react"
-import { connect } from "react-redux"
-import PropTypes from "prop-types"
-import { autobind } from "core-decorators"
-import { Button } from "antd"
-import { QAQC_TABLES } from "constants/qaqc"
-import { translate } from "hoc/create-lang"
-import OriginalTable from "./original"
-import ValidTable from "./valid"
-import InvalidTable from "./invalid"
+import React from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { autobind } from 'core-decorators'
+import { Button } from 'antd'
+import { QAQC_TABLES } from 'constants/qaqc'
+import { translate } from 'hoc/create-lang'
+import OriginalTable from './original'
+import ValidTable from './valid'
+import InvalidTable from './invalid'
 
 @connect(
   (state, ownProps) => ({
@@ -35,14 +35,14 @@ export default class QAQCTables extends React.Component {
     let Table = this._getSelectedTable(this.props.selectedTable)
     return (
       <div>
-        {!this.props.isLoading  && (
-          <div style={{ textAlign: "right", marginBottom: 16 }}>
+        {!this.props.isLoading && (
+          <div style={{ textAlign: 'right', marginBottom: 16 }}>
             <Button
               type="primary"
               icon="file-excel"
               onClick={this.props.submitExcel}
             >
-              {translate("dataSearchFrom.tab.exportExcel")}
+              {translate('dataSearchFrom.tab.exportExcel')}
             </Button>
           </div>
         )}

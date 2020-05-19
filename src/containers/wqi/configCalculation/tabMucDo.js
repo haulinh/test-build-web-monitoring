@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 // import PropTypes from "prop-types";
 // import styled from "styled-components";
 import {
@@ -14,53 +14,53 @@ import {
   Spin,
   Row,
   Col
-} from "antd";
-import { Clearfix } from "containers/map/map-default/components/box-analytic-list/style";
+} from 'antd'
+import { Clearfix } from 'containers/map/map-default/components/box-analytic-list/style'
 import {
   getConfigWqiCalculation,
   postConfigWqiCalculation
-} from "api/CategoryApi";
-import { translate } from "hoc/create-lang";
-import * as _ from "lodash";
+} from 'api/CategoryApi'
+import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
 
 const i18n = {
-  submit: translate("addon.save"),
-  warning: translate("addon.warning"),
-  refresh: translate("addon.refresh"),
-  cancel: translate("addon.cancel"),
-  updateSuccess: translate("addon.onSave.update.success"),
-  updateError: translate("addon.onSave.update.error"),
+  submit: translate('addon.save'),
+  warning: translate('addon.warning'),
+  refresh: translate('addon.refresh'),
+  cancel: translate('addon.cancel'),
+  updateSuccess: translate('addon.onSave.update.success'),
+  updateError: translate('addon.onSave.update.error'),
 
-  add: translate("wqiConfigCalculation.add"),
-  required: translate("wqiConfigCalculation.required"),
-  colLevel: translate("wqiConfigCalculation.colLevel"),
-  colMin: translate("wqiConfigCalculation.colMin"),
-  colMax: translate("wqiConfigCalculation.colMax"),
-  colColor: translate("wqiConfigCalculation.colColor"),
-  colBackgroundColor: translate("wqiConfigCalculation.colBackgroundColor"),
-  colDescription: translate("wqiConfigCalculation.colDescription")
-};
+  add: translate('wqiConfigCalculation.add'),
+  required: translate('wqiConfigCalculation.required'),
+  colLevel: translate('wqiConfigCalculation.colLevel'),
+  colMin: translate('wqiConfigCalculation.colMin'),
+  colMax: translate('wqiConfigCalculation.colMax'),
+  colColor: translate('wqiConfigCalculation.colColor'),
+  colBackgroundColor: translate('wqiConfigCalculation.colBackgroundColor'),
+  colDescription: translate('wqiConfigCalculation.colDescription')
+}
 
 @Form.create({})
 export default class TabMucDo extends React.Component {
-  idIncrement = 0;
+  idIncrement = 0
   state = {
     isLoaded: false,
     isSubmit: false,
     dataSource: [],
     isLocked: false
-  };
+  }
 
   columns = [
     {
       title: i18n.colLevel,
-      dataIndex: "name",
-      key: "name",
-      align: "center",
+      dataIndex: 'name',
+      key: 'name',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator } = this.props.form
         return (
-          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`levelList[${record.key}].name`, {
               rules: [
                 {
@@ -70,18 +70,18 @@ export default class TabMucDo extends React.Component {
               ]
             })(<Input placeholder="Mức độ" />)}
           </Form.Item>
-        );
+        )
       }
     },
     {
       title: i18n.colMin,
-      dataIndex: "min",
-      key: "min",
-      align: "center",
+      dataIndex: 'min',
+      key: 'min',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator } = this.props.form
         return (
-          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`levelList[${record.key}].min`, {
               rules: [
                 {
@@ -91,25 +91,25 @@ export default class TabMucDo extends React.Component {
               ]
             })(
               <InputNumber
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
                 placeholder={i18n.colMin}
               />
             )}
           </Form.Item>
-        );
+        )
       }
     },
     {
       title: i18n.colMax,
-      dataIndex: "max",
-      key: "max",
-      align: "center",
+      dataIndex: 'max',
+      key: 'max',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldDecorator, setFieldsValue } = this.props.form;
-        const isLast = this.state.dataSource.length === index + 1;
+        const { getFieldDecorator, setFieldsValue } = this.props.form
+        const isLast = this.state.dataSource.length === index + 1
         return (
-          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
-            <div style={{ display: "flex" }}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
+            <div style={{ display: 'flex' }}>
               {getFieldDecorator(`levelList[${record.key}].max`, {
                 rules: [
                   {
@@ -119,7 +119,7 @@ export default class TabMucDo extends React.Component {
                 ]
               })(
                 <InputNumber
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                   placeholder={i18n.colMax}
                   disabled={isLast && this.state.isLocked}
                 />
@@ -127,9 +127,9 @@ export default class TabMucDo extends React.Component {
               {isLast && (
                 <div
                   style={{
-                    display: "flex",
+                    display: 'flex',
                     marginLeft: 8,
-                    alignItems: "center"
+                    alignItems: 'center'
                   }}
                 >
                   <Icon
@@ -138,35 +138,35 @@ export default class TabMucDo extends React.Component {
                         if (this.state.isLocked) {
                           setFieldsValue({
                             [`levelList[${record.key}].max`]: null
-                          });
+                          })
                         }
-                      });
+                      })
                     }}
                     style={{
                       fontSize: 24,
-                      color: this.state.isLocked ? "#1890ff" : "red",
-                      cursor: "pointer"
+                      color: this.state.isLocked ? '#1890ff' : 'red',
+                      cursor: 'pointer'
                     }}
-                    type={this.state.isLocked ? "unlock" : "lock"}
+                    type={this.state.isLocked ? 'unlock' : 'lock'}
                   />
                 </div>
               )}
             </div>
           </Form.Item>
-        );
+        )
       }
     },
     {
       title: i18n.colColor,
-      dataIndex: "colColor",
-      key: "color",
-      align: "center",
+      dataIndex: 'colColor',
+      key: 'color',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator } = this.props.form
         return (
-          <Form.Item style={{ marginBottom: "initial" }}>
+          <Form.Item style={{ marginBottom: 'initial' }}>
             {getFieldDecorator(`levelList[${record.key}].color`, {
-              initialValue: "#fff",
+              initialValue: '#fff',
               rules: [
                 {
                   required: true,
@@ -175,20 +175,20 @@ export default class TabMucDo extends React.Component {
               ]
             })(<input type="color" />)}
           </Form.Item>
-        );
+        )
       }
     },
     {
       title: i18n.colBackgroundColor,
-      dataIndex: "colBackgroundColor",
-      key: "backgroundColor",
-      align: "center",
+      dataIndex: 'colBackgroundColor',
+      key: 'backgroundColor',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator } = this.props.form
         return (
-          <Form.Item style={{ marginBottom: "initial" }}>
+          <Form.Item style={{ marginBottom: 'initial' }}>
             {getFieldDecorator(`levelList[${record.key}].backgroundColor`, {
-              initialValue: "#1d89ce",
+              initialValue: '#1d89ce',
               rules: [
                 {
                   required: true,
@@ -197,18 +197,18 @@ export default class TabMucDo extends React.Component {
               ]
             })(<input type="color" />)}
           </Form.Item>
-        );
+        )
       }
     },
     {
       title: i18n.colDescription,
-      dataIndex: "description",
-      key: "description",
-      align: "center",
+      dataIndex: 'description',
+      key: 'description',
+      align: 'center',
       render: (text, record, index) => {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator } = this.props.form
         return (
-          <Form.Item style={{ textAlign: "left", marginBottom: "initial" }}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`levelList[${record.key}].description`, {
               rules: [
                 {
@@ -218,14 +218,14 @@ export default class TabMucDo extends React.Component {
               ]
             })(<Input placeholder={i18n.colDescription} />)}
           </Form.Item>
-        );
+        )
       }
     },
     {
-      title: "",
-      dataIndex: "action",
-      key: "action",
-      align: "center",
+      title: '',
+      dataIndex: 'action',
+      key: 'action',
+      align: 'center',
       render: (text, record, index) => {
         return (
           <Popconfirm
@@ -238,35 +238,35 @@ export default class TabMucDo extends React.Component {
           >
             <Icon
               type="delete"
-              style={{ color: "red", fontSize: 24, cursor: "pointer" }}
+              style={{ color: 'red', fontSize: 24, cursor: 'pointer' }}
             />
           </Popconfirm>
-        );
+        )
       }
     }
-  ];
+  ]
 
   submit = () => {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        this.setState({ isSubmit: true });
-        console.log("Received values of form: ", values);
+        this.setState({ isSubmit: true })
+        console.log('Received values of form: ', values)
         try {
-          const transformData = _.get(values, "levelList", []).filter(i =>
+          const transformData = _.get(values, 'levelList', []).filter(i =>
             _.identity(i)
-          );
+          )
 
           // console.log("transformData", transformData);
-          const response = await postConfigWqiCalculation(transformData);
+          const response = await postConfigWqiCalculation(transformData)
           if (response.success) {
-            message.success(i18n.updateSuccess);
+            message.success(i18n.updateSuccess)
           }
         } finally {
-          this.setState({ isSubmit: false });
+          this.setState({ isSubmit: false })
         }
       }
-    });
-  };
+    })
+  }
 
   add = () => {
     this.setState({
@@ -276,24 +276,24 @@ export default class TabMucDo extends React.Component {
           key: this.idIncrement++
         }
       ]
-    });
-  };
+    })
+  }
 
   delete = key => {
-    let tamp = this.state.dataSource.filter(item => item.key !== key);
+    let tamp = this.state.dataSource.filter(item => item.key !== key)
     this.setState({
       dataSource: [...tamp]
-    });
-  };
+    })
+  }
 
   async componentDidMount() {
-    const response = await getConfigWqiCalculation();
+    const response = await getConfigWqiCalculation()
     if (response.success) {
-      const transformData = _.get(response, "data.value", []).filter(i =>
+      const transformData = _.get(response, 'data.value', []).filter(i =>
         _.identity(i)
-      );
-      const lastRecord = transformData[transformData.length - 1];
-      transformData.map(i => (i.key = this.idIncrement++));
+      )
+      const lastRecord = transformData[transformData.length - 1]
+      transformData.map(i => (i.key = this.idIncrement++))
       this.setState(
         {
           dataSource: transformData,
@@ -303,9 +303,9 @@ export default class TabMucDo extends React.Component {
         () => {
           this.props.form.setFieldsValue({
             levelList: transformData
-          });
+          })
         }
-      );
+      )
     }
   }
 
@@ -339,6 +339,6 @@ export default class TabMucDo extends React.Component {
           </Col>
         </Row>
       </Spin>
-    );
+    )
   }
 }

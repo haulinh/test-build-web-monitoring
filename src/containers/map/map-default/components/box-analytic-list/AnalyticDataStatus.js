@@ -5,7 +5,7 @@ import { translate as t } from 'hoc/create-lang'
 
 import {
   // warningLevelsNumber,
-  warningLevels,
+  warningLevels
   // colorLevels
 } from 'constants/warningLevels'
 import { STATUS_STATION } from 'constants/stationStatus'

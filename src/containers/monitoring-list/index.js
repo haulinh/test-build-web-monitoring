@@ -1,7 +1,7 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import slug from "constants/slug";
-import MonitoringGeneral from "./general";
+import React from 'react'
+import { Switch, Route } from 'react-router-dom'
+import slug from 'constants/slug'
+import MonitoringGeneral from './general'
 
 export default props => (
   <Switch>
@@ -11,4 +11,4 @@ export default props => (
       render={matchProps => <MonitoringGeneral {...matchProps} {...props} />}
     />
   </Switch>
-);
+)

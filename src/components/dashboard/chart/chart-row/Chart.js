@@ -8,7 +8,10 @@ import Highcharts from 'highcharts'
 import * as _ from 'lodash'
 import { Menu, Dropdown, Icon, Tabs } from 'antd'
 import { getDataStationAutos } from 'api/DataStationAutoApi'
-import { DATETIME_LABEL_FORMAT, DATETIME_TOOLTIP_FORMAT } from 'constants/chart-format'
+import {
+  DATETIME_LABEL_FORMAT,
+  DATETIME_TOOLTIP_FORMAT
+} from 'constants/chart-format'
 import { ROUND_DIGIT } from 'constants/format-number'
 
 const ChartWrapper = styled.div``

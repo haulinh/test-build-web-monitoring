@@ -12,7 +12,7 @@ const HeaderFlex = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100%
+  height: 100%;
 `
 
 export const Grid = styled.div`
@@ -22,6 +22,13 @@ export const Grid = styled.div`
   margin-right: auto;
   height: 100%;
   padding: 0px 24px;
+  .ant-table {
+    overflow: auto;
+  }
+  .ant-table-body {
+    margin: 0 !important;
+    overflow: auto;
+  }
 `
 
 export const GridSticky = styled.div`
@@ -76,7 +83,7 @@ export default class PageContainer extends React.PureComponent {
               ...props.style,
               top: 0,
               zIndex: 100,
-              borderBottom: props.isSticky ? '1px solid #eeeeee' : '',
+              borderBottom: props.isSticky ? '1px solid #eeeeee' : ''
             }}
           >
             <BreadcrumbContainer style={this.props.style}>
@@ -101,10 +108,10 @@ export default class PageContainer extends React.PureComponent {
   render() {
     return (
       <StickyContainer>
-        <PageBodyWrapper 
-          color={this.props.backgroundColor} 
-          style={{width: '100%'}}
-          >
+        <PageBodyWrapper
+          color={this.props.backgroundColor}
+          style={{ width: '100%' }}
+        >
           <style
             type="text/css"
             dangerouslySetInnerHTML={{

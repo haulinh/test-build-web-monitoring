@@ -56,12 +56,11 @@ export function getConfigApi() {
     sampleConfig: c('configSample'),
     camera: config.camera,
     firebase: config.firebase,
-    isAdvanced:config.isAdvanced,
+    isAdvanced: config.isAdvanced,
     defaultPage: config.defaultPage
   }
 }
 
-
 export const GOOGLE_MAP = {
-  KEY: process.env.GOOGLE_MAP_KEY || "AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4"
+  KEY: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4'
 }

@@ -28,7 +28,7 @@ const SamplingWrapper = styled.div`
 //   align-items: center;
 //   justify-content: center;
 //   min-height: 250px;
-  
+
 //   .information{
 //     display: flex;
 //     align-items: center;
@@ -91,7 +91,7 @@ export default class SamplingMoreInfo extends React.Component {
 
   async getStatus() {
     const res = await StationAPI.getStatus(this.props.stationID)
-    
+
     let configSampling = res.data.configSampling
       ? res.data.configSampling
       : undefined
@@ -124,7 +124,7 @@ export default class SamplingMoreInfo extends React.Component {
     try {
       const res = await StationAPI.getStatus(this.props.stationID)
       // console.log('isInitLoaded',this.state.isInitLoaded)
-      this.setState({isLoading: false, isInitLoaded: true})
+      this.setState({ isLoading: false, isInitLoaded: true })
       this.startTimer()
       if (res.data) {
         this.setState({
@@ -141,11 +141,10 @@ export default class SamplingMoreInfo extends React.Component {
         })
       } else {
         showMessageError(i18n.getStatusFail)
-        this.setState({isLoading: false})
+        this.setState({ isLoading: false })
       }
-      this.setState({isDisconnection: false})
-    }
-    catch(err) {
+      this.setState({ isDisconnection: false })
+    } catch (err) {
       console.log('sampling lost connection')
       this.setState({
         isLoading: false,
@@ -164,31 +163,31 @@ export default class SamplingMoreInfo extends React.Component {
     }
   }
 
-  
-
   render() {
     return (
       <React.Fragment>
-          {
-            this.state.isDisconnection ? this._renderDisconnection(i18n.disconnected) : this._renderTabs()
-          }
+        {this.state.isDisconnection
+          ? this._renderDisconnection(i18n.disconnected)
+          : this._renderTabs()}
       </React.Fragment>
     )
   }
 
-  _renderDisconnection(message) { return (
-    <Row type="flex" justify="center" align="middle">
-      <Disconnection
-        isLoading={this.state.isLoadingTryAgain}
-        messages={message}
-        onClickTryAgain={() => {
-          this.setState({isLoadingTryAgain: true})
-          this.getSamplingInfo()
-          this.setState({isLoadingTryAgain: false})
-        }}
-      />
-    </Row>
-  )}
+  _renderDisconnection(message) {
+    return (
+      <Row type="flex" justify="center" align="middle">
+        <Disconnection
+          isLoading={this.state.isLoadingTryAgain}
+          messages={message}
+          onClickTryAgain={() => {
+            this.setState({ isLoadingTryAgain: true })
+            this.getSamplingInfo()
+            this.setState({ isLoadingTryAgain: false })
+          }}
+        />
+      </Row>
+    )
+  }
 
   _renderTabs = () => {
     const { stationID } = this.props
@@ -203,60 +202,60 @@ export default class SamplingMoreInfo extends React.Component {
       activeTabKey
     } = this.state
     return (
-        <SamplingWrapper>
-          <Spin 
-            indicator={<Icon type="loading" style={{ fontSize: 24 }}/>}
-            spinning={isLoading || !isInitLoaded}
+      <SamplingWrapper>
+        <Spin
+          indicator={<Icon type="loading" style={{ fontSize: 24 }} />}
+          spinning={isLoading || !isInitLoaded}
+        >
+          <Tabs
+            onChange={this.handleChangeTab}
+            defaultActiveKey={isConfig ? 'sampling' : 'config'}
+            activeKey={activeTabKey}
+            onTabClick={key => this.setState({ activeTabKey: key })}
           >
-            <Tabs
-              onChange={this.handleChangeTab}
-              defaultActiveKey={isConfig ? 'sampling' : 'config'}
-              activeKey={activeTabKey}
-              onTabClick={(key)=> this.setState({activeTabKey: key})}
+            <TabPane
+              style={{ width: '100%' }}
+              key="sampling"
+              tab={translate('monitoring.moreContent.sampling.tabs.sampling')}
+              disabled={!isConfig}
             >
-              <TabPane
-                style={{ width: '100%' }}
-                key="sampling"
-                tab={translate('monitoring.moreContent.sampling.tabs.sampling')}
-                disabled={!isConfig}
-              >
-                <Sampling
-                  stationID={stationID}
-                  configSampling={configSampling}
-                  updateParentState={this.updateState}
-                  configSamplingSchedule={configSamplingSchedule}
-                  STATUS_SAMPLING={STATUS_SAMPLING}
-                  isScheduled={isScheduled}
-                />
-              </TabPane>
-              <TabPane
-                key="history"
-                disabled={!isConfig}
-                tab={translate('monitoring.moreContent.sampling.tabs.history')}
-              >
-                <History
-                  getRef={ref => (this.historyRef = ref)}
-                  stationID={stationID}
-                />
-              </TabPane>
-              <TabPane
-                key="config"
-                tab={translate('monitoring.moreContent.sampling.tabs.config')}
-              >
-                <Config
-                  stationID={stationID}
-                  isSampling={isSampling}
-                  configSampling={configSampling}
-                  configSamplingSchedule={configSamplingSchedule}
-                  updateParentState={this.updateState}
-                  STATUS_SAMPLING={STATUS_SAMPLING}
-                  isScheduled={isScheduled}
-                  isConfig={isConfig}
-                />
-              </TabPane>
-            </Tabs>
-          </Spin>
-        </SamplingWrapper>
+              <Sampling
+                stationID={stationID}
+                configSampling={configSampling}
+                updateParentState={this.updateState}
+                configSamplingSchedule={configSamplingSchedule}
+                STATUS_SAMPLING={STATUS_SAMPLING}
+                isScheduled={isScheduled}
+              />
+            </TabPane>
+            <TabPane
+              key="history"
+              disabled={!isConfig}
+              tab={translate('monitoring.moreContent.sampling.tabs.history')}
+            >
+              <History
+                getRef={ref => (this.historyRef = ref)}
+                stationID={stationID}
+              />
+            </TabPane>
+            <TabPane
+              key="config"
+              tab={translate('monitoring.moreContent.sampling.tabs.config')}
+            >
+              <Config
+                stationID={stationID}
+                isSampling={isSampling}
+                configSampling={configSampling}
+                configSamplingSchedule={configSamplingSchedule}
+                updateParentState={this.updateState}
+                STATUS_SAMPLING={STATUS_SAMPLING}
+                isScheduled={isScheduled}
+                isConfig={isConfig}
+              />
+            </TabPane>
+          </Tabs>
+        </Spin>
+      </SamplingWrapper>
     )
   }
 }

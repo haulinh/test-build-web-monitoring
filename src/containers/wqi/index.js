@@ -45,8 +45,16 @@ export default class WqiContainer extends React.Component {
       <div>
         {getConfigApi().isAdvanced && (
           <WrapperContainer>
-            <MapComponent wqiList={this.state.wqiList} style={{ flex: 2, background: 'blue' }} onMapClick={this.handleMarkerClick} />
-            <InfoComponent station={this.state.station} style={{ flex: 1 }} wqiList={this.state.wqiList} />
+            <MapComponent
+              wqiList={this.state.wqiList}
+              style={{ flex: 2, background: 'blue' }}
+              onMapClick={this.handleMarkerClick}
+            />
+            <InfoComponent
+              station={this.state.station}
+              style={{ flex: 1 }}
+              wqiList={this.state.wqiList}
+            />
           </WrapperContainer>
         )}
         {!getConfigApi().isAdvanced && <PageInfo />}

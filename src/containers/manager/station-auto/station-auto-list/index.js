@@ -269,7 +269,7 @@ export default class StationAutoList extends React.Component {
         </Dropdown>
       )
     } else {
-      defaultComp =  (
+      defaultComp = (
         <Row>
           {protectRole(ROLE.STATION_AUTO.EDIT)(
             <Link to={slug.stationAuto.editWithKey + '/' + row._id}>
@@ -278,7 +278,10 @@ export default class StationAutoList extends React.Component {
           )}
           &nbsp;| &nbsp;
           {protectRole(ROLE.STATION_AUTO.DELETE)(
-            <a onClick={() => this.onDeleteItem(row._id, this.props.fetchData)} style={{color: '#595959'}} >
+            <a
+              onClick={() => this.onDeleteItem(row._id, this.props.fetchData)}
+              style={{ color: '#595959' }}
+            >
               {t('stationAutoManager.delete.label')}
             </a>
           )}
@@ -295,7 +298,7 @@ export default class StationAutoList extends React.Component {
         <Breadcrumb items={['list']} />
 
         {/* FORM CONTROL */}
-        <Row style={{marginBottom: 20}} type="flex">
+        <Row style={{ marginBottom: 20 }} type="flex">
           <Col span={24}>
             <StationAutoSearchForm
               onChangeSearch={this.props.onChangeSearch}
