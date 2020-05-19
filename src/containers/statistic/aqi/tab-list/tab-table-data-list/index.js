@@ -68,7 +68,6 @@ export default class TableDataList extends React.PureComponent {
 
   showTotal = (total, range) => ` ${range[1]}/${total}`;
   render() {
-    console.log(this.props.dataAQI, "--this.props.dataAQI--");
     return (
       <div>
         <Table
