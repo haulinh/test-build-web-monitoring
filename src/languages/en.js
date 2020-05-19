@@ -1713,7 +1713,7 @@ export default {
             <p style="margin-left: 20px">1. Configuration information with control device</p>
             <p style="margin-left: 20px">2. Operation status of control device</p>
             <p style="margin-left: 20px">3. Network signal to control device</p>
-          </div>  
+          </div>
         `
       }
     }
@@ -1885,6 +1885,14 @@ export default {
     }
   },
   cameraControl: {
+    station: {
+      label: 'Station name',
+      placeholder: 'Select station'
+    },
+    stationType: {
+      label: 'Station type',
+      placeholder: 'Select station type'
+    },
     selectStationPlaceholder: 'Input Station Name'
   },
   support: {

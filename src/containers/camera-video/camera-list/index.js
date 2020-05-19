@@ -5,14 +5,16 @@ import Breadcrumb from '../breadcrumb'
 import ListItem from './list-item'
 import StationAutoApi from 'api/StationAuto'
 import * as _ from 'lodash'
-import { Input } from 'antd'
 import { getAuthToken } from 'api/CameraApi'
-import { Spin } from 'antd'
+import { Spin, Empty } from 'antd'
 import swal from 'sweetalert2'
+import CameraFilter from '../camera-filter'
+import queryString from 'query-string'
 
 const WrapperContainer = styled.div`
   display: flex;
   flex-flow: row wrap;
+  padding: 16px 0;
 `
 
 const SpinnerContainer = styled.div`
@@ -29,12 +31,17 @@ export default class CameraList extends React.Component {
     auth: '',
     searchString: '',
     cameraList: [],
-    cameraListNotUnicode: []
+    cameraListNotUnicode: [],
+    dataSearch: {
+      station: 'ALL',
+      stationType: 'ALL',
+      province: ''
+    }
   }
 
-  handleCamera = e => {}
+  handleCamera = e => { }
 
-  async componentDidMount() {
+  async componentDidMount () {
     const auth = await getAuthToken()
     if (!auth) {
       swal({
@@ -49,6 +56,7 @@ export default class CameraList extends React.Component {
       cameraList = cameraList.concat(
         _.map(_.get(options, 'camera.list', []), (item, index) => ({
           key: `${key}_${index}`,
+          stationKey: key,
           stationName: name,
           stationType,
           src: `${item.rtspUrl}?resolution=360p&sfd&rt`,
@@ -73,33 +81,52 @@ export default class CameraList extends React.Component {
     })
   }
 
-  searchResult = (cameraListNotUnicode, searchString) => {
-    return _.filter(cameraListNotUnicode, item => {
-      if (searchString === '') return true
-      const regex = new RegExp(searchString, 'gi')
-      const isMatchSearch =
-        regex.test(item.name) || regex.test(item.stationName)
-      return isMatchSearch
-    })
-  }
-
   saveSearchString = e => {
     this.setState({ searchString: e.target.value })
   }
 
-  renderSearch = () => {
-    //todo: chuyển search camera thành đa ngôn ngữ, dùng translate
-    return (
-      <Input.Search
-        placeholder="Search camera"
-        onChange={this.saveSearchString}
-      />
+  getCameraFilter = ({ station, stationType }) => {
+    if (station === 'ALL') {
+      return this.state.cameraList.filter(
+        camera =>
+          !stationType ||
+          camera.stationType.key === stationType ||
+          stationType === 'ALL'
+      )
+    }
+
+    if (stationType === 'ALL') {
+      return this.state.cameraList.filter(
+        camera => !station || camera.stationKey === station || station === 'ALL'
+      )
+    }
+
+    return this.state.cameraList.filter(
+      camera =>
+        camera.stationKey === station && camera.stationType.key === stationType
     )
   }
 
-  render() {
-    const { cameraList, cameraListNotUnicode, searchString } = this.state
-    const searchResult = this.searchResult(cameraListNotUnicode, searchString)
+  onChangeSearch = dataSearch => {
+    this.setState({ dataSearch })
+  }
+
+  renderSearch = () => {
+    let data = {}
+    const query = queryString.parse(this.props.location.search)
+    if (query.stationKey) {
+      data.stationKey = query.stationKey
+    }
+    if (query.stationType) {
+      data.stationType = query.stationType
+    }
+    return (
+      <CameraFilter onChangeSearch={this.onChangeSearch} initialValues={data} />
+    )
+  }
+
+  render () {
+    const cameraList = this.getCameraFilter(this.state.dataSearch)
 
     return (
       <PageContainer headerCustom={this.renderSearch()}>
@@ -112,16 +139,15 @@ export default class CameraList extends React.Component {
 
         <WrapperContainer>
           {this.state.isLoaded &&
-            _.filter(cameraList, rawItem => {
-              return _.find(searchResult, { key: rawItem.key })
-            }).map(camera => (
+            cameraList.length > 0 ?
+            cameraList.map(camera => (
               <ListItem
                 auth={this.state.auth}
                 key={`${camera.key}`}
                 camera={camera}
                 onCameraClick={this.handleCamera}
               />
-            ))}
+            )) : <Empty style={{ margin: '0 auto', padding: '8px 16px' }} />}
         </WrapperContainer>
       </PageContainer>
     )
@@ -129,7 +155,7 @@ export default class CameraList extends React.Component {
 }
 
 /* NOTE  function dùng để remove dấu trong Tiếng Việt */
-function removeUnicodeText(str) {
+function removeUnicodeText (str) {
   var defaultDiacriticsRemovalMap = [
     {
       base: 'A',

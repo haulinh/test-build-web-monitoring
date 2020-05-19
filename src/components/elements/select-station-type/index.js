@@ -55,10 +55,14 @@ export default class SelectStationType extends PureComponent {
   }
 
   onChange(value) {
+    if (!value) {
+      this.setState({ value: 'ALL' }, () => {
+        this.props.onChange('ALL')
+      })
+      return
+    }
     let res = this.state.stationTypes.find(item => item.key === value)
-    this.setState({
-      value: value
-    })
+    this.setState({ value })
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
     if (this.props.onChange) this.props.onChange(value)
   }
@@ -68,6 +72,7 @@ export default class SelectStationType extends PureComponent {
 
     return (
       <Select
+        allowClear
         showSearch
         style={{ width: '100%' }}
         {...this.props}
@@ -75,7 +80,7 @@ export default class SelectStationType extends PureComponent {
         value={this.state.value}
       >
         {this.props.isShowAll && (
-          <Select.Option value={''}>
+          <Select.Option value="ALL">
             {translate('dataSearchFrom.form.all')}
           </Select.Option>
         )}
