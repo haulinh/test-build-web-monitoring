@@ -2,17 +2,16 @@ import React, { PureComponent } from 'react'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
 import StationAutoApi from 'api/StationAuto'
-import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
 
-@autobind
 export default class SelectStation extends PureComponent {
   static propTypes = {
     query: PropTypes.object,
     label: PropTypes.string,
     onChange: PropTypes.func,
     value: PropTypes.string,
-    isShowAll: PropTypes.bool
+    isShowAll: PropTypes.bool,
+    stationType: PropTypes.string
   }
 
   state = {
@@ -21,7 +20,11 @@ export default class SelectStation extends PureComponent {
   }
 
   async componentDidMount() {
-    const stations = await StationAutoApi.getCamera()
+    const stations = await StationAutoApi.getStationAutos({
+      page: 1,
+      itemPerPage: 10000000
+    })
+    // const stations = await StationAutoApi.getCamera();
 
     if (stations.success)
       this.setState({
@@ -30,7 +33,29 @@ export default class SelectStation extends PureComponent {
       })
   }
 
-  onChange(value) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.stationType !== this.props.stationType) {
+      this.onChange('ALL')
+      // const station = this.state.stations.find(
+      //   ({ stationType }) => stationType.key === nextProps.stationType
+      // );
+      // if (station) {
+      //   this.onChange(station.key);
+      // } else {
+      //   this.onChange("ALL");
+      // }
+    }
+  }
+
+  getStations = () => {
+    const { stationType } = this.props
+    return this.state.stations.filter(
+      station =>
+        station.stationType.key === stationType || stationType === 'ALL'
+    )
+  }
+
+  onChange = value => {
     let res = this.state.stations.find(item => item.key === value)
     this.setState({
       value: value
@@ -40,6 +65,7 @@ export default class SelectStation extends PureComponent {
   }
 
   render() {
+    const stations = this.getStations()
     return (
       <Select
         showSearch
@@ -55,7 +81,7 @@ export default class SelectStation extends PureComponent {
         <Select.Option key={'ALL'} value={'ALL'}>
           {translate('dataSearchFrom.form.all')}
         </Select.Option>
-        {this.state.stations.map(station => (
+        {stations.map(station => (
           <Select.Option key={station.key} value={station.key}>
             {station.name}
           </Select.Option>

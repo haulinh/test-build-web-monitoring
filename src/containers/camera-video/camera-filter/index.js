@@ -121,6 +121,7 @@ export default class CameraFilter extends React.PureComponent {
           <Label>{t('cameraControl.station.label')}</Label>
           <SelectStationCamera
             onChange={this.changeStation}
+            stationType={this.state.stationType}
             value={this.state.station}
             placeholder={t('cameraControl.station.placeholder')}
           />
