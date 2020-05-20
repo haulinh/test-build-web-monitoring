@@ -121,8 +121,6 @@ const ActionWrapper = styled.div`
 //   }
 // `
 
-const defaultChartType = "hours";
-
 @connect((state) => ({
   authRole: state.auth.userInfo.role,
   isAdmin: state.auth.userInfo.isAdmin,
@@ -152,9 +150,6 @@ export default class StationAutoHead extends React.PureComponent {
     isLoaded: false,
     isEnable: false,
     currentAction: "",
-    isLoadingInfoStation: true,
-    InfoStationData: {},
-    chartType: "",
     visibleDrawer: false,
   };
 
@@ -180,17 +175,6 @@ export default class StationAutoHead extends React.PureComponent {
         ? this.props.currentActionDefault
         : "",
     });
-
-    this.setState({ isLoading: true });
-
-    const res = await getStationAuto(this.props._id);
-    if (res.success) {
-      this.setState({
-        isLoadingInfoStation: false,
-        InfoStationData: res.data,
-        chartType: defaultChartType,
-      });
-    }
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps) => {
@@ -514,7 +498,6 @@ export default class StationAutoHead extends React.PureComponent {
           <DrawerInfoStation
             onClose={this.onClose}
             visibleDrawer={this.state.visibleDrawer}
-            data={this.state.InfoStationData}
             _id={_id}
           />
         </ActionWrapper>

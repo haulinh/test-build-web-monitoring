@@ -1176,6 +1176,11 @@ export default {
       addressLabel: 'Address ftp:',
       usernameLabel: 'Username:',
       passwordLabel: 'Password:'
+    },
+    infoStation: {
+      title: 'Station Information',
+      edit: 'Edit',
+      career: "Career"
     }
   },
   parameterManager: {

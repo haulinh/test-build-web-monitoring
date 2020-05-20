@@ -1173,6 +1173,11 @@ export default {
       addressLabel: 'Địa chỉ ftp:',
       usernameLabel: 'Tên đăng nhập:',
       passwordLabel: 'Mật khẩu:'
+    },
+    infoStation: {
+      title: 'Thông tin trạm',
+      edit: 'Chỉnh sửa',
+      career: "Ngành nghề"
     }
   },
   parameterManager: {
