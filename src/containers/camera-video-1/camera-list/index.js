@@ -29,7 +29,6 @@ export default class CameraList extends React.Component {
   state = {
     isLoaded: false,
     auth: '',
-    countStartCamera: 0,
     searchString: '',
     cameraList: [],
     cameraListNotUnicode: [],
@@ -83,21 +82,7 @@ export default class CameraList extends React.Component {
   }
 
   saveSearchString = e => {
-    this.setState({
-      searchString: e.target.value
-    })
-  }
-
-  cbPlay = () => {
-    this.setState(prevState => ({
-      countStartCamera: prevState.countStartCamera + 1
-    }))
-  }
-
-  cbStop = () => {
-    this.setState(prevState => ({
-      countStartCamera: prevState.countStartCamera - 1
-    }))
+    this.setState({ searchString: e.target.value })
   }
 
   getCameraFilter = ({ station, stationType }) => {
@@ -126,7 +111,7 @@ export default class CameraList extends React.Component {
     this.setState({ dataSearch })
   }
 
-  renderFilter = () => {
+  renderSearch = () => {
     let data = {}
     const query = queryString.parse(this.props.location.search)
     if (query.stationKey) {
@@ -142,8 +127,9 @@ export default class CameraList extends React.Component {
 
   render() {
     const cameraList = this.getCameraFilter(this.state.dataSearch)
+
     return (
-      <PageContainer headerCustom={this.renderFilter()}>
+      <PageContainer headerCustom={this.renderSearch()}>
         <Breadcrumb items={['list']} />
         {!this.state.isLoaded && (
           <SpinnerContainer>
@@ -159,18 +145,10 @@ export default class CameraList extends React.Component {
                 key={`${camera.key}`}
                 camera={camera}
                 onCameraClick={this.handleCamera}
-                countStartCamera={this.state.countStartCamera}
-                cbPlay={this.cbPlay}
-                cbStop={this.cbStop}
               />
             ))
           ) : (
-            <Empty
-              style={{
-                margin: '0 auto',
-                padding: '8px 16px'
-              }}
-            />
+            <Empty style={{ margin: '0 auto', padding: '8px 16px' }} />
           )}
         </WrapperContainer>
       </PageContainer>

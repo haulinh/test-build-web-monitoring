@@ -42,7 +42,7 @@ export const GridSticky = styled.div`
 const BreadcrumbContainer = styled.div`
   // padding: 8px 0px;
   background-color: ${SHAPE.GRAYLIGHT};
-  height: 68.8px;
+  /* height: 68.8px; */
 `
 
 const PageBodyWrapper = styled.div`

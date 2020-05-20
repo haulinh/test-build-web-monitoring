@@ -433,7 +433,7 @@ export default {
       chart: 'Biểu đồ',
       exportExcel: 'Xuất dữ liệu excel',
       statusExport: 'Đang xuất dữ liệu...',
-      dataProcess: 'Xử lý số liệu'
+      dataProcess: 'Tính lại kết quả'
     },
     analyze: {
       max: 'Giá trị tối đa',
@@ -1885,6 +1885,14 @@ export default {
     }
   },
   cameraControl: {
+    station: {
+      label: 'Tên trạm quan trắc',
+      placeholder: 'Lựa chọn trạm quan trắc'
+    },
+    stationType: {
+      label: 'Loại trạm',
+      placeholder: 'Lựa chọn loại trạm quan trắc'
+    },
     selectStationPlaceholder: 'Nhập tên trạm'
   },
   support: {
