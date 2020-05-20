@@ -1177,7 +1177,8 @@ export default {
     infoStation: {
       title: 'Thông tin trạm',
       edit: 'Chỉnh sửa',
-      career: "Ngành nghề"
+      career: 'Ngành nghề',
+      emptyText: 'Không có dữ liệu'
     }
   },
   parameterManager: {

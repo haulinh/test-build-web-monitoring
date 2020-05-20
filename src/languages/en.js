@@ -1180,7 +1180,8 @@ export default {
     infoStation: {
       title: 'Station Information',
       edit: 'Edit',
-      career: "Career"
+      career: 'Career',
+      emptyText: 'Not have data'
     }
   },
   parameterManager: {
