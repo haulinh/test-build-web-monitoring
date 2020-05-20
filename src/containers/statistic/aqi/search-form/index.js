@@ -11,18 +11,19 @@ import createValidateComponent from 'components/elements/redux-form-validate'
 import moment from 'moment-timezone'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
+import { DD_MM_YYYY } from 'constants/format-date'
 import SelectStationConfigAQI from '../../common/select-station-config-aqi'
 import SelectStationTypeConfigAQI from '../../common/select-station-type-config-aqi'
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
-import OptionsMonth from '../../common/options-time-month'
+import OptionsMonthRange from '../../common/options-time-month-range'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationTypeConfigAQI = createValidateComponent(
   SelectStationTypeConfigAQI
 )
 const FSelectStationConfigAQI = createValidateComponent(SelectStationConfigAQI)
-const FOptionsMonth = createValidateComponent(OptionsMonth)
+const FOptionsMonthRange = createValidateComponent(OptionsMonthRange)
 
 const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
@@ -120,18 +121,24 @@ export default class SearchForm extends React.Component {
     this.props.change('station', '')
   }
 
-  handleChangeMonth = month => {
-    const fromTime = moment(month)
-      .startOf('months')
+  hanldeOnchangeFramTime = (time, timeString) => {
+    const to = moment(time)
+      .subtract(23, 'hours')
+      .format('HH:mm')
+    // console.log(to,  'hanldeOnchangeFramTime')
+    this.setState({
+      timezoneTo: to,
+      timezoneDay: moment(time).format('HH')
+    })
+  }
+  handleChangeDate = (fromDate, toDate) => {
+    const fromTime = moment(fromDate)
       .utc()
       .format()
-    const toTime = moment(month)
-      .endOf('months')
+    const toTime = moment(toDate)
       .utc()
       .format()
-    // console.log("-------START-------")
-    // console.log(moment(fromTime).format(DD_MM_YYYY_HH_MM),moment(toTime).format(DD_MM_YYYY_HH_MM))
-    // console.log("------END--------")
+    // console.log(fromTime, toTime)
     this.setState({
       fromDate: fromTime,
       toDate: toTime
@@ -199,11 +206,12 @@ export default class SearchForm extends React.Component {
             </Col>
             <Col span={12}>
               <Field
-                label={t('time')}
-                name="rangesDate"
+                label={translate('aqiSearchForm.form.inRange.label')}
+                name="inRange"
                 size="large"
-                onChangeMonth={this.handleChangeMonth}
-                component={FOptionsMonth}
+                formatDate={DD_MM_YYYY}
+                onChangeDate={this.handleChangeDate}
+                component={FOptionsMonthRange}
               />
             </Col>
           </Row>
