@@ -6,6 +6,7 @@ import { get as _get } from 'lodash'
 import { autobind } from 'core-decorators'
 import { translate, removeAccents } from 'hoc/create-lang'
 import { connect } from 'react-redux'
+import { replaceVietnameseStr } from 'utils/string'
 
 @connect(state => ({
   language: _get(state, 'language.locale')
@@ -28,7 +29,8 @@ export default class SelectStationType extends PureComponent {
 
   state = {
     stationTypes: [],
-    value: ''
+    value: '',
+    searchString: ''
   }
 
   async componentDidMount() {
@@ -55,6 +57,7 @@ export default class SelectStationType extends PureComponent {
   }
 
   onChange(value) {
+    this.setState({ searchString: '' })
     if (!value && this.props.isShowAll) {
       this.setState({ value: 'ALL' }, () => {
         this.props.onChange('ALL')
@@ -67,24 +70,41 @@ export default class SelectStationType extends PureComponent {
     if (this.props.onChange) this.props.onChange(value)
   }
 
+  handleSearch = value => {
+    this.setState({ searchString: value })
+  }
+
+  getStationTypes = () => {
+    if (this.state.searchString) {
+      const searchString = replaceVietnameseStr(this.state.searchString)
+      return this.state.stationTypes.filter(
+        stationType =>
+          replaceVietnameseStr(stationType.name).indexOf(searchString) > -1
+      )
+    }
+    return this.state.stationTypes
+  }
+
   render() {
     const { language } = this.props
-
+    const stationTypes = this.getStationTypes()
     return (
       <Select
         allowClear
         showSearch
+        onSearch={this.handleSearch}
         style={{ width: '100%' }}
         {...this.props}
         onChange={this.onChange}
         value={this.state.value}
+        filterOption={false}
       >
         {this.props.isShowAll && (
           <Select.Option value="ALL">
             {translate('dataSearchFrom.form.all')}
           </Select.Option>
         )}
-        {this.state.stationTypes.map(stationType => (
+        {stationTypes.map(stationType => (
           <Select.Option key={stationType.key} value={stationType.key}>
             {removeAccents(language, stationType.name)}
           </Select.Option>

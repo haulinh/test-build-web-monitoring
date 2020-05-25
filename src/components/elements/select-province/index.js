@@ -5,6 +5,7 @@ import ProvinceApi from 'api/ProvinceApi'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
 import { get } from 'lodash'
+import { replaceVietnameseStr } from 'utils/string'
 
 @autobind
 export default class SelectProvice extends PureComponent {
@@ -18,7 +19,8 @@ export default class SelectProvice extends PureComponent {
 
   state = {
     lstProvices: [],
-    value: ''
+    value: '',
+    searchString: ''
   }
 
   async componentDidMount() {
@@ -32,6 +34,10 @@ export default class SelectProvice extends PureComponent {
     }
   }
 
+  handleSearch = value => {
+    this.setState({ searchString: value })
+  }
+
   onChange = value => {
     console.log(value)
     let res = this.state.lstProvices.find(item => item.key === value)
@@ -42,7 +48,19 @@ export default class SelectProvice extends PureComponent {
     if (this.props.onChange) this.props.onChange(value)
   }
 
+  getLstProvices = () => {
+    if (this.state.searchString) {
+      const searchString = replaceVietnameseStr(this.state.searchString)
+      return this.state.lstProvices.filter(
+        stationType =>
+          replaceVietnameseStr(stationType.name).indexOf(searchString) > -1
+      )
+    }
+    return this.state.lstProvices
+  }
+
   render() {
+    const lstProvices = this.getLstProvices()
     return (
       <Select
         style={{ width: '100%' }}
@@ -50,14 +68,16 @@ export default class SelectProvice extends PureComponent {
         allowClear
         {...this.props}
         onChange={this.onChange}
+        onSearch={this.handleSearch}
         value={this.state.value}
+        filterOption={false}
       >
         {this.props.isShowAll && (
           <Select.Option value={''}>
             {translate('dataSearchFrom.form.all')}
           </Select.Option>
         )}
-        {this.state.lstProvices.map(province => (
+        {lstProvices.map(province => (
           <Select.Option key={province.key} value={province.key}>
             {province.name}
           </Select.Option>
