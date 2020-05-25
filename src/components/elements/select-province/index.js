@@ -33,6 +33,7 @@ export default class SelectProvice extends PureComponent {
   }
 
   onChange = value => {
+    console.log(value)
     let res = this.state.lstProvices.find(item => item.key === value)
     this.setState({
       value: value
@@ -46,6 +47,7 @@ export default class SelectProvice extends PureComponent {
       <Select
         style={{ width: '100%' }}
         showSearch
+        allowClear
         {...this.props}
         onChange={this.onChange}
         value={this.state.value}

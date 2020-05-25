@@ -55,7 +55,7 @@ export default class SelectStationType extends PureComponent {
   }
 
   onChange(value) {
-    if (!value) {
+    if (!value && this.props.isShowAll) {
       this.setState({ value: 'ALL' }, () => {
         this.props.onChange('ALL')
       })
