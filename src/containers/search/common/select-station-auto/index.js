@@ -71,6 +71,7 @@ export default class SelectStationAuto extends React.Component {
     return (
       <Select
         {...this.props}
+        allowClear
         onChange={this.handleChange}
         showSearch
         value={this.props.setKey ? this.props.stationAutoKey : this.props.value}

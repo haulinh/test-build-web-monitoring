@@ -117,7 +117,7 @@ export default class SearchForm extends React.Component {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
                   }
-                })(<SelectProvince size="large" />)}
+                })(<SelectProvince isShowAll size="large" />)}
               </Item>
             </Col>
             <Col span={6}>
