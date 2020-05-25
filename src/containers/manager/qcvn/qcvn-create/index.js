@@ -18,6 +18,7 @@ export default class QCVNCreate extends React.PureComponent {
       message.info('Add measuring success!')
       this.props.history.push(slug.qcvn.list)
     }
+    return res
   }
 
   render() {

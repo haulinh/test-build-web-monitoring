@@ -25,16 +25,23 @@ export default class MeasuringCreate extends React.PureComponent {
   }
 
   async handleSubmit(data) {
-    this.props.onCreateItem(data, res => {
+    let result
+    await this.props.onCreateItem(data, res => {
+      result = res
       if (res.success) {
         message.info(this.props.lang.t('addon.onSave.add.success'))
         this.props.history.push(slug.measuring.list)
-      } else {
-        if (res.message === 'KEY_EXISTED')
-          message.error(this.props.lang.t('measuringManager.create.keyExisted'))
-        else message.error(this.props.lang.t('addon.onSave.add.error'))
       }
+      //  else {
+      // 	if (res.message === 'KEY_EXISTED')
+      // 		message.error(
+      // 			this.props.lang.t('measuringManager.create.keyExisted')
+      // 		);
+      // 	else message.error(this.props.lang.t('addon.onSave.add.error'));
+      // }
     })
+    console.log(result)
+    return result
   }
 
   render() {
