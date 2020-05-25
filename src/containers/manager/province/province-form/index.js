@@ -22,7 +22,7 @@ export default class ProvinceForm extends React.PureComponent {
   }
   handleSubmit(e) {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (err) return
       const data = {
         key: values.key,
@@ -30,8 +30,19 @@ export default class ProvinceForm extends React.PureComponent {
         numericalOrder: values.numericalOrder
       }
       // Callback submit form Container Component
-      console.log(data)
-      this.props.onSubmit(data)
+      const res = await this.props.onSubmit(data)
+      if (res.error) {
+        if (res.message === 'KEY_EXISTED') {
+          this.props.form.setFields({
+            key: {
+              value: values.key,
+              errors: [
+                new Error(this.props.lang.t('province.create.keyExisted'))
+              ]
+            }
+          })
+        }
+      }
     })
   }
   render() {

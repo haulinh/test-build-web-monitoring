@@ -18,6 +18,7 @@ export default class ProvinceCreate extends React.PureComponent {
       message.info('Add  success!')
       this.props.history.push(slug.province.list)
     }
+    return res
   }
 
   render() {
