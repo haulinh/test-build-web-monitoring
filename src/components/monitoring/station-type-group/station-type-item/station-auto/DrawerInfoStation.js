@@ -134,7 +134,7 @@ export default class DrawerInfoStation extends React.Component {
           <WrapperItem span={14}>
             <Button
               target='_blank'
-              href={slug.stationAuto.editWithKey + "/" + _id}
+              href={slug.stationAuto.editWithKey + "/" + _id + "/otherForm"}
             >
               <Icon
                 style={{ fontSize: "16px", color: "#1890ff" }}
