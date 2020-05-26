@@ -1211,7 +1211,8 @@ export default {
       email: {
         label: 'Địa chỉ Email',
         placeholder: 'Địa chỉ Email',
-        error: 'Địa chỉ Email không hợp lệ'
+        error: 'Địa chỉ Email không hợp lệ',
+        errorExist: 'Địa chỉ email này đã tồn tại'
       },
       password: {
         label: 'Mật khẩu',

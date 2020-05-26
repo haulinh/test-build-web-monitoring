@@ -1214,7 +1214,8 @@ export default {
       email: {
         label: 'Email Address',
         placeholder: 'Email Address',
-        error: 'The Input Email Address Is Not Valid'
+        error: 'The Input Email Address Is Not Valid',
+        errorExist: 'Email Address Is Exist'
       },
       password: {
         label: 'Password',
