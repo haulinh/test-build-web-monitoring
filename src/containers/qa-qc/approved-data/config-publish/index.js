@@ -48,17 +48,18 @@ export default class ConfigPublishContainer extends React.Component {
         width: 100,
         align: "center",
         render: (value, record) => {
+          const isChecked = _.get(value, ["published", "allowed"]);
           return (
             <Checkbox
-              defaultChecked={_.get(value, ["published", "allowed"])}
-              onChange={(checked) => {
-                console.log(`station ${record.name}`);
+              checked={isChecked}
+              defaultChecked={isChecked}
+              onChange={(event) => {
                 const measuringListChecked = [];
                 _.forEach(record.measuringList, (obj) =>
                   measuringListChecked.push(obj.key)
                 );
-                this.handleStationPublish(record._id, checked);
-                checked
+                this.handleStationPublish(record._id, event);
+                event.target.checked
                   ? this.handleOptionChange(record._id, measuringListChecked)
                   : this.handleOptionChange(record._id, []);
               }}
@@ -86,14 +87,6 @@ export default class ConfigPublishContainer extends React.Component {
             };
           });
 
-          const optionsChecked = _.get(
-            record,
-            ["options", "published", "measureList"],
-            []
-          );
-
-          console.log("options checked", optionsChecked);
-
           const defaultValue = _.get(
             record,
             ["options", "published", "measureList"],
@@ -118,6 +111,15 @@ export default class ConfigPublishContainer extends React.Component {
               options={options}
               onChange={(option) => {
                 this.handleOptionChange(record._id, option);
+                if (_.isEmpty(option)) {
+                  this.handleStationPublish(record._id, {
+                    event: {
+                      target: {
+                        checked: false,
+                      },
+                    },
+                  });
+                }
               }}
             />
           );
@@ -151,13 +153,11 @@ export default class ConfigPublishContainer extends React.Component {
   }
 
   async loadData() {
-    console.log("reload");
     const rs = await StationAutoApi.getLastLog();
     this.setState({ list: _.get(rs, "data", []) });
   }
 
   render() {
-    console.log("-----------------------------------");
     return (
       <div>
         {getConfigApi().isAdvanced && (
