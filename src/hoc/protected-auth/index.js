@@ -54,15 +54,17 @@ export default function createProtectedAuth(Component) {
         const user = {
           user_id: this.props.authMe._id,
           email: this.props.authMe.email,
-          name: this.props.authMe.firstName + " " + this.props.authMe.lastName
+          name: this.props.authMe.firstName + ' ' + this.props.authMe.lastName
         }
 
         console.log(window.config.intercomID)
 
-        return <div style={{ height: "100%" }} className="app">
-          <Component {...this.props} />
-          <Intercom appID={window.config.intercomID} {...user} />
-        </div>
+        return (
+          <div style={{ height: '100%' }} className="app">
+            <Component {...this.props} />
+            <Intercom appID={window.config.intercomID} {...user} />
+          </div>
+        )
       }
       if (this.props.isPending)
         return (
