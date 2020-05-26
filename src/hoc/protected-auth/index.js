@@ -23,7 +23,7 @@ export default function createProtectedAuth(Component) {
   @withRouter
   @connectAutoDispatch(
     state => ({
-      authMe: state.auth.me,
+      authMe: state.auth.userInfo,
       isAuthenticated: state.auth.isAuthenticated,
       isPending: state.auth.isPending,
       isFail: state.auth.isFail
@@ -57,9 +57,11 @@ export default function createProtectedAuth(Component) {
           name: this.props.authMe.firstName + " " + this.props.authMe.lastName
         }
 
-        return <div style={{height: "100%"}} className="app">
+        console.log(window.config.intercomID)
+
+        return <div style={{ height: "100%" }} className="app">
           <Component {...this.props} />
-          <Intercom appID={window.config.intercomID} {...user}>
+          <Intercom appID={window.config.intercomID} {...user} />
         </div>
       }
       if (this.props.isPending)
