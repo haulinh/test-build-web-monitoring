@@ -292,7 +292,7 @@ export default class StationAutoHead extends React.PureComponent {
             </Button>
           )}
 
-          {/* <Button
+          <Button
             className="actionItem"
             type={currentAction === 'chart' ? 'primary' : 'default'}
             onClick={() => this.handleActionOnClick('chart')}
@@ -312,7 +312,7 @@ export default class StationAutoHead extends React.PureComponent {
           >
             {i18n.map}
           </Button>
-          <Button
+          {/* <Button
             className="actionItem"
             type={currentAction === 'image' ? 'primary' : 'default'}
             onClick={() => this.handleActionOnClick('image')}
@@ -416,7 +416,7 @@ export default class StationAutoHead extends React.PureComponent {
           <Dropdown
             overlay={
               <Menu>
-                <Menu.Item
+                {/* <Menu.Item
                   key="1"
                   disabled={
                     !checkRolePriority(
@@ -438,15 +438,9 @@ export default class StationAutoHead extends React.PureComponent {
                 >
                   {i18n.map}
                 </Menu.Item>
-                <Divider style={{ margin: 0 }} />
+                <Divider style={{ margin: 0 }} /> */}
                 <Menu.Item
                   key="3"
-                  // disabled={
-                  //   checkRolePriority(
-                  //     this.props.userInfo,
-                  //     ROLE.QAQCCONFIG.VIEW
-                  //   )
-                  // }
                   disabled={
                     !checkRolePriority(
                       this.props.userInfo,
@@ -460,12 +454,6 @@ export default class StationAutoHead extends React.PureComponent {
                 <Divider style={{ margin: 0 }} />
                 <Menu.Item
                   key="4"
-                  // disabled={
-                  //     this.props.userInfo,
-                  //   !checkRolePriority(
-                  //     ROLE.STATION_AUTO.EDIT
-                  //   )
-                  // }
                   disabled={
                     !checkRolePriority(
                       this.props.userInfo,

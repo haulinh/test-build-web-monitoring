@@ -1181,7 +1181,13 @@ export default {
       title: 'Station Information',
       edit: 'Edit',
       career: 'Career',
-      emptyText: 'Not have data'
+      emptyText: 'Not have data',
+      yearOperate: 'Year Operate',
+      capacity: "Capacity",
+      processProdution: 'Process Production',
+      userResponsible: "User Responsible",
+      userSupervisor: "User Supervisor",
+      website: "Website"
     }
   },
   parameterManager: {

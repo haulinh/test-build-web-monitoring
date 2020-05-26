@@ -1178,7 +1178,13 @@ export default {
       title: 'Thông tin trạm',
       edit: 'Chỉnh sửa',
       career: 'Ngành nghề',
-      emptyText: 'Không có dữ liệu'
+      emptyText: 'Không có dữ liệu',
+      yearOperate: 'Năm bắt đầu hoạt động',
+      capacity: "Công xuất thiết kế",
+      processProdution: 'Quy trình sản xuất',
+      userResponsible: "Người chịu trách nhiệm",
+      userSupervisor: "NGười dám sát",
+      website: "Website"
     }
   },
   parameterManager: {
