@@ -625,7 +625,8 @@ export default {
       key: {
         label: 'Mã trạm',
         placeholder: 'Nhập mã trạm',
-        error: 'Vui lòng nhập mã trạm'
+        error: 'Vui lòng nhập mã trạm',
+        existError: 'Mã trạm đã tồn tại'
       },
       name: {
         label: 'Tên',
@@ -674,7 +675,8 @@ export default {
       key: {
         label: 'Mã QCVN',
         placeholder: 'Nhập QCVN',
-        error: 'Vui lòng nhập mã QCVN'
+        error: 'Vui lòng nhập mã QCVN',
+        existError: 'Mã QCVN đã tồn tại'
       },
       name: {
         label: 'Tên QCVN',
@@ -722,7 +724,8 @@ export default {
       key: {
         label: 'Mã đơn vị',
         placeholder: 'Nhập mã đơn vị quản lý',
-        error: 'Vui lòng nhập mã đơn vị quản lý'
+        error: 'Vui lòng nhập mã đơn vị quản lý',
+        existError: 'Mã đơn vị đã tồn tại'
       },
       name: {
         label: 'Tên đơn vị quản lý',

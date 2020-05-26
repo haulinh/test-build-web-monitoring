@@ -70,7 +70,7 @@ export default class QCVNForm extends React.PureComponent {
 
   handleSubmit(e) {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!values.measuringList) {
         const { t } = this.props.lang
         swal({
@@ -87,9 +87,20 @@ export default class QCVNForm extends React.PureComponent {
         numericalOrder: values.numericalOrder
       }
       // Callback submit form Container Component
-      this.props.onSubmit(data)
+      const res = await this.props.onSubmit(data)
+      if (res.error) {
+        if (res.message === 'KEY_EXISTED') {
+          this.props.form.setFields({
+            key: {
+              value: values.key,
+              errors: [new Error(this.props.lang.t('qcvn.create.keyExisted'))]
+            }
+          })
+        }
+      }
     })
   }
+
   handlePreview = file => {
     this.setState({
       previewImage: file.url || file.thumbUrl,

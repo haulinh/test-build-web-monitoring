@@ -626,7 +626,8 @@ export default {
       key: {
         label: 'Code',
         placeholder: 'Input Code of Type Of Station',
-        error: 'Please Input Code of Type Of Station'
+        error: 'Please Input Code of Type Of Station',
+        existError: 'Code of Type Of Station is exist'
       },
       name: {
         label: 'Name',
@@ -678,7 +679,8 @@ export default {
       key: {
         label: 'Code',
         placeholder: 'Input QCVN Code',
-        error: 'Please Input QCVN Code'
+        error: 'Please Input QCVN Code',
+        existError: 'QCVN Code is exist'
       },
       name: {
         label: 'Name',
@@ -726,7 +728,8 @@ export default {
       key: {
         label: 'Code',
         placeholder: 'Input Code Of Name',
-        error: 'Please Input Code Of Name'
+        error: 'Please Input Code Of Name',
+        existError: 'Code Of Name is exist'
       },
       name: {
         label: 'Name',

@@ -88,8 +88,8 @@ export default class OptionsTimeRange extends React.Component {
           <DatePicker.RangePicker
             open={true}
             ranges={{
-              Today: [moment(), moment()],
-              'This Month': [moment(), moment().endOf('month')]
+              Today: [moment().startOf('day'), moment().endOf('day')],
+              'This Month': [moment().startOf('month'), moment().endOf('month')]
             }}
             showTime={{
               defaultValue: [
