@@ -6,6 +6,7 @@ import LoaderCircle from 'components/elements/loader-circle'
 import { withRouter } from 'react-router-dom'
 import Errors from 'constants/errors'
 import slug from 'constants/slug'
+import Intercom from 'react-intercom'
 
 const StyledLoading = styled.div`
   position: fixed;
@@ -22,6 +23,7 @@ export default function createProtectedAuth(Component) {
   @withRouter
   @connectAutoDispatch(
     state => ({
+      authMe: state.auth.me,
       isAuthenticated: state.auth.isAuthenticated,
       isPending: state.auth.isPending,
       isFail: state.auth.isFail
@@ -49,7 +51,16 @@ export default function createProtectedAuth(Component) {
 
     render() {
       if (this.props.isAuthenticated && !this.props.isPending) {
-        return <Component {...this.props} />
+        const user = {
+          user_id: this.props.authMe._id,
+          email: this.props.authMe.email,
+          name: this.props.authMe.firstName + " " + this.props.authMe.lastName
+        }
+
+        return <div style={{height: "100%"}} className="app">
+          <Component {...this.props} />
+          <Intercom appID={window.config.intercomID} {...user}>
+        </div>
       }
       if (this.props.isPending)
         return (
