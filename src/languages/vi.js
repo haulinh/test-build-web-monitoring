@@ -1531,7 +1531,7 @@ export default {
     success: 'Thay đổi thông tin thành công',
     infoLicense: 'Thông tin gói',
     viewProfile: 'Thông tin cá nhân',
-    configStation: 'Cấu hình trạm',
+    configStation: 'Cấu hình nhận cảnh báo',
     security: 'Bảo mật',
     logOut: 'Đăng xuất',
     changePassword: 'Đổi mật khẩu',
