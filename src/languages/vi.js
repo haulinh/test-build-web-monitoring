@@ -1300,7 +1300,8 @@ export default {
       name: {
         label: 'Tên nhóm',
         placeholder: 'Nhập tên nhóm',
-        error: 'Vui lòng nhập tên nhóm'
+        error: 'Vui lòng nhập tên nhóm',
+        errorExist: 'Nhóm quyền đã tồn tại'
       },
       description: {
         label: 'Mô tả',

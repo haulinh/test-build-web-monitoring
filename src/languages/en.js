@@ -1304,7 +1304,8 @@ export default {
       name: {
         label: 'Name',
         placeholder: 'Input Name',
-        error: 'Please Input Name'
+        error: 'Please Input Name',
+        errorExist: 'Name is exist'
       },
       description: {
         label: 'Description',
