@@ -73,7 +73,7 @@ export default class StationAutoEdit extends React.PureComponent {
   }
 
   render() {
-    const { pathname } = this.props.location;
+    const { search : otherForm } = this.props.location;
     return (
       <PageContainer button={this.buttonDelete()} {...this.props.wrapperProps}>
         <Breadcrumb
@@ -94,7 +94,7 @@ export default class StationAutoEdit extends React.PureComponent {
               initialValues={this.cleanData()}
               onSubmit={this.handleSubmit}
               isEdit={true}
-              pathname={pathname}
+              otherForm={otherForm}
             />
           )}
         </Spin>

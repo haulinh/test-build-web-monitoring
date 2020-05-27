@@ -30,6 +30,7 @@ import MeasuringTable from "../station-auto-formTable/";
 import InputNumberCell from "components/elements/input-number-cell";
 import moment from "moment";
 import { get, keyBy } from "lodash";
+import animateScrollTo from "animated-scroll-to";
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -125,6 +126,14 @@ export default class StationAutoForm extends React.PureComponent {
     }
   }
 
+  componentDidMount = () => {
+    if (this.props.otherForm) {
+      animateScrollTo(9999999, {
+        speed: 900,
+      });
+    }
+  };
+
   handleChange(value, key, column) {
     const newData = [...this.state.measuringList];
     const target = newData.filter((item) => key === item.key)[0];
@@ -137,6 +146,7 @@ export default class StationAutoForm extends React.PureComponent {
   handleSubmit(e) {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+      console.log("measuringList", values.measuringList);
       if (!values.measuringList) {
         const { t } = this.props.lang;
         swal({
@@ -174,7 +184,7 @@ export default class StationAutoForm extends React.PureComponent {
         yearOperate: values.yearOperate,
         userSupervisor: values.userSupervisor,
         phoneSupervisor: values.phoneSupervisor,
-        order: values.order,
+        order: "",
       };
 
       // console.log(data, "---data---");
@@ -263,16 +273,8 @@ export default class StationAutoForm extends React.PureComponent {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-
-    const isOtherFormActive = () => {
-      if (this.props.pathname) {
-        const {pathname} = this.props
-        const otherForm = pathname.split("/")[ pathname.split("/").length - 1]
-        return otherForm === "otherForm"
-      }
-      return false
-    }
-
+    const { otherForm } = this.props;
+    console.log("other form", this.props.otherForm);
     const { t } = this.props.lang;
     const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory(
       "station-autos"
@@ -297,8 +299,12 @@ export default class StationAutoForm extends React.PureComponent {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Collapse defaultActiveKey={[isOtherFormActive() ? "2" : "1"]}>
-          <Panel header={t("stationAutoManager.form.panel1")} key='1'>
+        <Collapse defaultActiveKey={otherForm ? ["1", "2"] : ["1"]}>
+          <Panel
+            id='form1'
+            header={t("stationAutoManager.form.panel1")}
+            key='1'
+          >
             <Row gutter={8}>
               <Col span={12}>
                 <FormItem
@@ -654,10 +660,7 @@ export default class StationAutoForm extends React.PureComponent {
               measuringListSource={this.state.measuringListSource}
             />
           </Panel>
-          <Panel
-            header={t("stationAutoManager.form.panel2")}
-            key='2'
-          >
+          <Panel header={t("stationAutoManager.form.panel2")} key='2'>
             <Row gutter={8}>
               <Col span={12}>
                 <FormItem
@@ -836,7 +839,7 @@ export default class StationAutoForm extends React.PureComponent {
               </Col>
             </Row>
 
-            <Row gutter={8}>
+            {/* <Row gutter={8}>
               <Col span={24} style={{ paddingRight: 40 }}>
                 <FormItem
                   {...formItemLayout}
@@ -857,7 +860,7 @@ export default class StationAutoForm extends React.PureComponent {
                   )}
                 </FormItem>
               </Col>
-            </Row>
+            </Row> */}
           </Panel>
         </Collapse>
 
