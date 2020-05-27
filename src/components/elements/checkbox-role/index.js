@@ -32,7 +32,6 @@ export default class CheckBoxRole extends PureComponent {
     }
 
     const UserRole = _get(record, 'data.organization.menu', [])
-    console.log(Object.keys(UserRole), '---record.data.organization.menu')
     let arr = Object.keys(UserRole).map(key => {
       return {
         key: key,
@@ -53,24 +52,62 @@ export default class CheckBoxRole extends PureComponent {
   }
 
   async onChangeMenu(e, menuName) {
-    this.setState(
-      {
-        menu: {
-          ...this.state.menu,
-          [menuName]: e.target.checked
-            ? {
-                actions: {
-                  view: e.target.checked
-                },
-                description: menuName
+    if (!e.target.checked) {
+      this.setState(
+        prevState =>
+          update(prevState, {
+            menu: {
+              [menuName]: {
+                $set: undefined
               }
-            : undefined
+            }
+          }),
+        () => {
+          this.handleCheckChange()
         }
-      },
-      () => {
-        this.handleCheckChange()
-      }
-    )
+      )
+    } else {
+      this.setState(
+        prevState =>
+          update(prevState, {
+            menu: {
+              [menuName]: {
+                $set: prevState.dataMenus.find(menu => menu.key === menuName)
+              }
+            }
+          }),
+        () => {
+          this.handleCheckChange()
+        }
+      )
+    }
+    // this.setState(prevState => update(prevState.menu, {
+    // 		[menuName]: {
+    // 			$set: e.target.checked ? : undefined
+    // 		}
+    // }),
+    // () => {
+    // 	this.handleCheckChange();
+    // }
+    // )
+    // this.setState(
+    // 	(prevState) => ({
+    // 		menu: {
+    // 			...prevState.menu,
+    // 			[menuName]: e.target.checked
+    // 				? {
+    // 						...prevState.dataMenus.find((menu) => menu.key === menuName),
+    // 						actions: {
+    // 							...prevState.dataMenus.find((menu) => menu.key === menuName)
+    // 								.actions,
+    // 							view: e.target.checked,
+    // 						},
+    // 						// description: menuName,
+    // 				  }
+    // 				: undefined,
+    // 		},
+    // 	}),
+    // );
   }
 
   async onChangeRule(e, menuName, actionName) {
@@ -92,12 +129,40 @@ export default class CheckBoxRole extends PureComponent {
     )
   }
 
+  isIndeterminate = key => {
+    const menuData = this.state.menu[key]
+    if (!menuData) return false
+    return (
+      !this.isChecked(key) &&
+      Object.keys(menuData.actions).some(
+        actionKey => menuData.actions[actionKey]
+      )
+    )
+  }
+
+  isChecked = key => {
+    const menuData = this.state.menu[key]
+    if (!menuData) return false
+    return Object.keys(menuData.actions).every(
+      actionKey => menuData.actions[actionKey]
+    )
+  }
+
+  isDisable = key => {
+    const menuData = this.state.menu[key]
+    if (!menuData) return true
+    return Object.keys(menuData.actions).every(
+      actionKey => !menuData.actions[actionKey]
+    )
+  }
+
   getColumns() {
     const {
       lang: { t }
     } = this.props
     return [
       {
+        key: 'index',
         title: t('roleManager.tableHeader.stt'),
         dataIndex: 'key',
         render: (text, record, index) => {
@@ -114,7 +179,8 @@ export default class CheckBoxRole extends PureComponent {
               onChange={e => {
                 this.onChangeMenu(e, record.key)
               }}
-              checked={this.state.menu[record.key] ? true : false}
+              indeterminate={this.isIndeterminate(record.key)}
+              checked={this.isChecked(record.key)}
             >
               {t(`roleManager.rule.${record.key}.name`)}
             </Checkbox>
@@ -141,10 +207,12 @@ export default class CheckBoxRole extends PureComponent {
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               {arrActions &&
                 arrActions.map((actionName, index) => {
-                  if (actionName === 'view') return <div />
-
+                  // if (actionName === 'view') return <div key={index} />;
                   return (
-                    <div style={{ paddingBottom: '8px', width: '25%' }}>
+                    <div
+                      key={index}
+                      style={{ paddingBottom: '8px', width: '25%' }}
+                    >
                       {record.actions[actionName] && (
                         <Checkbox
                           key={index}
@@ -152,11 +220,7 @@ export default class CheckBoxRole extends PureComponent {
                             this.onChangeRule(e, record.key, actionName)
                           }}
                           checked={actionsOrganization[actionName]}
-                          disabled={
-                            this.state.menu
-                              ? !this.state.menu[record.key]
-                              : true
-                          }
+                          disabled={this.isDisable(record.key)}
                         >
                           {t(`roleManager.rule.actions.${actionName}`)}
                         </Checkbox>
