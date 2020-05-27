@@ -16,6 +16,7 @@ app.get('/app.json', function(req, res) {
       username: process.env.CAMERA_USERNAME,
       password: process.env.CAMERA_PASSWORD
     },
+    intercomID: process.env.INTERCOM_ID || "my373fj4",
     firebase: {
       id: process.env.FIREBASE_ID,
       key: process.env.FIREBASE_KEY
@@ -24,7 +25,7 @@ app.get('/app.json', function(req, res) {
     defaultPage: process.env.DEFAULT_PAGE || '/',
     NODE_ENV: 'production'
   })
-})  
+})
 app.use(express.static(path.join(__dirname, 'build')))
 app.use(bodyParser.urlencoded({ extended: true, limit: '100mb' }))
 app.use(bodyParser.json())

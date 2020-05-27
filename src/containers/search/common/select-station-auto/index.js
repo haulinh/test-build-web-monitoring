@@ -6,6 +6,7 @@ import StationAutoApi from 'api/StationAuto'
 import * as _ from 'lodash'
 import { connect } from 'react-redux'
 import { removeAccents } from 'hoc/create-lang'
+import { replaceVietnameseStr } from 'utils/string'
 
 @connect(state => ({
   language: _.get(state, 'language.locale')
@@ -21,7 +22,8 @@ export default class SelectStationAuto extends React.Component {
 
   state = {
     isLoaded: false,
-    stationAutoSelects: []
+    stationAutoSelects: [],
+    searchString: ''
   }
 
   async componentWillMount() {
@@ -38,7 +40,7 @@ export default class SelectStationAuto extends React.Component {
     if (this.props.getRef) this.props.getRef(this)
   }
 
-  getStationAutos() {
+  getByTypeAndProvince = () => {
     return _.filter(this.state.stationAutoSelects, stationAuto => {
       return (
         _.isEqual(
@@ -54,7 +56,20 @@ export default class SelectStationAuto extends React.Component {
     })
   }
 
+  getStationAutos() {
+    const stationAutos = this.getByTypeAndProvince()
+    if (this.state.searchString) {
+      const searchString = replaceVietnameseStr(this.state.searchString)
+      return stationAutos.filter(
+        stationAuto =>
+          replaceVietnameseStr(stationAuto.name).indexOf(searchString) > -1
+      )
+    }
+    return stationAutos
+  }
+
   handleChange(stationTypeValue) {
+    this.setState({ searchString: '' })
     const stationType = this.state.stationAutoSelects.find(
       s => s.key === stationTypeValue
     )
@@ -64,18 +79,25 @@ export default class SelectStationAuto extends React.Component {
     }
   }
 
-  render() {
-    const { language } = this.props
+  handleSearch = value => {
+    this.setState({ searchString: value })
+  }
 
+  render() {
+    const stationAutos = this.getStationAutos()
+    const { language } = this.props
     if (!this.state.isLoaded) return <div />
     return (
       <Select
         {...this.props}
-        onChange={this.handleChange}
+        allowClear
         showSearch
+        onChange={this.handleChange}
         value={this.props.setKey ? this.props.stationAutoKey : this.props.value}
+        onSearch={this.handleSearch}
+        filterOption={false}
       >
-        {this.getStationAutos().map(item => (
+        {stationAutos.map(item => (
           <Select.Option key={item.key} value={item.key}>
             {removeAccents(language, item.name)}
           </Select.Option>

@@ -127,7 +127,7 @@ export default class SearchForm extends React.Component {
 
   handleProvinceChange = province => {
     this.setState({
-      provinceKey: province.key,
+      provinceKey: province ? province.key : undefined,
       stationKey: ''
     })
 
@@ -195,6 +195,7 @@ export default class SearchForm extends React.Component {
                 name="province"
                 size="large"
                 component={FSelectProvince}
+                isShowAll
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>

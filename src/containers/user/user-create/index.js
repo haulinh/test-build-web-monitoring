@@ -14,6 +14,7 @@ import * as _ from 'lodash'
 import { translate } from 'hoc/create-lang'
 import { SHAPE } from 'themes/color'
 import { EMAIL, PHONE } from 'constants/info-contact.js'
+import Clearfix from 'components/elements/clearfix'
 
 const { Text } = Typography
 
@@ -46,23 +47,25 @@ export default class UserCreate extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: false
+      isLoading: false,
+      isLicense: false
     }
   }
 
-  async handleSubmit(data) {
+  handleSubmit = async data => {
     this.setState({
       isLoading: true,
       totalUserActive: 0,
       isLicense: false
     })
-
     const res = await UserApi.registerUser(data)
-    if (res.success) {
-      message.info('Register User success!')
-      this.props.history.push(slug.user.list)
-    }
-    if (res.error) message.info(res.message)
+    this.setState({ isLoading: false }, () => {
+      if (res.success) {
+        message.success('Register User success!')
+        this.props.history.push(slug.user.list)
+      }
+    })
+    return res
   }
 
   componentDidMount = async () => {
@@ -79,12 +82,6 @@ export default class UserCreate extends React.PureComponent {
     }
   }
 
-  // componentDidUpdate = prevProps => {
-  //   if (this.props.totalStationActived !== prevProps.totalStationActived) {
-  //     this.checkLicenseStation();
-  //   }
-  // };
-
   checkLicenseStation = () => {
     const { totalUser } = this.props
     const { totalUserActive } = this.state
@@ -95,17 +92,17 @@ export default class UserCreate extends React.PureComponent {
     }
   }
 
-  hanldeClose = () => {
+  handleClose = () => {
     this.props.history.push(slug.stationAuto.list)
   }
 
   render() {
-    console.log(this.props.totalUser, '----totalUser-----')
     const limitTotalStation = _.get(this.props, 'totalUser', 0)
 
     return (
       <PageContainer title="Create station type" {...this.props.wrapperProps}>
         <Breadcrumb items={['list', 'create']} />
+        <Clearfix height={16} />
         {!this.state.isLicense && (
           <UserForm
             onSubmit={this.handleSubmit}
@@ -119,9 +116,9 @@ export default class UserCreate extends React.PureComponent {
           closable={false}
           title={i18n.title}
           visible={this.state.isLicense}
-          onCancel={this.hanldeClose}
+          onCancel={this.handleClose}
           footer={[
-            <Button key="back" type="primary" onClick={this.hanldeClose}>
+            <Button key="back" type="primary" onClick={this.handleClose}>
               {i18n.back}
             </Button>
           ]}

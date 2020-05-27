@@ -18,6 +18,7 @@ export default class StationTypeCreate extends React.PureComponent {
       message.info('Add success!')
       this.props.history.push(slug.stationType.list)
     }
+    return res
   }
 
   render() {

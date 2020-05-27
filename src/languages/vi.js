@@ -625,7 +625,8 @@ export default {
       key: {
         label: 'Mã trạm',
         placeholder: 'Nhập mã trạm',
-        error: 'Vui lòng nhập mã trạm'
+        error: 'Vui lòng nhập mã trạm',
+        existError: 'Mã trạm đã tồn tại'
       },
       name: {
         label: 'Tên',
@@ -674,7 +675,8 @@ export default {
       key: {
         label: 'Mã QCVN',
         placeholder: 'Nhập QCVN',
-        error: 'Vui lòng nhập mã QCVN'
+        error: 'Vui lòng nhập mã QCVN',
+        existError: 'Mã QCVN đã tồn tại'
       },
       name: {
         label: 'Tên QCVN',
@@ -722,7 +724,8 @@ export default {
       key: {
         label: 'Mã đơn vị',
         placeholder: 'Nhập mã đơn vị quản lý',
-        error: 'Vui lòng nhập mã đơn vị quản lý'
+        error: 'Vui lòng nhập mã đơn vị quản lý',
+        existError: 'Mã đơn vị đã tồn tại'
       },
       name: {
         label: 'Tên đơn vị quản lý',
@@ -1214,7 +1217,8 @@ export default {
       email: {
         label: 'Địa chỉ Email',
         placeholder: 'Địa chỉ Email',
-        error: 'Địa chỉ Email không hợp lệ'
+        error: 'Địa chỉ Email không hợp lệ',
+        errorExist: 'Địa chỉ email này đã tồn tại'
       },
       password: {
         label: 'Mật khẩu',
@@ -1302,7 +1306,8 @@ export default {
       name: {
         label: 'Tên nhóm',
         placeholder: 'Nhập tên nhóm',
-        error: 'Vui lòng nhập tên nhóm'
+        error: 'Vui lòng nhập tên nhóm',
+        errorExist: 'Nhóm quyền đã tồn tại'
       },
       description: {
         label: 'Mô tả',
@@ -1533,7 +1538,7 @@ export default {
     success: 'Thay đổi thông tin thành công',
     infoLicense: 'Thông tin gói',
     viewProfile: 'Thông tin cá nhân',
-    configStation: 'Cấu hình trạm',
+    configStation: 'Cấu hình nhận cảnh báo',
     security: 'Bảo mật',
     logOut: 'Đăng xuất',
     changePassword: 'Đổi mật khẩu',
