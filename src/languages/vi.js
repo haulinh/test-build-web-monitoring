@@ -1183,11 +1183,11 @@ export default {
       career: 'Ngành nghề',
       emptyText: 'Không có dữ liệu',
       yearOperate: 'Năm bắt đầu hoạt động',
-      capacity: "Công xuất thiết kế",
+      capacity: 'Công xuất thiết kế',
       processProdution: 'Quy trình sản xuất',
-      userResponsible: "Người chịu trách nhiệm",
-      userSupervisor: "NGười dám sát",
-      website: "Website"
+      userResponsible: 'Người chịu trách nhiệm',
+      userSupervisor: 'NGười dám sát',
+      website: 'Website'
     }
   },
   parameterManager: {
@@ -1893,7 +1893,25 @@ export default {
     },
     action: {
       login: 'Đăng nhập',
-      logout: 'Đăng xuất'
+      logout: 'Đăng xuất',
+      add_measuring: 'Thêm chỉ tiêu quan trắc',
+      update_measuring: 'Cập nhật chỉ tiêu quan trắc',
+      delete_measuring: 'Xoá chỉ tiêu quan trắc',
+      add_province: 'Thêm đơn vị quản lý',
+      update_province: 'Cập nhật đơn vị quản lý',
+      delete_province: 'Xoá đơn vị quản lý',
+      add_qcvn: 'Thêm quy chuẩn',
+      update_qcvn: 'Cập nhật quy chuẩn',
+      delete_qcvn: 'Xoá quy chuẩn',
+      add_station_type: 'Thêm loại trạm',
+      update_station_type: 'Cập nhật loại trạm',
+      delete_station_type: 'Xoá loại trạm',
+      add_station_auto: 'Thêm trạm quan trắc',
+      update_station_auto: 'Cập nhật trạm quan trắc',
+      delete_station_auto: 'Xoá trạm quan trắc',
+      add_role: 'Thêm nhóm quyền',
+      update_role: 'Cập nhật nhóm quyền',
+      delete_role: 'Xoá nhóm quyền'
     }
   },
   cameraControl: {

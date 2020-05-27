@@ -1186,11 +1186,11 @@ export default {
       career: 'Career',
       emptyText: 'Not have data',
       yearOperate: 'Year Operate',
-      capacity: "Capacity",
+      capacity: 'Capacity',
       processProdution: 'Process Production',
-      userResponsible: "User Responsible",
-      userSupervisor: "User Supervisor",
-      website: "Website"
+      userResponsible: 'User Responsible',
+      userSupervisor: 'User Supervisor',
+      website: 'Website'
     }
   },
   parameterManager: {
@@ -1898,7 +1898,25 @@ export default {
     },
     action: {
       login: 'Login',
-      logout: 'Logout'
+      logout: 'Logout',
+      add_measuring: 'Add Measuring',
+      update_measuring: 'Update Measuring',
+      delete_measuring: 'Delete Measuring',
+      add_province: 'Add Province',
+      update_province: 'Update Province',
+      delete_province: 'Delete Province',
+      add_qcvn: 'Add QCVN',
+      update_qcvn: 'Update QCVN',
+      delete_qcvn: 'Delete QCVN',
+      add_station_type: 'Add Station Type',
+      update_station_type: 'Update Station Type',
+      delete_station_type: 'Delete Station Type',
+      add_station_auto: 'Add Station Auto',
+      update_station_auto: 'Update Station Auto',
+      delete_station_auto: 'Delete Station Auto',
+      add_role: 'Add Role',
+      update_role: 'Update Role',
+      delete_role: 'Delete Role'
     }
   },
   cameraControl: {
