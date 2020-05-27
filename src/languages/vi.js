@@ -1186,7 +1186,7 @@ export default {
       capacity: "Công xuất thiết kế",
       processProdution: 'Quy trình sản xuất',
       userResponsible: "Người chịu trách nhiệm",
-      userSupervisor: "NGười dám sát",
+      userSupervisor: "Người dám sát",
       website: "Website"
     }
   },
