@@ -1554,7 +1554,7 @@ export default {
     Phone: 'Phone',
     upload: 'Upload',
     imageUpload: {
-      success: 'Done',
+      success: 'Upload Image Success',
       error: 'Upload Image Failed'
     },
     user: 'User Info',

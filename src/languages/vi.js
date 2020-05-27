@@ -1550,7 +1550,7 @@ export default {
     Phone: 'Số điện thoại',
     upload: 'Tải ảnh lên',
     imageUpload: {
-      success: 'Hoàn thành',
+      success: 'Tải ảnh lên thành công',
       error: 'Tải ảnh lên thất bại'
     },
     user: 'Thông tin cá nhân',
