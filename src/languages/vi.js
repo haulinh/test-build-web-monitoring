@@ -597,7 +597,8 @@ export default {
       },
       numericalOrder: {
         label: 'Số thứ tự',
-        placeholder: 'Nhập số thứ tự'
+        placeholder: 'Nhập số thứ tự',
+        error: 'Vui lòng nhập số thứ tự'
       },
       action: {
         label: ' '
@@ -651,7 +652,8 @@ export default {
       },
       numericalOrder: {
         label: 'Số thứ tự',
-        placeholder: 'Nhập số thứ tự'
+        placeholder: 'Nhập số thứ tự',
+        error: 'Vui lòng nhập số thứ tự'
       }
     }
   },
@@ -689,7 +691,8 @@ export default {
       },
       numericalOrder: {
         label: 'Số thứ tự',
-        placeholder: 'Nhập số thứ tự'
+        placeholder: 'Nhập số thứ tự',
+        error: 'Vui lòng nhập số thứ tự'
       },
       action: {
         label: ' '
@@ -734,7 +737,8 @@ export default {
       },
       numericalOrder: {
         label: 'Số thứ tự',
-        placeholder: 'Nhập số thứ tự'
+        placeholder: 'Nhập số thứ tự',
+        error: 'Vui lòng nhập số thứ tự'
       }
     }
   },
@@ -1183,11 +1187,11 @@ export default {
       career: 'Ngành nghề',
       emptyText: 'Không có dữ liệu',
       yearOperate: 'Năm bắt đầu hoạt động',
-      capacity: "Công xuất thiết kế",
+      capacity: 'Công xuất thiết kế',
       processProdution: 'Quy trình sản xuất',
-      userResponsible: "Người chịu trách nhiệm",
-      userSupervisor: "Người dám sát",
-      website: "Website"
+      userResponsible: 'Người chịu trách nhiệm',
+      userSupervisor: 'NGười dám sát',
+      website: 'Website'
     }
   },
   parameterManager: {
@@ -1307,7 +1311,8 @@ export default {
         label: 'Tên nhóm',
         placeholder: 'Nhập tên nhóm',
         error: 'Vui lòng nhập tên nhóm',
-        errorExist: 'Nhóm quyền đã tồn tại'
+        errorExist: 'Nhóm quyền đã tồn tại',
+        limit: 'Tên nhóm phải lớn hơn 5 ký tự'
       },
       description: {
         label: 'Mô tả',
@@ -1550,7 +1555,7 @@ export default {
     Phone: 'Số điện thoại',
     upload: 'Tải ảnh lên',
     imageUpload: {
-      success: 'Hoàn thành',
+      success: 'Tải ảnh lên thành công',
       error: 'Tải ảnh lên thất bại'
     },
     user: 'Thông tin cá nhân',
@@ -1893,7 +1898,25 @@ export default {
     },
     action: {
       login: 'Đăng nhập',
-      logout: 'Đăng xuất'
+      logout: 'Đăng xuất',
+      add_measuring: 'Thêm chỉ tiêu quan trắc',
+      update_measuring: 'Cập nhật chỉ tiêu quan trắc',
+      delete_measuring: 'Xoá chỉ tiêu quan trắc',
+      add_province: 'Thêm đơn vị quản lý',
+      update_province: 'Cập nhật đơn vị quản lý',
+      delete_province: 'Xoá đơn vị quản lý',
+      add_qcvn: 'Thêm quy chuẩn',
+      update_qcvn: 'Cập nhật quy chuẩn',
+      delete_qcvn: 'Xoá quy chuẩn',
+      add_station_type: 'Thêm loại trạm',
+      update_station_type: 'Cập nhật loại trạm',
+      delete_station_type: 'Xoá loại trạm',
+      add_station_auto: 'Thêm trạm quan trắc',
+      update_station_auto: 'Cập nhật trạm quan trắc',
+      delete_station_auto: 'Xoá trạm quan trắc',
+      add_role: 'Thêm nhóm quyền',
+      update_role: 'Cập nhật nhóm quyền',
+      delete_role: 'Xoá nhóm quyền'
     }
   },
   cameraControl: {

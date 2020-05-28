@@ -101,6 +101,8 @@ export default class StationTypeForm extends React.PureComponent {
       }
     }
 
+    console.log(t('stationTypeManage.form.key.error'))
+
     return (
       <Form onSubmit={this.handleSubmit}>
         <Row gutter={16}>
@@ -110,11 +112,14 @@ export default class StationTypeForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('stationTypeManage.form.key.error')
+                    message: t('stationTypeManager.form.key.error')
                   }
                 ]
               })(
-                <Input placeholder={t('stationTypeManager.form.key.label')} />
+                <Input
+                  size="large"
+                  placeholder={t('stationTypeManager.form.key.label')}
+                />
               )}
             </FormItem>
           </Col>
@@ -124,11 +129,14 @@ export default class StationTypeForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('stationTypeManage.form.name.error')
+                    message: t('stationTypeManager.form.name.error')
                   }
                 ]
               })(
-                <Input placeholder={t('stationTypeManager.form.name.label')} />
+                <Input
+                  size="large"
+                  placeholder={t('stationTypeManager.form.name.label')}
+                />
               )}
             </FormItem>
           </Col>
@@ -170,8 +178,21 @@ export default class StationTypeForm extends React.PureComponent {
               label={t('stationTypeManager.form.numericalOrder.label')}
             >
               {getFieldDecorator('numericalOrder', {
-                rules: [{ required: true }]
-              })(<InputNumberCell editable={true} />)}
+                rules: [
+                  {
+                    required: true,
+                    message: t('stationTypeManager.form.numericalOrder.error')
+                  }
+                ]
+              })(
+                <InputNumberCell
+                  size="large"
+                  placeholder={t(
+                    'stationTypeManager.form.numericalOrder.placeholder'
+                  )}
+                  editable={true}
+                />
+              )}
             </FormItem>
           </Col>
         </Row>

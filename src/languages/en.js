@@ -598,7 +598,8 @@ export default {
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order'
+        placeholder: 'Numerical Order',
+        error: 'Please input numerical order'
       },
       action: {
         label: 'Action'
@@ -652,7 +653,8 @@ export default {
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order'
+        placeholder: 'Numerical Order',
+        error: 'Please input numerical order'
       }
     }
   },
@@ -663,7 +665,7 @@ export default {
     create: {
       label: 'Create',
       success: 'Add QCVN Successfully',
-      keyExisted: 'QCVN Is Already Existed'
+      keyExisted: 'QCVN is already existed'
     },
     edit: {
       label: 'Edit',
@@ -680,7 +682,7 @@ export default {
         label: 'Code',
         placeholder: 'Input QCVN Code',
         error: 'Please Input QCVN Code',
-        existError: 'QCVN Code is exist'
+        existError: 'QCVN code is exist'
       },
       name: {
         label: 'Name',
@@ -693,7 +695,8 @@ export default {
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order'
+        placeholder: 'Input Numerical Order',
+        error: 'Please Input Numerical Order'
       },
       action: {
         label: 'Action'
@@ -738,7 +741,8 @@ export default {
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order'
+        placeholder: 'Numerical Order',
+        error: 'Please input numerical order'
       }
     }
   },
@@ -1186,11 +1190,11 @@ export default {
       career: 'Career',
       emptyText: 'Not have data',
       yearOperate: 'Year Operate',
-      capacity: "Capacity",
+      capacity: 'Capacity',
       processProdution: 'Process Production',
-      userResponsible: "User Responsible",
-      userSupervisor: "User Supervisor",
-      website: "Website"
+      userResponsible: 'User Responsible',
+      userSupervisor: 'User Supervisor',
+      website: 'Website'
     }
   },
   parameterManager: {
@@ -1311,7 +1315,8 @@ export default {
         label: 'Name',
         placeholder: 'Input Name',
         error: 'Please Input Name',
-        errorExist: 'Name is exist'
+        errorExist: 'Name is exist',
+        limit: 'Must be 5 characters or more'
       },
       description: {
         label: 'Description',
@@ -1472,7 +1477,7 @@ export default {
         isTransfer: 'Edit Send FTP Station',
         updateFTP: 'Edit Info FTP',
         publicStation: 'Edit Publish Station',
-        view: 'Xem',
+        view: 'View',
         camera: 'Camera',
         control: 'Sampling',
         chart: 'Chart',
@@ -1554,7 +1559,7 @@ export default {
     Phone: 'Phone',
     upload: 'Upload',
     imageUpload: {
-      success: 'Done',
+      success: 'Upload Image Success',
       error: 'Upload Image Failed'
     },
     user: 'User Info',
@@ -1898,7 +1903,25 @@ export default {
     },
     action: {
       login: 'Login',
-      logout: 'Logout'
+      logout: 'Logout',
+      add_measuring: 'Add Measuring',
+      update_measuring: 'Update Measuring',
+      delete_measuring: 'Delete Measuring',
+      add_province: 'Add Province',
+      update_province: 'Update Province',
+      delete_province: 'Delete Province',
+      add_qcvn: 'Add QCVN',
+      update_qcvn: 'Update QCVN',
+      delete_qcvn: 'Delete QCVN',
+      add_station_type: 'Add Station Type',
+      update_station_type: 'Update Station Type',
+      delete_station_type: 'Delete Station Type',
+      add_station_auto: 'Add Station Auto',
+      update_station_auto: 'Update Station Auto',
+      delete_station_auto: 'Delete Station Auto',
+      add_role: 'Add Role',
+      update_role: 'Update Role',
+      delete_role: 'Delete Role'
     }
   },
   cameraControl: {

@@ -11,12 +11,14 @@ export default class InputNumberCell extends React.Component {
   }
 
   render() {
+    const value = this.props.value || undefined
     return (
       <div>
         {this.props.editable ? (
           <InputNumber
+            {...this.props}
             style={{ margin: '-5px 0', width: '100%' }}
-            value={this.props.value}
+            value={value}
             disabled={this.props.disabled}
             onChange={this.props.onChange}
           />

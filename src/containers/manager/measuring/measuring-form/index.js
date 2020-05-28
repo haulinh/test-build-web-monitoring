@@ -69,7 +69,7 @@ export default class MeasuringForm extends React.PureComponent {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Row gutter={16}>
+        <Row type="flex" gutter={16}>
           <Col span={12}>
             <FormItem
               {...formItemLayout}
@@ -84,6 +84,7 @@ export default class MeasuringForm extends React.PureComponent {
                 ]
               })(
                 <Input
+                  size="large"
                   disabled={this.props.isEdit}
                   placeholder={t('measuringManager.form.key.placeholder')}
                 />
@@ -104,14 +105,12 @@ export default class MeasuringForm extends React.PureComponent {
                 ]
               })(
                 <Input
+                  size="large"
                   placeholder={t('measuringManager.form.name.placeholder')}
                 />
               )}
             </FormItem>
           </Col>
-        </Row>
-
-        <Row gutter={16}>
           <Col span={12}>
             <FormItem
               {...formItemLayout}
@@ -119,6 +118,7 @@ export default class MeasuringForm extends React.PureComponent {
             >
               {getFieldDecorator('unit')(
                 <Input
+                  size="large"
                   placeholder={t('measuringManager.form.unit.placeholder')}
                 />
               )}
@@ -131,8 +131,21 @@ export default class MeasuringForm extends React.PureComponent {
               label={t('measuringManager.form.numericalOrder.label')}
             >
               {getFieldDecorator('numericalOrder', {
-                rules: [{ required: true }]
-              })(<InputNumberCell editable={true} />)}
+                rules: [
+                  {
+                    required: true,
+                    message: t('measuringManager.form.numericalOrder.error')
+                  }
+                ]
+              })(
+                <InputNumberCell
+                  size="large"
+                  placeholder={t(
+                    'measuringManager.form.numericalOrder.placeholder'
+                  )}
+                  editable={true}
+                />
+              )}
             </FormItem>
           </Col>
         </Row>

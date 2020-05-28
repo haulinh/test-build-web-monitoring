@@ -138,7 +138,7 @@ export default class RoleList extends React.Component {
           rows={this.getRows()}
           head={this.getHead()}
           paginationOptions={{
-            isSticky: 1
+            isSticky: true
           }}
           onSetPage={this.props.onChangePage}
           pagination={this.props.pagination}

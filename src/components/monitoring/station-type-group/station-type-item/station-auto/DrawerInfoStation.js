@@ -1,23 +1,23 @@
-import React from "react"
-import { Row, Col, Drawer, Button, Icon, Divider } from "antd"
-import slug from "constants/slug"
-import styled from "styled-components"
-import { translate } from "hoc/create-lang"
-import { getStationAuto } from "api/StationAuto"
+import React from 'react'
+import { Row, Col, Drawer, Button, Icon, Divider } from 'antd'
+import slug from 'constants/slug'
+import styled from 'styled-components'
+import { translate } from 'hoc/create-lang'
+import { getStationAuto } from 'api/StationAuto'
 
 const i18n = {
-  title: translate("stationAutoManager.infoStation.title"),
-  edit: translate("stationAutoManager.infoStation.edit"),
-  career: translate("stationAutoManager.infoStation.career"),
-  empty: translate("stationAutoManager.infoStation.emptyText"),
-  yearOperate: translate("stationAutoManager.infoStation.yearOperate"),
-  capacity: translate("stationAutoManager.infoStation.capacity"),
+  title: translate('stationAutoManager.infoStation.title'),
+  edit: translate('stationAutoManager.infoStation.edit'),
+  career: translate('stationAutoManager.infoStation.career'),
+  empty: translate('stationAutoManager.infoStation.emptyText'),
+  yearOperate: translate('stationAutoManager.infoStation.yearOperate'),
+  capacity: translate('stationAutoManager.infoStation.capacity'),
   processProdution: translate(
-    "stationAutoManager.infoStation.processProdution"
+    'stationAutoManager.infoStation.processProdution'
   ),
-  userResponsible: translate("stationAutoManager.infoStation.userResponsible"),
-  userSupervisor: translate("stationAutoManager.infoStation.userSupervisor"),
-  website: translate("stationAutoManager.infoStation.website"),
+  userResponsible: translate('stationAutoManager.infoStation.userResponsible'),
+  userSupervisor: translate('stationAutoManager.infoStation.userSupervisor'),
+  website: translate('stationAutoManager.infoStation.website')
 }
 
 const TextColor = styled.p`
@@ -35,7 +35,7 @@ const Text = styled.p`
 
 const Title = styled.h4``
 
-const defaultChartType = "hours"
+const defaultChartType = 'hours'
 
 const Wrapper = styled(Row)`
   padding: 12px 0 18px;
@@ -57,18 +57,18 @@ const Flex = styled.div`
 `
 
 const InfoItem = ({ iconType, label, desc, title }) => (
-  <Wrapper type='flex' justify='space-between'>
+  <Wrapper type="flex" justify="space-between">
     <WrapperItem span={!title ? 1 : 10}>
       <Flex>
         {iconType && (
           <Icon
             style={{
-              fontSize: "26px",
-              color: "#1890ff",
-              marginRight: !title ? "0px" : "10px",
+              fontSize: '26px',
+              color: '#1890ff',
+              marginRight: !title ? '0px' : '10px'
             }}
             type={iconType}
-            theme='outlined'
+            theme="outlined"
           />
         )}
         {title && <Text>{title}</Text>}
@@ -86,8 +86,8 @@ export default class DrawerInfoStation extends React.Component {
   state = {
     isLoadingInfoStation: true,
     InfoStationData: {},
-    chartType: "",
-    visibleDrawer: false,
+    chartType: '',
+    visibleDrawer: false
   }
 
   async componentDidMount() {
@@ -98,13 +98,13 @@ export default class DrawerInfoStation extends React.Component {
       this.setState({
         isLoadingInfoStation: false,
         InfoStationData: res.data,
-        chartType: defaultChartType,
+        chartType: defaultChartType
       })
     }
   }
 
   render() {
-    console.log("InfoStationData", this.state.InfoStationData)
+    console.log('InfoStationData', this.state.InfoStationData)
     const { onClose, visibleDrawer, _id } = this.props
     const {
       address,
@@ -116,12 +116,12 @@ export default class DrawerInfoStation extends React.Component {
       career,
       yearOperate,
       capacity,
-      processProdution,
+      processProdution
     } = this.state.InfoStationData
     return (
       <Drawer
         width={720}
-        placement='right'
+        placement="right"
         closable={false}
         onClose={onClose}
         visible={visibleDrawer}
@@ -133,13 +133,13 @@ export default class DrawerInfoStation extends React.Component {
           <WrapperItem span={8} offset={8}>
             <Col span={4} offset={12}>
               <Button
-                target='_blank'
+                target="_blank"
                 href={`${slug.stationAuto.editWithKey}/${_id}?otherForm`}
               >
                 <Icon
-                  style={{ fontSize: "16px", color: "#1890ff" }}
-                  type='edit'
-                  theme='outlined'
+                  style={{ fontSize: '16px', color: '#1890ff' }}
+                  type="edit"
+                  theme="outlined"
                 />
                 {i18n.edit}
               </Button>
@@ -147,23 +147,23 @@ export default class DrawerInfoStation extends React.Component {
           </WrapperItem>
         </Wrapper>
         <Divider style={{ margin: 0 }} />
-        <InfoItem iconType='environment' desc={address} />
+        <InfoItem iconType="environment" desc={address} />
         <Divider style={{ margin: 0 }} />
         <InfoItem
-          iconType='team'
+          iconType="team"
           label={userResponsible}
           desc={phoneResponsible}
           title={i18n.userResponsible}
         />
         <Divider style={{ margin: 0 }} />
         <InfoItem
-          iconType='user'
+          iconType="user"
           label={userSupervisor}
           desc={phoneSupervisor}
           title={i18n.userSupervisor}
         />
         <Divider style={{ margin: 0 }} />
-        <InfoItem iconType='global' label={website} title={i18n.website} />
+        <InfoItem iconType="global" label={website} title={i18n.website} />
         <Divider style={{ margin: 0 }} />
         <InfoItem title={i18n.career} label={career} />
         <InfoItem title={i18n.yearOperate} label={yearOperate} />

@@ -62,21 +62,22 @@ class DataLoggerSearchForm extends React.Component {
       // console.log("---", email)
       const dataSearch = {
         ...values,
-        from: values.fromto
-          ? moment(values.fromto[0])
-              .utc()
-              .startOf('days')
-              .format()
-          : undefined,
-        to: values.fromto
-          ? moment(values.fromto[1])
-              .utc()
-              .endOf('days')
-              .format()
-          : undefined
+        from:
+          values.fromto && values.fromto.length > 0
+            ? moment(values.fromto[0])
+                .utc()
+                .startOf('days')
+                .format()
+            : undefined,
+        to:
+          values.fromto && values.fromto.length > 0
+            ? moment(values.fromto[1])
+                .utc()
+                .endOf('days')
+                .format()
+            : undefined
       }
 
-      // console.log(dataSearch, "dataSearch");
       if (this.props.onSubmit) this.props.onSubmit(dataSearch)
     })
   }
