@@ -48,7 +48,6 @@ const WrapperItem = styled(Col)`
   > p + p {
     margin-top: 12px;
   }
-  margin-left: 12px;
 `
 
 const Flex = styled.div`
@@ -58,7 +57,7 @@ const Flex = styled.div`
 `
 
 const InfoItem = ({ iconType, label, desc, title }) => (
-  <Wrapper>
+  <Wrapper type="flex" justify="space-between">
     <WrapperItem span={!title ? 1 : 10}>
       <Flex>
         {iconType && (
@@ -75,7 +74,7 @@ const InfoItem = ({ iconType, label, desc, title }) => (
         {title && <Text>{title}</Text>}
       </Flex>
     </WrapperItem>
-    <WrapperItem span={!title ? 23 : 14}>
+    <WrapperItem span={!title ? 23 : 8}>
       {!label && !desc && <Text>{i18n.empty}</Text>}
       {label && <Text>{label}</Text>}
       {desc && <TextColor>{desc}</TextColor>}
@@ -128,21 +127,23 @@ export default class DrawerInfoStation extends React.Component {
         visible={visibleDrawer}
       >
         <Wrapper>
-          <WrapperItem span={10}>
+          <WrapperItem span={8}>
             <Title>{i18n.title}</Title>
           </WrapperItem>
-          <WrapperItem span={14}>
-            <Button
-              target="_blank"
-              href={`${slug.stationAuto.editWithKey}/${_id}?otherForm`}
-            >
-              <Icon
-                style={{ fontSize: '16px', color: '#1890ff' }}
-                type="edit"
-                theme="outlined"
-              />
-              {i18n.edit}
-            </Button>
+          <WrapperItem span={8} offset={8}>
+            <Col span={4} offset={12}>
+              <Button
+                target="_blank"
+                href={`${slug.stationAuto.editWithKey}/${_id}?otherForm`}
+              >
+                <Icon
+                  style={{ fontSize: '16px', color: '#1890ff' }}
+                  type="edit"
+                  theme="outlined"
+                />
+                {i18n.edit}
+              </Button>
+            </Col>
           </WrapperItem>
         </Wrapper>
         <Divider style={{ margin: 0 }} />
