@@ -8,6 +8,7 @@ import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
 import swal from 'sweetalert2'
 import MeasuringTableQCVN from '../qcvn-formTable'
 import InputNumberCell from 'components/elements/input-number-cell'
+import Clearfix from 'components/elements/clearfix'
 
 const FormItem = Form.Item
 
@@ -125,7 +126,7 @@ export default class QCVNForm extends React.PureComponent {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Row gutter={8}>
+        <Row type="flex" gutter={[16, 24]}>
           <Col span={12}>
             <FormItem {...formItemLayout} label={t('qcvn.form.key.label')}>
               {getFieldDecorator('key', {
@@ -137,6 +138,7 @@ export default class QCVNForm extends React.PureComponent {
                 ]
               })(
                 <Input
+                  size="large"
                   disabled={this.props.isEdit}
                   placeholder={t('qcvn.form.key.placeholder')}
                 />
@@ -152,22 +154,31 @@ export default class QCVNForm extends React.PureComponent {
                     message: t('qcvn.form.name.error')
                   }
                 ]
-              })(<Input placeholder={t('qcvn.form.name.placeholder')} />)}
+              })(
+                <Input
+                  size="large"
+                  placeholder={t('qcvn.form.name.placeholder')}
+                />
+              )}
             </FormItem>
           </Col>
-        </Row>
-        <Row gutter={8}>
           <Col span={12}>
             <FormItem
               {...formItemLayout}
               label={t('qcvn.form.numericalOrder.label')}
             >
               {getFieldDecorator('numericalOrder', {
-                rules: [{ required: true }]
+                rules: [
+                  {
+                    required: true,
+                    message: t('qcvn.form.numericalOrder.error')
+                  }
+                ]
               })(
                 <InputNumberCell
+                  size="large"
+                  placeholder={t('qcvn.form.numericalOrder.placeholder')}
                   editable={true}
-                  size="small"
                   min={1}
                   max={1000000}
                 />
@@ -175,16 +186,7 @@ export default class QCVNForm extends React.PureComponent {
             </FormItem>
           </Col>
         </Row>
-        <Row gutter={8}>
-          <Col span={24} />
-        </Row>
-
-        <Row
-          gutter={8}
-          style={{
-            display: 'none'
-          }}
-        />
+        <Clearfix height={24} />
         <MeasuringTableQCVN
           lang={this.props.lang}
           form={this.props.form}

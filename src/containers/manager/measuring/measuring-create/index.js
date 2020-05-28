@@ -11,6 +11,7 @@ import createManagerCreate from 'hoc/manager-create'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import { Clearfix } from 'components/elements'
 
 @protectRole(ROLE.MEASURING.CREATE)
 @createManagerCreate({
@@ -40,7 +41,6 @@ export default class MeasuringCreate extends React.PureComponent {
       // 	else message.error(this.props.lang.t('addon.onSave.add.error'));
       // }
     })
-    console.log(result)
     return result
   }
 
@@ -48,6 +48,7 @@ export default class MeasuringCreate extends React.PureComponent {
     return (
       <PageContainer>
         <Breadcrumb items={['list', 'create']} />
+        <Clearfix height={16} />
         <MeasuringForm onSubmit={this.handleSubmit} />
       </PageContainer>
     )

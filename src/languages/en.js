@@ -598,7 +598,8 @@ export default {
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order'
+        placeholder: 'Numerical Order',
+        error: 'Please input numerical order'
       },
       action: {
         label: 'Action'
@@ -652,7 +653,8 @@ export default {
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order'
+        placeholder: 'Numerical Order',
+        error: 'Please input numerical order'
       }
     }
   },
@@ -663,7 +665,7 @@ export default {
     create: {
       label: 'Create',
       success: 'Add QCVN Successfully',
-      keyExisted: 'QCVN Is Already Existed'
+      keyExisted: 'QCVN is already existed'
     },
     edit: {
       label: 'Edit',
@@ -680,7 +682,7 @@ export default {
         label: 'Code',
         placeholder: 'Input QCVN Code',
         error: 'Please Input QCVN Code',
-        existError: 'QCVN Code is exist'
+        existError: 'QCVN code is exist'
       },
       name: {
         label: 'Name',
@@ -693,7 +695,8 @@ export default {
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order'
+        placeholder: 'Input Numerical Order',
+        error: 'Please Input Numerical Order'
       },
       action: {
         label: 'Action'
@@ -738,7 +741,8 @@ export default {
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order'
+        placeholder: 'Numerical Order',
+        error: 'Please input numerical order'
       }
     }
   },
@@ -1311,7 +1315,8 @@ export default {
         label: 'Name',
         placeholder: 'Input Name',
         error: 'Please Input Name',
-        errorExist: 'Name is exist'
+        errorExist: 'Name is exist',
+        limit: 'Must be 5 characters or more'
       },
       description: {
         label: 'Description',
@@ -1472,7 +1477,7 @@ export default {
         isTransfer: 'Edit Send FTP Station',
         updateFTP: 'Edit Info FTP',
         publicStation: 'Edit Publish Station',
-        view: 'Xem',
+        view: 'View',
         camera: 'Camera',
         control: 'Sampling',
         chart: 'Chart',

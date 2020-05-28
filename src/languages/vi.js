@@ -597,7 +597,8 @@ export default {
       },
       numericalOrder: {
         label: 'Số thứ tự',
-        placeholder: 'Nhập số thứ tự'
+        placeholder: 'Nhập số thứ tự',
+        error: 'Vui lòng nhập số thứ tự'
       },
       action: {
         label: ' '
@@ -651,7 +652,8 @@ export default {
       },
       numericalOrder: {
         label: 'Số thứ tự',
-        placeholder: 'Nhập số thứ tự'
+        placeholder: 'Nhập số thứ tự',
+        error: 'Vui lòng nhập số thứ tự'
       }
     }
   },
@@ -689,7 +691,8 @@ export default {
       },
       numericalOrder: {
         label: 'Số thứ tự',
-        placeholder: 'Nhập số thứ tự'
+        placeholder: 'Nhập số thứ tự',
+        error: 'Vui lòng nhập số thứ tự'
       },
       action: {
         label: ' '
@@ -734,7 +737,8 @@ export default {
       },
       numericalOrder: {
         label: 'Số thứ tự',
-        placeholder: 'Nhập số thứ tự'
+        placeholder: 'Nhập số thứ tự',
+        error: 'Vui lòng nhập số thứ tự'
       }
     }
   },
@@ -1307,7 +1311,8 @@ export default {
         label: 'Tên nhóm',
         placeholder: 'Nhập tên nhóm',
         error: 'Vui lòng nhập tên nhóm',
-        errorExist: 'Nhóm quyền đã tồn tại'
+        errorExist: 'Nhóm quyền đã tồn tại',
+        limit: 'Tên nhóm phải lớn hơn 5 ký tự'
       },
       description: {
         label: 'Mô tả',

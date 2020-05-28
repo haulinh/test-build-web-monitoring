@@ -46,14 +46,16 @@ export default class QCVNFormTable extends React.PureComponent {
               rules: [
                 {
                   required: true,
-                  message:
-                    'Please select ' +
-                    t('stationAutoManager.form.measuringName.label')
+                  message: t('stationAutoManager.form.measuringName.error')
                 }
               ]
             })(
               <AutoCompleteCell
-                editable={true}
+                placeholder={t(
+                  'stationAutoManager.form.measuringName.placeholder'
+                )}
+                editable
+                autoFocus
                 onChange={value =>
                   this.handleChangeMeasuring(value, index, 'name')
                 }
@@ -62,7 +64,6 @@ export default class QCVNFormTable extends React.PureComponent {
                     {d.name}
                   </Select.Option>
                 ))}
-                autoFocus={true}
               />
             )}
           </FormItem>

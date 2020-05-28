@@ -8,6 +8,7 @@ import ProvinceForm from '../province-form'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import Clearfix from 'components/elements/clearfix'
 
 @protectRole(ROLE.PROVINCE.CREATE)
 @autobind
@@ -25,6 +26,7 @@ export default class ProvinceCreate extends React.PureComponent {
     return (
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb items={['list', 'create']} />
+        <Clearfix height={16} />
         <ProvinceForm onSubmit={this.handleSubmit} />
       </PageContainer>
     )
