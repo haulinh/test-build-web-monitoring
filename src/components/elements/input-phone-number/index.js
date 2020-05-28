@@ -13,6 +13,8 @@ const View = styled.div`
     border: 1px solid #d4d4d4;
   }
   .react-tel-input .selected-flag {
+    outline: none;
+    border: 1px solid #d4d4d4;
     height: 100%;
     width: 46px;
   }

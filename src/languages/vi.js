@@ -1235,11 +1235,13 @@ export default {
       },
       firstName: {
         label: 'Tên',
-        placeholder: 'Tên'
+        placeholder: 'Tên',
+        error: 'Vui lòng nhập tên của bạn'
       },
       lastName: {
         label: 'Họ & Tên đệm',
-        placeholder: 'Họ & Tên đệm'
+        placeholder: 'Họ & Tên đệm',
+        error: 'Vui lòng nhập họ và tên đệm'
       },
       country: {
         label: 'Quốc gia',
@@ -1251,7 +1253,9 @@ export default {
       },
       phone: {
         label: 'Số điện thoại',
-        placeholder: 'Số điện thoại'
+        placeholder: 'Số điện thoại',
+        empty: 'Vui lòng nhập số điện thoại',
+        format: 'Số điện thoại không đúng'
       },
       isAdmin: {
         label: 'Quản trị hệ thống'

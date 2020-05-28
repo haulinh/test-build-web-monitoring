@@ -25,6 +25,7 @@ import moment from 'moment/moment'
 import authApi from 'api/AuthApi'
 import { connect } from 'react-redux'
 import { get as _get } from 'lodash'
+import { Clearfix } from 'components/elements'
 
 const i18n = {
   cancelText: translate('addon.cancel'),
@@ -33,7 +34,7 @@ const i18n = {
   deleteConfirmMsg: translate('confirm.msg.delete')
 }
 
-const AccountWapper = styled.div`
+const AccountWrapper = styled.div`
   display: flex;
   align-items: center;
 `
@@ -299,7 +300,7 @@ export default class UserList extends React.Component {
         content: (
           <div>
             {row.phone && row.phone.iso2 && (
-              <AccountWapper>
+              <AccountWrapper>
                 <AvatarCharacter
                   size={32}
                   username={row.email}
@@ -318,7 +319,7 @@ export default class UserList extends React.Component {
                     deleted={row.removeStatus && row.removeStatus.allowed}
                   >{`${row.lastName} ${row.firstName}`}</Span>
                 </AccountInfo>
-              </AccountWapper>
+              </AccountWrapper>
             )}
           </div>
         )
@@ -433,7 +434,7 @@ export default class UserList extends React.Component {
     return (
       <PageContainer>
         <Breadcrumb items={['list']} />
-
+        <Clearfix height={16} />
         <UserSearchForm
           onChangeSearch={query => {
             this.props.onChangeSearch(query)

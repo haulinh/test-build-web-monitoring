@@ -1238,11 +1238,13 @@ export default {
       },
       firstName: {
         label: 'First Name',
-        placeholder: 'First Name'
+        placeholder: 'First Name',
+        error: 'Please input first name'
       },
       lastName: {
         label: 'Last Name',
-        placeholder: 'Last Name'
+        placeholder: 'Last Name',
+        error: 'Please input last name'
       },
       country: {
         label: 'Country',
@@ -1254,7 +1256,9 @@ export default {
       },
       phone: {
         label: 'Phone',
-        placeholder: 'Phone'
+        placeholder: 'Phone',
+        empty: 'Please input phone',
+        format: 'The phone number not correct'
       },
       isAdmin: {
         label: 'Admin Role'

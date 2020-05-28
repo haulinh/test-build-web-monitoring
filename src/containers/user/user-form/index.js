@@ -81,6 +81,24 @@ export default class UserForm extends React.PureComponent {
     }
   }
 
+  validatorPhone = (rule, value, callback) => {
+    const {
+      lang: { t }
+    } = this.props
+    if (!value) {
+      callback()
+    } else {
+      const phoneNumber = value.phoneNumber
+        .replace(/\-/g, '')
+        .replace('+' + value.dialCode, 0)
+      if (phoneNumber.length >= 9) {
+        callback()
+      } else {
+        callback(t('userManager.form.phone.format'))
+      }
+    }
+  }
+
   handleConfirmBlur = e => {
     const value = e.target.value
     this.setState({ confirmDirty: this.state.confirmDirty || !!value })
@@ -94,8 +112,6 @@ export default class UserForm extends React.PureComponent {
       }
     })
   }
-
-  async componentWillMount() {}
 
   render() {
     const {
@@ -154,10 +170,12 @@ export default class UserForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('userManager.form.phone.label')
+                    message: t('userManager.form.phone.empty')
+                  },
+                  {
+                    validator: this.validatorPhone
                   }
                 ]
-                // })(<ReactTelephoneInput defaultCountry="vn" flagsImagePath={!this.props.isEdit ? '../images/flags.png' : '../../images/flags.png'} onChange={this.handleTelChange} />)}
               })(<InputPhoneNumber size="large" />)}
             </FormItem>
           </Col>
@@ -231,7 +249,7 @@ export default class UserForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('userManager.form.firstName.label')
+                    message: t('userManager.form.firstName.error')
                   }
                 ]
               })(
@@ -254,13 +272,13 @@ export default class UserForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('userManager.form.lastName.label')
+                    message: t('userManager.form.lastName.error')
                   }
                 ]
               })(
                 <Input
                   size="large"
-                  placeholder={t('userManager.form.lastName.label')}
+                  placeholder={t('userManager.form.lastName.placeholder')}
                 />
               )}
             </FormItem>
