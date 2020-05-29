@@ -180,7 +180,7 @@ export default class StationAutoForm extends React.PureComponent {
         material: values.material,
         userResponsible: values.userResponsible,
         phoneResponsible: values.phoneResponsible,
-        processProdution: values.processProdution,
+        processProduction: values.processProduction,
         yearOperate: values.yearOperate,
         userSupervisor: values.userSupervisor,
         phoneSupervisor: values.phoneSupervisor,
@@ -824,12 +824,12 @@ export default class StationAutoForm extends React.PureComponent {
                   wrapperCol={{
                     sm: { span: 21, offset: 0 }
                   }}
-                  label={t('stationAutoManager.form.processProdution.label')}
+                  label={t('stationAutoManager.form.processProduction.label')}
                 >
-                  {getFieldDecorator('processProdution', {})(
+                  {getFieldDecorator('processProduction', {})(
                     <TextArea
                       placeholder={t(
-                        'stationAutoManager.form.processProdution.placeholde'
+                        'stationAutoManager.form.processProduction.placeholde'
                       )}
                     />
                   )}

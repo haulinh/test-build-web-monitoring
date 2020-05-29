@@ -66,23 +66,24 @@ const ButtonStyle = styled(
   font-weight: 600;
   border-radius: ${props =>
     props.borderRadius ? props.borderRadius : 3}px !important;
-  ${props => (props.block ? 'width: 100%;' : '')} ${props =>
-  props.shadowButton
-    ? `
+  ${props => (props.block ? 'width: 100%;' : '')};
+  ${props =>
+    props.shadowButton
+      ? `
    background-color: linear-gradient(180deg,#fffffe,#fbfeff);
    border: 1px solid rgba(94,176,240,.98);
    color: #389bff;
-   &:hover{
+   &:hover {
      background-color: #389bff;
      color: #ffffff;
      cursor: pointer;
     border: 1px solid rgba(94,176,240,.98);
    }
-   &:focus{
+   &:focus {
      outline: none;
-   }
- `
-    : ''} ${props => getBackgroundColor(props)};
+   }`
+      : ''};
+  ${props => getBackgroundColor(props)};
 `
 ButtonStyle.defaultProps = {
   fontSize: 14,

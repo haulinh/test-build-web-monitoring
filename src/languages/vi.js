@@ -892,7 +892,7 @@ export default {
         label: 'Số điện thoại',
         placeholder: 'Nhập số điện thoại người chịu trách nhiệm'
       },
-      processProdution: {
+      processProduction: {
         label: 'Quy trình sản xuất',
         placeholder: 'Quy trình sản xuất'
       },
@@ -1148,6 +1148,10 @@ export default {
       dataLogger: 'DataLogger',
       approve: 'Kiểm duyệt dữ liệu'
     },
+    update: {
+      success: 'Cập nhật thành công',
+      error: 'Cập nhật không thành công'
+    },
     upload: {
       label: 'Tải lên',
       error: 'Tải ảnh thất bại'
@@ -1181,6 +1185,10 @@ export default {
       usernameLabel: 'Tên đăng nhập:',
       passwordLabel: 'Mật khẩu:'
     },
+    image: {
+      label: 'Hình ảnh trạm quan trắc {{=it.name}}',
+      create: 'Thêm hình ảnh'
+    },
     infoStation: {
       title: 'Thông tin trạm',
       edit: 'Chỉnh sửa',
@@ -1188,7 +1196,7 @@ export default {
       emptyText: 'Không có dữ liệu',
       yearOperate: 'Năm bắt đầu hoạt động',
       capacity: 'Công xuất thiết kế',
-      processProdution: 'Quy trình sản xuất',
+      processProduction: 'Quy trình sản xuất',
       userResponsible: 'Người chịu trách nhiệm',
       userSupervisor: 'NGười dám sát',
       website: 'Website'

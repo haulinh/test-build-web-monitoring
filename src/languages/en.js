@@ -896,7 +896,7 @@ export default {
         label: 'Phone',
         placeholder: 'Input the phone number responsible person'
       },
-      processProdution: {
+      processProduction: {
         label: 'Production process',
         placeholder: 'Production process'
       },
@@ -1151,6 +1151,10 @@ export default {
       dataLogger: 'DataLogger',
       approve: 'Approve Data'
     },
+    update: {
+      success: 'Update success',
+      error: 'Upload failed'
+    },
     upload: {
       label: 'Upload',
       error: 'Upload Image Failed'
@@ -1184,6 +1188,10 @@ export default {
       usernameLabel: 'Username:',
       passwordLabel: 'Password:'
     },
+    image: {
+      label: 'Image station: {{=it.name}}',
+      create: 'Create image'
+    },
     infoStation: {
       title: 'Station Information',
       edit: 'Edit',
@@ -1191,7 +1199,7 @@ export default {
       emptyText: 'Not have data',
       yearOperate: 'Year Operate',
       capacity: 'Capacity',
-      processProdution: 'Process Production',
+      processProduction: 'Process Production',
       userResponsible: 'User Responsible',
       userSupervisor: 'User Supervisor',
       website: 'Website'

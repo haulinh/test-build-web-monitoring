@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Drawer, Button, Icon, Divider } from 'antd'
+import { Row, Col, Button, Icon, Divider } from 'antd'
 import slug from 'constants/slug'
 import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
@@ -12,8 +12,8 @@ const i18n = {
   empty: translate('stationAutoManager.infoStation.emptyText'),
   yearOperate: translate('stationAutoManager.infoStation.yearOperate'),
   capacity: translate('stationAutoManager.infoStation.capacity'),
-  processProdution: translate(
-    'stationAutoManager.infoStation.processProdution'
+  processProduction: translate(
+    'stationAutoManager.infoStation.processProduction'
   ),
   userResponsible: translate('stationAutoManager.infoStation.userResponsible'),
   userSupervisor: translate('stationAutoManager.infoStation.userSupervisor'),
@@ -104,8 +104,7 @@ export default class DrawerInfoStation extends React.Component {
   }
 
   render() {
-    console.log('InfoStationData', this.state.InfoStationData)
-    const { onClose, visibleDrawer, _id } = this.props
+    const { _id } = this.props
     const {
       address,
       userResponsible,
@@ -116,16 +115,10 @@ export default class DrawerInfoStation extends React.Component {
       career,
       yearOperate,
       capacity,
-      processProdution
+      processProduction
     } = this.state.InfoStationData
     return (
-      <Drawer
-        width={720}
-        placement="right"
-        closable={false}
-        onClose={onClose}
-        visible={visibleDrawer}
-      >
+      <React.Fragment>
         <Wrapper>
           <WrapperItem span={8}>
             <Title>{i18n.title}</Title>
@@ -168,8 +161,8 @@ export default class DrawerInfoStation extends React.Component {
         <InfoItem title={i18n.career} label={career} />
         <InfoItem title={i18n.yearOperate} label={yearOperate} />
         <InfoItem title={i18n.capacity} label={capacity} />
-        <InfoItem title={i18n.processProdution} label={processProdution} />
-      </Drawer>
+        <InfoItem title={i18n.processProduction} label={processProduction} />
+      </React.Fragment>
     )
   }
 }
