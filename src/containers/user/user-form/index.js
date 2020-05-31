@@ -2,7 +2,6 @@ import React from 'react'
 import { Form, Input, Button, Row, Col } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { mapPropsToFields } from 'utils/form'
 // import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import InputPhoneNumber from 'components/elements/input-phone-number'
@@ -11,12 +10,7 @@ require('../user-search-form/index.css')
 
 const FormItem = Form.Item
 
-@Form.create({
-  mapPropsToFields: ({ initialValues }) => {
-    if (!initialValues) return
-    return mapPropsToFields({ initialValues })
-  },
-})
+@Form.create({})
 @createLanguage
 @autobind
 export default class UserForm extends React.PureComponent {
@@ -36,10 +30,9 @@ export default class UserForm extends React.PureComponent {
     }
   }
 
-  handleSubmit(e) {
+  handleSubmit = e => {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
-      // console.log(values)
+    this.props.form.validateFields(async (err, values) => {
       if (err) return
       const data = {
         email: values.email,
@@ -49,12 +42,22 @@ export default class UserForm extends React.PureComponent {
         phone: values.phone,
         organization: values.organization
           ? this.state.selectOrganizations.find(
-              item => item._id === values.organization
-            )
+            item => item._id === values.organization
+          )
           : null,
       }
-      // Callback submit form Container Component
-      this.props.onSubmit(data)
+      // // Callback submit form Container Component
+      const res = await this.props.onSubmit(data)
+      if (res && res.error) {
+        this.props.form.setFields({
+          email: {
+            value: values.email,
+            errors: [
+              new Error(this.props.lang.t('userManager.form.email.errorExist'))
+            ]
+          }
+        })
+      }
     })
   }
 
@@ -77,6 +80,25 @@ export default class UserForm extends React.PureComponent {
       callback()
     }
   }
+
+  validatorPhone = (rule, value, callback) => {
+    const {
+      lang: { t }
+    } = this.props
+    if (!value) {
+      callback()
+    } else {
+      const phoneNumber = value.phoneNumber
+        .replace(/\-/g, '')
+        .replace('+' + value.dialCode, 0)
+      if (phoneNumber.length >= 9) {
+        callback()
+      } else {
+        callback(t('userManager.form.phone.format'))
+      }
+    }
+  }
+
   handleConfirmBlur = e => {
     const value = e.target.value
     this.setState({ confirmDirty: this.state.confirmDirty || !!value })
@@ -90,8 +112,6 @@ export default class UserForm extends React.PureComponent {
       },
     })
   }
-
-  async componentWillMount() {}
 
   render() {
     const {
@@ -109,7 +129,7 @@ export default class UserForm extends React.PureComponent {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Row gutter={16}>
+        <Row type="flex" gutter={16}>
           <Col span={12}>
             <FormItem
               {...formItemLayout}
@@ -131,6 +151,7 @@ export default class UserForm extends React.PureComponent {
                 ],
               })(
                 <Input
+                  size="large"
                   disabled={this.props.isEdit}
                   placeholder={t('userManager.form.email.label')}
                 />
@@ -143,20 +164,25 @@ export default class UserForm extends React.PureComponent {
               label={t('userManager.form.phone.label')}
             >
               {getFieldDecorator(`phone`, {
+                initialValue: this.props.initialValues
+                  ? this.props.initialValues.phone
+                  : null,
                 rules: [
                   {
                     required: true,
-                    message: t('userManager.form.phone.label'),
+                    message: t('userManager.form.phone.empty')
                   },
-                ],
-                // })(<ReactTelephoneInput defaultCountry="vn" flagsImagePath={!this.props.isEdit ? '../images/flags.png' : '../../images/flags.png'} onChange={this.handleTelChange} />)}
-              })(<InputPhoneNumber />)}
+                  {
+                    validator: this.validatorPhone
+                  }
+                ]
+              })(<InputPhoneNumber size="large" />)}
             </FormItem>
           </Col>
         </Row>
 
         {!this.props.isEdit && (
-          <Row gutter={16}>
+          <Row type="flex" gutter={16}>
             <Col span={12}>
               <FormItem
                 {...formItemLayout}
@@ -174,6 +200,7 @@ export default class UserForm extends React.PureComponent {
                   ],
                 })(
                   <Input
+                    size="large"
                     type="password"
                     disabled={this.props.isEdit}
                     placeholder={t('userManager.form.password.placeholder')}
@@ -198,6 +225,7 @@ export default class UserForm extends React.PureComponent {
                   ],
                 })(
                   <Input
+                    size="large"
                     type="password"
                     placeholder={t('userManager.form.confirmPassword.label')}
                     onBlur={this.handleConfirmBlur}
@@ -208,7 +236,7 @@ export default class UserForm extends React.PureComponent {
           </Row>
         )}
 
-        <Row gutter={16}>
+        <Row type="flex" gutter={16}>
           <Col span={12}>
             <FormItem
               {...formItemLayout}
@@ -221,11 +249,12 @@ export default class UserForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('userManager.form.firstName.label'),
-                  },
-                ],
+                    message: t('userManager.form.firstName.error')
+                  }
+                ]
               })(
                 <Input
+                  size="large"
                   placeholder={t('userManager.form.firstName.placeholder')}
                 />
               )}
@@ -243,10 +272,15 @@ export default class UserForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('userManager.form.lastName.label'),
-                  },
-                ],
-              })(<Input placeholder={t('userManager.form.lastName.label')} />)}
+                    message: t('userManager.form.lastName.error')
+                  }
+                ]
+              })(
+                <Input
+                  size="large"
+                  placeholder={t('userManager.form.lastName.placeholder')}
+                />
+              )}
             </FormItem>
           </Col>
         </Row>

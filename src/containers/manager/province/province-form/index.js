@@ -5,6 +5,7 @@ import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
 import InputNumberCell from 'components/elements/input-number-cell'
+import { Clearfix } from 'components/elements'
 
 const FormItem = Form.Item
 
@@ -59,7 +60,7 @@ export default class ProvinceForm extends React.PureComponent {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Row gutter={8}>
+        <Row type="flex" gutter={8}>
           <Col span={12}>
             <FormItem {...formItemLayout} label={t('province.form.key.label')}>
               {getFieldDecorator('key', {
@@ -71,6 +72,7 @@ export default class ProvinceForm extends React.PureComponent {
                 ],
               })(
                 <Input
+                  size="large"
                   disabled={this.props.isEdit}
                   placeholder={t('province.form.key.placeholder')}
                 />
@@ -83,25 +85,34 @@ export default class ProvinceForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('province.form.name.error'),
-                  },
-                ],
-              })(<Input placeholder={t('province.form.name.placeholder')} />)}
+                    message: t('province.form.name.error')
+                  }
+                ]
+              })(
+                <Input
+                  size="large"
+                  placeholder={t('province.form.name.placeholder')}
+                />
+              )}
             </FormItem>
           </Col>
-        </Row>
-        <Row gutter={8}>
           <Col span={12}>
             <FormItem
               {...formItemLayout}
               label={t('province.form.numericalOrder.label')}
             >
               {getFieldDecorator('numericalOrder', {
-                rules: [{ required: true }],
+                rules: [
+                  {
+                    required: true,
+                    message: t('province.form.numericalOrder.error')
+                  }
+                ]
               })(
                 <InputNumberCell
-                  editable={true}
-                  size="small"
+                  placeholder={t('province.form.numericalOrder.placeholder')}
+                  size="large"
+                  editable
                   min={1}
                   max={1000000}
                 />
@@ -109,9 +120,7 @@ export default class ProvinceForm extends React.PureComponent {
             </FormItem>
           </Col>
         </Row>
-        <Row gutter={8}>
-          <Col span={24} />
-        </Row>
+        <Clearfix height={16} />
         <FormItem>
           <Button style={{ width: '100%' }} type="primary" htmlType="submit">
             {t('addon.save')}

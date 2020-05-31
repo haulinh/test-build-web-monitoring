@@ -1,5 +1,4 @@
 import React from 'react'
-import { Badge } from 'antd'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import NotificationIcon from '@atlaskit/icon/glyph/notification'

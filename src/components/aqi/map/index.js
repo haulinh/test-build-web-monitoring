@@ -9,7 +9,7 @@ import AqiLevelInfo from './AqiLevelInfo'
 export default class MapComponent extends React.Component {
   render() {
     return (
-      <div style={{ height: this.props.windowHeight, flex: 2 }}>
+      <div style={{ height: this.props.windowHeight, flex: 2, position: 'relative' }}>
         <AqiLevelInfo />
         <MapView
           // ref={map => {

@@ -7,8 +7,8 @@ import { SHAPE } from 'themes/color'
 import { Dropdown, Button, Menu, Icon, Divider } from 'antd'
 import ROLE, { checkRolePriority } from 'constants/role'
 import moment from 'moment/moment'
-import { getStationAuto } from 'api/StationAuto'
-import DrawerInfoStation from './DrawerInfoStation'
+// import DrawerStation from './drawer';
+import DrawerStation from './more-content/drawer'
 
 // import protectRole from 'hoc/protect-role'
 import { translate, removeAccents } from 'hoc/create-lang'
@@ -151,6 +151,7 @@ export default class StationAutoHead extends React.PureComponent {
     isEnable: false,
     currentAction: '',
     visibleDrawer: false,
+    drawerType: ''
   }
 
   toReceivedAt = (status, receivedAt) => {
@@ -186,7 +187,7 @@ export default class StationAutoHead extends React.PureComponent {
     }
   }
 
-  handleActionOnClick(actionName, keyOpenTab) {
+  handleActionOnClick = (actionName, keyOpenTab) => () => {
     if (!keyOpenTab) {
       if (this.state.currentAction === actionName) {
         this.setState({ currentAction: '' })
@@ -197,15 +198,17 @@ export default class StationAutoHead extends React.PureComponent {
     this.props.onClickActionButton(actionName, keyOpenTab)
   }
 
-  showDrawer = () => {
+  showDrawer = drawerType => () => {
     this.setState({
       visibleDrawer: true,
+      drawerType
     })
   }
 
-  onClose = () => {
+  closeDrawer = () => {
     this.setState({
       visibleDrawer: false,
+      drawerType: ''
     })
   }
 
@@ -251,11 +254,11 @@ export default class StationAutoHead extends React.PureComponent {
               </span>
             </WrapperNameStationTypeName>
           ) : (
-            <StationName>
-              {removeAccents(language, name)}{' '}
-              {status === STATUS_STATION.NOT_USE && ' - ' + i18n.notInUse}
-            </StationName>
-          )}
+              <StationName>
+                {removeAccents(language, name)}{' '}
+                {status === STATUS_STATION.NOT_USE && ' - ' + i18n.notInUse}
+              </StationName>
+            )}
           <Clearfix width={8} />
           {/* MARK  Bỏ status={status} vì k0 can phan biet status nua */}
           <ReceivedAt id={stationID} status={STATUS_STATION.GOOD}>
@@ -265,37 +268,37 @@ export default class StationAutoHead extends React.PureComponent {
 
         <ActionWrapper>
           {!isSampling ||
-          !checkRolePriority(
-            this.props.userInfo,
-            ROLE.MONITORING.CONTROL
-          ) ? null : (
-            <Button
-              className="actionItem"
-              type={currentAction === 'sampling' ? 'primary' : 'default'}
-              onClick={() => this.handleActionOnClick('sampling')}
-            >
-              {i18n.sampling}
-            </Button>
-          )}
+            !checkRolePriority(
+              this.props.userInfo,
+              ROLE.MONITORING.CONTROL
+            ) ? null : (
+              <Button
+                className="actionItem"
+                type={currentAction === 'sampling' ? 'primary' : 'default'}
+                onClick={this.handleActionOnClick('sampling')}
+              >
+                {i18n.sampling}
+              </Button>
+            )}
 
           {!isCamera ||
-          !checkRolePriority(
-            this.props.userInfo,
-            ROLE.MONITORING.CAMERA
-          ) ? null : (
-            <Button
-              className="actionItem"
-              type={currentAction === 'camera' ? 'primary' : 'default'}
-              onClick={() => this.handleActionOnClick('camera')}
-            >
-              {i18n.camera}
-            </Button>
-          )}
+            !checkRolePriority(
+              this.props.userInfo,
+              ROLE.MONITORING.CAMERA
+            ) ? null : (
+              <Button
+                className="actionItem"
+                type={currentAction === 'camera' ? 'primary' : 'default'}
+                onClick={this.handleActionOnClick('camera')}
+              >
+                {i18n.camera}
+              </Button>
+            )}
 
-          {/* <Button
+          <Button
             className="actionItem"
             type={currentAction === 'chart' ? 'primary' : 'default'}
-            onClick={() => this.handleActionOnClick('chart')}
+            onClick={this.handleActionOnClick('chart')}
             disabled={
               !checkRolePriority(this.props.userInfo, ROLE.MONITORING.CHART)
             }
@@ -305,14 +308,14 @@ export default class StationAutoHead extends React.PureComponent {
           <Button
             className="actionItem"
             type={currentAction === 'map' ? 'primary' : 'default'}
-            onClick={() => this.handleActionOnClick('map')}
+            onClick={this.handleActionOnClick('map')}
             disabled={
               !checkRolePriority(this.props.userInfo, ROLE.MONITORING.MAP)
             }
           >
             {i18n.map}
           </Button>
-          <Button
+          {/* <Button
             className="actionItem"
             type={currentAction === 'image' ? 'primary' : 'default'}
             onClick={() => this.handleActionOnClick('image')}
@@ -360,9 +363,7 @@ export default class StationAutoHead extends React.PureComponent {
                       ROLE.DATA_SEARCH.VIEW
                     )
                   }
-                  onClick={() =>
-                    this.handleActionOnClick('more', 'historyData')
-                  }
+                  onClick={this.handleActionOnClick('more', 'historyData')}
                 >
                   {i18n.historyData}
                 </Menu.Item>
@@ -375,7 +376,7 @@ export default class StationAutoHead extends React.PureComponent {
                       ROLE.AVG_SEARCH.VIEW
                     )
                   }
-                  onClick={() => this.handleActionOnClick('more', 'avgData')}
+                  onClick={this.handleActionOnClick('more', 'avgData')}
                 >
                   {i18n.averageData}
                 </Menu.Item>
@@ -416,7 +417,7 @@ export default class StationAutoHead extends React.PureComponent {
           <Dropdown
             overlay={
               <Menu>
-                <Menu.Item
+                {/* <Menu.Item
                   key="1"
                   disabled={
                     !checkRolePriority(
@@ -438,34 +439,23 @@ export default class StationAutoHead extends React.PureComponent {
                 >
                   {i18n.map}
                 </Menu.Item>
-                <Divider style={{ margin: 0 }} />
+                <Divider style={{ margin: 0 }} /> */}
                 <Menu.Item
                   key="3"
-                  // disabled={
-                  //   checkRolePriority(
-                  //     this.props.userInfo,
-                  //     ROLE.QAQCCONFIG.VIEW
-                  //   )
-                  // }
                   disabled={
                     !checkRolePriority(
                       this.props.userInfo,
                       ROLE.MONITORING.IMAGES
                     )
                   }
-                  onClick={() => this.handleActionOnClick('image')}
+                  // onClick={this.handleActionOnClick('image')}
+                  onClick={this.showDrawer('image')}
                 >
                   {i18n.images}
                 </Menu.Item>
                 <Divider style={{ margin: 0 }} />
                 <Menu.Item
                   key="4"
-                  // disabled={
-                  //     this.props.userInfo,
-                  //   !checkRolePriority(
-                  //     ROLE.STATION_AUTO.EDIT
-                  //   )
-                  // }
                   disabled={
                     !checkRolePriority(
                       this.props.userInfo,
@@ -473,7 +463,7 @@ export default class StationAutoHead extends React.PureComponent {
                     )
                   }
                   // onClick={() => this.handleActionOnClick('station')}
-                  onClick={this.showDrawer}
+                  onClick={this.showDrawer('info')}
                 >
                   {i18n.stationInfo}{' '}
                 </Menu.Item>
@@ -486,7 +476,7 @@ export default class StationAutoHead extends React.PureComponent {
                       ROLE.MONITORING.REVIEWSTATION
                     )
                   }
-                  onClick={() => this.handleActionOnClick('rating')}
+                  onClick={this.handleActionOnClick('rating')}
                 >
                   {i18n.reviewStation}
                 </Menu.Item>
@@ -495,8 +485,9 @@ export default class StationAutoHead extends React.PureComponent {
           >
             <Button className="actionItem">...</Button>
           </Dropdown>
-          <DrawerInfoStation
-            onClose={this.onClose}
+          <DrawerStation
+            type={this.state.drawerType}
+            onClose={this.closeDrawer}
             visibleDrawer={this.state.visibleDrawer}
             _id={_id}
           />

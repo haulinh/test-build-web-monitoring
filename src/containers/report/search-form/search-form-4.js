@@ -66,7 +66,10 @@ export default class SearchForm extends React.Component {
     // let me = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log("Received values of form: ", values);
+        console.log(
+          'Received values of form: ',
+          values.toMonth.format('MMM DD h:mm A')
+        )
         if (this.props.cbSubmit) {
           const measuringListStr = this.state.measuringList.map(item =>
             encodeURIComponent(item.key)
@@ -75,14 +78,15 @@ export default class SearchForm extends React.Component {
           const measuringListUnitStr = this.state.measuringList.map(item =>
             encodeURIComponent(item.unit)
           )
-          // .join(",");
-          // console.log(moment(values.toMonth).format(),moment().format(),"ABC")
 
-          values.fromMonth = moment(values.toMonth).startOf('month')
+          values.fromMonth = values.fromMonth.startOf('month')
+
+          //  toMonth > ngày hiện tại -> trả về toMonth là ngày hiện tại
+          // ko thì trả về giá trị toMonth ban đầu
           values.toMonth =
-            moment(values.toMonth).endOf('month') > moment()
+            values.toMonth.endOf('month') > moment()
               ? moment()
-              : moment(values.toMonth).endOf('month')
+              : values.toMonth.endOf('month')
 
           this.props.cbSubmit({
             ...values,

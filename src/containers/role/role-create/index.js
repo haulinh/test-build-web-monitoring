@@ -9,6 +9,7 @@ import Breadcrumb from 'containers/role/breadcrumb'
 import RoleApi from 'api/RoleApi'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import Clearfix from 'components/elements/clearfix'
 
 @withRouter
 @protectRole(ROLE.ROLE.CREATE)
@@ -29,7 +30,8 @@ export default class RoleCreate extends PureComponent {
         type: 'error',
         text: record.message,
       })
-    } else {
+    }
+    if (record.success) {
       swal({
         title: 'success',
         type: 'success',
@@ -37,12 +39,14 @@ export default class RoleCreate extends PureComponent {
         this.props.history.push(slug.role.base)
       })
     }
+    return record
   }
 
   render() {
     return (
       <PageContainer>
         <Breadcrumb items={['list', 'create']} />
+        <Clearfix height={16} />
         <RoleForm onSubmit={this.onSubmit} />
       </PageContainer>
     )

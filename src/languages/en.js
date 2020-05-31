@@ -599,6 +599,7 @@ export default {
       numericalOrder: {
         label: 'Numerical Order',
         placeholder: 'Numerical Order',
+        error: 'Please input numerical order'
       },
       action: {
         label: 'Action',
@@ -653,8 +654,9 @@ export default {
       numericalOrder: {
         label: 'Numerical Order',
         placeholder: 'Numerical Order',
-      },
-    },
+        error: 'Please input numerical order'
+      }
+    }
   },
   qcvn: {
     list: {
@@ -663,7 +665,7 @@ export default {
     create: {
       label: 'Create',
       success: 'Add QCVN Successfully',
-      keyExisted: 'QCVN Is Already Existed',
+      keyExisted: 'QCVN is already existed'
     },
     edit: {
       label: 'Edit',
@@ -680,7 +682,7 @@ export default {
         label: 'Code',
         placeholder: 'Input QCVN Code',
         error: 'Please Input QCVN Code',
-        existError: 'QCVN Code is exist',
+        existError: 'QCVN code is exist'
       },
       name: {
         label: 'Name',
@@ -693,7 +695,8 @@ export default {
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order',
+        placeholder: 'Input Numerical Order',
+        error: 'Please Input Numerical Order'
       },
       action: {
         label: 'Action',
@@ -739,8 +742,9 @@ export default {
       numericalOrder: {
         label: 'Numerical Order',
         placeholder: 'Numerical Order',
-      },
-    },
+        error: 'Please input numerical order'
+      }
+    }
   },
   configWQI: {
     breadCrumb: 'Config WQI, AQI',
@@ -892,7 +896,7 @@ export default {
         label: 'Phone',
         placeholder: 'Input the phone number responsible person',
       },
-      processProdution: {
+      processProduction: {
         label: 'Production process',
         placeholder: 'Production process',
       },
@@ -1147,6 +1151,10 @@ export default {
       dataLogger: 'DataLogger',
       approve: 'Approve Data',
     },
+    update: {
+      success: 'Update success',
+      error: 'Upload failed'
+    },
     upload: {
       label: 'Upload',
       error: 'Upload Image Failed',
@@ -1180,12 +1188,22 @@ export default {
       usernameLabel: 'Username:',
       passwordLabel: 'Password:',
     },
+    image: {
+      label: 'Image station: {{=it.name}}',
+      create: 'Create image'
+    },
     infoStation: {
       title: 'Station Information',
       edit: 'Edit',
       career: 'Career',
       emptyText: 'Not have data',
-    },
+      yearOperate: 'Year Operate',
+      capacity: 'Capacity',
+      processProduction: 'Process Production',
+      userResponsible: 'User Responsible',
+      userSupervisor: 'User Supervisor',
+      website: 'Website'
+    }
   },
   parameterManager: {
     breadcrumb: {
@@ -1215,6 +1233,7 @@ export default {
         label: 'Email Address',
         placeholder: 'Email Address',
         error: 'The Input Email Address Is Not Valid',
+        errorExist: 'Email Address Is Exist'
       },
       password: {
         label: 'Password',
@@ -1228,10 +1247,12 @@ export default {
       firstName: {
         label: 'First Name',
         placeholder: 'First Name',
+        error: 'Please input first name'
       },
       lastName: {
         label: 'Last Name',
         placeholder: 'Last Name',
+        error: 'Please input last name'
       },
       country: {
         label: 'Country',
@@ -1244,6 +1265,8 @@ export default {
       phone: {
         label: 'Phone',
         placeholder: 'Phone',
+        empty: 'Please input phone',
+        format: 'The phone number not correct'
       },
       isAdmin: {
         label: 'Admin Role',
@@ -1304,6 +1327,8 @@ export default {
         label: 'Name',
         placeholder: 'Input Name',
         error: 'Please Input Name',
+        errorExist: 'Name is exist',
+        limit: 'Must be 5 characters or more'
       },
       description: {
         label: 'Description',
@@ -1464,7 +1489,7 @@ export default {
         isTransfer: 'Edit Send FTP Station',
         updateFTP: 'Edit Info FTP',
         publicStation: 'Edit Publish Station',
-        view: 'Xem',
+        view: 'View',
         camera: 'Camera',
         control: 'Sampling',
         chart: 'Chart',
@@ -1546,8 +1571,8 @@ export default {
     Phone: 'Phone',
     upload: 'Upload',
     imageUpload: {
-      success: 'Done',
-      error: 'Upload Image Failed',
+      success: 'Upload Image Success',
+      error: 'Upload Image Failed'
     },
     user: 'User Info',
     organization: 'Organization Info',
@@ -1891,7 +1916,25 @@ export default {
     action: {
       login: 'Login',
       logout: 'Logout',
-    },
+      add_measuring: 'Add Measuring',
+      update_measuring: 'Update Measuring',
+      delete_measuring: 'Delete Measuring',
+      add_province: 'Add Province',
+      update_province: 'Update Province',
+      delete_province: 'Delete Province',
+      add_qcvn: 'Add QCVN',
+      update_qcvn: 'Update QCVN',
+      delete_qcvn: 'Delete QCVN',
+      add_station_type: 'Add Station Type',
+      update_station_type: 'Update Station Type',
+      delete_station_type: 'Delete Station Type',
+      add_station_auto: 'Add Station Auto',
+      update_station_auto: 'Update Station Auto',
+      delete_station_auto: 'Delete Station Auto',
+      add_role: 'Add Role',
+      update_role: 'Update Role',
+      delete_role: 'Delete Role'
+    }
   },
   cameraControl: {
     station: {
@@ -2038,4 +2081,8 @@ export default {
     statusSensor: 'Status Sensor',
     statusData: 'Status Data',
   },
+  apps: {
+    incidents: "Incidents Communication",
+    monitoring: "Online Monitoring"
+  }
 }

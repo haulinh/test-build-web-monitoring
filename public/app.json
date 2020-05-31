@@ -1,13 +1,13 @@
 {
   "apiGateway": "https://sprint-api.ilotusland.asia",
-  "apiMedia": "https://sprint-media.ilotusland.asia",
+  "apiMedia": "https://media.ilotusland.asia",
   "apiCamera": "http://27.74.251.0:5020",
   "camera": {
     "host": "http://103.140.42.141:8081",
     "username": "admin",
     "password": "vietan@123"
   },
-  "intercomID": "h8ixjy83",
+  "intercomID": "my373fj4",
   "firebase": {
     "id": "851178570095",
     "key": "BG-eoUrbkgXVNWjNxXTfh2K_xn5JfCxFek3fmjKx-GXQC4uJ3EvWJ56ZHuXa-LvRL8IEINeA9H8JN7cM5LKXkQ4"

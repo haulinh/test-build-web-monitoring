@@ -3,6 +3,7 @@ import { connectAutoDispatch } from 'redux/connect'
 import ChangeLanguage from 'layout/navigation-layout/ChangeLanguage'
 import { logout } from 'redux/actions/authAction'
 import slug from 'constants/slug'
+import { translate } from 'hoc/create-lang'
 import NotificationIcon from './NotificationIcon'
 import UserDropdown from './UserDropdown'
 import AppItem from './AppItem'
@@ -36,8 +37,8 @@ export default class SidebarGlobalLayout extends React.PureComponent {
             <img alt="iLotusLand" src="/images/logo/logo-icon.png" />
           </a>
           <SidebarGlobal.Line />
-          <AppItem name="Monitoring" color="#2C5DE5" icon="appMonitoring" href="/" />
-          <AppItem name="Incidents" color="rgb(46, 213, 115)" icon="appIncident" href={slug.apps.incidents} />
+          <AppItem name={translate('apps.monitoring')} color="#2C5DE5" icon="appMonitoring" href="/" />
+          <AppItem name={translate('apps.incidents')} color="rgb(46, 213, 115)" icon="appIncident" href={slug.apps.incidents} />
         </SidebarGlobal.SidebarTop>
         <SidebarGlobal.SidebarBottom>
           <NotificationIcon />

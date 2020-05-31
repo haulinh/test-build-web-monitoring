@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import Clearfix from 'components/elements/clearfix'
 
 @protectRole(ROLE.USER.EDIT)
 @createManagerEdit({
@@ -71,6 +72,7 @@ export default class UserEdit extends React.PureComponent {
             },
           ]}
         />
+        <Clearfix height={16} />
         {this.props.isLoaded && this.props.data && (
           <UserForm
             initialValues={this.props.data}

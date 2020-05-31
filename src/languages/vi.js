@@ -598,6 +598,7 @@ export default {
       numericalOrder: {
         label: 'Số thứ tự',
         placeholder: 'Nhập số thứ tự',
+        error: 'Vui lòng nhập số thứ tự'
       },
       action: {
         label: ' ',
@@ -652,8 +653,9 @@ export default {
       numericalOrder: {
         label: 'Số thứ tự',
         placeholder: 'Nhập số thứ tự',
-      },
-    },
+        error: 'Vui lòng nhập số thứ tự'
+      }
+    }
   },
   qcvn: {
     list: {
@@ -690,6 +692,7 @@ export default {
       numericalOrder: {
         label: 'Số thứ tự',
         placeholder: 'Nhập số thứ tự',
+        error: 'Vui lòng nhập số thứ tự'
       },
       action: {
         label: ' ',
@@ -735,8 +738,9 @@ export default {
       numericalOrder: {
         label: 'Số thứ tự',
         placeholder: 'Nhập số thứ tự',
-      },
-    },
+        error: 'Vui lòng nhập số thứ tự'
+      }
+    }
   },
   configWQI: {
     breadCrumb: 'Cấu hình tính WQI, AQI',
@@ -888,7 +892,7 @@ export default {
         label: 'Số điện thoại',
         placeholder: 'Nhập số điện thoại người chịu trách nhiệm',
       },
-      processProdution: {
+      processProduction: {
         label: 'Quy trình sản xuất',
         placeholder: 'Quy trình sản xuất',
       },
@@ -1144,6 +1148,10 @@ export default {
       dataLogger: 'DataLogger',
       approve: 'Kiểm duyệt dữ liệu',
     },
+    update: {
+      success: 'Cập nhật thành công',
+      error: 'Cập nhật không thành công'
+    },
     upload: {
       label: 'Tải lên',
       error: 'Tải ảnh thất bại',
@@ -1177,12 +1185,22 @@ export default {
       usernameLabel: 'Tên đăng nhập:',
       passwordLabel: 'Mật khẩu:',
     },
+    image: {
+      label: 'Hình ảnh trạm quan trắc {{=it.name}}',
+      create: 'Thêm hình ảnh'
+    },
     infoStation: {
       title: 'Thông tin trạm',
       edit: 'Chỉnh sửa',
       career: 'Ngành nghề',
       emptyText: 'Không có dữ liệu',
-    },
+      yearOperate: 'Năm bắt đầu hoạt động',
+      capacity: 'Công xuất thiết kế',
+      processProduction: 'Quy trình sản xuất',
+      userResponsible: 'Người chịu trách nhiệm',
+      userSupervisor: 'NGười dám sát',
+      website: 'Website'
+    }
   },
   parameterManager: {
     breadcrumb: {
@@ -1212,6 +1230,7 @@ export default {
         label: 'Địa chỉ Email',
         placeholder: 'Địa chỉ Email',
         error: 'Địa chỉ Email không hợp lệ',
+        errorExist: 'Địa chỉ email này đã tồn tại'
       },
       password: {
         label: 'Mật khẩu',
@@ -1225,10 +1244,12 @@ export default {
       firstName: {
         label: 'Tên',
         placeholder: 'Tên',
+        error: 'Vui lòng nhập tên của bạn'
       },
       lastName: {
         label: 'Họ & Tên đệm',
         placeholder: 'Họ & Tên đệm',
+        error: 'Vui lòng nhập họ và tên đệm'
       },
       country: {
         label: 'Quốc gia',
@@ -1241,6 +1262,8 @@ export default {
       phone: {
         label: 'Số điện thoại',
         placeholder: 'Số điện thoại',
+        empty: 'Vui lòng nhập số điện thoại',
+        format: 'Số điện thoại không đúng'
       },
       isAdmin: {
         label: 'Quản trị hệ thống',
@@ -1300,6 +1323,8 @@ export default {
         label: 'Tên nhóm',
         placeholder: 'Nhập tên nhóm',
         error: 'Vui lòng nhập tên nhóm',
+        errorExist: 'Nhóm quyền đã tồn tại',
+        limit: 'Tên nhóm phải lớn hơn 5 ký tự'
       },
       description: {
         label: 'Mô tả',
@@ -1530,7 +1555,7 @@ export default {
     success: 'Thay đổi thông tin thành công',
     infoLicense: 'Thông tin gói',
     viewProfile: 'Thông tin cá nhân',
-    configStation: 'Cấu hình trạm',
+    configStation: 'Cấu hình nhận cảnh báo',
     security: 'Bảo mật',
     logOut: 'Đăng xuất',
     changePassword: 'Đổi mật khẩu',
@@ -1542,8 +1567,8 @@ export default {
     Phone: 'Số điện thoại',
     upload: 'Tải ảnh lên',
     imageUpload: {
-      success: 'Hoàn thành',
-      error: 'Tải ảnh lên thất bại',
+      success: 'Tải ảnh lên thành công',
+      error: 'Tải ảnh lên thất bại'
     },
     user: 'Thông tin cá nhân',
     organization: 'Thông tin tổ chức',
@@ -1886,7 +1911,25 @@ export default {
     action: {
       login: 'Đăng nhập',
       logout: 'Đăng xuất',
-    },
+      add_measuring: 'Thêm chỉ tiêu quan trắc',
+      update_measuring: 'Cập nhật chỉ tiêu quan trắc',
+      delete_measuring: 'Xoá chỉ tiêu quan trắc',
+      add_province: 'Thêm đơn vị quản lý',
+      update_province: 'Cập nhật đơn vị quản lý',
+      delete_province: 'Xoá đơn vị quản lý',
+      add_qcvn: 'Thêm quy chuẩn',
+      update_qcvn: 'Cập nhật quy chuẩn',
+      delete_qcvn: 'Xoá quy chuẩn',
+      add_station_type: 'Thêm loại trạm',
+      update_station_type: 'Cập nhật loại trạm',
+      delete_station_type: 'Xoá loại trạm',
+      add_station_auto: 'Thêm trạm quan trắc',
+      update_station_auto: 'Cập nhật trạm quan trắc',
+      delete_station_auto: 'Xoá trạm quan trắc',
+      add_role: 'Thêm nhóm quyền',
+      update_role: 'Cập nhật nhóm quyền',
+      delete_role: 'Xoá nhóm quyền'
+    }
   },
   cameraControl: {
     station: {
@@ -2032,4 +2075,8 @@ export default {
     statusSensor: 'Trạng thái thiết bị',
     statusData: 'Trạng thái dữ liệu',
   },
+  apps: {
+    incidents: "Quản lý sự cố",
+    monitoring: "Giám sát trực tuyến"
+  }
 }

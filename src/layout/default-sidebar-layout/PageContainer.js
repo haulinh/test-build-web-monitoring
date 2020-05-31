@@ -37,7 +37,7 @@ export const GridSticky = styled.div`
   margin-left: auto;
   margin-right: auto;
   height: 100%;
-  padding: 0px 24px;
+  padding: 8px 24px;
 `
 
 const BreadcrumbContainer = styled.div`

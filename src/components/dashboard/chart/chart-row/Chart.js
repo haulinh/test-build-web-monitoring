@@ -149,18 +149,18 @@ export default class ChartRowToChart extends React.Component {
       measuringKeys = _.keys(categories)
       let toDate = moment()
       let fromDate = moment().subtract(day, 'days')
-      if (_.has(station, 'lastLog.receivedAt')) {
-        toDate = moment(_.get(station, 'lastLog.receivedAt', new Date()))
-        fromDate = moment(
-          _.get(station, 'lastLog.receivedAt', new Date())
-        ).subtract(day, 'days')
-      }
+      // if (_.has(station, 'lastLog.receivedAt')) {
+      // 	toDate = moment(_.get(station, 'lastLog.receivedAt', new Date()));
+      // 	fromDate = moment(
+      // 		_.get(station, 'lastLog.receivedAt', new Date())
+      // 	).subtract(day, 'days');
+      // }
 
       const dataSources = await getDataStationAutos(
         { page: 1, itemPerPage: 3000 },
         {
-          fromDate: fromDate.utc().format('YYYY-MM-DD 04:mm'),
-          toDate: toDate.utc().format('YYYY-MM-DD HH:mm'),
+          fromDate: fromDate.utc().format(),
+          toDate: toDate.utc().format(),
           key: _.get(station, 'key', 'vas'),
           measuringList: measuringKeys,
         }

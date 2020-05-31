@@ -84,6 +84,7 @@ const CENTER = {
     changeOpenSubMenu,
   }
 )
+@autobind
 export default class MenuApp extends React.PureComponent {
   static propTypes = {
     onToggle: PropTypes.func,
@@ -158,7 +159,7 @@ export default class MenuApp extends React.PureComponent {
   }
 
   render() {
-    const { pathname } = this.props.location
+    // const { pathname } = this.props.location
     const isOpen = this.props.isOpenNavigation
     //&& pathname !== slug.monitoringList.base
     return (

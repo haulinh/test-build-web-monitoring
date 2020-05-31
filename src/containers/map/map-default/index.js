@@ -24,7 +24,7 @@ import { pick as _pick, set as _set, get as _get } from 'lodash'
 const MapDefaultWrapper = styled.div`
   display: flex;
   height: ${props => props.height}px;
-  margin-top: 8px;
+  padding-top: 8px;
   margin-bottom: 8px;
 `
 

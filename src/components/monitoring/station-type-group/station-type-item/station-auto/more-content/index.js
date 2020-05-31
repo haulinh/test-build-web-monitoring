@@ -11,7 +11,6 @@ import MoreSampling from './sampling/'
 import MoreCamera from './camera'
 import MoreChart from './chart/index'
 import MoreMap from './map'
-import MoreImage from './image'
 import MoreStation from './station'
 import MoreRating from './rating'
 
@@ -71,9 +70,6 @@ export default class SamplingMoreInfo extends React.Component {
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="map" key="map">
                   <MoreMap stationID={stationID} />
-                </Tabs.TabPane>
-                <Tabs.TabPane tab="image" key="image">
-                  <MoreImage stationID={stationID} />
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="station" key="station">
                   <MoreStation stationID={stationID} />

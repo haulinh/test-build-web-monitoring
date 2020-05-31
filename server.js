@@ -16,13 +16,13 @@ app.get('/app.json', function (req, res) {
       username: process.env.CAMERA_USERNAME,
       password: process.env.CAMERA_PASSWORD
     },
-    intercomID: process.env.INTERCOM_ID || "az33rewf",
+    intercomID: process.env.INTERCOM_ID || "my373fj4",
     firebase: {
       id: process.env.FIREBASE_ID,
       key: process.env.FIREBASE_KEY
     },
     apps: {
-      incidents: process.env.APP_INCIDENTS_URL,
+      incidents: process.env.APP_INCIDENTS_URL || 'https://incident-app.ilotusland.asia',
     },
     isAdvanced: process.env.isAdvanced,
     defaultPage: process.env.DEFAULT_PAGE || '/',
