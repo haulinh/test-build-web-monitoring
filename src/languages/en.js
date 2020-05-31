@@ -3,14 +3,14 @@ export default {
     time: {
       second: 'second',
       minute: 'minute',
-      hour: 'hour'
-    }
+      hour: 'hour',
+    },
   },
   chart: {
     all: 'All',
     time: 'Time',
     from: 'From',
-    to: 'To'
+    to: 'To',
   },
   dashboard: {
     good: 'Good',
@@ -27,14 +27,14 @@ export default {
     selectProvince: 'Select Site',
     tableList: {
       name: 'Name',
-      dataStatus: 'Status'
+      dataStatus: 'Status',
     },
     chartRatio: {
       title: 'Data receiving rate',
       dataByDate: 'The {{=it.day}}-day {{=it.unit}} data rate',
       received: 'Recieved Data',
       notReceived: `Not Recieved`,
-      byDay: '{{=it.day}} days'
+      byDay: '{{=it.day}} days',
     },
     chartStatus: {
       title: 'Connection status of the station',
@@ -44,10 +44,10 @@ export default {
       dataLoss: `Disconnected`,
       stations: 'stations',
       max: 'Maximum: {{=it.max}}',
-      min: 'Minimum: {{=it.min}}'
+      min: 'Minimum: {{=it.min}}',
     },
     activeStationPer: 'Station Active ({{=it.good}}/{{=it.total}})',
-    unit: 'Unit'
+    unit: 'Unit',
   },
   monitoring: {
     title: 'Monitoring',
@@ -73,7 +73,7 @@ export default {
       maintenance: 'Calibration',
       sensorNormal: 'Sensor Normal',
       normal: 'Normal',
-      broken: 'Broken'
+      broken: 'Broken',
     },
     statusResult: 'Monitoring results',
     note: 'Note',
@@ -90,15 +90,15 @@ export default {
         historyData: 'History Data',
         averageData: 'Average Data',
         checkData: 'Check Data',
-        config: 'Configure to Send Notifications'
-      }
+        config: 'Configure to Send Notifications',
+      },
     },
     moreContent: {
       sampling: {
         tabs: {
           sampling: 'Sampling',
           history: 'History',
-          config: 'Config'
+          config: 'Config',
         },
         content: {
           totalBottles: 'Total bottles:',
@@ -129,33 +129,33 @@ export default {
             cancel_schedule: 'Cancel Sampling By Scheduled',
             active_schedule: 'Active Sampling By Scheduled',
             config: 'Modify Configuration',
-            reset_bottles: 'Reset Sampled Bottles'
+            reset_bottles: 'Reset Sampled Bottles',
           },
           config: {
             totalBottles: 'Total bottles:',
             controlTagName: 'Controlling Tag name:',
             timeToTakeOneBottle: 'Time to take one bottle (minutes):',
-            save: 'Save'
-          }
-        }
+            save: 'Save',
+          },
+        },
       },
       chart: {
         tab: {
           avgHour: 'Hourly',
-          avgDay: 'Daily'
+          avgDay: 'Daily',
         },
         content: {
           minLimit: 'Minimum',
           maxLimit: 'Maximum',
           to: 'To',
-          from: 'From'
-        }
-      }
-    }
+          from: 'From',
+        },
+      },
+    },
   },
   aqi: {
     title: 'Air Quality Index',
-    paramsTitle: 'The {{= it.day}}-day AQI value of each parameter'
+    paramsTitle: 'The {{= it.day}}-day AQI value of each parameter',
   },
   aqiConfigCalculation: {
     pageName: 'Configure to AQI calculation',
@@ -180,10 +180,10 @@ export default {
     colAvg1H: 'Average 1 hour',
     colAvg8H: 'Average 8 hour',
     colAvg1D: 'Average 1 day',
-    colUnit: 'Unit'
+    colUnit: 'Unit',
   },
   wqi: {
-    title: 'Water Quality Index'
+    title: 'Water Quality Index',
   },
   wqiConfigCalculation: {
     pageName: 'Configure to WQI calculation',
@@ -219,14 +219,14 @@ export default {
     colGroupII: 'Group II',
     colGroupIII: 'Group III',
     colGroupIV: 'Group IV',
-    colGroupV: 'Group V'
+    colGroupV: 'Group V',
   },
   qaqc: {
     configPublish: {
       title: 'Publish Configuration',
       stationName: 'Station Name',
       publish: 'Publish',
-      measurePublish: 'Measuring Publish'
+      measurePublish: 'Measuring Publish',
     },
     publish: 'Publish',
     title: `QA/QC`,
@@ -241,7 +241,7 @@ export default {
       negative: 'Negative',
       outOfRange: 'Out of range',
       isZero: 'Is Zero',
-      deviceStatus: 'Device Status'
+      deviceStatus: 'Device Status',
     },
     data: 'Data Type',
     approve: 'Approve',
@@ -257,20 +257,20 @@ export default {
     ok: 'OK',
     province: {
       label: 'Select Site',
-      placeholder: 'Select Site'
+      placeholder: 'Select Site',
     },
     notEmpty: '{{=it.value}} is required!',
     pageInfo: '{{=it.from}}-{{=it.to}} of {{it.total}} items',
     msg: {
       confirmUnApprove: 'Do you want to cancel the selected approval?',
       success: 'Saved Successfully',
-      failure: 'Save failure'
+      failure: 'Save failure',
     },
     date: {
       from: 'From Date',
-      to: 'To Date'
+      to: 'To Date',
     },
-    outOfRange: 'Out of range'
+    outOfRange: 'Out of range',
   },
   qaqcConfig: {
     title: 'QAQC Config',
@@ -278,23 +278,23 @@ export default {
     deviceError: 'Sensor error',
     deviceCalibration: 'Sensor Calibration',
     zero: 'Zero value',
-    negative: 'Negative value'
+    negative: 'Negative value',
   },
   controlStation: {
     text: 'Sampling',
     breadcrumb: {
       trigger: 'Sampling',
       history: 'History',
-      config: 'Config'
+      config: 'Config',
     },
     trigger: {
       triggerSuccess: 'Trigger Succeeded',
       triggerCancel: 'Trigger Cancel Succeeded',
-      triggerExceeded: ' Trigger Exceeded'
+      triggerExceeded: ' Trigger Exceeded',
     },
     config: {
       reset: 'Reset Succeeded',
-      success: 'Config Succeeded'
+      success: 'Config Succeeded',
     },
     bottle: 'Bottle Number',
     handMade: 'Manual',
@@ -317,7 +317,7 @@ export default {
     triggerExceeded: 'Trigger Exceeded',
     cancelTriggerExceeded: 'Cancel Trigger Exceeded',
     statusSampling: 'Sampling ...',
-    viewMore: 'View More'
+    viewMore: 'View More',
   },
   map: {
     mapOverview: 'Map Overview',
@@ -334,10 +334,10 @@ export default {
       notify: 'Notifications',
       noData: 'No Data Available',
       dataStatus: 'Data Status',
-      stationStatus: 'Station Status'
+      stationStatus: 'Station Status',
     },
     menuLeft: {
-      stationSearch: 'Search By Station'
+      stationSearch: 'Search By Station',
     },
     dataTable: {
       measuring: 'Measuring',
@@ -353,8 +353,8 @@ export default {
         sampling: 'Sampling',
         camera: 'Camera',
         viewData: 'View Data',
-        detail: 'Detail'
-      }
+        detail: 'Detail',
+      },
     },
     marker: {
       transmitting: 'Transmitting',
@@ -364,21 +364,21 @@ export default {
       image: 'Image',
       time: 'Time',
       status: 'Status',
-      result: 'Results'
-    }
+      result: 'Results',
+    },
   },
   dataSearchFixed: {
     downloadTemplate: 'Download Template',
     importData: 'Import Data',
     importSuccess: 'Import Data Success',
-    importFailed: 'Import Data Failed'
+    importFailed: 'Import Data Failed',
   },
   dataSearchFrom: {
     titleText: 'Data Search',
     options: {
       byHours: '{{=it.value}} Hours',
       byDay: '{{=it.value}} Day',
-      range: 'In range'
+      range: 'In range',
     },
     form: {
       all: 'All',
@@ -386,55 +386,55 @@ export default {
       stationType: {
         label: 'Type Of Station',
         placeholder: 'Select Type Of Station',
-        require: 'Please Choose Type Of Station'
+        require: 'Please Choose Type Of Station',
       },
       stationAuto: {
         label: 'Station Name',
-        placeholder: 'Select Station Name'
+        placeholder: 'Select Station Name',
       },
       fromDate: {
         label: 'Start',
-        placeholder: 'Select Starting Date'
+        placeholder: 'Select Starting Date',
       },
       toDate: {
         label: 'End',
-        placeholder: 'Select Ending date'
+        placeholder: 'Select Ending date',
       },
       measuringList: {
         label: 'Parameters',
         placeholder: 'Select Parameter',
-        require: 'Choose At Least 1 Parameter'
+        require: 'Choose At Least 1 Parameter',
       },
       isExceeded: {
-        label: 'Only Exceeded'
+        label: 'Only Exceeded',
       },
       operator: {
-        label: 'Operator'
+        label: 'Operator',
       },
       value: {
-        label: 'Value'
+        label: 'Value',
       },
       type: {
-        label: 'Type Of Report'
+        label: 'Type Of Report',
       },
       advanced: {
         label: 'Advanced',
-        reset: 'Reset'
-      }
+        reset: 'Reset',
+      },
     },
     table: {
       emptyText: 'There Are No Records To Display',
       receivedAt: 'Time Send File',
       time: 'Date Time',
       all: 'All',
-      numericalOrder: 'No.'
+      numericalOrder: 'No.',
     },
     tab: {
       data: 'Data',
       chart: 'Chart',
       exportExcel: 'Export To Excel',
       statusExport: 'Exporting...',
-      dataProcess: 'Recalculate the Result'
+      dataProcess: 'Recalculate the Result',
     },
     analyze: {
       max: 'Max',
@@ -442,23 +442,23 @@ export default {
       min: 'Min',
       minTime: 'Min Time',
       avg: 'Average',
-      parameters: 'Parameters'
-    }
+      parameters: 'Parameters',
+    },
   },
   aqiSearchForm: {
     form: {
       inRange: {
         label: 'In Range',
-        error: 'Please Choose In Range'
+        error: 'Please Choose In Range',
       },
       from: {
         label: 'Time Frame From',
-        error: 'Please Choose Time Frame'
+        error: 'Please Choose Time Frame',
       },
       to: {
-        label: 'To'
-      }
-    }
+        label: 'To',
+      },
+    },
   },
 
   avgSearchFrom: {
@@ -468,57 +468,57 @@ export default {
       stationType: {
         label: 'Type Of Station',
         placeholder: 'Select Type Of Station',
-        error: 'Please Choose Type Of Station'
+        error: 'Please Choose Type Of Station',
       },
       rangesDate: {
-        error: 'Please Choose Time'
+        error: 'Please Choose Time',
       },
       stationAuto: {
         label: 'Station Name',
         placeholder: 'Select Station Name',
-        error: 'Please Choose Station Name'
+        error: 'Please Choose Station Name',
       },
       fromDate: {
         label: 'Start',
-        placeholder: 'Select Starting Date'
+        placeholder: 'Select Starting Date',
       },
       toDate: {
         label: 'End',
-        placeholder: 'Select Ending Date'
+        placeholder: 'Select Ending Date',
       },
       fromMonth: {
         label: 'From Month/Year',
         placeholder: 'Select Month/Year',
-        error: 'Please Choose The Time'
+        error: 'Please Choose The Time',
       },
       toMonth: {
         label: 'To  Month/Year',
         placeholder: 'Select Month/Year',
         error: 'Please Choose The Time',
         error1: 'The Start Date Is Greater Than The End Date',
-        error2: 'Do not exceed the current month'
+        error2: 'Do not exceed the current month',
       },
       measuringList: {
         label: 'Parameters',
         placeholder: 'Select Parameter',
-        require: 'Choose At Least 1 Parameter'
+        require: 'Choose At Least 1 Parameter',
       },
       isExceeded: {
-        label: 'Only Exceeded Data'
+        label: 'Only Exceeded Data',
       },
       operator: {
-        label: 'Operator'
+        label: 'Operator',
       },
       value: {
-        label: 'Value'
+        label: 'Value',
       },
       type: {
         label: 'Average Data',
-        error: 'Please Choose Average Data'
+        error: 'Please Choose Average Data',
       },
       advanced: {
-        label: 'Advanced'
-      }
+        label: 'Advanced',
+      },
     },
     table: {
       receivedAt: 'Received At',
@@ -547,7 +547,7 @@ export default {
         'Statistics about the percentage of exceeded of {{=it.fromMonth}} station in {{=it.toMonth}}',
       title5: 'REPORT THE RESULTS OF 8-HOUR AVERAGE MONITORING',
       description5:
-        'Statistics about Results of 8-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}'
+        'Statistics about Results of 8-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
     },
     selectTimeRange: {
       minute: 'Minute',
@@ -557,171 +557,171 @@ export default {
       year: 'Year',
       errorMonth: 'Please Choose The Month',
       errorDay: 'Please Choose The Day',
-      error: 'Please Choose The Time'
+      error: 'Please Choose The Time',
     },
     tab: {
       data: 'Data',
       chart: 'Chart',
       exportExcel: 'Export To Excel',
-      statusExport: 'Exporting ...'
-    }
+      statusExport: 'Exporting ...',
+    },
   },
   measuringManager: {
     list: {
-      title: 'Parameters'
+      title: 'Parameters',
     },
     create: {
       success: 'Add Parameter Successfully',
-      keyExisted: 'Parameter Is Already Existed'
+      keyExisted: 'Parameter Is Already Existed',
     },
     edit: {
       label: 'Edit',
-      success: 'Update Parameter Successfully'
+      success: 'Update Parameter Successfully',
     },
     delete: {
-      label: 'Delete'
+      label: 'Delete',
     },
     form: {
       key: {
         label: 'Code',
         placeholder: 'Input Parameter Code',
-        error: 'Please Input Parameter Code'
+        error: 'Please Input Parameter Code',
       },
       name: {
         label: 'Name',
         placeholder: 'Input Parameter Name',
-        error: 'Please Input Parameter Name'
+        error: 'Please Input Parameter Name',
       },
       unit: {
         label: 'Unit',
-        placeholder: 'Input Unit Of Parameter'
+        placeholder: 'Input Unit Of Parameter',
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order'
+        placeholder: 'Numerical Order',
       },
       action: {
-        label: 'Action'
+        label: 'Action',
       },
-      error: 'Error'
-    }
+      error: 'Error',
+    },
   },
   stationTypeManager: {
     list: {
-      title: 'Type Of Station'
+      title: 'Type Of Station',
     },
     create: {
       label: 'Create',
       success: 'Add New Type Of Station Successfully',
-      keyExisted: 'Type Of Station Is Already Existed'
+      keyExisted: 'Type Of Station Is Already Existed',
     },
     edit: {
       label: 'Edit',
-      success: 'Update Type Of Station Successfully'
+      success: 'Update Type Of Station Successfully',
     },
     delete: {
-      label: 'Delete'
+      label: 'Delete',
     },
     form: {
       key: {
         label: 'Code',
         placeholder: 'Input Code of Type Of Station',
         error: 'Please Input Code of Type Of Station',
-        existError: 'Code of Type Of Station is exist'
+        existError: 'Code of Type Of Station is exist',
       },
       name: {
         label: 'Name',
         placeholder: 'Input Name of Type Of Station',
-        error: 'Please Name of Type Of Station'
+        error: 'Please Name of Type Of Station',
       },
       icon: {
         label: 'Icon',
-        placeholder: 'Choose Icon'
+        placeholder: 'Choose Icon',
       },
       auto: {
-        label: 'Auto'
+        label: 'Auto',
       },
       action: {
-        label: 'Action'
+        label: 'Action',
       },
       error: 'Error',
       errorStationExist: `The Action Can't Be Completed Because There Are Stations In This Type Of Station`,
       color: {
         label: 'Color',
-        placeholder: 'Choose Color'
+        placeholder: 'Choose Color',
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order'
-      }
-    }
+        placeholder: 'Numerical Order',
+      },
+    },
   },
   qcvn: {
     list: {
-      title: 'QCVN'
+      title: 'QCVN',
     },
     create: {
       label: 'Create',
       success: 'Add QCVN Successfully',
-      keyExisted: 'QCVN Is Already Existed'
+      keyExisted: 'QCVN Is Already Existed',
     },
     edit: {
       label: 'Edit',
-      success: 'Update QCVN Successfully'
+      success: 'Update QCVN Successfully',
     },
     delete: {
-      label: 'Delete'
+      label: 'Delete',
     },
     add: {
-      label: 'Add'
+      label: 'Add',
     },
     form: {
       key: {
         label: 'Code',
         placeholder: 'Input QCVN Code',
         error: 'Please Input QCVN Code',
-        existError: 'QCVN Code is exist'
+        existError: 'QCVN Code is exist',
       },
       name: {
         label: 'Name',
         placeholder: 'Input QCVN Name',
-        error: 'Please Input QCVN Name'
+        error: 'Please Input QCVN Name',
       },
       unit: {
         label: 'Unit',
-        placeholder: 'Input Unit Of Parameter'
+        placeholder: 'Input Unit Of Parameter',
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order'
+        placeholder: 'Numerical Order',
       },
       action: {
-        label: 'Action'
+        label: 'Action',
       },
-      error: 'Error'
-    }
+      error: 'Error',
+    },
   },
   province: {
     list: {
       title: 'Site',
       key: 'Key',
-      numericalOrder: 'Numerical Order'
+      numericalOrder: 'Numerical Order',
     },
     create: {
       label: 'Create',
       success: 'Add Unit Successfully',
-      keyExisted: 'Name Is Already Existed'
+      keyExisted: 'Name Is Already Existed',
     },
     edit: {
       label: 'Edit',
-      success: 'Update Name Successfully'
+      success: 'Update Name Successfully',
     },
     delete: {
       label: 'Delete',
-      require: 'Please Confirm To Delete'
+      require: 'Please Confirm To Delete',
     },
     add: {
-      label: 'Add'
+      label: 'Add',
     },
     form: {
       action: 'Action',
@@ -729,18 +729,18 @@ export default {
         label: 'Code',
         placeholder: 'Input Code Of Name',
         error: 'Please Input Code Of Name',
-        existError: 'Code Of Name is exist'
+        existError: 'Code Of Name is exist',
       },
       name: {
         label: 'Name',
         placeholder: 'Input Name',
-        error: 'Please input Name'
+        error: 'Please input Name',
       },
       numericalOrder: {
         label: 'Numerical Order',
-        placeholder: 'Numerical Order'
-      }
-    }
+        placeholder: 'Numerical Order',
+      },
+    },
   },
   configWQI: {
     breadCrumb: 'Config WQI, AQI',
@@ -751,7 +751,7 @@ export default {
     stationType: 'Station Type',
     success: 'Update success !',
     error: 'Error!',
-    unckecked: 'unchecked'
+    unckecked: 'unchecked',
   },
   ftpTranfer: {
     allowFtpTranfer: 'Send FTP',
@@ -776,29 +776,29 @@ export default {
       ipAddress: {
         title: 'IP Address',
         addonBefore: 'ftp://',
-        message: 'Please input ip address'
+        message: 'Please input ip address',
       },
       port: {
         title: 'Ex: 21',
         addonBefore: 'Port:',
-        message: 'Please input port'
+        message: 'Please input port',
       },
       user: {
         title: 'UserName',
         addonBefore: 'UserName: ',
-        message: 'Please input username'
+        message: 'Please input username',
       },
       pass: {
         title: 'Pass Word',
         addonBefore: 'Pass:',
-        message: 'Please input pass word'
+        message: 'Please input pass word',
       },
       fileName: {
         name: 'File Name FTP',
         title: 'File Name',
         addonBefore: 'File Name:',
-        message: 'Please input file name'
-      }
+        message: 'Please input file name',
+      },
     },
     summary: 'Summary',
     history: 'History tranfer',
@@ -807,16 +807,16 @@ export default {
       success: 'Tranfer success',
       failed: 'Tranfer failed',
       success2: 'Successful transmission setup',
-      failed2: 'Not set for file transfer before transmission time'
+      failed2: 'Not set for file transfer before transmission time',
     },
-    tryUploadFile: 'Try upload file'
+    tryUploadFile: 'Try upload file',
   },
   page: {
     config: {
       color: {
         button: {
           selectTabData: 'Data status',
-          selectTabSensor: 'Sensor status'
+          selectTabSensor: 'Sensor status',
         },
         table: {
           column: {
@@ -824,16 +824,16 @@ export default {
             alternative: 'Alternative',
             color: 'Color',
             backgroundColor: 'Background color',
-            desc: 'Description'
-          }
-        }
-      }
-    }
+            desc: 'Description',
+          },
+        },
+      },
+    },
   },
   stationFixedManager: {
     list: {
-      title: 'Fixed Station'
-    }
+      title: 'Fixed Station',
+    },
   },
   stationAutoManager: {
     list: {
@@ -843,246 +843,246 @@ export default {
       restore: 'Restore',
       remove: 'Remove',
       action: 'Action',
-      createdAt: 'Created At'
+      createdAt: 'Created At',
     },
     create: {
       label: 'Create',
       success: 'Add Station Name Successfully',
-      keyExisted: 'Station Name Is Already Existed'
+      keyExisted: 'Station Name Is Already Existed',
     },
     edit: {
       label: 'Edit',
-      success: 'Update Station Name Successfully'
+      success: 'Update Station Name Successfully',
     },
     delete: {
       label: 'Delete',
-      require: 'Please Confirm To Delete'
+      require: 'Please Confirm To Delete',
     },
     add: {
-      label: 'Add'
+      label: 'Add',
     },
     addMeasuring: {
       label: 'Add Measuring',
-      error: 'Measuring have at least 1'
+      error: 'Measuring have at least 1',
     },
     form: {
       panel1: 'Station Information',
       panel2: 'Station Other',
       website: {
         label: 'Website',
-        placeholder: 'Website'
+        placeholder: 'Website',
       },
       capacity: {
         label: 'Design capacity',
-        placeholder: 'Design capacity'
+        placeholder: 'Design capacity',
       },
       career: {
         label: 'Career',
-        placeholder: 'Career'
+        placeholder: 'Career',
       },
       material: {
         label: 'Main material',
-        placeholder: 'Main material'
+        placeholder: 'Main material',
       },
       userResponsible: {
         label: 'Operators',
-        placeholder: 'Operators'
+        placeholder: 'Operators',
       },
       phoneResponsible: {
         label: 'Phone',
-        placeholder: 'Input the phone number responsible person'
+        placeholder: 'Input the phone number responsible person',
       },
       processProdution: {
         label: 'Production process',
-        placeholder: 'Production process'
+        placeholder: 'Production process',
       },
       yearOperate: {
         label: 'Years of Operation',
-        placeholder: 'Years of Operation'
+        placeholder: 'Years of Operation',
       },
       userSupervisor: {
         label: 'Manager',
-        placeholder: 'Manager'
+        placeholder: 'Manager',
       },
       phoneSupervisor: {
         label: 'Phone',
-        placeholder: 'Input the Manager phone number'
+        placeholder: 'Input the Manager phone number',
       },
       key: {
         label: 'Code',
         placeholder: 'Input Code Of Station Name',
-        error: 'Please Input Code Of Station Name'
+        error: 'Please Input Code Of Station Name',
       },
       name: {
         label: 'Name',
         placeholder: 'Input Station Name',
-        error: 'Please input Station Name'
+        error: 'Please input Station Name',
       },
       stationType: {
         label: 'Type',
         placeholder: 'Input Type Of Station',
-        error: 'Please Choose Type Of Station'
+        error: 'Please Choose Type Of Station',
       },
       address: {
         label: 'Address',
-        placeholder: 'Address'
+        placeholder: 'Address',
       },
       qcvn: {
         label: 'Standards VN',
         placeholder: 'Standards VN',
-        error: 'Please Choose Type Of Standards VN'
+        error: 'Please Choose Type Of Standards VN',
       },
       province: {
         label: 'Management Unit',
         placeholder: 'Management Unit',
-        error: 'Please Choose Management Unit'
+        error: 'Please Choose Management Unit',
       },
       frequency: {
         label: 'Frequency(m/t)',
         placeholder: 'minutes/time',
-        error: 'Please Choose Frequency'
+        error: 'Please Choose Frequency',
       },
       typeSampling: {
         label: 'Form of sampling',
-        placeholder: 'Select form'
+        placeholder: 'Select form',
       },
       dayOfOperation: {
         label: 'Actived At',
         placeholder: 'Actived At',
-        error: 'Please Choose Actived At'
+        error: 'Please Choose Actived At',
       },
       isStopWorking: {
         label: 'Stop working',
-        placeholder: 'Stop working'
+        placeholder: 'Stop working',
       },
       note: {
         label: 'Note',
         placeholder: 'Note',
-        error: 'Please Choose Note'
+        error: 'Please Choose Note',
       },
       long: {
         label: 'Longitude',
         placeholder: 'Input longitude',
-        error: 'Please Input Longitude'
+        error: 'Please Input Longitude',
       },
       lat: {
         label: 'Latitude',
         placeholder: 'Input Latitude',
-        error: 'Please Input Latitude'
+        error: 'Please Input Latitude',
       },
       emails: {
         label: 'Email Address',
         placeholder: 'Input Email Address',
         error: 'Please Input Email Address',
         description:
-          'Note: When data have the problem, in addition to the accounts being managed, the system send additional emails to these addresses.'
+          'Note: When data have the problem, in addition to the accounts being managed, the system send additional emails to these addresses.',
       },
       image: {
-        label: 'Avata'
+        label: 'Avata',
       },
       phones: {
         label: 'Phone Number',
         placeholder: 'Input Phone Number',
-        error: 'Please Input Phone Number'
+        error: 'Please Input Phone Number',
       },
       range: {
-        label: 'Range'
+        label: 'Range',
       },
       measuringKey: {
         label: 'Parameter code',
         placeholder: 'Input Parameter Code',
-        error: 'Please Input Parameter Code'
+        error: 'Please Input Parameter Code',
       },
       measuringName: {
         label: 'Parameter Name',
         placeholder: 'Input Parameter Name',
-        error: 'Please Input Parameter Name'
+        error: 'Please Input Parameter Name',
       },
       measuringUnit: {
         label: 'Parameter Unit',
         placeholder: 'Input Parameter Unit',
-        error: 'Please Input Parameter Unit'
+        error: 'Please Input Parameter Unit',
       },
       measuringMinLimit: {
         label: 'Min Limit',
         placeholder: 'Input Min Limit',
-        error: 'Please Input Min Limit'
+        error: 'Please Input Min Limit',
       },
       measuringMaxLimit: {
         label: 'Max Limit',
         placeholder: 'Input Max Limit',
-        error: 'Please Input Max Limit'
+        error: 'Please Input Max Limit',
       },
       measuringMinRange: {
         label: 'Min Range',
         placeholder: 'Input Min Range',
-        error: 'Please Input Min Range'
+        error: 'Please Input Min Range',
       },
       measuringMaxRange: {
         label: 'Max Range',
         placeholder: 'Input Max Range',
-        error: 'Please Input Max Range'
+        error: 'Please Input Max Range',
       },
       options: {
         isAllowWarning: 'Allow Warning',
-        isAllowRemote: 'Allow Remote'
+        isAllowRemote: 'Allow Remote',
       },
       mapLocation: {
         label: 'Map Location',
-        placeholder: 'Map Location'
+        placeholder: 'Map Location',
       },
       error: 'Error',
       require: 'Please Enter Value',
       order: {
         label: 'Order',
-        placeholder: 'Order'
-      }
+        placeholder: 'Order',
+      },
     },
     range: {
       label: 'Station Range',
       min: 'Min',
-      max: 'Max'
+      max: 'Max',
     },
     config: {
       label: 'Config',
       extensionFile: 'Extension File',
       fileName: {
         label: 'File Name',
-        placeholder: 'File Name'
+        placeholder: 'File Name',
       },
       path: {
         label: 'Path',
-        placeholder: 'Path'
+        placeholder: 'Path',
       },
       measuringSrc: {
         label: 'Source Of Parameter',
         placeholder: 'Source Of Parameter',
-        error: 'Please Enter Source Of Parameter'
+        error: 'Please Enter Source Of Parameter',
       },
       measuringDes: {
         label: 'Destination Of Parameter',
         placeholder: 'Destination Of Parameter',
-        error: 'Please Enter Destination Of Parameter'
+        error: 'Please Enter Destination Of Parameter',
       },
       ratio: {
         label: 'Ratio',
         placeholder: 'Ratio',
-        error: 'Please Enter Ratio'
+        error: 'Please Enter Ratio',
       },
       message: {
         success: 'Update station auto config success!',
-        error: 'Update station auto config fail!'
+        error: 'Update station auto config fail!',
       },
       buttonLoadSourceParameter: 'Load Source Parameter',
-      errorLoadFile: 'Load file fail with path'
+      errorLoadFile: 'Load file fail with path',
     },
     options: {
       calibration: {
-        title: 'Equipment calibration'
+        title: 'Equipment calibration',
       },
       allowSendWarning: {
         label: 'Allow Send Warning',
-        placeholder: 'Allow Send Warning'
+        placeholder: 'Allow Send Warning',
       },
       allowApprove: {
         label: 'Allow Config Auto Approve Data',
@@ -1093,7 +1093,7 @@ export default {
         negative: 'Negative',
         outOfRange: 'Out of Range',
         deviceStatus: 'Status Devices',
-        error: 'Please input range'
+        error: 'Please input range',
       },
       outOfRangeConfig: {
         title: 'Time Config',
@@ -1117,39 +1117,39 @@ export default {
         thursday: 'Every thursday',
         friday: 'Every friday',
         saturday: 'Every saturday',
-        sunday: 'Every sunday'
+        sunday: 'Every sunday',
       },
       allowSampling: {
         label: 'Allow Sampling',
-        placeholder: 'Allow Sampling'
+        placeholder: 'Allow Sampling',
       },
       apiAddress: {
         label: 'API Address',
-        placeholder: 'Allow API Address'
+        placeholder: 'Allow API Address',
       },
       allowCamera: {
         label: 'Allow Camera',
         placeholder: 'Allow Camera',
-        add: 'Add'
+        add: 'Add',
       },
       name: {
         label: 'Name',
-        placeholder: 'Name'
+        placeholder: 'Name',
       },
       RTSP: {
         label: 'RTSP URL',
         placeholder: 'RTSP URL',
-        error: 'Please enter RTSP URL'
-      }
+        error: 'Please enter RTSP URL',
+      },
     },
     header: {
       option: 'Options',
       dataLogger: 'DataLogger',
-      approve: 'Approve Data'
+      approve: 'Approve Data',
     },
     upload: {
       label: 'Upload',
-      error: 'Upload Image Failed'
+      error: 'Upload Image Failed',
     },
     uploadFile: {
       label: 'Upload File',
@@ -1157,8 +1157,8 @@ export default {
       success: 'File Uploaded Successfully',
       status: {
         uploading: 'Uploading ...',
-        finish: 'Done'
-      }
+        finish: 'Done',
+      },
     },
     ftpFile: {
       auto: 'Auto',
@@ -1178,76 +1178,76 @@ export default {
       headerName: 'FTP Info: ',
       addressLabel: 'Address ftp:',
       usernameLabel: 'Username:',
-      passwordLabel: 'Password:'
+      passwordLabel: 'Password:',
     },
     infoStation: {
       title: 'Station Information',
       edit: 'Edit',
       career: 'Career',
-      emptyText: 'Not have data'
-    }
+      emptyText: 'Not have data',
+    },
   },
   parameterManager: {
     breadcrumb: {
       base: 'Parameters',
       create: 'Create',
-      edit: 'Edit'
-    }
+      edit: 'Edit',
+    },
   },
   cameraManager: {
     breadcrumb: {
-      camera: 'Camera'
-    }
+      camera: 'Camera',
+    },
   },
   userManager: {
     breadcrumb: {
       list: 'Users',
       rule: 'Assign Role',
       create: 'Create',
-      edit: 'Edit'
+      edit: 'Edit',
     },
     form: {
       placeholder: {
         selectUser: 'Select User',
-        selectRoleGroup: 'Select Role'
+        selectRoleGroup: 'Select Role',
       },
       email: {
         label: 'Email Address',
         placeholder: 'Email Address',
-        error: 'The Input Email Address Is Not Valid'
+        error: 'The Input Email Address Is Not Valid',
       },
       password: {
         label: 'Password',
-        placeholder: 'Password'
+        placeholder: 'Password',
       },
       confirmPassword: {
         label: 'Confirm Password',
         placeholder: 'Confirm Password',
-        message: 'Please Confirm Your Password!'
+        message: 'Please Confirm Your Password!',
       },
       firstName: {
         label: 'First Name',
-        placeholder: 'First Name'
+        placeholder: 'First Name',
       },
       lastName: {
         label: 'Last Name',
-        placeholder: 'Last Name'
+        placeholder: 'Last Name',
       },
       country: {
         label: 'Country',
-        placeholder: 'Select Country'
+        placeholder: 'Select Country',
       },
       organization: {
         label: 'Organization',
-        placeholder: 'Select Organization'
+        placeholder: 'Select Organization',
       },
       phone: {
         label: 'Phone',
-        placeholder: 'Phone'
+        placeholder: 'Phone',
       },
       isAdmin: {
-        label: 'Admin Role'
-      }
+        label: 'Admin Role',
+      },
     },
     modal: {
       title: 'Limited subscription',
@@ -1256,7 +1256,7 @@ export default {
         'Your maximum number of users is  {{=it.total}}, you cannot add new user. Please contact or upgrade the service pack',
       text1: 'Increase the number of users please contact',
       text2: 'Phone number',
-      text3: 'Email'
+      text3: 'Email',
     },
     list: {
       enableAccount: 'Enable Account',
@@ -1276,7 +1276,7 @@ export default {
       createdAt: 'Created At',
       setPassword: 'Set Password',
       setPasswordSuccess: 'Update Password Successfully',
-      setPasswordFailure: 'Update Password Failure'
+      setPasswordFailure: 'Update Password Failure',
     },
     roleAssign: {
       role: 'Role',
@@ -1285,158 +1285,158 @@ export default {
       success: 'Update Rule User Successfully',
       error: 'Update Rule User Failed',
       address: 'Address',
-      isAdmin: 'Admin Role'
-    }
+      isAdmin: 'Admin Role',
+    },
   },
   roleManager: {
     breadcrumb: {
       list: 'Roles',
       create: 'Create',
-      edit: 'Edit'
+      edit: 'Edit',
     },
     tableHeader: {
       menu: 'Module',
       action: 'Action',
-      stt: '#'
+      stt: '#',
     },
     form: {
       name: {
         label: 'Name',
         placeholder: 'Input Name',
-        error: 'Please Input Name'
+        error: 'Please Input Name',
       },
       description: {
         label: 'Description',
         placeholder: 'Input Description',
-        error: 'Please Input Description'
-      }
+        error: 'Please Input Description',
+      },
     },
     rule: {
       label: 'Rule',
       orderby: {
         label: '#',
-        placeholder: '#'
+        placeholder: '#',
       },
       menu: {
         label: 'Menu',
-        placeholder: 'Menu'
+        placeholder: 'Menu',
       },
       action: {
         label: 'Action',
         placeholder: 'Action',
-        package: 'Package'
+        package: 'Package',
       },
       dashboard: {
-        name: 'Home - Overview'
+        name: 'Home - Overview',
       },
       dashboard_2: {
-        name: 'Home - Monitoring'
+        name: 'Home - Monitoring',
       },
       monitoring: {
-        name: 'Real-time Monitoring'
+        name: 'Real-time Monitoring',
       },
       monitorByList: {
-        name: 'Monitor by list'
+        name: 'Monitor by list',
       },
       map: {
-        name: 'Map'
+        name: 'Map',
       },
       camera: {
-        name: 'Camera'
+        name: 'Camera',
       },
       dataSearch: {
-        name: 'History Data'
+        name: 'History Data',
       },
       avgSearch: {
-        name: 'Average Data'
+        name: 'Average Data',
       },
       xuLyDuLieu_config: {
-        name: 'Data Processing - Config'
+        name: 'Data Processing - Config',
       },
       kiemDuyetDuLieu: {
-        name: 'Check Data'
+        name: 'Check Data',
       },
       qaqcConfig: {
-        name: 'Sharing Configurations'
+        name: 'Sharing Configurations',
       },
       ftpTransfer: {
-        name: 'FTP Transfer Configurations'
+        name: 'FTP Transfer Configurations',
       },
       tiLeDuLieuThuDuoc: {
-        name: 'Percentage of obtained data'
+        name: 'Percentage of obtained data',
       },
       tiLeDuLieu: {
-        name: 'Percentage of data'
+        name: 'Percentage of data',
       },
       tb24H: {
-        name: '24-hour average'
+        name: '24-hour average',
       },
       tb1H: {
-        name: '1-hour average monitoring'
+        name: '1-hour average monitoring',
       },
       tb1HMax: {
-        name: 'Average maximum 1 hour'
+        name: 'Average maximum 1 hour',
       },
       tb8HMax: {
-        name: 'Average maximum 8 hour'
+        name: 'Average maximum 8 hour',
       },
       tileDuLieuVuotNguong: {
-        name: 'Percentage of exceeded data'
+        name: 'Percentage of exceeded data',
       },
       soLanMatKetNoi: {
-        name: 'Number of disconnections'
+        name: 'Number of disconnections',
       },
       aqiGio: {
-        name: 'AQI - Hour'
+        name: 'AQI - Hour',
       },
       aqiNgay: {
-        name: 'AQI - Day'
+        name: 'AQI - Day',
       },
       wqiGio: {
-        name: 'WQI - Hour'
+        name: 'WQI - Hour',
       },
       tinhTrangDuLieu: {
-        name: 'Status Data'
+        name: 'Status Data',
       },
       aqiMap: {
-        name: 'AQI Map'
+        name: 'AQI Map',
       },
       wqiMap: {
-        name: 'WQI Map'
+        name: 'WQI Map',
       },
       configWQI: { name: 'AQI & WQI Configurations' },
       stationFixMap: {
-        name: 'Map Fixed Station'
+        name: 'Map Fixed Station',
       },
       stationFixData: {
-        name: 'Fixed Data Search'
+        name: 'Fixed Data Search',
       },
       stationFix: {
-        name: 'Fixed Station'
+        name: 'Fixed Station',
       },
       stationFixInput: {
-        name: 'Input Station Fixed'
+        name: 'Input Station Fixed',
       },
       stationAuto: {
-        name: 'Station'
+        name: 'Station',
       },
       cauHinhKetNoi: {
-        name: 'Connection configuration'
+        name: 'Connection configuration',
       },
       cauHinhGuiCanhBao: {
-        name: 'Configure to Send Notifications'
+        name: 'Configure to Send Notifications',
       },
       cauHinhLayMau: {
-        name: 'Sampling configuration'
+        name: 'Sampling configuration',
       },
       cauHinhTinhToanAQI: {
-        name: 'Configure AQI calculation'
+        name: 'Configure AQI calculation',
       },
       cauHinhTinhToanWQI: {
-        name: 'Configure WQI calculation'
+        name: 'Configure WQI calculation',
       },
       cauHinhCamera: {
-        name: 'Camera configuration'
+        name: 'Camera configuration',
       },
       measuring: { name: 'Parameter' },
       stationType: { name: 'Type of Station' },
@@ -1445,13 +1445,13 @@ export default {
       role: { name: 'Role' },
       user: { name: 'User' },
       config_color_noti: {
-        name: 'Configure warning color'
+        name: 'Configure warning color',
       },
       xem_Nhat_ky: {
-        name: 'View Diary'
+        name: 'View Diary',
       },
       mobile_dashboard: {
-        name: 'Dashboard Mobile'
+        name: 'Dashboard Mobile',
       },
       actions: {
         role: 'Role Assignment',
@@ -1492,13 +1492,13 @@ export default {
         thongKeLoaiTram: 'Statistics by station type',
         fTPFloder: 'FTP Floder',
         fileMapping: 'File Mapping',
-        updateSelectStation: 'Update selected stations'
-      }
-    }
+        updateSelectStation: 'Update selected stations',
+      },
+    },
   },
   subscriptionStatus: {
     breadcrumb: {
-      base: 'Subscription Status'
+      base: 'Subscription Status',
     },
     Renew: 'Renew',
     renewAt: 'Renew At',
@@ -1506,7 +1506,7 @@ export default {
     subscriptionHistory: 'Subscription History',
     expiredAt: 'Expired At',
     totalUsers: 'Total No. Of Users',
-    totalStation: 'Total No. Of Station'
+    totalStation: 'Total No. Of Station',
   },
   infoLicense: {
     breadCrumb: 'Package information',
@@ -1519,7 +1519,7 @@ export default {
     text4: 'Number of stations used',
     text5: 'The maximum number of',
     text6: 'Phone number',
-    text7: 'Email'
+    text7: 'Email',
   },
   expLicenseInfo: {
     title: 'We are very sory',
@@ -1527,7 +1527,7 @@ export default {
     subtitle2: 'Please extend to continue using',
     text1: 'Phone number',
     text2: 'Renew immediately',
-    text3: 'Email'
+    text3: 'Email',
   },
   profileUser: {
     title: 'User Profile',
@@ -1547,10 +1547,10 @@ export default {
     upload: 'Upload',
     imageUpload: {
       success: 'Done',
-      error: 'Upload Image Failed'
+      error: 'Upload Image Failed',
     },
     user: 'User Info',
-    organization: 'Organization Info'
+    organization: 'Organization Info',
   },
   configStation: {
     name: 'Station Name',
@@ -1561,33 +1561,33 @@ export default {
     action: 'Action',
     messageUpdate: {
       success: 'Update successfully!',
-      error: 'Update failure!'
-    }
+      error: 'Update failure!',
+    },
   },
   changePassword: {
     breadcrumb: {
       changePassword: 'Change password',
       profileUser: 'Profile',
-      security: 'Security Setting'
+      security: 'Security Setting',
     },
     form: {
       oldPassword: {
         label: 'Current Password',
-        error: 'Please Input Your Current Password'
+        error: 'Please Input Your Current Password',
       },
       newPassword: {
         label: 'New Password',
-        error: 'Please Input New Password'
+        error: 'Please Input New Password',
       },
       newPasswordConfirmation: {
         label: 'Password Confirmation',
         error: 'Please Input New Password One More Time',
-        error1: 'Passwords Are Not Matched'
+        error1: 'Passwords Are Not Matched',
       },
       Success: 'Change Password Successfully',
       compare: 'Two Passwords That You Enter Is Inconsistent',
-      savePassword: 'Save Password'
-    }
+      savePassword: 'Save Password',
+    },
   },
   resetPassword: {
     key: 'I Forgot My Password',
@@ -1596,7 +1596,7 @@ export default {
     key3: 'Reset Password',
     key4: 'Resend Code',
     key5: 'Confirm',
-    key6: 'Send Code'
+    key6: 'Send Code',
   },
   security: {
     label: 'Two-Factor Authentication',
@@ -1614,7 +1614,7 @@ export default {
       userUse: 'You are using 2-layer authentication with {{=it.type}}',
       code:
         'Your verification code has been sent to: {{=it.phone}} (will expire after {{=it.expired}})',
-      info: `Select authentication method when logging in:`
+      info: `Select authentication method when logging in:`,
     },
     step1: 'Enter code',
     step2: 'Loading',
@@ -1622,8 +1622,8 @@ export default {
     send: 'Send',
     use: {
       email: 'Use Email',
-      sms: 'Use SMS'
-    }
+      sms: 'Use SMS',
+    },
   },
   login: {
     title: 'Login',
@@ -1632,18 +1632,18 @@ export default {
     form: {
       email: {
         label: 'Email Address',
-        placeholder: 'user@example.com'
+        placeholder: 'user@example.com',
       },
       password: {
         label: 'Password',
-        placeholder: '********'
+        placeholder: '********',
       },
       twoFactor: {
         label: 'Verification Code',
-        placeholder: 'xxxx'
+        placeholder: 'xxxx',
       },
       buttonLogin: 'Login',
-      buttonTwoFactor: 'Verify'
+      buttonTwoFactor: 'Verify',
     },
     errors: {
       emailOrPasswordIncorrect: 'The email or password is incorrect.',
@@ -1651,8 +1651,8 @@ export default {
       accountDelete: 'Your account is delete',
       accountNotActivated: 'Your account is not activated.',
       codeNotEqual: 'Authentication code is incorrect.',
-      organizationNotExist: 'Your organization is not exist.'
-    }
+      organizationNotExist: 'Your organization is not exist.',
+    },
   },
   warningLevels: {
     title: 'Warning Levels',
@@ -1661,7 +1661,7 @@ export default {
     exceedPreparing: 'Tend To Exceed',
     exceed: 'Exceeded',
     lossData: 'Lost Connection',
-    sensorError: 'Sensor Error'
+    sensorError: 'Sensor Error',
   },
   addon: {
     add: 'Add',
@@ -1676,21 +1676,21 @@ export default {
     onSave: {
       add: {
         success: 'Added Successfully',
-        error: 'Add Error'
+        error: 'Add Error',
       },
       update: {
         success: 'Updated Successfully',
-        error: 'Update Error'
-      }
+        error: 'Update Error',
+      },
     },
     onDelete: {
       success: 'Deleted Successfully',
       error: 'Delete Error',
-      warning: 'You cannot delete your own account'
+      warning: 'You cannot delete your own account',
     },
     onRestore: {
       success: 'Restored Successfully',
-      error: 'Restore Error'
+      error: 'Restore Error',
     },
     search: 'Search',
     searchSeclect: 'Select conditions',
@@ -1698,10 +1698,10 @@ export default {
     warning: 'Warning',
     refresh: 'Refresh',
     cancel: 'Cancel',
-    ok: 'Ok'
+    ok: 'Ok',
   },
   success: {
-    text: 'Success'
+    text: 'Success',
   },
   error: {
     text: 'Errors',
@@ -1723,9 +1723,9 @@ export default {
             <p style="margin-left: 20px">2. Operation status of control device</p>
             <p style="margin-left: 20px">3. Network signal to control device</p>
           </div>
-        `
-      }
-    }
+        `,
+      },
+    },
   },
   modal: {
     confirm: {
@@ -1733,21 +1733,21 @@ export default {
       monitoring: {
         sampling: {
           cancelSchedule:
-            'Are you sure you want to Cancel automatically sampling?'
-        }
-      }
-    }
+            'Are you sure you want to Cancel automatically sampling?',
+        },
+      },
+    },
   },
   alert: {
     error: {
       monitoring: {
-        saveSampingConfig: 'Please enter all information before Saving'
-      }
-    }
+        saveSampingConfig: 'Please enter all information before Saving',
+      },
+    },
   },
   form: {
     save: 'Save',
-    update: 'Update'
+    update: 'Update',
   },
   menuApp: {
     dashboard: 'Dashboard',
@@ -1760,22 +1760,22 @@ export default {
       camera: 'Camera',
       historyData: 'History Data',
       avgData: 'Average Data',
-      report: 'Reports'
+      report: 'Reports',
     },
     monitoringList: {
-      base: 'Real-time Monitoring List'
+      base: 'Real-time Monitoring List',
     },
 
     processDataSub: 'Data Processing',
     processData: {
       approveData: 'Check Data',
-      config: 'Config'
+      config: 'Config',
     },
 
     shareDataSub: 'Sharing Data',
     shareData: {
       shareConfig: 'Sharing Configurations',
-      ftpConfig: 'FTP Transfer Configurations'
+      ftpConfig: 'FTP Transfer Configurations',
     },
 
     advanceSub: 'Advanced',
@@ -1784,7 +1784,7 @@ export default {
       aqiStatistic: 'AQI Historical',
       wqiMap: 'WQI Map',
       wqiStatistic: 'WQI Historical',
-      config: 'AQI & WQI Configurations'
+      config: 'AQI & WQI Configurations',
     },
 
     configSub: 'Settings',
@@ -1803,7 +1803,7 @@ export default {
       standard: 'Standard',
       role: 'Role',
       user: 'User',
-      dataLogger: 'View Diary'
+      dataLogger: 'View Diary',
     },
 
     camera: 'Camera',
@@ -1847,8 +1847,8 @@ export default {
       status_data: 'Status Data',
       status_data_obj: {
         title: 'Report Status Data',
-        dateRange: 'Date range'
-      }
+        dateRange: 'Date range',
+      },
     },
     reportBreadcrum: {
       type1: 'Original data',
@@ -1865,12 +1865,12 @@ export default {
       aqiHour: 'AQI - Hour',
       aqiDay: 'AQI - Day',
       aqi878: 'AQI - 1479',
-      status_data: 'Status Data'
-    }
+      status_data: 'Status Data',
+    },
   },
   dataLogger: {
     breadcrumb: {
-      base: 'View Diary'
+      base: 'View Diary',
     },
     list: {
       emptyView: 'There Are No Records To Display',
@@ -1879,54 +1879,54 @@ export default {
       colTime: 'Date time',
       colAction: 'Action',
       colDevice: 'Device',
-      colDetail: 'Detail'
+      colDetail: 'Detail',
     },
     searchForm: {
       user: 'Select email',
       typeLog: 'Type Log',
       from: 'Select date',
       to: 'Select date',
-      download: 'Xuất Excel'
+      download: 'Xuất Excel',
     },
     action: {
       login: 'Login',
-      logout: 'Logout'
-    }
+      logout: 'Logout',
+    },
   },
   cameraControl: {
     station: {
       label: 'Station name',
-      placeholder: 'Select station'
+      placeholder: 'Select station',
     },
     stationType: {
       label: 'Station type',
-      placeholder: 'Select station type'
+      placeholder: 'Select station type',
     },
-    selectStationPlaceholder: 'Input Station Name'
+    selectStationPlaceholder: 'Input Station Name',
   },
   support: {
     breadcrumb: {
-      base: 'Support'
+      base: 'Support',
     },
     form: {
       type: {
         label: 'Type',
-        error: 'Please select type'
+        error: 'Please select type',
       },
       title: {
         label: 'Title',
-        error: 'Please input title'
+        error: 'Please input title',
       },
       content: {
         label: 'Content',
-        error: 'Please input content'
+        error: 'Please input content',
       },
       upload: {
         label: 'Upload',
         buttonLabel: 'Click to Upload',
-        error: 'Error'
-      }
-    }
+        error: 'Error',
+      },
+    },
   },
   documents: {
     label: 'Documents helpdesk',
@@ -1934,8 +1934,8 @@ export default {
     guide2: 'Guide install 2',
     develop: {
       title: 'This function is developing',
-      process: 'We will send newsletter when we complete'
-    }
+      process: 'We will send newsletter when we complete',
+    },
   },
   statistic: {
     exceeded: 'Exceeded',
@@ -1945,14 +1945,14 @@ export default {
       time: 'Thời gian',
       totalFile: 'Total file/day',
       totalFileReceivedAt: 'Total file received',
-      perFileReceivedAt: 'Ratio file received (%)'
+      perFileReceivedAt: 'Ratio file received (%)',
     },
     exceededFrom: {
       breadCrumb: 'Statistics of the number of passes/days',
       time: 'Thời gian',
       totalFile: 'Total file/day',
       totalFileReceivedAt: 'Total file received',
-      perFileReceivedAt: 'Ratio file received (%)'
+      perFileReceivedAt: 'Ratio file received (%)',
     },
     aqi: {
       menuApp: 'AQI',
@@ -1960,7 +1960,7 @@ export default {
       selectMonths: 'Select months',
       time: 'Time',
       day: 'Day',
-      title: 'AQI By Hours'
+      title: 'AQI By Hours',
     },
     wqi: {
       menuApp: 'WQI',
@@ -1968,14 +1968,14 @@ export default {
       selectMonths: 'Select months',
       time: 'Time',
       day: 'Day',
-      title: 'WQI By Hours'
-    }
+      title: 'WQI By Hours',
+    },
   },
   pageInfo: {
     header: 'Information',
     body1:
       'This is a function of the Advanced version, please contact us for more information:',
-    body2: 'Email:'
+    body2: 'Email:',
   },
   stationStatus: {
     good: 'Good',
@@ -1985,36 +1985,36 @@ export default {
     connected: 'Connected',
     exceeded: 'Exceeded',
     exceededPreparing: 'Almost Exceed',
-    exceededTendency: 'Tend To Exceed'
+    exceededTendency: 'Tend To Exceed',
   },
   actions: {
     gotoMonitoring: 'Go to Real-time Monitoring Page',
     viewDataAroundThisTime: 'View data around this time',
-    tryAgain: 'Try again'
+    tryAgain: 'Try again',
   },
   network: {
     sampling: {
       lostConnection:
-        'Unable to connect to the sampling service, please contact the administrator!'
+        'Unable to connect to the sampling service, please contact the administrator!',
     },
     camera: {
-      lostConnection: "Can't connect with Camera, Please check the connection!"
+      lostConnection: "Can't connect with Camera, Please check the connection!",
     },
     qaqc: {
       lostConnection:
-        'Unable to connect to the QAQC service, please contact the administrator!'
-    }
+        'Unable to connect to the QAQC service, please contact the administrator!',
+    },
   },
   serverResponse: {
     error: {
-      VersionError: 'Data has been updated by other users, please refresh!'
-    }
+      VersionError: 'Data has been updated by other users, please refresh!',
+    },
   },
   confirm: {
     msg: {
       restore: 'Do you want to restore this item?',
-      delete: 'Do you want to delete this item?'
-    }
+      delete: 'Do you want to delete this item?',
+    },
   },
   common: {
     station: 'station',
@@ -2031,11 +2031,11 @@ export default {
       dataExceededTendency: 'Tend To Exceed',
       dataGood: 'Good',
       dataLoss: 'Lost Connection',
-      dataConnected: 'Go connected'
+      dataConnected: 'Go connected',
     },
     overview: 'Overview',
     list: 'List',
     statusSensor: 'Status Sensor',
-    statusData: 'Status Data'
-  }
+    statusData: 'Status Data',
+  },
 }

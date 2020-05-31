@@ -5,7 +5,7 @@ export function getStationAuto(station) {
   return async dispatch => {
     dispatch({
       type: GET_STATIONS_AUTO_DETAIL,
-      payload: station
+      payload: station,
     })
   }
 }

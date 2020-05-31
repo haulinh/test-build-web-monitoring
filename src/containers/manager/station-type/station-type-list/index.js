@@ -21,7 +21,7 @@ import { Modal } from 'antd'
 import { translate } from 'hoc/create-lang'
 
 const i18n = {
-  errorStationExist: translate('stationTypeManager.form.errorStationExist')
+  errorStationExist: translate('stationTypeManager.form.errorStationExist'),
 }
 
 const AvatarWrapper = styled.div`
@@ -36,10 +36,10 @@ const AvatarWrapper = styled.div`
 `
 
 @createManagerList({
-  apiList: CategoryApi.getStationTypes
+  apiList: CategoryApi.getStationTypes,
 })
 @createManagerDelete({
-  apiDelete: CategoryApi.deleteStationType
+  apiDelete: CategoryApi.deleteStationType,
 })
 @createLanguageHoc
 @autobind
@@ -53,12 +53,12 @@ export default class StationTypeList extends React.Component {
     onChangePageSize: PropTypes.func,
     onDeleteItem: PropTypes.func,
     fetchData: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   buttonAdd() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return (
       <div>
@@ -85,7 +85,7 @@ export default class StationTypeList extends React.Component {
 
   getHead() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return [
       { content: '#', width: 2 },
@@ -93,13 +93,13 @@ export default class StationTypeList extends React.Component {
       { content: t('stationTypeManager.form.name.label'), width: 30 },
       { content: t('stationTypeManager.form.icon.label'), width: 10 },
       { content: t('stationTypeManager.form.auto.label'), width: 10 },
-      { content: t('stationTypeManager.form.action.label'), width: 10 }
+      { content: t('stationTypeManager.form.action.label'), width: 10 },
     ]
   }
 
   getRows() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return _.get(this.props, 'dataSource', []).map((row, index) => [
       {
@@ -110,13 +110,13 @@ export default class StationTypeList extends React.Component {
               index +
               1}
           </strong>
-        )
+        ),
       },
       {
-        content: row.key
+        content: row.key,
       },
       {
-        content: row.name
+        content: row.name,
       },
       {
         content: (
@@ -128,17 +128,17 @@ export default class StationTypeList extends React.Component {
                 backgroundColor: row.color,
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
               }}
               src={row.icon}
             >
               {t('stationTypeManager.form.icon.label')}
             </Avatar>
           </AvatarWrapper>
-        )
+        ),
       },
       {
-        content: <Checkbox disabled={true} checked={row.isAuto} />
+        content: <Checkbox disabled={true} checked={row.isAuto} />,
       },
       {
         content: (
@@ -157,8 +157,8 @@ export default class StationTypeList extends React.Component {
               </a>
             )}
           </span>
-        )
-      }
+        ),
+      },
     ])
   }
 
@@ -169,7 +169,7 @@ export default class StationTypeList extends React.Component {
       if (countStation.count > 0) {
         Modal.error({
           title: 'Error',
-          content: i18n.errorStationExist
+          content: i18n.errorStationExist,
         })
       } else {
         this.props.onDeleteItem(_id, this.props.fetchData)
@@ -186,7 +186,7 @@ export default class StationTypeList extends React.Component {
           rows={this.getRows()}
           head={this.getHead()}
           paginationOptions={{
-            isSticky: true
+            isSticky: true,
           }}
           onSetPage={this.props.onChangePage}
           pagination={this.props.pagination}

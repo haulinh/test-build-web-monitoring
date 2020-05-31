@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import {
   AkCreateDrawer,
   AkNavigationItem,
-  AkNavigationItemGroup
+  AkNavigationItemGroup,
 } from '@atlaskit/navigation'
 import PropTypes from 'prop-types'
 import ArrowLeftIcon from '@atlaskit/icon/glyph/arrow-left'
@@ -18,11 +18,11 @@ import createLang from 'hoc/create-lang'
 @autobind
 export default class DocumentDrawer extends PureComponent {
   static propTypes = {
-    isOpen: PropTypes.bool
+    isOpen: PropTypes.bool,
   }
 
   static defaultProps = {
-    isOpen: false
+    isOpen: false,
   }
 
   handleClick(e) {
@@ -32,7 +32,7 @@ export default class DocumentDrawer extends PureComponent {
       swal({
         type: 'info',
         title: this.props.lang.t('documents.develop.title'),
-        text: this.props.lang.t('documents.develop.process')
+        text: this.props.lang.t('documents.develop.process'),
       })
     }
   }

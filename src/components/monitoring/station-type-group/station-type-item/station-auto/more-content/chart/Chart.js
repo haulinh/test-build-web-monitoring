@@ -46,7 +46,7 @@ const i18n = {
   minLimit: translate('monitoring.moreContent.chart.content.minLimit'),
   maxLimit: translate('monitoring.moreContent.chart.content.maxLimit'),
   to: translate('monitoring.moreContent.chart.content.to'),
-  from: translate('monitoring.moreContent.chart.content.from')
+  from: translate('monitoring.moreContent.chart.content.from'),
 }
 
 const intHour = 24
@@ -116,17 +116,17 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
     chart: {
       type: 'column',
       zoomType: 'x',
-      height: 350
+      height: 350,
     },
     title: {
-      text: title
+      text: title,
     },
     xAxis: {
-      categories: dataXs
+      categories: dataXs,
     },
     yAxis: {
       title: {
-        text: '' // tiêu đề của cột Y
+        text: '', // tiêu đề của cột Y
       },
       min: minLimitValue,
       max: maxLimitValue, //maxLimitValue,
@@ -136,9 +136,9 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
           color: 'red',
           width: 1,
           label: {
-            text: `${i18n.minLimit}: ${getFormatNumber(minLimit)}`
+            text: `${i18n.minLimit}: ${getFormatNumber(minLimit)}`,
           },
-          zIndex: 4
+          zIndex: 4,
         },
         {
           value: typeof maxLimit === 'number' ? maxLimit : null,
@@ -146,15 +146,15 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
           width: 1,
           label: {
             text: `${i18n.maxLimit}: ${getFormatNumber(maxLimit)}`,
-            y: 12
+            y: 12,
           },
-          zIndex: 4
-        }
-      ]
+          zIndex: 4,
+        },
+      ],
     },
     series: dataSeries,
     legend: {
-      enabled: false // ẩn label của series đi
+      enabled: false, // ẩn label của series đi
     },
     // dùng để custom hiển thị
     tooltip: {
@@ -166,12 +166,12 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
           })
         )
       },
-      split: true
-    }
+      split: true,
+    },
   }
 }
 @connect(state => ({
-  isOpen: state.theme.navigation.isOpen
+  isOpen: state.theme.navigation.isOpen,
 }))
 export default class ChartRowToChart extends React.Component {
   constructor(props) {
@@ -183,13 +183,13 @@ export default class ChartRowToChart extends React.Component {
       dataX: [],
       strToDate: '',
       strFromDate: '',
-      isLoading: false
+      isLoading: false,
     }
   }
 
   static propTypes = {
     stationData: Proptypes.object,
-    chartType: Proptypes.string
+    chartType: Proptypes.string,
   }
 
   componentDidMount() {
@@ -207,7 +207,7 @@ export default class ChartRowToChart extends React.Component {
 
   async loadDataBy(station, type = 'hours') {
     this.setState({
-      isLoading: true
+      isLoading: true,
     })
 
     let categories = []
@@ -237,7 +237,7 @@ export default class ChartRowToChart extends React.Component {
               toDate: toDate,
               key: _.get(station, 'key', ''),
               measuringList: measuringKeys,
-              type: type === 'hours' ? 60 : 1440 // lấy giá trị trung bình theo giờ
+              type: type === 'hours' ? 60 : 1440, // lấy giá trị trung bình theo giờ
             }
           )
 
@@ -246,7 +246,7 @@ export default class ChartRowToChart extends React.Component {
             type === 'hours' ? DD_MM_YYYY_HH_MM : DD_MM_YYYY
           this.setState({
             strToDate: moment(toDate).format(station_FORMAT),
-            strFromDate: moment(fromDate).format(station_FORMAT)
+            strFromDate: moment(fromDate).format(station_FORMAT),
           })
 
           let data = _.orderBy(_.get(dataSources, 'data', []), 'date_utc')
@@ -290,8 +290,8 @@ export default class ChartRowToChart extends React.Component {
                   results[key] = _.concat(array, [
                     {
                       y: null,
-                      color: COLOR.GOOD
-                    }
+                      color: COLOR.GOOD,
+                    },
                   ])
                   return key
                 })
@@ -338,8 +338,8 @@ export default class ChartRowToChart extends React.Component {
                   valueObj = [
                     {
                       y: value,
-                      color: colorColumn
-                    }
+                      color: colorColumn,
+                    },
                   ]
                   results[key] = _.concat(array, valueObj)
 
@@ -363,14 +363,14 @@ export default class ChartRowToChart extends React.Component {
       current,
       data: results,
       dataX: tempDataX,
-      isLoading: false
+      isLoading: false,
     })
   }
 
   handleClick = e => {
     const current = [_.get(_.keyBy(this.state.categories, 'key'), e, null)]
     this.setState({
-      current
+      current,
     })
   }
 
@@ -393,7 +393,7 @@ export default class ChartRowToChart extends React.Component {
       type: 'column',
       min: minLimit,
       name: _.get(this.state.current, '0.name', ''),
-      data: _.get(this.state.data, _.get(this.state.current, '0.key', ''), [])
+      data: _.get(this.state.data, _.get(this.state.current, '0.key', ''), []),
     })
     if (dataSeries.length > 0) {
       dataXs = this.state.dataX
@@ -450,7 +450,7 @@ export default class ChartRowToChart extends React.Component {
                 style={{
                   width: 900,
                   paddingLeft: 8,
-                  paddingRight: 8
+                  paddingRight: 8,
                 }}
                 defaultActiveKey={_.get(this.state.current[0], 'key', '')}
                 onTabClick={this.handleClick}

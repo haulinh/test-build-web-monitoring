@@ -9,7 +9,7 @@ export default ({ isLocked, onClick, left, right }) => (
       color: isLocked ? '#1890ff' : 'red',
       cursor: 'pointer',
       marginLeft: left,
-      marginRight: right
+      marginRight: right,
     }}
     type={isLocked ? 'unlock' : 'lock'}
   />

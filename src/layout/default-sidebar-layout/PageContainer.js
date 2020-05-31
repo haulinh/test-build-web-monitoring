@@ -13,6 +13,7 @@ const HeaderFlex = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 100%;
+  padding: 16px 0px;
 `
 
 export const Grid = styled.div`
@@ -71,7 +72,7 @@ export default class PageContainer extends React.PureComponent {
     isLoading: PropTypes.bool,
     headerCustom: PropTypes.any,
     componentLoading: PropTypes.any,
-    right: PropTypes.any
+    right: PropTypes.any,
   }
 
   renderHeader() {
@@ -83,7 +84,7 @@ export default class PageContainer extends React.PureComponent {
               ...props.style,
               top: 0,
               zIndex: 100,
-              borderBottom: props.isSticky ? '1px solid #eeeeee' : ''
+              borderBottom: props.isSticky ? '1px solid #eeeeee' : '',
             }}
           >
             <BreadcrumbContainer style={this.props.style}>
@@ -91,12 +92,12 @@ export default class PageContainer extends React.PureComponent {
                 {this.props.headerCustom ? (
                   this.props.headerCustom
                 ) : (
-                  <HeaderFlex>
-                    <BreadcrumbBar />
-                    {this.props.center}
-                    {this.props.right}
-                  </HeaderFlex>
-                )}
+                    <HeaderFlex>
+                      <BreadcrumbBar />
+                      {this.props.center}
+                      {this.props.right}
+                    </HeaderFlex>
+                  )}
               </GridSticky>
             </BreadcrumbContainer>
           </div>
@@ -115,7 +116,7 @@ export default class PageContainer extends React.PureComponent {
           <style
             type="text/css"
             dangerouslySetInnerHTML={{
-              __html: 'body{background-color: #fafbfb;}'
+              __html: 'body{background-color: #fafbfb;}',
             }}
           />
           {!this.props.hideTitle ? this.renderHeader() : null}
@@ -133,10 +134,10 @@ export default class PageContainer extends React.PureComponent {
                 </div>
               </Grid>
             ) : (
-              <AbsoluteLoading>
-                <LoaderCircle />
-              </AbsoluteLoading>
-            ))}
+                <AbsoluteLoading>
+                  <LoaderCircle />
+                </AbsoluteLoading>
+              ))}
         </PageBodyWrapper>
       </StickyContainer>
     )

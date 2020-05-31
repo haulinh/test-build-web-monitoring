@@ -29,8 +29,8 @@ export default class PercentReceivedDataContainer extends React.Component {
     isExporting: false,
     pagination: {
       current: 1,
-      pageSize: 50
-    }
+      pageSize: 50,
+    },
   }
 
   handleSubmitSearch(searchFormData) {
@@ -40,17 +40,17 @@ export default class PercentReceivedDataContainer extends React.Component {
   async loadData(pagination, searchFormData) {
     this.setState({
       isLoading: true,
-      isHaveData: true
+      isHaveData: true,
     })
 
     const key = searchFormData.key
     const params = {
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
-      dataFrequency: searchFormData.dataFrequency
+      dataFrequency: searchFormData.dataFrequency,
     }
     let listData = await aqiDataStationAuto.fetchDataStatistict(key, {
-      ...params
+      ...params,
     })
     if (
       listData &&
@@ -58,7 +58,7 @@ export default class PercentReceivedDataContainer extends React.Component {
     ) {
       swal({
         type: 'success',
-        title: translate('dataSearchFrom.table.emptyText')
+        title: translate('dataSearchFrom.table.emptyText'),
       })
     }
 
@@ -66,27 +66,27 @@ export default class PercentReceivedDataContainer extends React.Component {
       isLoading: false,
       dataSource: _.get(listData, 'data', []),
       searchFormData: searchFormData,
-      dataFrequency: searchFormData.dataFrequency
+      dataFrequency: searchFormData.dataFrequency,
     })
   }
 
   async handleExportExcel() {
     this.setState({
-      isExporting: true
+      isExporting: true,
     })
     const key = _.get(this.state.searchFormData, 'key', '')
     const params = {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
       dataFrequency: _.get(this.state.searchFormData, 'dataFrequency', 5),
-      stationName: _.get(this.state.searchFormData, 'stationName', '')
+      stationName: _.get(this.state.searchFormData, 'stationName', ''),
     }
     let res = await aqiDataStationAuto.exportDataStatistict(key, { ...params })
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
 
     this.setState({
-      isExporting: false
+      isExporting: false,
     })
   }
 

@@ -7,7 +7,7 @@ export function getFormatNumber(value, numberToFixed = FORMAT_VALUE_MEASURING) {
   if (typeof value === 'number') {
     let tempNumber = value.toLocaleString(FORMAT_LOCAL, {
       minimumFractionDigits: numberToFixed,
-      maximumFractionDigits: numberToFixed
+      maximumFractionDigits: numberToFixed,
     })
     return value === 0 ? '0' : tempNumber
   } else {
@@ -17,5 +17,5 @@ export function getFormatNumber(value, numberToFixed = FORMAT_VALUE_MEASURING) {
 
 export default {
   FORMAT_VALUE_MEASURING,
-  getFormatNumber
+  getFormatNumber,
 }

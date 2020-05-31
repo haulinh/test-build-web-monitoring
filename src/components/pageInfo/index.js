@@ -9,7 +9,7 @@ import { EMAIL } from 'constants/info-contact.js'
 const lang = {
   header: translate('pageInfo.header'),
   body1: translate('pageInfo.body1'),
-  body2: translate('pageInfo.body2')
+  body2: translate('pageInfo.body2'),
 }
 
 @autobind
@@ -24,7 +24,7 @@ export default class PageInfo extends React.PureComponent {
               marginTop: 42,
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'center'
+              alignItems: 'center',
             }}
           >
             <Icon type="info-circle" theme="twoTone" />

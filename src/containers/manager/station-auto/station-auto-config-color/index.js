@@ -14,7 +14,7 @@ const { TabPane } = Tabs
 
 const i18n = {
   tabColorData: translate('page.config.color.button.selectTabData'),
-  tabColorSensor: translate('page.config.color.button.selectTabSensor')
+  tabColorSensor: translate('page.config.color.button.selectTabSensor'),
 }
 
 @Form.create({})
@@ -26,7 +26,7 @@ export default class StationAutoConfigColor extends React.Component {
     keyData: 'data',
     keySensor: 'sensor',
     defaultTabKey: 'data',
-    activeTabKey: 'data'
+    activeTabKey: 'data',
   }
 
   render() {

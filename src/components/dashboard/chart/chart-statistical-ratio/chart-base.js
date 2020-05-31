@@ -31,7 +31,7 @@ const TitleView = styled.div`
 
 export default class ChartBaseView extends React.Component {
   state = {
-    isOpen: true
+    isOpen: true,
   }
 
   // shouldComponentUpdate(nextProps, nextState) {

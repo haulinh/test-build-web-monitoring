@@ -9,5 +9,5 @@ export function urlPhotoUploadWithDirectory(directory) {
 }
 
 export default {
-  urlPhotoUploadWithDirectory
+  urlPhotoUploadWithDirectory,
 }

@@ -16,7 +16,7 @@ export default function create(
   const store = createStore(
     combineReducers({
       ...rootReducers,
-      ...reducers
+      ...reducers,
     }),
     initialState,
     compose(

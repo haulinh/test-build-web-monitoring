@@ -14,7 +14,7 @@ export function getListOfStationAuto(rawState) {
 
     dispatch({
       type: GET_STATIONS_AUTO,
-      payload: data
+      payload: data,
     })
     dispatch({ type: INIT_LOADED })
   }
@@ -28,7 +28,7 @@ export function getTotalActived() {
 
     dispatch({
       type: GET_TOTAL_STATIONS_AUTO_ACTIVED,
-      payload: data
+      payload: data,
     })
   }
 }

@@ -39,20 +39,20 @@ import objectPath from 'object-path'
 const CENTER = {
   display: 'flex',
   alignItems: 'center',
-  fontWeight: 600
+  fontWeight: 600,
 }
 
 // const SubMenu = Menu.SubMenu
 // const MenuItemGroup = MenuItemGroup
 
 @connect(state => ({
-  isOpenNavigation: state.theme.navigation.isOpen
+  isOpenNavigation: state.theme.navigation.isOpen,
 }))
 @withRouter
 @autobind
 export default class DefaultSidebarNavigation extends React.PureComponent {
   static propTypes = {
-    withtootips: PropTypes.bool
+    withtootips: PropTypes.bool,
   }
 
   constructor(props) {
@@ -60,7 +60,7 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
     this.state = {
       stack: props.location.pathname
         ? this.getStackInitial(props)
-        : [navigationRouterStack]
+        : [navigationRouterStack],
     }
   }
 
@@ -75,7 +75,7 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
     ) {
       return [
         navigationRouterStack,
-        navigationRouterStack[navigationIndex].childMenu
+        navigationRouterStack[navigationIndex].childMenu,
       ]
     }
     return [navigationRouterStack]
@@ -130,7 +130,7 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
     return React.cloneElement(item.component, {
       key: text,
       onClick,
-      isSelected: isSelected
+      isSelected: isSelected,
     })
   }
 
@@ -162,16 +162,16 @@ export default class DefaultSidebarNavigation extends React.PureComponent {
 
     authRole: state.auth.userInfo.role,
     isAdmin: state.auth.userInfo.isAdmin,
-    organization: state.auth.userInfo.organization
+    organization: state.auth.userInfo.organization,
   }),
   {
     selectMenu,
-    changeOpenSubMenu
+    changeOpenSubMenu,
   }
 )
 class MenuApp extends React.PureComponent {
   state = {
-    openSubMenu: ['monitoring']
+    openSubMenu: ['monitoring'],
   }
   componentDidMount() {
     // set menu selected
@@ -210,7 +210,7 @@ class MenuApp extends React.PureComponent {
     result = _join(tampArr, '/')
     return {
       menuSelect: result,
-      menuExpande: menuExpande
+      menuExpande: menuExpande,
     }
   }
 
@@ -248,7 +248,7 @@ class MenuApp extends React.PureComponent {
           width: 'auto',
           minWidth: isOpen ? 240 : 'initial',
           backgroundColor: '#F4F5F7',
-          marginLeft: isOpen ? -8 : -18
+          marginLeft: isOpen ? -8 : -18,
         }}
         defaultSelectedKeys={[this.props.menuSelected]}
         // defaultOpenKeys={this.props.openSubMenu}
@@ -283,17 +283,17 @@ class MenuApp extends React.PureComponent {
           ROLE.MAP.VIEW,
           ROLE.CAMERA.VIEW,
           ROLE.DATA_SEARCH.VIEW,
-          ROLE.AVG_SEARCH.VIEW
+          ROLE.AVG_SEARCH.VIEW,
         ]) && MonitoringMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
           ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW,
-          ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW
+          ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW,
         ]) && HandleDataMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
           ROLE.QAQCCONFIG.VIEW,
-          ROLE.FTPTRANSFER.VIEW
+          ROLE.FTPTRANSFER.VIEW,
         ]) && ShareDataMenu.renderComp(this.props)}
 
         {/* TODO  Chưa có role nên dùng tạm của STATION_AUTO, xem lại */}
@@ -309,13 +309,13 @@ class MenuApp extends React.PureComponent {
           ROLE.TINH_TRANG_DU_LIEU.VIEW,
           ROLE.WQI_GIO.VIEW,
           ROLE.AQI_GIO.VIEW,
-          ROLE.AQI_NGAY.VIEW
+          ROLE.AQI_NGAY.VIEW,
         ]) && ReportMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
           ROLE.AQI.VIEW,
           ROLE.WQI.VIEW,
-          ROLE.CONFIG_WQI.VIEW
+          ROLE.CONFIG_WQI.VIEW,
         ]) && AdvanceMenu.renderComp(this.props)}
 
         {this.checkRoleForGroup([
@@ -333,7 +333,7 @@ class MenuApp extends React.PureComponent {
           ROLE.QCVN.VIEW,
           ROLE.ROLE.VIEW,
           ROLE.USER.VIEW,
-          ROLE.XEM_NHAT_KY.VIEW
+          ROLE.XEM_NHAT_KY.VIEW,
         ]) && ConfigMenu.renderComp(this.props)}
       </Menu>
     )

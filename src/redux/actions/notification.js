@@ -22,7 +22,7 @@ export const UPDATE_READ = 'NOTIFICATION / UPDATE_READ'
 export function resetAllCounts() {
   return dispatch => {
     dispatch({
-      type: RESET_ALL_COUNTS
+      type: RESET_ALL_COUNTS,
     })
   }
 }
@@ -30,7 +30,7 @@ export function resetAllCounts() {
 function updateAllCounts(numberCountsIsNotSeen) {
   return {
     type: UPDATE_ALL_COUNTS,
-    payload: numberCountsIsNotSeen
+    payload: numberCountsIsNotSeen,
   }
 }
 
@@ -39,7 +39,7 @@ export function setDrawerVisible(flag) {
   return dispatch => {
     dispatch({
       type: TOGGLE_VISIBLE_NOTIFICATION_DRAWER,
-      payload: flag
+      payload: flag,
     })
   }
 }
@@ -48,34 +48,34 @@ export function setDrawerVisible(flag) {
 function setLoadingStatus(flag) {
   return {
     type: TOGGLE_LOADING,
-    payload: flag
+    payload: flag,
   }
 }
 
 function updateCurrentPage() {
   return {
-    type: UPDATE_CURRENT_PAGE
+    type: UPDATE_CURRENT_PAGE,
   }
 }
 
 function updateDataSource(payload) {
   return {
     type: UPDATE_DATA_SOURCE,
-    payload
+    payload,
   }
 }
 
 function updateCountOnNewMsg(num = 1) {
   return {
     type: UPDATE_COUNT_ON_NEW_MSG,
-    payload: num
+    payload: num,
   }
 }
 
 function updateDataSourceOnNewMsg(data) {
   return {
     type: NEW_MESSAGE,
-    payload: data
+    payload: data,
   }
 }
 
@@ -89,7 +89,7 @@ export function loadNotificationsByType(page, stations, search = undefined) {
       let res = await FcmAPI.loadNotificationsByType({
         page,
         itemPerPage: ITEM_PER_PAGE,
-        search
+        search,
       })
       const { success, data } = res
 
@@ -128,7 +128,7 @@ export function clearLoadNotificationsByType() {
     dispatch(updateCurrentPage())
     dispatch({
       type: NOTIFICATION_CLEAR_DATA_SOURCE,
-      payload: []
+      payload: [],
     })
   }
 }
@@ -152,7 +152,7 @@ export function clearNotificationCountByType(type) {
 
     if (res.success) {
       dispatch({
-        type: CLEAR_COUNTS
+        type: CLEAR_COUNTS,
       })
     }
   }
@@ -190,7 +190,7 @@ export function updateNotifyRead(data) {
     if (res.success) {
       dispatch({
         type: UPDATE_READ,
-        payload: _id
+        payload: _id,
       })
     }
   }
@@ -199,7 +199,7 @@ export function updateNotifyRead(data) {
 function _generateNotificationCellByType(rawContent, stationInfo) {
   // generate ra link filter station monitoring
   const formSearchViewDetail = {
-    stationAuto: stationInfo.key
+    stationAuto: stationInfo.key,
   }
   let viewDetailURL =
     slug.monitoring.base +
@@ -222,7 +222,7 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
     fromDate,
     toDate,
     searchRange: true,
-    searchNow: true
+    searchNow: true,
   }
   const RawDataURL =
     slug.dataSearch.base +
@@ -245,8 +245,8 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
     dataFilter: rawContent.dataFilter,
     actions: {
       viewDetail: viewDetailURL,
-      aroundAtExceededTime: RawDataURL
-    }
+      aroundAtExceededTime: RawDataURL,
+    },
   }
 
   return cellContent

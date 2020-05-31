@@ -10,7 +10,7 @@ import { Menu, Dropdown, Icon, Tabs } from 'antd'
 import { getDataStationAutos } from 'api/DataStationAutoApi'
 import {
   DATETIME_LABEL_FORMAT,
-  DATETIME_TOOLTIP_FORMAT
+  DATETIME_TOOLTIP_FORMAT,
 } from 'constants/chart-format'
 import { ROUND_DIGIT } from 'constants/format-number'
 
@@ -18,8 +18,8 @@ const ChartWrapper = styled.div``
 
 ReactHighcharts.Highcharts.setOptions({
   global: {
-    useUTC: false
-  }
+    useUTC: false,
+  },
 })
 
 const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
@@ -27,20 +27,20 @@ const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
     chart: {
       type: 'spline',
       zoomType: 'x',
-      height: document.body.clientHeight - 340 // MARK  height vừa khung màn hình
+      height: document.body.clientHeight - 340, // MARK  height vừa khung màn hình
     },
     title: {
-      text: title
+      text: title,
     },
     xAxis: {
       type: 'datetime',
-      dateTimeLabelFormats: DATETIME_LABEL_FORMAT
+      dateTimeLabelFormats: DATETIME_LABEL_FORMAT,
     },
     yAxis: {
       max: maxChart,
       min: minChart,
       title: {
-        text: ''
+        text: '',
       },
       plotLines: [
         {
@@ -48,22 +48,22 @@ const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
           color: 'red',
           width: 2,
           label: {
-            text: translate(`dashboard.chartStatus.min`, { min: minLimit })
-          }
+            text: translate(`dashboard.chartStatus.min`, { min: minLimit }),
+          },
         },
         {
           value: _.isNumber(maxLimit) ? maxLimit : undefined,
           color: 'red',
           width: 1,
           label: {
-            text: translate(`dashboard.chartStatus.max`, { max: maxLimit })
-          }
-        }
-      ]
+            text: translate(`dashboard.chartStatus.max`, { max: maxLimit }),
+          },
+        },
+      ],
     },
     legend: {
       enabled: false,
-      reversed: true
+      reversed: true,
     },
     plotOptions: {
       spline: {
@@ -73,7 +73,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
             x1: 0,
             y1: 0,
             x2: 0,
-            y2: 1
+            y2: 1,
           },
           stops: [
             [0, Highcharts.getOptions().colors[0]],
@@ -81,24 +81,24 @@ const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
               1,
               Highcharts.Color(Highcharts.getOptions().colors[0])
                 .setOpacity(0)
-                .get('rgba')
-            ]
-          ]
+                .get('rgba'),
+            ],
+          ],
         },
         marker: {
-          radius: 3
+          radius: 3,
         },
         lineWidth: 1,
         states: {
           hover: {
-            lineWidth: 1
-          }
-        }
-      }
+            lineWidth: 1,
+          },
+        },
+      },
     },
     series: data,
     credits: {
-      enabled: false
+      enabled: false,
     },
     tooltip: {
       dateTimeLabelFormats: DATETIME_TOOLTIP_FORMAT,
@@ -111,8 +111,8 @@ const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
         }
         // If not null, use the default formatter
         return tooltip.defaultFormatter.call(this, tooltip)
-      }
-    }
+      },
+    },
   }
 }
 
@@ -125,7 +125,7 @@ export default class ChartRowToChart extends React.Component {
       current: null,
       day: 1,
       data: {},
-      isShowAll: null
+      isShowAll: null,
     }
   }
 
@@ -162,7 +162,7 @@ export default class ChartRowToChart extends React.Component {
           fromDate: fromDate.utc().format('YYYY-MM-DD 04:mm'),
           toDate: toDate.utc().format('YYYY-MM-DD HH:mm'),
           key: _.get(station, 'key', 'vas'),
-          measuringList: measuringKeys
+          measuringList: measuringKeys,
         }
       )
 
@@ -171,7 +171,7 @@ export default class ChartRowToChart extends React.Component {
       _.forEach(data, ({ measuringLogs, receivedAt }) => {
         _.mapKeys(measuringLogs, (value, key) => {
           results[key] = _.concat(_.get(results, key, []), [
-            [moment(receivedAt).valueOf(), _.get(value, 'value')]
+            [moment(receivedAt).valueOf(), _.get(value, 'value')],
           ])
           if (_.has(categories, `${key}`)) {
             if (
@@ -185,7 +185,7 @@ export default class ChartRowToChart extends React.Component {
               _.update(heightChart, `${key}.maxChart`, () => maxCurrent)
               categories[key].maxChart = _.max([
                 maxCurrent,
-                _.get(value, 'value')
+                _.get(value, 'value'),
               ])
 
               const minCurrent =
@@ -195,7 +195,7 @@ export default class ChartRowToChart extends React.Component {
               _.update(heightChart, `${key}.minChart`, () => minCurrent)
               categories[key].minChart = _.min([
                 minCurrent,
-                _.get(value, 'value')
+                _.get(value, 'value'),
               ])
             }
           }
@@ -226,14 +226,14 @@ export default class ChartRowToChart extends React.Component {
       const isShowAll = true
       this.setState({
         current,
-        isShowAll
+        isShowAll,
       })
     } else {
       const current = [_.get(_.keyBy(this.state.categories, 'key'), e, null)]
       const isShowAll = false
       this.setState({
         current,
-        isShowAll
+        isShowAll,
       })
     }
   }
@@ -281,7 +281,7 @@ export default class ChartRowToChart extends React.Component {
         lineWidth: 2,
         threshold: _.isNumber(maxLimit) ? maxLimit : 10000000,
         negativeColor: 'rgb(124, 181, 236)',
-        color: 'red'
+        color: 'red',
       })
 
       if (_.isNumber(minLimit)) {
@@ -296,7 +296,7 @@ export default class ChartRowToChart extends React.Component {
           lineWidth: 2,
           threshold: minLimit,
           negativeColor: 'red',
-          color: 'transparent'
+          color: 'transparent',
         })
       }
 
@@ -310,7 +310,7 @@ export default class ChartRowToChart extends React.Component {
           type: 'spline',
           name: name,
           data: _.get(this.state.data, key, []),
-          lineWidth: 2
+          lineWidth: 2,
         })
       )
     }
@@ -331,7 +331,7 @@ export default class ChartRowToChart extends React.Component {
           <span>
             <span style={{ color: 'blue', minWidth: 80 }}>
               {translate('dashboard.chartRatio.byDay', {
-                day: this.state.day
+                day: this.state.day,
               })}
               {`  `}
             </span>
@@ -344,7 +344,7 @@ export default class ChartRowToChart extends React.Component {
             width: 760,
             paddingLeft: 8,
             paddingRight: 8,
-            marginBottom: 8
+            marginBottom: 8,
           }}
           defaultActiveKey="1"
           onTabClick={this.handleClick}

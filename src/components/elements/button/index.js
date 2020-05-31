@@ -56,7 +56,7 @@ const ButtonStyle = styled(
     'shadowButton',
     'customColor',
     'borderRadius',
-    'block'
+    'block',
   ])
 )`
   font-size: ${props => props.fontSize}px;
@@ -87,7 +87,7 @@ const ButtonStyle = styled(
 ButtonStyle.defaultProps = {
   fontSize: 14,
   shadowButton: false,
-  customColor: ''
+  customColor: '',
 }
 
 export default function ButtonCustom({ isLoading, ...props }) {
@@ -105,5 +105,5 @@ ButtonCustom.propTypes = {
   shadowButton: PropTypes.bool,
   customColor: PropTypes.string,
   isLoading: PropTypes.bool,
-  block: PropTypes.bool
+  block: PropTypes.bool,
 }

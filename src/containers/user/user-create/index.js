@@ -34,19 +34,19 @@ const i18n = {
   text: translate('userManager.modal.text'),
   text1: translate('userManager.modal.text1'),
   text2: translate('userManager.modal.text2'),
-  text3: translate('userManager.modal.text3')
+  text3: translate('userManager.modal.text3'),
 }
 
 @protectRole(ROLE.USER.CREATE)
 @connect(state => ({
-  totalUser: _.get(state, 'auth.userInfo.organization.license.totalUser', 0)
+  totalUser: _.get(state, 'auth.userInfo.organization.license.totalUser', 0),
 }))
 @autobind
 export default class UserCreate extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: false
+      isLoading: false,
     }
   }
 
@@ -54,7 +54,7 @@ export default class UserCreate extends React.PureComponent {
     this.setState({
       isLoading: true,
       totalUserActive: 0,
-      isLicense: false
+      isLicense: false,
     })
 
     const res = await UserApi.registerUser(data)
@@ -70,7 +70,7 @@ export default class UserCreate extends React.PureComponent {
     if (res.success) {
       this.setState(
         {
-          totalUserActive: _.get(res, 'data', 0)
+          totalUserActive: _.get(res, 'data', 0),
         },
         () => {
           this.checkLicenseStation()
@@ -90,7 +90,7 @@ export default class UserCreate extends React.PureComponent {
     const { totalUserActive } = this.state
     if (totalUserActive >= totalUser) {
       this.setState({
-        isLicense: true
+        isLicense: true,
       })
     }
   }
@@ -123,15 +123,15 @@ export default class UserCreate extends React.PureComponent {
           footer={[
             <Button key="back" type="primary" onClick={this.hanldeClose}>
               {i18n.back}
-            </Button>
+            </Button>,
           ]}
         >
           <Text type="secondary">
             <div
               dangerouslySetInnerHTML={{
                 __html: translate('userManager.modal.text', {
-                  total: limitTotalStation
-                })
+                  total: limitTotalStation,
+                }),
               }}
             />
           </Text>
@@ -142,7 +142,7 @@ export default class UserCreate extends React.PureComponent {
             <Text
               style={{
                 color: SHAPE.PRIMARY,
-                fontWeight: 'bold'
+                fontWeight: 'bold',
               }}
             >
               {i18n.text1}
@@ -153,7 +153,7 @@ export default class UserCreate extends React.PureComponent {
             </Text>
             <Text
               style={{
-                color: SHAPE.PRIMARY
+                color: SHAPE.PRIMARY,
               }}
             >
               {PHONE}
@@ -164,7 +164,7 @@ export default class UserCreate extends React.PureComponent {
             </Text>
             <Text
               style={{
-                color: SHAPE.PRIMARY
+                color: SHAPE.PRIMARY,
               }}
             >
               {EMAIL}

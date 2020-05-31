@@ -43,5 +43,5 @@ export default {
   getContentFtpFiles,
   getInfoByPath,
   createFTPFolder,
-  readFileTheMostRecent
+  readFileTheMostRecent,
 }

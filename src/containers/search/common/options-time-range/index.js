@@ -10,7 +10,7 @@ const options = [
   { key: 1, text: 'dataSearchFrom.options.byHours', value: 24 },
   { key: 7, text: 'dataSearchFrom.options.byDay', value: 7 },
   { key: 15, text: 'dataSearchFrom.options.byDay', value: 15 },
-  { key: 30, text: 'dataSearchFrom.options.byDay', value: 30 }
+  { key: 30, text: 'dataSearchFrom.options.byDay', value: 30 },
 ]
 
 @autobind
@@ -20,7 +20,7 @@ export default class OptionsTimeRange extends React.Component {
     this.state = {
       open: false,
       rangesView: props.rangesView,
-      defaultValue: props.rangesView
+      defaultValue: props.rangesView,
     }
   }
 
@@ -37,14 +37,14 @@ export default class OptionsTimeRange extends React.Component {
     if (!_.isNumber(value)) {
       this.setState({
         defaultValue: undefined,
-        open: true
+        open: true,
       })
     } else {
       this.props.onChangeObject(value)
       this.setState({
         open: false,
         rangesView: '',
-        defaultValue: undefined
+        defaultValue: undefined,
       })
     }
   }
@@ -61,7 +61,7 @@ export default class OptionsTimeRange extends React.Component {
     this.props.onChangeObject(ranges)
     this.setState({
       open: false,
-      rangesView
+      rangesView,
     })
   }
 
@@ -89,13 +89,13 @@ export default class OptionsTimeRange extends React.Component {
             open={true}
             ranges={{
               Today: [moment(), moment()],
-              'This Month': [moment(), moment().endOf('month')]
+              'This Month': [moment(), moment().endOf('month')],
             }}
             showTime={{
               defaultValue: [
                 moment('00:00:00', 'HH:mm:ss'),
-                moment('23:59:59', 'HH:mm:ss')
-              ]
+                moment('23:59:59', 'HH:mm:ss'),
+              ],
             }}
             format={DD_MM_YYYY_HH_MM}
             onOk={this.onOkDatePicker}

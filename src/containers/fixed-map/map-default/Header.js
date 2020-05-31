@@ -59,7 +59,7 @@ const BadgeNotification = styled.div`
 export default class Header extends React.PureComponent {
   static propTypes = {
     onChange: PropTypes.func,
-    selectedType: PropTypes.string
+    selectedType: PropTypes.string,
   }
 
   renderItem(type, text, children) {

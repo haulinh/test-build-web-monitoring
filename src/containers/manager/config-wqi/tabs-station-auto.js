@@ -17,7 +17,7 @@ export default class TabsStationAuto extends React.Component {
     this.state = {
       listStationAuto: props.listStationAuto,
       stationConfig: _.keyBy(props.listStationConfig, 'key'),
-      stationTypeAuto: props.stationTypeAuto
+      stationTypeAuto: props.stationTypeAuto,
     }
   }
 
@@ -27,7 +27,7 @@ export default class TabsStationAuto extends React.Component {
         title: translate('configWQI.stationName'),
         dataIndex: 'name',
         key: 'name',
-        align: 'left'
+        align: 'left',
       },
       {
         title: translate('configWQI.stationType'),
@@ -44,7 +44,7 @@ export default class TabsStationAuto extends React.Component {
         key: 'stationType',
         // width: 100,
         align: 'left',
-        render: (value, record) => _.get(value, 'name', '')
+        render: (value, record) => _.get(value, 'name', ''),
       },
       {
         title: translate('configWQI.allow'),
@@ -73,8 +73,8 @@ export default class TabsStationAuto extends React.Component {
               )}
             </div>
           )
-        }
-      }
+        },
+      },
     ]
     return columns
   }
@@ -102,7 +102,7 @@ export default class TabsStationAuto extends React.Component {
     }
     if (!_.isEqual(nextProps.listStationConfig, this.props.listStationConfig)) {
       this.setState({
-        stationConfig: _.keyBy(nextProps.listStationConfig, 'key')
+        stationConfig: _.keyBy(nextProps.listStationConfig, 'key'),
       })
     }
     if (!_.isEqual(nextProps.stationTypeAuto, this.props.stationTypeAuto)) {
@@ -136,7 +136,7 @@ export default class TabsStationAuto extends React.Component {
         name: _.get(record, 'name', ''),
         stationType: _.get(record, 'stationType', {}),
         province: _.get(record, 'province', {}),
-        config: { ...data }
+        config: { ...data },
       }
 
       if (obj) {

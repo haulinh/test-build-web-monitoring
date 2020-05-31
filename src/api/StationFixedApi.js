@@ -77,5 +77,5 @@ export default {
   getTotalCount,
   stationPublished,
   transferFtp,
-  measurePublished
+  measurePublished,
 }

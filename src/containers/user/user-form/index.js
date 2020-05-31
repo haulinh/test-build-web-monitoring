@@ -15,7 +15,7 @@ const FormItem = Form.Item
   mapPropsToFields: ({ initialValues }) => {
     if (!initialValues) return
     return mapPropsToFields({ initialValues })
-  }
+  },
 })
 @createLanguage
 @autobind
@@ -25,14 +25,14 @@ export default class UserForm extends React.PureComponent {
     lang: langPropTypes,
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
   }
   constructor(props) {
     super(props)
     this.state = {
       confirmDirty: false,
       selectOrganizations: [],
-      phone: undefined
+      phone: undefined,
     }
   }
 
@@ -51,7 +51,7 @@ export default class UserForm extends React.PureComponent {
           ? this.state.selectOrganizations.find(
               item => item._id === values.organization
             )
-          : null
+          : null,
       }
       // Callback submit form Container Component
       this.props.onSubmit(data)
@@ -68,7 +68,7 @@ export default class UserForm extends React.PureComponent {
 
   compareToFirstPassword = (rule, value, callback) => {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     const form = this.props.form
     if (value && value !== form.getFieldValue('password')) {
@@ -86,8 +86,8 @@ export default class UserForm extends React.PureComponent {
     this.setState({
       phone: {
         phoneNumber: telNumber,
-        ...selectedCountry
-      }
+        ...selectedCountry,
+      },
     })
   }
 
@@ -96,15 +96,15 @@ export default class UserForm extends React.PureComponent {
   render() {
     const {
       form: { getFieldDecorator },
-      lang: { t }
+      lang: { t },
     } = this.props
     const formItemLayout = {
       labelCol: {
-        sm: { span: 7, offset: 0 }
+        sm: { span: 7, offset: 0 },
       },
       wrapperCol: {
-        sm: { span: 17, offset: 0 }
-      }
+        sm: { span: 17, offset: 0 },
+      },
     }
 
     return (
@@ -122,13 +122,13 @@ export default class UserForm extends React.PureComponent {
                 rules: [
                   {
                     type: 'email',
-                    message: t('userManager.form.email.error')
+                    message: t('userManager.form.email.error'),
                   },
                   {
                     required: true,
-                    message: t('userManager.form.email.label')
-                  }
-                ]
+                    message: t('userManager.form.email.label'),
+                  },
+                ],
               })(
                 <Input
                   disabled={this.props.isEdit}
@@ -146,9 +146,9 @@ export default class UserForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('userManager.form.phone.label')
-                  }
-                ]
+                    message: t('userManager.form.phone.label'),
+                  },
+                ],
                 // })(<ReactTelephoneInput defaultCountry="vn" flagsImagePath={!this.props.isEdit ? '../images/flags.png' : '../../images/flags.png'} onChange={this.handleTelChange} />)}
               })(<InputPhoneNumber />)}
             </FormItem>
@@ -166,12 +166,12 @@ export default class UserForm extends React.PureComponent {
                   rules: [
                     {
                       required: true,
-                      message: t('userManager.form.password.label')
+                      message: t('userManager.form.password.label'),
                     },
                     {
-                      validator: this.validateToNextPassword
-                    }
-                  ]
+                      validator: this.validateToNextPassword,
+                    },
+                  ],
                 })(
                   <Input
                     type="password"
@@ -190,12 +190,12 @@ export default class UserForm extends React.PureComponent {
                   rules: [
                     {
                       required: true,
-                      message: t('userManager.form.confirmPassword.message')
+                      message: t('userManager.form.confirmPassword.message'),
                     },
                     {
-                      validator: this.compareToFirstPassword
-                    }
-                  ]
+                      validator: this.compareToFirstPassword,
+                    },
+                  ],
                 })(
                   <Input
                     type="password"
@@ -221,9 +221,9 @@ export default class UserForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('userManager.form.firstName.label')
-                  }
-                ]
+                    message: t('userManager.form.firstName.label'),
+                  },
+                ],
               })(
                 <Input
                   placeholder={t('userManager.form.firstName.placeholder')}
@@ -243,9 +243,9 @@ export default class UserForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('userManager.form.lastName.label')
-                  }
-                ]
+                    message: t('userManager.form.lastName.label'),
+                  },
+                ],
               })(<Input placeholder={t('userManager.form.lastName.label')} />)}
             </FormItem>
           </Col>

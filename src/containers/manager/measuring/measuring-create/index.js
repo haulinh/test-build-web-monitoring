@@ -14,14 +14,14 @@ import protectRole from 'hoc/protect-role'
 
 @protectRole(ROLE.MEASURING.CREATE)
 @createManagerCreate({
-  apiCreate: CategoryApi.createMeasuring
+  apiCreate: CategoryApi.createMeasuring,
 })
 @createLanguage
 @autobind
 export default class MeasuringCreate extends React.PureComponent {
   static propTypes = {
     onCreateItem: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   async handleSubmit(data) {

@@ -29,7 +29,7 @@ export default class TabeList extends React.PureComponent {
     pagination: PropTypes.object,
     onExportExcel: PropTypes.func,
     nameChart: PropTypes.string,
-    isExporting: PropTypes.bool
+    isExporting: PropTypes.bool,
   }
 
   render() {

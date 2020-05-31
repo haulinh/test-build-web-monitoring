@@ -20,11 +20,11 @@ import { deleteToken } from 'api/NotificationApi'
 import Navigation, {
   AkNavigationItem,
   AkGlobalItem,
-  createGlobalTheme
+  createGlobalTheme,
 } from '@atlaskit/navigation'
 import AkDropdownMenu, {
   DropdownItemGroup,
-  DropdownItem
+  DropdownItem,
 } from '@atlaskit/dropdown-menu'
 import * as _ from 'lodash'
 import styled from 'styled-components'
@@ -37,11 +37,11 @@ import {
   getTotalByNotificationType,
   setDrawerVisible,
   resetAllCounts,
-  clearTotalNotificationCount
+  clearTotalNotificationCount,
 } from 'redux/actions/notification'
 import {
   getListOfStationAuto,
-  getTotalActived
+  getTotalActived,
 } from 'redux/actions/stationAuto'
 import { logout } from 'redux/actions/authAction'
 import AvatarCharacter from 'components/elements/avatar-character'
@@ -59,7 +59,7 @@ const globalTheme = createGlobalTheme('#ffffff', '#1d89ce')
     authInfo: state.auth.userInfo,
     notificationCount: state.notification.count,
     drawerVisible: state.notification.visible,
-    tokenFCM: state.auth.tokenFCM
+    tokenFCM: state.auth.tokenFCM,
   }),
   {
     logout,
@@ -68,7 +68,7 @@ const globalTheme = createGlobalTheme('#ffffff', '#1d89ce')
     getTotalByNotificationType,
     setDrawerVisible,
     resetAllCounts,
-    clearTotalNotificationCount
+    clearTotalNotificationCount,
   }
 )
 @withRouter
@@ -87,21 +87,21 @@ export default class BasicNestedNavigation extends React.Component {
     getTotalByNotificationType: PropTypes.func.isRequired,
     setDrawerVisible: PropTypes.func.isRequired,
     resetAllCounts: PropTypes.func.isRequired,
-    clearTotalNotificationCount: PropTypes.func.isRequired
+    clearTotalNotificationCount: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     navigation: {
       isOpen: true,
-      width: 320
-    }
+      width: 320,
+    },
   }
 
   state = {
     drawers: {
-      create: false
+      create: false,
     },
-    isShowNotifyDrawer: false
+    isShowNotifyDrawer: false,
   }
 
   toggleDrawer(type) {
@@ -135,7 +135,7 @@ export default class BasicNestedNavigation extends React.Component {
           </Link>
         </WrapperTitle>
       </Tooltip>,
-      backButton
+      backButton,
     ]
     /* eslint-enable jsx-a11y/no-static-element-interactions */
   }
@@ -221,7 +221,7 @@ export default class BasicNestedNavigation extends React.Component {
           </DropdownItem>
         </DropdownItemGroup>
       </AkDropdownMenu>,
-      <ChangeLanguage />
+      <ChangeLanguage />,
     ]
   }
 
@@ -287,10 +287,10 @@ export default class BasicNestedNavigation extends React.Component {
           isOpen={this.props.navigation.isOpen}
           drawers={[
             this.renderDrawer(DocumentDrawer, 'document'),
-            this.renderDrawer(AppDrawer, 'app')
+            this.renderDrawer(AppDrawer, 'app'),
           ]}
           globalPrimaryActions={[
-            this.renderIconDrawer(DocumentIcon, 'document', 'Document')
+            this.renderIconDrawer(DocumentIcon, 'document', 'Document'),
           ]}
           globalSecondaryActions={this.globalSecondaryActions()}
         >

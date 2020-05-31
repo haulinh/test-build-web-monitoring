@@ -40,7 +40,7 @@ export default class CameraList extends React.Component {
     this.state = {
       dataCameraList: [],
       cameraList: [],
-      dataSearch: {}
+      dataSearch: {},
     }
   }
 
@@ -64,7 +64,7 @@ export default class CameraList extends React.Component {
             !this.state.dataSearch.station ||
             item.stationKey === this.state.dataSearch.station ||
             this.state.dataSearch.station === 'ALL'
-        )
+        ),
       })
     }
   }
@@ -77,7 +77,7 @@ export default class CameraList extends React.Component {
           item.stationKey === dataSearch.station ||
           dataSearch.station === 'ALL'
       ),
-      dataSearch: dataSearch
+      dataSearch: dataSearch,
     })
   }
 
@@ -108,7 +108,7 @@ export default class CameraList extends React.Component {
                 index={index}
                 key={item.stationName + ' - ' + item.name}
               />,
-              <Clearfix width={15} />
+              <Clearfix width={15} />,
             ]
           })}
         </Wrapper>

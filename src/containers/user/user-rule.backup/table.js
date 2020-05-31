@@ -14,7 +14,7 @@ const i18n = {
   error: translate('addon.onSave.update.error'),
   stationName: translate('stationAutoManager.form.name.label'),
   stationAddr: translate('stationAutoManager.form.address.label'),
-  noData: 'Vui lòng chọn ở trên trước' /* MARK  @translate */
+  noData: 'Vui lòng chọn ở trên trước' /* MARK  @translate */,
 }
 
 const showSuccess = msg => {
@@ -28,7 +28,7 @@ export default class UserRuleTable extends React.Component {
     updateDataForSubmit: PropTypes.func.isRequired,
     userInfo: PropTypes.object,
     selectedUserID: PropTypes.string.isRequired,
-    selectedRoleID: PropTypes.string.isRequired
+    selectedRoleID: PropTypes.string.isRequired,
   }
 
   static defaultProps = {}
@@ -50,7 +50,7 @@ export default class UserRuleTable extends React.Component {
       isManagerCheckAll: false,
       isWarningCheckAll: false,
       isSmsCheckAll: false,
-      isEmailCheckAll: false
+      isEmailCheckAll: false,
     }
   }
 
@@ -72,7 +72,7 @@ export default class UserRuleTable extends React.Component {
             manager: false,
             sms: false,
             email: false,
-            warning: false
+            warning: false,
           })
           station.options = options
           return station
@@ -81,7 +81,7 @@ export default class UserRuleTable extends React.Component {
 
       this.setState({
         dataSourceCommited: _.cloneDeep(_stations),
-        dataSourceWorking: _.cloneDeep(_stations)
+        dataSourceWorking: _.cloneDeep(_stations),
       })
 
       _.forEach(_.values(USER_RULE_TABLE_OPTIONS), column => {
@@ -115,7 +115,7 @@ export default class UserRuleTable extends React.Component {
                 />
                 <div>{i18n.noData}</div>
               </div>
-            )
+            ),
           }}
           // loading={{spinning: this.props.isGettingStationsAuto, indicator: <Icon type="loading" style={{ fontSize: 24 }} spin />}}
         />
@@ -150,7 +150,7 @@ export default class UserRuleTable extends React.Component {
           false
         ),
         sms: _.get(row, ['options', USER_RULE_TABLE_OPTIONS.sms], false),
-        email: _.get(row, ['options', USER_RULE_TABLE_OPTIONS.email], false)
+        email: _.get(row, ['options', USER_RULE_TABLE_OPTIONS.email], false),
       }
     })
   }
@@ -164,7 +164,7 @@ export default class UserRuleTable extends React.Component {
         width: 100,
         render(text, record, index) {
           return <div style={{ textAlign: 'center' }}>{index + 1}</div>
-        }
+        },
       },
       {
         dataIndex: 'name',
@@ -172,7 +172,7 @@ export default class UserRuleTable extends React.Component {
         key: 'name',
         render(text, record, index) {
           return <div>{text}</div>
-        }
+        },
       },
       {
         dataIndex: 'address',
@@ -180,7 +180,7 @@ export default class UserRuleTable extends React.Component {
         key: 'address',
         render(text, record, index) {
           return <div>{text}</div>
-        }
+        },
       },
       /* NOTE : manager */
       {
@@ -208,12 +208,12 @@ export default class UserRuleTable extends React.Component {
                   index,
                   row,
                   key: USER_RULE_TABLE_OPTIONS.primary,
-                  value: e.target.checked
+                  value: e.target.checked,
                 })
               }
             />
           )
-        }
+        },
       },
       /* NOTE : warning */
       {
@@ -246,12 +246,12 @@ export default class UserRuleTable extends React.Component {
                   index,
                   row,
                   key: USER_RULE_TABLE_OPTIONS.warning,
-                  value: e.target.checked
+                  value: e.target.checked,
                 })
               }
             />
           )
-        }
+        },
       },
       /* NOTE : sms */
       {
@@ -284,12 +284,12 @@ export default class UserRuleTable extends React.Component {
                   index,
                   row,
                   key: USER_RULE_TABLE_OPTIONS.sms,
-                  value: e.target.checked
+                  value: e.target.checked,
                 })
               }
             />
           )
-        }
+        },
       },
       /* NOTE : eamil */
       {
@@ -322,13 +322,13 @@ export default class UserRuleTable extends React.Component {
                   index,
                   row,
                   key: USER_RULE_TABLE_OPTIONS.email,
-                  value: e.target.checked
+                  value: e.target.checked,
                 })
               }
             />
           )
-        }
-      }
+        },
+      },
     ]
   }
 
@@ -343,7 +343,7 @@ export default class UserRuleTable extends React.Component {
         isManagerCheckAll: checked,
         isWarningCheckAll: checked,
         isSmsCheckAll: checked,
-        isEmailCheckAll: checked
+        isEmailCheckAll: checked,
       })
 
       _.forEach(_dataSourceWorking, (row, index) => {
@@ -351,7 +351,7 @@ export default class UserRuleTable extends React.Component {
           index,
           row,
           key: USER_RULE_TABLE_OPTIONS.primary,
-          value: checked
+          value: checked,
         })
       })
     } else {
@@ -373,21 +373,21 @@ export default class UserRuleTable extends React.Component {
       case USER_RULE_TABLE_OPTIONS.warning: {
         this.setState({
           isWarningCheckAll: checked,
-          isWarningIndeterminate: false
+          isWarningIndeterminate: false,
         })
         break
       }
       case USER_RULE_TABLE_OPTIONS.sms: {
         this.setState({
           isSmsCheckAll: checked,
-          isSmsIndeterminate: false
+          isSmsIndeterminate: false,
         })
         break
       }
       case USER_RULE_TABLE_OPTIONS.email: {
         this.setState({
           isEmailCheckAll: checked,
-          isEmailIndeterminate: false
+          isEmailIndeterminate: false,
         })
         break
       }
@@ -452,7 +452,7 @@ export default class UserRuleTable extends React.Component {
   clearCache() {
     this.setState({
       dataSourceWorking: [...this.state.dataSourceCommited],
-      cachedData: {}
+      cachedData: {},
     })
   }
 
@@ -470,25 +470,25 @@ export default class UserRuleTable extends React.Component {
       case USER_RULE_TABLE_OPTIONS.primary:
         this.setState({
           isManagerIndeterminate: !isSame,
-          isManagerCheckAll: isCheckAll
+          isManagerCheckAll: isCheckAll,
         })
         break
       case USER_RULE_TABLE_OPTIONS.warning:
         this.setState({
           isWarningIndeterminate: !isSame,
-          isWarningCheckAll: isCheckAll
+          isWarningCheckAll: isCheckAll,
         })
         break
       case USER_RULE_TABLE_OPTIONS.sms:
         this.setState({
           isSmsIndeterminate: !isSame,
-          isSmsCheckAll: isCheckAll
+          isSmsCheckAll: isCheckAll,
         })
         break
       case USER_RULE_TABLE_OPTIONS.email:
         this.setState({
           isEmailIndeterminate: !isSame,
-          isEmailCheckAll: isCheckAll
+          isEmailCheckAll: isCheckAll,
         })
         break
     }

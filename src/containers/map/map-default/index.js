@@ -55,10 +55,10 @@ const RightWrapper = styled.div`
 @connectWindowHeight
 @connectAutoDispatch(
   state => ({
-    lang: state.language.locale
+    lang: state.language.locale,
   }),
   {
-    getStationAuto
+    getStationAuto,
   }
 )
 @autobind
@@ -72,13 +72,13 @@ export default class MapDefault extends React.PureComponent {
     zoom: 5,
     isHidden: false,
     isLeft: true,
-    isRight: true
+    isRight: true,
   }
 
   handleChangeSidebarType(e, sidebarType) {
     if (e) e.preventDefault()
     this.setState({
-      sidebarType
+      sidebarType,
     })
   }
 
@@ -123,25 +123,25 @@ export default class MapDefault extends React.PureComponent {
         const statusAnalytic = getStatusItem(item)
         return {
           ...item,
-          statusAnalytic
+          statusAnalytic,
         }
       })
 
       this.setState({
-        stationsAuto: dataAnalytic
+        stationsAuto: dataAnalytic,
       })
     }
   }
 
   handelOnLickHideLeftLayout({ isLeft, isRight }) {
     this.setState({
-      isLeft: isLeft
+      isLeft: isLeft,
     })
   }
 
   handelOnLickHideRightLayout({ isLeft, isRight }) {
     this.setState({
-      isRight: isRight
+      isRight: isRight,
     })
   }
 
@@ -186,7 +186,7 @@ export default class MapDefault extends React.PureComponent {
     })
 
     this.setState({
-      stationsAuto: res
+      stationsAuto: res,
     })
   }
 
@@ -204,12 +204,12 @@ export default class MapDefault extends React.PureComponent {
           <SidebarNormal
             analytic={{
               stationsAutoList: this.state.stationsAuto,
-              fillStatusChange: this.fillStatusChange
+              fillStatusChange: this.fillStatusChange,
             }}
             searchStation={{
               onSelectStation: this.handleSelectStation,
               stationSelected: this.state.stationSelected,
-              stationsAuto: this.state.stationsAuto
+              stationsAuto: this.state.stationsAuto,
             }}
           />
         )

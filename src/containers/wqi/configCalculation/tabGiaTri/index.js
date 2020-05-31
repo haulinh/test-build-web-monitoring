@@ -1,22 +1,7 @@
 import React from 'react'
 // import PropTypes from "prop-types";
 // import styled from "styled-components";
-import {
-  message,
-  // Tabs,
-  Button,
-  Table,
-  Form,
-  // InputNumber,
-  Icon,
-  Popconfirm,
-  Spin,
-  Select,
-  Checkbox,
-  Row,
-  Col,
-  Collapse
-} from 'antd'
+import { message, Form, Spin, Collapse } from 'antd'
 import { Clearfix } from 'containers/map/map-default/components/box-analytic-list/style'
 import { getConfigWqiParams, postConfigWqiParams } from 'api/CategoryApi'
 import { translate } from 'hoc/create-lang'
@@ -37,7 +22,7 @@ const i18n = {
   updateSuccess: translate('addon.onSave.update.success'),
   updateError: translate('addon.onSave.update.error'),
 
-  add: translate('wqiConfigCalculation.add')
+  add: translate('wqiConfigCalculation.add'),
 }
 
 @Form.create({})
@@ -48,7 +33,7 @@ export default class TabGiaTri extends React.Component {
     configGroupII: [],
     configGroupIII: [],
     configGroupIV: [],
-    configGroupV: []
+    configGroupV: [],
   }
 
   submit = () => {
@@ -82,7 +67,7 @@ export default class TabGiaTri extends React.Component {
           item => item && item.group === 'groupIII'
         ),
         configGroupIV: config.filter(item => item && item.group === 'groupIV'),
-        configGroupV: config.filter(item => item && item.group === 'groupV')
+        configGroupV: config.filter(item => item && item.group === 'groupV'),
       })
     }
   }

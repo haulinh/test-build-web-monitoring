@@ -4,7 +4,7 @@ import { AkNavigationItem } from '@atlaskit/navigation'
 
 export class WrapperLinkComponent extends React.PureComponent {
   static defaultProps = {
-    onClick: () => {}
+    onClick: () => {},
   }
 
   render() {
@@ -44,7 +44,7 @@ export function createChildListMenuItem(rootComponent, childComponent = []) {
         />
       )
       return { component: akItem, url: child.url }
-    })
+    }),
   }
 }
 

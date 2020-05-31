@@ -30,5 +30,5 @@ export default {
   createRole,
   deleteRole,
   getRole,
-  updateRole
+  updateRole,
 }

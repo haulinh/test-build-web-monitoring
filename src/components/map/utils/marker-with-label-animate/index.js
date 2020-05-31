@@ -12,7 +12,7 @@ import {
   construct,
   componentDidMount,
   componentDidUpdate,
-  componentWillUnmount
+  componentWillUnmount,
 } from 'react-google-maps/lib/utils/MapChildHelper'
 import makeMarkerWithLabel from './createUtil'
 
@@ -20,7 +20,7 @@ import {
   MAP,
   MARKER,
   ANCHOR,
-  MARKER_CLUSTERER
+  MARKER_CLUSTERER,
 } from 'react-google-maps/lib/constants'
 
 /**
@@ -281,22 +281,22 @@ export class Marker extends React.PureComponent {
      * function
      */
     onZindexChanged: PropTypes.func,
-    duration: PropTypes.number
+    duration: PropTypes.number,
   }
 
   static contextTypes = {
     [MAP]: PropTypes.object,
-    [MARKER_CLUSTERER]: PropTypes.object
+    [MARKER_CLUSTERER]: PropTypes.object,
   }
 
   static defaultProps = {
     labelProps: {
-      labelContent: 'Label'
-    }
+      labelContent: 'Label',
+    },
   }
 
   static childContextTypes = {
-    [ANCHOR]: PropTypes.object
+    [ANCHOR]: PropTypes.object,
   }
 
   /*
@@ -309,7 +309,7 @@ export class Marker extends React.PureComponent {
     SlidingMarker.initializeGlobally()
     const NativeMarkerWithLabel = makeMarkerWithLabel(google.maps)
     const marker = new NativeMarkerWithLabel({
-      ...props.labelProps
+      ...props.labelProps,
     })
     construct(Marker.propTypes, updaterMap, this.props, marker)
     const markerClusterer = this.context[MARKER_CLUSTERER]
@@ -321,13 +321,13 @@ export class Marker extends React.PureComponent {
       marker.setEasing('linear')
     }
     this.state = {
-      [MARKER]: marker
+      [MARKER]: marker,
     }
   }
 
   getChildContext() {
     return {
-      [ANCHOR]: this.context[ANCHOR] || this.state[MARKER]
+      [ANCHOR]: this.context[ANCHOR] || this.state[MARKER],
     }
   }
 
@@ -503,7 +503,7 @@ const eventMap = {
   onShapeChanged: 'shape_changed',
   onTitleChanged: 'title_changed',
   onVisibleChanged: 'visible_changed',
-  onZindexChanged: 'zindex_changed'
+  onZindexChanged: 'zindex_changed',
 }
 
 const updaterMap = {
@@ -561,5 +561,5 @@ const updaterMap = {
 
   zIndex(instance, zIndex) {
     instance.setZIndex(zIndex)
-  }
+  },
 }

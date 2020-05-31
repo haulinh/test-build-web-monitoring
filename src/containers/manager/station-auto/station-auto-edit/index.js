@@ -15,11 +15,11 @@ import protectRole from 'hoc/protect-role'
 
 @protectRole(ROLE.STATION_AUTO.EDIT)
 @createManagerDelete({
-  apiDelete: StationAutoApi.deleteStationAuto
+  apiDelete: StationAutoApi.deleteStationAuto,
 })
 @createManagerEdit({
   apiUpdate: StationAutoApi.updateStationAuto,
-  apiGetByKey: StationAutoApi.getStationAuto
+  apiGetByKey: StationAutoApi.getStationAuto,
 })
 @autobind
 export default class StationAutoEdit extends React.PureComponent {
@@ -27,7 +27,7 @@ export default class StationAutoEdit extends React.PureComponent {
     onDeleteItem: PropTypes.func,
     onUpdateItem: PropTypes.func,
     getItem: PropTypes.func,
-    isLoaded: PropTypes.bool
+    isLoaded: PropTypes.bool,
   }
 
   async handleSubmit(data) {
@@ -47,7 +47,7 @@ export default class StationAutoEdit extends React.PureComponent {
 
   cleanData() {
     let data = {
-      ...this.props.data
+      ...this.props.data,
     }
 
     data.measuringList = this.props.data.measuringList || []
@@ -83,8 +83,8 @@ export default class StationAutoEdit extends React.PureComponent {
               name:
                 this.props.isLoaded && this.props.success
                   ? this.cleanData().name
-                  : null
-            }
+                  : null,
+            },
           ]}
         />
         <Spin style={{ width: '100%' }} spinning={!this.props.isLoaded}>

@@ -13,7 +13,7 @@ export default class NotificationDrawer extends React.Component {
     closeDrawer: propTypes.func.isRequired,
     visible: propTypes.bool.isRequired,
     /* Redux's props */
-    clearNotificationCountByType: propTypes.func.isRequired
+    clearNotificationCountByType: propTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -25,11 +25,18 @@ export default class NotificationDrawer extends React.Component {
         bodyStyle={{
           height: 'calc(100vh - 55px)',
           padding: 0,
-          paddingLeft: 16
+          paddingLeft: 16,
         }}
         title={
-          <div onClick={this.closeDrawer}>
-            <Icon type="double-left" /> Notifications
+          <div>
+            <a
+              href="#"
+              onClick={this.closeDrawer}
+              style={{ paddingRight: '8px' }}
+            >
+              <Icon type="left" />
+            </a>
+            Notifications
           </div>
         }
         placement="left"

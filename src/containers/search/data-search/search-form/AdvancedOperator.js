@@ -17,7 +17,7 @@ const operators = [
   { value: '>=', name: '>=' },
   { value: '<', name: '<' },
   { value: '<=', name: '<=' },
-  { value: '=', name: '=' }
+  { value: '=', name: '=' },
 ]
 
 const Wrapper = styled.div`
@@ -36,7 +36,7 @@ const ButtonAbsolute = styled.div`
 export default class AdvancedOperator extends React.PureComponent {
   static propTypes = {
     measuringList: PropTypes.array,
-    onReset: PropTypes.func
+    onReset: PropTypes.func,
   }
 
   render() {
@@ -82,7 +82,7 @@ export default class AdvancedOperator extends React.PureComponent {
                       name={`advanced[${index}].value`}
                       size="large"
                       style={{
-                        width: '100%'
+                        width: '100%',
                       }}
                       component={FInputNumber}
                     />

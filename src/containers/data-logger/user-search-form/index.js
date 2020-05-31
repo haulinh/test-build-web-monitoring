@@ -19,18 +19,18 @@ const i18n = {
   labelTypeLog: translate('dataLogger.searchForm.typeLog'),
   labelFrom: translate('dataLogger.searchForm.from'),
   labelTo: translate('dataLogger.searchForm.to'),
-  download: translate('dataLogger.searchForm.download')
+  download: translate('dataLogger.searchForm.download'),
 }
 
 class DataLoggerSearchForm extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func,
-    isExcel: PropTypes.bool
+    isExcel: PropTypes.bool,
   }
 
   state = {
     isLoading: false,
-    dataUsers: []
+    dataUsers: [],
   }
 
   async componentDidMount() {
@@ -42,9 +42,9 @@ class DataLoggerSearchForm extends React.Component {
         dataUsers: _.map(dataSource, item => {
           return {
             name: item.email,
-            value: item.email
+            value: item.email,
           }
-        })
+        }),
       })
     }
     // console.log("-----", this.state.dataUsers);
@@ -73,7 +73,7 @@ class DataLoggerSearchForm extends React.Component {
               .utc()
               .endOf('days')
               .format()
-          : undefined
+          : undefined,
       }
 
       // console.log(dataSearch, "dataSearch");

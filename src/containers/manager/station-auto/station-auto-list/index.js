@@ -27,7 +27,7 @@ const i18n = {
   cancelText: translate('addon.cancel'),
   okText: translate('addon.ok'),
   restoreConfirmMsg: translate('confirm.msg.restore'),
-  deleteConfirmMsg: translate('confirm.msg.delete')
+  deleteConfirmMsg: translate('confirm.msg.delete'),
 }
 
 const LinkSpan = styled.span`
@@ -49,13 +49,13 @@ const IconButton = styled(Icon)`
 
 @protectRole(ROLE.STATION_AUTO.VIEW)
 @createManagerList({
-  apiList: StationAutoApi.getStationAutos
+  apiList: StationAutoApi.getStationAutos,
 })
 @createManagerDelete({
-  apiDelete: StationAutoApi.removeStationAuto
+  apiDelete: StationAutoApi.removeStationAuto,
 })
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -70,12 +70,12 @@ export default class StationAutoList extends React.Component {
     fetchData: PropTypes.func,
     onChangeSearch: PropTypes.func,
     data: PropTypes.object,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   async onDeleteItem(_id, callback) {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     Modal.confirm({
       title: i18n.deleteConfirmMsg,
@@ -91,13 +91,13 @@ export default class StationAutoList extends React.Component {
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() {}
+      onCancel() {},
     })
   }
 
   async onRestoreItem(_id, callback) {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     Modal.confirm({
       title: i18n.restoreConfirmMsg,
@@ -113,7 +113,7 @@ export default class StationAutoList extends React.Component {
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() {}
+      onCancel() {},
     })
   }
 
@@ -126,7 +126,7 @@ export default class StationAutoList extends React.Component {
       { content: t('stationAutoManager.form.address.label'), width: 20 },
       { content: t('stationAutoManager.form.province.label'), width: 15 },
       { content: t('stationAutoManager.form.dayOfOperation.label'), width: 10 },
-      { content: t('stationAutoManager.list.action'), width: 10 }
+      { content: t('stationAutoManager.list.action'), width: 10 },
     ]
   }
 
@@ -154,7 +154,7 @@ export default class StationAutoList extends React.Component {
                   index +
                   1}
               </strong>
-            )
+            ),
           },
           {
             content: (
@@ -162,21 +162,21 @@ export default class StationAutoList extends React.Component {
                 &emsp;
                 {row.key}
               </Span>
-            )
+            ),
           },
           {
             content: (
               <Span deleted={row.removeStatus && row.removeStatus.allowed}>
                 {row.name}
               </Span>
-            )
+            ),
           },
           {
             content: (
               <Span deleted={row.removeStatus && row.removeStatus.allowed}>
                 {row.address}
               </Span>
-            )
+            ),
           },
           {
             content: (
@@ -185,16 +185,16 @@ export default class StationAutoList extends React.Component {
                   {_.get(row, 'province.name', '   ')}
                 </Span>
               </div>
-            )
+            ),
           },
           {
             content: row.activatedAt && (
               <span>{moment(row.activatedAt).format(DD_MM_YYYY)}</span>
-            )
+            ),
           },
           {
-            content: this.actionGroup(row)
-          }
+            content: this.actionGroup(row),
+          },
         ]
         //check if Group exist or not
         if (row.stationType && stationTypeArr.indexOf(row.stationType.key) > -1)
@@ -214,10 +214,10 @@ export default class StationAutoList extends React.Component {
                         : ''}
                     </strong>
                   </div>
-                )
-              }
+                ),
+              },
             ],
-            resultRow
+            resultRow,
           ]
         }
       })
@@ -227,7 +227,7 @@ export default class StationAutoList extends React.Component {
 
   actionGroup(row) {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
 
     let defaultComp = <div />
@@ -237,7 +237,7 @@ export default class StationAutoList extends React.Component {
       let dropDown = protectRole(ROLE.STATION_AUTO.DELETE)(
         <Menu
           style={{
-            width: 120
+            width: 120,
           }}
         >
           <Menu.Item key="1">
@@ -312,7 +312,7 @@ export default class StationAutoList extends React.Component {
           isFixedSize
           isLoading={this.props.isLoading}
           paginationOptions={{
-            isSticky: true
+            isSticky: true,
           }}
           head={this.getHead()}
           rows={this.getRows()}

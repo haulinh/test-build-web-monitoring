@@ -46,5 +46,5 @@ export default function AvatarCharacter({ size = 30, username, avatarUrl }) {
 }
 AvatarCharacter.propTypes = {
   username: PropTypes.string,
-  size: PropTypes.number
+  size: PropTypes.number,
 }

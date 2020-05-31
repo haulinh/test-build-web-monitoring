@@ -45,7 +45,7 @@ const VnAqiView = ({ aqiLevel, value, color, time }) => {
           fontSize: 18,
           paddingTop: 8,
           color: colorFont,
-          fontWeight: '600'
+          fontWeight: '600',
         }}
       >
         VN AQI Ngày
@@ -55,7 +55,7 @@ const VnAqiView = ({ aqiLevel, value, color, time }) => {
           fontSize: 60,
           color: colorFont,
           fontWeight: '600',
-          textShadow: '2px 1px #ddd'
+          textShadow: '2px 1px #ddd',
         }}
       >
         {value}
@@ -65,7 +65,7 @@ const VnAqiView = ({ aqiLevel, value, color, time }) => {
           fontSize: 12,
           color: colorFont,
           fontWeight: '400',
-          paddingBottom: 8
+          paddingBottom: 8,
         }}
       >
         {time}

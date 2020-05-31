@@ -28,8 +28,8 @@ export default class AvgSearch extends React.Component {
     isExporting: false,
     pagination: {
       current: 1,
-      pageSize: 50
-    }
+      pageSize: 50,
+    },
   }
 
   handleSubmitSearch(searchFormData) {
@@ -39,20 +39,20 @@ export default class AvgSearch extends React.Component {
   async loadData(pagination, searchFormData) {
     this.setState({
       isLoading: true,
-      isHaveData: true
+      isHaveData: true,
     })
     let paginationQuery = pagination
     if (!_isEqual(searchFormData, this.state.searchFormData)) {
       paginationQuery = {
         ...paginationQuery,
-        current: 1
+        current: 1,
       }
     }
 
     const dataStationAuto = await DataStationAutoApi.getDataStationAutoAvg(
       {
         page: paginationQuery.current,
-        itemPerPage: paginationQuery.pageSize
+        itemPerPage: paginationQuery.pageSize,
       },
       searchFormData
     )
@@ -64,7 +64,7 @@ export default class AvgSearch extends React.Component {
     if (dataStationAuto.data.length === 0) {
       swal({
         type: 'success',
-        title: translate('avgSearchFrom.table.emptyText')
+        title: translate('avgSearchFrom.table.emptyText'),
       })
     }
     this.setState({
@@ -77,8 +77,8 @@ export default class AvgSearch extends React.Component {
         ...paginationQuery,
         total: dataStationAuto.success
           ? dataStationAuto.pagination.totalItem
-          : 0
-      }
+          : 0,
+      },
     })
   }
 
@@ -88,7 +88,7 @@ export default class AvgSearch extends React.Component {
 
   async handleExportExcel() {
     this.setState({
-      isExporting: true
+      isExporting: true,
     })
 
     // console.log(this.state.searchFormData,"this.state.searchFormData")
@@ -99,7 +99,7 @@ export default class AvgSearch extends React.Component {
     else message.error(res.message)
 
     this.setState({
-      isExporting: false
+      isExporting: false,
     })
   }
 

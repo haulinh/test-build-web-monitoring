@@ -4,7 +4,7 @@ import { getConfigApi } from '../config'
 
 const initializedFirebaseApp = firebase.initializeApp({
   // Project Settings => Add Firebase to your web app
-  messagingSenderId: getConfigApi().firebase.id
+  messagingSenderId: getConfigApi().firebase.id,
 })
 
 // KEYYYYY

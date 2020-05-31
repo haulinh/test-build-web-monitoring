@@ -10,14 +10,14 @@ import * as _ from 'lodash'
 
 const FormItem = Form.Item
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
 export default class StationTypeForm extends React.PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   constructor(props) {
@@ -25,7 +25,7 @@ export default class StationTypeForm extends React.PureComponent {
     this.state = {
       urlIcon: '',
       color: '',
-      name: ''
+      name: '',
     }
   }
 
@@ -39,7 +39,7 @@ export default class StationTypeForm extends React.PureComponent {
         isAuto: _.isUndefined(values.isAuto) ? false : values.isAuto,
         icon: this.state.urlIcon,
         color: this.state.color,
-        numericalOrder: values.numericalOrder
+        numericalOrder: values.numericalOrder,
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
@@ -51,9 +51,9 @@ export default class StationTypeForm extends React.PureComponent {
               errors: [
                 new Error(
                   this.props.lang.t('stationTypeManager.create.keyExisted')
-                )
-              ]
-            }
+                ),
+              ],
+            },
           })
         }
       }
@@ -83,7 +83,7 @@ export default class StationTypeForm extends React.PureComponent {
   onChangeIcon(iconObject) {
     this.setState({
       urlIcon: iconObject.urlIcon,
-      color: iconObject.color
+      color: iconObject.color,
     })
   }
 
@@ -93,12 +93,12 @@ export default class StationTypeForm extends React.PureComponent {
     const formItemLayout = {
       labelCol: {
         xs: { span: 24, offset: 0 },
-        sm: { span: 2, offset: 0 }
+        sm: { span: 2, offset: 0 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 12 }
-      }
+        sm: { span: 12 },
+      },
     }
 
     return (
@@ -110,9 +110,9 @@ export default class StationTypeForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('stationTypeManage.form.key.error')
-                  }
-                ]
+                    message: t('stationTypeManage.form.key.error'),
+                  },
+                ],
               })(
                 <Input placeholder={t('stationTypeManager.form.key.label')} />
               )}
@@ -124,9 +124,9 @@ export default class StationTypeForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('stationTypeManage.form.name.error')
-                  }
-                ]
+                    message: t('stationTypeManage.form.name.error'),
+                  },
+                ],
               })(
                 <Input placeholder={t('stationTypeManager.form.name.label')} />
               )}
@@ -139,12 +139,12 @@ export default class StationTypeForm extends React.PureComponent {
               {...{
                 labelCol: {
                   xs: { span: 16, offset: 0 },
-                  sm: { span: 4, offset: 0 }
+                  sm: { span: 4, offset: 0 },
                 },
                 wrapperCol: {
                   xs: { span: 12 },
-                  sm: { span: 12 }
-                }
+                  sm: { span: 12 },
+                },
               }}
               label={t('stationTypeManager.form.icon.label')}
             >
@@ -157,7 +157,7 @@ export default class StationTypeForm extends React.PureComponent {
           <Col span={4}>
             <FormItem>
               {getFieldDecorator('isAuto', {
-                valuePropName: 'checked'
+                valuePropName: 'checked',
               })(
                 <Checkbox>{t('stationTypeManager.form.auto.label')}</Checkbox>
               )}
@@ -170,7 +170,7 @@ export default class StationTypeForm extends React.PureComponent {
               label={t('stationTypeManager.form.numericalOrder.label')}
             >
               {getFieldDecorator('numericalOrder', {
-                rules: [{ required: true }]
+                rules: [{ required: true }],
               })(<InputNumberCell editable={true} />)}
             </FormItem>
           </Col>

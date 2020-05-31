@@ -60,8 +60,8 @@ export default class NotificationItem extends React.PureComponent {
       unit: PropTypes.string,
       minLimit: PropTypes.number,
       maxLimit: PropTypes.number,
-      value: PropTypes.number
-    })
+      value: PropTypes.number,
+    }),
   }
 
   render() {
@@ -83,7 +83,7 @@ export default class NotificationItem extends React.PureComponent {
                     value,
                     unit,
                     minLimit,
-                    maxLimit
+                    maxLimit,
                   },
                   index
                 ) => (

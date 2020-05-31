@@ -8,7 +8,7 @@ export default class AutoCompleteCell extends React.Component {
     onchange: PropTypes.func,
     options: PropTypes.array,
     editable: PropTypes.bool,
-    autoFocus: PropTypes.bool
+    autoFocus: PropTypes.bool,
   }
 
   render() {

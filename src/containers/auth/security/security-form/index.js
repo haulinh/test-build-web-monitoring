@@ -11,7 +11,7 @@ const TabPane = Tabs.TabPane
 
 @connectAutoDispatch(
   state => ({
-    userInfo: state.auth.userInfo
+    userInfo: state.auth.userInfo,
   }),
   {}
 )
@@ -21,7 +21,7 @@ export default class SecurityForm extends PureComponent {
     /* comp's props */
     onChange: PropTypes.func,
     /* redux's props */
-    userInfo: PropTypes.object.isRequired
+    userInfo: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -33,8 +33,8 @@ export default class SecurityForm extends PureComponent {
       confirmPasswordInfo: {
         hasFeedback: true,
         validateStatus: 'default',
-        help: ''
-      }
+        help: '',
+      },
     }
   }
 

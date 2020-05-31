@@ -9,7 +9,7 @@ import * as _ from 'lodash'
 export default class TableDataList extends React.PureComponent {
   static propTypes = {
     dataSource: PropTypes.array,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
   }
 
   getColumns() {
@@ -19,21 +19,21 @@ export default class TableDataList extends React.PureComponent {
         align: 'center',
         dataIndex: 'timeDay',
         key: 'timeDay',
-        flex: 1
+        flex: 1,
       },
       {
         title: translate('statistic.perRecDataFrom.totalFile'),
         align: 'center',
         dataIndex: 'totalFile',
         key: 'totalFile',
-        flex: 1
+        flex: 1,
       },
       {
         title: translate('statistic.perRecDataFrom.totalFileReceivedAt'),
         align: 'center',
         dataIndex: 'totalFileReceivedAt',
         key: 'totalFileReceivedAt',
-        flex: 1
+        flex: 1,
       },
       {
         title: translate('statistic.perRecDataFrom.perFileReceivedAt'),
@@ -43,8 +43,8 @@ export default class TableDataList extends React.PureComponent {
         flex: 1,
         render: (value, record) => {
           return value
-        }
-      }
+        },
+      },
     ]
     return columns
   }

@@ -3,5 +3,5 @@ export const PHONE = '035223783'
 
 export default {
   EMAIL,
-  PHONE
+  PHONE,
 }

@@ -17,7 +17,7 @@ export default class InfoComponent extends React.Component {
     this.state = {
       station: props.station,
       wqiDays: [],
-      wqiKeys: []
+      wqiKeys: [],
     }
   }
 
@@ -81,7 +81,7 @@ export default class InfoComponent extends React.Component {
       <Select
         value={{
           key: _.get(this.state.station, 'key', ''),
-          label: _.get(this.state.station, 'name', '')
+          label: _.get(this.state.station, 'name', ''),
         }}
         labelInValue
         defaultValue={{ key: defaultValue || '' }}
@@ -104,7 +104,7 @@ export default class InfoComponent extends React.Component {
           ...this.props.style,
           height: this.props.windowHeight,
           padding: 16,
-          overflow: 'scroll'
+          overflow: 'scroll',
         }}
       >
         {this.renderOptions()}
@@ -126,7 +126,7 @@ export default class InfoComponent extends React.Component {
               justifyContent: 'center',
               background:
                 'linear-gradient(135deg, rgb(29, 137, 206) 0%, rgb(86, 210, 243) 100%)',
-              marginTop: 16
+              marginTop: 16,
             }}
           >
             <span
@@ -134,7 +134,7 @@ export default class InfoComponent extends React.Component {
                 alignSelf: 'center',
                 color: '#fff',
                 fontSize: 18,
-                fontWeight: 'bold'
+                fontWeight: 'bold',
               }}
             >
               Giá trị WQI

@@ -46,7 +46,7 @@ const HeaderWrapper = styled.div`
 @autobind
 export default class SelectImage extends PureComponent {
   static propTypes = {
-    onChangeValue: PropTypes.func
+    onChangeValue: PropTypes.func,
   }
 
   state = {
@@ -59,14 +59,14 @@ export default class SelectImage extends PureComponent {
       'http://media.ilotusland.vn/icon-station-type/stack.png',
       'http://media.ilotusland.vn/icon-station-type/surface.png',
       'http://media.ilotusland.vn/icon-station-type/underground.png',
-      'http://media.ilotusland.vn/icon-station-type/waste.png'
-    ]
+      'http://media.ilotusland.vn/icon-station-type/waste.png',
+    ],
   }
   setIcon(urlIcon) {
     console.log(urlIcon)
     this.setState(
       {
-        urlIcon
+        urlIcon,
       },
       () => {
         console.log(this.state)
@@ -77,7 +77,7 @@ export default class SelectImage extends PureComponent {
 
   handelPop() {
     this.setState({
-      visiblePop: !this.state.visiblePop
+      visiblePop: !this.state.visiblePop,
     })
   }
 
@@ -96,7 +96,7 @@ export default class SelectImage extends PureComponent {
       ) {
         updateState.urlIcon = this.props.initialValues.urlIcon
         updateState.urlIconList = _.union(this.state.urlIconList || [], [
-          this.props.initialValues.urlIcon
+          this.props.initialValues.urlIcon,
         ])
       }
       if (this.props.initialValues.color)
@@ -117,21 +117,21 @@ export default class SelectImage extends PureComponent {
       action: urlPhotoUpload,
       listType: 'picture',
       headers: {
-        authorization: 'authorization-text'
+        authorization: 'authorization-text',
       },
       onSuccess({ url }, file) {
         message.success(
           `${file.name} ${t('stationAutoManager.uploadFile.success')}`
         )
         me.setState({
-          urlIconList: _.union(me.state.urlIconList, [url])
+          urlIconList: _.union(me.state.urlIconList, [url]),
         })
       },
       onError(error, response, file) {
         message.error(
           `${file.name} ${t('stationAutoManager.uploadFile.error')}`
         )
-      }
+      },
     }
 
     const content = (
@@ -185,7 +185,7 @@ export default class SelectImage extends PureComponent {
               style={{
                 cursor: 'pointer',
                 backgroundColor: this.state.color,
-                display: 'flex'
+                display: 'flex',
               }}
               src={this.state.urlIcon}
             >

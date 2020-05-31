@@ -5,21 +5,21 @@ import { connect } from 'react-redux'
 import * as _ from 'lodash'
 
 @connect(state => ({
-  language: _.get(state, 'language.locale')
+  language: _.get(state, 'language.locale'),
 }))
 export default class SelectAnt extends React.PureComponent {
   static propTypes = {
     options: PropTypes.arrayOf(
       PropTypes.shape({
         value: PropTypes.string,
-        name: PropTypes.string
+        name: PropTypes.string,
       })
     ),
-    isAll: PropTypes.bool
+    isAll: PropTypes.bool,
   }
 
   static defaultProps = {
-    options: []
+    options: [],
   }
 
   getRealValue() {

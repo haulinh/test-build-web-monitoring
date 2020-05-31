@@ -10,23 +10,23 @@ const options = [
   // { key: 'approvedValue', label: 'qaqc.approved' }
   { key: 'yetApprove', label: 'qaqc.yetApprove' },
   { key: 'approvedValue', label: 'qaqc.approved' },
-  { key: 'value', label: 'qaqc.originalData' }
+  { key: 'value', label: 'qaqc.originalData' },
 ]
 
 @autobind
 class SelectApprove extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func,
-    value: PropTypes.string
+    value: PropTypes.string,
   }
 
   state = {
-    value: 'value'
+    value: 'value',
   }
 
   onChange = value => {
     this.setState({
-      value
+      value,
     })
     if (this.props.onChange) this.props.onChange(value)
   }

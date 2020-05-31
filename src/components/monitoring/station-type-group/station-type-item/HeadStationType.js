@@ -40,7 +40,7 @@ export default class HeadStypeType extends React.Component {
         rightChildren={this.rightChildren()}
         fontSize={14}
         style={{
-          padding: '8px 16px'
+          padding: '8px 16px',
         }}
       >
         {this.props.children}

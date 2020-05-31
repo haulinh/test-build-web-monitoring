@@ -51,21 +51,21 @@ export default class BoxView extends React.PureComponent {
     type: PropTypes.string,
     color: PropTypes.string,
     focusStatus: PropTypes.string,
-    focusParam: PropTypes.array
+    focusParam: PropTypes.array,
   }
 
   state = {
-    isChecked: false
+    isChecked: false,
   }
 
   handleClickBox() {
     if (this.props.focusStatus && this.props.focusParam) {
       this.setState({
-        isChecked: false
+        isChecked: false,
       })
     } else
       this.setState({
-        isChecked: !this.state.isChecked
+        isChecked: !this.state.isChecked,
       })
   }
 

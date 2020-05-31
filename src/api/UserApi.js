@@ -91,5 +91,5 @@ export default {
   getTotalCount,
   accountEnable,
   confirmSms,
-  getSmsCode
+  getSmsCode,
 }

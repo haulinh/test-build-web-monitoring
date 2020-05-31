@@ -34,12 +34,12 @@ const TextSpan = styled.span`
 export default class StationTypeSummary extends React.Component {
   static propTypes = {
     stationType: PropTypes.object,
-    stationAutoList: PropTypes.array
+    stationAutoList: PropTypes.array,
   }
 
   state = {
     isOpen: true,
-    measureSoure: []
+    measureSoure: [],
   }
 
   toggleOpen() {
@@ -59,7 +59,7 @@ export default class StationTypeSummary extends React.Component {
     let measureSource = uniqBy(tamp, 'key')
     this.setState({
       measureSoure: measureSource,
-      measureShow: measureSource.map(item => item.key)
+      measureShow: measureSource.map(item => item.key),
     })
   }
 
@@ -81,7 +81,7 @@ export default class StationTypeSummary extends React.Component {
                   ...props.style,
                   top: props.isSticky ? '68.8px' : null,
                   transition: 'all .3s linear',
-                  zIndex: 99999
+                  zIndex: 99999,
                 }}
               >
                 <HeadStationType>

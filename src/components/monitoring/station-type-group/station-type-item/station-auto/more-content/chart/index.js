@@ -32,20 +32,20 @@ const defaultChartType = 'hours'
 
 const i18n = {
   avgHour: translate('monitoring.moreContent.chart.tab.avgHour'),
-  avgDay: translate('monitoring.moreContent.chart.tab.avgDay')
+  avgDay: translate('monitoring.moreContent.chart.tab.avgDay'),
 }
 
 @withRouter
 export default class ChartMoreInfo extends React.Component {
   static propTypes = {}
   static defaultProps = {
-    stationID: PropTypes.string
+    stationID: PropTypes.string,
   }
 
   state = {
     isLoading: true,
     stationData: {},
-    chartType: ''
+    chartType: '',
   }
 
   async componentWillMount() {
@@ -56,7 +56,7 @@ export default class ChartMoreInfo extends React.Component {
       this.setState({
         isLoading: false,
         stationData: res.data,
-        chartType: defaultChartType
+        chartType: defaultChartType,
       })
     }
   }
@@ -72,7 +72,7 @@ export default class ChartMoreInfo extends React.Component {
 
     this.setState({
       isLoading: false,
-      chartType: tempType
+      chartType: tempType,
     })
   }
 

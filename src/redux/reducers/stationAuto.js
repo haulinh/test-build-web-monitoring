@@ -1,13 +1,13 @@
 import {
   INIT_LOADED,
   GET_STATIONS_AUTO,
-  GET_TOTAL_STATIONS_AUTO_ACTIVED
+  GET_TOTAL_STATIONS_AUTO_ACTIVED,
 } from '../actions/stationAuto'
 
 let initstate = {
   isInitLoaded: false,
   list: [],
-  totalStationActived: 0
+  totalStationActived: 0,
 }
 
 export default function stationAuto(state = initstate, action) {

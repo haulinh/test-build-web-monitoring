@@ -32,7 +32,7 @@ const View = styled.div`
 export default class HeaderView extends React.PureComponent {
   static propTypes = {
     stationStatus: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   }
 
   handleItemSelected = value => {

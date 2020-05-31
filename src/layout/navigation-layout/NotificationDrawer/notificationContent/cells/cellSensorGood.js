@@ -8,7 +8,7 @@ import { BoldTextWrap } from './_helperComponent'
 const i18n = {
   station: translate('common.station'),
   device: translate('common.device'),
-  sensorGood: translate('common.deviceStatus.sensorGood')
+  sensorGood: translate('common.deviceStatus.sensorGood'),
 }
 
 export default function SensorGoodCell(props) {

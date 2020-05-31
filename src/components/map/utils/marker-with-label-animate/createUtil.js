@@ -364,7 +364,7 @@ export default function setUp() {
         function() {
           me.setStyles()
         }
-      )
+      ),
     ]
   }
 

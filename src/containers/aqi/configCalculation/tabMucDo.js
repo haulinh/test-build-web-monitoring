@@ -11,12 +11,12 @@ import {
   InputNumber,
   Icon,
   Popconfirm,
-  Spin
+  Spin,
 } from 'antd'
 import { Clearfix } from 'containers/map/map-default/components/box-analytic-list/style'
 import {
   getConfigAqiCalculation,
-  postConfigAqiCalculation
+  postConfigAqiCalculation,
 } from 'api/CategoryApi'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
@@ -36,7 +36,7 @@ const i18n = {
   colMax: translate('aqiConfigCalculation.colMax'),
   colColor: translate('aqiConfigCalculation.colColor'),
   colBackgroundColor: translate('aqiConfigCalculation.colBackgroundColor'),
-  colDescription: translate('aqiConfigCalculation.colDescription')
+  colDescription: translate('aqiConfigCalculation.colDescription'),
 }
 
 @Form.create({})
@@ -46,7 +46,7 @@ export default class TabMucDo extends React.Component {
     isLoaded: false,
     isSubmit: false,
     dataSource: [],
-    isLocked: false
+    isLocked: false,
   }
 
   columns = [
@@ -63,13 +63,13 @@ export default class TabMucDo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(<Input placeholder="Mức độ" />)}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colMin,
@@ -84,9 +84,9 @@ export default class TabMucDo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(
               <InputNumber
                 style={{ width: '100%' }}
@@ -95,7 +95,7 @@ export default class TabMucDo extends React.Component {
             )}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colMax,
@@ -112,9 +112,9 @@ export default class TabMucDo extends React.Component {
                 rules: [
                   {
                     required: !this.state.isLocked,
-                    message: i18n.required
-                  }
-                ]
+                    message: i18n.required,
+                  },
+                ],
               })(
                 <InputNumber
                   style={{ width: '100%' }}
@@ -127,7 +127,7 @@ export default class TabMucDo extends React.Component {
                   style={{
                     display: 'flex',
                     marginLeft: 8,
-                    alignItems: 'center'
+                    alignItems: 'center',
                   }}
                 >
                   <Icon
@@ -135,7 +135,7 @@ export default class TabMucDo extends React.Component {
                       this.setState({ isLocked: !this.state.isLocked }, () => {
                         if (this.state.isLocked) {
                           setFieldsValue({
-                            [`levelList[${record.key}].max`]: null
+                            [`levelList[${record.key}].max`]: null,
                           })
                         }
                       })
@@ -143,7 +143,7 @@ export default class TabMucDo extends React.Component {
                     style={{
                       fontSize: 24,
                       color: this.state.isLocked ? '#1890ff' : 'red',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
                     }}
                     type={this.state.isLocked ? 'unlock' : 'lock'}
                   />
@@ -152,7 +152,7 @@ export default class TabMucDo extends React.Component {
             </div>
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colColor,
@@ -168,13 +168,13 @@ export default class TabMucDo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(<input type="color" />)}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colBackgroundColor,
@@ -190,13 +190,13 @@ export default class TabMucDo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(<input type="color" />)}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colDescription,
@@ -211,13 +211,13 @@ export default class TabMucDo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(<Input placeholder={i18n.colDescription} />)}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: '',
@@ -240,8 +240,8 @@ export default class TabMucDo extends React.Component {
             />
           </Popconfirm>
         )
-      }
-    }
+      },
+    },
   ]
 
   submit = () => {
@@ -271,16 +271,16 @@ export default class TabMucDo extends React.Component {
       dataSource: [
         ...this.state.dataSource,
         {
-          key: this.idIncrement++
-        }
-      ]
+          key: this.idIncrement++,
+        },
+      ],
     })
   }
 
   delete = key => {
     let tamp = this.state.dataSource.filter(item => item.key !== key)
     this.setState({
-      dataSource: [...tamp]
+      dataSource: [...tamp],
     })
   }
 
@@ -296,11 +296,11 @@ export default class TabMucDo extends React.Component {
         {
           dataSource: transformData,
           isLoaded: true,
-          isLocked: lastRecord ? lastRecord.max == null : null
+          isLocked: lastRecord ? lastRecord.max == null : null,
         },
         () => {
           this.props.form.setFieldsValue({
-            levelList: transformData
+            levelList: transformData,
           })
         }
       )

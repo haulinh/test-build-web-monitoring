@@ -2,7 +2,7 @@ import React from 'react'
 import { AkNavigationItemGroup, AkNavigationItem } from '@atlaskit/navigation'
 import {
   // createChildListMenuItem,
-  WrapperLinkComponent
+  WrapperLinkComponent,
 } from '../../utils/sidebarNavigation'
 import slug from 'constants/slug'
 import Icon from 'themes/icon'
@@ -21,7 +21,7 @@ const dashboardMenu = {
       icon={Icon.dashboard}
       text={translate('menuApp.dashboard')}
     />
-  )
+  ),
 }
 
 // const aqiMenu = {
@@ -43,7 +43,7 @@ const wqiMenu = {
       icon={Icon.wqi}
       text={translate('wqi.title')} //{translate('aqi.title')}
     />
-  )
+  ),
 }
 
 const groupQAQC = {
@@ -51,7 +51,7 @@ const groupQAQC = {
     <NavigationWrapper text={translate('qaqc.title')}>
       <AkNavigationItemGroup title={translate('qaqc.title')} />
     </NavigationWrapper>
-  )
+  ),
 }
 
 const qaqcMenu = {
@@ -62,7 +62,7 @@ const qaqcMenu = {
       href={slug.qaqc.base}
       text={translate('qaqc.approveData')}
     />
-  )
+  ),
 }
 
 const monitoringMenu = {
@@ -73,7 +73,7 @@ const monitoringMenu = {
       icon={Icon.screen}
       text={translate('menuApp.monitoring')}
     />
-  )
+  ),
 }
 
 const cameraMenu = {
@@ -84,7 +84,7 @@ const cameraMenu = {
       icon={Icon.camera}
       text={translate('menuApp.camera')}
     />
-  )
+  ),
 }
 
 const mapMenu = {
@@ -95,7 +95,7 @@ const mapMenu = {
       icon={Icon.location}
       text={translate('menuApp.map')}
     />
-  )
+  ),
 }
 
 const groupData = {
@@ -107,7 +107,7 @@ const groupData = {
     <NavigationWrapper text={translate('menuApp.data')}>
       <AkNavigationItemGroup title={translate('menuApp.data')} />
     </NavigationWrapper>
-  )
+  ),
 }
 
 const groupStationFixed = {
@@ -116,14 +116,14 @@ const groupStationFixed = {
     [
       ROLE.MAP_STATION_FIXED.VIEW,
       ROLE.STATION_FIXED.VIEW,
-      ROLE.STATION_FIXED_SEARCH.VIEW
+      ROLE.STATION_FIXED_SEARCH.VIEW,
     ],
     'group'
   )(
     <NavigationWrapper text={translate('menuApp.stationFixed')}>
       <AkNavigationItemGroup title={translate('menuApp.stationFixed')} />
     </NavigationWrapper>
-  )
+  ),
 }
 
 const dataSearchMenu = {
@@ -134,7 +134,7 @@ const dataSearchMenu = {
       href={slug.dataSearch.base}
       text={translate('menuApp.dataSearch')}
     />
-  )
+  ),
 }
 
 const dataSearchFixedMenu = {
@@ -145,7 +145,7 @@ const dataSearchFixedMenu = {
       href={slug.dataSearchFixed.base}
       text={translate('menuApp.dataSearchFixed')}
     />
-  )
+  ),
 }
 
 const avgDataMenu = {
@@ -156,7 +156,7 @@ const avgDataMenu = {
       href={slug.avgSearch.base}
       text={translate('menuApp.avgData')}
     />
-  )
+  ),
 }
 
 const groupManager = {
@@ -169,14 +169,14 @@ const groupManager = {
       ROLE.PROVINCE.VIEW,
       ROLE.QCVN.VIEW,
       // ROLE.STATION_FIXED.VIEW,
-      ROLE.CONFIG_WQI.VIEW
+      ROLE.CONFIG_WQI.VIEW,
     ],
     'group'
   )(
     <NavigationWrapper text={translate('menuApp.manage')}>
       <AkNavigationItemGroup title={translate('menuApp.manage')} />
     </NavigationWrapper>
-  )
+  ),
 }
 
 const measuringMenu = {
@@ -187,7 +187,7 @@ const measuringMenu = {
       icon={Icon.quizLists}
       text={translate('menuApp.measuring')}
     />
-  )
+  ),
 }
 
 const stationTypeMenu = {
@@ -198,7 +198,7 @@ const stationTypeMenu = {
       icon={Icon.hipchat}
       text={translate('menuApp.stationType')}
     />
-  )
+  ),
 }
 
 const stationAutoMenu = {
@@ -209,7 +209,7 @@ const stationAutoMenu = {
       icon={Icon.book}
       text={translate('menuApp.stationAuto')}
     />
-  )
+  ),
 }
 
 const stationFixedMenu = {
@@ -220,7 +220,7 @@ const stationFixedMenu = {
       icon={Icon.stationFixed}
       text={translate('menuApp.stationFixed')}
     />
-  )
+  ),
 }
 
 const configWQI = {
@@ -231,7 +231,7 @@ const configWQI = {
       icon={Icon.configWQI}
       text={translate('menuApp.configWQI')}
     />
-  )
+  ),
 }
 
 const provinceMenu = {
@@ -242,7 +242,7 @@ const provinceMenu = {
       icon={Icon.province}
       text={translate('menuApp.province')}
     />
-  )
+  ),
 }
 const qcvnMenu = {
   component: protectRole(ROLE.QCVN.VIEW)(
@@ -252,7 +252,7 @@ const qcvnMenu = {
       icon={Icon.qcvn}
       text={'QCVN'}
     />
-  )
+  ),
 }
 
 const groupAdmin = {
@@ -260,7 +260,7 @@ const groupAdmin = {
     <NavigationWrapper text={translate('menuApp.adminManagement')}>
       <AkNavigationItemGroup title={translate('menuApp.adminManagement')} />
     </NavigationWrapper>
-  )
+  ),
 }
 
 const userMenu = {
@@ -271,7 +271,7 @@ const userMenu = {
       icon={Icon.person}
       text={translate('menuApp.user')}
     />
-  )
+  ),
 }
 
 const roleMenu = {
@@ -282,7 +282,7 @@ const roleMenu = {
       icon={Icon.peopleGroup}
       text={translate('menuApp.role')}
     />
-  )
+  ),
 }
 
 const ftpTransferMenu = {
@@ -293,7 +293,7 @@ const ftpTransferMenu = {
       icon={Icon.ftpTranfer}
       text={translate('menuApp.ftpTranfer')}
     />
-  )
+  ),
 }
 
 const configPublishMenu = {
@@ -304,7 +304,7 @@ const configPublishMenu = {
       href={slug.qaqc.config}
       text={translate('qaqc.configPublish.title')}
     />
-  )
+  ),
 }
 
 const groupPubShare = {
@@ -316,7 +316,7 @@ const groupPubShare = {
     <NavigationWrapper text={translate('menuApp.publishShare')}>
       <AkNavigationItemGroup title={translate('menuApp.publishShare')} />
     </NavigationWrapper>
-  )
+  ),
 }
 
 const mapFixedMenu = {
@@ -327,7 +327,7 @@ const mapFixedMenu = {
       href={slug.mapFixed.base}
       text={translate('menuApp.mapFixed')}
     />
-  )
+  ),
 }
 
 const statisticPerRecMenu = {
@@ -338,7 +338,7 @@ const statisticPerRecMenu = {
       href={slug.statistic.perRecData}
       text={translate('statistic.perRecData')}
     />
-  )
+  ),
 }
 
 const statisticExceededMenu = {
@@ -349,7 +349,7 @@ const statisticExceededMenu = {
       href={slug.statistic.exceeded}
       text={translate('statistic.exceeded')}
     />
-  )
+  ),
 }
 
 const statisticAQIMenu = {
@@ -360,7 +360,7 @@ const statisticAQIMenu = {
       href={slug.statistic.aqi}
       text={translate('statistic.aqi.menuApp')}
     />
-  )
+  ),
 }
 
 const statisticWQIMenu = {
@@ -371,7 +371,7 @@ const statisticWQIMenu = {
       href={slug.statistic.wqi}
       text={translate('statistic.wqi.menuApp')}
     />
-  )
+  ),
 }
 
 const groupStatistic = {
@@ -381,14 +381,14 @@ const groupStatistic = {
       ROLE.STATISTIC.EXCEEDED,
       ROLE.STATISTIC.PER_REC_DATA,
       ROLE.STATISTIC.AQI,
-      ROLE.STATISTIC.WQI
+      ROLE.STATISTIC.WQI,
     ],
     'group'
   )(
     <NavigationWrapper text={translate('menuApp.groupStatistic')}>
       <AkNavigationItemGroup title={translate('menuApp.groupStatistic')} />
     </NavigationWrapper>
-  )
+  ),
 }
 
 const groupReport = {
@@ -396,7 +396,7 @@ const groupReport = {
     <NavigationWrapper text={translate('menuApp.reportSub')}>
       <AkNavigationItemGroup title={translate('menuApp.reportSub')} />
     </NavigationWrapper>
-  )
+  ),
 }
 
 const reportType1Menu = {
@@ -407,7 +407,7 @@ const reportType1Menu = {
       icon={Icon.trayIcon}
       text={translate('menuApp.report.type1')}
     />
-  )
+  ),
 }
 
 const reportType2Menu = {
@@ -418,7 +418,7 @@ const reportType2Menu = {
       icon={Icon.trayIcon}
       text={translate('menuApp.report.type2')}
     />
-  )
+  ),
 }
 
 const reportType3Menu = {
@@ -429,7 +429,7 @@ const reportType3Menu = {
       icon={Icon.trayIcon}
       text={translate('menuApp.report.type3')}
     />
-  )
+  ),
 }
 
 const reportType4Menu = {
@@ -440,7 +440,7 @@ const reportType4Menu = {
       icon={Icon.trayIcon}
       text={translate('menuApp.report.type4')}
     />
-  )
+  ),
 }
 
 const reportType5Menu = {
@@ -451,7 +451,7 @@ const reportType5Menu = {
       icon={Icon.trayIcon}
       text={translate('menuApp.report.type5')}
     />
-  )
+  ),
 }
 
 const reportType6Menu = {
@@ -462,7 +462,7 @@ const reportType6Menu = {
       icon={Icon.trayIcon}
       text={translate('menuApp.report.type6')}
     />
-  )
+  ),
 }
 
 const reportType7Menu = {
@@ -473,7 +473,7 @@ const reportType7Menu = {
       icon={Icon.trayIcon}
       text={translate('menuApp.report.type7')}
     />
-  )
+  ),
 }
 
 const reportType8Menu = {
@@ -484,7 +484,7 @@ const reportType8Menu = {
       icon={Icon.trayIcon}
       text={translate('menuApp.report.type8')}
     />
-  )
+  ),
 }
 
 // const reportType9Menu = {
@@ -551,7 +551,7 @@ export default [
   reportType5Menu,
   reportType6Menu,
   reportType7Menu,
-  reportType8Menu
+  reportType8Menu,
   // reportType9Menu,
   // reportType10Menu,
 ]

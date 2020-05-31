@@ -191,5 +191,5 @@ export default {
   postConfigAqiQC,
   getWarningLevelColor,
   updateWarningLevelColorData,
-  updateWarningLevelColorSensor
+  updateWarningLevelColorSensor,
 }

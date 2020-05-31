@@ -46,7 +46,7 @@ export default function createValidateComponent(InputComponent) {
       const { input, meta, label, ...otherProps } = this.props
       const refProps = !isStateless(InputComponent)
         ? {
-            ref: ref => (this.inputRef = ref)
+            ref: ref => (this.inputRef = ref),
           }
         : {}
       return (

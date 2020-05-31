@@ -4,9 +4,9 @@ import { GET_STATION_BURIALS } from '../actions/stationBurialAction'
 const initialState = {
   list: {
     data: [],
-    pagination: {}
+    pagination: {},
   },
-  current: {}
+  current: {},
 }
 
 export default function createReducer(state = initialState, action) {
@@ -22,11 +22,11 @@ function getStationBurials(state, { payload: { getStationBurials } }) {
   return update(state, {
     list: {
       data: {
-        $set: getStationBurials.data
+        $set: getStationBurials.data,
       },
       pagination: {
-        $set: getStationBurials.pagination
-      }
-    }
+        $set: getStationBurials.pagination,
+      },
+    },
   })
 }

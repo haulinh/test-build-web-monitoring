@@ -8,7 +8,7 @@ const RangePicker = DatePicker.RangePicker
 
 export default class OptionsMonth extends React.PureComponent {
   static propTypes = {
-    formatDate: PropTypes.string
+    formatDate: PropTypes.string,
   }
 
   pickMonth = (date, dateString) => {
@@ -33,14 +33,14 @@ export default class OptionsMonth extends React.PureComponent {
           size="large"
           ranges={{
             Today: [moment(), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')]
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
           }}
           showTime={{
             hideDisabledOptions: true,
             defaultValue: [
               moment('00:00:00', 'HH:mm:ss'),
-              moment('23:59:59', 'HH:mm:ss')
-            ]
+              moment('23:59:59', 'HH:mm:ss'),
+            ],
           }}
           format={
             this.props.formatDate

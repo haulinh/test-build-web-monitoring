@@ -8,15 +8,15 @@ export default createBreadcrumb({
     id: 'list',
     //icon: Icon.car,
     href: slug.stationFixed.list,
-    name: translate('stationFixedManager.list.title')
+    name: translate('stationFixedManager.list.title'),
   },
   create: {
     id: 'create',
     href: slug.stationFixed.create,
-    name: translate('stationAutoManager.create.label')
+    name: translate('stationAutoManager.create.label'),
   },
   edit: {
     href: slug.stationFixed.edit,
-    name: translate('stationAutoManager.edit.label')
-  }
+    name: translate('stationAutoManager.edit.label'),
+  },
 })

@@ -58,7 +58,7 @@ const Row = styled.div`
 `
 
 @connect(state => ({
-  language: _get(state, 'language.locale')
+  language: _get(state, 'language.locale'),
 }))
 @autobind
 export default class SummaryItem extends React.PureComponent {
@@ -69,7 +69,7 @@ export default class SummaryItem extends React.PureComponent {
     image: PropTypes.string,
     color: PropTypes.string,
     stationTypeKey: PropTypes.string,
-    index: PropTypes.number
+    index: PropTypes.number,
   }
 
   renderNumber = () => {
@@ -89,7 +89,7 @@ export default class SummaryItem extends React.PureComponent {
       statusStation,
       indexScroll,
       number,
-      language
+      language,
     } = this.props
     const colorStatus =
       this.props.number === 0 ? COLOR.DATA_LOSS : COLOR[statusStation]

@@ -34,7 +34,7 @@ const Header = {
     height: 100%;
     width: 100%;
     margin-bottom: 25px;
-  `
+  `,
 }
 
 const Note = styled.p`
@@ -58,7 +58,7 @@ function validate(values) {
 
 @reduxForm({
   form: 'EmailConfirmForm',
-  validate
+  validate,
 })
 @withRouter
 @autobind
@@ -69,7 +69,7 @@ export default class EmailConfirm extends PureComponent {
     if (record.error) {
       swal({
         type: 'error',
-        title: record.message
+        title: record.message,
       })
     } else {
       this.props.history.push(`${slug.password.codeConfirmWithKey}/${email}`)

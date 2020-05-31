@@ -9,7 +9,7 @@ import {
   Icon,
   Select,
   Upload,
-  message
+  message,
 } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
@@ -21,13 +21,13 @@ const Option = Select.Option
 
 const FormItem = Form.Item
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
 export default class SampleConfigForm extends React.PureComponent {
   static propTypes = {
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   constructor(props) {
@@ -36,25 +36,25 @@ export default class SampleConfigForm extends React.PureComponent {
     this.state = {
       isUpload: false,
       fileList: [],
-      isSended: false
+      isSended: false,
     }
   }
 
   async handleSubmit(e) {
     e.preventDefault()
     this.setState({
-      isUpload: true
+      isUpload: true,
     })
     try {
       const result = await SamplingApi.uploadSampleConfig(this.state.fileList)
       console.log(result)
 
       this.setState({
-        isUpload: false
+        isUpload: false,
       })
     } catch (error) {
       this.setState({
-        isUpload: false
+        isUpload: false,
       })
     }
   }
@@ -63,16 +63,16 @@ export default class SampleConfigForm extends React.PureComponent {
     return {
       name: 'file',
       headers: {
-        authorization: 'authorization-text'
+        authorization: 'authorization-text',
       },
       onRemove: file => {},
       beforeUpload: file => {
         this.setState(({ fileList }) => ({
-          fileList: [...fileList, file]
+          fileList: [...fileList, file],
         }))
         return false
       },
-      fileList: this.state.fileList
+      fileList: this.state.fileList,
     }
   }
 
@@ -81,24 +81,24 @@ export default class SampleConfigForm extends React.PureComponent {
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 }
+        sm: { span: 8 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 }
-      }
+        sm: { span: 16 },
+      },
     }
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
           span: 24,
-          offset: 0
+          offset: 0,
         },
         sm: {
           span: 16,
-          offset: 8
-        }
-      }
+          offset: 8,
+        },
+      },
     }
 
     return (

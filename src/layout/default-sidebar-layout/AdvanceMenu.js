@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 const CENTER = {
   display: 'flex',
   alignItems: 'center',
-  fontWeight: 600
+  fontWeight: 600,
 }
 
 export default {
@@ -89,5 +89,5 @@ export default {
         </Menu.Item>
       )}
     </Menu.SubMenu>
-  )
+  ),
 }

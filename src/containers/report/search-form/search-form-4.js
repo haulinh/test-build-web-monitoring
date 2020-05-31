@@ -21,7 +21,7 @@ const Item = props => (
       color: 'rgba(0,0,0,0.8)',
       fontSize: 14,
       fontWeight: 600,
-      marginBottom: 0
+      marginBottom: 0,
     }}
   />
 )
@@ -34,15 +34,15 @@ const i18n = {
     stationType: translate('dataSearchFrom.form.stationType.label'),
     stationAuto: translate('dataSearchFrom.form.stationAuto.label'),
     fromMonth: translate('avgSearchFrom.form.fromMonth.label'),
-    toMonth: translate('avgSearchFrom.form.toMonth.label')
+    toMonth: translate('avgSearchFrom.form.toMonth.label'),
   },
   error: {
     stationAuto: translate('avgSearchFrom.form.stationAuto.error'),
     fromMonth: translate('avgSearchFrom.form.fromMonth.error'),
     toMonth: translate('avgSearchFrom.form.toMonth.error'),
     toMonth_1: translate('avgSearchFrom.form.toMonth.error1'),
-    stationType: translate('avgSearchFrom.form.stationType.error')
-  }
+    stationType: translate('avgSearchFrom.form.stationType.error'),
+  },
 }
 
 @Form.create()
@@ -50,7 +50,7 @@ const i18n = {
 export default class SearchForm extends React.Component {
   static propTypes = {
     cbSubmit: PropTypes.func,
-    isDatePicker: PropTypes.bool
+    isDatePicker: PropTypes.bool,
   }
 
   constructor(props) {
@@ -58,7 +58,7 @@ export default class SearchForm extends React.Component {
     // this.submit = this.submit.bind(this);
     this.state = {
       measuringList: [],
-      stationName: ''
+      stationName: '',
     }
   }
 
@@ -89,7 +89,7 @@ export default class SearchForm extends React.Component {
             measuringListStr,
             measuringListUnitStr,
             measuringList: this.state.measuringList,
-            stationName: this.state.stationName
+            stationName: this.state.stationName,
           })
         }
       }
@@ -127,7 +127,7 @@ export default class SearchForm extends React.Component {
                 {getFieldDecorator('province', {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
-                  }
+                  },
                 })(<SelectProvince isShowAll size="large" />)}
               </Item>
             </Col>
@@ -137,12 +137,12 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.stationType
-                    }
+                      message: i18n.error.stationType,
+                    },
                   ],
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
-                  }
+                  },
                 })(<SelectStationType size="large" />)}
               </Item>
             </Col>
@@ -154,9 +154,9 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.stationAuto
-                    }
-                  ]
+                      message: i18n.error.stationAuto,
+                    },
+                  ],
                 })(
                   <SelectStationAuto
                     size="large"
@@ -166,7 +166,7 @@ export default class SearchForm extends React.Component {
                       if (station && station.measuringList)
                         this.setState({
                           measuringList: station.measuringList,
-                          stationName: station.name
+                          stationName: station.name,
                         })
                       else this.setState({ measuringList: [] })
                     }}
@@ -182,9 +182,9 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.fromMonth
-                    }
-                  ]
+                      message: i18n.error.fromMonth,
+                    },
+                  ],
                 })(<MonthPicker style={{ width: '100%' }} />)}
               </Item>
             </Col>
@@ -195,12 +195,12 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.toMonth
+                      message: i18n.error.toMonth,
                     },
                     {
-                      validator: this.compareTofromDate
-                    }
-                  ]
+                      validator: this.compareTofromDate,
+                    },
+                  ],
                 })(<MonthPicker style={{ width: '100%' }} />)}
               </Item>
             </Col>

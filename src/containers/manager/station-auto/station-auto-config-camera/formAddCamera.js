@@ -8,7 +8,7 @@ import {
   Input,
   Icon,
   Popconfirm,
-  message
+  message,
 } from 'antd'
 import { autobind } from 'core-decorators'
 import _ from 'lodash'
@@ -23,7 +23,7 @@ const i18n = {
   confirmDelCamera: translate('stationAutoManager.delete.require'),
   // emptyCamera: 'Khong co camera nao!!',
   successSubmit: translate('addon.onSave.update.success'),
-  errorSubmit: translate('addon.onSave.update.error')
+  errorSubmit: translate('addon.onSave.update.error'),
 }
 
 @Form.create()
@@ -31,7 +31,7 @@ const i18n = {
 export default class FormAddCamera extends React.Component {
   static propTypes = {
     stationAuto: PropTypes.object.isRequired,
-    allowed: PropTypes.bool.isRequired
+    allowed: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {}
@@ -41,7 +41,7 @@ export default class FormAddCamera extends React.Component {
 
     this.state = {
       submitingCameraLinks: false,
-      cameras: []
+      cameras: [],
     }
 
     this.state.cameras = _.get(
@@ -94,11 +94,11 @@ export default class FormAddCamera extends React.Component {
           return (
             <div>
               {this.props.form.getFieldDecorator(`${record.key}.name`, {
-                initialValue: record.name
+                initialValue: record.name,
               })(<Input />)}
             </div>
           )
-        }
+        },
       },
       /* LINK RTSP */
       {
@@ -107,11 +107,11 @@ export default class FormAddCamera extends React.Component {
           return (
             <div>
               {this.props.form.getFieldDecorator(`${record.key}.rtspUrl`, {
-                initialValue: record.rtspUrl
+                initialValue: record.rtspUrl,
               })(<Input />)}
             </div>
           )
-        }
+        },
       },
       /* ACTIONS */
       {
@@ -124,8 +124,8 @@ export default class FormAddCamera extends React.Component {
           >
             <Icon type="delete" style={{ marginLeft: '5px', color: 'red' }} />
           </Popconfirm>
-        )
-      }
+        ),
+      },
     ]
   }
 
@@ -135,7 +135,7 @@ export default class FormAddCamera extends React.Component {
     let record = {
       key: Date.now() + cameras.length,
       name: '',
-      rtspUrl: ''
+      rtspUrl: '',
     }
 
     cameras.push(record)
@@ -176,9 +176,9 @@ export default class FormAddCamera extends React.Component {
       [stationID]: {
         camera: {
           allowed: this.props.allowed,
-          list: submitedCameras
-        }
-      }
+          list: submitedCameras,
+        },
+      },
     }
 
     const res = await StationAutoApi.updateStationAutoOptions(submitData)

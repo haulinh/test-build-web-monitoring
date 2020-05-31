@@ -3,14 +3,14 @@ export default {
     time: {
       second: 'giây',
       minute: 'phút',
-      hour: 'giờ'
-    }
+      hour: 'giờ',
+    },
   },
   chart: {
     all: 'Tất cả',
     time: 'Thời gian',
     from: 'Từ',
-    to: 'Đến'
+    to: 'Đến',
   },
   dashboard: {
     good: 'Tốt',
@@ -27,14 +27,14 @@ export default {
     selectProvince: 'Chọn Đơn vị quản lý',
     tableList: {
       name: 'Tên trạm',
-      dataStatus: 'Tình trạng'
+      dataStatus: 'Tình trạng',
     },
     chartRatio: {
       title: 'Biểu đồ tỷ lệ nhận dữ liệu',
       dataByDate: 'Tỉ lệ dữ liệu {{=it.day}} ngày của {{=it.unit}}',
       received: 'Nhận được dữ liệu',
       notReceived: 'Không nhận được dữ liệu',
-      byDay: '{{=it.day}} ngày'
+      byDay: '{{=it.day}} ngày',
     },
     chartStatus: {
       title: 'Biểu đồ tình trạng kết nối',
@@ -44,10 +44,10 @@ export default {
       dataLoss: `Mất kết nối`,
       stations: 'trạm',
       max: 'Giới hạn trên: {{=it.max}}',
-      min: 'Giới hạn duới: {{=it.min}}'
+      min: 'Giới hạn duới: {{=it.min}}',
     },
     activeStationPer: 'Tình trạng kết nối ({{=it.good}}/{{=it.total}})',
-    unit: 'Đơn vị'
+    unit: 'Đơn vị',
   },
   monitoring: {
     title: 'Giám sát trực tuyến',
@@ -73,7 +73,7 @@ export default {
       maintenance: 'Hiệu chuẩn',
       sensorNormal: 'Đang đo',
       normal: 'Đang đo',
-      broken: 'Báo lỗi'
+      broken: 'Báo lỗi',
     },
     statusResult: 'Kết quả quan trắc',
     note: 'Chú thích',
@@ -90,15 +90,15 @@ export default {
         historyData: 'Tra cứu số liệu lịch sử',
         averageData: 'Tổng hợp dữ liệu',
         checkData: 'Kiểm duyệt dữ liệu',
-        config: 'Cấu hình gửi cảnh báo'
-      }
+        config: 'Cấu hình gửi cảnh báo',
+      },
     },
     moreContent: {
       sampling: {
         tabs: {
           sampling: 'Lấy mẫu',
           history: 'Lịch sử',
-          config: 'Cấu hình'
+          config: 'Cấu hình',
         },
         content: {
           totalBottles: 'Tổng số chai:',
@@ -129,33 +129,33 @@ export default {
             cancel_schedule: 'Hủy hẹn giờ lấy mẫu',
             active_schedule: 'Kích hoạt hẹn giờ lấy mẫu',
             config: 'Thay đổi cấu hình',
-            reset_bottles: 'Reset số chai đã lấy'
+            reset_bottles: 'Reset số chai đã lấy',
           },
           config: {
             totalBottles: 'Tổng số chai:',
             controlTagName: 'Tag name điều khiển:',
             timeToTakeOneBottle: 'Thời gian lấy mẫu xong 1 chai (phút):',
-            save: 'Lưu'
-          }
-        }
+            save: 'Lưu',
+          },
+        },
       },
       chart: {
         tab: {
           avgHour: 'Trung bình giờ',
-          avgDay: 'Trung bình ngày'
+          avgDay: 'Trung bình ngày',
         },
         content: {
           minLimit: 'Giới hạn dưới',
           maxLimit: 'Giới hạn trên',
           to: 'Từ',
-          from: 'Đến'
-        }
-      }
-    }
+          from: 'Đến',
+        },
+      },
+    },
   },
   aqi: {
     title: 'AQI',
-    paramsTitle: 'Giá trị AQI {{=it.day}} ngày của từng thông số'
+    paramsTitle: 'Giá trị AQI {{=it.day}} ngày của từng thông số',
   },
   aqiConfigCalculation: {
     pageName: 'Cấu hình tính toán AQI',
@@ -178,10 +178,10 @@ export default {
     colAvg1H: 'Trung bình 1 giờ',
     colAvg8H: 'Trung bình 8 giờ',
     colAvg1D: 'Trung bình 1 ngày',
-    colUnit: 'Đơn vị'
+    colUnit: 'Đơn vị',
   },
   wqi: {
-    title: 'WQI'
+    title: 'WQI',
   },
   wqiConfigCalculation: {
     pageName: 'Cấu hình tính toán WQI',
@@ -217,14 +217,14 @@ export default {
     colGroupII: 'Nhóm II',
     colGroupIII: 'Nhóm III',
     colGroupIV: 'Nhóm IV',
-    colGroupV: 'Nhóm V'
+    colGroupV: 'Nhóm V',
   },
   qaqc: {
     configPublish: {
       title: 'Cấu hình công bố',
       stationName: 'Tên trạm',
       publish: 'Công bố',
-      measurePublish: 'Cho phép công bố thông số'
+      measurePublish: 'Cho phép công bố thông số',
     },
     publish: 'Cho phép công bố',
     title: `QA/QC`,
@@ -240,7 +240,7 @@ export default {
       deviceError: 'Thiết bị lỗi',
       deviceCalibration: 'Thiết bị hiệu chuẩn',
       zero: 'Giá trị 0',
-      negative: 'Giá trị Âm'
+      negative: 'Giá trị Âm',
     },
     data: 'Loại dữ liệu',
     approve: 'Kiểm duyệt',
@@ -256,20 +256,20 @@ export default {
     ok: 'Đồng ý',
     province: {
       label: 'Đơn vị quản lý',
-      placeholder: 'Đơn vị quản lý'
+      placeholder: 'Đơn vị quản lý',
     },
     notEmpty: '{{=it.value}} không để trống!',
     pageInfo: '{{=it.from}}-{{=it.to}} của {{it.total}}',
     msg: {
       confirmUnApprove: 'Bạn có muốn huỷ phê duyệt đã chọn?',
       success: 'Lưu thành công',
-      failure: 'Lưu thất bại'
+      failure: 'Lưu thất bại',
     },
     date: {
       from: 'Từ ngày',
-      to: 'Đến ngày'
+      to: 'Đến ngày',
     },
-    outOfRange: 'Ngoài vùng đo'
+    outOfRange: 'Ngoài vùng đo',
   },
   qaqcConfig: {
     title: 'Cấu hình QAQC',
@@ -277,23 +277,23 @@ export default {
     deviceError: 'Thiết bị lỗi',
     deviceCalibration: 'Thiết bị hiệu chuẩn',
     zero: 'Giá trị 0',
-    negative: 'Giá trị Âm'
+    negative: 'Giá trị Âm',
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',
     breadcrumb: {
       trigger: 'Lấy mẫu',
       history: 'Lịch sử lấy mẫu',
-      config: 'Cấu hình'
+      config: 'Cấu hình',
     },
     trigger: {
       triggerSuccess: 'Kích hoạt thành công',
       triggerCancel: 'Huỷ lấy mẫu thành công',
-      triggerExceeded: 'Kích hoạt lấy mẫu vượt'
+      triggerExceeded: 'Kích hoạt lấy mẫu vượt',
     },
     config: {
       reset: 'Đặt lại thành công',
-      success: 'Cấu hình thành công'
+      success: 'Cấu hình thành công',
     },
     bottle: 'Chai số',
     handMade: 'Thủ công',
@@ -316,7 +316,7 @@ export default {
     triggerExceeded: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
     cancelTriggerExceeded: 'Huỷ kích hoạt thành công',
     statusSampling: 'Đang lấy mẫu ...',
-    viewMore: 'Xem thêm'
+    viewMore: 'Xem thêm',
   },
   map: {
     mapOverview: 'Tổng quan bản đồ',
@@ -333,10 +333,10 @@ export default {
       notify: 'Thông báo',
       noData: 'Không có dữ liệu',
       dataStatus: 'Trạng thái dữ liệu',
-      stationStatus: 'Trạng thái trạm'
+      stationStatus: 'Trạng thái trạm',
     },
     menuLeft: {
-      stationSearch: 'Tìm kiếm trạm'
+      stationSearch: 'Tìm kiếm trạm',
     },
     dataTable: {
       measuring: 'Thông số',
@@ -352,8 +352,8 @@ export default {
         sampling: 'Lấy mẫu',
         camera: 'Camera',
         viewData: 'Hiển thị dữ liệu',
-        detail: 'Chi tiết'
-      }
+        detail: 'Chi tiết',
+      },
     },
     marker: {
       transmitting: 'Đang truyền',
@@ -363,21 +363,21 @@ export default {
       image: 'Hình ảnh',
       time: 'Thời gian',
       status: 'Trạng thái',
-      result: 'Kết quả'
-    }
+      result: 'Kết quả',
+    },
   },
   dataSearchFixed: {
     downloadTemplate: 'Tải file mẫu',
     importData: 'Nhập dữ liệu từ file',
     importSuccess: 'Nhập dũ liệu thành công!',
-    importFailed: 'Nhập dữ liệu không thành công!'
+    importFailed: 'Nhập dữ liệu không thành công!',
   },
   dataSearchFrom: {
     titleText: 'Tra cứu dữ liệu gốc',
     options: {
       byHours: '{{=it.value}} Giờ',
       byDay: '{{=it.value}} Ngày',
-      range: 'Trong khoảng'
+      range: 'Trong khoảng',
     },
     form: {
       all: 'Tất cả',
@@ -385,55 +385,55 @@ export default {
       stationType: {
         label: 'Loại trạm',
         placeholder: 'Chọn loại trạm',
-        require: 'Vui lòng chọn loại trạm'
+        require: 'Vui lòng chọn loại trạm',
       },
       stationAuto: {
         label: 'Tên trạm',
-        placeholder: 'Chọn tên trạm'
+        placeholder: 'Chọn tên trạm',
       },
       fromDate: {
         label: 'Bắt đầu',
-        placeholder: 'Chọn ngày bắt đầu'
+        placeholder: 'Chọn ngày bắt đầu',
       },
       toDate: {
         label: 'Kết thúc',
-        placeholder: 'Chọn ngày kết thúc'
+        placeholder: 'Chọn ngày kết thúc',
       },
       measuringList: {
         label: 'Thông số',
         placeholder: 'Chọn thông số',
-        require: 'Chọn ít nhất 1 thông số'
+        require: 'Chọn ít nhất 1 thông số',
       },
       isExceeded: {
-        label: 'Vượt QCVN'
+        label: 'Vượt QCVN',
       },
       operator: {
-        label: 'Phép toán'
+        label: 'Phép toán',
       },
       value: {
-        label: 'Giá trị'
+        label: 'Giá trị',
       },
       type: {
-        label: 'Loại báo cáo'
+        label: 'Loại báo cáo',
       },
       advanced: {
         label: 'Nâng cao',
-        reset: 'Đặt lại'
-      }
+        reset: 'Đặt lại',
+      },
     },
     table: {
       emptyText: 'Không có dữ liệu',
       receivedAt: 'Thời gian Truyền File',
       time: 'Thời gian',
       all: 'Tất cả',
-      numericalOrder: 'TT'
+      numericalOrder: 'TT',
     },
     tab: {
       data: 'Dữ liệu',
       chart: 'Biểu đồ',
       exportExcel: 'Xuất dữ liệu excel',
       statusExport: 'Đang xuất dữ liệu...',
-      dataProcess: 'Tính lại kết quả'
+      dataProcess: 'Tính lại kết quả',
     },
     analyze: {
       max: 'Giá trị tối đa',
@@ -441,23 +441,23 @@ export default {
       min: 'Giá trị tối thiểu',
       minTime: 'Thời gian giảm tối thiểu',
       avg: 'Giá trị trung bình',
-      parameters: 'Thông số'
-    }
+      parameters: 'Thông số',
+    },
   },
   aqiSearchForm: {
     form: {
       inRange: {
         label: 'Khoảng thời gian',
-        error: 'Vui lòng chọn khoảng thời gian'
+        error: 'Vui lòng chọn khoảng thời gian',
       },
       from: {
         label: 'Khung giờ từ',
-        error: 'Vui lòng chọn khung giờ'
+        error: 'Vui lòng chọn khung giờ',
       },
       to: {
-        label: 'Đến'
-      }
-    }
+        label: 'Đến',
+      },
+    },
   },
 
   avgSearchFrom: {
@@ -467,57 +467,57 @@ export default {
       stationType: {
         label: 'Loại trạm',
         placeholder: 'Chọn loại trạm',
-        error: 'Vui lòng chọn loại trạm'
+        error: 'Vui lòng chọn loại trạm',
       },
       rangesDate: {
-        error: 'Vui lòng chọn thời gian'
+        error: 'Vui lòng chọn thời gian',
       },
       stationAuto: {
         label: 'Tên trạm',
         placeholder: 'Chọn tên trạm',
-        error: 'Vui lòng chọn tên trạm'
+        error: 'Vui lòng chọn tên trạm',
       },
       fromDate: {
         label: 'Bắt đầu',
-        placeholder: 'Chọn ngày bắt đầu'
+        placeholder: 'Chọn ngày bắt đầu',
       },
       toDate: {
         label: 'Kết thúc',
-        placeholder: 'Chọn ngày kết thúc'
+        placeholder: 'Chọn ngày kết thúc',
       },
       fromMonth: {
         label: 'Từ tháng/năm',
         placeholder: 'Chọn Tháng/Năm',
-        error: 'Vui lòng chọn thời gian'
+        error: 'Vui lòng chọn thời gian',
       },
       toMonth: {
         label: 'Đến  tháng/năm',
         placeholder: 'Chọn Tháng/Năm',
         error: 'Vui lòng chọn thời gian',
         error1: 'Ngày bắt đầu lớn hơn ngày kết thúc',
-        error2: 'Không được vượt quá tháng hiện tại'
+        error2: 'Không được vượt quá tháng hiện tại',
       },
       measuringList: {
         label: 'Thông số',
         placeholder: 'Chọn thông số',
-        require: 'Chọn ít nhất 1 thông số'
+        require: 'Chọn ít nhất 1 thông số',
       },
       isExceeded: {
-        label: 'Dữ liệu vượt QCVN'
+        label: 'Dữ liệu vượt QCVN',
       },
       operator: {
-        label: 'Phép toán'
+        label: 'Phép toán',
       },
       value: {
-        label: 'Giá trị'
+        label: 'Giá trị',
       },
       type: {
         label: 'Dữ liệu trung bình',
-        error: 'Vui lòng chọn dữ liệu trung bình'
+        error: 'Vui lòng chọn dữ liệu trung bình',
       },
       advanced: {
-        label: 'Nâng cao'
-      }
+        label: 'Nâng cao',
+      },
     },
     table: {
       receivedAt: 'Thời gian',
@@ -546,7 +546,7 @@ export default {
         'Các số liệu thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm {{=it.fromMonth}}  trong ngày {{=it.toMonth}}',
       title5: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 8 GIỜ',
       description5:
-        'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}'
+        'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}',
     },
     selectTimeRange: {
       minute: 'Phút',
@@ -556,168 +556,168 @@ export default {
       year: 'Năm',
       errorMonth: 'Vui lòng chọn tháng',
       errorDay: 'Vui lòng chọn ngày',
-      error: 'Vui lòng chọn thời gian'
+      error: 'Vui lòng chọn thời gian',
     },
     tab: {
       data: 'Dữ liệu',
       chart: 'Biểu đồ',
       exportExcel: 'Xuất dữ liệu excel',
-      statusExport: 'Đang xuất dữ liệu ...'
-    }
+      statusExport: 'Đang xuất dữ liệu ...',
+    },
   },
   measuringManager: {
     list: {
-      title: 'Thông số'
+      title: 'Thông số',
     },
     create: {
       success: 'Thêm thông số thành công',
-      keyExisted: 'Thông số đã tồn tại'
+      keyExisted: 'Thông số đã tồn tại',
     },
     edit: {
       label: 'Sửa',
-      success: 'Cập nhật thông số thành công'
+      success: 'Cập nhật thông số thành công',
     },
     delete: {
-      label: 'Xoá'
+      label: 'Xoá',
     },
     form: {
       key: {
         label: 'Mã thông số',
         placeholder: 'Nhập mã thông số',
-        error: 'Vui lòng nhập mã thông số'
+        error: 'Vui lòng nhập mã thông số',
       },
       name: {
         label: 'Tên thông số',
         placeholder: 'Nhập tên thông số',
-        error: 'Vui lòng nhập tên thông số'
+        error: 'Vui lòng nhập tên thông số',
       },
       unit: {
         label: 'Đơn vị',
-        placeholder: 'Nhập đơn vị'
+        placeholder: 'Nhập đơn vị',
       },
       numericalOrder: {
         label: 'Số thứ tự',
-        placeholder: 'Nhập số thứ tự'
+        placeholder: 'Nhập số thứ tự',
       },
       action: {
-        label: ' '
+        label: ' ',
       },
-      error: 'Lỗi'
-    }
+      error: 'Lỗi',
+    },
   },
   stationTypeManager: {
     list: {
-      title: 'Loại trạm'
+      title: 'Loại trạm',
     },
     create: {
       label: 'Tạo mới',
       success: 'Thêm loại trạm mới thành công',
-      keyExisted: 'Loại trạm đã tồn tại'
+      keyExisted: 'Loại trạm đã tồn tại',
     },
     edit: {
       label: 'Sửa',
-      success: 'Cập nhật loại trạm thành công'
+      success: 'Cập nhật loại trạm thành công',
     },
     delete: {
-      label: 'Xoá'
+      label: 'Xoá',
     },
     form: {
       key: {
         label: 'Mã trạm',
         placeholder: 'Nhập mã trạm',
         error: 'Vui lòng nhập mã trạm',
-        existError: 'Mã trạm đã tồn tại'
+        existError: 'Mã trạm đã tồn tại',
       },
       name: {
         label: 'Tên',
         placeholder: 'Nhập tên trạm',
-        error: 'Vui lòng nhập tên trạm'
+        error: 'Vui lòng nhập tên trạm',
       },
       icon: {
         label: 'Biểu tượng',
-        placeholder: 'Chọn biểu tượng'
+        placeholder: 'Chọn biểu tượng',
       },
       auto: {
-        label: 'Tự động'
+        label: 'Tự động',
       },
       action: {
-        label: ' '
+        label: ' ',
       },
       error: 'Lỗi',
       errorStationExist: 'Không thể xóa vì có trạm sử dụng loại trạm này',
       color: {
         label: 'Màu sắc',
-        placeholder: 'Chọn màu'
+        placeholder: 'Chọn màu',
       },
       numericalOrder: {
         label: 'Số thứ tự',
-        placeholder: 'Nhập số thứ tự'
-      }
-    }
+        placeholder: 'Nhập số thứ tự',
+      },
+    },
   },
   qcvn: {
     list: {
-      title: 'QCVN'
+      title: 'QCVN',
     },
     create: {
       label: 'Thêm',
       success: 'Thêm QCVN thành công',
-      keyExisted: 'QCVN đã tồn tại'
+      keyExisted: 'QCVN đã tồn tại',
     },
     edit: {
       label: 'Sửa',
-      success: 'Cập nhật QCVN thành công'
+      success: 'Cập nhật QCVN thành công',
     },
     delete: {
-      label: 'Xoá'
+      label: 'Xoá',
     },
     form: {
       key: {
         label: 'Mã QCVN',
         placeholder: 'Nhập QCVN',
         error: 'Vui lòng nhập mã QCVN',
-        existError: 'Mã QCVN đã tồn tại'
+        existError: 'Mã QCVN đã tồn tại',
       },
       name: {
         label: 'Tên QCVN',
         placeholder: 'Nhập tên QCVN',
-        error: 'Vui lòng nhập tên QCVN'
+        error: 'Vui lòng nhập tên QCVN',
       },
       unit: {
         label: 'Đơn vị',
-        placeholder: 'Nhập đơn vị'
+        placeholder: 'Nhập đơn vị',
       },
       numericalOrder: {
         label: 'Số thứ tự',
-        placeholder: 'Nhập số thứ tự'
+        placeholder: 'Nhập số thứ tự',
       },
       action: {
-        label: ' '
+        label: ' ',
       },
-      error: 'Lỗi'
-    }
+      error: 'Lỗi',
+    },
   },
   province: {
     list: {
       title: 'Đơn vị quản lý',
       key: 'Mã đơn vị',
-      numericalOrder: 'Số thứ tự'
+      numericalOrder: 'Số thứ tự',
     },
     create: {
       label: 'Thêm',
       success: 'Thêm thành công',
-      keyExisted: 'Đơn vị quản lý đã tồn tại'
+      keyExisted: 'Đơn vị quản lý đã tồn tại',
     },
     edit: {
       label: 'Sửa',
-      success: 'Cập nhật thành công'
+      success: 'Cập nhật thành công',
     },
     delete: {
       label: 'Xóa',
-      require: 'Bạn chắc chắn xoá dữ liệu?'
+      require: 'Bạn chắc chắn xoá dữ liệu?',
     },
     add: {
-      label: 'Thêm'
+      label: 'Thêm',
     },
     form: {
       action: ' ',
@@ -725,18 +725,18 @@ export default {
         label: 'Mã đơn vị',
         placeholder: 'Nhập mã đơn vị quản lý',
         error: 'Vui lòng nhập mã đơn vị quản lý',
-        existError: 'Mã đơn vị đã tồn tại'
+        existError: 'Mã đơn vị đã tồn tại',
       },
       name: {
         label: 'Tên đơn vị quản lý',
         placeholder: 'Nhập tên đơn vị quản lý',
-        error: 'Vui lòng nhập tên đơn vị quản lý'
+        error: 'Vui lòng nhập tên đơn vị quản lý',
       },
       numericalOrder: {
         label: 'Số thứ tự',
-        placeholder: 'Nhập số thứ tự'
-      }
-    }
+        placeholder: 'Nhập số thứ tự',
+      },
+    },
   },
   configWQI: {
     breadCrumb: 'Cấu hình tính WQI, AQI',
@@ -747,7 +747,7 @@ export default {
     stationType: 'Loại trạm',
     success: 'Cập nhật thành công !',
     error: 'Cập nhật thất bại..!',
-    unckecked: 'Bỏ chọn'
+    unckecked: 'Bỏ chọn',
   },
   ftpTranfer: {
     allowFtpTranfer: 'Cho phép truyền',
@@ -772,29 +772,29 @@ export default {
       ipAddress: {
         title: 'Địa chỉ IP',
         addonBefore: 'ftp://',
-        message: 'Bạn chưa nhập địa chỉ IP'
+        message: 'Bạn chưa nhập địa chỉ IP',
       },
       port: {
         title: 'VD: 21',
         addonBefore: 'Cổng(Port):',
-        message: 'Bạn chưa điền cổng(port)'
+        message: 'Bạn chưa điền cổng(port)',
       },
       user: {
         title: 'Tên đăng nhập',
         addonBefore: 'Tên đăng nhập: ',
-        message: 'Bạn chưa điền tên đăng nhập'
+        message: 'Bạn chưa điền tên đăng nhập',
       },
       pass: {
         title: 'Mật khẩu',
         addonBefore: 'Mật khẩu:',
-        message: 'Bạn chưa điền mật khẩu'
+        message: 'Bạn chưa điền mật khẩu',
       },
       fileName: {
         name: 'Tên file FTP',
         title: 'Tên file truyền về Bộ',
         addonBefore: 'Tên file:',
-        message: 'Bạn chưa nhập tên file'
-      }
+        message: 'Bạn chưa nhập tên file',
+      },
     },
     summary: 'Thống Kê',
     history: 'Lịch sử truyền',
@@ -803,16 +803,16 @@ export default {
       success: 'Truyền file thành công',
       failed: 'Truyền file thất bại',
       success2: 'Đặt lệnh truyền thành công',
-      failed2: 'Không đặt lệnh truyền đối với các file trước thời gian truyền'
+      failed2: 'Không đặt lệnh truyền đối với các file trước thời gian truyền',
     },
-    tryUploadFile: 'Truyền lại file'
+    tryUploadFile: 'Truyền lại file',
   },
   page: {
     config: {
       color: {
         button: {
           selectTabData: 'Tình trạng dữ liệu',
-          selectTabSensor: 'Tình trạng thiết bị'
+          selectTabSensor: 'Tình trạng thiết bị',
         },
         table: {
           column: {
@@ -820,16 +820,16 @@ export default {
             alternative: 'Tên thay thế',
             color: 'Màu chữ',
             backgroundColor: 'Màu nền',
-            desc: 'Chú thích'
-          }
-        }
-      }
-    }
+            desc: 'Chú thích',
+          },
+        },
+      },
+    },
   },
   stationFixedManager: {
     list: {
-      title: 'Trạm quan trắc cố định'
-    }
+      title: 'Trạm quan trắc cố định',
+    },
   },
   stationAutoManager: {
     list: {
@@ -839,246 +839,246 @@ export default {
       restore: 'Khôi phục',
       remove: 'Loại bỏ',
       action: ' ',
-      createdAt: 'Tạo lúc'
+      createdAt: 'Tạo lúc',
     },
     create: {
       label: 'Tạo mới',
       success: 'Thêm trạm thành công',
-      keyExisted: 'Tên trạm đã tồn tại'
+      keyExisted: 'Tên trạm đã tồn tại',
     },
     edit: {
       label: 'Sửa',
-      success: 'Cập nhật trạm thành công'
+      success: 'Cập nhật trạm thành công',
     },
     delete: {
       label: 'Xoá',
-      require: 'Bạn chắc chắn xoá dữ liệu?'
+      require: 'Bạn chắc chắn xoá dữ liệu?',
     },
     add: {
-      label: 'Thêm'
+      label: 'Thêm',
     },
     addMeasuring: {
       label: 'Thêm thông số',
-      error: 'Tối thiểu phải có 1 thông số'
+      error: 'Tối thiểu phải có 1 thông số',
     },
     form: {
       panel1: 'Thông tin trạm',
       panel2: 'Thông tin khác',
       website: {
         label: 'Website',
-        placeholder: 'Website'
+        placeholder: 'Website',
       },
       capacity: {
         label: 'Công suất thiết kế',
-        placeholder: 'Công suất thiết kế'
+        placeholder: 'Công suất thiết kế',
       },
       career: {
         label: 'Ngành nghề',
-        placeholder: 'Ngành nghề'
+        placeholder: 'Ngành nghề',
       },
       material: {
         label: 'Nguyên liệu chính',
-        placeholder: 'Nguyên liệu chính'
+        placeholder: 'Nguyên liệu chính',
       },
       userResponsible: {
         label: 'Người vận hành',
-        placeholder: 'Người vận hành'
+        placeholder: 'Người vận hành',
       },
       phoneResponsible: {
         label: 'Số điện thoại',
-        placeholder: 'Nhập số điện thoại người chịu trách nhiệm'
+        placeholder: 'Nhập số điện thoại người chịu trách nhiệm',
       },
       processProdution: {
         label: 'Quy trình sản xuất',
-        placeholder: 'Quy trình sản xuất'
+        placeholder: 'Quy trình sản xuất',
       },
       yearOperate: {
         label: 'Năm hoạt động',
-        placeholder: 'Năm hoạt động'
+        placeholder: 'Năm hoạt động',
       },
       userSupervisor: {
         label: 'Người quản lý',
-        placeholder: 'Người quản lý'
+        placeholder: 'Người quản lý',
       },
       phoneSupervisor: {
         label: 'Số điện thoại',
-        placeholder: 'Nhập số điện thoại người quản lý'
+        placeholder: 'Nhập số điện thoại người quản lý',
       },
       key: {
         label: 'Mã trạm',
         placeholder: 'Nhập mã trạm',
-        error: 'Vui lòng nhập mã trạm'
+        error: 'Vui lòng nhập mã trạm',
       },
       name: {
         label: 'Tên trạm',
         placeholder: 'Nhập tên trạm',
-        error: 'Vui lòng nhập tên trạm'
+        error: 'Vui lòng nhập tên trạm',
       },
       stationType: {
         label: 'Loại trạm',
         placeholder: 'Nhập loại trạm',
-        error: 'Vui lòng nhập loại trạm'
+        error: 'Vui lòng nhập loại trạm',
       },
       address: {
         label: 'Địa chỉ',
-        placeholder: 'Nhập địa chỉ'
+        placeholder: 'Nhập địa chỉ',
       },
       qcvn: {
         label: 'QCVN',
         placeholder: 'QCVN',
-        error: 'Vui lòng chọn QCVN'
+        error: 'Vui lòng chọn QCVN',
       },
       province: {
         label: 'Đơn vị quản lý',
         placeholder: 'Đơn vị quản lý',
-        error: 'Vui lòng chọn đơn vị quản lý'
+        error: 'Vui lòng chọn đơn vị quản lý',
       },
       frequency: {
         label: 'Tần suất(phút/lần)',
         placeholder: 'phút/lần',
-        error: 'Vui lòng chọn tần suất'
+        error: 'Vui lòng chọn tần suất',
       },
       typeSampling: {
         label: 'Hình thức lấy mẫu',
-        placeholder: 'Chọn hình thức'
+        placeholder: 'Chọn hình thức',
       },
       dayOfOperation: {
         label: 'Ngày hoạt động',
         placeholder: 'Ngày hoạt động',
-        error: 'Vui lòng chọn ngày hoạt động'
+        error: 'Vui lòng chọn ngày hoạt động',
       },
       isStopWorking: {
         label: 'Ngừng hoạt động',
-        placeholder: 'Ngừng hoạt động'
+        placeholder: 'Ngừng hoạt động',
       },
       note: {
         label: 'Ghi chú',
         placeholder: 'Ghi chú',
-        error: 'Vui lòng điền ghi chú'
+        error: 'Vui lòng điền ghi chú',
       },
       long: {
         label: 'Kinh độ',
         placeholder: 'Nhập kinh độ',
-        error: 'Vui lòng nhập kinh độ'
+        error: 'Vui lòng nhập kinh độ',
       },
       lat: {
         label: 'Vĩ độ',
         placeholder: 'Nhập vĩ độ',
-        error: 'Vui lòng nhập vĩ độ'
+        error: 'Vui lòng nhập vĩ độ',
       },
       emails: {
         label: 'Địa chỉ Email',
         placeholder: 'Nhập địa chỉ Email',
         error: 'Vui lòng nhập địa chỉ Email',
         description:
-          'Chú ý: Khi dữ liệu gặp sự cố. Hệ thống sẽ gửi thông tin sự cố thông qua email này.'
+          'Chú ý: Khi dữ liệu gặp sự cố. Hệ thống sẽ gửi thông tin sự cố thông qua email này.',
       },
       image: {
-        label: 'Hình ảnh trạm'
+        label: 'Hình ảnh trạm',
       },
       phones: {
         label: 'Số điện thoại',
         placeholder: 'Nhập số điện thoại',
-        error: 'Vui lòng nhập số điện thoại'
+        error: 'Vui lòng nhập số điện thoại',
       },
       range: {
-        label: 'Giới hạn đo'
+        label: 'Giới hạn đo',
       },
       measuringKey: {
         label: 'Mã thông số',
         placeholder: 'Nhập mã thông số',
-        error: 'Vui lòng nhập mã thông số'
+        error: 'Vui lòng nhập mã thông số',
       },
       measuringName: {
         label: 'Tên thông số',
         placeholder: 'Tên thông số',
-        error: 'Vui lòng nhập tên thông số'
+        error: 'Vui lòng nhập tên thông số',
       },
       measuringUnit: {
         label: 'Đơn vị',
         placeholder: 'Nhập đơn vị của thông số',
-        error: 'Vui lòng nhập đơn vị của thông số'
+        error: 'Vui lòng nhập đơn vị của thông số',
       },
       measuringMinLimit: {
         label: 'Giới hạn tối thiểu',
         placeholder: 'Nhập giới hạn tối thiểu',
-        error: 'Vui lòng nhập giới hạn tối thiểu'
+        error: 'Vui lòng nhập giới hạn tối thiểu',
       },
       measuringMaxLimit: {
         label: 'Giới hạn tối đa',
         placeholder: 'Nhập giới hạn tôí đa',
-        error: 'Vui lòng nhập giới hạn tối đa'
+        error: 'Vui lòng nhập giới hạn tối đa',
       },
       measuringMinRange: {
         label: 'Giới hạn tối thiểu',
         placeholder: 'Nhập giới hạn đo tối thiểu',
-        error: 'Vui lòng nhập giới hạn đo tối thiểu'
+        error: 'Vui lòng nhập giới hạn đo tối thiểu',
       },
       measuringMaxRange: {
         label: 'Giới hạn tối đa',
         placeholder: 'Input Max Range',
-        error: 'Vui lòng nhập giới hạn đo tối đa'
+        error: 'Vui lòng nhập giới hạn đo tối đa',
       },
       options: {
         isAllowWarning: 'Cảnh báo',
-        isAllowRemote: 'Điều khiển từ xa'
+        isAllowRemote: 'Điều khiển từ xa',
       },
       mapLocation: {
         label: 'Vị trí trên bản đồ',
-        placeholder: 'Vị trí trên bản đồ'
+        placeholder: 'Vị trí trên bản đồ',
       },
       error: 'Lỗi',
       require: 'Vui lòng nhập giá trị',
       order: {
         label: 'Order',
-        placeholder: 'Order'
-      }
+        placeholder: 'Order',
+      },
     },
     range: {
       label: 'Dải đo',
       min: 'Dải đo nhỏ nhất',
-      max: 'Dải đo lớn nhất'
+      max: 'Dải đo lớn nhất',
     },
     config: {
       label: 'Cấu hình',
       extensionFile: 'Loại tập tin',
       fileName: {
         label: 'Tên tập tin',
-        placeholder: 'Nhập tên tập tin'
+        placeholder: 'Nhập tên tập tin',
       },
       path: {
         label: 'Đường dẫn tập tin',
-        placeholder: 'Nhập đường dẫn tập tin'
+        placeholder: 'Nhập đường dẫn tập tin',
       },
       measuringSrc: {
         label: 'Thông số trong file .txt',
         placeholder: 'Thông số trong file .txt',
-        error: 'Vui lòng nhập thông số trong file .txt'
+        error: 'Vui lòng nhập thông số trong file .txt',
       },
       measuringDes: {
         label: 'Thông số trong CSDL',
         placeholder: 'Thông số trong CSDL',
-        error: 'Vui lòng nhập thông số trong CSDL'
+        error: 'Vui lòng nhập thông số trong CSDL',
       },
       ratio: {
         label: 'Tỉ lệ',
         placeholder: 'Nhập tỉ lệ',
-        error: 'Vui lòng nhập tỉ lệ'
+        error: 'Vui lòng nhập tỉ lệ',
       },
       message: {
         success: 'Cấu hình trạm thành công!',
-        error: 'Cấu hình trạm thất bại!'
+        error: 'Cấu hình trạm thất bại!',
       },
       buttonLoadSourceParameter: 'Lấy danh sách thông số',
-      errorLoadFile: 'Tải tệp từ đường đường dẫn không thành công'
+      errorLoadFile: 'Tải tệp từ đường đường dẫn không thành công',
     },
     options: {
       calibration: {
-        title: 'Hiệu chuẩn thiết bị'
+        title: 'Hiệu chuẩn thiết bị',
       },
       allowSendWarning: {
         label: 'Gửi cảnh báo',
-        placeholder: 'Gửi cảnh báo'
+        placeholder: 'Gửi cảnh báo',
       },
       allowApprove: {
         label: 'Cho phép cấu hình loại bỏ dữ liệu tự động',
@@ -1090,7 +1090,7 @@ export default {
         negative: 'Số âm',
         outOfRange: 'Ngoài khoảng đo của thiết bị',
         deviceStatus: 'Trạng thái thiết bị (hỏng hoặc bảo trì)',
-        error: 'Vui lòng nhập khoảng đo'
+        error: 'Vui lòng nhập khoảng đo',
       },
       outOfRangeConfig: {
         title: 'Thời gian hiệu chuẩn',
@@ -1114,39 +1114,39 @@ export default {
         thursday: 'Mọi thứ 5',
         friday: 'Mọi thứ 6',
         saturday: 'Mọi thứ 7',
-        sunday: 'Mọi chủ nhật'
+        sunday: 'Mọi chủ nhật',
       },
       allowSampling: {
         label: 'Lấy mẫu',
-        placeholder: 'Lấy mẫu'
+        placeholder: 'Lấy mẫu',
       },
       apiAddress: {
         label: 'Địa chỉ API',
-        placeholder: 'Địa chỉ API'
+        placeholder: 'Địa chỉ API',
       },
       allowCamera: {
         label: 'Xem camera',
         placeholder: 'Xem camera',
-        add: 'Thêm'
+        add: 'Thêm',
       },
       name: {
         label: 'Tên',
-        placeholder: 'Tên'
+        placeholder: 'Tên',
       },
       RTSP: {
         label: 'Địa chỉ RTSP',
         placeholder: 'Địa chỉ RTSP',
-        error: 'Vui lòng nhập địa chỉ RTSP'
-      }
+        error: 'Vui lòng nhập địa chỉ RTSP',
+      },
     },
     header: {
       option: 'Tuỳ chọn',
       dataLogger: 'DataLogger',
-      approve: 'Kiểm duyệt dữ liệu'
+      approve: 'Kiểm duyệt dữ liệu',
     },
     upload: {
       label: 'Tải lên',
-      error: 'Tải ảnh thất bại'
+      error: 'Tải ảnh thất bại',
     },
     uploadFile: {
       label: 'Tải tệp lên',
@@ -1154,8 +1154,8 @@ export default {
       success: 'Tải tên lên thành công',
       status: {
         uploading: 'Đang tải lên ...',
-        finish: 'Hoàn thành'
-      }
+        finish: 'Hoàn thành',
+      },
     },
     ftpFile: {
       auto: 'Tự động',
@@ -1175,76 +1175,76 @@ export default {
       headerName: 'Thông tin FTP: ',
       addressLabel: 'Địa chỉ ftp:',
       usernameLabel: 'Tên đăng nhập:',
-      passwordLabel: 'Mật khẩu:'
+      passwordLabel: 'Mật khẩu:',
     },
     infoStation: {
       title: 'Thông tin trạm',
       edit: 'Chỉnh sửa',
       career: 'Ngành nghề',
-      emptyText: 'Không có dữ liệu'
-    }
+      emptyText: 'Không có dữ liệu',
+    },
   },
   parameterManager: {
     breadcrumb: {
       base: 'Thông số',
       create: 'Tạo mới',
-      edit: 'Chỉnh sửa'
-    }
+      edit: 'Chỉnh sửa',
+    },
   },
   cameraManager: {
     breadcrumb: {
-      camera: 'Camera'
-    }
+      camera: 'Camera',
+    },
   },
   userManager: {
     breadcrumb: {
       list: 'Danh sách người dùng',
       rule: 'Ủy quyền',
       create: 'Tạo mới',
-      edit: 'Chỉnh sửa'
+      edit: 'Chỉnh sửa',
     },
     form: {
       placeholder: {
         selectUser: 'Chọn user',
-        selectRoleGroup: 'Chọn nhóm quyền'
+        selectRoleGroup: 'Chọn nhóm quyền',
       },
       email: {
         label: 'Địa chỉ Email',
         placeholder: 'Địa chỉ Email',
-        error: 'Địa chỉ Email không hợp lệ'
+        error: 'Địa chỉ Email không hợp lệ',
       },
       password: {
         label: 'Mật khẩu',
-        placeholder: 'Mật khẩu'
+        placeholder: 'Mật khẩu',
       },
       confirmPassword: {
         label: 'Nhập lại mật khẩu',
         placeholder: 'Nhập lại mật khẩu',
-        message: 'Vui lòng nhập lại mật khẩu!'
+        message: 'Vui lòng nhập lại mật khẩu!',
       },
       firstName: {
         label: 'Tên',
-        placeholder: 'Tên'
+        placeholder: 'Tên',
       },
       lastName: {
         label: 'Họ & Tên đệm',
-        placeholder: 'Họ & Tên đệm'
+        placeholder: 'Họ & Tên đệm',
       },
       country: {
         label: 'Quốc gia',
-        placeholder: 'Chọn quốc gia'
+        placeholder: 'Chọn quốc gia',
       },
       organization: {
         label: 'Tổ chức',
-        placeholder: 'Chọn tổ chức'
+        placeholder: 'Chọn tổ chức',
       },
       phone: {
         label: 'Số điện thoại',
-        placeholder: 'Số điện thoại'
+        placeholder: 'Số điện thoại',
       },
       isAdmin: {
-        label: 'Quản trị hệ thống'
-      }
+        label: 'Quản trị hệ thống',
+      },
     },
     modal: {
       title: 'Gói đăng ký giới hạn',
@@ -1252,7 +1252,7 @@ export default {
       text: `<div>Số lượng "Thành viên" của bạn là <strong> {{=it.total}} </strong>, bạn không thể thêm thành viên mới. Vui lòng liên hệ hoặc nâng cấp gói dịch vụ</div>`,
       text1: 'Tăng số lượng thành viên hãy liên hệ',
       text2: 'Số điện thoại',
-      text3: 'Email'
+      text3: 'Email',
     },
     list: {
       enableAccount: 'Kích hoạt tài khoản',
@@ -1272,7 +1272,7 @@ export default {
       createdAt: 'Tạo lúc',
       setPassword: 'Cập nhật mật khẩu',
       setPasswordSuccess: 'Cập nhật mật khẩu thành công',
-      setPasswordFailure: 'Cập nhật mật khẩu thất bại'
+      setPasswordFailure: 'Cập nhật mật khẩu thất bại',
     },
     roleAssign: {
       role: 'Nhóm quyền',
@@ -1281,157 +1281,157 @@ export default {
       success: 'Cập nhật qui định thành công',
       error: 'Cập nhật qui định thất bại',
       address: 'Địa chỉ',
-      isAdmin: 'Quản trị hệ thống'
-    }
+      isAdmin: 'Quản trị hệ thống',
+    },
   },
   roleManager: {
     breadcrumb: {
       list: 'Nhóm quyền',
       create: 'Tạo mới',
-      edit: 'Chỉnh sửa'
+      edit: 'Chỉnh sửa',
     },
     tableHeader: {
       menu: 'Danh sách module',
       action: 'Chức năng',
-      stt: 'STT'
+      stt: 'STT',
     },
     form: {
       name: {
         label: 'Tên nhóm',
         placeholder: 'Nhập tên nhóm',
-        error: 'Vui lòng nhập tên nhóm'
+        error: 'Vui lòng nhập tên nhóm',
       },
       description: {
         label: 'Mô tả',
         placeholder: 'Nhập mô tả',
-        error: 'Vui lòng nhập mô tả'
-      }
+        error: 'Vui lòng nhập mô tả',
+      },
     },
     rule: {
       label: 'Rule',
       orderby: {
         label: '#',
-        placeholder: '#'
+        placeholder: '#',
       },
       menu: {
         label: 'Danh dách',
-        placeholder: 'Danh sách'
+        placeholder: 'Danh sách',
       },
       action: {
         label: 'Hành động',
         placeholder: 'Hành động',
-        package: 'Package'
+        package: 'Package',
       },
 
       dashboard: {
-        name: 'Trang chủ'
+        name: 'Trang chủ',
       },
       dashboard_2: {
-        name: 'Trang chủ - giám sát'
+        name: 'Trang chủ - giám sát',
       },
       monitoring: {
-        name: 'Giám sát trực tuyến'
+        name: 'Giám sát trực tuyến',
       },
       monitorByList: {
-        name: 'Giám sát danh sách'
+        name: 'Giám sát danh sách',
       },
       map: {
-        name: 'Bản đồ'
+        name: 'Bản đồ',
       },
       camera: {
-        name: 'Camera'
+        name: 'Camera',
       },
       dataSearch: {
-        name: 'Tra cứu dữ liệu'
+        name: 'Tra cứu dữ liệu',
       },
       avgSearch: {
-        name: 'Dữ liệu trung bình'
+        name: 'Dữ liệu trung bình',
       },
       xuLyDuLieu_config: {
-        name: 'Xử lý dữ liệu - Cấu hình'
+        name: 'Xử lý dữ liệu - Cấu hình',
       },
       kiemDuyetDuLieu: {
-        name: 'Kiểm duyệt dữ liệu'
+        name: 'Kiểm duyệt dữ liệu',
       },
       qaqcConfig: {
-        name: 'Cấu hình chia sẻ dữ liệu'
+        name: 'Cấu hình chia sẻ dữ liệu',
       },
       ftpTransfer: {
-        name: 'Cấu hình truyền FTP'
+        name: 'Cấu hình truyền FTP',
       },
       tiLeDuLieuThuDuoc: {
-        name: 'Tỉ lệ dữ liệu thu được'
+        name: 'Tỉ lệ dữ liệu thu được',
       },
       tiLeDuLieu: {
-        name: 'Tỉ lệ dữ liệu'
+        name: 'Tỉ lệ dữ liệu',
       },
       tb24H: {
-        name: 'Trung bình 24 giờ'
+        name: 'Trung bình 24 giờ',
       },
       tb1H: {
-        name: 'Trung bình 1 giờ'
+        name: 'Trung bình 1 giờ',
       },
       tb1HMax: {
-        name: 'Trung bình 1h Max'
+        name: 'Trung bình 1h Max',
       },
       tb8HMax: {
-        name: 'Trung bình 8h Max'
+        name: 'Trung bình 8h Max',
       },
       tileDuLieuVuotNguong: {
-        name: 'Tỉ lệ dữ liệu vượt ngưỡng'
+        name: 'Tỉ lệ dữ liệu vượt ngưỡng',
       },
       soLanMatKetNoi: {
-        name: 'Số lần mất kết nối'
+        name: 'Số lần mất kết nối',
       },
       aqiGio: {
-        name: 'AQI - giờ'
+        name: 'AQI - giờ',
       },
       aqiNgay: {
-        name: 'AQI - ngày'
+        name: 'AQI - ngày',
       },
       wqiGio: {
-        name: 'WQI - giờ'
+        name: 'WQI - giờ',
       },
       tinhTrangDuLieu: {
-        name: 'Tình trạng dữ liệu'
+        name: 'Tình trạng dữ liệu',
       },
       aqiMap: {
-        name: 'Bản đồ AQI'
+        name: 'Bản đồ AQI',
       },
       wqiMap: {
-        name: 'Bản đồ WQI'
+        name: 'Bản đồ WQI',
       },
       configWQI: { name: 'Cấu hình tính WQI, AQI' },
       stationFixMap: {
-        name: 'Bản đồ trạm cố định'
+        name: 'Bản đồ trạm cố định',
       },
       stationFixData: {
-        name: 'Dữ liệu trạm cố định'
+        name: 'Dữ liệu trạm cố định',
       },
       stationFix: {
-        name: 'Trạm cố định'
+        name: 'Trạm cố định',
       },
       stationFixInput: {
-        name: 'Nhập liệu trạm cố định'
+        name: 'Nhập liệu trạm cố định',
       },
       stationAuto: { name: 'Trạm quan trắc' },
       cauHinhKetNoi: {
-        name: 'Cấu hình kết nối'
+        name: 'Cấu hình kết nối',
       },
       cauHinhGuiCanhBao: {
-        name: 'Cấu hình gửi cảnh báo'
+        name: 'Cấu hình gửi cảnh báo',
       },
       cauHinhLayMau: {
-        name: 'Cấu hình lấy mẫu'
+        name: 'Cấu hình lấy mẫu',
       },
       cauHinhTinhToanAQI: {
-        name: 'Cấu hình tính toán AQI'
+        name: 'Cấu hình tính toán AQI',
       },
       cauHinhTinhToanWQI: {
-        name: 'Cấu hình tính toán WQI'
+        name: 'Cấu hình tính toán WQI',
       },
       cauHinhCamera: {
-        name: 'Cấu hình Camera'
+        name: 'Cấu hình Camera',
       },
       measuring: { name: 'Chỉ tiêu quan trắc' },
       stationType: { name: 'Loại trạm' },
@@ -1440,13 +1440,13 @@ export default {
       role: { name: 'Nhóm quyền' },
       user: { name: 'Người dùng' },
       config_color_noti: {
-        name: 'Cấu hình màu cảnh báo'
+        name: 'Cấu hình màu cảnh báo',
       },
       xem_Nhat_ky: {
-        name: 'Xem nhật ký'
+        name: 'Xem nhật ký',
       },
       mobile_dashboard: {
-        name: 'Trang chủ Mobile'
+        name: 'Trang chủ Mobile',
       },
       /////
       actions: {
@@ -1488,13 +1488,13 @@ export default {
         bieuDoVuotNguong: 'Số lần vượt ngưỡng',
         thongKeLoaiTram: 'Thống kê loại trạm',
         fTPFloder: 'FTP Floder',
-        fileMapping: 'File Mapping '
-      }
-    }
+        fileMapping: 'File Mapping ',
+      },
+    },
   },
   subscriptionStatus: {
     breadcrumb: {
-      base: 'Trạng thái hệ thống'
+      base: 'Trạng thái hệ thống',
     },
     Renew: 'Thay mới',
     renewAt: 'Thay mới lúc',
@@ -1502,7 +1502,7 @@ export default {
     subscriptionHistory: 'Lịch sử đăng ký',
     expiredAt: 'Hết hạn lúc',
     totalUsers: 'Tổng số người dùng',
-    totalStation: 'Tổng số trạm'
+    totalStation: 'Tổng số trạm',
   },
   infoLicense: {
     breadCrumb: 'Thông tin gói',
@@ -1515,7 +1515,7 @@ export default {
     text4: 'Số lượng trạm sử dụng',
     text5: 'Số lượng tối đa',
     text6: 'Số điện thoại',
-    text7: 'Email'
+    text7: 'Email',
   },
   expLicenseInfo: {
     title: 'Chúng tôi rất xin lỗi',
@@ -1523,7 +1523,7 @@ export default {
     subtitle2: 'Vui lòng gia hạn để tiếp tục sử dụng',
     text1: 'Số điện thoại',
     text2: 'Gia hạn sử dụng ngay',
-    text3: 'Email'
+    text3: 'Email',
   },
   profileUser: {
     title: 'người dùng',
@@ -1543,10 +1543,10 @@ export default {
     upload: 'Tải ảnh lên',
     imageUpload: {
       success: 'Hoàn thành',
-      error: 'Tải ảnh lên thất bại'
+      error: 'Tải ảnh lên thất bại',
     },
     user: 'Thông tin cá nhân',
-    organization: 'Thông tin tổ chức'
+    organization: 'Thông tin tổ chức',
   },
   configStation: {
     name: 'Tên trạm',
@@ -1557,33 +1557,33 @@ export default {
     action: ' ',
     messageUpdate: {
       success: 'Cập nhật thành công!',
-      error: 'cập nhật thất bại!'
-    }
+      error: 'cập nhật thất bại!',
+    },
   },
   changePassword: {
     breadcrumb: {
       changePassword: 'Thay đổi mật khẩu',
       profileUser: 'Thông tin',
-      security: 'Cài đặt bảo mật'
+      security: 'Cài đặt bảo mật',
     },
     form: {
       oldPassword: {
         label: 'Mật khẩu hiện tại',
-        error: 'Vui lòng nhập mật khẩu hiện tại'
+        error: 'Vui lòng nhập mật khẩu hiện tại',
       },
       newPassword: {
         label: 'Mật khẩu mới',
-        error: 'Vui lòng nhập mật khẩu mới'
+        error: 'Vui lòng nhập mật khẩu mới',
       },
       newPasswordConfirmation: {
         label: 'Xác nhập mật khẩu',
         error: 'Vui lòng nhập mật khẩu mới 1 lần nữa',
-        error1: 'Mật khẩu không khớp'
+        error1: 'Mật khẩu không khớp',
       },
       Success: 'Đổi mật khẩu thành công',
       compare: 'Hai mật khẩu nhập không khớp',
-      savePassword: 'Thay đổi mật khẩu'
-    }
+      savePassword: 'Thay đổi mật khẩu',
+    },
   },
   resetPassword: {
     key: 'Quên mật khẩu',
@@ -1591,7 +1591,7 @@ export default {
     key3: 'Đặt lại mật khẩu',
     key4: 'Gửi lại mã xác thực',
     key5: 'Xác nhận',
-    key6: 'Gửi mã xác thực'
+    key6: 'Gửi mã xác thực',
   },
   security: {
     label: 'Bảo mật 2 lớp',
@@ -1609,7 +1609,7 @@ export default {
       userUse: 'Bạn đang sử dụng tính năng bảo mật 2 lớp qua {{=it.type}}',
       code:
         'Mã xác thực đã được gửi tới: {{=it.phone}} (sẽ hết hạn sau {{=it.expired}})',
-      info: `Lựa chọn phương thức xác thực khi đăng nhập:`
+      info: `Lựa chọn phương thức xác thực khi đăng nhập:`,
     },
     step1: 'Nhập code',
     step2: 'Chờ xác thực',
@@ -1617,8 +1617,8 @@ export default {
     send: 'Gửi',
     use: {
       email: 'Sử dụng Email',
-      sms: 'Sử dụng SMS'
-    }
+      sms: 'Sử dụng SMS',
+    },
   },
   login: {
     title: 'Đăng nhập',
@@ -1627,18 +1627,18 @@ export default {
     form: {
       email: {
         label: 'Địa chỉ Email',
-        placeholder: 'user@example.com'
+        placeholder: 'user@example.com',
       },
       password: {
         label: 'Mật khẩu',
-        placeholder: '********'
+        placeholder: '********',
       },
       twoFactor: {
         label: 'Mã Xác Thực',
-        placeholder: 'xxxx'
+        placeholder: 'xxxx',
       },
       buttonLogin: 'Đăng nhập',
-      buttonTwoFactor: 'Xác thực'
+      buttonTwoFactor: 'Xác thực',
     },
     errors: {
       emailOrPasswordIncorrect: 'Emai hoặc mật khẩu không đúng',
@@ -1646,8 +1646,8 @@ export default {
       accountDelete: 'Tài khoản của bạn bị xóa',
       accountNotActivated: 'Tài khoản chưa được kích hoạt',
       codeNotEqual: 'Mã xác thực không chính xác',
-      organizationNotExist: 'Tổ chức của bạn không tồn tại'
-    }
+      organizationNotExist: 'Tổ chức của bạn không tồn tại',
+    },
   },
   warningLevels: {
     title: 'Mức cảnh báo',
@@ -1656,7 +1656,7 @@ export default {
     exceedPreparing: 'Chuẩn bị vượt',
     exceed: 'Vượt nguỡng',
     lossData: 'Mất tín hiệu',
-    sensorError: 'Lỗi thiết bị'
+    sensorError: 'Lỗi thiết bị',
   },
   addon: {
     add: 'Thêm',
@@ -1671,21 +1671,21 @@ export default {
     onSave: {
       add: {
         success: 'Thêm thành công',
-        error: 'Thêm mới lỗi'
+        error: 'Thêm mới lỗi',
       },
       update: {
         success: 'Cập nhật thành công',
-        error: 'Cập nhật thất bại'
-      }
+        error: 'Cập nhật thất bại',
+      },
     },
     onDelete: {
       success: 'Xoá thành công',
       error: 'Xoá thất bại',
-      warning: 'Bạn không thể xóa tài khoản của chính mình'
+      warning: 'Bạn không thể xóa tài khoản của chính mình',
     },
     onRestore: {
       success: 'Khôi phục thành công',
-      error: 'Khôi phục thất bại'
+      error: 'Khôi phục thất bại',
     },
     search: 'Tìm kiếm',
     searchSeclect: 'Chọn điều kiện',
@@ -1693,10 +1693,10 @@ export default {
     warning: 'Chú ý',
     refresh: 'Làm mới',
     cancel: 'Hủy',
-    ok: 'Đồng ý'
+    ok: 'Đồng ý',
   },
   success: {
-    text: 'Thành công'
+    text: 'Thành công',
   },
   error: {
     text: 'Lỗi',
@@ -1718,30 +1718,30 @@ export default {
             <p style="margin-left: 20px">2. Tình trạng hoạt động của thiết bị điều khiển </p>
             <p style="margin-left: 20px">3. Tín hiệu mạng tới thiết bị điều khiển </p>
         </div>
-        `
-      }
-    }
+        `,
+      },
+    },
   },
   modal: {
     confirm: {
       title: 'Xác nhận',
       monitoring: {
         sampling: {
-          cancelSchedule: 'Bạn có chắc muốn hủy lấy mẫu tự động?'
-        }
-      }
-    }
+          cancelSchedule: 'Bạn có chắc muốn hủy lấy mẫu tự động?',
+        },
+      },
+    },
   },
   alert: {
     error: {
       monitoring: {
-        saveSampingConfig: 'Bạn vui lòng nhập đầy đủ thông tin trước khi Lưu'
-      }
-    }
+        saveSampingConfig: 'Bạn vui lòng nhập đầy đủ thông tin trước khi Lưu',
+      },
+    },
   },
   form: {
     save: 'Lưu',
-    update: 'Cập nhật'
+    update: 'Cập nhật',
   },
   menuApp: {
     dashboard: 'Trang Chủ',
@@ -1754,22 +1754,22 @@ export default {
       camera: 'Camera',
       historyData: 'Tra cứu dữ liệu',
       avgData: 'Dữ liệu trung bình',
-      report: 'Báo cáo'
+      report: 'Báo cáo',
     },
     monitoringList: {
-      base: 'Giám sát danh sách'
+      base: 'Giám sát danh sách',
     },
 
     processDataSub: 'Xử lý dữ liệu',
     processData: {
       approveData: 'Kiểm duyệt dữ liệu',
-      config: 'Cấu hình'
+      config: 'Cấu hình',
     },
 
     shareDataSub: 'Chia sẻ dữ liệu',
     shareData: {
       shareConfig: 'Cấu hình chia sẻ dữ liệu',
-      ftpConfig: 'Cấu hình truyền FTP'
+      ftpConfig: 'Cấu hình truyền FTP',
     },
 
     advanceSub: 'Nâng cao',
@@ -1778,7 +1778,7 @@ export default {
       aqiStatistic: 'Tra cứu dữ liệu AQI',
       wqiMap: 'Bản đồ WQI',
       wqiStatistic: 'Tra cứu dữ liệu WQI',
-      config: 'Cấu hình AQI & WQI'
+      config: 'Cấu hình AQI & WQI',
     },
 
     configSub: 'Cấu hình',
@@ -1797,7 +1797,7 @@ export default {
       standard: 'Quy chuẩn',
       role: 'Nhóm quyền',
       user: 'Tài khoản',
-      dataLogger: 'Xem nhật ký'
+      dataLogger: 'Xem nhật ký',
     },
 
     camera: 'Camera',
@@ -1842,8 +1842,8 @@ export default {
       status_data: 'Tình trạng dữ liệu',
       status_data_obj: {
         title: 'Báo cáo đánh giá tình trạng dữ liệu',
-        dateRange: 'Khoảng thời gian'
-      }
+        dateRange: 'Khoảng thời gian',
+      },
     },
     reportBreadcrum: {
       type1: 'Tỷ lệ dữ liệu',
@@ -1860,12 +1860,12 @@ export default {
       aqiHour: 'AQI - Giờ',
       aqiDay: 'AQI - Ngày',
       aqi878: 'AQI - 1479',
-      status_data: 'Status Data' // Qui them cho dong bo voi file EN
-    }
+      status_data: 'Status Data', // Qui them cho dong bo voi file EN
+    },
   },
   dataLogger: {
     breadcrumb: {
-      base: 'Nhật ký dữ liệu'
+      base: 'Nhật ký dữ liệu',
     },
     list: {
       emptyView: 'Không có dữ liệu',
@@ -1874,54 +1874,54 @@ export default {
       colTime: 'Thời gian',
       colAction: 'Hành động',
       colDevice: 'Thiết bị',
-      colDetail: 'Chi tiết'
+      colDetail: 'Chi tiết',
     },
     searchForm: {
       user: 'Select email',
       typeLog: 'Loại',
       from: 'Từ ngày',
       to: 'Đến ngày',
-      download: 'Xuất Excel'
+      download: 'Xuất Excel',
     },
     action: {
       login: 'Đăng nhập',
-      logout: 'Đăng xuất'
-    }
+      logout: 'Đăng xuất',
+    },
   },
   cameraControl: {
     station: {
       label: 'Tên trạm quan trắc',
-      placeholder: 'Lựa chọn trạm quan trắc'
+      placeholder: 'Lựa chọn trạm quan trắc',
     },
     stationType: {
       label: 'Loại trạm',
-      placeholder: 'Lựa chọn loại trạm quan trắc'
+      placeholder: 'Lựa chọn loại trạm quan trắc',
     },
-    selectStationPlaceholder: 'Nhập tên trạm'
+    selectStationPlaceholder: 'Nhập tên trạm',
   },
   support: {
     breadcrumb: {
-      base: 'Hỗ trợ'
+      base: 'Hỗ trợ',
     },
     form: {
       type: {
         label: 'Loại hỗ trợ',
-        error: 'Vui lòng chọn loại hỗ trợ'
+        error: 'Vui lòng chọn loại hỗ trợ',
       },
       title: {
         label: 'Tiêu đề',
-        error: 'Vui lòng nhập tiêu đề'
+        error: 'Vui lòng nhập tiêu đề',
       },
       content: {
         label: 'Nội dung',
-        error: 'Vui lòng nhập nội dung'
+        error: 'Vui lòng nhập nội dung',
       },
       upload: {
         label: 'Tải lên',
         buttonLabel: 'Chọn để tải lên',
-        error: 'Lỗi'
-      }
-    }
+        error: 'Lỗi',
+      },
+    },
   },
   documents: {
     label: 'Tài liệu hướng dẫn',
@@ -1929,8 +1929,8 @@ export default {
     guide2: 'Cài đặt hướng dẫn 2',
     develop: {
       title: 'Chức năng này đang phát triển',
-      process: 'Chúng tôi sẽ cập nhật nó cho phiên bản sau'
-    }
+      process: 'Chúng tôi sẽ cập nhật nó cho phiên bản sau',
+    },
   },
   statistic: {
     exceeded: 'Vượt ngưỡng',
@@ -1940,14 +1940,14 @@ export default {
       time: 'Thời gian',
       totalFile: 'Tổng số file/ngày',
       totalFileReceivedAt: 'Tổng số file truyền về',
-      perFileReceivedAt: 'Tỉ lệ file truyền về (%)'
+      perFileReceivedAt: 'Tỉ lệ file truyền về (%)',
     },
     exceededFrom: {
       breadCrumb: 'Thống kê số lần vượt ngưỡng/ngày',
       time: 'Thời gian',
       totalFile: 'Tổng số file/ngày',
       totalFileReceivedAt: 'Tổng số file truyền về',
-      perFileReceivedAt: 'Tỉ lệ file truyền về (%)'
+      perFileReceivedAt: 'Tỉ lệ file truyền về (%)',
     },
     aqi: {
       menuApp: 'AQI',
@@ -1955,7 +1955,7 @@ export default {
       selectMonths: 'Chọn tháng',
       time: 'Thời gian',
       day: 'Ngày',
-      title: 'Giá trị AQI theo giờ'
+      title: 'Giá trị AQI theo giờ',
     },
     wqi: {
       menuApp: 'WQI',
@@ -1963,14 +1963,14 @@ export default {
       selectMonths: 'Chọn tháng',
       time: 'Thời gian',
       day: 'Ngày',
-      title: 'Giá trị WQI theo giờ'
-    }
+      title: 'Giá trị WQI theo giờ',
+    },
   },
   pageInfo: {
     header: 'Thông báo',
     body1:
       'Đây là chức năng thuộc phiên bản Nâng cao, vui lòng liên hệ với chúng tôi để biết thêm thông tin:',
-    body2: 'Email:'
+    body2: 'Email:',
   },
   stationStatus: {
     good: 'Tốt',
@@ -1980,37 +1980,37 @@ export default {
     connected: 'Đã kết nối',
     exceeded: 'Vượt ngưỡng',
     exceededPreparing: 'Chuẩn bị vượt',
-    exceededTendency: 'Có xu hướng vượt'
+    exceededTendency: 'Có xu hướng vượt',
   },
   actions: {
     gotoMonitoring: 'Đến trang Xem chi tiết trạm',
     viewDataAroundThisTime: 'Xem giá trị quanh thời điểm vượt',
-    tryAgain: 'Thử lại'
+    tryAgain: 'Thử lại',
   },
   network: {
     sampling: {
       lostConnection:
-        'Không kết nối được với dịch vụ lấy mẫu, vui lòng liên hệ quản trị viên!'
+        'Không kết nối được với dịch vụ lấy mẫu, vui lòng liên hệ quản trị viên!',
     },
     camera: {
-      lostConnection: 'Không kết nối được với Camera, vui lòng kiểm tra lại!'
+      lostConnection: 'Không kết nối được với Camera, vui lòng kiểm tra lại!',
     },
     qaqc: {
       lostConnection:
-        'Không kết nối được với dịch vụ QAQC, vui lòng liên hệ quản trị viên!'
-    }
+        'Không kết nối được với dịch vụ QAQC, vui lòng liên hệ quản trị viên!',
+    },
   },
   serverResponse: {
     error: {
       VersionError:
-        'Dữ liệu đã được cập nhật bởi người dùng khác, hãy làm mới lại!'
-    }
+        'Dữ liệu đã được cập nhật bởi người dùng khác, hãy làm mới lại!',
+    },
   },
   confirm: {
     msg: {
       restore: 'Bạn có muốn khôi phục mục này không?',
-      delete: 'Bạn có muốn xóa mục này không?'
-    }
+      delete: 'Bạn có muốn xóa mục này không?',
+    },
   },
   common: {
     station: 'trạm',
@@ -2025,11 +2025,11 @@ export default {
       dataExceededPrepare: 'Chuẩn bị vượt ngưỡng',
       dataLoss: 'Mất tín hiệu',
       dataGood: 'Tốt',
-      dataConnected: 'Có tín hiệu trở lại'
+      dataConnected: 'Có tín hiệu trở lại',
     },
     overview: 'Tổng quan',
     list: 'Danh sách',
     statusSensor: 'Trạng thái thiết bị',
-    statusData: 'Trạng thái dữ liệu'
-  }
+    statusData: 'Trạng thái dữ liệu',
+  },
 }

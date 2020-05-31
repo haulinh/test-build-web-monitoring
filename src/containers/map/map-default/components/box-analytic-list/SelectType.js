@@ -25,7 +25,7 @@ const SelectTypeWrapper = styled.div`
 
 export const TYPE = {
   DATA_STATUS: 'dataStatus',
-  STATION_STATUS: 'stationStatus'
+  STATION_STATUS: 'stationStatus',
 }
 
 @autobind
@@ -34,12 +34,12 @@ export default class SelectType extends React.PureComponent {
     return [
       {
         value: TYPE.DATA_STATUS,
-        name: translate('map.menuRight.dataStatus')
+        name: translate('map.menuRight.dataStatus'),
       },
       {
         value: TYPE.STATION_STATUS,
-        name: translate('map.menuRight.stationStatus')
-      }
+        name: translate('map.menuRight.stationStatus'),
+      },
     ]
   }
 

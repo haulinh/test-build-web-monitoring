@@ -40,7 +40,7 @@ export default class PlayerViewer extends React.Component {
     cameraList: [],
     camera: {},
     isLoaded: false,
-    auth: ''
+    auth: '',
   }
 
   async componentDidMount() {
@@ -48,7 +48,7 @@ export default class PlayerViewer extends React.Component {
     if (!auth) {
       swal({
         title: 'Unauthorized Camera fail',
-        type: 'error'
+        type: 'error',
       })
     }
 
@@ -63,7 +63,7 @@ export default class PlayerViewer extends React.Component {
           stationType,
           src: item.rtspUrl,
           name: item.name,
-          _id
+          _id,
         }))
       )
     })

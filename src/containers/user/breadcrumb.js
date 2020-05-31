@@ -8,21 +8,21 @@ export default createBreadcrumb({
     id: 'list',
     //icon: Icon.car,
     href: slug.user.list,
-    name: translate('userManager.breadcrumb.list')
+    name: translate('userManager.breadcrumb.list'),
   },
   rule: {
     id: 'rule',
     //icon: Icon.car,
     href: slug.user.rule,
-    name: translate('userManager.breadcrumb.rule')
+    name: translate('userManager.breadcrumb.rule'),
   },
   create: {
     id: 'create',
     href: slug.user.create,
-    name: translate('userManager.breadcrumb.create')
+    name: translate('userManager.breadcrumb.create'),
   },
   edit: {
     href: slug.user.edit,
-    name: translate('userManager.breadcrumb.edit')
-  }
+    name: translate('userManager.breadcrumb.edit'),
+  },
 })

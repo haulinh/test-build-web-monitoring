@@ -2,19 +2,19 @@ import update from 'react-addons-update'
 import {
   ADD_BREADCRUMB,
   UPDATE_BREADCRUMB,
-  DELETE_BREADCRUMB
+  DELETE_BREADCRUMB,
 } from '../breadcrumb/action'
 
 type Breadcrumb = {
   id: string,
   icon: string,
   name: string,
-  href: string
+  href: string,
 }
 
 type ActionType = {
   type: string,
-  breadcrumb: Breadcrumb
+  breadcrumb: Breadcrumb,
 }
 
 type BreadcrumbState = Array<Breadcrumb>
@@ -39,7 +39,7 @@ export default function createReducer(
 
 export function addBreadcrumb(state, { breadcrumb }): BreadcrumbState {
   return update(state, {
-    $push: [breadcrumb]
+    $push: [breadcrumb],
   })
 }
 
@@ -49,15 +49,15 @@ export function updateBreadcrumb(state, { breadcrumb }): BreadcrumbState {
     [breadcrumbIndex]: {
       $apply: oldBreadcrumb => ({
         ...oldBreadcrumb,
-        ...breadcrumb
-      })
-    }
+        ...breadcrumb,
+      }),
+    },
   })
 }
 
 export function deleteBreadcrumb(state, { breadcrumb }): BreadcrumbState {
   const breadcrumbIndex = state.findIndex(b => b.id === breadcrumb.id)
   return update(state, {
-    $splice: [[breadcrumbIndex, 1]]
+    $splice: [[breadcrumbIndex, 1]],
   })
 }

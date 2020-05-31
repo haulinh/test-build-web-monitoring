@@ -42,7 +42,7 @@ function validate(values) {
 
 @reduxForm({
   form: 'ChangePasswordForm',
-  validate
+  validate,
 })
 @withRouter
 @autobind
@@ -51,24 +51,24 @@ export default class ChangePassword extends PureComponent {
     if (values.newPassword !== values.newPasswordConfirmation) {
       swal({
         title: translate('changePassword.form.newPasswordConfirmation.error1'),
-        type: 'error'
+        type: 'error',
       })
     } else {
       const auth = await AuthApi.getMe()
       const data = {
         oldPassword: values.oldPassword,
-        newPassword: values.newPasswordConfirmation
+        newPassword: values.newPasswordConfirmation,
       }
       const record = await AuthApi.changePassword(auth.data._id, data)
       if (record.error) {
         swal({
           type: 'error',
-          title: record.message
+          title: record.message,
         })
       } else {
         swal({
           type: 'success',
-          title: translate('changePassword.form.Success')
+          title: translate('changePassword.form.Success'),
         })
         this.props.push('/')
       }

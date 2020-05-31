@@ -14,7 +14,7 @@ const FormItem = Form.Item
   mapPropsToFields: ({ initialValues }) => {
     if (!initialValues) return
     return mapPropsToFields({ initialValues })
-  }
+  },
 })
 @createLanguageHoc
 @autobind
@@ -23,7 +23,7 @@ export default class StationAutoForm extends React.PureComponent {
     onSubmit: PropTypes.func,
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
   // async componentWillMount() {
   //   await this.props.getItem()
@@ -37,7 +37,7 @@ export default class StationAutoForm extends React.PureComponent {
         key: values.key,
         name: values.name,
         min: values.min,
-        max: values.max
+        max: values.max,
       }
       // Callback submit form Container Component
       console.log(JSON.stringify(data))
@@ -50,11 +50,11 @@ export default class StationAutoForm extends React.PureComponent {
     const { t } = this.props.lang
     const formItemLayout = {
       labelCol: {
-        sm: { span: 6, offset: 0 }
+        sm: { span: 6, offset: 0 },
       },
       wrapperCol: {
-        sm: { span: 17, offset: 0 }
-      }
+        sm: { span: 17, offset: 0 },
+      },
     }
 
     return (
@@ -64,11 +64,11 @@ export default class StationAutoForm extends React.PureComponent {
             'list',
             {
               id: 'edit',
-              name: 'Station Range'
+              name: 'Station Range',
               // this.props.isLoaded && this.props.data
               //   ? this.props.data.name
               //   : null
-            }
+            },
           ]}
         />
         <Form onSubmit={this.handleSubmit}>
@@ -82,9 +82,9 @@ export default class StationAutoForm extends React.PureComponent {
                   rules: [
                     {
                       required: true,
-                      message: t('stationAutoManager.form.key.error')
-                    }
-                  ]
+                      message: t('stationAutoManager.form.key.error'),
+                    },
+                  ],
                 })(
                   <Input
                     disabled={this.props.isEdit}
@@ -102,9 +102,9 @@ export default class StationAutoForm extends React.PureComponent {
                   rules: [
                     {
                       required: true,
-                      message: t('stationAutoManager.form.name.error')
-                    }
-                  ]
+                      message: t('stationAutoManager.form.name.error'),
+                    },
+                  ],
                 })(
                   <Input
                     placeholder={t('stationAutoManager.form.name.placeholder')}
@@ -120,7 +120,7 @@ export default class StationAutoForm extends React.PureComponent {
                 label={t('stationAutoManager.range.min')}
               >
                 {getFieldDecorator('min', {
-                  rules: [{ required: true }]
+                  rules: [{ required: true }],
                 })(
                   <InputNumberCell
                     editable={true}
@@ -137,7 +137,7 @@ export default class StationAutoForm extends React.PureComponent {
                 label={t('stationAutoManager.range.max')}
               >
                 {getFieldDecorator('max', {
-                  rules: [{ required: true }]
+                  rules: [{ required: true }],
                 })(
                   <InputNumberCell
                     editable={true}

@@ -11,13 +11,13 @@ import AuthApi from 'api/AuthApi'
 /* MARK  @translate */
 const i18n = {
   enable2FA: translate('security.enable2FA'),
-  disable2FA: translate('security.disable2FA')
+  disable2FA: translate('security.disable2FA'),
 }
 
 @connectAutoDispatch(
   state => ({
     enable: state.auth.userInfo.twoFactorAuth.enable,
-    twoFactorType: state.auth.userInfo.twoFactorAuth.type
+    twoFactorType: state.auth.userInfo.twoFactorAuth.type,
   }),
   { set2FAStatus, set2FAType }
 )
@@ -27,11 +27,11 @@ export default class SecurityFormEnable extends PureComponent {
     /* Redux props */
     enable: PropTypes.bool.isRequired,
     set2FAStatus: PropTypes.func.isRequired,
-    set2FAType: PropTypes.func.isRequired
+    set2FAType: PropTypes.func.isRequired,
   }
 
   state = {
-    isSwitchingStatus: false
+    isSwitchingStatus: false,
   }
 
   render() {
@@ -60,7 +60,7 @@ export default class SecurityFormEnable extends PureComponent {
         <Col>
           <span style={{ color: 'green', fontWeight: '600', marginTop: 20 }}>
             {translate('security.message.userUse', {
-              type: this.props.twoFactorType ? 'SMS' : 'Email'
+              type: this.props.twoFactorType ? 'SMS' : 'Email',
             })}
           </span>
         </Col>

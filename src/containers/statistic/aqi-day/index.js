@@ -28,8 +28,8 @@ export default class AQIStatisticsDay extends React.Component {
     isExporting: false,
     pagination: {
       current: 1,
-      pageSize: 50
-    }
+      pageSize: 50,
+    },
   }
 
   handleSubmitSearch(searchFormData) {
@@ -39,7 +39,7 @@ export default class AQIStatisticsDay extends React.Component {
   async loadData(pagination, searchFormData) {
     this.setState({
       isLoading: true,
-      isHaveData: true
+      isHaveData: true,
     })
 
     // let listStationId = searchFormData.stationID
@@ -47,7 +47,7 @@ export default class AQIStatisticsDay extends React.Component {
     const params = {
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
-      listKey: searchFormData.stationID
+      listKey: searchFormData.stationID,
     }
 
     // console.log(params,searchFormData,"-----")
@@ -56,44 +56,44 @@ export default class AQIStatisticsDay extends React.Component {
     if (dataAQI && _.get(dataAQI, 'data', []).length === 0) {
       swal({
         type: 'warning',
-        title: translate('dataSearchFrom.table.emptyText')
+        title: translate('dataSearchFrom.table.emptyText'),
       })
     }
 
     this.setState({
       isLoading: false,
       dataAQI: _.reverse(_.get(dataAQI, 'data', [])),
-      searchFormData: searchFormData
+      searchFormData: searchFormData,
     })
   }
 
   async handleExportExcel() {
     this.setState({
-      isExporting: true
+      isExporting: true,
     })
     const params = {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
       listKey: _.get(this.state.searchFormData, 'stationID', ''),
-      timezoneDay: _.get(this.state.searchFormData, 'timezoneDay', '')
+      timezoneDay: _.get(this.state.searchFormData, 'timezoneDay', ''),
     }
     let res = await aqiApi.exportFileAqiDaybyListStation({ ...params })
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
 
     this.setState({
-      isExporting: false
+      isExporting: false,
     })
   }
 
   async handleManually() {
     this.setState({
-      isManually: true
+      isManually: true,
     })
     const params = {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
-      listKey: _.get(this.state.searchFormData, 'stationID', '')
+      listKey: _.get(this.state.searchFormData, 'stationID', ''),
     }
 
     let res = await aqiApi.fetchAqiProcessCalDay({ ...params })
@@ -105,7 +105,7 @@ export default class AQIStatisticsDay extends React.Component {
     }
 
     this.setState({
-      isManually: false
+      isManually: false,
     })
   }
 

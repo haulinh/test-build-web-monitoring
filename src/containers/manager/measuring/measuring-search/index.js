@@ -21,7 +21,7 @@ const Clearfix = styled.div`
 `
 
 @FormStyle.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguage
 @autobind
@@ -30,7 +30,7 @@ export default class MeasuringSearchForm extends React.PureComponent {
     onSubmit: PropTypes.func,
     initialValues: PropTypes.object,
     onChangeSearch: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   constructor(props) {
@@ -54,7 +54,7 @@ export default class MeasuringSearchForm extends React.PureComponent {
   render() {
     const { getFieldDecorator } = this.props.form
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     if (this.props.isAdvanced) {
       return null

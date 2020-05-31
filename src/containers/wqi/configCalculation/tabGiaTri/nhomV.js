@@ -12,7 +12,7 @@ import {
   Popconfirm,
   Spin,
   Row,
-  Col
+  Col,
 } from 'antd'
 import { Clearfix } from 'containers/map/map-default/components/box-analytic-list/style'
 import { getConfigWqiMeaTable, postConfigWqiMeaTable } from 'api/CategoryApi'
@@ -33,13 +33,13 @@ const i18n = {
   collevel: translate('wqiConfigCalculation.collevel'),
   colMin2: translate('wqiConfigCalculation.colMin2'),
   colMax2: translate('wqiConfigCalculation.colMax2'),
-  colValue: translate('wqiConfigCalculation.colValue')
+  colValue: translate('wqiConfigCalculation.colValue'),
 }
 
 @Form.create({})
 export default class TabGiaTri_NhomV extends React.Component {
   static propTypes = {
-    configMeasure: PropTypes.array
+    configMeasure: PropTypes.array,
   }
 
   constructor(props) {
@@ -49,7 +49,7 @@ export default class TabGiaTri_NhomV extends React.Component {
       isSubmit: false,
       dataSource: [],
       isLockFirst: {},
-      isLockLast: {}
+      isLockLast: {},
     }
     const styleWidth = { width: '100%' }
     const columnDynamic = []
@@ -74,7 +74,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      minWidth: 130
+                      minWidth: 130,
                     }}
                   >
                     {isFirst && (
@@ -89,13 +89,13 @@ export default class TabGiaTri_NhomV extends React.Component {
                                 item.keyMeasure
                               ]
                                 ? false
-                                : true
-                            }
+                                : true,
+                            },
                           })
                           setFieldsValue({
                             [`levelList[${record.key}].${
                               item.keyMeasure
-                            }.min`]: null
+                            }.min`]: null,
                           })
                         }}
                       />
@@ -111,9 +111,9 @@ export default class TabGiaTri_NhomV extends React.Component {
                                 isFirst &&
                                 this.state.isLockFirst[item.keyMeasure]
                               ),
-                            message: i18n.required
-                          }
-                        ]
+                            message: i18n.required,
+                          },
+                        ],
                       }
                     )(
                       <InputNumber
@@ -128,7 +128,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                   </div>
                 </Form.Item>
               )
-            }
+            },
           },
           {
             title: i18n.colMax2,
@@ -147,7 +147,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      minWidth: 130
+                      minWidth: 130,
                     }}
                   >
                     {getFieldDecorator(
@@ -160,9 +160,9 @@ export default class TabGiaTri_NhomV extends React.Component {
                               !(
                                 isLast && this.state.isLockLast[item.keyMeasure]
                               ),
-                            message: i18n.required
-                          }
-                        ]
+                            message: i18n.required,
+                          },
+                        ],
                       }
                     )(
                       <InputNumber
@@ -186,13 +186,13 @@ export default class TabGiaTri_NhomV extends React.Component {
                                 item.keyMeasure
                               ]
                                 ? false
-                                : true
-                            }
+                                : true,
+                            },
                           })
                           setFieldsValue({
                             [`levelList[${record.key}].${
                               item.keyMeasure
-                            }.max`]: null
+                            }.max`]: null,
                           })
                         }}
                       />
@@ -200,9 +200,9 @@ export default class TabGiaTri_NhomV extends React.Component {
                   </div>
                 </Form.Item>
               )
-            }
-          }
-        ]
+            },
+          },
+        ],
       })
     })
     this.columns = [
@@ -220,13 +220,13 @@ export default class TabGiaTri_NhomV extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: i18n.required
-                  }
-                ]
+                    message: i18n.required,
+                  },
+                ],
               })(<Input placeholder={i18n.collevel} />)}
             </Form.Item>
           )
-        }
+        },
       },
       {
         title: i18n.colValue + ' qi',
@@ -244,16 +244,16 @@ export default class TabGiaTri_NhomV extends React.Component {
                   style={{
                     textAlign: 'left',
                     marginBottom: 'initial',
-                    minWidth: 100
+                    minWidth: 100,
                   }}
                 >
                   {getFieldDecorator(`levelList[${record.key}].qi`, {
                     rules: [
                       {
                         required: true,
-                        message: i18n.required
-                      }
-                    ]
+                        message: i18n.required,
+                      },
+                    ],
                   })(
                     <InputNumber
                       style={{ ...styleWidth }}
@@ -262,7 +262,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                   )}
                 </Form.Item>
               )
-            }
+            },
           },
           {
             title: 'qi+1',
@@ -277,16 +277,16 @@ export default class TabGiaTri_NhomV extends React.Component {
                   style={{
                     textAlign: 'left',
                     marginBottom: 'initial',
-                    minWidth: 100
+                    minWidth: 100,
                   }}
                 >
                   {getFieldDecorator(`levelList[${record.key}].qi_1`, {
                     rules: [
                       {
                         required: true,
-                        message: i18n.required
-                      }
-                    ]
+                        message: i18n.required,
+                      },
+                    ],
                   })(
                     <InputNumber
                       style={{ ...styleWidth }}
@@ -295,9 +295,9 @@ export default class TabGiaTri_NhomV extends React.Component {
                   )}
                 </Form.Item>
               )
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       ...columnDynamic,
       {
@@ -321,8 +321,8 @@ export default class TabGiaTri_NhomV extends React.Component {
               />
             </Popconfirm>
           )
-        }
-      }
+        },
+      },
     ]
     this.idIncrement = 0
   }
@@ -351,11 +351,11 @@ export default class TabGiaTri_NhomV extends React.Component {
           isLoaded: true,
           dataSource: transformData,
           isLockFirst,
-          isLockLast
+          isLockLast,
         },
         () => {
           this.props.form.setFieldsValue({
-            levelList: transformData
+            levelList: transformData,
           })
         }
       )
@@ -366,15 +366,15 @@ export default class TabGiaTri_NhomV extends React.Component {
       dataSource: [
         ...this.state.dataSource,
         {
-          key: this.idIncrement++
-        }
-      ]
+          key: this.idIncrement++,
+        },
+      ],
     })
   }
   delete = key => {
     let tamp = this.state.dataSource.filter(item => item.key !== key)
     this.setState({
-      dataSource: [...tamp]
+      dataSource: [...tamp],
     })
   }
   submit = () => {
@@ -387,7 +387,7 @@ export default class TabGiaTri_NhomV extends React.Component {
             _.identity(i)
           )
           const response = await postConfigWqiMeaTable({
-            groupV: transformData
+            groupV: transformData,
           })
           if (response.success) {
             message.success(i18n.updateSuccess)

@@ -8,24 +8,24 @@ export default createBreadcrumb({
     name: translate('qaqc.approveData'),
     id: 'base',
     icon: '',
-    href: slug.qaqc.base
+    href: slug.qaqc.base,
   },
   config: {
     name: translate('qaqc.configPublish.title'),
     id: 'config',
     icon: '',
-    href: slug.qaqc.config
+    href: slug.qaqc.config,
   },
   transfer: {
     name: translate('qaqc.configPublish.title'),
     id: 'transfer',
     icon: '',
-    href: slug.stationAuto.ftpTransfer
+    href: slug.stationAuto.ftpTransfer,
   },
   configNew: {
     name: translate('qaqcConfig.title'),
     id: 'configNew',
     icon: '',
-    href: slug.qaqc.configNew
-  }
+    href: slug.qaqc.configNew,
+  },
 })

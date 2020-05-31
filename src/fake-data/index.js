@@ -7,22 +7,22 @@ const createManagerListHoc = ({ apiCall, itemPerPage = 10 }) => Component => {
     state = {
       data: [],
       pagination: {
-        page: 1
+        page: 1,
       },
       pageLogs: [],
-      isLoading: false
+      isLoading: false,
     }
 
     async componentWillMount() {
       this.setState({ isLoading: true })
       const res = await apiCall({
         itemPerPage,
-        page: 1
+        page: 1,
       })
       this.setState({
         data: res.data,
         pagination: res.pagination,
-        isLoading: false
+        isLoading: false,
       })
     }
 
@@ -32,16 +32,16 @@ const createManagerListHoc = ({ apiCall, itemPerPage = 10 }) => Component => {
       }
       this.setState({
         isLoading: true,
-        pageLogs: [...this.state.pageLogs, page]
+        pageLogs: [...this.state.pageLogs, page],
       })
       const res = await apiCall({
         itemPerPage: this.state.pagination.itemPerPage,
-        page
+        page,
       })
       this.setState({
         data: [...this.state.data, ...res.data],
         pagination: res.pagination,
-        isLoading: false
+        isLoading: false,
       })
     }
 

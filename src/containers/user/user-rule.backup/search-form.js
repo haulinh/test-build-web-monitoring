@@ -13,7 +13,7 @@ const { Meta } = Card
 const i18n = {
   create: translate('addon.create'),
   error: translate('addon.error'),
-  roleAssign: translate('userManager.list.roleAssign')
+  roleAssign: translate('userManager.list.roleAssign'),
 }
 
 const BACKGROUND_COLORS = [
@@ -21,7 +21,7 @@ const BACKGROUND_COLORS = [
   '#f56a00',
   '#7265e6',
   '#ffbf00',
-  '#00a2ae'
+  '#00a2ae',
 ]
 
 @autobind
@@ -31,7 +31,7 @@ export default class UserSearchForm extends React.PureComponent {
     isGettingRoles: PropTypes.bool.isRequired,
     dataSourceUsers: PropTypes.array.isRequired,
     dataSourceRoles: PropTypes.array.isRequired,
-    updateDataForSubmit: PropTypes.func.isRequired
+    updateDataForSubmit: PropTypes.func.isRequired,
   }
 
   render() {
@@ -45,7 +45,7 @@ export default class UserSearchForm extends React.PureComponent {
             onSelect={value =>
               this.props.updateDataForSubmit({
                 name: 'selectedUserID',
-                value: value
+                value: value,
               })
             }
             showSearch
@@ -68,7 +68,7 @@ export default class UserSearchForm extends React.PureComponent {
                       style={{
                         backgroundColor:
                           BACKGROUND_COLORS[index % BACKGROUND_COLORS.length],
-                        marginTop: 5
+                        marginTop: 5,
                       }}
                     />
                   }
@@ -87,7 +87,7 @@ export default class UserSearchForm extends React.PureComponent {
             onSelect={value =>
               this.props.updateDataForSubmit({
                 name: 'selectedRoleID',
-                value: value
+                value: value,
               })
             }
             showSearch

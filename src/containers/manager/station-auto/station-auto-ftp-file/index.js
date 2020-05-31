@@ -12,13 +12,13 @@ import FtpApi from 'api/FtpApi'
 import moment from 'moment-timezone'
 
 @createManagerEdit({
-  apiGetByKey: StationAutoApi.getStationAuto
+  apiGetByKey: StationAutoApi.getStationAuto,
 })
 @autobind
 export default class StationAutoFtpFile extends React.PureComponent {
   static propTypes = {
     getItem: PropTypes.func,
-    isLoaded: PropTypes.bool
+    isLoaded: PropTypes.bool,
   }
 
   constructor(props) {
@@ -32,9 +32,9 @@ export default class StationAutoFtpFile extends React.PureComponent {
       isFullPath: false,
       pagination: {
         page: 1,
-        itemPerPage: 10
+        itemPerPage: 10,
       },
-      breadcrumb: ['list']
+      breadcrumb: ['list'],
     }
   }
 
@@ -53,10 +53,10 @@ export default class StationAutoFtpFile extends React.PureComponent {
                 slug.stationAuto.configConnection.ftp +
                 '/' +
                 this.props.data._id,
-              path: this.props.data.configLogger.path
-            }
+              path: this.props.data.configLogger.path,
+            },
           ],
-          path: this.props.data.configLogger.path
+          path: this.props.data.configLogger.path,
         },
         () => {
           this.fetchData()
@@ -75,20 +75,20 @@ export default class StationAutoFtpFile extends React.PureComponent {
               index +
               1}
           </strong>
-        )
+        ),
       },
       {
-        content: this.renderFileName(row)
+        content: this.renderFileName(row),
       },
       {
-        content: row.isDirectory ? 'Folder' : 'File'
+        content: row.isDirectory ? 'Folder' : 'File',
       },
       {
-        content: <div>{moment(row.mtime).format('YYYY/MM/DD HH:mm')}</div>
+        content: <div>{moment(row.mtime).format('YYYY/MM/DD HH:mm')}</div>,
       },
       {
-        content: <div>{Math.round(row.size / 10, 24) / 100 + ' Mb'}</div>
-      }
+        content: <div>{Math.round(row.size / 10, 24) / 100 + ' Mb'}</div>,
+      },
     ])
     if (!this.state.isFirstDirectory && this.state.breadcrumb.length > 2) {
       const backDirectory = [
@@ -102,8 +102,8 @@ export default class StationAutoFtpFile extends React.PureComponent {
               />{' '}
               ...
             </div>
-          )
-        }
+          ),
+        },
       ]
       data = [backDirectory, ...data]
     }
@@ -120,8 +120,8 @@ export default class StationAutoFtpFile extends React.PureComponent {
         isFullPath: isFullPath,
         pagination: {
           page: 1,
-          itemPerPage: 10
-        }
+          itemPerPage: 10,
+        },
       },
       () => {
         this.fetchData()
@@ -136,7 +136,7 @@ export default class StationAutoFtpFile extends React.PureComponent {
         style={{
           color: isTxtFile ? 'blue' : 'black',
           textDecoration: isTxtFile ? 'underline' : 'auto',
-          cursor: isTxtFile || row.isDirectory ? 'pointer' : 'auto'
+          cursor: isTxtFile || row.isDirectory ? 'pointer' : 'auto',
         }}
         onClick={() => {
           if (isTxtFile) this.infoModal(row.path)
@@ -145,10 +145,10 @@ export default class StationAutoFtpFile extends React.PureComponent {
               {
                 pagination: {
                   ...this.state.pagination,
-                  page: 1
+                  page: 1,
                 },
                 path: row.path,
-                isFullPath: true
+                isFullPath: true,
               },
               () => {
                 this.fetchData()
@@ -164,9 +164,9 @@ export default class StationAutoFtpFile extends React.PureComponent {
                         slug.stationAuto.ftpFileWithKey +
                         '/' +
                         this.props.data._id,
-                      path: row.path
-                    }
-                  ]
+                      path: row.path,
+                    },
+                  ],
                 })
               }
             )
@@ -189,7 +189,7 @@ export default class StationAutoFtpFile extends React.PureComponent {
       { content: t('stationAutoManager.ftpFile.kind'), width: 30 },
       { content: t('stationAutoManager.ftpFile.modifiedDate'), width: 30 },
       { content: t('stationAutoManager.ftpFile.size'), width: 30 },
-      { content: '', width: 20 }
+      { content: '', width: 20 },
     ]
   }
 
@@ -198,14 +198,14 @@ export default class StationAutoFtpFile extends React.PureComponent {
     if (res.success) {
       this.setState(
         {
-          content: res.data
+          content: res.data,
         },
         () => {
           Modal.info({
             title: 'FTP File',
             content: this.showContentFtpFile(res.data),
             onOk() {},
-            width: 500
+            width: 500,
           })
         }
       )
@@ -248,8 +248,8 @@ export default class StationAutoFtpFile extends React.PureComponent {
         pagination: {
           ...this.state.pagination,
           page: page,
-          current: page
-        }
+          current: page,
+        },
       },
       () => {
         this.fetchData()
@@ -259,17 +259,17 @@ export default class StationAutoFtpFile extends React.PureComponent {
 
   async fetchData() {
     this.setState({
-      isLoading: true
+      isLoading: true,
     })
     const res = await FtpApi.getFtpFiles(this.state.pagination, {
       path: this.state.path,
-      isFullPath: this.state.isFullPath
+      isFullPath: this.state.isFullPath,
     })
     if (res.success)
       this.setState({
         dataSource: res.data,
         pagination: res.pagination,
-        isLoading: false
+        isLoading: false,
       })
   }
 
@@ -283,7 +283,7 @@ export default class StationAutoFtpFile extends React.PureComponent {
               isFixedSize
               isLoading={this.state.isLoading}
               paginationOptions={{
-                isSticky: true
+                isSticky: true,
               }}
               head={this.getHead()}
               rows={this.getRows()}

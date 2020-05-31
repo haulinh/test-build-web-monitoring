@@ -19,10 +19,10 @@ import * as _ from 'lodash'
 
 @protectRole(ROLE.MEASURING.VIEW)
 @createManagerList({
-  apiList: CategoryApi.getMeasurings
+  apiList: CategoryApi.getMeasurings,
 })
 @createManagerDelete({
-  apiDelete: CategoryApi.deleteMeasuring
+  apiDelete: CategoryApi.deleteMeasuring,
 })
 @createLanguage
 @autobind
@@ -35,22 +35,22 @@ export default class MeasuringList extends React.Component {
     onChangePageSize: PropTypes.func,
     onDeleteItem: PropTypes.func,
     fetchData: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   state = {
-    isAdvanced: false
+    isAdvanced: false,
   }
 
   toggleAdvanced() {
     this.setState({
-      isAdvanced: !this.state.isAdvanced
+      isAdvanced: !this.state.isAdvanced,
     })
   }
 
   buttonAdd() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return (
       <div>
@@ -67,7 +67,7 @@ export default class MeasuringList extends React.Component {
 
   getHead() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return [
       // { content: '#', width: 2 },
@@ -79,13 +79,13 @@ export default class MeasuringList extends React.Component {
       { content: t('measuringManager.form.key.label'), width: 30 },
       { content: t('measuringManager.form.name.label'), width: 10 },
       { content: t('measuringManager.form.unit.label'), width: 10 },
-      { content: t('measuringManager.form.action.label'), width: 10 }
+      { content: t('measuringManager.form.action.label'), width: 10 },
     ]
   }
 
   getRows() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return _.get(this.props, 'dataSource', []).map((row, index) => [
       {
@@ -96,16 +96,16 @@ export default class MeasuringList extends React.Component {
               index +
               1}
           </strong>
-        )
+        ),
       },
       {
-        content: row.key
+        content: row.key,
       },
       {
-        content: row.name
+        content: row.name,
       },
       {
-        content: row.unit
+        content: row.unit,
       },
       {
         content: (
@@ -127,8 +127,8 @@ export default class MeasuringList extends React.Component {
               </a>
             )}
           </span>
-        )
-      }
+        ),
+      },
     ])
   }
 
@@ -168,7 +168,7 @@ export default class MeasuringList extends React.Component {
           rows={this.getRows()}
           head={this.getHead()}
           paginationOptions={{
-            isSticky: true
+            isSticky: true,
           }}
           onSetPage={this.props.onChangePage}
           pagination={this.props.pagination}

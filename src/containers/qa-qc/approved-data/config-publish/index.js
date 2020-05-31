@@ -38,7 +38,7 @@ export default class ConfigPublishContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      list: []
+      list: [],
     }
     this.columns = [
       {
@@ -52,13 +52,13 @@ export default class ConfigPublishContainer extends React.Component {
             defaultChecked={_.get(value, ['published', 'allowed'])}
             onChange={checked => this.handleStationPublish(record._id, checked)}
           />
-        ) // "allowed" : false
+        ), // "allowed" : false
       },
       {
         title: translate('qaqc.configPublish.stationName'),
         dataIndex: 'name',
         key: 'name',
-        align: 'left'
+        align: 'left',
       },
       {
         title: translate('qaqc.configPublish.measurePublish'),
@@ -68,7 +68,7 @@ export default class ConfigPublishContainer extends React.Component {
         render: (value, record, index) => {
           const options = _.map(value, ({ key, name }) => ({
             label: name,
-            value: key
+            value: key,
           }))
           const defaultValue = _.get(
             record,
@@ -82,8 +82,8 @@ export default class ConfigPublishContainer extends React.Component {
               onChange={option => this.handleOptionChange(record._id, option)}
             />
           )
-        }
-      }
+        },
+      },
     ]
   }
 

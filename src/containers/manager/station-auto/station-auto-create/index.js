@@ -34,7 +34,7 @@ const i18n = {
   text: translate('stationAutoManager.create.modal.text'),
   text1: translate('stationAutoManager.create.modal.text1'),
   text2: translate('stationAutoManager.create.modal.text2'),
-  text3: translate('stationAutoManager.create.modal.text3')
+  text3: translate('stationAutoManager.create.modal.text3'),
 }
 
 @protectRole(ROLE.STATION_AUTO.CREATE)
@@ -44,12 +44,12 @@ const i18n = {
     'auth.userInfo.organization.license.totalStation',
     0
   ),
-  totalStationActived: _.get(state, 'stationAuto.totalStationActived', 0)
+  totalStationActived: _.get(state, 'stationAuto.totalStationActived', 0),
 }))
 @autobind
 export default class StationAutoCreate extends React.PureComponent {
   state = {
-    isLicense: false
+    isLicense: false,
   }
 
   async handleSubmit(data) {
@@ -74,7 +74,7 @@ export default class StationAutoCreate extends React.PureComponent {
     const { totalStation, totalStationActived } = this.props
     if (totalStationActived >= totalStation) {
       this.setState({
-        isLicense: true
+        isLicense: true,
       })
     }
   }
@@ -102,13 +102,13 @@ export default class StationAutoCreate extends React.PureComponent {
           footer={[
             <Button key="back" type="primary" onClick={this.hanldeClose}>
               {i18n.back}
-            </Button>
+            </Button>,
           ]}
         >
           <Text type="secondary">
             {' '}
             {translate('stationAutoManager.create.modal.text', {
-              total: limitTotalStation
+              total: limitTotalStation,
             })}
           </Text>
           <br />
@@ -118,7 +118,7 @@ export default class StationAutoCreate extends React.PureComponent {
             <Text
               style={{
                 color: SHAPE.PRIMARY,
-                fontWeight: 'bold'
+                fontWeight: 'bold',
               }}
             >
               {i18n.text1}
@@ -129,7 +129,7 @@ export default class StationAutoCreate extends React.PureComponent {
             </Text>
             <Text
               style={{
-                color: SHAPE.PRIMARY
+                color: SHAPE.PRIMARY,
               }}
             >
               {PHONE}
@@ -140,7 +140,7 @@ export default class StationAutoCreate extends React.PureComponent {
             </Text>
             <Text
               style={{
-                color: SHAPE.PRIMARY
+                color: SHAPE.PRIMARY,
               }}
             >
               {EMAIL}

@@ -7,24 +7,24 @@ import createLoader from 'hoc/content-loader'
 
 const ListLoader = createLoader({
   component: <ListLoaderCp />,
-  items: 1
+  items: 1,
 })(null)
 
 export default function createChartAutoResize(Component) {
   @connect(state => ({
-    navigationIsOpen: state.theme.navigation.isOpen
+    navigationIsOpen: state.theme.navigation.isOpen,
   }))
   @withSizes(({ width }) => ({
-    width
+    width,
   }))
   class ChartAutoResize extends React.Component {
     static propTypes = {
       navigationIsOpen: PropTypes.bool,
-      width: PropTypes.number
+      width: PropTypes.number,
     }
 
     state = {
-      isShow: true
+      isShow: true,
     }
 
     componentWillReceiveProps(nextProps) {
@@ -36,12 +36,12 @@ export default function createChartAutoResize(Component) {
         this.block = true
         this.setState(
           {
-            isShow: false
+            isShow: false,
           },
           () => {
             setTimeout(() => {
               this.setState({
-                isShow: true
+                isShow: true,
               })
               this.block = false
             }, 1000)

@@ -34,7 +34,7 @@ export default class TabeList extends React.PureComponent {
     onChangePage: PropTypes.func,
     onExportExcel: PropTypes.func,
     nameChart: PropTypes.string,
-    isExporting: PropTypes.bool
+    isExporting: PropTypes.bool,
   }
 
   render() {

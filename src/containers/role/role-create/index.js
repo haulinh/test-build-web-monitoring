@@ -20,19 +20,19 @@ export default class RoleCreate extends PureComponent {
     const data = {
       name: values.name,
       description: values.description,
-      menu: values.menu[0]
+      menu: values.menu[0],
     }
     const record = await RoleApi.createRole(data)
     if (record.error) {
       swal({
         title: 'Error',
         type: 'error',
-        text: record.message
+        text: record.message,
       })
     } else {
       swal({
         title: 'success',
-        type: 'success'
+        type: 'success',
       }).then(() => {
         this.props.history.push(slug.role.base)
       })

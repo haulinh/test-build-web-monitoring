@@ -13,7 +13,7 @@ const SidebarListWrapper = styled.div`
 @autobind
 export default class SidebarList extends React.PureComponent {
   static propTypes = {
-    onClickNotificationItem: PropTypes.func
+    onClickNotificationItem: PropTypes.func,
   }
 
   render() {

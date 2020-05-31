@@ -1,17 +1,17 @@
 import {
   TOGGLE_NAVIGATION,
   SELECT_MENU,
-  CHANGE_OPEN_SUBMENU
+  CHANGE_OPEN_SUBMENU,
 } from '../actions/themeAction'
 import update from 'react-addons-update'
 import { setToggleNavigation, getToggleNavigation } from 'utils/localStorage'
 
 const initialState = {
   navigation: {
-    isOpen: getToggleNavigation()
+    isOpen: getToggleNavigation(),
   },
   menuSelected: '/',
-  openSubMenu: ['monitoring']
+  openSubMenu: ['monitoring'],
 }
 
 export default function createReducer(state = initialState, action) {
@@ -21,21 +21,21 @@ export default function createReducer(state = initialState, action) {
       return update(state, {
         navigation: {
           isOpen: {
-            $set: action.isOpen
-          }
-        }
+            $set: action.isOpen,
+          },
+        },
       })
     case SELECT_MENU:
       return update(state, {
         menuSelected: {
-          $set: action.payload
-        }
+          $set: action.payload,
+        },
       })
     case CHANGE_OPEN_SUBMENU:
       return update(state, {
         openSubMenu: {
-          $set: action.payload
-        }
+          $set: action.payload,
+        },
       })
     default:
       return state
