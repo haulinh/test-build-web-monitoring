@@ -7,78 +7,78 @@ export default createBreadcrumb({
     id: 'type1',
     // icon: '',
     href: slug.report.type1,
-    name: translate('menuApp.reportBreadcrum.type1')
+    name: translate('menuApp.reportBreadcrum.type1'),
   },
   type2: {
     id: 'type2',
     // icon: '',
     href: slug.report.type2,
-    name: translate('menuApp.reportBreadcrum.type2')
+    name: translate('menuApp.reportBreadcrum.type2'),
   },
   type3: {
     id: 'type3',
     // icon: '',
     href: slug.report.type3,
-    name: translate('menuApp.reportBreadcrum.type3')
+    name: translate('menuApp.reportBreadcrum.type3'),
   },
   type4: {
     id: 'type4',
     // icon: '',
     href: slug.report.type4,
-    name: translate('menuApp.reportBreadcrum.type4')
+    name: translate('menuApp.reportBreadcrum.type4'),
   },
   type5: {
     id: 'type5',
     // icon: '',
     href: slug.report.type5,
-    name: translate('menuApp.reportBreadcrum.type5')
+    name: translate('menuApp.reportBreadcrum.type5'),
   },
   type6: {
     id: 'type6',
     // icon: '',
     href: slug.report.type6,
-    name: translate('menuApp.reportBreadcrum.type6')
+    name: translate('menuApp.reportBreadcrum.type6'),
   },
   type7: {
     id: 'type7',
     // icon: '',
     href: slug.report.type7,
-    name: translate('menuApp.reportBreadcrum.type7')
+    name: translate('menuApp.reportBreadcrum.type7'),
   },
   type8: {
     id: 'type8',
     // icon: '',
     href: slug.report.type8,
-    name: translate('menuApp.reportBreadcrum.type8')
+    name: translate('menuApp.reportBreadcrum.type8'),
   },
   type9: {
     id: 'type9',
     // icon: '',
     href: slug.report.type9,
-    name: translate('menuApp.reportBreadcrum.type9')
+    name: translate('menuApp.reportBreadcrum.type9'),
   },
   type10: {
     id: 'type10',
     // icon: '',
     href: slug.report.type10,
-    name: translate('menuApp.reportBreadcrum.type10')
+    name: translate('menuApp.reportBreadcrum.type10'),
   },
   type11: {
     id: 'type11',
     // icon: '',
     href: slug.report.type11,
-    name: translate('menuApp.reportBreadcrum.type11')
+    name: translate('menuApp.reportBreadcrum.type11'),
   },
   type12: {
     id: 'type12',
     // icon: '',
     href: slug.report.type12,
-    name: translate('menuApp.reportBreadcrum.type12')
+    name: translate('menuApp.reportBreadcrum.type12'),
   },
   status_data: {
     id: 'status_data',
     // icon: '',
     href: slug.report.status_data,
-    name: translate('menuApp.reportBreadcrum.status_data')
-  }
+    name: translate('menuApp.reportBreadcrum.status_data'),
+  },
 })

@@ -5,7 +5,7 @@ import { translate } from 'hoc/create-lang'
 
 const i18n = {
   submitError: translate('addon.onSave.update.error'),
-  submitSuccess: translate('addon.onSave.update.success')
+  submitSuccess: translate('addon.onSave.update.success'),
 }
 
 export const CONFIGS = {
@@ -13,7 +13,7 @@ export const CONFIGS = {
   UPDATE_WARNING_LEVELS_COLOR_DATA:
     'CATEGORY / UPDATE_WARNING_LEVELS_COLOR_DATA',
   UPDATE_WARNING_LEVELS_COLOR_SENSOR:
-    'CATEGORY / UPDATE_WARNING_LEVELS_COLOR_SENSOR'
+    'CATEGORY / UPDATE_WARNING_LEVELS_COLOR_SENSOR',
 }
 
 export function getWarningLevelColors() {
@@ -22,7 +22,7 @@ export function getWarningLevelColors() {
     if (res.success) {
       dispatch({
         type: CONFIGS.GET_WARNING_LEVELS_COLOR,
-        payload: res.value
+        payload: res.value,
       })
     }
     return res
@@ -36,7 +36,7 @@ export function updateWarningLevelColorData(id, data) {
       if (res.success) {
         dispatch({
           type: CONFIGS.UPDATE_WARNING_LEVELS_COLOR_DATA,
-          payload: res.data
+          payload: res.data,
         })
       }
       message.success(i18n.submitSuccess)
@@ -54,7 +54,7 @@ export function updateWarningLevelColorSensor(id, data) {
       if (res.success) {
         dispatch({
           type: CONFIGS.UPDATE_WARNING_LEVELS_COLOR_SENSOR,
-          payload: res.data
+          payload: res.data,
         })
         message.success(i18n.submitSuccess)
       }

@@ -7,7 +7,7 @@ const createManagerCreate = ({ apiCreate }) => Component => {
   @autobind
   class ManagerCreateHoc extends React.Component {
     static propTypes = {
-      lang: langPropTypes
+      lang: langPropTypes,
     }
     async createItem(data, callback) {
       const res = await apiCreate(data)
@@ -15,7 +15,7 @@ const createManagerCreate = ({ apiCreate }) => Component => {
     }
     render() {
       const props = {
-        onCreateItem: this.createItem
+        onCreateItem: this.createItem,
       }
       return <Component {...this.props} {...props} />
     }

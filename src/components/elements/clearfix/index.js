@@ -7,6 +7,6 @@ const Clearfix = styled.div`
 `
 Clearfix.propTypes = {
   width: PropTypes.number,
-  height: PropTypes.number
+  height: PropTypes.number,
 }
 export default Clearfix

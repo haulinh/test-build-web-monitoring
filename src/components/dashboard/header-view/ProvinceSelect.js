@@ -34,12 +34,12 @@ export default class ProvinceSelect extends PureComponent {
   static propTypes = {
     query: PropTypes.object,
     label: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   }
 
   state = {
     provinceList: [],
-    data: {}
+    data: {},
   }
 
   handerOnChange = value => {

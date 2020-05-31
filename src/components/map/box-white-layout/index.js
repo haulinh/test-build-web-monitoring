@@ -25,7 +25,7 @@ export default class BoxWhiteLayout extends React.PureComponent {
     onlyTitle: PropTypes.bool,
     noPadding: PropTypes.bool,
     noTitlePadding: PropTypes.bool,
-    containerStyle: PropTypes.object
+    containerStyle: PropTypes.object,
   }
   render() {
     return (

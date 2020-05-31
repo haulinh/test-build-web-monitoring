@@ -7,7 +7,7 @@ import createLanguageHoc, { translate } from 'hoc/create-lang'
 import organizationAPI from 'api/OrganizationApi'
 const FormItem = Form.Item
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -15,7 +15,7 @@ export default class OptionModalConfig extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      organization: {}
+      organization: {},
     }
   }
 
@@ -31,7 +31,7 @@ export default class OptionModalConfig extends React.Component {
 
   updateData = async transferFtpInfo => {
     const rs = await organizationAPI.updatetransferFtpInfo(this.props._id, {
-      transferFtpInfo
+      transferFtpInfo,
     })
     if (rs.success) {
       message.info(translate('ftpTranfer.success'))
@@ -53,9 +53,9 @@ export default class OptionModalConfig extends React.Component {
             rules: [
               {
                 required: true,
-                message: translate('ftpTranfer.formInFoFTP.ipAddress.message')
-              }
-            ]
+                message: translate('ftpTranfer.formInFoFTP.ipAddress.message'),
+              },
+            ],
           })(
             <Input
               placeholder={translate('ftpTranfer.formInFoFTP.ipAddress.title')}
@@ -70,10 +70,10 @@ export default class OptionModalConfig extends React.Component {
             rules: [
               {
                 required: true,
-                message: translate('ftpTranfer.formInFoFTP.port.message')
-              }
+                message: translate('ftpTranfer.formInFoFTP.port.message'),
+              },
             ],
-            initialValue: _.get(this.props, 'transferFtpInfo.port', '')
+            initialValue: _.get(this.props, 'transferFtpInfo.port', ''),
           })(
             <Input
               placeholder={translate('ftpTranfer.formInFoFTP.port.title')}
@@ -86,10 +86,10 @@ export default class OptionModalConfig extends React.Component {
             rules: [
               {
                 required: true,
-                message: translate('ftpTranfer.formInFoFTP.user.message')
-              }
+                message: translate('ftpTranfer.formInFoFTP.user.message'),
+              },
             ],
-            initialValue: _.get(this.props, 'transferFtpInfo.user', '')
+            initialValue: _.get(this.props, 'transferFtpInfo.user', ''),
           })(
             <Input
               placeholder={translate('ftpTranfer.formInFoFTP.user.title')}
@@ -102,10 +102,10 @@ export default class OptionModalConfig extends React.Component {
             rules: [
               {
                 required: true,
-                message: translate('ftpTranfer.formInFoFTP.pass.message')
-              }
+                message: translate('ftpTranfer.formInFoFTP.pass.message'),
+              },
             ],
-            initialValue: _.get(this.props, 'transferFtpInfo.pass', '')
+            initialValue: _.get(this.props, 'transferFtpInfo.pass', ''),
           })(
             <Input
               placeholder={translate('ftpTranfer.formInFoFTP.pass.title')}

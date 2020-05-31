@@ -11,7 +11,7 @@ import {
   YAxis,
   LineSeries,
   Tooltip,
-  RangeSelector
+  RangeSelector,
 } from 'react-jsx-highstock'
 import PropTypes from 'prop-types'
 import Highcharts from 'highcharts/highstock'
@@ -40,11 +40,11 @@ export class TabChart extends React.PureComponent {
     getChart: PropTypes.func,
     dataStationAuto: PropTypes.array,
     measuringData: PropTypes.array,
-    nameChart: PropTypes.string
+    nameChart: PropTypes.string,
   }
   state = {
     isRendered: false,
-    width: 0
+    width: 0,
   }
 
   getDataSort() {
@@ -61,7 +61,7 @@ export class TabChart extends React.PureComponent {
           return [
             new Date(stationAuto.receivedAt).getTime() -
               new Date().getTimezoneOffset() * 60000,
-            stationAuto.measuringLogs[measuringKey].value
+            stationAuto.measuringLogs[measuringKey].value,
           ]
         }
         return null
@@ -73,7 +73,7 @@ export class TabChart extends React.PureComponent {
     return this.props.measuringData.map(measuring => {
       return {
         ...measuring,
-        data: this.getDataForMeasuring(measuring.key)
+        data: this.getDataForMeasuring(measuring.key),
       }
     })
   }
@@ -84,7 +84,7 @@ export class TabChart extends React.PureComponent {
 
   componentDidMount() {
     this.setState({
-      width: this.chartWrapper.offsetWidth
+      width: this.chartWrapper.offsetWidth,
     })
   }
 

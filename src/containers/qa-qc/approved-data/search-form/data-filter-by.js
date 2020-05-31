@@ -8,18 +8,18 @@ const CheckboxGroup = Checkbox.Group
 const stationOptions = [
   { label: translate('qaqc.dataFilter.negative'), value: 'nagative' },
   { label: translate('qaqc.dataFilter.isZero'), value: 'zero' },
-  { label: translate('qaqc.dataFilter.outOfRange'), value: 'out' }
+  { label: translate('qaqc.dataFilter.outOfRange'), value: 'out' },
 ]
 
 @autobind
 export default class DataFilterByView extends PureComponent {
   state = {
-    value: null
+    value: null,
   }
 
   onChange = value => {
     this.setState({
-      value
+      value,
     })
     if (this.props.onChange) this.props.onChange(value)
   }

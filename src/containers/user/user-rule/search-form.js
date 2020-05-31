@@ -17,12 +17,12 @@ const i18n = {
   selectRoleGroup: translate('userManager.form.placeholder.selectRoleGroup'),
   create: translate('addon.create'),
   error: translate('addon.error'),
-  roleAssign: translate('userManager.list.roleAssign')
+  roleAssign: translate('userManager.list.roleAssign'),
 }
 
 const formFields = {
   selectUser: 'selectUser',
-  selectRole: 'selectRole'
+  selectRole: 'selectRole',
 }
 
 const BACKGROUND_COLORS = [
@@ -30,7 +30,7 @@ const BACKGROUND_COLORS = [
   '#f56a00',
   '#7265e6',
   '#ffbf00',
-  '#00a2ae'
+  '#00a2ae',
 ]
 
 @Form.create()
@@ -38,7 +38,7 @@ const BACKGROUND_COLORS = [
 export default class UserSearchForm extends React.PureComponent {
   static propTypes = {
     getRef: PropTypes.func,
-    updateDataForSubmit: PropTypes.func.isRequired
+    updateDataForSubmit: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -47,7 +47,7 @@ export default class UserSearchForm extends React.PureComponent {
     isGettingUsers: false,
     isGettingRoles: false,
     dataSourceUsers: [],
-    dataSourceRoles: []
+    dataSourceRoles: [],
   }
 
   componentDidMount() {
@@ -88,7 +88,7 @@ export default class UserSearchForm extends React.PureComponent {
                         style={{
                           backgroundColor:
                             BACKGROUND_COLORS[index % BACKGROUND_COLORS.length],
-                          marginTop: 5
+                          marginTop: 5,
                         }}
                       />
                     }
@@ -128,7 +128,7 @@ export default class UserSearchForm extends React.PureComponent {
   componentDidCatch() {
     swal({
       title: i18n.error,
-      type: 'error'
+      type: 'error',
     })
   }
 
@@ -149,7 +149,7 @@ export default class UserSearchForm extends React.PureComponent {
     let role = _.get(user, 'role') || {}
     if (role._id) {
       this.props.form.setFieldsValue({
-        [formFields.selectRole]: role._id
+        [formFields.selectRole]: role._id,
       })
     }
 
@@ -165,14 +165,14 @@ export default class UserSearchForm extends React.PureComponent {
   /* NOTE */
   async getUsers() {
     this.setState({
-      isGettingUsers: true
+      isGettingUsers: true,
     })
 
     let resUsers = await UserApi.searchUser()
 
     this.setState({
       isGettingUsers: false,
-      dataSourceUsers: _.get(resUsers, 'data', [])
+      dataSourceUsers: _.get(resUsers, 'data', []),
     })
   }
 
@@ -184,14 +184,14 @@ export default class UserSearchForm extends React.PureComponent {
   /* NOTE */
   async getRoles() {
     this.setState({
-      isGettingRoles: true
+      isGettingRoles: true,
     })
 
     let resRoles = await RoleApi.getRoles()
 
     this.setState({
       isGettingRoles: false,
-      dataSourceRoles: _.get(resRoles, 'data', [])
+      dataSourceRoles: _.get(resRoles, 'data', []),
     })
   }
 }

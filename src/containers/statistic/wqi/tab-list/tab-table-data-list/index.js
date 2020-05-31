@@ -9,7 +9,7 @@ import * as _ from 'lodash'
 export default class TableDataList extends React.PureComponent {
   static propTypes = {
     dataWQI: PropTypes.array,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
   }
 
   getColumns() {
@@ -21,12 +21,12 @@ export default class TableDataList extends React.PureComponent {
         align: 'center',
         dataIndex: ti,
         key: ti,
-        width: 50
+        width: 50,
       })
     }
     const colValue = {
       title: translate('statistic.aqi.title'),
-      children: childrenValue
+      children: childrenValue,
     }
     const columns = [
       {
@@ -37,11 +37,11 @@ export default class TableDataList extends React.PureComponent {
             align: 'center',
             dataIndex: 'label',
             key: 'timeDay',
-            width: 100
-          }
-        ]
+            width: 100,
+          },
+        ],
       },
-      colValue
+      colValue,
     ]
     return columns
   }

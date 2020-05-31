@@ -48,12 +48,12 @@ function validate(values) {
 
 @connect((state, ownProps) => ({
   initialValues: {
-    ...(ownProps.initialValues ? ownProps.initialValues : {})
-  }
+    ...(ownProps.initialValues ? ownProps.initialValues : {}),
+  },
 }))
 @reduxForm({
   form: 'dataAQISearch',
-  validate
+  validate,
 })
 @createLang
 @autobind
@@ -61,12 +61,12 @@ export default class SearchForm extends React.Component {
   static propTypes = {
     measuringData: PropTypes.array,
     searchNow: PropTypes.object,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
   }
 
   state = {
     timezoneDay: 0,
-    timezoneTo: ''
+    timezoneTo: '',
   }
 
   constructor(props) {
@@ -77,7 +77,7 @@ export default class SearchForm extends React.Component {
       stationID: null,
       fromDate: props.initialValues.fromDate,
       toDate: props.initialValues.toDate,
-      isTimezoneDay: false
+      isTimezoneDay: false,
     }
   }
 
@@ -93,7 +93,7 @@ export default class SearchForm extends React.Component {
     this.setState({
       stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
       stationKey: '',
-      stationID: ''
+      stationID: '',
     })
     // this.props.change('station', '')
   }
@@ -103,7 +103,7 @@ export default class SearchForm extends React.Component {
 
     // console.log("select", listId)
     const params = {
-      stationID: listId
+      stationID: listId,
     }
     this.setState(params)
   }
@@ -117,7 +117,7 @@ export default class SearchForm extends React.Component {
       key: values.station,
       name: this.state.stationName,
       stationID: this.state.stationID,
-      timezoneDay: this.state.timezoneDay
+      timezoneDay: this.state.timezoneDay,
     })
   }
 
@@ -128,7 +128,7 @@ export default class SearchForm extends React.Component {
   handleProvinceChange = province => {
     this.setState({
       provinceKey: province ? province.key : undefined,
-      stationKey: ''
+      stationKey: '',
     })
 
     this.props.change('station', '')
@@ -147,7 +147,7 @@ export default class SearchForm extends React.Component {
     this.setState({
       fromDate: fromTime,
       toDate: toTime,
-      isTimezoneDay: false
+      isTimezoneDay: false,
     })
   }
   hanldeOnchangeFramTime = (time, timeString) => {
@@ -157,7 +157,7 @@ export default class SearchForm extends React.Component {
     // console.log(to,  'hanldeOnchangeFramTime')
     this.setState({
       timezoneTo: to,
-      timezoneDay: moment(time).format('HH')
+      timezoneDay: moment(time).format('HH'),
     })
   }
 

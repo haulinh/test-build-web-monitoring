@@ -23,16 +23,16 @@ export default class SidebarList extends React.PureComponent {
   static propTypes = {
     stationsAuto: PropTypes.arrayOf(
       PropTypes.shape({
-        name: PropTypes.string
+        name: PropTypes.string,
       })
     ),
     stationSelected: PropTypes.object,
-    onSelectStation: PropTypes.func
+    onSelectStation: PropTypes.func,
   }
 
   state = {
     stationType: '',
-    filterText: ''
+    filterText: '',
   }
 
   async componentDidMount() {
@@ -80,7 +80,7 @@ export default class SidebarList extends React.PureComponent {
     return Object.keys(groupStationAutoObject).map(stationType => {
       return {
         stationType: stationType,
-        stations: groupStationAutoObject[stationType]
+        stations: groupStationAutoObject[stationType],
       }
     })
   }
@@ -101,7 +101,7 @@ export default class SidebarList extends React.PureComponent {
         containerStyle={{
           display: 'flex',
           flexDirection: 'column',
-          padding: '8px 8px'
+          padding: '8px 8px',
         }}
       >
         <Input.Search

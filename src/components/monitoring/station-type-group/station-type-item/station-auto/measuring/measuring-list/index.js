@@ -19,7 +19,7 @@ const MeasuringItemWrapper = styled.div`
 `
 
 @connect(state => ({
-  navigationIsOpen: state.theme.navigation.isOpen
+  navigationIsOpen: state.theme.navigation.isOpen,
 }))
 @autobind
 export default class MeasuringList extends React.PureComponent {
@@ -27,7 +27,7 @@ export default class MeasuringList extends React.PureComponent {
     data: PropTypes.array,
     onClickItem: PropTypes.func,
     statusStation: PropTypes.string,
-    receivedAt: PropTypes.string.isRequired
+    receivedAt: PropTypes.string.isRequired,
   }
   render() {
     return (

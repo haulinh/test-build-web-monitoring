@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 // import axios from 'axios'
 
 @connect(state => ({
-  token: state.auth.token
+  token: state.auth.token,
 }))
 export default class ReportType1 extends React.Component {
   constructor(props) {

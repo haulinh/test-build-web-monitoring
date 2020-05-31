@@ -14,7 +14,7 @@ export const EditableFormRow = Form.create()(EditableRow)
 
 export class EditableCell extends React.Component {
   state = {
-    editing: false
+    editing: false,
   }
 
   componentDidMount() {
@@ -86,14 +86,14 @@ export class EditableCell extends React.Component {
                     rules: [
                       {
                         required: true,
-                        message: `${title} is required.`
-                      }
+                        message: `${title} is required.`,
+                      },
                     ],
                     initialValue: _.get(
                       record,
                       `${dataIndex}.${field || 'value'}`,
                       ''
-                    )
+                    ),
                   })(
                     <Input
                       style={{ textAlign: 'right' }}

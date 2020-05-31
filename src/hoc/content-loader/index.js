@@ -51,7 +51,7 @@ const createContentLoader = ({
   items,
   propName = 'placeholder',
   colSize = 12,
-  type = 'row'
+  type = 'row',
 }) => Component => {
   return class SliderContentLoader extends React.PureComponent {
     getColSize() {
@@ -64,8 +64,8 @@ const createContentLoader = ({
         newItems = [
           ...newItems,
           {
-            key: i
-          }
+            key: i,
+          },
         ]
       }
       return newItems
@@ -87,7 +87,7 @@ const createContentLoader = ({
     render() {
       const props = {
         [propName]: this.getPlaceholderComponent(),
-        ...this.props
+        ...this.props,
       }
       if (Component) {
         return <Component {...props} />

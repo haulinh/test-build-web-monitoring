@@ -18,13 +18,13 @@ import * as _ from 'lodash'
 
 @protectRole(ROLE.PROVINCE.VIEW)
 @createManagerList({
-  apiList: ProvinceApi.getProvices
+  apiList: ProvinceApi.getProvices,
 })
 @createManagerDelete({
-  apiDelete: ProvinceApi.deleteProvince
+  apiDelete: ProvinceApi.deleteProvince,
 })
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -39,7 +39,7 @@ export default class ProvinceList extends React.Component {
     fetchData: PropTypes.func,
     onChangeSearch: PropTypes.func,
     data: PropTypes.object,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   buttonAdd() {
@@ -63,12 +63,12 @@ export default class ProvinceList extends React.Component {
       { content: '#', width: 2 },
       { content: t('province.form.key.label'), width: 15 },
       { content: t('province.form.name.label'), width: 15 },
-      { content: t('province.form.action'), width: 15 }
+      { content: t('province.form.action'), width: 15 },
     ]
   }
   getRows() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return _.get(this.props, 'dataSource', []).map((row, index) => [
       {
@@ -79,13 +79,13 @@ export default class ProvinceList extends React.Component {
               index +
               1}
           </strong>
-        )
+        ),
       },
       {
-        content: row.key
+        content: row.key,
       },
       {
-        content: row.name
+        content: row.name,
       },
       {
         content: (
@@ -108,8 +108,8 @@ export default class ProvinceList extends React.Component {
               </a>
             )}
           </span>
-        )
-      }
+        ),
+      },
     ])
   }
   render() {
@@ -120,7 +120,7 @@ export default class ProvinceList extends React.Component {
           isFixedSize
           isLoading={this.props.isLoading}
           paginationOptions={{
-            isSticky: true
+            isSticky: true,
           }}
           head={this.getHead()}
           rows={this.getRows()}

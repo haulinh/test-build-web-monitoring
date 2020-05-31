@@ -31,8 +31,8 @@ export default class PercentReceivedDataContainer extends React.Component {
     isExporting: false,
     pagination: {
       current: 1,
-      pageSize: 50
-    }
+      pageSize: 50,
+    },
   }
 
   handleSubmitSearch(searchFormData) {
@@ -43,17 +43,17 @@ export default class PercentReceivedDataContainer extends React.Component {
   async loadData(pagination, searchFormData) {
     this.setState({
       isLoading: true,
-      isHaveData: true
+      isHaveData: true,
     })
 
     const key = searchFormData.key
     const params = {
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
-      measuringList: searchFormData.measuringList
+      measuringList: searchFormData.measuringList,
     }
     let listData = await aqiDataStationAuto.getDataStatistictExceeded(key, {
-      ...params
+      ...params,
     })
     if (
       listData &&
@@ -61,7 +61,7 @@ export default class PercentReceivedDataContainer extends React.Component {
     ) {
       swal({
         type: 'success',
-        title: translate('dataSearchFrom.table.emptyText')
+        title: translate('dataSearchFrom.table.emptyText'),
       })
     }
 
@@ -72,7 +72,7 @@ export default class PercentReceivedDataContainer extends React.Component {
       dataFrequency: searchFormData.dataFrequency,
       measuringListOrigin: searchFormData.measuringListOrigin,
       measuringList: searchFormData.measuringList,
-      stationName: searchFormData.stationName
+      stationName: searchFormData.stationName,
     })
   }
 
@@ -81,11 +81,11 @@ export default class PercentReceivedDataContainer extends React.Component {
       stationName: this.state.stationName,
       measuringListOrigin: this.state.measuringListOrigin,
       measuringList: this.state.measuringList,
-      dataExport: this.state.dataSource
+      dataExport: this.state.dataSource,
     }
     console.log(data)
     this.setState({
-      isExporting: true
+      isExporting: true,
     })
     let res = await aqiDataStationAuto.exportStatistictExceeded(
       this.state.searchFormData.key,
@@ -95,7 +95,7 @@ export default class PercentReceivedDataContainer extends React.Component {
     else message.error('Export Error') //message.error(res.message)
 
     this.setState({
-      isExporting: false
+      isExporting: false,
     })
   }
 

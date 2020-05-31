@@ -42,7 +42,7 @@ export default function UserAvatar({
   usernameSize,
   usernameColor,
   fullname,
-  isLink
+  isLink,
 }) {
   let userComponent = (
     <View className="userAvatar">
@@ -75,9 +75,9 @@ UserAvatar.propTypes = {
   avatarSize: PropTypes.number,
   usernameSize: PropTypes.number,
   fullname: PropTypes.any,
-  isLink: PropTypes.bool
+  isLink: PropTypes.bool,
 }
 UserAvatar.defaultProps = {
   avatarSize: 14,
-  usernameSize: 13
+  usernameSize: 13,
 }

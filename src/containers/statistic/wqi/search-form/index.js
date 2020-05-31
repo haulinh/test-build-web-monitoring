@@ -43,19 +43,19 @@ function validate(values) {
   initialValues: {
     fromDate: moment().subtract(7, 'days'),
     toDate: moment(),
-    ...(ownProps.initialValues ? ownProps.initialValues : {})
-  }
+    ...(ownProps.initialValues ? ownProps.initialValues : {}),
+  },
 }))
 @reduxForm({
   form: 'dataSearchForm',
-  validate
+  validate,
 })
 @createLang
 @autobind
 export default class SearchForm extends React.Component {
   static propTypes = {
     measuringData: PropTypes.array,
-    searchNow: PropTypes.bool
+    searchNow: PropTypes.bool,
   }
 
   constructor(props) {
@@ -66,7 +66,7 @@ export default class SearchForm extends React.Component {
       stationKey: props.initialValues.stationFixed,
       stationID: null,
       fromDate: props.initialValues.fromDate,
-      toDate: props.initialValues.toDate
+      toDate: props.initialValues.toDate,
     }
   }
 
@@ -82,7 +82,7 @@ export default class SearchForm extends React.Component {
     this.setState({
       stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
       stationKey: '',
-      stationID: ''
+      stationID: '',
     })
     this.props.change('station', '')
   }
@@ -92,7 +92,7 @@ export default class SearchForm extends React.Component {
       stationKey: station.key,
       stationName: station.name,
       receivedAt: moment(),
-      stationID: station._id
+      stationID: station._id,
     }
     this.setState(params)
   }
@@ -105,7 +105,7 @@ export default class SearchForm extends React.Component {
       toDate: this.state.toDate,
       key: values.station,
       name: this.state.stationName,
-      stationID: this.state.stationID
+      stationID: this.state.stationID,
     })
   }
 
@@ -116,7 +116,7 @@ export default class SearchForm extends React.Component {
   handleProvinceChange = province => {
     this.setState({
       provinceKey: province.key,
-      stationFixedKey: ''
+      stationFixedKey: '',
     })
 
     this.props.change('station', '')
@@ -127,7 +127,7 @@ export default class SearchForm extends React.Component {
     const toTime = month.endOf('months').format('YYYY-MM-DD')
     this.setState({
       fromDate: fromTime,
-      toDate: toTime
+      toDate: toTime,
     })
   }
 

@@ -27,7 +27,7 @@ const StyleWrapper = styled.div`
 `
 
 @FormStyle.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguage
 @autobind
@@ -36,7 +36,7 @@ export default class MeasuringSearchAdvancedForm extends React.PureComponent {
     onSubmit: PropTypes.func,
     initialValues: PropTypes.object,
     onChangeSearch: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   constructor(props) {
@@ -60,7 +60,7 @@ export default class MeasuringSearchAdvancedForm extends React.PureComponent {
   render() {
     const { getFieldDecorator } = this.props.form
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return (
       <Sticky>

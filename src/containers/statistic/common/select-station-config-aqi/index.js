@@ -10,12 +10,12 @@ export default class SelectStationConfigAQI extends React.Component {
   static propTypes = {
     stationTypeKey: PropTypes.string,
     onChangeObject: PropTypes.func,
-    provinceKey: PropTypes.string
+    provinceKey: PropTypes.string,
   }
 
   state = {
     isLoaded: false,
-    stationConfigSelects: []
+    stationConfigSelects: [],
   }
 
   async componentWillMount() {
@@ -25,7 +25,7 @@ export default class SelectStationConfigAQI extends React.Component {
     )
     this.setState({
       stationConfigSelects: responseStationConfig.data,
-      isLoaded: true
+      isLoaded: true,
     })
   }
 

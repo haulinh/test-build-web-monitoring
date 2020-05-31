@@ -19,5 +19,5 @@ export default {
   breadcrumbs,
   notification,
   stationAuto,
-  map
+  map,
 }

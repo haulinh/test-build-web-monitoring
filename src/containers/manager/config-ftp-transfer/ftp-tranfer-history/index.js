@@ -28,7 +28,7 @@ export default class FtpTranferHistory extends React.Component {
       isLoading: true,
       titleTab: translate('ftpTranfer.history'),
       isUploadting: false,
-      hasTranferFaild: false
+      hasTranferFaild: false,
     }
   }
 
@@ -39,7 +39,7 @@ export default class FtpTranferHistory extends React.Component {
   handleTryUploadFile = async () => {
     this.setState({
       isUploadting: true,
-      isLoading: true
+      isLoading: true,
     })
     const data = _.filter(this.state.dataSource, item => !item.isTransferred)
     const rs = await dataStationAutoApi.putDataFtpTranfer(data)
@@ -48,7 +48,7 @@ export default class FtpTranferHistory extends React.Component {
     } else {
       this.setState({
         isUploadting: false,
-        isLoading: false
+        isLoading: false,
       })
 
       message.error(translate('ftpTranfer.status.failed'))
@@ -69,7 +69,7 @@ export default class FtpTranferHistory extends React.Component {
       isLoading: false,
       titleTab: `${translate('ftpTranfer.history')} (${countTranferred}/${
         data.length
-      })`
+      })`,
     })
 
     if (isHandTryUpload) {
@@ -85,8 +85,8 @@ export default class FtpTranferHistory extends React.Component {
             'list',
             {
               id: 'history',
-              name: _.get(this.props, 'match.params.name', '')
-            }
+              name: _.get(this.props, 'match.params.name', ''),
+            },
           ]}
         />
         <TabeListWrapper>

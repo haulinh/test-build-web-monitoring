@@ -3,13 +3,13 @@ import { getAuthToken } from './auth'
 
 const getHeaders = () => {
   var headers = {
-    Accept: 'application/json'
+    Accept: 'application/json',
   }
   if (typeof localStorage !== 'undefined') {
     if (getAuthToken()) {
       headers = {
         ...headers,
-        Authorization: getAuthToken(true)
+        Authorization: getAuthToken(true),
       }
     }
   }
@@ -20,7 +20,7 @@ export function postFetch(url, data, props) {
   let attributes = Object.assign(
     {
       cache: true,
-      headers: getHeaders()
+      headers: getHeaders(),
     },
     props
   )
@@ -43,7 +43,7 @@ export function putFetch(url, data, props) {
   let attributes = Object.assign(
     {
       cache: true,
-      headers: getHeaders()
+      headers: getHeaders(),
     },
     props
   )
@@ -66,7 +66,7 @@ export function getFetch(url, data, props) {
   let attributes = Object.assign(
     {
       headers: getHeaders(),
-      params: data
+      params: data,
     },
     props
   )
@@ -87,7 +87,7 @@ export function getFetch(url, data, props) {
 export function deleteFetch(url, data, props) {
   let attributes = Object.assign(
     {
-      headers: getHeaders()
+      headers: getHeaders(),
     },
     props
   )
@@ -114,7 +114,7 @@ export function uploadMultipleFile(url, files) {
   return new Promise((resolve, reject) => {
     axios
       .create({
-        timeout: 10000
+        timeout: 10000,
       })
       .post(url, params)
       .then(result => {

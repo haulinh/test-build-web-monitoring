@@ -15,7 +15,7 @@ export default class TableDataList extends React.PureComponent {
   static propTypes = {
     measuringList: PropTypes.array,
     measuringData: PropTypes.array,
-    typeReport: PropTypes.string
+    typeReport: PropTypes.string,
   }
 
   getColumns() {
@@ -42,7 +42,7 @@ export default class TableDataList extends React.PureComponent {
       key: 'receivedAt',
       render(value, record) {
         return <div>{moment(record.date_utc).format(formatDate)}</div>
-      }
+      },
     }
     const columnsMeasurings = this.props.measuringData
       .filter(measuring => this.props.measuringList.includes(measuring.key))
@@ -53,7 +53,7 @@ export default class TableDataList extends React.PureComponent {
         align: 'right',
         render: value => {
           return <div>{getFormatNumber(value)}</div>
-        }
+        },
       }))
     return [columnReceivedAt, ...columnsMeasurings]
   }

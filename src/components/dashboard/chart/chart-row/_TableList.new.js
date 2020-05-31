@@ -6,7 +6,7 @@ import { translate } from 'hoc/create-lang'
 import {
   warningLevelsNumber,
   warningLevels,
-  colorLevels
+  colorLevels,
 } from 'constants/warningLevels'
 import { Tooltip, Table } from 'antd'
 import * as _ from 'lodash'
@@ -61,12 +61,12 @@ const StatusColumn = styled(Column)`
 
 const FILTER = {
   name: 'name',
-  status: 'status'
+  status: 'status',
 }
 
 const FILTER_TYPE = {
   desc: 'desc',
-  asc: 'asc'
+  asc: 'asc',
 }
 
 export default class TableListCustom extends React.PureComponent {
@@ -75,14 +75,14 @@ export default class TableListCustom extends React.PureComponent {
     data: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,
-        key: PropTypes.string
+        key: PropTypes.string,
       })
     ),
     currentItem: PropTypes.shape({
       name: PropTypes.string,
-      key: PropTypes.string
+      key: PropTypes.string,
     }),
-    onChangeItem: PropTypes.func
+    onChangeItem: PropTypes.func,
   }
 
   constructor(props) {
@@ -90,13 +90,13 @@ export default class TableListCustom extends React.PureComponent {
     this.state = {
       stationStatus: stationStatus.GOOD,
       filter: FILTER.status,
-      filterType: FILTER_TYPE.desc
+      filterType: FILTER_TYPE.desc,
     }
     this.columns = [
       {
         title: 'Name',
         dataIndex: 'name',
-        key: 'name'
+        key: 'name',
       },
       {
         title: 'Status',
@@ -109,7 +109,7 @@ export default class TableListCustom extends React.PureComponent {
               <Tooltip placement="top" title={translate(item.title)}>
                 <Status
                   style={{
-                    backgroundColor: item.color
+                    backgroundColor: item.color,
                   }}
                 />
               </Tooltip>
@@ -118,12 +118,12 @@ export default class TableListCustom extends React.PureComponent {
           return (
             <Status
               style={{
-                backgroundColor: 'transparent'
+                backgroundColor: 'transparent',
               }}
             />
           )
-        }
-      }
+        },
+      },
     ]
   }
 
@@ -144,7 +144,7 @@ export default class TableListCustom extends React.PureComponent {
         <Tooltip placement="top" title={translate(item.title)}>
           <Status
             style={{
-              backgroundColor: item.color
+              backgroundColor: item.color,
             }}
           />
         </Tooltip>
@@ -153,7 +153,7 @@ export default class TableListCustom extends React.PureComponent {
     return (
       <Status
         style={{
-          backgroundColor: 'transparent'
+          backgroundColor: 'transparent',
         }}
       />
     )
@@ -196,7 +196,7 @@ export default class TableListCustom extends React.PureComponent {
     if (!this.state.filter || this.state.filter !== filterColumn) {
       this.setState({
         filter: filterColumn,
-        filterType: FILTER_TYPE.asc
+        filterType: FILTER_TYPE.asc,
       })
     }
     if (this.state.filter === filterColumn) {
@@ -205,7 +205,7 @@ export default class TableListCustom extends React.PureComponent {
         filterType:
           this.state.filterType === FILTER_TYPE.asc
             ? FILTER_TYPE.desc
-            : FILTER_TYPE.asc
+            : FILTER_TYPE.asc,
       })
     }
   }
@@ -213,7 +213,7 @@ export default class TableListCustom extends React.PureComponent {
   cleanData() {
     return this.props.data.map(item => ({
       ...item,
-      colorStatus: this.getColorItem(item)
+      colorStatus: this.getColorItem(item),
     }))
   }
 

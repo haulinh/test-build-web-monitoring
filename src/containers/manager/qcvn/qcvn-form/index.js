@@ -16,7 +16,7 @@ const FormItem = Form.Item
   mapPropsToFields: ({ initialValues }) => {
     if (!initialValues) return
     return mapPropsToFields({ initialValues })
-  }
+  },
 })
 @createLanguageHoc
 @autobind
@@ -25,7 +25,7 @@ export default class QCVNForm extends React.PureComponent {
     onSubmit: PropTypes.func,
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   constructor(props) {
@@ -35,7 +35,7 @@ export default class QCVNForm extends React.PureComponent {
       measuringListSource: [],
       measuringOps: [],
       options: {},
-      previewVisible: false
+      previewVisible: false,
     }
   }
 
@@ -46,7 +46,7 @@ export default class QCVNForm extends React.PureComponent {
     )
 
     this.setState({
-      measuringListSource: measuringList.data
+      measuringListSource: measuringList.data,
     })
     if (this.props.initialValues) {
       let fileList = []
@@ -55,7 +55,7 @@ export default class QCVNForm extends React.PureComponent {
         options: this.props.initialValues.options
           ? this.props.initialValues.options
           : {},
-        fileList: fileList
+        fileList: fileList,
       })
     }
   }
@@ -76,7 +76,7 @@ export default class QCVNForm extends React.PureComponent {
         const { t } = this.props.lang
         swal({
           title: t('stationAutoManager.addMeasuring.error'),
-          type: 'error'
+          type: 'error',
         })
         return
       }
@@ -85,7 +85,7 @@ export default class QCVNForm extends React.PureComponent {
         key: values.key,
         name: values.name,
         measuringList: values.measuringList,
-        numericalOrder: values.numericalOrder
+        numericalOrder: values.numericalOrder,
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
@@ -94,8 +94,8 @@ export default class QCVNForm extends React.PureComponent {
           this.props.form.setFields({
             key: {
               value: values.key,
-              errors: [new Error(this.props.lang.t('qcvn.create.keyExisted'))]
-            }
+              errors: [new Error(this.props.lang.t('qcvn.create.keyExisted'))],
+            },
           })
         }
       }
@@ -105,7 +105,7 @@ export default class QCVNForm extends React.PureComponent {
   handlePreview = file => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
-      previewVisible: true
+      previewVisible: true,
     })
   }
 
@@ -117,11 +117,11 @@ export default class QCVNForm extends React.PureComponent {
     const { t } = this.props.lang
     const formItemLayout = {
       labelCol: {
-        sm: { span: 6, offset: 0 }
+        sm: { span: 6, offset: 0 },
       },
       wrapperCol: {
-        sm: { span: 17, offset: 0 }
-      }
+        sm: { span: 17, offset: 0 },
+      },
     }
 
     return (
@@ -133,9 +133,9 @@ export default class QCVNForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('qcvn.form.key.error')
-                  }
-                ]
+                    message: t('qcvn.form.key.error'),
+                  },
+                ],
               })(
                 <Input
                   size="large"
@@ -194,12 +194,12 @@ export default class QCVNForm extends React.PureComponent {
             this.props.initialValues
               ? this.props.initialValues.measuringList
               : [
-                  {
-                    key: '',
-                    name: '',
-                    unit: ''
-                  }
-                ]
+                {
+                  key: '',
+                  name: '',
+                  unit: '',
+                },
+              ]
           }
           measuringListSource={this.state.measuringListSource}
         />

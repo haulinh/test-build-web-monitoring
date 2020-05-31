@@ -10,22 +10,22 @@ export default class SelectStationAuto extends React.Component {
   static propTypes = {
     stationTypeKey: PropTypes.string,
     onChangeObject: PropTypes.func,
-    provinceKey: PropTypes.string
+    provinceKey: PropTypes.string,
   }
 
   state = {
     isLoaded: false,
-    stationFixedSelects: []
+    stationFixedSelects: [],
   }
 
   async componentWillMount() {
     const responseStationAuto = await stationFixedApi.getStationFixeds({
-      itemPerPage: 10000000
+      itemPerPage: 10000000,
     })
 
     this.setState({
       stationFixedSelects: responseStationAuto.data,
-      isLoaded: true
+      isLoaded: true,
     })
   }
 

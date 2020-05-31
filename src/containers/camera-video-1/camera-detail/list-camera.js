@@ -13,7 +13,7 @@ export default class CameraList extends React.Component {
     super(props)
     this.state = {
       size: 5,
-      cameraList: props.cameraList
+      cameraList: props.cameraList,
     }
   }
 
@@ -31,7 +31,7 @@ export default class CameraList extends React.Component {
 
   handleLoadMore = () => {
     this.setState(state => ({
-      size: state.size + 5
+      size: state.size + 5,
     }))
   }
 

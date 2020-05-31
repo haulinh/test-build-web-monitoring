@@ -5,7 +5,7 @@ import {
   GoogleMap,
   withScriptjs,
   withGoogleMap,
-  Polygon
+  Polygon,
 } from 'react-google-maps'
 import { getGoogleMapProps } from 'components/map/utils'
 import MarkerStation from 'components/map/marker'
@@ -35,11 +35,11 @@ class CustomGoogleMap extends PureComponent {
   static propTypes = {
     getMap: PropTypes.func,
     getRefMarker: PropTypes.func,
-    stationAutoMarker: PropTypes.array
+    stationAutoMarker: PropTypes.array,
   }
   state = {
     zoom: 12,
-    isBounds: false
+    isBounds: false,
   }
 
   onMarkerClustererClick(markerClusterer) {
@@ -56,7 +56,7 @@ class CustomGoogleMap extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      zoom: nextProps.zoom
+      zoom: nextProps.zoom,
     })
   }
 
@@ -101,7 +101,7 @@ class CustomGoogleMap extends PureComponent {
         onZoomChanged={() => {
           if (this.state.isBound)
             this.setState({
-              zoom: this.map.getZoom()
+              zoom: this.map.getZoom(),
             })
         }}
       >
@@ -153,7 +153,7 @@ class CustomGoogleMap extends PureComponent {
                 { lat: 14.561882, lng: 112.208539 },
                 { lat: 16.33181, lng: 112.3315 },
                 { lat: 16.33181, lng: 116.446871 },
-                { lat: 14.453348, lng: 116.446871 }
+                { lat: 14.453348, lng: 116.446871 },
               ]}
               options={{
                 fillColor: '#B3D9FB',
@@ -161,7 +161,7 @@ class CustomGoogleMap extends PureComponent {
                 strokeOpacity: 1,
                 strokeWeight: 1,
                 fillColor: '#B3D9FB',
-                fillOpacity: 1
+                fillOpacity: 1,
               }}
             />
           </MarkerClusterer>
@@ -177,12 +177,12 @@ export default class MapStationAuto extends PureComponent {
     handleGetStationAuto: PropTypes.func,
     stationAutoMarker: PropTypes.array,
     getMap: PropTypes.func,
-    lang: PropTypes.string
+    lang: PropTypes.string,
   }
   state = {
     map: {},
     listStationMarker: [],
-    isHidden: false
+    isHidden: false,
   }
   setMap(map) {
     this.setState({ map })
@@ -211,7 +211,7 @@ export default class MapStationAuto extends PureComponent {
   handelIsHidden() {
     this.setState(
       {
-        isHidden: !this.state.isHidden
+        isHidden: !this.state.isHidden,
       },
       () => {
         if (this.props.handleIsHidden)

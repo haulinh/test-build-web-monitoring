@@ -23,9 +23,9 @@ export default class RadioGroupCustom extends React.PureComponent {
     dataItems: PropTypes.arrayOf(
       PropTypes.shape({
         label: PropTypes.string,
-        value: PropTypes.number
+        value: PropTypes.number,
       })
-    )
+    ),
   }
 
   handleChangeValue(e) {

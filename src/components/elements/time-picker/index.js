@@ -22,7 +22,7 @@ export default class TimerPicker extends React.PureComponent {
     onChange: PropTypes.func,
     defaultValue: PropTypes.string,
     timePickerFormat: PropTypes.string,
-    notDateNow: PropTypes.bool
+    notDateNow: PropTypes.bool,
   }
 
   render() {

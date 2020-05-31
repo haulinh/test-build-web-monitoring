@@ -25,14 +25,14 @@ function validate(values) {
 @createLanguage
 @reduxForm({
   form: 'RoleForm',
-  validate
+  validate,
 })
 @autobind
 export default class RoleForm extends PureComponent {
   static propTypes = {
     lang: langPropTypes,
     onSubmit: PropTypes.func,
-    isEdit: PropTypes.bool
+    isEdit: PropTypes.bool,
   }
 
   handleSubmit = values => {
@@ -50,7 +50,7 @@ export default class RoleForm extends PureComponent {
 
   render() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return (
       <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>

@@ -6,19 +6,19 @@ import { translate } from 'hoc/create-lang'
 
 const i18n = {
   zero: translate('qaqcConfig.zero'),
-  negative: translate('qaqcConfig.negative')
+  negative: translate('qaqcConfig.negative'),
 }
 
 const OPTION = {
   ZERO: 'zero',
-  NEGATIVE: 'negative'
+  NEGATIVE: 'negative',
 }
 
 export default class TableConfig extends React.Component {
   static propTypes = {
     form: PropTypes.object.isRequired,
     dataTableMeasures: PropTypes.array.isRequired,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
   }
 
   state = {
@@ -26,7 +26,7 @@ export default class TableConfig extends React.Component {
     zeroIsCheckAll: false,
 
     negativeIsIndeterminate: false,
-    negativeIsCheckAll: false
+    negativeIsCheckAll: false,
   }
 
   componentDidMount() {
@@ -45,7 +45,7 @@ export default class TableConfig extends React.Component {
       zeroIsCheckAll: resZero.isCheckedAll,
 
       negativeIsIndeterminate: resNega.isIndeterminate,
-      negativeIsCheckAll: resNega.isCheckedAll
+      negativeIsCheckAll: resNega.isCheckedAll,
     })
   }
 
@@ -61,7 +61,7 @@ export default class TableConfig extends React.Component {
     {
       title: 'Measure',
       dataIndex: 'key',
-      key: 'key'
+      key: 'key',
     },
     {
       title: () => {
@@ -84,7 +84,7 @@ export default class TableConfig extends React.Component {
         return (
           <span>
             {getFieldDecorator(`${this.props.type}.${record.key}.zero`, {
-              valuePropName: 'checked'
+              valuePropName: 'checked',
             })(
               <Checkbox
                 onChange={e => {
@@ -98,14 +98,14 @@ export default class TableConfig extends React.Component {
                   let res = this.tinhToanChecked(OPTION.ZERO, tamp)
                   this.setState({
                     zeroIsIndeterminate: res.isIndeterminate,
-                    zeroIsCheckAll: res.isCheckedAll
+                    zeroIsCheckAll: res.isCheckedAll,
                   })
                 }}
               />
             )}
           </span>
         )
-      }
+      },
     },
     {
       title: () => {
@@ -129,7 +129,7 @@ export default class TableConfig extends React.Component {
         return (
           <span>
             {getFieldDecorator(`${this.props.type}.${record.key}.negative`, {
-              valuePropName: 'checked'
+              valuePropName: 'checked',
             })(
               <Checkbox
                 onChange={e => {
@@ -143,15 +143,15 @@ export default class TableConfig extends React.Component {
                   let res = this.tinhToanChecked(OPTION.NEGATIVE, tamp)
                   this.setState({
                     negativeIsIndeterminate: res.isIndeterminate,
-                    negativeIsCheckAll: res.isCheckedAll
+                    negativeIsCheckAll: res.isCheckedAll,
                   })
                 }}
               />
             )}
           </span>
         )
-      }
-    }
+      },
+    },
   ]
 
   checkAllOption(option, isChecked) {
@@ -161,14 +161,14 @@ export default class TableConfig extends React.Component {
     })
 
     this.props.form.setFieldsValue({
-      [this.props.type]: tamp
+      [this.props.type]: tamp,
     })
 
     switch (option) {
       case OPTION.ZERO: {
         this.setState({
           zeroIsIndeterminate: false,
-          zeroIsCheckAll: isChecked
+          zeroIsCheckAll: isChecked,
         })
         break
       }
@@ -176,7 +176,7 @@ export default class TableConfig extends React.Component {
       case OPTION.NEGATIVE: {
         this.setState({
           negativeIsIndeterminate: false,
-          negativeIsCheckAll: isChecked
+          negativeIsCheckAll: isChecked,
         })
         break
       }
@@ -205,7 +205,7 @@ export default class TableConfig extends React.Component {
 
     return {
       isIndeterminate,
-      isCheckedAll
+      isCheckedAll,
     }
   }
 

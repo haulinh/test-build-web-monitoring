@@ -16,12 +16,12 @@ export default class CheckBoxRole extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func,
     lang: langPropTypes,
-    dataItems: PropTypes.object
+    dataItems: PropTypes.object,
   }
 
   state = {
     menu: {},
-    dataMenus: []
+    dataMenus: [],
   }
 
   async componentWillMount() {
@@ -35,7 +35,7 @@ export default class CheckBoxRole extends PureComponent {
     let arr = Object.keys(UserRole).map(key => {
       return {
         key: key,
-        ...UserRole[key]
+        ...UserRole[key],
       }
     })
     arr = _orderBy(arr, ['numericalOrder'], ['asc'])
@@ -43,7 +43,7 @@ export default class CheckBoxRole extends PureComponent {
     this.setState(
       {
         menu: this.props.value ? initialValues : record.data.organization.menu,
-        dataMenus: arr
+        dataMenus: arr,
       },
       () => {
         this.handleCheckChange()
@@ -132,7 +132,7 @@ export default class CheckBoxRole extends PureComponent {
 
   getColumns() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return [
       {
@@ -141,7 +141,7 @@ export default class CheckBoxRole extends PureComponent {
         dataIndex: 'key',
         render: (text, record, index) => {
           return <strong>{index + 1}</strong>
-        }
+        },
       },
       {
         title: t('roleManager.tableHeader.menu'),
@@ -159,21 +159,21 @@ export default class CheckBoxRole extends PureComponent {
               {t(`roleManager.rule.${record.key}.name`)}
             </Checkbox>
           )
-        }
+        },
       },
       {
         title: t('roleManager.tableHeader.action'),
         key: 'action',
         render: (text, record) => {
-          const objActions = this.state.dataMenus.find(function(item) {
+          const objActions = this.state.dataMenus.find(function (item) {
             return item.key === record.key
           })
 
           const arrActions = Object.keys(objActions.actions)
           const actionsOrganization =
             this.state.menu &&
-            this.state.menu[record.key] &&
-            this.state.menu[record.key].actions
+              this.state.menu[record.key] &&
+              this.state.menu[record.key].actions
               ? this.state.menu[record.key].actions
               : {}
 
@@ -204,8 +204,8 @@ export default class CheckBoxRole extends PureComponent {
                 })}
             </div>
           )
-        }
-      }
+        },
+      },
     ]
   }
 
@@ -223,7 +223,7 @@ export default class CheckBoxRole extends PureComponent {
           dataSource={this.state.dataMenus}
           pagination={{
             pageSize: 1000,
-            hideOnSinglePage: true
+            hideOnSinglePage: true,
           }}
         />
       </View>

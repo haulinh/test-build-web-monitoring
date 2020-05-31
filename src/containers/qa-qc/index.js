@@ -34,11 +34,11 @@ export default class QaQcContainer extends React.Component {
     isExporting: false,
     pagination: {
       current: 1,
-      pageSize: 50
+      pageSize: 50,
     },
     dataUpdate: {},
     dataSelected: { checked: false, list: [] },
-    published: {}
+    published: {},
   }
 
   render() {
@@ -122,7 +122,7 @@ export default class QaQcContainer extends React.Component {
       'desc'
     )
     let dataStationAuto = {
-      data: sortedData
+      data: sortedData,
     }
 
     /* MARK  @mockup KHONG XOA, DO chưa có server nên xài mockup ở trên */
@@ -139,7 +139,7 @@ export default class QaQcContainer extends React.Component {
     if (size(dataStationAutoList) === 0) {
       swal({
         type: 'success',
-        title: translate('dataSearchFrom.table.emptyText')
+        title: translate('dataSearchFrom.table.emptyText'),
       })
     }
 
@@ -152,8 +152,8 @@ export default class QaQcContainer extends React.Component {
       searchFormData: searchFormData,
       pagination: {
         ...pagination,
-        total: get(dataStationAuto, 'pagination.totalItem', 0)
-      }
+        total: get(dataStationAuto, 'pagination.totalItem', 0),
+      },
     })
   }
 }

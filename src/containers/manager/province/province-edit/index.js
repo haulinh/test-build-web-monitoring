@@ -15,11 +15,11 @@ import protectRole from 'hoc/protect-role'
 
 @protectRole(ROLE.PROVINCE.EDIT)
 @createManagerDelete({
-  apiDelete: ProvinceApi.deleteProvince
+  apiDelete: ProvinceApi.deleteProvince,
 })
 @createManagerEdit({
   apiUpdate: ProvinceApi.updateProvince,
-  apiGetByKey: ProvinceApi.getProviceByID
+  apiGetByKey: ProvinceApi.getProviceByID,
 })
 @autobind
 export default class ProvinceEdit extends React.PureComponent {
@@ -27,7 +27,7 @@ export default class ProvinceEdit extends React.PureComponent {
     onDeleteItem: PropTypes.func,
     onUpdateItem: PropTypes.func,
     getItem: PropTypes.func,
-    isLoaded: PropTypes.bool
+    isLoaded: PropTypes.bool,
   }
 
   async handleSubmit(data) {
@@ -47,7 +47,7 @@ export default class ProvinceEdit extends React.PureComponent {
 
   cleanData() {
     let data = {
-      ...this.props.data
+      ...this.props.data,
     }
     return data
   }
@@ -81,8 +81,8 @@ export default class ProvinceEdit extends React.PureComponent {
               name:
                 this.props.isLoaded && this.props.success
                   ? this.cleanData().name
-                  : null
-            }
+                  : null,
+            },
           ]}
         />
         <Spin style={{ width: '100%' }} spinning={!this.props.isLoaded}>

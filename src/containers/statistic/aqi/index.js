@@ -28,8 +28,8 @@ export default class AQIStatistics extends React.Component {
     isManually: false,
     pagination: {
       current: 1,
-      pageSize: 50
-    }
+      pageSize: 50,
+    },
   }
 
   handleSubmitSearch(searchFormData) {
@@ -39,60 +39,60 @@ export default class AQIStatistics extends React.Component {
   async loadData(pagination, searchFormData) {
     this.setState({
       isLoading: true,
-      isHaveData: true
+      isHaveData: true,
     })
 
     const params = {
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
-      listKey: searchFormData.stationID
+      listKey: searchFormData.stationID,
     }
     let dataAQI = await aqiApi.fetchAqiHourbyStation({ ...params })
     if (dataAQI && (Array.isArray(dataAQI.data) && dataAQI.data.length === 0)) {
       swal({
         type: 'success',
-        title: translate('dataSearchFrom.table.emptyText')
+        title: translate('dataSearchFrom.table.emptyText'),
       })
     }
     // console.log(_.get(dataAQI, "data"), "----")
     this.setState({
       isLoading: false,
       dataAQI: _.get(dataAQI, 'data', []),
-      searchFormData: searchFormData
+      searchFormData: searchFormData,
     })
   }
 
   async handleExportExcel() {
     this.setState({
-      isExporting: true
+      isExporting: true,
     })
     const params = {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
-      listKey: _.get(this.state.searchFormData, 'stationID', '')
+      listKey: _.get(this.state.searchFormData, 'stationID', ''),
     }
     let res = await aqiApi.exportFileAqiHourbyStation({ ...params })
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
 
     this.setState({
-      isExporting: false
+      isExporting: false,
     })
   }
 
   async handleManually() {
     this.setState({
-      isManually: true
+      isManually: true,
     })
     const params = {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
-      listKey: _.get(this.state.searchFormData, 'stationID', '')
+      listKey: _.get(this.state.searchFormData, 'stationID', ''),
     }
 
     const processFunc = [
       aqiApi.fetchAqiProcessCalDay({ ...params }),
-      aqiApi.fetchAqiProcessCalHour({ ...params })
+      aqiApi.fetchAqiProcessCalHour({ ...params }),
     ]
     let res = await Promise.all(processFunc)
     // console.log("res: ", res);
@@ -104,7 +104,7 @@ export default class AQIStatistics extends React.Component {
     }
 
     this.setState({
-      isManually: false
+      isManually: false,
     })
   }
 

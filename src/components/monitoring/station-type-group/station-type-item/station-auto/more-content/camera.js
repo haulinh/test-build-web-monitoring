@@ -11,7 +11,7 @@ import Disconnection from 'components/elements/disconnection'
 @withRouter
 export default class CameraMoreInfo extends React.Component {
   static propTypes = {
-    stationInfo: PropTypes.object.isRequired
+    stationInfo: PropTypes.object.isRequired,
   }
 
   static defaultProps = {}
@@ -20,7 +20,7 @@ export default class CameraMoreInfo extends React.Component {
     cameras: [],
     isLoading: true,
     isDisconnection: false,
-    disconnectionMessage: translate('network.camera.lostConnection')
+    disconnectionMessage: translate('network.camera.lostConnection'),
   }
 
   constructor(props) {

@@ -17,15 +17,15 @@ const MonitoringHeaderFilterWrapper = styled.div`
 @autobind
 export default class MonitoringHeaderFilter extends React.PureComponent {
   static propTypes = {
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   }
 
   handleChange(key, value) {
     this.props.onChange(
       update(this.props.filter, {
         [key]: {
-          $set: typeof value === 'object' ? value.target.value : value
-        }
+          $set: typeof value === 'object' ? value.target.value : value,
+        },
       })
     )
   }
@@ -34,7 +34,7 @@ export default class MonitoringHeaderFilter extends React.PureComponent {
     return {
       value: this.props.filter[key],
       onChange: value => this.handleChange(key, value),
-      placeholder
+      placeholder,
     }
   }
 
@@ -73,12 +73,12 @@ export default class MonitoringHeaderFilter extends React.PureComponent {
           options={[
             {
               value: 'name',
-              name: translate('monitoring.sortByStationName')
+              name: translate('monitoring.sortByStationName'),
             },
             {
               value: 'number',
-              name: translate('monitoring.sortByValues')
-            }
+              name: translate('monitoring.sortByValues'),
+            },
           ]}
           {...this.getPropsSelect('order', translate('monitoring.selectOrder'))}
         />

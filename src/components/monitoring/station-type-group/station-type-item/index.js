@@ -32,17 +32,17 @@ const TextSpan = styled.span`
 `
 
 @connect(state => ({
-  language: _get(state, 'language.locale')
+  language: _get(state, 'language.locale'),
 }))
 @autobind
 export default class StationTypeSummary extends React.Component {
   static propTypes = {
     stationType: PropTypes.object,
-    stationAutoList: PropTypes.array
+    stationAutoList: PropTypes.array,
   }
 
   state = {
-    isOpen: true
+    isOpen: true,
   }
 
   toggleOpen() {
@@ -66,7 +66,7 @@ export default class StationTypeSummary extends React.Component {
                   ...props.style,
                   top: props.isSticky ? '95px' : null,
                   transition: 'all .3s linear',
-                  zIndex: 99999
+                  zIndex: 99999,
                 }}
               >
                 <HeadStationType>

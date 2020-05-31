@@ -19,7 +19,7 @@ export default class AqiContainer extends React.Component {
   state = {
     aqiList: [],
     aqiLevel: [],
-    station: null
+    station: null,
   }
 
   async componentDidMount() {
@@ -41,7 +41,7 @@ export default class AqiContainer extends React.Component {
         // from: moment().utc().startOf('day').format(),
         // to:  moment().utc().startOf('day').format(),
         // timezoneDay:  moment().format("HH"),
-        listKey: listKey
+        listKey: listKey,
       }
       let rs = await aqiApi.fetchAqiDayLastLogs({ ...params })
 
@@ -54,7 +54,7 @@ export default class AqiContainer extends React.Component {
         if (time) {
           return {
             time,
-            ...valuesData[0]
+            ...valuesData[0],
           }
         } else {
           return null

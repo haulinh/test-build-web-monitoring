@@ -8,6 +8,6 @@ export default createBreadcrumb({
     name: translate('menuApp.dataSearchFixed'),
     id: 'base',
     icon: '',
-    href: slug.dataSearch.base
-  }
+    href: slug.dataSearch.base,
+  },
 })

@@ -21,14 +21,14 @@ const TabPane = Tabs.TabPane
 
 @protectRole(ROLE.STATION_AUTO.CONFIG)
 @createManagerDelete({
-  apiDelete: StationFixedApi.deleteStationAuto
+  apiDelete: StationFixedApi.deleteStationAuto,
 })
 @createManagerEdit({
   apiUpdate: StationFixedApi.updateStationAuto,
-  apiGetByKey: StationFixedApi.getStationAuto
+  apiGetByKey: StationFixedApi.getStationAuto,
 })
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @autobind
 export default class StationAutoEdit extends React.PureComponent {
@@ -36,7 +36,7 @@ export default class StationAutoEdit extends React.PureComponent {
     onDeleteItem: PropTypes.func,
     onUpdateItem: PropTypes.func,
     getItem: PropTypes.func,
-    isLoaded: PropTypes.bool
+    isLoaded: PropTypes.bool,
   }
 
   constructor(props) {
@@ -46,8 +46,8 @@ export default class StationAutoEdit extends React.PureComponent {
       tabActive: 'OPTION',
       data: {
         options: _.get(props, 'data.options', {}),
-        configLogger: _.get(props, 'data.configLogger', {})
-      }
+        configLogger: _.get(props, 'data.configLogger', {}),
+      },
     }
   }
 
@@ -56,8 +56,8 @@ export default class StationAutoEdit extends React.PureComponent {
       this.setState({
         data: {
           options: _.get(nextProps, 'data.options', {}),
-          configLogger: _.get(nextProps, 'data.configLogger', {})
-        }
+          configLogger: _.get(nextProps, 'data.configLogger', {}),
+        },
       })
     }
   }
@@ -68,7 +68,7 @@ export default class StationAutoEdit extends React.PureComponent {
 
   async handleSubmit() {
     this.setState({
-      isSubmitting: true
+      isSubmitting: true,
     })
     let data
     this.props.form.validateFields((err, values) => {
@@ -79,7 +79,7 @@ export default class StationAutoEdit extends React.PureComponent {
         data = {
           // options: dataOptions,
           options: { ...rpOptions, ...dataOptions },
-          configLogger: _.get(this.state.data, 'configLogger', {})
+          configLogger: _.get(this.state.data, 'configLogger', {}),
         }
         this.updateData(data)
       }
@@ -88,13 +88,13 @@ export default class StationAutoEdit extends React.PureComponent {
         const configLogger = _.get(this.state.data, 'configLogger', {})
         data = {
           options: _.get(this.state.data, 'options', {}),
-          configLogger: _.merge(configLogger, dataConfig)
+          configLogger: _.merge(configLogger, dataConfig),
         }
         this.updateData(data)
       }
     })
     this.setState({
-      isSubmitting: false
+      isSubmitting: false,
     })
   }
 
@@ -121,16 +121,16 @@ export default class StationAutoEdit extends React.PureComponent {
     let data
     data = {
       warning: {
-        allowed: values.allowSendWarning ? values.allowSendWarning : false
+        allowed: values.allowSendWarning ? values.allowSendWarning : false,
       },
       sampling: {
         allowed: values.allowSampling ? values.allowSampling : false,
-        apiAddress: values.apiAddress
+        apiAddress: values.apiAddress,
       },
       camera: {
         allowed: values.allowCamera ? values.allowCamera : false,
-        list: values.list ? values.list : []
-      }
+        list: values.list ? values.list : [],
+      },
     }
     if (!data.sampling.allowed) delete data.sampling.apiAddress
     if (!data.camera.allowed) delete data.camera.list
@@ -145,7 +145,7 @@ export default class StationAutoEdit extends React.PureComponent {
       //path: values.path,
       measuringList: values.measuringList.filter(
         item => item.measuringDes && item.measuringDes !== ''
-      )
+      ),
     }
     return data
   }
@@ -156,7 +156,7 @@ export default class StationAutoEdit extends React.PureComponent {
   handlApproveSave = approve => {
     let dataPost = {
       options: this.state.data.options,
-      configLogger: this.state.data.configLogger
+      configLogger: this.state.data.configLogger,
     }
     dataPost.options = { ...dataPost.options, approve }
     this.updateData(dataPost)
@@ -197,8 +197,8 @@ export default class StationAutoEdit extends React.PureComponent {
                 name:
                   this.props.isLoaded && this.props.data
                     ? this.props.data.name
-                    : null
-              }
+                    : null,
+              },
             ]}
           />
           <Tabs

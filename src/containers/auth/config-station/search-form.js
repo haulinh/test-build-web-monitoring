@@ -11,26 +11,26 @@ import createLanguageHoc from 'hoc/create-lang'
 const i18n = {
   addButton: translate('stationAutoManager.create.label'),
   stationType: translate('stationAutoManager.form.stationType.placeholder'),
-  stationName: translate('stationAutoManager.form.name.placeholder')
+  stationName: translate('stationAutoManager.form.name.placeholder'),
 }
 
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
 export default class StationAutoSearchForm extends React.PureComponent {
   static propTypes = {
     initialValues: PropTypes.object,
-    onChangeSearch: PropTypes.func.isRequired
+    onChangeSearch: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       dataSearch: {
-        data: {}
-      }
+        data: {},
+      },
     }
   }
 

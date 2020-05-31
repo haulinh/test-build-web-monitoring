@@ -31,8 +31,8 @@ export default class MinutesDataSearch extends React.Component {
     isExporting: false,
     pagination: {
       current: 1,
-      pageSize: 50
-    }
+      pageSize: 50,
+    },
   }
 
   handleSubmitSearch(searchFormData) {
@@ -42,20 +42,20 @@ export default class MinutesDataSearch extends React.Component {
   async loadData(pagination, searchFormData) {
     this.setState({
       isLoading: true,
-      isHaveData: true
+      isHaveData: true,
     })
     let paginationQuery = pagination
     if (!_isEqual(searchFormData, this.state.searchFormData)) {
       paginationQuery = {
         ...paginationQuery,
-        current: 1
+        current: 1,
       }
     }
 
     let dataStationAuto = await DataStationAutoApi.getDataStationAutos(
       {
         page: paginationQuery.current,
-        itemPerPage: paginationQuery.pageSize
+        itemPerPage: paginationQuery.pageSize,
       },
       searchFormData
     )
@@ -65,7 +65,7 @@ export default class MinutesDataSearch extends React.Component {
     ) {
       swal({
         type: 'success',
-        title: translate('dataSearchFrom.table.emptyText')
+        title: translate('dataSearchFrom.table.emptyText'),
       })
     }
 
@@ -87,8 +87,8 @@ export default class MinutesDataSearch extends React.Component {
         total:
           dataStationAuto && dataStationAuto.pagination
             ? dataStationAuto.pagination.totalItem
-            : 0
-      }
+            : 0,
+      },
     })
   }
 
@@ -98,14 +98,14 @@ export default class MinutesDataSearch extends React.Component {
 
   async handleExportExcel() {
     this.setState({
-      isExporting: true
+      isExporting: true,
     })
     let res = await DataStationAutoApi.getExportData(this.state.searchFormData)
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
 
     this.setState({
-      isExporting: false
+      isExporting: false,
     })
   }
 
@@ -129,7 +129,7 @@ export default class MinutesDataSearch extends React.Component {
             <DataAnalyze
               dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
               locale={{
-                emptyText: translate('dataSearchFrom.table.emptyText')
+                emptyText: translate('dataSearchFrom.table.emptyText'),
               }}
             />
           ) : null}

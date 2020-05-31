@@ -13,16 +13,16 @@ export default class SelectStationTypeConfigAQI extends PureComponent {
     label: PropTypes.string,
     onChange: PropTypes.func,
     value: PropTypes.string,
-    isShowAll: PropTypes.bool
+    isShowAll: PropTypes.bool,
   }
 
   static defaultProps = {
-    isAuto: true
+    isAuto: true,
   }
 
   state = {
     stationTypes: [],
-    value: ''
+    value: '',
   }
 
   async componentDidMount() {
@@ -42,7 +42,7 @@ export default class SelectStationTypeConfigAQI extends PureComponent {
       })
       this.setState({
         stationTypes: stationTypeConfigAQI,
-        value: this.props.value
+        value: this.props.value,
       })
     }
   }
@@ -50,7 +50,7 @@ export default class SelectStationTypeConfigAQI extends PureComponent {
   onChange(value) {
     let res = this.state.stationTypes.find(item => item.key === value)
     this.setState({
-      value: value
+      value: value,
     })
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
     if (this.props.onChange) this.props.onChange(value)

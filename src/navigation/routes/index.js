@@ -50,6 +50,7 @@ import PercentReceivedData from 'containers/statistic/per-rec-data'
 import Layout from 'layout/default-sidebar-layout'
 import Report from 'containers/report'
 import DataLoggerPage from 'containers/data-logger'
+import AppIncidents from 'containers/apps/incidents'
 
 import PageExpLicenseInfo from 'containers/license/exp-license-info'
 
@@ -74,8 +75,9 @@ export default class RouteDefault extends React.Component {
           <Route path={slug.password.resetPassword} component={ResetPassword} />
           <Route path={slug.user.accountActive} component={AccountActive} />
           <Route path={slug.user.expLicense} component={PageExpLicenseInfo} />
+          <Route path={slug.apps.incidents} component={AppIncidents} />
 
-          <Layout>
+          <Layout isShowSidebarMenu>
             <LayoutRoute path="/" exact component={OverviewDashboard} />
             <LayoutRoute path={slug.map.base} component={Map} />
 

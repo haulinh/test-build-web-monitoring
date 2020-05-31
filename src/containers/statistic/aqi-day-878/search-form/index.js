@@ -35,23 +35,23 @@ function validate(values) {
 
 @connect((state, ownProps) => ({
   initialValues: {
-    ...(ownProps.initialValues ? ownProps.initialValues : {})
-  }
+    ...(ownProps.initialValues ? ownProps.initialValues : {}),
+  },
 }))
 @reduxForm({
   form: 'dataAQISearch2',
-  validate
+  validate,
 })
 @createLang
 export default class SearchForm extends React.Component {
   static propTypes = {
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      timeZone: 420
+      timeZone: 420,
     }
   }
 
@@ -68,7 +68,7 @@ export default class SearchForm extends React.Component {
         fromDate: values.inRange[0]
           .utcOffset(this.state.timeZone)
           .startOf('day'),
-        toDate: toDate.startOf('day')
+        toDate: toDate.startOf('day'),
       })
     }
   }

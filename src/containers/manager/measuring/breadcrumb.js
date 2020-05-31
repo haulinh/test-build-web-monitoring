@@ -8,15 +8,15 @@ export default createBreadcrumb({
     id: 'list',
     //icon: Icon.car,
     href: slug.measuring.list,
-    name: translate('parameterManager.breadcrumb.base')
+    name: translate('parameterManager.breadcrumb.base'),
   },
   create: {
     id: 'create',
     href: slug.measuring.create,
-    name: translate('parameterManager.breadcrumb.create')
+    name: translate('parameterManager.breadcrumb.create'),
   },
   edit: {
     href: slug.measuring.edit,
-    name: translate('parameterManager.breadcrumb.edit')
-  }
+    name: translate('parameterManager.breadcrumb.edit'),
+  },
 })

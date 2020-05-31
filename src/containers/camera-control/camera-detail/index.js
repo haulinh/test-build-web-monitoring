@@ -16,7 +16,7 @@ export default class CameraDetail extends PureComponent {
     this.state = {
       rtspUrl: '',
       name: '',
-      isLoaded: false
+      isLoaded: false,
     }
   }
 
@@ -27,7 +27,7 @@ export default class CameraDetail extends PureComponent {
       this.setState({
         isLoaded: true,
         rtspUrl: decodeURIComponent(key),
-        name: decodeURIComponent(name)
+        name: decodeURIComponent(name),
       })
   }
 
@@ -39,8 +39,8 @@ export default class CameraDetail extends PureComponent {
             'list',
             {
               id: 'detail',
-              name: this.state.isLoaded ? this.state.name : 'detail'
-            }
+              name: this.state.isLoaded ? this.state.name : 'detail',
+            },
           ]}
         />
         {this.state.rtspUrl !== '' && (

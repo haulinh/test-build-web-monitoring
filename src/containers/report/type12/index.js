@@ -9,7 +9,7 @@ import SearchForm from '../search-form/search-form-4'
 // } from "api/DataStationAutoApi";
 import {
   getUrlReportType11,
-  downloadExcel_reportType11
+  downloadExcel_reportType11,
 } from 'api/DataStationAutoApi'
 import { Table, Typography, Button, Spin, message } from 'antd'
 import { map as _map, get as _get } from 'lodash'
@@ -25,12 +25,12 @@ import { connect } from 'react-redux'
 const { Title, Text } = Typography
 const i18n = {
   header1: translate('avgSearchFrom.table.header9'),
-  title: translate('avgSearchFrom.table.title4')
+  title: translate('avgSearchFrom.table.title4'),
 }
 
 @connect(state => ({
   token: state.auth.token,
-  timeZone: _get(state, 'auth.userInfo.organization.timeZone', null)
+  timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
 }))
 export default class ReportType12 extends React.Component {
   constructor(props) {
@@ -44,7 +44,7 @@ export default class ReportType12 extends React.Component {
       dataSearch: null,
       fromMonth: '',
       toMonth: '',
-      measuringList: []
+      measuringList: [],
     }
   }
 
@@ -59,7 +59,7 @@ export default class ReportType12 extends React.Component {
           // console.log(record,"record")
           value = _get(record, `resultChiTieu.${item.key}.persenVuotNguong`)
           return <div>{getFormatNumber(value, ROUND_DIGIT)}</div>
-        }
+        },
       }
     })
 
@@ -76,16 +76,16 @@ export default class ReportType12 extends React.Component {
                 .format(DD_MM_YYYY)}
             </div>
           )
-        }
+        },
       },
-      ...columns
+      ...columns,
     ]
   }
 
   handleSubmit = async values => {
     this.setState({
       isHaveData: false,
-      isLoading: true
+      isLoading: true,
     })
     // console.log(values, "handleSubmit");
     const params = {
@@ -101,7 +101,7 @@ export default class ReportType12 extends React.Component {
         .format(),
       measuringList: values.measuringListStr,
       measuringListUnitStr: values.measuringListUnitStr,
-      key: values.stationAuto
+      key: values.stationAuto,
     }
     // console.log(params,"params")
 
@@ -115,7 +115,7 @@ export default class ReportType12 extends React.Component {
         measuringList: values.measuringList,
         stationName: values.stationName,
         dataSearch: params,
-        monthYear: moment(values.time).format(MM_YYYY)
+        monthYear: moment(values.time).format(MM_YYYY),
       })
     } else if (res.error) {
       // console.log('ERRROR', dataStationAuto)
@@ -145,7 +145,7 @@ export default class ReportType12 extends React.Component {
             {' '}
             {translate('avgSearchFrom.table.description4', {
               fromMonth: this.state.fromMonth,
-              toMonth: this.state.toMonth
+              toMonth: this.state.toMonth,
             })}
           </Text>
           {this.state.isHaveData && (
@@ -153,7 +153,7 @@ export default class ReportType12 extends React.Component {
               style={{
                 position: 'absolute',
                 top: '0px',
-                right: '0px'
+                right: '0px',
               }}
             >
               <Button

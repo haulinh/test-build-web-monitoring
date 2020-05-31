@@ -54,7 +54,7 @@ export default class Header extends React.PureComponent {
     number: PropTypes.number,
     name: PropTypes.string,
     image: PropTypes.string,
-    color: PropTypes.string
+    color: PropTypes.string,
   }
 
   render() {

@@ -31,7 +31,7 @@ const i18n = {
   cancelText: translate('addon.cancel'),
   okText: translate('addon.ok'),
   restoreConfirmMsg: translate('confirm.msg.restore'),
-  deleteConfirmMsg: translate('confirm.msg.delete')
+  deleteConfirmMsg: translate('confirm.msg.delete'),
 }
 
 const AccountWrapper = styled.div`
@@ -78,14 +78,14 @@ const Span = styled.span`
 
 @protectRole(ROLE.USER.VIEW)
 @createManagerList({
-  apiList: UserApi.searchUser
+  apiList: UserApi.searchUser,
 })
 @createManagerDelete({
-  apiDelete: UserApi.removeOne
+  apiDelete: UserApi.removeOne,
 })
 @createLanguageHoc
 @connect(state => ({
-  userInfo: state.auth.userInfo
+  userInfo: state.auth.userInfo,
 }))
 @autobind
 export default class UserList extends React.Component {
@@ -96,12 +96,12 @@ export default class UserList extends React.Component {
     onChangePageSize: PropTypes.func,
     onDeleteItem: PropTypes.func,
     fetchData: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   state = {
     user_id: null,
-    password: ''
+    password: '',
   }
 
   async componentWillMount() {}
@@ -128,14 +128,14 @@ export default class UserList extends React.Component {
             resolve()
           }).catch(() => console.log('Oops errors!'))
         },
-        onCancel() {}
+        onCancel() {},
       })
     }
   }
 
   actionGroup(row) {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     let accountEnable = true
     if (row.accountStatus && row.accountStatus.enable === false) {
@@ -270,7 +270,7 @@ export default class UserList extends React.Component {
 
   getHead() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return [
       { content: '#', width: 2 },
@@ -280,7 +280,7 @@ export default class UserList extends React.Component {
       { content: t('userManager.list.createdAt'), width: 15 },
       { content: t('userManager.list.roleName'), width: 10 },
       { content: t('userManager.list.action'), width: 8 },
-      { content: t('userManager.list.login') }
+      { content: t('userManager.list.login') },
     ]
   }
 
@@ -294,7 +294,7 @@ export default class UserList extends React.Component {
               index +
               1}
           </strong>
-        )
+        ),
       },
       {
         content: (
@@ -322,7 +322,7 @@ export default class UserList extends React.Component {
               </AccountWrapper>
             )}
           </div>
-        )
+        ),
       },
       {
         content: (
@@ -340,7 +340,7 @@ export default class UserList extends React.Component {
               </div>
             )}
           </div>
-        )
+        ),
       },
       {
         content: (
@@ -355,7 +355,7 @@ export default class UserList extends React.Component {
               ? 'Disable'
               : 'Enable'}
           </SpanEnable>
-        )
+        ),
       },
       {
         content: (
@@ -363,28 +363,28 @@ export default class UserList extends React.Component {
             {' '}
             {moment(row.createdAt).format('YYYY-MM-DD HH:mm')}
           </Span>
-        )
+        ),
       },
       {
-        content: <Span> {_get(row, 'role.name', '')}</Span>
+        content: <Span> {_get(row, 'role.name', '')}</Span>,
       },
       {
-        content: <span>{this.actionGroup(row)}</span>
+        content: <span>{this.actionGroup(row)}</span>,
       },
       {
         content: (
           <SpanTimeAgo>
             <TimeAgo date={row.lastLoginAt} />
           </SpanTimeAgo>
-        )
-      }
+        ),
+      },
     ])
   }
 
   async onDeleteItem(_id, callback) {
     const {
       lang: { t },
-      userInfo
+      userInfo,
     } = this.props
     if (userInfo._id === _id) {
       message.warning(t('addon.onDelete.warning'))
@@ -403,14 +403,14 @@ export default class UserList extends React.Component {
             resolve()
           }).catch(() => console.log('Oops errors!'))
         },
-        onCancel() {}
+        onCancel() {},
       })
     }
   }
 
   async onRestoreItem(_id, callback) {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     Modal.confirm({
       title: i18n.restoreConfirmMsg,
@@ -426,7 +426,7 @@ export default class UserList extends React.Component {
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() {}
+      onCancel() {},
     })
   }
 
@@ -448,7 +448,7 @@ export default class UserList extends React.Component {
             rows={this.getRows()}
             head={this.getHead()}
             paginationOptions={{
-              isSticky: true
+              isSticky: true,
             }}
             onSetPage={this.props.onChangePage}
             pagination={this.props.pagination}

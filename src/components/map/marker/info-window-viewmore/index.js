@@ -30,7 +30,7 @@ export default class InfoWindowViewMore extends React.PureComponent {
     stationId: PropTypes.string,
     stationTypeKey: PropTypes.string,
     stationName: PropTypes.string,
-    options: PropTypes.object
+    options: PropTypes.object,
   }
 
   handleClickDataSearch(e) {
@@ -40,7 +40,7 @@ export default class InfoWindowViewMore extends React.PureComponent {
       stationAuto: this.props.stationKey,
       measuringList: this.props.measuringList.map(m => m.key),
       measuringData: this.props.measuringList,
-      searchNow: true
+      searchNow: true,
     }
 
     const url =
@@ -61,7 +61,7 @@ export default class InfoWindowViewMore extends React.PureComponent {
       stationAuto: this.props.stationKey,
       measuringList: this.props.measuringList.map(m => m.key),
       measuringData: this.props.measuringList,
-      searchNow: true
+      searchNow: true,
     }
     const url =
       slug.monitoring.base +

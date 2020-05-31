@@ -15,11 +15,11 @@ import protectRole from 'hoc/protect-role'
 
 @protectRole(ROLE.MEASURING.EDIT)
 @createManagerDelete({
-  apiDelete: CategoryApi.deleteMeasuring
+  apiDelete: CategoryApi.deleteMeasuring,
 })
 @createManagerEdit({
   apiUpdate: CategoryApi.updateMeasuring,
-  apiGetByKey: CategoryApi.getMeasuring
+  apiGetByKey: CategoryApi.getMeasuring,
 })
 @createLanguage
 @autobind
@@ -29,7 +29,7 @@ export default class MeasuringEdit extends React.PureComponent {
     onUpdateItem: PropTypes.func,
     getItem: PropTypes.func,
     isLoaded: PropTypes.bool,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   async handleSubmit(data) {
@@ -44,7 +44,7 @@ export default class MeasuringEdit extends React.PureComponent {
 
   cleanData() {
     return {
-      ...this.props.data
+      ...this.props.data,
     }
   }
 
@@ -74,8 +74,8 @@ export default class MeasuringEdit extends React.PureComponent {
             'list',
             {
               id: 'edit',
-              name: this.props.isLoaded ? this.cleanData().name : null
-            }
+              name: this.props.isLoaded ? this.cleanData().name : null,
+            },
           ]}
         />
         {this.props.isLoaded && (

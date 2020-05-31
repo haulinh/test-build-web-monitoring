@@ -45,19 +45,19 @@ function validate(values) {
   initialValues: {
     fromDate: moment().subtract(7, 'days'),
     toDate: moment(),
-    ...(ownProps.initialValues ? ownProps.initialValues : {})
-  }
+    ...(ownProps.initialValues ? ownProps.initialValues : {}),
+  },
 }))
 @reduxForm({
   form: 'dataSearchForm',
-  validate
+  validate,
 })
 @createLang
 @autobind
 export default class SearchForm extends React.Component {
   static propTypes = {
     measuringData: PropTypes.array,
-    searchNow: PropTypes.bool
+    searchNow: PropTypes.bool,
   }
 
   constructor(props) {
@@ -73,12 +73,12 @@ export default class SearchForm extends React.Component {
       measuringList: props.measuringData
         ? props.measuringData.map(measuring => ({
             value: measuring.key,
-            name: measuring.name
+            name: measuring.name,
           }))
         : [],
       fromDate: props.initialValues.fromDate,
       toDate: props.initialValues.toDate,
-      dataFrequency: null
+      dataFrequency: null,
     }
   }
 
@@ -94,7 +94,7 @@ export default class SearchForm extends React.Component {
     this.setState({
       stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
       stationKey: '',
-      stationID: ''
+      stationID: '',
     })
     this.props.change('station', '')
   }
@@ -106,14 +106,14 @@ export default class SearchForm extends React.Component {
     const params = {
       measuringList: measuringData.map(measuring => ({
         value: measuring.key,
-        name: measuring.name
+        name: measuring.name,
       })),
       stationKey: station.key,
       stationName: station.name,
       receivedAt: moment(),
       stationID: station._id,
       dataFrequency: station.dataFrequency,
-      measuringListOrigin: station.measuringList
+      measuringListOrigin: station.measuringList,
     }
     this.setState(params)
     this.props.change('measuringList', measuringData.map(m => m.key))
@@ -129,7 +129,7 @@ export default class SearchForm extends React.Component {
       measuringData: this.state.measuringData,
       stationID: this.state.stationID,
       dataFrequency: this.state.dataFrequency,
-      measuringListOrigin: this.state.measuringListOrigin
+      measuringListOrigin: this.state.measuringListOrigin,
     })
   }
 
@@ -140,7 +140,7 @@ export default class SearchForm extends React.Component {
   handleProvinceChange = province => {
     this.setState({
       provinceKey: province.key,
-      stationKey: ''
+      stationKey: '',
     })
 
     this.props.change('station', '')
@@ -151,7 +151,7 @@ export default class SearchForm extends React.Component {
     const toTime = moment(toDate).format('YYYY-MM-DD 23:59:59')
     this.setState({
       fromDate: fromTime,
-      toDate: toTime
+      toDate: toTime,
     })
   }
 

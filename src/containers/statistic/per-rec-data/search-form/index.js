@@ -42,19 +42,19 @@ function validate(values) {
   initialValues: {
     fromDate: moment().subtract(7, 'days'),
     toDate: moment(),
-    ...(ownProps.initialValues ? ownProps.initialValues : {})
-  }
+    ...(ownProps.initialValues ? ownProps.initialValues : {}),
+  },
 }))
 @reduxForm({
   form: 'dataSearchForm',
-  validate
+  validate,
 })
 @createLang
 @autobind
 export default class SearchForm extends React.Component {
   static propTypes = {
     measuringData: PropTypes.array,
-    searchNow: PropTypes.bool
+    searchNow: PropTypes.bool,
   }
 
   constructor(props) {
@@ -67,7 +67,7 @@ export default class SearchForm extends React.Component {
       fromDate: props.initialValues.fromDate,
       toDate: props.initialValues.toDate,
       dataFrequency: null,
-      stationName: null
+      stationName: null,
     }
   }
 
@@ -83,7 +83,7 @@ export default class SearchForm extends React.Component {
     this.setState({
       stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
       stationKey: '',
-      stationID: ''
+      stationID: '',
     })
     this.props.change('station', '')
   }
@@ -94,7 +94,7 @@ export default class SearchForm extends React.Component {
       receivedAt: moment(),
       stationID: station._id,
       dataFrequency: _.get(station, 'dataFrequency', 5),
-      stationName: _.get(station, 'name')
+      stationName: _.get(station, 'name'),
     }
     this.setState(params)
   }
@@ -107,7 +107,7 @@ export default class SearchForm extends React.Component {
       name: this.state.stationName,
       stationID: this.state.stationID,
       dataFrequency: this.state.dataFrequency,
-      stationName: this.state.stationName
+      stationName: this.state.stationName,
     })
   }
 
@@ -118,7 +118,7 @@ export default class SearchForm extends React.Component {
   handleProvinceChange = province => {
     this.setState({
       provinceKey: province.key,
-      stationKey: ''
+      stationKey: '',
     })
 
     this.props.change('station', '')
@@ -129,7 +129,7 @@ export default class SearchForm extends React.Component {
     const toTime = moment(toDate).format('YYYY-MM-DD 23:59:59')
     this.setState({
       fromDate: fromTime,
-      toDate: toTime
+      toDate: toTime,
     })
   }
 

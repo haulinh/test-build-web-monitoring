@@ -30,7 +30,7 @@ export default class HeaderView extends React.PureComponent {
     data: [],
     day: 7,
     visible: false,
-    isLoading: false
+    isLoading: false,
   }
 
   handleItemSelected = value => {
@@ -63,7 +63,7 @@ export default class HeaderView extends React.PureComponent {
     if (item && item.ratio) {
       title = translate('dashboard.chartRatio.dataByDate', {
         day: this.state.day,
-        unit: item.name
+        unit: item.name,
       })
       total = item.ratio
     }
@@ -77,7 +77,7 @@ export default class HeaderView extends React.PureComponent {
       formatter: function() {
         if (this.y === 0) return ''
         return `${_.round(this.y, 2)}%`
-      }
+      },
     }
     let me = this
 
@@ -86,19 +86,19 @@ export default class HeaderView extends React.PureComponent {
         plotBackgroundColor: null,
         plotBorderWidth: 0,
         plotShadow: false,
-        height: document.body.clientHeight - 340
+        height: document.body.clientHeight - 340,
       },
       credits: {
-        enabled: false
+        enabled: false,
       },
       title: {
-        text: '' //title
+        text: '', //title
       },
       legend: {
-        enabled: true
+        enabled: true,
       },
       tooltip: {
-        pointFormat: `<b>{point.percentage:.${ROUND_DIGIT}f}%</b>`
+        pointFormat: `<b>{point.percentage:.${ROUND_DIGIT}f}%</b>`,
       },
       plotOptions: {
         pie: {
@@ -108,19 +108,19 @@ export default class HeaderView extends React.PureComponent {
             style: {
               fontWeight: 'bold',
               color: 'white',
-              textOutline: false
-            }
+              textOutline: false,
+            },
           },
           showInLegend: true,
           events: {
             click: function(event) {
               me.setState({
                 visible: true,
-                stationKey: item ? item.name : 'Other' // NOTE  stationKey: là đưa vào name của province mới chạy, neu k0 co thi Other
+                stationKey: item ? item.name : 'Other', // NOTE  stationKey: là đưa vào name của province mới chạy, neu k0 co thi Other
               })
-            }
-          }
-        }
+            },
+          },
+        },
       },
       series: [
         {
@@ -132,16 +132,16 @@ export default class HeaderView extends React.PureComponent {
             {
               name: notReceived,
               y: 100 - _.round(total, 2),
-              color: COLOR.DATA_LOSS
+              color: COLOR.DATA_LOSS,
             },
             {
               name: received,
               y: _.round(total, 2),
-              color: COLOR.GOOD
-            }
-          ]
-        }
-      ]
+              color: COLOR.GOOD,
+            },
+          ],
+        },
+      ],
     }
   }
 
@@ -157,20 +157,20 @@ export default class HeaderView extends React.PureComponent {
       formatter: function() {
         if (this.y === 0) return ''
         return `${_.round(this.y, 2)}%`
-      }
+      },
     }
 
     const series1 = {
       name: received,
       data: [],
       dataLabels,
-      color: COLOR.GOOD
+      color: COLOR.GOOD,
     }
     const series2 = {
       name: notReceived,
       data: [],
       color: COLOR.DATA_LOSS,
-      dataLabels
+      dataLabels,
     }
     let categories = []
 
@@ -186,43 +186,43 @@ export default class HeaderView extends React.PureComponent {
       chart: {
         type: 'bar',
         events: {
-          click: function(event) {}
+          click: function(event) {},
         },
-        height: document.body.clientHeight - 340
+        height: document.body.clientHeight - 340,
       },
       title: {
-        text: '' //title
+        text: '', //title
       },
       credits: {
-        enabled: false
+        enabled: false,
       },
       xAxis: {
         categories,
         lineWidth: 1,
-        lineColor: '#ccc'
+        lineColor: '#ccc',
       },
       yAxis: {
         min: 0,
         max: 100,
         title: {
-          text: ''
+          text: '',
         },
         lineWidth: 1,
         lineColor: '#ccc',
         labels: {
           formatter: function() {
             return `${this.value}%`
-          }
-        }
+          },
+        },
       },
       legend: {
-        reversed: true
+        reversed: true,
       },
       series: [series1, series2],
       tooltip: {
         pointFormat:
           '<span style="color:{series.color}">{series.name}</span>: ({point.y}%)<br/>',
-        shared: true
+        shared: true,
       },
       plotOptions: {
         series: {
@@ -232,12 +232,12 @@ export default class HeaderView extends React.PureComponent {
               const stationKey = _.get(event, 'point.category', '')
               me.setState({
                 visible: true,
-                stationKey
+                stationKey,
               })
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     }
   }
 
@@ -296,7 +296,7 @@ export default class HeaderView extends React.PureComponent {
             <span>
               <span style={{ color: 'blue', minWidth: 80 }}>
                 {translate('dashboard.chartRatio.byDay', {
-                  day: this.state.day
+                  day: this.state.day,
                 })}
                 {`  `}
               </span>

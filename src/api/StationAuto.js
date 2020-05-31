@@ -93,7 +93,7 @@ export function getWarningConfig() {
 export function tranferBonusFTP({ _id, from, to }) {
   return putFetch(getStationAutoUrl(`gen-process-ftp/${_id}`), {
     from,
-    to
+    to,
   })
 }
 
@@ -114,5 +114,5 @@ export default {
   measurePublished,
   getWarningConfig,
   updateStationAutoOptions,
-  tranferBonusFTP
+  tranferBonusFTP,
 }

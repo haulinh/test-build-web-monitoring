@@ -69,14 +69,14 @@ const LinkSpan = styled.span`
   state => ({}),
   {
     selectMenu,
-    changeOpenSubMenu
+    changeOpenSubMenu,
   }
 )
 export class ChartSummary extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     totalStation: PropTypes.number,
-    stationList: TableList.propTypes.data
+    stationList: TableList.propTypes.data,
   }
 
   state = {
@@ -84,7 +84,7 @@ export class ChartSummary extends React.Component {
     dataLines: {},
     isFirstLoad: true,
     isOpen: true,
-    dataSearch: {}
+    dataSearch: {},
   }
 
   handleChangeItem(e, item) {
@@ -98,7 +98,7 @@ export class ChartSummary extends React.Component {
 
   changeItem(stationAuto) {
     this.setState({
-      currentItem: stationAuto
+      currentItem: stationAuto,
     })
   }
 
@@ -111,7 +111,7 @@ export class ChartSummary extends React.Component {
             onClick={() => {
               ReactGA.event({
                 category: 'Dashboard',
-                action: translate('dashboard.viewInMonitoring')
+                action: translate('dashboard.viewInMonitoring'),
               })
               this.props.selectMenu(slug.monitoring.base)
             }}
@@ -125,7 +125,7 @@ export class ChartSummary extends React.Component {
             onClick={() => {
               ReactGA.event({
                 category: 'Dashboard',
-                action: translate('dashboard.viewInMap')
+                action: translate('dashboard.viewInMap'),
               })
               this.props.selectMenu(slug.map.base)
             }}

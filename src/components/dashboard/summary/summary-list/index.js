@@ -20,7 +20,7 @@ const SummaryItemContainer = styled.div`
 @autobind
 export default class SummaryList extends React.PureComponent {
   static propTypes = {
-    data: PropTypes.arrayOf(PropTypes.shape(SummaryItem.propTypes))
+    data: PropTypes.arrayOf(PropTypes.shape(SummaryItem.propTypes)),
   }
 
   componentDidMount() {}

@@ -26,12 +26,12 @@ const Nodata = styled.div`
 @autobind
 export default class BoxNotifications extends React.PureComponent {
   static propTypes = {
-    onClickNotification: PropTypes.func
+    onClickNotification: PropTypes.func,
   }
 
   state = {
     notifications: [],
-    isLoading: false
+    isLoading: false,
   }
 
   async loadData() {
@@ -42,16 +42,16 @@ export default class BoxNotifications extends React.PureComponent {
       if (result && result.success) {
         this.setState({
           notifications: result.data,
-          isLoading: true
+          isLoading: true,
         })
       } else {
         this.setState({
-          isLoading: true
+          isLoading: true,
         })
       }
     } catch (e) {
       this.setState({
-        isLoading: true
+        isLoading: true,
       })
     }
   }

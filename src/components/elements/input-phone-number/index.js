@@ -24,13 +24,13 @@ const View = styled.div`
 export default class InputPhoneNumber extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func,
-    value: PropTypes.any
+    value: PropTypes.any,
   }
 
   handleTelChange(telNumber, selectedCountry) {
     const dataSource = {
       phoneNumber: telNumber,
-      ...selectedCountry
+      ...selectedCountry,
     }
     this.props.onChange(dataSource)
   }

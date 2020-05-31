@@ -16,7 +16,7 @@ const StationListWrapper = styled.div``
 export default class StationAutoList extends React.Component {
   static propTypes = {
     stationAutoList: PropTypes.arrayOf(PropTypes.shape(StationAuto.props)),
-    isShowStationName: PropTypes.bool
+    isShowStationName: PropTypes.bool,
   }
 
   render() {

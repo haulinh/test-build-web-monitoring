@@ -21,11 +21,11 @@ export default class PaginationWithSticky extends React.Component {
     page: PropTypes.number,
     onChange: PropTypes.func,
     isSticky: PropTypes.bool,
-    stickyOptions: PropTypes.object
+    stickyOptions: PropTypes.object,
   }
 
   static defaultProps = {
-    stickyOptions: {}
+    stickyOptions: {},
   }
 
   getTotal() {

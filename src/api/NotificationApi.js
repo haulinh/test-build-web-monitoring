@@ -47,7 +47,7 @@ export function deleteToken(token, email) {
 export function linkToken2Email(token) {
   return postFetch(getConfigApi().fcmToken, {
     token,
-    device: 'webapp' // MARK  webapp is constaint
+    device: 'webapp', // MARK  webapp is constaint
   })
 }
 
@@ -59,5 +59,5 @@ export default {
   loadNotificationsByType,
   linkToken2Email,
   deleteToken,
-  updateIsRead
+  updateIsRead,
 }

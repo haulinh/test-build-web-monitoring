@@ -32,16 +32,16 @@ export default class TabeList extends React.PureComponent {
     nameChart: PropTypes.string,
     isExporting: PropTypes.bool,
     onManually: PropTypes.func,
-    isManually: PropTypes.bool
+    isManually: PropTypes.bool,
   }
 
   state = {
-    dataSource: []
+    dataSource: [],
   }
   componentDidUpdate = prevProps => {
     if (prevProps.dataAQI !== this.props.dataAQI) {
       this.setState({
-        dataSource: this.props.dataAQI
+        dataSource: this.props.dataAQI,
       })
       // this.tranferDataAQI(this.props.dataAQI);
     }
@@ -54,7 +54,7 @@ export default class TabeList extends React.PureComponent {
       const strNgay = moment(_.get(item, 'Time')).format('MM/DD/YYYY')
       const aqiDay = _.get(item, 'AQI')
       const dataItem = {
-        ..._.omit(item, 'Time')
+        ..._.omit(item, 'Time'),
       }
 
       const aqiOld = _.get(dataSet, `${strNgay}.aqiDay`, -1)
@@ -68,7 +68,7 @@ export default class TabeList extends React.PureComponent {
     // console.log(dataSet, "--tranferDataAQI--");
     // console.log(_.values(dataSet), "---dataSet---")
     this.setState({
-      dataSource: _.values(dataSet)
+      dataSource: _.values(dataSet),
     })
   }
 

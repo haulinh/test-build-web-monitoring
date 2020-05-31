@@ -14,13 +14,13 @@ const MapWrapper = styled.div`
 @withRouter
 export default class MapMoreInfo extends React.Component {
   static propTypes = {
-    stationID: PropTypes.string
+    stationID: PropTypes.string,
   }
 
   state = {
     isLoading: false,
     stationMap: [],
-    stationFocus: null
+    stationFocus: null,
   }
 
   async componentWillMount() {
@@ -32,20 +32,20 @@ export default class MapMoreInfo extends React.Component {
         const customNew = _pick(item, ['_id', 'key', 'name', 'stationType'])
         const mapLocation = {
           lat: parseFloat(item.mapLocation.lat),
-          lng: parseFloat(item.mapLocation.long)
+          lng: parseFloat(item.mapLocation.long),
         }
         let focusStaion = false
         if (this.props.stationID === customNew._id) {
           focusStaion = true
           this.setState({
-            stationFocus: mapLocation
+            stationFocus: mapLocation,
           })
         }
         return { ...customNew, mapLocation, focusStaion }
       })
       this.setState({
         isLoading: false,
-        stationMap: res.data
+        stationMap: res.data,
       })
     }
   }

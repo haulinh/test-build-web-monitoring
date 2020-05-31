@@ -9,7 +9,7 @@ import InputNumberCell from 'components/elements/input-number-cell'
 const FormItem = Form.Item
 
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguage
 @autobind
@@ -17,7 +17,7 @@ export default class MeasuringForm extends React.PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,
     lang: langPropTypes,
-    isEdit: PropTypes.bool
+    isEdit: PropTypes.bool,
   }
 
   handleSubmit(e) {
@@ -28,7 +28,7 @@ export default class MeasuringForm extends React.PureComponent {
         key: values.key,
         name: values.name,
         unit: values.unit ? values.unit : '',
-        numericalOrder: values.numericalOrder
+        numericalOrder: values.numericalOrder,
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
@@ -40,9 +40,9 @@ export default class MeasuringForm extends React.PureComponent {
               errors: [
                 new Error(
                   this.props.lang.t('measuringManager.create.keyExisted')
-                )
-              ]
-            }
+                ),
+              ],
+            },
           })
         }
       }
@@ -52,19 +52,19 @@ export default class MeasuringForm extends React.PureComponent {
   render() {
     const {
       form: { getFieldDecorator },
-      lang: { t }
+      lang: { t },
     } = this.props
     const formItemLayout = {
       labelCol: {
         // sm: { span: 2, offset: 0 }
         xs: { span: 0, offset: 0 },
-        sm: { span: 0, offset: 0 }
+        sm: { span: 0, offset: 0 },
       },
       wrapperCol: {
         // sm: { span: 20, offset: 0 }
         xs: { span: 12 },
-        sm: { span: 24 }
-      }
+        sm: { span: 24 },
+      },
     }
 
     return (
@@ -79,9 +79,9 @@ export default class MeasuringForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('measuringManager.form.key.error')
-                  }
-                ]
+                    message: t('measuringManager.form.key.error'),
+                  },
+                ],
               })(
                 <Input
                   size="large"
@@ -100,9 +100,9 @@ export default class MeasuringForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('measuringManager.form.name.error')
-                  }
-                ]
+                    message: t('measuringManager.form.name.error'),
+                  },
+                ],
               })(
                 <Input
                   size="large"

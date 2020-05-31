@@ -11,7 +11,7 @@ import {
   Input,
   Icon,
   Popconfirm,
-  Spin
+  Spin,
 } from 'antd'
 import { Clearfix } from 'containers/map/map-default/components/box-analytic-list/style'
 import { getMeasurings, getConfigAqiQC, postConfigAqiQC } from 'api/CategoryApi'
@@ -41,7 +41,7 @@ const i18n = {
   colMeasure: translate('aqiConfigCalculation.colMeasure'),
   colAvg1H: translate('aqiConfigCalculation.colAvg1H'),
   colAvg1D: translate('aqiConfigCalculation.colAvg1D'),
-  colUnit: translate('aqiConfigCalculation.colUnit')
+  colUnit: translate('aqiConfigCalculation.colUnit'),
 }
 
 @Form.create({})
@@ -52,7 +52,7 @@ export default class TabMucDo extends React.Component {
     isSubmit: false,
     dataSource: [],
     dataMeasuringObj: {},
-    dataMeasures: null
+    dataMeasures: null,
   }
 
   createColumn = (keyMeasure, type) => {
@@ -77,19 +77,19 @@ export default class TabMucDo extends React.Component {
                   onChange: val => {
                     const { setFieldsValue, getFieldValue } = this.props.form
                     setFieldsValue({
-                      [fliedName]: getFieldValue(fliedName)
+                      [fliedName]: getFieldValue(fliedName),
                     })
                   },
                   rules: [
                     {
                       required: !getFieldValue(fliedName),
-                      message: i18n.required
-                    }
-                  ]
+                      message: i18n.required,
+                    },
+                  ],
                 })(<InputNumber style={{ width: '100%' }} />)}
               </Form.Item>
             )
-          }
+          },
         },
         {
           title: i18n.colMax,
@@ -107,21 +107,21 @@ export default class TabMucDo extends React.Component {
                   onChange: val => {
                     const { setFieldsValue, getFieldValue } = this.props.form
                     setFieldsValue({
-                      [fliedName]: getFieldValue(fliedName)
+                      [fliedName]: getFieldValue(fliedName),
                     })
                   },
                   rules: [
                     {
                       required: !getFieldValue(fliedName),
-                      message: i18n.required
-                    }
-                  ]
+                      message: i18n.required,
+                    },
+                  ],
                 })(<InputNumber style={{ width: '100%' }} />)}
               </Form.Item>
             )
-          }
-        }
-      ]
+          },
+        },
+      ],
     }
   }
   getColumns = () => {
@@ -136,7 +136,7 @@ export default class TabMucDo extends React.Component {
       const type = {
         '1h': '1h',
         '8h': '8h',
-        '24h': '24h'
+        '24h': '24h',
       }
       if (_.get(item, type['1h'], false)) {
         // console.log(item,"----")
@@ -172,19 +172,19 @@ export default class TabMucDo extends React.Component {
                   setFieldsValue({
                     [`aqiQCLevel[${record.key}].name`]: getFieldValue(
                       `aqiQCLevel[${record.key}].name`
-                    )
+                    ),
                   })
                 },
                 rules: [
                   {
                     required: !getFieldValue(`aqiQCLevel[${record.key}].name`),
-                    message: i18n.required1D_1H
-                  }
-                ]
+                    message: i18n.required1D_1H,
+                  },
+                ],
               })(<Input style={{ width: '100%' }} />)}
             </Form.Item>
           )
-        }
+        },
       },
       {
         title: `${i18n.colValue} i`,
@@ -207,7 +207,7 @@ export default class TabMucDo extends React.Component {
                       setFieldsValue({
                         [`aqiQCLevel[${record.key}].min`]: getFieldValue(
                           `aqiQCLevel[${record.key}].min`
-                        )
+                        ),
                       })
                     },
                     rules: [
@@ -215,13 +215,13 @@ export default class TabMucDo extends React.Component {
                         required: !getFieldValue(
                           `aqiQCLevel[${record.key}].min`
                         ),
-                        message: i18n.required
-                      }
-                    ]
+                        message: i18n.required,
+                      },
+                    ],
                   })(<InputNumber style={{ width: '100%' }} />)}
                 </Form.Item>
               )
-            }
+            },
           },
           {
             title: i18n.colMax,
@@ -240,7 +240,7 @@ export default class TabMucDo extends React.Component {
                       setFieldsValue({
                         [`aqiQCLevel[${record.key}].max`]: getFieldValue(
                           `aqiQCLevel[${record.key}].max`
-                        )
+                        ),
                       })
                     },
                     rules: [
@@ -248,15 +248,15 @@ export default class TabMucDo extends React.Component {
                         required: !getFieldValue(
                           `aqiQCLevel[${record.key}].max`
                         ),
-                        message: i18n.required
-                      }
-                    ]
+                        message: i18n.required,
+                      },
+                    ],
                   })(<InputNumber style={{ width: '100%' }} />)}
                 </Form.Item>
               )
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       ...dynamicColumns,
       {
@@ -280,8 +280,8 @@ export default class TabMucDo extends React.Component {
               />
             </Popconfirm>
           )
-        }
-      }
+        },
+      },
     ]
   }
 
@@ -293,7 +293,7 @@ export default class TabMucDo extends React.Component {
         try {
           const transformData = {
             aqiQCMeasures: this.state.dataMeasures,
-            aqiQCLevel: _.get(values, 'aqiQCLevel', [])
+            aqiQCLevel: _.get(values, 'aqiQCLevel', []),
           }
           // console.log(transformData, "------");
           const response = await postConfigAqiQC(transformData)
@@ -313,16 +313,16 @@ export default class TabMucDo extends React.Component {
       dataSource: [
         ...this.state.dataSource,
         {
-          key: index
-        }
-      ]
+          key: index,
+        },
+      ],
     })
   }
 
   delete = key => {
     let tamp = this.state.dataSource.filter(item => item.key !== key)
     this.setState({
-      dataSource: [...tamp]
+      dataSource: [...tamp],
     })
   }
 
@@ -345,7 +345,7 @@ export default class TabMucDo extends React.Component {
       let dataSource = _.map(transformData, item => {
         return {
           ...item,
-          key: this.idIncrement++
+          key: this.idIncrement++,
         }
       })
       this.setState(
@@ -353,12 +353,12 @@ export default class TabMucDo extends React.Component {
           dataMeasuringObj,
           dataMeasures: DataMeasure,
           dataSource: dataSource,
-          isLoaded: true
+          isLoaded: true,
         },
         () => {
           // console.log(dataSource, "dataSource");
           this.props.form.setFieldsValue({
-            aqiQCLevel: dataSource
+            aqiQCLevel: dataSource,
           })
         }
       )

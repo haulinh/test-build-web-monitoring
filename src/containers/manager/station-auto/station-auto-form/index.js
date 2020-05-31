@@ -12,7 +12,7 @@ import {
   DatePicker,
   Radio,
   Checkbox,
-  Collapse
+  Collapse,
 } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
@@ -47,7 +47,7 @@ const { Panel } = Collapse
       initialValues = {
         ...initialValues,
         lat: initialValues.mapLocation.lat,
-        long: initialValues.mapLocation.long
+        long: initialValues.mapLocation.long,
       }
     }
 
@@ -57,7 +57,7 @@ const { Panel } = Collapse
     if (!initialValues.emails) initialValues.emails = []
     if (!initialValues.phones) initialValues.phones = []
     return mapPropsToFields({ initialValues })
-  }
+  },
 })
 @createLanguageHoc
 @autobind
@@ -66,7 +66,7 @@ export default class StationAutoForm extends React.PureComponent {
     onSubmit: PropTypes.func,
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   constructor(props) {
@@ -86,7 +86,7 @@ export default class StationAutoForm extends React.PureComponent {
       previewImage: '',
       fileList: [],
       imgList: [],
-      allowUpdateStandardsVN: !props.initialValues
+      allowUpdateStandardsVN: !props.initialValues,
     }
   }
 
@@ -97,7 +97,7 @@ export default class StationAutoForm extends React.PureComponent {
     )
 
     this.setState({
-      measuringListSource: measuringList.data
+      measuringListSource: measuringList.data,
     })
     if (this.props.initialValues) {
       let fileList = []
@@ -108,7 +108,7 @@ export default class StationAutoForm extends React.PureComponent {
           uid: -1,
           url: img.url,
           name: img.file.originalname,
-          status: 'done'
+          status: 'done',
         })
       }
 
@@ -121,7 +121,7 @@ export default class StationAutoForm extends React.PureComponent {
         options: this.props.initialValues.options
           ? this.props.initialValues.options
           : {},
-        fileList: fileList
+        fileList: fileList,
       })
     }
   }
@@ -151,7 +151,7 @@ export default class StationAutoForm extends React.PureComponent {
         const { t } = this.props.lang
         swal({
           title: t('stationAutoManager.addMeasuring.error'),
-          type: 'error'
+          type: 'error',
         })
         return
       }
@@ -199,7 +199,7 @@ export default class StationAutoForm extends React.PureComponent {
     this.props.form.setFieldsValue({ stationType: stationTypeObject.key })
     this.setState({
       stationType: stationTypeObject.key,
-      stationTypeObject: stationTypeObject
+      stationTypeObject: stationTypeObject,
     })
   }
 
@@ -207,7 +207,7 @@ export default class StationAutoForm extends React.PureComponent {
     this.props.form.setFieldsValue({ province: provinceObject.key })
     this.setState({
       province: provinceObject.key,
-      provinceObject: provinceObject
+      provinceObject: provinceObject,
     })
   }
 
@@ -215,14 +215,14 @@ export default class StationAutoForm extends React.PureComponent {
     this.props.form.setFieldsValue({ standardsVN: standardsVNObject.key })
     this.setState({
       standardsVN: standardsVNObject.key,
-      standardsVNObject: standardsVNObject
+      standardsVNObject: standardsVNObject,
     })
   }
 
   handlePreview = file => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
-      previewVisible: true
+      previewVisible: true,
     })
   }
 
@@ -243,7 +243,7 @@ export default class StationAutoForm extends React.PureComponent {
     if (file.response !== null && imgList.length > 0) {
       this.setState({
         fileList: fileList,
-        imgList: imgList
+        imgList: imgList,
       })
     }
 
@@ -253,7 +253,7 @@ export default class StationAutoForm extends React.PureComponent {
       fileList = []
       swal({
         title: t('stationAutoManager.upload.error'),
-        type: 'error'
+        type: 'error',
       })
     }
 
@@ -262,12 +262,12 @@ export default class StationAutoForm extends React.PureComponent {
 
   handleEmailsChange(value) {
     this.setState({
-      emails: value
+      emails: value,
     })
   }
   handlePhonesChange(value) {
     this.setState({
-      phones: value
+      phones: value,
     })
   }
 
@@ -288,11 +288,11 @@ export default class StationAutoForm extends React.PureComponent {
     )
     const formItemLayout = {
       labelCol: {
-        sm: { span: 6, offset: 0 }
+        sm: { span: 6, offset: 0 },
       },
       wrapperCol: {
-        sm: { span: 17, offset: 0 }
-      }
+        sm: { span: 17, offset: 0 },
+      },
     }
 
     return (
@@ -313,9 +313,9 @@ export default class StationAutoForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
-                        message: t('stationAutoManager.form.key.error')
-                      }
-                    ]
+                        message: t('stationAutoManager.form.key.error'),
+                      },
+                    ],
                   })(
                     <Input
                       disabled={this.props.isEdit}
@@ -333,9 +333,9 @@ export default class StationAutoForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
-                        message: t('stationAutoManager.form.name.error')
-                      }
-                    ]
+                        message: t('stationAutoManager.form.name.error'),
+                      },
+                    ],
                   })(
                     <Input
                       placeholder={t(
@@ -356,9 +356,9 @@ export default class StationAutoForm extends React.PureComponent {
                     rules: [
                       {
                         required: false,
-                        message: t('stationAutoManager.form.province.error')
-                      }
-                    ]
+                        message: t('stationAutoManager.form.province.error'),
+                      },
+                    ],
                   })(
                     <SelectProvice
                       //  label={t('stationAutoManager.form.province.label')}
@@ -379,9 +379,9 @@ export default class StationAutoForm extends React.PureComponent {
                     rules: [
                       {
                         required: false,
-                        message: t('stationAutoManager.form.qcvn.error')
-                      }
-                    ]
+                        message: t('stationAutoManager.form.qcvn.error'),
+                      },
+                    ],
                   })(
                     <SelectQCVN
                       placeholder={t(
@@ -403,9 +403,9 @@ export default class StationAutoForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
-                        message: t('stationAutoManager.form.long.error')
-                      }
-                    ]
+                        message: t('stationAutoManager.form.long.error'),
+                      },
+                    ],
                   })(
                     <Input
                       placeholder={t(
@@ -424,9 +424,9 @@ export default class StationAutoForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
-                        message: t('stationAutoManager.form.lat.error')
-                      }
-                    ]
+                        message: t('stationAutoManager.form.lat.error'),
+                      },
+                    ],
                   })(
                     <Input
                       placeholder={t('stationAutoManager.form.lat.placeholder')}
@@ -459,9 +459,9 @@ export default class StationAutoForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
-                        message: t('stationAutoManager.form.stationType.error')
-                      }
-                    ]
+                        message: t('stationAutoManager.form.stationType.error'),
+                      },
+                    ],
                   })(
                     <SelectStationType
                       label={t('stationAutoManager.form.stationType.label')}
@@ -481,7 +481,7 @@ export default class StationAutoForm extends React.PureComponent {
                   label={t('stationAutoManager.form.frequency.label')}
                 >
                   {getFieldDecorator('dataFrequency', {
-                    rules: [{ required: false }]
+                    rules: [{ required: false }],
                   })(
                     <InputNumberCell
                       editable={true}
@@ -498,7 +498,7 @@ export default class StationAutoForm extends React.PureComponent {
                   label={t('stationAutoManager.form.typeSampling.label')}
                 >
                   {getFieldDecorator('typeSampling', {
-                    rules: []
+                    rules: [],
                   })(
                     <Radio.Group buttonStyle="solid">
                       <Radio.Button value="FTP">FTP</Radio.Button>
@@ -513,7 +513,7 @@ export default class StationAutoForm extends React.PureComponent {
                   label={t('stationAutoManager.form.dayOfOperation.label')}
                 >
                   {getFieldDecorator('activatedAt', {
-                    rules: [{ required: false }]
+                    rules: [{ required: false }],
                   })(
                     <DatePicker
                       format="DD-MM-YYYY"
@@ -530,7 +530,7 @@ export default class StationAutoForm extends React.PureComponent {
                   label={t('stationAutoManager.form.isStopWorking.label')}
                 >
                   {getFieldDecorator('isStopWorking', {
-                    valuePropName: 'checked'
+                    valuePropName: 'checked',
                   })(<Checkbox />)}
                 </FormItem>
               </Col>
@@ -540,10 +540,10 @@ export default class StationAutoForm extends React.PureComponent {
                 <FormItem
                   {...formItemLayout}
                   labelCol={{
-                    sm: { span: 3, offset: 0 }
+                    sm: { span: 3, offset: 0 },
                   }}
                   wrapperCol={{
-                    sm: { span: 21, offset: 0 }
+                    sm: { span: 21, offset: 0 },
                   }}
                   label={t('stationAutoManager.form.emails.label')}
                 >
@@ -562,7 +562,7 @@ export default class StationAutoForm extends React.PureComponent {
               <Col
                 span={12}
                 style={{
-                  display: 'none'
+                  display: 'none',
                 }}
               >
                 <FormItem
@@ -586,10 +586,10 @@ export default class StationAutoForm extends React.PureComponent {
                 <FormItem
                   {...formItemLayout}
                   labelCol={{
-                    sm: { span: 3, offset: 0 }
+                    sm: { span: 3, offset: 0 },
                   }}
                   wrapperCol={{
-                    sm: { span: 21, offset: 0 }
+                    sm: { span: 21, offset: 0 },
                   }}
                   label={t('stationAutoManager.form.note.label')}
                 >
@@ -648,12 +648,12 @@ export default class StationAutoForm extends React.PureComponent {
                 this.props.initialValues
                   ? this.props.initialValues.measuringList
                   : [
-                      {
-                        key: '',
-                        name: '',
-                        unit: ''
-                      }
-                    ]
+                    {
+                      key: '',
+                      name: '',
+                      unit: '',
+                    },
+                  ]
               }
               measuringListSource={this.state.measuringListSource}
             />
@@ -797,10 +797,10 @@ export default class StationAutoForm extends React.PureComponent {
                 <FormItem
                   {...formItemLayout}
                   labelCol={{
-                    sm: { span: 3, offset: 0 }
+                    sm: { span: 3, offset: 0 },
                   }}
                   wrapperCol={{
-                    sm: { span: 21, offset: 0 }
+                    sm: { span: 21, offset: 0 },
                   }}
                   label={t('stationAutoManager.form.material.label')}
                 >
@@ -819,10 +819,10 @@ export default class StationAutoForm extends React.PureComponent {
                 <FormItem
                   {...formItemLayout}
                   labelCol={{
-                    sm: { span: 3, offset: 0 }
+                    sm: { span: 3, offset: 0 },
                   }}
                   wrapperCol={{
-                    sm: { span: 21, offset: 0 }
+                    sm: { span: 21, offset: 0 },
                   }}
                   label={t('stationAutoManager.form.processProduction.label')}
                 >

@@ -8,7 +8,7 @@ import { BoldTextWrap } from './_helperComponent'
 const i18n = {
   station: translate('common.station'),
   measurings: translate('common.measures'),
-  dataConnected: translate('common.deviceStatus.dataConnected')
+  dataConnected: translate('common.deviceStatus.dataConnected'),
 }
 
 export default function DataConnectedCell(props) {

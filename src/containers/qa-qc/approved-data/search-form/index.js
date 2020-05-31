@@ -40,7 +40,7 @@ const i18n = {
   __deviceError: translate('qaqc.dataFilter.deviceError'),
   __deviceCalibration: translate('qaqc.dataFilter.deviceCalibration'),
   __zero: translate('qaqc.dataFilter.zero'),
-  __negative: translate('qaqc.dataFilter.negative')
+  __negative: translate('qaqc.dataFilter.negative'),
 }
 
 /* MARK  @mockup */
@@ -49,7 +49,7 @@ let mockDataFilterBy = [
   { name: i18n.__deviceError, value: 'deviceError' },
   { name: i18n.__deviceCalibration, value: 'deviceCalibration' },
   { name: i18n.__zero, value: 'zero' },
-  { name: i18n.__negative, value: 'negative' }
+  { name: i18n.__negative, value: 'negative' },
 ]
 
 function validate(values) {
@@ -74,20 +74,20 @@ function validate(values) {
       .minutes(0),
     toDate: moment()
       .hours(23)
-      .minutes(59)
+      .minutes(59),
     //   ...(ownProps.initialValues ? ownProps.initialValues : {})
-  }
+  },
 }))
 @reduxForm({
   form: 'dataSearchForm',
-  validate
+  validate,
 })
 @createLang
 @autobind
 export default class SearchForm extends React.Component {
   static propTypes = {
     measuringData: PropTypes.array,
-    searchNow: PropTypes.bool
+    searchNow: PropTypes.bool,
   }
 
   constructor(props) {
@@ -101,10 +101,10 @@ export default class SearchForm extends React.Component {
       measuringList: props.measuringData
         ? props.measuringData.map(measuring => ({
             value: measuring.key,
-            name: measuring.name
+            name: measuring.name,
           }))
         : [],
-      dataFilters: mockDataFilterBy
+      dataFilters: mockDataFilterBy,
     }
   }
 
@@ -119,7 +119,7 @@ export default class SearchForm extends React.Component {
   handleChangeStationType(stationTypeKey, e) {
     this.setState({
       stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
-      stationAutoKey: ''
+      stationAutoKey: '',
     })
     this.props.change('stationAuto', '')
   }
@@ -138,13 +138,13 @@ export default class SearchForm extends React.Component {
     this.setState({
       measuringList: measuringData.map(measuring => ({
         value: measuring.key,
-        name: measuring.name
+        name: measuring.name,
       })),
       measuringData: measuringData,
       stationAutoKey: stationAuto.key,
       stationAutoID: stationAuto._id,
       options: stationAuto.options,
-      stationAutoName: stationAuto.name
+      stationAutoName: stationAuto.name,
     })
     this.props.change('measuringList', measuringData.map(m => m.key))
   }
@@ -165,12 +165,12 @@ export default class SearchForm extends React.Component {
       stationAutoType: this.state.stationTypeKey,
       province: _.get(values, 'province', ''),
       dataType: _.get(values, 'dataType', QAQC_TABLES.original),
-      dataFilterBy: _.get(values, 'dataFilterBy', [])
+      dataFilterBy: _.get(values, 'dataFilterBy', []),
     }
 
     this.props.onSubmit(params, {
       _id: this.state.stationAutoID,
-      publishedList: _.get(this.state, 'options.published.measureList', [])
+      publishedList: _.get(this.state, 'options.published.measureList', []),
     })
   }
 

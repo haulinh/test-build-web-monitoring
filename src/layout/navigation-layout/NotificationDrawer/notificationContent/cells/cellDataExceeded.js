@@ -8,7 +8,7 @@ import { BoldTextWrap } from './_helperComponent'
 const i18n = {
   station: translate('common.station'),
   measurings: translate('common.measures'),
-  dataExeeded: translate('common.deviceStatus.dataExceeded')
+  dataExeeded: translate('common.deviceStatus.dataExceeded'),
 }
 
 export default function DataExceededCell(props) {

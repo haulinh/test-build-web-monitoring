@@ -23,7 +23,7 @@ const StationTypeContainer = styled.div`
 @autobind
 export default class StationTypeList extends React.Component {
   static propTypes = {
-    data: PropTypes.arrayOf(PropTypes.shape(StationTypeItem.propTypes))
+    data: PropTypes.arrayOf(PropTypes.shape(StationTypeItem.propTypes)),
   }
 
   sortStationType(a, b) {

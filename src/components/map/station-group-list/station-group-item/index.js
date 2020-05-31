@@ -46,14 +46,14 @@ export default class StationGroupItem extends React.PureComponent {
     stations: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string,
-        name: PropTypes.string
+        name: PropTypes.string,
       })
     ),
-    onSelectStation: PropTypes.func
+    onSelectStation: PropTypes.func,
   }
 
   state = {
-    isCollapse: true
+    isCollapse: true,
   }
 
   toggleCollapse() {

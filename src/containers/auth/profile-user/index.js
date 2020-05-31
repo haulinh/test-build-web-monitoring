@@ -69,13 +69,13 @@ function validate(values) {
 
 @reduxForm({
   form: 'ProfileUser',
-  validate
+  validate,
 })
 @autobind
 export class ProfileUserForm extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,
-    initialValues: PropTypes.object
+    initialValues: PropTypes.object,
   }
 
   constructor(props) {
@@ -87,7 +87,7 @@ export class ProfileUserForm extends PureComponent {
       totalStation: 0,
       createdUser: 0,
       createdStation: 0,
-      isEdit: false
+      isEdit: false,
     }
   }
 
@@ -98,17 +98,17 @@ export class ProfileUserForm extends PureComponent {
         this.setState({
           name: organization.name,
           image: {
-            url: avatar
+            url: avatar,
           },
           totalUser: organization.packageInfo.totalUser,
-          totalStation: organization.packageInfo.totalStation
+          totalStation: organization.packageInfo.totalStation,
         })
       } else {
         this.setState({
           name: organization.name,
           image: {
-            url: avatar
-          }
+            url: avatar,
+          },
         })
       }
     }
@@ -121,7 +121,7 @@ export class ProfileUserForm extends PureComponent {
     const record = await StationAutoApi.getTotalCount()
     if (record.success) {
       this.setState({
-        createdStation: record.data
+        createdStation: record.data,
       })
     }
   }
@@ -130,14 +130,14 @@ export class ProfileUserForm extends PureComponent {
     const record = await UserApi.getTotalCount()
     if (record.success) {
       this.setState({
-        createdUser: record.data
+        createdUser: record.data,
       })
     }
   }
 
   editNameOrganization() {
     this.setState({
-      isEdit: true
+      isEdit: true,
     })
   }
 
@@ -281,14 +281,14 @@ export class ProfileUserForm extends PureComponent {
 @autobind
 export default class ProfileUser extends PureComponent {
   static propTypes = {
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       userInfo: {},
-      isLoaded: false
+      isLoaded: false,
     }
   }
 
@@ -297,16 +297,16 @@ export default class ProfileUser extends PureComponent {
     this.setState({
       userInfo: {
         ...record.data,
-        birthday: moment(record.data.birthday)
+        birthday: moment(record.data.birthday),
       },
-      isLoaded: true
+      isLoaded: true,
     })
   }
 
   async onSubmit(values) {
     const _id = values._id
     const data = {
-      ...values
+      ...values,
     }
     await AuthApi.putProfile(_id, data)
     const result = await OrganizationApi.updateOrganizationNameLogo(
@@ -316,12 +316,12 @@ export default class ProfileUser extends PureComponent {
     if (result.error) {
       swal({
         type: 'error',
-        title: result.message
+        title: result.message,
       })
     } else {
       swal({
         type: 'success',
-        title: translate('profileUser.success')
+        title: translate('profileUser.success'),
       })
     }
   }

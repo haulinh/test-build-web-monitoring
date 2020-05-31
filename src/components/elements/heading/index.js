@@ -31,12 +31,12 @@ export default class Heading extends React.PureComponent {
   static propTypes = {
     rightChildren: PropTypes.any,
     fontSize: PropTypes.number,
-    isBackground: PropTypes.bool
+    isBackground: PropTypes.bool,
   }
 
   static defaultProps = {
     fontSize: 18,
-    style: {}
+    style: {},
   }
 
   render() {

@@ -18,7 +18,7 @@ export default class RoleEdit extends PureComponent {
 
   state = {
     isLoaded: false,
-    dataEdit: []
+    dataEdit: [],
   }
 
   async componentWillMount() {
@@ -28,12 +28,12 @@ export default class RoleEdit extends PureComponent {
       swal({
         title: 'Error',
         type: 'error',
-        text: record.message
+        text: record.message,
       })
     } else {
       this.setState({
         isLoaded: true,
-        dataEdit: { ...record.data, menu: [_get(record.data, 'menu')] }
+        dataEdit: { ...record.data, menu: [_get(record.data, 'menu')] },
       })
     }
   }
@@ -42,7 +42,7 @@ export default class RoleEdit extends PureComponent {
     const data = {
       name: values.name,
       description: values.description,
-      menu: values.menu[0]
+      menu: values.menu[0],
     }
     const _id = this.props.match.params._id
     const record = await RoleApi.updateRole(_id, data)
@@ -50,12 +50,12 @@ export default class RoleEdit extends PureComponent {
       swal({
         title: 'Error',
         type: 'error',
-        text: record.message
+        text: record.message,
       })
     } else {
       swal({
         title: 'success',
-        type: 'success'
+        type: 'success',
       }).then(() => {
         // this.props.history.push(slug.role.base)
       })

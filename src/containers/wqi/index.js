@@ -19,7 +19,7 @@ const WrapperContainer = styled.div`
 export default class WqiContainer extends React.Component {
   state = {
     station: null,
-    wqiList: []
+    wqiList: [],
   }
 
   async componentDidMount() {

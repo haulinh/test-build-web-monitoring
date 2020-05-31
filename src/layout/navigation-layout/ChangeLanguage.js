@@ -1,7 +1,7 @@
 import React from 'react'
 import AkDropdownMenu, {
   DropdownItemGroup,
-  DropdownItem
+  DropdownItem,
 } from '@atlaskit/dropdown-menu'
 import { AkGlobalItem } from '@atlaskit/navigation'
 import styled from 'styled-components'
@@ -13,13 +13,13 @@ const languages = [
   {
     flag: 'US',
     locale: 'en',
-    name: 'English'
+    name: 'English',
   },
   {
     flag: 'VN',
     locale: 'vi',
-    name: 'Vietnamese'
-  }
+    name: 'Vietnamese',
+  },
 ]
 
 const FlagWrapper = styled.div`

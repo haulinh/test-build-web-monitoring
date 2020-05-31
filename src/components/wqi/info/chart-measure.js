@@ -19,7 +19,7 @@ export default class ChartView extends React.Component {
       data.push({
         name: key,
         y: value,
-        color
+        color,
       })
       categories.push(key)
 
@@ -30,18 +30,18 @@ export default class ChartView extends React.Component {
       chart: {
         inverted: true,
         polar: false,
-        width: 250
+        width: 250,
       },
       credits: {
-        enabled: false
+        enabled: false,
       },
       yAxis: {
         title: {
-          text: ''
-        }
+          text: '',
+        },
       },
       legend: {
-        enabled: false
+        enabled: false,
       },
       plotOptions: {
         series: {
@@ -53,19 +53,19 @@ export default class ChartView extends React.Component {
             // }
             formatter: function() {
               return this.y === 0 ? '' : this.y
-            }
-          }
-        }
+            },
+          },
+        },
       },
       tooltip: {
         headerFormat: '<span style="font-size:11px">{point.key}</span><br>',
-        pointFormat: 'VN WQI: <b>{point.y}'
+        pointFormat: 'VN WQI: <b>{point.y}',
       },
       title: {
-        text: ''
+        text: '',
       },
       xAxis: {
-        categories
+        categories,
       },
 
       series: [
@@ -73,9 +73,9 @@ export default class ChartView extends React.Component {
           type: 'column',
           colorByPoint: true,
           data,
-          showInLegend: false
-        }
-      ]
+          showInLegend: false,
+        },
+      ],
     }
   }
 

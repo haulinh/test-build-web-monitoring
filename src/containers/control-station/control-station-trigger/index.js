@@ -21,7 +21,7 @@ const LinkSpan = styled.span`
   }
 `
 @connect(state => ({
-  organization: state.auth.userInfo.organization
+  organization: state.auth.userInfo.organization,
 }))
 @createLanguage
 @withRouter
@@ -35,7 +35,7 @@ export default class ControlStationTrigger extends React.PureComponent {
     isSamplingAuto: false, // kích hoạt đang lấy mẫu tự động
     isSampling: false, // kích hoạt đang lấy mẫu thủ công,
     isTriggerExceeded: false, // Kích hoạt lấy mẫu vượt ngưỡng
-    user: {}
+    user: {},
   }
 
   async loadData() {
@@ -53,7 +53,7 @@ export default class ControlStationTrigger extends React.PureComponent {
         showConfirmButton: true,
         showCancelButton: false,
         confirmButtonText: 'OK, config it!',
-        reverseButtons: false
+        reverseButtons: false,
       }).then(result => {
         if (result) {
           this.props.history.push(
@@ -66,7 +66,7 @@ export default class ControlStationTrigger extends React.PureComponent {
       swal({
         title: 'Error',
         type: 'error',
-        text: record.message
+        text: record.message,
       })
     } else {
       const typeControl = record.data.ThuCong === true ? 1 : 0
@@ -87,11 +87,11 @@ export default class ControlStationTrigger extends React.PureComponent {
               record.data.HenGio === null
                 ? moment().format('YYYY/MM/DD')
                 : moment(record.data.HenGio, 'YYYY/MM/DD'),
-            periodic: record.data.ChuKyLayMau ? record.data.ChuKyLayMau : 0
+            periodic: record.data.ChuKyLayMau ? record.data.ChuKyLayMau : 0,
           },
           isLoaded: true,
           isTriggerExceeded: record.data.LayMauVuotNguong,
-          user: dataEmail
+          user: dataEmail,
         },
         () => {}
       )
@@ -115,7 +115,7 @@ export default class ControlStationTrigger extends React.PureComponent {
       ThuCong: typeControl,
       ChaiCanLay: values.amount_get,
       Email: this.state.user.data.email,
-      MaToChuc: this.props.organization._id
+      MaToChuc: this.props.organization._id,
     }
     if (typeControl === 0) {
       const datetime = moment(
@@ -129,7 +129,7 @@ export default class ControlStationTrigger extends React.PureComponent {
         ...data,
         ChuKyLayMau: values.periodic,
         HenGio: datetime,
-        MaToChuc: this.props.organization._id
+        MaToChuc: this.props.organization._id,
       }
     }
 
@@ -139,14 +139,14 @@ export default class ControlStationTrigger extends React.PureComponent {
       swal({
         title: 'Success',
         type: 'success',
-        text: translate('controlStation.trigger.triggerSuccess')
+        text: translate('controlStation.trigger.triggerSuccess'),
       })
       this.setPropsSampling(typeControl, { ...data, LayMau: true })
     } else {
       swal({
         title: 'Error',
         type: 'error',
-        text: record.message
+        text: record.message,
       })
     }
   }
@@ -158,7 +158,7 @@ export default class ControlStationTrigger extends React.PureComponent {
       Status: 0,
       MaTram: key,
       Email: this.state.user.data.email,
-      MaToChuc: this.props.organization._id
+      MaToChuc: this.props.organization._id,
     }
     const record = await SamplingApi.trigger_StationControl(data)
 
@@ -166,14 +166,14 @@ export default class ControlStationTrigger extends React.PureComponent {
       swal({
         title: 'Success',
         type: 'success',
-        text: translate('controlStation.trigger.triggerCancel')
+        text: translate('controlStation.trigger.triggerCancel'),
       })
       this.setPropsSampling(typeControl, { ...data, LayMau: true })
     } else {
       swal({
         title: 'Error',
         type: 'error',
-        text: record.message
+        text: record.message,
       })
     }
   }
@@ -184,31 +184,31 @@ export default class ControlStationTrigger extends React.PureComponent {
     let data = {
       MaTram: key,
       LayMauVuotNguong: isExxeeded ? 0 : 1,
-      MaToChuc: this.props.organization._id
+      MaToChuc: this.props.organization._id,
     }
     const record = await SamplingApi.triggerExceeded_StationControl(data)
     if (record.success) {
       swal({
         title: 'Success',
         type: 'success',
-        text: translate('controlStation.trigger.triggerExceeded')
+        text: translate('controlStation.trigger.triggerExceeded'),
       })
     } else {
       swal({
         title: 'Error',
         type: 'error',
-        text: record.message
+        text: record.message,
       })
     }
     this.setState({
-      isTriggerExceeded: !isExxeeded
+      isTriggerExceeded: !isExxeeded,
     })
   }
 
   setPropsSampling(typeControl = 0, data) {
     this.setState({
       isSampling: typeControl === 1 && data.LayMau ? true : false,
-      isSamplingAuto: typeControl === 0 && data.HenGio ? true : false
+      isSamplingAuto: typeControl === 0 && data.HenGio ? true : false,
     })
   }
 
@@ -224,7 +224,7 @@ export default class ControlStationTrigger extends React.PureComponent {
 
   buttonAdd() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     const dropdown = (
       <Menu>
@@ -271,13 +271,13 @@ export default class ControlStationTrigger extends React.PureComponent {
                   slug.controlStation.triggerWithKey +
                   `/${this.props.match.params.key}/${
                     this.props.match.params.name
-                  }`
-              }
+                  }`,
+              },
             },
             {
               id: 'info',
-              name: `${this.props.match.params.name}`
-            }
+              name: `${this.props.match.params.name}`,
+            },
           ]}
         />
         {this.state.isLoaded && (

@@ -23,5 +23,5 @@ export default {
   BoxNumberView,
   Row,
   Item,
-  Clearfix
+  Clearfix,
 }

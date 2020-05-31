@@ -16,7 +16,7 @@ export default class TableDataList extends React.PureComponent {
     dataSource: PropTypes.array,
     loading: PropTypes.bool,
     listKey: PropTypes.string,
-    onCreateReport: PropTypes.func
+    onCreateReport: PropTypes.func,
   }
 
   getColumns = () => {
@@ -28,7 +28,7 @@ export default class TableDataList extends React.PureComponent {
         width: 5,
         render: text => {
           return <div>{text}</div>
-        }
+        },
       },
       {
         title: 'Thời gian',
@@ -37,7 +37,7 @@ export default class TableDataList extends React.PureComponent {
         // width: 150,
         render: text => {
           return <span>{text}</span>
-        }
+        },
       },
       {
         title: 'Đường dẫn tải về',
@@ -45,7 +45,7 @@ export default class TableDataList extends React.PureComponent {
         className: 'column-style',
         render: (text, record) => {
           return <a href={text}>{text}</a>
-        }
+        },
       },
       {
         title: 'Action',
@@ -58,21 +58,21 @@ export default class TableDataList extends React.PureComponent {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                maxWidth: 100
+                maxWidth: 100,
               }}
             >
               <div
                 style={{
                   width: 100,
                   marginRight: '4px',
-                  marginBottom: '4px'
+                  marginBottom: '4px',
                 }}
               >
                 <Button
                   onClick={() =>
                     this.createFileReport({
                       reportDate: record.reportDate,
-                      listKey: this.props.listKey
+                      listKey: this.props.listKey,
                     })
                   }
                   type="primary"
@@ -88,7 +88,7 @@ export default class TableDataList extends React.PureComponent {
                   style={{
                     width: 100,
                     marginRight: '4px',
-                    marginBottom: '4px'
+                    marginBottom: '4px',
                   }}
                 >
                   <Button
@@ -108,7 +108,7 @@ export default class TableDataList extends React.PureComponent {
                   style={{
                     width: 100,
                     marginRight: '4px',
-                    marginBottom: '4px'
+                    marginBottom: '4px',
                   }}
                 >
                   <Button
@@ -125,8 +125,8 @@ export default class TableDataList extends React.PureComponent {
               )}
             </div>
           )
-        }
-      }
+        },
+      },
     ]
 
     return columns
@@ -153,7 +153,7 @@ export default class TableDataList extends React.PureComponent {
     const param = {
       reportDate: reportDate,
       listKey: listKey,
-      timezoneDay: 0
+      timezoneDay: 0,
     }
     if (this.props.onCreateReport) {
       this.props.onCreateReport(param)

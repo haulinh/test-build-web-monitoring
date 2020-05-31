@@ -9,7 +9,7 @@ import {
   find,
   inRange,
   values as _values,
-  omit as _omit
+  omit as _omit,
 } from 'lodash'
 import InfoBox from 'react-google-maps/lib/components/addons/InfoBox'
 import { Tooltip, Popover, Typography, Row, Col } from 'antd'
@@ -27,7 +27,7 @@ const WindowInfo = ({
   aqiDay,
   backgroundColor,
   color,
-  description
+  description,
 }) => {
   // console.log(time,"WindowInfo")
 
@@ -49,7 +49,7 @@ const WindowInfo = ({
           background: backgroundColor,
           borderRadius: 10,
           color: color,
-          display: 'flex'
+          display: 'flex',
         }}
       >
         <Row>
@@ -58,7 +58,7 @@ const WindowInfo = ({
             style={{
               // background: "url(/images/background_1.png) no-repeat",
 
-              padding: 8
+              padding: 8,
             }}
           >
             <div>
@@ -71,7 +71,7 @@ const WindowInfo = ({
               padding: 8,
               display: 'flex',
               alignItems: 'center',
-              height: '100%'
+              height: '100%',
             }}
             span={14}
           >
@@ -133,7 +133,7 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center'
+              alignItems: 'center',
             }}
           >
             <div
@@ -147,7 +147,7 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
                 border: `2px solid ${colorBorder}`,
                 width: 45,
                 height: 45,
-                marginBottom: 6
+                marginBottom: 6,
               }}
               onClick={() => {
                 if (onMapClick) {
@@ -160,7 +160,7 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
                   style={{
                     fontSize: `16px`,
                     color: colorFont,
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
                   }}
                 >
                   {value}
@@ -177,7 +177,7 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
                 borderTop: `8px solid ${colorBorder}`,
                 zIndex: 2,
                 position: 'absolute',
-                bottom: '-1px'
+                bottom: '-1px',
               }}
             />
           </div>
@@ -190,13 +190,13 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
 @withProps({
   googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${
     GOOGLE_MAP.KEY
-  }&v=3.exp&libraries=geometry,drawing,places`
+  }&v=3.exp&libraries=geometry,drawing,places`,
 })
 @withScriptjs
 @withGoogleMap
 class CustomGoogleMap extends PureComponent {
   state = {
-    isBounds: false
+    isBounds: false,
   }
 
   getBounds() {
@@ -216,7 +216,7 @@ class CustomGoogleMap extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      zoom: nextProps.zoom
+      zoom: nextProps.zoom,
     })
   }
 

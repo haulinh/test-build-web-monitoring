@@ -10,7 +10,7 @@ import * as _ from 'lodash'
 export default class TableDataList extends React.PureComponent {
   static propTypes = {
     dataAQI: PropTypes.array,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
   }
 
   getColumns() {
@@ -22,13 +22,13 @@ export default class TableDataList extends React.PureComponent {
         align: 'center',
         dataIndex: `${ti}.AQI`,
         key: ti,
-        width: 50
+        width: 50,
       })
     }
 
     const colValue = {
       title: translate('statistic.aqi.title'),
-      children: childrenValue
+      children: childrenValue,
     }
 
     const columns = [
@@ -45,9 +45,9 @@ export default class TableDataList extends React.PureComponent {
               // console.log( moment(value).format(DD_MM_YYYY) )
               // console.log(record,"record")
               return <div>{value}</div>
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       colValue,
       {
@@ -58,10 +58,10 @@ export default class TableDataList extends React.PureComponent {
             align: 'center',
             dataIndex: 'aqiDay',
             key: 'aqiDay',
-            width: 100
-          }
-        ]
-      }
+            width: 100,
+          },
+        ],
+      },
     ]
     return columns
   }

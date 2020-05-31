@@ -36,7 +36,7 @@ function validate(values) {
 
 @reduxForm({
   form: 'ControlStationTriggerForm',
-  validate
+  validate,
 })
 @createLanguage
 @autobind
@@ -48,23 +48,23 @@ export default class ControlStationTriggerForm extends React.PureComponent {
     typeControl: PropTypes.number,
     isSampling: PropTypes.bool,
     isSamplingAuto: PropTypes.bool,
-    isTriggerExceeded: PropTypes.bool
+    isTriggerExceeded: PropTypes.bool,
   }
 
   state = {
-    typeControl: this.props.typeControl
+    typeControl: this.props.typeControl,
   }
   changeTypeControl(values) {
     if (values === undefined) return
     this.setState({
-      typeControl: values.value
+      typeControl: values.value,
     })
   }
 
   render() {
     const items = [
       { label: translate('controlStation.handMade'), value: 1 },
-      { label: translate('controlStation.automatic'), value: 0 }
+      { label: translate('controlStation.automatic'), value: 0 },
     ]
     return (
       <form>

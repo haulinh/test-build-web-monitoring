@@ -35,7 +35,7 @@ const i18n = {
   historyData: translate('monitoring.actions.more.historyData'),
   averageData: translate('monitoring.actions.more.averageData'),
   checkData: translate('monitoring.actions.more.checkData'),
-  config: translate('monitoring.actions.more.config')
+  config: translate('monitoring.actions.more.config'),
 }
 
 const StationHeadItemWrapper = styled.div`
@@ -126,7 +126,7 @@ const ActionWrapper = styled.div`
   isAdmin: state.auth.userInfo.isAdmin,
   organization: state.auth.userInfo.organization,
   userInfo: state.auth.userInfo,
-  language: _get(state, 'language.locale')
+  language: _get(state, 'language.locale'),
 }))
 @queryFormDataBrowser(['submit'])
 @autobind
@@ -143,7 +143,7 @@ export default class StationAutoHead extends React.PureComponent {
     onClickDataSearch: PropTypes.func,
     onClickViewMap: PropTypes.func,
     onClickViewCamera: PropTypes.func,
-    currentActionDefault: PropTypes.string
+    currentActionDefault: PropTypes.string,
   }
 
   state = {
@@ -174,7 +174,7 @@ export default class StationAutoHead extends React.PureComponent {
     this.setState({
       currentAction: this.props.currentActionDefault
         ? this.props.currentActionDefault
-        : ''
+        : '',
     })
   }
 
@@ -182,7 +182,7 @@ export default class StationAutoHead extends React.PureComponent {
     // console.log(this.props.currentActionDefault, nextProps.currentActionDefault,"UNSAFE_componentWillReceiveProps")
     if (this.props.currentActionDefault !== nextProps.currentActionDefault) {
       this.setState({
-        currentAction: nextProps.currentActionDefault
+        currentAction: nextProps.currentActionDefault,
       })
     }
   }
@@ -222,7 +222,7 @@ export default class StationAutoHead extends React.PureComponent {
       options,
       status,
       language,
-      _id
+      _id,
     } = this.props
     // if (stationID === "NUOCTHAINMPM2_1MR") {
     //   console.log(this.state, this.props.currentActionDefault , "currentAction")
@@ -254,11 +254,11 @@ export default class StationAutoHead extends React.PureComponent {
               </span>
             </WrapperNameStationTypeName>
           ) : (
-            <StationName>
-              {removeAccents(language, name)}{' '}
-              {status === STATUS_STATION.NOT_USE && ' - ' + i18n.notInUse}
-            </StationName>
-          )}
+              <StationName>
+                {removeAccents(language, name)}{' '}
+                {status === STATUS_STATION.NOT_USE && ' - ' + i18n.notInUse}
+              </StationName>
+            )}
           <Clearfix width={8} />
           {/* MARK  Bỏ status={status} vì k0 can phan biet status nua */}
           <ReceivedAt id={stationID} status={STATUS_STATION.GOOD}>
@@ -268,32 +268,32 @@ export default class StationAutoHead extends React.PureComponent {
 
         <ActionWrapper>
           {!isSampling ||
-          !checkRolePriority(
-            this.props.userInfo,
-            ROLE.MONITORING.CONTROL
-          ) ? null : (
-            <Button
-              className="actionItem"
-              type={currentAction === 'sampling' ? 'primary' : 'default'}
-              onClick={this.handleActionOnClick('sampling')}
-            >
-              {i18n.sampling}
-            </Button>
-          )}
+            !checkRolePriority(
+              this.props.userInfo,
+              ROLE.MONITORING.CONTROL
+            ) ? null : (
+              <Button
+                className="actionItem"
+                type={currentAction === 'sampling' ? 'primary' : 'default'}
+                onClick={this.handleActionOnClick('sampling')}
+              >
+                {i18n.sampling}
+              </Button>
+            )}
 
           {!isCamera ||
-          !checkRolePriority(
-            this.props.userInfo,
-            ROLE.MONITORING.CAMERA
-          ) ? null : (
-            <Button
-              className="actionItem"
-              type={currentAction === 'camera' ? 'primary' : 'default'}
-              onClick={this.handleActionOnClick('camera')}
-            >
-              {i18n.camera}
-            </Button>
-          )}
+            !checkRolePriority(
+              this.props.userInfo,
+              ROLE.MONITORING.CAMERA
+            ) ? null : (
+              <Button
+                className="actionItem"
+                type={currentAction === 'camera' ? 'primary' : 'default'}
+                onClick={this.handleActionOnClick('camera')}
+              >
+                {i18n.camera}
+              </Button>
+            )}
 
           <Button
             className="actionItem"

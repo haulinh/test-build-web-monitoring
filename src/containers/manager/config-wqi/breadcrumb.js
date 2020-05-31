@@ -8,6 +8,6 @@ export default createBreadcrumb({
     id: 'list',
     //icon: Icon.car,
     href: slug.ftpTransfer.list,
-    name: translate('configWQI.breadCrumb')
-  }
+    name: translate('configWQI.breadCrumb'),
+  },
 })

@@ -8,7 +8,7 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
 } from 'reactstrap'
 
 const HeaderContainer = styled.div``
@@ -18,12 +18,12 @@ export default class Header extends PureComponent {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      isOpen: true
+      isOpen: true,
     }
   }
   toggle() {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     })
   }
   render() {

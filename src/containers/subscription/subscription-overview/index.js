@@ -35,7 +35,7 @@ export default class SubscriptionOverview extends React.PureComponent {
       totalStation: 0,
       createdUser: 0,
       createdStation: 0,
-      isLoaded: false
+      isLoaded: false,
     }
   }
 
@@ -49,7 +49,7 @@ export default class SubscriptionOverview extends React.PureComponent {
     const record = await StationAutoApi.getTotalCount()
     if (record.success) {
       this.setState({
-        createdStation: record.data
+        createdStation: record.data,
       })
     }
   }
@@ -58,7 +58,7 @@ export default class SubscriptionOverview extends React.PureComponent {
     const record = await UserApi.getTotalCount()
     if (record.success) {
       this.setState({
-        createdUser: record.data
+        createdUser: record.data,
       })
     }
   }
@@ -68,14 +68,14 @@ export default class SubscriptionOverview extends React.PureComponent {
     const { name, packageInfo } = record.data
     this.setState({
       name: name,
-      isLoaded: true
+      isLoaded: true,
     })
     if (packageInfo) {
       const { expiredAt, totalUser, totalStation } = packageInfo
       this.setState({
         expiredAt: moment(new Date(expiredAt)).format('YYYY-MM-DD HH:mm'),
         totalUser: totalUser,
-        totalStation: totalStation
+        totalStation: totalStation,
       })
     }
     this.getUserCount()

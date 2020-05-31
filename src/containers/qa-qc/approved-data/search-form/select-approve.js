@@ -8,23 +8,23 @@ import createValidateComponent from 'components/elements/redux-form-validate'
 const options = [
   { key: 'original', label: 'qaqc.originalData' },
   { key: 'valid', label: 'qaqc.validData' },
-  { key: 'invalid', label: 'qaqc.inValidData' }
+  { key: 'invalid', label: 'qaqc.inValidData' },
 ]
 
 @autobind
 class SelectApprove extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func,
-    value: PropTypes.string
+    value: PropTypes.string,
   }
 
   state = {
-    value: 'original'
+    value: 'original',
   }
 
   onChange = value => {
     this.setState({
-      value
+      value,
     })
     if (this.props.onChange) this.props.onChange(value)
   }

@@ -35,13 +35,13 @@ const Label = styled.a`
 export default class NavigationItemCollapse extends React.PureComponent {
   static propTypes = {
     icon: PropTypes.any,
-    label: PropTypes.any
+    label: PropTypes.any,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      isOpen: props.isOpen
+      isOpen: props.isOpen,
     }
   }
 

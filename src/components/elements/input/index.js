@@ -21,5 +21,5 @@ export default function Input(props) {
 }
 
 Input.propTypes = {
-  ...InputAntd.propTypes
+  ...InputAntd.propTypes,
 }

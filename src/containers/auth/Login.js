@@ -49,7 +49,7 @@ const Header = {
   Logo: styled.img`
     height: 38px;
     width: auto;
-  `
+  `,
 }
 
 const bodyStyle = `
@@ -63,12 +63,12 @@ const bodyStyle = `
 @createLang
 @withRouter
 @reduxForm({
-  form: 'LoginForm'
+  form: 'LoginForm',
 })
 @connectAutoDispatch(
   state => ({
     isAuthenticated: state.auth.isAuthenticated,
-    userInfo: state.auth.userInfo
+    userInfo: state.auth.userInfo,
   }),
   { userLogin, userLogin2Factor }
 )
@@ -77,12 +77,12 @@ export default class Login extends PureComponent {
     submitting: PropTypes.bool,
     handleSubmit: PropTypes.func,
     userLogin: PropTypes.func,
-    userLogin2Factor: PropTypes.func
+    userLogin2Factor: PropTypes.func,
   }
 
   state = {
     formData: {},
-    isTwoFactorAuth: false
+    isTwoFactorAuth: false,
   }
 
   userError(user) {
@@ -105,14 +105,14 @@ export default class Login extends PureComponent {
 
     swal({
       title: title,
-      type: 'error'
+      type: 'error',
     })
   }
 
   userSuccess(user) {
     swal({
       type: 'success',
-      text: 'Welcome ' + user.data.email
+      text: 'Welcome ' + user.data.email,
     })
 
     const defaultPage = getConfigApi().defaultPage
@@ -135,7 +135,7 @@ export default class Login extends PureComponent {
         if (user.data.twoFactorAuth && user.data.twoFactorAuth.enable) {
           this.setState({
             isTwoFactorAuth: true,
-            formData: values
+            formData: values,
           })
         } else {
           this.userSuccess(user)
@@ -168,7 +168,7 @@ export default class Login extends PureComponent {
           style={{
             position: 'fixed',
             left: '0px',
-            top: '0px'
+            top: '0px',
           }}
           params={PraticData}
         />
@@ -200,7 +200,7 @@ export default class Login extends PureComponent {
             <div>
               <p>
                 {t('login.twoFactorAlert', {
-                  email: this.getEmail_Sms()
+                  email: this.getEmail_Sms(),
                 })}
               </p>
               <Field

@@ -11,11 +11,11 @@ const MIN_WIDTH_INFO = '150px'
 export default class MarkerAppointmentStation extends PureComponent {
   static propTypes = {
     mapLocation: PropTypes.object,
-    name: PropTypes.string
+    name: PropTypes.string,
   }
 
   state = {
-    isOpen: false
+    isOpen: false,
   }
 
   toggleOpen() {
@@ -29,7 +29,7 @@ export default class MarkerAppointmentStation extends PureComponent {
           duration={3000}
           icon={{
             url: Icon.appointmentStation, // url
-            scaledSize: new google.maps.Size(30, 30)
+            scaledSize: new google.maps.Size(30, 30),
           }}
           onClick={this.toggleOpen.bind(this)}
           position={this.props.mapLocation}
@@ -41,8 +41,8 @@ export default class MarkerAppointmentStation extends PureComponent {
               color: '#ff3300',
               fontWeight: 'bold',
               fontSize: '10px',
-              width: this.props.name.length * 7
-            }
+              width: this.props.name.length * 7,
+            },
           }}
         >
           {this.state.isOpen ? (

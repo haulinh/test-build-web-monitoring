@@ -39,7 +39,7 @@ const Header = {
   Logo: styled.img`
     height: 108px;
     width: auto;
-  `
+  `,
 }
 
 const Clearfix = styled.div`
@@ -61,14 +61,14 @@ function validate(values) {
 @withRouter
 @reduxForm({
   form: 'CodeConfirmForm',
-  validate
+  validate,
 })
 @autobind
 export default class CodeConfirm extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      userInfo: {}
+      userInfo: {},
     }
   }
 
@@ -78,12 +78,12 @@ export default class CodeConfirm extends PureComponent {
     if (record.error) {
       swal({
         type: 'error',
-        title: record.message
+        title: record.message,
       })
     } else {
       swal({
         type: 'success',
-        title: ''
+        title: '',
       })
     }
   }
@@ -91,13 +91,13 @@ export default class CodeConfirm extends PureComponent {
   async handleConfirm(values) {
     const data = {
       email: this.props.match.params.key,
-      code: values.code
+      code: values.code,
     }
     const record = await AuthApi.postConfirmCode(data)
     if (record.error) {
       swal({
         type: 'error',
-        title: record.message
+        title: record.message,
       })
     } else {
       this.props.history.push(slug.password.resetPassword, record)

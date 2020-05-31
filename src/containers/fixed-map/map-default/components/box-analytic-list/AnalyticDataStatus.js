@@ -6,7 +6,7 @@ import { translate as t } from 'hoc/create-lang'
 import {
   warningLevelsNumber,
   warningLevels,
-  colorLevels
+  colorLevels,
 } from 'constants/warningLevels'
 import { Row, Clearfix, Item, BoxNumberView } from './style'
 import PropTypes from 'prop-types'
@@ -16,7 +16,7 @@ const BoxAnalyticListWrapper = styled.div``
 @autobind
 export default class BoxAnalyticList extends React.PureComponent {
   static propTypes = {
-    fillStatusChange: PropTypes.func
+    fillStatusChange: PropTypes.func,
   }
 
   state = {
@@ -29,8 +29,8 @@ export default class BoxAnalyticList extends React.PureComponent {
       warningLevels.GOOD,
       warningLevels.EXCEEDED,
       warningLevels.EXCEEDED_PREPARING,
-      warningLevels.EXCEEDED_TENDENCY
-    ]
+      warningLevels.EXCEEDED_TENDENCY,
+    ],
   }
   async componentWillMount() {
     this.renderMap(this.props.stationsAutoList)
@@ -50,7 +50,7 @@ export default class BoxAnalyticList extends React.PureComponent {
       exceeded: 0,
       exceededPreparing: 0,
       exceededTendency: 0,
-      good: 0
+      good: 0,
     }
     stationsAutoList.forEach(element => {
       let isFind = false
@@ -85,7 +85,7 @@ export default class BoxAnalyticList extends React.PureComponent {
       exceeded: res.exceeded,
       exceededPreparing: res.exceededPreparing,
       exceededTendency: res.exceededTendency,
-      good: res.good
+      good: res.good,
     })
   }
 

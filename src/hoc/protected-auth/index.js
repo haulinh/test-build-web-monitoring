@@ -26,7 +26,7 @@ export default function createProtectedAuth(Component) {
       authMe: state.auth.userInfo,
       isAuthenticated: state.auth.isAuthenticated,
       isPending: state.auth.isPending,
-      isFail: state.auth.isFail
+      isFail: state.auth.isFail,
     }),
     { fetchUserMe }
   )

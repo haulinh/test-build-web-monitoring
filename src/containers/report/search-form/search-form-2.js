@@ -17,13 +17,13 @@ const i18n = {
     fromMonth: translate('avgSearchFrom.form.fromMonth.error'),
     toMonth: translate('avgSearchFrom.form.toMonth.error'),
     toMonth_1: translate('avgSearchFrom.form.toMonth.error1'),
-    toMonth_2: translate('avgSearchFrom.form.toMonth.error2')
+    toMonth_2: translate('avgSearchFrom.form.toMonth.error2'),
   },
   label: {
     stationType: translate('avgSearchFrom.form.stationType.label'),
     fromMonth: translate('avgSearchFrom.form.fromMonth.label'),
-    toMonth: translate('avgSearchFrom.form.toMonth.label')
-  }
+    toMonth: translate('avgSearchFrom.form.toMonth.label'),
+  },
 }
 
 const Item = props => (
@@ -35,7 +35,7 @@ const Item = props => (
       color: 'rgba(0,0,0,0.8)',
       fontSize: 14,
       fontWeight: 600,
-      marginBottom: 0
+      marginBottom: 0,
     }}
   />
 )
@@ -43,13 +43,13 @@ const Item = props => (
 @Form.create()
 export default class SearchForm extends React.Component {
   static propTypes = {
-    cbSubmit: PropTypes.func
+    cbSubmit: PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      measuringList: []
+      measuringList: [],
     }
   }
 
@@ -67,7 +67,7 @@ export default class SearchForm extends React.Component {
             : moment(values.toMonth).endOf('month')
         if (this.props.cbSubmit) {
           this.props.cbSubmit({
-            ...values
+            ...values,
             // fromDate: moment(values.fromMonth).startOf("month").utc().format(), // NOTE lấy thời điẻm người dung mún seartch sau đó convert sang giờ UTC để rếarch data
             // toDate: moment(values.toMonth).endOf("month").utc().format()
           })
@@ -91,7 +91,7 @@ export default class SearchForm extends React.Component {
 
   render() {
     const {
-      getFieldDecorator
+      getFieldDecorator,
       // getFieldValue,
       // setFieldsValue
     } = this.props.form
@@ -122,7 +122,7 @@ export default class SearchForm extends React.Component {
             <Col span={8}>
               <Item label={i18n.label.stationType}>
                 {getFieldDecorator('stationType', {
-                  initialValue: ''
+                  initialValue: '',
                 })(<SelectStationType isShowAll />)}
               </Item>
             </Col>
@@ -133,9 +133,9 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.fromMonth
-                    }
-                  ]
+                      message: i18n.error.fromMonth,
+                    },
+                  ],
                 })(<MonthPicker style={{ width: '100%' }} />)}
               </Item>
             </Col>
@@ -146,12 +146,12 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.toMonth
+                      message: i18n.error.toMonth,
                     },
                     {
-                      validator: this.compareTofromDate
-                    }
-                  ]
+                      validator: this.compareTofromDate,
+                    },
+                  ],
                 })(<MonthPicker style={{ width: '100%' }} />)}
               </Item>
             </Col>

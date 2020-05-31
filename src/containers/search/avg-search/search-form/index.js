@@ -54,21 +54,21 @@ function validate(values) {
       ? {
           ...ownProps.initialValues,
           rangesDate: 1,
-          type: 15
+          type: 15,
         }
-      : {})
-  }
+      : {}),
+  },
 }))
 @reduxForm({
   form: 'avgSearchForm',
-  validate
+  validate,
 })
 @createLang
 @autobind
 export default class SearchAvgForm extends React.Component {
   static propTypes = {
     initialValues: PropTypes.object,
-    searchNow: PropTypes.bool
+    searchNow: PropTypes.bool,
   }
   constructor(props) {
     super(props)
@@ -102,13 +102,13 @@ export default class SearchAvgForm extends React.Component {
       measuringList: props.measuringData
         ? props.measuringData.map(measuring => ({
             value: measuring.key,
-            name: measuring.name
+            name: measuring.name,
           }))
         : [],
       receivedAt:
         moment(props.initialValues.receivedAt) ||
         this.props.initialValues.toDate,
-      isSearchInit: props.initialValues.stationAuto ? false : true
+      isSearchInit: props.initialValues.stationAuto ? false : true,
     }
   }
 
@@ -121,13 +121,13 @@ export default class SearchAvgForm extends React.Component {
     measuringList: [],
     fromDate: this.props.initialValues.fromDate,
     toDate: this.props.initialValues.toDate,
-    receivedAt: this.props.initialValues.toDate
+    receivedAt: this.props.initialValues.toDate,
   }
 
   handleChangeStationType(stationTypeKey, e) {
     this.setState({
       stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
-      stationAutoKey: ''
+      stationAutoKey: '',
     })
     this.props.change('stationAuto', '')
   }
@@ -140,12 +140,12 @@ export default class SearchAvgForm extends React.Component {
     const params = {
       measuringList: measuringData.map(measuring => ({
         value: measuring.key,
-        name: measuring.name
+        name: measuring.name,
       })),
       measuringData: measuringData,
       stationAutoKey: stationAuto.key,
       stationAutoName: stationAuto.name,
-      receivedAt: moment()
+      receivedAt: moment(),
     }
 
     const time = _.get(stationAuto, 'lastLog.receivedAt')
@@ -192,7 +192,7 @@ export default class SearchAvgForm extends React.Component {
       type: values.type,
       measuringListUnitStr,
       measuringList: values.measuringList,
-      measuringData: this.state.measuringData
+      measuringData: this.state.measuringData,
     })
   }
 
@@ -201,14 +201,14 @@ export default class SearchAvgForm extends React.Component {
       this.setState({
         timeRange: ranges,
         fromDate: this.state.receivedAt.clone().subtract(ranges, 'days'),
-        toDate: this.state.receivedAt.clone()
+        toDate: this.state.receivedAt.clone(),
       })
     } else {
       if (_.size(ranges) > 1) {
         this.setState({
           timeRange: null,
           fromDate: ranges[0],
-          toDate: ranges[1]
+          toDate: ranges[1],
         })
       }
     }
@@ -217,7 +217,7 @@ export default class SearchAvgForm extends React.Component {
   handleProvinceChange = province => {
     this.setState({
       provinceKey: province ? province.key : '',
-      stationAutoKey: ''
+      stationAutoKey: '',
     })
 
     this.props.change('stationAuto', '')
@@ -251,7 +251,7 @@ export default class SearchAvgForm extends React.Component {
         this.props.change('stationAuto', stationAutoData[0].key)
         this.setState(
           {
-            stationAutoKey: stationAutoData[0].key
+            stationAutoKey: stationAutoData[0].key,
           },
           () => {
             this.props.handleSubmit(this.handleSubmit)()

@@ -12,7 +12,7 @@ import {
   Popconfirm,
   Spin,
   Select,
-  Checkbox
+  Checkbox,
 } from 'antd'
 import { Clearfix } from 'containers/map/map-default/components/box-analytic-list/style'
 import { getMeasurings, getConfigAqiQC, postConfigAqiQC } from 'api/CategoryApi'
@@ -42,7 +42,7 @@ const i18n = {
   colAvg1H: translate('aqiConfigCalculation.colAvg1H'),
   colAvg8H: translate('aqiConfigCalculation.colAvg8H'),
   colAvg1D: translate('aqiConfigCalculation.colAvg1D'),
-  colUnit: translate('aqiConfigCalculation.colUnit')
+  colUnit: translate('aqiConfigCalculation.colUnit'),
 }
 
 @Form.create({})
@@ -53,7 +53,7 @@ export default class TabThongSo extends React.Component {
     isSubmit: false,
     dataSource: [],
     dataMeasuringObj: {},
-    aqiQCLevel: []
+    aqiQCLevel: [],
   }
   columns = [
     {
@@ -67,7 +67,7 @@ export default class TabThongSo extends React.Component {
           `aqiQCMeasures[${record.key}].keyMeasure`
         )
         return aqiQCMeasures
-      }
+      },
     },
     {
       title: i18n.colMeasure,
@@ -82,13 +82,13 @@ export default class TabThongSo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(<this.SelectMeasure />)}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colBatBuoc,
@@ -105,9 +105,9 @@ export default class TabThongSo extends React.Component {
                 setFieldsValue({
                   [`aqiQCMeasures[${record.key}].isrequired`]: getFieldValue(
                     `aqiQCMeasures[${record.key}].isrequired`
-                  )
+                  ),
                 })
-              }
+              },
             })(
               <Checkbox
                 checked={getFieldValue(
@@ -118,7 +118,7 @@ export default class TabThongSo extends React.Component {
             )}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colAvg1H,
@@ -135,9 +135,9 @@ export default class TabThongSo extends React.Component {
                 setFieldsValue({
                   [`aqiQCMeasures[${record.key}].1h`]: getFieldValue(
                     `aqiQCMeasures[${record.key}].1h`
-                  )
+                  ),
                 })
-              }
+              },
             })(
               <Checkbox
                 checked={getFieldValue(`aqiQCMeasures[${record.key}].1h`)}
@@ -146,7 +146,7 @@ export default class TabThongSo extends React.Component {
             )}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colAvg8H,
@@ -163,9 +163,9 @@ export default class TabThongSo extends React.Component {
                 setFieldsValue({
                   [`aqiQCMeasures[${record.key}].8h`]: getFieldValue(
                     `aqiQCMeasures[${record.key}].8h`
-                  )
+                  ),
                 })
-              }
+              },
               // rules: [
               //   {
               //     required: !getFieldValue(`aqiQCMeasures[${record.key}].8h`),
@@ -180,7 +180,7 @@ export default class TabThongSo extends React.Component {
             )}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colAvg1D,
@@ -197,9 +197,9 @@ export default class TabThongSo extends React.Component {
                 setFieldsValue({
                   [`aqiQCMeasures[${record.key}].24h`]: getFieldValue(
                     `aqiQCMeasures[${record.key}].24h`
-                  )
+                  ),
                 })
-              }
+              },
               // rules: [
               //   {
               //     required: !getFieldValue(`aqiQCMeasures[${record.key}].24h`),
@@ -214,7 +214,7 @@ export default class TabThongSo extends React.Component {
             )}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colUnit,
@@ -226,7 +226,7 @@ export default class TabThongSo extends React.Component {
         const aqiQCMeasures = getFieldValue('aqiQCMeasures')
         const key = _.get(aqiQCMeasures, `${record.key}.keyMeasure`)
         return _.get(this.state.dataMeasuringObj, `${key}.unit`)
-      }
+      },
     },
     {
       title: '',
@@ -249,8 +249,8 @@ export default class TabThongSo extends React.Component {
             />
           </Popconfirm>
         )
-      }
-    }
+      },
+    },
   ]
 
   SelectMeasure = React.forwardRef(props => {
@@ -289,7 +289,7 @@ export default class TabThongSo extends React.Component {
 
           const response = await postConfigAqiQC({
             aqiQCLevel: this.state.aqiQCLevel,
-            aqiQCMeasures: _.keyBy(transformData, 'keyMeasure')
+            aqiQCMeasures: _.keyBy(transformData, 'keyMeasure'),
           })
           if (response.success) {
             message.success(i18n.updateSuccess)
@@ -306,16 +306,16 @@ export default class TabThongSo extends React.Component {
       dataSource: [
         ...this.state.dataSource,
         {
-          key: this.idIncrement++
-        }
-      ]
+          key: this.idIncrement++,
+        },
+      ],
     })
   }
 
   delete = key => {
     let tamp = this.state.dataSource.filter(item => item.key !== key)
     this.setState({
-      dataSource: [...tamp]
+      dataSource: [...tamp],
     })
   }
 
@@ -337,7 +337,7 @@ export default class TabThongSo extends React.Component {
         return {
           ...item,
           key: this.idIncrement++,
-          keyMeasure: item.keyMeasure
+          keyMeasure: item.keyMeasure,
         }
       })
       this.setState(
@@ -345,12 +345,12 @@ export default class TabThongSo extends React.Component {
           dataMeasuringObj,
           aqiQCLevel: _.get(response, 'data.value.aqiQCLevel', []),
           dataSource: dataSource,
-          isLoaded: true
+          isLoaded: true,
         },
         () => {
           // console.log(dataSource, "dataSource");
           this.props.form.setFieldsValue({
-            aqiQCMeasures: dataSource
+            aqiQCMeasures: dataSource,
           })
         }
       )

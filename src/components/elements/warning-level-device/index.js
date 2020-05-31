@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
 import {
-  COLOR_DEVICE_STATUS
+  COLOR_DEVICE_STATUS,
   // ,COLOR
 } from 'themes/color'
 
@@ -44,7 +44,7 @@ export default class WarningLevelDevices extends React.PureComponent {
     number: PropTypes.number,
     name: PropTypes.string,
     image: PropTypes.string,
-    color: PropTypes.string
+    color: PropTypes.string,
   }
 
   render() {

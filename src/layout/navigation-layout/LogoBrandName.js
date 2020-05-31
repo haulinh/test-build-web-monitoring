@@ -54,5 +54,5 @@ export function LogoBrandName(props) {
 }
 
 export default connect(state => ({
-  name: state.auth.userInfo.organization.name
+  name: state.auth.userInfo.organization.name,
 }))(LogoBrandName)

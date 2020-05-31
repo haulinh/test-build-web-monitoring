@@ -9,7 +9,7 @@ import { removeAccents } from 'hoc/create-lang'
 import { replaceVietnameseStr } from 'utils/string'
 
 @connect(state => ({
-  language: _.get(state, 'language.locale')
+  language: _.get(state, 'language.locale'),
 }))
 @autobind
 export default class SelectStationAuto extends React.Component {
@@ -17,24 +17,24 @@ export default class SelectStationAuto extends React.Component {
     stationTypeKey: PropTypes.string,
     onChangeObject: PropTypes.func,
     provinceKey: PropTypes.string,
-    getRef: PropTypes.func
+    getRef: PropTypes.func,
   }
 
   state = {
     isLoaded: false,
     stationAutoSelects: [],
-    searchString: ''
+    searchString: '',
   }
 
   async componentWillMount() {
     const responseStationAuto = await StationAutoApi.getStationAutos({
       page: 1,
-      itemPerPage: 10000000
+      itemPerPage: 10000000,
     })
 
     this.setState({
       stationAutoSelects: responseStationAuto.data,
-      isLoaded: true
+      isLoaded: true,
     })
 
     if (this.props.getRef) this.props.getRef(this)

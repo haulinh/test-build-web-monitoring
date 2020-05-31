@@ -38,7 +38,7 @@ const i18n = {
   ),
   sms: translate('stationAutoManager.options.userRole.sms'),
   email: translate('stationAutoManager.options.userRole.email'),
-  VersionError: translate('serverResponse.error.VersionError')
+  VersionError: translate('serverResponse.error.VersionError'),
 }
 
 const showSuccess = msg => {
@@ -52,13 +52,13 @@ const Span = styled.span`
 
 @protectRole(ROLE.USER.VIEW)
 @createManagerList({
-  apiList: StationAutoApi.getStationAutos
+  apiList: StationAutoApi.getStationAutos,
 })
 @createManagerDelete({
-  apiDelete: StationAutoApi.removeStationAuto
+  apiDelete: StationAutoApi.removeStationAuto,
 })
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -68,11 +68,11 @@ export default class StationAutoConfigNotification extends React.Component {
     pagination: PropTypes.object,
     data: PropTypes.object,
     onChangeSearch: PropTypes.func,
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
   }
 
   static defaultProps = {
-    dataSource: []
+    dataSource: [],
   }
 
   constructor(props) {
@@ -99,7 +99,7 @@ export default class StationAutoConfigNotification extends React.Component {
       isEmailCheckAll: false,
 
       selectedUser: {},
-      selectedRole: {}
+      selectedRole: {},
     }
   }
 
@@ -116,7 +116,7 @@ export default class StationAutoConfigNotification extends React.Component {
       this.setState({
         dataSource: _.cloneDeep(sortedDataSource),
         dataSourceOriginal: _.cloneDeep(sortedDataSource),
-        dataSourceDefault: _.cloneDeep(sortedDataSource)
+        dataSourceDefault: _.cloneDeep(sortedDataSource),
       })
       _.forEach(_.values(USER_RULE_TABLE_COLUMN), column => {
         this.checkIndeterminate(sortedDataSource)
@@ -144,7 +144,7 @@ export default class StationAutoConfigNotification extends React.Component {
             isFixedSize
             isLoading={this.props.isLoading}
             paginationOptions={{
-              isSticky: true
+              isSticky: true,
             }}
             head={this.getHead()}
             rows={this.getRows()}
@@ -174,7 +174,7 @@ export default class StationAutoConfigNotification extends React.Component {
       this.resetDataSource(name, value)
     } else {
       this.setState({
-        [name]: value
+        [name]: value,
       })
     }
   }
@@ -196,20 +196,20 @@ export default class StationAutoConfigNotification extends React.Component {
             &nbsp;&nbsp;{i18n.manager}
           </div>
         ),
-        width: 15
+        width: 15,
       },
       {
         content: <div>{i18n.sendNotification}</div>,
-        width: 15
+        width: 15,
       },
       {
         content: <div>{i18n.sms}</div>,
-        width: 10
+        width: 10,
       },
       {
         content: <div>{i18n.email}</div>,
-        width: 10
-      }
+        width: 10,
+      },
     ]
   }
 
@@ -234,21 +234,21 @@ export default class StationAutoConfigNotification extends React.Component {
                   index +
                   1}
               </strong>
-            )
+            ),
           },
           {
             content: (
               <Span deleted={row.removeStatus && row.removeStatus.allowed}>
                 {row.name}
               </Span>
-            )
+            ),
           },
           {
             content: (
               <Span deleted={row.removeStatus && row.removeStatus.allowed}>
                 {row.address}
               </Span>
-            )
+            ),
           },
           /* checkbox quản lý trạm */
           {
@@ -265,12 +265,12 @@ export default class StationAutoConfigNotification extends React.Component {
                       index,
                       row,
                       column: USER_RULE_TABLE_COLUMN.PRIMARY,
-                      value: e.target.checked
+                      value: e.target.checked,
                     })
                   }
                 />
               </div>
-            )
+            ),
           },
           /* checkbox gởi cảnh báo */
           {
@@ -285,7 +285,7 @@ export default class StationAutoConfigNotification extends React.Component {
                   )}
                 />
               </div>
-            )
+            ),
           },
           /* checkbox SMS */
           {
@@ -300,7 +300,7 @@ export default class StationAutoConfigNotification extends React.Component {
                   )}
                 />
               </div>
-            )
+            ),
           },
           /* checkbox Email */
           {
@@ -315,8 +315,8 @@ export default class StationAutoConfigNotification extends React.Component {
                   )}
                 />
               </div>
-            )
-          }
+            ),
+          },
         ]
         //check if Group exist or not
         if (row.stationType && stationTypeArr.indexOf(row.stationType.key) > -1)
@@ -336,10 +336,10 @@ export default class StationAutoConfigNotification extends React.Component {
                         : ''}
                     </strong>
                   </div>
-                )
-              }
+                ),
+              },
             ],
-            resultRow
+            resultRow,
           ]
         }
       })
@@ -353,7 +353,7 @@ export default class StationAutoConfigNotification extends React.Component {
       let defaultOptions = {
         [WARNING]: { allowed: true },
         [SMS]: { allowed: true },
-        [EMAIL]: { allowed: true }
+        [EMAIL]: { allowed: true },
       }
       _.set(station, ['options'], _.cloneDeep(defaultOptions))
       return station
@@ -386,7 +386,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
     this.setState({
       isManagerIndeterminate: false,
-      isManagerCheckAll: checked
+      isManagerCheckAll: checked,
     })
 
     _.forEach(_dataSource, (station, index) => {
@@ -395,7 +395,7 @@ export default class StationAutoConfigNotification extends React.Component {
     })
 
     this.setState({
-      isManagerCheckAll: checked
+      isManagerCheckAll: checked,
     })
   }
 
@@ -449,7 +449,7 @@ export default class StationAutoConfigNotification extends React.Component {
         [PRIMARY]: { allowed: true },
         [WARNING]: { allowed: true },
         [SMS]: { allowed: true },
-        [EMAIL]: { allowed: true }
+        [EMAIL]: { allowed: true },
       }
     } else {
       delete _cachedData[row._id]
@@ -460,7 +460,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
   clearCache() {
     this.setState({
-      cachedData: {}
+      cachedData: {},
     })
   }
 
@@ -480,7 +480,7 @@ export default class StationAutoConfigNotification extends React.Component {
       this.setState({
         [name]: value,
         dataSource: _.cloneDeep(rows),
-        dataSourceOriginal: _.cloneDeep(rows)
+        dataSourceOriginal: _.cloneDeep(rows),
       })
       _.forEach(_.values(USER_RULE_TABLE_COLUMN), column => {
         this.checkIndeterminate(rows)
@@ -493,7 +493,7 @@ export default class StationAutoConfigNotification extends React.Component {
       return _.get(station, [
         'options',
         USER_RULE_TABLE_COLUMN.PRIMARY,
-        'allowed'
+        'allowed',
       ])
     })
 
@@ -503,7 +503,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
     this.setState({
       isManagerIndeterminate: !isSame,
-      isManagerCheckAll: isCheckAll
+      isManagerCheckAll: isCheckAll,
     })
   }
 
@@ -523,7 +523,7 @@ export default class StationAutoConfigNotification extends React.Component {
       role: selectedRole,
       stationAutos: cachedData,
       isAdmin: selectedUser.isAdmin,
-      __v: selectedUser.__v
+      __v: selectedUser.__v,
     }
 
     this.setState({ isSave: true })
@@ -531,7 +531,7 @@ export default class StationAutoConfigNotification extends React.Component {
     if (res.success) {
       this.setState({
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),
-        cachedData: {}
+        cachedData: {},
       })
       this.refSearchForm.updateUserVersion(selectedUser._id)
       showSuccess(i18n.updateSuccess)
@@ -549,7 +549,7 @@ export default class StationAutoConfigNotification extends React.Component {
           allowOutsideClick: () => !swal.isLoading(),
           preConfirm: async () => {
             return this.refSearchForm.refreshUsers(selectedUser._id)
-          }
+          },
         })
           .then(() => {
             showSuccess(i18n.updateSuccess)
@@ -557,13 +557,13 @@ export default class StationAutoConfigNotification extends React.Component {
           .catch(() => {
             swal({
               title: i18n.updateError,
-              type: 'error'
+              type: 'error',
             })
           })
       } else {
         swal({
           title: i18n.updateError,
-          type: 'error'
+          type: 'error',
         })
       }
     }
