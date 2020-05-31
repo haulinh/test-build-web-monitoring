@@ -11,11 +11,11 @@ const MIN_WIDTH_INFO = '150px'
 export default class MarkerTransitStation extends PureComponent {
   static propTypes = {
     mapLocation: PropTypes.object,
-    name: PropTypes.string
+    name: PropTypes.string,
   }
 
   state = {
-    isOpen: false
+    isOpen: false,
   }
 
   toggleOpen = () => {
@@ -28,7 +28,7 @@ export default class MarkerTransitStation extends PureComponent {
         <Marker
           icon={{
             url: Icon.transitStation, // url
-            scaledSize: new google.maps.Size(30, 30)
+            scaledSize: new google.maps.Size(30, 30),
           }}
           onClick={this.toggleOpen}
           position={this.props.mapLocation}
@@ -40,8 +40,8 @@ export default class MarkerTransitStation extends PureComponent {
               color: '#ff9900',
               fontWeight: 'bold',
               fontSize: '10px',
-              width: this.props.name.length * 7
-            }
+              width: this.props.name.length * 7,
+            },
           }}
         >
           {this.state.isOpen ? (

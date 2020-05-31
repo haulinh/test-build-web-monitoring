@@ -9,7 +9,7 @@ import InputNumberCell from 'components/elements/input-number-cell'
 const FormItem = Form.Item
 
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguage
 @autobind
@@ -17,45 +17,59 @@ export default class MeasuringForm extends React.PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,
     lang: langPropTypes,
-    isEdit: PropTypes.bool
+    isEdit: PropTypes.bool,
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (err) return
       const data = {
         key: values.key,
         name: values.name,
         unit: values.unit ? values.unit : '',
-        numericalOrder: values.numericalOrder
+        numericalOrder: values.numericalOrder,
       }
       // Callback submit form Container Component
-      this.props.onSubmit(data)
+      const res = await this.props.onSubmit(data)
+      if (res.error) {
+        if (res.message === 'KEY_EXISTED') {
+          this.props.form.setFields({
+            key: {
+              value: values.key,
+              errors: [
+                new Error(
+                  this.props.lang.t('measuringManager.create.keyExisted')
+                ),
+              ],
+            },
+          })
+        }
+      }
     })
   }
 
   render() {
     const {
       form: { getFieldDecorator },
-      lang: { t }
+      lang: { t },
     } = this.props
     const formItemLayout = {
       labelCol: {
         // sm: { span: 2, offset: 0 }
         xs: { span: 0, offset: 0 },
-        sm: { span: 0, offset: 0 }
+        sm: { span: 0, offset: 0 },
       },
       wrapperCol: {
         // sm: { span: 20, offset: 0 }
         xs: { span: 12 },
-        sm: { span: 24 }
-      }
+        sm: { span: 24 },
+      },
     }
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Row gutter={16}>
+        <Row type="flex" gutter={16}>
           <Col span={12}>
             <FormItem
               {...formItemLayout}
@@ -65,11 +79,12 @@ export default class MeasuringForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('measuringManager.form.key.error')
-                  }
-                ]
+                    message: t('measuringManager.form.key.error'),
+                  },
+                ],
               })(
                 <Input
+                  size="large"
                   disabled={this.props.isEdit}
                   placeholder={t('measuringManager.form.key.placeholder')}
                 />
@@ -85,19 +100,17 @@ export default class MeasuringForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('measuringManager.form.name.error')
-                  }
-                ]
+                    message: t('measuringManager.form.name.error'),
+                  },
+                ],
               })(
                 <Input
+                  size="large"
                   placeholder={t('measuringManager.form.name.placeholder')}
                 />
               )}
             </FormItem>
           </Col>
-        </Row>
-
-        <Row gutter={16}>
           <Col span={12}>
             <FormItem
               {...formItemLayout}
@@ -105,6 +118,7 @@ export default class MeasuringForm extends React.PureComponent {
             >
               {getFieldDecorator('unit')(
                 <Input
+                  size="large"
                   placeholder={t('measuringManager.form.unit.placeholder')}
                 />
               )}
@@ -117,8 +131,21 @@ export default class MeasuringForm extends React.PureComponent {
               label={t('measuringManager.form.numericalOrder.label')}
             >
               {getFieldDecorator('numericalOrder', {
-                rules: [{ required: true }]
-              })(<InputNumberCell editable={true} />)}
+                rules: [
+                  {
+                    required: true,
+                    message: t('measuringManager.form.numericalOrder.error')
+                  }
+                ]
+              })(
+                <InputNumberCell
+                  size="large"
+                  placeholder={t(
+                    'measuringManager.form.numericalOrder.placeholder'
+                  )}
+                  editable={true}
+                />
+              )}
             </FormItem>
           </Col>
         </Row>

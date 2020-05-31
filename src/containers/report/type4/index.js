@@ -7,7 +7,7 @@ import SearchForm from '../search-form/search-form-3'
 import { Table, Typography, Button, Spin } from 'antd'
 import {
   getUrlReportType4,
-  getUrlReportType4Excel
+  getUrlReportType4Excel,
 } from 'api/DataStationAutoApi'
 import { map as _map, get as _get } from 'lodash'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
@@ -20,12 +20,12 @@ import moment from 'moment-timezone'
 const { Title, Text } = Typography
 const i18n = {
   header: translate('avgSearchFrom.table.header7'),
-  title: translate('avgSearchFrom.table.title5')
+  title: translate('avgSearchFrom.table.title5'),
 }
 
 @connect(state => ({
   token: state.auth.token,
-  timeZone: _get(state, 'auth.userInfo.organization.timeZone', null)
+  timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
 }))
 export default class ReportType1 extends React.Component {
   constructor(props) {
@@ -39,7 +39,7 @@ export default class ReportType1 extends React.Component {
       dataSearch: null,
       stationName: '',
       monthYear: '',
-      measuringList: []
+      measuringList: [],
     }
   }
 
@@ -52,7 +52,7 @@ export default class ReportType1 extends React.Component {
         align: 'right',
         render: value => {
           return <div>{getFormatNumber(value, ROUND_DIGIT)}</div>
-        }
+        },
       }
     })
     return [
@@ -61,9 +61,9 @@ export default class ReportType1 extends React.Component {
         dataIndex: '_id',
         render: value => {
           return <span>{value}</span>
-        }
+        },
       },
-      ...columns
+      ...columns,
     ]
   }
 
@@ -72,7 +72,7 @@ export default class ReportType1 extends React.Component {
     if (values.measuringList) {
       this.setState({
         isHaveData: false,
-        isLoading: true
+        isLoading: true,
       })
       measuringListUnitStr = values.measuringList
         .map(item => encodeURIComponent(item.unit))
@@ -99,11 +99,11 @@ export default class ReportType1 extends React.Component {
             stationAuto: values.stationAuto,
             time: values.time.format('MM-YYYY'),
             measuringListStr,
-            measuringListUnitStr
+            measuringListUnitStr,
           },
           measuringList: values.measuringList,
           stationName: values.stationName,
-          monthYear: moment(values.time).format(MM_YYYY)
+          monthYear: moment(values.time).format(MM_YYYY),
         })
       }
     }
@@ -132,7 +132,7 @@ export default class ReportType1 extends React.Component {
             {' '}
             {translate('avgSearchFrom.table.description5', {
               stationName: this.state.stationName,
-              monthYear: this.state.monthYear
+              monthYear: this.state.monthYear,
             })}
           </Text>
           {this.state.isHaveData && (
@@ -140,7 +140,7 @@ export default class ReportType1 extends React.Component {
               style={{
                 position: 'absolute',
                 top: '0px',
-                right: '0px'
+                right: '0px',
               }}
             >
               <Button

@@ -35,5 +35,5 @@ export default {
   getStationsConfig,
   getStationConfigByKey,
   createStationConfig,
-  updateStationConfig
+  updateStationConfig,
 }

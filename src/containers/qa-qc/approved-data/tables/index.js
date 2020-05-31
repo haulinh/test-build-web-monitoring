@@ -27,7 +27,7 @@ export default class QAQCTables extends React.Component {
     pagination: PropTypes.object,
     onChangePage: PropTypes.func,
     submitExcel: PropTypes.func,
-    isLoading: PropTypes.func
+    isLoading: PropTypes.func,
   }
 
   render() {

@@ -6,7 +6,7 @@ import { translate } from 'hoc/create-lang'
 const i18n = {
   cancelText: translate('addon.cancel'),
   okText: translate('addon.ok'),
-  deleteConfirmMsg: translate('confirm.msg.delete')
+  deleteConfirmMsg: translate('confirm.msg.delete'),
 }
 /**
  * Manager list data
@@ -31,7 +31,7 @@ const createManagerDelete = ({ apiDelete }) => Component => {
             resolve()
           }).catch(() => console.log('Oops errors!'))
         },
-        onCancel() {}
+        onCancel() {},
       })
     }
     /**
@@ -48,7 +48,7 @@ const createManagerDelete = ({ apiDelete }) => Component => {
       // Truyền các tham số cho Component con (props)
       const props = {
         onDeleteItem: this.deleteItem,
-        onRemoveItem: this.deleteItem
+        onRemoveItem: this.deleteItem,
       }
       return <Component {...this.props} {...props} />
     }

@@ -24,7 +24,7 @@ export default class ConfigWQIContainer extends React.Component {
       listStationfixed: [],
       listStationConfig: [],
       stationTypeFixed: [],
-      stationTypeAuto: []
+      stationTypeAuto: [],
     }
   }
 

@@ -20,7 +20,7 @@ export default class InfoComponent extends React.Component {
     this.state = {
       station: props.station,
       aqiDays: [],
-      aqiKeys: []
+      aqiKeys: [],
     }
   }
 
@@ -38,7 +38,7 @@ export default class InfoComponent extends React.Component {
   getAqiByStation = async station => {
     const rs = await fetchAqiByDay(station.key, {
       to: moment(_.get(station, 'aqi.receivedAt', new Date())).toJSON(),
-      size: 7
+      size: 7,
     })
 
     const aqiDays = _.get(rs, 'data', [])
@@ -80,7 +80,7 @@ export default class InfoComponent extends React.Component {
       <Select
         value={{
           key: _.get(this.state.station, 'key', ''),
-          label: _.get(this.state.station, 'name', '')
+          label: _.get(this.state.station, 'name', ''),
         }}
         labelInValue
         defaultValue={{ key: defaultValue || '' }}
@@ -103,7 +103,7 @@ export default class InfoComponent extends React.Component {
           ...this.props.style,
           height: this.props.windowHeight,
           padding: 16,
-          overflow: 'scroll'
+          overflow: 'scroll',
         }}
       >
         {/* {this.renderOptions()} */}

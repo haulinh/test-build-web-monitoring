@@ -18,7 +18,7 @@ import HeaderView from '../../../components/monitoring/header-view'
 import styled from 'styled-components'
 import {
   GROUP_OPTIONS,
-  ORDER_OPTIONS
+  ORDER_OPTIONS,
 } from 'components/monitoring/filter/options'
 import createContentLoader from 'hoc/content-loader'
 import { translate } from 'hoc/create-lang'
@@ -43,14 +43,14 @@ const ContainerHeader = styled.div`
 const ListLoader = createContentLoader({
   component: <ListLoaderCp />,
   isAutoLoader: true,
-  items: 5
+  items: 5,
 })(null)
 
 export const defaultFilter = {
   group: GROUP_OPTIONS[0].value,
   order: ORDER_OPTIONS[0].value,
   stationType: '',
-  search: ''
+  search: '',
 }
 
 @withRouter
@@ -63,7 +63,7 @@ export default class MonitoringGeneral extends React.Component {
     filter: getMonitoringFilter() ? getMonitoringFilter() : defaultFilter,
     data: [],
     province: null,
-    followStation: null
+    followStation: null,
   }
 
   getStatusItem(item) {
@@ -94,7 +94,7 @@ export default class MonitoringGeneral extends React.Component {
       return {
         ...stationAuto,
         totalWarning,
-        statusAnalytic: this.getStatusItem(stationAuto)
+        statusAnalytic: this.getStatusItem(stationAuto),
       }
     })
   }
@@ -111,7 +111,7 @@ export default class MonitoringGeneral extends React.Component {
     this.setState({ isLoading: false })
     let dataStationTypes = await CategoriesApi.getStationTypes({
       page: 1,
-      itemPerPage: 10
+      itemPerPage: 10,
     })
     let dataStationAutos = await StationAutoApi.getLastLog()
     dataStationAutos = _.get(dataStationAutos, 'data', [])
@@ -136,13 +136,13 @@ export default class MonitoringGeneral extends React.Component {
           stationAutoList: this.appendWarningLevelStationAuto(stationAutoList),
           totalWarning: this.getTotalWarning(
             this.appendWarningLevelStationAuto(stationAutoList)
-          )
+          ),
         }
       })
 
       this.setState({
         data: dataMonitoring.length > 0 ? dataMonitoring : this.state.data,
-        isLoading: true
+        isLoading: true,
       })
     }
   }
@@ -177,12 +177,12 @@ export default class MonitoringGeneral extends React.Component {
     if (this.props.formData) {
       // console.log(this.props.formData, "monitoring formData")
       this.setState({
-        followStation: _.get(this.props.formData, 'stationAuto', '')
+        followStation: _.get(this.props.formData, 'stationAuto', ''),
       })
     }
     await this.loadData()
     this.setState({
-      isLoadedFirst: true
+      isLoadedFirst: true,
     })
     this.startTimer()
   }
@@ -199,14 +199,14 @@ export default class MonitoringGeneral extends React.Component {
 
   handleProvinceChange = province => {
     this.setState({
-      province
+      province,
     })
   }
 
   renderHeader(total, countGood) {
     const stationStatus = translate('dashboard.activeStationPer', {
       good: countGood,
-      total
+      total,
     })
     return (
       <ContainerHeader>
@@ -247,10 +247,10 @@ export default class MonitoringGeneral extends React.Component {
       {
         stationType: {
           ...stationTypeList[0],
-          name: translate('dataSearchFrom.form.all')
+          name: translate('dataSearchFrom.form.all'),
         },
-        stationAutoList: newStationAutoList
-      }
+        stationAutoList: newStationAutoList,
+      },
     ]
   }
 
@@ -289,7 +289,7 @@ export default class MonitoringGeneral extends React.Component {
         return {
           stationAutoList: rs,
           totalWarning,
-          stationType
+          stationType,
         }
       }
     )
@@ -297,7 +297,7 @@ export default class MonitoringGeneral extends React.Component {
     return {
       total,
       countGood,
-      stationTypeList
+      stationTypeList,
     }
   }
 
@@ -328,7 +328,7 @@ export default class MonitoringGeneral extends React.Component {
           stationAutoList: this.sortNameList(
             stationType.stationAutoList,
             'name'
-          )
+          ),
         }
       })
     }
@@ -349,7 +349,7 @@ export default class MonitoringGeneral extends React.Component {
             'totalWarning',
             false,
             true
-          )
+          ),
         }
       })
     }
@@ -357,7 +357,7 @@ export default class MonitoringGeneral extends React.Component {
     return {
       stationTypeList,
       total: dataResult.total,
-      countGood: dataResult.countGood
+      countGood: dataResult.countGood,
     }
   }
 

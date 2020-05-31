@@ -20,7 +20,7 @@ const Item = props => (
       color: 'rgba(0,0,0,0.8)',
       fontSize: 14,
       fontWeight: 600,
-      marginBottom: 0
+      marginBottom: 0,
     }}
   />
 )
@@ -33,13 +33,13 @@ const i18n = {
     stationType: translate('dataSearchFrom.form.stationType.label'),
     stationAuto: translate('dataSearchFrom.form.stationAuto.label'),
     selectTimeRange: translate('avgSearchFrom.selectTimeRange.month'),
-    selectTimeRange2: translate('avgSearchFrom.selectTimeRange.day')
+    selectTimeRange2: translate('avgSearchFrom.selectTimeRange.day'),
   },
   error: {
     stationAuto: translate('avgSearchFrom.form.stationAuto.error'),
     selectTimeRange: translate('avgSearchFrom.selectTimeRange.error'),
-    stationType: translate('dataSearchFrom.form.stationType.require')
-  }
+    stationType: translate('dataSearchFrom.form.stationType.require'),
+  },
 }
 
 @Form.create()
@@ -47,7 +47,7 @@ const i18n = {
 export default class SearchForm extends React.Component {
   static propTypes = {
     cbSubmit: PropTypes.func,
-    isDatePicker: PropTypes.bool
+    isDatePicker: PropTypes.bool,
   }
 
   constructor(props) {
@@ -55,7 +55,7 @@ export default class SearchForm extends React.Component {
     // this.submit = this.submit.bind(this);
     this.state = {
       measuringList: [],
-      stationName: ''
+      stationName: '',
     }
   }
 
@@ -78,7 +78,7 @@ export default class SearchForm extends React.Component {
             measuringListStr,
             measuringListUnitStr,
             measuringList: this.state.measuringList,
-            stationName: this.state.stationName
+            stationName: this.state.stationName,
           })
         }
       }
@@ -116,8 +116,8 @@ export default class SearchForm extends React.Component {
                 {getFieldDecorator('province', {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
-                  }
-                })(<SelectProvince size="large" />)}
+                  },
+                })(<SelectProvince isShowAll size="large" />)}
               </Item>
             </Col>
             <Col span={6}>
@@ -126,12 +126,12 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.stationType
-                    }
+                      message: i18n.error.stationType,
+                    },
                   ],
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
-                  }
+                  },
                 })(<SelectStationType size="large" />)}
               </Item>
             </Col>
@@ -141,9 +141,9 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.stationAuto
-                    }
-                  ]
+                      message: i18n.error.stationAuto,
+                    },
+                  ],
                 })(
                   <SelectStationAuto
                     size="large"
@@ -153,7 +153,7 @@ export default class SearchForm extends React.Component {
                       if (station && station.measuringList)
                         this.setState({
                           measuringList: station.measuringList,
-                          stationName: station.name
+                          stationName: station.name,
                         })
                       else this.setState({ measuringList: [] })
                     }}
@@ -169,9 +169,9 @@ export default class SearchForm extends React.Component {
                     rules: [
                       {
                         required: true,
-                        message: i18n.error.selectTimeRange
-                      }
-                    ]
+                        message: i18n.error.selectTimeRange,
+                      },
+                    ],
                   })(<MonthPicker style={{ width: '100%' }} size="large" />)}
                 </Item>
               </Col>
@@ -183,9 +183,9 @@ export default class SearchForm extends React.Component {
                     rules: [
                       {
                         required: true,
-                        message: i18n.error.selectTimeRange
-                      }
-                    ]
+                        message: i18n.error.selectTimeRange,
+                      },
+                    ],
                   })(<DatePicker style={{ width: '100%' }} size="large" />)}
                 </Item>
               </Col>

@@ -20,7 +20,7 @@ const TextWithToolTip = props => (
       textOverflow: 'ellipsis',
       overflow: 'hidden',
       color: props.color ? props.color : '',
-      float: 'right'
+      float: 'right',
     }}
   >
     <Tooltip
@@ -30,7 +30,7 @@ const TextWithToolTip = props => (
       <span
         style={{
           color: props.color ? props.color : '',
-          float: props.right ? 'right' : ''
+          float: props.right ? 'right' : '',
         }}
         className={props.className}
       >
@@ -45,7 +45,7 @@ const StationListWrapper = styled.div``
 export default class StationAutoList extends React.Component {
   static propTypes = {
     stationAutoList: PropTypes.array, //PropTypes.arrayOf(PropTypes.shape(StationAuto.props)),
-    isShowStationName: PropTypes.bool
+    isShowStationName: PropTypes.bool,
   }
 
   constructor(props) {
@@ -77,16 +77,16 @@ export default class StationAutoList extends React.Component {
 const DEVICE_STATUS = {
   '0': {
     src: '/images/sensor/good.png',
-    text: 'monitoring.deviceStatus.normal'
+    text: 'monitoring.deviceStatus.normal',
   },
   '1': {
     src: '/images/sensor/maintain.png',
-    text: 'monitoring.deviceStatus.maintenance'
+    text: 'monitoring.deviceStatus.maintenance',
   },
   '2': {
     src: '/images/sensor/error.png',
-    text: 'monitoring.deviceStatus.broken'
-  }
+    text: 'monitoring.deviceStatus.broken',
+  },
 }
 
 const DeviceIcon = props => {
@@ -103,7 +103,7 @@ const DeviceIcon = props => {
             left: 2,
             top: 2,
             width: '14px',
-            height: '14px'
+            height: '14px',
           }}
           alt={item.text}
         />
@@ -117,7 +117,7 @@ const DeviceIcon = props => {
 const STATION_ICON = {
   [stationStatus.DATA_LOSS]: '/images/station/data-loss.png',
   [stationStatus.NOT_USE]: '/images/station/not-use.png',
-  [stationStatus.GOOD]: '/images/station/good.png'
+  [stationStatus.GOOD]: '/images/station/good.png',
 }
 class TableData extends React.Component {
   // constructor(props) {
@@ -133,7 +133,7 @@ class TableData extends React.Component {
         key: 'index',
         className: 'noPadding fontSize10',
         width: 20,
-        render: (text, record, index) => index + 1
+        render: (text, record, index) => index + 1,
       },
       {
         title: '',
@@ -152,12 +152,12 @@ class TableData extends React.Component {
                 top: '10%',
                 right: 0,
                 width: '16px',
-                height: '16px'
+                height: '16px',
               }}
               alt={'normal'}
             />
           )
-        }
+        },
       },
       {
         title: 'Tên trạm',
@@ -165,7 +165,7 @@ class TableData extends React.Component {
         className: 'noPadding fontSize10',
         key: 'name',
         width: 150,
-        render: text => <TextWithToolTip text={text} width={150} />
+        render: text => <TextWithToolTip text={text} width={150} />,
       },
       {
         title: 'Thời gian',
@@ -177,8 +177,8 @@ class TableData extends React.Component {
           if (!receivedAt) return null
           const time = moment(receivedAt).format(DD_MM_YYYY_HH_MM)
           return <div style={{ width: 110 }}>{time}</div>
-        }
-      }
+        },
+      },
     ]
     let width = 70
 
@@ -240,7 +240,7 @@ class TableData extends React.Component {
                   position: 'relative',
                   float: 'right',
                   width: '100%',
-                  borderRadius: 3
+                  borderRadius: 3,
                 }}
               >
                 {measure.value || measure.value === 0 ? (
@@ -265,7 +265,7 @@ class TableData extends React.Component {
               </div>
             </React.Fragment>
           )
-        }
+        },
       }
     })
 

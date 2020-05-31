@@ -8,15 +8,15 @@ export default createBreadcrumb({
     id: 'base',
     icon: '',
     href: slug.role.base,
-    name: translate('roleManager.breadcrumb.list')
+    name: translate('roleManager.breadcrumb.list'),
   },
   create: {
     id: 'create',
     href: slug.role.create,
-    name: translate('roleManager.breadcrumb.create')
+    name: translate('roleManager.breadcrumb.create'),
   },
   edit: {
     href: slug.role.edit,
-    name: translate('roleManager.breadcrumb.edit')
-  }
+    name: translate('roleManager.breadcrumb.edit'),
+  },
 })

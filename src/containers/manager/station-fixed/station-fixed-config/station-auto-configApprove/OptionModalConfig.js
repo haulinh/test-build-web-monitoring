@@ -7,7 +7,7 @@ import {
   TimePicker,
   Collapse,
   Select,
-  message
+  message,
 } from 'antd'
 // import styled from 'styled-components';
 import * as _ from 'lodash'
@@ -22,39 +22,39 @@ const format = 'HH:mm'
 const dataTime = [
   {
     key: 7,
-    value: 'stationAutoManager.options.outOfRangeConfig.daily'
+    value: 'stationAutoManager.options.outOfRangeConfig.daily',
   },
   {
     key: 1,
-    value: 'stationAutoManager.options.outOfRangeConfig.monday'
+    value: 'stationAutoManager.options.outOfRangeConfig.monday',
   },
   {
     key: 2,
-    value: 'stationAutoManager.options.outOfRangeConfig.tuesday'
+    value: 'stationAutoManager.options.outOfRangeConfig.tuesday',
   },
   {
     key: 3,
-    value: 'stationAutoManager.options.outOfRangeConfig.wednesday'
+    value: 'stationAutoManager.options.outOfRangeConfig.wednesday',
   },
   {
     key: 4,
-    value: 'stationAutoManager.options.outOfRangeConfig.thursday'
+    value: 'stationAutoManager.options.outOfRangeConfig.thursday',
   },
   {
     key: 5,
-    value: 'stationAutoManager.options.outOfRangeConfig.friday'
+    value: 'stationAutoManager.options.outOfRangeConfig.friday',
   },
   {
     key: 6,
-    value: 'stationAutoManager.options.outOfRangeConfig.saturday'
+    value: 'stationAutoManager.options.outOfRangeConfig.saturday',
   },
   {
     key: 0,
-    value: 'stationAutoManager.options.outOfRangeConfig.sunday'
-  }
+    value: 'stationAutoManager.options.outOfRangeConfig.sunday',
+  },
 ]
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -62,10 +62,10 @@ export default class OptionModalConfig extends React.Component {
   state = {
     hours: {
       from: _.get(this.props.dataEditCalibration, 'hours.from', ''),
-      to: _.get(this.props.dataEditCalibration, 'hours.to', '')
+      to: _.get(this.props.dataEditCalibration, 'hours.to', ''),
     },
     dayList: _.get(this.props.dataEditCalibration, 'dayList', [7]),
-    isCustom: false
+    isCustom: false,
   }
 
   renderItemConfigRange = () => {
@@ -145,7 +145,7 @@ export default class OptionModalConfig extends React.Component {
         dayList:
           _.size(this.state.dayList) === 7
             ? []
-            : _.map(_.slice(dataTime, 1, dataTime.length), 'key')
+            : _.map(_.slice(dataTime, 1, dataTime.length), 'key'),
       })
     } else {
       this.setState({ dayList })
@@ -191,7 +191,7 @@ export default class OptionModalConfig extends React.Component {
             {this.props.lang.t(
               'stationAutoManager.options.outOfRangeConfig.btnSave'
             )}
-          </Button>
+          </Button>,
         ]}
       >
         {this.renderItemConfigRange()}

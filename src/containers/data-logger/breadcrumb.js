@@ -8,6 +8,6 @@ export default createBreadcrumb({
     name: translate('dataLogger.breadcrumb.base'),
     id: 'base',
     icon: '',
-    href: slug.dataLogger.base
-  }
+    href: slug.dataLogger.base,
+  },
 })

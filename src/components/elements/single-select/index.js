@@ -22,14 +22,14 @@ export default class SingleSelectCustom extends React.PureComponent {
     dataItems: PropTypes.arrayOf(
       PropTypes.shape({
         heading: PropTypes.string,
-        items: PropTypes.arrayOf(PropTypes.object)
+        items: PropTypes.arrayOf(PropTypes.object),
       })
-    )
+    ),
   }
 
   state = {
     isOpen: false,
-    filterValue: ''
+    filterValue: '',
   }
 
   toggleOpen({ isOpen }) {

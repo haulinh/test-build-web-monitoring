@@ -9,7 +9,7 @@ const i18n = {
   title: translate('stationAutoManager.infoStation.title'),
   edit: translate('stationAutoManager.infoStation.edit'),
   career: translate('stationAutoManager.infoStation.career'),
-  empty: translate('stationAutoManager.infoStation.emptyText')
+  empty: translate('stationAutoManager.infoStation.emptyText'),
 }
 
 const TextColor = styled.p`
@@ -64,7 +64,7 @@ export default class DrawerInfoStation extends React.Component {
     isLoadingInfoStation: true,
     InfoStationData: {},
     chartType: '',
-    visibleDrawer: false
+    visibleDrawer: false,
   }
 
   async componentDidMount() {
@@ -75,7 +75,7 @@ export default class DrawerInfoStation extends React.Component {
       this.setState({
         isLoadingInfoStation: false,
         InfoStationData: res.data,
-        chartType: defaultChartType
+        chartType: defaultChartType,
       })
     }
   }
@@ -89,7 +89,7 @@ export default class DrawerInfoStation extends React.Component {
       userSupervisor,
       phoneSupervisor,
       website,
-      career
+      career,
     } = this.state.InfoStationData
     return (
       <Drawer

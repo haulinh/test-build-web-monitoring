@@ -12,7 +12,7 @@ const CheckboxItemImage = styled.img`
 export default class CheckBoxItemCustom extends React.PureComponent {
   static propTypes = {
     image: PropTypes.string,
-    label: PropTypes.string
+    label: PropTypes.string,
   }
 
   render() {

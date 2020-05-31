@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const IIcon = styled.i`
-  ${props => (props.size ? `font-size: ${props.size}` : '')}, ${props =>
-    props.color ? `color: ${props.color}` : ''};
+  ${props => (props.size ? `font-size: ${props.size}` : '')};
+  ${props => (props.color ? `color: ${props.color}` : '')};
 `
 
 export default function Icon({ fontAwesome, name, size, color }) {
@@ -14,5 +14,5 @@ export default function Icon({ fontAwesome, name, size, color }) {
 }
 Icon.propTypes = {
   fontAwesome: PropTypes.bool,
-  name: PropTypes.string
+  name: PropTypes.string,
 }

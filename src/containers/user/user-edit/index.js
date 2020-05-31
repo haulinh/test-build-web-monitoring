@@ -10,11 +10,12 @@ import PropTypes from 'prop-types'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import Clearfix from 'components/elements/clearfix'
 
 @protectRole(ROLE.USER.EDIT)
 @createManagerEdit({
   apiUpdate: UserApi.updateOne,
-  apiGetByKey: UserApi.getOne
+  apiGetByKey: UserApi.getOne,
 })
 @autobind
 export default class UserEdit extends React.PureComponent {
@@ -22,12 +23,12 @@ export default class UserEdit extends React.PureComponent {
     onDeleteItem: PropTypes.func,
     onUpdateItem: PropTypes.func,
     getItem: PropTypes.func,
-    isLoaded: PropTypes.bool
+    isLoaded: PropTypes.bool,
   }
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: false
+      isLoading: false,
     }
   }
 
@@ -67,10 +68,11 @@ export default class UserEdit extends React.PureComponent {
             'list',
             {
               id: 'edit',
-              name: this.props.isLoaded ? this.props.data.email : null
-            }
+              name: this.props.isLoaded ? this.props.data.email : null,
+            },
           ]}
         />
+        <Clearfix height={16} />
         {this.props.isLoaded && this.props.data && (
           <UserForm
             initialValues={this.props.data}

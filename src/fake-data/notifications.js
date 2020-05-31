@@ -4,8 +4,8 @@ const measurings = [
   {
     name: 'pH',
     min: 3,
-    max: 10
-  }
+    max: 10,
+  },
 ]
 
 export default [
@@ -14,87 +14,87 @@ export default [
     stationName: 'Trạm quan trắc số 1',
     measuring: {
       ...measurings[0],
-      value: 20
-    }
+      value: 20,
+    },
   },
   {
     color: SHAPE.RED,
     stationName: 'Trạm quan trắc số 2',
     measuring: {
       ...measurings[0],
-      value: 20
-    }
+      value: 20,
+    },
   },
   {
     color: SHAPE.GREEN,
     stationName: 'Trạm quan trắc số 3',
     measuring: {
       ...measurings[0],
-      value: 20
-    }
+      value: 20,
+    },
   },
   {
     color: SHAPE.YELLOW,
     stationName: 'Trạm quan trắc số 1',
     measuring: {
       ...measurings[0],
-      value: 20
-    }
+      value: 20,
+    },
   },
   {
     color: SHAPE.GREEN,
     stationName: 'Trạm quan trắc số 9',
     measuring: {
       ...measurings[0],
-      value: 20
-    }
+      value: 20,
+    },
   },
   {
     color: SHAPE.ORANGE,
     stationName: 'Trạm quan trắc số 4',
     measuring: {
       ...measurings[0],
-      value: 20
-    }
+      value: 20,
+    },
   },
   {
     color: SHAPE.ORANGE,
     stationName: 'Trạm quan trắc số 4',
     measuring: {
       ...measurings[0],
-      value: 20
-    }
+      value: 20,
+    },
   },
   {
     color: SHAPE.ORANGE,
     stationName: 'Trạm quan trắc số 4',
     measuring: {
       ...measurings[0],
-      value: 20
-    }
+      value: 20,
+    },
   },
   {
     color: SHAPE.ORANGE,
     stationName: 'Trạm quan trắc số 4',
     measuring: {
       ...measurings[0],
-      value: 20
-    }
+      value: 20,
+    },
   },
   {
     color: SHAPE.ORANGE,
     stationName: 'Trạm quan trắc số 4',
     measuring: {
       ...measurings[0],
-      value: 20
-    }
+      value: 20,
+    },
   },
   {
     color: SHAPE.ORANGE,
     stationName: 'DoanhTN',
     measuring: {
       ...measurings[0],
-      value: 20
-    }
-  }
+      value: 20,
+    },
+  },
 ]

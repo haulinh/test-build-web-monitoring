@@ -11,7 +11,7 @@ export function getColorFromText(text, charCodeAt = 1) {
     '#2ecc71',
     '#d35400',
     '#f39c12',
-    '#f1c40f'
+    '#f1c40f',
   ]
   var number = 0
   if (text) {

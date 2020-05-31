@@ -33,14 +33,14 @@ const HeaderWrapper = styled.div`
 const ListLoader = createContentLoader({
   component: <ListLoaderCp />,
   isAutoLoader: true,
-  items: 5
+  items: 5,
 })(null)
 
 const BoxLoader = createContentLoader({
   component: <BoxLoaderCp />,
   isAutoLoader: true,
   items: 4,
-  colSize: 3
+  colSize: 3,
 })(null)
 
 export default class OverviewDashboard extends Component {
@@ -56,7 +56,7 @@ export default class OverviewDashboard extends Component {
     isLoaded: false,
     province: null,
     groupLastLog: null,
-    isGetLastLogLoading: false
+    isGetLastLogLoading: false,
   }
 
   getLastLog = async (province, provinceKey, rows, stationCount) => {
@@ -95,9 +95,9 @@ export default class OverviewDashboard extends Component {
       groupLastLog,
       stationStatus: translate('dashboard.activeStationPer', {
         good: goodCount,
-        total: _.size(dataLastLog)
+        total: _.size(dataLastLog),
       }),
-      isGetLastLogLoading: false
+      isGetLastLogLoading: false,
     })
   }
 
@@ -121,7 +121,7 @@ export default class OverviewDashboard extends Component {
       stationCount,
       rows,
       lineSeries,
-      isLoaded: true
+      isLoaded: true,
     })
 
     // NOTE  lấy last log 1 lần, sau đó cứ mỗi giây lại lấy last log
@@ -146,7 +146,7 @@ export default class OverviewDashboard extends Component {
       '#1dce6c',
       '#389bff',
       '#7ece23',
-      '#e74c3c'
+      '#e74c3c',
     ]
     let arrayIcon = [
       '/images/dashboard/cloud.png',
@@ -156,7 +156,7 @@ export default class OverviewDashboard extends Component {
       '/images/dashboard/cloud.png',
       '/images/dashboard/groundwater.png',
       '/images/dashboard/surfaceWater.png',
-      '/images/dashboard/wasteWater.png'
+      '/images/dashboard/wasteWater.png',
     ]
 
     return this.state.stationTypeList.map((item, index) => ({
@@ -170,7 +170,7 @@ export default class OverviewDashboard extends Component {
       number: this.state.stationCount[item.key],
       totalStationGood: this.state.rows[item.key].filter(
         ({ status }) => status === 'GOOD'
-      ).length
+      ).length,
     }))
   }
 
@@ -211,7 +211,7 @@ export default class OverviewDashboard extends Component {
       key: item.key,
       title: item.name,
       totalStation: this.state.stationCount[item.key],
-      stationList: this.state.rows[item.key]
+      stationList: this.state.rows[item.key],
     }))
   }
 
@@ -251,7 +251,7 @@ export default class OverviewDashboard extends Component {
                 width: '50%',
                 marginLeft: '50%',
                 padding: 4,
-                paddingRight: 0
+                paddingRight: 0,
               }}
             >
               <WarningLevel />

@@ -7,6 +7,6 @@ export function changeLanguage(locale = 'vi') {
   setLanguage(locale)
   return {
     type: CHANGE_LANGUAGE,
-    locale
+    locale,
   }
 }

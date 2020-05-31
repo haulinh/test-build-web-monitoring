@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 
 var app = express()
 
-app.get('/app.json', function(req, res) {
+app.get('/app.json', function (req, res) {
   res.json({
     apiGateway: process.env.WEB_GATEWAY_API || 'https://dev.ilotusland.asia:5000', //http://27.74.251.0:5000
     apiMedia: process.env.WEB_MEDIA_API || 'http://171.244.21.99:5000',
@@ -16,22 +16,26 @@ app.get('/app.json', function(req, res) {
       username: process.env.CAMERA_USERNAME,
       password: process.env.CAMERA_PASSWORD
     },
+    intercomID: process.env.INTERCOM_ID || "my373fj4",
     firebase: {
       id: process.env.FIREBASE_ID,
       key: process.env.FIREBASE_KEY
+    },
+    apps: {
+      incidents: process.env.APP_INCIDENTS_URL || 'https://incident-app.ilotusland.asia',
     },
     isAdvanced: process.env.isAdvanced,
     defaultPage: process.env.DEFAULT_PAGE || '/',
     NODE_ENV: 'production'
   })
-})  
+})
 app.use(express.static(path.join(__dirname, 'build')))
 app.use(bodyParser.urlencoded({ extended: true, limit: '100mb' }))
 app.use(bodyParser.json())
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, ''))
 
-app.get('/*', function(req, res) {
+app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 

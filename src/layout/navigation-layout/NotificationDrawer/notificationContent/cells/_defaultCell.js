@@ -15,7 +15,7 @@ import { getConfigApi } from 'config'
 const i18n = {
   viewDataAroundExceededTime: translate(
     'stationAutoManager.list.notification.actions.viewDataAroundExceededTime'
-  )
+  ),
 }
 //View data around this time
 const MultilineText = styled(Row)`
@@ -40,18 +40,18 @@ export default class DefaultCell extends React.Component {
     setDrawerVisible: PropTypes.func.isRequired,
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     content: PropTypes.element.isRequired,
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     icon: '/images/logo/logo-icon.png',
     updateNotifyRead() {
       message.warning('tinh nang hien tai khong hop le')
-    }
+    },
   }
 
   state = {
-    isHoverOnCell: false
+    isHoverOnCell: false,
   }
 
   render() {
@@ -72,7 +72,7 @@ export default class DefaultCell extends React.Component {
             ? '#fff'
             : '#edf2fa',
           borderBottom: '1px solid #dddfe2',
-          cursor: 'pointer'
+          cursor: 'pointer',
         }}
         onMouseEnter={() => this.setState({ isHoverOnCell: true })}
         onMouseLeave={() => this.setState({ isHoverOnCell: false })}
@@ -82,7 +82,7 @@ export default class DefaultCell extends React.Component {
             type="flex"
             align="middle"
             style={{
-              height: 60
+              height: 60,
             }}
           >
             {/* image */}
@@ -118,7 +118,7 @@ export default class DefaultCell extends React.Component {
                   style={{
                     fontStyle: 'italic',
                     color: '#90949c',
-                    fontSize: 12
+                    fontSize: 12,
                   }}
                 >
                   {moment(receivedAt).format('MM/DD [at] HH:mm')}

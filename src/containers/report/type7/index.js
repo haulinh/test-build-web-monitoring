@@ -6,7 +6,7 @@ import { getUrlReportType7 } from 'api/DataStationAutoApi'
 import { connect } from 'react-redux'
 
 @connect(state => ({
-  token: state.auth.token
+  token: state.auth.token,
 }))
 export default class ReportType1 extends React.Component {
   constructor(props) {

@@ -16,7 +16,7 @@ const TIME_INTERVAL_GET_STATUS = 1000 * 60 // 1 PHUT
 const STATUS_SAMPLING = {
   READY: 'READY',
   COMMANDED: 'COMMANDED',
-  SAMPLING: 'SAMPLING'
+  SAMPLING: 'SAMPLING',
 }
 
 const SamplingWrapper = styled.div`
@@ -41,7 +41,7 @@ const SamplingWrapper = styled.div`
 const i18n = {
   /* NOTE  chưa dịch */
   getStatusFail: 'Không thể lấy trạng thái, hãy thử lại',
-  disconnected: translate('network.sampling.lostConnection')
+  disconnected: translate('network.sampling.lostConnection'),
 }
 
 function showMessageError(msg) {
@@ -53,11 +53,11 @@ const TabPane = Tabs.TabPane
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
   static propTypes = {
-    stationID: PropTypes.string
+    stationID: PropTypes.string,
   }
 
   static defaultProps = {
-    stationID: ''
+    stationID: '',
   }
 
   state = {
@@ -71,7 +71,7 @@ export default class SamplingMoreInfo extends React.Component {
     isDisconnection: false,
     configSampling: undefined,
     configSamplingSchedule: undefined,
-    timerId_getStatus: null
+    timerId_getStatus: null,
   }
 
   constructor(props) {
@@ -108,7 +108,7 @@ export default class SamplingMoreInfo extends React.Component {
     this.setState({
       configSampling,
       configSamplingSchedule,
-      isScheduled: res.data.configSamplingSchedule ? true : false
+      isScheduled: res.data.configSamplingSchedule ? true : false,
     })
   }
 
@@ -137,7 +137,7 @@ export default class SamplingMoreInfo extends React.Component {
             : undefined,
           configSamplingSchedule: res.data.configSamplingSchedule
             ? res.data.configSamplingSchedule
-            : undefined
+            : undefined,
         })
       } else {
         showMessageError(i18n.getStatusFail)
@@ -148,7 +148,7 @@ export default class SamplingMoreInfo extends React.Component {
       console.log('sampling lost connection')
       this.setState({
         isLoading: false,
-        isDisconnection: true
+        isDisconnection: true,
       })
     }
   }
@@ -199,7 +199,7 @@ export default class SamplingMoreInfo extends React.Component {
       configSampling,
       configSamplingSchedule,
       isInitLoaded,
-      activeTabKey
+      activeTabKey,
     } = this.state
     return (
       <SamplingWrapper>

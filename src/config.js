@@ -18,10 +18,10 @@ export function getConfigApi() {
     stationType: c('station-type'),
     stationAuto: c('station-auto'),
     // stationAuto: "http://localhost:5004/station-auto",
-    // dataStationAuto: c("data-station-auto"),
-    dataStationAuto: 'http://localhost:5004/data-station-auto',
-    // report: c("report"),
-    report: 'http://localhost:5004/report',
+    dataStationAuto: c('data-station-auto'),
+    // dataStationAuto: 'http://localhost:5004/data-station-auto',
+    report: c('report'),
+    // report: 'http://localhost:5004/report',
     stationFixed: c('station-fixed'),
     dataStationFixed: c('data-station-fixed'),
     stationConfig: c('config/station'),
@@ -50,18 +50,25 @@ export function getConfigApi() {
     qcvn: c('qcvn'),
     aqi: c('aqi'),
     // aqi: "http://localhost:5050/aqi",
-    // aqi_v1: c("aqi-v1"),
-    aqi_v1: 'http://localhost:5015/aqi-v1',
+    aqi_v1: c('aqi-v1'),
+    // aqi_v1: 'http://localhost:5015/aqi-v1',
     wqi: c('wqi'),
     notify: c('notify'),
     sampleConfig: c('configSample'),
     camera: config.camera,
     firebase: config.firebase,
     isAdvanced: config.isAdvanced,
-    defaultPage: config.defaultPage
+    defaultPage: config.defaultPage,
+  }
+}
+
+export function getApps() {
+  const config = window.config
+  return {
+    incidents: config.apps.incidents
   }
 }
 
 export const GOOGLE_MAP = {
-  KEY: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4'
+  KEY: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4',
 }

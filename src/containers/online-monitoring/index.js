@@ -51,7 +51,7 @@ export default class OnlineMonitoring extends React.Component {
     let stationAutos = await StationAutoApi.getLastLog()
     this.setState({
       stationTypes: dataStationTypes.data,
-      stationAutos: stationAutos
+      stationAutos: stationAutos,
     })
   }
 
@@ -64,14 +64,14 @@ export default class OnlineMonitoring extends React.Component {
       exceededColor: 'red',
       prepareColor: 'orange',
       trendExceededColor: 'yellow',
-      normal: 'black'
+      normal: 'black',
     },
     isLoading: true,
     stationTypes: [],
     stationAutos: [],
     visibleControl: false,
     visibleChart: false,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   setModal2Visible(visibleKey, visible, record = {}) {
@@ -82,8 +82,8 @@ export default class OnlineMonitoring extends React.Component {
         searchData: {
           stationKey: record.stationKey,
           stationName: record.stationName,
-          stationType: record.stationType
-        }
+          stationType: record.stationType,
+        },
       },
       () => {}
     )
@@ -99,12 +99,12 @@ export default class OnlineMonitoring extends React.Component {
           let date = new Date(value)
           return <div>{dateFormat(date, 'yyyy/mm/dd HH:MM')}</div>
         },
-        fixed: 'left'
+        fixed: 'left',
       },
       {
         dataIndex: 'stationName',
-        title: 'Station'
-      }
+        title: 'Station',
+      },
     ]
 
     let dataSource = []
@@ -137,7 +137,7 @@ export default class OnlineMonitoring extends React.Component {
                   return <div style={{ color: color }}>{value.value}</div>
                 }
                 return value
-              }
+              },
             })
         })
       if (station.lastLog)
@@ -147,7 +147,7 @@ export default class OnlineMonitoring extends React.Component {
           stationName: station.name,
           stationKey: station.key,
           stationType: station.stationType.key,
-          key: station.key
+          key: station.key,
         })
     })
     var openModal = this.setModal2Visible
@@ -171,7 +171,7 @@ export default class OnlineMonitoring extends React.Component {
             </Button>
           </FlexStyle>
         )
-      }
+      },
     })
 
     return (

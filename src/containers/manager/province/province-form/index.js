@@ -5,11 +5,12 @@ import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
 import InputNumberCell from 'components/elements/input-number-cell'
+import { Clearfix } from 'components/elements'
 
 const FormItem = Form.Item
 
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -18,20 +19,31 @@ export default class ProvinceForm extends React.PureComponent {
     onSubmit: PropTypes.func,
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
   handleSubmit(e) {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (err) return
       const data = {
         key: values.key,
         name: values.name,
-        numericalOrder: values.numericalOrder
+        numericalOrder: values.numericalOrder,
       }
       // Callback submit form Container Component
-      console.log(data)
-      this.props.onSubmit(data)
+      const res = await this.props.onSubmit(data)
+      if (res.error) {
+        if (res.message === 'KEY_EXISTED') {
+          this.props.form.setFields({
+            key: {
+              value: values.key,
+              errors: [
+                new Error(this.props.lang.t('province.create.keyExisted')),
+              ],
+            },
+          })
+        }
+      }
     })
   }
   render() {
@@ -39,27 +51,28 @@ export default class ProvinceForm extends React.PureComponent {
     const { t } = this.props.lang
     const formItemLayout = {
       labelCol: {
-        sm: { span: 6, offset: 0 }
+        sm: { span: 6, offset: 0 },
       },
       wrapperCol: {
-        sm: { span: 17, offset: 0 }
-      }
+        sm: { span: 17, offset: 0 },
+      },
     }
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Row gutter={8}>
+        <Row type="flex" gutter={8}>
           <Col span={12}>
             <FormItem {...formItemLayout} label={t('province.form.key.label')}>
               {getFieldDecorator('key', {
                 rules: [
                   {
                     required: true,
-                    message: t('province.form.key.error')
-                  }
-                ]
+                    message: t('province.form.key.error'),
+                  },
+                ],
               })(
                 <Input
+                  size="large"
                   disabled={this.props.isEdit}
                   placeholder={t('province.form.key.placeholder')}
                 />
@@ -75,22 +88,31 @@ export default class ProvinceForm extends React.PureComponent {
                     message: t('province.form.name.error')
                   }
                 ]
-              })(<Input placeholder={t('province.form.name.placeholder')} />)}
+              })(
+                <Input
+                  size="large"
+                  placeholder={t('province.form.name.placeholder')}
+                />
+              )}
             </FormItem>
           </Col>
-        </Row>
-        <Row gutter={8}>
           <Col span={12}>
             <FormItem
               {...formItemLayout}
               label={t('province.form.numericalOrder.label')}
             >
               {getFieldDecorator('numericalOrder', {
-                rules: [{ required: true }]
+                rules: [
+                  {
+                    required: true,
+                    message: t('province.form.numericalOrder.error')
+                  }
+                ]
               })(
                 <InputNumberCell
-                  editable={true}
-                  size="small"
+                  placeholder={t('province.form.numericalOrder.placeholder')}
+                  size="large"
+                  editable
                   min={1}
                   max={1000000}
                 />
@@ -98,9 +120,7 @@ export default class ProvinceForm extends React.PureComponent {
             </FormItem>
           </Col>
         </Row>
-        <Row gutter={8}>
-          <Col span={24} />
-        </Row>
+        <Clearfix height={16} />
         <FormItem>
           <Button style={{ width: '100%' }} type="primary" htmlType="submit">
             {t('addon.save')}

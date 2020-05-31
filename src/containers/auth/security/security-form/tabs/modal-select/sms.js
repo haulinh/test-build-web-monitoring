@@ -41,7 +41,7 @@ const RowViewCenter = styled(RowView)`
 
 @connectAutoDispatch(
   state => ({
-    twoFactorAuth: state.auth.userInfo.twoFactorAuth
+    twoFactorAuth: state.auth.userInfo.twoFactorAuth,
   }),
   { set2FAStatus, set2FAType, update2FA }
 )
@@ -55,7 +55,7 @@ export default class ModalSelectSMS extends React.PureComponent {
     /* redux props */
     twoFactorAuth: PropTypes.object.isRequired,
     set2FAStatus: PropTypes.func.isRequired,
-    set2FAType: PropTypes.func.isRequired
+    set2FAType: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -65,14 +65,14 @@ export default class ModalSelectSMS extends React.PureComponent {
       isLoadingSms: false,
       stepCurrent: 0,
       code: '',
-      smsExpiredTime: 600000
+      smsExpiredTime: 600000,
     }
   }
 
   componentWillReceiveProps(props) {
     let remainTime = moment(props.twoFactorAuth.expired) - moment()
     this.setState({
-      smsExpiredTime: remainTime
+      smsExpiredTime: remainTime,
     })
   }
 
@@ -83,7 +83,7 @@ export default class ModalSelectSMS extends React.PureComponent {
       clearInterval(this.countDownIntervalID)
       this.props.update2FA({
         code: '',
-        enable: false
+        enable: false,
       })
     }
   }
@@ -124,7 +124,7 @@ export default class ModalSelectSMS extends React.PureComponent {
           <Alert
             message={translate('security.message.code', {
               phone: _.get(this.props, 'user.phone.phoneNumber', 'NaN'),
-              expired: `${moment(this.state.smsExpiredTime).format('mm:ss')}`
+              expired: `${moment(this.state.smsExpiredTime).format('mm:ss')}`,
             })}
             type="success"
           />
@@ -169,7 +169,7 @@ export default class ModalSelectSMS extends React.PureComponent {
         }
       } else {
         this.setState(prevState => ({
-          smsExpiredTime: prevState.smsExpiredTime - 1000
+          smsExpiredTime: prevState.smsExpiredTime - 1000,
         }))
       }
     }, 1000)
@@ -183,7 +183,7 @@ export default class ModalSelectSMS extends React.PureComponent {
     if (success) {
       swal({
         type: 'success',
-        title: translate('security.success')
+        title: translate('security.success'),
       })
       this.props.set2FAStatus(true)
       this.props.set2FAType('sms')
@@ -192,7 +192,7 @@ export default class ModalSelectSMS extends React.PureComponent {
     } else {
       swal({
         type: 'error',
-        title: translate('security.failure')
+        title: translate('security.failure'),
       })
       this.props.set2FAStatus(false)
     }

@@ -1,5 +1,5 @@
 const initialState = {
-  data: []
+  data: [],
 }
 
 export default function createReducer(state = initialState, action) {

@@ -30,5 +30,5 @@ export default {
     if (toDate) params.to = toDate
     if (measuringList) params.measuringList = measuringList.join(',')
     return getFetch(url, undefined, { params })
-  }
+  },
 }

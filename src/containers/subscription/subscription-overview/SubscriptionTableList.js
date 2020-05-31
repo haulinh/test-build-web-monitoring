@@ -14,9 +14,9 @@ export default class SubscriptionTableList extends React.PureComponent {
       PropTypes.shape({
         subscriptionId: PropTypes.any,
         renewAt: PropTypes.any,
-        expiredAt: PropTypes.any
+        expiredAt: PropTypes.any,
       })
-    )
+    ),
   }
 
   getColumns() {
@@ -27,7 +27,7 @@ export default class SubscriptionTableList extends React.PureComponent {
         key: 'index',
         render(value, record, index) {
           return <span>{index + 1}</span>
-        }
+        },
       },
       {
         title: 'ID',
@@ -35,7 +35,7 @@ export default class SubscriptionTableList extends React.PureComponent {
         key: 'subscriptionId',
         render(value, record) {
           return value
-        }
+        },
       },
       {
         title: translate('subscriptionStatus.renewAt'),
@@ -43,7 +43,7 @@ export default class SubscriptionTableList extends React.PureComponent {
         key: 'renewAt',
         render(value) {
           return value
-        }
+        },
       },
       {
         title: translate('subscriptionStatus.expiredAt'),
@@ -51,8 +51,8 @@ export default class SubscriptionTableList extends React.PureComponent {
         key: 'expiredAt',
         render(value) {
           return value
-        }
-      }
+        },
+      },
     ]
   }
 

@@ -17,7 +17,7 @@ export function cleanUser(user) {
       : user.avatar
       ? `${AUTH_API}/uploads/avatars/${user.avatar}`
       : '',
-    balance: user.balance ? user.balance : 0
+    balance: user.balance ? user.balance : 0,
   }
 }
 
@@ -34,7 +34,7 @@ export function cleanQuizListCustomField(customField = {}) {
     isCustomTime: !!customField.custom_time,
     openTime: customField.start_at,
     endTime: customField.end_at,
-    playType: customField.playType ? customField.playType : playType.NORMAL
+    playType: customField.playType ? customField.playType : playType.NORMAL,
   }
 }
 
@@ -66,7 +66,7 @@ export function cleanQuizList(quizList) {
     tags: quizList.tags.map(tag => tag.tag_name),
     statusType: quizList.status_type,
     createdAt: quizList.created_at,
-    updatedAt: quizList.updated_at
+    updatedAt: quizList.updated_at,
   }
 }
 

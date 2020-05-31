@@ -12,8 +12,8 @@ export default class ViewCamera extends React.PureComponent {
           'list',
           {
             id: 'stationName',
-            name: stationName
-          }
+            name: stationName,
+          },
         ]}
       />
     )

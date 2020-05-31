@@ -78,10 +78,10 @@ const Dot = styled.div`
 `
 @connectAutoDispatch(
   state => ({
-    focusStationKey: _get(state, 'map.stationAuto.key', '')
+    focusStationKey: _get(state, 'map.stationAuto.key', ''),
   }),
   {
-    getStationAuto
+    getStationAuto,
   }
 )
 @autobind
@@ -100,16 +100,16 @@ export default class MarkerStation extends PureComponent {
     visible: PropTypes.bool,
     stationStatus: PropTypes.string,
     byStationStatus: PropTypes.string,
-    image: PropTypes.object
+    image: PropTypes.object,
   }
   state = {
-    tableData: ''
+    tableData: '',
   }
 
   toggleOpen() {
     const stationSelected = {
       key: this.props.stationKey,
-      name: this.props.name
+      name: this.props.name,
     }
     this.props.getStationAuto(stationSelected)
   }
@@ -129,7 +129,7 @@ export default class MarkerStation extends PureComponent {
   componentDidMount() {
     if (this.props.getRef) this.props.getRef(this)
     this.setState({
-      tableData: this.renderTableData()
+      tableData: this.renderTableData(),
     })
   }
 
@@ -183,7 +183,7 @@ export default class MarkerStation extends PureComponent {
               style={{
                 color: this.getColorLevel(warningLevel),
                 fontWeight: '600',
-                textAlign: 'right'
+                textAlign: 'right',
               }}
             >
               {typeof value === 'number' ? getFormatNumber(value) : ''}
@@ -193,12 +193,12 @@ export default class MarkerStation extends PureComponent {
               style={{
                 textAlign: 'center',
                 padding: '0px',
-                verticalAlign: 'middle'
+                verticalAlign: 'middle',
               }}
             >
               <Dot
                 style={{
-                  backgroundColor: colorDeviceStatus
+                  backgroundColor: colorDeviceStatus,
                 }}
               />
             </td>
@@ -319,7 +319,7 @@ export default class MarkerStation extends PureComponent {
         <Marker
           //visible={this.props.visible}
           icon={{
-            url: this.getIconByStatus(this.props.status) //this.getIconByStatus(this.props.status),
+            url: this.getIconByStatus(this.props.status), //this.getIconByStatus(this.props.status),
             // scaledSize: new google.maps.Size(30, 30)
             // path:  google.maps.SymbolPath.CIRCLE,
             // scale: 8,
@@ -363,8 +363,8 @@ export default class MarkerStation extends PureComponent {
               whiteteSpace: 'nowrap',
               width:
                 this.getTextWidth(this.props.name ? this.props.name : 'label') +
-                'px'
-            }
+                'px',
+            },
           }}
         >
           <div>
@@ -374,7 +374,7 @@ export default class MarkerStation extends PureComponent {
                 <InfoWindow
                   options={{
                     //disableAutoPan: true,
-                    maxWidth: 450
+                    maxWidth: 450,
                   }}
                 >
                   <WrapperInfoWindow>

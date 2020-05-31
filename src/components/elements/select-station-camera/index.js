@@ -11,25 +11,25 @@ export default class SelectStation extends PureComponent {
     onChange: PropTypes.func,
     value: PropTypes.string,
     isShowAll: PropTypes.bool,
-    stationType: PropTypes.string
+    stationType: PropTypes.string,
   }
 
   state = {
     stations: [],
-    value: 'ALL'
+    value: 'ALL',
   }
 
   async componentDidMount() {
     const stations = await StationAutoApi.getStationAutos({
       page: 1,
-      itemPerPage: 10000000
+      itemPerPage: 10000000,
     })
     // const stations = await StationAutoApi.getCamera();
 
     if (stations.success)
       this.setState({
         stations: stations.data || [],
-        value: this.props.value
+        value: this.props.value,
       })
   }
 
@@ -58,7 +58,7 @@ export default class SelectStation extends PureComponent {
   onChange = value => {
     let res = this.state.stations.find(item => item.key === value)
     this.setState({
-      value: value
+      value: value,
     })
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
     if (this.props.onChange) this.props.onChange(value)

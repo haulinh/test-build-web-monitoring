@@ -20,7 +20,7 @@ require('./index.css')
 
 const i18n = {
   create: translate('addon.create'),
-  roleAssign: translate('userManager.list.roleAssign')
+  roleAssign: translate('userManager.list.roleAssign'),
 }
 
 const Form = styled(FormStyle)`
@@ -36,7 +36,7 @@ const Form = styled(FormStyle)`
 `
 
 @FormStyle.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguage
 @autobind
@@ -44,14 +44,14 @@ export default class UserSearchForm extends React.PureComponent {
   static propTypes = {
     initialValues: PropTypes.object,
     onChangeSearch: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       dataSearch: {},
-      phone: {}
+      phone: {},
     }
   }
 
@@ -85,15 +85,15 @@ export default class UserSearchForm extends React.PureComponent {
     this.setState({
       phone: {
         phoneNumber: telNumber,
-        ...selectedCountry
-      }
+        ...selectedCountry,
+      },
     })
   }
 
   render() {
     const { getFieldDecorator } = this.props.form
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
 
     return (

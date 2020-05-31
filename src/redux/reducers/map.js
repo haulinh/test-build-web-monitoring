@@ -1,7 +1,7 @@
 import { GET_STATIONS_AUTO_DETAIL } from '../actions/map'
 
 let initstate = {
-  stationAuto: null
+  stationAuto: null,
 }
 
 export default function stationAuto(state = initstate, action) {

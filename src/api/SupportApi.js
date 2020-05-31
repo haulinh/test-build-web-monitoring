@@ -18,5 +18,5 @@ export function sendRequest(request) {
 export default {
   sendRequest,
   getUploadUrl,
-  getType
+  getType,
 }

@@ -38,7 +38,7 @@ export default class ConfigPublishContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      list: []
+      list: [],
     }
     this.columns = [
       {
@@ -47,18 +47,32 @@ export default class ConfigPublishContainer extends React.Component {
         key: 'options',
         width: 100,
         align: 'center',
-        render: (value, record) => (
-          <Checkbox
-            defaultChecked={_.get(value, ['published', 'allowed'])}
-            onChange={checked => this.handleStationPublish(record._id, checked)}
-          />
-        ) // "allowed" : false
+        render: (value, record) => {
+          const isChecked = _.get(value, ['published', 'allowed'])
+          return (
+            <Checkbox
+              checked={isChecked}
+              defaultChecked={isChecked}
+              onChange={event => {
+                const measuringListChecked = []
+                _.forEach(record.measuringList, obj =>
+                  measuringListChecked.push(obj.key)
+                )
+                this.handleStationPublish(record._id, event)
+                event.target.checked
+                  ? this.handleOptionChange(record._id, measuringListChecked)
+                  : this.handleOptionChange(record._id, [])
+              }}
+            />
+          )
+          // "allowed" : false
+        }
       },
       {
         title: translate('qaqc.configPublish.stationName'),
         dataIndex: 'name',
         key: 'name',
-        align: 'left'
+        align: 'left',
       },
       {
         title: translate('qaqc.configPublish.measurePublish'),
@@ -66,24 +80,51 @@ export default class ConfigPublishContainer extends React.Component {
         key: 'measuringList',
         align: 'left',
         render: (value, record, index) => {
-          const options = _.map(value, ({ key, name }) => ({
-            label: name,
-            value: key
-          }))
+          const options = _.map(value, ({ key, name }) => {
+            return {
+              label: name,
+              value: key
+            }
+          })
+
           const defaultValue = _.get(
             record,
             ['options', 'published', 'measureList'],
             []
           )
+
+          const configPublishObj = _.find(
+            this.state.list,
+            obj => obj._id === record._id
+          )
+          const allowed = _.get(configPublishObj, [
+            'options',
+            'published',
+            'allowed'
+          ])
+
           return (
             <CheckboxGroup
+              value={defaultValue}
               defaultValue={defaultValue}
+              disabled={!allowed}
               options={options}
-              onChange={option => this.handleOptionChange(record._id, option)}
+              onChange={option => {
+                this.handleOptionChange(record._id, option)
+                if (_.isEmpty(option)) {
+                  this.handleStationPublish(record._id, {
+                    event: {
+                      target: {
+                        checked: false
+                      }
+                    }
+                  })
+                }
+              }}
             />
           )
-        }
-      }
+        },
+      },
     ]
   }
 

@@ -4,14 +4,14 @@ import PropTypes from 'prop-types'
 
 export default class FeatherIcon extends React.Component {
   static propTypes = {
-    name: PropTypes.string
+    name: PropTypes.string,
   }
 
   render() {
     return (
       <span
         dangerouslySetInnerHTML={{
-          __html: Feather.icons[this.props.name].toSvg()
+          __html: Feather.icons[this.props.name].toSvg(),
         }}
       />
     )

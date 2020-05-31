@@ -29,20 +29,20 @@ const PaddingWrapper = styled.div``
 export default class PageWrapperMapLayout extends Component {
   state = {
     navigationWidth: 300,
-    isOpen: false
+    isOpen: false,
   }
 
   getNavigation() {
     return {
       width: this.state.navigationWidth,
-      isOpen: this.state.isOpen
+      isOpen: this.state.isOpen,
     }
   }
 
   handleResizeNavigation({ isOpen, width }) {
     this.setState({
       navigationWidth: width,
-      isOpen
+      isOpen,
     })
   }
 

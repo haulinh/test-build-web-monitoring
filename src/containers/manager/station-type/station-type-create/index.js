@@ -8,6 +8,7 @@ import StationTypeForm from '../station-type-form'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import { Clearfix } from 'components/elements'
 
 @protectRole(ROLE.STATION_TYPE.CREATE)
 @autobind
@@ -18,12 +19,14 @@ export default class StationTypeCreate extends React.PureComponent {
       message.info('Add success!')
       this.props.history.push(slug.stationType.list)
     }
+    return res
   }
 
   render() {
     return (
       <PageContainer title="Create station type" {...this.props.wrapperProps}>
         <Breadcrumb items={['list', 'create']} />
+        <Clearfix height={16} />
         <StationTypeForm onSubmit={this.handleSubmit} />
       </PageContainer>
     )

@@ -47,7 +47,7 @@ export function exportFileAqiDaybyListStation({
   from,
   to,
   listKey,
-  timezoneDay
+  timezoneDay,
 } = {}) {
   var url = getAqiV1Url(
     `aqi-day-export-data?from=${from}&to=${to}&listKey=${listKey}&timezoneDay=${timezoneDay}`
@@ -78,7 +78,7 @@ export function fetchListAqiReport({
   fromDate,
   toDate,
   page = 1,
-  itemPerPage = 10000
+  itemPerPage = 10000,
 } = {}) {
   var url = getAqiV1Url(
     `aqi-878-list?page=${page}&itemPerPage=${itemPerPage}&fromDate=${fromDate}&toDate=${toDate}`
@@ -105,5 +105,5 @@ export default {
   createAqiReport,
   fetchAqiDayLastLogs,
   fetchAqiProcessCalHour,
-  fetchAqiProcessCalDay
+  fetchAqiProcessCalDay,
 }

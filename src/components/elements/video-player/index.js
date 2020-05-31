@@ -114,11 +114,11 @@ export default class Player extends React.Component {
     cbPlay: PropTypes.func.isRequired,
     cbStop: PropTypes.func.isRequired,
     width: PropTypes.any,
-    height: PropTypes.number
+    height: PropTypes.number,
   }
   static defaultProps = {
     width: '100%',
-    height: '100%'
+    height: '100%',
   }
   constructor(props) {
     super(props)
@@ -132,7 +132,7 @@ export default class Player extends React.Component {
       thumbLink: getThumbLink(cameraId, props.auth),
       linkSream: getCameraMPJEGLink(cameraId, props.auth, '240p'),
       linkSreamHightQual: getCameraMPJEGLink(cameraId, props.auth, '640p'),
-      link480p: getCameraMPJEGLink(cameraId, props.auth, '480p')
+      link480p: getCameraMPJEGLink(cameraId, props.auth, '480p'),
     }
   }
 
@@ -225,7 +225,7 @@ export default class Player extends React.Component {
           className="player"
           style={{
             width: 480,
-            height: 320
+            height: 320,
           }}
         >
           <img
@@ -239,7 +239,7 @@ export default class Player extends React.Component {
               this.setState({
                 thumbLink: LINK_Error,
                 linkSream: LINK_Error,
-                linkSreamHightQual: LINK_Error
+                linkSreamHightQual: LINK_Error,
               })
             }}
           />

@@ -50,7 +50,7 @@ const colors = [
   '#64E572',
   '#FF9655',
   '#FFF26f',
-  '#6AF9C0'
+  '#6AF9C0',
 ]
 ReactHighcharts.Highcharts.wrap(
   ReactHighcharts.Highcharts.RangeSelector.prototype,
@@ -65,11 +65,11 @@ ReactHighcharts.Highcharts.setOptions({
   lang: {
     rangeSelectorFrom: translate('chart.from'),
     rangeSelectorTo: translate('chart.to'),
-    rangeSelectorZoom: ''
+    rangeSelectorZoom: '',
   },
   global: {
-    useUTC: false
-  }
+    useUTC: false,
+  },
 })
 
 @autobind
@@ -77,7 +77,7 @@ export default class TabChart extends React.PureComponent {
   static propTypes = {
     getChart: PropTypes.func,
     dataAQI: PropTypes.array,
-    nameChart: PropTypes.string
+    nameChart: PropTypes.string,
   }
 
   constructor(props) {
@@ -97,12 +97,12 @@ export default class TabChart extends React.PureComponent {
         maxLimit: item.maxLimit,
         threshold: _.isNumber(item.maxLimit) ? item.maxLimit : 10000000,
         negativeColor: color,
-        color: 'red'
+        color: 'red',
       }
       return {
         code: item.key,
         ...item,
-        color
+        color,
       }
     })
 
@@ -147,7 +147,7 @@ export default class TabChart extends React.PureComponent {
         nameChart: '',
         series: _.values(seriesData),
         measureCurrent: '__ALL__',
-        heightChart
+        heightChart,
       }
     } else {
       this.setState({
@@ -155,7 +155,7 @@ export default class TabChart extends React.PureComponent {
         seriesData,
         mesureList,
         plotLines: [],
-        series: _.values(seriesData)
+        series: _.values(seriesData),
       })
     }
   }
@@ -202,9 +202,9 @@ export default class TabChart extends React.PureComponent {
           width: 2,
           label: {
             text: translate(`dashboard.chartStatus.min`, {
-              min: _.get(dataSeries, 'minLimit', '')
-            })
-          }
+              min: _.get(dataSeries, 'minLimit', ''),
+            }),
+          },
         },
         {
           value: _.get(dataSeries, 'maxLimit', undefined),
@@ -213,10 +213,10 @@ export default class TabChart extends React.PureComponent {
           width: 1,
           label: {
             text: translate(`dashboard.chartStatus.max`, {
-              max: _.get(dataSeries, 'maxLimit', '')
-            })
-          }
-        }
+              max: _.get(dataSeries, 'maxLimit', ''),
+            }),
+          },
+        },
       ]
     }
     this.setState({
@@ -225,7 +225,7 @@ export default class TabChart extends React.PureComponent {
       plotLines,
       minChart,
       nameChart,
-      maxChart
+      maxChart,
     })
   }
 
@@ -240,10 +240,10 @@ export default class TabChart extends React.PureComponent {
     return {
       chart: {
         type: 'line',
-        width: width - 160
+        width: width - 160,
       },
       credits: {
-        enabled: false
+        enabled: false,
       },
       rangeSelector: {
         enabled: true,
@@ -252,31 +252,31 @@ export default class TabChart extends React.PureComponent {
         inputEnabled: true,
         inputEditDateFormat: '%d/%m/%Y:%k:%M',
         inputDateFormat: '%d/%m/%Y:%k:%M',
-        inputBoxWidth: 120
+        inputBoxWidth: 120,
       },
       navigation: {
         buttonOptions: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
       title: {
-        text: nameChart //this.props.nameChart
+        text: nameChart, //this.props.nameChart
       },
       yAxis: {
         min: minChart,
         max: maxChart,
         plotLines,
         title: {
-          text: ''
-        }
+          text: '',
+        },
       },
-      series
+      series,
     }
   }
 
   componentDidMount() {
     this.setState({
-      width: this.chartWrapper.offsetWidth
+      width: this.chartWrapper.offsetWidth,
     })
   }
 

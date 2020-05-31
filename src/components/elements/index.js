@@ -11,5 +11,5 @@ export default {
   Input,
   InputLabel,
   Clearfix,
-  createValidateComponent
+  createValidateComponent,
 }

@@ -11,7 +11,7 @@ export default class TableDataList extends React.PureComponent {
     dataSource: PropTypes.array,
     measuringList: PropTypes.array,
     measuringListOrigin: PropTypes.array,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
   }
 
   getTitle = ({ unit, name, key }) => {
@@ -28,14 +28,14 @@ export default class TableDataList extends React.PureComponent {
       key: item,
       align: 'center',
       render: value =>
-        value ? <div style={{ color: 'red' }}>{value}</div> : value
+        value ? <div style={{ color: 'red' }}>{value}</div> : value,
     }))
 
     const columnReceivedAt = {
       title: translate('statistic.perRecDataFrom.time'),
       align: 'center',
       dataIndex: 'receivedAt',
-      key: 'receivedAt'
+      key: 'receivedAt',
     }
     return [columnReceivedAt, ...cols]
   }

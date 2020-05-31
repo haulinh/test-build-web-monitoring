@@ -11,7 +11,6 @@ import MoreSampling from './sampling/'
 import MoreCamera from './camera'
 import MoreChart from './chart/index'
 import MoreMap from './map'
-import MoreImage from './image'
 import MoreStation from './station'
 import MoreRating from './rating'
 
@@ -23,11 +22,11 @@ const MoreContentWrapper = styled.div`
 
 const tabsStyle = panel => ({
   minHeight: 300,
-  borderRadius: 4
+  borderRadius: 4,
 })
 
 @connect(state => ({
-  isOpen: state.theme.navigation.isOpen
+  isOpen: state.theme.navigation.isOpen,
 }))
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
@@ -35,13 +34,13 @@ export default class SamplingMoreInfo extends React.Component {
     isActive: PropTypes.bool,
     panel: PropTypes.string,
     stationID: PropTypes.string,
-    stationInfo: PropTypes.object
+    stationInfo: PropTypes.object,
   }
 
   static defaultProps = {
     isActive: false,
     panel: '',
-    stationID: ''
+    stationID: '',
   }
 
   state = {}
@@ -71,9 +70,6 @@ export default class SamplingMoreInfo extends React.Component {
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="map" key="map">
                   <MoreMap stationID={stationID} />
-                </Tabs.TabPane>
-                <Tabs.TabPane tab="image" key="image">
-                  <MoreImage stationID={stationID} />
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="station" key="station">
                   <MoreStation stationID={stationID} />

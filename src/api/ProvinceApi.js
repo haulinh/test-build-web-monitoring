@@ -37,5 +37,5 @@ export default {
   createProvince,
   deleteProvince,
   updateProvince,
-  getProviceByID
+  getProviceByID,
 }

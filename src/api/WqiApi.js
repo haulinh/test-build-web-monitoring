@@ -28,5 +28,5 @@ export default {
   fetchWqi,
   fetchWqiData,
   fetchWqiHistory,
-  exportFileHistory
+  exportFileHistory,
 }

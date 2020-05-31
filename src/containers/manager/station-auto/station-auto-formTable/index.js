@@ -21,7 +21,7 @@ const i18n = {
   qcvn: translate('stationAutoManager.form.qcvn.label'),
   qcvnMin: translate('stationAutoManager.form.measuringMinLimit.label'),
   qcvnMax: translate('stationAutoManager.form.measuringMaxLimit.label'),
-  unit: translate('stationAutoManager.form.measuringUnit.label')
+  unit: translate('stationAutoManager.form.measuringUnit.label'),
 }
 
 @autobind
@@ -32,14 +32,14 @@ export default class StationAutoFormTable extends React.Component {
     dataSource: PropTypes.array,
     measuringListSource: PropTypes.array,
     allowUpdateStandardsVN: PropTypes.bool,
-    standardsVN: PropTypes.object
+    standardsVN: PropTypes.object,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       standardsVN: props.standardsVN,
-      measuringList: []
+      measuringList: [],
     }
   }
 
@@ -63,7 +63,7 @@ export default class StationAutoFormTable extends React.Component {
             measuringList = _.concat(measuringList, {
               measuringKey: item.key,
               ...item,
-              key: size
+              key: size,
             })
             size++
           }
@@ -112,7 +112,7 @@ export default class StationAutoFormTable extends React.Component {
     const newRow = {
       key: this.state.measuringList.length,
       name: '',
-      unit: ''
+      unit: '',
     }
     let rows = this.state.measuringList.slice()
     rows = update(rows, { $push: [newRow] })
@@ -148,9 +148,9 @@ export default class StationAutoFormTable extends React.Component {
         measuringList: {
           [index]: {
             measuringKey: { $set: value },
-            unit: { $set: measure.unit }
-          }
-        }
+            unit: { $set: measure.unit },
+          },
+        },
       })
     )
   }
@@ -158,7 +158,7 @@ export default class StationAutoFormTable extends React.Component {
   renderItemCell = (text, record, index, key) => (
     <FormItem style={{ marginBottom: 0 }}>
       {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
-        initialValue: text
+        initialValue: text,
       })(<span>{text}</span>)}
     </FormItem>
   )
@@ -172,7 +172,7 @@ export default class StationAutoFormTable extends React.Component {
     return (
       <FormItem style={{ marginBottom: 0 }}>
         {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
-          initialValue: text
+          initialValue: text,
           // validateFirst: true,
           // rules: [
           //   { validator: (rule, value, callback) => this.validateValue(index, rule, value, callback) },
@@ -193,7 +193,7 @@ export default class StationAutoFormTable extends React.Component {
       'min Tend',
       'max Tend',
       'max Limit',
-      'max Range'
+      'max Range',
     ]
     let arrName = [
       'minRange',
@@ -201,7 +201,7 @@ export default class StationAutoFormTable extends React.Component {
       'minTend',
       'maxTend',
       'maxLimit',
-      'maxRange'
+      'maxRange',
     ]
     let lengthOfArrName = arrName.length
 
@@ -269,7 +269,7 @@ export default class StationAutoFormTable extends React.Component {
         title: t('stationAutoManager.form.measuringKey.label'),
         width: 130,
         render: (text, record, index) =>
-          this.renderItemCell(text, record, index, 'key')
+          this.renderItemCell(text, record, index, 'key'),
       },
       {
         dataIndex: 'measuringName',
@@ -285,9 +285,9 @@ export default class StationAutoFormTable extends React.Component {
                   required: true,
                   message:
                     'Please select ' +
-                    t('stationAutoManager.form.measuringName.label')
-                }
-              ]
+                    t('stationAutoManager.form.measuringName.label'),
+                },
+              ],
             })(
               <AutoCompleteCell
                 style={{ width: 120 }}
@@ -304,7 +304,7 @@ export default class StationAutoFormTable extends React.Component {
               />
             )}
           </FormItem>
-        )
+        ),
       },
       {
         title: i18n.qcvn,
@@ -315,7 +315,7 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.qcvnMin,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'minLimit', true)
+              this.renderItemNumberCell(text, record, index, 'minLimit', true),
           },
           {
             dataIndex: 'maxLimit',
@@ -323,9 +323,9 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.qcvnMax,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'maxLimit', true)
-          }
-        ]
+              this.renderItemNumberCell(text, record, index, 'maxLimit', true),
+          },
+        ],
       },
       {
         title: i18n.tendToExceed,
@@ -336,7 +336,7 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.tendToExceedMin,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'minTend', true)
+              this.renderItemNumberCell(text, record, index, 'minTend', true),
           },
           {
             dataIndex: 'maxTend',
@@ -344,9 +344,9 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.tendToExceedMax,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'maxTend', true)
-          }
-        ]
+              this.renderItemNumberCell(text, record, index, 'maxTend', true),
+          },
+        ],
       },
       {
         title: i18n.sensorRange,
@@ -357,7 +357,7 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.sensorRangeMin,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'minRange')
+              this.renderItemNumberCell(text, record, index, 'minRange'),
           },
           {
             dataIndex: 'maxRange',
@@ -365,9 +365,9 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.sensorRangeMax,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'maxRange')
-          }
-        ]
+              this.renderItemNumberCell(text, record, index, 'maxRange'),
+          },
+        ],
       },
       {
         dataIndex: 'unit',
@@ -377,10 +377,10 @@ export default class StationAutoFormTable extends React.Component {
         render: (text, record, index) => (
           <FormItem style={{ marginBottom: 0 }}>
             {getFieldDecorator(`measuringList[${index}].unit`, {
-              initialValue: text
+              initialValue: text,
             })(<Input style={{ width: 120 }} />)}
           </FormItem>
-        )
+        ),
       },
       {
         dataIndex: 'name',
@@ -406,8 +406,8 @@ export default class StationAutoFormTable extends React.Component {
               )}
             </div>
           )
-        }
-      }
+        },
+      },
     ]
   }
 
@@ -429,7 +429,7 @@ export default class StationAutoFormTable extends React.Component {
           columns={this.getColumns()}
           pagination={{
             pageSize: 1000,
-            hideOnSinglePage: true
+            hideOnSinglePage: true,
           }}
         />
       </div>

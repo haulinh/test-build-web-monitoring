@@ -35,7 +35,7 @@ const VnWqiView = ({ value, color, time }) => {
           paddingTop: 8,
           color: '#fff',
           fontWeight: '600',
-          textAlign: 'center'
+          textAlign: 'center',
         }}
       >
         VN WQI
@@ -45,7 +45,7 @@ const VnWqiView = ({ value, color, time }) => {
           fontSize: 60,
           color: '#fff',
           fontWeight: '600',
-          textShadow: '2px 1px #ddd'
+          textShadow: '2px 1px #ddd',
         }}
       >
         {value}
@@ -55,7 +55,7 @@ const VnWqiView = ({ value, color, time }) => {
           fontSize: 12,
           color: '#fff',
           fontWeight: '400',
-          paddingBottom: 8
+          paddingBottom: 8,
         }}
       >
         {time}

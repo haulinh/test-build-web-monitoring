@@ -23,19 +23,19 @@ const BoxHideLayout = styled.div`
 export default class BoxHideLayoutComponent extends React.PureComponent {
   static propTypes = {
     isLeft: PropTypes.bool,
-    isRight: PropTypes.bool
+    isRight: PropTypes.bool,
   }
   state = {
     type: 'caret-left',
     isLeft: true,
-    isRight: false
+    isRight: false,
   }
 
   async componentDidMount() {
     if (this.props.isRight)
       this.setState({
         isLeft: false,
-        isRight: true
+        isRight: true,
       })
   }
 
@@ -49,7 +49,7 @@ export default class BoxHideLayoutComponent extends React.PureComponent {
     this.setState(
       {
         isLeft: !this.state.isLeft,
-        isRight: !this.state.isRight
+        isRight: !this.state.isRight,
       },
       () => {
         if (this.props.handelOnLick) this.props.handelOnLick(this.state)

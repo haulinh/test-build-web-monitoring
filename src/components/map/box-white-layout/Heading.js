@@ -18,7 +18,7 @@ export default class Heading extends React.PureComponent {
   static propTypes = {
     right: PropTypes.any,
     onlyTitle: PropTypes.bool,
-    noPadding: PropTypes.bool
+    noPadding: PropTypes.bool,
   }
 
   render() {

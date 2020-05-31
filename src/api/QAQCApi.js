@@ -35,5 +35,5 @@ export function downloadExcel(
 
 export default {
   fetchData,
-  downloadExcel
+  downloadExcel,
 }

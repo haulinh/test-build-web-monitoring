@@ -13,8 +13,8 @@ export default class AppTest extends React.Component {
       fetch(config.aqi, {
         method: 'GET',
         headers: {
-          Authorization: token
-        }
+          Authorization: token,
+        },
       })
         .then(res => res.json())
         .then(data => {

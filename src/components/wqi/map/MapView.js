@@ -5,7 +5,7 @@ import {
   GoogleMap,
   withScriptjs,
   withGoogleMap,
-  Polygon
+  Polygon,
 } from 'react-google-maps'
 import { withProps } from 'recompose'
 import { getGoogleMapProps } from 'components/map/utils'
@@ -67,7 +67,7 @@ const WqiMarker = ({ item, onMapClick }) => {
             padding: `4px 8px`,
             borderRadius: 3,
             borderColor: '#fff',
-            borderWidth: 1
+            borderWidth: 1,
           }}
           onClick={() => {
             if (onMapClick) {
@@ -87,13 +87,13 @@ const WqiMarker = ({ item, onMapClick }) => {
 @withProps({
   googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${
     GOOGLE_MAP.KEY
-  }&v=3.exp&libraries=geometry,drawing,places`
+  }&v=3.exp&libraries=geometry,drawing,places`,
 })
 @withScriptjs
 @withGoogleMap
 class CustomGoogleMap extends PureComponent {
   state = {
-    isBounds: false
+    isBounds: false,
   }
 
   getBounds() {
@@ -113,7 +113,7 @@ class CustomGoogleMap extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      zoom: nextProps.zoom
+      zoom: nextProps.zoom,
     })
   }
 

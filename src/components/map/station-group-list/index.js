@@ -21,7 +21,7 @@ export default class StationsGroupList extends React.PureComponent {
       PropTypes.shape(StationGroupItem.propTypes)
     ),
     stationSelected: PropTypes.object,
-    onSelectStation: PropTypes.func
+    onSelectStation: PropTypes.func,
   }
   render() {
     return (

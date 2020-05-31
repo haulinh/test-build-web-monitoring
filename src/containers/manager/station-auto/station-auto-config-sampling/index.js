@@ -28,7 +28,7 @@ const i18n = {
   updateError: translate('addon.onSave.update.error'),
   stationName: translate('stationAutoManager.form.name.label'),
   stationAddr: translate('stationAutoManager.form.address.label'),
-  allowSampling: translate('stationAutoManager.options.allowSampling.label')
+  allowSampling: translate('stationAutoManager.options.allowSampling.label'),
 }
 
 const showSuccess = msg => {
@@ -42,13 +42,13 @@ const Span = styled.span`
 
 @protectRole(ROLE.CAU_HINH_LAY_MAU.VIEW)
 @createManagerList({
-  apiList: StationAutoApi.getStationAutos
+  apiList: StationAutoApi.getStationAutos,
 })
 @createManagerDelete({
-  apiDelete: StationAutoApi.removeStationAuto
+  apiDelete: StationAutoApi.removeStationAuto,
 })
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -58,11 +58,11 @@ export default class StationAutoConfigSampling extends React.Component {
     pagination: PropTypes.object,
     data: PropTypes.object,
     onChangeSearch: PropTypes.func,
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
   }
 
   static defaultProps = {
-    dataSource: []
+    dataSource: [],
   }
 
   constructor(props) {
@@ -77,7 +77,7 @@ export default class StationAutoConfigSampling extends React.Component {
       isSave: false,
 
       isSamplingIndeterminate: true,
-      isSamplingCheckAll: false
+      isSamplingCheckAll: false,
     }
   }
 
@@ -85,7 +85,7 @@ export default class StationAutoConfigSampling extends React.Component {
     if (nextProps.dataSource.length !== this.state.dataSourceOriginal.length) {
       this.setState({
         dataSourceOriginal: _.cloneDeep(nextProps.dataSource),
-        dataSource: _.cloneDeep(nextProps.dataSource)
+        dataSource: _.cloneDeep(nextProps.dataSource),
       })
       this.checkIndeterminate(
         SAMPLING_CONFIG_TABLE_COLUMN.SAMPLING,
@@ -113,7 +113,7 @@ export default class StationAutoConfigSampling extends React.Component {
             isFixedSize
             isLoading={this.props.isLoading}
             paginationOptions={{
-              isSticky: true
+              isSticky: true,
             }}
             head={this.getHead()}
             rows={this.getRows()}
@@ -159,8 +159,8 @@ export default class StationAutoConfigSampling extends React.Component {
             </Checkbox>
           </div>
         ),
-        width: 15
-      }
+        width: 15,
+      },
     ]
   }
 
@@ -188,21 +188,21 @@ export default class StationAutoConfigSampling extends React.Component {
                   index +
                   1}
               </strong>
-            )
+            ),
           },
           {
             content: (
               <Span deleted={row.removeStatus && row.removeStatus.allowed}>
                 {row.name}
               </Span>
-            )
+            ),
           },
           {
             content: (
               <Span deleted={row.removeStatus && row.removeStatus.allowed}>
                 {row.address}
               </Span>
-            )
+            ),
           },
           /* checkbox gởi cảnh báo */
           {
@@ -214,7 +214,7 @@ export default class StationAutoConfigSampling extends React.Component {
                     [
                       'options',
                       SAMPLING_CONFIG_TABLE_COLUMN.SAMPLING,
-                      'allowed'
+                      'allowed',
                     ],
                     false
                   )}
@@ -222,13 +222,13 @@ export default class StationAutoConfigSampling extends React.Component {
                     this.onChagedOptionOfRow({
                       row,
                       key: SAMPLING_CONFIG_TABLE_COLUMN.SAMPLING,
-                      value: e.target.checked
+                      value: e.target.checked,
                     })
                   }
                 />
               </div>
-            )
-          }
+            ),
+          },
         ]
         //check if Group exist or not
         if (row.stationType && stationTypeArr.indexOf(row.stationType.key) > -1)
@@ -248,10 +248,10 @@ export default class StationAutoConfigSampling extends React.Component {
                         : ''}
                     </strong>
                   </div>
-                )
-              }
+                ),
+              },
             ],
-            resultRow
+            resultRow,
           ]
         }
       })
@@ -275,7 +275,7 @@ export default class StationAutoConfigSampling extends React.Component {
 
     this.setState({
       isSamplingCheckAll: checked,
-      isSamplingIndeterminate: false
+      isSamplingIndeterminate: false,
     })
   }
 
@@ -335,7 +335,7 @@ export default class StationAutoConfigSampling extends React.Component {
   clearCache() {
     this.setState({
       dataSource: _.clone(this.state.dataSourceOriginal),
-      cachedData: {}
+      cachedData: {},
     })
   }
 
@@ -352,7 +352,7 @@ export default class StationAutoConfigSampling extends React.Component {
       case SAMPLING_CONFIG_TABLE_COLUMN.SAMPLING:
         this.setState({
           isSamplingIndeterminate: !isSame,
-          isSamplingCheckAll: isCheckAll
+          isSamplingCheckAll: isCheckAll,
         })
         break
       default:
@@ -366,13 +366,13 @@ export default class StationAutoConfigSampling extends React.Component {
     if (res.success) {
       this.setState({
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),
-        cachedData: {}
+        cachedData: {},
       })
       showSuccess(i18n.updateSuccess)
     } else if (res.error) {
       swal({
         title: i18n.updateError,
-        type: 'error'
+        type: 'error',
       })
     }
 

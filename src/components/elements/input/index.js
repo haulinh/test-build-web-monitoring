@@ -1,5 +1,6 @@
 import React from 'react'
-import { Input as InputAntd } from 'reactstrap'
+// import { Input as InputAntd } from 'reactstrap'
+import { Input as InputAntd } from 'antd'
 import styled from 'styled-components'
 
 import style from './style'
@@ -20,5 +21,5 @@ export default function Input(props) {
 }
 
 Input.propTypes = {
-  ...InputAntd.propTypes
+  ...InputAntd.propTypes,
 }

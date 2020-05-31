@@ -15,11 +15,11 @@ import { translate } from 'hoc/create-lang'
 
 @protectRole(ROLE.STATION_TYPE.EDIT)
 @createManagerDelete({
-  apiDelete: CategoryApi.deleteStationType
+  apiDelete: CategoryApi.deleteStationType,
 })
 @createManagerEdit({
   apiUpdate: CategoryApi.updateStationType,
-  apiGetByKey: CategoryApi.getStationType
+  apiGetByKey: CategoryApi.getStationType,
 })
 @autobind
 export default class StationTypeEdit extends React.PureComponent {
@@ -27,7 +27,7 @@ export default class StationTypeEdit extends React.PureComponent {
     onDeleteItem: PropTypes.func,
     onUpdateItem: PropTypes.func,
     getItem: PropTypes.func,
-    isLoaded: PropTypes.bool
+    isLoaded: PropTypes.bool,
   }
 
   async handleSubmit(data) {
@@ -69,8 +69,8 @@ export default class StationTypeEdit extends React.PureComponent {
               'list',
               {
                 id: 'edit',
-                name: this.props.isLoaded ? this.props.data.name : null
-              }
+                name: this.props.isLoaded ? this.props.data.name : null,
+              },
             ]}
           />
           {this.props.isLoaded && (

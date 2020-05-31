@@ -44,7 +44,7 @@ const RenderValueAqi = ({ valueAqi, aqiLevel }) => {
         border: `2px solid ${colorBorder}`,
         width: 45,
         height: 45,
-        marginBottom: 6
+        marginBottom: 6,
       }}
     >
       <div>
@@ -52,7 +52,7 @@ const RenderValueAqi = ({ valueAqi, aqiLevel }) => {
           style={{
             fontSize: `16px`,
             color: colorFont,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
           }}
         >
           {valueAqi}
@@ -65,17 +65,17 @@ const RenderValueAqi = ({ valueAqi, aqiLevel }) => {
 export default class AQIList extends React.PureComponent {
   static propTypes = {
     aqiList: PropTypes.array,
-    aqiLevel: PropTypes.array
+    aqiLevel: PropTypes.array,
   }
 
   state = {
-    dataSoure: null
+    dataSoure: null,
   }
 
   componentDidUpdate = () => {
     if (!this.state.dataSoure) {
       this.setState({
-        dataSoure: this.props.aqiList
+        dataSoure: this.props.aqiList,
       })
     }
   }
@@ -89,7 +89,7 @@ export default class AQIList extends React.PureComponent {
 
     console.log(dataSearch, '---dataSearch')
     this.setState({
-      dataSoure: dataSearch
+      dataSoure: dataSearch,
     })
     // => objects for ['fred']
   }

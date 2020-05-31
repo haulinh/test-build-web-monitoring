@@ -17,8 +17,8 @@ export default class DynamicTableCustom extends PureComponent {
   static propTypes = {
     pagination: PropTypes.shape({
       itemPerPage: PropTypes.number,
-      page: PropTypes.number
-    })
+      page: PropTypes.number,
+    }),
     // paginationOptions: PropTypes.shape({
     //   isSticky: PropTypes.oneOfType([
     //     PropTypes.number,
@@ -34,8 +34,8 @@ export default class DynamicTableCustom extends PureComponent {
     return {
       cells: this.props.head.map(cell => ({
         ...cell,
-        content: <WrapperHeader>{cell.content}</WrapperHeader>
-      }))
+        content: <WrapperHeader>{cell.content}</WrapperHeader>,
+      })),
     }
   }
 
@@ -43,8 +43,8 @@ export default class DynamicTableCustom extends PureComponent {
     const rows = this.props.rows.map(row => ({
       cells: row.map(cell => ({
         ...cell,
-        content: <WrapperTdBody>{cell.content}</WrapperTdBody>
-      }))
+        content: <WrapperTdBody>{cell.content}</WrapperTdBody>,
+      })),
     }))
     return rows
   }

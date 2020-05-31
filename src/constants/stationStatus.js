@@ -9,8 +9,8 @@ export const STATUS_OPTIONS = {
   EXCEEDED: { title: 'warningLevels.exceed', color: COLOR.EXCEEDED },
   EXCEEDED_PREPARING: {
     title: 'warningLevels.exceedPreparing',
-    color: COLOR.EXCEEDED_PREPARING
-  }
+    color: COLOR.EXCEEDED_PREPARING,
+  },
 }
 
 // good: 'Good',
@@ -36,14 +36,14 @@ export const STATUS_STATION = {
   DATA_LOSS: 'DATA_LOSS',
   EXCEEDED: 'EXCEEDED',
   EXCEEDED_PREPARING: 'EXCEEDED_PREPARING',
-  GOOD: 'GOOD'
+  GOOD: 'GOOD',
 }
 
 export const STATUS_STATION_LEVEL = {
   DATA_LOSS: 1,
   EXCEEDED: 2,
   EXCEEDED_PREPARING: 3,
-  GOOD: 4
+  GOOD: 4,
 }
 
 export const getStatusPriority = (status1, status2) => {
@@ -78,5 +78,5 @@ export default {
   DATA_LOSS: 'DATA_LOSS',
   NOT_USE: 'NOT_USE',
 
-  EXCEEDED_AVG_DAY: 'EXCEEDED_AVG_DAY'
+  EXCEEDED_AVG_DAY: 'EXCEEDED_AVG_DAY',
 }

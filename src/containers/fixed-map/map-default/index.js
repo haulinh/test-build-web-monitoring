@@ -59,13 +59,13 @@ export default class MapDefault extends React.PureComponent {
     zoom: 5,
     isHidden: false,
     isLeft: true,
-    isRight: true
+    isRight: true,
   }
 
   handleChangeSidebarType(e, sidebarType) {
     if (e) e.preventDefault()
     this.setState({
-      sidebarType
+      sidebarType,
     })
   }
 
@@ -79,7 +79,7 @@ export default class MapDefault extends React.PureComponent {
       if (this.state.map) {
         const panToMap = {
           lat: parseFloat(stationSelected.mapLocation.lat),
-          lng: parseFloat(stationSelected.mapLocation.lng)
+          lng: parseFloat(stationSelected.mapLocation.lng),
         }
         // console.log(panToMap)
         this.state.map.panTo(panToMap)
@@ -107,20 +107,20 @@ export default class MapDefault extends React.PureComponent {
       })
       stationAutoList = await resolveMapLocation(stationAutoList)
       this.setState({
-        stationsAuto: stationAutoList
+        stationsAuto: stationAutoList,
       })
     }
   }
 
   handelOnLickHideLeftLayout({ isLeft, isRight }) {
     this.setState({
-      isLeft: isLeft
+      isLeft: isLeft,
     })
   }
 
   handelOnLickHideRightLayout({ isLeft, isRight }) {
     this.setState({
-      isRight: isRight
+      isRight: isRight,
     })
   }
 
@@ -176,7 +176,7 @@ export default class MapDefault extends React.PureComponent {
     })
 
     this.setState({
-      stationsAuto: res
+      stationsAuto: res,
     })
   }
 
@@ -193,12 +193,12 @@ export default class MapDefault extends React.PureComponent {
           <SidebarNormal
             analytic={{
               stationsAutoList: this.state.stationsAuto,
-              fillStatusChange: this.fillStatusChange
+              fillStatusChange: this.fillStatusChange,
             }}
             searchStation={{
               onSelectStation: this.handleSelectStation,
               stationSelected: this.state.stationSelected,
-              stationsAuto: this.state.stationsAuto
+              stationsAuto: this.state.stationsAuto,
             }}
           />
         )

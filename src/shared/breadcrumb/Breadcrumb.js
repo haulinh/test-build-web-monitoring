@@ -6,18 +6,18 @@ import { addBreadcrumb, deleteBreadcrumb, updateBreadcrumb } from './action'
 @connectAutoDispatch(state => ({}), {
   addBreadcrumb,
   deleteBreadcrumb,
-  updateBreadcrumb
+  updateBreadcrumb,
 })
 export default class Breadcrumb extends PureComponent {
   static propTypes = {
     icon: PropTypes.any,
     name: PropTypes.any,
     href: PropTypes.any,
-    autoDestroy: PropTypes.bool
+    autoDestroy: PropTypes.bool,
   }
 
   static defaultProps = {
-    autoDestroy: true
+    autoDestroy: true,
   }
 
   componentDidMount() {

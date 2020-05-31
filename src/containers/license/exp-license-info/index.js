@@ -32,7 +32,7 @@ const i18n = {
   subtitle2: translate('expLicenseInfo.subtitle2'),
   text1: translate('expLicenseInfo.text1'),
   text2: translate('expLicenseInfo.text2'),
-  text3: translate('expLicenseInfo.text3')
+  text3: translate('expLicenseInfo.text3'),
 }
 
 @connect(state => ({
@@ -40,7 +40,7 @@ const i18n = {
     state,
     'auth.userInfo.organization.license.expirationDate',
     null
-  )
+  ),
 }))
 export default class PageExpLicenseInfo extends PureComponent {
   render() {
@@ -60,7 +60,7 @@ export default class PageExpLicenseInfo extends PureComponent {
           subTitle={
             <div>
               {translate('expLicenseInfo.subtitle1', {
-                totalDate: limitDate
+                totalDate: limitDate,
               })}
               <br /> {i18n.subtitle2}
             </div>
@@ -71,7 +71,7 @@ export default class PageExpLicenseInfo extends PureComponent {
                 type="warning"
                 style={{
                   color: SHAPE.PRIMARY,
-                  fontWeight: 'bold'
+                  fontWeight: 'bold',
                 }}
               >
                 {i18n.text2}
@@ -82,7 +82,7 @@ export default class PageExpLicenseInfo extends PureComponent {
               </Text>
               <Text
                 style={{
-                  color: SHAPE.PRIMARY
+                  color: SHAPE.PRIMARY,
                 }}
               >
                 {PHONE}
@@ -93,7 +93,7 @@ export default class PageExpLicenseInfo extends PureComponent {
               </Text>
               <Text
                 style={{
-                  color: SHAPE.PRIMARY
+                  color: SHAPE.PRIMARY,
                 }}
               >
                 {EMAIL}

@@ -10,7 +10,7 @@ import SecurityForm from './security-form/'
 
 @connectAutoDispatch(
   state => ({
-    userInfo: state.auth.userInfo
+    userInfo: state.auth.userInfo,
   }),
   {}
 )

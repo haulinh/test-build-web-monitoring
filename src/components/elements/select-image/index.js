@@ -33,11 +33,11 @@ export default class SelectImage extends PureComponent {
     label: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
-    isFullwidth: PropTypes.bool
+    isFullwidth: PropTypes.bool,
   }
 
   state = {
-    isUploading: false
+    isUploading: false,
   }
 
   handleClick(e) {

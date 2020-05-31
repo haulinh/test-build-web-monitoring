@@ -12,16 +12,16 @@ import { connect } from 'react-redux'
 
 const { Title, Text } = Typography
 const i18n = {
-  title: translate('menuApp.report.status_data_obj.title')
+  title: translate('menuApp.report.status_data_obj.title'),
 }
 
 @connect(state => ({
   token: state.auth.token,
-  timeZone: _get(state, 'auth.userInfo.organization.timeZone', null)
+  timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
 }))
 export default class StatusDataReport extends React.Component {
   state = {
-    isLoading: true
+    isLoading: true,
   }
 
   handleSubmit(values) {

@@ -9,7 +9,7 @@ import {
   Button,
   Select,
   message,
-  Radio
+  Radio,
 } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
@@ -23,7 +23,7 @@ const Option = Select.Option
 const RadioGroup = Radio.Group
 
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -33,7 +33,7 @@ export default class StationAutoForm extends React.PureComponent {
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
     lang: langPropTypes,
-    measuringListSource: PropTypes.array
+    measuringListSource: PropTypes.array,
   }
 
   constructor(props) {
@@ -41,14 +41,14 @@ export default class StationAutoForm extends React.PureComponent {
     this.state = {
       measuringList: [],
       path: '',
-      mesureSourceData: []
+      mesureSourceData: [],
     }
     const { t } = this.props.lang
     const { getFieldDecorator } = this.props.form
     const styleFormItem = {
       style: {
-        marginBottom: 0
-      }
+        marginBottom: 0,
+      },
     }
     this.columns = [
       {
@@ -60,12 +60,12 @@ export default class StationAutoForm extends React.PureComponent {
               initialValue: text,
               rules: [
                 {
-                  message: t('stationAutoManager.config.measuringDes.error')
-                }
-              ]
+                  message: t('stationAutoManager.config.measuringDes.error'),
+                },
+              ],
             })(<span>{text}</span>)}
           </FormItem>
-        )
+        ),
       },
       {
         dataIndex: 'measuringSrc',
@@ -77,9 +77,9 @@ export default class StationAutoForm extends React.PureComponent {
                 initialValue: this.initialValueMeasuringSrc(record.key),
                 rules: [
                   {
-                    message: t('stationAutoManager.config.measuringSrc.error')
-                  }
-                ]
+                    message: t('stationAutoManager.config.measuringSrc.error'),
+                  },
+                ],
               })(
                 // <Input
                 //   placeholder={t(
@@ -96,7 +96,7 @@ export default class StationAutoForm extends React.PureComponent {
               )}
             </FormItem>
           )
-        }
+        },
       },
       {
         dataIndex: 'ratio',
@@ -109,14 +109,14 @@ export default class StationAutoForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('stationAutoManager.config.ratio.error')
-                  }
-                ]
+                    message: t('stationAutoManager.config.ratio.error'),
+                  },
+                ],
               })(<InputNumber min={1} />)}
             </FormItem>
           )
-        }
-      }
+        },
+      },
     ]
   }
 
@@ -143,7 +143,7 @@ export default class StationAutoForm extends React.PureComponent {
         path: values.path,
         measuringList: values.measuringList.filter(
           item => item.measuringDes && item.measuringDes !== ''
-        )
+        ),
       }
       // Callback submit form Container Component
       this.props.onSubmit(data)
@@ -167,7 +167,7 @@ export default class StationAutoForm extends React.PureComponent {
               )
               if (measureFinded)
                 setFieldsValue({
-                  [`measuringList[${index}].measuringSrc`]: measureFinded
+                  [`measuringList[${index}].measuringSrc`]: measureFinded,
                 })
               return item
             })
@@ -194,11 +194,11 @@ export default class StationAutoForm extends React.PureComponent {
     const { t } = this.props.lang
     const formItemLayout = {
       labelCol: {
-        sm: { span: 4, offset: 0 }
+        sm: { span: 4, offset: 0 },
       },
       wrapperCol: {
-        sm: { span: 19, offset: 0 }
-      }
+        sm: { span: 19, offset: 0 },
+      },
     }
 
     return (
@@ -214,9 +214,9 @@ export default class StationAutoForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('stationAutoManager.config.fileName.label')
-                  }
-                ]
+                    message: t('stationAutoManager.config.fileName.label'),
+                  },
+                ],
               })(
                 <Input
                   //disabled={this.props.isEdit}
@@ -268,7 +268,7 @@ export default class StationAutoForm extends React.PureComponent {
                   this.props,
                   'initialValues.extensionFile',
                   'txt'
-                )
+                ),
               })(
                 <RadioGroup>
                   <Radio value="txt">.TXT</Radio>
@@ -288,7 +288,7 @@ export default class StationAutoForm extends React.PureComponent {
           columns={this.columns}
           pagination={{
             pageSize: 1000,
-            hideOnSinglePage: true
+            hideOnSinglePage: true,
           }}
         />
       </Form>

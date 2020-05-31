@@ -17,8 +17,8 @@ export default class StationAutoConfig extends React.PureComponent {
             'list',
             {
               id: 'sampleConfig',
-              name: this.props.lang.t('stationAutoManager.list.sampleConfig')
-            }
+              name: this.props.lang.t('stationAutoManager.list.sampleConfig'),
+            },
           ]}
         />
         <SampleConfigForm />

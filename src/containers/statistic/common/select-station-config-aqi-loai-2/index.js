@@ -11,12 +11,12 @@ export default class SelectStationConfigAQILoai2 extends React.Component {
     stationTypeKey: PropTypes.string,
     onChangeObject: PropTypes.func,
     provinceKey: PropTypes.string,
-    isMultiple: PropTypes.bool
+    isMultiple: PropTypes.bool,
   }
 
   state = {
     isLoaded: false,
-    stationConfigSelects: []
+    stationConfigSelects: [],
   }
 
   async componentWillMount() {
@@ -26,7 +26,7 @@ export default class SelectStationConfigAQILoai2 extends React.Component {
     )
     this.setState({
       stationConfigSelects: responseStationConfig.data,
-      isLoaded: true
+      isLoaded: true,
     })
   }
 

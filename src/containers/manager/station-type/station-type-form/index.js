@@ -10,14 +10,14 @@ import * as _ from 'lodash'
 
 const FormItem = Form.Item
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
 export default class StationTypeForm extends React.PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   constructor(props) {
@@ -25,13 +25,13 @@ export default class StationTypeForm extends React.PureComponent {
     this.state = {
       urlIcon: '',
       color: '',
-      name: ''
+      name: '',
     }
   }
 
   handleSubmit(e) {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (err) return
       const data = {
         key: values.key,
@@ -39,10 +39,24 @@ export default class StationTypeForm extends React.PureComponent {
         isAuto: _.isUndefined(values.isAuto) ? false : values.isAuto,
         icon: this.state.urlIcon,
         color: this.state.color,
-        numericalOrder: values.numericalOrder
+        numericalOrder: values.numericalOrder,
       }
       // Callback submit form Container Component
-      this.props.onSubmit(data)
+      const res = await this.props.onSubmit(data)
+      if (res.error) {
+        if (res.message === 'KEY_EXISTED') {
+          this.props.form.setFields({
+            key: {
+              value: values.key,
+              errors: [
+                new Error(
+                  this.props.lang.t('stationTypeManager.create.keyExisted')
+                ),
+              ],
+            },
+          })
+        }
+      }
     })
   }
 
@@ -69,7 +83,7 @@ export default class StationTypeForm extends React.PureComponent {
   onChangeIcon(iconObject) {
     this.setState({
       urlIcon: iconObject.urlIcon,
-      color: iconObject.color
+      color: iconObject.color,
     })
   }
 
@@ -79,13 +93,15 @@ export default class StationTypeForm extends React.PureComponent {
     const formItemLayout = {
       labelCol: {
         xs: { span: 24, offset: 0 },
-        sm: { span: 2, offset: 0 }
+        sm: { span: 2, offset: 0 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 12 }
-      }
+        sm: { span: 12 },
+      },
     }
+
+    console.log(t('stationTypeManage.form.key.error'))
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -96,11 +112,14 @@ export default class StationTypeForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('stationTypeManage.form.key.error')
+                    message: t('stationTypeManager.form.key.error')
                   }
                 ]
               })(
-                <Input placeholder={t('stationTypeManager.form.key.label')} />
+                <Input
+                  size="large"
+                  placeholder={t('stationTypeManager.form.key.label')}
+                />
               )}
             </FormItem>
           </Col>
@@ -110,11 +129,14 @@ export default class StationTypeForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('stationTypeManage.form.name.error')
+                    message: t('stationTypeManager.form.name.error')
                   }
                 ]
               })(
-                <Input placeholder={t('stationTypeManager.form.name.label')} />
+                <Input
+                  size="large"
+                  placeholder={t('stationTypeManager.form.name.label')}
+                />
               )}
             </FormItem>
           </Col>
@@ -125,12 +147,12 @@ export default class StationTypeForm extends React.PureComponent {
               {...{
                 labelCol: {
                   xs: { span: 16, offset: 0 },
-                  sm: { span: 4, offset: 0 }
+                  sm: { span: 4, offset: 0 },
                 },
                 wrapperCol: {
                   xs: { span: 12 },
-                  sm: { span: 12 }
-                }
+                  sm: { span: 12 },
+                },
               }}
               label={t('stationTypeManager.form.icon.label')}
             >
@@ -143,7 +165,7 @@ export default class StationTypeForm extends React.PureComponent {
           <Col span={4}>
             <FormItem>
               {getFieldDecorator('isAuto', {
-                valuePropName: 'checked'
+                valuePropName: 'checked',
               })(
                 <Checkbox>{t('stationTypeManager.form.auto.label')}</Checkbox>
               )}
@@ -156,8 +178,21 @@ export default class StationTypeForm extends React.PureComponent {
               label={t('stationTypeManager.form.numericalOrder.label')}
             >
               {getFieldDecorator('numericalOrder', {
-                rules: [{ required: true }]
-              })(<InputNumberCell editable={true} />)}
+                rules: [
+                  {
+                    required: true,
+                    message: t('stationTypeManager.form.numericalOrder.error')
+                  }
+                ]
+              })(
+                <InputNumberCell
+                  size="large"
+                  placeholder={t(
+                    'stationTypeManager.form.numericalOrder.placeholder'
+                  )}
+                  editable={true}
+                />
+              )}
             </FormItem>
           </Col>
         </Row>

@@ -11,36 +11,44 @@ import createManagerCreate from 'hoc/manager-create'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import { Clearfix } from 'components/elements'
 
 @protectRole(ROLE.MEASURING.CREATE)
 @createManagerCreate({
-  apiCreate: CategoryApi.createMeasuring
+  apiCreate: CategoryApi.createMeasuring,
 })
 @createLanguage
 @autobind
 export default class MeasuringCreate extends React.PureComponent {
   static propTypes = {
     onCreateItem: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   async handleSubmit(data) {
-    this.props.onCreateItem(data, res => {
+    let result
+    await this.props.onCreateItem(data, res => {
+      result = res
       if (res.success) {
         message.info(this.props.lang.t('addon.onSave.add.success'))
         this.props.history.push(slug.measuring.list)
-      } else {
-        if (res.message === 'KEY_EXISTED')
-          message.error(this.props.lang.t('measuringManager.create.keyExisted'))
-        else message.error(this.props.lang.t('addon.onSave.add.error'))
       }
+      //  else {
+      // 	if (res.message === 'KEY_EXISTED')
+      // 		message.error(
+      // 			this.props.lang.t('measuringManager.create.keyExisted')
+      // 		);
+      // 	else message.error(this.props.lang.t('addon.onSave.add.error'));
+      // }
     })
+    return result
   }
 
   render() {
     return (
       <PageContainer>
         <Breadcrumb items={['list', 'create']} />
+        <Clearfix height={16} />
         <MeasuringForm onSubmit={this.handleSubmit} />
       </PageContainer>
     )

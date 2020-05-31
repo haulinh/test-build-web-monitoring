@@ -98,9 +98,9 @@ BreadcrumbBar.propTypes = {
     PropTypes.shape({
       icon: PropTypes.any,
       name: PropTypes.any,
-      href: PropTypes.any
+      href: PropTypes.any,
     })
-  )
+  ),
 }
 
 export default injectBreadcrumb(BreadcrumbBar)

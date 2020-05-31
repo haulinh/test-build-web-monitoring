@@ -17,12 +17,12 @@ export default class AccountActivate extends PureComponent {
       }
       swal({
         type: 'error',
-        title: title
+        title: title,
       })
     } else {
       swal({
         type: 'success',
-        title: 'Congratulations. Your account is now active!'
+        title: 'Congratulations. Your account is now active!',
       })
     }
     this.props.history.push('/')

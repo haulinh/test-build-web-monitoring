@@ -14,6 +14,7 @@ import * as _ from 'lodash'
 import { translate } from 'hoc/create-lang'
 import { SHAPE } from 'themes/color'
 import { EMAIL, PHONE } from 'constants/info-contact.js'
+import Clearfix from 'components/elements/clearfix'
 
 const { Text } = Typography
 
@@ -34,35 +35,37 @@ const i18n = {
   text: translate('userManager.modal.text'),
   text1: translate('userManager.modal.text1'),
   text2: translate('userManager.modal.text2'),
-  text3: translate('userManager.modal.text3')
+  text3: translate('userManager.modal.text3'),
 }
 
 @protectRole(ROLE.USER.CREATE)
 @connect(state => ({
-  totalUser: _.get(state, 'auth.userInfo.organization.license.totalUser', 0)
+  totalUser: _.get(state, 'auth.userInfo.organization.license.totalUser', 0),
 }))
 @autobind
 export default class UserCreate extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: false
+      isLoading: false,
+      isLicense: false
     }
   }
 
-  async handleSubmit(data) {
+  handleSubmit = async data => {
     this.setState({
       isLoading: true,
       totalUserActive: 0,
-      isLicense: false
+      isLicense: false,
     })
-
     const res = await UserApi.registerUser(data)
-    if (res.success) {
-      message.info('Register User success!')
-      this.props.history.push(slug.user.list)
-    }
-    if (res.error) message.info(res.message)
+    this.setState({ isLoading: false }, () => {
+      if (res.success) {
+        message.success('Register User success!')
+        this.props.history.push(slug.user.list)
+      }
+    })
+    return res
   }
 
   componentDidMount = async () => {
@@ -70,7 +73,7 @@ export default class UserCreate extends React.PureComponent {
     if (res.success) {
       this.setState(
         {
-          totalUserActive: _.get(res, 'data', 0)
+          totalUserActive: _.get(res, 'data', 0),
         },
         () => {
           this.checkLicenseStation()
@@ -79,33 +82,27 @@ export default class UserCreate extends React.PureComponent {
     }
   }
 
-  // componentDidUpdate = prevProps => {
-  //   if (this.props.totalStationActived !== prevProps.totalStationActived) {
-  //     this.checkLicenseStation();
-  //   }
-  // };
-
   checkLicenseStation = () => {
     const { totalUser } = this.props
     const { totalUserActive } = this.state
     if (totalUserActive >= totalUser) {
       this.setState({
-        isLicense: true
+        isLicense: true,
       })
     }
   }
 
-  hanldeClose = () => {
+  handleClose = () => {
     this.props.history.push(slug.stationAuto.list)
   }
 
   render() {
-    console.log(this.props.totalUser, '----totalUser-----')
     const limitTotalStation = _.get(this.props, 'totalUser', 0)
 
     return (
       <PageContainer title="Create station type" {...this.props.wrapperProps}>
         <Breadcrumb items={['list', 'create']} />
+        <Clearfix height={16} />
         {!this.state.isLicense && (
           <UserForm
             onSubmit={this.handleSubmit}
@@ -119,19 +116,19 @@ export default class UserCreate extends React.PureComponent {
           closable={false}
           title={i18n.title}
           visible={this.state.isLicense}
-          onCancel={this.hanldeClose}
+          onCancel={this.handleClose}
           footer={[
-            <Button key="back" type="primary" onClick={this.hanldeClose}>
+            <Button key="back" type="primary" onClick={this.handleClose}>
               {i18n.back}
-            </Button>
+            </Button>,
           ]}
         >
           <Text type="secondary">
             <div
               dangerouslySetInnerHTML={{
                 __html: translate('userManager.modal.text', {
-                  total: limitTotalStation
-                })
+                  total: limitTotalStation,
+                }),
               }}
             />
           </Text>
@@ -142,7 +139,7 @@ export default class UserCreate extends React.PureComponent {
             <Text
               style={{
                 color: SHAPE.PRIMARY,
-                fontWeight: 'bold'
+                fontWeight: 'bold',
               }}
             >
               {i18n.text1}
@@ -153,7 +150,7 @@ export default class UserCreate extends React.PureComponent {
             </Text>
             <Text
               style={{
-                color: SHAPE.PRIMARY
+                color: SHAPE.PRIMARY,
               }}
             >
               {PHONE}
@@ -164,7 +161,7 @@ export default class UserCreate extends React.PureComponent {
             </Text>
             <Text
               style={{
-                color: SHAPE.PRIMARY
+                color: SHAPE.PRIMARY,
               }}
             >
               {EMAIL}

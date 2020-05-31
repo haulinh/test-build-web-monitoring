@@ -9,10 +9,10 @@ const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
     state = {
       isLoaded: false,
       data: {},
-      success: false
+      success: false,
     }
     static propTypes = {
-      lang: langPropTypes
+      lang: langPropTypes,
     }
     async updateItem(data) {
       const key = this.props.match.params.key
@@ -31,7 +31,7 @@ const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
         this.setState({
           isLoaded: true,
           data: item.data,
-          success: item.success
+          success: item.success,
         })
       else this.setState({ isLoaded: true, message: item.message })
     }
@@ -42,7 +42,7 @@ const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
         data: this.state.data,
         onUpdateItem: this.updateItem,
         getItem: this.getItem,
-        success: this.state.success
+        success: this.state.success,
       }
       return <Component {...this.props} {...props} />
     }

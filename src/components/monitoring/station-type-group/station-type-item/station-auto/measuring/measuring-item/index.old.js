@@ -11,9 +11,9 @@ const DEVICE_STATUS = {
   '0': { src: '/images/sensor1.png', text: 'monitoring.deviceStatus.normal' },
   '1': {
     src: '/images/sensor2.png',
-    text: 'monitoring.deviceStatus.maintenance'
+    text: 'monitoring.deviceStatus.maintenance',
   },
-  '2': { src: '/images/sensor3.png', text: 'monitoring.deviceStatus.broken' }
+  '2': { src: '/images/sensor3.png', text: 'monitoring.deviceStatus.broken' },
 }
 
 const MeasuringItemWrapper = styled.div`
@@ -73,7 +73,7 @@ export default class MeasuringItem extends React.PureComponent {
     name: PropTypes.string,
     minLimit: PropTypes.number,
     maxLimit: PropTypes.number,
-    warningLevel: PropTypes.string
+    warningLevel: PropTypes.string,
   }
 
   getLimitText() {
@@ -128,7 +128,7 @@ export default class MeasuringItem extends React.PureComponent {
               bottom: 4,
               right: 8,
               width: '16px',
-              height: '16px'
+              height: '16px',
             }}
             alt={item.text}
           />

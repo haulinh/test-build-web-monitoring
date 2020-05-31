@@ -27,7 +27,7 @@ export default class SubscriptionFormInfo extends React.PureComponent {
     totalStation: PropTypes.number,
     createdUser: PropTypes.number,
     createdStation: PropTypes.number,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   renderItem(icon, label, value) {
@@ -43,7 +43,7 @@ export default class SubscriptionFormInfo extends React.PureComponent {
 
   render() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return (
       <SubscriptionFormInfoWrapper>

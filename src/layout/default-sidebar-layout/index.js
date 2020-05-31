@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import Page from '@atlaskit/page'
-import SidebarNavigation from './SidebarNavigation'
+import PropTypes from 'prop-types'
 import createProtectedAuth from 'hoc/protected-auth'
 import styled from 'styled-components'
 import { connectAutoDispatch } from 'redux/connect'
@@ -14,12 +13,15 @@ import { notification } from 'antd'
 // import slug from 'constants/slug'
 // import _ from 'lodash'
 import { setFcmToken } from 'redux/actions/authAction'
-import slug from 'constants/slug'
+import SidebarGlobal, { SIDEBAR_GLOBAL_WIDTH } from './sidebar-global'
+import SidebarMenu, {
+  SIDEBAR_MENU_WIDTH,
+  SIDEBAR_MENU_MINIMAL_WIDTH,
+} from './sidebar-menu'
 
 const Wrapper = styled.div`
-  .zJwEi {
-    min-height: 100vh;
-  }
+  padding-left: ${props => props.allSidebarWidth}px;
+  transition: all 0.3s linear;
 `
 
 @createProtectedAuth
@@ -27,13 +29,17 @@ const Wrapper = styled.div`
   state => ({
     state,
     navigationIsOpen: state.theme.navigation.isOpen,
-    stationAuto: state.stationAuto.list
+    stationAuto: state.stationAuto.list,
   }),
   { toggleNavigation, updateNotificationOnMessage, setFcmToken }
 )
 @withRouter
 @autobind
-export default class PageWrapper extends Component {
+export default class DefaultSidebarLayoutContainer extends Component {
+  static propTypes = {
+    isShowSidebarMenu: PropTypes.bool
+  }
+
   componentDidMount() {
     // import { messaging } from "utils/init-fcm";
     // MARK  vì phải chờ app.json nen phải load o day
@@ -43,7 +49,7 @@ export default class PageWrapper extends Component {
       // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
       messaging
         .requestPermission()
-        .then(async function() {
+        .then(async function () {
           const token = await messaging.getToken()
           // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
           try {
@@ -54,7 +60,7 @@ export default class PageWrapper extends Component {
             console.log('error linkToken2Email', e)
           }
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log('Unable to get permission to notify.', err)
         })
 
@@ -77,46 +83,53 @@ export default class PageWrapper extends Component {
   }
 
   state = {
-    navigationWidth: 320
+    navigationWidth: 320,
+    isSidebarMenuShow: true,
   }
 
   _showNotification(payload) {
     notification['info']({
       message: payload.notification.title,
-      description: payload.notification.body
+      description: payload.notification.body,
     })
   }
 
   getNavigation() {
-    const { pathname } = this.props.location
-
+    // const { pathname } = this.props.location
+    //&& pathname !== slug.monitoringList.base,
     return {
       width: this.state.navigationWidth,
-      isOpen:
-        this.props.navigationIsOpen && pathname !== slug.monitoringList.base
+      isOpen: this.props.navigationIsOpen,
     }
   }
 
   handleResizeNavigation({ isOpen, width }) {
     this.props.toggleNavigation(isOpen)
     this.setState({
-      navigationWidth: width
+      navigationWidth: width,
     })
+  }
+
+  handleToggleSidebar() {
+    this.setState({ isSidebarMenuShow: !this.state.isSidebarMenuShow })
+  }
+
+  getAllSidebarWidth() {
+    if (!this.props.isShowSidebarMenu) return SIDEBAR_GLOBAL_WIDTH
+    return this.state.isSidebarMenuShow
+      ? SIDEBAR_GLOBAL_WIDTH + SIDEBAR_MENU_WIDTH
+      : SIDEBAR_GLOBAL_WIDTH + SIDEBAR_MENU_MINIMAL_WIDTH
   }
 
   render() {
     return (
-      <Wrapper>
-        <Page
-          navigation={
-            <SidebarNavigation
-              onChangeSize={this.handleResizeNavigation}
-              navigation={this.getNavigation()}
-            />
-          }
-        >
-          <div>{this.props.children}</div>
-        </Page>
+      <Wrapper allSidebarWidth={this.getAllSidebarWidth()}>
+        <SidebarGlobal />
+        {this.props.isShowSidebarMenu && <SidebarMenu
+          onToggle={this.handleToggleSidebar}
+          isShow={this.state.isSidebarMenuShow}
+        />}
+        {this.props.children}
       </Wrapper>
     )
   }

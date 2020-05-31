@@ -11,7 +11,7 @@ const createProtectRole = (
   @connect(state => ({
     authRole: state.auth.userInfo.role,
     isAdmin: state.auth.userInfo.isAdmin,
-    organization: state.auth.userInfo.organization
+    organization: state.auth.userInfo.organization,
   }))
   class ProtectRole extends React.Component {
     // check nested keyRole in object
@@ -63,7 +63,7 @@ const createProtectRole = (
         } else
           return React.cloneElement(Component, {
             ...ortherProps,
-            key: Component.key
+            key: Component.key,
           })
       } else return null
     }

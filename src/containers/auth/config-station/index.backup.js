@@ -26,7 +26,7 @@ export default class ConfigStation extends React.Component {
     onChangePageSize: PropTypes.func,
     onDeleteItem: PropTypes.func,
     fetchData: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
   constructor(props) {
     super(props)
@@ -40,8 +40,8 @@ export default class ConfigStation extends React.Component {
       idLoadingSave: false,
       pagination: {
         current: 1,
-        pageSize: 15
-      }
+        pageSize: 15,
+      },
     }
   }
 
@@ -60,7 +60,7 @@ export default class ConfigStation extends React.Component {
     const stationList = _.map(tmp, item => {
       const options = {
         ..._.get(item, 'options', {}),
-        ..._.get(objStation, `${item.key}.options`, {})
+        ..._.get(objStation, `${item.key}.options`, {}),
       }
       return { ...item, options }
     })
@@ -68,7 +68,7 @@ export default class ConfigStation extends React.Component {
       isLoaded: true,
       userInfo,
       stationList,
-      pagination: { ...this.state.pagination, total: _.size(stationList) }
+      pagination: { ...this.state.pagination, total: _.size(stationList) },
     })
   }
 
@@ -93,7 +93,7 @@ export default class ConfigStation extends React.Component {
     const stationAutos = _.map(stationList, item => {
       const options = {
         ..._.get(item, 'options', {}),
-        ..._.get(dataChange, `${item.key}.options`, {})
+        ..._.get(dataChange, `${item.key}.options`, {}),
       }
       return { ...item, options }
     })
@@ -104,7 +104,7 @@ export default class ConfigStation extends React.Component {
         type: status ? 'success' : 'error',
         title: translate(
           `configStation.messageUpdate.${status ? 'success' : 'error'}`
-        )
+        ),
       })
     }
     this.setState({ idLoadingSave: false })
@@ -129,7 +129,7 @@ export default class ConfigStation extends React.Component {
         dataIndex: 'Index',
         width: 60,
         key: 'Index',
-        render: (value, record, index) => <div>{this.getIndex(index)}</div>
+        render: (value, record, index) => <div>{this.getIndex(index)}</div>,
       },
       {
         title: this.props.lang.t('configStation.name'),
@@ -140,7 +140,7 @@ export default class ConfigStation extends React.Component {
           if (a.name > b.name) return 1
           return 0
         },
-        render: value => value
+        render: value => value,
       },
       {
         title: this.props.lang.t('configStation.warningStatus'),
@@ -159,7 +159,7 @@ export default class ConfigStation extends React.Component {
             data={row}
             onChange={this.onChangeCheckbox}
           />
-        )
+        ),
       },
       {
         title: this.props.lang.t('configStation.showStation'),
@@ -178,7 +178,7 @@ export default class ConfigStation extends React.Component {
             data={row}
             onChange={this.onChangeCheckbox}
           />
-        )
+        ),
       },
       {
         title: this.props.lang.t('configStation.numericalOrder'),
@@ -197,8 +197,8 @@ export default class ConfigStation extends React.Component {
             )}
             onChange={val => this.onChangeNumber(val, row, 'numericalOrder')}
           />
-        )
-      }
+        ),
+      },
     ]
   }
 
@@ -217,8 +217,8 @@ export default class ConfigStation extends React.Component {
             items={[
               {
                 id: 'configStation',
-                name: this.props.lang.t('configStation.breadCrumb')
-              }
+                name: this.props.lang.t('configStation.breadCrumb'),
+              },
             ]}
           />
           <Toolbar>

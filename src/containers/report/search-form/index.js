@@ -20,7 +20,7 @@ const Item = props => (
       color: 'rgba(0,0,0,0.8)',
       fontSize: 14,
       fontWeight: 600,
-      marginBottom: 0
+      marginBottom: 0,
     }}
   />
 )
@@ -29,14 +29,14 @@ const Item = props => (
 @createLang
 export default class SearchForm extends React.Component {
   static propTypes = {
-    cbSubmit: PropTypes.func
+    cbSubmit: PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.submit = this.submit.bind(this)
     this.state = {
-      measuringList: []
+      measuringList: [],
     }
   }
 
@@ -55,7 +55,7 @@ export default class SearchForm extends React.Component {
           me.props.cbSubmit({
             ...values,
             measuringList: me.state.measuringList,
-            measuringListUnitStr
+            measuringListUnitStr,
           })
       }
     })
@@ -93,7 +93,7 @@ export default class SearchForm extends React.Component {
                 {getFieldDecorator('province', {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
-                  }
+                  },
                 })(<SelectProvince size="large" />)}
               </Item>
             </Col>
@@ -108,9 +108,9 @@ export default class SearchForm extends React.Component {
                       required: true,
                       message: translate(
                         'dataSearchFrom.form.stationType.require'
-                      )
-                    }
-                  ]
+                      ),
+                    },
+                  ],
                 })(<SelectStationType size="large" />)}
               </Item>
             </Col>
@@ -120,9 +120,11 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: translate('avgSearchFrom.form.stationAuto.error')
-                    }
-                  ]
+                      message: translate(
+                        'avgSearchFrom.form.stationAuto.error'
+                      ),
+                    },
+                  ],
                 })(
                   <SelectStationAuto
                     size="large"
@@ -144,9 +146,9 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: translate('avgSearchFrom.selectTimeRange.error')
-                    }
-                  ]
+                      message: translate('avgSearchFrom.selectTimeRange.error'),
+                    },
+                  ],
                 })(<MonthPicker style={{ width: '100%' }} size="large" />)}
               </Item>
             </Col>

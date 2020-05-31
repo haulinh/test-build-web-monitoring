@@ -35,7 +35,7 @@ export function getExportData({
   measuringListUnitStr,
   isExceeded,
   dataType,
-  name
+  name,
 }) {
   var url = getDataStationAutoUrl(`${key}/export-download?`)
   if (fromDate) url += `&from=${fromDate}`
@@ -72,7 +72,7 @@ export function getDataStationAutoExportAvg({
   measuringList,
   measuringListUnitStr,
   type,
-  name
+  name,
 }) {
   var url = getDataStationAutoUrl(`${key}/export-avg?`)
   if (fromDate) url += `&from=${fromDate}`
@@ -105,7 +105,7 @@ export function getDataAnalyzeStationAutos({
   advanced,
   measuringList,
   isExceeded,
-  dataType
+  dataType,
 }) {
   var url = getDataStationAutoUrl(`${key}/analyze?`)
   if (fromDate) url += `&from=${fromDate}`
@@ -119,7 +119,7 @@ export function getDataAnalyzeStationAutos({
 
 export const getDataStationAutoRatioCount = (to, from) => {
   return getFetch(getDataStationAutoUrl('vas/count-station'), undefined, {
-    params: { from, to }
+    params: { from, to },
   })
 }
 
@@ -372,7 +372,7 @@ export function getUrlReportStatusData(token, stationKeys, from, to) {
     token,
     from: from.toDate(),
     to: to.toDate(),
-    listKey: stationKeys.join(',')
+    listKey: stationKeys.join(','),
   })
   var url = getReportUrl(`assess-status-excel?${stringified}`)
   return url
@@ -408,5 +408,5 @@ export default {
   getUrlReportType11,
   downloadExcel_reportType11,
   downloadExcel_DataStationAutov1,
-  getUrlReportStatusData
+  getUrlReportStatusData,
 }

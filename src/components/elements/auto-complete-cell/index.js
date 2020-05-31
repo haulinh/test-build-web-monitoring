@@ -8,17 +8,18 @@ export default class AutoCompleteCell extends React.Component {
     onchange: PropTypes.func,
     options: PropTypes.array,
     editable: PropTypes.bool,
-    autoFocus: PropTypes.bool
+    autoFocus: PropTypes.bool,
   }
 
   render() {
+    const value = this.props.value || undefined
     return (
       <div>
         {this.props.editable ? (
           <Select
             showSearch
             style={{ width: 200 }}
-            placeholder={this.props.placeholder}
+            {...this.props}
             optionFilterProp="children"
             onChange={e => this.props.onChange(e)}
             filterOption={(input, option) =>
@@ -26,9 +27,8 @@ export default class AutoCompleteCell extends React.Component {
                 .toLowerCase()
                 .indexOf(input.toLowerCase()) >= 0
             }
-            //value={this.props.value}
+            value={value}
             autoFocus={this.props.autoFocus}
-            {...this.props}
           >
             {this.props.options}
           </Select>

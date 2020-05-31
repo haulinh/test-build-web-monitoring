@@ -7,7 +7,7 @@ import {
   Card,
   Skeleton,
   Row,
-  message
+  message,
   // Modal
 } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
@@ -31,12 +31,12 @@ const i18n = {
   btnSave: translate('addon.create'),
   disconnectionMessage: translate('network.qaqc.lostConnection'),
 
-  updateSuccess: translate('addon.onSave.update.success')
+  updateSuccess: translate('addon.onSave.update.success'),
 }
 
 @connect(state => ({
   isInitLoaded: state.stationAuto.isInitLoaded,
-  stationList: state.stationAuto.list
+  stationList: state.stationAuto.list,
 }))
 @Form.create()
 export default class QAQC_Config extends React.Component {
@@ -48,7 +48,7 @@ export default class QAQC_Config extends React.Component {
       tabList: [],
       isDisconnection: false,
       isLoading: false,
-      configId: null
+      configId: null,
     }
     this.getData = this.getData.bind(this)
   }
@@ -74,16 +74,16 @@ export default class QAQC_Config extends React.Component {
       if (this.state.configId) {
         response = await putConfigQAQC(this.state.configId, {
           measureConfig: {
-            ...measureConfig
+            ...measureConfig,
           },
-          ...values
+          ...values,
         })
       } else {
         response = await postConfigQAQC({
           measureConfig: {
-            ...measureConfig
+            ...measureConfig,
           },
-          ...values
+          ...values,
         })
       }
 
@@ -91,7 +91,7 @@ export default class QAQC_Config extends React.Component {
         message.success(i18n.updateSuccess)
         if (!this.state.configId) {
           this.setState({
-            configId: _.get(response, 'data._id', null)
+            configId: _.get(response, 'data._id', null),
           })
         }
       } else message.error(response.message)
@@ -123,12 +123,12 @@ export default class QAQC_Config extends React.Component {
           return {
             key: item.key,
             tab: item.name,
-            name: item.name
+            name: item.name,
           }
         })
         this.setState({
           tabList,
-          activeTabkey: _.result(stationTypes.data, '[0].key', '')
+          activeTabkey: _.result(stationTypes.data, '[0].key', ''),
         })
       } else {
         this.setState({ isDisconnection: true })
@@ -145,11 +145,11 @@ export default class QAQC_Config extends React.Component {
             beyondMeasuringRange: data.beyondMeasuringRange,
             deviceError: data.deviceError,
             deviceCalibration: data.deviceCalibration,
-            ...data.measureConfig
+            ...data.measureConfig,
           }
           this.setState({
             configId: _.get(response, 'data._id', null),
-            isHaveConfig: true
+            isHaveConfig: true,
           })
         }
       } else {
@@ -221,17 +221,17 @@ export default class QAQC_Config extends React.Component {
               <div>
                 <Form.Item style={{ marginBottom: 8 }}>
                   {getFieldDecorator('beyondMeasuringRange', {
-                    valuePropName: 'checked'
+                    valuePropName: 'checked',
                   })(<Checkbox>{i18n.beyondMeasuringRange}</Checkbox>)}
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 8 }}>
                   {getFieldDecorator('deviceError', {
-                    valuePropName: 'checked'
+                    valuePropName: 'checked',
                   })(<Checkbox>{i18n.deviceError}</Checkbox>)}
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 8 }}>
                   {getFieldDecorator('deviceCalibration', {
-                    valuePropName: 'checked'
+                    valuePropName: 'checked',
                   })(<Checkbox>{i18n.deviceCalibration}</Checkbox>)}
                 </Form.Item>
               </div>
@@ -252,7 +252,7 @@ export default class QAQC_Config extends React.Component {
                     return {
                       key: item,
                       zero: false,
-                      negative: false
+                      negative: false,
                     }
                   })
                   return (

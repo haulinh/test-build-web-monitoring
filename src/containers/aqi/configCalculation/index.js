@@ -34,29 +34,29 @@ const i18n = {
   tabMucDo: translate('aqiConfigCalculation.tab1'), //"Ngưỡng mức độ",
   tabGiaTri: translate('aqiConfigCalculation.tab2'),
   tabThongSo: translate('aqiConfigCalculation.tab3'),
-  pageName: translate('aqiConfigCalculation.pageName')
+  pageName: translate('aqiConfigCalculation.pageName'),
 }
 
 const TAB_KEY = {
   MUC_DO: 'MUC_DO',
   GIA_TRI: 'GIA_TRI',
-  THONG_SO: 'THONG_SO'
+  THONG_SO: 'THONG_SO',
 }
 const TAB_NAME = {
   MUC_DO: i18n.tabMucDo,
   GIA_TRI: i18n.tabGiaTri,
-  THONG_SO: i18n.tabThongSo
+  THONG_SO: i18n.tabThongSo,
 }
 @withRouter
 @autobind
 export default class ConfigCalculationAQI extends PureComponent {
   state = {
-    tabKey: TAB_KEY.GIA_TRI
+    tabKey: TAB_KEY.GIA_TRI,
   }
 
   setTabActive = tabKey => {
     this.setState({
-      tabKey
+      tabKey,
     })
   }
 
@@ -67,8 +67,8 @@ export default class ConfigCalculationAQI extends PureComponent {
           items={[
             {
               id: '1',
-              name: i18n.pageName
-            }
+              name: i18n.pageName,
+            },
           ]}
         />
         <Wrapper>

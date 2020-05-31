@@ -11,7 +11,7 @@ import { translate } from 'hoc/create-lang'
 import { connect } from 'react-redux'
 
 @connect(state => ({
-  organization: state.auth.userInfo.organization
+  organization: state.auth.userInfo.organization,
 }))
 @withRouter
 @autobind
@@ -20,7 +20,7 @@ export default class ControlStationHistory extends PureComponent {
 
   state = {
     isLoaded: false,
-    dataHistory: []
+    dataHistory: [],
   }
   async componentDidMount() {
     this.setState({ isLoaded: false })
@@ -34,14 +34,14 @@ export default class ControlStationHistory extends PureComponent {
         ...item,
         ThoiGian: item.ThoiGian
           ? moment(item.ThoiGian).format('YYYY/MM/DD HH:mm:ss')
-          : ''
+          : '',
       }))
 
       console.log(record)
       this.setState(
         {
           isLoaded: true,
-          dataHistory: record.data
+          dataHistory: record.data,
         },
         () => {
           console.log(record.data)
@@ -59,12 +59,12 @@ export default class ControlStationHistory extends PureComponent {
         fixed: 'left',
         render: function(data, type, row, meta) {
           return translate('controlStation.bottle') + ' ' + data
-        }
+        },
       },
       {
         title: translate('controlStation.dateTime'),
         dataIndex: 'ThoiGian',
-        width: 250
+        width: 250,
       },
       {
         title: translate('controlStation.content'),
@@ -75,12 +75,12 @@ export default class ControlStationHistory extends PureComponent {
           } else if (data === 'AUTOMATIC') {
             return translate('controlStation.automatic')
           }
-        }
+        },
       },
       {
         title: translate('controlStation.email'),
-        dataIndex: 'Email'
-      }
+        dataIndex: 'Email',
+      },
     ]
     return (
       <PageContainer>
@@ -93,8 +93,8 @@ export default class ControlStationHistory extends PureComponent {
                   slug.controlStation.triggerWithKey +
                   `/${this.props.match.params.key}/${
                     this.props.match.params.name
-                  }`
-              }
+                  }`,
+              },
             },
             {
               key: 'history',
@@ -103,13 +103,13 @@ export default class ControlStationHistory extends PureComponent {
                   slug.controlStation.triggerWithKey +
                   `/${this.props.match.params.key}/${
                     this.props.match.params.name
-                  }`
-              }
+                  }`,
+              },
             },
             {
               id: 'info',
-              name: `${this.props.match.params.name}`
-            }
+              name: `${this.props.match.params.name}`,
+            },
           ]}
         />
         {this.state.isLoaded && (

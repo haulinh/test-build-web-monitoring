@@ -7,7 +7,7 @@ import {
   SET_FCM_TOKEN,
   SET_2FA_STATUS,
   SET_2FA_TYPE,
-  UPDATE_2FA
+  UPDATE_2FA,
 } from '../actions/authAction'
 import update from 'react-addons-update'
 
@@ -21,10 +21,10 @@ const initialState = {
     fullname: '',
     twoFactorAuth: {
       enable: false,
-      type: null
-    }
+      type: null,
+    },
   },
-  tokenFCM: null
+  tokenFCM: null,
 }
 
 export default function createReducer(state = initialState, action) {
@@ -56,72 +56,72 @@ export default function createReducer(state = initialState, action) {
 export function userLogout(state) {
   return update(state, {
     isAuthenticated: {
-      $set: false
-    }
+      $set: false,
+    },
   })
 }
 
 export function fetchPendingUser(state) {
   return update(state, {
     isPending: {
-      $set: true
+      $set: true,
     },
     isFail: {
-      $set: false
-    }
+      $set: false,
+    },
   })
 }
 
 export function fetchSuccessUser(state, { token, auth }) {
   return update(state, {
     isPending: {
-      $set: false
+      $set: false,
     },
     isFail: {
-      $set: false
+      $set: false,
     },
     isAuthenticated: {
-      $set: true
+      $set: true,
     },
     token: {
-      $set: token
+      $set: token,
     },
     userInfo: {
-      $set: auth
-    }
+      $set: auth,
+    },
   })
 }
 
 export function fetchFailUser(state) {
   return update(state, {
     isPending: {
-      $set: false
+      $set: false,
     },
     isFail: {
-      $set: true
-    }
+      $set: true,
+    },
   })
 }
 
 export function updateUserInfo(state, { auth: { token, data } }) {
   return update(state, {
     isAuthenticated: {
-      $set: true
+      $set: true,
     },
     token: {
-      $set: token
+      $set: token,
     },
     userInfo: {
-      $set: data
-    }
+      $set: data,
+    },
   })
 }
 
 function setFCMToken(state, payload) {
   return update(state, {
     tokenFCM: {
-      $set: payload
-    }
+      $set: payload,
+    },
   })
 }
 
@@ -129,9 +129,9 @@ function update2FA(state, payload) {
   return update(state, {
     userInfo: {
       twoFactorAuth: {
-        $set: payload
-      }
-    }
+        $set: payload,
+      },
+    },
   })
 }
 
@@ -140,10 +140,10 @@ function set2FAEnable(state, payload) {
     userInfo: {
       twoFactorAuth: {
         enable: {
-          $set: payload
-        }
-      }
-    }
+          $set: payload,
+        },
+      },
+    },
   })
 }
 
@@ -152,9 +152,9 @@ function set2FAType(state, payload) {
     userInfo: {
       twoFactorAuth: {
         type: {
-          $set: payload
-        }
-      }
-    }
+          $set: payload,
+        },
+      },
+    },
   })
 }

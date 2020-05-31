@@ -14,5 +14,5 @@ export function getList({ page = 1, itemPerPage = 50 }, { email, from, to }) {
 }
 
 export default {
-  getList
+  getList,
 }

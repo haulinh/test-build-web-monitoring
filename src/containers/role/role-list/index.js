@@ -21,10 +21,10 @@ const FloatRight = styled.div`
 
 @protectRole(ROLE.ROLE.VIEW)
 @createManagerList({
-  apiList: RoleApi.getRoles
+  apiList: RoleApi.getRoles,
 })
 @createManagerDelete({
-  apiDelete: RoleApi.deleteRole
+  apiDelete: RoleApi.deleteRole,
 })
 @createLanguageHoc
 @autobind
@@ -37,20 +37,20 @@ export default class RoleList extends React.Component {
     onChangePageSize: PropTypes.func,
     onDeleteItem: PropTypes.func,
     fetchData: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   static defaultProps = {
-    dataSource: []
+    dataSource: [],
   }
 
   state = {
-    isAdvanced: false
+    isAdvanced: false,
   }
 
   buttonAdd() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return (
       <div>
@@ -67,18 +67,18 @@ export default class RoleList extends React.Component {
 
   getHead() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return [
       { content: '#', width: 5 },
       { content: t('roleManager.form.name.label') },
-      { content: t('roleManager.form.description.label') }
+      { content: t('roleManager.form.description.label') },
     ]
   }
 
   getRows() {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return this.props.dataSource.map((row, index) => [
       {
@@ -89,21 +89,21 @@ export default class RoleList extends React.Component {
               index +
               1}
           </strong>
-        )
+        ),
       },
       {
         content: (
           <div>
             <strong>{row.name}</strong>
           </div>
-        )
+        ),
       },
       {
         content: (
           <div>
             <strong>{row.description}</strong>
           </div>
-        )
+        ),
       },
       {
         content: (
@@ -125,8 +125,8 @@ export default class RoleList extends React.Component {
               </a>
             )}
           </FloatRight>
-        )
-      }
+        ),
+      },
     ])
   }
 
@@ -138,7 +138,7 @@ export default class RoleList extends React.Component {
           rows={this.getRows()}
           head={this.getHead()}
           paginationOptions={{
-            isSticky: 1
+            isSticky: true
           }}
           onSetPage={this.props.onChangePage}
           pagination={this.props.pagination}

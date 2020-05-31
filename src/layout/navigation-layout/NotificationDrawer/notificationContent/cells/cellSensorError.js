@@ -8,7 +8,7 @@ import { BoldTextWrap } from './_helperComponent'
 const i18n = {
   station: translate('common.station'),
   device: translate('common.device'),
-  sensorError: translate('common.deviceStatus.sensorError')
+  sensorError: translate('common.deviceStatus.sensorError'),
 }
 
 export default function SensorErrorCell(props) {

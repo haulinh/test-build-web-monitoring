@@ -1,5 +1,5 @@
 export default {
   NORMAL: 'normal',
   NOTIFICATIONS: 'notifications',
-  LOSS: 'loss'
+  LOSS: 'loss',
 }

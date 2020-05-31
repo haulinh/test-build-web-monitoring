@@ -19,18 +19,18 @@ const i18n = {
   labelTypeLog: translate('dataLogger.searchForm.typeLog'),
   labelFrom: translate('dataLogger.searchForm.from'),
   labelTo: translate('dataLogger.searchForm.to'),
-  download: translate('dataLogger.searchForm.download')
+  download: translate('dataLogger.searchForm.download'),
 }
 
 class DataLoggerSearchForm extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func,
-    isExcel: PropTypes.bool
+    isExcel: PropTypes.bool,
   }
 
   state = {
     isLoading: false,
-    dataUsers: []
+    dataUsers: [],
   }
 
   async componentDidMount() {
@@ -42,9 +42,9 @@ class DataLoggerSearchForm extends React.Component {
         dataUsers: _.map(dataSource, item => {
           return {
             name: item.email,
-            value: item.email
+            value: item.email,
           }
-        })
+        }),
       })
     }
     // console.log("-----", this.state.dataUsers);
@@ -62,21 +62,22 @@ class DataLoggerSearchForm extends React.Component {
       // console.log("---", email)
       const dataSearch = {
         ...values,
-        from: values.fromto
-          ? moment(values.fromto[0])
+        from:
+          values.fromto && values.fromto.length > 0
+            ? moment(values.fromto[0])
               .utc()
               .startOf('days')
               .format()
-          : undefined,
-        to: values.fromto
-          ? moment(values.fromto[1])
+            : undefined,
+        to:
+          values.fromto && values.fromto.length > 0
+            ? moment(values.fromto[1])
               .utc()
               .endOf('days')
               .format()
-          : undefined
+            : undefined
       }
 
-      // console.log(dataSearch, "dataSearch");
       if (this.props.onSubmit) this.props.onSubmit(dataSearch)
     })
   }
@@ -113,7 +114,7 @@ class DataLoggerSearchForm extends React.Component {
               <RangePickerCustom
                 formatDate={DD_MM_YYYY}
                 size={'default'}
-                // style={{ width: "100%" }}
+              // style={{ width: "100%" }}
               />
             )}
           </Col>

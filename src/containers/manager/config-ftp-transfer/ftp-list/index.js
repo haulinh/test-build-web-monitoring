@@ -13,7 +13,7 @@ import {
   Button,
   Row,
   Col,
-  Tooltip
+  Tooltip,
 } from 'antd'
 import SearchForm from './search-form'
 import * as _ from 'lodash'
@@ -40,7 +40,7 @@ const i18n = {
   tranfer: translate('ftpTranfer.tranfer'),
   status: translate('ftpTranfer.status.title'),
   success2: translate('ftpTranfer.status.success2'),
-  failed2: translate('ftpTranfer.status.failed2')
+  failed2: translate('ftpTranfer.status.failed2'),
 }
 export default class ConfigPublishContainer extends React.Component {
   constructor(props) {
@@ -56,7 +56,7 @@ export default class ConfigPublishContainer extends React.Component {
           align: 'left',
           render: (value, record, index) => {
             return index + 1
-          }
+          },
         },
         {
           title: translate('ftpTranfer.allowFtpTranfer'),
@@ -70,13 +70,13 @@ export default class ConfigPublishContainer extends React.Component {
               checked={_.get(value, ['transferFtp', 'allowed'])}
               onChange={checked => this.handleStationPublish(record, checked)}
             />
-          )
+          ),
         },
         {
           title: translate('ftpTranfer.stationName'),
           dataIndex: 'name',
           key: 'name',
-          align: 'left'
+          align: 'left',
         },
         {
           title: translate('ftpTranfer.measureTranfer'),
@@ -86,7 +86,7 @@ export default class ConfigPublishContainer extends React.Component {
           render: (value, record) => {
             const options = _.map(value, ({ key, name }) => ({
               label: name,
-              value: key
+              value: key,
             }))
             const defaultValue = _.get(
               record,
@@ -102,7 +102,7 @@ export default class ConfigPublishContainer extends React.Component {
                 onChange={option => this.handleOptionChange(record, option)}
               />
             )
-          }
+          },
         },
         {
           title: translate('ftpTranfer.timeStart'),
@@ -126,7 +126,7 @@ export default class ConfigPublishContainer extends React.Component {
                 }
               />
             )
-          }
+          },
         },
         {
           title: translate('ftpTranfer.formInFoFTP.fileName.name'),
@@ -149,8 +149,8 @@ export default class ConfigPublishContainer extends React.Component {
                 </span>
               </div>
             )
-          }
-        }
+          },
+        },
       ],
       columns_2: [
         {
@@ -158,7 +158,7 @@ export default class ConfigPublishContainer extends React.Component {
           align: 'left',
           render: (value, record, index) => {
             return index + 1
-          }
+          },
         },
         {
           title: translate('ftpTranfer.allowFtpTranfer'),
@@ -172,20 +172,20 @@ export default class ConfigPublishContainer extends React.Component {
                 this.hanldeCheckedTranferBonus(record, checked)
               }
             />
-          )
+          ),
         },
         {
           title: translate('ftpTranfer.stationName'),
           dataIndex: 'name',
           key: 'name',
-          align: 'left'
+          align: 'left',
         },
         {
           title: i18n.address,
           dataIndex: 'address',
           key: 'address',
           // width: 100,
-          align: 'left'
+          align: 'left',
         },
         {
           title: translate('ftpTranfer.timeStart'),
@@ -207,7 +207,7 @@ export default class ConfigPublishContainer extends React.Component {
                 disabled
               />
             )
-          }
+          },
         },
         {
           title: i18n.status,
@@ -235,7 +235,7 @@ export default class ConfigPublishContainer extends React.Component {
                 <Tooltip placement="top" title={i18n.failed2}>
                   <Icon
                     style={{
-                      fontSize: '1.5rem'
+                      fontSize: '1.5rem',
                     }}
                     type="close-circle"
                     theme="twoTone"
@@ -248,7 +248,7 @@ export default class ConfigPublishContainer extends React.Component {
                 <Tooltip placement="top" title={i18n.success2}>
                   <Icon
                     style={{
-                      fontSize: '1.5rem'
+                      fontSize: '1.5rem',
                     }}
                     type="check-circle"
                     theme="twoTone"
@@ -257,15 +257,15 @@ export default class ConfigPublishContainer extends React.Component {
                 </Tooltip>
               )
             }
-          }
-        }
+          },
+        },
       ],
       textSearch2: '',
       infoTranferBonus: {
         listDataTranferBonus: [],
         from: null,
-        to: null
-      }
+        to: null,
+      },
     }
   }
 
@@ -328,7 +328,7 @@ export default class ConfigPublishContainer extends React.Component {
   updateData = async (record, originData) => {
     let list = _.clone(this.state.list)
     const rs = await StationAutoApi.transferFtp(record._id, {
-      transferFtp: originData
+      transferFtp: originData,
     })
     if (_.get(rs, 'success')) {
       const data = _.get(rs, 'data', {})
@@ -406,12 +406,12 @@ export default class ConfigPublishContainer extends React.Component {
                 </span>
               </div>
             )
-          }
+          },
         })
       }
 
       this.setState({
-        columns
+        columns,
       })
     }
   }
@@ -465,7 +465,7 @@ export default class ConfigPublishContainer extends React.Component {
             return null
           }
           return {
-            ...item
+            ...item,
           }
         }
       )
@@ -474,16 +474,16 @@ export default class ConfigPublishContainer extends React.Component {
         ...this.state.infoTranferBonus.listDataTranferBonus,
         {
           key,
-          checked
-        }
+          checked,
+        },
       ]
     }
 
     this.setState({
       infoTranferBonus: {
         ...this.state.infoTranferBonus,
-        listDataTranferBonus: _.compact(listOutput)
-      }
+        listDataTranferBonus: _.compact(listOutput),
+      },
     })
   }
 
@@ -501,8 +501,8 @@ export default class ConfigPublishContainer extends React.Component {
         to: moment(to)
           .endOf('days')
           .utc()
-          .format()
-      }
+          .format(),
+      },
     })
   }
   handleTranferFile = async () => {
@@ -514,8 +514,8 @@ export default class ConfigPublishContainer extends React.Component {
           reponse: await StationAutoApi.tranferBonusFTP({
             _id: item.key,
             from: this.state.infoTranferBonus.from,
-            to: this.state.infoTranferBonus.to
-          })
+            to: this.state.infoTranferBonus.to,
+          }),
         }
       }
     )
@@ -526,8 +526,8 @@ export default class ConfigPublishContainer extends React.Component {
     this.setState({
       infoTranferBonus: {
         ...this.state.infoTranferBonus,
-        listDataTranferBonus: [...dataOutput]
-      }
+        listDataTranferBonus: [...dataOutput],
+      },
     })
   }
 
@@ -558,7 +558,7 @@ export default class ConfigPublishContainer extends React.Component {
               columns={this.state.columns}
               size="small"
               pagination={{
-                pageSize: 20
+                pageSize: 20,
               }}
             />
             {this.state.showModal && (
@@ -619,7 +619,7 @@ export default class ConfigPublishContainer extends React.Component {
               dataSource={this.getDataTranferbonus()}
               columns={this.state.columns_2}
               pagination={{
-                pageSize: 20
+                pageSize: 20,
               }}
             />
           </TabPane>

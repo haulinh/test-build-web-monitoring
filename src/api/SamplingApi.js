@@ -3,7 +3,7 @@ import {
   getFetch,
   postFetch,
   putFetch,
-  uploadMultipleFile
+  uploadMultipleFile,
 } from '../utils/fetch'
 
 function getSamplingUrl(prefix = '') {
@@ -72,7 +72,7 @@ export function getHistory({ page = 1, itemPerPage = 10, stationAutoId }) {
   return getFetch(getSamplingUrl('log'), {
     page,
     itemPerPage,
-    stationAutoId
+    stationAutoId,
   })
 }
 
@@ -98,5 +98,5 @@ export default {
   resetSampledBottle,
   updateConfigSchedule,
   getHistory,
-  cancelConfigSchedule
+  cancelConfigSchedule,
 }

@@ -13,7 +13,7 @@ const DescriptionView = styled.div``
 
 export default class ListItemView extends React.PureComponent {
   static propTypes = {
-    auth: PropTypes.string.isRequired
+    auth: PropTypes.string.isRequired,
   }
 
   handleCamera = e => {
@@ -26,7 +26,7 @@ export default class ListItemView extends React.PureComponent {
     const {
       src,
       stationName,
-      name
+      name,
       // _id,
       // stationType: { key }
     } = this.props.camera

@@ -7,7 +7,7 @@ import { get } from 'lodash'
  * @param apiList
  * @param apiDelete
  */
-const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
+const createManagerList = ({ apiList, itemPerPage = 100 }) => Component => {
   @autobind
   class ManagerListHoc extends React.Component {
     state = {
@@ -17,10 +17,10 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
         itemPerPage: itemPerPage,
         page: 1,
         current: 1,
-        total: 0
+        total: 0,
       },
       pathImg: '',
-      data: {}
+      data: {},
     }
 
     /**
@@ -29,7 +29,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
      */
     async fetchData() {
       this.setState({
-        isLoading: true
+        isLoading: true,
       })
       // console.log(this.state.data,"111s")
       const res = await apiList(this.state.pagination, this.state.data)
@@ -38,10 +38,10 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
         dataSource: res.data,
         pagination: {
           ...res.pagination,
-          total: get(res, 'pagination.totalItem', 0)
+          total: get(res, 'pagination.totalItem', 0),
         },
         isLoading: false,
-        pathImg: res.path
+        pathImg: res.path,
       })
     }
 
@@ -63,8 +63,8 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
             ...this.state.pagination,
             page: page,
             current: page,
-            itemPerPage: pageSize ? pageSize : itemPerPage
-          }
+            itemPerPage: pageSize ? pageSize : itemPerPage,
+          },
         },
         () => {
           this.fetchData()
@@ -79,9 +79,9 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
           pagination: {
             ...this.state.pagination,
             current: 1,
-            page: 1
+            page: 1,
           },
-          data: { ...dataSearch }
+          data: { ...dataSearch },
         },
         () => {
           this.fetchData()
@@ -100,8 +100,8 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
           pagination: {
             page: 1,
             current: 1,
-            itemPerPage: pageSize ? pageSize : itemPerPage
-          }
+            itemPerPage: pageSize ? pageSize : itemPerPage,
+          },
         },
         () => {
           this.fetchData()
@@ -122,7 +122,7 @@ const createManagerList = ({ apiList, itemPerPage = 1000 }) => Component => {
         fetchData: this.fetchData,
         pathImg: this.state.pathImg,
         onChangeSearch: this.onChangeSearch,
-        data: this.state.data
+        data: this.state.data,
       }
       return <Component {...this.props} {...props} />
     }

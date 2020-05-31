@@ -8,6 +8,6 @@ export default createBreadcrumb({
     name: translate('menuApp.reportBreadcrum.aqi878'),
     id: 'aqi',
     icon: '',
-    href: slug.statistic.aqiDay2
-  }
+    href: slug.statistic.aqiDay2,
+  },
 })

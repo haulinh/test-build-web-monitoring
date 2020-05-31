@@ -21,7 +21,7 @@ import { connect } from 'react-redux'
 @protectRole(ROLE.STATISTIC.AQI)
 @queryFormDataBrowser(['submit'])
 @connect(state => ({
-  timeZone: _.get(state, 'auth.userInfo.organization.timeZone', null)
+  timeZone: _.get(state, 'auth.userInfo.organization.timeZone', null),
 }))
 @autobind
 export default class AQIStatisticsDay878 extends React.Component {
@@ -34,9 +34,9 @@ export default class AQIStatisticsDay878 extends React.Component {
     isExporting: false,
     pagination: {
       current: 1,
-      pageSize: 50
+      pageSize: 50,
     },
-    listKey: ''
+    listKey: '',
   }
 
   handleSubmitSearch(searchFormData) {
@@ -55,7 +55,7 @@ export default class AQIStatisticsDay878 extends React.Component {
         .join(',')
 
       this.setState({
-        listKey: strJoin
+        listKey: strJoin,
       })
       // console.log(strJoin, "str")
     }
@@ -64,14 +64,14 @@ export default class AQIStatisticsDay878 extends React.Component {
   async loadData(searchFormData) {
     this.setState({
       isLoading: true,
-      isHaveData: false
+      isHaveData: false,
     })
 
     // let listStationId = searchFormData.stationID
 
     const params = {
       fromDate: searchFormData.fromDate.utc().format(),
-      toDate: searchFormData.toDate.utc().format()
+      toDate: searchFormData.toDate.utc().format(),
     }
 
     let dataAQI = []
@@ -114,7 +114,7 @@ export default class AQIStatisticsDay878 extends React.Component {
         reportDate: searchFormData.fromDate
           .clone()
           .add(i, 'days')
-          .format()
+          .format(),
       }
       console.log(item, key, 'item')
       if (dataConvert[key]) {
@@ -123,7 +123,7 @@ export default class AQIStatisticsDay878 extends React.Component {
           key: i,
           name: dataConvert[key].name,
           urlDownload: dataConvert[key].urlDownload,
-          reportDate: dataConvert[key].reportDate
+          reportDate: dataConvert[key].reportDate,
         }
       }
 
@@ -134,7 +134,7 @@ export default class AQIStatisticsDay878 extends React.Component {
       isLoading: false,
       isHaveData: true,
       dataAQI: dataAQI,
-      searchFormData: searchFormData
+      searchFormData: searchFormData,
     })
   }
 

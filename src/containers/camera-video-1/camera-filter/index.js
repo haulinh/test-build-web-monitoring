@@ -43,7 +43,7 @@ const Label = styled.label`
 `
 
 @FormStyle.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 export default class CameraFilter extends React.PureComponent {
@@ -51,7 +51,7 @@ export default class CameraFilter extends React.PureComponent {
     onSubmit: PropTypes.func,
     initialValues: PropTypes.object,
     onChangeSearch: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   constructor(props) {
@@ -61,8 +61,8 @@ export default class CameraFilter extends React.PureComponent {
       stationType: 'ALL',
       dataSearch: {
         station: 'ALL',
-        stationType: 'ALL'
-      }
+        stationType: 'ALL',
+      },
     }
   }
 
@@ -74,7 +74,7 @@ export default class CameraFilter extends React.PureComponent {
     this.setState(
       {
         station: stationKey,
-        stationType
+        stationType,
       },
       () => {
         this.props.onChangeSearch(this.state)

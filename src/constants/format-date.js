@@ -7,5 +7,5 @@ export default {
   DD_MM_YYYY,
   MM_YYYY,
   DD_MM_YYYY_HH_MM,
-  HH_MM
+  HH_MM,
 }

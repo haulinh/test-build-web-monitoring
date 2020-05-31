@@ -18,7 +18,7 @@ export function checkRolePriority(userInfo, role) {
 
 export default {
   DASHBOARD: {
-    VIEW: 'menu.dashboard.actions.view'
+    VIEW: 'menu.dashboard.actions.view',
   },
   MONITORING: {
     VIEW: 'menu.monitoring.actions.view',
@@ -28,144 +28,144 @@ export default {
     MAP: 'menu.monitoring.actions.map',
     IMAGES: 'menu.monitoring.actions.images',
     INFOSTATION: 'menu.monitoring.actions.infoStation',
-    REVIEWSTATION: 'menu.monitoring.actions.reviewStation'
+    REVIEWSTATION: 'menu.monitoring.actions.reviewStation',
   },
   MONITORING_BY_LIST: {
-    VIEW: 'menu.monitorByList.actions.view'
+    VIEW: 'menu.monitorByList.actions.view',
   },
   MAP: {
-    VIEW: 'menu.map.actions.view'
+    VIEW: 'menu.map.actions.view',
   },
   CAMERA: {
-    VIEW: 'menu.camera.actions.view'
+    VIEW: 'menu.camera.actions.view',
   },
   DATA_SEARCH: {
     VIEW: 'menu.dataSearch.actions.view',
-    EXPORT: 'menu.dataSearch.actions.export'
+    EXPORT: 'menu.dataSearch.actions.export',
   },
   AVG_SEARCH: {
     VIEW: 'menu.avgSearch.actions.view',
-    EXPORT: 'menu.avgSearch.actions.export'
+    EXPORT: 'menu.avgSearch.actions.export',
   },
   REPORT: {
-    VIEW: 'menu.report.actions.view'
+    VIEW: 'menu.report.actions.view',
   },
 
   XU_LY_KIEM_DUYET_DU_LIEU_CONFIG: {
-    VIEW: 'menu.xuLyDuLieu_config.actions.view'
+    VIEW: 'menu.xuLyDuLieu_config.actions.view',
   },
   XU_LY_KIEM_DUYET_DU_LIEU: {
-    VIEW: 'menu.kiemDuyetDuLieu.actions.view'
+    VIEW: 'menu.kiemDuyetDuLieu.actions.view',
   },
   QAQCCONFIG: {
-    VIEW: 'menu.qaqcConfig.actions.view'
+    VIEW: 'menu.qaqcConfig.actions.view',
   },
   FTPTRANSFER: {
-    VIEW: 'menu.ftpTransfer.actions.view'
+    VIEW: 'menu.ftpTransfer.actions.view',
   },
   TILE_DULIEU_THUDUOC: {
     VIEW: 'menu.tiLeDuLieuThuDuoc.actions.view',
-    EXPORT: 'menu.tiLeDuLieuThuDuoc.actions.export'
+    EXPORT: 'menu.tiLeDuLieuThuDuoc.actions.export',
   },
   TILE_DULIEU: {
-    VIEW: 'menu.tiLeDuLieu.actions.view'
+    VIEW: 'menu.tiLeDuLieu.actions.view',
   },
   TB24H: {
-    VIEW: 'menu.tb24H.actions.view'
+    VIEW: 'menu.tb24H.actions.view',
   },
   TB1H: {
-    VIEW: 'menu.tb1H.actions.view'
+    VIEW: 'menu.tb1H.actions.view',
   },
   TB1MAX: {
-    VIEW: 'menu.tb1HMax.actions.view'
+    VIEW: 'menu.tb1HMax.actions.view',
   },
   TB8MAX: {
-    VIEW: 'menu.tb8HMax.actions.view'
+    VIEW: 'menu.tb8HMax.actions.view',
   },
   TILE_DULIE_VUOTNGUONG: {
-    VIEW: 'menu.tileDuLieuVuotNguong.actions.view'
+    VIEW: 'menu.tileDuLieuVuotNguong.actions.view',
   },
   SO_LAN_MAT_KET_NOI: {
-    VIEW: 'menu.soLanMatKetNoi.actions.view'
+    VIEW: 'menu.soLanMatKetNoi.actions.view',
   },
   AQI: {
-    VIEW: 'menu.aqiMap.actions.view'
+    VIEW: 'menu.aqiMap.actions.view',
   },
   AQI_GIO: {
-    VIEW: 'menu.aqiGio.actions.view'
+    VIEW: 'menu.aqiGio.actions.view',
   },
   AQI_NGAY: {
-    VIEW: 'menu.aqiNgay.actions.view'
+    VIEW: 'menu.aqiNgay.actions.view',
   },
   TINH_TRANG_DU_LIEU: {
-    VIEW: 'menu.tinhTrangDuLieu.actions.view'
+    VIEW: 'menu.tinhTrangDuLieu.actions.view',
   },
   WQI_GIO: {
-    VIEW: 'menu.wqiGio.actions.view'
+    VIEW: 'menu.wqiGio.actions.view',
   },
   WQI: {
-    VIEW: 'menu.wqiMap.actions.view'
+    VIEW: 'menu.wqiMap.actions.view',
   },
   CONFIG_WQI: {
     VIEW: 'menu.configWQI.actions.view',
-    EDIT: 'menu.configWQI.actions.edit'
+    EDIT: 'menu.configWQI.actions.edit',
   },
   STATION_AUTO: {
     VIEW: 'menu.stationAuto.actions.view',
     CREATE: 'menu.stationAuto.actions.create',
     EDIT: 'menu.stationAuto.actions.edit',
     DELETE: 'menu.stationAuto.actions.delete',
-    CONFIG: 'menu.stationAuto.actions.config'
+    CONFIG: 'menu.stationAuto.actions.config',
   },
   CAU_HINH_KET_NOI: {
     VIEW: 'menu.cauHinhKetNoi.actions.view',
     FTP_FLODER: 'menu.cauHinhKetNoi.actions.fTPFloder',
-    FILE_MAPPING: 'menu.cauHinhKetNoi.actions.fileMapping'
+    FILE_MAPPING: 'menu.cauHinhKetNoi.actions.fileMapping',
   },
   CAU_HINH_GUI_CANH_BAO: {
-    VIEW: 'menu.cauHinhGuiCanhBao.actions.view'
+    VIEW: 'menu.cauHinhGuiCanhBao.actions.view',
   },
   CAU_HINH_LAY_MAU: {
-    VIEW: 'menu.cauHinhLayMau.actions.view'
+    VIEW: 'menu.cauHinhLayMau.actions.view',
   },
   CAU_HINH_TINH_TOAN_AQI: {
-    VIEW: 'menu.cauHinhTinhToanAQI.actions.view'
+    VIEW: 'menu.cauHinhTinhToanAQI.actions.view',
   },
   CAU_HINH_TINH_TOAN_WQI: {
-    VIEW: 'menu.cauHinhTinhToanWQI.actions.view'
+    VIEW: 'menu.cauHinhTinhToanWQI.actions.view',
   },
   CAU_HINH_CAMERA: {
-    VIEW: 'menu.cauHinhCamera.actions.view'
+    VIEW: 'menu.cauHinhCamera.actions.view',
   },
   MEASURING: {
     VIEW: 'menu.measuring.actions.view',
     CREATE: 'menu.measuring.actions.create',
     EDIT: 'menu.measuring.actions.edit',
-    DELETE: 'menu.measuring.actions.delete'
+    DELETE: 'menu.measuring.actions.delete',
   },
   STATION_TYPE: {
     VIEW: 'menu.stationType.actions.view',
     CREATE: 'menu.stationType.actions.create',
     EDIT: 'menu.stationType.actions.edit',
-    DELETE: 'menu.stationType.actions.delete'
+    DELETE: 'menu.stationType.actions.delete',
   },
   PROVINCE: {
     VIEW: 'menu.province.actions.view',
     CREATE: 'menu.province.actions.create',
     EDIT: 'menu.province.actions.edit',
-    DELETE: 'menu.province.actions.delete'
+    DELETE: 'menu.province.actions.delete',
   },
   QCVN: {
     VIEW: 'menu.qcvn.actions.view',
     CREATE: 'menu.qcvn.actions.create',
     EDIT: 'menu.qcvn.actions.edit',
-    DELETE: 'menu.qcvn.actions.delete'
+    DELETE: 'menu.qcvn.actions.delete',
   },
   ROLE: {
     VIEW: 'menu.role.actions.view',
     CREATE: 'menu.role.actions.create',
     EDIT: 'menu.role.actions.edit',
-    DELETE: 'menu.role.actions.delete'
+    DELETE: 'menu.role.actions.delete',
   },
   USER: {
     VIEW: 'menu.user.actions.view',
@@ -173,14 +173,14 @@ export default {
     EDIT: 'menu.user.actions.edit',
     DELETE: 'menu.user.actions.delete',
     ROLE: 'menu.user.actions.role',
-    ENABLE_ACCOUNT: 'menu.user.actions.enableAccount'
+    ENABLE_ACCOUNT: 'menu.user.actions.enableAccount',
   },
   CONFIG_COLOR_NOTI: {
     VIEW: 'menu.config_color_noti.actions.view',
-    EDIT: 'menu.config_color_noti.actions.edit'
+    EDIT: 'menu.config_color_noti.actions.edit',
   },
   XEM_NHAT_KY: {
-    VIEW: 'menu.xem_Nhat_ky.actions.view'
+    VIEW: 'menu.xem_Nhat_ky.actions.view',
   },
 
   /* #region   */
@@ -193,37 +193,37 @@ export default {
     RESTORE: 'menu.qaqc.actions.restore',
     REMOVE: 'menu.qaqc.actions.remove',
     CONFIG_PUBLISH: 'menu.qaqc.actions.config_publish',
-    CONFIG_NEW: 'menu.qaqc.action.configNew'
+    CONFIG_NEW: 'menu.qaqc.action.configNew',
   },
 
   AQI_SEARCHDATA: {
     VIEW: 'menu.aqiSearchData.actions.view',
-    AQI_EXPORT: 'menu.aqiSearchData.actions.aqi_export'
+    AQI_EXPORT: 'menu.aqiSearchData.actions.aqi_export',
   },
 
   WQI_SEARCHDATA: {
     VIEW: 'menu.wqiSearchData.actions.view',
-    WQI_EXPORT: 'menu.wqiSearchData.actions.aqi_export'
+    WQI_EXPORT: 'menu.wqiSearchData.actions.aqi_export',
   },
   STATISTIC: {
     PER_REC_DATA: 'menu.statistic.actions.per_received_data',
-    PER_REC_DATA_EXPORT: 'menu.statistic.actions.per_received_data_export'
+    PER_REC_DATA_EXPORT: 'menu.statistic.actions.per_received_data_export',
   },
   STATION_FIXED: {
     VIEW: 'menu.stationFixed.actions.view',
     CREATE: 'menu.stationFixed.actions.create',
     EDIT: 'menu.stationFixed.actions.edit',
-    DELETE: 'menu.stationFixed.actions.delete'
+    DELETE: 'menu.stationFixed.actions.delete',
   },
   STATION_FIXED_SEARCH: {
     VIEW: 'menu.dataSearchFixed.actions.view',
     DOWNLOAD: 'menu.dataSearchFixed.actions.download',
     IMPORT: 'menu.dataSearchFixed.actions.import',
-    EXPORT: 'menu.dataSearchFixed.actions.export'
+    EXPORT: 'menu.dataSearchFixed.actions.export',
   },
   MAP_STATION_FIXED: {
-    VIEW: 'menu.mapStationFixed.actions.view'
-  }
+    VIEW: 'menu.mapStationFixed.actions.view',
+  },
 
   /* #endregion */
 }
