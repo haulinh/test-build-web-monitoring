@@ -75,23 +75,46 @@ export default class AqiContainer extends React.Component {
   }
 
   handleMarkerClick = station => {
-    this.setState({ station })
+    this.setState({
+      stationKey: _.get(station, 'key'),
+    })
+  }
+  handleOnClosePopup = () => {
+    this.setState({
+      stationKey: null,
+    })
+  }
+
+  handleOnSelect = ({ key, mapLocation }) => {
+    // console.log("---onSlelect--", key, mapLocation);
+    this.setState({
+      center: mapLocation,
+      stationKey: null,
+    })
+    setTimeout(() => {
+      this.setState({
+        stationKey: key,
+      })
+    }, 500)
   }
 
   render() {
     return (
       <WrapperContainer>
         <MapComponent
+          center={this.state.center}
           aqiList={this.state.aqiList}
           aqiLevel={this.state.aqiLevel}
           style={{ flex: 2, background: 'blue' }}
-          onMapClick={this.handleMarkerClick}
+          onMarkerClick={this.handleMarkerClick}
+          onClose={this.handleOnClosePopup}
+          stationKey={this.state.stationKey}
         />
         <InfoComponent
-          station={this.state.station}
           aqiLevel={this.state.aqiLevel}
           style={{ flex: 1 }}
           aqiList={this.state.aqiList}
+          onSelect={this.handleOnSelect}
         />
       </WrapperContainer>
     )

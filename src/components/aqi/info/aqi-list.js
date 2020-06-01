@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Row, Col, Typography, Input, Skeleton } from 'antd'
 import styled from 'styled-components'
 import * as _ from 'lodash'
+import moment from 'moment-timezone'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 const { Text } = Typography
 
 const WrapperView = styled.div`
@@ -70,10 +72,11 @@ export default class AQIList extends React.PureComponent {
 
   state = {
     dataSoure: null,
+    selectStationKey: null,
   }
 
-  componentDidUpdate = () => {
-    if (!this.state.dataSoure) {
+  componentDidUpdate = prevProps => {
+    if (prevProps.aqiList !== this.props.aqiList) {
       this.setState({
         dataSoure: this.props.aqiList,
       })
@@ -87,7 +90,7 @@ export default class AQIList extends React.PureComponent {
       return _.toUpper(name.trim()).search(_.toUpper(value.trim())) >= 0
     })
 
-    console.log(dataSearch, '---dataSearch')
+    // console.log(dataSearch, "---dataSearch");
     this.setState({
       dataSoure: dataSearch,
     })
@@ -95,26 +98,57 @@ export default class AQIList extends React.PureComponent {
   }
 
   render() {
+    // console.log(this.state.dataSoure, "--this.state.dataSoure")
     return (
       <WrapperView>
         <Input placeholder="Tìm kiếm trạm AQI" onChange={this.hanldeOnchange} />
         {!this.state.dataSoure && <Skeleton />}
         {_.map(this.state.dataSoure, (item, index) => {
+          const key = _.get(item, 'key')
           const name = _.get(item, 'name', '')
-          const address = _.get(item, 'address', '')
+          const time = _.get(item, 'time', '')
           const valueAqi = _.get(item, 'aqiDay')
+          const mapLocation = _.get(item, 'mapLocation')
           return (
-            <Row key={index}>
+            <Row
+              style={{ cursor: 'pointer' }}
+              key={index}
+              onClick={() => {
+                this.setState({
+                  selectStationKey: key,
+                })
+                this.props.onSelect({
+                  key: key,
+                  mapLocation: mapLocation
+                    ? {
+                        lat: parseFloat(_.get(mapLocation, 'lat', 0)),
+                        lng: parseFloat(_.get(mapLocation, 'long', 0)),
+                      }
+                    : undefined,
+                })
+              }}
+            >
               <Col>
                 <div className="item-aqi">
                   <div>
                     <div>
-                      <Text style={{ fontSize: 16 }} strong>
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          color:
+                            this.state.selectStationKey === key
+                              ? '#1890FF'
+                              : 'unset',
+                        }}
+                        strong
+                      >
                         {name}
                       </Text>
                     </div>
                     <div>
-                      <Text type="secondary">{address}</Text>
+                      <Text type="secondary">
+                        {moment(time).format(DD_MM_YYYY_HH_MM)}
+                      </Text>
                     </div>
                   </div>
                   <div>
