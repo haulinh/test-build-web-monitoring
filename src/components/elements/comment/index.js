@@ -1,9 +1,25 @@
 import React from "react"
-import { Row, Col, Button, Icon, Divider, Input, Avatar, Form } from "antd"
+import {
+  Row,
+  Col,
+  Button,
+  Icon,
+  Divider,
+  Input,
+  Avatar,
+  Form,
+  Upload,
+  message,
+} from "antd"
 import styled from "styled-components"
 import { translate } from "hoc/create-lang"
 import moment from "moment"
 import ImageMoreInfo from "./image"
+import MediaApi from "api/MediaApi"
+import { v4 as uuidV4 } from "uuid"
+import swal from "sweetalert2"
+import debounce from "lodash/debounce"
+import { editEvaluateStation } from "api/StationAuto"
 
 const { TextArea } = Input
 
@@ -57,6 +73,7 @@ export const Editor = ({
   handleEdit,
   hideEditor,
   _id,
+  setImages,
 }) => {
   const handleSubmit = () => {
     if (isEdit) {
@@ -64,6 +81,12 @@ export const Editor = ({
       hideEditor()
     } else {
       onSubmit()
+    }
+  }
+
+  const handleImageChange = ({ fileList, file, event }) => {
+    if (file.status === "done") {
+      setImages(file.response.file.path)
     }
   }
 
@@ -78,16 +101,19 @@ export const Editor = ({
             onChange={onChange}
             value={value}
           />
-          <Button
+          <Upload
             shape='circle-outline'
             size='large'
-            type='primary'
-            htmlType='submit'
-            loading={submitting}
-            onClick={onSubmit}
+            multiple
+            showUploadList={false}
+            accept='.jpg, .png, .svg, jpeg'
+            action={MediaApi.urlPhotoUploadWithDirectory("station")}
+            onChange={handleImageChange}
           >
-            <Icon type='picture' theme='outlined' />
-          </Button>
+            <Button shape='circle-outline' size='large'>
+              <Icon type='picture' theme='outlined' />
+            </Button>
+          </Upload>
           <Button
             shape='circle-outline'
             size='large'

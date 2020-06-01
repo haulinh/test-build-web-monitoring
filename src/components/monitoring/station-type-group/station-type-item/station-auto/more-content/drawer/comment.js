@@ -1,18 +1,5 @@
 import React from "react"
-import {
-  Row,
-  Col,
-  Drawer,
-  Button,
-  Icon,
-  Divider,
-  Input,
-  Comment,
-  Avatar,
-  Form,
-  List,
-  Spin,
-} from "antd"
+import { Button, Divider, Comment, Avatar, Spin, message } from "antd"
 import styled from "styled-components"
 import { translate } from "hoc/create-lang"
 import moment from "moment"
@@ -25,6 +12,9 @@ import {
   editEvaluateStation,
 } from "api/StationAuto"
 import { CommentComponent, Editor } from "components/elements/comment"
+import debounce from "lodash/debounce"
+import { v4 as uuidV4 } from "uuid"
+import swal from "sweetalert2"
 
 const i18n = {
   title: translate("stationAutoManager.infoStation.title"),
@@ -78,10 +68,11 @@ export default class StationComment extends React.Component {
     submitting: false,
     value: "",
     valueFromEditComment: "",
+    images: [],
   }
 
-  getValueFromEditComment = (value) => {
-    this.setState({ valueFromEditComment: value })
+  setImages = (newImage) => {
+    this.setState({ images: [...this.state.images, newImage] })
   }
 
   async componentDidMount() {
@@ -96,6 +87,10 @@ export default class StationComment extends React.Component {
         ),
       })
     })
+  }
+
+  getValueFromEditComment = (value) => {
+    this.setState({ valueFromEditComment: value })
   }
 
   handleChange = (e) => {
@@ -120,7 +115,7 @@ export default class StationComment extends React.Component {
         avatar,
       },
       createdAt: moment().toString(),
-      images: [],
+      images: this.state.images,
     }
     this.setState({
       submitting: false,
@@ -130,7 +125,7 @@ export default class StationComment extends React.Component {
     const commentSend = {
       content: this.state.value,
       stationId: this.props.stationId,
-      images: [],
+      images: this.state.images,
     }
     createEvaluateStation(commentSend)
   }
@@ -195,6 +190,7 @@ export default class StationComment extends React.Component {
                 onChange={this.handleChange}
                 onSubmit={this.handleSubmit}
                 submitting={submitting}
+                setImages={this.setImages}
               />
             }
           />

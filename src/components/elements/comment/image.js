@@ -247,6 +247,7 @@ export default class ImageMoreInfo extends React.Component {
       }
       return images.map((image, index) => (
         <ImageComponent
+          key={index}
           handleDeleteImage={this.handleDeleteImage}
           handleViewGalleryClick={this.handleViewGalleryClick}
           image={image}
