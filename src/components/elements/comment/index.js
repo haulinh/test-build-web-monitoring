@@ -3,6 +3,7 @@ import { Row, Col, Button, Icon, Divider, Input, Avatar, Form } from "antd"
 import styled from "styled-components"
 import { translate } from "hoc/create-lang"
 import moment from "moment"
+import ImageMoreInfo from "./image"
 
 const { TextArea } = Input
 
@@ -116,18 +117,54 @@ export class CommentComponent extends React.Component {
     this.props.getValueFromEditComment(e.target.value)
   }
 
-  render() {
-    const {
-      user,
-      createdAt,
-      content,
-      images,
-      handleDelete,
-      handleEdit,
-      _id,
-    } = this.props
-    const { firstName, lastName, avatar } = user
+  renderContent = () => {
+    const { content, handleDelete, handleEdit, _id } = this.props
     const { isEdit, value } = this.state
+    if (!isEdit) {
+      return (
+        <React.Fragment>
+          <Text style={{ marginTop: "10px" }}>{content}</Text>
+          <Flex>
+            <ButtonLink
+              onClick={() => this.setState({ isEdit: true })}
+              style={{ padding: "0px" }}
+              type='link'
+            >
+              edit
+            </ButtonLink>
+            <ButtonLink onClick={() => handleDelete(_id)} type='link'>
+              delete
+            </ButtonLink>
+          </Flex>
+        </React.Fragment>
+      )
+    } else {
+      return (
+        <React.Fragment>
+          <Editor
+            hideEditor={() => this.setState({ isEdit: false })}
+            isEdit={isEdit}
+            handleEdit={handleEdit}
+            _id={_id}
+            value={value}
+            onChange={this.handleChange}
+          />
+          <ButtonLink
+            style={{ margin: "0px", padding: "0px" }}
+            onClick={() => this.setState({ isEdit: false })}
+            type='link'
+          >
+            cancel
+          </ButtonLink>
+        </React.Fragment>
+      )
+    }
+  }
+
+  render() {
+    const { user, createdAt, _id, images, content, stationId } = this.props
+    const { firstName, lastName, avatar } = user
+    const { isEdit } = this.state
 
     return (
       <div>
@@ -135,7 +172,7 @@ export class CommentComponent extends React.Component {
           <Col span={2}>
             <Avatar size='large' src={avatar && avatar} />
           </Col>
-          <Col span={!isEdit ? 14 : 20}>
+          <Col span={!isEdit ? 10 : 20}>
             <Flex>
               <Text style={{ fontWeight: "bold" }}>
                 {lastName} {firstName}
@@ -146,46 +183,16 @@ export class CommentComponent extends React.Component {
                 {moment(createdAt).fromNow()}
               </Text>
             </Flex>
-            {!isEdit ? (
-              <React.Fragment>
-                <Text style={{ marginTop: "10px" }}>{content}</Text>
-                <Flex>
-                  <ButtonLink
-                    onClick={() => this.setState({ isEdit: true })}
-                    style={{ padding: "0px" }}
-                    type='link'
-                  >
-                    edit
-                  </ButtonLink>
-                  <ButtonLink
-                    onClick={() => handleDelete(_id)}
-                    type='link'
-                  >
-                    delete
-                  </ButtonLink>
-                </Flex>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <Editor
-                  hideEditor={() => this.setState({ isEdit: false })}
-                  isEdit={isEdit}
-                  handleEdit={handleEdit}
-                  _id={_id}
-                  value={value}
-                  onChange={this.handleChange}
-                />
-                <ButtonLink
-                  style={{ margin: "0px", padding: "0px" }}
-                  onClick={() => this.setState({ isEdit: false })}
-                  type='link'
-                >
-                  cancel
-                </ButtonLink>
-              </React.Fragment>
-            )}
+            {this.renderContent()}
           </Col>
-          <Col span={8} />
+          <Col span={12}>
+            <ImageMoreInfo
+              commentId={_id}
+              images={images}
+              content={content}
+              stationId={stationId}
+            />
+          </Col>
         </Row>
         <Divider />
       </div>

@@ -120,6 +120,7 @@ export default class StationComment extends React.Component {
         avatar,
       },
       createdAt: moment().toString(),
+      images: [],
     }
     this.setState({
       submitting: false,
@@ -129,6 +130,7 @@ export default class StationComment extends React.Component {
     const commentSend = {
       content: this.state.value,
       stationId: this.props.stationId,
+      images: [],
     }
     createEvaluateStation(commentSend)
   }
@@ -146,10 +148,6 @@ export default class StationComment extends React.Component {
     )
     const comment = { ...this.state.data[indexComment] }
     comment.content = this.state.valueFromEditComment
-
-    console.log('_id', _id)
-    console.log('this.state.data', this.state.data)
-    console.log('indexComment', indexComment)
 
     const data = [...this.state.data]
     data[indexComment] = comment
@@ -173,19 +171,21 @@ export default class StationComment extends React.Component {
         <React.Fragment>
           <Title>Đánh giá trạm</Title>
           <Divider />
-          {!isLoading &&
-            data.length &&
-            data.map((comment) => (
-              <CommentComponent
-                valueTextArea={value}
-                onChangeTextArea={this.handleChange}
-                {...comment}
-                key={comment._id}
-                handleDelete={this.handleDelete}
-                handleEdit={this.handleEdit}
-                getValueFromEditComment={this.getValueFromEditComment}
-              />
-            ))}
+          {!isLoading && data.length
+            ? data.map((comment) => (
+                <CommentComponent
+                  content={this.state.valueFromEditComment}
+                  stationId={this.props.stationId}
+                  valueTextArea={value}
+                  onChangeTextArea={this.handleChange}
+                  {...comment}
+                  key={comment._id}
+                  handleDelete={this.handleDelete}
+                  handleEdit={this.handleEdit}
+                  getValueFromEditComment={this.getValueFromEditComment}
+                />
+              ))
+            : null}
 
           <Comment
             avatar={<Avatar src={userInfo.avatar} />}
