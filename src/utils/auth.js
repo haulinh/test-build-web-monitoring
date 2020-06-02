@@ -20,5 +20,5 @@ export function getAuthToken() {
 export default {
   setAuthToken,
   resetAuthToken,
-  getAuthToken
+  getAuthToken,
 }

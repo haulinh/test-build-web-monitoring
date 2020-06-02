@@ -10,12 +10,12 @@ export default function createData(length = 10) {
       address: faker.address.streetAddress(),
       mapLocation: {
         lat: faker.address.latitude(),
-        long: faker.address.longitude()
+        long: faker.address.longitude(),
       },
       capacity: 1,
       arisesMass: 1,
       acreage: 1,
-      district: faker.address.country()
+      district: faker.address.country(),
     })
   }
   return landfillLists
@@ -25,12 +25,12 @@ export const burialStationList = [
     id: 1,
     name: 'Tây Bắc Củ Chi',
     mapLocation: { lat: 10.794259, lng: 106.763286 },
-    district: 'Quận Củ Chi'
+    district: 'Quận Củ Chi',
   },
   {
     id: 2,
     name: 'Đa Phước',
     mapLocation: { lat: 10.6658129, lng: 106.6660459 },
-    district: 'Quận Củ Chi'
-  }
+    district: 'Quận Củ Chi',
+  },
 ]

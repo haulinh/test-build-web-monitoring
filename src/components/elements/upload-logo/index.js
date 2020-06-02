@@ -17,7 +17,7 @@ const LogoContainer = styled.img`
 @autobind
 export default class UpdateLogo extends React.PureComponent {
   state = {
-    fileList: []
+    fileList: [],
   }
 
   async componentWillMount() {
@@ -31,12 +31,12 @@ export default class UpdateLogo extends React.PureComponent {
     if (file.status === 'error') {
       swal({
         title: translate('profileUser.imageUpload.error'),
-        type: 'error'
+        type: 'error',
       })
       newFileList = []
     }
     this.setState({
-      fileList: newFileList
+      fileList: newFileList,
     })
     if (file.status === 'done') {
       this.updateFiles(file.response.url)
@@ -56,9 +56,9 @@ export default class UpdateLogo extends React.PureComponent {
           uid: -1,
           url,
           name: '',
-          status: 'done'
-        }
-      ]
+          status: 'done',
+        },
+      ],
     })
   }
 

@@ -21,7 +21,7 @@ const i18n = {
   inputNotEmpty: 'Please input your note!',
   emptyCamera: 'Khong co camera nao!!',
   successSubmit: 'Luu cau hinh camera thanh cong',
-  errorSubmit: 'Co loi khi save cau hinh camera'
+  errorSubmit: 'Co loi khi save cau hinh camera',
 }
 
 @Form.create()
@@ -29,14 +29,14 @@ const i18n = {
 export default class MyCollapse extends React.Component {
   static propTypes = {
     record: PropTypes.object.isRequired,
-    selectAll: PropTypes.bool.isRequired
+    selectAll: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     record: {
-      stations: []
+      stations: [],
     },
-    selectAll: false
+    selectAll: false,
   }
 
   render() {
@@ -68,7 +68,7 @@ export default class MyCollapse extends React.Component {
         <Col span={3} style={{ textAlign: 'center' }}>
           {getFieldDecorator(`stations.${station._id}`, {
             initialValue: _.get(station, 'options.camera.allowed'),
-            valuePropName: 'checked'
+            valuePropName: 'checked',
           })(<Checkbox />)}
         </Col>
         <Col span={1}>

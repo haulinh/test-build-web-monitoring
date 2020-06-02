@@ -19,7 +19,7 @@ LinkA.propTypes = {
   colorType: PropTypes.string,
   color: PropTypes.string,
   fontSize: PropTypes.number,
-  fontWeight: PropTypes.number
+  fontWeight: PropTypes.number,
 }
 
 export default LinkA

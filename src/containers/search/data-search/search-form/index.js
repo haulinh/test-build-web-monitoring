@@ -60,14 +60,14 @@ function validate(values) {
     ...(ownProps.initialValues
       ? {
           ...ownProps.initialValues,
-          rangesDate: 1
+          rangesDate: 1,
         }
-      : {})
-  }
+      : {}),
+  },
 }))
 @reduxForm({
   form: 'dataSearchForm',
-  validate
+  validate,
 })
 @createLang
 // @queryFormDataBrowser()
@@ -75,7 +75,7 @@ function validate(values) {
 export default class SearchFormHistoryData extends React.Component {
   static propTypes = {
     measuringData: PropTypes.array,
-    searchNow: PropTypes.bool
+    searchNow: PropTypes.bool,
   }
 
   constructor(props) {
@@ -112,13 +112,13 @@ export default class SearchFormHistoryData extends React.Component {
       measuringList: props.measuringData
         ? props.measuringData.map(measuring => ({
             value: measuring.key,
-            name: measuring.name
+            name: measuring.name,
           }))
         : [],
       receivedAt:
         moment(props.initialValues.receivedAt) ||
         this.props.initialValues.toDate,
-      isSearchInit: props.initialValues.stationAuto ? false : true
+      isSearchInit: props.initialValues.stationAuto ? false : true,
     }
   }
 
@@ -154,7 +154,7 @@ export default class SearchFormHistoryData extends React.Component {
         // console.log("run 2")
         this.setState(
           {
-            stationAutoKey: stationAutoData[0].key
+            stationAutoKey: stationAutoData[0].key,
           },
           () => {
             this.props.handleSubmit(this.handleSubmit)()
@@ -167,7 +167,7 @@ export default class SearchFormHistoryData extends React.Component {
   handleChangeStationType(stationTypeKey, e) {
     this.setState({
       stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
-      stationAutoKey: ''
+      stationAutoKey: '',
     })
     this.props.change('stationAuto', '')
   }
@@ -179,12 +179,12 @@ export default class SearchFormHistoryData extends React.Component {
     const params = {
       measuringList: measuringData.map(measuring => ({
         value: measuring.key,
-        name: measuring.name
+        name: measuring.name,
       })),
       measuringData: measuringData,
       stationAutoKey: stationAuto.key,
       stationAutoName: stationAuto.name,
-      receivedAt: moment()
+      receivedAt: moment(),
     }
 
     if (this.state.timeRange) {
@@ -204,14 +204,14 @@ export default class SearchFormHistoryData extends React.Component {
       this.setState({
         timeRange: ranges,
         fromDate: this.state.receivedAt.clone().subtract(ranges, 'days'),
-        toDate: this.state.receivedAt.clone()
+        toDate: this.state.receivedAt.clone(),
       })
     } else {
       if (_.size(ranges) > 1) {
         this.setState({
           timeRange: null,
           fromDate: ranges[0],
-          toDate: ranges[1]
+          toDate: ranges[1],
         })
       }
     }
@@ -253,7 +253,7 @@ export default class SearchFormHistoryData extends React.Component {
               item.value !== null &&
               typeof item.value !== 'undefined'
           )
-        : []
+        : [],
     })
   }
 
@@ -264,7 +264,7 @@ export default class SearchFormHistoryData extends React.Component {
   handleProvinceChange = province => {
     this.setState({
       provinceKey: province.key,
-      stationAutoKey: ''
+      stationAutoKey: '',
     })
 
     this.props.change('stationAuto', '')

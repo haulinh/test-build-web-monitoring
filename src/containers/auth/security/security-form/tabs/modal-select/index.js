@@ -10,7 +10,7 @@ import CompOptions from './options'
 
 @connectAutoDispatch(
   state => ({
-    user: state.auth.userInfo
+    user: state.auth.userInfo,
   }),
   { set2FAStatus }
 )
@@ -22,14 +22,14 @@ export default class ModalSelect extends React.PureComponent {
     isSmsVerifyInProgress: PropTypes.bool.isRequired,
     /* redux props */
     user: PropTypes.object.isRequired,
-    set2FAStatus: PropTypes.func.isRequired
+    set2FAStatus: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       option: null,
-      isSmsVerifyInProgress: false
+      isSmsVerifyInProgress: false,
     }
   }
 
@@ -41,7 +41,7 @@ export default class ModalSelect extends React.PureComponent {
     const isSmsVerifyInProgress = !enable && code !== '' && !isExpired
     if (isSmsVerifyInProgress) {
       this.setState({
-        isSmsVerifyInProgress: true
+        isSmsVerifyInProgress: true,
       })
     }
   }

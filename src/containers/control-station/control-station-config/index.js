@@ -33,7 +33,7 @@ function validate(values) {
 
 @reduxForm({
   form: 'ControlStationConfigForm',
-  validate
+  validate,
 })
 @createLanguage
 @autobind
@@ -42,7 +42,7 @@ export class ControlStationConfigForm extends PureComponent {
     lang: langPropTypes,
     onSubmit: PropTypes.func,
     handleReset: PropTypes.func,
-    initialValues: PropTypes.object
+    initialValues: PropTypes.object,
   }
 
   render() {
@@ -103,14 +103,14 @@ export class ControlStationConfigForm extends PureComponent {
 }
 
 @connect(state => ({
-  organization: state.auth.userInfo.organization
+  organization: state.auth.userInfo.organization,
 }))
 @withRouter
 @autobind
 export default class ControlStationConfig extends PureComponent {
   state = {
     dataStation: {},
-    isLoaded: false
+    isLoaded: false,
   }
 
   async componentWillMount() {
@@ -125,14 +125,14 @@ export default class ControlStationConfig extends PureComponent {
         dataStation: {
           ...record.data,
           total: record.data.TongChai,
-          tagName: record.data.MT_NAME
+          tagName: record.data.MT_NAME,
         },
-        isLoaded: true
+        isLoaded: true,
       })
     }
 
     this.setState({
-      isLoaded: true
+      isLoaded: true,
     })
   }
 
@@ -152,7 +152,7 @@ export default class ControlStationConfig extends PureComponent {
       TenTram: name,
       MT_Name: values.tagName,
       TongSoChai: values.total,
-      MaToChuc: this.props.organization._id
+      MaToChuc: this.props.organization._id,
     }
     const record = await SamplingApi.config_StationControl(data)
 
@@ -164,13 +164,13 @@ export default class ControlStationConfig extends PureComponent {
       swal({
         title: translate('controlStation.success.text'),
         type: 'success',
-        text: message
+        text: message,
       })
     } else {
       swal({
         title: translate('controlStation.error.text'),
         type: 'error',
-        text: record.message
+        text: record.message,
       })
     }
   }
@@ -187,8 +187,8 @@ export default class ControlStationConfig extends PureComponent {
                   slug.controlStation.triggerWithKey +
                   `/${this.props.match.params.key}/${
                     this.props.match.params.name
-                  }`
-              }
+                  }`,
+              },
             },
             {
               key: 'config',
@@ -197,13 +197,13 @@ export default class ControlStationConfig extends PureComponent {
                   slug.controlStation.configWithKey +
                   `/${this.props.match.params.key}/${
                     this.props.match.params.name
-                  }`
-              }
+                  }`,
+              },
             },
             {
               id: 'info',
-              name: `${this.props.match.params.name}`
-            }
+              name: `${this.props.match.params.name}`,
+            },
           ]}
         />
         {this.state.isLoaded && (

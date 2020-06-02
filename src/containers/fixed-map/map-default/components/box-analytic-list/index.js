@@ -15,11 +15,11 @@ const Clearfix = styled.div`
 export default class BoxAnalytic extends React.PureComponent {
   static propTypes = {
     onClickNotification: PropTypes.func,
-    dataStatus: PropTypes.shape(AnalyticDataStatus.propTypes)
+    dataStatus: PropTypes.shape(AnalyticDataStatus.propTypes),
   }
 
   state = {
-    type: TYPE.STATION_STATUS
+    type: TYPE.STATION_STATUS,
   }
 
   handleChangeType(type) {

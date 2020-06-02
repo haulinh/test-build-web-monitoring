@@ -7,7 +7,7 @@ export default class InputNumberCell extends React.Component {
     editable: PropTypes.bool,
     onChange: PropTypes.func,
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    defaultValue: PropTypes.object
+    defaultValue: PropTypes.object,
   }
 
   render() {

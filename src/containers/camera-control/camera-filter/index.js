@@ -26,7 +26,7 @@ const SelectWrapper = styled.div`
 `
 
 @FormStyle.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -35,13 +35,13 @@ export default class CameraFilter extends React.PureComponent {
     onSubmit: PropTypes.func,
     initialValues: PropTypes.object,
     onChangeSearch: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      station: 'ALL'
+      station: 'ALL',
     }
   }
 
@@ -49,7 +49,7 @@ export default class CameraFilter extends React.PureComponent {
     if (this.props.initialValues.stationKey)
       this.setState(
         {
-          station: this.props.initialValues.stationKey
+          station: this.props.initialValues.stationKey,
         },
         () => {
           this.props.onChangeSearch(this.state)
@@ -60,7 +60,7 @@ export default class CameraFilter extends React.PureComponent {
   changeStation(station) {
     this.setState(
       {
-        station: station
+        station: station,
       },
       () => {
         let data = {}

@@ -25,16 +25,16 @@ const i18n = {
   colTime: translate('dataLogger.list.colTime'),
   colAction: translate('dataLogger.list.colAction'),
   colDevice: translate('dataLogger.list.colDevice'),
-  colDetail: translate('dataLogger.list.colDetail')
+  colDetail: translate('dataLogger.list.colDetail'),
 }
 
 @protectRole(ROLE.XEM_NHAT_KY.VIEW)
 @createManagerList({
-  apiList: LogApi.getList
+  apiList: LogApi.getList,
 })
 class DataLoggerPage extends React.Component {
   state = {
-    isLoading: false
+    isLoading: false,
   }
 
   getRows = () => {
@@ -50,20 +50,20 @@ class DataLoggerPage extends React.Component {
                 index +
                 1}
             </strong>
-          )
+          ),
         },
         {
-          content: _.get(row, 'actor.email', '')
+          content: _.get(row, 'actor.email', ''),
         },
         {
-          content: dateLog
+          content: dateLog,
         },
         {
-          content: translate(`dataLogger.action.${keyAction}`)
+          content: translate(`dataLogger.action.${keyAction}`),
         },
         {
-          content: _.get(row, 'deviceInfo.info.os.name', '')
-        }
+          content: _.get(row, 'deviceInfo.info.os.name', ''),
+        },
         // {
         //   content: (
         //     <a
@@ -84,7 +84,7 @@ class DataLoggerPage extends React.Component {
       { content: i18n.colTime },
       { content: i18n.colAction },
       { content: i18n.colDevice },
-      { content: '' }
+      { content: '' },
     ]
   }
 
@@ -123,7 +123,7 @@ class DataLoggerPage extends React.Component {
             rows={this.getRows()}
             head={this.getHead()}
             paginationOptions={{
-              isSticky: true
+              isSticky: true,
             }}
             emptyView={this.getRenderEmpty()}
             // onSetPage={this.props.onChangePage}

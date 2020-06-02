@@ -48,19 +48,19 @@ function validate(values) {
   initialValues: {
     fromDate: moment().subtract(7, 'days'),
     toDate: moment(),
-    ...(ownProps.initialValues ? ownProps.initialValues : {})
-  }
+    ...(ownProps.initialValues ? ownProps.initialValues : {}),
+  },
 }))
 @reduxForm({
   form: 'dataSearchForm',
-  validate
+  validate,
 })
 @createLang
 @autobind
 export default class SearchForm extends React.Component {
   static propTypes = {
     measuringData: PropTypes.array,
-    searchNow: PropTypes.bool
+    searchNow: PropTypes.bool,
   }
 
   constructor(props) {
@@ -75,12 +75,12 @@ export default class SearchForm extends React.Component {
       measuringList: props.measuringData
         ? props.measuringData.map(measuring => ({
             value: measuring.key,
-            name: measuring.name
+            name: measuring.name,
           }))
         : [],
       fromDate: props.initialValues.fromDate,
       toDate: props.initialValues.toDate,
-      receivedAt: this.props.initialValues.toDate
+      receivedAt: this.props.initialValues.toDate,
     }
   }
 
@@ -96,7 +96,7 @@ export default class SearchForm extends React.Component {
     this.setState({
       stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
       stationFixedKey: '',
-      stationFixedID: ''
+      stationFixedID: '',
     })
     this.props.change('stationFixed', '')
   }
@@ -108,13 +108,13 @@ export default class SearchForm extends React.Component {
     const params = {
       measuringList: measuringData.map(measuring => ({
         value: measuring.key,
-        name: measuring.name
+        name: measuring.name,
       })),
       measuringData: measuringData,
       stationFixedKey: stationFixed.key,
       stationFixedName: stationFixed.name,
       receivedAt: moment(),
-      stationFixedID: stationFixed._id
+      stationFixedID: stationFixed._id,
     }
     const time = _.get(stationFixed, 'lastLog.receivedAt')
     if (time) {
@@ -141,14 +141,14 @@ export default class SearchForm extends React.Component {
       this.setState({
         timeRange: ranges,
         fromDate: this.state.receivedAt.clone().subtract(ranges, 'days'),
-        toDate: this.state.receivedAt.clone()
+        toDate: this.state.receivedAt.clone(),
       })
     } else {
       if (_.size(ranges) > 1) {
         this.setState({
           timeRange: null,
           fromDate: ranges[0],
-          toDate: ranges[1]
+          toDate: ranges[1],
         })
       }
     }
@@ -173,7 +173,7 @@ export default class SearchForm extends React.Component {
               item.value !== null &&
               typeof item.value !== 'undefined'
           )
-        : []
+        : [],
     })
   }
 
@@ -184,7 +184,7 @@ export default class SearchForm extends React.Component {
   handleProvinceChange = province => {
     this.setState({
       provinceKey: province.key,
-      stationFixedKey: ''
+      stationFixedKey: '',
     })
 
     this.props.change('stationFixed', '')

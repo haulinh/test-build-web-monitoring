@@ -25,5 +25,5 @@ export default {
   getSubscription,
   updateOrganizationNameLogo,
   updatetransferFtpInfo,
-  getOrganization
+  getOrganization,
 }

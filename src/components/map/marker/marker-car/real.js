@@ -22,7 +22,7 @@ export default class MarkerRealCar extends PureComponent {
     status: PropTypes.string,
     stationDetails: PropTypes.array,
     stationDistance: PropTypes.array,
-    markerFilter: PropTypes.object
+    markerFilter: PropTypes.object,
   }
 
   constructor(props) {
@@ -33,7 +33,7 @@ export default class MarkerRealCar extends PureComponent {
       status: carStatus.WARNING,
       indexLocation: 0,
       directions: null,
-      isShowDirection: false
+      isShowDirection: false,
     }
   }
 
@@ -94,21 +94,21 @@ export default class MarkerRealCar extends PureComponent {
     var me = this
     if (this.props.status) this.setState({ status: this.props.status })
     let newMapLocation = await CarLogApi.getLastMapLocation({
-      code: me.props.name
+      code: me.props.name,
     })
     let newLocation = {
       lat: newMapLocation.lastmapLocation.lat,
-      lng: newMapLocation.lastmapLocation.long
+      lng: newMapLocation.lastmapLocation.long,
     }
     this.setState({ mapLocation: newLocation })
 
     setInterval(async () => {
       newMapLocation = await CarLogApi.getLastMapLocation({
-        code: me.props.name
+        code: me.props.name,
       })
       newLocation = {
         lat: newMapLocation.lastmapLocation.lat,
-        lng: newMapLocation.lastmapLocation.long
+        lng: newMapLocation.lastmapLocation.long,
       }
       this.setState({ mapLocation: newLocation })
     }, TIME_DURATION)
@@ -150,7 +150,7 @@ export default class MarkerRealCar extends PureComponent {
               duration={TIME_DURATION}
               icon={{
                 url: this.getIconByStatus(this.state.status), // url
-                scaledSize: new google.maps.Size(30, 30)
+                scaledSize: new google.maps.Size(30, 30),
               }}
               onClick={this.toggleOpen}
               position={this.state.mapLocation}
@@ -164,8 +164,8 @@ export default class MarkerRealCar extends PureComponent {
                   padding: '2px',
                   color: 'white',
                   textAlign: 'center',
-                  whiteteSpace: 'nowrap'
-                }
+                  whiteteSpace: 'nowrap',
+                },
               }}
             >
               <div>

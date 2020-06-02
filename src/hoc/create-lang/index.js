@@ -14,7 +14,7 @@ window.currentLanguage = languages[getLanguage()]
 // eslint-disable-next-line
 export const langPropTypes = PropTypes.shape({
   t: PropTypes.func,
-  changeLanguage: PropTypes.func
+  changeLanguage: PropTypes.func,
 })
 
 // NOTE apply ES6
@@ -41,14 +41,14 @@ const createLanguageHoc = Component => {
   @connectAutoDispatch(
     state => ({
       languageData: state.language.data[state.language.locale],
-      languageLocale: state.language.locale
+      languageLocale: state.language.locale,
     }),
     { changeLanguage }
   )
   @autobind
   class LanguageHoc extends React.Component {
     static propTypes = {
-      changeLanguage: PropTypes.func
+      changeLanguage: PropTypes.func,
     }
 
     translate(key, params = {}, isParse = true) {
@@ -74,7 +74,7 @@ const createLanguageHoc = Component => {
         t: this.translate,
         createNameSpace: this.createNameSpace,
         locale: this.props.languageLocale,
-        changeLanguage: this.changeLanguage
+        changeLanguage: this.changeLanguage,
       }
       return <Component {...this.props} ref={this.props.ref} lang={langProps} />
     }

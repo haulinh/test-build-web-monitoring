@@ -9,10 +9,10 @@ import {
   find,
   inRange,
   values as _values,
-  omit as _omit
+  omit as _omit,
 } from 'lodash'
 import InfoBox from 'react-google-maps/lib/components/addons/InfoBox'
-import { Tooltip, Popover, Typography, Row, Col } from 'antd'
+import { Popover, Typography, Row, Col, Icon } from 'antd'
 const { Text } = Typography
 
 // import aqiLevel from 'constants/aqi-level'
@@ -27,17 +27,37 @@ const WindowInfo = ({
   aqiDay,
   backgroundColor,
   color,
-  description
+  description,
+  onClose,
 }) => {
   // console.log(time,"WindowInfo")
 
   return (
     <WinDowInfoWrapper>
       <div style={{ padding: 8 }}>
-        <div>
-          <Text style={{ fontSize: 16, color: '#1890FF' }} strong>
-            {name}
-          </Text>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+          }}
+        >
+          <div>
+            <Text style={{ fontSize: 16, color: '#1890FF' }} strong>
+              {name}
+            </Text>
+          </div>
+          <div style={{ cursor: 'pointer' }}>
+            <Icon
+              onClick={() => {
+                if (onClose) {
+                  onClose()
+                }
+              }}
+              type="close-circle"
+            />
+          </div>
         </div>
         <div>
           <Text type="secondary">{address}</Text>
@@ -47,18 +67,18 @@ const WindowInfo = ({
       <div
         style={{
           background: backgroundColor,
-          borderRadius: 10,
+          borderRadius: '10px 10px 0px 0px',
           color: color,
-          display: 'flex'
+          display: 'flex',
         }}
       >
         <Row>
           <Col
-            span={10}
+            span={6}
             style={{
               // background: "url(/images/background_1.png) no-repeat",
 
-              padding: 8
+              padding: 8,
             }}
           >
             <div>
@@ -71,9 +91,9 @@ const WindowInfo = ({
               padding: 8,
               display: 'flex',
               alignItems: 'center',
-              height: '100%'
+              height: '100%',
             }}
-            span={14}
+            span={18}
           >
             <div>{description}</div>
           </Col>
@@ -87,9 +107,12 @@ const InfoBoxWrapper = styled.div`
   .ant-popover-inner-content {
     padding: 0px;
   }
+  .infoBox {
+    width: 'auto !important';
+  }
 `
 
-const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
+const AqiMarker = ({ item, aqiLevel, onMarkerClick, stationKey, onClose }) => {
   const value = get(item, 'aqiDay', '')
   const name = get(item, 'name', '')
   const address = get(item, 'address', '')
@@ -106,13 +129,19 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
   const description = get(level, 'description', null)
   // console.log(colorFont, get(level, "name", null), "colorFont")
   const colorBorder = '#FFFFFF'
+
+  const isFocus = stationKey === get(item, 'key', null) ? true : false
   return (
     <InfoBoxWrapper id="popover-marker">
       <InfoBox
         defaultPosition={
           new google.maps.LatLng(item.mapLocation.lat, item.mapLocation.long)
         }
-        options={{ closeBoxURL: ``, enableEventPropagation: true }}
+        options={{
+          closeBoxURL: ``,
+          enableEventPropagation: true,
+        }}
+        zIndex={isFocus ? 1 : 0}
       >
         <Popover
           content={
@@ -123,8 +152,10 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
               address={address}
               name={name}
               backgroundColor={backgroundColor}
+              onClose={onClose}
             />
           }
+          visible={isFocus}
           title=""
           trigger="click"
           getPopupContainer={() => document.getElementById('popover-marker')}
@@ -133,7 +164,7 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center'
+              alignItems: 'center',
             }}
           >
             <div
@@ -145,22 +176,24 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
                 padding: `4px`,
                 borderRadius: '50%',
                 border: `2px solid ${colorBorder}`,
-                width: 45,
-                height: 45,
-                marginBottom: 6
+                width: isFocus ? 55 : 45,
+                height: isFocus ? 55 : 45,
+                // width:55,
+                // height: 55,
+                marginBottom: 6,
               }}
               onClick={() => {
-                if (onMapClick) {
-                  onMapClick(item)
+                if (onMarkerClick) {
+                  onMarkerClick(item)
                 }
               }}
             >
               <div>
                 <span
                   style={{
-                    fontSize: `16px`,
+                    fontSize: isFocus ? `18px` : '16px',
                     color: colorFont,
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
                   }}
                 >
                   {value}
@@ -177,7 +210,7 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
                 borderTop: `8px solid ${colorBorder}`,
                 zIndex: 2,
                 position: 'absolute',
-                bottom: '-1px'
+                bottom: '-1px',
               }}
             />
           </div>
@@ -187,16 +220,17 @@ const AqiMarker = ({ item, aqiLevel, onMapClick }) => {
   )
 }
 
+const DEFAULT_CENTER = { lat: 21.01993, lng: 107.078659 }
 @withProps({
   googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${
     GOOGLE_MAP.KEY
-  }&v=3.exp&libraries=geometry,drawing,places`
+  }&v=3.exp&libraries=geometry,drawing,places`,
 })
 @withScriptjs
 @withGoogleMap
-class CustomGoogleMap extends PureComponent {
+class CustomGoogleMap extends React.Component {
   state = {
-    isBounds: false
+    isBounds: false,
   }
 
   getBounds() {
@@ -207,7 +241,9 @@ class CustomGoogleMap extends PureComponent {
           new google.maps.LatLng(item.mapLocation.lat, item.mapLocation.long)
         )
       })
+
       if (this.map && this.map.fitBounds) {
+        // console.log("---fitBounds--");
         this.state.isBounds = true
         this.map.fitBounds(bounds)
       }
@@ -215,32 +251,57 @@ class CustomGoogleMap extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      zoom: nextProps.zoom
-    })
+    // this.setState({
+    //   zoom: nextProps.zoom
+    // });
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.aqiList !== this.props.aqiList) {
+      this.getBounds()
+    }
+  }
+
+  onClosePopup = () => {
+    if (this.props.onClose && this.props.stationKey) {
+      this.props.onClose()
+    }
   }
 
   render() {
-    // console.log(this.props.aqiList,"this.props.aqiList,")
-    const defaultCenter = { lat: 10.7607494, lng: 106.6954122 }
+    // console.log("this.props.center", this.props.center)
     return (
       <GoogleMap
         ref={map => {
           if (!this.state.isBounds) this.getBounds()
           this.map = map
         }}
-        defaultZoom={12}
-        defaultCenter={defaultCenter}
-        zoom={12}
+        defaultZoom={11}
+        defaultCenter={DEFAULT_CENTER}
+        center={this.props.center}
+        zoom={11}
+        onZoomChanged={() => {
+          console.log(
+            '---onZoomChanged--',
+            this.map.getZoom(),
+            this.map.getBounds()
+          )
+          this.onClosePopup()
+        }}
+        onDragStart={() => {
+          console.log('---onDragStart--')
+          this.onClosePopup()
+        }}
       >
         <div>
           {mapLodash(this.props.aqiList, (item, index) => (
             <AqiMarker
-              onMapClick={this.props.onMapClick}
+              stationKey={this.props.stationKey}
+              onClose={this.onClosePopup}
+              onMarkerClick={this.props.onMarkerClick}
               aqiLevel={this.props.aqiLevel}
               mapLocation={item.mapLocation}
               item={item}
-              key={`${index}`}
+              key={`${item.key}`}
             />
           ))}
         </div>

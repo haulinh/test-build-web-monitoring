@@ -35,13 +35,13 @@ export default class StationAutoItem extends React.PureComponent {
     stationID: PropTypes.string,
     options: PropTypes.object,
     stationType: PropTypes.shape({
-      name: PropTypes.string
-    })
+      name: PropTypes.string,
+    }),
   }
 
   state = {
     isOpenCamera: false,
-    showPanel: ''
+    showPanel: '',
   }
 
   handleShowPanel(panelName, keyOpenTab) {
@@ -68,7 +68,7 @@ export default class StationAutoItem extends React.PureComponent {
             fromDate,
             toDate,
             searchRange: true,
-            searchNow: true
+            searchNow: true,
           }
           slugPrefix = slug.dataSearch.base
           break
@@ -80,7 +80,7 @@ export default class StationAutoItem extends React.PureComponent {
             stationAuto: this.props.stationID,
             measuringList: arrMeasures,
             measuringData: this.props.measuringList,
-            searchNow: true
+            searchNow: true,
           }
           slugPrefix = slug.avgSearch.base
           break
@@ -119,7 +119,7 @@ export default class StationAutoItem extends React.PureComponent {
       fromDate,
       toDate,
       searchRange: true,
-      searchNow: true
+      searchNow: true,
     }
 
     this.props.history.push(
@@ -156,7 +156,7 @@ export default class StationAutoItem extends React.PureComponent {
     if (this.props.stationID === get(this.props, 'formData.stationAuto', '')) {
       // console.log(this.props.formData, "componentDidMount run 2")
       this.setState({
-        showPanel: 'chart'
+        showPanel: 'chart',
       })
     }
   }
@@ -172,7 +172,7 @@ export default class StationAutoItem extends React.PureComponent {
       stationType,
       options,
       status,
-      _id
+      _id,
     } = this.props
     let receivedAt = ''
     if (lastLog && lastLog.receivedAt) {

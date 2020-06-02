@@ -15,7 +15,7 @@ export default class QCVNFormTable extends React.PureComponent {
     form: PropTypes.object,
     lang: langPropTypes,
     dataSource: PropTypes.array,
-    measuringListSource: PropTypes.array
+    measuringListSource: PropTypes.array,
   }
 
   constructor(props) {
@@ -31,10 +31,10 @@ export default class QCVNFormTable extends React.PureComponent {
         render: (text, record, index) => (
           <FormItem>
             {getFieldDecorator(`measuringList[${index}].key`, {
-              initialValue: text
+              initialValue: text,
             })(<span>{text}</span>)}
           </FormItem>
-        )
+        ),
       },
       {
         dataIndex: 'measuringName',
@@ -67,7 +67,7 @@ export default class QCVNFormTable extends React.PureComponent {
               />
             )}
           </FormItem>
-        )
+        ),
       },
       {
         dataIndex: 'minLimit',
@@ -75,10 +75,10 @@ export default class QCVNFormTable extends React.PureComponent {
         render: (text, record, index) => (
           <FormItem>
             {getFieldDecorator(`measuringList[${index}].minLimit`, {
-              initialValue: text
+              initialValue: text,
             })(<InputNumberCell editable={true} />)}
           </FormItem>
-        )
+        ),
       },
       {
         dataIndex: 'maxLimit',
@@ -86,10 +86,10 @@ export default class QCVNFormTable extends React.PureComponent {
         render: (text, record, index) => (
           <FormItem>
             {getFieldDecorator(`measuringList[${index}].maxLimit`, {
-              initialValue: text
+              initialValue: text,
             })(<InputNumberCell editable={true} />)}
           </FormItem>
-        )
+        ),
       },
       {
         dataIndex: 'unit',
@@ -97,10 +97,10 @@ export default class QCVNFormTable extends React.PureComponent {
         render: (text, record, index) => (
           <FormItem>
             {getFieldDecorator(`measuringList[${index}].unit`, {
-              initialValue: text
+              initialValue: text,
             })(<Input />)}
           </FormItem>
-        )
+        ),
       },
       {
         dataIndex: 'name',
@@ -125,8 +125,8 @@ export default class QCVNFormTable extends React.PureComponent {
               )}
             </div>
           )
-        }
-      }
+        },
+      },
     ]
   }
   async componentWillMount() {
@@ -135,7 +135,7 @@ export default class QCVNFormTable extends React.PureComponent {
         item.measuringKey = item.key
         item.key = index
         return item
-      })
+      }),
     })
   }
 
@@ -143,7 +143,7 @@ export default class QCVNFormTable extends React.PureComponent {
     const newRow = {
       key: this.state.measuringList.length,
       name: '',
-      unit: ''
+      unit: '',
     }
     let rows = this.state.measuringList.slice()
     rows = update(rows, { $push: [newRow] })
@@ -164,9 +164,9 @@ export default class QCVNFormTable extends React.PureComponent {
         measuringList: {
           [index]: {
             measuringKey: { $set: value },
-            unit: { $set: measure.unit }
-          }
-        }
+            unit: { $set: measure.unit },
+          },
+        },
       })
     )
   }
@@ -188,7 +188,7 @@ export default class QCVNFormTable extends React.PureComponent {
           columns={this.columns}
           pagination={{
             pageSize: 1000,
-            hideOnSinglePage: true
+            hideOnSinglePage: true,
           }}
         />
       </div>

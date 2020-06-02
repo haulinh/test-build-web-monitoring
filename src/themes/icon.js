@@ -58,5 +58,5 @@ export default {
   configWQI: <ConfigWQI label={''} size={'medium'} />,
   handleData: <DepartmentIcon label={''} size={'medium'} />,
   advance: <FeedbackIcon label={''} size={'medium'} />,
-  config: <IssuesIcon label={''} size={'medium'} />
+  config: <IssuesIcon label={''} size={'medium'} />,
 }

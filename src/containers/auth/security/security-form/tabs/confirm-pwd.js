@@ -14,12 +14,12 @@ const i18n = {
   enterYourPwd: translate('security.enterPassword'),
   confirmPwd: translate('security.confirm'),
   confirmPwdLabel: translate('security.confirmPasswordLabel'),
-  confirmPwdError: translate('security.confirmPasswordError')
+  confirmPwdError: translate('security.confirmPasswordError'),
 }
 
 @connectAutoDispatch(
   state => ({
-    email: state.auth.userInfo.email
+    email: state.auth.userInfo.email,
   }),
   {}
 )
@@ -35,8 +35,8 @@ export default class SecurityFormConfirm extends PureComponent {
       confirmPasswordInfo: {
         hasFeedback: true,
         validateStatus: 'default',
-        help: ''
-      }
+        help: '',
+      },
     }
   }
 
@@ -55,7 +55,7 @@ export default class SecurityFormConfirm extends PureComponent {
           <Col span={24} style={{ marginTop: 30 }}>
             <FormItem label={i18n.confirmPwdLabel} {...confirmPasswordInfo}>
               {getFieldDecorator('password', {
-                initialValue: ''
+                initialValue: '',
               })(
                 <Input.Password
                   size="large"
@@ -98,8 +98,8 @@ export default class SecurityFormConfirm extends PureComponent {
           confirmPasswordInfo: {
             ...this.state.confirmPasswordInfo,
             validateStatus: 'error',
-            help: i18n.confirmPwdError
-          }
+            help: i18n.confirmPwdError,
+          },
         })
       }
     } catch (error) {

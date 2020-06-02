@@ -5,14 +5,14 @@ import { translate } from 'hoc/create-lang'
 import DisconnectionImage from './disconnection.jpg'
 
 const i18n = {
-  tryAgain: translate('actions.tryAgain')
+  tryAgain: translate('actions.tryAgain'),
 }
 
 export default class Disconnection extends React.Component {
   static propTypes = {
     messages: PropTypes.string.isRequired,
     onClickTryAgain: PropTypes.func,
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
   }
 
   render() {

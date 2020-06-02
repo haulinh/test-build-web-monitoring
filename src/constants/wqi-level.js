@@ -5,7 +5,7 @@ export default [
     level: '91 - 100',
     status: 'Loại I',
     description: 'Sử dụng tốt cho mục đích cấp nước sinh hoạt',
-    color: '#2E2EFE'
+    color: '#2E2EFE',
   },
   {
     min: 76,
@@ -14,7 +14,7 @@ export default [
     status: 'Loại II',
     description:
       'Sử dụng cho mục đích cấp nước sinh hoạt nhưng cần các biện pháp xử lý phù hợp',
-    color: '#00A065'
+    color: '#00A065',
   },
   {
     min: 51,
@@ -23,7 +23,7 @@ export default [
     status: 'Loại III',
     description:
       'Sử dụng cho mục đích tưới tiêu và các mục đích tương đương khác',
-    color: '#FFEB3B'
+    color: '#FFEB3B',
   },
   {
     min: 26,
@@ -31,7 +31,7 @@ export default [
     level: '26 – 50',
     status: 'Loại IV',
     description: 'Sử dụng cho giao thông thủy và các mục đích tương đương khác',
-    color: '#FF9400'
+    color: '#FF9400',
   },
   {
     min: 0,
@@ -39,6 +39,6 @@ export default [
     level: '0 – 25',
     status: 'Loại V',
     description: 'Nước ô nhiễm nặng, cần các biện pháp xử lý trong tương lai',
-    color: '#F44336'
-  }
+    color: '#F44336',
+  },
 ]

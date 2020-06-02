@@ -14,7 +14,7 @@ import {
   Legend,
   XAxis,
   YAxis,
-  LineSeries
+  LineSeries,
 } from 'react-jsx-highstock'
 import Highcharts from 'highcharts/highstock'
 import moment from 'moment-timezone'
@@ -29,7 +29,7 @@ class DataSearch extends React.PureComponent {
     onSubmit: PropTypes.func,
     initialValues: PropTypes.object,
     onChangeSearch: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   state = {
@@ -39,7 +39,7 @@ class DataSearch extends React.PureComponent {
     station: {},
     fromDate: '',
     toDate: '',
-    formatDate: 'YYYY-MM-DD HH:mm'
+    formatDate: 'YYYY-MM-DD HH:mm',
   }
 
   async componentWillMount() {
@@ -108,7 +108,7 @@ class DataSearch extends React.PureComponent {
           key: rec.key,
           name: rec.name,
           unit: rec.unit,
-          data: []
+          data: [],
         }
       })
     if (dataSource && dataSource.data) {
@@ -118,7 +118,7 @@ class DataSearch extends React.PureComponent {
             if (!dataLines[k].data) dataLines[k].data = []
             dataLines[k].data.push([
               new Date(rec.receivedAt).getTime(),
-              rec.measuringLogs[k].value
+              rec.measuringLogs[k].value,
             ])
           }
       })
@@ -170,21 +170,21 @@ class DataSearch extends React.PureComponent {
           <Col span={5} key="stationAuto">
             <FormItem label={t('onlineMonitoring.form.stationAuto.label')}>
               {getFieldDecorator(`stationAuto`, {
-                initialValue: this.props.initialValues.stationKey
+                initialValue: this.props.initialValues.stationKey,
               })(<Select showSearch>{this.state.stationAutoSelects}</Select>)}
             </FormItem>
           </Col>
           <Col span={4} key="fromDate">
             <FormItem label={t('onlineMonitoring.form.fromDate.label')}>
               {getFieldDecorator(`fromDate`, {
-                initialValue: moment(this.state.fromDate, 'YYYY/MM/DD HH:mm')
+                initialValue: moment(this.state.fromDate, 'YYYY/MM/DD HH:mm'),
               })(<DatePicker format={'YYYY/MM/DD HH:mm'} />)}
             </FormItem>
           </Col>
           <Col span={4} key="toDate">
             <FormItem label={t('onlineMonitoring.form.toDate.label')}>
               {getFieldDecorator(`toDate`, {
-                initialValue: moment(this.state.toDate, 'YYYY/MM/DD HH:mm')
+                initialValue: moment(this.state.toDate, 'YYYY/MM/DD HH:mm'),
               })(<DatePicker format={'YYYY/MM/DD HH:mm'} />)}
             </FormItem>
           </Col>

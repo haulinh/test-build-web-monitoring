@@ -14,26 +14,26 @@ export default class CameraItem extends React.PureComponent {
   static propTypes = {
     name: PropTypes.string,
     rtspUrl: PropTypes.string,
-    index: PropTypes.number
+    index: PropTypes.number,
   }
 
   state = {
     width: 0,
-    height: 0
+    height: 0,
   }
 
   componentDidMount() {
     const offsetWidth = this.cameraRef.offsetWidth - 2
     this.setState({
       width: offsetWidth,
-      height: offsetWidth * RATIO_CAMERA
+      height: offsetWidth * RATIO_CAMERA,
     })
   }
 
   getIframeProps() {
     return {
       width: this.state.width + 'px',
-      height: this.state.height + 'px'
+      height: this.state.height + 'px',
     }
   }
 

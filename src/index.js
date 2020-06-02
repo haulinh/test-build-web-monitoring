@@ -27,7 +27,7 @@ const getStoreDefault = () => {
 }
 
 const store = configureStore(getStoreDefault(), {
-  routerHistory: createBrowserHistory
+  routerHistory: createBrowserHistory,
 })
 
 getFetch('/app.json').then(dataConfig => {

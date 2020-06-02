@@ -16,30 +16,30 @@ const i18n = {
     'page.config.color.table.column.backgroundColor'
   ),
   columnDesc: translate('page.config.color.table.column.desc'),
-  save: translate('addon.save')
+  save: translate('addon.save'),
 }
 
 @connectAutoDispatch(
   state => ({
-    colorSensor: state.config.color.warningLevel.sensor
+    colorSensor: state.config.color.warningLevel.sensor,
   }),
   { updateWarningLevelColorSensor }
 )
 @Form.create({})
 export default class WarningLevelColorOfSensor extends React.Component {
   static propTypes = {
-    colorSensor: PropTypes.object.isRequired
+    colorSensor: PropTypes.object.isRequired,
   }
   static defaultProps = {
     colorSensor: {
-      value: []
-    }
+      value: [],
+    },
   }
 
   state = {
     isLoaded: false,
     isSubmit: false,
-    dataSource: []
+    dataSource: [],
   }
 
   render() {
@@ -78,11 +78,11 @@ export default class WarningLevelColorOfSensor extends React.Component {
             <React.Fragment>
               <Text>{text}</Text>
               {getFieldDecorator(`[${index}].name`, {
-                initialValue: text
+                initialValue: text,
               })(<Input type="hidden" />)}
             </React.Fragment>
           )
-        }
+        },
       },
       {
         title: i18n.columnTypeAlt,
@@ -90,9 +90,9 @@ export default class WarningLevelColorOfSensor extends React.Component {
         key: 'altName',
         render(text, record, index) {
           return getFieldDecorator(`[${index}].alternative`, {
-            initialValue: text
+            initialValue: text,
           })(<Input />)
-        }
+        },
       },
       {
         title: i18n.columnColor,
@@ -101,9 +101,9 @@ export default class WarningLevelColorOfSensor extends React.Component {
         align: 'center',
         render(color, record, index) {
           return getFieldDecorator(`[${index}].color`, {
-            initialValue: color
+            initialValue: color,
           })(<input type="color" />)
-        }
+        },
       },
       {
         title: i18n.columnBackgroundColor,
@@ -112,9 +112,9 @@ export default class WarningLevelColorOfSensor extends React.Component {
         align: 'center',
         render(backgroundColor, record, index) {
           return getFieldDecorator(`[${index}].backgroundColor`, {
-            initialValue: backgroundColor
+            initialValue: backgroundColor,
           })(<input type="color" />)
-        }
+        },
       },
       {
         title: i18n.columnDesc,
@@ -122,13 +122,13 @@ export default class WarningLevelColorOfSensor extends React.Component {
         key: 'description',
         render(text, record, index) {
           return getFieldDecorator(`[${index}].description`, {
-            initialValue: text
+            initialValue: text,
           })(<Input />)
-        }
+        },
       },
       {
-        title: ''
-      }
+        title: '',
+      },
     ]
   }
 

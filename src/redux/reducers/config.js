@@ -5,9 +5,9 @@ const initialState = {
   color: {
     warningLevel: {
       data: [],
-      sensor: []
-    }
-  }
+      sensor: [],
+    },
+  },
 }
 
 export default function configReducer(state = initialState, action) {
@@ -30,9 +30,9 @@ function _saveWarningLevelConfig(state, value) {
     color: {
       warningLevel: {
         data: { $set: colorData },
-        sensor: { $set: colorSensor }
-      }
-    }
+        sensor: { $set: colorSensor },
+      },
+    },
   })
 }
 
@@ -41,10 +41,10 @@ function _updateWarningLevelColorData(state, value) {
     color: {
       warningLevel: {
         data: {
-          $set: { value }
-        }
-      }
-    }
+          $set: { value },
+        },
+      },
+    },
   })
 }
 
@@ -53,9 +53,9 @@ function _updateWarningLevelColorSensor(state, value) {
     color: {
       warningLevel: {
         sensor: {
-          value: { $set: value }
-        }
-      }
-    }
+          value: { $set: value },
+        },
+      },
+    },
   })
 }

@@ -10,41 +10,41 @@ export default {
     config: '/control-station/config/:key/:name',
     configWithKey: '/control-station/config',
     history: '/control-station/history/:key/:name',
-    historyWithKey: '/control-station/history'
+    historyWithKey: '/control-station/history',
   },
   measuring: {
     list: '/measuring',
     base: '/measuring',
     create: '/measuring/create',
     edit: '/measuring/edit/:key',
-    editWithKey: '/measuring/edit'
+    editWithKey: '/measuring/edit',
   },
   province: {
     list: '/province',
     base: '/province',
     create: '/province/create',
     edit: '/province/edit/:key',
-    editWithKey: '/province/edit'
+    editWithKey: '/province/edit',
   },
   qcvn: {
     list: '/qcvn',
     base: '/qcvn',
     create: '/qcvn/create',
     edit: '/qcvn/edit/:key',
-    editWithKey: '/qcvn/edit'
+    editWithKey: '/qcvn/edit',
   },
   ftpTransfer: {
     list: '/ftp-transfer',
     base: '/ftp-transfer',
     history: '/ftp-transfer/history/:key/:name',
-    historyWithKey: '/ftp-transfer/history'
+    historyWithKey: '/ftp-transfer/history',
   },
   stationType: {
     list: '/station-type',
     base: '/station-type',
     create: '/station-type/create',
     edit: '/station-type/edit/:key',
-    editWithKey: '/station-type/edit'
+    editWithKey: '/station-type/edit',
   },
   stationAuto: {
     list: '/station-auto',
@@ -57,19 +57,19 @@ export default {
       ftp: '/station-auto/config/connection/ftp',
       ftpWithKey: '/station-auto/config/connection/ftp/:key',
       file: '/station-auto/config/connection/file',
-      fileWithKey: '/station-auto/config/connection/file/:key'
+      fileWithKey: '/station-auto/config/connection/file/:key',
     },
     configSendNotification: {
-      base: '/station-auto/config/notification'
+      base: '/station-auto/config/notification',
     },
     configSampling: {
-      base: '/station-auto/config/sampling'
+      base: '/station-auto/config/sampling',
     },
     configColor: {
-      base: '/station-auto/config/color'
+      base: '/station-auto/config/color',
     },
     configCamera: {
-      base: '/station-auto/config/camera'
+      base: '/station-auto/config/camera',
     },
     range: '/station-auto/range/:key',
     configWithKey: '/station-auto/config',
@@ -77,53 +77,53 @@ export default {
     ftpInfo: '/station-auto/ftpInfo/:key',
     ftpInfoWithKey: '/station-auto/ftpInfo',
     ftpFile: '/station-auto/ftpFile/:key',
-    ftpFileWithKey: '/station-auto/ftpFile'
+    ftpFileWithKey: '/station-auto/ftpFile',
   },
   stationFixed: {
     list: '/station-fixed',
     base: '/station-fixed',
     create: '/station-fixed/create',
     edit: '/station-fixed/edit/:key',
-    editWithKey: '/station-fixed/edit'
+    editWithKey: '/station-fixed/edit',
   },
   configWQI: {
     list: '/config-wqi',
-    base: '/config-wqi'
+    base: '/config-wqi',
   },
   onlineMonitoring: {
-    base: '/online-monitoring'
+    base: '/online-monitoring',
   },
   monitoring: {
     base: '/monitoring',
     viewCamera: '/monitoring/camera/:key',
-    viewCameraWithKey: '/monitoring/camera'
+    viewCameraWithKey: '/monitoring/camera',
   },
   monitoringList: {
-    base: '/monitoringList'
+    base: '/monitoringList',
   },
   cameraControl: {
     base: '/cameraControl',
     detail: '/cameraControl/detail/:key/:name',
-    detailWithKey: '/cameraControl/detail'
+    detailWithKey: '/cameraControl/detail',
   },
   map: {
     base: '/map',
-    aqi: '/map/aqi'
+    aqi: '/map/aqi',
   },
   dataSearch: {
-    base: '/data-search'
+    base: '/data-search',
   },
   avgSearch: {
-    base: '/avg-search'
+    base: '/avg-search',
   },
   dataSearchFixed: {
-    base: '/fixed-data-search'
+    base: '/fixed-data-search',
   },
   password: {
     emailConfirm: '/password/email-confirm',
     codeConfirm: '/password/code-confirm/:key',
     codeConfirmWithKey: '/password/code-confirm',
-    resetPassword: '/password/reset-password'
+    resetPassword: '/password/reset-password',
   },
   user: {
     list: '/user',
@@ -138,49 +138,49 @@ export default {
     profile: '/user/profile',
     security: '/user/security',
     rule: '/user/rule',
-    accountActive: '/account/activate/:key'
+    accountActive: '/account/activate/:key',
   },
   role: {
     list: '/role',
     base: '/role',
     create: '/role/create',
     edit: '/role/edit/:_id',
-    editWithKey: '/role/edit'
+    editWithKey: '/role/edit',
   },
   camera: {
     base: '/camera',
     camera: '/camera/:key',
-    cameraWithKey: '/camera'
+    cameraWithKey: '/camera',
   },
   subscription: {
-    base: '/subscription'
+    base: '/subscription',
   },
   support: {
     base: '/support',
-    create: '/support/create'
+    create: '/support/create',
   },
   aqi: {
     base: '/aqi',
-    config: '/aqi-config'
+    config: '/aqi-config',
   },
   wqi: {
     base: '/wqi',
-    config: '/wqi-config'
+    config: '/wqi-config',
   },
   qaqc: {
     base: '/qaqc',
     list: '/qaqc',
     config: '/qaqc-config',
-    configNew: '/qaqc-configNew'
+    configNew: '/qaqc-configNew',
   },
   statistic: {
     exceeded: '/exceeded-statistic',
     perRecData: '/per-rec-data-statistic',
     aqi: '/statistic-aqi',
-    wqi: '/statistic-wqi'
+    wqi: '/statistic-wqi',
   },
   mapFixed: {
-    base: '/fixed-map'
+    base: '/fixed-map',
   },
   report: {
     base: '/report',
@@ -199,11 +199,14 @@ export default {
     aqi_hour: '/report/aqi-hour',
     aqi_day: '/report/aqi-day',
     aqi_878: '/report/aqi-878',
-    status_data: '/report/status-data'
+    status_data: '/report/status-data',
   },
   dataLogger: {
     base: '/log',
-    list: '/log'
+    list: '/log',
+  },
+  apps: {
+    incidents: '/apps/incidents'
   }
 }
 
@@ -214,7 +217,7 @@ export const MENU_GROUP = {
   SHARE_DATA: 'shareData',
   REPORT: 'report',
   ADVANCE: 'advance',
-  CONFIG: 'config'
+  CONFIG: 'config',
 }
 
 export const parentMenuFromSub = {
@@ -243,7 +246,7 @@ export const parentMenuFromSub = {
   '/qcvn': MENU_GROUP.CONFIG,
   '/role': MENU_GROUP.CONFIG,
   '/user': MENU_GROUP.CONFIG,
-  '/report': MENU_GROUP.REPORT
+  '/report': MENU_GROUP.REPORT,
 }
 
 export const MENU_NAME = {
@@ -257,22 +260,22 @@ export const MENU_NAME = {
     camera: translate('menuApp.monitoring.camera'),
     historyData: translate('menuApp.monitoring.historyData'),
     avgData: translate('menuApp.monitoring.avgData'),
-    report: translate('menuApp.monitoring.report')
+    report: translate('menuApp.monitoring.report'),
   },
   monitoringList: {
-    base: translate('menuApp.monitoringList.base')
+    base: translate('menuApp.monitoringList.base'),
   },
 
   processDataSub: translate('menuApp.processDataSub'),
   processData: {
     approveData: translate('menuApp.processData.approveData'),
-    configNew: translate('menuApp.processData.config')
+    configNew: translate('menuApp.processData.config'),
   },
 
   shareDataSub: translate('menuApp.shareDataSub'),
   shareData: {
     shareConfig: translate('menuApp.shareData.shareConfig'),
-    ftpConfig: translate('menuApp.shareData.ftpConfig')
+    ftpConfig: translate('menuApp.shareData.ftpConfig'),
   },
 
   reportSub: translate('menuApp.reportSub'),
@@ -292,7 +295,7 @@ export const MENU_NAME = {
     aqi_hour: translate('menuApp.report.aqiHour'),
     aqi_day: translate('menuApp.report.aqiDay'),
     aqi_878: translate('menuApp.report.aqi878'),
-    status_data: translate('menuApp.report.status_data')
+    status_data: translate('menuApp.report.status_data'),
   },
 
   advanceSub: translate('menuApp.advanceSub'),
@@ -301,7 +304,7 @@ export const MENU_NAME = {
     aqiStatistic: translate('menuApp.advance.aqiStatistic'),
     wqiMap: translate('menuApp.advance.wqiMap'),
     wqiStatistic: translate('menuApp.advance.wqiStatistic'),
-    config: translate('menuApp.advance.config')
+    config: translate('menuApp.advance.config'),
   },
 
   configSub: translate('menuApp.configSub'),
@@ -320,6 +323,6 @@ export const MENU_NAME = {
     standard: translate('menuApp.config.standard'),
     role: translate('menuApp.config.role'),
     user: translate('menuApp.config.user'),
-    dataLogger: translate('menuApp.config.dataLogger')
-  }
+    dataLogger: translate('menuApp.config.dataLogger'),
+  },
 }

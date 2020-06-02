@@ -19,5 +19,5 @@ export default function InputLabel({ label, ...props }) {
 }
 
 InputLabel.propTypes = {
-  ...Input.propTypes
+  ...Input.propTypes,
 }

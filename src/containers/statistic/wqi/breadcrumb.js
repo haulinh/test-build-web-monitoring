@@ -8,6 +8,6 @@ export default createBreadcrumb({
     name: translate('statistic.wqi.breadCrumb'),
     id: 'wqi',
     icon: '',
-    href: slug.statistic.wqi
-  }
+    href: slug.statistic.wqi,
+  },
 })

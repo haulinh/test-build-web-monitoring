@@ -8,7 +8,7 @@ const method = 'GET'
 
 function getInfo() {
   const instance = axios.create({
-    baseURL: getConfigApi().camera.host
+    baseURL: getConfigApi().camera.host,
   })
   // console.log('getInfo', instance, getConfigApi())
   const username = getConfigApi().camera.username
@@ -16,7 +16,7 @@ function getInfo() {
   return {
     instance,
     username,
-    password
+    password,
   }
 }
 
@@ -66,5 +66,5 @@ export async function getAuthToken() {
 }
 
 export default {
-  getAuthToken: getAuthToken
+  getAuthToken: getAuthToken,
 }

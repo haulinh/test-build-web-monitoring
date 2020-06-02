@@ -10,7 +10,7 @@ import {
   InputNumber,
   Spin,
   Row,
-  Col
+  Col,
 } from 'antd'
 import { Clearfix } from 'containers/map/map-default/components/box-analytic-list/style'
 import { getConfigWqiWeight, postConfigWqiWeight } from 'api/CategoryApi'
@@ -41,7 +41,7 @@ const i18n = {
   colGroupII: translate('wqiConfigCalculation.colGroupII'),
   colGroupIII: translate('wqiConfigCalculation.colGroupIII'),
   colGroupIV: translate('wqiConfigCalculation.colGroupIV'),
-  colGroupV: translate('wqiConfigCalculation.colGroupV')
+  colGroupV: translate('wqiConfigCalculation.colGroupV'),
 }
 
 @Form.create({})
@@ -51,7 +51,7 @@ export default class TabTrongSo extends React.Component {
     isLoaded: false,
     isSubmit: false,
     dataSource: [{}],
-    isLocked: false
+    isLocked: false,
   }
 
   columns = [
@@ -60,7 +60,7 @@ export default class TabTrongSo extends React.Component {
       dataIndex: 'name',
       key: 'name',
       align: 'center',
-      render: () => i18n.valWeightParam
+      render: () => i18n.valWeightParam,
     },
     {
       title: i18n.colGroupI,
@@ -75,9 +75,9 @@ export default class TabTrongSo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(
               <InputNumber
                 min={0}
@@ -87,7 +87,7 @@ export default class TabTrongSo extends React.Component {
             )}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colGroupII,
@@ -102,9 +102,9 @@ export default class TabTrongSo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(
               <InputNumber
                 style={{ width: '100%' }}
@@ -114,7 +114,7 @@ export default class TabTrongSo extends React.Component {
             )}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colGroupIII,
@@ -129,9 +129,9 @@ export default class TabTrongSo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(
               <InputNumber
                 style={{ width: '100%' }}
@@ -141,7 +141,7 @@ export default class TabTrongSo extends React.Component {
             )}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colGroupIV,
@@ -156,9 +156,9 @@ export default class TabTrongSo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(
               <InputNumber
                 style={{ width: '100%' }}
@@ -168,7 +168,7 @@ export default class TabTrongSo extends React.Component {
             )}
           </Form.Item>
         )
-      }
+      },
     },
     {
       title: i18n.colGroupV,
@@ -183,9 +183,9 @@ export default class TabTrongSo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required
-                }
-              ]
+                  message: i18n.required,
+                },
+              ],
             })(
               <InputNumber
                 style={{ width: '100%' }}
@@ -195,8 +195,8 @@ export default class TabTrongSo extends React.Component {
             )}
           </Form.Item>
         )
-      }
-    }
+      },
+    },
   ]
 
   submit = () => {
@@ -222,7 +222,7 @@ export default class TabTrongSo extends React.Component {
 
       this.setState(
         {
-          isLoaded: true
+          isLoaded: true,
         },
         () => {
           this.props.form.setFieldsValue(transformData)

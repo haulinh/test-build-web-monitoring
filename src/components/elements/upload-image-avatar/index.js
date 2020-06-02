@@ -21,11 +21,11 @@ const uploadButton = (
 @autobind
 export default class UpdateLoadImage extends React.PureComponent {
   static propTypes = {
-    value: PropTypes.string
+    value: PropTypes.string,
   }
 
   state = {
-    fileList: []
+    fileList: [],
   }
 
   getFileLists() {
@@ -33,8 +33,8 @@ export default class UpdateLoadImage extends React.PureComponent {
       {
         uuid: -1,
         url: this.props.value,
-        name: ''
-      }
+        name: '',
+      },
     ]
   }
 
@@ -48,10 +48,10 @@ export default class UpdateLoadImage extends React.PureComponent {
                 uid: -1,
                 url: this.props.value,
                 name: '',
-                status: 'done'
-              }
-            ]
-          }
+                status: 'done',
+              },
+            ],
+          },
         }),
         () => {
           //console.log(this.state)
@@ -65,12 +65,12 @@ export default class UpdateLoadImage extends React.PureComponent {
     if (file.status === 'error') {
       swal({
         title: translate('profileUser.imageUpload.error'),
-        type: 'error'
+        type: 'error',
       })
       newFileList = []
     }
     this.setState({
-      fileList: newFileList
+      fileList: newFileList,
     })
     if (file.status === 'done') {
       this.props.onChange(file.response.url)

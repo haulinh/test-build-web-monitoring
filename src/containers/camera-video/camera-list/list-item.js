@@ -17,7 +17,7 @@ export default class ListItemView extends React.Component {
     auth: PropTypes.string.isRequired,
     countStartCamera: PropTypes.number.isRequired,
     cbPlay: PropTypes.func.isRequired,
-    cbStop: PropTypes.func.isRequired
+    cbStop: PropTypes.func.isRequired,
   }
 
   handleCamera = e => {
@@ -32,7 +32,7 @@ export default class ListItemView extends React.Component {
       stationName,
       name,
       _id,
-      stationType: { key }
+      stationType: { key },
     } = this.props.camera
 
     return (

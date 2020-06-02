@@ -9,7 +9,7 @@ import {
   Collapse,
   Button,
   Icon,
-  message
+  message,
 } from 'antd'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
@@ -34,7 +34,7 @@ const i18n = {
   tableHeaderAllowCamera: translate('stationAutoManager.list.camera.allowView'),
   btnSave: translate('addon.save'),
   successSubmit: translate('addon.onSave.update.success'),
-  errorSubmit: translate('addon.onSave.update.error')
+  errorSubmit: translate('addon.onSave.update.error'),
 }
 
 const TableWrapper = styled(Table)`
@@ -45,10 +45,10 @@ const TableWrapper = styled(Table)`
 
 @protectRole(ROLE.CAU_HINH_CAMERA.VIEW)
 @createManagerList({
-  apiList: StationAutoApi.getStationAutos
+  apiList: StationAutoApi.getStationAutos,
 })
 @createManagerDelete({
-  apiDelete: StationAutoApi.removeStationAuto
+  apiDelete: StationAutoApi.removeStationAuto,
 })
 @Form.create()
 @autobind
@@ -58,7 +58,7 @@ export default class StationAutoConfigCamera extends React.Component {
     pagination: PropTypes.object,
     data: PropTypes.object,
     onChangeSearch: PropTypes.func,
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -70,13 +70,13 @@ export default class StationAutoConfigCamera extends React.Component {
       this._checkIndeterminate(allowedStations)
       this.setState({
         dataSourceOriginal: _.cloneDeep(nextProps.dataSource),
-        dataSource: _.cloneDeep(nextProps.dataSource)
+        dataSource: _.cloneDeep(nextProps.dataSource),
       })
     }
   }
 
   static defaultProps = {
-    dataSource: []
+    dataSource: [],
   }
 
   constructor(props) {
@@ -89,7 +89,7 @@ export default class StationAutoConfigCamera extends React.Component {
       dataSourceOriginal: [] /* index */,
 
       isCameraIndeterminate: false,
-      submitingCameraAllow: false
+      submitingCameraAllow: false,
     }
   }
 
@@ -178,17 +178,17 @@ export default class StationAutoConfigCamera extends React.Component {
           <strong>
             {record.type.name} ({record.count})
           </strong>
-        )
+        ),
       },
       {
         title: i18n.tableHeaderAddress,
-        render: (text, record, index) => <strong>{record.type.address}</strong>
+        render: (text, record, index) => <strong>{record.type.address}</strong>,
       },
       {
         title: (
           <div>
             {this.props.form.getFieldDecorator('checkall', {
-              valuePropName: 'checked'
+              valuePropName: 'checked',
             })(
               <Checkbox
                 onClick={this._handleCheckAll}
@@ -199,12 +199,12 @@ export default class StationAutoConfigCamera extends React.Component {
             )}
           </div>
         ),
-        align: 'right'
+        align: 'right',
       },
       {
         title: '',
-        align: 'right'
-      }
+        align: 'right',
+      },
     ]
   }
 
@@ -224,7 +224,7 @@ export default class StationAutoConfigCamera extends React.Component {
     let sortedDataSource = _.sortBy(dataSource, 'stationType.key')
     const _dataSource = sortedDataSource.map((item, index) => ({
       stt: index + 1,
-      ...item
+      ...item,
     }))
     const result = _dataSource.reduce((prev, current) => {
       const stationType = current.stationType
@@ -256,7 +256,7 @@ export default class StationAutoConfigCamera extends React.Component {
           {getFieldDecorator(`stations.${station._id}`, {
             initialValue: _.get(station, 'options.camera.allowed'),
             valuePropName: 'checked',
-            onChange: this._handleChangedStationCheckbox
+            onChange: this._handleChangedStationCheckbox,
           })(<Checkbox />)}
         </Col>
         <Col span={1}>
@@ -304,8 +304,8 @@ export default class StationAutoConfigCamera extends React.Component {
       submitData[station._id] = {
         camera: {
           allowed: getFieldValue(`stations.${station._id}`),
-          list: _.get(station, 'options.camera.list', [])
-        }
+          list: _.get(station, 'options.camera.list', []),
+        },
       }
     })
 

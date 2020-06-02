@@ -6,6 +6,6 @@ export default createBreadcrumb({
   base: {
     id: 'base',
     href: slug.subscription.base,
-    name: translate('subscriptionStatus.breadcrumb.base')
-  }
+    name: translate('subscriptionStatus.breadcrumb.base'),
+  },
 })

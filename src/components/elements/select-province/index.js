@@ -14,13 +14,13 @@ export default class SelectProvice extends PureComponent {
     label: PropTypes.string,
     onChange: PropTypes.func,
     value: PropTypes.object,
-    isShowAll: PropTypes.bool
+    isShowAll: PropTypes.bool,
   }
 
   state = {
     lstProvices: [],
     value: '',
-    searchString: ''
+    searchString: '',
   }
 
   async componentDidMount() {
@@ -29,7 +29,7 @@ export default class SelectProvice extends PureComponent {
     if (get(result, 'success', false)) {
       this.setState({
         lstProvices: get(result, 'data', []),
-        value: get(this.props.value, 'key', '')
+        value: get(this.props.value, 'key', ''),
       })
     }
   }
@@ -42,7 +42,7 @@ export default class SelectProvice extends PureComponent {
     console.log(value)
     let res = this.state.lstProvices.find(item => item.key === value)
     this.setState({
-      value: value
+      value: value,
     })
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
     if (this.props.onChange) this.props.onChange(value)

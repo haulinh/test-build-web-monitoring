@@ -16,20 +16,20 @@ export default class StatusModalView extends React.Component {
       formatter: function() {
         if (this.y === 0) return ''
         return `${this.y}`
-      }
+      },
     }
 
     const seriesReceived = {
       name: translate('dashboard.chartRatio.received'),
       data: [],
       color: COLOR.GOOD,
-      dataLabels
+      dataLabels,
     }
     const seriesNotReceived = {
       name: translate('dashboard.chartRatio.notReceived'),
       data: [],
       color: COLOR.DATA_LOSS,
-      dataLabels
+      dataLabels,
     }
     let categories = []
 
@@ -44,13 +44,13 @@ export default class StatusModalView extends React.Component {
 
     return {
       chart: {
-        type: 'column'
+        type: 'column',
       },
       title: {
-        text: translate('dashboard.chartRatio.title')
+        text: translate('dashboard.chartRatio.title'),
       },
       xAxis: {
-        categories
+        categories,
       },
       yAxis: {
         min: 0,
@@ -60,32 +60,32 @@ export default class StatusModalView extends React.Component {
           align: 'high',
           offset: 0,
           rotation: 0,
-          y: -10
+          y: -10,
         },
         lineWidth: 1,
         lineColor: '#ccc',
         stackLabels: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
       credits: {
-        enabled: false
+        enabled: false,
       },
       tooltip: {
-        pointFormat: '{series.name}: {point.y}%'
+        pointFormat: '{series.name}: {point.y}%',
       },
       plotOptions: {
         column: {
           stacking: 'normal',
           dataLabels: {
-            enabled: true
+            enabled: true,
             //color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
           },
           pointPadding: 0,
-          borderWidth: 0
-        }
+          borderWidth: 0,
+        },
       },
-      series: [seriesNotReceived, seriesReceived]
+      series: [seriesNotReceived, seriesReceived],
     }
   }
 

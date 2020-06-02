@@ -35,7 +35,7 @@ const View = styled.div`
 export default function LoaderCircle({
   size = 25,
   color = SHAPE.PRIMARY,
-  isCenter
+  isCenter,
 }) {
   return (
     <View size={size} color={color} isCenter={isCenter}>
@@ -46,5 +46,5 @@ export default function LoaderCircle({
 LoaderCircle.propTypes = {
   size: PropTypes.number,
   color: PropTypes.string,
-  isCenter: PropTypes.bool
+  isCenter: PropTypes.bool,
 }

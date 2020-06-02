@@ -53,15 +53,23 @@ export function getConfigApi() {
     aqi_v1: c('aqi-v1'),
     // aqi_v1: 'http://localhost:5015/aqi-v1',
     wqi: c('wqi'),
+    // wqi: 'http://localhost:5017/wqi',
     notify: c('notify'),
     sampleConfig: c('configSample'),
     camera: config.camera,
     firebase: config.firebase,
     isAdvanced: config.isAdvanced,
-    defaultPage: config.defaultPage
+    defaultPage: config.defaultPage,
+  }
+}
+
+export function getApps() {
+  const config = window.config
+  return {
+    incidents: config.apps.incidents,
   }
 }
 
 export const GOOGLE_MAP = {
-  KEY: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4'
+  KEY: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4',
 }

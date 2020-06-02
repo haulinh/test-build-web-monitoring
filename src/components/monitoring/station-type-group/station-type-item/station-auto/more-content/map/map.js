@@ -19,14 +19,14 @@ class CustomGoogleMap extends PureComponent {
   static propTypes = {
     defaultCenter: PropTypes.shape({
       lat: PropTypes.number.isRequired,
-      lng: PropTypes.number.isRequired
+      lng: PropTypes.number.isRequired,
     }),
     defaultZoom: PropTypes.number.isRequired,
-    stationMap: PropTypes.array
+    stationMap: PropTypes.array,
   }
 
   state = {
-    zoom: null
+    zoom: null,
   }
 
   calculateString = value => {
@@ -59,14 +59,14 @@ class CustomGoogleMap extends PureComponent {
                 fontSize: '14px',
                 fontFamily: 'Roboto, Arial, sans-serif',
                 background: '#6AA84F',
-                padding: '0px 4px'
+                padding: '0px 4px',
               }
               let item_icon = '/images/marker-icon/station-normal.png'
               if (item.focusStaion) {
                 styleLable = {
                   ...styleLable,
                   color: 'white',
-                  fontWeight: '600'
+                  fontWeight: '600',
                 }
                 item_icon = '/images/marker-icon/station-select-1.png'
               }
@@ -96,12 +96,12 @@ const defaultCenter = { lat: 10.7607494, lng: 106.6954122 }
 const defaultZoom = 19
 
 @connect(state => ({
-  lang: state.language.locale
+  lang: state.language.locale,
 }))
 export default class MonitoringMapView extends PureComponent {
   static propTypes = {
     stationMap: PropTypes.array,
-    stationFocus: PropTypes.object
+    stationFocus: PropTypes.object,
   }
   state = {}
 

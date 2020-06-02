@@ -13,7 +13,7 @@ export default class TableDataList extends React.PureComponent {
       key: 'Index',
       render(value, record, index) {
         return <div>{index + 1}</div>
-      }
+      },
     }
 
     const columnTime = {
@@ -23,7 +23,7 @@ export default class TableDataList extends React.PureComponent {
       sorter: (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime(),
       render(value) {
         return <div>{moment(value).format('DD-MM-YYYY HH:mm')}</div>
-      }
+      },
     }
     const columnReceivedAt = {
       title: translate('dataSearchFrom.table.receivedAt'),
@@ -31,7 +31,7 @@ export default class TableDataList extends React.PureComponent {
       key: 'createdAt',
       render(value) {
         return <div>{moment(value).format('DD-MM-YYYY HH:mm')}</div>
-      }
+      },
     }
 
     const columnPath = {
@@ -40,7 +40,7 @@ export default class TableDataList extends React.PureComponent {
       key: 'fileName',
       render(value) {
         return <div>{value}</div>
-      }
+      },
     }
 
     const columnIsTranfer = {
@@ -68,14 +68,14 @@ export default class TableDataList extends React.PureComponent {
                   theme="outlined"
                   style={{
                     paddingLeft: '15px',
-                    color: `${value ? 'blue' : 'red'}`
+                    color: `${value ? 'blue' : 'red'}`,
                   }}
                 />{' '}
               </span>
             </div>
           </Tooltip>
         )
-      }
+      },
     }
 
     return [
@@ -83,7 +83,7 @@ export default class TableDataList extends React.PureComponent {
       columnReceivedAt,
       columnTime,
       columnPath,
-      columnIsTranfer
+      columnIsTranfer,
     ]
   }
 
@@ -96,7 +96,7 @@ export default class TableDataList extends React.PureComponent {
           columns={this.getColumns()}
           {...this.props}
           pagination={{
-            pageSize: 15
+            pageSize: 15,
           }}
           locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}
         />

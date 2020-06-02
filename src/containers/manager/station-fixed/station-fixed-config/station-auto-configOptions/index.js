@@ -8,7 +8,7 @@ import {
   Table,
   Checkbox,
   Popconfirm,
-  Icon
+  Icon,
 } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
@@ -18,7 +18,7 @@ import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 const FormItem = Form.Item
 
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -28,21 +28,21 @@ export default class StationAutoForm extends React.PureComponent {
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
     lang: langPropTypes,
-    measuringListSource: PropTypes.array
+    measuringListSource: PropTypes.array,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       cameraList: [{ key: 0 }],
-      count: 0
+      count: 0,
     }
     const { t } = this.props.lang
     const { getFieldDecorator } = this.props.form
     const styleFormItem = {
       style: {
-        marginBottom: 0
-      }
+        marginBottom: 0,
+      },
     }
     this.columns = [
       {
@@ -55,14 +55,14 @@ export default class StationAutoForm extends React.PureComponent {
               rules: [
                 {
                   required: true,
-                  message: t('stationAutoManager.form.name.error')
-                }
-              ]
+                  message: t('stationAutoManager.form.name.error'),
+                },
+              ],
             })(
               <Input placeholder={t('stationAutoManager.options.name.label')} />
             )}
           </FormItem>
-        )
+        ),
       },
       {
         dataIndex: 'rtspUrl',
@@ -74,14 +74,14 @@ export default class StationAutoForm extends React.PureComponent {
               rules: [
                 {
                   required: true,
-                  message: t('stationAutoManager.options.RTSP.error')
-                }
-              ]
+                  message: t('stationAutoManager.options.RTSP.error'),
+                },
+              ],
             })(
               <Input placeholder={t('stationAutoManager.options.RTSP.label')} />
             )}
           </FormItem>
-        )
+        ),
       },
       {
         dataIndex: 'key',
@@ -106,8 +106,8 @@ export default class StationAutoForm extends React.PureComponent {
               )}
             </div>
           )
-        }
-      }
+        },
+      },
     ]
   }
 
@@ -118,7 +118,7 @@ export default class StationAutoForm extends React.PureComponent {
     this.state.cameraList.splice(index, 1)
 
     this.props.form.setFieldsValue({
-      list: this.state.cameraList
+      list: this.state.cameraList,
     })
     this.state.cameraList = this.state.cameraList.map((item, index) => {
       item.key = index
@@ -138,7 +138,7 @@ export default class StationAutoForm extends React.PureComponent {
           item.key = this.state.count++
           return item
         }),
-        count: this.state.count
+        count: this.state.count,
       })
   }
 
@@ -148,16 +148,16 @@ export default class StationAutoForm extends React.PureComponent {
       if (err) return
       const data = {
         warning: {
-          allowed: values.allowSendWarning ? values.allowSendWarning : false
+          allowed: values.allowSendWarning ? values.allowSendWarning : false,
         },
         sampling: {
           allowed: values.allowSendWarning ? values.allowSendWarning : false,
-          apiAddress: values.apiAddress
+          apiAddress: values.apiAddress,
         },
         camera: {
           allowed: values.allowCamera ? values.allowCamera : false,
-          list: values.list ? values.list : []
-        }
+          list: values.list ? values.list : [],
+        },
       }
       if (!data.sampling.allowed) delete data.sampling.apiAddress
       if (!data.camera.allowed) delete data.camera.list
@@ -170,8 +170,8 @@ export default class StationAutoForm extends React.PureComponent {
     this.setState({
       cameraList: [
         ...this.state.cameraList,
-        { key: this.state.cameraList.length }
-      ]
+        { key: this.state.cameraList.length },
+      ],
     })
   }
 
@@ -185,33 +185,33 @@ export default class StationAutoForm extends React.PureComponent {
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 }
+        sm: { span: 8 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 }
+        sm: { span: 16 },
       },
       style: {
         //marginBottom: '2px'
-      }
+      },
     }
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
           span: 24,
-          offset: 0
+          offset: 0,
         },
         sm: {
           span: 16,
-          offset: 4
-        }
-      }
+          offset: 4,
+        },
+      },
     }
 
     const styleFormItem = {
       style: {
-        marginBottom: 0
-      }
+        marginBottom: 0,
+      },
     }
 
     const { t } = this.props.lang
@@ -224,7 +224,7 @@ export default class StationAutoForm extends React.PureComponent {
                 valuePropName: 'checked',
                 initialValue: this.props.initialValues.warning
                   ? this.props.initialValues.warning.allowed
-                  : false
+                  : false,
               })(
                 <Checkbox>
                   {t('stationAutoManager.options.allowSendWarning.label')}
@@ -240,7 +240,7 @@ export default class StationAutoForm extends React.PureComponent {
                 valuePropName: 'checked',
                 initialValue: this.props.initialValues.sampling
                   ? this.props.initialValues.sampling.allowed
-                  : false
+                  : false,
               })(
                 <Checkbox>
                   {t('stationAutoManager.options.allowSampling.label')}
@@ -257,7 +257,7 @@ export default class StationAutoForm extends React.PureComponent {
                 {getFieldDecorator('apiAddress', {
                   initialValue: this.props.initialValues.sampling
                     ? this.props.initialValues.sampling.apiAddress
-                    : ''
+                    : '',
                 })(
                   <Input
                     placeholder={t(
@@ -277,7 +277,7 @@ export default class StationAutoForm extends React.PureComponent {
                 valuePropName: 'checked',
                 initialValue: this.props.initialValues.camera
                   ? this.props.initialValues.camera.allowed
-                  : false
+                  : false,
               })(
                 <Checkbox>
                   {t('stationAutoManager.options.allowCamera.label')}
@@ -309,7 +309,7 @@ export default class StationAutoForm extends React.PureComponent {
                     columns={this.columns}
                     pagination={{
                       pageSize: 1000,
-                      hideOnSinglePage: true
+                      hideOnSinglePage: true,
                     }}
                   />
                 </FormItem>

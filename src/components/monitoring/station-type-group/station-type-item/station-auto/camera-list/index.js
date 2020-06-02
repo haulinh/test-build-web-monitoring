@@ -42,7 +42,7 @@ const SpinnerContainer = styled.div`
 @autobind
 export default class CameraForm extends PureComponent {
   state = {
-    isLoaded: false
+    isLoaded: false,
   }
 
   async componentDidMount() {
@@ -51,7 +51,7 @@ export default class CameraForm extends PureComponent {
     if (!auth) {
       swal({
         title: 'Unauthorized Camera fail',
-        type: 'error'
+        type: 'error',
       })
     }
     this.setState({ auth: auth, isLoaded: true })

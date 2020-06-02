@@ -13,12 +13,12 @@ export default class SelectQCVN extends PureComponent {
     label: PropTypes.string,
     onChange: PropTypes.func,
     value: PropTypes.object,
-    isShowAll: PropTypes.bool
+    isShowAll: PropTypes.bool,
   }
 
   state = {
     lstQCVN: [],
-    value: ''
+    value: '',
   }
 
   async componentDidMount() {
@@ -27,7 +27,7 @@ export default class SelectQCVN extends PureComponent {
     if (get(result, 'success', false)) {
       this.setState({
         lstQCVN: get(result, 'data', []),
-        value: get(this.props.value, 'key', '')
+        value: get(this.props.value, 'key', ''),
       })
     }
   }
@@ -35,7 +35,7 @@ export default class SelectQCVN extends PureComponent {
   onChange = value => {
     let res = this.state.lstQCVN.find(item => item.key === value)
     this.setState({
-      value: value
+      value: value,
     })
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
     if (this.props.onChange) this.props.onChange(value)

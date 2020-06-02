@@ -7,6 +7,6 @@ export default createBreadcrumb({
   list: {
     id: 'base',
     href: slug.monitoring.base,
-    name: translate('monitoring.title')
-  }
+    name: translate('monitoring.title'),
+  },
 })

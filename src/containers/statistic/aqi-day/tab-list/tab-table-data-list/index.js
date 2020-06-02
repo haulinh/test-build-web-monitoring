@@ -20,7 +20,7 @@ export default class TableDataList extends React.PureComponent {
   static propTypes = {
     dataAQI: PropTypes.array,
     dataSource: PropTypes.array,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
   }
 
   getColumns() {
@@ -32,8 +32,8 @@ export default class TableDataList extends React.PureComponent {
         width: 150,
         render: (text, record) => {
           return <div>{moment(record.time).format(DD_MM_YYYY)}</div>
-        }
-      }
+        },
+      },
     ]
     const arrData = _values(this.props.dataSource[0])
     _forEach(arrData, item => {
@@ -48,7 +48,7 @@ export default class TableDataList extends React.PureComponent {
                 {getFormatNumber(obj.aqiDay, 0)}
               </div>
             )
-          }
+          },
         }
         columns.push(column)
       }

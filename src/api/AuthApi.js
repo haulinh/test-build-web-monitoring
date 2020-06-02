@@ -76,5 +76,5 @@ export default {
   putResetPassword,
   updateConfigStataion,
   postSetPassword,
-  checkPassword
+  checkPassword,
 }

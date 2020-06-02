@@ -15,7 +15,7 @@ export default class TabeList extends React.PureComponent {
     listKey: PropTypes.string,
     nameChart: PropTypes.string,
     isExporting: PropTypes.bool,
-    onCreateReport: PropTypes.func
+    onCreateReport: PropTypes.func,
   }
 
   render() {

@@ -32,7 +32,7 @@ export default class OutOfRange extends React.Component {
               marginTop: 0,
               marginBottom: 0,
               marginLeft: 8,
-              marginRight: 8
+              marginRight: 8,
             }}
           >
             {this.props.getFieldDecorator(`${this.props.row.key}.minRange`, {
@@ -41,10 +41,10 @@ export default class OutOfRange extends React.Component {
                   required: true,
                   message: this.props.lang.t(
                     'stationAutoManager.options.allowApprove.error'
-                  )
-                }
+                  ),
+                },
               ],
-              initialValue: this.props.minRange
+              initialValue: this.props.minRange,
             })(
               <InputNumber
                 name="min"
@@ -64,10 +64,10 @@ export default class OutOfRange extends React.Component {
                   required: true,
                   message: this.props.lang.t(
                     'stationAutoManager.options.allowApprove.error'
-                  )
-                }
+                  ),
+                },
               ],
-              initialValue: this.props.maxRange
+              initialValue: this.props.maxRange,
             })(
               <InputNumber
                 name="max"

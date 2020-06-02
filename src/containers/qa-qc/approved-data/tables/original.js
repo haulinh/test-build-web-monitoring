@@ -24,7 +24,7 @@ export default class QAQCOriginalTable extends React.Component {
     measuringList: PropTypes.array.isRequired,
     measuringData: PropTypes.array.isRequired,
     pagination: PropTypes.object,
-    onChangePage: PropTypes.func
+    onChangePage: PropTypes.func,
   }
 
   render() {
@@ -49,13 +49,13 @@ export default class QAQCOriginalTable extends React.Component {
         title: 'STT',
         dataIndex: 'stt',
         align: 'center',
-        width: 50
+        width: 50,
       },
       {
         title: 'Received At',
         dataIndex: 'receivedAt',
-        align: 'center'
-      }
+        align: 'center',
+      },
     ]
 
     let measuringColumns = _.map(measuringList, measuringName => {
@@ -71,7 +71,7 @@ export default class QAQCOriginalTable extends React.Component {
         width: measuringInfo.key === 'pH' && 50,
         render(text) {
           return text
-        }
+        },
       }
 
       return result
@@ -85,7 +85,7 @@ export default class QAQCOriginalTable extends React.Component {
       let result = {
         _id: record._id,
         stt: recordIndex + 1,
-        receivedAt: moment(record.receivedAt).format(DD_MM_YYYY_HH_MM)
+        receivedAt: moment(record.receivedAt).format(DD_MM_YYYY_HH_MM),
       }
 
       _.forEach(this.props.measuringList, name => {

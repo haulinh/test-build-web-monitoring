@@ -103,3 +103,8 @@ li.ant-menu-item {
 .fontSize10 {
   font-size: 10px !important;
 }
+
+.infoBox{
+  width: auto !important;
+  overflow: unset !important;
+}

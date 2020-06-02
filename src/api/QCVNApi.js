@@ -37,5 +37,5 @@ export default {
   createQCVN,
   deleteQCVN,
   updateQCVN,
-  getQCVNByID
+  getQCVNByID,
 }

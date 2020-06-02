@@ -11,14 +11,14 @@ export default class SelectStationTreeView extends React.Component {
   state = {
     value: [],
     stationAutoSelects: [],
-    treeData: []
+    treeData: [],
   }
 
   async componentWillMount() {
     try {
       const response = await StationAutoApi.getStationAutos({
         page: 1,
-        itemPerPage: 10000000
+        itemPerPage: 10000000,
       })
 
       const stationTypeTamp = _.map(response.data, 'stationType')
@@ -31,14 +31,14 @@ export default class SelectStationTreeView extends React.Component {
           return {
             title: station.name,
             value: station.key,
-            key: `station_${station.key}`
+            key: `station_${station.key}`,
           }
         })
         return {
           title: stationType.name,
           value: stationType.key,
           key: `type_${stationType.key}`,
-          children: nodeChilren
+          children: nodeChilren,
         }
       })
       // console.log("treeData", treeData);
@@ -46,7 +46,7 @@ export default class SelectStationTreeView extends React.Component {
       this.setState({
         stationAutoSelects: response.data,
         isLoaded: true,
-        treeData
+        treeData,
       })
     } catch (e) {}
   }
@@ -61,7 +61,7 @@ export default class SelectStationTreeView extends React.Component {
     return (
       <TreeSelect
         dropdownPopupAlign={{
-          overflow: { adjustX: false, adjustY: false }
+          overflow: { adjustX: false, adjustY: false },
         }}
         treeData={this.state.treeData}
         value={this.state.value}
@@ -73,7 +73,7 @@ export default class SelectStationTreeView extends React.Component {
         showCheckedStrategy="SHOW_CHILD"
         searchPlaceholder="Please select"
         style={{
-          width: '100%'
+          width: '100%',
         }}
       />
     )

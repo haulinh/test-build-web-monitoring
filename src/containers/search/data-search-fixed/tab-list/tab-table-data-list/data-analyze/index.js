@@ -22,7 +22,7 @@ export default class TableDataList extends React.PureComponent {
       key: 'key',
       render(value, record, index) {
         return <div>{record.key}</div>
-      }
+      },
     }
     let column = [
       columnIndex,
@@ -37,7 +37,7 @@ export default class TableDataList extends React.PureComponent {
               : ''
           if (val) val = moment(val).format(DD_MM_YYYY_HH_MM)
           return <div>{val}</div>
-        }
+        },
       },
       {
         title: translate('dataSearchFrom.analyze.max'),
@@ -48,7 +48,7 @@ export default class TableDataList extends React.PureComponent {
             record.max.data.length > 0 ? record.max.data[0].value || '' : ''
           if (val) val = val.toFixed(2)
           return <div>{val}</div>
-        }
+        },
       },
       {
         title: translate('dataSearchFrom.analyze.minTime'),
@@ -61,7 +61,7 @@ export default class TableDataList extends React.PureComponent {
               : ''
           if (val) val = moment(val).format(DD_MM_YYYY_HH_MM)
           return <div>{val}</div>
-        }
+        },
       },
       {
         title: translate('dataSearchFrom.analyze.min'),
@@ -72,7 +72,7 @@ export default class TableDataList extends React.PureComponent {
             record.min.data.length > 0 ? record.min.data[0].value || '' : ''
           if (val) val = val.toFixed(2)
           return <div>{val}</div>
-        }
+        },
       },
       {
         title: translate('dataSearchFrom.analyze.avg'),
@@ -83,8 +83,8 @@ export default class TableDataList extends React.PureComponent {
             record.avg.data.length > 0 ? record.avg.data[0].value || '' : ''
           if (val) val = _.round(val, 2)
           return <div>{val}</div>
-        }
-      }
+        },
+      },
     ]
 
     return column

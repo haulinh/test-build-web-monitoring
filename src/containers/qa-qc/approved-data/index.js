@@ -25,7 +25,7 @@ import { connect } from 'react-redux'
 @queryFormDataBrowser(['submit'])
 @connect(state => ({
   token: get(state, 'auth.token', ''),
-  timeZone: get(state, 'auth.userInfo.organization.timeZone', null)
+  timeZone: get(state, 'auth.userInfo.organization.timeZone', null),
 }))
 @autobind
 export default class QaQcContainer extends React.Component {
@@ -40,11 +40,11 @@ export default class QaQcContainer extends React.Component {
     isExporting: false,
     pagination: {
       current: 1,
-      pageSize: 50
+      pageSize: 50,
     },
     dataUpdate: {},
     dataSelected: { checked: false, list: [] },
-    published: {}
+    published: {},
   }
 
   render() {
@@ -63,7 +63,7 @@ export default class QaQcContainer extends React.Component {
         'dataType',
         'key',
         'measuringList',
-        'stationAutoType'
+        'stationAutoType',
       ])
       // console.log(searchFormData, "searchFormData")
       let url = QAQCApi.downloadExcel(this.props.token, query)
@@ -74,7 +74,7 @@ export default class QaQcContainer extends React.Component {
         'fromDate',
         'toDate',
         'key',
-        'measuringList'
+        'measuringList',
       ])
       let res = await DataStationAutoApi.getExportData(query)
       if (res && res.success) window.location = res.data
@@ -154,14 +154,14 @@ export default class QaQcContainer extends React.Component {
         'dataType',
         'key',
         'measuringList',
-        'stationAutoType'
+        'stationAutoType',
       ])
       // console.log(searchFormData, "searchFormData")
 
       const res = await QAQCApi.fetchData(
         {
           page: pagination.current,
-          itemPerPage: pagination.pageSize
+          itemPerPage: pagination.pageSize,
         },
         query
       )
@@ -173,12 +173,12 @@ export default class QaQcContainer extends React.Component {
         'fromDate',
         'toDate',
         'key',
-        'measuringList'
+        'measuringList',
       ])
       const res = await DataStationAutoApi.getDataStationAutos(
         {
           page: pagination.current,
-          itemPerPage: pagination.pageSize
+          itemPerPage: pagination.pageSize,
         },
         query
       )
@@ -192,7 +192,7 @@ export default class QaQcContainer extends React.Component {
     if (size(dataStationAutoList) === 0) {
       swal({
         type: 'success',
-        title: translate('dataSearchFrom.table.emptyText')
+        title: translate('dataSearchFrom.table.emptyText'),
       })
     }
 
@@ -205,8 +205,8 @@ export default class QaQcContainer extends React.Component {
       searchFormData: searchFormData,
       pagination: {
         ...pagination,
-        total: get(dataStationAuto, 'pagination.totalItem', 0)
-      }
+        total: get(dataStationAuto, 'pagination.totalItem', 0),
+      },
     })
   }
 }

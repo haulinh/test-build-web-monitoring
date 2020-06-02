@@ -22,7 +22,7 @@ export default class NotficationList extends React.PureComponent {
     notifications: PropTypes.arrayOf(
       PropTypes.shape(NotificationItem.propTypes)
     ),
-    onClickNotification: PropTypes.func
+    onClickNotification: PropTypes.func,
   }
 
   render() {

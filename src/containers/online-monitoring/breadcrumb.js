@@ -7,6 +7,6 @@ export default createBreadcrumb({
     id: 'base',
     icon: '',
     href: slug.onlineMonitoring.base,
-    name: 'Online monitoring'
-  }
+    name: 'Online monitoring',
+  },
 })

@@ -10,13 +10,13 @@ import { Clearfix } from 'components/elements'
 import moment from 'moment'
 const FormItem = Form.Item
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 export default class OptionModalConfig extends React.Component {
   static propTypes = {
     transferFtpInfo: PropTypes.array,
-    _id: PropTypes.string
+    _id: PropTypes.string,
   }
   constructor(props) {
     super(props)
@@ -27,8 +27,8 @@ export default class OptionModalConfig extends React.Component {
       isLoaded: true,
       statusForm: {
         isVisibleForm: false,
-        isAdd: false
-      }
+        isAdd: false,
+      },
     }
     this.handlDelete = this.handlDelete.bind(this)
   }
@@ -37,7 +37,7 @@ export default class OptionModalConfig extends React.Component {
     this.setState({
       dataConfig: _.isArray(this.props.transferFtpInfo)
         ? this.props.transferFtpInfo
-        : []
+        : [],
     })
   }
 
@@ -52,12 +52,12 @@ export default class OptionModalConfig extends React.Component {
         if (this.state.statusForm.isAdd) {
           data = _.concat(this.state.dataConfig, {
             key: this.state.itemEdit.key,
-            ...item
+            ...item,
           })
         } else {
           const itemEdit = {
             ...this.state.itemEdit,
-            ...item
+            ...item,
           }
           data = _.map(this.state.dataConfig, itemMap => {
             if (itemMap.key === itemEdit.key) {
@@ -68,7 +68,7 @@ export default class OptionModalConfig extends React.Component {
         }
         // console.log(data, "data")
         const rs = await organizationAPI.updatetransferFtpInfo(this.props._id, {
-          transferFtpInfo: data
+          transferFtpInfo: data,
         })
         if (rs.success) {
           message.info(translate('ftpTranfer.success'))
@@ -79,8 +79,8 @@ export default class OptionModalConfig extends React.Component {
             isLoaded: true,
             statusForm: {
               isVisibleForm: false,
-              isAdd: null
-            }
+              isAdd: null,
+            },
           })
           this.props.onSaveFtpConfig()
         } else {
@@ -96,16 +96,16 @@ export default class OptionModalConfig extends React.Component {
         itemEdit: null,
         statusForm: {
           isVisibleForm: false,
-          isAdd: null
-        }
+          isAdd: null,
+        },
       },
       () => {
         this.setState({
           itemEdit: item,
           statusForm: {
             isVisibleForm: true,
-            isAdd: false
-          }
+            isAdd: false,
+          },
         })
       }
     )
@@ -122,7 +122,7 @@ export default class OptionModalConfig extends React.Component {
     // console.log(_.compact(data), "_.compact(data)")
 
     const rs = await organizationAPI.updatetransferFtpInfo(this.props._id, {
-      transferFtpInfo: _.compact(data)
+      transferFtpInfo: _.compact(data),
     })
     if (rs.success) {
       message.info(translate('ftpTranfer.success'))
@@ -131,8 +131,8 @@ export default class OptionModalConfig extends React.Component {
         dataConfig: _.compact(data),
         statusForm: {
           isVisibleForm: false,
-          isAdd: null
-        }
+          isAdd: null,
+        },
       })
     } else {
       message.info(translate('ftpTranfer.error'))
@@ -141,21 +141,21 @@ export default class OptionModalConfig extends React.Component {
 
   handleAddConfig = () => {
     this.setState({
-      isLoaded: false
+      isLoaded: false,
     })
     const item = {
       key: moment().format('YYYYMMDDHHmmss'),
       ip: '',
       port: '',
       user: '',
-      pass: ''
+      pass: '',
     }
     this.setState({
       itemEdit: item,
       statusForm: {
         isVisibleForm: true,
-        isAdd: true
-      }
+        isAdd: true,
+      },
     })
   }
 
@@ -174,9 +174,9 @@ export default class OptionModalConfig extends React.Component {
                     required: true,
                     message: translate(
                       'ftpTranfer.formInFoFTP.ipAddress.message'
-                    )
-                  }
-                ]
+                    ),
+                  },
+                ],
               })(
                 <Input
                   placeholder={translate(
@@ -193,10 +193,10 @@ export default class OptionModalConfig extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: translate('ftpTranfer.formInFoFTP.port.message')
-                  }
+                    message: translate('ftpTranfer.formInFoFTP.port.message'),
+                  },
                 ],
-                initialValue: _.get(this.state, 'itemEdit.port', '')
+                initialValue: _.get(this.state, 'itemEdit.port', ''),
               })(
                 <Input
                   placeholder={translate('ftpTranfer.formInFoFTP.port.title')}
@@ -211,10 +211,10 @@ export default class OptionModalConfig extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: translate('ftpTranfer.formInFoFTP.user.message')
-                  }
+                    message: translate('ftpTranfer.formInFoFTP.user.message'),
+                  },
                 ],
-                initialValue: _.get(this.state, 'itemEdit.user', '')
+                initialValue: _.get(this.state, 'itemEdit.user', ''),
               })(
                 <Input
                   placeholder={translate('ftpTranfer.formInFoFTP.user.title')}
@@ -229,10 +229,10 @@ export default class OptionModalConfig extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: translate('ftpTranfer.formInFoFTP.pass.message')
-                  }
+                    message: translate('ftpTranfer.formInFoFTP.pass.message'),
+                  },
                 ],
-                initialValue: _.get(this.state, 'itemEdit.pass', '')
+                initialValue: _.get(this.state, 'itemEdit.pass', ''),
               })(
                 <Input
                   placeholder={translate('ftpTranfer.formInFoFTP.pass.title')}
@@ -275,19 +275,19 @@ export default class OptionModalConfig extends React.Component {
               columns={[
                 {
                   title: 'IP',
-                  dataIndex: 'ip'
+                  dataIndex: 'ip',
                 },
                 {
                   title: 'Port',
-                  dataIndex: 'port'
+                  dataIndex: 'port',
                 },
                 {
                   title: 'User',
-                  dataIndex: 'user'
+                  dataIndex: 'user',
                 },
                 {
                   title: 'Pass',
-                  dataIndex: 'pass'
+                  dataIndex: 'pass',
                 },
                 {
                   title: 'Acction',
@@ -310,8 +310,8 @@ export default class OptionModalConfig extends React.Component {
                         </Popconfirm>
                       </div>
                     )
-                  }
-                }
+                  },
+                },
               ]}
             />
           )}

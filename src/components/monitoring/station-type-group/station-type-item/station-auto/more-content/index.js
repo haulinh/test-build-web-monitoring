@@ -22,11 +22,11 @@ const MoreContentWrapper = styled.div`
 
 const tabsStyle = panel => ({
   minHeight: 300,
-  borderRadius: 4
+  borderRadius: 4,
 })
 
 @connect(state => ({
-  isOpen: state.theme.navigation.isOpen
+  isOpen: state.theme.navigation.isOpen,
 }))
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
@@ -34,13 +34,13 @@ export default class SamplingMoreInfo extends React.Component {
     isActive: PropTypes.bool,
     panel: PropTypes.string,
     stationID: PropTypes.string,
-    stationInfo: PropTypes.object
+    stationInfo: PropTypes.object,
   }
 
   static defaultProps = {
     isActive: false,
     panel: '',
-    stationID: ''
+    stationID: '',
   }
 
   state = {}

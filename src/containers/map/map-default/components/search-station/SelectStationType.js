@@ -30,11 +30,11 @@ export default class SelectStationType extends PureComponent {
   static propTypes = {
     query: PropTypes.object,
     label: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   }
 
   state = {
-    stationTypes: []
+    stationTypes: [],
   }
 
   async componentDidMount() {

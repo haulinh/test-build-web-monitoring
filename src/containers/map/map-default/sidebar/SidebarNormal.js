@@ -22,13 +22,13 @@ export default class SidebarList extends React.PureComponent {
   static propTypes = {
     analytic: PropTypes.shape({
       stationsAutoList: PropTypes.array,
-      fillStatusChange: PropTypes.func
+      fillStatusChange: PropTypes.func,
     }),
     searchStation: PropTypes.shape({
       onSelectStation: PropTypes.func,
       stationSelected: PropTypes.object,
-      stationsAuto: PropTypes.array
-    })
+      stationsAuto: PropTypes.array,
+    }),
   }
 
   render() {

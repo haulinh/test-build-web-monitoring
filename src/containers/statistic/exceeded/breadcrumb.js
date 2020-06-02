@@ -7,6 +7,6 @@ export default createBreadcrumb({
     name: translate('statistic.exceededFrom.breadCrumb'),
     id: 'exceeded',
     icon: '',
-    href: slug.statistic.exceeded
-  }
+    href: slug.statistic.exceeded,
+  },
 })

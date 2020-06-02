@@ -1,6 +1,6 @@
 export const DATETIME_LABEL_FORMAT = {
   millisecond: '%H:%M',
-  second: '%H:%M'
+  second: '%H:%M',
   // minute: '%H:%M',
   // hour: '%H:%M',
   // day: '%e. %b',
@@ -17,5 +17,5 @@ export const DATETIME_TOOLTIP_FORMAT = {
   month: '%B %Y',
   second: '%A, %b %e, %H:%M',
   week: 'Week from %A, %b %e, %Y',
-  year: '%Y'
+  year: '%Y',
 }

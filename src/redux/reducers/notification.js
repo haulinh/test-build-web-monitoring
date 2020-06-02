@@ -12,7 +12,7 @@ import {
   TOGGLE_VISIBLE_NOTIFICATION_DRAWER,
   UPDATE_CURRENT_PAGE,
   RESET_ALL_COUNTS,
-  UPDATE_READ
+  UPDATE_READ,
 } from '../actions/notification'
 
 export const initialState = {
@@ -20,7 +20,7 @@ export const initialState = {
   loading: true,
   currentPage: 0,
   count: 0,
-  logs: []
+  logs: [],
 }
 
 export default function handleNotificationStore(state = initialState, action) {
@@ -56,7 +56,7 @@ export default function handleNotificationStore(state = initialState, action) {
 
 function handleResetAllCount(state) {
   return update(state, {
-    count: { $set: 0 }
+    count: { $set: 0 },
   })
 }
 
@@ -65,8 +65,8 @@ function handleResetAllCount(state) {
 function handleToggleLoading(state, payload) {
   return update(state, {
     loading: {
-      $set: payload
-    }
+      $set: payload,
+    },
   })
 }
 
@@ -74,13 +74,13 @@ function handleToggleLoading(state, payload) {
 /* DONE  */
 function handleUpdateDataSource(state, payload) {
   return update(state, {
-    logs: { $push: payload }
+    logs: { $push: payload },
   })
 }
 function handleClearDataSource(state) {
   return update(state, {
     logs: { $set: [] },
-    currentPage: { $set: 0 }
+    currentPage: { $set: 0 },
   })
 }
 
@@ -88,7 +88,7 @@ function handleClearDataSource(state) {
 /* DONE */
 function handleClearCount(cloneState) {
   return update(cloneState, {
-    count: { $set: 0 }
+    count: { $set: 0 },
   })
 }
 
@@ -102,7 +102,7 @@ function handleUpdateCount(cloneState, payload) {
 function handleUpdateAllCount(cloneState, payload) {
   console.log('payloadnoti', payload)
   return update(cloneState, {
-    count: { $set: payload }
+    count: { $set: payload },
   })
 }
 
@@ -118,13 +118,13 @@ function handleUpdateRead(state, id) {
   let indexOfId = state.logs.findIndex(item => item._id === id)
   state.logs[indexOfId].isRead = true
   return update(state, {
-    logs: { $set: state.logs }
+    logs: { $set: state.logs },
   })
 }
 
 function handleUpdateCurrentPage(state, payload = 1) {
   let currentPage = state.currentPage + payload
   return update(state, {
-    currentPage: { $set: currentPage }
+    currentPage: { $set: currentPage },
   })
 }

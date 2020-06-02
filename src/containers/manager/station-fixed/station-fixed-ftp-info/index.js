@@ -16,10 +16,10 @@ import { translate } from 'hoc/create-lang'
 import swal from 'sweetalert2'
 
 @connect(state => ({
-  organization: state.auth.userInfo.organization
+  organization: state.auth.userInfo.organization,
 }))
 @createManagerEdit({
-  apiGetByKey: StationAutoApi.getStationAuto
+  apiGetByKey: StationAutoApi.getStationAuto,
 })
 @autobind
 export default class StationAutoFtpInfo extends React.PureComponent {
@@ -34,12 +34,12 @@ export default class StationAutoFtpInfo extends React.PureComponent {
       pagination: {
         page: 1,
         pageSize: 20,
-        position: 'none'
+        position: 'none',
       },
       isFullPath: true,
       isExplorer: false,
       loadingTable: false,
-      pathSelected: [_.get(props, 'organization.ftpPath', '/')]
+      pathSelected: [_.get(props, 'organization.ftpPath', '/')],
     }
 
     this.columns = [
@@ -53,20 +53,20 @@ export default class StationAutoFtpInfo extends React.PureComponent {
               type={record.isDirectory ? 'folder' : 'file-text'}
               style={{
                 color: record.isDirectory ? '#FFE793' : '#ddd',
-                marginRight: 8
+                marginRight: 8,
               }}
               theme="filled"
             />
             <a href="javascript:;">{text}</a>
           </span>
-        )
+        ),
       },
       {
         title: translate('stationAutoManager.ftpFile.updateAt'),
         dataIndex: 'mtime',
         key: 'mtime',
-        render: mtime => <div>{moment(mtime).format(DD_MM_YYYY_HH_MM)}</div>
-      }
+        render: mtime => <div>{moment(mtime).format(DD_MM_YYYY_HH_MM)}</div>,
+      },
     ]
   }
 
@@ -86,9 +86,9 @@ export default class StationAutoFtpInfo extends React.PureComponent {
         current: 1,
         page: 1,
         total,
-        position
+        position,
       },
-      folderList: _.get(res, 'data', [])
+      folderList: _.get(res, 'data', []),
     })
     return res
   }
@@ -122,8 +122,8 @@ export default class StationAutoFtpInfo extends React.PureComponent {
       options: { ...this.props.data.options },
       configLogger: {
         ...this.props.data.configLogger,
-        path: path
-      }
+        path: path,
+      },
     }
     let res = await StationAutoApi.updateStationAutoConfig(
       _.get(this.props, 'data._id'),
@@ -138,7 +138,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
       }
       swal({
         type: 'success',
-        text: textStatus
+        text: textStatus,
       })
       const ftpInfo = await this.fetchFtpInfo(path)
       if (ftpInfo.data) {
@@ -205,7 +205,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
       this.setState({ isExplorer: true })
       this.fetchFolder({
         isFullPath: false,
-        path: _.join(this.state.pathSelected, '/')
+        path: _.join(this.state.pathSelected, '/'),
       })
     }
   }
@@ -219,10 +219,10 @@ export default class StationAutoFtpInfo extends React.PureComponent {
           this.setState({ pathSelected, loadingTable: true })
           this.fetchFolder({
             isFullPath: false,
-            path: _.join(pathSelected, '/')
+            path: _.join(pathSelected, '/'),
           })
         }
-      }
+      },
     }
   }
 
@@ -268,8 +268,8 @@ export default class StationAutoFtpInfo extends React.PureComponent {
               name:
                 this.props.isLoaded && this.props.success
                   ? this.props.data.name
-                  : null
-            }
+                  : null,
+            },
           ]}
         />
         <Spin tip="Loading..." spinning={this.state.isLoading}>
@@ -298,7 +298,7 @@ export default class StationAutoFtpInfo extends React.PureComponent {
                 columns={this.columns}
                 pagination={{
                   ...this.state.pagination,
-                  showTotal: this.showTotal
+                  showTotal: this.showTotal,
                 }}
                 onChange={this.handleChangePage}
                 loading={this.state.loadingTable}

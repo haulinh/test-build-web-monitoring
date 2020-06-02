@@ -20,7 +20,7 @@ export function fetchUserMe() {
   return async dispatch => {
     if (!getAuthToken()) {
       dispatch({
-        type: FETCH_FAIL_USER
+        type: FETCH_FAIL_USER,
       })
       return { error: true }
     }
@@ -29,16 +29,16 @@ export function fetchUserMe() {
     console.log(warningLevelColor, '----warningLevelColor---')
     if (warningLevelColor.error) {
       return dispatch({
-        type: FETCH_FAIL_USER
+        type: FETCH_FAIL_USER,
       })
     }
 
     dispatch({
       type: CONFIGS.GET_WARNING_LEVELS_COLOR,
-      payload: warningLevelColor.data
+      payload: warningLevelColor.data,
     })
     dispatch({
-      type: FETCH_PENDING_USER
+      type: FETCH_PENDING_USER,
     })
 
     const auth = await AuthApi.getMe()
@@ -49,13 +49,13 @@ export function fetchUserMe() {
     )
     if (auth.error) {
       dispatch({
-        type: FETCH_FAIL_USER
+        type: FETCH_FAIL_USER,
       })
     } else {
       dispatch({
         type: FETCH_SUCCESS_USER,
         token: getAuthToken(),
-        auth: auth.data
+        auth: auth.data,
       })
     }
     return auth
@@ -68,7 +68,7 @@ export function logout(userId) {
     AuthApi.logoutUser(userId)
   } catch (ex) {}
   return {
-    type: USER_LOGOUT
+    type: USER_LOGOUT,
   }
 }
 
@@ -79,7 +79,7 @@ export function userLogin(reqData) {
       setAuthToken(auth.token)
       dispatch({
         type: UPDATE_USER_INFO,
-        auth
+        auth,
       })
     }
     return auth
@@ -93,7 +93,7 @@ export function userLogin2Factor(reqData) {
       setAuthToken(auth.token)
       dispatch({
         type: UPDATE_USER_INFO,
-        auth
+        auth,
       })
     }
     return auth
@@ -104,7 +104,7 @@ export function setFcmToken(token) {
   return async dispatch => {
     dispatch({
       type: SET_FCM_TOKEN,
-      payload: token
+      payload: token,
     })
   }
 }
@@ -113,7 +113,7 @@ export function set2FAStatus(value) {
   return dispatch => {
     dispatch({
       type: SET_2FA_STATUS,
-      payload: value
+      payload: value,
     })
   }
 }
@@ -122,7 +122,7 @@ export function set2FAType(value) {
   return dispatch => {
     dispatch({
       type: SET_2FA_TYPE,
-      payload: value
+      payload: value,
     })
   }
 }
@@ -131,7 +131,7 @@ export function update2FA(value) {
   return dispatch => {
     dispatch({
       type: UPDATE_2FA,
-      payload: value
+      payload: value,
     })
   }
 }

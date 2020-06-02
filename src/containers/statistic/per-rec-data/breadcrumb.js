@@ -7,6 +7,6 @@ export default createBreadcrumb({
     name: translate('statistic.perRecDataFrom.breadCrumb'),
     id: 'perRecData',
     icon: '',
-    href: slug.statistic.perRecData
-  }
+    href: slug.statistic.perRecData,
+  },
 })

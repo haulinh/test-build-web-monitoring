@@ -12,7 +12,7 @@ const BoxAnalyticListWrapper = styled.div``
 @autobind
 export default class BoxAnalyticList extends React.PureComponent {
   static propTypes = {
-    fillStatusChange: PropTypes.func
+    fillStatusChange: PropTypes.func,
   }
 
   state = {
@@ -23,8 +23,8 @@ export default class BoxAnalyticList extends React.PureComponent {
     focusStatus: [
       STATUS_STATION.DATA_LOSS,
       STATUS_STATION.NOT_USE,
-      STATUS_STATION.GOOD
-    ]
+      STATUS_STATION.GOOD,
+    ],
   }
 
   async componentWillMount() {
@@ -44,7 +44,7 @@ export default class BoxAnalyticList extends React.PureComponent {
     let res = {
       dataLoss: 0,
       notUse: 0,
-      connected: 0
+      connected: 0,
     }
     stationsAutoList.forEach(element => {
       if (element.status === STATUS_STATION.DATA_LOSS) {
@@ -56,7 +56,7 @@ export default class BoxAnalyticList extends React.PureComponent {
     this.setState({
       dataLoss: res.dataLoss,
       notUse: res.notUse,
-      connected: res.connected
+      connected: res.connected,
     })
   }
 

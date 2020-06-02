@@ -8,7 +8,7 @@ import {
   Icon,
   Select,
   Upload,
-  message
+  message,
 } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
@@ -20,14 +20,14 @@ const Option = Select.Option
 
 const FormItem = Form.Item
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
 export default class SupportForm extends React.PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   constructor(props) {
@@ -36,7 +36,7 @@ export default class SupportForm extends React.PureComponent {
       isLoading: false,
       type: [],
       fileList: [],
-      isSended: false
+      isSended: false,
     }
   }
 
@@ -48,7 +48,7 @@ export default class SupportForm extends React.PureComponent {
     const res = await SupportApi.getType()
     if (res.success)
       this.setState({
-        type: res.data
+        type: res.data,
       })
   }
 
@@ -57,7 +57,7 @@ export default class SupportForm extends React.PureComponent {
     this.props.form.validateFields(async (err, values) => {
       if (err) return
       this.setState({
-        isLoading: true
+        isLoading: true,
       })
       const data = {
         type: values.type,
@@ -66,14 +66,14 @@ export default class SupportForm extends React.PureComponent {
         attachments: this.state.fileList.map(item => {
           return {
             path: item.response.file.path,
-            originalname: item.name
+            originalname: item.name,
           }
-        })
+        }),
       }
       // Callback submit form Container Component
       await this.props.onSubmit(data, this.handelSended)
       this.setState({
-        isLoading: false
+        isLoading: false,
       })
     })
   }
@@ -101,30 +101,30 @@ export default class SupportForm extends React.PureComponent {
       name: 'file',
       action: SupportApi.getUploadUrl(),
       headers: {
-        authorization: 'authorization-text'
-      }
+        authorization: 'authorization-text',
+      },
     }
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 }
+        sm: { span: 8 },
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 }
-      }
+        sm: { span: 16 },
+      },
     }
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
           span: 24,
-          offset: 0
+          offset: 0,
         },
         sm: {
           span: 16,
-          offset: 8
-        }
-      }
+          offset: 8,
+        },
+      },
     }
 
     return (
@@ -136,9 +136,9 @@ export default class SupportForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('support.form.type.error')
-                  }
-                ]
+                    message: t('support.form.type.error'),
+                  },
+                ],
               })(
                 <Select style={{ width: 120 }} disabled={this.state.isSended}>
                   {this.state.type.map(item => (
@@ -156,9 +156,9 @@ export default class SupportForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('support.form.title.error')
-                  }
-                ]
+                    message: t('support.form.title.error'),
+                  },
+                ],
               })(<Input disabled={this.state.isSended} />)}
             </FormItem>
           </Col>
@@ -173,9 +173,9 @@ export default class SupportForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('support.form.content.error')
-                  }
-                ]
+                    message: t('support.form.content.error'),
+                  },
+                ],
               })(<Input.TextArea rows={8} disabled={this.state.isSended} />)}
             </FormItem>
           </Col>

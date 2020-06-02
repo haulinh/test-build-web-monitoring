@@ -24,7 +24,7 @@ export default class QAQCValidTable extends React.Component {
     columns: PropTypes.array,
     measuringData: PropTypes.array.isRequired,
     pagination: PropTypes.object,
-    onChangePage: PropTypes.func
+    onChangePage: PropTypes.func,
   }
 
   render() {
@@ -50,13 +50,13 @@ export default class QAQCValidTable extends React.Component {
         title: 'STT',
         dataIndex: 'stt',
         align: 'center',
-        width: 50
+        width: 50,
       },
       {
         title: 'Received At',
         dataIndex: 'receivedAt',
-        align: 'center'
-      }
+        align: 'center',
+      },
     ]
 
     let measuringColumns = _.map(measuringList, measuringName => {
@@ -72,7 +72,7 @@ export default class QAQCValidTable extends React.Component {
         width: measuringInfo.key === 'pH' && 50,
         render(text) {
           return text
-        }
+        },
       }
     })
 
@@ -84,7 +84,7 @@ export default class QAQCValidTable extends React.Component {
       let result = {
         _id: record._id,
         stt: recordIndex + 1,
-        receivedAt: moment(record.receivedAt).format(DD_MM_YYYY_HH_MM)
+        receivedAt: moment(record.receivedAt).format(DD_MM_YYYY_HH_MM),
       }
 
       _.forEach(this.props.measuringList, name => {
@@ -101,7 +101,7 @@ export default class QAQCValidTable extends React.Component {
               style={{
                 textDecoration: 'line-through',
                 textDecorationColor: 'red',
-                textAlign: 'center'
+                textAlign: 'center',
               }}
             >
               {_.get(record, `measuringLogs[${name}].value`, '')}

@@ -17,13 +17,13 @@ import DynamicTable from 'components/elements/dynamic-table'
 
 @protectRole(ROLE.QCVN.VIEW)
 @createManagerList({
-  apiList: QCVNApi.getQCVN
+  apiList: QCVNApi.getQCVN,
 })
 @createManagerDelete({
-  apiDelete: QCVNApi.deleteQCVN
+  apiDelete: QCVNApi.deleteQCVN,
 })
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -38,11 +38,11 @@ export default class QCVNList extends React.Component {
     fetchData: PropTypes.func,
     onChangeSearch: PropTypes.func,
     data: PropTypes.object,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
 
   static defaultProps = {
-    dataSource: []
+    dataSource: [],
   }
 
   buttonAdd() {
@@ -66,14 +66,14 @@ export default class QCVNList extends React.Component {
       { content: '#', width: 2 },
       { content: t('qcvn.form.key.label'), width: 15 },
       { content: t('qcvn.form.name.label'), width: 15 },
-      { content: t('stationAutoManager.list.action'), width: 10 }
+      { content: t('stationAutoManager.list.action'), width: 10 },
     ]
   }
 
   getRows() {
     // console.log(this.props.dataSource)
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     return this.props.dataSource.map((row, index) => [
       {
@@ -84,13 +84,13 @@ export default class QCVNList extends React.Component {
               index +
               1}
           </strong>
-        )
+        ),
       },
       {
-        content: row.key
+        content: row.key,
       },
       {
-        content: row.name
+        content: row.name,
       },
       {
         content: (
@@ -113,8 +113,8 @@ export default class QCVNList extends React.Component {
               </a>
             )}
           </span>
-        )
-      }
+        ),
+      },
     ])
   }
 
@@ -126,7 +126,7 @@ export default class QCVNList extends React.Component {
           isFixedSize
           isLoading={this.props.isLoading}
           paginationOptions={{
-            isSticky: true
+            isSticky: true,
           }}
           head={this.getHead()}
           rows={this.getRows()}

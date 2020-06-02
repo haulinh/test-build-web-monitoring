@@ -4,7 +4,7 @@ export async function resolveMapLocation(array) {
     array = array.map(station => {
       station.mapLocation = {
         lat: parseFloat(station.mapLocation.lat),
-        lng: parseFloat(station.mapLocation.long)
+        lng: parseFloat(station.mapLocation.long),
       }
       return station
     })
@@ -16,6 +16,6 @@ export async function resolveMapLocation(array) {
 export function resolveMapLocationObject(object) {
   return {
     lat: parseFloat(object.mapLocation.lat),
-    lng: parseFloat(object.mapLocation.long)
+    lng: parseFloat(object.mapLocation.long),
   }
 }

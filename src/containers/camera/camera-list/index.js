@@ -33,7 +33,7 @@ export default class CameraForm extends PureComponent {
   state = {
     isLoaded: false,
     cameraList: [],
-    name: ''
+    name: '',
   }
 
   async componentWillMount() {
@@ -44,11 +44,11 @@ export default class CameraForm extends PureComponent {
       this.setState({
         cameraList: cameraList,
         name: res.data.name,
-        isLoaded: true
+        isLoaded: true,
       })
     } else {
       this.setState({
-        isLoaded: true
+        isLoaded: true,
       })
       message.error('something went wrong')
     }

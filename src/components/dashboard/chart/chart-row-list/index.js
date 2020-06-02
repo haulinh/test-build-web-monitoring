@@ -17,7 +17,7 @@ const ChartRowWrapper = styled.div`
 @autobind
 export default class ChartRowList extends React.Component {
   static propTypes = {
-    data: PropTypes.arrayOf(PropTypes.shape(ChartRow.propTypes))
+    data: PropTypes.arrayOf(PropTypes.shape(ChartRow.propTypes)),
   }
 
   render() {

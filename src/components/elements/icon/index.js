@@ -14,5 +14,5 @@ export default function Icon({ fontAwesome, name, size, color }) {
 }
 Icon.propTypes = {
   fontAwesome: PropTypes.bool,
-  name: PropTypes.string
+  name: PropTypes.string,
 }

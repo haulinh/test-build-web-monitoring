@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 const RoleTableListWrapper = styled.div``
 
 @connect(state => ({
-  roleList: state.auth.userInfo.organization.menu
+  roleList: state.auth.userInfo.organization.menu,
 }))
 @autobind
 export default class RoleTableList extends React.PureComponent {
@@ -23,7 +23,7 @@ export default class RoleTableList extends React.PureComponent {
     // })
     return {
       pages,
-      columns
+      columns,
     }
   }
 

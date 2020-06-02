@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { replaceVietnameseStr } from 'utils/string'
 
 @connect(state => ({
-  language: _get(state, 'language.locale')
+  language: _get(state, 'language.locale'),
 }))
 @autobind
 export default class SelectStationType extends PureComponent {
@@ -20,17 +20,17 @@ export default class SelectStationType extends PureComponent {
     value: PropTypes.string,
     isShowAll: PropTypes.bool,
     isAuto: PropTypes.bool,
-    getRef: PropTypes.func
+    getRef: PropTypes.func,
   }
 
   static defaultProps = {
-    isAuto: true
+    isAuto: true,
   }
 
   state = {
     stationTypes: [],
     value: '',
-    searchString: ''
+    searchString: '',
   }
 
   async componentDidMount() {
@@ -39,7 +39,7 @@ export default class SelectStationType extends PureComponent {
     if (stationTypes.success)
       this.setState({
         stationTypes: stationTypes.data || [],
-        value: this.props.value
+        value: this.props.value,
       })
 
     if (this.props.getRef) this.props.getRef(this)
@@ -52,7 +52,7 @@ export default class SelectStationType extends PureComponent {
   setFirstValue() {
     if (this.state.stationTypes.length > 0)
       this.setState({
-        value: this.state.stationTypes[0].key
+        value: this.state.stationTypes[0].key,
       })
   }
 

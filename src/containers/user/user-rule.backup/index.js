@@ -20,20 +20,20 @@ import UserRuleTable from './table'
 const i18n = {
   error: translate('addon.onSave.update.error'),
   submit: translate('addon.save'),
-  success: translate('addon.onSave.update.success')
+  success: translate('addon.onSave.update.success'),
 }
 
 @protectRole(ROLE.USER.ROLE)
 @connectAutoDispatch(
   state => ({
-    stationAutos: state.stationAuto.list
+    stationAutos: state.stationAuto.list,
   }),
   {}
 )
 @autobind
 export default class UserRole extends React.Component {
   static propTypes = {
-    stationAutos: PropTypes.array.isRequired
+    stationAutos: PropTypes.array.isRequired,
   }
 
   state = {
@@ -43,7 +43,7 @@ export default class UserRole extends React.Component {
     dataSourceUsers: [],
     dataSourceRoles: [],
     selectedUserID: '',
-    selectedRoleID: ''
+    selectedRoleID: '',
   }
 
   async componentDidMount() {
@@ -58,7 +58,7 @@ export default class UserRole extends React.Component {
       isGettingRoles: this.state.isGettingRoles,
       dataSourceUsers: this.state.dataSourceUsers,
       dataSourceRoles: this.state.dataSourceRoles,
-      updateDataForSubmit: this.updateDataForSubmit
+      updateDataForSubmit: this.updateDataForSubmit,
     }
 
     let _stations = _.map(this.props.stationAutos, station => {
@@ -66,7 +66,7 @@ export default class UserRole extends React.Component {
         _id: station._id,
         name: station.name,
         address: station.address,
-        options: undefined
+        options: undefined,
       }
 
       let columns = _.values(USER_RULE_TABLE_OPTIONS)
@@ -82,10 +82,10 @@ export default class UserRole extends React.Component {
       updateDataForSubmit: this.updateDataForSubmit,
       isGettingStationsAuto: this.state.isGettingStationsAuto,
       userInfo: _.find(this.state.dataSourceUsers, {
-        _id: this.state.selectedUserID
+        _id: this.state.selectedUserID,
       }),
       selectedUserID: this.state.selectedUserID,
-      selectedRoleID: this.state.selectedRoleID
+      selectedRoleID: this.state.selectedRoleID,
     }
 
     return (
@@ -102,20 +102,20 @@ export default class UserRole extends React.Component {
   componentDidCatch() {
     swal({
       title: i18n.error,
-      type: 'error'
+      type: 'error',
     })
   }
 
   updateDataForSubmit({ name, value }) {
     this.setState({
-      [name]: value
+      [name]: value,
     })
   }
 
   /* NOTE */
   async getUsers() {
     this.setState({
-      isGettingUsers: true
+      isGettingUsers: true,
     })
 
     let resUsers = await UserApi.searchUser()
@@ -126,34 +126,34 @@ export default class UserRole extends React.Component {
           manager: true,
           warning: false,
           sms: true,
-          email: false
+          email: false,
         },
         '5c628395afbc770010cbe04b': {
           manager: true,
           warning: true,
           sms: true,
-          email: true
-        }
+          email: true,
+        },
       }
     }
 
     this.setState({
       isGettingUsers: false,
-      dataSourceUsers: _.get(resUsers, 'data', [])
+      dataSourceUsers: _.get(resUsers, 'data', []),
     })
   }
 
   /* NOTE */
   async getRoles() {
     this.setState({
-      isGettingRoles: true
+      isGettingRoles: true,
     })
 
     let resRoles = await RoleApi.getRoles()
 
     this.setState({
       isGettingRoles: false,
-      dataSourceRoles: _.get(resRoles, 'data', [])
+      dataSourceRoles: _.get(resRoles, 'data', []),
     })
   }
 }

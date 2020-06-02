@@ -13,7 +13,7 @@ import moment from 'moment-timezone'
 import { MM_YYYY, DD_MM_YYYY } from 'constants/format-date.js'
 import {
   getUrlReportType10,
-  getUrlReportType10Excel
+  getUrlReportType10Excel,
 } from 'api/DataStationAutoApi'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 
@@ -26,11 +26,11 @@ const i18n = {
   header4: translate('avgSearchFrom.table.header4'),
   header5: translate('avgSearchFrom.table.header5'),
   header6: translate('avgSearchFrom.table.header6'),
-  title: translate('avgSearchFrom.table.title')
+  title: translate('avgSearchFrom.table.title'),
 }
 
 @connect(state => ({
-  timeZone: _get(state, 'auth.userInfo.organization.timeZone', null)
+  timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
 }))
 export default class ReportType10 extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ export default class ReportType10 extends React.Component {
       dataSource: [],
       dataSearch: null,
       fromMonth: '',
-      toMonth: ''
+      toMonth: '',
     }
   }
   componentDidMount() {
@@ -57,7 +57,7 @@ export default class ReportType10 extends React.Component {
         align: 'center',
         render: value => {
           return <div style={{ textAlign: 'left' }}>{value}</div>
-        }
+        },
       },
       {
         title: i18n.header6,
@@ -74,7 +74,7 @@ export default class ReportType10 extends React.Component {
                 .format(DD_MM_YYYY)}
             </div>
           )
-        }
+        },
       },
       {
         title: i18n.header2,
@@ -86,7 +86,7 @@ export default class ReportType10 extends React.Component {
               {getFormatNumber(value, 0)}
             </div>
           )
-        }
+        },
       },
       {
         title: i18n.header3,
@@ -98,7 +98,7 @@ export default class ReportType10 extends React.Component {
               {getFormatNumber(value, 0)}
             </div>
           )
-        }
+        },
       },
       {
         title: i18n.header4,
@@ -110,7 +110,7 @@ export default class ReportType10 extends React.Component {
               {getFormatNumber(value, 0)}
             </div>
           )
-        }
+        },
       },
       {
         title: i18n.header5,
@@ -123,8 +123,8 @@ export default class ReportType10 extends React.Component {
               {getFormatNumber(value, ROUND_DIGIT)}
             </div>
           )
-        }
-      }
+        },
+      },
     ]
   }
 
@@ -132,7 +132,7 @@ export default class ReportType10 extends React.Component {
     // console.log(values, "values");
     this.setState({
       isHaveData: false,
-      isLoading: true
+      isLoading: true,
     })
     const params = {
       stationType: values.stationType,
@@ -145,7 +145,7 @@ export default class ReportType10 extends React.Component {
         .utcOffset(this.props.timeZone.time)
         .endOf('day')
         .utc()
-        .format()
+        .format(),
     }
     const res = await getUrlReportType10(params)
     if (res.success) {
@@ -155,20 +155,20 @@ export default class ReportType10 extends React.Component {
         isLoading: false,
         dataSearch: params,
         fromMonth: moment(values.fromMonth).format(MM_YYYY),
-        toMonth: moment(values.toMonth).format(MM_YYYY)
+        toMonth: moment(values.toMonth).format(MM_YYYY),
       })
     }
   }
 
   hanldeExcel = async () => {
     this.setState({
-      isLoadingExcel: true
+      isLoadingExcel: true,
     })
     let res = await getUrlReportType10Excel(this.state.dataSearch)
 
     if (res.success) {
       this.setState({
-        isLoadingExcel: false
+        isLoadingExcel: false,
       })
       // console.log("getUrlReportType1", res.data);
       window.open(res.data, '_blank')
@@ -187,7 +187,7 @@ export default class ReportType10 extends React.Component {
             {' '}
             {translate('avgSearchFrom.table.description', {
               fromMonth: this.state.fromMonth,
-              toMonth: this.state.toMonth
+              toMonth: this.state.toMonth,
             })}
           </Text>
           {this.state.isHaveData && (
@@ -195,7 +195,7 @@ export default class ReportType10 extends React.Component {
               style={{
                 position: 'absolute',
                 top: '0px',
-                right: '0px'
+                right: '0px',
               }}
             >
               {protectRole(ROLE.TILE_DULIEU_THUDUOC.EXPORT)(

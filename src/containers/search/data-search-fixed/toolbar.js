@@ -15,7 +15,7 @@ const Container = styled.div`
 export default class ToolbarView extends React.Component {
   state = {
     token: null,
-    importLoading: false
+    importLoading: false,
   }
 
   async componentDidMount() {

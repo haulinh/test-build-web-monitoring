@@ -10,7 +10,7 @@ import OutOfRangeView from './OutOfRange'
 import OptionModalConfigView from './OptionModalConfig'
 
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -21,7 +21,7 @@ export default class StationAutoConfigApprove extends React.Component {
     initialValues: PropTypes.object,
     lang: langPropTypes,
     measuringListSource: PropTypes.array,
-    options: PropTypes.object
+    options: PropTypes.object,
   }
   constructor(props) {
     super(props)
@@ -31,7 +31,7 @@ export default class StationAutoConfigApprove extends React.Component {
       valueRules: _.get(this.props, 'options.approve.valueRules', {}),
       showModalConfig: false,
       key: null,
-      dataEditCalibration: {}
+      dataEditCalibration: {},
     }
   }
 
@@ -44,7 +44,7 @@ export default class StationAutoConfigApprove extends React.Component {
       this.setState({
         allowed: _.get(nextProps, 'options.approve.allowed', false),
         listRuleChange: _.get(nextProps, 'options.approve.rules', {}),
-        valueRules: _.get(this.props, 'options.approve.valueRules', {})
+        valueRules: _.get(this.props, 'options.approve.valueRules', {}),
       })
     }
   }
@@ -146,7 +146,7 @@ export default class StationAutoConfigApprove extends React.Component {
         `${keyEdit}.configCalibration`,
         {}
       ),
-      key: keyEdit
+      key: keyEdit,
     })
   }
 
@@ -160,7 +160,7 @@ export default class StationAutoConfigApprove extends React.Component {
         dataIndex: 'name',
         key: 'name',
         width: '15%',
-        render: value => value
+        render: value => value,
       },
       {
         title: this.props.lang.t(
@@ -182,7 +182,7 @@ export default class StationAutoConfigApprove extends React.Component {
                 checked={this.isItemChecked(row.key, 'ZERO')}
                 onChange={this.onChangeCheckbox}
               />
-            )
+            ),
           },
           {
             title: this.props.lang.t(
@@ -199,7 +199,7 @@ export default class StationAutoConfigApprove extends React.Component {
                 data={row}
                 onChange={this.onChangeCheckbox}
               />
-            )
+            ),
           },
           {
             title: this.props.lang.t(
@@ -223,7 +223,7 @@ export default class StationAutoConfigApprove extends React.Component {
                   getFieldDecorator={getFieldDecorator}
                 />
               )
-            }
+            },
           },
           {
             title: translate('stationAutoManager.options.calibration.title'),
@@ -260,7 +260,7 @@ export default class StationAutoConfigApprove extends React.Component {
                   )}
                 </div>
               )
-            }
+            },
           },
           {
             title: this.props.lang.t(
@@ -277,10 +277,10 @@ export default class StationAutoConfigApprove extends React.Component {
                 data={row}
                 onChange={this.onChangeCheckbox}
               />
-            )
-          }
-        ]
-      }
+            ),
+          },
+        ],
+      },
     ]
   }
 
@@ -288,7 +288,7 @@ export default class StationAutoConfigApprove extends React.Component {
     this.setState({
       showModalConfig: false,
       key: null,
-      dataEditCalibration: {}
+      dataEditCalibration: {},
     })
   }
 
@@ -305,7 +305,7 @@ export default class StationAutoConfigApprove extends React.Component {
         valueRules,
         showModalConfig: false,
         key: null,
-        dataEditCalibration: {}
+        dataEditCalibration: {},
       })
     }
   }
@@ -316,7 +316,7 @@ export default class StationAutoConfigApprove extends React.Component {
         this.props.onApproveSave({
           allowed: this.state.allowed,
           rules: this.state.listRuleChange,
-          valueRules: this.state.valueRules
+          valueRules: this.state.valueRules,
         })
       }
     })

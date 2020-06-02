@@ -10,7 +10,7 @@ import { Clearfix } from 'components/elements'
 const FormItem = Form.Item
 
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -19,7 +19,7 @@ export default class ProvinceForm extends React.PureComponent {
     onSubmit: PropTypes.func,
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
-    lang: langPropTypes
+    lang: langPropTypes,
   }
   handleSubmit(e) {
     e.preventDefault()
@@ -28,7 +28,7 @@ export default class ProvinceForm extends React.PureComponent {
       const data = {
         key: values.key,
         name: values.name,
-        numericalOrder: values.numericalOrder
+        numericalOrder: values.numericalOrder,
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
@@ -38,9 +38,9 @@ export default class ProvinceForm extends React.PureComponent {
             key: {
               value: values.key,
               errors: [
-                new Error(this.props.lang.t('province.create.keyExisted'))
-              ]
-            }
+                new Error(this.props.lang.t('province.create.keyExisted')),
+              ],
+            },
           })
         }
       }
@@ -51,11 +51,11 @@ export default class ProvinceForm extends React.PureComponent {
     const { t } = this.props.lang
     const formItemLayout = {
       labelCol: {
-        sm: { span: 6, offset: 0 }
+        sm: { span: 6, offset: 0 },
       },
       wrapperCol: {
-        sm: { span: 17, offset: 0 }
-      }
+        sm: { span: 17, offset: 0 },
+      },
     }
 
     return (
@@ -67,9 +67,9 @@ export default class ProvinceForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('province.form.key.error')
-                  }
-                ]
+                    message: t('province.form.key.error'),
+                  },
+                ],
               })(
                 <Input
                   size="large"

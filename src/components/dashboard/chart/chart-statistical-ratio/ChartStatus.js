@@ -28,8 +28,8 @@ export default class ChartStatusView extends React.PureComponent {
 
       center: ['50%', '75%'],
       events: {
-        click: function(event) {}
-      }
+        click: function(event) {},
+      },
     }
 
     let goodTotal = 0
@@ -57,16 +57,16 @@ export default class ChartStatusView extends React.PureComponent {
         plotBackgroundColor: null,
         plotBorderWidth: 0,
         plotShadow: false,
-        height: document.body.clientHeight - 340
+        height: document.body.clientHeight - 340,
       },
       title: {
-        text: '' //translate('dashboard.chartStatus.titleByUnit', { unit: title })
+        text: '', //translate('dashboard.chartStatus.titleByUnit', { unit: title })
       },
       legend: {
-        enabled: true
+        enabled: true,
       },
       tooltip: {
-        pointFormat: `<b>{point.percentage:.${ROUND_DIGIT}f}%</b>`
+        pointFormat: `<b>{point.percentage:.${ROUND_DIGIT}f}%</b>`,
       },
       plotOptions: {
         pie: {
@@ -76,14 +76,14 @@ export default class ChartStatusView extends React.PureComponent {
             style: {
               fontWeight: 'bold',
               color: 'white',
-              textOutline: false
-            }
+              textOutline: false,
+            },
           },
-          showInLegend: true
-        }
+          showInLegend: true,
+        },
       },
       credits: {
-        enabled: false
+        enabled: false,
       },
       series: [
         {
@@ -100,16 +100,16 @@ export default class ChartStatusView extends React.PureComponent {
             {
               name: translate('dashboard.chartStatus.dataLoss'),
               y: lossData,
-              color: COLOR.DATA_LOSS
+              color: COLOR.DATA_LOSS,
             },
             {
               name: titleActive,
               y: goodTotal,
-              color: COLOR.GOOD
-            }
-          ]
-        }
-      ]
+              color: COLOR.GOOD,
+            },
+          ],
+        },
+      ],
     }
   }
 
@@ -125,20 +125,20 @@ export default class ChartStatusView extends React.PureComponent {
       formatter: function() {
         if (this.y === 0) return ''
         return `${this.y} (${_.round((this.y / this.total) * 100)}%)`
-      }
+      },
     }
     // events
     const seriesDataLoss = {
       name: translate('dashboard.chartStatus.dataLoss'),
       data: [],
       color: COLOR.DATA_LOSS,
-      dataLabels
+      dataLabels,
     }
     const seriesActive = {
       name: titleActive,
       data: [],
       dataLabels,
-      color: COLOR.GOOD
+      color: COLOR.GOOD,
     }
     // const seriesUnActive = {
     //   name: tittleUnActive,
@@ -163,44 +163,44 @@ export default class ChartStatusView extends React.PureComponent {
     return {
       chart: {
         type: 'column',
-        height: document.body.clientHeight - 340
+        height: document.body.clientHeight - 340,
       },
       title: {
-        text: '' //title
+        text: '', //title
       },
       xAxis: {
-        categories
+        categories,
       },
       yAxis: {
         min: 0,
         title: {
-          text: ''
+          text: '',
         },
         lineWidth: 1,
         lineColor: '#ccc',
         labels: {
           formatter: function() {
             return `${this.value}%`
-          }
-        }
+          },
+        },
       },
       legend: {
-        reversed: true
+        reversed: true,
       },
       series: [seriesActive, seriesDataLoss],
       tooltip: {
         pointFormat:
           '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-        shared: true
+        shared: true,
       },
       plotOptions: {
         column: {
-          stacking: 'percent'
-        }
+          stacking: 'percent',
+        },
       },
       credits: {
-        enabled: false
-      }
+        enabled: false,
+      },
     }
   }
 

@@ -8,15 +8,15 @@ export default createBreadcrumb({
     id: 'list',
     //icon: Icon.car,
     href: slug.province.list,
-    name: translate('province.list.title')
+    name: translate('province.list.title'),
   },
   create: {
     id: 'create',
     href: slug.province.create,
-    name: translate('province.create.label')
+    name: translate('province.create.label'),
   },
   edit: {
     href: slug.province.edit,
-    name: translate('province.edit.label')
-  }
+    name: translate('province.edit.label'),
+  },
 })

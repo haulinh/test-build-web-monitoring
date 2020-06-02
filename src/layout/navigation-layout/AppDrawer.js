@@ -29,7 +29,7 @@ class AppLink extends React.PureComponent {
   static propTypes = {
     icon: PropTypes.string,
     name: PropTypes.string,
-    href: PropTypes.string
+    href: PropTypes.string,
   }
 
   handleClickLink(e) {
@@ -38,7 +38,7 @@ class AppLink extends React.PureComponent {
       swal({
         type: 'info',
         title: 'App ' + this.props.children + ' is building',
-        text: 'We will send newsletter when we complete'
+        text: 'We will send newsletter when we complete',
       })
     }
   }

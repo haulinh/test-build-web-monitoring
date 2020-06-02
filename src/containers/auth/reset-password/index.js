@@ -38,7 +38,7 @@ const Header = {
   Logo: styled.img`
     height: 36px;
     width: auto;
-  `
+  `,
 }
 
 const Clearfix = styled.div`
@@ -68,7 +68,7 @@ function validate(values) {
 
 @reduxForm({
   form: 'ResetPasswordForm',
-  validate
+  validate,
 })
 @withRouter
 @autobind
@@ -76,13 +76,13 @@ export default class ResetPassword extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      userInfo: {}
+      userInfo: {},
     }
   }
 
   async componentWillMount() {
     this.setState({
-      userInfo: this.props.history.location.state.data
+      userInfo: this.props.history.location.state.data,
     })
   }
 
@@ -90,24 +90,24 @@ export default class ResetPassword extends PureComponent {
     if (values.newPassword !== values.newPasswordConfirmation) {
       swal({
         title: translate('changePassword.form.newPasswordConfirmation.error1'),
-        type: 'error'
+        type: 'error',
       })
     } else {
       const data = {
         _id: this.state.userInfo._id,
         code: this.state.userInfo.forgotPasswordCode,
-        password: values.newPasswordConfirmation
+        password: values.newPasswordConfirmation,
       }
       const record = await AuthApi.putResetPassword(data._id, data)
       if (record.error) {
         swal({
           type: 'error',
-          title: record.message
+          title: record.message,
         })
       } else {
         swal({
           type: 'success',
-          title: translate('changePassword.form.Success')
+          title: translate('changePassword.form.Success'),
         })
         this.props.history.push('/')
       }

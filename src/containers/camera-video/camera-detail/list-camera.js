@@ -17,14 +17,14 @@ export default class CameraList extends React.Component {
     this.state = {
       size: 5,
       cameraList: props.cameraList,
-      countStartCamera: 0
+      countStartCamera: 0,
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.cameraList !== nextProps.cameraList) {
       this.setState({
-        cameraList: nextProps.cameraList
+        cameraList: nextProps.cameraList,
       })
     }
   }
@@ -37,19 +37,19 @@ export default class CameraList extends React.Component {
 
   cbPlay = () => {
     this.setState(prevState => ({
-      countStartCamera: prevState.countStartCamera + 1
+      countStartCamera: prevState.countStartCamera + 1,
     }))
   }
 
   cbStop = () => {
     this.setState(prevState => ({
-      countStartCamera: prevState.countStartCamera - 1
+      countStartCamera: prevState.countStartCamera - 1,
     }))
   }
 
   handleLoadMore = () => {
     this.setState(state => ({
-      size: state.size + 5
+      size: state.size + 5,
     }))
   }
 

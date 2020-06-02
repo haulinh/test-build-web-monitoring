@@ -10,7 +10,7 @@ const FormItem = Form.Item
 const { Option } = Select
 
 @Form.create({
-  mapPropsToFields: mapPropsToFields
+  mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -18,7 +18,7 @@ export default class ModalFileName extends React.Component {
   static propTypes = {
     data: PropTypes.object,
     dataConfigFtp: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-    modalSave: PropTypes.func
+    modalSave: PropTypes.func,
   }
 
   handleSubmit = e => {
@@ -33,7 +33,7 @@ export default class ModalFileName extends React.Component {
   async updateData(record, data) {
     const originData = _.get(record, 'options.transferFtp', {})
     const rs = await StationAutoApi.transferFtp(record._id, {
-      transferFtp: _.merge(originData, data)
+      transferFtp: _.merge(originData, data),
     })
     if (_.get(rs, 'success')) {
       message.info(translate('ftpTranfer.success'))
@@ -82,9 +82,9 @@ export default class ModalFileName extends React.Component {
             rules: [
               {
                 required: true,
-                message: translate('ftpTranfer.formInFoFTP.fileName.message')
-              }
-            ]
+                message: translate('ftpTranfer.formInFoFTP.fileName.message'),
+              },
+            ],
           })(
             <Input
               placeholder={translate('ftpTranfer.formInFoFTP.fileName.title')}
@@ -100,9 +100,9 @@ export default class ModalFileName extends React.Component {
             rules: [
               {
                 required: true,
-                message: translate('ftpTranfer.formInFoFTP.ipAddress.message')
-              }
-            ]
+                message: translate('ftpTranfer.formInFoFTP.ipAddress.message'),
+              },
+            ],
           })(
             <Input
               placeholder={translate('ftpTranfer.formInFoFTP.ipAddress.title')}
@@ -117,10 +117,14 @@ export default class ModalFileName extends React.Component {
             rules: [
               {
                 required: true,
-                message: translate('ftpTranfer.formInFoFTP.port.message')
-              }
+                message: translate('ftpTranfer.formInFoFTP.port.message'),
+              },
             ],
-            initialValue: _.get(this.props, 'data.options.transferFtp.port', '')
+            initialValue: _.get(
+              this.props,
+              'data.options.transferFtp.port',
+              ''
+            ),
           })(
             <Input
               placeholder={translate('ftpTranfer.formInFoFTP.port.title')}
@@ -133,10 +137,14 @@ export default class ModalFileName extends React.Component {
             rules: [
               {
                 required: true,
-                message: translate('ftpTranfer.formInFoFTP.user.message')
-              }
+                message: translate('ftpTranfer.formInFoFTP.user.message'),
+              },
             ],
-            initialValue: _.get(this.props, 'data.options.transferFtp.user', '')
+            initialValue: _.get(
+              this.props,
+              'data.options.transferFtp.user',
+              ''
+            ),
           })(
             <Input
               placeholder={translate('ftpTranfer.formInFoFTP.user.title')}
@@ -149,10 +157,14 @@ export default class ModalFileName extends React.Component {
             rules: [
               {
                 required: true,
-                message: translate('ftpTranfer.formInFoFTP.pass.message')
-              }
+                message: translate('ftpTranfer.formInFoFTP.pass.message'),
+              },
             ],
-            initialValue: _.get(this.props, 'data.options.transferFtp.pass', '')
+            initialValue: _.get(
+              this.props,
+              'data.options.transferFtp.pass',
+              ''
+            ),
           })(
             <Input
               placeholder={translate('ftpTranfer.formInFoFTP.pass.title')}
@@ -183,7 +195,7 @@ export default class ModalFileName extends React.Component {
             onClick={this.handleSubmit}
           >
             {this.props.lang.t('ftpTranfer.save')}
-          </Button>
+          </Button>,
         ]}
       >
         {this.returnInput()}

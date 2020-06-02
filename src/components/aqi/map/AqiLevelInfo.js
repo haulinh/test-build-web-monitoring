@@ -37,26 +37,26 @@ const LevelLabel = styled.div`
 export default class AqiLevelInfo extends React.PureComponent {
   state = {
     isLoading: false,
-    dataLevelAQI: []
+    dataLevelAQI: [],
   }
 
   componentDidMount = async () => {
     try {
       this.setState({
-        isLoading: true
+        isLoading: true,
       })
       const res = await getConfigAqiCalculation()
       // console.log(res, "componentDidMount")
       if (res.success) {
         this.setState({
-          dataLevelAQI: _get(res, 'data.value', [])
+          dataLevelAQI: _get(res, 'data.value', []),
         })
       }
     } catch (ex) {
       console.log(ex)
     } finally {
       this.setState({
-        isLoading: false
+        isLoading: false,
       })
     }
   }

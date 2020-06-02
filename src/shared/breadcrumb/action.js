@@ -5,26 +5,26 @@ export const DELETE_BREADCRUMB = 'BREADCRUMB/delete-breadcrumb'
 export function addBreadcrumb(breadcrumb) {
   return {
     type: ADD_BREADCRUMB,
-    breadcrumb
+    breadcrumb,
   }
 }
 
 export function updateBreadcrumb(breadcrumb) {
   return {
     type: UPDATE_BREADCRUMB,
-    breadcrumb
+    breadcrumb,
   }
 }
 
 export function deleteBreadcrumb(breadcrumb) {
   return {
     type: DELETE_BREADCRUMB,
-    breadcrumb
+    breadcrumb,
   }
 }
 
 export default {
   addBreadcrumb,
   updateBreadcrumb,
-  deleteBreadcrumb
+  deleteBreadcrumb,
 }

@@ -24,7 +24,7 @@ const showMsgInfo = msg => {
 
 @connectAutoDispatch(
   state => ({
-    user: state.auth.userInfo
+    user: state.auth.userInfo,
   }),
   { update2FA, set2FAStatus }
 )
@@ -35,14 +35,14 @@ export default class ModalSelectOptions extends React.PureComponent {
     switchToOption: PropTypes.func.isRequired,
     /* redux props */
     user: PropTypes.object.isRequired,
-    set2FAStatus: PropTypes.func.isRequired
+    set2FAStatus: PropTypes.func.isRequired,
   }
   state = {
     isLoadingSms: false,
     isLoadingEmail: false,
     stepCurrent: 0,
     type: null,
-    code: ''
+    code: '',
   }
 
   render() {
@@ -95,14 +95,14 @@ export default class ModalSelectOptions extends React.PureComponent {
     if (type) {
       swal({
         type: 'success',
-        title: translate('security.success')
+        title: translate('security.success'),
       })
       this.props.set2FAStatus(true)
       this.props.switchToTab(1)
     } else {
       swal({
         type: 'error',
-        title: translate('security.failure')
+        title: translate('security.failure'),
       })
       this.props.set2FAStatus(false)
     }

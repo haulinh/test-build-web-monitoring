@@ -38,7 +38,7 @@ export default class ConfigPublishContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      list: []
+      list: [],
     }
     this.columns = [
       {
@@ -72,7 +72,7 @@ export default class ConfigPublishContainer extends React.Component {
         title: translate('qaqc.configPublish.stationName'),
         dataIndex: 'name',
         key: 'name',
-        align: 'left'
+        align: 'left',
       },
       {
         title: translate('qaqc.configPublish.measurePublish'),
@@ -123,8 +123,8 @@ export default class ConfigPublishContainer extends React.Component {
               }}
             />
           )
-        }
-      }
+        },
+      },
     ]
   }
 

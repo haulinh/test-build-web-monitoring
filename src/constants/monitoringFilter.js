@@ -3,12 +3,12 @@ export default {
     GROUP: 'group',
     GROUP_LABEL: 'monitoring.group',
     UNGROUP: 'ungroup',
-    UNGROUP_LABEL: 'monitoring.unGroup'
+    UNGROUP_LABEL: 'monitoring.unGroup',
   },
   ORDER: {
     NAME: 'name',
     LABEL_NAME: 'Sort by Station name',
     NUMBER: 'number',
-    LABEL_NUMBER: 'Sort by Values'
-  }
+    LABEL_NUMBER: 'Sort by Values',
+  },
 }

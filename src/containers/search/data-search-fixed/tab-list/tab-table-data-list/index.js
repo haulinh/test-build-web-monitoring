@@ -12,7 +12,7 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 export default class TableDataList extends React.PureComponent {
   static propTypes = {
     measuringList: PropTypes.array,
-    measuringData: PropTypes.array
+    measuringData: PropTypes.array,
   }
 
   getColumns() {
@@ -25,7 +25,7 @@ export default class TableDataList extends React.PureComponent {
         const current = me.props.pagination.current
         const pageSize = me.props.pagination.pageSize
         return <div>{(current - 1) * pageSize + index + 1}</div>
-      }
+      },
     }
 
     const columnReceivedAt = {
@@ -34,7 +34,7 @@ export default class TableDataList extends React.PureComponent {
       key: 'receivedAt',
       render(value) {
         return <div>{moment(value).format(DD_MM_YYYY_HH_MM)}</div>
-      }
+      },
     }
     const columnsMeasurings = this.props.measuringData
       .filter(measuring => this.props.measuringList.includes(measuring.key))
@@ -58,7 +58,7 @@ export default class TableDataList extends React.PureComponent {
               {value.value.toFixed(2).toLocaleString(navigator.language)}
             </div>
           )
-        }
+        },
       }))
     return [columnIndex, columnReceivedAt, ...columnsMeasurings]
   }

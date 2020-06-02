@@ -27,8 +27,8 @@ ReactHighcharts.Highcharts.setOptions({
   lang: {
     rangeSelectorFrom: translate('chart.from'),
     rangeSelectorTo: translate('chart.to'),
-    rangeSelectorZoom: ''
-  }
+    rangeSelectorZoom: '',
+  },
 })
 
 @autobind
@@ -36,11 +36,11 @@ export default class TabChart extends React.PureComponent {
   static propTypes = {
     getChart: PropTypes.func,
     dataAQI: PropTypes.array,
-    nameChart: PropTypes.string
+    nameChart: PropTypes.string,
   }
 
   state = {
-    isloading: true
+    isloading: true,
   }
   constructor(props) {
     super(props)
@@ -49,7 +49,7 @@ export default class TabChart extends React.PureComponent {
 
   initData = props => {
     this.setState({
-      isloading: true
+      isloading: true,
     })
 
     if (!props.dataAQI) return
@@ -70,12 +70,12 @@ export default class TabChart extends React.PureComponent {
           : 0
         const itemAdd = [
           moment(_.get(item[key], 'time', null)).valueOf(),
-          tempValue
+          tempValue,
         ]
         seriesData[key] = {
           name: item[key].name,
           data: _.concat(tempData, [itemAdd]),
-          tooltip: { valueDecimals: 2 }
+          tooltip: { valueDecimals: 2 },
         }
       })
     })
@@ -84,7 +84,7 @@ export default class TabChart extends React.PureComponent {
     this.setState({
       seriesData,
       series: _.values(seriesData),
-      isloading: false
+      isloading: false,
     })
   }
 
@@ -97,10 +97,10 @@ export default class TabChart extends React.PureComponent {
   configChart = (series, nameChart) => {
     return {
       chart: {
-        type: 'line'
+        type: 'line',
       },
       credits: {
-        enabled: false
+        enabled: false,
       },
       rangeSelector: {
         enabled: true,
@@ -109,29 +109,29 @@ export default class TabChart extends React.PureComponent {
         inputEnabled: true,
         inputEditDateFormat: '%d/%m/%Y:%k:%M',
         inputDateFormat: '%d/%m/%Y:%k:%M',
-        inputBoxWidth: 120
+        inputBoxWidth: 120,
       },
       navigation: {
         buttonOptions: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
       xAxis: {
         type: 'datetime',
         dateTimeLabelFormats: {
-          ...DATETIME_LABEL_FORMAT
+          ...DATETIME_LABEL_FORMAT,
         },
         labels: {
-          style: { fontSize: '8px' }
-        }
+          style: { fontSize: '8px' },
+        },
       },
       title: {
-        text: nameChart //this.props.nameChart
+        text: nameChart, //this.props.nameChart
       },
       series,
       tooltip: {
-        dateTimeLabelFormats: DATETIME_LABEL_FORMAT
-      }
+        dateTimeLabelFormats: DATETIME_LABEL_FORMAT,
+      },
     }
   }
 

@@ -46,7 +46,7 @@ export default class TableList extends React.PureComponent {
     this.state = {
       list: [],
       manualVisible: false,
-      optionsManual: []
+      optionsManual: [],
     }
     this.setColumns(props)
   }
@@ -136,7 +136,7 @@ export default class TableList extends React.PureComponent {
         fieldValue,
         editable: fieldValue === 'yetApprove',
         render: (value, record, index) =>
-          this.renderValue(value, record, index, key)
+          this.renderValue(value, record, index, key),
       })
     )
 
@@ -147,7 +147,7 @@ export default class TableList extends React.PureComponent {
         key: 'Index',
         width: 60,
         align: 'center',
-        render: this.setIndex
+        render: this.setIndex,
       },
       {
         title: translate('dataSearchFrom.table.receivedAt'),
@@ -155,9 +155,9 @@ export default class TableList extends React.PureComponent {
         key: 'receivedAt',
         width: 150,
         align: 'center',
-        render: value => moment(value).format(DD_MM_YYYY_HH_MM)
+        render: value => moment(value).format(DD_MM_YYYY_HH_MM),
       },
-      ...measureCol
+      ...measureCol,
     ]
 
     if (fieldValue !== 'value') {
@@ -186,7 +186,7 @@ export default class TableList extends React.PureComponent {
               checked={itemChecked}
             />
           )
-        }
+        },
       })
     }
   }
@@ -234,9 +234,9 @@ export default class TableList extends React.PureComponent {
             dataIndex: col.dataIndex,
             title: col.title,
             fieldValue: col.fieldValue,
-            handleSave: this.handleSave
+            handleSave: this.handleSave,
           }
-        }
+        },
       }
     })
 
@@ -244,10 +244,10 @@ export default class TableList extends React.PureComponent {
       components: {
         body: {
           row: EditableFormRow,
-          cell: EditableCell
-        }
+          cell: EditableCell,
+        },
       },
-      columns
+      columns,
     }
   }
 

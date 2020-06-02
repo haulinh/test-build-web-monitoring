@@ -22,7 +22,7 @@ const Item = props => (
       color: 'rgba(0,0,0,0.8)',
       fontSize: 14,
       fontWeight: 600,
-      marginBottom: 0
+      marginBottom: 0,
     }}
   />
 )
@@ -31,14 +31,14 @@ const Item = props => (
 @createLang
 export default class SearchForm extends React.Component {
   static propTypes = {
-    cbSubmit: PropTypes.func
+    cbSubmit: PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.submit = this.submit.bind(this)
     this.state = {
-      measuringList: []
+      measuringList: [],
     }
   }
 
@@ -58,7 +58,7 @@ export default class SearchForm extends React.Component {
           me.props.cbSubmit({
             ...values,
             measuringList: me.state.measuringList,
-            measuringListUnitStr
+            measuringListUnitStr,
           })
       }
     })
@@ -68,7 +68,7 @@ export default class SearchForm extends React.Component {
     const {
       getFieldDecorator,
       // getFieldValue,
-      setFieldsValue
+      setFieldsValue,
     } = this.props.form
     // const t = this.props.lang.createNameSpace("dataSearchFrom.form");
     return (
@@ -100,7 +100,7 @@ export default class SearchForm extends React.Component {
                 {getFieldDecorator('province', {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
-                  }
+                  },
                 })(<SelectProvince isShowAll size="large" />)}
               </Item>
             </Col>
@@ -112,9 +112,9 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: translate('avgSearchFrom.selectTimeRange.error')
-                    }
-                  ]
+                      message: translate('avgSearchFrom.selectTimeRange.error'),
+                    },
+                  ],
                 })(
                   <RangePicker
                     disabledDate={current => {
@@ -124,8 +124,8 @@ export default class SearchForm extends React.Component {
                       format: 'HH:mm',
                       defaultValue: [
                         moment('00:00:00', 'HH:mm:ss'),
-                        moment('23:59:59', 'HH:mm:ss')
-                      ]
+                        moment('23:59:59', 'HH:mm:ss'),
+                      ],
                     }}
                     format="DD-MM-YYYY HH:mm"
                     placeholder={['Start Time', 'End Time']}

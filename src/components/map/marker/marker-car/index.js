@@ -20,7 +20,7 @@ export default class MarkerCar extends PureComponent {
     listLocation: PropTypes.array,
     status: PropTypes.string,
     stationDetails: PropTypes.array,
-    stationDistance: PropTypes.array
+    stationDistance: PropTypes.array,
   }
 
   constructor(props) {
@@ -31,7 +31,7 @@ export default class MarkerCar extends PureComponent {
       status: carStatus.WARNING,
       indexLocation: 0,
       directions: null,
-      isShowDirection: false
+      isShowDirection: false,
     }
   }
 
@@ -46,7 +46,7 @@ export default class MarkerCar extends PureComponent {
         (result, status) => {
           if (status === google.maps.DirectionsStatus.OK) {
             this.setState({
-              directions: result
+              directions: result,
             })
           } else {
             console.error(`error fetching directions ${result}`)
@@ -56,7 +56,7 @@ export default class MarkerCar extends PureComponent {
     }
     this.setState({
       isOpen: !this.state.isOpen,
-      isShowDirection: !this.state.isShowDirection
+      isShowDirection: !this.state.isShowDirection,
     })
   }
 
@@ -95,7 +95,7 @@ export default class MarkerCar extends PureComponent {
 
   getRouteDirection(stationDetails, stationDistance) {
     let result = {
-      travelMode: google.maps.TravelMode.DRIVING
+      travelMode: google.maps.TravelMode.DRIVING,
     }
     if (stationDetails && stationDetails.length > 1) {
       const originStation = stationDetails[0].station
@@ -121,7 +121,7 @@ export default class MarkerCar extends PureComponent {
             street.mapLocation.lat,
             street.mapLocation.lng
           ),
-          stopover: false
+          stopover: false,
         }
       })
 
@@ -138,7 +138,7 @@ export default class MarkerCar extends PureComponent {
           duration={TIME_DURATION}
           icon={{
             url: this.getIconByStatus(this.state.status), // url
-            scaledSize: new google.maps.Size(30, 30)
+            scaledSize: new google.maps.Size(30, 30),
           }}
           onClick={this.toggleOpen}
           position={this.state.mapLocation}
@@ -152,8 +152,8 @@ export default class MarkerCar extends PureComponent {
               padding: '2px',
               color: 'white',
               textAlign: 'center',
-              whiteteSpace: 'nowrap'
-            }
+              whiteteSpace: 'nowrap',
+            },
           }}
         >
           <div>

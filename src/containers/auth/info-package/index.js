@@ -43,28 +43,28 @@ const i18n = {
   text4: translate('infoLicense.text4'),
   text5: translate('infoLicense.text5'),
   text6: translate('infoLicense.text6'),
-  text7: translate('infoLicense.text7')
+  text7: translate('infoLicense.text7'),
 }
 
 @connect(state => ({
   organization: _.get(state, 'auth.userInfo.organization', {}),
-  totalStationActived: _.get(state, 'stationAuto.totalStationActived', 0)
+  totalStationActived: _.get(state, 'stationAuto.totalStationActived', 0),
 }))
 @autobind
 export class InfoLicenseForm extends PureComponent {
   static propTypes = {
-    organization: PropTypes.object
+    organization: PropTypes.object,
   }
 
   state = {
-    isLoading: true
+    isLoading: true,
   }
 
   componentWillMount() {
     try {
     } finally {
       this.setState({
-        isLoading: false
+        isLoading: false,
       })
     }
   }
@@ -121,7 +121,7 @@ export class InfoLicenseForm extends PureComponent {
                       <Text
                         type="warning"
                         style={{
-                          color: SHAPE.PRIMARY
+                          color: SHAPE.PRIMARY,
                         }}
                       >
                         {translate('infoLicense.text3', { total: totalDays })}
@@ -171,7 +171,7 @@ export class InfoLicenseForm extends PureComponent {
                     </Text>
                     <Text
                       style={{
-                        color: SHAPE.PRIMARY
+                        color: SHAPE.PRIMARY,
                       }}
                     >
                       {PHONE}
@@ -185,7 +185,7 @@ export class InfoLicenseForm extends PureComponent {
                     </Text>
                     <Text
                       style={{
-                        color: SHAPE.PRIMARY
+                        color: SHAPE.PRIMARY,
                       }}
                     >
                       {EMAIL}
@@ -204,14 +204,14 @@ export class InfoLicenseForm extends PureComponent {
 @autobind
 export default class ProfileUser extends PureComponent {
   static propTypes = {
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       userInfo: {},
-      isLoaded: false
+      isLoaded: false,
     }
   }
 
