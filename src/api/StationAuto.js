@@ -1,8 +1,8 @@
-import { getConfigApi } from '../config'
-import { deleteFetch, getFetch, postFetch, putFetch } from '../utils/fetch'
+import { getConfigApi } from "../config"
+import { deleteFetch, getFetch, postFetch, putFetch } from "../utils/fetch"
 
-function getStationAutoUrl(prefix = '') {
-  return getConfigApi().stationAuto + '/' + prefix
+function getStationAutoUrl(prefix = "") {
+  return getConfigApi().stationAuto + "/" + prefix
 }
 
 export function getStationAutos(
@@ -28,7 +28,7 @@ export function getTotalCount_by_type(stationType_id) {
 }
 
 export function getTotalCount() {
-  return getFetch(getStationAutoUrl('subscription/total-count'))
+  return getFetch(getStationAutoUrl("subscription/total-count"))
 }
 
 export function createStationAuto(measuring = {}) {
@@ -64,7 +64,7 @@ export function removeStationAuto(key) {
 }
 
 export function getLastLog() {
-  return getFetch(getStationAutoUrl('last-log'))
+  return getFetch(getStationAutoUrl("last-log"))
 }
 
 /* TODO  xem xet bỏ do không dùng đến nữa
@@ -77,7 +77,7 @@ export function updateStationAutoConfig(key, data = {}) {
 
 /* update options of station auto */
 export function updateStationAutoOptions(data) {
-  return putFetch(getStationAutoUrl('options'), data)
+  return putFetch(getStationAutoUrl("options"), data)
 }
 
 export function getCamera() {
@@ -85,7 +85,7 @@ export function getCamera() {
 }
 
 export function getWarningConfig() {
-  return getFetch(getStationAutoUrl('warning/config'))
+  return getFetch(getStationAutoUrl("warning/config"))
 }
 
 // Truyền file txt lên bộ theo thời gian truyền
@@ -95,6 +95,24 @@ export function tranferBonusFTP({ _id, from, to }) {
     from,
     to,
   })
+}
+
+export function getEvaluateStation(stationId) {
+  return getFetch(
+    getStationAutoUrl(`evaluate/list_by_id_station?stationId=${stationId}`)
+  )
+}
+
+export function createEvaluateStation(evaluate = {}) {
+  return postFetch(getStationAutoUrl(`evaluate/create`), evaluate)
+}
+
+export function deleteEvaluateStation(commentID) {
+  return deleteFetch(getStationAutoUrl(`evaluate/${commentID}`))
+}
+
+export function editEvaluateStation(evaluate = {}) {
+  return putFetch(getStationAutoUrl(`evaluate/update`), evaluate)
 }
 
 export default {

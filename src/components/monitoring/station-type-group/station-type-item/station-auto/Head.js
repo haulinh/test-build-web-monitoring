@@ -476,7 +476,7 @@ export default class StationAutoHead extends React.PureComponent {
                       ROLE.MONITORING.REVIEWSTATION
                     )
                   }
-                  onClick={this.handleActionOnClick('rating')}
+                  onClick={this.showDrawer('comment')}
                 >
                   {i18n.reviewStation}
                 </Menu.Item>

@@ -93,7 +93,7 @@ export default class DrawerInfoStation extends React.Component {
   async componentDidMount() {
     this.setState({ isLoading: true })
 
-    const res = await getStationAuto(this.props._id)
+    const res = await getStationAuto(this.props.stationID)
     if (res.success) {
       this.setState({
         isLoadingInfoStation: false,
@@ -104,7 +104,7 @@ export default class DrawerInfoStation extends React.Component {
   }
 
   render() {
-    const { _id } = this.props
+    const { stationID } = this.props
     const {
       address,
       userResponsible,
@@ -127,7 +127,7 @@ export default class DrawerInfoStation extends React.Component {
             <Col span={4} offset={12}>
               <Button
                 target="_blank"
-                href={`${slug.stationAuto.editWithKey}/${_id}?otherForm`}
+                href={`${slug.stationAuto.editWithKey}/${stationID}?otherForm`}
               >
                 <Icon
                   style={{ fontSize: '16px', color: '#1890ff' }}
