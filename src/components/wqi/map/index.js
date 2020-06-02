@@ -22,6 +22,7 @@ export default class MapComponent extends React.Component {
           wqiLevel={this.props.wqiLevel}
           stationKey={this.props.stationKey}
           zoom={this.props.zoom}
+          center={this.props.center}
           {...getGoogleMapProps()}
           loadingElement={
             <div style={{ height: this.props.windowHeight + 'px' }} />

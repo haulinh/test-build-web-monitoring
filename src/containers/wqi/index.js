@@ -3,6 +3,8 @@ import styled from 'styled-components'
 
 import stationConfigApi from 'api/StationConfigApi'
 import MapComponent from 'components/wqi/map'
+import InfoComponent from 'components/wqi/info'
+
 import * as _ from 'lodash'
 import wqiApi from 'api/WqiApi'
 import protectRole from 'hoc/protect-role'
@@ -22,6 +24,7 @@ export default class WqiContainer extends React.Component {
     wqiLevel: [],
     station: null,
     stationKey: null,
+    center: null
   }
 
   async componentDidMount() {
@@ -80,6 +83,19 @@ export default class WqiContainer extends React.Component {
     })
   }
 
+  handleOnSelect = ({ key, mapLocation }) => {
+    // console.log("---onSlelect--", key, mapLocation);
+    this.setState({
+      center: mapLocation,
+      stationKey: null,
+    })
+    setTimeout(() => {
+      this.setState({
+        stationKey: key,
+      })
+    }, 500)
+  }
+
   render() {
     return (
       <WrapperContainer>
@@ -90,7 +106,14 @@ export default class WqiContainer extends React.Component {
           onMarkerClick={this.handleMarkerClick}
           stationKey={this.state.stationKey}
           onClose={this.handleOnClosePopup}
+          center={this.state.center}
 
+        />
+        <InfoComponent
+          wqiList={this.state.wqiList}
+          style={{ flex: 1 }}
+          wqiLevel={this.state.wqiLevel}
+          onSelect={this.handleOnSelect}
         />
       </WrapperContainer>
     )
