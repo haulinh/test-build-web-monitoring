@@ -202,12 +202,12 @@ export default class Player extends React.Component {
       this.setState({ isPlay: false }, () => {
         this.props.cbStop()
       })
-    } else if (this.props.countStartCamera < 4) {
+    } else if (this.props.countStartCamera < 2) {
       this.setState({ isPlay: true }, () => {
         this.props.cbPlay()
       })
     } else {
-      message.error('Chỉ cho phép live view 4 camera đồng thời')
+      message.error('Chỉ cho phép live view 2 camera đồng thời')
     }
   }
 
