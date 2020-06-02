@@ -261,9 +261,10 @@ class CustomGoogleMap extends PureComponent {
           if (!this.state.isBounds) this.getBounds()
           this.map = map
         }}
-        defaultZoom={12}
+        defaultZoom={11}
         defaultCenter={DEFAULT_CENTER}
-        zoom={12}
+        center={this.props.center}
+        zoom={11}
         onZoomChanged={() => {
           // console.log(
           //   '---onZoomChanged--',
