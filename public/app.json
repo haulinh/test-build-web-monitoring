@@ -3,7 +3,7 @@
   "apiMedia": "https://media.ilotusland.asia",
   "apiCamera": "http://27.74.251.0:5020",
   "camera": {
-    "host": "http://103.140.42.141:8081",
+    "host": "https://global-camera.ilotusland.com",
     "username": "admin",
     "password": "vietan@123"
   },
