@@ -18,9 +18,6 @@ export default class MapComponent extends React.Component {
       >
         <AqiLevelInfo />
         <MapView
-          // ref={map => {
-          //   this.mapTamp = map
-          // }}
           stationKey={this.props.stationKey}
           aqiLevel={this.props.aqiLevel}
           aqiList={this.props.aqiList}
