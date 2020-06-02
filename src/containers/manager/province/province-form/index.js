@@ -85,9 +85,9 @@ export default class ProvinceForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('province.form.name.error')
-                  }
-                ]
+                    message: t('province.form.name.error'),
+                  },
+                ],
               })(
                 <Input
                   size="large"
@@ -105,9 +105,9 @@ export default class ProvinceForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('province.form.numericalOrder.error')
-                  }
-                ]
+                    message: t('province.form.numericalOrder.error'),
+                  },
+                ],
               })(
                 <InputNumberCell
                   placeholder={t('province.form.numericalOrder.placeholder')}

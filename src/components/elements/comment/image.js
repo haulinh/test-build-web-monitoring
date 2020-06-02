@@ -1,19 +1,19 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { withRouter } from "react-router"
-import StationAutoApi from "api/StationAuto"
-import MediaApi from "api/MediaApi"
-import update from "immutability-helper"
-import { v4 as uuidV4 } from "uuid"
-import { Row, Col, Upload, Icon, message, Spin, Popconfirm } from "antd"
-import Button from "components/elements/button"
-import styled from "styled-components"
-import { getConfigApi } from "config"
-import swal from "sweetalert2"
-import { translate } from "hoc/create-lang"
-import debounce from "lodash/debounce"
-import Gallery from "components/elements/gallery"
-import { editEvaluateStation } from "api/StationAuto"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
+import StationAutoApi from 'api/StationAuto'
+import MediaApi from 'api/MediaApi'
+import update from 'immutability-helper'
+import { v4 as uuidV4 } from 'uuid'
+import { Row, Col, Upload, Icon, message, Spin, Popconfirm } from 'antd'
+import Button from 'components/elements/button'
+import styled from 'styled-components'
+import { getConfigApi } from 'config'
+import swal from 'sweetalert2'
+import { translate } from 'hoc/create-lang'
+import debounce from 'lodash/debounce'
+import Gallery from 'components/elements/gallery'
+import { editEvaluateStation } from 'api/StationAuto'
 
 const Wrapper = styled(Row)`
   transition: transform 0.25s ease;
@@ -70,22 +70,22 @@ const ImageComponent = ({
     span = 12
   }
   return (
-    <Col className='image-item' span={span}>
+    <Col className="image-item" span={span}>
       <Popconfirm
-        title='Are you sure delete this task?'
+        title="Are you sure delete this task?"
         onConfirm={handleDeleteImage(index)}
-        okText='Yes'
-        cancelText='No'
-        className='delete'
+        okText="Yes"
+        cancelText="No"
+        className="delete"
       >
-        <i className='fa fa-trash' />
+        <i className="fa fa-trash" />
       </Popconfirm>
       <img
-        style={{ flex: 1, objectFit: "cover" }}
+        style={{ flex: 1, objectFit: 'cover' }}
         onClick={handleViewGalleryClick(index)}
         key={image._id}
-        width='100%'
-        height='100%'
+        width="100%"
+        height="100%"
         src={image.thumbnail}
         alt={image._id}
       />
@@ -117,10 +117,10 @@ export default class ImageMoreInfo extends React.Component {
   }
 
   getUrlMedia(url) {
-    return getConfigApi().media + url.replace("public", "")
+    return getConfigApi().media + url.replace('public', '')
   }
 
-  handleViewGalleryClick = (index) => () => {
+  handleViewGalleryClick = index => () => {
     this.setState({ visible: true })
     this.galleryRef.slideToIndex(index)
   }
@@ -131,29 +131,29 @@ export default class ImageMoreInfo extends React.Component {
 
   handleImageChange = ({ fileList, file, event }) => {
     let newFileList = fileList
-    if (file.status === "uploading") {
+    if (file.status === 'uploading') {
       this.setState({ uploading: true })
     }
-    if (file.status === "error") {
+    if (file.status === 'error') {
       this.setState({ uploading: false })
       swal({
-        title: translate("profileUser.imageUpload.error"),
-        type: "error",
+        title: translate('profileUser.imageUpload.error'),
+        type: 'error',
       })
       newFileList = []
     }
     this.setState({
       fileList: newFileList,
     })
-    if (file.status === "done") {
+    if (file.status === 'done') {
       this.setState(
-        (prevState) => ({
+        prevState => ({
           images: [...prevState.images, file.response.file.path],
           items: [
             ...prevState.items,
             {
               _id: uuidV4(),
-              component: "gallery.photo",
+              component: 'gallery.photo',
               original: file.response.url,
               thumbnail: file.response.url,
             },
@@ -169,7 +169,7 @@ export default class ImageMoreInfo extends React.Component {
       }
     }
     if (fileList.length === 0) {
-      if (this.props.onChange) this.props.onChange("")
+      if (this.props.onChange) this.props.onChange('')
     }
   }
 
@@ -179,12 +179,12 @@ export default class ImageMoreInfo extends React.Component {
       stationId: this.props.stationId,
       images: this.state.images,
     })
-    message.success(translate("stationAutoManager.update.success"))
+    message.success(translate('stationAutoManager.update.success'))
   }, 1200)
 
-  handleDeleteImage = (index) => () => {
+  handleDeleteImage = index => () => {
     this.setState(
-      (prevState) =>
+      prevState =>
         update(prevState, {
           images: {
             $splice: [[index, 1]],
@@ -204,12 +204,12 @@ export default class ImageMoreInfo extends React.Component {
       <Upload
         multiple
         showUploadList={false}
-        accept='.jpg, .png, .svg, jpeg'
-        action={MediaApi.urlPhotoUploadWithDirectory("station")}
+        accept=".jpg, .png, .svg, jpeg"
+        action={MediaApi.urlPhotoUploadWithDirectory('station')}
         onChange={this.handleImageChange}
       >
-        <Button isLoading={this.state.uploading} customColor='primary'>
-          {translate("stationAutoManager.image.create")}
+        <Button isLoading={this.state.uploading} customColor="primary">
+          {translate('stationAutoManager.image.create')}
         </Button>
       </Upload>
     </HeadingWrapper>
@@ -233,13 +233,13 @@ export default class ImageMoreInfo extends React.Component {
               image={images[1]}
               index={1}
             />
-            <Col justify='center' span={8}>
+            <Col justify="center" span={8}>
               <Icon
-                width='100%'
-                height='100%'
+                width="100%"
+                height="100%"
                 flex={1}
-                type='plus'
-                theme='outlined'
+                type="plus"
+                theme="outlined"
               />
             </Col>
           </React.Fragment>
@@ -261,24 +261,24 @@ export default class ImageMoreInfo extends React.Component {
           <Upload
             multiple
             showUploadList={false}
-            accept='.jpg, .png, .svg, jpeg'
-            action={MediaApi.urlPhotoUploadWithDirectory("station")}
-            listType='picture-card'
+            accept=".jpg, .png, .svg, jpeg"
+            action={MediaApi.urlPhotoUploadWithDirectory('station')}
+            listType="picture-card"
             onChange={this.handleImageChange}
           >
             <Icon
               size={24}
-              type={this.state.uploading ? "uploading" : "plus"}
+              type={this.state.uploading ? 'uploading' : 'plus'}
             />
           </Upload>
         </Col>
       )
   }
 
-  getImages = (images) => {
-    return images.map((image) => ({
+  getImages = images => {
+    return images.map(image => ({
       _id: uuidV4(),
-      component: "gallery.photo",
+      component: 'gallery.photo',
       original: this.getUrlMedia(image),
       thumbnail: this.getUrlMedia(image),
     }))
@@ -289,10 +289,10 @@ export default class ImageMoreInfo extends React.Component {
     return (
       <Spin spinning={this.state.loading}>
         <React.Fragment>
-          <Wrapper type='flex' gutter={24}>
+          <Wrapper type="flex" gutter={24}>
             {this.renderImages()}
             <Gallery
-              ref={(ref) => (this.galleryRef = ref)}
+              ref={ref => (this.galleryRef = ref)}
               visible={this.state.visible}
               onClose={this.handleCloseGallery}
               items={images}

@@ -13,8 +13,7 @@ export default class IncidentAppContainer extends React.Component {
           style={{ width: '100%', height: '100vh' }}
           frameBorder={0}
           src={`${getApps().incidents}?lng=${getLanguage()}`}
-        >
-        </iframe>
+        />
       </Layout>
     )
   }

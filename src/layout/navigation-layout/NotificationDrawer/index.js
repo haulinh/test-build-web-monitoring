@@ -49,7 +49,7 @@ export default class NotificationDrawer extends React.Component {
     )
   }
 
-  closeDrawer = (e) => {
+  closeDrawer = e => {
     if (e) e.preventDefault()
     this.props.clearNotificationCountByType()
     this.props.closeDrawer()

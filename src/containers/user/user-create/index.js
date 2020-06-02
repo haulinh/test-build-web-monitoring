@@ -48,7 +48,7 @@ export default class UserCreate extends React.PureComponent {
     super(props)
     this.state = {
       isLoading: false,
-      isLicense: false
+      isLicense: false,
     }
   }
 

@@ -1,11 +1,7 @@
 /* eslint-disable */
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
-import {
-  GoogleMap,
-  withScriptjs,
-  withGoogleMap,
-} from 'react-google-maps'
+import { GoogleMap, withScriptjs, withGoogleMap } from 'react-google-maps'
 import { withProps } from 'recompose'
 
 import { map as mapLodash, get, find, inRange } from 'lodash'
@@ -106,7 +102,7 @@ const InfoBoxWrapper = styled.div`
   }
 `
 
-const WqiMarker = ({ item, wqiLevel, onMarkerClick, stationKey, onClose  }) => {
+const WqiMarker = ({ item, wqiLevel, onMarkerClick, stationKey, onClose }) => {
   const value = get(item, 'wqiDay', '')
   const name = get(item, 'name', '')
   const address = get(item, 'address', '')
@@ -125,7 +121,7 @@ const WqiMarker = ({ item, wqiLevel, onMarkerClick, stationKey, onClose  }) => {
   const colorBorder = '#FFFFFF'
 
   const isFocus = stationKey === get(item, 'key', null) ? true : false
-  console.log(isFocus, "---isFocus--")
+  console.log(isFocus, '---isFocus--')
   return (
     <InfoBoxWrapper id="popover-marker">
       <InfoBox
@@ -284,7 +280,6 @@ class CustomGoogleMap extends PureComponent {
               <WqiMarker
                 mapLocation={item.mapLocation}
                 wqiLevel={this.props.wqiLevel}
-
                 stationKey={this.props.stationKey}
                 onClose={this.onClosePopup}
                 onMarkerClick={this.props.onMarkerClick}

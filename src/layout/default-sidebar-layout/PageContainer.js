@@ -92,12 +92,12 @@ export default class PageContainer extends React.PureComponent {
                 {this.props.headerCustom ? (
                   this.props.headerCustom
                 ) : (
-                    <HeaderFlex>
-                      <BreadcrumbBar />
-                      {this.props.center}
-                      {this.props.right}
-                    </HeaderFlex>
-                  )}
+                  <HeaderFlex>
+                    <BreadcrumbBar />
+                    {this.props.center}
+                    {this.props.right}
+                  </HeaderFlex>
+                )}
               </GridSticky>
             </BreadcrumbContainer>
           </div>
@@ -134,10 +134,10 @@ export default class PageContainer extends React.PureComponent {
                 </div>
               </Grid>
             ) : (
-                <AbsoluteLoading>
-                  <LoaderCircle />
-                </AbsoluteLoading>
-              ))}
+              <AbsoluteLoading>
+                <LoaderCircle />
+              </AbsoluteLoading>
+            ))}
         </PageBodyWrapper>
       </StickyContainer>
     )

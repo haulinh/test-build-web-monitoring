@@ -89,7 +89,10 @@ export default class OptionsTimeRange extends React.Component {
             open={true}
             ranges={{
               Today: [moment().startOf('day'), moment().endOf('day')],
-              'This Month': [moment().startOf('month'), moment().endOf('month')]
+              'This Month': [
+                moment().startOf('month'),
+                moment().endOf('month'),
+              ],
             }}
             showTime={{
               defaultValue: [

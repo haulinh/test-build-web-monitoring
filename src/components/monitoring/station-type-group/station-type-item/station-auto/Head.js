@@ -151,7 +151,7 @@ export default class StationAutoHead extends React.PureComponent {
     isEnable: false,
     currentAction: '',
     visibleDrawer: false,
-    drawerType: ''
+    drawerType: '',
   }
 
   toReceivedAt = (status, receivedAt) => {
@@ -201,14 +201,14 @@ export default class StationAutoHead extends React.PureComponent {
   showDrawer = drawerType => () => {
     this.setState({
       visibleDrawer: true,
-      drawerType
+      drawerType,
     })
   }
 
   closeDrawer = () => {
     this.setState({
       visibleDrawer: false,
-      drawerType: ''
+      drawerType: '',
     })
   }
 
@@ -254,11 +254,11 @@ export default class StationAutoHead extends React.PureComponent {
               </span>
             </WrapperNameStationTypeName>
           ) : (
-              <StationName>
-                {removeAccents(language, name)}{' '}
-                {status === STATUS_STATION.NOT_USE && ' - ' + i18n.notInUse}
-              </StationName>
-            )}
+            <StationName>
+              {removeAccents(language, name)}{' '}
+              {status === STATUS_STATION.NOT_USE && ' - ' + i18n.notInUse}
+            </StationName>
+          )}
           <Clearfix width={8} />
           {/* MARK  Bỏ status={status} vì k0 can phan biet status nua */}
           <ReceivedAt id={stationID} status={STATUS_STATION.GOOD}>
@@ -268,32 +268,32 @@ export default class StationAutoHead extends React.PureComponent {
 
         <ActionWrapper>
           {!isSampling ||
-            !checkRolePriority(
-              this.props.userInfo,
-              ROLE.MONITORING.CONTROL
-            ) ? null : (
-              <Button
-                className="actionItem"
-                type={currentAction === 'sampling' ? 'primary' : 'default'}
-                onClick={this.handleActionOnClick('sampling')}
-              >
-                {i18n.sampling}
-              </Button>
-            )}
+          !checkRolePriority(
+            this.props.userInfo,
+            ROLE.MONITORING.CONTROL
+          ) ? null : (
+            <Button
+              className="actionItem"
+              type={currentAction === 'sampling' ? 'primary' : 'default'}
+              onClick={this.handleActionOnClick('sampling')}
+            >
+              {i18n.sampling}
+            </Button>
+          )}
 
           {!isCamera ||
-            !checkRolePriority(
-              this.props.userInfo,
-              ROLE.MONITORING.CAMERA
-            ) ? null : (
-              <Button
-                className="actionItem"
-                type={currentAction === 'camera' ? 'primary' : 'default'}
-                onClick={this.handleActionOnClick('camera')}
-              >
-                {i18n.camera}
-              </Button>
-            )}
+          !checkRolePriority(
+            this.props.userInfo,
+            ROLE.MONITORING.CAMERA
+          ) ? null : (
+            <Button
+              className="actionItem"
+              type={currentAction === 'camera' ? 'primary' : 'default'}
+              onClick={this.handleActionOnClick('camera')}
+            >
+              {i18n.camera}
+            </Button>
+          )}
 
           <Button
             className="actionItem"

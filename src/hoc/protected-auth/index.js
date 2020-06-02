@@ -54,7 +54,7 @@ export default function createProtectedAuth(Component) {
         const user = {
           user_id: this.props.authMe._id,
           email: this.props.authMe.email,
-          name: this.props.authMe.firstName + ' ' + this.props.authMe.lastName
+          name: this.props.authMe.firstName + ' ' + this.props.authMe.lastName,
         }
 
         console.log(window.config.intercomID)

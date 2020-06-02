@@ -27,7 +27,7 @@ export const SidebarGlobal = {
     display: block;
     margin: 16px auto;
     background: #fff;
-    opacity: .1;
+    opacity: 0.1;
   `,
   SidebarTop: styled.div`
     display: flex;
