@@ -53,6 +53,7 @@ export function getConfigApi() {
     aqi_v1: c('aqi-v1'),
     // aqi_v1: 'http://localhost:5015/aqi-v1',
     wqi: c('wqi'),
+    // wqi: 'http://localhost:5017/wqi',
     notify: c('notify'),
     sampleConfig: c('configSample'),
     camera: config.camera,
@@ -65,7 +66,7 @@ export function getConfigApi() {
 export function getApps() {
   const config = window.config
   return {
-    incidents: config.apps.incidents
+    incidents: config.apps.incidents,
   }
 }
 
