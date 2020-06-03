@@ -78,7 +78,7 @@
     "ky": "^0.4.1",
     "lodash": "^4.17.10",
     "marker-animate-unobtrusive": "^0.2.8",
-    "moment-timezone": "^0.5.25",
+    "moment-timezone": "^0.5.31",
     "nodemon": "^1.14.11",
     "object-assign": "4.1.1",
     "object-path": "^0.11.4",

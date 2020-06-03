@@ -1,7 +1,7 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import WqiApi from 'api/WqiApi'
+import wqiApi from 'api/WqiApi'
 import Clearfix from 'components/elements/clearfix'
 import { translate } from 'hoc/create-lang'
 import TabList from './tab-list'
@@ -9,23 +9,23 @@ import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import * as _ from 'lodash'
 import { message, Spin } from 'antd'
-import queryFormDataBrowser from 'hoc/query-formdata-browser'
-import swal from 'sweetalert2'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import swal from 'sweetalert2'
+// import moment from "moment-timezone";
 
 @protectRole(ROLE.STATISTIC.AQI)
 @queryFormDataBrowser(['submit'])
 @autobind
-export default class WQIStatistics extends React.Component {
+export default class WQIStatisticsDay extends React.Component {
   state = {
-    dataAQI: [],
+    dataWQI: [],
     searchFormData: {},
     lines: [],
     isLoading: false,
     isHaveData: false,
     isExporting: false,
-    isManually: false,
     pagination: {
       current: 1,
       pageSize: 50,
@@ -33,7 +33,6 @@ export default class WQIStatistics extends React.Component {
   }
 
   handleSubmitSearch(searchFormData) {
-    console.log(searchFormData, '--searchFormData')
     this.loadData(this.state.pagination, searchFormData)
   }
 
@@ -43,22 +42,27 @@ export default class WQIStatistics extends React.Component {
       isHaveData: true,
     })
 
+    // let listStationId = searchFormData.stationID
+
     const params = {
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
-      listKey: searchFormData.stationID,
+      listKey: searchFormData.listStation,
     }
-    let dataAQI = await WqiApi.fetchWqiHourbyStation({ ...params })
-    if (dataAQI && (Array.isArray(dataAQI.data) && dataAQI.data.length === 0)) {
+
+    // console.log(params,searchFormData,"-----")
+    let dataWQI = await wqiApi.fetchWqiDaybyListStation({ ...params })
+    // console.log(dataWQI, "dataWQI")
+    if (dataWQI && _.get(dataWQI, 'data', []).length === 0) {
       swal({
-        type: 'success',
+        type: 'warning',
         title: translate('dataSearchFrom.table.emptyText'),
       })
     }
-    // console.log(_.get(dataAQI, "data"), "----")
+
     this.setState({
       isLoading: false,
-      dataAQI: _.get(dataAQI, 'data', []),
+      dataWQI: _.reverse(_.get(dataWQI, 'data', [])),
       searchFormData: searchFormData,
     })
   }
@@ -70,9 +74,9 @@ export default class WQIStatistics extends React.Component {
     const params = {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
-      listKey: _.get(this.state.searchFormData, 'stationID', ''),
+      listKey: _.get(this.state.searchFormData, 'listStation', ''),
     }
-    let res = await WqiApi.exportFileWqiHourbyStation({ ...params })
+    let res = await wqiApi.exportFileWqiDaybyListStation({ ...params })
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
 
@@ -88,16 +92,11 @@ export default class WQIStatistics extends React.Component {
     const params = {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
-      listKey: _.get(this.state.searchFormData, 'stationID', ''),
+      listKey: _.get(this.state.searchFormData, 'listStation', ''),
     }
 
-    const processFunc = [
-      WqiApi.fetchWQIProcessCalDay({ ...params }),
-      WqiApi.fetchWQIProcessCalHour({ ...params }),
-    ]
-    let res = await Promise.all(processFunc)
-    // console.log("res: ", res);
-    if (res && res[0].success && res[1].success) {
+    let res = await wqiApi.fetchWQIProcessCalDay({ ...params })
+    if (res && res.success) {
       message.success('success')
       this.loadData(this.state.pagination, this.state.searchFormData)
     } else {
@@ -111,35 +110,32 @@ export default class WQIStatistics extends React.Component {
 
   render() {
     return (
-      <div>
-        <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-          <Spin
-            size="large"
-            tip={translate('dataSearchFrom.tab.statusExport')}
-            spinning={this.state.isExporting}
-          >
-            <Breadcrumb items={['list']} />
-            <SearchFrom
-              initialValues={this.props.formData}
-              onSubmit={this.handleSubmitSearch}
-              searchNow={this.props.formData.searchNow}
+      <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+        <Spin
+          size="large"
+          tip={translate('dataSearchFrom.tab.statusExport')}
+          spinning={this.state.isExporting}
+        >
+          <Breadcrumb items={['list']} />
+          <SearchFrom
+            onSubmit={this.handleSubmitSearch}
+            searchNow={this.props.formData.searchNow}
+          />
+          <Clearfix height={16} />
+          {this.state.isHaveData ? (
+            <TabList
+              isLoading={this.state.isLoading}
+              dataWQI={this.state.dataWQI}
+              pagination={this.state.pagination}
+              onExportExcel={this.handleExportExcel}
+              nameChart={this.state.searchFormData.name}
+              isExporting={this.state.isExporting}
+              onManually={this.handleManually}
+              isManually={this.state.isManually}
             />
-            <Clearfix height={16} />
-            {this.state.isHaveData ? (
-              <TabList
-                isLoading={this.state.isLoading}
-                dataAQI={this.state.dataAQI}
-                pagination={this.state.pagination}
-                onExportExcel={this.handleExportExcel}
-                nameChart={this.state.searchFormData.name}
-                isExporting={this.state.isExporting}
-                onManually={this.handleManually}
-                isManually={this.state.isManually}
-              />
-            ) : null}
-          </Spin>
-        </PageContainer>
-      </div>
+          ) : null}
+        </Spin>
+      </PageContainer>
     )
   }
 }

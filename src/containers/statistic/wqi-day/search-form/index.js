@@ -8,15 +8,17 @@ import { Row, Col, Button } from 'antd'
 import createLang from 'hoc/create-lang'
 import Clearfix from 'components/elements/clearfix'
 import createValidateComponent from 'components/elements/redux-form-validate'
-import moment from 'moment-timezone'
+import moment from 'moment'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import { DD_MM_YYYY } from 'constants/format-date'
 import SelectStationConfigWQI from '../../common/select-station-config-wqi'
 import SelectStationTypeConfigWQI from '../../common/select-station-type-config-wqi'
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import OptionsMonthRange from '../../common/options-time-month-range'
+import { DD_MM_YYYY } from 'constants/format-date'
+import TimerPicker from 'components/elements/time-picker'
+import InputLabel from 'components/elements/input-label'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationTypeConfigWQI = createValidateComponent(
@@ -24,19 +26,23 @@ const FSelectStationTypeConfigWQI = createValidateComponent(
 )
 const FSelectStationConfigWQI = createValidateComponent(SelectStationConfigWQI)
 const FOptionsMonthRange = createValidateComponent(OptionsMonthRange)
+const FTimerPicker = createValidateComponent(TimerPicker)
 
-const SearchFormContainer = styled(BoxShadowStyle)``
+// const optionTimeZoneDay = [{ value: '24', name: '00:00 - 23:59' }, { value: '17', name: '17:00 - 16:59' }, { value: '1', name: '24:00' }, { value: '2', name: '17:00' }]
+
+const SearchFormContainer = BoxShadowStyle.extend``
 const Container = styled.div`
   padding: 16px 16px;
 `
 
 function validate(values) {
   const errors = {}
+  if (!values.inRange)
+    errors.inRange = translate('aqiSearchForm.form.inRange.error')
   if (!values.stationType)
     errors.stationType = translate('avgSearchFrom.form.stationType.error')
-  if (!values.stationFixed || values.stationFixed === '')
-    errors.stationFixed = translate('avgSearchFrom.form.stationAuto.error')
-  if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
+  if (!values.station)
+    errors.station = translate('avgSearchFrom.form.stationType.error')
   return errors
 }
 
@@ -46,7 +52,7 @@ function validate(values) {
   },
 }))
 @reduxForm({
-  form: 'dataSearchForm',
+  form: 'dataAQISearch',
   validate,
 })
 @createLang
@@ -54,7 +60,13 @@ function validate(values) {
 export default class SearchForm extends React.Component {
   static propTypes = {
     measuringData: PropTypes.array,
-    searchNow: PropTypes.bool,
+    searchNow: PropTypes.object,
+    onSubmit: PropTypes.func,
+  }
+
+  state = {
+    timezoneDay: 0,
+    timezoneTo: '',
   }
 
   constructor(props) {
@@ -62,10 +74,10 @@ export default class SearchForm extends React.Component {
     this.state = {
       provinceKey: props.initialValues.provinceKey,
       stationTypeKey: props.initialValues.stationType,
-      stationKey: props.initialValues.stationFixed,
       stationID: null,
       fromDate: props.initialValues.fromDate,
       toDate: props.initialValues.toDate,
+      isTimezoneDay: false,
     }
   }
 
@@ -83,28 +95,30 @@ export default class SearchForm extends React.Component {
       stationKey: '',
       stationID: '',
     })
-    this.props.change('station', '')
+    // this.props.change('station', '')
   }
 
-  handleChangeStationAuto(station) {
+  handleChangeStationAuto(listId) {
+    // console.log(listId,"station")
+
+    // console.log("select", listId)
     const params = {
-      stationKey: station.key,
-      stationName: station.name,
-      receivedAt: moment(),
-      stationID: station._id,
+      stationID: listId,
     }
     this.setState(params)
   }
 
   handleSubmit(values) {
+    // console.log('handleSubmit', this.state)
+
     this.props.onSubmit({
-      // fromDate: this.convertDateToString(this.state.fromDate),
-      // toDate: this.convertDateToString(this.state.toDate),
       fromDate: this.state.fromDate,
       toDate: this.state.toDate,
       key: values.station,
+      listStation: values.station,
       name: this.state.stationName,
-      stationID: this.state.stationKey,
+      stationID: this.state.stationID,
+      timezoneDay: this.state.timezoneDay,
     })
   }
 
@@ -121,6 +135,22 @@ export default class SearchForm extends React.Component {
     this.props.change('station', '')
   }
 
+  handleChangeDate = (fromDate, toDate) => {
+    const fromTime = moment(fromDate)
+      .utc()
+      .format()
+    const toTime = moment(toDate)
+      .hour(0)
+      .minute(0)
+      .second(0)
+      .utc()
+      .format()
+    this.setState({
+      fromDate: fromTime,
+      toDate: toTime,
+      isTimezoneDay: false,
+    })
+  }
   hanldeOnchangeFramTime = (time, timeString) => {
     const to = moment(time)
       .subtract(23, 'hours')
@@ -131,18 +161,9 @@ export default class SearchForm extends React.Component {
       timezoneDay: moment(time).format('HH'),
     })
   }
-  handleChangeDate = (fromDate, toDate) => {
-    const fromTime = moment(fromDate)
-      .utc()
-      .format()
-    const toTime = moment(toDate)
-      .utc()
-      .format()
-    // console.log(fromTime, toTime)
-    this.setState({
-      fromDate: fromTime,
-      toDate: toTime,
-    })
+
+  handleChangeDateTest = (time, txt) => {
+    console.log(time, txt)
   }
 
   render() {
@@ -190,21 +211,23 @@ export default class SearchForm extends React.Component {
               />
             </Col>
           </Row>
-          <Clearfix height={16} />
+          <Clearfix height={8} />
           <Row gutter={24}>
-            <Col span={12}>
+            <Col span={24}>
               <Field
                 label={t('stationAuto.label')}
                 name="station"
                 size="large"
+                isMultiple={true}
                 provinceKey={this.state.provinceKey}
                 stationTypeKey={this.state.stationTypeKey}
                 component={FSelectStationConfigWQI}
                 onChangeObject={this.handleChangeStationAuto}
-                stationKey={this.state.stationKey}
-                setKey
               />
             </Col>
+          </Row>
+          <Clearfix height={8} />
+          <Row gutter={24}>
             <Col span={12}>
               <Field
                 label={translate('aqiSearchForm.form.inRange.label')}
@@ -215,6 +238,32 @@ export default class SearchForm extends React.Component {
                 component={FOptionsMonthRange}
               />
             </Col>
+
+            {this.state.isTimezoneDay && (
+              <div>
+                <Col span={5}>
+                  <InputLabel
+                    size={'large'}
+                    disabled={true}
+                    label={translate('aqiSearchForm.form.from.label')}
+                    value={
+                      this.state.timezoneTo ? this.state.timezoneTo : '01:00'
+                    }
+                  />
+                </Col>
+                <Col span={4}>
+                  <TimerPicker
+                    size="large"
+                    name="timezoneDay"
+                    timePickerFormat="HH:00"
+                    label={translate('aqiSearchForm.form.to.label')}
+                    defaultValue={'00:00'}
+                    component={FTimerPicker}
+                    onChange={this.hanldeOnchangeFramTime}
+                  />
+                </Col>
+              </div>
+            )}
           </Row>
         </Container>
       </SearchFormContainer>
