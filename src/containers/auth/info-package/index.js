@@ -12,7 +12,8 @@ import * as _ from 'lodash'
 import Clearfix from 'components/elements/clearfix'
 import { connect } from 'react-redux'
 import { DD_MM_YYYY } from 'constants/format-date'
-import { EMAIL, PHONE } from 'constants/info-contact.js'
+import UserApi from 'api/UserApi'
+import StationAuto from 'api/StationAuto'
 
 const { Title, Text } = Typography
 
@@ -58,6 +59,8 @@ export class InfoLicenseForm extends PureComponent {
 
   state = {
     isLoading: true,
+    totalUser: {},
+    currentUser: {},
   }
 
   componentWillMount() {
@@ -69,8 +72,30 @@ export class InfoLicenseForm extends PureComponent {
     }
   }
 
+  async componentDidMount() {
+    const currentUser = await UserApi.getTotalCount()
+    const totalUser = await StationAuto.getTotalCount()
+    console.log('currentUser', currentUser)
+    console.log('totalUser', totalUser)
+    this.setState({
+      totalUser,
+      currentUser,
+    })
+  }
+
   render() {
     const { organization, totalStationActived } = this.props
+    const { totalUser, currentUser } = this.state
+    // console.log(this.state.organizationInfo)
+    console.log('organization', organization)
+    // const { organizationInfo } = this.state
+    const phone = _.get(organization, [
+      'packageInfo',
+      'saler',
+      'phone',
+      'phoneNumber',
+    ])
+    const email = _.get(organization, ['packageInfo', 'saler', 'email'])
 
     let dateCreate, dateExp, totalDays, limitTotalStation
     if (organization) {
@@ -87,7 +112,7 @@ export class InfoLicenseForm extends PureComponent {
       }
       dateCreate = createdAt.format(DD_MM_YYYY)
 
-      limitTotalStation = _.get(organization, 'license.totalStation', '')
+      limitTotalStation = _.get(organization, ['packageInfo', 'totalStation'])
     }
     return (
       <InfoLicenseWrapper>
@@ -142,7 +167,9 @@ export class InfoLicenseForm extends PureComponent {
                     >
                       {i18n.text4}
                     </Text>
-                    <Text disabled>{totalStationActived}</Text>
+                    <Text
+                      disabled
+                    >{`${totalStationActived}/${limitTotalStation}`}</Text>
                     <Clearfix height={8} />
                     <Text
                       strong
@@ -150,7 +177,10 @@ export class InfoLicenseForm extends PureComponent {
                     >
                       {i18n.text5}
                     </Text>
-                    <Text disabled>{limitTotalStation}</Text>
+                    <Text disabled>{`${currentUser.data}/${
+                      totalUser.data
+                    }`}</Text>
+                    <Clearfix height={8} />
                   </div>
                 </div>
               </Col>
@@ -174,7 +204,7 @@ export class InfoLicenseForm extends PureComponent {
                         color: SHAPE.PRIMARY,
                       }}
                     >
-                      {PHONE}
+                      {phone}
                     </Text>
                     <Clearfix height={8} />
                     <Text
@@ -188,7 +218,7 @@ export class InfoLicenseForm extends PureComponent {
                         color: SHAPE.PRIMARY,
                       }}
                     >
-                      {EMAIL}
+                      {email}
                     </Text>
                   </div>
                 </div>
