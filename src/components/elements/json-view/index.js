@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
 import { Button, Modal } from 'antd'
+import ReactJson from 'react-json-view'
+import { translate } from 'hoc/create-lang'
+const i18n = {
+  jsonView: translate('dataLogger.list.jsonView'),
+}
 
 export default class JsonView extends Component {
   state = {
@@ -13,14 +18,12 @@ export default class JsonView extends Component {
   }
 
   handleOk = e => {
-    console.log(e)
     this.setState({
       visible: false,
     })
   }
 
   handleCancel = e => {
-    console.log(e)
     this.setState({
       visible: false,
     })
@@ -30,18 +33,16 @@ export default class JsonView extends Component {
     return (
       <React.Fragment>
         <Button type="primary" onClick={this.showModal}>
-          Open Modal
+          {i18n.jsonView}
         </Button>
         <Modal
           width={720}
-          title="Basic Modal"
+          title={this.props.content.actor.email}
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          <ReactJson src={this.props.content} />
         </Modal>
       </React.Fragment>
     )
