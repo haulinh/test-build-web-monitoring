@@ -1,23 +1,23 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import WqiApi from 'api/WqiApi'
-import Clearfix from 'components/elements/clearfix'
-import { translate } from 'hoc/create-lang'
+import PageContainer from './node_modules/layout/default-sidebar-layout/PageContainer'
+import aqiApi from './node_modules/api/AqiApi'
+import Clearfix from './node_modules/components/elements/clearfix/index'
+import { translate } from './node_modules/hoc/create-lang'
 import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import * as _ from 'lodash'
 import { message, Spin } from 'antd'
-import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import queryFormDataBrowser from './node_modules/hoc/query-formdata-browser'
 import swal from 'sweetalert2'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import ROLE from './node_modules/constants/role'
+import protectRole from './node_modules/hoc/protect-role'
 
 @protectRole(ROLE.STATISTIC.AQI)
 @queryFormDataBrowser(['submit'])
 @autobind
-export default class WQIStatistics extends React.Component {
+export default class AQIStatistics extends React.Component {
   state = {
     dataAQI: [],
     searchFormData: {},
@@ -33,7 +33,6 @@ export default class WQIStatistics extends React.Component {
   }
 
   handleSubmitSearch(searchFormData) {
-    console.log(searchFormData, "--searchFormData")
     this.loadData(this.state.pagination, searchFormData)
   }
 
@@ -48,7 +47,7 @@ export default class WQIStatistics extends React.Component {
       to: searchFormData.toDate,
       listKey: searchFormData.stationID,
     }
-    let dataAQI = await WqiApi.fetchWqiHourbyStation({ ...params })
+    let dataAQI = await aqiApi.fetchAqiHourbyStation({ ...params })
     if (dataAQI && (Array.isArray(dataAQI.data) && dataAQI.data.length === 0)) {
       swal({
         type: 'success',
@@ -72,7 +71,7 @@ export default class WQIStatistics extends React.Component {
       to: _.get(this.state.searchFormData, 'toDate', ''),
       listKey: _.get(this.state.searchFormData, 'stationID', ''),
     }
-    let res = await WqiApi.exportFileWqiHourbyStation({ ...params })
+    let res = await aqiApi.exportFileAqiHourbyStation({ ...params })
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
 
@@ -92,8 +91,8 @@ export default class WQIStatistics extends React.Component {
     }
 
     const processFunc = [
-      WqiApi.fetchWQIProcessCalDay({ ...params }),
-      WqiApi.fetchWQIProcessCalHour({ ...params }),
+      aqiApi.fetchAqiProcessCalDay({ ...params }),
+      aqiApi.fetchAqiProcessCalHour({ ...params }),
     ]
     let res = await Promise.all(processFunc)
     // console.log("res: ", res);

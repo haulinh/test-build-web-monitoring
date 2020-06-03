@@ -198,7 +198,8 @@ export default {
     type12: '/report/type12', // tỷ lệ dữ liệu vượt ngưỡng của 1 trạm
     aqi_hour: '/report/aqi-hour',
     aqi_day: '/report/aqi-day',
-    aqi_878: '/report/aqi-878',
+    wqi_hour: '/report/wqi-hour',
+    wqi_day: '/report/wqi-day',
     status_data: '/report/status-data',
   },
   dataLogger: {
@@ -303,6 +304,8 @@ export const MENU_NAME = {
     aqiMap: translate('menuApp.advance.aqiMap'),
     aqiStatistic: translate('menuApp.advance.aqiStatistic'),
     wqiMap: translate('menuApp.advance.wqiMap'),
+    wqiHour: translate('menuApp.advance.wqiHour'),
+    wqiDay: translate('menuApp.advance.wqiDay'),
     wqiStatistic: translate('menuApp.advance.wqiStatistic'),
     config: translate('menuApp.advance.config'),
   },

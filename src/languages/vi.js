@@ -1802,6 +1802,8 @@ export default {
       aqiMap: 'Bản đồ AQI',
       aqiStatistic: 'Tra cứu dữ liệu AQI',
       wqiMap: 'Bản đồ WQI',
+      wqiHour: 'WQI - Giờ',
+      wqiDay: 'WQI - Ngày',
       wqiStatistic: 'Tra cứu dữ liệu WQI',
       config: 'Cấu hình AQI & WQI',
     },
@@ -1884,7 +1886,8 @@ export default {
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
       aqiHour: 'AQI - Giờ',
       aqiDay: 'AQI - Ngày',
-      aqi878: 'AQI - 1479',
+      wqiHour: 'WQI - Giờ',
+      wqiDay: 'WQI - Ngày',
       status_data: 'Status Data', // Qui them cho dong bo voi file EN
     },
   },
