@@ -31,13 +31,15 @@ export function fetchWQILastLogs({ listKey } = {}) {
   return getFetch(url)
 }
 export function fetchWqiHourbyStation({ from, to, listKey } = {}) {
-  var url = getWqiUrl(`${SLUG_WQI_VS}/hour?to=${to}&from=${from}&listKey=${listKey}`)
+  var url = getWqiUrl(
+    `${SLUG_WQI_VS}/hour?to=${to}&from=${from}&listKey=${listKey}`
+  )
   return getFetch(url)
 }
 
 export function fetchWQIProcessCalDay({ from, to, listKey } = {}) {
   var url = getWqiUrl(
-    `${SLUG_WQI_VS}/process-cal-day?to=${to}&from=${from}&stationKey=${listKey}`
+    `${SLUG_WQI_VS}/process-cal-day?to=${to}&from=${from}&listKey=${listKey}`
   )
   return getFetch(url)
 }
@@ -47,9 +49,23 @@ export function fetchWQIProcessCalHour({ from, to, listKey } = {}) {
   )
   return getFetch(url)
 }
+
 export function exportFileWqiHourbyStation({ from, to, listKey } = {}) {
   var url = getWqiUrl(
     `${SLUG_WQI_VS}/hour-export-excel?to=${to}&from=${from}&listKey=${listKey}`
+  )
+  return getFetch(url)
+}
+export function exportFileWqiDaybyListStation({ from, to, listKey } = {}) {
+  var url = getWqiUrl(
+    `${SLUG_WQI_VS}/day-export-excel?from=${from}&to=${to}&listKey=${listKey}`
+  )
+  return getFetch(url)
+}
+
+export function fetchWqiDaybyListStation({ from, to, listKey } = {}) {
+  var url = getWqiUrl(
+    `${SLUG_WQI_VS}/day?to=${to}&from=${from}&listKey=${listKey}`
   )
   return getFetch(url)
 }
@@ -62,5 +78,7 @@ export default {
   fetchWqiHourbyStation,
   fetchWQIProcessCalDay,
   fetchWQIProcessCalHour,
-  exportFileWqiHourbyStation
+  exportFileWqiHourbyStation,
+  fetchWqiDaybyListStation,
+  exportFileWqiDaybyListStation,
 }
