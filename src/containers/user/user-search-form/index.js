@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import get from 'lodash/get'
+import * as _ from 'lodash'
 import { Row, Col, Form as FormStyle, Input, Button, Icon, Modal } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
@@ -56,9 +56,9 @@ const Form = styled(FormStyle)`
   mapPropsToFields: mapPropsToFields,
 })
 @connect(state => ({
-  limitTotalStation: get(
+  limitTotalUser: _.get(
     state,
-    'state.auth.userInfo.organization.packageInfo.totalUser',
+    'auth.userInfo.organization.packageInfo.totalUser',
     0
   ),
 }))
@@ -117,7 +117,7 @@ export default class UserSearchForm extends React.PureComponent {
   }
 
   handleAddUser = () => {
-    if (this.props.limitTotalStation <= this.props.totalUser) {
+    if (this.props.limitTotalUser <= this.props.totalUser) {
       Modal.warning({
         icon: null,
         width: '50%',

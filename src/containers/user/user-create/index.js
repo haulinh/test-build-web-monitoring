@@ -33,9 +33,9 @@ const i18n = {
 
 @protectRole(ROLE.USER.CREATE)
 @connect(state => ({
-  limitTotalStation: _.get(
+  limitTotalUser: _.get(
     state,
-    'state.auth.userInfo.organization.packageInfo.totalUser',
+    'auth.userInfo.organization.packageInfo.totalUser',
     0
   ),
 }))
@@ -80,9 +80,9 @@ export default class UserCreate extends React.PureComponent {
   }
 
   checkLicenseStation = () => {
-    const { limitTotalStation } = this.props
+    const { limitTotalUser } = this.props
     const { totalUserActive } = this.state
-    if (totalUserActive >= limitTotalStation) {
+    if (totalUserActive >= limitTotalUser) {
       Modal.warning({
         icon: null,
         width: '50%',
@@ -119,6 +119,7 @@ export default class UserCreate extends React.PureComponent {
         isLicense: true,
       })
     }
+    this.setState({ isLoading: false })
   }
 
   handleClose = () => {
