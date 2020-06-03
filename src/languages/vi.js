@@ -1913,7 +1913,7 @@ export default {
       colDevice: 'Thiết bị',
       colDetail: 'Chi tiết',
       jsonFile: 'Tài liệu Json',
-      jsonView: "Xem Json"
+      jsonView: 'Xem Json',
     },
     searchForm: {
       user: 'Select email',

@@ -82,7 +82,13 @@ export class InfoLicenseForm extends PureComponent {
     const { organization, totalStationActived } = this.props
     const { currentUser } = this.state
 
-    let dateCreate, dateExp, totalDays, limitTotalStation, totalUser, phone, email
+    let dateCreate,
+      dateExp,
+      totalDays,
+      limitTotalStation,
+      totalUser,
+      phone,
+      email
     if (organization) {
       const createdAt = _.get(organization, 'createdAt')
         ? moment(_.get(organization, 'createdAt'))
@@ -171,9 +177,7 @@ export class InfoLicenseForm extends PureComponent {
                     >
                       {i18n.text5}
                     </Text>
-                    <Text disabled>{`${currentUser.data}/${
-                      totalUser
-                    }`}</Text>
+                    <Text disabled>{`${currentUser.data}/${totalUser}`}</Text>
                     <Clearfix height={8} />
                   </div>
                 </div>

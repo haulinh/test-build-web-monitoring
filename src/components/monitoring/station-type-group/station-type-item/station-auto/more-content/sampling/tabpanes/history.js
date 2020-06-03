@@ -1,57 +1,59 @@
 /* libs import */
-import React from "react";
-import { withRouter } from "react-router";
-import { Table, Tag } from "antd";
+import React from 'react'
+import { withRouter } from 'react-router'
+import { Table, Tag } from 'antd'
 /* user import */
-import { translate } from "hoc/create-lang";
-import SamplingAPI from "api/SamplingApi";
+import { translate } from 'hoc/create-lang'
+import SamplingAPI from 'api/SamplingApi'
 import moment from 'moment-timezone'
-import { toLower as _toLower} from 'lodash'
-import { DD_MM_YYYY_HH_MM } from "constants/format-date";
-import swal from "sweetalert2";
+import { toLower as _toLower } from 'lodash'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import swal from 'sweetalert2'
 import _ from 'lodash'
 
 const i18n = {
-  stt: translate("monitoring.moreContent.sampling.content.history.stt"),
+  stt: translate('monitoring.moreContent.sampling.content.history.stt'),
   bottleNo: translate(
-    "monitoring.moreContent.sampling.content.history.bottleNo"
+    'monitoring.moreContent.sampling.content.history.bottleNo'
   ),
   dateTime: translate(
-    "monitoring.moreContent.sampling.content.history.dateTime"
+    'monitoring.moreContent.sampling.content.history.dateTime'
   ),
   typeOfSampling: translate(
-    "monitoring.moreContent.sampling.content.history.typeOfSampling"
+    'monitoring.moreContent.sampling.content.history.typeOfSampling'
   ),
   activedUser: translate(
-    "monitoring.moreContent.sampling.content.history.activedUser"
+    'monitoring.moreContent.sampling.content.history.activedUser'
   ),
-  result: translate(
-    "monitoring.moreContent.sampling.content.history.result"
-  ),
+  result: translate('monitoring.moreContent.sampling.content.history.result'),
   success: translate('monitoring.moreContent.sampling.content.history.result'),
-  history:{
-    manual:translate('monitoring.moreContent.sampling.content.history.manual'),
-    cancel_schedule:translate('monitoring.moreContent.sampling.content.history.cancel_schedule'),
-    active_schedule:translate('monitoring.moreContent.sampling.content.history.active_schedule'),
-    config:translate('monitoring.moreContent.sampling.content.history.config'),
-    reset_bottles:translate('monitoring.moreContent.sampling.content.history.reset_bottles'),
-  }
-};
+  history: {
+    manual: translate('monitoring.moreContent.sampling.content.history.manual'),
+    cancel_schedule: translate(
+      'monitoring.moreContent.sampling.content.history.cancel_schedule'
+    ),
+    active_schedule: translate(
+      'monitoring.moreContent.sampling.content.history.active_schedule'
+    ),
+    config: translate('monitoring.moreContent.sampling.content.history.config'),
+    reset_bottles: translate(
+      'monitoring.moreContent.sampling.content.history.reset_bottles'
+    ),
+  },
+}
 
-const {Column} = Table
+const { Column } = Table
 
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
-  static propTypes = {};
-  static defaultProps = {};
+  static propTypes = {}
+  static defaultProps = {}
 
-  static state = {
-   
-  };
+  static state = {}
 
   constructor(props) {
-    super(props);
-    this.loadData = this.loadData.bind(this);
+    super(props)
+    this.loadData = this.loadData.bind(this)
 
     this.state = {
       page: 1,
@@ -59,59 +61,54 @@ export default class SamplingMoreInfo extends React.Component {
       total: 0,
       dataSource: [],
       isLoading: true,
-      stationID: this.props.stationID
+      stationID: this.props.stationID,
     }
   }
 
-
-
-
   async loadData(page, pageSize) {
     this.setState({ isLoading: true }, async () => {
-      try{
-        let {stationID} = this.state
+      try {
+        let { stationID } = this.state
         // console.log('this.state',  this.state)
         let res = await SamplingAPI.getHistory({
           page,
           itemPerPage: pageSize,
-          stationAutoId: stationID
-        });
+          stationAutoId: stationID,
+        })
         if (res.success) {
-          const { page, totalItem } = res.pagination;
-          // add field stt 
-          const dataSource = res.data.map((item, index)=> {
+          const { page, totalItem } = res.pagination
+          // add field stt
+          const dataSource = res.data.map((item, index) => {
             return {
               ...item,
               stt: (page - 1) * pageSize + index + 1,
-              createdAt: moment(item.createdAt).format(DD_MM_YYYY_HH_MM)
+              createdAt: moment(item.createdAt).format(DD_MM_YYYY_HH_MM),
             }
           })
           this.setState({
             page,
             total: totalItem,
             dataSource,
-            isLoading: false
-          });
+            isLoading: false,
+          })
         }
-      } catch(e){
+      } catch (e) {
         const { message } = _.get(e.response, 'data.error')
         this.setState({
-          isLoading: false
-        });
-        swal({title: message, type: 'error'})
+          isLoading: false,
+        })
+        swal({ title: message, type: 'error' })
       }
-    });
+    })
   }
 
   async componentWillMount() {
-    this.loadData(
-      this.state.page, 
-      this.state.pageSize);
+    this.loadData(this.state.page, this.state.pageSize)
   }
 
   /* load history on tab change */
-  componentDidMount(){
-    if(this.props.getRef) this.props.getRef(this)
+  componentDidMount() {
+    if (this.props.getRef) this.props.getRef(this)
   }
 
   render() {
@@ -124,33 +121,28 @@ export default class SamplingMoreInfo extends React.Component {
             pageSize: this.state.pageSize,
             current: this.state.page,
             onChange: this.loadData,
-            total: this.state.total
+            total: this.state.total,
           }}
           size="small"
-          rowKey={(record) => record._id }  // https://ant.design/components/table/#Note
+          rowKey={record => record._id} // https://ant.design/components/table/#Note
         >
-          <Column 
-            title="STT"
-            align="center"
-            dataIndex="stt"
-            width={30}
-          />
+          <Column title="STT" align="center" dataIndex="stt" width={30} />
 
-           <Column 
+          <Column
             title={i18n.bottleNo}
             align="center"
             dataIndex="bottleNumber"
             width={50}
           />
-          
-          <Column 
+
+          <Column
             title={i18n.dateTime}
             align="center"
             dataIndex="createdAt"
             width={70}
           />
 
-          <Column 
+          <Column
             title={i18n.typeOfSampling}
             align="center"
             dataIndex="typeOfSampling"
@@ -161,31 +153,32 @@ export default class SamplingMoreInfo extends React.Component {
             }}
           />
 
-          <Column 
+          <Column
             title={i18n.activedUser}
             align="center"
             dataIndex="user"
             width={150}
-      
           />
 
-          <Column 
+          <Column
             title={i18n.result}
             align="center"
             dataIndex="result"
             width={50}
             render={(...args) => {
               const [data] = args
-              switch(data) {
-                case 'SUCCESS': return <Tag color="#6ba84f">{data}</Tag>
-                case 'FAILED' : return <Tag color="#cc1200">{data}</Tag>
+              switch (data) {
+                case 'SUCCESS':
+                  return <Tag color="#6ba84f">{data}</Tag>
+                case 'FAILED':
+                  return <Tag color="#cc1200">{data}</Tag>
                 default:
-                break
+                  break
               }
             }}
-          /> 
+          />
         </Table>
       </div>
-    );
+    )
   }
 }

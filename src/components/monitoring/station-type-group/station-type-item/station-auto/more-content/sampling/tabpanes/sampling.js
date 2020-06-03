@@ -8,7 +8,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import swal from 'sweetalert2'
-import { Row, Col, Form, InputNumber, Button, Radio, TimePicker, DatePicker, Modal } from 'antd'
+import {
+  Row,
+  Col,
+  Form,
+  InputNumber,
+  Button,
+  Radio,
+  TimePicker,
+  DatePicker,
+  Modal,
+} from 'antd'
 import moment from 'moment-timezone'
 /* user import */
 import { translate } from 'hoc/create-lang'
@@ -16,26 +26,48 @@ import SamplingAPI from 'api/SamplingApi'
 
 const i18n = {
   /*  */
-  totalBottles: translate('monitoring.moreContent.sampling.content.totalBottles'),
-  sampledBottles: translate('monitoring.moreContent.sampling.content.sampledBottles'),
+  totalBottles: translate(
+    'monitoring.moreContent.sampling.content.totalBottles'
+  ),
+  sampledBottles: translate(
+    'monitoring.moreContent.sampling.content.sampledBottles'
+  ),
   /* sampling mode */
-  typeOfSampling: translate('monitoring.moreContent.sampling.content.typeOfSampling'),
-  immediatelySampling: translate('monitoring.moreContent.sampling.content.immediatelySampling'),
-  scheduleSampling: translate('monitoring.moreContent.sampling.content.scheduleSampling'),
-  bottlesNeedToTake: translate('monitoring.moreContent.sampling.content.bottlesNeedToTake'),
-  timeStartSampling: translate('monitoring.moreContent.sampling.content.timeStartSampling'),
+  typeOfSampling: translate(
+    'monitoring.moreContent.sampling.content.typeOfSampling'
+  ),
+  immediatelySampling: translate(
+    'monitoring.moreContent.sampling.content.immediatelySampling'
+  ),
+  scheduleSampling: translate(
+    'monitoring.moreContent.sampling.content.scheduleSampling'
+  ),
+  bottlesNeedToTake: translate(
+    'monitoring.moreContent.sampling.content.bottlesNeedToTake'
+  ),
+  timeStartSampling: translate(
+    'monitoring.moreContent.sampling.content.timeStartSampling'
+  ),
   frequency: translate('monitoring.moreContent.sampling.content.frequency'),
-  dateStartSampling: translate('monitoring.moreContent.sampling.content.dateStartSampling'),
+  dateStartSampling: translate(
+    'monitoring.moreContent.sampling.content.dateStartSampling'
+  ),
   /* button lay mau thu cong */
   takeSample: translate('monitoring.moreContent.sampling.content.takeSample'),
   commandSent: translate('monitoring.moreContent.sampling.content.commandSent'),
-  takingSample: translate('monitoring.moreContent.sampling.content.takingSample'),
+  takingSample: translate(
+    'monitoring.moreContent.sampling.content.takingSample'
+  ),
   /* button lay mau tu dong */
   active: translate('monitoring.moreContent.sampling.content.active'),
   actived: translate('monitoring.moreContent.sampling.content.actived'),
   /* button lay mau vuot nguong */
-  activeOverRange: translate('monitoring.moreContent.sampling.content.activeOverRange'),
-  activedOverRange: translate('monitoring.moreContent.sampling.content.activedOverRange'),
+  activeOverRange: translate(
+    'monitoring.moreContent.sampling.content.activeOverRange'
+  ),
+  activedOverRange: translate(
+    'monitoring.moreContent.sampling.content.activedOverRange'
+  ),
   /* alerts */
   alertNull: translate('error.nullValue'),
   alertSuccess: translate('success.text'),
@@ -43,11 +75,15 @@ const i18n = {
   alertWarning: translate('error.warningText'),
   alertModalResetTitle: translate('error.monitoring.sampling.resetTitle'),
   alertModalResetSubtitle: translate('error.monitoring.sampling.resetSubtitle'),
-  alertErrorUpdateScheduleSubtitle: translate('error.monitoring.sampling.updateScheduleSubtitle'),
+  alertErrorUpdateScheduleSubtitle: translate(
+    'error.monitoring.sampling.updateScheduleSubtitle'
+  ),
   alertErrorTakeSampling: translate('error.monitoring.sampling.takeSampling'),
   /*  */
   modalConfirm: translate('modal.confirm.title'),
-  cancelConfigSchedule: translate('modal.confirm.monitoring.sampling.cancelSchedule')
+  cancelConfigSchedule: translate(
+    'modal.confirm.monitoring.sampling.cancelSchedule'
+  ),
 }
 
 const RadioButton = Radio.Button
@@ -60,21 +96,21 @@ const STATUS_COLOR = {
   COMMANDED: '',
   SAMPLING: {
     backgroundColor: 'orange',
-    borderColor: 'orange'
+    borderColor: 'orange',
   },
   ACTIVED: {
     backgroundColor: 'orange',
-    borderColor: 'orange'
-  }
+    borderColor: 'orange',
+  },
 }
 
 const SAMPLING_TYPE = {
   MANUAL: 'MANUAL',
-  AUTO: 'AUTO'
+  AUTO: 'AUTO',
 }
 
 const fieldNames = {
-  sampledBottles: "sampledBottles"
+  sampledBottles: 'sampledBottles',
 }
 
 function isFormError(fieldsError) {
@@ -88,7 +124,7 @@ export default class SamplingMoreInfo extends React.Component {
     stationID: PropTypes.string,
     isScheduled: PropTypes.bool,
     configSampling: PropTypes.object,
-    configSamplingSchedule: PropTypes.object
+    configSamplingSchedule: PropTypes.object,
   }
 
   static defaultProps = {
@@ -99,15 +135,14 @@ export default class SamplingMoreInfo extends React.Component {
       sampledBottles: 0,
       controlTagName: '',
       timeToTakeOneBottle: 0,
-      status: ''
+      status: '',
     },
     configSamplingSchedule: {
       numberBottles: 3,
       frequency: 30,
-      dateTimeStart: moment()
-    }
+      dateTimeStart: moment(),
+    },
   }
-
 
   constructor(props) {
     super(props)
@@ -122,7 +157,9 @@ export default class SamplingMoreInfo extends React.Component {
       // mock states
       isActivedOverRange: false,
       isScheduleUpdating: false,
-      samplingType: this.props.isScheduled ? SAMPLING_TYPE.AUTO : SAMPLING_TYPE.MANUAL
+      samplingType: this.props.isScheduled
+        ? SAMPLING_TYPE.AUTO
+        : SAMPLING_TYPE.MANUAL,
     }
   }
 
@@ -134,8 +171,8 @@ export default class SamplingMoreInfo extends React.Component {
       this.props.updateParentState({
         configSampling: {
           ...this.props.configSampling,
-          sampledBottles
-        }
+          sampledBottles,
+        },
       })
     }
     return res
@@ -150,7 +187,7 @@ export default class SamplingMoreInfo extends React.Component {
       async onOk() {
         return await me.resetSampledBottle(e)
       },
-      onCancel() {}
+      onCancel() {},
     })
   }
   /* TODO  LATER */
@@ -168,8 +205,8 @@ export default class SamplingMoreInfo extends React.Component {
     this.props.updateParentState({
       configSampling: {
         ...this.props.configSampling,
-        status: STATUS_SAMPLING.COMMANDED
-      }
+        status: STATUS_SAMPLING.COMMANDED,
+      },
     })
     const { stationID, configSampling } = this.props
     return SamplingAPI.takeSampling(stationID, { configSampling })
@@ -183,11 +220,11 @@ export default class SamplingMoreInfo extends React.Component {
         .then(res => {
           if (res.success) {
             const { status, sampledBottles } = res.data.configSampling
-            
+
             /* tăng số chai đã lấy */
-            if ( status === STATUS_SAMPLING.SAMPLING) {
+            if (status === STATUS_SAMPLING.SAMPLING) {
               this.props.form.setFieldsValue({
-                [fieldNames.sampledBottles]: sampledBottles
+                [fieldNames.sampledBottles]: sampledBottles,
               })
             }
 
@@ -195,8 +232,8 @@ export default class SamplingMoreInfo extends React.Component {
             this.props.updateParentState({
               configSampling: {
                 ...this.props.configSampling,
-                status: status
-              }
+                status: status,
+              },
             })
           }
         })
@@ -207,13 +244,13 @@ export default class SamplingMoreInfo extends React.Component {
             title: i18n.alertWarning,
             html: i18n.alertErrorTakeSampling,
             width: 600,
-            type: 'warning'
+            type: 'warning',
           })
           this.props.updateParentState({
             configSampling: {
               ...this.props.configSampling,
-              status: STATUS_SAMPLING.READY
-            }
+              status: STATUS_SAMPLING.READY,
+            },
           })
         })
     }
@@ -229,31 +266,36 @@ export default class SamplingMoreInfo extends React.Component {
         const res = await SamplingAPI.cancelConfigSchedule(stationID)
         if (res.data.configSamplingSchedule === null) {
           me.props.updateParentState({
-            isScheduled: false
+            isScheduled: false,
           })
         }
         return
       },
-      onCancel() {}
+      onCancel() {},
     })
   }
 
   async handleClickActive() {
     this.props.updateParentState({
-      isScheduled: true
+      isScheduled: true,
     })
     const { stationID, isScheduled } = this.props
     const { getFieldValue } = this.props.form
 
     if (!isScheduled) {
       let timeStartSampling = getFieldValue('timeStartSampling').format('HH:mm')
-      let dateStartSampling = getFieldValue('dateStartSampling').format('DD-MM-YYYY')
+      let dateStartSampling = getFieldValue('dateStartSampling').format(
+        'DD-MM-YYYY'
+      )
       const body = {
         configSamplingSchedule: {
           numberBottles: getFieldValue('bottlesNeedToTake'),
           frequency: getFieldValue('frequency'),
-          dateTimeStart: moment(`${dateStartSampling} ${timeStartSampling}`, 'DD-MM-YYYY HH:mm').toDate()
-        }
+          dateTimeStart: moment(
+            `${dateStartSampling} ${timeStartSampling}`,
+            'DD-MM-YYYY HH:mm'
+          ).toDate(),
+        },
       }
       this.setState({ isScheduleUpdating: true })
       console.log('body', body)
@@ -261,14 +303,18 @@ export default class SamplingMoreInfo extends React.Component {
         // let res = await SamplingAPI.updateConfigSchedule(stationID, body)
         await SamplingAPI.updateConfigSchedule(stationID, body)
         this.props.updateParentState({
-          isScheduled: true
+          isScheduled: true,
         })
       } catch (e) {
         /* MARK  -- @Thao: tra ve code phia server de frontend translate */
-        swal({ title: i18n.alertWarning, text: i18n.alertErrorUpdateScheduleSubtitle, type: 'warning' })
+        swal({
+          title: i18n.alertWarning,
+          text: i18n.alertErrorUpdateScheduleSubtitle,
+          type: 'warning',
+        })
         // swal({title: `${e.response.data.error.message}`, type: 'error'})
         this.props.updateParentState({
-          isScheduled: false
+          isScheduled: false,
         })
       }
       this.setState({ isScheduleUpdating: false })
@@ -278,7 +324,11 @@ export default class SamplingMoreInfo extends React.Component {
   render() {
     const { STATUS_SAMPLING, isScheduled } = this.props
     const { totalBottles, sampledBottles, status } = this.props.configSampling
-    const { numberBottles, frequency, dateTimeStart } = this.props.configSamplingSchedule
+    const {
+      numberBottles,
+      frequency,
+      dateTimeStart,
+    } = this.props.configSamplingSchedule
     const { getFieldDecorator, getFieldsError } = this.props.form
     const { isScheduleUpdating, samplingType } = this.state
     const isFullBottles = sampledBottles >= totalBottles
@@ -289,25 +339,37 @@ export default class SamplingMoreInfo extends React.Component {
       <div style={{ padding: 8 }}>
         {/* -- FORM NHAP SO CHAI -- */}
         <Row>
-          <Form id="form-sample-reset" layout="vertical" onSubmit={this.handleSubmitFormReset} wrapperCol={{ span: 24 }}>
+          <Form
+            id="form-sample-reset"
+            layout="vertical"
+            onSubmit={this.handleSubmitFormReset}
+            wrapperCol={{ span: 24 }}
+          >
             <Row gutter={16}>
               <Col span={11}>
                 <FormItem style={{ width: '100%' }} label={i18n.totalBottles}>
-                  <InputNumber disabled value={totalBottles} style={{ width: '100%' }} />
+                  <InputNumber
+                    disabled
+                    value={totalBottles}
+                    style={{ width: '100%' }}
+                  />
                 </FormItem>
               </Col>
               <Col span={11}>
                 <FormItem style={{ width: '100%' }} label={i18n.sampledBottles}>
                   {getFieldDecorator(fieldNames.sampledBottles, {
-                    initialValue: sampledBottles
-                  })(
-                    <InputNumber disabled style={{ width: '100%' }} />
-                  )}
+                    initialValue: sampledBottles,
+                  })(<InputNumber disabled style={{ width: '100%' }} />)}
                 </FormItem>
               </Col>
               <Col span={2} style={{ textAlign: 'center' }}>
                 <FormItem label="&nbsp;">
-                  <Button block type="primary" onClick={this.handleSubmitFormReset} disabled={isScheduled || isSampling}>
+                  <Button
+                    block
+                    type="primary"
+                    onClick={this.handleSubmitFormReset}
+                    disabled={isScheduled || isSampling}
+                  >
                     Reset
                   </Button>
                 </FormItem>
@@ -320,11 +382,18 @@ export default class SamplingMoreInfo extends React.Component {
         <Row>
           <Row style={{ marginBottom: 20 }}>
             <Row style={{ marginBottom: 5 }}>{i18n.typeOfSampling}</Row>
-            <RadioGroup defaultValue={samplingType} onChange={this.handleSamplingTypeChange} buttonStyle="solid">
+            <RadioGroup
+              defaultValue={samplingType}
+              onChange={this.handleSamplingTypeChange}
+              buttonStyle="solid"
+            >
               <RadioButton value={SAMPLING_TYPE.MANUAL} disabled={isScheduled}>
                 {i18n.immediatelySampling}
               </RadioButton>
-              <RadioButton value={SAMPLING_TYPE.AUTO} disabled={isSampling && !isScheduled}>
+              <RadioButton
+                value={SAMPLING_TYPE.AUTO}
+                disabled={isSampling && !isScheduled}
+              >
                 {i18n.scheduleSampling}
               </RadioButton>
             </RadioGroup>
@@ -332,10 +401,16 @@ export default class SamplingMoreInfo extends React.Component {
 
           {/* -- TOGGLE SAMPLING MODE --*/}
           {samplingType === SAMPLING_TYPE.AUTO && (
-            <Form id="form-sample-auto" onSubmit={this.handleSubmitFormSampleAuto}>
+            <Form
+              id="form-sample-auto"
+              onSubmit={this.handleSubmitFormSampleAuto}
+            >
               <Row gutter={16}>
                 <Col span={12}>
-                  <FormItem style={{ width: '100%' }} label={i18n.bottlesNeedToTake}>
+                  <FormItem
+                    style={{ width: '100%' }}
+                    label={i18n.bottlesNeedToTake}
+                  >
                     {getFieldDecorator('bottlesNeedToTake', {
                       rules: [
                         {
@@ -343,22 +418,36 @@ export default class SamplingMoreInfo extends React.Component {
                           min: 1,
                           max: totalBottles - sampledBottles,
                           type: 'integer',
-                          message: i18n.alertNull
-                        }
+                          message: i18n.alertNull,
+                        },
                       ],
-                      initialValue: numberBottles
-                    })(<InputNumber disabled={isScheduled} style={{ width: '100%' }} />)}
+                      initialValue: numberBottles,
+                    })(
+                      <InputNumber
+                        disabled={isScheduled}
+                        style={{ width: '100%' }}
+                      />
+                    )}
                   </FormItem>
-                  <FormItem style={{ width: '100%' }} label={i18n.timeStartSampling}>
+                  <FormItem
+                    style={{ width: '100%' }}
+                    label={i18n.timeStartSampling}
+                  >
                     {getFieldDecorator('timeStartSampling', {
                       rules: [
                         {
                           required: true,
-                          message: i18n.alertNull
-                        }
+                          message: i18n.alertNull,
+                        },
                       ],
-                      initialValue: moment(dateTimeStart)
-                    })(<TimePicker disabled={isScheduled} format="HH:mm" style={{ width: '100%' }} />)}
+                      initialValue: moment(dateTimeStart),
+                    })(
+                      <TimePicker
+                        disabled={isScheduled}
+                        format="HH:mm"
+                        style={{ width: '100%' }}
+                      />
+                    )}
                   </FormItem>
                 </Col>
                 <Col span={12}>
@@ -369,22 +458,36 @@ export default class SamplingMoreInfo extends React.Component {
                           required: true,
                           min: 1,
                           type: 'integer',
-                          message: i18n.alertNull
-                        }
+                          message: i18n.alertNull,
+                        },
                       ],
-                      initialValue: frequency
-                    })(<InputNumber disabled={isScheduled} style={{ width: '100%' }} />)}
+                      initialValue: frequency,
+                    })(
+                      <InputNumber
+                        disabled={isScheduled}
+                        style={{ width: '100%' }}
+                      />
+                    )}
                   </FormItem>
-                  <FormItem style={{ width: '100%' }} label={i18n.dateStartSampling}>
+                  <FormItem
+                    style={{ width: '100%' }}
+                    label={i18n.dateStartSampling}
+                  >
                     {getFieldDecorator('dateStartSampling', {
                       rules: [
                         {
                           required: true,
-                          message: i18n.alertNull
-                        }
+                          message: i18n.alertNull,
+                        },
                       ],
-                      initialValue: moment(dateTimeStart)
-                    })(<DatePicker disabled={isScheduled} format="DD/MM/YYYY" style={{ width: '100%' }} />)}
+                      initialValue: moment(dateTimeStart),
+                    })(
+                      <DatePicker
+                        disabled={isScheduled}
+                        format="DD/MM/YYYY"
+                        style={{ width: '100%' }}
+                      />
+                    )}
                   </FormItem>
                 </Col>
               </Row>
@@ -401,7 +504,10 @@ export default class SamplingMoreInfo extends React.Component {
               disabled={isFullBottles}
               style={{ marginBottom: 8, ...STATUS_COLOR[status] }}
               onClick={this.handleClickSampling}
-              loading={status === STATUS_SAMPLING.SAMPLING || status === STATUS_SAMPLING.COMMANDED}
+              loading={
+                status === STATUS_SAMPLING.SAMPLING ||
+                status === STATUS_SAMPLING.COMMANDED
+              }
             >
               {status === STATUS_SAMPLING.READY && i18n.takeSample}
               {status === STATUS_SAMPLING.COMMANDED && i18n.commandSent}
@@ -410,18 +516,41 @@ export default class SamplingMoreInfo extends React.Component {
           )}
           {/* active button */}
           {samplingType === SAMPLING_TYPE.AUTO && !isScheduled && (
-            <Button block type="primary" disabled={isFormError(getFieldsError())} style={{ marginBottom: 8 }} onClick={this.handleClickActive} loading={isScheduleUpdating}>
+            <Button
+              block
+              type="primary"
+              disabled={isFormError(getFieldsError())}
+              style={{ marginBottom: 8 }}
+              onClick={this.handleClickActive}
+              loading={isScheduleUpdating}
+            >
               {isScheduled ? i18n.actived : i18n.active}
             </Button>
           )}
           {/* actived button */}
           {samplingType === SAMPLING_TYPE.AUTO && isScheduled && (
-            <Button block type="primary" style={{ marginBottom: 8, ...STATUS_COLOR[isScheduled && 'ACTIVED'] }} onClick={this.cancelConfigSchedule} loading={isScheduleUpdating}>
+            <Button
+              block
+              type="primary"
+              style={{
+                marginBottom: 8,
+                ...STATUS_COLOR[isScheduled && 'ACTIVED'],
+              }}
+              onClick={this.cancelConfigSchedule}
+              loading={isScheduleUpdating}
+            >
               {isScheduled ? i18n.actived : i18n.active}
             </Button>
           )}
           {/* NOTE  nút này chưa cần xử lý*/}
-          <Button block type="primary" style={{ ...STATUS_COLOR[isActivedOverRange && 'ACTIVED'] }} onClick={() => this.setState({ isActivedOverRange: !isActivedOverRange })}>
+          <Button
+            block
+            type="primary"
+            style={{ ...STATUS_COLOR[isActivedOverRange && 'ACTIVED'] }}
+            onClick={() =>
+              this.setState({ isActivedOverRange: !isActivedOverRange })
+            }
+          >
             {isActivedOverRange ? i18n.activedOverRange : i18n.activeOverRange}
           </Button>
         </Row>

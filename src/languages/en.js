@@ -1918,7 +1918,7 @@ export default {
       colDevice: 'Device',
       colDetail: 'Detail',
       jsonFile: 'File Json',
-      jsonView: "View Json"
+      jsonView: 'View Json',
     },
     searchForm: {
       user: 'Select email',
