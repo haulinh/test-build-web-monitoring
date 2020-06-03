@@ -46,9 +46,9 @@ export default class QCVNFormTable extends React.PureComponent {
               rules: [
                 {
                   required: true,
-                  message: t('stationAutoManager.form.measuringName.error')
-                }
-              ]
+                  message: t('stationAutoManager.form.measuringName.error'),
+                },
+              ],
             })(
               <AutoCompleteCell
                 placeholder={t(

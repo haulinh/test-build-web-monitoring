@@ -58,9 +58,9 @@ export default class CheckBoxRole extends PureComponent {
           update(prevState, {
             menu: {
               [menuName]: {
-                $set: undefined
-              }
-            }
+                $set: undefined,
+              },
+            },
           }),
         () => {
           this.handleCheckChange()
@@ -72,9 +72,9 @@ export default class CheckBoxRole extends PureComponent {
           update(prevState, {
             menu: {
               [menuName]: {
-                $set: prevState.dataMenus.find(menu => menu.key === menuName)
-              }
-            }
+                $set: prevState.dataMenus.find(menu => menu.key === menuName),
+              },
+            },
           }),
         () => {
           this.handleCheckChange()
@@ -91,11 +91,11 @@ export default class CheckBoxRole extends PureComponent {
             [menuName]: {
               actions: {
                 [actionName]: {
-                  $set: e.target.checked
-                }
-              }
-            }
-          }
+                  $set: e.target.checked,
+                },
+              },
+            },
+          },
         }),
       () => {
         this.handleCheckChange()
@@ -165,15 +165,15 @@ export default class CheckBoxRole extends PureComponent {
         title: t('roleManager.tableHeader.action'),
         key: 'action',
         render: (text, record) => {
-          const objActions = this.state.dataMenus.find(function (item) {
+          const objActions = this.state.dataMenus.find(function(item) {
             return item.key === record.key
           })
 
           const arrActions = Object.keys(objActions.actions)
           const actionsOrganization =
             this.state.menu &&
-              this.state.menu[record.key] &&
-              this.state.menu[record.key].actions
+            this.state.menu[record.key] &&
+            this.state.menu[record.key].actions
               ? this.state.menu[record.key].actions
               : {}
 

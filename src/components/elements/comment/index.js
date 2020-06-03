@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 import {
   Row,
   Col,
@@ -10,32 +10,32 @@ import {
   Form,
   Upload,
   message,
-} from "antd"
-import styled from "styled-components"
-import { translate } from "hoc/create-lang"
-import moment from "moment"
-import ImageMoreInfo from "./image"
-import MediaApi from "api/MediaApi"
-import { v4 as uuidV4 } from "uuid"
-import swal from "sweetalert2"
-import debounce from "lodash/debounce"
-import { editEvaluateStation } from "api/StationAuto"
+} from 'antd'
+import styled from 'styled-components'
+import { translate } from 'hoc/create-lang'
+import moment from 'moment'
+import ImageMoreInfo from './image'
+import MediaApi from 'api/MediaApi'
+import { v4 as uuidV4 } from 'uuid'
+import swal from 'sweetalert2'
+import debounce from 'lodash/debounce'
+import { editEvaluateStation } from 'api/StationAuto'
 
 const { TextArea } = Input
 
 const i18n = {
-  title: translate("stationAutoManager.infoStation.title"),
-  edit: translate("stationAutoManager.infoStation.edit"),
-  career: translate("stationAutoManager.infoStation.career"),
-  empty: translate("stationAutoManager.infoStation.emptyText"),
-  yearOperate: translate("stationAutoManager.infoStation.yearOperate"),
-  capacity: translate("stationAutoManager.infoStation.capacity"),
+  title: translate('stationAutoManager.infoStation.title'),
+  edit: translate('stationAutoManager.infoStation.edit'),
+  career: translate('stationAutoManager.infoStation.career'),
+  empty: translate('stationAutoManager.infoStation.emptyText'),
+  yearOperate: translate('stationAutoManager.infoStation.yearOperate'),
+  capacity: translate('stationAutoManager.infoStation.capacity'),
   processProdution: translate(
-    "stationAutoManager.infoStation.processProdution"
+    'stationAutoManager.infoStation.processProdution'
   ),
-  userResponsible: translate("stationAutoManager.infoStation.userResponsible"),
-  userSupervisor: translate("stationAutoManager.infoStation.userSupervisor"),
-  website: translate("stationAutoManager.infoStation.website"),
+  userResponsible: translate('stationAutoManager.infoStation.userResponsible'),
+  userSupervisor: translate('stationAutoManager.infoStation.userSupervisor'),
+  website: translate('stationAutoManager.infoStation.website'),
 }
 
 const Text = styled.p`
@@ -85,44 +85,44 @@ export const Editor = ({
   }
 
   const handleImageChange = ({ fileList, file, event }) => {
-    if (file.status === "done") {
+    if (file.status === 'done') {
       setImages(file.response.file.path)
     }
   }
 
   return (
-    <div style={{ marginTop: !isEdit ? "0px" : "10px" }}>
+    <div style={{ marginTop: !isEdit ? '0px' : '10px' }}>
       <Form.Item>
         <Flex
-          style={{ justifyContent: !isEdit ? "space-around" : "space-between" }}
+          style={{ justifyContent: !isEdit ? 'space-around' : 'space-between' }}
         >
           <TextArea
-            style={{ maxWidth: "80%" }}
+            style={{ maxWidth: '80%' }}
             onChange={onChange}
             value={value}
           />
           <Upload
-            shape='circle-outline'
-            size='large'
+            shape="circle-outline"
+            size="large"
             multiple
             showUploadList={false}
-            accept='.jpg, .png, .svg, jpeg'
-            action={MediaApi.urlPhotoUploadWithDirectory("station")}
+            accept=".jpg, .png, .svg, jpeg"
+            action={MediaApi.urlPhotoUploadWithDirectory('station')}
             onChange={handleImageChange}
           >
-            <Button shape='circle-outline' size='large'>
-              <Icon type='picture' theme='outlined' />
+            <Button shape="circle-outline" size="large">
+              <Icon type="picture" theme="outlined" />
             </Button>
           </Upload>
           <Button
-            shape='circle-outline'
-            size='large'
-            type='primary'
-            htmlType='submit'
+            shape="circle-outline"
+            size="large"
+            type="primary"
+            htmlType="submit"
             loading={submitting}
             onClick={handleSubmit}
           >
-            <Icon type='yuque' theme='outlined' />
+            <Icon type="yuque" theme="outlined" />
           </Button>
         </Flex>
       </Form.Item>
@@ -136,7 +136,7 @@ export class CommentComponent extends React.Component {
     value: this.props.content,
   }
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({
       value: e.target.value,
     })
@@ -149,16 +149,16 @@ export class CommentComponent extends React.Component {
     if (!isEdit) {
       return (
         <React.Fragment>
-          <Text style={{ marginTop: "10px" }}>{content}</Text>
+          <Text style={{ marginTop: '10px' }}>{content}</Text>
           <Flex>
             <ButtonLink
               onClick={() => this.setState({ isEdit: true })}
-              style={{ padding: "0px" }}
-              type='link'
+              style={{ padding: '0px' }}
+              type="link"
             >
               edit
             </ButtonLink>
-            <ButtonLink onClick={() => handleDelete(_id)} type='link'>
+            <ButtonLink onClick={() => handleDelete(_id)} type="link">
               delete
             </ButtonLink>
           </Flex>
@@ -176,9 +176,9 @@ export class CommentComponent extends React.Component {
             onChange={this.handleChange}
           />
           <ButtonLink
-            style={{ margin: "0px", padding: "0px" }}
+            style={{ margin: '0px', padding: '0px' }}
             onClick={() => this.setState({ isEdit: false })}
-            type='link'
+            type="link"
           >
             cancel
           </ButtonLink>
@@ -196,15 +196,15 @@ export class CommentComponent extends React.Component {
       <div>
         <Row>
           <Col span={2}>
-            <Avatar size='large' src={avatar && avatar} />
+            <Avatar size="large" src={avatar && avatar} />
           </Col>
           <Col span={!isEdit ? 10 : 20}>
             <Flex>
-              <Text style={{ fontWeight: "bold" }}>
+              <Text style={{ fontWeight: 'bold' }}>
                 {lastName} {firstName}
               </Text>
               <Text
-                style={{ marginLeft: "10px", color: "gray", fontSize: "13px" }}
+                style={{ marginLeft: '10px', color: 'gray', fontSize: '13px' }}
               >
                 {moment(createdAt).fromNow()}
               </Text>

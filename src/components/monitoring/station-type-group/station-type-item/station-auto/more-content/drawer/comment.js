@@ -1,34 +1,34 @@
-import React from "react"
-import { Button, Divider, Comment, Avatar, Spin, message } from "antd"
-import styled from "styled-components"
-import { translate } from "hoc/create-lang"
-import moment from "moment"
-import { connect } from "react-redux"
-import _ from "lodash"
+import React from 'react'
+import { Button, Divider, Comment, Avatar, Spin, message } from 'antd'
+import styled from 'styled-components'
+import { translate } from 'hoc/create-lang'
+import moment from 'moment'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 import {
   createEvaluateStation,
   deleteEvaluateStation,
   getEvaluateStation,
   editEvaluateStation,
-} from "api/StationAuto"
-import { CommentComponent, Editor } from "components/elements/comment"
-import debounce from "lodash/debounce"
-import { v4 as uuidV4 } from "uuid"
-import swal from "sweetalert2"
+} from 'api/StationAuto'
+import { CommentComponent, Editor } from 'components/elements/comment'
+import debounce from 'lodash/debounce'
+import { v4 as uuidV4 } from 'uuid'
+import swal from 'sweetalert2'
 
 const i18n = {
-  title: translate("stationAutoManager.infoStation.title"),
-  edit: translate("stationAutoManager.infoStation.edit"),
-  career: translate("stationAutoManager.infoStation.career"),
-  empty: translate("stationAutoManager.infoStation.emptyText"),
-  yearOperate: translate("stationAutoManager.infoStation.yearOperate"),
-  capacity: translate("stationAutoManager.infoStation.capacity"),
+  title: translate('stationAutoManager.infoStation.title'),
+  edit: translate('stationAutoManager.infoStation.edit'),
+  career: translate('stationAutoManager.infoStation.career'),
+  empty: translate('stationAutoManager.infoStation.emptyText'),
+  yearOperate: translate('stationAutoManager.infoStation.yearOperate'),
+  capacity: translate('stationAutoManager.infoStation.capacity'),
   processProdution: translate(
-    "stationAutoManager.infoStation.processProdution"
+    'stationAutoManager.infoStation.processProdution'
   ),
-  userResponsible: translate("stationAutoManager.infoStation.userResponsible"),
-  userSupervisor: translate("stationAutoManager.infoStation.userSupervisor"),
-  website: translate("stationAutoManager.infoStation.website"),
+  userResponsible: translate('stationAutoManager.infoStation.userResponsible'),
+  userSupervisor: translate('stationAutoManager.infoStation.userSupervisor'),
+  website: translate('stationAutoManager.infoStation.website'),
 }
 
 const Text = styled.p`
@@ -57,7 +57,7 @@ const ButtonLink = styled(Button)`
   color: gray;
 `
 
-@connect((state) => ({
+@connect(state => ({
   userInfo: state.auth.userInfo,
 }))
 export default class StationComment extends React.Component {
@@ -66,12 +66,12 @@ export default class StationComment extends React.Component {
     data: {},
     comments: [],
     submitting: false,
-    value: "",
-    valueFromEditComment: "",
+    value: '',
+    valueFromEditComment: '',
     images: [],
   }
 
-  setImages = (newImage) => {
+  setImages = newImage => {
     this.setState({ images: [...this.state.images, newImage] })
   }
 
@@ -82,18 +82,18 @@ export default class StationComment extends React.Component {
         isLoading: false,
         data: _.orderBy(
           res.data.stationList,
-          (obj) => moment(obj.createdAt).format("YYYYMMDDHHmmss"),
-          ["asc"]
+          obj => moment(obj.createdAt).format('YYYYMMDDHHmmss'),
+          ['asc']
         ),
       })
     })
   }
 
-  getValueFromEditComment = (value) => {
+  getValueFromEditComment = value => {
     this.setState({ valueFromEditComment: value })
   }
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({
       value: e.target.value,
     })
@@ -119,7 +119,7 @@ export default class StationComment extends React.Component {
     }
     this.setState({
       submitting: false,
-      value: "",
+      value: '',
       data: [...this.state.data, newComment],
     })
     const commentSend = {
@@ -130,16 +130,16 @@ export default class StationComment extends React.Component {
     createEvaluateStation(commentSend)
   }
 
-  handleDelete = (_id) => {
+  handleDelete = _id => {
     this.setState({
-      data: [...this.state.data].filter((comment) => comment._id !== _id),
+      data: [...this.state.data].filter(comment => comment._id !== _id),
     })
     deleteEvaluateStation(_id)
   }
 
-  handleEdit = (_id) => {
+  handleEdit = _id => {
     const indexComment = this.state.data.findIndex(
-      (comment) => comment._id === _id
+      comment => comment._id === _id
     )
     const comment = { ...this.state.data[indexComment] }
     comment.content = this.state.valueFromEditComment
@@ -167,7 +167,7 @@ export default class StationComment extends React.Component {
           <Title>Đánh giá trạm</Title>
           <Divider />
           {!isLoading && data.length
-            ? data.map((comment) => (
+            ? data.map(comment => (
                 <CommentComponent
                   content={this.state.valueFromEditComment}
                   stationId={this.props.stationId}

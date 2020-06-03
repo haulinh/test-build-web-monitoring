@@ -68,7 +68,7 @@ const Title = styled.h3``
 @withRouter
 export default class ImageMoreInfo extends React.Component {
   static propTypes = {
-    stationID: PropTypes.string
+    stationID: PropTypes.string,
   }
   static defaultProps = {}
 
@@ -79,7 +79,7 @@ export default class ImageMoreInfo extends React.Component {
     uploading: false,
     images: [],
     items: [],
-    fileList: []
+    fileList: [],
   }
 
   componentDidMount() {
@@ -91,7 +91,7 @@ export default class ImageMoreInfo extends React.Component {
         images: station.images,
         items: this.getImages(station.images),
         station,
-        loading: false
+        loading: false,
       })
     })
   }
@@ -118,12 +118,12 @@ export default class ImageMoreInfo extends React.Component {
       this.setState({ uploading: false })
       swal({
         title: translate('profileUser.imageUpload.error'),
-        type: 'error'
+        type: 'error',
       })
       newFileList = []
     }
     this.setState({
-      fileList: newFileList
+      fileList: newFileList,
     })
     if (file.status === 'done') {
       this.setState(
@@ -135,10 +135,10 @@ export default class ImageMoreInfo extends React.Component {
               _id: uuidV4(),
               component: 'gallery.photo',
               original: file.response.url,
-              thumbnail: file.response.url
-            }
+              thumbnail: file.response.url,
+            },
           ],
-          uploading: false
+          uploading: false,
         }),
         async () => {
           await this.handleUpdateStation()
@@ -155,7 +155,7 @@ export default class ImageMoreInfo extends React.Component {
 
   handleUpdateStation = debounce(async () => {
     await StationAutoApi.updateStationAuto(`images/${this.props.stationID}`, {
-      images: this.state.images
+      images: this.state.images,
     })
     message.success(translate('stationAutoManager.update.success'))
   }, 1200)
@@ -165,11 +165,11 @@ export default class ImageMoreInfo extends React.Component {
       prevState =>
         update(prevState, {
           images: {
-            $splice: [[index, 1]]
+            $splice: [[index, 1]],
           },
           items: {
-            $splice: [[index, 1]]
-          }
+            $splice: [[index, 1]],
+          },
         }),
       () => {
         this.handleUpdateStation()
@@ -181,7 +181,7 @@ export default class ImageMoreInfo extends React.Component {
     <HeadingWrapper>
       <Title>
         {translate('stationAutoManager.image.label', {
-          name: this.state.station.name || ''
+          name: this.state.station.name || '',
         })}
       </Title>
       <Upload
@@ -203,7 +203,7 @@ export default class ImageMoreInfo extends React.Component {
       _id: uuidV4(),
       component: 'gallery.photo',
       original: this.getUrlMedia(image),
-      thumbnail: this.getUrlMedia(image)
+      thumbnail: this.getUrlMedia(image),
     }))
   }
 

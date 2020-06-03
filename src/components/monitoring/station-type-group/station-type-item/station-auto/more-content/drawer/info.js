@@ -17,7 +17,7 @@ const i18n = {
   ),
   userResponsible: translate('stationAutoManager.infoStation.userResponsible'),
   userSupervisor: translate('stationAutoManager.infoStation.userSupervisor'),
-  website: translate('stationAutoManager.infoStation.website')
+  website: translate('stationAutoManager.infoStation.website'),
 }
 
 const TextColor = styled.p`
@@ -65,7 +65,7 @@ const InfoItem = ({ iconType, label, desc, title }) => (
             style={{
               fontSize: '26px',
               color: '#1890ff',
-              marginRight: !title ? '0px' : '10px'
+              marginRight: !title ? '0px' : '10px',
             }}
             type={iconType}
             theme="outlined"
@@ -87,7 +87,7 @@ export default class DrawerInfoStation extends React.Component {
     isLoadingInfoStation: true,
     InfoStationData: {},
     chartType: '',
-    visibleDrawer: false
+    visibleDrawer: false,
   }
 
   async componentDidMount() {
@@ -98,7 +98,7 @@ export default class DrawerInfoStation extends React.Component {
       this.setState({
         isLoadingInfoStation: false,
         InfoStationData: res.data,
-        chartType: defaultChartType
+        chartType: defaultChartType,
       })
     }
   }
@@ -115,7 +115,7 @@ export default class DrawerInfoStation extends React.Component {
       career,
       yearOperate,
       capacity,
-      processProduction
+      processProduction,
     } = this.state.InfoStationData
     return (
       <React.Fragment>

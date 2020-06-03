@@ -66,7 +66,7 @@ export default class ConfigPublishContainer extends React.Component {
             />
           )
           // "allowed" : false
-        }
+        },
       },
       {
         title: translate('qaqc.configPublish.stationName'),
@@ -83,7 +83,7 @@ export default class ConfigPublishContainer extends React.Component {
           const options = _.map(value, ({ key, name }) => {
             return {
               label: name,
-              value: key
+              value: key,
             }
           })
 
@@ -100,7 +100,7 @@ export default class ConfigPublishContainer extends React.Component {
           const allowed = _.get(configPublishObj, [
             'options',
             'published',
-            'allowed'
+            'allowed',
           ])
 
           return (
@@ -115,9 +115,9 @@ export default class ConfigPublishContainer extends React.Component {
                   this.handleStationPublish(record._id, {
                     event: {
                       target: {
-                        checked: false
-                      }
-                    }
+                        checked: false,
+                      },
+                    },
                   })
                 }
               }}

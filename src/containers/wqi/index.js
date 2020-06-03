@@ -24,7 +24,7 @@ export default class WqiContainer extends React.Component {
     wqiLevel: [],
     station: null,
     stationKey: null,
-    center: null
+    center: null,
   }
 
   async componentDidMount() {
@@ -107,7 +107,6 @@ export default class WqiContainer extends React.Component {
           stationKey={this.state.stationKey}
           onClose={this.handleOnClosePopup}
           center={this.state.center}
-
         />
         <InfoComponent
           wqiList={this.state.wqiList}
