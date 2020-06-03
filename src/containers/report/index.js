@@ -16,7 +16,9 @@ import ReportType11 from './type11'
 import ReportType12 from './type12'
 import ReportAQI from 'containers/statistic/aqi'
 import ReportAQIDay from 'containers/statistic/aqi-day'
-import ReportAQI878 from 'containers/statistic/aqi-day-878'
+import ReportWQI from 'containers/statistic/wqi'
+import ReportWQIDay from 'containers/statistic/wqi-day'
+
 import ReportStatusData from './status-data'
 
 export default props => (
@@ -82,15 +84,19 @@ export default props => (
       path={slug.report.aqi_hour}
       render={matchProps => <ReportAQI {...matchProps} {...props} />}
     />
-
     <Route
       path={slug.report.aqi_day}
       render={matchProps => <ReportAQIDay {...matchProps} {...props} />}
     />
     <Route
-      path={slug.report.aqi_878}
-      render={matchProps => <ReportAQI878 {...matchProps} {...props} />}
+      path={slug.report.wqi_hour}
+      render={matchProps => <ReportWQI {...matchProps} {...props} />}
     />
+    <Route
+      path={slug.report.wqi_day}
+      render={matchProps => <ReportWQIDay {...matchProps} {...props} />}
+    />
+
     <Route
       path={slug.report.status_data}
       render={matchProps => <ReportStatusData {...matchProps} {...props} />}

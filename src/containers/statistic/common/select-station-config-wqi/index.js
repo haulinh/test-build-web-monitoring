@@ -6,11 +6,12 @@ import stationConfigApi from 'api/StationConfigApi'
 import * as _ from 'lodash'
 
 @autobind
-export default class SelectStationConfigAQI extends React.Component {
+export default class SelectStationConfigWQI extends React.Component {
   static propTypes = {
     stationTypeKey: PropTypes.string,
     onChangeObject: PropTypes.func,
     provinceKey: PropTypes.string,
+    isMultiple: PropTypes.bool,
   }
 
   state = {
@@ -23,6 +24,7 @@ export default class SelectStationConfigAQI extends React.Component {
       {},
       { config: 'WQI' }
     )
+    console.log(responseStationConfig, '--responseStationConfig--')
     this.setState({
       stationConfigSelects: responseStationConfig.data,
       isLoaded: true,
@@ -62,7 +64,8 @@ export default class SelectStationConfigAQI extends React.Component {
         {...this.props}
         onChange={this.handleChange}
         showSearch
-        value={this.props.setKey ? this.props.stationKey : this.props.value}
+        value={this.props.value ? this.props.value : []}
+        mode={this.props.isMultiple ? 'multiple' : false}
       >
         {this.getStationAutos().map(item => (
           <Select.Option key={item.key} value={item.key}>

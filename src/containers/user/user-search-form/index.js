@@ -1,6 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Row, Col, Form as FormStyle, Input, Button, Icon } from 'antd'
+import { Link, withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import * as _ from 'lodash'
+import { Row, Col, Form as FormStyle, Input, Button, Icon, Modal } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
@@ -9,9 +12,20 @@ import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
 import slug from 'constants/slug'
 import ROLE from 'constants/role'
+import { EMAIL, PHONE } from 'constants/info-contact'
+import {
+  Container,
+  ContentWrapper,
+  Desc,
+  Heading,
+  Title,
+  Wrapper,
+  Flex,
+  Label,
+  Content,
+} from './style'
 
 // import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
-import styled from 'styled-components'
 // import { getOrganizations } from 'api/OrganizationApi'
 
 require('./index.css')
@@ -21,6 +35,9 @@ require('./index.css')
 const i18n = {
   create: translate('addon.create'),
   roleAssign: translate('userManager.list.roleAssign'),
+  okText: translate('addon.ok'),
+  title: translate('userManager.modal.title'),
+  callAction: translate('userManager.modal.callAction'),
 }
 
 const Form = styled(FormStyle)`
@@ -38,13 +55,22 @@ const Form = styled(FormStyle)`
 @FormStyle.create({
   mapPropsToFields: mapPropsToFields,
 })
+@connect(state => ({
+  limitTotalUser: _.get(
+    state,
+    'auth.userInfo.organization.packageInfo.totalUser',
+    0
+  ),
+}))
 @createLanguage
 @autobind
+@withRouter
 export default class UserSearchForm extends React.PureComponent {
   static propTypes = {
     initialValues: PropTypes.object,
     onChangeSearch: PropTypes.func,
     lang: langPropTypes,
+    totalUser: PropTypes.number,
   }
 
   constructor(props) {
@@ -73,7 +99,7 @@ export default class UserSearchForm extends React.PureComponent {
             : ''
       }
 
-      console.log(dataSearch, 'dataSearch')
+      // console.log(dataSearch, 'dataSearch')
       // Callback submit form Container Component
       this.setState({ dataSearch: dataSearch }, () =>
         this.props.onChangeSearch(dataSearch)
@@ -88,6 +114,44 @@ export default class UserSearchForm extends React.PureComponent {
         ...selectedCountry,
       },
     })
+  }
+
+  handleAddUser = () => {
+    if (this.props.limitTotalUser <= this.props.totalUser) {
+      Modal.warning({
+        icon: null,
+        width: '50%',
+        title: <Title>{i18n.title}</Title>,
+        okText: i18n.okText,
+        content: (
+          <Container>
+            <Desc
+              dangerouslySetInnerHTML={{
+                __html: translate('userManager.modal.text', {
+                  total: this.props.totalUser,
+                }),
+              }}
+            />
+            <ContentWrapper>
+              <Heading>{i18n.callAction}</Heading>
+              <Wrapper>
+                <Flex>
+                  <Label>{translate('contact.phone')}</Label>
+                  <Content>{PHONE}</Content>
+                </Flex>
+                <Flex>
+                  <Label>{translate('contact.email')}</Label>
+                  <Content>{EMAIL}</Content>
+                </Flex>
+              </Wrapper>
+            </ContentWrapper>
+          </Container>
+        ),
+        onCancel() {},
+      })
+    } else {
+      this.props.history.push(slug.user.create)
+    }
   }
 
   render() {
@@ -162,11 +226,15 @@ export default class UserSearchForm extends React.PureComponent {
           )}
 
           {protectRole(ROLE.USER.CREATE)(
-            <Link to={slug.user.create} style={{ marginLeft: 16 }}>
-              <Button type="primary">
-                <Icon type="plus" /> {i18n.create}
-              </Button>
-            </Link>
+            // <Link to={slug.user.create} style={{ marginLeft: 16 }}>
+            <Button
+              onClick={this.handleAddUser}
+              type="primary"
+              style={{ marginLeft: 16 }}
+            >
+              <Icon type="plus" /> {i18n.create}
+            </Button>
+            // </Link>
           )}
         </Col>
       </Row>
