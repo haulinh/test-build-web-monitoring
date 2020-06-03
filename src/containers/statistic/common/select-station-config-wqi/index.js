@@ -6,7 +6,7 @@ import stationConfigApi from 'api/StationConfigApi'
 import * as _ from 'lodash'
 
 @autobind
-export default class SelectStationConfigAQI extends React.Component {
+export default class SelectStationConfigWQI extends React.Component {
   static propTypes = {
     stationTypeKey: PropTypes.string,
     onChangeObject: PropTypes.func,
@@ -23,6 +23,7 @@ export default class SelectStationConfigAQI extends React.Component {
       {},
       { config: 'WQI' }
     )
+    console.log(responseStationConfig, "--responseStationConfig--")
     this.setState({
       stationConfigSelects: responseStationConfig.data,
       isLoaded: true,
