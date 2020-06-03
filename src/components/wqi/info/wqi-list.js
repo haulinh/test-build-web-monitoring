@@ -84,7 +84,9 @@ export default class WQIList extends React.PureComponent {
   }
 
   hanldeOnchange = e => {
-    const value = e.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '') 
+    const value = e.target.value
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
     const dataSearch = _.filter(this.props.wqiList, item => {
       let name = _.get(item, 'name', '')
       name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '')

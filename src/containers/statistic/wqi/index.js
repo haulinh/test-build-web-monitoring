@@ -33,7 +33,7 @@ export default class WQIStatistics extends React.Component {
   }
 
   handleSubmitSearch(searchFormData) {
-    console.log(searchFormData, "--searchFormData")
+    console.log(searchFormData, '--searchFormData')
     this.loadData(this.state.pagination, searchFormData)
   }
 

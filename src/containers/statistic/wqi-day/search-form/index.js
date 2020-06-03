@@ -207,7 +207,6 @@ export default class SearchForm extends React.Component {
                 size="large"
                 onHandleChange={this.handleChangeStationType}
                 component={FSelectStationTypeConfigWQI}
-                
                 isAuto={null}
               />
             </Col>

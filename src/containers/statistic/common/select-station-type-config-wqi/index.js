@@ -14,7 +14,6 @@ export default class SelectStationTypeConfigAQI extends PureComponent {
     onChange: PropTypes.func,
     value: PropTypes.string,
     isShowAll: PropTypes.bool,
-
   }
 
   static defaultProps = {

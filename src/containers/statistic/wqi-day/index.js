@@ -74,7 +74,7 @@ export default class WQIStatisticsDay extends React.Component {
     const params = {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
-      listKey: _.get(this.state.searchFormData, 'listStation', '')
+      listKey: _.get(this.state.searchFormData, 'listStation', ''),
     }
     let res = await wqiApi.exportFileWqiDaybyListStation({ ...params })
     if (res && res.success) window.location = res.data
