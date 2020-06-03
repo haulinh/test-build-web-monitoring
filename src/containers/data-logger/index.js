@@ -27,6 +27,7 @@ const i18n = {
   colAction: translate('dataLogger.list.colAction'),
   colDevice: translate('dataLogger.list.colDevice'),
   colDetail: translate('dataLogger.list.colDetail'),
+  jsonFile: translate('dataLogger.list.jsonFile'),
 }
 
 @protectRole(ROLE.XEM_NHAT_KY.VIEW)
@@ -88,7 +89,7 @@ class DataLoggerPage extends React.Component {
       { content: i18n.colTime },
       { content: i18n.colAction },
       { content: i18n.colDevice },
-      { content: 'View Json' },
+      { content: i18n.jsonFile },
     ]
   }
 
