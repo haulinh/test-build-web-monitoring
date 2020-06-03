@@ -1292,6 +1292,7 @@ export default {
       text1: 'Increase the number of users please contact',
       text2: 'Phone number',
       text3: 'Email',
+      callAction: 'Increase the number of users please contact',
     },
     list: {
       enableAccount: 'Enable Account',

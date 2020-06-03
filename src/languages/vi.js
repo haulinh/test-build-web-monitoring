@@ -1288,6 +1288,7 @@ export default {
       text1: 'Tăng số lượng thành viên hãy liên hệ',
       text2: 'Số điện thoại',
       text3: 'Email',
+      callAction: 'Tăng số lượng thành viên hãy liên hệ',
     },
     list: {
       enableAccount: 'Kích hoạt tài khoản',
