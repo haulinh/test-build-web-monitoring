@@ -1,7 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { message, Modal, Button, Typography, Skeleton } from 'antd'
+import { message, Modal, Skeleton } from 'antd'
 import { autobind } from 'core-decorators'
 import UserApi from 'api/UserApi'
 import slug from 'constants/slug'
@@ -12,42 +11,40 @@ import protectRole from 'hoc/protect-role'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { translate } from 'hoc/create-lang'
-import { SHAPE } from 'themes/color'
 import { EMAIL, PHONE } from 'constants/info-contact.js'
 import Clearfix from 'components/elements/clearfix'
-
-const { Text } = Typography
-
-const ModalContent = styled.div`
-  width: fit-content;
-  text-align: left;
-  line-height: 2rem;
-  padding-left: 16px;
-  .modal--content--text__padding {
-    float: left;
-    width: 200px;
-  }
-`
+import {
+  Container,
+  ContentWrapper,
+  Desc,
+  Heading,
+  Title,
+  Wrapper,
+  Flex,
+  Label,
+  Content,
+} from './style'
 
 const i18n = {
   title: translate('userManager.modal.title'),
+  callAction: translate('userManager.modal.callAction'),
   back: translate('userManager.modal.back'),
-  text: translate('userManager.modal.text'),
-  text1: translate('userManager.modal.text1'),
-  text2: translate('userManager.modal.text2'),
-  text3: translate('userManager.modal.text3'),
 }
 
 @protectRole(ROLE.USER.CREATE)
 @connect(state => ({
-  totalUser: _.get(state, 'auth.userInfo.organization.license.totalUser', 0),
+  limitTotalUser: _.get(
+    state,
+    'auth.userInfo.organization.packageInfo.totalUser',
+    0
+  ),
 }))
 @autobind
 export default class UserCreate extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isLoading: false,
+      isLoading: true,
       isLicense: false,
     }
   }
@@ -83,91 +80,67 @@ export default class UserCreate extends React.PureComponent {
   }
 
   checkLicenseStation = () => {
-    const { totalUser } = this.props
+    const { limitTotalUser } = this.props
     const { totalUserActive } = this.state
-    if (totalUserActive >= totalUser) {
+    if (totalUserActive >= limitTotalUser) {
+      Modal.warning({
+        icon: null,
+        width: '50%',
+        title: <Title>{i18n.title}</Title>,
+        okText: i18n.okText,
+        content: (
+          <Container>
+            <Desc
+              dangerouslySetInnerHTML={{
+                __html: translate('userManager.modal.text', {
+                  total: totalUserActive,
+                }),
+              }}
+            />
+            <ContentWrapper>
+              <Heading>{i18n.callAction}</Heading>
+              <Wrapper>
+                <Flex>
+                  <Label>{translate('contact.phone')}</Label>
+                  <Content>{PHONE}</Content>
+                </Flex>
+                <Flex>
+                  <Label>{translate('contact.email')}</Label>
+                  <Content>{EMAIL}</Content>
+                </Flex>
+              </Wrapper>
+            </ContentWrapper>
+          </Container>
+        ),
+        onCancel() {},
+        onOk: this.handleClose,
+      })
       this.setState({
         isLicense: true,
       })
     }
+    this.setState({ isLoading: false })
   }
 
   handleClose = () => {
-    this.props.history.push(slug.stationAuto.list)
+    this.props.history.push(slug.user.list)
   }
 
   render() {
-    const limitTotalStation = _.get(this.props, 'totalUser', 0)
-
     return (
       <PageContainer title="Create station type" {...this.props.wrapperProps}>
         <Breadcrumb items={['list', 'create']} />
         <Clearfix height={16} />
-        {!this.state.isLicense && (
+        {this.state.isLoading ? (
+          <Skeleton />
+        ) : !this.state.isLicense ? (
           <UserForm
             onSubmit={this.handleSubmit}
             isLoading={this.state.isLoading}
           />
+        ) : (
+          <Skeleton />
         )}
-
-        {this.state.isLicense && <Skeleton />}
-
-        <Modal
-          closable={false}
-          title={i18n.title}
-          visible={this.state.isLicense}
-          onCancel={this.handleClose}
-          footer={[
-            <Button key="back" type="primary" onClick={this.handleClose}>
-              {i18n.back}
-            </Button>,
-          ]}
-        >
-          <Text type="secondary">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: translate('userManager.modal.text', {
-                  total: limitTotalStation,
-                }),
-              }}
-            />
-          </Text>
-          <br />
-          <br />
-          <br />
-          <ModalContent className="modal--content">
-            <Text
-              style={{
-                color: SHAPE.PRIMARY,
-                fontWeight: 'bold',
-              }}
-            >
-              {i18n.text1}
-            </Text>
-            <br />
-            <Text className="modal--content--text__padding" strong>
-              {i18n.text2}
-            </Text>
-            <Text
-              style={{
-                color: SHAPE.PRIMARY,
-              }}
-            >
-              {PHONE}
-            </Text>
-            <br />
-            <Text className="modal--content--text__padding" strong>
-              {i18n.text3}
-            </Text>
-            <Text
-              style={{
-                color: SHAPE.PRIMARY,
-              }}
-            >
-              {EMAIL}
-            </Text>
-          </ModalContent>
-        </Modal>
       </PageContainer>
     )
   }
