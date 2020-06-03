@@ -3,13 +3,13 @@ import { Drawer } from 'antd'
 import PropTypes from 'prop-types'
 import StationInfo from './info'
 import StationImage from './image'
-
+import StationComment from './comment'
 export default class DrawerInfoStation extends React.Component {
   static propTypes = {
     onClose: PropTypes.func,
     visibleDrawer: PropTypes.bool,
     type: PropTypes.string,
-    _id: PropTypes.string
+    _id: PropTypes.string,
   }
 
   render() {
@@ -22,8 +22,9 @@ export default class DrawerInfoStation extends React.Component {
         onClose={onClose}
         visible={visibleDrawer}
       >
-        {type === 'info' && <StationInfo {...this.props} />}
+        {type === 'info' && <StationInfo stationID={this.props._id} />}
         {type === 'image' && <StationImage stationID={this.props._id} />}
+        {type === 'comment' && <StationComment stationId={this.props._id} />}
       </Drawer>
     )
   }

@@ -13,10 +13,9 @@ import swal from 'sweetalert2'
 import { translate } from 'hoc/create-lang'
 import debounce from 'lodash/debounce'
 import Gallery from 'components/elements/gallery'
+import { editEvaluateStation } from 'api/StationAuto'
 
 const Wrapper = styled(Row)`
-  min-height: 500px;
-  padding: 16px 24px;
   transition: transform 0.25s ease;
   .delete {
     display: none;
@@ -27,13 +26,10 @@ const Wrapper = styled(Row)`
     width: 20px;
     height: 20px;
     align-items: center;
-    justify-content: center;
     z-index: 2;
   }
   .image-item {
     position: relative;
-    min-height: 100px;
-    max-height: 200px;
     cursor: pointer;
     :hover {
       .delete {
@@ -62,37 +58,61 @@ const HeadingWrapper = styled.div`
   margin-bottom: 24px;
   justify-content: space-between;
 `
-
-const Title = styled.h3``
+const ImageComponent = ({
+  index,
+  image,
+  handleDeleteImage,
+  handleViewGalleryClick,
+  length,
+}) => {
+  let span = 8
+  if (length < 3) {
+    span = 12
+  }
+  return (
+    <Col className="image-item" span={span}>
+      <Popconfirm
+        title="Are you sure delete this task?"
+        onConfirm={handleDeleteImage(index)}
+        okText="Yes"
+        cancelText="No"
+        className="delete"
+      >
+        <i className="fa fa-trash" />
+      </Popconfirm>
+      <img
+        style={{ flex: 1, objectFit: 'cover' }}
+        onClick={handleViewGalleryClick(index)}
+        key={image._id}
+        width="100%"
+        height="100%"
+        src={image.thumbnail}
+        alt={image._id}
+      />
+    </Col>
+  )
+}
 
 @withRouter
 export default class ImageMoreInfo extends React.Component {
   static propTypes = {
-    stationID: PropTypes.string,
+    commentId: PropTypes.string,
   }
   static defaultProps = {}
 
   state = {
     visible: false,
-    station: {},
     loading: false,
     uploading: false,
-    images: [],
+    images: this.props.images,
     items: [],
     fileList: [],
   }
 
   componentDidMount() {
-    this.setState({ loading: true }, async () => {
-      const { data: station } = await StationAutoApi.getStationAuto(
-        this.props.stationID
-      )
-      this.setState({
-        images: station.images,
-        items: this.getImages(station.images),
-        station,
-        loading: false,
-      })
+    this.setState({
+      images: this.props.images,
+      items: this.getImages(this.state.images),
     })
   }
 
@@ -154,7 +174,9 @@ export default class ImageMoreInfo extends React.Component {
   }
 
   handleUpdateStation = debounce(async () => {
-    await StationAutoApi.updateStationAuto(`images/${this.props.stationID}`, {
+    await editEvaluateStation({
+      _id: this.props.commentId,
+      stationId: this.props.stationId,
       images: this.state.images,
     })
     message.success(translate('stationAutoManager.update.success'))
@@ -179,11 +201,6 @@ export default class ImageMoreInfo extends React.Component {
 
   renderHeader = () => (
     <HeadingWrapper>
-      <Title>
-        {translate('stationAutoManager.image.label', {
-          name: this.state.station.name || '',
-        })}
-      </Title>
       <Upload
         multiple
         showUploadList={false}
@@ -197,6 +214,66 @@ export default class ImageMoreInfo extends React.Component {
       </Upload>
     </HeadingWrapper>
   )
+
+  renderImages = () => {
+    const images = this.state.items
+    if (!this.state.loading && images.length) {
+      if (images.length > 3) {
+        return (
+          <React.Fragment>
+            <ImageComponent
+              handleDeleteImage={this.handleDeleteImage}
+              handleViewGalleryClick={this.handleViewGalleryClick}
+              image={images[0]}
+              index={0}
+            />
+            <ImageComponent
+              handleDeleteImage={this.handleDeleteImage}
+              handleViewGalleryClick={this.handleViewGalleryClick}
+              image={images[1]}
+              index={1}
+            />
+            <Col justify="center" span={8}>
+              <Icon
+                width="100%"
+                height="100%"
+                flex={1}
+                type="plus"
+                theme="outlined"
+              />
+            </Col>
+          </React.Fragment>
+        )
+      }
+      return images.map((image, index) => (
+        <ImageComponent
+          key={index}
+          handleDeleteImage={this.handleDeleteImage}
+          handleViewGalleryClick={this.handleViewGalleryClick}
+          image={image}
+          index={index}
+          length={images.length}
+        />
+      ))
+    } else
+      return (
+        <Col span={8}>
+          <Upload
+            multiple
+            showUploadList={false}
+            accept=".jpg, .png, .svg, jpeg"
+            action={MediaApi.urlPhotoUploadWithDirectory('station')}
+            listType="picture-card"
+            onChange={this.handleImageChange}
+          >
+            <Icon
+              size={24}
+              type={this.state.uploading ? 'uploading' : 'plus'}
+            />
+          </Upload>
+        </Col>
+      )
+  }
 
   getImages = images => {
     return images.map(image => ({
@@ -212,46 +289,8 @@ export default class ImageMoreInfo extends React.Component {
     return (
       <Spin spinning={this.state.loading}>
         <React.Fragment>
-          {this.renderHeader()}
           <Wrapper type="flex" gutter={24}>
-            {!this.state.loading && images.length ? (
-              images.map((image, index) => (
-                <Col className="image-item" span={6}>
-                  <Popconfirm
-                    title="Are you sure delete this task?"
-                    onConfirm={this.handleDeleteImage(index)}
-                    okText="Yes"
-                    cancelText="No"
-                    className="delete"
-                  >
-                    <i className="fa fa-trash" />
-                  </Popconfirm>
-                  <img
-                    onClick={this.handleViewGalleryClick(index)}
-                    key={image._id}
-                    style={{ objectFit: 'cover' }}
-                    width="100%"
-                    height="100%"
-                    src={image.thumbnail}
-                    alt={image._id}
-                  />
-                </Col>
-              ))
-            ) : (
-              <Upload
-                multiple
-                showUploadList={false}
-                accept=".jpg, .png, .svg, jpeg"
-                action={MediaApi.urlPhotoUploadWithDirectory('station')}
-                listType="picture-card"
-                onChange={this.handleImageChange}
-              >
-                <Icon
-                  size={24}
-                  type={this.state.uploading ? 'uploading' : 'plus'}
-                />
-              </Upload>
-            )}
+            {this.renderImages()}
             <Gallery
               ref={ref => (this.galleryRef = ref)}
               visible={this.state.visible}

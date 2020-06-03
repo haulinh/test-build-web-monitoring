@@ -112,9 +112,9 @@ export default class StationTypeForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('stationTypeManager.form.key.error')
-                  }
-                ]
+                    message: t('stationTypeManager.form.key.error'),
+                  },
+                ],
               })(
                 <Input
                   size="large"
@@ -129,9 +129,9 @@ export default class StationTypeForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('stationTypeManager.form.name.error')
-                  }
-                ]
+                    message: t('stationTypeManager.form.name.error'),
+                  },
+                ],
               })(
                 <Input
                   size="large"
@@ -181,9 +181,9 @@ export default class StationTypeForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('stationTypeManager.form.numericalOrder.error')
-                  }
-                ]
+                    message: t('stationTypeManager.form.numericalOrder.error'),
+                  },
+                ],
               })(
                 <InputNumberCell
                   size="large"

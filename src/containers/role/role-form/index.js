@@ -41,7 +41,7 @@ export default class RoleForm extends PureComponent {
       if (res.error) {
         if (res.message === 'ROLE_NAME_EXISTED') {
           throw new SubmissionError({
-            name: t('roleManager.form.name.errorExist')
+            name: t('roleManager.form.name.errorExist'),
           })
         }
       }

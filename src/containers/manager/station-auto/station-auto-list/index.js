@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Row, Col, Icon, Form, Menu, Dropdown } from 'antd'
+import { Row, Col, Icon, Form, Menu, Dropdown, Modal, message } from 'antd'
 import StationAutoApi from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
@@ -15,7 +15,6 @@ import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import styled from 'styled-components'
-import { Modal, message } from 'antd'
 import moment from 'moment-timezone'
 import { DD_MM_YYYY } from 'constants/format-date'
 import _ from 'lodash'
@@ -301,6 +300,7 @@ export default class StationAutoList extends React.Component {
         <Row style={{ marginBottom: 20 }} type="flex">
           <Col span={24}>
             <StationAutoSearchForm
+              stationLength={this.props.pagination.totalItem}
               onChangeSearch={this.props.onChangeSearch}
               initialValues={this.props.data}
             />

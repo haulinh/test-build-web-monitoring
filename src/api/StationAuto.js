@@ -97,6 +97,24 @@ export function tranferBonusFTP({ _id, from, to }) {
   })
 }
 
+export function getEvaluateStation(stationId) {
+  return getFetch(
+    getStationAutoUrl(`evaluate/list_by_id_station?stationId=${stationId}`)
+  )
+}
+
+export function createEvaluateStation(evaluate = {}) {
+  return postFetch(getStationAutoUrl(`evaluate/create`), evaluate)
+}
+
+export function deleteEvaluateStation(commentID) {
+  return deleteFetch(getStationAutoUrl(`evaluate/${commentID}`))
+}
+
+export function editEvaluateStation(evaluate = {}) {
+  return putFetch(getStationAutoUrl(`evaluate/update`), evaluate)
+}
+
 export default {
   transferFtp,
   getCamera,

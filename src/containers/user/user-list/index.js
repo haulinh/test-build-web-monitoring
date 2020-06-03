@@ -436,6 +436,7 @@ export default class UserList extends React.Component {
         <Breadcrumb items={['list']} />
         <Clearfix height={16} />
         <UserSearchForm
+          totalUser={this.props.pagination.totalItem}
           onChangeSearch={query => {
             this.props.onChangeSearch(query)
           }}

@@ -207,8 +207,8 @@ export default {
     list: '/log',
   },
   apps: {
-    incidents: '/apps/incidents'
-  }
+    incidents: '/apps/incidents',
+  },
 }
 
 export const MENU_GROUP = {

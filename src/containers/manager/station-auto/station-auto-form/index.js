@@ -129,7 +129,7 @@ export default class StationAutoForm extends React.PureComponent {
   componentDidMount = () => {
     if (this.props.otherForm) {
       animateScrollTo(9999999, {
-        speed: 900
+        speed: 900,
       })
     }
   }
@@ -184,7 +184,7 @@ export default class StationAutoForm extends React.PureComponent {
         yearOperate: values.yearOperate,
         userSupervisor: values.userSupervisor,
         phoneSupervisor: values.phoneSupervisor,
-        order: ''
+        order: '',
       }
 
       // console.log(data, "---data---");
@@ -648,12 +648,12 @@ export default class StationAutoForm extends React.PureComponent {
                 this.props.initialValues
                   ? this.props.initialValues.measuringList
                   : [
-                    {
-                      key: '',
-                      name: '',
-                      unit: '',
-                    },
-                  ]
+                      {
+                        key: '',
+                        name: '',
+                        unit: '',
+                      },
+                    ]
               }
               measuringListSource={this.state.measuringListSource}
             />

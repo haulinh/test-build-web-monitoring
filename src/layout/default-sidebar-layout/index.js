@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 @autobind
 export default class DefaultSidebarLayoutContainer extends Component {
   static propTypes = {
-    isShowSidebarMenu: PropTypes.bool
+    isShowSidebarMenu: PropTypes.bool,
   }
 
   componentDidMount() {
@@ -49,7 +49,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
       // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
       messaging
         .requestPermission()
-        .then(async function () {
+        .then(async function() {
           const token = await messaging.getToken()
           // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
           try {
@@ -60,7 +60,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
             console.log('error linkToken2Email', e)
           }
         })
-        .catch(function (err) {
+        .catch(function(err) {
           console.log('Unable to get permission to notify.', err)
         })
 
@@ -125,10 +125,12 @@ export default class DefaultSidebarLayoutContainer extends Component {
     return (
       <Wrapper allSidebarWidth={this.getAllSidebarWidth()}>
         <SidebarGlobal />
-        {this.props.isShowSidebarMenu && <SidebarMenu
-          onToggle={this.handleToggleSidebar}
-          isShow={this.state.isSidebarMenuShow}
-        />}
+        {this.props.isShowSidebarMenu && (
+          <SidebarMenu
+            onToggle={this.handleToggleSidebar}
+            isShow={this.state.isSidebarMenuShow}
+          />
+        )}
         {this.props.children}
       </Wrapper>
     )

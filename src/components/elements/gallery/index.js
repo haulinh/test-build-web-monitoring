@@ -7,7 +7,7 @@ import {
   LeftNav,
   RightNav,
   ThumbInner,
-  ToolBar
+  ToolBar,
 } from './style'
 import { createPortal, findDOMNode } from 'react-dom'
 import ReactGallery from 'react-image-gallery'
@@ -37,7 +37,7 @@ const renderThumbInner = item => {
 export default class Gallery extends React.PureComponent {
   state = {
     rendered: false,
-    isFullScreen: false
+    isFullScreen: false,
   }
 
   componentDidMount() {

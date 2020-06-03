@@ -134,9 +134,9 @@ export default class MeasuringForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('measuringManager.form.numericalOrder.error')
-                  }
-                ]
+                    message: t('measuringManager.form.numericalOrder.error'),
+                  },
+                ],
               })(
                 <InputNumberCell
                   size="large"

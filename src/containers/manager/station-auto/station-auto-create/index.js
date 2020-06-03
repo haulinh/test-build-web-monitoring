@@ -1,7 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { message, Modal, Button, Typography, Skeleton } from 'antd'
+import createManagerList from 'hoc/manager-list'
+import { message, Modal, Button, Skeleton } from 'antd'
 import { autobind } from 'core-decorators'
 import StationAutoApi from 'api/StationAuto'
 import slug from 'constants/slug'
@@ -11,37 +11,37 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
-import { SHAPE } from 'themes/color'
 import { EMAIL, PHONE } from 'constants/info-contact.js'
 import { translate } from 'hoc/create-lang'
-
-const ModalContent = styled.div`
-  width: fit-content;
-  text-align: left;
-  line-height: 2rem;
-  padding-left: 16px;
-  .modal--content--text__padding {
-    float: left;
-    width: 200px;
-  }
-`
-
-const { Text } = Typography
+import {
+  Container,
+  ContentWrapper,
+  Desc,
+  Heading,
+  Title,
+  Wrapper,
+  Flex,
+  Content,
+  Label,
+} from './style'
 
 const i18n = {
-  title: translate('stationAutoManager.create.modal.title'),
-  back: translate('stationAutoManager.create.modal.back'),
-  text: translate('stationAutoManager.create.modal.text'),
-  text1: translate('stationAutoManager.create.modal.text1'),
-  text2: translate('stationAutoManager.create.modal.text2'),
-  text3: translate('stationAutoManager.create.modal.text3'),
+  okText: translate('addon.ok'),
+  addButton: translate('stationAutoManager.create.label'),
+  stationType: translate('stationAutoManager.form.stationType.placeholder'),
+  stationName: translate('stationAutoManager.form.name.placeholder'),
+  title: translate('stationAutoManager.limit.station.title'),
+  callAction: translate('stationAutoManager.limit.station.callAction'),
 }
 
 @protectRole(ROLE.STATION_AUTO.CREATE)
+@createManagerList({
+  apiList: StationAutoApi.getStationAutos,
+})
 @connect(state => ({
-  totalStation: _.get(
+  limitTotalStation: _.get(
     state,
-    'auth.userInfo.organization.license.totalStation',
+    'auth.userInfo.organization.packageInfo.totalStation',
     0
   ),
   totalStationActived: _.get(state, 'stationAuto.totalStationActived', 0),
@@ -49,7 +49,7 @@ const i18n = {
 @autobind
 export default class StationAutoCreate extends React.PureComponent {
   state = {
-    isLicense: false,
+    isRequiredLicense: false,
   }
 
   async handleSubmit(data) {
@@ -60,93 +60,74 @@ export default class StationAutoCreate extends React.PureComponent {
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     this.checkLicenseStation()
   }
 
   componentDidUpdate = prevProps => {
-    if (this.props.totalStationActived !== prevProps.totalStationActived) {
+    if (
+      this.props.totalStationActived !== prevProps.totalStationActived ||
+      this.props.isLoading !== prevProps.isLoading
+    ) {
       this.checkLicenseStation()
     }
   }
 
   checkLicenseStation = () => {
-    const { totalStation, totalStationActived } = this.props
-    if (totalStationActived >= totalStation) {
+    const { limitTotalStation, totalStationActived } = this.props
+    if (
+      totalStationActived >= limitTotalStation &&
+      !this.state.isRequiredLicense
+    ) {
+      Modal.warning({
+        icon: null,
+        width: '50%',
+        title: <Title>{i18n.title}</Title>,
+        okText: i18n.okText,
+        content: (
+          <Container>
+            <Desc>
+              {translate('stationAutoManager.limit.station.content', {
+                totalStation: limitTotalStation,
+              })}
+            </Desc>
+            <ContentWrapper>
+              <Heading>{i18n.callAction}</Heading>
+              <Wrapper>
+                <Flex>
+                  <Label>{translate('contact.phone')}</Label>
+                  <Content>{PHONE}</Content>
+                </Flex>
+                <Flex>
+                  <Label>{translate('contact.email')}</Label>
+                  <Content>{EMAIL}</Content>
+                </Flex>
+              </Wrapper>
+            </ContentWrapper>
+          </Container>
+        ),
+        onCancel() {},
+        onOk: this.handleClose,
+      })
       this.setState({
-        isLicense: true,
+        isRequiredLicense: true,
       })
     }
   }
 
-  hanldeClose = () => {
+  handleClose = () => {
     this.props.history.push(slug.stationAuto.list)
   }
 
   render() {
-    // console.log(this.props.totalStationActived, "totalStationActived")
-    const limitTotalStation = _.get(this.props, 'totalStation', 0)
+    if (this.props.isLoading) return <Skeleton />
     return (
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb items={['list', 'create']} />
-        {!this.state.isLicense && (
+        {!this.state.isRequiredLicense && (
           <StationAutoForm onSubmit={this.handleSubmit} />
         )}
-        {this.state.isLicense && <Skeleton />}
-
-        <Modal
-          closable={false}
-          title={i18n.title}
-          visible={this.state.isLicense}
-          onCancel={this.hanldeClose}
-          footer={[
-            <Button key="back" type="primary" onClick={this.hanldeClose}>
-              {i18n.back}
-            </Button>,
-          ]}
-        >
-          <Text type="secondary">
-            {' '}
-            {translate('stationAutoManager.create.modal.text', {
-              total: limitTotalStation,
-            })}
-          </Text>
-          <br />
-          <br />
-          <br />
-          <ModalContent className="modal--content">
-            <Text
-              style={{
-                color: SHAPE.PRIMARY,
-                fontWeight: 'bold',
-              }}
-            >
-              {i18n.text1}
-            </Text>
-            <br />
-            <Text className="modal--content--text__padding" strong>
-              {i18n.text2}
-            </Text>
-            <Text
-              style={{
-                color: SHAPE.PRIMARY,
-              }}
-            >
-              {PHONE}
-            </Text>
-            <br />
-            <Text className="modal--content--text__padding" strong>
-              {i18n.text3}
-            </Text>
-            <Text
-              style={{
-                color: SHAPE.PRIMARY,
-              }}
-            >
-              {EMAIL}
-            </Text>
-          </ModalContent>
-        </Modal>
+        {this.state.isRequiredLicense && <Skeleton />}
       </PageContainer>
     )
   }

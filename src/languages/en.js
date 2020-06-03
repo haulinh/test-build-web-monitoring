@@ -1,4 +1,8 @@
 export default {
+  contact: {
+    phone: 'Phone',
+    email: 'Email',
+  },
   unit: {
     time: {
       second: 'second',
@@ -599,7 +603,7 @@ export default {
       numericalOrder: {
         label: 'Numerical Order',
         placeholder: 'Numerical Order',
-        error: 'Please input numerical order'
+        error: 'Please input numerical order',
       },
       action: {
         label: 'Action',
@@ -654,9 +658,9 @@ export default {
       numericalOrder: {
         label: 'Numerical Order',
         placeholder: 'Numerical Order',
-        error: 'Please input numerical order'
-      }
-    }
+        error: 'Please input numerical order',
+      },
+    },
   },
   qcvn: {
     list: {
@@ -665,7 +669,7 @@ export default {
     create: {
       label: 'Create',
       success: 'Add QCVN Successfully',
-      keyExisted: 'QCVN is already existed'
+      keyExisted: 'QCVN is already existed',
     },
     edit: {
       label: 'Edit',
@@ -682,7 +686,7 @@ export default {
         label: 'Code',
         placeholder: 'Input QCVN Code',
         error: 'Please Input QCVN Code',
-        existError: 'QCVN code is exist'
+        existError: 'QCVN code is exist',
       },
       name: {
         label: 'Name',
@@ -696,7 +700,7 @@ export default {
       numericalOrder: {
         label: 'Numerical Order',
         placeholder: 'Input Numerical Order',
-        error: 'Please Input Numerical Order'
+        error: 'Please Input Numerical Order',
       },
       action: {
         label: 'Action',
@@ -742,9 +746,9 @@ export default {
       numericalOrder: {
         label: 'Numerical Order',
         placeholder: 'Numerical Order',
-        error: 'Please input numerical order'
-      }
-    }
+        error: 'Please input numerical order',
+      },
+    },
   },
   configWQI: {
     breadCrumb: 'Config WQI, AQI',
@@ -1153,7 +1157,7 @@ export default {
     },
     update: {
       success: 'Update success',
-      error: 'Upload failed'
+      error: 'Upload failed',
     },
     upload: {
       label: 'Upload',
@@ -1190,7 +1194,7 @@ export default {
     },
     image: {
       label: 'Image station: {{=it.name}}',
-      create: 'Create image'
+      create: 'Create image',
     },
     infoStation: {
       title: 'Station Information',
@@ -1202,8 +1206,16 @@ export default {
       processProduction: 'Process Production',
       userResponsible: 'User Responsible',
       userSupervisor: 'User Supervisor',
-      website: 'Website'
-    }
+      website: 'Website',
+    },
+    limit: {
+      station: {
+        title: 'Limited subscription',
+        content:
+          'Your maximum number of stations is {{= it.totalStation}}, you cannot add new stations, please contact or upgrade your usage plan',
+        callAction: 'Increase the number of stations, contact',
+      },
+    },
   },
   parameterManager: {
     breadcrumb: {
@@ -1233,7 +1245,7 @@ export default {
         label: 'Email Address',
         placeholder: 'Email Address',
         error: 'The Input Email Address Is Not Valid',
-        errorExist: 'Email Address Is Exist'
+        errorExist: 'Email Address Is Exist',
       },
       password: {
         label: 'Password',
@@ -1247,12 +1259,12 @@ export default {
       firstName: {
         label: 'First Name',
         placeholder: 'First Name',
-        error: 'Please input first name'
+        error: 'Please input first name',
       },
       lastName: {
         label: 'Last Name',
         placeholder: 'Last Name',
-        error: 'Please input last name'
+        error: 'Please input last name',
       },
       country: {
         label: 'Country',
@@ -1266,7 +1278,7 @@ export default {
         label: 'Phone',
         placeholder: 'Phone',
         empty: 'Please input phone',
-        format: 'The phone number not correct'
+        format: 'The phone number not correct',
       },
       isAdmin: {
         label: 'Admin Role',
@@ -1280,6 +1292,7 @@ export default {
       text1: 'Increase the number of users please contact',
       text2: 'Phone number',
       text3: 'Email',
+      callAction: 'Increase the number of users please contact',
     },
     list: {
       enableAccount: 'Enable Account',
@@ -1328,7 +1341,7 @@ export default {
         placeholder: 'Input Name',
         error: 'Please Input Name',
         errorExist: 'Name is exist',
-        limit: 'Must be 5 characters or more'
+        limit: 'Must be 5 characters or more',
       },
       description: {
         label: 'Description',
@@ -1572,7 +1585,7 @@ export default {
     upload: 'Upload',
     imageUpload: {
       success: 'Upload Image Success',
-      error: 'Upload Image Failed'
+      error: 'Upload Image Failed',
     },
     user: 'User Info',
     organization: 'Organization Info',
@@ -1936,8 +1949,8 @@ export default {
       delete_station_auto: 'Delete Station Auto',
       add_role: 'Add Role',
       update_role: 'Update Role',
-      delete_role: 'Delete Role'
-    }
+      delete_role: 'Delete Role',
+    },
   },
   cameraControl: {
     station: {
@@ -2085,7 +2098,7 @@ export default {
     statusData: 'Status Data',
   },
   apps: {
-    incidents: "Incidents Communication",
-    monitoring: "Online Monitoring"
-  }
+    incidents: 'Incidents Communication',
+    monitoring: 'Online Monitoring',
+  },
 }

@@ -1,15 +1,13 @@
-import React from "react";
-import AQIList from "./aqi-list";
+import React from 'react'
+import AQIList from './aqi-list'
 
-import connectWindowHeight from "hoc/window-height";
-
-
+import connectWindowHeight from 'hoc/window-height'
 
 @connectWindowHeight
 export default class InfoComponent extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = {};
+    super(props)
+    this.state = {}
   }
 
   render() {
@@ -19,7 +17,7 @@ export default class InfoComponent extends React.Component {
           ...this.props.style,
           height: this.props.windowHeight,
           padding: 16,
-          overflow: "scroll"
+          overflow: 'scroll',
         }}
       >
         <AQIList
@@ -28,6 +26,6 @@ export default class InfoComponent extends React.Component {
           aqiList={this.props.aqiList}
         />
       </div>
-    );
+    )
   }
 }
