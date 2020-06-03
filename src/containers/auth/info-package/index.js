@@ -59,7 +59,6 @@ export class InfoLicenseForm extends PureComponent {
 
   state = {
     isLoading: true,
-    totalUser: {},
     currentUser: {},
   }
 
@@ -74,30 +73,16 @@ export class InfoLicenseForm extends PureComponent {
 
   async componentDidMount() {
     const currentUser = await UserApi.getTotalCount()
-    const totalUser = await StationAuto.getTotalCount()
-    console.log('currentUser', currentUser)
-    console.log('totalUser', totalUser)
     this.setState({
-      totalUser,
       currentUser,
     })
   }
 
   render() {
     const { organization, totalStationActived } = this.props
-    const { totalUser, currentUser } = this.state
-    // console.log(this.state.organizationInfo)
-    console.log('organization', organization)
-    // const { organizationInfo } = this.state
-    const phone = _.get(organization, [
-      'packageInfo',
-      'saler',
-      'phone',
-      'phoneNumber',
-    ])
-    const email = _.get(organization, ['packageInfo', 'saler', 'email'])
+    const { currentUser } = this.state
 
-    let dateCreate, dateExp, totalDays, limitTotalStation
+    let dateCreate, dateExp, totalDays, limitTotalStation, totalUser, phone, email
     if (organization) {
       const createdAt = _.get(organization, 'createdAt')
         ? moment(_.get(organization, 'createdAt'))
@@ -112,7 +97,16 @@ export class InfoLicenseForm extends PureComponent {
       }
       dateCreate = createdAt.format(DD_MM_YYYY)
 
+      phone = _.get(organization, [
+        'packageInfo',
+        'saler',
+        'phone',
+        'phoneNumber',
+      ])
+      email = _.get(organization, ['packageInfo', 'saler', 'email'])
+
       limitTotalStation = _.get(organization, ['packageInfo', 'totalStation'])
+      totalUser = _.get(organization, ['packageInfo', 'totalUser'])
     }
     return (
       <InfoLicenseWrapper>
@@ -178,7 +172,7 @@ export class InfoLicenseForm extends PureComponent {
                       {i18n.text5}
                     </Text>
                     <Text disabled>{`${currentUser.data}/${
-                      totalUser.data
+                      totalUser
                     }`}</Text>
                     <Clearfix height={8} />
                   </div>
