@@ -36,7 +36,7 @@ export default class TableDataList extends React.PureComponent {
       },
     ]
     const arrData = _values(this.props.dataSource[0])
-    console.log(arrData, "--arrData--")
+    console.log(arrData, '--arrData--')
     _forEach(arrData, item => {
       if (item.key) {
         const column = {

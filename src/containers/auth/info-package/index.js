@@ -13,7 +13,6 @@ import Clearfix from 'components/elements/clearfix'
 import { connect } from 'react-redux'
 import { DD_MM_YYYY } from 'constants/format-date'
 import UserApi from 'api/UserApi'
-import StationAuto from 'api/StationAuto'
 
 const { Title, Text } = Typography
 
@@ -82,13 +81,22 @@ export class InfoLicenseForm extends PureComponent {
     const { organization, totalStationActived } = this.props
     const { currentUser } = this.state
 
-    let dateCreate, dateExp, totalDays, limitTotalStation, totalUser, phone, email
+    let dateCreate,
+      dateExp,
+      totalDays,
+      limitTotalStation,
+      totalUser,
+      phone,
+      email
     if (organization) {
       const createdAt = _.get(organization, 'createdAt')
         ? moment(_.get(organization, 'createdAt'))
         : ''
-      const expirationDate = _.get(organization, 'license.expirationDate')
-        ? moment(_.get(organization, 'license.expirationDate'))
+      const expirationDate = _.get(
+        organization,
+        'packageInfo.contractExpiredDate'
+      )
+        ? moment(_.get(organization, 'packageInfo.contractExpiredDate'))
         : ''
 
       if (expirationDate) {
@@ -171,9 +179,7 @@ export class InfoLicenseForm extends PureComponent {
                     >
                       {i18n.text5}
                     </Text>
-                    <Text disabled>{`${currentUser.data}/${
-                      totalUser
-                    }`}</Text>
+                    <Text disabled>{`${currentUser.data}/${totalUser}`}</Text>
                     <Clearfix height={8} />
                   </div>
                 </div>
