@@ -39,7 +39,7 @@ export default class TabeList extends React.PureComponent {
     return (
       <TabeListWrapper>
         <ButtonAbsolute>
-          {protectRole(ROLE.STATISTIC.EXPORT_AQI)(
+          {protectRole(ROLE.AQI_NGAY.AQI_NGAY_EXPORT)(
             <Button
               type="primary"
               icon="file-excel"

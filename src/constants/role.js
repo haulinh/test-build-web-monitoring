@@ -90,12 +90,15 @@ export default {
   },
   AQI: {
     VIEW: 'menu.aqiMap.actions.view',
+    
   },
   AQI_GIO: {
     VIEW: 'menu.aqiGio.actions.view',
+    AQI_GIO_EXPORT: 'menu.aqiGio.actions.export',
   },
   AQI_NGAY: {
     VIEW: 'menu.aqiNgay.actions.view',
+    AQI_NGAY_EXPORT: 'menu.aqiGio.actions.export',
   },
   TINH_TRANG_DU_LIEU: {
     VIEW: 'menu.tinhTrangDuLieu.actions.view',
