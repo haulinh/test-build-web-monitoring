@@ -14,6 +14,8 @@ export function getConfigApi() {
     user: c('user'),
     trialRegister: c('trial-register'),
     config: c('config'),
+    
+
     measuring: c('measuring'),
     stationType: c('station-type'),
     stationAuto: c('station-auto'),
@@ -25,6 +27,7 @@ export function getConfigApi() {
     stationFixed: c('station-fixed'),
     dataStationFixed: c('data-station-fixed'),
     stationConfig: c('config/station'),
+    // stationConfig: 'http://localhost:5002/config/station',
     qaqcConfig: c('config/qaqc'),
     // qaqcConfig: 'http://localhost:5002/config/qaqc',
     aqiConfigCalculation: c('config/aqi-calculation'),

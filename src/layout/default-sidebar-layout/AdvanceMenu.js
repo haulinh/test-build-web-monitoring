@@ -46,7 +46,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.WQI.VIEW)(
+      {protectRole(ROLE.WQI_GIO.VIEW)(
         <Menu.Item
           key={slug.report.wqi_hour}
           onClick={() => {
@@ -56,7 +56,7 @@ export default {
           <Link to={slug.report.wqi_hour}>{MENU_NAME.advance.wqiHour}</Link>
         </Menu.Item>
       )}
-      {protectRole(ROLE.WQI.VIEW)(
+      {protectRole(ROLE.WQI_NGAY.VIEW)(
         <Menu.Item
           key={slug.report.wqi_day}
           onClick={() => {
