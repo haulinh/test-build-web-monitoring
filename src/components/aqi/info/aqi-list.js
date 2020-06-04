@@ -5,7 +5,13 @@ import styled from 'styled-components'
 import * as _ from 'lodash'
 import moment from 'moment-timezone'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
+import { translate } from 'hoc/create-lang'
+
 const { Text } = Typography
+
+const i18n = {
+  search: translate('addon.search'),
+}
 
 const WrapperView = styled.div`
   display: flex;
@@ -104,7 +110,7 @@ export default class AQIList extends React.PureComponent {
     // console.log(this.state.dataSoure, "--this.state.dataSoure")
     return (
       <WrapperView>
-        <Input placeholder="Tìm kiếm trạm AQI" onChange={this.hanldeOnchange} />
+        <Input placeholder={i18n.search} onChange={this.hanldeOnchange} />
         {!this.state.dataSoure && <Skeleton />}
         {_.map(this.state.dataSoure, (item, index) => {
           const key = _.get(item, 'key')

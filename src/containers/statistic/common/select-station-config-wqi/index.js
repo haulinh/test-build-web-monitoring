@@ -24,7 +24,7 @@ export default class SelectStationConfigWQI extends React.Component {
       {},
       { config: 'WQI' }
     )
-    console.log(responseStationConfig, '--responseStationConfig--')
+    // console.log(responseStationConfig, '--responseStationConfig--')
     this.setState({
       stationConfigSelects: responseStationConfig.data,
       isLoaded: true,
