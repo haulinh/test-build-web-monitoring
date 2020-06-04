@@ -35,12 +35,12 @@ export default function createProtectedAuth(Component) {
       if (!this.props.isAuthenticated) {
         const auth = await this.props.fetchUserMe()
         if (!auth) return this.props.history.push('/login')
-        console.log(auth, '---auth')
+        // console.log(auth, '---auth')
         if (auth.error === true) {
           if (auth.message === Errors.ORGANIZATION_EXPIRED) {
             // this.props.history.push(slug.user.expLicense)
             this.props.history.push(
-              `${slug.user.expLicense}?expDate=${auth.userMessage}`
+              `${slug.user.expLicense}?expDate=${auth['0'].expDate}`
             )
           } else {
             this.props.history.push('/login')
