@@ -236,15 +236,18 @@ export default class MenuApp extends React.PureComponent {
             ROLE.TILE_DULIE_VUOTNGUONG.VIEW,
             ROLE.SO_LAN_MAT_KET_NOI.VIEW,
             ROLE.TINH_TRANG_DU_LIEU.VIEW,
-            ROLE.WQI_GIO.VIEW,
-            ROLE.AQI_GIO.VIEW,
-            ROLE.AQI_NGAY.VIEW,
           ]) && ReportMenu.renderComp(this.props)}
 
           {this.checkRoleForGroup([
             ROLE.AQI.VIEW,
             ROLE.WQI.VIEW,
+            ROLE.WQI_NGAY.VIEW,
+            ROLE.WQI_GIO.VIEW,
+            ROLE.AQI_GIO.VIEW,
+            ROLE.AQI_NGAY.VIEW,
             ROLE.CONFIG_WQI.VIEW,
+            ROLE.CAU_HINH_TINH_TOAN_AQI.VIEW,
+            ROLE.CAU_HINH_TINH_TOAN_WQI.VIEW,
           ]) && AdvanceMenu.renderComp(this.props)}
 
           {this.checkRoleForGroup([
@@ -252,8 +255,6 @@ export default class MenuApp extends React.PureComponent {
             ROLE.CAU_HINH_KET_NOI.VIEW,
             ROLE.CAU_HINH_GUI_CANH_BAO.VIEW,
             ROLE.CAU_HINH_LAY_MAU.VIEW,
-            ROLE.CAU_HINH_TINH_TOAN_AQI.VIEW,
-            ROLE.CAU_HINH_TINH_TOAN_WQI.VIEW,
             ROLE.CONFIG_COLOR_NOTI.VIEW,
             ROLE.CAU_HINH_CAMERA.VIEW,
             ROLE.MEASURING.VIEW,
