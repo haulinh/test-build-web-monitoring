@@ -15,7 +15,7 @@ import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 // import moment from "moment-timezone";
 
-@protectRole(ROLE.STATISTIC.AQI)
+@protectRole(ROLE.WQI_GIO.VIEW)
 @queryFormDataBrowser(['submit'])
 @autobind
 export default class WQIStatisticsDay extends React.Component {

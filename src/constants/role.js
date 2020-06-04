@@ -102,6 +102,12 @@ export default {
   },
   WQI_GIO: {
     VIEW: 'menu.wqiGio.actions.view',
+    WQI_GIO_EXPORT: 'menu.wqiGio.actions.export',
+  },
+  WQI_NGAY: {
+    VIEW: 'menu.wqiNgay.actions.view',
+    WQI_NGAY_EXPORT: 'menu.wqiNgay.actions.export',
+
   },
   WQI: {
     VIEW: 'menu.wqiMap.actions.view',

@@ -1433,6 +1433,9 @@ export default {
       wqiGio: {
         name: 'WQI - Hour',
       },
+      wqiNgay: {
+        name: 'WQI - Day',
+      },
       tinhTrangDuLieu: {
         name: 'Status Data',
       },

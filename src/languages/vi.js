@@ -1430,6 +1430,9 @@ export default {
       wqiGio: {
         name: 'WQI - giờ',
       },
+      wqiNgay: {
+        name: 'WQI - ngày',
+      },
       tinhTrangDuLieu: {
         name: 'Tình trạng dữ liệu',
       },

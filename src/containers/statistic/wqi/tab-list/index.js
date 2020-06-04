@@ -58,7 +58,7 @@ export default class TabeList extends React.PureComponent {
       }
 
       const aqiOld = _.get(dataSet, `${strNgay}.wqiDay`, -1)
-      console.log(aqiDay, aqiOld, '---aqiOld---')
+      // console.log(aqiDay, aqiOld, '---aqiOld---')
       if (aqiOld < aqiDay) {
         _.set(dataSet, `${strNgay}.aqiDay`, aqiDay)
       }
@@ -76,7 +76,7 @@ export default class TabeList extends React.PureComponent {
     return (
       <TabeListWrapper>
         <ButtonAbsolute>
-          {protectRole(ROLE.STATISTIC.EXPORT_AQI)(
+          {protectRole(ROLE.WQI_GIO.WQI_GIO_EXPORT)(
             <Button
               type="primary"
               icon="file-excel"

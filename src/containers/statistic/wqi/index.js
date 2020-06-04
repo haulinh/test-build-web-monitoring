@@ -14,7 +14,7 @@ import swal from 'sweetalert2'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 
-@protectRole(ROLE.STATISTIC.AQI)
+@protectRole(ROLE.WQI_GIO.VIEW)
 @queryFormDataBrowser(['submit'])
 @autobind
 export default class WQIStatistics extends React.Component {
