@@ -1199,7 +1199,7 @@ export default {
       career: 'Ngành nghề',
       emptyText: 'Không có dữ liệu',
       yearOperate: 'Năm bắt đầu hoạt động',
-      capacity: 'Công xuất thiết kế',
+      capacity: 'Công suất thiết kế',
       processProduction: 'Quy trình sản xuất',
       userResponsible: 'Người chịu trách nhiệm',
       userSupervisor: 'Người giám sát',
