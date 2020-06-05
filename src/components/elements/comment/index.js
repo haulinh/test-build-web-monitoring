@@ -1,51 +1,14 @@
 import React from 'react'
-import {
-  Row,
-  Col,
-  Button,
-  Icon,
-  Divider,
-  Input,
-  Avatar,
-  Form,
-  Upload,
-  message,
-} from 'antd'
+import { Row, Col, Button, Divider, Avatar } from 'antd'
 import styled from 'styled-components'
-import { translate } from 'hoc/create-lang'
 import moment from 'moment'
 import ImageMoreInfo from './image'
-import MediaApi from 'api/MediaApi'
-import { v4 as uuidV4 } from 'uuid'
-import swal from 'sweetalert2'
-import debounce from 'lodash/debounce'
-import { editEvaluateStation } from 'api/StationAuto'
-
-const { TextArea } = Input
-
-const i18n = {
-  title: translate('stationAutoManager.infoStation.title'),
-  edit: translate('stationAutoManager.infoStation.edit'),
-  career: translate('stationAutoManager.infoStation.career'),
-  empty: translate('stationAutoManager.infoStation.emptyText'),
-  yearOperate: translate('stationAutoManager.infoStation.yearOperate'),
-  capacity: translate('stationAutoManager.infoStation.capacity'),
-  processProdution: translate(
-    'stationAutoManager.infoStation.processProdution'
-  ),
-  userResponsible: translate('stationAutoManager.infoStation.userResponsible'),
-  userSupervisor: translate('stationAutoManager.infoStation.userSupervisor'),
-  website: translate('stationAutoManager.infoStation.website'),
-}
+import Editor from './Editor'
 
 const Text = styled.p`
   font-size: 20px;
   margin: 0;
   line-height: normal;
-`
-
-const Title = styled.h4`
-  margin-bottom: 20px;
 `
 
 const Flex = styled.div`
@@ -54,81 +17,9 @@ const Flex = styled.div`
   align-items: center;
 `
 
-const Image = styled.img`
-  width: 45px;
-  height: 45px;
-  border-radius: 45px;
-`
-
 const ButtonLink = styled(Button)`
   color: gray;
 `
-
-export const Editor = ({
-  onChange,
-  onSubmit,
-  submitting,
-  value,
-  isEdit,
-  handleEdit,
-  hideEditor,
-  _id,
-  setImages,
-}) => {
-  const handleSubmit = () => {
-    if (isEdit) {
-      handleEdit(_id)
-      hideEditor()
-    } else {
-      onSubmit()
-    }
-  }
-
-  const handleImageChange = ({ fileList, file, event }) => {
-    if (file.status === 'done') {
-      setImages(file.response.file.path)
-    }
-  }
-
-  return (
-    <div style={{ marginTop: !isEdit ? '0px' : '10px' }}>
-      <Form.Item>
-        <Flex
-          style={{ justifyContent: !isEdit ? 'space-around' : 'space-between' }}
-        >
-          <TextArea
-            style={{ maxWidth: '80%' }}
-            onChange={onChange}
-            value={value}
-          />
-          <Upload
-            shape="circle-outline"
-            size="large"
-            multiple
-            showUploadList={false}
-            accept=".jpg, .png, .svg, jpeg"
-            action={MediaApi.urlPhotoUploadWithDirectory('station')}
-            onChange={handleImageChange}
-          >
-            <Button shape="circle-outline" size="large">
-              <Icon type="picture" theme="outlined" />
-            </Button>
-          </Upload>
-          <Button
-            shape="circle-outline"
-            size="large"
-            type="primary"
-            htmlType="submit"
-            loading={submitting}
-            onClick={handleSubmit}
-          >
-            <Icon type="yuque" theme="outlined" />
-          </Button>
-        </Flex>
-      </Form.Item>
-    </div>
-  )
-}
 
 export class CommentComponent extends React.Component {
   state = {
@@ -143,6 +34,14 @@ export class CommentComponent extends React.Component {
     this.props.getValueFromEditComment(e.target.value)
   }
 
+  handleHideEditor = () => {
+    this.setState({ isEdit: false })
+  }
+
+  handleOpenEditor = () => {
+    this.setState({ isEdit: true })
+  }
+
   renderContent = () => {
     const { content, handleDelete, handleEdit, _id } = this.props
     const { isEdit, value } = this.state
@@ -152,14 +51,14 @@ export class CommentComponent extends React.Component {
           <Text style={{ marginTop: '10px' }}>{content}</Text>
           <Flex>
             <ButtonLink
-              onClick={() => this.setState({ isEdit: true })}
+              onClick={this.handleOpenEditor}
               style={{ padding: '0px' }}
               type="link"
             >
-              edit
+              Edit
             </ButtonLink>
             <ButtonLink onClick={() => handleDelete(_id)} type="link">
-              delete
+              Delete
             </ButtonLink>
           </Flex>
         </React.Fragment>
@@ -168,7 +67,7 @@ export class CommentComponent extends React.Component {
       return (
         <React.Fragment>
           <Editor
-            hideEditor={() => this.setState({ isEdit: false })}
+            hideEditor={this.handleHideEditor}
             isEdit={isEdit}
             handleEdit={handleEdit}
             _id={_id}
@@ -176,11 +75,11 @@ export class CommentComponent extends React.Component {
             onChange={this.handleChange}
           />
           <ButtonLink
-            style={{ margin: '0px', padding: '0px' }}
-            onClick={() => this.setState({ isEdit: false })}
+            style={{ marginBottom: '8px', padding: '0px' }}
+            onClick={this.handleHideEditor}
             type="link"
           >
-            cancel
+            Cancel
           </ButtonLink>
         </React.Fragment>
       )
@@ -194,11 +93,11 @@ export class CommentComponent extends React.Component {
 
     return (
       <div>
-        <Row>
+        <Row type="flex">
           <Col span={2}>
             <Avatar size="large" src={avatar && avatar} />
           </Col>
-          <Col span={!isEdit ? 10 : 20}>
+          <Col span={isEdit ? 22 : 10}>
             <Flex>
               <Text style={{ fontWeight: 'bold' }}>
                 {lastName} {firstName}
@@ -211,15 +110,33 @@ export class CommentComponent extends React.Component {
             </Flex>
             {this.renderContent()}
           </Col>
-          <Col span={12}>
-            <ImageMoreInfo
-              commentId={_id}
-              images={images}
-              content={content}
-              stationId={stationId}
-            />
-          </Col>
+          {!isEdit && (
+            <Col span={12}>
+              <ImageMoreInfo
+                itemInline={3}
+                isEdit={isEdit}
+                commentId={_id}
+                images={images}
+                content={content}
+                stationId={stationId}
+              />
+            </Col>
+          )}
         </Row>
+        {isEdit && (
+          <Row type="flex">
+            <Col span={24}>
+              <ImageMoreInfo
+                itemInline={6}
+                isEdit={isEdit}
+                commentId={_id}
+                images={images}
+                content={content}
+                stationId={stationId}
+              />
+            </Col>
+          </Row>
+        )}
         <Divider />
       </div>
     )

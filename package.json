@@ -21,7 +21,7 @@
     "@fullpage/react-fullpage": "^0.1.14",
     "animate.css": "^3.5.2",
     "animated-scroll-to": "^2.0.8",
-    "antd": "^3.23.4",
+    "antd": "3.26.16",
     "autoprefixer": "7.1.2",
     "axios": "^0.16.2",
     "babel-core": "6.25.0",

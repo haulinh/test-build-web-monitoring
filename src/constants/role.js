@@ -90,7 +90,6 @@ export default {
   },
   AQI: {
     VIEW: 'menu.aqiMap.actions.view',
-    
   },
   AQI_GIO: {
     VIEW: 'menu.aqiGio.actions.view',
@@ -110,7 +109,6 @@ export default {
   WQI_NGAY: {
     VIEW: 'menu.wqiNgay.actions.view',
     WQI_NGAY_EXPORT: 'menu.wqiNgay.actions.export',
-
   },
   WQI: {
     VIEW: 'menu.wqiMap.actions.view',

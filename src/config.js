@@ -14,7 +14,6 @@ export function getConfigApi() {
     user: c('user'),
     trialRegister: c('trial-register'),
     config: c('config'),
-    
 
     measuring: c('measuring'),
     stationType: c('station-type'),

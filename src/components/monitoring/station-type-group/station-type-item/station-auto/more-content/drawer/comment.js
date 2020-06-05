@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button, Divider, Comment, Avatar, Spin, message } from 'antd'
+import { Divider, Comment, Avatar, Spin } from 'antd'
 import styled from 'styled-components'
-import { translate } from 'hoc/create-lang'
 import moment from 'moment'
+import update from 'immutability-helper'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import {
@@ -11,50 +11,11 @@ import {
   getEvaluateStation,
   editEvaluateStation,
 } from 'api/StationAuto'
-import { CommentComponent, Editor } from 'components/elements/comment'
-import debounce from 'lodash/debounce'
-import { v4 as uuidV4 } from 'uuid'
-import swal from 'sweetalert2'
-
-const i18n = {
-  title: translate('stationAutoManager.infoStation.title'),
-  edit: translate('stationAutoManager.infoStation.edit'),
-  career: translate('stationAutoManager.infoStation.career'),
-  empty: translate('stationAutoManager.infoStation.emptyText'),
-  yearOperate: translate('stationAutoManager.infoStation.yearOperate'),
-  capacity: translate('stationAutoManager.infoStation.capacity'),
-  processProdution: translate(
-    'stationAutoManager.infoStation.processProdution'
-  ),
-  userResponsible: translate('stationAutoManager.infoStation.userResponsible'),
-  userSupervisor: translate('stationAutoManager.infoStation.userSupervisor'),
-  website: translate('stationAutoManager.infoStation.website'),
-}
-
-const Text = styled.p`
-  font-size: 20px;
-  margin: 0;
-  line-height: normal;
-`
+import { CommentComponent } from 'components/elements/comment'
+import Editor from 'components/elements/comment/Editor'
 
 const Title = styled.h4`
   margin-bottom: 20px;
-`
-
-const Flex = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`
-
-const Image = styled.img`
-  width: 45px;
-  height: 45px;
-  border-radius: 45px;
-`
-
-const ButtonLink = styled(Button)`
-  color: gray;
 `
 
 @connect(state => ({
@@ -71,8 +32,22 @@ export default class StationComment extends React.Component {
     images: [],
   }
 
-  setImages = newImage => {
-    this.setState({ images: [...this.state.images, newImage] })
+  handleAddImage = newImage => {
+    this.setState(prevState => ({ images: [...prevState.images, newImage] }))
+  }
+
+  handleResetImage = () => {
+    this.setState({ images: [] })
+  }
+
+  handleDeleteImage = index => {
+    this.setState(prevState =>
+      update(prevState, {
+        images: {
+          $splice: [[index, 1]],
+        },
+      })
+    )
   }
 
   async componentDidMount() {
@@ -99,35 +74,29 @@ export default class StationComment extends React.Component {
     })
   }
 
-  handleSubmit = () => {
-    const { firstName, lastName, avatar } = this.props.userInfo
-    if (!this.state.value) {
-      return
-    }
+  handleSubmit = async () => {
+    if (!this.state.value) return
     this.setState({
       submitting: true,
-    })
-    const newComment = {
-      content: this.state.value,
-      user: {
-        firstName,
-        lastName,
-        avatar,
-      },
-      createdAt: moment().toString(),
-      images: this.state.images,
-    }
-    this.setState({
-      submitting: false,
-      value: '',
-      data: [...this.state.data, newComment],
     })
     const commentSend = {
       content: this.state.value,
       stationId: this.props.stationId,
       images: this.state.images,
     }
-    createEvaluateStation(commentSend)
+    const { data } = await createEvaluateStation(commentSend)
+    const newComment = {
+      _id: data._id,
+      content: data.content,
+      user: data.user,
+      createdAt: data.createdAt,
+      images: data.images,
+    }
+    this.setState({
+      submitting: false,
+      value: '',
+      data: [...this.state.data, newComment],
+    })
   }
 
   handleDelete = _id => {
@@ -190,7 +159,10 @@ export default class StationComment extends React.Component {
                 onChange={this.handleChange}
                 onSubmit={this.handleSubmit}
                 submitting={submitting}
-                setImages={this.setImages}
+                onResetImage={this.handleResetImage}
+                onAddImage={this.handleAddImage}
+                onDeleteImage={this.handleDeleteImage}
+                images={this.state.images}
               />
             }
           />

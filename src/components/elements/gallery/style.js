@@ -34,6 +34,9 @@ export const GalleryContainer = styled.div`
       }
     }
   }
+  .image-gallery-slides {
+    height: calc(100vh - 88px - 32px);
+  }
 `
 
 export const ToolBar = styled.div`
@@ -121,6 +124,6 @@ export const ThumbInner = styled.div`
   height: 80px;
   overflow: hidden;
 
-  background: url(${props => props.thumbnail});
+  background: url(${props => `"${props.thumbnail}"`});
   background-size: cover;
 `

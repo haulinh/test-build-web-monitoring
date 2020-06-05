@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import StationAutoApi from 'api/StationAuto'
 import MediaApi from 'api/MediaApi'
 import update from 'immutability-helper'
 import { v4 as uuidV4 } from 'uuid'
@@ -16,38 +15,30 @@ import Gallery from 'components/elements/gallery'
 import { editEvaluateStation } from 'api/StationAuto'
 
 const Wrapper = styled(Row)`
-  transition: transform 0.25s ease;
-  .delete {
-    display: none;
+  .ant-upload {
+    height: 120px;
+  }
+`
+
+const Image = styled.div`
+  background: ${props => `url("${props.bgUrl}")`};
+  width: 100%;
+  height: 120px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  :after {
+    content: ${props => props.content && `'+${props.content}'`};
+    background-color: #d8d8d85c;
     position: absolute;
+    top: 0px;
     right: 0px;
-    top: -8px;
-    color: red;
-    width: 20px;
-    height: 20px;
+    left: 0px;
+    bottom: 0px;
+    font-size: 30px;
+    display: flex;
     align-items: center;
-    z-index: 2;
-  }
-  .image-item {
-    position: relative;
-    cursor: pointer;
-    :hover {
-      .delete {
-        display: flex;
-      }
-    }
-  }
-  .ant-upload {
-    min-height: 100px;
-  }
-  .ant-upload-picture-card-wrapper,
-  .ant-upload {
-    width: 100%;
-    height: 100%;
-  }
-  .image-gallery-thumbnail .image-gallery-thumbnail-image {
-    min-height: 100px;
-    max-height: 200px;
+    justify-content: center;
+    color: #fff;
   }
 `
 
@@ -58,38 +49,64 @@ const HeadingWrapper = styled.div`
   margin-bottom: 24px;
   justify-content: space-between;
 `
+
+const ImageWrapper = styled.div`
+  position: relative;
+  transition: transform 0.25s ease;
+  :hover {
+    cursor: pointer;
+    .delete {
+      display: flex;
+    }
+  }
+  .delete {
+    display: none;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    color: #fff;
+    background: red;
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+`
+
 const ImageComponent = ({
   index,
   image,
   handleDeleteImage,
   handleViewGalleryClick,
   length,
+  isEdit,
+  isHide,
+  imageLength,
+  itemInline,
 }) => {
-  let span = 8
-  if (length < 3) {
-    span = 12
-  }
+  if (isHide) return null
   return (
-    <Col className="image-item" span={span}>
-      <Popconfirm
-        title="Are you sure delete this task?"
-        onConfirm={handleDeleteImage(index)}
-        okText="Yes"
-        cancelText="No"
-        className="delete"
-      >
-        <i className="fa fa-trash" />
-      </Popconfirm>
-      <img
-        style={{ flex: 1, objectFit: 'cover' }}
+    <ImageWrapper>
+      {isEdit && (
+        <Popconfirm
+          title="Are you sure delete this image?"
+          onConfirm={handleDeleteImage(index)}
+          okText="Yes"
+          cancelText="No"
+          className="delete"
+        >
+          <i className="fa fa-trash" />
+        </Popconfirm>
+      )}
+      <Image
         onClick={handleViewGalleryClick(index)}
+        bgUrl={image.thumbnail}
         key={image._id}
-        width="100%"
-        height="100%"
-        src={image.thumbnail}
-        alt={image._id}
+        content={index === itemInline - 1 ? imageLength - itemInline : null}
       />
-    </Col>
+    </ImageWrapper>
   )
 }
 
@@ -97,6 +114,8 @@ const ImageComponent = ({
 export default class ImageMoreInfo extends React.Component {
   static propTypes = {
     commentId: PropTypes.string,
+    isEdit: PropTypes.bool,
+    itemInline: PropTypes.number,
   }
   static defaultProps = {}
 
@@ -117,7 +136,7 @@ export default class ImageMoreInfo extends React.Component {
   }
 
   getUrlMedia(url) {
-    return getConfigApi().media + url.replace('public', '')
+    return url.replace('public', getConfigApi().media)
   }
 
   handleViewGalleryClick = index => () => {
@@ -217,62 +236,40 @@ export default class ImageMoreInfo extends React.Component {
 
   renderImages = () => {
     const images = this.state.items
-    if (!this.state.loading && images.length) {
-      if (images.length > 3) {
-        return (
-          <React.Fragment>
+    const { itemInline, isEdit } = this.props
+
+    return (
+      <React.Fragment>
+        {images.map((image, index) => (
+          <Col className="image-item" span={24 / itemInline}>
             <ImageComponent
+              itemInline={itemInline}
+              isEdit={isEdit}
               handleDeleteImage={this.handleDeleteImage}
               handleViewGalleryClick={this.handleViewGalleryClick}
-              image={images[0]}
-              index={0}
+              image={image}
+              index={index}
+              isHide={index > itemInline - 1}
+              imageLength={images.length}
             />
-            <ImageComponent
-              handleDeleteImage={this.handleDeleteImage}
-              handleViewGalleryClick={this.handleViewGalleryClick}
-              image={images[1]}
-              index={1}
-            />
-            <Col justify="center" span={8}>
-              <Icon
-                width="100%"
-                height="100%"
-                flex={1}
-                type="plus"
-                theme="outlined"
-              />
-            </Col>
-          </React.Fragment>
-        )
-      }
-      return images.map((image, index) => (
-        <ImageComponent
-          key={index}
-          handleDeleteImage={this.handleDeleteImage}
-          handleViewGalleryClick={this.handleViewGalleryClick}
-          image={image}
-          index={index}
-          length={images.length}
-        />
-      ))
-    } else
-      return (
-        <Col span={8}>
-          <Upload
-            multiple
-            showUploadList={false}
-            accept=".jpg, .png, .svg, jpeg"
-            action={MediaApi.urlPhotoUploadWithDirectory('station')}
-            listType="picture-card"
-            onChange={this.handleImageChange}
-          >
-            <Icon
-              size={24}
-              type={this.state.uploading ? 'uploading' : 'plus'}
-            />
-          </Upload>
-        </Col>
-      )
+          </Col>
+        ))}
+        {isEdit && (
+          <Col className="image-item" span={24 / itemInline}>
+            <Upload
+              multiple
+              showUploadList={false}
+              accept=".jpg, .png, .svg, jpeg"
+              action={MediaApi.urlPhotoUploadWithDirectory('station')}
+              listType="picture-card"
+              onChange={this.handleImageChange}
+            >
+              {this.state.uploading ? <Spin /> : <Icon size={24} type="plus" />}
+            </Upload>
+          </Col>
+        )}
+      </React.Fragment>
+    )
   }
 
   getImages = images => {
@@ -287,19 +284,17 @@ export default class ImageMoreInfo extends React.Component {
   render() {
     const images = this.state.items
     return (
-      <Spin spinning={this.state.loading}>
-        <React.Fragment>
-          <Wrapper type="flex" gutter={24}>
-            {this.renderImages()}
-            <Gallery
-              ref={ref => (this.galleryRef = ref)}
-              visible={this.state.visible}
-              onClose={this.handleCloseGallery}
-              items={images}
-            />
-          </Wrapper>
-        </React.Fragment>
-      </Spin>
+      <React.Fragment>
+        <Wrapper type="flex" gutter={[16, 16]}>
+          {this.renderImages()}
+        </Wrapper>
+        <Gallery
+          ref={ref => (this.galleryRef = ref)}
+          visible={this.state.visible}
+          onClose={this.handleCloseGallery}
+          items={images}
+        />
+      </React.Fragment>
     )
   }
 }
