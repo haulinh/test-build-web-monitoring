@@ -112,6 +112,7 @@ export default class TabsStationAuto extends React.Component {
 
   handleRadioAuto(record, event) {
     const type = _.get(event, 'target.value', null)
+
     if (type === 'UNCHECK') {
       this.updateDataAuto(record, { calculateType: null })
     } else {
@@ -132,6 +133,7 @@ export default class TabsStationAuto extends React.Component {
     if (stationKey) {
       const obj = _.get(this.state, ['stationConfig', stationKey], null)
       const stationConfigParams = {
+        stationId: _.get(record, '_id', ''),
         key: _.get(record, 'key', ''),
         name: _.get(record, 'name', ''),
         stationType: _.get(record, 'stationType', {}),
