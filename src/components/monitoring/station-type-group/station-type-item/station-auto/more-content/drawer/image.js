@@ -44,15 +44,15 @@ const Wrapper = styled(Row)`
   .ant-upload {
     min-height: 100px;
   }
-  .ant-upload-picture-card-wrapper,
+  /* .ant-upload-picture-card-wrapper,
   .ant-upload {
     width: 100%;
     height: 100%;
-  }
-  .image-gallery-thumbnail .image-gallery-thumbnail-image {
+  } */
+  /* .image-gallery-thumbnail .image-gallery-thumbnail-image {
     min-height: 100px;
     max-height: 200px;
-  }
+  } */
 `
 
 const HeadingWrapper = styled.div`
@@ -218,7 +218,7 @@ export default class ImageMoreInfo extends React.Component {
               images.map((image, index) => (
                 <Col className="image-item" span={6}>
                   <Popconfirm
-                    title="Are you sure delete this task?"
+                    title="Are you sure delete this image?"
                     onConfirm={this.handleDeleteImage(index)}
                     okText="Yes"
                     cancelText="No"
@@ -246,10 +246,11 @@ export default class ImageMoreInfo extends React.Component {
                 listType="picture-card"
                 onChange={this.handleImageChange}
               >
-                <Icon
-                  size={24}
-                  type={this.state.uploading ? 'uploading' : 'plus'}
-                />
+                {this.state.uploading ? (
+                  <Spin />
+                ) : (
+                  <Icon size={24} type="plus" />
+                )}
               </Upload>
             )}
             <Gallery
