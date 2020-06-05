@@ -1827,7 +1827,7 @@ export default {
       wqiHour: 'WQI - Hour',
       wqiDay: 'WQI - Day',
       wqiStatistic: 'WQI Historical',
-      config: 'AQI & WQI Configurations',
+      config: 'Select AQI & WQI calculations',
     },
 
     configSub: 'Settings',

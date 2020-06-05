@@ -1821,7 +1821,7 @@ export default {
       wqiHour: 'WQI - Giờ',
       wqiDay: 'WQI - Ngày',
       wqiStatistic: 'Tra cứu dữ liệu WQI',
-      config: 'Cấu hình AQI & WQI',
+      config: 'Lựa chọn tính AQI & WQI'
     },
 
     configSub: 'Cấu hình',
