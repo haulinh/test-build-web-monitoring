@@ -32,6 +32,7 @@ export default class FormAddCamera extends React.Component {
   static propTypes = {
     stationAuto: PropTypes.object.isRequired,
     allowed: PropTypes.bool.isRequired,
+    onSubmit: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -164,7 +165,6 @@ export default class FormAddCamera extends React.Component {
 
     let stationID = this.props.stationAuto._id
     const submitedCameras = Object.values(fieldsValue)
-
     /* không submit khi cameras không có */
     // if (submitedCameras.length === 0) {
     //     return message.warning(i18n.emptyCamera)
@@ -186,6 +186,7 @@ export default class FormAddCamera extends React.Component {
     this.setState({ submitingCameraLinks: false })
 
     if (res.success) {
+      this.props.onSubmit(res.data[0])
       return message.success(i18n.successSubmit)
     }
 

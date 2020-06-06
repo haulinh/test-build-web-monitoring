@@ -93,6 +93,24 @@ export default class StationAutoConfigCamera extends React.Component {
     }
   }
 
+  async handleUpdateCameraList(data) {
+    let id = _.get(data, '_id', null)
+    if (id === null) return
+    let oririnalData = this.state.dataSource
+
+    // update object chứa camera list thay đổi
+    let updatedData = _.map(oririnalData, item => {
+      if (item._id == id) {
+        return data
+      }
+      return item
+    })
+    updatedData = await Promise.all(updatedData)
+    this.setState({
+      dataSource: updatedData,
+    })
+  }
+
   render() {
     const { submitingCameraAllow } = this.state
 
@@ -136,6 +154,7 @@ export default class StationAutoConfigCamera extends React.Component {
                       allowed={this.props.form.getFieldValue(
                         `stations.${station._id}`
                       )}
+                      onSubmit={this.handleUpdateCameraList}
                     />
                   </Panel>
                 ))}
