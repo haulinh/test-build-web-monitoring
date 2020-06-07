@@ -9,15 +9,20 @@ import AqiLevelInfo from './AqiLevelInfo'
 export default class MapComponent extends React.Component {
   render() {
     return (
-      <div style={{ height: this.props.windowHeight, flex: 2, position: 'relative' }}>
+      <div
+        style={{
+          height: this.props.windowHeight,
+          flex: 2,
+          position: 'relative',
+        }}
+      >
         <AqiLevelInfo />
         <MapView
-          // ref={map => {
-          //   this.mapTamp = map
-          // }}
+          stationKey={this.props.stationKey}
           aqiLevel={this.props.aqiLevel}
           aqiList={this.props.aqiList}
           zoom={this.props.zoom}
+          center={this.props.center}
           {...getGoogleMapProps()}
           loadingElement={
             <div style={{ height: this.props.windowHeight + 'px' }} />
@@ -28,7 +33,8 @@ export default class MapComponent extends React.Component {
           mapElement={
             <div style={{ height: this.props.windowHeight + 'px' }} />
           }
-          onMapClick={this.props.onMapClick}
+          onMarkerClick={this.props.onMarkerClick}
+          onClose={this.props.onClose}
         />
       </div>
     )

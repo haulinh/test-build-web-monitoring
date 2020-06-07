@@ -17,7 +17,7 @@ const i18n = {
   ),
   userResponsible: translate('stationAutoManager.infoStation.userResponsible'),
   userSupervisor: translate('stationAutoManager.infoStation.userSupervisor'),
-  website: translate('stationAutoManager.infoStation.website')
+  website: translate('stationAutoManager.infoStation.website'),
 }
 
 const TextColor = styled.p`
@@ -65,7 +65,7 @@ const InfoItem = ({ iconType, label, desc, title }) => (
             style={{
               fontSize: '26px',
               color: '#1890ff',
-              marginRight: !title ? '0px' : '10px'
+              marginRight: !title ? '0px' : '10px',
             }}
             type={iconType}
             theme="outlined"
@@ -87,24 +87,24 @@ export default class DrawerInfoStation extends React.Component {
     isLoadingInfoStation: true,
     InfoStationData: {},
     chartType: '',
-    visibleDrawer: false
+    visibleDrawer: false,
   }
 
   async componentDidMount() {
     this.setState({ isLoading: true })
 
-    const res = await getStationAuto(this.props._id)
+    const res = await getStationAuto(this.props.stationID)
     if (res.success) {
       this.setState({
         isLoadingInfoStation: false,
         InfoStationData: res.data,
-        chartType: defaultChartType
+        chartType: defaultChartType,
       })
     }
   }
 
   render() {
-    const { _id } = this.props
+    const { stationID } = this.props
     const {
       address,
       userResponsible,
@@ -115,7 +115,7 @@ export default class DrawerInfoStation extends React.Component {
       career,
       yearOperate,
       capacity,
-      processProduction
+      processProduction,
     } = this.state.InfoStationData
     return (
       <React.Fragment>
@@ -127,7 +127,7 @@ export default class DrawerInfoStation extends React.Component {
             <Col span={4} offset={12}>
               <Button
                 target="_blank"
-                href={`${slug.stationAuto.editWithKey}/${_id}?otherForm`}
+                href={`${slug.stationAuto.editWithKey}/${stationID}?otherForm`}
               >
                 <Icon
                   style={{ fontSize: '16px', color: '#1890ff' }}

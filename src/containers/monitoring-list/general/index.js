@@ -317,7 +317,7 @@ export default class MonitoringGeneral extends React.Component {
             />
           </Header>
         </ContainerHeader>
-      </div >
+      </div>
     )
   }
 

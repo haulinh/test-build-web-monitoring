@@ -75,26 +75,6 @@ export default {
         </Menu.Item>
       )}
 
-      {/* NOTE  CẤU HÌNH TÍNH TOÁN AQI */}
-      {protectRole(ROLE.CAU_HINH_TINH_TOAN_AQI.VIEW)(
-        <Menu.Item
-          key={slug.aqi.config}
-          onClick={() => props.selectMenu(slug.aqi.config)}
-        >
-          <Link to={slug.aqi.config}>{MENU_NAME.config.configAQI}</Link>
-        </Menu.Item>
-      )}
-
-      {/* NOTE  CẤU HÌNH TÍNH TOÁN WQI */}
-      {protectRole(ROLE.CAU_HINH_TINH_TOAN_WQI.VIEW)(
-        <Menu.Item
-          key={slug.wqi.config}
-          onClick={() => props.selectMenu(slug.wqi.config)}
-        >
-          <Link to={slug.wqi.config}>{MENU_NAME.config.configWQI}</Link>
-        </Menu.Item>
-      )}
-
       {/* NOTE  CẤU HÌNH MÀU SẮC */}
       {protectRole(ROLE.CONFIG_COLOR_NOTI.VIEW)(
         <Menu.Item

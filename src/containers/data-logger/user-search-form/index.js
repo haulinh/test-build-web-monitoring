@@ -65,17 +65,17 @@ class DataLoggerSearchForm extends React.Component {
         from:
           values.fromto && values.fromto.length > 0
             ? moment(values.fromto[0])
-              .utc()
-              .startOf('days')
-              .format()
+                .utc()
+                .startOf('days')
+                .format()
             : undefined,
         to:
           values.fromto && values.fromto.length > 0
             ? moment(values.fromto[1])
-              .utc()
-              .endOf('days')
-              .format()
-            : undefined
+                .utc()
+                .endOf('days')
+                .format()
+            : undefined,
       }
 
       if (this.props.onSubmit) this.props.onSubmit(dataSearch)
@@ -114,7 +114,7 @@ class DataLoggerSearchForm extends React.Component {
               <RangePickerCustom
                 formatDate={DD_MM_YYYY}
                 size={'default'}
-              // style={{ width: "100%" }}
+                // style={{ width: "100%" }}
               />
             )}
           </Col>

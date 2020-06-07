@@ -100,30 +100,6 @@ export default {
         </Menu.Item>
       )}
 
-      {/* // NOTE Báo cáo AQI - START */}
-      {protectRole(ROLE.AQI_GIO.VIEW)(
-        <Menu.Item
-          key={slug.report.aqi_hour}
-          onClick={() => {
-            props.selectMenu(slug.report.aqi_hour)
-          }}
-        >
-          <Link to={slug.report.aqi_hour}>{MENU_NAME.report.aqi_hour}</Link>
-        </Menu.Item>
-      )}
-
-      {protectRole(ROLE.AQI_NGAY.VIEW)(
-        <Menu.Item
-          key={slug.report.aqi_day}
-          onClick={() => {
-            props.selectMenu(slug.report.aqi_day)
-          }}
-        >
-          <Link to={slug.report.aqi_day}>{MENU_NAME.report.aqi_day}</Link>
-        </Menu.Item>
-      )}
-      {/* // NOTE Báo cáo AQI - END */}
-
       {protectRole(ROLE.TINH_TRANG_DU_LIEU.VIEW)(
         <Menu.Item
           key={slug.report.status_data}

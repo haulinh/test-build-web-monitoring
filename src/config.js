@@ -14,6 +14,7 @@ export function getConfigApi() {
     user: c('user'),
     trialRegister: c('trial-register'),
     config: c('config'),
+
     measuring: c('measuring'),
     stationType: c('station-type'),
     stationAuto: c('station-auto'),
@@ -25,6 +26,7 @@ export function getConfigApi() {
     stationFixed: c('station-fixed'),
     dataStationFixed: c('data-station-fixed'),
     stationConfig: c('config/station'),
+    // stationConfig: 'http://localhost:5002/config/station',
     qaqcConfig: c('config/qaqc'),
     // qaqcConfig: 'http://localhost:5002/config/qaqc',
     aqiConfigCalculation: c('config/aqi-calculation'),
@@ -53,6 +55,7 @@ export function getConfigApi() {
     aqi_v1: c('aqi-v1'),
     // aqi_v1: 'http://localhost:5015/aqi-v1',
     wqi: c('wqi'),
+    // wqi: 'http://localhost:5017/wqi',
     notify: c('notify'),
     sampleConfig: c('configSample'),
     camera: config.camera,
@@ -65,7 +68,7 @@ export function getConfigApi() {
 export function getApps() {
   const config = window.config
   return {
-    incidents: config.apps.incidents
+    incidents: config.apps.incidents,
   }
 }
 

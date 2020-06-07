@@ -38,7 +38,7 @@ const i18n = {
 @connect(state => ({
   expirationDate: _.get(
     state,
-    'auth.userInfo.organization.license.expirationDate',
+    'auth.userInfo.organization.packageInfo.contractExpiredDate',
     null
   ),
 }))
@@ -50,7 +50,7 @@ export default class PageExpLicenseInfo extends PureComponent {
     if (!_.isEmpty(parsedQuery)) {
       limitDate = moment(parsedQuery.expDate).format(DD_MM_YYYY)
     }
-    console.log(parsedQuery, limitDate, 'this.props.match.params')
+    // console.log(parsedQuery, limitDate, 'this.props.match.params')
     return (
       <PageExpLicenseInfoWrapper>
         <Result

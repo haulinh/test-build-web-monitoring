@@ -4,11 +4,12 @@ import { translate } from 'hoc/create-lang'
 import { autobind } from 'core-decorators'
 import { Table } from 'antd'
 import * as _ from 'lodash'
-
+// import { DD_MM_YYYY } from "constants/format-date";
+// import moment from "moment-timezone";
 @autobind
 export default class TableDataList extends React.PureComponent {
   static propTypes = {
-    dataWQI: PropTypes.array,
+    dataAQI: PropTypes.array,
     loading: PropTypes.bool,
   }
 
@@ -19,15 +20,17 @@ export default class TableDataList extends React.PureComponent {
       childrenValue.push({
         title: ti,
         align: 'center',
-        dataIndex: ti,
+        dataIndex: `${ti}.wqi`,
         key: ti,
         width: 50,
       })
     }
+
     const colValue = {
-      title: translate('statistic.aqi.title'),
+      title: translate('statistic.wqi.title'),
       children: childrenValue,
     }
+
     const columns = [
       {
         title: translate('statistic.wqi.time'),
@@ -35,21 +38,32 @@ export default class TableDataList extends React.PureComponent {
           {
             title: translate('statistic.wqi.day'),
             align: 'center',
-            dataIndex: 'label',
-            key: 'timeDay',
+            dataIndex: 'time',
+            key: 'time',
             width: 100,
+            render: (value, record) => {
+              // console.log( moment(value).format(DD_MM_YYYY) )
+              // console.log(record,"record")
+              return <div>{value}</div>
+            },
           },
         ],
       },
       colValue,
+      {
+        title: 'WQI',
+        children: [
+          {
+            title: translate('statistic.aqi.day'),
+            align: 'center',
+            dataIndex: 'wqiDay',
+            key: 'wqiDay',
+            width: 100,
+          },
+        ],
+      },
     ]
     return columns
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.dataWQI, this.props.dataWQI)) {
-      this.setState({ dataWQI: nextProps.dataWQI })
-    }
   }
 
   showTotal = (total, range) => ` ${range[1]}/${total}`
@@ -58,10 +72,10 @@ export default class TableDataList extends React.PureComponent {
       <div>
         <Table
           size="small"
-          rowKey="timeDay"
           bordered
+          rowKey="time"
           columns={this.getColumns()}
-          dataSource={_.orderBy(this.props.dataWQI, 'label')}
+          dataSource={this.props.dataAQI}
           pagination={{ showTotal: this.showTotal }}
           loading={this.props.loading}
           locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}

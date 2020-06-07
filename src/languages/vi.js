@@ -1,4 +1,8 @@
 export default {
+  contact: {
+    phone: 'Số điện thoại',
+    email: 'Email',
+  },
   unit: {
     time: {
       second: 'giây',
@@ -598,7 +602,7 @@ export default {
       numericalOrder: {
         label: 'Số thứ tự',
         placeholder: 'Nhập số thứ tự',
-        error: 'Vui lòng nhập số thứ tự'
+        error: 'Vui lòng nhập số thứ tự',
       },
       action: {
         label: ' ',
@@ -653,9 +657,9 @@ export default {
       numericalOrder: {
         label: 'Số thứ tự',
         placeholder: 'Nhập số thứ tự',
-        error: 'Vui lòng nhập số thứ tự'
-      }
-    }
+        error: 'Vui lòng nhập số thứ tự',
+      },
+    },
   },
   qcvn: {
     list: {
@@ -692,7 +696,7 @@ export default {
       numericalOrder: {
         label: 'Số thứ tự',
         placeholder: 'Nhập số thứ tự',
-        error: 'Vui lòng nhập số thứ tự'
+        error: 'Vui lòng nhập số thứ tự',
       },
       action: {
         label: ' ',
@@ -738,9 +742,9 @@ export default {
       numericalOrder: {
         label: 'Số thứ tự',
         placeholder: 'Nhập số thứ tự',
-        error: 'Vui lòng nhập số thứ tự'
-      }
-    }
+        error: 'Vui lòng nhập số thứ tự',
+      },
+    },
   },
   configWQI: {
     breadCrumb: 'Cấu hình tính WQI, AQI',
@@ -1150,7 +1154,7 @@ export default {
     },
     update: {
       success: 'Cập nhật thành công',
-      error: 'Cập nhật không thành công'
+      error: 'Cập nhật không thành công',
     },
     upload: {
       label: 'Tải lên',
@@ -1187,7 +1191,7 @@ export default {
     },
     image: {
       label: 'Hình ảnh trạm quan trắc {{=it.name}}',
-      create: 'Thêm hình ảnh'
+      create: 'Thêm hình ảnh',
     },
     infoStation: {
       title: 'Thông tin trạm',
@@ -1195,12 +1199,20 @@ export default {
       career: 'Ngành nghề',
       emptyText: 'Không có dữ liệu',
       yearOperate: 'Năm bắt đầu hoạt động',
-      capacity: 'Công xuất thiết kế',
+      capacity: 'Công suất thiết kế',
       processProduction: 'Quy trình sản xuất',
       userResponsible: 'Người chịu trách nhiệm',
-      userSupervisor: 'NGười dám sát',
-      website: 'Website'
-    }
+      userSupervisor: 'Người giám sát',
+      website: 'Website',
+    },
+    limit: {
+      station: {
+        title: 'Gói đăng ký bị giới hạn',
+        content:
+          'Số lượng trạm tối đa của bạn là {{=it.totalStation}}, bạn không thể thêm trạm mới, vui lòng liên hệ hoặc nâng cấp gói sử dụng',
+        callAction: 'Tăng số lượng trạm, hãy liên hệ',
+      },
+    },
   },
   parameterManager: {
     breadcrumb: {
@@ -1230,7 +1242,7 @@ export default {
         label: 'Địa chỉ Email',
         placeholder: 'Địa chỉ Email',
         error: 'Địa chỉ Email không hợp lệ',
-        errorExist: 'Địa chỉ email này đã tồn tại'
+        errorExist: 'Địa chỉ email này đã tồn tại',
       },
       password: {
         label: 'Mật khẩu',
@@ -1244,12 +1256,12 @@ export default {
       firstName: {
         label: 'Tên',
         placeholder: 'Tên',
-        error: 'Vui lòng nhập tên của bạn'
+        error: 'Vui lòng nhập tên của bạn',
       },
       lastName: {
         label: 'Họ & Tên đệm',
         placeholder: 'Họ & Tên đệm',
-        error: 'Vui lòng nhập họ và tên đệm'
+        error: 'Vui lòng nhập họ và tên đệm',
       },
       country: {
         label: 'Quốc gia',
@@ -1263,7 +1275,7 @@ export default {
         label: 'Số điện thoại',
         placeholder: 'Số điện thoại',
         empty: 'Vui lòng nhập số điện thoại',
-        format: 'Số điện thoại không đúng'
+        format: 'Số điện thoại không đúng',
       },
       isAdmin: {
         label: 'Quản trị hệ thống',
@@ -1276,6 +1288,7 @@ export default {
       text1: 'Tăng số lượng thành viên hãy liên hệ',
       text2: 'Số điện thoại',
       text3: 'Email',
+      callAction: 'Tăng số lượng thành viên hãy liên hệ',
     },
     list: {
       enableAccount: 'Kích hoạt tài khoản',
@@ -1324,7 +1337,7 @@ export default {
         placeholder: 'Nhập tên nhóm',
         error: 'Vui lòng nhập tên nhóm',
         errorExist: 'Nhóm quyền đã tồn tại',
-        limit: 'Tên nhóm phải lớn hơn 5 ký tự'
+        limit: 'Tên nhóm phải lớn hơn 5 ký tự',
       },
       description: {
         label: 'Mô tả',
@@ -1416,6 +1429,9 @@ export default {
       },
       wqiGio: {
         name: 'WQI - giờ',
+      },
+      wqiNgay: {
+        name: 'WQI - ngày',
       },
       tinhTrangDuLieu: {
         name: 'Tình trạng dữ liệu',
@@ -1537,8 +1553,8 @@ export default {
     text1: 'Ngày tạo tổ chức',
     text2: 'Ngày hết hạn',
     text3: 'Bạn còn {{=it.total}} ngày để sử dụng sản phẩm',
-    text4: 'Số lượng trạm sử dụng',
-    text5: 'Số lượng tối đa',
+    text4: 'Số lượng trạm kết nối',
+    text5: 'Số lượng thành viên',
     text6: 'Số điện thoại',
     text7: 'Email',
   },
@@ -1568,7 +1584,7 @@ export default {
     upload: 'Tải ảnh lên',
     imageUpload: {
       success: 'Tải ảnh lên thành công',
-      error: 'Tải ảnh lên thất bại'
+      error: 'Tải ảnh lên thất bại',
     },
     user: 'Thông tin cá nhân',
     organization: 'Thông tin tổ chức',
@@ -1802,8 +1818,10 @@ export default {
       aqiMap: 'Bản đồ AQI',
       aqiStatistic: 'Tra cứu dữ liệu AQI',
       wqiMap: 'Bản đồ WQI',
+      wqiHour: 'WQI - Giờ',
+      wqiDay: 'WQI - Ngày',
       wqiStatistic: 'Tra cứu dữ liệu WQI',
-      config: 'Cấu hình AQI & WQI',
+      config: 'Lựa chọn tính AQI & WQI',
     },
 
     configSub: 'Cấu hình',
@@ -1884,7 +1902,8 @@ export default {
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
       aqiHour: 'AQI - Giờ',
       aqiDay: 'AQI - Ngày',
-      aqi878: 'AQI - 1479',
+      wqiHour: 'WQI - Giờ',
+      wqiDay: 'WQI - Ngày',
       status_data: 'Status Data', // Qui them cho dong bo voi file EN
     },
   },
@@ -1900,6 +1919,8 @@ export default {
       colAction: 'Hành động',
       colDevice: 'Thiết bị',
       colDetail: 'Chi tiết',
+      jsonFile: 'Tài liệu Json',
+      jsonView: 'Xem Json',
     },
     searchForm: {
       user: 'Select email',
@@ -1928,8 +1949,8 @@ export default {
       delete_station_auto: 'Xoá trạm quan trắc',
       add_role: 'Thêm nhóm quyền',
       update_role: 'Cập nhật nhóm quyền',
-      delete_role: 'Xoá nhóm quyền'
-    }
+      delete_role: 'Xoá nhóm quyền',
+    },
   },
   cameraControl: {
     station: {
@@ -2076,7 +2097,7 @@ export default {
     statusData: 'Trạng thái dữ liệu',
   },
   apps: {
-    incidents: "Quản lý sự cố",
-    monitoring: "Giám sát trực tuyến"
-  }
+    incidents: 'Quản lý sự cố',
+    monitoring: 'Giám sát trực tuyến',
+  },
 }

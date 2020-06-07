@@ -93,15 +93,22 @@ export default {
   },
   AQI_GIO: {
     VIEW: 'menu.aqiGio.actions.view',
+    AQI_GIO_EXPORT: 'menu.aqiGio.actions.export',
   },
   AQI_NGAY: {
     VIEW: 'menu.aqiNgay.actions.view',
+    AQI_NGAY_EXPORT: 'menu.aqiGio.actions.export',
   },
   TINH_TRANG_DU_LIEU: {
     VIEW: 'menu.tinhTrangDuLieu.actions.view',
   },
   WQI_GIO: {
     VIEW: 'menu.wqiGio.actions.view',
+    WQI_GIO_EXPORT: 'menu.wqiGio.actions.export',
+  },
+  WQI_NGAY: {
+    VIEW: 'menu.wqiNgay.actions.view',
+    WQI_NGAY_EXPORT: 'menu.wqiNgay.actions.export',
   },
   WQI: {
     VIEW: 'menu.wqiMap.actions.view',

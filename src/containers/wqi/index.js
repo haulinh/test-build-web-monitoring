@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import InfoComponent from 'components/wqi/info'
+import stationConfigApi from 'api/StationConfigApi'
 import MapComponent from 'components/wqi/map'
+import InfoComponent from 'components/wqi/info'
+
 import * as _ from 'lodash'
 import wqiApi from 'api/WqiApi'
 import protectRole from 'hoc/protect-role'
-import { getConfigApi } from 'config'
-import PageInfo from 'components/pageInfo'
 import ROLE from 'constants/role'
 
 const WrapperContainer = styled.div`
@@ -15,50 +15,106 @@ const WrapperContainer = styled.div`
   flex-direction: row;
   flex: 3;
 `
+
+const stationType = 'WQI'
 @protectRole(ROLE.WQI.VIEW)
 export default class WqiContainer extends React.Component {
   state = {
-    station: null,
     wqiList: [],
+    wqiLevel: [],
+    station: null,
+    stationKey: null,
+    center: null,
   }
 
   async componentDidMount() {
-    const rsWqi = await wqiApi.fetchWqi()
-    const wqiList = _.get(rsWqi, 'data', [])
+    const stationConfigs = await stationConfigApi.getStationsConfig(
+      {},
+      { config: stationType }
+    )
+    const stationData = _.map(
+      _.get(stationConfigs, 'data', []),
+      itemStation => {
+        return itemStation.key
+      }
+    )
 
-    this.setState({ wqiList })
+    const listKey = _.join(stationData, ',')
+    const params = {
+      listKey: listKey,
+    }
 
-    // const station = _.head(wqiList)
-    const station = wqiList[1]
+    const rsWqi = await wqiApi.fetchWQILastLogs({ ...params })
+    let dataRes = _.get(rsWqi, 'data', [])
+    // console.log(dataRes,"dataRes")
+    dataRes = _.map(dataRes, item => {
+      const time = _.get(item, 'time', null)
+      const valuesData = _.values(_.omit(item, 'time'))
+      if (time) {
+        return {
+          time,
+          ...valuesData[0],
+        }
+      } else {
+        return null
+      }
+    })
+    const wqiList = _.compact(dataRes)
+
+    this.setState({ wqiList, wqiLevel: _.get(rsWqi, 'wqiLevel', []) })
+
+    const station = _.head(wqiList)
 
     if (!_.isEmpty(station)) {
       this.setState({ station })
     }
   }
 
+  handleOnClosePopup = () => {
+    this.setState({
+      stationKey: null,
+    })
+  }
+
   handleMarkerClick = station => {
-    this.setState({ station })
+    console.log(station, '-handleMarkerClick-')
+    this.setState({
+      stationKey: _.get(station, 'key'),
+    })
+  }
+
+  handleOnSelect = ({ key, mapLocation }) => {
+    // console.log("---onSlelect--", key, mapLocation);
+    this.setState({
+      center: mapLocation,
+      stationKey: null,
+    })
+    setTimeout(() => {
+      this.setState({
+        stationKey: key,
+      })
+    }, 500)
   }
 
   render() {
     return (
-      <div>
-        {getConfigApi().isAdvanced && (
-          <WrapperContainer>
-            <MapComponent
-              wqiList={this.state.wqiList}
-              style={{ flex: 2, background: 'blue' }}
-              onMapClick={this.handleMarkerClick}
-            />
-            <InfoComponent
-              station={this.state.station}
-              style={{ flex: 1 }}
-              wqiList={this.state.wqiList}
-            />
-          </WrapperContainer>
-        )}
-        {!getConfigApi().isAdvanced && <PageInfo />}
-      </div>
+      <WrapperContainer>
+        <MapComponent
+          wqiList={this.state.wqiList}
+          wqiLevel={this.state.wqiLevel}
+          style={{ flex: 2, background: 'blue' }}
+          onMarkerClick={this.handleMarkerClick}
+          stationKey={this.state.stationKey}
+          onClose={this.handleOnClosePopup}
+          center={this.state.center}
+        />
+        <InfoComponent
+          wqiList={this.state.wqiList}
+          style={{ flex: 1 }}
+          wqiLevel={this.state.wqiLevel}
+          onSelect={this.handleOnSelect}
+        />
+      </WrapperContainer>
     )
   }
 }

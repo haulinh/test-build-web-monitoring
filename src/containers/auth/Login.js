@@ -53,9 +53,9 @@ const Header = {
 }
 
 const bodyStyle = `
-  body { 
-    // background: linear-gradient(135deg,#1d89ce 0%,#56d2f3 100%) !important; 
-    background: url(/images/clouds.png) no-repeat !important; 
+  body {
+    // background: linear-gradient(135deg,#1d89ce 0%,#56d2f3 100%) !important;
+    background: url(/images/clouds.png) no-repeat !important;
 
   }
 `
@@ -126,8 +126,11 @@ export default class Login extends PureComponent {
         console.log(user, '----user-----')
         if (user.message === Errors.ORGANIZATION_EXPIRED) {
           this.props.history.push(
-            `${slug.user.expLicense}?expDate=${user.userMessage}`
+            `${slug.user.expLicense}?expDate=${user['0'].expDate}`
           )
+          // this.props.history.push(
+          //   `${slug.user.expLicense}?expDate=${user.userMessage}`
+          // )
         } else {
           this.userError(user)
         }

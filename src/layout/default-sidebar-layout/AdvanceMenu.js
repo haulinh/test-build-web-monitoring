@@ -24,27 +24,7 @@ export default {
         </div>
       }
     >
-      {/* {protectRole(ROLE.AQI.VIEW)(
-        <Menu.Item
-          key={slug.aqi.base}
-          onClick={() => {
-            props.selectMenu(slug.aqi.base)
-          }}
-        >
-          <Link to={slug.aqi.base}>{MENU_NAME.advance.aqiMap}</Link>
-        </Menu.Item>
-      )} */}
-
-      {/* {protectRole(ROLE.AQI_SEARCHDATA.VIEW)(
-        <Menu.Item
-          key={slug.statistic.aqi}
-          onClick={() => {
-            props.selectMenu(slug.statistic.aqi)
-          }}
-        >
-          <Link to={slug.statistic.aqi}>{MENU_NAME.advance.aqiStatistic}</Link>
-        </Menu.Item>
-      )} */}
+      {/* // NOTE Báo cáo AQI - START */}
       {protectRole(ROLE.AQI.VIEW)(
         <Menu.Item
           key={slug.map.aqi}
@@ -55,6 +35,28 @@ export default {
           <Link to={slug.map.aqi}>{MENU_NAME.monitoring.mapAQI}</Link>
         </Menu.Item>
       )}
+      {protectRole(ROLE.AQI_GIO.VIEW)(
+        <Menu.Item
+          key={slug.report.aqi_hour}
+          onClick={() => {
+            props.selectMenu(slug.report.aqi_hour)
+          }}
+        >
+          <Link to={slug.report.aqi_hour}>{MENU_NAME.report.aqi_hour}</Link>
+        </Menu.Item>
+      )}
+
+      {protectRole(ROLE.AQI_NGAY.VIEW)(
+        <Menu.Item
+          key={slug.report.aqi_day}
+          onClick={() => {
+            props.selectMenu(slug.report.aqi_day)
+          }}
+        >
+          <Link to={slug.report.aqi_day}>{MENU_NAME.report.aqi_day}</Link>
+        </Menu.Item>
+      )}
+      {/* // NOTE Báo cáo AQI - END */}
 
       {protectRole(ROLE.WQI.VIEW)(
         <Menu.Item
@@ -66,17 +68,26 @@ export default {
           <Link to={slug.wqi.base}>{MENU_NAME.advance.wqiMap}</Link>
         </Menu.Item>
       )}
-
-      {/* {protectRole(ROLE.WQI_SEARCHDATA.VIEW)(
+      {protectRole(ROLE.WQI_GIO.VIEW)(
         <Menu.Item
-          key={slug.statistic.wqi}
+          key={slug.report.wqi_hour}
           onClick={() => {
-            props.selectMenu(slug.statistic.wqi)
+            props.selectMenu(slug.report.wqi_hour)
           }}
         >
-          <Link to={slug.statistic.wqi}>{MENU_NAME.advance.wqiStatistic}</Link>
+          <Link to={slug.report.wqi_hour}>{MENU_NAME.advance.wqiHour}</Link>
         </Menu.Item>
-      )} */}
+      )}
+      {protectRole(ROLE.WQI_NGAY.VIEW)(
+        <Menu.Item
+          key={slug.report.wqi_day}
+          onClick={() => {
+            props.selectMenu(slug.report.wqi_day)
+          }}
+        >
+          <Link to={slug.report.wqi_day}>{MENU_NAME.advance.wqiDay}</Link>
+        </Menu.Item>
+      )}
 
       {protectRole(ROLE.CONFIG_WQI.VIEW)(
         <Menu.Item
@@ -86,6 +97,25 @@ export default {
           }}
         >
           <Link to={slug.configWQI.base}>{MENU_NAME.advance.config}</Link>
+        </Menu.Item>
+      )}
+      {/* NOTE  CẤU HÌNH TÍNH TOÁN AQI */}
+      {protectRole(ROLE.CAU_HINH_TINH_TOAN_AQI.VIEW)(
+        <Menu.Item
+          key={slug.aqi.config}
+          onClick={() => props.selectMenu(slug.aqi.config)}
+        >
+          <Link to={slug.aqi.config}>{MENU_NAME.config.configAQI}</Link>
+        </Menu.Item>
+      )}
+
+      {/* NOTE  CẤU HÌNH TÍNH TOÁN WQI */}
+      {protectRole(ROLE.CAU_HINH_TINH_TOAN_WQI.VIEW)(
+        <Menu.Item
+          key={slug.wqi.config}
+          onClick={() => props.selectMenu(slug.wqi.config)}
+        >
+          <Link to={slug.wqi.config}>{MENU_NAME.config.configWQI}</Link>
         </Menu.Item>
       )}
     </Menu.SubMenu>

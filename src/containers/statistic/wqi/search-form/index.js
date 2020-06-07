@@ -11,18 +11,19 @@ import createValidateComponent from 'components/elements/redux-form-validate'
 import moment from 'moment-timezone'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import SelectStationConfigwQI from '../../common/select-station-config-wqi'
+import { DD_MM_YYYY } from 'constants/format-date'
+import SelectStationConfigWQI from '../../common/select-station-config-wqi'
 import SelectStationTypeConfigWQI from '../../common/select-station-type-config-wqi'
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
-import OptionsMonth from '../../common/options-time-month'
+import OptionsMonthRange from '../../common/options-time-month-range'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationTypeConfigWQI = createValidateComponent(
   SelectStationTypeConfigWQI
 )
-const FSelectStationConfigwQI = createValidateComponent(SelectStationConfigwQI)
-const FOptionsMonth = createValidateComponent(OptionsMonth)
+const FSelectStationConfigWQI = createValidateComponent(SelectStationConfigWQI)
+const FOptionsMonthRange = createValidateComponent(OptionsMonthRange)
 
 const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
@@ -41,8 +42,6 @@ function validate(values) {
 
 @connect((state, ownProps) => ({
   initialValues: {
-    fromDate: moment().subtract(7, 'days'),
-    toDate: moment(),
     ...(ownProps.initialValues ? ownProps.initialValues : {}),
   },
 }))
@@ -105,7 +104,7 @@ export default class SearchForm extends React.Component {
       toDate: this.state.toDate,
       key: values.station,
       name: this.state.stationName,
-      stationID: this.state.stationID,
+      stationID: this.state.stationKey,
     })
   }
 
@@ -115,16 +114,31 @@ export default class SearchForm extends React.Component {
 
   handleProvinceChange = province => {
     this.setState({
-      provinceKey: province.key,
-      stationFixedKey: '',
+      provinceKey: province ? province.key : undefined,
+      stationKey: '',
     })
 
     this.props.change('station', '')
   }
 
-  handleChangeMonth = month => {
-    const fromTime = month.startOf('months').format('YYYY-MM-DD')
-    const toTime = month.endOf('months').format('YYYY-MM-DD')
+  hanldeOnchangeFramTime = (time, timeString) => {
+    const to = moment(time)
+      .subtract(23, 'hours')
+      .format('HH:mm')
+    // console.log(to,  'hanldeOnchangeFramTime')
+    this.setState({
+      timezoneTo: to,
+      timezoneDay: moment(time).format('HH'),
+    })
+  }
+  handleChangeDate = (fromDate, toDate) => {
+    const fromTime = moment(fromDate)
+      .utc()
+      .format()
+    const toTime = moment(toDate)
+      .utc()
+      .format()
+    // console.log(fromTime, toTime)
     this.setState({
       fromDate: fromTime,
       toDate: toTime,
@@ -161,6 +175,7 @@ export default class SearchForm extends React.Component {
                 name="province"
                 size="large"
                 component={FSelectProvince}
+                isShowAll
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
@@ -184,7 +199,7 @@ export default class SearchForm extends React.Component {
                 size="large"
                 provinceKey={this.state.provinceKey}
                 stationTypeKey={this.state.stationTypeKey}
-                component={FSelectStationConfigwQI}
+                component={FSelectStationConfigWQI}
                 onChangeObject={this.handleChangeStationAuto}
                 stationKey={this.state.stationKey}
                 setKey
@@ -192,11 +207,12 @@ export default class SearchForm extends React.Component {
             </Col>
             <Col span={12}>
               <Field
-                label={t('time')}
-                name="rangesDate"
+                label={translate('aqiSearchForm.form.inRange.label')}
+                name="inRange"
                 size="large"
-                onChangeMonth={this.handleChangeMonth}
-                component={FOptionsMonth}
+                formatDate={DD_MM_YYYY}
+                onChangeDate={this.handleChangeDate}
+                component={FOptionsMonthRange}
               />
             </Col>
           </Row>

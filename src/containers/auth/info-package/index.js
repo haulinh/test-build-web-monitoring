@@ -12,7 +12,7 @@ import * as _ from 'lodash'
 import Clearfix from 'components/elements/clearfix'
 import { connect } from 'react-redux'
 import { DD_MM_YYYY } from 'constants/format-date'
-import { EMAIL, PHONE } from 'constants/info-contact.js'
+import UserApi from 'api/UserApi'
 
 const { Title, Text } = Typography
 
@@ -58,6 +58,7 @@ export class InfoLicenseForm extends PureComponent {
 
   state = {
     isLoading: true,
+    currentUser: {},
   }
 
   componentWillMount() {
@@ -69,16 +70,33 @@ export class InfoLicenseForm extends PureComponent {
     }
   }
 
+  async componentDidMount() {
+    const currentUser = await UserApi.getTotalCount()
+    this.setState({
+      currentUser,
+    })
+  }
+
   render() {
     const { organization, totalStationActived } = this.props
+    const { currentUser } = this.state
 
-    let dateCreate, dateExp, totalDays, limitTotalStation
+    let dateCreate,
+      dateExp,
+      totalDays,
+      limitTotalStation,
+      totalUser,
+      phone,
+      email
     if (organization) {
       const createdAt = _.get(organization, 'createdAt')
         ? moment(_.get(organization, 'createdAt'))
         : ''
-      const expirationDate = _.get(organization, 'license.expirationDate')
-        ? moment(_.get(organization, 'license.expirationDate'))
+      const expirationDate = _.get(
+        organization,
+        'packageInfo.contractExpiredDate'
+      )
+        ? moment(_.get(organization, 'packageInfo.contractExpiredDate'))
         : ''
 
       if (expirationDate) {
@@ -87,7 +105,16 @@ export class InfoLicenseForm extends PureComponent {
       }
       dateCreate = createdAt.format(DD_MM_YYYY)
 
-      limitTotalStation = _.get(organization, 'license.totalStation', '')
+      phone = _.get(organization, [
+        'packageInfo',
+        'saler',
+        'phone',
+        'phoneNumber',
+      ])
+      email = _.get(organization, ['packageInfo', 'saler', 'email'])
+
+      limitTotalStation = _.get(organization, ['packageInfo', 'totalStation'])
+      totalUser = _.get(organization, ['packageInfo', 'totalUser'])
     }
     return (
       <InfoLicenseWrapper>
@@ -142,7 +169,9 @@ export class InfoLicenseForm extends PureComponent {
                     >
                       {i18n.text4}
                     </Text>
-                    <Text disabled>{totalStationActived}</Text>
+                    <Text
+                      disabled
+                    >{`${totalStationActived}/${limitTotalStation}`}</Text>
                     <Clearfix height={8} />
                     <Text
                       strong
@@ -150,7 +179,8 @@ export class InfoLicenseForm extends PureComponent {
                     >
                       {i18n.text5}
                     </Text>
-                    <Text disabled>{limitTotalStation}</Text>
+                    <Text disabled>{`${currentUser.data}/${totalUser}`}</Text>
+                    <Clearfix height={8} />
                   </div>
                 </div>
               </Col>
@@ -174,7 +204,7 @@ export class InfoLicenseForm extends PureComponent {
                         color: SHAPE.PRIMARY,
                       }}
                     >
-                      {PHONE}
+                      {phone}
                     </Text>
                     <Clearfix height={8} />
                     <Text
@@ -188,7 +218,7 @@ export class InfoLicenseForm extends PureComponent {
                         color: SHAPE.PRIMARY,
                       }}
                     >
-                      {EMAIL}
+                      {email}
                     </Text>
                   </div>
                 </div>

@@ -151,9 +151,9 @@ export default class QCVNForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('qcvn.form.name.error')
-                  }
-                ]
+                    message: t('qcvn.form.name.error'),
+                  },
+                ],
               })(
                 <Input
                   size="large"
@@ -171,9 +171,9 @@ export default class QCVNForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('qcvn.form.numericalOrder.error')
-                  }
-                ]
+                    message: t('qcvn.form.numericalOrder.error'),
+                  },
+                ],
               })(
                 <InputNumberCell
                   size="large"
@@ -194,12 +194,12 @@ export default class QCVNForm extends React.PureComponent {
             this.props.initialValues
               ? this.props.initialValues.measuringList
               : [
-                {
-                  key: '',
-                  name: '',
-                  unit: '',
-                },
-              ]
+                  {
+                    key: '',
+                    name: '',
+                    unit: '',
+                  },
+                ]
           }
           measuringListSource={this.state.measuringListSource}
         />

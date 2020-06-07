@@ -32,6 +32,7 @@ export default class FormAddCamera extends React.Component {
   static propTypes = {
     stationAuto: PropTypes.object.isRequired,
     allowed: PropTypes.bool.isRequired,
+    onSubmit: PropTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -93,7 +94,7 @@ export default class FormAddCamera extends React.Component {
         render: (text, record, index) => {
           return (
             <div>
-              {this.props.form.getFieldDecorator(`${record.key}.name`, {
+              {this.props.form.getFieldDecorator(`${index}.name`, {
                 initialValue: record.name,
               })(<Input />)}
             </div>
@@ -106,7 +107,7 @@ export default class FormAddCamera extends React.Component {
         render: (text, record, index) => {
           return (
             <div>
-              {this.props.form.getFieldDecorator(`${record.key}.rtspUrl`, {
+              {this.props.form.getFieldDecorator(`${index}.rtspUrl`, {
                 initialValue: record.rtspUrl,
               })(<Input />)}
             </div>
@@ -143,9 +144,9 @@ export default class FormAddCamera extends React.Component {
   }
 
   _removeCamera(index) {
-    let cameras = [...this.state.cameras]
-    cameras.splice(index, 1)
-    this.setState({ cameras })
+    let newCameras = [...this.state.cameras]
+    newCameras.splice(index, 1)
+    this.setState({ cameras: newCameras })
   }
 
   async _submitCameras() {
@@ -165,11 +166,6 @@ export default class FormAddCamera extends React.Component {
     let stationID = this.props.stationAuto._id
     const submitedCameras = Object.values(fieldsValue)
 
-    /* không submit khi cameras không có */
-    // if (submitedCameras.length === 0) {
-    //     return message.warning(i18n.emptyCamera)
-    // }
-
     this.setState({ submitingCameraLinks: true })
 
     let submitData = {
@@ -186,6 +182,7 @@ export default class FormAddCamera extends React.Component {
     this.setState({ submitingCameraLinks: false })
 
     if (res.success) {
+      this.props.onSubmit(res.data[0])
       return message.success(i18n.successSubmit)
     }
 

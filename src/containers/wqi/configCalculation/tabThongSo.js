@@ -110,7 +110,7 @@ export default class TabThongSo extends React.Component {
       key: 'group',
       align: 'center',
       render: (text, record, index) => {
-        const { getFieldDecorator, getFieldValue } = this.props.form
+        const { getFieldDecorator } = this.props.form
         return (
           <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`payload[${record.key}].group`, {

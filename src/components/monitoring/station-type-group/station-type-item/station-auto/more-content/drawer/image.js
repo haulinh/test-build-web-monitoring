@@ -44,15 +44,6 @@ const Wrapper = styled(Row)`
   .ant-upload {
     min-height: 100px;
   }
-  .ant-upload-picture-card-wrapper,
-  .ant-upload {
-    width: 100%;
-    height: 100%;
-  }
-  .image-gallery-thumbnail .image-gallery-thumbnail-image {
-    min-height: 100px;
-    max-height: 200px;
-  }
 `
 
 const HeadingWrapper = styled.div`
@@ -68,7 +59,7 @@ const Title = styled.h3``
 @withRouter
 export default class ImageMoreInfo extends React.Component {
   static propTypes = {
-    stationID: PropTypes.string
+    stationID: PropTypes.string,
   }
   static defaultProps = {}
 
@@ -79,7 +70,7 @@ export default class ImageMoreInfo extends React.Component {
     uploading: false,
     images: [],
     items: [],
-    fileList: []
+    fileList: [],
   }
 
   componentDidMount() {
@@ -91,7 +82,7 @@ export default class ImageMoreInfo extends React.Component {
         images: station.images,
         items: this.getImages(station.images),
         station,
-        loading: false
+        loading: false,
       })
     })
   }
@@ -118,12 +109,12 @@ export default class ImageMoreInfo extends React.Component {
       this.setState({ uploading: false })
       swal({
         title: translate('profileUser.imageUpload.error'),
-        type: 'error'
+        type: 'error',
       })
       newFileList = []
     }
     this.setState({
-      fileList: newFileList
+      fileList: newFileList,
     })
     if (file.status === 'done') {
       this.setState(
@@ -135,10 +126,10 @@ export default class ImageMoreInfo extends React.Component {
               _id: uuidV4(),
               component: 'gallery.photo',
               original: file.response.url,
-              thumbnail: file.response.url
-            }
+              thumbnail: file.response.url,
+            },
           ],
-          uploading: false
+          uploading: false,
         }),
         async () => {
           await this.handleUpdateStation()
@@ -155,7 +146,7 @@ export default class ImageMoreInfo extends React.Component {
 
   handleUpdateStation = debounce(async () => {
     await StationAutoApi.updateStationAuto(`images/${this.props.stationID}`, {
-      images: this.state.images
+      images: this.state.images,
     })
     message.success(translate('stationAutoManager.update.success'))
   }, 1200)
@@ -165,11 +156,11 @@ export default class ImageMoreInfo extends React.Component {
       prevState =>
         update(prevState, {
           images: {
-            $splice: [[index, 1]]
+            $splice: [[index, 1]],
           },
           items: {
-            $splice: [[index, 1]]
-          }
+            $splice: [[index, 1]],
+          },
         }),
       () => {
         this.handleUpdateStation()
@@ -181,7 +172,7 @@ export default class ImageMoreInfo extends React.Component {
     <HeadingWrapper>
       <Title>
         {translate('stationAutoManager.image.label', {
-          name: this.state.station.name || ''
+          name: this.state.station.name || '',
         })}
       </Title>
       <Upload
@@ -203,7 +194,7 @@ export default class ImageMoreInfo extends React.Component {
       _id: uuidV4(),
       component: 'gallery.photo',
       original: this.getUrlMedia(image),
-      thumbnail: this.getUrlMedia(image)
+      thumbnail: this.getUrlMedia(image),
     }))
   }
 
@@ -218,7 +209,7 @@ export default class ImageMoreInfo extends React.Component {
               images.map((image, index) => (
                 <Col className="image-item" span={6}>
                   <Popconfirm
-                    title="Are you sure delete this task?"
+                    title="Are you sure delete this image?"
                     onConfirm={this.handleDeleteImage(index)}
                     okText="Yes"
                     cancelText="No"
@@ -246,10 +237,11 @@ export default class ImageMoreInfo extends React.Component {
                 listType="picture-card"
                 onChange={this.handleImageChange}
               >
-                <Icon
-                  size={24}
-                  type={this.state.uploading ? 'uploading' : 'plus'}
-                />
+                {this.state.uploading ? (
+                  <Spin />
+                ) : (
+                  <Icon size={24} type="plus" />
+                )}
               </Upload>
             )}
             <Gallery

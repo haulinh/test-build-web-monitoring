@@ -1,8 +1,8 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import wqiApi from 'api/WqiApi'
-import Clearfix from 'components/elements/clearfix/index'
+import WqiApi from 'api/WqiApi'
+import Clearfix from 'components/elements/clearfix'
 import { translate } from 'hoc/create-lang'
 import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
@@ -11,22 +11,21 @@ import * as _ from 'lodash'
 import { message, Spin } from 'antd'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
-import { getConfigApi } from 'config'
-import PageInfo from 'components/pageInfo'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 
-@protectRole(ROLE.WQI_SEARCHDATA.VIEW)
+@protectRole(ROLE.WQI_GIO.VIEW)
 @queryFormDataBrowser(['submit'])
 @autobind
-export default class AQIStatistics extends React.Component {
+export default class WQIStatistics extends React.Component {
   state = {
-    dataWQI: [],
+    dataAQI: [],
     searchFormData: {},
     lines: [],
     isLoading: false,
     isHaveData: false,
     isExporting: false,
+    isManually: false,
     pagination: {
       current: 1,
       pageSize: 50,
@@ -34,6 +33,7 @@ export default class AQIStatistics extends React.Component {
   }
 
   handleSubmitSearch(searchFormData) {
+    console.log(searchFormData, '--searchFormData')
     this.loadData(this.state.pagination, searchFormData)
   }
 
@@ -43,25 +43,22 @@ export default class AQIStatistics extends React.Component {
       isHaveData: true,
     })
 
-    const key = searchFormData.key
     const params = {
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
+      listKey: searchFormData.stationID,
     }
-    let listdataWQI = await wqiApi.fetchWqiHistory(key, params)
-    if (
-      listdataWQI &&
-      (Array.isArray(listdataWQI.data) && listdataWQI.data.length === 0)
-    ) {
+    let dataAQI = await WqiApi.fetchWqiHourbyStation({ ...params })
+    if (dataAQI && (Array.isArray(dataAQI.data) && dataAQI.data.length === 0)) {
       swal({
         type: 'success',
         title: translate('dataSearchFrom.table.emptyText'),
       })
     }
-
+    // console.log(_.get(dataAQI, "data"), "----")
     this.setState({
       isLoading: false,
-      dataWQI: _.get(listdataWQI, 'data', []),
+      dataAQI: _.get(dataAQI, 'data', []),
       searchFormData: searchFormData,
     })
   }
@@ -70,12 +67,12 @@ export default class AQIStatistics extends React.Component {
     this.setState({
       isExporting: true,
     })
-    const key = _.get(this.state.searchFormData, 'key', '')
     const params = {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
+      listKey: _.get(this.state.searchFormData, 'stationID', ''),
     }
-    let res = await wqiApi.exportFileHistory(key, { ...params })
+    let res = await WqiApi.exportFileWqiHourbyStation({ ...params })
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
 
@@ -84,40 +81,64 @@ export default class AQIStatistics extends React.Component {
     })
   }
 
+  async handleManually() {
+    this.setState({
+      isManually: true,
+    })
+    const params = {
+      from: _.get(this.state.searchFormData, 'fromDate', ''),
+      to: _.get(this.state.searchFormData, 'toDate', ''),
+      listKey: _.get(this.state.searchFormData, 'stationID', ''),
+    }
+
+    const processFunc = [
+      WqiApi.fetchWQIProcessCalDay({ ...params }),
+      WqiApi.fetchWQIProcessCalHour({ ...params }),
+    ]
+    let res = await Promise.all(processFunc)
+    // console.log("res: ", res);
+    if (res && res[0].success && res[1].success) {
+      message.success('success')
+      this.loadData(this.state.pagination, this.state.searchFormData)
+    } else {
+      message.error('Error')
+    }
+
+    this.setState({
+      isManually: false,
+    })
+  }
+
   render() {
     return (
       <div>
-        {getConfigApi().isAdvanced && (
-          <PageContainer
-            {...this.props.wrapperProps}
-            backgroundColor={'#fafbfb'}
+        <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+          <Spin
+            size="large"
+            tip={translate('dataSearchFrom.tab.statusExport')}
+            spinning={this.state.isExporting}
           >
-            <Spin
-              size="large"
-              tip={translate('dataSearchFrom.tab.statusExport')}
-              spinning={this.state.isExporting}
-            >
-              <Breadcrumb items={['list']} />
-              <SearchFrom
-                initialValues={this.props.formData}
-                onSubmit={this.handleSubmitSearch}
-                searchNow={this.props.formData.searchNow}
+            <Breadcrumb items={['list']} />
+            <SearchFrom
+              initialValues={this.props.formData}
+              onSubmit={this.handleSubmitSearch}
+              searchNow={this.props.formData.searchNow}
+            />
+            <Clearfix height={16} />
+            {this.state.isHaveData ? (
+              <TabList
+                isLoading={this.state.isLoading}
+                dataAQI={this.state.dataAQI}
+                pagination={this.state.pagination}
+                onExportExcel={this.handleExportExcel}
+                nameChart={this.state.searchFormData.name}
+                isExporting={this.state.isExporting}
+                onManually={this.handleManually}
+                isManually={this.state.isManually}
               />
-              <Clearfix height={16} />
-              {this.state.isHaveData ? (
-                <TabList
-                  isLoading={this.state.isLoading}
-                  dataWQI={this.state.dataWQI}
-                  pagination={this.state.pagination}
-                  onExportExcel={this.handleExportExcel}
-                  nameChart={this.state.searchFormData.name}
-                  isExporting={this.state.isExporting}
-                />
-              ) : null}
-            </Spin>
-          </PageContainer>
-        )}
-        {!getConfigApi().isAdvanced && <PageInfo />}
+            ) : null}
+          </Spin>
+        </PageContainer>
       </div>
     )
   }

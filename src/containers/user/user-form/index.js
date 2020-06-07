@@ -42,8 +42,8 @@ export default class UserForm extends React.PureComponent {
         phone: values.phone,
         organization: values.organization
           ? this.state.selectOrganizations.find(
-            item => item._id === values.organization
-          )
+              item => item._id === values.organization
+            )
           : null,
       }
       // // Callback submit form Container Component
@@ -53,9 +53,9 @@ export default class UserForm extends React.PureComponent {
           email: {
             value: values.email,
             errors: [
-              new Error(this.props.lang.t('userManager.form.email.errorExist'))
-            ]
-          }
+              new Error(this.props.lang.t('userManager.form.email.errorExist')),
+            ],
+          },
         })
       }
     })
@@ -83,7 +83,7 @@ export default class UserForm extends React.PureComponent {
 
   validatorPhone = (rule, value, callback) => {
     const {
-      lang: { t }
+      lang: { t },
     } = this.props
     if (!value) {
       callback()
@@ -170,12 +170,12 @@ export default class UserForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('userManager.form.phone.empty')
+                    message: t('userManager.form.phone.empty'),
                   },
                   {
-                    validator: this.validatorPhone
-                  }
-                ]
+                    validator: this.validatorPhone,
+                  },
+                ],
               })(<InputPhoneNumber size="large" />)}
             </FormItem>
           </Col>
@@ -249,9 +249,9 @@ export default class UserForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('userManager.form.firstName.error')
-                  }
-                ]
+                    message: t('userManager.form.firstName.error'),
+                  },
+                ],
               })(
                 <Input
                   size="large"
@@ -272,9 +272,9 @@ export default class UserForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('userManager.form.lastName.error')
-                  }
-                ]
+                    message: t('userManager.form.lastName.error'),
+                  },
+                ],
               })(
                 <Input
                   size="large"

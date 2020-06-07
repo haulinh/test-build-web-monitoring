@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Typography } from 'antd'
+import { Typography, Button, Modal } from 'antd'
 
 import DynamicTable from 'components/elements/dynamic-table'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
@@ -15,6 +15,7 @@ import createManagerList from 'hoc/manager-list'
 import ROLE from 'constants/role'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 import moment from 'moment-timezone'
+import JsonView from 'components/elements/json-view'
 
 const { Text } = Typography
 const DataLoggerWrapper = styled.div``
@@ -26,6 +27,7 @@ const i18n = {
   colAction: translate('dataLogger.list.colAction'),
   colDevice: translate('dataLogger.list.colDevice'),
   colDetail: translate('dataLogger.list.colDetail'),
+  jsonFile: translate('dataLogger.list.jsonFile'),
 }
 
 @protectRole(ROLE.XEM_NHAT_KY.VIEW)
@@ -64,6 +66,9 @@ class DataLoggerPage extends React.Component {
         {
           content: _.get(row, 'deviceInfo.info.os.name', ''),
         },
+        {
+          content: <JsonView content={row} />,
+        },
         // {
         //   content: (
         //     <a
@@ -84,7 +89,7 @@ class DataLoggerPage extends React.Component {
       { content: i18n.colTime },
       { content: i18n.colAction },
       { content: i18n.colDevice },
-      { content: '' },
+      { content: i18n.jsonFile },
     ]
   }
 
@@ -112,7 +117,7 @@ class DataLoggerPage extends React.Component {
   // };
 
   render() {
-    // console.log(this.props.dataSource, "---");
+    console.log(this.props.dataSource, '---')
     return (
       <PageContainer>
         <Breadcrumb items={['list']} />

@@ -20,11 +20,12 @@ const Icon = styled.img`
   height: 20px;
 `
 
-
 export default function AppItem({ name, icon, href, color }) {
-  return <Tooltip position="right" content={name}>
-    <AppItemWrapper color={color} to={href}>
-      <Icon src={`/images/app-icons/${icon}.svg`} />
-    </AppItemWrapper>
-  </Tooltip>
+  return (
+    <Tooltip position="right" content={name}>
+      <AppItemWrapper color={color} to={href}>
+        <Icon src={`/images/app-icons/${icon}.svg`} />
+      </AppItemWrapper>
+    </Tooltip>
+  )
 }
