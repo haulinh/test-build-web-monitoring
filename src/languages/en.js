@@ -751,7 +751,7 @@ export default {
     },
   },
   configWQI: {
-    breadCrumb: 'Config WQI, AQI',
+    breadCrumb: 'Select AQI & WQI calculations',
     stationAuto: 'Station Auto',
     stationFixed: 'Staion Fixed',
     stationName: 'Station Name',
