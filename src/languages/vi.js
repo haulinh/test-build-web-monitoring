@@ -747,7 +747,7 @@ export default {
     },
   },
   configWQI: {
-    breadCrumb: 'Cấu hình tính WQI, AQI',
+    breadCrumb: 'Lựa chọn tính AQI & WQI',
     stationAuto: 'Trạm tự động',
     stationFixed: 'Trạm cố định',
     stationName: 'Tên trạm',
