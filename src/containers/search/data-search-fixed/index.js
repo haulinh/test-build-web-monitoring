@@ -52,7 +52,8 @@ export default class MinutesDataSearch extends React.Component {
     )
     if (
       dataStationAuto &&
-      (Array.isArray(dataStationAuto.data) && dataStationAuto.data.length === 0)
+      Array.isArray(dataStationAuto.data) &&
+      dataStationAuto.data.length === 0
     ) {
       swal({
         type: 'success',

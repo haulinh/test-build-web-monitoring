@@ -476,7 +476,10 @@ export default class StationFixedForm extends React.PureComponent {
               }}
               label={t('stationAutoManager.form.emails.label')}
             >
-              {getFieldDecorator('emails', {})(
+              {getFieldDecorator(
+                'emails',
+                {}
+              )(
                 <Select
                   mode="tags"
                   placeholder={t('stationAutoManager.form.emails.placeholder')}
@@ -496,7 +499,10 @@ export default class StationFixedForm extends React.PureComponent {
               {...formItemLayout}
               label={t('stationAutoManager.form.phones.label')}
             >
-              {getFieldDecorator('phones', {})(
+              {getFieldDecorator(
+                'phones',
+                {}
+              )(
                 <Select
                   mode="tags"
                   placeholder={t('stationAutoManager.form.phones.placeholder')}

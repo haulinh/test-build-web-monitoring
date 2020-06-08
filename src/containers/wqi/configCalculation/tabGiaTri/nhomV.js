@@ -93,9 +93,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                             },
                           })
                           setFieldsValue({
-                            [`levelList[${record.key}].${
-                              item.keyMeasure
-                            }.min`]: null,
+                            [`levelList[${record.key}].${item.keyMeasure}.min`]: null,
                           })
                         }}
                       />
@@ -190,9 +188,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                             },
                           })
                           setFieldsValue({
-                            [`levelList[${record.key}].${
-                              item.keyMeasure
-                            }.max`]: null,
+                            [`levelList[${record.key}].${item.keyMeasure}.max`]: null,
                           })
                         }}
                       />

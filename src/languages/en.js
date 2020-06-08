@@ -25,6 +25,9 @@ export default {
     exceededPreparing: 'Almost Exceed',
     exceededTendency: 'Tend To Exceed',
     viewInMonitoring: 'View In Monitoring',
+    advanced: {
+      label: 'Nâng cao',
+    },
     viewInMap: 'View In Map',
     viewMore: 'View More',
     all: 'All',
@@ -466,7 +469,7 @@ export default {
   },
 
   avgSearchFrom: {
-    titleText: 'AVG Search',
+    titleText: 'AVG data',
     form: {
       time: 'Time',
       stationType: {
@@ -568,6 +571,13 @@ export default {
       chart: 'Chart',
       exportExcel: 'Export To Excel',
       statusExport: 'Exporting ...',
+    },
+    search: {
+      subMenuAvgData: {
+        title: 'Avg data',
+        dataSearch: 'Data search',
+      },
+      subMenuFilters: 'Filters',
     },
   },
   measuringManager: {

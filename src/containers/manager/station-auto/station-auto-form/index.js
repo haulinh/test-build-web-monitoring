@@ -547,7 +547,10 @@ export default class StationAutoForm extends React.PureComponent {
                   }}
                   label={t('stationAutoManager.form.emails.label')}
                 >
-                  {getFieldDecorator('emails', {})(
+                  {getFieldDecorator(
+                    'emails',
+                    {}
+                  )(
                     <Select
                       mode="tags"
                       placeholder={t(
@@ -569,7 +572,10 @@ export default class StationAutoForm extends React.PureComponent {
                   {...formItemLayout}
                   label={t('stationAutoManager.form.phones.label')}
                 >
-                  {getFieldDecorator('phones', {})(
+                  {getFieldDecorator(
+                    'phones',
+                    {}
+                  )(
                     <Select
                       mode="tags"
                       placeholder={t(
@@ -665,7 +671,10 @@ export default class StationAutoForm extends React.PureComponent {
                   {...formItemLayout}
                   label={t('stationAutoManager.form.website.label')}
                 >
-                  {getFieldDecorator('website', {})(
+                  {getFieldDecorator(
+                    'website',
+                    {}
+                  )(
                     <Input
                       placeholder={t(
                         'stationAutoManager.form.website.placeholder'
@@ -679,7 +688,10 @@ export default class StationAutoForm extends React.PureComponent {
                   {...formItemLayout}
                   label={t('stationAutoManager.form.capacity.label')}
                 >
-                  {getFieldDecorator('capacity', {})(
+                  {getFieldDecorator(
+                    'capacity',
+                    {}
+                  )(
                     <Input
                       placeholder={t(
                         'stationAutoManager.form.capacity.placeholder'
@@ -695,7 +707,10 @@ export default class StationAutoForm extends React.PureComponent {
                   {...formItemLayout}
                   label={t('stationAutoManager.form.career.label')}
                 >
-                  {getFieldDecorator('career', {})(
+                  {getFieldDecorator(
+                    'career',
+                    {}
+                  )(
                     <Input
                       placeholder={t(
                         'stationAutoManager.form.career.placeholder'
@@ -709,7 +724,10 @@ export default class StationAutoForm extends React.PureComponent {
                   {...formItemLayout}
                   label={t('stationAutoManager.form.yearOperate.label')}
                 >
-                  {getFieldDecorator('yearOperate', {})(
+                  {getFieldDecorator(
+                    'yearOperate',
+                    {}
+                  )(
                     <InputNumberCell
                       editable={true}
                       size="small"
@@ -726,7 +744,10 @@ export default class StationAutoForm extends React.PureComponent {
                   {...formItemLayout}
                   label={t('stationAutoManager.form.userResponsible.label')}
                 >
-                  {getFieldDecorator('userResponsible', {})(
+                  {getFieldDecorator(
+                    'userResponsible',
+                    {}
+                  )(
                     <Input
                       placeholder={t(
                         'stationAutoManager.form.userResponsible.placeholder'
@@ -740,7 +761,10 @@ export default class StationAutoForm extends React.PureComponent {
                   {...formItemLayout}
                   label={t('stationAutoManager.form.phoneResponsible.label')}
                 >
-                  {getFieldDecorator('phoneResponsible', {})(
+                  {getFieldDecorator(
+                    'phoneResponsible',
+                    {}
+                  )(
                     <ReactTelephoneInput
                       defaultCountry="vn"
                       flagsImagePath={
@@ -762,7 +786,10 @@ export default class StationAutoForm extends React.PureComponent {
                   {...formItemLayout}
                   label={t('stationAutoManager.form.userSupervisor.label')}
                 >
-                  {getFieldDecorator('userSupervisor', {})(
+                  {getFieldDecorator(
+                    'userSupervisor',
+                    {}
+                  )(
                     <Input
                       placeholder={t(
                         'stationAutoManager.form.userSupervisor.placeholder'
@@ -776,7 +803,10 @@ export default class StationAutoForm extends React.PureComponent {
                   {...formItemLayout}
                   label={t('stationAutoManager.form.phoneSupervisor.label')}
                 >
-                  {getFieldDecorator('phoneSupervisor', {})(
+                  {getFieldDecorator(
+                    'phoneSupervisor',
+                    {}
+                  )(
                     <ReactTelephoneInput
                       defaultCountry="vn"
                       flagsImagePath={
@@ -804,7 +834,10 @@ export default class StationAutoForm extends React.PureComponent {
                   }}
                   label={t('stationAutoManager.form.material.label')}
                 >
-                  {getFieldDecorator('material', {})(
+                  {getFieldDecorator(
+                    'material',
+                    {}
+                  )(
                     <Input
                       placeholder={t(
                         'stationAutoManager.form.material.placeholder'
@@ -826,7 +859,10 @@ export default class StationAutoForm extends React.PureComponent {
                   }}
                   label={t('stationAutoManager.form.processProduction.label')}
                 >
-                  {getFieldDecorator('processProduction', {})(
+                  {getFieldDecorator(
+                    'processProduction',
+                    {}
+                  )(
                     <TextArea
                       placeholder={t(
                         'stationAutoManager.form.processProduction.placeholde'

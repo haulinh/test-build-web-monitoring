@@ -35,9 +35,7 @@ export default class CameraMoreInfo extends React.Component {
       cameras = _.take(cameras, 2) // NOTE  -- chỉ lấy 2 camera đầu để hiển thị
       cameras = cameras.map(_camera => {
         let camera = _.clone(_camera)
-        const link = `${
-          camera.rtspUrl
-        }?auth=${authDigest}&resolution=360p&sfd&rt`
+        const link = `${camera.rtspUrl}?auth=${authDigest}&resolution=360p&sfd&rt`
         camera.link = link
         return camera
       })

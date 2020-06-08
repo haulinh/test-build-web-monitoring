@@ -98,12 +98,9 @@ export const defaultFilter = {
   search: '',
 }
 
-@connect(
-  state => ({}),
-  {
-    changeOpenSubMenu,
-  }
-)
+@connect(state => ({}), {
+  changeOpenSubMenu,
+})
 @withRouter
 @autobind
 @protectRole(ROLE.MONITORING.DATA_V2)

@@ -57,7 +57,8 @@ export default class PercentReceivedDataContainer extends React.Component {
     })
     if (
       listData &&
-      (Array.isArray(listData.data) && listData.data.length === 0)
+      Array.isArray(listData.data) &&
+      listData.data.length === 0
     ) {
       swal({
         type: 'success',

@@ -197,9 +197,7 @@ export default class BasicNestedNavigation extends React.Component {
         }
       >
         <DropdownItemGroup
-          title={`${this.props.authInfo.lastName} ${
-            this.props.authInfo.firstName
-          }`}
+          title={`${this.props.authInfo.lastName} ${this.props.authInfo.firstName}`}
         >
           <DropdownItem onClick={this.handleInfoLicense}>
             {translate('profileUser.infoLicense')}

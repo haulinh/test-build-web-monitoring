@@ -568,6 +568,13 @@ export default {
       exportExcel: 'Xuất dữ liệu excel',
       statusExport: 'Đang xuất dữ liệu ...',
     },
+    search: {
+      subMenuAvgData: {
+        title: 'Dữ liệu trung bình',
+        dataSearch: 'Tìm kiếm dữ liệu',
+      },
+      subMenuFilters: 'Danh sách bộ lọc',
+    },
   },
   measuringManager: {
     list: {

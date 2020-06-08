@@ -179,9 +179,11 @@ export default class TabGiaTri_NhomII extends React.Component {
   async componentDidMount() {
     const response = await getConfigWqiMeaTable()
     if (response.success) {
-      const transformData = _.get(response, 'data.value.groupII', []).filter(
-        i => _.identity(i)
-      )
+      const transformData = _.get(
+        response,
+        'data.value.groupII',
+        []
+      ).filter(i => _.identity(i))
       const lastRecord = transformData[transformData.length - 1]
       transformData.map(i => (i.key = this.idIncrement++))
 

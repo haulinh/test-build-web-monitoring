@@ -140,9 +140,10 @@ export default class SearchForm extends React.Component {
           <Row gutter={16}>
             <Col span={24}>
               <Item label={translate('stationAuto.label')}>
-                {getFieldDecorator('stationAutos', {})(
-                  <SelectStationTreeView />
-                )}
+                {getFieldDecorator(
+                  'stationAutos',
+                  {}
+                )(<SelectStationTreeView />)}
               </Item>
             </Col>
           </Row>

@@ -47,7 +47,11 @@ const wqiMenu = {
 }
 
 const groupQAQC = {
-  component: protectRole('', [ROLE.QAQC.VIEW], 'group')(
+  component: protectRole(
+    '',
+    [ROLE.QAQC.VIEW],
+    'group'
+  )(
     <NavigationWrapper text={translate('qaqc.title')}>
       <AkNavigationItemGroup title={translate('qaqc.title')} />
     </NavigationWrapper>
@@ -256,7 +260,11 @@ const qcvnMenu = {
 }
 
 const groupAdmin = {
-  component: protectRole('', [ROLE.USER.VIEW, ROLE.ROLE.VIEW], 'group')(
+  component: protectRole(
+    '',
+    [ROLE.USER.VIEW, ROLE.ROLE.VIEW],
+    'group'
+  )(
     <NavigationWrapper text={translate('menuApp.adminManagement')}>
       <AkNavigationItemGroup title={translate('menuApp.adminManagement')} />
     </NavigationWrapper>
