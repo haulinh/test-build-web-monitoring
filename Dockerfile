@@ -1,4 +1,4 @@
-FROM node:13.14
+FROM node:12.18.0
 
 # Install yarrn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
