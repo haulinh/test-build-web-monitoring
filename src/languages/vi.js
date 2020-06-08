@@ -465,7 +465,7 @@ export default {
   },
 
   avgSearchFrom: {
-    titleText: 'Tra cứu dữ liệu tổng hợp',
+    titleText: 'Dữ liệu trung bình',
     form: {
       time: 'Thời gian',
       stationType: {
