@@ -146,10 +146,10 @@ export default class AvgSearch extends React.Component {
                   defaultOpenKeys={['sub1']}
                   mode="inline"
                 >
-                  <SubMenu key="sub2" title={i18n.titleSubMenuAvgData}>
+                  <SubMenu key="sub1" title={i18n.titleSubMenuAvgData}>
                     <Menu.Item key="1">{i18n.dataSearch}</Menu.Item>
                   </SubMenu>
-                  <SubMenu key="sub1" title={i18n.titleSubMenuFilters}>
+                  <SubMenu key="sub2" title={i18n.titleSubMenuFilters}>
                     {mockFilters.map(filter => (
                       <Menu.Item key={filter.id}>{filter.name}</Menu.Item>
                     ))}
