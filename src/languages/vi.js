@@ -1907,6 +1907,18 @@ export default {
       status_data: 'Status Data', // Qui them cho dong bo voi file EN
     },
   },
+  tooltipMenuApp: {
+    dashboard:
+      'Giám sát tổng quát các thông tin trạng thái số liệu của các trạm',
+    monitoringSub:
+      'Giám sát số liệu của từng trạm theo thời gian thực và tra cứu dữ liệu',
+    processDataSub: 'Cấu hình loại bỏ các dữ liệu không hợp lệ',
+    shareDataSub: 'Cấu hình chia sẻ dữ liệu từ hệ thống ra bên ngoài',
+    reportSub: 'Lựa chọn loại báo cáo để xuất kết quả',
+    advanceSub: 'Các chức năng nâng cao của hệ thống',
+    configSub:
+      'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
+  },
   dataLogger: {
     breadcrumb: {
       base: 'Nhật ký dữ liệu',

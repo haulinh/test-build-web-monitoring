@@ -329,3 +329,14 @@ export const MENU_NAME = {
     dataLogger: translate('menuApp.config.dataLogger'),
   },
 }
+
+export const TOOLTIP_MENU = {
+  dashboard: translate('tooltipMenuApp.dashboard'),
+  monitoringSub: translate('tooltipMenuApp.monitoringSub'),
+  processDataSub:translate('tooltipMenuApp.processDataSub'),
+  shareDataSub:translate('tooltipMenuApp.shareDataSub'),
+  reportSub:translate('tooltipMenuApp.reportSub'),
+  advanceSub:translate('tooltipMenuApp.advanceSub'),
+  configSub:translate('tooltipMenuApp.configSub'),
+
+}
