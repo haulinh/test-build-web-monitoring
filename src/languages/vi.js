@@ -1925,8 +1925,7 @@ export default {
       configNew:"Lựa chọn yếu tố ảnh hưởng đến dữ liệu không hơp lệ",
       approveData:"Tra cứu dữ liệu sau khi đã loại bỏ dữ liệu không hợp lệ"
     },
-    configSub:
-      'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
+    configSub:'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
     monitoring: {
       base:
         'Giám sát số liệu theo thời gian thực theo từng điểm quan trắc và thao tác lấy mẫu',
