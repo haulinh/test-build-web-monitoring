@@ -35,9 +35,11 @@ export default {
             props.selectMenu(slug.qaqc.configNew)
           }}
         >
-          <Link to={slug.qaqc.configNew}>
-            {MENU_NAME.processData.configNew}
-          </Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.processData.configNew}>
+            <Link to={slug.qaqc.configNew}>
+              {MENU_NAME.processData.configNew}
+            </Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -48,7 +50,12 @@ export default {
             props.selectMenu(slug.qaqc.base)
           }}
         >
-          <Link to={slug.qaqc.base}>{MENU_NAME.processData.approveData}</Link>
+          <Tooltip
+            placement="right"
+            title={TOOLTIP_MENU.processData.approveData}
+          >
+            <Link to={slug.qaqc.base}>{MENU_NAME.processData.approveData}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
     </Menu.SubMenu>

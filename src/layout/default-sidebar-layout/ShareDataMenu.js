@@ -33,7 +33,9 @@ export default {
             props.selectMenu(slug.qaqc.config)
           }}
         >
-          <Link to={slug.qaqc.config}>{MENU_NAME.shareData.shareConfig}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.shareData.shareConfig}>
+            <Link to={slug.qaqc.config}>{MENU_NAME.shareData.shareConfig}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -44,9 +46,11 @@ export default {
             props.selectMenu(slug.ftpTransfer.base)
           }}
         >
-          <Link to={slug.ftpTransfer.base}>
-            {MENU_NAME.shareData.ftpConfig}
-          </Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.shareData.ftpConfig}>
+            <Link to={slug.ftpTransfer.base}>
+              {MENU_NAME.shareData.ftpConfig}
+            </Link>
+          </Tooltip>
         </Menu.Item>
       )}
     </Menu.SubMenu>

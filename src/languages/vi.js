@@ -1912,12 +1912,34 @@ export default {
       'Giám sát tổng quát các thông tin trạng thái số liệu của các trạm',
     monitoringSub:
       'Giám sát số liệu của từng trạm theo thời gian thực và tra cứu dữ liệu',
+
     processDataSub: 'Cấu hình loại bỏ các dữ liệu không hợp lệ',
     shareDataSub: 'Cấu hình chia sẻ dữ liệu từ hệ thống ra bên ngoài',
+    shareData: {
+      shareConfig: 'Lựa chọn điểm quan trắc và thông số để công bố',
+      ftpConfig: 'Lựa chọn trạm và thông số truyền vào thư mục bên ngoài bằng FTP',
+    },
     reportSub: 'Lựa chọn loại báo cáo để xuất kết quả',
     advanceSub: 'Các chức năng nâng cao của hệ thống',
-    configSub:
-      'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
+    processData:{
+      configNew:"Lựa chọn yếu tố ảnh hưởng đến dữ liệu không hơp lệ",
+      approveData:"Tra cứu dữ liệu sau khi đã loại bỏ dữ liệu không hợp lệ"
+    },
+    configSub:'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
+    monitoring: {
+      base:
+        'Giám sát số liệu theo thời gian thực theo từng điểm quan trắc và thao tác lấy mẫu',
+      map: 'Giám sát trực quan vị trí điểm quan trắc trên nền bản đồ',
+      camera: 'Giám sát tất cả camera tại các điểm quan trắc',
+      historyData:
+        'Tra cứu các dữ liệu gốc của điểm quan trắc theo  khoảng thời gian',
+      avgData:
+        'Tra cứu các dữ liệu trung bình của điểm quan trắc theo khoảng thời gian',
+    },
+    monitoringList: {
+      base:
+        'Giám sát số liệu thời gian thực theo  danh sách tất cả điểm quan trắc',
+    },
   },
   dataLogger: {
     breadcrumb: {
