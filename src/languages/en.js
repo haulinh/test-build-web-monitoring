@@ -572,6 +572,15 @@ export default {
   },
   dataSearchFilterForm: {
     titleText: 'Data Search Filter',
+    create: {
+      label: 'Create new filter',
+      success: 'Create new filter successfully',
+      nameIsExist: 'Filter name is exist',
+    },
+    name: {
+      label: 'Filter name',
+      placeholder: 'Please type filter name',
+    },
     form: {
       time: 'Time',
       stationType: {
@@ -1873,7 +1882,7 @@ export default {
       error: 'Restore Error',
     },
     search: 'Search',
-    searchSeclect: 'Select conditions',
+    searchSelect: 'Select conditions',
     error: 'Something Went Wrong!!!',
     warning: 'Warning',
     refresh: 'Refresh',

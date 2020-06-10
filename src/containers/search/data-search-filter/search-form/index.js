@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { get as _get } from 'lodash'
 import styled from 'styled-components'
 import moment from 'moment-timezone'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
+import { translate } from 'hoc/create-lang'
 import { reduxForm, Field, unregisterField, clearFields } from 'redux-form'
 import { Row, Col, Button, Dropdown, Icon, InputNumber } from 'antd'
 import update from 'immutability-helper'
@@ -45,7 +45,9 @@ const HeaderWrapper = styled.div`
   }
 `
 
-const SearchFormContainer = styled(BoxShadowStyle)``
+const SearchFormContainer = styled(BoxShadowStyle)`
+  padding: 0;
+`
 
 const Container = styled.div`
   padding: 16px 16px;
@@ -66,7 +68,7 @@ const Container = styled.div`
   validate,
 })
 @connect((state, ownProps) => ({
-  values: _get(state, 'form.dataSearchFilterForm.values', {}),
+  values: _.get(state, 'form.dataSearchFilterForm.values', {}),
 }))
 @createLang
 @autobind
@@ -74,7 +76,9 @@ export default class SearchAvgForm extends React.Component {
   static propTypes = {
     initialValues: PropTypes.object,
     searchNow: PropTypes.bool,
+    onPreventSave: PropTypes.func,
   }
+
   constructor(props) {
     super(props)
     let fromDate = moment(props.initialValues.fromDate)
@@ -112,6 +116,30 @@ export default class SearchAvgForm extends React.Component {
         ...option,
         name: this.props.lang.t(option.label),
       })),
+    }
+  }
+
+  componentDidMount() {
+    const initialValues = this.props.initialValues
+      ? {
+          stationAuto: null,
+          stationType: null,
+          province: null,
+          measuringList: [],
+          ...this.props.initialValues,
+          rangesDate: 1,
+          type: 15,
+        }
+      : {
+          stationAuto: null,
+          stationType: null,
+          province: null,
+          measuringList: [],
+        }
+
+    this.props.initialize(initialValues)
+    if (this.props.searchNow) {
+      this.props.handleSubmit(this.handleSubmit)()
     }
   }
 
@@ -226,30 +254,6 @@ export default class SearchAvgForm extends React.Component {
     this.props.change('stationAuto', null)
   }
 
-  componentDidMount() {
-    const initialValues = this.props.initialValues
-      ? {
-          stationAuto: null,
-          stationType: null,
-          province: null,
-          measuringList: [],
-          ...this.props.initialValues,
-          rangesDate: 1,
-          type: 15,
-        }
-      : {
-          stationAuto: null,
-          stationType: null,
-          province: null,
-          measuringList: [],
-        }
-
-    this.props.initialize(initialValues)
-    if (this.props.searchNow) {
-      this.props.handleSubmit(this.handleSubmit)()
-    }
-  }
-
   searchInit = () => {
     if (!this.state.isSearchInit) {
       return
@@ -325,27 +329,31 @@ export default class SearchAvgForm extends React.Component {
     }
   }
 
+  rightChildren() {
+    return (
+      <Button
+        type="primary"
+        icon="search"
+        size="default"
+        onClick={this.props.handleSubmit(this.handleSubmit)}
+      >
+        {this.props.lang.t('addon.search')}
+      </Button>
+    )
+  }
+
   render() {
     const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
     return (
       <SearchFormContainer>
         <Heading
-          rightChildren={
-            <Button
-              type="primary"
-              icon="search"
-              size="small"
-              onClick={this.props.handleSubmit(this.handleSubmit)}
-            >
-              {this.props.lang.t('addon.search')}
-            </Button>
-          }
+          rightChildren={this.rightChildren()}
           textColor="#ffffff"
           isBackground
           fontSize={14}
           style={{ padding: '8px 16px' }}
         >
-          {this.props.lang.t('addon.search')}
+          {this.props.lang.t('addon.searchSelect')}
         </Heading>
         <HeaderWrapper>
           <Dropdown
@@ -353,7 +361,8 @@ export default class SearchAvgForm extends React.Component {
             overlay={<FilterList onChange={this.handleChangeFilter} />}
           >
             <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-              <Icon type="plus" /> Thêm bộ lọc
+              <Icon type="plus" />{' '}
+              {translate('dataSearchFilterForm.create.label')}
             </a>
           </Dropdown>
         </HeaderWrapper>
@@ -392,8 +401,8 @@ export default class SearchAvgForm extends React.Component {
                 placeholder={t('stationAuto.placeholder')}
                 name="stationAuto"
                 onChangeObject={this.handleChangeStationAuto}
-                stationTypeKey={_get(this.props.values, 'stationType', null)}
-                provinceKey={_get(this.props.values, 'province', null)}
+                stationTypeKey={_.get(this.props.values, 'stationType', null)}
+                provinceKey={_.get(this.props.values, 'province', null)}
                 size="large"
                 component={FSelectStationAuto}
               />

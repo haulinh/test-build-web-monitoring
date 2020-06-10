@@ -1,5 +1,5 @@
 import { getConfigApi } from '../config'
-import { getFetch, putFetch } from 'utils/fetch'
+import { getFetch, putFetch, postFetch } from 'utils/fetch'
 
 export function getSubscription() {
   let urlFetch = getConfigApi().organization + '/subscription/status'
@@ -16,14 +16,20 @@ export function updateOrganizationNameLogo(organization) {
   return putFetch(url, organization)
 }
 
-export function updatetransferFtpInfo(_id, data) {
+export function updateTransferFtpInfo(_id, data) {
   let url = getConfigApi().organization + `/transfer-ftp-info/${_id}`
   return putFetch(url, data)
+}
+
+export function createFilter(organizationId, data) {
+  let url = getConfigApi().organization + `/configFilter/${organizationId}`
+  return postFetch(url, data)
 }
 
 export default {
   getSubscription,
   updateOrganizationNameLogo,
-  updatetransferFtpInfo,
+  updateTransferFtpInfo,
   getOrganization,
+  createFilter,
 }

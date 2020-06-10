@@ -12,7 +12,11 @@ export default class SelectQCVN extends PureComponent {
     query: PropTypes.object,
     label: PropTypes.string,
     onChange: PropTypes.func,
-    value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    value: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.string,
+      PropTypes.array,
+    ]),
     isShowAll: PropTypes.bool,
   }
 
@@ -34,14 +38,13 @@ export default class SelectQCVN extends PureComponent {
 
   handleOnChange = value => {
     let res = this.state.lstQCVN.find(item => item.key === value)
-    this.setState({
-      value: value,
-    })
+    this.setState({ value })
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
     if (this.props.onChange) this.props.onChange(value)
   }
 
   render() {
+    console.log(this.props.value)
     return (
       <Select
         showSearch

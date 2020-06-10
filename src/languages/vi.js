@@ -571,8 +571,17 @@ export default {
   },
   dataSearchFilterForm: {
     titleText: 'Tra cứu dữ liệu tổng hợp',
+    create: {
+      label: 'Tạo mới bộ lọc',
+      success: 'Thêm bộ lọc mới thành công',
+      nameIsExist: 'Tên bộ lọc này đã tồn tại',
+    },
     form: {
       time: 'Thời gian',
+      name: {
+        label: 'Tên bộ lọc',
+        placeholder: 'Nhập tên bộ lọc',
+      },
       stationType: {
         label: 'Loại trạm',
         placeholder: 'Chọn loại trạm',
@@ -1868,7 +1877,7 @@ export default {
       error: 'Khôi phục thất bại',
     },
     search: 'Tìm kiếm',
-    searchSeclect: 'Chọn điều kiện',
+    searchSelect: 'Chọn điều kiện',
     error: 'Đã xảy ra sự cố!!!',
     warning: 'Chú ý',
     refresh: 'Làm mới',
