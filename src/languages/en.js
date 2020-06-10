@@ -2060,6 +2060,25 @@ export default {
       status_data: 'Status Data',
     },
   },
+  tooltipMenuApp: {
+    dashboard: 'General monitoring of data status information of stations',
+    monitoringSub:
+      'Monitoring data of each station in real time and look up data',
+    monitoring: {
+      base:
+        'Giám sát số liệu theo thời gian thực theo từng điểm quan trắc và thao tác lấy mẫu',
+    },
+    monitoringList: {
+      base:
+        'Giám sát số liệu thời gian thực theo  danh sách tất cả điểm quan trắc',
+    },
+    processDataSub: 'Configure to remove invalid data',
+    shareDataSub: 'Configure to share data from the system to the outside',
+    reportSub: 'Select the report type to export the results',
+    advanceSub: 'Advanced functions of the system',
+    configSub:
+      'Configure issues related to monitoring points and system administration',
+  },
   dataLogger: {
     breadcrumb: {
       base: 'View Diary',

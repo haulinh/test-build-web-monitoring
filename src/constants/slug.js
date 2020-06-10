@@ -332,3 +332,31 @@ export const MENU_NAME = {
     dataLogger: translate('menuApp.config.dataLogger'),
   },
 }
+
+export const TOOLTIP_MENU = {
+  dashboard: translate('tooltipMenuApp.dashboard'),
+  monitoringSub: translate('tooltipMenuApp.monitoringSub'),
+  monitoring: {
+    base: translate('tooltipMenuApp.monitoring.base'),
+    map: translate('tooltipMenuApp.monitoring.map'),
+    camera: translate('tooltipMenuApp.monitoring.camera'),
+    historyData: translate('tooltipMenuApp.monitoring.historyData'),
+    avgData: translate('tooltipMenuApp.monitoring.avgData'),
+  },
+  monitoringList: {
+    base: translate('tooltipMenuApp.monitoringList.base'),
+  },
+  processDataSub: translate('tooltipMenuApp.processDataSub'),
+  processData:{
+    configNew:translate('tooltipMenuApp.processData.configNew'),
+    approveData:translate('tooltipMenuApp.processData.approveData')
+  },
+  shareDataSub: translate('tooltipMenuApp.shareDataSub'),
+  shareData:{
+    shareConfig:translate('tooltipMenuApp.shareData.shareConfig'),
+    ftpConfig:translate('tooltipMenuApp.shareData.ftpConfig'),
+  },
+  reportSub: translate('tooltipMenuApp.reportSub'),
+  advanceSub: translate('tooltipMenuApp.advanceSub'),
+  configSub: translate('tooltipMenuApp.configSub'),
+}
