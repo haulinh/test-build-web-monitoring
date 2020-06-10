@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
 import { Select } from 'antd'
 import StationAutoApi from 'api/StationAuto'
 import * as _ from 'lodash'
@@ -11,60 +10,35 @@ import { replaceVietnameseStr } from 'utils/string'
 @connect(state => ({
   language: _.get(state, 'language.locale'),
 }))
-@autobind
 export default class SelectStationAuto extends React.PureComponent {
   static propTypes = {
-    stationTypeKey: PropTypes.string,
-    provinceKey: PropTypes.string,
     onChangeObject: PropTypes.func,
     getRef: PropTypes.func,
+    stationAutoKey: PropTypes.func,
   }
 
   state = {
-    value: undefined,
     isLoaded: false,
     stationAutoSelects: [],
     searchString: '',
   }
 
   async componentWillMount() {
-    const responseStationAuto = await StationAutoApi.getStationAutos({
+    const res = await StationAutoApi.getStationAutos({
       page: 1,
       itemPerPage: 10000000,
     })
 
     this.setState({
-      stationAutoSelects: responseStationAuto.data,
+      stationAutoSelects: res.data,
       isLoaded: true,
-      value: this.props.setKey
-        ? this.props.stationAutoKey
-        : this.props.value || undefined,
     })
 
     if (this.props.getRef) this.props.getRef(this)
   }
 
-  getByTypeAndProvince = () => {
-    return _.filter(this.state.stationAutoSelects, stationAuto => {
-      return (
-        (!this.props.stationTypeKey ||
-          this.props.stationTypeKey === 'ALL' ||
-          _.isEqual(
-            this.props.stationTypeKey,
-            _.get(stationAuto, 'stationType.key', null)
-          )) &&
-        (!this.props.provinceKey ||
-          this.props.provinceKey === 'ALL' ||
-          _.isEqual(
-            this.props.provinceKey,
-            _.get(stationAuto, 'province.key', null)
-          ))
-      )
-    })
-  }
-
-  getStationAutos() {
-    const stationAutos = this.getByTypeAndProvince()
+  getStationAutos = () => {
+    const stationAutos = this.state.stationAutoSelects
     if (this.state.searchString) {
       const searchString = replaceVietnameseStr(this.state.searchString)
       return stationAutos.filter(
@@ -75,7 +49,7 @@ export default class SelectStationAuto extends React.PureComponent {
     return stationAutos
   }
 
-  handleChange(stationTypeValue) {
+  handleChange = stationTypeValue => {
     this.setState({ searchString: '' })
     const stationType = this.state.stationAutoSelects.find(
       s => s.key === stationTypeValue
@@ -90,24 +64,20 @@ export default class SelectStationAuto extends React.PureComponent {
     this.setState({ searchString: value })
   }
 
-  getValue() {
-    return this.props.setKey
-      ? this.props.stationAutoKey
-      : this.props.value || undefined
-  }
-
   render() {
-    const value = this.getValue()
     const stationAutos = this.getStationAutos()
     const { language } = this.props
-    if (!this.state.isLoaded) return <div />
+    // if (!this.state.isLoaded) return <div />
+    console.log(
+      this.props.setKey ? this.props.stationAutoKey : this.props.value
+    )
     return (
       <Select
         {...this.props}
         allowClear
         showSearch
         onChange={this.handleChange}
-        value={value}
+        value={this.props.setKey ? this.props.stationAutoKey : this.props.value}
         onSearch={this.handleSearch}
         filterOption={false}
       >

@@ -5,7 +5,7 @@ function getProviceUrl(prefix = '') {
   return getConfigApi().province + '/' + prefix
 }
 
-export function getProvices(
+export function getProvinces(
   { page = 1, itemPerPage = 100 },
   { key = null, name = null } = {}
 ) {
@@ -33,7 +33,7 @@ export function updateProvince(_id, data = {}) {
 }
 
 export default {
-  getProvices,
+  getProvinces,
   createProvince,
   deleteProvince,
   updateProvince,

@@ -91,10 +91,10 @@ const BtnAdd = props => (
   mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
-@autobind
 @connect(state => ({
   packageInfo: state.auth.userInfo.organization.packageInfo,
 }))
+@autobind
 @withRouter
 export default class StationAutoSearchForm extends React.PureComponent {
   static propTypes = {
@@ -110,14 +110,15 @@ export default class StationAutoSearchForm extends React.PureComponent {
     this.state = {}
   }
 
-  changeSearch(e) {
+  changeSearch = e => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (err) return
       const data = {}
       if (values.address) data.address = values.address
       if (values.name) data.name = values.name
-      if (values.stationType) data.stationType = values.stationType
+      if (values.stationType && values.stationType !== 'ALL')
+        data.stationType = values.stationType
 
       // Callback submit form Container Component
       this.setState({ dataSearch: data }, () => this.props.onChangeSearch(data))

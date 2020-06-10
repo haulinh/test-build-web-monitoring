@@ -576,6 +576,150 @@ export default {
       subMenuFilters: 'Danh sách bộ lọc',
     },
   },
+  dataSearchFilterForm: {
+    titleText: 'Tra cứu dữ liệu tổng hợp',
+    create: {
+      label: 'Tạo mới bộ lọc',
+      success: 'Thêm bộ lọc mới thành công',
+      nameIsExist: 'Tên bộ lọc này đã tồn tại',
+    },
+    form: {
+      time: 'Thời gian',
+      name: {
+        label: 'Tên bộ lọc',
+        placeholder: 'Nhập tên bộ lọc',
+      },
+      stationType: {
+        label: 'Loại trạm',
+        placeholder: 'Chọn loại trạm',
+        error: 'Vui lòng chọn loại trạm',
+      },
+      rangesDate: {
+        error: 'Vui lòng chọn thời gian',
+      },
+      stationAuto: {
+        label: 'Tên trạm',
+        placeholder: 'Chọn tên trạm',
+        error: 'Vui lòng chọn tên trạm',
+      },
+      fromDate: {
+        label: 'Bắt đầu',
+        placeholder: 'Chọn ngày bắt đầu',
+      },
+      toDate: {
+        label: 'Kết thúc',
+        placeholder: 'Chọn ngày kết thúc',
+      },
+      fromMonth: {
+        label: 'Từ tháng/năm',
+        placeholder: 'Chọn Tháng/Năm',
+        error: 'Vui lòng chọn thời gian',
+      },
+      toMonth: {
+        label: 'Đến  tháng/năm',
+        placeholder: 'Chọn Tháng/Năm',
+        error: 'Vui lòng chọn thời gian',
+        error1: 'Ngày bắt đầu lớn hơn ngày kết thúc',
+        error2: 'Không được vượt quá tháng hiện tại',
+      },
+      measuringList: {
+        label: 'Thông số',
+        placeholder: 'Chọn thông số',
+        require: 'Chọn ít nhất 1 thông số',
+      },
+      province: {
+        label: 'Đơn vị quản lý',
+        placeholder: 'Lựa chọn đơn vị quản lý',
+        require: 'Chọn ít nhất 1 đơn vị quản lý',
+      },
+      qcvn: {
+        label: 'Quy chuẩn Việt Nam',
+        placeholder: 'Lựa chọn quy chuẩn Việt Nam',
+        require: 'Chọn ít nhất lựa 1 QCVN',
+      },
+      stationStatus: {
+        label: 'Tình trạng thiết bị',
+        placeholder: 'Lựa chọn tình trạng thiết bị',
+        require: 'Chọn ít nhất 1 tình trạng thiết bị',
+      },
+      dataStatus: {
+        label: 'Tình trạng dữ liệu',
+        placeholder: 'Lựa chọn tình trạng dữ liệu',
+        require: 'Chọn ít nhất 1 tình trạng dữ liệu',
+      },
+      frequency: {
+        label: 'Tần suất (phút / lần)',
+        placeholder: 'Nhập tần suất (phút/lần)',
+        require: 'Bạn chưa nhận tần suất',
+      },
+      stationKey: {
+        label: 'Mã trạm quan trắc',
+        placeholder: 'Nhập mã trạm quan trắc',
+        require: 'Bạn chưa nhận mã trạm quan trắc',
+      },
+      isExceeded: {
+        label: 'Dữ liệu vượt QCVN',
+      },
+      operator: {
+        label: 'Phép toán',
+      },
+      value: {
+        label: 'Giá trị',
+      },
+      type: {
+        label: 'Dữ liệu trung bình',
+        error: 'Vui lòng chọn dữ liệu trung bình',
+      },
+      advanced: {
+        label: 'Nâng cao',
+      },
+    },
+    table: {
+      receivedAt: 'Thời gian',
+      all: 'Tất cả',
+      emptyText: 'Không có giá trị',
+      header1: 'Tên trạm',
+      header2: 'Tần suất truyền dữ liệu (phút/lần)',
+      header3: 'Tổng số bản ghi theo thiết kế',
+      header4: 'Tổng số bản ghi thực tế',
+      header5: 'Tỷ lệ nhận dữ liệu (%)',
+      header6: 'Ngày bắt đầu truyền dữ liệu',
+      header7: 'Ngày/tháng',
+      header8: 'Giờ',
+      header9: 'Tỉ lệ số liệu vượt ngưỡng (%)',
+      title: 'BÁO CÁO TỈ LỆ SỐ LIỆU THU ĐƯỢC',
+      description:
+        'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.fromMonth}} đến tháng {{=it.toMonth}}',
+      title2: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 24 GIỜ',
+      description2:
+        'Các số liệu thống kê về kết quả quan trắc trung bình 24 giờ của trạm {{=it.stationName}} trong tháng {{=it.monthYear}}',
+      title3: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 1 GIỜ',
+      description3:
+        'Các số liệu thống kê về kết quả quan trắc trung bình 1 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}',
+      title4: 'BÁO CÁO TỈ LỆ VƯỢT NGƯỠNG',
+      description4:
+        'Các số liệu thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm {{=it.fromMonth}}  trong ngày {{=it.toMonth}}',
+      title5: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 8 GIỜ',
+      description5:
+        'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}',
+    },
+    selectTimeRange: {
+      minute: 'Phút',
+      hour: 'Giờ',
+      day: 'Ngày',
+      month: 'Tháng',
+      year: 'Năm',
+      errorMonth: 'Vui lòng chọn tháng',
+      errorDay: 'Vui lòng chọn ngày',
+      error: 'Vui lòng chọn thời gian',
+    },
+    tab: {
+      data: 'Dữ liệu',
+      chart: 'Biểu đồ',
+      exportExcel: 'Xuất dữ liệu excel',
+      statusExport: 'Đang xuất dữ liệu ...',
+    },
+  },
   measuringManager: {
     list: {
       title: 'Thông số',
@@ -754,7 +898,7 @@ export default {
     },
   },
   configWQI: {
-    breadCrumb: 'Cấu hình tính WQI, AQI',
+    breadCrumb: 'Lựa chọn tính AQI & WQI',
     stationAuto: 'Trạm tự động',
     stationFixed: 'Trạm cố định',
     stationName: 'Tên trạm',
@@ -1705,6 +1849,10 @@ export default {
     exceed: 'Vượt nguỡng',
     lossData: 'Mất tín hiệu',
     sensorError: 'Lỗi thiết bị',
+    collecting: 'Đang đo',
+    lostConnection: 'Mất kết nối',
+    overload: 'Vượt ngưỡng',
+    aboutToOverload: 'Chuẩn bị vượt ngưỡng',
   },
   addon: {
     add: 'Thêm',
@@ -1736,7 +1884,7 @@ export default {
       error: 'Khôi phục thất bại',
     },
     search: 'Tìm kiếm',
-    searchSeclect: 'Chọn điều kiện',
+    searchSelect: 'Chọn điều kiện',
     error: 'Đã xảy ra sự cố!!!',
     warning: 'Chú ý',
     refresh: 'Làm mới',
@@ -1912,6 +2060,40 @@ export default {
       wqiHour: 'WQI - Giờ',
       wqiDay: 'WQI - Ngày',
       status_data: 'Status Data', // Qui them cho dong bo voi file EN
+    },
+  },
+  tooltipMenuApp: {
+    dashboard:
+      'Giám sát tổng quát các thông tin trạng thái số liệu của các trạm',
+    monitoringSub:
+      'Giám sát số liệu của từng trạm theo thời gian thực và tra cứu dữ liệu',
+
+    processDataSub: 'Cấu hình loại bỏ các dữ liệu không hợp lệ',
+    shareDataSub: 'Cấu hình chia sẻ dữ liệu từ hệ thống ra bên ngoài',
+    shareData: {
+      shareConfig: 'Lựa chọn điểm quan trắc và thông số để công bố',
+      ftpConfig: 'Lựa chọn trạm và thông số truyền vào thư mục bên ngoài bằng FTP',
+    },
+    reportSub: 'Lựa chọn loại báo cáo để xuất kết quả',
+    advanceSub: 'Các chức năng nâng cao của hệ thống',
+    processData:{
+      configNew:"Lựa chọn yếu tố ảnh hưởng đến dữ liệu không hơp lệ",
+      approveData:"Tra cứu dữ liệu sau khi đã loại bỏ dữ liệu không hợp lệ"
+    },
+    configSub:'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
+    monitoring: {
+      base:
+        'Giám sát số liệu theo thời gian thực theo từng điểm quan trắc và thao tác lấy mẫu',
+      map: 'Giám sát trực quan vị trí điểm quan trắc trên nền bản đồ',
+      camera: 'Giám sát tất cả camera tại các điểm quan trắc',
+      historyData:
+        'Tra cứu các dữ liệu gốc của điểm quan trắc theo  khoảng thời gian',
+      avgData:
+        'Tra cứu các dữ liệu trung bình của điểm quan trắc theo khoảng thời gian',
+    },
+    monitoringList: {
+      base:
+        'Giám sát số liệu thời gian thực theo  danh sách tất cả điểm quan trắc',
     },
   },
   dataLogger: {

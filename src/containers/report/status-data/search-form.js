@@ -91,7 +91,7 @@ export default class SearchForm extends React.Component {
           fontSize={14}
           style={{ padding: '8px 16px' }}
         >
-          {this.props.lang.t('addon.searchSeclect')}
+          {this.props.lang.t('addon.searchSelect')}
         </Heading>
         <div style={{ padding: '8px 16px' }}>
           <Row gutter={16}>

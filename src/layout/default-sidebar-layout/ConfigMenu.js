@@ -1,6 +1,6 @@
 import React from 'react'
-import { Menu } from 'antd'
-import slug, { MENU_NAME, MENU_GROUP } from 'constants/slug'
+import { Menu, Tooltip } from 'antd'
+import slug, { MENU_NAME, MENU_GROUP, TOOLTIP_MENU } from 'constants/slug'
 import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
 import Icon from 'themes/icon'
@@ -17,10 +17,12 @@ export default {
     <Menu.SubMenu
       key={MENU_GROUP.CONFIG}
       title={
-        <div style={CENTER}>
-          {Icon.config}
-          <span style={{ marginLeft: 12 }}>{MENU_NAME.configSub}</span>
-        </div>
+        <Tooltip placement="right" title={TOOLTIP_MENU.configSub}>
+          <div style={CENTER}>
+            {Icon.config}
+            <span style={{ marginLeft: 12 }}>{MENU_NAME.configSub}</span>
+          </div>
+        </Tooltip>
       }
     >
       {/* NOTE  TRẠM QUAN TRẮC */}
