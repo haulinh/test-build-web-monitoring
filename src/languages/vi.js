@@ -1833,6 +1833,10 @@ export default {
     exceed: 'Vượt nguỡng',
     lossData: 'Mất tín hiệu',
     sensorError: 'Lỗi thiết bị',
+    collecting: 'Đang đo',
+    lostConnection: 'Mất kết nối',
+    overload: 'Vượt ngưỡng',
+    aboutToOverload: 'Chuẩn bị vượt ngưỡng',
   },
   addon: {
     add: 'Thêm',

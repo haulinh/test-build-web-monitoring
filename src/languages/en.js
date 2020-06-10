@@ -1838,6 +1838,10 @@ export default {
     exceed: 'Exceeded',
     lossData: 'Lost Connection',
     sensorError: 'Sensor Error',
+    collecting: 'Collecting',
+    lostConnection: 'Lost Connection',
+    overload: 'Overload',
+    aboutToOverload: 'About to Overload',
   },
   addon: {
     add: 'Add',

@@ -16,7 +16,7 @@ import SelectAnt from 'components/elements/select-ant'
 import createValidateComponent from 'components/elements/redux-form-validate'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import { stationStatusOptions } from 'constants/stationStatus'
+import { dataStatusOptions } from 'constants/dataStatus'
 import SelectStationAuto from '../../common/select-station-auto'
 import SelectTimeRange from '../../common/select-time-range'
 import SelectProvince from 'components/elements/select-province'
@@ -108,7 +108,7 @@ export default class SearchAvgForm extends React.Component {
         this.props.initialValues.toDate,
       isSearchInit: props.initialValues.stationAuto ? false : true,
       filterList: [],
-      dataStatus: stationStatusOptions.map(option => ({
+      dataStatus: dataStatusOptions.map(option => ({
         ...option,
         name: this.props.lang.t(option.label),
       })),
@@ -326,7 +326,6 @@ export default class SearchAvgForm extends React.Component {
   }
 
   render() {
-    console.log(this.props.values)
     const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
     return (
       <SearchFormContainer>
