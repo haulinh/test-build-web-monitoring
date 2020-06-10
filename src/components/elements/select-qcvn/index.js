@@ -12,13 +12,13 @@ export default class SelectQCVN extends PureComponent {
     query: PropTypes.object,
     label: PropTypes.string,
     onChange: PropTypes.func,
-    value: PropTypes.object,
+    value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     isShowAll: PropTypes.bool,
   }
 
   state = {
     lstQCVN: [],
-    value: '',
+    value: undefined,
   }
 
   async componentDidMount() {
@@ -27,12 +27,12 @@ export default class SelectQCVN extends PureComponent {
     if (get(result, 'success', false)) {
       this.setState({
         lstQCVN: get(result, 'data', []),
-        value: get(this.props.value, 'key', ''),
+        value: get(this.props.value, 'key', undefined),
       })
     }
   }
 
-  onChange = value => {
+  handleOnChange = value => {
     let res = this.state.lstQCVN.find(item => item.key === value)
     this.setState({
       value: value,
@@ -46,11 +46,11 @@ export default class SelectQCVN extends PureComponent {
       <Select
         showSearch
         {...this.props}
-        onChange={this.onChange}
+        onChange={this.handleOnChange}
         value={this.state.value}
       >
         {this.props.isShowAll && (
-          <Select.Option value={''}>
+          <Select.Option value="ALL">
             {translate('dataSearchFrom.form.all')}
           </Select.Option>
         )}

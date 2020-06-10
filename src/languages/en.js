@@ -570,6 +570,141 @@ export default {
       statusExport: 'Exporting ...',
     },
   },
+  dataSearchFilterForm: {
+    titleText: 'Data Search Filter',
+    form: {
+      time: 'Time',
+      stationType: {
+        label: 'Type Of Station',
+        placeholder: 'Select Type Of Station',
+        error: 'Please Choose Type Of Station',
+      },
+      rangesDate: {
+        error: 'Please Choose Time',
+      },
+      stationAuto: {
+        label: 'Station Name',
+        placeholder: 'Select Station Name',
+        error: 'Please Choose Station Name',
+      },
+      fromDate: {
+        label: 'Start',
+        placeholder: 'Select Starting Date',
+      },
+      toDate: {
+        label: 'End',
+        placeholder: 'Select Ending Date',
+      },
+      fromMonth: {
+        label: 'From Month/Year',
+        placeholder: 'Select Month/Year',
+        error: 'Please Choose The Time',
+      },
+      toMonth: {
+        label: 'To  Month/Year',
+        placeholder: 'Select Month/Year',
+        error: 'Please Choose The Time',
+        error1: 'The Start Date Is Greater Than The End Date',
+        error2: 'Do not exceed the current month',
+      },
+      measuringList: {
+        label: 'Parameters',
+        placeholder: 'Select Parameter',
+        require: 'Choose At Least 1 Parameter',
+      },
+      province: {
+        label: 'Province',
+        placeholder: 'Select Province',
+        require: 'Choose At Least 1 Province',
+      },
+      qcvn: {
+        label: 'QCVN',
+        placeholder: 'Select QCVN',
+        require: 'Choose At Least 1 QCVN',
+      },
+      stationStatus: {
+        label: 'Station status',
+        placeholder: 'Select station status',
+        require: 'Choose At Least 1 station status',
+      },
+      dataStatus: {
+        label: 'Data status',
+        placeholder: 'Select data status',
+        require: 'Choose At Least 1 data status',
+      },
+      frequency: {
+        label: 'Frequency(minutes/time)',
+        placeholder: 'minutes/time',
+        require: 'Please type frequency',
+      },
+      stationKey: {
+        label: 'Station code',
+        placeholder: 'Please type station code',
+        require: 'Please type frequency',
+      },
+      isExceeded: {
+        label: 'Only Exceeded Data',
+      },
+      operator: {
+        label: 'Operator',
+      },
+      value: {
+        label: 'Value',
+      },
+      type: {
+        label: 'Average Data',
+        error: 'Please Choose Average Data',
+      },
+      advanced: {
+        label: 'Advanced',
+      },
+    },
+    table: {
+      receivedAt: 'Received At',
+      all: 'All',
+      emptyText: 'There Are No Records To Display',
+      header1: 'Station Name',
+      header2: 'Frequency of data transmission  (minutes/times)',
+      header3: 'Total records by design',
+      header4: 'Total records by the fact',
+      header5: 'Percentage of received data (%)',
+      header6: 'The starting date of data transmission',
+      header7: 'Day/Month',
+      header8: 'Hours',
+      header9: 'Percentage of exceeded data (%)',
+      title: 'REPORT THE PERCENTAGE OF OBTAINED DATA',
+      description:
+        'Statistics about the Percentage of data obtained of stations from {{=it.fromMonth}} to {{=it.toMonth}}',
+      title2: 'REPORT THE RESULTS OF 24-HOUR AVERAGE MONITORING',
+      description2:
+        'Statistics about Results of 24-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
+      title3: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
+      description3:
+        'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} in {{=it.monthYear}}',
+      title4: 'REPORT THE PERCENTAGE OF EXCEEDED DATA',
+      description4:
+        'Statistics about the percentage of exceeded of {{=it.fromMonth}} station in {{=it.toMonth}}',
+      title5: 'REPORT THE RESULTS OF 8-HOUR AVERAGE MONITORING',
+      description5:
+        'Statistics about Results of 8-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
+    },
+    selectTimeRange: {
+      minute: 'Minute',
+      hour: 'Hour',
+      day: 'Day',
+      month: 'Month',
+      year: 'Year',
+      errorMonth: 'Please Choose The Month',
+      errorDay: 'Please Choose The Day',
+      error: 'Please Choose The Time',
+    },
+    tab: {
+      data: 'Data',
+      chart: 'Chart',
+      exportExcel: 'Export To Excel',
+      statusExport: 'Exporting ...',
+    },
+  },
   measuringManager: {
     list: {
       title: 'Parameters',
@@ -753,9 +888,9 @@ export default {
   configWQI: {
     breadCrumb: 'Select AQI & WQI calculations',
     stationAuto: 'Station Auto',
-    stationFixed: 'Staion Fixed',
+    stationFixed: 'Station Fixed',
     stationName: 'Station Name',
-    allow: 'Allow caculate',
+    allow: 'Allow calculate',
     stationType: 'Station Type',
     success: 'Update success !',
     error: 'Error!',
@@ -764,7 +899,7 @@ export default {
   ftpTranfer: {
     allowFtpTranfer: 'Send FTP',
     stationName: 'Station Name',
-    measureTranfer: 'Measure Tranfer',
+    measureTranfer: 'Measure Transfer',
     ftpInfo: 'FTP Info',
     ftpConfig: 'Config Info FTP',
     tranferBonus: 'Additional infusion',

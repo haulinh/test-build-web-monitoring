@@ -17,6 +17,7 @@ export default class SelectStationType extends PureComponent {
     query: PropTypes.object,
     label: PropTypes.string,
     onChange: PropTypes.func,
+    onHandleChange: PropTypes.func,
     value: PropTypes.string,
     isShowAll: PropTypes.bool,
     isAuto: PropTypes.bool,
@@ -29,7 +30,7 @@ export default class SelectStationType extends PureComponent {
 
   state = {
     stationTypes: [],
-    value: '',
+    value: undefined,
     searchString: '',
   }
 
@@ -39,7 +40,7 @@ export default class SelectStationType extends PureComponent {
     if (stationTypes.success)
       this.setState({
         stationTypes: stationTypes.data || [],
-        value: this.props.value,
+        value: this.props.value || this.props.isShowAll ? 'ALL' : undefined,
       })
 
     if (this.props.getRef) this.props.getRef(this)
@@ -56,7 +57,7 @@ export default class SelectStationType extends PureComponent {
       })
   }
 
-  onChange(value) {
+  handleOnChange(value) {
     this.setState({ searchString: '' })
     if (!value && this.props.isShowAll) {
       this.setState({ value: 'ALL' }, () => {
@@ -66,7 +67,9 @@ export default class SelectStationType extends PureComponent {
     }
     let res = this.state.stationTypes.find(item => item.key === value)
     this.setState({ value })
-    if (this.props.onHandleChange) this.props.onHandleChange(res, this)
+    if (res) {
+      if (this.props.onHandleChange) this.props.onHandleChange(res, this)
+    }
     if (this.props.onChange) this.props.onChange(value)
   }
 
@@ -90,12 +93,12 @@ export default class SelectStationType extends PureComponent {
     const stationTypes = this.getStationTypes()
     return (
       <Select
+        {...this.props}
         allowClear
         showSearch
         onSearch={this.handleSearch}
         style={{ width: '100%' }}
-        {...this.props}
-        onChange={this.onChange}
+        onChange={this.handleOnChange}
         value={this.state.value}
         filterOption={false}
       >

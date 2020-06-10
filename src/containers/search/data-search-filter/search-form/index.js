@@ -1,68 +1,73 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
+import { get as _get } from 'lodash'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { reduxForm, Field } from 'redux-form'
-import { Row, Col, Button } from 'antd'
-import createLang from 'hoc/create-lang/index'
-import SelectStationType from 'components/elements/select-station-type/index'
-import SelectAnt from 'components/elements/select-ant/index'
-import Clearfix from 'components/elements/clearfix/index'
-import createValidateComponent from 'components/elements/redux-form-validate/index'
 import moment from 'moment-timezone'
-import { default as BoxShadowStyle } from 'components/elements/box-shadow/index'
-import Heading from 'components/elements/heading/index'
+import { connect } from 'react-redux'
+import * as _ from 'lodash'
+import { reduxForm, Field, unregisterField, clearFields } from 'redux-form'
+import { Row, Col, Button, Dropdown, Icon, InputNumber } from 'antd'
+import update from 'immutability-helper'
+import createLang from 'hoc/create-lang'
+import SelectStationType from 'components/elements/select-station-type'
+import SelectQCVN from 'components/elements/select-qcvn'
+import SelectAnt from 'components/elements/select-ant'
+import createValidateComponent from 'components/elements/redux-form-validate'
+import { default as BoxShadowStyle } from 'components/elements/box-shadow'
+import Heading from 'components/elements/heading'
+import { stationStatusOptions } from 'constants/stationStatus'
 import SelectStationAuto from '../../common/select-station-auto'
 import SelectTimeRange from '../../common/select-time-range'
-import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import OptionsTimeRange from '../../common/options-time-range'
-import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import FilterList from '../filter'
+import validate from '../utils/validate'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
+const FSelectQCVN = createValidateComponent(SelectQCVN)
+const FInputNumber = createValidateComponent(InputNumber)
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FSelectTimeRange = createValidateComponent(SelectTimeRange)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
 
-const SearchFormContainer = styled(BoxShadowStyle)``
-const Container = styled.div`
-  padding: 16px 16px;
+const HeaderWrapper = styled.div`
+  color: blue;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+  .ant-dropdown-link {
+    padding: 8px 16px;
+  }
 `
 
-function validate(values) {
-  const errors = {}
-  if (!values.stationType)
-    errors.stationType = translate('avgSearchFrom.form.stationType.error')
-  if (!values.stationAuto || values.stationAuto === '')
-    errors.stationAuto = translate('avgSearchFrom.form.stationAuto.error')
-  if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
-  if (!values.rangesDate)
-    errors.rangesDate = translate('avgSearchFrom.form.rangesDate.error')
-  if (values.measuringList && values.measuringList.length === 0)
-    errors.measuringList = translate('avgSearchFrom.form.measuringList.require')
+const SearchFormContainer = styled(BoxShadowStyle)``
 
-  return errors
-}
+const Container = styled.div`
+  padding: 16px 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .ant-row-flex {
+    flex: 1;
+    margin-right: 16px;
+    .ant-input-number-lg {
+      width: 100%;
+    }
+  }
+`
 
-@connect((state, ownProps) => ({
-  initialValues: {
-    ...(ownProps.initialValues
-      ? {
-          ...ownProps.initialValues,
-          rangesDate: 1,
-          type: 15,
-        }
-      : {}),
-  },
-}))
 @reduxForm({
-  form: 'avgSearchForm',
+  form: 'dataSearchFilterForm',
   validate,
 })
+@connect((state, ownProps) => ({
+  values: _get(state, 'form.dataSearchFilterForm.values', {}),
+}))
 @createLang
 @autobind
 export default class SearchAvgForm extends React.Component {
@@ -76,13 +81,6 @@ export default class SearchAvgForm extends React.Component {
     let toDate = moment(props.initialValues.toDate)
     let timeRange = props.initialValues.rangesDate
     let rangesView = null
-    // debugger
-    // console.log(
-    //   props.initialValues,
-    //   fromDate.format(DD_MM_YYYY_HH_MM),
-    //   toDate.format(DD_MM_YYYY_HH_MM),
-    //   "props.initialValues"
-    // )
     if (props.initialValues.searchRange) {
       rangesView = `${fromDate.format(DD_MM_YYYY_HH_MM)} - ${toDate.format(
         DD_MM_YYYY_HH_MM
@@ -109,22 +107,15 @@ export default class SearchAvgForm extends React.Component {
         moment(props.initialValues.receivedAt) ||
         this.props.initialValues.toDate,
       isSearchInit: props.initialValues.stationAuto ? false : true,
+      filterList: [],
+      dataStatus: stationStatusOptions.map(option => ({
+        ...option,
+        name: this.props.lang.t(option.label),
+      })),
     }
   }
 
-  state = {
-    timeRange: 7,
-    provinceKey: this.props.initialValues.provinceKey,
-    stationTypeKey: '',
-    stationAutoKey: '',
-    measuringData: [],
-    measuringList: [],
-    fromDate: this.props.initialValues.fromDate,
-    toDate: this.props.initialValues.toDate,
-    receivedAt: this.props.initialValues.toDate,
-  }
-
-  handleChangeStationType(stationTypeKey, e) {
+  handleChangeStationType = stationTypeKey => {
     this.setState({
       stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
       stationAutoKey: '',
@@ -132,12 +123,14 @@ export default class SearchAvgForm extends React.Component {
     this.props.change('stationAuto', '')
   }
 
-  handleChangeStationAuto(stationAuto) {
+  handleChangeStationAuto = stationAuto => {
+    let params = {}
+    if (!stationAuto) return
     const measuringData = stationAuto.measuringList.sort(function(a, b) {
       return a.numericalOrder - b.numericalOrder
     })
 
-    const params = {
+    params = {
       measuringList: measuringData.map(measuring => ({
         value: measuring.key,
         name: measuring.name,
@@ -168,16 +161,13 @@ export default class SearchAvgForm extends React.Component {
     )
   }
 
-  convertDateToString(date) {
-    return moment(date, 'YYYY-MM-DD HH:mm').toISOString()
-  }
+  convertDateToString = date => moment(date, 'YYYY-MM-DD HH:mm').toISOString()
 
-  handleSubmit(values) {
+  handleSubmit = values => {
     const measuringListUnitStr = values.measuringList.map(item => {
       const itemFind = _.find(this.state.measuringData, obj => {
         return obj.key === item
       })
-      // console.log(itemFind, "item")
       if (itemFind) {
         return encodeURIComponent(_.get(itemFind, 'unit', ''))
       } else {
@@ -185,9 +175,7 @@ export default class SearchAvgForm extends React.Component {
       }
     })
 
-    // console.log(measuringListUnitStr, "measuringListUnitStr")
-
-    this.props.onSubmit({
+    let params = {
       fromDate: this.convertDateToString(this.state.fromDate),
       toDate: this.convertDateToString(this.state.toDate),
       key: values.stationAuto,
@@ -196,10 +184,22 @@ export default class SearchAvgForm extends React.Component {
       measuringListUnitStr,
       measuringList: values.measuringList,
       measuringData: this.state.measuringData,
-    })
+    }
+
+    if (values.dataStatus) {
+      params.dataStatus = values.dataStatus
+    }
+    if (values.frequency) {
+      params.frequency = values.frequency
+    }
+    if (values.qcvn) {
+      params.qcvn = values.qcvn
+    }
+
+    this.props.onSubmit(params)
   }
 
-  handleChangeRanges(ranges) {
+  handleChangeRanges = ranges => {
     if (_.isNumber(ranges)) {
       this.setState({
         timeRange: ranges,
@@ -223,16 +223,34 @@ export default class SearchAvgForm extends React.Component {
       stationAutoKey: '',
     })
 
-    this.props.change('stationAuto', '')
+    this.props.change('stationAuto', null)
   }
-  componentDidMount = () => {
+
+  componentDidMount() {
+    const initialValues = this.props.initialValues
+      ? {
+          stationAuto: null,
+          stationType: null,
+          province: null,
+          measuringList: [],
+          ...this.props.initialValues,
+          rangesDate: 1,
+          type: 15,
+        }
+      : {
+          stationAuto: null,
+          stationType: null,
+          province: null,
+          measuringList: [],
+        }
+
+    this.props.initialize(initialValues)
     if (this.props.searchNow) {
       this.props.handleSubmit(this.handleSubmit)()
     }
-    // console.log(this.props.initialValues, "initialValues")
   }
 
-  searchInit() {
+  searchInit = () => {
     if (!this.state.isSearchInit) {
       return
     }
@@ -243,7 +261,6 @@ export default class SearchAvgForm extends React.Component {
       this.StationType.getFirstValue &&
       this.StationAuto
     ) {
-      // console.log('this.props.change',this.props.change)
       this.handleChangeStationType(this.StationType.getFirstValue())
       this.StationType.setFirstValue()
       this.props.change('stationType', this.StationType.getFirstValue().key)
@@ -264,8 +281,53 @@ export default class SearchAvgForm extends React.Component {
     }
   }
 
+  handleChangeFilter = filter => {
+    const { dispatch, form } = this.props
+    const index = this.state.filterList.findIndex(
+      item => item.key === filter.key
+    )
+    if (index < 0) {
+      this.setState(prevState =>
+        update(prevState, {
+          filterList: {
+            $push: [filter],
+          },
+        })
+      )
+    } else {
+      this.setState(
+        prevState =>
+          update(prevState, {
+            filterList: {
+              $splice: [[index, 1]],
+            },
+          }),
+        () => {
+          dispatch(unregisterField(form, filter.key))
+          dispatch(clearFields(form, false, false, filter.key))
+        }
+      )
+    }
+  }
+
+  getComponent = key => {
+    switch (key) {
+      // case 'stationStatus':
+      //   return FSelectAnt
+      case 'dataStatus':
+        return FSelectAnt
+      case 'frequency':
+        return FInputNumber
+      case 'qcvn':
+        return FSelectQCVN
+      default:
+        return FInputNumber
+    }
+  }
+
   render() {
-    const t = this.props.lang.createNameSpace('avgSearchFrom.form')
+    console.log(this.props.values)
+    const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
     return (
       <SearchFormContainer>
         <Heading
@@ -286,23 +348,37 @@ export default class SearchAvgForm extends React.Component {
         >
           {this.props.lang.t('addon.search')}
         </Heading>
+        <HeaderWrapper>
+          <Dropdown
+            trigger={['click']}
+            overlay={<FilterList onChange={this.handleChangeFilter} />}
+          >
+            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+              <Icon type="plus" /> Thêm bộ lọc
+            </a>
+          </Dropdown>
+        </HeaderWrapper>
         <Container>
-          <Row gutter={16}>
-            <Col span={8}>
+          <Row type="flex" gutter={[16, 24]}>
+            <Col span={6}>
               <Field
-                label={translate('qaqc.province.label')}
+                label={t(`province.label`)}
                 name="province"
                 size="large"
+                showSearch
                 isShowAll
+                placeholder={t('province.placeholder')}
                 component={FSelectProvince}
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
+                isShowAll
                 label={t('stationType.label')}
                 name="stationType"
                 size="large"
+                placeholder={t('stationType.placeholder')}
                 onHandleChange={this.handleChangeStationType}
                 component={FSelectStationType}
                 getRef={ref => {
@@ -311,30 +387,23 @@ export default class SearchAvgForm extends React.Component {
                 }}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('stationAuto.label')}
+                placeholder={t('stationAuto.placeholder')}
                 name="stationAuto"
-                size="large"
-                stationTypeKey={this.state.stationTypeKey}
-                component={FSelectStationAuto}
-                stationAutoKey={this.state.stationAutoKey}
-                setKey
-                provinceKey={this.state.provinceKey}
-                getRef={ref => {
-                  this.StationAuto = ref
-                  this.searchInit()
-                }}
                 onChangeObject={this.handleChangeStationAuto}
+                stationTypeKey={_get(this.props.values, 'stationType', null)}
+                provinceKey={_get(this.props.values, 'province', null)}
+                size="large"
+                component={FSelectStationAuto}
               />
             </Col>
-          </Row>
-          <Clearfix height={16} />
-          <Row gutter={24}>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
+                placeholder={t('measuringList.placeholder')}
                 size="large"
                 showSearch
                 mode="multiple"
@@ -342,7 +411,7 @@ export default class SearchAvgForm extends React.Component {
                 component={FSelectAnt}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('time')}
                 name="rangesDate"
@@ -353,7 +422,7 @@ export default class SearchAvgForm extends React.Component {
                 rangesView={this.state.rangesView}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('type.label')}
                 name="type"
@@ -361,6 +430,21 @@ export default class SearchAvgForm extends React.Component {
                 component={FSelectTimeRange}
               />
             </Col>
+            {this.state.filterList.map(filter => (
+              <Col span={6} key={filter.key}>
+                <Field
+                  label={t(`${filter.key}.label`)}
+                  name={filter.key}
+                  size="large"
+                  showSearch
+                  alowClear
+                  mode="multiple"
+                  options={this.state[filter.key]}
+                  placeholder={t(`${filter.key}.placeholder`)}
+                  component={this.getComponent(filter.key)}
+                />
+              </Col>
+            ))}
           </Row>
         </Container>
       </SearchFormContainer>

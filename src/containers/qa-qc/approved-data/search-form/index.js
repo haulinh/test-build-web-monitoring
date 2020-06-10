@@ -146,7 +146,10 @@ export default class SearchForm extends React.Component {
       options: stationAuto.options,
       stationAutoName: stationAuto.name,
     })
-    this.props.change('measuringList', measuringData.map(m => m.key))
+    this.props.change(
+      'measuringList',
+      measuringData.map(m => m.key)
+    )
   }
 
   convertDateToString(date) {

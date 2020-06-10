@@ -73,9 +73,7 @@ export default class UserDropdown extends React.PureComponent {
         }
       >
         <DropdownItemGroup
-          title={`${this.props.authInfo.lastName} ${
-            this.props.authInfo.firstName
-          }`}
+          title={`${this.props.authInfo.lastName} ${this.props.authInfo.firstName}`}
         >
           <DropdownItem onClick={this.handleInfoLicense}>
             {translate('profileUser.infoLicense')}

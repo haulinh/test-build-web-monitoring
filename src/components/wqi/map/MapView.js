@@ -212,9 +212,7 @@ const WqiMarker = ({ item, wqiLevel, onMarkerClick, stationKey, onClose }) => {
 }
 
 @withProps({
-  googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${
-    GOOGLE_MAP.KEY
-  }&v=3.exp&libraries=geometry,drawing,places`,
+  googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP.KEY}&v=3.exp&libraries=geometry,drawing,places`,
 })
 @withScriptjs
 @withGoogleMap

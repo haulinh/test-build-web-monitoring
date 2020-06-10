@@ -116,7 +116,10 @@ export default class SearchForm extends React.Component {
       measuringListOrigin: station.measuringList,
     }
     this.setState(params)
-    this.props.change('measuringList', measuringData.map(m => m.key))
+    this.props.change(
+      'measuringList',
+      measuringData.map(m => m.key)
+    )
   }
 
   handleSubmit(values) {

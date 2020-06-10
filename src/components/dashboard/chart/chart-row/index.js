@@ -65,13 +65,10 @@ const LinkSpan = styled.span`
 
 @withRouter
 @autobind
-@connect(
-  state => ({}),
-  {
-    selectMenu,
-    changeOpenSubMenu,
-  }
-)
+@connect(state => ({}), {
+  selectMenu,
+  changeOpenSubMenu,
+})
 export class ChartSummary extends React.Component {
   static propTypes = {
     title: PropTypes.string,
