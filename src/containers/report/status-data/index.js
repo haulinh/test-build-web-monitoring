@@ -441,7 +441,7 @@ export default class StatusDataReport extends React.Component {
         <Spin spinning={this.state.isLoading}>
           <Table
             size="small"
-            rowKey="_id"
+            rowKey="key"
             columns={this.getColumns()}
             bordered={true}
             dataSource={this.state.dataSource}
