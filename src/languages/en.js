@@ -185,6 +185,11 @@ export default {
     colAvg8H: 'Average 8 hour',
     colAvg1D: 'Average 1 day',
     colUnit: 'Unit',
+    phuongPhapTinh: 'AQI calculation method',
+    cauHinh: 'Configuration of calculation',
+    taiLieu: 'Documentation on calculations',
+    config: 'Configuration',
+    view: 'View'
   },
   wqi: {
     title: 'Water Quality Index',

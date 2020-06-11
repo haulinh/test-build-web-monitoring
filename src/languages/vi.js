@@ -165,7 +165,7 @@ export default {
     pageName: 'Cấu hình tính toán AQI',
     tab1: 'Ngưỡng mức độ',
     tab2: 'Bảng giá trị BPi',
-    tab3: 'Thống số tính toán',
+    tab3: 'Thông số tính toán',
     add: 'Thêm',
     required1D_1H: 'Nhập ít nhất AVG Ngày hoặc AVG Giờ',
     required: 'Vui lòng nhập giá trị',
@@ -183,6 +183,11 @@ export default {
     colAvg8H: 'Trung bình 8 giờ',
     colAvg1D: 'Trung bình 1 ngày',
     colUnit: 'Đơn vị',
+    phuongPhapTinh: 'Phương pháp tính AQI',
+    cauHinh: 'Cấu hình cách tính',
+    taiLieu: 'Tài liệu tính toán',
+    config: 'Cấu hình',
+    view: 'Xem'
   },
   wqi: {
     title: 'WQI',
@@ -1917,15 +1922,17 @@ export default {
     shareDataSub: 'Cấu hình chia sẻ dữ liệu từ hệ thống ra bên ngoài',
     shareData: {
       shareConfig: 'Lựa chọn điểm quan trắc và thông số để công bố',
-      ftpConfig: 'Lựa chọn trạm và thông số truyền vào thư mục bên ngoài bằng FTP',
+      ftpConfig:
+        'Lựa chọn trạm và thông số truyền vào thư mục bên ngoài bằng FTP',
     },
     reportSub: 'Lựa chọn loại báo cáo để xuất kết quả',
     advanceSub: 'Các chức năng nâng cao của hệ thống',
-    processData:{
-      configNew:"Lựa chọn yếu tố ảnh hưởng đến dữ liệu không hơp lệ",
-      approveData:"Tra cứu dữ liệu sau khi đã loại bỏ dữ liệu không hợp lệ"
+    processData: {
+      configNew: 'Lựa chọn yếu tố ảnh hưởng đến dữ liệu không hơp lệ',
+      approveData: 'Tra cứu dữ liệu sau khi đã loại bỏ dữ liệu không hợp lệ',
     },
-    configSub:'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
+    configSub:
+      'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
     monitoring: {
       base:
         'Giám sát số liệu theo thời gian thực theo từng điểm quan trắc và thao tác lấy mẫu',

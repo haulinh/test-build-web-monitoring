@@ -1,5 +1,5 @@
 import React from 'react'
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 // import styled from "styled-components";
 import {
   message,
@@ -47,6 +47,10 @@ const i18n = {
 
 @Form.create({})
 export default class TabThongSo extends React.Component {
+  static propTypes = {
+    keyQc: PropTypes.string,
+  }
+
   idIncrement = 0
   state = {
     isLoaded: false,
@@ -287,7 +291,9 @@ export default class TabThongSo extends React.Component {
           //   aqiQCMeasures: _.keyBy(transformData, "keyMeasure")
           // },"-transformData")
 
-          const response = await postConfigAqiQC({
+          const response = await postConfigAqiQC(
+            this.props.keyQc,
+            {
             aqiQCLevel: this.state.aqiQCLevel,
             aqiQCMeasures: _.keyBy(transformData, 'keyMeasure'),
           })
@@ -329,7 +335,7 @@ export default class TabThongSo extends React.Component {
       dataMeasuringObj = _.keyBy(resMeasuringList.data, 'key')
     }
 
-    const response = await getConfigAqiQC()
+    const response = await getConfigAqiQC(this.props.keyQc)
     if (response.success) {
       let transformData = _.get(response, 'data.value.aqiQCMeasures', {})
       // console.log(transformData, "transformData");
