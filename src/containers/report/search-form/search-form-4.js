@@ -29,7 +29,7 @@ const Item = props => (
 const i18n = {
   label: {
     buttonSearch: translate('addon.search'),
-    headerSearch: translate('addon.searchSeclect'),
+    headerSearch: translate('addon.searchSelect'),
     province: translate('qaqc.province.label'),
     stationType: translate('dataSearchFrom.form.stationType.label'),
     stationAuto: translate('dataSearchFrom.form.stationAuto.label'),

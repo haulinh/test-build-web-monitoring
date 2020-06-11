@@ -30,7 +30,7 @@ export default class OptionModalConfig extends React.Component {
   }
 
   updateData = async transferFtpInfo => {
-    const rs = await organizationAPI.updatetransferFtpInfo(this.props._id, {
+    const rs = await organizationAPI.updateTransferFtpInfo(this.props._id, {
       transferFtpInfo,
     })
     if (rs.success) {

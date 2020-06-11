@@ -18,6 +18,7 @@ import OnlineMonitoring from 'containers/online-monitoring'
 import MonitoringList from 'containers/monitoring-list'
 import Map from 'containers/map'
 import DataSearch from 'containers/search/data-search'
+import DataSearchFilter from 'containers/search/data-search-filter'
 import AvgSearch from 'containers/search/avg-search'
 import DataSearchFixed from 'containers/search/data-search-fixed'
 
@@ -35,6 +36,8 @@ import CameraControl from 'containers/camera-video'
 import SupportRoute from 'containers/support'
 import AqiContainer from 'containers/aqi'
 import AqiConfigCalculationContainer from 'containers/aqi/configCalculation'
+import AqiListConfigContainer from 'containers/aqi/listConfig'
+
 import WqiContainer from 'containers/wqi'
 import WqiConfigCalculationContainer from 'containers/wqi/configCalculation'
 import QaQcContainer from 'containers/qa-qc/approved-data'
@@ -87,7 +90,13 @@ export default class RouteDefault extends React.Component {
             />
             <LayoutRoute path={slug.aqi.base} component={AqiContainer} />
             <LayoutRoute
+              exact
               path={slug.aqi.config}
+              // component={AqiConfigCalculationContainer}
+              component={AqiListConfigContainer}
+            />
+            <LayoutRoute
+              path={slug.aqi.configEdit}
               component={AqiConfigCalculationContainer}
             />
             <LayoutRoute path={slug.wqi.base} component={WqiContainer} />
@@ -127,6 +136,10 @@ export default class RouteDefault extends React.Component {
               component={MonitoringList}
             />
             <LayoutRoute path={slug.dataSearch.base} component={DataSearch} />
+            <LayoutRoute
+              path={slug.dataSearchFilter.base}
+              component={DataSearchFilter}
+            />
             <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />
             <LayoutRoute
               path={slug.dataSearchFixed.base}

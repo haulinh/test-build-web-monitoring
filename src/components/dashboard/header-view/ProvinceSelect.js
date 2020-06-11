@@ -48,7 +48,7 @@ export default class ProvinceSelect extends PureComponent {
 
   async componentDidMount() {
     let query = {}
-    const rs = await ProvinceApi.getProvices({}, query)
+    const rs = await ProvinceApi.getProvinces({}, query)
     const provinceList = get(rs, 'data', [])
     const data = keyBy(provinceList, 'key')
     this.setState({ provinceList, data })

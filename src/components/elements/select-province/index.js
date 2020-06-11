@@ -8,28 +8,36 @@ import { get } from 'lodash'
 import { replaceVietnameseStr } from 'utils/string'
 
 @autobind
-export default class SelectProvice extends PureComponent {
+export default class SelectProvince extends PureComponent {
   static propTypes = {
     query: PropTypes.object,
     label: PropTypes.string,
     onChange: PropTypes.func,
-    value: PropTypes.object,
+    value: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.string,
+      PropTypes.array,
+    ]),
     isShowAll: PropTypes.bool,
   }
 
   state = {
-    lstProvices: [],
-    value: '',
+    provinces: [],
+    value: undefined,
     searchString: '',
   }
 
   async componentDidMount() {
     let query = {}
-    const result = await ProvinceApi.getProvices({}, query)
+    const result = await ProvinceApi.getProvinces({}, query)
     if (get(result, 'success', false)) {
       this.setState({
-        lstProvices: get(result, 'data', []),
-        value: get(this.props.value, 'key', ''),
+        provinces: get(result, 'data', []),
+        value: get(
+          this.props.value,
+          'key',
+          this.props.isShowAll ? 'ALL' : undefined
+        ),
       })
     }
   }
@@ -38,46 +46,49 @@ export default class SelectProvice extends PureComponent {
     this.setState({ searchString: value })
   }
 
-  onChange = value => {
-    console.log(value)
-    let res = this.state.lstProvices.find(item => item.key === value)
-    this.setState({
-      value: value,
-    })
+  handleOnChange = value => {
+    this.setState({ value })
+    let res = this.state.provinces.find(item => item.key === value)
+    if (value === 'ALL' || !res) {
+      res = {
+        key: 'ALL',
+      }
+    }
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
+    if (value === undefined) value = null
     if (this.props.onChange) this.props.onChange(value)
   }
 
-  getLstProvices = () => {
+  getProvinces = () => {
     if (this.state.searchString) {
       const searchString = replaceVietnameseStr(this.state.searchString)
-      return this.state.lstProvices.filter(
+      return this.state.provinces.filter(
         stationType =>
           replaceVietnameseStr(stationType.name).indexOf(searchString) > -1
       )
     }
-    return this.state.lstProvices
+    return this.state.provinces
   }
 
   render() {
-    const lstProvices = this.getLstProvices()
+    const provinces = this.getProvinces()
     return (
       <Select
+        {...this.props}
         style={{ width: '100%' }}
         showSearch
         allowClear
-        {...this.props}
-        onChange={this.onChange}
+        onChange={this.handleOnChange}
         onSearch={this.handleSearch}
         value={this.state.value}
         filterOption={false}
       >
         {this.props.isShowAll && (
-          <Select.Option value={''}>
+          <Select.Option value="ALL">
             {translate('dataSearchFrom.form.all')}
           </Select.Option>
         )}
-        {lstProvices.map(province => (
+        {provinces.map(province => (
           <Select.Option key={province.key} value={province.key}>
             {province.name}
           </Select.Option>

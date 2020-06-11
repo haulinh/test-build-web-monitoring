@@ -7,7 +7,6 @@ import {
   Table,
   Form,
   InputNumber,
-  Input,
   Icon,
   Popconfirm,
   Spin,
@@ -19,7 +18,7 @@ import { Clearfix } from 'containers/map/map-default/components/box-analytic-lis
 import { getConfigWqiMeaTable, postConfigWqiMeaTable } from 'api/CategoryApi'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
-import LockComp from './lockComp'
+// import LockComp from './lockComp'
 
 const { Option } = Select
 

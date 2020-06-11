@@ -4,11 +4,15 @@ import { withRouter } from 'react-router-dom'
 import { autobind } from 'core-decorators'
 // import { AkContainerNavigationNested } from '@atlaskit/navigation'
 import { connect } from 'react-redux'
-import { Menu } from 'antd'
+import { Menu, Tooltip } from 'antd'
 import { remove as _remove, join as _join } from 'lodash'
 import { Link } from 'react-router-dom'
 import Icon from 'themes/icon'
-import slug, { parentMenuFromSub, MENU_NAME } from 'constants/slug'
+import slug, {
+  parentMenuFromSub,
+  MENU_NAME,
+  TOOLTIP_MENU,
+} from 'constants/slug'
 // import { translate } from 'hoc/create-lang'
 import { selectMenu, changeOpenSubMenu } from 'redux/actions/themeAction'
 // import { adapt } from "chromatism";
@@ -193,16 +197,18 @@ export default class MenuApp extends React.PureComponent {
           {/* Dashboard */}
           {protectRole(ROLE.DASHBOARD.VIEW)(
             <Menu.Item key={slug.dashboard}>
-              <Link
-                style={CENTER}
-                to={slug.dashboard}
-                onClick={() => {
-                  this.props.selectMenu(slug.dashboard)
-                }}
-              >
-                {Icon.dashboard}
-                <span style={{ marginLeft: 12 }}>{MENU_NAME.dashboard}</span>
-              </Link>
+              <Tooltip placement="right" title={TOOLTIP_MENU.dashboard}>
+                <Link
+                  style={CENTER}
+                  to={slug.dashboard}
+                  onClick={() => {
+                    this.props.selectMenu(slug.dashboard)
+                  }}
+                >
+                  {Icon.dashboard}
+                  <span style={{ marginLeft: 12 }}>{MENU_NAME.dashboard}</span>
+                </Link>
+              </Tooltip>
             </Menu.Item>
           )}
 

@@ -67,7 +67,7 @@ export default class OptionModalConfig extends React.Component {
           })
         }
         // console.log(data, "data")
-        const rs = await organizationAPI.updatetransferFtpInfo(this.props._id, {
+        const rs = await organizationAPI.updateTransferFtpInfo(this.props._id, {
           transferFtpInfo: data,
         })
         if (rs.success) {
@@ -121,7 +121,7 @@ export default class OptionModalConfig extends React.Component {
 
     // console.log(_.compact(data), "_.compact(data)")
 
-    const rs = await organizationAPI.updatetransferFtpInfo(this.props._id, {
+    const rs = await organizationAPI.updateTransferFtpInfo(this.props._id, {
       transferFtpInfo: _.compact(data),
     })
     if (rs.success) {
