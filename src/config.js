@@ -27,15 +27,22 @@ export function getConfigApi() {
     dataStationFixed: c('data-station-fixed'),
     stationConfig: c('config/station'),
     // stationConfig: 'http://localhost:5002/config/station',
-    qaqcConfig: c('config/qaqc'),
+    
     // qaqcConfig: 'http://localhost:5002/config/qaqc',
+    aqiListConfig: c('config/aqi-list-config'),
+    // aqiListConfig: 'http://localhost:5002/config/aqi-list-config',
+    aqiConfigQC: c('config/aqi-qc'),
+    // aqiConfigQC: 'http://localhost:5002/config/aqi-qc',
     aqiConfigCalculation: c('config/aqi-calculation'),
+    // aqiConfigCalculation: 'http://localhost:5002/config/aqi-calculation',
+
+    
+    qaqcConfig: c('config/qaqc'),
     wqiConfigCalculation: c('config/wqi-calculation'),
     wqiConfigWeight: c('config/wqi-weight-param'),
     wqiConfigCalParams: c('config/wqi-cal-param'),
     wqiConfigMeaTable: c('config/wqi-mea-table'),
-    // aqiConfigCalculation: 'http://localhost:5002/config/aqi-calculation',
-    aqiConfigQC: c('config/aqi-qc'),
+    
     // aqiConfigQC: 'http://localhost:5002/config/aqi-qc',
     ftp: c('ftp'),
     fcmMessages: c('fcm-messages'),
