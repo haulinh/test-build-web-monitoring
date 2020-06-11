@@ -85,15 +85,24 @@ export function putConfigQAQC(key, data) {
 }
 
 /* #endregion */
-
-/* #region  NOTE  cấu hình AQI-Calculation */
-
-export function getConfigAqiCalculation() {
-  return getFetch(getConfigApi().aqiConfigCalculation)
+/* #region NOTE  aqi-list-config */
+export function getListConfigAqi() {
+  return getFetch(getConfigApi().aqiListConfig)
 }
 
-export function postConfigAqiCalculation(data) {
-  return postFetch(getConfigApi().aqiConfigCalculation, data)
+export function postListConfigAqi(data) {
+  return postFetch(getConfigApi().aqiListConfig, data)
+}
+/* #endregion */
+
+/* #region  NOTE  cấu hình AQI-Calculation  */
+
+export function getConfigAqiCalculation(keyLevel) {
+  return getFetch(`${getConfigApi().aqiConfigCalculation}/${keyLevel}`)
+}
+
+export function postConfigAqiCalculation(keyLevel, data) {
+  return postFetch(`${getConfigApi().aqiConfigCalculation}/${keyLevel}`, data)
 }
 
 /* #endregion */
@@ -136,12 +145,12 @@ export function postConfigWqiMeaTable(data) {
 
 /* #region  NOTE  cấu hình AQI-QC */
 
-export function getConfigAqiQC() {
-  return getFetch(getConfigApi().aqiConfigQC)
+export function getConfigAqiQC(keyQc) {
+  return getFetch(`${getConfigApi().aqiConfigQC}/${keyQc}`)
 }
 
-export function postConfigAqiQC(data) {
-  return postFetch(getConfigApi().aqiConfigQC, data)
+export function postConfigAqiQC(keyQc, data) {
+  return postFetch(`${getConfigApi().aqiConfigQC}/${keyQc}`, data)
 }
 
 /* #endregion */
@@ -184,6 +193,8 @@ export default {
   postConfigQAQC,
   putConfigQAQC,
   postConfigAqiCalculation,
+  getListConfigAqi,
+  postListConfigAqi,
   getConfigAqiCalculation,
   getConfigWqiMeaTable,
   postConfigWqiMeaTable,

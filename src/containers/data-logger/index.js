@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Typography, Button, Modal } from 'antd'
+import { Typography } from 'antd'
 
 import DynamicTable from 'components/elements/dynamic-table'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'

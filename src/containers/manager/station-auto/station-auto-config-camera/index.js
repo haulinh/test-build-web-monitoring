@@ -100,7 +100,8 @@ export default class StationAutoConfigCamera extends React.Component {
 
     // update object chứa camera list thay đổi
     let updatedData = _.map(oririnalData, item => {
-      if (item._id == id) {
+      // chinh cho Cuong == thanh ===
+      if (item._id === id) {
         return data
       }
       return item

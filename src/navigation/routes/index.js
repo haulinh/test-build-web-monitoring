@@ -36,6 +36,8 @@ import CameraControl from 'containers/camera-video'
 import SupportRoute from 'containers/support'
 import AqiContainer from 'containers/aqi'
 import AqiConfigCalculationContainer from 'containers/aqi/configCalculation'
+import AqiListConfigContainer from 'containers/aqi/listConfig'
+
 import WqiContainer from 'containers/wqi'
 import WqiConfigCalculationContainer from 'containers/wqi/configCalculation'
 import QaQcContainer from 'containers/qa-qc/approved-data'
@@ -88,7 +90,13 @@ export default class RouteDefault extends React.Component {
             />
             <LayoutRoute path={slug.aqi.base} component={AqiContainer} />
             <LayoutRoute
+              exact
               path={slug.aqi.config}
+              // component={AqiConfigCalculationContainer}
+              component={AqiListConfigContainer}
+            />
+            <LayoutRoute
+              path={slug.aqi.configEdit}
               component={AqiConfigCalculationContainer}
             />
             <LayoutRoute path={slug.wqi.base} component={WqiContainer} />

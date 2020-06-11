@@ -165,7 +165,7 @@ export default {
     pageName: 'Cấu hình tính toán AQI',
     tab1: 'Ngưỡng mức độ',
     tab2: 'Bảng giá trị BPi',
-    tab3: 'Thống số tính toán',
+    tab3: 'Thông số tính toán',
     add: 'Thêm',
     required1D_1H: 'Nhập ít nhất AVG Ngày hoặc AVG Giờ',
     required: 'Vui lòng nhập giá trị',
@@ -183,6 +183,11 @@ export default {
     colAvg8H: 'Trung bình 8 giờ',
     colAvg1D: 'Trung bình 1 ngày',
     colUnit: 'Đơn vị',
+    phuongPhapTinh: 'Phương pháp tính AQI',
+    cauHinh: 'Cấu hình cách tính',
+    taiLieu: 'Tài liệu tính toán',
+    config: 'Cấu hình',
+    view: 'Xem',
   },
   wqi: {
     title: 'WQI',
@@ -551,6 +556,8 @@ export default {
       title5: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 8 GIỜ',
       description5:
         'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}',
+      descriptionStatusData:
+        'Các số liệu thống kê về kết quả quan trắc trung bình thời gian từ 00:00 ngày {{=it.fromDate}} đến 23:59 {{=it.fromDate}}',
     },
     selectTimeRange: {
       minute: 'Phút',
@@ -2041,6 +2048,25 @@ export default {
       status_data_obj: {
         title: 'Báo cáo đánh giá tình trạng dữ liệu',
         dateRange: 'Khoảng thời gian',
+      },
+      table: {
+        header: {
+          station: 'Trạm',
+          parameter: 'Thông số',
+          dischargeThreshold: 'Ngưởng xả',
+          unit: 'Đơn Vị',
+          minValue: 'Giá trị nhỏ nhất',
+          maxValue: 'Giá trị lớn nhất',
+          value: 'Giá trị',
+          time: 'Thời gian',
+          averageValue: 'Giá trị trung bình',
+          metricReceived: 'Số liệu nhận được',
+          totalValue: 'Tổng số giá trị',
+          percentData: '[%]Số liệu',
+          dataExceedsStandard: 'Số liệu vượt chuẩn',
+          timeUsuallyExceeds: 'Thời gian thường vượt',
+          note: 'Ghi chú',
+        },
       },
     },
     reportBreadcrum: {
