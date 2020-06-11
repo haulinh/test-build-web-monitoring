@@ -22,7 +22,7 @@ export const Grid = styled.div`
   margin-left: auto;
   margin-right: auto;
   height: 100%;
-  /* padding: 0px 24px; */
+  padding: 0px 24px;
   .ant-table {
     overflow: auto;
   }
