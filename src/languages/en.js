@@ -189,7 +189,7 @@ export default {
     cauHinh: 'Configuration of calculation',
     taiLieu: 'Documentation on calculations',
     config: 'Configuration',
-    view: 'View'
+    view: 'View',
   },
   wqi: {
     title: 'Water Quality Index',
@@ -2071,13 +2071,30 @@ export default {
       'Monitoring data of each station in real time and look up data',
     monitoring: {
       base:
-        'Giám sát số liệu theo thời gian thực theo từng điểm quan trắc và thao tác lấy mẫu',
+        'Real-time monitoring of data for each monitoring point and sampling operations',
+      map: 'Monitoring location of monitoring points on the map background',
+      camera: 'Monitor all cameras at the monitoring points',
+      historyData:
+        'Look up the original data of the monitoring point by time period',
+      avgData:
+        'Look up the average data of the monitoring point by time period',
     },
     monitoringList: {
       base:
-        'Giám sát số liệu thời gian thực theo  danh sách tất cả điểm quan trắc',
+        'Real-time monitoring of data according to the list of all monitoring points',
     },
+
     processDataSub: 'Configure to remove invalid data',
+    processData: {
+      configNew: 'Select the factors that affect the invalid data',
+      approveData: 'Look up data after removing invalid data',
+    },
+    shareData: {
+      shareConfig:
+        'Select monitoring points and parameters for data publication',
+      ftpConfig:
+        'Select monitoring points and parameters to transfer to an external folder using FTP',
+    },
     shareDataSub: 'Configure to share data from the system to the outside',
     reportSub: 'Select the report type to export the results',
     advanceSub: 'Advanced functions of the system',
