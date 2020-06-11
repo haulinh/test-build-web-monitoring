@@ -367,7 +367,17 @@ export function downloadExcel_reportType11(
   return url
 }
 
-export function getUrlReportStatusData(token, stationKeys, from, to) {
+export function getUrlReportStatusData(stationKeys, from, to) {
+  const stringified = qs.stringify({
+    from: from.toDate(),
+    to: to.toDate(),
+    listKey: stationKeys.join(','),
+  })
+  var url = getReportUrl(`assess-status?${stringified}`)
+  return getFetch(url)
+}
+
+export function getUrlReportStatusDataExcel(token, stationKeys, from, to) {
   const stringified = qs.stringify({
     token,
     from: from.toDate(),
