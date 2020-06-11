@@ -49,10 +49,10 @@ export default class AvgSearch extends React.Component {
   }
 
   componentDidMount() {
-    this.getDataOganization()
+    this.getDataOrganization()
   }
 
-  async getDataOganization() {
+  getDataOrganization = async () => {
     const userInfo = await AuthApi.getMe()
     const id = _.get(userInfo, 'data.organization._id', 'vasoft')
     const organizationInfo = await OrganizationApi.getOrganization(id)
@@ -61,11 +61,11 @@ export default class AvgSearch extends React.Component {
     })
   }
 
-  handleSubmitSearch(searchFormData) {
+  handleSubmitSearch = searchFormData => {
     this.loadData(this.state.pagination, searchFormData)
   }
 
-  async loadData(pagination, searchFormData) {
+  loadData = async (pagination, searchFormData) => {
     this.setState({
       isLoading: true,
       isHaveData: true,
@@ -86,11 +86,11 @@ export default class AvgSearch extends React.Component {
       searchFormData
     )
     if (dataStationAuto.error) {
-      // console.log('ERRROR', dataStationAuto)
-      message.error('ERRROR')
+      // console.log('ERROR', dataStationAuto)
+      message.error('ERROR')
       return
     }
-    if (dataStationAuto.data.length === 0) {
+    if (!dataStationAuto.data.length) {
       swal({
         type: 'success',
         title: translate('avgSearchFrom.table.emptyText'),

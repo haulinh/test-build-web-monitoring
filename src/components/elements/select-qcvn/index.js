@@ -31,12 +31,13 @@ export default class SelectQCVN extends PureComponent {
     if (get(result, 'success', false)) {
       this.setState({
         lstQCVN: get(result, 'data', []),
-        value: get(this.props.value, 'key', undefined),
+        value: get(this.props, 'value', undefined),
       })
     }
   }
 
   handleOnChange = value => {
+    console.log(value)
     let res = this.state.lstQCVN.find(item => item.key === value)
     this.setState({ value })
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
@@ -44,13 +45,13 @@ export default class SelectQCVN extends PureComponent {
   }
 
   render() {
-    console.log(this.props.value)
     return (
       <Select
         showSearch
         {...this.props}
         onChange={this.handleOnChange}
         value={this.state.value}
+        defaultValue={this.props.value}
       >
         {this.props.isShowAll && (
           <Select.Option value="ALL">

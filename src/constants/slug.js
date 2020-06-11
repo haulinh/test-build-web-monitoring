@@ -113,8 +113,8 @@ export default {
   dataSearch: {
     base: '/data-search',
   },
-  dataSearchFilter: {
-    base: '/data-search-filter',
+  avgSearchAdvanced: {
+    base: '/avg-search-advanced',
   },
   avgSearch: {
     base: '/avg-search',
@@ -347,14 +347,14 @@ export const TOOLTIP_MENU = {
     base: translate('tooltipMenuApp.monitoringList.base'),
   },
   processDataSub: translate('tooltipMenuApp.processDataSub'),
-  processData:{
-    configNew:translate('tooltipMenuApp.processData.configNew'),
-    approveData:translate('tooltipMenuApp.processData.approveData')
+  processData: {
+    configNew: translate('tooltipMenuApp.processData.configNew'),
+    approveData: translate('tooltipMenuApp.processData.approveData'),
   },
   shareDataSub: translate('tooltipMenuApp.shareDataSub'),
-  shareData:{
-    shareConfig:translate('tooltipMenuApp.shareData.shareConfig'),
-    ftpConfig:translate('tooltipMenuApp.shareData.ftpConfig'),
+  shareData: {
+    shareConfig: translate('tooltipMenuApp.shareData.shareConfig'),
+    ftpConfig: translate('tooltipMenuApp.shareData.ftpConfig'),
   },
   reportSub: translate('tooltipMenuApp.reportSub'),
   advanceSub: translate('tooltipMenuApp.advanceSub'),

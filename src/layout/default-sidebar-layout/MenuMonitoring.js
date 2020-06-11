@@ -89,16 +89,18 @@ export default {
             props.selectMenu(slug.dataSearch.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.historyData}>
-          <Link to={slug.dataSearch.base}>
-            {MENU_NAME.monitoring.historyData}
-          </Link>
+          <Tooltip
+            placement="right"
+            title={TOOLTIP_MENU.monitoring.historyData}
+          >
+            <Link to={slug.dataSearch.base}>
+              {MENU_NAME.monitoring.historyData}
+            </Link>
           </Tooltip>
-          
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.AVG_SEARCH.VIEW)(
+      {/* {protectRole(ROLE.AVG_SEARCH.VIEW)(
         <Menu.Item
           key={slug.avgSearch.base}
           onClick={() => {
@@ -107,6 +109,21 @@ export default {
         >
            <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.avgData}>
           <Link to={slug.avgSearch.base}>{MENU_NAME.monitoring.avgData}</Link>
+          </Tooltip>
+        </Menu.Item>
+      )} */}
+
+      {protectRole(ROLE.AVG_SEARCH.VIEW)(
+        <Menu.Item
+          key={slug.avgSearchAdvanced.base}
+          onClick={() => {
+            props.selectMenu(slug.avgSearchAdvanced.base)
+          }}
+        >
+          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.avgData}>
+            <Link to={slug.avgSearchAdvanced.base}>
+              {MENU_NAME.monitoring.avgData}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}

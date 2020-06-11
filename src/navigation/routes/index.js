@@ -18,7 +18,7 @@ import OnlineMonitoring from 'containers/online-monitoring'
 import MonitoringList from 'containers/monitoring-list'
 import Map from 'containers/map'
 import DataSearch from 'containers/search/data-search'
-import DataSearchFilter from 'containers/search/data-search-filter'
+import AvgSearchAdvanced from 'containers/search/avg-search-advanced'
 import AvgSearch from 'containers/search/avg-search'
 import DataSearchFixed from 'containers/search/data-search-fixed'
 
@@ -129,8 +129,8 @@ export default class RouteDefault extends React.Component {
             />
             <LayoutRoute path={slug.dataSearch.base} component={DataSearch} />
             <LayoutRoute
-              path={slug.dataSearchFilter.base}
-              component={DataSearchFilter}
+              path={slug.avgSearchAdvanced.base}
+              component={AvgSearchAdvanced}
             />
             <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />
             <LayoutRoute
