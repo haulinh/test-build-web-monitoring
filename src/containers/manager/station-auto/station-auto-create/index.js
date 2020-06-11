@@ -1,7 +1,7 @@
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import createManagerList from 'hoc/manager-list'
-import { message, Modal, Button, Skeleton } from 'antd'
+import { message, Modal, Skeleton } from 'antd'
 import { autobind } from 'core-decorators'
 import StationAutoApi from 'api/StationAuto'
 import slug from 'constants/slug'
