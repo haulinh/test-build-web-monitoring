@@ -89,12 +89,14 @@ export default {
             props.selectMenu(slug.dataSearch.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.historyData}>
-          <Link to={slug.dataSearch.base}>
-            {MENU_NAME.monitoring.historyData}
-          </Link>
+          <Tooltip
+            placement="right"
+            title={TOOLTIP_MENU.monitoring.historyData}
+          >
+            <Link to={slug.dataSearch.base}>
+              {MENU_NAME.monitoring.historyData}
+            </Link>
           </Tooltip>
-          
         </Menu.Item>
       )}
 
@@ -105,8 +107,8 @@ export default {
             props.selectMenu(slug.avgSearch.base)
           }}
         >
-           <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.avgData}>
-          <Link to={slug.avgSearch.base}>{MENU_NAME.monitoring.avgData}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.avgData}>
+            <Link to={slug.avgSearch.base}>{MENU_NAME.monitoring.avgData}</Link>
           </Tooltip>
         </Menu.Item>
       )}

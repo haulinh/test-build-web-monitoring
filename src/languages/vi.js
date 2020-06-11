@@ -187,7 +187,7 @@ export default {
     cauHinh: 'Cấu hình cách tính',
     taiLieu: 'Tài liệu tính toán',
     config: 'Cấu hình',
-    view: 'Xem'
+    view: 'Xem',
   },
   wqi: {
     title: 'WQI',
@@ -556,6 +556,8 @@ export default {
       title5: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 8 GIỜ',
       description5:
         'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}',
+      descriptionStatusData:
+        'Các số liệu thống kê về kết quả quan trắc trung bình thời gian từ 00:00 ngày {{=it.fromDate}} đến 23:59 {{=it.fromDate}}',
     },
     selectTimeRange: {
       minute: 'Phút',
@@ -572,6 +574,13 @@ export default {
       chart: 'Biểu đồ',
       exportExcel: 'Xuất dữ liệu excel',
       statusExport: 'Đang xuất dữ liệu ...',
+    },
+    search: {
+      subMenuAvgData: {
+        title: 'Dữ liệu trung bình',
+        dataSearch: 'Tìm kiếm dữ liệu',
+      },
+      subMenuFilters: 'Danh sách bộ lọc',
     },
   },
   dataSearchFilterForm: {
@@ -2039,6 +2048,25 @@ export default {
       status_data_obj: {
         title: 'Báo cáo đánh giá tình trạng dữ liệu',
         dateRange: 'Khoảng thời gian',
+      },
+      table: {
+        header: {
+          station: 'Trạm',
+          parameter: 'Thông số',
+          dischargeThreshold: 'Ngưởng xả',
+          unit: 'Đơn Vị',
+          minValue: 'Giá trị nhỏ nhất',
+          maxValue: 'Giá trị lớn nhất',
+          value: 'Giá trị',
+          time: 'Thời gian',
+          averageValue: 'Giá trị trung bình',
+          metricReceived: 'Số liệu nhận được',
+          totalValue: 'Tổng số giá trị',
+          percentData: '[%]Số liệu',
+          dataExceedsStandard: 'Số liệu vượt chuẩn',
+          timeUsuallyExceeds: 'Thời gian thường vượt',
+          note: 'Ghi chú',
+        },
       },
     },
     reportBreadcrum: {

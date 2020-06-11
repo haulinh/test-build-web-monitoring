@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 // import styled from "styled-components";
 import {
   message,
@@ -291,9 +291,7 @@ export default class TabThongSo extends React.Component {
           //   aqiQCMeasures: _.keyBy(transformData, "keyMeasure")
           // },"-transformData")
 
-          const response = await postConfigAqiQC(
-            this.props.keyQc,
-            {
+          const response = await postConfigAqiQC(this.props.keyQc, {
             aqiQCLevel: this.state.aqiQCLevel,
             aqiQCMeasures: _.keyBy(transformData, 'keyMeasure'),
           })

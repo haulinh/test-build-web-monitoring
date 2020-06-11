@@ -25,6 +25,9 @@ export default {
     exceededPreparing: 'Almost Exceed',
     exceededTendency: 'Tend To Exceed',
     viewInMonitoring: 'View In Monitoring',
+    advanced: {
+      label: 'Nâng cao',
+    },
     viewInMap: 'View In Map',
     viewMore: 'View More',
     all: 'All',
@@ -471,7 +474,7 @@ export default {
   },
 
   avgSearchFrom: {
-    titleText: 'AVG Search',
+    titleText: 'AVG data',
     form: {
       time: 'Time',
       stationType: {
@@ -557,6 +560,8 @@ export default {
       title5: 'REPORT THE RESULTS OF 8-HOUR AVERAGE MONITORING',
       description5:
         'Statistics about Results of 8-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
+      descriptionStatusData:
+        'The statistics for the average observation results time from 00:00 days {{= it.fromDate}} to 23:59 {{= it.fromDate}}',
     },
     selectTimeRange: {
       minute: 'Minute',
@@ -573,6 +578,13 @@ export default {
       chart: 'Chart',
       exportExcel: 'Export To Excel',
       statusExport: 'Exporting ...',
+    },
+    search: {
+      subMenuAvgData: {
+        title: 'Avg data',
+        dataSearch: 'Data search',
+      },
+      subMenuFilters: 'Filters',
     },
   },
   dataSearchFilterForm: {
@@ -2044,6 +2056,25 @@ export default {
       status_data_obj: {
         title: 'Report Status Data',
         dateRange: 'Date range',
+      },
+      table: {
+        header: {
+          station: 'Station',
+          parameter: 'Parameter',
+          dischargeThreshold: 'Discharge Threshold',
+          unit: 'Unit',
+          minValue: 'Min Value',
+          maxValue: 'Max Value',
+          value: 'Value',
+          time: 'Time',
+          averageValue: 'Average Value',
+          metricReceived: 'Metric Received',
+          totalValue: 'Total Value',
+          percentData: 'Percent Data',
+          dataExceedsStandard: 'Data Exceeds Standard',
+          timeUsuallyExceeds: 'Time Usually Exceeds',
+          note: 'Note',
+        },
       },
     },
     reportBreadcrum: {

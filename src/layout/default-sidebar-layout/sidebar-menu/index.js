@@ -8,7 +8,11 @@ import { Menu, Tooltip } from 'antd'
 import { remove as _remove, join as _join } from 'lodash'
 import { Link } from 'react-router-dom'
 import Icon from 'themes/icon'
-import slug, { parentMenuFromSub, MENU_NAME, TOOLTIP_MENU } from 'constants/slug'
+import slug, {
+  parentMenuFromSub,
+  MENU_NAME,
+  TOOLTIP_MENU,
+} from 'constants/slug'
 // import { translate } from 'hoc/create-lang'
 import { selectMenu, changeOpenSubMenu } from 'redux/actions/themeAction'
 // import { adapt } from "chromatism";
@@ -193,7 +197,7 @@ export default class MenuApp extends React.PureComponent {
           {/* Dashboard */}
           {protectRole(ROLE.DASHBOARD.VIEW)(
             <Menu.Item key={slug.dashboard}>
-              <Tooltip  placement="right"  title={TOOLTIP_MENU.dashboard}>
+              <Tooltip placement="right" title={TOOLTIP_MENU.dashboard}>
                 <Link
                   style={CENTER}
                   to={slug.dashboard}
