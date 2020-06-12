@@ -89,7 +89,7 @@ export default class UserForm extends React.PureComponent {
       callback()
     } else {
       const phoneNumber = value.phoneNumber
-        .replace(/\-/g, '')
+        .replace(/\-/g, '') // eslint-disable-line no-useless-escape
         .replace('+' + value.dialCode, 0)
       if (phoneNumber.length >= 9) {
         callback()

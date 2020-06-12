@@ -36,6 +36,7 @@ const i18n = {
   colValue: translate('wqiConfigCalculation.colValue'),
 }
 
+const CODE = 'vi'
 @Form.create({})
 export default class TabGiaTri_NhomV extends React.Component {
   static propTypes = {
@@ -324,12 +325,17 @@ export default class TabGiaTri_NhomV extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await getConfigWqiMeaTable()
+    const response = await getConfigWqiMeaTable(CODE)
     if (response.success) {
       const transformData = _.get(response, 'data.value.groupV', []).filter(i =>
         _.identity(i)
       )
-      transformData.map(i => (i.key = this.idIncrement++))
+      let dataSource = transformData.map(i => {
+        return {
+          ...i,
+          key: this.idIncrement++,
+        }
+      })
 
       const isLockFirst = this.state.isLockFirst
       const firstItem = transformData[0] || {}
@@ -345,14 +351,16 @@ export default class TabGiaTri_NhomV extends React.Component {
       this.setState(
         {
           isLoaded: true,
-          dataSource: transformData,
+          dataSource,
           isLockFirst,
           isLockLast,
         },
         () => {
-          this.props.form.setFieldsValue({
-            levelList: transformData,
-          })
+          setTimeout(() => {
+            this.props.form.setFieldsValue({
+              levelList: transformData,
+            })
+          },0)
         }
       )
     }
@@ -382,7 +390,7 @@ export default class TabGiaTri_NhomV extends React.Component {
           const transformData = _.get(values, 'levelList', []).filter(i =>
             _.identity(i)
           )
-          const response = await postConfigWqiMeaTable({
+          const response = await postConfigWqiMeaTable(CODE, {
             groupV: transformData,
           })
           if (response.success) {
