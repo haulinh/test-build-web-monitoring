@@ -1,4 +1,4 @@
-FROM node:10.15.1
+FROM node:10.21.0
 
 # Install yarrn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -8,12 +8,11 @@ WORKDIR /usr/src/app
 
 # install package
 COPY package.json .
-COPY yarn.lock .
 RUN yarn install
 
 COPY . .
-RUN npm run build
+RUN yarn build
 RUN rm -r src
 
 EXPOSE 5555
-CMD [ "yarn", "run", "start" ]
+CMD [ "yarn", "start" ]

@@ -93,9 +93,7 @@ export default class TabGiaTri_NhomIII extends React.Component {
                             },
                           })
                           setFieldsValue({
-                            [`levelList[${record.key}].${
-                              item.keyMeasure
-                            }.min`]: null,
+                            [`levelList[${record.key}].${item.keyMeasure}.min`]: null,
                           })
                         }}
                       />
@@ -190,9 +188,7 @@ export default class TabGiaTri_NhomIII extends React.Component {
                             },
                           })
                           setFieldsValue({
-                            [`levelList[${record.key}].${
-                              item.keyMeasure
-                            }.max`]: null,
+                            [`levelList[${record.key}].${item.keyMeasure}.max`]: null,
                           })
                         }}
                       />
@@ -336,9 +332,11 @@ export default class TabGiaTri_NhomIII extends React.Component {
   async componentDidMount() {
     const response = await getConfigWqiMeaTable()
     if (response.success) {
-      const transformData = _.get(response, 'data.value.groupIII', []).filter(
-        i => _.identity(i)
-      )
+      const transformData = _.get(
+        response,
+        'data.value.groupIII',
+        []
+      ).filter(i => _.identity(i))
       transformData.map(i => (i.key = this.idIncrement++))
 
       const isLockFirst = this.state.isLockFirst

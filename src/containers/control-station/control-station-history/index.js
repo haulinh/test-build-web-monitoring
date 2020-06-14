@@ -91,9 +91,7 @@ export default class ControlStationHistory extends PureComponent {
               custom: {
                 href:
                   slug.controlStation.triggerWithKey +
-                  `/${this.props.match.params.key}/${
-                    this.props.match.params.name
-                  }`,
+                  `/${this.props.match.params.key}/${this.props.match.params.name}`,
               },
             },
             {
@@ -101,9 +99,7 @@ export default class ControlStationHistory extends PureComponent {
               custom: {
                 href:
                   slug.controlStation.triggerWithKey +
-                  `/${this.props.match.params.key}/${
-                    this.props.match.params.name
-                  }`,
+                  `/${this.props.match.params.key}/${this.props.match.params.name}`,
               },
             },
             {

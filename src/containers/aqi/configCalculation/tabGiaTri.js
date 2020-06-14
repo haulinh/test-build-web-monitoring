@@ -1,5 +1,5 @@
 import React from 'react'
-// import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 // import styled from "styled-components";
 import {
   message,
@@ -46,6 +46,10 @@ const i18n = {
 
 @Form.create({})
 export default class TabMucDo extends React.Component {
+  static propTypes = {
+    keyQc: PropTypes.string,
+  }
+
   idIncrement = 0
   state = {
     isLoaded: false,
@@ -296,7 +300,10 @@ export default class TabMucDo extends React.Component {
             aqiQCLevel: _.get(values, 'aqiQCLevel', []),
           }
           // console.log(transformData, "------");
-          const response = await postConfigAqiQC(transformData)
+          const response = await postConfigAqiQC(
+            this.props.keyQc,
+            transformData
+          )
           if (response.success) {
             message.success(i18n.updateSuccess)
           }
@@ -336,7 +343,7 @@ export default class TabMucDo extends React.Component {
       dataMeasuringObj = _.keyBy(resMeasuringList.data, 'key')
     }
 
-    const response = await getConfigAqiQC()
+    const response = await getConfigAqiQC(this.props.keyQc)
     if (response.success) {
       let transformData = _.get(response, 'data.value.aqiQCLevel', [])
       let DataMeasure = _.get(response, 'data.value.aqiQCMeasures', {})

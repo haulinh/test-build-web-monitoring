@@ -25,6 +25,9 @@ export default {
     exceededPreparing: 'Almost Exceed',
     exceededTendency: 'Tend To Exceed',
     viewInMonitoring: 'View In Monitoring',
+    advanced: {
+      label: 'Nâng cao',
+    },
     viewInMap: 'View In Map',
     viewMore: 'View More',
     all: 'All',
@@ -185,6 +188,11 @@ export default {
     colAvg8H: 'Average 8 hour',
     colAvg1D: 'Average 1 day',
     colUnit: 'Unit',
+    phuongPhapTinh: 'AQI calculation method',
+    cauHinh: 'Configuration of calculation',
+    taiLieu: 'Documentation on calculations',
+    config: 'Configuration',
+    view: 'View',
   },
   wqi: {
     title: 'Water Quality Index',
@@ -466,7 +474,7 @@ export default {
   },
 
   avgSearchFrom: {
-    titleText: 'AVG Search',
+    titleText: 'AVG data',
     form: {
       time: 'Time',
       stationType: {
@@ -506,6 +514,159 @@ export default {
         label: 'Parameters',
         placeholder: 'Select Parameter',
         require: 'Choose At Least 1 Parameter',
+      },
+      isExceeded: {
+        label: 'Only Exceeded Data',
+      },
+      operator: {
+        label: 'Operator',
+      },
+      value: {
+        label: 'Value',
+      },
+      type: {
+        label: 'Average Data',
+        error: 'Please Choose Average Data',
+      },
+      advanced: {
+        label: 'Advanced',
+      },
+    },
+    table: {
+      receivedAt: 'Received At',
+      all: 'All',
+      emptyText: 'There Are No Records To Display',
+      header1: 'Station Name',
+      header2: 'Frequency of data transmission  (minutes/times)',
+      header3: 'Total records by design',
+      header4: 'Total records by the fact',
+      header5: 'Percentage of received data (%)',
+      header6: 'The starting date of data transmission',
+      header7: 'Day/Month',
+      header8: 'Hours',
+      header9: 'Percentage of exceeded data (%)',
+      title: 'REPORT THE PERCENTAGE OF OBTAINED DATA',
+      description:
+        'Statistics about the Percentage of data obtained of stations from {{=it.fromMonth}} to {{=it.toMonth}}',
+      title2: 'REPORT THE RESULTS OF 24-HOUR AVERAGE MONITORING',
+      description2:
+        'Statistics about Results of 24-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
+      title3: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
+      description3:
+        'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} in {{=it.monthYear}}',
+      title4: 'REPORT THE PERCENTAGE OF EXCEEDED DATA',
+      description4:
+        'Statistics about the percentage of exceeded of {{=it.fromMonth}} station in {{=it.toMonth}}',
+      title5: 'REPORT THE RESULTS OF 8-HOUR AVERAGE MONITORING',
+      description5:
+        'Statistics about Results of 8-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
+      descriptionStatusData:
+        'The statistics for the average observation results time from 00:00 days {{= it.fromDate}} to 23:59 {{= it.fromDate}}',
+    },
+    selectTimeRange: {
+      minute: 'Minute',
+      hour: 'Hour',
+      day: 'Day',
+      month: 'Month',
+      year: 'Year',
+      errorMonth: 'Please Choose The Month',
+      errorDay: 'Please Choose The Day',
+      error: 'Please Choose The Time',
+    },
+    tab: {
+      data: 'Data',
+      chart: 'Chart',
+      exportExcel: 'Export To Excel',
+      statusExport: 'Exporting ...',
+    },
+    search: {
+      subMenuAvgData: {
+        title: 'Avg data',
+        dataSearch: 'Data search',
+      },
+      subMenuFilters: 'Filters',
+    },
+  },
+  dataSearchFilterForm: {
+    titleText: 'Data Search Filter',
+    create: {
+      label: 'Create new filter',
+      success: 'Create new filter successfully',
+      nameIsExist: 'Filter name is exist',
+    },
+    name: {
+      label: 'Filter name',
+      placeholder: 'Please type filter name',
+    },
+    form: {
+      time: 'Time',
+      stationType: {
+        label: 'Type Of Station',
+        placeholder: 'Select Type Of Station',
+        error: 'Please Choose Type Of Station',
+      },
+      rangesDate: {
+        error: 'Please Choose Time',
+      },
+      stationAuto: {
+        label: 'Station Name',
+        placeholder: 'Select Station Name',
+        error: 'Please Choose Station Name',
+      },
+      fromDate: {
+        label: 'Start',
+        placeholder: 'Select Starting Date',
+      },
+      toDate: {
+        label: 'End',
+        placeholder: 'Select Ending Date',
+      },
+      fromMonth: {
+        label: 'From Month/Year',
+        placeholder: 'Select Month/Year',
+        error: 'Please Choose The Time',
+      },
+      toMonth: {
+        label: 'To  Month/Year',
+        placeholder: 'Select Month/Year',
+        error: 'Please Choose The Time',
+        error1: 'The Start Date Is Greater Than The End Date',
+        error2: 'Do not exceed the current month',
+      },
+      measuringList: {
+        label: 'Parameters',
+        placeholder: 'Select Parameter',
+        require: 'Choose At Least 1 Parameter',
+      },
+      province: {
+        label: 'Province',
+        placeholder: 'Select Province',
+        require: 'Choose At Least 1 Province',
+      },
+      qcvn: {
+        label: 'QCVN',
+        placeholder: 'Select QCVN',
+        require: 'Choose At Least 1 QCVN',
+      },
+      stationStatus: {
+        label: 'Station status',
+        placeholder: 'Select station status',
+        require: 'Choose At Least 1 station status',
+      },
+      dataStatus: {
+        label: 'Data status',
+        placeholder: 'Select data status',
+        require: 'Choose At Least 1 data status',
+      },
+      frequency: {
+        label: 'Frequency(minutes/time)',
+        placeholder: 'minutes/time',
+        require: 'Please type frequency',
+      },
+      stationKey: {
+        label: 'Station code',
+        placeholder: 'Please type station code',
+        require: 'Please type frequency',
       },
       isExceeded: {
         label: 'Only Exceeded Data',
@@ -751,11 +912,11 @@ export default {
     },
   },
   configWQI: {
-    breadCrumb: 'Config WQI, AQI',
+    breadCrumb: 'Select AQI & WQI calculations',
     stationAuto: 'Station Auto',
-    stationFixed: 'Staion Fixed',
+    stationFixed: 'Station Fixed',
     stationName: 'Station Name',
-    allow: 'Allow caculate',
+    allow: 'Allow calculate',
     stationType: 'Station Type',
     success: 'Update success !',
     error: 'Error!',
@@ -764,7 +925,7 @@ export default {
   ftpTranfer: {
     allowFtpTranfer: 'Send FTP',
     stationName: 'Station Name',
-    measureTranfer: 'Measure Tranfer',
+    measureTranfer: 'Measure Transfer',
     ftpInfo: 'FTP Info',
     ftpConfig: 'Config Info FTP',
     tranferBonus: 'Additional infusion',
@@ -1703,6 +1864,10 @@ export default {
     exceed: 'Exceeded',
     lossData: 'Lost Connection',
     sensorError: 'Sensor Error',
+    collecting: 'Collecting',
+    lostConnection: 'Lost Connection',
+    overload: 'Overload',
+    aboutToOverload: 'About to Overload',
   },
   addon: {
     add: 'Add',
@@ -1734,7 +1899,7 @@ export default {
       error: 'Restore Error',
     },
     search: 'Search',
-    searchSeclect: 'Select conditions',
+    searchSelect: 'Select conditions',
     error: 'Something Went Wrong!!!',
     warning: 'Warning',
     refresh: 'Refresh',
@@ -1892,6 +2057,25 @@ export default {
         title: 'Report Status Data',
         dateRange: 'Date range',
       },
+      table: {
+        header: {
+          station: 'Station',
+          parameter: 'Parameter',
+          dischargeThreshold: 'Discharge Threshold',
+          unit: 'Unit',
+          minValue: 'Min Value',
+          maxValue: 'Max Value',
+          value: 'Value',
+          time: 'Time',
+          averageValue: 'Average Value',
+          metricReceived: 'Metric Received',
+          totalValue: 'Total Value',
+          percentData: 'Percent Data',
+          dataExceedsStandard: 'Data Exceeds Standard',
+          timeUsuallyExceeds: 'Time Usually Exceeds',
+          note: 'Note',
+        },
+      },
     },
     reportBreadcrum: {
       type1: 'Original data',
@@ -1911,6 +2095,42 @@ export default {
       wqiDay: 'WQI - Day',
       status_data: 'Status Data',
     },
+  },
+  tooltipMenuApp: {
+    dashboard: 'General monitoring of data status information of stations',
+    monitoringSub:
+      'Monitoring data of each station in real time and look up data',
+    monitoring: {
+      base:
+        'Real-time monitoring of data for each monitoring point and sampling operations',
+      map: 'Monitoring location of monitoring points on the map background',
+      camera: 'Monitor all cameras at the monitoring points',
+      historyData:
+        'Look up the original data of the monitoring point by time period',
+      avgData:
+        'Look up the average data of the monitoring point by time period',
+    },
+    monitoringList: {
+      base:
+        'Real-time monitoring of data according to the list of all monitoring points',
+    },
+
+    processDataSub: 'Configure to remove invalid data',
+    processData: {
+      configNew: 'Select the factors that affect the invalid data',
+      approveData: 'Look up data after removing invalid data',
+    },
+    shareData: {
+      shareConfig:
+        'Select monitoring points and parameters for data publication',
+      ftpConfig:
+        'Select monitoring points and parameters to transfer to an external folder using FTP',
+    },
+    shareDataSub: 'Configure to share data from the system to the outside',
+    reportSub: 'Select the report type to export the results',
+    advanceSub: 'Advanced functions of the system',
+    configSub:
+      'Configure issues related to monitoring points and system administration',
   },
   dataLogger: {
     breadcrumb: {

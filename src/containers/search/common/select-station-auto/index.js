@@ -12,15 +12,16 @@ import { replaceVietnameseStr } from 'utils/string'
   language: _.get(state, 'language.locale'),
 }))
 @autobind
-export default class SelectStationAuto extends React.Component {
+export default class SelectStationAuto extends React.PureComponent {
   static propTypes = {
     stationTypeKey: PropTypes.string,
-    onChangeObject: PropTypes.func,
     provinceKey: PropTypes.string,
+    onChangeObject: PropTypes.func,
     getRef: PropTypes.func,
   }
 
   state = {
+    value: undefined,
     isLoaded: false,
     stationAutoSelects: [],
     searchString: '',
@@ -35,6 +36,9 @@ export default class SelectStationAuto extends React.Component {
     this.setState({
       stationAutoSelects: responseStationAuto.data,
       isLoaded: true,
+      value: this.props.setKey
+        ? this.props.stationAutoKey
+        : this.props.value || undefined,
     })
 
     if (this.props.getRef) this.props.getRef(this)
@@ -43,11 +47,14 @@ export default class SelectStationAuto extends React.Component {
   getByTypeAndProvince = () => {
     return _.filter(this.state.stationAutoSelects, stationAuto => {
       return (
-        _.isEqual(
-          this.props.stationTypeKey,
-          _.get(stationAuto, 'stationType.key', null)
-        ) &&
+        (!this.props.stationTypeKey ||
+          this.props.stationTypeKey === 'ALL' ||
+          _.isEqual(
+            this.props.stationTypeKey,
+            _.get(stationAuto, 'stationType.key', null)
+          )) &&
         (!this.props.provinceKey ||
+          this.props.provinceKey === 'ALL' ||
           _.isEqual(
             this.props.provinceKey,
             _.get(stationAuto, 'province.key', null)
@@ -83,7 +90,14 @@ export default class SelectStationAuto extends React.Component {
     this.setState({ searchString: value })
   }
 
+  getValue() {
+    return this.props.setKey
+      ? this.props.stationAutoKey
+      : this.props.value || undefined
+  }
+
   render() {
+    const value = this.getValue()
     const stationAutos = this.getStationAutos()
     const { language } = this.props
     if (!this.state.isLoaded) return <div />
@@ -93,7 +107,7 @@ export default class SelectStationAuto extends React.Component {
         allowClear
         showSearch
         onChange={this.handleChange}
-        value={this.props.setKey ? this.props.stationAutoKey : this.props.value}
+        value={value}
         onSearch={this.handleSearch}
         filterOption={false}
       >

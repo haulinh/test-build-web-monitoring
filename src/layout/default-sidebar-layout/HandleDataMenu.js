@@ -1,6 +1,6 @@
 import React from 'react'
-import { Menu } from 'antd'
-import slug, { MENU_NAME, MENU_GROUP } from 'constants/slug'
+import { Menu, Tooltip } from 'antd'
+import slug, { MENU_NAME, MENU_GROUP, TOOLTIP_MENU } from 'constants/slug'
 import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
 import Icon from 'themes/icon'
@@ -17,10 +17,12 @@ export default {
     <Menu.SubMenu
       key={MENU_GROUP.HANDLE_DATA}
       title={
-        <div style={CENTER}>
-          {Icon.handleData}
-          <span style={{ marginLeft: 12 }}>{MENU_NAME.processDataSub}</span>
-        </div>
+        <Tooltip placement="right" title={TOOLTIP_MENU.processDataSub}>
+          <div style={CENTER}>
+            {Icon.handleData}
+            <span style={{ marginLeft: 12 }}>{MENU_NAME.processDataSub}</span>
+          </div>
+        </Tooltip>
       }
     >
       {/* {protectRole(ROLE.QAQC.CONFIG_NEW)(
@@ -33,9 +35,11 @@ export default {
             props.selectMenu(slug.qaqc.configNew)
           }}
         >
-          <Link to={slug.qaqc.configNew}>
-            {MENU_NAME.processData.configNew}
-          </Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.processData.configNew}>
+            <Link to={slug.qaqc.configNew}>
+              {MENU_NAME.processData.configNew}
+            </Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -46,7 +50,12 @@ export default {
             props.selectMenu(slug.qaqc.base)
           }}
         >
-          <Link to={slug.qaqc.base}>{MENU_NAME.processData.approveData}</Link>
+          <Tooltip
+            placement="right"
+            title={TOOLTIP_MENU.processData.approveData}
+          >
+            <Link to={slug.qaqc.base}>{MENU_NAME.processData.approveData}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
     </Menu.SubMenu>

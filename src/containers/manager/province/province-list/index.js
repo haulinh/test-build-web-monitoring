@@ -18,7 +18,7 @@ import * as _ from 'lodash'
 
 @protectRole(ROLE.PROVINCE.VIEW)
 @createManagerList({
-  apiList: ProvinceApi.getProvices,
+  apiList: ProvinceApi.getProvinces,
 })
 @createManagerDelete({
   apiDelete: ProvinceApi.deleteProvince,

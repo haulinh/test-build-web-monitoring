@@ -162,7 +162,10 @@ export default class SearchAvgForm extends React.Component {
 
     this.setState(params)
 
-    this.props.change('measuringList', measuringData.map(m => m.key))
+    this.props.change(
+      'measuringList',
+      measuringData.map(m => m.key)
+    )
   }
 
   convertDateToString(date) {

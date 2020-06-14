@@ -53,7 +53,6 @@ export default class SearchForm extends React.Component {
           })
           .join(',')
         // console.log(measuringListUnitStr)
-        console.log('values', values)
         if (me.props.cbSubmit)
           me.props.cbSubmit({
             ...values,
@@ -77,13 +76,14 @@ export default class SearchForm extends React.Component {
           rightChildren={
             <Button
               type="primary"
-              icon="file-excel"
+              icon="search"
               style={{ float: 'right' }}
               onClick={this.submit}
               size="small"
               // loading={this.props.isExporting}
             >
-              {translate('dataSearchFrom.tab.exportExcel')}
+              {/* {translate('dataSearchFrom.tab.exportExcel')} */}
+              Tìm kiếm
             </Button>
           }
           textColor="#ffffff"
@@ -91,7 +91,7 @@ export default class SearchForm extends React.Component {
           fontSize={14}
           style={{ padding: '8px 16px' }}
         >
-          {this.props.lang.t('addon.searchSeclect')}
+          {this.props.lang.t('addon.searchSelect')}
         </Heading>
         <div style={{ padding: '8px 16px' }}>
           <Row gutter={16}>
@@ -140,9 +140,14 @@ export default class SearchForm extends React.Component {
           <Row gutter={16}>
             <Col span={24}>
               <Item label={translate('stationAuto.label')}>
-                {getFieldDecorator('stationAutos', {})(
-                  <SelectStationTreeView />
-                )}
+                {getFieldDecorator('stationAutos', {
+                  rules: [
+                    {
+                      required: true,
+                      message: translate('avgSearchFrom.stationAutos.error'),
+                    },
+                  ],
+                })(<SelectStationTreeView />)}
               </Item>
             </Col>
           </Row>

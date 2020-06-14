@@ -49,7 +49,7 @@ export default class WQIStatistics extends React.Component {
       listKey: searchFormData.stationID,
     }
     let dataAQI = await WqiApi.fetchWqiHourbyStation({ ...params })
-    if (dataAQI && (Array.isArray(dataAQI.data) && dataAQI.data.length === 0)) {
+    if (dataAQI && Array.isArray(dataAQI.data) && dataAQI.data.length === 0) {
       swal({
         type: 'success',
         title: translate('dataSearchFrom.table.emptyText'),

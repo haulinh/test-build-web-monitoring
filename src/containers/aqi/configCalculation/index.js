@@ -10,6 +10,10 @@ import TabMucDo from './tabMucDo'
 import TabGiaTri from './tabGiaTri'
 import TabThongSo from './tabThongSo'
 import { translate } from 'hoc/create-lang'
+import slug from 'constants/slug'
+
+import { getListConfigAqi } from 'api/CategoryApi'
+import * as _ from 'lodash'
 
 const Breadcrumb = createBreadcrumb()
 const { TabPane } = Tabs
@@ -51,7 +55,9 @@ const TAB_NAME = {
 @autobind
 export default class ConfigCalculationAQI extends PureComponent {
   state = {
-    tabKey: TAB_KEY.GIA_TRI,
+    tabKey: TAB_KEY.MUC_DO,
+    isLoaded: false,
+    data: null,
   }
 
   setTabActive = tabKey => {
@@ -60,14 +66,40 @@ export default class ConfigCalculationAQI extends PureComponent {
     })
   }
 
+  componentDidMount = () => {
+    getListConfigAqi()
+      .then(retult => {
+        const resData = _.get(retult, 'data.value', [])
+
+        const data = _.find(resData, item => {
+          return item.key === this.props.match.params.key
+        })
+        this.setState({
+          data,
+          isLoaded: true,
+        })
+      })
+      .catch(ex => {
+        this.setState({
+          isLoaded: true,
+        })
+        console.log(ex, '--ex--')
+      })
+  }
+
   render() {
     return (
-      <PageContainer isLoading={false}>
+      <PageContainer isLoading={!this.state.isLoaded}>
         <Breadcrumb
           items={[
             {
               id: '1',
               name: i18n.pageName,
+              href: slug.aqi.config,
+            },
+            {
+              id: '2',
+              name: _.get(this.state.data, 'name', ''),
             },
           ]}
         />
@@ -110,15 +142,15 @@ export default class ConfigCalculationAQI extends PureComponent {
           >
             <TabPane tab="Ngưỡng mức độ" key={TAB_KEY.MUC_DO}>
               <Clearfix height={24} />
-              <TabMucDo />
+              <TabMucDo keyLevel={_.get(this.state, 'data.keylevel', '')} />
             </TabPane>
             <TabPane tab="Bảng giá trị BPi" key={TAB_KEY.GIA_TRI}>
               <Clearfix height={24} />
-              <TabGiaTri />
+              <TabGiaTri keyQc={_.get(this.state, 'data.keyQc', '')} />
             </TabPane>
             <TabPane tab="Thống số tính toán" key={TAB_KEY.THONG_SO}>
               <Clearfix height={24} />
-              <TabThongSo />
+              <TabThongSo keyQc={_.get(this.state, 'data.keyQc', '')} />
             </TabPane>
           </Tabs>
         </Wrapper>

@@ -1,5 +1,5 @@
 import React from 'react'
-// import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 // import styled from "styled-components";
 import {
   message,
@@ -41,6 +41,10 @@ const i18n = {
 
 @Form.create({})
 export default class TabMucDo extends React.Component {
+  static propTypes = {
+    keyLevel: PropTypes.string,
+  }
+
   idIncrement = 0
   state = {
     isLoaded: false,
@@ -255,7 +259,10 @@ export default class TabMucDo extends React.Component {
           )
 
           // console.log("transformData", transformData);
-          const response = await postConfigAqiCalculation(transformData)
+          const response = await postConfigAqiCalculation(
+            this.props.keyLevel,
+            transformData
+          )
           if (response.success) {
             message.success(i18n.updateSuccess)
           }
@@ -285,7 +292,7 @@ export default class TabMucDo extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await getConfigAqiCalculation()
+    const response = await getConfigAqiCalculation(this.props.keyLevel)
     if (response.success) {
       const transformData = _.get(response, 'data.value', []).filter(i =>
         _.identity(i)
