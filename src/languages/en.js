@@ -658,7 +658,7 @@ export default {
         placeholder: 'Select data status',
         require: 'Choose At Least 1 data status',
       },
-      frequency: {
+      frequent: {
         label: 'Frequency(minutes/time)',
         placeholder: 'minutes/time',
         require: 'Please type frequency',

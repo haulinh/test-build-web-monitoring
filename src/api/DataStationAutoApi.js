@@ -390,13 +390,12 @@ export function getUrlReportStatusDataExcel(token, stationKeys, from, to) {
 }
 
 export function searchStationAuto({ stationType, provinceKey, ...props }) {
-  let url = `${getDataStationAutoUrl(
-    `/station-key-custom?stationType=${stationType}`
-  )}`
+  let url = `${getDataStationAutoUrl(`station-key-custom?`)}`
+  if (stationType) url += `&stationType=${stationType}`
+  if (provinceKey) url += `&provinceKey=${props.provinceKey}`
   if (props.dataStatus) url += `&dataStatus=${props.dataStatus.join(',')}`
   if (props.standardKey) url += `&standardKey=${props.standardKey.join(',')}`
-  if (props.frequency) url += `&frequency=${props.frequency}`
-  if (props.provinceKey) url += `&provinceKey=${props.provinceKey}`
+  if (props.frequent) url += `&frequent=${props.frequent}`
   return getFetch(url)
 }
 

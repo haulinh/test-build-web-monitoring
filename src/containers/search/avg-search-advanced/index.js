@@ -35,22 +35,27 @@ import StationForm from './form/StationForm'
 @queryFormDataBrowser(['submit'])
 @autobind
 export default class AvgSearch extends React.Component {
-  state = {
-    visible: false,
-    confirmLoading: false,
-    dataStationAuto: [],
-    measuringList: [],
-    measuringData: [],
-    searchFormData: {},
-    isLoading: false,
-    allowSave: false,
-    isHaveData: false,
-    isExporting: false,
-    configFilter: [],
-    pagination: {
-      current: 1,
-      pageSize: 50,
-    },
+  constructor(props) {
+    super(props)
+    this.state = {
+      visible: false,
+      confirmLoading: false,
+      dataStationAuto: [],
+      measuringList: [],
+      measuringData: [],
+      searchFormData: {},
+      isLoading: false,
+      allowSave: false,
+      isHaveData: false,
+      isExporting: false,
+      isSearching: false,
+      configFilter: [],
+      stationKeys: props.stations.map(station => station.key),
+      pagination: {
+        current: 1,
+        pageSize: 50,
+      },
+    }
   }
 
   componentDidMount() {
@@ -88,9 +93,13 @@ export default class AvgSearch extends React.Component {
     })
   }
 
-  handleOnSearchStationAuto = async searchData => {
-    const { data } = await DataStationAutoApi.searchStationAuto(searchData)
-    console.log(data)
+  handleOnSearchStationAuto = searchData => {
+    this.setState({ isSearching: true }, async () => {
+      const { data: stationKeys } = await DataStationAutoApi.searchStationAuto(
+        searchData
+      )
+      this.setState({ stationKeys, isSearching: false })
+    })
   }
 
   handleSaveFilter = () => {
@@ -250,7 +259,16 @@ export default class AvgSearch extends React.Component {
                 searchNow={this.props.formData.searchNow}
               />
               <Clearfix height={16} />
-              <StationForm stations={this.props.stations} />
+              <Spin
+                size="large"
+                tip="Searching..."
+                spinning={this.state.isSearching}
+              >
+                <StationForm
+                  stations={this.props.stations}
+                  stationKeys={this.state.stationKeys}
+                />
+              </Spin>
               {this.state.isHaveData ? (
                 <TabList
                   isLoading={this.state.isLoading}

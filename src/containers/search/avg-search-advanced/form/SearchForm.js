@@ -141,20 +141,31 @@ export default class SearchAvgForm extends React.Component {
         this.props.handleSubmit(this.handleSubmit)()
       }
     }
+    if (!_.isEqual(this.props.values, prevProps.values)) {
+      console.log(this.props.values)
+      let params = {
+        stationType: this.props.values.stationType,
+        provinceKey: this.props.values.provinceKey,
+        dataStatus: this.props.values.dataStatus || '',
+        standardKey: this.props.values.standardKey || '',
+        frequent: this.props.values.frequent || '',
+      }
+      this.props.onSearchStationAuto(params)
+    }
   }
 
   initializeValue = () => {
     const initialValues = this.props.initialValues
       ? {
-          stationType: null,
-          provinceKey: null,
+          stationType: '',
+          provinceKey: '',
           ...this.props.initialValues,
           rangesDate: Number(this.props.initialValues.rangesDate) || 1,
           type: Number(this.props.initialValues.type) || 15,
         }
       : {
-          stationType: null,
-          provinceKey: null,
+          stationType: '',
+          provinceKey: '',
           rangesDate: 1,
           type: 15,
         }
@@ -352,7 +363,7 @@ export default class SearchAvgForm extends React.Component {
       //   return FSelectAnt
       case 'dataStatus':
         return FSelectAnt
-      case 'frequency':
+      case 'frequent':
         return FInputNumber
       case 'standardKey':
         return FSelectQCVN
@@ -404,21 +415,22 @@ export default class SearchAvgForm extends React.Component {
         </HeaderWrapper>
         <Container>
           <Row type="flex" gutter={[16, 24]}>
-            <Col span={8}>
+            <Col span={12}>
               <Field
                 label={t(`province.label`)}
                 name="provinceKey"
                 size="large"
                 showSearch
-                // isShowAll
+                isShowAll
                 placeholder={t('province.placeholder')}
                 component={FSelectProvince}
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={8}>
+            <Col span={12}>
               <Field
                 showSearch
+                isShowAll
                 label={t('stationType.label')}
                 name="stationType"
                 size="large"
@@ -431,7 +443,7 @@ export default class SearchAvgForm extends React.Component {
                 }}
               />
             </Col>
-            {/* <Col span={8}>
+            {/* <Col span={12}>
               <Field
                 label={t('stationAuto.label')}
                 placeholder={t('stationAuto.placeholder')}
@@ -443,7 +455,7 @@ export default class SearchAvgForm extends React.Component {
                 component={FSelectStationAuto}
               />
             </Col>
-            <Col span={8}>
+            <Col span={12}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -455,7 +467,7 @@ export default class SearchAvgForm extends React.Component {
                 component={FSelectAnt}
               />
             </Col> */}
-            <Col span={8}>
+            <Col span={12}>
               <Field
                 label={t('time')}
                 name="rangesDate"
@@ -466,7 +478,7 @@ export default class SearchAvgForm extends React.Component {
                 rangesView={this.state.rangesView}
               />
             </Col>
-            <Col span={8}>
+            <Col span={12}>
               <Field
                 label={t('type.label')}
                 name="type"
@@ -475,13 +487,13 @@ export default class SearchAvgForm extends React.Component {
               />
             </Col>
             {this.state.filterList.map(filter => (
-              <Col span={8} key={filter.key}>
+              <Col span={12} key={filter.key}>
                 <Field
                   label={t(`${filter.key}.label`)}
                   name={filter.key}
                   size="large"
                   showSearch
-                  alowClear
+                  // alowClear
                   mode="multiple"
                   options={this.state[filter.key]}
                   placeholder={t(`${filter.key}.placeholder`)}

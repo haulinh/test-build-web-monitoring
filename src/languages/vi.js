@@ -654,7 +654,7 @@ export default {
         placeholder: 'Lựa chọn tình trạng dữ liệu',
         require: 'Chọn ít nhất 1 tình trạng dữ liệu',
       },
-      frequency: {
+      frequent: {
         label: 'Tần suất (phút / lần)',
         placeholder: 'Nhập tần suất (phút/lần)',
         require: 'Bạn chưa nhập tần suất',
