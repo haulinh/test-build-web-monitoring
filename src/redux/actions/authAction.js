@@ -26,7 +26,7 @@ export function fetchUserMe() {
     }
 
     const warningLevelColor = await CategoryApi.getWarningLevelColor()
-    console.log(warningLevelColor, '----warningLevelColor---')
+
     if (warningLevelColor.error) {
       return dispatch({
         type: FETCH_FAIL_USER,

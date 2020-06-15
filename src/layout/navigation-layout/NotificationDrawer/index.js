@@ -30,7 +30,7 @@ export default class NotificationDrawer extends React.Component {
         title={
           <div>
             <a
-              href="#"
+              href="_blank"
               onClick={this.closeDrawer}
               style={{ paddingRight: '8px' }}
             >
