@@ -2109,6 +2109,8 @@ export default {
         'Look up the original data of the monitoring point by time period',
       avgData:
         'Look up the average data of the monitoring point by time period',
+      mapAQI:
+        'Monitor the latest hourly air quality index on the map background',
     },
     monitoringList: {
       base:
@@ -2139,10 +2141,23 @@ export default {
         'Maximum value among the average values ​​of 8 hours in 1 day measured value',
       type12: 'Statistics percent data that exceeds the threshold for the day',
       status_data: 'Summary report on status of data at many stations',
+      aqi_hour: 'Report the AQI value of each station',
+      aqi_day: 'Report AQI day values ​​for multiple stations',
+      config: 'Select station to calculate AQI or WQI value',
     },
     advanceSub: 'Advanced functions of the system',
+    advance: {
+      wqiMap:
+        'Monitor the latest hourly surface water quality index on the map background',
+      wqiHour: 'Report the WQI value of each station',
+      wqiDay: 'Report WQI day values ​​for multiple stations',
+    },
     configSub:
       'Configure issues related to monitoring points and system administration',
+    config: {
+      configAQI: 'Configuring and selecting the method to calculate AQI',
+      configWQI: 'Configuring and selecting the method to calculate WQI',
+    },
   },
   dataLogger: {
     breadcrumb: {
