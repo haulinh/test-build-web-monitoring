@@ -1,39 +1,43 @@
 import { translate } from 'hoc/create-lang'
 
+const t = prefix => {
+  return translate('dataSearchFilterForm.form.' + prefix)
+}
+
 export default function validate(values) {
   const errors = {}
+  if (!values.provinceKey) {
+    errors.provinceKey = t('province.require')
+  }
+  if (!values.stationType) {
+    errors.stationType = t('stationType.error')
+  }
   if (!values.stationAuto) {
-    errors.stationAuto = translate(
-      'dataSearchFilterForm.form.stationAuto.error'
-    )
+    errors.stationAuto = t('stationAuto.error')
   }
   if (!values.type) {
-    errors.type = translate('dataSearchFilterForm.form.type.error')
+    errors.type = t('type.error')
   }
   if (!values.rangesDate) {
-    errors.rangesDate = translate('dataSearchFilterForm.form.rangesDate.error')
+    errors.rangesDate = t('rangesDate.error')
   }
   if (
     !values.measuringList ||
     (Array.isArray(values.measuringList) && !values.measuringList.length)
   ) {
-    errors.measuringList = translate(
-      'dataSearchFilterForm.form.measuringList.require'
-    )
+    errors.measuringList = t('measuringList.require')
   }
   if (
     !values.dataStatus ||
     (Array.isArray(values.dataStatus) && !values.dataStatus.length)
   ) {
-    errors.dataStatus = translate(
-      'dataSearchFilterForm.form.dataStatus.require'
-    )
+    errors.dataStatus = t('dataStatus.require')
   }
   if (!values.frequency) {
-    errors.frequency = translate('dataSearchFilterForm.form.frequency.require')
+    errors.frequency = t('frequency.require')
   }
-  if (!values.qcvn) {
-    errors.qcvn = translate('dataSearchFilterForm.form.qcvn.require')
+  if (!values.standardKey) {
+    errors.standardKey = t('standardKey.require')
   }
 
   return errors

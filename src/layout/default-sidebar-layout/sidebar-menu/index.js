@@ -192,7 +192,7 @@ export default class MenuApp extends React.PureComponent {
           }}
           selectedKeys={[this.props.menuSelected]}
           mode="inline"
-          inlineCollapsed={!isOpen}
+          // inlineCollapsed={!isOpen}
         >
           {/* Dashboard */}
           {protectRole(ROLE.DASHBOARD.VIEW)(

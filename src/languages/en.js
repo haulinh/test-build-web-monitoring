@@ -643,10 +643,10 @@ export default {
         placeholder: 'Select Province',
         require: 'Choose At Least 1 Province',
       },
-      qcvn: {
-        label: 'QCVN',
-        placeholder: 'Select QCVN',
-        require: 'Choose At Least 1 QCVN',
+      standardKey: {
+        label: 'Standards VN',
+        placeholder: 'Standards VN',
+        error: 'Please Choose Type Of Standards VN',
       },
       stationStatus: {
         label: 'Station status',

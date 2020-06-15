@@ -9,17 +9,15 @@ import DataStationAutoApi from 'api/DataStationAutoApi'
 import Clearfix from 'components/elements/clearfix'
 import TabList from './tab-list/index'
 import Breadcrumb from './breadcrumb'
-// import SearchFrom from './search-form/index'
-import SearchFrom from './form/SearchForm'
+import SearchFrom from './search-form/index'
 import OrganizationApi from 'api/OrganizationApi'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import { toggleNavigation } from 'redux/actions/themeAction'
-import FormFilter from './form/ModalForm'
+import FormFilter from './form'
 import FilterListMenu from './menu'
-import StationForm from './form/StationForm'
 
 @connectAutoDispatch(
   state => ({
@@ -27,7 +25,6 @@ import StationForm from './form/StationForm'
     organizationId: _.get(state, 'auth.userInfo.organization._id', 'vasoft'),
     configFilter: _.get(state, 'auth.userInfo.organization.configFilter', []),
     isOpenNavigation: state.theme.navigation.isOpen,
-    stations: _.get(state, 'stationAuto.list', []),
   }),
   { toggleNavigation }
 )
@@ -78,19 +75,6 @@ export default class AvgSearch extends React.Component {
 
   handleSubmitSearch = searchFormData => {
     this.loadData(this.state.pagination, searchFormData)
-  }
-
-  handleSaveInfoSearch = searchFormData => {
-    this.setState({
-      measuringData: searchFormData.measuringData || [],
-      measuringList: searchFormData.measuringList || [],
-      searchFormData: searchFormData,
-    })
-  }
-
-  handleOnSearchStationAuto = async searchData => {
-    const { data } = await DataStationAutoApi.searchStationAuto(searchData)
-    console.log(data)
   }
 
   handleSaveFilter = () => {
@@ -244,13 +228,10 @@ export default class AvgSearch extends React.Component {
               <Breadcrumb items={['list']} />
               <SearchFrom
                 onSubmit={this.handleSubmitSearch}
-                onSaveInfo={this.handleSaveInfoSearch}
-                onSearchStationAuto={this.handleOnSearchStationAuto}
                 initialValues={this.props.formData}
                 searchNow={this.props.formData.searchNow}
               />
               <Clearfix height={16} />
-              <StationForm stations={this.props.stations} />
               {this.state.isHaveData ? (
                 <TabList
                   isLoading={this.state.isLoading}

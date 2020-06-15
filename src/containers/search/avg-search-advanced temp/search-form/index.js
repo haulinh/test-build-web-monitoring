@@ -242,8 +242,8 @@ export default class SearchAvgForm extends React.Component {
     if (values.frequency) {
       params.frequency = values.frequency
     }
-    if (values.qcvn) {
-      params.qcvn = values.qcvn
+    if (values.standardKey) {
+      params.standardKey = values.standardKey
     }
 
     this.props.onSubmit(params)
@@ -344,7 +344,7 @@ export default class SearchAvgForm extends React.Component {
         return FSelectAnt
       case 'frequency':
         return FInputNumber
-      case 'qcvn':
+      case 'standardKey':
         return FSelectQCVN
       default:
         return FInputNumber
