@@ -359,6 +359,15 @@ export const TOOLTIP_MENU = {
     ftpConfig: translate('tooltipMenuApp.shareData.ftpConfig'),
   },
   reportSub: translate('tooltipMenuApp.reportSub'),
+  report: {
+    type10: translate('tooltipMenuApp.report.type10'),
+    type2: translate('tooltipMenuApp.report.type2'),
+    type11: translate('tooltipMenuApp.report.type11'),
+    type3: translate('tooltipMenuApp.report.type3'),
+    type4:translate('tooltipMenuApp.report.type4'),
+    type12:translate('tooltipMenuApp.report.type12'),
+    status_data:translate('tooltipMenuApp.report.status_data'),
+  },
   advanceSub: translate('tooltipMenuApp.advanceSub'),
   configSub: translate('tooltipMenuApp.configSub'),
 }
