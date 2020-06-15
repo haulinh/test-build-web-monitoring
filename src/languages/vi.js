@@ -639,10 +639,10 @@ export default {
         placeholder: 'Lựa chọn đơn vị quản lý',
         require: 'Chọn ít nhất 1 đơn vị quản lý',
       },
-      qcvn: {
-        label: 'Quy chuẩn Việt Nam',
-        placeholder: 'Lựa chọn quy chuẩn Việt Nam',
-        require: 'Chọn ít nhất lựa 1 QCVN',
+      standardKey: {
+        label: 'Quy chuẩn',
+        placeholder: 'Lựa chọn quy chuẩn',
+        require: 'Chọn ít nhất lựa 1 Quy chuẩn',
       },
       stationStatus: {
         label: 'Tình trạng thiết bị',
@@ -657,12 +657,12 @@ export default {
       frequency: {
         label: 'Tần suất (phút / lần)',
         placeholder: 'Nhập tần suất (phút/lần)',
-        require: 'Bạn chưa nhận tần suất',
+        require: 'Bạn chưa nhập tần suất',
       },
       stationKey: {
         label: 'Mã trạm quan trắc',
         placeholder: 'Nhập mã trạm quan trắc',
-        require: 'Bạn chưa nhận mã trạm quan trắc',
+        require: 'Bạn chưa nhập mã trạm quan trắc',
       },
       isExceeded: {
         label: 'Dữ liệu vượt QCVN',

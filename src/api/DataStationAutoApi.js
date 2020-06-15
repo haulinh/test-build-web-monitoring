@@ -84,6 +84,7 @@ export function getDataStationAutoExportAvg({
   if (name) url += `&name=${name}`
   return getFetch(url)
 }
+
 export function downloadExcel_DataStationAutov1(
   token,
   { fromDate, toDate, key, measuringList, measuringListUnitStr, type }
@@ -388,6 +389,17 @@ export function getUrlReportStatusDataExcel(token, stationKeys, from, to) {
   return url
 }
 
+export function searchStationAuto({ stationType, provinceKey, ...props }) {
+  let url = `${getDataStationAutoUrl(
+    `/station-key-custom?stationType=${stationType}`
+  )}`
+  if (props.dataStatus) url += `&dataStatus=${props.dataStatus.join(',')}`
+  if (props.standardKey) url += `&standardKey=${props.standardKey.join(',')}`
+  if (props.frequency) url += `&frequency=${props.frequency}`
+  if (props.provinceKey) url += `&provinceKey=${props.provinceKey}`
+  return getFetch(url)
+}
+
 export default {
   getDataStationAutos,
   getExportData,
@@ -419,4 +431,5 @@ export default {
   downloadExcel_reportType11,
   downloadExcel_DataStationAutov1,
   getUrlReportStatusData,
+  searchStationAuto,
 }

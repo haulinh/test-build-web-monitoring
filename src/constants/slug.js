@@ -113,8 +113,8 @@ export default {
   dataSearch: {
     base: '/data-search',
   },
-  dataSearchFilter: {
-    base: '/data-search-filter',
+  avgSearchAdvanced: {
+    base: '/avg-search-advanced',
   },
   avgSearch: {
     base: '/avg-search',

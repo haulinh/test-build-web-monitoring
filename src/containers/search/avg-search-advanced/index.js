@@ -1,27 +1,36 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
+import { message, Spin, Button, Row, Col } from 'antd'
+import * as _ from 'lodash'
+import { connectAutoDispatch } from 'redux/connect'
+import queryString from 'query-string'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import DataStationAutoApi from 'api/DataStationAutoApi'
-import Clearfix from 'components/elements/clearfix/index'
+import Clearfix from 'components/elements/clearfix'
 import TabList from './tab-list/index'
 import Breadcrumb from './breadcrumb'
-import SearchFrom from './search-form/index'
-import { connect } from 'react-redux'
-import * as _ from 'lodash'
+// import SearchFrom from './search-form/index'
+import SearchFrom from './form/SearchForm'
 import OrganizationApi from 'api/OrganizationApi'
-import { message, Spin, Button } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
-import { isEqual as _isEqual } from 'lodash'
-import FormFilter from './form'
-import queryString from 'query-string'
+import { toggleNavigation } from 'redux/actions/themeAction'
+import FormFilter from './form/ModalForm'
+import FilterListMenu from './menu'
+import StationForm from './form/StationForm'
 
-@connect(state => ({
-  values: _.get(state, 'form.dataSearchFilterForm.values', {}),
-  organizationId: _.get(state, 'auth.userInfo.organization._id', ''),
-}))
+@connectAutoDispatch(
+  state => ({
+    values: _.get(state, 'form.dataSearchFilterForm.values', {}),
+    organizationId: _.get(state, 'auth.userInfo.organization._id', 'vasoft'),
+    configFilter: _.get(state, 'auth.userInfo.organization.configFilter', []),
+    isOpenNavigation: state.theme.navigation.isOpen,
+    stations: _.get(state, 'stationAuto.list', []),
+  }),
+  { toggleNavigation }
+)
 @protectRole(ROLE.AVG_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
 @autobind
@@ -37,17 +46,54 @@ export default class AvgSearch extends React.Component {
     allowSave: false,
     isHaveData: false,
     isExporting: false,
+    configFilter: [],
     pagination: {
       current: 1,
       pageSize: 50,
     },
   }
 
+  componentDidMount() {
+    this.getDataOrganization()
+    this.props.toggleNavigation(false)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      !_.isEqual(this.props.values, prevProps.values) &&
+      this.state.allowSave
+    ) {
+      this.setState({ allowSave: false })
+    }
+  }
+
+  getDataOrganization = async () => {
+    const organizationInfo = await OrganizationApi.getOrganization(
+      this.props.organizationId
+    )
+    this.setState({
+      configFilter: _.get(organizationInfo, ['data', 'configFilter']),
+    })
+  }
+
   handleSubmitSearch = searchFormData => {
     this.loadData(this.state.pagination, searchFormData)
   }
 
-  handleSaveFilter = searchFormData => {
+  handleSaveInfoSearch = searchFormData => {
+    this.setState({
+      measuringData: searchFormData.measuringData || [],
+      measuringList: searchFormData.measuringList || [],
+      searchFormData: searchFormData,
+    })
+  }
+
+  handleOnSearchStationAuto = async searchData => {
+    const { data } = await DataStationAutoApi.searchStationAuto(searchData)
+    console.log(data)
+  }
+
+  handleSaveFilter = () => {
     this.setState({ visible: true })
   }
 
@@ -57,7 +103,7 @@ export default class AvgSearch extends React.Component {
       isHaveData: true,
     })
     let paginationQuery = pagination
-    if (!_isEqual(searchFormData, this.state.searchFormData)) {
+    if (!_.isEqual(searchFormData, this.state.searchFormData)) {
       this.setState({ allowSave: true })
       paginationQuery = {
         ...paginationQuery,
@@ -130,15 +176,6 @@ export default class AvgSearch extends React.Component {
     )
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      !_.isEqual(this.props.values, prevProps.values) &&
-      this.state.allowSave
-    ) {
-      this.setState({ allowSave: false })
-    }
-  }
-
   showModal = () => {
     this.setState({ visible: true })
   }
@@ -194,35 +231,42 @@ export default class AvgSearch extends React.Component {
   }
 
   render() {
-    // console.log(this.props.formData.searchNow,  "this.props.formData.searchNow")
     return (
       <PageContainer
         {...this.props.wrapperProps}
-        backgroundColor={'#fafbfb'}
+        backgroundColor="#fafbfb"
         right={this.rightChildren()}
       >
         <Spin size="large" tip="Exporting..." spinning={this.state.isExporting}>
-          <Breadcrumb items={['list']} />
-          <SearchFrom
-            onSubmit={this.handleSubmitSearch}
-            initialValues={this.props.formData}
-            searchNow={this.props.formData.searchNow}
-          />
-          <Clearfix height={16} />
-          {this.state.isHaveData ? (
-            <TabList
-              isLoading={this.state.isLoading}
-              measuringData={this.state.measuringData}
-              measuringList={this.state.measuringList}
-              dataStationAuto={this.state.dataStationAuto}
-              pagination={this.state.pagination}
-              onChangePage={this.handleChangePage}
-              onExportExcel={this.handleExportExcel}
-              nameChart={this.state.searchFormData.name}
-              typeReport={`${this.state.searchFormData.type}`}
-              isExporting={this.state.isExporting}
-            />
-          ) : null}
+          <Row type="flex">
+            <FilterListMenu configFilter={this.state.configFilter} />
+            <Col span={this.props.isOpenNavigation ? 24 : 20}>
+              <Breadcrumb items={['list']} />
+              <SearchFrom
+                onSubmit={this.handleSubmitSearch}
+                onSaveInfo={this.handleSaveInfoSearch}
+                onSearchStationAuto={this.handleOnSearchStationAuto}
+                initialValues={this.props.formData}
+                searchNow={this.props.formData.searchNow}
+              />
+              <Clearfix height={16} />
+              <StationForm stations={this.props.stations} />
+              {this.state.isHaveData ? (
+                <TabList
+                  isLoading={this.state.isLoading}
+                  measuringData={this.state.measuringData}
+                  measuringList={this.state.measuringList}
+                  dataStationAuto={this.state.dataStationAuto}
+                  pagination={this.state.pagination}
+                  onChangePage={this.handleChangePage}
+                  onExportExcel={this.handleExportExcel}
+                  nameChart={this.state.searchFormData.name}
+                  typeReport={`${this.state.searchFormData.type}`}
+                  isExporting={this.state.isExporting}
+                />
+              ) : null}
+            </Col>
+          </Row>
         </Spin>
         <FormFilter
           wrappedComponentRef={this.saveFormRef}
