@@ -2133,7 +2133,26 @@ export default {
       'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
     config: {
       configAQI: 'Cấu hình và lựa chọn công thức để tính toán AQI',
-      configWQI:' Cấu hình và lựa chọn công thức để tính toán WQI'
+      configWQI: 'Cấu hình và lựa chọn công thức để tính toán WQI',
+      stationAuto: 'Quản lý danh sách và tạo mới điểm quan trắc',
+      stationAutoConnection:
+        'Kết nối thông số được cấu hình trong file txt và trong hệ thống',
+      sendNotification:
+        'Lựa chọn hình thức nhận gởi cảnh báo của điểm quan trắc',
+      sampling: 'Lựa chọn điểm quan trắc có khả năng lấy mẫu',
+      color: '',
+      camera: 'Đính kèm và cho phép trạm hiển thị Camera',
+      parameter:
+        'Tạo mới thông số trước khi tiến hành bước Tạo mới điểm quan trắc',
+      stationType:
+        'Tạo mới loại trạm trước khi tiến hành bước Tạo mới điểm quan trắc',
+      site:
+        'Tạo mới đơn vị quản lý trước khi tiến hành bước Tạo mới điểm quan trắc',
+      standard:
+        'Tạo mới quy chuẩn trước khi tiến hành bước Tạo mới điểm quan trắc',
+        role:'Thêm mới nhưng nhóm quyền cần quản lý trong hệ thống',
+        user:'Thêm mới và phân quyền tài khoản trong hệ thống',
+        dataLogger:'Lịch sử người dùng thao tác trong hệ thống'
     },
     monitoring: {
       base:
