@@ -375,12 +375,27 @@ export const TOOLTIP_MENU = {
   advance: {
     wqiMap: translate('tooltipMenuApp.advance.wqiMap'),
     wqiHour: translate('tooltipMenuApp.advance.wqiHour'),
-    wqiDay:translate('tooltipMenuApp.advance.wqiDay'),
-    config:translate('tooltipMenuApp.advance.config'),
+    wqiDay: translate('tooltipMenuApp.advance.wqiDay'),
+    config: translate('tooltipMenuApp.advance.config'),
   },
   configSub: translate('tooltipMenuApp.configSub'),
-  config:{
-    configAQI:translate('tooltipMenuApp.config.configAQI'),
-    configWQI:translate('tooltipMenuApp.config.configWQI'),
-  }
+  config: {
+    configAQI: translate('tooltipMenuApp.config.configAQI'),
+    configWQI: translate('tooltipMenuApp.config.configWQI'),
+    stationAuto: translate('tooltipMenuApp.config.stationAuto'),
+    stationAutoConnection: translate(
+      'tooltipMenuApp.config.stationAutoConnection'
+    ),
+    sendNotification: translate('tooltipMenuApp.config.sendNotification'),
+    sampling: translate('tooltipMenuApp.config.sampling'),
+    color: translate('tooltipMenuApp.config.color'),
+    camera: translate('tooltipMenuApp.config.camera'),
+    parameter: translate('tooltipMenuApp.config.parameter'),
+    stationType: translate('tooltipMenuApp.config.stationType'),
+    site: translate('tooltipMenuApp.config.site'),
+    standard: translate('tooltipMenuApp.config.standard'),
+    role: translate('tooltipMenuApp.config.role'),
+    user:translate('tooltipMenuApp.config.user'),
+    dataLogger:translate('tooltipMenuApp.config.dataLogger'),
+  },
 }

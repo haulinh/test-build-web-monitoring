@@ -2157,6 +2157,25 @@ export default {
     config: {
       configAQI: 'Configuring and selecting the method to calculate AQI',
       configWQI: 'Configuring and selecting the method to calculate WQI',
+      stationAuto: 'Manage lists and create new monitoring points',
+      stationAutoConnection:
+        'Connection parameters are configured in the txt file and in the system',
+      sendNotification:
+        'Selection of receiving alerts from the monitoring points',
+      sampling: 'Select monitoring points with sampling feature',
+      color: '',
+      camera: 'Attach and allow the station to display the Camera',
+      parameter:
+        'Create a new parameter before proceeding to Create a new monitoring point',
+      stationType:
+        'Create a new type of station before proceeding to Create a new monitoring point',
+      site:
+        'Create a new Site before proceeding to Create a new monitoring point',
+      standard:
+        'Create a new Standard before proceeding to Create a new monitoring point',
+      role: 'Add new Roles groups to manage in the system',
+      user: 'Add new and Assign Roles accounts in the system',
+      dataLogger: 'The user history of operations in the system',
     },
   },
   dataLogger: {
