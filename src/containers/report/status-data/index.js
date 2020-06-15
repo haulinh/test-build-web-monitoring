@@ -8,7 +8,7 @@ import {
   getUrlReportStatusDataExcel,
 } from 'api/DataStationAutoApi'
 import moment from 'moment-timezone'
-import { MM_YYYY, DD_MM_YYYY } from 'constants/format-date.js'
+import { DD_MM_YYYY } from 'constants/format-date.js'
 import { Typography, Spin, Table, Divider, Button } from 'antd'
 import { get as _get } from 'lodash'
 import Clearfix from 'components/elements/clearfix'
