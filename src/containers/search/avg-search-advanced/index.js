@@ -47,6 +47,7 @@ export default class AvgSearch extends React.Component {
     isHaveData: false,
     isExporting: false,
     configFilter: [],
+    filteredConfigFilter: [],
     pagination: {
       current: 1,
       pageSize: 50,
@@ -71,9 +72,12 @@ export default class AvgSearch extends React.Component {
     const organizationInfo = await OrganizationApi.getOrganization(
       this.props.organizationId
     )
-    this.setState({
-      configFilter: _.get(organizationInfo, ['data', 'configFilter']),
-    })
+    this.setState(
+      {
+        configFilter: _.get(organizationInfo, ['data', 'configFilter']),
+      },
+      () => this.setState({ filteredConfigFilter: this.state.configFilter })
+    )
   }
 
   handleSubmitSearch = searchFormData => {
@@ -230,6 +234,18 @@ export default class AvgSearch extends React.Component {
     this.formRef = formRef
   }
 
+  handleSearch = searchText => {
+    const { configFilter } = this.state
+    const filteredConfigFilter = configFilter.filter(({ name }) => {
+      name = name.toLowerCase()
+      return name.includes(searchText)
+    })
+
+    this.setState({
+      filteredConfigFilter,
+    })
+  }
+
   render() {
     return (
       <PageContainer
@@ -238,8 +254,14 @@ export default class AvgSearch extends React.Component {
         right={this.rightChildren()}
       >
         <Spin size="large" tip="Exporting..." spinning={this.state.isExporting}>
-          <Row type="flex">
-            <FilterListMenu configFilter={this.state.configFilter} />
+          <Row
+            style={{ marginLeft: '-24px', marginRight: '-24px' }}
+            type="flex"
+          >
+            <FilterListMenu
+              configFilter={this.state.filteredConfigFilter}
+              handleSearch={this.handleSearch}
+            />
             <Col span={this.props.isOpenNavigation ? 24 : 20}>
               <Breadcrumb items={['list']} />
               <SearchFrom
