@@ -2102,6 +2102,19 @@ export default {
         'Lựa chọn trạm và thông số truyền vào thư mục bên ngoài bằng FTP',
     },
     reportSub: 'Lựa chọn loại báo cáo để xuất kết quả',
+    report: {
+      type10: 'Thống kê về tỉ lệ số liệu quan trắc nhận được',
+      type2:
+        'Trung bình số học các giá trị đo được trong khoảng thời gian 24 giờ (một ngày đêm)',
+      type11:
+        'Trung bình số học các giá trị đo được trong khoảng thời gian 1 giờ  liên tục',
+      type3:
+        'Giá trị lớn nhất trong số các giá trị trung bình 1 giờ  trong 1 ngày đo',
+      type4:
+        'Giá trị lớn nhất trong số các giá trị trung bình 8 giờ  trong 1 ngày đo',
+      type12: 'Thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm trong ngày',
+      status_data: ' Báo cáo tổng hợp tình trạng dữ liệu theo nhiều trạm',
+    },
     advanceSub: 'Các chức năng nâng cao của hệ thống',
     processData: {
       configNew: 'Lựa chọn yếu tố ảnh hưởng đến dữ liệu không hơp lệ',

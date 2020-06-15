@@ -2128,6 +2128,18 @@ export default {
     },
     shareDataSub: 'Configure to share data from the system to the outside',
     reportSub: 'Select the report type to export the results',
+    report: {
+      type10: 'Statistics on the percentage of observed data received',
+      type2:
+        'The average of the value of measured during 24-hour (a night day)',
+      type11: 'The average of the value of measured during 1-continuous hour',
+      type3:
+        'Maximum value among the average values ​​of 1 hour in 1 day measured value',
+      type4:
+        'Maximum value among the average values ​​of 8 hours in 1 day measured value',
+      type12: 'Statistics percent data that exceeds the threshold for the day',
+      status_data: 'Summary report on status of data at many stations',
+    },
     advanceSub: 'Advanced functions of the system',
     configSub:
       'Configure issues related to monitoring points and system administration',

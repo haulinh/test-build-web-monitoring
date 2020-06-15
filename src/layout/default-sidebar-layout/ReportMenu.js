@@ -33,20 +33,11 @@ export default {
             props.selectMenu(slug.report.type10)
           }}
         >
-          <Link to={slug.report.type10}>{MENU_NAME.report.type10}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.report.type10}>
+            <Link to={slug.report.type10}>{MENU_NAME.report.type10}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
-      {/* NOTE  LOAI 1 - Tỷ lệ số liệu */}
-      {/* {protectRole(ROLE.TILE_DULIEU.VIEW)(
-        <Menu.Item
-          key={slug.report.type1}
-          onClick={() => {
-            props.selectMenu(slug.report.type1)
-          }}
-        >
-          <Link to={slug.report.type1}>{MENU_NAME.report.type1}</Link>
-        </Menu.Item>
-      )} */}
       {/* NOTE  LOAI 2 */}
       {protectRole(ROLE.TB24H.VIEW)(
         <Menu.Item
@@ -55,7 +46,9 @@ export default {
             props.selectMenu(slug.report.type2)
           }}
         >
-          <Link to={slug.report.type2}>{MENU_NAME.report.type2}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.report.type2}>
+            <Link to={slug.report.type2}>{MENU_NAME.report.type2}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
       {/* NOTE  LOAI 1 - trung binh theo giờ */}
@@ -66,7 +59,9 @@ export default {
             props.selectMenu(slug.report.type11)
           }}
         >
-          <Link to={slug.report.type11}>{MENU_NAME.report.type11}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.report.type11}>
+            <Link to={slug.report.type11}>{MENU_NAME.report.type11}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
       {/* NOTE  LOAI 3 */}
@@ -77,7 +72,9 @@ export default {
             props.selectMenu(slug.report.type3)
           }}
         >
-          <Link to={slug.report.type3}>{MENU_NAME.report.type3}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.report.type3}>
+            <Link to={slug.report.type3}>{MENU_NAME.report.type3}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
       {/* NOTE  LOAI 4 */}
@@ -88,7 +85,9 @@ export default {
             props.selectMenu(slug.report.type4)
           }}
         >
-          <Link to={slug.report.type4}>{MENU_NAME.report.type4}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.report.type4}>
+            <Link to={slug.report.type4}>{MENU_NAME.report.type4}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
       {protectRole(ROLE.TILE_DULIE_VUOTNGUONG.VIEW)(
@@ -98,7 +97,9 @@ export default {
             props.selectMenu(slug.report.type12)
           }}
         >
-          <Link to={slug.report.type12}>{MENU_NAME.report.type12}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.report.type12}>
+            <Link to={slug.report.type12}>{MENU_NAME.report.type12}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -109,9 +110,11 @@ export default {
             props.selectMenu(slug.report.status_data)
           }}
         >
-          <Link to={slug.report.status_data}>
-            {MENU_NAME.report.status_data}
-          </Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.report.status_data}>
+            <Link to={slug.report.status_data}>
+              {MENU_NAME.report.status_data}
+            </Link>
+          </Tooltip>
         </Menu.Item>
       )}
     </Menu.SubMenu>
