@@ -34,7 +34,9 @@ export default {
             props.selectMenu(slug.map.aqi)
           }}
         >
-          <Link to={slug.map.aqi}>{MENU_NAME.monitoring.mapAQI}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.mapAQI}>
+            <Link to={slug.map.aqi}>{MENU_NAME.monitoring.mapAQI}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
       {protectRole(ROLE.AQI_GIO.VIEW)(
@@ -44,7 +46,9 @@ export default {
             props.selectMenu(slug.report.aqi_hour)
           }}
         >
-          <Link to={slug.report.aqi_hour}>{MENU_NAME.report.aqi_hour}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.report.aqi_hour}>
+            <Link to={slug.report.aqi_hour}>{MENU_NAME.report.aqi_hour}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -55,7 +59,9 @@ export default {
             props.selectMenu(slug.report.aqi_day)
           }}
         >
-          <Link to={slug.report.aqi_day}>{MENU_NAME.report.aqi_day}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.report.aqi_day}>
+            <Link to={slug.report.aqi_day}>{MENU_NAME.report.aqi_day}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
       {/* // NOTE Báo cáo AQI - END */}
@@ -67,7 +73,9 @@ export default {
             props.selectMenu(slug.wqi.base)
           }}
         >
-          <Link to={slug.wqi.base}>{MENU_NAME.advance.wqiMap}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.advance.wqiMap}>
+            <Link to={slug.wqi.base}>{MENU_NAME.advance.wqiMap}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
       {protectRole(ROLE.WQI_GIO.VIEW)(
@@ -77,7 +85,9 @@ export default {
             props.selectMenu(slug.report.wqi_hour)
           }}
         >
-          <Link to={slug.report.wqi_hour}>{MENU_NAME.advance.wqiHour}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.advance.wqiHour}>
+            <Link to={slug.report.wqi_hour}>{MENU_NAME.advance.wqiHour}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
       {protectRole(ROLE.WQI_NGAY.VIEW)(
@@ -87,7 +97,9 @@ export default {
             props.selectMenu(slug.report.wqi_day)
           }}
         >
-          <Link to={slug.report.wqi_day}>{MENU_NAME.advance.wqiDay}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.advance.wqiDay}>
+            <Link to={slug.report.wqi_day}>{MENU_NAME.advance.wqiDay}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -98,7 +110,9 @@ export default {
             props.selectMenu(slug.configWQI.base)
           }}
         >
-          <Link to={slug.configWQI.base}>{MENU_NAME.advance.config}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.advance.config}>
+            <Link to={slug.configWQI.base}>{MENU_NAME.advance.config}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
       {/* NOTE  CẤU HÌNH TÍNH TOÁN AQI */}
@@ -107,7 +121,9 @@ export default {
           key={slug.aqi.config}
           onClick={() => props.selectMenu(slug.aqi.config)}
         >
-          <Link to={slug.aqi.config}>{MENU_NAME.config.configAQI}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.configAQI}>
+            <Link to={slug.aqi.config}>{MENU_NAME.config.configAQI}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -117,7 +133,9 @@ export default {
           key={slug.wqi.config}
           onClick={() => props.selectMenu(slug.wqi.config)}
         >
-          <Link to={slug.wqi.config}>{MENU_NAME.config.configWQI}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.configWQI}>
+            <Link to={slug.wqi.config}>{MENU_NAME.config.configWQI}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
     </Menu.SubMenu>

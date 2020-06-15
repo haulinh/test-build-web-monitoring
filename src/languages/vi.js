@@ -2114,14 +2114,27 @@ export default {
         'Giá trị lớn nhất trong số các giá trị trung bình 8 giờ  trong 1 ngày đo',
       type12: 'Thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm trong ngày',
       status_data: ' Báo cáo tổng hợp tình trạng dữ liệu theo nhiều trạm',
+      aqi_hour: 'Báo cáo giá trị AQI của từng trạm',
+      aqi_day: 'Báo cáo giá trị AQI ngày theo nhiều trạm',
     },
     advanceSub: 'Các chức năng nâng cao của hệ thống',
+    advance: {
+      wqiMap:
+        'Giám sát chỉ số chất lượng nước mặt theo giờ mới nhất trên nền bản đồ',
+      wqiHour: 'Báo cáo giá trị WQI của từng trạm',
+      wqiDay: 'Báo cáo giá trị WQI ngày theo nhiều trạm',
+      config: 'Lựa chọn trạm để tính giá trị AQI hoặc WQI',
+    },
     processData: {
       configNew: 'Lựa chọn yếu tố ảnh hưởng đến dữ liệu không hơp lệ',
       approveData: 'Tra cứu dữ liệu sau khi đã loại bỏ dữ liệu không hợp lệ',
     },
     configSub:
       'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
+    config: {
+      configAQI: 'Cấu hình và lựa chọn công thức để tính toán AQI',
+      configWQI:' Cấu hình và lựa chọn công thức để tính toán WQI'
+    },
     monitoring: {
       base:
         'Giám sát số liệu theo thời gian thực theo từng điểm quan trắc và thao tác lấy mẫu',
@@ -2131,6 +2144,8 @@ export default {
         'Tra cứu các dữ liệu gốc của điểm quan trắc theo  khoảng thời gian',
       avgData:
         'Tra cứu các dữ liệu trung bình của điểm quan trắc theo khoảng thời gian',
+      mapAQI:
+        'Giám sát chỉ số chất lượng không khí theo giờ mới nhất trên nền bản đồ',
     },
     monitoringList: {
       base:

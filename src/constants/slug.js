@@ -344,6 +344,7 @@ export const TOOLTIP_MENU = {
     camera: translate('tooltipMenuApp.monitoring.camera'),
     historyData: translate('tooltipMenuApp.monitoring.historyData'),
     avgData: translate('tooltipMenuApp.monitoring.avgData'),
+    mapAQI: translate('tooltipMenuApp.monitoring.mapAQI'),
   },
   monitoringList: {
     base: translate('tooltipMenuApp.monitoringList.base'),
@@ -364,10 +365,22 @@ export const TOOLTIP_MENU = {
     type2: translate('tooltipMenuApp.report.type2'),
     type11: translate('tooltipMenuApp.report.type11'),
     type3: translate('tooltipMenuApp.report.type3'),
-    type4:translate('tooltipMenuApp.report.type4'),
-    type12:translate('tooltipMenuApp.report.type12'),
-    status_data:translate('tooltipMenuApp.report.status_data'),
+    type4: translate('tooltipMenuApp.report.type4'),
+    type12: translate('tooltipMenuApp.report.type12'),
+    status_data: translate('tooltipMenuApp.report.status_data'),
+    aqi_hour: translate('tooltipMenuApp.report.aqi_hour'),
+    aqi_day: translate('tooltipMenuApp.report.aqi_day'),
   },
   advanceSub: translate('tooltipMenuApp.advanceSub'),
+  advance: {
+    wqiMap: translate('tooltipMenuApp.advance.wqiMap'),
+    wqiHour: translate('tooltipMenuApp.advance.wqiHour'),
+    wqiDay:translate('tooltipMenuApp.advance.wqiDay'),
+    config:translate('tooltipMenuApp.advance.config'),
+  },
   configSub: translate('tooltipMenuApp.configSub'),
+  config:{
+    configAQI:translate('tooltipMenuApp.config.configAQI'),
+    configWQI:translate('tooltipMenuApp.config.configWQI'),
+  }
 }
