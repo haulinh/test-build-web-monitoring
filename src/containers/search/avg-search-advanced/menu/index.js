@@ -51,6 +51,10 @@ export default class FilterListMenu extends React.Component {
     isOpenNavigation: PropTypes.bool,
   }
 
+  state = {
+    highlightText: '',
+  }
+
   handleClickFilterItem = filterId => () => {
     const filter = this.props.configFilter.find(
       filter => filter._id === filterId
@@ -70,6 +74,32 @@ export default class FilterListMenu extends React.Component {
     )
   }
 
+  handleOnChangeSearch = event => {
+    this.setState({ highlightText: event.target.value })
+    this.props.handleSearch(event.target.value)
+  }
+
+  getHighlightedText(text, highlightText) {
+    // Split text on highlight term, include term itself into parts, ignore case
+    const parts = text.split(new RegExp(`(${highlightText})`, 'gi'))
+    return (
+      <span>
+        {parts.map((part, i) => (
+          <span
+            key={i}
+            style={
+              part.toLowerCase() === highlightText.toLowerCase()
+                ? { backgroundColor: 'yellow' }
+                : {}
+            }
+          >
+            {part}
+          </span>
+        ))}
+      </span>
+    )
+  }
+
   render() {
     if (this.props.isOpenNavigation) return null
     return (
@@ -78,15 +108,14 @@ export default class FilterListMenu extends React.Component {
           <SearchWrapper>
             <Title>{i18n.titleSubMenuAvgData}</Title>
             <Search
-              onChange={event => this.props.handleSearch(event.target.value)}
+              onChange={event => this.handleOnChangeSearch(event)}
               placeholder="Enter Title"
               onSearch={this.props.handleSearch}
-              style={{ width: 200, marginTop: '10px' }}
+              style={{ width: "95%", marginTop: '10px' }}
             />
           </SearchWrapper>
           <Menu
             style={{
-              width: '65%',
               overflowX: 'hidden',
               overflowY: 'auto',
               backgroundColor: '#F4F5F7',
@@ -108,7 +137,10 @@ export default class FilterListMenu extends React.Component {
                   onClick={this.handleClickFilterItem(filter._id)}
                   key={filter._id}
                 >
-                  {filter.name}
+                  {this.getHighlightedText(
+                    filter.name,
+                    this.state.highlightText
+                  )}
                 </Menu.Item>
               ))}
             </SubMenu>
