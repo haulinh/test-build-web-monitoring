@@ -232,6 +232,11 @@ export default {
     colGroupIII: 'Group III',
     colGroupIV: 'Group IV',
     colGroupV: 'Group V',
+    phuongPhapTinh: 'AQI calculation method',
+    cauHinh: 'Configuration of calculation',
+    taiLieu: 'Documentation on calculations',
+    config: 'Configuration',
+    view: 'View',
   },
   qaqc: {
     configPublish: {

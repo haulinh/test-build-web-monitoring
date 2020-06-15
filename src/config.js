@@ -37,14 +37,11 @@ export function getConfigApi() {
     // aqiConfigCalculation: 'http://localhost:5002/config/aqi-calculation',
 
     qaqcConfig: c('config/qaqc'),
+    wqiListConfig: c('config/wqi-list-config'),
     wqiConfigCalculation: c('config/wqi-calculation'),
-    // wqiConfigCalculation: 'http://localhost:5002/config/wqi-calculation',
     wqiConfigWeight: c('config/wqi-weight-param'),
-    // wqiConfigWeight: 'http://localhost:5002/config/wqi-weight-param',
     wqiConfigCalParams: c('config/wqi-cal-param'),
-    // wqiConfigCalParams: 'http://localhost:5002/config/wqi-cal-param',
     wqiConfigMeaTable: c('config/wqi-mea-table'),
-    // wqiConfigMeaTable: 'http://localhost:5002/config/wqi-mea-table',
 
     // aqiConfigQC: 'http://localhost:5002/config/aqi-qc',
     ftp: c('ftp'),

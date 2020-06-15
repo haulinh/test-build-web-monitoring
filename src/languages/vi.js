@@ -227,6 +227,11 @@ export default {
     colGroupIII: 'Nhóm III',
     colGroupIV: 'Nhóm IV',
     colGroupV: 'Nhóm V',
+    phuongPhapTinh: 'Phương pháp tính AQI',
+    cauHinh: 'Cấu hình cách tính',
+    taiLieu: 'Tài liệu tính toán',
+    config: 'Cấu hình',
+    view: 'Xem',
   },
   qaqc: {
     configPublish: {

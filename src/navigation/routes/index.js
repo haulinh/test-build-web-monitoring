@@ -39,6 +39,7 @@ import AqiConfigCalculationContainer from 'containers/aqi/configCalculation'
 import AqiListConfigContainer from 'containers/aqi/listConfig'
 
 import WqiContainer from 'containers/wqi'
+import WqiListConfigContainer from 'containers/wqi/listConfig'
 import WqiConfigCalculationContainer from 'containers/wqi/configCalculation'
 import QaQcContainer from 'containers/qa-qc/approved-data'
 import PublishConfigContainer from 'containers/qa-qc/approved-data/config-publish'
@@ -94,14 +95,19 @@ export default class RouteDefault extends React.Component {
               path={slug.aqi.config}
               // component={AqiConfigCalculationContainer}
               component={AqiListConfigContainer}
-            />
+            />            
             <LayoutRoute
               path={slug.aqi.configEdit}
               component={AqiConfigCalculationContainer}
             />
             <LayoutRoute path={slug.wqi.base} component={WqiContainer} />
             <LayoutRoute
+              exact
               path={slug.wqi.config}
+              component={WqiListConfigContainer}
+            />
+            <LayoutRoute
+              path={slug.wqi.configEdit}
               component={WqiConfigCalculationContainer}
             />
             <LayoutRoute

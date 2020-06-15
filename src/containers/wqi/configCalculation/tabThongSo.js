@@ -61,7 +61,6 @@ const i18n = {
   colGroupParam: translate('wqiConfigCalculation.colGroupParam'),
 }
 
-const CODE = 'vi'
 @Form.create({})
 export default class TabThongSo extends React.Component {
   idIncrement = 0
@@ -254,7 +253,7 @@ export default class TabThongSo extends React.Component {
         console.log('Received values of form: ', values)
         try {
           let transformData = values.payload
-          const response = await postConfigWqiParams(CODE, transformData)
+          const response = await postConfigWqiParams(this.props.code, transformData)
           if (response.success) {
             message.success(i18n.updateSuccess)
           }
@@ -293,7 +292,7 @@ export default class TabThongSo extends React.Component {
       dataMeasuringObj = _.keyBy(resMeasuringList.data, 'key')
     }
 
-    const response = await getConfigWqiParams(CODE)
+    const response = await getConfigWqiParams(this.props.code)
     if (response.success) {
       let transformData = _.get(response, 'data.value', [])
       transformData = transformData.filter(item => item != null)

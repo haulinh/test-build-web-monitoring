@@ -171,6 +171,8 @@ export default {
   wqi: {
     base: '/wqi',
     config: '/wqi-config',
+    configEdit: '/wqi-config/:key',
+    configWithKey: '/wqi-config',
   },
   qaqc: {
     base: '/qaqc',

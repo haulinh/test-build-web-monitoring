@@ -25,7 +25,6 @@ const i18n = {
   add: translate('wqiConfigCalculation.add'),
 }
 
-const CODE = 'vi'
 @Form.create({})
 export default class TabGiaTri extends React.Component {
   state = {
@@ -44,7 +43,7 @@ export default class TabGiaTri extends React.Component {
         console.log('Received values of form: ', values)
         try {
           let transformData = values.payload
-          const response = await postConfigWqiParams(CODE, transformData)
+          const response = await postConfigWqiParams(this.props.code, transformData)
           if (response.success) {
             message.success(i18n.updateSuccess)
           }
@@ -56,7 +55,7 @@ export default class TabGiaTri extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await getConfigWqiParams(CODE)
+    const response = await getConfigWqiParams(this.props.code)
     if (response.success) {
       console.log('response', response)
       const config = _.get(response, 'data.value', [])

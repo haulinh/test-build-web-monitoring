@@ -109,6 +109,14 @@ export function postConfigAqiCalculation(keyLevel, data) {
 
 /* #region  NOTE  cấu hình WQI-Calculation */
 
+export function getListConfigWqi() {
+  return getFetch(getConfigApi().wqiListConfig)
+}
+
+export function postListConfigWqi(code, data) {
+  return postFetch(getConfigApi().wqiListConfig, data)
+}
+
 export function getConfigWqiCalculation(code) {
   return getFetch(getConfigApi().wqiConfigCalculation + `/${code}`)
 }

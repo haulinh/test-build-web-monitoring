@@ -44,7 +44,6 @@ const i18n = {
   colGroupV: translate('wqiConfigCalculation.colGroupV'),
 }
 
-const CODE = 'vi'
 @Form.create({})
 export default class TabTrongSo extends React.Component {
   idIncrement = 0
@@ -205,7 +204,7 @@ export default class TabTrongSo extends React.Component {
       if (!err) {
         this.setState({ isSubmit: true })
         try {
-          const response = await postConfigWqiWeight(CODE, values)
+          const response = await postConfigWqiWeight(this.props.code, values)
           if (response.success) {
             message.success(i18n.updateSuccess)
           }
@@ -217,7 +216,7 @@ export default class TabTrongSo extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await getConfigWqiWeight(CODE)
+    const response = await getConfigWqiWeight(this.props.code)
     if (response.success) {
       const transformData = _.get(response, 'data.value', {})
 
