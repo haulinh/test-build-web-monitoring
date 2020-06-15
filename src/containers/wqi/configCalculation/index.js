@@ -107,7 +107,6 @@ export default class ConfigCalculationWQI extends PureComponent {
               return <div />
             }}
             activeKey={this.state.tabKey}
-            destroyInactiveTabPane
           >
             <TabPane tab="Ngưỡng mức độ" key={TAB_KEY.MUC_DO}>
               <Clearfix height={24} />

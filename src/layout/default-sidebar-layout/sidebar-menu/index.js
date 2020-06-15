@@ -110,6 +110,7 @@ export default class MenuApp extends React.PureComponent {
       let pathObj = this.getPath(pathname)
       menuExpande = parentMenuFromSub[pathObj.menuExpande]
       menuSelect = pathObj.menuSelect
+      console.log(pathObj.menuExpande, 'menuSelect')
     }
 
     this.props.selectMenu(menuSelect)

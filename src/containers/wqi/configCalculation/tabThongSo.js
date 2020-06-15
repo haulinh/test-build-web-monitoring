@@ -61,7 +61,6 @@ const i18n = {
   colGroupParam: translate('wqiConfigCalculation.colGroupParam'),
 }
 
-const CODE = 'vi'
 @Form.create({})
 export default class TabThongSo extends React.Component {
   idIncrement = 0
@@ -233,9 +232,9 @@ export default class TabThongSo extends React.Component {
     },
   ]
 
-  SelectMeasure = React.forwardRef((props, ref) => {
+  SelectMeasure = React.forwardRef(props => {
     return (
-      <Select ref={ref} {...props} showSearch style={{ width: '100%' }}>
+      <Select {...props} showSearch style={{ width: '100%' }}>
         {_.map(this.state.dataMeasuringObj, mea => {
           return (
             <Select.Option key={mea.key} value={mea.key}>
@@ -254,7 +253,7 @@ export default class TabThongSo extends React.Component {
         console.log('Received values of form: ', values)
         try {
           let transformData = values.payload
-          const response = await postConfigWqiParams(CODE, transformData)
+          const response = await postConfigWqiParams(transformData)
           if (response.success) {
             message.success(i18n.updateSuccess)
           }
@@ -293,7 +292,7 @@ export default class TabThongSo extends React.Component {
       dataMeasuringObj = _.keyBy(resMeasuringList.data, 'key')
     }
 
-    const response = await getConfigWqiParams(CODE)
+    const response = await getConfigWqiParams()
     if (response.success) {
       let transformData = _.get(response, 'data.value', [])
       transformData = transformData.filter(item => item != null)
@@ -311,6 +310,7 @@ export default class TabThongSo extends React.Component {
           isLoaded: true,
         },
         () => {
+          // console.log(dataSource, "dataSource");
           this.props.form.setFieldsValue({
             payload: transformData,
           })

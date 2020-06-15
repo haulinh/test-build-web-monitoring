@@ -41,7 +41,6 @@ const i18n = {
   colDescription: translate('wqiConfigCalculation.colDescription'),
 }
 
-const CODE = 'vi'
 @Form.create({})
 export default class TabMucDo extends React.Component {
   idIncrement = 0
@@ -50,7 +49,6 @@ export default class TabMucDo extends React.Component {
     isSubmit: false,
     dataSource: [],
     isLocked: false,
-    isFormLoaded: false,
   }
 
   columns = [
@@ -259,7 +257,7 @@ export default class TabMucDo extends React.Component {
           )
 
           // console.log("transformData", transformData);
-          const response = await postConfigWqiCalculation(CODE, transformData)
+          const response = await postConfigWqiCalculation(transformData)
           if (response.success) {
             message.success(i18n.updateSuccess)
           }
@@ -289,22 +287,16 @@ export default class TabMucDo extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await getConfigWqiCalculation(CODE)
+    const response = await getConfigWqiCalculation()
     if (response.success) {
       const transformData = _.get(response, 'data.value', []).filter(i =>
         _.identity(i)
       )
       const lastRecord = transformData[transformData.length - 1]
-      let dataSource = transformData.map(item => {
-        return {
-          ...item,
-          key: this.idIncrement++,
-        }
-      })
-
+      transformData.map(i => (i.key = this.idIncrement++))
       this.setState(
         {
-          dataSource,
+          dataSource: transformData,
           isLoaded: true,
           isLocked: lastRecord ? lastRecord.max == null : null,
         },

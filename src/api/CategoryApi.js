@@ -109,36 +109,36 @@ export function postConfigAqiCalculation(keyLevel, data) {
 
 /* #region  NOTE  cấu hình WQI-Calculation */
 
-export function getConfigWqiCalculation(code) {
-  return getFetch(getConfigApi().wqiConfigCalculation + `/${code}`)
+export function getConfigWqiCalculation() {
+  return getFetch(getConfigApi().wqiConfigCalculation)
 }
 
-export function postConfigWqiCalculation(code, data) {
-  return postFetch(getConfigApi().wqiConfigCalculation + `/${code}`, data)
+export function postConfigWqiCalculation(data) {
+  return postFetch(getConfigApi().wqiConfigCalculation, data)
 }
 
-export function getConfigWqiWeight(code) {
-  return getFetch(getConfigApi().wqiConfigWeight + `/${code}`)
+export function getConfigWqiWeight() {
+  return getFetch(getConfigApi().wqiConfigWeight)
 }
 
-export function postConfigWqiWeight(code, data) {
-  return postFetch(getConfigApi().wqiConfigWeight + `/${code}`, data)
+export function postConfigWqiWeight(data) {
+  return postFetch(getConfigApi().wqiConfigWeight, data)
 }
 
-export function getConfigWqiParams(code) {
-  return getFetch(getConfigApi().wqiConfigCalParams + `/${code}`)
+export function getConfigWqiParams() {
+  return getFetch(getConfigApi().wqiConfigCalParams)
 }
 
-export function postConfigWqiParams(code, data) {
-  return postFetch(getConfigApi().wqiConfigCalParams + `/${code}`, data)
+export function postConfigWqiParams(data) {
+  return postFetch(getConfigApi().wqiConfigCalParams, data)
 }
 
-export function getConfigWqiMeaTable(code) {
-  return getFetch(getConfigApi().wqiConfigMeaTable + `/${code}`)
+export function getConfigWqiMeaTable() {
+  return getFetch(getConfigApi().wqiConfigMeaTable)
 }
 
-export function postConfigWqiMeaTable(code, data) {
-  return postFetch(getConfigApi().wqiConfigMeaTable + `/${code}`, data)
+export function postConfigWqiMeaTable(data) {
+  return postFetch(getConfigApi().wqiConfigMeaTable, data)
 }
 
 /* #endregion */
