@@ -583,6 +583,7 @@ export default {
       subMenuAvgData: {
         title: 'Avg data',
         dataSearch: 'Data search',
+        placeholderSearch: "Enter the filter name ..."
       },
       subMenuFilters: 'Filters',
     },

@@ -16,6 +16,9 @@ const i18n = {
   titleSubMenuAvgData: translate('avgSearchFrom.search.subMenuAvgData.title'),
   dataSearch: translate('avgSearchFrom.search.subMenuAvgData.dataSearch'),
   titleSubMenuFilters: translate('avgSearchFrom.search.subMenuFilters'),
+  placeholderSearch: translate(
+    'avgSearchFrom.search.subMenuAvgData.placeholderSearch'
+  ),
 }
 
 const { SubMenu } = Menu
@@ -109,7 +112,7 @@ export default class FilterListMenu extends React.Component {
             <Title>{i18n.titleSubMenuAvgData}</Title>
             <Search
               onChange={event => this.handleOnChangeSearch(event)}
-              placeholder="Enter Title"
+              placeholder={i18n.placeholderSearch}
               onSearch={this.props.handleSearch}
               style={{ width: '95%', marginTop: '10px' }}
             />

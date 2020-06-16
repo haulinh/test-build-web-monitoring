@@ -579,6 +579,7 @@ export default {
       subMenuAvgData: {
         title: 'Dữ liệu trung bình',
         dataSearch: 'Tìm kiếm dữ liệu',
+        placeholderSearch: "Nhập tên bộ lọc ..."
       },
       subMenuFilters: 'Danh sách bộ lọc',
     },
