@@ -119,7 +119,6 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   render() {
-    console.log(this.state.stationsData)
     return (
       <PageContainer
         {...this.props.wrapperProps}

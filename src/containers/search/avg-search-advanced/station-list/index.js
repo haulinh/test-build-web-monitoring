@@ -7,7 +7,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow'
 import DataStationAutoApi from 'api/DataStationAutoApi'
-import swal from 'sweetalert2'
 import { translate } from 'hoc/create-lang'
 import TabList from '../tab-list'
 
@@ -91,10 +90,7 @@ export default class TableList extends React.PureComponent {
         return
       }
       if (!dataStationAuto.data.length) {
-        swal({
-          type: 'success',
-          title: translate('avgSearchFrom.table.emptyText'),
-        })
+        message.warn(translate('avgSearchFrom.table.emptyText'))
       }
       this.setState({
         isLoading: false,

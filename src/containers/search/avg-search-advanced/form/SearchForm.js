@@ -293,7 +293,6 @@ export default class SearchAvgForm extends React.Component {
       fromDate: this.convertDateToString(this.state.fromDate),
       toDate: this.convertDateToString(this.state.toDate),
     }
-    console.log(params)
     this.props.onSubmit(params)
   }
 
@@ -345,7 +344,7 @@ export default class SearchAvgForm extends React.Component {
             stationAutoKey: stationAutoData[0].key,
           },
           () => {
-            this.props.handleSubmit(this.props.onSubmit)()
+            this.props.handleSubmit(this.handleSubmit)()
           }
         )
       }
