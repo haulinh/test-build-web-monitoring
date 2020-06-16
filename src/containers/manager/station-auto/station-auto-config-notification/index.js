@@ -83,9 +83,13 @@ export default class StationAutoConfigNotification extends React.Component {
       isWarningIndeterminate: true,
       isSmsIndeterminate: true,
       isEmailIndeterminate: true,
+      isWebIndeterminate: true,
+      isMobileIndeterminate: true,
       isWarningCheckAll: false,
       isSmsCheckAll: false,
       isEmailCheckAll: false,
+      isWebCheckAll: false,
+      isMobileCheckAll: false,
     }
   }
 
@@ -210,6 +214,46 @@ export default class StationAutoConfigNotification extends React.Component {
         ),
         width: 10,
       },
+      {
+        content: (
+          <div>
+            <Checkbox
+              indeterminate={this.state.isWebIndeterminate}
+              checked={this.state.isWebCheckAll}
+              disabled={isDisabledCheckAll}
+              onChange={e =>
+                this.onChagedOptionOfHeader(
+                  STATION_AUTO_OPTIONS.WEB,
+                  e.target.checked
+                )
+              }
+            >
+              Web
+            </Checkbox>
+          </div>
+        ),
+        width: 10,
+      },
+      {
+        content: (
+          <div>
+            <Checkbox
+              indeterminate={this.state.isMobileIndeterminate}
+              checked={this.state.isMobileCheckAll}
+              disabled={isDisabledCheckAll}
+              onChange={e =>
+                this.onChagedOptionOfHeader(
+                  STATION_AUTO_OPTIONS.MOBILE,
+                  e.target.checked
+                )
+              }
+            >
+              Mobile
+            </Checkbox>
+          </div>
+        ),
+        width: 10,
+      },
     ]
   }
 
@@ -224,6 +268,8 @@ export default class StationAutoConfigNotification extends React.Component {
       ['stationType.key'],
       ['asc']
     )
+
+    console.log('sourceSorted', sourceSorted)
 
     let stationCount = _.countBy(sourceSorted, 'stationType.key')
     //logic return groupRow or groupRow and Row
@@ -320,6 +366,50 @@ export default class StationAutoConfigNotification extends React.Component {
                     this.onChagedOptionOfRow({
                       row,
                       key: STATION_AUTO_OPTIONS.EMAIL,
+                      value: e.target.checked,
+                    })
+                  }
+                />
+              </div>
+            ),
+          },
+          /* checkbox Web */
+          {
+            content: (
+              <div>
+                <Checkbox
+                  disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
+                  checked={_.get(
+                    row,
+                    ['options', STATION_AUTO_OPTIONS.WEB, 'allowed'],
+                    false
+                  )}
+                  onChange={e =>
+                    this.onChagedOptionOfRow({
+                      row,
+                      key: STATION_AUTO_OPTIONS.WEB,
+                      value: e.target.checked,
+                    })
+                  }
+                />
+              </div>
+            ),
+          },
+          /* checkbox Mobile */
+          {
+            content: (
+              <div>
+                <Checkbox
+                  disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
+                  checked={_.get(
+                    row,
+                    ['options', STATION_AUTO_OPTIONS.MOBILE, 'allowed'],
+                    false
+                  )}
+                  onChange={e =>
+                    this.onChagedOptionOfRow({
+                      row,
+                      key: STATION_AUTO_OPTIONS.MOBILE,
                       value: e.target.checked,
                     })
                   }
