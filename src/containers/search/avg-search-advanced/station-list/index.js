@@ -161,7 +161,7 @@ export default class TableList extends React.PureComponent {
   }
 
   render() {
-    const stations = this.props.stationsData
+    const stations = this.props.stationsData.filter(station => station.view)
     if (!stations.length) return null
     return (
       <TableListWrapper>

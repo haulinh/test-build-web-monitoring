@@ -439,7 +439,7 @@ export default class SearchAvgForm extends React.Component {
         </HeaderWrapper>
         <Container>
           <Row type="flex" gutter={[16, 24]}>
-            <Col span={12}>
+            <Col span={6}>
               <Field
                 label={t(`province.label`)}
                 name="provinceKey"
@@ -451,7 +451,7 @@ export default class SearchAvgForm extends React.Component {
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={12}>
+            <Col span={6}>
               <Field
                 showSearch
                 isShowAll
@@ -467,7 +467,7 @@ export default class SearchAvgForm extends React.Component {
                 }}
               />
             </Col>
-            {/* <Col span={12}>
+            {/* <Col span={6}>
               <Field
                 label={t('stationAuto.label')}
                 placeholder={t('stationAuto.placeholder')}
@@ -479,7 +479,7 @@ export default class SearchAvgForm extends React.Component {
                 component={FSelectStationAuto}
               />
             </Col>
-            <Col span={12}>
+            <Col span={6}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -491,7 +491,7 @@ export default class SearchAvgForm extends React.Component {
                 component={FSelectAnt}
               />
             </Col> */}
-            <Col span={12}>
+            <Col span={6}>
               <Field
                 label={t('time')}
                 name="rangesDate"
@@ -502,7 +502,7 @@ export default class SearchAvgForm extends React.Component {
                 rangesView={this.state.rangesView}
               />
             </Col>
-            <Col span={12}>
+            <Col span={6}>
               <Field
                 label={t('type.label')}
                 name="type"
@@ -511,7 +511,7 @@ export default class SearchAvgForm extends React.Component {
               />
             </Col>
             {this.state.filterList.map(filter => (
-              <Col span={12} key={filter.key}>
+              <Col span={6} key={filter.key}>
                 <Field
                   label={t(`${filter.key}.label`)}
                   name={filter.key}

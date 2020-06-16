@@ -44,11 +44,12 @@ export default class StationForm extends React.PureComponent {
     }
   }
 
+  handleChange = () => {
+    this.props.onChangeStationsData(this.state.dataSource)
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (!this.props.stations.length) return
-    if (!_.isEqual(prevState.dataSource, this.state.dataSource)) {
-      this.props.onChangeStationsData(this.state.dataSource)
-    }
     if (
       !_.isEqual(prevProps.stationKeys, this.props.stationKeys) ||
       !_.isEqual(prevProps.stations.length, this.props.stations.length)
@@ -58,17 +59,19 @@ export default class StationForm extends React.PureComponent {
     }
   }
 
-  handleChangeView = recordIndex => checkedValues => {
-    this.setState(prevState =>
-      update(prevState, {
-        dataSource: {
-          [recordIndex]: {
-            view: {
-              $set: checkedValues,
+  handleChangeView = recordIndex => e => {
+    this.setState(
+      prevState =>
+        update(prevState, {
+          dataSource: {
+            [recordIndex]: {
+              view: {
+                $set: e.target.checked,
+              },
             },
           },
-        },
-      })
+        }),
+      this.handleChange
     )
   }
 
@@ -91,16 +94,18 @@ export default class StationForm extends React.PureComponent {
   }
 
   handleChangeMeasuringList = recordIndex => measuringList => {
-    this.setState(prevState =>
-      update(prevState, {
-        dataSource: {
-          [recordIndex]: {
-            measuringList: {
-              $set: measuringList,
+    this.setState(
+      prevState =>
+        update(prevState, {
+          dataSource: {
+            [recordIndex]: {
+              measuringList: {
+                $set: measuringList,
+              },
             },
           },
-        },
-      })
+        }),
+      this.handleChange
     )
   }
 
