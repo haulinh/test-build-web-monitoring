@@ -20,6 +20,7 @@ export default class AqiContainer extends React.Component {
     aqiList: [],
     aqiLevel: [],
     station: null,
+    locale: 'vn',
   }
 
   async componentDidMount() {
@@ -36,12 +37,9 @@ export default class AqiContainer extends React.Component {
       )
 
       const listKey = _.join(stationData, ',')
-      // console.log(listKey,'listKey')
       const params = {
-        // from: moment().utc().startOf('day').format(),
-        // to:  moment().utc().startOf('day').format(),
-        // timezoneDay:  moment().format("HH"),
         listKey: listKey,
+        locale: this.state.locale,
       }
       let rs = await aqiApi.fetchAqiDayLastLogs({ ...params })
 
@@ -62,7 +60,10 @@ export default class AqiContainer extends React.Component {
       })
       const aqiList = _.compact(dataRes)
       // console.log(aqiList, "aqiList")
-      this.setState({ aqiList, aqiLevel: _.get(rs, 'aqiLevel', []) })
+      this.setState({
+        aqiList,
+        aqiLevel: _.get(rs, 'aqiLevel', []),
+      })
 
       const station = _.head(aqiList)
 
@@ -98,6 +99,18 @@ export default class AqiContainer extends React.Component {
     }, 500)
   }
 
+  hanldleOnChangeLocale = value => {
+    // console.log('hanldleOnChangeLocale', value)
+    this.setState(
+      {
+        locale: value,
+      },
+      () => {
+        this.componentDidMount()
+      }
+    )
+  }
+
   render() {
     return (
       <WrapperContainer>
@@ -111,6 +124,8 @@ export default class AqiContainer extends React.Component {
           stationKey={this.state.stationKey}
         />
         <InfoComponent
+          onChangeLocale={this.hanldleOnChangeLocale}
+          locale={this.state.locale}
           aqiLevel={this.state.aqiLevel}
           style={{ flex: 1 }}
           aqiList={this.state.aqiList}

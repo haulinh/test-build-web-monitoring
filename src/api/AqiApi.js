@@ -38,8 +38,8 @@ export function fetchAqiProcessCalDay({ from, to, listKey } = {}) {
   return getFetch(url)
 }
 
-export function fetchAqiDayLastLogs({ listKey } = {}) {
-  var url = getAqiV1Url(`hour-last-logs?listKey=${listKey}`)
+export function fetchAqiDayLastLogs({ listKey, locale } = {}) {
+  var url = getAqiV1Url(`hour-last-logs?listKey=${listKey}&locale=${locale}`)
   return getFetch(url)
 }
 

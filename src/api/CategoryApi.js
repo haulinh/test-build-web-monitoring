@@ -97,11 +97,14 @@ export function postListConfigAqi(data) {
 
 /* #region  NOTE  cấu hình AQI-Calculation  */
 
-export function getConfigAqiCalculation(keyLevel) {
+export function getConfigAqiCalculation(keyLevel = 'aqi-calculation-vn') {
   return getFetch(`${getConfigApi().aqiConfigCalculation}/${keyLevel}`)
 }
 
-export function postConfigAqiCalculation(keyLevel, data) {
+export function postConfigAqiCalculation(
+  keyLevel = 'aqi-calculation-vn',
+  data
+) {
   return postFetch(`${getConfigApi().aqiConfigCalculation}/${keyLevel}`, data)
 }
 
@@ -153,11 +156,11 @@ export function postConfigWqiMeaTable(code, data) {
 
 /* #region  NOTE  cấu hình AQI-QC */
 
-export function getConfigAqiQC(keyQc) {
+export function getConfigAqiQC(keyQc = 'aqi-qc-vn') {
   return getFetch(`${getConfigApi().aqiConfigQC}/${keyQc}`)
 }
 
-export function postConfigAqiQC(keyQc, data) {
+export function postConfigAqiQC(keyQc = 'aqi-qc-vn', data) {
   return postFetch(`${getConfigApi().aqiConfigQC}/${keyQc}`, data)
 }
 
