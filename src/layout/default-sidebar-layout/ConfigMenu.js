@@ -216,7 +216,7 @@ export default {
             props.selectMenu(slug.dataLogger.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.user}>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.dataLogger}>
           <Link to={slug.dataLogger.base}>{MENU_NAME.config.dataLogger}</Link>
           </Tooltip>
           

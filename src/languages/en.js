@@ -2306,6 +2306,7 @@ export default {
     body1:
       'This is a function of the Advanced version, please contact us for more information:',
     body2: 'Email:',
+    body3:'You need to move to the AQI Calculation page to select the AQI calculation method.'
   },
   stationStatus: {
     good: 'Good',
@@ -2321,6 +2322,7 @@ export default {
     gotoMonitoring: 'Go to Real-time Monitoring Page',
     viewDataAroundThisTime: 'View data around this time',
     tryAgain: 'Try again',
+    next:'Next'
   },
   network: {
     sampling: {

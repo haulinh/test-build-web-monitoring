@@ -2299,6 +2299,7 @@ export default {
     body1:
       'Đây là chức năng thuộc phiên bản Nâng cao, vui lòng liên hệ với chúng tôi để biết thêm thông tin:',
     body2: 'Email:',
+    body3:'Bạn cần di chuyển đến trang cấu hình tính AQI để chọn công thức tính'
   },
   stationStatus: {
     good: 'Tốt',
@@ -2314,6 +2315,7 @@ export default {
     gotoMonitoring: 'Đến trang Xem chi tiết trạm',
     viewDataAroundThisTime: 'Xem giá trị quanh thời điểm vượt',
     tryAgain: 'Thử lại',
+    next:'Di chuyển'
   },
   network: {
     sampling: {
