@@ -44,10 +44,11 @@ export default class TableDataList extends React.PureComponent {
         return <div>{moment(record.date_utc).format(formatDate)}</div>
       },
     }
-    const columnsMeasurings = this.props.measuringData
+    const columnsMeasuring = this.props.measuringData
       .filter(measuring => this.props.measuringList.includes(measuring.key))
       .map(measuring => ({
         title: `${measuring.name} (${measuring.unit})`,
+        // dataIndex: `measuringLogs.${measuring.key}`,
         dataIndex: `${measuring.key}`,
         key: measuring.key,
         align: 'right',
@@ -55,7 +56,7 @@ export default class TableDataList extends React.PureComponent {
           return <div>{getFormatNumber(value)}</div>
         },
       }))
-    return [columnReceivedAt, ...columnsMeasurings]
+    return [columnReceivedAt, ...columnsMeasuring]
   }
 
   render() {

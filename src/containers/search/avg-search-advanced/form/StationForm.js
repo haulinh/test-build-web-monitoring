@@ -29,6 +29,7 @@ export default class StationForm extends React.PureComponent {
   static propTypes = {
     stations: PropTypes.array,
     stationKeys: PropTypes.array,
+    onChangeStationsData: PropTypes.func,
   }
 
   static defaultProps = {
@@ -38,14 +39,16 @@ export default class StationForm extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      activeKey: [],
       listView: [],
       dataSource: this.getDataSource(),
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (!this.props.stations.length) return
+    if (!_.isEqual(prevState.dataSource, this.state.dataSource)) {
+      this.props.onChangeStationsData(this.state.dataSource)
+    }
     if (
       !_.isEqual(prevProps.stationKeys, this.props.stationKeys) ||
       !_.isEqual(prevProps.stations.length, this.props.stations.length)
@@ -53,10 +56,6 @@ export default class StationForm extends React.PureComponent {
       const dataSource = this.getDataSource()
       this.setState({ dataSource })
     }
-  }
-
-  handleChange = activeKey => {
-    this.setState({ activeKey })
   }
 
   handleChangeView = recordIndex => checkedValues => {
@@ -75,8 +74,8 @@ export default class StationForm extends React.PureComponent {
 
   getDataSource = () => {
     if (!this.props.stations.length) return []
-    const stations = this.props.stationKeys.map(stationKey =>
-      this.props.stations.find(station => station.key === stationKey)
+    const stations = this.props.stations.filter(station =>
+      this.props.stationKeys.includes(station.key)
     )
     return stations.map((station, index) => ({
       index,
@@ -171,11 +170,7 @@ export default class StationForm extends React.PureComponent {
     const columns = this.getColumns()
     return (
       <StationFormWrapper>
-        <Collapse
-          activeKey={this.state.activeKey}
-          expandIconPosition="left"
-          onChange={this.handleChange}
-        >
+        <Collapse expandIconPosition="left">
           <Panel header={this.renderHeading()} key="list">
             <Table dataSource={dataSource} columns={columns} />
           </Panel>

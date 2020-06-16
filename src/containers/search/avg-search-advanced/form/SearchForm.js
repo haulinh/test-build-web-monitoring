@@ -63,6 +63,24 @@ const Container = styled.div`
   }
 `
 
+@connect((state, ownProps) => ({
+  initialValues: {
+    ...(ownProps.initialValues
+      ? {
+          stationType: '',
+          provinceKey: '',
+          ...ownProps.initialValues,
+          rangesDate: Number(ownProps.initialValues.rangesDate) || 1,
+          type: Number(ownProps.initialValues.type) || 15,
+        }
+      : {
+          stationType: '',
+          provinceKey: '',
+          rangesDate: 1,
+          type: 15,
+        }),
+  },
+}))
 @reduxForm({
   form: 'dataSearchFilterForm',
   validate,
@@ -82,10 +100,19 @@ export default class SearchAvgForm extends React.Component {
     onSearchStationAuto: PropTypes.func,
   }
 
+  static defaultProps = {
+    initialValues: {},
+  }
+
   constructor(props) {
+    console.log('---initialValues---', props.initialValues)
     super(props)
-    let fromDate = moment(props.initialValues.fromDate)
-    let toDate = moment(props.initialValues.toDate)
+    let fromDate = props.initialValues.fromDate
+      ? moment(props.initialValues.fromDate)
+      : moment().subtract(props.initialValues.rangesDate, 'days')
+    let toDate = props.initialValues.toDate
+      ? moment(props.initialValues.toDate)
+      : moment()
     let timeRange = props.initialValues.rangesDate
     let rangesView = null
     if (props.initialValues.searchRange) {
@@ -94,6 +121,8 @@ export default class SearchAvgForm extends React.Component {
       )}`
       timeRange = null
     }
+
+    console.log('fromDate', fromDate, 'toDate', toDate)
 
     this.state = {
       fromDate,
@@ -123,9 +152,9 @@ export default class SearchAvgForm extends React.Component {
   }
 
   componentDidMount() {
-    this.initializeValue()
+    // this.initializeValue()
     if (this.props.searchNow) {
-      this.props.handleSubmit(this.handleSubmit)()
+      this.props.handleSubmit(this.props.onSubmit)()
     }
   }
 
@@ -138,17 +167,16 @@ export default class SearchAvgForm extends React.Component {
 
       this.initializeValue()
       if (this.props.searchNow) {
-        this.props.handleSubmit(this.handleSubmit)()
+        this.props.handleSubmit(this.props.onSubmit)()
       }
     }
     if (!_.isEqual(this.props.values, prevProps.values)) {
-      console.log(this.props.values)
       let params = {
         stationType: this.props.values.stationType,
         provinceKey: this.props.values.provinceKey,
-        dataStatus: this.props.values.dataStatus || '',
-        standardKey: this.props.values.standardKey || '',
-        frequent: this.props.values.frequent || '',
+        dataStatus: this.props.values.dataStatus,
+        standardKey: this.props.values.standardKey,
+        frequent: this.props.values.frequent,
       }
       this.props.onSearchStationAuto(params)
     }
@@ -223,51 +251,50 @@ export default class SearchAvgForm extends React.Component {
   }
 
   // handleSubmit = values => {
-  //   const measuringListUnitStr = values.measuringList.map(item => {
-  //     const itemFind = _.find(this.state.measuringData, obj => {
-  //       return obj.key === item
-  //     })
-  //     if (itemFind) {
-  //       return encodeURIComponent(_.get(itemFind, 'unit', ''))
-  //     } else {
-  //       return ''
-  //     }
+  // const measuringListUnitStr = values.measuringList.map(item => {
+  //   const itemFind = _.find(this.state.measuringData, obj => {
+  //     return obj.key === item
   //   })
+  //   if (itemFind) {
+  //     return encodeURIComponent(_.get(itemFind, 'unit', ''))
+  //   } else {
+  //     return ''
+  //   }
+  // })
 
-  //   let params = {
-  //     fromDate: this.convertDateToString(this.state.fromDate),
-  //     toDate: this.convertDateToString(this.state.toDate),
-  //     key: values.stationAuto,
-  //     name: this.state.stationAutoName,
-  //     type: values.type,
-  //     measuringListUnitStr,
-  //     measuringList: values.measuringList,
-  //     measuringData: this.state.measuringData,
-  //   }
-
-  //   if (values.dataStatus) {
-  //     params.dataStatus = values.dataStatus
-  //   }
-  //   if (values.frequency) {
-  //     params.frequency = values.frequency
-  //   }
-  //   if (values.standardKey) {
-  //     params.standardKey = values.standardKey
-  //   }
+  // let params = {
+  //   fromDate: this.convertDateToString(this.state.fromDate),
+  //   toDate: this.convertDateToString(this.state.toDate),
+  //   key: values.stationAuto,
+  //   name: this.state.stationAutoName,
+  //   type: values.type,
+  //   measuringListUnitStr,
+  //   measuringList: values.measuringList,
+  //   measuringData: this.state.measuringData,
+  // }
 
   //   this.props.onSubmit(params)
   // }
 
-  handleSubmit = values => {
-    const params = Object.entries(values).reduce((acc, [key, value]) => {
-      if (value) acc[key] = value
-      return acc
-    }, {})
+  // handleSubmit = values => {
+  //   const params = Object.entries(values).reduce((acc, [key, value]) => {
+  //     if (value) acc[key] = value
+  //     return acc
+  //   , {})
 
-    // this.props.onSubmit(params)
-    if (this.props.onSearchStationAuto) {
-      this.props.onSearchStationAuto(params)
+  //   // this.props.onSubmit(params)
+  //   if (this.props.onSearchStationAuto) {
+  //     this.props.onSearchStationAuto(params)
+  //   }
+  // }
+
+  handleSubmit = values => {
+    let params = {
+      fromDate: this.convertDateToString(this.state.fromDate),
+      toDate: this.convertDateToString(this.state.toDate),
     }
+    console.log(params)
+    this.props.onSubmit(params)
   }
 
   handleChangeRanges = ranges => {
@@ -279,11 +306,8 @@ export default class SearchAvgForm extends React.Component {
       })
     } else {
       if (_.size(ranges) > 1) {
-        this.setState({
-          timeRange: null,
-          fromDate: ranges[0],
-          toDate: ranges[1],
-        })
+        const [fromDate, toDate] = ranges
+        this.setState({ timeRange: null, fromDate, toDate })
       }
     }
   }
@@ -321,7 +345,7 @@ export default class SearchAvgForm extends React.Component {
             stationAutoKey: stationAutoData[0].key,
           },
           () => {
-            this.props.handleSubmit(this.handleSubmit)()
+            this.props.handleSubmit(this.props.onSubmit)()
           }
         )
       }

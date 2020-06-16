@@ -1,25 +1,15 @@
 import React from 'react'
-import { autobind } from 'core-decorators'
-import { message, Spin, Button, Row, Col } from 'antd'
-import * as _ from 'lodash'
-import { connectAutoDispatch } from 'redux/connect'
-import queryString from 'query-string'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import DataStationAutoApi from 'api/DataStationAutoApi'
-import Clearfix from 'components/elements/clearfix'
-import TabList from './tab-list/index'
+import { Spin } from 'antd'
+import _ from 'lodash'
+import StationList from './station-list'
 import Breadcrumb from './breadcrumb'
-// import SearchFrom from './search-form/index'
 import SearchFrom from './form/SearchForm'
-import OrganizationApi from 'api/OrganizationApi'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
-import { translate } from 'hoc/create-lang'
-import queryFormDataBrowser from 'hoc/query-formdata-browser'
-import { toggleNavigation } from 'redux/actions/themeAction'
-import FormFilter from './form/ModalForm'
-import FilterListMenu from './menu'
 import StationForm from './form/StationForm'
+import DataStationAutoApi from 'api/DataStationAutoApi'
+import { toggleNavigation } from 'redux/actions/themeAction'
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import { connectAutoDispatch } from 'redux/connect'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 
 @connectAutoDispatch(
   state => ({
@@ -31,268 +21,111 @@ import StationForm from './form/StationForm'
   }),
   { toggleNavigation }
 )
-@protectRole(ROLE.AVG_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
-@autobind
-export default class AvgSearch extends React.Component {
+export default class AvgSearchAdvanced extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      visible: false,
-      confirmLoading: false,
-      dataStationAuto: [],
-      measuringList: [],
-      measuringData: [],
-      searchFormData: {},
-      isLoading: false,
-      allowSave: false,
-      isHaveData: false,
-      isExporting: false,
-      isSearching: false,
-      configFilter: [],
+      isSearchingData: false,
+      isSearchingStation: false,
       stationKeys: props.stations.map(station => station.key),
-      pagination: {
-        current: 1,
-        pageSize: 50,
-      },
+      stationsData: this.getStationsData(props.stations),
+      searchData: {},
     }
-  }
-
-  componentDidMount() {
-    this.getDataOrganization()
-    this.props.toggleNavigation(false)
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      !_.isEqual(this.props.values, prevProps.values) &&
-      this.state.allowSave
-    ) {
-      this.setState({ allowSave: false })
+    if (this.props.stations.length !== prevProps.stations.length) {
+      const stationKeys = this.props.stations.map(station => station.key)
+      const stationsData = this.getStationsData(this.props.stations)
+      this.setState({ stationKeys, stationsData })
+    }
+    if (!_.isEqual(this.props.values, prevProps.values)) {
+      if (this.state.isSearchingData) this.setState({ isSearchingData: false })
     }
   }
 
-  getDataOrganization = async () => {
-    const organizationInfo = await OrganizationApi.getOrganization(
-      this.props.organizationId
-    )
-    this.setState({
-      configFilter: _.get(organizationInfo, ['data', 'configFilter']),
-    })
+  getStationsData = stations =>
+    stations.map((station, index) => ({
+      index,
+      _id: station._id,
+      key: station.key,
+      name: station.name,
+      view: true,
+      measuringData: station.measuringList.sort(
+        (a, b) => a.numericalOrder - b.numericalOrder
+      ),
+      measuringList: station.measuringList.map(measuring => measuring.key),
+    }))
+
+  handleChangeStationsData = stationsData => {
+    this.setState({ stationsData })
   }
 
-  handleSubmitSearch = searchFormData => {
-    this.loadData(this.state.pagination, searchFormData)
+  handleSubmitSearch = params => {
+    this.setState({ isSearchingData: true, searchData: params })
   }
 
-  handleSaveInfoSearch = searchFormData => {
-    this.setState({
-      measuringData: searchFormData.measuringData || [],
-      measuringList: searchFormData.measuringList || [],
-      searchFormData: searchFormData,
-    })
+  handleSaveInfoSearch = () => {
+    console.log('save info')
   }
 
   handleOnSearchStationAuto = searchData => {
-    this.setState({ isSearching: true }, async () => {
+    this.setState({ isSearchingStation: true }, async () => {
       const { data: stationKeys } = await DataStationAutoApi.searchStationAuto(
         searchData
       )
-      this.setState({ stationKeys, isSearching: false })
+      this.setState({ stationKeys, isSearchingStation: false })
     })
   }
-
-  handleSaveFilter = () => {
-    this.setState({ visible: true })
-  }
-
-  loadData = async (pagination, searchFormData) => {
-    this.setState({
-      isLoading: true,
-      isHaveData: true,
-    })
-    let paginationQuery = pagination
-    if (!_.isEqual(searchFormData, this.state.searchFormData)) {
-      this.setState({ allowSave: true })
-      paginationQuery = {
-        ...paginationQuery,
-        current: 1,
-      }
-    }
-
-    const dataStationAuto = await DataStationAutoApi.getDataStationAutoAvg(
-      {
-        page: paginationQuery.current,
-        itemPerPage: paginationQuery.pageSize,
-      },
-      searchFormData
-    )
-    if (dataStationAuto.error) {
-      // console.log('ERROR', dataStationAuto)
-      message.error('ERROR')
-      return
-    }
-    if (!dataStationAuto.data.length) {
-      message.warn(translate('avgSearchFrom.table.emptyText'))
-    }
-    this.setState({
-      isLoading: false,
-      dataStationAuto: dataStationAuto.success ? dataStationAuto.data : [],
-      measuringData: searchFormData.measuringData,
-      measuringList: searchFormData.measuringList,
-      searchFormData: searchFormData,
-      pagination: {
-        ...paginationQuery,
-        total: dataStationAuto.success
-          ? dataStationAuto.pagination.totalItem
-          : 0,
-      },
-    })
-  }
-
-  handleChangePage = pagination => {
-    this.loadData(pagination, this.state.searchFormData)
-  }
-
-  handleExportExcel = async () => {
-    this.setState({
-      isExporting: true,
-    })
-
-    // console.log(this.state.searchFormData,"this.state.searchFormData")
-    let res = await DataStationAutoApi.getDataStationAutoExportAvg(
-      this.state.searchFormData
-    )
-    if (res.success) window.location = res.data
-    else message.error(res.message)
-
-    this.setState({
-      isExporting: false,
-    })
-  }
-
-  rightChildren() {
-    if (!this.state.allowSave) return null
-    return (
-      <Button
-        type="primary"
-        icon="save"
-        size="default"
-        onClick={this.handleSaveFilter}
-      >
-        {translate('addon.save')}
-      </Button>
-    )
-  }
-
-  showModal = () => {
-    this.setState({ visible: true })
-  }
-
-  handleCancel = () => {
-    this.setState({ visible: false })
-  }
-
-  handleCreateFilter = () => {
-    const { form } = this.formRef.props
-    const { organizationId } = this.props
-    form.validateFields((err, values) => {
-      if (err) return
-      let params = {
-        name: values.name,
-        searchUrl: queryString.stringify(this.props.values, {
-          encode: true,
-          arrayFormat: 'bracket',
-          skipNull: true,
-          skipEmptyString: true,
-        }),
-      }
-      this.setState({ confirmLoading: true }, async () => {
-        let { data, error } = await OrganizationApi.createFilter(
-          organizationId,
-          params
-        )
-        this.setState({
-          confirmLoading: false,
-          allowSave: false,
-        })
-        if (data._id) {
-          message.success(translate('dataSearchFilterForm.create.success'))
-          this.setState({ visible: false })
-          form.resetFields()
-        }
-        if (error && data.message === 'CONFIG_FILTER_NAME_EXISTED') {
-          form.setFields({
-            name: {
-              value: values.name,
-              errors: [
-                new Error(translate('dataSearchFilterForm.create.nameIsExist')),
-              ],
-            },
-          })
-        }
-      })
-    })
-  }
-
-  saveFormRef = formRef => {
-    this.formRef = formRef
-  }
-
   render() {
     return (
       <PageContainer
         {...this.props.wrapperProps}
         backgroundColor="#fafbfb"
-        right={this.rightChildren()}
+        right={null}
       >
-        <Spin size="large" tip="Exporting..." spinning={this.state.isExporting}>
-          <Row type="flex">
-            <FilterListMenu configFilter={this.state.configFilter} />
-            <Col span={this.props.isOpenNavigation ? 24 : 20}>
-              <Breadcrumb items={['list']} />
-              <SearchFrom
-                onSubmit={this.handleSubmitSearch}
-                onSaveInfo={this.handleSaveInfoSearch}
-                onSearchStationAuto={this.handleOnSearchStationAuto}
-                initialValues={this.props.formData}
-                searchNow={this.props.formData.searchNow}
-              />
-              <Clearfix height={16} />
-              <Spin
-                size="large"
-                tip="Searching..."
-                spinning={this.state.isSearching}
-              >
-                <StationForm
-                  stations={this.props.stations}
-                  stationKeys={this.state.stationKeys}
-                />
-              </Spin>
-              {this.state.isHaveData ? (
-                <TabList
-                  isLoading={this.state.isLoading}
-                  measuringData={this.state.measuringData}
-                  measuringList={this.state.measuringList}
-                  dataStationAuto={this.state.dataStationAuto}
-                  pagination={this.state.pagination}
-                  onChangePage={this.handleChangePage}
-                  onExportExcel={this.handleExportExcel}
-                  nameChart={this.state.searchFormData.name}
-                  typeReport={`${this.state.searchFormData.type}`}
-                  isExporting={this.state.isExporting}
-                />
-              ) : null}
-            </Col>
-          </Row>
-        </Spin>
-        <FormFilter
-          wrappedComponentRef={this.saveFormRef}
-          visible={this.state.visible}
-          confirmLoading={this.state.confirmLoading}
-          onCancel={this.handleCancel}
-          onCreate={this.handleCreateFilter}
+        <Breadcrumb items={['list']} />
+        <SearchFrom
+          onSubmit={this.handleSubmitSearch}
+          onSaveInfo={this.handleSaveInfoSearch}
+          onSearchStationAuto={this.handleOnSearchStationAuto}
+          initialValues={this.props.formData}
+          searchNow={this.props.formData.searchNow}
         />
+        {!this.state.isSearchingData && (
+          <Spin
+            size="large"
+            tip="Searching..."
+            spinning={this.state.isSearchingStation}
+          >
+            <StationForm
+              onChangeStationsData={this.handleChangeStationsData}
+              stations={this.props.stations}
+              stationKeys={this.state.stationKeys}
+            />
+          </Spin>
+        )}
+        {this.state.isSearchingData && (
+          <StationList
+            // isLoading={this.state.isLoading}
+            stationsData={this.state.stationsData}
+            searchData={this.state.searchData}
+            type={this.props.values.type}
+
+            // measuringData={this.state.measuringData}
+            // measuringList={this.state.measuringList}
+            // dataStationAuto={this.state.dataStationAuto}
+            // pagination={this.state.pagination}
+            // onChangePage={this.handleChangePage}
+            // onExportExcel={this.handleExportExcel}
+            // nameChart={this.state.searchFormData.name}
+            // typeReport={`${this.state.searchFormData.type}`}
+            // isExporting={this.state.isExporting}
+            // stations={this.props.stations}
+            // stationKeys={this.state.stationKeys}
+          />
+        )}
       </PageContainer>
     )
   }
