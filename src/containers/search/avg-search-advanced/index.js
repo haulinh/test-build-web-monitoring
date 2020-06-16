@@ -119,6 +119,7 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   render() {
+    console.log(this.state.stationsData)
     return (
       <PageContainer
         {...this.props.wrapperProps}
@@ -128,7 +129,7 @@ export default class AvgSearchAdvanced extends React.Component {
         <Row
           style={{ marginLeft: '-24px', marginRight: '-24px' }}
           type="flex"
-          gutter={[16, 16]}
+          gutter={[32, 0]}
         >
           <FilterListMenu
             configFilter={this.state.filteredConfigFilter}

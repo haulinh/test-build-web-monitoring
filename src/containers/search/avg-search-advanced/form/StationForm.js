@@ -55,7 +55,7 @@ export default class StationForm extends React.PureComponent {
       !_.isEqual(prevProps.stations.length, this.props.stations.length)
     ) {
       const dataSource = this.getDataSource()
-      this.setState({ dataSource })
+      this.setState({ dataSource }, this.handleChange)
     }
   }
 

@@ -24,7 +24,7 @@ const i18n = {
 const { SubMenu } = Menu
 
 const SearchWrapper = styled.div`
-  margin-left: 34px;
+  margin-left: 16px;
   margin-bottom: 8px;
 `
 
@@ -35,10 +35,16 @@ const Title = styled.span`
 `
 
 const MenuWrapper = styled(Col)`
-  padding: 8px 0;
   background-color: #f4f5f7;
+  min-height: calc(100vh - 57px);
   .ant-menu-submenu .ant-menu.ant-menu-sub {
     padding: 0px 0px !important;
+  }
+  .ant-menu-submenu-title {
+    padding-left: 4px !important;
+  }
+  .ant-menu.ant-menu-sub.ant-menu-inline {
+    margin-left: 16px;
   }
 `
 
@@ -109,7 +115,7 @@ export default class FilterListMenu extends React.Component {
     if (this.props.isOpenNavigation) return null
     return (
       <MenuWrapper span={5}>
-        <Affix offsetTop={82}>
+        <Affix offsetTop={57}>
           <SearchWrapper>
             <Search
               onChange={event => this.handleOnChangeSearch(event)}
@@ -129,7 +135,7 @@ export default class FilterListMenu extends React.Component {
             mode="inline"
           >
             <SubMenu
-              key="sub2"
+              key="sub1"
               title={
                 <span style={{ marginLeft: 12, fontWeight: 600 }}>
                   {i18n.titleSubMenuFilters}
