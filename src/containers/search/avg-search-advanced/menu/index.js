@@ -22,14 +22,12 @@ const { SubMenu } = Menu
 
 const SearchWrapper = styled.div`
   margin-left: 34px;
-  margin-bottom: 10px;
 `
 
 const Title = styled.span`
   font-size: 16px;
   font-weight: 600;
   color: #3b3b3b;
-  margin-bottom: 10px;
 `
 
 const MenuWrapper = styled(Col)`
@@ -80,22 +78,24 @@ export default class FilterListMenu extends React.Component {
   }
 
   getHighlightedText(text, highlightText) {
-    // Split text on highlight term, include term itself into parts, ignore case
+    //Split text on highlight term, include term itself into parts, ignore case
     const parts = text.split(new RegExp(`(${highlightText})`, 'gi'))
     return (
       <span>
-        {parts.map((part, i) => (
-          <span
-            key={i}
-            style={
-              part.toLowerCase() === highlightText.toLowerCase()
-                ? { backgroundColor: 'yellow' }
-                : {}
-            }
-          >
-            {part}
-          </span>
-        ))}
+        {parts.map((part, i) => {
+          return (
+            <span
+              key={i}
+              style={
+                part.toLowerCase() === highlightText.toLowerCase()
+                  ? { backgroundColor: 'yellow' }
+                  : {}
+              }
+            >
+              {part}
+            </span>
+          )
+        })}
       </span>
     )
   }
@@ -111,7 +111,7 @@ export default class FilterListMenu extends React.Component {
               onChange={event => this.handleOnChangeSearch(event)}
               placeholder="Enter Title"
               onSearch={this.props.handleSearch}
-              style={{ width: "95%", marginTop: '10px' }}
+              style={{ width: '95%', marginTop: '10px' }}
             />
           </SearchWrapper>
           <Menu

@@ -20,6 +20,7 @@ import { toggleNavigation } from 'redux/actions/themeAction'
 import FormFilter from './form/ModalForm'
 import FilterListMenu from './menu'
 import StationForm from './form/StationForm'
+import { replaceVietnameseStr } from 'utils/string'
 
 @connectAutoDispatch(
   state => ({
@@ -237,8 +238,8 @@ export default class AvgSearch extends React.Component {
   handleSearch = searchText => {
     const { configFilter } = this.state
     const filteredConfigFilter = configFilter.filter(({ name }) => {
-      name = name.toLowerCase()
-      return name.includes(searchText)
+      name = replaceVietnameseStr(name)
+      return name.includes(replaceVietnameseStr(searchText))
     })
 
     this.setState({
