@@ -113,7 +113,7 @@ export function getListConfigWqi() {
   return getFetch(getConfigApi().wqiListConfig)
 }
 
-export function postListConfigWqi(code, data) {
+export function postListConfigWqi(data) {
   return postFetch(getConfigApi().wqiListConfig, data)
 }
 
