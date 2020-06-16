@@ -11,7 +11,8 @@ const ToggleResizeWrapper = styled.div`
   top: 0px;
   right: 0px;
   bottom: 0px;
-  display: block
+  display: block;
+  z-index: 999;
   ${props =>
     !props.isShow
       ? `
