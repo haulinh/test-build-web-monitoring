@@ -407,6 +407,11 @@ export default {
         placeholder: 'Select Type Of Station',
         require: 'Please Choose Type Of Station',
       },
+      aqiConfigSelect: {
+        label: 'Select AQI',
+        placeholder: 'Select AQI',
+        require: 'Please Choose AQI'
+      },
       stationAuto: {
         label: 'Station Name',
         placeholder: 'Select Station Name',

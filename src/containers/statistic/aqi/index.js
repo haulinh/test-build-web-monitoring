@@ -41,11 +41,11 @@ export default class AQIStatistics extends React.Component {
       isLoading: true,
       isHaveData: true,
     })
-
     const params = {
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
       listKey: searchFormData.stationID,
+      locale: searchFormData.aqiLocale,
     }
     let dataAQI = await aqiApi.fetchAqiHourbyStation({ ...params })
     if (dataAQI && Array.isArray(dataAQI.data) && dataAQI.data.length === 0) {
@@ -70,6 +70,7 @@ export default class AQIStatistics extends React.Component {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
       listKey: _.get(this.state.searchFormData, 'stationID', ''),
+      locale: _.get(this.state.searchFormData, 'aqiLocale', '')
     }
     let res = await aqiApi.exportFileAqiHourbyStation({ ...params })
     if (res && res.success) window.location = res.data
@@ -88,6 +89,7 @@ export default class AQIStatistics extends React.Component {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
       listKey: _.get(this.state.searchFormData, 'stationID', ''),
+      locale: _.get(this.state.searchFormData, 'aqiLocale', '')
     }
 
     const processFunc = [
