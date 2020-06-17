@@ -590,6 +590,10 @@ export default {
   },
   dataSearchFilterForm: {
     titleText: 'Data Search Filter',
+    update: {
+      label: 'Update',
+      success: 'Update successfully',
+    },
     create: {
       label: 'Create new filter',
       success: 'Create new filter successfully',
@@ -1873,6 +1877,7 @@ export default {
   addon: {
     add: 'Add',
     create: 'Create',
+    update: 'Update',
     edit: 'Edit',
     delete: 'Delete',
     save: 'Save',

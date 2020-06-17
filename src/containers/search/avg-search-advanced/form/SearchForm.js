@@ -98,6 +98,7 @@ export default class SearchAvgForm extends React.Component {
     searchNow: PropTypes.bool,
     onPreventSave: PropTypes.func,
     onSearchStationAuto: PropTypes.func,
+    flagResetForm: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -197,6 +198,9 @@ export default class SearchAvgForm extends React.Component {
       }
       await this.props.onSearchStationAuto(params)
     }
+    if (!_.isEqual(nextProps.flagResetForm, this.props.flagResetForm)) {
+      this.initializeValue(this.props)
+    }
   }
 
   initializeValue = props => {
@@ -214,7 +218,7 @@ export default class SearchAvgForm extends React.Component {
           rangesDate: 1,
           type: 15,
         }
-    props.initialize(initialValues)
+    this.props.initialize(initialValues)
   }
 
   handleChangeStationType = stationTypeKey => {

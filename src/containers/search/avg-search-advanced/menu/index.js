@@ -57,6 +57,8 @@ export default class FilterListMenu extends React.Component {
     configFilter: PropTypes.array,
 
     isOpenNavigation: PropTypes.bool,
+
+    filterId: PropTypes.string,
   }
 
   state = {
@@ -70,6 +72,7 @@ export default class FilterListMenu extends React.Component {
 
     const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
     searchObj.searchNow = true
+    searchObj.filterId = filter._id
 
     this.props.history.push(
       slug.avgSearchAdvanced.base +
@@ -125,7 +128,7 @@ export default class FilterListMenu extends React.Component {
               overflowY: 'auto',
               backgroundColor: '#F4F5F7',
             }}
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={[this.props.filterId]}
             defaultOpenKeys={['sub1']}
             mode="inline"
           >

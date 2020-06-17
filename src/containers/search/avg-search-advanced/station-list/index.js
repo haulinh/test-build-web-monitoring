@@ -82,19 +82,9 @@ export default class TableList extends React.PureComponent {
       this.props.stationsData[0] &&
       this.props.stationsData[0].key
     if (!stationKey) return
+    this.setState({ tabKey: stationKey })
     const searchFormData = this.getSearchFormData(stationKey)
     this.loadData(this.state.pagination, searchFormData)
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.tabKey !== this.state.tabKey) {
-      const searchFormData = this.getSearchFormData(this.state.tabKey)
-      let pagination = {
-        ...this.state.pagination,
-        current: 1,
-      }
-      this.loadData(pagination, searchFormData)
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -142,7 +132,6 @@ export default class TableList extends React.PureComponent {
   handleChangePage = pagination => {
     // const station = this.getData(this.state.tabKey)
     const searchFormData = this.getSearchFormData(this.state.tabKey)
-
     this.loadData(pagination, searchFormData)
   }
 
@@ -152,6 +141,12 @@ export default class TableList extends React.PureComponent {
 
   handleChangeTab = tabKey => {
     this.setState({ tabKey })
+    const searchFormData = this.getSearchFormData(tabKey)
+    let pagination = {
+      ...this.state.pagination,
+      current: 1,
+    }
+    this.loadData(pagination, searchFormData)
   }
 
   handleExportExcel() {

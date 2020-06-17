@@ -586,6 +586,10 @@ export default {
   },
   dataSearchFilterForm: {
     titleText: 'Tra cứu dữ liệu tổng hợp',
+    update: {
+      label: 'Cập nhật',
+      success: 'Cập nhật thành công',
+    },
     create: {
       label: 'Tạo mới bộ lọc',
       success: 'Thêm bộ lọc mới thành công',
@@ -1865,6 +1869,7 @@ export default {
   addon: {
     add: 'Thêm',
     create: 'Tạo mới',
+    update: 'Cập nhật',
     edit: 'Chỉnh sửa',
     delete: 'Xoá',
     save: 'Lưu',
