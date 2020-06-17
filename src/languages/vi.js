@@ -401,6 +401,11 @@ export default {
         placeholder: 'Chọn loại trạm',
         require: 'Vui lòng chọn loại trạm',
       },
+      aqiConfigSelect: {
+        label: 'Lựa chọn AQI',
+        placeholder: 'Chọn AQI',
+        require: 'Vui lòng chọn AQI'
+      },
       stationAuto: {
         label: 'Tên trạm',
         placeholder: 'Chọn tên trạm',

@@ -13,6 +13,8 @@ import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import { DD_MM_YYYY } from 'constants/format-date'
 import SelectStationConfigAQI from '../../common/select-station-config-aqi'
+import SelectConfigAQI from '../../common/select-config-aqi'
+
 import SelectStationTypeConfigAQI from '../../common/select-station-type-config-aqi'
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
@@ -22,8 +24,11 @@ const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationTypeConfigAQI = createValidateComponent(
   SelectStationTypeConfigAQI
 )
+const FSelectConfigAQI = createValidateComponent(SelectConfigAQI)
 const FSelectStationConfigAQI = createValidateComponent(SelectStationConfigAQI)
 const FOptionsMonthRange = createValidateComponent(OptionsMonthRange)
+
+
 
 const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
@@ -32,11 +37,14 @@ const Container = styled.div`
 
 function validate(values) {
   const errors = {}
+  if (!values.aqiLocale || values.aqiLocale === '')
+    errors.aqiLocale = translate('dataSearchFrom.form.aqiConfigSelect.require')
   if (!values.stationType)
     errors.stationType = translate('avgSearchFrom.form.stationType.error')
   if (!values.stationFixed || values.stationFixed === '')
     errors.stationFixed = translate('avgSearchFrom.form.stationAuto.error')
   if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
+
   return errors
 }
 
@@ -98,13 +106,12 @@ export default class SearchForm extends React.Component {
 
   handleSubmit(values) {
     this.props.onSubmit({
-      // fromDate: this.convertDateToString(this.state.fromDate),
-      // toDate: this.convertDateToString(this.state.toDate),
       fromDate: this.state.fromDate,
       toDate: this.state.toDate,
       key: values.station,
       name: this.state.stationName,
       stationID: this.state.stationKey,
+      aqiLocale: values.aqiLocale
     })
   }
 
@@ -213,6 +220,17 @@ export default class SearchForm extends React.Component {
                 formatDate={DD_MM_YYYY}
                 onChangeDate={this.handleChangeDate}
                 component={FOptionsMonthRange}
+              />
+            </Col>
+          </Row>
+          <Clearfix height={16} />
+          <Row gutter={24}>
+            <Col span={12}>
+              <Field
+                label={t('aqiConfigSelect.label')}
+                name="aqiLocale"
+                size="large"
+                component={FSelectConfigAQI}
               />
             </Col>
           </Row>
