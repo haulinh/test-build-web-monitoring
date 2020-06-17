@@ -51,8 +51,12 @@ export default class AvgSearchAdvanced extends React.Component {
       filteredConfigFilter: [],
       configFilter: [],
 
-      stationKeys: [],
-      stationsData: [],
+      stationKeys: props.stations.length
+        ? props.stations.map(station => station.key)
+        : [],
+      stationsData: props.stations.length
+        ? this.getStationsData(props.stations)
+        : [],
     }
   }
 
