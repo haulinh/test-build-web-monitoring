@@ -6,7 +6,9 @@ import { Result, Button } from 'antd'
 import { translate } from 'hoc/create-lang'
 import slug from 'constants/slug'
 
-const WrapperView = styled.div``
+const WrapperView = styled.div`
+  flex:1
+`
 
 const i18n = {
   title: translate('pageInfo.body3'),

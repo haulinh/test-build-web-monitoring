@@ -167,6 +167,7 @@ export default {
     config: '/aqi-config',
     configEdit: '/aqi-config/:key',
     configWithKey: '/aqi-config',
+    status: '/aqi-info',
   },
   wqi: {
     base: '/wqi',

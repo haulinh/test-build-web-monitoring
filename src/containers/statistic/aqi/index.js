@@ -13,6 +13,8 @@ import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import { getListConfigAqi } from 'api/CategoryApi'
+import slug from 'constants/slug'
 
 @protectRole(ROLE.STATISTIC.AQI)
 @queryFormDataBrowser(['submit'])
@@ -30,6 +32,28 @@ export default class AQIStatistics extends React.Component {
       current: 1,
       pageSize: 50,
     },
+  }
+  componentDidMount = () => {
+    try {
+      getListConfigAqi()
+        .then(async retult => {
+          let data = _.get(retult, 'data.value', [])
+          data = _.filter(data, item => {
+            return item.activated
+          })
+          if (data.length === 0) {
+            window.location = slug.aqi.status
+          }
+        })
+        .catch(ex => {
+          this.setState({
+            listConfigAQI: [],
+          })
+          console.log(ex, '--ex--')
+        })
+    } catch (ex) {
+      console.log(ex)
+    }
   }
 
   handleSubmitSearch(searchFormData) {
@@ -70,7 +94,7 @@ export default class AQIStatistics extends React.Component {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
       listKey: _.get(this.state.searchFormData, 'stationID', ''),
-      locale: _.get(this.state.searchFormData, 'aqiLocale', '')
+      locale: _.get(this.state.searchFormData, 'aqiLocale', ''),
     }
     let res = await aqiApi.exportFileAqiHourbyStation({ ...params })
     if (res && res.success) window.location = res.data
@@ -89,7 +113,7 @@ export default class AQIStatistics extends React.Component {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
       listKey: _.get(this.state.searchFormData, 'stationID', ''),
-      locale: _.get(this.state.searchFormData, 'aqiLocale', '')
+      locale: _.get(this.state.searchFormData, 'aqiLocale', ''),
     }
 
     const processFunc = [

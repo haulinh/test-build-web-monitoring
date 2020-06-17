@@ -57,6 +57,7 @@ import DataLoggerPage from 'containers/data-logger'
 import AppIncidents from 'containers/apps/incidents'
 
 import PageExpLicenseInfo from 'containers/license/exp-license-info'
+import PageAqiStatus from 'containers/aqi/aqi-list-status'
 
 @withRouter
 @autobind
@@ -79,6 +80,7 @@ export default class RouteDefault extends React.Component {
           <Route path={slug.password.resetPassword} component={ResetPassword} />
           <Route path={slug.user.accountActive} component={AccountActive} />
           <Route path={slug.user.expLicense} component={PageExpLicenseInfo} />
+
           <Route path={slug.apps.incidents} component={AppIncidents} />
 
           <Layout isShowSidebarMenu>
@@ -95,7 +97,8 @@ export default class RouteDefault extends React.Component {
               path={slug.aqi.config}
               // component={AqiConfigCalculationContainer}
               component={AqiListConfigContainer}
-            />            
+            />    
+            <LayoutRoute exact path={slug.aqi.status} component={PageAqiStatus} />        
             <LayoutRoute
               path={slug.aqi.configEdit}
               component={AqiConfigCalculationContainer}

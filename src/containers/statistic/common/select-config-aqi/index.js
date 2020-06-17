@@ -25,7 +25,9 @@ export default class SelectConfigAQI extends React.Component {
         const data = _.get(retult, 'data.value', [])
         // console.log(data, '--data')
         this.setState({
-          dataSource: data,
+          dataSource: _.filter(data, item => {
+            return item.activated
+          }),
           isLoaded: true,
         })
       })
