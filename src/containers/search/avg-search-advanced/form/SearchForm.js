@@ -105,7 +105,6 @@ export default class SearchAvgForm extends React.Component {
   }
 
   constructor(props) {
-    console.log('---initialValues---', props.initialValues)
     super(props)
     let fromDate = props.initialValues.fromDate
       ? moment(props.initialValues.fromDate)
@@ -121,8 +120,6 @@ export default class SearchAvgForm extends React.Component {
       )}`
       timeRange = null
     }
-
-    console.log('fromDate', fromDate, 'toDate', toDate)
 
     this.state = {
       fromDate,
@@ -151,45 +148,65 @@ export default class SearchAvgForm extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // this.initializeValue()
+  async componentDidMount() {
     if (this.props.searchNow) {
-      this.props.handleSubmit(this.props.onSubmit)()
+      let params = {
+        stationType: this.props.initialValues.stationType,
+        provinceKey: this.props.initialValues.provinceKey,
+        dataStatus: this.props.initialValues.dataStatus,
+        standardKey: this.props.initialValues.standardKey,
+        frequent: this.props.initialValues.frequent,
+      }
+      await this.props.onSearchStationAuto(params)
+      this.props.handleSubmit(this.handleSubmit)()
+      // this.props.handleSubmit(this.props.onSubmit)()
     }
+    // if (this.props.searchNow) {
+    //   this.props.handleSubmit(this.handleSubmit)()
+    //   // this.props.handleSubmit(this.props.onSubmit)()
+    // }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (!_.isEqual(prevProps.initialValues, this.props.initialValues)) {
+  async componentWillReceiveProps(nextProps) {
+    if (!_.isEqual(nextProps.initialValues, this.props.initialValues)) {
       const filterList = listFilter.filter(
-        filter => this.props.initialValues[filter.key]
+        filter => nextProps.initialValues[filter.key]
       )
       this.setState({ filterList })
-
-      this.initializeValue()
-      if (this.props.searchNow) {
-        this.props.handleSubmit(this.props.onSubmit)()
+      this.initializeValue(nextProps)
+      if (nextProps.searchNow) {
+        let params = {
+          stationType: nextProps.values.stationType,
+          provinceKey: nextProps.values.provinceKey,
+          dataStatus: nextProps.values.dataStatus,
+          standardKey: nextProps.values.standardKey,
+          frequent: nextProps.values.frequent,
+        }
+        await this.props.onSearchStationAuto(params)
+        this.props.handleSubmit(this.handleSubmit)()
+        // this.props.handleSubmit(this.props.onSubmit)()
       }
     }
-    if (!_.isEqual(this.props.values, prevProps.values)) {
+    if (!_.isEqual(this.props.values, nextProps.values)) {
       let params = {
-        stationType: this.props.values.stationType,
-        provinceKey: this.props.values.provinceKey,
-        dataStatus: this.props.values.dataStatus,
-        standardKey: this.props.values.standardKey,
-        frequent: this.props.values.frequent,
+        stationType: nextProps.values.stationType,
+        provinceKey: nextProps.values.provinceKey,
+        dataStatus: nextProps.values.dataStatus,
+        standardKey: nextProps.values.standardKey,
+        frequent: nextProps.values.frequent,
       }
-      this.props.onSearchStationAuto(params)
+      await this.props.onSearchStationAuto(params)
     }
   }
 
-  initializeValue = () => {
-    const initialValues = this.props.initialValues
+  initializeValue = props => {
+    const initialValues = props.initialValues
       ? {
           stationType: '',
           provinceKey: '',
-          ...this.props.initialValues,
-          rangesDate: Number(this.props.initialValues.rangesDate) || 1,
-          type: Number(this.props.initialValues.type) || 15,
+          ...props.initialValues,
+          rangesDate: Number(props.initialValues.rangesDate) || 1,
+          type: Number(props.initialValues.type) || 15,
         }
       : {
           stationType: '',
@@ -197,7 +214,7 @@ export default class SearchAvgForm extends React.Component {
           rangesDate: 1,
           type: 15,
         }
-    this.props.initialize(initialValues)
+    props.initialize(initialValues)
   }
 
   handleChangeStationType = stationTypeKey => {

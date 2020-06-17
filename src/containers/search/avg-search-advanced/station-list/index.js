@@ -18,6 +18,11 @@ const TableListWrapper = styled(BoxShadow)`
 export default class TableList extends React.PureComponent {
   static propTypes = {
     stationsData: PropTypes.array,
+    type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    searchData: PropTypes.shape({
+      fromDate: PropTypes.string,
+      toDate: PropTypes.string,
+    }),
   }
 
   static defaultProps = {
@@ -27,7 +32,7 @@ export default class TableList extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      tabKey: props.stationsData[0] && props.stationsData[0].key,
+      tabKey: '',
       dataStationAuto: [],
       isLoading: false,
       isExporting: false,
@@ -44,7 +49,9 @@ export default class TableList extends React.PureComponent {
     return station
   }
 
-  getParams = station => {
+  getSearchFormData = stationKey => {
+    if (!stationKey) return
+    const station = this.getData(stationKey)
     const { fromDate, toDate } = this.props.searchData
     const measuringListUnitStr = station.measuringList.map(item => {
       const itemFind = _.find(station.measuringData, obj => {
@@ -56,23 +63,50 @@ export default class TableList extends React.PureComponent {
         return ''
       }
     })
-    const params = {
+    const searchFormData = {
       fromDate: this.convertDateToString(fromDate),
       toDate: this.convertDateToString(toDate),
       key: station.key,
-      name: station.key,
+      name: station.name,
       type: this.props.type,
       measuringListUnitStr,
       measuringList: station.measuringList,
       measuringData: station.measuringData,
     }
-    return params
+    return searchFormData
   }
 
   componentDidMount() {
-    const station = this.getData(this.props.stationsData[0].key)
-    const params = this.getParams(station)
-    this.loadData(this.state.pagination, params)
+    const stationKey =
+      this.props.stationsData &&
+      this.props.stationsData[0] &&
+      this.props.stationsData[0].key
+    if (!stationKey) return
+    const searchFormData = this.getSearchFormData(stationKey)
+    this.loadData(this.state.pagination, searchFormData)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.tabKey !== this.state.tabKey) {
+      const searchFormData = this.getSearchFormData(this.state.tabKey)
+      let pagination = {
+        ...this.state.pagination,
+        current: 1,
+      }
+      this.loadData(pagination, searchFormData)
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!_.isEqual(this.props.stationsData, nextProps.stationsData)) {
+      const stationKey =
+        this.props.stationsData &&
+        this.props.stationsData[0] &&
+        this.props.stationsData[0].key
+      if (!stationKey) return
+      const searchFormData = this.getSearchFormData(stationKey)
+      this.loadData(this.state.pagination, searchFormData)
+    }
   }
 
   async loadData(pagination, searchFormData) {
@@ -105,35 +139,15 @@ export default class TableList extends React.PureComponent {
     })
   }
 
-  async componentDidUpdate(prevProps, prevState) {
-    if (prevState.tabKey !== this.state.tabKey) {
-      const station = this.getData(this.state.tabKey)
-      const params = this.getParams(station)
-      let pagination = {
-        ...this.state.pagination,
-        current: 1,
-      }
-      this.loadData(pagination, params)
-    }
-  }
-
   handleChangePage = pagination => {
-    const station = this.getData(this.state.tabKey)
-    const params = this.getParams(station)
+    // const station = this.getData(this.state.tabKey)
+    const searchFormData = this.getSearchFormData(this.state.tabKey)
 
-    this.loadData(pagination, params)
+    this.loadData(pagination, searchFormData)
   }
 
   convertDateToString = date => {
     return moment(date, 'YYYY-MM-DD HH:mm').toISOString()
-  }
-
-  getStationsByKeys = () => {
-    if (!this.props.stations.length) return
-    const stations = this.props.stations.filter(station =>
-      this.props.stationKeys.includes(station.key)
-    )
-    return stations
   }
 
   handleChangeTab = tabKey => {
@@ -141,8 +155,8 @@ export default class TableList extends React.PureComponent {
   }
 
   handleExportExcel() {
-    const station = this.getData(this.state.tabKey)
-    const searchFormData = this.getParams(station)
+    // const station = this.getData(this.state.tabKey)
+    const searchFormData = this.getSearchFormData(this.state.tabKey)
     this.setState({ isExporting: true }, async () => {
       let res = await DataStationAutoApi.getDataStationAutoExportAvg(
         searchFormData

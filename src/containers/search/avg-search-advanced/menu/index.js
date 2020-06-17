@@ -7,7 +7,6 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
-import queryString from 'query-string'
 import styled from 'styled-components'
 
 const Search = Input.Search
@@ -68,18 +67,14 @@ export default class FilterListMenu extends React.Component {
     const filter = this.props.configFilter.find(
       filter => filter._id === filterId
     )
-    const rawData = queryString.parse(filter.searchUrl, {
-      encode: true,
-      arrayFormat: 'bracket',
-      skipNull: true,
-      skipEmptyString: true,
-    })
 
-    rawData.searchNow = true
+    const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
+    searchObj.searchNow = true
+
     this.props.history.push(
       slug.avgSearchAdvanced.base +
         '?formData=' +
-        encodeURIComponent(JSON.stringify(rawData))
+        encodeURIComponent(JSON.stringify(searchObj))
     )
   }
 

@@ -23,6 +23,7 @@ const ChartWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  overflow: auto;
 `
 
 const Thumbnail = styled.div`

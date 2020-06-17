@@ -40,10 +40,16 @@ export default class SelectStationType extends PureComponent {
     if (stationTypes.success)
       this.setState({
         stationTypes: stationTypes.data || [],
-        value: this.props.value || this.props.isShowAll ? '' : undefined,
+        value: this.props.value || (this.props.isShowAll ? '' : undefined),
       })
 
     if (this.props.getRef) this.props.getRef(this)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value) {
+      this.setState({ value: nextProps.value })
+    }
   }
 
   getFirstValue() {
@@ -98,7 +104,7 @@ export default class SelectStationType extends PureComponent {
         onSearch={this.handleSearch}
         style={{ width: '100%' }}
         onChange={this.handleOnChange}
-        value={this.state.value}
+        value={this.props.value}
         filterOption={false}
       >
         {this.props.isShowAll && (

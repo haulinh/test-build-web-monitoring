@@ -1,6 +1,7 @@
 import React from 'react'
-import { Spin, Row, Col } from 'antd'
+import { Spin, Row, Col, message, Button } from 'antd'
 import _ from 'lodash'
+import { translate } from 'hoc/create-lang'
 import StationList from './station-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './form/SearchForm'
@@ -16,6 +17,7 @@ import Clearfix from 'components/elements/clearfix'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import FilterListMenu from './menu'
+import FormFilter from './form/ModalForm'
 
 @connectAutoDispatch(
   state => ({
@@ -23,6 +25,7 @@ import FilterListMenu from './menu'
     organizationId: _.get(state, 'auth.userInfo.organization._id', 'vasoft'),
     isOpenNavigation: state.theme.navigation.isOpen,
     stations: _.get(state, 'stationAuto.list', []),
+    stationAuto: state.stationAuto,
   }),
   { toggleNavigation }
 )
@@ -32,13 +35,19 @@ export default class AvgSearchAdvanced extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      visible: false,
+      confirmLoading: false,
+      initialData: false,
+
       isSearchingData: false,
       isSearchingStation: false,
-      stationKeys: props.stations.map(station => station.key),
-      stationsData: this.getStationsData(props.stations),
+
       searchData: {},
       filteredConfigFilter: [],
       configFilter: [],
+
+      stationKeys: [],
+      stationsData: [],
     }
   }
 
@@ -47,13 +56,21 @@ export default class AvgSearchAdvanced extends React.Component {
     this.props.toggleNavigation(false)
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.stations.length !== prevProps.stations.length) {
-      const stationKeys = this.props.stations.map(station => station.key)
-      const stationsData = this.getStationsData(this.props.stations)
-      this.setState({ stationKeys, stationsData })
+  initialData = props => {
+    if (!props.formData.searchNow) {
+      const stationsData = this.getStationsData(props.stations)
+      const stationKeys = props.stations.map(station => station.key)
+      this.setState({ stationsData, stationKeys, initialData: true })
     }
-    if (!_.isEqual(this.props.values, prevProps.values)) {
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.stations.length !== nextProps.stations.length) {
+      if (!this.state.initialData) {
+        this.initialData(nextProps)
+      }
+    }
+    if (!_.isEqual(this.props.values, nextProps.values)) {
       if (this.state.isSearchingData) this.setState({ isSearchingData: false })
     }
   }
@@ -68,8 +85,9 @@ export default class AvgSearchAdvanced extends React.Component {
     })
   }
 
-  getStationsData = stations =>
-    stations.map((station, index) => ({
+  getStationsData = stations => {
+    if (!stations.length) return []
+    return stations.map((station, index) => ({
       index,
       _id: station._id,
       key: station.key,
@@ -80,30 +98,32 @@ export default class AvgSearchAdvanced extends React.Component {
       ),
       measuringList: station.measuringList.map(measuring => measuring.key),
     }))
+  }
 
   handleChangeStationsData = stationsData => {
     this.setState({ stationsData })
   }
 
-  handleSubmitSearch = params => {
-    this.setState({ isSearchingData: true, searchData: params })
+  handleSubmitSearch = searchData => {
+    if (!this.state.stationKeys.length) {
+      message.warn(translate('avgSearchFrom.table.emptyText'))
+      return
+    }
+    this.setState({ isSearchingData: true, searchData })
   }
 
-  handleSaveInfoSearch = () => {
-    console.log('save info')
-  }
-
-  handleOnSearchStationAuto = searchData => {
-    this.setState({ isSearchingStation: true }, async () => {
-      const { data: stationKeys } = await DataStationAutoApi.searchStationAuto(
-        searchData
-      )
-      this.setState({ stationKeys, isSearchingStation: false })
+  handleSearchStation = searchData => {
+    return new Promise(resolve => {
+      this.setState({ isSearchingStation: true }, async () => {
+        const {
+          data: stationKeys,
+        } = await DataStationAutoApi.searchStationAuto(searchData)
+        if (stationKeys) {
+          this.setState({ stationKeys, isSearchingStation: false })
+          resolve(stationKeys)
+        }
+      })
     })
-  }
-
-  saveFormRef = formRef => {
-    this.formRef = formRef
   }
 
   handleSearch = searchText => {
@@ -118,12 +138,80 @@ export default class AvgSearchAdvanced extends React.Component {
     })
   }
 
+  showModal = () => {
+    this.setState({ visible: true })
+  }
+
+  handleCancel = () => {
+    this.setState({ visible: false })
+  }
+
+  saveFormRef = formRef => {
+    this.formRef = formRef
+  }
+
+  rightChildren() {
+    // if (!this.state.allowSave) return null
+    return (
+      <Button
+        type="primary"
+        icon="save"
+        size="default"
+        onClick={this.showModal}
+      >
+        {translate('addon.save')}
+      </Button>
+    )
+  }
+
+  handleCreateFilter = () => {
+    const { form } = this.formRef.props
+    const { organizationId } = this.props
+    form.validateFields((err, values) => {
+      delete this.props.values.searchNow
+      if (err) return
+      let params = {
+        name: values.name,
+        searchUrl: encodeURIComponent(JSON.stringify(this.props.values)),
+      }
+      this.setState({ confirmLoading: true }, async () => {
+        let { data, error } = await OrganizationApi.createFilter(
+          organizationId,
+          params
+        )
+        this.setState({
+          confirmLoading: false,
+          allowSave: false,
+        })
+        if (data._id) {
+          message.success(translate('dataSearchFilterForm.create.success'))
+          this.setState({ visible: false })
+          form.resetFields()
+          this.setState({
+            configFilter: data.configFilter,
+            filteredConfigFilter: data.configFilter,
+          })
+        }
+        if (error && data.message === 'CONFIG_FILTER_NAME_EXISTED') {
+          form.setFields({
+            name: {
+              value: values.name,
+              errors: [
+                new Error(translate('dataSearchFilterForm.create.nameIsExist')),
+              ],
+            },
+          })
+        }
+      })
+    })
+  }
+
   render() {
     return (
       <PageContainer
         {...this.props.wrapperProps}
         backgroundColor="#fafbfb"
-        right={null}
+        right={this.rightChildren()}
       >
         <Row
           style={{ marginLeft: '-24px', marginRight: '-24px' }}
@@ -138,28 +226,25 @@ export default class AvgSearchAdvanced extends React.Component {
             <Breadcrumb items={['list']} />
             <SearchFrom
               onSubmit={this.handleSubmitSearch}
-              onSaveInfo={this.handleSaveInfoSearch}
-              onSearchStationAuto={this.handleOnSearchStationAuto}
+              onSearchStationAuto={this.handleSearchStation}
               initialValues={this.props.formData}
               searchNow={this.props.formData.searchNow}
             />
             <Clearfix height={16} />
-            {!this.state.isSearchingData && (
-              <Spin
-                size="large"
-                tip="Searching..."
-                spinning={this.state.isSearchingStation}
-              >
-                <StationForm
-                  onChangeStationsData={this.handleChangeStationsData}
-                  stations={this.props.stations}
-                  stationKeys={this.state.stationKeys}
-                />
-              </Spin>
-            )}
-            {this.state.isSearchingData && (
+            <Spin
+              size="large"
+              tip="Searching..."
+              spinning={this.state.isSearchingStation}
+            >
+              <StationForm
+                onChangeStationsData={this.handleChangeStationsData}
+                stations={this.props.stations}
+                stationKeys={this.state.stationKeys}
+              />
+            </Spin>
+            <Clearfix height={40} />
+            {this.state.isSearchingData && this.state.stationsData.length && (
               <StationList
-                // stationsData={this.state.stationsData}
                 stationsData={this.state.stationsData}
                 searchData={this.state.searchData}
                 type={this.props.values.type}
@@ -167,13 +252,13 @@ export default class AvgSearchAdvanced extends React.Component {
             )}
           </Col>
         </Row>
-        {/* <FormFilter
+        <FormFilter
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}
           confirmLoading={this.state.confirmLoading}
           onCancel={this.handleCancel}
           onCreate={this.handleCreateFilter}
-        /> */}
+        />
       </PageContainer>
     )
   }
