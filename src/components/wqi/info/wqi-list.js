@@ -16,9 +16,9 @@ const i18n = {
 const WrapperView = styled.div`
   display: flex;
   flex-direction: column;
-  border-radius: 4px;
-  border: 1px solid #f2f2f2;
-  padding: 8px;
+  /* border-radius: 4px;
+  border: 1px solid #f2f2f2; */
+  padding: 16px 0px;
 
   .item-wqi {
     display: flex;
@@ -76,9 +76,12 @@ export default class WQIList extends React.PureComponent {
     wqiLevel: PropTypes.array,
   }
 
-  state = {
-    dataSoure: null,
-    selectStationKey: null,
+  constructor(props) {
+    super(props)
+    this.state = {
+      dataSoure: props.wqiList,
+      selectStationKey: null,
+    }
   }
 
   componentDidUpdate = prevProps => {
@@ -99,15 +102,12 @@ export default class WQIList extends React.PureComponent {
       return _.toUpper(name.trim()).search(_.toUpper(value.trim())) >= 0
     })
 
-    // console.log(dataSearch, "---dataSearch");
     this.setState({
       dataSoure: dataSearch,
     })
-    // => objects for ['fred']
   }
 
   render() {
-    // console.log(this.state.dataSoure, "--this.state.dataSoure")
     return (
       <WrapperView>
         <Input placeholder={i18n.search} onChange={this.hanldeOnchange} />

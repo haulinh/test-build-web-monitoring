@@ -196,6 +196,8 @@ export default {
   },
   wqi: {
     title: 'Water Quality Index',
+    move: 'Move',
+    reference: 'You need to navigate to the WQI Calculation page to select the WQI calculation formula'
   },
   wqiConfigCalculation: {
     pageName: 'Configure to WQI calculation',

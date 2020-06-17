@@ -16,7 +16,6 @@ export default class InfoComponent extends React.Component {
         style={{
           ...this.props.style,
           height: this.props.windowHeight,
-          padding: 16,
           overflow: 'scroll',
         }}
       >
