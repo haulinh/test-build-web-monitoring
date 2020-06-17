@@ -6,7 +6,6 @@ import * as _ from 'lodash'
 import moment from 'moment-timezone'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 import { translate } from 'hoc/create-lang'
-import { getListConfigAqi } from 'api/CategoryApi'
 import AqiListStatus from './aqi-list-status'
 import Clearfix from 'components/elements/clearfix'
 
@@ -76,30 +75,12 @@ export default class AQIList extends React.PureComponent {
     aqiLevel: PropTypes.array,
     locale: PropTypes.string,
     onChangeLocale: PropTypes.func,
+    listConfigAQI: PropTypes.array
   }
 
   state = {
     dataSoure: null,
-    selectStationKey: null,
-    listConfigAQI: [],
-  }
-  componentDidMount = () => {
-    getListConfigAqi()
-      .then(retult => {
-        const data = _.get(retult, 'data.value', [])
-        // console.log(data, '--data')
-        this.setState({
-          listConfigAQI: _.filter(data, item => {
-            return item.activated
-          }),
-        })
-      })
-      .catch(ex => {
-        this.setState({
-          listConfigAQI: [],
-        })
-        console.log(ex, '--ex--')
-      })
+    selectStationKey: null
   }
 
   componentDidUpdate = prevProps => {
@@ -128,12 +109,13 @@ export default class AQIList extends React.PureComponent {
   }
 
   render() {
+    console.log(this.props.listConfigAQI, "--listConfigAQI--")
     return (
       <WrapperView>
-        {this.state.listConfigAQI.length > 0 && (
+        {this.props.listConfigAQI.length > 0 && (
           <Row gutter={8}>
-            {_.map(this.state.listConfigAQI, item => {
-              const spanCol = this.state.listConfigAQI.length > 1 ? 12 : 24
+            {_.map(this.props.listConfigAQI, item => {
+              const spanCol = this.props.listConfigAQI.length > 1 ? 12 : 24
               return (
                 <Col span={spanCol}>
                   <Button

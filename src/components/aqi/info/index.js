@@ -11,6 +11,7 @@ export default class InfoComponent extends React.Component {
   }
 
   render() {
+    
     return (
       <div
         style={{
@@ -26,6 +27,7 @@ export default class InfoComponent extends React.Component {
           onSelect={this.props.onSelect}
           aqiLevel={this.props.aqiLevel}
           aqiList={this.props.aqiList}
+          listConfigAQI={this.props.listConfigAQI}
         />
       </div>
     )
