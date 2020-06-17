@@ -26,8 +26,8 @@ export function exportFileHistory(key, { from, to } = {}) {
 
 // NOTE
 const SLUG_WQI_VS = 'v1'
-export function fetchWQILastLogs({ listKey } = {}) {
-  var url = getWqiUrl(`${SLUG_WQI_VS}/hour-last-logs?listKey=${listKey}`)
+export function fetchWQILastLogs({ listKey, code = 'vi' } = {}) {
+  var url = getWqiUrl(`${SLUG_WQI_VS}/hour-last-logs?listKey=${listKey}&code=${code}`)
   return getFetch(url)
 }
 export function fetchWqiHourbyStation({ from, to, listKey } = {}) {

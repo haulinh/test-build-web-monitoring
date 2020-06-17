@@ -191,6 +191,8 @@ export default {
   },
   wqi: {
     title: 'WQI',
+    move: 'Di chuyển',
+    reference: 'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI'
   },
   wqiConfigCalculation: {
     pageName: 'Cấu hình tính toán WQI',
