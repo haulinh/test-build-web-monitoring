@@ -8,13 +8,14 @@ import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import * as _ from 'lodash'
-import { message, Spin } from 'antd'
+import { message, Spin, Skeleton } from 'antd'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { getListConfigAqi } from 'api/CategoryApi'
-import slug from 'constants/slug'
+// import slug from 'constants/slug'
+import PageAqiStatus from 'containers/aqi/aqi-list-status'
 
 @protectRole(ROLE.STATISTIC.AQI)
 @queryFormDataBrowser(['submit'])
@@ -32,6 +33,8 @@ export default class AQIStatistics extends React.Component {
       current: 1,
       pageSize: 50,
     },
+    isNotConfig: false,
+    isInitial: false,
   }
   componentDidMount = () => {
     try {
@@ -42,14 +45,23 @@ export default class AQIStatistics extends React.Component {
             return item.activated
           })
           if (data.length === 0) {
-            window.location = slug.aqi.status
+            this.setState({
+              isNotConfig: true,
+            })
           }
         })
         .catch(ex => {
           this.setState({
-            listConfigAQI: [],
+            isNotConfig: false,
           })
           console.log(ex, '--ex--')
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.setState({
+              isInitial: true,
+            })
+          }, 500)
         })
     } catch (ex) {
       console.log(ex)
@@ -138,31 +150,41 @@ export default class AQIStatistics extends React.Component {
     return (
       <div>
         <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-          <Spin
-            size="large"
-            tip={translate('dataSearchFrom.tab.statusExport')}
-            spinning={this.state.isExporting}
-          >
-            <Breadcrumb items={['list']} />
-            <SearchFrom
-              initialValues={this.props.formData}
-              onSubmit={this.handleSubmitSearch}
-              searchNow={this.props.formData.searchNow}
-            />
-            <Clearfix height={16} />
-            {this.state.isHaveData ? (
-              <TabList
-                isLoading={this.state.isLoading}
-                dataAQI={this.state.dataAQI}
-                pagination={this.state.pagination}
-                onExportExcel={this.handleExportExcel}
-                nameChart={this.state.searchFormData.name}
-                isExporting={this.state.isExporting}
-                onManually={this.handleManually}
-                isManually={this.state.isManually}
-              />
-            ) : null}
-          </Spin>
+          {!this.state.isInitial && (
+            <Skeleton loading={true} paragraph={{ rows: 8 }} />
+          )}
+          {this.state.isInitial && (
+            <React.Fragment>
+              {this.state.isNotConfig && <PageAqiStatus />}
+              {!this.state.isNotConfig && (
+                <Spin
+                  size="large"
+                  tip={translate('dataSearchFrom.tab.statusExport')}
+                  spinning={this.state.isExporting}
+                >
+                  <Breadcrumb items={['list']} />
+                  <SearchFrom
+                    initialValues={this.props.formData}
+                    onSubmit={this.handleSubmitSearch}
+                    searchNow={this.props.formData.searchNow}
+                  />
+                  <Clearfix height={16} />
+                  {this.state.isHaveData ? (
+                    <TabList
+                      isLoading={this.state.isLoading}
+                      dataAQI={this.state.dataAQI}
+                      pagination={this.state.pagination}
+                      onExportExcel={this.handleExportExcel}
+                      nameChart={this.state.searchFormData.name}
+                      isExporting={this.state.isExporting}
+                      onManually={this.handleManually}
+                      isManually={this.state.isManually}
+                    />
+                  ) : null}
+                </Spin>
+              )}
+            </React.Fragment>
+          )}
         </PageContainer>
       </div>
     )

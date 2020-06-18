@@ -79,7 +79,6 @@ export default class AQIList extends React.PureComponent {
   }
 
   state = {
-    dataSoure: null,
     selectStationKey: null,
   }
 
@@ -109,7 +108,7 @@ export default class AQIList extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props.listConfigAQI, '--listConfigAQI--')
+    console.log(this.props.aqiList, '--listConfigAQI--')
     return (
       <WrapperView>
         {this.props.listConfigAQI.length > 0 && (
@@ -143,8 +142,8 @@ export default class AQIList extends React.PureComponent {
 
         <Clearfix height={8} />
         <Input placeholder={i18n.search} onChange={this.hanldeOnchange} />
-        {!this.state.dataSoure && <Skeleton />}
-        {_.map(this.state.dataSoure, (item, index) => {
+        {!this.props.aqiList && <Skeleton />}
+        {_.map(this.props.aqiList, (item, index) => {
           const key = _.get(item, 'key')
           const name = _.get(item, 'name', '')
           const time = _.get(item, 'time', '')
@@ -203,7 +202,7 @@ export default class AQIList extends React.PureComponent {
             </Row>
           )
         })}
-        {this.state.dataSoure && this.state.dataSoure.length === 0 && (
+        {this.props.aqiList && this.props.aqiList.length === 0 && (
           <AqiListStatus />
         )}
       </WrapperView>

@@ -199,6 +199,13 @@ export default {
     move: 'Move',
     reference:
       'You need to navigate to the WQI Calculation page to select the WQI calculation formula',
+    form: {
+      wqiKey: {
+        label: 'Select WQI',
+        placeholder: 'WQI',
+        require: 'Please Choose WQI',
+      },
+    },
   },
   wqiConfigCalculation: {
     pageName: 'Configure to WQI calculation',
@@ -2171,6 +2178,7 @@ export default {
         'Monitor the latest hourly surface water quality index on the map background',
       wqiHour: 'Report the WQI value of each station',
       wqiDay: 'Report WQI day values ​​for multiple stations',
+      config: 'Select station to calculate AQI or WQI value ',
     },
     configSub:
       'Configure issues related to monitoring points and system administration',
@@ -2343,7 +2351,7 @@ export default {
     gotoMonitoring: 'Go to Real-time Monitoring Page',
     viewDataAroundThisTime: 'View data around this time',
     tryAgain: 'Try again',
-    next: 'Next',
+    next: 'Move',
   },
   network: {
     sampling: {

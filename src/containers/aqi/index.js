@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import * as _ from 'lodash'
+import { Skeleton } from 'antd'
 import InfoComponent from '../../components/aqi/info'
 import MapComponent from '../../components/aqi/map'
-import * as _ from 'lodash'
 
 import aqiApi from 'api/AqiApi'
 import stationConfigApi from 'api/StationConfigApi'
 import { getListConfigAqi } from 'api/CategoryApi'
-import slug from 'constants/slug'
+import PageAqiStatus from 'containers/aqi/aqi-list-status'
 
 // import AqiListStatus from 'components/aqi/info/aqi-list-status.js'
 
@@ -27,79 +27,88 @@ export default class AqiContainer extends React.Component {
     station: null,
     locale: 'vn',
     listConfigAQI: [],
+
+    isNotConfig: false,
+    isInitial: false,
   }
 
   async componentDidMount() {
     try {
       getListConfigAqi()
         .then(async retult => {
-          const data = _.get(retult, 'data.value', [])
+          let data = _.get(retult, 'data.value', [])
           // console.log(data, '--data')
+          data = _.filter(data, item => {
+            return item.activated
+          })
           this.setState(
             {
-              listConfigAQI: _.filter(data, item => {
-                return item.activated
-              }),
+              listConfigAQI: data,
             },
             () => {
               if (this.state.listConfigAQI.length === 0) {
-                window.location = slug.aqi.status
+                this.setState({
+                  isNotConfig: true,
+                })
               }
             }
           )
-
-          const stationConfigs = await stationConfigApi.getStationsConfig(
-            {},
-            { config: 'AQI' }
-          )
-          const stationData = _.map(
-            _.get(stationConfigs, 'data', []),
-            itemStation => {
-              return itemStation.key
-            }
-          )
-
-          const listKey = _.join(stationData, ',')
-          const params = {
-            listKey: listKey,
-            locale: this.state.locale,
-          }
-          let rs = await aqiApi.fetchAqiDayLastLogs({ ...params })
-
-          // const rs = await fetchAqiByHour()
-          let dataRes = _.get(rs, 'data', [])
-          // console.log(dataRes,"dataRes")
-          dataRes = _.map(dataRes, item => {
-            const time = _.get(item, 'time', null)
-            const valuesData = _.values(_.omit(item, 'time'))
-            if (time) {
-              return {
-                time,
-                ...valuesData[0],
-              }
-            } else {
-              return null
-            }
-          })
-          const aqiList = _.compact(dataRes)
-          // console.log(aqiList, "aqiList")
-          this.setState({
-            aqiList,
-            aqiLevel: _.get(rs, 'aqiLevel', []),
-          })
-
-          const station = _.head(aqiList)
-
-          if (!_.isEmpty(station)) {
-            this.setState({ station })
-          }
         })
         .catch(ex => {
           this.setState({
             listConfigAQI: [],
+            isNotConfig: false,
           })
           console.log(ex, '--ex--')
         })
+        .finally(() => {})
+
+      const stationConfigs = await stationConfigApi.getStationsConfig(
+        {},
+        { config: 'AQI' }
+      )
+      const stationData = _.map(
+        _.get(stationConfigs, 'data', []),
+        itemStation => {
+          return itemStation.key
+        }
+      )
+
+      const listKey = _.join(stationData, ',')
+      const params = {
+        listKey: listKey,
+        locale: this.state.locale,
+      }
+      let rs = await aqiApi.fetchAqiDayLastLogs({ ...params })
+
+      // const rs = await fetchAqiByHour()
+      let dataRes = _.get(rs, 'data', [])
+      // console.log(dataRes,"dataRes")
+      dataRes = _.map(dataRes, item => {
+        const time = _.get(item, 'time', null)
+        const valuesData = _.values(_.omit(item, 'time'))
+        if (time) {
+          return {
+            time,
+            ...valuesData[0],
+          }
+        } else {
+          return null
+        }
+      })
+      const aqiList = _.compact(dataRes)
+      // console.log(aqiList, "aqiList")
+      this.setState({
+        aqiList,
+        aqiLevel: _.get(rs, 'aqiLevel', []),
+        isInitial: true,
+      })
+
+      const station = _.head(aqiList)
+
+      if (!_.isEmpty(station)) {
+        this.setState({ station })
+      }
     } catch (ex) {
       console.log(ex)
     }
@@ -141,12 +150,15 @@ export default class AqiContainer extends React.Component {
     )
   }
 
+  //  Kiem tra cau hinh AQI truoc sau do moi kiem tra isInitial
   render() {
     return (
-      <WrapperContainer>
-        {this.state.listConfigAQI && this.state.listConfigAQI.length > 0 && (
+      <WrapperContainer style={{ padding: '8px' }}>
+        {this.state.isNotConfig && <PageAqiStatus />}
+        {!this.state.isNotConfig && (
           <React.Fragment>
             <MapComponent
+              // zoom={8}
               center={this.state.center}
               aqiList={this.state.aqiList}
               aqiLevel={this.state.aqiLevel}
@@ -155,15 +167,20 @@ export default class AqiContainer extends React.Component {
               onClose={this.handleOnClosePopup}
               stationKey={this.state.stationKey}
             />
-            <InfoComponent
-              onChangeLocale={this.hanldleOnChangeLocale}
-              locale={this.state.locale}
-              aqiLevel={this.state.aqiLevel}
-              style={{ flex: 1 }}
-              aqiList={this.state.aqiList}
-              onSelect={this.handleOnSelect}
-              listConfigAQI={this.state.listConfigAQI}
-            />
+            {!this.state.isInitial && (
+              <Skeleton loading={true} paragraph={{ rows: 8 }} />
+            )}
+            {this.state.isInitial && (
+              <InfoComponent
+                onChangeLocale={this.hanldleOnChangeLocale}
+                locale={this.state.locale}
+                aqiLevel={this.state.aqiLevel}
+                style={{ flex: 1 }}
+                aqiList={this.state.aqiList}
+                onSelect={this.handleOnSelect}
+                listConfigAQI={this.state.listConfigAQI}
+              />
+            )}
           </React.Fragment>
         )}
       </WrapperContainer>

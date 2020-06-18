@@ -1,3 +1,3 @@
 import withSize from 'react-sizes'
 
-export default withSize(({ height }) => ({ windowHeight: height - 16 }))
+export default withSize(({ height }) => ({ windowHeight: height }))

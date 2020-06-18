@@ -194,6 +194,13 @@ export default {
     move: 'Di chuyển',
     reference:
       'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI',
+    form: {
+      wqiKey: {
+        label: 'Lựa chọn WQI',
+        placeholder: 'WQI',
+        require: 'Vui lòng chọn WQI',
+      },
+    },
   },
   wqiConfigCalculation: {
     pageName: 'Cấu hình tính toán WQI',
@@ -2150,7 +2157,7 @@ export default {
       approveData: 'Tra cứu dữ liệu sau khi đã loại bỏ dữ liệu không hợp lệ',
     },
     configSub:
-      'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
+      'Cấu hình các vấn đề liên quan đến điểm quan trắc và quản trị hệ thống',
     config: {
       configAQI: 'Cấu hình và lựa chọn công thức để tính toán AQI',
       configWQI: 'Cấu hình và lựa chọn công thức để tính toán WQI',

@@ -65,9 +65,9 @@ export function exportFileWqiDaybyListStation({ from, to, listKey } = {}) {
   return getFetch(url)
 }
 
-export function fetchWqiDaybyListStation({ from, to, listKey } = {}) {
+export function fetchWqiDaybyListStation({ from, to, listKey, wqiKey } = {}) {
   var url = getWqiUrl(
-    `${SLUG_WQI_VS}/day?to=${to}&from=${from}&listKey=${listKey}`
+    `${SLUG_WQI_VS}/day?to=${to}&from=${from}&listKey=${listKey}&code=${wqiKey}`
   )
   return getFetch(url)
 }

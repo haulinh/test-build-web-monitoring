@@ -29,6 +29,17 @@ const WrapperInfoContainer = styled.div`
     .ant-radio-button-wrapper {
       flex: 1;
       text-align: center;
+      border-radius: 4px;
+      border-left: 1px solid #d9d9d9;
+      &.ant-radio-button-wrapper-checked {
+        border-left: 0;
+      }
+      &.ant-radio-button-wrapper:not(:first-child)::before {
+        display: none;
+      }
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
     }
   }
 `

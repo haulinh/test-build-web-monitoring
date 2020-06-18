@@ -55,9 +55,9 @@ import Layout from 'layout/default-sidebar-layout'
 import Report from 'containers/report'
 import DataLoggerPage from 'containers/data-logger'
 import AppIncidents from 'containers/apps/incidents'
+import PageAqiStatus from 'containers/aqi/aqi-list-status'
 
 import PageExpLicenseInfo from 'containers/license/exp-license-info'
-import PageAqiStatus from 'containers/aqi/aqi-list-status'
 
 @withRouter
 @autobind

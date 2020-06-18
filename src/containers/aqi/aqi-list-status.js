@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { Result, Button } from 'antd'
 import { translate } from 'hoc/create-lang'
 import slug from 'constants/slug'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 
 const WrapperView = styled.div`
   flex: 1;
@@ -17,24 +16,22 @@ const i18n = {
 }
 export default function AqiListStatus(props) {
   return (
-    <PageContainer isLoading={false}>
-      <WrapperView>
-        <Result
-          icon={<img alt="" src={'/images/list.svg'} width="auto" />}
-          title={i18n.title}
-          extra={
-            <Button
-              onClick={() => {
-                window.location = slug.aqi.config
-              }}
-              type="primary"
-            >
-              {i18n.next}
-            </Button>
-          }
-        />
-      </WrapperView>
-    </PageContainer>
+    <WrapperView>
+      <Result
+        icon={<img alt="" src={'/images/list.svg'} width="auto" />}
+        title={i18n.title}
+        extra={
+          <Button
+            onClick={() => {
+              window.location = slug.aqi.config
+            }}
+            type="primary"
+          >
+            {i18n.next}
+          </Button>
+        }
+      />
+    </WrapperView>
   )
 }
 
