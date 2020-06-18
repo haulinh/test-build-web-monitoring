@@ -21,7 +21,7 @@ export default class MapComponent extends React.Component {
           stationKey={this.props.stationKey}
           aqiLevel={this.props.aqiLevel}
           aqiList={this.props.aqiList}
-          zoom={this.props.zoom}
+          // zoom={this.props.zoom}
           center={this.props.center}
           {...getGoogleMapProps()}
           loadingElement={
