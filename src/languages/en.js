@@ -197,7 +197,14 @@ export default {
   wqi: {
     title: 'Water Quality Index',
     move: 'Move',
-    reference: 'You need to navigate to the WQI Calculation page to select the WQI calculation formula'
+    reference: 'You need to navigate to the WQI Calculation page to select the WQI calculation formula',
+    form: {
+      wqiKey: {
+        label: 'Select WQI',
+        placeholder: 'WQI',
+        require: 'Please Choose WQI',
+      },
+    }
   },
   wqiConfigCalculation: {
     pageName: 'Configure to WQI calculation',

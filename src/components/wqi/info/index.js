@@ -15,8 +15,8 @@ export default class InfoComponent extends React.Component {
       <div
         style={{
           ...this.props.style,
-          height: this.props.windowHeight,
-          overflow: 'scroll',
+          height: "calc(100vh - 64px)",
+          overflow: 'hidden',
         }}
       >
         <WQIList
