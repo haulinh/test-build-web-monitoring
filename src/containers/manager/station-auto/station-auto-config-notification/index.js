@@ -477,9 +477,13 @@ export default class StationAutoConfigNotification extends React.Component {
         isWarningIndeterminate: false,
         isSmsIndeterminate: false,
         isEmailIndeterminate: false,
+        isWebIndeterminate: false,
+        isMobileIndeterminate: false,
         isWarningCheckAll: checked,
         isSmsCheckAll: checked,
         isEmailCheckAll: checked,
+        isWebCheckAll: checked,
+        isMobileCheckAll: checked,
       })
 
       let columns = _.values(STATION_AUTO_OPTIONS)
@@ -536,6 +540,20 @@ export default class StationAutoConfigNotification extends React.Component {
         this.setState({
           isEmailCheckAll: checked,
           isEmailIndeterminate: false,
+        })
+        break
+      }
+      case STATION_AUTO_OPTIONS.WEB: {
+        this.setState({
+          isWebCheckAll: checked,
+          isWebIndeterminate: false,
+        })
+        break
+      }
+      case STATION_AUTO_OPTIONS.MOBILE: {
+        this.setState({
+          isMobileCheckAll: checked,
+          isMobileIndeterminate: false,
         })
         break
       }
