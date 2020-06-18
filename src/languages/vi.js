@@ -1784,6 +1784,26 @@ export default {
       error: 'cập nhật thất bại!',
     },
   },
+  configNotify: {
+    repeat: 'Lặp lại',
+    titleTable: {
+      status: 'Trạng thái',
+      notification: 'Thông báo',
+      frequency: 'Tần Suất',
+    },
+    DATA_STATUS: {
+      OVERLOAD: 'Vượt ngưỡng',
+      ABOUT_TO_OVERLOAD: 'Chuẩn bị vượt ngưỡng',
+      COLLECTING: 'Tốt',
+      LOST_CONNECTION: 'Mất tín hiệu',
+    },
+    DEVICE_STATUS: {
+      LOST_CONNECTION: 'Mất tín hiệu',
+      DEVICE_ERROR: 'Lỗi thiết bị',
+      CALIBRATE: 'Hiệu chuẩn',
+      COLLECTING: 'Đang đo',
+    },
+  },
   changePassword: {
     breadcrumb: {
       changePassword: 'Thay đổi mật khẩu',
@@ -2030,6 +2050,13 @@ export default {
       role: 'Nhóm quyền',
       user: 'Tài khoản',
       dataLogger: 'Xem nhật ký',
+      ConfigNotify: {
+        titleTable: {
+          status: 'Trạng thái',
+          notification: 'Thông báo',
+          frequency: 'Tần suất',
+        },
+      },
     },
 
     camera: 'Camera',
