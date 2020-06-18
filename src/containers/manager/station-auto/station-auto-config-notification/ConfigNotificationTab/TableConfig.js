@@ -134,7 +134,6 @@ export default class TableConfig extends React.Component {
 
   render() {
     const { title } = this.props
-    console.log('this.state.isLoadingSubmit', this.state.isLoadingSubmit)
     return (
       <div>
         <Title level={4}>{title}</Title>

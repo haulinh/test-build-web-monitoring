@@ -25,8 +25,20 @@ const optionSelects = [
     value: 30,
   },
   {
-    title: 'Mỗi 60 phút',
+    title: 'Mỗi tiếng',
     value: 60,
+  },
+  {
+    title: 'Mỗi 2 tiếng',
+    value: 120,
+  },
+  {
+    title: 'Mỗi ngày',
+    value: 1440,
+  },
+  {
+    title: 'Mỗi 2 ngày',
+    value: 2880,
   },
 ]
 

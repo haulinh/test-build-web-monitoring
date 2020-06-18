@@ -116,11 +116,12 @@ export default class StationAutoConfigNotification extends React.Component {
     return (
       <PageContainer>
         <Breadcrumb items={['configNotification']} />
-        {/*Notification Tab*/}
         <Tabs defaultActiveKey="1" onChange={this.callback}>
+          {/*Notification Tab*/}
           <TabPane tab="Nhận thông báo" key="1">
             {this.renderNotificationTab()}
           </TabPane>
+
           {/*Config Notification Tab*/}
           <TabPane tab="Cấu hình thông báo" key="2">
             <ConfigNotificationTab />
