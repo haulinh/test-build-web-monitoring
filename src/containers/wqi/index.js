@@ -29,6 +29,17 @@ const WrapperInfoContainer = styled.div`
     .ant-radio-button-wrapper {
       flex: 1;
       text-align: center;
+      border-radius: 4px;
+      border-left: 1px solid #d9d9d9;
+      &.ant-radio-button-wrapper-checked {
+        border-left: 0;
+      }
+      &.ant-radio-button-wrapper:not(:first-child)::before {
+        display: none;
+      }
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
     }
   }
 `
@@ -44,9 +55,9 @@ export default class WqiContainer extends React.Component {
     station: null,
     stationKey: null,
     center: null,
-    qsListKey: "",
+    qsListKey: '',
     isLoaded: false,
-    isLoading: false
+    isLoading: false,
   }
 
   async componentDidMount() {
@@ -71,7 +82,7 @@ export default class WqiContainer extends React.Component {
       const listKey = _.join(stationData, ',')
       const params = {
         listKey: listKey,
-        code: wqiSelected
+        code: wqiSelected,
       }
 
       const rsWqi = await wqiApi.fetchWQILastLogs({ ...params })
@@ -136,10 +147,10 @@ export default class WqiContainer extends React.Component {
   wqiKeyChange = async ({ target }) => {
     const wqiSelected = target.value
     this.setState({ wqiSelected, isLoading: true })
-    
+
     const rsWqi = await wqiApi.fetchWQILastLogs({
       listKey: this.state.qsListKey,
-      code: wqiSelected
+      code: wqiSelected,
     })
     let dataRes = _.get(rsWqi, 'data', [])
     dataRes = _.map(dataRes, item => {

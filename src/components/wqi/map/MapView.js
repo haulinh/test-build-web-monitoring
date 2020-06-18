@@ -257,9 +257,6 @@ class CustomGoogleMap extends React.Component {
             if (!this.state.isBounds) this.getBounds()
           }       
         }}
-        OnMapLoadedCallback={()=>{
-          console.log('onMapLoaded')
-        }}
         defaultZoom={11}
         defaultCenter={DEFAULT_CENTER}
         center={this.props.center}

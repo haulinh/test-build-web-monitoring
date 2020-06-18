@@ -11,7 +11,9 @@ import TabGiaTri from './tabGiaTri'
 import TabThongSo from './tabThongSo'
 import TabTrongSo from './tabTrongSo'
 import { translate } from 'hoc/create-lang'
-import { get } from 'lodash'
+import { get, find } from 'lodash'
+import slug from 'constants/slug'
+import { getListConfigWqi } from 'api/CategoryApi'
 
 const Breadcrumb = createBreadcrumb()
 const { TabPane } = Tabs
@@ -52,6 +54,27 @@ export default class ConfigCalculationWQI extends PureComponent {
     })
   }
 
+  componentDidMount = () => {
+    getListConfigWqi()
+      .then(retult => {
+        const resData = get(retult, 'data.value', [])
+
+        const data = find(resData, item => {
+          return item.key === this.props.match.params.key
+        })
+        this.setState({
+          data,
+          isLoaded: true,
+        })
+      })
+      .catch(ex => {
+        this.setState({
+          isLoaded: true,
+        })
+        console.log(ex, '--ex--')
+      })
+  }
+
   render() {
     const { match } = this.props
     const code = get(match, 'params.key')
@@ -63,6 +86,11 @@ export default class ConfigCalculationWQI extends PureComponent {
             {
               id: '1',
               name: i18n.pageName,
+              href: slug.aqi.config,
+            },
+            {
+              id: '2',
+              name: get(this.state.data, 'name', ''),
             },
           ]}
         />

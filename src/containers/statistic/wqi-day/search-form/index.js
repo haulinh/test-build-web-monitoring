@@ -13,6 +13,7 @@ import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import SelectStationConfigWQI from '../../common/select-station-config-wqi'
 import SelectStationTypeConfigWQI from '../../common/select-station-type-config-wqi'
+import SelectWqiKey from 'components/elements/select-wqi-key'
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import OptionsMonthRange from '../../common/options-time-month-range'
@@ -27,6 +28,7 @@ const FSelectStationTypeConfigWQI = createValidateComponent(
 const FSelectStationConfigWQI = createValidateComponent(SelectStationConfigWQI)
 const FOptionsMonthRange = createValidateComponent(OptionsMonthRange)
 const FTimerPicker = createValidateComponent(TimerPicker)
+const FSelectWqiKey = createValidateComponent(SelectWqiKey)
 
 // const optionTimeZoneDay = [{ value: '24', name: '00:00 - 23:59' }, { value: '17', name: '17:00 - 16:59' }, { value: '1', name: '24:00' }, { value: '2', name: '17:00' }]
 
@@ -43,6 +45,7 @@ function validate(values) {
     errors.stationType = translate('avgSearchFrom.form.stationType.error')
   if (!values.station)
     errors.station = translate('avgSearchFrom.form.stationType.error')
+  if (!values.wqiKey) errors.wqiKey = translate('wqi.form.wqiKey.require')
   return errors
 }
 
@@ -64,11 +67,6 @@ export default class SearchForm extends React.Component {
     onSubmit: PropTypes.func,
   }
 
-  state = {
-    timezoneDay: 0,
-    timezoneTo: '',
-  }
-
   constructor(props) {
     super(props)
     this.state = {
@@ -78,6 +76,9 @@ export default class SearchForm extends React.Component {
       fromDate: props.initialValues.fromDate,
       toDate: props.initialValues.toDate,
       isTimezoneDay: false,
+      timezoneDay: 0,
+      timezoneTo: '',
+      wqiKey: null,
     }
   }
 
@@ -95,13 +96,9 @@ export default class SearchForm extends React.Component {
       stationKey: '',
       stationID: '',
     })
-    // this.props.change('station', '')
   }
 
   handleChangeStationAuto(listId) {
-    // console.log(listId,"station")
-
-    // console.log("select", listId)
     const params = {
       stationID: listId,
     }
@@ -109,8 +106,6 @@ export default class SearchForm extends React.Component {
   }
 
   handleSubmit(values) {
-    // console.log('handleSubmit', this.state)
-
     this.props.onSubmit({
       fromDate: this.state.fromDate,
       toDate: this.state.toDate,
@@ -119,6 +114,7 @@ export default class SearchForm extends React.Component {
       name: this.state.stationName,
       stationID: this.state.stationID,
       timezoneDay: this.state.timezoneDay,
+      wqiKey: this.state.wqiKey
     })
   }
 
@@ -151,11 +147,11 @@ export default class SearchForm extends React.Component {
       isTimezoneDay: false,
     })
   }
+
   hanldeOnchangeFramTime = (time, timeString) => {
     const to = moment(time)
       .subtract(23, 'hours')
       .format('HH:mm')
-    // console.log(to,  'hanldeOnchangeFramTime')
     this.setState({
       timezoneTo: to,
       timezoneDay: moment(time).format('HH'),
@@ -164,6 +160,10 @@ export default class SearchForm extends React.Component {
 
   handleChangeDateTest = (time, txt) => {
     console.log(time, txt)
+  }
+
+  handleChangeWqiKey = wqiKey => {
+    this.setState({ wqiKey })
   }
 
   render() {
@@ -236,6 +236,15 @@ export default class SearchForm extends React.Component {
                 formatDate={DD_MM_YYYY}
                 onChangeDate={this.handleChangeDate}
                 component={FOptionsMonthRange}
+              />
+            </Col>
+            <Col span={12}>
+              <Field
+                label={translate('wqi.form.wqiKey.label')}
+                name="wqiKey"
+                size="large"
+                onChangeVal={this.handleChangeWqiKey}
+                component={FSelectWqiKey}
               />
             </Col>
 
