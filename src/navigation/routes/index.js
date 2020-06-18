@@ -39,6 +39,7 @@ import AqiConfigCalculationContainer from 'containers/aqi/configCalculation'
 import AqiListConfigContainer from 'containers/aqi/listConfig'
 
 import WqiContainer from 'containers/wqi'
+import WqiListConfigContainer from 'containers/wqi/listConfig'
 import WqiConfigCalculationContainer from 'containers/wqi/configCalculation'
 import QaQcContainer from 'containers/qa-qc/approved-data'
 import PublishConfigContainer from 'containers/qa-qc/approved-data/config-publish'
@@ -56,6 +57,7 @@ import DataLoggerPage from 'containers/data-logger'
 import AppIncidents from 'containers/apps/incidents'
 
 import PageExpLicenseInfo from 'containers/license/exp-license-info'
+import PageAqiStatus from 'containers/aqi/aqi-list-status'
 
 @withRouter
 @autobind
@@ -78,6 +80,7 @@ export default class RouteDefault extends React.Component {
           <Route path={slug.password.resetPassword} component={ResetPassword} />
           <Route path={slug.user.accountActive} component={AccountActive} />
           <Route path={slug.user.expLicense} component={PageExpLicenseInfo} />
+
           <Route path={slug.apps.incidents} component={AppIncidents} />
 
           <Layout isShowSidebarMenu>
@@ -96,12 +99,22 @@ export default class RouteDefault extends React.Component {
               component={AqiListConfigContainer}
             />
             <LayoutRoute
+              exact
+              path={slug.aqi.status}
+              component={PageAqiStatus}
+            />
+            <LayoutRoute
               path={slug.aqi.configEdit}
               component={AqiConfigCalculationContainer}
             />
             <LayoutRoute path={slug.wqi.base} component={WqiContainer} />
             <LayoutRoute
+              exact
               path={slug.wqi.config}
+              component={WqiListConfigContainer}
+            />
+            <LayoutRoute
+              path={slug.wqi.configEdit}
               component={WqiConfigCalculationContainer}
             />
             <LayoutRoute

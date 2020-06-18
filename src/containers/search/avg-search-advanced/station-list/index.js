@@ -97,6 +97,11 @@ export default class TableList extends React.PureComponent {
         this.props.stationsData[0].key
       if (!stationKey) return
       const searchFormData = this.getSearchFormData(stationKey)
+      if (this.props.stationsData.time !== nextProps.stationsData.time) return
+      if (
+        this.props.stationsData.rangesDate !== nextProps.stationsData.rangesDate
+      )
+        return
       this.loadData(this.state.pagination, searchFormData)
     }
   }

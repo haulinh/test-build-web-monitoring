@@ -7,6 +7,11 @@ import * as _ from 'lodash'
 
 import aqiApi from 'api/AqiApi'
 import stationConfigApi from 'api/StationConfigApi'
+import { getListConfigAqi } from 'api/CategoryApi'
+import slug from 'constants/slug'
+
+// import AqiListStatus from 'components/aqi/info/aqi-list-status.js'
+
 // import moment from 'moment'
 
 const WrapperContainer = styled.div`
@@ -20,55 +25,81 @@ export default class AqiContainer extends React.Component {
     aqiList: [],
     aqiLevel: [],
     station: null,
+    locale: 'vn',
+    listConfigAQI: [],
   }
 
   async componentDidMount() {
     try {
-      const stationConfigs = await stationConfigApi.getStationsConfig(
-        {},
-        { config: 'AQI' }
-      )
-      const stationData = _.map(
-        _.get(stationConfigs, 'data', []),
-        itemStation => {
-          return itemStation.key
-        }
-      )
+      getListConfigAqi()
+        .then(async retult => {
+          const data = _.get(retult, 'data.value', [])
+          // console.log(data, '--data')
+          this.setState(
+            {
+              listConfigAQI: _.filter(data, item => {
+                return item.activated
+              }),
+            },
+            () => {
+              if (this.state.listConfigAQI.length === 0) {
+                window.location = slug.aqi.status
+              }
+            }
+          )
 
-      const listKey = _.join(stationData, ',')
-      // console.log(listKey,'listKey')
-      const params = {
-        // from: moment().utc().startOf('day').format(),
-        // to:  moment().utc().startOf('day').format(),
-        // timezoneDay:  moment().format("HH"),
-        listKey: listKey,
-      }
-      let rs = await aqiApi.fetchAqiDayLastLogs({ ...params })
+          const stationConfigs = await stationConfigApi.getStationsConfig(
+            {},
+            { config: 'AQI' }
+          )
+          const stationData = _.map(
+            _.get(stationConfigs, 'data', []),
+            itemStation => {
+              return itemStation.key
+            }
+          )
 
-      // const rs = await fetchAqiByHour()
-      let dataRes = _.get(rs, 'data', [])
-      // console.log(dataRes,"dataRes")
-      dataRes = _.map(dataRes, item => {
-        const time = _.get(item, 'time', null)
-        const valuesData = _.values(_.omit(item, 'time'))
-        if (time) {
-          return {
-            time,
-            ...valuesData[0],
+          const listKey = _.join(stationData, ',')
+          const params = {
+            listKey: listKey,
+            locale: this.state.locale,
           }
-        } else {
-          return null
-        }
-      })
-      const aqiList = _.compact(dataRes)
-      // console.log(aqiList, "aqiList")
-      this.setState({ aqiList, aqiLevel: _.get(rs, 'aqiLevel', []) })
+          let rs = await aqiApi.fetchAqiDayLastLogs({ ...params })
 
-      const station = _.head(aqiList)
+          // const rs = await fetchAqiByHour()
+          let dataRes = _.get(rs, 'data', [])
+          // console.log(dataRes,"dataRes")
+          dataRes = _.map(dataRes, item => {
+            const time = _.get(item, 'time', null)
+            const valuesData = _.values(_.omit(item, 'time'))
+            if (time) {
+              return {
+                time,
+                ...valuesData[0],
+              }
+            } else {
+              return null
+            }
+          })
+          const aqiList = _.compact(dataRes)
+          // console.log(aqiList, "aqiList")
+          this.setState({
+            aqiList,
+            aqiLevel: _.get(rs, 'aqiLevel', []),
+          })
 
-      if (!_.isEmpty(station)) {
-        this.setState({ station })
-      }
+          const station = _.head(aqiList)
+
+          if (!_.isEmpty(station)) {
+            this.setState({ station })
+          }
+        })
+        .catch(ex => {
+          this.setState({
+            listConfigAQI: [],
+          })
+          console.log(ex, '--ex--')
+        })
     } catch (ex) {
       console.log(ex)
     }
@@ -98,24 +129,43 @@ export default class AqiContainer extends React.Component {
     }, 500)
   }
 
+  hanldleOnChangeLocale = value => {
+    // console.log('hanldleOnChangeLocale', value)
+    this.setState(
+      {
+        locale: value,
+      },
+      () => {
+        this.componentDidMount()
+      }
+    )
+  }
+
   render() {
     return (
       <WrapperContainer>
-        <MapComponent
-          center={this.state.center}
-          aqiList={this.state.aqiList}
-          aqiLevel={this.state.aqiLevel}
-          style={{ flex: 2, background: 'blue' }}
-          onMarkerClick={this.handleMarkerClick}
-          onClose={this.handleOnClosePopup}
-          stationKey={this.state.stationKey}
-        />
-        <InfoComponent
-          aqiLevel={this.state.aqiLevel}
-          style={{ flex: 1 }}
-          aqiList={this.state.aqiList}
-          onSelect={this.handleOnSelect}
-        />
+        {this.state.listConfigAQI && this.state.listConfigAQI.length > 0 && (
+          <React.Fragment>
+            <MapComponent
+              center={this.state.center}
+              aqiList={this.state.aqiList}
+              aqiLevel={this.state.aqiLevel}
+              style={{ flex: 2, background: 'blue' }}
+              onMarkerClick={this.handleMarkerClick}
+              onClose={this.handleOnClosePopup}
+              stationKey={this.state.stationKey}
+            />
+            <InfoComponent
+              onChangeLocale={this.hanldleOnChangeLocale}
+              locale={this.state.locale}
+              aqiLevel={this.state.aqiLevel}
+              style={{ flex: 1 }}
+              aqiList={this.state.aqiList}
+              onSelect={this.handleOnSelect}
+              listConfigAQI={this.state.listConfigAQI}
+            />
+          </React.Fragment>
+        )}
       </WrapperContainer>
     )
   }

@@ -51,6 +51,9 @@ const TAB_NAME = {
   GIA_TRI: i18n.tabGiaTri,
   THONG_SO: i18n.tabThongSo,
 }
+
+const PREFIX_CALCULATION = 'aqi-calculation-'
+const PREFIX_QC = 'aqi-qc-'
 @withRouter
 @autobind
 export default class ConfigCalculationAQI extends PureComponent {
@@ -142,15 +145,25 @@ export default class ConfigCalculationAQI extends PureComponent {
           >
             <TabPane tab="Ngưỡng mức độ" key={TAB_KEY.MUC_DO}>
               <Clearfix height={24} />
-              <TabMucDo keyLevel={_.get(this.state, 'data.keylevel', '')} />
+              <TabMucDo
+                keyLevel={`${PREFIX_CALCULATION}${_.get(
+                  this.state,
+                  'data.key',
+                  ''
+                )}`}
+              />
             </TabPane>
             <TabPane tab="Bảng giá trị BPi" key={TAB_KEY.GIA_TRI}>
               <Clearfix height={24} />
-              <TabGiaTri keyQc={_.get(this.state, 'data.keyQc', '')} />
+              <TabGiaTri
+                keyQc={`${PREFIX_QC}${_.get(this.state, 'data.key', '')}`}
+              />
             </TabPane>
             <TabPane tab="Thống số tính toán" key={TAB_KEY.THONG_SO}>
               <Clearfix height={24} />
-              <TabThongSo keyQc={_.get(this.state, 'data.keyQc', '')} />
+              <TabThongSo
+                keyQc={`${PREFIX_QC}${_.get(this.state, 'data.key', '')}`}
+              />
             </TabPane>
           </Tabs>
         </Wrapper>

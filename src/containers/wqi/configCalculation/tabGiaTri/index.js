@@ -43,7 +43,10 @@ export default class TabGiaTri extends React.Component {
         console.log('Received values of form: ', values)
         try {
           let transformData = values.payload
-          const response = await postConfigWqiParams(transformData)
+          const response = await postConfigWqiParams(
+            this.props.code,
+            transformData
+          )
           if (response.success) {
             message.success(i18n.updateSuccess)
           }
@@ -55,7 +58,7 @@ export default class TabGiaTri extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await getConfigWqiParams()
+    const response = await getConfigWqiParams(this.props.code)
     if (response.success) {
       console.log('response', response)
       const config = _.get(response, 'data.value', [])
@@ -83,7 +86,7 @@ export default class TabGiaTri extends React.Component {
       <div>
         <Clearfix height={16} />
         <div>
-          <Collapse defaultActiveKey={['I', 'II', 'III', 'IV', 'V']}>
+          <Collapse defaultActiveKey={['I']}>
             <Panel header="Nhóm I" key="I">
               <NhomI configMeasure={this.state.configGroupI} />
             </Panel>

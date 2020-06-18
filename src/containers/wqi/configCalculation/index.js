@@ -11,6 +11,7 @@ import TabGiaTri from './tabGiaTri'
 import TabThongSo from './tabThongSo'
 import TabTrongSo from './tabTrongSo'
 import { translate } from 'hoc/create-lang'
+import { get } from 'lodash'
 
 const Breadcrumb = createBreadcrumb()
 const { TabPane } = Tabs
@@ -52,6 +53,9 @@ export default class ConfigCalculationWQI extends PureComponent {
   }
 
   render() {
+    const { match } = this.props
+    const code = get(match, 'params.key')
+
     return (
       <PageContainer isLoading={false}>
         <Breadcrumb
@@ -107,24 +111,25 @@ export default class ConfigCalculationWQI extends PureComponent {
               return <div />
             }}
             activeKey={this.state.tabKey}
+            destroyInactiveTabPane
           >
             <TabPane tab="Ngưỡng mức độ" key={TAB_KEY.MUC_DO}>
               <Clearfix height={24} />
-              <TabMucDo />
+              <TabMucDo code={code} />
               <div />
             </TabPane>
             <TabPane tab="Bảng giá trị BPi" key={TAB_KEY.GIA_TRI}>
               <Clearfix height={24} />
-              <TabGiaTri />
+              <TabGiaTri code={code} />
               <div />
             </TabPane>
             <TabPane tab="Thông số tính toán" key={TAB_KEY.THONG_SO}>
               <Clearfix height={24} />
-              <TabThongSo />
+              <TabThongSo code={code} />
             </TabPane>
             <TabPane tab="Trọng số nhóm thông số" key={TAB_KEY.TRONG_SO}>
               <Clearfix height={24} />
-              <TabTrongSo />
+              <TabTrongSo code={code} />
             </TabPane>
           </Tabs>
         </Wrapper>

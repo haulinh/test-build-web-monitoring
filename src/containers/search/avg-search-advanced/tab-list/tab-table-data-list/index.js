@@ -8,7 +8,15 @@ import { translate } from 'hoc/create-lang'
 import { DD_MM_YYYY_HH_MM, DD_MM_YYYY } from 'constants/format-date'
 import { getFormatNumber } from 'constants/format-number'
 
-const TableDataListWrapper = styled.div``
+const TableDataListWrapper = styled.div`
+  .ant-table-thead > tr > th {
+    white-space: nowrap;
+  }
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    text-align: center !important;
+  }
+`
 
 @autobind
 export default class TableDataList extends React.PureComponent {

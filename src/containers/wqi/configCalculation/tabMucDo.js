@@ -49,6 +49,7 @@ export default class TabMucDo extends React.Component {
     isSubmit: false,
     dataSource: [],
     isLocked: false,
+    isFormLoaded: false,
   }
 
   columns = [
@@ -257,7 +258,10 @@ export default class TabMucDo extends React.Component {
           )
 
           // console.log("transformData", transformData);
-          const response = await postConfigWqiCalculation(transformData)
+          const response = await postConfigWqiCalculation(
+            this.props.code,
+            transformData
+          )
           if (response.success) {
             message.success(i18n.updateSuccess)
           }
@@ -287,16 +291,22 @@ export default class TabMucDo extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await getConfigWqiCalculation()
+    const response = await getConfigWqiCalculation(this.props.code)
     if (response.success) {
       const transformData = _.get(response, 'data.value', []).filter(i =>
         _.identity(i)
       )
       const lastRecord = transformData[transformData.length - 1]
-      transformData.map(i => (i.key = this.idIncrement++))
+      let dataSource = transformData.map(item => {
+        return {
+          ...item,
+          key: this.idIncrement++,
+        }
+      })
+
       this.setState(
         {
-          dataSource: transformData,
+          dataSource,
           isLoaded: true,
           isLocked: lastRecord ? lastRecord.max == null : null,
         },

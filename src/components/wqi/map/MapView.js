@@ -216,7 +216,7 @@ const WqiMarker = ({ item, wqiLevel, onMarkerClick, stationKey, onClose }) => {
 })
 @withScriptjs
 @withGoogleMap
-class CustomGoogleMap extends PureComponent {
+class CustomGoogleMap extends React.Component {
   state = {
     isBounds: false,
   }
@@ -252,19 +252,19 @@ class CustomGoogleMap extends PureComponent {
     return (
       <GoogleMap
         ref={map => {
-          if (!this.state.isBounds) this.getBounds()
-          this.map = map
+          if (map) {
+            this.map = map
+            if (!this.state.isBounds) this.getBounds()
+          }
+        }}
+        OnMapLoadedCallback={() => {
+          console.log('onMapLoaded')
         }}
         defaultZoom={11}
         defaultCenter={DEFAULT_CENTER}
         center={this.props.center}
         zoom={11}
         onZoomChanged={() => {
-          // console.log(
-          //   '---onZoomChanged--',
-          //   this.map.getZoom(),
-          //   this.map.getBounds()
-          // )
           this.onClosePopup()
         }}
         onDragStart={() => {

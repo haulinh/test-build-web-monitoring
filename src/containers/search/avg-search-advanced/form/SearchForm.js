@@ -17,7 +17,7 @@ import createValidateComponent from 'components/elements/redux-form-validate'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import { dataStatusOptions } from 'constants/dataStatus'
-import SelectStationAuto from '../../common/select-station-auto'
+// import SelectStationAuto from '../../common/select-station-auto'
 import SelectTimeRange from '../../common/select-time-range'
 import OptionsTimeRange from '../../common/options-time-range'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
@@ -31,7 +31,7 @@ const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectQCVN = createValidateComponent(SelectQCVN)
 const FInputNumber = createValidateComponent(InputNumber)
 const FSelectStationType = createValidateComponent(SelectStationType)
-const FSelectStationAuto = createValidateComponent(SelectStationAuto)
+// const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FSelectTimeRange = createValidateComponent(SelectTimeRange)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
@@ -40,10 +40,9 @@ const HeaderWrapper = styled.div`
   color: blue;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 8px;
+  margin-top: 16px;
   .ant-dropdown-link {
-    padding: 8px 16px;
+    padding: 8px 0;
   }
 `
 
@@ -53,16 +52,6 @@ const SearchFormContainer = styled(BoxShadowStyle)`
 
 const Container = styled.div`
   padding: 16px 16px;
-  /* display: flex;
-  flex-direction: column;
-  align-items: center;
-  .ant-row-flex {
-    flex: 1;
-    margin-right: 16px;
-    .ant-input-number-lg {
-      width: 100%;
-    }
-  } */
 `
 
 @connect((state, ownProps) => ({
@@ -190,7 +179,15 @@ export default class SearchAvgForm extends React.Component {
         // this.props.handleSubmit(this.props.onSubmit)()
       }
     }
+    if (!_.isEqual(nextProps.flagResetForm, this.props.flagResetForm)) {
+      this.initializeValue(this.props)
+    }
     if (!_.isEqual(this.props.values, nextProps.values)) {
+      if (
+        this.props.values.type !== nextProps.values.type ||
+        this.props.values.rangesDate !== nextProps.values.rangesDate
+      )
+        return
       let params = {
         stationType: nextProps.values.stationType,
         provinceKey: nextProps.values.provinceKey,
@@ -199,9 +196,6 @@ export default class SearchAvgForm extends React.Component {
         frequent: nextProps.values.frequent,
       }
       await this.props.onSearchStationAuto(params)
-    }
-    if (!_.isEqual(nextProps.flagResetForm, this.props.flagResetForm)) {
-      this.initializeValue(this.props)
     }
   }
 
@@ -225,7 +219,7 @@ export default class SearchAvgForm extends React.Component {
 
   handleChangeStationType = stationTypeKey => {
     this.setState({
-      stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
+      stationTypeKey: stationTypeKey.key || '',
       stationAutoKey: '',
     })
     this.props.change('stationAuto', '')
@@ -453,7 +447,7 @@ export default class SearchAvgForm extends React.Component {
         return acc
       }, {})
     ).reduce((acc, measuringByKey, index, array) => {
-      if (measuringByKey.length === array[index].length) {
+      if (measuringByKey.length === stations.length) {
         acc = [...acc, measuringByKey[0]]
       }
       return acc
@@ -491,7 +485,7 @@ export default class SearchAvgForm extends React.Component {
         >
           {this.props.lang.t('addon.searchSelect')}
         </Heading>
-        <HeaderWrapper>
+        {/* <HeaderWrapper>
           <Dropdown
             trigger={['click']}
             overlay={
@@ -505,7 +499,7 @@ export default class SearchAvgForm extends React.Component {
               <Icon type="plus" /> {this.props.lang.t('addon.add')}
             </a>
           </Dropdown>
-        </HeaderWrapper>
+        </HeaderWrapper> */}
         <Container>
           <Row type="flex" gutter={[16, 24]}>
             <Col span={6}>
@@ -586,6 +580,7 @@ export default class SearchAvgForm extends React.Component {
                   name={filter.key}
                   size="large"
                   showSearch
+                  style={{ width: '100%' }}
                   // alowClear
                   mode="multiple"
                   options={this.state[filter.key]}
@@ -595,6 +590,24 @@ export default class SearchAvgForm extends React.Component {
               </Col>
             ))}
           </Row>
+          <HeaderWrapper>
+            <Dropdown
+              trigger={['click']}
+              overlay={
+                <FilterList
+                  initialValues={this.props.initialValues}
+                  onChange={this.handleChangeFilter}
+                />
+              }
+            >
+              <a
+                className="ant-dropdown-link"
+                onClick={e => e.preventDefault()}
+              >
+                <Icon type="plus" /> {this.props.lang.t('addon.add')}
+              </a>
+            </Dropdown>
+          </HeaderWrapper>
           {measuringList.length ? (
             <React.Fragment>
               <Clearfix height={40} />

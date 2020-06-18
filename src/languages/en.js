@@ -196,6 +196,9 @@ export default {
   },
   wqi: {
     title: 'Water Quality Index',
+    move: 'Move',
+    reference:
+      'You need to navigate to the WQI Calculation page to select the WQI calculation formula',
   },
   wqiConfigCalculation: {
     pageName: 'Configure to WQI calculation',
@@ -232,6 +235,11 @@ export default {
     colGroupIII: 'Group III',
     colGroupIV: 'Group IV',
     colGroupV: 'Group V',
+    phuongPhapTinh: 'WQI calculation method',
+    cauHinh: 'Configuration of calculation',
+    taiLieu: 'Documentation on calculations',
+    config: 'Configuration',
+    view: 'View',
   },
   qaqc: {
     configPublish: {
@@ -399,6 +407,11 @@ export default {
         label: 'Type Of Station',
         placeholder: 'Select Type Of Station',
         require: 'Please Choose Type Of Station',
+      },
+      aqiConfigSelect: {
+        label: 'Select AQI',
+        placeholder: 'Select AQI',
+        require: 'Please Choose AQI',
       },
       stationAuto: {
         label: 'Station Name',
@@ -2115,6 +2128,8 @@ export default {
         'Look up the original data of the monitoring point by time period',
       avgData:
         'Look up the average data of the monitoring point by time period',
+      mapAQI:
+        'Monitor the latest hourly air quality index on the map background',
     },
     monitoringList: {
       base:
@@ -2145,10 +2160,42 @@ export default {
         'Maximum value among the average values ​​of 8 hours in 1 day measured value',
       type12: 'Statistics percent data that exceeds the threshold for the day',
       status_data: 'Summary report on status of data at many stations',
+      aqi_hour: 'Report the AQI value of each station',
+      aqi_day: 'Report AQI day values ​​for multiple stations',
+      config: 'Select station to calculate AQI or WQI value',
     },
     advanceSub: 'Advanced functions of the system',
+    advance: {
+      wqiMap:
+        'Monitor the latest hourly surface water quality index on the map background',
+      wqiHour: 'Report the WQI value of each station',
+      wqiDay: 'Report WQI day values ​​for multiple stations',
+    },
     configSub:
       'Configure issues related to monitoring points and system administration',
+    config: {
+      configAQI: 'Configuring and selecting the method to calculate AQI',
+      configWQI: 'Configuring and selecting the method to calculate WQI',
+      stationAuto: 'Manage lists and create new monitoring points',
+      stationAutoConnection:
+        'Connection parameters are configured in the txt file and in the system',
+      sendNotification:
+        'Selection of receiving alerts from the monitoring points',
+      sampling: 'Select monitoring points with sampling feature',
+      color: '',
+      camera: 'Attach and allow the station to display the Camera',
+      parameter:
+        'Create a new parameter before proceeding to Create a new monitoring point',
+      stationType:
+        'Create a new type of station before proceeding to Create a new monitoring point',
+      site:
+        'Create a new Site before proceeding to Create a new monitoring point',
+      standard:
+        'Create a new Standard before proceeding to Create a new monitoring point',
+      role: 'Add new Roles groups to manage in the system',
+      user: 'Add new and Assign Roles accounts in the system',
+      dataLogger: 'The user history of operations in the system',
+    },
   },
   dataLogger: {
     breadcrumb: {
@@ -2278,6 +2325,8 @@ export default {
     body1:
       'This is a function of the Advanced version, please contact us for more information:',
     body2: 'Email:',
+    body3:
+      'You need to move to the AQI Calculation page to select the AQI calculation method.',
   },
   stationStatus: {
     good: 'Good',
@@ -2293,6 +2342,7 @@ export default {
     gotoMonitoring: 'Go to Real-time Monitoring Page',
     viewDataAroundThisTime: 'View data around this time',
     tryAgain: 'Try again',
+    next: 'Next',
   },
   network: {
     sampling: {
