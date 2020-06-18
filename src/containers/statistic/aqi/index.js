@@ -61,7 +61,7 @@ export default class AQIStatistics extends React.Component {
             this.setState({
               isInitial: true,
             })
-          }, 500);
+          }, 500)
         })
     } catch (ex) {
       console.log(ex)
@@ -150,7 +150,9 @@ export default class AQIStatistics extends React.Component {
     return (
       <div>
         <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-          {!this.state.isInitial && <Skeleton loading={true} paragraph={{ rows: 8 }} />}
+          {!this.state.isInitial && (
+            <Skeleton loading={true} paragraph={{ rows: 8 }} />
+          )}
           {this.state.isInitial && (
             <React.Fragment>
               {this.state.isNotConfig && <PageAqiStatus />}

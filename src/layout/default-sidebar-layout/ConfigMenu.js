@@ -217,9 +217,8 @@ export default {
           }}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.config.dataLogger}>
-          <Link to={slug.dataLogger.base}>{MENU_NAME.config.dataLogger}</Link>
+            <Link to={slug.dataLogger.base}>{MENU_NAME.config.dataLogger}</Link>
           </Tooltip>
-          
         </Menu.Item>
       )}
     </Menu.SubMenu>

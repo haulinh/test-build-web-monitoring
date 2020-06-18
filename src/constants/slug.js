@@ -398,7 +398,7 @@ export const TOOLTIP_MENU = {
     site: translate('tooltipMenuApp.config.site'),
     standard: translate('tooltipMenuApp.config.standard'),
     role: translate('tooltipMenuApp.config.role'),
-    user:translate('tooltipMenuApp.config.user'),
-    dataLogger:translate('tooltipMenuApp.config.dataLogger'),
+    user: translate('tooltipMenuApp.config.user'),
+    dataLogger: translate('tooltipMenuApp.config.dataLogger'),
   },
 }

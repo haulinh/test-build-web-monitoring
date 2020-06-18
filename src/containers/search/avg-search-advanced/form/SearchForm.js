@@ -24,6 +24,8 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import FilterList from '../filter'
 import validate from '../utils/validate'
 import { listFilter } from '../constants'
+// import AdvancedOperator from '../advanced-operator'
+// import Clearfix from 'components/elements/clearfix'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectQCVN = createValidateComponent(SelectQCVN)
@@ -38,10 +40,9 @@ const HeaderWrapper = styled.div`
   color: blue;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 8px;
+  margin-top: ${props => `${props.top}px`};
   .ant-dropdown-link {
-    padding: 8px 16px;
+    padding: 8px 0;
   }
 `
 
@@ -51,18 +52,26 @@ const SearchFormContainer = styled(BoxShadowStyle)`
 
 const Container = styled.div`
   padding: 16px 16px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  .ant-row-flex {
-    flex: 1;
-    margin-right: 16px;
-    .ant-input-number-lg {
-      width: 100%;
-    }
-  }
 `
 
+@connect((state, ownProps) => ({
+  initialValues: {
+    ...(ownProps.initialValues
+      ? {
+          stationType: '',
+          provinceKey: '',
+          ...ownProps.initialValues,
+          rangesDate: Number(ownProps.initialValues.rangesDate) || 1,
+          type: Number(ownProps.initialValues.type) || 15,
+        }
+      : {
+          stationType: '',
+          provinceKey: '',
+          rangesDate: 1,
+          type: 15,
+        }),
+  },
+}))
 @reduxForm({
   form: 'dataSearchFilterForm',
   validate,
@@ -80,12 +89,21 @@ export default class SearchAvgForm extends React.Component {
     searchNow: PropTypes.bool,
     onPreventSave: PropTypes.func,
     onSearchStationAuto: PropTypes.func,
+    flagResetForm: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    initialValues: {},
   }
 
   constructor(props) {
     super(props)
-    let fromDate = moment(props.initialValues.fromDate)
-    let toDate = moment(props.initialValues.toDate)
+    let fromDate = props.initialValues.fromDate
+      ? moment(props.initialValues.fromDate)
+      : moment().subtract(props.initialValues.rangesDate, 'days')
+    let toDate = props.initialValues.toDate
+      ? moment(props.initialValues.toDate)
+      : moment()
     let timeRange = props.initialValues.rangesDate
     let rangesView = null
     if (props.initialValues.searchRange) {
@@ -122,39 +140,77 @@ export default class SearchAvgForm extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.initializeValue()
+  async componentDidMount() {
     if (this.props.searchNow) {
+      let params = {
+        stationType: this.props.initialValues.stationType,
+        provinceKey: this.props.initialValues.provinceKey,
+        dataStatus: this.props.initialValues.dataStatus,
+        standardKey: this.props.initialValues.standardKey,
+        frequent: this.props.initialValues.frequent,
+      }
+      await this.props.onSearchStationAuto(params)
       this.props.handleSubmit(this.handleSubmit)()
+      // this.props.handleSubmit(this.props.onSubmit)()
     }
+    // if (this.props.searchNow) {
+    //   this.props.handleSubmit(this.handleSubmit)()
+    //   // this.props.handleSubmit(this.props.onSubmit)()
+    // }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (!_.isEqual(prevProps.initialValues, this.props.initialValues)) {
+  async componentWillReceiveProps(nextProps) {
+    if (!_.isEqual(nextProps.initialValues, this.props.initialValues)) {
       const filterList = listFilter.filter(
-        filter => this.props.initialValues[filter.key]
+        filter => nextProps.initialValues[filter.key]
       )
       this.setState({ filterList })
-
-      this.initializeValue()
-      if (this.props.searchNow) {
+      this.initializeValue(nextProps)
+      if (nextProps.searchNow) {
+        let params = {
+          stationType: nextProps.values.stationType,
+          provinceKey: nextProps.values.provinceKey,
+          dataStatus: nextProps.values.dataStatus,
+          standardKey: nextProps.values.standardKey,
+          frequent: nextProps.values.frequent,
+        }
+        await this.props.onSearchStationAuto(params)
         this.props.handleSubmit(this.handleSubmit)()
+        // this.props.handleSubmit(this.props.onSubmit)()
       }
+    }
+    if (!_.isEqual(nextProps.flagResetForm, this.props.flagResetForm)) {
+      this.initializeValue(this.props)
+    }
+    if (!_.isEqual(this.props.values, nextProps.values)) {
+      if (
+        this.props.values.type !== nextProps.values.type ||
+        this.props.values.rangesDate !== nextProps.values.rangesDate
+      )
+        return
+      let params = {
+        stationType: nextProps.values.stationType,
+        provinceKey: nextProps.values.provinceKey,
+        dataStatus: nextProps.values.dataStatus,
+        standardKey: nextProps.values.standardKey,
+        frequent: nextProps.values.frequent,
+      }
+      await this.props.onSearchStationAuto(params)
     }
   }
 
-  initializeValue = () => {
-    const initialValues = this.props.initialValues
+  initializeValue = props => {
+    const initialValues = props.initialValues
       ? {
-          stationType: null,
-          provinceKey: null,
-          ...this.props.initialValues,
-          rangesDate: Number(this.props.initialValues.rangesDate) || 1,
-          type: Number(this.props.initialValues.type) || 15,
+          stationType: '',
+          provinceKey: '',
+          ...props.initialValues,
+          rangesDate: Number(props.initialValues.rangesDate) || 1,
+          type: Number(props.initialValues.type) || 15,
         }
       : {
-          stationType: null,
-          provinceKey: null,
+          stationType: '',
+          provinceKey: '',
           rangesDate: 1,
           type: 15,
         }
@@ -163,7 +219,7 @@ export default class SearchAvgForm extends React.Component {
 
   handleChangeStationType = stationTypeKey => {
     this.setState({
-      stationTypeKey: stationTypeKey ? stationTypeKey.key : '',
+      stationTypeKey: stationTypeKey.key || '',
       stationAutoKey: '',
     })
     this.props.change('stationAuto', '')
@@ -212,51 +268,58 @@ export default class SearchAvgForm extends React.Component {
   }
 
   // handleSubmit = values => {
-  //   const measuringListUnitStr = values.measuringList.map(item => {
-  //     const itemFind = _.find(this.state.measuringData, obj => {
-  //       return obj.key === item
-  //     })
-  //     if (itemFind) {
-  //       return encodeURIComponent(_.get(itemFind, 'unit', ''))
-  //     } else {
-  //       return ''
-  //     }
+  // const measuringListUnitStr = values.measuringList.map(item => {
+  //   const itemFind = _.find(this.state.measuringData, obj => {
+  //     return obj.key === item
   //   })
+  //   if (itemFind) {
+  //     return encodeURIComponent(_.get(itemFind, 'unit', ''))
+  //   } else {
+  //     return ''
+  //   }
+  // })
 
-  //   let params = {
-  //     fromDate: this.convertDateToString(this.state.fromDate),
-  //     toDate: this.convertDateToString(this.state.toDate),
-  //     key: values.stationAuto,
-  //     name: this.state.stationAutoName,
-  //     type: values.type,
-  //     measuringListUnitStr,
-  //     measuringList: values.measuringList,
-  //     measuringData: this.state.measuringData,
-  //   }
-
-  //   if (values.dataStatus) {
-  //     params.dataStatus = values.dataStatus
-  //   }
-  //   if (values.frequency) {
-  //     params.frequency = values.frequency
-  //   }
-  //   if (values.standardKey) {
-  //     params.standardKey = values.standardKey
-  //   }
+  // let params = {
+  //   fromDate: this.convertDateToString(this.state.fromDate),
+  //   toDate: this.convertDateToString(this.state.toDate),
+  //   key: values.stationAuto,
+  //   name: this.state.stationAutoName,
+  //   type: values.type,
+  //   measuringListUnitStr,
+  //   measuringList: values.measuringList,
+  //   measuringData: this.state.measuringData,
+  // }
 
   //   this.props.onSubmit(params)
   // }
 
-  handleSubmit = values => {
-    const params = Object.entries(values).reduce((acc, [key, value]) => {
-      if (value) acc[key] = value
-      return acc
-    }, {})
+  // handleSubmit = values => {
+  //   const params = Object.entries(values).reduce((acc, [key, value]) => {
+  //     if (value) acc[key] = value
+  //     return acc
+  //   , {})
 
-    // this.props.onSubmit(params)
-    if (this.props.onSearchStationAuto) {
-      this.props.onSearchStationAuto(params)
+  //   // this.props.onSubmit(params)
+  //   if (this.props.onSearchStationAuto) {
+  //     this.props.onSearchStationAuto(params)
+  //   }
+  // }
+
+  handleSubmit = values => {
+    let params = {
+      fromDate: this.convertDateToString(this.state.fromDate),
+      toDate: this.convertDateToString(this.state.toDate),
+      advanced: values.advanced
+        ? values.advanced.filter(
+            item =>
+              item.measuringKey &&
+              item.operator &&
+              item.value !== null &&
+              typeof item.value !== 'undefined'
+          )
+        : [],
     }
+    this.props.onSubmit(params)
   }
 
   handleChangeRanges = ranges => {
@@ -268,11 +331,8 @@ export default class SearchAvgForm extends React.Component {
       })
     } else {
       if (_.size(ranges) > 1) {
-        this.setState({
-          timeRange: null,
-          fromDate: ranges[0],
-          toDate: ranges[1],
-        })
+        const [fromDate, toDate] = ranges
+        this.setState({ timeRange: null, fromDate, toDate })
       }
     }
   }
@@ -346,13 +406,17 @@ export default class SearchAvgForm extends React.Component {
     }
   }
 
+  handleResetAdvanced = () => {
+    this.props.array.removeAll('advanced')
+  }
+
   getComponent = key => {
     switch (key) {
       // case 'stationStatus':
       //   return FSelectAnt
       case 'dataStatus':
         return FSelectAnt
-      case 'frequency':
+      case 'frequent':
         return FInputNumber
       case 'standardKey':
         return FSelectQCVN
@@ -360,6 +424,39 @@ export default class SearchAvgForm extends React.Component {
         return FInputNumber
     }
   }
+
+  // getMeasuringList = () => {
+  //   const stations = this.props.stations.filter(station =>
+  //     this.props.stationKeys.includes(station.key)
+  //   )
+  //   const measuringList = stations.reduce((arr, station) => {
+  //     if (station.measuringList) {
+  //       arr = [...arr, ...station.measuringList]
+  //     }
+  //     return arr
+  //   }, [])
+
+  //   // let measuringListKey = measuringList.map(measuring => measuring.key)
+
+  //   // const measuringListKeyUnit = [...new Set(measuringListKey)]
+  //   const measuringListDuplicate = Object.values(
+  //     measuringList.reduce((acc, measuring) => {
+  //       let key = measuring.key
+  //       acc[key] = acc[key] || []
+  //       acc[key].push(measuring)
+  //       return acc
+  //     }, {})
+  //   ).reduce((acc, measuringByKey, index, array) => {
+  //     if (measuringByKey.length === stations.length) {
+  //       acc = [...acc, measuringByKey[0]]
+  //     }
+  //     return acc
+  //   }, [])
+  //   return measuringListDuplicate.map(measuring => ({
+  //     value: measuring.key,
+  //     name: measuring.name,
+  //   }))
+  // }
 
   rightChildren() {
     return (
@@ -375,6 +472,7 @@ export default class SearchAvgForm extends React.Component {
   }
 
   render() {
+    // const measuringList = this.getMeasuringList()
     const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
     return (
       <SearchFormContainer>
@@ -387,7 +485,7 @@ export default class SearchAvgForm extends React.Component {
         >
           {this.props.lang.t('addon.searchSelect')}
         </Heading>
-        <HeaderWrapper>
+        {/* <HeaderWrapper>
           <Dropdown
             trigger={['click']}
             overlay={
@@ -401,24 +499,25 @@ export default class SearchAvgForm extends React.Component {
               <Icon type="plus" /> {this.props.lang.t('addon.add')}
             </a>
           </Dropdown>
-        </HeaderWrapper>
+        </HeaderWrapper> */}
         <Container>
-          <Row type="flex" gutter={[16, 24]}>
-            <Col span={8}>
+          <Row type="flex" gutter={[16, 24]} align="middle">
+            <Col span={6}>
               <Field
                 label={t(`province.label`)}
                 name="provinceKey"
                 size="large"
                 showSearch
-                // isShowAll
+                isShowAll
                 placeholder={t('province.placeholder')}
                 component={FSelectProvince}
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 showSearch
+                isShowAll
                 label={t('stationType.label')}
                 name="stationType"
                 size="large"
@@ -431,7 +530,7 @@ export default class SearchAvgForm extends React.Component {
                 }}
               />
             </Col>
-            {/* <Col span={8}>
+            {/* <Col span={6}>
               <Field
                 label={t('stationAuto.label')}
                 placeholder={t('stationAuto.placeholder')}
@@ -443,7 +542,7 @@ export default class SearchAvgForm extends React.Component {
                 component={FSelectStationAuto}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -455,7 +554,7 @@ export default class SearchAvgForm extends React.Component {
                 component={FSelectAnt}
               />
             </Col> */}
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('time')}
                 name="rangesDate"
@@ -466,7 +565,7 @@ export default class SearchAvgForm extends React.Component {
                 rangesView={this.state.rangesView}
               />
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Field
                 label={t('type.label')}
                 name="type"
@@ -475,13 +574,14 @@ export default class SearchAvgForm extends React.Component {
               />
             </Col>
             {this.state.filterList.map(filter => (
-              <Col span={8} key={filter.key}>
+              <Col span={6} key={filter.key}>
                 <Field
                   label={t(`${filter.key}.label`)}
                   name={filter.key}
                   size="large"
                   showSearch
-                  alowClear
+                  style={{ width: '100%' }}
+                  // alowClear
                   mode="multiple"
                   options={this.state[filter.key]}
                   placeholder={t(`${filter.key}.placeholder`)}
@@ -489,7 +589,39 @@ export default class SearchAvgForm extends React.Component {
                 />
               </Col>
             ))}
+            <Col span={6}>
+              <HeaderWrapper
+                top={this.state.filterList.length % 4 === 0 ? 0 : 28}
+              >
+                <Dropdown
+                  trigger={['click']}
+                  overlay={
+                    <FilterList
+                      initialValues={this.props.initialValues}
+                      onChange={this.handleChangeFilter}
+                    />
+                  }
+                >
+                  <a
+                    className="ant-dropdown-link"
+                    onClick={e => e.preventDefault()}
+                  >
+                    <Icon type="plus" />{' '}
+                    {this.props.lang.t('addon.addCondition')}
+                  </a>
+                </Dropdown>
+              </HeaderWrapper>
+            </Col>
           </Row>
+          {/* {measuringList.length ? (
+            <React.Fragment>
+              <Clearfix height={40} />
+              <AdvancedOperator
+                onReset={this.handleResetAdvanced}
+                measuringList={measuringList}
+              />
+            </React.Fragment>
+          ) : null} */}
         </Container>
       </SearchFormContainer>
     )

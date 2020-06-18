@@ -9,8 +9,8 @@ export const listFilter = [
     key: 'dataStatus',
   },
   {
-    title: translate('dataSearchFilterForm.form.frequency.label'),
-    key: 'frequency',
+    title: translate('dataSearchFilterForm.form.frequent.label'),
+    key: 'frequent',
   },
   {
     title: translate('dataSearchFilterForm.form.standardKey.label'),

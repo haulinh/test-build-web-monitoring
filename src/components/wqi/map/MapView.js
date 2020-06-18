@@ -252,10 +252,10 @@ class CustomGoogleMap extends React.Component {
     return (
       <GoogleMap
         ref={map => {
-          if(map){
+          if (map) {
             this.map = map
             if (!this.state.isBounds) this.getBounds()
-          }       
+          }
         }}
         defaultZoom={11}
         defaultCenter={DEFAULT_CENTER}

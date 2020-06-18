@@ -139,6 +139,7 @@ export default class AvgSearch extends React.Component {
   render() {
     // console.log(this.props.formData.searchNow,  "this.props.formData.searchNow")
     const { configFilter } = this.state
+    console.log('---dataStationAuto---', this.state.dataStationAuto)
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Spin size="large" tip="Exporting..." spinning={this.state.isExporting}>

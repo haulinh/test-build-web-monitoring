@@ -114,7 +114,7 @@ export default class SearchForm extends React.Component {
       name: this.state.stationName,
       stationID: this.state.stationID,
       timezoneDay: this.state.timezoneDay,
-      wqiKey: this.state.wqiKey
+      wqiKey: this.state.wqiKey,
     })
   }
 

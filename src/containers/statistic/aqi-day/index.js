@@ -62,8 +62,7 @@ export default class AQIStatisticsDay extends React.Component {
             this.setState({
               isInitial: true,
             })
-          }, 500);
-          
+          }, 500)
         })
     } catch (ex) {
       console.log(ex)

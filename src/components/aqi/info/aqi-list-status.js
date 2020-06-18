@@ -7,7 +7,7 @@ import { translate } from 'hoc/create-lang'
 import slug from 'constants/slug'
 
 const WrapperView = styled.div`
-  flex:1
+  flex: 1;
 `
 
 const i18n = {

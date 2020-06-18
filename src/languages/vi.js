@@ -192,14 +192,15 @@ export default {
   wqi: {
     title: 'WQI',
     move: 'Di chuyển',
-    reference: 'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI',
+    reference:
+      'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI',
     form: {
       wqiKey: {
         label: 'Lựa chọn WQI',
         placeholder: 'WQI',
         require: 'Vui lòng chọn WQI',
       },
-    }
+    },
   },
   wqiConfigCalculation: {
     pageName: 'Cấu hình tính toán WQI',
@@ -598,12 +599,17 @@ export default {
       subMenuAvgData: {
         title: 'Dữ liệu trung bình',
         dataSearch: 'Tìm kiếm dữ liệu',
+        placeholderSearch: 'Nhập tên bộ lọc ...',
       },
       subMenuFilters: 'Danh sách bộ lọc',
     },
   },
   dataSearchFilterForm: {
     titleText: 'Tra cứu dữ liệu tổng hợp',
+    update: {
+      label: 'Cập nhật',
+      success: 'Cập nhật thành công',
+    },
     create: {
       label: 'Tạo mới bộ lọc',
       success: 'Thêm bộ lọc mới thành công',
@@ -673,7 +679,7 @@ export default {
         placeholder: 'Lựa chọn tình trạng dữ liệu',
         require: 'Chọn ít nhất 1 tình trạng dữ liệu',
       },
-      frequency: {
+      frequent: {
         label: 'Tần suất (phút / lần)',
         placeholder: 'Nhập tần suất (phút/lần)',
         require: 'Bạn chưa nhập tần suất',
@@ -1882,7 +1888,9 @@ export default {
   },
   addon: {
     add: 'Thêm',
+    addCondition: 'Thêm điều kiện',
     create: 'Tạo mới',
+    update: 'Cập nhật',
     edit: 'Chỉnh sửa',
     delete: 'Xoá',
     save: 'Lưu',
@@ -2169,7 +2177,7 @@ export default {
         'Tạo mới đơn vị quản lý trước khi tiến hành bước Tạo mới điểm quan trắc',
       standard:
         'Tạo mới quy chuẩn trước khi tiến hành bước Tạo mới điểm quan trắc',
-      role: 'Thêm mới những nhóm quyền cần quản lý trong hệ thống',
+      role: 'Thêm mới nhưng nhóm quyền cần quản lý trong hệ thống',
       user: 'Thêm mới và phân quyền tài khoản trong hệ thống',
       dataLogger: 'Lịch sử người dùng thao tác trong hệ thống',
     },

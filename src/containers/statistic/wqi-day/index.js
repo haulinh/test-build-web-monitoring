@@ -53,7 +53,7 @@ export default class WQIStatisticsDay extends React.Component {
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
       listKey: searchFormData.listStation,
-      code: searchFormData.wqiKey
+      code: searchFormData.wqiKey,
     }
 
     // console.log(params,searchFormData,"-----")
@@ -100,7 +100,7 @@ export default class WQIStatisticsDay extends React.Component {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
       listKey: _.get(this.state.searchFormData, 'listStation', ''),
-      code: _.get(this.state.searchFormData, 'wqiKey')
+      code: _.get(this.state.searchFormData, 'wqiKey'),
     }
 
     let res = await wqiApi.fetchWQIProcessCalDay({ ...params })

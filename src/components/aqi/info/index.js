@@ -11,7 +11,6 @@ export default class InfoComponent extends React.Component {
   }
 
   render() {
-    
     return (
       <div
         style={{

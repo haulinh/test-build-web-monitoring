@@ -253,7 +253,10 @@ export default class TabThongSo extends React.Component {
         console.log('Received values of form: ', values)
         try {
           let transformData = values.payload
-          const response = await postConfigWqiParams(this.props.code, transformData)
+          const response = await postConfigWqiParams(
+            this.props.code,
+            transformData
+          )
           if (response.success) {
             message.success(i18n.updateSuccess)
           }

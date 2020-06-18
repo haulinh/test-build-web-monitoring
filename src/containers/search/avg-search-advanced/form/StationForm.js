@@ -1,18 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
+import update from 'immutability-helper'
 import styled from 'styled-components'
-import { Collapse, Icon, Button } from 'antd'
+import { Collapse, Table, Select, Checkbox } from 'antd'
 import Clearfix from 'components/elements/clearfix'
 
 const { Panel } = Collapse
 
+const Flex = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
 const StationFormWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    text-align: center;
+  }
+  .ant-table-thead > tr > th {
+    white-space: nowrap;
+  }
   .ant-collapse-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  .ant-select-selection {
+    border: none;
   }
 `
 
@@ -21,72 +39,194 @@ const Heading = styled.h4`
   margin-bottom: 0;
 `
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`
-
-const genExtra = () => (
-  <Wrapper>
-    <Button
-      type="primary"
-      size="default"
-      onClick={event => {
-        event.stopPropagation()
-      }}
-    >
-      Xem dữ liệu
-    </Button>
-    <Clearfix width={12} />
-    <Icon
-      type="setting"
-      onClick={event => {
-        // If you don't want click extra trigger collapse, you can prevent this:
-        event.stopPropagation()
-      }}
-    />
-  </Wrapper>
-)
-
 export default class StationForm extends React.PureComponent {
   static propTypes = {
     stations: PropTypes.array,
+    stationKeys: PropTypes.array,
+    onChangeStationsData: PropTypes.func,
+  }
+
+  static defaultProps = {
+    stationKeys: [],
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      activeKey: [],
+      listView: [],
+      dataSource: this.getDataSource(),
+      indeterminate: false,
+      checkAll: true,
     }
   }
 
-  handleChange = activeKey => {
-    this.setState({ activeKey })
+  handleChange = () => {
+    this.props.onChangeStationsData(this.state.dataSource)
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.props.stations.length) return
+    if (
+      !_.isEqual(prevProps.stationKeys, this.props.stationKeys) ||
+      !_.isEqual(prevProps.stations.length, this.props.stations.length)
+    ) {
+      const dataSource = this.getDataSource()
+      this.setState({ dataSource }, this.handleChange)
+    }
+  }
+
+  handleChangeView = recordIndex => e => {
+    this.setState(
+      prevState =>
+        update(prevState, {
+          dataSource: {
+            [recordIndex]: {
+              view: {
+                $set: e.target.checked,
+              },
+            },
+          },
+        }),
+      this.handleChange
+    )
+  }
+
+  getDataSource = () => {
+    if (!this.props.stations.length) return []
+    const stations = this.props.stations.filter(station =>
+      this.props.stationKeys.includes(station.key)
+    )
+    return stations.map((station, index) => ({
+      index,
+      _id: station._id,
+      key: station.key,
+      name: station.name,
+      view: true,
+      measuringData: station.measuringList.sort(
+        (a, b) => a.numericalOrder - b.numericalOrder
+      ),
+      measuringList: station.measuringList.map(measuring => measuring.key),
+    }))
+  }
+
+  handleChangeMeasuringList = recordIndex => measuringList => {
+    this.setState(
+      prevState =>
+        update(prevState, {
+          dataSource: {
+            [recordIndex]: {
+              measuringList: {
+                $set: measuringList,
+              },
+            },
+          },
+        }),
+      this.handleChange
+    )
+  }
+
+  onCheckAllChange = e => {
+    this.setState(
+      prevState =>
+        update(prevState, {
+          dataSource: {
+            $set: prevState.dataSource.map(data => ({
+              ...data,
+              view: e.target.checked,
+            })),
+          },
+        }),
+      this.handleChange
+    )
+  }
+
+  getColumns = () => {
+    const indeterminate =
+      !!this.state.dataSource.filter(data => data.view).length &&
+      this.state.dataSource.filter(data => data.view).length <
+        this.state.dataSource.length
+    const checkedAll =
+      this.state.dataSource.filter(data => data.view).length ===
+      this.state.dataSource.length
+    return [
+      {
+        title: 'Tên trạm',
+        dataIndex: 'name',
+        key: 'name',
+        render: (text, record) => {
+          return (
+            <span>
+              {text} <strong>({record.key})</strong>
+            </span>
+          )
+        },
+      },
+      {
+        title: 'Thông số',
+        dataIndex: 'measuringList',
+        key: 'measuringList',
+        render: (measuringList, record) => {
+          return (
+            <Select
+              style={{ width: '100%' }}
+              mode="tags"
+              allowClear
+              showSearch
+              size="large"
+              onChange={this.handleChangeMeasuringList(record.index)}
+              value={measuringList}
+            >
+              {record.measuringData.map(measuring => (
+                <Select.Option key={measuring.key}>
+                  {measuring.name}
+                </Select.Option>
+              ))}
+            </Select>
+          )
+        },
+      },
+      {
+        title: () => (
+          <Flex>
+            <span>Hiển thị</span>
+            <Clearfix width={12} />
+            <Checkbox
+              indeterminate={indeterminate}
+              onChange={this.onCheckAllChange}
+              checked={checkedAll}
+            />
+          </Flex>
+        ),
+        dataIndex: 'view',
+        key: 'view',
+        render: (value, record) => {
+          return (
+            <Checkbox
+              onChange={this.handleChangeView(record.index)}
+              defaultChecked
+              checked={value}
+            />
+          )
+        },
+      },
+    ]
+  }
+
+  renderHeading() {
+    return (
+      <Heading>Danh sách trạm ({this.state.dataSource.length} trạm)</Heading>
+    )
+  }
+
   render() {
-    console.log(this.state.activeKey)
-    if (!this.props.stations.length) return null
+    const dataSource = this.state.dataSource
+    const columns = this.getColumns()
     return (
       <StationFormWrapper>
-        <Collapse
-          activeKey={this.state.activeKey}
-          expandIconPosition="left"
-          onChange={this.handleChange}
-        >
-          {this.props.stations.map(station => (
-            <Panel
-              header={<Heading>{station.name}</Heading>}
-              key={station.key}
-              extra={genExtra()}
-            >
-              <span>
-                {station.measuringList
-                  .map(measuring => measuring.name)
-                  .join(', ')}
-              </span>
-            </Panel>
-          ))}
+        <Collapse expandIconPosition="left">
+          <Panel header={this.renderHeading()} key="list">
+            <Table dataSource={dataSource} columns={columns} />
+          </Panel>
         </Collapse>
       </StationFormWrapper>
     )

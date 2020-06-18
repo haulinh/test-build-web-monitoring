@@ -16,7 +16,7 @@ import slug, {
 // import { translate } from 'hoc/create-lang'
 import { selectMenu, changeOpenSubMenu } from 'redux/actions/themeAction'
 // import { adapt } from "chromatism";
-import SimpleBarReact from "simplebar-react";
+import SimpleBarReact from 'simplebar-react'
 import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
 import styled from 'styled-components'
@@ -182,7 +182,7 @@ export default class MenuApp extends React.PureComponent {
         <Link to="/" id="logoBrandName">
           <LogoBrandName />
         </Link>
-        <SimpleBarReact style={{ maxHeight: "calc(100vh - 71.99px)" }}>
+        <SimpleBarReact style={{ maxHeight: 'calc(100vh - 71.99px)' }}>
           <Menu
             onClick={this.handleClick}
             style={{
@@ -200,7 +200,7 @@ export default class MenuApp extends React.PureComponent {
             }}
             selectedKeys={[this.props.menuSelected]}
             mode="inline"
-          // inlineCollapsed={!isOpen}
+            // inlineCollapsed={!isOpen}
           >
             {/* Dashboard */}
             {protectRole(ROLE.DASHBOARD.VIEW)(
@@ -214,7 +214,9 @@ export default class MenuApp extends React.PureComponent {
                     }}
                   >
                     {Icon.dashboard}
-                    <span style={{ marginLeft: 12 }}>{MENU_NAME.dashboard}</span>
+                    <span style={{ marginLeft: 12 }}>
+                      {MENU_NAME.dashboard}
+                    </span>
                   </Link>
                 </Tooltip>
               </Menu.Item>

@@ -8,7 +8,15 @@ import { translate } from 'hoc/create-lang'
 import { DD_MM_YYYY_HH_MM, DD_MM_YYYY } from 'constants/format-date'
 import { getFormatNumber } from 'constants/format-number'
 
-const TableDataListWrapper = styled.div``
+const TableDataListWrapper = styled.div`
+  .ant-table-thead > tr > th {
+    white-space: nowrap;
+  }
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    text-align: center !important;
+  }
+`
 
 @autobind
 export default class TableDataList extends React.PureComponent {
@@ -44,10 +52,11 @@ export default class TableDataList extends React.PureComponent {
         return <div>{moment(record.date_utc).format(formatDate)}</div>
       },
     }
-    const columnsMeasurings = this.props.measuringData
+    const columnsMeasuring = this.props.measuringData
       .filter(measuring => this.props.measuringList.includes(measuring.key))
       .map(measuring => ({
         title: `${measuring.name} (${measuring.unit})`,
+        // dataIndex: `measuringLogs.${measuring.key}`,
         dataIndex: `${measuring.key}`,
         key: measuring.key,
         align: 'right',
@@ -55,7 +64,7 @@ export default class TableDataList extends React.PureComponent {
           return <div>{getFormatNumber(value)}</div>
         },
       }))
-    return [columnReceivedAt, ...columnsMeasurings]
+    return [columnReceivedAt, ...columnsMeasuring]
   }
 
   render() {

@@ -55,6 +55,7 @@ import Layout from 'layout/default-sidebar-layout'
 import Report from 'containers/report'
 import DataLoggerPage from 'containers/data-logger'
 import AppIncidents from 'containers/apps/incidents'
+import PageAqiStatus from 'containers/aqi/aqi-list-status'
 
 import PageExpLicenseInfo from 'containers/license/exp-license-info'
 
@@ -96,7 +97,12 @@ export default class RouteDefault extends React.Component {
               path={slug.aqi.config}
               // component={AqiConfigCalculationContainer}
               component={AqiListConfigContainer}
-            />          
+            />
+            <LayoutRoute
+              exact
+              path={slug.aqi.status}
+              component={PageAqiStatus}
+            />
             <LayoutRoute
               path={slug.aqi.configEdit}
               component={AqiConfigCalculationContainer}

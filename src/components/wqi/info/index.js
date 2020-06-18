@@ -15,7 +15,7 @@ export default class InfoComponent extends React.Component {
       <div
         style={{
           ...this.props.style,
-          height: "calc(100vh - 64px)",
+          height: 'calc(100vh - 64px)',
           overflow: 'hidden',
         }}
       >

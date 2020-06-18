@@ -197,14 +197,15 @@ export default {
   wqi: {
     title: 'Water Quality Index',
     move: 'Move',
-    reference: 'You need to navigate to the WQI Calculation page to select the WQI calculation formula',
+    reference:
+      'You need to navigate to the WQI Calculation page to select the WQI calculation formula',
     form: {
       wqiKey: {
         label: 'Select WQI',
         placeholder: 'WQI',
         require: 'Please Choose WQI',
       },
-    }
+    },
   },
   wqiConfigCalculation: {
     pageName: 'Configure to WQI calculation',
@@ -417,7 +418,7 @@ export default {
       aqiConfigSelect: {
         label: 'Select AQI',
         placeholder: 'Select AQI',
-        require: 'Please Choose AQI'
+        require: 'Please Choose AQI',
       },
       stationAuto: {
         label: 'Station Name',
@@ -602,12 +603,17 @@ export default {
       subMenuAvgData: {
         title: 'Avg data',
         dataSearch: 'Data search',
+        placeholderSearch: 'Enter the filter name ...',
       },
       subMenuFilters: 'Filters',
     },
   },
   dataSearchFilterForm: {
     titleText: 'Data Search Filter',
+    update: {
+      label: 'Update',
+      success: 'Update successfully',
+    },
     create: {
       label: 'Create new filter',
       success: 'Create new filter successfully',
@@ -677,7 +683,7 @@ export default {
         placeholder: 'Select data status',
         require: 'Choose At Least 1 data status',
       },
-      frequency: {
+      frequent: {
         label: 'Frequency(minutes/time)',
         placeholder: 'minutes/time',
         require: 'Please type frequency',
@@ -1890,7 +1896,9 @@ export default {
   },
   addon: {
     add: 'Add',
+    addCondition: 'Add condition',
     create: 'Create',
+    update: 'Update',
     edit: 'Edit',
     delete: 'Delete',
     save: 'Save',
@@ -2326,7 +2334,8 @@ export default {
     body1:
       'This is a function of the Advanced version, please contact us for more information:',
     body2: 'Email:',
-    body3:'You need to move to the AQI Calculation page to select the AQI calculation method.'
+    body3:
+      'You need to move to the AQI Calculation page to select the AQI calculation method.',
   },
   stationStatus: {
     good: 'Good',
@@ -2342,7 +2351,7 @@ export default {
     gotoMonitoring: 'Go to Real-time Monitoring Page',
     viewDataAroundThisTime: 'View data around this time',
     tryAgain: 'Try again',
-    next:'Move'
+    next: 'Move',
   },
   network: {
     sampling: {

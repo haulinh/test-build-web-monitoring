@@ -26,10 +26,17 @@ export function createFilter(organizationId, data) {
   return postFetch(url, data)
 }
 
+export function updateFilter(organizationId, filterId, data) {
+  let url =
+    getConfigApi().organization + `/configFilter/${organizationId}/${filterId}`
+  return putFetch(url, data)
+}
+
 export default {
   getSubscription,
   updateOrganizationNameLogo,
   updateTransferFtpInfo,
   getOrganization,
   createFilter,
+  updateFilter,
 }

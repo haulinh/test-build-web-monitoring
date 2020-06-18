@@ -28,8 +28,6 @@ const FSelectConfigAQI = createValidateComponent(SelectConfigAQI)
 const FSelectStationConfigAQI = createValidateComponent(SelectStationConfigAQI)
 const FOptionsMonthRange = createValidateComponent(OptionsMonthRange)
 
-
-
 const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
   padding: 16px 16px;
@@ -111,7 +109,7 @@ export default class SearchForm extends React.Component {
       key: values.station,
       name: this.state.stationName,
       stationID: this.state.stationKey,
-      aqiLocale: values.aqiLocale
+      aqiLocale: values.aqiLocale,
     })
   }
 

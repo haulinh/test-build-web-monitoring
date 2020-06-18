@@ -368,7 +368,7 @@ export default class TabGiaTri_NhomIII extends React.Component {
             this.props.form.setFieldsValue({
               levelList: transformData,
             })
-          },0)
+          }, 0)
         }
       )
     }
@@ -398,7 +398,7 @@ export default class TabGiaTri_NhomIII extends React.Component {
           const transformData = _.get(values, 'levelList', []).filter(i =>
             _.identity(i)
           )
-          const response = await postConfigWqiMeaTable(CODE,{
+          const response = await postConfigWqiMeaTable(CODE, {
             groupIII: transformData,
           })
           if (response.success) {

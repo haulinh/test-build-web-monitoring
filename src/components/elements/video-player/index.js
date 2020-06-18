@@ -265,7 +265,12 @@ export default class Player extends React.Component {
                 data-skip="10"
                 className="player-btn"
               >
-                <img width={16} height={16} alt="Full Screen" src="/images/open_window.png" />
+                <img
+                  width={16}
+                  height={16}
+                  alt="Full Screen"
+                  src="/images/open_window.png"
+                />
               </button>
             </Dropdown>
             <button

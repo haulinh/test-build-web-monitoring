@@ -360,7 +360,7 @@ export default class TabGiaTri_NhomV extends React.Component {
             this.props.form.setFieldsValue({
               levelList: transformData,
             })
-          },0)
+          }, 0)
         }
       )
     }

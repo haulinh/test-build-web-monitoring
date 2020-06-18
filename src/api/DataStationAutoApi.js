@@ -53,7 +53,7 @@ export function getExportData({
 
 export function getDataStationAutoAvg(
   { page = 1, itemPerPage = 10 },
-  { fromDate, toDate, key, measuringList, type }
+  { fromDate, toDate, key, measuringList, type, advanced }
 ) {
   var url = getDataStationAutoUrl(
     `${key}/avg?page=${page}&itemPerPage=${itemPerPage}`
@@ -61,6 +61,7 @@ export function getDataStationAutoAvg(
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
+  if (advanced) url += `&advanced=${JSON.stringify(advanced)}`
   if (type) url += `&type=${type}`
   return getFetch(url)
 }
@@ -389,14 +390,22 @@ export function getUrlReportStatusDataExcel(token, stationKeys, from, to) {
   return url
 }
 
-export function searchStationAuto({ stationType, provinceKey, ...props }) {
-  let url = `${getDataStationAutoUrl(
-    `/station-key-custom?stationType=${stationType}`
-  )}`
-  if (props.dataStatus) url += `&dataStatus=${props.dataStatus.join(',')}`
-  if (props.standardKey) url += `&standardKey=${props.standardKey.join(',')}`
-  if (props.frequency) url += `&frequency=${props.frequency}`
-  if (props.provinceKey) url += `&provinceKey=${props.provinceKey}`
+export function searchStationAuto({
+  stationType,
+  provinceKey,
+  dataStatus,
+  standardKey,
+  frequent,
+  ...props
+}) {
+  let url = `${getDataStationAutoUrl(`station-key-custom?`)}`
+  if (stationType) url += `&stationType=${stationType}`
+  if (provinceKey) url += `&provinceKey=${provinceKey}`
+  if (dataStatus && dataStatus.length)
+    url += `&dataStatus=${dataStatus.join(',')}`
+  if (standardKey && standardKey.length)
+    url += `&standardKey=${standardKey.join(',')}`
+  if (frequent) url += `&frequent=${frequent}`
   return getFetch(url)
 }
 

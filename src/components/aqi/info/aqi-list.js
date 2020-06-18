@@ -75,11 +75,11 @@ export default class AQIList extends React.PureComponent {
     aqiLevel: PropTypes.array,
     locale: PropTypes.string,
     onChangeLocale: PropTypes.func,
-    listConfigAQI: PropTypes.array
+    listConfigAQI: PropTypes.array,
   }
 
   state = {
-    selectStationKey: null
+    selectStationKey: null,
   }
 
   componentDidUpdate = prevProps => {
@@ -108,7 +108,7 @@ export default class AQIList extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props.aqiList, "--listConfigAQI--")
+    console.log(this.props.aqiList, '--listConfigAQI--')
     return (
       <WrapperView>
         {this.props.listConfigAQI.length > 0 && (
@@ -202,7 +202,9 @@ export default class AQIList extends React.PureComponent {
             </Row>
           )
         })}
-         { this.props.aqiList && this.props.aqiList.length === 0 && <AqiListStatus />}
+        {this.props.aqiList && this.props.aqiList.length === 0 && (
+          <AqiListStatus />
+        )}
       </WrapperView>
     )
   }

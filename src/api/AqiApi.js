@@ -26,8 +26,10 @@ export function exportFileHistory(key, { from, to } = {}) {
   return getFetch(url)
 }
 
-export function fetchAqiDaybyListStation({ from, to, listKey , locale} = {}) {
-  var url = getAqiV1Url(`day?to=${to}&from=${from}&listKey=${listKey}&locale=${locale}`)
+export function fetchAqiDaybyListStation({ from, to, listKey, locale } = {}) {
+  var url = getAqiV1Url(
+    `day?to=${to}&from=${from}&listKey=${listKey}&locale=${locale}`
+  )
   return getFetch(url)
 }
 
@@ -48,7 +50,7 @@ export function exportFileAqiDaybyListStation({
   to,
   listKey,
   timezoneDay,
-  locale
+  locale,
 } = {}) {
   var url = getAqiV1Url(
     `aqi-day-export-data?from=${from}&to=${to}&listKey=${listKey}&timezoneDay=${timezoneDay}&locale=${locale}`
@@ -57,7 +59,9 @@ export function exportFileAqiDaybyListStation({
 }
 
 export function fetchAqiHourbyStation({ from, to, listKey, locale } = {}) {
-  var url = getAqiV1Url(`hour?to=${to}&from=${from}&listKey=${listKey}&locale=${locale}`)
+  var url = getAqiV1Url(
+    `hour?to=${to}&from=${from}&listKey=${listKey}&locale=${locale}`
+  )
   return getFetch(url)
 }
 

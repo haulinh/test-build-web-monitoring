@@ -258,7 +258,10 @@ export default class TabMucDo extends React.Component {
           )
 
           // console.log("transformData", transformData);
-          const response = await postConfigWqiCalculation(this.props.code, transformData)
+          const response = await postConfigWqiCalculation(
+            this.props.code,
+            transformData
+          )
           if (response.success) {
             message.success(i18n.updateSuccess)
           }

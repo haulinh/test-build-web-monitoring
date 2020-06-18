@@ -30,7 +30,7 @@ export default class ListFilter extends React.PureComponent {
     this.state = {
       listFilter: listFilter.map(filter => ({
         ...filter,
-        checked: !!props.initialValues[filter.key],
+        checked: props.initialValues ? props.initialValues[filter.key] : false,
       })),
     }
   }
