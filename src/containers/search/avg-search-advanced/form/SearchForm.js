@@ -17,7 +17,7 @@ import createValidateComponent from 'components/elements/redux-form-validate'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import { dataStatusOptions } from 'constants/dataStatus'
-import SelectStationAuto from '../../common/select-station-auto'
+// import SelectStationAuto from '../../common/select-station-auto'
 import SelectTimeRange from '../../common/select-time-range'
 import OptionsTimeRange from '../../common/options-time-range'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
@@ -29,7 +29,7 @@ const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectQCVN = createValidateComponent(SelectQCVN)
 const FInputNumber = createValidateComponent(InputNumber)
 const FSelectStationType = createValidateComponent(SelectStationType)
-const FSelectStationAuto = createValidateComponent(SelectStationAuto)
+// const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FSelectTimeRange = createValidateComponent(SelectTimeRange)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
