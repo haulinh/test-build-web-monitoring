@@ -4,12 +4,26 @@ import _ from 'lodash'
 import update from 'immutability-helper'
 import styled from 'styled-components'
 import { Collapse, Table, Select, Checkbox } from 'antd'
+import Clearfix from 'components/elements/clearfix'
 
 const { Panel } = Collapse
+
+const Flex = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
 
 const StationFormWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    text-align: center;
+  }
+  .ant-table-thead > tr > th {
+    white-space: nowrap;
+  }
   .ant-collapse-header {
     display: flex;
     justify-content: space-between;
@@ -41,6 +55,8 @@ export default class StationForm extends React.PureComponent {
     this.state = {
       listView: [],
       dataSource: this.getDataSource(),
+      indeterminate: false,
+      checkAll: true,
     }
   }
 
@@ -109,7 +125,29 @@ export default class StationForm extends React.PureComponent {
     )
   }
 
+  onCheckAllChange = e => {
+    this.setState(
+      prevState =>
+        update(prevState, {
+          dataSource: {
+            $set: prevState.dataSource.map(data => ({
+              ...data,
+              view: e.target.checked,
+            })),
+          },
+        }),
+      this.handleChange
+    )
+  }
+
   getColumns = () => {
+    const indeterminate =
+      !!this.state.dataSource.filter(data => data.view).length &&
+      this.state.dataSource.filter(data => data.view).length <
+        this.state.dataSource.length
+    const checkedAll =
+      this.state.dataSource.filter(data => data.view).length ===
+      this.state.dataSource.length
     return [
       {
         title: 'Tên trạm',
@@ -148,7 +186,17 @@ export default class StationForm extends React.PureComponent {
         },
       },
       {
-        title: 'Hiển thị',
+        title: () => (
+          <Flex>
+            <span>Hiển thị</span>
+            <Clearfix width={12} />
+            <Checkbox
+              indeterminate={indeterminate}
+              onChange={this.onCheckAllChange}
+              checked={checkedAll}
+            />
+          </Flex>
+        ),
         dataIndex: 'view',
         key: 'view',
         render: (value, record) => {

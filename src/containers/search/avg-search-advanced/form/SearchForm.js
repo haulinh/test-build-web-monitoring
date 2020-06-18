@@ -24,8 +24,8 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import FilterList from '../filter'
 import validate from '../utils/validate'
 import { listFilter } from '../constants'
-import AdvancedOperator from '../advanced-operator'
-import Clearfix from 'components/elements/clearfix'
+// import AdvancedOperator from '../advanced-operator'
+// import Clearfix from 'components/elements/clearfix'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectQCVN = createValidateComponent(SelectQCVN)
