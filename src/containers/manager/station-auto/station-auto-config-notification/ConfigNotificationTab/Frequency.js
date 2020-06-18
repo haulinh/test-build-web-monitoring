@@ -88,7 +88,9 @@ export default class Frequency extends React.Component {
         </Col>
         <Col span={19}>
           <Select
-            disabled={!this.state.isEnable}
+            disabled={
+              !this.state.isEnable || this.props.status === 'COLLECTING'
+            }
             size="small"
             defaultValue={this.getOption()}
             style={{ width: 120 }}
