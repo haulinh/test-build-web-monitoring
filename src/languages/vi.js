@@ -192,7 +192,8 @@ export default {
   wqi: {
     title: 'WQI',
     move: 'Di chuyển',
-    reference: 'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI'
+    reference:
+      'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI',
   },
   wqiConfigCalculation: {
     pageName: 'Cấu hình tính toán WQI',
@@ -406,7 +407,7 @@ export default {
       aqiConfigSelect: {
         label: 'Lựa chọn AQI',
         placeholder: 'Chọn AQI',
-        require: 'Vui lòng chọn AQI'
+        require: 'Vui lòng chọn AQI',
       },
       stationAuto: {
         label: 'Tên trạm',
@@ -2142,7 +2143,7 @@ export default {
       approveData: 'Tra cứu dữ liệu sau khi đã loại bỏ dữ liệu không hợp lệ',
     },
     configSub:
-      'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
+      'Cấu hình các vấn đề liên quan đến điểm quan trắc và quản trị hệ thống',
     config: {
       configAQI: 'Cấu hình và lựa chọn công thức để tính toán AQI',
       configWQI: 'Cấu hình và lựa chọn công thức để tính toán WQI',
@@ -2162,9 +2163,9 @@ export default {
         'Tạo mới đơn vị quản lý trước khi tiến hành bước Tạo mới điểm quan trắc',
       standard:
         'Tạo mới quy chuẩn trước khi tiến hành bước Tạo mới điểm quan trắc',
-        role:'Thêm mới nhưng nhóm quyền cần quản lý trong hệ thống',
-        user:'Thêm mới và phân quyền tài khoản trong hệ thống',
-        dataLogger:'Lịch sử người dùng thao tác trong hệ thống'
+      role: 'Thêm mới những nhóm quyền cần quản lý trong hệ thống',
+      user: 'Thêm mới và phân quyền tài khoản trong hệ thống',
+      dataLogger: 'Lịch sử người dùng thao tác trong hệ thống',
     },
     monitoring: {
       base:
@@ -2311,7 +2312,8 @@ export default {
     body1:
       'Đây là chức năng thuộc phiên bản Nâng cao, vui lòng liên hệ với chúng tôi để biết thêm thông tin:',
     body2: 'Email:',
-    body3:'Bạn cần di chuyển đến trang cấu hình tính AQI để chọn công thức tính'
+    body3:
+      'Bạn cần di chuyển đến trang cấu hình tính AQI để chọn công thức tính',
   },
   stationStatus: {
     good: 'Tốt',
@@ -2327,7 +2329,7 @@ export default {
     gotoMonitoring: 'Đến trang Xem chi tiết trạm',
     viewDataAroundThisTime: 'Xem giá trị quanh thời điểm vượt',
     tryAgain: 'Thử lại',
-    next:'Di chuyển'
+    next: 'Di chuyển',
   },
   network: {
     sampling: {
