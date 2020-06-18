@@ -61,13 +61,7 @@ export default class AqiContainer extends React.Component {
           })
           console.log(ex, '--ex--')
         })
-        .finally(() => {
-          setTimeout(() => {
-            this.setState({
-              isInitial: true,
-            })
-          }, 500)
-        })
+        .finally(() => {})
 
       const stationConfigs = await stationConfigApi.getStationsConfig(
         {},
@@ -107,6 +101,7 @@ export default class AqiContainer extends React.Component {
       this.setState({
         aqiList,
         aqiLevel: _.get(rs, 'aqiLevel', []),
+        isInitial: true,
       })
 
       const station = _.head(aqiList)
@@ -155,36 +150,36 @@ export default class AqiContainer extends React.Component {
     )
   }
 
+  //  Kiem tra cau hinh AQI truoc sau do moi kiem tra isInitial
   render() {
     return (
       <WrapperContainer style={{ padding: '8px' }}>
-        {!this.state.isInitial && (
-          <Skeleton loading={true} paragraph={{ rows: 8 }} />
-        )}
-        {this.state.isInitial && (
+        {this.state.isNotConfig && <PageAqiStatus />}
+        {!this.state.isNotConfig && (
           <React.Fragment>
-            {this.state.isNotConfig && <PageAqiStatus />}
-            {!this.state.isNotConfig && (
-              <React.Fragment>
-                <MapComponent
-                  center={this.state.center}
-                  aqiList={this.state.aqiList}
-                  aqiLevel={this.state.aqiLevel}
-                  style={{ flex: 2, background: 'blue' }}
-                  onMarkerClick={this.handleMarkerClick}
-                  onClose={this.handleOnClosePopup}
-                  stationKey={this.state.stationKey}
-                />
-                <InfoComponent
-                  onChangeLocale={this.hanldleOnChangeLocale}
-                  locale={this.state.locale}
-                  aqiLevel={this.state.aqiLevel}
-                  style={{ flex: 1 }}
-                  aqiList={this.state.aqiList}
-                  onSelect={this.handleOnSelect}
-                  listConfigAQI={this.state.listConfigAQI}
-                />
-              </React.Fragment>
+            <MapComponent
+              // zoom={8}
+              center={this.state.center}
+              aqiList={this.state.aqiList}
+              aqiLevel={this.state.aqiLevel}
+              style={{ flex: 2, background: 'blue' }}
+              onMarkerClick={this.handleMarkerClick}
+              onClose={this.handleOnClosePopup}
+              stationKey={this.state.stationKey}
+            />
+            {!this.state.isInitial && (
+              <Skeleton loading={true} paragraph={{ rows: 8 }} />
+            )}
+            {this.state.isInitial && (
+              <InfoComponent
+                onChangeLocale={this.hanldleOnChangeLocale}
+                locale={this.state.locale}
+                aqiLevel={this.state.aqiLevel}
+                style={{ flex: 1 }}
+                aqiList={this.state.aqiList}
+                onSelect={this.handleOnSelect}
+                listConfigAQI={this.state.listConfigAQI}
+              />
             )}
           </React.Fragment>
         )}
