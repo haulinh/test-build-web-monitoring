@@ -21,9 +21,12 @@ export default class InfoComponent extends React.Component {
         }}
       >
         <AQIList
+          locale={this.props.locale}
+          onChangeLocale={this.props.onChangeLocale}
           onSelect={this.props.onSelect}
           aqiLevel={this.props.aqiLevel}
           aqiList={this.props.aqiList}
+          listConfigAQI={this.props.listConfigAQI}
         />
       </div>
     )

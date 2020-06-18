@@ -19,6 +19,7 @@ import OptionsMonthRange from '../../common/options-time-month-range'
 import { DD_MM_YYYY } from 'constants/format-date'
 import TimerPicker from 'components/elements/time-picker'
 import InputLabel from 'components/elements/input-label'
+import SelectConfigAQI from '../../common/select-config-aqi'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationTypeConfigAQI = createValidateComponent(
@@ -27,6 +28,7 @@ const FSelectStationTypeConfigAQI = createValidateComponent(
 const FSelectStationConfigAQI = createValidateComponent(SelectStationConfigAQI)
 const FOptionsMonthRange = createValidateComponent(OptionsMonthRange)
 const FTimerPicker = createValidateComponent(TimerPicker)
+const FSelectConfigAQI = createValidateComponent(SelectConfigAQI)
 
 // const optionTimeZoneDay = [{ value: '24', name: '00:00 - 23:59' }, { value: '17', name: '17:00 - 16:59' }, { value: '1', name: '24:00' }, { value: '2', name: '17:00' }]
 
@@ -37,6 +39,8 @@ const Container = styled.div`
 
 function validate(values) {
   const errors = {}
+  if (!values.aqiLocale || values.aqiLocale === '')
+    errors.aqiLocale = translate('dataSearchFrom.form.aqiConfigSelect.require')
   if (!values.inRange)
     errors.inRange = translate('aqiSearchForm.form.inRange.error')
   if (!values.stationType)
@@ -118,6 +122,7 @@ export default class SearchForm extends React.Component {
       name: this.state.stationName,
       stationID: this.state.stationID,
       timezoneDay: this.state.timezoneDay,
+      aqiLocale: values.aqiLocale,
     })
   }
 
@@ -263,6 +268,17 @@ export default class SearchForm extends React.Component {
                 </Col>
               </div>
             )}
+          </Row>
+          <Clearfix height={16} />
+          <Row gutter={24}>
+            <Col span={12}>
+              <Field
+                label={t('aqiConfigSelect.label')}
+                name="aqiLocale"
+                size="large"
+                component={FSelectConfigAQI}
+              />
+            </Col>
           </Row>
         </Container>
       </SearchFormContainer>

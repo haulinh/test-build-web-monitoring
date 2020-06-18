@@ -50,7 +50,7 @@ export default class TabTrongSo extends React.Component {
   state = {
     isLoaded: false,
     isSubmit: false,
-    dataSource: [{}],
+    dataSource: [{ key: 0 }],
     isLocked: false,
   }
 
@@ -204,7 +204,7 @@ export default class TabTrongSo extends React.Component {
       if (!err) {
         this.setState({ isSubmit: true })
         try {
-          const response = await postConfigWqiWeight(values)
+          const response = await postConfigWqiWeight(this.props.code, values)
           if (response.success) {
             message.success(i18n.updateSuccess)
           }
@@ -216,7 +216,7 @@ export default class TabTrongSo extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await getConfigWqiWeight()
+    const response = await getConfigWqiWeight(this.props.code)
     if (response.success) {
       const transformData = _.get(response, 'data.value', {})
 

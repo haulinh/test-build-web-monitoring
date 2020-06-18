@@ -191,6 +191,16 @@ export default {
   },
   wqi: {
     title: 'WQI',
+    move: 'Di chuyển',
+    reference:
+      'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI',
+    form: {
+      wqiKey: {
+        label: 'Lựa chọn WQI',
+        placeholder: 'WQI',
+        require: 'Vui lòng chọn WQI',
+      },
+    },
   },
   wqiConfigCalculation: {
     pageName: 'Cấu hình tính toán WQI',
@@ -227,6 +237,11 @@ export default {
     colGroupIII: 'Nhóm III',
     colGroupIV: 'Nhóm IV',
     colGroupV: 'Nhóm V',
+    phuongPhapTinh: 'Phương pháp tính WQI',
+    cauHinh: 'Cấu hình cách tính',
+    taiLieu: 'Tài liệu tính toán',
+    config: 'Cấu hình',
+    view: 'Xem',
   },
   qaqc: {
     configPublish: {
@@ -395,6 +410,11 @@ export default {
         label: 'Loại trạm',
         placeholder: 'Chọn loại trạm',
         require: 'Vui lòng chọn loại trạm',
+      },
+      aqiConfigSelect: {
+        label: 'Lựa chọn AQI',
+        placeholder: 'Chọn AQI',
+        require: 'Vui lòng chọn AQI',
       },
       stationAuto: {
         label: 'Tên trạm',
@@ -579,12 +599,17 @@ export default {
       subMenuAvgData: {
         title: 'Dữ liệu trung bình',
         dataSearch: 'Tìm kiếm dữ liệu',
+        placeholderSearch: 'Nhập tên bộ lọc ...',
       },
       subMenuFilters: 'Danh sách bộ lọc',
     },
   },
   dataSearchFilterForm: {
     titleText: 'Tra cứu dữ liệu tổng hợp',
+    update: {
+      label: 'Cập nhật',
+      success: 'Cập nhật thành công',
+    },
     create: {
       label: 'Tạo mới bộ lọc',
       success: 'Thêm bộ lọc mới thành công',
@@ -654,7 +679,7 @@ export default {
         placeholder: 'Lựa chọn tình trạng dữ liệu',
         require: 'Chọn ít nhất 1 tình trạng dữ liệu',
       },
-      frequency: {
+      frequent: {
         label: 'Tần suất (phút / lần)',
         placeholder: 'Nhập tần suất (phút/lần)',
         require: 'Bạn chưa nhập tần suất',
@@ -1883,7 +1908,9 @@ export default {
   },
   addon: {
     add: 'Thêm',
+    addCondition: 'Thêm điều kiện',
     create: 'Tạo mới',
+    update: 'Cập nhật',
     edit: 'Chỉnh sửa',
     delete: 'Xoá',
     save: 'Lưu',
@@ -2141,14 +2168,46 @@ export default {
         'Giá trị lớn nhất trong số các giá trị trung bình 8 giờ  trong 1 ngày đo',
       type12: 'Thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm trong ngày',
       status_data: ' Báo cáo tổng hợp tình trạng dữ liệu theo nhiều trạm',
+      aqi_hour: 'Báo cáo giá trị AQI của từng trạm',
+      aqi_day: 'Báo cáo giá trị AQI ngày theo nhiều trạm',
     },
     advanceSub: 'Các chức năng nâng cao của hệ thống',
+    advance: {
+      wqiMap:
+        'Giám sát chỉ số chất lượng nước mặt theo giờ mới nhất trên nền bản đồ',
+      wqiHour: 'Báo cáo giá trị WQI của từng trạm',
+      wqiDay: 'Báo cáo giá trị WQI ngày theo nhiều trạm',
+      config: 'Lựa chọn trạm để tính giá trị AQI hoặc WQI',
+    },
     processData: {
       configNew: 'Lựa chọn yếu tố ảnh hưởng đến dữ liệu không hơp lệ',
       approveData: 'Tra cứu dữ liệu sau khi đã loại bỏ dữ liệu không hợp lệ',
     },
     configSub:
-      'Cấu hình các vấn đề liện quan đến điểm quan trắc và  quản trị hệ thống',
+      'Cấu hình các vấn đề liên quan đến điểm quan trắc và quản trị hệ thống',
+    config: {
+      configAQI: 'Cấu hình và lựa chọn công thức để tính toán AQI',
+      configWQI: 'Cấu hình và lựa chọn công thức để tính toán WQI',
+      stationAuto: 'Quản lý danh sách và tạo mới điểm quan trắc',
+      stationAutoConnection:
+        'Kết nối thông số được cấu hình trong file txt và trong hệ thống',
+      sendNotification:
+        'Lựa chọn hình thức nhận gởi cảnh báo của điểm quan trắc',
+      sampling: 'Lựa chọn điểm quan trắc có khả năng lấy mẫu',
+      color: '',
+      camera: 'Đính kèm và cho phép trạm hiển thị Camera',
+      parameter:
+        'Tạo mới thông số trước khi tiến hành bước Tạo mới điểm quan trắc',
+      stationType:
+        'Tạo mới loại trạm trước khi tiến hành bước Tạo mới điểm quan trắc',
+      site:
+        'Tạo mới đơn vị quản lý trước khi tiến hành bước Tạo mới điểm quan trắc',
+      standard:
+        'Tạo mới quy chuẩn trước khi tiến hành bước Tạo mới điểm quan trắc',
+      role: 'Thêm mới nhưng nhóm quyền cần quản lý trong hệ thống',
+      user: 'Thêm mới và phân quyền tài khoản trong hệ thống',
+      dataLogger: 'Lịch sử người dùng thao tác trong hệ thống',
+    },
     monitoring: {
       base:
         'Giám sát số liệu theo thời gian thực theo từng điểm quan trắc và thao tác lấy mẫu',
@@ -2158,6 +2217,8 @@ export default {
         'Tra cứu các dữ liệu gốc của điểm quan trắc theo  khoảng thời gian',
       avgData:
         'Tra cứu các dữ liệu trung bình của điểm quan trắc theo khoảng thời gian',
+      mapAQI:
+        'Giám sát chỉ số chất lượng không khí theo giờ mới nhất trên nền bản đồ',
     },
     monitoringList: {
       base:
@@ -2292,6 +2353,8 @@ export default {
     body1:
       'Đây là chức năng thuộc phiên bản Nâng cao, vui lòng liên hệ với chúng tôi để biết thêm thông tin:',
     body2: 'Email:',
+    body3:
+      'Bạn cần di chuyển đến trang cấu hình tính AQI để chọn công thức tính',
   },
   stationStatus: {
     good: 'Tốt',
@@ -2307,6 +2370,7 @@ export default {
     gotoMonitoring: 'Đến trang Xem chi tiết trạm',
     viewDataAroundThisTime: 'Xem giá trị quanh thời điểm vượt',
     tryAgain: 'Thử lại',
+    next: 'Di chuyển',
   },
   network: {
     sampling: {

@@ -26,6 +26,12 @@ export function createFilter(organizationId, data) {
   return postFetch(url, data)
 }
 
+export function updateFilter(organizationId, filterId, data) {
+  let url =
+    getConfigApi().organization + `/configFilter/${organizationId}/${filterId}`
+  return putFetch(url, data)
+}
+
 export function getConfigNotify() {
   let urlFetch = getConfigApi().organization + '/configNotify'
   return getFetch(urlFetch)
@@ -42,6 +48,7 @@ export default {
   updateTransferFtpInfo,
   getOrganization,
   createFilter,
+  updateFilter,
   getConfigNotify,
   updateConfigNotify,
 }

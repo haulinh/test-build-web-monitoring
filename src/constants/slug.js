@@ -167,10 +167,13 @@ export default {
     config: '/aqi-config',
     configEdit: '/aqi-config/:key',
     configWithKey: '/aqi-config',
+    status: '/aqi-info',
   },
   wqi: {
     base: '/wqi',
     config: '/wqi-config',
+    configEdit: '/wqi-config/:key',
+    configWithKey: '/wqi-config',
   },
   qaqc: {
     base: '/qaqc',
@@ -344,6 +347,7 @@ export const TOOLTIP_MENU = {
     camera: translate('tooltipMenuApp.monitoring.camera'),
     historyData: translate('tooltipMenuApp.monitoring.historyData'),
     avgData: translate('tooltipMenuApp.monitoring.avgData'),
+    mapAQI: translate('tooltipMenuApp.monitoring.mapAQI'),
   },
   monitoringList: {
     base: translate('tooltipMenuApp.monitoringList.base'),
@@ -367,7 +371,34 @@ export const TOOLTIP_MENU = {
     type4: translate('tooltipMenuApp.report.type4'),
     type12: translate('tooltipMenuApp.report.type12'),
     status_data: translate('tooltipMenuApp.report.status_data'),
+    aqi_hour: translate('tooltipMenuApp.report.aqi_hour'),
+    aqi_day: translate('tooltipMenuApp.report.aqi_day'),
   },
   advanceSub: translate('tooltipMenuApp.advanceSub'),
+  advance: {
+    wqiMap: translate('tooltipMenuApp.advance.wqiMap'),
+    wqiHour: translate('tooltipMenuApp.advance.wqiHour'),
+    wqiDay: translate('tooltipMenuApp.advance.wqiDay'),
+    config: translate('tooltipMenuApp.advance.config'),
+  },
   configSub: translate('tooltipMenuApp.configSub'),
+  config: {
+    configAQI: translate('tooltipMenuApp.config.configAQI'),
+    configWQI: translate('tooltipMenuApp.config.configWQI'),
+    stationAuto: translate('tooltipMenuApp.config.stationAuto'),
+    stationAutoConnection: translate(
+      'tooltipMenuApp.config.stationAutoConnection'
+    ),
+    sendNotification: translate('tooltipMenuApp.config.sendNotification'),
+    sampling: translate('tooltipMenuApp.config.sampling'),
+    color: translate('tooltipMenuApp.config.color'),
+    camera: translate('tooltipMenuApp.config.camera'),
+    parameter: translate('tooltipMenuApp.config.parameter'),
+    stationType: translate('tooltipMenuApp.config.stationType'),
+    site: translate('tooltipMenuApp.config.site'),
+    standard: translate('tooltipMenuApp.config.standard'),
+    role: translate('tooltipMenuApp.config.role'),
+    user: translate('tooltipMenuApp.config.user'),
+    dataLogger: translate('tooltipMenuApp.config.dataLogger'),
+  },
 }

@@ -71,6 +71,7 @@ export default class SearchAvgForm extends React.Component {
     searchNow: PropTypes.bool,
   }
   constructor(props) {
+    console.log('---initialValues----', props.initialValues)
     super(props)
     let fromDate = moment(props.initialValues.fromDate)
     let toDate = moment(props.initialValues.toDate)

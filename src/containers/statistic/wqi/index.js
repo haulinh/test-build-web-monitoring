@@ -47,6 +47,7 @@ export default class WQIStatistics extends React.Component {
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
       listKey: searchFormData.stationID,
+      code: searchFormData.wqiKey,
     }
     let dataAQI = await WqiApi.fetchWqiHourbyStation({ ...params })
     if (dataAQI && Array.isArray(dataAQI.data) && dataAQI.data.length === 0) {
@@ -71,6 +72,7 @@ export default class WQIStatistics extends React.Component {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
       listKey: _.get(this.state.searchFormData, 'stationID', ''),
+      code: _.get(this.state.searchFormData, 'wqiKey'),
     }
     let res = await WqiApi.exportFileWqiHourbyStation({ ...params })
     if (res && res.success) window.location = res.data
@@ -89,6 +91,7 @@ export default class WQIStatistics extends React.Component {
       from: _.get(this.state.searchFormData, 'fromDate', ''),
       to: _.get(this.state.searchFormData, 'toDate', ''),
       listKey: _.get(this.state.searchFormData, 'stationID', ''),
+      code: _.get(this.state.searchFormData, 'wqiKey'),
     }
 
     const processFunc = [
@@ -125,18 +128,16 @@ export default class WQIStatistics extends React.Component {
               searchNow={this.props.formData.searchNow}
             />
             <Clearfix height={16} />
-            {this.state.isHaveData ? (
-              <TabList
-                isLoading={this.state.isLoading}
-                dataAQI={this.state.dataAQI}
-                pagination={this.state.pagination}
-                onExportExcel={this.handleExportExcel}
-                nameChart={this.state.searchFormData.name}
-                isExporting={this.state.isExporting}
-                onManually={this.handleManually}
-                isManually={this.state.isManually}
-              />
-            ) : null}
+            <TabList
+              isLoading={this.state.isLoading}
+              dataAQI={this.state.dataAQI}
+              pagination={this.state.pagination}
+              onExportExcel={this.handleExportExcel}
+              nameChart={this.state.searchFormData.name}
+              isExporting={this.state.isExporting}
+              onManually={this.handleManually}
+              isManually={this.state.isManually}
+            />
           </Spin>
         </PageContainer>
       </div>

@@ -36,7 +36,7 @@ export default class SelectProvince extends PureComponent {
         value: get(
           this.props.value,
           'key',
-          this.props.isShowAll ? 'ALL' : undefined
+          this.props.isShowAll ? '' : undefined
         ),
       })
     }
@@ -49,10 +49,8 @@ export default class SelectProvince extends PureComponent {
   handleOnChange = value => {
     this.setState({ value })
     let res = this.state.provinces.find(item => item.key === value)
-    if (value === 'ALL' || !res) {
-      res = {
-        key: 'ALL',
-      }
+    if (value === '' || !res) {
+      res = { key: '' }
     }
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
     if (value === undefined) value = null
@@ -77,14 +75,13 @@ export default class SelectProvince extends PureComponent {
         {...this.props}
         style={{ width: '100%' }}
         showSearch
-        allowClear
         onChange={this.handleOnChange}
         onSearch={this.handleSearch}
         value={this.state.value}
         filterOption={false}
       >
         {this.props.isShowAll && (
-          <Select.Option value="ALL">
+          <Select.Option value="">
             {translate('dataSearchFrom.form.all')}
           </Select.Option>
         )}

@@ -6,15 +6,15 @@ const t = prefix => {
 
 export default function validate(values) {
   const errors = {}
-  if (!values.provinceKey) {
-    errors.provinceKey = t('province.require')
-  }
-  if (!values.stationType) {
-    errors.stationType = t('stationType.error')
-  }
-  if (!values.stationAuto) {
-    errors.stationAuto = t('stationAuto.error')
-  }
+  // if (!values.provinceKey) {
+  //   errors.provinceKey = t('province.require')
+  // }
+  // if (!values.stationType) {
+  //   errors.stationType = t('stationType.error')
+  // }
+  // if (!values.stationAuto) {
+  //   errors.stationAuto = t('stationAuto.error')
+  // }
   if (!values.type) {
     errors.type = t('type.error')
   }

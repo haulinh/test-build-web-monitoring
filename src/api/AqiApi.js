@@ -26,20 +26,22 @@ export function exportFileHistory(key, { from, to } = {}) {
   return getFetch(url)
 }
 
-export function fetchAqiDaybyListStation({ from, to, listKey } = {}) {
-  var url = getAqiV1Url(`day?to=${to}&from=${from}&listKey=${listKey}`)
-  return getFetch(url)
-}
-
-export function fetchAqiProcessCalDay({ from, to, listKey } = {}) {
+export function fetchAqiDaybyListStation({ from, to, listKey, locale } = {}) {
   var url = getAqiV1Url(
-    `process-cal-day?to=${to}&from=${from}&listKey=${listKey}`
+    `day?to=${to}&from=${from}&listKey=${listKey}&locale=${locale}`
   )
   return getFetch(url)
 }
 
-export function fetchAqiDayLastLogs({ listKey } = {}) {
-  var url = getAqiV1Url(`hour-last-logs?listKey=${listKey}`)
+export function fetchAqiProcessCalDay({ from, to, listKey, locale } = {}) {
+  var url = getAqiV1Url(
+    `process-cal-day?to=${to}&from=${from}&listKey=${listKey}&locale=${locale}`
+  )
+  return getFetch(url)
+}
+
+export function fetchAqiDayLastLogs({ listKey, locale } = {}) {
+  var url = getAqiV1Url(`hour-last-logs?listKey=${listKey}&locale=${locale}`)
   return getFetch(url)
 }
 
@@ -48,28 +50,31 @@ export function exportFileAqiDaybyListStation({
   to,
   listKey,
   timezoneDay,
+  locale,
 } = {}) {
   var url = getAqiV1Url(
-    `aqi-day-export-data?from=${from}&to=${to}&listKey=${listKey}&timezoneDay=${timezoneDay}`
+    `aqi-day-export-data?from=${from}&to=${to}&listKey=${listKey}&timezoneDay=${timezoneDay}&locale=${locale}`
   )
   return getFetch(url)
 }
 
-export function fetchAqiHourbyStation({ from, to, listKey } = {}) {
-  var url = getAqiV1Url(`hour?to=${to}&from=${from}&listKey=${listKey}`)
-  return getFetch(url)
-}
-
-export function fetchAqiProcessCalHour({ from, to, listKey } = {}) {
+export function fetchAqiHourbyStation({ from, to, listKey, locale } = {}) {
   var url = getAqiV1Url(
-    `process-cal-hour?to=${to}&from=${from}&listKey=${listKey}`
+    `hour?to=${to}&from=${from}&listKey=${listKey}&locale=${locale}`
   )
   return getFetch(url)
 }
 
-export function exportFileAqiHourbyStation({ from, to, listKey } = {}) {
+export function fetchAqiProcessCalHour({ from, to, listKey, locale } = {}) {
   var url = getAqiV1Url(
-    `aqi-hour-export-data?to=${to}&from=${from}&listKey=${listKey}`
+    `process-cal-hour?to=${to}&from=${from}&listKey=${listKey}&locale=${locale}`
+  )
+  return getFetch(url)
+}
+
+export function exportFileAqiHourbyStation({ from, to, listKey, locale } = {}) {
+  var url = getAqiV1Url(
+    `aqi-hour-export-data?to=${to}&from=${from}&listKey=${listKey}&locale=${locale}`
   )
   return getFetch(url)
 }

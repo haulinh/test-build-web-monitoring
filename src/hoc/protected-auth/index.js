@@ -57,8 +57,6 @@ export default function createProtectedAuth(Component) {
           name: this.props.authMe.firstName + ' ' + this.props.authMe.lastName,
         }
 
-        console.log(window.config.intercomID)
-
         return (
           <div style={{ height: '100%' }} className="app">
             <Component {...this.props} />
