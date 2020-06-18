@@ -1,6 +1,7 @@
 import React from 'react'
-import { Spin, Row, Col, message, Button, Icon, Menu, Dropdown } from 'antd'
+import { Spin, Row, Col, message, Button, Menu, Dropdown } from 'antd'
 import _ from 'lodash'
+import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
 import StationList from './station-list'
 import Breadcrumb from './breadcrumb'
@@ -18,6 +19,16 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import FilterListMenu from './menu'
 import FormFilter from './form/ModalForm'
+
+const Flex = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .label {
+    color: #a1a1a1;
+    font-size: 15px;
+  }
+`
 
 @connectAutoDispatch(
   state => ({
@@ -184,19 +195,23 @@ export default class AvgSearchAdvanced extends React.Component {
     if (!this.state.allowSave) return null
     if (this.state.isEdit) {
       return (
-        <Button.Group>
-          <Button
-            type="primary"
-            icon="save"
-            size="default"
-            onClick={this.handleUpdateFilter}
-          >
-            {translate('addon.update')}
-          </Button>
-          <Dropdown overlay={this.menu()}>
-            <Button type="primary" icon="down" />
-          </Dropdown>
-        </Button.Group>
+        <Flex>
+          <span className="label">Đã chỉnh sửa</span>
+          <Clearfix width={32} />
+          <Button.Group>
+            <Button
+              type="primary"
+              icon="save"
+              size="default"
+              onClick={this.handleUpdateFilter}
+            >
+              {translate('addon.update')}
+            </Button>
+            <Dropdown overlay={this.menu()}>
+              <Button type="primary" icon="down" />
+            </Dropdown>
+          </Button.Group>
+        </Flex>
       )
     }
     return (
@@ -310,6 +325,9 @@ export default class AvgSearchAdvanced extends React.Component {
               onSearchStationAuto={this.handleSearchStation}
               initialValues={this.props.formData}
               searchNow={this.props.formData.searchNow}
+              // advanced operator
+              stationKeys={this.state.stationKeys}
+              stations={this.props.stations}
             />
             <Clearfix height={16} />
             <Spin

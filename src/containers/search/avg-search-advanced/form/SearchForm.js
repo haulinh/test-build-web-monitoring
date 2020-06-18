@@ -24,6 +24,8 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import FilterList from '../filter'
 import validate from '../utils/validate'
 import { listFilter } from '../constants'
+import AdvancedOperator from '../advanced-operator'
+import Clearfix from 'components/elements/clearfix'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectQCVN = createValidateComponent(SelectQCVN)
@@ -51,8 +53,8 @@ const SearchFormContainer = styled(BoxShadowStyle)`
 
 const Container = styled.div`
   padding: 16px 16px;
-  display: flex;
-  flex-direction: row;
+  /* display: flex;
+  flex-direction: column;
   align-items: center;
   .ant-row-flex {
     flex: 1;
@@ -60,7 +62,7 @@ const Container = styled.div`
     .ant-input-number-lg {
       width: 100%;
     }
-  }
+  } */
 `
 
 @connect((state, ownProps) => ({
@@ -313,6 +315,15 @@ export default class SearchAvgForm extends React.Component {
     let params = {
       fromDate: this.convertDateToString(this.state.fromDate),
       toDate: this.convertDateToString(this.state.toDate),
+      advanced: values.advanced
+        ? values.advanced.filter(
+            item =>
+              item.measuringKey &&
+              item.operator &&
+              item.value !== null &&
+              typeof item.value !== 'undefined'
+          )
+        : [],
     }
     this.props.onSubmit(params)
   }
@@ -401,6 +412,10 @@ export default class SearchAvgForm extends React.Component {
     }
   }
 
+  handleResetAdvanced = () => {
+    this.props.array.removeAll('advanced')
+  }
+
   getComponent = key => {
     switch (key) {
       // case 'stationStatus':
@@ -414,6 +429,39 @@ export default class SearchAvgForm extends React.Component {
       default:
         return FInputNumber
     }
+  }
+
+  getMeasuringList = () => {
+    const stations = this.props.stations.filter(station =>
+      this.props.stationKeys.includes(station.key)
+    )
+    const measuringList = stations.reduce((arr, station) => {
+      if (station.measuringList) {
+        arr = [...arr, ...station.measuringList]
+      }
+      return arr
+    }, [])
+
+    // let measuringListKey = measuringList.map(measuring => measuring.key)
+
+    // const measuringListKeyUnit = [...new Set(measuringListKey)]
+    const measuringListDuplicate = Object.values(
+      measuringList.reduce((acc, measuring) => {
+        let key = measuring.key
+        acc[key] = acc[key] || []
+        acc[key].push(measuring)
+        return acc
+      }, {})
+    ).reduce((acc, measuringByKey, index, array) => {
+      if (measuringByKey.length === array[index].length) {
+        acc = [...acc, measuringByKey[0]]
+      }
+      return acc
+    }, [])
+    return measuringListDuplicate.map(measuring => ({
+      value: measuring.key,
+      name: measuring.name,
+    }))
   }
 
   rightChildren() {
@@ -430,6 +478,7 @@ export default class SearchAvgForm extends React.Component {
   }
 
   render() {
+    const measuringList = this.getMeasuringList()
     const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
     return (
       <SearchFormContainer>
@@ -546,6 +595,15 @@ export default class SearchAvgForm extends React.Component {
               </Col>
             ))}
           </Row>
+          {measuringList.length ? (
+            <React.Fragment>
+              <Clearfix height={40} />
+              <AdvancedOperator
+                onReset={this.handleResetAdvanced}
+                measuringList={measuringList}
+              />
+            </React.Fragment>
+          ) : null}
         </Container>
       </SearchFormContainer>
     )

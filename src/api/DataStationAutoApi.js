@@ -53,7 +53,7 @@ export function getExportData({
 
 export function getDataStationAutoAvg(
   { page = 1, itemPerPage = 10 },
-  { fromDate, toDate, key, measuringList, type }
+  { fromDate, toDate, key, measuringList, type, advanced }
 ) {
   var url = getDataStationAutoUrl(
     `${key}/avg?page=${page}&itemPerPage=${itemPerPage}`
@@ -61,6 +61,7 @@ export function getDataStationAutoAvg(
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
+  if (advanced) url += `&advanced=${JSON.stringify(advanced)}`
   if (type) url += `&type=${type}`
   return getFetch(url)
 }

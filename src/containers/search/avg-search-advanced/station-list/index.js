@@ -22,6 +22,7 @@ export default class TableList extends React.PureComponent {
     searchData: PropTypes.shape({
       fromDate: PropTypes.string,
       toDate: PropTypes.string,
+      advanced: PropTypes.array,
     }),
   }
 
@@ -72,6 +73,7 @@ export default class TableList extends React.PureComponent {
       measuringListUnitStr,
       measuringList: station.measuringList,
       measuringData: station.measuringData,
+      advanced: this.props.searchData.advanced,
     }
     return searchFormData
   }
