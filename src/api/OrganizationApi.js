@@ -26,10 +26,22 @@ export function createFilter(organizationId, data) {
   return postFetch(url, data)
 }
 
+export function getConfigNotify() {
+  let urlFetch = getConfigApi().organization + '/configNotify'
+  return getFetch(urlFetch)
+}
+
+export function updateConfigNotify(_id, data) {
+  let url = getConfigApi().organization + `/configNotify/${_id}`
+  return putFetch(url, data)
+}
+
 export default {
   getSubscription,
   updateOrganizationNameLogo,
   updateTransferFtpInfo,
   getOrganization,
   createFilter,
+  getConfigNotify,
+  updateConfigNotify,
 }

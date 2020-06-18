@@ -1766,6 +1766,26 @@ export default {
       error: 'Update failure!',
     },
   },
+  configNotify: {
+    repeat: 'Repeat',
+    titleTable: {
+      status: 'Status',
+      notification: 'Notification',
+      frequency: 'Frequency',
+    },
+    DATA_STATUS: {
+      OVERLOAD: 'Overload',
+      ABOUT_TO_OVERLOAD: 'About to overload',
+      COLLECTING: 'Collecting',
+      LOST_CONNECTION: 'Lost connection',
+    },
+    DEVICE_STATUS: {
+      LOST_CONNECTION: 'Lost connection',
+      DEVICE_ERROR: 'Device error',
+      CALIBRATE: 'Calibrate',
+      COLLECTING: 'Collecting',
+    },
+  },
   changePassword: {
     breadcrumb: {
       changePassword: 'Change password',

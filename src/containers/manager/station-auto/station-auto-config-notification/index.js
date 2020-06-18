@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Form, Checkbox, Button, message } from 'antd'
+import { Row, Form, Checkbox, Button, message, Tabs } from 'antd'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import _ from 'lodash'
@@ -18,8 +18,11 @@ import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import { STATION_AUTO_OPTIONS } from 'constants/labels'
 import swal from 'sweetalert2'
-
 import DynamicTable from 'components/elements/dynamic-table'
+
+import ConfigNotificationTab from './ConfigNotificationTab'
+
+const { TabPane } = Tabs
 
 const i18n = {
   breadCrumb: translate('configStation.breadCrumb'),
@@ -105,48 +108,66 @@ export default class StationAutoConfigNotification extends React.Component {
     }
   }
 
+  callback = key => {
+    console.log(key)
+  }
+
   render() {
     return (
       <PageContainer>
         <Breadcrumb items={['configNotification']} />
-
-        {/* FORM CONTROL */}
-        <Row style={{ marginBottom: 20 }}>
-          <StationAutoSearchForm
-            onChangeSearch={this.props.onChangeSearch}
-            initialValues={this.props.data}
-          />
-        </Row>
-
-        {/* TABLE */}
-        <Row style={{ marginBottom: 50 }}>
-          <DynamicTable
-            isFixedSize
-            isLoading={this.props.isLoading}
-            paginationOptions={{
-              isSticky: true,
-            }}
-            head={this.getHead()}
-            rows={this.getRows()}
-          />
-        </Row>
-
-        <Row style={{ marginBottom: 16 }}>
-          {/* NOTE  KHONG XOA, uncomment khi a @hung thay đổi yêu cầu */}
-          {/* <Button onClick={this.props.clearCache}>{i18n.cancel}</Button> */}
-          <Button
-            block
-            type="primary"
-            loading={this.state.isSave}
-            onClick={this.submitCache}
-            disabled={_.keys(this.state.cachedData).length === 0}
-          >
-            {i18n.submit}
-          </Button>
-        </Row>
+        {/*Notification Tab*/}
+        <Tabs defaultActiveKey="1" onChange={this.callback}>
+          <TabPane tab="Nhận thông báo" key="1">
+            {this.renderNotificationTab()}
+          </TabPane>
+          {/*Config Notification Tab*/}
+          <TabPane tab="Cấu hình thông báo" key="2">
+            <ConfigNotificationTab />
+          </TabPane>
+        </Tabs>
       </PageContainer>
     )
   }
+
+  renderNotificationTab = () => (
+    <React.Fragment>
+      {/* FORM CONTROL */}
+      <Row style={{ marginBottom: 20 }}>
+        <StationAutoSearchForm
+          onChangeSearch={this.props.onChangeSearch}
+          initialValues={this.props.data}
+        />
+      </Row>
+
+      {/* TABLE */}
+      <Row style={{ marginBottom: 50 }}>
+        <DynamicTable
+          isFixedSize
+          isLoading={this.props.isLoading}
+          paginationOptions={{
+            isSticky: true,
+          }}
+          head={this.getHead()}
+          rows={this.getRows()}
+        />
+      </Row>
+
+      <Row style={{ marginBottom: 16 }}>
+        {/* NOTE  KHONG XOA, uncomment khi a @hung thay đổi yêu cầu */}
+        {/* <Button onClick={this.props.clearCache}>{i18n.cancel}</Button> */}
+        <Button
+          block
+          type="primary"
+          loading={this.state.isSave}
+          onClick={this.submitCache}
+          disabled={_.keys(this.state.cachedData).length === 0}
+        >
+          {i18n.submit}
+        </Button>
+      </Row>
+    </React.Fragment>
+  )
 
   getHead() {
     const isDisabledCheckAll =
@@ -272,7 +293,7 @@ export default class StationAutoConfigNotification extends React.Component {
     console.log('sourceSorted', sourceSorted)
 
     let stationCount = _.countBy(sourceSorted, 'stationType.key')
-    //logic return groupRow or groupRow and Row
+    //logic return groupRow or groupRow  and Row
     let result = [].concat.apply(
       [],
       sourceSorted.map((row, index) => {
