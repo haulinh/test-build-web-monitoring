@@ -16,6 +16,7 @@ const i18n = {
     notification: translate('configNotify.titleTable.notification'),
     frequency: translate('configNotify.titleTable.frequency'),
   },
+  updateSuccess: translate('addon.onSave.update.success'),
 }
 
 const showSuccess = msg => {
@@ -71,12 +72,12 @@ export default class TableConfig extends React.Component {
       configDetail: [...this.state.configDetail],
     }
 
-    const res = OrganizationApi.updateConfigNotify(_id, data)
+    const res = await OrganizationApi.updateConfigNotify(_id, data)
 
-    if (res.success) {
+    if (res) {
       showSuccess(i18n.updateSuccess)
       this.setState({ isLoadingSubmit: false })
-    } else if (res.error) {
+    } else {
       console.log(res.message)
       swal({
         title: i18n.updateError,
@@ -133,6 +134,7 @@ export default class TableConfig extends React.Component {
   }
 
   render() {
+    console.log('this.state.isLoadingSubmit', this.state.isLoadingSubmit)
     const { title } = this.props
     return (
       <div>
