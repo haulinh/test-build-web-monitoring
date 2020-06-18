@@ -280,7 +280,7 @@ export default class AvgSearchAdvanced extends React.Component {
       searchUrl: encodeURIComponent(JSON.stringify(this.props.values)),
     }
     this.setState({ confirmLoading: true }, async () => {
-      let { data, error } = await OrganizationApi.updateFilter(
+      let { data } = await OrganizationApi.updateFilter(
         organizationId,
         filter._id,
         params
@@ -307,6 +307,7 @@ export default class AvgSearchAdvanced extends React.Component {
         backgroundColor="#fafbfb"
         right={this.rightChildren()}
       >
+        <Breadcrumb items={['list']} />
         <Row
           style={{ marginLeft: '-24px', marginRight: '-24px' }}
           type="flex"
@@ -318,7 +319,6 @@ export default class AvgSearchAdvanced extends React.Component {
             filterId={this.props.formData.filterId}
           />
           <Col span={this.props.isOpenNavigation ? 24 : 19}>
-            <Breadcrumb items={['list']} />
             <SearchFrom
               flagResetForm={this.state.flagResetForm}
               onSubmit={this.handleSubmitSearch}

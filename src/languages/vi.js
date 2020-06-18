@@ -1881,6 +1881,7 @@ export default {
   },
   addon: {
     add: 'Thêm',
+    addCondition: 'Thêm điều kiện',
     create: 'Tạo mới',
     update: 'Cập nhật',
     edit: 'Chỉnh sửa',

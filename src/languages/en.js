@@ -1889,6 +1889,7 @@ export default {
   },
   addon: {
     add: 'Add',
+    addCondition: 'Add condition',
     create: 'Create',
     update: 'Update',
     edit: 'Edit',

@@ -40,7 +40,7 @@ const HeaderWrapper = styled.div`
   color: blue;
   display: flex;
   align-items: center;
-  margin-top: 16px;
+  margin-top: ${props => `${props.top}px`};
   .ant-dropdown-link {
     padding: 8px 0;
   }
@@ -425,38 +425,38 @@ export default class SearchAvgForm extends React.Component {
     }
   }
 
-  getMeasuringList = () => {
-    const stations = this.props.stations.filter(station =>
-      this.props.stationKeys.includes(station.key)
-    )
-    const measuringList = stations.reduce((arr, station) => {
-      if (station.measuringList) {
-        arr = [...arr, ...station.measuringList]
-      }
-      return arr
-    }, [])
+  // getMeasuringList = () => {
+  //   const stations = this.props.stations.filter(station =>
+  //     this.props.stationKeys.includes(station.key)
+  //   )
+  //   const measuringList = stations.reduce((arr, station) => {
+  //     if (station.measuringList) {
+  //       arr = [...arr, ...station.measuringList]
+  //     }
+  //     return arr
+  //   }, [])
 
-    // let measuringListKey = measuringList.map(measuring => measuring.key)
+  //   // let measuringListKey = measuringList.map(measuring => measuring.key)
 
-    // const measuringListKeyUnit = [...new Set(measuringListKey)]
-    const measuringListDuplicate = Object.values(
-      measuringList.reduce((acc, measuring) => {
-        let key = measuring.key
-        acc[key] = acc[key] || []
-        acc[key].push(measuring)
-        return acc
-      }, {})
-    ).reduce((acc, measuringByKey, index, array) => {
-      if (measuringByKey.length === stations.length) {
-        acc = [...acc, measuringByKey[0]]
-      }
-      return acc
-    }, [])
-    return measuringListDuplicate.map(measuring => ({
-      value: measuring.key,
-      name: measuring.name,
-    }))
-  }
+  //   // const measuringListKeyUnit = [...new Set(measuringListKey)]
+  //   const measuringListDuplicate = Object.values(
+  //     measuringList.reduce((acc, measuring) => {
+  //       let key = measuring.key
+  //       acc[key] = acc[key] || []
+  //       acc[key].push(measuring)
+  //       return acc
+  //     }, {})
+  //   ).reduce((acc, measuringByKey, index, array) => {
+  //     if (measuringByKey.length === stations.length) {
+  //       acc = [...acc, measuringByKey[0]]
+  //     }
+  //     return acc
+  //   }, [])
+  //   return measuringListDuplicate.map(measuring => ({
+  //     value: measuring.key,
+  //     name: measuring.name,
+  //   }))
+  // }
 
   rightChildren() {
     return (
@@ -472,7 +472,7 @@ export default class SearchAvgForm extends React.Component {
   }
 
   render() {
-    const measuringList = this.getMeasuringList()
+    // const measuringList = this.getMeasuringList()
     const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
     return (
       <SearchFormContainer>
@@ -501,7 +501,7 @@ export default class SearchAvgForm extends React.Component {
           </Dropdown>
         </HeaderWrapper> */}
         <Container>
-          <Row type="flex" gutter={[16, 24]}>
+          <Row type="flex" gutter={[16, 24]} align="middle">
             <Col span={6}>
               <Field
                 label={t(`province.label`)}
@@ -589,26 +589,31 @@ export default class SearchAvgForm extends React.Component {
                 />
               </Col>
             ))}
-          </Row>
-          <HeaderWrapper>
-            <Dropdown
-              trigger={['click']}
-              overlay={
-                <FilterList
-                  initialValues={this.props.initialValues}
-                  onChange={this.handleChangeFilter}
-                />
-              }
-            >
-              <a
-                className="ant-dropdown-link"
-                onClick={e => e.preventDefault()}
+            <Col span={6}>
+              <HeaderWrapper
+                top={this.state.filterList.length % 4 === 0 ? 0 : 28}
               >
-                <Icon type="plus" /> {this.props.lang.t('addon.add')}
-              </a>
-            </Dropdown>
-          </HeaderWrapper>
-          {measuringList.length ? (
+                <Dropdown
+                  trigger={['click']}
+                  overlay={
+                    <FilterList
+                      initialValues={this.props.initialValues}
+                      onChange={this.handleChangeFilter}
+                    />
+                  }
+                >
+                  <a
+                    className="ant-dropdown-link"
+                    onClick={e => e.preventDefault()}
+                  >
+                    <Icon type="plus" />{' '}
+                    {this.props.lang.t('addon.addCondition')}
+                  </a>
+                </Dropdown>
+              </HeaderWrapper>
+            </Col>
+          </Row>
+          {/* {measuringList.length ? (
             <React.Fragment>
               <Clearfix height={40} />
               <AdvancedOperator
@@ -616,7 +621,7 @@ export default class SearchAvgForm extends React.Component {
                 measuringList={measuringList}
               />
             </React.Fragment>
-          ) : null}
+          ) : null} */}
         </Container>
       </SearchFormContainer>
     )

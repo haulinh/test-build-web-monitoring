@@ -1,5 +1,6 @@
 import React from 'react'
-import { Col, Menu, Affix, Icon, Input } from 'antd'
+import { Col, Menu, Affix, Input } from 'antd'
+import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
@@ -27,15 +28,19 @@ const SearchWrapper = styled.div`
   margin-bottom: 8px;
 `
 
-const Title = styled.span`
-  font-size: 16px;
-  font-weight: 600;
-  color: #3b3b3b;
-`
-
 const MenuWrapper = styled(Col)`
   background-color: #f4f5f7;
   min-height: calc(100vh - 57px);
+  .ant-menu-item-group {
+    .ant-menu-item-group-title {
+      color: #333 !important;
+      font-size: 15px !important;
+      font-weight: 500 !important;
+    }
+    :not(:last-child) {
+      margin-bottom: 8px;
+    }
+  }
   .ant-menu-submenu .ant-menu.ant-menu-sub {
     padding: 0px 0px !important;
   }
@@ -49,6 +54,7 @@ const MenuWrapper = styled(Col)`
 
 @connect(state => ({
   isOpenNavigation: state.theme.navigation.isOpen,
+  stations: _.get(state, 'stationAuto.list', []),
 }))
 @withRouter
 @protectRole(ROLE.AVG_SEARCH.VIEW)
@@ -109,50 +115,83 @@ export default class FilterListMenu extends React.Component {
     )
   }
 
+  getFilterGroupByStationType = () => {
+    const filters = this.props.configFilter.map(filter => ({
+      ...filter,
+      stationType: JSON.parse(decodeURIComponent(filter.searchUrl)).stationType,
+    }))
+    return _.groupBy(filters, 'stationType')
+  }
+
+  getStationType = filterKey => {
+    if (!this.props.stations.length) {
+      return {
+        name: '',
+      }
+    }
+    const station = this.props.stations.find(
+      station => station.stationType.key === filterKey
+    )
+    if (station) return station.stationType
+    return {
+      name: '',
+    }
+  }
+
   render() {
+    const filters = this.getFilterGroupByStationType()
     if (this.props.isOpenNavigation) return null
     return (
       <MenuWrapper span={5}>
         <Affix offsetTop={57}>
-          <SearchWrapper>
-            <Search
-              onChange={event => this.handleOnChangeSearch(event)}
-              placeholder={i18n.placeholderSearch}
-              onSearch={this.props.handleSearch}
-              style={{ width: '95%', marginTop: '10px' }}
-            />
-          </SearchWrapper>
-          <Menu
-            style={{
-              overflowX: 'hidden',
-              overflowY: 'auto',
-              backgroundColor: '#F4F5F7',
-            }}
-            defaultSelectedKeys={[this.props.filterId]}
-            defaultOpenKeys={['sub1']}
-            mode="inline"
-          >
-            <SubMenu
-              key="sub1"
-              title={
-                <span style={{ marginLeft: 12, fontWeight: 600 }}>
-                  {i18n.titleSubMenuFilters}
-                </span>
-              }
+          <div>
+            <SearchWrapper>
+              <Search
+                onChange={event => this.handleOnChangeSearch(event)}
+                placeholder={i18n.placeholderSearch}
+                onSearch={this.props.handleSearch}
+                style={{ width: '95%', marginTop: '10px' }}
+              />
+            </SearchWrapper>
+            <Menu
+              style={{
+                overflowX: 'hidden',
+                overflowY: 'auto',
+                backgroundColor: '#F4F5F7',
+              }}
+              defaultSelectedKeys={[this.props.filterId]}
+              defaultOpenKeys={['sub1']}
+              mode="inline"
             >
-              {this.props.configFilter.map(filter => (
-                <Menu.Item
-                  onClick={this.handleClickFilterItem(filter._id)}
-                  key={filter._id}
-                >
-                  {this.getHighlightedText(
-                    filter.name,
-                    this.state.highlightText
-                  )}
-                </Menu.Item>
-              ))}
-            </SubMenu>
-          </Menu>
+              <SubMenu
+                key="sub1"
+                title={
+                  <span style={{ marginLeft: 12, fontWeight: 600 }}>
+                    {i18n.titleSubMenuFilters}
+                  </span>
+                }
+              >
+                {Object.keys(filters).map(filterKey => (
+                  <Menu.ItemGroup
+                    key={filterKey}
+                    title={this.getStationType(filterKey).name}
+                  >
+                    {filters[filterKey].map(filter => (
+                      <Menu.Item
+                        onClick={this.handleClickFilterItem(filter._id)}
+                        key={filter._id}
+                      >
+                        {this.getHighlightedText(
+                          filter.name,
+                          this.state.highlightText
+                        )}
+                      </Menu.Item>
+                    ))}
+                  </Menu.ItemGroup>
+                ))}
+              </SubMenu>
+            </Menu>
+          </div>
         </Affix>
       </MenuWrapper>
     )
