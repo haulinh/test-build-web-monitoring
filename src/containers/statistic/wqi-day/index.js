@@ -43,6 +43,7 @@ export default class WQIStatisticsDay extends React.Component {
     },
     wqiConfig: [],
     isLoaded: false,
+    isSearched: false
   }
 
   handleSubmitSearch(searchFormData) {
@@ -78,6 +79,7 @@ export default class WQIStatisticsDay extends React.Component {
       isLoading: false,
       dataWQI: _.reverse(_.get(dataWQI, 'data', [])),
       searchFormData: searchFormData,
+      isSearched: true
     })
   }
 
@@ -171,7 +173,7 @@ export default class WQIStatisticsDay extends React.Component {
             <Title level={4}>{i18n.header}</Title>
             {fromDate && toDate && (
               <Text>
-                {translate('wqi.wqi_day.title', {
+              {translate('wqi.wqi_day.title', {
                   fromDate: moment(fromDate).format('DD/MM/YYYY'),
                   toDate: moment(toDate).format('DD/MM/YYYY'),
                 })}
@@ -179,6 +181,7 @@ export default class WQIStatisticsDay extends React.Component {
             )}
           </div>
           <TabList
+            isSearched={this.state.isSearched}
             isLoading={this.state.isLoading}
             dataWQI={this.state.dataWQI}
             pagination={this.state.pagination}

@@ -202,11 +202,11 @@ export default {
     },
     wqi_hour: {
       header: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN WQI THEO GIỜ',
-      title: 'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.fromDate}}'
+      title: 'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.toDate}}'
     },
     wqi_day: {
       header: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN WQI THEO NGÀY',
-      title: 'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.fromDate}}'
+      title: 'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.toDate}}'
     }
   },
   wqiConfigCalculation: {
