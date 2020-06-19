@@ -206,6 +206,14 @@ export default {
         require: 'Please Choose WQI',
       },
     },
+    wqi_hour: {
+      header: 'REPORT ON CALCULATION OF WQI BY HOURS',
+      title: 'The statistics for the WQI day math results by the period from {{= it.fromDate}} to {{= it.fromDate}}'
+    },
+    wqi_day: {
+      header: 'REPORT ON CALCULATION OF WQI BY DAY',
+      title: 'The statistics for the WQI day math results by the period from {{= it.fromDate}} to {{= it.fromDate}}'
+    }
   },
   wqiConfigCalculation: {
     pageName: 'Configure to WQI calculation',

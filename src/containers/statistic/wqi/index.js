@@ -8,12 +8,22 @@ import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import * as _ from 'lodash'
-import { message, Spin } from 'antd'
+import { message, Spin, Typography } from 'antd'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import { getListConfigWqi } from 'api/CategoryApi'
+import ReferencesComponent from 'components/elements/references'
+import slug from 'constants/slug'
+import moment from 'moment'
 
+const { Title, Text } = Typography
+
+const i18n = {
+  header: translate('wqi.wqi_hour.header'),
+  title: translate('wqi.wqi_hour.title'),
+}
 @protectRole(ROLE.WQI_GIO.VIEW)
 @queryFormDataBrowser(['submit'])
 @autobind
@@ -112,7 +122,35 @@ export default class WQIStatistics extends React.Component {
     })
   }
 
+  async componentDidMount() {
+    try {
+      const wqiConfigListRes = await getListConfigWqi()
+      let wqiConfigList = _.get(wqiConfigListRes, 'data.value', [])
+      wqiConfigList = wqiConfigList.filter(item => item.activated)
+
+      this.setState({
+        wqiConfig: wqiConfigList,
+        isLoaded: true,
+      })
+    } catch (e) {
+      this.setState({ isLoaded: true })
+    }
+  }
+
   render() {
+    const { wqiConfig, isLoaded } = this.state
+    if (!isLoaded) return null
+
+    const isHaveConfig = wqiConfig.length > 0
+    if (!isHaveConfig)
+      return (
+        <ReferencesComponent
+          title={translate('wqi.reference')}
+          pathGoto={slug.wqi.config}
+        />
+      )
+
+    const { fromDate, toDate } = this.state.searchFormData
     return (
       <div>
         <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
@@ -128,6 +166,17 @@ export default class WQIStatistics extends React.Component {
               searchNow={this.props.formData.searchNow}
             />
             <Clearfix height={16} />
+            <div style={{ textAlign: 'center' }}>
+              <Title level={4}>{i18n.header}</Title>
+              {fromDate && toDate && (
+                <Text>
+                  {translate('wqi.wqi_hour.title', {
+                    fromDate: moment(fromDate).format('DD/MM/YYYY'),
+                    toDate: moment(toDate).format('DD/MM/YYYY'),
+                  })}
+                </Text>
+              )}
+            </div>
             <TabList
               isLoading={this.state.isLoading}
               dataAQI={this.state.dataAQI}
