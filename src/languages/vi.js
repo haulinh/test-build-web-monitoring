@@ -2211,7 +2211,7 @@ export default {
         'Tạo mới đơn vị quản lý trước khi tiến hành bước Tạo mới điểm quan trắc',
       standard:
         'Tạo mới quy chuẩn trước khi tiến hành bước Tạo mới điểm quan trắc',
-      role: 'Thêm mới nhưng nhóm quyền cần quản lý trong hệ thống',
+      role: 'Thêm mới những nhóm quyền cần quản lý trong hệ thống',
       user: 'Thêm mới và phân quyền tài khoản trong hệ thống',
       dataLogger: 'Lịch sử người dùng thao tác trong hệ thống',
     },
