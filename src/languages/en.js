@@ -553,6 +553,7 @@ export default {
       },
     },
     table: {
+      view: 'View',
       receivedAt: 'Received At',
       all: 'All',
       emptyText: 'There Are No Records To Display',
@@ -606,6 +607,20 @@ export default {
         placeholderSearch: 'Enter the filter name ...',
       },
       subMenuFilters: 'Filters',
+    },
+    stationForm: {
+      length: 'Station list ({{=it.stationLength}} station)',
+    },
+    filterForm: {
+      title: 'Save filter',
+      description:
+        'The data selected by the fields created by you will be stored when you name this filter.',
+      name: {
+        label: 'Name',
+        placeholder: 'Name of filter',
+        isEmpty: 'Please type name of filter',
+        isExist: 'Name is exist',
+      },
     },
   },
   dataSearchFilterForm: {
@@ -1900,6 +1915,7 @@ export default {
     create: 'Create',
     update: 'Update',
     edit: 'Edit',
+    edited: 'Edited',
     delete: 'Delete',
     save: 'Save',
     reset: 'Reset',

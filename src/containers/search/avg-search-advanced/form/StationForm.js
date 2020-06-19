@@ -5,6 +5,7 @@ import update from 'immutability-helper'
 import styled from 'styled-components'
 import { Collapse, Table, Select, Checkbox } from 'antd'
 import Clearfix from 'components/elements/clearfix'
+import { translate } from 'hoc/create-lang'
 
 const { Panel } = Collapse
 
@@ -17,10 +18,6 @@ const Flex = styled.div`
 const StationFormWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  .ant-table-thead > tr > th,
-  .ant-table-tbody > tr > td {
-    text-align: center;
-  }
   .ant-table-thead > tr > th {
     white-space: nowrap;
   }
@@ -150,7 +147,7 @@ export default class StationForm extends React.PureComponent {
       this.state.dataSource.length
     return [
       {
-        title: 'Tên trạm',
+        title: translate('avgSearchFrom.form.stationAuto.label'),
         dataIndex: 'name',
         key: 'name',
         render: (text, record) => {
@@ -162,7 +159,7 @@ export default class StationForm extends React.PureComponent {
         },
       },
       {
-        title: 'Thông số',
+        title: translate('avgSearchFrom.form.measuringList.label'),
         dataIndex: 'measuringList',
         key: 'measuringList',
         render: (measuringList, record) => {
@@ -188,13 +185,13 @@ export default class StationForm extends React.PureComponent {
       {
         title: () => (
           <Flex>
-            <span>Hiển thị</span>
-            <Clearfix width={12} />
             <Checkbox
               indeterminate={indeterminate}
               onChange={this.onCheckAllChange}
               checked={checkedAll}
             />
+            <Clearfix width={12} />
+            {translate('avgSearchFrom.table.view')}
           </Flex>
         ),
         dataIndex: 'view',
@@ -214,7 +211,11 @@ export default class StationForm extends React.PureComponent {
 
   renderHeading() {
     return (
-      <Heading>Danh sách trạm ({this.state.dataSource.length} trạm)</Heading>
+      <Heading>
+        {translate('avgSearchFrom.stationForm.length', {
+          stationLength: this.state.dataSource.length,
+        })}
+      </Heading>
     )
   }
 

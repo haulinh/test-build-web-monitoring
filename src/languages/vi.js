@@ -549,6 +549,7 @@ export default {
       },
     },
     table: {
+      view: 'Hiển thị',
       receivedAt: 'Thời gian',
       all: 'Tất cả',
       emptyText: 'Không có giá trị',
@@ -602,6 +603,20 @@ export default {
         placeholderSearch: 'Nhập tên bộ lọc ...',
       },
       subMenuFilters: 'Danh sách bộ lọc',
+    },
+    stationForm: {
+      length: 'Danh sách trạm ({{=it.stationLength}} trạm)',
+    },
+    filterForm: {
+      title: 'Lưu bộ lọc',
+      description:
+        'Dữ liệu chọn lọc theo các trường được tạo bởi bạn sẽ được lưu trữ khi bạn đặt tên cho bộ lọc này.',
+      name: {
+        label: 'Tên bộ lọc',
+        placeholder: 'Nhập tên của bộ lọc',
+        isEmpty: 'Vui lòng nhập tên bộ lòng',
+        isExist: 'Tên đã tổn tại',
+      },
     },
   },
   dataSearchFilterForm: {
@@ -1892,6 +1907,7 @@ export default {
     create: 'Tạo mới',
     update: 'Cập nhật',
     edit: 'Chỉnh sửa',
+    edited: 'Đã chỉnh sửa',
     delete: 'Xoá',
     save: 'Lưu',
     reset: 'Đặt lại',

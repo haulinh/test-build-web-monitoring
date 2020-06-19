@@ -196,7 +196,7 @@ export default class AvgSearchAdvanced extends React.Component {
     if (this.state.isEdit) {
       return (
         <Flex>
-          <span className="label">Đã chỉnh sửa</span>
+          <span className="label">{translate('addon.edited')}</span>
           <Clearfix width={32} />
           <Button.Group>
             <Button
@@ -238,8 +238,12 @@ export default class AvgSearchAdvanced extends React.Component {
         searchUrl: encodeURIComponent(JSON.stringify(this.props.values)),
       }
       this.setState({ confirmLoading: true }, async () => {
-        let data = await OrganizationApi.createFilter(organizationId, params)
-        if (data.error && data.message === 'CONFIG_FILTER_NAME_EXISTED') {
+        let {
+          data,
+          error,
+          message: messageErr,
+        } = await OrganizationApi.createFilter(organizationId, params)
+        if (error && messageErr === 'CONFIG_FILTER_NAME_EXISTED') {
           this.setState({
             confirmLoading: false,
           })
@@ -247,12 +251,12 @@ export default class AvgSearchAdvanced extends React.Component {
             name: {
               value: values.name,
               errors: [
-                new Error(translate('dataSearchFilterForm.create.nameIsExist')),
+                new Error(translate('avgSearchFrom.filterForm.name.isExist')),
               ],
             },
           })
         }
-        if (data._id) {
+        if (data && data._id) {
           message.success(translate('dataSearchFilterForm.create.success'))
           this.setState({
             confirmLoading: false,
