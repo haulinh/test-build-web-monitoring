@@ -40,6 +40,7 @@ export default class WQIStatistics extends React.Component {
       current: 1,
       pageSize: 50,
     },
+    isSearched: false
   }
 
   handleSubmitSearch(searchFormData) {
@@ -66,11 +67,12 @@ export default class WQIStatistics extends React.Component {
         title: translate('dataSearchFrom.table.emptyText'),
       })
     }
-    // console.log(_.get(dataAQI, "data"), "----")
+
     this.setState({
       isLoading: false,
       dataAQI: _.get(dataAQI, 'data', []),
       searchFormData: searchFormData,
+      isSearched: true
     })
   }
 
@@ -178,6 +180,7 @@ export default class WQIStatistics extends React.Component {
               )}
             </div>
             <TabList
+              isSearched={this.state.isSearched}
               isLoading={this.state.isLoading}
               dataAQI={this.state.dataAQI}
               pagination={this.state.pagination}
