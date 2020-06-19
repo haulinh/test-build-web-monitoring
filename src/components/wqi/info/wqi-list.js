@@ -19,7 +19,7 @@ const WrapperView = styled.div`
   /* border-radius: 4px;
   border: 1px solid #f2f2f2; */
   padding: 16px 0px;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 60px);
   overflow-y: scroll;
   .item-wqi {
     display: flex;
