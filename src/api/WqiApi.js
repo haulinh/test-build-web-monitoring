@@ -58,12 +58,7 @@ export function exportFileWqiHourbyStation({ from, to, listKey, code } = {}) {
   )
   return getFetch(url)
 }
-export function exportFileWqiDaybyListStation({
-  from,
-  to,
-  listKey,
-  code,
-} = {}) {
+export function exportFileWqiDaybyListStation({ from, to, listKey, code } = {}) {
   var url = getWqiUrl(
     `${SLUG_WQI_VS}/day-export-excel?from=${from}&to=${to}&listKey=${listKey}&code=${code}`
   )

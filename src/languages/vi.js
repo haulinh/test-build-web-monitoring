@@ -192,8 +192,7 @@ export default {
   wqi: {
     title: 'WQI',
     move: 'Di chuyển',
-    reference:
-      'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI',
+    reference: 'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI',
     form: {
       wqiKey: {
         label: 'Lựa chọn WQI',
@@ -201,6 +200,14 @@ export default {
         require: 'Vui lòng chọn WQI',
       },
     },
+    wqi_hour: {
+      header: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN WQI THEO GIỜ',
+      title: 'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.fromDate}}'
+    },
+    wqi_day: {
+      header: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN WQI THEO NGÀY',
+      title: 'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.fromDate}}'
+    }
   },
   wqiConfigCalculation: {
     pageName: 'Cấu hình tính toán WQI',

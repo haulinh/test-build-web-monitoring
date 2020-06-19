@@ -30,6 +30,7 @@ import AdvanceMenu from '../AdvanceMenu'
 import ConfigMenu from '../ConfigMenu'
 import { SIDEBAR_GLOBAL_WIDTH } from '../sidebar-global/style'
 import objectPath from 'object-path'
+import { isEqual } from 'lodash'
 
 export const SIDEBAR_MENU_WIDTH = 256
 export const SIDEBAR_MENU_MINIMAL_WIDTH = 16
@@ -121,8 +122,22 @@ export default class MenuApp extends React.PureComponent {
     }
 
     this.props.selectMenu(menuSelect)
-    // this.props.changeOpenSubMenu([...this.props.openSubMenu, menuExpande])
     this.props.changeOpenSubMenu([menuExpande])
+  }
+
+  componentWillReceiveProps(nextProps){
+    const pathname = this.props.location.pathname
+    let pathObj = this.getPath(pathname)
+
+    const nextPathname = nextProps.location.pathname
+    let nextPathObj = this.getPath(nextPathname)
+
+    if(!isEqual(pathObj, nextPathObj)){
+      const menuSelect = nextPathname
+      // let menuExpande = parentMenuFromSub[nextPathname] || parentMenuFromSub[nextPathObj.menuExpande]
+      this.props.selectMenu(menuSelect)
+      // this.props.changeOpenSubMenu([menuExpande])
+    }
   }
 
   getPath(path) {

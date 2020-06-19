@@ -86,7 +86,7 @@ export default class ConfigCalculationWQI extends PureComponent {
             {
               id: '1',
               name: i18n.pageName,
-              href: slug.aqi.config,
+              href: slug.wqi.config,
             },
             {
               id: '2',
