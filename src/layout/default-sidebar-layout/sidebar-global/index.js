@@ -4,7 +4,6 @@ import ChangeLanguage from 'layout/navigation-layout/ChangeLanguage'
 import { logout } from 'redux/actions/authAction'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
-import NotificationIcon from './NotificationIcon'
 import UserDropdown from './UserDropdown'
 import AppItem from './AppItem'
 import { SidebarGlobal, SIDEBAR_GLOBAL_WIDTH } from './style'
@@ -51,7 +50,6 @@ export default class SidebarGlobalLayout extends React.PureComponent {
           />
         </SidebarGlobal.SidebarTop>
         <SidebarGlobal.SidebarBottom>
-          <NotificationIcon />
           <UserDropdown />
           <ChangeLanguage />
         </SidebarGlobal.SidebarBottom>
