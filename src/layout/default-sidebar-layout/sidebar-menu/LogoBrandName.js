@@ -38,7 +38,7 @@ const BrandName = styled.span`
   color: ${SHAPE.BLACK};
 `
 const WrapperIcon = styled.div`
-  margin-left: 175px;
+  margin-left: 165px;
   color: #333;
 `
 export function LogoBrandName(props) {
