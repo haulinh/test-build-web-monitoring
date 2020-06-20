@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { SHAPE } from 'themes/color'
 import { connect } from 'react-redux'
+import NotificationIcon from './../sidebar-global/NotificationIcon'
 
 const LogoContainer = styled.div`
   display: flex;
@@ -36,20 +37,28 @@ const BrandName = styled.span`
   margin-top: 8px;
   color: ${SHAPE.BLACK};
 `
-
+const WrapperIcon = styled.div`
+  margin-left: 175px;
+  color: #333;
+`
 export function LogoBrandName(props) {
   return (
-    <LogoContainer>
-      <LogoIcon
-        src={props.logo ? props.logo : '/images/logo/icon/enviroment.png'}
-      />
-      <InfoWrapper>
-        <TextPlaceholder>
-          iLotusLand for Environment <RegisterBrand>&trade;</RegisterBrand>
-        </TextPlaceholder>
-        <BrandName>{props.name}</BrandName>
-      </InfoWrapper>
-    </LogoContainer>
+    <Fragment>
+      <LogoContainer>
+        <LogoIcon
+          src={props.logo ? props.logo : '/images/logo/icon/enviroment.png'}
+        />
+        <InfoWrapper>
+          <TextPlaceholder>
+            iLotusLand for Environment <RegisterBrand>&trade;</RegisterBrand>
+          </TextPlaceholder>
+          <WrapperIcon>
+            <NotificationIcon />
+          </WrapperIcon>
+          <BrandName>{props.name}</BrandName>
+        </InfoWrapper>
+      </LogoContainer>
+    </Fragment>
   )
 }
 
