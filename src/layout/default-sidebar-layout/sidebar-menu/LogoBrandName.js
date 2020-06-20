@@ -16,7 +16,7 @@ const LogoIcon = styled.img`
 `
 
 const InfoWrapper = styled.div`
-  padding-left: 8px;
+  padding-left: 35px;
 `
 
 const TextPlaceholder = styled.div`
@@ -36,28 +36,33 @@ const BrandName = styled.span`
   font-weight: 600;
   margin-top: 8px;
   color: ${SHAPE.BLACK};
+  padding-left: 35px;
 `
 const WrapperIcon = styled.div`
-  margin-left: 165px;
   color: #333;
+  padding-left: 162px;
+
 `
 export function LogoBrandName(props) {
   return (
     <Fragment>
+      <InfoWrapper>
+        <TextPlaceholder>
+          iLotusLand for Environment <RegisterBrand>&trade;</RegisterBrand>
+        </TextPlaceholder>
+      </InfoWrapper>
+
       <LogoContainer>
         <LogoIcon
           src={props.logo ? props.logo : '/images/logo/icon/enviroment.png'}
         />
-        <InfoWrapper>
-          <TextPlaceholder>
-            iLotusLand for Environment <RegisterBrand>&trade;</RegisterBrand>
-          </TextPlaceholder>
-          <WrapperIcon>
-            <NotificationIcon />
-          </WrapperIcon>
-          <BrandName>{props.name}</BrandName>
-        </InfoWrapper>
+
+        <WrapperIcon>
+          <NotificationIcon />
+        </WrapperIcon>
       </LogoContainer>
+      <BrandName>{props.name}</BrandName>
+
     </Fragment>
   )
 }
