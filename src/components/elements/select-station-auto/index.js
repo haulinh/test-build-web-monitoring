@@ -67,10 +67,6 @@ export default class SelectStationAuto extends React.PureComponent {
   render() {
     const stationAutos = this.getStationAutos()
     const { language } = this.props
-    // if (!this.state.isLoaded) return <div />
-    console.log(
-      this.props.setKey ? this.props.stationAutoKey : this.props.value
-    )
     return (
       <Select
         {...this.props}

@@ -111,6 +111,7 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   render() {
+    console.log('---this.state.dataStationAuto---', this.state.dataStationAuto)
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Spin

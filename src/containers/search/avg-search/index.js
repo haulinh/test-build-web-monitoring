@@ -49,10 +49,10 @@ export default class AvgSearch extends React.Component {
   }
 
   componentDidMount() {
-    this.getDataOganization()
+    this.getDataOrganization()
   }
 
-  async getDataOganization() {
+  getDataOrganization = async () => {
     const userInfo = await AuthApi.getMe()
     const id = _.get(userInfo, 'data.organization._id', 'vasoft')
     const organizationInfo = await OrganizationApi.getOrganization(id)
@@ -61,11 +61,11 @@ export default class AvgSearch extends React.Component {
     })
   }
 
-  handleSubmitSearch(searchFormData) {
+  handleSubmitSearch = searchFormData => {
     this.loadData(this.state.pagination, searchFormData)
   }
 
-  async loadData(pagination, searchFormData) {
+  loadData = async (pagination, searchFormData) => {
     this.setState({
       isLoading: true,
       isHaveData: true,
@@ -86,11 +86,11 @@ export default class AvgSearch extends React.Component {
       searchFormData
     )
     if (dataStationAuto.error) {
-      // console.log('ERRROR', dataStationAuto)
-      message.error('ERRROR')
+      // console.log('ERROR', dataStationAuto)
+      message.error('ERROR')
       return
     }
-    if (dataStationAuto.data.length === 0) {
+    if (!dataStationAuto.data.length) {
       swal({
         type: 'success',
         title: translate('avgSearchFrom.table.emptyText'),
@@ -139,6 +139,7 @@ export default class AvgSearch extends React.Component {
   render() {
     // console.log(this.props.formData.searchNow,  "this.props.formData.searchNow")
     const { configFilter } = this.state
+    console.log('---dataStationAuto---', this.state.dataStationAuto)
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Spin size="large" tip="Exporting..." spinning={this.state.isExporting}>

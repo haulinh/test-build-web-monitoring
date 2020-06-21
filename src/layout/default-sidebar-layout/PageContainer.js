@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import BreadcrumbBar from 'shared/breadcrumb/BreadcrumbBar'
 import { SHAPE } from 'themes/color'
-// import Clearfix from 'components/elements/clearfix'
 import { StickyContainer, Sticky } from 'react-sticky'
+// import Clearfix from 'components/elements/clearfix'
 import LoaderCircle from 'components/elements/loader-circle'
 // import { Affix } from 'antd'
 
@@ -13,7 +13,7 @@ const HeaderFlex = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  padding: 16px 0px;
+  padding: 4px 0px;
 `
 
 export const Grid = styled.div`

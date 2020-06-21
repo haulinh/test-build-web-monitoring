@@ -14,6 +14,7 @@ import Heading from 'components/elements/heading'
 import { DD_MM_YYYY } from 'constants/format-date'
 import SelectStationConfigWQI from '../../common/select-station-config-wqi'
 import SelectStationTypeConfigWQI from '../../common/select-station-type-config-wqi'
+import SelectWqiKey from 'components/elements/select-wqi-key'
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import OptionsMonthRange from '../../common/options-time-month-range'
@@ -24,6 +25,7 @@ const FSelectStationTypeConfigWQI = createValidateComponent(
 )
 const FSelectStationConfigWQI = createValidateComponent(SelectStationConfigWQI)
 const FOptionsMonthRange = createValidateComponent(OptionsMonthRange)
+const FSelectWqiKey = createValidateComponent(SelectWqiKey)
 
 const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
@@ -37,6 +39,7 @@ function validate(values) {
   if (!values.stationFixed || values.stationFixed === '')
     errors.stationFixed = translate('avgSearchFrom.form.stationAuto.error')
   if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
+  if (!values.wqiKey) errors.wqiKey = translate('wqi.form.wqiKey.require')
   return errors
 }
 
@@ -66,6 +69,7 @@ export default class SearchForm extends React.Component {
       stationID: null,
       fromDate: props.initialValues.fromDate,
       toDate: props.initialValues.toDate,
+      wqiKey: null,
     }
   }
 
@@ -105,6 +109,7 @@ export default class SearchForm extends React.Component {
       key: values.station,
       name: this.state.stationName,
       stationID: this.state.stationKey,
+      wqiKey: this.state.wqiKey
     })
   }
 
@@ -143,6 +148,10 @@ export default class SearchForm extends React.Component {
       fromDate: fromTime,
       toDate: toTime,
     })
+  }
+
+  handleChangeWqiKey = wqiKey => {
+    this.setState({ wqiKey })
   }
 
   render() {
@@ -213,6 +222,17 @@ export default class SearchForm extends React.Component {
                 formatDate={DD_MM_YYYY}
                 onChangeDate={this.handleChangeDate}
                 component={FOptionsMonthRange}
+              />
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col span={12}>
+            <Field
+                label={translate('wqi.form.wqiKey.label')}
+                name="wqiKey"
+                size="large"
+                onChangeVal={this.handleChangeWqiKey}
+                component={FSelectWqiKey}
               />
             </Col>
           </Row>

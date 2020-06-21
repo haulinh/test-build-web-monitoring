@@ -1,31 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import update from 'immutability-helper'
-import { translate } from 'hoc/create-lang'
 import { Checkbox } from 'antd'
-
-const listFilter = [
-  // {
-  //   title: 'Tình trạng thiết bị',
-  //   key: 'stationStatus',
-  // },
-  {
-    title: translate('dataSearchFilterForm.form.dataStatus.label'),
-    key: 'dataStatus',
-  },
-  {
-    title: translate('dataSearchFilterForm.form.frequency.label'),
-    key: 'frequency',
-  },
-  {
-    title: translate('dataSearchFilterForm.form.qcvn.label'),
-    key: 'qcvn',
-  },
-  // {
-  //   title: 'Mã trạm',
-  //   key: 'stationKey',
-  // },
-]
+import { listFilter } from '../constants'
 
 const Wrapper = styled.div`
   display: flex;
@@ -51,7 +28,10 @@ export default class ListFilter extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      listFilter: listFilter.map(filter => ({ ...filter, checked: false })),
+      listFilter: listFilter.map(filter => ({
+        ...filter,
+        checked: props.initialValues ? props.initialValues[filter.key] : false,
+      })),
     }
   }
 

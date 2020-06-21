@@ -9,6 +9,7 @@ import 'animate.css/animate.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'antd/dist/antd.css'
 import 'video-react/dist/video-react.css'
+import 'simplebar/src/simplebar.css'
 import './index.css'
 
 import { AppContainer } from 'react-hot-loader'

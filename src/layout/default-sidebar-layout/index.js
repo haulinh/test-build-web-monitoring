@@ -40,6 +40,13 @@ export default class DefaultSidebarLayoutContainer extends Component {
     isShowSidebarMenu: PropTypes.bool,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      navigationWidth: 320,
+    }
+  }
+
   componentDidMount() {
     // import { messaging } from "utils/init-fcm";
     // MARK  vì phải chờ app.json nen phải load o day
@@ -82,11 +89,6 @@ export default class DefaultSidebarLayoutContainer extends Component {
     }
   }
 
-  state = {
-    navigationWidth: 320,
-    isSidebarMenuShow: true,
-  }
-
   _showNotification(payload) {
     notification['info']({
       message: payload.notification.title,
@@ -111,12 +113,12 @@ export default class DefaultSidebarLayoutContainer extends Component {
   }
 
   handleToggleSidebar() {
-    this.setState({ isSidebarMenuShow: !this.state.isSidebarMenuShow })
+    this.props.toggleNavigation(!this.props.navigationIsOpen)
   }
 
   getAllSidebarWidth() {
     if (!this.props.isShowSidebarMenu) return SIDEBAR_GLOBAL_WIDTH
-    return this.state.isSidebarMenuShow
+    return this.props.navigationIsOpen
       ? SIDEBAR_GLOBAL_WIDTH + SIDEBAR_MENU_WIDTH
       : SIDEBAR_GLOBAL_WIDTH + SIDEBAR_MENU_MINIMAL_WIDTH
   }
@@ -128,7 +130,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
         {this.props.isShowSidebarMenu && (
           <SidebarMenu
             onToggle={this.handleToggleSidebar}
-            isShow={this.state.isSidebarMenuShow}
+            isShow={this.props.navigationIsOpen}
           />
         )}
         {this.props.children}

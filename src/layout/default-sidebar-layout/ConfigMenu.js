@@ -33,7 +33,11 @@ export default {
             props.selectMenu(slug.stationAuto.base)
           }}
         >
-          <Link to={slug.stationAuto.base}>{MENU_NAME.config.stationAuto}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.stationAuto}>
+            <Link to={slug.stationAuto.base}>
+              {MENU_NAME.config.stationAuto}
+            </Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -45,9 +49,14 @@ export default {
             props.selectMenu(slug.stationAuto.configConnection.base)
           }
         >
-          <Link to={slug.stationAuto.configConnection.base}>
-            {MENU_NAME.config.stationAutoConnection}
-          </Link>
+          <Tooltip
+            placement="right"
+            title={TOOLTIP_MENU.config.stationAutoConnection}
+          >
+            <Link to={slug.stationAuto.configConnection.base}>
+              {MENU_NAME.config.stationAutoConnection}
+            </Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -59,9 +68,14 @@ export default {
             props.selectMenu(slug.stationAuto.configSendNotification.base)
           }
         >
-          <Link to={slug.stationAuto.configSendNotification.base}>
-            {MENU_NAME.config.sendNotification}
-          </Link>
+          <Tooltip
+            placement="right"
+            title={TOOLTIP_MENU.config.sendNotification}
+          >
+            <Link to={slug.stationAuto.configSendNotification.base}>
+              {MENU_NAME.config.sendNotification}
+            </Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -71,9 +85,11 @@ export default {
           key={slug.stationAuto.configSampling.base}
           onClick={() => props.selectMenu(slug.stationAuto.configSampling.base)}
         >
-          <Link to={slug.stationAuto.configSampling.base}>
-            {MENU_NAME.config.sampling}
-          </Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.sampling}>
+            <Link to={slug.stationAuto.configSampling.base}>
+              {MENU_NAME.config.sampling}
+            </Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -83,9 +99,11 @@ export default {
           key={slug.stationAuto.configColor.base}
           onClick={() => props.selectMenu(slug.stationAuto.configColor.base)}
         >
-          <Link to={slug.stationAuto.configColor.base}>
-            {MENU_NAME.config.color}
-          </Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.color}>
+            <Link to={slug.stationAuto.configColor.base}>
+              {MENU_NAME.config.color}
+            </Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -95,9 +113,11 @@ export default {
           key={slug.stationAuto.configCamera.base}
           onClick={() => props.selectMenu(slug.stationAuto.configCamera.base)}
         >
-          <Link to={slug.stationAuto.configCamera.base}>
-            {MENU_NAME.config.camera}
-          </Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.camera}>
+            <Link to={slug.stationAuto.configCamera.base}>
+              {MENU_NAME.config.camera}
+            </Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -109,7 +129,9 @@ export default {
             props.selectMenu(slug.measuring.base)
           }}
         >
-          <Link to={slug.measuring.base}>{MENU_NAME.config.parameter}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.parameter}>
+            <Link to={slug.measuring.base}>{MENU_NAME.config.parameter}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -121,7 +143,11 @@ export default {
             props.selectMenu(slug.stationType.base)
           }}
         >
-          <Link to={slug.stationType.base}>{MENU_NAME.config.stationType}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.stationType}>
+            <Link to={slug.stationType.base}>
+              {MENU_NAME.config.stationType}
+            </Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -133,7 +159,9 @@ export default {
             props.selectMenu(slug.province.base)
           }}
         >
-          <Link to={slug.province.base}>{MENU_NAME.config.site}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.site}>
+            <Link to={slug.province.base}>{MENU_NAME.config.site}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -145,7 +173,9 @@ export default {
             props.selectMenu(slug.qcvn.base)
           }}
         >
-          <Link to={slug.qcvn.base}>{MENU_NAME.config.standard}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.standard}>
+            <Link to={slug.qcvn.base}>{MENU_NAME.config.standard}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -158,7 +188,9 @@ export default {
             props.selectMenu(slug.role.base)
           }}
         >
-          <Link to={slug.role.base}>{MENU_NAME.config.role}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.role}>
+            <Link to={slug.role.base}>{MENU_NAME.config.role}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -170,7 +202,9 @@ export default {
             props.selectMenu(slug.user.base)
           }}
         >
-          <Link to={slug.user.base}>{MENU_NAME.config.user}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.user}>
+            <Link to={slug.user.base}>{MENU_NAME.config.user}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
 
@@ -182,7 +216,9 @@ export default {
             props.selectMenu(slug.dataLogger.base)
           }}
         >
-          <Link to={slug.dataLogger.base}>{MENU_NAME.config.dataLogger}</Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.dataLogger}>
+            <Link to={slug.dataLogger.base}>{MENU_NAME.config.dataLogger}</Link>
+          </Tooltip>
         </Menu.Item>
       )}
     </Menu.SubMenu>

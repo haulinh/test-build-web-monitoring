@@ -11,6 +11,9 @@ import TabGiaTri from './tabGiaTri'
 import TabThongSo from './tabThongSo'
 import TabTrongSo from './tabTrongSo'
 import { translate } from 'hoc/create-lang'
+import { get, find } from 'lodash'
+import slug from 'constants/slug'
+import { getListConfigWqi } from 'api/CategoryApi'
 
 const Breadcrumb = createBreadcrumb()
 const { TabPane } = Tabs
@@ -51,7 +54,31 @@ export default class ConfigCalculationWQI extends PureComponent {
     })
   }
 
+  componentDidMount = () => {
+    getListConfigWqi()
+      .then(retult => {
+        const resData = get(retult, 'data.value', [])
+
+        const data = find(resData, item => {
+          return item.key === this.props.match.params.key
+        })
+        this.setState({
+          data,
+          isLoaded: true,
+        })
+      })
+      .catch(ex => {
+        this.setState({
+          isLoaded: true,
+        })
+        console.log(ex, '--ex--')
+      })
+  }
+
   render() {
+    const { match } = this.props
+    const code = get(match, 'params.key')
+
     return (
       <PageContainer isLoading={false}>
         <Breadcrumb
@@ -59,6 +86,11 @@ export default class ConfigCalculationWQI extends PureComponent {
             {
               id: '1',
               name: i18n.pageName,
+              href: slug.wqi.config,
+            },
+            {
+              id: '2',
+              name: get(this.state.data, 'name', ''),
             },
           ]}
         />
@@ -107,24 +139,25 @@ export default class ConfigCalculationWQI extends PureComponent {
               return <div />
             }}
             activeKey={this.state.tabKey}
+            destroyInactiveTabPane
           >
             <TabPane tab="Ngưỡng mức độ" key={TAB_KEY.MUC_DO}>
               <Clearfix height={24} />
-              <TabMucDo />
+              <TabMucDo code={code} />
               <div />
             </TabPane>
             <TabPane tab="Bảng giá trị BPi" key={TAB_KEY.GIA_TRI}>
               <Clearfix height={24} />
-              <TabGiaTri />
+              <TabGiaTri code={code} />
               <div />
             </TabPane>
             <TabPane tab="Thông số tính toán" key={TAB_KEY.THONG_SO}>
               <Clearfix height={24} />
-              <TabThongSo />
+              <TabThongSo code={code} />
             </TabPane>
             <TabPane tab="Trọng số nhóm thông số" key={TAB_KEY.TRONG_SO}>
               <Clearfix height={24} />
-              <TabTrongSo />
+              <TabTrongSo code={code} />
             </TabPane>
           </Tabs>
         </Wrapper>

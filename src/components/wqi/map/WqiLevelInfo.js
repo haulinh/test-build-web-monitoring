@@ -6,7 +6,7 @@ import { Tooltip } from 'antd'
 const LevelWrapper = styled.div`
   position: absolute;
   left: 8px;
-  bottom: 16px;
+  bottom: 24px;
   border-radius: 3px;
   z-index: 2;
 `

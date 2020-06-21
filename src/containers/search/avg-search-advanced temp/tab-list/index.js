@@ -3,14 +3,14 @@ import { autobind } from 'core-decorators'
 import { Tabs, Button } from 'antd'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import BoxShadow from 'components/elements/box-shadow/index'
+import BoxShadow from 'components/elements/box-shadow'
 import TabTableDataList from './tab-table-data-list/index'
 import TabChart from './tab-chart/index'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
 
-const TabeListWrapper = styled(BoxShadow)`
+const TableListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
   position: relative;
 `
@@ -23,7 +23,7 @@ const ButtonAbsolute = styled.div`
 `
 
 @autobind
-export default class TabeList extends React.PureComponent {
+export default class TableList extends React.PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool,
     measuringList: PropTypes.array,
@@ -39,7 +39,7 @@ export default class TabeList extends React.PureComponent {
 
   render() {
     return (
-      <TabeListWrapper>
+      <TableListWrapper>
         <ButtonAbsolute>
           {protectRole(ROLE.AVG_SEARCH.EXPORT)(
             <Button
@@ -76,7 +76,7 @@ export default class TabeList extends React.PureComponent {
             />
           </Tabs.TabPane>
         </Tabs>
-      </TabeListWrapper>
+      </TableListWrapper>
     )
   }
 }

@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Typography, Input, Skeleton } from 'antd'
+import { Row, Col, Button, Typography, Input, Skeleton } from 'antd'
 import styled from 'styled-components'
 import * as _ from 'lodash'
 import moment from 'moment-timezone'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 import { translate } from 'hoc/create-lang'
+import AqiListStatus from './aqi-list-status'
+import Clearfix from 'components/elements/clearfix'
 
 const { Text } = Typography
 
@@ -16,9 +18,6 @@ const i18n = {
 const WrapperView = styled.div`
   display: flex;
   flex-direction: column;
-  border-radius: 4px;
-  border: 1px solid #f2f2f2;
-  padding: 8px;
 
   .item-aqi {
     display: flex;
@@ -74,10 +73,12 @@ export default class AQIList extends React.PureComponent {
   static propTypes = {
     aqiList: PropTypes.array,
     aqiLevel: PropTypes.array,
+    locale: PropTypes.string,
+    onChangeLocale: PropTypes.func,
+    listConfigAQI: PropTypes.array,
   }
 
   state = {
-    dataSoure: null,
     selectStationKey: null,
   }
 
@@ -107,12 +108,42 @@ export default class AQIList extends React.PureComponent {
   }
 
   render() {
-    // console.log(this.state.dataSoure, "--this.state.dataSoure")
+    console.log(this.props.aqiList, '--listConfigAQI--')
     return (
       <WrapperView>
+        {this.props.listConfigAQI.length > 0 && (
+          <Row gutter={8}>
+            {_.map(this.props.listConfigAQI, item => {
+              const spanCol = this.props.listConfigAQI.length > 1 ? 12 : 24
+              return (
+                <Col span={spanCol}>
+                  <Button
+                    onClick={() => {
+                      if (this.props.locale === item.key) {
+                        return
+                      }
+                      this.setState({
+                        dataSoure: null,
+                      })
+                      this.props.onChangeLocale(item.key)
+                    }}
+                    block
+                    type={
+                      this.props.locale === item.key ? 'primary' : 'default'
+                    }
+                  >
+                    {item.name}
+                  </Button>
+                </Col>
+              )
+            })}
+          </Row>
+        )}
+
+        <Clearfix height={8} />
         <Input placeholder={i18n.search} onChange={this.hanldeOnchange} />
-        {!this.state.dataSoure && <Skeleton />}
-        {_.map(this.state.dataSoure, (item, index) => {
+        {!this.props.aqiList && <Skeleton />}
+        {_.map(this.props.aqiList, (item, index) => {
           const key = _.get(item, 'key')
           const name = _.get(item, 'name', '')
           const time = _.get(item, 'time', '')
@@ -171,6 +202,9 @@ export default class AQIList extends React.PureComponent {
             </Row>
           )
         })}
+        {this.props.aqiList && this.props.aqiList.length === 0 && (
+          <AqiListStatus />
+        )}
       </WrapperView>
     )
   }

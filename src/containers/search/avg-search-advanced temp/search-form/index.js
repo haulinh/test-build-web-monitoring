@@ -24,6 +24,7 @@ import OptionsTimeRange from '../../common/options-time-range'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import FilterList from '../filter'
 import validate from '../utils/validate'
+import { listFilter } from '../constants'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectQCVN = createValidateComponent(SelectQCVN)
@@ -66,6 +67,8 @@ const Container = styled.div`
 @reduxForm({
   form: 'dataSearchFilterForm',
   validate,
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
 })
 @connect((state, ownProps) => ({
   values: _.get(state, 'form.dataSearchFilterForm.values', {}),
@@ -111,7 +114,7 @@ export default class SearchAvgForm extends React.Component {
         moment(props.initialValues.receivedAt) ||
         this.props.initialValues.toDate,
       isSearchInit: props.initialValues.stationAuto ? false : true,
-      filterList: [],
+      filterList: listFilter.filter(filter => props.initialValues[filter.key]),
       dataStatus: dataStatusOptions.map(option => ({
         ...option,
         name: this.props.lang.t(option.label),
@@ -120,6 +123,27 @@ export default class SearchAvgForm extends React.Component {
   }
 
   componentDidMount() {
+    this.initializeValue()
+    if (this.props.searchNow) {
+      this.props.handleSubmit(this.handleSubmit)()
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!_.isEqual(prevProps.initialValues, this.props.initialValues)) {
+      const filterList = listFilter.filter(
+        filter => this.props.initialValues[filter.key]
+      )
+      this.setState({ filterList })
+
+      this.initializeValue()
+      if (this.props.searchNow) {
+        this.props.handleSubmit(this.handleSubmit)()
+      }
+    }
+  }
+
+  initializeValue = () => {
     const initialValues = this.props.initialValues
       ? {
           stationAuto: null,
@@ -127,20 +151,18 @@ export default class SearchAvgForm extends React.Component {
           province: null,
           measuringList: [],
           ...this.props.initialValues,
-          rangesDate: 1,
-          type: 15,
+          rangesDate: Number(this.props.initialValues.rangesDate) || 1,
+          type: Number(this.props.initialValues.type) || 15,
         }
       : {
           stationAuto: null,
           stationType: null,
           province: null,
           measuringList: [],
+          rangesDate: 1,
+          type: 15,
         }
-
     this.props.initialize(initialValues)
-    if (this.props.searchNow) {
-      this.props.handleSubmit(this.handleSubmit)()
-    }
   }
 
   handleChangeStationType = stationTypeKey => {
@@ -220,8 +242,8 @@ export default class SearchAvgForm extends React.Component {
     if (values.frequency) {
       params.frequency = values.frequency
     }
-    if (values.qcvn) {
-      params.qcvn = values.qcvn
+    if (values.standardKey) {
+      params.standardKey = values.standardKey
     }
 
     this.props.onSubmit(params)
@@ -322,7 +344,7 @@ export default class SearchAvgForm extends React.Component {
         return FSelectAnt
       case 'frequency':
         return FInputNumber
-      case 'qcvn':
+      case 'standardKey':
         return FSelectQCVN
       default:
         return FInputNumber
@@ -358,7 +380,12 @@ export default class SearchAvgForm extends React.Component {
         <HeaderWrapper>
           <Dropdown
             trigger={['click']}
-            overlay={<FilterList onChange={this.handleChangeFilter} />}
+            overlay={
+              <FilterList
+                initialValues={this.props.initialValues}
+                onChange={this.handleChangeFilter}
+              />
+            }
           >
             <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
               <Icon type="plus" />{' '}
@@ -368,7 +395,7 @@ export default class SearchAvgForm extends React.Component {
         </HeaderWrapper>
         <Container>
           <Row type="flex" gutter={[16, 24]}>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t(`province.label`)}
                 name="province"
@@ -380,7 +407,7 @@ export default class SearchAvgForm extends React.Component {
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 isShowAll
                 label={t('stationType.label')}
@@ -395,7 +422,7 @@ export default class SearchAvgForm extends React.Component {
                 }}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('stationAuto.label')}
                 placeholder={t('stationAuto.placeholder')}
@@ -407,7 +434,7 @@ export default class SearchAvgForm extends React.Component {
                 component={FSelectStationAuto}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -419,7 +446,7 @@ export default class SearchAvgForm extends React.Component {
                 component={FSelectAnt}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('time')}
                 name="rangesDate"
@@ -430,7 +457,7 @@ export default class SearchAvgForm extends React.Component {
                 rangesView={this.state.rangesView}
               />
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <Field
                 label={t('type.label')}
                 name="type"
@@ -439,7 +466,7 @@ export default class SearchAvgForm extends React.Component {
               />
             </Col>
             {this.state.filterList.map(filter => (
-              <Col span={6} key={filter.key}>
+              <Col span={8} key={filter.key}>
                 <Field
                   label={t(`${filter.key}.label`)}
                   name={filter.key}
