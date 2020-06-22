@@ -33,33 +33,36 @@ export default class TabeList extends React.PureComponent {
     isExporting: PropTypes.bool,
     onManually: PropTypes.func,
     isManually: PropTypes.bool,
+    isSearched: PropTypes.bool,
   }
 
   render() {
     return (
       <TabeListWrapper>
-        <ButtonAbsolute>
-          {protectRole(ROLE.AQI_NGAY.AQI_NGAY_EXPORT)(
+        {this.props.isSearched && (
+          <ButtonAbsolute>
+            {protectRole(ROLE.AQI_NGAY.AQI_NGAY_EXPORT)(
+              <Button
+                type="primary"
+                icon="file-excel"
+                style={{ float: 'right', margin: '5px' }}
+                onClick={this.props.onExportExcel}
+                loading={this.props.isExporting}
+              >
+                {translate('dataSearchFrom.tab.exportExcel')}
+              </Button>
+            )}
             <Button
               type="primary"
-              icon="file-excel"
+              icon="deployment-unit"
               style={{ float: 'right', margin: '5px' }}
-              onClick={this.props.onExportExcel}
-              loading={this.props.isExporting}
+              onClick={this.props.onManually}
+              loading={this.props.isManually}
             >
-              {translate('dataSearchFrom.tab.exportExcel')}
+              {translate('dataSearchFrom.tab.dataProcess')}
             </Button>
-          )}
-          <Button
-            type="primary"
-            icon="deployment-unit"
-            style={{ float: 'right', margin: '5px' }}
-            onClick={this.props.onManually}
-            loading={this.props.isManually}
-          >
-            {translate('dataSearchFrom.tab.dataProcess')}
-          </Button>
-        </ButtonAbsolute>
+          </ButtonAbsolute>
+        )}
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab={translate('dataSearchFrom.tab.data')} key="1">
             <TabTableDataList
