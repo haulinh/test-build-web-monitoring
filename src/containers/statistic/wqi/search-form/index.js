@@ -214,7 +214,7 @@ export default class SearchForm extends React.Component {
                 setKey
               />
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               <Field
                 label={translate('aqiSearchForm.form.inRange.label')}
                 name="inRange"
@@ -224,9 +224,7 @@ export default class SearchForm extends React.Component {
                 component={FOptionsMonthRange}
               />
             </Col>
-          </Row>
-          <Row gutter={24}>
-            <Col span={12}>
+            <Col span={4}>
               <Field
                 label={translate('wqi.form.wqiKey.label')}
                 name="wqiKey"
