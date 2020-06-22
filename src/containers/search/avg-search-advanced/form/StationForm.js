@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import update from 'immutability-helper'
 import styled from 'styled-components'
-import { Collapse, Table, Select, Checkbox, Button } from 'antd'
+import { Collapse, Table, Select, Checkbox, Button, Input } from 'antd'
 import Clearfix from 'components/elements/clearfix'
 import { translate } from 'hoc/create-lang'
+import { replaceVietnameseStr } from 'utils/string'
 
 const { Panel } = Collapse
 
@@ -28,6 +29,10 @@ const StationFormWrapper = styled.div`
   }
   .ant-select-selection {
     border: none;
+  }
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    padding: 6px 16px;
+    padding-left: 40px;
   }
 `
 
@@ -56,6 +61,7 @@ export default class StationForm extends React.PureComponent {
       indeterminate: false,
       checkAll: true,
       activeKey: '',
+      searchString: '',
     }
   }
 
@@ -67,7 +73,8 @@ export default class StationForm extends React.PureComponent {
     if (!this.props.stations.length) return
     if (
       !_.isEqual(prevProps.stationKeys, this.props.stationKeys) ||
-      !_.isEqual(prevProps.stations.length, this.props.stations.length)
+      !_.isEqual(prevProps.stations.length, this.props.stations.length) ||
+      !_.isEqual(prevState.searchString, this.state.searchString)
     ) {
       const dataSource = this.getDataSource()
       this.setState({ dataSource }, this.handleChange)
@@ -92,20 +99,35 @@ export default class StationForm extends React.PureComponent {
 
   getDataSource = () => {
     if (!this.props.stations.length) return []
-    const stations = this.props.stations.filter(station =>
+    let stations = this.props.stations
+    stations = stations.filter(station =>
       this.props.stationKeys.includes(station.key)
     )
-    return stations.map((station, index) => ({
-      index,
-      _id: station._id,
-      key: station.key,
-      name: station.name,
-      view: true,
-      measuringData: station.measuringList.sort(
-        (a, b) => a.numericalOrder - b.numericalOrder
-      ),
-      measuringList: station.measuringList.map(measuring => measuring.key),
-    }))
+    if (this.state.searchString) {
+      const searchString = replaceVietnameseStr(this.state.searchString)
+      stations = this.props.stations.filter(
+        station => replaceVietnameseStr(station.name).indexOf(searchString) > -1
+      )
+    }
+
+    return stations.map((station, index) => {
+      // const oldData = this.state.dataSource.find(sta => sta.key === station.key)
+      return {
+        index,
+        _id: station._id,
+        key: station.key,
+        name: station.name,
+        // view: oldData ? oldData.view : true,
+        view: true,
+        measuringData: station.measuringList.sort(
+          (a, b) => a.numericalOrder - b.numericalOrder
+        ),
+        // measuringList: oldData
+        //   ? oldData.measuringList
+        //   : station.measuringList.map(measuring => measuring.key),
+        measuringList: station.measuringList.map(measuring => measuring.key),
+      }
+    })
   }
 
   handleChangeMeasuringList = recordIndex => measuringList => {
@@ -152,13 +174,6 @@ export default class StationForm extends React.PureComponent {
         title: translate('avgSearchFrom.form.stationAuto.label'),
         dataIndex: 'name',
         key: 'name',
-        render: (text, record) => {
-          return (
-            <span>
-              {text} <strong>({record.key})</strong>
-            </span>
-          )
-        },
       },
       {
         title: translate('avgSearchFrom.form.measuringList.label'),
@@ -221,19 +236,23 @@ export default class StationForm extends React.PureComponent {
     )
   }
 
-  handleSearch = event => {
+  handleSearchAvgData = event => {
     event.stopPropagation()
     this.setState({ activeKey: '' })
     this.props.onSearchAvgData()
   }
+
+  handleSearchStation = _.debounce(value => {
+    this.setState({ searchString: value })
+  }, 200)
 
   rightChildren() {
     return (
       <Button
         type="primary"
         icon="search"
-        size="default"
-        onClick={this.handleSearch}
+        size="large"
+        onClick={this.handleSearchAvgData}
       >
         {translate('addon.search')}
       </Button>
@@ -245,7 +264,7 @@ export default class StationForm extends React.PureComponent {
   }
 
   render() {
-    const dataSource = this.state.dataSource
+    const { dataSource } = this.state
     const columns = this.getColumns()
     return (
       <StationFormWrapper>
@@ -259,6 +278,14 @@ export default class StationForm extends React.PureComponent {
             extra={this.rightChildren()}
             key="list"
           >
+            {/* <Input.Search
+              style={{ width: '100%' }}
+              size="large"
+              placeholder="Search station"
+              onChange={e => this.handleSearchStation(e.target.value)}
+              onClick={e => e.stopPropagation()}
+            />
+            <Clearfix height={40} /> */}
             <Table dataSource={dataSource} columns={columns} />
           </Panel>
         </Collapse>
