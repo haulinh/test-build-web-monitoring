@@ -65,8 +65,8 @@ export default class TableList extends React.PureComponent {
       }
     })
     const searchFormData = {
-      fromDate: this.convertDateToString(fromDate),
-      toDate: this.convertDateToString(toDate),
+      fromDate: fromDate,
+      toDate: toDate,
       key: station.key,
       name: station.name,
       type: this.props.type,
