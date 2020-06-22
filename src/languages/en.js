@@ -210,6 +210,8 @@ export default {
       header: 'REPORT ON CALCULATION OF WQI BY HOURS',
       title:
         'The statistics for the WQI day math results by the period from {{= it.fromDate}} to {{= it.toDate}}',
+      searchName:
+        'The statistics for the AQI day math results by the period from {{= it.fromDate}} {{= it.toDate}}.',
     },
     wqi_day: {
       header: 'REPORT ON CALCULATION OF WQI BY DAY',
@@ -2365,6 +2367,9 @@ export default {
       time: 'Time',
       day: 'Day',
       title: 'AQI By Hours',
+      reportName: 'REPORT ON CALCULATION OF AQI BY HOURS',
+      reportName2: 'REPORT ON CALCULATION OF AQI BY DAYS',
+      searchName:'The statistics for the AQI day math results by the period from {{= it.fromDate}} to {{= it.toDate}}.'
     },
     wqi: {
       menuApp: 'WQI',

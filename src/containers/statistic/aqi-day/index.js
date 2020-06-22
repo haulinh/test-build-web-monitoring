@@ -8,14 +8,19 @@ import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import * as _ from 'lodash'
-import { message, Spin, Skeleton } from 'antd'
+import { message, Spin, Skeleton, Typography } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 import { getListConfigAqi } from 'api/CategoryApi'
 import PageAqiStatus from 'containers/aqi/aqi-list-status'
+import moment from 'moment-timezone'
 
+const { Title, Text } = Typography
+const i18n = {
+  reportName: translate('statistic.aqi.reportName2'),
+}
 @protectRole(ROLE.STATISTIC.AQI)
 @queryFormDataBrowser(['submit'])
 @autobind
@@ -25,7 +30,7 @@ export default class AQIStatisticsDay extends React.Component {
     searchFormData: {},
     lines: [],
     isLoading: false,
-    isHaveData: false,
+    isSearched: false,
     isExporting: false,
     pagination: {
       current: 1,
@@ -76,7 +81,7 @@ export default class AQIStatisticsDay extends React.Component {
   async loadData(pagination, searchFormData) {
     this.setState({
       isLoading: true,
-      isHaveData: true,
+      isSearched: true,
     })
 
     // let listStationId = searchFormData.stationID
@@ -150,6 +155,7 @@ export default class AQIStatisticsDay extends React.Component {
   }
 
   render() {
+    const { fromDate, toDate } = this.state.searchFormData
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         {!this.state.isInitial && (
@@ -170,18 +176,29 @@ export default class AQIStatisticsDay extends React.Component {
                   searchNow={this.props.formData.searchNow}
                 />
                 <Clearfix height={16} />
-                {this.state.isHaveData ? (
-                  <TabList
-                    isLoading={this.state.isLoading}
-                    dataAQI={this.state.dataAQI}
-                    pagination={this.state.pagination}
-                    onExportExcel={this.handleExportExcel}
-                    nameChart={this.state.searchFormData.name}
-                    isExporting={this.state.isExporting}
-                    onManually={this.handleManually}
-                    isManually={this.state.isManually}
-                  />
-                ) : null}
+                <div style={{ textAlign: 'center' }}>
+                  <Title level={4}>{i18n.reportName.toUpperCase()}</Title>
+                  {fromDate && toDate && (
+                    <Text>
+                      {translate('statistic.aqi.searchName', {
+                        fromDate: moment(fromDate).format('DD/MM/YYYY'),
+                        toDate: moment(toDate).format('DD/MM/YYYY'),
+                      })}
+                    </Text>
+                  )}
+                </div>
+                <Clearfix height={16} />
+                <TabList
+                  isSearched={this.state.isSearched}
+                  isLoading={this.state.isLoading}
+                  dataAQI={this.state.dataAQI}
+                  pagination={this.state.pagination}
+                  onExportExcel={this.handleExportExcel}
+                  nameChart={this.state.searchFormData.name}
+                  isExporting={this.state.isExporting}
+                  onManually={this.handleManually}
+                  isManually={this.state.isManually}
+                />
               </Spin>
             )}
           </React.Fragment>
