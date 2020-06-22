@@ -1,4 +1,5 @@
 import { translate } from 'hoc/create-lang'
+import { dataStatusOptions } from 'constants/dataStatus'
 export const listFilter = [
   // {
   //   title: 'Tình trạng thiết bị',
@@ -7,6 +8,7 @@ export const listFilter = [
   {
     title: translate('dataSearchFilterForm.form.dataStatus.label'),
     key: 'dataStatus',
+    default: dataStatusOptions.map(data => data.value),
   },
   {
     title: translate('dataSearchFilterForm.form.frequent.label'),

@@ -431,17 +431,23 @@ export default class SearchAvgForm extends React.Component {
   }
 
   handleChangeFilter = filter => {
-    const { dispatch, form } = this.props
+    const { dispatch, form, change } = this.props
     const index = this.state.filterList.findIndex(
       item => item.key === filter.key
     )
     if (index < 0) {
-      this.setState(prevState =>
-        update(prevState, {
-          filterList: {
-            $push: [filter],
-          },
-        })
+      this.setState(
+        prevState =>
+          update(prevState, {
+            filterList: {
+              $push: [filter],
+            },
+          }),
+        () => {
+          if (filter.default) {
+            change(filter.key, filter.default)
+          }
+        }
       )
     } else {
       this.setState(
@@ -538,21 +544,6 @@ export default class SearchAvgForm extends React.Component {
         >
           {this.props.lang.t('addon.searchSelect')}
         </Heading>
-        {/* <HeaderWrapper>
-          <Dropdown
-            trigger={['click']}
-            overlay={
-              <FilterList
-                initialValues={this.props.initialValues}
-                onChange={this.handleChangeFilter}
-              />
-            }
-          >
-            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-              <Icon type="plus" /> {this.props.lang.t('addon.add')}
-            </a>
-          </Dropdown>
-        </HeaderWrapper> */}
         <Container>
           <Row type="flex" gutter={[16, 24]} align="middle">
             <Col span={6}>
@@ -676,7 +667,10 @@ export default class SearchAvgForm extends React.Component {
             </React.Fragment>
           ) : null} */}
         </Container>
-        <QAQCSetup ref={ref => (this.QAQCSetup = ref)} />
+        <QAQCSetup
+          stationType={this.props.values.stationType}
+          ref={ref => (this.QAQCSetup = ref)}
+        />
       </SearchFormContainer>
     )
   }

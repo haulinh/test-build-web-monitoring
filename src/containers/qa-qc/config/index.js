@@ -50,6 +50,8 @@ export default class QAQC_Config extends React.Component {
       isDisconnection: false,
       isLoading: false,
       configId: null,
+      stationTypes: [],
+      configQAQC: {},
     }
     this.getData = this.getData.bind(this)
   }
@@ -57,6 +59,7 @@ export default class QAQC_Config extends React.Component {
   static propTypes = {
     onCompleted: PropTypes.func,
     isDrawer: PropTypes.bool,
+    stationType: PropTypes.string,
   }
 
   dataTable = []
@@ -125,14 +128,18 @@ export default class QAQC_Config extends React.Component {
     try {
       let stationTypes = await getStationTypes({}, { isAuto: true })
       if (stationTypes.success) {
-        let tabList = stationTypes.data.map(item => {
-          return {
-            key: item.key,
-            tab: item.name,
-            name: item.name,
-          }
-        })
+        const { stationType } = this.props
+        let tabList = stationTypes.data
+          .filter(({ key }) => !stationType || key === stationType)
+          .map(item => {
+            return {
+              key: item.key,
+              tab: item.name,
+              name: item.name,
+            }
+          })
         this.setState({
+          stationTypes: stationTypes.data,
           tabList,
           activeTabkey: _.result(stationTypes.data, '[0].key', ''),
         })
@@ -144,15 +151,20 @@ export default class QAQC_Config extends React.Component {
       // console.log("response,", response)
       if (response.success) {
         const data = _.get(response, 'data.value', null)
-        // console.log("data,", response)
         if (data) {
           dataForm = {
             beyondMeasuringRange: data.beyondMeasuringRange,
             deviceError: data.deviceError,
             deviceCalibration: data.deviceCalibration,
-            ...data.measureConfig,
+            ...(this.props.stationType
+              ? {
+                  [this.props.stationType]:
+                    data.measureConfig[this.props.stationType],
+                }
+              : data.measureConfig),
           }
           this.setState({
+            configQAQC: data,
             configId: _.get(response, 'data._id', null),
             isHaveConfig: true,
           })
@@ -168,6 +180,44 @@ export default class QAQC_Config extends React.Component {
     } catch (e) {
       // console.log('qaqc service error', e.message)
       this.setState({ isDisconnection: true })
+    }
+  }
+
+  async componentWillReceiveProps(nextProps) {
+    if (nextProps.stationType !== this.props.stationType) {
+      const { stationType } = nextProps
+      let tabList = this.state.stationTypes
+        .filter(({ key }) => !stationType || key === stationType)
+        .map(item => {
+          return {
+            key: item.key,
+            tab: item.name,
+            name: item.name,
+          }
+        })
+      this.setState({
+        tabList,
+        activeTabkey: _.result(tabList, '[0].key', ''),
+      })
+      let dataForm = {}
+      const data = this.state.configQAQC
+      if (data) {
+        dataForm = {
+          beyondMeasuringRange: data.beyondMeasuringRange,
+          deviceError: data.deviceError,
+          deviceCalibration: data.deviceCalibration,
+          ...(nextProps.stationType
+            ? {
+                [nextProps.stationType]:
+                  data.measureConfig[nextProps.stationType],
+              }
+            : data.measureConfig),
+        }
+      }
+      this.setState({ isInitLoaded: true }, () => {
+        const { setFieldsValue } = this.props.form
+        setFieldsValue(dataForm)
+      })
     }
   }
 
@@ -242,6 +292,7 @@ export default class QAQC_Config extends React.Component {
             >
               <Tabs
                 defaultActiveKey={this.state.activeTabkey}
+                activeKey={this.state.activeTabkey}
                 onChange={e => {}}
               >
                 {this.state.tabList.map(tab => {

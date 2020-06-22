@@ -142,7 +142,7 @@ export default class FilterListMenu extends React.Component {
     const filters = this.getFilterGroupByStationType()
     if (this.props.isOpenNavigation) return null
     return (
-      <MenuWrapper span={5}>
+      <MenuWrapper span={4}>
         <Affix offsetTop={57}>
           <div>
             <SearchWrapper>

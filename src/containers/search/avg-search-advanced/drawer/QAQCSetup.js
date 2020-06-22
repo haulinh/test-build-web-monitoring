@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Drawer } from 'antd'
-import translate from 'hoc/create-lang'
+import { translate } from 'hoc/create-lang'
 import QAQCConfig from 'containers/qa-qc/config'
 
 const Wrapper = styled.div`
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 export default class QAQCSetup extends PureComponent {
   static propTypes = {
     onClose: PropTypes.func,
-    visible: PropTypes.bool,
+    stationType: PropTypes.string,
   }
 
   constructor(props) {
@@ -47,7 +47,11 @@ export default class QAQCSetup extends PureComponent {
         visible={this.state.visible}
       >
         <Wrapper>
-          <QAQCConfig isDrawer onCompleted={this.handleCompleted} />
+          <QAQCConfig
+            isDrawer
+            stationType={this.props.stationType}
+            onCompleted={this.handleCompleted}
+          />
         </Wrapper>
       </Drawer>
     )
