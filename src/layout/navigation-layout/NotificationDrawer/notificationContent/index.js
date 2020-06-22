@@ -87,12 +87,10 @@ export default class NotificationDrawer extends React.Component {
   }, 300)
   render() {
     const { loading, dataSource, stationAuto, currentPage } = this.props
-
     return (
       <div>
         <Row>
-          <Col style={{ padding: '8px' }}>
-            <Search
+          {/* <Search
               style={{ boxShadow: '4px 4px 6px #eee' }}
               placeholder={i18n.timKiem}
               onChange={e => {
@@ -103,8 +101,7 @@ export default class NotificationDrawer extends React.Component {
                 this.props.clearLoadNotificationsByType()
                 this.hanldeOnChange(_.trim(value))
               }}
-            />
-          </Col>
+            /> */}
         </Row>
         {this.state.isSearchLoading && (
           <Skeleton avatar paragraph={{ rows: 4 }} />

@@ -25,7 +25,6 @@ export default class NotificationDrawer extends React.Component {
         bodyStyle={{
           height: 'calc(100vh - 55px)',
           padding: 0,
-          paddingLeft: 16,
         }}
         title={
           <div>

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
-import { Row, Col, Tooltip, Dropdown, Menu, message } from 'antd'
+import { Row, Col, Tooltip, Dropdown, Menu, message, Icon, Button } from 'antd'
 import styled from 'styled-components'
 
 import { translate } from 'hoc/create-lang'
@@ -19,7 +19,7 @@ const i18n = {
 }
 //View data around this time
 const MultilineText = styled(Row)`
-  font-size: 12px;
+  font-size: 16px;
   max-height: 2.6em;
   text-overflow: ellipsis;
   line-height: 1.3em;
@@ -65,46 +65,35 @@ export default class DefaultCell extends React.Component {
         type="flex"
         align="middle"
         style={{
-          height: 60,
-          backgroundColor: isHoverOnCell
-            ? '#0000001a'
-            : isRead
-            ? '#fff'
-            : '#edf2fa',
+          padding: '20px',
+          height: 100,
+          backgroundColor: isHoverOnCell ? '#0000001a' : null,
+          // ? '#fff'
+          // : '#edf2fa',
           borderBottom: '1px solid #dddfe2',
           cursor: 'pointer',
         }}
         onMouseEnter={() => this.setState({ isHoverOnCell: true })}
         onMouseLeave={() => this.setState({ isHoverOnCell: false })}
       >
-        <Col span={23} onClick={() => this._handleCellOnClick(data)}>
+        <Col span={20} onClick={() => this._handleCellOnClick(data)}>
           <Row
-            type="flex"
-            align="middle"
             style={{
-              height: 60,
+              height: '100%',
             }}
           >
-            {/* image */}
-            <Col
-              span={3}
-              style={{ textAlign: 'center', height: '100%' }}
-              className="notify-image"
-            >
-              <img
-                src={icon}
-                alt=""
+            {/* icon */}
+            <Col span={3} className="notify-image">
+              <Icon
+                type={icon.type}
+                theme="outlined"
                 height="100%"
-                style={{ objectFit: 'contain' }}
+                style={{ fontSize: '40px', color: icon.color }}
               />
             </Col>
 
             {/* contents */}
-            <Col
-              span={21}
-              className="notify-content"
-              style={{ paddingLeft: 16, paddingRight: 16 }}
-            >
+            <Col span={21} className="notify-content">
               <Tooltip
                 title={content}
                 placement="right"
@@ -116,12 +105,13 @@ export default class DefaultCell extends React.Component {
               <Row>
                 <Col
                   style={{
+                    marginTop: '5px',
                     fontStyle: 'italic',
                     color: '#90949c',
                     fontSize: 12,
                   }}
                 >
-                  {moment(receivedAt).format('MM/DD [at] HH:mm')}
+                  {moment(receivedAt).fromNow()}
                 </Col>
               </Row>
             </Col>
@@ -129,12 +119,38 @@ export default class DefaultCell extends React.Component {
         </Col>
 
         {/* actions */}
-        <Col className="notify-action" span={1}>
-          {data.status === 'DATA_EXCEEDED' && (
+        <Col className="notify-action" span={4}>
+          {/* {data.status === 'DATA_EXCEEDED' && (
             <Dropdown overlay={this.renderMenu(data)} placement="bottomRight">
               <span>...</span>
             </Dropdown>
-          )}
+          )} */}
+
+          <Row justify="end">
+            <Col span={8} />
+            <Col span={8}>
+              {this.state.isHoverOnCell && (
+                <Icon
+                  style={{ fontSize: '18px' }}
+                  type="close-circle"
+                  theme="filled"
+                />
+              )}
+            </Col>
+            <Col span={8}>
+              <div
+                style={{
+                  borderWidth: '4px',
+                  borderStyle: 'solid',
+                  width: '18px',
+                  height: '18px',
+                  borderRadius: 20,
+                  backgroundColor: !isRead ? '#0052cc' : '#ebecf0',
+                  borderColor: '#ebecf0',
+                }}
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
     )

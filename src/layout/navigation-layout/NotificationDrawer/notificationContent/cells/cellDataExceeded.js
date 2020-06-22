@@ -24,11 +24,17 @@ export default function DataExceededCell(props) {
     </React.Fragment>
   )
 
+  const icon = {
+    type: 'frown',
+    color: 'red',
+  }
+
   return (
     <DefaultCell
-      icon={`${warningLevelImages.dataExceeded}`}
+      // icon={`${warningLevelImages.dataExceeded}`}
+      icon={icon}
       content={content}
-      data={cellContent}
+      data={cellContent}s
     />
   )
 }

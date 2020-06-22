@@ -24,9 +24,15 @@ export default function DataExceededPreparedCell(props) {
     </React.Fragment>
   )
 
+  const icon = {
+    type: 'meh',
+    color: 'yellow',
+  }
+
   return (
     <DefaultCell
-      icon={`${warningLevelImages.dataExceededPrepared}`}
+      // icon={`${warningLevelImages.dataExceededPrepared}`}
+      icon={icon}
       content={content}
       data={cellContent}
     />

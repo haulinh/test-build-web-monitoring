@@ -24,9 +24,15 @@ export default function SensorErrorCell(props) {
     </React.Fragment>
   )
 
+  const icon = {
+    type: 'frown',
+    color: 'red',
+  }
+
   return (
     <DefaultCell
-      icon={`${warningLevelImages.sensorError}`}
+      // icon={`${warningLevelImages.sensorError}`}
+      icon={icon}
       content={content}
       data={cellContent}
     />

@@ -24,9 +24,15 @@ export default function SensorGoodCell(props) {
     </React.Fragment>
   )
 
+  const icon = {
+    type: 'frown',
+    color: 'red',
+  }
+
   return (
     <DefaultCell
-      icon={`${warningLevelImages.sensorGood}`}
+      // icon={`${warningLevelImages.sensorGood}`}
+      icon={icon}
       content={content}
       data={cellContent}
     />
