@@ -242,6 +242,14 @@ export default class SearchForm extends React.Component {
                 component={FOptionsMonthRange}
               />
             </Col>
+            <Col span={12}>
+              <Field
+                label={t('aqiConfigSelect.label')}
+                name="aqiLocale"
+                size="large"
+                component={FSelectConfigAQI}
+              />
+            </Col>
 
             {this.state.isTimezoneDay && (
               <div>
@@ -271,14 +279,7 @@ export default class SearchForm extends React.Component {
           </Row>
           <Clearfix height={16} />
           <Row gutter={24}>
-            <Col span={12}>
-              <Field
-                label={t('aqiConfigSelect.label')}
-                name="aqiLocale"
-                size="large"
-                component={FSelectConfigAQI}
-              />
-            </Col>
+            
           </Row>
         </Container>
       </SearchFormContainer>

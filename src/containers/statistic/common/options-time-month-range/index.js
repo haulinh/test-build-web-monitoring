@@ -28,6 +28,7 @@ export default class OptionsMonth extends React.PureComponent {
     return (
       <div>
         <RangePicker
+          allowClear={false}
           disabledDate={this.disabledDate}
           defaultPickerValue={[moment().subtract(1, 'month'), moment()]}
           size="large"

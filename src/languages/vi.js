@@ -192,8 +192,7 @@ export default {
   wqi: {
     title: 'WQI',
     move: 'Di chuyển',
-    reference:
-      'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI',
+    reference: 'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI',
     form: {
       wqiKey: {
         label: 'Lựa chọn WQI',
@@ -201,6 +200,14 @@ export default {
         require: 'Vui lòng chọn WQI',
       },
     },
+    wqi_hour: {
+      header: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN WQI THEO GIỜ',
+      title: 'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.toDate}}'
+    },
+    wqi_day: {
+      header: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN WQI THEO NGÀY',
+      title: 'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.toDate}}'
+    }
   },
   wqiConfigCalculation: {
     pageName: 'Cấu hình tính toán WQI',
@@ -1799,6 +1806,26 @@ export default {
       error: 'cập nhật thất bại!',
     },
   },
+  configNotify: {
+    repeat: 'Lặp lại',
+    titleTable: {
+      status: 'Trạng thái',
+      notification: 'Thông báo',
+      frequency: 'Tần Suất',
+    },
+    DATA_STATUS: {
+      OVERLOAD: 'Vượt ngưỡng',
+      ABOUT_TO_OVERLOAD: 'Chuẩn bị vượt ngưỡng',
+      COLLECTING: 'Tốt',
+      LOST_CONNECTION: 'Mất tín hiệu',
+    },
+    DEVICE_STATUS: {
+      LOST_CONNECTION: 'Mất tín hiệu',
+      DEVICE_ERROR: 'Lỗi thiết bị',
+      CALIBRATE: 'Hiệu chuẩn',
+      COLLECTING: 'Đang đo',
+    },
+  },
   changePassword: {
     breadcrumb: {
       changePassword: 'Thay đổi mật khẩu',
@@ -2046,6 +2073,13 @@ export default {
       role: 'Nhóm quyền',
       user: 'Tài khoản',
       dataLogger: 'Xem nhật ký',
+      ConfigNotify: {
+        titleTable: {
+          status: 'Trạng thái',
+          notification: 'Thông báo',
+          frequency: 'Tần suất',
+        },
+      },
     },
 
     camera: 'Camera',
@@ -2193,7 +2227,7 @@ export default {
         'Tạo mới đơn vị quản lý trước khi tiến hành bước Tạo mới điểm quan trắc',
       standard:
         'Tạo mới quy chuẩn trước khi tiến hành bước Tạo mới điểm quan trắc',
-      role: 'Thêm mới nhưng nhóm quyền cần quản lý trong hệ thống',
+      role: 'Thêm mới những nhóm quyền cần quản lý trong hệ thống',
       user: 'Thêm mới và phân quyền tài khoản trong hệ thống',
       dataLogger: 'Lịch sử người dùng thao tác trong hệ thống',
     },

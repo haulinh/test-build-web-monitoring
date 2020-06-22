@@ -206,6 +206,14 @@ export default {
         require: 'Please Choose WQI',
       },
     },
+    wqi_hour: {
+      header: 'REPORT ON CALCULATION OF WQI BY HOURS',
+      title: 'The statistics for the WQI day math results by the period from {{= it.fromDate}} to {{= it.toDate}}'
+    },
+    wqi_day: {
+      header: 'REPORT ON CALCULATION OF WQI BY DAY',
+      title: 'The statistics for the WQI day math results by the period from {{= it.fromDate}} to {{= it.toDate}}'
+    }
   },
   wqiConfigCalculation: {
     pageName: 'Configure to WQI calculation',
@@ -1804,6 +1812,26 @@ export default {
     messageUpdate: {
       success: 'Update successfully!',
       error: 'Update failure!',
+    },
+  },
+  configNotify: {
+    repeat: 'Repeat',
+    titleTable: {
+      status: 'Status',
+      notification: 'Notification',
+      frequency: 'Frequency',
+    },
+    DATA_STATUS: {
+      OVERLOAD: 'Overload',
+      ABOUT_TO_OVERLOAD: 'About to overload',
+      COLLECTING: 'Collecting',
+      LOST_CONNECTION: 'Lost connection',
+    },
+    DEVICE_STATUS: {
+      LOST_CONNECTION: 'Lost connection',
+      DEVICE_ERROR: 'Device error',
+      CALIBRATE: 'Calibrate',
+      COLLECTING: 'Collecting',
     },
   },
   changePassword: {

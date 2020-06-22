@@ -8,7 +8,7 @@ import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import * as _ from 'lodash'
-import { message, Spin } from 'antd'
+import { message, Spin, Typography } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
@@ -16,7 +16,15 @@ import swal from 'sweetalert2'
 import { getListConfigWqi } from 'api/CategoryApi'
 import ReferencesComponent from 'components/elements/references'
 import slug from 'constants/slug'
+import moment from 'moment'
 // import moment from "moment-timezone";
+
+const { Title, Text } = Typography
+
+const i18n = {
+  header: translate('wqi.wqi_day.header'),
+  title: translate('wqi.wqi_day.title'),
+}
 
 @protectRole(ROLE.WQI_GIO.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -35,6 +43,7 @@ export default class WQIStatisticsDay extends React.Component {
     },
     wqiConfig: [],
     isLoaded: false,
+    isSearched: false
   }
 
   handleSubmitSearch(searchFormData) {
@@ -70,6 +79,7 @@ export default class WQIStatisticsDay extends React.Component {
       isLoading: false,
       dataWQI: _.reverse(_.get(dataWQI, 'data', [])),
       searchFormData: searchFormData,
+      isSearched: true
     })
   }
 
@@ -144,6 +154,8 @@ export default class WQIStatisticsDay extends React.Component {
         />
       )
 
+    const { fromDate, toDate } = this.state.searchFormData
+
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Spin
@@ -157,7 +169,19 @@ export default class WQIStatisticsDay extends React.Component {
             searchNow={this.props.formData.searchNow}
           />
           <Clearfix height={16} />
+          <div style={{  textAlign: 'center' }}>
+            <Title level={4}>{i18n.header}</Title>
+            {fromDate && toDate && (
+              <Text>
+              {translate('wqi.wqi_day.title', {
+                  fromDate: moment(fromDate).format('DD/MM/YYYY'),
+                  toDate: moment(toDate).format('DD/MM/YYYY'),
+                })}
+              </Text>
+            )}
+          </div>
           <TabList
+            isSearched={this.state.isSearched}
             isLoading={this.state.isLoading}
             dataWQI={this.state.dataWQI}
             pagination={this.state.pagination}

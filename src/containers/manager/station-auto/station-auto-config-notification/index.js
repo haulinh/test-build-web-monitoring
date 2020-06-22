@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Form, Checkbox, Button, message } from 'antd'
+import { Row, Form, Checkbox, Button, message, Tabs } from 'antd'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import _ from 'lodash'
@@ -18,8 +18,11 @@ import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import { STATION_AUTO_OPTIONS } from 'constants/labels'
 import swal from 'sweetalert2'
-
 import DynamicTable from 'components/elements/dynamic-table'
+
+import ConfigNotificationTab from './ConfigNotificationTab'
+
+const { TabPane } = Tabs
 
 const i18n = {
   breadCrumb: translate('configStation.breadCrumb'),
@@ -83,9 +86,13 @@ export default class StationAutoConfigNotification extends React.Component {
       isWarningIndeterminate: true,
       isSmsIndeterminate: true,
       isEmailIndeterminate: true,
+      isWebIndeterminate: true,
+      isMobileIndeterminate: true,
       isWarningCheckAll: false,
       isSmsCheckAll: false,
       isEmailCheckAll: false,
+      isWebCheckAll: false,
+      isMobileCheckAll: false,
     }
   }
 
@@ -101,48 +108,67 @@ export default class StationAutoConfigNotification extends React.Component {
     }
   }
 
+  callback = key => {
+    console.log(key)
+  }
+
   render() {
     return (
       <PageContainer>
         <Breadcrumb items={['configNotification']} />
+        <Tabs defaultActiveKey="1" onChange={this.callback}>
+          {/*Notification Tab*/}
+          <TabPane tab="Nhận thông báo" key="1">
+            {this.renderNotificationTab()}
+          </TabPane>
 
-        {/* FORM CONTROL */}
-        <Row style={{ marginBottom: 20 }}>
-          <StationAutoSearchForm
-            onChangeSearch={this.props.onChangeSearch}
-            initialValues={this.props.data}
-          />
-        </Row>
-
-        {/* TABLE */}
-        <Row style={{ marginBottom: 50 }}>
-          <DynamicTable
-            isFixedSize
-            isLoading={this.props.isLoading}
-            paginationOptions={{
-              isSticky: true,
-            }}
-            head={this.getHead()}
-            rows={this.getRows()}
-          />
-        </Row>
-
-        <Row style={{ marginBottom: 16 }}>
-          {/* NOTE  KHONG XOA, uncomment khi a @hung thay đổi yêu cầu */}
-          {/* <Button onClick={this.props.clearCache}>{i18n.cancel}</Button> */}
-          <Button
-            block
-            type="primary"
-            loading={this.state.isSave}
-            onClick={this.submitCache}
-            disabled={_.keys(this.state.cachedData).length === 0}
-          >
-            {i18n.submit}
-          </Button>
-        </Row>
+          {/*Config Notification Tab*/}
+          <TabPane tab="Cấu hình thông báo" key="2">
+            <ConfigNotificationTab />
+          </TabPane>
+        </Tabs>
       </PageContainer>
     )
   }
+
+  renderNotificationTab = () => (
+    <React.Fragment>
+      {/* FORM CONTROL */}
+      <Row style={{ marginBottom: 20 }}>
+        <StationAutoSearchForm
+          onChangeSearch={this.props.onChangeSearch}
+          initialValues={this.props.data}
+        />
+      </Row>
+
+      {/* TABLE */}
+      <Row style={{ marginBottom: 50 }}>
+        <DynamicTable
+          isFixedSize
+          isLoading={this.props.isLoading}
+          paginationOptions={{
+            isSticky: true,
+          }}
+          head={this.getHead()}
+          rows={this.getRows()}
+        />
+      </Row>
+
+      <Row style={{ marginBottom: 16 }}>
+        {/* NOTE  KHONG XOA, uncomment khi a @hung thay đổi yêu cầu */}
+        {/* <Button onClick={this.props.clearCache}>{i18n.cancel}</Button> */}
+        <Button
+          block
+          type="primary"
+          loading={this.state.isSave}
+          onClick={this.submitCache}
+          disabled={_.keys(this.state.cachedData).length === 0}
+        >
+          {i18n.submit}
+        </Button>
+      </Row>
+    </React.Fragment>
+  )
 
   getHead() {
     const isDisabledCheckAll =
@@ -210,6 +236,46 @@ export default class StationAutoConfigNotification extends React.Component {
         ),
         width: 10,
       },
+      {
+        content: (
+          <div>
+            <Checkbox
+              indeterminate={this.state.isWebIndeterminate}
+              checked={this.state.isWebCheckAll}
+              disabled={isDisabledCheckAll}
+              onChange={e =>
+                this.onChagedOptionOfHeader(
+                  STATION_AUTO_OPTIONS.WEB,
+                  e.target.checked
+                )
+              }
+            >
+              Web
+            </Checkbox>
+          </div>
+        ),
+        width: 10,
+      },
+      {
+        content: (
+          <div>
+            <Checkbox
+              indeterminate={this.state.isMobileIndeterminate}
+              checked={this.state.isMobileCheckAll}
+              disabled={isDisabledCheckAll}
+              onChange={e =>
+                this.onChagedOptionOfHeader(
+                  STATION_AUTO_OPTIONS.MOBILE,
+                  e.target.checked
+                )
+              }
+            >
+              Mobile
+            </Checkbox>
+          </div>
+        ),
+        width: 10,
+      },
     ]
   }
 
@@ -225,8 +291,10 @@ export default class StationAutoConfigNotification extends React.Component {
       ['asc']
     )
 
+    console.log('sourceSorted', sourceSorted)
+
     let stationCount = _.countBy(sourceSorted, 'stationType.key')
-    //logic return groupRow or groupRow and Row
+    //logic return groupRow or groupRow  and Row
     let result = [].concat.apply(
       [],
       sourceSorted.map((row, index) => {
@@ -327,6 +395,50 @@ export default class StationAutoConfigNotification extends React.Component {
               </div>
             ),
           },
+          /* checkbox Web */
+          {
+            content: (
+              <div>
+                <Checkbox
+                  disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
+                  checked={_.get(
+                    row,
+                    ['options', STATION_AUTO_OPTIONS.WEB, 'allowed'],
+                    false
+                  )}
+                  onChange={e =>
+                    this.onChagedOptionOfRow({
+                      row,
+                      key: STATION_AUTO_OPTIONS.WEB,
+                      value: e.target.checked,
+                    })
+                  }
+                />
+              </div>
+            ),
+          },
+          /* checkbox Mobile */
+          {
+            content: (
+              <div>
+                <Checkbox
+                  disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
+                  checked={_.get(
+                    row,
+                    ['options', STATION_AUTO_OPTIONS.MOBILE, 'allowed'],
+                    false
+                  )}
+                  onChange={e =>
+                    this.onChagedOptionOfRow({
+                      row,
+                      key: STATION_AUTO_OPTIONS.MOBILE,
+                      value: e.target.checked,
+                    })
+                  }
+                />
+              </div>
+            ),
+          },
         ]
         //check if Group exist or not
         if (row.stationType && stationTypeArr.indexOf(row.stationType.key) > -1)
@@ -365,9 +477,13 @@ export default class StationAutoConfigNotification extends React.Component {
         isWarningIndeterminate: false,
         isSmsIndeterminate: false,
         isEmailIndeterminate: false,
+        isWebIndeterminate: false,
+        isMobileIndeterminate: false,
         isWarningCheckAll: checked,
         isSmsCheckAll: checked,
         isEmailCheckAll: checked,
+        isWebCheckAll: checked,
+        isMobileCheckAll: checked,
       })
 
       let columns = _.values(STATION_AUTO_OPTIONS)
@@ -424,6 +540,20 @@ export default class StationAutoConfigNotification extends React.Component {
         this.setState({
           isEmailCheckAll: checked,
           isEmailIndeterminate: false,
+        })
+        break
+      }
+      case STATION_AUTO_OPTIONS.WEB: {
+        this.setState({
+          isWebCheckAll: checked,
+          isWebIndeterminate: false,
+        })
+        break
+      }
+      case STATION_AUTO_OPTIONS.MOBILE: {
+        this.setState({
+          isMobileCheckAll: checked,
+          isMobileIndeterminate: false,
         })
         break
       }
