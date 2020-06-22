@@ -41,7 +41,6 @@ const BrandName = styled.span`
 const WrapperIcon = styled.div`
   color: #333;
   padding-left: 162px;
-
 `
 export function LogoBrandName(props) {
   return (
@@ -62,7 +61,6 @@ export function LogoBrandName(props) {
         </WrapperIcon>
       </LogoContainer>
       <BrandName>{props.name}</BrandName>
-
     </Fragment>
   )
 }

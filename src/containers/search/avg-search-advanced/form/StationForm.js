@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import update from 'immutability-helper'
 import styled from 'styled-components'
-import { Collapse, Table, Select, Checkbox } from 'antd'
+import { Collapse, Table, Select, Checkbox, Button } from 'antd'
 import Clearfix from 'components/elements/clearfix'
 import { translate } from 'hoc/create-lang'
 
@@ -41,6 +41,7 @@ export default class StationForm extends React.PureComponent {
     stations: PropTypes.array,
     stationKeys: PropTypes.array,
     onChangeStationsData: PropTypes.func,
+    onSearchAvgData: PropTypes.func,
   }
 
   static defaultProps = {
@@ -54,6 +55,7 @@ export default class StationForm extends React.PureComponent {
       dataSource: this.getDataSource(),
       indeterminate: false,
       checkAll: true,
+      activeKey: '',
     }
   }
 
@@ -219,13 +221,44 @@ export default class StationForm extends React.PureComponent {
     )
   }
 
+  handleSearch = event => {
+    event.stopPropagation()
+    this.setState({ activeKey: '' })
+    this.props.onSearchAvgData()
+  }
+
+  rightChildren() {
+    return (
+      <Button
+        type="primary"
+        icon="search"
+        size="default"
+        onClick={this.handleSearch}
+      >
+        {translate('addon.search')}
+      </Button>
+    )
+  }
+
+  handleChangeActiveKey = key => {
+    this.setState({ activeKey: key })
+  }
+
   render() {
     const dataSource = this.state.dataSource
     const columns = this.getColumns()
     return (
       <StationFormWrapper>
-        <Collapse expandIconPosition="left">
-          <Panel header={this.renderHeading()} key="list">
+        <Collapse
+          expandIconPosition="left"
+          onChange={this.handleChangeActiveKey}
+          activeKey={this.state.activeKey}
+        >
+          <Panel
+            header={this.renderHeading()}
+            extra={this.rightChildren()}
+            key="list"
+          >
             <Table dataSource={dataSource} columns={columns} />
           </Panel>
         </Collapse>

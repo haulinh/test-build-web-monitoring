@@ -125,14 +125,14 @@ export default class MenuApp extends React.PureComponent {
     this.props.changeOpenSubMenu([menuExpande])
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     const pathname = this.props.location.pathname
     let pathObj = this.getPath(pathname)
 
     const nextPathname = nextProps.location.pathname
     let nextPathObj = this.getPath(nextPathname)
 
-    if(!isEqual(pathObj, nextPathObj)){
+    if (!isEqual(pathObj, nextPathObj)) {
       const menuSelect = nextPathname
       // let menuExpande = parentMenuFromSub[nextPathname] || parentMenuFromSub[nextPathObj.menuExpande]
       this.props.selectMenu(menuSelect)

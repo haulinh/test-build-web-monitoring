@@ -6,7 +6,7 @@ import moment from 'moment-timezone'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { reduxForm, Field, unregisterField, clearFields } from 'redux-form'
-import { Row, Col, Button, Dropdown, Icon, InputNumber } from 'antd'
+import { Row, Col, Dropdown, Icon, InputNumber } from 'antd'
 import update from 'immutability-helper'
 import createLang from 'hoc/create-lang'
 import SelectStationType from 'components/elements/select-station-type'
@@ -24,6 +24,7 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import FilterList from '../filter'
 import validate from '../utils/validate'
 import { listFilter } from '../constants'
+import QAQCSetup from '../drawer/QAQCSetup'
 // import AdvancedOperator from '../advanced-operator'
 // import Clearfix from 'components/elements/clearfix'
 
@@ -48,10 +49,25 @@ const HeaderWrapper = styled.div`
 
 const SearchFormContainer = styled(BoxShadowStyle)`
   padding: 0;
+  .ant-drawer-body {
+    padding: 0 !important;
+  }
 `
 
 const Container = styled.div`
   padding: 16px 16px;
+`
+
+const HeadingText = styled.span`
+  cursor: pointer;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  > .anticon {
+    padding-left: 8px;
+    font-size: 14px;
+  }
 `
 
 @connect((state, ownProps) => ({
@@ -89,6 +105,7 @@ export default class SearchAvgForm extends React.Component {
     searchNow: PropTypes.bool,
     onPreventSave: PropTypes.func,
     onSearchStationAuto: PropTypes.func,
+    onChangeSearchData: PropTypes.func,
     flagResetForm: PropTypes.bool,
   }
 
@@ -141,6 +158,7 @@ export default class SearchAvgForm extends React.Component {
   }
 
   async componentDidMount() {
+    this.handleChangeSearchData()
     if (this.props.searchNow) {
       let params = {
         stationType: this.props.initialValues.stationType,
@@ -151,12 +169,24 @@ export default class SearchAvgForm extends React.Component {
       }
       await this.props.onSearchStationAuto(params)
       this.props.handleSubmit(this.handleSubmit)()
-      // this.props.handleSubmit(this.props.onSubmit)()
     }
-    // if (this.props.searchNow) {
-    //   this.props.handleSubmit(this.handleSubmit)()
-    //   // this.props.handleSubmit(this.props.onSubmit)()
-    // }
+  }
+
+  handleChangeSearchData = () => {
+    const params = {
+      fromDate: this.convertDateToString(this.state.fromDate),
+      toDate: this.convertDateToString(this.state.toDate),
+      advanced: this.props.values.advanced
+        ? this.props.values.advanced.filter(
+            item =>
+              item.measuringKey &&
+              item.operator &&
+              item.value !== null &&
+              typeof item.value !== 'undefined'
+          )
+        : [],
+    }
+    this.props.onChangeSearchData(params)
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -196,6 +226,29 @@ export default class SearchAvgForm extends React.Component {
         frequent: nextProps.values.frequent,
       }
       await this.props.onSearchStationAuto(params)
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.fromDate !== prevState.fromDate ||
+      this.state.toDate !== prevState.toDate ||
+      !_.isEqual(this.props.values.advanced, prevProps.values.advanced)
+    ) {
+      const params = {
+        fromDate: this.convertDateToString(this.state.fromDate),
+        toDate: this.convertDateToString(this.state.toDate),
+        advanced: this.props.values.advanced
+          ? this.props.values.advanced.filter(
+              item =>
+                item.measuringKey &&
+                item.operator &&
+                item.value !== null &&
+                typeof item.value !== 'undefined'
+            )
+          : [],
+      }
+      this.props.onChangeSearchData(params)
     }
   }
 
@@ -458,16 +511,16 @@ export default class SearchAvgForm extends React.Component {
   //   }))
   // }
 
+  handleSetupQAQC = () => {
+    this.QAQCSetup.handleOpen()
+  }
+
   rightChildren() {
     return (
-      <Button
-        type="primary"
-        icon="search"
-        size="default"
-        onClick={this.props.handleSubmit(this.handleSubmit)}
-      >
-        {this.props.lang.t('addon.search')}
-      </Button>
+      <HeadingText onClick={this.handleSetupQAQC}>
+        {this.props.lang.t('qaqcConfig.title')}
+        <Icon type="down" />
+      </HeadingText>
     )
   }
 
@@ -623,6 +676,7 @@ export default class SearchAvgForm extends React.Component {
             </React.Fragment>
           ) : null} */}
         </Container>
+        <QAQCSetup ref={ref => (this.QAQCSetup = ref)} />
       </SearchFormContainer>
     )
   }

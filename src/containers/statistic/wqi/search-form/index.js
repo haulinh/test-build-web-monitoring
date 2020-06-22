@@ -109,7 +109,7 @@ export default class SearchForm extends React.Component {
       key: values.station,
       name: this.state.stationName,
       stationID: this.state.stationKey,
-      wqiKey: this.state.wqiKey
+      wqiKey: this.state.wqiKey,
     })
   }
 
@@ -227,7 +227,7 @@ export default class SearchForm extends React.Component {
           </Row>
           <Row gutter={24}>
             <Col span={12}>
-            <Field
+              <Field
                 label={translate('wqi.form.wqiKey.label')}
                 name="wqiKey"
                 size="large"

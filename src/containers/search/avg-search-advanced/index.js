@@ -132,20 +132,28 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState({ stationsData })
   }
 
-  handleSubmitSearch = searchData => {
+  handleSearchAvgData = searchData => {
     if (!this.state.stationKeys.length) {
       message.warn(translate('avgSearchFrom.table.emptyText'))
+      return
+    }
+    if (!searchData) {
+      this.setState({ isSearchingData: true })
       return
     }
     this.setState({ isSearchingData: true, searchData })
   }
 
-  handleSearchStation = searchData => {
+  handleChangeSearchData = searchData => {
+    this.setState({ searchData })
+  }
+
+  handleSearchStation = searchStationData => {
     return new Promise(resolve => {
       this.setState({ isSearchingStation: true }, async () => {
         const {
           data: stationKeys,
-        } = await DataStationAutoApi.searchStationAuto(searchData)
+        } = await DataStationAutoApi.searchStationAuto(searchStationData)
         if (stationKeys) {
           this.setState({ stationKeys, isSearchingStation: false })
           resolve(stationKeys)
@@ -184,12 +192,18 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState(prevState => ({ flagResetForm: !prevState.flagResetForm }))
   }
 
-  menu = () => (
-    <Menu>
-      <Menu.Item onClick={this.showModal}>{translate('addon.save')}</Menu.Item>
-      <Menu.Item onClick={this.resetForm}>{translate('addon.reset')}</Menu.Item>
-    </Menu>
-  )
+  menu = () => {
+    return (
+      <Menu>
+        <Menu.Item onClick={this.showModal}>
+          {translate('addon.save')}
+        </Menu.Item>
+        <Menu.Item onClick={this.resetForm}>
+          {translate('addon.reset')}
+        </Menu.Item>
+      </Menu>
+    )
+  }
 
   rightChildren() {
     if (!this.state.allowSave) return null
@@ -325,8 +339,9 @@ export default class AvgSearchAdvanced extends React.Component {
           <Col span={this.props.isOpenNavigation ? 24 : 19}>
             <SearchFrom
               flagResetForm={this.state.flagResetForm}
-              onSubmit={this.handleSubmitSearch}
+              onSubmit={this.handleSearchAvgData}
               onSearchStationAuto={this.handleSearchStation}
+              onChangeSearchData={this.handleChangeSearchData}
               initialValues={this.props.formData}
               searchNow={this.props.formData.searchNow}
               // advanced operator
@@ -341,6 +356,7 @@ export default class AvgSearchAdvanced extends React.Component {
             >
               <StationForm
                 onChangeStationsData={this.handleChangeStationsData}
+                onSearchAvgData={this.handleSearchAvgData}
                 stations={this.props.stations}
                 stationKeys={this.state.stationKeys}
               />

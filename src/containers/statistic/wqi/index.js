@@ -40,7 +40,7 @@ export default class WQIStatistics extends React.Component {
       current: 1,
       pageSize: 50,
     },
-    isSearched: false
+    isSearched: false,
   }
 
   handleSubmitSearch(searchFormData) {
@@ -72,7 +72,7 @@ export default class WQIStatistics extends React.Component {
       isLoading: false,
       dataAQI: _.get(dataAQI, 'data', []),
       searchFormData: searchFormData,
-      isSearched: true
+      isSearched: true,
     })
   }
 

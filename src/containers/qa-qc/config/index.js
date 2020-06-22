@@ -10,6 +10,7 @@ import {
   message,
   // Modal
 } from 'antd'
+import PropTypes from 'prop-types'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from '../breadcrumb'
 import { translate } from 'hoc/create-lang'
@@ -53,6 +54,11 @@ export default class QAQC_Config extends React.Component {
     this.getData = this.getData.bind(this)
   }
 
+  static propTypes = {
+    onCompleted: PropTypes.func,
+    isDrawer: PropTypes.bool,
+  }
+
   dataTable = []
 
   _renderDisconnection = () => (
@@ -64,13 +70,13 @@ export default class QAQC_Config extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
+        // console.log('Received values of form: ', values)
       }
       let measureConfig = await this.getData()
-      console.log('measureConfig', measureConfig)
+      // console.log('measureConfig', measureConfig)
 
       let response = null
-      console.log(this.state.configId, '(this.state.configId')
+      // console.log(this.state.configId, '(this.state.configId')
       if (this.state.configId) {
         response = await putConfigQAQC(this.state.configId, {
           measureConfig: {
@@ -96,7 +102,7 @@ export default class QAQC_Config extends React.Component {
         }
       } else message.error(response.message)
 
-      this.setState({ isLoading: false })
+      this.setState({ isLoading: false }, this.props.onCompleted)
     })
   }
 
@@ -111,7 +117,7 @@ export default class QAQC_Config extends React.Component {
   }
 
   onTabChange = (key, type) => {
-    console.log(key, type)
+    // console.log(key, type)
     this.setState({ activeTabkey: key })
   }
 
@@ -133,10 +139,9 @@ export default class QAQC_Config extends React.Component {
       } else {
         this.setState({ isDisconnection: true })
       }
-
+      let dataForm = {}
       let response = await getConfigQAQC()
       // console.log("response,", response)
-      let dataForm = {}
       if (response.success) {
         const data = _.get(response, 'data.value', null)
         // console.log("data,", response)
@@ -161,7 +166,7 @@ export default class QAQC_Config extends React.Component {
         setFieldsValue(dataForm)
       })
     } catch (e) {
-      console.log('qaqc service error', e.message)
+      // console.log('qaqc service error', e.message)
       this.setState({ isDisconnection: true })
     }
   }
@@ -196,16 +201,10 @@ export default class QAQC_Config extends React.Component {
     return result
   }
 
-  render() {
+  renderContent() {
     const { getFieldDecorator } = this.props.form
-    // console.log(this.state.isDisconnection, "this.state.isDisconnection")
     return (
-      <div>
-        <PageContainer
-          {...this.props.wrapperProps}
-          backgroundColor={'#fafbfb'}
-        />
-        <Breadcrumb items={['configNew']} />
+      <React.Fragment>
         {this.state.isDisconnection ? (
           this._renderDisconnection()
         ) : (
@@ -270,19 +269,37 @@ export default class QAQC_Config extends React.Component {
             </Card>
 
             <br />
-            <Button
-              loading={this.state.isLoading}
-              block
-              type="primary"
-              onClick={() => {
-                this.setState({ isLoading: true }, this.handleSubmit)
-              }}
-            >
-              {this.state.configId && i18n.btnEdit}
-              {!this.state.configId && i18n.btnSave}
-            </Button>
+            {this.state.isInitLoaded && (
+              <Button
+                loading={this.state.isLoading}
+                block
+                type="primary"
+                onClick={() => {
+                  this.setState({ isLoading: true }, this.handleSubmit)
+                }}
+              >
+                {this.state.configId && i18n.btnEdit}
+                {!this.state.configId && i18n.btnSave}
+              </Button>
+            )}
           </Form>
         )}
+      </React.Fragment>
+    )
+  }
+
+  render() {
+    if (this.props.isDrawer) {
+      return this.renderContent()
+    }
+    return (
+      <div>
+        <PageContainer
+          {...this.props.wrapperProps}
+          backgroundColor={'#fafbfb'}
+        />
+        <Breadcrumb items={['configNew']} />
+        {this.renderContent()}
       </div>
     )
   }
