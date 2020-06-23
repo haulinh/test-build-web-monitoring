@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { SHAPE } from 'themes/color'
+import { Tooltip } from 'antd'
+import { translate } from 'hoc/create-lang'
 import ChevronRight from '@atlaskit/icon/glyph/chevron-right'
 import ChevronLeft from '@atlaskit/icon/glyph/chevron-left'
 
@@ -49,13 +51,18 @@ const IconRight = styled.a`
 export default function ToggleResize({ onToggle, isShow }) {
   return (
     <ToggleResizeWrapper isShow={isShow} onClick={onToggle}>
-      <IconRight
-        href="#"
-        onClick={e => e.preventDefault()}
-        className="iconRight"
+      <Tooltip
+        placement={isShow ? 'left' : 'right'}
+        title={translate(`tooltipMenuApp.${isShow ? 'hideMenu' : 'showMenu'}`)}
       >
-        {isShow ? <ChevronLeft /> : <ChevronRight />}
-      </IconRight>
+        <IconRight
+          href="#"
+          onClick={e => e.preventDefault()}
+          className="iconRight"
+        >
+          {isShow ? <ChevronLeft /> : <ChevronRight />}
+        </IconRight>
+      </Tooltip>
     </ToggleResizeWrapper>
   )
 }

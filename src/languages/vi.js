@@ -2261,6 +2261,8 @@ export default {
       base:
         'Giám sát số liệu thời gian thực theo  danh sách tất cả điểm quan trắc',
     },
+    hideMenu: 'Ẩn menu',
+    showMenu: 'Hiện menu',
   },
   dataLogger: {
     breadcrumb: {

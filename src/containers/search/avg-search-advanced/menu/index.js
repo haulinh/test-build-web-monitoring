@@ -34,6 +34,7 @@ const MenuWrapper = styled(Col)`
   position: fixed;
   height: calc(100vh - 57px);
   width: ${MENU_WIDTH}px;
+  border-left: 1px solid #f1f1f1;
   z-index: 1;
   /* padding: 0 16px; */
   overflow: auto;
@@ -176,30 +177,32 @@ export default class FilterListMenu extends React.Component {
                 backgroundColor: '#F4F5F7',
               }}
               defaultSelectedKeys={[this.props.filterId]}
-              defaultOpenKeys={Object.keys(filters)}
+              defaultOpenKeys={[...Object.keys(filters), 'ALL']}
               mode="inline"
             >
-              {Object.keys(filters).map(filterKey => (
-                <SubMenu
-                  key={filterKey}
-                  title={
-                    this.getStationType(filterKey).name ||
-                    translate('dataSearchFilterForm.table.all')
-                  }
-                >
-                  {filters[filterKey].map(filter => (
-                    <Menu.Item
-                      onClick={this.handleClickFilterItem(filter._id)}
-                      key={filter._id}
-                    >
-                      {this.getHighlightedText(
-                        filter.name,
-                        this.state.highlightText
-                      )}
-                    </Menu.Item>
-                  ))}
-                </SubMenu>
-              ))}
+              {Object.keys(filters)
+                .sort()
+                .map(filterKey => (
+                  <SubMenu
+                    key={filterKey || 'ALL'}
+                    title={
+                      this.getStationType(filterKey).name ||
+                      translate('dataSearchFilterForm.table.all')
+                    }
+                  >
+                    {filters[filterKey].map(filter => (
+                      <Menu.Item
+                        onClick={this.handleClickFilterItem(filter._id)}
+                        key={filter._id}
+                      >
+                        {this.getHighlightedText(
+                          filter.name,
+                          this.state.highlightText
+                        )}
+                      </Menu.Item>
+                    ))}
+                  </SubMenu>
+                ))}
             </Menu>
           ) : null}
         </MenuWrapper>

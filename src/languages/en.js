@@ -2264,6 +2264,8 @@ export default {
       user: 'Add new and Assign Roles accounts in the system',
       dataLogger: 'The user history of operations in the system',
     },
+    hideMenu: 'Hide menu',
+    showMenu: 'Show menu',
   },
   dataLogger: {
     breadcrumb: {
