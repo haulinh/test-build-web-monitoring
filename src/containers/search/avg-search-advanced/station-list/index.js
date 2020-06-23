@@ -79,29 +79,25 @@ export default class TableList extends React.PureComponent {
   }
 
   componentDidMount() {
-    const stationKey =
-      this.props.stationsData &&
-      this.props.stationsData[0] &&
-      this.props.stationsData[0].key
+    const stationsData = this.getStationDataView(this.props.stationsData)
+    const stationKey = _.get(stationsData, '[0].key', undefined)
     if (!stationKey) return
     this.setState({ tabKey: stationKey })
     const searchFormData = this.getSearchFormData(stationKey)
     this.loadData(this.state.pagination, searchFormData)
   }
 
+  getStationDataView = stationsData => {
+    return stationsData.filter(station => station.view)
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(this.props.stationsData, nextProps.stationsData)) {
-      const stationKey =
-        this.props.stationsData &&
-        this.props.stationsData[0] &&
-        this.props.stationsData[0].key
+    const nextStationsDataView = this.getStationDataView(nextProps.stationsData)
+    const stationsDataView = this.getStationDataView(this.props.stationsData)
+    if (!_.isEqual(nextStationsDataView, stationsDataView)) {
+      const stationKey = _.get(nextStationsDataView, '[0].key', undefined)
       if (!stationKey) return
       const searchFormData = this.getSearchFormData(stationKey)
-      if (this.props.stationsData.time !== nextProps.stationsData.time) return
-      if (
-        this.props.stationsData.rangesDate !== nextProps.stationsData.rangesDate
-      )
-        return
       this.loadData(this.state.pagination, searchFormData)
     }
   }

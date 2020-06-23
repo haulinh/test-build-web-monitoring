@@ -3,10 +3,20 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import update from 'immutability-helper'
 import styled from 'styled-components'
-import { Collapse, Table, Select, Checkbox, Button, Input, Tooltip } from 'antd'
+import {
+  Collapse,
+  Table,
+  Select,
+  Checkbox,
+  Button,
+  Input,
+  Tooltip,
+  Icon,
+} from 'antd'
 import Clearfix from 'components/elements/clearfix'
 import { translate } from 'hoc/create-lang'
 import { replaceVietnameseStr } from 'utils/string'
+import Highlighter from 'react-highlight-words'
 
 const { Panel } = Collapse
 
@@ -62,6 +72,8 @@ export default class StationForm extends React.PureComponent {
       checkAll: true,
       activeKey: '',
       searchString: undefined,
+      searchText: '',
+      searchedColumn: '',
     }
   }
 
@@ -161,6 +173,85 @@ export default class StationForm extends React.PureComponent {
     )
   }
 
+  getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            this.searchInput = node
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() =>
+            this.handleSearch(selectedKeys, confirm, dataIndex)
+          }
+          style={{ width: 258, marginBottom: 8, display: 'block' }}
+        />
+        <Button
+          type="primary"
+          onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          icon="search"
+          size="small"
+          style={{ width: 125, marginRight: 8 }}
+        >
+          Search
+        </Button>
+        <Button
+          onClick={() => this.handleReset(clearFilters)}
+          size="small"
+          style={{ width: 125 }}
+        >
+          Reset
+        </Button>
+      </div>
+    ),
+    filterIcon: filtered => (
+      <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select())
+      }
+    },
+    render: text =>
+      this.state.searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[this.state.searchText]}
+          autoEscape
+          textToHighlight={text.toString()}
+        />
+      ) : (
+        text
+      ),
+  })
+
+  handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm()
+    this.setState({
+      searchText: selectedKeys[0],
+      searchedColumn: dataIndex,
+    })
+  }
+
+  handleReset = clearFilters => {
+    clearFilters()
+    this.setState({ searchText: '' })
+  }
+
   getColumns = () => {
     const indeterminate =
       !!this.state.dataSource.filter(data => data.view).length &&
@@ -174,6 +265,8 @@ export default class StationForm extends React.PureComponent {
         title: translate('avgSearchFrom.form.stationAuto.label'),
         dataIndex: 'name',
         key: 'name',
+        width: 230,
+        ...this.getColumnSearchProps('name'),
       },
       {
         title: translate('avgSearchFrom.form.measuringList.label'),
