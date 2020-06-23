@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Menu, Affix, Input } from 'antd'
+import { Col, Menu, Input } from 'antd'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -9,6 +9,8 @@ import protectRole from 'hoc/protect-role'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
+
+const MENU_WIDTH = 320
 
 const Search = Input.Search
 
@@ -29,8 +31,12 @@ const SearchWrapper = styled.div`
 `
 
 const MenuWrapper = styled(Col)`
-  background-color: #f4f5f7;
-  min-height: calc(100vh - 57px);
+  position: fixed;
+  height: calc(100vh - 57px);
+  width: ${MENU_WIDTH}px;
+  z-index: 1;
+  /* padding: 0 16px; */
+  overflow: auto;
   .ant-menu-item-group {
     .ant-menu-item-group-title {
       color: #333 !important;
@@ -142,58 +148,63 @@ export default class FilterListMenu extends React.Component {
     const filters = this.getFilterGroupByStationType()
     if (this.props.isOpenNavigation) return null
     return (
-      <MenuWrapper span={4}>
-        <Affix offsetTop={57}>
-          <div>
-            <SearchWrapper>
-              <Search
-                onChange={event => this.handleOnChangeSearch(event)}
-                placeholder={i18n.placeholderSearch}
-                onSearch={this.props.handleSearch}
-                style={{ width: '95%', marginTop: '10px' }}
-              />
-            </SearchWrapper>
-            <Menu
-              style={{
-                overflowX: 'hidden',
-                overflowY: 'auto',
-                backgroundColor: '#F4F5F7',
-              }}
-              defaultSelectedKeys={[this.props.filterId]}
-              defaultOpenKeys={['sub1']}
-              mode="inline"
+      <React.Fragment>
+        <Col
+          style={{
+            width: MENU_WIDTH,
+            backgroundColor: '#f4f5f7',
+            minHeight: 'calc(100vh - 57px)',
+          }}
+        />
+        <MenuWrapper span={5}>
+          <SearchWrapper>
+            <Search
+              onChange={event => this.handleOnChangeSearch(event)}
+              placeholder={i18n.placeholderSearch}
+              onSearch={this.props.handleSearch}
+              style={{ width: '95%', marginTop: '10px' }}
+            />
+          </SearchWrapper>
+          <Menu
+            style={{
+              overflowX: 'hidden',
+              overflowY: 'auto',
+              backgroundColor: '#F4F5F7',
+            }}
+            defaultSelectedKeys={[this.props.filterId]}
+            defaultOpenKeys={['sub1']}
+            mode="inline"
+          >
+            <SubMenu
+              key="sub1"
+              title={
+                <span style={{ marginLeft: 12, fontWeight: 600 }}>
+                  {i18n.titleSubMenuFilters}
+                </span>
+              }
             >
-              <SubMenu
-                key="sub1"
-                title={
-                  <span style={{ marginLeft: 12, fontWeight: 600 }}>
-                    {i18n.titleSubMenuFilters}
-                  </span>
-                }
-              >
-                {Object.keys(filters).map(filterKey => (
-                  <Menu.ItemGroup
-                    key={filterKey}
-                    title={this.getStationType(filterKey).name}
-                  >
-                    {filters[filterKey].map(filter => (
-                      <Menu.Item
-                        onClick={this.handleClickFilterItem(filter._id)}
-                        key={filter._id}
-                      >
-                        {this.getHighlightedText(
-                          filter.name,
-                          this.state.highlightText
-                        )}
-                      </Menu.Item>
-                    ))}
-                  </Menu.ItemGroup>
-                ))}
-              </SubMenu>
-            </Menu>
-          </div>
-        </Affix>
-      </MenuWrapper>
+              {Object.keys(filters).map(filterKey => (
+                <Menu.ItemGroup
+                  key={filterKey}
+                  title={this.getStationType(filterKey).name}
+                >
+                  {filters[filterKey].map(filter => (
+                    <Menu.Item
+                      onClick={this.handleClickFilterItem(filter._id)}
+                      key={filter._id}
+                    >
+                      {this.getHighlightedText(
+                        filter.name,
+                        this.state.highlightText
+                      )}
+                    </Menu.Item>
+                  ))}
+                </Menu.ItemGroup>
+              ))}
+            </SubMenu>
+          </Menu>
+        </MenuWrapper>
+      </React.Fragment>
     )
   }
 }

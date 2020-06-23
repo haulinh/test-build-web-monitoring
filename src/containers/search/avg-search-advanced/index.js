@@ -356,7 +356,7 @@ export default class AvgSearchAdvanced extends React.Component {
             handleSearch={this.handleSearch}
             filterId={this.props.formData.filterId}
           />
-          <Col span={this.props.isOpenNavigation ? 24 : 20}>
+          <Col style={{ flex: 1 }}>
             <SearchFrom
               flagResetForm={this.state.flagResetForm}
               onSubmit={this.handleSearchAvgData}
