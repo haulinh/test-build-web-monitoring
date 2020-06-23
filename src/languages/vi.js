@@ -776,6 +776,17 @@ export default {
       exportExcel: 'Xuất dữ liệu excel',
       statusExport: 'Đang xuất dữ liệu ...',
     },
+    tooltip: {
+      addCondition: 'Thêm điều kiện cho bộ lọc',
+      listStation: 'Danh sách các Trạm thoả mãn điều kiện lọc ở trên',
+      save: 'Lưu lại bộ lọc vừa tạo',
+      update: 'Cập nhật đè lên bộ lọc đang sửa',
+      saveNew: 'Lưu thành bộ lọc mới từ bộ lọc gốc đã có thay đổi',
+      reset: 'Quay lại cài đặt sẵn có của bộ lọc đang mở',
+      searchData: 'Tìm kiếm dữ liệu trung bình của Trạm được truy xuất',
+      configQAQC: 'Điều chỉnh cấu hình QAQC cho từng loại Trạm',
+      view: 'Tắt / bật cho phép truy xuất dữ liệu trung bình',
+    },
   },
   measuringManager: {
     list: {

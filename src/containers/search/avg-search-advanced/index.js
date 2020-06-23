@@ -1,5 +1,5 @@
 import React from 'react'
-import { Spin, Row, Col, message, Button, Menu, Dropdown } from 'antd'
+import { Spin, Row, Col, message, Button, Menu, Dropdown, Tooltip } from 'antd'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
@@ -195,12 +195,22 @@ export default class AvgSearchAdvanced extends React.Component {
   menu = () => {
     return (
       <Menu>
-        <Menu.Item onClick={this.showModal}>
-          {translate('addon.save')}
-        </Menu.Item>
-        <Menu.Item onClick={this.resetForm}>
-          {translate('addon.reset')}
-        </Menu.Item>
+        <Tooltip
+          placement="top"
+          title={translate('dataSearchFilterForm.tooltip.saveNew')}
+        >
+          <Menu.Item onClick={this.showModal}>
+            {translate('addon.save')}
+          </Menu.Item>
+        </Tooltip>
+        <Tooltip
+          placement="top"
+          title={translate('dataSearchFilterForm.tooltip.reset')}
+        >
+          <Menu.Item onClick={this.resetForm}>
+            {translate('addon.reset')}
+          </Menu.Item>
+        </Tooltip>
       </Menu>
     )
   }
@@ -213,14 +223,19 @@ export default class AvgSearchAdvanced extends React.Component {
           <span className="label">{translate('addon.edited')}</span>
           <Clearfix width={32} />
           <Button.Group>
-            <Button
-              type="primary"
-              icon="save"
-              size="default"
-              onClick={this.handleUpdateFilter}
+            <Tooltip
+              placement="top"
+              title={translate('dataSearchFilterForm.tooltip.update')}
             >
-              {translate('addon.update')}
-            </Button>
+              <Button
+                type="primary"
+                icon="save"
+                size="default"
+                onClick={this.handleUpdateFilter}
+              >
+                {translate('addon.update')}
+              </Button>
+            </Tooltip>
             <Dropdown overlay={this.menu()}>
               <Button type="primary" icon="down" />
             </Dropdown>
@@ -229,14 +244,19 @@ export default class AvgSearchAdvanced extends React.Component {
       )
     }
     return (
-      <Button
-        type="primary"
-        icon="save"
-        size="default"
-        onClick={this.showModal}
+      <Tooltip
+        placement="top"
+        title={translate('dataSearchFilterForm.tooltip.save')}
       >
-        {translate('addon.save')}
-      </Button>
+        <Button
+          type="primary"
+          icon="save"
+          size="default"
+          onClick={this.showModal}
+        >
+          {translate('addon.save')}
+        </Button>
+      </Tooltip>
     )
   }
 

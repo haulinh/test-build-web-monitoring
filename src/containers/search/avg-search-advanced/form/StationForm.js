@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import update from 'immutability-helper'
 import styled from 'styled-components'
-import { Collapse, Table, Select, Checkbox, Button, Input } from 'antd'
+import { Collapse, Table, Select, Checkbox, Button, Input, Tooltip } from 'antd'
 import Clearfix from 'components/elements/clearfix'
 import { translate } from 'hoc/create-lang'
 import { replaceVietnameseStr } from 'utils/string'
@@ -201,15 +201,20 @@ export default class StationForm extends React.PureComponent {
       },
       {
         title: () => (
-          <Flex>
-            <Checkbox
-              indeterminate={indeterminate}
-              onChange={this.onCheckAllChange}
-              checked={checkedAll}
-            />
-            <Clearfix width={12} />
-            {translate('avgSearchFrom.table.view')}
-          </Flex>
+          <Tooltip
+            placement="top"
+            title={translate('dataSearchFilterForm.tooltip.view')}
+          >
+            <Flex>
+              <Checkbox
+                indeterminate={indeterminate}
+                onChange={this.onCheckAllChange}
+                checked={checkedAll}
+              />
+              <Clearfix width={12} />
+              {translate('avgSearchFrom.table.view')}
+            </Flex>
+          </Tooltip>
         ),
         dataIndex: 'view',
         key: 'view',
@@ -228,11 +233,16 @@ export default class StationForm extends React.PureComponent {
 
   renderHeading() {
     return (
-      <Heading>
-        {translate('avgSearchFrom.stationForm.length', {
-          stationLength: this.state.dataSource.length,
-        })}
-      </Heading>
+      <Tooltip
+        placement="top"
+        title={translate('dataSearchFilterForm.tooltip.listStation')}
+      >
+        <Heading>
+          {translate('avgSearchFrom.stationForm.length', {
+            stationLength: this.state.dataSource.length,
+          })}
+        </Heading>
+      </Tooltip>
     )
   }
 
@@ -248,14 +258,19 @@ export default class StationForm extends React.PureComponent {
 
   rightChildren() {
     return (
-      <Button
-        type="primary"
-        icon="search"
-        size="large"
-        onClick={this.handleSearchAvgData}
+      <Tooltip
+        placement="top"
+        title={translate('dataSearchFilterForm.tooltip.searchData')}
       >
-        {translate('addon.search')}
-      </Button>
+        <Button
+          type="primary"
+          icon="search"
+          size="large"
+          onClick={this.handleSearchAvgData}
+        >
+          {translate('addon.search')}
+        </Button>
+      </Tooltip>
     )
   }
 

@@ -782,6 +782,17 @@ export default {
       exportExcel: 'Export To Excel',
       statusExport: 'Exporting ...',
     },
+    tooltip: {
+      addCondition: 'Add conditions for the filter',
+      listStation: 'List of stations that meet the above filter conditions',
+      save: 'Save the newly created filter',
+      update: 'Update override filter in progress',
+      saveNew: 'Save as new filter from changed original filter',
+      reset: 'Return to the currently open filter setting',
+      searchData: 'Search the AVG data of the retrieved Station',
+      configQAQC: 'Config QAQC for each Station type',
+      view: 'Turning off / on allows to retrieve AVG data',
+    },
   },
   measuringManager: {
     list: {

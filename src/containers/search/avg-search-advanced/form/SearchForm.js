@@ -6,9 +6,9 @@ import moment from 'moment-timezone'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { reduxForm, Field, unregisterField, clearFields } from 'redux-form'
-import { Row, Col, Dropdown, Icon, InputNumber } from 'antd'
+import { Row, Col, Dropdown, Icon, InputNumber, Tooltip } from 'antd'
 import update from 'immutability-helper'
-import createLang from 'hoc/create-lang'
+import createLang, { translate } from 'hoc/create-lang'
 import SelectStationType from 'components/elements/select-station-type'
 import SelectQCVN from 'components/elements/select-qcvn'
 import SelectAnt from 'components/elements/select-ant'
@@ -523,10 +523,15 @@ export default class SearchAvgForm extends React.Component {
 
   rightChildren() {
     return (
-      <HeadingText onClick={this.handleSetupQAQC}>
-        {this.props.lang.t('qaqcConfig.title')}
-        <Icon type="down" />
-      </HeadingText>
+      <Tooltip
+        placement="top"
+        title={translate('dataSearchFilterForm.tooltip.configQAQC')}
+      >
+        <HeadingText onClick={this.handleSetupQAQC}>
+          {this.props.lang.t('qaqcConfig.title')}
+          <Icon type="down" />
+        </HeadingText>
+      </Tooltip>
     )
   }
 
@@ -637,23 +642,28 @@ export default class SearchAvgForm extends React.Component {
               <HeaderWrapper
                 top={this.state.filterList.length % 4 === 0 ? 0 : 28}
               >
-                <Dropdown
-                  trigger={['click']}
-                  overlay={
-                    <FilterList
-                      initialValues={this.props.initialValues}
-                      onChange={this.handleChangeFilter}
-                    />
-                  }
+                <Tooltip
+                  placement="top"
+                  title={translate('dataSearchFilterForm.tooltip.addCondition')}
                 >
-                  <a
-                    className="ant-dropdown-link"
-                    onClick={e => e.preventDefault()}
+                  <Dropdown
+                    trigger={['click']}
+                    overlay={
+                      <FilterList
+                        initialValues={this.props.initialValues}
+                        onChange={this.handleChangeFilter}
+                      />
+                    }
                   >
-                    <Icon type="plus" />{' '}
-                    {this.props.lang.t('addon.addCondition')}
-                  </a>
-                </Dropdown>
+                    <a
+                      className="ant-dropdown-link"
+                      onClick={e => e.preventDefault()}
+                    >
+                      <Icon type="plus" />{' '}
+                      {this.props.lang.t('addon.addCondition')}
+                    </a>
+                  </Dropdown>
+                </Tooltip>
               </HeaderWrapper>
             </Col>
           </Row>
