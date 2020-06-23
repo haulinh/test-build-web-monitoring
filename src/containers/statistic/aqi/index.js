@@ -178,7 +178,7 @@ export default class AQIStatistics extends React.Component {
                   />
                   <Clearfix height={16} />
                   <div style={{ textAlign: 'center' }}>
-                    <Title level={4}>{ i18n.reportName.toUpperCase()}</Title>
+                    <Title level={4}>{i18n.reportName.toUpperCase()}</Title>
                     {fromDate && toDate && (
                       <Text>
                         {translate('statistic.aqi.searchName', {

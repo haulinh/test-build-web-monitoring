@@ -61,7 +61,7 @@ export default class StationForm extends React.PureComponent {
       indeterminate: false,
       checkAll: true,
       activeKey: '',
-      searchString: '',
+      searchString: undefined,
     }
   }
 
@@ -103,7 +103,7 @@ export default class StationForm extends React.PureComponent {
     stations = stations.filter(station =>
       this.props.stationKeys.includes(station.key)
     )
-    if (this.state.searchString) {
+    if (this.state && this.state.searchString) {
       const searchString = replaceVietnameseStr(this.state.searchString)
       stations = this.props.stations.filter(
         station => replaceVietnameseStr(station.name).indexOf(searchString) > -1

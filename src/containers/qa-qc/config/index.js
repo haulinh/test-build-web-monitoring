@@ -251,6 +251,10 @@ export default class QAQC_Config extends React.Component {
     return result
   }
 
+  handleOnChangeTabKey = activeTabkey => {
+    this.setState({ activeTabkey })
+  }
+
   renderContent() {
     const { getFieldDecorator } = this.props.form
     return (
@@ -293,7 +297,7 @@ export default class QAQC_Config extends React.Component {
               <Tabs
                 defaultActiveKey={this.state.activeTabkey}
                 activeKey={this.state.activeTabkey}
-                onChange={e => {}}
+                onChange={this.handleOnChangeTabKey}
               >
                 {this.state.tabList.map(tab => {
                   let measures = this.getMeasuringByType(tab.key)
