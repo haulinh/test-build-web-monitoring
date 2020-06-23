@@ -7,7 +7,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow'
 import DataStationAutoApi from 'api/DataStationAutoApi'
-import { translate } from 'hoc/create-lang'
 import TabList from '../tab-list'
 
 const TableListWrapper = styled(BoxShadow)`
@@ -115,9 +114,6 @@ export default class TableList extends React.PureComponent {
       if (dataStationAuto.error) {
         message.error('ERROR')
         return
-      }
-      if (!dataStationAuto.data.length) {
-        message.warn(translate('avgSearchFrom.table.emptyText'))
       }
       this.setState({
         isLoading: false,

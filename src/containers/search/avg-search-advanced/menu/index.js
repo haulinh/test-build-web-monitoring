@@ -10,7 +10,7 @@ import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
 
-const MENU_WIDTH = 320
+const MENU_WIDTH = 300
 
 const Search = Input.Search
 
@@ -52,6 +52,9 @@ const MenuWrapper = styled(Col)`
   }
   .ant-menu-submenu-title {
     padding-left: 4px !important;
+    color: #333 !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
   }
   .ant-menu.ant-menu-sub.ant-menu-inline {
     margin-left: 16px;
@@ -146,7 +149,7 @@ export default class FilterListMenu extends React.Component {
 
   render() {
     const filters = this.getFilterGroupByStationType()
-    if (this.props.isOpenNavigation) return null
+    // if (this.props.isOpenNavigation) return null
     return (
       <React.Fragment>
         <Col
@@ -156,7 +159,7 @@ export default class FilterListMenu extends React.Component {
             minHeight: 'calc(100vh - 57px)',
           }}
         />
-        <MenuWrapper span={5}>
+        <MenuWrapper>
           <SearchWrapper>
             <Search
               onChange={event => this.handleOnChangeSearch(event)}
@@ -165,28 +168,24 @@ export default class FilterListMenu extends React.Component {
               style={{ width: '95%', marginTop: '10px' }}
             />
           </SearchWrapper>
-          <Menu
-            style={{
-              overflowX: 'hidden',
-              overflowY: 'auto',
-              backgroundColor: '#F4F5F7',
-            }}
-            defaultSelectedKeys={[this.props.filterId]}
-            defaultOpenKeys={['sub1']}
-            mode="inline"
-          >
-            <SubMenu
-              key="sub1"
-              title={
-                <span style={{ marginLeft: 12, fontWeight: 600 }}>
-                  {i18n.titleSubMenuFilters}
-                </span>
-              }
+          {Object.keys(filters).length ? (
+            <Menu
+              style={{
+                overflowX: 'hidden',
+                overflowY: 'auto',
+                backgroundColor: '#F4F5F7',
+              }}
+              defaultSelectedKeys={[this.props.filterId]}
+              defaultOpenKeys={Object.keys(filters)}
+              mode="inline"
             >
               {Object.keys(filters).map(filterKey => (
-                <Menu.ItemGroup
+                <SubMenu
                   key={filterKey}
-                  title={this.getStationType(filterKey).name}
+                  title={
+                    this.getStationType(filterKey).name ||
+                    translate('dataSearchFilterForm.table.all')
+                  }
                 >
                   {filters[filterKey].map(filter => (
                     <Menu.Item
@@ -199,10 +198,10 @@ export default class FilterListMenu extends React.Component {
                       )}
                     </Menu.Item>
                   ))}
-                </Menu.ItemGroup>
+                </SubMenu>
               ))}
-            </SubMenu>
-          </Menu>
+            </Menu>
+          ) : null}
         </MenuWrapper>
       </React.Fragment>
     )

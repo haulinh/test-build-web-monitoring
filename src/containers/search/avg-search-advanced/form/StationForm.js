@@ -332,7 +332,8 @@ export default class StationForm extends React.PureComponent {
       >
         <Heading>
           {translate('avgSearchFrom.stationForm.length', {
-            stationLength: this.state.dataSource.length,
+            stationLength: this.state.dataSource.filter(station => station.view)
+              .length,
           })}
         </Heading>
       </Tooltip>
