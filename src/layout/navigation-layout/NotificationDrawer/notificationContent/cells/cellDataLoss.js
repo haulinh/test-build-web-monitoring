@@ -18,7 +18,7 @@ export default function DataLossCell(props) {
     <React.Fragment>
       <BoldTextWrap>{cellContent.shortBody} </BoldTextWrap>
       {i18n.station}
-      <BoldTextWrap> {cellContent.title}</BoldTextWrap>
+      <span> {cellContent.title}</span>
     </React.Fragment>
   )
 

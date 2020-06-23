@@ -18,14 +18,14 @@ export default function SensorGoodCell(props) {
     <React.Fragment>
       <BoldTextWrap>{i18n.sensorGood} </BoldTextWrap>
       {i18n.station}
-      <BoldTextWrap> {cellContent.title} </BoldTextWrap>
+      <span> {cellContent.title} </span>
       {i18n.device}
-      <BoldTextWrap> {cellContent.fullBody}</BoldTextWrap>
+      <span> {cellContent.fullBody}</span>
     </React.Fragment>
   )
 
   const icon = {
-    type: 'frown',
+    type: 'tool',
     color: 'red',
   }
 

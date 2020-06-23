@@ -18,7 +18,7 @@ export default function DataConnectedCell(props) {
     <React.Fragment>
       <BoldTextWrap>{i18n.dataConnected} </BoldTextWrap>
       <span style={{ fontSize: '16px' }}>{i18n.station}</span>
-      <BoldTextWrap> {cellContent.title}</BoldTextWrap>
+      <span> {cellContent.title}</span>
     </React.Fragment>
   )
 

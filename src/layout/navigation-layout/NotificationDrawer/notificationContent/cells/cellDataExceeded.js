@@ -18,9 +18,9 @@ export default function DataExceededCell(props) {
     <React.Fragment>
       <BoldTextWrap>{i18n.dataExeeded} </BoldTextWrap>
       {i18n.station}
-      <BoldTextWrap> {cellContent.title} </BoldTextWrap>
+      <span> {cellContent.title} </span>
       {i18n.measurings}
-      <BoldTextWrap> {cellContent.fullBody}</BoldTextWrap>
+      <span> {cellContent.fullBody}</span>
     </React.Fragment>
   )
 

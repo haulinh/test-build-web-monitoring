@@ -67,9 +67,11 @@ export default class DefaultCell extends React.Component {
         style={{
           padding: '20px',
           height: 100,
-          backgroundColor: isHoverOnCell ? '#0000001a' : null,
-          // ? '#fff'
-          // : '#edf2fa',
+          backgroundColor: isHoverOnCell
+            ? '#0000001a'
+            : isRead
+            ? '#fff'
+            : '#edf2fa',
           borderBottom: '1px solid #dddfe2',
           cursor: 'pointer',
         }}
@@ -131,7 +133,7 @@ export default class DefaultCell extends React.Component {
             <Col span={8}>
               {this.state.isHoverOnCell && (
                 <Icon
-                  style={{ fontSize: '18px' }}
+                  style={{ fontSize: '16px' }}
                   type="close-circle"
                   theme="filled"
                 />
@@ -139,12 +141,13 @@ export default class DefaultCell extends React.Component {
             </Col>
             <Col span={8}>
               <div
+                onClick={() => this._handleIsReadPointClick(data)}
                 style={{
                   borderWidth: '4px',
                   borderStyle: 'solid',
-                  width: '18px',
-                  height: '18px',
-                  borderRadius: 20,
+                  width: '16px',
+                  height: '16px',
+                  borderRadius: 16,
                   backgroundColor: !isRead ? '#0052cc' : '#ebecf0',
                   borderColor: '#ebecf0',
                 }}
@@ -163,6 +166,8 @@ export default class DefaultCell extends React.Component {
       </Menu.Item>
     </Menu>
   )
+
+  _handleIsReadPointClick = data => this.props.updateNotifyRead(data)
 
   _handleCellOnClick = data => {
     this.props.updateNotifyRead(data)
