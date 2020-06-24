@@ -18,6 +18,7 @@ export const UPDATE_CURRENT_PAGE = 'NOTIFICATION / UPDATE_CURRENT_PAGE'
 export const TOGGLE_VISIBLE_NOTIFICATION_DRAWER =
   'NOTIFICATION / TOGGLE_VISIBLE_NOTIFICATION_DRAWER'
 export const UPDATE_READ = 'NOTIFICATION / UPDATE_READ'
+export const UPDATE_ALL_READ = 'NOTIFICATION / UPDATE_All_READ'
 
 export function resetAllCounts() {
   return dispatch => {
@@ -191,6 +192,26 @@ export function updateNotifyRead(data) {
       dispatch({
         type: UPDATE_READ,
         payload: _id,
+      })
+    }
+  }
+}
+export function updateNotifyAllRead() {
+  return dispatch => {
+    /* TODO  update database */
+    dispatch({
+      type: UPDATE_ALL_READ,
+    })
+  }
+}
+export function updateAllNotifyRead() {
+  return async dispatch => {
+    /* TODO  update database */
+    let res = await FcmAPI.updateIsAllRead()
+
+    if (res.success) {
+      dispatch({
+        type: UPDATE_ALL_READ,
       })
     }
   }

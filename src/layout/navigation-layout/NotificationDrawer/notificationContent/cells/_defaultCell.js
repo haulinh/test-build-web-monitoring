@@ -9,7 +9,7 @@ import { translate } from 'hoc/create-lang'
 import { connectAutoDispatch } from 'redux/connect'
 import { updateNotifyRead } from 'redux/actions/notification'
 import { setDrawerVisible } from 'redux/actions/notification'
-
+import { connect } from 'react-redux'
 import { getConfigApi } from 'config'
 
 const i18n = {
@@ -31,7 +31,13 @@ const MultilineText = styled(Row)`
 `
 
 @withRouter
-@connectAutoDispatch(state => ({}), { updateNotifyRead, setDrawerVisible })
+@connectAutoDispatch(
+  state => ({ isMarkedReadAll: state.notification.isMarkedReadAll }),
+  {
+    updateNotifyRead,
+    setDrawerVisible,
+  }
+)
 export default class DefaultCell extends React.Component {
   static propTypes = {
     /* redux's props */
@@ -53,8 +59,24 @@ export default class DefaultCell extends React.Component {
   state = {
     isHoverOnCell: false,
   }
-
+  getNotificationColor() {
+    const { isHoverOnCell } = this.state
+    const { data } = this.props
+    const { isRead } = data
+    if (isHoverOnCell) return '#0000001a'
+    else if (this.props.isMarkedReadAll) return '#fff'
+    else if (isRead) return '#fff'
+    else return '#edf2fa'
+  }
+  getNotificationColorForIcon() {
+    const { data, isMarkedReadAll } = this.props
+    const { isRead } = data
+    if (!isRead) return '#0052cc'
+    else if (isMarkedReadAll) return '#ebecf0'
+    return '#ebecf0'
+  }
   render() {
+    console.log(this.props.isMarkedReadAll, 'abcc')
     const { isHoverOnCell } = this.state
     const { icon, content, data } = this.props
     const { receivedAt, isRead } = data
@@ -67,11 +89,7 @@ export default class DefaultCell extends React.Component {
         style={{
           padding: '20px',
           height: 100,
-          backgroundColor: isHoverOnCell
-            ? '#0000001a'
-            : isRead
-            ? '#fff'
-            : '#edf2fa',
+          backgroundColor: this.getNotificationColor(),
           borderBottom: '1px solid #dddfe2',
           cursor: 'pointer',
         }}
@@ -136,6 +154,7 @@ export default class DefaultCell extends React.Component {
                   style={{ fontSize: '16px' }}
                   type="close-circle"
                   theme="filled"
+                  onClick={this.onDelete}
                 />
               )}
             </Col>
@@ -148,7 +167,8 @@ export default class DefaultCell extends React.Component {
                   width: '16px',
                   height: '16px',
                   borderRadius: 16,
-                  backgroundColor: !isRead ? '#0052cc' : '#ebecf0',
+                  backgroundColor: this.getNotificationColorForIcon(),
+
                   borderColor: '#ebecf0',
                 }}
               />
@@ -159,6 +179,9 @@ export default class DefaultCell extends React.Component {
     )
   }
 
+  onDelete = () => {
+    console.log('abc')
+  }
   renderMenu = data => (
     <Menu>
       <Menu.Item onClick={() => this._navigateToDataSearch(data)}>
