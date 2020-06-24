@@ -16,7 +16,7 @@ export default class MapComponent extends React.Component {
           position: 'relative',
         }}
       >
-        <AqiLevelInfo />
+        <AqiLevelInfo locale={this.props.locale} />
         <MapView
           stationKey={this.props.stationKey}
           aqiLevel={this.props.aqiLevel}
