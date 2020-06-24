@@ -108,7 +108,7 @@ export default class AQIList extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props.aqiList, '--listConfigAQI--')
+    // console.log(this.props.aqiList, '--listConfigAQI--')
     return (
       <WrapperView>
         {this.props.listConfigAQI.length > 0 && (
