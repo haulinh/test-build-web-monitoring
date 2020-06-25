@@ -206,7 +206,7 @@ export default {
     type12: '/report/type12', // tỷ lệ dữ liệu vượt ngưỡng của 1 trạm
     status_data: '/report/status-data',
   },
-  advance:{
+  advance: {
     base: '/advance',
     mapAqi: '/advance/aqi-map',
     aqi_hour: '/advance/aqi-hour',
@@ -222,7 +222,6 @@ export default {
     configWqi: '/advance/wqi-config',
     configEditWqi: '/advance/wqi-config/:key',
     configWqiWithKey: '/advance/wqi-config',
-
   },
   dataLogger: {
     base: '/log',

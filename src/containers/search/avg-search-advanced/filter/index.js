@@ -30,20 +30,23 @@ export default class ListFilter extends React.PureComponent {
     this.state = {
       listFilter: listFilter.map(filter => ({
         ...filter,
-        checked: props.initialValues ? props.initialValues[filter.key] : false,
+        checked:
+          !!props.listFilter.find(fil => fil.key === filter.key) || false,
       })),
     }
   }
 
   handleOnChange = key => e => {
     const index = this.state.listFilter.findIndex(filter => filter.key === key)
+    const isChecked = e && e.target && e.target.checked && e.target.checked
+    if (index < 0) return
     this.setState(
       prevState =>
         update(prevState, {
           listFilter: {
             [index]: {
               checked: {
-                $set: e.target.checked,
+                $set: isChecked || !prevState.listFilter[index].checked,
               },
             },
           },

@@ -22,7 +22,9 @@ export default class CalendarCustom extends PureComponent {
   getReady() {
     if (!this.props.value) return moment(new Date(), this.getDateFormat())
     if (typeof this.props.value === 'string') {
-      return moment(this.props.value, this.getDateFormat())
+      if (moment(this.props.value, this.getDateFormat()).isValid()) {
+        return moment(this.props.value, this.getDateFormat())
+      } else return moment(new Date(this.props.value), this.getDateFormat())
     } else return this.props.value
   }
 
@@ -31,7 +33,6 @@ export default class CalendarCustom extends PureComponent {
   }
 
   render() {
-    // console.log( this.props.value," this.props.value")
     //khi xử dung Form của Ant getFieldDecorator thì giá trị mặc định luôn là
     const value = this.getReady()
     const format = this.getDateFormat()

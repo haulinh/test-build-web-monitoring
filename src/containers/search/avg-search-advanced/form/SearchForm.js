@@ -56,6 +56,24 @@ const SearchFormContainer = styled(BoxShadowStyle)`
   }
 `
 
+const Flex = styled.div`
+  position: relative;
+  :hover {
+    .remove-field {
+      display: initial;
+    }
+  }
+  .remove-field {
+    position: absolute;
+    display: none;
+    top: 10px;
+    right: 0;
+    :hover {
+      cursor: pointer;
+    }
+  }
+`
+
 const Container = styled.div`
   padding: 16px 16px;
 `
@@ -95,6 +113,7 @@ const HeadingText = styled.span`
   validate,
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
+  updateUnregisteredFields: true,
 })
 @connect((state, ownProps) => ({
   values: _.get(state, 'form.dataSearchFilterForm.values', {}),
@@ -178,9 +197,7 @@ export default class SearchAvgForm extends React.Component {
         dataStatus: this.props.initialValues.dataStatus,
         standardKey: this.props.initialValues.standardKey,
         frequent: this.props.initialValues.frequent,
-        activatedAt: this.convertDateToString(
-          this.props.initialValues.activatedAt
-        ),
+        activatedAt: this.props.initialValues.activatedAt,
         typeSampling: this.props.initialValues.typeSampling,
       }
       await this.props.onSearchStationAuto(params)
@@ -478,6 +495,7 @@ export default class SearchAvgForm extends React.Component {
             },
           }),
         () => {
+          change(filter.key, null)
           dispatch(unregisterField(form, filter.key))
           dispatch(clearFields(form, false, false, filter.key))
         }
@@ -544,6 +562,28 @@ export default class SearchAvgForm extends React.Component {
     this.QAQCSetup.handleOpen()
   }
 
+  handleRemoveField = filterKey => () => {
+    const { dispatch, form, change } = this.props
+    if (this.filterListRef) {
+      this.filterListRef.handleOnChange(filterKey)()
+    } else {
+      this.setState(
+        prevState =>
+          update(prevState, {
+            filterList: {
+              $apply: oldData =>
+                oldData.filter(filter => filter.key !== filterKey),
+            },
+          }),
+        () => {
+          change(filterKey, null)
+          dispatch(unregisterField(form, filterKey))
+          dispatch(clearFields(form, false, false, filterKey))
+        }
+      )
+    }
+  }
+
   rightChildren() {
     return (
       <Tooltip
@@ -573,7 +613,7 @@ export default class SearchAvgForm extends React.Component {
           {this.props.lang.t('addon.searchSelect')}
         </Heading>
         <Container>
-          <Row type="flex" gutter={[16, 24]} align="middle">
+          <Row type="flex" gutter={[16, 24]}>
             <Col span={6}>
               <Field
                 label={t(`province.label`)}
@@ -647,21 +687,29 @@ export default class SearchAvgForm extends React.Component {
             </Col>
             {this.state.filterList.map(filter => (
               <Col span={6} key={filter.key}>
-                <Field
-                  label={t(`${filter.key}.label`)}
-                  name={filter.key}
-                  size="large"
-                  showSearch
-                  style={{ width: '100%' }}
-                  // alowClear
-                  mode={filter.mode}
-                  options={this.state[filter.key]}
-                  placeholder={t(`${filter.key}.placeholder`)}
-                  component={this.getComponent(filter.key)}
-                />
+                <Flex>
+                  <Field
+                    label={t(`${filter.key}.label`)}
+                    name={filter.key}
+                    size="large"
+                    showSearch
+                    style={{ width: '100%' }}
+                    // alowClear
+                    mode={filter.mode}
+                    options={this.state[filter.key]}
+                    placeholder={t(`${filter.key}.placeholder`)}
+                    component={this.getComponent(filter.key)}
+                  />
+                  <Icon
+                    onClick={this.handleRemoveField(filter.key)}
+                    className="remove-field"
+                    type="close-circle"
+                    theme="filled"
+                  />
+                </Flex>
               </Col>
             ))}
-            <Col span={6}>
+            <Col span={6} style={{ alignSelf: 'center' }}>
               <HeaderWrapper
                 top={this.state.filterList.length % 4 === 0 ? 0 : 28}
               >
@@ -671,9 +719,11 @@ export default class SearchAvgForm extends React.Component {
                 >
                   <Dropdown
                     trigger={['click']}
+                    ref={ref => (this.a = ref)}
                     overlay={
                       <FilterList
-                        initialValues={this.props.initialValues}
+                        listFilter={this.state.filterList}
+                        ref={ref => (this.filterListRef = ref)}
                         onChange={this.handleChangeFilter}
                       />
                     }

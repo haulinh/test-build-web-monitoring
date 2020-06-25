@@ -124,7 +124,9 @@ export default {
           onClick={() => props.selectMenu(slug.advance.configAqi)}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.config.configAQI}>
-            <Link to={slug.advance.configAqi}>{MENU_NAME.config.configAQI}</Link>
+            <Link to={slug.advance.configAqi}>
+              {MENU_NAME.config.configAQI}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -136,7 +138,9 @@ export default {
           onClick={() => props.selectMenu(slug.advance.configWqi)}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.config.configWQI}>
-            <Link to={slug.advance.configWqi}>{MENU_NAME.config.configWQI}</Link>
+            <Link to={slug.advance.configWqi}>
+              {MENU_NAME.config.configWQI}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}

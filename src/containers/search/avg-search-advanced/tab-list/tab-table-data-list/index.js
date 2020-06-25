@@ -48,6 +48,8 @@ export default class TableDataList extends React.PureComponent {
       title: translate('avgSearchFrom.table.receivedAt'),
       dataIndex: 'receivedAt',
       key: 'receivedAt',
+      width: 170,
+      fixed: 'left',
       render(value, record) {
         return <div>{moment(record.date_utc).format(formatDate)}</div>
       },
@@ -59,6 +61,7 @@ export default class TableDataList extends React.PureComponent {
         // dataIndex: `measuringLogs.${measuring.key}`,
         dataIndex: `${measuring.key}`,
         key: measuring.key,
+        width: 120,
         align: 'right',
         render: value => {
           return <div>{getFormatNumber(value)}</div>
@@ -76,6 +79,7 @@ export default class TableDataList extends React.PureComponent {
           columns={this.getColumns()}
           {...this.props}
           locale={{ emptyText: translate('avgSearchFrom.table.emptyText') }}
+          scroll={{ x: 'max-content', y: 500 }}
         />
       </TableDataListWrapper>
     )
