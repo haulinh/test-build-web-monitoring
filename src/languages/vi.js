@@ -626,7 +626,7 @@ export default {
         label: 'Tên bộ lọc',
         placeholder: 'Nhập tên của bộ lọc',
         isEmpty: 'Vui lòng nhập tên bộ lòng',
-        isExist: 'Tên đã tổn tại',
+        isExist: 'Tên đã tồn tại',
       },
     },
   },
@@ -730,6 +730,14 @@ export default {
       },
       advanced: {
         label: 'Nâng cao',
+      },
+      activatedAt: {
+        label: 'Ngày hoạt động',
+        placeholder: 'Chọn ngày hoạt động',
+      },
+      typeSampling: {
+        label: 'Hình thức lấy mẫu',
+        placeholder: 'Chọn hình thức',
       },
     },
     table: {
@@ -2181,6 +2189,7 @@ export default {
     },
   },
   tooltipMenuApp: {
+    notification: 'Thông báo',
     dashboard:
       'Giám sát tổng quát các thông tin trạng thái số liệu của các trạm',
     monitoringSub:
@@ -2464,5 +2473,6 @@ export default {
   apps: {
     incidents: 'Quản lý sự cố',
     monitoring: 'Giám sát trực tuyến',
+    grafana: 'Công cụ biểu đồ',
   },
 }

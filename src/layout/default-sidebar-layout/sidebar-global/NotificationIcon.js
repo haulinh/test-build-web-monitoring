@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import NotificationIcon from '@atlaskit/icon/glyph/notification'
@@ -15,18 +15,30 @@ import {
 } from 'redux/actions/stationAuto'
 import NotificationDrawer from 'layout/navigation-layout/NotificationDrawer'
 import { SHAPE } from 'themes/color'
+import { Tooltip } from 'antd'
+import { translate } from 'hoc/create-lang'
 
 const NotificationWrapperIcon = styled.div`
-  width: 30px;
-  height: 30px;
+  color: #333
+  background-color: #e4e6eb;
+  width: 35px;
+  height: 35px;
+  border-radius: 17.5px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &:hover {
     cursor: pointer;
+  }
+  > span {
+    width: 24px;
+    height: 24px;
   }
   .badge {
     position: absolute;
     top: -4px;
-    right: -8px;
+    left: -8px;
     background-color: ${SHAPE.RED};
     font-size: 10px;
     border-radius: 8px;
@@ -57,7 +69,8 @@ export default class Notification extends React.PureComponent {
     this.props.getTotalActived()
   }
 
-  handleClickNotification() {
+  handleClickNotification(e) {
+    e.preventDefault()
     this.props.setDrawerVisible(true)
     this.props.resetAllCounts()
     this.props.clearTotalNotificationCount()
@@ -65,18 +78,23 @@ export default class Notification extends React.PureComponent {
 
   render() {
     return (
-      <div>
-        <NotificationWrapperIcon onClick={this.handleClickNotification}>
-          <NotificationIcon color="#fff" size="large" />
-          {this.props.notificationCount ? (
-            <div className="badge">{this.props.notificationCount}</div>
-          ) : null}
-        </NotificationWrapperIcon>
+      <Fragment>
         <NotificationDrawer
           closeDrawer={() => this.props.setDrawerVisible(false)}
           visible={this.props.drawerVisible}
         />
-      </div>
+        <Tooltip
+          placement={'bottom'}
+          title={translate(`tooltipMenuApp.notification`)}
+        >
+          <NotificationWrapperIcon onClick={this.handleClickNotification}>
+            <NotificationIcon color="#fff" size="large" />
+            {this.props.notificationCount ? (
+              <div className="badge">{this.props.notificationCount}</div>
+            ) : null}
+          </NotificationWrapperIcon>
+        </Tooltip>
+      </Fragment>
     )
   }
 }

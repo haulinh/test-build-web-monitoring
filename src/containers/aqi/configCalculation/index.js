@@ -98,7 +98,7 @@ export default class ConfigCalculationAQI extends PureComponent {
             {
               id: '1',
               name: i18n.pageName,
-              href: slug.aqi.config,
+              href: slug.advance.configAqi,
             },
             {
               id: '2',

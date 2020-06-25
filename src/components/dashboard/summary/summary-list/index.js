@@ -32,7 +32,7 @@ export default class SummaryList extends React.PureComponent {
         {this.props.data.map((item, index) => {
           if (item.number > 0) indexScroll++
           return (
-            <SummaryItemContainer key={item.name}>
+            <SummaryItemContainer key={item._id + index}>
               <SummaryItem
                 {...item}
                 stationTypeKey={item.key}

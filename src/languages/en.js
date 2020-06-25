@@ -737,6 +737,14 @@ export default {
       advanced: {
         label: 'Advanced',
       },
+      activatedAt: {
+        label: 'Activated At',
+        placeholder: 'Select an Activated date',
+      },
+      typeSampling: {
+        label: 'Form of sampling',
+        placeholder: 'Select form',
+      },
     },
     table: {
       receivedAt: 'Received At',
@@ -2184,6 +2192,7 @@ export default {
     },
   },
   tooltipMenuApp: {
+    notification: 'Notifications',
     dashboard: 'General monitoring of data status information of stations',
     monitoringSub:
       'Monitoring data of each station in real time and look up data',
@@ -2468,5 +2477,6 @@ export default {
   apps: {
     incidents: 'Incidents Communication',
     monitoring: 'Online Monitoring',
+    grafana: 'Data visualization',
   },
 }

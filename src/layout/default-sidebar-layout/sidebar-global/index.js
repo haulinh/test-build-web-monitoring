@@ -48,6 +48,12 @@ export default class SidebarGlobalLayout extends React.PureComponent {
             icon="appIncident"
             href={slug.apps.incidents}
           />
+          <AppItem
+            name={translate('apps.grafana')}
+            color="#e67e22"
+            icon="appGrafana"
+            href={slug.apps.grafana}
+          />
         </SidebarGlobal.SidebarTop>
         <SidebarGlobal.SidebarBottom>
           <UserDropdown />

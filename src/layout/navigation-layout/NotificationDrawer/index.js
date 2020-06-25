@@ -1,10 +1,46 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import { Drawer, Icon } from 'antd'
-
+import styled from 'styled-components'
+import { Drawer } from 'antd'
 import { connectAutoDispatch } from 'redux/connect'
 import { clearNotificationCountByType } from 'redux/actions/notification'
 import NotificationContent from './notificationContent'
+import NotificationIcon from '@atlaskit/icon/glyph/notification'
+import CrossIcon from '@atlaskit/icon/glyph/cross'
+
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .titleIconWrapper {
+    display: flex;
+    align-items: center;
+    h4 {
+      margin-bottom: 0px;
+      font-size: 22px;
+      margin-left: 8px;
+    }
+  }
+  .close {
+    color: #333 !important;
+  }
+`
+
+const NotificationWrapperIcon = styled.div`
+  color: #333
+  background-color: #e4e6eb;
+  width: 35px;
+  height: 35px;
+  border-radius: 17.5px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > span {
+    width: 24px;
+    height: 24px;
+  }
+`
 
 @connectAutoDispatch(state => ({}), { clearNotificationCountByType })
 export default class NotificationDrawer extends React.Component {
@@ -28,16 +64,17 @@ export default class NotificationDrawer extends React.Component {
           paddingLeft: 16,
         }}
         title={
-          <div>
-            <a
-              href="_blank"
-              onClick={this.closeDrawer}
-              style={{ paddingRight: '8px' }}
-            >
-              <Icon type="left" />
+          <TitleWrapper>
+            <div className="titleIconWrapper">
+              <NotificationWrapperIcon onClick={this.handleClickNotification}>
+                <NotificationIcon color="#fff" size="large" />
+              </NotificationWrapperIcon>
+              <h4>Notifications</h4>
+            </div>
+            <a className="close" href="_blank" onClick={this.closeDrawer}>
+              <CrossIcon />
             </a>
-            Notifications
-          </div>
+          </TitleWrapper>
         }
         placement="left"
         closable={false}

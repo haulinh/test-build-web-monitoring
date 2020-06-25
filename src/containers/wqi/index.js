@@ -183,7 +183,7 @@ export default class WqiContainer extends React.Component {
       return (
         <ReferencesComponent
           title={translate('wqi.reference')}
-          pathGoto={slug.wqi.config}
+          pathGoto={slug.advance.configWqi}
         />
       )
 

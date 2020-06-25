@@ -81,7 +81,7 @@ export default class NotificationDrawer extends React.Component {
         isSearchLoading: false,
       },
       () => {
-        this.props.loadNotificationsByType(0, stationAuto, this.state.txtSearch)
+        this.props.loadNotificationsByType(1, stationAuto, this.state.txtSearch)
       }
     )
   }, 300)
