@@ -229,6 +229,7 @@ export default {
   },
   apps: {
     incidents: '/apps/incidents',
+    grafana: '/apps/grafana',
   },
 }
 

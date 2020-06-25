@@ -59,6 +59,7 @@ firebase: {
 },
 apps: {
   incidents: process.env.APP_INCIDENTS_URL,
+  grafana: process.env.APP_GRAFANA_URL
 },
 isAdvanced: process.env.isAdvanced,
 defaultPage: process.env.DEFAULT_PAGE || '/',

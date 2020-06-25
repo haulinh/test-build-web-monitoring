@@ -15,6 +15,8 @@ const ToggleResizeWrapper = styled.div`
   bottom: 0px;
   display: block;
   z-index: 999;
+  border-right: 2px solid transparent;
+
   ${props =>
     !props.isShow
       ? `
@@ -25,6 +27,7 @@ const ToggleResizeWrapper = styled.div`
       : ''}
   &:hover {
     border-right: 2px solid ${SHAPE.PRIMARY};
+    cursor: ${props => (!props.isShow ? 'e-resize' : 'w-resize')};
     .iconRight {
       opacity: 1;
     }

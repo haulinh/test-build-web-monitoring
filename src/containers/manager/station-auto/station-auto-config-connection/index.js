@@ -255,18 +255,19 @@ export default class StationAutoConfigConnection extends React.Component {
         </Dropdown>
       )
     } else {
-      console.log('---row---: ', row)
+      // console.log('---row---: ', row)
       defaultComp = (
         <Row>
-          {protectRole(ROLE.CAU_HINH_KET_NOI.FTP_FLODER)(
+          {/* Trường nói không hiện chức năng này tạm thời */}
+          {/* {protectRole(ROLE.CAU_HINH_KET_NOI.FTP_FLODER)(
             <Link to={slug.stationAuto.configConnection.ftp + '/' + row._id}>
-              {t('stationAutoManager.list.actions.ftpFolder')}
+              {t('roleManager.rule.actions.fTPFloder')}
             </Link>
           )}
-          &nbsp;|&nbsp;
+          &nbsp;|&nbsp; */}
           {protectRole(ROLE.CAU_HINH_KET_NOI.FILE_MAPPING)(
             <Link to={slug.stationAuto.configConnection.file + '/' + row._id}>
-              {t('stationAutoManager.list.actions.fileMapping')}
+              {t('roleManager.rule.actions.fileMapping')}
             </Link>
           )}
         </Row>
