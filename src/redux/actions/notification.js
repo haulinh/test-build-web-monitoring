@@ -83,7 +83,11 @@ function updateDataSourceOnNewMsg(data) {
  * - load notification logs and update to redux
  */
 const ITEM_PER_PAGE = 20
-export function loadNotificationsByType(page, stations, search = undefined) {
+export function loadNotificationsByType(
+  page = 1,
+  stations,
+  search = undefined
+) {
   return async dispatch => {
     try {
       let res = await FcmAPI.loadNotificationsByType({

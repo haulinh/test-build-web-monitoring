@@ -70,10 +70,10 @@ const WindowInfo = ({
           borderRadius: '10px 10px 0px 0px',
           color: color,
           display: 'flex',
-          minWidth: 330
+          minWidth: 330,
         }}
       >
-        <Row style={{flex:1}}>
+        <Row style={{ flex: 1 }}>
           <Col
             span={6}
             style={{

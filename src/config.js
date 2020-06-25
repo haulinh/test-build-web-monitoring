@@ -77,6 +77,7 @@ export function getApps() {
   const config = window.config
   return {
     incidents: config.apps.incidents,
+    grafana: config.apps.grafana,
   }
 }
 

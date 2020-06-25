@@ -32,8 +32,8 @@ import { SIDEBAR_GLOBAL_WIDTH } from '../sidebar-global/style'
 import objectPath from 'object-path'
 import { isEqual } from 'lodash'
 
-export const SIDEBAR_MENU_WIDTH = 256
-export const SIDEBAR_MENU_MINIMAL_WIDTH = 16
+export const SIDEBAR_MENU_WIDTH = 275
+export const SIDEBAR_MENU_MINIMAL_WIDTH = 8
 
 export const LEFT_SIDEBAR_SHOW = SIDEBAR_GLOBAL_WIDTH
 export const LEFT_SIDEBAR_HIDE = -(
@@ -194,9 +194,7 @@ export default class MenuApp extends React.PureComponent {
           isShow={this.props.isShow}
           onToggle={this.props.onToggle}
         />
-        <Link to="/" id="logoBrandName">
-          <LogoBrandName />
-        </Link>
+        <LogoBrandName />
         <SimpleBarReact style={{ maxHeight: 'calc(100vh - 71.99px)' }}>
           <Menu
             onClick={this.handleClick}

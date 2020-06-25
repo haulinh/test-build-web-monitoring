@@ -2184,6 +2184,7 @@ export default {
     },
   },
   tooltipMenuApp: {
+    notification: 'Notifications',
     dashboard: 'General monitoring of data status information of stations',
     monitoringSub:
       'Monitoring data of each station in real time and look up data',
@@ -2468,5 +2469,6 @@ export default {
   apps: {
     incidents: 'Incidents Communication',
     monitoring: 'Online Monitoring',
+    grafana: 'Data visualization',
   },
 }

@@ -18,7 +18,7 @@ import {
 export const initialState = {
   visible: false,
   loading: true,
-  currentPage: 0,
+  currentPage: 1,
   count: 0,
   logs: [],
 }

@@ -55,6 +55,7 @@ import Layout from 'layout/default-sidebar-layout'
 import Report from 'containers/report'
 import DataLoggerPage from 'containers/data-logger'
 import AppIncidents from 'containers/apps/incidents'
+import AppGrafana from 'containers/apps/grafana'
 import PageAqiStatus from 'containers/aqi/aqi-list-status'
 
 import PageExpLicenseInfo from 'containers/license/exp-license-info'
@@ -82,6 +83,7 @@ export default class RouteDefault extends React.Component {
           <Route path={slug.user.expLicense} component={PageExpLicenseInfo} />
 
           <Route path={slug.apps.incidents} component={AppIncidents} />
+          <Route path={slug.apps.grafana} component={AppGrafana} />
 
           <Layout isShowSidebarMenu>
             <LayoutRoute path="/" exact component={OverviewDashboard} />

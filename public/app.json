@@ -13,7 +13,8 @@
     "key": "BG-eoUrbkgXVNWjNxXTfh2K_xn5JfCxFek3fmjKx-GXQC4uJ3EvWJ56ZHuXa-LvRL8IEINeA9H8JN7cM5LKXkQ4"
   },
   "apps": {
-    "incidents": "http://localhost:3002"
+    "incidents": "http://localhost:3002",
+    "grafana": "https://grafana.ilotusland.asia"
   },
   "isAdvanced": true,
   "defaultPage": "/map/aqi"
