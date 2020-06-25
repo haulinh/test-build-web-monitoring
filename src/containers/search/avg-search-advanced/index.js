@@ -194,23 +194,23 @@ export default class AvgSearchAdvanced extends React.Component {
 
   menu = () => {
     return (
-      <Menu>
-        <Tooltip
-          placement="top"
-          title={translate('dataSearchFilterForm.tooltip.saveNew')}
-        >
-          <Menu.Item onClick={this.showModal}>
+      <Menu style={{ width: 110 }}>
+        <Menu.Item style={{ padding: '8px 12px' }} onClick={this.showModal}>
+          <Tooltip
+            placement="left"
+            title={translate('dataSearchFilterForm.tooltip.saveNew')}
+          >
             {translate('addon.save')}
-          </Menu.Item>
-        </Tooltip>
-        <Tooltip
-          placement="top"
-          title={translate('dataSearchFilterForm.tooltip.reset')}
-        >
-          <Menu.Item onClick={this.resetForm}>
+          </Tooltip>
+        </Menu.Item>
+        <Menu.Item style={{ padding: '8px 12px' }} onClick={this.resetForm}>
+          <Tooltip
+            placement="left"
+            title={translate('dataSearchFilterForm.tooltip.reset')}
+          >
             {translate('addon.reset')}
-          </Menu.Item>
-        </Tooltip>
+          </Tooltip>
+        </Menu.Item>
       </Menu>
     )
   }

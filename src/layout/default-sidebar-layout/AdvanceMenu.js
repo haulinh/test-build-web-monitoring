@@ -29,38 +29,38 @@ export default {
       {/* // NOTE Báo cáo AQI - START */}
       {protectRole(ROLE.AQI.VIEW)(
         <Menu.Item
-          key={slug.map.aqi}
+          key={slug.advance.mapAqi}
           onClick={() => {
-            props.selectMenu(slug.map.aqi)
+            props.selectMenu(slug.advance.mapAqi)
           }}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.mapAQI}>
-            <Link to={slug.map.aqi}>{MENU_NAME.monitoring.mapAQI}</Link>
+            <Link to={slug.advance.mapAqi}>{MENU_NAME.monitoring.mapAQI}</Link>
           </Tooltip>
         </Menu.Item>
       )}
       {protectRole(ROLE.AQI_GIO.VIEW)(
         <Menu.Item
-          key={slug.report.aqi_hour}
+          key={slug.advance.aqi_hour}
           onClick={() => {
-            props.selectMenu(slug.report.aqi_hour)
+            props.selectMenu(slug.advance.aqi_hour)
           }}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.report.aqi_hour}>
-            <Link to={slug.report.aqi_hour}>{MENU_NAME.report.aqi_hour}</Link>
+            <Link to={slug.advance.aqi_hour}>{MENU_NAME.report.aqi_hour}</Link>
           </Tooltip>
         </Menu.Item>
       )}
 
       {protectRole(ROLE.AQI_NGAY.VIEW)(
         <Menu.Item
-          key={slug.report.aqi_day}
+          key={slug.advance.aqi_day}
           onClick={() => {
-            props.selectMenu(slug.report.aqi_day)
+            props.selectMenu(slug.advance.aqi_day)
           }}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.report.aqi_day}>
-            <Link to={slug.report.aqi_day}>{MENU_NAME.report.aqi_day}</Link>
+            <Link to={slug.advance.aqi_day}>{MENU_NAME.report.aqi_day}</Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -68,61 +68,63 @@ export default {
 
       {protectRole(ROLE.WQI.VIEW)(
         <Menu.Item
-          key={slug.wqi.base}
+          key={slug.advance.mapWqi}
           onClick={() => {
-            props.selectMenu(slug.wqi.base)
+            props.selectMenu(slug.advance.mapWqi)
           }}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.advance.wqiMap}>
-            <Link to={slug.wqi.base}>{MENU_NAME.advance.wqiMap}</Link>
+            <Link to={slug.advance.mapWqi}>{MENU_NAME.advance.wqiMap}</Link>
           </Tooltip>
         </Menu.Item>
       )}
       {protectRole(ROLE.WQI_GIO.VIEW)(
         <Menu.Item
-          key={slug.report.wqi_hour}
+          key={slug.advance.wqi_hour}
           onClick={() => {
-            props.selectMenu(slug.report.wqi_hour)
+            props.selectMenu(slug.advance.wqi_hour)
           }}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.advance.wqiHour}>
-            <Link to={slug.report.wqi_hour}>{MENU_NAME.advance.wqiHour}</Link>
+            <Link to={slug.advance.wqi_hour}>{MENU_NAME.advance.wqiHour}</Link>
           </Tooltip>
         </Menu.Item>
       )}
       {protectRole(ROLE.WQI_NGAY.VIEW)(
         <Menu.Item
-          key={slug.report.wqi_day}
+          key={slug.advance.wqi_day}
           onClick={() => {
-            props.selectMenu(slug.report.wqi_day)
+            props.selectMenu(slug.advance.wqi_day)
           }}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.advance.wqiDay}>
-            <Link to={slug.report.wqi_day}>{MENU_NAME.advance.wqiDay}</Link>
+            <Link to={slug.advance.wqi_day}>{MENU_NAME.advance.wqiDay}</Link>
           </Tooltip>
         </Menu.Item>
       )}
 
       {protectRole(ROLE.CONFIG_WQI.VIEW)(
         <Menu.Item
-          key={slug.configWQI.base}
+          key={slug.advance.enableAqiWqi}
           onClick={() => {
-            props.selectMenu(slug.configWQI.base)
+            props.selectMenu(slug.advance.enableAqiWqi)
           }}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.advance.config}>
-            <Link to={slug.configWQI.base}>{MENU_NAME.advance.config}</Link>
+            <Link to={slug.advance.enableAqiWqi}>
+              {MENU_NAME.advance.config}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
       {/* NOTE  CẤU HÌNH TÍNH TOÁN AQI */}
       {protectRole(ROLE.CAU_HINH_TINH_TOAN_AQI.VIEW)(
         <Menu.Item
-          key={slug.aqi.config}
-          onClick={() => props.selectMenu(slug.aqi.config)}
+          key={slug.advance.configAqi}
+          onClick={() => props.selectMenu(slug.advance.configAqi)}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.config.configAQI}>
-            <Link to={slug.aqi.config}>{MENU_NAME.config.configAQI}</Link>
+            <Link to={slug.advance.configAqi}>{MENU_NAME.config.configAQI}</Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -130,11 +132,11 @@ export default {
       {/* NOTE  CẤU HÌNH TÍNH TOÁN WQI */}
       {protectRole(ROLE.CAU_HINH_TINH_TOAN_WQI.VIEW)(
         <Menu.Item
-          key={slug.wqi.config}
-          onClick={() => props.selectMenu(slug.wqi.config)}
+          key={slug.advance.configWqi}
+          onClick={() => props.selectMenu(slug.advance.configWqi)}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.config.configWQI}>
-            <Link to={slug.wqi.config}>{MENU_NAME.config.configWQI}</Link>
+            <Link to={slug.advance.configWqi}>{MENU_NAME.config.configWQI}</Link>
           </Tooltip>
         </Menu.Item>
       )}

@@ -13,6 +13,7 @@ import SelectStationType from 'components/elements/select-station-type'
 import SelectQCVN from 'components/elements/select-qcvn'
 import SelectAnt from 'components/elements/select-ant'
 import SelectProvince from 'components/elements/select-province'
+import SelectDatePicker from 'components/elements/datetime-picker'
 import createValidateComponent from 'components/elements/redux-form-validate'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
@@ -36,6 +37,7 @@ const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectTimeRange = createValidateComponent(SelectTimeRange)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
+const FOptionsDatePicker = createValidateComponent(SelectDatePicker)
 
 const HeaderWrapper = styled.div`
   color: blue;
@@ -154,6 +156,16 @@ export default class SearchAvgForm extends React.Component {
         ...option,
         name: this.props.lang.t(option.label),
       })),
+      typeSampling: [
+        {
+          name: 'FTP',
+          value: 'FTP',
+        },
+        {
+          name: 'INVENTIA',
+          value: 'INVENTIA',
+        },
+      ],
     }
   }
 
@@ -166,6 +178,10 @@ export default class SearchAvgForm extends React.Component {
         dataStatus: this.props.initialValues.dataStatus,
         standardKey: this.props.initialValues.standardKey,
         frequent: this.props.initialValues.frequent,
+        activatedAt: this.convertDateToString(
+          this.props.initialValues.activatedAt
+        ),
+        typeSampling: this.props.initialValues.typeSampling,
       }
       await this.props.onSearchStationAuto(params)
       this.props.handleSubmit(this.handleSubmit)()
@@ -203,6 +219,8 @@ export default class SearchAvgForm extends React.Component {
           dataStatus: nextProps.values.dataStatus,
           standardKey: nextProps.values.standardKey,
           frequent: nextProps.values.frequent,
+          activatedAt: this.convertDateToString(nextProps.values.activatedAt),
+          typeSampling: nextProps.values.typeSampling,
         }
         await this.props.onSearchStationAuto(params)
         this.props.handleSubmit(this.handleSubmit)()
@@ -224,6 +242,8 @@ export default class SearchAvgForm extends React.Component {
         dataStatus: nextProps.values.dataStatus,
         standardKey: nextProps.values.standardKey,
         frequent: nextProps.values.frequent,
+        activatedAt: this.convertDateToString(nextProps.values.activatedAt),
+        typeSampling: nextProps.values.typeSampling,
       }
       await this.props.onSearchStationAuto(params)
     }
@@ -474,11 +494,14 @@ export default class SearchAvgForm extends React.Component {
       // case 'stationStatus':
       //   return FSelectAnt
       case 'dataStatus':
+      case 'typeSampling':
         return FSelectAnt
       case 'frequent':
         return FInputNumber
       case 'standardKey':
         return FSelectQCVN
+      case 'activatedAt':
+        return FOptionsDatePicker
       default:
         return FInputNumber
     }
@@ -631,7 +654,7 @@ export default class SearchAvgForm extends React.Component {
                   showSearch
                   style={{ width: '100%' }}
                   // alowClear
-                  mode="multiple"
+                  mode={filter.mode}
                   options={this.state[filter.key]}
                   placeholder={t(`${filter.key}.placeholder`)}
                   component={this.getComponent(filter.key)}

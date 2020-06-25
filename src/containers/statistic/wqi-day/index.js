@@ -150,7 +150,7 @@ export default class WQIStatisticsDay extends React.Component {
       return (
         <ReferencesComponent
           title={translate('wqi.reference')}
-          pathGoto={slug.wqi.config}
+          pathGoto={slug.advance.configWqi}
         />
       )
 

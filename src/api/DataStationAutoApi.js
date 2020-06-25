@@ -396,6 +396,8 @@ export function searchStationAuto({
   dataStatus,
   standardKey,
   frequent,
+  activatedAt,
+  typeSampling,
   ...props
 }) {
   let url = `${getDataStationAutoUrl(`station-key-custom?`)}`
@@ -406,6 +408,8 @@ export function searchStationAuto({
   if (standardKey && standardKey.length)
     url += `&standardKey=${standardKey.join(',')}`
   if (frequent) url += `&frequent=${frequent}`
+  if (activatedAt) url += `&activatedAt=${activatedAt}`
+  if (typeSampling) url += `&typeSampling=${typeSampling}`
   return getFetch(url)
 }
 
