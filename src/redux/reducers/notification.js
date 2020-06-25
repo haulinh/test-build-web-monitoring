@@ -126,8 +126,7 @@ function handleUpdateRead(state, id) {
   })
 }
 function handleUpdateAllRead(state) {
-  state.isMarkedReadAll = true
-  console.log(state.isMarkedReadAll, 'state')
+  console.log(state.logs.isRead, 'state')
   return state
 }
 
