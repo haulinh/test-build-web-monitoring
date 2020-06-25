@@ -23,7 +23,7 @@ export default function AqiListStatus(props) {
         extra={
           <Button
             onClick={() => {
-              window.location = slug.aqi.config
+              window.location = slug.advance.configAqi
             }}
             type="primary"
           >
