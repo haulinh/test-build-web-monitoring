@@ -120,7 +120,7 @@ export default class ListAQI extends React.Component {
       title: i18n.cauHinh,
       render: record => {
         return (
-          <Link to={slug.wqi.configWithKey + '/' + record.key}>
+          <Link to={slug.advance.configWqi + '/' + record.key}>
             {i18n.config}
           </Link>
         )

@@ -120,7 +120,7 @@ export default class ListAQI extends React.Component {
       title: i18n.cauHinh,
       render: record => {
         return (
-          <Link to={slug.aqi.configWithKey + '/' + record.key}>
+          <Link to={slug.advance.configAqiWithKey + '/' + record.key}>
             {i18n.config}
           </Link>
           // <a style={{ color: PRIMARY }} onClick={() => this.goConfig(record)}>
