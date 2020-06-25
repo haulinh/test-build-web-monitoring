@@ -737,6 +737,14 @@ export default {
       advanced: {
         label: 'Advanced',
       },
+      activatedAt: {
+        label: 'Activated At',
+        placeholder: 'Select an Activated date',
+      },
+      typeSampling: {
+        label: 'Form of sampling',
+        placeholder: 'Select form',
+      },
     },
     table: {
       receivedAt: 'Received At',

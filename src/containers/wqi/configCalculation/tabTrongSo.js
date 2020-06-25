@@ -47,7 +47,7 @@ const i18n = {
 
 const KEY = {
   weightParam: 'weightParam',
-  minimumNumber: 'minimumNumber'
+  minimumNumber: 'minimumNumber',
 }
 
 @Form.create({})
@@ -56,7 +56,16 @@ export default class TabTrongSo extends React.Component {
   state = {
     isLoaded: false,
     isSubmit: false,
-    dataSource: [{ key: KEY.weightParam, title: translate('wqiConfigCalculation.valWeightParam') }, { key: KEY.minimumNumber, title: translate('wqiConfigCalculation.valMinimumNumber') }],
+    dataSource: [
+      {
+        key: KEY.weightParam,
+        title: translate('wqiConfigCalculation.valWeightParam'),
+      },
+      {
+        key: KEY.minimumNumber,
+        title: translate('wqiConfigCalculation.valMinimumNumber'),
+      },
+    ],
     isLocked: false,
   }
 
@@ -65,7 +74,7 @@ export default class TabTrongSo extends React.Component {
       title: i18n.colGroupParam,
       dataIndex: 'title',
       key: 'title',
-      align: 'center'
+      align: 'center',
     },
     {
       title: i18n.colGroupI,
