@@ -112,25 +112,25 @@ export default class TabThongSo extends React.Component {
         )
       },
     },
-    {
-      title: i18n.colBatBuoc,
-      dataIndex: 'isrequired',
-      key: 'isrequired',
-      align: 'center',
-      width: 80,
-      render: (text, record, index) => {
-        const { getFieldDecorator } = this.props.form
-        return (
-          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
-            {getFieldDecorator(`payload[${record.key}].isrequired`, {
-              valuePropName: 'checked',
-            })(
-              <Checkbox style={{ display: 'flex', justifyContent: 'center' }} />
-            )}
-          </Form.Item>
-        )
-      },
-    },
+    // {
+    //   title: i18n.colBatBuoc,
+    //   dataIndex: 'isrequired',
+    //   key: 'isrequired',
+    //   align: 'center',
+    //   width: 80,
+    //   render: (text, record, index) => {
+    //     const { getFieldDecorator } = this.props.form
+    //     return (
+    //       <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
+    //         {getFieldDecorator(`payload[${record.key}].isrequired`, {
+    //           valuePropName: 'checked',
+    //         })(
+    //           <Checkbox style={{ display: 'flex', justifyContent: 'center' }} />
+    //         )}
+    //       </Form.Item>
+    //     )
+    //   },
+    // },
     {
       title: i18n.colBelongTemp,
       dataIndex: 'belongTemp',

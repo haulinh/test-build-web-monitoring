@@ -206,7 +206,7 @@ export default class WqiContainer extends React.Component {
               onChange={this.wqiKeyChange}
             >
               {wqiConfig.map(config => (
-                <Radio.Button value={config.key}>{config.name}</Radio.Button>
+                <Radio.Button key={config.key} value={config.key}>{config.name}</Radio.Button>
               ))}
             </Radio.Group>
             <InfoComponent
