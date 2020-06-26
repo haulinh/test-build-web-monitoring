@@ -84,6 +84,27 @@ export default class TabThongSo extends React.Component {
       },
     },
     {
+      title: i18n.colMeasure,
+      dataIndex: 'keyMeasure',
+      key: 'keyMeasure',
+      align: 'center',
+      render: (text, record, index) => {
+        const { getFieldDecorator } = this.props.form
+        return (
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
+            {getFieldDecorator(`payload[${record.key}].keyMeasure`, {
+              rules: [
+                {
+                  required: true,
+                  message: i18n.required,
+                },
+              ],
+            })(<this.SelectMeasure />)}
+          </Form.Item>
+        )
+      },
+    },
+    {
       title: i18n.colGroupParam,
       dataIndex: 'group',
       key: 'group',
