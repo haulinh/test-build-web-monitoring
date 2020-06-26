@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow'
 import DataStationAutoApi from 'api/DataStationAutoApi'
 import TabList from '../tab-list'
+import { translate } from 'hoc/create-lang'
 import { exportExcelMultipleStation } from 'api/DataStationAutoApi'
 
 const TableListWrapper = styled(BoxShadow)`
@@ -48,6 +49,7 @@ export default class TableList extends React.PureComponent {
       dataStationAuto: [],
       isLoading: false,
       isExporting: false,
+      isExportingAll: false,
       pagination: {
         current: 1,
         pageSize: 50,
@@ -161,10 +163,7 @@ export default class TableList extends React.PureComponent {
   }
 
   handleExportExcel() {
-    console.log('---------handleExportExcel ne')
-    // const station = this.getData(this.state.tabKey)
     const searchFormData = this.getSearchFormData(this.state.tabKey)
-    console.log(searchFormData, '-------searchFormData')
     this.setState({ isExporting: true }, async () => {
       let res = await DataStationAutoApi.getDataStationAutoExportAvg(
         searchFormData
@@ -179,35 +178,34 @@ export default class TableList extends React.PureComponent {
   }
 
   async handleExportAllStation() {
-    const allKeys = _.map(this.props.stationsData, item => item.key)
-    console.log(allKeys, '------allKeys')
-    let queryData = _.map(allKeys, async key => {
-      let searchFormData = await this.getSearchFormData(key)
+    const allKeys = this.props.stationsData.reduce((acc, station) => {
+      if (station.view) {
+        acc = [...acc, station.key]
+      }
+      return acc
+    }, [])
+    let queryData = _.map(allKeys, key => {
+      let searchFormData = this.getSearchFormData(key)
       searchFormData.from = searchFormData.fromDate
       searchFormData.to = searchFormData.toDate
       searchFormData.measuringList = searchFormData.measuringList.join(',')
-      searchFormData.measuringListUnitStr = searchFormData.measuringListUnitStr.join(',')
+      searchFormData.measuringListUnitStr = searchFormData.measuringListUnitStr.join(
+        ','
+      )
       return searchFormData
     })
-    queryData = await Promise.all(queryData)
     const body = {
-      stationsQuery: queryData
+      stationsQuery: queryData,
     }
-    this.setState({ isExporting: true }, async () => {
-      // let res = await DataStationAutoApi.getDataStationAutoExportAvg(
-      //   searchFormData
-      // )
+    this.setState({ isExportingAll: true }, async () => {
       let res = await exportExcelMultipleStation(body)
-      console.log(res, '------res')
       if (res.data) window.open(res.data, '_blank')
       else message.error(res.message)
 
       this.setState({
-        isExporting: false,
+        isExportingAll: false,
       })
     })
-    console.log(body, '---------quebodybodyryData')
-    // console.log(this.props.stationsData)
   }
 
   render() {
@@ -216,10 +214,16 @@ export default class TableList extends React.PureComponent {
     return (
       <TableListWrapper>
         <TitleWrapper>
-          <h4>Data Results</h4>
+          <h4>{translate('dataSearchFilterForm.table.heading')}</h4>
           <Button
+            icon="file-excel"
+            style={{ float: 'right', margin: '5px' }}
+            loading={this.state.isExportingAll}
             type="primary"
-            onClick={this.handleExportAllStation}>Xuất tất cả</Button>
+            onClick={this.handleExportAllStation}
+          >
+            {translate('avgSearchFrom.tab.exportExcelAll')}
+          </Button>
         </TitleWrapper>
 
         <Tabs

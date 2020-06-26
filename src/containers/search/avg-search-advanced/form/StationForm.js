@@ -79,7 +79,6 @@ export default class StationForm extends React.PureComponent {
 
   handleChange = () => {
     this.props.onChangeStationsData(this.state.dataSource)
-    console.log('this.state.dataSource', this.state.dataSource)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -160,7 +159,6 @@ export default class StationForm extends React.PureComponent {
   }
 
   onCheckAllChange = e => {
-    console.log(this.state.dataSource, '-----dataSource')
     this.setState(
       prevState =>
         update(prevState, {
@@ -172,7 +170,7 @@ export default class StationForm extends React.PureComponent {
           },
         }),
       this.handleChange
-      , () => console.log('this.state.dataSource', this.state.dataSource))
+    )
   }
 
   getColumnSearchProps = dataIndex => ({
@@ -182,39 +180,39 @@ export default class StationForm extends React.PureComponent {
       confirm,
       clearFilters,
     }) => (
-        <div style={{ padding: 8 }}>
-          <Input
-            ref={node => {
-              this.searchInput = node
-            }}
-            placeholder={`Search ${dataIndex}`}
-            value={selectedKeys[0]}
-            onChange={e =>
-              setSelectedKeys(e.target.value ? [e.target.value] : [])
-            }
-            onPressEnter={() =>
-              this.handleSearch(selectedKeys, confirm, dataIndex)
-            }
-            style={{ width: 258, marginBottom: 8, display: 'block' }}
-          />
-          <Button
-            type="primary"
-            onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
-            icon="search"
-            size="small"
-            style={{ width: 125, marginRight: 8 }}
-          >
-            Search
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            this.searchInput = node
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() =>
+            this.handleSearch(selectedKeys, confirm, dataIndex)
+          }
+          style={{ width: 258, marginBottom: 8, display: 'block' }}
+        />
+        <Button
+          type="primary"
+          onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          icon="search"
+          size="small"
+          style={{ width: 125, marginRight: 8 }}
+        >
+          Search
         </Button>
-          <Button
-            onClick={() => this.handleReset(clearFilters)}
-            size="small"
-            style={{ width: 125 }}
-          >
-            Reset
+        <Button
+          onClick={() => this.handleReset(clearFilters)}
+          size="small"
+          style={{ width: 125 }}
+        >
+          Reset
         </Button>
-        </div>
-      ),
+      </div>
+    ),
     filterIcon: filtered => (
       <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
     ),
@@ -237,8 +235,8 @@ export default class StationForm extends React.PureComponent {
           textToHighlight={text.toString()}
         />
       ) : (
-          text
-        ),
+        text
+      ),
   })
 
   handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -258,7 +256,7 @@ export default class StationForm extends React.PureComponent {
     const indeterminate =
       !!this.state.dataSource.filter(data => data.view).length &&
       this.state.dataSource.filter(data => data.view).length <
-      this.state.dataSource.length
+        this.state.dataSource.length
     const checkedAll =
       this.state.dataSource.filter(data => data.view).length ===
       this.state.dataSource.length

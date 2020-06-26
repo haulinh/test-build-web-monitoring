@@ -605,6 +605,7 @@ export default {
       data: 'Dữ liệu',
       chart: 'Biểu đồ',
       exportExcel: 'Xuất dữ liệu excel',
+      exportExcelAll: 'Xuất tất cả dữ liệu',
       statusExport: 'Đang xuất dữ liệu ...',
     },
     search: {
@@ -741,6 +742,7 @@ export default {
       },
     },
     table: {
+      heading: 'Kết quả dữ liệu',
       receivedAt: 'Thời gian',
       all: 'Tất cả',
       emptyText: 'Không có giá trị',

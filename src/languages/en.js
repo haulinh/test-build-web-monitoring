@@ -611,6 +611,7 @@ export default {
       data: 'Data',
       chart: 'Chart',
       exportExcel: 'Export To Excel',
+      exportExcelAll: 'Export all',
       statusExport: 'Exporting ...',
     },
     search: {
@@ -747,6 +748,7 @@ export default {
       },
     },
     table: {
+      heading: 'Data results',
       receivedAt: 'Received At',
       all: 'All',
       emptyText: 'There Are No Records To Display',
