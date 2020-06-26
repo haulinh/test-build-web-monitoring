@@ -26,8 +26,8 @@ import FilterList from '../filter'
 import validate from '../utils/validate'
 import { listFilter } from '../constants'
 import QAQCSetup from '../drawer/QAQCSetup'
-// import AdvancedOperator from '../advanced-operator'
-// import Clearfix from 'components/elements/clearfix'
+import AdvancedOperator from '../advanced-operator'
+import Clearfix from 'components/elements/clearfix'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectQCVN = createValidateComponent(SelectQCVN)
@@ -252,7 +252,9 @@ export default class SearchAvgForm extends React.Component {
     if (!_.isEqual(this.props.values, nextProps.values)) {
       if (
         this.props.values.type !== nextProps.values.type ||
-        this.props.values.rangesDate !== nextProps.values.rangesDate
+        this.props.values.rangesDate !== nextProps.values.rangesDate ||
+        !_.isEqual(this.props.values.dataStatus, nextProps.values.dataStatus) ||
+        !_.isEqual(this.props.values.advanced, nextProps.values.advanced)
       )
         return
       let params = {
@@ -529,38 +531,38 @@ export default class SearchAvgForm extends React.Component {
     }
   }
 
-  // getMeasuringList = () => {
-  //   const stations = this.props.stations.filter(station =>
-  //     this.props.stationKeys.includes(station.key)
-  //   )
-  //   const measuringList = stations.reduce((arr, station) => {
-  //     if (station.measuringList) {
-  //       arr = [...arr, ...station.measuringList]
-  //     }
-  //     return arr
-  //   }, [])
+  getMeasuringList = () => {
+    const stations = this.props.stations.filter(station =>
+      this.props.stationKeys.includes(station.key)
+    )
+    const measuringList = stations.reduce((arr, station) => {
+      if (station.measuringList) {
+        arr = [...arr, ...station.measuringList]
+      }
+      return arr
+    }, [])
 
-  //   // let measuringListKey = measuringList.map(measuring => measuring.key)
+    // let measuringListKey = measuringList.map(measuring => measuring.key)
 
-  //   // const measuringListKeyUnit = [...new Set(measuringListKey)]
-  //   const measuringListDuplicate = Object.values(
-  //     measuringList.reduce((acc, measuring) => {
-  //       let key = measuring.key
-  //       acc[key] = acc[key] || []
-  //       acc[key].push(measuring)
-  //       return acc
-  //     }, {})
-  //   ).reduce((acc, measuringByKey, index, array) => {
-  //     if (measuringByKey.length === stations.length) {
-  //       acc = [...acc, measuringByKey[0]]
-  //     }
-  //     return acc
-  //   }, [])
-  //   return measuringListDuplicate.map(measuring => ({
-  //     value: measuring.key,
-  //     name: measuring.name,
-  //   }))
-  // }
+    // const measuringListKeyUnit = [...new Set(measuringListKey)]
+    const measuringListDuplicate = Object.values(
+      measuringList.reduce((acc, measuring) => {
+        let key = measuring.key
+        acc[key] = acc[key] || []
+        acc[key].push(measuring)
+        return acc
+      }, {})
+    ).reduce((acc, measuringByKey, index, array) => {
+      // if (measuringByKey.length === stations.length) {
+      acc = [...acc, measuringByKey[0]]
+      // }
+      return acc
+    }, [])
+    return measuringListDuplicate.map(measuring => ({
+      value: measuring.key,
+      name: measuring.name,
+    }))
+  }
 
   handleSetupQAQC = () => {
     this.QAQCSetup.handleOpen()
@@ -603,7 +605,7 @@ export default class SearchAvgForm extends React.Component {
   }
 
   render() {
-    // const measuringList = this.getMeasuringList()
+    const measuringList = this.getMeasuringList()
     const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
     return (
       <SearchFormContainer>
@@ -744,15 +746,16 @@ export default class SearchAvgForm extends React.Component {
               </HeaderWrapper>
             </Col>
           </Row>
-          {/* {measuringList.length ? (
+          {measuringList.length ? (
             <React.Fragment>
               <Clearfix height={40} />
               <AdvancedOperator
                 onReset={this.handleResetAdvanced}
                 measuringList={measuringList}
+                value={this.props.values.advanced}
               />
             </React.Fragment>
-          ) : null} */}
+          ) : null}
         </Container>
         <QAQCSetup
           stationType={this.props.values.stationType}

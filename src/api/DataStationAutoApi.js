@@ -86,7 +86,6 @@ export function getDataStationAutoExportAvg({
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
   if (measuringListUnitStr)
     url += `&measuringListUnit=${measuringListUnitStr.join(',')}`
-  if (measuringList) url += `&measuringList=${measuringList.join(',')}`
   if (advanced && advanced.length)
     url += `&advanced=${JSON.stringify(advanced)}`
   if (dataStatus && dataStatus.length)
