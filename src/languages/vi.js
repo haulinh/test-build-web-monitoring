@@ -797,6 +797,8 @@ export default {
       searchData: 'Tìm kiếm dữ liệu trung bình của Trạm được truy xuất',
       configQAQC: 'Điều chỉnh cấu hình QAQC cho từng loại Trạm',
       view: 'Tắt / bật cho phép truy xuất dữ liệu trung bình',
+      searchStation: 'Tìm kiếm Trạm trong danh sách',
+      searchFilter: 'Tìm kiếm các bộ Lọc đã được tạo',
     },
   },
   measuringManager: {

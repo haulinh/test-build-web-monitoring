@@ -803,6 +803,8 @@ export default {
       searchData: 'Search the AVG data of the retrieved Station',
       configQAQC: 'Config QAQC for each Station type',
       view: 'Turning off / on allows to retrieve AVG data',
+      searchStation: 'Search for stations in the list',
+      searchFilter: 'Search for filters that have been created',
     },
   },
   measuringManager: {

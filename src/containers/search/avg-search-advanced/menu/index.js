@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Menu, Input } from 'antd'
+import { Col, Menu, Input, Tooltip } from 'antd'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -162,12 +162,16 @@ export default class FilterListMenu extends React.Component {
         />
         <MenuWrapper>
           <SearchWrapper>
-            <Search
-              onChange={event => this.handleOnChangeSearch(event)}
-              placeholder={i18n.placeholderSearch}
-              onSearch={this.props.handleSearch}
-              style={{ width: '95%', marginTop: '10px' }}
-            />
+            <Tooltip
+              title={translate('dataSearchFilterForm.tooltip.searchFilter')}
+            >
+              <Search
+                onChange={event => this.handleOnChangeSearch(event)}
+                placeholder={i18n.placeholderSearch}
+                onSearch={this.props.handleSearch}
+                style={{ width: '95%', marginTop: '10px' }}
+              />
+            </Tooltip>
           </SearchWrapper>
           {Object.keys(filters).length ? (
             <Menu

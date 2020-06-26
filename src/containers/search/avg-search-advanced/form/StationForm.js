@@ -210,7 +210,12 @@ export default class StationForm extends React.PureComponent {
       </div>
     ),
     filterIcon: filtered => (
-      <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+      <Tooltip title={translate('dataSearchFilterForm.tooltip.searchStation')}>
+        <Icon
+          type="search"
+          style={{ color: filtered ? '#1890ff' : undefined }}
+        />
+      </Tooltip>
     ),
     onFilter: (value, record) =>
       record[dataIndex]
