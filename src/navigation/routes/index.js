@@ -50,7 +50,7 @@ import advanceRoute from './advanceRoute'
 import DataLoggerPage from 'containers/data-logger'
 import AppIncidents from 'containers/apps/incidents'
 import AppGrafana from 'containers/apps/grafana'
-import PageAqiStatus from 'containers/aqi/aqi-list-status'
+// import PageAqiStatus from 'containers/aqi/aqi-list-status'
 
 import PageExpLicenseInfo from 'containers/license/exp-license-info'
 

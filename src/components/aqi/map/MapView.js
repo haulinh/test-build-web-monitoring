@@ -105,11 +105,8 @@ const WindowInfo = ({
 }
 
 const InfoBoxWrapper = styled.div`
-  .ant-popover-inner-content {
+  display .ant-popover-inner-content {
     padding: 0px;
-  }
-  .infoBox {
-    width: 'auto !important';
   }
 `
 

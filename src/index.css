@@ -107,4 +107,6 @@ li.ant-menu-item {
 .infoBox{
   width: auto !important;
   overflow: unset !important;
+  margin-left: -20px !important;
+  margin-top: -20px !important; 
 }
