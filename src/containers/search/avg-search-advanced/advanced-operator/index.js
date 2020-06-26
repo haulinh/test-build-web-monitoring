@@ -53,6 +53,7 @@ export default class AdvancedOperator extends React.PureComponent {
   // }
 
   handleCreate = index => () => {
+    if (!Array.isArray(this.props.value)) return
     const currentItem = this.props.value[index]
     if (
       _.isEmpty(_.get(currentItem, 'measuringKey', null)) ||

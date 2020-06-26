@@ -11,11 +11,7 @@ import {
   getFormatNumber,
   FORMAT_VALUE_MEASURING,
 } from 'constants/format-number'
-import {
-  // warningLevels,
-  // colorLevels,
-  getcolorMeasure,
-} from 'constants/warningLevels'
+import { getcolorMeasure as getColorMeasure } from 'constants/warningLevels'
 
 const TableDataListWrapper = styled.div`
   .ant-table-thead > tr > th {
@@ -63,37 +59,6 @@ export default class TableDataList extends React.PureComponent {
         return <div>{moment(record.date_utc).format(formatDate)}</div>
       },
     }
-
-    // const columnsMeasuring = this.props.measuringData.reduce(
-    //   (acc, measuring) => {
-    //     if (this.props.measuringList.includes(measuring.key)) {
-    //       const data = {
-    //         title: `${measuring.name} (${measuring.unit})`,
-    //         dataIndex: `measuringLogs.${measuring.key}`,
-    //         // dataIndex: `${measuring.key}`,
-    //         key: measuring.key,
-    //         width: 120,
-    //         align: 'right',
-    //         render: value => {
-    //           if (value === null || value === undefined) return <div />
-    //           let color = getcolorMeasure(value.value, measuring, SHAPE.BLACK)
-    //           return (
-    //             <div style={{ color: color }}>
-    //               {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
-    //             </div>
-    //           )
-    //         }
-
-    //         // render: value => {
-    //         //   return <div>{getFormatNumber(value)}</div>
-    //         // },
-    //       }
-    //       acc.push(data)
-    //     }
-    //     return acc
-    //   },
-    //   []
-    // )
     const columnsMeasuring = this.props.measuringData
       .filter(measuring => this.props.measuringList.includes(measuring.key))
       .map(measuring => ({
@@ -103,24 +68,11 @@ export default class TableDataList extends React.PureComponent {
         width: 120,
         align: 'right',
         render: value => {
-          if (value === null || value === undefined) return <div />
-          /* #region  MARK tạm thời k sử dụng thời điểm đó */
+          if (value === null || value === undefined) return <div>-</div>
 
-          // let color = SHAPE.BLACK
-          // if (
-          //   value.warningLevel &&
-          //   value.warningLevels !== warningLevels.GOOD
-          // ) {
-          //   color = colorLevels[value.warningLevel]
-          // }
-
-          /* #endregion */
-          let color = getcolorMeasure(value.value, measuring, SHAPE.BLACK)
-          // console.log('---------')
-          // console.log(measuring, color, value)
-          // Format number toLocalString(national)
+          let color = getColorMeasure(value.value, measuring, SHAPE.BLACK)
           return (
-            <div style={{ color: color }}>
+            <div style={{ color }}>
               {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
             </div>
           )
@@ -135,7 +87,7 @@ export default class TableDataList extends React.PureComponent {
       <TableDataListWrapper>
         <Table
           size="large"
-          rowKey="_id"
+          rowKey="date_utc"
           columns={this.getColumns()}
           {...this.props}
           locale={{ emptyText: translate('avgSearchFrom.table.emptyText') }}

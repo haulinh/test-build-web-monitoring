@@ -226,6 +226,28 @@ export default class SearchAvgForm extends React.Component {
   }
 
   async componentWillReceiveProps(nextProps) {
+    if (
+      this.state.fromDate !== nextProps.fromDate ||
+      this.state.toDate !== nextProps.toDate ||
+      !_.isEqual(this.props.values.advanced, nextProps.values.advanced) ||
+      !_.isEqual(this.props.values.dataStatus, nextProps.values.dataStatus)
+    ) {
+      const params = {
+        fromDate: this.convertDateToString(this.state.fromDate),
+        toDate: this.convertDateToString(this.state.toDate),
+        dataStatus: nextProps.values.dataStatus,
+        advanced: nextProps.values.advanced
+          ? nextProps.values.advanced.filter(
+              item =>
+                item.measuringKey &&
+                item.operator &&
+                item.value !== null &&
+                typeof item.value !== 'undefined'
+            )
+          : [],
+      }
+      this.props.onChangeSearchData(params)
+    }
     if (!_.isEqual(nextProps.initialValues, this.props.initialValues)) {
       const filterList = listFilter.filter(
         filter => nextProps.initialValues[filter.key]
@@ -241,7 +263,7 @@ export default class SearchAvgForm extends React.Component {
           frequent: nextProps.values.frequent,
           activatedAt: this.convertDateToString(nextProps.values.activatedAt),
           typeSampling: nextProps.values.typeSampling,
-          dataStatus: nextProps.values.dataStatus,
+          // dataStatus: nextProps.values.dataStatus,
         }
         await this.props.onSearchStationAuto(params)
         this.props.handleSubmit(this.handleSubmit)()
@@ -262,37 +284,12 @@ export default class SearchAvgForm extends React.Component {
       let params = {
         stationType: nextProps.values.stationType,
         provinceKey: nextProps.values.provinceKey,
-        // dataStatus: nextProps.values.dataStatus,
         standardKey: nextProps.values.standardKey,
         frequent: nextProps.values.frequent,
         activatedAt: this.convertDateToString(nextProps.values.activatedAt),
         typeSampling: nextProps.values.typeSampling,
       }
       await this.props.onSearchStationAuto(params)
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      this.state.fromDate !== prevState.fromDate ||
-      this.state.toDate !== prevState.toDate ||
-      !_.isEqual(this.props.values.advanced, prevProps.values.advanced)
-    ) {
-      const params = {
-        fromDate: this.convertDateToString(this.state.fromDate),
-        toDate: this.convertDateToString(this.state.toDate),
-        dataStatus: this.props.values.dataStatus,
-        advanced: this.props.values.advanced
-          ? this.props.values.advanced.filter(
-              item =>
-                item.measuringKey &&
-                item.operator &&
-                item.value !== null &&
-                typeof item.value !== 'undefined'
-            )
-          : [],
-      }
-      this.props.onChangeSearchData(params)
     }
   }
 
