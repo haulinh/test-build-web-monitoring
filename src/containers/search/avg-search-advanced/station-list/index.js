@@ -1,6 +1,6 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { Tabs, message, Button } from 'antd'
+import { Tabs, message } from 'antd'
 import _ from 'lodash'
 import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
@@ -224,7 +224,7 @@ export default class TableList extends React.PureComponent {
       <TableListWrapper>
         <TitleWrapper>
           <h4>{translate('dataSearchFilterForm.table.heading')}</h4>
-          <Button
+          {/* <Button
             icon="file-excel"
             style={{ float: 'right', margin: '5px' }}
             loading={this.state.isExportingAll}
@@ -232,7 +232,7 @@ export default class TableList extends React.PureComponent {
             onClick={this.handleExportAllStation}
           >
             {translate('avgSearchFrom.tab.exportExcelAll')}
-          </Button>
+          </Button> */}
         </TitleWrapper>
 
         <Tabs
@@ -251,9 +251,11 @@ export default class TableList extends React.PureComponent {
                 pagination={this.state.pagination}
                 onChangePage={this.handleChangePage}
                 onExportExcel={this.handleExportExcel}
+                onExportExcelAll={this.handleExportAllStation}
                 nameChart={station.name}
                 typeReport={`${station.name}`}
                 isExporting={this.state.isExporting}
+                isExportingAll={this.state.isExportingAll}
               />
             </Tabs.TabPane>
           ))}
