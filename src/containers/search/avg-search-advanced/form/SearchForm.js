@@ -28,6 +28,8 @@ import { listFilter } from '../constants'
 import QAQCSetup from '../drawer/QAQCSetup'
 import AdvancedOperator from '../advanced-operator'
 import Clearfix from 'components/elements/clearfix'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectQCVN = createValidateComponent(SelectQCVN)
@@ -591,7 +593,7 @@ export default class SearchAvgForm extends React.Component {
   }
 
   rightChildren() {
-    return (
+    return protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.EDIT)(
       <Tooltip
         placement="top"
         title={translate('dataSearchFilterForm.tooltip.configQAQC')}
@@ -757,10 +759,12 @@ export default class SearchAvgForm extends React.Component {
             </React.Fragment>
           ) : null}
         </Container>
-        <QAQCSetup
-          stationType={this.props.values.stationType}
-          ref={ref => (this.QAQCSetup = ref)}
-        />
+        {protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.EDIT)(
+          <QAQCSetup
+            stationType={this.props.values.stationType}
+            ref={ref => (this.QAQCSetup = ref)}
+          />
+        )}
       </SearchFormContainer>
     )
   }
