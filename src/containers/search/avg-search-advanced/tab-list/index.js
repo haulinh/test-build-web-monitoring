@@ -35,9 +35,11 @@ export default class TableList extends React.PureComponent {
     nameChart: PropTypes.string,
     isExporting: PropTypes.bool,
     typeReport: PropTypes.string,
+    isActive: PropTypes.bool,
   }
 
   render() {
+    if (!this.props.isActive) return null
     return (
       <TableListWrapper>
         <ButtonAbsolute>
@@ -63,6 +65,7 @@ export default class TableList extends React.PureComponent {
               pagination={this.props.pagination}
               onChange={this.props.onChangePage}
               typeReport={this.props.typeReport}
+              nameChart={this.props.nameChart}
             />
           </Tabs.TabPane>
           <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">

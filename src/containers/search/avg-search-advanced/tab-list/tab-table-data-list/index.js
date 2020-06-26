@@ -54,20 +54,29 @@ export default class TableDataList extends React.PureComponent {
         return <div>{moment(record.date_utc).format(formatDate)}</div>
       },
     }
-    const columnsMeasuring = this.props.measuringData
-      .filter(measuring => this.props.measuringList.includes(measuring.key))
-      .map(measuring => ({
-        title: `${measuring.name} (${measuring.unit})`,
-        // dataIndex: `measuringLogs.${measuring.key}`,
-        dataIndex: `${measuring.key}`,
-        key: measuring.key,
-        width: 120,
-        align: 'right',
-        render: value => {
-          return <div>{getFormatNumber(value)}</div>
-        },
-      }))
-    return [columnReceivedAt, ...columnsMeasuring]
+
+    const columnsMeasuring = this.props.measuringData.reduce(
+      (acc, measuring) => {
+        if (this.props.measuringList.includes(measuring.key)) {
+          const data = {
+            title: `${measuring.name} (${measuring.unit})`,
+            // dataIndex: `measuringLogs.${measuring.key}`,
+            dataIndex: `${measuring.key}`,
+            key: measuring.key,
+            width: 120,
+            align: 'right',
+            render: value => {
+              return <div>{getFormatNumber(value)}</div>
+            },
+          }
+          acc.push(data)
+        }
+        return acc
+      },
+      []
+    )
+    const columnData = [columnReceivedAt, ...columnsMeasuring]
+    return columnData
   }
 
   render() {

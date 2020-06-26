@@ -94,7 +94,6 @@ export default class TableList extends React.PureComponent {
   }
 
   componentDidMount() {
-    console.log('alo alo')
     const stationsData = this.getStationDataView(this.props.stationsData)
     const stationKey = _.get(stationsData, '[0].key', undefined)
     if (!stationKey) return
@@ -166,7 +165,9 @@ export default class TableList extends React.PureComponent {
         ...this.state.pagination,
         current: 1,
       }
-      this.loadData(pagination, searchFormData)
+      setTimeout(() => {
+        this.loadData(pagination, searchFormData)
+      })
     })
   }
 
@@ -237,10 +238,12 @@ export default class TableList extends React.PureComponent {
         <Tabs
           defaultActiveKey={this.state.tabKey}
           onChange={this.handleChangeTab}
+          activeKey={this.state.tabKey}
         >
           {stations.map(station => (
             <Tabs.TabPane tab={station.name} key={station.key}>
               <TabList
+                isActive={this.state.tabKey === station.key}
                 isLoading={this.state.isLoading}
                 measuringData={station.measuringData}
                 measuringList={station.measuringList}
