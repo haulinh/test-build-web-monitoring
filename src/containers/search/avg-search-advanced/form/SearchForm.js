@@ -194,7 +194,7 @@ export default class SearchAvgForm extends React.Component {
       let params = {
         stationType: this.props.initialValues.stationType,
         provinceKey: this.props.initialValues.provinceKey,
-        dataStatus: this.props.initialValues.dataStatus,
+        // dataStatus: this.props.initialValues.dataStatus,
         standardKey: this.props.initialValues.standardKey,
         frequent: this.props.initialValues.frequent,
         activatedAt: this.props.initialValues.activatedAt,
@@ -218,6 +218,7 @@ export default class SearchAvgForm extends React.Component {
               typeof item.value !== 'undefined'
           )
         : [],
+      dataStatus: this.props.values.dataStatus,
     }
     this.props.onChangeSearchData(params)
   }
@@ -233,11 +234,12 @@ export default class SearchAvgForm extends React.Component {
         let params = {
           stationType: nextProps.values.stationType,
           provinceKey: nextProps.values.provinceKey,
-          dataStatus: nextProps.values.dataStatus,
+          // dataStatus: nextProps.values.dataStatus,
           standardKey: nextProps.values.standardKey,
           frequent: nextProps.values.frequent,
           activatedAt: this.convertDateToString(nextProps.values.activatedAt),
           typeSampling: nextProps.values.typeSampling,
+          dataStatus: nextProps.values.dataStatus,
         }
         await this.props.onSearchStationAuto(params)
         this.props.handleSubmit(this.handleSubmit)()
@@ -256,7 +258,7 @@ export default class SearchAvgForm extends React.Component {
       let params = {
         stationType: nextProps.values.stationType,
         provinceKey: nextProps.values.provinceKey,
-        dataStatus: nextProps.values.dataStatus,
+        // dataStatus: nextProps.values.dataStatus,
         standardKey: nextProps.values.standardKey,
         frequent: nextProps.values.frequent,
         activatedAt: this.convertDateToString(nextProps.values.activatedAt),
@@ -275,6 +277,7 @@ export default class SearchAvgForm extends React.Component {
       const params = {
         fromDate: this.convertDateToString(this.state.fromDate),
         toDate: this.convertDateToString(this.state.toDate),
+        dataStatus: this.props.values.dataStatus,
         advanced: this.props.values.advanced
           ? this.props.values.advanced.filter(
               item =>
@@ -399,6 +402,7 @@ export default class SearchAvgForm extends React.Component {
     let params = {
       fromDate: this.convertDateToString(this.state.fromDate),
       toDate: this.convertDateToString(this.state.toDate),
+      dataStatus: values.dataStatus,
       advanced: values.advanced
         ? values.advanced.filter(
             item =>

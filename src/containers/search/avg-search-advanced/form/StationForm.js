@@ -129,14 +129,10 @@ export default class StationForm extends React.PureComponent {
         _id: station._id,
         key: station.key,
         name: station.name,
-        // view: oldData ? oldData.view : true,
         view: true,
         measuringData: station.measuringList.sort(
           (a, b) => a.numericalOrder - b.numericalOrder
         ),
-        // measuringList: oldData
-        //   ? oldData.measuringList
-        //   : station.measuringList.map(measuring => measuring.key),
         measuringList: station.measuringList.map(measuring => measuring.key),
       }
     })
@@ -346,10 +342,6 @@ export default class StationForm extends React.PureComponent {
     this.props.onSearchAvgData()
   }
 
-  handleSearchStation = _.debounce(value => {
-    this.setState({ searchString: value })
-  }, 200)
-
   rightChildren() {
     return (
       <Tooltip
@@ -387,14 +379,6 @@ export default class StationForm extends React.PureComponent {
             extra={this.rightChildren()}
             key="list"
           >
-            {/* <Input.Search
-              style={{ width: '100%' }}
-              size="large"
-              placeholder="Search station"
-              onChange={e => this.handleSearchStation(e.target.value)}
-              onClick={e => e.stopPropagation()}
-            />
-            <Clearfix height={40} /> */}
             <Table dataSource={dataSource} columns={columns} />
           </Panel>
         </Collapse>

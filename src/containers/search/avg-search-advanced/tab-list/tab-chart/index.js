@@ -11,6 +11,7 @@ import {
   getFormatNumber,
 } from 'constants/format-number'
 import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
+import Clearfix from 'components/elements/clearfix'
 
 const TabChartWrapper = styled.div`
   justify-content: center;
@@ -29,6 +30,11 @@ const ChartWrapper = styled.div`
 const Thumbnail = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
+  overflow: auto;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 const ThumbnailItem = styled.div`
@@ -38,6 +44,11 @@ const ThumbnailItem = styled.div`
   align-items: center;
   padding: 8px 16px;
   border-bottom: ${props => (props.selected ? 2 : 0)}px solid blue;
+  white-space: nowrap;
+  :hover {
+    cursor: pointer;
+    background-color: #f1f1f1;
+  }
 `
 
 const Line = styled.div`
@@ -358,6 +369,7 @@ export default class TabChart extends React.PureComponent {
               )}
             />
           )}
+          <Clearfix height={40} />
           <Thumbnail>
             {this.state.measureList.map(({ name, code, color, unit }) => (
               <ThumbnailItem

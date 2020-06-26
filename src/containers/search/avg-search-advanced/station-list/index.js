@@ -35,6 +35,7 @@ export default class TableList extends React.PureComponent {
       fromDate: PropTypes.string,
       toDate: PropTypes.string,
       advanced: PropTypes.array,
+      dataStatus: PropTypes.array,
     }),
   }
 
@@ -87,31 +88,37 @@ export default class TableList extends React.PureComponent {
       measuringList: station.measuringList,
       measuringData: station.measuringData,
       advanced: this.props.searchData.advanced,
+      dataStatus: this.props.searchData.dataStatus,
     }
     return searchFormData
   }
 
   componentDidMount() {
+    console.log('alo alo')
     const stationsData = this.getStationDataView(this.props.stationsData)
     const stationKey = _.get(stationsData, '[0].key', undefined)
     if (!stationKey) return
-    this.setState({ tabKey: stationKey })
-    const searchFormData = this.getSearchFormData(stationKey)
-    this.loadData(this.state.pagination, searchFormData)
+    this.setState({ tabKey: stationKey }, () => {
+      const searchFormData = this.getSearchFormData(stationKey)
+      this.loadData(this.state.pagination, searchFormData)
+    })
   }
 
   getStationDataView = stationsData => {
     return stationsData.filter(station => station.view)
   }
 
-  componentWillReceiveProps(nextProps) {
-    const nextStationsDataView = this.getStationDataView(nextProps.stationsData)
+  componentDidUpdate(prevProps) {
+    const prevStationsDataView = this.getStationDataView(prevProps.stationsData)
     const stationsDataView = this.getStationDataView(this.props.stationsData)
-    if (!_.isEqual(nextStationsDataView, stationsDataView)) {
-      const stationKey = _.get(nextStationsDataView, '[0].key', undefined)
+
+    if (!_.isEqual(stationsDataView, prevStationsDataView)) {
+      const stationKey = _.get(stationsDataView, '[0].key', undefined)
       if (!stationKey) return
       const searchFormData = this.getSearchFormData(stationKey)
-      this.loadData(this.state.pagination, searchFormData)
+      this.setState({ dataStationAuto: [] }, () => {
+        this.loadData(this.state.pagination, searchFormData)
+      })
     }
   }
 
@@ -153,13 +160,14 @@ export default class TableList extends React.PureComponent {
   }
 
   handleChangeTab = tabKey => {
-    this.setState({ tabKey })
-    const searchFormData = this.getSearchFormData(tabKey)
-    let pagination = {
-      ...this.state.pagination,
-      current: 1,
-    }
-    this.loadData(pagination, searchFormData)
+    this.setState({ tabKey, dataStationAuto: [] }, () => {
+      const searchFormData = this.getSearchFormData(tabKey)
+      let pagination = {
+        ...this.state.pagination,
+        current: 1,
+      }
+      this.loadData(pagination, searchFormData)
+    })
   }
 
   handleExportExcel() {
