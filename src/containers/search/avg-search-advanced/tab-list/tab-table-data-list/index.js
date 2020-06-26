@@ -6,7 +6,16 @@ import styled from 'styled-components'
 import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
 import { DD_MM_YYYY_HH_MM, DD_MM_YYYY } from 'constants/format-date'
-import { getFormatNumber } from 'constants/format-number'
+import { SHAPE } from 'themes/color'
+import {
+  getFormatNumber,
+  FORMAT_VALUE_MEASURING,
+} from 'constants/format-number'
+import {
+  // warningLevels,
+  // colorLevels,
+  getcolorMeasure,
+} from 'constants/warningLevels'
 
 const TableDataListWrapper = styled.div`
   .ant-table-thead > tr > th {
@@ -55,26 +64,68 @@ export default class TableDataList extends React.PureComponent {
       },
     }
 
-    const columnsMeasuring = this.props.measuringData.reduce(
-      (acc, measuring) => {
-        if (this.props.measuringList.includes(measuring.key)) {
-          const data = {
-            title: `${measuring.name} (${measuring.unit})`,
-            // dataIndex: `measuringLogs.${measuring.key}`,
-            dataIndex: `${measuring.key}`,
-            key: measuring.key,
-            width: 120,
-            align: 'right',
-            render: value => {
-              return <div>{getFormatNumber(value)}</div>
-            },
-          }
-          acc.push(data)
-        }
-        return acc
-      },
-      []
-    )
+    // const columnsMeasuring = this.props.measuringData.reduce(
+    //   (acc, measuring) => {
+    //     if (this.props.measuringList.includes(measuring.key)) {
+    //       const data = {
+    //         title: `${measuring.name} (${measuring.unit})`,
+    //         dataIndex: `measuringLogs.${measuring.key}`,
+    //         // dataIndex: `${measuring.key}`,
+    //         key: measuring.key,
+    //         width: 120,
+    //         align: 'right',
+    //         render: value => {
+    //           if (value === null || value === undefined) return <div />
+    //           let color = getcolorMeasure(value.value, measuring, SHAPE.BLACK)
+    //           return (
+    //             <div style={{ color: color }}>
+    //               {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
+    //             </div>
+    //           )
+    //         }
+
+    //         // render: value => {
+    //         //   return <div>{getFormatNumber(value)}</div>
+    //         // },
+    //       }
+    //       acc.push(data)
+    //     }
+    //     return acc
+    //   },
+    //   []
+    // )
+    const columnsMeasuring = this.props.measuringData
+      .filter(measuring => this.props.measuringList.includes(measuring.key))
+      .map(measuring => ({
+        title: `${measuring.name} (${measuring.unit})`,
+        dataIndex: `measuringLogs.${measuring.key}`,
+        key: measuring.key,
+        width: 120,
+        align: 'right',
+        render: value => {
+          if (value === null || value === undefined) return <div />
+          /* #region  MARK tạm thời k sử dụng thời điểm đó */
+
+          // let color = SHAPE.BLACK
+          // if (
+          //   value.warningLevel &&
+          //   value.warningLevels !== warningLevels.GOOD
+          // ) {
+          //   color = colorLevels[value.warningLevel]
+          // }
+
+          /* #endregion */
+          let color = getcolorMeasure(value.value, measuring, SHAPE.BLACK)
+          // console.log('---------')
+          // console.log(measuring, color, value)
+          // Format number toLocalString(national)
+          return (
+            <div style={{ color: color }}>
+              {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
+            </div>
+          )
+        },
+      }))
     const columnData = [columnReceivedAt, ...columnsMeasuring]
     return columnData
   }

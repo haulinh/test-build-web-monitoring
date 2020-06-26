@@ -96,7 +96,6 @@ export default class TabChart extends React.PureComponent {
     dataStationAuto: PropTypes.array,
     measuringData: PropTypes.array,
     nameChart: PropTypes.string,
-    formatDatetime: PropTypes.string,
   }
 
   constructor(props) {
@@ -126,20 +125,21 @@ export default class TabChart extends React.PureComponent {
     })
 
     let heightChart = {}
-    _.forEachRight(props.dataStationAuto, item => {
-      const time = moment(item._id).valueOf()
+    _.forEachRight(props.dataStationAuto, ({ measuringLogs, receivedAt }) => {
+      const time = moment(receivedAt).valueOf()
       _.mapKeys(seriesData, function(value, key) {
-        const val = _.get(item, `${key}`)
+        let val = _.get(measuringLogs, [key, 'value'])
+
         seriesData[key].data.push([time, val])
 
         const minCurrent =
           _.get(heightChart, `${key}.minChart`) ||
-          _.get(props.measuringData, [key, 'minLimit']) ||
-          _.get(props.measuringData, [key, 'maxLimit'])
+          _.get(measuringLogs, [key, 'minLimit']) ||
+          _.get(measuringLogs, [key, 'maxLimit'])
         const maxCurrent =
           _.get(heightChart, `${key}.maxChart`) ||
-          _.get(props.measuringData, [key, 'maxLimit']) ||
-          _.get(props.measuringData, [key, 'minLimit'])
+          _.get(measuringLogs, [key, 'maxLimit']) ||
+          _.get(measuringLogs, [key, 'minLimit'])
         if (_.isNumber(minCurrent)) {
           _.update(heightChart, `${key}.minChart`, () =>
             _.min([minCurrent, val])
@@ -248,40 +248,7 @@ export default class TabChart extends React.PureComponent {
     })
   }
 
-  getFormatDateChart = () => {
-    let formatDate = ''
-    switch (this.props.typeReport) {
-      case 'year':
-        formatDate = '%Y'
-        break
-      case 'month':
-        formatDate = '%m/%Y'
-        break
-      case '1440': // kiểu dữ liệu ngày
-        formatDate = '%d/%m/%Y'
-        break
-      default:
-        formatDate = '%d/%m/%Y %k:%M'
-        break
-    }
-    return formatDate
-  }
-
-  // NOTE Khi search theo năm thì dữ liệu hiển thị phải theo năm
-  getFormatLabel = () => {
-    let format = {}
-    if (this.props.typeReport === 'year') {
-      format = {
-        formatter: function(obj) {
-          const year = ReactHighcharts.Highcharts.dateFormat('%Y', obj.value)
-          return year
-        },
-      }
-    }
-
-    return format
-  }
-
+  //hightStock không có nút reset khi Zoom x
   configChart = (
     series,
     plotLines = [],
@@ -304,8 +271,8 @@ export default class TabChart extends React.PureComponent {
         buttons: [],
         allButtonsEnabled: true,
         inputEnabled: true,
-        inputEditDateFormat: this.getFormatDateChart(),
-        inputDateFormat: this.getFormatDateChart(),
+        inputEditDateFormat: '%d/%m/%Y %k:%M',
+        inputDateFormat: '%d/%m/%Y %k:%M',
         inputBoxWidth: 120,
       },
       navigation: {
@@ -328,19 +295,17 @@ export default class TabChart extends React.PureComponent {
       tooltip: {
         formatter: function() {
           return this.points.map(function(point) {
-            return `<b>${point.series.name}</b> : ${getFormatNumber(point.y)}`
+            return `<b>${point.series.name}</b>: ${getFormatNumber(point.y)}`
           })
         },
       },
       series,
       xAxis: {
         dateTimeLabelFormats: DATETIME_LABEL_FORMAT,
-        labels: this.getFormatLabel(),
       },
       navigator: {
         xAxis: {
           dateTimeLabelFormats: DATETIME_LABEL_FORMAT,
-          labels: this.getFormatLabel(),
         },
       },
     }
@@ -353,7 +318,6 @@ export default class TabChart extends React.PureComponent {
   }
 
   render() {
-    // console.log(this.state.measureList)
     return (
       <TabChartWrapper>
         <ChartWrapper innerRef={ref => (this.chartWrapper = ref)}>
@@ -369,7 +333,6 @@ export default class TabChart extends React.PureComponent {
               )}
             />
           )}
-          <Clearfix height={40} />
           <Thumbnail>
             {this.state.measureList.map(({ name, code, color, unit }) => (
               <ThumbnailItem

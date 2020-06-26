@@ -15,17 +15,25 @@ import {
 } from 'react-jsx-highstock'
 import PropTypes from 'prop-types'
 import Highcharts from 'highcharts/highstock'
-import withSize from 'react-sizes'
 import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
+import chartAutoResize from 'hoc/chart-autoresize'
 import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
 
 const TabChartWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
 `
-@withSize(({ width }) => ({ windowWidth: width - 450 }))
+
+const ChartWrapper = styled.div`
+  flex: 1;
+  .chart {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+`
+
+@chartAutoResize
 @autobind
 export class TabChart extends React.PureComponent {
   static propTypes = {
@@ -34,20 +42,26 @@ export class TabChart extends React.PureComponent {
     measuringData: PropTypes.array,
     nameChart: PropTypes.string,
   }
+  state = {
+    isRendered: false,
+    width: 0,
+  }
 
   getDataSort() {
-    return this.props.dataStationAuto.sort((a, b) => {
-      return a._id - b._id
-    })
+    return this.props.dataStationAuto.sort(
+      (a, b) =>
+        new Date(a.receivedAt).getTime() - new Date(b.receivedAt).getTime()
+    )
   }
 
   getDataForMeasuring(measuringKey) {
     return this.getDataSort()
       .map(stationAuto => {
-        if (stationAuto[measuringKey]) {
+        if (stationAuto.measuringLogs[measuringKey]) {
           return [
-            stationAuto._id - new Date().getTimezoneOffset() * 60000,
-            stationAuto[measuringKey],
+            new Date(stationAuto.receivedAt).getTime() -
+              new Date().getTimezoneOffset() * 60000,
+            stationAuto.measuringLogs[measuringKey].value,
           ]
         }
         return null
@@ -68,6 +82,12 @@ export class TabChart extends React.PureComponent {
     if (this.chart != null) this.chart.redraw()
   }
 
+  componentDidMount() {
+    this.setState({
+      width: this.chartWrapper.offsetWidth,
+    })
+  }
+
   getChart(chart) {
     this.chart = chart
   }
@@ -75,41 +95,55 @@ export class TabChart extends React.PureComponent {
   render() {
     return (
       <TabChartWrapper>
-        <HighchartsStockChart callback={this.getChart}>
-          <Chart width={800} zoomType="x" />
-          <Title>{this.props.nameChart ? this.props.nameChart : 'Chart'}</Title>
-          <Legend layout="horizontal" align="center" verticalAlign="bottom" />
-
-          <RangeSelector>
-            <RangeSelector.Button type="all">
-              {translate('chart.all')}
-            </RangeSelector.Button>
-            <RangeSelector.Input
-              boxBorderColor="#7cb5ec"
-              boxWidth={150}
-              inputDateParser={value => {
-                return moment.utc(value, 'DD. MMM hh:mm').valueOf()
-              }}
-              editDateFormat="%d/%m/%Y:%k:%M"
-              dateFormat="%d/%m/%Y:%k:%M"
-            />
-          </RangeSelector>
-
-          <XAxis type="datetime" dateTimeLabelFormats={DATETIME_LABEL_FORMAT}>
-            <XAxis.Title>{translate('chart.time')}</XAxis.Title>
-          </XAxis>
-          <YAxis id="number">
-            {this.getDataLines().map(dataLine => (
-              <LineSeries
-                key={dataLine.key}
-                id={dataLine.key}
-                name={dataLine.name}
-                data={dataLine.data}
+        <ChartWrapper innerRef={ref => (this.chartWrapper = ref)}>
+          {this.state.width && (
+            <HighchartsStockChart callback={this.getChart}>
+              <Chart width={this.state.width - 100} zoomType="x" />
+              <Title>
+                {this.props.nameChart ? this.props.nameChart : 'Chart'}
+              </Title>
+              <Legend
+                layout="horizontal"
+                align="center"
+                verticalAlign="bottom"
               />
-            ))}
-          </YAxis>
-          <Tooltip />
-        </HighchartsStockChart>
+              <RangeSelector>
+                {
+                  <RangeSelector.Button type="all">
+                    {translate('chart.all')}
+                  </RangeSelector.Button>
+                }
+                <RangeSelector.Input
+                  boxBorderColor="#7cb5ec"
+                  boxWidth={150}
+                  inputDateParser={value => {
+                    return moment.utc(value, 'DD. MMM hh:mm').valueOf()
+                  }}
+                  editDateFormat="%d/%m/%Y:%k:%M"
+                  dateFormat="%d/%m/%Y:%k:%M"
+                />
+              </RangeSelector>
+              <XAxis
+                type="datetime"
+                dateTimeLabelFormats={DATETIME_LABEL_FORMAT}
+              >
+                <XAxis.Title>{translate('chart.time')}</XAxis.Title>
+              </XAxis>
+              <YAxis id="number">
+                {this.getDataLines().map(dataLine => (
+                  <LineSeries
+                    key={dataLine.key}
+                    id={dataLine.key}
+                    name={dataLine.name}
+                    data={dataLine.data}
+                    threshold={200}
+                  />
+                ))}
+              </YAxis>
+              <Tooltip />
+            </HighchartsStockChart>
+          )}
+        </ChartWrapper>
       </TabChartWrapper>
     )
   }

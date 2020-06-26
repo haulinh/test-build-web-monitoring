@@ -137,12 +137,13 @@ export default class TableList extends React.PureComponent {
       }
       this.setState({
         isLoading: false,
-        dataStationAuto: dataStationAuto.success ? dataStationAuto.data : [],
+        dataStationAuto: dataStationAuto && dataStationAuto.data,
         pagination: {
           ...paginationQuery,
-          total: dataStationAuto.success
-            ? dataStationAuto.pagination.totalItem
-            : 0,
+          total:
+            dataStationAuto && dataStationAuto.pagination
+              ? dataStationAuto.pagination.totalItem
+              : 0,
         },
       })
     })
