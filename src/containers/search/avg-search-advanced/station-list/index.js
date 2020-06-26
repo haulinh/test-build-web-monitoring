@@ -1,6 +1,6 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { Tabs, message } from 'antd'
+import { Tabs, message, Button } from 'antd'
 import _ from 'lodash'
 import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
@@ -8,9 +8,21 @@ import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow'
 import DataStationAutoApi from 'api/DataStationAutoApi'
 import TabList from '../tab-list'
+import { exportExcelMultipleStation } from 'api/DataStationAutoApi'
 
 const TableListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
+`
+
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  h4 {
+    margin-bottom: 0px;
+    font-size: 22px;
+  }
 `
 
 @autobind
@@ -149,8 +161,10 @@ export default class TableList extends React.PureComponent {
   }
 
   handleExportExcel() {
+    console.log('---------handleExportExcel ne')
     // const station = this.getData(this.state.tabKey)
     const searchFormData = this.getSearchFormData(this.state.tabKey)
+    console.log(searchFormData, '-------searchFormData')
     this.setState({ isExporting: true }, async () => {
       let res = await DataStationAutoApi.getDataStationAutoExportAvg(
         searchFormData
@@ -164,11 +178,50 @@ export default class TableList extends React.PureComponent {
     })
   }
 
+  async handleExportAllStation() {
+    const allKeys = _.map(this.props.stationsData, item => item.key)
+    console.log(allKeys, '------allKeys')
+    let queryData = _.map(allKeys, async key => {
+      let searchFormData = await this.getSearchFormData(key)
+      searchFormData.from = searchFormData.fromDate
+      searchFormData.to = searchFormData.toDate
+      searchFormData.measuringList = searchFormData.measuringList.join(',')
+      searchFormData.measuringListUnitStr = searchFormData.measuringListUnitStr.join(',')
+      return searchFormData
+    })
+    queryData = await Promise.all(queryData)
+    const body = {
+      stationsQuery: queryData
+    }
+    this.setState({ isExporting: true }, async () => {
+      // let res = await DataStationAutoApi.getDataStationAutoExportAvg(
+      //   searchFormData
+      // )
+      let res = await exportExcelMultipleStation(body)
+      console.log(res, '------res')
+      if (res.data) window.open(res.data, '_blank')
+      else message.error(res.message)
+
+      this.setState({
+        isExporting: false,
+      })
+    })
+    console.log(body, '---------quebodybodyryData')
+    // console.log(this.props.stationsData)
+  }
+
   render() {
     const stations = this.props.stationsData.filter(station => station.view)
     if (!stations.length) return null
     return (
       <TableListWrapper>
+        <TitleWrapper>
+          <h4>Data Results</h4>
+          <Button
+            type="primary"
+            onClick={this.handleExportAllStation}>Xuất tất cả</Button>
+        </TitleWrapper>
+
         <Tabs
           defaultActiveKey={this.state.tabKey}
           onChange={this.handleChangeTab}

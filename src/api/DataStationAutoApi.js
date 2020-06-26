@@ -1,5 +1,5 @@
 import { getConfigApi } from 'config'
-import { getFetch, putFetch } from 'utils/fetch'
+import { getFetch, putFetch, postFetch } from 'utils/fetch'
 import qs from 'query-string'
 
 function getDataStationAutoUrl(prefix = '') {
@@ -84,6 +84,12 @@ export function getDataStationAutoExportAvg({
   if (type) url += `&type=${type}`
   if (name) url += `&name=${name}`
   return getFetch(url)
+}
+
+export function exportExcelMultipleStation(data) {
+  var url = getDataStationAutoUrl(`/export-avg-multiple-station?`)
+  console.log(data, '------data')
+  return postFetch(url, data)
 }
 
 export function downloadExcel_DataStationAutov1(
