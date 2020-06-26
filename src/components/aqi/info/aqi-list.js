@@ -82,6 +82,12 @@ export default class AQIList extends React.PureComponent {
     selectStationKey: null,
   }
 
+  componentDidMount = () => {
+    this.setState({
+      dataSoure: this.props.aqiList,
+    })
+  }
+
   componentDidUpdate = prevProps => {
     if (prevProps.aqiList !== this.props.aqiList) {
       this.setState({
@@ -94,7 +100,7 @@ export default class AQIList extends React.PureComponent {
     const value = e.target.value
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
-    const dataSearch = _.filter(this.props.aqiList, item => {
+    const dataSearch = _.filter(this.state.dataSoure, item => {
       let name = _.get(item, 'name', '')
       name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
       return _.toUpper(name.trim()).search(_.toUpper(value.trim())) >= 0
@@ -142,8 +148,8 @@ export default class AQIList extends React.PureComponent {
 
         <Clearfix height={8} />
         <Input placeholder={i18n.search} onChange={this.hanldeOnchange} />
-        {!this.props.aqiList && <Skeleton />}
-        {_.map(this.props.aqiList, (item, index) => {
+        {!this.state.dataSoure && <Skeleton />}
+        {_.map(this.state.dataSoure, (item, index) => {
           const key = _.get(item, 'key')
           const name = _.get(item, 'name', '')
           const time = _.get(item, 'time', '')
