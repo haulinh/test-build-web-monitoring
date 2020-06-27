@@ -94,6 +94,7 @@ export default class TableList extends React.PureComponent {
   }
 
   componentDidMount() {
+
     const stationsData = this.getStationDataView(this.props.stationsData)
     const stationKey = _.get(stationsData, '[0].key', undefined)
     if (!stationKey) return
@@ -254,7 +255,7 @@ export default class TableList extends React.PureComponent {
                 onExportExcel={this.handleExportExcel}
                 onExportExcelAll={this.handleExportAllStation}
                 nameChart={station.name}
-                typeReport={`${station.name}`}
+                typeReport={`${this.props.type}`}
                 isExporting={this.state.isExporting}
                 isExportingAll={this.state.isExportingAll}
               />
