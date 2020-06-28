@@ -158,7 +158,7 @@ export default class DefaultCell extends React.Component {
               {this.state.isHoverOnCell && (
                 <Tooltip
                   placement='bottom'
-                  title="Xoa ne">
+                  title="Xoá thông báo này">
                   <Icon
                     style={{ fontSize: '16px' }}
                     type="close-circle"
@@ -189,7 +189,7 @@ export default class DefaultCell extends React.Component {
                   (
                     <Tooltip
                       placement='right'
-                      title="danh dau chua doc">
+                      title="Đánh dấu chưa đọc">
                       <div
                         onMouseEnter={() => this.setState({ isHoverOnIconRead: true })}
                         onMouseLeave={() => this.setState({ isHoverOnIconRead: false })}

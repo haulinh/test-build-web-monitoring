@@ -13,6 +13,12 @@ import NotificationIcon from '@atlaskit/icon/glyph/notification'
 import CrossIcon from '@atlaskit/icon/glyph/cross'
 import _ from 'lodash'
 
+const DeleteMarkWrapper = styled.div`
+position: absolute;
+right:16px;
+bottom:0px;
+`
+
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -82,47 +88,52 @@ export default class NotificationDrawer extends React.Component {
           padding: 0,
         }}
         title={
-          <TitleWrapper>
-            <div className="titleIconWrapper">
-              <NotificationWrapperIcon onClick={this.handleClickNotification}>
-                <NotificationIcon color="#fff" size="large" />
-              </NotificationWrapperIcon>
-              <h4>Notifications</h4>
-            </div>
-            <div>
-              {
-                this.props.dataSource.length > 0 && this._areAllNotificationsRead() &&
-                (
-                  <a
-                    onClick={this._handleDeleteAllNotification}
-                    style={{
-                      color: '#385898',
-                    }}
-                  >
-                    Xoá tất cả
-                  </a>
-                )
+          <div>
+            <TitleWrapper>
+              <div className="titleIconWrapper">
+                <NotificationWrapperIcon onClick={this.handleClickNotification}>
+                  <NotificationIcon color="#fff" size="large" />
+                </NotificationWrapperIcon>
+                <h4>Notifications</h4>
+              </div>
 
-              }
-              {
-                this.props.dataSource.length > 0 && !this._areAllNotificationsRead() &&
-                (
-                  <a
-                    onClick={this.checkReadAll}
-                    style={{
-                      color: '#385898',
-                    }}
-                  >
-                    Đánh dấu tất cả
-                  </a>
-                )
-              }
+              <a className="close" href="_blank" onClick={this.closeDrawer}>
+                <CrossIcon />
+              </a>
+            </TitleWrapper>
+            <DeleteMarkWrapper>
+              <div>
+                {
+                  this.props.dataSource.length > 0 && this._areAllNotificationsRead() &&
+                  (
+                    <a
+                      onClick={this._handleDeleteAllNotification}
+                      style={{
+                        color: '#385898',
+                      }}
+                    >
+                      Xoá tất cả
+                    </a>
+                  )
 
-            </div>
-            <a className="close" href="_blank" onClick={this.closeDrawer}>
-              <CrossIcon />
-            </a>
-          </TitleWrapper>
+                }
+                {
+                  this.props.dataSource.length > 0 && !this._areAllNotificationsRead() &&
+                  (
+                    <a
+                      onClick={this.checkReadAll}
+                      style={{
+                        color: '#385898',
+                      }}
+                    >
+                      Đánh dấu tất cả
+                    </a>
+                  )
+                }
+              </div>
+            </DeleteMarkWrapper>
+
+          </div>
         }
         placement="left"
         closable={false}
