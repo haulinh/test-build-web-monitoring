@@ -11,7 +11,7 @@ import { updateNotifyRead } from 'redux/actions/notification'
 import { setDrawerVisible } from 'redux/actions/notification'
 import { connect } from 'react-redux'
 import { getConfigApi } from 'config'
-import { deleteOneNotification } from 'redux/actions/notification'
+import { deleteOneNotification, updateNotReadOneNotification } from 'redux/actions/notification'
 
 const i18n = {
   viewDataAroundExceededTime: translate(
@@ -37,13 +37,17 @@ const MultilineText = styled(Row)`
   {
     updateNotifyRead,
     setDrawerVisible,
-    deleteOneNotification
+    deleteOneNotification,
+    updateNotReadOneNotification,
   }
 )
 export default class DefaultCell extends React.Component {
   static propTypes = {
     /* redux's props */
     updateNotifyRead: PropTypes.func.isRequired,
+    deleteOneNotification: PropTypes.func.isRequired,
+    updateNotReadOneNotification: PropTypes.func.isRequired,
+
     /* comp's props */
     setDrawerVisible: PropTypes.func.isRequired,
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -60,6 +64,7 @@ export default class DefaultCell extends React.Component {
 
   state = {
     isHoverOnCell: false,
+    isHoverOnIconRead: false
   }
   getNotificationColor() {
     const { isHoverOnCell } = this.state
@@ -72,17 +77,17 @@ export default class DefaultCell extends React.Component {
   }
   getNotificationColorForIcon() {
     const { data, isMarkedReadAll } = this.props
+    const { isHoverOnIconRead } = this.state
     const { isRead } = data
-    if (!isRead) return '#0052cc'
+    if (!isRead || isHoverOnIconRead) return '#0052cc'
     else if (isMarkedReadAll) return '#ebecf0'
     return '#ebecf0'
   }
   render() {
-    const { isHoverOnCell } = this.state
+    const { isHoverOnCell, isHoverOnIconRead } = this.state
     const { icon, content, data } = this.props
     const { receivedAt, _id } = data
     // const _icon = `${getConfigApi().media}/${icon}` // Qui bỏ dùng anh phát vì khong dùng
-    console.log(getConfigApi().media, 'getConfigApi')
     return (
       <Row
         type="flex"
@@ -151,28 +156,60 @@ export default class DefaultCell extends React.Component {
             <Col span={8} />
             <Col span={8}>
               {this.state.isHoverOnCell && (
-                <Icon
-                  style={{ fontSize: '16px' }}
-                  type="close-circle"
-                  theme="filled"
-                  onClick={() => this._hanldeDeleteOneNotification(_id)}
-                />
+                <Tooltip
+                  placement='bottom'
+                  title="Xoa ne">
+                  <Icon
+                    style={{ fontSize: '16px' }}
+                    type="close-circle"
+                    theme="filled"
+                    onClick={() => this._hanldeDeleteOneNotification(_id)}
+                  />
+                </Tooltip>
               )}
             </Col>
             <Col span={8}>
-              <div
-                onClick={() => this._handleIsReadPointClick(data)}
-                style={{
-                  borderWidth: '4px',
-                  borderStyle: 'solid',
-                  width: '16px',
-                  height: '16px',
-                  borderRadius: 16,
-                  backgroundColor: this.getNotificationColorForIcon(),
 
-                  borderColor: '#ebecf0',
-                }}
-              />
+              {
+                !data.isRead ? (
+                  <div
+                    onMouseEnter={() => this.setState({ isHoverOnIconRead: true })}
+                    onMouseLeave={() => this.setState({ isHoverOnIconRead: false })}
+                    style={{
+                      borderWidth: '4px',
+                      borderStyle: 'solid',
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: 16,
+                      backgroundColor: this.getNotificationColorForIcon(),
+                      borderColor: '#ebecf0',
+                    }}
+                  />
+                ) :
+                  (
+                    <Tooltip
+                      placement='right'
+                      title="danh dau chua doc">
+                      <div
+                        onMouseEnter={() => this.setState({ isHoverOnIconRead: true })}
+                        onMouseLeave={() => this.setState({ isHoverOnIconRead: false })}
+                        onClick={() => this._handleUpdateNotReadOne(_id)}
+                        style={{
+                          borderWidth: '4px',
+                          borderStyle: 'solid',
+                          width: '16px',
+                          height: '16px',
+                          borderRadius: 16,
+                          backgroundColor: this.getNotificationColorForIcon(),
+
+                          borderColor: '#ebecf0',
+                        }}
+                      />
+                    </Tooltip>
+                  )
+              }
+
+
             </Col>
           </Row>
         </Col>
@@ -191,7 +228,7 @@ export default class DefaultCell extends React.Component {
     </Menu>
   )
 
-  _handleIsReadPointClick = data => this.props.updateNotifyRead(data)
+  _handleUpdateNotReadOne = notificationId => this.props.updateNotReadOneNotification(notificationId)
 
   _handleCellOnClick = data => {
     this.props.updateNotifyRead(data)

@@ -16,6 +16,7 @@ import {
   UPDATE_ALL_READ,
   DELETE_ONE,
   DELETE_ALL,
+  UPDATE_NOT_READ_ONE,
 } from '../actions/notification'
 
 export const initialState = {
@@ -56,7 +57,9 @@ export default function handleNotificationStore(state = initialState, action) {
     case DELETE_ONE:
       return handleDeleteOne(state, payload)
     case DELETE_ALL:
-      return handleDeleteAll(state,)
+      return handleDeleteAll(state)
+    case UPDATE_NOT_READ_ONE:
+      return handleUpdateNotReadOne(state, payload)
     case UPDATE_CURRENT_PAGE:
       return handleUpdateCurrentPage(state)
     default:
@@ -156,5 +159,22 @@ function handleDeleteOne(state, notificationId) {
 function handleDeleteAll(state) {
   return update(state, {
     logs: { $set: [] }
+  })
+}
+
+function handleUpdateNotReadOne(state, notificationId) {
+  let newLogs = state.logs
+  newLogs = _.map(newLogs, log => {
+    if (log._id !== notificationId) {
+      return log
+    }
+    return {
+      ...log,
+      isRead: false
+    }
+  })
+
+  return update(state, {
+    logs: { $set: newLogs }
   })
 }
