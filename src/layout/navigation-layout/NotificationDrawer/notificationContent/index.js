@@ -43,6 +43,7 @@ export default class NotificationContent extends React.Component {
   static propTypes = {
     /* component's props */
     tabName: propTypes.string.isRequired,
+    isEmptyNotification: propTypes.bool.isRequired,
     /* redux's props */
     stationAuto: propTypes.array.isRequired,
     loading: propTypes.bool.isRequired,
@@ -103,6 +104,7 @@ export default class NotificationContent extends React.Component {
             }}
           />
         </Row>
+
         {this.state.isSearchLoading && (
           <Skeleton avatar paragraph={{ rows: 4 }} />
         )}

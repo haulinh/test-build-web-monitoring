@@ -21,6 +21,7 @@ export const TOGGLE_VISIBLE_NOTIFICATION_DRAWER =
 export const UPDATE_READ = 'NOTIFICATION / UPDATE_READ'
 export const UPDATE_ALL_READ = 'NOTIFICATION / UPDATE_All_READ'
 export const DELETE_ONE = 'NOTIFICATION / DELETE_ONE'
+export const DELETE_ALL = 'NOTIFICATION / DELETE_ALL'
 
 export function resetAllCounts() {
   return dispatch => {
@@ -217,6 +218,15 @@ export function deleteOneNotification(notificationId) {
     dispatch({
       type: DELETE_ONE,
       payload: notificationId
+    })
+  }
+}
+
+export function deleteAllNotification() {
+  return async dispatch => {
+    // call api del all
+    dispatch({
+      type: DELETE_ALL,
     })
   }
 }

@@ -6,10 +6,12 @@ import { connectAutoDispatch } from 'redux/connect'
 import {
   clearNotificationCountByType,
   updateAllRead,
+  deleteAllNotification,
 } from 'redux/actions/notification'
 import NotificationContent from './notificationContent'
 import NotificationIcon from '@atlaskit/icon/glyph/notification'
 import CrossIcon from '@atlaskit/icon/glyph/cross'
+import _ from 'lodash'
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -45,9 +47,12 @@ const NotificationWrapperIcon = styled.div`
   }
 `
 
-@connectAutoDispatch(state => ({}), {
+@connectAutoDispatch(state => ({
+  dataSource: state.notification.logs,
+}), {
   clearNotificationCountByType,
   updateAllRead,
+  deleteAllNotification
 })
 export default class NotificationDrawer extends React.Component {
   constructor(props) {
@@ -63,6 +68,7 @@ export default class NotificationDrawer extends React.Component {
     /* Redux's props */
     clearNotificationCountByType: propTypes.func.isRequired,
     updateAllRead: propTypes.func.isRequired,
+    dataSource: propTypes.array.isRequired,
   }
 
   static defaultProps = {}
@@ -84,14 +90,30 @@ export default class NotificationDrawer extends React.Component {
               <h4>Notifications</h4>
             </div>
             <div>
-              <a
-                onClick={this.checkReadAll}
-                style={{
-                  color: '#385898',
-                }}
-              >
-                Đánh dấu tất cả
-              </a>
+              {
+                this._areAllNotificationsRead() ?
+                  (
+                    <a
+                      onClick={this._handleDeleteAllNotification}
+                      style={{
+                        color: '#385898',
+                      }}
+                    >
+                      Xoá tất cả
+                    </a>
+                  )
+                  : (
+                    <a
+                      onClick={this.checkReadAll}
+                      style={{
+                        color: '#385898',
+                      }}
+                    >
+                      Đánh dấu tất cả
+                    </a>
+                  )
+              }
+
             </div>
             <a className="close" href="_blank" onClick={this.closeDrawer}>
               <CrossIcon />
@@ -103,7 +125,7 @@ export default class NotificationDrawer extends React.Component {
         onClose={this.closeDrawer}
         visible={this.props.visible}
       >
-        <NotificationContent closeDrawer={this.closeDrawer} />
+        <NotificationContent isEmptyNotification={this._areAllNotificationsRead()} closeDrawer={this.closeDrawer} />
       </Drawer>
     )
   }
@@ -115,5 +137,13 @@ export default class NotificationDrawer extends React.Component {
   }
   checkReadAll = e => {
     this.props.updateAllRead()
+  }
+  _areAllNotificationsRead = () => {
+    const { dataSource } = this.props
+    const haveSomeUnreadNotification = _.some(dataSource, ['isRead', false])
+    return !haveSomeUnreadNotification
+  }
+  _handleDeleteAllNotification = () => {
+    this.props.deleteAllNotification()
   }
 }
