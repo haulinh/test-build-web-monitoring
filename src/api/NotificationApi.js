@@ -38,6 +38,10 @@ export function deleteOne(notificationId) {
   return deleteFetch(`${fcmNotificationRoute()}/${notificationId}`)
 }
 
+export function deleteAll() {
+  return deleteFetch(`${fcmNotificationRoute()}`)
+}
+
 export function updateNotReadOne(notificaitonId) {
   return putFetch(`${fcmNotificationRoute()}/updateIsNotRead/${notificaitonId}`)
 

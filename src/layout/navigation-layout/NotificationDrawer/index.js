@@ -91,27 +91,31 @@ export default class NotificationDrawer extends React.Component {
             </div>
             <div>
               {
-                this._areAllNotificationsRead() ?
-                  (
-                    <a
-                      onClick={this._handleDeleteAllNotification}
-                      style={{
-                        color: '#385898',
-                      }}
-                    >
-                      Xoá tất cả
-                    </a>
-                  )
-                  : (
-                    <a
-                      onClick={this.checkReadAll}
-                      style={{
-                        color: '#385898',
-                      }}
-                    >
-                      Đánh dấu tất cả
-                    </a>
-                  )
+                this.props.dataSource.length > 0 && this._areAllNotificationsRead() &&
+                (
+                  <a
+                    onClick={this._handleDeleteAllNotification}
+                    style={{
+                      color: '#385898',
+                    }}
+                  >
+                    Xoá tất cả
+                  </a>
+                )
+
+              }
+              {
+                this.props.dataSource.length > 0 && !this._areAllNotificationsRead() &&
+                (
+                  <a
+                    onClick={this.checkReadAll}
+                    style={{
+                      color: '#385898',
+                    }}
+                  >
+                    Đánh dấu tất cả
+                  </a>
+                )
               }
 
             </div>

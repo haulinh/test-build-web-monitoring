@@ -1,7 +1,7 @@
 import moment from 'moment-timezone'
 import _ from 'lodash'
 import slug from 'constants/slug'
-import FcmAPI, { updateReadAll, deleteOne, updateNotReadOne } from 'api/NotificationApi'
+import FcmAPI, { updateReadAll, deleteOne, updateNotReadOne, deleteAll } from 'api/NotificationApi'
 
 
 export const RESET_ALL_COUNTS = 'NOTIFICATION / RESET_ALL_COUNTS'
@@ -227,6 +227,7 @@ export function deleteOneNotification(notificationId) {
 export function deleteAllNotification() {
   return async dispatch => {
     // call api del all
+    await deleteAll()
     dispatch({
       type: DELETE_ALL,
     })
