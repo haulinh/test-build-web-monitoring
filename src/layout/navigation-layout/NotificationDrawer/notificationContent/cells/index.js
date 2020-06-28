@@ -13,7 +13,6 @@ import { default as EmptyCell } from './cellEmpty'
 export default function Cells(props) {
   const { dataSource } = props
   let cells = dataSource.map(cellContent => {
-    console.log('---- cell content ----', cellContent)
     let Cell = EmptyCell
     switch (cellContent.status) {
       case NOTIFY_TYPE.SENSOR_GOOD:

@@ -30,6 +30,23 @@ export function updateIsRead(_id) {
   return putFetch(`${fcmNotificationRoute()}/updateIsRead/${_id}`)
 }
 
+export function updateReadAll() {
+  return putFetch(`${fcmNotificationRoute()}/updateIsRead`)
+}
+
+export function deleteOne(notificationId) {
+  return deleteFetch(`${fcmNotificationRoute()}/${notificationId}`)
+}
+
+export function deleteAll() {
+  return deleteFetch(`${fcmNotificationRoute()}`)
+}
+
+export function updateNotReadOne(notificaitonId) {
+  return putFetch(`${fcmNotificationRoute()}/updateIsNotRead/${notificaitonId}`)
+
+}
+
 export function loadNotificationsByType(params) {
   // params: {page, itemPerPage, type}
   let qryString = querystring.stringify(params)
