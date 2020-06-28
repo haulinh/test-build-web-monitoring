@@ -34,6 +34,10 @@ export function updateReadAll() {
   return putFetch(`${fcmNotificationRoute()}/updateIsRead`)
 }
 
+export function deleteOne(notificationId) {
+  return deleteFetch(`${fcmNotificationRoute()}/${notificationId}`)
+}
+
 export function loadNotificationsByType(params) {
   // params: {page, itemPerPage, type}
   let qryString = querystring.stringify(params)

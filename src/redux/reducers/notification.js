@@ -14,6 +14,7 @@ import {
   RESET_ALL_COUNTS,
   UPDATE_READ,
   UPDATE_ALL_READ,
+  DELETE_ONE,
 } from '../actions/notification'
 
 export const initialState = {
@@ -51,6 +52,8 @@ export default function handleNotificationStore(state = initialState, action) {
       return handleUpdateRead(state, payload)
     case UPDATE_ALL_READ:
       return handleUpdateAllRead(state)
+    case DELETE_ONE:
+      return handleDeleteOne(state, payload)
     case UPDATE_CURRENT_PAGE:
       return handleUpdateCurrentPage(state)
     default:
@@ -118,7 +121,6 @@ function handleNewMessage(state, payload) {
 
 /* TODO */
 function handleUpdateRead(state, id) {
-  console.log('---handleUpdateRead---')
   let indexOfId = state.logs.findIndex(item => item._id === id)
   state.logs[indexOfId].isRead = true
   return update(state, {
@@ -137,5 +139,13 @@ function handleUpdateCurrentPage(state, payload = 1) {
   let currentPage = state.currentPage + payload
   return update(state, {
     currentPage: { $set: currentPage },
+  })
+}
+
+function handleDeleteOne(state, notificationId) {
+  let newLogs = state.logs
+  newLogs = _.filter(newLogs, notify => notify._id !== notificationId)
+  return update(state, {
+    logs: { $set: newLogs }
   })
 }

@@ -34,7 +34,7 @@ export default function DataExceededCell(props) {
       // icon={`${warningLevelImages.dataExceeded}`}
       icon={icon}
       content={content}
-      data={cellContent}s
+      data={cellContent}
     />
   )
 }

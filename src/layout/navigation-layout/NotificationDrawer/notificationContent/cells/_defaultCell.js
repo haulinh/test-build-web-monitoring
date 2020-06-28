@@ -11,6 +11,7 @@ import { updateNotifyRead } from 'redux/actions/notification'
 import { setDrawerVisible } from 'redux/actions/notification'
 import { connect } from 'react-redux'
 import { getConfigApi } from 'config'
+import { deleteOneNotification } from 'redux/actions/notification'
 
 const i18n = {
   viewDataAroundExceededTime: translate(
@@ -36,6 +37,7 @@ const MultilineText = styled(Row)`
   {
     updateNotifyRead,
     setDrawerVisible,
+    deleteOneNotification
   }
 )
 export default class DefaultCell extends React.Component {
@@ -78,7 +80,7 @@ export default class DefaultCell extends React.Component {
   render() {
     const { isHoverOnCell } = this.state
     const { icon, content, data } = this.props
-    const { receivedAt, isRead } = data
+    const { receivedAt, _id } = data
     // const _icon = `${getConfigApi().media}/${icon}` // Qui bỏ dùng anh phát vì khong dùng
     console.log(getConfigApi().media, 'getConfigApi')
     return (
@@ -153,7 +155,7 @@ export default class DefaultCell extends React.Component {
                   style={{ fontSize: '16px' }}
                   type="close-circle"
                   theme="filled"
-                  onClick={this.onDelete}
+                  onClick={() => this._hanldeDeleteOneNotification(_id)}
                 />
               )}
             </Col>
@@ -178,8 +180,8 @@ export default class DefaultCell extends React.Component {
     )
   }
 
-  onDelete = () => {
-    console.log('abc')
+  _hanldeDeleteOneNotification = (notificationId) => {
+    this.props.deleteOneNotification(notificationId)
   }
   renderMenu = data => (
     <Menu>
