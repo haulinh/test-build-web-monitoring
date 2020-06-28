@@ -278,9 +278,7 @@ export default class SearchForm extends React.Component {
             )}
           </Row>
           <Clearfix height={16} />
-          <Row gutter={24}>
-            
-          </Row>
+          <Row gutter={24}></Row>
         </Container>
       </SearchFormContainer>
     )

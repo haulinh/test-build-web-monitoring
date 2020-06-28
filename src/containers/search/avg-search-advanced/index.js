@@ -1,5 +1,5 @@
 import React from 'react'
-import { Spin, Row, Col, message, Button, Menu, Dropdown } from 'antd'
+import { Spin, Row, Col, message, Button, Menu, Dropdown, Tooltip } from 'antd'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
@@ -132,20 +132,28 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState({ stationsData })
   }
 
-  handleSubmitSearch = searchData => {
+  handleSearchAvgData = searchData => {
     if (!this.state.stationKeys.length) {
       message.warn(translate('avgSearchFrom.table.emptyText'))
+      return
+    }
+    if (!searchData) {
+      this.setState({ isSearchingData: true })
       return
     }
     this.setState({ isSearchingData: true, searchData })
   }
 
-  handleSearchStation = searchData => {
+  handleChangeSearchData = searchData => {
+    this.setState({ searchData })
+  }
+
+  handleSearchStation = searchStationData => {
     return new Promise(resolve => {
       this.setState({ isSearchingStation: true }, async () => {
         const {
           data: stationKeys,
-        } = await DataStationAutoApi.searchStationAuto(searchData)
+        } = await DataStationAutoApi.searchStationAuto(searchStationData)
         if (stationKeys) {
           this.setState({ stationKeys, isSearchingStation: false })
           resolve(stationKeys)
@@ -184,29 +192,50 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState(prevState => ({ flagResetForm: !prevState.flagResetForm }))
   }
 
-  menu = () => (
-    <Menu>
-      <Menu.Item onClick={this.showModal}>{translate('addon.save')}</Menu.Item>
-      <Menu.Item onClick={this.resetForm}>{translate('addon.reset')}</Menu.Item>
-    </Menu>
-  )
+  menu = () => {
+    return (
+      <Menu style={{ width: 130 }}>
+        <Menu.Item style={{ padding: '8px 12px' }} onClick={this.showModal}>
+          <Tooltip
+            placement="left"
+            title={translate('dataSearchFilterForm.tooltip.saveNew')}
+          >
+            <div>{translate('addon.save')}</div>
+          </Tooltip>
+        </Menu.Item>
+        <Menu.Item style={{ padding: '8px 12px' }} onClick={this.resetForm}>
+          <Tooltip
+            placement="left"
+            title={translate('dataSearchFilterForm.tooltip.reset')}
+          >
+            <div>{translate('addon.reset')}</div>
+          </Tooltip>
+        </Menu.Item>
+      </Menu>
+    )
+  }
 
   rightChildren() {
     if (!this.state.allowSave) return null
     if (this.state.isEdit) {
       return (
         <Flex>
-          <span className="label">Đã chỉnh sửa</span>
+          <span className="label">{translate('addon.edited')}</span>
           <Clearfix width={32} />
           <Button.Group>
-            <Button
-              type="primary"
-              icon="save"
-              size="default"
-              onClick={this.handleUpdateFilter}
+            <Tooltip
+              placement="top"
+              title={translate('dataSearchFilterForm.tooltip.update')}
             >
-              {translate('addon.update')}
-            </Button>
+              <Button
+                type="primary"
+                icon="save"
+                size="default"
+                onClick={this.handleUpdateFilter}
+              >
+                {translate('addon.update')}
+              </Button>
+            </Tooltip>
             <Dropdown overlay={this.menu()}>
               <Button type="primary" icon="down" />
             </Dropdown>
@@ -215,14 +244,19 @@ export default class AvgSearchAdvanced extends React.Component {
       )
     }
     return (
-      <Button
-        type="primary"
-        icon="save"
-        size="default"
-        onClick={this.showModal}
+      <Tooltip
+        placement="top"
+        title={translate('dataSearchFilterForm.tooltip.save')}
       >
-        {translate('addon.save')}
-      </Button>
+        <Button
+          type="primary"
+          icon="save"
+          size="default"
+          onClick={this.showModal}
+        >
+          {translate('addon.save')}
+        </Button>
+      </Tooltip>
     )
   }
 
@@ -238,8 +272,12 @@ export default class AvgSearchAdvanced extends React.Component {
         searchUrl: encodeURIComponent(JSON.stringify(this.props.values)),
       }
       this.setState({ confirmLoading: true }, async () => {
-        let data = await OrganizationApi.createFilter(organizationId, params)
-        if (data.error && data.message === 'CONFIG_FILTER_NAME_EXISTED') {
+        let {
+          data,
+          error,
+          message: messageErr,
+        } = await OrganizationApi.createFilter(organizationId, params)
+        if (error && messageErr === 'CONFIG_FILTER_NAME_EXISTED') {
           this.setState({
             confirmLoading: false,
           })
@@ -247,12 +285,12 @@ export default class AvgSearchAdvanced extends React.Component {
             name: {
               value: values.name,
               errors: [
-                new Error(translate('dataSearchFilterForm.create.nameIsExist')),
+                new Error(translate('avgSearchFrom.filterForm.name.isExist')),
               ],
             },
           })
         }
-        if (data._id) {
+        if (data && data._id) {
           message.success(translate('dataSearchFilterForm.create.success'))
           this.setState({
             confirmLoading: false,
@@ -318,11 +356,12 @@ export default class AvgSearchAdvanced extends React.Component {
             handleSearch={this.handleSearch}
             filterId={this.props.formData.filterId}
           />
-          <Col span={this.props.isOpenNavigation ? 24 : 19}>
+          <Col style={{ flex: 1, overflowX: 'hidden' }}>
             <SearchFrom
               flagResetForm={this.state.flagResetForm}
-              onSubmit={this.handleSubmitSearch}
+              onSubmit={this.handleSearchAvgData}
               onSearchStationAuto={this.handleSearchStation}
+              onChangeSearchData={this.handleChangeSearchData}
               initialValues={this.props.formData}
               searchNow={this.props.formData.searchNow}
               // advanced operator
@@ -337,6 +376,7 @@ export default class AvgSearchAdvanced extends React.Component {
             >
               <StationForm
                 onChangeStationsData={this.handleChangeStationsData}
+                onSearchAvgData={this.handleSearchAvgData}
                 stations={this.props.stations}
                 stationKeys={this.state.stationKeys}
               />

@@ -70,9 +70,10 @@ const WindowInfo = ({
           borderRadius: '10px 10px 0px 0px',
           color: color,
           display: 'flex',
+          minWidth: 330,
         }}
       >
-        <Row>
+        <Row style={{ flex: 1 }}>
           <Col
             span={6}
             style={{
@@ -104,11 +105,8 @@ const WindowInfo = ({
 }
 
 const InfoBoxWrapper = styled.div`
-  .ant-popover-inner-content {
+  display .ant-popover-inner-content {
     padding: 0px;
-  }
-  .infoBox {
-    width: 'auto !important';
   }
 `
 

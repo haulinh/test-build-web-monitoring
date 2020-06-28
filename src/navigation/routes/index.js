@@ -34,18 +34,11 @@ import Camera from 'containers/camera'
 import AccountActive from 'containers/auth/account-active'
 import CameraControl from 'containers/camera-video'
 import SupportRoute from 'containers/support'
-import AqiContainer from 'containers/aqi'
-import AqiConfigCalculationContainer from 'containers/aqi/configCalculation'
-import AqiListConfigContainer from 'containers/aqi/listConfig'
 
-import WqiContainer from 'containers/wqi'
-import WqiListConfigContainer from 'containers/wqi/listConfig'
-import WqiConfigCalculationContainer from 'containers/wqi/configCalculation'
 import QaQcContainer from 'containers/qa-qc/approved-data'
 import PublishConfigContainer from 'containers/qa-qc/approved-data/config-publish'
 import QaQcConfig from 'containers/qa-qc/config'
 import FtpTransferRoute from 'containers/manager/config-ftp-transfer'
-import ConfigWQIRoute from 'containers/manager/config-wqi'
 import MapFixedContainer from 'containers/fixed-map'
 import ExceededContainer from 'containers/statistic/exceeded'
 import PercentReceivedData from 'containers/statistic/per-rec-data'
@@ -53,9 +46,11 @@ import PercentReceivedData from 'containers/statistic/per-rec-data'
 // import WqiStatistic from "containers/statistic/wqi";
 import Layout from 'layout/default-sidebar-layout'
 import Report from 'containers/report'
+import advanceRoute from './advanceRoute'
 import DataLoggerPage from 'containers/data-logger'
 import AppIncidents from 'containers/apps/incidents'
-import PageAqiStatus from 'containers/aqi/aqi-list-status'
+import AppGrafana from 'containers/apps/grafana'
+// import PageAqiStatus from 'containers/aqi/aqi-list-status'
 
 import PageExpLicenseInfo from 'containers/license/exp-license-info'
 
@@ -82,6 +77,7 @@ export default class RouteDefault extends React.Component {
           <Route path={slug.user.expLicense} component={PageExpLicenseInfo} />
 
           <Route path={slug.apps.incidents} component={AppIncidents} />
+          <Route path={slug.apps.grafana} component={AppGrafana} />
 
           <Layout isShowSidebarMenu>
             <LayoutRoute path="/" exact component={OverviewDashboard} />
@@ -91,32 +87,7 @@ export default class RouteDefault extends React.Component {
               path={slug.measuring.base}
               component={MeasuringRoute}
             />
-            <LayoutRoute path={slug.aqi.base} component={AqiContainer} />
-            <LayoutRoute
-              exact
-              path={slug.aqi.config}
-              // component={AqiConfigCalculationContainer}
-              component={AqiListConfigContainer}
-            />
-            <LayoutRoute
-              exact
-              path={slug.aqi.status}
-              component={PageAqiStatus}
-            />
-            <LayoutRoute
-              path={slug.aqi.configEdit}
-              component={AqiConfigCalculationContainer}
-            />
-            <LayoutRoute path={slug.wqi.base} component={WqiContainer} />
-            <LayoutRoute
-              exact
-              path={slug.wqi.config}
-              component={WqiListConfigContainer}
-            />
-            <LayoutRoute
-              path={slug.wqi.configEdit}
-              component={WqiConfigCalculationContainer}
-            />
+
             <LayoutRoute
               path={slug.stationAuto.base}
               component={StationAutoRoute}
@@ -125,10 +96,7 @@ export default class RouteDefault extends React.Component {
               path={slug.stationFixed.base}
               component={StationFixedRoute}
             />
-            <LayoutRoute
-              path={slug.configWQI.base}
-              component={ConfigWQIRoute}
-            />
+
             <LayoutRoute
               path={slug.stationType.base}
               component={StationTypeRoute}
@@ -199,6 +167,8 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute path={slug.support.base} component={SupportRoute} />
 
             <LayoutRoute path={slug.report.base} component={Report} />
+            <LayoutRoute path={slug.advance.base} component={advanceRoute} />
+
             {/* NOTE Nhật ký */}
             <LayoutRoute
               path={slug.dataLogger.base}

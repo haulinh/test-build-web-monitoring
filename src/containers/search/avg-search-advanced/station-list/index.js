@@ -7,11 +7,23 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow'
 import DataStationAutoApi from 'api/DataStationAutoApi'
-import { translate } from 'hoc/create-lang'
 import TabList from '../tab-list'
+import { translate } from 'hoc/create-lang'
+import { exportExcelMultipleStation } from 'api/DataStationAutoApi'
 
 const TableListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
+`
+
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  h4 {
+    margin-bottom: 0px;
+    font-size: 22px;
+  }
 `
 
 @autobind
@@ -23,6 +35,7 @@ export default class TableList extends React.PureComponent {
       fromDate: PropTypes.string,
       toDate: PropTypes.string,
       advanced: PropTypes.array,
+      dataStatus: PropTypes.array,
     }),
   }
 
@@ -37,6 +50,7 @@ export default class TableList extends React.PureComponent {
       dataStationAuto: [],
       isLoading: false,
       isExporting: false,
+      isExportingAll: false,
       pagination: {
         current: 1,
         pageSize: 50,
@@ -65,8 +79,8 @@ export default class TableList extends React.PureComponent {
       }
     })
     const searchFormData = {
-      fromDate: this.convertDateToString(fromDate),
-      toDate: this.convertDateToString(toDate),
+      fromDate: fromDate,
+      toDate: toDate,
       key: station.key,
       name: station.name,
       type: this.props.type,
@@ -74,35 +88,37 @@ export default class TableList extends React.PureComponent {
       measuringList: station.measuringList,
       measuringData: station.measuringData,
       advanced: this.props.searchData.advanced,
+      dataStatus: this.props.searchData.dataStatus,
     }
     return searchFormData
   }
 
   componentDidMount() {
-    const stationKey =
-      this.props.stationsData &&
-      this.props.stationsData[0] &&
-      this.props.stationsData[0].key
+
+    const stationsData = this.getStationDataView(this.props.stationsData)
+    const stationKey = _.get(stationsData, '[0].key', undefined)
     if (!stationKey) return
-    this.setState({ tabKey: stationKey })
-    const searchFormData = this.getSearchFormData(stationKey)
-    this.loadData(this.state.pagination, searchFormData)
+    this.setState({ tabKey: stationKey }, () => {
+      const searchFormData = this.getSearchFormData(stationKey)
+      this.loadData(this.state.pagination, searchFormData)
+    })
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(this.props.stationsData, nextProps.stationsData)) {
-      const stationKey =
-        this.props.stationsData &&
-        this.props.stationsData[0] &&
-        this.props.stationsData[0].key
+  getStationDataView = stationsData => {
+    return stationsData.filter(station => station.view)
+  }
+
+  componentDidUpdate(prevProps) {
+    const prevStationsDataView = this.getStationDataView(prevProps.stationsData)
+    const stationsDataView = this.getStationDataView(this.props.stationsData)
+
+    if (!_.isEqual(stationsDataView, prevStationsDataView)) {
+      const stationKey = _.get(stationsDataView, '[0].key', undefined)
       if (!stationKey) return
       const searchFormData = this.getSearchFormData(stationKey)
-      if (this.props.stationsData.time !== nextProps.stationsData.time) return
-      if (
-        this.props.stationsData.rangesDate !== nextProps.stationsData.rangesDate
-      )
-        return
-      this.loadData(this.state.pagination, searchFormData)
+      this.setState({ dataStationAuto: [] }, () => {
+        this.loadData(this.state.pagination, searchFormData)
+      })
     }
   }
 
@@ -120,17 +136,15 @@ export default class TableList extends React.PureComponent {
         message.error('ERROR')
         return
       }
-      if (!dataStationAuto.data.length) {
-        message.warn(translate('avgSearchFrom.table.emptyText'))
-      }
       this.setState({
         isLoading: false,
-        dataStationAuto: dataStationAuto.success ? dataStationAuto.data : [],
+        dataStationAuto: dataStationAuto && dataStationAuto.data,
         pagination: {
           ...paginationQuery,
-          total: dataStationAuto.success
-            ? dataStationAuto.pagination.totalItem
-            : 0,
+          total:
+            dataStationAuto && dataStationAuto.pagination
+              ? dataStationAuto.pagination.totalItem
+              : 0,
         },
       })
     })
@@ -147,17 +161,19 @@ export default class TableList extends React.PureComponent {
   }
 
   handleChangeTab = tabKey => {
-    this.setState({ tabKey })
-    const searchFormData = this.getSearchFormData(tabKey)
-    let pagination = {
-      ...this.state.pagination,
-      current: 1,
-    }
-    this.loadData(pagination, searchFormData)
+    this.setState({ tabKey, dataStationAuto: [] }, () => {
+      const searchFormData = this.getSearchFormData(tabKey)
+      let pagination = {
+        ...this.state.pagination,
+        current: 1,
+      }
+      setTimeout(() => {
+        this.loadData(pagination, searchFormData)
+      })
+    })
   }
 
   handleExportExcel() {
-    // const station = this.getData(this.state.tabKey)
     const searchFormData = this.getSearchFormData(this.state.tabKey)
     this.setState({ isExporting: true }, async () => {
       let res = await DataStationAutoApi.getDataStationAutoExportAvg(
@@ -172,18 +188,64 @@ export default class TableList extends React.PureComponent {
     })
   }
 
+  async handleExportAllStation() {
+    const allKeys = this.props.stationsData.reduce((acc, station) => {
+      if (station.view) {
+        acc = [...acc, station.key]
+      }
+      return acc
+    }, [])
+    let queryData = _.map(allKeys, key => {
+      let searchFormData = this.getSearchFormData(key)
+      searchFormData.from = searchFormData.fromDate
+      searchFormData.to = searchFormData.toDate
+      searchFormData.measuringList = searchFormData.measuringList.join(',')
+      searchFormData.measuringListUnitStr = searchFormData.measuringListUnitStr.join(
+        ','
+      )
+      return searchFormData
+    })
+    const body = {
+      stationsQuery: queryData,
+    }
+    this.setState({ isExportingAll: true }, async () => {
+      let res = await exportExcelMultipleStation(body)
+      if (res.data) window.open(res.data, '_blank')
+      else message.error(res.message)
+
+      this.setState({
+        isExportingAll: false,
+      })
+    })
+  }
+
   render() {
     const stations = this.props.stationsData.filter(station => station.view)
     if (!stations.length) return null
     return (
       <TableListWrapper>
+        <TitleWrapper>
+          <h4>{translate('dataSearchFilterForm.table.heading')}</h4>
+          {/* <Button
+            icon="file-excel"
+            style={{ float: 'right', margin: '5px' }}
+            loading={this.state.isExportingAll}
+            type="primary"
+            onClick={this.handleExportAllStation}
+          >
+            {translate('avgSearchFrom.tab.exportExcelAll')}
+          </Button> */}
+        </TitleWrapper>
+
         <Tabs
           defaultActiveKey={this.state.tabKey}
           onChange={this.handleChangeTab}
+          activeKey={this.state.tabKey}
         >
           {stations.map(station => (
             <Tabs.TabPane tab={station.name} key={station.key}>
               <TabList
+                isActive={this.state.tabKey === station.key}
                 isLoading={this.state.isLoading}
                 measuringData={station.measuringData}
                 measuringList={station.measuringList}
@@ -191,9 +253,11 @@ export default class TableList extends React.PureComponent {
                 pagination={this.state.pagination}
                 onChangePage={this.handleChangePage}
                 onExportExcel={this.handleExportExcel}
+                onExportExcelAll={this.handleExportAllStation}
                 nameChart={station.name}
-                typeReport={`${station.name}`}
+                typeReport={`${this.props.type}`}
                 isExporting={this.state.isExporting}
+                isExportingAll={this.state.isExportingAll}
               />
             </Tabs.TabPane>
           ))}

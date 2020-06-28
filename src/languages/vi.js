@@ -192,7 +192,8 @@ export default {
   wqi: {
     title: 'WQI',
     move: 'Di chuyển',
-    reference: 'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI',
+    reference:
+      'Bạn cần di chuyển đến trang Cấu hình tính WQI để chọn công thức tính WQI',
     form: {
       wqiKey: {
         label: 'Lựa chọn WQI',
@@ -202,19 +203,21 @@ export default {
     },
     wqi_hour: {
       header: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN WQI THEO GIỜ',
-      title: 'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.toDate}}'
+      title:
+        'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.toDate}}',
     },
     wqi_day: {
       header: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN WQI THEO NGÀY',
-      title: 'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.toDate}}'
-    }
+      title:
+        'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.toDate}}',
+    },
   },
   wqiConfigCalculation: {
     pageName: 'Cấu hình tính toán WQI',
     tab1: 'Ngưỡng mức độ',
     tab2: 'Bảng giá trị BPi',
     tab3: 'Thông số tính toán',
-    tab4: 'Trọng số nhóm thông số',
+    tab4: 'Cấu hình nhóm thông số',
     add: 'Thêm',
     required1D_1H: 'Nhập ít nhất AVG Ngày hoặc AVG Giờ',
     required: 'Vui lòng nhập giá trị',
@@ -239,6 +242,7 @@ export default {
     colBelongTemp: 'Phụ thuộc nhiệt độ',
     colGroupParam: 'Nhóm thông số',
     valWeightParam: 'Trọng số',
+    valMinimumNumber: 'Số lượng thông số tối thiểu của mỗi nhóm',
     colGroupI: 'Nhóm I',
     colGroupII: 'Nhóm II',
     colGroupIII: 'Nhóm III',
@@ -556,6 +560,7 @@ export default {
       },
     },
     table: {
+      view: 'Hiển thị',
       receivedAt: 'Thời gian',
       all: 'Tất cả',
       emptyText: 'Không có giá trị',
@@ -600,6 +605,7 @@ export default {
       data: 'Dữ liệu',
       chart: 'Biểu đồ',
       exportExcel: 'Xuất dữ liệu excel',
+      exportExcelAll: 'Xuất tất cả dữ liệu',
       statusExport: 'Đang xuất dữ liệu ...',
     },
     search: {
@@ -609,6 +615,20 @@ export default {
         placeholderSearch: 'Nhập tên bộ lọc ...',
       },
       subMenuFilters: 'Danh sách bộ lọc',
+    },
+    stationForm: {
+      length: 'Danh sách trạm ({{=it.stationLength}} trạm)',
+    },
+    filterForm: {
+      title: 'Lưu bộ lọc',
+      description:
+        'Dữ liệu chọn lọc theo các trường được tạo bởi bạn sẽ được lưu trữ khi bạn đặt tên cho bộ lọc này.',
+      name: {
+        label: 'Tên bộ lọc',
+        placeholder: 'Nhập tên của bộ lọc',
+        isEmpty: 'Vui lòng nhập tên bộ lòng',
+        isExist: 'Tên đã tồn tại',
+      },
     },
   },
   dataSearchFilterForm: {
@@ -712,8 +732,17 @@ export default {
       advanced: {
         label: 'Nâng cao',
       },
+      activatedAt: {
+        label: 'Ngày hoạt động',
+        placeholder: 'Chọn ngày hoạt động',
+      },
+      typeSampling: {
+        label: 'Hình thức lấy mẫu',
+        placeholder: 'Chọn hình thức',
+      },
     },
     table: {
+      heading: 'Kết quả dữ liệu',
       receivedAt: 'Thời gian',
       all: 'Tất cả',
       emptyText: 'Không có giá trị',
@@ -757,6 +786,19 @@ export default {
       chart: 'Biểu đồ',
       exportExcel: 'Xuất dữ liệu excel',
       statusExport: 'Đang xuất dữ liệu ...',
+    },
+    tooltip: {
+      addCondition: 'Thêm điều kiện cho bộ lọc',
+      listStation: 'Danh sách các Trạm thoả mãn điều kiện lọc ở trên',
+      save: 'Lưu lại bộ lọc vừa tạo',
+      update: 'Cập nhật đè lên bộ lọc đang sửa',
+      saveNew: 'Lưu thành bộ lọc mới từ bộ lọc gốc đã có thay đổi',
+      reset: 'Quay lại cài đặt sẵn có của bộ lọc đang mở',
+      searchData: 'Tìm kiếm dữ liệu trung bình của Trạm được truy xuất',
+      configQAQC: 'Điều chỉnh cấu hình QAQC cho từng loại Trạm',
+      view: 'Tắt / bật cho phép truy xuất dữ liệu trung bình',
+      searchStation: 'Tìm kiếm Trạm trong danh sách',
+      searchFilter: 'Tìm kiếm các bộ Lọc đã được tạo',
     },
   },
   measuringManager: {
@@ -1908,7 +1950,7 @@ export default {
     exceed: 'Vượt nguỡng',
     lossData: 'Mất tín hiệu',
     sensorError: 'Lỗi thiết bị',
-    collecting: 'Đang đo',
+    collecting: 'Tốt',
     lostConnection: 'Mất kết nối',
     overload: 'Vượt ngưỡng',
     aboutToOverload: 'Chuẩn bị vượt ngưỡng',
@@ -1919,6 +1961,7 @@ export default {
     create: 'Tạo mới',
     update: 'Cập nhật',
     edit: 'Chỉnh sửa',
+    edited: 'Đã chỉnh sửa',
     delete: 'Xoá',
     save: 'Lưu',
     reset: 'Đặt lại',
@@ -2150,6 +2193,7 @@ export default {
     },
   },
   tooltipMenuApp: {
+    notification: 'Thông báo',
     dashboard:
       'Giám sát tổng quát các thông tin trạng thái số liệu của các trạm',
     monitoringSub:
@@ -2231,6 +2275,8 @@ export default {
       base:
         'Giám sát số liệu thời gian thực theo  danh sách tất cả điểm quan trắc',
     },
+    hideMenu: 'Ẩn menu',
+    showMenu: 'Hiện menu',
   },
   dataLogger: {
     breadcrumb: {
@@ -2345,6 +2391,10 @@ export default {
       time: 'Thời gian',
       day: 'Ngày',
       title: 'Giá trị AQI theo giờ',
+      reportName: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN AQI THEO GIỜ',
+      reportName2: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN AQI THEO Ngày',
+      searchName:
+        'Các số liệu thống kê về kết quả toán AQI ngày theo khoảng thời gian từ {{= it.fromDate}}  đến {{= it.toDate}}.',
     },
     wqi: {
       menuApp: 'WQI',
@@ -2427,5 +2477,6 @@ export default {
   apps: {
     incidents: 'Quản lý sự cố',
     monitoring: 'Giám sát trực tuyến',
+    grafana: 'Công cụ biểu đồ',
   },
 }

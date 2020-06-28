@@ -159,6 +159,7 @@ export default class AqiContainer extends React.Component {
           <React.Fragment>
             <MapComponent
               // zoom={8}
+              locale={this.state.locale}
               center={this.state.center}
               aqiList={this.state.aqiList}
               aqiLevel={this.state.aqiLevel}

@@ -10,6 +10,7 @@ import {
   message,
   // Modal
 } from 'antd'
+import PropTypes from 'prop-types'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from '../breadcrumb'
 import { translate } from 'hoc/create-lang'
@@ -49,8 +50,16 @@ export default class QAQC_Config extends React.Component {
       isDisconnection: false,
       isLoading: false,
       configId: null,
+      stationTypes: [],
+      configQAQC: {},
     }
     this.getData = this.getData.bind(this)
+  }
+
+  static propTypes = {
+    onCompleted: PropTypes.func,
+    isDrawer: PropTypes.bool,
+    stationType: PropTypes.string,
   }
 
   dataTable = []
@@ -64,13 +73,13 @@ export default class QAQC_Config extends React.Component {
   handleSubmit = () => {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
+        // console.log('Received values of form: ', values)
       }
       let measureConfig = await this.getData()
-      console.log('measureConfig', measureConfig)
+      // console.log('measureConfig', measureConfig)
 
       let response = null
-      console.log(this.state.configId, '(this.state.configId')
+      // console.log(this.state.configId, '(this.state.configId')
       if (this.state.configId) {
         response = await putConfigQAQC(this.state.configId, {
           measureConfig: {
@@ -96,7 +105,7 @@ export default class QAQC_Config extends React.Component {
         }
       } else message.error(response.message)
 
-      this.setState({ isLoading: false })
+      this.setState({ isLoading: false }, this.props.onCompleted)
     })
   }
 
@@ -111,7 +120,7 @@ export default class QAQC_Config extends React.Component {
   }
 
   onTabChange = (key, type) => {
-    console.log(key, type)
+    // console.log(key, type)
     this.setState({ activeTabkey: key })
   }
 
@@ -119,35 +128,43 @@ export default class QAQC_Config extends React.Component {
     try {
       let stationTypes = await getStationTypes({}, { isAuto: true })
       if (stationTypes.success) {
-        let tabList = stationTypes.data.map(item => {
-          return {
-            key: item.key,
-            tab: item.name,
-            name: item.name,
-          }
-        })
+        const { stationType } = this.props
+        let tabList = stationTypes.data
+          .filter(({ key }) => !stationType || key === stationType)
+          .map(item => {
+            return {
+              key: item.key,
+              tab: item.name,
+              name: item.name,
+            }
+          })
         this.setState({
+          stationTypes: stationTypes.data,
           tabList,
           activeTabkey: _.result(stationTypes.data, '[0].key', ''),
         })
       } else {
         this.setState({ isDisconnection: true })
       }
-
+      let dataForm = {}
       let response = await getConfigQAQC()
       // console.log("response,", response)
-      let dataForm = {}
       if (response.success) {
         const data = _.get(response, 'data.value', null)
-        // console.log("data,", response)
         if (data) {
           dataForm = {
             beyondMeasuringRange: data.beyondMeasuringRange,
             deviceError: data.deviceError,
             deviceCalibration: data.deviceCalibration,
-            ...data.measureConfig,
+            ...(this.props.stationType
+              ? {
+                  [this.props.stationType]:
+                    data.measureConfig[this.props.stationType],
+                }
+              : data.measureConfig),
           }
           this.setState({
+            configQAQC: data,
             configId: _.get(response, 'data._id', null),
             isHaveConfig: true,
           })
@@ -161,8 +178,46 @@ export default class QAQC_Config extends React.Component {
         setFieldsValue(dataForm)
       })
     } catch (e) {
-      console.log('qaqc service error', e.message)
+      // console.log('qaqc service error', e.message)
       this.setState({ isDisconnection: true })
+    }
+  }
+
+  async componentWillReceiveProps(nextProps) {
+    if (nextProps.stationType !== this.props.stationType) {
+      const { stationType } = nextProps
+      let tabList = this.state.stationTypes
+        .filter(({ key }) => !stationType || key === stationType)
+        .map(item => {
+          return {
+            key: item.key,
+            tab: item.name,
+            name: item.name,
+          }
+        })
+      this.setState({
+        tabList,
+        activeTabkey: _.result(tabList, '[0].key', ''),
+      })
+      let dataForm = {}
+      const data = this.state.configQAQC
+      if (data) {
+        dataForm = {
+          beyondMeasuringRange: data.beyondMeasuringRange,
+          deviceError: data.deviceError,
+          deviceCalibration: data.deviceCalibration,
+          ...(nextProps.stationType
+            ? {
+                [nextProps.stationType]:
+                  data.measureConfig[nextProps.stationType],
+              }
+            : data.measureConfig),
+        }
+      }
+      this.setState({ isInitLoaded: true }, () => {
+        const { setFieldsValue } = this.props.form
+        setFieldsValue(dataForm)
+      })
     }
   }
 
@@ -196,16 +251,14 @@ export default class QAQC_Config extends React.Component {
     return result
   }
 
-  render() {
+  handleOnChangeTabKey = activeTabkey => {
+    this.setState({ activeTabkey })
+  }
+
+  renderContent() {
     const { getFieldDecorator } = this.props.form
-    // console.log(this.state.isDisconnection, "this.state.isDisconnection")
     return (
-      <div>
-        <PageContainer
-          {...this.props.wrapperProps}
-          backgroundColor={'#fafbfb'}
-        />
-        <Breadcrumb items={['configNew']} />
+      <React.Fragment>
         {this.state.isDisconnection ? (
           this._renderDisconnection()
         ) : (
@@ -243,7 +296,8 @@ export default class QAQC_Config extends React.Component {
             >
               <Tabs
                 defaultActiveKey={this.state.activeTabkey}
-                onChange={e => {}}
+                activeKey={this.state.activeTabkey}
+                onChange={this.handleOnChangeTabKey}
               >
                 {this.state.tabList.map(tab => {
                   let measures = this.getMeasuringByType(tab.key)
@@ -270,19 +324,37 @@ export default class QAQC_Config extends React.Component {
             </Card>
 
             <br />
-            <Button
-              loading={this.state.isLoading}
-              block
-              type="primary"
-              onClick={() => {
-                this.setState({ isLoading: true }, this.handleSubmit)
-              }}
-            >
-              {this.state.configId && i18n.btnEdit}
-              {!this.state.configId && i18n.btnSave}
-            </Button>
+            {this.state.isInitLoaded && (
+              <Button
+                loading={this.state.isLoading}
+                block
+                type="primary"
+                onClick={() => {
+                  this.setState({ isLoading: true }, this.handleSubmit)
+                }}
+              >
+                {this.state.configId && i18n.btnEdit}
+                {!this.state.configId && i18n.btnSave}
+              </Button>
+            )}
           </Form>
         )}
+      </React.Fragment>
+    )
+  }
+
+  render() {
+    if (this.props.isDrawer) {
+      return this.renderContent()
+    }
+    return (
+      <div>
+        <PageContainer
+          {...this.props.wrapperProps}
+          backgroundColor={'#fafbfb'}
+        />
+        <Breadcrumb items={['configNew']} />
+        {this.renderContent()}
       </div>
     )
   }

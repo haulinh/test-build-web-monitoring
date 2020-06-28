@@ -53,12 +53,17 @@ export default {
 
   XU_LY_KIEM_DUYET_DU_LIEU_CONFIG: {
     VIEW: 'menu.xuLyDuLieu_config.actions.view',
+    EDIT: 'menu.xuLyDuLieu_config.actions.edit',
   },
   XU_LY_KIEM_DUYET_DU_LIEU: {
     VIEW: 'menu.kiemDuyetDuLieu.actions.view',
   },
   QAQCCONFIG: {
     VIEW: 'menu.qaqcConfig.actions.view',
+  },
+  XU_LY_DU_LIEU_CAU_HINH: {
+    VIEW: 'menu.xuLyDuLieu_config.actions.view',
+    EDIT: 'menu.xuLyDuLieu_config.actions.edit',
   },
   FTPTRANSFER: {
     VIEW: 'menu.ftpTransfer.actions.view',

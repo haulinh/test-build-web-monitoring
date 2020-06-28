@@ -208,19 +208,23 @@ export default {
     },
     wqi_hour: {
       header: 'REPORT ON CALCULATION OF WQI BY HOURS',
-      title: 'The statistics for the WQI day math results by the period from {{= it.fromDate}} to {{= it.toDate}}'
+      title:
+        'The statistics for the WQI day math results by the period from {{= it.fromDate}} to {{= it.toDate}}',
+      searchName:
+        'The statistics for the AQI day math results by the period from {{= it.fromDate}} {{= it.toDate}}.',
     },
     wqi_day: {
       header: 'REPORT ON CALCULATION OF WQI BY DAY',
-      title: 'The statistics for the WQI day math results by the period from {{= it.fromDate}} to {{= it.toDate}}'
-    }
+      title:
+        'The statistics for the WQI day math results by the period from {{= it.fromDate}} to {{= it.toDate}}',
+    },
   },
   wqiConfigCalculation: {
     pageName: 'Configure to WQI calculation',
     tab1: 'Prediction threshold',
     tab2: 'BPi value table',
     tab3: 'Calculation parameters',
-    tab4: 'Weight of the parameter',
+    tab4: 'Configure parameter Groups',
     add: 'Add',
     required1D_1H: 'Enter at least AVG Date or AVG Hour',
     required: 'Please input value',
@@ -245,6 +249,7 @@ export default {
     colUnit: 'Unit',
     colGroupParam: 'Parameter group',
     valWeightParam: 'Weighted',
+    valMinimumNumber: 'Minimum number of parameters for each group',
     colGroupI: 'Group I',
     colGroupII: 'Group II',
     colGroupIII: 'Group III',
@@ -561,6 +566,7 @@ export default {
       },
     },
     table: {
+      view: 'View',
       receivedAt: 'Received At',
       all: 'All',
       emptyText: 'There Are No Records To Display',
@@ -605,6 +611,7 @@ export default {
       data: 'Data',
       chart: 'Chart',
       exportExcel: 'Export To Excel',
+      exportExcelAll: 'Export all',
       statusExport: 'Exporting ...',
     },
     search: {
@@ -614,6 +621,20 @@ export default {
         placeholderSearch: 'Enter the filter name ...',
       },
       subMenuFilters: 'Filters',
+    },
+    stationForm: {
+      length: 'Station list ({{=it.stationLength}} station)',
+    },
+    filterForm: {
+      title: 'Save filter',
+      description:
+        'The data selected by the fields created by you will be stored when you name this filter.',
+      name: {
+        label: 'Name',
+        placeholder: 'Name of filter',
+        isEmpty: 'Please type name of filter',
+        isExist: 'Name is exist',
+      },
     },
   },
   dataSearchFilterForm: {
@@ -717,8 +738,17 @@ export default {
       advanced: {
         label: 'Advanced',
       },
+      activatedAt: {
+        label: 'Activated At',
+        placeholder: 'Select an Activated date',
+      },
+      typeSampling: {
+        label: 'Form of sampling',
+        placeholder: 'Select form',
+      },
     },
     table: {
+      heading: 'Data results',
       receivedAt: 'Received At',
       all: 'All',
       emptyText: 'There Are No Records To Display',
@@ -762,6 +792,19 @@ export default {
       chart: 'Chart',
       exportExcel: 'Export To Excel',
       statusExport: 'Exporting ...',
+    },
+    tooltip: {
+      addCondition: 'Add conditions for the filter',
+      listStation: 'List of stations that meet the above filter conditions',
+      save: 'Save the newly created filter',
+      update: 'Update override filter in progress',
+      saveNew: 'Save as new filter from changed original filter',
+      reset: 'Return to the currently open filter setting',
+      searchData: 'Search the AVG data of the retrieved Station',
+      configQAQC: 'Config QAQC for each Station type',
+      view: 'Turning off / on allows to retrieve AVG data',
+      searchStation: 'Search for stations in the list',
+      searchFilter: 'Search for filters that have been created',
     },
   },
   measuringManager: {
@@ -1917,7 +1960,7 @@ export default {
     exceed: 'Exceeded',
     lossData: 'Lost Connection',
     sensorError: 'Sensor Error',
-    collecting: 'Collecting',
+    collecting: 'Good',
     lostConnection: 'Lost Connection',
     overload: 'Overload',
     aboutToOverload: 'About to Overload',
@@ -1928,6 +1971,7 @@ export default {
     create: 'Create',
     update: 'Update',
     edit: 'Edit',
+    edited: 'Edited',
     delete: 'Delete',
     save: 'Save',
     reset: 'Reset',
@@ -2152,6 +2196,7 @@ export default {
     },
   },
   tooltipMenuApp: {
+    notification: 'Notifications',
     dashboard: 'General monitoring of data status information of stations',
     monitoringSub:
       'Monitoring data of each station in real time and look up data',
@@ -2233,6 +2278,8 @@ export default {
       user: 'Add new and Assign Roles accounts in the system',
       dataLogger: 'The user history of operations in the system',
     },
+    hideMenu: 'Hide menu',
+    showMenu: 'Show menu',
   },
   dataLogger: {
     breadcrumb: {
@@ -2347,6 +2394,10 @@ export default {
       time: 'Time',
       day: 'Day',
       title: 'AQI By Hours',
+      reportName: 'REPORT ON CALCULATION OF AQI BY HOURS',
+      reportName2: 'REPORT ON CALCULATION OF AQI BY DAYS',
+      searchName:
+        'The statistics for the AQI day math results by the period from {{= it.fromDate}} to {{= it.toDate}}.',
     },
     wqi: {
       menuApp: 'WQI',
@@ -2430,5 +2481,6 @@ export default {
   apps: {
     incidents: 'Incidents Communication',
     monitoring: 'Online Monitoring',
+    grafana: 'Data visualization',
   },
 }

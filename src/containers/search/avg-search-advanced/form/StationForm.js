@@ -3,8 +3,20 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import update from 'immutability-helper'
 import styled from 'styled-components'
-import { Collapse, Table, Select, Checkbox } from 'antd'
+import {
+  Collapse,
+  Table,
+  Select,
+  Checkbox,
+  Button,
+  Input,
+  Tooltip,
+  Icon,
+} from 'antd'
 import Clearfix from 'components/elements/clearfix'
+import { translate } from 'hoc/create-lang'
+import { replaceVietnameseStr } from 'utils/string'
+import Highlighter from 'react-highlight-words'
 
 const { Panel } = Collapse
 
@@ -17,10 +29,6 @@ const Flex = styled.div`
 const StationFormWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  .ant-table-thead > tr > th,
-  .ant-table-tbody > tr > td {
-    text-align: center;
-  }
   .ant-table-thead > tr > th {
     white-space: nowrap;
   }
@@ -31,6 +39,10 @@ const StationFormWrapper = styled.div`
   }
   .ant-select-selection {
     border: none;
+  }
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    padding: 6px 16px;
+    padding-left: 40px;
   }
 `
 
@@ -44,6 +56,7 @@ export default class StationForm extends React.PureComponent {
     stations: PropTypes.array,
     stationKeys: PropTypes.array,
     onChangeStationsData: PropTypes.func,
+    onSearchAvgData: PropTypes.func,
   }
 
   static defaultProps = {
@@ -57,6 +70,10 @@ export default class StationForm extends React.PureComponent {
       dataSource: this.getDataSource(),
       indeterminate: false,
       checkAll: true,
+      activeKey: '',
+      searchString: undefined,
+      searchText: '',
+      searchedColumn: '',
     }
   }
 
@@ -68,7 +85,8 @@ export default class StationForm extends React.PureComponent {
     if (!this.props.stations.length) return
     if (
       !_.isEqual(prevProps.stationKeys, this.props.stationKeys) ||
-      !_.isEqual(prevProps.stations.length, this.props.stations.length)
+      !_.isEqual(prevProps.stations.length, this.props.stations.length) ||
+      !_.isEqual(prevState.searchString, this.state.searchString)
     ) {
       const dataSource = this.getDataSource()
       this.setState({ dataSource }, this.handleChange)
@@ -93,20 +111,31 @@ export default class StationForm extends React.PureComponent {
 
   getDataSource = () => {
     if (!this.props.stations.length) return []
-    const stations = this.props.stations.filter(station =>
+    let stations = this.props.stations
+    stations = stations.filter(station =>
       this.props.stationKeys.includes(station.key)
     )
-    return stations.map((station, index) => ({
-      index,
-      _id: station._id,
-      key: station.key,
-      name: station.name,
-      view: true,
-      measuringData: station.measuringList.sort(
-        (a, b) => a.numericalOrder - b.numericalOrder
-      ),
-      measuringList: station.measuringList.map(measuring => measuring.key),
-    }))
+    if (this.state && this.state.searchString) {
+      const searchString = replaceVietnameseStr(this.state.searchString)
+      stations = this.props.stations.filter(
+        station => replaceVietnameseStr(station.name).indexOf(searchString) > -1
+      )
+    }
+
+    return stations.map((station, index) => {
+      // const oldData = this.state.dataSource.find(sta => sta.key === station.key)
+      return {
+        index,
+        _id: station._id,
+        key: station.key,
+        name: station.name,
+        view: true,
+        measuringData: station.measuringList.sort(
+          (a, b) => a.numericalOrder - b.numericalOrder
+        ),
+        measuringList: station.measuringList.map(measuring => measuring.key),
+      }
+    })
   }
 
   handleChangeMeasuringList = recordIndex => measuringList => {
@@ -140,6 +169,90 @@ export default class StationForm extends React.PureComponent {
     )
   }
 
+  getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            this.searchInput = node
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() =>
+            this.handleSearch(selectedKeys, confirm, dataIndex)
+          }
+          style={{ width: 258, marginBottom: 8, display: 'block' }}
+        />
+        <Button
+          type="primary"
+          onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+          icon="search"
+          size="small"
+          style={{ width: 125, marginRight: 8 }}
+        >
+          Search
+        </Button>
+        <Button
+          onClick={() => this.handleReset(clearFilters)}
+          size="small"
+          style={{ width: 125 }}
+        >
+          Reset
+        </Button>
+      </div>
+    ),
+    filterIcon: filtered => (
+      <Tooltip title={translate('dataSearchFilterForm.tooltip.searchStation')}>
+        <Icon
+          type="search"
+          style={{ color: filtered ? '#1890ff' : undefined }}
+        />
+      </Tooltip>
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select())
+      }
+    },
+    render: text =>
+      this.state.searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[this.state.searchText]}
+          autoEscape
+          textToHighlight={text.toString()}
+        />
+      ) : (
+        text
+      ),
+  })
+
+  handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm()
+    this.setState({
+      searchText: selectedKeys[0],
+      searchedColumn: dataIndex,
+    })
+  }
+
+  handleReset = clearFilters => {
+    clearFilters()
+    this.setState({ searchText: '' })
+  }
+
   getColumns = () => {
     const indeterminate =
       !!this.state.dataSource.filter(data => data.view).length &&
@@ -150,19 +263,14 @@ export default class StationForm extends React.PureComponent {
       this.state.dataSource.length
     return [
       {
-        title: 'Tên trạm',
+        title: translate('avgSearchFrom.form.stationAuto.label'),
         dataIndex: 'name',
         key: 'name',
-        render: (text, record) => {
-          return (
-            <span>
-              {text} <strong>({record.key})</strong>
-            </span>
-          )
-        },
+        width: 230,
+        ...this.getColumnSearchProps('name'),
       },
       {
-        title: 'Thông số',
+        title: translate('avgSearchFrom.form.measuringList.label'),
         dataIndex: 'measuringList',
         key: 'measuringList',
         render: (measuringList, record) => {
@@ -187,15 +295,20 @@ export default class StationForm extends React.PureComponent {
       },
       {
         title: () => (
-          <Flex>
-            <span>Hiển thị</span>
-            <Clearfix width={12} />
-            <Checkbox
-              indeterminate={indeterminate}
-              onChange={this.onCheckAllChange}
-              checked={checkedAll}
-            />
-          </Flex>
+          <Tooltip
+            placement="top"
+            title={translate('dataSearchFilterForm.tooltip.view')}
+          >
+            <Flex>
+              <Checkbox
+                indeterminate={indeterminate}
+                onChange={this.onCheckAllChange}
+                checked={checkedAll}
+              />
+              <Clearfix width={12} />
+              {translate('avgSearchFrom.table.view')}
+            </Flex>
+          </Tooltip>
         ),
         dataIndex: 'view',
         key: 'view',
@@ -214,17 +327,63 @@ export default class StationForm extends React.PureComponent {
 
   renderHeading() {
     return (
-      <Heading>Danh sách trạm ({this.state.dataSource.length} trạm)</Heading>
+      <Tooltip
+        placement="top"
+        title={translate('dataSearchFilterForm.tooltip.listStation')}
+      >
+        <Heading>
+          {translate('avgSearchFrom.stationForm.length', {
+            stationLength: this.state.dataSource.filter(station => station.view)
+              .length,
+          })}
+        </Heading>
+      </Tooltip>
     )
   }
 
+  handleSearchAvgData = event => {
+    event.stopPropagation()
+    this.setState({ activeKey: '' })
+    this.props.onSearchAvgData()
+  }
+
+  rightChildren() {
+    return (
+      <Tooltip
+        placement="top"
+        title={translate('dataSearchFilterForm.tooltip.searchData')}
+      >
+        <Button
+          type="primary"
+          icon="search"
+          size="large"
+          onClick={this.handleSearchAvgData}
+        >
+          {translate('addon.search')}
+        </Button>
+      </Tooltip>
+    )
+  }
+
+  handleChangeActiveKey = key => {
+    this.setState({ activeKey: key })
+  }
+
   render() {
-    const dataSource = this.state.dataSource
+    const { dataSource } = this.state
     const columns = this.getColumns()
     return (
       <StationFormWrapper>
-        <Collapse expandIconPosition="left">
-          <Panel header={this.renderHeading()} key="list">
+        <Collapse
+          expandIconPosition="left"
+          onChange={this.handleChangeActiveKey}
+          activeKey={this.state.activeKey}
+        >
+          <Panel
+            header={this.renderHeading()}
+            extra={this.rightChildren()}
+            key="list"
+          >
             <Table dataSource={dataSource} columns={columns} />
           </Panel>
         </Collapse>

@@ -23,6 +23,7 @@ app.get('/app.json', function (req, res) {
     },
     apps: {
       incidents: process.env.APP_INCIDENTS_URL || 'https://incident-app.ilotusland.asia',
+      grafana: process.env.APP_GRAFANA_URL | 'https://grafana.ilotusland.asia'
     },
     isAdvanced: process.env.isAdvanced,
     defaultPage: process.env.DEFAULT_PAGE || '/',

@@ -364,11 +364,9 @@ export default class TabGiaTri_NhomIV extends React.Component {
           isLockLast,
         },
         () => {
-          setTimeout(() => {
-            this.props.form.setFieldsValue({
-              levelList: transformData,
-            })
-          }, 0)
+          this.props.form.setFieldsValue({
+            levelList: transformData,
+          })
         }
       )
     }

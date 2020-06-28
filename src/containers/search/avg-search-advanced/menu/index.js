@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Menu, Affix, Input } from 'antd'
+import { Col, Menu, Input, Tooltip } from 'antd'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -9,6 +9,8 @@ import protectRole from 'hoc/protect-role'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
+
+const MENU_WIDTH = 300
 
 const Search = Input.Search
 
@@ -29,8 +31,13 @@ const SearchWrapper = styled.div`
 `
 
 const MenuWrapper = styled(Col)`
-  background-color: #f4f5f7;
-  min-height: calc(100vh - 57px);
+  position: fixed;
+  height: calc(100vh - 57px);
+  width: ${MENU_WIDTH}px;
+  border-left: 1px solid #f1f1f1;
+  z-index: 1;
+  /* padding: 0 16px; */
+  overflow: auto;
   .ant-menu-item-group {
     .ant-menu-item-group-title {
       color: #333 !important;
@@ -46,6 +53,9 @@ const MenuWrapper = styled(Col)`
   }
   .ant-menu-submenu-title {
     padding-left: 4px !important;
+    color: #333 !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
   }
   .ant-menu.ant-menu-sub.ant-menu-inline {
     margin-left: 16px;
@@ -140,19 +150,30 @@ export default class FilterListMenu extends React.Component {
 
   render() {
     const filters = this.getFilterGroupByStationType()
-    if (this.props.isOpenNavigation) return null
+    // if (this.props.isOpenNavigation) return null
     return (
-      <MenuWrapper span={5}>
-        <Affix offsetTop={57}>
-          <div>
-            <SearchWrapper>
+      <React.Fragment>
+        <Col
+          style={{
+            width: MENU_WIDTH,
+            backgroundColor: '#f4f5f7',
+            minHeight: 'calc(100vh - 57px)',
+          }}
+        />
+        <MenuWrapper>
+          <SearchWrapper>
+            <Tooltip
+              title={translate('dataSearchFilterForm.tooltip.searchFilter')}
+            >
               <Search
                 onChange={event => this.handleOnChangeSearch(event)}
                 placeholder={i18n.placeholderSearch}
                 onSearch={this.props.handleSearch}
                 style={{ width: '95%', marginTop: '10px' }}
               />
-            </SearchWrapper>
+            </Tooltip>
+          </SearchWrapper>
+          {Object.keys(filters).length ? (
             <Menu
               style={{
                 overflowX: 'hidden',
@@ -160,21 +181,18 @@ export default class FilterListMenu extends React.Component {
                 backgroundColor: '#F4F5F7',
               }}
               defaultSelectedKeys={[this.props.filterId]}
-              defaultOpenKeys={['sub1']}
+              defaultOpenKeys={[...Object.keys(filters), 'ALL']}
               mode="inline"
             >
-              <SubMenu
-                key="sub1"
-                title={
-                  <span style={{ marginLeft: 12, fontWeight: 600 }}>
-                    {i18n.titleSubMenuFilters}
-                  </span>
-                }
-              >
-                {Object.keys(filters).map(filterKey => (
-                  <Menu.ItemGroup
-                    key={filterKey}
-                    title={this.getStationType(filterKey).name}
+              {Object.keys(filters)
+                .sort()
+                .map(filterKey => (
+                  <SubMenu
+                    key={filterKey || 'ALL'}
+                    title={
+                      this.getStationType(filterKey).name ||
+                      translate('dataSearchFilterForm.table.all')
+                    }
                   >
                     {filters[filterKey].map(filter => (
                       <Menu.Item
@@ -187,13 +205,12 @@ export default class FilterListMenu extends React.Component {
                         )}
                       </Menu.Item>
                     ))}
-                  </Menu.ItemGroup>
+                  </SubMenu>
                 ))}
-              </SubMenu>
             </Menu>
-          </div>
-        </Affix>
-      </MenuWrapper>
+          ) : null}
+        </MenuWrapper>
+      </React.Fragment>
     )
   }
 }

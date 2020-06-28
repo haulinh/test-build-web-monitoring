@@ -159,6 +159,7 @@ export default class AvgSearch extends React.Component {
   }
 
   handleExportExcel = async () => {
+    console.log('-------------handleExportExcel')
     this.setState({
       isExporting: true,
     })

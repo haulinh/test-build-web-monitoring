@@ -1,5 +1,5 @@
 import { getConfigApi } from 'config'
-import { getFetch, putFetch } from 'utils/fetch'
+import { getFetch, putFetch, postFetch } from 'utils/fetch'
 import qs from 'query-string'
 
 function getDataStationAutoUrl(prefix = '') {
@@ -19,7 +19,7 @@ export function getDataStationAutos(
   )}`
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
-  if (advanced) url += `&advanced=${JSON.stringify(advanced)}`
+  // if (advanced) url += `&advanced=${JSON.stringify(advanced)}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
   if (isExceeded) url += `&isExceeded=${isExceeded}`
   if (dataType) url += `&dataType=${dataType}`
@@ -53,7 +53,7 @@ export function getExportData({
 
 export function getDataStationAutoAvg(
   { page = 1, itemPerPage = 10 },
-  { fromDate, toDate, key, measuringList, type, advanced }
+  { fromDate, toDate, key, measuringList, type, advanced, dataStatus }
 ) {
   var url = getDataStationAutoUrl(
     `${key}/avg?page=${page}&itemPerPage=${itemPerPage}`
@@ -61,7 +61,10 @@ export function getDataStationAutoAvg(
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
-  if (advanced) url += `&advanced=${JSON.stringify(advanced)}`
+  if (advanced && advanced.length)
+    url += `&advanced=${JSON.stringify(advanced)}`
+  if (dataStatus && dataStatus.length)
+    url += `&dataStatus=${dataStatus.join(',')}`
   if (type) url += `&type=${type}`
   return getFetch(url)
 }
@@ -74,6 +77,8 @@ export function getDataStationAutoExportAvg({
   measuringListUnitStr,
   type,
   name,
+  advanced,
+  dataStatus,
 }) {
   var url = getDataStationAutoUrl(`${key}/export-avg?`)
   if (fromDate) url += `&from=${fromDate}`
@@ -81,9 +86,20 @@ export function getDataStationAutoExportAvg({
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
   if (measuringListUnitStr)
     url += `&measuringListUnit=${measuringListUnitStr.join(',')}`
+  if (advanced && advanced.length)
+    url += `&advanced=${JSON.stringify(advanced)}`
+  if (dataStatus && dataStatus.length)
+    url += `&dataStatus=${dataStatus.join(',')}`
+
   if (type) url += `&type=${type}`
   if (name) url += `&name=${name}`
   return getFetch(url)
+}
+
+export function exportExcelMultipleStation(data) {
+  var url = getDataStationAutoUrl(`/export-avg-multiple-station?`)
+  console.log(data, '------data')
+  return postFetch(url, data)
 }
 
 export function downloadExcel_DataStationAutov1(
@@ -396,6 +412,8 @@ export function searchStationAuto({
   dataStatus,
   standardKey,
   frequent,
+  activatedAt,
+  typeSampling,
   ...props
 }) {
   let url = `${getDataStationAutoUrl(`station-key-custom?`)}`
@@ -406,6 +424,8 @@ export function searchStationAuto({
   if (standardKey && standardKey.length)
     url += `&standardKey=${standardKey.join(',')}`
   if (frequent) url += `&frequent=${frequent}`
+  if (activatedAt) url += `&activatedAt=${activatedAt}`
+  if (typeSampling) url += `&typeSampling=${typeSampling}`
   return getFetch(url)
 }
 

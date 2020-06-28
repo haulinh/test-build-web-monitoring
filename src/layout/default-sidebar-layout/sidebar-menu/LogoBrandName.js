@@ -1,22 +1,30 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { SHAPE } from 'themes/color'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import NotificationIcon from './../sidebar-global/NotificationIcon'
+
+const LogoWidthNotification = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0px 8px;
+  justify-content: space-between;
+`
 
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 0px 8px;
 `
 
 const LogoIcon = styled.img`
   height: 35px;
   width: auto;
+  max-width: 35px;
 `
 
 const InfoWrapper = styled.div`
-  padding-left: 35px;
+  padding-left: 8px;
 `
 
 const TextPlaceholder = styled.div`
@@ -32,38 +40,34 @@ const RegisterBrand = styled.span`
 `
 
 const BrandName = styled.span`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   margin-top: 8px;
   color: ${SHAPE.BLACK};
-  padding-left: 35px;
 `
-const WrapperIcon = styled.div`
-  color: #333;
-  padding-left: 162px;
 
-`
+const WrapperIcon = styled.div``
+
 export function LogoBrandName(props) {
   return (
-    <Fragment>
-      <InfoWrapper>
-        <TextPlaceholder>
-          iLotusLand for Environment <RegisterBrand>&trade;</RegisterBrand>
-        </TextPlaceholder>
-      </InfoWrapper>
-
-      <LogoContainer>
-        <LogoIcon
-          src={props.logo ? props.logo : '/images/logo/icon/enviroment.png'}
-        />
-
-        <WrapperIcon>
-          <NotificationIcon />
-        </WrapperIcon>
-      </LogoContainer>
-      <BrandName>{props.name}</BrandName>
-
-    </Fragment>
+    <LogoWidthNotification>
+      <Link to="/" id="logoBrandName">
+        <LogoContainer>
+          <LogoIcon
+            src={props.logo ? props.logo : '/images/logo/icon/enviroment.png'}
+          />
+          <InfoWrapper>
+            <TextPlaceholder>
+              iLotusLand for Environment <RegisterBrand>&trade;</RegisterBrand>
+            </TextPlaceholder>
+            <BrandName>{props.name}</BrandName>
+          </InfoWrapper>
+        </LogoContainer>
+      </Link>
+      <WrapperIcon>
+        <NotificationIcon />
+      </WrapperIcon>
+    </LogoWidthNotification>
   )
 }
 

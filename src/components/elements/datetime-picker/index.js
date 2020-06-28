@@ -19,24 +19,31 @@ export default class CalendarCustom extends PureComponent {
     return this.props.dateFormat ? this.props.dateFormat : dateFormat
   }
 
-  getRealy() {
+  getReady() {
     if (!this.props.value) return moment(new Date(), this.getDateFormat())
     if (typeof this.props.value === 'string') {
-      return moment(this.props.value, this.getDateFormat())
+      if (moment(this.props.value, this.getDateFormat()).isValid()) {
+        return moment(this.props.value, this.getDateFormat())
+      } else return moment(new Date(this.props.value), this.getDateFormat())
     } else return this.props.value
   }
 
+  handleChangeDate = date => {
+    this.props.onChange(date)
+  }
+
   render() {
-    // console.log( this.props.value," this.props.value")
     //khi xử dung Form của Ant getFieldDecorator thì giá trị mặc định luôn là
+    const value = this.getReady()
+    const format = this.getDateFormat()
     return (
       <Container>
         <DatePicker
           {...this.props}
-          size={this.props.size}
-          value={this.getRealy()}
-          onChange={date => this.props.onChange(date)}
-          format={this.getDateFormat()}
+          value={value}
+          onChange={this.handleChangeDate}
+          onBlur={this.handleBlur}
+          format={format}
         />
       </Container>
     )

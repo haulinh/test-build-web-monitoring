@@ -6,7 +6,12 @@ import styled from 'styled-components'
 import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
 import { DD_MM_YYYY_HH_MM, DD_MM_YYYY } from 'constants/format-date'
-import { getFormatNumber } from 'constants/format-number'
+import { SHAPE } from 'themes/color'
+import {
+  getFormatNumber,
+  FORMAT_VALUE_MEASURING,
+} from 'constants/format-number'
+import { getcolorMeasure as getColorMeasure } from 'constants/warningLevels'
 
 const TableDataListWrapper = styled.div`
   .ant-table-thead > tr > th {
@@ -48,6 +53,8 @@ export default class TableDataList extends React.PureComponent {
       title: translate('avgSearchFrom.table.receivedAt'),
       dataIndex: 'receivedAt',
       key: 'receivedAt',
+      width: 170,
+      fixed: 'left',
       render(value, record) {
         return <div>{moment(record.date_utc).format(formatDate)}</div>
       },
@@ -56,15 +63,23 @@ export default class TableDataList extends React.PureComponent {
       .filter(measuring => this.props.measuringList.includes(measuring.key))
       .map(measuring => ({
         title: `${measuring.name} (${measuring.unit})`,
-        // dataIndex: `measuringLogs.${measuring.key}`,
-        dataIndex: `${measuring.key}`,
+        dataIndex: `measuringLogs.${measuring.key}`,
         key: measuring.key,
+        width: 120,
         align: 'right',
         render: value => {
-          return <div>{getFormatNumber(value)}</div>
+          if (value === null || value === undefined) return <div>-</div>
+
+          let color = getColorMeasure(value.value, measuring, SHAPE.BLACK)
+          return (
+            <div style={{ color }}>
+              {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
+            </div>
+          )
         },
       }))
-    return [columnReceivedAt, ...columnsMeasuring]
+    const columnData = [columnReceivedAt, ...columnsMeasuring]
+    return columnData
   }
 
   render() {
@@ -72,10 +87,11 @@ export default class TableDataList extends React.PureComponent {
       <TableDataListWrapper>
         <Table
           size="large"
-          rowKey="_id"
+          rowKey="date_utc"
           columns={this.getColumns()}
           {...this.props}
           locale={{ emptyText: translate('avgSearchFrom.table.emptyText') }}
+          scroll={{ x: 'max-content', y: 500 }}
         />
       </TableDataListWrapper>
     )

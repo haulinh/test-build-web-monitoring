@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import update from 'immutability-helper'
 import { Checkbox } from 'antd'
+import _ from 'lodash'
 import { listFilter } from '../constants'
 
 const Wrapper = styled.div`
@@ -30,20 +31,34 @@ export default class ListFilter extends React.PureComponent {
     this.state = {
       listFilter: listFilter.map(filter => ({
         ...filter,
-        checked: props.initialValues ? props.initialValues[filter.key] : false,
+        checked:
+          !!props.listFilter.find(fil => fil.key === filter.key) || false,
       })),
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const filterList = listFilter.map(filter => ({
+      ...filter,
+      checked:
+        !!nextProps.listFilter.find(fil => fil.key === filter.key) || false,
+    }))
+    if (!_.isEqual(this.state.listFilter, filterList)) {
+      this.setState({ listFilter: filterList })
     }
   }
 
   handleOnChange = key => e => {
     const index = this.state.listFilter.findIndex(filter => filter.key === key)
+    const isChecked = e && e.target && e.target.checked && e.target.checked
+    if (index < 0) return
     this.setState(
       prevState =>
         update(prevState, {
           listFilter: {
             [index]: {
               checked: {
-                $set: e.target.checked,
+                $set: isChecked || !prevState.listFilter[index].checked,
               },
             },
           },
@@ -55,6 +70,7 @@ export default class ListFilter extends React.PureComponent {
       }
     )
   }
+
   render() {
     return (
       <Wrapper>

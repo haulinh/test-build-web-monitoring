@@ -36,6 +36,7 @@ const i18n = {
 
   colGroupParam: translate('wqiConfigCalculation.colGroupParam'),
   valWeightParam: translate('wqiConfigCalculation.valWeightParam'),
+  valMinimumNumber: translate('wqiConfigCalculation.valMinimumNumber'),
 
   colGroupI: translate('wqiConfigCalculation.colGroupI'),
   colGroupII: translate('wqiConfigCalculation.colGroupII'),
@@ -44,23 +45,36 @@ const i18n = {
   colGroupV: translate('wqiConfigCalculation.colGroupV'),
 }
 
+const KEY = {
+  weightParam: 'weightParam',
+  minimumNumber: 'minimumNumber',
+}
+
 @Form.create({})
 export default class TabTrongSo extends React.Component {
   idIncrement = 0
   state = {
     isLoaded: false,
     isSubmit: false,
-    dataSource: [{ key: 0 }],
+    dataSource: [
+      {
+        key: KEY.weightParam,
+        title: translate('wqiConfigCalculation.valWeightParam'),
+      },
+      {
+        key: KEY.minimumNumber,
+        title: translate('wqiConfigCalculation.valMinimumNumber'),
+      },
+    ],
     isLocked: false,
   }
 
   columns = [
     {
       title: i18n.colGroupParam,
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'title',
+      key: 'title',
       align: 'center',
-      render: () => i18n.valWeightParam,
     },
     {
       title: i18n.colGroupI,
@@ -71,7 +85,7 @@ export default class TabTrongSo extends React.Component {
         const { getFieldDecorator } = this.props.form
         return (
           <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
-            {getFieldDecorator(`groupI`, {
+            {getFieldDecorator(`${record.key}.groupI`, {
               rules: [
                 {
                   required: true,
@@ -98,7 +112,7 @@ export default class TabTrongSo extends React.Component {
         const { getFieldDecorator } = this.props.form
         return (
           <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
-            {getFieldDecorator(`groupII`, {
+            {getFieldDecorator(`${record.key}.groupII`, {
               rules: [
                 {
                   required: true,
@@ -125,7 +139,7 @@ export default class TabTrongSo extends React.Component {
         const { getFieldDecorator } = this.props.form
         return (
           <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
-            {getFieldDecorator(`groupIII`, {
+            {getFieldDecorator(`${record.key}.groupIII`, {
               rules: [
                 {
                   required: true,
@@ -152,7 +166,7 @@ export default class TabTrongSo extends React.Component {
         const { getFieldDecorator } = this.props.form
         return (
           <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
-            {getFieldDecorator(`groupIV`, {
+            {getFieldDecorator(`${record.key}.groupIV`, {
               rules: [
                 {
                   required: true,
@@ -179,7 +193,7 @@ export default class TabTrongSo extends React.Component {
         const { getFieldDecorator } = this.props.form
         return (
           <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
-            {getFieldDecorator(`groupV`, {
+            {getFieldDecorator(`${record.key}.groupV`, {
               rules: [
                 {
                   required: true,
@@ -211,6 +225,7 @@ export default class TabTrongSo extends React.Component {
         } finally {
           this.setState({ isSubmit: false })
         }
+        this.setState({ isSubmit: false })
       }
     })
   }

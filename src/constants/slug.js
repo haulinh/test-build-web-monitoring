@@ -204,11 +204,24 @@ export default {
     type10: '/report/type10', // tỉ lệ dữ liệu thu đươc
     type11: '/report/type11', // Ket qua quan trac trung binh gio cua 1 ngay
     type12: '/report/type12', // tỷ lệ dữ liệu vượt ngưỡng của 1 trạm
-    aqi_hour: '/report/aqi-hour',
-    aqi_day: '/report/aqi-day',
-    wqi_hour: '/report/wqi-hour',
-    wqi_day: '/report/wqi-day',
     status_data: '/report/status-data',
+  },
+  advance: {
+    base: '/advance',
+    mapAqi: '/advance/aqi-map',
+    aqi_hour: '/advance/aqi-hour',
+    aqi_day: '/advance/aqi-day',
+    wqi_hour: '/advance/wqi-hour',
+    wqi_day: '/advance/wqi-day',
+    mapWqi: '/advance/wqi',
+    enableAqiWqi: '/advance/enable-aqi-wqi',
+    configAqi: '/advance/aqi-config',
+    configAqiEdit: '/advance/aqi-config/:key',
+    configAqiWithKey: '/advance/aqi-config',
+    status: '/advance/aqi-info',
+    configWqi: '/advance/wqi-config',
+    configEditWqi: '/advance/wqi-config/:key',
+    configWqiWithKey: '/advance/wqi-config',
   },
   dataLogger: {
     base: '/log',
@@ -216,6 +229,7 @@ export default {
   },
   apps: {
     incidents: '/apps/incidents',
+    grafana: '/apps/grafana',
   },
 }
 
@@ -242,11 +256,11 @@ export const parentMenuFromSub = {
   '/qaqc-config': MENU_GROUP.SHARE_DATA,
   '/ftp-transfer': MENU_GROUP.SHARE_DATA,
 
-  '/aqi': MENU_GROUP.ADVANCE,
-  '/statistic-aqi': MENU_GROUP.ADVANCE,
-  '/wqi': MENU_GROUP.ADVANCE,
-  '/statistic-wqi': MENU_GROUP.ADVANCE,
-  '/config-wqi': MENU_GROUP.ADVANCE,
+  // '/map-aqi': MENU_GROUP.ADVANCE,
+  // '/statistic-aqi': MENU_GROUP.ADVANCE,
+  // '/wqi': MENU_GROUP.ADVANCE,
+  // '/statistic-wqi': MENU_GROUP.ADVANCE,
+  // '/config-wqi': MENU_GROUP.ADVANCE,
 
   '/station-auto': MENU_GROUP.CONFIG,
   '/measuring': MENU_GROUP.CONFIG,
@@ -256,6 +270,7 @@ export const parentMenuFromSub = {
   '/role': MENU_GROUP.CONFIG,
   '/user': MENU_GROUP.CONFIG,
   '/report': MENU_GROUP.REPORT,
+  '/advance': MENU_GROUP.ADVANCE,
 }
 
 export const MENU_NAME = {
