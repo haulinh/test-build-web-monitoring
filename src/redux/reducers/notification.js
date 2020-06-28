@@ -13,6 +13,7 @@ import {
   UPDATE_CURRENT_PAGE,
   RESET_ALL_COUNTS,
   UPDATE_READ,
+  UPDATE_ALL_READ,
 } from '../actions/notification'
 
 export const initialState = {
@@ -21,6 +22,7 @@ export const initialState = {
   currentPage: 1,
   count: 0,
   logs: [],
+  isMarkedReadAll: false,
 }
 
 export default function handleNotificationStore(state = initialState, action) {
@@ -47,6 +49,8 @@ export default function handleNotificationStore(state = initialState, action) {
       return { ...state, ...{ visible: payload } }
     case UPDATE_READ:
       return handleUpdateRead(state, payload)
+    case UPDATE_ALL_READ:
+      return handleUpdateAllRead(state)
     case UPDATE_CURRENT_PAGE:
       return handleUpdateCurrentPage(state)
     default:
@@ -119,6 +123,13 @@ function handleUpdateRead(state, id) {
   state.logs[indexOfId].isRead = true
   return update(state, {
     logs: { $set: state.logs },
+  })
+}
+function handleUpdateAllRead(state) {
+  const newLogs = _.map(state.logs, notify => ({ ...notify, isRead: true }))
+
+  return update(state, {
+    logs: { $set: newLogs }
   })
 }
 

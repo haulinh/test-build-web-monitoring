@@ -18,13 +18,19 @@ export default function DataLossCell(props) {
     <React.Fragment>
       <BoldTextWrap>{cellContent.shortBody} </BoldTextWrap>
       {i18n.station}
-      <BoldTextWrap> {cellContent.title}</BoldTextWrap>
+      <span> {cellContent.title}</span>
     </React.Fragment>
   )
 
+  const icon = {
+    type: 'frown',
+    color: 'grey',
+  }
+
   return (
     <DefaultCell
-      icon={`${warningLevelImages.dataLoss}`}
+      // icon={`${warningLevelImages.dataLoss}`}
+      icon={icon}
       content={content}
       data={cellContent}
     />

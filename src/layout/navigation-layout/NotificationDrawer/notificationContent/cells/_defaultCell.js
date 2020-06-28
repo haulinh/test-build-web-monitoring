@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
-import { Row, Col, Tooltip, Dropdown, Menu, message } from 'antd'
+import { Row, Col, Tooltip, Dropdown, Menu, message, Icon, Button } from 'antd'
 import styled from 'styled-components'
 
 import { translate } from 'hoc/create-lang'
 import { connectAutoDispatch } from 'redux/connect'
 import { updateNotifyRead } from 'redux/actions/notification'
 import { setDrawerVisible } from 'redux/actions/notification'
-
+import { connect } from 'react-redux'
 import { getConfigApi } from 'config'
 
 const i18n = {
@@ -19,7 +19,7 @@ const i18n = {
 }
 //View data around this time
 const MultilineText = styled(Row)`
-  font-size: 12px;
+  font-size: 16px;
   max-height: 2.6em;
   text-overflow: ellipsis;
   line-height: 1.3em;
@@ -31,7 +31,13 @@ const MultilineText = styled(Row)`
 `
 
 @withRouter
-@connectAutoDispatch(state => ({}), { updateNotifyRead, setDrawerVisible })
+@connectAutoDispatch(
+  state => ({ isMarkedReadAll: state.notification.isMarkedReadAll }),
+  {
+    updateNotifyRead,
+    setDrawerVisible,
+  }
+)
 export default class DefaultCell extends React.Component {
   static propTypes = {
     /* redux's props */
@@ -53,7 +59,22 @@ export default class DefaultCell extends React.Component {
   state = {
     isHoverOnCell: false,
   }
-
+  getNotificationColor() {
+    const { isHoverOnCell } = this.state
+    const { data } = this.props
+    const { isRead } = data
+    if (isHoverOnCell) return '#0000001a'
+    else if (this.props.isMarkedReadAll) return '#fff'
+    else if (isRead) return '#fff'
+    else return '#edf2fa'
+  }
+  getNotificationColorForIcon() {
+    const { data, isMarkedReadAll } = this.props
+    const { isRead } = data
+    if (!isRead) return '#0052cc'
+    else if (isMarkedReadAll) return '#ebecf0'
+    return '#ebecf0'
+  }
   render() {
     const { isHoverOnCell } = this.state
     const { icon, content, data } = this.props
@@ -65,46 +86,33 @@ export default class DefaultCell extends React.Component {
         type="flex"
         align="middle"
         style={{
-          height: 60,
-          backgroundColor: isHoverOnCell
-            ? '#0000001a'
-            : isRead
-            ? '#fff'
-            : '#edf2fa',
+          padding: '20px',
+          height: 100,
+          backgroundColor: this.getNotificationColor(),
           borderBottom: '1px solid #dddfe2',
           cursor: 'pointer',
         }}
         onMouseEnter={() => this.setState({ isHoverOnCell: true })}
         onMouseLeave={() => this.setState({ isHoverOnCell: false })}
       >
-        <Col span={23} onClick={() => this._handleCellOnClick(data)}>
+        <Col span={20} onClick={() => this._handleCellOnClick(data)}>
           <Row
-            type="flex"
-            align="middle"
             style={{
-              height: 60,
+              height: '100%',
             }}
           >
-            {/* image */}
-            <Col
-              span={3}
-              style={{ textAlign: 'center', height: '100%' }}
-              className="notify-image"
-            >
-              <img
-                src={icon}
-                alt=""
+            {/* icon */}
+            <Col span={3} className="notify-image">
+              <Icon
+                type={icon.type}
+                theme="outlined"
                 height="100%"
-                style={{ objectFit: 'contain' }}
+                style={{ fontSize: '40px', color: icon.color }}
               />
             </Col>
 
             {/* contents */}
-            <Col
-              span={21}
-              className="notify-content"
-              style={{ paddingLeft: 16, paddingRight: 16 }}
-            >
+            <Col span={21} className="notify-content">
               <Tooltip
                 title={content}
                 placement="right"
@@ -116,12 +124,13 @@ export default class DefaultCell extends React.Component {
               <Row>
                 <Col
                   style={{
+                    marginTop: '5px',
                     fontStyle: 'italic',
                     color: '#90949c',
                     fontSize: 12,
                   }}
                 >
-                  {moment(receivedAt).format('MM/DD [at] HH:mm')}
+                  {moment(receivedAt).fromNow()}
                 </Col>
               </Row>
             </Col>
@@ -129,17 +138,49 @@ export default class DefaultCell extends React.Component {
         </Col>
 
         {/* actions */}
-        <Col className="notify-action" span={1}>
-          {data.status === 'DATA_EXCEEDED' && (
+        <Col className="notify-action" span={4}>
+          {/* {data.status === 'DATA_EXCEEDED' && (
             <Dropdown overlay={this.renderMenu(data)} placement="bottomRight">
               <span>...</span>
             </Dropdown>
-          )}
+          )} */}
+
+          <Row justify="end">
+            <Col span={8} />
+            <Col span={8}>
+              {this.state.isHoverOnCell && (
+                <Icon
+                  style={{ fontSize: '16px' }}
+                  type="close-circle"
+                  theme="filled"
+                  onClick={this.onDelete}
+                />
+              )}
+            </Col>
+            <Col span={8}>
+              <div
+                onClick={() => this._handleIsReadPointClick(data)}
+                style={{
+                  borderWidth: '4px',
+                  borderStyle: 'solid',
+                  width: '16px',
+                  height: '16px',
+                  borderRadius: 16,
+                  backgroundColor: this.getNotificationColorForIcon(),
+
+                  borderColor: '#ebecf0',
+                }}
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
     )
   }
 
+  onDelete = () => {
+    console.log('abc')
+  }
   renderMenu = data => (
     <Menu>
       <Menu.Item onClick={() => this._navigateToDataSearch(data)}>
@@ -147,6 +188,8 @@ export default class DefaultCell extends React.Component {
       </Menu.Item>
     </Menu>
   )
+
+  _handleIsReadPointClick = data => this.props.updateNotifyRead(data)
 
   _handleCellOnClick = data => {
     this.props.updateNotifyRead(data)

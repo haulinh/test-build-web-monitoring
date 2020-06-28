@@ -3,7 +3,10 @@ import propTypes from 'prop-types'
 import styled from 'styled-components'
 import { Drawer } from 'antd'
 import { connectAutoDispatch } from 'redux/connect'
-import { clearNotificationCountByType } from 'redux/actions/notification'
+import {
+  clearNotificationCountByType,
+  updateAllRead,
+} from 'redux/actions/notification'
 import NotificationContent from './notificationContent'
 import NotificationIcon from '@atlaskit/icon/glyph/notification'
 import CrossIcon from '@atlaskit/icon/glyph/cross'
@@ -42,14 +45,24 @@ const NotificationWrapperIcon = styled.div`
   }
 `
 
-@connectAutoDispatch(state => ({}), { clearNotificationCountByType })
+@connectAutoDispatch(state => ({}), {
+  clearNotificationCountByType,
+  updateAllRead,
+})
 export default class NotificationDrawer extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isMarkedReadAll: false,
+    }
+  }
   static propTypes = {
     /* Component's props */
     closeDrawer: propTypes.func.isRequired,
     visible: propTypes.bool.isRequired,
     /* Redux's props */
     clearNotificationCountByType: propTypes.func.isRequired,
+    updateAllRead: propTypes.func.isRequired,
   }
 
   static defaultProps = {}
@@ -61,7 +74,6 @@ export default class NotificationDrawer extends React.Component {
         bodyStyle={{
           height: 'calc(100vh - 55px)',
           padding: 0,
-          paddingLeft: 16,
         }}
         title={
           <TitleWrapper>
@@ -70,6 +82,16 @@ export default class NotificationDrawer extends React.Component {
                 <NotificationIcon color="#fff" size="large" />
               </NotificationWrapperIcon>
               <h4>Notifications</h4>
+            </div>
+            <div>
+              <a
+                onClick={this.checkReadAll}
+                style={{
+                  color: '#385898',
+                }}
+              >
+                Đánh dấu tất cả
+              </a>
             </div>
             <a className="close" href="_blank" onClick={this.closeDrawer}>
               <CrossIcon />
@@ -90,5 +112,8 @@ export default class NotificationDrawer extends React.Component {
     if (e) e.preventDefault()
     this.props.clearNotificationCountByType()
     this.props.closeDrawer()
+  }
+  checkReadAll = e => {
+    this.props.updateAllRead()
   }
 }

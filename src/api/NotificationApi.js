@@ -30,6 +30,10 @@ export function updateIsRead(_id) {
   return putFetch(`${fcmNotificationRoute()}/updateIsRead/${_id}`)
 }
 
+export function updateReadAll() {
+  return putFetch(`${fcmNotificationRoute()}/updateIsRead`)
+}
+
 export function loadNotificationsByType(params) {
   // params: {page, itemPerPage, type}
   let qryString = querystring.stringify(params)

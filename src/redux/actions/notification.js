@@ -1,7 +1,8 @@
 import moment from 'moment-timezone'
 import _ from 'lodash'
 import slug from 'constants/slug'
-import FcmAPI from 'api/NotificationApi'
+import FcmAPI, { updateReadAll } from 'api/NotificationApi'
+
 
 export const RESET_ALL_COUNTS = 'NOTIFICATION / RESET_ALL_COUNTS'
 export const UPDATE_COUNT_ON_NEW_MSG = 'NOTIFICATION / UPDATE_COUNT_ON_NEW_MSG'
@@ -18,6 +19,7 @@ export const UPDATE_CURRENT_PAGE = 'NOTIFICATION / UPDATE_CURRENT_PAGE'
 export const TOGGLE_VISIBLE_NOTIFICATION_DRAWER =
   'NOTIFICATION / TOGGLE_VISIBLE_NOTIFICATION_DRAWER'
 export const UPDATE_READ = 'NOTIFICATION / UPDATE_READ'
+export const UPDATE_ALL_READ = 'NOTIFICATION / UPDATE_All_READ'
 
 export function resetAllCounts() {
   return dispatch => {
@@ -199,6 +201,15 @@ export function updateNotifyRead(data) {
     }
   }
 }
+export function updateAllRead() {
+  return async dispatch => {
+    await updateReadAll()
+    dispatch({
+      type: UPDATE_ALL_READ,
+    })
+  }
+}
+
 
 function _generateNotificationCellByType(rawContent, stationInfo) {
   // generate ra link filter station monitoring

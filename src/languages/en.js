@@ -1844,6 +1844,10 @@ export default {
   },
   configNotify: {
     repeat: 'Repeat',
+    headerStatus: {
+      DATA_STATUS: "Data Status",
+      DEVICE_STATUS: "Device Status"
+    },
     titleTable: {
       status: 'Status',
       notification: 'Notification',
