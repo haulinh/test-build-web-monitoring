@@ -71,10 +71,14 @@ const MenuWrapper = styled(Col)`
 export default class FilterListMenu extends React.Component {
   static propTypes = {
     configFilter: PropTypes.array,
-
-    isOpenNavigation: PropTypes.bool,
-
     filterId: PropTypes.string,
+
+    stations: PropTypes.array,
+    isOpenNavigation: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    configFilter: [],
   }
 
   state = {
@@ -126,10 +130,13 @@ export default class FilterListMenu extends React.Component {
   }
 
   getFilterGroupByStationType = () => {
-    const filters = this.props.configFilter.map(filter => ({
-      ...filter,
-      stationType: JSON.parse(decodeURIComponent(filter.searchUrl)).stationType,
-    }))
+    const filters = Array.isArray(this.props.configFilter)
+      ? this.props.configFilter.map(filter => ({
+          ...filter,
+          stationType: JSON.parse(decodeURIComponent(filter.searchUrl))
+            .stationType,
+        }))
+      : []
     return _.groupBy(filters, 'stationType')
   }
 
