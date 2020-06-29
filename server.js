@@ -22,6 +22,7 @@ app.get('/app.json', function (req, res) {
       key: process.env.FIREBASE_KEY
     },
     apps: {
+      isShow: false,
       incidents: process.env.APP_INCIDENTS_URL || 'https://incident-app.ilotusland.asia',
       grafana: process.env.APP_GRAFANA_URL | 'https://grafana.ilotusland.asia'
     },

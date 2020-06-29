@@ -58,6 +58,7 @@ firebase: {
   key: process.env.FIREBASE_KEY
 },
 apps: {
+  isShow: process.env.APP_IS_SHOW,
   incidents: process.env.APP_INCIDENTS_URL,
   grafana: process.env.APP_GRAFANA_URL
 },
