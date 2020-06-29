@@ -89,17 +89,17 @@ export default class StationAutoConfigCamera extends React.Component {
       dataSourceOriginal: [] /* index */,
 
       isCameraIndeterminate: false,
-      submitingCameraAllow: false,
+      submittingCameraAllow: false,
     }
   }
 
   async handleUpdateCameraList(data) {
     let id = _.get(data, '_id', null)
     if (id === null) return
-    let oririnalData = this.state.dataSource
+    let originalData = this.state.dataSource
 
     // update object chứa camera list thay đổi
-    let updatedData = _.map(oririnalData, item => {
+    let updatedData = _.map(originalData, item => {
       // chinh cho Cuong == thanh ===
       if (item._id === id) {
         return data
@@ -110,70 +110,6 @@ export default class StationAutoConfigCamera extends React.Component {
     this.setState({
       dataSource: updatedData,
     })
-  }
-
-  render() {
-    const { submitingCameraAllow } = this.state
-
-    const columns = this._getTableColumns()
-    const dataSource = this._getTableDataSource(this.state.dataSource)
-
-    const defaultExpandedRowKeys = dataSource.map(item => item.key)
-
-    return (
-      <PageContainer>
-        <Breadcrumb items={['configCamera']} />
-
-        {/* FORM CONTROL */}
-        <Row style={{ marginBottom: 20 }}>
-          <StationAutoSearchForm
-            onChangeSearch={this.props.onChangeSearch}
-            initialValues={this.props.data}
-          />
-        </Row>
-
-        <TableWrapper
-          pagination={false}
-          columns={columns}
-          dataSource={dataSource}
-          size="small"
-          expandRowByClick
-          rowKey="key"
-          expandedRowKeys={defaultExpandedRowKeys}
-          rowClassName={() => 'table-row-camera'}
-          expandIcon={() => null}
-          expandedRowRender={record => {
-            return (
-              <Collapse accordion style={{ marginLeft: -35 }} key={record._id}>
-                {record.stations.map(station => (
-                  <Panel
-                    header={this._renderCollapsePanelHeader(station)}
-                    key={station._id}
-                  >
-                    <FormAddCamera
-                      stationAuto={station}
-                      allowed={this.props.form.getFieldValue(
-                        `stations.${station._id}`
-                      )}
-                      onSubmit={this.handleUpdateCameraList}
-                    />
-                  </Panel>
-                ))}
-              </Collapse>
-            )
-          }}
-        />
-
-        <Button
-          block
-          loading={submitingCameraAllow}
-          type="primary"
-          onClick={this._handleSubmit}
-        >
-          {i18n.btnSave}
-        </Button>
-      </PageContainer>
-    )
   }
 
   _checkIndeterminate(allowedStations) {
@@ -194,6 +130,7 @@ export default class StationAutoConfigCamera extends React.Component {
     return [
       {
         title: i18n.tableHeaderName,
+        key: 'title',
         render: (text, record, index) => (
           <strong>
             {record.type.name} ({record.count})
@@ -202,6 +139,7 @@ export default class StationAutoConfigCamera extends React.Component {
       },
       {
         title: i18n.tableHeaderAddress,
+        key: 'address',
         render: (text, record, index) => <strong>{record.type.address}</strong>,
       },
       {
@@ -219,6 +157,7 @@ export default class StationAutoConfigCamera extends React.Component {
             )}
           </div>
         ),
+        key: 'checkall',
         align: 'right',
       },
       {
@@ -277,7 +216,7 @@ export default class StationAutoConfigCamera extends React.Component {
             initialValue: _.get(station, 'options.camera.allowed'),
             valuePropName: 'checked',
             onChange: this._handleChangedStationCheckbox,
-          })(<Checkbox />)}
+          })(<Checkbox onClick={e => e.stopPropagation()} />)}
         </Col>
         <Col span={1}>
           {numOfCameras} <Icon type="camera" />
@@ -287,6 +226,7 @@ export default class StationAutoConfigCamera extends React.Component {
   }
 
   _handleChangedStationCheckbox(e) {
+    e.stopPropagation()
     const { id, checked } = e.target
 
     const { getFieldsValue } = this.props.form
@@ -298,6 +238,7 @@ export default class StationAutoConfigCamera extends React.Component {
   }
 
   _handleCheckAll(e) {
+    e.stopPropagation()
     const { getFieldsValue, setFieldsValue } = this.props.form
     const values = getFieldsValue()
 
@@ -329,15 +270,79 @@ export default class StationAutoConfigCamera extends React.Component {
       }
     })
 
-    this.setState({ submitingCameraAllow: true })
+    this.setState({ submittingCameraAllow: true })
     const res = await StationAutoApi.updateStationAutoOptions(submitData)
 
-    this.setState({ submitingCameraAllow: false })
+    this.setState({ submittingCameraAllow: false })
 
     if (res.success) {
       return message.success(i18n.successSubmit)
     }
 
     return message.error(i18n.errorSubmit)
+  }
+
+  render() {
+    const { submittingCameraAllow } = this.state
+
+    const columns = this._getTableColumns()
+    const dataSource = this._getTableDataSource(this.state.dataSource)
+
+    const defaultExpandedRowKeys = dataSource.map(item => item.key)
+
+    return (
+      <PageContainer>
+        <Breadcrumb items={['configCamera']} />
+
+        {/* FORM CONTROL */}
+        <Row style={{ marginBottom: 20 }}>
+          <StationAutoSearchForm
+            onChangeSearch={this.props.onChangeSearch}
+            initialValues={this.props.data}
+          />
+        </Row>
+
+        <TableWrapper
+          pagination={false}
+          columns={columns}
+          dataSource={dataSource}
+          size="small"
+          expandRowByClick
+          rowKey="key"
+          expandedRowKeys={defaultExpandedRowKeys}
+          rowClassName={() => 'table-row-camera'}
+          expandIcon={() => null}
+          expandedRowRender={record => {
+            return (
+              <Collapse accordion style={{ marginLeft: -35 }} key={record.key}>
+                {record.stations.map(station => (
+                  <Panel
+                    header={this._renderCollapsePanelHeader(station)}
+                    key={station._id}
+                  >
+                    <FormAddCamera
+                      stationAuto={station}
+                      allowed={this.props.form.getFieldValue(
+                        `stations.${station._id}`
+                      )}
+                      onSubmit={this.handleUpdateCameraList}
+                    />
+                  </Panel>
+                ))}
+              </Collapse>
+            )
+          }}
+        />
+
+        <Button
+          block
+          loading={submittingCameraAllow}
+          type="primary"
+          onClick={this._handleSubmit}
+        >
+          {i18n.btnSave}
+        </Button>
+      </PageContainer>
+    )
   }
 }
