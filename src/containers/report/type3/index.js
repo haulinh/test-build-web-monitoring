@@ -15,7 +15,8 @@ import Clearfix from 'components/elements/clearfix'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 import { MM_YYYY } from 'constants/format-date'
 import moment from 'moment-timezone'
-// import axios from 'axios'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const { Title, Text } = Typography
 const i18n = {
@@ -23,6 +24,7 @@ const i18n = {
   title: translate('avgSearchFrom.table.title3'),
 }
 
+@protectRole(ROLE.TB1MAX.VIEW)
 @connect(state => ({
   token: state.auth.token,
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),

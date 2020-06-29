@@ -42,7 +42,7 @@ const i18n = {
   ),
   note: translate('menuApp.report.table.header.note'),
 }
-
+@protectRole(ROLE.TINH_TRANG_DU_LIEU.VIEW)
 @connect(state => ({
   token: state.auth.token,
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),

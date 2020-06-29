@@ -103,7 +103,7 @@ export const defaultFilter = {
 })
 @withRouter
 @autobind
-@protectRole(ROLE.MONITORING.DATA_V2)
+@protectRole(ROLE.MONITORING_BY_LIST.VIEW)
 export default class MonitoringGeneral extends React.Component {
   state = {
     isLoading: false,

@@ -29,6 +29,7 @@ const i18n = {
   title: translate('avgSearchFrom.table.title'),
 }
 
+@protectRole(ROLE.TILE_DULIEU_THUDUOC.VIEW)
 @connect(state => ({
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
 }))

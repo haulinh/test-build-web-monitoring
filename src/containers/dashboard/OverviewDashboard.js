@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
 import { Spin } from 'antd'
+import * as _ from 'lodash'
+import ReactFullpage from '@fullpage/react-fullpage'
+import styled from 'styled-components'
+
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 import createContentLoader from 'hoc/content-loader'
 import ListLoaderCp from 'components/content-loader/list-loader'
 import BoxLoaderCp from 'components/content-loader/box-loader'
@@ -12,11 +18,9 @@ import Clearfix from 'components/elements/clearfix'
 import { getStationTypes } from 'api/CategoryApi'
 import { getLastLog } from 'api/StationAuto'
 import { translate } from 'hoc/create-lang'
-import * as _ from 'lodash'
 import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
 import WarningLevel from 'components/elements/warning-level'
-import ReactFullpage from '@fullpage/react-fullpage'
-import styled from 'styled-components'
+
 
 // NOTE  every 1min will get last log
 const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60
@@ -43,6 +47,7 @@ const BoxLoader = createContentLoader({
   colSize: 3,
 })(null)
 
+@protectRole(ROLE.DASHBOARD.VIEW)
 export default class OverviewDashboard extends Component {
   state = {
     isGroupProvince: null,

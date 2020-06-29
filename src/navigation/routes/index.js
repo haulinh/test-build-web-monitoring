@@ -80,7 +80,11 @@ export default class RouteDefault extends React.Component {
           <Route path={slug.apps.grafana} component={AppGrafana} />
 
           <Layout isShowSidebarMenu>
-            <LayoutRoute path="/" exact component={OverviewDashboard} />
+            <LayoutRoute
+              path={slug.dashboard}
+              exact
+              component={OverviewDashboard}
+            />
             <LayoutRoute path={slug.map.base} component={Map} />
 
             <LayoutRoute
