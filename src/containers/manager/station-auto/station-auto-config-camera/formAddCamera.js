@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import update from 'immutability-helper'
 import {
   Row,
   Form,
@@ -14,6 +15,7 @@ import { autobind } from 'core-decorators'
 import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
 import StationAutoApi from 'api/StationAuto'
+import { v4 as uuidV4 } from 'uuid'
 
 const i18n = {
   addButton: translate('addon.add'),
@@ -35,48 +37,28 @@ export default class FormAddCamera extends React.Component {
     onSubmit: PropTypes.func.isRequired,
   }
 
-  static defaultProps = {}
+  static defaultProps = {
+    allowed: false,
+  }
 
   constructor(props) {
     super(props)
 
     this.state = {
-      submitingCameraLinks: false,
-      cameras: _.get(this.props.stationAuto, 'options.camera.list', []),
+      submittingCameraLinks: false,
+      cameras: _.get(this.props.stationAuto, 'options.camera.list', [])
+        .filter(camera => !!camera)
+        .map(camera => ({
+          ...camera,
+          key: uuidV4(),
+        })),
     }
   }
 
-  render() {
-    let { cameras, submitingCameraLinks } = this.state
-
-    if (cameras.length === 0) this._addEmptyRow()
-
-    return (
-      <Row>
-        {/* ADD BUTTON */}
-        <Row style={{ marginBottom: 16 }}>
-          <Button type="primary" onClick={this._addEmptyRow}>
-            {i18n.addButton}
-          </Button>
-        </Row>
-        {/* TABLE && SAVE_BUTTON */}
-        <Row>
-          <Table
-            pagination={false}
-            columns={this._getColumns()}
-            dataSource={cameras}
-          />
-          <Button
-            block
-            type="primary"
-            loading={submitingCameraLinks}
-            onClick={this._submitCameras}
-          >
-            {i18n.saveButton}
-          </Button>
-        </Row>
-      </Row>
-    )
+  componentDidMount() {
+    if (!this.state.cameras.length) {
+      this._addCamera()
+    }
   }
 
   // TODO
@@ -85,6 +67,7 @@ export default class FormAddCamera extends React.Component {
       /* CAMERA NAME */
       {
         title: i18n.cameraName,
+        key: 'title',
         render: (text, record, index) => {
           return (
             <div>
@@ -98,6 +81,7 @@ export default class FormAddCamera extends React.Component {
       /* LINK RTSP */
       {
         title: i18n.cameraURL,
+        key: 'cameraURL',
         render: (text, record, index) => {
           return (
             <div>
@@ -112,6 +96,7 @@ export default class FormAddCamera extends React.Component {
       {
         title: '',
         width: 50,
+        key: 'conform',
         render: (text, record, index) => (
           <Popconfirm
             title={i18n.confirmDelCamera}
@@ -124,23 +109,29 @@ export default class FormAddCamera extends React.Component {
     ]
   }
 
-  _addEmptyRow() {
-    let cameras = [...this.state.cameras]
-
-    let record = {
-      key: Date.now() + cameras.length,
+  _addCamera = () => {
+    const camera = {
+      key: uuidV4(),
       name: '',
       rtspUrl: '',
     }
-
-    cameras.push(record)
-    this.setState({ cameras: cameras })
+    this.setState(prevState =>
+      update(prevState, {
+        cameras: {
+          $push: [camera],
+        },
+      })
+    )
   }
 
   _removeCamera(index) {
-    let newCameras = [...this.state.cameras]
-    newCameras.splice(index, 1)
-    this.setState({ cameras: newCameras })
+    this.setState(prevState =>
+      update(prevState, {
+        cameras: {
+          $splice: [[index, 1]],
+        },
+      })
+    )
   }
 
   async _submitCameras() {
@@ -158,22 +149,22 @@ export default class FormAddCamera extends React.Component {
     }
 
     let stationID = this.props.stationAuto._id
-    const submitedCameras = Object.values(fieldsValue)
+    const submittedCameras = Object.values(fieldsValue)
 
-    this.setState({ submitingCameraLinks: true })
+    this.setState({ submittingCameraLinks: true })
 
     let submitData = {
       [stationID]: {
         camera: {
           allowed: this.props.allowed,
-          list: submitedCameras,
+          list: submittedCameras,
         },
       },
     }
 
     const res = await StationAutoApi.updateStationAutoOptions(submitData)
 
-    this.setState({ submitingCameraLinks: false })
+    this.setState({ submittingCameraLinks: false })
 
     if (res.success) {
       this.props.onSubmit(res.data[0])
@@ -181,5 +172,37 @@ export default class FormAddCamera extends React.Component {
     }
 
     message.error(i18n.errorSubmit)
+  }
+
+  render() {
+    let { cameras, submittingCameraLinks } = this.state
+
+    return (
+      <Row>
+        {/* ADD BUTTON */}
+        <Row style={{ marginBottom: 16 }}>
+          <Button type="primary" onClick={this._addCamera}>
+            {i18n.addButton}
+          </Button>
+        </Row>
+        {/* TABLE && SAVE_BUTTON */}
+        <Row>
+          <Table
+            pagination={false}
+            columns={this._getColumns()}
+            dataSource={cameras}
+            rowKey="key"
+          />
+          <Button
+            block
+            type="primary"
+            loading={submittingCameraLinks}
+            onClick={this._submitCameras}
+          >
+            {i18n.saveButton}
+          </Button>
+        </Row>
+      </Row>
+    )
   }
 }
