@@ -21,7 +21,7 @@ const { Title, Text } = Typography
 const i18n = {
   reportName: translate('statistic.aqi.reportName2'),
 }
-@protectRole(ROLE.STATISTIC.AQI)
+@protectRole(ROLE.AQI_NGAY.VIEW)
 @queryFormDataBrowser(['submit'])
 @autobind
 export default class AQIStatisticsDay extends React.Component {

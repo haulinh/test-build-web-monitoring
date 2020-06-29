@@ -26,6 +26,8 @@ import { Anchor } from 'antd'
 import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
 import { warningLevels } from 'constants/warningLevels'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const { Link } = Anchor
 
@@ -53,6 +55,7 @@ export const defaultFilter = {
   search: '',
 }
 
+@protectRole(ROLE.MONITORING.VIEW)
 @withRouter
 @queryFormDataBrowser(['submit'])
 @autobind

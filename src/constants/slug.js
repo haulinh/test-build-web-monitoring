@@ -1,7 +1,7 @@
 import { translate } from 'hoc/create-lang'
 
 export default {
-  dashboard: '/',
+  dashboard: '/dashboard',
   login: '/login',
   controlStation: {
     base: '/control-station',

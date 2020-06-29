@@ -313,6 +313,8 @@ class MenuApp extends React.PureComponent {
 
         {this.checkRoleForGroup([
           ROLE.AQI.VIEW,
+          ROLE.AQI_GIO.VIEW,
+          ROLE.AQI_NGAY.VIEW,
           ROLE.WQI.VIEW,
           ROLE.CONFIG_WQI.VIEW,
         ]) && AdvanceMenu.renderComp(this.props)}

@@ -28,6 +28,8 @@ import dataStationAutoApi from 'api/DataStationAutoApi'
 import { Link } from 'react-router-dom'
 import slug from 'constants/slug'
 import Clearfix from 'components/elements/clearfix'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const { RangePicker } = DatePicker
 
@@ -42,6 +44,7 @@ const i18n = {
   success2: translate('ftpTranfer.status.success2'),
   failed2: translate('ftpTranfer.status.failed2'),
 }
+@protectRole(ROLE.FTPTRANSFER.VIEW)
 export default class ConfigPublishContainer extends React.Component {
   constructor(props) {
     super(props)

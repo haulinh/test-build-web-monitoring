@@ -10,6 +10,8 @@ import { Spin, Empty } from 'antd'
 import swal from 'sweetalert2'
 import CameraFilter from '../camera-filter'
 import queryString from 'query-string'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const WrapperContainer = styled.div`
   display: flex;
@@ -24,7 +26,7 @@ const SpinnerContainer = styled.div`
   height: 400px;
   width: 100%;
 `
-
+@protectRole(ROLE.CAMERA.VIEW)
 export default class CameraList extends React.Component {
   state = {
     isLoaded: false,
