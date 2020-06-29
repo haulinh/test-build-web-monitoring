@@ -94,7 +94,6 @@ export default class TableList extends React.PureComponent {
   }
 
   componentDidMount() {
-
     const stationsData = this.getStationDataView(this.props.stationsData)
     const stationKey = _.get(stationsData, '[0].key', undefined)
     if (!stationKey) return
