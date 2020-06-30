@@ -55,9 +55,10 @@ export const defaultFilter = {
   search: '',
 }
 
-// @protectRole(ROLE.MONITORING.VIEW)
+
 @withRouter
 @queryFormDataBrowser(['submit'])
+@protectRole(ROLE.MONITORING.VIEW)
 @autobind
 export default class MonitoringGeneral extends React.Component {
   state = {
