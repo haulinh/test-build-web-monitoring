@@ -26,48 +26,19 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { connect } from 'react-redux'
 import { changeOpenSubMenu } from 'redux/actions/themeAction'
-import { Tag } from 'antd'
+import HeaderLeft from './HeaderLeft'
+import HeaderRight from './HeaderRight'
 
 const ContainerHeader = styled.div`
   flex-direction: row;
   display: flex;
   justify-content: center;
-  padding: 0px 8px;
-  background-color: #ffffff;
-  border-radius: 4px;
-  border: solid 0.4px #b6b6b6;
-  box-shadow: 0 4px 10px 0 rgba(241, 241, 241, 0.5);
 `
 
 const HeaderDesc = styled.div`
   display: flex;
   line-height: 3;
   justify-content: space-between;
-  .left {
-    display: flex;
-  }
-  .right {
-    display: flex;
-  }
-  .ant-tag {
-    min-width: 90px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 11px;
-    line-height: 22px;
-    &.data-loss {
-      color: rgba(0, 0, 0, 0.45);
-    }
-    &.data-exceed {
-      color: #f5222d;
-    }
-    &.data-extend-prepare {
-      color: #faad14;
-    }
-    &.data-good {
-      color: #52c41a;
-    }
-  }
 `
 
 const i18n = {
@@ -217,89 +188,8 @@ export default class MonitoringGeneral extends React.Component {
       <div>
         <div>
           <HeaderDesc>
-            <div className="left">
-              {/* <div style={{ minWidth: 70, marginRight: 12 }}>
-                <span>
-                  <img
-                    src="/images/monitoring/tong-quan.png"
-                    alt="tong-quan"
-                    width={32}
-                  />
-                  {i18n.overview}
-                </span>
-              </div>
-              <div style={{ minWidth: 70, marginRight: 12 }}> */}
-              {/* <span>
-                <img
-                  src="/images/monitoring/danh-sach.png"
-                  alt="danh-sach"
-                  width={32}
-                />
-                {i18n.list}
-              </span>
-            </div> */}
-              <div
-                style={{
-                  minWidth: 70,
-                  marginRight: 12,
-                  fontWeght: 600,
-                }}
-              >
-                <span>{i18n.statusSensor}</span>
-              </div>
-              <div style={{ minWidth: 70, marginRight: 12 }}>
-                <span>
-                  <img
-                    style={{ marginRight: 4 }}
-                    src="/images/sensor/error.png"
-                    alt="error"
-                    width={16}
-                  />
-                  {i18n.sensorError}
-                </span>
-              </div>
-              <div style={{ minWidth: 70, marginRight: 12 }}>
-                <span>
-                  <img
-                    style={{ marginRight: 4 }}
-                    src="/images/sensor/maintain.png"
-                    alt="maintain"
-                    width={16}
-                  />
-                  {i18n.sensorMaintain}
-                </span>
-              </div>
-              <div style={{ minWidth: 70, marginRight: 12 }}>
-                <span>
-                  <img
-                    style={{ marginRight: 4 }}
-                    src="/images/sensor/good.png"
-                    alt="good"
-                    width={16}
-                  />
-                  {i18n.sensorGood}
-                </span>
-              </div>
-            </div>
-            <div className="right">
-              <div style={{ minWidth: 70, marginRight: 4, fontWeght: 600 }}>
-                <span>{i18n.statusData}</span>
-              </div>
-              <div style={{ minWidth: 70, marginRight: 4 }}>
-                <Tag className="data-loss">{i18n.dataLoss}</Tag>
-              </div>
-              <div style={{ minWidth: 70, marginRight: 4 }}>
-                <Tag className="data-exceed">{i18n.dataExceeded}</Tag>
-              </div>
-              <div style={{ minWidth: 70, marginRight: 4 }}>
-                <Tag className="data-extend-prepare">
-                  {i18n.dataExceededPrepare}
-                </Tag>
-              </div>
-              <div style={{ minWidth: 70, marginRight: 4 }}>
-                <Tag className="data-good">{i18n.dataGood}</Tag>
-              </div>
-            </div>
+            <HeaderLeft stationStatus={stationStatus} i18n={i18n} />
+            <HeaderRight i18n={i18n} />
           </HeaderDesc>
         </div>
         <ContainerHeader>
@@ -459,7 +349,7 @@ export default class MonitoringGeneral extends React.Component {
     const result = this.getData()
     return (
       <PageContainer
-        style={{ height: 120 }}
+        style={{ height: 94 }}
         isLoading={!this.state.isLoadedFirst}
         backgroundColor="#fafbfb"
         headerCustom={this.renderHeader(result.total, result.countGood)}
@@ -469,6 +359,7 @@ export default class MonitoringGeneral extends React.Component {
           </div>
         }
       >
+        <Clearfix height={8} />
         <StationTypeList
           filter={this.state.filter}
           data={result.stationTypeList}

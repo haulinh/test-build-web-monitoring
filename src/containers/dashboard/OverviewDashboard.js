@@ -19,7 +19,6 @@ import { getStationTypes } from 'api/CategoryApi'
 import { getLastLog } from 'api/StationAuto'
 import { translate } from 'hoc/create-lang'
 import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
-import WarningLevel from 'components/elements/warning-level'
 
 // NOTE  every 1min will get last log
 const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60
@@ -239,7 +238,7 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
-        <HeaderWrapper style={{ height: 200 }}>
+        <HeaderWrapper style={{ height: 182.92 }}>
           <div style={{ background: '#FBFBFB', padding: '16px 0' }}>
             <HeaderView
               stationStatus={this.state.stationStatus}
@@ -250,16 +249,6 @@ export default class OverviewDashboard extends Component {
                 <SummaryList data={this.getSummaryList()} />
               </Spin>
             )}
-            <div
-              style={{
-                width: '50%',
-                marginLeft: '50%',
-                padding: 4,
-                paddingRight: 0,
-              }}
-            >
-              <WarningLevel />
-            </div>
           </div>
         </HeaderWrapper>
 
