@@ -18,7 +18,7 @@ const HeadingWrapper = styled.div`
 
 const H4 = styled.h4`
   display: flex;
-  width: 100%;
+  width: ${props => (props.width ? `${props.width}` : '100%')};
   justify-content: space-between;
   align-items: center;
   font-size: ${props => props.fontSize}px;
@@ -32,6 +32,7 @@ export default class Heading extends React.PureComponent {
     rightChildren: PropTypes.any,
     fontSize: PropTypes.number,
     isBackground: PropTypes.bool,
+    width: PropTypes.string,
   }
 
   static defaultProps = {
@@ -40,12 +41,13 @@ export default class Heading extends React.PureComponent {
   }
 
   render() {
+    console.log(this.props.width, "--this.props.width")
     return (
       <HeadingWrapper
         isBackground={this.props.isBackground}
         style={this.props.style}
       >
-        <H4 color={this.props.textColor} fontSize={this.props.fontSize}>
+        <H4 color={this.props.textColor} width={this.props.width} fontSize={this.props.fontSize}>
           {this.props.children}
         </H4>
         {this.props.rightChildren}
