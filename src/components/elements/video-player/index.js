@@ -113,8 +113,8 @@ export default class Player extends React.Component {
     countStartCamera: PropTypes.number.isRequired,
     cbPlay: PropTypes.func.isRequired,
     cbStop: PropTypes.func.isRequired,
-    width: PropTypes.any,
-    height: PropTypes.number,
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }
   static defaultProps = {
     width: '100%',
@@ -130,8 +130,8 @@ export default class Player extends React.Component {
       isFullScreen: false,
       cameraId: cameraId,
       thumbLink: getThumbLink(cameraId, props.auth),
-      linkSream: getCameraMPJEGLink(cameraId, props.auth, '240p'),
-      linkSreamHightQual: getCameraMPJEGLink(cameraId, props.auth, '640p'),
+      linkStream: getCameraMPJEGLink(cameraId, props.auth, '240p'),
+      linkStreamHightQual: getCameraMPJEGLink(cameraId, props.auth, '640p'),
       link480p: getCameraMPJEGLink(cameraId, props.auth, '480p'),
     }
   }
@@ -140,22 +140,22 @@ export default class Player extends React.Component {
     window.open(
       link,
       moment().unix(),
-      `resizable=yes, scrollbars=yes, titlebar=yes, 
-      width=${window.outerWidth / 4}, 
+      `resizable=yes, scrollbars=yes, titlebar=yes,
+      width=${window.outerWidth / 4},
       height=${window.outerHeight / 4}, top=10, left=10`
     )
   }
 
   MenuOpenCam = (
     <Menu>
-      <Menu.Item onClick={() => this.openWindowStream(this.state.linkSream)}>
+      <Menu.Item onClick={() => this.openWindowStream(this.state.linkStream)}>
         <a target="_blank">240p</a>
       </Menu.Item>
       <Menu.Item onClick={() => this.openWindowStream(this.state.link480p)}>
         <a target="_blank">480p</a>
       </Menu.Item>
       <Menu.Item
-        onClick={() => this.openWindowStream(this.state.linkSreamHightQual)}
+        onClick={() => this.openWindowStream(this.state.linkStreamHightQual)}
       >
         <a target="_blank">640p</a>
       </Menu.Item>
@@ -214,8 +214,8 @@ export default class Player extends React.Component {
   render() {
     let source = this.state.thumbLink
     if (this.state.isPlay) {
-      if (this.state.isFullScreen) source = this.state.linkSreamHightQual
-      else source = this.state.linkSream
+      if (this.state.isFullScreen) source = this.state.linkStreamHightQual
+      else source = this.state.linkStream
     }
 
     return (
@@ -238,8 +238,8 @@ export default class Player extends React.Component {
             onError={() => {
               this.setState({
                 thumbLink: LINK_Error,
-                linkSream: LINK_Error,
-                linkSreamHightQual: LINK_Error,
+                linkStream: LINK_Error,
+                linkStreamHightQual: LINK_Error,
               })
             }}
           />

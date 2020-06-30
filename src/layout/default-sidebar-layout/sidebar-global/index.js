@@ -38,8 +38,9 @@ export default class SidebarGlobalLayout extends React.PureComponent {
             <img alt="iLotusLand" src="/images/logo/logo-icon.png" />
           </a>
           <SidebarGlobal.Line />
-          {!getApps().isShow && <NotificationIcon />}
-          {getApps().isShow && (
+          {!getApps().isShow ? (
+            <NotificationIcon />
+          ) : (
             <React.Fragment>
               <AppItem
                 name={translate('apps.monitoring')}
@@ -47,7 +48,7 @@ export default class SidebarGlobalLayout extends React.PureComponent {
                 icon="appMonitoring"
                 href="/"
               />
-              {getApps().incidents && (
+              {getApps().incidents(
                 <AppItem
                   name={translate('apps.incidents')}
                   color="rgb(46, 213, 115)"

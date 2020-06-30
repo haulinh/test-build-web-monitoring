@@ -216,10 +216,14 @@ export default class StationAutoItem extends React.PureComponent {
           stationID={_id}
           panel={this.state.showPanel}
           stationInfo={this.props}
+          cameraList={get(options, 'camera.list', [])}
         />
 
         {this.state.isOpenCamera && get(options, 'camera.allowed') && (
-          <CameraListView cameraList={get(options, 'camera.list', [])} />
+          <CameraListView
+            station={this.props}
+            cameraList={get(options, 'camera.list', [])}
+          />
         )}
       </StationAutoWrapper>
     )
