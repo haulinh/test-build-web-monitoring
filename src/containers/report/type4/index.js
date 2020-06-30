@@ -18,7 +18,6 @@ import moment from 'moment-timezone'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 
-
 const { Title, Text } = Typography
 const i18n = {
   header: translate('avgSearchFrom.table.header7'),
