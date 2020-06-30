@@ -59,8 +59,9 @@ import PageExpLicenseInfo from 'containers/license/exp-license-info'
 export default class RouteDefault extends React.Component {
   componentDidMount() {
     const pathname = this.props.location.pathname
-    if (pathname === '/') {
-      const defaultPage = getConfigApi().defaultPage
+    const defaultPage = getConfigApi().defaultPage
+    // console.log(defaultPage, '--defaultPage')
+    if (pathname === '/' && defaultPage) {
       this.props.history.push(defaultPage)
     }
   }
