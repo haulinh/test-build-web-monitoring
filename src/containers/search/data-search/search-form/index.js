@@ -19,7 +19,7 @@ import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import OptionsTimeRange from '../../common/options-time-range'
 import * as _ from 'lodash'
-import { FSelectApprove } from './select-approve'
+// import { FSelectApprove } from './select-approve'
 // import { prop } from 'cramda';
 
 // import queryFormDataBrowser from 'hoc/query-formdata-browser'
@@ -246,7 +246,7 @@ export default class SearchFormHistoryData extends React.Component {
       measuringListUnitStr,
       measuringList: values.measuringList,
       measuringData: this.state.measuringData,
-      dataType: values.dataType,
+      // dataType: values.dataType,
       isExceeded: values.isExceeded,
       advanced: values.advanced
         ? values.advanced.filter(
@@ -298,7 +298,7 @@ export default class SearchFormHistoryData extends React.Component {
           {this.props.lang.t('addon.search')}
         </Heading>
         <Container>
-          <Row gutter={16}>
+          <Row gutter={[16, 24]}>
             <Col span={6}>
               <Field
                 label={translate('qaqc.province.label')}
@@ -341,16 +341,24 @@ export default class SearchFormHistoryData extends React.Component {
             </Col>
             <Col span={6}>
               <Field
+                label={t('time')}
+                name="rangesDate"
+                size="large"
+                onChangeObject={this.handleChangeRanges}
+                component={FOptionsTimeRange}
+                // value={this.state.rangesDate}
+                rangesView={this.state.rangesView}
+              />
+            </Col>
+            {/* <Col span={6}>
+              <Field
                 label={translate('qaqc.data')}
                 name="dataType"
                 size="large"
                 component={FSelectApprove}
               />
-            </Col>
-          </Row>
-          <Clearfix height={16} />
-          <Row gutter={16}>
-            <Col span={12}>
+            </Col> */}
+            <Col span={18}>
               <Field
                 label={t('measuringList.label')}
                 name="measuringList"
@@ -359,17 +367,6 @@ export default class SearchFormHistoryData extends React.Component {
                 mode="multiple"
                 options={this.state.measuringList}
                 component={FSelectAnt}
-              />
-            </Col>
-            <Col span={9}>
-              <Field
-                label={t('time')}
-                name="rangesDate"
-                size="large"
-                onChangeObject={this.handleChangeRanges}
-                component={FOptionsTimeRange}
-                // value={this.state.rangesDate}
-                rangesView={this.state.rangesView}
               />
             </Col>
             <Col span={3}>

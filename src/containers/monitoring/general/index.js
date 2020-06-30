@@ -55,7 +55,6 @@ export const defaultFilter = {
   search: '',
 }
 
-
 @withRouter
 @queryFormDataBrowser(['submit'])
 @protectRole(ROLE.MONITORING.VIEW)
