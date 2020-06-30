@@ -35,11 +35,6 @@ const ContainerHeader = styled.div`
   flex-direction: row;
   display: flex;
   justify-content: center;
-  padding: 8px;
-  background-color: #ffffff;
-  // border-radius: 4px;
-  // border: solid 0.4px #b6b6b6;
-  box-shadow: 0 4px 10px 0 rgba(241, 241, 241, 0.5);
 `
 
 const ListLoader = createContentLoader({
@@ -406,7 +401,7 @@ export default class MonitoringGeneral extends React.Component {
             />
           </Anchor>
         )}
-
+        <Clearfix height={16} />
         <StationTypeList
           filter={this.state.filter}
           data={result.stationTypeList}

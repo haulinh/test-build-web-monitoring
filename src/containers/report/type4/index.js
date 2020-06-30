@@ -18,7 +18,6 @@ import moment from 'moment-timezone'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 
-
 const { Title, Text } = Typography
 const i18n = {
   header: translate('avgSearchFrom.table.header7'),
@@ -127,6 +126,7 @@ export default class ReportType1 extends React.Component {
     return (
       <PageContainer>
         <Breadcrumb items={['type4']} />
+        <Clearfix height={16} />
         <SearchForm cbSubmit={this.handleSubmit} />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>

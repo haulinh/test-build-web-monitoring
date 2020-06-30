@@ -297,7 +297,7 @@ export default class StationAutoList extends React.Component {
         <Breadcrumb items={['list']} />
 
         {/* FORM CONTROL */}
-        <Row style={{ marginBottom: 20 }} type="flex">
+        <Row style={{ marginBottom: 20, paddingTop: 16 }} type="flex">
           <Col span={24}>
             <StationAutoSearchForm
               stationLength={this.props.pagination.totalItem}

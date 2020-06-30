@@ -283,7 +283,7 @@ export default class StationAutoConfigConnection extends React.Component {
         <Breadcrumb items={['config']} />
 
         {/* FORM CONTROL */}
-        <Row style={{ marginBottom: 20 }}>
+        <Row style={{ marginBottom: 20, paddingTop: 16 }}>
           <StationAutoSearchForm
             onChangeSearch={this.props.onChangeSearch}
             initialValues={this.props.data}

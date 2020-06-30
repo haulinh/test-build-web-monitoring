@@ -21,7 +21,6 @@ import { translate } from 'hoc/create-lang'
 import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
 import WarningLevel from 'components/elements/warning-level'
 
-
 // NOTE  every 1min will get last log
 const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60
 

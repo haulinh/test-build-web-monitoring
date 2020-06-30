@@ -23,6 +23,7 @@ import { Icon, Button, Card } from 'antd'
 import UserApi from 'api/UserApi'
 import StationAutoApi from 'api/StationAuto'
 import OrganizationApi from 'api/OrganizationApi'
+import Clearfix from 'components/elements/clearfix'
 import * as _ from 'lodash'
 
 const FInput = createValidateComponent(InputLabel)
@@ -30,10 +31,6 @@ const FCalendar = createValidateComponent(CalendarCustom)
 const FInputPhoneNumber = createValidateComponent(InputPhoneNumber)
 const FUpdateLoadImage = createValidateComponent(UpdateLoadImage)
 // const FUpdateLogo = createValidateComponent(UpdateLogo)
-
-const Clearfix = styled.div`
-  height: 24px;
-`
 
 const ContainerEmail = styled.div`
   margin-left: 8px;
@@ -223,7 +220,7 @@ export class ProfileUserForm extends PureComponent {
             <Field name="avatar" component={FUpdateLoadImage} size="small" />
             {this.renderEmail(_.get(this.props, 'initialValues.email', ''))}
           </Row>
-          <Clearfix />
+          <Clearfix heigh={24} />
           <Row>
             <Col md={6}>
               <Field
@@ -242,7 +239,7 @@ export class ProfileUserForm extends PureComponent {
               />
             </Col>
           </Row>
-          <Clearfix />
+          <Clearfix height={24} />
           <Row>
             <Col md={6}>
               <Field
@@ -330,6 +327,7 @@ export default class ProfileUser extends PureComponent {
     return (
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb items={['profileUser']} />
+        <Clearfix height={16} />
         {this.state.isLoaded && (
           <ProfileUserForm
             onSubmit={this.onSubmit}

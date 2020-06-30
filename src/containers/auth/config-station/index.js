@@ -5,6 +5,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import _ from 'lodash'
 import swal from 'sweetalert2'
+import Clearfix from 'components/elements/clearfix'
 
 // import AuthAPI from 'api/AuthApi'
 import { updateRole_v1 } from 'api/UserApi'
@@ -127,6 +128,7 @@ export default class StationAutoConfigNotification extends React.Component {
             },
           ]}
         />
+        <Clearfix height={16} />
 
         {/* FORM CONTROL */}
         <Row style={{ marginBottom: 20 }}>

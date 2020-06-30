@@ -65,11 +65,11 @@ export function LogoBrandName(props) {
           </InfoWrapper>
         </LogoContainer>
       </Link>
-      {getApps().isShow && (
+      {getApps().isShow ? (
         <WrapperIcon>
           <NotificationIcon />
         </WrapperIcon>
-      )}
+      ) : null}
     </LogoWidthNotification>
   )
 }

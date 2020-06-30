@@ -128,6 +128,7 @@ export default class ReportType1 extends React.Component {
     return (
       <PageContainer>
         <Breadcrumb items={['type3']} />
+        <Clearfix height={16} />
         <SearchForm cbSubmit={this.handleSubmit} />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>

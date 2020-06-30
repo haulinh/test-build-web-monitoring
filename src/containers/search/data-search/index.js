@@ -120,6 +120,7 @@ export default class MinutesDataSearch extends React.Component {
           spinning={this.state.isExporting}
         >
           <Breadcrumb items={['list']} />
+          <Clearfix height={16} />
           <SearchFrom
             initialValues={this.props.formData}
             measuringData={this.props.formData.measuringData}

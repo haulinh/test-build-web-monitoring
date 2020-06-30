@@ -100,7 +100,7 @@ export default class StationAutoConfigSampling extends React.Component {
         <Breadcrumb items={['configSampling']} />
 
         {/* FORM CONTROL */}
-        <Row style={{ marginBottom: 20 }}>
+        <Row style={{ marginBottom: 20, paddingTop: 16 }}>
           <StationAutoSearchForm
             onChangeSearch={this.props.onChangeSearch}
             initialValues={this.props.data}

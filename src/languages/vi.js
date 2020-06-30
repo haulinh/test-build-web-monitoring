@@ -1101,6 +1101,20 @@ export default {
       label: 'Thêm thông số',
       error: 'Tối thiểu phải có 1 thông số',
     },
+    camera: {
+      title: 'Cấu hình camera',
+    },
+    sampling: {
+      title: 'Cấu hình điều khiển lấy mẫu',
+    },
+    configConnect: {
+      title: 'Cấu hình kết nối trạm',
+    },
+    configNotification: {
+      title: 'Cấu hình gửi thông báo',
+      tabChanels: 'Kênh gửi thông báo',
+      tabConfigNotification: 'Tấn suất gửi thông báo',
+    },
     form: {
       panel1: 'Thông tin trạm',
       panel2: 'Thông tin khác',
@@ -2478,5 +2492,16 @@ export default {
     incidents: 'Quản lý sự cố',
     monitoring: 'Giám sát trực tuyến',
     grafana: 'Công cụ biểu đồ',
+  },
+  stationReview: {
+    title: 'Đánh giá trạm',
+    action: {
+      edit: 'Chỉnh sửa',
+      delete: 'Xóa',
+      cancel: 'Hủy',
+    },
+    form: {
+      placeholder: 'Viết đánh giá của bạn',
+    },
   },
 }
