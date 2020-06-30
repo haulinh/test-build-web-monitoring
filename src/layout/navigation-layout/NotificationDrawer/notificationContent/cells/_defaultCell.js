@@ -11,7 +11,7 @@ import { updateNotifyRead } from 'redux/actions/notification'
 import { setDrawerVisible } from 'redux/actions/notification'
 import { connect } from 'react-redux'
 import { getConfigApi } from 'config'
-import { deleteOneNotification, updateNotReadOneNotification } from 'redux/actions/notification'
+import { deleteOneNotification, updateNotReadOneNotification, updateReadOneNotification } from 'redux/actions/notification'
 
 const i18n = {
   viewDataAroundExceededTime: translate(
@@ -39,6 +39,7 @@ const MultilineText = styled(Row)`
     setDrawerVisible,
     deleteOneNotification,
     updateNotReadOneNotification,
+    updateReadOneNotification
   }
 )
 export default class DefaultCell extends React.Component {
@@ -172,19 +173,25 @@ export default class DefaultCell extends React.Component {
 
               {
                 !data.isRead ? (
-                  <div
-                    onMouseEnter={() => this.setState({ isHoverOnIconRead: true })}
-                    onMouseLeave={() => this.setState({ isHoverOnIconRead: false })}
-                    style={{
-                      borderWidth: '4px',
-                      borderStyle: 'solid',
-                      width: '16px',
-                      height: '16px',
-                      borderRadius: 16,
-                      backgroundColor: this.getNotificationColorForIcon(),
-                      borderColor: '#ebecf0',
-                    }}
-                  />
+                  <Tooltip
+                    placement='right'
+                    title="Đánh dấu đã đọc">
+                    <div
+                      onMouseEnter={() => this.setState({ isHoverOnIconRead: true })}
+                      onMouseLeave={() => this.setState({ isHoverOnIconRead: false })}
+                      onClick={() => this._handleUpdateReadOne(_id)}
+                      style={{
+                        borderWidth: '4px',
+                        borderStyle: 'solid',
+                        width: '16px',
+                        height: '16px',
+                        borderRadius: 16,
+                        backgroundColor: this.getNotificationColorForIcon(),
+                        borderColor: '#ebecf0',
+                      }}
+                    />
+                  </Tooltip>
+
                 ) :
                   (
                     <Tooltip
@@ -229,6 +236,8 @@ export default class DefaultCell extends React.Component {
   )
 
   _handleUpdateNotReadOne = notificationId => this.props.updateNotReadOneNotification(notificationId)
+  _handleUpdateReadOne = notificationId => this.props.updateReadOneNotification(notificationId)
+
 
   _handleCellOnClick = data => {
     this.props.updateNotifyRead(data)

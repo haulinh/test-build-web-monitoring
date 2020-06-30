@@ -44,7 +44,10 @@ export function deleteAll() {
 
 export function updateNotReadOne(notificaitonId) {
   return putFetch(`${fcmNotificationRoute()}/updateIsNotRead/${notificaitonId}`)
+}
 
+export function updateReadOne(notificaitonId) {
+  return putFetch(`${fcmNotificationRoute()}/updateIsRead/${notificaitonId}`)
 }
 
 export function loadNotificationsByType(params) {
