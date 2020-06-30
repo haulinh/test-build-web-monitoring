@@ -1800,7 +1800,7 @@ export default {
     text7: 'Email',
   },
   expLicenseInfo: {
-    title: 'We are very sory',
+    title: 'We are very sorry',
     subtitle1: ' Your organization expired {{=it.totalDate}}.',
     subtitle2: 'Please extend to continue using',
     text1: 'Phone number',
