@@ -158,6 +158,7 @@ export default class AQIStatisticsDay extends React.Component {
     const { fromDate, toDate } = this.state.searchFormData
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+        <Clearfix height={16} />
         {!this.state.isInitial && (
           <Skeleton loading={true} paragraph={{ rows: 8 }} />
         )}

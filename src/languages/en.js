@@ -1124,6 +1124,9 @@ export default {
       tabChanels: 'Notification Chanels',
       tabConfigNotification: 'Frequency of Notifications',
     },
+    configColor: {
+      title: 'Warning Color Configuration'
+    },
     form: {
       panel1: 'Station Information',
       panel2: 'Station Other',
@@ -2124,7 +2127,7 @@ export default {
       standard: 'Standards Filter',
       role: 'Roles',
       user: 'Users',
-      dataLogger: 'Dataloger Configuration',
+      dataLogger: 'System Logs',
     },
 
     camera: 'Camera',

@@ -6,6 +6,7 @@ import TabItemColorSensor from './tabs/colorSensor'
 import { Form } from 'antd'
 
 import { translate } from 'hoc/create-lang'
+import Clearfix from 'components/elements/clearfix'
 
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from '../breadcrumb'
@@ -35,7 +36,7 @@ export default class StationAutoConfigColor extends React.Component {
     return (
       <PageContainer>
         <Breadcrumb items={['configColor']} />
-
+        <Clearfix height={16} />
         <Radio.Group
           defaultValue={defaultTabKey}
           onChange={this._changeTabKey}

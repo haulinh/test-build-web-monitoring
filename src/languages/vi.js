@@ -1110,6 +1110,9 @@ export default {
     configConnect: {
       title: 'Cấu hình kết nối trạm',
     },
+    configColor: {
+      title: 'Cấu hình màu cảnh báo'
+    },
     configNotification: {
       title: 'Cấu hình gửi thông báo',
       tabChanels: 'Kênh gửi thông báo',

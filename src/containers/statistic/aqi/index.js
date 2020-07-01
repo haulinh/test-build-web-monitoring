@@ -158,6 +158,7 @@ export default class AQIStatistics extends React.Component {
     return (
       <div>
         <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+          <Clearfix height={16} />
           {!this.state.isInitial && (
             <Skeleton loading={true} paragraph={{ rows: 8 }} />
           )}

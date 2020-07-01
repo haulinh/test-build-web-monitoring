@@ -158,6 +158,7 @@ export default class WQIStatisticsDay extends React.Component {
 
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+        <Clearfix height={16} />
         <Spin
           size="large"
           tip={translate('dataSearchFrom.tab.statusExport')}

@@ -1,5 +1,6 @@
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import Clearfix from 'components/elements/clearfix'
 import StationAutoApi from 'api/StationAuto'
 import { translate } from 'hoc/create-lang'
 import Breadcrumb from '../../breadcrumb'
@@ -166,7 +167,8 @@ export default class ConfigPublishContainer extends React.Component {
             backgroundColor={'#fafbfb'}
           >
             <Breadcrumb items={['config']} />
-            <Spin spinning={false} title="Đang xử lý...">
+            <Clearfix height={16} />
+            <Spin spinning={false} title="Loading...">
               <SearchForm onSearch={this.handleSearch} />
               <Table
                 rowKey="key"

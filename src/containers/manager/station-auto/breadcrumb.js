@@ -38,7 +38,7 @@ export default createBreadcrumb({
     id: 'configColor',
     //icon: Icon.car,
     href: slug.stationAuto.configColor.base,
-    name: translate('stationAutoManager.list.color.title'),
+    name: translate('stationAutoManager.configColor.title'),
   },
   create: {
     id: 'create',
