@@ -19,7 +19,7 @@ export function getDataStationAutos(
   )}`
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
-  // if (advanced) url += `&advanced=${JSON.stringify(advanced)}`
+  if (advanced) url += `&advanced=${JSON.stringify(advanced)}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
   if (isExceeded) url += `&isExceeded=${isExceeded}`
   if (dataType) url += `&dataType=${dataType}`
