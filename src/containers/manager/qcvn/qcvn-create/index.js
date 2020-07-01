@@ -8,13 +8,20 @@ import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import Clearfix from 'components/elements/clearfix'
+import { translate } from 'hoc/create-lang'
 
 @protectRole(ROLE.STATION_AUTO.CREATE)
 export default class QCVNCreate extends React.PureComponent {
+  state = {
+    isLoading: false,
+  }
   handleSubmit = async data => {
+    this.setState({ isLoading: true })
     const res = await QCVNApi.createQCVN(data)
+    this.setState({ isLoading: false })
     if (res.success) {
-      message.info('Add measuring success!')
+      // message.info('Add measuring success!')
+      message.success(translate('qcvn.create.success'))
       this.props.history.push(slug.qcvn.list)
     }
     return res
@@ -25,7 +32,10 @@ export default class QCVNCreate extends React.PureComponent {
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb items={['list', 'create']} />
         <Clearfix height={16} />
-        <QCVNForm onSubmit={this.handleSubmit} />
+        <QCVNForm
+          isLoading={this.state.isLoading}
+          onSubmit={this.handleSubmit}
+        />
       </PageContainer>
     )
   }

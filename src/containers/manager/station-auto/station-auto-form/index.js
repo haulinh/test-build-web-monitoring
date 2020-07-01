@@ -67,6 +67,7 @@ export default class StationAutoForm extends React.PureComponent {
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
     lang: langPropTypes,
+    isLoading: PropTypes.bool,
   }
 
   constructor(props) {

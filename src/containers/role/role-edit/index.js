@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { withRouter } from 'react-router-dom'
 import { autobind } from 'core-decorators'
-import swal from 'sweetalert2'
 import RoleForm from 'containers/role/role-form'
 import Breadcrumb from 'containers/role/breadcrumb'
 import Clearfix from 'components/elements/clearfix'
@@ -10,6 +9,8 @@ import RoleApi from 'api/RoleApi'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { get as _get } from 'lodash'
+import { message } from 'antd'
+import { translate } from 'hoc/create-lang'
 
 @withRouter
 @protectRole(ROLE.ROLE.EDIT)
@@ -26,11 +27,7 @@ export default class RoleEdit extends PureComponent {
     const _id = this.props.match.params._id
     const record = await RoleApi.getRole(_id)
     if (record.error) {
-      swal({
-        title: 'Error',
-        type: 'error',
-        text: record.message,
-      })
+      message.error(translate('addon.error'))
     } else {
       this.setState({
         isLoaded: true,
@@ -48,18 +45,10 @@ export default class RoleEdit extends PureComponent {
     const _id = this.props.match.params._id
     const record = await RoleApi.updateRole(_id, data)
     if (record.error) {
-      swal({
-        title: 'Error',
-        type: 'error',
-        text: record.message,
-      })
+      message.error(translate('addon.onSave.update.error'))
     } else {
-      swal({
-        title: 'success',
-        type: 'success',
-      }).then(() => {
-        // this.props.history.push(slug.role.base)
-      })
+      message.success(translate('addon.onSave.update.success'))
+      // this.props.history.push(slug.role.base)
     }
   }
 

@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { withRouter } from 'react-router-dom'
 import { autobind } from 'core-decorators'
-import swal from 'sweetalert2'
 import slug from 'constants/slug'
 import RoleForm from 'containers/role/role-form'
 import Breadcrumb from 'containers/role/breadcrumb'
@@ -10,11 +9,16 @@ import RoleApi from 'api/RoleApi'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import Clearfix from 'components/elements/clearfix'
+import { message } from 'antd'
+import { translate } from 'hoc/create-lang'
 
 @withRouter
 @protectRole(ROLE.ROLE.CREATE)
 @autobind
 export default class RoleCreate extends PureComponent {
+  state = {
+    isLoading: false,
+  }
   static propTypes = {}
 
   async onSubmit(values) {
@@ -23,21 +27,15 @@ export default class RoleCreate extends PureComponent {
       description: values.description,
       menu: values.menu[0],
     }
+    this.setState({ isLoading: true })
     const record = await RoleApi.createRole(data)
+    this.setState({ isLoading: false })
     if (record.error) {
-      swal({
-        title: 'Error',
-        type: 'error',
-        text: record.message,
-      })
+      message.error(translate('roleManager.create.error'))
     }
     if (record.success) {
-      swal({
-        title: 'success',
-        type: 'success',
-      }).then(() => {
-        this.props.history.push(slug.role.base)
-      })
+      message.success(translate('roleManager.create.success'))
+      this.props.history.push(slug.role.base)
     }
     return record
   }
@@ -47,7 +45,7 @@ export default class RoleCreate extends PureComponent {
       <PageContainer>
         <Breadcrumb items={['list', 'create']} />
         <Clearfix height={16} />
-        <RoleForm onSubmit={this.onSubmit} />
+        <RoleForm submitting={this.state.isLoading} onSubmit={this.onSubmit} />
       </PageContainer>
     )
   }

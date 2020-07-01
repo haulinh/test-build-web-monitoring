@@ -944,7 +944,7 @@ export default {
     },
     create: {
       label: 'Thêm',
-      success: 'Thêm thành công',
+      success: 'Thêm đơn vị quản lý thành công',
       keyExisted: 'Đơn vị quản lý đã tồn tại',
     },
     edit: {
@@ -1570,6 +1570,10 @@ export default {
     },
   },
   roleManager: {
+    create: {
+      success: 'Tạo nhóm quyền thành công',
+      error: 'Tạo nhóm quyền không thành không',
+    },
     breadcrumb: {
       list: 'Nhóm quyền',
       create: 'Tạo mới',
