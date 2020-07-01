@@ -1579,6 +1579,10 @@ export default {
     },
   },
   roleManager: {
+    create: {
+      success: 'Create new role successfully',
+      error: 'Failed to create new role',
+    },
     breadcrumb: {
       list: 'Roles',
       create: 'Create',

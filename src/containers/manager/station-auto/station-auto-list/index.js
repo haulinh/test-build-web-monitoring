@@ -85,7 +85,7 @@ export default class StationAutoList extends React.Component {
         return new Promise(async (resolve, reject) => {
           const res = await StationAutoApi.deleteStationAuto(_id)
           if (res.success) {
-            message.info(t('addon.onDelete.success'))
+            message.success(t('addon.onDelete.success'))
             callback()
           } else message.error(t('addon.onDelete.error'))
           resolve()
