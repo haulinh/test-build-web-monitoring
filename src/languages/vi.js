@@ -1116,7 +1116,7 @@ export default {
     configNotification: {
       title: 'Cấu hình gửi thông báo',
       tabChanels: 'Kênh gửi thông báo',
-      tabConfigNotification: 'Tấn suất gửi thông báo',
+      tabConfigNotification: 'Cấu hình thông báo',
     },
     form: {
       panel1: 'Thông tin trạm',
