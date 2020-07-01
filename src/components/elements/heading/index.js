@@ -41,7 +41,6 @@ export default class Heading extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props.width, "--this.props.width")
     return (
       <HeadingWrapper
         isBackground={this.props.isBackground}
