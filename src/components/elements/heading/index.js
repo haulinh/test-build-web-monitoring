@@ -41,13 +41,16 @@ export default class Heading extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props.width, "--this.props.width")
     return (
       <HeadingWrapper
         isBackground={this.props.isBackground}
         style={this.props.style}
       >
-        <H4 color={this.props.textColor} width={this.props.width} fontSize={this.props.fontSize}>
+        <H4
+          color={this.props.textColor}
+          width={this.props.width}
+          fontSize={this.props.fontSize}
+        >
           {this.props.children}
         </H4>
         {this.props.rightChildren}

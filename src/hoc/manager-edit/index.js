@@ -10,16 +10,20 @@ const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
       isLoaded: false,
       data: {},
       success: false,
+      isUpdating: false,
     }
     static propTypes = {
       lang: langPropTypes,
     }
     async updateItem(data) {
       const key = this.props.match.params.key
-      const res = await apiUpdate(key, data)
-      if (res.success)
-        message.info(this.props.lang.t('addon.onSave.update.success'))
-      else message.error(this.props.lang.t('addon.onSave.update.error'))
+      this.setState({ isUpdating: true }, async () => {
+        const res = await apiUpdate(key, data)
+        this.setState({ isUpdating: false })
+        if (res.success)
+          message.success(this.props.lang.t('addon.onSave.update.success'))
+        else message.error(this.props.lang.t('addon.onSave.update.error'))
+      })
     }
 
     //Su kien truoc khi component duoc tao ra
@@ -43,6 +47,7 @@ const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
         onUpdateItem: this.updateItem,
         getItem: this.getItem,
         success: this.state.success,
+        isUpdating: this.state.isUpdating,
       }
       return <Component {...this.props} {...props} />
     }
