@@ -1125,7 +1125,7 @@ export default {
       tabConfigNotification: 'Frequency of Notifications',
     },
     configColor: {
-      title: 'Warning Color Configuration'
+      title: 'Warning Color Configuration',
     },
     form: {
       panel1: 'Station Information',

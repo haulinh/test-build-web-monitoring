@@ -104,7 +104,7 @@ export default class UserList extends React.Component {
     password: '',
   }
 
-  async componentWillMount() { }
+  async componentWillMount() {}
 
   async onEnableAccount(_id, enable, callback) {
     if (this.props.userInfo._id === _id) {
@@ -128,7 +128,7 @@ export default class UserList extends React.Component {
             resolve()
           }).catch(() => console.log('Oops errors!'))
         },
-        onCancel() { },
+        onCancel() {},
       })
     }
   }
@@ -224,12 +224,12 @@ export default class UserList extends React.Component {
                   {t('userManager.list.disableAccount')}
                 </div>
               ) : (
-                  <div>
-                    {' '}
-                    <IconButton type="user-add" />
-                    {t('userManager.list.enableAccount')}
-                  </div>
-                )}
+                <div>
+                  {' '}
+                  <IconButton type="user-add" />
+                  {t('userManager.list.enableAccount')}
+                </div>
+              )}
             </a>
           </Menu.Item>
         )}
@@ -403,7 +403,7 @@ export default class UserList extends React.Component {
             resolve()
           }).catch(() => console.log('Oops errors!'))
         },
-        onCancel() { },
+        onCancel() {},
       })
     }
   }
@@ -426,23 +426,25 @@ export default class UserList extends React.Component {
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() { },
+      onCancel() {},
     })
   }
 
   render() {
     return (
-      <PageContainer center={
-        <HeadderWrapperSearch flex={1}>
-          <UserSearchForm
-            totalUser={this.props.pagination.totalItem}
-            onChangeSearch={query => {
-              this.props.onChangeSearch(query)
-            }}
-            initialValues={this.props.data}
-          />
-        </HeadderWrapperSearch>
-      }>
+      <PageContainer
+        center={
+          <HeadderWrapperSearch flex={1}>
+            <UserSearchForm
+              totalUser={this.props.pagination.totalItem}
+              onChangeSearch={query => {
+                this.props.onChangeSearch(query)
+              }}
+              initialValues={this.props.data}
+            />
+          </HeadderWrapperSearch>
+        }
+      >
         <Breadcrumb items={['list']} />
         {this.props.dataSource && (
           <DynamicTable

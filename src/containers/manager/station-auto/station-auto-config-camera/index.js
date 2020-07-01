@@ -293,14 +293,16 @@ export default class StationAutoConfigCamera extends React.Component {
     const defaultExpandedRowKeys = dataSource.map(item => item.key)
 
     return (
-      <PageContainer center={
-        <HeaderSearchWrapper>
-          <StationAutoSearchForm
-            onChangeSearch={this.props.onChangeSearch}
-            initialValues={this.props.data}
-          />
-        </HeaderSearchWrapper>
-      }>
+      <PageContainer
+        center={
+          <HeaderSearchWrapper>
+            <StationAutoSearchForm
+              onChangeSearch={this.props.onChangeSearch}
+              initialValues={this.props.data}
+            />
+          </HeaderSearchWrapper>
+        }
+      >
         <Breadcrumb items={['configCamera']} />
         <Clearfix height={16} />
         <TableWrapper

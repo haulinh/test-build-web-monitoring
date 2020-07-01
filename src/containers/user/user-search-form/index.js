@@ -81,7 +81,7 @@ export default class UserSearchForm extends React.PureComponent {
     }
   }
 
-  async componentWillMount() { }
+  async componentWillMount() {}
 
   changeSearch(e) {
     e.preventDefault()
@@ -147,7 +147,7 @@ export default class UserSearchForm extends React.PureComponent {
             </ContentWrapper>
           </Container>
         ),
-        onCancel() { },
+        onCancel() {},
       })
     } else {
       this.props.history.push(slug.user.create)

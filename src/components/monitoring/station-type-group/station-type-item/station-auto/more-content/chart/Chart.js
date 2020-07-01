@@ -453,7 +453,7 @@ export default class ChartRowToChart extends React.Component {
             </Col>
           </Row>
         </div>
-        <Skeleton loading={this.state.isLoading}  paragraph={{ rows: 4 }}  active>
+        <Skeleton loading={this.state.isLoading} paragraph={{ rows: 4 }} active>
           <div className="monitoring-chart--highchart">
             <div className="monitoring-chart--highchart__center">
               <ReactHighcharts config={this.getConfigData()} />
