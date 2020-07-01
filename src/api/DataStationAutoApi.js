@@ -69,6 +69,24 @@ export function getDataStationAutoAvg(
   return getFetch(url)
 }
 
+export function getDataStationAutoAvg_v2(
+  { page = 1, itemPerPage = 10 },
+  { fromDate, toDate, key, measuringList, type, advanced, dataStatus }
+) {
+  var url = getDataStationAutoUrl(
+    `${key}/avg?page=${page}&itemPerPage=${itemPerPage}`
+  )
+  if (fromDate) url += `&from=${fromDate}`
+  if (toDate) url += `&to=${toDate}`
+  if (measuringList) url += `&measuringList=${measuringList.join(',')}`
+  if (advanced && advanced.length)
+    url += `&advanced=${JSON.stringify(advanced)}`
+  if (dataStatus && dataStatus.length)
+    url += `&dataStatus=${dataStatus.join(',')}`
+  if (type) url += `&type=${type}`
+  return getFetch(url)
+}
+
 export function getDataStationAutoExportAvg({
   fromDate,
   toDate,
@@ -433,6 +451,7 @@ export default {
   getDataStationAutos,
   getExportData,
   getDataStationAutoAvg,
+  getDataStationAutoAvg_v2,
   getDataStationAutoExportAvg,
   getDataAnalyzeStationAutos,
   getDataStationAutoRatioCount,
