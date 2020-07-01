@@ -445,7 +445,7 @@ export default {
         require: 'Chọn ít nhất 1 thông số',
       },
       isExceeded: {
-        label: 'Vượt QCVN',
+        label: 'Vượt ngưỡng',
       },
       operator: {
         label: 'Phép toán',
