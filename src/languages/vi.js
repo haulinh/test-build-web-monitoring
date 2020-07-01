@@ -1114,9 +1114,9 @@ export default {
       title: 'Cấu hình màu cảnh báo',
     },
     configNotification: {
-      title: 'Cấu hình gửi thông báo',
-      tabChanels: 'Kênh gửi thông báo',
-      tabConfigNotification: 'Cấu hình thông báo',
+      title: 'Cấu hình gửi cảnh báo',
+      tabChanels: 'Kênh gửi cảnh báo',
+      tabConfigNotification: 'Cấu hình cảnh báo',
     },
     form: {
       panel1: 'Thông tin trạm',
