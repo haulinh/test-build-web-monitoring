@@ -97,14 +97,16 @@ export default class StationAutoConfigSampling extends React.Component {
 
   render() {
     return (
-      <PageContainer center={
-        <HeaderSearchWrapper>
-          <StationAutoSearchForm
-            onChangeSearch={this.props.onChangeSearch}
-            initialValues={this.props.data}
-          />
-        </HeaderSearchWrapper>
-      }>
+      <PageContainer
+        center={
+          <HeaderSearchWrapper>
+            <StationAutoSearchForm
+              onChangeSearch={this.props.onChangeSearch}
+              initialValues={this.props.data}
+            />
+          </HeaderSearchWrapper>
+        }
+      >
         <Breadcrumb items={['configSampling']} />
         {/* TABLE */}
         <Row style={{ marginBottom: 50 }}>

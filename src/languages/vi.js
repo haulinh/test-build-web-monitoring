@@ -1111,7 +1111,7 @@ export default {
       title: 'Cấu hình kết nối trạm',
     },
     configColor: {
-      title: 'Cấu hình màu cảnh báo'
+      title: 'Cấu hình màu cảnh báo',
     },
     configNotification: {
       title: 'Cấu hình gửi thông báo',

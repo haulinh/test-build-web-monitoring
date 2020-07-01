@@ -73,7 +73,6 @@ export default class StationAutoConfigNotification extends React.Component {
 
   constructor(props) {
     super(props)
-    // console.log(props.dataSource, "dataSource")
     this.state = {
       /* giông cách hoạt động của git */
 
@@ -110,33 +109,6 @@ export default class StationAutoConfigNotification extends React.Component {
 
   callback = key => {
     console.log(key)
-  }
-
-  render() {
-    return (
-      <PageContainer>
-        <Breadcrumb items={['configNotification']} />
-        <Tabs defaultActiveKey="1" onChange={this.callback}>
-          {/*Notification Tab*/}
-          <TabPane
-            tab={translate('stationAutoManager.configNotification.tabChanels')}
-            key="1"
-          >
-            {this.renderNotificationTab()}
-          </TabPane>
-
-          {/*Config Notification Tab*/}
-          <TabPane
-            tab={translate(
-              'stationAutoManager.configNotification.tabConfigNotification'
-            )}
-            key="2"
-          >
-            <ConfigNotificationTab />
-          </TabPane>
-        </Tabs>
-      </PageContainer>
-    )
   }
 
   renderNotificationTab = () => (
@@ -192,7 +164,7 @@ export default class StationAutoConfigNotification extends React.Component {
               indeterminate={this.state.isWarningIndeterminate}
               checked={this.state.isWarningCheckAll}
               onChange={e =>
-                this.onChagedOptionOfHeader(
+                this.onChangeOptionOfHeader(
                   STATION_AUTO_OPTIONS.PRIMARY,
                   e.target.checked
                 )
@@ -212,7 +184,7 @@ export default class StationAutoConfigNotification extends React.Component {
               checked={this.state.isSmsCheckAll}
               disabled={isDisabledCheckAll}
               onChange={e =>
-                this.onChagedOptionOfHeader(
+                this.onChangeOptionOfHeader(
                   STATION_AUTO_OPTIONS.SMS,
                   e.target.checked
                 )
@@ -232,7 +204,7 @@ export default class StationAutoConfigNotification extends React.Component {
               checked={this.state.isEmailCheckAll}
               disabled={isDisabledCheckAll}
               onChange={e =>
-                this.onChagedOptionOfHeader(
+                this.onChangeOptionOfHeader(
                   STATION_AUTO_OPTIONS.EMAIL,
                   e.target.checked
                 )
@@ -252,7 +224,7 @@ export default class StationAutoConfigNotification extends React.Component {
               checked={this.state.isWebCheckAll}
               disabled={isDisabledCheckAll}
               onChange={e =>
-                this.onChagedOptionOfHeader(
+                this.onChangeOptionOfHeader(
                   STATION_AUTO_OPTIONS.WEB,
                   e.target.checked
                 )
@@ -272,7 +244,7 @@ export default class StationAutoConfigNotification extends React.Component {
               checked={this.state.isMobileCheckAll}
               disabled={isDisabledCheckAll}
               onChange={e =>
-                this.onChagedOptionOfHeader(
+                this.onChangeOptionOfHeader(
                   STATION_AUTO_OPTIONS.MOBILE,
                   e.target.checked
                 )
@@ -298,8 +270,6 @@ export default class StationAutoConfigNotification extends React.Component {
       ['stationType.key'],
       ['asc']
     )
-
-    console.log('sourceSorted', sourceSorted)
 
     let stationCount = _.countBy(sourceSorted, 'stationType.key')
     //logic return groupRow or groupRow  and Row
@@ -349,7 +319,7 @@ export default class StationAutoConfigNotification extends React.Component {
                     false
                   )}
                   onChange={e =>
-                    this.onChagedOptionOfRow({
+                    this.onChangeOptionOfRow({
                       row,
                       key: STATION_AUTO_OPTIONS.PRIMARY,
                       value: e.target.checked,
@@ -371,7 +341,7 @@ export default class StationAutoConfigNotification extends React.Component {
                     false
                   )}
                   onChange={e =>
-                    this.onChagedOptionOfRow({
+                    this.onChangeOptionOfRow({
                       row,
                       key: STATION_AUTO_OPTIONS.SMS,
                       value: e.target.checked,
@@ -393,7 +363,7 @@ export default class StationAutoConfigNotification extends React.Component {
                     false
                   )}
                   onChange={e =>
-                    this.onChagedOptionOfRow({
+                    this.onChangeOptionOfRow({
                       row,
                       key: STATION_AUTO_OPTIONS.EMAIL,
                       value: e.target.checked,
@@ -415,7 +385,7 @@ export default class StationAutoConfigNotification extends React.Component {
                     false
                   )}
                   onChange={e =>
-                    this.onChagedOptionOfRow({
+                    this.onChangeOptionOfRow({
                       row,
                       key: STATION_AUTO_OPTIONS.WEB,
                       value: e.target.checked,
@@ -437,7 +407,7 @@ export default class StationAutoConfigNotification extends React.Component {
                     false
                   )}
                   onChange={e =>
-                    this.onChagedOptionOfRow({
+                    this.onChangeOptionOfRow({
                       row,
                       key: STATION_AUTO_OPTIONS.MOBILE,
                       value: e.target.checked,
@@ -477,7 +447,7 @@ export default class StationAutoConfigNotification extends React.Component {
     return result
   }
 
-  onChagedOptionOfHeader(column, checked) {
+  onChangeOptionOfHeader(column, checked) {
     let _dataSource = this.state.dataSource
 
     if (column === STATION_AUTO_OPTIONS.PRIMARY) {
@@ -506,7 +476,7 @@ export default class StationAutoConfigNotification extends React.Component {
         dataSource: _dataSource,
       })
     } else {
-      /* 
+      /*
       - tìm và thay đổi giá trị không giống với với checkbox select all và warning == enabled
       - update cached
       */
@@ -520,7 +490,7 @@ export default class StationAutoConfigNotification extends React.Component {
             'allowed',
           ]) === true
         if (isDiffValue && isWarningCheckBoxEnabled) {
-          this.onChagedOptionOfRow({
+          this.onChangeOptionOfRow({
             row: station,
             key: column,
             value: checked,
@@ -570,10 +540,9 @@ export default class StationAutoConfigNotification extends React.Component {
     }
   }
 
-  onChagedOptionOfRow({ row, key, value }) {
+  onChangeOptionOfRow({ row, key, value }) {
     if (key === STATION_AUTO_OPTIONS.PRIMARY) {
       let columns = _.values(STATION_AUTO_OPTIONS)
-      console.log(columns, 'columns_removedWarning')
       _.forEach(columns, column => {
         this.updateDataSource(row, column, value)
         this.updateCache(row, column, value)
@@ -670,6 +639,18 @@ export default class StationAutoConfigNotification extends React.Component {
           isEmailCheckAll: isCheckAll,
         })
         break
+      case STATION_AUTO_OPTIONS.WEB:
+        this.setState({
+          isWebIndeterminate: !isSame,
+          isWebCheckAll: isCheckAll,
+        })
+        break
+      case STATION_AUTO_OPTIONS.MOBILE:
+        this.setState({
+          isMobileIndeterminate: !isSame,
+          isMobileCheckAll: isCheckAll,
+        })
+        break
       default:
         break
     }
@@ -685,7 +666,6 @@ export default class StationAutoConfigNotification extends React.Component {
       })
       showSuccess(i18n.updateSuccess)
     } else if (res.error) {
-      console.log(res.message)
       swal({
         title: i18n.updateError,
         type: 'error',
@@ -693,5 +673,32 @@ export default class StationAutoConfigNotification extends React.Component {
     }
 
     this.setState({ isSave: false })
+  }
+
+  render() {
+    return (
+      <PageContainer>
+        <Breadcrumb items={['configNotification']} />
+        <Tabs defaultActiveKey="1" onChange={this.callback}>
+          {/*Notification Tab*/}
+          <TabPane
+            tab={translate('stationAutoManager.configNotification.tabChanels')}
+            key="1"
+          >
+            {this.renderNotificationTab()}
+          </TabPane>
+
+          {/*Config Notification Tab*/}
+          <TabPane
+            tab={translate(
+              'stationAutoManager.configNotification.tabConfigNotification'
+            )}
+            key="2"
+          >
+            <ConfigNotificationTab />
+          </TabPane>
+        </Tabs>
+      </PageContainer>
+    )
   }
 }

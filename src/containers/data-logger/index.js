@@ -120,9 +120,13 @@ class DataLoggerPage extends React.Component {
   render() {
     console.log(this.props.dataSource, '---')
     return (
-      <PageContainer center={<HeaderSearchWrapper>
-        <DataLoggerSearchForm onSubmit={this.props.onChangeSearch} />
-      </HeaderSearchWrapper>}>
+      <PageContainer
+        center={
+          <HeaderSearchWrapper>
+            <DataLoggerSearchForm onSubmit={this.props.onChangeSearch} />
+          </HeaderSearchWrapper>
+        }
+      >
         <Breadcrumb items={['list']} />
         <DataLoggerWrapper>
           <DynamicTable
@@ -133,8 +137,8 @@ class DataLoggerPage extends React.Component {
               isSticky: true,
             }}
             emptyView={this.getRenderEmpty()}
-          // onSetPage={this.props.onChangePage}
-          // pagination={this.props.pagination}
+            // onSetPage={this.props.onChangePage}
+            // pagination={this.props.pagination}
           />
         </DataLoggerWrapper>
       </PageContainer>
