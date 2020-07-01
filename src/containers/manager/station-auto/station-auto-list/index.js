@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Row, Col, Icon, Form, Menu, Dropdown, Modal, message } from 'antd'
+import { Row, Icon, Form, Menu, Dropdown, Modal, message } from 'antd'
 import StationAutoApi from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
@@ -19,6 +19,7 @@ import moment from 'moment-timezone'
 import { DD_MM_YYYY } from 'constants/format-date'
 import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
+import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 
 import DynamicTable from 'components/elements/dynamic-table'
 
@@ -90,7 +91,7 @@ export default class StationAutoList extends React.Component {
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() {},
+      onCancel() { },
     })
   }
 
@@ -112,7 +113,7 @@ export default class StationAutoList extends React.Component {
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() {},
+      onCancel() { },
     })
   }
 
@@ -293,19 +294,14 @@ export default class StationAutoList extends React.Component {
 
   render() {
     return (
-      <PageContainer>
+      <PageContainer center={<HeaderSearchWrapper flex={1}>
+        <StationAutoSearchForm
+          stationLength={this.props.pagination.totalItem}
+          onChangeSearch={this.props.onChangeSearch}
+          initialValues={this.props.data}
+        />
+      </HeaderSearchWrapper>}>
         <Breadcrumb items={['list']} />
-
-        {/* FORM CONTROL */}
-        <Row style={{ marginBottom: 20, paddingTop: 16 }} type="flex">
-          <Col span={24}>
-            <StationAutoSearchForm
-              stationLength={this.props.pagination.totalItem}
-              onChangeSearch={this.props.onChangeSearch}
-              initialValues={this.props.data}
-            />
-          </Col>
-        </Row>
 
         {/* TABLE */}
         <DynamicTable

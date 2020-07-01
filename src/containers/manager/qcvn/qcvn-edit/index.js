@@ -3,6 +3,7 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { Button, Icon, Spin } from 'antd'
 import { autobind } from 'core-decorators'
 import QCVNApi from 'api/QCVNApi'
+import Clearfix from 'components/elements/clearfix'
 import QCVNForm from '../qcvn-form'
 import slug from '/constants/slug'
 import createManagerDelete from 'hoc/manager-delete'
@@ -78,6 +79,7 @@ export default class QCVNEdit extends React.PureComponent {
   render() {
     return (
       <PageContainer button={this.buttonDelete()} {...this.props.wrapperProps}>
+        <Clearfix height={16} />
         <Breadcrumb
           items={[
             'list',

@@ -18,6 +18,7 @@ import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import { SAMPLING_CONFIG_TABLE_COLUMN } from 'constants/labels'
 import swal from 'sweetalert2'
+import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 
 import DynamicTable from 'components/elements/dynamic-table'
 
@@ -96,17 +97,15 @@ export default class StationAutoConfigSampling extends React.Component {
 
   render() {
     return (
-      <PageContainer>
-        <Breadcrumb items={['configSampling']} />
-
-        {/* FORM CONTROL */}
-        <Row style={{ marginBottom: 20, paddingTop: 16 }}>
+      <PageContainer center={
+        <HeaderSearchWrapper>
           <StationAutoSearchForm
             onChangeSearch={this.props.onChangeSearch}
             initialValues={this.props.data}
           />
-        </Row>
-
+        </HeaderSearchWrapper>
+      }>
+        <Breadcrumb items={['configSampling']} />
         {/* TABLE */}
         <Row style={{ marginBottom: 50 }}>
           <DynamicTable

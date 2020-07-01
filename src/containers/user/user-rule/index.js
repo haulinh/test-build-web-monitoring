@@ -12,6 +12,7 @@ import createLanguageHoc from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
 import { mapPropsToFields } from 'utils/form'
+import Clearfix from 'components/elements/clearfix'
 import StationAutoSearchForm from './search-form'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
@@ -129,7 +130,7 @@ export default class StationAutoConfigNotification extends React.Component {
     return (
       <PageContainer>
         <Breadcrumb items={['list', 'rule']} />
-
+        <Clearfix height={16} />
         {/* FORM CONTROL */}
         <Row style={{ marginBottom: 20 }}>
           <StationAutoSearchForm

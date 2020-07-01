@@ -12,6 +12,7 @@ import Breadcrumb from '../breadcrumb'
 import { message } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import Clearfix from 'components/elements/clearfix'
 
 @protectRole(ROLE.PROVINCE.EDIT)
 @createManagerDelete({
@@ -73,6 +74,7 @@ export default class ProvinceEdit extends React.PureComponent {
   render() {
     return (
       <PageContainer button={this.buttonDelete()} {...this.props.wrapperProps}>
+        <Clearfix height={16} />
         <Breadcrumb
           items={[
             'list',

@@ -2,7 +2,6 @@ import React from 'react'
 // import styled from "styled-components";
 import { Row, Col, Button, Form } from 'antd'
 import SelectAnt from 'components/elements/select-ant'
-import Clearfix from 'components/elements/clearfix'
 import PropTypes from 'prop-types'
 // import createLanguage, { langPropTypes } from "hoc/create-lang";
 import { translate } from 'hoc/create-lang'
@@ -65,16 +64,16 @@ class DataLoggerSearchForm extends React.Component {
         from:
           values.fromto && values.fromto.length > 0
             ? moment(values.fromto[0])
-                .utc()
-                .startOf('days')
-                .format()
+              .utc()
+              .startOf('days')
+              .format()
             : undefined,
         to:
           values.fromto && values.fromto.length > 0
             ? moment(values.fromto[1])
-                .utc()
-                .endOf('days')
-                .format()
+              .utc()
+              .endOf('days')
+              .format()
             : undefined,
       }
 
@@ -91,9 +90,8 @@ class DataLoggerSearchForm extends React.Component {
         className="fadeIn animated"
         onSubmit={this.onSubmit}
       >
-        <Clearfix heigth={8} />
         <Row gutter={8}>
-          <Col span={6}>
+          <Col span={11}>
             {getFieldDecorator(`email`)(
               <SelectAnt
                 isAll
@@ -109,12 +107,12 @@ class DataLoggerSearchForm extends React.Component {
             )}
           </Col> */}
 
-          <Col span={8}>
+          <Col span={11}>
             {getFieldDecorator(`fromto`)(
               <RangePickerCustom
                 formatDate={DD_MM_YYYY}
                 size={'default'}
-                // style={{ width: "100%" }}
+              // style={{ width: "100%" }}
               />
             )}
           </Col>
@@ -136,7 +134,7 @@ class DataLoggerSearchForm extends React.Component {
               />
             )}
           </Col> */}
-          <Col span={4}>
+          <Col span={2}>
             <Button
               shape="circle"
               icon="search"

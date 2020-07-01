@@ -1743,7 +1743,7 @@ export default {
         name: 'Configure warning color',
       },
       xem_Nhat_ky: {
-        name: 'View Diary',
+        name: 'System Logs',
       },
       mobile_dashboard: {
         name: 'Dashboard Mobile',
@@ -1804,10 +1804,10 @@ export default {
     totalStation: 'Total No. Of Station',
   },
   infoLicense: {
-    breadCrumb: 'Package information',
-    title1: 'Time to register',
+    breadCrumb: 'Subscription Information',
+    title1: 'Registered at',
     title2: 'Maximum quantity to use',
-    title3: 'Support, extension of use',
+    title3: 'Customer Support',
     text1: 'Date created organization',
     text2: 'Expiration date',
     text3: 'You have {{=it.total}} days to use the product',
@@ -1826,7 +1826,7 @@ export default {
   },
   profileUser: {
     title: 'User Profile',
-    infoLicense: 'Information Package',
+    infoLicense: 'Subscription Info',
     success: 'Change Information Successfully',
     viewProfile: 'View Profile',
     configStation: 'Configure to Receive Notifications',
@@ -2300,7 +2300,7 @@ export default {
   },
   dataLogger: {
     breadcrumb: {
-      base: 'View Diary',
+      base: 'System Logs',
     },
     list: {
       emptyView: 'There Are No Records To Display',

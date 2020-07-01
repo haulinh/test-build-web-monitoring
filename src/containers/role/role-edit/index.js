@@ -5,6 +5,7 @@ import { autobind } from 'core-decorators'
 import swal from 'sweetalert2'
 import RoleForm from 'containers/role/role-form'
 import Breadcrumb from 'containers/role/breadcrumb'
+import Clearfix from 'components/elements/clearfix'
 import RoleApi from 'api/RoleApi'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
@@ -66,6 +67,7 @@ export default class RoleEdit extends PureComponent {
     return (
       <PageContainer>
         <Breadcrumb items={['list', 'edit']} />
+        <Clearfix height={16} />
         {this.state.isLoaded && (
           <RoleForm
             onSubmit={this.onSubmit}

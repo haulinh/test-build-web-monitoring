@@ -19,12 +19,14 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import createManagerList from 'hoc/manager-list'
 import createManagerDelete from 'hoc/manager-delete'
 import protectRole from 'hoc/protect-role'
+import Clearfix from 'components/elements/clearfix'
 import { translate } from 'hoc/create-lang'
 import StationAutoSearchForm from '../station-auto-search.1'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 
 import FormAddCamera from './formAddCamera'
+import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 
 const { Panel } = Collapse
 
@@ -291,17 +293,16 @@ export default class StationAutoConfigCamera extends React.Component {
     const defaultExpandedRowKeys = dataSource.map(item => item.key)
 
     return (
-      <PageContainer>
-        <Breadcrumb items={['configCamera']} />
-
-        {/* FORM CONTROL */}
-        <Row style={{ marginBottom: 20, paddingTop: 16 }}>
+      <PageContainer center={
+        <HeaderSearchWrapper>
           <StationAutoSearchForm
             onChangeSearch={this.props.onChangeSearch}
             initialValues={this.props.data}
           />
-        </Row>
-
+        </HeaderSearchWrapper>
+      }>
+        <Breadcrumb items={['configCamera']} />
+        <Clearfix height={16} />
         <TableWrapper
           pagination={false}
           columns={columns}

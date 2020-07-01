@@ -18,6 +18,7 @@ import styled from 'styled-components'
 import { Modal, message } from 'antd'
 import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
+import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 
 import DynamicTable from 'components/elements/dynamic-table'
 
@@ -93,7 +94,7 @@ export default class StationAutoConfigConnection extends React.Component {
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() {},
+      onCancel() { },
     })
   }
 
@@ -115,7 +116,7 @@ export default class StationAutoConfigConnection extends React.Component {
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() {},
+      onCancel() { },
     })
   }
 
@@ -279,17 +280,15 @@ export default class StationAutoConfigConnection extends React.Component {
 
   render() {
     return (
-      <PageContainer>
-        <Breadcrumb items={['config']} />
-
-        {/* FORM CONTROL */}
-        <Row style={{ marginBottom: 20, paddingTop: 16 }}>
+      <PageContainer center={
+        <HeaderSearchWrapper>
           <StationAutoSearchForm
             onChangeSearch={this.props.onChangeSearch}
             initialValues={this.props.data}
           />
-        </Row>
-
+        </HeaderSearchWrapper>
+      }>
+        <Breadcrumb items={['config']} />
         {/* TABLE */}
         <DynamicTable
           isFixedSize
@@ -302,7 +301,7 @@ export default class StationAutoConfigConnection extends React.Component {
           pagination={this.props.pagination}
           onSetPage={this.props.onChangePage}
         />
-      </PageContainer>
+      </PageContainer >
     )
   }
 }

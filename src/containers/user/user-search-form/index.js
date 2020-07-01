@@ -63,8 +63,8 @@ const Form = styled(FormStyle)`
   ),
 }))
 @createLanguage
-@autobind
 @withRouter
+@autobind
 export default class UserSearchForm extends React.PureComponent {
   static propTypes = {
     initialValues: PropTypes.object,
@@ -81,7 +81,7 @@ export default class UserSearchForm extends React.PureComponent {
     }
   }
 
-  async componentWillMount() {}
+  async componentWillMount() { }
 
   changeSearch(e) {
     e.preventDefault()
@@ -147,7 +147,7 @@ export default class UserSearchForm extends React.PureComponent {
             </ContentWrapper>
           </Container>
         ),
-        onCancel() {},
+        onCancel() { },
       })
     } else {
       this.props.history.push(slug.user.create)
@@ -162,9 +162,9 @@ export default class UserSearchForm extends React.PureComponent {
 
     return (
       <Row gutter={16}>
-        <Col span={18}>
+        <Col span={15}>
           <Form className="fadeIn animated" onSubmit={this.changeSearch}>
-            <Row gutter={16} style={{ width: '100%' }}>
+            <Row gutter={4} style={{ width: '100%' }}>
               <Col span={8}>
                 {getFieldDecorator(`email`)(
                   <Input
@@ -216,7 +216,7 @@ export default class UserSearchForm extends React.PureComponent {
             </Row>
           </Form>
         </Col>
-        <Col span={6} style={{ textAlign: 'right' }}>
+        <Col span={9} style={{ textAlign: 'right' }}>
           {protectRole(ROLE.USER.ROLE)(
             <Link to={slug.user.rule}>
               <Button type="primary">

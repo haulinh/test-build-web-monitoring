@@ -25,7 +25,7 @@ import moment from 'moment/moment'
 import authApi from 'api/AuthApi'
 import { connect } from 'react-redux'
 import { get as _get } from 'lodash'
-import { Clearfix } from 'components/elements'
+import HeadderWrapperSearch from 'components/elements/header-search-wrapper'
 
 const i18n = {
   cancelText: translate('addon.cancel'),
@@ -104,7 +104,7 @@ export default class UserList extends React.Component {
     password: '',
   }
 
-  async componentWillMount() {}
+  async componentWillMount() { }
 
   async onEnableAccount(_id, enable, callback) {
     if (this.props.userInfo._id === _id) {
@@ -128,7 +128,7 @@ export default class UserList extends React.Component {
             resolve()
           }).catch(() => console.log('Oops errors!'))
         },
-        onCancel() {},
+        onCancel() { },
       })
     }
   }
@@ -224,12 +224,12 @@ export default class UserList extends React.Component {
                   {t('userManager.list.disableAccount')}
                 </div>
               ) : (
-                <div>
-                  {' '}
-                  <IconButton type="user-add" />
-                  {t('userManager.list.enableAccount')}
-                </div>
-              )}
+                  <div>
+                    {' '}
+                    <IconButton type="user-add" />
+                    {t('userManager.list.enableAccount')}
+                  </div>
+                )}
             </a>
           </Menu.Item>
         )}
@@ -403,7 +403,7 @@ export default class UserList extends React.Component {
             resolve()
           }).catch(() => console.log('Oops errors!'))
         },
-        onCancel() {},
+        onCancel() { },
       })
     }
   }
@@ -426,23 +426,24 @@ export default class UserList extends React.Component {
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() {},
+      onCancel() { },
     })
   }
 
   render() {
     return (
-      <PageContainer>
+      <PageContainer center={
+        <HeadderWrapperSearch flex={1}>
+          <UserSearchForm
+            totalUser={this.props.pagination.totalItem}
+            onChangeSearch={query => {
+              this.props.onChangeSearch(query)
+            }}
+            initialValues={this.props.data}
+          />
+        </HeadderWrapperSearch>
+      }>
         <Breadcrumb items={['list']} />
-        <Clearfix height={16} />
-        <UserSearchForm
-          totalUser={this.props.pagination.totalItem}
-          onChangeSearch={query => {
-            this.props.onChangeSearch(query)
-          }}
-          initialValues={this.props.data}
-        />
-
         {this.props.dataSource && (
           <DynamicTable
             loading={this.props.isLoading}

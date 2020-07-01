@@ -154,14 +154,14 @@ export default class StationAutoSearchForm extends React.PureComponent {
             </ContentWrapper>
           </Container>
         ),
-        onCancel() {},
+        onCancel() { },
       })
     } else {
       this.props.history.push(slug.stationAuto.create)
     }
   }
 
-  changeStationType(stationType) {}
+  changeStationType(stationType) { }
 
   render() {
     const { getFieldDecorator } = this.props.form
@@ -175,7 +175,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
           >
             <Row gutter={16}>
               {/* CHỌN LOẠI TRẠM */}
-              <Col span={10}>
+              <Col span={9}>
                 {getFieldDecorator(`stationType`)(
                   <SelectStationType
                     classNane="select-form-auto"
@@ -188,14 +188,14 @@ export default class StationAutoSearchForm extends React.PureComponent {
               </Col>
 
               {/* NHẬP TÊN TRẠM */}
-              <Col span={10}>
+              <Col span={9}>
                 {getFieldDecorator(`name`)(
                   <Input placeholder={i18n.stationName} />
                 )}
               </Col>
 
               {/* BUTTON SEARCH */}
-              <Col span={1} style={{ textAlign: 'center' }}>
+              <Col span={2} style={{ textAlign: 'center' }}>
                 <Button shape="circle" htmlType="submit">
                   <Icon type="search" />
                 </Button>
@@ -203,7 +203,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
 
               {/* BUTTON */}
               {protectRole(ROLE.STATION_AUTO.CREATE)(
-                <Col span={3} style={{ textAlign: 'center' }}>
+                <Col span={4} style={{ textAlign: 'center' }}>
                   <BtnAdd onClick={this.handleAddStationAuto} />
                 </Col>
               )}
