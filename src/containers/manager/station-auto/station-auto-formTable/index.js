@@ -260,7 +260,8 @@ export default class StationAutoFormTable extends React.Component {
 
   getColumns = () => {
     const { t } = this.props.lang
-    const { getFieldDecorator } = this.props.form
+    const { getFieldDecorator, getFieldValue } = this.props.form
+    console.log(getFieldValue('measuringList'), "log")
 
     return [
       {
@@ -413,7 +414,8 @@ export default class StationAutoFormTable extends React.Component {
 
   render() {
     const { t } = this.props.lang
-    // console.log('standardsVN', this.props.standardsVN)
+    console.log('measuringList', this.state.measuringList)
+    
     return (
       <div>
         <Button
