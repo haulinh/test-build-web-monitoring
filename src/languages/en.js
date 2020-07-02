@@ -587,7 +587,7 @@ export default {
         'Statistics about Results of 24-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
       title3: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
       description3:
-        'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} in {{=it.monthYear}}',
+        'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} in {{=it.dayFormat}}',
       title4: 'REPORT THE PERCENTAGE OF EXCEEDED DATA',
       description4:
         'Statistics about the percentage of exceeded of {{=it.fromMonth}} station in {{=it.toMonth}}',
