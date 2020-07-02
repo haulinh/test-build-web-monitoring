@@ -16,7 +16,7 @@ import {
 } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { mapPropsToFields } from 'utils/form'
+// import { mapPropsToFields } from 'utils/form'
 import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
 
 import CategoryApi from 'api/CategoryApi'
@@ -71,7 +71,7 @@ export default class StationAutoForm extends React.PureComponent {
 
   getInitialValues = () => {
     let { initialValues } = this.props
-    if (!initialValues) return
+    if (!initialValues) return {}
     if (initialValues.stationType) {
       initialValues.stationTypeObject = initialValues.stationType
       initialValues.stationType = initialValues.stationType.key
@@ -115,22 +115,28 @@ export default class StationAutoForm extends React.PureComponent {
       }
 
       this.setState({
-        emails: this.props.initialValues.emails,
-        phones: this.props.initialValues.phones,
-        measuringList: this.props.initialValues.measuringList,
-        stationType: this.props.initialValues.stationType,
-        stationTypeObject: this.props.initialValues.stationTypeObject,
-        options: this.props.initialValues.options
-          ? this.props.initialValues.options
-          : {},
-        fileList: fileList,
+        fileList,
       })
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const initialValues = this.getInitialValues()
-    this.props.form.setFieldsValue(initialValues)
+    // vi dung state de luu nen phai gan gia tri initialValus vao state
+    this.setState({
+      emails: initialValues.emails,
+      phones: initialValues.phones,
+      measuringList: initialValues.measuringList,
+      stationType: initialValues.stationType,
+      stationTypeObject: initialValues.stationTypeObject,
+      options: initialValues.options ? initialValues.options : {},
+    })
+    try {
+      this.props.form.setFieldsValue(initialValues)
+    } catch (error) {
+      console.log(error, '----')
+    }
+
     if (this.props.otherForm) {
       animateScrollTo(9999999, {
         speed: 900,
@@ -191,7 +197,7 @@ export default class StationAutoForm extends React.PureComponent {
         order: '',
       }
 
-      // console.log(data, "---data---");
+      // console.log(data, '---data---')
 
       // Callback submit form Container Component
       if (this.props.onSubmit) {
@@ -277,7 +283,6 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props.initialValues, '---initialValues---')
     const { getFieldDecorator } = this.props.form
     const { otherForm } = this.props
     const { t } = this.props.lang
