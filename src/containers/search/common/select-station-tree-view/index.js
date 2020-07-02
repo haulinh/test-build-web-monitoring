@@ -4,6 +4,7 @@ import React from 'react'
 import { TreeSelect } from 'antd'
 import StationAutoApi from 'api/StationAuto'
 import * as _ from 'lodash'
+import { translate } from 'hoc/create-lang'
 
 // const { SHOW_PARENT } = TreeSelect;
 
@@ -52,7 +53,6 @@ export default class SelectStationTreeView extends React.Component {
   }
 
   onChange = value => {
-    console.log('onChange ', value)
     this.setState({ value })
     if (this.props.onChange) this.props.onChange(value)
   }
@@ -71,7 +71,7 @@ export default class SelectStationTreeView extends React.Component {
         maxTagTextLength={15}
         maxTagPlaceholder={15}
         showCheckedStrategy="SHOW_CHILD"
-        searchPlaceholder="Please select"
+        searchPlaceholder={translate("avgSearchFrom.form.stationAuto.placeholder")}
         style={{
           width: '100%',
         }}

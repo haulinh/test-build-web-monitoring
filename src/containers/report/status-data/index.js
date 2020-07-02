@@ -54,8 +54,8 @@ export default class StatusDataReport extends React.Component {
     isLoadingExcel: false,
     dataSource: [],
     stationAutos: [],
-    from: '',
-    to: '',
+    from: null,
+    to: null,
   }
 
   async handleSubmit(values) {
@@ -63,9 +63,8 @@ export default class StatusDataReport extends React.Component {
       isHaveData: false,
       isLoading: true,
       stationAutos: values.stationAutos,
-      from: values.time[0],
-      to: values.time[1],
     })
+
     const res = await getUrlReportStatusData(
       values.stationAutos,
       values.time[0],
@@ -76,6 +75,8 @@ export default class StatusDataReport extends React.Component {
         dataSource: res.data,
         isHaveData: true,
         isLoading: false,
+        from: values.time[0],
+        to: values.time[1],
       })
     }
   }
@@ -92,7 +93,10 @@ export default class StatusDataReport extends React.Component {
       from,
       to
     )
-    window.open(url)
+    if (url) {
+      this.setState({ isLoadingExcel: false })
+      window.open(url)
+    }
   }
 
   getColumns = () => {
@@ -113,7 +117,6 @@ export default class StatusDataReport extends React.Component {
         align: 'center',
         dataIndex: 'analyze',
         key: '2',
-        width: 300,
         render: value => {
           if (!value) {
             return null
