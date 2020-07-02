@@ -114,7 +114,7 @@ export default class DefaultCell extends React.Component {
             }}
           >
             {/* icon */}
-            <Col span={3} className="notify-image">
+            <Col span={5} className="notify-image">
               <Icon
                 type={icon.type}
                 theme="outlined"
@@ -124,7 +124,7 @@ export default class DefaultCell extends React.Component {
             </Col>
 
             {/* contents */}
-            <Col span={21} className="notify-content">
+            <Col span={19} className="notify-content">
               <Tooltip
                 title={content}
                 placement="right"

@@ -86,6 +86,7 @@ export default class WqiContainer extends React.Component {
       }
 
       const rsWqi = await wqiApi.fetchWQILastLogs({ ...params })
+      console.log('rsWqi', rsWqi)
       let dataRes = _.get(rsWqi, 'data', [])
       dataRes = _.map(dataRes, item => {
         const time = _.get(item, 'time', null)
@@ -100,6 +101,7 @@ export default class WqiContainer extends React.Component {
         }
       })
       const wqiList = _.compact(dataRes)
+      console.log('wqiLevel', _.get(rsWqi, 'wqiLevel', []))
 
       this.setState({
         wqiList,

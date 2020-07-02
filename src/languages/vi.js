@@ -1,4 +1,9 @@
 export default {
+  notification: {
+    label: 'Thông báo',
+    removeAll: 'Xoá tất cả thông báo',
+    markAll: 'Đánh dấu đã đọc tất cả',
+  },
   contact: {
     phone: 'Số điện thoại',
     email: 'Email',
@@ -2017,6 +2022,7 @@ export default {
       error: 'Khôi phục thất bại',
     },
     search: 'Tìm kiếm',
+    searchNotification: 'Tìm kiếm tên trạm',
     searchSelect: 'Chọn điều kiện',
     error: 'Đã xảy ra sự cố!!!',
     warning: 'Chú ý',

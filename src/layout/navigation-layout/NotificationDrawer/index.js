@@ -12,7 +12,13 @@ import NotificationContent from './notificationContent'
 import NotificationIcon from '@atlaskit/icon/glyph/notification'
 import CrossIcon from '@atlaskit/icon/glyph/cross'
 import _ from 'lodash'
+import { translate } from 'hoc/create-lang'
 
+const SideBarNotificationWrapper = styled(Drawer)`
+  .ant-drawer-wrapper-body {
+    overflow: hidden;
+  }
+`
 const DeleteMarkWrapper = styled.div`
   position: absolute;
   right: 16px;
@@ -53,6 +59,11 @@ const NotificationWrapperIcon = styled.div`
   }
 `
 
+const i18n = {
+  label: translate('notification.label'),
+  removeAll: translate('notification.removeAll'),
+  markAll: translate('notification.markAll'),
+}
 @connectAutoDispatch(
   state => ({
     dataSource: state.notification.logs,
@@ -84,7 +95,7 @@ export default class NotificationDrawer extends React.Component {
 
   render() {
     return (
-      <Drawer
+      <SideBarNotificationWrapper
         width="30vw"
         bodyStyle={{
           height: 'calc(100vh - 55px)',
@@ -97,7 +108,7 @@ export default class NotificationDrawer extends React.Component {
                 <NotificationWrapperIcon onClick={this.handleClickNotification}>
                   <NotificationIcon color="#fff" size="large" />
                 </NotificationWrapperIcon>
-                <h4>Notifications</h4>
+                <h4>{i18n.label}</h4>
               </div>
 
               <a className="close" href="_blank" onClick={this.closeDrawer}>
@@ -114,7 +125,7 @@ export default class NotificationDrawer extends React.Component {
                         color: '#385898',
                       }}
                     >
-                      Xoá tất cả
+                      {i18n.removeAll}
                     </a>
                   )}
                 {this.props.dataSource.length > 0 &&
@@ -125,7 +136,7 @@ export default class NotificationDrawer extends React.Component {
                         color: '#385898',
                       }}
                     >
-                      Đánh dấu tất cả đã đọc
+                      {i18n.markAll}
                     </a>
                   )}
               </div>
@@ -141,7 +152,7 @@ export default class NotificationDrawer extends React.Component {
           isEmptyNotification={this._areAllNotificationsRead()}
           closeDrawer={this.closeDrawer}
         />
-      </Drawer>
+      </SideBarNotificationWrapper>
     )
   }
 
