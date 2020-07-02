@@ -2,11 +2,11 @@ import React from 'react'
 import { Row, Col, Button, Divider, Avatar } from 'antd'
 import styled from 'styled-components'
 import moment from 'moment'
+import translate from 'hoc/create-lang'
 import ImageMoreInfo from './image'
 import Editor from './Editor'
 
 const Text = styled.p`
-  font-size: 20px;
   margin: 0;
   line-height: normal;
 `
@@ -43,22 +43,41 @@ export class CommentComponent extends React.Component {
   }
 
   renderContent = () => {
-    const { content, handleDelete, handleEdit, _id } = this.props
+    const {
+      content,
+      handleDelete,
+      handleEdit,
+      _id,
+      images,
+      stationId,
+    } = this.props
     const { isEdit, value } = this.state
     if (!isEdit) {
       return (
         <React.Fragment>
           <Text style={{ marginTop: '10px' }}>{content}</Text>
+          <Row style={{ marginTop: 8 }} type="flex">
+            <Col span={24}>
+              <ImageMoreInfo
+                itemInline={3}
+                isEdit={isEdit}
+                commentId={_id}
+                images={images}
+                content={content}
+                stationId={stationId}
+              />
+            </Col>
+          </Row>
           <Flex>
             <ButtonLink
               onClick={this.handleOpenEditor}
               style={{ padding: '0px' }}
               type="link"
             >
-              Edit
+              {translate('stationReview.action.edit')}
             </ButtonLink>
             <ButtonLink onClick={() => handleDelete(_id)} type="link">
-              Delete
+              {translate('stationReview.action.delete')}
             </ButtonLink>
           </Flex>
         </React.Fragment>
@@ -74,12 +93,24 @@ export class CommentComponent extends React.Component {
             value={value}
             onChange={this.handleChange}
           />
+          <Row type="flex">
+            <Col span={24}>
+              <ImageMoreInfo
+                itemInline={6}
+                isEdit={isEdit}
+                commentId={_id}
+                images={images}
+                content={content}
+                stationId={stationId}
+              />
+            </Col>
+          </Row>
           <ButtonLink
             style={{ marginBottom: '8px', padding: '0px' }}
             onClick={this.handleHideEditor}
             type="link"
           >
-            Cancel
+            {translate('stationReview.action.cancel')}
           </ButtonLink>
         </React.Fragment>
       )
@@ -87,7 +118,7 @@ export class CommentComponent extends React.Component {
   }
 
   render() {
-    const { user, createdAt, _id, images, content, stationId } = this.props
+    const { user, createdAt } = this.props
     const { firstName, lastName, avatar } = user
     const { isEdit } = this.state
 
@@ -110,33 +141,7 @@ export class CommentComponent extends React.Component {
             </Flex>
             {this.renderContent()}
           </Col>
-          {!isEdit && (
-            <Col span={12}>
-              <ImageMoreInfo
-                itemInline={3}
-                isEdit={isEdit}
-                commentId={_id}
-                images={images}
-                content={content}
-                stationId={stationId}
-              />
-            </Col>
-          )}
         </Row>
-        {isEdit && (
-          <Row type="flex">
-            <Col span={24}>
-              <ImageMoreInfo
-                itemInline={6}
-                isEdit={isEdit}
-                commentId={_id}
-                images={images}
-                content={content}
-                stationId={stationId}
-              />
-            </Col>
-          </Row>
-        )}
         <Divider />
       </div>
     )

@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react'
-// import PropTypes from 'prop-types'
-// import AuthApi from 'api/AuthApi'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { autobind } from 'core-decorators'
-// import { Spin, Icon } from 'antd'
 import Breadcrumb from 'containers/auth/breadcrumb'
 import { connectAutoDispatch } from 'redux/connect'
+import Clearfix from 'components/elements/clearfix'
 import SecurityForm from './security-form/'
 
 @connectAutoDispatch(
@@ -20,6 +18,7 @@ export default class Security extends PureComponent {
     return (
       <PageContainer {...this.props.wrapperProps} style={{ height: '100%' }}>
         <Breadcrumb items={['security']} />
+        <Clearfix height={16} />
         <SecurityForm />
       </PageContainer>
     )

@@ -111,7 +111,6 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   render() {
-    console.log('---this.state.dataStationAuto---', this.state.dataStationAuto)
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Spin
@@ -120,6 +119,7 @@ export default class MinutesDataSearch extends React.Component {
           spinning={this.state.isExporting}
         >
           <Breadcrumb items={['list']} />
+          <Clearfix height={16} />
           <SearchFrom
             initialValues={this.props.formData}
             measuringData={this.props.formData.measuringData}

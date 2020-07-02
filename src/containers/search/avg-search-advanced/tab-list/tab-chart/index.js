@@ -11,7 +11,6 @@ import {
   getFormatNumber,
 } from 'constants/format-number'
 import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
-import Clearfix from 'components/elements/clearfix'
 
 const TabChartWrapper = styled.div`
   justify-content: center;

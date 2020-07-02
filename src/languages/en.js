@@ -89,9 +89,9 @@ export default {
       camera: 'Camera',
       chart: 'Chart',
       map: 'Map',
-      images: 'Images',
+      images: 'Station Photos',
       stationInfo: 'Station Infomation',
-      reviewStation: 'Review Station',
+      reviewStation: 'Station Reviews',
       more: {
         label: 'Link',
         historyData: 'History Data',
@@ -424,9 +424,9 @@ export default {
       all: 'All',
       time: 'Time',
       stationType: {
-        label: 'Type Of Station',
-        placeholder: 'Select Type Of Station',
-        require: 'Please Choose Type Of Station',
+        label: 'Types Of Station',
+        placeholder: 'Select Types Of Station',
+        require: 'Please Choose Types Of Station',
       },
       aqiConfigSelect: {
         label: 'Select AQI',
@@ -511,9 +511,9 @@ export default {
     form: {
       time: 'Time',
       stationType: {
-        label: 'Type Of Station',
-        placeholder: 'Select Type Of Station',
-        error: 'Please Choose Type Of Station',
+        label: 'Types Of Station',
+        placeholder: 'Select Types Of Station',
+        error: 'Please Choose Types Of Station',
       },
       rangesDate: {
         error: 'Please Choose Time',
@@ -655,9 +655,9 @@ export default {
     form: {
       time: 'Time',
       stationType: {
-        label: 'Type Of Station',
-        placeholder: 'Select Type Of Station',
-        error: 'Please Choose Type Of Station',
+        label: 'Types Of Station',
+        placeholder: 'Select Types Of Station',
+        error: 'Please Choose Types Of Station',
       },
       rangesDate: {
         error: 'Please Choose Time',
@@ -850,16 +850,16 @@ export default {
   },
   stationTypeManager: {
     list: {
-      title: 'Type Of Station',
+      title: 'Types Of Station',
     },
     create: {
       label: 'Create',
-      success: 'Add New Type Of Station Successfully',
-      keyExisted: 'Type Of Station Is Already Existed',
+      success: 'Add New Types Of Station Successfully',
+      keyExisted: 'Types Of Station Is Already Existed',
     },
     edit: {
       label: 'Edit',
-      success: 'Update Type Of Station Successfully',
+      success: 'Update Types Of Station Successfully',
     },
     delete: {
       label: 'Delete',
@@ -867,14 +867,14 @@ export default {
     form: {
       key: {
         label: 'Code',
-        placeholder: 'Input Code of Type Of Station',
-        error: 'Please Input Code of Type Of Station',
-        existError: 'Code of Type Of Station is exist',
+        placeholder: 'Input Code of Types Of Station',
+        error: 'Please Input Code of Types Of Station',
+        existError: 'Code of Types Of Station is exist',
       },
       name: {
         label: 'Name',
-        placeholder: 'Input Name of Type Of Station',
-        error: 'Please Name of Type Of Station',
+        placeholder: 'Input Name of Types Of Station',
+        error: 'Please Name of Types Of Station',
       },
       icon: {
         label: 'Icon',
@@ -887,7 +887,7 @@ export default {
         label: 'Action',
       },
       error: 'Error',
-      errorStationExist: `The Action Can't Be Completed Because There Are Stations In This Type Of Station`,
+      errorStationExist: `The Action Can't Be Completed Because There Are Stations In This Types Of Station`,
       color: {
         label: 'Color',
         placeholder: 'Choose Color',
@@ -901,16 +901,16 @@ export default {
   },
   qcvn: {
     list: {
-      title: 'QCVN',
+      title: 'Standards Filter',
     },
     create: {
       label: 'Create',
-      success: 'Add QCVN Successfully',
-      keyExisted: 'QCVN is already existed',
+      success: 'Add Standard Filter Successfully',
+      keyExisted: 'Standard Filter is already existed',
     },
     edit: {
       label: 'Edit',
-      success: 'Update QCVN Successfully',
+      success: 'Update Standard Filter Successfully',
     },
     delete: {
       label: 'Delete',
@@ -921,14 +921,14 @@ export default {
     form: {
       key: {
         label: 'Code',
-        placeholder: 'Input QCVN Code',
-        error: 'Please Input QCVN Code',
-        existError: 'QCVN code is exist',
+        placeholder: 'Input Standard Filter Code',
+        error: 'Please Input Standard Filter Code',
+        existError: 'Standard Filter code is exist',
       },
       name: {
         label: 'Name',
-        placeholder: 'Input QCVN Name',
-        error: 'Please Input QCVN Name',
+        placeholder: 'Input Standard Filter',
+        error: 'Please Input Standard Filter',
       },
       unit: {
         label: 'Unit',
@@ -1082,7 +1082,7 @@ export default {
   },
   stationAutoManager: {
     list: {
-      title: 'Station Name',
+      title: 'Manage Stations',
       ftpInfo: 'FTP Info',
       ftpFile: 'FTP File',
       restore: 'Restore',
@@ -1109,6 +1109,23 @@ export default {
     addMeasuring: {
       label: 'Add Measuring',
       error: 'Measuring have at least 1',
+    },
+    camera: {
+      title: 'Station Camera Configuration',
+    },
+    sampling: {
+      title: 'Station Sampling Configuration',
+    },
+    configConnect: {
+      title: 'Station Connect Configuration',
+    },
+    configNotification: {
+      title: 'Push Notifications Configuration',
+      tabChanels: 'Notification Chanels',
+      tabConfigNotification: 'Frequency of Notifications',
+    },
+    configColor: {
+      title: 'Warning Color Configuration',
     },
     form: {
       panel1: 'Station Information',
@@ -1165,8 +1182,8 @@ export default {
       },
       stationType: {
         label: 'Type',
-        placeholder: 'Input Type Of Station',
-        error: 'Please Choose Type Of Station',
+        placeholder: 'Input Types Of Station',
+        error: 'Please Choose Types Of Station',
       },
       address: {
         label: 'Address',
@@ -1398,7 +1415,7 @@ export default {
     },
     upload: {
       label: 'Upload',
-      error: 'Upload Image Failed',
+      error: 'Upload Photo Failed',
     },
     uploadFile: {
       label: 'Upload File',
@@ -1430,8 +1447,8 @@ export default {
       passwordLabel: 'Password:',
     },
     image: {
-      label: 'Image station: {{=it.name}}',
-      create: 'Create image',
+      label: 'Photos of station: {{=it.name}}',
+      create: 'Upload photos',
     },
     infoStation: {
       title: 'Station Information',
@@ -1443,6 +1460,7 @@ export default {
       processProduction: 'Process Production',
       userResponsible: 'User Responsible',
       userSupervisor: 'User Supervisor',
+      material: 'Material',
       website: 'Website',
     },
     limit: {
@@ -1562,6 +1580,10 @@ export default {
     },
   },
   roleManager: {
+    create: {
+      success: 'Create new role successfully',
+      error: 'Failed to create new role',
+    },
     breadcrumb: {
       list: 'Roles',
       create: 'Create',
@@ -1699,7 +1721,7 @@ export default {
         name: 'Station',
       },
       cauHinhKetNoi: {
-        name: 'Connection configuration',
+        name: 'Station connect configuration',
       },
       cauHinhGuiCanhBao: {
         name: 'Configure to Send Notifications',
@@ -1726,7 +1748,7 @@ export default {
         name: 'Configure warning color',
       },
       xem_Nhat_ky: {
-        name: 'View Diary',
+        name: 'System Logs',
       },
       mobile_dashboard: {
         name: 'Dashboard Mobile',
@@ -1747,7 +1769,7 @@ export default {
         control: 'Sampling',
         chart: 'Chart',
         map: 'Map',
-        images: 'Images',
+        images: 'Photos',
         infoStation: 'Station Information	',
         reviewStation: 'Review Station',
         create: 'Create',
@@ -1787,10 +1809,10 @@ export default {
     totalStation: 'Total No. Of Station',
   },
   infoLicense: {
-    breadCrumb: 'Package information',
-    title1: 'Time to register',
+    breadCrumb: 'Subscription Information',
+    title1: 'Registered at',
     title2: 'Maximum quantity to use',
-    title3: 'Support, extension of use',
+    title3: 'Customer Support',
     text1: 'Date created organization',
     text2: 'Expiration date',
     text3: 'You have {{=it.total}} days to use the product',
@@ -1800,7 +1822,7 @@ export default {
     text7: 'Email',
   },
   expLicenseInfo: {
-    title: 'We are very sory',
+    title: 'We are very sorry',
     subtitle1: ' Your organization expired {{=it.totalDate}}.',
     subtitle2: 'Please extend to continue using',
     text1: 'Phone number',
@@ -1809,7 +1831,7 @@ export default {
   },
   profileUser: {
     title: 'User Profile',
-    infoLicense: 'Information Package',
+    infoLicense: 'Subscription Info',
     success: 'Change Information Successfully',
     viewProfile: 'View Profile',
     configStation: 'Configure to Receive Notifications',
@@ -1824,14 +1846,14 @@ export default {
     Phone: 'Phone',
     upload: 'Upload',
     imageUpload: {
-      success: 'Upload Image Success',
-      error: 'Upload Image Failed',
+      success: 'Upload Photo Success',
+      error: 'Upload Photo Failed',
     },
     user: 'User Info',
     organization: 'Organization Info',
   },
   configStation: {
-    name: 'Station Name',
+    name: 'Manage Stations',
     breadCrumb: 'Configure to Receive Notifications',
     warningStatus: 'Receive Notifications',
     showStation: 'Show Station',
@@ -2081,9 +2103,9 @@ export default {
       config: 'Config',
     },
 
-    shareDataSub: 'Sharing Data',
+    shareDataSub: 'Data Sharing',
     shareData: {
-      shareConfig: 'Sharing Configurations',
+      shareConfig: 'Sharing onfigurations',
       ftpConfig: 'FTP Transfer Configurations',
     },
 
@@ -2095,26 +2117,26 @@ export default {
       wqiHour: 'WQI - Hour',
       wqiDay: 'WQI - Day',
       wqiStatistic: 'WQI Historical',
-      config: 'Select AQI & WQI calculations',
+      config: 'Select AQI & WQI Calculations',
     },
 
     configSub: 'Settings',
     config: {
-      stationAuto: 'Station',
-      stationAutoConnection: 'Connection configuration',
-      sendNotification: 'Configure to Send Notifications',
-      sampling: 'Sampling configuration',
-      configAQI: 'Configure AQI calculation',
-      configWQI: 'Configure WQI calculation',
-      camera: 'Camera configuration',
-      color: 'Configure warning color',
-      parameter: 'Parameter',
-      stationType: 'Type of Station',
-      site: 'Site',
-      standard: 'Standard',
-      role: 'Role',
-      user: 'User',
-      dataLogger: 'View Diary',
+      stationAuto: 'Manage Stations',
+      stationAutoConnection: 'Station Connect Configuration',
+      sendNotification: 'Push Notifications Configuration',
+      sampling: 'Station Sampling Configuration',
+      configAQI: 'AQI Calculation Configuration',
+      configWQI: 'WQI Calculation Configuration',
+      camera: 'Station Camera Configuration',
+      color: 'Warning Color Configuration',
+      parameter: 'Parameters',
+      stationType: 'Types of Station',
+      site: 'Sites',
+      standard: 'Standards Filter',
+      role: 'Roles',
+      user: 'Users',
+      dataLogger: 'System Logs',
     },
 
     camera: 'Camera',
@@ -2125,8 +2147,8 @@ export default {
     avgData: 'Average Data',
     manage: 'Manage',
     measuring: 'Parameter',
-    stationType: 'Type Of Station',
-    stationAuto: 'Station Name',
+    stationType: 'Types Of Station',
+    stationAuto: 'Manage Stations',
     stationFixed: 'Fixed Station',
     adminManagement: 'Administration',
     user: 'User',
@@ -2287,7 +2309,7 @@ export default {
   },
   dataLogger: {
     breadcrumb: {
-      base: 'View Diary',
+      base: 'System Logs',
     },
     list: {
       emptyView: 'There Are No Records To Display',
@@ -2316,9 +2338,9 @@ export default {
       add_province: 'Add Province',
       update_province: 'Update Province',
       delete_province: 'Delete Province',
-      add_qcvn: 'Add QCVN',
-      update_qcvn: 'Update QCVN',
-      delete_qcvn: 'Delete QCVN',
+      add_qcvn: 'Add Standard Filter',
+      update_qcvn: 'Update Standard Filter',
+      delete_qcvn: 'Delete Standard Filter',
       add_station_type: 'Add Station Type',
       update_station_type: 'Update Station Type',
       delete_station_type: 'Delete Station Type',
@@ -2486,5 +2508,16 @@ export default {
     incidents: 'Incidents Communication',
     monitoring: 'Online Monitoring',
     grafana: 'Data visualization',
+  },
+  stationReview: {
+    title: 'Station Reviews',
+    action: {
+      edit: 'Edit',
+      delete: 'Delete',
+      cancel: 'Cancel',
+    },
+    form: {
+      placeholder: 'Write your review',
+    },
   },
 }

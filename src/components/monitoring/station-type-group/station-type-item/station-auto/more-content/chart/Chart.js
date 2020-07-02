@@ -5,9 +5,9 @@ import moment from 'moment-timezone'
 import { translate } from 'hoc/create-lang'
 import ReactHighcharts from 'react-highcharts'
 import * as _ from 'lodash'
-import { Tabs, Row, Col } from 'antd'
+import { Tabs, Row, Col, Skeleton } from 'antd'
 import { DD_MM_YYYY_HH_MM, HH_MM, DD_MM_YYYY } from 'constants/format-date'
-import { getDataStationAutoAvg } from 'api/DataStationAutoApi'
+import { getDataStationAutoAvg_v2 } from 'api/DataStationAutoApi'
 import { getFormatNumber } from 'constants/format-number'
 import InputEditCell from 'components/elements/input-edit-cell'
 import Label from 'components/elements/label'
@@ -230,7 +230,7 @@ export default class ChartRowToChart extends React.Component {
           .toISOString()
 
         if (toDate && fromDate) {
-          const dataSources = await getDataStationAutoAvg(
+          const dataSources = await getDataStationAutoAvg_v2(
             { page: 1, itemPerPage: 3000 },
             {
               fromDate: fromDate,
@@ -249,8 +249,25 @@ export default class ChartRowToChart extends React.Component {
             strFromDate: moment(fromDate).format(station_FORMAT),
           })
 
-          let data = _.orderBy(_.get(dataSources, 'data', []), 'date_utc')
-          // console.log(data,"data")
+          let dataOrder = _.orderBy(_.get(dataSources, 'data', []), 'date_utc')
+
+          let data = []
+          if (dataOrder.length > 0) {
+            const measuringList = _.map(
+              this.props.stationData.measuringList,
+              'key'
+            )
+            data = _.map(dataOrder, item => {
+              const itemTemp = {}
+              _.forEach(measuringList, itemChiTieu => {
+                itemTemp[itemChiTieu] = item.measuringLogs[itemChiTieu].value
+              })
+              return {
+                date_utc: item.date_utc,
+                ...itemTemp,
+              }
+            })
+          }
 
           let arrDataX = []
           for (let i = 0; i <= giaTriTinh; i++) {
@@ -436,13 +453,13 @@ export default class ChartRowToChart extends React.Component {
             </Col>
           </Row>
         </div>
-        {!this.state.isLoading && (
+        <Skeleton loading={this.state.isLoading} paragraph={{ rows: 4 }} active>
           <div className="monitoring-chart--highchart">
             <div className="monitoring-chart--highchart__center">
               <ReactHighcharts config={this.getConfigData()} />
             </div>
           </div>
-        )}
+        </Skeleton>
         {!this.state.isLoading && (
           <div className="monitoring-chart--tab">
             {this.state.current.length > 0 && (

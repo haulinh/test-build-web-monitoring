@@ -76,6 +76,7 @@ export function getConfigApi() {
 export function getApps() {
   const config = window.config
   return {
+    isShow: config.apps.isShow,
     incidents: config.apps.incidents,
     grafana: config.apps.grafana,
   }

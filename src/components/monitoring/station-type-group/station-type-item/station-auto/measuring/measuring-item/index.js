@@ -47,8 +47,9 @@ const MeasuringItemText = styled.div`
 // `
 
 const MeasuringUnit = styled.span`
-  position: relative;
+  position: absolute;
   top: -10px;
+  right: -8px;
   font-size: 8px;
   color: ${props => props.color};
 `
@@ -76,8 +77,8 @@ const RightContainer = styled.div`
 `
 
 const Dot = styled.div`
-  height: 25px;
-  width: 25px;
+  height: 15px;
+  width: 15px;
   background-color: #bbb;
   border-radius: 50%;
   display: inline-block;

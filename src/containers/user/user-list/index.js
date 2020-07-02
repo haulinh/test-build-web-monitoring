@@ -25,7 +25,7 @@ import moment from 'moment/moment'
 import authApi from 'api/AuthApi'
 import { connect } from 'react-redux'
 import { get as _get } from 'lodash'
-import { Clearfix } from 'components/elements'
+import HeadderWrapperSearch from 'components/elements/header-search-wrapper'
 
 const i18n = {
   cancelText: translate('addon.cancel'),
@@ -432,17 +432,20 @@ export default class UserList extends React.Component {
 
   render() {
     return (
-      <PageContainer>
+      <PageContainer
+        center={
+          <HeadderWrapperSearch flex={1}>
+            <UserSearchForm
+              totalUser={this.props.pagination.totalItem}
+              onChangeSearch={query => {
+                this.props.onChangeSearch(query)
+              }}
+              initialValues={this.props.data}
+            />
+          </HeadderWrapperSearch>
+        }
+      >
         <Breadcrumb items={['list']} />
-        <Clearfix height={16} />
-        <UserSearchForm
-          totalUser={this.props.pagination.totalItem}
-          onChangeSearch={query => {
-            this.props.onChangeSearch(query)
-          }}
-          initialValues={this.props.data}
-        />
-
         {this.props.dataSource && (
           <DynamicTable
             loading={this.props.isLoading}

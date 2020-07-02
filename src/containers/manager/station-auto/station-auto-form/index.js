@@ -67,6 +67,7 @@ export default class StationAutoForm extends React.PureComponent {
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
     lang: langPropTypes,
+    isLoading: PropTypes.bool,
   }
 
   constructor(props) {
@@ -146,7 +147,6 @@ export default class StationAutoForm extends React.PureComponent {
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
-      console.log('measuringList', values.measuringList)
       if (!values.measuringList) {
         const { t } = this.props.lang
         swal({
@@ -195,6 +195,7 @@ export default class StationAutoForm extends React.PureComponent {
       }
     })
   }
+
   changeStationType(stationTypeObject) {
     this.props.form.setFieldsValue({ stationType: stationTypeObject.key })
     this.setState({
@@ -274,7 +275,6 @@ export default class StationAutoForm extends React.PureComponent {
   render() {
     const { getFieldDecorator } = this.props.form
     const { otherForm } = this.props
-    console.log('other form', this.props.otherForm)
     const { t } = this.props.lang
     const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory('station-autos')
     const { previewVisible, previewImage, fileList } = this.state
@@ -865,7 +865,7 @@ export default class StationAutoForm extends React.PureComponent {
                   )(
                     <TextArea
                       placeholder={t(
-                        'stationAutoManager.form.processProduction.placeholde'
+                        'stationAutoManager.form.processProduction.placeholder'
                       )}
                     />
                   )}
@@ -899,7 +899,12 @@ export default class StationAutoForm extends React.PureComponent {
         </Collapse>
 
         <FormItem>
-          <Button style={{ width: '100%' }} type="primary" htmlType="submit">
+          <Button
+            style={{ width: '100%' }}
+            type="primary"
+            loading={this.props.isLoading}
+            htmlType="submit"
+          >
             {t('addon.save')}
           </Button>
         </FormItem>

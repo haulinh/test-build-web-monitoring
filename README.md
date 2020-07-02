@@ -52,12 +52,12 @@ camera: {
   username: process.env.CAMERA_USERNAME,
   password: process.env.CAMERA_PASSWORD
 },
-intercomID: process.env.INTERCOM_ID || "az33rewf",
 firebase: {
   id: process.env.FIREBASE_ID,
   key: process.env.FIREBASE_KEY
 },
 apps: {
+  isShow: process.env.APP_IS_SHOW,
   incidents: process.env.APP_INCIDENTS_URL,
   grafana: process.env.APP_GRAFANA_URL
 },

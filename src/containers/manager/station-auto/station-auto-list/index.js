@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Row, Col, Icon, Form, Menu, Dropdown, Modal, message } from 'antd'
+import { Row, Icon, Form, Menu, Dropdown, Modal, message } from 'antd'
 import StationAutoApi from 'api/StationAuto'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
@@ -19,6 +19,7 @@ import moment from 'moment-timezone'
 import { DD_MM_YYYY } from 'constants/format-date'
 import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
+import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 
 import DynamicTable from 'components/elements/dynamic-table'
 
@@ -84,7 +85,7 @@ export default class StationAutoList extends React.Component {
         return new Promise(async (resolve, reject) => {
           const res = await StationAutoApi.deleteStationAuto(_id)
           if (res.success) {
-            message.info(t('addon.onDelete.success'))
+            message.success(t('addon.onDelete.success'))
             callback()
           } else message.error(t('addon.onDelete.error'))
           resolve()
@@ -293,19 +294,18 @@ export default class StationAutoList extends React.Component {
 
   render() {
     return (
-      <PageContainer>
-        <Breadcrumb items={['list']} />
-
-        {/* FORM CONTROL */}
-        <Row style={{ marginBottom: 20 }} type="flex">
-          <Col span={24}>
+      <PageContainer
+        center={
+          <HeaderSearchWrapper flex={1}>
             <StationAutoSearchForm
               stationLength={this.props.pagination.totalItem}
               onChangeSearch={this.props.onChangeSearch}
               initialValues={this.props.data}
             />
-          </Col>
-        </Row>
+          </HeaderSearchWrapper>
+        }
+      >
+        <Breadcrumb items={['list']} />
 
         {/* TABLE */}
         <DynamicTable

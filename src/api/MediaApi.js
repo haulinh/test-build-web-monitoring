@@ -1,6 +1,6 @@
 import { getConfigApi } from 'config'
 
-function getMediaUrl(prefix = '') {
+export function getMediaUrl(prefix = '') {
   return getConfigApi().media + '/' + prefix
 }
 
@@ -10,4 +10,5 @@ export function urlPhotoUploadWithDirectory(directory) {
 
 export default {
   urlPhotoUploadWithDirectory,
+  getMediaUrl,
 }

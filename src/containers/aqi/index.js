@@ -4,7 +4,8 @@ import * as _ from 'lodash'
 import { Skeleton } from 'antd'
 import InfoComponent from '../../components/aqi/info'
 import MapComponent from '../../components/aqi/map'
-
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 import aqiApi from 'api/AqiApi'
 import stationConfigApi from 'api/StationConfigApi'
 import { getListConfigAqi } from 'api/CategoryApi'
@@ -19,7 +20,7 @@ const WrapperContainer = styled.div`
   flex-direction: row;
   flex: 3;
 `
-
+@protectRole(ROLE.AQI.VIEW)
 export default class AqiContainer extends React.Component {
   state = {
     aqiList: [],

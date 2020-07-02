@@ -29,6 +29,7 @@ const i18n = {
   title: translate('avgSearchFrom.table.title'),
 }
 
+@protectRole(ROLE.TILE_DULIEU_THUDUOC.VIEW)
 @connect(state => ({
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
 }))
@@ -179,6 +180,7 @@ export default class ReportType10 extends React.Component {
     return (
       <PageContainer>
         <Breadcrumb items={['type10']} />
+        <Clearfix height={16} />
         <SearchForm cbSubmit={this.handleSubmit} />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>

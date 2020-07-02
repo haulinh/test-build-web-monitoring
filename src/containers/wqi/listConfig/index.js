@@ -16,7 +16,9 @@ import createBreadcrumb from 'shared/breadcrumb/hoc'
 
 const Breadcrumb = createBreadcrumb()
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  padding-top: 16px;
+`
 
 const i18n = {
   pageName: translate('wqiConfigCalculation.pageName'),

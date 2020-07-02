@@ -13,7 +13,6 @@ import {
 import styled from 'styled-components'
 import { getConfigApi } from 'config'
 import MediaApi from 'api/MediaApi'
-import Clearfix from 'components/elements/clearfix'
 
 const { TextArea } = Input
 
@@ -135,7 +134,14 @@ export default class Editor extends React.Component {
   }
 
   render() {
-    const { onChange, submitting, value, isEdit, images } = this.props
+    const {
+      onChange,
+      submitting,
+      value,
+      isEdit,
+      images,
+      placeholder,
+    } = this.props
     return (
       <div style={{ marginTop: !isEdit ? '0px' : '10px' }}>
         {!isEdit && (
@@ -154,7 +160,6 @@ export default class Editor extends React.Component {
                 </Col>
               ))}
             </Row>
-            <Clearfix height={24} />
           </React.Fragment>
         )}
         <Form.Item>
@@ -163,7 +168,7 @@ export default class Editor extends React.Component {
               style={{ maxWidth: '80%' }}
               onChange={onChange}
               value={value}
-              placeholder="Please write a review"
+              placeholder={placeholder}
             />
             <Upload
               shape="circle-outline"

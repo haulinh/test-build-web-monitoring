@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 import update from 'immutability-helper'
 import { connect } from 'react-redux'
+import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
 import {
   createEvaluateStation,
@@ -133,7 +134,7 @@ export default class StationComment extends React.Component {
     return (
       <Spin spinning={isLoading}>
         <React.Fragment>
-          <Title>Đánh giá trạm</Title>
+          <Title>{translate('stationReview.title')}</Title>
           <Divider />
           {!isLoading && data.length
             ? data.map(comment => (
@@ -163,6 +164,7 @@ export default class StationComment extends React.Component {
                 onAddImage={this.handleAddImage}
                 onDeleteImage={this.handleDeleteImage}
                 images={this.state.images}
+                placeholder={translate('stationReview.placeholder')}
               />
             }
           />

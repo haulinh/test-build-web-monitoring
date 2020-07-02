@@ -25,9 +25,9 @@ const createManagerDelete = ({ apiDelete }) => Component => {
           return new Promise(async (resolve, reject) => {
             const res = await apiDelete(key)
             if (res.success) {
-              message.info('Delete success!')
+              message.success(translate('addon.onDelete.success'))
               callbackSuccess()
-            } else message.error('Delete error!')
+            } else message.error(translate('addon.onDelete.error'))
             resolve()
           }).catch(() => console.log('Oops errors!'))
         },

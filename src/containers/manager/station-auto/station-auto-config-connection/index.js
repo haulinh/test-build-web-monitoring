@@ -18,6 +18,7 @@ import styled from 'styled-components'
 import { Modal, message } from 'antd'
 import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
+import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 
 import DynamicTable from 'components/elements/dynamic-table'
 
@@ -279,17 +280,17 @@ export default class StationAutoConfigConnection extends React.Component {
 
   render() {
     return (
-      <PageContainer>
+      <PageContainer
+        center={
+          <HeaderSearchWrapper>
+            <StationAutoSearchForm
+              onChangeSearch={this.props.onChangeSearch}
+              initialValues={this.props.data}
+            />
+          </HeaderSearchWrapper>
+        }
+      >
         <Breadcrumb items={['config']} />
-
-        {/* FORM CONTROL */}
-        <Row style={{ marginBottom: 20 }}>
-          <StationAutoSearchForm
-            onChangeSearch={this.props.onChangeSearch}
-            initialValues={this.props.data}
-          />
-        </Row>
-
         {/* TABLE */}
         <DynamicTable
           isFixedSize

@@ -12,6 +12,7 @@ import Breadcrumb from '../breadcrumb'
 import { mapPropsToFields } from 'utils/form'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import Clearfix from 'components/elements/clearfix'
 
 const FormItem = Form.Item
 
@@ -179,6 +180,7 @@ export default class StationAutoEdit extends React.PureComponent {
               },
             ]}
           />
+          <Clearfix height={16} />
           {this.props.isLoaded && (
             <StationAutoConfigForm
               form={this.props.form}

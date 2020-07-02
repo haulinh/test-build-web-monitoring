@@ -11,15 +11,9 @@ const WrapperView = styled.div`
   min-width: 250px;
 `
 
-const Label = styled.label`
-  font-weight: bold;
-  align-self: center;
-`
-
 @autobind
 export default class HeaderView extends React.PureComponent {
   static propTypes = {
-    stationStatus: PropTypes.string,
     onChange: PropTypes.func,
   }
 
@@ -33,7 +27,6 @@ export default class HeaderView extends React.PureComponent {
     return (
       <WrapperView>
         <ProvinceSelect label="All" onChange={this.handleItemSelected} />
-        <Label style={{ paddingTop: 8 }}>{this.props.stationStatus}</Label>
       </WrapperView>
     )
   }

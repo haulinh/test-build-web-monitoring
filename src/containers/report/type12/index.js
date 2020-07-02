@@ -17,7 +17,8 @@ import Clearfix from 'components/elements/clearfix'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 import { MM_YYYY, DD_MM_YYYY } from 'constants/format-date'
 import moment from 'moment-timezone'
-
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 import { connect } from 'react-redux'
 
 // import axios from 'axios'
@@ -28,6 +29,7 @@ const i18n = {
   title: translate('avgSearchFrom.table.title4'),
 }
 
+@protectRole(ROLE.TILE_DULIE_VUOTNGUONG.VIEW)
 @connect(state => ({
   token: state.auth.token,
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
@@ -137,6 +139,7 @@ export default class ReportType12 extends React.Component {
     return (
       <PageContainer>
         <Breadcrumb items={['type12']} />
+        <Clearfix height={16} />
         <SearchForm cbSubmit={this.handleSubmit} isDatePicker={true} />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>

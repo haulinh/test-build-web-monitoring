@@ -75,6 +75,7 @@ export default class StationTypeEdit extends React.PureComponent {
           />
           {this.props.isLoaded && (
             <StationTypeFrom
+              isLoading={this.props.isUpdating}
               initialValues={this.props.data}
               onSubmit={this.handleSubmit}
             />

@@ -23,7 +23,7 @@ const i18n = {
   reportName: translate('statistic.aqi.reportName'),
 }
 
-@protectRole(ROLE.STATISTIC.AQI)
+@protectRole(ROLE.AQI_GIO.VIEW)
 @queryFormDataBrowser(['submit'])
 @autobind
 export default class AQIStatistics extends React.Component {
@@ -158,6 +158,7 @@ export default class AQIStatistics extends React.Component {
     return (
       <div>
         <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+          <Clearfix height={16} />
           {!this.state.isInitial && (
             <Skeleton loading={true} paragraph={{ rows: 8 }} />
           )}

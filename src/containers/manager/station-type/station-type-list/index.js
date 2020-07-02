@@ -34,7 +34,7 @@ const AvatarWrapper = styled.div`
     height: auto;
   }
 `
-
+@protectRole(ROLE.STATION_TYPE.VIEW)
 @createManagerList({
   apiList: CategoryApi.getStationTypes,
 })

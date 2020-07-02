@@ -445,7 +445,7 @@ export default {
         require: 'Chọn ít nhất 1 thông số',
       },
       isExceeded: {
-        label: 'Vượt QCVN',
+        label: 'Vượt ngưỡng',
       },
       operator: {
         label: 'Phép toán',
@@ -944,7 +944,7 @@ export default {
     },
     create: {
       label: 'Thêm',
-      success: 'Thêm thành công',
+      success: 'Thêm đơn vị quản lý thành công',
       keyExisted: 'Đơn vị quản lý đã tồn tại',
     },
     edit: {
@@ -1100,6 +1100,23 @@ export default {
     addMeasuring: {
       label: 'Thêm thông số',
       error: 'Tối thiểu phải có 1 thông số',
+    },
+    camera: {
+      title: 'Cấu hình camera',
+    },
+    sampling: {
+      title: 'Cấu hình điều khiển lấy mẫu',
+    },
+    configConnect: {
+      title: 'Cấu hình kết nối trạm',
+    },
+    configColor: {
+      title: 'Cấu hình màu cảnh báo',
+    },
+    configNotification: {
+      title: 'Cấu hình gửi cảnh báo',
+      tabChanels: 'Kênh gửi cảnh báo',
+      tabConfigNotification: 'Cấu hình cảnh báo',
     },
     form: {
       panel1: 'Thông tin trạm',
@@ -1435,6 +1452,7 @@ export default {
       processProduction: 'Quy trình sản xuất',
       userResponsible: 'Người chịu trách nhiệm',
       userSupervisor: 'Người giám sát',
+      material: 'Nguyên liệu chính',
       website: 'Website',
     },
     limit: {
@@ -1553,6 +1571,10 @@ export default {
     },
   },
   roleManager: {
+    create: {
+      success: 'Tạo nhóm quyền thành công',
+      error: 'Tạo nhóm quyền không thành không',
+    },
     breadcrumb: {
       list: 'Nhóm quyền',
       create: 'Tạo mới',
@@ -2482,5 +2504,16 @@ export default {
     incidents: 'Quản lý sự cố',
     monitoring: 'Giám sát trực tuyến',
     grafana: 'Công cụ biểu đồ',
+  },
+  stationReview: {
+    title: 'Đánh giá trạm',
+    action: {
+      edit: 'Chỉnh sửa',
+      delete: 'Xóa',
+      cancel: 'Hủy',
+    },
+    form: {
+      placeholder: 'Viết đánh giá của bạn',
+    },
   },
 }

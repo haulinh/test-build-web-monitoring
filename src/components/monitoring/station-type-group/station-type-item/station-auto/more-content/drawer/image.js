@@ -16,7 +16,6 @@ import Gallery from 'components/elements/gallery'
 
 const Wrapper = styled(Row)`
   min-height: 500px;
-  padding: 16px 24px;
   transition: transform 0.25s ease;
   .delete {
     display: none;
@@ -32,9 +31,8 @@ const Wrapper = styled(Row)`
   }
   .image-item {
     position: relative;
-    min-height: 100px;
-    max-height: 200px;
     cursor: pointer;
+    margin-bottom: 8px;
     :hover {
       .delete {
         display: flex;
@@ -43,6 +41,18 @@ const Wrapper = styled(Row)`
   }
   .ant-upload {
     min-height: 100px;
+  }
+`
+
+const PhotoItem = styled.div`
+  width: 100%;
+  background: url('${props => props.image}');
+  background-size: cover;
+  background-position: center;
+  &:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
   }
 `
 
@@ -217,15 +227,20 @@ export default class ImageMoreInfo extends React.Component {
                   >
                     <i className="fa fa-trash" />
                   </Popconfirm>
-                  <img
+                  <PhotoItem
                     onClick={this.handleViewGalleryClick(index)}
                     key={image._id}
+                    image={image.thumbnail}
+                  ></PhotoItem>
+                  {/* <img
+                    
+                    
                     style={{ objectFit: 'cover' }}
                     width="100%"
                     height="100%"
                     src={image.thumbnail}
                     alt={image._id}
-                  />
+                  /> */}
                 </Col>
               ))
             ) : (

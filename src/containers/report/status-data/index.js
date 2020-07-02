@@ -42,7 +42,7 @@ const i18n = {
   ),
   note: translate('menuApp.report.table.header.note'),
 }
-
+@protectRole(ROLE.TINH_TRANG_DU_LIEU.VIEW)
 @connect(state => ({
   token: state.auth.token,
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
@@ -400,6 +400,7 @@ export default class StatusDataReport extends React.Component {
     return (
       <PageContainer>
         <Breadcrumb items={['status_data']} />
+        <Clearfix height={16} />
         <SearchForm
           cbSubmit={this.handleSubmit.bind(this)}
           isDatePicker={true}

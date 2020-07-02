@@ -4,8 +4,10 @@ import ChangeLanguage from 'layout/navigation-layout/ChangeLanguage'
 import { logout } from 'redux/actions/authAction'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
+import { getApps } from 'config'
 import UserDropdown from './UserDropdown'
 import AppItem from './AppItem'
+import NotificationIcon from './NotificationIcon'
 import { SidebarGlobal, SIDEBAR_GLOBAL_WIDTH } from './style'
 
 export { SIDEBAR_GLOBAL_WIDTH }
@@ -36,24 +38,33 @@ export default class SidebarGlobalLayout extends React.PureComponent {
             <img alt="iLotusLand" src="/images/logo/logo-icon.png" />
           </a>
           <SidebarGlobal.Line />
-          <AppItem
-            name={translate('apps.monitoring')}
-            color="#2C5DE5"
-            icon="appMonitoring"
-            href="/"
-          />
-          <AppItem
-            name={translate('apps.incidents')}
-            color="rgb(46, 213, 115)"
-            icon="appIncident"
-            href={slug.apps.incidents}
-          />
-          <AppItem
-            name={translate('apps.grafana')}
-            color="#e67e22"
-            icon="appGrafana"
-            href={slug.apps.grafana}
-          />
+          {!getApps().isShow ? <NotificationIcon /> : null}
+          {getApps().isShow ? (
+            <React.Fragment>
+              <AppItem
+                name={translate('apps.monitoring')}
+                color="#2C5DE5"
+                icon="appMonitoring"
+                href="/"
+              />
+              {getApps().incidents ? (
+                <AppItem
+                  name={translate('apps.incidents')}
+                  color="rgb(46, 213, 115)"
+                  icon="appIncident"
+                  href={slug.apps.incidents}
+                />
+              ) : null}
+              {getApps().grafana ? (
+                <AppItem
+                  name={translate('apps.grafana')}
+                  color="#e67e22"
+                  icon="appGrafana"
+                  href={slug.apps.grafana}
+                />
+              ) : null}
+            </React.Fragment>
+          ) : null}
         </SidebarGlobal.SidebarTop>
         <SidebarGlobal.SidebarBottom>
           <UserDropdown />

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { SHAPE } from 'themes/color'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { getApps } from 'config'
 import NotificationIcon from './../sidebar-global/NotificationIcon'
 
 const LogoWidthNotification = styled.div`
@@ -40,7 +41,7 @@ const RegisterBrand = styled.span`
 `
 
 const BrandName = styled.span`
-  font-size: 14px;
+  font-size: ${props => (props.isShowApps ? 14 : 16)}px;
   font-weight: 600;
   margin-top: 8px;
   color: ${SHAPE.BLACK};
@@ -60,13 +61,15 @@ export function LogoBrandName(props) {
             <TextPlaceholder>
               iLotusLand for Environment <RegisterBrand>&trade;</RegisterBrand>
             </TextPlaceholder>
-            <BrandName>{props.name}</BrandName>
+            <BrandName isShowApps={getApps().isShow}>{props.name}</BrandName>
           </InfoWrapper>
         </LogoContainer>
       </Link>
-      <WrapperIcon>
-        <NotificationIcon />
-      </WrapperIcon>
+      {getApps().isShow ? (
+        <WrapperIcon>
+          <NotificationIcon />
+        </WrapperIcon>
+      ) : null}
     </LogoWidthNotification>
   )
 }

@@ -10,14 +10,11 @@ import { translate } from 'hoc/create-lang'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { autobind } from 'core-decorators'
 import Breadcrumb from 'containers/auth/breadcrumb'
+import Clearfix from 'components/elements/clearfix'
 
 const FInput = createValidateComponent(InputLabel)
 
 const Form = styled.form``
-
-const Clearfix = styled.div`
-  height: 24px;
-`
 
 function validate(values) {
   const errors = {}
@@ -79,6 +76,7 @@ export default class ChangePassword extends PureComponent {
     return (
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb items={['changePassword']} />
+        <Clearfix height={16} />
         <Form onSubmit={this.props.handleSubmit(this.handleLogin.bind(this))}>
           <Field
             label={translate('changePassword.form.oldPassword.label')}
@@ -87,18 +85,18 @@ export default class ChangePassword extends PureComponent {
             type="password"
             icon="fa fa-user"
             component={FInput}
-            size="small"
+            size="large"
           />
-          <Clearfix />
+          <Clearfix height={24} />
           <Field
             label={translate('changePassword.form.newPassword.label')}
             type="password"
             placeholder={translate('changePassword.form.newPassword.label')}
             name="newPassword"
             component={FInput}
-            size="small"
+            size="large"
           />
-          <Clearfix />
+          <Clearfix height={24} />
           <Field
             label={translate(
               'changePassword.form.newPasswordConfirmation.label'
@@ -109,9 +107,9 @@ export default class ChangePassword extends PureComponent {
             )}
             name="newPasswordConfirmation"
             component={FInput}
-            size="small"
+            size="large"
           />
-          <Clearfix />
+          <Clearfix height={24} />
           <Button
             isLoading={this.props.submitting}
             size="lg"

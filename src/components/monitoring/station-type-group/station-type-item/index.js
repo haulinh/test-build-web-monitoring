@@ -64,7 +64,7 @@ export default class StationTypeSummary extends React.Component {
               <div
                 style={{
                   ...props.style,
-                  top: props.isSticky ? '95px' : null,
+                  top: props.isSticky ? '92px' : null,
                   transition: 'all .3s linear',
                   zIndex: 99999,
                 }}

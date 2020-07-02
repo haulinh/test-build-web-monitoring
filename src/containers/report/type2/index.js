@@ -14,6 +14,9 @@ import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 import { MM_YYYY, DD_MM_YYYY } from 'constants/format-date'
 import moment from 'moment-timezone'
 
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
+
 import { connect } from 'react-redux'
 
 // import axios from 'axios'
@@ -24,6 +27,7 @@ const i18n = {
   title: translate('avgSearchFrom.table.title2'),
 }
 
+@protectRole(ROLE.TB24H.VIEW)
 @connect(state => ({
   token: state.auth.token,
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
@@ -134,6 +138,7 @@ export default class ReportType2 extends React.Component {
     return (
       <PageContainer>
         <Breadcrumb items={['type2']} />
+        <Clearfix height={16} />
         <SearchForm cbSubmit={this.handleSubmit} />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>

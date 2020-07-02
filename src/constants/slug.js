@@ -337,11 +337,11 @@ export const MENU_NAME = {
   config: {
     stationAuto: translate('menuApp.config.stationAuto'),
     stationAutoConnection: translate('menuApp.config.stationAutoConnection'),
-    sendNotification: translate('menuApp.config.sendNotification'),
+    camera: translate('menuApp.config.camera'),
     sampling: translate('menuApp.config.sampling'),
+    sendNotification: translate('menuApp.config.sendNotification'),
     configAQI: translate('menuApp.config.configAQI'),
     configWQI: translate('menuApp.config.configWQI'),
-    camera: translate('menuApp.config.camera'),
     color: translate('menuApp.config.color'),
     parameter: translate('menuApp.config.parameter'),
     stationType: translate('menuApp.config.stationType'),

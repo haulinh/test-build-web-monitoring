@@ -16,6 +16,7 @@ import ROLE from 'constants/role'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 import moment from 'moment-timezone'
 import JsonView from 'components/elements/json-view'
+import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 
 const { Text } = Typography
 const DataLoggerWrapper = styled.div``
@@ -119,9 +120,14 @@ class DataLoggerPage extends React.Component {
   render() {
     console.log(this.props.dataSource, '---')
     return (
-      <PageContainer>
+      <PageContainer
+        center={
+          <HeaderSearchWrapper>
+            <DataLoggerSearchForm onSubmit={this.props.onChangeSearch} />
+          </HeaderSearchWrapper>
+        }
+      >
         <Breadcrumb items={['list']} />
-        <DataLoggerSearchForm onSubmit={this.props.onChangeSearch} />
         <DataLoggerWrapper>
           <DynamicTable
             loading={this.props.isLoading}

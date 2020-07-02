@@ -60,6 +60,34 @@ export default {
         </Menu.Item>
       )}
 
+      {/* NOTE   CẤU HÌNH LẤY MẪU */}
+      {protectRole(ROLE.CAU_HINH_LAY_MAU.VIEW)(
+        <Menu.Item
+          key={slug.stationAuto.configSampling.base}
+          onClick={() => props.selectMenu(slug.stationAuto.configSampling.base)}
+        >
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.sampling}>
+            <Link to={slug.stationAuto.configSampling.base}>
+              {MENU_NAME.config.sampling}
+            </Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
+
+      {/* NOTE   CẤU HÌNH CAMERA */}
+      {protectRole(ROLE.CAU_HINH_CAMERA.VIEW)(
+        <Menu.Item
+          key={slug.stationAuto.configCamera.base}
+          onClick={() => props.selectMenu(slug.stationAuto.configCamera.base)}
+        >
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.camera}>
+            <Link to={slug.stationAuto.configCamera.base}>
+              {MENU_NAME.config.camera}
+            </Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
+
       {/* NOTE   CẤU HÌNH GỞI CẢNH BÁO */}
       {protectRole(ROLE.CAU_HINH_GUI_CANH_BAO.VIEW)(
         <Menu.Item
@@ -79,20 +107,6 @@ export default {
         </Menu.Item>
       )}
 
-      {/* NOTE   CẤU HÌNH LẤY MẪU */}
-      {protectRole(ROLE.CAU_HINH_LAY_MAU.VIEW)(
-        <Menu.Item
-          key={slug.stationAuto.configSampling.base}
-          onClick={() => props.selectMenu(slug.stationAuto.configSampling.base)}
-        >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.sampling}>
-            <Link to={slug.stationAuto.configSampling.base}>
-              {MENU_NAME.config.sampling}
-            </Link>
-          </Tooltip>
-        </Menu.Item>
-      )}
-
       {/* NOTE  CẤU HÌNH MÀU SẮC */}
       {protectRole(ROLE.CONFIG_COLOR_NOTI.VIEW)(
         <Menu.Item
@@ -102,20 +116,6 @@ export default {
           <Tooltip placement="right" title={TOOLTIP_MENU.config.color}>
             <Link to={slug.stationAuto.configColor.base}>
               {MENU_NAME.config.color}
-            </Link>
-          </Tooltip>
-        </Menu.Item>
-      )}
-
-      {/* NOTE   CẤU HÌNH CAMERA */}
-      {protectRole(ROLE.CAU_HINH_CAMERA.VIEW)(
-        <Menu.Item
-          key={slug.stationAuto.configCamera.base}
-          onClick={() => props.selectMenu(slug.stationAuto.configCamera.base)}
-        >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.camera}>
-            <Link to={slug.stationAuto.configCamera.base}>
-              {MENU_NAME.config.camera}
             </Link>
           </Tooltip>
         </Menu.Item>

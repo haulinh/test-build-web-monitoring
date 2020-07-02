@@ -26,6 +26,8 @@ import { Anchor } from 'antd'
 import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
 import { warningLevels } from 'constants/warningLevels'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const { Link } = Anchor
 
@@ -33,11 +35,6 @@ const ContainerHeader = styled.div`
   flex-direction: row;
   display: flex;
   justify-content: center;
-  padding: 8px;
-  background-color: #ffffff;
-  // border-radius: 4px;
-  // border: solid 0.4px #b6b6b6;
-  box-shadow: 0 4px 10px 0 rgba(241, 241, 241, 0.5);
 `
 
 const ListLoader = createContentLoader({
@@ -55,6 +52,7 @@ export const defaultFilter = {
 
 @withRouter
 @queryFormDataBrowser(['submit'])
+@protectRole(ROLE.MONITORING.VIEW)
 @autobind
 export default class MonitoringGeneral extends React.Component {
   state = {
@@ -403,7 +401,7 @@ export default class MonitoringGeneral extends React.Component {
             />
           </Anchor>
         )}
-
+        <Clearfix height={16} />
         <StationTypeList
           filter={this.state.filter}
           data={result.stationTypeList}

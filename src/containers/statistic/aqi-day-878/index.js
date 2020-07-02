@@ -151,6 +151,7 @@ export default class AQIStatisticsDay878 extends React.Component {
   render() {
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+        <Clearfix height={16} />
         <Spin
           size="large"
           tip={translate('dataSearchFrom.tab.statusExport')}

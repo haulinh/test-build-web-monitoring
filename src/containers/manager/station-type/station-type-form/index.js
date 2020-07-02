@@ -18,6 +18,7 @@ export default class StationTypeForm extends React.PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,
     lang: langPropTypes,
+    isLoading: PropTypes.bool,
   }
 
   constructor(props) {
@@ -43,7 +44,7 @@ export default class StationTypeForm extends React.PureComponent {
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
-      if (res.error) {
+      if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {
           this.props.form.setFields({
             key: {
@@ -197,7 +198,12 @@ export default class StationTypeForm extends React.PureComponent {
           </Col>
         </Row>
         <FormItem>
-          <Button style={{ width: '100%' }} type="primary" htmlType="submit">
+          <Button
+            style={{ width: '100%' }}
+            loading={this.props.isLoading}
+            type="primary"
+            htmlType="submit"
+          >
             {t('addon.save')}
           </Button>
         </FormItem>

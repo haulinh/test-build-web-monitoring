@@ -84,7 +84,7 @@ export default class PageContainer extends React.PureComponent {
               ...props.style,
               top: 0,
               zIndex: 100,
-              borderBottom: props.isSticky ? '1px solid #eeeeee' : '',
+              borderBottom: '1px solid #eeeeee',
             }}
           >
             <BreadcrumbContainer style={this.props.style}>

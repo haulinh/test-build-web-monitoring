@@ -162,6 +162,7 @@ export default class WQIStatistics extends React.Component {
             spinning={this.state.isExporting}
           >
             <Breadcrumb items={['list']} />
+            <Clearfix height={16} />
             <SearchFrom
               initialValues={this.props.formData}
               onSubmit={this.handleSubmitSearch}

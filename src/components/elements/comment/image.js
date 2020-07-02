@@ -20,28 +20,6 @@ const Wrapper = styled(Row)`
   }
 `
 
-const Image = styled.div`
-  background: ${props => `url("${props.bgUrl}")`};
-  width: 100%;
-  height: 120px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  :after {
-    content: ${props => props.content && `'+${props.content}'`};
-    background-color: #d8d8d85c;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    left: 0px;
-    bottom: 0px;
-    font-size: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-  }
-`
-
 const HeadingWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -53,6 +31,7 @@ const HeadingWrapper = styled.div`
 const ImageWrapper = styled.div`
   position: relative;
   transition: transform 0.25s ease;
+  width: 100%;
   :hover {
     cursor: pointer;
     .delete {
@@ -75,6 +54,18 @@ const ImageWrapper = styled.div`
   }
 `
 
+const PhotoItem = styled.div`
+  width: 100%;
+  background: url('${props => props.image}');
+  background-size: cover;
+  background-position: center;
+  &:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+  }
+`
+
 const ImageComponent = ({
   index,
   image,
@@ -88,7 +79,7 @@ const ImageComponent = ({
 }) => {
   if (isHide) return null
   return (
-    <ImageWrapper>
+    <ImageWrapper key={image._id}>
       {isEdit && (
         <Popconfirm
           title="Are you sure delete this image?"
@@ -100,11 +91,9 @@ const ImageComponent = ({
           <i className="fa fa-trash" />
         </Popconfirm>
       )}
-      <Image
+      <PhotoItem
         onClick={handleViewGalleryClick(index)}
-        bgUrl={image.thumbnail}
-        key={image._id}
-        content={index === itemInline - 1 ? imageLength - itemInline : null}
+        image={image.thumbnail}
       />
     </ImageWrapper>
   )
