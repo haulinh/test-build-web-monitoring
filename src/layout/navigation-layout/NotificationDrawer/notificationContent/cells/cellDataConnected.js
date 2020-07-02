@@ -17,14 +17,20 @@ export default function DataConnectedCell(props) {
   const content = (
     <React.Fragment>
       <BoldTextWrap>{i18n.dataConnected} </BoldTextWrap>
-      {i18n.station}
-      <BoldTextWrap> {cellContent.title}</BoldTextWrap>
+      <span style={{ fontSize: '16px' }}>{i18n.station}</span>
+      <span> {cellContent.title}</span>
     </React.Fragment>
   )
 
+  const icon = {
+    type: 'smile',
+    color: 'green',
+  }
+
   return (
     <DefaultCell
-      icon={`${warningLevelImages.dataConnected}`}
+      // icon={`${warningLevelImages.dataConnected}`}
+      icon={icon}
       content={content}
       data={cellContent}
     />

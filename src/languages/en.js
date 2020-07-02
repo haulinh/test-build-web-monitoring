@@ -1,4 +1,7 @@
 export default {
+  notification: {
+    label: 'Notifications'
+  },
   contact: {
     phone: 'Phone',
     email: 'Email',
@@ -587,7 +590,7 @@ export default {
         'Statistics about Results of 24-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
       title3: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
       description3:
-        'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} in {{=it.monthYear}}',
+        'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} in {{=it.dayFormat}}',
       title4: 'REPORT THE PERCENTAGE OF EXCEEDED DATA',
       description4:
         'Statistics about the percentage of exceeded of {{=it.fromMonth}} station in {{=it.toMonth}}',
@@ -1125,7 +1128,7 @@ export default {
       tabConfigNotification: 'Frequency of Notifications',
     },
     configColor: {
-      title: 'Warning Color Configuration'
+      title: 'Warning Color Configuration',
     },
     form: {
       panel1: 'Station Information',
@@ -1190,9 +1193,12 @@ export default {
         placeholder: 'Address',
       },
       qcvn: {
-        label: 'Standards VN',
+        label: 'Exceeded Limit',
         placeholder: 'Standards VN',
         error: 'Please Choose Type Of Standards VN',
+      },
+      tendToExceed: {
+        label: 'Tend To Exceed Limit',
       },
       province: {
         label: 'Management Unit',
@@ -1248,7 +1254,7 @@ export default {
         error: 'Please Input Phone Number',
       },
       range: {
-        label: 'Range',
+        label: 'Measuring Device Limit',
       },
       measuringKey: {
         label: 'Parameter code',
@@ -1460,6 +1466,7 @@ export default {
       processProduction: 'Process Production',
       userResponsible: 'User Responsible',
       userSupervisor: 'User Supervisor',
+      material: 'Material',
       website: 'Website',
     },
     limit: {
@@ -1579,6 +1586,10 @@ export default {
     },
   },
   roleManager: {
+    create: {
+      success: 'Create new role successfully',
+      error: 'Failed to create new role',
+    },
     breadcrumb: {
       list: 'Roles',
       create: 'Create',
@@ -1861,6 +1872,10 @@ export default {
   },
   configNotify: {
     repeat: 'Repeat',
+    headerStatus: {
+      DATA_STATUS: 'Data Status',
+      DEVICE_STATUS: 'Device Status',
+    },
     titleTable: {
       status: 'Status',
       notification: 'Notification',
@@ -2015,6 +2030,7 @@ export default {
       error: 'Restore Error',
     },
     search: 'Search',
+    searchNotification: 'Search by stations name',
     searchSelect: 'Select conditions',
     error: 'Something Went Wrong!!!',
     warning: 'Warning',

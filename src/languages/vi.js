@@ -1,4 +1,7 @@
 export default {
+  notification: {
+    label: 'Thông báo'
+  },
   contact: {
     phone: 'Số điện thoại',
     email: 'Email',
@@ -581,7 +584,7 @@ export default {
         'Các số liệu thống kê về kết quả quan trắc trung bình 24 giờ của trạm {{=it.stationName}} trong tháng {{=it.monthYear}}',
       title3: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 1 GIỜ',
       description3:
-        'Các số liệu thống kê về kết quả quan trắc trung bình 1 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}',
+        'Các số liệu thống kê về kết quả quan trắc trung bình 1 giờ của trạm {{=it.stationName}}  trong ngày {{=it.dayFormat}}',
       title4: 'BÁO CÁO TỈ LỆ VƯỢT NGƯỠNG',
       description4:
         'Các số liệu thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm {{=it.fromMonth}}  trong ngày {{=it.toMonth}}',
@@ -944,7 +947,7 @@ export default {
     },
     create: {
       label: 'Thêm',
-      success: 'Thêm thành công',
+      success: 'Thêm đơn vị quản lý thành công',
       keyExisted: 'Đơn vị quản lý đã tồn tại',
     },
     edit: {
@@ -1111,12 +1114,12 @@ export default {
       title: 'Cấu hình kết nối trạm',
     },
     configColor: {
-      title: 'Cấu hình màu cảnh báo'
+      title: 'Cấu hình màu cảnh báo',
     },
     configNotification: {
-      title: 'Cấu hình gửi thông báo',
-      tabChanels: 'Kênh gửi thông báo',
-      tabConfigNotification: 'Tấn suất gửi thông báo',
+      title: 'Cấu hình gửi cảnh báo',
+      tabChanels: 'Kênh gửi cảnh báo',
+      tabConfigNotification: 'Cấu hình cảnh báo',
     },
     form: {
       panel1: 'Thông tin trạm',
@@ -1181,9 +1184,12 @@ export default {
         placeholder: 'Nhập địa chỉ',
       },
       qcvn: {
-        label: 'QCVN',
+        label: 'Giới hạn vượt ngưỡng',
         placeholder: 'QCVN',
         error: 'Vui lòng chọn QCVN',
+      },
+      tendToExceed: {
+        label: "Giới hạn chuẩn bị vượt"
       },
       province: {
         label: 'Đơn vị quản lý',
@@ -1239,7 +1245,7 @@ export default {
         error: 'Vui lòng nhập số điện thoại',
       },
       range: {
-        label: 'Giới hạn đo',
+        label: 'Giới hạn đo thiết bị',
       },
       measuringKey: {
         label: 'Mã thông số',
@@ -1452,6 +1458,7 @@ export default {
       processProduction: 'Quy trình sản xuất',
       userResponsible: 'Người chịu trách nhiệm',
       userSupervisor: 'Người giám sát',
+      material: 'Nguyên liệu chính',
       website: 'Website',
     },
     limit: {
@@ -1570,6 +1577,10 @@ export default {
     },
   },
   roleManager: {
+    create: {
+      success: 'Tạo nhóm quyền thành công',
+      error: 'Tạo nhóm quyền không thành không',
+    },
     breadcrumb: {
       list: 'Nhóm quyền',
       create: 'Tạo mới',
@@ -1852,6 +1863,10 @@ export default {
   },
   configNotify: {
     repeat: 'Lặp lại',
+    headerStatus: {
+      DATA_STATUS: "Trạng thái dữ liệu",
+      DEVICE_STATUS: "Trạng thái thiết bị"
+    },
     titleTable: {
       status: 'Trạng thái',
       notification: 'Thông báo',
@@ -2005,6 +2020,7 @@ export default {
       error: 'Khôi phục thất bại',
     },
     search: 'Tìm kiếm',
+    searchNotification: 'Tìm kiếm tên trạm',
     searchSelect: 'Chọn điều kiện',
     error: 'Đã xảy ra sự cố!!!',
     warning: 'Chú ý',

@@ -50,12 +50,15 @@ const i18n = {
 export default class StationAutoCreate extends React.PureComponent {
   state = {
     isRequiredLicense: false,
+    isLoading: false,
   }
 
   async handleSubmit(data) {
+    this.setState({ isLoading: true })
     const res = await StationAutoApi.createStationAuto(data)
-    if (res.success) {
-      message.info('Add measuring success!')
+    this.setState({ isLoading: false })
+    if (res && res.success) {
+      message.success(translate('stationAutoManager.create.success'))
       this.props.history.push(slug.stationAuto.list)
     }
   }
@@ -125,7 +128,10 @@ export default class StationAutoCreate extends React.PureComponent {
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb items={['list', 'create']} />
         {!this.state.isRequiredLicense && (
-          <StationAutoForm onSubmit={this.handleSubmit} />
+          <StationAutoForm
+            isLoading={this.state.isLoading}
+            onSubmit={this.handleSubmit}
+          />
         )}
         {this.state.isRequiredLicense && <Skeleton />}
       </PageContainer>

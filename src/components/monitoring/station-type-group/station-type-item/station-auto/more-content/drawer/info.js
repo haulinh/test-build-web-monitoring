@@ -17,6 +17,7 @@ const i18n = {
   ),
   userResponsible: translate('stationAutoManager.infoStation.userResponsible'),
   userSupervisor: translate('stationAutoManager.infoStation.userSupervisor'),
+  material: translate('stationAutoManager.infoStation.material'),
   website: translate('stationAutoManager.infoStation.website'),
 }
 
@@ -116,6 +117,7 @@ export default class DrawerInfoStation extends React.Component {
       yearOperate,
       capacity,
       processProduction,
+      material,
     } = this.state.InfoStationData
     return (
       <React.Fragment>
@@ -162,6 +164,7 @@ export default class DrawerInfoStation extends React.Component {
         <InfoItem title={i18n.yearOperate} label={yearOperate} />
         <InfoItem title={i18n.capacity} label={capacity} />
         <InfoItem title={i18n.processProduction} label={processProduction} />
+        <InfoItem title={i18n.material} label={material} />
       </React.Fragment>
     )
   }

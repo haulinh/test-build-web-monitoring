@@ -20,6 +20,7 @@ export default class ProvinceForm extends React.PureComponent {
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
     lang: langPropTypes,
+    isLoading: PropTypes.bool,
   }
   handleSubmit(e) {
     e.preventDefault()
@@ -32,7 +33,7 @@ export default class ProvinceForm extends React.PureComponent {
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
-      if (res.error) {
+      if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {
           this.props.form.setFields({
             key: {
@@ -122,7 +123,12 @@ export default class ProvinceForm extends React.PureComponent {
         </Row>
         <Clearfix height={16} />
         <FormItem>
-          <Button style={{ width: '100%' }} type="primary" htmlType="submit">
+          <Button
+            style={{ width: '100%' }}
+            isLoading={this.props.isLoading}
+            type="primary"
+            htmlType="submit"
+          >
             {t('addon.save')}
           </Button>
         </FormItem>

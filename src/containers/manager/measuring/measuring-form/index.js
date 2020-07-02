@@ -32,7 +32,7 @@ export default class MeasuringForm extends React.PureComponent {
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
-      if (res.error) {
+      if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {
           this.props.form.setFields({
             key: {

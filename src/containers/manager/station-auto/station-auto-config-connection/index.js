@@ -94,7 +94,7 @@ export default class StationAutoConfigConnection extends React.Component {
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() { },
+      onCancel() {},
     })
   }
 
@@ -116,7 +116,7 @@ export default class StationAutoConfigConnection extends React.Component {
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() { },
+      onCancel() {},
     })
   }
 
@@ -280,14 +280,16 @@ export default class StationAutoConfigConnection extends React.Component {
 
   render() {
     return (
-      <PageContainer center={
-        <HeaderSearchWrapper>
-          <StationAutoSearchForm
-            onChangeSearch={this.props.onChangeSearch}
-            initialValues={this.props.data}
-          />
-        </HeaderSearchWrapper>
-      }>
+      <PageContainer
+        center={
+          <HeaderSearchWrapper>
+            <StationAutoSearchForm
+              onChangeSearch={this.props.onChangeSearch}
+              initialValues={this.props.data}
+            />
+          </HeaderSearchWrapper>
+        }
+      >
         <Breadcrumb items={['config']} />
         {/* TABLE */}
         <DynamicTable
@@ -301,7 +303,7 @@ export default class StationAutoConfigConnection extends React.Component {
           pagination={this.props.pagination}
           onSetPage={this.props.onChangePage}
         />
-      </PageContainer >
+      </PageContainer>
     )
   }
 }

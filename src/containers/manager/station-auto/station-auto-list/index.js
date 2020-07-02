@@ -85,13 +85,13 @@ export default class StationAutoList extends React.Component {
         return new Promise(async (resolve, reject) => {
           const res = await StationAutoApi.deleteStationAuto(_id)
           if (res.success) {
-            message.info(t('addon.onDelete.success'))
+            message.success(t('addon.onDelete.success'))
             callback()
           } else message.error(t('addon.onDelete.error'))
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() { },
+      onCancel() {},
     })
   }
 
@@ -113,7 +113,7 @@ export default class StationAutoList extends React.Component {
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
-      onCancel() { },
+      onCancel() {},
     })
   }
 
@@ -294,13 +294,17 @@ export default class StationAutoList extends React.Component {
 
   render() {
     return (
-      <PageContainer center={<HeaderSearchWrapper flex={1}>
-        <StationAutoSearchForm
-          stationLength={this.props.pagination.totalItem}
-          onChangeSearch={this.props.onChangeSearch}
-          initialValues={this.props.data}
-        />
-      </HeaderSearchWrapper>}>
+      <PageContainer
+        center={
+          <HeaderSearchWrapper flex={1}>
+            <StationAutoSearchForm
+              stationLength={this.props.pagination.totalItem}
+              onChangeSearch={this.props.onChangeSearch}
+              initialValues={this.props.data}
+            />
+          </HeaderSearchWrapper>
+        }
+      >
         <Breadcrumb items={['list']} />
 
         {/* TABLE */}
