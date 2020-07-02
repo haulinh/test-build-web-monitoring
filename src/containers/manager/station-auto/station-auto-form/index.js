@@ -197,12 +197,12 @@ export default class StationAutoForm extends React.PureComponent {
         order: '',
       }
 
-      // console.log(data, '---data---')
+      console.log(data, '---data---')
 
       // Callback submit form Container Component
-      if (this.props.onSubmit) {
-        this.props.onSubmit(data)
-      }
+      // if (this.props.onSubmit) {
+      //   this.props.onSubmit(data)
+      // }
     })
   }
 
