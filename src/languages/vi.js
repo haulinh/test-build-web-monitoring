@@ -1181,9 +1181,12 @@ export default {
         placeholder: 'Nhập địa chỉ',
       },
       qcvn: {
-        label: 'QCVN',
+        label: 'Giới hạn vượt ngưỡng',
         placeholder: 'QCVN',
         error: 'Vui lòng chọn QCVN',
+      },
+      tendToExceed: {
+        label: "Giới hạn chuẩn bị vượt"
       },
       province: {
         label: 'Đơn vị quản lý',
@@ -1239,7 +1242,7 @@ export default {
         error: 'Vui lòng nhập số điện thoại',
       },
       range: {
-        label: 'Giới hạn đo',
+        label: 'Giới hạn đo thiết bị',
       },
       measuringKey: {
         label: 'Mã thông số',

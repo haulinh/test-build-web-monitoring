@@ -22,7 +22,7 @@ import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
 import CategoryApi from 'api/CategoryApi'
 import SelectStationType from 'components/elements/select-station-type'
 import SelectProvice from 'components/elements/select-province'
-// import SelectQCVN from 'components/elements/select-qcvn'
+import SelectQCVN from 'components/elements/select-qcvn'
 import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
 import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
@@ -370,7 +370,7 @@ export default class StationAutoForm extends React.PureComponent {
                   )}
                 </FormItem>
               </Col>
-              {/* <Col span={12}>
+              <Col span={12}>
                 <FormItem
                   {...formItemLayout}
                   label={t('stationAutoManager.form.qcvn.label')}
@@ -391,7 +391,7 @@ export default class StationAutoForm extends React.PureComponent {
                     />
                   )}
                 </FormItem>
-              </Col> */}
+              </Col>
             </Row>
             <Row gutter={8}>
               <Col span={12}>
