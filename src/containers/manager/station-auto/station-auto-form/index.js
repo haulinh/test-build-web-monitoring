@@ -197,12 +197,12 @@ export default class StationAutoForm extends React.PureComponent {
         order: '',
       }
 
-      console.log(data, "---data---");
+      // console.log(data, "---data---");
 
       // Callback submit form Container Component
-      // if (this.props.onSubmit) {
-      //   this.props.onSubmit(data)
-      // }
+      if (this.props.onSubmit) {
+        this.props.onSubmit(data)
+      }
     })
   }
 
@@ -882,29 +882,6 @@ export default class StationAutoForm extends React.PureComponent {
                 </FormItem>
               </Col>
             </Row>
-
-            {/* <Row gutter={8}>
-              <Col span={24} style={{ paddingRight: 40 }}>
-                <FormItem
-                  {...formItemLayout}
-                  labelCol={{
-                    sm: { span: 3, offset: 0 },
-                  }}
-                  wrapperCol={{
-                    sm: { span: 21, offset: 0 },
-                  }}
-                  label={t("stationAutoManager.form.order.label")}
-                >
-                  {getFieldDecorator("order", {})(
-                    <Input
-                      placeholder={t(
-                        "stationAutoManager.form.order.placeholder"
-                      )}
-                    />
-                  )}
-                </FormItem>
-              </Col>
-            </Row> */}
           </Panel>
         </Collapse>
 
