@@ -167,14 +167,14 @@ export default class TabMucDo extends React.Component {
         return (
           <Form.Item style={{ marginBottom: 'initial' }}>
             {getFieldDecorator(`levelList[${record.key}].color`, {
-              initialValue: '#fff',
+              initialValue: '#000000',
               rules: [
                 {
                   required: true,
                   message: i18n.required,
                 },
               ],
-            })(<input type="color" />)}
+            })(<InputColor />)}
           </Form.Item>
         )
       },
@@ -196,7 +196,7 @@ export default class TabMucDo extends React.Component {
                   message: i18n.required,
                 },
               ],
-            })(<input type="color" />)}
+            })(<InputColor />)}
           </Form.Item>
         )
       },
@@ -349,6 +349,51 @@ export default class TabMucDo extends React.Component {
           </Col>
         </Row>
       </Spin>
+    )
+  }
+}
+
+class InputColor extends React.Component {
+  constructor(props) {
+    super(props)
+    const initialValue = _.get(props, 'data-__meta.initialValue')
+    let value = '#000000'
+    if (initialValue) {
+      value = initialValue
+    }
+    this.state = {
+      value,
+    }
+    if (this.props.onChange)
+      this.cbValue = _.debounce(this.props.onChange, 500)
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.value !== this.state.value) return true
+    else return false
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.state.value) {
+      this.setState({
+        value: nextProps.value,
+      })
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.cbValue) {
+      this.cbValue(this.state.value)
+    }
+  }
+
+  render() {
+    return (
+      <input
+        type="color"
+        value={this.state.value}
+        onChange={e => this.setState({ value: e.target.value })}
+      />
     )
   }
 }
