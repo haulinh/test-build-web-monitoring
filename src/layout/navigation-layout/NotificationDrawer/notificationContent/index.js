@@ -39,10 +39,11 @@ const i18n = {
   { loadNotificationsByType, clearLoadNotificationsByType }
 )
 @withRouter
-export default class NotificationDrawer extends React.Component {
+export default class NotificationContent extends React.Component {
   static propTypes = {
     /* component's props */
     tabName: propTypes.string.isRequired,
+    isEmptyNotification: propTypes.bool.isRequired,
     /* redux's props */
     stationAuto: propTypes.array.isRequired,
     loading: propTypes.bool.isRequired,
@@ -87,25 +88,23 @@ export default class NotificationDrawer extends React.Component {
   }, 300)
   render() {
     const { loading, dataSource, stationAuto, currentPage } = this.props
-
     return (
       <div>
         <Row>
-          <Col style={{ padding: '8px' }}>
-            <Search
-              style={{ boxShadow: '4px 4px 6px #eee' }}
-              placeholder={i18n.timKiem}
-              onChange={e => {
-                const value = e.target.value
-                this.setState({
-                  isSearchLoading: true,
-                })
-                this.props.clearLoadNotificationsByType()
-                this.hanldeOnChange(_.trim(value))
-              }}
-            />
-          </Col>
+          <Search
+            style={{ boxShadow: '4px 4px 6px #eee' }}
+            placeholder={i18n.timKiem}
+            onChange={e => {
+              const value = e.target.value
+              this.setState({
+                isSearchLoading: true,
+              })
+              this.props.clearLoadNotificationsByType()
+              this.hanldeOnChange(_.trim(value))
+            }}
+          />
         </Row>
+
         {this.state.isSearchLoading && (
           <Skeleton avatar paragraph={{ rows: 4 }} />
         )}

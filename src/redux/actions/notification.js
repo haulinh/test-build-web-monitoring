@@ -1,7 +1,8 @@
 import moment from 'moment-timezone'
 import _ from 'lodash'
 import slug from 'constants/slug'
-import FcmAPI from 'api/NotificationApi'
+import FcmAPI, { updateReadAll, deleteOne, updateNotReadOne, updateReadOne, deleteAll } from 'api/NotificationApi'
+
 
 export const RESET_ALL_COUNTS = 'NOTIFICATION / RESET_ALL_COUNTS'
 export const UPDATE_COUNT_ON_NEW_MSG = 'NOTIFICATION / UPDATE_COUNT_ON_NEW_MSG'
@@ -18,6 +19,12 @@ export const UPDATE_CURRENT_PAGE = 'NOTIFICATION / UPDATE_CURRENT_PAGE'
 export const TOGGLE_VISIBLE_NOTIFICATION_DRAWER =
   'NOTIFICATION / TOGGLE_VISIBLE_NOTIFICATION_DRAWER'
 export const UPDATE_READ = 'NOTIFICATION / UPDATE_READ'
+export const UPDATE_ALL_READ = 'NOTIFICATION / UPDATE_All_READ'
+export const DELETE_ONE = 'NOTIFICATION / DELETE_ONE'
+export const DELETE_ALL = 'NOTIFICATION / DELETE_ALL'
+export const UPDATE_NOT_READ_ONE = 'NOTIFICATION / UPDATE_NOT_READ_ONE'
+export const UPDATE_READ_ONE = 'NOTIFICATION / UPDATE_READ_ONE'
+
 
 export function resetAllCounts() {
   return dispatch => {
@@ -199,6 +206,54 @@ export function updateNotifyRead(data) {
     }
   }
 }
+export function updateAllRead() {
+  return async dispatch => {
+    updateReadAll()
+    dispatch({
+      type: UPDATE_ALL_READ,
+    })
+  }
+}
+
+export function deleteOneNotification(notificationId) {
+  return async dispatch => {
+    deleteOne(notificationId)
+    dispatch({
+      type: DELETE_ONE,
+      payload: notificationId
+    })
+  }
+}
+
+export function deleteAllNotification() {
+  return async dispatch => {
+    await deleteAll()
+    dispatch({
+      type: DELETE_ALL,
+    })
+  }
+}
+
+export function updateNotReadOneNotification(notificationId) {
+  return async dispatch => {
+    updateNotReadOne(notificationId)
+    dispatch({
+      type: UPDATE_NOT_READ_ONE,
+      payload: notificationId
+    })
+  }
+}
+
+export function updateReadOneNotification(notificationId) {
+  return async dispatch => {
+    updateReadOne(notificationId)
+    dispatch({
+      type: UPDATE_READ_ONE,
+      payload: notificationId
+    })
+  }
+}
+
 
 function _generateNotificationCellByType(rawContent, stationInfo) {
   // generate ra link filter station monitoring

@@ -13,6 +13,11 @@ import {
   UPDATE_CURRENT_PAGE,
   RESET_ALL_COUNTS,
   UPDATE_READ,
+  UPDATE_ALL_READ,
+  DELETE_ONE,
+  DELETE_ALL,
+  UPDATE_NOT_READ_ONE,
+  UPDATE_READ_ONE,
 } from '../actions/notification'
 
 export const initialState = {
@@ -21,6 +26,7 @@ export const initialState = {
   currentPage: 1,
   count: 0,
   logs: [],
+  isMarkedReadAll: false,
 }
 
 export default function handleNotificationStore(state = initialState, action) {
@@ -47,6 +53,16 @@ export default function handleNotificationStore(state = initialState, action) {
       return { ...state, ...{ visible: payload } }
     case UPDATE_READ:
       return handleUpdateRead(state, payload)
+    case UPDATE_ALL_READ:
+      return handleUpdateAllRead(state)
+    case DELETE_ONE:
+      return handleDeleteOne(state, payload)
+    case DELETE_ALL:
+      return handleDeleteAll(state)
+    case UPDATE_NOT_READ_ONE:
+      return handleUpdateNotReadOne(state, payload)
+    case UPDATE_READ_ONE:
+      return handleUpdateReadOne(state, payload)
     case UPDATE_CURRENT_PAGE:
       return handleUpdateCurrentPage(state)
     default:
@@ -114,11 +130,17 @@ function handleNewMessage(state, payload) {
 
 /* TODO */
 function handleUpdateRead(state, id) {
-  console.log('---handleUpdateRead---')
   let indexOfId = state.logs.findIndex(item => item._id === id)
   state.logs[indexOfId].isRead = true
   return update(state, {
     logs: { $set: state.logs },
+  })
+}
+function handleUpdateAllRead(state) {
+  const newLogs = _.map(state.logs, notify => ({ ...notify, isRead: true }))
+
+  return update(state, {
+    logs: { $set: newLogs }
   })
 }
 
@@ -126,5 +148,53 @@ function handleUpdateCurrentPage(state, payload = 1) {
   let currentPage = state.currentPage + payload
   return update(state, {
     currentPage: { $set: currentPage },
+  })
+}
+
+function handleDeleteOne(state, notificationId) {
+  let newLogs = state.logs
+  newLogs = _.filter(newLogs, notify => notify._id !== notificationId)
+  return update(state, {
+    logs: { $set: newLogs }
+  })
+}
+
+function handleDeleteAll(state) {
+  return update(state, {
+    logs: { $set: [] }
+  })
+}
+
+function handleUpdateNotReadOne(state, notificationId) {
+  let newLogs = state.logs
+  newLogs = _.map(newLogs, log => {
+    if (log._id !== notificationId) {
+      return log
+    }
+    return {
+      ...log,
+      isRead: false
+    }
+  })
+
+  return update(state, {
+    logs: { $set: newLogs }
+  })
+}
+
+function handleUpdateReadOne(state, notificationId) {
+  let newLogs = state.logs
+  newLogs = _.map(newLogs, log => {
+    if (log._id !== notificationId) {
+      return log
+    }
+    return {
+      ...log,
+      isRead: true
+    }
+  })
+
+  return update(state, {
+    logs: { $set: newLogs }
   })
 }

@@ -18,15 +18,21 @@ export default function DataExceededPreparedCell(props) {
     <React.Fragment>
       <BoldTextWrap>{i18n.dataExceededPrepare} </BoldTextWrap>
       {i18n.station}
-      <BoldTextWrap> {cellContent.title} </BoldTextWrap>
+      <span> {cellContent.title} </span>
       {i18n.measurings}
-      <BoldTextWrap> {cellContent.fullBody}</BoldTextWrap>
+      <span> {cellContent.fullBody}</span>
     </React.Fragment>
   )
 
+  const icon = {
+    type: 'meh',
+    color: 'yellow',
+  }
+
   return (
     <DefaultCell
-      icon={`${warningLevelImages.dataExceededPrepared}`}
+      // icon={`${warningLevelImages.dataExceededPrepared}`}
+      icon={icon}
       content={content}
       data={cellContent}
     />

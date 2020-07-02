@@ -134,11 +134,12 @@ export default class TableConfig extends React.Component {
   }
 
   render() {
-    console.log('this.state.isLoadingSubmit', this.state.isLoadingSubmit)
     const { title } = this.props
     return (
       <div>
-        <Title level={4}>{title}</Title>
+        <Title level={4}>
+          {translate(`configNotify.headerStatus.${title}`)}
+        </Title>
         <Table
           bordered={true}
           rowKey="_id"
@@ -152,7 +153,7 @@ export default class TableConfig extends React.Component {
           block
           type="primary"
           onClick={this.update}
-          // loading={this.state.isLoadingSubmit}
+          loading={this.state.isLoadingSubmit}
         >
           {i18n.submit}
         </Button>

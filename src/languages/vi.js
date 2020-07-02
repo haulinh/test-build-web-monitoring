@@ -1857,6 +1857,10 @@ export default {
   },
   configNotify: {
     repeat: 'Lặp lại',
+    headerStatus: {
+      DATA_STATUS: "Trạng thái dữ liệu",
+      DEVICE_STATUS: "Trạng thái thiết bị"
+    },
     titleTable: {
       status: 'Trạng thái',
       notification: 'Thông báo',
