@@ -15,7 +15,7 @@ import { Table, Typography, Button, Spin, message } from 'antd'
 import { map as _map, get as _get } from 'lodash'
 import Clearfix from 'components/elements/clearfix'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
-import { MM_YYYY } from 'constants/format-date'
+import { DD_MM_YYYY } from 'constants/format-date'
 import moment from 'moment-timezone'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
@@ -45,7 +45,7 @@ export default class ReportType11 extends React.Component {
       dataSource: [],
       dataSearch: null,
       stationName: '',
-      monthYear: '',
+      dayFormat: '',
       measuringList: [],
     }
   }
@@ -109,7 +109,6 @@ export default class ReportType11 extends React.Component {
       },
       params
     )
-    // console.log(params, "params");
     if (res.success) {
       this.setState({
         dataSource: res.data,
@@ -118,7 +117,7 @@ export default class ReportType11 extends React.Component {
         measuringList: values.measuringList,
         stationName: values.stationName,
         dataSearch: params,
-        monthYear: moment(values.time).format(MM_YYYY),
+        dayFormat: moment(values.time).format(DD_MM_YYYY),
       })
     } else if (res.error) {
       // console.log('ERRROR', dataStationAuto)
@@ -150,7 +149,7 @@ export default class ReportType11 extends React.Component {
             {' '}
             {translate('avgSearchFrom.table.description3', {
               stationName: this.state.stationName,
-              monthYear: this.state.monthYear,
+              dayFormat: this.state.dayFormat,
             })}
           </Text>
           {this.state.isHaveData && (

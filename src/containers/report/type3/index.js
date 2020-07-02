@@ -13,7 +13,7 @@ import {
 import { connect } from 'react-redux'
 import Clearfix from 'components/elements/clearfix'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
-import { DD_MM_YYYY } from 'constants/format-date'
+import { MM_YYYY } from 'constants/format-date'
 import moment from 'moment-timezone'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
@@ -40,7 +40,7 @@ export default class ReportType1 extends React.Component {
       dataSource: [],
       dataSearch: null,
       stationName: '',
-      labelDay: '',
+      monthYear: '',
       measuringList: [],
     }
   }
@@ -108,7 +108,7 @@ export default class ReportType1 extends React.Component {
         },
         measuringList: values.measuringList,
         stationName: values.stationName,
-        labelDay: moment(values.time).format(DD_MM_YYYY),
+        monthYear: moment(values.time).format(MM_YYYY),
       })
     }
   }
@@ -137,7 +137,7 @@ export default class ReportType1 extends React.Component {
             {' '}
             {translate('avgSearchFrom.table.description3', {
               stationName: this.state.stationName,
-              labelDay: this.state.labelDay,
+              monthYear: this.state.monthYear,
             })}
           </Text>
           {this.state.isHaveData && (
