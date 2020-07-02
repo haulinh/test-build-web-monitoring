@@ -15,7 +15,9 @@ import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
 
 const SideBarNotificationWrapper = styled(Drawer)`
-overflow: hidden;
+.ant-drawer-wrapper-body {
+  overflow: hidden;
+}
 `
 const DeleteMarkWrapper = styled.div`
 position: absolute;
