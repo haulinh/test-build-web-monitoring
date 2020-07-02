@@ -36,29 +36,7 @@ const FormItem = Form.Item
 const { TextArea } = Input
 const { Panel } = Collapse
 
-@Form.create({
-  mapPropsToFields: ({ initialValues }) => {
-    if (!initialValues) return
-    if (initialValues.stationType) {
-      initialValues.stationTypeObject = initialValues.stationType
-      initialValues.stationType = initialValues.stationType.key
-    }
-    if (initialValues.mapLocation) {
-      initialValues = {
-        ...initialValues,
-        lat: initialValues.mapLocation.lat,
-        long: initialValues.mapLocation.long,
-      }
-    }
-
-    if (initialValues.activatedAt) {
-      initialValues.activatedAt = moment(initialValues.activatedAt)
-    }
-    if (!initialValues.emails) initialValues.emails = []
-    if (!initialValues.phones) initialValues.phones = []
-    return mapPropsToFields({ initialValues })
-  },
-})
+@Form.create({})
 @createLanguageHoc
 @autobind
 export default class StationAutoForm extends React.PureComponent {
@@ -89,6 +67,29 @@ export default class StationAutoForm extends React.PureComponent {
       imgList: [],
       allowUpdateStandardsVN: !props.initialValues,
     }
+  }
+
+  getInitialValues = () => {
+    let { initialValues } = this.props
+    if (!initialValues) return
+    if (initialValues.stationType) {
+      initialValues.stationTypeObject = initialValues.stationType
+      initialValues.stationType = initialValues.stationType.key
+    }
+    if (initialValues.mapLocation) {
+      initialValues = {
+        ...initialValues,
+        lat: initialValues.mapLocation.lat,
+        long: initialValues.mapLocation.long,
+      }
+    }
+
+    if (initialValues.activatedAt) {
+      initialValues.activatedAt = moment(initialValues.activatedAt)
+    }
+    if (!initialValues.emails) initialValues.emails = []
+    if (!initialValues.phones) initialValues.phones = []
+    return initialValues
   }
 
   async componentWillMount() {
@@ -128,6 +129,8 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   componentDidMount = () => {
+    const initialValues = this.getInitialValues()
+    this.props.form.setFieldsValue(initialValues)
     if (this.props.otherForm) {
       animateScrollTo(9999999, {
         speed: 900,
@@ -147,6 +150,7 @@ export default class StationAutoForm extends React.PureComponent {
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
+      if (err) return
       if (!values.measuringList) {
         const { t } = this.props.lang
         swal({
@@ -155,7 +159,7 @@ export default class StationAutoForm extends React.PureComponent {
         })
         return
       }
-      if (err) return
+
       const data = {
         key: values.key,
         name: values.name,
@@ -273,6 +277,7 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   render() {
+    console.log(this.props.initialValues, '---initialValues---')
     const { getFieldDecorator } = this.props.form
     const { otherForm } = this.props
     const { t } = this.props.lang
