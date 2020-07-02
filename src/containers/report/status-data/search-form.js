@@ -128,7 +128,10 @@ export default class SearchForm extends React.Component {
                       ],
                     }}
                     format="DD-MM-YYYY HH:mm"
-                    placeholder={['Start Time', 'End Time']}
+                    placeholder={[
+                      translate('avgSearchFrom.selectTimeRange.startTime'),
+                      translate('avgSearchFrom.selectTimeRange.endTime'),
+                    ]}
                     style={{ width: '100%' }}
                     size="large"
                   />
@@ -139,12 +142,14 @@ export default class SearchForm extends React.Component {
           <Clearfix height={16} />
           <Row gutter={16}>
             <Col span={24}>
-              <Item label={translate('stationAuto.label')}>
+              <Item label={translate('avgSearchFrom.form.stationAuto.label')}>
                 {getFieldDecorator('stationAutos', {
                   rules: [
                     {
                       required: true,
-                      message: translate('avgSearchFrom.stationAutos.error'),
+                      message: translate(
+                        'avgSearchFrom.form.stationAuto.error'
+                      ),
                     },
                   ],
                 })(<SelectStationTreeView />)}

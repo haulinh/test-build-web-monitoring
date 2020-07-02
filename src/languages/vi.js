@@ -589,9 +589,11 @@ export default {
       description5:
         'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}',
       descriptionStatusData:
-        'Các số liệu thống kê về kết quả quan trắc trung bình thời gian từ 00:00 ngày {{=it.fromDate}} đến 23:59 {{=it.fromDate}}',
+        'Các số liệu thống kê về đánh giá trình trạng dữ liệu thời gian từ 00:00 ngày {{=it.fromDate}} đến 23:59 {{=it.toDate}}',
     },
     selectTimeRange: {
+      startTime: "Thời gian bắt đầu",
+      endTime: "Thời gian kết thúc",
       minute: 'Phút',
       hour: 'Giờ',
       day: 'Ngày',
@@ -2183,7 +2185,7 @@ export default {
         header: {
           station: 'Trạm',
           parameter: 'Thông số',
-          dischargeThreshold: 'Ngưởng xả',
+          dischargeThreshold: 'Ngưỡng xả',
           unit: 'Đơn Vị',
           minValue: 'Giá trị nhỏ nhất',
           maxValue: 'Giá trị lớn nhất',
@@ -2215,7 +2217,7 @@ export default {
       aqiDay: 'AQI - Ngày',
       wqiHour: 'WQI - Giờ',
       wqiDay: 'WQI - Ngày',
-      status_data: 'Status Data', // Qui them cho dong bo voi file EN
+      status_data: 'Tình trạng dữ liệu', // Qui them cho dong bo voi file EN
     },
   },
   tooltipMenuApp: {
