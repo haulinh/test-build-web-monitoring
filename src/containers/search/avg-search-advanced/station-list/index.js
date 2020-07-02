@@ -124,7 +124,7 @@ export default class TableList extends React.PureComponent {
   async loadData(pagination, searchFormData) {
     let paginationQuery = pagination
     this.setState({ isLoading: true }, async () => {
-      const dataStationAuto = await DataStationAutoApi.getDataStationAutoAvg(
+      const dataStationAuto = await DataStationAutoApi.getDataStationAutoAvg_v2(
         {
           page: paginationQuery.current,
           itemPerPage: paginationQuery.pageSize,

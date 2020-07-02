@@ -1460,7 +1460,7 @@ export default {
       processProduction: 'Process Production',
       userResponsible: 'User Responsible',
       userSupervisor: 'User Supervisor',
-      material: "Material",
+      material: 'Material',
       website: 'Website',
     },
     limit: {

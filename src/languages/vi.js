@@ -1452,7 +1452,7 @@ export default {
       processProduction: 'Quy trình sản xuất',
       userResponsible: 'Người chịu trách nhiệm',
       userSupervisor: 'Người giám sát',
-      material: "Nguyên liệu chính",
+      material: 'Nguyên liệu chính',
       website: 'Website',
     },
     limit: {
