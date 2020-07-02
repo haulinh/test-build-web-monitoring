@@ -74,7 +74,7 @@ export function getDataStationAutoAvg_v2(
   { fromDate, toDate, key, measuringList, type, advanced, dataStatus }
 ) {
   var url = getDataStationAutoUrl(
-    `${key}/avg?page=${page}&itemPerPage=${itemPerPage}`
+    `${key}/avg-advanced?page=${page}&itemPerPage=${itemPerPage}`
   )
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
