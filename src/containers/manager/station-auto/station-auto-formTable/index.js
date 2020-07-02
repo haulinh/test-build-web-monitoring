@@ -56,16 +56,16 @@ export default class StationAutoFormTable extends React.Component {
           this.state.measuringList,
           item => !_.isEmpty(item.measuringKey)
         )
-        let size = _.size(this.state.measuringList)
+        // let size = _.size(this.state.measuringList)
         const measureObj = _.keyBy(this.state.measuringList, 'measuringKey')
         _.forEach(_.values(nextProps.standardsVN), item => {
           if (!measureObj[item.key]) {
             measuringList = _.concat(measuringList, {
               measuringKey: item.key,
               ...item,
-              key: size,
+              key: item.key// size,
             })
-            size++
+            // size++
           }
         })
         if (_.size(measuringList) > 0) {
@@ -86,13 +86,13 @@ export default class StationAutoFormTable extends React.Component {
     ) {
       measuringList = _.map(_.values(this.props.standardsVN), (item, index) => {
         item.measuringKey = item.key
-        item.key = index
+        item.key = item.key // index
         return item
       })
     } else {
       measuringList = _.map(this.props.dataSource, (item, index) => {
         item.measuringKey = item.key
-        item.key = index
+        item.key = item.key // index
         return item
       })
     }
@@ -413,7 +413,7 @@ export default class StationAutoFormTable extends React.Component {
 
   render() {
     const { t } = this.props.lang
-    // console.log('standardsVN', this.props.standardsVN)
+    console.log('measuringList', this.state.measuringList)
     return (
       <div>
         <Button
