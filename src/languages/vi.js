@@ -1186,7 +1186,7 @@ export default {
         error: 'Vui lòng chọn QCVN',
       },
       tendToExceed: {
-        label: "Giới hạn chuẩn bị vượt"
+        label: 'Giới hạn chuẩn bị vượt',
       },
       province: {
         label: 'Đơn vị quản lý',
@@ -1861,8 +1861,8 @@ export default {
   configNotify: {
     repeat: 'Lặp lại',
     headerStatus: {
-      DATA_STATUS: "Trạng thái dữ liệu",
-      DEVICE_STATUS: "Trạng thái thiết bị"
+      DATA_STATUS: 'Trạng thái dữ liệu',
+      DEVICE_STATUS: 'Trạng thái thiết bị',
     },
     titleTable: {
       status: 'Trạng thái',

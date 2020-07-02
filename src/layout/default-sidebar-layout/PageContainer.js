@@ -18,6 +18,7 @@ const HeaderFlex = styled.div`
 
 export const Grid = styled.div`
   background-color: white;
+  overflow-x: hidden;
   width: 100%;
   margin-left: auto;
   margin-right: auto;

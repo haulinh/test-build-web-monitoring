@@ -14,9 +14,9 @@ import CrossIcon from '@atlaskit/icon/glyph/cross'
 import _ from 'lodash'
 
 const DeleteMarkWrapper = styled.div`
-position: absolute;
-right:16px;
-bottom:0px;
+  position: absolute;
+  right: 16px;
+  bottom: 0px;
 `
 
 const TitleWrapper = styled.div`
@@ -53,13 +53,16 @@ const NotificationWrapperIcon = styled.div`
   }
 `
 
-@connectAutoDispatch(state => ({
-  dataSource: state.notification.logs,
-}), {
-  clearNotificationCountByType,
-  updateAllRead,
-  deleteAllNotification
-})
+@connectAutoDispatch(
+  state => ({
+    dataSource: state.notification.logs,
+  }),
+  {
+    clearNotificationCountByType,
+    updateAllRead,
+    deleteAllNotification,
+  }
+)
 export default class NotificationDrawer extends React.Component {
   constructor(props) {
     super(props)
@@ -103,9 +106,8 @@ export default class NotificationDrawer extends React.Component {
             </TitleWrapper>
             <DeleteMarkWrapper>
               <div>
-                {
-                  this.props.dataSource.length > 0 && this._areAllNotificationsRead() &&
-                  (
+                {this.props.dataSource.length > 0 &&
+                  this._areAllNotificationsRead() && (
                     <a
                       onClick={this._handleDeleteAllNotification}
                       style={{
@@ -114,12 +116,9 @@ export default class NotificationDrawer extends React.Component {
                     >
                       Xoá tất cả
                     </a>
-                  )
-
-                }
-                {
-                  this.props.dataSource.length > 0 && !this._areAllNotificationsRead() &&
-                  (
+                  )}
+                {this.props.dataSource.length > 0 &&
+                  !this._areAllNotificationsRead() && (
                     <a
                       onClick={this.checkReadAll}
                       style={{
@@ -128,11 +127,9 @@ export default class NotificationDrawer extends React.Component {
                     >
                       Đánh dấu tất cả đã đọc
                     </a>
-                  )
-                }
+                  )}
               </div>
             </DeleteMarkWrapper>
-
           </div>
         }
         placement="left"
@@ -140,7 +137,10 @@ export default class NotificationDrawer extends React.Component {
         onClose={this.closeDrawer}
         visible={this.props.visible}
       >
-        <NotificationContent isEmptyNotification={this._areAllNotificationsRead()} closeDrawer={this.closeDrawer} />
+        <NotificationContent
+          isEmptyNotification={this._areAllNotificationsRead()}
+          closeDrawer={this.closeDrawer}
+        />
       </Drawer>
     )
   }

@@ -1,8 +1,13 @@
 import moment from 'moment-timezone'
 import _ from 'lodash'
 import slug from 'constants/slug'
-import FcmAPI, { updateReadAll, deleteOne, updateNotReadOne, updateReadOne, deleteAll } from 'api/NotificationApi'
-
+import FcmAPI, {
+  updateReadAll,
+  deleteOne,
+  updateNotReadOne,
+  updateReadOne,
+  deleteAll,
+} from 'api/NotificationApi'
 
 export const RESET_ALL_COUNTS = 'NOTIFICATION / RESET_ALL_COUNTS'
 export const UPDATE_COUNT_ON_NEW_MSG = 'NOTIFICATION / UPDATE_COUNT_ON_NEW_MSG'
@@ -24,7 +29,6 @@ export const DELETE_ONE = 'NOTIFICATION / DELETE_ONE'
 export const DELETE_ALL = 'NOTIFICATION / DELETE_ALL'
 export const UPDATE_NOT_READ_ONE = 'NOTIFICATION / UPDATE_NOT_READ_ONE'
 export const UPDATE_READ_ONE = 'NOTIFICATION / UPDATE_READ_ONE'
-
 
 export function resetAllCounts() {
   return dispatch => {
@@ -220,7 +224,7 @@ export function deleteOneNotification(notificationId) {
     deleteOne(notificationId)
     dispatch({
       type: DELETE_ONE,
-      payload: notificationId
+      payload: notificationId,
     })
   }
 }
@@ -239,7 +243,7 @@ export function updateNotReadOneNotification(notificationId) {
     updateNotReadOne(notificationId)
     dispatch({
       type: UPDATE_NOT_READ_ONE,
-      payload: notificationId
+      payload: notificationId,
     })
   }
 }
@@ -249,11 +253,10 @@ export function updateReadOneNotification(notificationId) {
     updateReadOne(notificationId)
     dispatch({
       type: UPDATE_READ_ONE,
-      payload: notificationId
+      payload: notificationId,
     })
   }
 }
-
 
 function _generateNotificationCellByType(rawContent, stationInfo) {
   // generate ra link filter station monitoring

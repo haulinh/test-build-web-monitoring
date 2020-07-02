@@ -11,7 +11,11 @@ import { updateNotifyRead } from 'redux/actions/notification'
 import { setDrawerVisible } from 'redux/actions/notification'
 import { connect } from 'react-redux'
 import { getConfigApi } from 'config'
-import { deleteOneNotification, updateNotReadOneNotification, updateReadOneNotification } from 'redux/actions/notification'
+import {
+  deleteOneNotification,
+  updateNotReadOneNotification,
+  updateReadOneNotification,
+} from 'redux/actions/notification'
 
 const i18n = {
   viewDataAroundExceededTime: translate(
@@ -39,7 +43,7 @@ const MultilineText = styled(Row)`
     setDrawerVisible,
     deleteOneNotification,
     updateNotReadOneNotification,
-    updateReadOneNotification
+    updateReadOneNotification,
   }
 )
 export default class DefaultCell extends React.Component {
@@ -65,7 +69,7 @@ export default class DefaultCell extends React.Component {
 
   state = {
     isHoverOnCell: false,
-    isHoverOnIconRead: false
+    isHoverOnIconRead: false,
   }
   getNotificationColor() {
     const { isHoverOnCell } = this.state
@@ -157,9 +161,7 @@ export default class DefaultCell extends React.Component {
             <Col span={8} />
             <Col span={8}>
               {this.state.isHoverOnCell && (
-                <Tooltip
-                  placement='bottom'
-                  title="Xoá thông báo này">
+                <Tooltip placement="bottom" title="Xoá thông báo này">
                   <Icon
                     style={{ fontSize: '16px' }}
                     type="close-circle"
@@ -170,53 +172,50 @@ export default class DefaultCell extends React.Component {
               )}
             </Col>
             <Col span={8}>
+              {!data.isRead ? (
+                <Tooltip placement="right" title="Đánh dấu đã đọc">
+                  <div
+                    onMouseEnter={() =>
+                      this.setState({ isHoverOnIconRead: true })
+                    }
+                    onMouseLeave={() =>
+                      this.setState({ isHoverOnIconRead: false })
+                    }
+                    onClick={() => this._handleUpdateReadOne(_id)}
+                    style={{
+                      borderWidth: '4px',
+                      borderStyle: 'solid',
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: 16,
+                      backgroundColor: this.getNotificationColorForIcon(),
+                      borderColor: '#ebecf0',
+                    }}
+                  />
+                </Tooltip>
+              ) : (
+                <Tooltip placement="right" title="Đánh dấu chưa đọc">
+                  <div
+                    onMouseEnter={() =>
+                      this.setState({ isHoverOnIconRead: true })
+                    }
+                    onMouseLeave={() =>
+                      this.setState({ isHoverOnIconRead: false })
+                    }
+                    onClick={() => this._handleUpdateNotReadOne(_id)}
+                    style={{
+                      borderWidth: '4px',
+                      borderStyle: 'solid',
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: 16,
+                      backgroundColor: this.getNotificationColorForIcon(),
 
-              {
-                !data.isRead ? (
-                  <Tooltip
-                    placement='right'
-                    title="Đánh dấu đã đọc">
-                    <div
-                      onMouseEnter={() => this.setState({ isHoverOnIconRead: true })}
-                      onMouseLeave={() => this.setState({ isHoverOnIconRead: false })}
-                      onClick={() => this._handleUpdateReadOne(_id)}
-                      style={{
-                        borderWidth: '4px',
-                        borderStyle: 'solid',
-                        width: '16px',
-                        height: '16px',
-                        borderRadius: 16,
-                        backgroundColor: this.getNotificationColorForIcon(),
-                        borderColor: '#ebecf0',
-                      }}
-                    />
-                  </Tooltip>
-
-                ) :
-                  (
-                    <Tooltip
-                      placement='right'
-                      title="Đánh dấu chưa đọc">
-                      <div
-                        onMouseEnter={() => this.setState({ isHoverOnIconRead: true })}
-                        onMouseLeave={() => this.setState({ isHoverOnIconRead: false })}
-                        onClick={() => this._handleUpdateNotReadOne(_id)}
-                        style={{
-                          borderWidth: '4px',
-                          borderStyle: 'solid',
-                          width: '16px',
-                          height: '16px',
-                          borderRadius: 16,
-                          backgroundColor: this.getNotificationColorForIcon(),
-
-                          borderColor: '#ebecf0',
-                        }}
-                      />
-                    </Tooltip>
-                  )
-              }
-
-
+                      borderColor: '#ebecf0',
+                    }}
+                  />
+                </Tooltip>
+              )}
             </Col>
           </Row>
         </Col>
@@ -224,7 +223,7 @@ export default class DefaultCell extends React.Component {
     )
   }
 
-  _hanldeDeleteOneNotification = (notificationId) => {
+  _hanldeDeleteOneNotification = notificationId => {
     this.props.deleteOneNotification(notificationId)
   }
   renderMenu = data => (
@@ -235,9 +234,10 @@ export default class DefaultCell extends React.Component {
     </Menu>
   )
 
-  _handleUpdateNotReadOne = notificationId => this.props.updateNotReadOneNotification(notificationId)
-  _handleUpdateReadOne = notificationId => this.props.updateReadOneNotification(notificationId)
-
+  _handleUpdateNotReadOne = notificationId =>
+    this.props.updateNotReadOneNotification(notificationId)
+  _handleUpdateReadOne = notificationId =>
+    this.props.updateReadOneNotification(notificationId)
 
   _handleCellOnClick = data => {
     this.props.updateNotifyRead(data)
