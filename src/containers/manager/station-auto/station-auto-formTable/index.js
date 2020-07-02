@@ -56,7 +56,7 @@ export default class StationAutoFormTable extends React.Component {
           this.state.measuringList,
           item => !_.isEmpty(item.measuringKey)
         )
-        let size = _.size(this.state.measuringList)
+        // let size = _.size(this.state.measuringList)
         const measureObj = _.keyBy(this.state.measuringList, 'measuringKey')
         _.forEach(_.values(nextProps.standardsVN), item => {
           if (!measureObj[item.key]) {
@@ -65,7 +65,7 @@ export default class StationAutoFormTable extends React.Component {
               ...item,
               key: item.key// size,
             })
-            size++
+            // size++
           }
         })
         if (_.size(measuringList) > 0) {
