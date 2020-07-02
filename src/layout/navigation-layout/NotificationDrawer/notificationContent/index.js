@@ -26,7 +26,7 @@ function LoadMoreIcon() {
 }
 
 const i18n = {
-  timKiem: translate('addon.search'),
+  timKiem: translate('addon.searchNotification'),
 }
 
 @connectAutoDispatch(

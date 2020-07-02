@@ -1,4 +1,7 @@
 export default {
+  notification: {
+    label: 'Notifications'
+  },
   contact: {
     phone: 'Phone',
     email: 'Email',
@@ -2027,6 +2030,7 @@ export default {
       error: 'Restore Error',
     },
     search: 'Search',
+    searchNotification: 'Search by stations name',
     searchSelect: 'Select conditions',
     error: 'Something Went Wrong!!!',
     warning: 'Warning',
