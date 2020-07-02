@@ -126,7 +126,7 @@ export default class NotificationDrawer extends React.Component {
                         color: '#385898',
                       }}
                     >
-                      Đánh dấu tất cả
+                      Đánh dấu tất cả đã đọc
                     </a>
                   )
                 }
