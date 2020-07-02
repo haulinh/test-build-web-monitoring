@@ -3,8 +3,11 @@ import { translate } from 'hoc/create-lang'
 import { Select, DatePicker } from 'antd'
 import moment from 'moment-timezone'
 import { autobind } from 'core-decorators'
+import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+// import locale from 'antd/es/date-picker/locale/vi_VN'
+// import 'moment/locale/vi'
 
 const options = [
   { key: 1, text: 'dataSearchFrom.options.byHours', value: 24 },
@@ -13,6 +16,9 @@ const options = [
   { key: 30, text: 'dataSearchFrom.options.byDay', value: 30 },
 ]
 
+@connect(state => ({
+  locale: state.language.locale,
+}))
 @autobind
 export default class OptionsTimeRange extends React.Component {
   constructor(props) {
@@ -21,6 +27,16 @@ export default class OptionsTimeRange extends React.Component {
       open: false,
       rangesView: props.rangesView,
       defaultValue: props.rangesView,
+    }
+    this.locale = require('antd/es/date-picker/locale/en_US')
+  }
+
+  componentDidMount() {
+    if (this.props.locale === 'vi') {
+      this.locale = require('antd/es/date-picker/locale/vi_VN')
+      require('moment/locale/vi')
+    } else {
+      require('moment/locale/en-sg')
     }
   }
 
@@ -66,8 +82,7 @@ export default class OptionsTimeRange extends React.Component {
   }
 
   render() {
-    // console.log(this.state.defaultValue,"this.state.defaultValue")
-    // console.log(this.props.value,"this.props.value")
+    const locale = this.locale.default
     return (
       <div>
         <Select
@@ -87,9 +102,13 @@ export default class OptionsTimeRange extends React.Component {
         {this.state.open && (
           <DatePicker.RangePicker
             open={true}
+            locale={locale}
             ranges={{
-              Today: [moment().startOf('day'), moment().endOf('day')],
-              'This Month': [
+              [locale.lang.today]: [
+                moment().startOf('day'),
+                moment().endOf('day'),
+              ],
+              [locale.lang.month]: [
                 moment().startOf('month'),
                 moment().endOf('month'),
               ],

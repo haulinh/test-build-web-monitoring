@@ -1,4 +1,9 @@
 export default {
+  notification: {
+    label: 'Notifications',
+    removeAll: 'Remove all notification',
+    markAll: 'Mark all as read',
+  },
   contact: {
     phone: 'Phone',
     email: 'Email',
@@ -595,9 +600,11 @@ export default {
       description5:
         'Statistics about Results of 8-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
       descriptionStatusData:
-        'The statistics for the average observation results time from 00:00 days {{= it.fromDate}} to 23:59 {{= it.fromDate}}',
+        'The statistics for the average observation results time from 00:00 days {{= it.fromDate}} to 23:59 {{= it.toDate}}',
     },
     selectTimeRange: {
+      startTime: "Start Time",
+      endTime: "End Time",
       minute: 'Minute',
       hour: 'Hour',
       day: 'Day',
@@ -2027,6 +2034,7 @@ export default {
       error: 'Restore Error',
     },
     search: 'Search',
+    searchNotification: 'Search by stations name',
     searchSelect: 'Select conditions',
     error: 'Something Went Wrong!!!',
     warning: 'Warning',

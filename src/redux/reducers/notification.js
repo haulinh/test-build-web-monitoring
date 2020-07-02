@@ -140,7 +140,7 @@ function handleUpdateAllRead(state) {
   const newLogs = _.map(state.logs, notify => ({ ...notify, isRead: true }))
 
   return update(state, {
-    logs: { $set: newLogs }
+    logs: { $set: newLogs },
   })
 }
 
@@ -155,13 +155,13 @@ function handleDeleteOne(state, notificationId) {
   let newLogs = state.logs
   newLogs = _.filter(newLogs, notify => notify._id !== notificationId)
   return update(state, {
-    logs: { $set: newLogs }
+    logs: { $set: newLogs },
   })
 }
 
 function handleDeleteAll(state) {
   return update(state, {
-    logs: { $set: [] }
+    logs: { $set: [] },
   })
 }
 
@@ -173,12 +173,12 @@ function handleUpdateNotReadOne(state, notificationId) {
     }
     return {
       ...log,
-      isRead: false
+      isRead: false,
     }
   })
 
   return update(state, {
-    logs: { $set: newLogs }
+    logs: { $set: newLogs },
   })
 }
 
@@ -190,11 +190,11 @@ function handleUpdateReadOne(state, notificationId) {
     }
     return {
       ...log,
-      isRead: true
+      isRead: true,
     }
   })
 
   return update(state, {
-    logs: { $set: newLogs }
+    logs: { $set: newLogs },
   })
 }

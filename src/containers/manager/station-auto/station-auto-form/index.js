@@ -16,7 +16,7 @@ import {
 } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { mapPropsToFields } from 'utils/form'
+// import { mapPropsToFields } from 'utils/form'
 import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
 
 import CategoryApi from 'api/CategoryApi'
@@ -36,29 +36,7 @@ const FormItem = Form.Item
 const { TextArea } = Input
 const { Panel } = Collapse
 
-@Form.create({
-  mapPropsToFields: ({ initialValues }) => {
-    if (!initialValues) return
-    if (initialValues.stationType) {
-      initialValues.stationTypeObject = initialValues.stationType
-      initialValues.stationType = initialValues.stationType.key
-    }
-    if (initialValues.mapLocation) {
-      initialValues = {
-        ...initialValues,
-        lat: initialValues.mapLocation.lat,
-        long: initialValues.mapLocation.long,
-      }
-    }
-
-    if (initialValues.activatedAt) {
-      initialValues.activatedAt = moment(initialValues.activatedAt)
-    }
-    if (!initialValues.emails) initialValues.emails = []
-    if (!initialValues.phones) initialValues.phones = []
-    return mapPropsToFields({ initialValues })
-  },
-})
+@Form.create({})
 @createLanguageHoc
 @autobind
 export default class StationAutoForm extends React.PureComponent {
@@ -91,6 +69,29 @@ export default class StationAutoForm extends React.PureComponent {
     }
   }
 
+  getInitialValues = () => {
+    let { initialValues } = this.props
+    if (!initialValues) return {}
+    if (initialValues.stationType) {
+      initialValues.stationTypeObject = initialValues.stationType
+      initialValues.stationType = initialValues.stationType.key
+    }
+    if (initialValues.mapLocation) {
+      initialValues = {
+        ...initialValues,
+        lat: initialValues.mapLocation.lat,
+        long: initialValues.mapLocation.long,
+      }
+    }
+
+    if (initialValues.activatedAt) {
+      initialValues.activatedAt = moment(initialValues.activatedAt)
+    }
+    if (!initialValues.emails) initialValues.emails = []
+    if (!initialValues.phones) initialValues.phones = []
+    return initialValues
+  }
+
   async componentWillMount() {
     const measuringList = await CategoryApi.getMeasurings(
       { page: 1, itemPerPage: 100000 },
@@ -114,20 +115,28 @@ export default class StationAutoForm extends React.PureComponent {
       }
 
       this.setState({
-        emails: this.props.initialValues.emails,
-        phones: this.props.initialValues.phones,
-        measuringList: this.props.initialValues.measuringList,
-        stationType: this.props.initialValues.stationType,
-        stationTypeObject: this.props.initialValues.stationTypeObject,
-        options: this.props.initialValues.options
-          ? this.props.initialValues.options
-          : {},
-        fileList: fileList,
+        fileList,
       })
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
+    const initialValues = this.getInitialValues()
+    // vi dung state de luu nen phai gan gia tri initialValus vao state
+    this.setState({
+      emails: initialValues.emails,
+      phones: initialValues.phones,
+      measuringList: initialValues.measuringList,
+      stationType: initialValues.stationType,
+      stationTypeObject: initialValues.stationTypeObject,
+      options: initialValues.options ? initialValues.options : {},
+    })
+    try {
+      this.props.form.setFieldsValue(initialValues)
+    } catch (error) {
+      console.log(error, '----')
+    }
+
     if (this.props.otherForm) {
       animateScrollTo(9999999, {
         speed: 900,
@@ -147,6 +156,7 @@ export default class StationAutoForm extends React.PureComponent {
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
+      if (err) return
       if (!values.measuringList) {
         const { t } = this.props.lang
         swal({
@@ -155,7 +165,7 @@ export default class StationAutoForm extends React.PureComponent {
         })
         return
       }
-      if (err) return
+
       const data = {
         key: values.key,
         name: values.name,

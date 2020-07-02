@@ -2,6 +2,7 @@ import React from 'react'
 import { message } from 'antd'
 import { autobind } from 'core-decorators'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
+import * as _ from 'lodash'
 const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
   @createLanguage
   @autobind
@@ -20,9 +21,13 @@ const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
       this.setState({ isUpdating: true }, async () => {
         const res = await apiUpdate(key, data)
         this.setState({ isUpdating: false })
-        if (res.success)
+        if (res.success) {
+          // khi update thi cập nhật dữ liệu mới nhất từ data
+          this.setState({
+            data: _.get(res, 'data', null),
+          })
           message.success(this.props.lang.t('addon.onSave.update.success'))
-        else message.error(this.props.lang.t('addon.onSave.update.error'))
+        } else message.error(this.props.lang.t('addon.onSave.update.error'))
       })
     }
 

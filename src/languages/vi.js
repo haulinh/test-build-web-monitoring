@@ -1,4 +1,9 @@
 export default {
+  notification: {
+    label: 'Thông báo',
+    removeAll: 'Xoá tất cả thông báo',
+    markAll: 'Đánh dấu đã đọc tất cả',
+  },
   contact: {
     phone: 'Số điện thoại',
     email: 'Email',
@@ -589,9 +594,11 @@ export default {
       description5:
         'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}',
       descriptionStatusData:
-        'Các số liệu thống kê về kết quả quan trắc trung bình thời gian từ 00:00 ngày {{=it.fromDate}} đến 23:59 {{=it.fromDate}}',
+        'Các số liệu thống kê về đánh giá trình trạng dữ liệu thời gian từ 00:00 ngày {{=it.fromDate}} đến 23:59 {{=it.toDate}}',
     },
     selectTimeRange: {
+      startTime: "Thời gian bắt đầu",
+      endTime: "Thời gian kết thúc",
       minute: 'Phút',
       hour: 'Giờ',
       day: 'Ngày',
@@ -1186,7 +1193,7 @@ export default {
         error: 'Vui lòng chọn QCVN',
       },
       tendToExceed: {
-        label: "Giới hạn chuẩn bị vượt"
+        label: 'Giới hạn chuẩn bị vượt',
       },
       province: {
         label: 'Đơn vị quản lý',
@@ -1861,8 +1868,8 @@ export default {
   configNotify: {
     repeat: 'Lặp lại',
     headerStatus: {
-      DATA_STATUS: "Trạng thái dữ liệu",
-      DEVICE_STATUS: "Trạng thái thiết bị"
+      DATA_STATUS: 'Trạng thái dữ liệu',
+      DEVICE_STATUS: 'Trạng thái thiết bị',
     },
     titleTable: {
       status: 'Trạng thái',
@@ -2017,6 +2024,7 @@ export default {
       error: 'Khôi phục thất bại',
     },
     search: 'Tìm kiếm',
+    searchNotification: 'Tìm kiếm tên trạm',
     searchSelect: 'Chọn điều kiện',
     error: 'Đã xảy ra sự cố!!!',
     warning: 'Chú ý',
@@ -2186,7 +2194,7 @@ export default {
         header: {
           station: 'Trạm',
           parameter: 'Thông số',
-          dischargeThreshold: 'Ngưởng xả',
+          dischargeThreshold: 'Ngưỡng xả',
           unit: 'Đơn Vị',
           minValue: 'Giá trị nhỏ nhất',
           maxValue: 'Giá trị lớn nhất',
@@ -2218,7 +2226,7 @@ export default {
       aqiDay: 'AQI - Ngày',
       wqiHour: 'WQI - Giờ',
       wqiDay: 'WQI - Ngày',
-      status_data: 'Status Data', // Qui them cho dong bo voi file EN
+      status_data: 'Tình trạng dữ liệu', // Qui them cho dong bo voi file EN
     },
   },
   tooltipMenuApp: {
