@@ -1190,9 +1190,12 @@ export default {
         placeholder: 'Address',
       },
       qcvn: {
-        label: 'Standards VN',
+        label: 'Exceeded Limit',
         placeholder: 'Standards VN',
         error: 'Please Choose Type Of Standards VN',
+      },
+      tendToExceed: {
+        label: 'Tend To Exceed Limit',
       },
       province: {
         label: 'Management Unit',
@@ -1248,7 +1251,7 @@ export default {
         error: 'Please Input Phone Number',
       },
       range: {
-        label: 'Range',
+        label: 'Measuring Device Limit',
       },
       measuringKey: {
         label: 'Parameter code',
@@ -1867,8 +1870,8 @@ export default {
   configNotify: {
     repeat: 'Repeat',
     headerStatus: {
-      DATA_STATUS: "Data Status",
-      DEVICE_STATUS: "Device Status"
+      DATA_STATUS: 'Data Status',
+      DEVICE_STATUS: 'Device Status',
     },
     titleTable: {
       status: 'Status',

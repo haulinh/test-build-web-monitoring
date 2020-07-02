@@ -33,7 +33,7 @@ export default class SelectQCVN extends PureComponent {
     if (get(result, 'success', false)) {
       this.setState({
         lstQCVN: get(result, 'data', []),
-        value: this.props.value || undefined,
+        value: get(this.props.value, 'key', undefined) || undefined,
       })
     }
   }
@@ -63,6 +63,7 @@ export default class SelectQCVN extends PureComponent {
 
   render() {
     const listQCVN = this.getListQCVN()
+    // console.log(listQCVN, this.state.searchString, '--listQCVN--')
     return (
       <Select
         {...this.props}
