@@ -7,7 +7,7 @@ import ReactHighcharts from 'react-highcharts'
 import * as _ from 'lodash'
 import { Tabs, Row, Col, Skeleton } from 'antd'
 import { DD_MM_YYYY_HH_MM, HH_MM, DD_MM_YYYY } from 'constants/format-date'
-import { getDataStationAutoAvg } from 'api/DataStationAutoApi'
+import { getDataStationAutoAvg_v2 } from 'api/DataStationAutoApi'
 import { getFormatNumber } from 'constants/format-number'
 import InputEditCell from 'components/elements/input-edit-cell'
 import Label from 'components/elements/label'
@@ -230,7 +230,7 @@ export default class ChartRowToChart extends React.Component {
           .toISOString()
 
         if (toDate && fromDate) {
-          const dataSources = await getDataStationAutoAvg(
+          const dataSources = await getDataStationAutoAvg_v2(
             { page: 1, itemPerPage: 3000 },
             {
               fromDate: fromDate,
