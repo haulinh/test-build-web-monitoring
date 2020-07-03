@@ -3,6 +3,9 @@ export default {
     label: 'Thông báo',
     removeAll: 'Xoá tất cả thông báo',
     markAll: 'Đánh dấu đã đọc tất cả',
+    delele:"Xoá thông báo này",
+    tickRead:"Đánh dấu đã đọc",
+    tickUnRead:"Đánh dấu chưa đọc"
   },
   contact: {
     phone: 'Số điện thoại',

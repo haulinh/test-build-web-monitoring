@@ -3,6 +3,9 @@ export default {
     label: 'Notifications',
     removeAll: 'Remove all notification',
     markAll: 'Mark all as read',
+    delele: 'Delete this message',
+    tickRead: 'Mark as read',
+    tickUnRead: 'Mark unread',
   },
   contact: {
     phone: 'Phone',
@@ -603,8 +606,8 @@ export default {
         'The statistics for the average observation results time from 00:00 days {{= it.fromDate}} to 23:59 {{= it.toDate}}',
     },
     selectTimeRange: {
-      startTime: "Start Time",
-      endTime: "End Time",
+      startTime: 'Start Time',
+      endTime: 'End Time',
       minute: 'Minute',
       hour: 'Hour',
       day: 'Day',

@@ -2,24 +2,35 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
-import { Row, Col, Tooltip, Dropdown, Menu, message, Icon, Button } from 'antd'
+import { connect } from 'react-redux'
+
+import { Row, Col, Tooltip, Menu, message, Icon } from 'antd'
 import styled from 'styled-components'
 
 import { translate } from 'hoc/create-lang'
 import { connectAutoDispatch } from 'redux/connect'
 import { updateNotifyRead } from 'redux/actions/notification'
 import { setDrawerVisible } from 'redux/actions/notification'
-import { connect } from 'react-redux'
-import { getConfigApi } from 'config'
 import {
   deleteOneNotification,
   updateNotReadOneNotification,
   updateReadOneNotification,
 } from 'redux/actions/notification'
+require('moment/locale/vi')
+require('moment/locale/en-sg')
 
 const i18n = {
   viewDataAroundExceededTime: translate(
     'stationAutoManager.list.notification.actions.viewDataAroundExceededTime'
+  ),
+  delele: translate(
+    'notification.delele'
+  ),
+  tickRead: translate(
+    'notification.tickRead'
+  ),
+  tickUnRead: translate(
+    'notification.tickUnRead'
   ),
 }
 //View data around this time
@@ -35,6 +46,10 @@ const MultilineText = styled(Row)`
   display: -webkit-box;
 `
 
+
+@connect(state => ({
+  locale: state.language.locale,
+}))
 @withRouter
 @connectAutoDispatch(
   state => ({ isMarkedReadAll: state.notification.isMarkedReadAll }),
@@ -142,7 +157,7 @@ export default class DefaultCell extends React.Component {
                     fontSize: 12,
                   }}
                 >
-                  {moment(receivedAt).fromNow()}
+                  {moment(receivedAt).locale(this.props.locale).fromNow()}
                 </Col>
               </Row>
             </Col>
@@ -161,7 +176,7 @@ export default class DefaultCell extends React.Component {
             <Col span={8} />
             <Col span={8}>
               {this.state.isHoverOnCell && (
-                <Tooltip placement="bottom" title="Xoá thông báo này">
+                <Tooltip placement="bottom" title={i18n.delele}>
                   <Icon
                     style={{ fontSize: '16px' }}
                     type="close-circle"
@@ -173,7 +188,7 @@ export default class DefaultCell extends React.Component {
             </Col>
             <Col span={8}>
               {!data.isRead ? (
-                <Tooltip placement="right" title="Đánh dấu đã đọc">
+                <Tooltip placement="right" title={i18n.tickRead}>
                   <div
                     onMouseEnter={() =>
                       this.setState({ isHoverOnIconRead: true })
@@ -194,7 +209,7 @@ export default class DefaultCell extends React.Component {
                   />
                 </Tooltip>
               ) : (
-                <Tooltip placement="right" title="Đánh dấu chưa đọc">
+                <Tooltip placement="right" title={i18n.tickUnRead} >
                   <div
                     onMouseEnter={() =>
                       this.setState({ isHoverOnIconRead: true })
