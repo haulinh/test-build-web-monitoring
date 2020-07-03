@@ -33,7 +33,8 @@ export default class UserEdit extends React.PureComponent {
   }
 
   async handleSubmit(data) {
-    await this.props.onUpdateItem(data)
+    const res = await  this.props.onUpdateItem(data)
+    return res
   }
 
   //Su kien truoc khi component duoc tao ra
@@ -78,7 +79,7 @@ export default class UserEdit extends React.PureComponent {
             initialValues={this.props.data}
             onSubmit={this.handleSubmit}
             isEdit
-            isLoading={this.state.isLoading}
+            // isLoading={this.state.isLoading}
           />
         )}
       </PageContainer>
