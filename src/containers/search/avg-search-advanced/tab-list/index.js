@@ -1,6 +1,6 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { Tabs, Button, Menu, Dropdown } from 'antd'
+import { Tabs, Button, Menu } from 'antd'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow'
@@ -63,17 +63,17 @@ export default class TableList extends React.PureComponent {
       <TableListWrapper>
         <ButtonAbsolute>
           {protectRole(ROLE.AVG_SEARCH.EXPORT)(
-            <Dropdown overlay={this.renderMenuExport()} trigger={['click']}>
-              <Button
-                type="primary"
-                icon="file-excel"
-                style={{ float: 'right', margin: '5px' }}
-                // onClick={this.props.onExportExcel}
-                loading={this.props.isExporting || this.props.isExportingAll}
-              >
-                {translate('avgSearchFrom.tab.exportExcel')}
-              </Button>
-            </Dropdown>
+            // <Dropdown overlay={this.renderMenuExport()} trigger={['click']}>
+            <Button
+              type="primary"
+              icon="file-excel"
+              style={{ float: 'right', margin: '5px' }}
+              onClick={this.props.onExportExcel}
+              loading={this.props.isExporting || this.props.isExportingAll}
+            >
+              {translate('avgSearchFrom.tab.exportExcel')}
+            </Button>
+            // </Dropdown>
           )}
         </ButtonAbsolute>
         <Tabs defaultActiveKey="1">

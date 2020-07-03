@@ -5,7 +5,6 @@ import ReactHighcharts from 'react-highcharts/ReactHighstock'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
-import moment from 'moment-timezone'
 import {
   FORMAT_VALUE_MEASURING,
   getFormatNumber,
@@ -84,7 +83,7 @@ ReactHighcharts.Highcharts.setOptions({
     rangeSelectorZoom: '',
   },
   global: {
-    useUTC: false,
+    useUTC: true,
   },
 })
 
@@ -124,12 +123,11 @@ export default class TabChart extends React.PureComponent {
     })
 
     let heightChart = {}
-    _.forEachRight(props.dataStationAuto, ({ measuringLogs, receivedAt }) => {
-      const time = moment(receivedAt).valueOf()
+    _.forEachRight(props.dataStationAuto, ({ measuringLogs, date_utc }) => {
       _.mapKeys(seriesData, function(value, key) {
         let val = _.get(measuringLogs, [key, 'value'])
 
-        seriesData[key].data.push([time, val])
+        seriesData[key].data.push([date_utc, val])
 
         const minCurrent =
           _.get(heightChart, `${key}.minChart`) ||
