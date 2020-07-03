@@ -22,10 +22,6 @@ const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
         const res = await apiUpdate(key, data)
         this.setState({ isUpdating: false })
         if (res.success) {
-          // khi update thi cập nhật dữ liệu mới nhất từ data
-          this.setState({
-            data: _.get(res, 'data', null),
-          })
           message.success(this.props.lang.t('addon.onSave.update.success'))
         } else message.error(this.props.lang.t('addon.onSave.update.error'))
       })

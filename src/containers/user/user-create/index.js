@@ -45,23 +45,22 @@ export default class UserCreate extends React.PureComponent {
     super(props)
     this.state = {
       isLoading: true,
-      isLicense: false,
+      isNotLicense: false,
     }
   }
 
   handleSubmit = async data => {
     this.setState({
-      isLoading: true,
       totalUserActive: 0,
-      isLicense: false,
+      isNotLicense: false,
     })
     const res = await UserApi.registerUser(data)
-    this.setState({ isLoading: false }, () => {
-      if (res.success) {
-        message.success('Register User success!')
-        this.props.history.push(slug.user.list)
-      }
-    })
+    if (res.success) {
+      message.success('Register User success!')
+      this.props.history.push(slug.user.list)
+    } else {
+      message.error(translate('addon.onSave.add.error'))
+    }
     return res
   }
 
@@ -116,7 +115,7 @@ export default class UserCreate extends React.PureComponent {
         onOk: this.handleClose,
       })
       this.setState({
-        isLicense: true,
+        isNotLicense: true,
       })
     }
     this.setState({ isLoading: false })
@@ -133,11 +132,8 @@ export default class UserCreate extends React.PureComponent {
         <Clearfix height={16} />
         {this.state.isLoading ? (
           <Skeleton />
-        ) : !this.state.isLicense ? (
-          <UserForm
-            onSubmit={this.handleSubmit}
-            isLoading={this.state.isLoading}
-          />
+        ) : !this.state.isNotLicense ? (
+          <UserForm onSubmit={this.handleSubmit} />
         ) : (
           <Skeleton />
         )}

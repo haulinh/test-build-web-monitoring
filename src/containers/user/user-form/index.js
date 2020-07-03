@@ -19,7 +19,7 @@ export default class UserForm extends React.PureComponent {
     lang: langPropTypes,
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
-    isLoading: PropTypes.bool,
+    
   }
   constructor(props) {
     super(props)
@@ -27,6 +27,7 @@ export default class UserForm extends React.PureComponent {
       confirmDirty: false,
       selectOrganizations: [],
       phone: undefined,
+      isLoading: false
     }
   }
 
@@ -34,6 +35,9 @@ export default class UserForm extends React.PureComponent {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       if (err) return
+      this.setState({
+        isLoading: true
+      })
       const data = {
         email: values.email,
         password: values.password,
@@ -46,16 +50,22 @@ export default class UserForm extends React.PureComponent {
             )
           : null,
       }
-      // // Callback submit form Container Component
-      const res = await this.props.onSubmit(data)
-      if (res && res.error) {
-        this.props.form.setFields({
-          email: {
-            value: values.email,
-            errors: [
-              new Error(this.props.lang.t('userManager.form.email.errorExist')),
-            ],
-          },
+
+      if (this.props.onSubmit) {
+        this.props.onSubmit(data).then(res => {
+          if (res && res.error) {
+            this.props.form.setFields({
+              email: {
+                value: values.email,
+                errors: [new Error(this.props.lang.t('userManager.form.email.errorExist'))],
+              },
+            })
+          }
+          
+        }).finally(()=>{
+          this.setState({
+            isLoading:false
+          })
         })
       }
     })
@@ -290,7 +300,7 @@ export default class UserForm extends React.PureComponent {
             style={{ width: '100%' }}
             type="primary"
             htmlType="submit"
-            loading={this.props.isLoading}
+            loading={this.state.isLoading}
           >
             {t('addon.save')}
           </Button>
