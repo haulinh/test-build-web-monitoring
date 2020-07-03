@@ -29,7 +29,7 @@ import swal from 'sweetalert2'
 import MeasuringTable from '../station-auto-formTable/'
 import InputNumberCell from 'components/elements/input-number-cell'
 import moment from 'moment'
-import { get, keyBy } from 'lodash'
+import { get, keyBy, omit } from 'lodash'
 import animateScrollTo from 'animated-scroll-to'
 
 const FormItem = Form.Item
@@ -132,7 +132,9 @@ export default class StationAutoForm extends React.PureComponent {
       options: initialValues.options ? initialValues.options : {},
     })
     try {
-      this.props.form.setFieldsValue(initialValues)
+      this.props.form.setFieldsValue({
+        ...omit(initialValues, 'measuringList'),
+      })
     } catch (error) {
       console.log(error, '----')
     }
@@ -197,7 +199,8 @@ export default class StationAutoForm extends React.PureComponent {
         order: '',
       }
 
-      // console.log(data, "---data---");
+      // console.log(data.stationType, '---data---')
+      // console.log(data.measuringList, '---data---')
 
       // Callback submit form Container Component
       if (this.props.onSubmit) {
