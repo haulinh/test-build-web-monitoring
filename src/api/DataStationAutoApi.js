@@ -238,10 +238,11 @@ export function getUrlReportType3Excel(
   key,
   time,
   measuringListStr,
-  measuringListUnitStr
+  measuringListUnitStr,
+  language = 'EN'
 ) {
   var url = getReportUrl(
-    `type3-excel/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`
+    `type3-excel/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${language}`
   )
   return url
 }
@@ -264,10 +265,11 @@ export function getUrlReportType4Excel(
   key,
   time,
   measuringListStr,
-  measuringListUnitStr
+  measuringListUnitStr,
+  language = 'EN'
 ) {
   var url = getReportUrl(
-    `type4-excel/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`
+    `type4-excel/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${language}`
   )
   return url
 }
