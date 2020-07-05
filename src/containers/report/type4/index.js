@@ -28,6 +28,7 @@ const i18n = {
 @connect(state => ({
   token: state.auth.token,
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
+  locale: state.language.locale,
 }))
 export default class ReportType1 extends React.Component {
   constructor(props) {
@@ -111,13 +112,27 @@ export default class ReportType1 extends React.Component {
     }
   }
 
+  getLanguage = lang => {
+    switch (lang) {
+      case 'en':
+        return 'EN'
+      case 'vi':
+        return 'VI'
+      default:
+        return 'EN'
+    }
+  }
+
   handleExcel = () => {
+    const language = this.getLanguage(this.props.locale)
+
     let url = getUrlReportType4Excel(
       this.props.token,
       this.state.dataSearch.stationAuto,
       this.state.dataSearch.time,
       this.state.dataSearch.measuringListStr,
-      this.state.dataSearch.measuringListUnitStr
+      this.state.dataSearch.measuringListUnitStr,
+      language
     )
     window.open(url, '_blank')
   }
