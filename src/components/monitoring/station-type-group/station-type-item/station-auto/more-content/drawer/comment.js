@@ -112,7 +112,9 @@ export default class StationComment extends React.Component {
       comment => comment._id === _id
     )
     const comment = { ...this.state.data[indexComment] }
-    comment.content = this.state.valueFromEditComment
+    if (this.state.valueFromEditComment) {
+      comment.content = this.state.valueFromEditComment
+    }
 
     const data = [...this.state.data]
     data[indexComment] = comment
@@ -120,7 +122,7 @@ export default class StationComment extends React.Component {
     this.setState({ data })
 
     const editedComment = {
-      content: this.state.valueFromEditComment,
+      content: comment.content,
       stationId: this.props.stationId,
       _id,
     }
