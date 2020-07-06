@@ -81,13 +81,6 @@ export default class StationForm extends React.PureComponent {
     this.props.onChangeStationsData(this.state.dataSource)
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.formData, this.props.formData)) {
-      const dataSource = this.getDataSource()
-      this.setState({ dataSource }, this.handleChange)
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     if (!this.props.stations.length) return
     if (

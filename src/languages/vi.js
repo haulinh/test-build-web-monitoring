@@ -3,9 +3,9 @@ export default {
     label: 'Thông báo',
     removeAll: 'Xoá tất cả thông báo',
     markAll: 'Đánh dấu đã đọc tất cả',
-    delele:"Xoá thông báo này",
-    tickRead:"Đánh dấu đã đọc",
-    tickUnRead:"Đánh dấu chưa đọc"
+    delele: 'Xoá thông báo này',
+    tickRead: 'Đánh dấu đã đọc',
+    tickUnRead: 'Đánh dấu chưa đọc',
   },
   contact: {
     phone: 'Số điện thoại',
@@ -600,8 +600,8 @@ export default {
         'Các số liệu thống kê về đánh giá trình trạng dữ liệu thời gian từ 00:00 ngày {{=it.fromDate}} đến 23:59 {{=it.toDate}}',
     },
     selectTimeRange: {
-      startTime: "Thời gian bắt đầu",
-      endTime: "Thời gian kết thúc",
+      startTime: 'Thời gian bắt đầu',
+      endTime: 'Thời gian kết thúc',
       minute: 'Phút',
       hour: 'Giờ',
       day: 'Ngày',

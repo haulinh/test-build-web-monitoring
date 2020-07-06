@@ -6,11 +6,11 @@ export const dataStatusOptions = [
     label: 'warningLevels.collecting',
     color: COLOR.COLLECTING,
   },
-  {
-    value: 'LOST_CONNECTION',
-    label: 'warningLevels.lostConnection',
-    color: COLOR.LOST_CONNECTION,
-  },
+  // {
+  //   value: 'LOST_CONNECTION',
+  //   label: 'warningLevels.lostConnection',
+  //   color: COLOR.LOST_CONNECTION,
+  // },
   {
     value: 'OVERLOAD',
     label: 'warningLevels.overload',

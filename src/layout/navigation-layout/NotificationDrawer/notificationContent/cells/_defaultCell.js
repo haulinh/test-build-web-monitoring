@@ -23,15 +23,9 @@ const i18n = {
   viewDataAroundExceededTime: translate(
     'stationAutoManager.list.notification.actions.viewDataAroundExceededTime'
   ),
-  delele: translate(
-    'notification.delele'
-  ),
-  tickRead: translate(
-    'notification.tickRead'
-  ),
-  tickUnRead: translate(
-    'notification.tickUnRead'
-  ),
+  delele: translate('notification.delele'),
+  tickRead: translate('notification.tickRead'),
+  tickUnRead: translate('notification.tickUnRead'),
 }
 //View data around this time
 const MultilineText = styled(Row)`
@@ -45,7 +39,6 @@ const MultilineText = styled(Row)`
   -webkit-box-orient: vertical;
   display: -webkit-box;
 `
-
 
 @connect(state => ({
   locale: state.language.locale,
@@ -157,7 +150,9 @@ export default class DefaultCell extends React.Component {
                     fontSize: 12,
                   }}
                 >
-                  {moment(receivedAt).locale(this.props.locale).fromNow()}
+                  {moment(receivedAt)
+                    .locale(this.props.locale)
+                    .fromNow()}
                 </Col>
               </Row>
             </Col>
@@ -209,7 +204,7 @@ export default class DefaultCell extends React.Component {
                   />
                 </Tooltip>
               ) : (
-                <Tooltip placement="right" title={i18n.tickUnRead} >
+                <Tooltip placement="right" title={i18n.tickUnRead}>
                   <div
                     onMouseEnter={() =>
                       this.setState({ isHoverOnIconRead: true })

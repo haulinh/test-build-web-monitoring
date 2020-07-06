@@ -6,8 +6,6 @@ import { autobind } from 'core-decorators'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-// import locale from 'antd/es/date-picker/locale/vi_VN'
-// import 'moment/locale/vi'
 
 const options = [
   { key: 1, text: 'dataSearchFrom.options.byHours', value: 24 },
@@ -45,8 +43,18 @@ export default class OptionsTimeRange extends React.Component {
       !_.isEqual(this.state.open, nextState.open) ||
       !_.isEqual(this.state.defaultValue, nextState.defaultValue) ||
       !_.isEqual(this.state.rangesView, nextState.rangesView) ||
-      !_.isEqual(this.state.props, nextProps)
+      !_.isEqual(this.props.value, nextProps.value) ||
+      !_.isEqual(this.props.rangesView, nextProps.rangesView)
     )
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!_.isEqual(prevProps.rangesView, this.props.rangesView)) {
+      this.setState({
+        rangesView: this.props.rangesView,
+        defaultValue: this.props.defaultValue,
+      })
+    }
   }
 
   handleSelect = value => {
@@ -95,8 +103,10 @@ export default class OptionsTimeRange extends React.Component {
               {translate(text, { value })}
             </Select.Option>
           ))}
-          <Select.Option key={'ranges'}>
-            {this.state.rangesView || translate('dataSearchFrom.options.range')}
+          <Select.Option key="ranges">
+            {this.state.rangesView ||
+              this.props.rangesView ||
+              translate('dataSearchFrom.options.range')}
           </Select.Option>
         </Select>
         {this.state.open && (
