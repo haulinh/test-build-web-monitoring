@@ -76,12 +76,12 @@ export default class StationComment extends React.Component {
   }
 
   handleSubmit = async () => {
-    if (!this.state.value) return
+    if (!this.state.value && !this.state.images) return
     this.setState({
       submitting: true,
     })
     const commentSend = {
-      content: this.state.value,
+      content: this.state.value ? this.state.value : ' ',
       stationId: this.props.stationId,
       images: this.state.images,
     }
@@ -164,7 +164,7 @@ export default class StationComment extends React.Component {
                 onAddImage={this.handleAddImage}
                 onDeleteImage={this.handleDeleteImage}
                 images={this.state.images}
-                placeholder={translate('stationReview.placeholder')}
+                placeholder={translate('stationReview.form.placeholder')}
               />
             }
           />

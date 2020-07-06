@@ -196,7 +196,6 @@ export default class Editor extends React.Component {
               onClick={this.handleSubmit}
             >
               <i className="fa fa-paper-plane" aria-hidden="true" />
-              {/* <Icon type="yuque" theme="outlined" /> */}
             </Button>
           </Flex>
         </Form.Item>
