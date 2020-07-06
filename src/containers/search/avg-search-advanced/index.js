@@ -12,6 +12,11 @@ import OrganizationApi from 'api/OrganizationApi'
 import { toggleNavigation } from 'redux/actions/themeAction'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import { connectAutoDispatch } from 'redux/connect'
+import {
+  updateBreadcrumb,
+  addBreadcrumb,
+  deleteBreadcrumb,
+} from 'shared/breadcrumb/action'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { replaceVietnameseStr } from 'utils/string'
 import Clearfix from 'components/elements/clearfix'
@@ -19,6 +24,8 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import FilterListMenu from './menu'
 import FormFilter from './form/ModalForm'
+import { Router } from 'react-router'
+import slug from 'constants/slug'
 
 const Flex = styled.div`
   display: flex;
@@ -37,8 +44,9 @@ const Flex = styled.div`
     isOpenNavigation: state.theme.navigation.isOpen,
     stations: _.get(state, 'stationAuto.list', []),
     stationAuto: state.stationAuto,
+    breadcrumbs: state.breadcrumbs,
   }),
-  { toggleNavigation }
+  { toggleNavigation, updateBreadcrumb, addBreadcrumb, deleteBreadcrumb }
 )
 @protectRole(ROLE.AVG_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -91,6 +99,41 @@ export default class AvgSearchAdvanced extends React.Component {
     if (!_.isEqual(this.props.values, nextProps.values)) {
       if (this.state.isSearchingData) this.setState({ isSearchingData: false })
     }
+    if (this.props.formData.filterId !== nextProps.formData.filterId) {
+      const filter = this.state.configFilter.find(
+        filter => filter._id === nextProps.formData.filterId
+      )
+      if (filter) {
+        const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
+        searchObj.searchNow = true
+        searchObj.filterId = filter._id
+        if (nextProps.breadcrumbs.length === 2) {
+          this.props.updateBreadcrumb({
+            id: 'detail',
+            icon: '',
+            href:
+              slug.avgSearchAdvanced.base +
+              '?formData=' +
+              encodeURIComponent(JSON.stringify(searchObj)),
+            name: filter.name,
+            autoDestroy: true,
+          })
+        } else {
+          this.props.addBreadcrumb({
+            id: 'detail',
+            icon: '',
+            href:
+              slug.avgSearchAdvanced.base +
+              '?formData=' +
+              encodeURIComponent(JSON.stringify(searchObj)),
+            name: filter.name,
+            autoDestroy: true,
+          })
+        }
+      } else {
+        this.props.deleteBreadcrumb({ id: 'detail' })
+      }
+    }
   }
 
   getIsEdit = () => {
@@ -100,7 +143,7 @@ export default class AvgSearchAdvanced extends React.Component {
       delete values.fromDate
       delete values.toDate
     }
-    return !_.isEqual(values, formData)
+    return !_.isEqual(values, formData) && !!values.filterId
   }
 
   getAllowSave = () => {
@@ -115,10 +158,52 @@ export default class AvgSearchAdvanced extends React.Component {
     const organizationInfo = await OrganizationApi.getOrganization(
       this.props.organizationId
     )
-    this.setState({
-      configFilter: _.get(organizationInfo, ['data', 'configFilter']),
-      filteredConfigFilter: _.get(organizationInfo, ['data', 'configFilter']),
-    })
+
+    this.setState(
+      {
+        configFilter: _.get(organizationInfo, ['data', 'configFilter']),
+        filteredConfigFilter: _.get(organizationInfo, ['data', 'configFilter']),
+      },
+      () => {
+        if (this.props.formData.filterId) {
+          const filter = this.state.configFilter.find(
+            filter => filter._id === this.props.formData.filterId
+          )
+          if (filter) {
+            const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
+            searchObj.searchNow = true
+            searchObj.filterId = filter._id
+            if (this.props.breadcrumbs.length === 2) {
+              this.props.updateBreadcrumb({
+                id: 'detail',
+                icon: '',
+                href:
+                  slug.avgSearchAdvanced.base +
+                  '?formData=' +
+                  encodeURIComponent(JSON.stringify(searchObj)),
+                name: filter.name,
+                autoDestroy: true,
+              })
+            } else {
+              this.props.addBreadcrumb({
+                id: 'detail',
+                icon: '',
+                href:
+                  slug.avgSearchAdvanced.base +
+                  '?formData=' +
+                  encodeURIComponent(JSON.stringify(searchObj)),
+                name: filter.name,
+                autoDestroy: true,
+              })
+            }
+          }
+        }
+      }
+    )
+  }
+
+  componentWillUnmount() {
+    this.props.deleteBreadcrumb({ id: 'detail' })
   }
 
   getStationsData = stations => {
@@ -350,7 +435,6 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   render() {
-    console.log('---isEdit----', this.getIsEdit())
     return (
       <PageContainer
         {...this.props.wrapperProps}

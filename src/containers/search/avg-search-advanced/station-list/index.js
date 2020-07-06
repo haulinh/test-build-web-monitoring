@@ -45,12 +45,6 @@ export default class TableList extends React.PureComponent {
   static propTypes = {
     stationsData: PropTypes.array,
     type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    // searchData: PropTypes.shape({
-    //   fromDate: PropTypes.string,
-    //   toDate: PropTypes.string,
-    //   advanced: PropTypes.array,
-    //   dataStatus: PropTypes.array,
-    // }),
   }
 
   static defaultProps = {
@@ -59,7 +53,6 @@ export default class TableList extends React.PureComponent {
 
   constructor(props) {
     super(props)
-    console.log('---props---', props)
     this.state = {
       tabKey: '',
       dataStationAuto: [],

@@ -8,6 +8,6 @@ export default createBreadcrumb({
     name: translate('avgSearchFrom.titleText'),
     id: 'base',
     icon: '',
-    href: slug.avgSearch.base,
+    href: slug.avgSearchAdvanced.base,
   },
 })
