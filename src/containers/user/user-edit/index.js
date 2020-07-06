@@ -33,7 +33,7 @@ export default class UserEdit extends React.PureComponent {
   }
 
   async handleSubmit(data) {
-    const res = await  this.props.onUpdateItem(data)
+    const res = await this.props.onUpdateItem(data)
     return res
   }
 

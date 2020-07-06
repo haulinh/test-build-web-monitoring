@@ -19,7 +19,6 @@ export default class UserForm extends React.PureComponent {
     lang: langPropTypes,
     isEdit: PropTypes.bool,
     initialValues: PropTypes.object,
-    
   }
   constructor(props) {
     super(props)
@@ -27,7 +26,7 @@ export default class UserForm extends React.PureComponent {
       confirmDirty: false,
       selectOrganizations: [],
       phone: undefined,
-      isLoading: false
+      isLoading: false,
     }
   }
 
@@ -36,7 +35,7 @@ export default class UserForm extends React.PureComponent {
     this.props.form.validateFields(async (err, values) => {
       if (err) return
       this.setState({
-        isLoading: true
+        isLoading: true,
       })
       const data = {
         email: values.email,
@@ -52,21 +51,27 @@ export default class UserForm extends React.PureComponent {
       }
 
       if (this.props.onSubmit) {
-        this.props.onSubmit(data).then(res => {
-          if (res && res.error) {
-            this.props.form.setFields({
-              email: {
-                value: values.email,
-                errors: [new Error(this.props.lang.t('userManager.form.email.errorExist'))],
-              },
-            })
-          }
-          
-        }).finally(()=>{
-          this.setState({
-            isLoading:false
+        this.props
+          .onSubmit(data)
+          .then(res => {
+            if (res && res.error) {
+              this.props.form.setFields({
+                email: {
+                  value: values.email,
+                  errors: [
+                    new Error(
+                      this.props.lang.t('userManager.form.email.errorExist')
+                    ),
+                  ],
+                },
+              })
+            }
           })
-        })
+          .finally(() => {
+            this.setState({
+              isLoading: false,
+            })
+          })
       }
     })
   }

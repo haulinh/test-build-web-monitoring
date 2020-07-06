@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col, Button, Divider, Avatar } from 'antd'
 import styled from 'styled-components'
 import moment from 'moment'
-import {translate} from 'hoc/create-lang'
+import { translate } from 'hoc/create-lang'
 import ImageMoreInfo from './image'
 import Editor from './Editor'
 import _ from 'lodash'
@@ -27,7 +27,6 @@ const ButtonLink = styled(Button)`
 @connect(state => ({
   locale: state.language.locale,
 }))
-
 export class CommentComponent extends React.Component {
   state = {
     isEdit: false,
@@ -143,7 +142,9 @@ export class CommentComponent extends React.Component {
               <Text
                 style={{ marginLeft: '10px', color: 'gray', fontSize: '13px' }}
               >
-                {moment(createdAt).locale(this.props.locale).fromNow()}
+                {moment(createdAt)
+                  .locale(this.props.locale)
+                  .fromNow()}
               </Text>
             </Flex>
             {this.renderContent()}

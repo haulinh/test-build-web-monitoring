@@ -28,12 +28,12 @@ export default class ConfigNotificationTab extends React.Component {
     return (
       <React.Fragment>
         <Spin spinning={isLoading}>
-          <Collapse 
-          defaultActiveKey={['DATA_STATUS']}
-          >
+          <Collapse defaultActiveKey={['DATA_STATUS']}>
             {configNotifyData.map(configNotify => (
               <Panel
-                header={translate(`configNotify.headerStatus.${configNotify.key}`)}
+                header={translate(
+                  `configNotify.headerStatus.${configNotify.key}`
+                )}
                 key={configNotify.key}
               >
                 <TableConfig title={configNotify.key} data={configNotify} />

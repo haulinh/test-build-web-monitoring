@@ -53,10 +53,12 @@ export default class AvgSearchAdvanced extends React.Component {
       flagResetForm: false,
 
       allowSave: true,
+      isEdit: false,
 
       isSearchingData: false,
       isSearchingStation: false,
 
+      searchData: {},
       filteredConfigFilter: [],
       configFilter: [],
 
@@ -82,6 +84,28 @@ export default class AvgSearchAdvanced extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      !_.isEqual(this.props.values, prevProps.values) ||
+      !_.isEqual(this.props.formData, prevProps.formData) ||
+      !_.isEqual(this.state.searchData, prevState.searchData)
+    ) {
+      if (this.props.values.rangesDate === 'ranges') {
+        this.props.values.fromDate = this.state.searchData.fromDate
+        this.props.values.toDate = this.state.searchData.toDate
+      }
+      console.log(this.props.values)
+      if (!_.isEqual(this.props.values, this.props.formData)) {
+        if (this.props.formData.filterId) {
+          this.setState({ allowSave: true, isEdit: true })
+        }
+        this.setState({ allowSave: true })
+      } else {
+        this.setState({ allowSave: false, isEdit: false })
+      }
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.stations.length !== nextProps.stations.length) {
       if (!this.state.initialData) {
@@ -91,24 +115,20 @@ export default class AvgSearchAdvanced extends React.Component {
     if (!_.isEqual(this.props.values, nextProps.values)) {
       if (this.state.isSearchingData) this.setState({ isSearchingData: false })
     }
-  }
-
-  getIsEdit = () => {
-    const values = _.clone(this.props.values)
-    const formData = _.clone(this.props.formData)
-    if (formData.rangesDate !== 'ranges') {
-      delete values.fromDate
-      delete values.toDate
-    }
-    return !_.isEqual(values, formData)
-  }
-
-  getAllowSave = () => {
-    return (
-      !!this.props.values.stationType &&
-      this.state.allowSave &&
-      !this.props.values.filterId
-    )
+    // console.log('---formData---', this.props.formData)
+    // if (nextProps.values.rangesDate === 'ranges') {
+    //   nextProps.values.fromDate = this.state.searchData.fromDate
+    //   nextProps.values.toDate = this.state.searchData.toDate
+    // }
+    // console.log(nextProps.values)
+    // if (!_.isEqual(nextProps.values, this.props.formData)) {
+    //   if (nextProps.formData.filterId) {
+    //     this.setState({ allowSave: true, isEdit: true })
+    //   }
+    //   this.setState({ allowSave: true })
+    // } else {
+    //   this.setState({ allowSave: false, isEdit: false })
+    // }
   }
 
   getDataOrganization = async () => {
@@ -140,12 +160,21 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState({ stationsData })
   }
 
-  handleSearchAvgData = () => {
+  handleSearchAvgData = searchData => {
     if (!this.state.stationKeys.length) {
-      // message.warn(translate('avgSearchFrom.table.emptyText'))
+      message.warn(translate('avgSearchFrom.table.emptyText'))
       return
     }
-    this.setState({ isSearchingData: true })
+    if (!searchData) {
+      this.setState({ isSearchingData: true })
+      return
+    }
+    this.setState({ isSearchingData: true, searchData })
+  }
+
+  handleChangeSearchData = searchData => {
+    console.log('---searchData---', searchData)
+    this.setState({ searchData })
   }
 
   handleSearchStation = searchStationData => {
@@ -216,9 +245,8 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   rightChildren() {
-    const isEdit = this.getIsEdit()
-    const allowSave = this.getAllowSave()
-    if (isEdit) {
+    if (!this.state.allowSave) return null
+    if (this.state.isEdit) {
       return (
         <Flex>
           <span className="label">{translate('addon.edited')}</span>
@@ -244,7 +272,6 @@ export default class AvgSearchAdvanced extends React.Component {
         </Flex>
       )
     }
-    if (!allowSave) return null
     return (
       <Tooltip
         placement="top"
@@ -268,9 +295,9 @@ export default class AvgSearchAdvanced extends React.Component {
     const rawValues = _.clone(this.props.values)
     delete rawValues.searchNow
     delete rawValues.filterId
-    if (rawValues.rangesDate !== 'ranges') {
-      delete rawValues.fromDate
-      delete rawValues.toDate
+    if (rawValues.rangesDate === 'ranges') {
+      rawValues.fromDate = this.state.searchData.fromDate
+      rawValues.toDate = this.state.searchData.toDate
     }
     form.validateFields((err, values) => {
       if (err) return
@@ -320,9 +347,9 @@ export default class AvgSearchAdvanced extends React.Component {
     const rawValues = _.clone(this.props.values)
     delete rawValues.searchNow
     delete rawValues.filterId
-    if (rawValues.rangesDate !== 'ranges') {
-      delete rawValues.fromDate
-      delete rawValues.toDate
+    if (rawValues.rangesDate === 'ranges') {
+      rawValues.fromDate = this.state.searchData.fromDate
+      rawValues.toDate = this.state.searchData.toDate
     }
     let params = {
       name: filter.name,
@@ -350,7 +377,6 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   render() {
-    console.log('---isEdit----', this.getIsEdit())
     return (
       <PageContainer
         {...this.props.wrapperProps}
@@ -373,6 +399,7 @@ export default class AvgSearchAdvanced extends React.Component {
               flagResetForm={this.state.flagResetForm}
               onSubmit={this.handleSearchAvgData}
               onSearchStationAuto={this.handleSearchStation}
+              onChangeSearchData={this.handleChangeSearchData}
               initialValues={this.props.formData}
               searchNow={this.props.formData.searchNow}
               // advanced operator
@@ -390,13 +417,13 @@ export default class AvgSearchAdvanced extends React.Component {
                 onSearchAvgData={this.handleSearchAvgData}
                 stations={this.props.stations}
                 stationKeys={this.state.stationKeys}
-                formData={this.props.formData}
               />
             </Spin>
             <Clearfix height={40} />
             {this.state.isSearchingData && this.state.stationsData.length && (
               <StationList
                 stationsData={this.state.stationsData}
+                searchData={this.state.searchData}
                 type={this.props.values.type}
               />
             )}
