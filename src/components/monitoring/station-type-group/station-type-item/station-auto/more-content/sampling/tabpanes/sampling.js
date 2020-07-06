@@ -543,7 +543,7 @@ export default class SamplingMoreInfo extends React.Component {
             </Button>
           )}
           {/* NOTE  nút này chưa cần xử lý*/}
-          <Button
+          {/* <Button
             block
             type="primary"
             style={{ ...STATUS_COLOR[isActivedOverRange && 'ACTIVED'] }}
@@ -552,7 +552,7 @@ export default class SamplingMoreInfo extends React.Component {
             }
           >
             {isActivedOverRange ? i18n.activedOverRange : i18n.activeOverRange}
-          </Button>
+          </Button> */}
         </Row>
       </div>
     )
