@@ -2524,7 +2524,7 @@ export default {
       cancel: 'Hủy',
     },
     form: {
-      placeholder: 'Viết đánh giá của bạn',
+      placeholder: 'Viết đánh giá',
     },
   },
 }
