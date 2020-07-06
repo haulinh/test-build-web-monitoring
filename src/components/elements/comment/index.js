@@ -2,10 +2,9 @@ import React from 'react'
 import { Row, Col, Button, Divider, Avatar } from 'antd'
 import styled from 'styled-components'
 import moment from 'moment'
-import {translate} from 'hoc/create-lang'
+import { translate } from 'hoc/create-lang'
 import ImageMoreInfo from './image'
 import Editor from './Editor'
-import _ from 'lodash'
 import 'moment/locale/vi'
 import 'moment/locale/en-sg'
 import { connect } from 'react-redux'
@@ -27,11 +26,14 @@ const ButtonLink = styled(Button)`
 @connect(state => ({
   locale: state.language.locale,
 }))
-
 export class CommentComponent extends React.Component {
-  state = {
-    isEdit: false,
-    value: this.props.content,
+  constructor(props) {
+    super(props)
+    this.state = {
+      isEdit: false,
+      value: this.props.content,
+      isCancel: false,
+    }
   }
 
   handleChange = e => {
@@ -41,11 +43,12 @@ export class CommentComponent extends React.Component {
     this.props.getValueFromEditComment(e.target.value)
   }
 
-  handleHideEditor = () => {
-    this.setState({ isEdit: false })
-  }
+  handleHideEditor = () => this.setState({ isEdit: false })
+
+  handleCancel = () => this.setState({ isCancel: true, isEdit: false })
 
   handleOpenEditor = () => {
+    this.setState({ isCancel: false })
     this.setState({ isEdit: true })
   }
 
@@ -58,70 +61,72 @@ export class CommentComponent extends React.Component {
       images,
       stationId,
     } = this.props
-    const { isEdit, value } = this.state
-    if (!isEdit) {
-      return (
-        <React.Fragment>
-          <Text style={{ marginTop: '10px' }}>{content}</Text>
-          <Row style={{ marginTop: 8 }} type="flex">
-            <Col span={24}>
-              <ImageMoreInfo
-                itemInline={3}
-                isEdit={isEdit}
-                commentId={_id}
-                images={images}
-                content={content}
-                stationId={stationId}
-              />
-            </Col>
-          </Row>
-          <Flex>
-            <ButtonLink
-              onClick={this.handleOpenEditor}
-              style={{ padding: '0px' }}
-              type="link"
-            >
-              {translate('stationReview.action.edit')}
-            </ButtonLink>
-            <ButtonLink onClick={() => handleDelete(_id)} type="link">
-              {translate('stationReview.action.delete')}
-            </ButtonLink>
-          </Flex>
-        </React.Fragment>
-      )
-    } else {
-      return (
-        <React.Fragment>
-          <Editor
-            hideEditor={this.handleHideEditor}
-            isEdit={isEdit}
-            handleEdit={handleEdit}
-            _id={_id}
-            value={value}
-            onChange={this.handleChange}
-          />
-          <Row type="flex">
-            <Col span={24}>
-              <ImageMoreInfo
-                itemInline={6}
-                isEdit={isEdit}
-                commentId={_id}
-                images={images}
-                content={content}
-                stationId={stationId}
-              />
-            </Col>
-          </Row>
+    const { isEdit, value, isCancel } = this.state
+    return !isEdit ? (
+      <React.Fragment>
+        <Text style={{ marginTop: '10px' }}>{content}</Text>
+        <Row style={{ marginTop: 8 }} type="flex">
+          <Col span={24}>
+            <ImageMoreInfo
+              ref={instance => {
+                this.child = instance
+              }}
+              isCancel={isCancel}
+              itemInline={3}
+              isEdit={isEdit}
+              commentId={_id}
+              images={images}
+              content={content}
+              stationId={stationId}
+            />
+          </Col>
+        </Row>
+        <Flex>
           <ButtonLink
-            style={{ marginBottom: '8px', padding: '0px' }}
-            onClick={this.handleHideEditor}
+            onClick={this.handleOpenEditor}
+            style={{ padding: '0px' }}
             type="link"
           >
-            {translate('stationReview.action.cancel')}
+            {translate('stationReview.action.edit')}
           </ButtonLink>
-        </React.Fragment>
-      )
-    }
+          <ButtonLink onClick={() => handleDelete(_id)} type="link">
+            {translate('stationReview.action.delete')}
+          </ButtonLink>
+        </Flex>
+      </React.Fragment>
+    ) : (
+      <React.Fragment>
+        <Editor
+          handleImagesSubmit={this.handleImagesSubmit}
+          hideEditor={this.handleHideEditor}
+          isEdit={isEdit}
+          handleEdit={handleEdit}
+          _id={_id}
+          value={value}
+          onChange={this.handleChange}
+        />
+        <Row type="flex">
+          <Col span={24}>
+            <ImageMoreInfo
+              isCancel={isCancel}
+              itemInline={6}
+              isEdit={isEdit}
+              commentId={_id}
+              images={images}
+              content={content}
+              stationId={stationId}
+            />
+          </Col>
+        </Row>
+        <ButtonLink
+          style={{ marginBottom: '8px', padding: '0px' }}
+          onClick={this.handleCancel}
+          type="link"
+        >
+          {translate('stationReview.action.cancel')}
+        </ButtonLink>
+      </React.Fragment>
+    )
   }
 
   render() {
@@ -143,7 +148,9 @@ export class CommentComponent extends React.Component {
               <Text
                 style={{ marginLeft: '10px', color: 'gray', fontSize: '13px' }}
               >
-                {moment(createdAt).locale(this.props.locale).fromNow()}
+                {moment(createdAt)
+                  .locale(this.props.locale)
+                  .fromNow()}
               </Text>
             </Flex>
             {this.renderContent()}

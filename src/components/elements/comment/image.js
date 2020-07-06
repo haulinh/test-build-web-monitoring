@@ -114,14 +114,33 @@ export default class ImageMoreInfo extends React.Component {
     uploading: false,
     images: this.props.images,
     items: [],
+    itemsCached: [],
     fileList: [],
   }
 
   componentDidMount() {
     this.setState({
       images: this.props.images,
+      imagesCached: this.props.images,
       items: this.getImages(this.state.images),
+      itemsCached: this.getImages(this.state.images),
     })
+  }
+
+  onSubmitImages = () => {
+    this.setState(
+      { imagesCached: this.state.images, itemsCached: this.state.items },
+      () => this.handleUpdateStation()
+    )
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.isCancel !== prevProps.isCancel) {
+      this.setState({
+        items: this.state.itemsCached,
+        images: this.state.imagesCached,
+      })
+    }
   }
 
   getUrlMedia(url) {
@@ -187,23 +206,19 @@ export default class ImageMoreInfo extends React.Component {
       stationId: this.props.stationId,
       images: this.state.images,
     })
-    message.success(translate('stationAutoManager.update.success'))
+    // message.success(translate('stationAutoManager.update.success'))
   }, 1200)
 
   handleDeleteImage = index => () => {
-    this.setState(
-      prevState =>
-        update(prevState, {
-          images: {
-            $splice: [[index, 1]],
-          },
-          items: {
-            $splice: [[index, 1]],
-          },
-        }),
-      () => {
-        this.handleUpdateStation()
-      }
+    this.setState(prevState =>
+      update(prevState, {
+        images: {
+          $splice: [[index, 1]],
+        },
+        items: {
+          $splice: [[index, 1]],
+        },
+      })
     )
   }
 
@@ -224,8 +239,8 @@ export default class ImageMoreInfo extends React.Component {
   )
 
   renderImages = () => {
-    const images = this.state.items
     const { itemInline, isEdit } = this.props
+    const images = this.state.items
 
     return (
       <React.Fragment>
@@ -271,7 +286,8 @@ export default class ImageMoreInfo extends React.Component {
   }
 
   render() {
-    const images = this.state.items
+    console.log('this.state.images :>> ', this.state.images)
+    const images = this.getImages(this.state.images)
     return (
       <React.Fragment>
         <Wrapper type="flex" gutter={[16, 16]}>

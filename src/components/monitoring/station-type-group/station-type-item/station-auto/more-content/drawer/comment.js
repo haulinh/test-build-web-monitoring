@@ -26,7 +26,6 @@ export default class StationComment extends React.Component {
   state = {
     isLoading: false,
     data: {},
-    comments: [],
     submitting: false,
     value: '',
     valueFromEditComment: '',
@@ -76,7 +75,7 @@ export default class StationComment extends React.Component {
   }
 
   handleSubmit = async () => {
-    if (!this.state.value && !this.state.images) return
+    if (_.isEmpty(this.state.images) & !this.state.value) return
     this.setState({
       submitting: true,
     })
