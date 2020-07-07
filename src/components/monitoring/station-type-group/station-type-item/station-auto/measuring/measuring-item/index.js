@@ -88,6 +88,15 @@ const Dot = styled.div`
   margin-right: 8px;
 `
 
+const MeasuringName = styled.span`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 75px;
+  margin-right: 12px;
+  font-weight: 100;
+`
+
 @autobind
 export default class MeasuringItem extends React.PureComponent {
   static propTypes = {
@@ -189,7 +198,9 @@ export default class MeasuringItem extends React.PureComponent {
           <MeasuringItemText
             style={{ color: this.getColorLevel(), marginTop: 4, fontSize: 16 }}
           >
-            <span style={{ marginRight: 8, fontWeight: 100 }}>{name}</span>
+            <Tooltip title={name}>
+              <MeasuringName>{name}</MeasuringName>
+            </Tooltip>
             <MeasuringValue color={this.getColorLevel()}>
               {value !== undefined ? getFormatNumber(value) : ''}{' '}
               {unit ? (
