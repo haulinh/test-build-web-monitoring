@@ -91,8 +91,8 @@ export default class TableList extends React.PureComponent {
       }
     })
     const searchFormData = {
-      fromDate: fromDate,
-      toDate: toDate,
+      fromDate,
+      toDate,
       key: station.key,
       name: station.name,
       type: this.props.type,
@@ -185,7 +185,7 @@ export default class TableList extends React.PureComponent {
   handleExportExcel() {
     const searchFormData = this.getSearchFormData(this.state.tabKey)
     this.setState({ isExporting: true }, async () => {
-      let res = await DataStationAutoApi.getStationStationAutoExportAvg(
+      let res = await DataStationAutoApi.getDataStationAutoExportAvg(
         searchFormData
       )
       if (res.success) window.open(res.data, '_blank')
