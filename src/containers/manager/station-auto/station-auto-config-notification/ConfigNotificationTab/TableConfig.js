@@ -1,14 +1,12 @@
 import React from 'react'
 import update from 'immutability-helper'
-import { Table, Input, Button, Typography, message, Row, Col } from 'antd'
+import { Table, Input, Button, message } from 'antd'
 import Clearfix from 'components/elements/clearfix'
 import Frequency from './Frequency'
 import { translate } from 'hoc/create-lang'
 import OrganizationApi from 'api/OrganizationApi'
 import swal from 'sweetalert2'
 import styled from 'styled-components'
-
-const { Title } = Typography
 
 const i18n = {
   submit: translate('addon.save'),

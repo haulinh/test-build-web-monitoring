@@ -97,7 +97,7 @@ export default class DefaultCell extends React.Component {
     return '#ebecf0'
   }
   render() {
-    const { isHoverOnCell, isHoverOnIconRead } = this.state
+    // const { isHoverOnCell, isHoverOnIconRead } = this.state
     const { icon, content, data } = this.props
     const { receivedAt, _id } = data
     // const _icon = `${getConfigApi().media}/${icon}` // Qui bỏ dùng anh phát vì khong dùng
