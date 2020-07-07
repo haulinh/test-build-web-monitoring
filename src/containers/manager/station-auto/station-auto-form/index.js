@@ -505,7 +505,7 @@ export default class StationAutoForm extends React.PureComponent {
                   )}
                 </FormItem>
               </Col>
-              <Col span={12}>
+              {/* <Col span={12}>
                 <FormItem
                   {...formItemLayout}
                   label={t('stationAutoManager.form.typeSampling.label')}
@@ -519,8 +519,8 @@ export default class StationAutoForm extends React.PureComponent {
                     </Radio.Group>
                   )}
                 </FormItem>
-              </Col>
-              <Col span={12}>
+              </Col> */}
+              {/* <Col span={12}>
                 <FormItem
                   {...formItemLayout}
                   label={t('stationAutoManager.form.dayOfOperation.label')}
@@ -536,7 +536,7 @@ export default class StationAutoForm extends React.PureComponent {
                     />
                   )}
                 </FormItem>
-              </Col>
+              </Col> */}
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
