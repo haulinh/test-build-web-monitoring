@@ -127,13 +127,6 @@ export default class ImageMoreInfo extends React.Component {
     })
   }
 
-  onSubmitImages = () => {
-    this.setState(
-      { imagesCached: this.state.images, itemsCached: this.state.items },
-      () => this.handleUpdateStation()
-    )
-  }
-
   componentDidUpdate(prevProps) {
     if (this.props.isCancel !== prevProps.isCancel) {
       this.setState({
@@ -141,6 +134,15 @@ export default class ImageMoreInfo extends React.Component {
         images: this.state.imagesCached,
       })
     }
+  }
+
+
+{/*Function save cached images after submit */}
+  onSubmitImages = () => {
+    this.setState(
+      { imagesCached: this.state.images, itemsCached: this.state.items },
+      () => this.handleUpdateStation()
+    )
   }
 
   getUrlMedia(url) {
