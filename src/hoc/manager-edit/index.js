@@ -2,7 +2,6 @@ import React from 'react'
 import { message } from 'antd'
 import { autobind } from 'core-decorators'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
-import * as _ from 'lodash'
 const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
   @createLanguage
   @autobind

@@ -2,7 +2,7 @@ import React from 'react'
 import propTypes from 'prop-types'
 import _ from 'lodash'
 import { connectAutoDispatch } from 'redux/connect'
-import { Spin, Icon, Input, Row, Col, Skeleton } from 'antd'
+import { Spin, Icon, Input, Row, Skeleton } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
 import { withRouter } from 'react-router'
 // import { COLOR_STATUS } from 'themes/color';

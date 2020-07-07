@@ -334,7 +334,7 @@ export default class SamplingMoreInfo extends React.Component {
     const isFullBottles = sampledBottles >= totalBottles
     const isSampling = status !== STATUS_SAMPLING.READY
     // NOTE  -- MOCK DATA
-    let { isActivedOverRange } = this.state
+    // let { isActivedOverRange } = this.state
     return (
       <div style={{ padding: 8 }}>
         {/* -- FORM NHAP SO CHAI -- */}

@@ -24,7 +24,6 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import FilterListMenu from './menu'
 import FormFilter from './form/ModalForm'
-import { Router } from 'react-router'
 import slug from 'constants/slug'
 
 const Flex = styled.div`
