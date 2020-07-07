@@ -25,7 +25,8 @@ export default function SensorGoodCell(props) {
   )
 
   const icon = {
-    type: 'tool',
+    // type: 'tool',
+    type: 'good',
     color: 'red',
   }
 

@@ -63,7 +63,11 @@ export default class DefaultCell extends React.Component {
 
     /* comp's props */
     setDrawerVisible: PropTypes.func.isRequired,
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+      PropTypes.object,
+    ]),
     content: PropTypes.element.isRequired,
     data: PropTypes.object.isRequired,
   }
@@ -106,8 +110,8 @@ export default class DefaultCell extends React.Component {
         type="flex"
         align="middle"
         style={{
-          padding: '20px',
-          height: 100,
+          padding: '16px 24px',
+          // height: 100,
           backgroundColor: this.getNotificationColor(),
           borderBottom: '1px solid #dddfe2',
           cursor: 'pointer',
@@ -116,20 +120,27 @@ export default class DefaultCell extends React.Component {
         onMouseLeave={() => this.setState({ isHoverOnCell: false })}
       >
         <Col span={20} onClick={() => this._handleCellOnClick(data)}>
-          <Row
-            style={{
-              height: '100%',
-            }}
-          >
-            {/* icon */}
-            <Col span={5} className="notify-image">
-              <Icon
+          <Row type="flex" style={{ height: '100%' }}>
+            <img
+              width={25}
+              height={25}
+              alt={icon.type}
+              src={`images/notification/${icon.type}.svg`}
+              style={{ marginRight: 12 }}
+            />
+            {/* <svg
+                dangerouslySetInnerHTML={{
+                  __html: `public/images/notification/${icon.type}.svg`,
+                }}
+              /> */}
+            {/* {``} */}
+            {/* <Icon
                 type={icon.type}
                 theme="outlined"
                 height="100%"
                 style={{ fontSize: '40px', color: icon.color }}
-              />
-            </Col>
+              /> */}
+            {/* </Col> */}
 
             {/* contents */}
             <Col span={19} className="notify-content">
@@ -176,7 +187,7 @@ export default class DefaultCell extends React.Component {
                     style={{ fontSize: '16px' }}
                     type="close-circle"
                     theme="filled"
-                    onClick={() => this._hanldeDeleteOneNotification(_id)}
+                    onClick={() => this._handleDeleteOneNotification(_id)}
                   />
                 </Tooltip>
               )}
@@ -233,7 +244,7 @@ export default class DefaultCell extends React.Component {
     )
   }
 
-  _hanldeDeleteOneNotification = notificationId => {
+  _handleDeleteOneNotification = notificationId => {
     this.props.deleteOneNotification(notificationId)
   }
   renderMenu = data => (

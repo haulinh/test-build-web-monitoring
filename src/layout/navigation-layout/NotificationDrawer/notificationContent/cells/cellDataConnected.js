@@ -23,7 +23,8 @@ export default function DataConnectedCell(props) {
   )
 
   const icon = {
-    type: 'smile',
+    // type: 'smile',
+    type: 'good',
     color: 'green',
   }
 

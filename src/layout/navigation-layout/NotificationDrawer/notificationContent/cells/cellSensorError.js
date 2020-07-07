@@ -25,7 +25,8 @@ export default function SensorErrorCell(props) {
   )
 
   const icon = {
-    type: 'tool',
+    // type: 'tool',
+    type: 'sensorError',
     color: 'red',
   }
 

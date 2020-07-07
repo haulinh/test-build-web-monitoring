@@ -25,7 +25,8 @@ export default function DataExceededCell(props) {
   )
 
   const icon = {
-    type: 'frown',
+    // type: 'frown',
+    type: 'exceeded',
     color: 'red',
   }
 

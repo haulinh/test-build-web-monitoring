@@ -23,7 +23,8 @@ export default function DataLossCell(props) {
   )
 
   const icon = {
-    type: 'frown',
+    // type: 'frown',
+    type: 'dataLoss',
     color: 'grey',
   }
 

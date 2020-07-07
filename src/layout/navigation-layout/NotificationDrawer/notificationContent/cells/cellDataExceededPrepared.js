@@ -25,7 +25,8 @@ export default function DataExceededPreparedCell(props) {
   )
 
   const icon = {
-    type: 'meh',
+    // type: 'meh',
+    type: 'exceededPrepared',
     color: 'yellow',
   }
 
