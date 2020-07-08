@@ -31,8 +31,17 @@ export default class ProvinceEdit extends React.PureComponent {
     isLoaded: PropTypes.bool,
   }
 
+  state = {
+    dataSource: null,
+  }
+
   async handleSubmit(data) {
-    this.props.onUpdateItem(data)
+    if (this.props.onUpdateItem) {
+      this.props.onUpdateItem(data)
+      this.setState({
+        dataSource: data,
+      })
+    }
     //const key = this.props.match.params.key
   }
 
@@ -91,7 +100,9 @@ export default class ProvinceEdit extends React.PureComponent {
           {this.props.isLoaded && this.props.success && (
             <ProvinceForm
               isLoading={this.props.isUpdating}
-              initialValues={this.cleanData()}
+              initialValues={
+                this.state.dataSource ? this.state.dataSource : this.cleanData()
+              }
               onSubmit={this.handleSubmit}
               isEdit={true}
             />

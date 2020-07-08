@@ -60,7 +60,16 @@ const ValueText = styled.span`
 
 function validate(values) {
   const errors = {}
-
+  if (values.phone === undefined || !values.phone) {
+    errors.phone = translate('userManager.form.phone.empty')
+  } else {
+    const phoneNumber = values.phone.phoneNumber
+      .replace(/\-/g, '') // eslint-disable-line no-useless-escape
+      .replace('+' + values.phone.dialCode, 0)
+    if (phoneNumber.length < 9) {
+      errors.phone = translate('userManager.form.phone.format')
+    }
+  }
   return errors
 }
 

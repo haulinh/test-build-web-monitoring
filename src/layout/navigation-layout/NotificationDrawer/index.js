@@ -15,14 +15,18 @@ import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
 
 const SideBarNotificationWrapper = styled(Drawer)`
+  .ant-drawer-header {
+    padding: 16px;
+  }
   .ant-drawer-wrapper-body {
     overflow: hidden;
   }
+  .tools {
+    display: flex;
+  }
 `
 const DeleteMarkWrapper = styled.div`
-  position: absolute;
-  right: 16px;
-  bottom: 0px;
+  margin-right: 8px;
 `
 
 const TitleWrapper = styled.div`
@@ -110,37 +114,38 @@ export default class NotificationDrawer extends React.Component {
                 </NotificationWrapperIcon>
                 <h4>{i18n.label}</h4>
               </div>
-
-              <a className="close" href="_blank" onClick={this.closeDrawer}>
-                <CrossIcon />
-              </a>
-            </TitleWrapper>
-            <DeleteMarkWrapper>
-              <div>
-                {this.props.dataSource.length > 0 &&
-                  this._areAllNotificationsRead() && (
-                    <a
-                      onClick={this._handleDeleteAllNotification}
-                      style={{
-                        color: '#385898',
-                      }}
-                    >
-                      {i18n.removeAll}
-                    </a>
-                  )}
-                {this.props.dataSource.length > 0 &&
-                  !this._areAllNotificationsRead() && (
-                    <a
-                      onClick={this.checkReadAll}
-                      style={{
-                        color: '#385898',
-                      }}
-                    >
-                      {i18n.markAll}
-                    </a>
-                  )}
+              <div className="tools">
+                <DeleteMarkWrapper>
+                  <div>
+                    {this.props.dataSource.length > 0 &&
+                      this._areAllNotificationsRead() && (
+                        <a
+                          onClick={this._handleDeleteAllNotification}
+                          style={{
+                            color: '#385898',
+                          }}
+                        >
+                          {i18n.removeAll}
+                        </a>
+                      )}
+                    {this.props.dataSource.length > 0 &&
+                      !this._areAllNotificationsRead() && (
+                        <a
+                          onClick={this.checkReadAll}
+                          style={{
+                            color: '#385898',
+                          }}
+                        >
+                          {i18n.markAll}
+                        </a>
+                      )}
+                  </div>
+                </DeleteMarkWrapper>
+                <a className="close" href="_blank" onClick={this.closeDrawer}>
+                  <CrossIcon />
+                </a>
               </div>
-            </DeleteMarkWrapper>
+            </TitleWrapper>
           </div>
         }
         placement="left"
