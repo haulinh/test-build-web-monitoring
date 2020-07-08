@@ -10,8 +10,8 @@ import {
   Upload,
   Modal,
   DatePicker,
-  Radio,
-  Checkbox,
+  // Radio,
+  // Checkbox,
   Collapse,
 } from 'antd'
 import PropTypes from 'prop-types'
