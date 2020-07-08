@@ -15,6 +15,11 @@ import {
 import { ROUND_DIGIT } from 'constants/format-number'
 
 const ChartWrapper = styled.div``
+const SelectWrapper = styled.span`
+  &:hover {
+    cursor: pointer;
+  }
+`
 
 ReactHighcharts.Highcharts.setOptions({
   global: {
@@ -328,7 +333,7 @@ export default class ChartRowToChart extends React.Component {
     return (
       <ChartWrapper>
         <Dropdown overlay={this.menu()} trigger={['click']}>
-          <span>
+          <SelectWrapper>
             <span style={{ color: 'blue', minWidth: 80 }}>
               {translate('dashboard.chartRatio.byDay', {
                 day: this.state.day,
@@ -336,7 +341,7 @@ export default class ChartRowToChart extends React.Component {
               {`  `}
             </span>
             <Icon type="down" />
-          </span>
+          </SelectWrapper>
         </Dropdown>
         <ReactHighcharts config={this.getConfigData()} />
         <Tabs

@@ -94,8 +94,8 @@ const BtnAdd = props => (
 @connect(state => ({
   packageInfo: state.auth.userInfo.organization.packageInfo,
 }))
-@autobind
 @withRouter
+@autobind
 export default class StationAutoSearchForm extends React.PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,

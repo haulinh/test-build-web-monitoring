@@ -46,7 +46,6 @@ const IconToggle = styled.span`
   margin-right: 4px;
   font-size: 10px;
   position: relative;
-  top: -3px;
   ${props => (props.isOpen ? `transform: rotate(90deg);` : ``)};
 `
 
@@ -64,11 +63,11 @@ const LinkSpan = styled.span`
 `
 
 @withRouter
-@autobind
 @connect(state => ({}), {
   selectMenu,
   changeOpenSubMenu,
 })
+@autobind
 export class ChartSummary extends React.Component {
   static propTypes = {
     title: PropTypes.string,

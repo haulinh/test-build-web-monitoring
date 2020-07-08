@@ -73,8 +73,8 @@ export const defaultFilter = {
   changeOpenSubMenu,
 })
 @withRouter
-@autobind
 @protectRole(ROLE.MONITORING_BY_LIST.VIEW)
+@autobind
 export default class MonitoringGeneral extends React.Component {
   state = {
     isLoading: false,
