@@ -122,8 +122,8 @@ export default class DefaultCell extends React.Component {
         <Col span={20} onClick={() => this._handleCellOnClick(data)}>
           <Row type="flex" style={{ height: '100%' }}>
             <img
-              width={25}
-              height={25}
+              width={40}
+              height={40}
               alt={icon.type}
               src={`/images/notification/${icon.type}.svg`}
               style={{ marginRight: 12 }}
@@ -215,28 +215,28 @@ export default class DefaultCell extends React.Component {
                   />
                 </Tooltip>
               ) : (
-                <Tooltip placement="right" title={i18n.tickUnRead}>
-                  <div
-                    onMouseEnter={() =>
-                      this.setState({ isHoverOnIconRead: true })
-                    }
-                    onMouseLeave={() =>
-                      this.setState({ isHoverOnIconRead: false })
-                    }
-                    onClick={() => this._handleUpdateNotReadOne(_id)}
-                    style={{
-                      borderWidth: '4px',
-                      borderStyle: 'solid',
-                      width: '16px',
-                      height: '16px',
-                      borderRadius: 16,
-                      backgroundColor: this.getNotificationColorForIcon(),
+                  <Tooltip placement="right" title={i18n.tickUnRead}>
+                    <div
+                      onMouseEnter={() =>
+                        this.setState({ isHoverOnIconRead: true })
+                      }
+                      onMouseLeave={() =>
+                        this.setState({ isHoverOnIconRead: false })
+                      }
+                      onClick={() => this._handleUpdateNotReadOne(_id)}
+                      style={{
+                        borderWidth: '4px',
+                        borderStyle: 'solid',
+                        width: '16px',
+                        height: '16px',
+                        borderRadius: 16,
+                        backgroundColor: this.getNotificationColorForIcon(),
 
-                      borderColor: '#ebecf0',
-                    }}
-                  />
-                </Tooltip>
-              )}
+                        borderColor: '#ebecf0',
+                      }}
+                    />
+                  </Tooltip>
+                )}
             </Col>
           </Row>
         </Col>
