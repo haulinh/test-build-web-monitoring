@@ -183,6 +183,7 @@ export default {
     colMin: 'Tối thiểu',
     colMax: 'Tối đa',
     colColor: 'Màu chữ',
+    colBatBuoc:'Bắt buộc',
     colBackgroundColor: 'Màu nền',
     colDescription: 'Chú thích',
     colMeasureKey: 'Mã thông số',
