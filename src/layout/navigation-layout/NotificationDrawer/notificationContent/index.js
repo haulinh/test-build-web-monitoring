@@ -2,9 +2,10 @@ import React from 'react'
 import propTypes from 'prop-types'
 import _ from 'lodash'
 import { connectAutoDispatch } from 'redux/connect'
-import { Spin, Icon, Input, Row, Skeleton } from 'antd'
+import { Spin, Icon, Input, Skeleton } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
 import { withRouter } from 'react-router'
+import styled from 'styled-components'
 // import { COLOR_STATUS } from 'themes/color';
 import {
   loadNotificationsByType,
@@ -13,6 +14,10 @@ import {
 import { translate } from 'hoc/create-lang'
 
 import Cells from './cells'
+
+const NotificationSearchWrapper = styled.div`
+  padding: 16px;
+`
 
 const { Search } = Input
 
@@ -92,7 +97,7 @@ export default class NotificationContent extends React.Component {
     const { loading, dataSource, stationAuto, currentPage } = this.props
     return (
       <div>
-        <Row>
+        <NotificationSearchWrapper>
           <Search
             style={{ boxShadow: '4px 4px 6px #eee' }}
             placeholder={i18n.timKiem}
@@ -105,7 +110,7 @@ export default class NotificationContent extends React.Component {
               this.handleOnChange(_.trim(value))
             }}
           />
-        </Row>
+        </NotificationSearchWrapper>
 
         {this.state.isSearchLoading && (
           <Skeleton avatar paragraph={{ rows: 4 }} />

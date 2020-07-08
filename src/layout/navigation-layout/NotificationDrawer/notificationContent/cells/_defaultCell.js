@@ -125,7 +125,7 @@ export default class DefaultCell extends React.Component {
               width={25}
               height={25}
               alt={icon.type}
-              src={`images/notification/${icon.type}.svg`}
+              src={`/images/notification/${icon.type}.svg`}
               style={{ marginRight: 12 }}
             />
             {/* <svg
