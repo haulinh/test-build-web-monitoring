@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { Card } from 'antd'
 // import Player from "../player-view";
 import Player from '/components/elements/video-player'
-import { Link } from 'react-router-dom'
-import slug from 'constants/slug'
-import * as _ from 'lodash'
+// import { Link } from 'react-router-dom'
+// import slug from 'constants/slug'
+// import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 
 const { Meta } = Card
@@ -31,8 +31,8 @@ export default class ListItemView extends React.Component {
       src,
       stationName,
       name,
-      _id,
-      stationType: { key },
+      // _id,
+      // stationType: { key },
     } = this.props.camera
 
     return (
@@ -52,17 +52,17 @@ export default class ListItemView extends React.Component {
           />
         }
       >
-        <Link
+        {/* <Link
           onClick={this.handleCamera}
           to={`${
             slug.cameraControl.detailWithKey
           }/${key}/${_id}?name=${encodeURIComponent(_.deburr(name))}`}
-        >
-          <Meta
-            title={name}
-            description={<DescriptionView>{stationName}</DescriptionView>}
-          />
-        </Link>
+        > */}
+        <Meta
+          title={name}
+          description={<DescriptionView>{stationName}</DescriptionView>}
+        />
+        {/* </Link> */}
       </Card>
     )
   }
