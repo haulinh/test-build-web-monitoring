@@ -210,6 +210,7 @@ export default class StatusDataReport extends React.Component {
             dataIndex: 'analyze',
             align: 'center',
             key: '7',
+            width: 180,
             render: value => {
               return (
                 <div style={{ textAlign: 'center' }}>
@@ -273,6 +274,7 @@ export default class StatusDataReport extends React.Component {
             dataIndex: 'analyze',
             align: 'center',
             key: 'minTime',
+            width: 180,
             render: value => {
               return (
                 <div style={{ textAlign: 'center' }}>
