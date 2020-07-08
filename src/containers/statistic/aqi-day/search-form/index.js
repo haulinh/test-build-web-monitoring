@@ -140,13 +140,10 @@ export default class SearchForm extends React.Component {
   }
 
   handleChangeDate = (fromDate, toDate) => {
-    const fromTime = moment(fromDate)
+    const fromTime = moment(fromDate).startOf("days")
       .utc()
       .format()
-    const toTime = moment(toDate)
-      .hour(0)
-      .minute(0)
-      .second(0)
+    const toTime = moment(toDate).endOf("days")
       .utc()
       .format()
     this.setState({
