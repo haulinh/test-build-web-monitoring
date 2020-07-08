@@ -4,15 +4,13 @@ import { withRouter } from 'react-router'
 import MediaApi from 'api/MediaApi'
 import update from 'immutability-helper'
 import { v4 as uuidV4 } from 'uuid'
-import { Row, Col, Upload, Icon, message, Spin, Popconfirm } from 'antd'
+import { Row, Col, Upload, Icon, Spin, Popconfirm } from 'antd'
 import Button from 'components/elements/button'
 import styled from 'styled-components'
 import { getConfigApi } from 'config'
 import swal from 'sweetalert2'
 import { translate } from 'hoc/create-lang'
-import debounce from 'lodash/debounce'
 import Gallery from 'components/elements/gallery'
-import { editEvaluateStation } from 'api/StationAuto'
 
 const Wrapper = styled(Row)`
   .ant-upload {
@@ -105,44 +103,45 @@ export default class ImageMoreInfo extends React.Component {
     commentId: PropTypes.string,
     isEdit: PropTypes.bool,
     itemInline: PropTypes.number,
+
+    onChange: PropTypes.func,
   }
   static defaultProps = {}
 
-  state = {
-    visible: false,
-    loading: false,
-    uploading: false,
-    images: this.props.images,
-    items: [],
-    itemsCached: [],
-    fileList: [],
+  constructor(props) {
+    super(props)
+    this.state = {
+      visible: false,
+      loading: false,
+      uploading: false,
+      images: props.images,
+      value: props.content,
+      items: this.getImages(props.images),
+      fileList: [],
+    }
   }
 
   componentDidMount() {
     this.setState({
       images: this.props.images,
-      imagesCached: this.props.images,
       items: this.getImages(this.state.images),
-      itemsCached: this.getImages(this.state.images),
     })
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.isCancel !== prevProps.isCancel) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isCancel !== this.props.isCancel) {
       this.setState({
-        items: this.state.itemsCached,
-        images: this.state.imagesCached,
+        value: nextProps.value,
+        images: nextProps.images,
+        items: this.getImages(nextProps.images),
       })
     }
   }
 
-
-{/*Function save cached images after submit */}
-  onSubmitImages = () => {
-    this.setState(
-      { imagesCached: this.state.images, itemsCached: this.state.items },
-      () => this.handleUpdateStation()
-    )
+  handleOnChange = () => {
+    if (this.props.onChange) {
+      this.props.onChange(this.state)
+    }
   }
 
   getUrlMedia(url) {
@@ -189,38 +188,42 @@ export default class ImageMoreInfo extends React.Component {
           ],
           uploading: false,
         }),
-        async () => {
-          await this.handleUpdateStation()
+        () => {
+          // await this.handleUpdateStation()
+          this.handleOnChange()
         }
       )
-      if (this.props.onChange) {
-        this.props.onChange(file.response.url)
-      }
+      // if (this.props.onChange) {
+      //   this.props.onChange(file.response.url)
+      // }
     }
-    if (fileList.length === 0) {
-      if (this.props.onChange) this.props.onChange('')
-    }
+    // if (fileList.length === 0) {
+    //   if (this.props.onChange) this.props.onChange('')
+    // }
   }
 
-  handleUpdateStation = debounce(async () => {
-    await editEvaluateStation({
-      _id: this.props.commentId,
-      stationId: this.props.stationId,
-      images: this.state.images,
-    })
-    // message.success(translate('stationAutoManager.update.success'))
-  }, 1200)
+  // handleUpdateStation = debounce(async () => {
+  //   await editEvaluateStation({
+  //     _id: this.props.commentId,
+  //     stationId: this.props.stationId,
+  //     images: this.state.images,
+  //   })
+  // }, 1200)
 
   handleDeleteImage = index => () => {
-    this.setState(prevState =>
-      update(prevState, {
-        images: {
-          $splice: [[index, 1]],
-        },
-        items: {
-          $splice: [[index, 1]],
-        },
-      })
+    this.setState(
+      prevState =>
+        update(prevState, {
+          images: {
+            $splice: [[index, 1]],
+          },
+          items: {
+            $splice: [[index, 1]],
+          },
+        }),
+      () => {
+        this.handleOnChange()
+      }
     )
   }
 
@@ -288,7 +291,6 @@ export default class ImageMoreInfo extends React.Component {
   }
 
   render() {
-    console.log('this.state.images :>> ', this.state.images)
     const images = this.getImages(this.state.images)
     return (
       <React.Fragment>

@@ -23,7 +23,7 @@ export default class ModalForm extends React.Component {
     return (
       <Modal
         visible={visible}
-        title="Lưu bộ lọc"
+        title={translate('avgSearchFrom.filterForm.title')}
         onOk={onCreate}
         okText={translate('addon.save')}
         onCancel={onCancel}
@@ -32,23 +32,22 @@ export default class ModalForm extends React.Component {
         bodyStyle={{ padding: '16px 24px' }}
       >
         <FormWrapper>
-          <Content>
-            Dữ liệu chọn lọc theo các trường được tạo bởi bạn sẽ được lưu trữ
-            khi bạn đặt tên cho bộ lọc này.
-          </Content>
+          <Content>{translate('avgSearchFrom.filterForm.description')}</Content>
           <Form layout="vertical">
-            <Form.Item label="Tên bộ lọc">
+            <Form.Item label={translate('avgSearchFrom.filterForm.name.label')}>
               {getFieldDecorator('name', {
                 rules: [
                   {
                     required: true,
-                    message: 'Please input your name filter!',
+                    message: translate('avgSearchFrom.filterForm.name.isEmpty'),
                   },
                 ],
               })(
                 <Input
                   size="large"
-                  placeholder="Please input your name filter!"
+                  placeholder={translate(
+                    'avgSearchFrom.filterForm.name.placeholder'
+                  )}
                 />
               )}
             </Form.Item>

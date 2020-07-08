@@ -1,8 +1,8 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
+import { connect } from 'react-redux'
 import { Tabs, message } from 'antd'
 import _ from 'lodash'
-import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow'
@@ -26,17 +26,25 @@ const TitleWrapper = styled.div`
   }
 `
 
+@connect(state => ({
+  fromDate: state.form['dataSearchFilterForm'].values.fromDate,
+  toDate: state.form['dataSearchFilterForm'].values.toDate,
+  advanced: state.form['dataSearchFilterForm'].values.advanced
+    ? state.form['dataSearchFilterForm'].values.advanced.filter(
+        item =>
+          item.measuringKey &&
+          item.operator &&
+          item.value !== null &&
+          typeof item.value !== 'undefined'
+      )
+    : [],
+  dataStatus: state.form['dataSearchFilterForm'].values.dataStatus || [],
+}))
 @autobind
 export default class TableList extends React.PureComponent {
   static propTypes = {
     stationsData: PropTypes.array,
     type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    searchData: PropTypes.shape({
-      fromDate: PropTypes.string,
-      toDate: PropTypes.string,
-      advanced: PropTypes.array,
-      dataStatus: PropTypes.array,
-    }),
   }
 
   static defaultProps = {
@@ -58,16 +66,20 @@ export default class TableList extends React.PureComponent {
     }
   }
 
-  getData = stationKey => {
+  getStation = stationKey => {
     const { stationsData } = this.props
-    const station = stationsData.find(station => station.key === stationKey)
+    let station = stationsData[0]
+    if (stationKey) {
+      station = stationsData.find(station => station.key === stationKey)
+    }
+
     return station
   }
 
   getSearchFormData = stationKey => {
     if (!stationKey) return
-    const station = this.getData(stationKey)
-    const { fromDate, toDate } = this.props.searchData
+    const station = this.getStation(stationKey)
+    const { fromDate, toDate } = this.props
     const measuringListUnitStr = station.measuringList.map(item => {
       const itemFind = _.find(station.measuringData, obj => {
         return obj.key === item
@@ -79,16 +91,16 @@ export default class TableList extends React.PureComponent {
       }
     })
     const searchFormData = {
-      fromDate: fromDate,
-      toDate: toDate,
+      fromDate,
+      toDate,
       key: station.key,
       name: station.name,
       type: this.props.type,
       measuringListUnitStr,
       measuringList: station.measuringList,
       measuringData: station.measuringData,
-      advanced: this.props.searchData.advanced,
-      dataStatus: this.props.searchData.dataStatus,
+      advanced: this.props.advanced,
+      dataStatus: this.props.dataStatus,
     }
     return searchFormData
   }
@@ -107,13 +119,15 @@ export default class TableList extends React.PureComponent {
     return stationsData.filter(station => station.view)
   }
 
-  componentDidUpdate(prevProps) {
-    const prevStationsDataView = this.getStationDataView(prevProps.stationsData)
-    const stationsDataView = this.getStationDataView(this.props.stationsData)
-
+  componentWillReceiveProps(nextProps) {
+    const prevStationsDataView = this.getStationDataView(
+      this.props.stationsData
+    )
+    const stationsDataView = this.getStationDataView(nextProps.stationsData)
     if (!_.isEqual(stationsDataView, prevStationsDataView)) {
       const stationKey = _.get(stationsDataView, '[0].key', undefined)
       if (!stationKey) return
+      this.handleChangeTab(stationKey)
       const searchFormData = this.getSearchFormData(stationKey)
       this.setState({ dataStationAuto: [] }, () => {
         this.loadData(this.state.pagination, searchFormData)
@@ -150,13 +164,9 @@ export default class TableList extends React.PureComponent {
   }
 
   handleChangePage = pagination => {
-    // const station = this.getData(this.state.tabKey)
+    // const station = this.getStation(this.state.tabKey)
     const searchFormData = this.getSearchFormData(this.state.tabKey)
     this.loadData(pagination, searchFormData)
-  }
-
-  convertDateToString = date => {
-    return moment(date, 'YYYY-MM-DD HH:mm').toISOString()
   }
 
   handleChangeTab = tabKey => {

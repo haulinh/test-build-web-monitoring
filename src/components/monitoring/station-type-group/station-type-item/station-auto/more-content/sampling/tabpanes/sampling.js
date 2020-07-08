@@ -334,7 +334,7 @@ export default class SamplingMoreInfo extends React.Component {
     const isFullBottles = sampledBottles >= totalBottles
     const isSampling = status !== STATUS_SAMPLING.READY
     // NOTE  -- MOCK DATA
-    let { isActivedOverRange } = this.state
+    // let { isActivedOverRange } = this.state
     return (
       <div style={{ padding: 8 }}>
         {/* -- FORM NHAP SO CHAI -- */}
@@ -543,7 +543,7 @@ export default class SamplingMoreInfo extends React.Component {
             </Button>
           )}
           {/* NOTE  nút này chưa cần xử lý*/}
-          <Button
+          {/* <Button
             block
             type="primary"
             style={{ ...STATUS_COLOR[isActivedOverRange && 'ACTIVED'] }}
@@ -552,7 +552,7 @@ export default class SamplingMoreInfo extends React.Component {
             }
           >
             {isActivedOverRange ? i18n.activedOverRange : i18n.activeOverRange}
-          </Button>
+          </Button> */}
         </Row>
       </div>
     )

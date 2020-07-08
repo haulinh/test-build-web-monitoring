@@ -10,8 +10,8 @@ import {
   Upload,
   Modal,
   DatePicker,
-  Radio,
-  Checkbox,
+  // Radio,
+  // Checkbox,
   Collapse,
 } from 'antd'
 import PropTypes from 'prop-types'
@@ -505,7 +505,7 @@ export default class StationAutoForm extends React.PureComponent {
                   )}
                 </FormItem>
               </Col>
-              <Col span={12}>
+              {/* <Col span={12}>
                 <FormItem
                   {...formItemLayout}
                   label={t('stationAutoManager.form.typeSampling.label')}
@@ -519,7 +519,7 @@ export default class StationAutoForm extends React.PureComponent {
                     </Radio.Group>
                   )}
                 </FormItem>
-              </Col>
+              </Col> */}
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
@@ -537,7 +537,7 @@ export default class StationAutoForm extends React.PureComponent {
                   )}
                 </FormItem>
               </Col>
-              <Col span={12}>
+              {/* <Col span={12}>
                 <FormItem
                   {...formItemLayout}
                   label={t('stationAutoManager.form.isStopWorking.label')}
@@ -546,7 +546,7 @@ export default class StationAutoForm extends React.PureComponent {
                     valuePropName: 'checked',
                   })(<Checkbox />)}
                 </FormItem>
-              </Col>
+              </Col> */}
             </Row>
             <Row gutter={8}>
               <Col span={24} style={{ paddingRight: 40 }}>

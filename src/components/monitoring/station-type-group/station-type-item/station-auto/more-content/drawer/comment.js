@@ -1,5 +1,5 @@
 import React from 'react'
-import { Divider, Comment, Avatar, Spin } from 'antd'
+import { Divider, Comment, Avatar, Spin, message } from 'antd'
 import styled from 'styled-components'
 import moment from 'moment'
 import update from 'immutability-helper'
@@ -64,14 +64,12 @@ export default class StationComment extends React.Component {
     })
   }
 
-  getValueFromEditComment = value => {
+  setValueFromEditComment = value => {
     this.setState({ valueFromEditComment: value })
   }
 
-  handleChange = e => {
-    this.setState({
-      value: e.target.value,
-    })
+  handleOnChange = ({ value, images }) => {
+    this.setState({ value, images })
   }
 
   handleSubmit = async () => {
@@ -92,39 +90,51 @@ export default class StationComment extends React.Component {
       createdAt: data.createdAt,
       images: data.images,
     }
-    this.setState({
-      submitting: false,
-      value: '',
-      data: [...this.state.data, newComment],
-    })
+    this.setState(
+      {
+        submitting: false,
+        value: '',
+        data: [...this.state.data, newComment],
+      },
+      () => {
+        message.success(translate('addon.onSave.add.success'))
+      }
+    )
   }
 
-  handleDelete = _id => {
-    this.setState({
-      data: [...this.state.data].filter(comment => comment._id !== _id),
-    })
-    deleteEvaluateStation(_id)
+  handleDelete = async _id => {
+    this.setState(
+      {
+        data: [...this.state.data].filter(comment => comment._id !== _id),
+      },
+      async () => {
+        await deleteEvaluateStation(_id)
+        message.success(translate('addon.onDelete.success'))
+      }
+    )
   }
 
-  handleEdit = _id => {
+  handleEdit = async ({ _id, value, images }) => {
     const indexComment = this.state.data.findIndex(
       comment => comment._id === _id
     )
     const comment = { ...this.state.data[indexComment] }
-    comment.content = this.state.valueFromEditComment
-
+    comment.content = value
+    comment.images = images
     const data = [...this.state.data]
     data[indexComment] = comment
 
-    this.setState({ data })
-
     const editedComment = {
-      content: this.state.valueFromEditComment,
+      content: value,
+      images,
       stationId: this.props.stationId,
       _id,
     }
+    await editEvaluateStation(editedComment)
 
-    editEvaluateStation(editedComment)
+    this.setState({ data }, () => {
+      message.success(translate('addon.onSave.update.success'))
+    })
   }
 
   render() {
@@ -146,7 +156,7 @@ export default class StationComment extends React.Component {
                   key={comment._id}
                   handleDelete={this.handleDelete}
                   handleEdit={this.handleEdit}
-                  getValueFromEditComment={this.getValueFromEditComment}
+                  // onChangeEditor={this.setValueFromEditComment}
                 />
               ))
             : null}
@@ -156,12 +166,9 @@ export default class StationComment extends React.Component {
             content={
               <Editor
                 value={value}
-                onChange={this.handleChange}
+                onChange={this.handleOnChange}
                 onSubmit={this.handleSubmit}
                 submitting={submitting}
-                onResetImage={this.handleResetImage}
-                onAddImage={this.handleAddImage}
-                onDeleteImage={this.handleDeleteImage}
                 images={this.state.images}
                 placeholder={translate('stationReview.form.placeholder')}
               />

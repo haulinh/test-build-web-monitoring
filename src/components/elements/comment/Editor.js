@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   Row,
   Col,
@@ -10,6 +11,7 @@ import {
   Spin,
   Popconfirm,
 } from 'antd'
+import update from 'immutability-helper'
 import styled from 'styled-components'
 import { getConfigApi } from 'config'
 import MediaApi from 'api/MediaApi'
@@ -101,27 +103,66 @@ const ImageComponent = ({
 }
 
 export default class Editor extends React.Component {
-  state = {
-    isLoading: false,
+  static propTypes = {
+    onSubmitEdit: PropTypes.func,
+    onHideEditor: PropTypes.func,
+    onSubmit: PropTypes.func,
+
+    onChange: PropTypes.func,
+
+    isEdit: PropTypes.bool,
+    value: PropTypes.string,
+    images: PropTypes.array,
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLoading: false,
+      value: props.value,
+      images: props.images,
+    }
   }
 
   handleSubmit = () => {
     if (this.props.isEdit) {
-      this.props.handleEdit(this.props._id)
-      this.props.hideEditor()
+      this.props.onSubmitEdit({
+        _id: this.props._id,
+        value: this.state.value,
+        images: this.props.images,
+      })
+      this.props.onHideEditor()
     } else {
       this.props.onSubmit()
-      this.props.onResetImage()
+      this.handleReset()
     }
   }
 
-  handleImageChange = ({ fileList, file, event }) => {
+  handleReset = () => {
+    this.setState({ value: '', images: [] }, () => {
+      this.handleOnChange()
+    })
+  }
+
+  handleAddImage = ({ fileList, file, event }) => {
     if (file.status === 'uploading') {
       this.setState({ isLoading: true })
     }
     if (file.status === 'done') {
-      this.setState({ isLoading: false })
-      this.props.onAddImage(file.response.file.path)
+      this.setState(
+        prevState =>
+          update(prevState, {
+            images: {
+              $push: [file.response.file.path],
+            },
+            isLoading: {
+              $set: false,
+            },
+          }),
+        () => {
+          this.handleOnChange()
+        }
+      )
     }
   }
 
@@ -130,24 +171,39 @@ export default class Editor extends React.Component {
   }
 
   handleDeleteImage = index => () => {
-    this.props.onDeleteImage(index)
+    this.setState(
+      prevState =>
+        update(prevState, {
+          images: {
+            $splice: [[index, 1]],
+          },
+        }),
+      () => {
+        this.handleOnChange()
+      }
+    )
+  }
+
+  handleOnChange = () => {
+    if (this.props.onChange) {
+      this.props.onChange(this.state)
+    }
+  }
+
+  handleOnChangeEditor = e => {
+    this.setState({ value: e.target.value }, () => {
+      this.handleOnChange()
+    })
   }
 
   render() {
-    const {
-      onChange,
-      submitting,
-      value,
-      isEdit,
-      images,
-      placeholder,
-    } = this.props
+    const { submitting, isEdit, placeholder } = this.props
     return (
       <div style={{ marginTop: !isEdit ? '0px' : '10px' }}>
         {!isEdit && (
           <React.Fragment>
             <Row type="flex" gutter={[16, 16]}>
-              {images.map((image, index) => (
+              {this.state.images.map((image, index) => (
                 <Col span={4} key={index}>
                   <ImageComponent
                     itemInline={4}
@@ -155,7 +211,7 @@ export default class Editor extends React.Component {
                     image={this.getUrlMedia(image)}
                     index={index}
                     isHide={index > 3}
-                    imageLength={images.length}
+                    imageLength={this.state.images.length}
                   />
                 </Col>
               ))}
@@ -165,9 +221,11 @@ export default class Editor extends React.Component {
         <Form.Item>
           <Flex isEdit={isEdit}>
             <TextArea
-              style={{ maxWidth: '80%' }}
-              onChange={onChange}
-              value={value}
+              style={{
+                marginRight: 16,
+              }}
+              onChange={this.handleOnChangeEditor}
+              value={this.state.value}
               placeholder={placeholder}
             />
             <Upload
@@ -177,15 +235,21 @@ export default class Editor extends React.Component {
               showUploadList={false}
               accept=".jpg, .png, .svg, jpeg"
               action={MediaApi.urlPhotoUploadWithDirectory('station')}
-              onChange={this.handleImageChange}
+              onChange={this.handleAddImage}
             >
-              <Button shape="circle-outline" size="large">
-                {this.state.isLoading ? (
-                  <Spin />
-                ) : (
-                  <Icon type="picture" theme="outlined" />
-                )}
-              </Button>
+              {!this.props.isEdit && (
+                <Button
+                  style={{ marginRight: 8 }}
+                  shape="circle-outline"
+                  size="large"
+                >
+                  {this.state.isLoading ? (
+                    <Spin />
+                  ) : (
+                    <Icon type="picture" theme="outlined" />
+                  )}
+                </Button>
+              )}
             </Upload>
             <Button
               shape="circle-outline"
@@ -195,7 +259,9 @@ export default class Editor extends React.Component {
               loading={submitting}
               onClick={this.handleSubmit}
             >
-              <i className="fa fa-paper-plane" aria-hidden="true" />
+              {!submitting && (
+                <i className="fa fa-paper-plane" aria-hidden="true" />
+              )}
             </Button>
           </Flex>
         </Form.Item>

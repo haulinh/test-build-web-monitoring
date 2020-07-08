@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { warningLevelImages } from 'constants/assets'
+// import { warningLevelImages } from 'constants/assets'
 import { translate } from 'hoc/create-lang'
 import DefaultCell from './_defaultCell'
 import { BoldTextWrap } from './_helperComponent'
@@ -23,7 +23,8 @@ export default function DataConnectedCell(props) {
   )
 
   const icon = {
-    type: 'smile',
+    // type: 'smile',
+    type: 'good',
     color: 'green',
   }
 

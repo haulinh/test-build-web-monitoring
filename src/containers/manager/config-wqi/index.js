@@ -1,7 +1,7 @@
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import TabsStationAuto from './tabs-station-auto'
-import TabsStationFixed from './tabs-station-fixed'
+// import TabsStationFixed from './tabs-station-fixed'
 import stationAutoApi from 'api/StationAuto'
 import stationFixedApi from 'api/StationFixedApi'
 import stationConfigApi from 'api/StationConfigApi'
@@ -102,7 +102,8 @@ export default class ConfigWQIContainer extends React.Component {
                 stationTypeAuto={this.state.stationTypeAuto}
               />
             </TabPane>
-            <TabPane
+            {/* PCA-1010 */}
+            {/* <TabPane
               tab={
                 <span>
                   <Icon type="cluster" />
@@ -117,7 +118,7 @@ export default class ConfigWQIContainer extends React.Component {
                 handleSuccess={this.handleSuccess}
                 stationTypeFixed={this.state.stationTypeFixed}
               />
-            </TabPane>
+            </TabPane> */}
           </Tabs>
         </PageContainer>
       </div>

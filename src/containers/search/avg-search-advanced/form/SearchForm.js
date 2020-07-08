@@ -41,6 +41,40 @@ const FSelectAnt = createValidateComponent(SelectAnt)
 const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
 const FOptionsDatePicker = createValidateComponent(SelectDatePicker)
 
+const initializeValue = (props, callback) => {
+  const initialValues = props.initialValues
+    ? {
+        stationType: '',
+        provinceKey: '',
+        ...props.initialValues,
+        rangesDate:
+          Number(props.initialValues.rangesDate) ||
+          props.initialValues.rangesDate ||
+          1,
+        type:
+          Number(props.initialValues.type) || props.initialValues.type || 15,
+        fromDate: props.initialValues.fromDate
+          ? props.initialValues.fromDate
+          : moment()
+              .subtract(props.initialValues.rangesDate || 1, 'days')
+              .toISOString(),
+        toDate: props.initialValues.toDate
+          ? props.initialValues.toDate
+          : moment().toISOString(),
+      }
+    : {
+        stationType: '',
+        provinceKey: '',
+        rangesDate: 1,
+        type: 15,
+        fromDate: moment()
+          .subtract(1, 'days')
+          .toISOString(),
+        toDate: moment().toISOString(),
+      }
+  callback(initialValues)
+}
+
 const HeaderWrapper = styled.div`
   color: blue;
   display: flex;
@@ -92,24 +126,18 @@ const HeadingText = styled.span`
   }
 `
 
-@connect((state, ownProps) => ({
-  initialValues: {
-    ...(ownProps.initialValues
-      ? {
-          stationType: '',
-          provinceKey: '',
-          ...ownProps.initialValues,
-          rangesDate: Number(ownProps.initialValues.rangesDate) || 1,
-          type: Number(ownProps.initialValues.type) || 15,
-        }
-      : {
-          stationType: '',
-          provinceKey: '',
-          rangesDate: 1,
-          type: 15,
-        }),
-  },
-}))
+const options = {
+  typeSampling: [
+    { name: 'FTP', value: 'FTP' },
+    { name: 'INVENTIA', value: 'INVENTIA' },
+  ],
+  dataStatus: dataStatusOptions.map(option => ({
+    ...option,
+    name: translate(option.label),
+  })),
+}
+
+// rangeView
 @reduxForm({
   form: 'dataSearchFilterForm',
   validate,
@@ -117,7 +145,7 @@ const HeadingText = styled.span`
   keepDirtyOnReinitialize: true,
   updateUnregisteredFields: true,
 })
-@connect((state, ownProps) => ({
+@connect(state => ({
   values: _.get(state, 'form.dataSearchFilterForm.values', {}),
 }))
 @createLang
@@ -126,9 +154,9 @@ export default class SearchAvgForm extends React.Component {
   static propTypes = {
     initialValues: PropTypes.object,
     searchNow: PropTypes.bool,
+    onSubmit: PropTypes.func,
     onPreventSave: PropTypes.func,
     onSearchStationAuto: PropTypes.func,
-    onChangeSearchData: PropTypes.func,
     flagResetForm: PropTypes.bool,
   }
 
@@ -138,336 +166,120 @@ export default class SearchAvgForm extends React.Component {
 
   constructor(props) {
     super(props)
-    let fromDate = props.initialValues.fromDate
-      ? moment(props.initialValues.fromDate)
-      : moment().subtract(props.initialValues.rangesDate, 'days')
-    let toDate = props.initialValues.toDate
-      ? moment(props.initialValues.toDate)
-      : moment()
-    let timeRange = props.initialValues.rangesDate
+    initializeValue(props, props.initialize)
+    const { fromDate, toDate } = props.values
     let rangesView = null
-    if (props.initialValues.searchRange) {
-      rangesView = `${fromDate.format(DD_MM_YYYY_HH_MM)} - ${toDate.format(
-        DD_MM_YYYY_HH_MM
-      )}`
-      timeRange = null
+
+    if (props.initialValues.rangesDate === 'ranges') {
+      rangesView = `${moment(fromDate).format(DD_MM_YYYY_HH_MM)} -
+      ${moment(toDate).format(DD_MM_YYYY_HH_MM)}`
     }
 
     this.state = {
-      fromDate,
-      toDate,
-      timeRange,
       rangesView,
-      provinceKey: props.initialValues.provinceKey,
-      stationTypeKey: props.initialValues.stationType,
-      stationAutoKey: props.initialValues.stationAuto,
-      measuringData: props.measuringData ? props.measuringData : [],
-      measuringList: props.measuringData
-        ? props.measuringData.map(measuring => ({
-            value: measuring.key,
-            name: measuring.name,
-          }))
-        : [],
-      receivedAt:
-        moment(props.initialValues.receivedAt) ||
-        this.props.initialValues.toDate,
-      isSearchInit: props.initialValues.stationAuto ? false : true,
       filterList: listFilter.filter(filter => props.initialValues[filter.key]),
-      dataStatus: dataStatusOptions.map(option => ({
-        ...option,
-        name: this.props.lang.t(option.label),
-      })),
-      typeSampling: [
-        {
-          name: 'FTP',
-          value: 'FTP',
-        },
-        {
-          name: 'INVENTIA',
-          value: 'INVENTIA',
-        },
-      ],
     }
   }
 
   async componentDidMount() {
-    this.handleChangeSearchData()
     if (this.props.searchNow) {
-      let params = {
-        stationType: this.props.initialValues.stationType,
-        provinceKey: this.props.initialValues.provinceKey,
-        // dataStatus: this.props.initialValues.dataStatus,
-        standardKey: this.props.initialValues.standardKey,
-        frequent: this.props.initialValues.frequent,
-        activatedAt: this.props.initialValues.activatedAt,
-        typeSampling: this.props.initialValues.typeSampling,
-      }
-      await this.props.onSearchStationAuto(params)
+      const searchStationData = this.getSearchStationData(
+        this.props.initialValues
+      )
+      await this.props.onSearchStationAuto(searchStationData)
       this.props.handleSubmit(this.handleSubmit)()
     }
   }
-
-  handleChangeSearchData = () => {
-    const params = {
-      fromDate: this.convertDateToString(this.state.fromDate),
-      toDate: this.convertDateToString(this.state.toDate),
-      advanced: this.props.values.advanced
-        ? this.props.values.advanced.filter(
-            item =>
-              item.measuringKey &&
-              item.operator &&
-              item.value !== null &&
-              typeof item.value !== 'undefined'
-          )
-        : [],
-      dataStatus: this.props.values.dataStatus,
+  getSearchStationData = newProps => {
+    return {
+      stationType: newProps.stationType,
+      provinceKey: newProps.provinceKey,
+      // dataStatus: newProps.dataStatus,
+      standardKey: newProps.standardKey,
+      frequent: newProps.frequent,
+      activatedAt: newProps.activatedAt,
+      typeSampling: newProps.typeSampling,
     }
-    this.props.onChangeSearchData(params)
   }
 
   async componentWillReceiveProps(nextProps) {
     if (
-      this.state.fromDate !== nextProps.fromDate ||
-      this.state.toDate !== nextProps.toDate ||
-      !_.isEqual(this.props.values.advanced, nextProps.values.advanced) ||
-      !_.isEqual(this.props.values.dataStatus, nextProps.values.dataStatus)
+      !_.isEqual(nextProps.initialValues, this.props.initialValues) ||
+      !_.isEqual(nextProps.flagResetForm, this.props.flagResetForm)
     ) {
-      const params = {
-        fromDate: this.convertDateToString(this.state.fromDate),
-        toDate: this.convertDateToString(this.state.toDate),
-        dataStatus: nextProps.values.dataStatus,
-        advanced: nextProps.values.advanced
-          ? nextProps.values.advanced.filter(
-              item =>
-                item.measuringKey &&
-                item.operator &&
-                item.value !== null &&
-                typeof item.value !== 'undefined'
-            )
-          : [],
+      initializeValue(nextProps, this.props.initialize)
+      // Change time
+      const { fromDate, toDate } = nextProps.values
+      let rangesView = null
+      if (nextProps.initialValues.rangesDate === 'ranges') {
+        rangesView = `${moment(fromDate).format(DD_MM_YYYY_HH_MM)} - ${moment(
+          toDate
+        ).format(DD_MM_YYYY_HH_MM)}`
       }
-      this.props.onChangeSearchData(params)
+      this.setState({
+        rangesView,
+        filterList: listFilter.filter(
+          filter => nextProps.initialValues[filter.key]
+        ),
+      })
     }
-    if (!_.isEqual(nextProps.initialValues, this.props.initialValues)) {
-      const filterList = listFilter.filter(
-        filter => nextProps.initialValues[filter.key]
-      )
-      this.setState({ filterList })
-      this.initializeValue(nextProps)
-      if (nextProps.searchNow) {
-        let params = {
-          stationType: nextProps.values.stationType,
-          provinceKey: nextProps.values.provinceKey,
-          // dataStatus: nextProps.values.dataStatus,
-          standardKey: nextProps.values.standardKey,
-          frequent: nextProps.values.frequent,
-          activatedAt: this.convertDateToString(nextProps.values.activatedAt),
-          typeSampling: nextProps.values.typeSampling,
-          // dataStatus: nextProps.values.dataStatus,
-        }
-        await this.props.onSearchStationAuto(params)
-        this.props.handleSubmit(this.handleSubmit)()
-        // this.props.handleSubmit(this.props.onSubmit)()
-      }
-    }
-    if (!_.isEqual(nextProps.flagResetForm, this.props.flagResetForm)) {
-      this.initializeValue(this.props)
-    }
-    if (!_.isEqual(this.props.values, nextProps.values)) {
-      if (
-        this.props.values.type !== nextProps.values.type ||
-        this.props.values.rangesDate !== nextProps.values.rangesDate ||
-        !_.isEqual(this.props.values.dataStatus, nextProps.values.dataStatus) ||
-        !_.isEqual(this.props.values.advanced, nextProps.values.advanced)
-      )
-        return
-      let params = {
-        stationType: nextProps.values.stationType,
-        provinceKey: nextProps.values.provinceKey,
-        standardKey: nextProps.values.standardKey,
-        frequent: nextProps.values.frequent,
-        activatedAt: this.convertDateToString(nextProps.values.activatedAt),
-        typeSampling: nextProps.values.typeSampling,
-      }
-      await this.props.onSearchStationAuto(params)
-    }
-  }
+    const nextValues = _.clone(nextProps.values)
+    const currentValues = _.clone(this.props.values)
 
-  initializeValue = props => {
-    const initialValues = props.initialValues
-      ? {
-          stationType: '',
-          provinceKey: '',
-          ...props.initialValues,
-          rangesDate: Number(props.initialValues.rangesDate) || 1,
-          type: Number(props.initialValues.type) || 15,
-        }
-      : {
-          stationType: '',
-          provinceKey: '',
-          rangesDate: 1,
-          type: 15,
-        }
-    this.props.initialize(initialValues)
-  }
-
-  handleChangeStationType = stationTypeKey => {
-    this.setState({
-      stationTypeKey: stationTypeKey.key || '',
-      stationAutoKey: '',
+    const listKeys = [
+      'type',
+      'rangesDate',
+      'dataStatus',
+      'advanced',
+      'fromDate',
+      'toDate',
+    ]
+    listKeys.forEach(key => {
+      delete nextValues[key]
+      delete currentValues[key]
     })
-    this.props.change('stationAuto', '')
+    if (!_.isEqual(nextProps.values, this.props.values)) {
+      if (!_.isEqual(nextValues, currentValues)) {
+        const searchStationData = this.getSearchStationData(nextProps.values)
+        await this.props.onSearchStationAuto(searchStationData)
+        if (nextProps.searchNow) {
+          this.props.handleSubmit(this.handleSubmit)()
+        }
+      }
+    }
   }
 
-  handleChangeStationAuto = stationAuto => {
-    let params = {}
-    if (!stationAuto) return
-    const measuringData = stationAuto.measuringList.sort(function(a, b) {
-      return a.numericalOrder - b.numericalOrder
-    })
-
-    params = {
-      measuringList: measuringData.map(measuring => ({
-        value: measuring.key,
-        name: measuring.name,
-      })),
-      measuringData: measuringData,
-      stationAutoKey: stationAuto.key,
-      stationAutoName: stationAuto.name,
-      receivedAt: moment(),
-    }
-
-    const time = _.get(stationAuto, 'lastLog.receivedAt')
-    if (time) {
-      params.receivedAt = moment(time)
-    }
-
-    if (this.state.timeRange) {
-      params.fromDate = params.receivedAt
-        .clone()
-        .subtract(this.state.timeRange, 'days')
-      params.toDate = params.receivedAt.clone()
-    }
-
-    this.setState(params)
-
-    this.props.change(
-      'measuringList',
-      measuringData.map(m => m.key)
-    )
-  }
-
-  convertDateToString = date => {
-    return moment(date, 'YYYY-MM-DD HH:mm').toISOString()
-  }
-
-  // handleSubmit = values => {
-  // const measuringListUnitStr = values.measuringList.map(item => {
-  //   const itemFind = _.find(this.state.measuringData, obj => {
-  //     return obj.key === item
-  //   })
-  //   if (itemFind) {
-  //     return encodeURIComponent(_.get(itemFind, 'unit', ''))
-  //   } else {
-  //     return ''
-  //   }
-  // })
-
-  // let params = {
-  //   fromDate: this.convertDateToString(this.state.fromDate),
-  //   toDate: this.convertDateToString(this.state.toDate),
-  //   key: values.stationAuto,
-  //   name: this.state.stationAutoName,
-  //   type: values.type,
-  //   measuringListUnitStr,
-  //   measuringList: values.measuringList,
-  //   measuringData: this.state.measuringData,
-  // }
-
-  //   this.props.onSubmit(params)
-  // }
-
-  // handleSubmit = values => {
-  //   const params = Object.entries(values).reduce((acc, [key, value]) => {
-  //     if (value) acc[key] = value
-  //     return acc
-  //   , {})
-
-  //   // this.props.onSubmit(params)
-  //   if (this.props.onSearchStationAuto) {
-  //     this.props.onSearchStationAuto(params)
-  //   }
-  // }
-
-  handleSubmit = values => {
-    let params = {
-      fromDate: this.convertDateToString(this.state.fromDate),
-      toDate: this.convertDateToString(this.state.toDate),
-      dataStatus: values.dataStatus,
-      advanced: values.advanced
-        ? values.advanced.filter(
-            item =>
-              item.measuringKey &&
-              item.operator &&
-              item.value !== null &&
-              typeof item.value !== 'undefined'
-          )
-        : [],
-    }
-    this.props.onSubmit(params)
+  handleSubmit = () => {
+    this.props.onSubmit()
   }
 
   handleChangeRanges = ranges => {
+    const { change } = this.props
     if (_.isNumber(ranges)) {
+      const fromDate = moment().subtract(ranges, 'days')
+      const toDate = moment()
+      change('fromDate', fromDate.toISOString())
+      change('toDate', toDate.toISOString())
+
       this.setState({
         timeRange: ranges,
-        fromDate: this.state.receivedAt.clone().subtract(ranges, 'days'),
-        toDate: this.state.receivedAt.clone(),
+        fromDate,
+        toDate,
+        rangesView: '',
       })
     } else {
       if (_.size(ranges) > 1) {
         const [fromDate, toDate] = ranges
-        this.setState({ timeRange: null, fromDate, toDate })
-      }
-    }
-  }
-
-  handleProvinceChange = province => {
-    this.setState({
-      provinceKey: province ? province.key : '',
-      stationAutoKey: '',
-    })
-
-    this.props.change('stationAuto', null)
-  }
-
-  searchInit = () => {
-    if (!this.state.isSearchInit) {
-      return
-    }
-    // return
-    // NOTE  do gấp, code chạy còn thừa, chưa có time check
-    if (
-      this.StationType &&
-      this.StationType.getFirstValue &&
-      this.StationAuto
-    ) {
-      this.handleChangeStationType(this.StationType.getFirstValue())
-      this.StationType.setFirstValue()
-      this.props.change('stationType', this.StationType.getFirstValue().key)
-
-      let stationAutoData = this.StationAuto.getStationAutos()
-      if (stationAutoData.length > 0) {
-        this.handleChangeStationAuto(stationAutoData[0])
-        this.props.change('stationAuto', stationAutoData[0].key)
-        this.setState(
-          {
-            stationAutoKey: stationAutoData[0].key,
-          },
-          () => {
-            this.props.handleSubmit(this.handleSubmit)()
-          }
-        )
+        change('fromDate', fromDate.toISOString())
+        change('toDate', toDate.toISOString())
+        this.setState({
+          timeRange: null,
+          fromDate,
+          toDate,
+          rangesView: `${fromDate.format(DD_MM_YYYY_HH_MM)} - ${toDate.format(
+            DD_MM_YYYY_HH_MM
+          )}`,
+        })
       }
     }
   }
@@ -628,7 +440,7 @@ export default class SearchAvgForm extends React.Component {
                 isShowAll
                 placeholder={t('province.placeholder')}
                 component={FSelectProvince}
-                onHandleChange={this.handleProvinceChange}
+                // onHandleChange={this.handleProvinceChange}
               />
             </Col>
             <Col span={6}>
@@ -639,38 +451,13 @@ export default class SearchAvgForm extends React.Component {
                 name="stationType"
                 size="large"
                 placeholder={t('stationType.placeholder')}
-                onHandleChange={this.handleChangeStationType}
                 component={FSelectStationType}
                 getRef={ref => {
                   this.StationType = ref
-                  this.searchInit()
                 }}
               />
             </Col>
-            {/* <Col span={6}>
-              <Field
-                label={t('stationAuto.label')}
-                placeholder={t('stationAuto.placeholder')}
-                name="stationAuto"
-                onChangeObject={this.handleChangeStationAuto}
-                stationTypeKey={_.get(this.props.values, 'stationType', null)}
-                provinceKey={_.get(this.props.values, 'province', null)}
-                size="large"
-                component={FSelectStationAuto}
-              />
-            </Col>
-            <Col span={6}>
-              <Field
-                label={t('measuringList.label')}
-                name="measuringList"
-                placeholder={t('measuringList.placeholder')}
-                size="large"
-                showSearch
-                mode="multiple"
-                options={this.state.measuringList}
-                component={FSelectAnt}
-              />
-            </Col> */}
+
             <Col span={6}>
               <Field
                 label={t('time')}
@@ -678,7 +465,6 @@ export default class SearchAvgForm extends React.Component {
                 size="large"
                 onChangeObject={this.handleChangeRanges}
                 component={FOptionsTimeRange}
-                value={this.state.rangesView}
                 rangesView={this.state.rangesView}
               />
             </Col>
@@ -701,7 +487,7 @@ export default class SearchAvgForm extends React.Component {
                     style={{ width: '100%' }}
                     // alowClear
                     mode={filter.mode}
-                    options={this.state[filter.key]}
+                    options={options[filter.key]}
                     placeholder={t(`${filter.key}.placeholder`)}
                     component={this.getComponent(filter.key)}
                   />

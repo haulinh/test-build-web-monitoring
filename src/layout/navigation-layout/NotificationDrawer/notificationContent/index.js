@@ -2,7 +2,7 @@ import React from 'react'
 import propTypes from 'prop-types'
 import _ from 'lodash'
 import { connectAutoDispatch } from 'redux/connect'
-import { Spin, Icon, Input, Row, Col, Skeleton } from 'antd'
+import { Spin, Icon, Input, Row, Skeleton } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
 import { withRouter } from 'react-router'
 // import { COLOR_STATUS } from 'themes/color';
@@ -42,8 +42,9 @@ const i18n = {
 export default class NotificationContent extends React.Component {
   static propTypes = {
     /* component's props */
-    tabName: propTypes.string.isRequired,
+    // tabName: propTypes.string.isRequired,
     isEmptyNotification: propTypes.bool.isRequired,
+    closeDrawer: propTypes.func,
     /* redux's props */
     stationAuto: propTypes.array.isRequired,
     loading: propTypes.bool.isRequired,
@@ -70,7 +71,7 @@ export default class NotificationContent extends React.Component {
     )
   }
 
-  hanldeOnChange = _.debounce(value => {
+  handleOnChange = _.debounce(value => {
     const {
       stationAuto,
       // , currentPage
@@ -86,6 +87,7 @@ export default class NotificationContent extends React.Component {
       }
     )
   }, 300)
+
   render() {
     const { loading, dataSource, stationAuto, currentPage } = this.props
     return (
@@ -100,7 +102,7 @@ export default class NotificationContent extends React.Component {
                 isSearchLoading: true,
               })
               this.props.clearLoadNotificationsByType()
-              this.hanldeOnChange(_.trim(value))
+              this.handleOnChange(_.trim(value))
             }}
           />
         </Row>
@@ -111,13 +113,12 @@ export default class NotificationContent extends React.Component {
         {!this.state.isSearchLoading && (
           <div style={{ height: '90vh', overflow: 'auto' }}>
             <InfiniteScroll
-              initialLoad={
-                false
-              } /* NOTE : không load chỗ này sẽ dẫn đến vòng lập vô hạn */
+              /* NOTE : không load chỗ này sẽ dẫn đến vòng lập vô hạn */
+              initialLoad={false}
               pageStart={currentPage}
               hasMore={loading}
               threshold={1000}
-              loader={<LoadMoreIcon />}
+              loader={<LoadMoreIcon key={0} />}
               loadMore={page =>
                 this.props.loadNotificationsByType(
                   page,

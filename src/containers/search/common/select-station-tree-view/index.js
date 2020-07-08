@@ -71,7 +71,9 @@ export default class SelectStationTreeView extends React.Component {
         maxTagTextLength={15}
         maxTagPlaceholder={15}
         showCheckedStrategy="SHOW_CHILD"
-        searchPlaceholder={translate("avgSearchFrom.form.stationAuto.placeholder")}
+        searchPlaceholder={translate(
+          'avgSearchFrom.form.stationAuto.placeholder'
+        )}
         style={{
           width: '100%',
         }}

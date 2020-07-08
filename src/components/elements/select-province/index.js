@@ -33,13 +33,23 @@ export default class SelectProvince extends PureComponent {
     if (get(result, 'success', false)) {
       this.setState({
         provinces: get(result, 'data', []),
-        value: get(
-          this.props.value,
-          'key',
-          this.props.isShowAll ? '' : undefined
-        ),
+        value: this.getValue(),
       })
     }
+  }
+
+  getValue = () => {
+    if (
+      typeof this.props.value === 'string' ||
+      Array.isArray(this.props.value)
+    ) {
+      return this.props.value
+    }
+    if (this.props.value !== null && typeof this.props.value === 'object') {
+      return this.props.value.key
+    }
+    if (this.props.isShowAll) return ''
+    return undefined
   }
 
   handleSearch = value => {

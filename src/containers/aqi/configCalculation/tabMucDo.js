@@ -168,7 +168,7 @@ export default class TabMucDo extends React.Component {
         return (
           <Form.Item style={{ marginBottom: 'initial' }}>
             {getFieldDecorator(`levelList[${record.key}].color`, {
-              initialValue: '#fff',
+              initialValue: '#ffffff',
               rules: [
                 {
                   required: true,

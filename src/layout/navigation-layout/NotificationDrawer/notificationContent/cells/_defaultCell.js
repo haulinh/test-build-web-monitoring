@@ -2,25 +2,30 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
-import { Row, Col, Tooltip, Dropdown, Menu, message, Icon, Button } from 'antd'
+import { connect } from 'react-redux'
+
+import { Row, Col, Tooltip, Menu, message, Icon } from 'antd'
 import styled from 'styled-components'
 
 import { translate } from 'hoc/create-lang'
 import { connectAutoDispatch } from 'redux/connect'
 import { updateNotifyRead } from 'redux/actions/notification'
 import { setDrawerVisible } from 'redux/actions/notification'
-import { connect } from 'react-redux'
-import { getConfigApi } from 'config'
 import {
   deleteOneNotification,
   updateNotReadOneNotification,
   updateReadOneNotification,
 } from 'redux/actions/notification'
+require('moment/locale/vi')
+require('moment/locale/en-sg')
 
 const i18n = {
   viewDataAroundExceededTime: translate(
     'stationAutoManager.list.notification.actions.viewDataAroundExceededTime'
   ),
+  delele: translate('notification.delele'),
+  tickRead: translate('notification.tickRead'),
+  tickUnRead: translate('notification.tickUnRead'),
 }
 //View data around this time
 const MultilineText = styled(Row)`
@@ -35,6 +40,9 @@ const MultilineText = styled(Row)`
   display: -webkit-box;
 `
 
+@connect(state => ({
+  locale: state.language.locale,
+}))
 @withRouter
 @connectAutoDispatch(
   state => ({ isMarkedReadAll: state.notification.isMarkedReadAll }),
@@ -55,7 +63,11 @@ export default class DefaultCell extends React.Component {
 
     /* comp's props */
     setDrawerVisible: PropTypes.func.isRequired,
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+      PropTypes.object,
+    ]),
     content: PropTypes.element.isRequired,
     data: PropTypes.object.isRequired,
   }
@@ -89,7 +101,7 @@ export default class DefaultCell extends React.Component {
     return '#ebecf0'
   }
   render() {
-    const { isHoverOnCell, isHoverOnIconRead } = this.state
+    // const { isHoverOnCell, isHoverOnIconRead } = this.state
     const { icon, content, data } = this.props
     const { receivedAt, _id } = data
     // const _icon = `${getConfigApi().media}/${icon}` // Qui bỏ dùng anh phát vì khong dùng
@@ -98,8 +110,8 @@ export default class DefaultCell extends React.Component {
         type="flex"
         align="middle"
         style={{
-          padding: '20px',
-          height: 100,
+          padding: '16px 24px',
+          // height: 100,
           backgroundColor: this.getNotificationColor(),
           borderBottom: '1px solid #dddfe2',
           cursor: 'pointer',
@@ -108,20 +120,27 @@ export default class DefaultCell extends React.Component {
         onMouseLeave={() => this.setState({ isHoverOnCell: false })}
       >
         <Col span={20} onClick={() => this._handleCellOnClick(data)}>
-          <Row
-            style={{
-              height: '100%',
-            }}
-          >
-            {/* icon */}
-            <Col span={5} className="notify-image">
-              <Icon
+          <Row type="flex" style={{ height: '100%' }}>
+            <img
+              width={25}
+              height={25}
+              alt={icon.type}
+              src={`images/notification/${icon.type}.svg`}
+              style={{ marginRight: 12 }}
+            />
+            {/* <svg
+                dangerouslySetInnerHTML={{
+                  __html: `public/images/notification/${icon.type}.svg`,
+                }}
+              /> */}
+            {/* {``} */}
+            {/* <Icon
                 type={icon.type}
                 theme="outlined"
                 height="100%"
                 style={{ fontSize: '40px', color: icon.color }}
-              />
-            </Col>
+              /> */}
+            {/* </Col> */}
 
             {/* contents */}
             <Col span={19} className="notify-content">
@@ -142,7 +161,9 @@ export default class DefaultCell extends React.Component {
                     fontSize: 12,
                   }}
                 >
-                  {moment(receivedAt).fromNow()}
+                  {moment(receivedAt)
+                    .locale(this.props.locale)
+                    .fromNow()}
                 </Col>
               </Row>
             </Col>
@@ -161,19 +182,19 @@ export default class DefaultCell extends React.Component {
             <Col span={8} />
             <Col span={8}>
               {this.state.isHoverOnCell && (
-                <Tooltip placement="bottom" title="Xoá thông báo này">
+                <Tooltip placement="bottom" title={i18n.delele}>
                   <Icon
                     style={{ fontSize: '16px' }}
                     type="close-circle"
                     theme="filled"
-                    onClick={() => this._hanldeDeleteOneNotification(_id)}
+                    onClick={() => this._handleDeleteOneNotification(_id)}
                   />
                 </Tooltip>
               )}
             </Col>
             <Col span={8}>
               {!data.isRead ? (
-                <Tooltip placement="right" title="Đánh dấu đã đọc">
+                <Tooltip placement="right" title={i18n.tickRead}>
                   <div
                     onMouseEnter={() =>
                       this.setState({ isHoverOnIconRead: true })
@@ -194,7 +215,7 @@ export default class DefaultCell extends React.Component {
                   />
                 </Tooltip>
               ) : (
-                <Tooltip placement="right" title="Đánh dấu chưa đọc">
+                <Tooltip placement="right" title={i18n.tickUnRead}>
                   <div
                     onMouseEnter={() =>
                       this.setState({ isHoverOnIconRead: true })
@@ -223,7 +244,7 @@ export default class DefaultCell extends React.Component {
     )
   }
 
-  _hanldeDeleteOneNotification = notificationId => {
+  _handleDeleteOneNotification = notificationId => {
     this.props.deleteOneNotification(notificationId)
   }
   renderMenu = data => (

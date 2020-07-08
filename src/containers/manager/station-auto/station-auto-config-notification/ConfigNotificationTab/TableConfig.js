@@ -1,13 +1,12 @@
 import React from 'react'
 import update from 'immutability-helper'
-import { Table, Input, Button, Typography, message } from 'antd'
+import { Table, Input, Button, message } from 'antd'
 import Clearfix from 'components/elements/clearfix'
 import Frequency from './Frequency'
 import { translate } from 'hoc/create-lang'
 import OrganizationApi from 'api/OrganizationApi'
 import swal from 'sweetalert2'
-
-const { Title } = Typography
+import styled from 'styled-components'
 
 const i18n = {
   submit: translate('addon.save'),
@@ -22,6 +21,16 @@ const i18n = {
 const showSuccess = msg => {
   message.success(`${msg}`)
 }
+
+const Flex = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  .ant-btn-block {
+    width: inherit !important;
+  }
+`
 
 export default class TableConfig extends React.Component {
   state = {
@@ -134,12 +143,8 @@ export default class TableConfig extends React.Component {
   }
 
   render() {
-    const { title } = this.props
     return (
       <div>
-        <Title level={4}>
-          {translate(`configNotify.headerStatus.${title}`)}
-        </Title>
         <Table
           bordered={true}
           rowKey="_id"
@@ -148,15 +153,18 @@ export default class TableConfig extends React.Component {
           dataSource={this.state.configDetail}
           columns={this.getColumnsTabConfig()}
         />
-        <Clearfix height={20} />
-        <Button
-          block
-          type="primary"
-          onClick={this.update}
-          loading={this.state.isLoadingSubmit}
-        >
-          {i18n.submit}
-        </Button>
+        <Clearfix height={16} />
+        <Flex>
+          <Button
+            block
+            type="primary"
+            icon="save"
+            onClick={this.update}
+            loading={this.state.isLoadingSubmit}
+          >
+            {i18n.submit}
+          </Button>
+        </Flex>
       </div>
     )
   }

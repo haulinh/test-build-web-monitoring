@@ -1,7 +1,6 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { Field } from 'redux-form'
 import { Row, Col, Collapse, InputNumber, Button } from 'antd'
@@ -48,19 +47,18 @@ export default class AdvancedOperator extends React.PureComponent {
     }
   }
 
-  // state = {
-  //   totalCondition: 1,
-  // }
-
-  handleCreate = index => () => {
+  handleCreate = (index, key) => (_, newValue) => {
     if (!Array.isArray(this.props.value)) return
     const currentItem = this.props.value[index]
     if (
-      _.isEmpty(_.get(currentItem, 'measuringKey', null)) ||
-      _.isEmpty(_.get(currentItem, 'operator', null)) ||
-      _.isEmpty(_.get(currentItem, 'value', null))
-    )
+      !currentItem ||
+      !(currentItem.measuringKey || (key === 'measuringKey' && newValue)) ||
+      !(currentItem.operator || (key === 'operator' && newValue)) ||
+      !(currentItem.value || (key === 'value' && newValue))
+    ) {
       return
+    }
+
     if (index < this.state.totalCondition - 1) return
     this.setState(prevState => ({
       totalCondition: prevState.totalCondition + 1,
@@ -103,8 +101,7 @@ export default class AdvancedOperator extends React.PureComponent {
                       showSearch
                       options={this.props.measuringList}
                       component={FSelectAnt}
-                      onBlur={this.handleCreate(index)}
-                      onFocus={this.handleCreate(index)}
+                      onChange={this.handleCreate(index, 'measuringKey')}
                     />
                   </Col>
                   <Col span={10}>
@@ -115,8 +112,7 @@ export default class AdvancedOperator extends React.PureComponent {
                       showSearch
                       options={operators}
                       component={FSelectAnt}
-                      onBlur={this.handleCreate(index)}
-                      onFocus={this.handleCreate(index)}
+                      onChange={this.handleCreate(index, 'operator')}
                     />
                   </Col>
                   <Col span={4}>
@@ -128,8 +124,7 @@ export default class AdvancedOperator extends React.PureComponent {
                         width: '100%',
                       }}
                       component={FInputNumber}
-                      onBlur={this.handleCreate(index)}
-                      onFocus={this.handleCreate(index)}
+                      onChange={this.handleCreate(index, 'value')}
                     />
                   </Col>
                 </Row>

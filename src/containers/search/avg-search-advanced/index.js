@@ -12,6 +12,11 @@ import OrganizationApi from 'api/OrganizationApi'
 import { toggleNavigation } from 'redux/actions/themeAction'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import { connectAutoDispatch } from 'redux/connect'
+import {
+  updateBreadcrumb,
+  addBreadcrumb,
+  deleteBreadcrumb,
+} from 'shared/breadcrumb/action'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { replaceVietnameseStr } from 'utils/string'
 import Clearfix from 'components/elements/clearfix'
@@ -19,6 +24,7 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import FilterListMenu from './menu'
 import FormFilter from './form/ModalForm'
+import slug from 'constants/slug'
 
 const Flex = styled.div`
   display: flex;
@@ -37,8 +43,9 @@ const Flex = styled.div`
     isOpenNavigation: state.theme.navigation.isOpen,
     stations: _.get(state, 'stationAuto.list', []),
     stationAuto: state.stationAuto,
+    breadcrumbs: state.breadcrumbs,
   }),
-  { toggleNavigation }
+  { toggleNavigation, updateBreadcrumb, addBreadcrumb, deleteBreadcrumb }
 )
 @protectRole(ROLE.AVG_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -53,12 +60,10 @@ export default class AvgSearchAdvanced extends React.Component {
       flagResetForm: false,
 
       allowSave: true,
-      isEdit: false,
 
       isSearchingData: false,
       isSearchingStation: false,
 
-      searchData: {},
       filteredConfigFilter: [],
       configFilter: [],
 
@@ -93,24 +98,111 @@ export default class AvgSearchAdvanced extends React.Component {
     if (!_.isEqual(this.props.values, nextProps.values)) {
       if (this.state.isSearchingData) this.setState({ isSearchingData: false })
     }
-    if (!_.isEqual(nextProps.values, this.props.formData)) {
-      if (nextProps.formData.filterId) {
-        this.setState({ allowSave: true, isEdit: true })
+    if (this.props.formData.filterId !== nextProps.formData.filterId) {
+      const filter = this.state.configFilter.find(
+        filter => filter._id === nextProps.formData.filterId
+      )
+      if (filter) {
+        const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
+        searchObj.searchNow = true
+        searchObj.filterId = filter._id
+        if (nextProps.breadcrumbs.length === 2) {
+          this.props.updateBreadcrumb({
+            id: 'detail',
+            icon: '',
+            href:
+              slug.avgSearchAdvanced.base +
+              '?formData=' +
+              encodeURIComponent(JSON.stringify(searchObj)),
+            name: filter.name,
+            autoDestroy: true,
+          })
+        } else {
+          this.props.addBreadcrumb({
+            id: 'detail',
+            icon: '',
+            href:
+              slug.avgSearchAdvanced.base +
+              '?formData=' +
+              encodeURIComponent(JSON.stringify(searchObj)),
+            name: filter.name,
+            autoDestroy: true,
+          })
+        }
+      } else {
+        this.props.deleteBreadcrumb({ id: 'detail' })
       }
-      this.setState({ allowSave: true })
-    } else {
-      this.setState({ allowSave: false, isEdit: false })
     }
+  }
+
+  getIsEdit = () => {
+    const values = _.clone(this.props.values)
+    const formData = _.clone(this.props.formData)
+    if (formData.rangesDate !== 'ranges') {
+      delete values.fromDate
+      delete values.toDate
+    }
+    return !_.isEqual(values, formData) && !!values.filterId
+  }
+
+  getAllowSave = () => {
+    return (
+      !!this.props.values.stationType &&
+      this.state.allowSave &&
+      !this.props.values.filterId
+    )
   }
 
   getDataOrganization = async () => {
     const organizationInfo = await OrganizationApi.getOrganization(
       this.props.organizationId
     )
-    this.setState({
-      configFilter: _.get(organizationInfo, ['data', 'configFilter']),
-      filteredConfigFilter: _.get(organizationInfo, ['data', 'configFilter']),
-    })
+
+    this.setState(
+      {
+        configFilter: _.get(organizationInfo, ['data', 'configFilter']),
+        filteredConfigFilter: _.get(organizationInfo, ['data', 'configFilter']),
+      },
+      () => {
+        if (this.props.formData.filterId) {
+          const filter = this.state.configFilter.find(
+            filter => filter._id === this.props.formData.filterId
+          )
+          if (filter) {
+            const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
+            searchObj.searchNow = true
+            searchObj.filterId = filter._id
+            if (this.props.breadcrumbs.length === 2) {
+              this.props.updateBreadcrumb({
+                id: 'detail',
+                icon: '',
+                href:
+                  slug.avgSearchAdvanced.base +
+                  '?formData=' +
+                  encodeURIComponent(JSON.stringify(searchObj)),
+                name: filter.name,
+                autoDestroy: true,
+              })
+            } else {
+              this.props.addBreadcrumb({
+                id: 'detail',
+                icon: '',
+                href:
+                  slug.avgSearchAdvanced.base +
+                  '?formData=' +
+                  encodeURIComponent(JSON.stringify(searchObj)),
+                name: filter.name,
+                autoDestroy: true,
+              })
+            }
+          }
+        }
+      }
+    )
+  }
+
+  componentWillUnmount() {
+    this.props.deleteBreadcrumb({ id: 'detail' })
   }
 
   getStationsData = stations => {
@@ -132,20 +224,12 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState({ stationsData })
   }
 
-  handleSearchAvgData = searchData => {
+  handleSearchAvgData = () => {
     if (!this.state.stationKeys.length) {
-      message.warn(translate('avgSearchFrom.table.emptyText'))
+      // message.warn(translate('avgSearchFrom.table.emptyText'))
       return
     }
-    if (!searchData) {
-      this.setState({ isSearchingData: true })
-      return
-    }
-    this.setState({ isSearchingData: true, searchData })
-  }
-
-  handleChangeSearchData = searchData => {
-    this.setState({ searchData })
+    this.setState({ isSearchingData: true })
   }
 
   handleSearchStation = searchStationData => {
@@ -216,8 +300,9 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   rightChildren() {
-    if (!this.state.allowSave) return null
-    if (this.state.isEdit) {
+    const isEdit = this.getIsEdit()
+    const allowSave = this.getAllowSave()
+    if (isEdit) {
       return (
         <Flex>
           <span className="label">{translate('addon.edited')}</span>
@@ -243,6 +328,7 @@ export default class AvgSearchAdvanced extends React.Component {
         </Flex>
       )
     }
+    if (!allowSave) return null
     return (
       <Tooltip
         placement="top"
@@ -263,13 +349,18 @@ export default class AvgSearchAdvanced extends React.Component {
   handleCreateFilter = () => {
     const { form } = this.formRef.props
     const { organizationId } = this.props
+    const rawValues = _.clone(this.props.values)
+    delete rawValues.searchNow
+    delete rawValues.filterId
+    if (rawValues.rangesDate !== 'ranges') {
+      delete rawValues.fromDate
+      delete rawValues.toDate
+    }
     form.validateFields((err, values) => {
-      delete this.props.values.searchNow
-      delete this.props.values.filterId
       if (err) return
       let params = {
         name: values.name,
-        searchUrl: encodeURIComponent(JSON.stringify(this.props.values)),
+        searchUrl: encodeURIComponent(JSON.stringify(rawValues)),
       }
       this.setState({ confirmLoading: true }, async () => {
         let {
@@ -310,12 +401,16 @@ export default class AvgSearchAdvanced extends React.Component {
       filter => filter._id === this.props.formData.filterId
     )
     const { organizationId } = this.props
-
-    delete this.props.values.searchNow
-    delete this.props.values.filterId
+    const rawValues = _.clone(this.props.values)
+    delete rawValues.searchNow
+    delete rawValues.filterId
+    if (rawValues.rangesDate !== 'ranges') {
+      delete rawValues.fromDate
+      delete rawValues.toDate
+    }
     let params = {
       name: filter.name,
-      searchUrl: encodeURIComponent(JSON.stringify(this.props.values)),
+      searchUrl: encodeURIComponent(JSON.stringify(rawValues)),
     }
     this.setState({ confirmLoading: true }, async () => {
       let { data } = await OrganizationApi.updateFilter(
@@ -361,7 +456,6 @@ export default class AvgSearchAdvanced extends React.Component {
               flagResetForm={this.state.flagResetForm}
               onSubmit={this.handleSearchAvgData}
               onSearchStationAuto={this.handleSearchStation}
-              onChangeSearchData={this.handleChangeSearchData}
               initialValues={this.props.formData}
               searchNow={this.props.formData.searchNow}
               // advanced operator
@@ -379,13 +473,13 @@ export default class AvgSearchAdvanced extends React.Component {
                 onSearchAvgData={this.handleSearchAvgData}
                 stations={this.props.stations}
                 stationKeys={this.state.stationKeys}
+                formData={this.props.formData}
               />
             </Spin>
             <Clearfix height={40} />
             {this.state.isSearchingData && this.state.stationsData.length && (
               <StationList
                 stationsData={this.state.stationsData}
-                searchData={this.state.searchData}
                 type={this.props.values.type}
               />
             )}

@@ -8,7 +8,7 @@ import {
   getUrlReportStatusDataExcel,
 } from 'api/DataStationAutoApi'
 import moment from 'moment-timezone'
-import { DD_MM_YYYY } from 'constants/format-date.js'
+import { DD_MM_YYYY, HH_MM } from 'constants/format-date.js'
 import { Typography, Spin, Table, Divider, Button } from 'antd'
 import { get as _get } from 'lodash'
 import Clearfix from 'components/elements/clearfix'
@@ -137,16 +137,23 @@ export default class StatusDataReport extends React.Component {
       },
       {
         title: i18n.dischargeThreshold,
-        dataIndex: 'dataFrequency',
+        dataIndex: 'measuringList',
         align: 'center',
         key: '3',
-        // render: value => {
-        //   return (
-        //     <div style={{ textAlign: 'right' }}>
-        //       {getFormatNumber(value, 0)}
-        //     </div>
-        //   )
-        // },
+        render: measuringList => {
+          return (
+            <div style={{ textAlign: 'center' }}>
+              {measuringList.map((item, index) => (
+                <div key={item.key}>
+                  <span>{getTextFromMinMax(item.minLimit, item.maxLimit)}</span>
+                  {index !== measuringList.length - 1 && (
+                    <Divider style={{ margin: 0 }} />
+                  )}
+                </div>
+              ))}
+            </div>
+          )
+        },
       },
       {
         title: i18n.unit,
@@ -176,16 +183,18 @@ export default class StatusDataReport extends React.Component {
             title: i18n.value,
             dataIndex: 'analyze',
             align: 'center',
-            key: '6',
+            key: 'minValue',
             render: value => {
               return (
                 <div style={{ textAlign: 'center' }}>
                   {value.map((item, index) => (
                     <div key={item.key}>
-                      {item.min.data && item.min.data.length && (
+                      {item.min.data && item.min.data.length ? (
                         <span>
-                          {getFormatNumber(item.min.data[0].value, 0)}
+                          {getFormatNumber(item.min.data[0].value, ROUND_DIGIT)}
                         </span>
+                      ) : (
+                        '-'
                       )}
                       {index !== value.length - 1 && (
                         <Divider style={{ margin: 0 }} />
@@ -208,11 +217,14 @@ export default class StatusDataReport extends React.Component {
                     <div key={item.key}>
                       {item.min.data && (
                         <span>
-                          {item.min.data.length
-                            ? moment(item.min.data[0].receivedAt)
-                                .tz(_get(this.props, 'timeZone.value', ''))
-                                .format(DD_MM_YYYY)
-                            : '-'}
+                          {item.min.data.length ? (
+                            <DateRender
+                              receivedAt={item.min.data[0].receivedAt}
+                              timeZone={_get(this.props, 'timeZone.value', '')}
+                            />
+                          ) : (
+                            '-'
+                          )}
                         </span>
                       )}
                       {index !== value.length - 1 && (
@@ -234,16 +246,18 @@ export default class StatusDataReport extends React.Component {
             title: i18n.value,
             dataIndex: 'analyze',
             align: 'center',
-            key: 'minValue',
+            key: 'maxValue',
             render: value => {
               return (
                 <div style={{ textAlign: 'center' }}>
                   {value.map((item, index) => (
                     <div key={item.key}>
-                      {item.max.data && item.max.data.length && (
+                      {item.max.data && item.max.data.length ? (
                         <span>
                           {getFormatNumber(item.max.data[0].value, ROUND_DIGIT)}
                         </span>
+                      ) : (
+                        '-'
                       )}
                       {index !== value.length - 1 && (
                         <Divider style={{ margin: 0 }} />
@@ -266,11 +280,14 @@ export default class StatusDataReport extends React.Component {
                     <div key={item.key}>
                       {item.max.data && (
                         <span>
-                          {item.max.data.length
-                            ? moment(item.max.data[0].receivedAt)
-                                .tz(_get(this.props, 'timeZone.value', ''))
-                                .format(DD_MM_YYYY)
-                            : '-'}
+                          {item.max.data.length ? (
+                            <DateRender
+                              receivedAt={item.max.data[0].receivedAt}
+                              timeZone={_get(this.props, 'timeZone.value', '')}
+                            />
+                          ) : (
+                            '-'
+                          )}
                         </span>
                       )}
                       {index !== value.length - 1 && (
@@ -294,10 +311,12 @@ export default class StatusDataReport extends React.Component {
             <div style={{ textAlign: 'center' }}>
               {value.map((item, index) => (
                 <div key={item.key}>
-                  {item.avg.data && item.avg.data.length && (
+                  {item.avg.data && item.avg.data.length ? (
                     <span>
                       {getFormatNumber(item.avg.data[0].value, ROUND_DIGIT)}
                     </span>
+                  ) : (
+                    '-'
                   )}
                   {index !== value.length - 1 && (
                     <Divider style={{ margin: 0 }} />
@@ -317,10 +336,18 @@ export default class StatusDataReport extends React.Component {
             dataIndex: 'totalFact',
             align: 'center',
             key: '13',
-            render: value => {
+            render: (noUse, record) => {
+              const analyze = record.analyze
               return (
                 <div style={{ textAlign: 'center' }}>
-                  <span>{value}</span>
+                  {analyze.map((item, index) => (
+                    <div key={item.key}>
+                      <span>{!isNaN(item.count) ? item.count : '-'}</span>
+                      {index !== analyze.length - 1 && (
+                        <Divider style={{ margin: 0 }} />
+                      )}
+                    </div>
+                  ))}
                 </div>
               )
             },
@@ -330,10 +357,20 @@ export default class StatusDataReport extends React.Component {
             dataIndex: 'percentage',
             align: 'center',
             key: '14',
-            render: value => {
+            render: (noUse, record) => {
+              const analyze = record.analyze
               return (
                 <div style={{ textAlign: 'center' }}>
-                  <span>{getFormatNumber(value, ROUND_DIGIT)}</span>
+                  {analyze.map((item, index) => (
+                    <div key={item.key}>
+                      <span>
+                        {getFormatNumber(item.percentageReceived, ROUND_DIGIT)}
+                      </span>
+                      {index !== analyze.length - 1 && (
+                        <Divider style={{ margin: 0 }} />
+                      )}
+                    </div>
+                  ))}
                 </div>
               )
             },
@@ -354,7 +391,11 @@ export default class StatusDataReport extends React.Component {
                 <div style={{ textAlign: 'center' }}>
                   {value.map((item, index) => (
                     <div key={item.key}>
-                      <span>{item.totalVuotNguong}</span>
+                      <span>
+                        {!isNaN(item.totalVuotNguong)
+                          ? item.totalVuotNguong
+                          : '-'}
+                      </span>
                       {index !== value.length - 1 && (
                         <Divider style={{ margin: 0 }} />
                       )}
@@ -456,4 +497,23 @@ export default class StatusDataReport extends React.Component {
       </PageContainer>
     )
   }
+}
+
+function getTextFromMinMax(minLimit = '', maxLimit = '') {
+  if (!maxLimit && !minLimit) return <span>&nbsp;</span>
+  if (maxLimit && minLimit) return `${minLimit} - ${maxLimit}`
+  else return maxLimit || minLimit
+}
+
+const DateRender = props => {
+  if (!props.receivedAt) return '-'
+  const timeM = moment(props.receivedAt).tz(props.timeZone)
+  const dateStr = timeM.format(DD_MM_YYYY)
+  const timeStr = timeM.format(HH_MM)
+  return `${dateStr} - ${timeStr}`
+  // return (
+  //   <span>
+  //     {dateStr} <br /> {timeStr}
+  //   </span>
+  // )
 }

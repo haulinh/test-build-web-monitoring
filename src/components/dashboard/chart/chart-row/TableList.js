@@ -63,7 +63,6 @@ const NameColumn = styled(Column)`
   height: 20px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  margin-top: 8px;
 `
 
 const StatusColumn = styled(Column)`
@@ -131,9 +130,11 @@ export default class TableListCustom extends React.PureComponent {
   renderStatusView = station => {
     let item = _.get(STATUS_OPTIONS, [station.statusAnalytic]) //
 
+    console.log(item)
+
     if (item) {
       return (
-        <Tooltip placement="top" title={translate(item.title)}>
+        <Tooltip placement="top" title={translate(item.label)}>
           <Status
             style={{
               backgroundColor: item.color,
