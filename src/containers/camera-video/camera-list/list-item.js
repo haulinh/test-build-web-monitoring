@@ -52,17 +52,17 @@ export default class ListItemView extends React.Component {
           />
         }
       >
-        <Link
+        {/* <Link
           onClick={this.handleCamera}
           to={`${
             slug.cameraControl.detailWithKey
           }/${key}/${_id}?name=${encodeURIComponent(_.deburr(name))}`}
-        >
-          <Meta
-            title={name}
-            description={<DescriptionView>{stationName}</DescriptionView>}
-          />
-        </Link>
+        > */}
+        <Meta
+          title={name}
+          description={<DescriptionView>{stationName}</DescriptionView>}
+        />
+        {/* </Link> */}
       </Card>
     )
   }
