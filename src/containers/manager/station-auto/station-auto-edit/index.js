@@ -3,6 +3,7 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { Button, Icon, Spin } from 'antd'
 import { autobind } from 'core-decorators'
 import StationAutoApi from 'api/StationAuto'
+import Clearfix from 'components/elements/clearfix'
 import StationAutoForm from '../station-auto-form'
 import slug from '/constants/slug'
 import createManagerDelete from 'hoc/manager-delete'
@@ -88,6 +89,7 @@ export default class StationAutoEdit extends React.PureComponent {
             },
           ]}
         />
+        <Clearfix height={16} />
         <Spin style={{ width: '100%' }} spinning={!this.props.isLoaded}>
           {this.props.isLoaded && this.props.success && (
             <StationAutoForm
