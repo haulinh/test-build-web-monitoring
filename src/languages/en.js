@@ -2509,7 +2509,7 @@ export default {
       dataExceeded: 'Exceeded',
       dataExceededPrepare: 'Almost Exceed',
       dataExceededTendency: 'Tend To Exceed',
-      dataGood: 'Good',
+      dataGood: 'Data Good',
       dataLoss: 'Lost Connection',
       dataConnected: 'Go connected',
     },
