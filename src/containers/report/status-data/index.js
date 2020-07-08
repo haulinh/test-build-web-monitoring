@@ -143,7 +143,7 @@ export default class StatusDataReport extends React.Component {
         render: measuringList => {
           return (
             <div style={{ textAlign: 'center' }}>
-              {measuringList.map((item, index) => (
+              {measuringList && measuringList.map((item, index) => (
                 <div key={item.key}>
                   <span>{getTextFromMinMax(item.minLimit, item.maxLimit)}</span>
                   {index !== measuringList.length - 1 && (
