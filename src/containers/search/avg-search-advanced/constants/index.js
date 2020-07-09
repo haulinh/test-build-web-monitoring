@@ -1,8 +1,8 @@
 import { translate } from 'hoc/create-lang'
 import { dataStatusOptions } from 'constants/dataStatus'
-// import moment from 'moment'
+import moment from 'moment'
 
-// const dateFormat = 'DD/MM/YYYY'
+const dateFormat = 'DD/MM/YYYY'
 
 export const listFilter = [
   // {
@@ -25,11 +25,11 @@ export const listFilter = [
     key: 'standardKey',
     mode: 'multiple',
   },
-  // {
-  //   title: translate('dataSearchFilterForm.form.activatedAt.label'),
-  //   key: 'activatedAt',
-  //   default: moment(new Date(), dateFormat),
-  // },
+  {
+    title: translate('dataSearchFilterForm.form.activatedAt.label'),
+    key: 'activatedAt',
+    default: moment(new Date(), dateFormat),
+  },
   // {
   //   title: translate('dataSearchFilterForm.form.typeSampling.label'),
   //   key: 'typeSampling',
