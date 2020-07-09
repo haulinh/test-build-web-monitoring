@@ -147,7 +147,7 @@ export default class AvgSearchAdvanced extends React.Component {
 
   getAllowSave = () => {
     return (
-      !!this.props.values.stationType &&
+      // !!this.props.values.stationType &&
       this.state.allowSave &&
       !this.props.values.filterId
     )
