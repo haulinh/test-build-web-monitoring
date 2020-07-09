@@ -64,16 +64,11 @@ export default class StationComment extends React.Component {
     })
   }
 
-  setValueFromEditComment = value => {
-    this.setState({ valueFromEditComment: value })
-  }
-
   handleOnChange = ({ value, images }) => {
     this.setState({ value, images })
   }
 
   handleSubmit = async () => {
-    if (_.isEmpty(this.state.images) & !this.state.value) return
     this.setState({
       submitting: true,
     })
@@ -156,7 +151,6 @@ export default class StationComment extends React.Component {
                   key={comment._id}
                   handleDelete={this.handleDelete}
                   handleEdit={this.handleEdit}
-                  // onChangeEditor={this.setValueFromEditComment}
                 />
               ))
             : null}

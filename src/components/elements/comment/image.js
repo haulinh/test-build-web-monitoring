@@ -15,6 +15,7 @@ import Gallery from 'components/elements/gallery'
 const Wrapper = styled(Row)`
   .ant-upload {
     height: 120px;
+    width: 100%;
   }
 `
 
@@ -30,6 +31,7 @@ const ImageWrapper = styled.div`
   position: relative;
   transition: transform 0.25s ease;
   width: 100%;
+  height: 120px;
   :hover {
     cursor: pointer;
     .delete {
@@ -54,6 +56,7 @@ const ImageWrapper = styled.div`
 
 const PhotoItem = styled.div`
   width: 100%;
+  height: 120px;
   background: url('${props => props.image}');
   background-size: cover;
   background-position: center;
