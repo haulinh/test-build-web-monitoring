@@ -603,7 +603,7 @@ export default {
       description5:
         'Statistics about Results of 8-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
       descriptionStatusData:
-        'The statistics for the average observation results time from 00:00 days {{= it.fromDate}} to 23:59 {{= it.toDate}}',
+        'The statistics for the average observation results time from {{=it.fromHour}} days {{= it.fromDate}} to {{=it.toHour}} {{= it.toDate}}',
     },
     selectTimeRange: {
       startTime: 'Start Time',

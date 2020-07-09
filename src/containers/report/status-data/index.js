@@ -462,7 +462,9 @@ export default class StatusDataReport extends React.Component {
             <React.Fragment>
               <Text>
                 {translate('avgSearchFrom.table.descriptionStatusData', {
+                  fromHour:moment(this.state.from).format('HH:mm'),
                   fromDate: moment(this.state.from).format('DD/MM/YYYY'),
+                  toHour:moment(this.state.to).format('HH:mm'),
                   toDate: moment(this.state.to).format('DD/MM/YYYY'),
                 })}
               </Text>
