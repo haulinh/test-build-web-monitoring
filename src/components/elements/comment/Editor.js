@@ -252,6 +252,7 @@ export default class Editor extends React.Component {
               )}
             </Upload>
             <Button
+              disabled={!this.state.value}
               shape="circle-outline"
               size="large"
               type="primary"
