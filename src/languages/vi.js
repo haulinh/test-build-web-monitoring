@@ -2035,6 +2035,16 @@ export default {
     refresh: 'Làm mới',
     cancel: 'Hủy',
     ok: 'Đồng ý',
+    no: 'Không',
+    yes: "Có",
+    popConfirm: {
+      reviewStation: {
+        title: "Bạn có chắc xoá đánh giá này?"
+      },
+      image: {
+        title: "Bạn có chắc xoá ảnh này?"
+      }
+    }
   },
   success: {
     text: 'Thành công',

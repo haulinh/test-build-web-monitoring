@@ -83,10 +83,10 @@ const ImageComponent = ({
     <ImageWrapper key={image._id}>
       {isEdit && (
         <Popconfirm
-          title="Are you sure delete this image?"
+          title={translate("addon.popConfirm.image.title")}
           onConfirm={handleDeleteImage(index)}
-          okText="Yes"
-          cancelText="No"
+          okText={translate("addon.yes")}
+          cancelText={translate("addon.no")}
           className="delete"
         >
           <i className="fa fa-trash" />

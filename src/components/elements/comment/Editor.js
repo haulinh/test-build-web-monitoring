@@ -196,6 +196,10 @@ export default class Editor extends React.Component {
     })
   }
 
+  isDisableButton = () => {
+    return !this.state.value.trim()
+  }
+
   render() {
     const { submitting, isEdit, placeholder } = this.props
     return (
@@ -252,7 +256,7 @@ export default class Editor extends React.Component {
               )}
             </Upload>
             <Button
-              disabled={!this.state.value}
+              disabled={this.isDisableButton()}
               shape="circle-outline"
               size="large"
               type="primary"
