@@ -2044,6 +2044,16 @@ export default {
     refresh: 'Refresh',
     cancel: 'Cancel',
     ok: 'Ok',
+    no: 'No',
+    yes: "Yes",
+    popConfirm: {
+      reviewStation: {
+        title: "Are you sure delete this review?"
+      },
+      image: {
+        title: "Are you sure delete this image?"
+      }
+    }
   },
   success: {
     text: 'Success',

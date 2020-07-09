@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Button, Divider, Avatar } from 'antd'
+import { Row, Col, Button, Divider, Avatar, Popconfirm, message } from 'antd'
 import styled from 'styled-components'
 import moment from 'moment'
 import { translate } from 'hoc/create-lang'
@@ -142,9 +142,16 @@ export class CommentComponent extends React.Component {
           >
             {translate('stationReview.action.edit')}
           </ButtonLink>
-          <ButtonLink onClick={this.handleDeleteReview} type="link">
-            {translate('stationReview.action.delete')}
-          </ButtonLink>
+          <Popconfirm
+            title={translate("addon.popConfirm.reviewStation.title")}
+            onConfirm={this.handleDeleteReview}
+            okText={translate("addon.yes")}
+            cancelText={translate("addon.no")}
+          >
+            <ButtonLink type="link">
+              {translate('stationReview.action.delete')}
+            </ButtonLink>
+          </Popconfirm>
         </Flex>
       </React.Fragment>
     )
