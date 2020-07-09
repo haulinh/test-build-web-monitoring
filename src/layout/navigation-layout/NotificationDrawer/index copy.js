@@ -28,27 +28,27 @@ const SideBarNotificationWrapper = styled(Drawer)`
     
   }
 `
-// const DeleteMarkWrapper = styled.div`
-//   margin-right: 8px;
-// `
+const DeleteMarkWrapper = styled.div`
+  margin-right: 8px;
+`
 
-// const TitleWrapper = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   .titleIconWrapper {
-//     display: flex;
-//     align-items: center;
-//     h4 {
-//       margin-bottom: 0px;
-//       font-size: 22px;
-//       margin-left: 8px;
-//     }
-//   }
-//   .close {
-//     color: #333 !important;
-//   }
-// `
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .titleIconWrapper {
+    display: flex;
+    align-items: center;
+    h4 {
+      margin-bottom: 0px;
+      font-size: 22px;
+      margin-left: 8px;
+    }
+  }
+  .close {
+    color: #333 !important;
+  }
+`
 
 const NotificationWrapperIcon = styled.div`
   color: #333
@@ -64,18 +64,6 @@ const NotificationWrapperIcon = styled.div`
     width: 24px;
     height: 24px;
   }
-`
-
-const DivBenTrai = styled.div`
-display:flex;
-flex-direction:row;
-align-items:center;
-`
-const DivBenPhai = styled.div`
-display:flex;
-flex-direction:row;
-justify-content: flex-end;
-padding:0px;
 `
 
 const i18n = {
@@ -122,41 +110,46 @@ export default class NotificationDrawer extends React.Component {
         }}
         title={
           <div>
-            <DivBenTrai>
-              <NotificationWrapperIcon onClick={this.handleClickNotification}>
-                <NotificationIcon color="#fff" size="large" />
-              </NotificationWrapperIcon>
-              <h4 style={{ margin: "0px", marginLeft: "8px" }}>{i18n.label}</h4>
-            </DivBenTrai>
-            <DivBenPhai>
-              <div>
-                {this.props.dataSource.length > 0 &&
-                  this._areAllNotificationsRead() && (
-                    <a
-                      onClick={this._handleDeleteAllNotification}
-                      style={{
-                        color: '#385898',
-                      }}
-                    >
-                      {i18n.removeAll}
-                    </a>
-                  )}
-                {this.props.dataSource.length > 0 &&
-                  !this._areAllNotificationsRead() && (
-                    <a
-                      onClick={this.checkReadAll}
-                      style={{
-                        color: '#385898',
-                      }}
-                    >
-                      {i18n.markAll}
-                    </a>
-                  )}
+            <TitleWrapper>
+              <div className="titleIconWrapper">
+                <NotificationWrapperIcon onClick={this.handleClickNotification}>
+                  <NotificationIcon color="#fff" size="large" />
+                </NotificationWrapperIcon>
+                <h4>{i18n.label}</h4>
               </div>
-              <a style={{ marginLeft: "8px" }} href="_blank" onClick={this.closeDrawer}>
-                <CrossIcon />
-              </a>
-            </DivBenPhai>
+              <div className="tools">
+                <DeleteMarkWrapper>
+                  <div>
+                    {this.props.dataSource.length > 0 &&
+                      this._areAllNotificationsRead() && (
+                        <a
+                          onClick={this._handleDeleteAllNotification}
+                          style={{
+                            color: '#385898',
+                          }}
+                        >
+                          {i18n.removeAll}
+                        </a>
+                      )}
+                    {this.props.dataSource.length > 0 &&
+                      !this._areAllNotificationsRead() && (
+                        <a
+                          onClick={this.checkReadAll}
+                          style={{
+                            color: '#385898',
+                          }}
+                        >
+                          {i18n.markAll}
+                        </a>
+                      )}
+                  </div>
+                </DeleteMarkWrapper>
+                <a className="close" href="_blank" onClick={this.closeDrawer}>
+                  <CrossIcon />
+                </a>
+              </div>
+
+            </TitleWrapper>
           </div>
         }
         placement="left"
