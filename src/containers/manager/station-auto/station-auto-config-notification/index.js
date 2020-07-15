@@ -20,7 +20,7 @@ import { STATION_AUTO_OPTIONS } from 'constants/labels'
 import swal from 'sweetalert2'
 import DynamicTable from 'components/elements/dynamic-table'
 
-// import ConfigNotificationTab from './ConfigNotificationTab'
+import ConfigNotificationTab from './ConfigNotificationTab'
 
 const { TabPane } = Tabs
 
@@ -689,15 +689,15 @@ export default class StationAutoConfigNotification extends React.Component {
             {this.renderNotificationTab()}
           </TabPane>
 
-          {/*Config Notification Tab - Disable*/}
-          {/* <TabPane
+          {/* Config Notification Tab - Disable*/}
+          <TabPane
             tab={translate(
               'stationAutoManager.configNotification.tabConfigNotification'
             )}
             key="2"
           >
             <ConfigNotificationTab />
-          </TabPane> */}
+          </TabPane>
         </Tabs>
       </PageContainer>
     )
