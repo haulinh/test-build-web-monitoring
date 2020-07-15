@@ -75,7 +75,6 @@ export default class AdvancedOperator extends React.PureComponent {
   }
 
   render() {
-    console.log('this.state', this.state)
     const t = this.props.lang.createNameSpace('dataSearchFrom.form')
     // const conditionList = Array.from(
     //   Array(this.state.totalCondition),

@@ -1,5 +1,5 @@
 import { getConfigApi } from '../config'
-import { getFetch, putFetch, postFetch } from 'utils/fetch'
+import { getFetch, putFetch, postFetch, deleteFetch } from 'utils/fetch'
 
 export function getSubscription() {
   let urlFetch = getConfigApi().organization + '/subscription/status'
@@ -32,6 +32,12 @@ export function updateFilter(organizationId, filterId, data) {
   return putFetch(url, data)
 }
 
+export function deleteFilter(organizationId, filterId) {
+  let url =
+    getConfigApi().organization + `/configFilter/${organizationId}/${filterId}`
+  return deleteFetch(url)
+}
+
 export function getConfigNotify() {
   let urlFetch = getConfigApi().organization + '/configNotify'
   return getFetch(urlFetch)
@@ -48,6 +54,7 @@ export default {
   updateTransferFtpInfo,
   getOrganization,
   createFilter,
+  deleteFilter,
   updateFilter,
   getConfigNotify,
   updateConfigNotify,
