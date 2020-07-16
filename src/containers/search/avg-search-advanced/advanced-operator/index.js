@@ -21,7 +21,7 @@ const ButtonAbsolute = styled.div`
 
 @createLang
 @autobind
-export default class AdvancedOperator extends React.PureComponent {
+export default class AdvancedOperator extends React.Component {
   static propTypes = {
     measuringList: PropTypes.array,
     onReset: PropTypes.func,
@@ -107,7 +107,7 @@ export default class AdvancedOperator extends React.PureComponent {
           >
             {this.state.conditionList.map((_, index) => (
               <ConditionItem
-                key={uuidv4()}
+                key={index}
                 index={index}
                 measuringList={this.props.measuringList}
                 handleCreate={this.handleCreate}
