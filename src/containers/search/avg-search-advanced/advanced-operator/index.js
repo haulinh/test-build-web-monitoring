@@ -75,7 +75,12 @@ export default class AdvancedOperator extends React.PureComponent {
     }
     this.setState(
       prevState =>
-        update(prevState, { conditionList: { $splice: [[index, 1]] } }),
+        update(prevState, {
+          conditionList: {
+            $splice: [[index, 1]],
+          },
+          totalCondition: { $set: prevState.totalCondition - 1 },
+        }),
       () => this.props.onRemoveItem(index)
     )
   }
