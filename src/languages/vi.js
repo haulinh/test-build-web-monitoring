@@ -1889,6 +1889,8 @@ export default {
     },
   },
   configNotify: {
+    onlyOnce: 'Chỉ gửi thông báo 1 lần !',
+
     repeat: 'Lặp lại',
     headerStatus: {
       DATA_STATUS: 'Trạng thái dữ liệu',

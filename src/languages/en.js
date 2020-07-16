@@ -1896,6 +1896,7 @@ export default {
     },
   },
   configNotify: {
+    onlyOnce: 'Notify once only !',
     repeat: 'Repeat',
     headerStatus: {
       DATA_STATUS: 'Data Status',
