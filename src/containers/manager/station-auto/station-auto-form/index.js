@@ -10,6 +10,7 @@ import {
   Upload,
   Modal,
   DatePicker,
+  InputNumber,
   // Radio,
   // Checkbox,
   Collapse,
@@ -35,6 +36,8 @@ import animateScrollTo from 'animated-scroll-to'
 const FormItem = Form.Item
 const { TextArea } = Input
 const { Panel } = Collapse
+const { Option } = Select;
+
 
 @Form.create({})
 @createLanguageHoc
@@ -487,7 +490,7 @@ export default class StationAutoForm extends React.PureComponent {
                 </FormItem>
               </Col>
             </Row>
-            <Row gutter={8}>
+            <Row gutter={8} style={{ paddingLeft: '4px' }}>
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
@@ -548,6 +551,25 @@ export default class StationAutoForm extends React.PureComponent {
                 </FormItem>
               </Col> */}
             </Row>
+
+            <Row gutter={12} style={{ marginLeft: '-11em' }}>
+              <Col >
+                <FormItem
+                  {...formItemLayout}
+                  label={t('stationAutoManager.form.connectionStatus.label')}
+                >
+                  <InputNumber min={1} defaultValue={1} />
+                  <Select placeholder={t('stationAutoManager.form.connectionStatus.label')} defaultValue="HOURS" style={{ width: 120 }} >
+                    <Option value="MINUTES">{t('stationAutoManager.form.connectionStatus.time.options.minutes')}</Option>
+                    <Option value="HOURS">{t('stationAutoManager.form.connectionStatus.time.options.hours')}</Option>
+                    <Option value="DAYS">{t('stationAutoManager.form.connectionStatus.time.options.days')}</Option>
+                  </Select>
+                  <i style={{ marginLeft: '4px' }}>{t('stationAutoManager.form.connectionStatus.description')}</i>
+
+                </FormItem>
+              </Col>
+            </Row>
+
             <Row gutter={8}>
               <Col span={24} style={{ paddingRight: 40 }}>
                 <FormItem
@@ -667,12 +689,12 @@ export default class StationAutoForm extends React.PureComponent {
                 this.props.initialValues
                   ? this.props.initialValues.measuringList
                   : [
-                      {
-                        key: '',
-                        name: '',
-                        unit: '',
-                      },
-                    ]
+                    {
+                      key: '',
+                      name: '',
+                      unit: '',
+                    },
+                  ]
               }
               measuringListSource={this.state.measuringListSource}
             />
