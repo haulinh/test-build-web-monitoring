@@ -37,7 +37,10 @@ export default class AdvancedOperator extends React.PureComponent {
   }
 
   handleCreate = (index, key) => (_, newValue) => {
-    if (!Array.isArray(this.props.value)) return
+    if (!Array.isArray(this.props.value)) {
+      console.log('! array')
+      return
+    }
     const currentItem = this.props.value[index]
     if (
       !currentItem ||
@@ -45,6 +48,7 @@ export default class AdvancedOperator extends React.PureComponent {
       !(currentItem.operator || (key === 'operator' && newValue)) ||
       !(currentItem.value || (key === 'value' && newValue))
     ) {
+      console.log("log 2")
       return
     }
 
