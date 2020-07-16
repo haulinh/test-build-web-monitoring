@@ -629,6 +629,11 @@ export default {
         title: 'Avg data',
         dataSearch: 'Data search',
         placeholderSearch: 'Enter the filter name ...',
+        confirm: {
+          title: 'Are you sure delete this filter?',
+          yes: 'Yes',
+          no: 'No',
+        },
       },
       subMenuFilters: 'Filters',
     },
@@ -2045,15 +2050,15 @@ export default {
     cancel: 'Cancel',
     ok: 'Ok',
     no: 'No',
-    yes: "Yes",
+    yes: 'Yes',
     popConfirm: {
       reviewStation: {
-        title: "Are you sure delete this review?"
+        title: 'Are you sure delete this review?',
       },
       image: {
-        title: "Are you sure delete this image?"
-      }
-    }
+        title: 'Are you sure delete this image?',
+      },
+    },
   },
   success: {
     text: 'Success',
