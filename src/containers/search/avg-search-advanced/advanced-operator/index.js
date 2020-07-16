@@ -37,7 +37,6 @@ export default class AdvancedOperator extends React.PureComponent {
   }
 
   handleCreate = (index, key) => (_, newValue) => {
-    console.log('index', index)
     if (!Array.isArray(this.props.value)) return
     const currentItem = this.props.value[index]
     if (
