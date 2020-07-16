@@ -60,16 +60,27 @@ export default class AdvancedOperator extends React.PureComponent {
   }
 
   handleReset = () => {
-    this.setState({ totalCondition: 1 }, () => {
-      this.props.onReset()
-    })
+    this.setState(
+      { totalCondition: 1, conditionList: Array.from(Array(1), (d, i) => i) },
+      () => {
+        this.props.onReset()
+      }
+    )
   }
 
   handleDelete = index => {
-    if (this.state.conditionList.length <= 1) return
+    if (this.state.conditionList.length <= 1) {
+      this.handleReset()
+      return
+    }
     this.setState(
       prevState =>
-        update(prevState, { conditionList: { $splice: [[index, 1]] } }),
+        update(prevState, {
+          conditionList: {
+            $splice: [[index, 1]],
+          },
+          totalCondition: { $set: prevState.totalCondition - 1 },
+        }),
       () => this.props.onRemoveItem(index)
     )
   }
@@ -94,6 +105,7 @@ export default class AdvancedOperator extends React.PureComponent {
           >
             {this.state.conditionList.map((_, index) => (
               <ConditionItem
+                key={index}
                 index={index}
                 measuringList={this.props.measuringList}
                 handleCreate={this.handleCreate}

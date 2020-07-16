@@ -101,13 +101,18 @@ export default class ConditionItem extends React.Component {
           {this.state.isHovering ? (
             <Icon
               className="icon-delete"
-              type="close"
-              style={{ fontSize: '16px', width: '16px', height: '16px' }}
-              theme="outlined"
+              type="close-circle"
+              style={{
+                marginTop: '25px',
+                fontSize: '12px',
+                width: '12px',
+                height: '12px',
+              }}
+              theme="filled"
               onClick={() => this.props.handleDelete(index)}
             />
           ) : (
-            <div style={{ width: '16px', height: '16px' }} />
+            <div style={{ width: '12px', height: '12px' }} />
           )}
         </Flex>
         <Clearfix height={16} />
