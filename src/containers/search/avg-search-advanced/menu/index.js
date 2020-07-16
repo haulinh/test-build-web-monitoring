@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Menu, Input, Tooltip } from 'antd'
+import { Col, Menu, Input, Tooltip, Icon, Popconfirm } from 'antd'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -62,6 +62,14 @@ const MenuWrapper = styled(Col)`
   }
 `
 
+const Flex = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+`
+
 @connect(state => ({
   isOpenNavigation: state.theme.navigation.isOpen,
   stations: _.get(state, 'stationAuto.list', []),
@@ -81,8 +89,34 @@ export default class FilterListMenu extends React.Component {
     configFilter: [],
   }
 
-  state = {
-    highlightText: '',
+  constructor(props) {
+    super(props)
+    this.state = {
+      highlightText: '',
+    }
+  }
+
+  getHighlightedText = (text, highlightText) => {
+    //Split text on highlight term, include term itself into parts, ignore case
+    const parts = text.split(new RegExp(`(${highlightText})`, 'gi'))
+    return (
+      <span>
+        {parts.map((part, i) => {
+          return (
+            <span
+              key={i}
+              style={
+                part.toLowerCase() === highlightText.toLowerCase()
+                  ? { backgroundColor: 'yellow' }
+                  : {}
+              }
+            >
+              {part}
+            </span>
+          )
+        })}
+      </span>
+    )
   }
 
   handleClickFilterItem = filterId => () => {
@@ -104,29 +138,6 @@ export default class FilterListMenu extends React.Component {
   handleOnChangeSearch = event => {
     this.setState({ highlightText: event.target.value })
     this.props.handleSearch(event.target.value)
-  }
-
-  getHighlightedText(text, highlightText) {
-    //Split text on highlight term, include term itself into parts, ignore case
-    const parts = text.split(new RegExp(`(${highlightText})`, 'gi'))
-    return (
-      <span>
-        {parts.map((part, i) => {
-          return (
-            <span
-              key={i}
-              style={
-                part.toLowerCase() === highlightText.toLowerCase()
-                  ? { backgroundColor: 'yellow' }
-                  : {}
-              }
-            >
-              {part}
-            </span>
-          )
-        })}
-      </span>
-    )
   }
 
   getFilterGroupByStationType = () => {
@@ -206,10 +217,30 @@ export default class FilterListMenu extends React.Component {
                         onClick={this.handleClickFilterItem(filter._id)}
                         key={filter._id}
                       >
-                        {this.getHighlightedText(
-                          filter.name,
-                          this.state.highlightText
-                        )}
+                        <Flex>
+                          <div>
+                            {this.getHighlightedText(
+                              filter.name,
+                              this.state.highlightText
+                            )}
+                          </div>
+                          <Popconfirm
+                            title="Are you sure delete this filter?"
+                            onConfirm={() =>
+                              this.props.handleDeleteFilter(filter._id)
+                            }
+                            okText="Yes"
+                            cancelText="No"
+                          >
+                            <Icon
+                              type="close"
+                              theme="outlined"
+                              style={{
+                                fontSize: '12px',
+                              }}
+                            />
+                          </Popconfirm>
+                        </Flex>
                       </Menu.Item>
                     ))}
                   </SubMenu>

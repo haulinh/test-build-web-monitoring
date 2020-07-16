@@ -2,23 +2,10 @@ import React from 'react'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Field } from 'redux-form'
-import { Row, Col, Collapse, InputNumber, Button } from 'antd'
+import { Collapse, Button } from 'antd'
 import createLang from 'hoc/create-lang'
-import createValidateComponent from 'components/elements/redux-form-validate'
-import SelectAnt from 'components/elements/select-ant'
-import Clearfix from 'components/elements/clearfix'
-
-const FSelectAnt = createValidateComponent(SelectAnt)
-const FInputNumber = createValidateComponent(InputNumber)
-
-const operators = [
-  { value: '>', name: '>' },
-  { value: '>=', name: '>=' },
-  { value: '<', name: '<' },
-  { value: '<=', name: '<=' },
-  { value: '=', name: '=' },
-]
+import update from 'immutability-helper'
+import ConditionItem from './ConditionItem'
 
 const Wrapper = styled.div`
   position: relative;
@@ -42,12 +29,15 @@ export default class AdvancedOperator extends React.PureComponent {
 
   constructor(props) {
     super(props)
+    const value = props.value ? props.value.length : 1
     this.state = {
-      totalCondition: props.value ? props.value.length : 1,
+      totalCondition: value,
+      conditionList: Array.from(Array(value), (d, i) => i),
     }
   }
 
   handleCreate = (index, key) => (_, newValue) => {
+    console.log('index', index)
     if (!Array.isArray(this.props.value)) return
     const currentItem = this.props.value[index]
     if (
@@ -62,6 +52,10 @@ export default class AdvancedOperator extends React.PureComponent {
     if (index < this.state.totalCondition - 1) return
     this.setState(prevState => ({
       totalCondition: prevState.totalCondition + 1,
+      conditionList: Array.from(
+        Array(prevState.totalCondition + 1),
+        (d, i) => i
+      ),
     }))
   }
 
@@ -71,12 +65,21 @@ export default class AdvancedOperator extends React.PureComponent {
     })
   }
 
+  handleDelete = index => {
+    if (this.state.conditionList.length <= 1) return
+    this.setState(
+      prevState =>
+        update(prevState, { conditionList: { $splice: [[index, 1]] } }),
+      () => this.props.onRemoveItem(index)
+    )
+  }
+
   render() {
     const t = this.props.lang.createNameSpace('dataSearchFrom.form')
-    const conditionList = Array.from(
-      Array(this.state.totalCondition),
-      (d, i) => i
-    )
+    // const conditionList = Array.from(
+    //   Array(this.state.totalCondition),
+    //   (d, i) => i
+    // )
     return (
       <Wrapper>
         <ButtonAbsolute>
@@ -89,47 +92,14 @@ export default class AdvancedOperator extends React.PureComponent {
             header={<strong>{t('advanced.label')}</strong>}
             key="1"
           >
-            {conditionList.map((_, index) => (
-              <div key={index}>
-                <Row gutter={10}>
-                  <Col span={10}>
-                    <Field
-                      label={t('measuringList.label')}
-                      placeholder={t('measuringList.placeholder')}
-                      name={`advanced[${index}].measuringKey`}
-                      size="large"
-                      showSearch
-                      options={this.props.measuringList}
-                      component={FSelectAnt}
-                      onChange={this.handleCreate(index, 'measuringKey')}
-                    />
-                  </Col>
-                  <Col span={10}>
-                    <Field
-                      label={t('operator.label')}
-                      name={`advanced[${index}].operator`}
-                      size="large"
-                      showSearch
-                      options={operators}
-                      component={FSelectAnt}
-                      onChange={this.handleCreate(index, 'operator')}
-                    />
-                  </Col>
-                  <Col span={4}>
-                    <Field
-                      label={t('value.label')}
-                      name={`advanced[${index}].value`}
-                      size="large"
-                      style={{
-                        width: '100%',
-                      }}
-                      component={FInputNumber}
-                      onChange={this.handleCreate(index, 'value')}
-                    />
-                  </Col>
-                </Row>
-                <Clearfix height={16} />
-              </div>
+            {this.state.conditionList.map((_, index) => (
+              <ConditionItem
+                index={index}
+                measuringList={this.props.measuringList}
+                handleCreate={this.handleCreate}
+                handleReset={this.handleReset}
+                handleDelete={this.handleDelete}
+              />
             ))}
           </Collapse.Panel>
         </Collapse>
