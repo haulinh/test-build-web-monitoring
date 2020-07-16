@@ -6,6 +6,7 @@ import { Collapse, Button } from 'antd'
 import createLang from 'hoc/create-lang'
 import update from 'immutability-helper'
 import ConditionItem from './ConditionItem'
+import { v4 as uuidv4 } from 'uuid'
 
 const Wrapper = styled.div`
   position: relative;
@@ -38,7 +39,6 @@ export default class AdvancedOperator extends React.PureComponent {
 
   handleCreate = (index, key) => (_, newValue) => {
     if (!Array.isArray(this.props.value)) {
-      console.log('! array')
       return
     }
     const currentItem = this.props.value[index]
@@ -48,7 +48,6 @@ export default class AdvancedOperator extends React.PureComponent {
       !(currentItem.operator || (key === 'operator' && newValue)) ||
       !(currentItem.value || (key === 'value' && newValue))
     ) {
-      console.log("log 2")
       return
     }
 
@@ -108,7 +107,7 @@ export default class AdvancedOperator extends React.PureComponent {
           >
             {this.state.conditionList.map((_, index) => (
               <ConditionItem
-                key={index}
+                key={uuidv4()}
                 index={index}
                 measuringList={this.props.measuringList}
                 handleCreate={this.handleCreate}
