@@ -599,9 +599,9 @@ export default {
       title4: 'REPORT THE PERCENTAGE OF EXCEEDED DATA',
       description4:
         'Statistics about the percentage of exceeded of {{=it.fromMonth}} station in {{=it.toMonth}}',
-      title5: 'REPORT THE RESULTS OF 8-HOUR AVERAGE MONITORING',
+      title5: 'REPORT THE RESULTS OF AVERAGE MAXIMUM 8 HOUR OF THE DAY',
       description5:
-        'Statistics about Results of 8-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
+        'Statistics about Results of Average maximum 8 hour of the day of {{=it.stationName}} station in {{=it.monthYear}}',
       descriptionStatusData:
         'The statistics for the average observation results time from {{=it.fromHour}} days {{= it.fromDate}} to {{=it.toHour}} {{= it.toDate}}',
     },
