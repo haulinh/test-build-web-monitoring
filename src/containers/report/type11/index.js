@@ -26,7 +26,7 @@ import { connect } from 'react-redux'
 const { Title, Text } = Typography
 const i18n = {
   header8: translate('avgSearchFrom.table.header8'),
-  title: translate('avgSearchFrom.table.title3'),
+  title: translate('avgSearchFrom.table.title6'),
 }
 
 @protectRole(ROLE.TB1H.VIEW)
@@ -147,7 +147,7 @@ export default class ReportType11 extends React.Component {
           <Title level={4}>{i18n.title}</Title>
           <Text>
             {' '}
-            {translate('avgSearchFrom.table.description3', {
+            {translate('avgSearchFrom.table.description6', {
               stationName: this.state.stationName,
               dayFormat: this.state.dayFormat,
             })}
