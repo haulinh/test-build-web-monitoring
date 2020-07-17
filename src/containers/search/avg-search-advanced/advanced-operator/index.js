@@ -6,6 +6,7 @@ import { Collapse, Button } from 'antd'
 import createLang from 'hoc/create-lang'
 import update from 'immutability-helper'
 import ConditionItem from './ConditionItem'
+import { v4 as uuidv4 } from 'uuid'
 
 const Wrapper = styled.div`
   position: relative;
@@ -20,7 +21,7 @@ const ButtonAbsolute = styled.div`
 
 @createLang
 @autobind
-export default class AdvancedOperator extends React.PureComponent {
+export default class AdvancedOperator extends React.Component {
   static propTypes = {
     measuringList: PropTypes.array,
     onReset: PropTypes.func,
@@ -37,8 +38,9 @@ export default class AdvancedOperator extends React.PureComponent {
   }
 
   handleCreate = (index, key) => (_, newValue) => {
-    console.log('index', index)
-    if (!Array.isArray(this.props.value)) return
+    if (!Array.isArray(this.props.value)) {
+      return
+    }
     const currentItem = this.props.value[index]
     if (
       !currentItem ||
@@ -60,16 +62,27 @@ export default class AdvancedOperator extends React.PureComponent {
   }
 
   handleReset = () => {
-    this.setState({ totalCondition: 1 }, () => {
-      this.props.onReset()
-    })
+    this.setState(
+      { totalCondition: 1, conditionList: Array.from(Array(1), (d, i) => i) },
+      () => {
+        this.props.onReset()
+      }
+    )
   }
 
   handleDelete = index => {
-    if (this.state.conditionList.length <= 1) return
+    if (this.state.conditionList.length <= 1) {
+      this.handleReset()
+      return
+    }
     this.setState(
       prevState =>
-        update(prevState, { conditionList: { $splice: [[index, 1]] } }),
+        update(prevState, {
+          conditionList: {
+            $splice: [[index, 1]],
+          },
+          totalCondition: { $set: prevState.totalCondition - 1 },
+        }),
       () => this.props.onRemoveItem(index)
     )
   }
@@ -94,6 +107,7 @@ export default class AdvancedOperator extends React.PureComponent {
           >
             {this.state.conditionList.map((_, index) => (
               <ConditionItem
+                key={index}
                 index={index}
                 measuringList={this.props.measuringList}
                 handleCreate={this.handleCreate}

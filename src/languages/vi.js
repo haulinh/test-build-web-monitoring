@@ -624,6 +624,11 @@ export default {
         title: 'Dữ liệu trung bình',
         dataSearch: 'Tìm kiếm dữ liệu',
         placeholderSearch: 'Nhập tên bộ lọc ...',
+        confirm: {
+          title: 'Bạn có chắc xoá bộ lọc này?',
+          yes: 'Có',
+          no: 'Không',
+        },
       },
       subMenuFilters: 'Danh sách bộ lọc',
     },
@@ -1884,6 +1889,8 @@ export default {
     },
   },
   configNotify: {
+    onlyOnce: 'Chỉ gửi thông báo 1 lần !',
+
     repeat: 'Lặp lại',
     headerStatus: {
       DATA_STATUS: 'Trạng thái dữ liệu',
@@ -2050,15 +2057,15 @@ export default {
     cancel: 'Hủy',
     ok: 'Đồng ý',
     no: 'Không',
-    yes: "Có",
+    yes: 'Có',
     popConfirm: {
       reviewStation: {
-        title: "Bạn có chắc xoá đánh giá này?"
+        title: 'Bạn có chắc xoá đánh giá này?',
       },
       image: {
-        title: "Bạn có chắc xoá ảnh này?"
-      }
-    }
+        title: 'Bạn có chắc xoá ảnh này?',
+      },
+    },
   },
   success: {
     text: 'Thành công',

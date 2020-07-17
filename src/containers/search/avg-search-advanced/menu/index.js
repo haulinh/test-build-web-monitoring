@@ -68,6 +68,14 @@ const Flex = styled.div`
   justify-content: space-between;
   align-items: center;
   flex: 1;
+  :hover {
+    .icon-delete {
+      display: block;
+    }
+  }
+  .icon-delete {
+    display: none;
+  }
 `
 
 @connect(state => ({
@@ -217,7 +225,7 @@ export default class FilterListMenu extends React.Component {
                         onClick={this.handleClickFilterItem(filter._id)}
                         key={filter._id}
                       >
-                        <Flex>
+                        <Flex className="flex-menu-item">
                           <div>
                             {this.getHighlightedText(
                               filter.name,
@@ -225,16 +233,23 @@ export default class FilterListMenu extends React.Component {
                             )}
                           </div>
                           <Popconfirm
-                            title="Are you sure delete this filter?"
+                            title={translate(
+                              'avgSearchFrom.search.subMenuAvgData.confirm.title'
+                            )}
                             onConfirm={() =>
                               this.props.handleDeleteFilter(filter._id)
                             }
-                            okText="Yes"
-                            cancelText="No"
+                            okText={translate(
+                              'avgSearchFrom.search.subMenuAvgData.confirm.yes'
+                            )}
+                            cancelText={translate(
+                              'avgSearchFrom.search.subMenuAvgData.confirm.no'
+                            )}
                           >
                             <Icon
-                              type="close"
-                              theme="outlined"
+                              className="icon-delete"
+                              type="close-circle"
+                              theme="filled"
                               style={{
                                 fontSize: '12px',
                               }}
