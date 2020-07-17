@@ -627,11 +627,6 @@ export default {
         title: 'Dữ liệu trung bình',
         dataSearch: 'Tìm kiếm dữ liệu',
         placeholderSearch: 'Nhập tên bộ lọc ...',
-        confirm: {
-          title: 'Bạn có chắc xoá bộ lọc này?',
-          yes: 'Có',
-          no: 'Không',
-        },
       },
       subMenuFilters: 'Danh sách bộ lọc',
     },
@@ -1200,7 +1195,7 @@ export default {
         placeholder: 'Nhập địa chỉ',
       },
       qcvn: {
-        label: 'Qui chuẩn',
+        label: 'Giới hạn vượt ngưỡng',
         placeholder: 'QCVN',
         error: 'Vui lòng chọn QCVN',
       },
@@ -1244,20 +1239,6 @@ export default {
         label: 'Vĩ độ',
         placeholder: 'Nhập vĩ độ',
         error: 'Vui lòng nhập vĩ độ',
-      },
-      connectionStatus: {
-        label: 'Tín hiệu mất kết nối',
-        time: {
-          options: {
-            minutes: 'Phút',
-            hours: 'Giờ',
-            days: 'Ngày',
-            months: 'Tháng',
-            years: 'Năm',
-          }
-        },
-        description: 'Thời cấu hình thời gian được cho là mất kết nối'
-
       },
       emails: {
         label: 'Địa chỉ Email',
@@ -1892,8 +1873,6 @@ export default {
     },
   },
   configNotify: {
-    onlyOnce: 'Chỉ gửi thông báo 1 lần !',
-
     repeat: 'Lặp lại',
     headerStatus: {
       DATA_STATUS: 'Trạng thái dữ liệu',
