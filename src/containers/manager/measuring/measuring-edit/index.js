@@ -31,8 +31,14 @@ export default class MeasuringEdit extends React.PureComponent {
     isLoaded: PropTypes.bool,
     lang: langPropTypes,
   }
+  state = {
+    dataSource: null,
+  }
 
   async handleSubmit(data) {
+    this.setState({
+      dataSource: data,
+    })
     this.props.onUpdateItem(data)
   }
 
@@ -80,7 +86,9 @@ export default class MeasuringEdit extends React.PureComponent {
         />
         {this.props.isLoaded && (
           <MeasuringForm
-            initialValues={this.cleanData()}
+            initialValues={
+              this.state.dataSource ? this.state.dataSource : this.cleanData()
+            }
             onSubmit={this.handleSubmit}
             isEdit={true}
           />

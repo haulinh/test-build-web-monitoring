@@ -30,8 +30,14 @@ export default class QCVNEdit extends React.PureComponent {
     getItem: PropTypes.func,
     isLoaded: PropTypes.bool,
   }
+  state = {
+    dataSource: null,
+  }
 
   async handleSubmit(data) {
+    this.setState({
+      dataSource: data,
+    })
     this.props.onUpdateItem(data)
     //const key = this.props.match.params.key
   }
@@ -96,7 +102,9 @@ export default class QCVNEdit extends React.PureComponent {
           {this.props.isLoaded && this.props.success && (
             <QCVNForm
               isLoading={this.props.isUpdating}
-              initialValues={this.cleanData()}
+              initialValues={
+                this.state.dataSource ? this.state.dataSource : this.cleanData()
+              }
               onSubmit={this.handleSubmit}
               isEdit={true}
             />
