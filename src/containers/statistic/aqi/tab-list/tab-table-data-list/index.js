@@ -34,13 +34,14 @@ export default class TableDataList extends React.PureComponent {
     const columns = [
       {
         title: translate('statistic.aqi.time'),
+        align: 'center',
         children: [
           {
             title: translate('statistic.aqi.day'),
             align: 'center',
             dataIndex: 'time',
             key: 'time',
-            width: 100,
+            width: 120,
             render: (value, record) => {
               // console.log( moment(value).format(DD_MM_YYYY) )
               // console.log(record,"record")
@@ -52,13 +53,14 @@ export default class TableDataList extends React.PureComponent {
       colValue,
       {
         title: 'AQI',
+        align: 'center',
         children: [
           {
             title: translate('statistic.aqi.day'),
             align: 'center',
             dataIndex: 'aqiDay',
             key: 'aqiDay',
-            width: 100,
+            width: 70,
           },
         ],
       },
@@ -79,6 +81,7 @@ export default class TableDataList extends React.PureComponent {
           pagination={{ showTotal: this.showTotal }}
           loading={this.props.loading}
           locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}
+          scroll={{ x: 1200 }}
         />
       </div>
     )
