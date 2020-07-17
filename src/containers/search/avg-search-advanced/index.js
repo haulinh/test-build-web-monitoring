@@ -1,14 +1,5 @@
 import React from 'react'
-import {
-  Spin,
-  Row,
-  Col,
-  message,
-  Button,
-  Menu,
-  Dropdown,
-  Tooltip,
-} from 'antd'
+import { Spin, Row, Col, message, Button, Menu, Dropdown, Tooltip } from 'antd'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
@@ -34,7 +25,6 @@ import protectRole from 'hoc/protect-role'
 import FilterListMenu from './menu'
 import FormFilter from './form/ModalForm'
 import slug from 'constants/slug'
-import update from 'immutability-helper'
 
 const Flex = styled.div`
   display: flex;
@@ -158,7 +148,8 @@ export default class AvgSearchAdvanced extends React.Component {
   getAllowSave = () => {
     return (
       // !!this.props.values.stationType &&
-      this.state.allowSave && !this.props.values.filterId
+      this.state.allowSave &&
+      !this.props.values.filterId
     )
   }
 
@@ -442,22 +433,6 @@ export default class AvgSearchAdvanced extends React.Component {
     })
   }
 
-  handleDeleteFilter = async _id => {
-    const indexDelete = this.state.filteredConfigFilter.findIndex(
-      configFilterItem => configFilterItem._id === _id
-    )
-    this.setState(prevState =>
-      update(prevState, {
-        filteredConfigFilter: { $splice: [[indexDelete, 1]] },
-      })
-    )
-    const { data } = await OrganizationApi.deleteFilter(
-      this.props.organizationId,
-      _id
-    )
-    if (data) message.success(translate('dataSearchFilterForm.update.success'))
-  }
-
   render() {
     return (
       <PageContainer
@@ -472,7 +447,6 @@ export default class AvgSearchAdvanced extends React.Component {
           gutter={[32, 0]}
         >
           <FilterListMenu
-            handleDeleteFilter={this.handleDeleteFilter}
             configFilter={this.state.filteredConfigFilter}
             handleSearch={this.handleSearch}
             filterId={this.props.formData.filterId}
