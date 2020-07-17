@@ -599,6 +599,9 @@ export default {
         'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ của trạm trong ngày tại trạm {{=it.stationName}}  trong tháng {{=it.monthYear}}',
       descriptionStatusData:
         'Các số liệu thống kê về đánh giá trình trạng dữ liệu thời gian từ {{=it.fromHour}} ngày {{=it.fromDate}} đến {{=it.toHour}} {{=it.toDate}}',
+      title6: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 1 GIỜ',
+      description6:
+        'Các số liệu thống kê về kết quả quan trắc trung bình 1 giờ của trạm {{=it.stationName}}  trong ngày {{=it.dayFormat}}',
     },
     selectTimeRange: {
       startTime: 'Thời gian bắt đầu',
@@ -2036,15 +2039,15 @@ export default {
     cancel: 'Hủy',
     ok: 'Đồng ý',
     no: 'Không',
-    yes: "Có",
+    yes: 'Có',
     popConfirm: {
       reviewStation: {
-        title: "Bạn có chắc xoá đánh giá này?"
+        title: 'Bạn có chắc xoá đánh giá này?',
       },
       image: {
-        title: "Bạn có chắc xoá ảnh này?"
-      }
-    }
+        title: 'Bạn có chắc xoá ảnh này?',
+      },
+    },
   },
   success: {
     text: 'Thành công',
