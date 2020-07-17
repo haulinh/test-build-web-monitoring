@@ -594,9 +594,9 @@ export default {
       title4: 'BÁO CÁO TỈ LỆ VƯỢT NGƯỠNG',
       description4:
         'Các số liệu thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm {{=it.fromMonth}}  trong ngày {{=it.toMonth}}',
-      title5: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 8 GIỜ',
+      title5: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 8 GIỜ LỚN NHẤT TRONG NGÀY',
       description5:
-        'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ của trạm {{=it.stationName}}  trong ngày {{=it.monthYear}}',
+        'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ của trạm trong ngày tại trạm {{=it.stationName}}  trong tháng {{=it.monthYear}}',
       descriptionStatusData:
         'Các số liệu thống kê về đánh giá trình trạng dữ liệu thời gian từ {{=it.fromHour}} ngày {{=it.fromDate}} đến {{=it.toHour}} {{=it.toDate}}',
     },
