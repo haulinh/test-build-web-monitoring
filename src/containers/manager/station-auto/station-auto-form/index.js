@@ -7,8 +7,8 @@ import {
   Col,
   Select,
   Icon,
-  Upload,
-  Modal,
+  // Upload,
+  // Modal,
   DatePicker,
   InputNumber,
   // Radio,
@@ -646,7 +646,7 @@ export default class StationAutoForm extends React.PureComponent {
             </Row>
             <Row gutter={8}>
               <Col span={12}>
-                <FormItem
+                {/* <FormItem
                   {...formItemLayout}
                   label={t('stationAutoManager.form.image.label')}
                 >
@@ -670,7 +670,7 @@ export default class StationAutoForm extends React.PureComponent {
                       src={previewImage}
                     />
                   </Modal>
-                </FormItem>
+                </FormItem> */}
               </Col>
             </Row>
             <Row gutter={8}>
