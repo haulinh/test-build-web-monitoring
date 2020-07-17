@@ -130,8 +130,6 @@ export default class TableListCustom extends React.PureComponent {
   renderStatusView = station => {
     let item = _.get(STATUS_OPTIONS, [station.statusAnalytic]) //
 
-    console.log(item)
-
     if (item) {
       return (
         <Tooltip placement="top" title={translate(item.label)}>
