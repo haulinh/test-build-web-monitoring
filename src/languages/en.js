@@ -632,6 +632,11 @@ export default {
         title: 'Avg data',
         dataSearch: 'Data search',
         placeholderSearch: 'Enter the filter name ...',
+        confirm: {
+          title: 'Are you sure delete this filter?',
+          yes: 'Yes',
+          no: 'No',
+        },
       },
       subMenuFilters: 'Filters',
     },
@@ -1204,7 +1209,7 @@ export default {
       },
       qcvn: {
         label: 'Exceeded Limit',
-        placeholder: 'Standards VN',
+        placeholder: 'Standards',
         error: 'Please Choose Type Of Standards VN',
       },
       tendToExceed: {
@@ -1247,6 +1252,19 @@ export default {
         label: 'Latitude',
         placeholder: 'Input Latitude',
         error: 'Please Input Latitude',
+      },
+      connectionStatus: {
+        label: 'Connection status',
+        time: {
+          options: {
+            minutes: 'Minutes',
+            hours: 'Hours',
+            days: 'Days',
+            months: 'Months',
+            years: 'Years',
+          }
+        },
+        description: 'Config time range to consider as lost connection'
       },
       emails: {
         label: 'Email Address',
@@ -1881,6 +1899,7 @@ export default {
     },
   },
   configNotify: {
+    onlyOnce: 'Notify once only !',
     repeat: 'Repeat',
     headerStatus: {
       DATA_STATUS: 'Data Status',
