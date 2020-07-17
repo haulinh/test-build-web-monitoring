@@ -324,10 +324,6 @@ export default class SearchAvgForm extends React.Component {
     this.props.array.removeAll('advanced')
   }
 
-  handleRemoveItemAdvanced = index => {
-    this.props.array.remove('advanced', index)
-  }
-
   getComponent = key => {
     switch (key) {
       // case 'stationStatus':
@@ -540,7 +536,6 @@ export default class SearchAvgForm extends React.Component {
               <Clearfix height={40} />
               <AdvancedOperator
                 onReset={this.handleResetAdvanced}
-                onRemoveItem={this.handleRemoveItemAdvanced}
                 measuringList={measuringList}
                 value={this.props.values.advanced}
               />
