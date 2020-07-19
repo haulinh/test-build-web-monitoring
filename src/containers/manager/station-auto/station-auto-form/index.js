@@ -33,6 +33,7 @@ import moment from 'moment'
 import { get, keyBy, omit } from 'lodash'
 import animateScrollTo from 'animated-scroll-to'
 import styled from 'styled-components'
+import _ from 'lodash'
 
 const FormItem = Form.Item
 const { TextArea } = Input
@@ -130,6 +131,10 @@ export default class StationAutoForm extends React.PureComponent {
 
   componentDidMount() {
     const initialValues = this.getInitialValues()
+    const minuteCount = _.get(initialValues, 'config.lostConnection.minuteCount', null)
+
+    const { connectionStatusTimeRange, connectionStatusNumber } = this._convertMinutesToTimeRange(minuteCount)
+
     // vi dung state de luu nen phai gan gia tri initialValus vao state
     this.setState({
       emails: initialValues.emails,
@@ -142,8 +147,8 @@ export default class StationAutoForm extends React.PureComponent {
     try {
       this.props.form.setFieldsValue({
         ...omit(initialValues, 'measuringList'),
-        connectionStatusNumber: 1,
-        connectionStatusTimeRange: "HOURS"
+        connectionStatusNumber,
+        connectionStatusTimeRange
       })
     } catch (error) {
       console.log(error, '----')
@@ -183,6 +188,31 @@ export default class StationAutoForm extends React.PureComponent {
         break;
     }
     return { minuteCount: connectionStatusNumber * multipler }
+  }
+
+  _convertMinutesToTimeRange = minutes => {
+    if (minutes === null) {
+      return {
+        connectionStatusTimeRange: 'MINUTES',
+        connectionStatusNumber: 1
+      }
+    }
+
+
+    let result = {
+      connectionStatusTimeRange: 'MINUTES',
+      connectionStatusNumber: minutes
+    }
+    if (minutes % 1140 === 0) {
+      result.connectionStatusTimeRange = 'DAYS'
+      result.connectionStatusNumber = minutes / 1140
+    }
+    else if (minutes % 60 === 0) {
+      result.connectionStatusTimeRange = 'HOURS'
+      result.connectionStatusNumber = minutes / 60
+    }
+
+    return result
   }
 
   handleSubmit(e) {
