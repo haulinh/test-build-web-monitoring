@@ -1250,9 +1250,10 @@ export default {
             hours: 'Giờ',
             days: 'Ngày',
             months: 'Tháng',
-            years: 'Năm',
-          }
+            years: 'Năm'
+          },
         },
+        error: 'Vui lòng chọn thời gian mất kết nối !!!',
         description: 'Thời cấu hình thời gian được cho là mất kết nối'
 
       },
