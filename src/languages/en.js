@@ -1261,6 +1261,7 @@ export default {
             years: 'Years',
           }
         },
+        error: 'Please select lost connection time range !!!',
         description: 'Config time range to consider as lost connection'
       },
       emails: {
