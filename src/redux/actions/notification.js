@@ -112,6 +112,7 @@ export function loadNotificationsByType(
         return
       }
 
+      // đã load hết thông báo
       if (data.length < ITEM_PER_PAGE) {
         dispatch(setLoadingStatus(false))
       }
