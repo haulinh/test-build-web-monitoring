@@ -511,6 +511,7 @@ export default {
 
   avgSearchFrom: {
     titleText: 'Dữ liệu trung bình',
+    excelMultiple: 'Đang xử lý, báo cáo sẽ được gửi qua email của bạn sau khi xử lý xong',
     form: {
       time: 'Thời gian',
       stationType: {
