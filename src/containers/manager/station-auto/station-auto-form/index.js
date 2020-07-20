@@ -623,7 +623,7 @@ export default class StationAutoForm extends React.PureComponent {
               </Col>
             </Row>
             <Row gutter={8}>
-              <Col span={12}>
+              {/* <Col span={12}>
                 <FormItem
                   {...formItemLayout}
                   label={t('stationAutoManager.form.image.label')}
@@ -649,7 +649,7 @@ export default class StationAutoForm extends React.PureComponent {
                     />
                   </Modal>
                 </FormItem>
-              </Col>
+              </Col> */}
             </Row>
             <Row gutter={8}>
               <Col span={24} />
