@@ -37,6 +37,14 @@ export default class AdvancedOperator extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value && !this.props.value)
+      this.setState({
+        totalCondition: nextProps.value.length,
+        conditionList: Array.from(Array(nextProps.value.length), (d, i) => i),
+      })
+  }
+
   handleCreate = (index, key) => (_, newValue) => {
     if (!Array.isArray(this.props.value)) {
       return
@@ -52,7 +60,7 @@ export default class AdvancedOperator extends React.Component {
     }
 
     if (index < this.state.totalCondition - 1) return
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       totalCondition: prevState.totalCondition + 1,
       conditionList: Array.from(
         Array(prevState.totalCondition + 1),
@@ -70,13 +78,13 @@ export default class AdvancedOperator extends React.Component {
     )
   }
 
-  handleDelete = index => {
+  handleDelete = (index) => {
     if (this.state.conditionList.length <= 1) {
       this.handleReset()
       return
     }
     this.setState(
-      prevState =>
+      (prevState) =>
         update(prevState, {
           conditionList: {
             $splice: [[index, 1]],
