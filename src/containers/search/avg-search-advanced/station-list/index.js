@@ -31,12 +31,12 @@ const TitleWrapper = styled.div`
   toDate: state.form['dataSearchFilterForm'].values.toDate,
   advanced: state.form['dataSearchFilterForm'].values.advanced
     ? state.form['dataSearchFilterForm'].values.advanced.filter(
-        item =>
-          item.measuringKey &&
-          item.operator &&
-          item.value !== null &&
-          typeof item.value !== 'undefined'
-      )
+      item =>
+        item.measuringKey &&
+        item.operator &&
+        item.value !== null &&
+        typeof item.value !== 'undefined'
+    )
     : [],
   dataStatus: state.form['dataSearchFilterForm'].values.dataStatus || [],
 }))
@@ -219,8 +219,9 @@ export default class TableList extends React.PureComponent {
     }
     this.setState({ isExportingAll: true }, async () => {
       let res = await exportExcelMultipleStation(body)
-      if (res.data) window.open(res.data, '_blank')
-      else message.error(res.message)
+      if (res.success) {
+        message.success(translate('avgSearchFrom.excelMultiple'), 10)
+      } else message.error(res.message)
 
       this.setState({
         isExportingAll: false,
