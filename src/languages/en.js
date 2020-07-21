@@ -516,7 +516,7 @@ export default {
 
   avgSearchFrom: {
     titleText: 'AVG data',
-    excelMultiple: 'System processing, the report will be send to your email when finish',
+    excelMultiple: 'System processing, the report will be send to your email: ',
     form: {
       time: 'Time',
       stationType: {
