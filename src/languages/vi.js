@@ -1255,7 +1255,7 @@ export default {
           },
         },
         error: 'Vui lòng chọn thời gian mất kết nối !!!',
-        description: 'Thời cấu hình thời gian được cho là mất kết nối'
+        description: 'Chú ý: cấu hình này hỗ trợ việc nhận tín hiệu khi mất kết nối theo khoảng thời gian được chọn'
 
       },
       emails: {
