@@ -616,6 +616,7 @@ export default class StationAutoForm extends React.PureComponent {
                 <FormItem
                   {...formItemLayout}
                   label={t('stationAutoManager.form.connectionStatus.label')}
+                  style={{ color: 'red ', marginLeft: '12px' }}
                 >
                   {getFieldDecorator('connectionStatusNumber', {
                     rules: [{ required: true, message: t('stationAutoManager.form.connectionStatus.error') }],

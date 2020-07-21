@@ -516,7 +516,7 @@ export default {
 
   avgSearchFrom: {
     titleText: 'AVG data',
-    excelMultiple: 'System processing, the report will be send to your email when finish',
+    excelMultiple: 'System processing, the report will be send to your email: ',
     form: {
       time: 'Time',
       stationType: {
@@ -1263,7 +1263,7 @@ export default {
           }
         },
         error: 'Please select lost connection time range !!!',
-        description: 'Config time range to consider as lost connection'
+        description: 'Notice: This configuration supports receiving signals when the connection is lost at the selected time interval'
       },
       emails: {
         label: 'Email Address',

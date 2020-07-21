@@ -10,6 +10,7 @@ import DataStationAutoApi from 'api/DataStationAutoApi'
 import TabList from '../tab-list'
 import { translate } from 'hoc/create-lang'
 import { exportExcelMultipleStation } from 'api/DataStationAutoApi'
+import { getMe } from 'api/AuthApi'
 
 const TableListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
@@ -220,7 +221,9 @@ export default class TableList extends React.PureComponent {
     this.setState({ isExportingAll: true }, async () => {
       let res = await exportExcelMultipleStation(body)
       if (res.success) {
-        message.success(translate('avgSearchFrom.excelMultiple'), 10)
+        const { data } = await getMe()
+        const userEmail = _.get(data, 'email', '')
+        message.success(`${translate('avgSearchFrom.excelMultiple')} ${userEmail}`, 10)
       } else message.error(res.message)
 
       this.setState({
