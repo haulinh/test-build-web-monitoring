@@ -105,6 +105,8 @@ export default class StatusDataReport extends React.Component {
         title: i18n.station,
         dataIndex: 'name',
         align: 'center',
+        width: 100,
+        fixed: 'left',
         key: '1',
         render: value => {
           return (
@@ -116,6 +118,7 @@ export default class StatusDataReport extends React.Component {
         title: i18n.parameter,
         align: 'center',
         dataIndex: 'analyze',
+        width: 80,
         key: '2',
         render: value => {
           if (!value) {
@@ -139,6 +142,7 @@ export default class StatusDataReport extends React.Component {
         title: i18n.dischargeThreshold,
         dataIndex: 'measuringList',
         align: 'center',
+        width: 80,
         key: '3',
         render: measuringList => {
           return (
@@ -163,6 +167,7 @@ export default class StatusDataReport extends React.Component {
         dataIndex: 'analyze',
         align: 'center',
         key: '4',
+        width: 80,
         render: value => {
           return (
             <div style={{ textAlign: 'center' }}>
@@ -186,6 +191,7 @@ export default class StatusDataReport extends React.Component {
             title: i18n.value,
             dataIndex: 'analyze',
             align: 'center',
+            width: 100,
             key: 'minValue',
             render: value => {
               return (
@@ -251,6 +257,7 @@ export default class StatusDataReport extends React.Component {
             dataIndex: 'analyze',
             align: 'center',
             key: 'maxValue',
+            width: 100,
             render: value => {
               return (
                 <div style={{ textAlign: 'center' }}>
@@ -310,6 +317,7 @@ export default class StatusDataReport extends React.Component {
         title: i18n.averageValue,
         dataIndex: 'analyze',
         align: 'center',
+        width: 100,
         key: '11',
         render: value => {
           return (
@@ -340,6 +348,7 @@ export default class StatusDataReport extends React.Component {
             title: 'Tổng số giá trị',
             dataIndex: 'totalFact',
             align: 'center',
+            width: 100,
             key: '13',
             render: (noUse, record) => {
               const analyze = record.analyze
@@ -361,6 +370,7 @@ export default class StatusDataReport extends React.Component {
             title: i18n.percentData,
             dataIndex: 'percentage',
             align: 'center',
+            width: 80,
             key: '14',
             render: (noUse, record) => {
               const analyze = record.analyze
@@ -390,6 +400,7 @@ export default class StatusDataReport extends React.Component {
             title: i18n.totalValue,
             dataIndex: 'analyze',
             align: 'center',
+            width: 100,
             key: '16',
             render: value => {
               return (
@@ -414,6 +425,7 @@ export default class StatusDataReport extends React.Component {
             title: i18n.percentData,
             dataIndex: 'analyze',
             align: 'center',
+            width: 100,
             key: '17',
             render: value => {
               return (
@@ -437,10 +449,12 @@ export default class StatusDataReport extends React.Component {
       {
         title: i18n.timeUsuallyExceeds,
         align: 'center',
+        width: 100,
       },
       {
         title: i18n.note,
         align: 'center',
+        width: 100,
       },
     ]
   }
@@ -497,6 +511,7 @@ export default class StatusDataReport extends React.Component {
             columns={this.getColumns()}
             bordered={true}
             dataSource={this.state.dataSource}
+            scroll={{x: 1000}}
             locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}
             pagination={false}
           />

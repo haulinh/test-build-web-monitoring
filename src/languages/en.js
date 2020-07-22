@@ -593,17 +593,20 @@ export default {
       title2: 'REPORT THE RESULTS OF 24-HOUR AVERAGE MONITORING',
       description2:
         'Statistics about Results of 24-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
-      title3: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
+      title3: 'REPORT THE RESULTS OF AVERAGE MAXIMUM 1 HOUR OF THE DAY',
       description3:
-        'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} in {{=it.dayFormat}}',
+        'Statistics about Results of Average maximum 1 hour of the day of {{=it.stationName}} station in {{=it.monthYear}}',
       title4: 'REPORT THE PERCENTAGE OF EXCEEDED DATA',
       description4:
         'Statistics about the percentage of exceeded of {{=it.fromMonth}} station in {{=it.toMonth}}',
-      title5: 'REPORT THE RESULTS OF 8-HOUR AVERAGE MONITORING',
+      title5: 'REPORT THE RESULTS OF AVERAGE MAXIMUM 8 HOUR OF THE DAY',
       description5:
-        'Statistics about Results of 8-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
+        'Statistics about Results of Average maximum 8 hour of the day of {{=it.stationName}} station in {{=it.monthYear}}',
       descriptionStatusData:
         'The statistics for the average observation results time from {{=it.fromHour}} days {{= it.fromDate}} to {{=it.toHour}} {{= it.toDate}}',
+      title6: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
+      description6:
+        'tatistics about Results of 1-hour average monitoring of {{=it.stationName}} station in {{=it.dayFormat}}',
     },
     selectTimeRange: {
       startTime: 'Start Time',
@@ -2045,15 +2048,15 @@ export default {
     cancel: 'Cancel',
     ok: 'Ok',
     no: 'No',
-    yes: "Yes",
+    yes: 'Yes',
     popConfirm: {
       reviewStation: {
-        title: "Are you sure delete this review?"
+        title: 'Are you sure delete this review?',
       },
       image: {
-        title: "Are you sure delete this image?"
-      }
-    }
+        title: 'Are you sure delete this image?',
+      },
+    },
   },
   success: {
     text: 'Success',

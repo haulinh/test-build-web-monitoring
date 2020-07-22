@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Button, Divider, Avatar, Popconfirm, message } from 'antd'
+import { Row, Col, Button, Divider, Avatar, Popconfirm } from 'antd'
 import styled from 'styled-components'
 import moment from 'moment'
 import { translate } from 'hoc/create-lang'
