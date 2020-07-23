@@ -223,7 +223,7 @@ export default class TableList extends React.PureComponent {
       if (res.success) {
         const { data } = await getMe()
         const userEmail = _.get(data, 'email', '')
-        message.success(`${translate('avgSearchFrom.excelMultiple')} ${userEmail}`, 10)
+        message.success(<span>{translate('avgSearchFrom.excelMultiple')} <b>{userEmail}</b></span>, 10)
       } else message.error(res.message)
 
       this.setState({
