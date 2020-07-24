@@ -47,6 +47,14 @@ export default class AdvancedOperator extends React.PureComponent {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value && !this.props.value)
+      this.setState({
+        totalCondition: nextProps.value.length,
+        conditionList: Array.from(Array(nextProps.value.length), (d, i) => i),
+      })
+  }
+
   handleCreate = (index, key) => (_, newValue) => {
     if (!Array.isArray(this.props.value)) return
     const currentItem = this.props.value[index]
@@ -60,15 +68,35 @@ export default class AdvancedOperator extends React.PureComponent {
     }
 
     if (index < this.state.totalCondition - 1) return
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       totalCondition: prevState.totalCondition + 1,
     }))
   }
 
   handleReset = () => {
-    this.setState({ totalCondition: 1 }, () => {
-      this.props.onReset()
-    })
+    this.setState(
+      { totalCondition: 1, conditionList: Array.from(Array(1), (d, i) => i) },
+      () => {
+        this.props.onReset()
+      }
+    )
+  }
+
+  handleDelete = (index) => {
+    if (this.state.conditionList.length <= 1) {
+      this.handleReset()
+      return
+    }
+    this.setState(
+      (prevState) =>
+        update(prevState, {
+          conditionList: {
+            $splice: [[index, 1]],
+          },
+          totalCondition: { $set: prevState.totalCondition - 1 },
+        }),
+      () => this.props.onRemoveItem(index)
+    )
   }
 
   render() {

@@ -511,6 +511,7 @@ export default {
 
   avgSearchFrom: {
     titleText: 'Dữ liệu trung bình',
+    excelMultiple: 'Đang xử lý, báo cáo sẽ được gửi qua email của bạn: ',
     form: {
       time: 'Thời gian',
       stationType: {
@@ -1239,6 +1240,21 @@ export default {
         label: 'Vĩ độ',
         placeholder: 'Nhập vĩ độ',
         error: 'Vui lòng nhập vĩ độ',
+      },
+      connectionStatus: {
+        label: 'Tín hiệu mất kết nối',
+        time: {
+          options: {
+            minutes: 'Phút',
+            hours: 'Giờ',
+            days: 'Ngày',
+            months: 'Tháng',
+            years: 'Năm'
+          },
+        },
+        error: 'Vui lòng chọn thời gian mất kết nối !!!',
+        description: 'Chú ý: cấu hình này hỗ trợ việc nhận tín hiệu khi mất kết nối theo khoảng thời gian được chọn'
+
       },
       emails: {
         label: 'Địa chỉ Email',

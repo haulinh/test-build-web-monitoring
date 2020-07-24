@@ -516,6 +516,7 @@ export default {
 
   avgSearchFrom: {
     titleText: 'AVG data',
+    excelMultiple: 'System processing, the report will be send to your email: ',
     form: {
       time: 'Time',
       stationType: {
@@ -1247,6 +1248,20 @@ export default {
         label: 'Latitude',
         placeholder: 'Input Latitude',
         error: 'Please Input Latitude',
+      },
+      connectionStatus: {
+        label: 'Connection status',
+        time: {
+          options: {
+            minutes: 'Minutes',
+            hours: 'Hours',
+            days: 'Days',
+            months: 'Months',
+            years: 'Years',
+          }
+        },
+        error: 'Please select lost connection time range !!!',
+        description: 'Notice: This configuration supports receiving signals when the connection is lost at the selected time interval'
       },
       emails: {
         label: 'Email Address',

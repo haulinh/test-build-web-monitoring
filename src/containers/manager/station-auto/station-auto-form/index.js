@@ -31,10 +31,18 @@ import InputNumberCell from 'components/elements/input-number-cell'
 import moment from 'moment'
 import { get, keyBy, omit } from 'lodash'
 import animateScrollTo from 'animated-scroll-to'
+import styled from 'styled-components'
+import _ from 'lodash'
 
 const FormItem = Form.Item
 const { TextArea } = Input
 const { Panel } = Collapse
+const { Option } = Select;
+
+const ConnectionStatusWrapper = styled.div`
+display:flex;
+`
+
 
 @Form.create({})
 @createLanguageHoc
@@ -122,6 +130,10 @@ export default class StationAutoForm extends React.PureComponent {
 
   componentDidMount() {
     const initialValues = this.getInitialValues()
+    const minuteCount = _.get(initialValues, 'config.lostConnection.minuteCount', null)
+
+    const { connectionStatusTimeRange, connectionStatusNumber } = this._convertMinutesToTimeRange(minuteCount)
+
     // vi dung state de luu nen phai gan gia tri initialValus vao state
     this.setState({
       emails: initialValues.emails,
@@ -129,11 +141,13 @@ export default class StationAutoForm extends React.PureComponent {
       measuringList: initialValues.measuringList,
       stationType: initialValues.stationType,
       stationTypeObject: initialValues.stationTypeObject,
-      options: initialValues.options ? initialValues.options : {},
+      options: initialValues.options ? initialValues.options : {}
     })
     try {
       this.props.form.setFieldsValue({
         ...omit(initialValues, 'measuringList'),
+        connectionStatusNumber,
+        connectionStatusTimeRange
       })
     } catch (error) {
       console.log(error, '----')
@@ -155,9 +169,56 @@ export default class StationAutoForm extends React.PureComponent {
     }
   }
 
+  _transformLostConnectionData = data => {
+    const { connectionStatusNumber, connectionStatusTimeRange } = data
+    let multipler = 1
+    switch (connectionStatusTimeRange) {
+      case 'HOURS':
+        multipler = 60
+        break;
+      case 'MINUTES':
+        multipler = 1
+        break
+      case 'DAYS':
+        multipler = 1140
+        break
+      default:
+        multipler = 1
+        break;
+    }
+    return { minuteCount: connectionStatusNumber * multipler }
+  }
+
+  _convertMinutesToTimeRange = minutes => {
+    if (minutes === null) {
+      return {
+        connectionStatusTimeRange: 'MINUTES',
+        connectionStatusNumber: 1
+      }
+    }
+
+
+    let result = {
+      connectionStatusTimeRange: 'MINUTES',
+      connectionStatusNumber: minutes
+    }
+    if (minutes % 1140 === 0) {
+      result.connectionStatusTimeRange = 'DAYS'
+      result.connectionStatusNumber = minutes / 1140
+    }
+    else if (minutes % 60 === 0) {
+      result.connectionStatusTimeRange = 'HOURS'
+      result.connectionStatusNumber = minutes / 60
+    }
+
+    return result
+  }
+
   handleSubmit(e) {
+
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
+
       if (err) return
       if (!values.measuringList) {
         const { t } = this.props.lang
@@ -197,6 +258,7 @@ export default class StationAutoForm extends React.PureComponent {
         userSupervisor: values.userSupervisor,
         phoneSupervisor: values.phoneSupervisor,
         order: '',
+        lostConnection: this._transformLostConnectionData(values)
       }
 
       // console.log(data.stationType, '---data---')
@@ -548,6 +610,39 @@ export default class StationAutoForm extends React.PureComponent {
                 </FormItem>
               </Col> */}
             </Row>
+            <ConnectionStatusWrapper>
+              <div style={{ width: '43em' }}>
+                <FormItem
+                  {...formItemLayout}
+                  label={t('stationAutoManager.form.connectionStatus.label')}
+                  style={{ color: 'red ', marginLeft: '12px' }}
+                >
+                  {getFieldDecorator('connectionStatusNumber', {
+                    rules: [{ required: true, message: t('stationAutoManager.form.connectionStatus.error') }],
+                  })(<InputNumber min={1} initialValue={1} />)}
+
+                </FormItem>
+              </div>
+
+              <div style={{ marginLeft: '-24em' }}>
+                <FormItem
+                  {...formItemLayout}
+                >
+                  {getFieldDecorator('connectionStatusTimeRange', {
+                    rules: [{ required: true, message: t('stationAutoManager.form.connectionStatus.error') }],
+                  })(
+                    <Select placeholder={t('stationAutoManager.form.connectionStatus.label')} style={{ width: 120 }} >
+                      <Option value="MINUTES">{t('stationAutoManager.form.connectionStatus.time.options.minutes')}</Option>
+                      <Option value="HOURS">{t('stationAutoManager.form.connectionStatus.time.options.hours')}</Option>
+                      <Option value="DAYS">{t('stationAutoManager.form.connectionStatus.time.options.days')}</Option>
+                    </Select>)}
+                </FormItem>
+              </div>
+              <i style={{
+                marginTop: '14px',
+                marginLeft: '8px'
+              }}>{t('stationAutoManager.form.connectionStatus.description')}</i>
+            </ConnectionStatusWrapper>
             <Row gutter={8}>
               <Col span={24} style={{ paddingRight: 40 }}>
                 <FormItem
@@ -667,12 +762,12 @@ export default class StationAutoForm extends React.PureComponent {
                 this.props.initialValues
                   ? this.props.initialValues.measuringList
                   : [
-                      {
-                        key: '',
-                        name: '',
-                        unit: '',
-                      },
-                    ]
+                    {
+                      key: '',
+                      name: '',
+                      unit: '',
+                    },
+                  ]
               }
               measuringListSource={this.state.measuringListSource}
             />

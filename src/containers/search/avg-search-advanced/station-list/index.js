@@ -10,6 +10,7 @@ import DataStationAutoApi from 'api/DataStationAutoApi'
 import TabList from '../tab-list'
 import { translate } from 'hoc/create-lang'
 import { exportExcelMultipleStation } from 'api/DataStationAutoApi'
+import { getMe } from 'api/AuthApi'
 
 const TableListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
@@ -31,12 +32,12 @@ const TitleWrapper = styled.div`
   toDate: state.form['dataSearchFilterForm'].values.toDate,
   advanced: state.form['dataSearchFilterForm'].values.advanced
     ? state.form['dataSearchFilterForm'].values.advanced.filter(
-        item =>
-          item.measuringKey &&
-          item.operator &&
-          item.value !== null &&
-          typeof item.value !== 'undefined'
-      )
+      item =>
+        item.measuringKey &&
+        item.operator &&
+        item.value !== null &&
+        typeof item.value !== 'undefined'
+    )
     : [],
   dataStatus: state.form['dataSearchFilterForm'].values.dataStatus || [],
 }))
@@ -219,8 +220,11 @@ export default class TableList extends React.PureComponent {
     }
     this.setState({ isExportingAll: true }, async () => {
       let res = await exportExcelMultipleStation(body)
-      if (res.data) window.open(res.data, '_blank')
-      else message.error(res.message)
+      if (res.success) {
+        const { data } = await getMe()
+        const userEmail = _.get(data, 'email', '')
+        message.success(<span>{translate('avgSearchFrom.excelMultiple')} <b>{userEmail}</b></span>, 10)
+      } else message.error(res.message)
 
       this.setState({
         isExportingAll: false,

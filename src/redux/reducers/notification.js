@@ -89,9 +89,24 @@ function handleToggleLoading(state, payload) {
 /* NOTE  handle action: loadNotificationsByType */
 /* DONE  */
 function handleUpdateDataSource(state, payload) {
+  const oldLogs = state.logs
+  let newLogs = [...oldLogs, ...payload]
+  newLogs = _filterLatestNotification(newLogs)
   return update(state, {
-    logs: { $push: payload },
+    logs: { $push: newLogs },
   })
+}
+
+const _filterLatestNotification = data => {
+  let result = []
+  let newLogsClone = _.groupBy(data, 'fullBody')
+  _.forEach(newLogsClone, log => {
+    const tempLog = _.sortBy(log, ['_id'])
+    tempLog.reverse()
+    result = [...result, tempLog[0]]
+  })
+  result = _.sortBy(result, ['_id']).reverse()
+  return result
 }
 function handleClearDataSource(state) {
   return update(state, {
