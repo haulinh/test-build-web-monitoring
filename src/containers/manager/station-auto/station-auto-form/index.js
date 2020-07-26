@@ -10,6 +10,7 @@ import {
   Upload,
   Modal,
   DatePicker,
+  InputNumber,
   // Radio,
   // Checkbox,
   Collapse,

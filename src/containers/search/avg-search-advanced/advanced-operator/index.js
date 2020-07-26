@@ -8,6 +8,7 @@ import createLang from 'hoc/create-lang'
 import createValidateComponent from 'components/elements/redux-form-validate'
 import SelectAnt from 'components/elements/select-ant'
 import Clearfix from 'components/elements/clearfix'
+import update from 'immutability-helper'
 
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FInputNumber = createValidateComponent(InputNumber)
