@@ -16,6 +16,7 @@ import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 import { connect } from 'react-redux'
 import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
+import { getLanguage } from 'utils/lang'
 
 const { Title, Text } = Typography
 const i18n = {
@@ -46,6 +47,7 @@ const i18n = {
 @connect(state => ({
   token: state.auth.token,
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
+  locale: state.language.locale,
 }))
 export default class StatusDataReport extends React.Component {
   state = {
@@ -91,7 +93,8 @@ export default class StatusDataReport extends React.Component {
       this.props.token,
       stationAutos,
       from,
-      to
+      to,
+      getLanguage(this.props.locale)
     )
     if (url) {
       this.setState({ isLoadingExcel: false })
@@ -203,8 +206,8 @@ export default class StatusDataReport extends React.Component {
                           {getFormatNumber(item.min.data[0].value, ROUND_DIGIT)}
                         </span>
                       ) : (
-                        '-'
-                      )}
+                          '-'
+                        )}
                       {index !== value.length - 1 && (
                         <Divider style={{ margin: 0 }} />
                       )}
@@ -233,8 +236,8 @@ export default class StatusDataReport extends React.Component {
                               timeZone={_get(this.props, 'timeZone.value', '')}
                             />
                           ) : (
-                            '-'
-                          )}
+                              '-'
+                            )}
                         </span>
                       )}
                       {index !== value.length - 1 && (
@@ -268,8 +271,8 @@ export default class StatusDataReport extends React.Component {
                           {getFormatNumber(item.max.data[0].value, ROUND_DIGIT)}
                         </span>
                       ) : (
-                        '-'
-                      )}
+                          '-'
+                        )}
                       {index !== value.length - 1 && (
                         <Divider style={{ margin: 0 }} />
                       )}
@@ -298,8 +301,8 @@ export default class StatusDataReport extends React.Component {
                               timeZone={_get(this.props, 'timeZone.value', '')}
                             />
                           ) : (
-                            '-'
-                          )}
+                              '-'
+                            )}
                         </span>
                       )}
                       {index !== value.length - 1 && (
@@ -329,8 +332,8 @@ export default class StatusDataReport extends React.Component {
                       {getFormatNumber(item.avg.data[0].value, ROUND_DIGIT)}
                     </span>
                   ) : (
-                    '-'
-                  )}
+                      '-'
+                    )}
                   {index !== value.length - 1 && (
                     <Divider style={{ margin: 0 }} />
                   )}
@@ -476,9 +479,9 @@ export default class StatusDataReport extends React.Component {
             <React.Fragment>
               <Text>
                 {translate('avgSearchFrom.table.descriptionStatusData', {
-                  fromHour:moment(this.state.from).format('HH:mm'),
+                  fromHour: moment(this.state.from).format('HH:mm'),
                   fromDate: moment(this.state.from).format('DD/MM/YYYY'),
-                  toHour:moment(this.state.to).format('HH:mm'),
+                  toHour: moment(this.state.to).format('HH:mm'),
                   toDate: moment(this.state.to).format('DD/MM/YYYY'),
                 })}
               </Text>
@@ -511,7 +514,7 @@ export default class StatusDataReport extends React.Component {
             columns={this.getColumns()}
             bordered={true}
             dataSource={this.state.dataSource}
-            scroll={{x: 1000}}
+            scroll={{ x: 1000 }}
             locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}
             pagination={false}
           />

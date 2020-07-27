@@ -20,6 +20,8 @@ import moment from 'moment-timezone'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 import { connect } from 'react-redux'
+import { getLanguage } from 'utils/lang'
+
 
 // import axios from 'axios'
 
@@ -33,6 +35,7 @@ const i18n = {
 @connect(state => ({
   token: state.auth.token,
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
+  locale: state.language.locale,
 }))
 export default class ReportType12 extends React.Component {
   constructor(props) {
@@ -128,7 +131,8 @@ export default class ReportType12 extends React.Component {
   handleExcel = () => {
     let url = downloadExcel_reportType11(
       this.props.token,
-      this.state.dataSearch
+      this.state.dataSearch,
+      getLanguage(this.props.locale)
     )
     // console.log("this.state.dataSearch", this.state.dataSearch);
     // window.location.href = url
