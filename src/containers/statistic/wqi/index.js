@@ -17,6 +17,8 @@ import { getListConfigWqi } from 'api/CategoryApi'
 import ReferencesComponent from 'components/elements/references'
 import slug from 'constants/slug'
 import moment from 'moment'
+import { getLanguage } from 'utils/lang'
+import { connect } from 'react-redux'
 
 const { Title, Text } = Typography
 
@@ -26,6 +28,10 @@ const i18n = {
 }
 @protectRole(ROLE.WQI_GIO.VIEW)
 @queryFormDataBrowser(['submit'])
+@connect(state => ({
+  token: state.auth.token,
+  locale: state.language.locale,
+}))
 @autobind
 export default class WQIStatistics extends React.Component {
   state = {
@@ -85,6 +91,7 @@ export default class WQIStatistics extends React.Component {
       to: _.get(this.state.searchFormData, 'toDate', ''),
       listKey: _.get(this.state.searchFormData, 'stationID', ''),
       code: _.get(this.state.searchFormData, 'wqiKey'),
+      language: getLanguage(this.props.locale)
     }
     let res = await WqiApi.exportFileWqiHourbyStation({ ...params })
     if (res && res.success) window.location = res.data
