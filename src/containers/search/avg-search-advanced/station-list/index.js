@@ -1,7 +1,7 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import { connect } from 'react-redux'
-import { Tabs, message } from 'antd'
+import { Tabs, message, Button } from 'antd'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -239,15 +239,35 @@ export default class TableList extends React.PureComponent {
       <TableListWrapper>
         <TitleWrapper>
           <h4>{translate('dataSearchFilterForm.table.heading')}</h4>
-          {/* <Button
-            icon="file-excel"
-            style={{ float: 'right', margin: '5px' }}
-            loading={this.state.isExportingAll}
-            type="primary"
-            onClick={this.handleExportAllStation}
-          >
-            {translate('avgSearchFrom.tab.exportExcelAll')}
-          </Button> */}
+
+          {
+            stations.length === 1 && (
+              <Button
+                icon="file-excel"
+                style={{ float: 'right', margin: '5px' }}
+                loading={this.state.isExporting}
+                type="primary"
+                onClick={this.handleExportExcel}
+              >
+                {translate('avgSearchFrom.tab.exportExcel')}
+              </Button>
+            )
+          }
+
+          {
+            stations.length > 1 && (
+              <Button
+                icon="file-excel"
+                style={{ float: 'right', margin: '5px' }}
+                loading={this.state.isExportingAll}
+                type="primary"
+                onClick={this.handleExportAllStation}
+              >
+                {translate('avgSearchFrom.tab.exportExcelAll')}
+              </Button>
+            )
+          }
+
         </TitleWrapper>
 
         <Tabs

@@ -625,7 +625,7 @@ export default {
       data: 'Data',
       chart: 'Chart',
       exportExcel: 'Export To Excel',
-      exportExcelAll: 'Export all',
+      exportExcelAll: 'Export all via email',
       statusExport: 'Exporting ...',
     },
     search: {
