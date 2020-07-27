@@ -58,10 +58,11 @@ export default class TableList extends React.PureComponent {
   }
 
   render() {
+
     if (!this.props.isActive) return null
     return (
       <TableListWrapper>
-        <ButtonAbsolute>
+        {/* <ButtonAbsolute>
           {protectRole(ROLE.AVG_SEARCH.EXPORT)(
             <Dropdown overlay={this.renderMenuExport()} trigger={['click']}>
               <Button type='primary' icon='file-excel' loading={this.props.isExporting || this.props.isExportingAll}>
@@ -70,7 +71,7 @@ export default class TableList extends React.PureComponent {
 
             </Dropdown>
           )}
-        </ButtonAbsolute>
+        </ButtonAbsolute> */}
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab={translate('avgSearchFrom.tab.data')} key="1">
             <TabTableDataList

@@ -620,7 +620,7 @@ export default {
       data: 'Dữ liệu',
       chart: 'Biểu đồ',
       exportExcel: 'Xuất dữ liệu excel',
-      exportExcelAll: 'Xuất tất cả dữ liệu',
+      exportExcelAll: 'Xuất dữ liệu về email',
       statusExport: 'Đang xuất dữ liệu ...',
     },
     search: {
