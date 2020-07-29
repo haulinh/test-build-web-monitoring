@@ -1,13 +1,13 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { Tabs, Button, Menu, Dropdown } from 'antd'
+import { Tabs, Menu } from 'antd'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow'
 import TabTableDataList from './tab-table-data-list/index'
 import TabChart from './tab-chart/index'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+// import ROLE from 'constants/role'
+// import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
 
 const TableListWrapper = styled(BoxShadow)`
@@ -15,12 +15,12 @@ const TableListWrapper = styled(BoxShadow)`
   position: relative;
 `
 
-const ButtonAbsolute = styled.div`
-  position: absolute;
-  top: 0px;
-  right: 16px;
-  z-index: 3;
-`
+// const ButtonAbsolute = styled.div`
+//   position: absolute;
+//   top: 0px;
+//   right: 16px;
+//   z-index: 3;
+// `
 
 @autobind
 export default class TableList extends React.PureComponent {

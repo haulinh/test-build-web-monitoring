@@ -50,8 +50,7 @@ export default class TableDataList extends React.PureComponent {
         dataIndex: 'Max',
         key: 'Max',
         render(value, record, index) {
-          let val =
-            record.max.data.length > 0 ? record.max.data[0].value || '' : ''
+          let val = record.max.data.length > 0 ? record.max.data[0].value : ''
           val = getFormatNumber(val, FORMAT_VALUE_MEASURING)
           return <div>{val}</div>
         },
@@ -74,8 +73,7 @@ export default class TableDataList extends React.PureComponent {
         dataIndex: 'Min',
         key: 'Min',
         render(value, record, index) {
-          let val =
-            record.min.data.length > 0 ? record.min.data[0].value || '' : ''
+          let val = record.min.data.length > 0 ? record.min.data[0].value : ''
           val = getFormatNumber(val, FORMAT_VALUE_MEASURING)
           return <div>{val}</div>
         },
@@ -85,8 +83,7 @@ export default class TableDataList extends React.PureComponent {
         dataIndex: 'Avg',
         key: 'Avg',
         render(value, record, index) {
-          let val =
-            record.avg.data.length > 0 ? record.avg.data[0].value || '' : ''
+          let val = record.avg.data.length > 0 ? record.avg.data[0].value : ''
           val = getFormatNumber(val, FORMAT_VALUE_MEASURING)
           return <div>{val}</div>
         },
