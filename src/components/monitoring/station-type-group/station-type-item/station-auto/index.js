@@ -82,7 +82,7 @@ export default class StationAutoItem extends React.PureComponent {
             measuringData: this.props.measuringList,
             searchNow: true,
           }
-          slugPrefix = slug.avgSearch.base
+          slugPrefix = slug.avgSearchAdvanced.base
           break
         }
         default: {
