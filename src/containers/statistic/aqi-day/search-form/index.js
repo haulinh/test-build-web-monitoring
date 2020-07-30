@@ -46,7 +46,7 @@ function validate(values) {
   if (!values.stationType)
     errors.stationType = translate('avgSearchFrom.form.stationType.error')
   if (!values.station)
-    errors.station = translate('avgSearchFrom.form.stationType.error')
+    errors.station = translate('avgSearchFrom.form.stationAuto.error')
   return errors
 }
 
