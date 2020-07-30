@@ -36,6 +36,10 @@ function validate(values) {
   const errors = {}
   if (!values.stationType)
     errors.stationType = translate('avgSearchFrom.form.stationType.error')
+  if (!values.station)
+    errors.station = translate('avgSearchFrom.form.stationAuto.error')
+  if (!values.inRange)
+    errors.inRange = translate('aqiSearchForm.form.inRange.error')
   if (!values.stationFixed || values.stationFixed === '')
     errors.stationFixed = translate('avgSearchFrom.form.stationAuto.error')
   if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
