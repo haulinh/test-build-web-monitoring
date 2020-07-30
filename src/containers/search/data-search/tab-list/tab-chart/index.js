@@ -11,6 +11,7 @@ import {
   getFormatNumber,
 } from 'constants/format-number'
 import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 
 const TabChartWrapper = styled.div`
   justify-content: center;
@@ -245,6 +246,7 @@ export default class TabChart extends React.PureComponent {
     nameChart,
     maxChart
   ) => {
+    console.log(series, '--series--')
     return {
       chart: {
         type: 'line',
@@ -282,10 +284,17 @@ export default class TabChart extends React.PureComponent {
       // dùng để custom hiển thị
       tooltip: {
         formatter: function() {
-          return this.points.map(function(point) {
-            return `<b>${point.series.name}</b>: ${getFormatNumber(point.y)}`
-          })
+          // The first returned item is the header, subsequent items are the
+          // points
+          return ['<b>' + moment(this.x).format(DD_MM_YYYY_HH_MM) + '</b>'].concat(
+            this.points
+              ? this.points.map(function(point) {
+                  return point.series.name + ': ' + getFormatNumber(point.y)
+                })
+              : []
+          )
         },
+        split: true,
       },
       series,
       xAxis: {
