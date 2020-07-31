@@ -17,6 +17,8 @@ import { getListConfigWqi } from 'api/CategoryApi'
 import ReferencesComponent from 'components/elements/references'
 import slug from 'constants/slug'
 import moment from 'moment'
+import { getLanguage } from 'utils/lang'
+import { connect } from 'react-redux'
 // import moment from "moment-timezone";
 
 const { Title, Text } = Typography
@@ -28,6 +30,10 @@ const i18n = {
 
 @protectRole(ROLE.WQI_GIO.VIEW)
 @queryFormDataBrowser(['submit'])
+@connect(state => ({
+  token: state.auth.token,
+  locale: state.language.locale,
+}))
 @autobind
 export default class WQIStatisticsDay extends React.Component {
   state = {
@@ -93,7 +99,7 @@ export default class WQIStatisticsDay extends React.Component {
       listKey: _.get(this.state.searchFormData, 'listStation', ''),
       code: _.get(this.state.searchFormData, 'wqiKey'),
     }
-    let res = await wqiApi.exportFileWqiDaybyListStation({ ...params })
+    let res = await wqiApi.exportFileWqiDaybyListStation({ ...params, language: getLanguage(this.props.locale) })
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
 
