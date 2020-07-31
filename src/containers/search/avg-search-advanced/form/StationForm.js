@@ -147,6 +147,7 @@ export default class StationForm extends React.PureComponent {
           (a, b) => a.numericalOrder - b.numericalOrder
         ),
         measuringList: station.measuringList.map(measuring => measuring.key),
+        isValid: true
       }
     })
   }
@@ -164,7 +165,10 @@ export default class StationForm extends React.PureComponent {
             },
           },
         }),
-      this.handleChange
+      () => {
+        this.handleChange()
+        this.updateShowErrorStatus(recordIndex)
+      }
     )
   }
 
@@ -267,14 +271,37 @@ export default class StationForm extends React.PureComponent {
     this.setState({ searchText: '' })
   }
 
-  isDisableRemoveMeaure(measuring, stationIndex) {
+  isShowErrorMessage(stationIndex) {
     const matchedRow = this.state.dataSource[stationIndex]
-    const optionSelectd = matchedRow.measuringList
-    if (optionSelectd.length === 1 && optionSelectd.includes(measuring.key)) {
-
-      return true
+    return !matchedRow.isValid && matchedRow.view
+  }
+  isDisableSearch() {
+    const { dataSource } = this.state
+    for (let i = 0; i < dataSource.length; i++) {
+      const element = dataSource[i];
+      if (element.view && element.measuringList.length === 0) {
+        return true
+      }
     }
     return false
+  }
+
+  updateShowErrorStatus(stationIndex) {
+    const matchedRecord = this.state.dataSource[stationIndex]
+    const isValid = matchedRecord.measuringList.length > 0
+    this.setState(
+      prevState =>
+        update(prevState, {
+          dataSource: {
+            [stationIndex]: {
+              isValid: {
+                $set: isValid
+              },
+            },
+          },
+        })
+    )
+
   }
 
   getColumns = () => {
@@ -300,27 +327,29 @@ export default class StationForm extends React.PureComponent {
         key: 'measuringList',
         render: (measuringList, record) => {
           return (
-            <Select
-              style={{ width: '100%' }}
-              mode="tags"
-              showSearch
-              size="large"
-              onChange={this.handleChangeMeasuringList(record.index)}
-              value={measuringList}
-            >
-              {record.measuringData.map(measuring => {
+            <div>
+              <Select
+                style={{ width: '100%' }}
+                mode="tags"
+                showSearch
+                size="large"
+                onChange={this.handleChangeMeasuringList(record.index)}
+                value={measuringList}
+              >
+                {record.measuringData.map(measuring => {
 
-                return (
-                  <Select.Option
-                    disabled={this.isDisableRemoveMeaure(measuring, record.index)}
+                  return (
+                    <Select.Option
+                      key={measuring.key}>
+                      {measuring.name}
+                    </Select.Option>
+                  )
+                }
+                )}
+              </Select>
+              <span style={{ color: 'red', display: this.isShowErrorMessage(record.index) ? 'block' : 'none' }}>{translate('dataSearchFilterForm.form.measuringList.require')}</span>
+            </div>
 
-                    key={measuring.key}>
-                    {measuring.name}
-                  </Select.Option>
-                )
-              }
-              )}
-            </Select>
           )
         },
       },
@@ -387,6 +416,7 @@ export default class StationForm extends React.PureComponent {
         <Button
           type="primary"
           icon="search"
+          disabled={this.isDisableSearch()}
           size="large"
           onClick={this.handleSearchAvgData}
         >
