@@ -63,9 +63,10 @@ export function exportFileWqiDaybyListStation({
   to,
   listKey,
   code,
+  language = 'EN'
 } = {}) {
   var url = getWqiUrl(
-    `${SLUG_WQI_VS}/day-export-excel?from=${from}&to=${to}&listKey=${listKey}&code=${code}`
+    `${SLUG_WQI_VS}/day-export-excel?from=${from}&to=${to}&listKey=${listKey}&code=${code}&language=${language}`
   )
   return getFetch(url)
 }
