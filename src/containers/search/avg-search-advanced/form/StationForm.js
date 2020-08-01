@@ -328,6 +328,7 @@ export default class StationForm extends React.PureComponent {
         render: (measuringList, record) => {
           return (
             <div>
+              <span style={{ color: 'red', display: this.isShowErrorMessage(record.index) ? 'block' : 'none' }}>{translate('dataSearchFilterForm.form.measuringList.require')}</span>
               <Select
                 style={{ width: '100%' }}
                 mode="tags"
@@ -347,7 +348,6 @@ export default class StationForm extends React.PureComponent {
                 }
                 )}
               </Select>
-              <span style={{ color: 'red', display: this.isShowErrorMessage(record.index) ? 'block' : 'none' }}>{translate('dataSearchFilterForm.form.measuringList.require')}</span>
             </div>
 
           )
