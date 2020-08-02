@@ -52,6 +52,9 @@ export function updateReadOne(notificaitonId) {
 
 export function loadNotificationsByType(params) {
   // params: {page, itemPerPage, type}
+  if (params.search === undefined) {
+    delete params.search
+  }
   let qryString = querystring.stringify(params)
   return getFetch(`${fcmNotificationRoute()}/?${qryString}`)
 }

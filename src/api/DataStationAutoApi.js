@@ -396,33 +396,34 @@ export function getUrlReportType11({ key, fromDate, toDate, measuringList }) {
 
 export function downloadExcel_reportType11(
   token,
-  { key, fromDate, toDate, measuringList }
+  { key, fromDate, toDate, measuringList },
+  language = 'EN'
 ) {
-  let url = getReportUrl(`type11-excel/${key}/?token=${token}`)
+  let url = getReportUrl(`type11-excel/${key}/?token=${token}&language=${language}`)
   if (fromDate) url += `&fromDate=${fromDate}`
   if (toDate) url += `&toDate=${toDate}`
   if (measuringList) url += `&measuringList=${measuringList}`
   return url
 }
 
-export function getUrlReportStatusData(stationKeys, from, to) {
+export function getUrlReportStatusData(stationKeys, from, to, language = 'EN') {
   const stringified = qs.stringify({
     from: from.toDate(),
     to: to.toDate(),
     listKey: stationKeys.join(','),
   })
-  var url = getReportUrl(`assess-status?${stringified}`)
+  var url = getReportUrl(`assess-status?${stringified}&language=${language}`)
   return getFetch(url)
 }
 
-export function getUrlReportStatusDataExcel(token, stationKeys, from, to) {
+export function getUrlReportStatusDataExcel(token, stationKeys, from, to, language = 'EN') {
   const stringified = qs.stringify({
     token,
     from: from.toDate(),
     to: to.toDate(),
     listKey: stationKeys.join(','),
   })
-  var url = getReportUrl(`assess-status-excel?${stringified}`)
+  var url = getReportUrl(`assess-status-excel?${stringified}&language=${language}`)
   return url
 }
 

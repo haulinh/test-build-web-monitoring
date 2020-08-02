@@ -100,7 +100,7 @@ export default {
       more: {
         label: 'Liên kết',
         historyData: 'Tra cứu số liệu lịch sử',
-        averageData: 'Tổng hợp dữ liệu',
+        averageData: 'Tra cứu dữ liệu trung bình',
         checkData: 'Kiểm duyệt dữ liệu',
         config: 'Cấu hình gửi cảnh báo',
       },
@@ -620,7 +620,7 @@ export default {
       data: 'Dữ liệu',
       chart: 'Biểu đồ',
       exportExcel: 'Xuất dữ liệu excel',
-      exportExcelAll: 'Xuất tất cả dữ liệu',
+      exportExcelAll: 'Xuất dữ liệu về email',
       statusExport: 'Đang xuất dữ liệu ...',
     },
     search: {

@@ -103,7 +103,7 @@ export default {
       more: {
         label: 'Link',
         historyData: 'History Data',
-        averageData: 'Average Data',
+        averageData: 'History Average Data',
         checkData: 'Check Data',
         config: 'Configure to Send Notifications',
       },
@@ -625,7 +625,7 @@ export default {
       data: 'Data',
       chart: 'Chart',
       exportExcel: 'Export To Excel',
-      exportExcelAll: 'Export all',
+      exportExcelAll: 'Export all via email',
       statusExport: 'Exporting ...',
     },
     search: {

@@ -6,10 +6,11 @@ import {
   Row,
   Col,
   Select,
-  Icon,
-  Upload,
-  Modal,
+  // Icon,
+  // Upload,
+  // Modal,
   DatePicker,
+  InputNumber,
   // Radio,
   // Checkbox,
   Collapse,
@@ -24,7 +25,7 @@ import SelectStationType from 'components/elements/select-station-type'
 import SelectProvice from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
 import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
-import MediaApi from 'api/MediaApi'
+// import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
 import MeasuringTable from '../station-auto-formTable/'
 import InputNumberCell from 'components/elements/input-number-cell'
@@ -351,16 +352,16 @@ export default class StationAutoForm extends React.PureComponent {
     const { getFieldDecorator } = this.props.form
     const { otherForm } = this.props
     const { t } = this.props.lang
-    const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory('station-autos')
-    const { previewVisible, previewImage, fileList } = this.state
-    const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">
-          {t('stationAutoManager.upload.label')}
-        </div>
-      </div>
-    )
+    // const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory('station-autos')
+    // const { previewVisible, previewImage, fileList } = this.state
+    // const uploadButton = (
+    //   <div>
+    //     <Icon type="plus" />
+    //     <div className="ant-upload-text">
+    //       {t('stationAutoManager.upload.label')}
+    //     </div>
+    //   </div>
+    // )
     const formItemLayout = {
       labelCol: {
         sm: { span: 6, offset: 0 },

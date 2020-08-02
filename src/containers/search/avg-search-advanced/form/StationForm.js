@@ -65,6 +65,7 @@ export default class StationForm extends React.PureComponent {
 
   constructor(props) {
     super(props)
+
     this.state = {
       listView: [],
       dataSource: this.getDataSource(),
@@ -77,8 +78,13 @@ export default class StationForm extends React.PureComponent {
     }
   }
 
+
+
+
+
   handleChange = () => {
     this.props.onChangeStationsData(this.state.dataSource)
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -141,11 +147,13 @@ export default class StationForm extends React.PureComponent {
           (a, b) => a.numericalOrder - b.numericalOrder
         ),
         measuringList: station.measuringList.map(measuring => measuring.key),
+        isValid: true
       }
     })
   }
 
   handleChangeMeasuringList = recordIndex => measuringList => {
+
     this.setState(
       prevState =>
         update(prevState, {
@@ -157,7 +165,10 @@ export default class StationForm extends React.PureComponent {
             },
           },
         }),
-      this.handleChange
+      () => {
+        this.handleChange()
+        this.updateShowErrorStatus(recordIndex)
+      }
     )
   }
 
@@ -183,39 +194,39 @@ export default class StationForm extends React.PureComponent {
       confirm,
       clearFilters,
     }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={node => {
-            this.searchInput = node
-          }}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={e =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() =>
-            this.handleSearch(selectedKeys, confirm, dataIndex)
-          }
-          style={{ width: 258, marginBottom: 8, display: 'block' }}
-        />
-        <Button
-          type="primary"
-          onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
-          icon="search"
-          size="small"
-          style={{ width: 125, marginRight: 8 }}
-        >
-          Search
+        <div style={{ padding: 8 }}>
+          <Input
+            ref={node => {
+              this.searchInput = node
+            }}
+            placeholder={`Search ${dataIndex}`}
+            value={selectedKeys[0]}
+            onChange={e =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() =>
+              this.handleSearch(selectedKeys, confirm, dataIndex)
+            }
+            style={{ width: 258, marginBottom: 8, display: 'block' }}
+          />
+          <Button
+            type="primary"
+            onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+            icon="search"
+            size="small"
+            style={{ width: 125, marginRight: 8 }}
+          >
+            Search
         </Button>
-        <Button
-          onClick={() => this.handleReset(clearFilters)}
-          size="small"
-          style={{ width: 125 }}
-        >
-          Reset
+          <Button
+            onClick={() => this.handleReset(clearFilters)}
+            size="small"
+            style={{ width: 125 }}
+          >
+            Reset
         </Button>
-      </div>
-    ),
+        </div>
+      ),
     filterIcon: filtered => (
       <Tooltip title={translate('dataSearchFilterForm.tooltip.searchStation')}>
         <Icon
@@ -243,8 +254,8 @@ export default class StationForm extends React.PureComponent {
           textToHighlight={text.toString()}
         />
       ) : (
-        text
-      ),
+          text
+        ),
   })
 
   handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -260,14 +271,48 @@ export default class StationForm extends React.PureComponent {
     this.setState({ searchText: '' })
   }
 
+  isShowErrorMessage(stationIndex) {
+    const matchedRow = this.state.dataSource[stationIndex]
+    return !matchedRow.isValid && matchedRow.view
+  }
+  isDisableSearch() {
+    const { dataSource } = this.state
+    for (let i = 0; i < dataSource.length; i++) {
+      const element = dataSource[i];
+      if (element.view && element.measuringList.length === 0) {
+        return true
+      }
+    }
+    return false
+  }
+
+  updateShowErrorStatus(stationIndex) {
+    const matchedRecord = this.state.dataSource[stationIndex]
+    const isValid = matchedRecord.measuringList.length > 0
+    this.setState(
+      prevState =>
+        update(prevState, {
+          dataSource: {
+            [stationIndex]: {
+              isValid: {
+                $set: isValid
+              },
+            },
+          },
+        })
+    )
+
+  }
+
   getColumns = () => {
     const indeterminate =
       !!this.state.dataSource.filter(data => data.view).length &&
       this.state.dataSource.filter(data => data.view).length <
-        this.state.dataSource.length
+      this.state.dataSource.length
     const checkedAll =
       this.state.dataSource.filter(data => data.view).length ===
       this.state.dataSource.length
+
     return [
       {
         title: translate('avgSearchFrom.form.stationAuto.label'),
@@ -282,21 +327,29 @@ export default class StationForm extends React.PureComponent {
         key: 'measuringList',
         render: (measuringList, record) => {
           return (
-            <Select
-              style={{ width: '100%' }}
-              mode="tags"
-              allowClear
-              showSearch
-              size="large"
-              onChange={this.handleChangeMeasuringList(record.index)}
-              value={measuringList}
-            >
-              {record.measuringData.map(measuring => (
-                <Select.Option key={measuring.key}>
-                  {measuring.name}
-                </Select.Option>
-              ))}
-            </Select>
+            <div>
+              <span style={{ color: 'red', display: this.isShowErrorMessage(record.index) ? 'block' : 'none' }}>{translate('dataSearchFilterForm.form.measuringList.require')}</span>
+              <Select
+                style={{ width: '100%' }}
+                mode="tags"
+                showSearch
+                size="large"
+                onChange={this.handleChangeMeasuringList(record.index)}
+                value={measuringList}
+              >
+                {record.measuringData.map(measuring => {
+
+                  return (
+                    <Select.Option
+                      key={measuring.key}>
+                      {measuring.name}
+                    </Select.Option>
+                  )
+                }
+                )}
+              </Select>
+            </div>
+
           )
         },
       },
@@ -363,6 +416,7 @@ export default class StationForm extends React.PureComponent {
         <Button
           type="primary"
           icon="search"
+          disabled={this.isDisableSearch()}
           size="large"
           onClick={this.handleSearchAvgData}
         >
