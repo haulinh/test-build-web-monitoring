@@ -2,11 +2,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { Row, Col, Form, Input, InputNumber, Button } from 'antd'
+import { Row, Col, Form, Input, InputNumber, Button, Radio } from 'antd'
 import swal from 'sweetalert2'
+import _ from 'lodash'
 /* user import */
 import { translate } from 'hoc/create-lang'
 import SamplingAPI from 'api/SamplingApi'
+import SqlConfig from './SqlConfig'
+import ModBusConfig from './ModBusConfig'
 
 const FormItem = Form.Item
 
@@ -52,6 +55,7 @@ export default class SamplingConfig extends React.Component {
 
   state = {
     isSaving: false,
+    samplingProtocol: 'MODBUS'
   }
 
   handleSave = () => {
@@ -84,9 +88,9 @@ export default class SamplingConfig extends React.Component {
           configSampling: res.data.configSampling,
         })
       } catch (error) {
+        console.error(error, '========Lỗi handleSubmit SamplingConfig========== ')
         this.setState({ isSaving: false })
-        const { message } = err.response.data.error
-        swal({ title: message, type: 'error' })
+        swal({ title: '', type: 'error' })
       }
     })
   }
@@ -94,6 +98,10 @@ export default class SamplingConfig extends React.Component {
   checkErr = name => {
     const { isFieldTouched, getFieldError } = this.props.form
     return isFieldTouched(name) && getFieldError(name)
+  }
+
+  handleChangeProtocol = (e) => {
+    this.setState({ samplingProtocol: e.target.value })
   }
 
   render() {
@@ -114,94 +122,34 @@ export default class SamplingConfig extends React.Component {
     // console.log('fffdasfdsafas', hasErrors(getFieldsError()))
     return (
       <div style={{ padding: 8 }}>
-        <Form onSubmit={this.handleSubmit}>
-          <Row>
-            <Col>
-              <Row>
-                <FormItem
-                  label={i18n.totalBottles}
-                  validateStatus={this.checkErr('totalBottles') ? 'error' : ''}
-                  help={this.checkErr('totalBottles') || ''}
-                >
-                  {getFieldDecorator('totalBottles', {
-                    rules: [
-                      {
-                        required: true,
-                        min: 1,
-                        type: 'integer',
-                        message: i18n.alertNull,
-                      },
-                    ],
-                    initialValue: totalBottles,
-                  })(
-                    <InputNumber
-                      style={{ width: '100%' }}
-                      disabled={isSampling || isScheduled}
-                    />
-                  )}
-                </FormItem>
-              </Row>
-              <Row>
-                <FormItem
-                  label={i18n.controlTagName}
-                  validateStatus={
-                    this.checkErr('controlTagName') ? 'error' : ''
-                  }
-                  help={this.checkErr('controlTagName') || ''}
-                >
-                  {getFieldDecorator('controlTagName', {
-                    rules: [{ required: true, message: i18n.alertNull }],
-                    initialValue: controlTagName,
-                  })(
-                    <Input
-                      style={{ width: '100%' }}
-                      disabled={isSampling || isScheduled}
-                    />
-                  )}
-                </FormItem>
-              </Row>
-              <Row>
-                <FormItem
-                  label={i18n.timeToTakeOneBottle}
-                  validateStatus={
-                    this.checkErr('timeToTakeOneBottle') ? 'error' : ''
-                  }
-                  help={this.checkErr('timeToTakeOneBottle') || ''}
-                >
-                  {getFieldDecorator('timeToTakeOneBottle', {
-                    rules: [
-                      {
-                        required: true,
-                        min: 1,
-                        type: 'integer',
-                        message: i18n.alertNull,
-                      },
-                    ],
-                    initialValue: timeToTakeOneBottle,
-                  })(
-                    <InputNumber
-                      style={{ width: '100%' }}
-                      disabled={isSampling || isScheduled}
-                    />
-                  )}
-                </FormItem>
-              </Row>
-              <Button
-                block
-                type="primary"
-                loading={isSaving}
-                disabled={
-                  (hasErrors(getFieldsError()) && isFieldsTouched()) ||
-                  isSampling ||
-                  isScheduled
-                }
-                htmlType="submit"
-              >
-                {i18n.save}
-              </Button>
-            </Col>
-          </Row>
-        </Form>
+        <Row>
+          <Radio.Group onChange={this.handleChangeProtocol} value={this.state.samplingProtocol}>
+            <Radio value={"MODBUS"}>ModBus</Radio>
+            <Radio value={"SQL"}>Sql</Radio>
+          </Radio.Group>
+        </Row>
+        {
+          this.state.samplingProtocol === "MODBUS" && <ModBusConfig
+            checkErr={this.checkErr}
+            configSampling={this.props.configSampling}
+            onSubmit={this.handleSubmit}
+            isSaving={this.state.isSaving}
+            stationId={this.props.stationID}
+          />
+        }
+
+        {
+          this.state.samplingProtocol === "SQL" && <SqlConfig
+            checkErr={this.checkErr}
+            configSampling={this.props.configSampling}
+            onSubmit={this.handleSubmit}
+            isSaving={this.state.isSaving}
+            stationId={this.props.stationID}
+          />
+        }
+
+
+
       </div>
     )
   }
