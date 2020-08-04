@@ -2,16 +2,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { Row, Col, Form, Input, InputNumber, Button, Radio } from 'antd'
+import { Row, Form, Radio } from 'antd'
 import swal from 'sweetalert2'
-import _ from 'lodash'
 /* user import */
 import { translate } from 'hoc/create-lang'
 import SamplingAPI from 'api/SamplingApi'
 import SqlConfig from './SqlConfig'
 import ModBusConfig from './ModBusConfig'
 
-const FormItem = Form.Item
 
 const i18n = {
   totalBottles: translate(
@@ -30,9 +28,7 @@ const i18n = {
   alertSaveConfigError: translate('alert.error.monitoring.saveSampingConfig'),
 }
 
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field])
-}
+
 
 @Form.create()
 @withRouter
@@ -105,21 +101,7 @@ export default class SamplingConfig extends React.Component {
   }
 
   render() {
-    const { STATUS_SAMPLING, isConfig, isScheduled } = this.props
-    const { isSaving } = this.state
-    const {
-      totalBottles,
-      controlTagName,
-      timeToTakeOneBottle,
-      status,
-    } = this.props.configSampling
-    const {
-      getFieldDecorator,
-      getFieldsError,
-      isFieldsTouched,
-    } = this.props.form
-    const isSampling = isConfig && status !== STATUS_SAMPLING.READY
-    // console.log('fffdasfdsafas', hasErrors(getFieldsError()))
+
     return (
       <div style={{ padding: '2em' }}>
         <Row style={{ marginBottom: '2em' }}>
