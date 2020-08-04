@@ -138,7 +138,7 @@
     "redux-form": "^7.1.1",
     "redux-thunk": "^2.2.0",
     "round-to": "^2.0.0",
-    "simple-line-icons": "^2.4.1",
+    "simple-line-icons": "2.4.1",
     "simplebar": "^5.2.0",
     "simplebar-react": "^2.2.0",
     "string-format": "^1.0.0",
