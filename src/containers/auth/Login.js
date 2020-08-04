@@ -116,7 +116,8 @@ export default class Login extends PureComponent {
     })
 
     const defaultPage = getConfigApi().defaultPage
-    this.props.history.push(defaultPage)
+    window.location = defaultPage
+    // this.props.history.push(defaultPage)
   }
 
   async handleLogin(values) {
