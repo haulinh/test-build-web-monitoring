@@ -93,6 +93,7 @@ export default class SamplingMoreInfo extends React.Component {
           })
         }
       } catch (e) {
+        console.log(e, '--------e')
         const { message } = _.get(e.response, 'data.error')
         this.setState({
           isLoading: false,
