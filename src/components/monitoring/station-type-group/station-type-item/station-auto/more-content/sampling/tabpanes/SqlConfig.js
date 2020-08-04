@@ -85,11 +85,7 @@ export default class SqlConfig extends React.Component {
             timeToTakeOneBottle,
             status,
         } = this.props.configSampling
-        const {
-            getFieldDecorator,
-            getFieldsError,
-            isFieldsTouched,
-        } = this.props.form
+        const { getFieldDecorator } = this.props.form
         const isSampling = isConfig && status !== STATUS_SAMPLING.READY
 
         return (
@@ -178,8 +174,4 @@ export default class SqlConfig extends React.Component {
             </Form>
         )
     }
-}
-
-function hasErrors(fieldsError) {
-    return Object.keys(fieldsError).some(field => fieldsError[field])
 }

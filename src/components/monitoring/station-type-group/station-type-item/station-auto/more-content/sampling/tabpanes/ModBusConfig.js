@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Form, Input, InputNumber, Button } from 'antd'
+import { Form, Input, Button } from 'antd'
 import { translate } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -217,8 +217,4 @@ export default class ModBusConfig extends React.PureComponent {
             </Form>
         )
     }
-}
-
-function hasErrors(fieldsError) {
-    return Object.keys(fieldsError).some(field => fieldsError[field])
 }
