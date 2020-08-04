@@ -121,8 +121,9 @@ export default class SamplingConfig extends React.Component {
     const isSampling = isConfig && status !== STATUS_SAMPLING.READY
     // console.log('fffdasfdsafas', hasErrors(getFieldsError()))
     return (
-      <div style={{ padding: 8 }}>
-        <Row>
+      <div style={{ padding: '2em' }}>
+        <Row style={{ marginBottom: '2em' }}>
+          <span style={{ marginRight: '2em' }}>Giao thức lấy mẫu</span>
           <Radio.Group onChange={this.handleChangeProtocol} value={this.state.samplingProtocol}>
             <Radio value={"MODBUS"}>ModBus</Radio>
             <Radio value={"SQL"}>Sql</Radio>

@@ -70,18 +70,15 @@ export default class ModBusConfig extends React.PureComponent {
             }
 
             try {
-                const res = await SamplingAPI.updateConfig(stationId, {
+                SamplingAPI.updateConfig(stationId, {
                     configSampling: {
                         ...values,
-                        protocol: "MODBUS"
+                        // protocol: "MODBUS"
                     },
                 })
                 this.setState({ isSaving: false })
                 swal({ title: i18n.alertSuccess, type: 'success' })
-                // this.props.updateParentState({
-                //     isConfig: true,
-                //     configSampling: res.data.configSampling,
-                // })
+
             } catch (error) {
                 console.error(error, '========Lỗi handleSubmit SamplingConfig modbus========== ')
                 this.setState({ isSaving: false })

@@ -2,6 +2,8 @@ import React from 'react'
 import { Row, Col, Form, Input, InputNumber, Button } from 'antd'
 import { translate } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
+import swal from 'sweetalert2'
+import SamplingAPI from 'api/SamplingApi'
 
 
 
@@ -43,8 +45,36 @@ export default class SqlConfig extends React.Component {
     }
 
     state = {
-        isSaving: false,
-        samplingProtocol: 'MODBUS'
+        isSaving: false
+    }
+
+    handleSubmit = e => {
+        e.preventDefault()
+        this.setState({ isSaving: true })
+        const { stationId } = this.props
+        this.props.form.validateFields(async (err, values) => {
+            if (err) {
+                this.setState({ isSaving: false })
+                swal({ title: i18n.alertSaveConfigError, type: 'error' })
+                return
+            }
+
+            try {
+                SamplingAPI.updateConfig(stationId, {
+                    configSampling: {
+                        ...values,
+                        // protocol: "SQL"
+                    },
+                })
+                this.setState({ isSaving: false })
+                swal({ title: i18n.alertSuccess, type: 'success' })
+
+            } catch (error) {
+                console.error(error, '========Lỗi handleSubmit SamplingConfig sql========== ')
+                this.setState({ isSaving: false })
+                swal({ title: '', type: 'error' })
+            }
+        })
     }
     render() {
         const { STATUS_SAMPLING, isConfig, isScheduled } = this.props
@@ -63,7 +93,7 @@ export default class SqlConfig extends React.Component {
         const isSampling = isConfig && status !== STATUS_SAMPLING.READY
 
         return (
-            <Form onSubmit={this.props.handleSubmit}>
+            <Form onSubmit={this.handleSubmit}>
                 <Row>
                     <Col>
                         <Row>
@@ -139,11 +169,6 @@ export default class SqlConfig extends React.Component {
                             block
                             type="primary"
                             loading={isSaving}
-                            disabled={
-                                (hasErrors(getFieldsError()) && isFieldsTouched()) ||
-                                isSampling ||
-                                isScheduled
-                            }
                             htmlType="submit"
                         >
                             {i18n.save}
