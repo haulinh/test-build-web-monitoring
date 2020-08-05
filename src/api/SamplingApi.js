@@ -60,7 +60,7 @@ export function updateConfig(stationID, configSampling) {
   return putFetch(getSamplingUrl(`updateConfig/${stationID}`), configSampling)
 }
 
-export function takeSampling(stationID, configSampling) {
+export async function takeSampling(stationID, configSampling) {
   return postFetch(getSamplingUrl(`takeSampling/${stationID}`), configSampling)
 }
 

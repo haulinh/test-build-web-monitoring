@@ -18,7 +18,9 @@ import {
   TimePicker,
   DatePicker,
   Modal,
-  Select
+  Select,
+  Steps,
+  Popover
 } from 'antd'
 import moment from 'moment-timezone'
 import styled from 'styled-components'
@@ -27,6 +29,7 @@ import { translate } from 'hoc/create-lang'
 import SamplingAPI from 'api/SamplingApi'
 
 const { Option } = Select;
+const { Step } = Steps;
 
 const i18n = {
   /*  */
@@ -126,6 +129,22 @@ const ConfigHeaderWrapper = styled.div`
 display:flex;
 `
 
+const customDot = (dot, { status, index }) => (
+  <Popover
+    content={
+      <span>
+        step {index} status: {status}
+      </span>
+    }
+  >
+    {dot}
+  </Popover>
+);
+
+
+
+
+
 @Form.create()
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
@@ -177,6 +196,55 @@ export default class SamplingMoreInfo extends React.Component {
     this.setState({ samplingProtocol: value })
   }
 
+  renderSamplingProgress = ({ currentStep }) => {
+    const getCurrentStepIndex = () => {
+      switch (currentStep) {
+        case 'CONNECTED':
+          return 0
+        case 'SAMPLING':
+          return 1
+        case 'SUCCESS':
+          return 2
+        default:
+          return 0
+      }
+    }
+    const StepWrapper = styled.div`
+    .ant-steps-item-content{
+      margin-top:-40px;
+    };
+    margin-top: 4em;
+    `
+    return (
+      <StepWrapper>
+        <Steps current={getCurrentStepIndex()} progressDot={customDot}>
+          <Step title="Nhận tín hiệu" />
+          <Step title="Đang lấy mẫu" />
+          <Step title="Thành công" />
+        </Steps>
+      </StepWrapper>
+
+    )
+  }
+  renderTakenBottles = ({ takenBottles, totalBottles }) => {
+    const TakendBottleWrapper = styled.div`
+      color: #1890FF;
+      position: relative;
+      top: 2em;
+      font-size: 16px;
+      align-self: center;
+      margin-bottom:1em;
+      display:flex;
+      justify-content:center;
+    `
+
+    return (
+      <TakendBottleWrapper>
+        <span>Số chai đã lấy: {takenBottles}/{totalBottles}</span>
+      </TakendBottleWrapper>
+    )
+  }
+
   async resetSampledBottle(e) {
     let { stationID } = this.props
     let res = await SamplingAPI.resetSampledBottle(stationID)
@@ -214,7 +282,7 @@ export default class SamplingMoreInfo extends React.Component {
     this.setState({ samplingType: e.target.value })
   }
 
-  takeSample = () => {
+  async takeSample() {
     const { STATUS_SAMPLING } = this.props
     this.props.updateParentState({
       configSampling: {
@@ -222,51 +290,49 @@ export default class SamplingMoreInfo extends React.Component {
         status: STATUS_SAMPLING.COMMANDED,
       },
     })
-    const { stationID, configSampling } = this.props
-    return SamplingAPI.takeSampling(stationID, { configSampling })
+    const { stationID } = this.props
+    return SamplingAPI.takeSampling(stationID, { configSampling: { protocol: this.state.samplingProtocol } })
   }
 
-  handleClickSampling = () => {
+  async handleClickSampling() {
     const { STATUS_SAMPLING } = this.props
     const { status } = this.props.configSampling
-    if (status === STATUS_SAMPLING.READY) {
-      return this.takeSample()
-        .then(res => {
-          if (res.success) {
-            const { status, sampledBottles } = res.data.configSampling
+    try {
+      if (status === STATUS_SAMPLING.READY) {
+        const res = await this.takeSample()
+        console.log(res, '--------res')
+        if (res.success) {
+          const { status, sampledBottles } = res.data.configSampling
 
-            /* tăng số chai đã lấy */
-            if (status === STATUS_SAMPLING.SAMPLING) {
-              this.props.form.setFieldsValue({
-                [fieldNames.sampledBottles]: sampledBottles,
-              })
-            }
-
-            /* update data lên parent component để các component khác biết trạng thái lấy mẫu */
-            this.props.updateParentState({
-              configSampling: {
-                ...this.props.configSampling,
-                status: status,
-              },
+          /* tăng số chai đã lấy */
+          if (status === STATUS_SAMPLING.SAMPLING) {
+            this.props.form.setFieldsValue({
+              [fieldNames.sampledBottles]: sampledBottles,
             })
           }
-        })
-        .catch(err => {
-          // const { name, message } = err.response.data.error
-          /* MARK  -- @Thao: backend trả về code để frontend biết mà translate */
-          swal({
-            title: i18n.alertWarning,
-            html: i18n.alertErrorTakeSampling,
-            width: 600,
-            type: 'warning',
-          })
+
+          /* update data lên parent component để các component khác biết trạng thái lấy mẫu */
           this.props.updateParentState({
             configSampling: {
               ...this.props.configSampling,
-              status: STATUS_SAMPLING.READY,
+              status: status,
             },
           })
-        })
+        }
+      }
+    } catch (err) {
+      swal({
+        title: i18n.alertWarning,
+        html: i18n.alertErrorTakeSampling,
+        width: 600,
+        type: 'warning',
+      })
+      this.props.updateParentState({
+        configSampling: {
+          ...this.props.configSampling,
+          status: STATUS_SAMPLING.READY,
+        },
+      })
     }
   }
 
@@ -400,7 +466,7 @@ export default class SamplingMoreInfo extends React.Component {
             wrapperCol={{ span: 24 }}
           >
             <Row gutter={16}>
-              <Col span={11}>
+              <Col span={11} >
                 <FormItem style={{ width: '100%' }} label={i18n.totalBottles}>
                   <InputNumber
                     disabled
@@ -409,7 +475,7 @@ export default class SamplingMoreInfo extends React.Component {
                   />
                 </FormItem>
               </Col>
-              <Col span={11}>
+              <Col span={11} >
                 <FormItem style={{ width: '100%' }} label={i18n.sampledBottles}>
                   {getFieldDecorator(fieldNames.sampledBottles, {
                     initialValue: sampledBottles,
@@ -439,7 +505,7 @@ export default class SamplingMoreInfo extends React.Component {
             onSubmit={this.handleSubmitFormSampleAuto}
           >
             <Row gutter={16}>
-              <Col span={12} style={{ width: '624px' }}>
+              <Col span={11} >
                 <FormItem
                   style={{ width: '100%' }}
                   label={i18n.bottlesNeedToTake}
@@ -483,7 +549,7 @@ export default class SamplingMoreInfo extends React.Component {
                   )}
                 </FormItem>
               </Col>
-              <Col span={12} style={{ width: '624px' }}>
+              <Col span={11} >
                 <FormItem style={{ width: '100%' }} label={i18n.frequency}>
                   {getFieldDecorator('frequency', {
                     rules: [
@@ -536,7 +602,7 @@ export default class SamplingMoreInfo extends React.Component {
               type="primary"
               disabled={isFullBottles}
               style={{ marginBottom: 8, ...STATUS_COLOR[status] }}
-              onClick={this.handleClickSampling}
+              onClick={() => this.handleClickSampling()}
               loading={
                 status === STATUS_SAMPLING.SAMPLING ||
                 status === STATUS_SAMPLING.COMMANDED
@@ -590,6 +656,14 @@ export default class SamplingMoreInfo extends React.Component {
         </Row>
 
 
+        {
+          (status === STATUS_SAMPLING.COMMANDED || status === STATUS_SAMPLING.SAMPLING) &&
+          this.renderSamplingProgress({ currentStep: "SAMPLING" })
+        }
+        {
+          (status === STATUS_SAMPLING.COMMANDED || status === STATUS_SAMPLING.SAMPLING) &&
+          this.renderTakenBottles({ takenBottles: sampledBottles, totalBottles })
+        }
       </div>
     )
   }
