@@ -290,8 +290,8 @@ export default class SamplingMoreInfo extends React.Component {
         status: STATUS_SAMPLING.COMMANDED,
       },
     })
-    const { stationID, configSampling } = this.props
-    return SamplingAPI.takeSampling(stationID, { configSampling })
+    const { stationID } = this.props
+    return SamplingAPI.takeSampling(stationID, { configSampling: { protocol: this.state.samplingProtocol } })
   }
 
   async handleClickSampling() {
@@ -300,6 +300,7 @@ export default class SamplingMoreInfo extends React.Component {
     try {
       if (status === STATUS_SAMPLING.READY) {
         const res = await this.takeSample()
+        console.log(res, '--------res')
         if (res.success) {
           const { status, sampledBottles } = res.data.configSampling
 
@@ -655,10 +656,6 @@ export default class SamplingMoreInfo extends React.Component {
         </Row>
 
 
-
-        
-        /* #region  progress bar, taken bottles/ total bottles */
-        
         {
           (status === STATUS_SAMPLING.COMMANDED || status === STATUS_SAMPLING.SAMPLING) &&
           this.renderSamplingProgress({ currentStep: "SAMPLING" })
@@ -667,7 +664,6 @@ export default class SamplingMoreInfo extends React.Component {
           (status === STATUS_SAMPLING.COMMANDED || status === STATUS_SAMPLING.SAMPLING) &&
           this.renderTakenBottles({ takenBottles: sampledBottles, totalBottles })
         }
-        /* #endregion */
       </div>
     )
   }
