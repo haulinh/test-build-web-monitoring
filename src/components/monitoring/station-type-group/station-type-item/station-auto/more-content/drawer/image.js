@@ -230,8 +230,8 @@ export default class ImageMoreInfo extends React.Component {
                     // title="Are you sure delete this image?"
                     title={translate('addon.popConfirm.image.title')}
                     onConfirm={this.handleDeleteImage(index)}
-                    okText="Yes"
-                    cancelText="No"
+                    okText={translate('addon.yes')}
+                    cancelText={translate('addon.no')}
                     className="delete"
                   >
                     <i className="fa fa-trash" />
