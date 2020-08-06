@@ -1,7 +1,7 @@
 /* libs import */
 import React from 'react'
 import { withRouter } from 'react-router'
-import { Table, Tag } from 'antd'
+import { Spin, Tag } from 'antd'
 /* user import */
 import { translate } from 'hoc/create-lang'
 import SamplingAPI from 'api/SamplingApi'
@@ -10,6 +10,10 @@ import { toLower as _toLower } from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import swal from 'sweetalert2'
 import _ from 'lodash'
+import DataTable from "react-data-table-component";
+import styled from "styled-components";
+import "antd/dist/antd.css";
+import ExpandedComponent from './ExpandedComponent'
 
 const i18n = {
   stt: translate('monitoring.moreContent.sampling.content.history.stt'),
@@ -42,7 +46,70 @@ const i18n = {
   },
 }
 
-const { Column } = Table
+// NOTE demodata
+const dataExapand = [
+  {
+    index: 1,
+    status: "SUCCESS"
+  },
+  {
+    index: 2,
+    status: "FAILED"
+  },
+  {
+    index: 3,
+    status: "SUCCESS"
+  },
+  {
+    index: 4,
+    status: "SUCCESS"
+  },
+  {
+    index: 5,
+    status: "SUCCESS"
+  },
+  {
+    index: 6,
+    status: "SUCCESS"
+  },
+  {
+    index: 7,
+    status: "SUCCESS"
+  },
+  {
+    index: 8,
+    status: "SUCCESS"
+  },
+  {
+    index: 9,
+    status: "SUCCESS"
+  },
+  {
+    index: 10,
+    status: "SUCCESS"
+  },
+  {
+    index: 11,
+    status: "SUCCESS"
+  },
+  {
+    index: 12,
+    status: "SUCCESS"
+  },
+];
+
+const customStyles = {
+  headCells: {
+    style: {
+      // backgroundColor: "#e47297",
+      color: "black",
+      // border: "none",
+      fontWeight: 600
+    }
+  }
+};
+
+
 
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
@@ -112,74 +179,185 @@ export default class SamplingMoreInfo extends React.Component {
     if (this.props.getRef) this.props.getRef(this)
   }
 
-  render() {
-    return (
-      <div style={{ padding: 8 }}>
-        <Table
-          loading={this.state.isLoading}
-          dataSource={this.state.dataSource}
-          pagination={{
-            pageSize: this.state.pageSize,
-            current: this.state.page,
-            onChange: this.loadData,
-            total: this.state.total,
-          }}
-          size="small"
-          rowKey={record => record._id} // https://ant.design/components/table/#Note
-        >
-          <Column title="STT" align="center" dataIndex="stt" width={30} />
+  renderColumn() {
+    return [
+      {
+        name: "STT",
+        selector: "stt"
+      },
+      {
+        name: "Số bình chứa",
+        selector: "bottleNumber"
+      },
+      {
+        name: "Thời gian lấy",
+        selector: "createdAt",
+        grow: 2
+      },
+      {
+        name: "Hành động",
+        selector: "typeOfSampling"
+      },
+      {
+        name: "Người kích hoạt",
+        selector: "user",
+        grow: 3
+      },
+      {
+        name: "Hình thức truyền",
+        selector: "samplingProtocol"
+      },
+      {
+        name: "Kết quả lấy mẫu",
+        selector: "result",
+        cell: (row, index) => {
+          if (row.result === "FAILED" || row.result === undefined) {
+            return (
+              <Tag
+                style={{ borderRadius: "4px", width: "6em", textAlign: "center" }}
+                color="#cc1200"
+              >
+                FAILED
+              </Tag>
+            );
+          }
+          return (
+            <Tag
+              style={{ borderRadius: "4px", width: "6em", textAlign: "center" }}
+              color="#6ba84f"
+            >
+              SUCCESS
+            </Tag>
+          );
 
-          <Column
-            title={i18n.bottleNo}
-            align="center"
-            dataIndex="bottleNumber"
-            width={50}
-          />
+        }
+      }
+    ];
+  }
 
-          <Column
-            title={i18n.dateTime}
-            align="center"
-            dataIndex="createdAt"
-            width={70}
-          />
-
-          <Column
-            title={i18n.typeOfSampling}
-            align="center"
-            dataIndex="typeOfSampling"
-            width={150}
-            render={(...args) => {
-              const [data] = args
-              return <div>{i18n.history[_toLower(data)]}</div>
-            }}
-          />
-
-          <Column
-            title={i18n.activedUser}
-            align="center"
-            dataIndex="user"
-            width={150}
-          />
-
-          <Column
-            title={i18n.result}
-            align="center"
-            dataIndex="result"
-            width={50}
-            render={(...args) => {
-              const [data] = args
-              switch (data) {
-                case 'SUCCESS':
-                  return <Tag color="#6ba84f">{data}</Tag>
-                case 'FAILED':
-                  return <Tag color="#cc1200">{data}</Tag>
-                default:
-                  break
-              }
-            }}
-          />
-        </Table>
-      </div>
+  _handlePageChange = page => {
+    this.setState({
+      page
+    },
+      () => {
+        this.loadData(this.state.page, this.state.pageSize)
+      }
     )
   }
+
+  _handlePerRowsChange = itemPerPage => {
+    this.setState({
+      pageSize: itemPerPage
+    },
+      () => {
+        this.loadData(this.state.page, this.state.pageSize)
+      }
+    )
+  }
+
+  render() {
+    return (
+      <DataTable
+        data={this.state.dataSource}
+        columns={this.renderColumn()}
+        customStyles={customStyles}
+        highlightOnHover
+        noHeader={true}
+        pagination
+        paginationServer={true}
+        paginationTotalRows={this.state.total}
+        onChangeRowsPerPage={this._handlePerRowsChange}
+        onChangePage={this._handlePageChange}
+        progressPending={this.state.isLoading}
+        progressComponent={<Spin tip="Loading..." />}
+        expandableRows
+        expandOnRowClicked
+        expandableRowsComponent={
+          < ExpandedComponent data={dataExapand} dataExapand={dataExapand} />
+        }
+        noDataComponent="Hiện chưa  lịch sử lấy mẫu"
+      />
+    )
+  }
+
+
+  // render() {
+  //   return (
+  //     <div style={{ padding: 8 }}>
+  //       <Table
+  //         loading={this.state.isLoading}
+  //         dataSource={this.state.dataSource}
+  //         pagination={{
+  //           pageSize: this.state.pageSize,
+  //           current: this.state.page,
+  //           onChange: this.loadData,
+  //           total: this.state.total,
+  //         }}
+  //         size="small"
+  //         rowKey={record => record._id} // https://ant.design/components/table/#Note
+  //       >
+  //         <Column title="STT" align="center" dataIndex="stt" width={30} />
+
+  //         <Column
+  //           title={i18n.bottleNo}
+  //           align="center"
+  //           dataIndex="bottleNumber"
+  //           width={50}
+  //         />
+
+  //         <Column
+  //           title={i18n.dateTime}
+  //           align="center"
+  //           dataIndex="createdAt"
+  //           width={70}
+  //         />
+
+  //         <Column
+  //           title={i18n.typeOfSampling}
+  //           align="center"
+  //           dataIndex="typeOfSampling"
+  //           width={150}
+  //           render={(...args) => {
+  //             const [data] = args
+  //             return <div>{i18n.history[_toLower(data)]}</div>
+  //           }}
+  //         />
+
+  //         <Column
+  //           title={i18n.activedUser}
+  //           align="center"
+  //           dataIndex="user"
+  //           width={150}
+  //         />
+
+  //         <Column
+  //           title="Hình thức truyền"
+  //           align="center"
+  //           dataIndex="samplingProtocol"
+  //           width={150}
+  //         />
+
+
+
+  //         <Column
+  //           title={i18n.result}
+  //           align="center"
+  //           dataIndex="result"
+  //           width={50}
+  //           render={(...args) => {
+  //             const [data] = args
+  //             switch (data) {
+  //               case 'SUCCESS':
+  //                 return <Tag color="#6ba84f">{data}</Tag>
+  //               case 'FAILED':
+  //                 return <Tag color="#cc1200">{data}</Tag>
+  //               default:
+  //                 break
+  //             }
+  //           }}
+  //         />
+  //       </Table>
+  //     </div>
+  //   )
+  // }
 }
