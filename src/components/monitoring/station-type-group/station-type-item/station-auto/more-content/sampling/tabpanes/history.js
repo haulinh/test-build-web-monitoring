@@ -10,8 +10,7 @@ import { toLower as _toLower } from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import swal from 'sweetalert2'
 import _ from 'lodash'
-import DataTable from "react-data-table-component";
-import styled from "styled-components";
+import DataTable from "shared/components/DataTable";
 import "antd/dist/antd.css";
 import ExpandedComponent from './ExpandedComponent'
 
@@ -45,6 +44,7 @@ const i18n = {
     ),
   },
 }
+
 
 // NOTE demodata
 const dataExapand = [
@@ -255,7 +255,29 @@ export default class SamplingMoreInfo extends React.Component {
     )
   }
 
+  _getCustomIconConfig = (row) => {
+    const CustomIconConfig = {
+      expanded: <img src="images/sampling-icons/down-circle.svg" alt="down icon" />,
+      collapsed: <img src="images/sampling-icons/up-circle.svg" alt="up icon" />
+    }
+    const HidenIcon = {
+      expanded: <div></div>,
+      collapsed: <div></div>,
+    }
+    if (row.typeOfSampling === 'AUTOMATIC') {
+      return CustomIconConfig
+    }
+    return HidenIcon
+
+  }
+
+
   render() {
+    const CustomIconConfig = {
+      collapsed: <img src="images/sampling-icons/down-circle.svg" alt="down icon" />,
+      expanded: <img src="images/sampling-icons/up-circle.svg" alt="up icon" />
+    }
+
     return (
       <DataTable
         data={this.state.dataSource}
@@ -272,6 +294,9 @@ export default class SamplingMoreInfo extends React.Component {
         progressComponent={<Spin tip="Loading..." />}
         expandableRows
         expandOnRowClicked
+        expandableRowDisabled={row => row.typeOfSampling !== 'AUTOMATIC'}
+        isShowIcon={row => row.typeOfSampling === 'AUTOMATIC'}
+        expandableIcon={CustomIconConfig}
         expandableRowsComponent={
           < ExpandedComponent data={dataExapand} dataExapand={dataExapand} />
         }
