@@ -22,6 +22,7 @@ const pointerCSS = css`
 `;
 
 const TableRowStyle = styled.div`
+border-bottom:1px solid #e1e1e1;
   display: flex;
   align-items: stretch;
   align-content: stretch;

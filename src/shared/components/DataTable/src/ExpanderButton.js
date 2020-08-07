@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import { useTableContext } from './DataTableContext';
 
 const ButtonStyle = styled.button`
-  display: inline-flex;
+  /* display: inline-flex; */
+  display:flex;
+  justify-content:center;
   align-items: center;
   user-select: none;
   white-space: nowrap;
