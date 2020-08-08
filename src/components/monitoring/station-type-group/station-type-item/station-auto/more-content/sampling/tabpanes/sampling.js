@@ -18,11 +18,18 @@ import {
   TimePicker,
   DatePicker,
   Modal,
+  Select,
+  Steps,
+  Popover
 } from 'antd'
 import moment from 'moment-timezone'
+import styled from 'styled-components'
 /* user import */
 import { translate } from 'hoc/create-lang'
 import SamplingAPI from 'api/SamplingApi'
+
+const { Option } = Select;
+const { Step } = Steps;
 
 const i18n = {
   /*  */
@@ -86,6 +93,7 @@ const i18n = {
   ),
 }
 
+
 const RadioButton = Radio.Button
 const RadioGroup = Radio.Group
 const FormItem = Form.Item
@@ -116,6 +124,26 @@ const fieldNames = {
 function isFormError(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field])
 }
+
+const ConfigHeaderWrapper = styled.div`
+display:flex;
+`
+
+const customDot = (dot, { status, index }) => (
+  <Popover
+    content={
+      <span>
+        step {index} status: {status}
+      </span>
+    }
+  >
+    {dot}
+  </Popover>
+);
+
+
+
+
 
 @Form.create()
 @withRouter
@@ -160,7 +188,61 @@ export default class SamplingMoreInfo extends React.Component {
       samplingType: this.props.isScheduled
         ? SAMPLING_TYPE.AUTO
         : SAMPLING_TYPE.MANUAL,
+      samplingProtocol: 'MODBUS'
     }
+  }
+
+  handleChanggeSamplingProtocol = (value) => {
+    this.setState({ samplingProtocol: value })
+  }
+
+  renderSamplingProgress = ({ currentStep }) => {
+    const getCurrentStepIndex = () => {
+      switch (currentStep) {
+        case 'CONNECTED':
+          return 0
+        case 'SAMPLING':
+          return 1
+        case 'SUCCESS':
+          return 2
+        default:
+          return 0
+      }
+    }
+    const StepWrapper = styled.div`
+    .ant-steps-item-content{
+      margin-top:-40px;
+    };
+    margin-top: 4em;
+    `
+    return (
+      <StepWrapper>
+        <Steps current={getCurrentStepIndex()} progressDot={customDot}>
+          <Step title="Nhận tín hiệu" />
+          <Step title="Đang lấy mẫu" />
+          <Step title="Thành công" />
+        </Steps>
+      </StepWrapper>
+
+    )
+  }
+  renderTakenBottles = ({ takenBottles, totalBottles }) => {
+    const TakendBottleWrapper = styled.div`
+      color: #1890FF;
+      position: relative;
+      top: 2em;
+      font-size: 16px;
+      align-self: center;
+      margin-bottom:1em;
+      display:flex;
+      justify-content:center;
+    `
+
+    return (
+      <TakendBottleWrapper>
+        <span>Số chai đã lấy: {takenBottles}/{totalBottles}</span>
+      </TakendBottleWrapper>
+    )
   }
 
   async resetSampledBottle(e) {
@@ -187,7 +269,7 @@ export default class SamplingMoreInfo extends React.Component {
       async onOk() {
         return await me.resetSampledBottle(e)
       },
-      onCancel() {},
+      onCancel() { },
     })
   }
   /* TODO  LATER */
@@ -200,7 +282,7 @@ export default class SamplingMoreInfo extends React.Component {
     this.setState({ samplingType: e.target.value })
   }
 
-  takeSample = () => {
+  async takeSample() {
     const { STATUS_SAMPLING } = this.props
     this.props.updateParentState({
       configSampling: {
@@ -208,51 +290,49 @@ export default class SamplingMoreInfo extends React.Component {
         status: STATUS_SAMPLING.COMMANDED,
       },
     })
-    const { stationID, configSampling } = this.props
-    return SamplingAPI.takeSampling(stationID, { configSampling })
+    const { stationID } = this.props
+    return SamplingAPI.takeSampling(stationID, { configSampling: { protocol: this.state.samplingProtocol } })
   }
 
-  handleClickSampling = () => {
+  async handleClickSampling() {
     const { STATUS_SAMPLING } = this.props
     const { status } = this.props.configSampling
-    if (status === STATUS_SAMPLING.READY) {
-      return this.takeSample()
-        .then(res => {
-          if (res.success) {
-            const { status, sampledBottles } = res.data.configSampling
+    try {
+      if (status === STATUS_SAMPLING.READY) {
+        const res = await this.takeSample()
+        console.log(res, '--------res')
+        if (res.success) {
+          const { status, sampledBottles } = res.data.configSampling
 
-            /* tăng số chai đã lấy */
-            if (status === STATUS_SAMPLING.SAMPLING) {
-              this.props.form.setFieldsValue({
-                [fieldNames.sampledBottles]: sampledBottles,
-              })
-            }
-
-            /* update data lên parent component để các component khác biết trạng thái lấy mẫu */
-            this.props.updateParentState({
-              configSampling: {
-                ...this.props.configSampling,
-                status: status,
-              },
+          /* tăng số chai đã lấy */
+          if (status === STATUS_SAMPLING.SAMPLING) {
+            this.props.form.setFieldsValue({
+              [fieldNames.sampledBottles]: sampledBottles,
             })
           }
-        })
-        .catch(err => {
-          // const { name, message } = err.response.data.error
-          /* MARK  -- @Thao: backend trả về code để frontend biết mà translate */
-          swal({
-            title: i18n.alertWarning,
-            html: i18n.alertErrorTakeSampling,
-            width: 600,
-            type: 'warning',
-          })
+
+          /* update data lên parent component để các component khác biết trạng thái lấy mẫu */
           this.props.updateParentState({
             configSampling: {
               ...this.props.configSampling,
-              status: STATUS_SAMPLING.READY,
+              status: status,
             },
           })
-        })
+        }
+      }
+    } catch (err) {
+      swal({
+        title: i18n.alertWarning,
+        html: i18n.alertErrorTakeSampling,
+        width: 600,
+        type: 'warning',
+      })
+      this.props.updateParentState({
+        configSampling: {
+          ...this.props.configSampling,
+          status: STATUS_SAMPLING.READY,
+        },
+      })
     }
   }
 
@@ -271,7 +351,7 @@ export default class SamplingMoreInfo extends React.Component {
         }
         return
       },
-      onCancel() {},
+      onCancel() { },
     })
   }
 
@@ -336,8 +416,48 @@ export default class SamplingMoreInfo extends React.Component {
     // NOTE  -- MOCK DATA
     // let { isActivedOverRange } = this.state
     return (
-      <div style={{ padding: 8 }}>
-        {/* -- FORM NHAP SO CHAI -- */}
+      <div style={{ padding: '2em', paddingTop: '4px' }}>
+        {/* -- SAMPLING TYPE --*/}
+        <Row>
+          <Row style={{ marginBottom: 20 }}>
+            <ConfigHeaderWrapper>
+
+              <div style={{ display: 'flex', flexDirection: 'column', marginRight: '2em' }}>
+                <span style={{ marginBottom: '4px' }} className="ant-form-item-required">Giao thức lấy mẫu</span>
+                <Select style={{ width: 160 }} defaultValue={this.state.samplingProtocol} onChange={this.handleChangeSamplingProtocol}>
+                  <Option value="MODBUS">ModBus</Option>
+                  <Option value="SQL">Sql</Option>
+                </Select>
+              </div>
+
+
+              <div>
+                <Row style={{ marginBottom: 5 }}>{i18n.typeOfSampling}</Row>
+                <RadioGroup
+                  defaultValue={samplingType}
+                  onChange={this.handleSamplingTypeChange}
+                  buttonStyle="solid"
+                >
+                  <RadioButton value={SAMPLING_TYPE.MANUAL} disabled={isScheduled}>
+                    {i18n.immediatelySampling}
+                  </RadioButton>
+                  <RadioButton
+                    value={SAMPLING_TYPE.AUTO}
+                    disabled={isSampling && !isScheduled}
+                  >
+                    {i18n.scheduleSampling}
+                  </RadioButton>
+                </RadioGroup>
+
+              </div>
+
+            </ConfigHeaderWrapper>
+
+          </Row>
+        </Row>
+
+
+        {/* -- FORM NHAP SO CHAI , tong so chai, so chai da lay-- */}
         <Row>
           <Form
             id="form-sample-reset"
@@ -346,7 +466,7 @@ export default class SamplingMoreInfo extends React.Component {
             wrapperCol={{ span: 24 }}
           >
             <Row gutter={16}>
-              <Col span={11}>
+              <Col span={11} >
                 <FormItem style={{ width: '100%' }} label={i18n.totalBottles}>
                   <InputNumber
                     disabled
@@ -355,7 +475,7 @@ export default class SamplingMoreInfo extends React.Component {
                   />
                 </FormItem>
               </Col>
-              <Col span={11}>
+              <Col span={11} >
                 <FormItem style={{ width: '100%' }} label={i18n.sampledBottles}>
                   {getFieldDecorator(fieldNames.sampledBottles, {
                     initialValue: sampledBottles,
@@ -378,132 +498,111 @@ export default class SamplingMoreInfo extends React.Component {
           </Form>
         </Row>
 
-        {/* -- SAMPLING TYPE --*/}
-        <Row>
-          <Row style={{ marginBottom: 20 }}>
-            <Row style={{ marginBottom: 5 }}>{i18n.typeOfSampling}</Row>
-            <RadioGroup
-              defaultValue={samplingType}
-              onChange={this.handleSamplingTypeChange}
-              buttonStyle="solid"
-            >
-              <RadioButton value={SAMPLING_TYPE.MANUAL} disabled={isScheduled}>
-                {i18n.immediatelySampling}
-              </RadioButton>
-              <RadioButton
-                value={SAMPLING_TYPE.AUTO}
-                disabled={isSampling && !isScheduled}
-              >
-                {i18n.scheduleSampling}
-              </RadioButton>
-            </RadioGroup>
-          </Row>
-
-          {/* -- TOGGLE SAMPLING MODE --*/}
-          {samplingType === SAMPLING_TYPE.AUTO && (
-            <Form
-              id="form-sample-auto"
-              onSubmit={this.handleSubmitFormSampleAuto}
-            >
-              <Row gutter={16}>
-                <Col span={12}>
-                  <FormItem
-                    style={{ width: '100%' }}
-                    label={i18n.bottlesNeedToTake}
-                  >
-                    {getFieldDecorator('bottlesNeedToTake', {
-                      rules: [
-                        {
-                          required: true,
-                          min: 1,
-                          max: totalBottles - sampledBottles,
-                          type: 'integer',
-                          message: i18n.alertNull,
-                        },
-                      ],
-                      initialValue: numberBottles,
-                    })(
-                      <InputNumber
-                        disabled={isScheduled}
-                        style={{ width: '100%' }}
-                      />
-                    )}
-                  </FormItem>
-                  <FormItem
-                    style={{ width: '100%' }}
-                    label={i18n.timeStartSampling}
-                  >
-                    {getFieldDecorator('timeStartSampling', {
-                      rules: [
-                        {
-                          required: true,
-                          message: i18n.alertNull,
-                        },
-                      ],
-                      initialValue: moment(dateTimeStart),
-                    })(
-                      <TimePicker
-                        disabled={isScheduled}
-                        format="HH:mm"
-                        style={{ width: '100%' }}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem style={{ width: '100%' }} label={i18n.frequency}>
-                    {getFieldDecorator('frequency', {
-                      rules: [
-                        {
-                          required: true,
-                          min: 1,
-                          type: 'integer',
-                          message: i18n.alertNull,
-                        },
-                      ],
-                      initialValue: frequency,
-                    })(
-                      <InputNumber
-                        disabled={isScheduled}
-                        style={{ width: '100%' }}
-                      />
-                    )}
-                  </FormItem>
-                  <FormItem
-                    style={{ width: '100%' }}
-                    label={i18n.dateStartSampling}
-                  >
-                    {getFieldDecorator('dateStartSampling', {
-                      rules: [
-                        {
-                          required: true,
-                          message: i18n.alertNull,
-                        },
-                      ],
-                      initialValue: moment(dateTimeStart),
-                    })(
-                      <DatePicker
-                        disabled={isScheduled}
-                        format="DD/MM/YYYY"
-                        style={{ width: '100%' }}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-            </Form>
-          )}
-        </Row>
+        {/* -- TOGGLE SAMPLING MODE sampling auto form --*/}
+        {samplingType === SAMPLING_TYPE.AUTO && (
+          <Form
+            id="form-sample-auto"
+            onSubmit={this.handleSubmitFormSampleAuto}
+          >
+            <Row gutter={16}>
+              <Col span={11} >
+                <FormItem
+                  style={{ width: '100%' }}
+                  label={i18n.bottlesNeedToTake}
+                >
+                  {getFieldDecorator('bottlesNeedToTake', {
+                    rules: [
+                      {
+                        required: true,
+                        min: 1,
+                        max: totalBottles - sampledBottles,
+                        type: 'integer',
+                        message: i18n.alertNull,
+                      },
+                    ],
+                    initialValue: numberBottles,
+                  })(
+                    <InputNumber
+                      disabled={isScheduled}
+                      style={{ width: '100%' }}
+                    />
+                  )}
+                </FormItem>
+                <FormItem
+                  style={{ width: '100%' }}
+                  label={i18n.timeStartSampling}
+                >
+                  {getFieldDecorator('timeStartSampling', {
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n.alertNull,
+                      },
+                    ],
+                    initialValue: moment(dateTimeStart),
+                  })(
+                    <TimePicker
+                      disabled={isScheduled}
+                      format="HH:mm"
+                      style={{ width: '100%' }}
+                    />
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={11} >
+                <FormItem style={{ width: '100%' }} label={i18n.frequency}>
+                  {getFieldDecorator('frequency', {
+                    rules: [
+                      {
+                        required: true,
+                        min: 1,
+                        type: 'integer',
+                        message: i18n.alertNull,
+                      },
+                    ],
+                    initialValue: frequency,
+                  })(
+                    <InputNumber
+                      disabled={isScheduled}
+                      style={{ width: '100%' }}
+                    />
+                  )}
+                </FormItem>
+                <FormItem
+                  style={{ width: '100%' }}
+                  label={i18n.dateStartSampling}
+                >
+                  {getFieldDecorator('dateStartSampling', {
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n.alertNull,
+                      },
+                    ],
+                    initialValue: moment(dateTimeStart),
+                  })(
+                    <DatePicker
+                      disabled={isScheduled}
+                      format="DD/MM/YYYY"
+                      style={{ width: '100%' }}
+                    />
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+          </Form>
+        )}
 
         {/* -- ACTIONS -- */}
         <Row>
+          {/* disable nút lấy mẫu khi các chai đã full */}
           {samplingType === SAMPLING_TYPE.MANUAL && (
             <Button
               block
               type="primary"
               disabled={isFullBottles}
               style={{ marginBottom: 8, ...STATUS_COLOR[status] }}
-              onClick={this.handleClickSampling}
+              onClick={() => this.handleClickSampling()}
               loading={
                 status === STATUS_SAMPLING.SAMPLING ||
                 status === STATUS_SAMPLING.COMMANDED
@@ -514,7 +613,8 @@ export default class SamplingMoreInfo extends React.Component {
               {status === STATUS_SAMPLING.SAMPLING && i18n.takingSample}
             </Button>
           )}
-          {/* active button */}
+
+          {/* active button chưa lập lịch lấy mẫu*/}
           {samplingType === SAMPLING_TYPE.AUTO && !isScheduled && (
             <Button
               block
@@ -527,7 +627,7 @@ export default class SamplingMoreInfo extends React.Component {
               {isScheduled ? i18n.actived : i18n.active}
             </Button>
           )}
-          {/* actived button */}
+          {/* actived button đã lập lích lấy mấy, show button huỷ lịch*/}
           {samplingType === SAMPLING_TYPE.AUTO && isScheduled && (
             <Button
               block
@@ -554,6 +654,16 @@ export default class SamplingMoreInfo extends React.Component {
             {isActivedOverRange ? i18n.activedOverRange : i18n.activeOverRange}
           </Button> */}
         </Row>
+
+
+        {
+          (status === STATUS_SAMPLING.COMMANDED || status === STATUS_SAMPLING.SAMPLING) &&
+          this.renderSamplingProgress({ currentStep: "SAMPLING" })
+        }
+        {
+          (status === STATUS_SAMPLING.COMMANDED || status === STATUS_SAMPLING.SAMPLING) &&
+          this.renderTakenBottles({ takenBottles: sampledBottles, totalBottles })
+        }
       </div>
     )
   }

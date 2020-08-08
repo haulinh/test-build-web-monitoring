@@ -12,7 +12,10 @@ import { getConfigApi } from 'config'
 import swal from 'sweetalert2'
 import { translate } from 'hoc/create-lang'
 import debounce from 'lodash/debounce'
+import { get as _get } from 'lodash'
 import Gallery from 'components/elements/gallery'
+import { connect } from 'react-redux'
+import { removeAccents } from 'hoc/create-lang'
 
 const Wrapper = styled(Row)`
   min-height: 500px;
@@ -67,9 +70,13 @@ const HeadingWrapper = styled.div`
 const Title = styled.h3``
 
 @withRouter
+@connect(state => ({
+  language: _get(state, 'language.locale'),
+}))
 export default class ImageMoreInfo extends React.Component {
   static propTypes = {
     stationID: PropTypes.string,
+    language: PropTypes.string,
   }
   static defaultProps = {}
 
@@ -182,7 +189,8 @@ export default class ImageMoreInfo extends React.Component {
     <HeadingWrapper>
       <Title>
         {translate('stationAutoManager.image.label', {
-          name: this.state.station.name || '',
+          name:
+            removeAccents(this.props.language, this.state.station.name) || '',
         })}
       </Title>
       <Upload
@@ -213,16 +221,17 @@ export default class ImageMoreInfo extends React.Component {
     return (
       <Spin spinning={this.state.loading}>
         <React.Fragment>
-          {this.renderHeader()}
+          {!this.state.loading && this.renderHeader()}
           <Wrapper type="flex" gutter={24}>
             {!this.state.loading && images.length ? (
               images.map((image, index) => (
-                <Col className="image-item" span={6}>
+                <Col className="image-item" key={index} span={6}>
                   <Popconfirm
-                    title="Are you sure delete this image?"
+                    // title="Are you sure delete this image?"
+                    title={translate('addon.popConfirm.image.title')}
                     onConfirm={this.handleDeleteImage(index)}
-                    okText="Yes"
-                    cancelText="No"
+                    okText={translate('addon.yes')}
+                    cancelText={translate('addon.no')}
                     className="delete"
                   >
                     <i className="fa fa-trash" />
