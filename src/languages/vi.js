@@ -1249,12 +1249,12 @@ export default {
             hours: 'Giờ',
             days: 'Ngày',
             months: 'Tháng',
-            years: 'Năm'
+            years: 'Năm',
           },
         },
         error: 'Vui lòng chọn thời gian mất kết nối !!!',
-        description: 'Chú ý: cấu hình này hỗ trợ việc nhận tín hiệu khi mất kết nối theo khoảng thời gian được chọn'
-
+        description:
+          'Chú ý: cấu hình này hỗ trợ việc nhận tín hiệu khi mất kết nối theo khoảng thời gian được chọn',
       },
       emails: {
         label: 'Địa chỉ Email',

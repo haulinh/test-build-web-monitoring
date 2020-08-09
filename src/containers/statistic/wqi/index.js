@@ -91,7 +91,7 @@ export default class WQIStatistics extends React.Component {
       to: _.get(this.state.searchFormData, 'toDate', ''),
       listKey: _.get(this.state.searchFormData, 'stationID', ''),
       code: _.get(this.state.searchFormData, 'wqiKey'),
-      language: getLanguage(this.props.locale)
+      language: getLanguage(this.props.locale),
     }
     let res = await WqiApi.exportFileWqiHourbyStation({ ...params })
     if (res && res.success) window.location = res.data

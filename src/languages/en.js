@@ -1258,10 +1258,11 @@ export default {
             days: 'Days',
             months: 'Months',
             years: 'Years',
-          }
+          },
         },
         error: 'Please select lost connection time range !!!',
-        description: 'Notice: This configuration supports receiving signals when the connection is lost at the selected time interval'
+        description:
+          'Notice: This configuration supports receiving signals when the connection is lost at the selected time interval',
       },
       emails: {
         label: 'Email Address',

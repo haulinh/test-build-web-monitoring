@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
 const disabled = css`
   pointer-events: none;
   opacity: 0.4;
-`;
+`
 
 const TableStyle = styled.div`
   position: relative;
@@ -15,6 +15,6 @@ const TableStyle = styled.div`
   max-width: 100%;
   ${props => props.disabled && disabled};
   ${props => props.theme.table.style};
-`;
+`
 
-export default TableStyle;
+export default TableStyle

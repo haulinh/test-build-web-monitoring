@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import DropDownIcon from '../icons/Dropdown';
+import React from 'react'
+import styled from 'styled-components'
+import DropDownIcon from '../icons/Dropdown'
 
 const SelectControl = styled.select`
   cursor: pointer;
@@ -24,7 +24,7 @@ const SelectControl = styled.select`
   &:disabled::-ms-expand {
     background: #f60;
   }
-`;
+`
 
 const SelectWrapper = styled.div`
   position: relative;
@@ -45,13 +45,13 @@ const SelectWrapper = styled.div`
     user-select: none;
     pointer-events: none;
   }
-`;
+`
 
 const Select = props => (
   <SelectWrapper>
     <SelectControl {...props} />
     <DropDownIcon />
   </SelectWrapper>
-);
+)
 
-export default Select;
+export default Select

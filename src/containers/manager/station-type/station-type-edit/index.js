@@ -35,7 +35,7 @@ export default class StationTypeEdit extends React.PureComponent {
 
   async handleSubmit(data) {
     this.setState({
-      dataSource: data
+      dataSource: data,
     })
     this.props.onUpdateItem(data)
     //const key = this.props.match.params.key
@@ -82,7 +82,9 @@ export default class StationTypeEdit extends React.PureComponent {
           {this.props.isLoaded && (
             <StationTypeFrom
               isLoading={this.props.isUpdating}
-              initialValues={ this.state.dataSource ? this.state.dataSource : this.props.data}
+              initialValues={
+                this.state.dataSource ? this.state.dataSource : this.props.data
+              }
               onSubmit={this.handleSubmit}
             />
           )}

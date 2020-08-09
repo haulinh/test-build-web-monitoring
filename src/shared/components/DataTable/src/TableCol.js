@@ -1,13 +1,13 @@
-import React, { memo } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Cell } from './Cell';
-import { useTableContext } from './DataTableContext';
-import NativeSortIcon from '../icons/NativeSortIcon';
+import React, { memo } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Cell } from './Cell'
+import { useTableContext } from './DataTableContext'
+import NativeSortIcon from '../icons/NativeSortIcon'
 
 const TableColStyle = styled(Cell)`
   ${props => props.column.button && 'text-align: center'};
-`;
+`
 
 const ColumnSortable = styled.div`
   display: inline-flex;
@@ -15,7 +15,10 @@ const ColumnSortable = styled.div`
   height: 100%;
   line-height: 1;
   user-select: none;
-  ${props => (props.sortActive ? props.theme.headCells.activeSortStyle : props.theme.headCells.inactiveSortStyle)};
+  ${props =>
+    props.sortActive
+      ? props.theme.headCells.activeSortStyle
+      : props.theme.headCells.inactiveSortStyle};
 
   span.__rdt_custom_sort_icon__ {
     i,
@@ -43,29 +46,35 @@ const ColumnSortable = styled.div`
 
     span,
     span.__rdt_custom_sort_icon__ * {
-      ${({ sortActive, column }) => !sortActive && column.sortable && 'opacity: 1'};
+      ${({ sortActive, column }) =>
+        !sortActive && column.sortable && 'opacity: 1'};
     }
   }
-`;
+`
 
-
-const TableCol = memo(({
-  column,
-  sortIcon,
-}) => {
-  const { dispatch, pagination, paginationServer, sortColumn, sortDirection, sortServer, selectableRowsVisibleOnly, persistSelectedOnSort } = useTableContext();
+const TableCol = memo(({ column, sortIcon }) => {
+  const {
+    dispatch,
+    pagination,
+    paginationServer,
+    sortColumn,
+    sortDirection,
+    sortServer,
+    selectableRowsVisibleOnly,
+    persistSelectedOnSort,
+  } = useTableContext()
 
   if (column.omit) {
-    return null;
+    return null
   }
 
   const handleSortChange = () => {
     if (column.sortable) {
-      let direction = sortDirection;
+      let direction = sortDirection
       // change sort direction only if sortColumn (currently selected column) is === the newly clicked column
       // otherwise, retain sort direction if the column is switched
       if (sortColumn === column.selector) {
-        direction = sortDirection === 'asc' ? 'desc' : 'asc';
+        direction = sortDirection === 'asc' ? 'desc' : 'asc'
       }
 
       dispatch({
@@ -78,15 +87,15 @@ const TableCol = memo(({
         paginationServer,
         visibleOnly: selectableRowsVisibleOnly,
         persistSelectedOnSort,
-      });
+      })
     }
-  };
+  }
 
   const handleKeyPress = event => {
     if (event.key === 'Enter') {
-      handleSortChange();
+      handleSortChange()
     }
-  };
+  }
 
   const renderNativeSortIcon = sortActive => (
     <NativeSortIcon
@@ -94,19 +103,19 @@ const TableCol = memo(({
       sortActive={sortActive}
       sortDirection={sortDirection}
     />
-  );
+  )
 
   const renderCustomSortIcon = () => (
     <span className={[sortDirection, '__rdt_custom_sort_icon__'].join(' ')}>
       {sortIcon}
     </span>
-  );
+  )
 
-  const sortActive = column.sortable && sortColumn === column.selector;
-  const nativeSortIconLeft = column.sortable && !sortIcon && !column.right;
-  const nativeSortIconRight = column.sortable && !sortIcon && column.right;
-  const customSortIconLeft = column.sortable && sortIcon && !column.right;
-  const customSortIconRight = column.sortable && sortIcon && column.right;
+  const sortActive = column.sortable && sortColumn === column.selector
+  const nativeSortIconLeft = column.sortable && !sortIcon && !column.right
+  const nativeSortIconRight = column.sortable && !sortIcon && column.right
+  const customSortIconLeft = column.sortable && sortIcon && !column.right
+  const customSortIconRight = column.sortable && sortIcon && column.right
 
   return (
     <TableColStyle
@@ -128,23 +137,18 @@ const TableCol = memo(({
         >
           {customSortIconRight && renderCustomSortIcon()}
           {nativeSortIconRight && renderNativeSortIcon(sortActive)}
-          <div>
-            {column.name}
-          </div>
+          <div>{column.name}</div>
           {customSortIconLeft && renderCustomSortIcon()}
           {nativeSortIconLeft && renderNativeSortIcon(sortActive)}
         </ColumnSortable>
       )}
     </TableColStyle>
-  );
-});
+  )
+})
 
 TableCol.propTypes = {
   column: PropTypes.object.isRequired,
-  sortIcon: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.object,
-  ]).isRequired,
-};
+  sortIcon: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+}
 
-export default TableCol;
+export default TableCol

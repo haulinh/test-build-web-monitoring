@@ -286,7 +286,9 @@ export default class TabChart extends React.PureComponent {
         formatter: function() {
           // The first returned item is the header, subsequent items are the
           // points
-          return ['<b>' + moment(this.x).format(DD_MM_YYYY_HH_MM) + '</b>'].concat(
+          return [
+            '<b>' + moment(this.x).format(DD_MM_YYYY_HH_MM) + '</b>',
+          ].concat(
             this.points
               ? this.points.map(function(point) {
                   return point.series.name + ': ' + getFormatNumber(point.y)

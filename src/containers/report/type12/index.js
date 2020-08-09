@@ -22,7 +22,6 @@ import ROLE from 'constants/role'
 import { connect } from 'react-redux'
 import { getLanguage } from 'utils/lang'
 
-
 // import axios from 'axios'
 
 const { Title, Text } = Typography
