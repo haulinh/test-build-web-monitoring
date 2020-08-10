@@ -490,6 +490,7 @@ export default class StationAutoHead extends React.PureComponent {
             onClose={this.closeDrawer}
             visibleDrawer={this.state.visibleDrawer}
             _id={_id}
+            name={name}
           />
         </ActionWrapper>
 
