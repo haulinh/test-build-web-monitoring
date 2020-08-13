@@ -2042,6 +2042,9 @@ export default {
     onDelete: {
       success: 'Xoá thành công',
       error: 'Xoá thất bại',
+      qcvn: {
+        qcvnUsed: 'Không thể xóa vì có trạm sử dụng quy chuẩn này'
+      },
       warning: 'Bạn không thể xóa tài khoản của chính mình',
     },
     onRestore: {

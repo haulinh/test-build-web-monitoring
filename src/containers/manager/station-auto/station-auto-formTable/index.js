@@ -181,8 +181,9 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   _isEnableEditMeasure = (meaKey) => {
-    const listKey = Object.keys(this.state.standardsVN)
 
+
+    const listKey = Object.keys(this.state.standardsVN)
     if (_.includes(listKey, meaKey)) {
       return false
     }
@@ -224,7 +225,33 @@ export default class StationAutoFormTable extends React.Component {
         })(
           <InputNumberCell
             style={{ width: 120 }}
-            editable={this._isEnableEditMeasure(record.key)}
+            editable={this._isEnableEditMeasure(record.measuringKey)}
+          />
+        )}
+      </FormItem>
+    )
+  }
+
+  // NOTE ko check logic disable cac field
+  renderItemNumberCellNoQaQc = (text, record, index, key, autoFill = false) => {
+    console.log({ text, record, index, key })
+    if (autoFill) {
+      if (!_.isNumber(text) && this.props.allowUpdateStandardsVN) {
+        text = this.getValueStandardVN(record, key)
+      }
+    }
+    return (
+      <FormItem style={{ marginBottom: 0 }}>
+        {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
+          initialValue: text,
+          // validateFirst: true,
+          // rules: [
+          //   { validator: (rule, value, callback) => this.validateValue(index, rule, value, callback) },
+          // ]
+        })(
+          <InputNumberCell
+            style={{ width: 120 }}
+            editable={true}
           />
         )}
       </FormItem>
@@ -356,7 +383,7 @@ export default class StationAutoFormTable extends React.Component {
                     </Select.Option>
                   )
                 )}
-                // autoFocus={true}
+              // autoFocus={true}
               />
             )}
           </FormItem>
@@ -392,7 +419,7 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.tendToExceedMin,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'minTend', true),
+              this.renderItemNumberCellNoQaQc(text, record, index, 'minTend', true),
           },
           {
             dataIndex: 'maxTend',
@@ -400,7 +427,7 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.tendToExceedMax,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'maxTend', true),
+              this.renderItemNumberCellNoQaQc(text, record, index, 'maxTend', true),
           },
         ],
       },
@@ -413,7 +440,7 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.sensorRangeMin,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'minRange'),
+              this.renderItemNumberCellNoQaQc(text, record, index, 'minRange'),
           },
           {
             dataIndex: 'maxRange',
@@ -421,7 +448,7 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.sensorRangeMax,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'maxRange'),
+              this.renderItemNumberCellNoQaQc(text, record, index, 'maxRange'),
           },
         ],
       },
