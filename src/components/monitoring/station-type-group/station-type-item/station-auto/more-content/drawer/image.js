@@ -1,22 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import StationAutoApi from 'api/StationAuto'
+// import StationAutoApi from 'api/StationAuto'
 import MediaApi from 'api/MediaApi'
-import update from 'immutability-helper'
+// import update from 'immutability-helper'
 import { v4 as uuidV4 } from 'uuid'
 import { Row, Col, Upload, Icon, message, Spin, Popconfirm } from 'antd'
 import Button from 'components/elements/button'
 import styled from 'styled-components'
-// import { getConfigApi } from 'config'
 import swal from 'sweetalert2'
 import { translate } from 'hoc/create-lang'
-import debounce from 'lodash/debounce'
+// import debounce from 'lodash/debounce'
 import { get as _get } from 'lodash'
 import Gallery from 'components/elements/gallery'
 import { connect } from 'react-redux'
 import { removeAccents } from 'hoc/create-lang'
 import axios from 'axios'
+// import { getConfigApi } from 'config'
 
 const Wrapper = styled(Row)`
   /* min-height: 500px; */
@@ -71,7 +71,6 @@ const HeadingWrapper = styled.div`
 
 const Title = styled.h3``
 
-const urlImage = 'https://dev-minio.ilotusland.asia'
 const getDatabaseName = organizationName => organizationName.replace(/_/g, '')
 
 const uploadProps = {
@@ -136,9 +135,11 @@ export default class ImageMoreInfo extends React.Component {
     )
 
     this.setState({ loading: true }, async () => {
-      const { data } = await axios.get(
-        `https://dev-drive.ilotusland.asia/buckets/${databaseName}?prefix=${stationName}/`
-      )
+      // const { data } = await axios.get(
+      //   `https://dev-drive.ilotusland.asia/buckets/${databaseName}?prefix=${stationName}/`
+      // )
+
+      const data = await MediaApi.getImages(databaseName, stationName)
 
       this.setState({
         newImages: data,
@@ -157,16 +158,13 @@ export default class ImageMoreInfo extends React.Component {
     }))
   }
 
-  // getUrlMedia(url) {
-  //   return getConfigApi().media + url.replace('public', '')
-  // }
   getUrlImage(imageName) {
     const { userInfo, stationName } = this.props
     const databaseName = userInfo.organization.databaseInfo.name.replace(
       /_/g,
       ''
     )
-    return `${urlImage}/${databaseName}/${stationName}/${imageName}`
+    return `${MediaApi.getUrlImage()}/${databaseName}/${stationName}/${imageName}`
   }
 
   handleViewGalleryClick = index => () => {
@@ -264,7 +262,8 @@ export default class ImageMoreInfo extends React.Component {
       this.props.userInfo.organization.databaseInfo.name
     )
 
-    const generatePutUrl = `https://dev-drive.ilotusland.asia/buckets/${databaseName}/presigned-put-object`
+    const generatePutUrl = MediaApi.generatePutUrl(databaseName)
+
     const options = {
       params: {
         prefix: `${this.props.stationName}/${file.name}`,
@@ -340,6 +339,7 @@ export default class ImageMoreInfo extends React.Component {
 
   render() {
     const images = this.state.newItems
+    console.log('MediaApi.getUrlImage()', MediaApi.getUrlImage())
     return (
       <Spin spinning={this.state.loading}>
         <React.Fragment>
@@ -361,7 +361,7 @@ export default class ImageMoreInfo extends React.Component {
                     onClick={this.handleViewGalleryClick(index)}
                     key={image._id}
                     image={image.thumbnail}
-                  ></PhotoItem>
+                  />
                 </Col>
               ))
             ) : (
