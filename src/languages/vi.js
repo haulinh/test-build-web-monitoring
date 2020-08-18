@@ -71,6 +71,8 @@ export default {
     sortByValues: 'Sắp xếp theo tình trạng',
     keywordSearch: 'Nhập tên trạm',
     limit: 'Giới hạn',
+    noData: 'Không có dữ liệu',
+    withoutLimit: 'Không có giới hạn',
     selectGroup: 'Chọn nhóm',
     selectOrder: 'Thứ tự theo',
     dataSearch: 'Tìm kiếm dữ liệu',

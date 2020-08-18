@@ -82,6 +82,8 @@ export default {
     camera: 'Camera',
     lossAt: 'Lost at',
     notInUse: 'Not In Use',
+    noData: 'No Data',
+    withoutLimit: 'Without Limit',
     deviceStatus: {
       dataloss: 'Lost Connection',
       sensorError: 'Sensor Error',

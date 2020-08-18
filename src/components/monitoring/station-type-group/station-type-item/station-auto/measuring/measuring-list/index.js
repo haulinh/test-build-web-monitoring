@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import MeasuringItem from '../measuring-item'
 
 const MeasuringListWrapper = styled.div`
+  width: 100%;
   padding: 8px 0 0px 0px;
   display: flex;
   flex-wrap: wrap;
@@ -16,6 +17,7 @@ const MeasuringListWrapper = styled.div`
 const MeasuringItemWrapper = styled.div`
   padding: 0px 8px 8px;
   width: ${props => (props.navigationIsOpen ? '20%' : '16.5%')};
+  /* min-width: 300px; */
 `
 
 @connect(state => ({
