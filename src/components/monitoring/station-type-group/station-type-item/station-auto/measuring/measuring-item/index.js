@@ -33,12 +33,6 @@ const Flex = styled.div`
   justify-content: space-between;
 `
 
-const MeasuringItemText = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`
-
 const MeasuringUnit = styled.span`
   position: absolute;
   top: -5px;
@@ -82,6 +76,7 @@ const Dot = styled.div`
 `
 
 const MeasuringName = styled.span`
+  color: ${props => props.color};
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -217,14 +212,13 @@ export default class MeasuringItem extends React.PureComponent {
       colorDeviceStatus = COLOR[STATUS_STATION.HIGHTGEST]
 
     return (
-      <MeasuringItemWrapper>
-        <MeasuringItemText
-          style={{ color: this.getColorLevel(), marginTop: 4, fontSize: 16 }}
-        >
-          <Tooltip title={name}>
-            <MeasuringName>{name}</MeasuringName>
-          </Tooltip>
-        </MeasuringItemText>
+      <MeasuringItemWrapper
+        onClick={this.props.onClick}
+        color={this.getColorLevel()}
+      >
+        <Tooltip title={name}>
+          <MeasuringName color={this.getColorLevel()}>{name}</MeasuringName>
+        </Tooltip>
         <Flex onClick={this.props.onClick} color={this.getColorLevel()}>
           <LeftContainer>
             <MeasuringValue color={this.getColorLevel()}>
