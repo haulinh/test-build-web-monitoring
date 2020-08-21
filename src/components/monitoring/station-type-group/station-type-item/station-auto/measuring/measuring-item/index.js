@@ -77,10 +77,11 @@ const Dot = styled.div`
 
 const MeasuringName = styled.span`
   color: ${props => props.color};
+  display: inline-block;
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap;
   max-width: 100%;
+  white-space: nowrap;
   margin-right: 12px;
   font-weight: 500;
   font-size: 14px;
