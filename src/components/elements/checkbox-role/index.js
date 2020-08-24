@@ -190,11 +190,14 @@ export default class CheckBoxRole extends PureComponent {
                       {record.actions[actionName] && (
                         <Checkbox
                           key={index}
+                          // disabled={}
                           onChange={e => {
                             this.onChangeRule(e, record.key, actionName)
                           }}
                           checked={actionsOrganization[actionName]}
-                          disabled={this.isDisable(record.key)}
+                          disabled={
+                            this.isDisable(record.key) || actionName === 'view'
+                          }
                         >
                           {t(`roleManager.rule.actions.${actionName}`)}
                         </Checkbox>
