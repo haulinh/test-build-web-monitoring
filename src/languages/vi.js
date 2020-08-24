@@ -2366,7 +2366,7 @@ export default {
       jsonView: 'Xem Json',
     },
     searchForm: {
-      user: 'Select email',
+      user: 'Chọn người dùng',
       typeLog: 'Loại',
       from: 'Từ ngày',
       to: 'Đến ngày',
@@ -2562,4 +2562,10 @@ export default {
       placeholder: 'Viết đánh giá',
     },
   },
+  element: {
+    rangePicker: {
+      startDate: 'Thời gian bắt đầu',
+      endDate: 'Thời gian kết thúc'
+    }
+  }
 }
