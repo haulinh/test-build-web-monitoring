@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "deepmerge": "^4.2.2",
+    "shortid": "^2.2.15",
     "@atlaskit/breadcrumbs": "^3.1.10",
     "@atlaskit/button": "^5.4.14",
     "@atlaskit/checkbox": "^1.1.7",

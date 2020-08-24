@@ -6,7 +6,7 @@ import { Spin, Tag } from 'antd'
 import { translate } from 'hoc/create-lang'
 import SamplingAPI from 'api/SamplingApi'
 import moment from 'moment-timezone'
-import { toLower as _toLower } from 'lodash'
+// import { toLower as _toLower } from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import swal from 'sweetalert2'
 import _ from 'lodash'
@@ -14,36 +14,36 @@ import DataTable from "shared/components/DataTable";
 import "antd/dist/antd.css";
 import ExpandedComponent from './ExpandedComponent'
 
-const i18n = {
-  stt: translate('monitoring.moreContent.sampling.content.history.stt'),
-  bottleNo: translate(
-    'monitoring.moreContent.sampling.content.history.bottleNo'
-  ),
-  dateTime: translate(
-    'monitoring.moreContent.sampling.content.history.dateTime'
-  ),
-  typeOfSampling: translate(
-    'monitoring.moreContent.sampling.content.history.typeOfSampling'
-  ),
-  activedUser: translate(
-    'monitoring.moreContent.sampling.content.history.activedUser'
-  ),
-  result: translate('monitoring.moreContent.sampling.content.history.result'),
-  success: translate('monitoring.moreContent.sampling.content.history.result'),
-  history: {
-    manual: translate('monitoring.moreContent.sampling.content.history.manual'),
-    cancel_schedule: translate(
-      'monitoring.moreContent.sampling.content.history.cancel_schedule'
-    ),
-    active_schedule: translate(
-      'monitoring.moreContent.sampling.content.history.active_schedule'
-    ),
-    config: translate('monitoring.moreContent.sampling.content.history.config'),
-    reset_bottles: translate(
-      'monitoring.moreContent.sampling.content.history.reset_bottles'
-    ),
-  },
-}
+// const i18n = {
+//   stt: translate('monitoring.moreContent.sampling.content.history.stt'),
+//   bottleNo: translate(
+//     'monitoring.moreContent.sampling.content.history.bottleNo'
+//   ),
+//   dateTime: translate(
+//     'monitoring.moreContent.sampling.content.history.dateTime'
+//   ),
+//   typeOfSampling: translate(
+//     'monitoring.moreContent.sampling.content.history.typeOfSampling'
+//   ),
+//   activedUser: translate(
+//     'monitoring.moreContent.sampling.content.history.activedUser'
+//   ),
+//   result: translate('monitoring.moreContent.sampling.content.history.result'),
+//   success: translate('monitoring.moreContent.sampling.content.history.result'),
+//   history: {
+//     manual: translate('monitoring.moreContent.sampling.content.history.manual'),
+//     cancel_schedule: translate(
+//       'monitoring.moreContent.sampling.content.history.cancel_schedule'
+//     ),
+//     active_schedule: translate(
+//       'monitoring.moreContent.sampling.content.history.active_schedule'
+//     ),
+//     config: translate('monitoring.moreContent.sampling.content.history.config'),
+//     reset_bottles: translate(
+//       'monitoring.moreContent.sampling.content.history.reset_bottles'
+//     ),
+//   },
+// }
 
 
 // NOTE demodata
