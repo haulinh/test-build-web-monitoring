@@ -109,7 +109,7 @@ export default class SelectStationType extends PureComponent {
         filterOption={false}
       >
         {this.props.isShowAll && (
-          <Select.Option value="">
+          <Select.Option value='ALL'>
             {translate('dataSearchFrom.form.all')}
           </Select.Option>
         )}
