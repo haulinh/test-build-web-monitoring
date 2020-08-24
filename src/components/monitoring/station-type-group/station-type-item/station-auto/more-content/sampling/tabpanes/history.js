@@ -3,7 +3,7 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import { Spin, Tag } from 'antd'
 /* user import */
-import { translate } from 'hoc/create-lang'
+// import { translate } from 'hoc/create-lang'
 import SamplingAPI from 'api/SamplingApi'
 import moment from 'moment-timezone'
 // import { toLower as _toLower } from 'lodash'

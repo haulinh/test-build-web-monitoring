@@ -90,8 +90,7 @@ const MeasuringName = styled.span`
 
 const NoDataText = styled.span`
   color: #e0e0e0;
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 16px;
   font-style: normal;
   font-weight: normal;
 `
