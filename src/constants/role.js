@@ -108,6 +108,7 @@ export default {
   },
   TINH_TRANG_DU_LIEU: {
     VIEW: 'menu.tinhTrangDuLieu.actions.view',
+    EXPORT: 'menu.tinhTrangDuLieu.actions.export',
   },
   WQI_GIO: {
     VIEW: 'menu.wqiGio.actions.view',
