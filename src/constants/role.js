@@ -72,9 +72,6 @@ export default {
     VIEW: 'menu.tiLeDuLieuThuDuoc.actions.view',
     EXPORT: 'menu.tiLeDuLieuThuDuoc.actions.export',
   },
-  TILE_DULIEU: {
-    VIEW: 'menu.tiLeDuLieu.actions.view',
-  },
   TB24H: {
     VIEW: 'menu.tb24H.actions.view',
   },
