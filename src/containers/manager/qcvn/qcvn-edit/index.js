@@ -14,7 +14,7 @@ import { message } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 
-@protectRole(ROLE.STATION_AUTO.EDIT)
+@protectRole(ROLE.QCVN.EDIT)
 @createManagerDelete({
   apiDelete: QCVNApi.deleteQCVN,
 })
