@@ -298,7 +298,7 @@ class MenuApp extends React.PureComponent {
         {/* TODO  Chưa có role nên dùng tạm của STATION_AUTO, xem lại */}
         {this.checkRoleForGroup([
           ROLE.TILE_DULIEU_THUDUOC.VIEW,
-          ROLE.TILE_DULIEU.VIEW,
+          // ROLE.TILE_DULIEU.VIEW, Bỏ đi, trường nói đã thống nhất với team
           ROLE.TB24H.VIEW,
           ROLE.TB1H.VIEW,
           ROLE.TB1MAX.VIEW,
