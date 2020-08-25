@@ -89,7 +89,9 @@ export default class CameraFilter extends React.PureComponent {
         data.station = station
       }
       // Callback submit form Container Component
-      this.setState({ dataSearch: data }, () => this.props.onChangeSearch(data))
+      this.setState({ dataSearch: data }, () => {
+        this.props.onChangeSearch(data)
+      })
     })
   }
 
