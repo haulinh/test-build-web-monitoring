@@ -90,7 +90,7 @@ export default class Notification extends React.PureComponent {
           <NotificationWrapperIcon onClick={this.handleClickNotification}>
             <NotificationIcon color="#fff" size="large" />
             {this.props.notificationCount ? (
-              <div className="badge">{this.props.notificationCount}</div>
+              <div className="badge">{this.props.notificationCount < 99 ? this.props.notificationCount : '99+'}</div>
             ) : null}
           </NotificationWrapperIcon>
         </Tooltip>
