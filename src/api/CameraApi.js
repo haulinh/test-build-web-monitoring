@@ -46,6 +46,10 @@ export function enableCamera(stationIdList, isAllowed) {
   const apiUrl = `${getConfigApi().stationAuto}/camera/enable`
   return putFetch(apiUrl, { stationIdList, isAllowed })
 }
+export const addCameras = (stationId, cameraList) => {
+  const apiUrl = `${getConfigApi().stationAuto}/camera/add/${stationId}`
+  return putFetch(apiUrl, { cameraList })
+}
 
 export async function getAuthToken() {
   const { username, password } = getInfo()
