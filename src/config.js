@@ -62,7 +62,9 @@ export function getConfigApi() {
     support: c('support'),
     province: c('province'),
     qcvn: c('qcvn'),
-
+    aqi: c('aqi'),
+    aqi_v1: c('aqi-v1'),
+    // aqi_v1: 'http://localhost:5015/aqi-v1',
     wqi: c('wqi'),
     // wqi: 'http://localhost:5017/wqi',
     notify: c('notify'),

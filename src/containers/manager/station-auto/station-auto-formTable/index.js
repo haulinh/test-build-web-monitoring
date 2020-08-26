@@ -130,7 +130,6 @@ export default class StationAutoFormTable extends React.Component {
         measuringKey: item.key,
       }
     })
-    console.log(resultArr, '-----resultArr')
     return resultArr
   }
 
@@ -182,11 +181,8 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   _isEnableEditMeasure = (meaKey) => {
-    // console.log(meaKey, '-----meaKey')
     const listKey = Object.keys(this.state.standardsVN)
-    // listKey = listKey.map((mea) => mea.measuringKey)
-    // listKey.length--
-    // console.log(listKey, '------listKey')
+
     if (_.includes(listKey, meaKey)) {
       return false
     }
@@ -196,10 +192,7 @@ export default class StationAutoFormTable extends React.Component {
   _isEnableSelectMeasure = (meaKey) => {
     const listKeyStandard = Object.keys(this.state.standardsVN)
     const listKeyCustom = this.state.measuringList.map((i) => i.measuringKey)
-    if (
-      // _.includes(listKeyStandard, meaKey) ||
-      _.includes(listKeyCustom, meaKey)
-    ) {
+    if (_.includes(listKeyCustom, meaKey)) {
       return false
     }
 
