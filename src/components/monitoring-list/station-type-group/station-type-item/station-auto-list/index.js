@@ -5,18 +5,32 @@ import styled from 'styled-components'
 import { Table, Tooltip } from 'antd'
 import * as _ from 'lodash'
 import { SHAPE } from 'themes/color'
+import { DD_MM_YY_HH_MM } from 'constants/format-date.js'
 import { warningLevels, colorLevels } from 'constants/warningLevels'
 import { translate } from 'hoc/create-lang'
 import stationStatus from 'constants/stationStatus'
 import './style.css'
 import moment from 'moment'
-import ResizeTable from './ResizeTable'
-import ResizableAntdTable from 'resizable-antd-table'
-import ResizeableTable from './ResizeableTable'
+// import ResizeTable from './ResizeTable'
+// import ResizableAntdTable from 'resizable-antd-table'
+// import ResizeableTable from './ResizeableTable'
 
-const CustomTable = styled(ResizeTable)`
-  .ant-table {
-    font-size: 18px;
+// const CustomTable = styled(ResizeTable)`
+//   .ant-table {
+//     font-size: 18px;
+//   }
+// `
+
+const WrapperContainer = styled.div`
+  .stationName {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 4px !important;
+  }
+  .stationTime {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 4px !important;
   }
 `
 
@@ -27,31 +41,44 @@ const Flex = styled.div`
   align-items: center;
 `
 
-const TextWithToolTip = props => (
-  <div
-    style={{
-      width: props.width && props.width,
-      fontWeight: 600,
-      color: props.color ? props.color : '',
-    }}
-  >
-    <Tooltip
-      getPopupContainer={() => document.querySelector('.ant-table-wrapper')}
-      title={props.text}
+const TextWithToolTip = props => {
+  let styleCustom = {}
+  if (props.IsEllipsis) {
+    styleCustom = {
+      display: 'inline-block',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      maxWidth: '100px',
+      whiteSpace: 'nowrap',
+    }
+  }
+  return (
+    <div
+      style={{
+        // width: props.width ? props.width : null,
+        display: 'flex',
+        fontWeight: 500,
+        color: props.color ? props.color : '',
+        ...styleCustom,
+      }}
     >
-      <span
-        style={{
-          color: props.color ? props.color : '',
-          float: props.right ? 'right' : '',
-        }}
-        className={props.className}
+      <Tooltip
+        getPopupContainer={() => document.querySelector('.ant-table-wrapper')}
+        title={props.text}
       >
-        &nbsp;{props.text}
-      </span>
-    </Tooltip>
-  </div>
-)
-const StationListWrapper = styled.div``
+        <span
+          style={{
+            color: props.color ? props.color : '',
+            float: props.right ? 'right' : '',
+          }}
+          className={props.className}
+        >
+          &nbsp;{props.text}
+        </span>
+      </Tooltip>
+    </div>
+  )
+}
 
 @autobind
 export default class StationAutoList extends React.Component {
@@ -75,11 +102,13 @@ export default class StationAutoList extends React.Component {
 
   render() {
     return (
-      <TableData
-        stationAutoList={this.props.stationAutoList}
-        measureData={this.measureData}
-        measureShow={this.props.measureShow}
-      />
+      <WrapperContainer>
+        <TableData
+          stationAutoList={this.props.stationAutoList}
+          measureData={this.measureData}
+          measureShow={this.props.measureShow}
+        />
+      </WrapperContainer>
     )
   }
 }
@@ -140,11 +169,13 @@ class TableData extends React.Component {
   // }
 
   khoiTaoColumn() {
-    this.column = [
+    let columns = [
       {
         title: '#',
         dataIndex: 'index',
         key: 'index',
+        width: 35,
+        fixed: 'left',
         render: (text, record, index) => index + 1,
       },
       {
@@ -152,18 +183,16 @@ class TableData extends React.Component {
         dataIndex: 'status',
         key: 'status',
         align: 'center',
-        width: 20,
-        render: (val, record, index) => {
+        width: 30,
+        fixed: 'left',
+        render: val => {
           const icon = STATION_ICON[val]
           return (
             <img
               src={icon}
               style={{
-                // position: "absolute",
-                // top: '10%',
-                // right: 0,
-                width: '14px',
-                height: '14px',
+                width: '26px',
+                height: '26px',
               }}
               alt={'normal'}
             />
@@ -174,23 +203,21 @@ class TableData extends React.Component {
         title: 'Tên trạm',
         dataIndex: 'name',
         key: 'name',
-        // width: 220,
-        render: text => <TextWithToolTip text={text} />,
+        width: 220,
+        fixed: 'left',
+        className: 'stationName',
       },
       {
         title: 'Thời gian',
         dataIndex: 'lastLog.receivedAt',
         key: 'time',
+        width: 150,
+        fixed: 'left',
+        className: 'stationTime',
         render: receivedAt => {
           if (!receivedAt) return null
-          const date = moment(receivedAt).format('DD/MM/HH:SS')
-          const time = moment(receivedAt).format('HH:SS')
-          return (
-            <React.Fragment>
-              <div>{date}</div>
-              {/* <div>{time}</div> */}
-            </React.Fragment>
-          )
+          const strDate = moment(receivedAt).format(DD_MM_YY_HH_MM)
+          return strDate
         },
       },
     ]
@@ -205,16 +232,10 @@ class TableData extends React.Component {
     // width = width * radio
     let tampColumnMeasure = this.props.measureData.map(item => {
       return {
-        title: (
-          <TextWithToolTip
-            text={item.name}
-             width={100}
-          />
-        ),
+        title: <TextWithToolTip IsEllipsis={true} text={item.name} />,
         dataIndex: `lastLog.measuringLogs.${item.key}`,
-        // className: 'noPadding fontSize10',
+        width: 110,
         align: 'center',
-        // width,
         key: item.key,
         render: (measure, record) => {
           // console.log('measure',measure)
@@ -258,14 +279,15 @@ class TableData extends React.Component {
                 className={classContainer}
                 key="right"
                 style={{
-                  // position: 'relative',
-                  // float: 'right',
                   width: '100%',
                   borderRadius: 3,
+                  display: 'flex',
+                  padding: '2px',
                 }}
               >
                 {measure.value || measure.value === 0 ? (
                   <TextWithToolTip
+                    IsEllipsis={true}
                     text={measure.value
                       .toFixed(2)
                       .toLocaleString(navigator.language)}
@@ -293,82 +315,30 @@ class TableData extends React.Component {
     tampColumnMeasure = tampColumnMeasure.filter(item => {
       return this.props.measureShow && this.props.measureShow.includes(item.key)
     })
-    let result = [...this.column, ...tampColumnMeasure]
+    let result = [...columns, ...tampColumnMeasure]
     return result
   }
 
   render() {
-    const column = this.khoiTaoColumn()
     // console.log("TableData -> render -> column", column)
     // console.log('this.props.stationAutoList',this.props.stationAutoList)
-    
+
     return (
-      <CustomTable
+      <Table
+        key="_id"
         style={{ backgroundColor: '#fff' }}
         size="small"
         dataSource={this.props.stationAutoList}
-        bordered
-        columns={column}
+        // bordered
+        columns={this.khoiTaoColumn()}
         pagination={false}
+        scroll={{
+          x:
+            this.props.measureData && this.props.measureData.length > 6
+              ? 1500
+              : false,
+        }}
       />
-      // <ResizeableTable
-      //   pagination={false}
-      //   bordered
-      //   columns={column}
-      //   dataSource={this.props.stationAutoList}
-      // />
     )
   }
 }
-
-const data1 = [
-  {
-    key: 0,
-    date: "2018-02-11",
-    amount: 120,
-    type: "income",
-    note: "transfer"
-  },
-  {
-    key: 1,
-    date: "2018-03-11",
-    amount: 243,
-    type: "income",
-    note: "transfer"
-  },
-  {
-    key: 2,
-    date: "2018-04-11",
-    amount: 98,
-    type: "income",
-    note: "transfer"
-  }
-];
-
-const columns1 = [
-  {
-    title: "Date",
-    dataIndex: "date",
-    width: 200,
-  },
-  {
-    title: "Amount",
-    dataIndex: "amount",
-    width: 100,
-  
-  },
-  {
-    title: "Type",
-    dataIndex: "type",
-    width: 100
-  },
-  {
-    title: "Note",
-    dataIndex: "note",
-    width: 100
-  },
-  {
-    title: "Action",
-    key: "action",
-  }
-];

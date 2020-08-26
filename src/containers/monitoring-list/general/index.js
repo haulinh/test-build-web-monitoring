@@ -292,7 +292,7 @@ export default class MonitoringGeneral extends React.Component {
     if (this.state.filter.stationType) {
       stationTypeList = stationTypeList.filter(
         stationType =>
-          stationType.stationType.key === this.state.filter.stationType
+          stationType.stationType.key === this.state.filter.stationType || this.state.filter.stationType === 'ALL'
       )
     }
     // filter by UNGROUP
@@ -352,13 +352,15 @@ export default class MonitoringGeneral extends React.Component {
         style={{ height: 94 }}
         isLoading={!this.state.isLoadedFirst}
         backgroundColor="#fafbfb"
-        headerCustom={this.renderHeader(result.total, result.countGood)}
+        hideTitle={true}
+        // headerCustom={this.renderHeader(result.total, result.countGood)}
         componentLoading={
           <div>
             <ListLoader />
           </div>
         }
       >
+        {this.renderHeader(result.total, result.countGood)}
         <Clearfix height={8} />
         <StationTypeList
           filter={this.state.filter}
