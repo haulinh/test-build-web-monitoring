@@ -2051,7 +2051,7 @@ export default {
     onDelete: {
       success: 'Deleted Successfully',
       qcvn: {
-        qcvnUsed: 'Không thể xóa vì có trạm sử dụng quy chuẩn này'
+        qcvnUsed: "The action can't be completed because there are stations in this standard"
       },
       error: 'Delete Error',
       warning: 'You cannot delete your own account',
