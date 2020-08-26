@@ -235,18 +235,21 @@ export default class StationAutoConfigCamera extends React.Component {
   async _handleChangedStationCheckbox(e) {
     e.stopPropagation()
     const { id, checked } = e.target
-    const stationId = id.split('.')[1]
+    const stationId = [id.split('.')[1]]
 
     await enableCamera(stationId, checked)
   }
 
   _handleCheckAll(e) {
+    // console.log('0-------_handleCheckAll ')
     e.stopPropagation()
     const { getFieldsValue, setFieldsValue } = this.props.form
     const values = getFieldsValue()
 
     const allowedStations = _.get(values, 'stations', {})
+    const listIdStation = Object.keys(allowedStations)
     const checkedAll = e.target.checked
+
 
     /* chỉ set value các checkbox có giá trị khác so với checkbox checkAll */
     for (let [stationID, value] of Object.entries(allowedStations)) {
@@ -257,6 +260,8 @@ export default class StationAutoConfigCamera extends React.Component {
     }
 
     this.setState({ isCameraIndeterminate: false })
+    enableCamera(listIdStation, checkedAll)
+
   }
 
   async _handleSubmit() {
