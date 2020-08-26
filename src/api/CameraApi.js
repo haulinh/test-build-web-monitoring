@@ -42,9 +42,9 @@ export function getCameraMPJEGLink(cameraId, auth, resolution) {
     }/media/${cameraId}.mpjpeg?resolution=${resolution}&auth=${auth}`
 }
 
-export function enableCamera(stationId, isAllowed) {
-  const apiUrl = `${getConfigApi().stationAuto}/camera/enable/${stationId}`
-  return putFetch(apiUrl, { isAllowed })
+export function enableCamera(stationIdList, isAllowed) {
+  const apiUrl = `${getConfigApi().stationAuto}/camera/enable`
+  return putFetch(apiUrl, { stationIdList, isAllowed })
 }
 
 export async function getAuthToken() {
