@@ -183,12 +183,12 @@ class TableData extends React.Component {
         key: 'time',
         render: receivedAt => {
           if (!receivedAt) return null
-          const date = moment(receivedAt).format('DD/MM')
+          const date = moment(receivedAt).format('DD/MM/HH:SS')
           const time = moment(receivedAt).format('HH:SS')
           return (
             <React.Fragment>
               <div>{date}</div>
-              <div>{time}</div>
+              {/* <div>{time}</div> */}
             </React.Fragment>
           )
         },
@@ -208,7 +208,7 @@ class TableData extends React.Component {
         title: (
           <TextWithToolTip
             text={item.name}
-            //  width={width}
+             width={100}
           />
         ),
         dataIndex: `lastLog.measuringLogs.${item.key}`,
