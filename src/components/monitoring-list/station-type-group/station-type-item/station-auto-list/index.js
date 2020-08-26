@@ -10,17 +10,29 @@ import { translate } from 'hoc/create-lang'
 import stationStatus from 'constants/stationStatus'
 import './style.css'
 import moment from 'moment'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import ResizeTable from './ResizeTable'
+import ResizableAntdTable from 'resizable-antd-table'
+import ResizeableTable from './ResizeableTable'
+
+const CustomTable = styled(ResizeTable)`
+  .ant-table {
+    font-size: 18px;
+  }
+`
+
+const Flex = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
 
 const TextWithToolTip = props => (
   <div
     style={{
-      width: props.width ? props.width : 100,
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
+      width: props.width && props.width,
+      fontWeight: 600,
       color: props.color ? props.color : '',
-      float: 'right',
     }}
   >
     <Tooltip
@@ -63,27 +75,28 @@ export default class StationAutoList extends React.Component {
 
   render() {
     return (
-      <StationListWrapper>
-        <TableData
-          stationAutoList={this.props.stationAutoList}
-          measureData={this.measureData}
-          measureShow={this.props.measureShow}
-        />
-      </StationListWrapper>
+      <TableData
+        stationAutoList={this.props.stationAutoList}
+        measureData={this.measureData}
+        measureShow={this.props.measureShow}
+      />
     )
   }
 }
 
 const DEVICE_STATUS = {
   '0': {
+    color: colorLevels.GOOD,
     src: '/images/sensor/good.png',
     text: 'monitoring.deviceStatus.normal',
   },
   '1': {
+    color: colorLevels.MAINTAIN,
     src: '/images/sensor/maintain.png',
     text: 'monitoring.deviceStatus.maintenance',
   },
   '2': {
+    color: colorLevels.ERROR,
     src: '/images/sensor/error.png',
     text: 'monitoring.deviceStatus.broken',
   },
@@ -96,16 +109,18 @@ const DeviceIcon = props => {
   if (item) {
     return (
       <Tooltip placement="top" title={`Sensor ${translate(item.text)}`}>
-        <img
-          src={item.src}
+        <div
+          // src={item.src}
           style={{
-            position: 'absolute',
-            left: 2,
-            top: 2,
+            // position: 'absolute',
+            // left: 2,
+            // top: 2,
+            backgroundColor: item.color,
+            borderRadius: 20,
             width: '14px',
             height: '14px',
           }}
-          alt={item.text}
+          // alt={item.text}
         />
       </Tooltip>
     )
@@ -125,14 +140,11 @@ class TableData extends React.Component {
   // }
 
   khoiTaoColumn() {
-    let radio = window.outerWidth / 1200
     this.column = [
       {
         title: '#',
         dataIndex: 'index',
         key: 'index',
-        className: 'noPadding fontSize10',
-        width: 20,
         render: (text, record, index) => index + 1,
       },
       {
@@ -140,7 +152,6 @@ class TableData extends React.Component {
         dataIndex: 'status',
         key: 'status',
         align: 'center',
-        className: 'noPadding fontSize10',
         width: 20,
         render: (val, record, index) => {
           const icon = STATION_ICON[val]
@@ -149,10 +160,10 @@ class TableData extends React.Component {
               src={icon}
               style={{
                 // position: "absolute",
-                top: '10%',
-                right: 0,
-                width: '16px',
-                height: '16px',
+                // top: '10%',
+                // right: 0,
+                width: '14px',
+                height: '14px',
               }}
               alt={'normal'}
             />
@@ -162,36 +173,46 @@ class TableData extends React.Component {
       {
         title: 'Tên trạm',
         dataIndex: 'name',
-        className: 'noPadding fontSize10',
         key: 'name',
-        width: 150,
-        render: text => <TextWithToolTip text={text} width={150} />,
+        // width: 220,
+        render: text => <TextWithToolTip text={text} />,
       },
       {
         title: 'Thời gian',
         dataIndex: 'lastLog.receivedAt',
-        className: 'noPadding fontSize10',
         key: 'time',
-        width: 110,
         render: receivedAt => {
           if (!receivedAt) return null
-          const time = moment(receivedAt).format(DD_MM_YYYY_HH_MM)
-          return <div style={{ width: 110 }}>{time}</div>
+          const date = moment(receivedAt).format('DD/MM')
+          const time = moment(receivedAt).format('HH:SS')
+          return (
+            <React.Fragment>
+              <div>{date}</div>
+              <div>{time}</div>
+            </React.Fragment>
+          )
         },
       },
     ]
-    let width = 70
 
-    if (this.props.measureData && this.props.measureData.length >= 15)
-      width = 40
-    if (this.props.measureData && this.props.measureData.length >= 25)
-      width = 30
-    width = width * radio
+    // let radio = window.outerWidth / 1200
+    // let width = 70
+
+    // if (this.props.measureData && this.props.measureData.length >= 15)
+    //   width = 40
+    // if (this.props.measureData && this.props.measureData.length >= 25)
+    //   width = 30
+    // width = width * radio
     let tampColumnMeasure = this.props.measureData.map(item => {
       return {
-        title: <TextWithToolTip text={item.name} width={width} />,
+        title: (
+          <TextWithToolTip
+            text={item.name}
+            //  width={width}
+          />
+        ),
         dataIndex: `lastLog.measuringLogs.${item.key}`,
-        className: 'noPadding fontSize10',
+        // className: 'noPadding fontSize10',
         align: 'center',
         // width,
         key: item.key,
@@ -229,7 +250,7 @@ class TableData extends React.Component {
           }
 
           return (
-            <React.Fragment>
+            <Flex>
               <div key="left" style={{ position: 'relative', float: 'left' }}>
                 <DeviceIcon status={_.get(measure, 'statusDevice', '')} />
               </div>
@@ -237,8 +258,8 @@ class TableData extends React.Component {
                 className={classContainer}
                 key="right"
                 style={{
-                  position: 'relative',
-                  float: 'right',
+                  // position: 'relative',
+                  // float: 'right',
                   width: '100%',
                   borderRadius: 3,
                 }}
@@ -248,22 +269,22 @@ class TableData extends React.Component {
                     text={measure.value
                       .toFixed(2)
                       .toLocaleString(navigator.language)}
-                    width={width}
+                    // width={width}
                     color={color}
                     className={classCustom}
-                    right
+                    // right
                   />
                 ) : (
                   <TextWithToolTip
                     right
                     text={''}
-                    width={width}
+                    // width={width}
                     color={color}
                     className={classCustom}
                   />
                 )}
               </div>
-            </React.Fragment>
+            </Flex>
           )
         },
       }
@@ -278,9 +299,11 @@ class TableData extends React.Component {
 
   render() {
     const column = this.khoiTaoColumn()
+    // console.log("TableData -> render -> column", column)
     // console.log('this.props.stationAutoList',this.props.stationAutoList)
+    
     return (
-      <Table
+      <CustomTable
         style={{ backgroundColor: '#fff' }}
         size="small"
         dataSource={this.props.stationAutoList}
@@ -288,6 +311,64 @@ class TableData extends React.Component {
         columns={column}
         pagination={false}
       />
+      // <ResizeableTable
+      //   pagination={false}
+      //   bordered
+      //   columns={column}
+      //   dataSource={this.props.stationAutoList}
+      // />
     )
   }
 }
+
+const data1 = [
+  {
+    key: 0,
+    date: "2018-02-11",
+    amount: 120,
+    type: "income",
+    note: "transfer"
+  },
+  {
+    key: 1,
+    date: "2018-03-11",
+    amount: 243,
+    type: "income",
+    note: "transfer"
+  },
+  {
+    key: 2,
+    date: "2018-04-11",
+    amount: 98,
+    type: "income",
+    note: "transfer"
+  }
+];
+
+const columns1 = [
+  {
+    title: "Date",
+    dataIndex: "date",
+    width: 200,
+  },
+  {
+    title: "Amount",
+    dataIndex: "amount",
+    width: 100,
+  
+  },
+  {
+    title: "Type",
+    dataIndex: "type",
+    width: 100
+  },
+  {
+    title: "Note",
+    dataIndex: "note",
+    width: 100
+  },
+  {
+    title: "Action",
+    key: "action",
+  }
+];
