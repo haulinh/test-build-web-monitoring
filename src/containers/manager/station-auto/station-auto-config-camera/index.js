@@ -27,6 +27,7 @@ import ROLE from 'constants/role'
 
 import FormAddCamera from './formAddCamera'
 import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
+import { enableCamera } from 'api/CameraApi'
 
 const { Panel } = Collapse
 
@@ -206,6 +207,8 @@ export default class StationAutoConfigCamera extends React.Component {
     return data
   }
 
+
+
   _renderCollapsePanelHeader(station) {
     const { getFieldDecorator } = this.props.form
     const numOfCameras = _.get(station, 'options.camera.list', []).length
@@ -218,7 +221,9 @@ export default class StationAutoConfigCamera extends React.Component {
             initialValue: _.get(station, 'options.camera.allowed'),
             valuePropName: 'checked',
             onChange: this._handleChangedStationCheckbox,
-          })(<Checkbox onClick={e => e.stopPropagation()} />)}
+          })(<Checkbox
+            onClick={e => e.stopPropagation()}
+          />)}
         </Col>
         <Col span={1}>
           {numOfCameras} <Icon type="camera" />
@@ -227,16 +232,12 @@ export default class StationAutoConfigCamera extends React.Component {
     )
   }
 
-  _handleChangedStationCheckbox(e) {
+  async _handleChangedStationCheckbox(e) {
     e.stopPropagation()
     const { id, checked } = e.target
+    const stationId = id.split('.')[1]
 
-    const { getFieldsValue } = this.props.form
-    const formValues = getFieldsValue()
-    _.set(formValues, id, checked)
-
-    const allowedStations = Object.values(formValues.stations)
-    this._checkIndeterminate(allowedStations)
+    await enableCamera(stationId, checked)
   }
 
   _handleCheckAll(e) {
@@ -278,7 +279,8 @@ export default class StationAutoConfigCamera extends React.Component {
     this.setState({ submittingCameraAllow: false })
 
     if (res.success) {
-      return message.success(i18n.successSubmit)
+      return console.log('submit success')
+      // return message.success(i18n.successSubmit)
     }
 
     return message.error(i18n.errorSubmit)
@@ -337,14 +339,14 @@ export default class StationAutoConfigCamera extends React.Component {
           }}
         />
 
-        <Button
+        {/* <Button
           block
           loading={submittingCameraAllow}
           type="primary"
           onClick={this._handleSubmit}
         >
           {i18n.btnSave}
-        </Button>
+        </Button> */}
       </PageContainer>
     )
   }

@@ -1,5 +1,5 @@
 import { getConfigApi } from 'config'
-// import { getFetch, putFetch } from 'utils/fetch'
+import { putFetch } from 'utils/fetch'
 import axios from 'axios'
 import md5Hex from 'crypto-js/md5'
 import { Base64 } from 'js-base64'
@@ -33,13 +33,18 @@ async function getNone() {
 export function getThumbLink(cameraId, auth) {
   return `${
     getConfigApi().camera.host
-  }/ec2/cameraThumbnail?cameraId=${cameraId}&time=LATEST&auth=${auth}&width=480&height=320`
+    }/ec2/cameraThumbnail?cameraId=${cameraId}&time=LATEST&auth=${auth}&width=480&height=320`
 }
 
 export function getCameraMPJEGLink(cameraId, auth, resolution) {
   return `${
     getConfigApi().camera.host
-  }/media/${cameraId}.mpjpeg?resolution=${resolution}&auth=${auth}`
+    }/media/${cameraId}.mpjpeg?resolution=${resolution}&auth=${auth}`
+}
+
+export function enableCamera(stationId, isAllowed) {
+  const apiUrl = `${getConfigApi().stationAuto}/camera/enable/${stationId}`
+  return putFetch(apiUrl, { isAllowed })
 }
 
 export async function getAuthToken() {
