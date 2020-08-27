@@ -33,6 +33,7 @@ export default class StationAutoFormTable extends React.Component {
     measuringListSource: PropTypes.array,
     allowUpdateStandardsVN: PropTypes.bool,
     standardsVN: PropTypes.object,
+    isEdit: PropTypes.bool, // giữ lại các chỉ tiêu đã có trước đó.
   }
 
   constructor(props) {
@@ -52,12 +53,16 @@ export default class StationAutoFormTable extends React.Component {
         this.props.allowUpdateStandardsVN &&
         !_.isEmpty(nextProps.standardsVN)
       ) {
-        let measuringList = _.filter(
-          this.state.measuringList,
-          item => !_.isEmpty(item.measuringKey)
-        )
-        let size = _.size(this.state.measuringList)
-        const measureObj = _.keyBy(this.state.measuringList, 'measuringKey')
+
+        let measuringList = []
+        if (this.props.isEdit) {
+          measuringList = _.filter(
+            this.state.measuringList,
+            item => !_.isEmpty(item.measuringKey)
+          )
+        }
+        let size = _.size(measuringList)
+        const measureObj = _.keyBy(measuringList, 'measuringKey')
         _.forEach(_.values(nextProps.standardsVN), item => {
           if (!measureObj[item.key]) {
             measuringList = _.concat(measuringList, {
@@ -142,7 +147,7 @@ export default class StationAutoFormTable extends React.Component {
     let rows = this.state.measuringList.slice()
     rows = update(rows, { $push: [newRow] })
     this.setState({ measuringList: rows })
-    console.log(rows)
+    // console.log(rows)
   }
 
   getValueStandardVN = (record, field) => {
@@ -180,9 +185,7 @@ export default class StationAutoFormTable extends React.Component {
     )
   }
 
-  _isEnableEditMeasure = (meaKey) => {
-
-
+  _isEnableEditMeasure = meaKey => {
     const listKey = Object.keys(this.state.standardsVN)
     if (_.includes(listKey, meaKey)) {
       return false
@@ -190,9 +193,9 @@ export default class StationAutoFormTable extends React.Component {
     return true
   }
 
-  _isEnableSelectMeasure = (meaKey) => {
+  _isEnableSelectMeasure = meaKey => {
     // const listKeyStandard = Object.keys(this.state.standardsVN)
-    const listKeyCustom = this.state.measuringList.map((i) => i.measuringKey)
+    const listKeyCustom = this.state.measuringList.map(i => i.measuringKey)
     if (_.includes(listKeyCustom, meaKey)) {
       return false
     }
@@ -234,7 +237,7 @@ export default class StationAutoFormTable extends React.Component {
 
   // NOTE ko check logic disable cac field
   renderItemNumberCellNoQaQc = (text, record, index, key, autoFill = false) => {
-    console.log({ text, record, index, key })
+    // console.log({ text, record, index, key })
     if (autoFill) {
       if (!_.isNumber(text) && this.props.allowUpdateStandardsVN) {
         text = this.getValueStandardVN(record, key)
@@ -248,12 +251,7 @@ export default class StationAutoFormTable extends React.Component {
           // rules: [
           //   { validator: (rule, value, callback) => this.validateValue(index, rule, value, callback) },
           // ]
-        })(
-          <InputNumberCell
-            style={{ width: 120 }}
-            editable={true}
-          />
-        )}
+        })(<InputNumberCell style={{ width: 120 }} editable={true} />)}
       </FormItem>
     )
   }
@@ -369,21 +367,19 @@ export default class StationAutoFormTable extends React.Component {
               <AutoCompleteCell
                 style={{ width: 120 }}
                 editable={this._isEnableEditMeasure(record.measuringKey)}
-                onChange={(value) =>
+                onChange={value =>
                   this.handleChangeMeasuring(value, index, 'name')
                 }
-                options={_.get(this.props, 'measuringListSource', []).map(
-                  (d) => (
-                    <Select.Option
-                      disabled={!this._isEnableSelectMeasure(d.key)}
-                      key={d.key}
-                      value={d.key}
-                    >
-                      {d.name}
-                    </Select.Option>
-                  )
-                )}
-              // autoFocus={true}
+                options={_.get(this.props, 'measuringListSource', []).map(d => (
+                  <Select.Option
+                    disabled={!this._isEnableSelectMeasure(d.key)}
+                    key={d.key}
+                    value={d.key}
+                  >
+                    {d.name}
+                  </Select.Option>
+                ))}
+                // autoFocus={true}
               />
             )}
           </FormItem>
@@ -419,7 +415,13 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.tendToExceedMin,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCellNoQaQc(text, record, index, 'minTend', true),
+              this.renderItemNumberCellNoQaQc(
+                text,
+                record,
+                index,
+                'minTend',
+                true
+              ),
           },
           {
             dataIndex: 'maxTend',
@@ -427,7 +429,13 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.tendToExceedMax,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCellNoQaQc(text, record, index, 'maxTend', true),
+              this.renderItemNumberCellNoQaQc(
+                text,
+                record,
+                index,
+                'maxTend',
+                true
+              ),
           },
         ],
       },
@@ -496,7 +504,7 @@ export default class StationAutoFormTable extends React.Component {
 
   render() {
     const { t } = this.props.lang
-    // console.log('measuringList', this.state.measuringList)
+    console.log('measuringList', this.state.measuringList)
 
     return (
       <div>
