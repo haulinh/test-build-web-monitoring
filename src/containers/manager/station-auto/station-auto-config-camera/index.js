@@ -239,12 +239,15 @@ export default class StationAutoConfigCamera extends React.Component {
   async _handleChangedStationCheckbox(e) {
     e.stopPropagation()
     const { id, checked } = e.target
-    const stationId = [id.split('.')[1]]
+    const stationId = id.split('.')[1]
 
     await enableCamera(stationId, checked)
   }
 
+
+  // NOTE: this function is not used anymore
   _handleCheckAll(e) {
+    return console.log('---_handleCheckAll')
     // console.log('0-------_handleCheckAll ')
     e.stopPropagation()
     const { getFieldsValue, setFieldsValue } = this.props.form
