@@ -4,9 +4,9 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import StationTypeItem from '../station-type-item'
 import _ from 'lodash'
-import sound from './alert.mp3'
 import { warningLevels } from 'constants/warningLevels'
 import stationStatus from 'constants/stationStatus'
+import playSound from 'utils/audio'
 
 const StationTypeListWrapper = styled.div`
   zoom: 0.8;
@@ -71,25 +71,29 @@ export default class StationTypeList extends React.Component {
 
   componentDidMount() {
     if (this.getAlert()) {
-      if (this.audio.current && this.audio.current.play) {
-        try {
-          this.audio.current.play()
-        } catch (error) {
-          console.log(error)
-        }
-      }
+      playSound('audio/alert.mp3')
+
+      // if (this.audio.current && this.audio.current.play) {
+      //   try {
+      //     this.audio.current.play()
+      //   } catch (error) {
+      //     console.log(error)
+      //   }
+      // }
     }
   }
 
   componentDidUpdate() {
     if (this.getAlert()) {
-      if (this.audio.current && this.audio.current.play) {
-        try {
-          this.audio.current.play()
-        } catch (error) {
-          console.log(error)
-        }
-      }
+      playSound('audio/alert.mp3')
+
+      // if (this.audio.current && this.audio.current.play) {
+      //   try {
+      //     this.audio.current.play()
+      //   } catch (error) {
+      //     console.log(error)
+      //   }
+      // }
     }
   }
 
@@ -97,7 +101,7 @@ export default class StationTypeList extends React.Component {
     const monitoringList = this.getMonitoringList()
     return (
       <StationTypeListWrapper>
-        <audio ref={this.audio} src={sound} />
+        {/* <audio ref={this.audio} controls src={'audio/alert.mp3'} /> */}
         <StationTypeContainer>
           {monitoringList.map((item, index) => {
             return (
