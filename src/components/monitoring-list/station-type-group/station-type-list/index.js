@@ -71,7 +71,6 @@ export default class StationTypeList extends React.Component {
 
   componentDidMount() {
     if (this.getAlert()) {
-      console.log('--222--')
       try {
         playSound('audio/alert.mp3')
       } catch (error) {
@@ -93,7 +92,6 @@ export default class StationTypeList extends React.Component {
       JSON.stringify(this.props.data) !== JSON.stringify(prevProps.data) &&
       this.getAlert()
     ) {
-      console.log('--222--')
       try {
         playSound('audio/alert.mp3')
       } catch (error) {

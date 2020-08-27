@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { colorLevels } from 'constants/warningLevels'
 
 const HeaderLeftWrapper = styled.div`
   display: flex;
@@ -21,19 +22,24 @@ const Label = styled.label`
 
 const ItemWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   font-weight: 600;
   font-size: 12px;
   margin-left: 4px;
-  img {
-    width: 12px;
-    margin-right: 4px;
-  }
 `
 
-const Item = ({ type, children }) => (
+const Item = ({ color, children }) => (
   <ItemWrapper>
-    <img src={`/images/sensor/${type}.png`} alt={type} />
+    <div
+      style={{
+        backgroundColor: color,
+        borderRadius: '50%',
+        width: '12px',
+        height: '12px',
+        marginRight: '4px',
+      }}
+    />
     <span>{children}</span>
   </ItemWrapper>
 )
@@ -43,9 +49,9 @@ export default function HeaderLeft({ stationStatus, i18n }) {
     <HeaderLeftWrapper>
       <Label>{stationStatus}</Label>
       <SpanTitle>{i18n.statusSensor}</SpanTitle>
-      <Item type="error">{i18n.sensorError}</Item>
-      <Item type="maintain">{i18n.sensorMaintain}</Item>
-      <Item type="good">{i18n.sensorGood}</Item>
+      <Item color={colorLevels.ERROR}>{i18n.sensorError}</Item>
+      <Item color={colorLevels.MAINTAIN}>{i18n.sensorMaintain}</Item>
+      <Item color={colorLevels.GOOD}>{i18n.sensorGood}</Item>
     </HeaderLeftWrapper>
   )
 }
