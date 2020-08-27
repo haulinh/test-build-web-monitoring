@@ -90,7 +90,7 @@ export default class StationTypeList extends React.Component {
 
   componentDidUpdate(prevProps) {
     if ( 
-      JSON.stringify(this.props.data) === JSON.stringify(prevProps.data) &&
+      JSON.stringify(this.props.data) !== JSON.stringify(prevProps.data) &&
       this.getAlert()
     ) {
       console.log('--222--')
