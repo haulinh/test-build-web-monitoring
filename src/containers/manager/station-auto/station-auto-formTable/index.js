@@ -191,7 +191,7 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   _isEnableSelectMeasure = (meaKey) => {
-    const listKeyStandard = Object.keys(this.state.standardsVN)
+    // const listKeyStandard = Object.keys(this.state.standardsVN)
     const listKeyCustom = this.state.measuringList.map((i) => i.measuringKey)
     if (_.includes(listKeyCustom, meaKey)) {
       return false

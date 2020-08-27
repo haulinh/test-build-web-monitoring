@@ -14,7 +14,7 @@ import {
 import { autobind } from 'core-decorators'
 import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
-import StationAutoApi from 'api/StationAuto'
+// import StationAutoApi from 'api/StationAuto'
 import { v4 as uuidV4 } from 'uuid'
 import { addCameras } from 'api/CameraApi'
 

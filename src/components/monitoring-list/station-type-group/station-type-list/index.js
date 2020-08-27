@@ -71,7 +71,12 @@ export default class StationTypeList extends React.Component {
 
   componentDidMount() {
     if (this.getAlert()) {
-      playSound('audio/alert.mp3')
+      console.log('--222--')
+      try {
+        playSound('audio/alert.mp3')
+      } catch (error) {
+        console.log(error)
+      }
 
       // if (this.audio.current && this.audio.current.play) {
       //   try {
@@ -83,17 +88,17 @@ export default class StationTypeList extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    if (this.getAlert()) {
-      playSound('audio/alert.mp3')
-
-      // if (this.audio.current && this.audio.current.play) {
-      //   try {
-      //     this.audio.current.play()
-      //   } catch (error) {
-      //     console.log(error)
-      //   }
-      // }
+  componentDidUpdate(prevProps) {
+    if ( 
+      JSON.stringify(this.props.data) === JSON.stringify(prevProps.data) &&
+      this.getAlert()
+    ) {
+      console.log('--222--')
+      try {
+        playSound('audio/alert.mp3')
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 

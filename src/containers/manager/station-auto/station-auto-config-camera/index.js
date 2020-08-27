@@ -7,7 +7,6 @@ import {
   Table,
   Checkbox,
   Collapse,
-  Button,
   Icon,
   message,
 } from 'antd'
@@ -292,7 +291,7 @@ export default class StationAutoConfigCamera extends React.Component {
   }
 
   render() {
-    const { submittingCameraAllow } = this.state
+    // const { submittingCameraAllow } = this.state
 
     const columns = this._getTableColumns()
     const dataSource = this._getTableDataSource(this.state.dataSource)
