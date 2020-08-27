@@ -1438,6 +1438,12 @@ export default {
         placeholder: 'RTSP URL',
         error: 'Please enter RTSP URL',
       },
+      userRole: {
+        stationManager: 'Station Manager',
+        sendNotification: 'Send Notification',
+        sms: 'SMS',
+        email: 'Email'
+      }
     },
     header: {
       option: 'Options',
