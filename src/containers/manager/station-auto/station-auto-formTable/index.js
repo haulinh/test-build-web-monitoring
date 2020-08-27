@@ -33,7 +33,7 @@ export default class StationAutoFormTable extends React.Component {
     measuringListSource: PropTypes.array,
     allowUpdateStandardsVN: PropTypes.bool,
     standardsVN: PropTypes.object,
-    isEdit: PropTypes.bool, // giữ lại các chỉ tiêu đã có trước đó.
+    isEdit: PropTypes.bool, // giữ lại các chỉ tiêu đã có truoc
   }
 
   constructor(props) {
@@ -49,10 +49,12 @@ export default class StationAutoFormTable extends React.Component {
 
     if (!_.isEqual(nextProps.standardsVN, this.props.standardsVN)) {
       params.standardsVN = nextProps.standardsVN
-      if (
-        this.props.allowUpdateStandardsVN &&
-        !_.isEmpty(nextProps.standardsVN)
-      ) {
+      if (!_.isEmpty(nextProps.standardsVN)) {
+        // console.log(
+        //   nextProps.standardsVN,
+        //   this.state.measuringList,
+        //   '--nextProps.standardsVN---'
+        // )
 
         let measuringList = []
         if (this.props.isEdit) {
@@ -61,6 +63,7 @@ export default class StationAutoFormTable extends React.Component {
             item => !_.isEmpty(item.measuringKey)
           )
         }
+        // console.log(this.props.isEdit, measuringList, '--run 1---')
         let size = _.size(measuringList)
         const measureObj = _.keyBy(measuringList, 'measuringKey')
         _.forEach(_.values(nextProps.standardsVN), item => {
@@ -73,8 +76,10 @@ export default class StationAutoFormTable extends React.Component {
             size++
           }
         })
+        // console.log(measuringList, '--measuringList---')
         if (_.size(measuringList) > 0) {
           params.measuringList = measuringList
+          // console.log(params, '--params--')
         }
       }
 
