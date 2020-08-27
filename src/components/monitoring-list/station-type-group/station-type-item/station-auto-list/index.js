@@ -11,15 +11,14 @@ import { translate } from 'hoc/create-lang'
 import stationStatus from 'constants/stationStatus'
 import './style.css'
 import moment from 'moment'
-// import ResizeTable from './ResizeTable'
-// import ResizableAntdTable from 'resizable-antd-table'
-// import ResizeableTable from './ResizeableTable'
 
-// const CustomTable = styled(ResizeTable)`
-//   .ant-table {
-//     font-size: 18px;
-//   }
 // `
+
+const i18n = {
+  stationName: translate('dashboard.tableList.name'),
+  time: translate('dashboard.tableList.time'),
+
+}
 
 const WrapperContainer = styled.div`
   .stationName {
@@ -139,15 +138,12 @@ const DeviceIcon = props => {
     return (
       <Tooltip placement="top" title={`Sensor ${translate(item.text)}`}>
         <div
-          // src={item.src}
           style={{
-            // position: 'absolute',
-            // left: 2,
-            // top: 2,
             backgroundColor: item.color,
-            borderRadius: 20,
+            borderRadius: '50%',
             width: '14px',
             height: '14px',
+            marginLeft: '6px',
           }}
           // alt={item.text}
         />
@@ -163,6 +159,7 @@ const STATION_ICON = {
   [stationStatus.NOT_USE]: '/images/station/not-use.png',
   [stationStatus.GOOD]: '/images/station/good.png',
 }
+
 class TableData extends React.Component {
   // constructor(props) {
   //   super(props);
@@ -200,7 +197,7 @@ class TableData extends React.Component {
         },
       },
       {
-        title: 'Tên trạm',
+        title: i18n.stationName,
         dataIndex: 'name',
         key: 'name',
         width: 220,
@@ -208,7 +205,7 @@ class TableData extends React.Component {
         className: 'stationName',
       },
       {
-        title: 'Thời gian',
+        title: i18n.time,
         dataIndex: 'lastLog.receivedAt',
         key: 'time',
         width: 150,
@@ -222,15 +219,33 @@ class TableData extends React.Component {
       },
     ]
 
-    // let radio = window.outerWidth / 1200
-    // let width = 70
+    /* #region  sort các chỉ tiêu vượt ngưỡng. */
+    const dtMeasurePrioritize = []
+    this.props.measureData.forEach(item => {
+      for (let i = 0; i < this.props.stationAutoList.length; i++) {
+        const station = this.props.stationAutoList[i]
+        const measure = _.get(station, `lastLog.measuringLogs.${item.key}`)
+        if (measure === null || measure === undefined) continue
 
-    // if (this.props.measureData && this.props.measureData.length >= 15)
-    //   width = 40
-    // if (this.props.measureData && this.props.measureData.length >= 25)
-    //   width = 30
-    // width = width * radio
-    let tampColumnMeasure = this.props.measureData.map(item => {
+        if (
+          measure.warningLevel &&
+          measure.warningLevel === warningLevels.EXCEEDED
+        ) {
+          dtMeasurePrioritize.push({
+            ...item,
+            key: item.key,
+          })
+          break
+        }
+      }
+    })
+    const measureData = _.uniqBy(
+      [..._.compact(dtMeasurePrioritize), ...this.props.measureData],
+      'key'
+    )
+    /* #endregion */
+
+    let tampColumnMeasure = measureData.map(item => {
       return {
         title: <TextWithToolTip IsEllipsis={true} text={item.name} />,
         dataIndex: `lastLog.measuringLogs.${item.key}`,
@@ -238,7 +253,6 @@ class TableData extends React.Component {
         align: 'center',
         key: item.key,
         render: (measure, record) => {
-          // console.log('measure',measure)
           if (measure === null || measure === undefined) return ''
           let color = colorLevels.GOOD //SHAPE.BLACK;
           let classCustom = ''
@@ -315,6 +329,7 @@ class TableData extends React.Component {
     tampColumnMeasure = tampColumnMeasure.filter(item => {
       return this.props.measureShow && this.props.measureShow.includes(item.key)
     })
+
     let result = [...columns, ...tampColumnMeasure]
     return result
   }

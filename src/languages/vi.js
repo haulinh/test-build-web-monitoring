@@ -39,6 +39,7 @@ export default {
     selectProvince: 'Chọn Đơn vị quản lý',
     tableList: {
       name: 'Tên trạm',
+      time: 'Thời gian',
       dataStatus: 'Tình trạng',
     },
     chartRatio: {
