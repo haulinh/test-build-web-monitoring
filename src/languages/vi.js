@@ -1252,12 +1252,12 @@ export default {
             hours: 'Giờ',
             days: 'Ngày',
             months: 'Tháng',
-            years: 'Năm'
+            years: 'Năm',
           },
         },
         error: 'Vui lòng chọn thời gian mất kết nối !!!',
-        description: 'Chú ý: cấu hình này hỗ trợ việc nhận tín hiệu khi mất kết nối theo khoảng thời gian được chọn'
-
+        description:
+          'Chú ý: cấu hình này hỗ trợ việc nhận tín hiệu khi mất kết nối theo khoảng thời gian được chọn',
       },
       emails: {
         label: 'Địa chỉ Email',
@@ -1430,6 +1430,12 @@ export default {
         label: 'Địa chỉ RTSP',
         placeholder: 'Địa chỉ RTSP',
         error: 'Vui lòng nhập địa chỉ RTSP',
+      },
+      userRole: {
+        stationManager: 'Quản lý trạm',
+        sendNotification: 'Gửi cảnh báo',
+        sms: 'SMS',
+        email: 'Email',
       },
     },
     header: {
@@ -2044,7 +2050,7 @@ export default {
       success: 'Xoá thành công',
       error: 'Xoá thất bại',
       qcvn: {
-        qcvnUsed: 'Không thể xóa vì có trạm sử dụng quy chuẩn này'
+        qcvnUsed: 'Không thể xóa vì có trạm sử dụng quy chuẩn này',
       },
       warning: 'Bạn không thể xóa tài khoản của chính mình',
     },
@@ -2569,7 +2575,7 @@ export default {
   element: {
     rangePicker: {
       startDate: 'Thời gian bắt đầu',
-      endDate: 'Thời gian kết thúc'
-    }
-  }
+      endDate: 'Thời gian kết thúc',
+    },
+  },
 }
