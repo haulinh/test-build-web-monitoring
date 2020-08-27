@@ -70,10 +70,14 @@ export default class StationAutoConfigCamera extends React.Component {
         station => _.get(station, 'options.camera.allowed'),
         false
       )
+      const stationsCanViewCamera = nextProps.dataSource.filter(station => {
+        const isShow = _.get(station, 'removeStatus.allowed', false)
+        return !isShow
+      })
       this._checkIndeterminate(allowedStations)
       this.setState({
-        dataSourceOriginal: _.cloneDeep(nextProps.dataSource),
-        dataSource: _.cloneDeep(nextProps.dataSource),
+        dataSourceOriginal: _.cloneDeep(stationsCanViewCamera),
+        dataSource: _.cloneDeep(stationsCanViewCamera),
       })
     }
   }
@@ -145,24 +149,24 @@ export default class StationAutoConfigCamera extends React.Component {
         key: 'address',
         render: (text, record, index) => <strong>{record.type.address}</strong>,
       },
-      {
-        title: (
-          <div>
-            {this.props.form.getFieldDecorator('checkall', {
-              valuePropName: 'checked',
-            })(
-              <Checkbox
-                onClick={this._handleCheckAll}
-                indeterminate={this.state.isCameraIndeterminate}
-              >
-                {i18n.tableHeaderAllowCamera}
-              </Checkbox>
-            )}
-          </div>
-        ),
-        key: 'checkall',
-        align: 'right',
-      },
+      // {
+      //   title: (
+      //     <div>
+      //       {this.props.form.getFieldDecorator('checkall', {
+      //         valuePropName: 'checked',
+      //       })(
+      //         // <Checkbox
+      //         //   onClick={this._handleCheckAll}
+      //         //   indeterminate={this.state.isCameraIndeterminate}
+      //         // >
+      //         //   {i18n.tableHeaderAllowCamera}
+      //         // </Checkbox>
+      //       )}
+      //     </div>
+      //   ),
+      //   key: 'checkall',
+      //   align: 'right',
+      // },
       {
         title: '',
         align: 'right',
