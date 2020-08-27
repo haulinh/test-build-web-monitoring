@@ -21,6 +21,7 @@ import {
   ORDER_OPTIONS,
 } from 'components/monitoring/filter/options'
 import createContentLoader from 'hoc/content-loader'
+import { toggleNavigation } from 'redux/actions/themeAction'
 import { translate } from 'hoc/create-lang'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
@@ -71,6 +72,7 @@ export const defaultFilter = {
 
 @connect(state => ({}), {
   changeOpenSubMenu,
+  toggleNavigation,
 })
 @withRouter
 @protectRole(ROLE.MONITORING_BY_LIST.VIEW)
@@ -177,6 +179,12 @@ export default class MonitoringGeneral extends React.Component {
     this.setState({
       province,
     })
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.toggleNavigation(false)
+    }, 500)
   }
 
   renderHeader(total, countGood) {
