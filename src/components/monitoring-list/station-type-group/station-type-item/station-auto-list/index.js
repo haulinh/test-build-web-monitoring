@@ -17,7 +17,11 @@ import moment from 'moment'
 const i18n = {
   stationName: translate('dashboard.tableList.name'),
   time: translate('dashboard.tableList.time'),
-
+  deviceStatus: {
+    good: translate('dashboard.good'),
+    dataLoss: translate('dashboard.dataLoss'),
+    notUse: translate('dashboard.notUse'),
+  },
 }
 
 const WrapperContainer = styled.div`
@@ -136,7 +140,10 @@ const DeviceIcon = props => {
   let item = DEVICE_STATUS[`${status}`]
   if (item) {
     return (
-      <Tooltip placement="top" title={`Sensor ${translate(item.text)}`}>
+      <Tooltip
+        getPopupContainer={() => document.querySelector('.ant-table-wrapper')}
+        title={`Sensor ${translate(item.text)}`}
+      >
         <div
           style={{
             backgroundColor: item.color,
@@ -155,9 +162,18 @@ const DeviceIcon = props => {
 }
 
 const STATION_ICON = {
-  [stationStatus.DATA_LOSS]: '/images/station/data-loss.png',
-  [stationStatus.NOT_USE]: '/images/station/not-use.png',
-  [stationStatus.GOOD]: '/images/station/good.png',
+  [stationStatus.DATA_LOSS]: {
+    image: '/images/station/data-loss.png',
+    status: i18n.deviceStatus.dataLoss,
+  },
+  [stationStatus.NOT_USE]: {
+    image: '/images/station/not-use.png',
+    status: i18n.deviceStatus.notUse,
+  },
+  [stationStatus.GOOD]: {
+    image: '/images/station/good.png',
+    status: i18n.deviceStatus.good,
+  },
 }
 
 class TableData extends React.Component {
@@ -185,14 +201,22 @@ class TableData extends React.Component {
         render: val => {
           const icon = STATION_ICON[val]
           return (
-            <img
-              src={icon}
-              style={{
-                width: '26px',
-                height: '26px',
-              }}
-              alt={'normal'}
-            />
+            <Tooltip
+              getPopupContainer={() =>
+                document.querySelector('.ant-table-wrapper')
+              }
+              placement="right"
+              title={icon.status}
+            >
+              <img
+                src={icon.image}
+                style={{
+                  width: '26px',
+                  height: '26px',
+                }}
+                alt={'normal'}
+              />
+            </Tooltip>
           )
         },
       },
