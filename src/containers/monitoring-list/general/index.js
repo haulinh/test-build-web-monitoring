@@ -292,7 +292,8 @@ export default class MonitoringGeneral extends React.Component {
     if (this.state.filter.stationType) {
       stationTypeList = stationTypeList.filter(
         stationType =>
-          stationType.stationType.key === this.state.filter.stationType || this.state.filter.stationType === 'ALL'
+          stationType.stationType.key === this.state.filter.stationType ||
+          this.state.filter.stationType === 'ALL'
       )
     }
     // filter by UNGROUP
