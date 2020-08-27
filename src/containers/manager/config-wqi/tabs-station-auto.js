@@ -6,8 +6,6 @@ import { autobind } from 'core-decorators'
 import SearchForm from './search-form'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
 import { replaceVietnameseStr } from 'utils/string'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
 const RadioGroup = Radio.Group
 @createLanguageHoc
 @autobind
@@ -56,8 +54,7 @@ export default class TabsStationAuto extends React.Component {
           const result = this.getDefaultRadio(value)
           return (
             <div>
-              {protectRole(ROLE.CONFIG_WQI.EDIT)(
-                <RadioGroup
+               <RadioGroup
                   onChange={event => this.handleRadioAuto(record, event)}
                   name="radiogroup"
                   defaultValue={result}
@@ -70,7 +67,6 @@ export default class TabsStationAuto extends React.Component {
                     </Radio>
                   )}
                 </RadioGroup>
-              )}
             </div>
           )
         },
