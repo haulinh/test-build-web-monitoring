@@ -5,41 +5,79 @@ import styled from 'styled-components'
 import { Table, Tooltip } from 'antd'
 import * as _ from 'lodash'
 import { SHAPE } from 'themes/color'
+import { DD_MM_YY_HH_MM } from 'constants/format-date.js'
 import { warningLevels, colorLevels } from 'constants/warningLevels'
 import { translate } from 'hoc/create-lang'
 import stationStatus from 'constants/stationStatus'
 import './style.css'
 import moment from 'moment'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
-const TextWithToolTip = props => (
-  <div
-    style={{
-      width: props.width ? props.width : 100,
-      whiteSpace: 'nowrap',
+// `
+
+const i18n = {
+  stationName: translate('dashboard.tableList.name'),
+  time: translate('dashboard.tableList.time'),
+
+}
+
+const WrapperContainer = styled.div`
+  .stationName {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 4px !important;
+  }
+  .stationTime {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 4px !important;
+  }
+`
+
+const Flex = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const TextWithToolTip = props => {
+  let styleCustom = {}
+  if (props.IsEllipsis) {
+    styleCustom = {
+      display: 'inline-block',
       textOverflow: 'ellipsis',
       overflow: 'hidden',
-      color: props.color ? props.color : '',
-      float: 'right',
-    }}
-  >
-    <Tooltip
-      getPopupContainer={() => document.querySelector('.ant-table-wrapper')}
-      title={props.text}
+      maxWidth: '100px',
+      whiteSpace: 'nowrap',
+    }
+  }
+  return (
+    <div
+      style={{
+        // width: props.width ? props.width : null,
+        display: 'flex',
+        fontWeight: 500,
+        color: props.color ? props.color : '',
+        ...styleCustom,
+      }}
     >
-      <span
-        style={{
-          color: props.color ? props.color : '',
-          float: props.right ? 'right' : '',
-        }}
-        className={props.className}
+      <Tooltip
+        getPopupContainer={() => document.querySelector('.ant-table-wrapper')}
+        title={props.text}
       >
-        &nbsp;{props.text}
-      </span>
-    </Tooltip>
-  </div>
-)
-const StationListWrapper = styled.div``
+        <span
+          style={{
+            color: props.color ? props.color : '',
+            float: props.right ? 'right' : '',
+          }}
+          className={props.className}
+        >
+          &nbsp;{props.text}
+        </span>
+      </Tooltip>
+    </div>
+  )
+}
 
 @autobind
 export default class StationAutoList extends React.Component {
@@ -63,27 +101,30 @@ export default class StationAutoList extends React.Component {
 
   render() {
     return (
-      <StationListWrapper>
+      <WrapperContainer>
         <TableData
           stationAutoList={this.props.stationAutoList}
           measureData={this.measureData}
           measureShow={this.props.measureShow}
         />
-      </StationListWrapper>
+      </WrapperContainer>
     )
   }
 }
 
 const DEVICE_STATUS = {
   '0': {
+    color: colorLevels.GOOD,
     src: '/images/sensor/good.png',
     text: 'monitoring.deviceStatus.normal',
   },
   '1': {
+    color: colorLevels.MAINTAIN,
     src: '/images/sensor/maintain.png',
     text: 'monitoring.deviceStatus.maintenance',
   },
   '2': {
+    color: colorLevels.ERROR,
     src: '/images/sensor/error.png',
     text: 'monitoring.deviceStatus.broken',
   },
@@ -96,16 +137,15 @@ const DeviceIcon = props => {
   if (item) {
     return (
       <Tooltip placement="top" title={`Sensor ${translate(item.text)}`}>
-        <img
-          src={item.src}
+        <div
           style={{
-            position: 'absolute',
-            left: 2,
-            top: 2,
+            backgroundColor: item.color,
+            borderRadius: '50%',
             width: '14px',
             height: '14px',
+            marginLeft: '6px',
           }}
-          alt={item.text}
+          // alt={item.text}
         />
       </Tooltip>
     )
@@ -119,20 +159,20 @@ const STATION_ICON = {
   [stationStatus.NOT_USE]: '/images/station/not-use.png',
   [stationStatus.GOOD]: '/images/station/good.png',
 }
+
 class TableData extends React.Component {
   // constructor(props) {
   //   super(props);
   // }
 
   khoiTaoColumn() {
-    let radio = window.outerWidth / 1200
-    this.column = [
+    let columns = [
       {
         title: '#',
         dataIndex: 'index',
         key: 'index',
-        className: 'noPadding fontSize10',
-        width: 20,
+        width: 35,
+        fixed: 'left',
         render: (text, record, index) => index + 1,
       },
       {
@@ -140,19 +180,16 @@ class TableData extends React.Component {
         dataIndex: 'status',
         key: 'status',
         align: 'center',
-        className: 'noPadding fontSize10',
-        width: 20,
-        render: (val, record, index) => {
+        width: 30,
+        fixed: 'left',
+        render: val => {
           const icon = STATION_ICON[val]
           return (
             <img
               src={icon}
               style={{
-                // position: "absolute",
-                top: '10%',
-                right: 0,
-                width: '16px',
-                height: '16px',
+                width: '26px',
+                height: '26px',
               }}
               alt={'normal'}
             />
@@ -160,43 +197,62 @@ class TableData extends React.Component {
         },
       },
       {
-        title: 'Tên trạm',
+        title: i18n.stationName,
         dataIndex: 'name',
-        className: 'noPadding fontSize10',
         key: 'name',
-        width: 150,
-        render: text => <TextWithToolTip text={text} width={150} />,
+        width: 220,
+        fixed: 'left',
+        className: 'stationName',
       },
       {
-        title: 'Thời gian',
+        title: i18n.time,
         dataIndex: 'lastLog.receivedAt',
-        className: 'noPadding fontSize10',
         key: 'time',
-        width: 110,
+        width: 150,
+        fixed: 'left',
+        className: 'stationTime',
         render: receivedAt => {
           if (!receivedAt) return null
-          const time = moment(receivedAt).format(DD_MM_YYYY_HH_MM)
-          return <div style={{ width: 110 }}>{time}</div>
+          const strDate = moment(receivedAt).format(DD_MM_YY_HH_MM)
+          return strDate
         },
       },
     ]
-    let width = 70
 
-    if (this.props.measureData && this.props.measureData.length >= 15)
-      width = 40
-    if (this.props.measureData && this.props.measureData.length >= 25)
-      width = 30
-    width = width * radio
-    let tampColumnMeasure = this.props.measureData.map(item => {
+    /* #region  sort các chỉ tiêu vượt ngưỡng. */
+    const dtMeasurePrioritize = []
+    this.props.measureData.forEach(item => {
+      for (let i = 0; i < this.props.stationAutoList.length; i++) {
+        const station = this.props.stationAutoList[i]
+        const measure = _.get(station, `lastLog.measuringLogs.${item.key}`)
+        if (measure === null || measure === undefined) continue
+
+        if (
+          measure.warningLevel &&
+          measure.warningLevel === warningLevels.EXCEEDED
+        ) {
+          dtMeasurePrioritize.push({
+            ...item,
+            key: item.key,
+          })
+          break
+        }
+      }
+    })
+    const measureData = _.uniqBy(
+      [..._.compact(dtMeasurePrioritize), ...this.props.measureData],
+      'key'
+    )
+    /* #endregion */
+
+    let tampColumnMeasure = measureData.map(item => {
       return {
-        title: <TextWithToolTip text={item.name} width={width} />,
+        title: <TextWithToolTip IsEllipsis={true} text={item.name} />,
         dataIndex: `lastLog.measuringLogs.${item.key}`,
-        className: 'noPadding fontSize10',
+        width: 110,
         align: 'center',
-        // width,
         key: item.key,
         render: (measure, record) => {
-          // console.log('measure',measure)
           if (measure === null || measure === undefined) return ''
           let color = colorLevels.GOOD //SHAPE.BLACK;
           let classCustom = ''
@@ -229,7 +285,7 @@ class TableData extends React.Component {
           }
 
           return (
-            <React.Fragment>
+            <Flex>
               <div key="left" style={{ position: 'relative', float: 'left' }}>
                 <DeviceIcon status={_.get(measure, 'statusDevice', '')} />
               </div>
@@ -237,33 +293,34 @@ class TableData extends React.Component {
                 className={classContainer}
                 key="right"
                 style={{
-                  position: 'relative',
-                  float: 'right',
                   width: '100%',
                   borderRadius: 3,
+                  display: 'flex',
+                  padding: '2px',
                 }}
               >
                 {measure.value || measure.value === 0 ? (
                   <TextWithToolTip
+                    IsEllipsis={true}
                     text={measure.value
                       .toFixed(2)
                       .toLocaleString(navigator.language)}
-                    width={width}
+                    // width={width}
                     color={color}
                     className={classCustom}
-                    right
+                    // right
                   />
                 ) : (
                   <TextWithToolTip
                     right
                     text={''}
-                    width={width}
+                    // width={width}
                     color={color}
                     className={classCustom}
                   />
                 )}
               </div>
-            </React.Fragment>
+            </Flex>
           )
         },
       }
@@ -272,21 +329,30 @@ class TableData extends React.Component {
     tampColumnMeasure = tampColumnMeasure.filter(item => {
       return this.props.measureShow && this.props.measureShow.includes(item.key)
     })
-    let result = [...this.column, ...tampColumnMeasure]
+
+    let result = [...columns, ...tampColumnMeasure]
     return result
   }
 
   render() {
-    const column = this.khoiTaoColumn()
+    // console.log("TableData -> render -> column", column)
     // console.log('this.props.stationAutoList',this.props.stationAutoList)
+
     return (
       <Table
+        key="_id"
         style={{ backgroundColor: '#fff' }}
         size="small"
         dataSource={this.props.stationAutoList}
-        bordered
-        columns={column}
+        // bordered
+        columns={this.khoiTaoColumn()}
         pagination={false}
+        scroll={{
+          x:
+            this.props.measureData && this.props.measureData.length > 6
+              ? 1500
+              : false,
+        }}
       />
     )
   }

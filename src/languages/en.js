@@ -41,7 +41,8 @@ export default {
     all: 'All',
     selectProvince: 'Select Site',
     tableList: {
-      name: 'Name',
+      name: 'Station Name',
+      time: 'Date time',
       dataStatus: 'Status',
     },
     chartRatio: {
