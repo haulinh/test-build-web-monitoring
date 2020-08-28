@@ -32,134 +32,244 @@ export default class StationAutoFormTable extends React.Component {
     dataSource: PropTypes.array,
     measuringListSource: PropTypes.array,
     allowUpdateStandardsVN: PropTypes.bool,
-    standardsVN: PropTypes.object,
+    standardsVN: PropTypes.array,
     isEdit: PropTypes.bool, // giữ lại các chỉ tiêu đã có truoc
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      standardsVN: props.standardsVN,
       measuringList: [],
+      isLoaded: false,
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    let params = {}
-
-    if (!_.isEqual(nextProps.standardsVN, this.props.standardsVN)) {
-      params.standardsVN = nextProps.standardsVN
-      if (!_.isEmpty(nextProps.standardsVN)) {
-        // console.log(
-        //   nextProps.standardsVN,
-        //   this.state.measuringList,
-        //   '--nextProps.standardsVN---'
-        // )
-
-        let measuringList = []
-        if (this.props.isEdit) {
-          measuringList = _.filter(
-            this.state.measuringList,
-            item => !_.isEmpty(item.measuringKey)
-          )
-        }
-        // console.log(this.props.isEdit, measuringList, '--run 1---')
-        let size = _.size(measuringList)
-        const measureObj = _.keyBy(measuringList, 'measuringKey')
-        _.forEach(_.values(nextProps.standardsVN), item => {
-          if (!measureObj[item.key]) {
-            measuringList = _.concat(measuringList, {
-              measuringKey: item.key,
-              ...item,
-              key: size,
-            })
-            size++
-          }
-        })
-        // console.log(measuringList, '--measuringList---')
-        if (_.size(measuringList) > 0) {
-          params.measuringList = measuringList
-          // console.log(params, '--params--')
-        }
-      }
-
-      this.setState(params)
-    }
-  }
-
-  async componentWillMount() {
+  async componentDidMount() {
     let measuringList = []
 
-    if (
-      this.props.allowUpdateStandardsVN &&
-      !_.isEmpty(this.props.standardsVN)
-    ) {
-      measuringList = _.map(_.values(this.props.standardsVN), (item, index) => {
-        item.measuringKey = item.key
-        item.key = index
-        return item
+    if (!this.props.isEdit && !_.isEmpty(this.props.standardsVN)) {
+      measuringList = _.map(this.props.standardsVN, (item, index) => {
+        return {
+          ...item,
+          id: index + 1,
+        }
       })
     } else {
       measuringList = _.map(this.props.dataSource, (item, index) => {
-        item.measuringKey = item.key
-        item.key = index
-        return item
+        return {
+          ...item,
+          id: index + 1,
+        }
       })
     }
-
-    this.setState({ measuringList })
-
-    // this.setState({
-    //   measuringList: this.props.dataSource.map((item, index) => {
-    //     item.measuringKey = item.key
-    //     item.key = index
-    //     return item
-    //   })
-    // })
+    this.setState({
+      isLoaded: true,
+      measuringList: measuringList,
+    })
   }
 
-  _getDataMeasuring = () => {
-    const customMeasuresArr = this.state.measuringList
-    const standardsVNMeasures = this.state.standardsVN
-    let customMeasuresObjFiltered = {}
+  updateMinMaxOfMeasuring = dataSource => {
+    const measuringList = _.map(dataSource, (item, index) => {
+      let itemQCVN = this.props.standardsVN.find(obj => obj.key === item.key)
 
-    let customMeasuresObj = _.keyBy(customMeasuresArr, 'measuringKey')
-
-    for (const mea in customMeasuresObj) {
-      customMeasuresObjFiltered[mea] = {
-        ...customMeasuresObj[mea],
-        key: customMeasuresObj[mea].measuringKey,
-      }
-    }
-
-    const resultArr = _.map(customMeasuresObjFiltered, (item, index) => {
       return {
         ...item,
-        ...standardsVNMeasures[`${item.key}`],
-        key: index,
-        measuringKey: item.key,
+        id: index + 1,
+        maxLimit: itemQCVN ? itemQCVN.maxLimit : item.maxLimit,
+        minLimit: itemQCVN ? itemQCVN.minLimit : item.minLimit,
       }
     })
-    return resultArr
+    return measuringList
+  }
+
+  getColumns = () => {
+    const { t } = this.props.lang
+    const { getFieldDecorator } = this.props.form
+    // console.log("---getColumns--")
+
+    return [
+      {
+        dataIndex: 'key',
+        align: 'center',
+        title: t('stationAutoManager.form.measuringKey.label'),
+        width: 130,
+        render: (text, record, index) =>
+          this.renderItemCell(text, record, index, 'key'),
+      },
+      {
+        dataIndex: 'name',
+        align: 'center',
+        title: t('stationAutoManager.form.measuringName.label'),
+        width: 130,
+        render: (text, record, index) => (
+          <FormItem style={{ marginBottom: 0 }}>
+            {getFieldDecorator(`measuringList[${index}].name`, {
+              initialValue: record.name,
+              rules: [
+                {
+                  required: true,
+                  message:
+                    'Please select ' +
+                    t('stationAutoManager.form.measuringName.label'),
+                },
+              ],
+            })(
+              <AutoCompleteCell
+                style={{ width: 120 }}
+                editable={this._isEnableEditMeasure(record.key)}
+                onChange={value => this.handleChangeMeasuring(value, index)}
+                options={_.get(this.props, 'measuringListSource', []).map(d => (
+                  <Select.Option
+                    disabled={!this._isEnableSelectMeasure(d.key)}
+                    key={d.key}
+                    value={d.key}
+                  >
+                    {d.name}
+                  </Select.Option>
+                ))}
+                // autoFocus={true}
+              />
+            )}
+          </FormItem>
+        ),
+      },
+      {
+        title: i18n.qcvn,
+        children: [
+          {
+            dataIndex: 'minLimit',
+            align: 'center',
+            title: i18n.qcvnMin,
+            width: 150,
+            render: (text, record, index) =>
+              this.renderItemNumberCell(text, record, index, 'minLimit'),
+          },
+          {
+            dataIndex: 'maxLimit',
+            align: 'center',
+            title: i18n.qcvnMax,
+            width: 150,
+            render: (text, record, index) =>
+              this.renderItemNumberCell(text, record, index, 'maxLimit'),
+          },
+        ],
+      },
+      {
+        title: i18n.tendToExceed,
+        children: [
+          {
+            dataIndex: 'minTend',
+            align: 'center',
+            title: i18n.tendToExceedMin,
+            width: 150,
+            render: (text, record, index) =>
+              this.renderItemNumberCellNoQaQc(
+                text,
+                record,
+                index,
+                'minTend'
+              ),
+          },
+          {
+            dataIndex: 'maxTend',
+            align: 'center',
+            title: i18n.tendToExceedMax,
+            width: 150,
+            render: (text, record, index) =>
+              this.renderItemNumberCellNoQaQc(
+                text,
+                record,
+                index,
+                'maxTend'
+              ),
+          },
+        ],
+      },
+      {
+        title: i18n.sensorRange,
+        children: [
+          {
+            dataIndex: 'minRange',
+            align: 'center',
+            title: i18n.sensorRangeMin,
+            width: 150,
+            render: (text, record, index) =>
+              this.renderItemNumberCellNoQaQc(text, record, index, 'minRange'),
+          },
+          {
+            dataIndex: 'maxRange',
+            align: 'center',
+            title: i18n.sensorRangeMax,
+            width: 150,
+            render: (text, record, index) =>
+              this.renderItemNumberCellNoQaQc(text, record, index, 'maxRange'),
+          },
+        ],
+      },
+      {
+        dataIndex: 'unit',
+        title: i18n.unit,
+        align: 'center',
+        width: 150,
+        render: (text, record, index) => (
+          <FormItem style={{ marginBottom: 0 }}>
+            {getFieldDecorator(`measuringList[${index}].unit`, {
+              initialValue: text,
+            })(<Input style={{ width: 120 }} />)}
+          </FormItem>
+        ),
+      },
+      {
+        // dataIndex: 'name',
+        title: '', //Action
+        width: 50,
+        render: (text, record, index) => {
+          return (
+            <div
+              style={{
+                textAlign: 'center',
+              }}
+              className="editable-row-operations"
+            >
+              {index !== -1 && (
+                <span>
+                  <Popconfirm
+                    title={t('stationAutoManager.delete.require')}
+                    onConfirm={() => this.removeMeasuring(index)}
+                  >
+                    <a>
+                      <Icon
+                        type="delete"
+                        style={{ marginLeft: '5px', color: 'red' }}
+                      />
+                    </a>
+                  </Popconfirm>
+                </span>
+              )}
+            </div>
+          )
+        },
+      },
+    ]
   }
 
   handleAddRow() {
     const newRow = {
-      key: this.state.measuringList.length,
+      id: this.state.measuringList.length + 1,
+      key: '',
       name: '',
       unit: '',
     }
     let rows = this.state.measuringList.slice()
     rows = update(rows, { $push: [newRow] })
     this.setState({ measuringList: rows })
-    // console.log(rows)
   }
 
   getValueStandardVN = (record, field) => {
     // console.log(this.state.standardsVN)
     //  console.log(record)
     const value = _.get(
-      _.get(this.state.standardsVN, _.get(record, 'measuringKey'), {}),
+      _.get(this.props.standardsVN, _.get(record, 'measuringKey'), {}),
       field,
       undefined
     )
@@ -174,24 +284,8 @@ export default class StationAutoFormTable extends React.Component {
     this.forceUpdate()
   }
 
-  handleChangeMeasuring(value, index, column) {
-    const measure = this.props.measuringListSource.find(
-      item => item.key === value
-    )
-    this.setState(
-      update(this.state, {
-        measuringList: {
-          [index]: {
-            measuringKey: { $set: value },
-            unit: { $set: measure.unit },
-          },
-        },
-      })
-    )
-  }
-
   _isEnableEditMeasure = meaKey => {
-    const listKey = Object.keys(this.state.standardsVN)
+    const listKey = this.props.standardsVN.map(item => item.key)
     if (_.includes(listKey, meaKey)) {
       return false
     }
@@ -199,8 +293,12 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   _isEnableSelectMeasure = meaKey => {
-    // const listKeyStandard = Object.keys(this.state.standardsVN)
-    const listKeyCustom = this.state.measuringList.map(i => i.measuringKey)
+    const { getFieldValue } = this.props.form
+    const arr = getFieldValue('measuringList')
+    if (!arr || arr.length < 1) {
+      return false
+    }
+    const listKeyCustom = arr.map(i => i.key)
     if (_.includes(listKeyCustom, meaKey)) {
       return false
     }
@@ -208,23 +306,23 @@ export default class StationAutoFormTable extends React.Component {
     return true
   }
 
-  renderItemCell = (text, record, index, key) => (
-    <FormItem style={{ marginBottom: 0 }}>
-      {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
-        initialValue: text,
-      })(<span>{text}</span>)}
-    </FormItem>
-  )
-
-  renderItemNumberCell = (text, record, index, key, autoFill = false) => {
-    if (autoFill) {
-      if (!_.isNumber(text) && this.props.allowUpdateStandardsVN) {
-        text = this.getValueStandardVN(record, key)
-      }
-    }
+  renderItemCell = (text, record, index, key) => {
     return (
       <FormItem style={{ marginBottom: 0 }}>
         {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
+          initialValue: text,
+        })(<span>{text}</span>)}
+      </FormItem>
+    )
+  }
+
+  renderItemNumberCell = (text, record, index, field) => {
+    // if (!this.props.isEdit) {
+    //   text = this.getValueStandardVN(record, field)
+    // }
+    return (
+      <FormItem style={{ marginBottom: 0 }}>
+        {this.props.form.getFieldDecorator(`measuringList[${index}].${field}`, {
           initialValue: text,
           // validateFirst: true,
           // rules: [
@@ -233,7 +331,7 @@ export default class StationAutoFormTable extends React.Component {
         })(
           <InputNumberCell
             style={{ width: 120 }}
-            editable={this._isEnableEditMeasure(record.measuringKey)}
+            editable={this._isEnableEditMeasure(record.key)}
           />
         )}
       </FormItem>
@@ -241,13 +339,8 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   // NOTE ko check logic disable cac field
-  renderItemNumberCellNoQaQc = (text, record, index, key, autoFill = false) => {
-    // console.log({ text, record, index, key })
-    if (autoFill) {
-      if (!_.isNumber(text) && this.props.allowUpdateStandardsVN) {
-        text = this.getValueStandardVN(record, key)
-      }
-    }
+  renderItemNumberCellNoQaQc = (text, record, index, key) => {
+    
     return (
       <FormItem style={{ marginBottom: 0 }}>
         {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
@@ -337,180 +430,12 @@ export default class StationAutoFormTable extends React.Component {
     callback()
   }
 
-  getColumns = () => {
-    const { t } = this.props.lang
-    const { getFieldDecorator } = this.props.form
-    // console.log(getFieldValue('measuringList'), 'log')
-
-    return [
-      {
-        dataIndex: 'measuringKey',
-        align: 'center',
-        title: t('stationAutoManager.form.measuringKey.label'),
-        width: 130,
-        render: (text, record, index) =>
-          this.renderItemCell(text, record, index, 'key'),
-      },
-      {
-        dataIndex: 'measuringName',
-        align: 'center',
-        title: t('stationAutoManager.form.measuringName.label'),
-        width: 130,
-        render: (text, record, index) => (
-          <FormItem style={{ marginBottom: 0 }}>
-            {getFieldDecorator(`measuringList[${index}].name`, {
-              initialValue: record.name,
-              rules: [
-                {
-                  required: true,
-                  message:
-                    'Please select ' +
-                    t('stationAutoManager.form.measuringName.label'),
-                },
-              ],
-            })(
-              <AutoCompleteCell
-                style={{ width: 120 }}
-                editable={this._isEnableEditMeasure(record.measuringKey)}
-                onChange={value =>
-                  this.handleChangeMeasuring(value, index, 'name')
-                }
-                options={_.get(this.props, 'measuringListSource', []).map(d => (
-                  <Select.Option
-                    disabled={!this._isEnableSelectMeasure(d.key)}
-                    key={d.key}
-                    value={d.key}
-                  >
-                    {d.name}
-                  </Select.Option>
-                ))}
-                // autoFocus={true}
-              />
-            )}
-          </FormItem>
-        ),
-      },
-      {
-        title: i18n.qcvn,
-        children: [
-          {
-            dataIndex: 'minLimit',
-            align: 'center',
-            title: i18n.qcvnMin,
-            width: 150,
-            render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'minLimit', true),
-          },
-          {
-            dataIndex: 'maxLimit',
-            align: 'center',
-            title: i18n.qcvnMax,
-            width: 150,
-            render: (text, record, index) =>
-              this.renderItemNumberCell(text, record, index, 'maxLimit', true),
-          },
-        ],
-      },
-      {
-        title: i18n.tendToExceed,
-        children: [
-          {
-            dataIndex: 'minTend',
-            align: 'center',
-            title: i18n.tendToExceedMin,
-            width: 150,
-            render: (text, record, index) =>
-              this.renderItemNumberCellNoQaQc(
-                text,
-                record,
-                index,
-                'minTend',
-                true
-              ),
-          },
-          {
-            dataIndex: 'maxTend',
-            align: 'center',
-            title: i18n.tendToExceedMax,
-            width: 150,
-            render: (text, record, index) =>
-              this.renderItemNumberCellNoQaQc(
-                text,
-                record,
-                index,
-                'maxTend',
-                true
-              ),
-          },
-        ],
-      },
-      {
-        title: i18n.sensorRange,
-        children: [
-          {
-            dataIndex: 'minRange',
-            align: 'center',
-            title: i18n.sensorRangeMin,
-            width: 150,
-            render: (text, record, index) =>
-              this.renderItemNumberCellNoQaQc(text, record, index, 'minRange'),
-          },
-          {
-            dataIndex: 'maxRange',
-            align: 'center',
-            title: i18n.sensorRangeMax,
-            width: 150,
-            render: (text, record, index) =>
-              this.renderItemNumberCellNoQaQc(text, record, index, 'maxRange'),
-          },
-        ],
-      },
-      {
-        dataIndex: 'unit',
-        title: i18n.unit,
-        align: 'center',
-        width: 150,
-        render: (text, record, index) => (
-          <FormItem style={{ marginBottom: 0 }}>
-            {getFieldDecorator(`measuringList[${index}].unit`, {
-              initialValue: text,
-            })(<Input style={{ width: 120 }} />)}
-          </FormItem>
-        ),
-      },
-      {
-        dataIndex: 'name',
-        title: '', //Action
-        width: 50,
-        render: (text, record, index) => {
-          return (
-            <div className="editable-row-operations">
-              {index !== -1 && (
-                <span>
-                  <Popconfirm
-                    title={t('stationAutoManager.delete.require')}
-                    onConfirm={() => this.removeMeasuring(index)}
-                  >
-                    <a>
-                      <Icon
-                        type="delete"
-                        style={{ marginLeft: '5px', color: 'red' }}
-                      />
-                    </a>
-                  </Popconfirm>
-                </span>
-              )}
-            </div>
-          )
-        },
-      },
-    ]
-  }
-
   render() {
     const { t } = this.props.lang
-    console.log('measuringList', this.state.measuringList)
+    // const { getFieldValue } = this.props.form
 
+    // console.log('---form---', getFieldValue('measuringList'))
+    // console.log('---form-measuringList--', this.state.measuringList)
     return (
       <div>
         <Button
@@ -520,16 +445,65 @@ export default class StationAutoFormTable extends React.Component {
         >
           {t('stationAutoManager.addMeasuring.label')}
         </Button>
-        <Table
-          bordered
-          dataSource={this.state.measuringList}
-          columns={this.getColumns()}
-          pagination={{
-            pageSize: 1000,
-            hideOnSinglePage: true,
-          }}
-        />
+        {this.state.isLoaded && (
+          <Table
+            bordered
+            rowKey="id"
+            dataSource={this.state.measuringList}
+            columns={this.getColumns()}
+            pagination={{
+              pageSize: 1000,
+              hideOnSinglePage: true,
+            }}
+          />
+        )}
       </div>
     )
+  }
+
+  handleChangeMeasuring = (value, index) => {
+    const measure = this.props.measuringListSource.find(
+      item => item.key === value
+    )
+
+    let itemQCVN = this.props.standardsVN.find(item => item.key === value)
+
+    this.setState(
+      update(this.state, {
+        measuringList: {
+          [index]: {
+            key: { $set: value },
+            name: { $set: measure.name },
+            unit: { $set: measure.unit },
+            maxLimit: { $set: itemQCVN ? itemQCVN.maxLimit : null },
+            minLimit: { $set: itemQCVN ? itemQCVN.minLimit : null },
+          },
+        },
+      })
+    )
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.isLoaded &&
+      JSON.stringify(prevProps.standardsVN) !==
+        JSON.stringify(this.props.standardsVN)
+    ) {
+      // console.log(this.props.standardsVN, '---standardsVN--')
+      const { getFieldValue } = this.props.form
+      this.setState({
+        isLoaded: false,
+      })
+      const measuringList = this.updateMinMaxOfMeasuring(
+        getFieldValue('measuringList')
+      )
+
+      // console.log( getFieldValue('measuringList'), "--componentDidUpdate--1")
+      // console.log(measuringList, '---componentDidUpdate--2')
+      this.setState({
+        measuringList:measuringList,
+        isLoaded: true,
+      })
+    }
   }
 }

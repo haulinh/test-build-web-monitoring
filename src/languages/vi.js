@@ -2040,6 +2040,7 @@ export default {
       add: {
         success: 'Thêm thành công',
         error: 'Thêm mới lỗi',
+        keyExited_error: 'Mã đã tồn tại',
       },
       update: {
         success: 'Cập nhật thành công',
