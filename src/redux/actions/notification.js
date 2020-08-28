@@ -191,7 +191,7 @@ export function getTotalByNotificationType() {
     let res = await FcmAPI.getTotalByNotificationType()
     const { success, data } = res
 
-    if (data.totalIsNotSeen === 0 || !success) return
+    if (!data || data.totalIsNotSeen === 0 || !success) return
 
     dispatch(updateAllCounts(data.totalIsNotSeen))
   }

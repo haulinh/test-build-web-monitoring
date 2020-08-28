@@ -10,7 +10,7 @@ import protectRole from 'hoc/protect-role'
 import Clearfix from 'components/elements/clearfix'
 import { translate } from 'hoc/create-lang'
 
-@protectRole(ROLE.STATION_AUTO.CREATE)
+@protectRole(ROLE.QCVN.CREATE)
 export default class QCVNCreate extends React.PureComponent {
   state = {
     isLoading: false,

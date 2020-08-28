@@ -39,6 +39,7 @@ export default {
     selectProvince: 'Chọn Đơn vị quản lý',
     tableList: {
       name: 'Tên trạm',
+      time: 'Thời gian',
       dataStatus: 'Tình trạng',
     },
     chartRatio: {
@@ -71,6 +72,8 @@ export default {
     sortByValues: 'Sắp xếp theo tình trạng',
     keywordSearch: 'Nhập tên trạm',
     limit: 'Giới hạn',
+    noData: 'Không có dữ liệu',
+    withoutLimit: 'Không có giới hạn',
     selectGroup: 'Chọn nhóm',
     selectOrder: 'Thứ tự theo',
     dataSearch: 'Tìm kiếm dữ liệu',
@@ -1428,6 +1431,12 @@ export default {
         placeholder: 'Địa chỉ RTSP',
         error: 'Vui lòng nhập địa chỉ RTSP',
       },
+      userRole: {
+        stationManager: 'Quản lý trạm',
+        sendNotification: 'Gửi cảnh báo',
+        sms: 'SMS',
+        email: 'Email',
+      },
     },
     header: {
       option: 'Tuỳ chọn',
@@ -2031,6 +2040,7 @@ export default {
       add: {
         success: 'Thêm thành công',
         error: 'Thêm mới lỗi',
+        keyExited_error: 'Mã đã tồn tại',
       },
       update: {
         success: 'Cập nhật thành công',
@@ -2040,6 +2050,9 @@ export default {
     onDelete: {
       success: 'Xoá thành công',
       error: 'Xoá thất bại',
+      qcvn: {
+        qcvnUsed: 'Không thể xóa vì có trạm sử dụng quy chuẩn này',
+      },
       warning: 'Bạn không thể xóa tài khoản của chính mình',
     },
     onRestore: {
@@ -2364,7 +2377,7 @@ export default {
       jsonView: 'Xem Json',
     },
     searchForm: {
-      user: 'Select email',
+      user: 'Chọn người dùng',
       typeLog: 'Loại',
       from: 'Từ ngày',
       to: 'Đến ngày',
@@ -2558,6 +2571,12 @@ export default {
     },
     form: {
       placeholder: 'Viết đánh giá',
+    },
+  },
+  element: {
+    rangePicker: {
+      startDate: 'Thời gian bắt đầu',
+      endDate: 'Thời gian kết thúc',
     },
   },
 }

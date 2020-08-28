@@ -14,8 +14,9 @@ import {
 import { autobind } from 'core-decorators'
 import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
-import StationAutoApi from 'api/StationAuto'
+// import StationAutoApi from 'api/StationAuto'
 import { v4 as uuidV4 } from 'uuid'
+import { addCameras } from 'api/CameraApi'
 
 const i18n = {
   addButton: translate('addon.add'),
@@ -110,6 +111,7 @@ export default class FormAddCamera extends React.Component {
   }
 
   _addCamera = () => {
+    // console.log('_addCamera')
     const camera = {
       key: uuidV4(),
       name: '',
@@ -125,6 +127,7 @@ export default class FormAddCamera extends React.Component {
   }
 
   _removeCamera(index) {
+    // console.log('_removeCamera')
     this.setState(prevState =>
       update(prevState, {
         cameras: {
@@ -132,6 +135,10 @@ export default class FormAddCamera extends React.Component {
         },
       })
     )
+  }
+
+  setNumOfCameras = quantityCamera => {
+    this.props.refHeader.current.setNumOfCameras(quantityCamera)
   }
 
   async _submitCameras() {
@@ -150,24 +157,27 @@ export default class FormAddCamera extends React.Component {
 
     let stationID = this.props.stationAuto._id
     const submittedCameras = Object.values(fieldsValue)
-
     this.setState({ submittingCameraLinks: true })
 
-    let submitData = {
-      [stationID]: {
-        camera: {
-          allowed: this.props.allowed,
-          list: submittedCameras,
-        },
-      },
-    }
+    // let submitData = {
+    //   [stationID]: {
+    //     camera: {
+    //       allowed: this.props.allowed,
+    //       list: submittedCameras,
+    //     },
+    //   },
+    // }
 
-    const res = await StationAutoApi.updateStationAutoOptions(submitData)
+   
+
+    const res = await addCameras(stationID, submittedCameras)
 
     this.setState({ submittingCameraLinks: false })
 
     if (res.success) {
       this.props.onSubmit(res.data[0])
+      const quantityCamera = Object.keys(fieldsValue).length
+      this.setNumOfCameras(quantityCamera)
       return message.success(i18n.successSubmit)
     }
 

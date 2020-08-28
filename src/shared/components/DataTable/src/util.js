@@ -1,6 +1,7 @@
 import shortid from 'shortid'
 import { orderBy } from 'lodash'
 
+
 export const isEmpty = (field = '') => {
   return typeof field === 'undefined' || field === null || field.length === 0
 }

@@ -19,64 +19,51 @@ const DEVICE_STATUS = {
 }
 
 const MeasuringItemWrapper = styled.div`
-  position: relative;
-  display: flex;
   padding: 8px 8px;
-  // flex-direction: column;
-  justify-content: space-between;
   border-radius: 8px;
   border: solid 1px ${props => props.color};
   &:hover {
     cursor: pointer;
   }
-`
-const MeasuringItemText = styled.div`
-  display: flex;
-  // justify-content: space-between;
+  position: relative;
 `
 
-// const MeasuringName = styled.span`
-//   padding: 0px 6px;
-//   display: flex;
-//   font-size: 10px;
-//   color: #ffffff;
-//   align-items: center;
-//   justify-content: center;
-//   border-radius: 3px;
-//   background-color: ${props => props.color};
-// `
+const Flex = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
 
 const MeasuringUnit = styled.span`
   position: absolute;
-  /* top: -10px;
-  right: -8px;
-  font-size: 8px; */
   top: -5px;
-  left: calc(100% + 4px);
-  font-size: 8px;
+  margin-left: 2px;
   color: ${props => props.color};
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 12px;
 `
 
 const MeasuringValue = styled.div`
-  font-size: 16px;
+  font-size: 20px;
+  line-height: 24px;
   text-align: left;
-  // font-weight: 600;
+  font-weight: bold;
   color: ${props => props.color};
   position: relative;
 `
 
 const MeasuringLimit = styled.span`
-  font-size: 10px;
+  font-size: 12px;
+  line-height: 14px;
   color: #b9b9b9;
 `
 
 const LeftContainer = styled.div`
-  // display: flex;
-  // flex: 1;
+  position: relative;
 `
 const RightContainer = styled.div`
-  display: flex;
-  align-items: center;
+  position: absolute;
+  right: 5px;
 `
 
 const Dot = styled.div`
@@ -89,12 +76,27 @@ const Dot = styled.div`
 `
 
 const MeasuringName = styled.span`
+  color: ${props => props.color};
+  display: inline-block;
   text-overflow: ellipsis;
   overflow: hidden;
+  max-width: 100%;
   white-space: nowrap;
-  max-width: 75px;
   margin-right: 12px;
-  font-weight: 100;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+`
+
+const NoDataText = styled.span`
+  color: #e0e0e0;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+`
+
+const LimitContainer = styled.div`
+  position: relative;
 `
 
 @autobind
@@ -118,17 +120,35 @@ export default class MeasuringItem extends React.PureComponent {
     if (maxLimit === '') maxLimit = null
 
     if (minLimit !== null && maxLimit !== null) {
-      return ` ${translate(
-        'monitoring.limit'
-      )}: ${minLimit} -> ${maxLimit} ${unit || ''}`
+      // return ` ${translate(
+      //   'monitoring.limit'
+      // )}: ${minLimit} -> ${maxLimit} ${unit || ''}`
+      return (
+        <LimitContainer>
+          {`${translate('monitoring.limit')}: ${minLimit} -> ${maxLimit}`}
+          <MeasuringUnit>{unit}</MeasuringUnit>
+        </LimitContainer>
+      )
     }
 
     if (minLimit !== null) {
-      return ` ${translate('monitoring.limit')}: > ${minLimit}  ${unit || ''}`
+      // return ` ${translate('monitoring.limit')}: > ${minLimit}  ${unit || ''}`
+      return (
+        <LimitContainer>
+          {`${translate('monitoring.limit')}: > ${minLimit}`}
+          <MeasuringUnit>{unit}</MeasuringUnit>
+        </LimitContainer>
+      )
     }
 
     if (maxLimit !== null) {
-      return `${translate('monitoring.limit')}: < ${maxLimit}  ${unit || ''}`
+      // return `${translate('monitoring.limit')}: < ${maxLimit}  ${unit || ''}`
+      return (
+        <LimitContainer>
+          {`${translate('monitoring.limit')}: < ${maxLimit}`}
+          <MeasuringUnit>{unit}</MeasuringUnit>
+        </LimitContainer>
+      )
     }
 
     // if (minLimit || maxLimit) {
@@ -139,7 +159,9 @@ export default class MeasuringItem extends React.PureComponent {
     //     else limitText = translate('monitoring.limit') + ': < ' + maxLimit
     //   }
     // }
-    return `${translate('monitoring.limit')} `
+    return (
+      <LimitContainer>{translate('monitoring.withoutLimit')}</LimitContainer>
+    )
     //return limitText ? `${limitText} ${unit}` : ` `
   }
 
@@ -194,35 +216,35 @@ export default class MeasuringItem extends React.PureComponent {
         onClick={this.props.onClick}
         color={this.getColorLevel()}
       >
-        <LeftContainer>
-          <MeasuringItemText
-            style={{ color: this.getColorLevel(), marginTop: 4, fontSize: 16 }}
-          >
-            <Tooltip title={name}>
-              <MeasuringName>{name}</MeasuringName>
-            </Tooltip>
+        <Tooltip title={name}>
+          <MeasuringName color={this.getColorLevel()}>{name}</MeasuringName>
+        </Tooltip>
+        <Flex onClick={this.props.onClick} color={this.getColorLevel()}>
+          <LeftContainer>
             <MeasuringValue color={this.getColorLevel()}>
-              {value !== undefined ? getFormatNumber(value) : ''}{' '}
-              {unit ? (
-                <MeasuringUnit color={this.getColorLevel()} className="unit">
-                  {unit}
-                </MeasuringUnit>
+              {value !== undefined && unit ? (
+                <React.Fragment>
+                  {getFormatNumber(value)}
+                  <MeasuringUnit color={this.getColorLevel()} className="unit">
+                    {unit}
+                  </MeasuringUnit>
+                </React.Fragment>
               ) : (
-                ''
+                <NoDataText>{translate('monitoring.noData')}</NoDataText>
               )}
             </MeasuringValue>
-          </MeasuringItemText>
-          <div style={{ marginTop: 4 }}>
-            <MeasuringLimit>{this.getLimitText()}</MeasuringLimit>
-          </div>
-        </LeftContainer>
-        <RightContainer>
-          <Dot
-            style={{
-              backgroundColor: colorDeviceStatus,
-            }}
-          />
-        </RightContainer>
+            <div style={{ marginTop: 7 }}>
+              <MeasuringLimit>{this.getLimitText()}</MeasuringLimit>
+            </div>
+          </LeftContainer>
+          <RightContainer>
+            <Dot
+              style={{
+                backgroundColor: colorDeviceStatus,
+              }}
+            />
+          </RightContainer>
+        </Flex>
       </MeasuringItemWrapper>
     )
   }

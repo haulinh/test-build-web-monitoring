@@ -35,7 +35,7 @@ const i18n = {
   stationAddr: translate('stationAutoManager.form.address.label'),
   manager: translate('stationAutoManager.options.userRole.stationManager'),
   sendNotification: translate(
-    'stationAutoManager.options.userRole.allowSendWarning'
+    'stationAutoManager.options.userRole.sendNotification'
   ),
   sms: translate('stationAutoManager.options.userRole.sms'),
   email: translate('stationAutoManager.options.userRole.email'),

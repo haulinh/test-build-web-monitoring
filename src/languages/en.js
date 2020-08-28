@@ -41,7 +41,8 @@ export default {
     all: 'All',
     selectProvince: 'Select Site',
     tableList: {
-      name: 'Name',
+      name: 'Station Name',
+      time: 'Date time',
       dataStatus: 'Status',
     },
     chartRatio: {
@@ -82,6 +83,8 @@ export default {
     camera: 'Camera',
     lossAt: 'Lost at',
     notInUse: 'Not In Use',
+    noData: 'No Data',
+    withoutLimit: 'Without Limit',
     deviceStatus: {
       dataloss: 'Lost Connection',
       sensorError: 'Sensor Error',
@@ -1435,6 +1438,12 @@ export default {
         placeholder: 'RTSP URL',
         error: 'Please enter RTSP URL',
       },
+      userRole: {
+        stationManager: 'Station Manager',
+        sendNotification: 'Send Notification',
+        sms: 'SMS',
+        email: 'Email'
+      }
     },
     header: {
       option: 'Options',
@@ -2040,6 +2049,7 @@ export default {
       add: {
         success: 'Added Successfully',
         error: 'Add Error',
+        keyExited_error: 'Key Existed',
       },
       update: {
         success: 'Updated Successfully',
@@ -2048,6 +2058,9 @@ export default {
     },
     onDelete: {
       success: 'Deleted Successfully',
+      qcvn: {
+        qcvnUsed: "The action can't be completed because there are stations in this standard"
+      },
       error: 'Delete Error',
       warning: 'You cannot delete your own account',
     },
@@ -2561,6 +2574,12 @@ export default {
     },
     form: {
       placeholder: 'Write your review',
+    },
+  },
+  element: {
+    rangePicker: {
+      startDate: 'Start date',
+      endDate: 'End date',
     },
   },
 }

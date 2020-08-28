@@ -492,7 +492,7 @@ export default class StatusDataReport extends React.Component {
                   right: '0px',
                 }}
               >
-                {protectRole(ROLE.TILE_DULIEU_THUDUOC.EXPORT)(
+                {protectRole(ROLE.TINH_TRANG_DU_LIEU.EXPORT)(
                   <Button
                     type="primary"
                     icon="file-excel"

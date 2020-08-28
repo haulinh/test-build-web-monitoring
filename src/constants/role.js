@@ -72,23 +72,25 @@ export default {
     VIEW: 'menu.tiLeDuLieuThuDuoc.actions.view',
     EXPORT: 'menu.tiLeDuLieuThuDuoc.actions.export',
   },
-  TILE_DULIEU: {
-    VIEW: 'menu.tiLeDuLieu.actions.view',
-  },
   TB24H: {
     VIEW: 'menu.tb24H.actions.view',
+    EXPORT: 'menu.tb24H.actions.export',
   },
   TB1H: {
     VIEW: 'menu.tb1H.actions.view',
+    EXPORT: 'menu.tb1H.actions.export',
   },
   TB1MAX: {
     VIEW: 'menu.tb1HMax.actions.view',
+    EXPORT: 'menu.tb1HMax.actions.export',
   },
   TB8MAX: {
     VIEW: 'menu.tb8HMax.actions.view',
+    EXPORT: 'menu.tb8HMax.actions.export',
   },
   TILE_DULIE_VUOTNGUONG: {
     VIEW: 'menu.tileDuLieuVuotNguong.actions.view',
+    EXPORT: 'menu.tileDuLieuVuotNguong.actions.export',
   },
   SO_LAN_MAT_KET_NOI: {
     VIEW: 'menu.soLanMatKetNoi.actions.view',
@@ -106,6 +108,7 @@ export default {
   },
   TINH_TRANG_DU_LIEU: {
     VIEW: 'menu.tinhTrangDuLieu.actions.view',
+    EXPORT: 'menu.tinhTrangDuLieu.actions.export',
   },
   WQI_GIO: {
     VIEW: 'menu.wqiGio.actions.view',

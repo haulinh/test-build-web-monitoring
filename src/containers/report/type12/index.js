@@ -162,14 +162,16 @@ export default class ReportType12 extends React.Component {
                 right: '0px',
               }}
             >
-              <Button
-                type="primary"
-                icon="file-excel"
-                loading={this.state.isLoadingExcel}
-                onClick={this.handleExcel}
-              >
-                {translate('avgSearchFrom.tab.exportExcel')}
-              </Button>
+              {protectRole(ROLE.TILE_DULIE_VUOTNGUONG.EXPORT)(
+                <Button
+                  type="primary"
+                  icon="file-excel"
+                  loading={this.state.isLoadingExcel}
+                  onClick={this.handleExcel}
+                >
+                  {translate('avgSearchFrom.tab.exportExcel')}
+                </Button>
+              )}
             </div>
           )}
         </div>

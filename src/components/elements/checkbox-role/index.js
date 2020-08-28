@@ -6,7 +6,7 @@ import { autobind } from 'core-decorators'
 import update from 'react-addons-update'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import AuthApi from 'api/AuthApi'
-import { orderBy as _orderBy, get as _get } from 'lodash'
+import { orderBy as _orderBy, get as _get, forEach as _forEach } from 'lodash'
 
 const View = styled.div``
 
@@ -33,9 +33,17 @@ export default class CheckBoxRole extends PureComponent {
 
     const UserRole = _get(record, 'data.organization.menu', [])
     let arr = Object.keys(UserRole).map(key => {
+      let actions = {}
+      _forEach(UserRole[key].actions, (valueAction, keyAction) => {
+        if (valueAction) {
+          actions[keyAction] = valueAction
+        }
+      })
+
       return {
         key: key,
         ...UserRole[key],
+        actions,
       }
     })
     arr = _orderBy(arr, ['numericalOrder'], ['asc'])
@@ -52,6 +60,7 @@ export default class CheckBoxRole extends PureComponent {
   }
 
   async onChangeMenu(e, menuName) {
+    console.log(menuName, '--onChangeMenu-')
     if (!e.target.checked) {
       this.setState(
         prevState =>
@@ -117,6 +126,7 @@ export default class CheckBoxRole extends PureComponent {
   isChecked = key => {
     const menuData = this.state.menu[key]
     if (!menuData) return false
+
     return Object.keys(menuData.actions).every(
       actionKey => menuData.actions[actionKey]
     )
@@ -194,7 +204,10 @@ export default class CheckBoxRole extends PureComponent {
                             this.onChangeRule(e, record.key, actionName)
                           }}
                           checked={actionsOrganization[actionName]}
-                          disabled={this.isDisable(record.key)}
+                          disabled={
+                            this.isDisable(record.key)
+                            || actionName === 'view'
+                          }
                         >
                           {t(`roleManager.rule.actions.${actionName}`)}
                         </Checkbox>
@@ -214,6 +227,7 @@ export default class CheckBoxRole extends PureComponent {
   }
 
   render() {
+    console.log(this.state.menu, '--render--')
     return (
       <View>
         <Table

@@ -4,6 +4,13 @@ import PropTypes from 'prop-types'
 import * as _ from 'lodash'
 import moment from 'moment'
 
+import { translate } from 'hoc/create-lang'
+
+const i18n = {
+  startDate: translate('element.rangePicker.startDate'),
+  endDate: translate('element.rangePicker.endDate'),
+}
+
 const RangePicker = DatePicker.RangePicker
 
 export default class RangePickerCustom extends React.PureComponent {
@@ -43,6 +50,7 @@ export default class RangePickerCustom extends React.PureComponent {
           }
           onChange={(date, dateString) => this.pickMonth(date, dateString)}
           style={{ width: '100%' }}
+          placeholder={[`${i18n.startDate}`, `${i18n.endDate}`]}
         />
       </div>
     )

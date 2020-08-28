@@ -6,7 +6,7 @@ import {
   Col,
   Table,
   InputNumber,
-  Button,
+  // Button,
   Select,
   message,
   Radio,
@@ -228,11 +228,11 @@ export default class StationAutoForm extends React.PureComponent {
                   />
                 )}
               </Col>
-              <Col>
+              {/* <Col>
                 <Button type="primary" onClick={this.loadSourceParameter}>
                   {t('stationAutoManager.config.buttonLoadSourceParameter')}
                 </Button>
-              </Col>
+              </Col> */}
             </Row>
           </FormItem>
           <FormItem label={t('stationAutoManager.config.extensionFile')}>

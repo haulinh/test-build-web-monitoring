@@ -25,6 +25,9 @@ const IconToggle = styled.span`
 `
 
 const TextSpan = styled.span`
+  font-size: 1.2rem;
+  padding: 4px;
+  text-transform: uppercase;
   &:hover {
     cursor: pointer;
   }
@@ -79,7 +82,7 @@ export default class StationTypeSummary extends React.Component {
               <div
                 style={{
                   ...props.style,
-                  top: props.isSticky ? '68.8px' : null,
+                  // top: props.isSticky ? '68.8px' : null,
                   transition: 'all .3s linear',
                   zIndex: 99999,
                 }}
@@ -105,7 +108,11 @@ export default class StationTypeSummary extends React.Component {
                     }}
                   >
                     {this.state.measureSoure.map(item => {
-                      return <Option value={item.key}>{item.name}</Option>
+                      return (
+                        <Option key={item.key} value={item.key}>
+                          {item.name}
+                        </Option>
+                      )
                     })}
                   </Select>
                 </HeadStationType>
