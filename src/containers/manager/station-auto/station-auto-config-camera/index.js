@@ -18,6 +18,7 @@ import ROLE from 'constants/role'
 import FormAddCamera from './formAddCamera'
 import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 import { enableCamera } from 'api/CameraApi'
+import CollapsePanelHeader from './CollapsePanelHeader'
 
 const { Panel } = Collapse
 
@@ -371,45 +372,4 @@ export default class StationAutoConfigCamera extends React.Component {
   }
 }
 
-class CollapsePanelHeader extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      numOfCameras: _.get(props.station, 'options.camera.list', []).length,
-    }
-    this[props.station._id] = React.createRef
-  }
 
-  addNumOfCameras = quantity => {
-    console.log(quantity)
-    this.setState(
-      prevState => ({
-        numOfCameras: prevState.numOfCameras + quantity,
-      }),
-      () => console.log('this.state.numOfCameras', this.state.numOfCameras)
-    )
-  }
-
-  render() {
-    const { station } = this.props
-    const { getFieldDecorator } = this.props.form
-    // const numOfCameras = _.get(station, 'options.camera.list', []).length
-
-    return (
-      <Row type="flex" justify="center" align="middle">
-        <Col span={8}>{`${station.stt}  ${station.name}`}</Col>
-        <Col span={12}>{station.address}</Col>
-        <Col span={3} style={{ textAlign: 'center' }}>
-          {getFieldDecorator(`stations.${station._id}`, {
-            initialValue: _.get(station, 'options.camera.allowed'),
-            valuePropName: 'checked',
-            onChange: this._handleChangedStationCheckbox,
-          })(<Checkbox onClick={e => e.stopPropagation()} />)}
-        </Col>
-        <Col span={1}>
-          {this.state.numOfCameras} <Icon type="camera" />
-        </Col>
-      </Row>
-    )
-  }
-}

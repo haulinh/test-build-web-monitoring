@@ -137,6 +137,10 @@ export default class FormAddCamera extends React.Component {
     )
   }
 
+  setNumOfCameras = quantityCamera => {
+    this.props.refHeader.current.setNumOfCameras(quantityCamera)
+  }
+
   async _submitCameras() {
     const { getFieldsValue } = this.props.form
 
@@ -164,6 +168,8 @@ export default class FormAddCamera extends React.Component {
     //   },
     // }
 
+   
+
     const res = await addCameras(stationID, submittedCameras)
 
     this.setState({ submittingCameraLinks: false })
@@ -171,7 +177,7 @@ export default class FormAddCamera extends React.Component {
     if (res.success) {
       this.props.onSubmit(res.data[0])
       const quantityCamera = Object.keys(fieldsValue).length
-      this.props.refHeader.current.addNumOfCameras(quantityCamera)
+      this.setNumOfCameras(quantityCamera)
       return message.success(i18n.successSubmit)
     }
 
