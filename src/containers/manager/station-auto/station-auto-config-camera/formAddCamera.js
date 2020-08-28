@@ -170,6 +170,8 @@ export default class FormAddCamera extends React.Component {
 
     if (res.success) {
       this.props.onSubmit(res.data[0])
+      const quantityCamera = Object.keys(fieldsValue).length
+      this.props.refHeader.current.addNumOfCameras(quantityCamera)
       return message.success(i18n.successSubmit)
     }
 
