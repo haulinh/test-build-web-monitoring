@@ -99,13 +99,6 @@ class DataLoggerSearchForm extends React.Component {
     })
   }
 
-  getRealValue() {
-    if (this.props.mode === 'multiple') {
-      if (!Array.isArray(this.props.value)) return []
-    }
-    return this.props.value
-  }
-
   getLabelAll = () => {
     return this.props.language === 'en' ? 'All' : 'Tất cả'
   }
@@ -125,7 +118,6 @@ class DataLoggerSearchForm extends React.Component {
                 showSearch
                 optionLabelProp="label"
                 placeholder={i18n.labelUser}
-                value={this.getRealValue()}
               >
                 <Select.Option
                   key={'all'}
