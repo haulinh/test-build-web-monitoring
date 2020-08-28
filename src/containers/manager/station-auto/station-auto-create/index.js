@@ -60,6 +60,13 @@ export default class StationAutoCreate extends React.PureComponent {
     if (res && res.success) {
       message.success(translate('stationAutoManager.create.success'))
       this.props.history.push(slug.stationAuto.list)
+    }else{
+      if(res.message === 'KEY_EXISTED'){
+        message.error(translate('addon.onSave.add.keyExited_error'))
+      }else{
+        message.error(translate('addon.onSave.add.error'))
+      }
+      
     }
   }
 

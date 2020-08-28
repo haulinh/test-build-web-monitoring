@@ -2043,6 +2043,7 @@ export default {
       add: {
         success: 'Added Successfully',
         error: 'Add Error',
+        keyExited_error: 'Key Existed',
       },
       update: {
         success: 'Updated Successfully',

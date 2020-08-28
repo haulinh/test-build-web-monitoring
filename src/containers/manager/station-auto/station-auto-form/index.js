@@ -30,7 +30,7 @@ import swal from 'sweetalert2'
 import MeasuringTable from '../station-auto-formTable/'
 import InputNumberCell from 'components/elements/input-number-cell'
 import moment from 'moment'
-import { get, keyBy, omit } from 'lodash'
+import { get, omit } from 'lodash'
 import animateScrollTo from 'animated-scroll-to'
 import styled from 'styled-components'
 import _ from 'lodash'
@@ -230,6 +230,16 @@ export default class StationAutoForm extends React.PureComponent {
           type: 'error',
         })
         return
+      } else {
+        values.measuringList = _.map(values.measuringList, item => {
+          const dtFind = _.find(this.state.measuringListSource, obj => {
+            return obj.key === item.key
+          })
+          return {
+            ...item,
+            name: dtFind.name,
+          }
+        })
       }
 
       const data = {
@@ -264,7 +274,7 @@ export default class StationAutoForm extends React.PureComponent {
         lostConnection: this._transformLostConnectionData(values),
       }
 
-      // console.log(data.stationType, '---data---')
+      console.log(data.measuringList, '---data---')
       // console.log(data.measuringList, '---data---')
 
       // Callback submit form Container Component
@@ -790,10 +800,10 @@ export default class StationAutoForm extends React.PureComponent {
               isEdit={this.props.isEdit}
               lang={this.props.lang}
               form={this.props.form}
-              allowUpdateStandardsVN={this.state.allowUpdateStandardsVN}
-              standardsVN={keyBy(
-                get(this.state.standardsVNObject, 'measuringList', []),
-                'key'
+              standardsVN={get(
+                this.state.standardsVNObject,
+                'measuringList',
+                []
               )}
               dataSource={
                 this.props.initialValues
@@ -809,6 +819,7 @@ export default class StationAutoForm extends React.PureComponent {
               measuringListSource={this.state.measuringListSource}
             />
           </Panel>
+
           <Panel header={t('stationAutoManager.form.panel2')} key="2">
             <Row gutter={8}>
               <Col span={12}>
