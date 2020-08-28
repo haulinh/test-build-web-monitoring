@@ -1,5 +1,5 @@
-import merge from 'deepmerge';
-import { defaultThemes } from './themes';
+import merge from 'deepmerge'
+import { defaultThemes } from './themes'
 
 export const defaultStyles = theme => ({
   table: {
@@ -227,10 +227,10 @@ export const defaultStyles = theme => ({
       backgroundColor: theme.background.default,
     },
   },
-});
+})
 
 export const createStyles = (customStyles = {}, theme = 'default') => {
-  const themeType = defaultThemes[theme] ? theme : 'default';
+  const themeType = defaultThemes[theme] ? theme : 'default'
 
-  return merge(defaultStyles(defaultThemes[themeType]), customStyles);
-};
+  return merge(defaultStyles(defaultThemes[themeType]), customStyles)
+}

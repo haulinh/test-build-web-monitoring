@@ -25,7 +25,6 @@ const SideBarNotificationWrapper = styled(Drawer)`
     display: flex;
     /* flex-direction: column-reverse;
     align-items: flex-end */
-    
   }
 `
 const DeleteMarkWrapper = styled.div`
@@ -148,7 +147,6 @@ export default class NotificationDrawer extends React.Component {
                   <CrossIcon />
                 </a>
               </div>
-
             </TitleWrapper>
           </div>
         }

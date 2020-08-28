@@ -32,12 +32,12 @@ const TitleWrapper = styled.div`
   toDate: state.form['dataSearchFilterForm'].values.toDate,
   advanced: state.form['dataSearchFilterForm'].values.advanced
     ? state.form['dataSearchFilterForm'].values.advanced.filter(
-      item =>
-        item.measuringKey &&
-        item.operator &&
-        item.value !== null &&
-        typeof item.value !== 'undefined'
-    )
+        item =>
+          item.measuringKey &&
+          item.operator &&
+          item.value !== null &&
+          typeof item.value !== 'undefined'
+      )
     : [],
   dataStatus: state.form['dataSearchFilterForm'].values.dataStatus || [],
 }))
@@ -223,7 +223,12 @@ export default class TableList extends React.PureComponent {
       if (res.success) {
         const { data } = await getMe()
         const userEmail = _.get(data, 'email', '')
-        message.success(<span>{translate('avgSearchFrom.excelMultiple')} <b>{userEmail}</b></span>, 10)
+        message.success(
+          <span>
+            {translate('avgSearchFrom.excelMultiple')} <b>{userEmail}</b>
+          </span>,
+          10
+        )
       } else message.error(res.message)
 
       this.setState({
@@ -240,34 +245,29 @@ export default class TableList extends React.PureComponent {
         <TitleWrapper>
           <h4>{translate('dataSearchFilterForm.table.heading')}</h4>
 
-          {
-            stations.length === 1 && (
-              <Button
-                icon="file-excel"
-                style={{ float: 'right', margin: '5px' }}
-                loading={this.state.isExporting}
-                type="primary"
-                onClick={this.handleExportExcel}
-              >
-                {translate('avgSearchFrom.tab.exportExcel')}
-              </Button>
-            )
-          }
+          {stations.length === 1 && (
+            <Button
+              icon="file-excel"
+              style={{ float: 'right', margin: '5px' }}
+              loading={this.state.isExporting}
+              type="primary"
+              onClick={this.handleExportExcel}
+            >
+              {translate('avgSearchFrom.tab.exportExcel')}
+            </Button>
+          )}
 
-          {
-            stations.length > 1 && (
-              <Button
-                icon="file-excel"
-                style={{ float: 'right', margin: '5px' }}
-                loading={this.state.isExportingAll}
-                type="primary"
-                onClick={this.handleExportAllStation}
-              >
-                {translate('avgSearchFrom.tab.exportExcelAll')}
-              </Button>
-            )
-          }
-
+          {stations.length > 1 && (
+            <Button
+              icon="file-excel"
+              style={{ float: 'right', margin: '5px' }}
+              loading={this.state.isExportingAll}
+              type="primary"
+              onClick={this.handleExportAllStation}
+            >
+              {translate('avgSearchFrom.tab.exportExcelAll')}
+            </Button>
+          )}
         </TitleWrapper>
 
         <Tabs

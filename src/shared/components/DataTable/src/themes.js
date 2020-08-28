@@ -1,4 +1,4 @@
-import merge from 'deepmerge';
+import merge from 'deepmerge'
 
 export const defaultThemes = {
   default: {
@@ -77,10 +77,10 @@ export const defaultThemes = {
       text: '#FFFFFF',
     },
   },
-};
+}
 
 export const createTheme = (name, customTheme = {}) => {
-  defaultThemes[name] = merge(defaultThemes.default, customTheme);
+  defaultThemes[name] = merge(defaultThemes.default, customTheme)
 
-  return defaultThemes[name];
-};
+  return defaultThemes[name]
+}

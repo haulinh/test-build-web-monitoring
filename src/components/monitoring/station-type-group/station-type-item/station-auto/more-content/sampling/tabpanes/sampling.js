@@ -20,7 +20,7 @@ import {
   Modal,
   Select,
   Steps,
-  Popover
+  Popover,
 } from 'antd'
 import moment from 'moment-timezone'
 import styled from 'styled-components'
@@ -28,8 +28,8 @@ import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
 import SamplingAPI from 'api/SamplingApi'
 
-const { Option } = Select;
-const { Step } = Steps;
+const { Option } = Select
+const { Step } = Steps
 
 const i18n = {
   /*  */
@@ -93,7 +93,6 @@ const i18n = {
   ),
 }
 
-
 const RadioButton = Radio.Button
 const RadioGroup = Radio.Group
 const FormItem = Form.Item
@@ -126,7 +125,7 @@ function isFormError(fieldsError) {
 }
 
 const ConfigHeaderWrapper = styled.div`
-display:flex;
+  display: flex;
 `
 
 const customDot = (dot, { status, index }) => (
@@ -139,15 +138,11 @@ const customDot = (dot, { status, index }) => (
   >
     {dot}
   </Popover>
-);
-
-
-
-
+)
 
 @Form.create()
 @withRouter
-export default class SamplingMoreInfo extends React.Component {
+export default class SamplingTab extends React.Component {
   static propTypes = {
     stationID: PropTypes.string,
     isScheduled: PropTypes.bool,
@@ -188,15 +183,50 @@ export default class SamplingMoreInfo extends React.Component {
       samplingType: this.props.isScheduled
         ? SAMPLING_TYPE.AUTO
         : SAMPLING_TYPE.MANUAL,
-      samplingProtocol: 'MODBUS'
+      samplingProtocol: 'MODBUS',
+      currentStep: 'SAMPLING',
+      sampledBottles: this.props.configSampling.sampledBottles,
     }
   }
+  async componentWillReceiveProps(nextProps) {
+    if (
+      this.props.configSampling.status === 'SAMPLING' &&
+      nextProps.configSampling.status === 'READY'
+    ) {
+      const log = await SamplingAPI.getHistory({
+        stationAutoId: this.props.stationID,
+      })
+      console.log(log, '-----------------------log')
+      if (log.data && log.data[0].result === 'FAILED') {
+        swal({
+          title: i18n.alertWarning,
+          html: i18n.alertErrorTakeSampling,
+          width: 600,
+          type: 'warning',
+        })
+      } else if (log.data && log.data[0].result === 'SUCCESS') {
+        this.setState({
+          currentStep: 'SUCCESS',
+          sampledBottles: this.state.sampledBottles + 1,
+        })
 
-  handleChanggeSamplingProtocol = (value) => {
+        // setTimeout(() => {
+        //   this.setState({ currentStep: 'SAMPLING' })
+        // }, 3000)
+      }
+    }
+    console.log(
+      this.props.configSampling.status,
+      '=======>',
+      nextProps.configSampling.status
+    )
+  }
+
+  handleChanggeSamplingProtocol = value => {
     this.setState({ samplingProtocol: value })
   }
 
-  renderSamplingProgress = ({ currentStep }) => {
+  renderSamplingProgress = ({ currentStep = 'SAMPLING' }) => {
     const getCurrentStepIndex = () => {
       switch (currentStep) {
         case 'CONNECTED':
@@ -210,10 +240,10 @@ export default class SamplingMoreInfo extends React.Component {
       }
     }
     const StepWrapper = styled.div`
-    .ant-steps-item-content{
-      margin-top:-40px;
-    };
-    margin-top: 4em;
+      .ant-steps-item-content {
+        margin-top: -40px;
+      }
+      margin-top: 4em;
     `
     return (
       <StepWrapper>
@@ -223,24 +253,25 @@ export default class SamplingMoreInfo extends React.Component {
           <Step title="Thành công" />
         </Steps>
       </StepWrapper>
-
     )
   }
   renderTakenBottles = ({ takenBottles, totalBottles }) => {
     const TakendBottleWrapper = styled.div`
-      color: #1890FF;
+      color: #1890ff;
       position: relative;
       top: 2em;
       font-size: 16px;
       align-self: center;
-      margin-bottom:1em;
-      display:flex;
-      justify-content:center;
+      margin-bottom: 1em;
+      display: flex;
+      justify-content: center;
     `
 
     return (
       <TakendBottleWrapper>
-        <span>Số chai đã lấy: {takenBottles}/{totalBottles}</span>
+        <span>
+          Số chai đã lấy: {takenBottles}/{totalBottles}
+        </span>
       </TakendBottleWrapper>
     )
   }
@@ -269,7 +300,7 @@ export default class SamplingMoreInfo extends React.Component {
       async onOk() {
         return await me.resetSampledBottle(e)
       },
-      onCancel() { },
+      onCancel() {},
     })
   }
   /* TODO  LATER */
@@ -291,7 +322,9 @@ export default class SamplingMoreInfo extends React.Component {
       },
     })
     const { stationID } = this.props
-    return SamplingAPI.takeSampling(stationID, { configSampling: { protocol: this.state.samplingProtocol } })
+    return SamplingAPI.takeSampling(stationID, {
+      configSampling: { protocol: this.state.samplingProtocol },
+    })
   }
 
   async handleClickSampling() {
@@ -300,7 +333,7 @@ export default class SamplingMoreInfo extends React.Component {
     try {
       if (status === STATUS_SAMPLING.READY) {
         const res = await this.takeSample()
-        console.log(res, '--------res')
+
         if (res.success) {
           const { status, sampledBottles } = res.data.configSampling
 
@@ -351,7 +384,7 @@ export default class SamplingMoreInfo extends React.Component {
         }
         return
       },
-      onCancel() { },
+      onCancel() {},
     })
   }
 
@@ -403,15 +436,16 @@ export default class SamplingMoreInfo extends React.Component {
 
   render() {
     const { STATUS_SAMPLING, isScheduled } = this.props
-    const { totalBottles, sampledBottles, status } = this.props.configSampling
+    const { totalBottles, status } = this.props.configSampling
     const {
       numberBottles,
       frequency,
       dateTimeStart,
     } = this.props.configSamplingSchedule
     const { getFieldDecorator, getFieldsError } = this.props.form
-    const { isScheduleUpdating, samplingType } = this.state
-    const isFullBottles = sampledBottles >= totalBottles
+    const { isScheduleUpdating, samplingType, currentStep } = this.state
+    const isFullBottles =
+      this.props.configSampling.sampledBottles >= totalBottles
     const isSampling = status !== STATUS_SAMPLING.READY
     // NOTE  -- MOCK DATA
     // let { isActivedOverRange } = this.state
@@ -421,15 +455,28 @@ export default class SamplingMoreInfo extends React.Component {
         <Row>
           <Row style={{ marginBottom: 20 }}>
             <ConfigHeaderWrapper>
-
-              <div style={{ display: 'flex', flexDirection: 'column', marginRight: '2em' }}>
-                <span style={{ marginBottom: '4px' }} className="ant-form-item-required">Giao thức lấy mẫu</span>
-                <Select style={{ width: 160 }} defaultValue={this.state.samplingProtocol} onChange={this.handleChangeSamplingProtocol}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  marginRight: '2em',
+                }}
+              >
+                <span
+                  style={{ marginBottom: '4px' }}
+                  className="ant-form-item-required"
+                >
+                  Giao thức lấy mẫu
+                </span>
+                <Select
+                  style={{ width: 160 }}
+                  defaultValue={this.state.samplingProtocol}
+                  onChange={this.handleChangeSamplingProtocol}
+                >
                   <Option value="MODBUS">ModBus</Option>
                   <Option value="SQL">Sql</Option>
                 </Select>
               </div>
-
 
               <div>
                 <Row style={{ marginBottom: 5 }}>{i18n.typeOfSampling}</Row>
@@ -438,7 +485,10 @@ export default class SamplingMoreInfo extends React.Component {
                   onChange={this.handleSamplingTypeChange}
                   buttonStyle="solid"
                 >
-                  <RadioButton value={SAMPLING_TYPE.MANUAL} disabled={isScheduled}>
+                  <RadioButton
+                    value={SAMPLING_TYPE.MANUAL}
+                    disabled={isScheduled}
+                  >
                     {i18n.immediatelySampling}
                   </RadioButton>
                   <RadioButton
@@ -448,14 +498,10 @@ export default class SamplingMoreInfo extends React.Component {
                     {i18n.scheduleSampling}
                   </RadioButton>
                 </RadioGroup>
-
               </div>
-
             </ConfigHeaderWrapper>
-
           </Row>
         </Row>
-
 
         {/* -- FORM NHAP SO CHAI , tong so chai, so chai da lay-- */}
         <Row>
@@ -466,7 +512,7 @@ export default class SamplingMoreInfo extends React.Component {
             wrapperCol={{ span: 24 }}
           >
             <Row gutter={16}>
-              <Col span={11} >
+              <Col span={11}>
                 <FormItem style={{ width: '100%' }} label={i18n.totalBottles}>
                   <InputNumber
                     disabled
@@ -475,11 +521,13 @@ export default class SamplingMoreInfo extends React.Component {
                   />
                 </FormItem>
               </Col>
-              <Col span={11} >
+              <Col span={11}>
                 <FormItem style={{ width: '100%' }} label={i18n.sampledBottles}>
-                  {getFieldDecorator(fieldNames.sampledBottles, {
-                    initialValue: sampledBottles,
-                  })(<InputNumber disabled style={{ width: '100%' }} />)}
+                  <InputNumber
+                    value={this.state.sampledBottles}
+                    disabled
+                    style={{ width: '100%' }}
+                  />
                 </FormItem>
               </Col>
               <Col span={2} style={{ textAlign: 'center' }}>
@@ -505,7 +553,7 @@ export default class SamplingMoreInfo extends React.Component {
             onSubmit={this.handleSubmitFormSampleAuto}
           >
             <Row gutter={16}>
-              <Col span={11} >
+              <Col span={11}>
                 <FormItem
                   style={{ width: '100%' }}
                   label={i18n.bottlesNeedToTake}
@@ -515,7 +563,7 @@ export default class SamplingMoreInfo extends React.Component {
                       {
                         required: true,
                         min: 1,
-                        max: totalBottles - sampledBottles,
+                        max: totalBottles - this.state.sampledBottles,
                         type: 'integer',
                         message: i18n.alertNull,
                       },
@@ -549,7 +597,7 @@ export default class SamplingMoreInfo extends React.Component {
                   )}
                 </FormItem>
               </Col>
-              <Col span={11} >
+              <Col span={11}>
                 <FormItem style={{ width: '100%' }} label={i18n.frequency}>
                   {getFieldDecorator('frequency', {
                     rules: [
@@ -655,15 +703,20 @@ export default class SamplingMoreInfo extends React.Component {
           </Button> */}
         </Row>
 
+        {(status === STATUS_SAMPLING.COMMANDED ||
+          status === STATUS_SAMPLING.SAMPLING ||
+          currentStep === 'SUCCESS') &&
+          this.renderSamplingProgress({
+            currentStep,
+          })}
 
-        {
-          (status === STATUS_SAMPLING.COMMANDED || status === STATUS_SAMPLING.SAMPLING) &&
-          this.renderSamplingProgress({ currentStep: "SAMPLING" })
-        }
-        {
-          (status === STATUS_SAMPLING.COMMANDED || status === STATUS_SAMPLING.SAMPLING) &&
-          this.renderTakenBottles({ takenBottles: sampledBottles, totalBottles })
-        }
+        {(status === STATUS_SAMPLING.COMMANDED ||
+          status === STATUS_SAMPLING.SAMPLING ||
+          currentStep === 'SUCCESS') &&
+          this.renderTakenBottles({
+            takenBottles: this.props.configSampling.sampledBottles,
+            totalBottles,
+          })}
       </div>
     )
   }

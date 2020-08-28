@@ -25,7 +25,6 @@ const SideBarNotificationWrapper = styled(Drawer)`
     display: flex;
     /* flex-direction: column-reverse;
     align-items: flex-end */
-    
   }
 `
 // const DeleteMarkWrapper = styled.div`
@@ -67,15 +66,15 @@ const NotificationWrapperIcon = styled.div`
 `
 
 const DivBenTrai = styled.div`
-display:flex;
-flex-direction:row;
-align-items:center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `
 const DivBenPhai = styled.div`
-display:flex;
-flex-direction:row;
-justify-content: flex-end;
-padding:0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 0px;
 `
 
 const i18n = {
@@ -126,7 +125,7 @@ export default class NotificationDrawer extends React.Component {
               <NotificationWrapperIcon onClick={this.handleClickNotification}>
                 <NotificationIcon color="#fff" size="large" />
               </NotificationWrapperIcon>
-              <h4 style={{ margin: "0px", marginLeft: "8px" }}>{i18n.label}</h4>
+              <h4 style={{ margin: '0px', marginLeft: '8px' }}>{i18n.label}</h4>
             </DivBenTrai>
             <DivBenPhai>
               <div>
@@ -153,7 +152,11 @@ export default class NotificationDrawer extends React.Component {
                     </a>
                   )}
               </div>
-              <a style={{ marginLeft: "8px" }} href="_blank" onClick={this.closeDrawer}>
+              <a
+                style={{ marginLeft: '8px' }}
+                href="_blank"
+                onClick={this.closeDrawer}
+              >
                 <CrossIcon />
               </a>
             </DivBenPhai>

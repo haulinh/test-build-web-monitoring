@@ -104,7 +104,7 @@ export default class SamplingMoreInfo extends React.Component {
       configSampling.status === STATUS_SAMPLING.READY
     )
       configSampling.status = STATUS_SAMPLING.COMMANDED
-    console.log('timer getStatus: ', configSamplingSchedule)
+
     this.setState({
       configSampling,
       configSamplingSchedule,
@@ -226,6 +226,7 @@ export default class SamplingMoreInfo extends React.Component {
                 configSamplingSchedule={configSamplingSchedule}
                 STATUS_SAMPLING={STATUS_SAMPLING}
                 isScheduled={isScheduled}
+                getStatus={this.getStatus}
               />
             </TabPane>
             <TabPane

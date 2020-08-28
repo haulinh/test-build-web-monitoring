@@ -1,14 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react'
 
 export default function useFirstUpdate(fn, inputs) {
-  const firstUpdate = useRef(true);
+  const firstUpdate = useRef(true)
   useEffect(() => {
     if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
+      firstUpdate.current = false
+      return
     }
 
-    fn();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, inputs);
+    fn()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, inputs)
 }

@@ -52,7 +52,13 @@ export function fetchWQIProcessCalHour({ from, to, listKey, code } = {}) {
   return getFetch(url)
 }
 
-export function exportFileWqiHourbyStation({ from, to, listKey, code, language = 'EN' } = {}) {
+export function exportFileWqiHourbyStation({
+  from,
+  to,
+  listKey,
+  code,
+  language = 'EN',
+} = {}) {
   var url = getWqiUrl(
     `${SLUG_WQI_VS}/hour-export-excel?to=${to}&from=${from}&listKey=${listKey}&code=${code}&language=${language}`
   )
@@ -63,7 +69,7 @@ export function exportFileWqiDaybyListStation({
   to,
   listKey,
   code,
-  language = 'EN'
+  language = 'EN',
 } = {}) {
   var url = getWqiUrl(
     `${SLUG_WQI_VS}/day-export-excel?from=${from}&to=${to}&listKey=${listKey}&code=${code}&language=${language}`

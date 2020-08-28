@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
 /* Hack when using layovers/menus that get clipped by overflow-x
   when a table is responsive due to overflow-xy scroll spec stupidity.
@@ -10,17 +10,23 @@ const ResponsiveWrapper = styled.div`
   position: relative;
   width: 100%;
   border-radius: inherit;
-  ${props => props.responsive && css`
-    overflow-x: auto;
+  ${props =>
+    props.responsive &&
+    css`
+      overflow-x: auto;
 
-    // prevents vertical scrolling in firefox
-    overflow-y: hidden;
-    min-height: 0;
-  `};
-  ${props => props.overflowY && props.responsive && props.overflowYOffset && css`
-    padding-bottom: ${props.overflowYOffset};
-    margin-bottom: -${props.overflowYOffset};
-  `};
-`;
+      // prevents vertical scrolling in firefox
+      overflow-y: hidden;
+      min-height: 0;
+    `};
+  ${props =>
+    props.overflowY &&
+    props.responsive &&
+    props.overflowYOffset &&
+    css`
+      padding-bottom: ${props.overflowYOffset};
+      margin-bottom: -${props.overflowYOffset};
+    `};
+`
 
-export default ResponsiveWrapper;
+export default ResponsiveWrapper

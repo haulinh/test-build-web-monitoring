@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import ContextMenu from './ContextMenu';
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import ContextMenu from './ContextMenu'
 
 const TableHeaderStyle = styled.header`
   position: relative;
@@ -14,14 +14,14 @@ const TableHeaderStyle = styled.header`
   width: 100%;
   flex-wrap: wrap;
   ${props => props.theme.header.style}
-`;
+`
 
 const Title = styled.div`
   flex: 1 0 auto;
   color: ${props => props.theme.header.fontColor};
   font-size: ${props => props.theme.header.fontSize};
   font-weight: 400;
-`;
+`
 
 const Actions = styled.div`
   flex: 1 0 auto;
@@ -32,37 +32,30 @@ const Actions = styled.div`
   > * {
     margin-left: 5px;
   }
-`;
+`
 
 const TableHeader = ({ title, actions, showMenu }) => (
   <TableHeaderStyle className="rdt_TableHeader" role="rowheader">
-    <Title>
-      {title}
-    </Title>
+    <Title>{title}</Title>
 
-    <Actions>
-      {actions}
-    </Actions>
+    <Actions>{actions}</Actions>
 
     {showMenu && <ContextMenu />}
   </TableHeaderStyle>
-);
+)
 
 TableHeader.propTypes = {
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-  ]).isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   actions: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
   showMenu: PropTypes.bool,
-};
+}
 
 TableHeader.defaultProps = {
   actions: [],
   showMenu: true,
-};
+}
 
-export default TableHeader;
+export default TableHeader

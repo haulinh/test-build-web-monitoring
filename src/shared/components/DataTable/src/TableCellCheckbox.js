@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { useTableContext } from './DataTableContext';
-import { CellBase } from './Cell';
-import Checkbox from './Checkbox';
+import React, { useCallback } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { useTableContext } from './DataTableContext'
+import { CellBase } from './Cell'
+import Checkbox from './Checkbox'
 
 const TableCellCheckboxStyle = styled(CellBase)`
   flex: 0 0 48px;
@@ -11,7 +11,7 @@ const TableCellCheckboxStyle = styled(CellBase)`
   align-items: center;
   user-select: none;
   white-space: nowrap;
-`;
+`
 
 const TableCellCheckbox = ({ name, row, selected }) => {
   const {
@@ -21,16 +21,20 @@ const TableCellCheckbox = ({ name, row, selected }) => {
     selectableRowsComponent,
     selectableRowsComponentProps,
     selectableRowDisabled,
-  } = useTableContext();
-  const disabled = selectableRowDisabled && selectableRowDisabled(row);
+  } = useTableContext()
+  const disabled = selectableRowDisabled && selectableRowDisabled(row)
 
-  const handleOnRowSelected = useCallback(() => dispatch({
-    type: 'SELECT_SINGLE_ROW',
-    row,
-    isSelected: selected,
-    keyField,
-    rowCount: data.length,
-  }), [dispatch, row, selected, keyField, data.length]);
+  const handleOnRowSelected = useCallback(
+    () =>
+      dispatch({
+        type: 'SELECT_SINGLE_ROW',
+        row,
+        isSelected: selected,
+        keyField,
+        rowCount: data.length,
+      }),
+    [dispatch, row, selected, keyField, data.length]
+  )
 
   return (
     <TableCellCheckboxStyle
@@ -48,13 +52,13 @@ const TableCellCheckbox = ({ name, row, selected }) => {
         disabled={disabled}
       />
     </TableCellCheckboxStyle>
-  );
-};
+  )
+}
 
 TableCellCheckbox.propTypes = {
   name: PropTypes.string.isRequired,
   row: PropTypes.object.isRequired,
   selected: PropTypes.bool.isRequired,
-};
+}
 
-export default TableCellCheckbox;
+export default TableCellCheckbox

@@ -1,8 +1,8 @@
-import { css } from 'styled-components';
+import { css } from 'styled-components'
 
-export const SMALL = 599;
-export const MEDIUM = 959;
-export const LARGE = 1280;
+export const SMALL = 599
+export const MEDIUM = 959
+export const LARGE = 1280
 
 export const media = {
   sm: (...args) => css`
@@ -25,4 +25,4 @@ export const media = {
       ${css(...args)}
     }
   `,
-};
+}

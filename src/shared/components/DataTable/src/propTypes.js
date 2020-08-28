@@ -1,17 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import FirstPageIcon from '../icons/FirstPage';
-import LastPageIcon from '../icons/LastPage';
-import LeftIcon from '../icons/Left';
-import RightIcon from '../icons/Right';
-import ExpanderCollapsedIcon from '../icons/ExpanderCollapsedIcon';
-import ExpanderExpandedIcon from '../icons/ExpanderExpandedIcon';
+import React from 'react'
+import PropTypes from 'prop-types'
+import FirstPageIcon from '../icons/FirstPage'
+import LastPageIcon from '../icons/LastPage'
+import LeftIcon from '../icons/Left'
+import RightIcon from '../icons/Right'
+import ExpanderCollapsedIcon from '../icons/ExpanderCollapsedIcon'
+import ExpanderExpandedIcon from '../icons/ExpanderExpandedIcon'
 
 export const propTypes = {
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-  ]),
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   selectableRows: PropTypes.bool,
   selectableRowsHighlight: PropTypes.bool,
   selectableRowsVisibleOnly: PropTypes.bool,
@@ -82,10 +79,7 @@ export const propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
-  contextComponent: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.func,
-  ]),
+  contextComponent: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   defaultSortField: PropTypes.string,
   defaultSortAsc: PropTypes.bool,
   columns: PropTypes.array,
@@ -159,16 +153,12 @@ export const propTypes = {
     PropTypes.shape({
       when: PropTypes.func.isRequired,
       style: PropTypes.object.isRequired,
-    }),
+    })
   ),
   theme: PropTypes.string,
   customStyles: PropTypes.object,
-  direction: PropTypes.oneOf([
-    'ltr',
-    'rtl',
-    'auto',
-  ]),
-};
+  direction: PropTypes.oneOf(['ltr', 'rtl', 'auto']),
+}
 
 export const defaultProps = {
   title: '',
@@ -192,9 +182,17 @@ export const defaultProps = {
   expandableInheritConditionalStyles: false,
   onRowExpandToggled: () => null,
   progressPending: false,
-  progressComponent: <div style={{ fontSize: '24px', fontWeight: 700, padding: '24px' }}>Loading...</div>,
+  progressComponent: (
+    <div style={{ fontSize: '24px', fontWeight: 700, padding: '24px' }}>
+      Loading...
+    </div>
+  ),
   persistTableHead: false,
-  expandableRowsComponent: <div style={{ padding: '24px' }}>Add a custom expander component. Use props.data for row data</div>,
+  expandableRowsComponent: (
+    <div style={{ padding: '24px' }}>
+      Add a custom expander component. Use props.data for row data
+    </div>
+  ),
   expandableIcon: {
     collapsed: <ExpanderCollapsedIcon />,
     expanded: <ExpanderExpandedIcon />,
@@ -219,7 +217,9 @@ export const defaultProps = {
   responsive: true,
   overflowY: false,
   overflowYOffset: '250px',
-  noDataComponent: <div style={{ padding: '24px' }}>There are no records to display</div>,
+  noDataComponent: (
+    <div style={{ padding: '24px' }}>There are no records to display</div>
+  ),
   disabled: false,
   noTableHead: false,
   noHeader: false,
@@ -255,4 +255,4 @@ export const defaultProps = {
   theme: 'default',
   customStyles: {},
   direction: 'auto',
-};
+}

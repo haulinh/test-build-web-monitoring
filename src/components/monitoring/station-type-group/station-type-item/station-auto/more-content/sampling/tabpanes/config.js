@@ -10,7 +10,6 @@ import SamplingAPI from 'api/SamplingApi'
 import SqlConfig from './SqlConfig'
 import ModBusConfig from './ModBusConfig'
 
-
 const i18n = {
   totalBottles: translate(
     'monitoring.moreContent.sampling.content.config.totalBottles'
@@ -27,8 +26,6 @@ const i18n = {
   alertError: translate('error.text'),
   alertSaveConfigError: translate('alert.error.monitoring.saveSampingConfig'),
 }
-
-
 
 @Form.create()
 @withRouter
@@ -51,7 +48,7 @@ export default class SamplingConfig extends React.Component {
 
   state = {
     isSaving: false,
-    samplingProtocol: 'MODBUS'
+    samplingProtocol: 'MODBUS',
   }
 
   handleSave = () => {
@@ -84,7 +81,10 @@ export default class SamplingConfig extends React.Component {
           configSampling: res.data.configSampling,
         })
       } catch (error) {
-        console.error(error, '========Lỗi handleSubmit SamplingConfig========== ')
+        console.error(
+          error,
+          '========Lỗi handleSubmit SamplingConfig========== '
+        )
         this.setState({ isSaving: false })
         swal({ title: '', type: 'error' })
       }
@@ -96,43 +96,42 @@ export default class SamplingConfig extends React.Component {
     return isFieldTouched(name) && getFieldError(name)
   }
 
-  handleChangeProtocol = (e) => {
+  handleChangeProtocol = e => {
     this.setState({ samplingProtocol: e.target.value })
   }
 
   render() {
-
     return (
       <div style={{ padding: '2em' }}>
         <Row style={{ marginBottom: '2em' }}>
           <span style={{ marginRight: '2em' }}>Giao thức lấy mẫu</span>
-          <Radio.Group onChange={this.handleChangeProtocol} value={this.state.samplingProtocol}>
-            <Radio value={"MODBUS"}>ModBus</Radio>
-            <Radio value={"SQL"}>Sql</Radio>
+          <Radio.Group
+            onChange={this.handleChangeProtocol}
+            value={this.state.samplingProtocol}
+          >
+            <Radio value={'MODBUS'}>ModBus</Radio>
+            <Radio value={'SQL'}>Sql</Radio>
           </Radio.Group>
         </Row>
-        {
-          this.state.samplingProtocol === "MODBUS" && <ModBusConfig
+        {this.state.samplingProtocol === 'MODBUS' && (
+          <ModBusConfig
             checkErr={this.checkErr}
             configSampling={this.props.configSampling}
             onSubmit={this.handleSubmit}
             isSaving={this.state.isSaving}
             stationId={this.props.stationID}
           />
-        }
+        )}
 
-        {
-          this.state.samplingProtocol === "SQL" && <SqlConfig
+        {this.state.samplingProtocol === 'SQL' && (
+          <SqlConfig
             checkErr={this.checkErr}
             configSampling={this.props.configSampling}
             onSubmit={this.handleSubmit}
             isSaving={this.state.isSaving}
             stationId={this.props.stationID}
           />
-        }
-
-
-
+        )}
       </div>
     )
   }

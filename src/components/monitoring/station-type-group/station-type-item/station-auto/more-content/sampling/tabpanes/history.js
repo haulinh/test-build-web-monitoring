@@ -10,8 +10,8 @@ import moment from 'moment-timezone'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import swal from 'sweetalert2'
 import _ from 'lodash'
-import DataTable from "shared/components/DataTable";
-import "antd/dist/antd.css";
+import DataTable from 'shared/components/DataTable'
+import 'antd/dist/antd.css'
 import ExpandedComponent from './ExpandedComponent'
 
 // const i18n = {
@@ -45,71 +45,68 @@ import ExpandedComponent from './ExpandedComponent'
 //   },
 // }
 
-
 // NOTE demodata
 const dataExapand = [
   {
     index: 1,
-    status: "SUCCESS"
+    status: 'SUCCESS',
   },
   {
     index: 2,
-    status: "FAILED"
+    status: 'FAILED',
   },
   {
     index: 3,
-    status: "SUCCESS"
+    status: 'SUCCESS',
   },
   {
     index: 4,
-    status: "SUCCESS"
+    status: 'SUCCESS',
   },
   {
     index: 5,
-    status: "SUCCESS"
+    status: 'SUCCESS',
   },
   {
     index: 6,
-    status: "SUCCESS"
+    status: 'SUCCESS',
   },
   {
     index: 7,
-    status: "SUCCESS"
+    status: 'SUCCESS',
   },
   {
     index: 8,
-    status: "SUCCESS"
+    status: 'SUCCESS',
   },
   {
     index: 9,
-    status: "SUCCESS"
+    status: 'SUCCESS',
   },
   {
     index: 10,
-    status: "SUCCESS"
+    status: 'SUCCESS',
   },
   {
     index: 11,
-    status: "SUCCESS"
+    status: 'SUCCESS',
   },
   {
     index: 12,
-    status: "SUCCESS"
+    status: 'SUCCESS',
   },
-];
+]
 
 const customStyles = {
   headCells: {
     style: {
       // backgroundColor: "#e47297",
-      color: "black",
+      color: 'black',
       // border: "none",
-      fontWeight: 600
-    }
-  }
-};
-
-
+      fontWeight: 600,
+    },
+  },
+}
 
 @withRouter
 export default class SamplingMoreInfo extends React.Component {
@@ -182,63 +179,67 @@ export default class SamplingMoreInfo extends React.Component {
   renderColumn() {
     return [
       {
-        name: "STT",
-        selector: "stt"
+        name: 'STT',
+        selector: 'stt',
       },
       {
-        name: "Số bình chứa",
-        selector: "bottleNumber"
+        name: 'Số bình chứa',
+        selector: 'bottleNumber',
       },
       {
-        name: "Thời gian lấy",
-        selector: "createdAt",
-        grow: 2
+        name: 'Thời gian lấy',
+        selector: 'createdAt',
+        grow: 2,
       },
       {
-        name: "Hành động",
-        selector: "typeOfSampling"
+        name: 'Hành động',
+        selector: 'typeOfSampling',
       },
       {
-        name: "Người kích hoạt",
-        selector: "user",
-        grow: 3
+        name: 'Người kích hoạt',
+        selector: 'user',
+        grow: 3,
       },
       {
-        name: "Hình thức truyền",
-        selector: "samplingProtocol"
+        name: 'Hình thức truyền',
+        selector: 'samplingProtocol',
       },
       {
-        name: "Kết quả lấy mẫu",
-        selector: "result",
+        name: 'Kết quả lấy mẫu',
+        selector: 'result',
         cell: (row, index) => {
-          if (row.result === "FAILED" || row.result === undefined) {
+          if (row.result === 'FAILED' || row.result === undefined) {
             return (
               <Tag
-                style={{ borderRadius: "4px", width: "6em", textAlign: "center" }}
+                style={{
+                  borderRadius: '4px',
+                  width: '6em',
+                  textAlign: 'center',
+                }}
                 color="#cc1200"
               >
                 FAILED
               </Tag>
-            );
+            )
           }
           return (
             <Tag
-              style={{ borderRadius: "4px", width: "6em", textAlign: "center" }}
+              style={{ borderRadius: '4px', width: '6em', textAlign: 'center' }}
               color="#6ba84f"
             >
               SUCCESS
             </Tag>
-          );
-
-        }
-      }
-    ];
+          )
+        },
+      },
+    ]
   }
 
   _handlePageChange = page => {
-    this.setState({
-      page
-    },
+    this.setState(
+      {
+        page,
+      },
       () => {
         this.loadData(this.state.page, this.state.pageSize)
       }
@@ -246,19 +247,24 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   _handlePerRowsChange = itemPerPage => {
-    this.setState({
-      pageSize: itemPerPage
-    },
+    this.setState(
+      {
+        pageSize: itemPerPage,
+      },
       () => {
         this.loadData(this.state.page, this.state.pageSize)
       }
     )
   }
 
-  _getCustomIconConfig = (row) => {
+  _getCustomIconConfig = row => {
     const CustomIconConfig = {
-      expanded: <img src="images/sampling-icons/down-circle.svg" alt="down icon" />,
-      collapsed: <img src="images/sampling-icons/up-circle.svg" alt="up icon" />
+      expanded: (
+        <img src="images/sampling-icons/down-circle.svg" alt="down icon" />
+      ),
+      collapsed: (
+        <img src="images/sampling-icons/up-circle.svg" alt="up icon" />
+      ),
     }
     const HidenIcon = {
       expanded: <div></div>,
@@ -268,14 +274,14 @@ export default class SamplingMoreInfo extends React.Component {
       return CustomIconConfig
     }
     return HidenIcon
-
   }
-
 
   render() {
     const CustomIconConfig = {
-      collapsed: <img src="images/sampling-icons/down-circle.svg" alt="down icon" />,
-      expanded: <img src="images/sampling-icons/up-circle.svg" alt="up icon" />
+      collapsed: (
+        <img src="images/sampling-icons/down-circle.svg" alt="down icon" />
+      ),
+      expanded: <img src="images/sampling-icons/up-circle.svg" alt="up icon" />,
     }
 
     return (
@@ -298,13 +304,12 @@ export default class SamplingMoreInfo extends React.Component {
         isShowIcon={row => row.typeOfSampling === 'AUTOMATIC'}
         expandableIcon={CustomIconConfig}
         expandableRowsComponent={
-          < ExpandedComponent data={dataExapand} dataExapand={dataExapand} />
+          <ExpandedComponent data={dataExapand} dataExapand={dataExapand} />
         }
         noDataComponent="Hiện chưa  lịch sử lấy mẫu"
       />
     )
   }
-
 
   // render() {
   //   return (
@@ -361,8 +366,6 @@ export default class SamplingMoreInfo extends React.Component {
   //           dataIndex="samplingProtocol"
   //           width={150}
   //         />
-
-
 
   //         <Column
   //           title={i18n.result}

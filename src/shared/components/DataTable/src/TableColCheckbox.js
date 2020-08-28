@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { useTableContext } from './DataTableContext';
-import { CellBase } from './Cell';
-import Checkbox from './Checkbox';
+import React, { useCallback } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { useTableContext } from './DataTableContext'
+import { CellBase } from './Cell'
+import Checkbox from './Checkbox'
 
 const TableColStyle = styled(CellBase)`
   flex: 0 0 48px;
@@ -11,7 +11,7 @@ const TableColStyle = styled(CellBase)`
   align-items: center;
   user-select: none;
   white-space: nowrap;
-`;
+`
 
 const TableColCheckbox = ({ head }) => {
   const {
@@ -24,19 +24,25 @@ const TableColCheckbox = ({ head }) => {
     selectableRowDisabled,
     keyField,
     mergeSelections,
-  } = useTableContext();
-  const indeterminate = selectedRows.length > 0 && !allSelected;
-  const rows = selectableRowDisabled ? data.filter(row => !selectableRowDisabled(row)) : data;
-  const isDisabled = rows.length === 0;
-  const rowCount = data.length;
+  } = useTableContext()
+  const indeterminate = selectedRows.length > 0 && !allSelected
+  const rows = selectableRowDisabled
+    ? data.filter(row => !selectableRowDisabled(row))
+    : data
+  const isDisabled = rows.length === 0
+  const rowCount = data.length
 
-  const handleSelectAll = useCallback(() => dispatch({
-    type: 'SELECT_ALL_ROWS',
-    rows,
-    rowCount,
-    mergeSelections,
-    keyField,
-  }), [dispatch, keyField, mergeSelections, rowCount, rows]);
+  const handleSelectAll = useCallback(
+    () =>
+      dispatch({
+        type: 'SELECT_ALL_ROWS',
+        rows,
+        rowCount,
+        mergeSelections,
+        keyField,
+      }),
+    [dispatch, keyField, mergeSelections, rowCount, rows]
+  )
 
   return (
     <TableColStyle className="rdt_TableCol" head={head} noPadding>
@@ -50,14 +56,14 @@ const TableColCheckbox = ({ head }) => {
         disabled={isDisabled}
       />
     </TableColStyle>
-  );
-};
+  )
+}
 
 TableColCheckbox.propTypes = {
   head: PropTypes.bool,
-};
+}
 
 TableColCheckbox.defaultProps = {
   head: true,
-};
-export default TableColCheckbox;
+}
+export default TableColCheckbox

@@ -69,7 +69,7 @@ export default class AdvancedOperator extends React.PureComponent {
     }
 
     if (index < this.state.totalCondition - 1) return
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       totalCondition: prevState.totalCondition + 1,
     }))
   }
@@ -83,13 +83,13 @@ export default class AdvancedOperator extends React.PureComponent {
     )
   }
 
-  handleDelete = (index) => {
+  handleDelete = index => {
     if (this.state.conditionList.length <= 1) {
       this.handleReset()
       return
     }
     this.setState(
-      (prevState) =>
+      prevState =>
         update(prevState, {
           conditionList: {
             $splice: [[index, 1]],

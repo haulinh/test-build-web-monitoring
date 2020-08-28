@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { useTableContext } from './DataTableContext';
-import Select from './Select';
-import { getNumberOfPages, detectRTL } from './util';
-import useWindowSize from '../hooks/useWindowSize';
-import { media, SMALL } from './media';
+import React, { useCallback } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { useTableContext } from './DataTableContext'
+import Select from './Select'
+import { getNumberOfPages, detectRTL } from './util'
+import useWindowSize from '../hooks/useWindowSize'
+import { media, SMALL } from './media'
 
 const defaultComponentOptions = {
   rowsPerPageText: 'Rows per page:',
@@ -13,7 +13,7 @@ const defaultComponentOptions = {
   noRowsPerPage: false,
   selectAllRowsItem: false,
   selectAllRowsItemText: 'All',
-};
+}
 
 const PaginationWrapper = styled.nav`
   display: flex;
@@ -25,7 +25,7 @@ const PaginationWrapper = styled.nav`
   padding-left: 8px;
   width: 100%;
   ${props => props.theme.pagination.style};
-`;
+`
 
 const Button = styled.button`
   position: relative;
@@ -34,7 +34,7 @@ const Button = styled.button`
   border: none;
   ${props => props.theme.pagination.pageButtonsStyle};
   ${props => props.isRTL && 'transform: scale(-1, -1)'};
-`;
+`
 
 const PageList = styled.div`
   display: flex;
@@ -45,20 +45,20 @@ const PageList = styled.div`
     width: 100%;
     justify-content: space-around;
   `};
-`;
+`
 
 const Span = styled.span`
   flex-shrink: 1;
   user-select: none;
-`;
+`
 
 const Range = styled(Span)`
   margin: 0 24px;
-`;
+`
 
 const RowLabel = styled(Span)`
   margin: 0 4px;
-`;
+`
 
 const Pagination = ({
   rowsPerPage,
@@ -75,53 +75,58 @@ const Pagination = ({
     paginationIconNext,
     paginationIconPrevious,
     paginationComponentOptions,
-  } = useTableContext();
-  const windowSize = useWindowSize();
-  const shouldShow = windowSize.width > SMALL;
-  const isRTL = detectRTL(direction);
-  const numPages = getNumberOfPages(rowCount, rowsPerPage);
-  const lastIndex = currentPage * rowsPerPage;
-  const firstIndex = (lastIndex - rowsPerPage) + 1;
-  const disabledLesser = currentPage === 1;
-  const disabledGreater = currentPage === numPages;
-  const options = { ...defaultComponentOptions, ...paginationComponentOptions };
-  const range = currentPage === numPages
-    ? `${firstIndex}-${rowCount} ${options.rangeSeparatorText} ${rowCount}`
-    : `${firstIndex}-${lastIndex} ${options.rangeSeparatorText} ${rowCount}`;
+  } = useTableContext()
+  const windowSize = useWindowSize()
+  const shouldShow = windowSize.width > SMALL
+  const isRTL = detectRTL(direction)
+  const numPages = getNumberOfPages(rowCount, rowsPerPage)
+  const lastIndex = currentPage * rowsPerPage
+  const firstIndex = lastIndex - rowsPerPage + 1
+  const disabledLesser = currentPage === 1
+  const disabledGreater = currentPage === numPages
+  const options = { ...defaultComponentOptions, ...paginationComponentOptions }
+  const range =
+    currentPage === numPages
+      ? `${firstIndex}-${rowCount} ${options.rangeSeparatorText} ${rowCount}`
+      : `${firstIndex}-${lastIndex} ${options.rangeSeparatorText} ${rowCount}`
 
-  const handlePrevious = useCallback(() => onChangePage(currentPage - 1), [currentPage, onChangePage]);
-  const handleNext = useCallback(() => onChangePage(currentPage + 1), [currentPage, onChangePage]);
-  const handleFirst = useCallback(() => onChangePage(1), [onChangePage]);
-  const handleLast = useCallback(() => onChangePage(getNumberOfPages(rowCount, rowsPerPage)), [onChangePage, rowCount, rowsPerPage]);
-  const handleRowsPerPage = useCallback(({ target }) => onChangeRowsPerPage(Number(target.value), currentPage), [currentPage, onChangeRowsPerPage]);
+  const handlePrevious = useCallback(() => onChangePage(currentPage - 1), [
+    currentPage,
+    onChangePage,
+  ])
+  const handleNext = useCallback(() => onChangePage(currentPage + 1), [
+    currentPage,
+    onChangePage,
+  ])
+  const handleFirst = useCallback(() => onChangePage(1), [onChangePage])
+  const handleLast = useCallback(
+    () => onChangePage(getNumberOfPages(rowCount, rowsPerPage)),
+    [onChangePage, rowCount, rowsPerPage]
+  )
+  const handleRowsPerPage = useCallback(
+    ({ target }) => onChangeRowsPerPage(Number(target.value), currentPage),
+    [currentPage, onChangeRowsPerPage]
+  )
 
   const selectOptions = paginationRowsPerPageOptions.map(num => (
-    <option
-      key={num}
-      value={num}
-    >
+    <option key={num} value={num}>
       {num}
     </option>
-  ));
+  ))
 
   if (options.selectAllRowsItem) {
     selectOptions.push(
-      (
-        <option
-          key={-1}
-          value={rowCount}
-        >
-          {options.selectAllRowsItemText}
-        </option>
-      ),
-    );
+      <option key={-1} value={rowCount}>
+        {options.selectAllRowsItemText}
+      </option>
+    )
   }
 
   const select = (
     <Select onChange={handleRowsPerPage} defaultValue={rowsPerPage}>
       {selectOptions}
     </Select>
-  );
+  )
 
   return (
     <PaginationWrapper className="rdt_Pagination">
@@ -131,11 +136,7 @@ const Pagination = ({
           {select}
         </div>
       )}
-      {shouldShow && (
-        <Range>
-          {range}
-        </Range>
-      )}
+      {shouldShow && <Range>{range}</Range>}
       <PageList>
         <Button
           id="pagination-first-page"
@@ -188,8 +189,8 @@ const Pagination = ({
         </Button>
       </PageList>
     </PaginationWrapper>
-  );
-};
+  )
+}
 
 Pagination.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
@@ -197,6 +198,6 @@ Pagination.propTypes = {
   onChangePage: PropTypes.func.isRequired,
   onChangeRowsPerPage: PropTypes.func.isRequired,
   currentPage: PropTypes.number.isRequired,
-};
+}
 
-export default Pagination;
+export default Pagination

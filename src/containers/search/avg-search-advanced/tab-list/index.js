@@ -58,7 +58,6 @@ export default class TableList extends React.PureComponent {
   }
 
   render() {
-
     if (!this.props.isActive) return null
     return (
       <TableListWrapper>

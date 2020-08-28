@@ -143,10 +143,10 @@ export class CommentComponent extends React.Component {
             {translate('stationReview.action.edit')}
           </ButtonLink>
           <Popconfirm
-            title={translate("addon.popConfirm.reviewStation.title")}
+            title={translate('addon.popConfirm.reviewStation.title')}
             onConfirm={this.handleDeleteReview}
-            okText={translate("addon.yes")}
-            cancelText={translate("addon.no")}
+            okText={translate('addon.yes')}
+            cancelText={translate('addon.no')}
           >
             <ButtonLink type="link">
               {translate('stationReview.action.delete')}

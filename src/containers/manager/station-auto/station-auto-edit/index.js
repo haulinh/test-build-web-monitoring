@@ -48,7 +48,7 @@ export default class StationAutoEdit extends React.PureComponent {
 
   cleanData() {
     let data = {
-      ...this.props.data
+      ...this.props.data,
     }
 
     data.measuringList = this.props.data.measuringList || []

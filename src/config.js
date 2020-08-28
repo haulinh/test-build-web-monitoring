@@ -7,6 +7,8 @@ export function getConfigApi() {
   return {
     gateway: config.apiGateway,
     media: config.apiMedia,
+    minio: config.apiMinio,
+    mediaMinio: config.apiMediaMinio,
     category: c('category'),
     // category: 'http://localhost:5002',
     auth: c('auth'),

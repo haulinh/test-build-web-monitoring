@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 const ProgressWrapperStyle = styled.div`
   position: relative;
@@ -8,13 +8,11 @@ const ProgressWrapperStyle = styled.div`
   width: 100%;
   height: 100%;
   ${props => props.theme.progress.style};
-`;
+`
 
 const ProgressWrapper = ({ children }) => (
-  <ProgressWrapperStyle>
-    {children}
-  </ProgressWrapperStyle>
-);
+  <ProgressWrapperStyle>{children}</ProgressWrapperStyle>
+)
 
 ProgressWrapper.propTypes = {
   children: PropTypes.oneOfType([
@@ -22,6 +20,6 @@ ProgressWrapper.propTypes = {
     PropTypes.node,
     PropTypes.func,
   ]).isRequired,
-};
+}
 
-export default ProgressWrapper;
+export default ProgressWrapper

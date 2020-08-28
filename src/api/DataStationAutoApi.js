@@ -399,7 +399,9 @@ export function downloadExcel_reportType11(
   { key, fromDate, toDate, measuringList },
   language = 'EN'
 ) {
-  let url = getReportUrl(`type11-excel/${key}/?token=${token}&language=${language}`)
+  let url = getReportUrl(
+    `type11-excel/${key}/?token=${token}&language=${language}`
+  )
   if (fromDate) url += `&fromDate=${fromDate}`
   if (toDate) url += `&toDate=${toDate}`
   if (measuringList) url += `&measuringList=${measuringList}`
@@ -416,14 +418,22 @@ export function getUrlReportStatusData(stationKeys, from, to, language = 'EN') {
   return getFetch(url)
 }
 
-export function getUrlReportStatusDataExcel(token, stationKeys, from, to, language = 'EN') {
+export function getUrlReportStatusDataExcel(
+  token,
+  stationKeys,
+  from,
+  to,
+  language = 'EN'
+) {
   const stringified = qs.stringify({
     token,
     from: from.toDate(),
     to: to.toDate(),
     listKey: stationKeys.join(','),
   })
-  var url = getReportUrl(`assess-status-excel?${stringified}&language=${language}`)
+  var url = getReportUrl(
+    `assess-status-excel?${stringified}&language=${language}`
+  )
   return url
 }
 

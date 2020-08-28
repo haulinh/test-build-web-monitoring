@@ -99,7 +99,10 @@ export default class WQIStatisticsDay extends React.Component {
       listKey: _.get(this.state.searchFormData, 'listStation', ''),
       code: _.get(this.state.searchFormData, 'wqiKey'),
     }
-    let res = await wqiApi.exportFileWqiDaybyListStation({ ...params, language: getLanguage(this.props.locale) })
+    let res = await wqiApi.exportFileWqiDaybyListStation({
+      ...params,
+      language: getLanguage(this.props.locale),
+    })
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
 
