@@ -659,6 +659,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
   async submitCache() {
     this.setState({ isSave: true })
+    console.log('data send', this.state.cachedData)
     const res = await updateStationAutoOptions(this.state.cachedData)
     if (res.success) {
       this.setState({
