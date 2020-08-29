@@ -49,7 +49,7 @@ const IconButton = styled(Icon)`
 
 @protectRole(ROLE.STATION_AUTO.VIEW)
 @createManagerList({
-  apiList: StationAutoApi.getStationAutos,
+  apiList: StationAutoApi.getStationAutoAll,
 })
 @createManagerDelete({
   apiDelete: StationAutoApi.removeStationAuto,
