@@ -13,7 +13,7 @@ export default class DrawerInfoStation extends React.Component {
   }
 
   render() {
-    const { onClose, visibleDrawer, type, _id, name } = this.props
+    const { onClose, visibleDrawer, type, _id, name, stationKey } = this.props
     return (
       <Drawer
         width={720}
@@ -24,7 +24,11 @@ export default class DrawerInfoStation extends React.Component {
       >
         {type === 'info' && <StationInfo stationID={_id} />}
         {type === 'image' && (
-          <StationImage stationID={_id} stationName={name} />
+          <StationImage
+            stationID={_id}
+            stationName={name}
+            stationKey={stationKey}
+          />
         )}
         {type === 'comment' && (
           <StationComment stationId={_id} stationName={name} />

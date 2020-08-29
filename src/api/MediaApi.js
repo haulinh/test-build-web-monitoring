@@ -9,10 +9,10 @@ export function getMinio(prefix = '') {
   return getConfigApi().media + '/' + prefix
 }
 
-export function getImages(databaseName, stationName) {
+export function getImages(databaseName, stationKey) {
   const url = `${
     getConfigApi().minio
-  }/buckets/${databaseName}?prefix=${stationName}/`
+  }/buckets/${databaseName}?prefix=/${stationKey}/Hình ảnh/`
   return getFetch(url)
 }
 

@@ -129,7 +129,7 @@ export default class ImageMoreInfo extends React.Component {
     //   })
     // })
 
-    const { userInfo, stationName } = this.props
+    const { userInfo, stationKey } = this.props
     const databaseName = getDatabaseName(
       userInfo.organization.databaseInfo.name
     )
@@ -139,7 +139,7 @@ export default class ImageMoreInfo extends React.Component {
       //   `https://dev-drive.ilotusland.asia/buckets/${databaseName}?prefix=${stationName}/`
       // )
 
-      const data = await MediaApi.getImages(databaseName, stationName)
+      const data = await MediaApi.getImages(databaseName, stationKey)
 
       this.setState({
         newImages: data,
@@ -159,12 +159,12 @@ export default class ImageMoreInfo extends React.Component {
   }
 
   getUrlImage(imageName) {
-    const { userInfo, stationName } = this.props
+    const { userInfo, stationKey } = this.props
     const databaseName = userInfo.organization.databaseInfo.name.replace(
       /_/g,
       ''
     )
-    return `${MediaApi.getUrlImage()}/${databaseName}/${stationName}/${imageName}`
+    return `${MediaApi.getUrlImage()}/${databaseName}/${stationKey}/${imageName}`
   }
 
   handleViewGalleryClick = index => () => {
@@ -266,7 +266,7 @@ export default class ImageMoreInfo extends React.Component {
 
     const options = {
       params: {
-        prefix: `${this.props.stationName}/${file.name}`,
+        prefix: `${this.props.stationKey}/${file.name}`,
         ContentType: file.type,
       },
       headers: {
