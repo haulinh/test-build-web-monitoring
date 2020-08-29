@@ -11,7 +11,8 @@ const ToggleResizeWrapper = styled.div`
   height: 100vh;
   position: absolute;
   top: 0px;
-  right: 0px;
+  right: ${props => (props.isLeft ? null : '0px')};
+  left: ${props => (props.isLeft ? '0px' : null)};
   bottom: 0px;
   display: block;
   z-index: 999;
@@ -51,9 +52,9 @@ const IconRight = styled.a`
   top: 100px;
 `
 
-export default function ToggleResize({ onToggle, isShow }) {
+export default function ToggleResize({ onToggle, isShow, isLeft }) {
   return (
-    <ToggleResizeWrapper isShow={isShow} onClick={onToggle}>
+    <ToggleResizeWrapper isShow={isShow} onClick={onToggle} isLeft={isLeft}>
       <Tooltip
         placement={isShow ? 'left' : 'right'}
         title={translate(`tooltipMenuApp.${isShow ? 'hideMenu' : 'showMenu'}`)}
