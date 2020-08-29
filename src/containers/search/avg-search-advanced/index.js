@@ -25,6 +25,7 @@ import protectRole from 'hoc/protect-role'
 import FilterListMenu from './menu'
 import FormFilter from './form/ModalForm'
 import slug from 'constants/slug'
+import ToggleResize from 'layout/default-sidebar-layout/sidebar-menu/ToggleResize'
 
 const Flex = styled.div`
   display: flex;
@@ -73,12 +74,14 @@ export default class AvgSearchAdvanced extends React.Component {
       stationsData: props.stations.length
         ? this.getStationsData(props.stations)
         : [],
+
+      isShowFilterMenu: false,
     }
   }
 
   componentDidMount() {
     this.getDataOrganization()
-    this.props.toggleNavigation(false)
+    // this.props.toggleNavigation(false)
   }
 
   initialData = props => {
@@ -432,6 +435,12 @@ export default class AvgSearchAdvanced extends React.Component {
     })
   }
 
+  onToggleFilterMenu = () => {
+    this.setState(prevState => ({
+      isShowFilterMenu: !prevState.isShowFilterMenu,
+    }))
+  }
+
   render() {
     return (
       <PageContainer
@@ -446,11 +455,17 @@ export default class AvgSearchAdvanced extends React.Component {
           gutter={[32, 0]}
         >
           <FilterListMenu
+            isShow={this.state.isShowFilterMenu}
             configFilter={this.state.filteredConfigFilter}
             handleSearch={this.handleSearch}
             filterId={this.props.formData.filterId}
           />
           <Col style={{ flex: 1, overflowX: 'hidden' }}>
+            <ToggleResize
+              isLeft
+              isShow={this.state.isShowFilterMenu}
+              onToggle={this.onToggleFilterMenu}
+            />
             <SearchFrom
               flagResetForm={this.state.flagResetForm}
               onSubmit={this.handleSearchAvgData}

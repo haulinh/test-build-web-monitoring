@@ -9,6 +9,7 @@ import protectRole from 'hoc/protect-role'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
+import ToggleResize from 'layout/default-sidebar-layout/sidebar-menu/ToggleResize'
 
 const MENU_WIDTH = 300
 
@@ -31,13 +32,14 @@ const SearchWrapper = styled.div`
 `
 
 const MenuWrapper = styled(Col)`
+  overflow: hidden;
   position: fixed;
   height: calc(100vh - 57px);
   width: ${MENU_WIDTH}px;
   border-left: 1px solid #f1f1f1;
   z-index: 1;
   /* padding: 0 16px; */
-  overflow: auto;
+  /* overflow: auto; */
   .ant-menu-item-group {
     .ant-menu-item-group-title {
       color: #333 !important;
@@ -157,7 +159,7 @@ export default class FilterListMenu extends React.Component {
 
   render() {
     const filters = this.getFilterGroupByStationType()
-    // if (this.props.isOpenNavigation) return null
+    if (!this.props.isShow) return null
     return (
       <React.Fragment>
         <Col
@@ -167,7 +169,7 @@ export default class FilterListMenu extends React.Component {
             minHeight: 'calc(100vh - 57px)',
           }}
         />
-        <MenuWrapper>
+        <MenuWrapper isShow={this.state.isShow}>
           <SearchWrapper>
             <Tooltip
               title={translate('dataSearchFilterForm.tooltip.searchFilter')}
