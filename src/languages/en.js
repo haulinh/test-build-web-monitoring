@@ -144,6 +144,7 @@ export default {
             activedUser: 'Actived User',
             result: 'Result',
             manual: 'Immediately Sampling',
+            automatic: 'Automatic Sampling',
             cancel_schedule: 'Cancel Sampling By Scheduled',
             active_schedule: 'Active Sampling By Scheduled',
             config: 'Modify Configuration',
@@ -369,6 +370,12 @@ export default {
     cancelTriggerExceeded: 'Cancel Trigger Exceeded',
     statusSampling: 'Sampling ...',
     viewMore: 'View More',
+    listStep: {
+      step1: 'Getting Started',
+      step2: 'Transferring Commands',
+      step3: 'Sampling',
+      step4: 'Success',
+    },
   },
   map: {
     mapOverview: 'Map Overview',
@@ -1442,8 +1449,8 @@ export default {
         stationManager: 'Station Manager',
         sendNotification: 'Send Notification',
         sms: 'SMS',
-        email: 'Email'
-      }
+        email: 'Email',
+      },
     },
     header: {
       option: 'Options',
@@ -2059,7 +2066,8 @@ export default {
     onDelete: {
       success: 'Deleted Successfully',
       qcvn: {
-        qcvnUsed: "The action can't be completed because there are stations in this standard"
+        qcvnUsed:
+          "The action can't be completed because there are stations in this standard",
       },
       error: 'Delete Error',
       warning: 'You cannot delete your own account',

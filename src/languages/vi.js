@@ -141,6 +141,7 @@ export default {
             activedUser: 'Người kích hoạt',
             result: 'Kết quả lấy mẫu',
             manual: 'Lấy mẫu tức thời',
+            automatic: 'Lấy mẫu tự động',
             cancel_schedule: 'Hủy hẹn giờ lấy mẫu',
             active_schedule: 'Kích hoạt hẹn giờ lấy mẫu',
             config: 'Thay đổi cấu hình',
@@ -364,6 +365,12 @@ export default {
     cancelTriggerExceeded: 'Huỷ kích hoạt thành công',
     statusSampling: 'Đang lấy mẫu ...',
     viewMore: 'Xem thêm',
+    listStep:{
+      step1: 'Bắt đầu',
+      step2: 'Đang truyền lệnh',
+      step3: 'Đang lấy mẫu',
+      step4: 'Thành công',
+    }
   },
   map: {
     mapOverview: 'Tổng quan bản đồ',
