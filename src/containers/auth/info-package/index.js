@@ -44,6 +44,7 @@ const i18n = {
   text5: translate('infoLicense.text5'),
   text6: translate('infoLicense.text6'),
   text7: translate('infoLicense.text7'),
+  dateUnlimited: translate('infoLicense.dateUnlimited')
 }
 
 @connect(state => ({
@@ -87,7 +88,9 @@ export class InfoLicenseForm extends PureComponent {
       limitTotalStation,
       totalUser,
       phone,
-      email
+      email,
+      deploymenType
+
     if (organization) {
       const createdAt = _.get(organization, 'createdAt')
         ? moment(_.get(organization, 'createdAt'))
@@ -115,7 +118,11 @@ export class InfoLicenseForm extends PureComponent {
 
       limitTotalStation = _.get(organization, ['packageInfo', 'totalStation'])
       totalUser = _.get(organization, ['packageInfo', 'totalUser'])
+      deploymenType = _.get(organization, ['packageInfo', 'organizationType'])
     }
+
+    const isOnPremises = deploymenType === "ON_PREMISES" ? true : false
+
     return (
       <InfoLicenseWrapper>
         {this.state.isLoading && <Skeleton avatar paragraph={{ rows: 4 }} />}
@@ -142,9 +149,9 @@ export class InfoLicenseForm extends PureComponent {
                     >
                       {i18n.text2}
                     </Text>
-                    <Text disabled>{dateExp}</Text>
+                    <Text disabled>{isOnPremises ? i18n.dateUnlimited : dateExp}</Text>
                     <br />
-                    {totalDays > 0 && (
+                    {!isOnPremises && totalDays > 0 && (
                       <Text
                         type="warning"
                         style={{

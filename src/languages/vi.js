@@ -1853,6 +1853,7 @@ export default {
     text5: 'Số lượng thành viên',
     text6: 'Số điện thoại',
     text7: 'Email',
+    dateUnlimited: 'Không giới hạn'
   },
   expLicenseInfo: {
     title: 'Chúng tôi rất xin lỗi',

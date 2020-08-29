@@ -1854,13 +1854,14 @@ export default {
     title1: 'Registered at',
     title2: 'Maximum quantity to use',
     title3: 'Customer Support',
-    text1: 'Date created organization',
+    text1: 'Created at',
     text2: 'Expiration date',
     text3: 'You have {{=it.total}} days to use the product',
-    text4: 'Number of stations connected',
+    text4: 'Number of stations',
     text5: 'Number of member',
     text6: 'Phone number',
     text7: 'Email',
+    dateUnlimited: 'Unlimited'
   },
   expLicenseInfo: {
     title: 'We are very sorry',
