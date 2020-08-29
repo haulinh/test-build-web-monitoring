@@ -1,11 +1,7 @@
 import React from 'react'
-import { Row, Checkbox, Select, Col } from 'antd'
-import { translate } from 'hoc/create-lang'
+import { Switch, Select } from 'antd'
 
 const { Option } = Select
-const i18n = {
-  repeat: translate('configNotify.repeat'),
-}
 
 const optionSelects = [
   {
@@ -53,8 +49,8 @@ export default class Frequency extends React.Component {
     return optionSelects.find(option => option.value === frequency).value
   }
 
-  handleOnChangeCheckBox = e => {
-    this.setState({ isEnable: e.target.checked }, () => {
+  handleOnChange = value => {
+    this.setState({ isEnable: value }, () => {
       const frequencyUpdate = {
         _id: this.props._id,
         ...this.state,
@@ -77,16 +73,15 @@ export default class Frequency extends React.Component {
 
   render() {
     return (
-      <Row>
-        <Col span={5}>
-          <Checkbox
-            checked={this.state.isEnable}
-            onChange={this.handleOnChangeCheckBox}
-          >
-            {i18n.repeat}
-          </Checkbox>
-        </Col>
-        <Col span={19}>
+      <div style={{ display: 'flex' }}>
+        <div style={{ paddingRight: '8px' }}>
+          <Switch
+            checkedChildren="ON"
+            unCheckedChildren="OFF"
+            onChange={this.handleOnChange}
+          />
+        </div>
+        <div>
           <Select
             disabled={
               !this.state.isEnable || this.props.status === 'COLLECTING'
@@ -100,8 +95,8 @@ export default class Frequency extends React.Component {
               <Option value={option.value}>{option.title}</Option>
             ))}
           </Select>
-        </Col>
-      </Row>
+        </div>
+      </div>
     )
   }
 }
