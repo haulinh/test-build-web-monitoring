@@ -91,6 +91,10 @@ const i18n = {
   cancelConfigSchedule: translate(
     'modal.confirm.monitoring.sampling.cancelSchedule'
   ),
+  step1: translate('controlStation.listStep.step1'),
+  step2: translate('controlStation.listStep.step2'),
+  step3: translate('controlStation.listStep.step3'),
+  step4: translate('controlStation.listStep.step4'),
 }
 
 const RadioButton = Radio.Button
@@ -184,11 +188,20 @@ export default class SamplingTab extends React.Component {
         ? SAMPLING_TYPE.AUTO
         : SAMPLING_TYPE.MANUAL,
       samplingProtocol: 'SQL',
-      currentStep: 'SAMPLING',
+      currentStep: this.props.configSampling.status,
       sampledBottles: this.props.configSampling.sampledBottles,
     }
   }
+
+
+
   async componentWillReceiveProps(nextProps) {
+    if (this.props.configSampling.status !== nextProps.configSampling.status) {
+      this.setState({
+        currentStep: nextProps.configSampling.status,
+      })
+    }
+
     if (
       this.props.configSampling.status === 'SAMPLING' &&
       nextProps.configSampling.status === 'READY'
@@ -209,32 +222,26 @@ export default class SamplingTab extends React.Component {
           currentStep: 'SUCCESS',
           sampledBottles: this.state.sampledBottles + 1,
         })
-
-        // setTimeout(() => {
-        //   this.setState({ currentStep: 'SAMPLING' })
-        // }, 3000)
       }
     }
-    // console.log(
-    //   this.props.configSampling.status,
-    //   '=======>',
-    //   nextProps.configSampling.status
-    // )
   }
 
   handleChanggeSamplingProtocol = value => {
     this.setState({ samplingProtocol: value })
   }
 
-  renderSamplingProgress = ({ currentStep = 'SAMPLING' }) => {
+  renderSamplingProgress = ({ currentStep = 'COMMANDED' }) => {
+    console.log(currentStep, '---renderSamplingProgress')
+    const { STATUS_SAMPLING } = this.props
+
     const getCurrentStepIndex = () => {
       switch (currentStep) {
-        case 'CONNECTED':
-          return 0
-        case 'SAMPLING':
+        case STATUS_SAMPLING.COMMANDED:
           return 1
-        case 'SUCCESS':
+        case STATUS_SAMPLING.SAMPLING:
           return 2
+        case 'SUCCESS':
+          return 3
         default:
           return 0
       }
@@ -248,9 +255,10 @@ export default class SamplingTab extends React.Component {
     return (
       <StepWrapper>
         <Steps current={getCurrentStepIndex()} progressDot={customDot}>
-          <Step title="Nhận tín hiệu" />
-          <Step title="Đang lấy mẫu" />
-          <Step title="Thành công" />
+          <Step title={i18n.step1} />
+          <Step title={i18n.step2} />
+          <Step title={i18n.step3} />
+          <Step title={i18n.step4} />
         </Steps>
       </StepWrapper>
     )
@@ -704,20 +712,22 @@ export default class SamplingTab extends React.Component {
           </Button> */}
         </Row>
 
-        {(status === STATUS_SAMPLING.COMMANDED ||
-          status === STATUS_SAMPLING.SAMPLING ||
-          currentStep === 'SUCCESS') &&
+        {(status === STATUS_SAMPLING.COMMANDED || status === STATUS_SAMPLING.SAMPLING || currentStep === 'SUCCESS') &&
           this.renderSamplingProgress({
             currentStep,
           })}
+        {/* {true &&
+          this.renderSamplingProgress({
+            currentStep,
+          })} */}
 
-        {(status === STATUS_SAMPLING.COMMANDED ||
+        {/* {(status === STATUS_SAMPLING.COMMANDED ||
           status === STATUS_SAMPLING.SAMPLING ||
           currentStep === 'SUCCESS') &&
           this.renderTakenBottles({
             takenBottles: this.props.configSampling.sampledBottles,
             totalBottles,
-          })}
+          })} */}
       </div>
     )
   }
