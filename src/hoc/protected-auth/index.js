@@ -1,22 +1,10 @@
 import React from 'react'
-import styled from 'styled-components'
 import { connectAutoDispatch } from 'redux/connect'
 import { fetchUserMe } from 'redux/actions/authAction'
-import LoaderCircle from 'components/elements/loader-circle'
 import { withRouter } from 'react-router-dom'
 import Errors from 'constants/errors'
 import slug from 'constants/slug'
-
-const StyledLoading = styled.div`
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
+import SplashLoading from 'components/splash'
 
 export default function createProtectedAuth(Component) {
   @withRouter
@@ -58,9 +46,7 @@ export default function createProtectedAuth(Component) {
       }
       if (this.props.isPending)
         return (
-          <StyledLoading>
-            <LoaderCircle /> &nbsp; Loading ...
-          </StyledLoading>
+          <SplashLoading />
         )
       return null
     }
