@@ -266,7 +266,7 @@ export default class ImageMoreInfo extends React.Component {
 
     const options = {
       params: {
-        prefix: `${this.props.stationKey}/${file.name}`,
+        prefix: `${this.props.stationKey}/Hình ảnh/${file.name}`,
         ContentType: file.type,
       },
       headers: {
