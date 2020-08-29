@@ -7,6 +7,7 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 WORKDIR /usr/src/app
 
 # install package
+COPY yarn.lock .
 COPY package.json .
 RUN yarn install
 
