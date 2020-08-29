@@ -5,7 +5,7 @@ import { withRouter } from 'react-router'
 import MediaApi from 'api/MediaApi'
 // import update from 'immutability-helper'
 import { v4 as uuidV4 } from 'uuid'
-import { Row, Col, Upload, Icon, message, Spin, Popconfirm } from 'antd'
+import { Row, Col, Upload, Icon, Spin, Popconfirm } from 'antd'
 import Button from 'components/elements/button'
 import styled from 'styled-components'
 import swal from 'sweetalert2'
@@ -365,23 +365,23 @@ export default class ImageMoreInfo extends React.Component {
                 </Col>
               ))
             ) : (
-              <Upload
-                {...uploadProps}
-                multiple
-                showUploadList={false}
-                accept=".jpg, .png, .svg, jpeg"
-                // action={MediaApi.urlPhotoUploadWithDirectory('station')}
-                listType="picture-card"
-                // onChange={this.handleImageChange}
-                customRequest={this.customRequest}
-              >
-                {this.state.uploading ? (
-                  <Spin />
-                ) : (
-                  <Icon size={24} type="plus" />
-                )}
-              </Upload>
-            )}
+                <Upload
+                  {...uploadProps}
+                  multiple
+                  showUploadList={false}
+                  accept=".jpg, .png, .svg, jpeg"
+                  // action={MediaApi.urlPhotoUploadWithDirectory('station')}
+                  listType="picture-card"
+                  // onChange={this.handleImageChange}
+                  customRequest={this.customRequest}
+                >
+                  {this.state.uploading ? (
+                    <Spin />
+                  ) : (
+                      <Icon size={24} type="plus" />
+                    )}
+                </Upload>
+              )}
             <Gallery
               ref={ref => (this.galleryRef = ref)}
               visible={this.state.visible}

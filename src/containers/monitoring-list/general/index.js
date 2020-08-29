@@ -151,19 +151,7 @@ export default class MonitoringGeneral extends React.Component {
 
   async componentWillMount() {
     //this.props.changeOpenSubMenu([])
-    if (this.props.location) {
-      const query = queryString.parse(this.props.location.search)
-      if (query)
-        this.handleChangeFilter({
-          ...this.state.filter,
-          stationType: query.Id,
-        })
-    }
-    await this.loadData()
-    this.setState({
-      isLoadedFirst: true,
-    })
-    this.startTimer()
+
   }
 
   componentWillUnmount() {
@@ -181,10 +169,23 @@ export default class MonitoringGeneral extends React.Component {
     })
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.props.toggleNavigation(false)
-    }, 500)
+  async componentDidMount() {
+    // setTimeout(() => {
+    this.props.toggleNavigation(false)
+    if (this.props.location) {
+      const query = queryString.parse(this.props.location.search)
+      if (query)
+        this.handleChangeFilter({
+          ...this.state.filter,
+          stationType: query.Id,
+        })
+    }
+    await this.loadData()
+    this.setState({
+      isLoadedFirst: true,
+    })
+    this.startTimer()
+    // }, 500)
   }
 
   renderHeader(total, countGood) {
