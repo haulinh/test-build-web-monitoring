@@ -1,13 +1,13 @@
 export default {
   empty: {
     camera: {
-      description: "Không tìm thấy camera",
-      action: "Cấu hình camera"
+      description: 'Không tìm thấy camera',
+      action: 'Cấu hình camera',
     },
     wqi: {
-      description: "Không tìm thấy trạm",
-      action: "Cấu hình WQI"
-    }
+      description: 'Không tìm thấy trạm',
+      action: 'Cấu hình WQI',
+    },
   },
   notification: {
     label: 'Thông báo',
@@ -375,12 +375,12 @@ export default {
     cancelTriggerExceeded: 'Huỷ kích hoạt thành công',
     statusSampling: 'Đang lấy mẫu ...',
     viewMore: 'Xem thêm',
-    listStep:{
+    listStep: {
       step1: 'Bắt đầu',
       step2: 'Đang truyền lệnh',
       step3: 'Đang lấy mẫu',
       step4: 'Thành công',
-    }
+    },
   },
   map: {
     mapOverview: 'Tổng quan bản đồ',
@@ -1129,6 +1129,10 @@ export default {
       label: 'Xoá',
       require: 'Bạn chắc chắn xoá dữ liệu?',
     },
+    disable: {
+      label: 'Vô hiệu hóa',
+      require: 'Bạn chắc chắn muốn vô hiệu hóa?',
+    },
     add: {
       label: 'Thêm',
     },
@@ -1870,7 +1874,7 @@ export default {
     text5: 'Số lượng thành viên',
     text6: 'Số điện thoại',
     text7: 'Email',
-    dateUnlimited: 'Không giới hạn'
+    dateUnlimited: 'Không giới hạn',
   },
   expLicenseInfo: {
     title: 'Chúng tôi rất xin lỗi',
@@ -2072,6 +2076,10 @@ export default {
         qcvnUsed: 'Không thể xóa vì có trạm sử dụng quy chuẩn này',
       },
       warning: 'Bạn không thể xóa tài khoản của chính mình',
+    },
+    onDisable: {
+      success: 'Vô hiệu hóa thành công',
+      error: 'Vô hiệu hóa thất bại',
     },
     onRestore: {
       success: 'Khôi phục thành công',
@@ -2553,6 +2561,7 @@ export default {
     msg: {
       restore: 'Bạn có muốn khôi phục mục này không?',
       delete: 'Bạn có muốn xóa mục này không?',
+      disable:'Bạn có muốn vô hiệu hóa không?',
     },
   },
   common: {
