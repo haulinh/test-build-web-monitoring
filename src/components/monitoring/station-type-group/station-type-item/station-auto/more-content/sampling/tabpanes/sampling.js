@@ -183,7 +183,7 @@ export default class SamplingTab extends React.Component {
       samplingType: this.props.isScheduled
         ? SAMPLING_TYPE.AUTO
         : SAMPLING_TYPE.MANUAL,
-      samplingProtocol: 'MODBUS',
+      samplingProtocol: 'SQL',
       currentStep: 'SAMPLING',
       sampledBottles: this.props.configSampling.sampledBottles,
     }
@@ -215,11 +215,11 @@ export default class SamplingTab extends React.Component {
         // }, 3000)
       }
     }
-    console.log(
-      this.props.configSampling.status,
-      '=======>',
-      nextProps.configSampling.status
-    )
+    // console.log(
+    //   this.props.configSampling.status,
+    //   '=======>',
+    //   nextProps.configSampling.status
+    // )
   }
 
   handleChanggeSamplingProtocol = value => {
@@ -471,9 +471,10 @@ export default class SamplingTab extends React.Component {
                 <Select
                   style={{ width: 160 }}
                   defaultValue={this.state.samplingProtocol}
-                  onChange={this.handleChangeSamplingProtocol}
+                  disabled
+                  // onChange={this.handleChangeSamplingProtocol}
                 >
-                  <Option value="MODBUS">ModBus</Option>
+                  {/* <Option value="MODBUS">ModBus</Option> */}
                   <Option value="SQL">Sql</Option>
                 </Select>
               </div>

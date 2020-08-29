@@ -48,7 +48,7 @@ export default class SamplingConfig extends React.Component {
 
   state = {
     isSaving: false,
-    samplingProtocol: 'MODBUS',
+    samplingProtocol: 'SQL',
   }
 
   handleSave = () => {
@@ -106,10 +106,11 @@ export default class SamplingConfig extends React.Component {
         <Row style={{ marginBottom: '2em' }}>
           <span style={{ marginRight: '2em' }}>Giao thức lấy mẫu</span>
           <Radio.Group
+            disabled
             onChange={this.handleChangeProtocol}
             value={this.state.samplingProtocol}
           >
-            <Radio value={'MODBUS'}>ModBus</Radio>
+            {/* <Radio value={'MODBUS'}>ModBus</Radio> */}
             <Radio value={'SQL'}>Sql</Radio>
           </Radio.Group>
         </Row>
