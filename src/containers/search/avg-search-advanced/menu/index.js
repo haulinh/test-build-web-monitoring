@@ -9,7 +9,7 @@ import protectRole from 'hoc/protect-role'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
-import ToggleResize from 'layout/default-sidebar-layout/sidebar-menu/ToggleResize'
+// import ToggleResize from 'layout/default-sidebar-layout/sidebar-menu/ToggleResize'
 
 const MENU_WIDTH = 300
 
@@ -98,8 +98,8 @@ export default class FilterListMenu extends React.Component {
 
     this.props.history.push(
       slug.avgSearchAdvanced.base +
-        '?formData=' +
-        encodeURIComponent(JSON.stringify(searchObj))
+      '?formData=' +
+      encodeURIComponent(JSON.stringify(searchObj))
     )
   }
 
@@ -134,10 +134,10 @@ export default class FilterListMenu extends React.Component {
   getFilterGroupByStationType = () => {
     const filters = Array.isArray(this.props.configFilter)
       ? this.props.configFilter.map(filter => ({
-          ...filter,
-          stationType: JSON.parse(decodeURIComponent(filter.searchUrl))
-            .stationType,
-        }))
+        ...filter,
+        stationType: JSON.parse(decodeURIComponent(filter.searchUrl))
+          .stationType,
+      }))
       : []
     return _.groupBy(filters, 'stationType')
   }

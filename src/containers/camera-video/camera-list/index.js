@@ -4,14 +4,17 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from '../breadcrumb'
 import ListItem from './list-item'
 import StationAutoApi from 'api/StationAuto'
+import { Link } from 'react-router-dom'
 import * as _ from 'lodash'
 import { getAuthToken } from 'api/CameraApi'
-import { Spin, Empty } from 'antd'
+import { Spin, Empty, Button } from 'antd'
+import { translate } from 'hoc/create-lang'
 import swal from 'sweetalert2'
 import CameraFilter from '../camera-filter'
 import queryString from 'query-string'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
+import slug from 'constants/slug'
 
 const WrapperContainer = styled.div`
   display: flex;
@@ -42,7 +45,7 @@ export default class CameraList extends React.Component {
     },
   }
 
-  handleCamera = e => {}
+  handleCamera = e => { }
 
   async componentDidMount() {
     const auth = await getAuthToken()
@@ -166,14 +169,20 @@ export default class CameraList extends React.Component {
                 cbStop={this.cbStop}
               />
             ))
-          ) : (
+          ) : null}
+          {this.state.isLoaded && cameraList.length === 0 ? (
             <Empty
+              description={translate('empty.camera.description')}
               style={{
                 margin: '0 auto',
                 padding: '8px 16px',
               }}
-            />
-          )}
+            >
+              <Link to={slug.stationAuto.configCamera.base}>
+                <Button type="primary">{translate('empty.camera.action')}</Button>
+              </Link>
+            </Empty>)
+            : null}
         </WrapperContainer>
       </PageContainer>
     )

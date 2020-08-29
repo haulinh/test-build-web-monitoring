@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Col, Typography, Input, Skeleton, Empty } from 'antd'
+import { Row, Col, Typography, Input, Skeleton, Empty, Button } from 'antd'
 import styled from 'styled-components'
 import * as _ from 'lodash'
 import moment from 'moment-timezone'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
+import slug from 'constants/slug'
+import { Link } from 'react-router-dom'
 import { translate } from 'hoc/create-lang'
 
 const { Text } = Typography
@@ -128,68 +130,72 @@ export default class WQIList extends React.PureComponent {
         <WrapperView>
           {!this.state.dataSoure && <Skeleton />}
           {isEmpty ? (
-            <Empty />
+            <Empty description={translate('empty.wqi.description')}>
+              <Link to={slug.advance.enableAqiWqi}>
+                <Button type="primary">{translate('empty.wqi.action')}</Button>
+              </Link>
+            </Empty>
           ) : (
-            _.map(this.state.dataSoure, (item, index) => {
-              const key = _.get(item, 'key')
-              const name = _.get(item, 'name', '')
-              const time = _.get(item, 'time', '')
-              const valueAqi = _.get(item, 'wqiDay')
-              const mapLocation = _.get(item, 'mapLocation')
-              return (
-                <Row
-                  style={{ cursor: 'pointer' }}
-                  key={index}
-                  onClick={() => {
-                    this.setState({
-                      selectStationKey: key,
-                    })
-                    this.props.onSelect({
-                      key: key,
-                      mapLocation: mapLocation
-                        ? {
+              _.map(this.state.dataSoure, (item, index) => {
+                const key = _.get(item, 'key')
+                const name = _.get(item, 'name', '')
+                const time = _.get(item, 'time', '')
+                const valueAqi = _.get(item, 'wqiDay')
+                const mapLocation = _.get(item, 'mapLocation')
+                return (
+                  <Row
+                    style={{ cursor: 'pointer' }}
+                    key={index}
+                    onClick={() => {
+                      this.setState({
+                        selectStationKey: key,
+                      })
+                      this.props.onSelect({
+                        key: key,
+                        mapLocation: mapLocation
+                          ? {
                             lat: parseFloat(_.get(mapLocation, 'lat', 0)),
                             lng: parseFloat(_.get(mapLocation, 'long', 0)),
                           }
-                        : undefined,
-                    })
-                  }}
-                >
-                  <Col>
-                    <div className="item-wqi">
-                      <div>
+                          : undefined,
+                      })
+                    }}
+                  >
+                    <Col>
+                      <div className="item-wqi">
                         <div>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              color:
-                                this.state.selectStationKey === key
-                                  ? '#1890FF'
-                                  : 'unset',
-                            }}
-                            strong
-                          >
-                            {name}
-                          </Text>
+                          <div>
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                color:
+                                  this.state.selectStationKey === key
+                                    ? '#1890FF'
+                                    : 'unset',
+                              }}
+                              strong
+                            >
+                              {name}
+                            </Text>
+                          </div>
+                          <div>
+                            <Text type="secondary">
+                              {moment(time).format(DD_MM_YYYY_HH_MM)}
+                            </Text>
+                          </div>
                         </div>
                         <div>
-                          <Text type="secondary">
-                            {moment(time).format(DD_MM_YYYY_HH_MM)}
-                          </Text>
+                          <RenderValueWqi
+                            wqiLevel={this.props.wqiLevel}
+                            valueAqi={valueAqi}
+                          />
                         </div>
                       </div>
-                      <div>
-                        <RenderValueWqi
-                          wqiLevel={this.props.wqiLevel}
-                          valueAqi={valueAqi}
-                        />
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              )
-            })
-          )}
+                    </Col>
+                  </Row>
+                )
+              })
+            )}
         </WrapperView>
       </React.Fragment>
     )

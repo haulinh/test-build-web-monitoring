@@ -1,4 +1,14 @@
 export default {
+  empty: {
+    camera: {
+      description: "Không tìm thấy camera",
+      action: "Cấu hình camera"
+    },
+    wqi: {
+      description: "Không tìm thấy trạm",
+      action: "Cấu hình WQI"
+    }
+  },
   notification: {
     label: 'Thông báo',
     removeAll: 'Xoá tất cả thông báo',

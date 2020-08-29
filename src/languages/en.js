@@ -1,4 +1,14 @@
 export default {
+  empty: {
+    camera: {
+      description: "Camera not found",
+      action: "Camera configuration"
+    },
+    wqi: {
+      description: "Station not found",
+      action: "WQI configuration"
+    }
+  },
   notification: {
     label: 'Notifications',
     removeAll: 'Remove all notification',
