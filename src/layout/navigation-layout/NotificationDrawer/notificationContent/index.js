@@ -2,24 +2,24 @@ import React from 'react'
 import propTypes from 'prop-types'
 import _ from 'lodash'
 import { connectAutoDispatch } from 'redux/connect'
-import { Spin, Icon, Input, Skeleton } from 'antd'
+import { Spin, Icon, Skeleton } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
 import { withRouter } from 'react-router'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 // import { COLOR_STATUS } from 'themes/color';
 import {
   loadNotificationsByType,
   clearLoadNotificationsByType,
 } from 'redux/actions/notification'
-import { translate } from 'hoc/create-lang'
+// import { translate } from 'hoc/create-lang'
 
 import Cells from './cells'
 
-const NotificationSearchWrapper = styled.div`
-  padding: 16px;
-`
+// const NotificationSearchWrapper = styled.div`
+//   padding: 16px;
+// `
 
-const { Search } = Input
+// const { Search } = Input
 
 function LoadMoreIcon() {
   const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
@@ -30,9 +30,9 @@ function LoadMoreIcon() {
   )
 }
 
-const i18n = {
-  timKiem: translate('addon.searchNotification'),
-}
+// const i18n = {
+//   timKiem: translate('addon.searchNotification'),
+// }
 
 @connectAutoDispatch(
   state => ({
@@ -97,7 +97,7 @@ export default class NotificationContent extends React.Component {
     const { loading, dataSource, stationAuto, currentPage } = this.props
     return (
       <div>
-        <NotificationSearchWrapper>
+        {/* <NotificationSearchWrapper>
           <Search
             style={{ boxShadow: '4px 4px 6px #eee' }}
             placeholder={i18n.timKiem}
@@ -110,7 +110,7 @@ export default class NotificationContent extends React.Component {
               this.handleOnChange(_.trim(value))
             }}
           />
-        </NotificationSearchWrapper>
+        </NotificationSearchWrapper> */}
 
         {this.state.isSearchLoading && (
           <Skeleton avatar paragraph={{ rows: 4 }} />
