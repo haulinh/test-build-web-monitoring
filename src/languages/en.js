@@ -1137,6 +1137,10 @@ export default {
       label: 'Delete',
       require: 'Please Confirm To Delete',
     },
+    disable: {
+      label: 'Disable',
+      require: 'Please Confirm To Disable?',
+    },
     add: {
       label: 'Add',
     },
@@ -2083,6 +2087,10 @@ export default {
       error: 'Delete Error',
       warning: 'You cannot delete your own account',
     },
+    onDisable: {
+      success: 'Disable Successfully',
+      error: 'Disable Error',
+    },
     onRestore: {
       success: 'Restored Successfully',
       error: 'Restore Error',
@@ -2555,6 +2563,7 @@ export default {
     msg: {
       restore: 'Do you want to restore this item?',
       delete: 'Do you want to delete this item?',
+      disable: 'Do you want to disable this item?',
     },
   },
   common: {

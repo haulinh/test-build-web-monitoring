@@ -28,6 +28,7 @@ const i18n = {
   okText: translate('addon.ok'),
   restoreConfirmMsg: translate('confirm.msg.restore'),
   deleteConfirmMsg: translate('confirm.msg.delete'),
+  disableConfirmMsg:translate('confirm.msg.disable'),
 }
 
 const LinkSpan = styled.span`
@@ -78,16 +79,16 @@ export default class StationAutoList extends React.Component {
       lang: { t },
     } = this.props
     Modal.confirm({
-      title: i18n.deleteConfirmMsg,
+      title: i18n.disableConfirmMsg,
       okText: i18n.okText,
       cancelText: i18n.cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
           const res = await StationAutoApi.deleteStationAuto(_id)
           if (res.success) {
-            message.success(t('addon.onDelete.success'))
+            message.success(t('addon.onDisable.success'))
             callback()
-          } else message.error(t('addon.onDelete.error'))
+          } else message.error(t('addon.onDisable.error'))
           resolve()
         }).catch(() => console.log('Oops errors!'))
       },
@@ -282,7 +283,7 @@ export default class StationAutoList extends React.Component {
               onClick={() => this.onDeleteItem(row._id, this.props.fetchData)}
               style={{ color: '#595959' }}
             >
-              {t('stationAutoManager.delete.label')}
+              {t('stationAutoManager.disable.label')}
             </a>
           )}
         </Row>
