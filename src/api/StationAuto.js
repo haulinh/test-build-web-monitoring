@@ -16,6 +16,11 @@ export function getStationAutos(
   return getFetch(url)
 }
 
+export function getStationAutoAll({ page = 1, itemPerPage = 1000 } = {}) {
+  var url = getStationAutoUrl(`/all?page=${page}&itemPerPage=${itemPerPage}`)
+  return getFetch(url)
+}
+
 export function getStationAuto(key) {
   return getFetch(getStationAutoUrl(key))
 }
@@ -119,6 +124,7 @@ export default {
   transferFtp,
   getCamera,
   getStationAutos,
+  getStationAutoAll,
   getStationAuto,
   createStationAuto,
   updateStationAuto,
