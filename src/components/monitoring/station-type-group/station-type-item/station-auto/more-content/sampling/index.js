@@ -92,10 +92,10 @@ export default class SamplingMoreInfo extends React.Component {
   async getStatus() {
     const res = await StationAPI.getStatus(this.props.stationID)
 
-    let configSampling = res.data.configSampling
+    let configSampling = res.data && res.data.configSampling
       ? res.data.configSampling
       : undefined
-    let configSamplingSchedule = res.data.configSamplingSchedule
+    let configSamplingSchedule = res.data && res.data.configSamplingSchedule
       ? res.data.configSamplingSchedule
       : undefined
     if (
