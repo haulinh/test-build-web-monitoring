@@ -179,13 +179,13 @@ export default class SamplingMoreInfo extends React.Component {
                 case 'SUCCESS':
                   return (
                     <Tag color="#6ba84f">
-                      {_.upperCase(i18n.history[_.lowerCase(data)])}
+                      {(i18n.history[_.lowerCase(data)]).toUpperCase()}
                     </Tag>
                   )
                 case 'FAILED':
                   return (
                     <Tag color="#cc1200">
-                      {_.upperCase(i18n.history[_.lowerCase(data)])}
+                      {(i18n.history[_.lowerCase(data)]).toUpperCase()}
                     </Tag>
                   )
                 default:
