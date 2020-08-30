@@ -231,7 +231,6 @@ export default class SamplingTab extends React.Component {
   }
 
   renderSamplingProgress = ({ currentStep = 'COMMANDED' }) => {
-    console.log(currentStep, '---renderSamplingProgress')
     const { STATUS_SAMPLING } = this.props
 
     const getCurrentStepIndex = () => {
@@ -317,7 +316,6 @@ export default class SamplingTab extends React.Component {
   }
 
   handleSamplingTypeChange = e => {
-    console.log(e.target.value)
     this.setState({ samplingType: e.target.value })
   }
 

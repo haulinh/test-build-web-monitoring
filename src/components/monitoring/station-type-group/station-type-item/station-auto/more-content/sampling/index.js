@@ -10,6 +10,7 @@ import { translate } from 'hoc/create-lang'
 import Sampling from './tabpanes/sampling'
 import History from './tabpanes/history'
 import Config from './tabpanes/config'
+import _ from 'lodash'
 import Disconnection from 'components/elements/disconnection'
 
 const TIME_INTERVAL_GET_STATUS = 1000 * 60 // 1 PHUT
@@ -92,12 +93,12 @@ export default class SamplingMoreInfo extends React.Component {
   async getStatus() {
     const res = await StationAPI.getStatus(this.props.stationID)
 
-    let configSampling = res.data && res.data.configSampling
-      ? res.data.configSampling
-      : undefined
-    let configSamplingSchedule = res.data && res.data.configSamplingSchedule
-      ? res.data.configSamplingSchedule
-      : undefined
+    let configSampling =
+      res.data && res.data.configSampling ? res.data.configSampling : undefined
+    let configSamplingSchedule =
+      res.data && res.data.configSamplingSchedule
+        ? res.data.configSamplingSchedule
+        : undefined
     if (
       configSampling &&
       this.state.configSampling.status === STATUS_SAMPLING.COMMANDED &&
@@ -189,6 +190,24 @@ export default class SamplingMoreInfo extends React.Component {
     )
   }
 
+  getDisableConfig() {
+
+    const {
+      configSampling,
+      isScheduled,
+    } = this.state
+    if (
+      _.get(configSampling, 'status', STATUS_SAMPLING.READY) !==
+      STATUS_SAMPLING.READY
+    ) {
+      return true
+    }else if(isScheduled){
+      return true
+    }
+    else{
+      return false
+    }
+  }
   _renderTabs = () => {
     const { stationID } = this.props
     const {
@@ -201,6 +220,7 @@ export default class SamplingMoreInfo extends React.Component {
       isInitLoaded,
       activeTabKey,
     } = this.state
+
     return (
       <SamplingWrapper>
         <Spin
@@ -242,6 +262,7 @@ export default class SamplingMoreInfo extends React.Component {
             <TabPane
               key="config"
               tab={translate('monitoring.moreContent.sampling.tabs.config')}
+              disabled={this.getDisableConfig()}
             >
               <Config
                 stationID={stationID}
