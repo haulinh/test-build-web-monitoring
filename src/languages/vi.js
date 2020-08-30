@@ -136,7 +136,7 @@ export default {
           timeStartSampling: 'Giờ bắt đầu lấy mẫu:',
           dateStartSampling: 'Ngày bắt đầu lấy mẫu:',
           takeSample: 'Lấy mẫu',
-          commandSent: 'Đã truyền lệnh',
+          commandSent: 'Đang truyền lệnh',
           takingSample: 'Đang lấy mẫu...',
           active: 'Kích hoạt',
           actived: 'Đã kích hoạt lấy mẫu tự động (Nhấn để hủy hẹn giờ lấy mẫu)',
