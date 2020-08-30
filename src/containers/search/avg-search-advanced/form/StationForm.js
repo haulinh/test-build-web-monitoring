@@ -210,14 +210,14 @@ export default class StationForm extends React.PureComponent {
           size="small"
           style={{ width: 125, marginRight: 8 }}
         >
-          Search
+          {translate('dataSearchFilterForm.filterDropdown.search')}
         </Button>
         <Button
           onClick={() => this.handleReset(clearFilters)}
           size="small"
           style={{ width: 125 }}
         >
-          Reset
+          {translate('dataSearchFilterForm.filterDropdown.reset')}
         </Button>
       </div>
     ),
@@ -437,7 +437,7 @@ export default class StationForm extends React.PureComponent {
           onChange={this.handleChangeActiveKey}
           activeKey={this.state.activeKey}
         >
-          <Panel
+          <Panel  
             header={this.renderHeading()}
             extra={this.rightChildren()}
             key="list"

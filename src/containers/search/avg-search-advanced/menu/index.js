@@ -9,7 +9,6 @@ import protectRole from 'hoc/protect-role'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
-import ToggleResize from 'layout/default-sidebar-layout/sidebar-menu/ToggleResize'
 
 const MENU_WIDTH = 300
 

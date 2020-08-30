@@ -818,6 +818,10 @@ export default {
       searchStation: 'Tìm kiếm Trạm trong danh sách',
       searchFilter: 'Tìm kiếm các bộ Lọc đã được tạo',
     },
+    filterDropdown: {
+      search: "Tìm kiếm",
+      reset: "Khôi phục"
+    }
   },
   measuringManager: {
     list: {
