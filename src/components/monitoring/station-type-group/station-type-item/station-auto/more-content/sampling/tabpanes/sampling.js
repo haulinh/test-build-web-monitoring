@@ -710,22 +710,10 @@ export default class SamplingTab extends React.Component {
           </Button> */}
         </Row>
 
-        {(status === STATUS_SAMPLING.COMMANDED || status === STATUS_SAMPLING.SAMPLING || currentStep === 'SUCCESS') &&
+        {(status === STATUS_SAMPLING.COMMANDED || status === STATUS_SAMPLING.SAMPLING || currentStep === 'SUCCESS') && samplingType === SAMPLING_TYPE.MANUAL &&
           this.renderSamplingProgress({
             currentStep,
           })}
-        {/* {true &&
-          this.renderSamplingProgress({
-            currentStep,
-          })} */}
-
-        {/* {(status === STATUS_SAMPLING.COMMANDED ||
-          status === STATUS_SAMPLING.SAMPLING ||
-          currentStep === 'SUCCESS') &&
-          this.renderTakenBottles({
-            takenBottles: this.props.configSampling.sampledBottles,
-            totalBottles,
-          })} */}
       </div>
     )
   }
