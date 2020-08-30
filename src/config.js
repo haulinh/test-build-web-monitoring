@@ -51,13 +51,13 @@ export function getConfigApi() {
 
     // aqiConfigQC: 'http://localhost:5002/config/aqi-qc',
     ftp: c('ftp'),
-    // fcmMessages: c('fcm-messages'),
-    // fcmToken: c('fcm-token'),
-    // fcmNotification: c('fcm-notification'),
+    fcmMessages: c('fcm-messages'),
+    fcmToken: c('fcm-token'),
+    fcmNotification: c('fcm-notification'),
 
-    fcmMessages: 'http://192.168.0.185:5008/fcm-messages',
-    fcmNotification: 'http://192.168.0.185:5008/fcm-notification',
-    fcmToken: 'http://192.168.0.185:5008/fcm-token',
+    // fcmMessages: 'http://192.168.0.185:5008/fcm-messages',
+    // fcmNotification: 'http://192.168.0.185:5008/fcm-notification',
+    // fcmToken: 'http://192.168.0.185:5008/fcm-token',
 
     organization: c('organization'),
     role: c('role'),
