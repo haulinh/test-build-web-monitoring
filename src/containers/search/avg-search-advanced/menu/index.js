@@ -159,7 +159,7 @@ export default class FilterListMenu extends React.Component {
 
   render() {
     const filters = this.getFilterGroupByStationType()
-    if (!this.props.isShow) return null
+    // if (!this.props.isShow) return null
     return (
       <React.Fragment>
         <Col
