@@ -840,6 +840,10 @@ export default {
       searchStation: 'Search for stations in the list',
       searchFilter: 'Search for filters that have been created',
     },
+    filterDropdown: {
+      search: "Search",
+      reset: "Reset"
+    }
   },
   measuringManager: {
     list: {
