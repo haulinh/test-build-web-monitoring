@@ -215,34 +215,37 @@ export default class StationAutoConfigCamera extends React.Component {
     return data
   }
 
-  _renderCollapsePanelHeader(station) {
-    const { getFieldDecorator } = this.props.form
-    const numOfCameras = _.get(station, 'options.camera.list', []).length
-    return (
-      <Row type="flex" justify="center" align="middle">
-        <Col span={8}>{`${station.stt}  ${station.name}`}</Col>
-        <Col span={12}>{station.address}</Col>
-        <Col span={3} style={{ textAlign: 'center' }}>
-          {getFieldDecorator(`stations.${station._id}`, {
-            initialValue: _.get(station, 'options.camera.allowed'),
-            valuePropName: 'checked',
-            onChange: this._handleChangedStationCheckbox,
-          })(<Checkbox onClick={e => e.stopPropagation()} />)}
-        </Col>
-        <Col span={1}>
-          {numOfCameras} <Icon type="camera" />
-        </Col>
-      </Row>
-    )
-  }
+  // NOTE: this function is not used anymore
+  // _renderCollapsePanelHeader(station) {
+  //   const { getFieldDecorator } = this.props.form
+  //   console.log('getFieldDecorator :>> ', getFieldDecorator);
 
-  async _handleChangedStationCheckbox(e) {
-    e.stopPropagation()
-    const { id, checked } = e.target
-    const stationId = id.split('.')[1]
+  //   const numOfCameras = _.get(station, 'options.camera.list', []).length
+  //   return (
+  //     <Row type="flex" justify="center" align="middle">
+  //       <Col span={8}>{`${station.stt}  ${station.name}`}</Col>
+  //       <Col span={12}>{station.address}</Col>
+  //       <Col span={3} style={{ textAlign: 'center' }}>
+  //         {getFieldDecorator(`stations.${station._id}`, {
+  //           initialValue: _.get(station, 'options.camera.allowed'),
+  //           valuePropName: 'checked',
+  //           onChange: this._handleChangedStationCheckbox,
+  //         })(<Checkbox onClick={e => e.stopPropagation()} />)}
+  //       </Col>
+  //       <Col span={1}>
+  //         {numOfCameras} <Icon type="camera" />
+  //       </Col>
+  //     </Row>
+  //   )
+  // }
 
-    await enableCamera(stationId, checked)
-  }
+  // async _handleChangedStationCheckbox(e) {
+  //   e.stopPropagation()
+  //   const { id, checked } = e.target
+  //   const stationId = id.split('.')[1]
+
+  //   await enableCamera(stationId, checked)
+  // }
 
   // NOTE: this function is not used anymore
   _handleCheckAll(e) {
