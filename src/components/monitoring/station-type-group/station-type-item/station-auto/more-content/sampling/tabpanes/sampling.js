@@ -253,7 +253,7 @@ export default class SamplingTab extends React.Component {
     `
     return (
       <StepWrapper>
-        <Steps current={getCurrentStepIndex()} progressDot={customDot}>
+        <Steps  current={getCurrentStepIndex()} progressDot={customDot}>
           <Step title={i18n.step1} />
           <Step title={i18n.step2} />
           <Step title={i18n.step3} />

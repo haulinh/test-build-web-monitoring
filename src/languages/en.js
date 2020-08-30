@@ -139,7 +139,7 @@ export default {
           timeStartSampling: 'Time start sampling:',
           dateStartSampling: 'Date start sampling:',
           takeSample: 'Take Sample',
-          commandSent: 'Command sent',
+          commandSent: 'Sending command',
           takingSample: 'Sampling...',
           active: 'Active',
           actived: 'Actived (Click to cancel Sampling by Scheduled)',
@@ -382,7 +382,7 @@ export default {
     viewMore: 'View More',
     listStep: {
       step1: 'Getting Started',
-      step2: 'Transferring Commands',
+      step2: 'Sending command',
       step3: 'Sampling',
       step4: 'Success',
     },
