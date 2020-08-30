@@ -117,36 +117,7 @@ export default class ImageMoreInfo extends React.Component {
   }
 
   componentDidMount() {
-    // this.setState({ loading: true }, async () => {
-    //   const { data: station } = await StationAutoApi.getStationAuto(
-    //     this.props.stationID
-    //   )
-    //   this.setState({
-    //     images: station.images,
-    //     items: this.getImages(station.images),
-    //     station,
-    //     loading: false,
-    //   })
-    // })
-
-    const { userInfo, stationKey } = this.props
-    const databaseName = getDatabaseName(
-      userInfo.organization.databaseInfo.name
-    )
-
-    this.setState({ loading: true }, async () => {
-      // const { data } = await axios.get(
-      //   `https://dev-drive.ilotusland.asia/buckets/${databaseName}?prefix=${stationName}/`
-      // )
-
-      const data = await MediaApi.getImages(databaseName, stationKey)
-
-      this.setState({
-        newImages: data,
-        newItems: this.getNewImages(data),
-        loading: false,
-      })
-    })
+    this.fetchData()
   }
 
   getNewImages = images => {
@@ -156,6 +127,23 @@ export default class ImageMoreInfo extends React.Component {
       original: image.preview,
       thumbnail: image.preview,
     }))
+  }
+
+  fetchData = () => {
+    const { userInfo, stationKey } = this.props
+    const databaseName = getDatabaseName(
+      userInfo.organization.databaseInfo.name
+    )
+
+    this.setState({ loading: true }, async () => {
+      const data = await MediaApi.getImages(databaseName, stationKey)
+
+      this.setState({
+        newImages: data,
+        newItems: this.getNewImages(data),
+        loading: false,
+      })
+    })
   }
 
   getUrlImage(imageName) {
@@ -284,18 +272,19 @@ export default class ImageMoreInfo extends React.Component {
         })
         .then(res => {
           onSuccess(res, file)
-          this.setState(prevState => ({
-            newItems: [
-              ...prevState.newItems,
-              {
-                _id: uuidV4(),
-                component: 'gallery.photo',
-                original: this.getUrlImage(file.name),
-                thumbnail: this.getUrlImage(file.name),
-              },
-            ],
-            uploading: false,
-          }))
+          this.fetchData()
+          // this.setState(prevState => ({
+          //   newItems: [
+          //     ...prevState.newItems,
+          //     {
+          //       _id: uuidV4(),
+          //       component: 'gallery.photo',
+          //       original: this.getUrlImage(file.name),
+          //       thumbnail: this.getUrlImage(file.name),
+          //     },
+          //   ],
+          //   uploading: false,
+          // }))
         })
         .catch(err => {
           onError()
@@ -339,11 +328,9 @@ export default class ImageMoreInfo extends React.Component {
 
   render() {
     const images = this.state.newItems
-    console.log('MediaApi.getUrlImage()', MediaApi.getUrlImage())
     return (
-      <Spin spinning={this.state.loading}>
         <React.Fragment>
-          {!this.state.loading && this.renderHeader()}
+          {this.renderHeader()}
           <Wrapper type="flex" gutter={24}>
             {!this.state.loading && images.length ? (
               images.map((image, index) => (
@@ -390,7 +377,6 @@ export default class ImageMoreInfo extends React.Component {
             />
           </Wrapper>
         </React.Fragment>
-      </Spin>
     )
   }
 }
