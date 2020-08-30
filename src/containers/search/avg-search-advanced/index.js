@@ -75,7 +75,7 @@ export default class AvgSearchAdvanced extends React.Component {
         ? this.getStationsData(props.stations)
         : [],
 
-      isShowFilterMenu: false,
+      // isShowFilterMenu: false,
     }
   }
 
@@ -455,17 +455,17 @@ export default class AvgSearchAdvanced extends React.Component {
           gutter={[32, 0]}
         >
           <FilterListMenu
-            isShow={this.state.isShowFilterMenu}
+            // isShow={this.state.isShowFilterMenu}
             configFilter={this.state.filteredConfigFilter}
             handleSearch={this.handleSearch}
             filterId={this.props.formData.filterId}
           />
           <Col style={{ flex: 1, overflowX: 'hidden' }}>
-            <ToggleResize
+            {/* <ToggleResize
               isLeft
               isShow={this.state.isShowFilterMenu}
               onToggle={this.onToggleFilterMenu}
-            />
+            /> */}
             <SearchFrom
               flagResetForm={this.state.flagResetForm}
               onSubmit={this.handleSearchAvgData}
