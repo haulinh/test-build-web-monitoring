@@ -42,6 +42,10 @@ const i18n = {
     reset_bottles: translate(
       'monitoring.moreContent.sampling.content.history.reset_bottles'
     ),
+    success: translate(
+      'monitoring.moreContent.sampling.content.history.success'
+    ),
+    failed: translate('monitoring.moreContent.sampling.content.history.failed'),
   },
 }
 
@@ -129,7 +133,7 @@ export default class SamplingMoreInfo extends React.Component {
           size="small"
           rowKey={record => record._id} // https://ant.design/components/table/#Note
         >
-          <Column title="STT" align="center" dataIndex="stt" width={30} />
+          <Column title={i18n.stt} align="center" dataIndex="stt" width={30} />
 
           <Column
             title={i18n.bottleNo}
@@ -170,11 +174,20 @@ export default class SamplingMoreInfo extends React.Component {
             width={50}
             render={(...args) => {
               const [data] = args
+
               switch (data) {
                 case 'SUCCESS':
-                  return <Tag color="#6ba84f">{data}</Tag>
+                  return (
+                    <Tag color="#6ba84f">
+                      {_.upperCase(i18n.history[_.lowerCase(data)])}
+                    </Tag>
+                  )
                 case 'FAILED':
-                  return <Tag color="#cc1200">{data}</Tag>
+                  return (
+                    <Tag color="#cc1200">
+                      {_.upperCase(i18n.history[_.lowerCase(data)])}
+                    </Tag>
+                  )
                 default:
                   break
               }

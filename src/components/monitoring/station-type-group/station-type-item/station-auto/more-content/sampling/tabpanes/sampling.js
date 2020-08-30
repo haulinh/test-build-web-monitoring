@@ -33,6 +33,7 @@ const { Step } = Steps
 
 const i18n = {
   /*  */
+  reset: translate('monitoring.moreContent.sampling.content.reset'),
   totalBottles: translate(
     'monitoring.moreContent.sampling.content.totalBottles'
   ),
@@ -40,6 +41,10 @@ const i18n = {
     'monitoring.moreContent.sampling.content.sampledBottles'
   ),
   /* sampling mode */
+  methodSampling: translate(
+    'monitoring.moreContent.sampling.content.methodSampling'
+  ),
+  // 'Giao thức lấy mẫu',
   typeOfSampling: translate(
     'monitoring.moreContent.sampling.content.typeOfSampling'
   ),
@@ -95,6 +100,8 @@ const i18n = {
   step2: translate('controlStation.listStep.step2'),
   step3: translate('controlStation.listStep.step3'),
   step4: translate('controlStation.listStep.step4'),
+  cancel: translate('addon.cancel'),
+  
 }
 
 const RadioButton = Radio.Button
@@ -193,8 +200,6 @@ export default class SamplingTab extends React.Component {
     }
   }
 
-
-
   async componentWillReceiveProps(nextProps) {
     if (this.props.configSampling.status !== nextProps.configSampling.status) {
       this.setState({
@@ -253,7 +258,7 @@ export default class SamplingTab extends React.Component {
     `
     return (
       <StepWrapper>
-        <Steps  current={getCurrentStepIndex()} progressDot={customDot}>
+        <Steps current={getCurrentStepIndex()} progressDot={customDot}>
           <Step title={i18n.step1} />
           <Step title={i18n.step2} />
           <Step title={i18n.step3} />
@@ -381,6 +386,7 @@ export default class SamplingTab extends React.Component {
     Modal.confirm({
       title: i18n.modalConfirm,
       content: i18n.cancelConfigSchedule,
+      cancelText: i18n.cancel,
       async onOk() {
         const res = await SamplingAPI.cancelConfigSchedule(stationID)
         if (res.data.configSamplingSchedule === null) {
@@ -472,7 +478,7 @@ export default class SamplingTab extends React.Component {
                   style={{ marginBottom: '4px' }}
                   className="ant-form-item-required"
                 >
-                  Giao thức lấy mẫu
+                  {i18n.methodSampling}
                 </span>
                 <Select
                   style={{ width: 160 }}
@@ -545,7 +551,7 @@ export default class SamplingTab extends React.Component {
                     onClick={this.handleSubmitFormReset}
                     disabled={isScheduled || isSampling}
                   >
-                    Reset
+                    {i18n.reset}
                   </Button>
                 </FormItem>
               </Col>
@@ -710,7 +716,10 @@ export default class SamplingTab extends React.Component {
           </Button> */}
         </Row>
 
-        {(status === STATUS_SAMPLING.COMMANDED || status === STATUS_SAMPLING.SAMPLING || currentStep === 'SUCCESS') && samplingType === SAMPLING_TYPE.MANUAL &&
+        {(status === STATUS_SAMPLING.COMMANDED ||
+          status === STATUS_SAMPLING.SAMPLING ||
+          currentStep === 'SUCCESS') &&
+          samplingType === SAMPLING_TYPE.MANUAL &&
           this.renderSamplingProgress({
             currentStep,
           })}

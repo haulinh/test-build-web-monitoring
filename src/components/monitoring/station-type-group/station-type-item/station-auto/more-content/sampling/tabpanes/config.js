@@ -11,6 +11,9 @@ import SqlConfig from './SqlConfig'
 import ModBusConfig from './ModBusConfig'
 
 const i18n = {
+  methodSampling: translate(
+    'monitoring.moreContent.sampling.content.methodSampling'
+  ),
   totalBottles: translate(
     'monitoring.moreContent.sampling.content.config.totalBottles'
   ),
@@ -104,7 +107,7 @@ export default class SamplingConfig extends React.Component {
     return (
       <div style={{ padding: '2em' }}>
         <Row style={{ marginBottom: '2em' }}>
-          <span style={{ marginRight: '2em' }}>Giao thức lấy mẫu</span>
+    <span style={{ marginRight: '2em' }}>{i18n.methodSampling}</span>
           <Radio.Group
             disabled
             onChange={this.handleChangeProtocol}
