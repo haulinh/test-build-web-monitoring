@@ -126,8 +126,10 @@ export default {
           config: 'Cấu hình',
         },
         content: {
+          reset:'Đặt lại',
           totalBottles: 'Tổng số chai:',
           sampledBottles: 'Số chai đã lấy:',
+          methodSampling:'Giao thức lấy mẫu',
           typeOfSampling: 'Hành động',
           immediatelySampling: 'Thủ công',
           scheduleSampling: 'Tự động',
@@ -156,6 +158,9 @@ export default {
             active_schedule: 'Kích hoạt hẹn giờ lấy mẫu',
             config: 'Thay đổi cấu hình',
             reset_bottles: 'Reset số chai đã lấy',
+            success: 'Thành công',
+            failed:'Thất bại'
+            
           },
           config: {
             totalBottles: 'Tổng số chai:',

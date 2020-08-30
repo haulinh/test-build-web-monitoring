@@ -129,8 +129,10 @@ export default {
           config: 'Config',
         },
         content: {
+          reset:'Reset',
           totalBottles: 'Total bottles:',
           sampledBottles: 'Sampled bottles:',
+          methodSampling:'Method Sampling',
           typeOfSampling: 'Action',
           immediatelySampling: 'Immediately Sampling',
           scheduleSampling: 'Schedule Sampling',
@@ -147,7 +149,7 @@ export default {
           activedOverRange:
             'Actived Take sample when data over-range (Click to Cancel)',
           history: {
-            stt: 'STT',
+            stt: 'No.',
             bottleNo: 'Bottle No',
             dateTime: 'Date time',
             typeOfSampling: 'Action',
@@ -159,6 +161,8 @@ export default {
             active_schedule: 'Active Sampling By Scheduled',
             config: 'Modify Configuration',
             reset_bottles: 'Reset Sampled Bottles',
+            success: 'success',
+            failed:'failed'
           },
           config: {
             totalBottles: 'Total bottles:',
