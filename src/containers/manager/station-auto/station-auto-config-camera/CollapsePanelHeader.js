@@ -1,6 +1,8 @@
 import React from 'react'
 import { Row, Col, Checkbox, Icon } from 'antd'
 import _ from 'lodash'
+import { enableCamera } from 'api/CameraApi'
+
 
 class CollapsePanelHeader extends React.Component {
   constructor(props) {
@@ -13,6 +15,14 @@ class CollapsePanelHeader extends React.Component {
 
   setNumOfCameras = quantity => {
     this.setState({ numOfCameras: quantity })
+  }
+
+  async _handleChangedStationCheckbox(e) {
+    e.stopPropagation()
+    const { id, checked } = e.target
+    const stationId = id.split('.')[1]
+
+    await enableCamera(stationId, checked)
   }
 
   render() {
