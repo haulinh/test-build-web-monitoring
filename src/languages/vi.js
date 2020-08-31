@@ -653,6 +653,11 @@ export default {
         title: 'Dữ liệu trung bình',
         dataSearch: 'Tìm kiếm dữ liệu',
         placeholderSearch: 'Nhập tên bộ lọc ...',
+        confirm: {
+          title: 'Bạn có chắc xoá bộ lọc này?',
+          yes: 'Có',
+          no: 'Không',
+        },
       },
       subMenuFilters: 'Danh sách bộ lọc',
     },

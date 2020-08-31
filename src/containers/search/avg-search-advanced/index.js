@@ -1,29 +1,40 @@
-import { Button, Col, Dropdown, Menu, message, Row, Spin, Tooltip } from 'antd'
-import DataStationAutoApi from 'api/DataStationAutoApi'
-import OrganizationApi from 'api/OrganizationApi'
-import Clearfix from 'components/elements/clearfix'
-import ROLE from 'constants/role'
-import slug from 'constants/slug'
-import { translate } from 'hoc/create-lang'
-import protectRole from 'hoc/protect-role'
-import queryFormDataBrowser from 'hoc/query-formdata-browser'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _ from 'lodash'
 import React from 'react'
-import { toggleNavigation } from 'redux/actions/themeAction'
-import { connectAutoDispatch } from 'redux/connect'
 import {
-  addBreadcrumb,
-  deleteBreadcrumb, updateBreadcrumb
-} from 'shared/breadcrumb/action'
+  Spin,
+  Row,
+  Col,
+  message,
+  Button,
+  Menu,
+  Dropdown,
+  Tooltip,
+} from 'antd'
+import _ from 'lodash'
 import styled from 'styled-components'
-import { replaceVietnameseStr } from 'utils/string'
+import { translate } from 'hoc/create-lang'
+import StationList from './station-list'
 import Breadcrumb from './breadcrumb'
-import FormFilter from './form/ModalForm'
 import SearchFrom from './form/SearchForm'
 import StationForm from './form/StationForm'
+import DataStationAutoApi from 'api/DataStationAutoApi'
+import OrganizationApi from 'api/OrganizationApi'
+import { toggleNavigation } from 'redux/actions/themeAction'
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import { connectAutoDispatch } from 'redux/connect'
+import {
+  updateBreadcrumb,
+  addBreadcrumb,
+  deleteBreadcrumb,
+} from 'shared/breadcrumb/action'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import { replaceVietnameseStr } from 'utils/string'
+import Clearfix from 'components/elements/clearfix'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
 import FilterListMenu from './menu'
-import StationList from './station-list'
+import FormFilter from './form/ModalForm'
+import slug from 'constants/slug'
+import update from 'immutability-helper'
 
 const Flex = styled.div`
   display: flex;
@@ -72,8 +83,6 @@ export default class AvgSearchAdvanced extends React.Component {
       stationsData: props.stations.length
         ? this.getStationsData(props.stations)
         : [],
-
-      // isShowFilterMenu: false,
     }
   }
 
@@ -433,10 +442,20 @@ export default class AvgSearchAdvanced extends React.Component {
     })
   }
 
-  onToggleFilterMenu = () => {
-    this.setState(prevState => ({
-      isShowFilterMenu: !prevState.isShowFilterMenu,
-    }))
+  handleDeleteFilter = async _id => {
+    const indexDelete = this.state.filteredConfigFilter.findIndex(
+      configFilterItem => configFilterItem._id === _id
+    )
+    this.setState(prevState =>
+      update(prevState, {
+        filteredConfigFilter: { $splice: [[indexDelete, 1]] },
+      })
+    )
+    const { data } = await OrganizationApi.deleteFilter(
+      this.props.organizationId,
+      _id
+    )
+    if (data) message.success(translate('dataSearchFilterForm.update.success'))
   }
 
   render() {
@@ -453,17 +472,12 @@ export default class AvgSearchAdvanced extends React.Component {
           gutter={[32, 0]}
         >
           <FilterListMenu
-            // isShow={this.state.isShowFilterMenu}
+            handleDeleteFilter={this.handleDeleteFilter}
             configFilter={this.state.filteredConfigFilter}
             handleSearch={this.handleSearch}
             filterId={this.props.formData.filterId}
           />
           <Col style={{ flex: 1, overflowX: 'hidden' }}>
-            {/* <ToggleResize
-              isLeft
-              isShow={this.state.isShowFilterMenu}
-              onToggle={this.onToggleFilterMenu}
-            /> */}
             <SearchFrom
               flagResetForm={this.state.flagResetForm}
               onSubmit={this.handleSearchAvgData}

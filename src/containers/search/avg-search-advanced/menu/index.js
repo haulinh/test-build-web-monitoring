@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Menu, Input, Tooltip } from 'antd'
+import { Col, Menu, Input, Tooltip, Icon, Popconfirm } from 'antd'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -9,7 +9,6 @@ import protectRole from 'hoc/protect-role'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
-// import ToggleResize from 'layout/default-sidebar-layout/sidebar-menu/ToggleResize'
 
 const MENU_WIDTH = 300
 
@@ -32,14 +31,13 @@ const SearchWrapper = styled.div`
 `
 
 const MenuWrapper = styled(Col)`
-  overflow: hidden;
   position: fixed;
   height: calc(100vh - 57px);
   width: ${MENU_WIDTH}px;
   border-left: 1px solid #f1f1f1;
   z-index: 1;
   /* padding: 0 16px; */
-  /* overflow: auto; */
+  overflow: auto;
   .ant-menu-item-group {
     .ant-menu-item-group-title {
       color: #333 !important;
@@ -64,6 +62,22 @@ const MenuWrapper = styled(Col)`
   }
 `
 
+const Flex = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  :hover {
+    .icon-delete {
+      display: block;
+    }
+  }
+  .icon-delete {
+    display: none;
+  }
+`
+
 @connect(state => ({
   isOpenNavigation: state.theme.navigation.isOpen,
   stations: _.get(state, 'stationAuto.list', []),
@@ -83,32 +97,14 @@ export default class FilterListMenu extends React.Component {
     configFilter: [],
   }
 
-  state = {
-    highlightText: '',
+  constructor(props) {
+    super(props)
+    this.state = {
+      highlightText: '',
+    }
   }
 
-  handleClickFilterItem = filterId => () => {
-    const filter = this.props.configFilter.find(
-      filter => filter._id === filterId
-    )
-
-    const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
-    searchObj.searchNow = true
-    searchObj.filterId = filter._id
-
-    this.props.history.push(
-      slug.avgSearchAdvanced.base +
-      '?formData=' +
-      encodeURIComponent(JSON.stringify(searchObj))
-    )
-  }
-
-  handleOnChangeSearch = event => {
-    this.setState({ highlightText: event.target.value })
-    this.props.handleSearch(event.target.value)
-  }
-
-  getHighlightedText(text, highlightText) {
+  getHighlightedText = (text, highlightText) => {
     //Split text on highlight term, include term itself into parts, ignore case
     const parts = text.split(new RegExp(`(${highlightText})`, 'gi'))
     return (
@@ -131,13 +127,34 @@ export default class FilterListMenu extends React.Component {
     )
   }
 
+  handleClickFilterItem = filterId => () => {
+    const filter = this.props.configFilter.find(
+      filter => filter._id === filterId
+    )
+
+    const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
+    searchObj.searchNow = true
+    searchObj.filterId = filter._id
+
+    this.props.history.push(
+      slug.avgSearchAdvanced.base +
+        '?formData=' +
+        encodeURIComponent(JSON.stringify(searchObj))
+    )
+  }
+
+  handleOnChangeSearch = event => {
+    this.setState({ highlightText: event.target.value })
+    this.props.handleSearch(event.target.value)
+  }
+
   getFilterGroupByStationType = () => {
     const filters = Array.isArray(this.props.configFilter)
       ? this.props.configFilter.map(filter => ({
-        ...filter,
-        stationType: JSON.parse(decodeURIComponent(filter.searchUrl))
-          .stationType,
-      }))
+          ...filter,
+          stationType: JSON.parse(decodeURIComponent(filter.searchUrl))
+            .stationType,
+        }))
       : []
     return _.groupBy(filters, 'stationType')
   }
@@ -159,7 +176,7 @@ export default class FilterListMenu extends React.Component {
 
   render() {
     const filters = this.getFilterGroupByStationType()
-    // if (!this.props.isShow) return null
+    // if (this.props.isOpenNavigation) return null
     return (
       <React.Fragment>
         <Col
@@ -169,7 +186,7 @@ export default class FilterListMenu extends React.Component {
             minHeight: 'calc(100vh - 57px)',
           }}
         />
-        <MenuWrapper isShow={this.state.isShow}>
+        <MenuWrapper>
           <SearchWrapper>
             <Tooltip
               title={translate('dataSearchFilterForm.tooltip.searchFilter')}
@@ -208,10 +225,37 @@ export default class FilterListMenu extends React.Component {
                         onClick={this.handleClickFilterItem(filter._id)}
                         key={filter._id}
                       >
-                        {this.getHighlightedText(
-                          filter.name,
-                          this.state.highlightText
-                        )}
+                        <Flex className="flex-menu-item">
+                          <div>
+                            {this.getHighlightedText(
+                              filter.name,
+                              this.state.highlightText
+                            )}
+                          </div>
+                          <Popconfirm
+                            title={translate(
+                              'avgSearchFrom.search.subMenuAvgData.confirm.title'
+                            )}
+                            onConfirm={() =>
+                              this.props.handleDeleteFilter(filter._id)
+                            }
+                            okText={translate(
+                              'avgSearchFrom.search.subMenuAvgData.confirm.yes'
+                            )}
+                            cancelText={translate(
+                              'avgSearchFrom.search.subMenuAvgData.confirm.no'
+                            )}
+                          >
+                            <Icon
+                              className="icon-delete"
+                              type="close-circle"
+                              theme="filled"
+                              style={{
+                                fontSize: '12px',
+                              }}
+                            />
+                          </Popconfirm>
+                        </Flex>
                       </Menu.Item>
                     ))}
                   </SubMenu>
