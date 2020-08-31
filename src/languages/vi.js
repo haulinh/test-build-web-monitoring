@@ -126,10 +126,10 @@ export default {
           config: 'Cấu hình',
         },
         content: {
-          reset:'Đặt lại',
+          reset: 'Đặt lại',
           totalBottles: 'Tổng số chai:',
           sampledBottles: 'Số chai đã lấy:',
-          methodSampling:'Giao thức lấy mẫu',
+          methodSampling: 'Giao thức lấy mẫu',
           typeOfSampling: 'Hành động',
           immediatelySampling: 'Thủ công',
           scheduleSampling: 'Tự động',
@@ -159,8 +159,8 @@ export default {
             config: 'Thay đổi cấu hình',
             reset_bottles: 'Reset số chai đã lấy',
             success: 'Thành công',
-            failed:'Thất bại'
-            
+            failed: 'Thất bại'
+
           },
           config: {
             totalBottles: 'Tổng số chai:',
@@ -2570,7 +2570,7 @@ export default {
     msg: {
       restore: 'Bạn có muốn khôi phục mục này không?',
       delete: 'Bạn có muốn xóa mục này không?',
-      disable:'Bạn có muốn vô hiệu hóa không?',
+      disable: 'Bạn có muốn vô hiệu hóa không?',
     },
   },
   common: {
@@ -2578,10 +2578,11 @@ export default {
     device: 'thiết bị',
     measure: 'Chỉ tiêu',
     measures: 'Các chỉ tiêu',
+    measure2: 'Các chỉ tiêu:',
     deviceStatus: {
       sensorGood: 'Thiết bị tốt',
-      sensorError: 'Lỗi thiết bị',
-      sensorMaintain: 'Hiệu chuẩn',
+      sensorError: 'Thiết bị lỗi',
+      sensorMaintain: 'Thiết bị hiệu chuẩn',
       dataExceeded: 'Vượt ngưỡng',
       dataExceededPrepare: 'Chuẩn bị vượt ngưỡng',
       dataGood: 'Dữ liệu tốt',

@@ -129,10 +129,10 @@ export default {
           config: 'Config',
         },
         content: {
-          reset:'Reset',
+          reset: 'Reset',
           totalBottles: 'Total bottles:',
           sampledBottles: 'Sampled bottles:',
-          methodSampling:'Method Sampling',
+          methodSampling: 'Method Sampling',
           typeOfSampling: 'Action',
           immediatelySampling: 'Immediately Sampling',
           scheduleSampling: 'Schedule Sampling',
@@ -162,7 +162,7 @@ export default {
             config: 'Modify Configuration',
             reset_bottles: 'Reset Sampled Bottles',
             success: 'success',
-            failed:'failed'
+            failed: 'failed'
           },
           config: {
             totalBottles: 'Total bottles:',
@@ -2579,6 +2579,7 @@ export default {
     device: 'device',
     measure: 'measuring',
     measures: 'measurings',
+    measure2: 'measurings:',
     notUse: 'Not In Use',
     deviceStatus: {
       sensorGood: 'Sensor Good',

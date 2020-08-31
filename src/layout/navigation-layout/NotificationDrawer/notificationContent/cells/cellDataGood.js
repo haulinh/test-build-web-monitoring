@@ -7,7 +7,7 @@ import { BoldTextWrap } from './_helperComponent'
 
 const i18n = {
   station: translate('common.station'),
-  device: translate('common.device'),
+  measures: translate('common.measures'),
   dataGood: translate('common.deviceStatus.dataGood'),
 }
 
@@ -19,8 +19,8 @@ export default function DataGoodCell(props) {
       <BoldTextWrap>{i18n.dataGood} </BoldTextWrap>
       {i18n.station}
       <span> {cellContent.title} </span>
-      {i18n.device}
-      <span> {cellContent.fullBody}</span>
+      {i18n.measures}
+      <span> {cellContent.fullBody.replace('Dữ liệu', '')}</span>
     </React.Fragment>
   )
 

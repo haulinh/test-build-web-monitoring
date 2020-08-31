@@ -20,7 +20,7 @@ export default function DataExceededPreparedCell(props) {
       {i18n.station}
       <span> {cellContent.title} </span>
       {i18n.measurings}
-      <span> {cellContent.fullBody}</span>
+      <span> {cellContent.fullBody.replace('Thiết bị hiệu chuẩn', '')}</span>
     </React.Fragment>
   )
 

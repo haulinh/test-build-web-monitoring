@@ -7,7 +7,7 @@ import { BoldTextWrap } from './_helperComponent'
 
 const i18n = {
   station: translate('common.station'),
-  measurings: translate('common.measures'),
+  measurings: translate('common.measure2'),
   dataExceededPrepare: translate('common.deviceStatus.dataExceededPrepare'),
 }
 

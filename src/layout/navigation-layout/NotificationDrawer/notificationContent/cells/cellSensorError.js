@@ -9,6 +9,8 @@ const i18n = {
   station: translate('common.station'),
   device: translate('common.device'),
   sensorError: translate('common.deviceStatus.sensorError'),
+  measurings: translate('common.measures'),
+
 }
 
 export default function SensorErrorCell(props) {
@@ -19,8 +21,8 @@ export default function SensorErrorCell(props) {
       <BoldTextWrap>{i18n.sensorError} </BoldTextWrap>
       {i18n.station}
       <span> {cellContent.title} </span>
-      {i18n.device}
-      <span> {cellContent.fullBody}</span>
+      {i18n.measurings}
+      <span> {cellContent.fullBody.replace('Lỗi thiết bị', '')}</span>
     </React.Fragment>
   )
 
