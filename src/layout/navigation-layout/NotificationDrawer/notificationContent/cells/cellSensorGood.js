@@ -9,6 +9,8 @@ const i18n = {
   station: translate('common.station'),
   device: translate('common.device'),
   sensorGood: translate('common.deviceStatus.sensorGood'),
+  measurings: translate('common.measures'),
+
 }
 
 export default function SensorGoodCell(props) {
@@ -19,8 +21,8 @@ export default function SensorGoodCell(props) {
       <BoldTextWrap>{i18n.sensorGood} </BoldTextWrap>
       {i18n.station}
       <span> {cellContent.title} </span>
-      {i18n.device}
-      <span> {cellContent.fullBody}</span>
+      {i18n.measurings}
+      <span> {cellContent.fullBody.replace('Thiết bị tốt', '')}</span>
     </React.Fragment>
   )
 

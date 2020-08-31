@@ -162,7 +162,7 @@ export default {
             config: 'Modify Configuration',
             reset_bottles: 'Reset Sampled Bottles',
             success: 'success',
-            failed: 'failed',
+            failed: 'failed'
           },
           config: {
             totalBottles: 'Total bottles:',
@@ -2584,6 +2584,7 @@ export default {
     device: 'device',
     measure: 'measuring',
     measures: 'measurings',
+    measure2: 'measurings:',
     notUse: 'Not In Use',
     deviceStatus: {
       sensorGood: 'Sensor Good',
