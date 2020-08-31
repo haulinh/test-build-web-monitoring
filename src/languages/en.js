@@ -1,13 +1,13 @@
 export default {
   empty: {
     camera: {
-      description: "Camera not found",
-      action: "Camera configuration"
+      description: 'Camera not found',
+      action: 'Camera configuration',
     },
     wqi: {
-      description: "Station not found",
-      action: "WQI configuration"
-    }
+      description: 'Station not found',
+      action: 'WQI configuration',
+    },
   },
   notification: {
     label: 'Notifications',
@@ -129,10 +129,10 @@ export default {
           config: 'Config',
         },
         content: {
-          reset:'Reset',
+          reset: 'Reset',
           totalBottles: 'Total bottles:',
           sampledBottles: 'Sampled bottles:',
-          methodSampling:'Method Sampling',
+          methodSampling: 'Method Sampling',
           typeOfSampling: 'Action',
           immediatelySampling: 'Immediately Sampling',
           scheduleSampling: 'Schedule Sampling',
@@ -162,7 +162,7 @@ export default {
             config: 'Modify Configuration',
             reset_bottles: 'Reset Sampled Bottles',
             success: 'success',
-            failed:'failed'
+            failed: 'failed',
           },
           config: {
             totalBottles: 'Total bottles:',
@@ -657,6 +657,11 @@ export default {
         title: 'Avg data',
         dataSearch: 'Data search',
         placeholderSearch: 'Enter the filter name ...',
+        confirm: {
+          title: 'Are you sure delete this filter?',
+          yes: 'Yes',
+          no: 'No',
+        },
       },
       subMenuFilters: 'Filters',
     },
@@ -845,9 +850,9 @@ export default {
       searchFilter: 'Search for filters that have been created',
     },
     filterDropdown: {
-      search: "Search",
-      reset: "Reset"
-    }
+      search: 'Search',
+      reset: 'Reset',
+    },
   },
   measuringManager: {
     list: {
@@ -1890,7 +1895,7 @@ export default {
     text5: 'Number of member',
     text6: 'Phone number',
     text7: 'Email',
-    dateUnlimited: 'Unlimited'
+    dateUnlimited: 'Unlimited',
   },
   expLicenseInfo: {
     title: 'We are very sorry',
