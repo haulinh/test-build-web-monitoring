@@ -223,6 +223,7 @@ export default class StationAutoHead extends React.PureComponent {
       status,
       language,
       _id,
+      stationKey
     } = this.props
     // if (stationID === "NUOCTHAINMPM2_1MR") {
     //   console.log(this.state, this.props.currentActionDefault , "currentAction")
@@ -491,6 +492,7 @@ export default class StationAutoHead extends React.PureComponent {
             visibleDrawer={this.state.visibleDrawer}
             _id={_id}
             name={name}
+            stationKey={stationKey}
           />
         </ActionWrapper>
 

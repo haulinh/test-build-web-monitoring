@@ -203,6 +203,7 @@ export default class StationAutoItem extends React.PureComponent {
           // onClickViewMap={this.handleClickViewMap}
           // onClickViewCamera={this.onClickViewCamera}
           _id={_id}
+          stationKey={stationID}
         />
         <MeasuringList
           statusStation={status}
