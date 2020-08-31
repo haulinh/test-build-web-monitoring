@@ -16,6 +16,7 @@ import Gallery from 'components/elements/gallery'
 import { connect } from 'react-redux'
 import { removeAccents } from 'hoc/create-lang'
 import axios from 'axios'
+import moment from 'moment'
 // import { getConfigApi } from 'config'
 
 const Wrapper = styled(Row)`
@@ -138,9 +139,13 @@ export default class ImageMoreInfo extends React.Component {
     this.setState({ loading: true }, async () => {
       const data = await MediaApi.getImages(databaseName, stationKey)
 
+      const dataSorted = data.sort(
+        (a, b) => moment(b.lastModified) - moment(a.lastModified)
+      )
+
       this.setState({
         newImages: data,
-        newItems: this.getNewImages(data),
+        newItems: this.getNewImages(dataSorted),
         loading: false,
       })
     })
@@ -329,54 +334,50 @@ export default class ImageMoreInfo extends React.Component {
   render() {
     const images = this.state.newItems
     return (
-        <React.Fragment>
-          {this.renderHeader()}
-          <Wrapper type="flex" gutter={24}>
-            {!this.state.loading && images.length ? (
-              images.map((image, index) => (
-                <Col className="image-item" key={index} span={6}>
-                  <Popconfirm
-                    title={translate('addon.popConfirm.image.title')}
-                    // onConfirm={this.handleDeleteImage(index)}
-                    okText={translate('addon.yes')}
-                    cancelText={translate('addon.no')}
-                    className="delete"
-                  >
-                    {/* <i className="fa fa-trash" /> */}
-                  </Popconfirm>
-                  <PhotoItem
-                    onClick={this.handleViewGalleryClick(index)}
-                    key={image._id}
-                    image={image.thumbnail}
-                  />
-                </Col>
-              ))
-            ) : (
-                <Upload
-                  {...uploadProps}
-                  multiple
-                  showUploadList={false}
-                  accept=".jpg, .png, .svg, jpeg"
-                  // action={MediaApi.urlPhotoUploadWithDirectory('station')}
-                  listType="picture-card"
-                  // onChange={this.handleImageChange}
-                  customRequest={this.customRequest}
+      <React.Fragment>
+        {this.renderHeader()}
+        <Wrapper type="flex" gutter={24}>
+          {!this.state.loading && images.length ? (
+            images.map((image, index) => (
+              <Col className="image-item" key={index} span={6}>
+                <Popconfirm
+                  title={translate('addon.popConfirm.image.title')}
+                  // onConfirm={this.handleDeleteImage(index)}
+                  okText={translate('addon.yes')}
+                  cancelText={translate('addon.no')}
+                  className="delete"
                 >
-                  {this.state.uploading ? (
-                    <Spin />
-                  ) : (
-                      <Icon size={24} type="plus" />
-                    )}
-                </Upload>
-              )}
-            <Gallery
-              ref={ref => (this.galleryRef = ref)}
-              visible={this.state.visible}
-              onClose={this.handleCloseGallery}
-              items={images}
-            />
-          </Wrapper>
-        </React.Fragment>
+                  {/* <i className="fa fa-trash" /> */}
+                </Popconfirm>
+                <PhotoItem
+                  onClick={this.handleViewGalleryClick(index)}
+                  key={image._id}
+                  image={image.thumbnail}
+                />
+              </Col>
+            ))
+          ) : (
+            <Upload
+              {...uploadProps}
+              multiple
+              showUploadList={false}
+              accept=".jpg, .png, .svg, jpeg"
+              // action={MediaApi.urlPhotoUploadWithDirectory('station')}
+              listType="picture-card"
+              // onChange={this.handleImageChange}
+              customRequest={this.customRequest}
+            >
+              {this.state.uploading ? <Spin /> : <Icon size={24} type="plus" />}
+            </Upload>
+          )}
+          <Gallery
+            ref={ref => (this.galleryRef = ref)}
+            visible={this.state.visible}
+            onClose={this.handleCloseGallery}
+            items={images}
+          />
+        </Wrapper>
+      </React.Fragment>
     )
   }
 }
