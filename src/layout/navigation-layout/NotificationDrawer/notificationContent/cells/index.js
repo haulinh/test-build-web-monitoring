@@ -8,6 +8,7 @@ import { default as DataLossCell } from './cellDataLoss'
 import { default as DataConnectedCell } from './cellDataConnected'
 import { default as DataExceededCell } from './cellDataExceeded'
 import { default as DataExceededPreparedCell } from './cellDataExceededPrepared' //DataGoodCell
+import { default as SensorAdjustCell } from './cellSensorAdjust'
 import { default as DataGoodCell } from './cellDataGood'
 import { default as EmptyCell } from './cellEmpty'
 
@@ -31,6 +32,10 @@ export default function Cells(props) {
       case NOTIFY_TYPE.DATA_EXCEEDED_PREPARED:
         Cell = DataExceededPreparedCell
         break
+      case NOTIFY_TYPE.SENSOR_ADJUST:
+        Cell = SensorAdjustCell
+        break
+
       case NOTIFY_TYPE.DATA_GOOD:
         Cell = DataGoodCell
         break

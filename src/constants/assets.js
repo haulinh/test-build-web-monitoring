@@ -5,6 +5,7 @@ const warningLevelImages = {
   dataExceededPrepared: `/images/notification/thermometer.png`,
   dataConnected: `/images/notification/wifi.png`,
   dataLoss: `/images/notification/wifi_off.png`,
+  sensorAdjust: `/images/notification/sensorAdjust.svg`,
 }
 
 export { warningLevelImages }
