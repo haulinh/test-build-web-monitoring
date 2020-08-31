@@ -54,19 +54,19 @@ export default class TabsStationAuto extends React.Component {
           const result = this.getDefaultRadio(value)
           return (
             <div>
-               <RadioGroup
-                  onChange={event => this.handleRadioAuto(record, event)}
-                  name="radiogroup"
-                  defaultValue={result}
-                >
-                  <Radio value={'WQI'}>WQI</Radio>
-                  <Radio value={'AQI'}>AQI</Radio>
-                  {result && (
-                    <Radio value={'UNCHECK'}>
-                      {translate('configWQI.unckecked')}
-                    </Radio>
-                  )}
-                </RadioGroup>
+              <RadioGroup
+                onChange={event => this.handleRadioAuto(record, event)}
+                name="radiogroup"
+                value={result}
+              >
+                <Radio value={'WQI'}>WQI</Radio>
+                <Radio value={'AQI'}>AQI</Radio>
+                {result && (
+                  <Radio value={'UNCHECK'}>
+                    {translate('configWQI.unckecked')}
+                  </Radio>
+                )}
+              </RadioGroup>
             </div>
           )
         },
@@ -117,11 +117,12 @@ export default class TabsStationAuto extends React.Component {
   }
 
   getDefaultRadio = key => {
-    return _.get(
+    const value = _.get(
       this.state,
       ['stationConfig', key, 'config', 'calculateType'],
       null
     )
+    return value
   }
 
   updateDataAuto = async (record, data) => {
@@ -168,6 +169,8 @@ export default class TabsStationAuto extends React.Component {
   showTotal = (total, range) => ` ${range[1]}/${total}`
 
   render() {
+    console.log(this.state.listStationAuto, '-----')
+    console.log(this.state.stationConfig, '--stationConfig--')
     return (
       <div>
         <SearchForm onSearch={this.handleSearch} />

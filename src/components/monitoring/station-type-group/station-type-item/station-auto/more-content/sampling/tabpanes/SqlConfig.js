@@ -4,6 +4,7 @@ import { translate } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
 import swal from 'sweetalert2'
 import SamplingAPI from 'api/SamplingApi'
+import * as _ from 'lodash'
 
 const FormItem = Form.Item
 
@@ -57,21 +58,20 @@ export default class SqlConfig extends React.Component {
       }
 
       try {
-        SamplingAPI.updateConfig(stationId, {
+         await SamplingAPI.updateConfig(stationId, {
           configSampling: {
             ...values,
             // protocol: "SQL"
           },
         })
-        this.setState({ isSaving: false })
         swal({ title: i18n.alertSuccess, type: 'success' })
-      } catch (error) {
-        console.error(
-          error,
-          '========Lỗi handleSubmit SamplingConfig sql========== '
-        )
         this.setState({ isSaving: false })
-        swal({ title: '', type: 'error' })
+      } catch (error) {
+        this.setState({ isSaving: false })
+        swal({
+          title: _.get(error, 'response.data.error.message'),
+          type: 'error',
+        })
       }
     })
   }
