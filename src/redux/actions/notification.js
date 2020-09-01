@@ -232,7 +232,7 @@ export function deleteOneNotification(notificationId) {
 
 export function deleteAllNotification() {
   return async dispatch => {
-    await deleteAll()
+    deleteAll()
     dispatch({
       type: DELETE_ALL,
     })
