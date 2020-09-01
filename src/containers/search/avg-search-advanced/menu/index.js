@@ -62,7 +62,7 @@ const MenuWrapper = styled(Col)`
   }
 `
 
-const Flex = styled.div`
+const Flex = styled(Menu.Item)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -221,42 +221,45 @@ export default class FilterListMenu extends React.Component {
                     }
                   >
                     {filters[filterKey].map(filter => (
-                      <Menu.Item
+                      <Flex
                         onClick={this.handleClickFilterItem(filter._id)}
                         key={filter._id}
                       >
-                        <Flex className="flex-menu-item">
-                          <div>
-                            {this.getHighlightedText(
-                              filter.name,
-                              this.state.highlightText
-                            )}
-                          </div>
-                          <Popconfirm
-                            title={translate(
-                              'avgSearchFrom.search.subMenuAvgData.confirm.title'
-                            )}
-                            onConfirm={() =>
-                              this.props.handleDeleteFilter(filter._id)
-                            }
-                            okText={translate(
-                              'avgSearchFrom.search.subMenuAvgData.confirm.yes'
-                            )}
-                            cancelText={translate(
-                              'avgSearchFrom.search.subMenuAvgData.confirm.no'
-                            )}
-                          >
-                            <Icon
-                              className="icon-delete"
-                              type="close-circle"
-                              theme="filled"
-                              style={{
-                                fontSize: '12px',
-                              }}
-                            />
-                          </Popconfirm>
-                        </Flex>
-                      </Menu.Item>
+                        {/* <Flex className="flex-menu-item"> */}
+                        <div>
+                          {this.getHighlightedText(
+                            filter.name,
+                            this.state.highlightText
+                          )}
+                        </div>
+                        <Popconfirm
+                          title={translate(
+                            'avgSearchFrom.search.subMenuAvgData.confirm.title'
+                          )}
+                          onConfirm={event => {
+                            event.stopPropagation()
+                            this.props.handleDeleteFilter(filter._id)
+                            this.props.history.push('/avg-search-advanced')
+                          }}
+                          onCancel={event => event.stopPropagation()}
+                          okText={translate(
+                            'avgSearchFrom.search.subMenuAvgData.confirm.yes'
+                          )}
+                          cancelText={translate(
+                            'avgSearchFrom.search.subMenuAvgData.confirm.no'
+                          )}
+                        >
+                          <Icon
+                            onClick={event => event.stopPropagation()}
+                            className="icon-delete"
+                            type="close-circle"
+                            theme="filled"
+                            style={{
+                              fontSize: '14px',
+                            }}
+                          />
+                        </Popconfirm>
+                      </Flex>
                     ))}
                   </SubMenu>
                 ))}
