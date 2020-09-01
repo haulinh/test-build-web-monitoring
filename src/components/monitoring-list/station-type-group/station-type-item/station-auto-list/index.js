@@ -21,6 +21,7 @@ const i18n = {
     good: translate('dashboard.good'),
     dataLoss: translate('dashboard.dataLoss'),
     notUse: translate('dashboard.notUse'),
+    
   },
 }
 
@@ -58,7 +59,6 @@ const TextWithToolTip = props => {
   return (
     <div
       style={{
-        // width: props.width ? props.width : null,
         display: 'flex',
         fontWeight: 500,
         color: props.color ? props.color : '',
@@ -152,7 +152,6 @@ const DeviceIcon = props => {
             height: '14px',
             marginLeft: '6px',
           }}
-          // alt={item.text}
         />
       </Tooltip>
     )
@@ -174,6 +173,10 @@ const STATION_ICON = {
     image: '/images/station/good.png',
     status: i18n.deviceStatus.good,
   },
+}
+
+const noStationStatus = {
+  image: '/images/warning/disconnection.jpg',
 }
 
 class TableData extends React.Component {
@@ -206,10 +209,10 @@ class TableData extends React.Component {
                 document.querySelector('.ant-table-wrapper')
               }
               placement="right"
-              title={icon.status}
+              title={icon && icon.status}
             >
               <img
-                src={icon.image}
+                src={icon ? icon.image : noStationStatus.image}
                 style={{
                   width: '26px',
                   height: '26px',
@@ -302,7 +305,7 @@ class TableData extends React.Component {
             color = colorLevels[measure.warningLevel]
           }
           // Format number toLocalString(national)
-          if (record.status !== stationStatus.GOOD) {
+          if (record && record.status !== stationStatus.GOOD) {
             color = SHAPE.BLACK
             classCustom = ''
             classContainer = ''
@@ -359,7 +362,6 @@ class TableData extends React.Component {
   }
 
   render() {
-    // console.log("TableData -> render -> column", column)
     // console.log('this.props.stationAutoList',this.props.stationAutoList)
 
     return (

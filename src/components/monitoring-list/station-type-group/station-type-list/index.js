@@ -76,14 +76,6 @@ export default class StationTypeList extends React.Component {
       } catch (error) {
         console.log(error)
       }
-
-      // if (this.audio.current && this.audio.current.play) {
-      //   try {
-      //     this.audio.current.play()
-      //   } catch (error) {
-      //     console.log(error)
-      //   }
-      // }
     }
   }
 
@@ -104,7 +96,6 @@ export default class StationTypeList extends React.Component {
     const monitoringList = this.getMonitoringList()
     return (
       <StationTypeListWrapper>
-        {/* <audio ref={this.audio} controls src={'audio/alert.mp3'} /> */}
         <StationTypeContainer>
           {monitoringList.map((item, index) => {
             return (
