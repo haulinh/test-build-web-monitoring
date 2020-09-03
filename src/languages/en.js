@@ -541,6 +541,9 @@ export default {
   avgSearchFrom: {
     titleText: 'AVG data',
     excelMultiple: 'System processing, the report will be send to your email: ',
+    error: {
+      dataTooMuch: 'Your data is too large, please consider select shorter time range !'
+    },
     form: {
       time: 'Time',
       stationType: {

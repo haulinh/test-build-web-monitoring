@@ -537,6 +537,9 @@ export default {
   avgSearchFrom: {
     titleText: 'Dữ liệu trung bình',
     excelMultiple: 'Đang xử lý, báo cáo sẽ được gửi qua email của bạn: ',
+    error: {
+      dataTooMuch: 'Dữ liệu tra cứu quá lớn, vui lòng chọn khoảng thời gian ngắn hơn !'
+    },
     form: {
       time: 'Thời gian',
       stationType: {
