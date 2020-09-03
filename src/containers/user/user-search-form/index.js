@@ -61,6 +61,11 @@ const Form = styled(FormStyle)`
     'auth.userInfo.organization.packageInfo.totalUser',
     0
   ),
+  organizationType: _.get(
+    state,
+    'auth.userInfo.organization.packageInfo.organizationType',
+    0
+  )
 }))
 @createLanguage
 @withRouter
@@ -81,7 +86,7 @@ export default class UserSearchForm extends React.PureComponent {
     }
   }
 
-  async componentWillMount() {}
+  async componentWillMount() { }
 
   changeSearch(e) {
     e.preventDefault()
@@ -117,6 +122,11 @@ export default class UserSearchForm extends React.PureComponent {
   }
 
   handleAddUser = () => {
+    if (this.props.organizationType === 'ON_PREMISES') {
+      this.props.history.push(slug.user.create)
+      return
+    }
+
     if (this.props.limitTotalUser <= this.props.totalUser) {
       Modal.warning({
         icon: null,
@@ -147,7 +157,7 @@ export default class UserSearchForm extends React.PureComponent {
             </ContentWrapper>
           </Container>
         ),
-        onCancel() {},
+        onCancel() { },
       })
     } else {
       this.props.history.push(slug.user.create)
