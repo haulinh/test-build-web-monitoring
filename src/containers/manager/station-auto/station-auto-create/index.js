@@ -44,6 +44,11 @@ const i18n = {
     'auth.userInfo.organization.packageInfo.totalStation',
     0
   ),
+  organizationType: _.get(
+    state,
+    'auth.userInfo.organization.packageInfo.organizationType',
+    0
+  ),
   totalStationActived: _.get(state, 'stationAuto.totalStationActived', 0),
 }))
 @autobind
@@ -60,13 +65,13 @@ export default class StationAutoCreate extends React.PureComponent {
     if (res && res.success) {
       message.success(translate('stationAutoManager.create.success'))
       this.props.history.push(slug.stationAuto.list)
-    }else{
-      if(res.message === 'KEY_EXISTED'){
+    } else {
+      if (res.message === 'KEY_EXISTED') {
         message.error(translate('addon.onSave.add.keyExited_error'))
-      }else{
+      } else {
         message.error(translate('addon.onSave.add.error'))
       }
-      
+
     }
   }
 
@@ -88,6 +93,7 @@ export default class StationAutoCreate extends React.PureComponent {
     if (
       totalStationActived >= limitTotalStation &&
       !this.state.isRequiredLicense
+      && this.props.organizationType !== 'ON_PREMISES'
     ) {
       Modal.warning({
         icon: null,
@@ -116,7 +122,7 @@ export default class StationAutoCreate extends React.PureComponent {
             </ContentWrapper>
           </Container>
         ),
-        onCancel() {},
+        onCancel() { },
         onOk: this.handleClose,
       })
       this.setState({
