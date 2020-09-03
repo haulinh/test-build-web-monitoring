@@ -126,7 +126,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
   }
 
   handleAddStationAuto = () => {
-    if (this.props.packageInfo.totalStation <= this.props.stationLength) {
+    if (this.props.packageInfo.organizationType !== 'ON_PREMISES' && this.props.packageInfo.totalStation <= this.props.stationLength) {
       Modal.warning({
         icon: null,
         width: '50%',
@@ -154,14 +154,14 @@ export default class StationAutoSearchForm extends React.PureComponent {
             </ContentWrapper>
           </Container>
         ),
-        onCancel() {},
+        onCancel() { },
       })
     } else {
       this.props.history.push(slug.stationAuto.create)
     }
   }
 
-  changeStationType(stationType) {}
+  changeStationType(stationType) { }
 
   render() {
     const { getFieldDecorator } = this.props.form
