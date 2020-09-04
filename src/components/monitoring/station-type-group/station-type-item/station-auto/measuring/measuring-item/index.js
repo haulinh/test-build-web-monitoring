@@ -41,6 +41,9 @@ const MeasuringUnit = styled.span`
   font-weight: 500;
   font-size: 10px;
   line-height: 12px;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 const MeasuringValue = styled.div`
@@ -69,7 +72,7 @@ const RightContainer = styled.div`
 const Dot = styled.div`
   height: 20px;
   width: 20px;
-  background-color: #bbb;
+  background-color: #666666;
   border-radius: 10px;
   display: inline-block;
   margin-right: 8px;
