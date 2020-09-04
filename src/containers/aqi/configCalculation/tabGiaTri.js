@@ -17,6 +17,7 @@ import { Clearfix } from 'containers/map/map-default/components/box-analytic-lis
 import { getMeasurings, getConfigAqiQC, postConfigAqiQC } from 'api/CategoryApi'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
+import { get } from 'object-path'
 
 const i18n = {
   submit: translate('addon.save'),
@@ -70,11 +71,15 @@ export default class TabMucDo extends React.Component {
           align: 'center',
           key: `${keyMeasure}_${type}_min`,
           render: (text, record, index) => {
-            const { getFieldDecorator, getFieldValue } = this.props.form
-            const path = `[${record.key}].${type}.${keyMeasure}`
+            const {
+              getFieldDecorator,
+              getFieldValue,
+              setFieldsValue,
+            } = this.props.form
+            const path = `[${record.key}].${type}['${keyMeasure}']`
             const fliedName = `aqiQCLevel${path}.min`
-            // console.log(record, path, keyMeasure, "toios theieu");
-            // console.log(getFieldValue(`aqiQCLevel${path}.min`));
+            const defaultValue = _.get(record, `${type}['${keyMeasure}'].min`)
+
             return (
               <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
                 {getFieldDecorator(fliedName, {
@@ -84,6 +89,7 @@ export default class TabMucDo extends React.Component {
                       [fliedName]: getFieldValue(fliedName),
                     })
                   },
+                  initialValue: defaultValue,
                   rules: [
                     {
                       required: !getFieldValue(fliedName),
@@ -102,8 +108,9 @@ export default class TabMucDo extends React.Component {
           render: (text, record, index) => {
             const { getFieldDecorator, getFieldValue } = this.props.form
             // const path = `[${record.key}].${type}.${keyMeasure}`;
-            const path = `[${record.key}].${type}.${keyMeasure}`
+            const path = `[${record.key}].${type}['${keyMeasure}']`
             const fliedName = `aqiQCLevel${path}.max`
+            const defaultValue = _.get(record, `${type}['${keyMeasure}'].max`)
 
             return (
               <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
@@ -114,6 +121,7 @@ export default class TabMucDo extends React.Component {
                       [fliedName]: getFieldValue(fliedName),
                     })
                   },
+                  initialValue: defaultValue,
                   rules: [
                     {
                       required: !getFieldValue(fliedName),
@@ -363,7 +371,7 @@ export default class TabMucDo extends React.Component {
           isLoaded: true,
         },
         () => {
-          // console.log(dataSource, "dataSource");
+          console.log(dataSource, 'dataSource')
           this.props.form.setFieldsValue({
             aqiQCLevel: dataSource,
           })
