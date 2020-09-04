@@ -303,7 +303,7 @@ export default class TabMucDo extends React.Component {
         try {
           const transformData = {
             aqiQCMeasures: this.state.dataMeasures,
-            aqiQCLevel: _.get(values, 'aqiQCLevel', []),
+            aqiQCLevel: _.compact(_.get(values, 'aqiQCLevel', [])) ,
           }
           // console.log(transformData, "------");
           const response = await postConfigAqiQC(
