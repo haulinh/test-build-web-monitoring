@@ -147,7 +147,7 @@ export default class MonitoringGeneral extends React.Component {
 
   getFollowStation = stations => {
     if (this.state.followStation) {
-      const aa = _.find(stations, function(o) {
+      const aa = _.find(stations, function (o) {
         return (o.key = this.state.followStation)
       })
       return aa
@@ -303,7 +303,7 @@ export default class MonitoringGeneral extends React.Component {
     const dataResult = this.getFilterProvince(this.state.data)
     let stationTypeList = dataResult.stationTypeList
     // filter by STATION TYPE
-    if (this.state.filter.stationType) {
+    if (this.state.filter.stationType && this.state.filter.stationType !== "ALL") {
       stationTypeList = stationTypeList.filter(
         stationType =>
           stationType.stationType.key === this.state.filter.stationType

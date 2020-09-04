@@ -2422,7 +2422,7 @@ export default {
       jsonView: 'View Json',
     },
     searchForm: {
-      user: 'Select email',
+      user: 'Select user',
       typeLog: 'Type Log',
       from: 'Select date',
       to: 'Select date',
