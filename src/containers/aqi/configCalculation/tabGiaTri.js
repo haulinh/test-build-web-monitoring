@@ -17,7 +17,6 @@ import { Clearfix } from 'containers/map/map-default/components/box-analytic-lis
 import { getMeasurings, getConfigAqiQC, postConfigAqiQC } from 'api/CategoryApi'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
-import { get } from 'object-path'
 
 const i18n = {
   submit: translate('addon.save'),
@@ -74,7 +73,6 @@ export default class TabMucDo extends React.Component {
             const {
               getFieldDecorator,
               getFieldValue,
-              setFieldsValue,
             } = this.props.form
             const path = `[${record.key}].${type}['${keyMeasure}']`
             const fliedName = `aqiQCLevel${path}.min`
