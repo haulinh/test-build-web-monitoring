@@ -12,7 +12,7 @@ import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import ROLE from 'constants/role'
-import { EMAIL, PHONE } from 'constants/info-contact.js'
+// import { EMAIL, PHONE } from 'constants/info-contact.js'
 
 const i18n = {
   okText: translate('addon.ok'),
