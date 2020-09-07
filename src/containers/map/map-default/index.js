@@ -83,12 +83,12 @@ export default class MapDefault extends React.PureComponent {
   }
 
   handleSelectStation(stationSelected) {
-    // const defaultZoom = 1000
+    // const defaultZoom = 12
     // let updateState = { stationSelected }
+    // updateState.center = stationSelected.mapLocation
     // if (this.state.map && this.state.map.getZoom() !== defaultZoom)
     //   updateState.zoom = defaultZoom
     // this.setState(updateState, () => {
-    //   console.log('this.state.stationSelected', this.state.stationSelected)
     //   this.props.getStationAuto(_pick(stationSelected, ['_id', 'key', 'name']))
     // })
 
@@ -96,7 +96,7 @@ export default class MapDefault extends React.PureComponent {
       {
         center: stationSelected.mapLocation,
         stationSelected,
-        zoom: 12
+        zoom: 12,
       },
       () => {
         this.props.getStationAuto(
@@ -174,9 +174,6 @@ export default class MapDefault extends React.PureComponent {
     res = res.map(element => {
       element.visible = false
       let status
-
-      console.log(element.statusAnalytic, element, 'statusAnalytic')
-
       if (element.statusAnalytic === STATUS_STATION.GOOD) {
         status = STATUS_STATION.GOOD
       }
@@ -231,6 +228,7 @@ export default class MapDefault extends React.PureComponent {
   }
 
   render() {
+    // console.log('this.state.zoom', this.state.zoom)
     return (
       <MapDefaultWrapper height={this.props.windowHeight}>
         <Clearfix />

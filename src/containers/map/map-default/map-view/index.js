@@ -100,10 +100,13 @@ class CustomGoogleMap extends PureComponent {
         center={this.props.center && this.props.center}
         zoom={this.state.zoom}
         onZoomChanged={() => {
-          if (this.state.isBound)
-            this.setState({
-              zoom: this.map.getZoom(),
-            })
+          this.setState({
+            zoom: this.map.getZoom(),
+          })
+          // if (this.state.isBound)
+          //   this.setState({
+          //     zoom: this.map.getZoom(),
+          //   })
         }}
       >
         <div>
