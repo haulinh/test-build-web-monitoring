@@ -103,3 +103,9 @@ export const stationStatusOptions = [
     color: COLOR.EXCEEDED_PREPARING,
   },
 ]
+
+
+export const STATUS_CAMERA = {
+  NOT_EXISTS: 'NOT_EXISTS',
+  EXISTS: 'EXISTS',
+}

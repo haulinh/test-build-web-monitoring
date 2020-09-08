@@ -45,7 +45,7 @@ export default class CameraList extends React.Component {
     },
   }
 
-  handleCamera = e => { }
+  handleCamera = e => {}
 
   async componentDidMount() {
     const auth = await getAuthToken()
@@ -64,6 +64,7 @@ export default class CameraList extends React.Component {
           key: `${key}_${index}`,
           stationKey: key,
           stationName: name,
+          status: item.status,
           stationType,
           src: `${item.rtspUrl}?resolution=360p&sfd&rt`,
           name: item.name,
@@ -157,19 +158,19 @@ export default class CameraList extends React.Component {
         )}
 
         <WrapperContainer>
-          {this.state.isLoaded && cameraList.length > 0 ? (
-            cameraList.map(camera => (
-              <ListItem
-                auth={this.state.auth}
-                key={`${camera.key}`}
-                camera={camera}
-                onCameraClick={this.handleCamera}
-                countStartCamera={this.state.countStartCamera}
-                cbPlay={this.cbPlay}
-                cbStop={this.cbStop}
-              />
-            ))
-          ) : null}
+          {this.state.isLoaded && cameraList.length > 0
+            ? cameraList.map(camera => (
+                <ListItem
+                  auth={this.state.auth}
+                  key={`${camera.key}`}
+                  camera={camera}
+                  onCameraClick={this.handleCamera}
+                  countStartCamera={this.state.countStartCamera}
+                  cbPlay={this.cbPlay}
+                  cbStop={this.cbStop}
+                />
+              ))
+            : null}
           {this.state.isLoaded && cameraList.length === 0 ? (
             <Empty
               description={translate('empty.camera.description')}
@@ -179,10 +180,12 @@ export default class CameraList extends React.Component {
               }}
             >
               <Link to={slug.stationAuto.configCamera.base}>
-                <Button type="primary">{translate('empty.camera.action')}</Button>
+                <Button type="primary">
+                  {translate('empty.camera.action')}
+                </Button>
               </Link>
-            </Empty>)
-            : null}
+            </Empty>
+          ) : null}
         </WrapperContainer>
       </PageContainer>
     )
