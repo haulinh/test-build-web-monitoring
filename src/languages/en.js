@@ -3,6 +3,7 @@ export default {
     camera: {
       description: 'Camera not found',
       action: 'Camera configuration',
+      errorAuth:'Authentication error'
     },
     wqi: {
       description: 'Station not found',

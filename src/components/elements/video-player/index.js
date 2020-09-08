@@ -6,10 +6,11 @@ import pathParse from 'path-parse'
 import { getThumbLink, getCameraMPJEGLink } from 'api/CameraApi'
 import { message } from 'antd'
 import moment from 'moment'
+import { STATUS_CAMERA } from 'constants/stationStatus'
 
 // tham khao o: https://codepen.io/webcrunchblog/pen/WaNYPv?editors=0010
 // tham khao o: https://web-crunch.com/lets-build-with-javascript-html5-video-player/
-const LINK_Error = '/images/imgError.jpg'
+const LINK_Error = '/images/imgError.svg'
 const IconPlay = () => (
   <svg width="16" height="16" viewBox="0 0 16 16">
     <title>pause</title>
@@ -115,6 +116,7 @@ export default class Player extends React.Component {
     cbStop: PropTypes.func.isRequired,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    status: PropTypes.string,
   }
   static defaultProps = {
     width: '100%',
@@ -133,6 +135,7 @@ export default class Player extends React.Component {
       linkStream: getCameraMPJEGLink(cameraId, props.auth, '240p'),
       linkStreamHightQual: getCameraMPJEGLink(cameraId, props.auth, '640p'),
       link480p: getCameraMPJEGLink(cameraId, props.auth, '480p'),
+      status: props.status ? props.status : STATUS_CAMERA.EXISTS,
     }
   }
 
@@ -218,6 +221,8 @@ export default class Player extends React.Component {
       else source = this.state.linkStream
     }
 
+    const { status } = this.state
+
     return (
       <WraperPlayer>
         <div
@@ -233,7 +238,7 @@ export default class Player extends React.Component {
             width="100%"
             height="100%"
             className="player-video"
-            src={source}
+            src={status === STATUS_CAMERA.EXISTS ? source : LINK_Error}
             onClick={this.handlePlay}
             onError={() => {
               this.setState({
