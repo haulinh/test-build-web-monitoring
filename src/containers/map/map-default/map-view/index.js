@@ -96,13 +96,17 @@ class CustomGoogleMap extends PureComponent {
         }}
         defaultZoom={12}
         //defaultCenter={defaultCenter}
-        //center={this.props.center ? this.props.center : defaultCenter}
+        // center={this.props.center ? this.props.center : defaultCenter}
+        center={this.props.center && this.props.center}
         zoom={this.state.zoom}
         onZoomChanged={() => {
-          if (this.state.isBound)
-            this.setState({
-              zoom: this.map.getZoom(),
-            })
+          this.setState({
+            zoom: this.map.getZoom(),
+          })
+          // if (this.state.isBound)
+          //   this.setState({
+          //     zoom: this.map.getZoom(),
+          //   })
         }}
       >
         <div>

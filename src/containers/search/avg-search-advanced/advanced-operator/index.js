@@ -1,12 +1,11 @@
-import React from 'react'
+import { Button, Collapse } from 'antd'
 import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { Collapse, Button } from 'antd'
 import createLang from 'hoc/create-lang'
 import update from 'immutability-helper'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 import ConditionItem from './ConditionItem'
-import { v4 as uuidv4 } from 'uuid'
 
 const Wrapper = styled.div`
   position: relative;

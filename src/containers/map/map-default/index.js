@@ -83,13 +83,27 @@ export default class MapDefault extends React.PureComponent {
   }
 
   handleSelectStation(stationSelected) {
-    const defaultZoom = 12
-    let updateState = { stationSelected }
-    if (this.state.map && this.state.map.getZoom() !== defaultZoom)
-      updateState.zoom = defaultZoom
-    this.setState(updateState, () => {
-      this.props.getStationAuto(_pick(stationSelected, ['_id', 'key', 'name']))
-    })
+    // const defaultZoom = 12
+    // let updateState = { stationSelected }
+    // updateState.center = stationSelected.mapLocation
+    // if (this.state.map && this.state.map.getZoom() !== defaultZoom)
+    //   updateState.zoom = defaultZoom
+    // this.setState(updateState, () => {
+    //   this.props.getStationAuto(_pick(stationSelected, ['_id', 'key', 'name']))
+    // })
+
+    this.setState(
+      {
+        center: stationSelected.mapLocation,
+        stationSelected,
+        zoom: 12,
+      },
+      () => {
+        this.props.getStationAuto(
+          _pick(stationSelected, ['_id', 'key', 'name'])
+        )
+      }
+    )
   }
 
   componentDidMount() {
@@ -160,9 +174,6 @@ export default class MapDefault extends React.PureComponent {
     res = res.map(element => {
       element.visible = false
       let status
-
-      console.log(element.statusAnalytic, element, 'statusAnalytic')
-
       if (element.statusAnalytic === STATUS_STATION.GOOD) {
         status = STATUS_STATION.GOOD
       }
@@ -217,7 +228,7 @@ export default class MapDefault extends React.PureComponent {
   }
 
   render() {
-    // console.log(this.state.stationsAuto, "stationsAuto")
+    // console.log('this.state.zoom', this.state.zoom)
     return (
       <MapDefaultWrapper height={this.props.windowHeight}>
         <Clearfix />
