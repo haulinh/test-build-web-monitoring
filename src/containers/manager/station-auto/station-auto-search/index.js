@@ -12,7 +12,7 @@ import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import ROLE from 'constants/role'
-import { EMAIL, PHONE } from 'constants/info-contact.js'
+// import { EMAIL, PHONE } from 'constants/info-contact.js'
 
 const i18n = {
   okText: translate('addon.ok'),
@@ -126,7 +126,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
   }
 
   handleAddStationAuto = () => {
-    if (this.props.packageInfo.organizationType !== 'ON_PREMISES' && this.props.packageInfo.totalStation <= this.props.stationLength) {
+    if (this.props.packageInfo.totalStation <= this.props.stationLength) {
       Modal.warning({
         icon: null,
         width: '50%',
@@ -144,11 +144,11 @@ export default class StationAutoSearchForm extends React.PureComponent {
               <Wrapper>
                 <Flex>
                   <Label>{translate('contact.phone')}</Label>
-                  <Content>{PHONE}</Content>
+                  <Content>{this.props.packageInfo.saler.phone.phoneNumber}</Content>
                 </Flex>
                 <Flex>
                   <Label>{translate('contact.email')}</Label>
-                  <Content>{EMAIL}</Content>
+                  <Content>{this.props.packageInfo.saler.email}</Content>
                 </Flex>
               </Wrapper>
             </ContentWrapper>
