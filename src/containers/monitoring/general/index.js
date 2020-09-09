@@ -384,9 +384,9 @@ export default class MonitoringGeneral extends React.Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    if (!_.isEqual(nextProps.formData.stationAuto, this.state.followStation)) {
+    if (!_.isEqual(nextProps.formData.stationAuto, this.props.formData.stationAuto)) {
       this.setState({
-        followStation: _.get(this.props.formData, 'stationAuto', ''),
+        followStation: _.get(nextProps.formData, 'stationAuto', ''),
       })
     }
   }
