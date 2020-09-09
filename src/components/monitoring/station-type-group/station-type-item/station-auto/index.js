@@ -10,7 +10,7 @@ import MoreContent from './more-content'
 import slug from 'constants/slug'
 import { STATUS_STATION } from 'constants/stationStatus'
 import { translate } from 'hoc/create-lang'
-import { get, map as _map } from 'lodash'
+import { get, map as _map, isEqual } from 'lodash'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 
 import CameraListView from './camera-list'
@@ -158,6 +158,22 @@ export default class StationAutoItem extends React.PureComponent {
       this.setState({
         showPanel: 'chart',
       })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      !isEqual(
+        get(nextProps, 'formData.stationAuto', ''),
+        get(this.props, 'formData.stationAuto', '')
+      )
+    ) {
+      if (nextProps.stationID === get(nextProps, 'formData.stationAuto', '')) {
+        // console.log(this.props.formData, "componentDidMount run 2")
+        this.setState({
+          showPanel: 'chart',
+        })
+      }
     }
   }
 
