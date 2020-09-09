@@ -17,6 +17,7 @@ import NotificationDrawer from 'layout/navigation-layout/NotificationDrawer'
 import { SHAPE } from 'themes/color'
 import { Tooltip } from 'antd'
 import { translate } from 'hoc/create-lang'
+import { withRouter } from 'react-router-dom'
 
 const NotificationWrapperIcon = styled.div`
   color: #333
@@ -46,6 +47,7 @@ const NotificationWrapperIcon = styled.div`
   }
 `
 
+@withRouter
 @connectAutoDispatch(
   state => ({
     notificationCount: state.notification.count,
@@ -70,6 +72,11 @@ export default class Notification extends React.PureComponent {
   }
 
   handleClickNotification(e) {
+    //Function prevent auto scroll monitoring when click notification
+    if (this.props.history.location.pathname === '/monitoring') {
+      this.props.history.replace(this.props.history.location.pathname)
+    }
+
     e.preventDefault()
     this.props.setDrawerVisible(true)
     this.props.resetAllCounts()
@@ -90,7 +97,11 @@ export default class Notification extends React.PureComponent {
           <NotificationWrapperIcon onClick={this.handleClickNotification}>
             <NotificationIcon color="#fff" size="large" />
             {this.props.notificationCount ? (
-              <div className="badge">{this.props.notificationCount < 99 ? this.props.notificationCount : '99+'}</div>
+              <div className="badge">
+                {this.props.notificationCount < 99
+                  ? this.props.notificationCount
+                  : '99+'}
+              </div>
             ) : null}
           </NotificationWrapperIcon>
         </Tooltip>
