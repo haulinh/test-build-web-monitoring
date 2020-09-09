@@ -3,6 +3,7 @@ export default {
     camera: {
       description: 'Không tìm thấy camera',
       action: 'Cấu hình camera',
+      errorAuth:'Lỗi xác thực'
     },
     wqi: {
       description: 'Không tìm thấy trạm',

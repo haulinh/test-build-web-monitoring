@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Card } from 'antd'
-// import Player from "../player-view";
 import Player from '/components/elements/video-player'
-// import { Link } from 'react-router-dom'
-// import slug from 'constants/slug'
-// import * as _ from 'lodash'
 import PropTypes from 'prop-types'
+import { STATUS_CAMERA } from 'constants/stationStatus'
+import { translate } from 'hoc/create-lang'
+
+const i18n = {
+  errorAuth: translate('empty.camera.errorAuth'),
+}
 
 const { Meta } = Card
 
@@ -16,6 +18,7 @@ export default class ListItemView extends React.Component {
   static propTypes = {
     auth: PropTypes.string.isRequired,
     countStartCamera: PropTypes.number.isRequired,
+    camera: PropTypes.object,
     cbPlay: PropTypes.func.isRequired,
     cbStop: PropTypes.func.isRequired,
   }
@@ -31,7 +34,7 @@ export default class ListItemView extends React.Component {
       src,
       stationName,
       name,
-      // _id,
+      status,
       // stationType: { key },
     } = this.props.camera
 
@@ -49,20 +52,16 @@ export default class ListItemView extends React.Component {
             cbPlay={this.props.cbPlay}
             cbStop={this.props.cbStop}
             countStartCamera={this.props.countStartCamera}
+            status={status}
           />
         }
       >
-        {/* <Link
-          onClick={this.handleCamera}
-          to={`${
-            slug.cameraControl.detailWithKey
-          }/${key}/${_id}?name=${encodeURIComponent(_.deburr(name))}`}
-        > */}
         <Meta
-          title={name}
+          title={`${name}${
+            status === STATUS_CAMERA.NOT_EXISTS ? ` - ${i18n.errorAuth}` : ''
+          }`}
           description={<DescriptionView>{stationName}</DescriptionView>}
         />
-        {/* </Link> */}
       </Card>
     )
   }
