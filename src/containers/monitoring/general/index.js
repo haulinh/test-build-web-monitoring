@@ -55,6 +55,10 @@ export const defaultFilter = {
 @protectRole(ROLE.MONITORING.VIEW)
 @autobind
 export default class MonitoringGeneral extends React.Component {
+  constructor(props) {
+    super(props)
+    this.comptAnchor = React.createRef()
+  }
   state = {
     isLoading: false,
     isLoadedFirst: false,
@@ -147,7 +151,7 @@ export default class MonitoringGeneral extends React.Component {
 
   getFollowStation = stations => {
     if (this.state.followStation) {
-      const aa = _.find(stations, function (o) {
+      const aa = _.find(stations, function(o) {
         return (o.key = this.state.followStation)
       })
       return aa
@@ -303,7 +307,10 @@ export default class MonitoringGeneral extends React.Component {
     const dataResult = this.getFilterProvince(this.state.data)
     let stationTypeList = dataResult.stationTypeList
     // filter by STATION TYPE
-    if (this.state.filter.stationType && this.state.filter.stationType !== "ALL") {
+    if (
+      this.state.filter.stationType &&
+      this.state.filter.stationType !== 'ALL'
+    ) {
       stationTypeList = stationTypeList.filter(
         stationType =>
           stationType.stationType.key === this.state.filter.stationType
@@ -359,17 +366,30 @@ export default class MonitoringGeneral extends React.Component {
     }
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
-    // console.log(prevState.followStation, this.state.followStation , "this.state.followStation " )
-    if (
-      this.state.followStation &&
-      this.state.followStation === prevState.followStation
-    ) {
-      setTimeout(() => {
-        if (this.comptAnchor) {
-          this.comptAnchor.handleClick()
-        }
-      }, 500)
+  // componentDidUpdate = (prevProps, prevState) => {
+  //   if (
+  //     this.state.followStation &&
+  //     this.state.followStation !== prevProps.formData.stationAuto
+  //   ) {
+  //     setTimeout(() => {
+  //       if (this.comptAnchor) {
+  //         this.comptAnchor.handleClick()
+  //       }
+  //     }, 500)
+  //   }
+  // }
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.formData.stationAuto !== this.state.followStation) {
+      const _followStation = _.get(this.props.formData, 'stationAuto', '')
+
+      this.setState({ followStation: _followStation }, () => {
+        setTimeout(() => {
+          if (this.comptAnchor && this.comptAnchor.current) {
+            this.comptAnchor.current.handleClick()
+          }
+        }, 500)
+      })
     }
   }
 
@@ -395,7 +415,8 @@ export default class MonitoringGeneral extends React.Component {
             offsetTop={140}
           >
             <Link
-              ref={link => (this.comptAnchor = link)}
+              // ref={link => (this.comptAnchor = link)}
+              ref={this.comptAnchor}
               href={`#${this.state.followStation}`}
               title={this.state.followStation}
             />
