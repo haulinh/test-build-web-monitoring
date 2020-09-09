@@ -55,10 +55,6 @@ export const defaultFilter = {
 @protectRole(ROLE.MONITORING.VIEW)
 @autobind
 export default class MonitoringGeneral extends React.Component {
-  constructor(props) {
-    super(props)
-    this.comptAnchor = React.createRef()
-  }
   state = {
     isLoading: false,
     isLoadedFirst: false,
@@ -366,29 +362,31 @@ export default class MonitoringGeneral extends React.Component {
     }
   }
 
-  // componentDidUpdate = (prevProps, prevState) => {
-  //   if (
-  //     this.state.followStation &&
-  //     this.state.followStation !== prevProps.formData.stationAuto
-  //   ) {
-  //     setTimeout(() => {
-  //       if (this.comptAnchor) {
-  //         this.comptAnchor.handleClick()
-  //       }
-  //     }, 500)
-  //   }
-  // }
+  componentDidUpdate = (prevProps, prevState) => {
+    if (
+      this.state.followStation &&
+      this.state.followStation !== prevState.followStation
+    ) {
+      setTimeout(() => {
+        if (this.comptAnchor) {
+          this.comptAnchor.handleClick()
+        }
+      }, 500)
+    }
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      if (this.comptAnchor) {
+        this.comptAnchor.handleClick()
+      }
+    }, 1000)
+  }
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.formData.stationAuto !== this.state.followStation) {
-      const _followStation = _.get(this.props.formData, 'stationAuto', '')
-
-      this.setState({ followStation: _followStation }, () => {
-        setTimeout(() => {
-          if (this.comptAnchor && this.comptAnchor.current) {
-            this.comptAnchor.current.handleClick()
-          }
-        }, 500)
+    if (nextProps.formData) {
+      this.setState({
+        followStation: _.get(this.props.formData, 'stationAuto', ''),
       })
     }
   }
@@ -415,10 +413,9 @@ export default class MonitoringGeneral extends React.Component {
             offsetTop={140}
           >
             <Link
-              // ref={link => (this.comptAnchor = link)}
-              ref={this.comptAnchor}
-              href={`#${this.state.followStation}`}
-              title={this.state.followStation}
+              ref={link => (this.comptAnchor = link)}
+              href={`#${this.state.followStation || ''}`}
+              title={this.state.followStation || ''}
             />
           </Anchor>
         )}
