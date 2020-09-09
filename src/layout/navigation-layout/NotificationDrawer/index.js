@@ -114,7 +114,7 @@ export default class NotificationDrawer extends React.Component {
   render() {
     return (
       <SideBarNotificationWrapper
-        width="30vw"
+        width="35vw"
         bodyStyle={{
           height: 'calc(100vh - 55px)',
           padding: 0,

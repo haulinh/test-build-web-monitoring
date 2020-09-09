@@ -4,21 +4,31 @@ import React from 'react'
 import { translate } from 'hoc/create-lang'
 import DefaultCell from './_defaultCell'
 import { BoldTextWrap } from './_helperComponent'
+import styled from 'styled-components'
+
 
 const i18n = {
   station: translate('common.station'),
   measurings: translate('common.measures'),
   dataConnected: translate('common.deviceStatus.dataConnected'),
 }
-
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 22em;
+`
 export default function DataConnectedCell(props) {
   const { cellContent } = props
 
   const content = (
     <React.Fragment>
-      <BoldTextWrap>{i18n.dataConnected} </BoldTextWrap>
-      <span style={{ fontSize: '16px' }}>{i18n.station}</span>
-      <span> {cellContent.title}</span>
+      <TitleWrapper>
+        <BoldTextWrap>
+          {i18n.station} {cellContent.station}
+        </BoldTextWrap>
+        <div style={{ width: '1em' }}></div>
+        <div> {i18n.dataConnected}</div>
+      </TitleWrapper>
     </React.Fragment>
   )
 

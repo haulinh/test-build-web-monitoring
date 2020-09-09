@@ -4,6 +4,7 @@ import React from 'react'
 import { translate } from 'hoc/create-lang'
 import DefaultCell from './_defaultCell'
 import { BoldTextWrap } from './_helperComponent'
+import styled from 'styled-components'
 
 const i18n = {
   station: translate('common.station'),
@@ -11,16 +12,34 @@ const i18n = {
   dataExeeded: translate('common.deviceStatus.dataExceeded'),
 }
 
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 22em;
+`
+
 export default function DataExceededCell(props) {
   const { cellContent } = props
 
   const content = (
     <React.Fragment>
-      <BoldTextWrap>{i18n.dataExeeded} </BoldTextWrap>
-      {i18n.station}
-      <span> {cellContent.title} </span>
-      {i18n.measurings}
-      <span> {cellContent.fullBody}</span>
+      <TitleWrapper>
+        <BoldTextWrap>
+          {i18n.station} {cellContent.station}
+        </BoldTextWrap>
+        <div style={{ width: '1em' }}></div>
+        <div> {i18n.dataExeeded}</div>
+      </TitleWrapper>
+
+      <ul>
+        {cellContent.measures.map(mea => {
+          return (
+            <li>
+              <b>{mea.key}</b> {mea.value} {mea.unit} {mea.moreContent}
+            </li>
+          )
+        })}
+      </ul>
     </React.Fragment>
   )
 
@@ -30,12 +49,5 @@ export default function DataExceededCell(props) {
     color: 'red',
   }
 
-  return (
-    <DefaultCell
-      // icon={`${warningLevelImages.dataExceeded}`}
-      icon={icon}
-      content={content}
-      data={cellContent}
-    />
-  )
+  return <DefaultCell icon={icon} content={content} data={cellContent} />
 }
