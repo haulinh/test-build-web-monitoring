@@ -15,7 +15,6 @@ const i18n = {
 const TitleWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 22em;
 `
 
 export default function DataExceededCell(props) {
@@ -27,14 +26,13 @@ export default function DataExceededCell(props) {
         <BoldTextWrap>
           {i18n.station} {cellContent.station}
         </BoldTextWrap>
-        <div style={{ width: '1em' }}></div>
-        <div> {i18n.dataExeeded}</div>
+        <span>&nbsp; {i18n.dataExeeded}</span>
       </TitleWrapper>
 
       <ul>
         {cellContent.measures.map(mea => {
           return (
-            <li>
+            <li style={{ listStyleType: 'disc' }}>
               <b>{mea.key}</b> {mea.value} {mea.unit} {mea.moreContent}
             </li>
           )

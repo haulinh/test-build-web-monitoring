@@ -6,7 +6,6 @@ import DefaultCell from './_defaultCell'
 import { BoldTextWrap } from './_helperComponent'
 import styled from 'styled-components'
 
-
 const i18n = {
   station: translate('common.station'),
   measurings: translate('common.measures'),
@@ -15,7 +14,6 @@ const i18n = {
 const TitleWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 22em;
 `
 
 export default function DataExceededPreparedCell(props) {
@@ -27,14 +25,13 @@ export default function DataExceededPreparedCell(props) {
         <BoldTextWrap>
           {i18n.station} {cellContent.station}
         </BoldTextWrap>
-        <div style={{ width: '1em' }}></div>
-        <div> {i18n.sensorAdjust}</div>
+        <span> &nbsp;{i18n.sensorAdjust}</span>
       </TitleWrapper>
 
       <ul>
         {cellContent.measures.map(mea => {
           return (
-            <li>
+            <li style={{ listStyleType: 'disc' }}>
               <b>{mea.key}</b>
             </li>
           )

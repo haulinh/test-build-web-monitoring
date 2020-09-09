@@ -152,13 +152,13 @@ export default class NotificationDrawer extends React.Component {
                     </a>
                   )}
               </div>
-              <a
+              {/* <a
                 style={{ marginLeft: '8px' }}
                 href="_blank"
                 onClick={this.closeDrawer}
               >
                 <CrossIcon />
-              </a>
+              </a> */}
             </DivBenPhai>
           </div>
         }

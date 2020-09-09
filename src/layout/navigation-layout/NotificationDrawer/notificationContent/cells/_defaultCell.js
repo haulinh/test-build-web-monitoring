@@ -143,7 +143,7 @@ export default class DefaultCell extends React.Component {
             {/* </Col> */}
 
             {/* contents */}
-            <Col span={19} className="notify-content">
+            <Col span={20} className="notify-content">
               <Tooltip
                 title={content}
                 placement="right"
@@ -163,7 +163,7 @@ export default class DefaultCell extends React.Component {
                 >
                   {moment(receivedAt)
                     .locale(this.props.locale)
-                    .fromNow()}
+                    .format('LLL')}
                 </Col>
               </Row>
             </Col>
