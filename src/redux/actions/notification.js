@@ -310,6 +310,8 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
       viewDetail: viewDetailURL,
       aroundAtExceededTime: RawDataURL,
     },
+    measures: rawContent.measures,
+    notificationType: rawContent.notificationType
   }
 
   return cellContent

@@ -114,7 +114,7 @@ export default class NotificationDrawer extends React.Component {
   render() {
     return (
       <SideBarNotificationWrapper
-        width="30vw"
+        width="35vw"
         bodyStyle={{
           height: 'calc(100vh - 55px)',
           padding: 0,
@@ -152,13 +152,13 @@ export default class NotificationDrawer extends React.Component {
                     </a>
                   )}
               </div>
-              <a
+              {/* <a
                 style={{ marginLeft: '8px' }}
                 href="_blank"
                 onClick={this.closeDrawer}
               >
                 <CrossIcon />
-              </a>
+              </a> */}
             </DivBenPhai>
           </div>
         }

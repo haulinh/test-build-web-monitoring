@@ -3,7 +3,7 @@ export default {
     camera: {
       description: 'Không tìm thấy camera',
       action: 'Cấu hình camera',
-      errorAuth:'Lỗi xác thực'
+      errorAuth: 'Lỗi xác thực'
     },
     wqi: {
       description: 'Không tìm thấy trạm',
@@ -94,7 +94,7 @@ export default {
     lossAt: 'Mất kết nối lúc',
     notInUse: 'Chưa sử dụng',
     deviceStatus: {
-      dataloss: 'Mất tín hiệu',
+      dataloss: 'đang mất tín hiệu',
       sensorError: 'Lỗi thiết bị',
       maintenance: 'Hiệu chuẩn',
       sensorNormal: 'Đang đo',
@@ -2583,20 +2583,21 @@ export default {
     },
   },
   common: {
-    station: 'trạm',
+    station: 'Trạm',
     device: 'thiết bị',
     measure: 'Chỉ tiêu',
     measures: 'Các chỉ tiêu',
     measure2: 'Các chỉ tiêu:',
     deviceStatus: {
-      sensorGood: 'Thiết bị tốt',
-      sensorError: 'Thiết bị lỗi',
-      sensorMaintain: 'Thiết bị hiệu chuẩn',
-      dataExceeded: 'Vượt ngưỡng',
-      dataExceededPrepare: 'Chuẩn bị vượt ngưỡng',
+      sensorGood: 'thiết bị tốt trở lại',
+      sensorError: 'thiết bị đang bị lỗi',
+      sensorMaintain: 'thiết bị đang hiệu chuẩn',
+      dataExceeded: 'đang vượt ngưỡng',
+      dataExceededPrepare: 'chuẩn bị vượt ngưỡng',
       dataGood: 'Dữ liệu tốt',
-      dataLoss: 'Mất tín hiệu',
-      dataConnected: 'Có tín hiệu trở lại',
+      dataGood2: 'dữ liệu tốt trở lại',
+      dataLoss: 'đang mất tín hiệu',
+      dataConnected: 'có tín hiệu trở lại',
     },
     overview: 'Tổng quan',
     list: 'Danh sách',
