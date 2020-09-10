@@ -25,11 +25,23 @@ export default class ConfigNotificationTab extends React.Component {
 
   render() {
     const { dataSource: configNotifyData, isLoading } = this.props
+
+    const newConfig = configNotifyData.map(
+      config => {
+        return {
+          ...config,
+          configDetail: config.configDetail.filter(
+            configDetailItem => configDetailItem.status !== 'LOST_CONNECTION'
+          ),
+        }
+      }
+    )
+
     return (
       <React.Fragment>
         <Spin spinning={isLoading}>
           <Collapse defaultActiveKey={['DATA_STATUS']}>
-            {configNotifyData.map(configNotify => (
+            {newConfig.map(configNotify => (
               <Panel
                 header={translate(
                   `configNotify.headerStatus.${configNotify.key}`
