@@ -34,7 +34,7 @@ export default class StationAutoFormTable extends React.Component {
     allowUpdateStandardsVN: PropTypes.bool,
     standardsVN: PropTypes.array,
     isEdit: PropTypes.bool, // giữ lại các chỉ tiêu đã có truoc
-    onChangeMeasuring: PropTypes.func
+    onChangeMeasuring: PropTypes.func,
   }
 
   constructor(props) {
@@ -49,21 +49,14 @@ export default class StationAutoFormTable extends React.Component {
   async componentDidMount() {
     let measuringList = []
 
-    if (!this.props.isEdit && !_.isEmpty(this.props.standardsVN)) {
-      measuringList = _.map(this.props.standardsVN, (item, index) => {
-        return {
-          ...item,
-          id: index + 1,
-        }
-      })
-    } else {
-      measuringList = _.map(this.props.dataSource, (item, index) => {
-        return {
-          ...item,
-          id: index + 1,
-        }
-      })
-    }
+    measuringList = _.map(this.props.dataSource, (item, index) => {
+      return {
+        ...item,
+        id: index + 1,
+      }
+    })
+
+    console.log('--componentDidMount--', this.props.dataSource)
     this.setState({
       isLoaded: true,
       measuringList: measuringList,
@@ -292,7 +285,7 @@ export default class StationAutoFormTable extends React.Component {
 
   _isEnableSelectMeasure = (meaKey, measuringList) => {
     const arr = measuringList
-    console.log(arr, '---arr--')
+    // console.log(arr, '---arr--')
     if (!arr || arr.length < 1) {
       return false
     }
@@ -300,7 +293,7 @@ export default class StationAutoFormTable extends React.Component {
     const index = _.findIndex(arr, i => {
       return i.key === meaKey
     })
-    console.log(arr, index, '-----')
+    // console.log(arr, index, '-----')
     if (index > -1) {
       return false
     }
@@ -512,17 +505,15 @@ export default class StationAutoFormTable extends React.Component {
       // const B = prevProps.form.getFieldValue('measuringList')
 
       // console.log('Đã cập nhật',  A)
-        if (
-          JSON.stringify(A) !== JSON.stringify(this.state.measuringList)
-        ) {
-          // console.log('Đã cập nhật', this.state.measuringList)
-          if(this.props.onChangeMeasuring){
-            this.setState({
-              measuringList:A
-            })
-            this.props.onChangeMeasuring(A)
-          }
+      if (JSON.stringify(A) !== JSON.stringify(this.state.measuringList)) {
+        // console.log('Đã cập nhật', this.state.measuringList)
+        if (this.props.onChangeMeasuring) {
+          this.setState({
+            measuringList: A,
+          })
+          this.props.onChangeMeasuring(A)
         }
+      }
     }
   }
 }
