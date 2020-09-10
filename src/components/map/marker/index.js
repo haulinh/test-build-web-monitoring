@@ -112,6 +112,7 @@ export default class MarkerStation extends PureComponent {
       name: this.props.name,
     }
     this.props.getStationAuto(stationSelected)
+    this.props.handleMarkerClick(this.props.mapLocation)
   }
 
   getTextWidth(text, font) {

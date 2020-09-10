@@ -82,6 +82,8 @@ export default class MapDefault extends React.PureComponent {
     })
   }
 
+  setStateZoom = zoom => this.setState({ zoom })
+
   handleSelectStation(stationSelected) {
     // const defaultZoom = 12
     // let updateState = { stationSelected }
@@ -91,7 +93,6 @@ export default class MapDefault extends React.PureComponent {
     // this.setState(updateState, () => {
     //   this.props.getStationAuto(_pick(stationSelected, ['_id', 'key', 'name']))
     // })
-
     this.setState(
       {
         center: stationSelected.mapLocation,
@@ -104,6 +105,10 @@ export default class MapDefault extends React.PureComponent {
         )
       }
     )
+  }
+
+  handleMarkerClick = center => {
+    this.setState({ zoom: 12, center })
   }
 
   componentDidMount() {
@@ -228,13 +233,13 @@ export default class MapDefault extends React.PureComponent {
   }
 
   render() {
-    // console.log('this.state.zoom', this.state.zoom)
     return (
       <MapDefaultWrapper height={this.props.windowHeight}>
         <Clearfix />
         <BoxHideLayout handelOnLick={this.handelOnLickHideLeftLayout} />
         <MapCenter>
           <MapView
+            setStateZoom={this.setStateZoom}
             ref={mapView => {
               this.mapView = mapView
             }}
@@ -244,6 +249,7 @@ export default class MapDefault extends React.PureComponent {
             zoom={this.state.zoom}
             lang={this.props.lang}
             stationsAutoList={this.state.stationsAuto}
+            handleMarkerClick={this.handleMarkerClick}
           />
         </MapCenter>
         <BoxHideLayout

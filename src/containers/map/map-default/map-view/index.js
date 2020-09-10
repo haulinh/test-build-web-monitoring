@@ -64,7 +64,12 @@ class CustomGoogleMap extends PureComponent {
     if (this.props.stationAutoMarker.length > 0) {
       const bounds = new window.google.maps.LatLngBounds()
       this.props.stationAutoMarker.map(item => {
-        bounds.extend(item.mapLocation)
+        // bounds.extend(item.mapLocation)
+        const latLng = new window.google.maps.LatLng(
+          item.mapLocation.lat,
+          item.mapLocation.lng
+        )
+        bounds.extend(latLng)
       })
       if (this.map && this.map.fitBounds) {
         this.state.isBounds = true
@@ -100,13 +105,15 @@ class CustomGoogleMap extends PureComponent {
         center={this.props.center && this.props.center}
         zoom={this.state.zoom}
         onZoomChanged={() => {
-          this.setState({
-            zoom: this.map.getZoom(),
-          })
-          // if (this.state.isBound)
-          //   this.setState({
-          //     zoom: this.map.getZoom(),
-          //   })
+          // this.setState({
+          //   zoom: this.map.getZoom(),
+          // })
+          this.props.setStateZoom(this.map.getZoom())
+          if (this.state.isBounds) {
+            this.setState({
+              zoom: this.map.getZoom(),
+            })
+          }
         }}
       >
         <div>
@@ -125,6 +132,7 @@ class CustomGoogleMap extends PureComponent {
                 // console.log(item.mapLocation,"mapLocationr")
                 return (
                   <MarkerStation
+                    handleMarkerClick={this.props.handleMarkerClick}
                     code={item.key}
                     visible={false}
                     stationKey={item.key}
@@ -231,6 +239,7 @@ export default class MapStationAuto extends PureComponent {
           <LevelIntro />
         </LevelWrapper>
         <CustomGoogleMap
+          setStateZoom={this.props.setStateZoom}
           ref={map => {
             this.mapTamp = map
           }}
@@ -239,6 +248,7 @@ export default class MapStationAuto extends PureComponent {
           getMap={this.setMap}
           getRefMarker={this.setListMarker}
           zoom={this.props.zoom}
+          handleMarkerClick={this.props.handleMarkerClick}
           {...getGoogleMapProps(this.props.lang)}
           loadingElement={
             <div style={{ height: this.props.windowHeight + 'px' }} />
