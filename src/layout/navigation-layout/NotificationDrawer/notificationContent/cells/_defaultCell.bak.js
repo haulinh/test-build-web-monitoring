@@ -29,7 +29,7 @@ const i18n = {
 }
 //View data around this time
 const MultilineText = styled(Row)`
-  /* font-size: 16px;
+  font-size: 16px;
   max-height: 2.6em;
   text-overflow: ellipsis;
   line-height: 1.3em;
@@ -37,7 +37,7 @@ const MultilineText = styled(Row)`
   white-space: normal;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  display: -webkit-box; */
+  display: -webkit-box;
 `
 
 @connect(state => ({
@@ -119,7 +119,7 @@ export default class DefaultCell extends React.Component {
         onMouseEnter={() => this.setState({ isHoverOnCell: true })}
         onMouseLeave={() => this.setState({ isHoverOnCell: false })}
       >
-        <Col span={21} onClick={() => this._handleCellOnClick(data)}>
+        <Col span={20} onClick={() => this._handleCellOnClick(data)}>
           <Row type="flex" style={{ height: '100%' }}>
             <img
               width={40}
@@ -143,7 +143,7 @@ export default class DefaultCell extends React.Component {
             {/* </Col> */}
 
             {/* contents */}
-            <Col span={20} className="notify-content">
+            <Col span={19} className="notify-content">
               <Tooltip
                 title={content}
                 placement="right"
@@ -163,7 +163,7 @@ export default class DefaultCell extends React.Component {
                 >
                   {moment(receivedAt)
                     .locale(this.props.locale)
-                    .format('LLL')}
+                    .fromNow()}
                 </Col>
               </Row>
             </Col>
@@ -171,12 +171,12 @@ export default class DefaultCell extends React.Component {
         </Col>
 
         {/* actions */}
-        <Col className="notify-action" span={3}>
+        <Col className="notify-action" span={4}>
 
 
           <Row justify="end">
-            {/* <Col span={8} /> */}
-            <Col span={12}>
+            <Col span={8} />
+            <Col span={8}>
               {this.state.isHoverOnCell && (
                 <Tooltip placement="bottom" title={i18n.delele}>
                   <Icon
@@ -188,7 +188,7 @@ export default class DefaultCell extends React.Component {
                 </Tooltip>
               )}
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               {!data.isRead ? (
                 <Tooltip placement="right" title={i18n.tickRead}>
                   <div

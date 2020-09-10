@@ -4,23 +4,39 @@ import React from 'react'
 import { translate } from 'hoc/create-lang'
 import DefaultCell from './_defaultCell'
 import { BoldTextWrap } from './_helperComponent'
+import styled from 'styled-components'
 
 const i18n = {
   station: translate('common.station'),
   measurings: translate('common.measures'),
   sensorAdjust: translate('common.deviceStatus.sensorMaintain'),
 }
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`
 
 export default function DataExceededPreparedCell(props) {
   const { cellContent } = props
 
   const content = (
     <React.Fragment>
-      <BoldTextWrap>{i18n.sensorAdjust} </BoldTextWrap>
-      {i18n.station}
-      <span> {cellContent.title} </span>
-      {i18n.measurings}
-      <span> {cellContent.fullBody.replace('Thiết bị hiệu chuẩn', '')}</span>
+      <TitleWrapper>
+        <BoldTextWrap>
+          {i18n.station} {cellContent.station}
+        </BoldTextWrap>
+        <span> &nbsp;{i18n.sensorAdjust}</span>
+      </TitleWrapper>
+
+      <ul>
+        {cellContent.measures.map(mea => {
+          return (
+            <li style={{ listStyleType: 'disc' }}>
+              <b>{mea.key}</b>
+            </li>
+          )
+        })}
+      </ul>
     </React.Fragment>
   )
 
