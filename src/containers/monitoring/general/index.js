@@ -147,7 +147,7 @@ export default class MonitoringGeneral extends React.Component {
 
   getFollowStation = stations => {
     if (this.state.followStation) {
-      const aa = _.find(stations, function (o) {
+      const aa = _.find(stations, function(o) {
         return (o.key = this.state.followStation)
       })
       return aa
@@ -303,7 +303,10 @@ export default class MonitoringGeneral extends React.Component {
     const dataResult = this.getFilterProvince(this.state.data)
     let stationTypeList = dataResult.stationTypeList
     // filter by STATION TYPE
-    if (this.state.filter.stationType && this.state.filter.stationType !== "ALL") {
+    if (
+      this.state.filter.stationType &&
+      this.state.filter.stationType !== 'ALL'
+    ) {
       stationTypeList = stationTypeList.filter(
         stationType =>
           stationType.stationType.key === this.state.filter.stationType
@@ -360,16 +363,31 @@ export default class MonitoringGeneral extends React.Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    // console.log(prevState.followStation, this.state.followStation , "this.state.followStation " )
     if (
       this.state.followStation &&
-      this.state.followStation === prevState.followStation
+      this.state.followStation !== prevState.followStation
     ) {
       setTimeout(() => {
         if (this.comptAnchor) {
           this.comptAnchor.handleClick()
         }
       }, 500)
+    }
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      if (this.comptAnchor) {
+        this.comptAnchor.handleClick()
+      }
+    }, 1000)
+  }
+
+  componentWillReceiveProps = nextProps => {
+    if (!_.isEqual(nextProps.formData.stationAuto, this.props.formData.stationAuto)) {
+      this.setState({
+        followStation: _.get(nextProps.formData, 'stationAuto', ''),
+      })
     }
   }
 
@@ -396,8 +414,8 @@ export default class MonitoringGeneral extends React.Component {
           >
             <Link
               ref={link => (this.comptAnchor = link)}
-              href={`#${this.state.followStation}`}
-              title={this.state.followStation}
+              href={`#${this.state.followStation || ''}`}
+              title={this.state.followStation || ''}
             />
           </Anchor>
         )}
