@@ -34,6 +34,7 @@ export default class StationAutoFormTable extends React.Component {
     allowUpdateStandardsVN: PropTypes.bool,
     standardsVN: PropTypes.array,
     isEdit: PropTypes.bool, // giữ lại các chỉ tiêu đã có truoc
+    onChangeMeasuring: PropTypes.func
   }
 
   constructor(props) {
@@ -41,6 +42,7 @@ export default class StationAutoFormTable extends React.Component {
     this.state = {
       measuringList: [],
       isLoaded: false,
+      measuringOptions: [],
     }
   }
 
@@ -65,7 +67,21 @@ export default class StationAutoFormTable extends React.Component {
     this.setState({
       isLoaded: true,
       measuringList: measuringList,
+      measuringOptions: this.getOptions(measuringList),
     })
+  }
+
+  getOptions(measuringList) {
+    const data = _.get(this.props, 'measuringListSource', []).map(d => (
+      <Select.Option
+        disabled={!this._isEnableSelectMeasure(d.key, measuringList)}
+        key={d.key}
+        value={d.key}
+      >
+        {d.name}
+      </Select.Option>
+    ))
+    return data
   }
 
   updateMinMaxOfMeasuring = dataSource => {
@@ -118,15 +134,7 @@ export default class StationAutoFormTable extends React.Component {
                 style={{ width: 120 }}
                 editable={this._isEnableEditMeasure(record.key)}
                 onChange={value => this.handleChangeMeasuring(value, index)}
-                options={_.get(this.props, 'measuringListSource', []).map(d => (
-                  <Select.Option
-                    disabled={!this._isEnableSelectMeasure(d.key)}
-                    key={d.key}
-                    value={d.key}
-                  >
-                    {d.name}
-                  </Select.Option>
-                ))}
+                options={this.state.measuringOptions}
                 // autoFocus={true}
               />
             )}
@@ -163,12 +171,7 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.tendToExceedMin,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCellNoQaQc(
-                text,
-                record,
-                index,
-                'minTend'
-              ),
+              this.renderItemNumberCellNoQaQc(text, record, index, 'minTend'),
           },
           {
             dataIndex: 'maxTend',
@@ -176,12 +179,7 @@ export default class StationAutoFormTable extends React.Component {
             title: i18n.tendToExceedMax,
             width: 150,
             render: (text, record, index) =>
-              this.renderItemNumberCellNoQaQc(
-                text,
-                record,
-                index,
-                'maxTend'
-              ),
+              this.renderItemNumberCellNoQaQc(text, record, index, 'maxTend'),
           },
         ],
       },
@@ -292,14 +290,18 @@ export default class StationAutoFormTable extends React.Component {
     return true
   }
 
-  _isEnableSelectMeasure = meaKey => {
-    const { getFieldValue } = this.props.form
-    const arr = getFieldValue('measuringList')
+  _isEnableSelectMeasure = (meaKey, measuringList) => {
+    const arr = measuringList
+    console.log(arr, '---arr--')
     if (!arr || arr.length < 1) {
       return false
     }
-    const listKeyCustom = arr.map(i => i.key)
-    if (_.includes(listKeyCustom, meaKey)) {
+
+    const index = _.findIndex(arr, i => {
+      return i.key === meaKey
+    })
+    console.log(arr, index, '-----')
+    if (index > -1) {
       return false
     }
 
@@ -340,7 +342,6 @@ export default class StationAutoFormTable extends React.Component {
 
   // NOTE ko check logic disable cac field
   renderItemNumberCellNoQaQc = (text, record, index, key) => {
-    
     return (
       <FormItem style={{ marginBottom: 0 }}>
         {this.props.form.getFieldDecorator(`measuringList[${index}].${key}`, {
@@ -501,9 +502,27 @@ export default class StationAutoFormTable extends React.Component {
       // console.log( getFieldValue('measuringList'), "--componentDidUpdate--1")
       // console.log(measuringList, '---componentDidUpdate--2')
       this.setState({
-        measuringList:measuringList,
+        measuringList: measuringList,
         isLoaded: true,
       })
+    }
+
+    if (this.state.isLoaded) {
+      const A = this.props.form.getFieldValue('measuringList')
+      // const B = prevProps.form.getFieldValue('measuringList')
+
+      // console.log('Đã cập nhật',  A)
+        if (
+          JSON.stringify(A) !== JSON.stringify(this.state.measuringList)
+        ) {
+          // console.log('Đã cập nhật', this.state.measuringList)
+          if(this.props.onChangeMeasuring){
+            this.setState({
+              measuringList:A
+            })
+            this.props.onChangeMeasuring(A)
+          }
+        }
     }
   }
 }
