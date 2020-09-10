@@ -74,6 +74,7 @@ export default class StationAutoForm extends React.PureComponent {
       fileList: [],
       imgList: [],
       allowUpdateStandardsVN: props.isEdit,
+      tabKey: ['1'],
     }
   }
 
@@ -167,15 +168,6 @@ export default class StationAutoForm extends React.PureComponent {
     }
   }
 
-  handleChange(value, key, column) {
-    const newData = [...this.state.measuringList]
-    const target = newData.filter(item => key === item.key)[0]
-    if (target) {
-      target[column] = value
-      this.setState({ measuringList: newData })
-    }
-  }
-
   _transformLostConnectionData = data => {
     const { connectionStatusNumber, connectionStatusTimeRange } = data
     let multipler = 1
@@ -222,24 +214,35 @@ export default class StationAutoForm extends React.PureComponent {
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
-      if (err) return
-      if (!values.measuringList) {
+      if (err) {
+        this.setState({
+          tabKey: ['1'],
+        })
+        return
+      }
+      console.log(values, '--values.measuringList--')
+      // let measuringList = this.state.measuringList
+
+      if (!this.state.measuringList) {
         const { t } = this.props.lang
         swal({
           title: t('stationAutoManager.addMeasuring.error'),
           type: 'error',
         })
+        this.setState({
+          tabKey: ['3'],
+        })
         return
       } else {
-        values.measuringList = _.map(values.measuringList, item => {
-          const dtFind = _.find(this.state.measuringListSource, obj => {
-            return obj.key === item.key
-          })
-          return {
-            ...item,
-            name: dtFind.name,
-          }
-        })
+        // const measuringList = _.map(this.state.measuringList, item => {
+        //   const dtFind = _.find(this.state.measuringListSource, obj => {
+        //     return obj.key === item.key
+        //   })
+        //   return {
+        //     ...item,
+        //     name: dtFind.name,
+        //   }
+        // })
       }
 
       const data = {
@@ -255,7 +258,7 @@ export default class StationAutoForm extends React.PureComponent {
         activatedAt: values.activatedAt,
         dataFrequency: values.dataFrequency,
         note: values.note,
-        measuringList: values.measuringList,
+        measuringList: this.state.measuringList, // values.measuringList,
         options: this.state.options,
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null,
         typeSampling: values.typeSampling,
@@ -274,8 +277,8 @@ export default class StationAutoForm extends React.PureComponent {
         lostConnection: this._transformLostConnectionData(values),
       }
 
-      console.log(data.measuringList, '---data---')
       // console.log(data.measuringList, '---data---')
+      // console.log(data, '---data---')
 
       // Callback submit form Container Component
       if (this.props.onSubmit) {
@@ -360,6 +363,18 @@ export default class StationAutoForm extends React.PureComponent {
     })
   }
 
+  handleChange(listKey, ae) {
+    this.setState({
+      tabKey: listKey.length > 0 ? listKey[listKey.length - 1] : listKey,
+    })
+  }
+
+  handleOnChangeMeasuring = dataMeasuring => {
+    console.log(dataMeasuring, '--handleOnChangeMeasuring')
+    this.setState({
+      measuringList:dataMeasuring
+    })
+  }
   render() {
     const { getFieldDecorator } = this.props.form
     const { otherForm } = this.props
@@ -385,12 +400,24 @@ export default class StationAutoForm extends React.PureComponent {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Collapse defaultActiveKey={otherForm ? ['1', '2'] : ['1']}>
+        <Collapse
+          onChange={this.handleChange}
+          activeKey={this.state.tabKey}
+          defaultActiveKey={otherForm ? ['1', '2'] : ['1']}
+        >
           <Panel
             id="form1"
             header={t('stationAutoManager.form.panel1')}
             key="1"
           >
+            {/* <Tabs
+              defaultActiveKey="1"
+              activeKey={this.state.tabKey}
+              onChange={this.handleChangeTab}
+            >
+              <TabPane tab="Thông tin chung" key="1"></TabPane>
+              <TabPane tab="Chỉ tiêu" key="2"></TabPane>
+            </Tabs> */}
             <Row gutter={8}>
               <Col span={12}>
                 <FormItem
@@ -764,62 +791,38 @@ export default class StationAutoForm extends React.PureComponent {
               </Col>
             </Row>
             <Row gutter={8}>
-              {/* <Col span={12}>
-                <FormItem
-                  {...formItemLayout}
-                  label={t('stationAutoManager.form.image.label')}
-                >
-                  <Upload
-                    action={urlPhotoUpload}
-                    listType="picture-card"
-                    fileList={fileList}
-                    onPreview={this.handlePreview}
-                    onChange={this.handleImageChange}
-                  >
-                    {fileList.length >= 1 ? null : uploadButton}
-                  </Upload>
-                  <Modal
-                    visible={previewVisible}
-                    footer={null}
-                    onCancel={this.handleCancel}
-                  >
-                    <img
-                      alt="example"
-                      style={{ width: '100%' }}
-                      src={previewImage}
-                    />
-                  </Modal>
-                </FormItem>
-              </Col> */}
-            </Row>
-            <Row gutter={8}>
               <Col span={24} />
             </Row>
-
-            <MeasuringTable
-              isEdit={this.props.isEdit}
-              lang={this.props.lang}
-              form={this.props.form}
-              standardsVN={get(
-                this.state.standardsVNObject,
-                'measuringList',
-                []
-              )}
-              dataSource={
-                this.props.initialValues
-                  ? this.props.initialValues.measuringList
-                  : [
-                      {
-                        key: '',
-                        name: '',
-                        unit: '',
-                      },
-                    ]
-              }
-              measuringListSource={this.state.measuringListSource}
-            />
           </Panel>
-
+          <Panel header={'Thông số quan trắc'} key="3">
+            {this.state.measuringListSource &&
+              this.state.measuringListSource.length > 0 &&
+              this.state.tabKey.indexOf('3') >= 0 && (
+                <MeasuringTable
+                  onChangeMeasuring={this.handleOnChangeMeasuring}
+                  isEdit={this.props.isEdit}
+                  lang={this.props.lang}
+                  form={this.props.form}
+                  standardsVN={get(
+                    this.state.standardsVNObject,
+                    'measuringList',
+                    []
+                  )}
+                  dataSource={
+                    this.state.measuringList
+                      ? this.state.measuringList
+                      : [
+                          {
+                            key: '',
+                            name: '',
+                            unit: '',
+                          },
+                        ]
+                  }
+                  measuringListSource={this.state.measuringListSource}
+                />
+              )}
+          </Panel>
           <Panel header={t('stationAutoManager.form.panel2')} key="2">
             <Row gutter={8}>
               <Col span={12}>
