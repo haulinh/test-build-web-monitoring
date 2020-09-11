@@ -1,14 +1,5 @@
 import React from 'react'
-import {
-  Spin,
-  Row,
-  Col,
-  message,
-  Button,
-  Menu,
-  Dropdown,
-  Tooltip,
-} from 'antd'
+import { Spin, Row, Col, message, Button, Menu, Dropdown, Tooltip } from 'antd'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
@@ -449,6 +440,7 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState(prevState =>
       update(prevState, {
         filteredConfigFilter: { $splice: [[indexDelete, 1]] },
+        configFilter: { $splice: [[indexDelete, 1]] },
       })
     )
     const { data } = await OrganizationApi.deleteFilter(
