@@ -56,7 +56,7 @@ export default class StationAutoFormTable extends React.Component {
       }
     })
 
-    console.log('--componentDidMount--', this.props.dataSource)
+    // console.log('--componentDidMount--', this.props.dataSource)
     this.setState({
       isLoaded: true,
       measuringList: measuringList,
@@ -114,14 +114,14 @@ export default class StationAutoFormTable extends React.Component {
           <FormItem style={{ marginBottom: 0 }}>
             {getFieldDecorator(`measuringList[${index}].name`, {
               initialValue: record.name,
-              rules: [
-                {
-                  required: true,
-                  message:
-                    'Please select ' +
-                    t('stationAutoManager.form.measuringName.label'),
-                },
-              ],
+              // rules: [
+              //   {
+              //     required: true,
+              //     message:
+              //       'Please select ' +
+              //       t('stationAutoManager.form.measuringName.label'),
+              //   },
+              // ],
             })(
               <AutoCompleteCell
                 style={{ width: 120 }}
@@ -501,12 +501,14 @@ export default class StationAutoFormTable extends React.Component {
     }
 
     if (this.state.isLoaded) {
-      const A = this.props.form.getFieldValue('measuringList')
+      let A = this.props.form.getFieldValue('measuringList')
       // const B = prevProps.form.getFieldValue('measuringList')
 
-      // console.log('Đã cập nhật',  A)
-      if (JSON.stringify(A) !== JSON.stringify(this.state.measuringList)) {
-        // console.log('Đã cập nhật', this.state.measuringList)
+      // console.log('--1-',  A)
+      // console.log('-2--',  this.state.measuringList)
+      // console.log('-3--',  prevState.measuringList)
+      if (JSON.stringify(A) !== JSON.stringify(this.state.measuringList) || JSON.stringify(prevState.measuringList) !== JSON.stringify(this.state.measuringList) ) {
+        console.log('Đã cập nhật', A)
         if (this.props.onChangeMeasuring) {
           this.setState({
             measuringList: A,
