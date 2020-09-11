@@ -898,6 +898,7 @@ export default {
         label: 'Action',
       },
       error: 'Error',
+      errorDeleteMeasuring: `The Action Can't Be Completed Because There Are Stations Has This Measuring`,
     },
   },
   stationTypeManager: {
@@ -1973,7 +1974,7 @@ export default {
     STATION_STATUS: {
       ONLINE: '',
       OFFLINE: '',
-    }
+    },
   },
   changePassword: {
     breadcrumb: {
