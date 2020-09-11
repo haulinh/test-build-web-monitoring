@@ -3,7 +3,7 @@ export default {
     camera: {
       description: 'Camera not found',
       action: 'Camera configuration',
-      errorAuth:'Authentication error'
+      errorAuth: 'Authentication error',
     },
     wqi: {
       description: 'Station not found',
@@ -163,7 +163,7 @@ export default {
             config: 'Modify Configuration',
             reset_bottles: 'Reset Sampled Bottles',
             success: 'success',
-            failed: 'failed'
+            failed: 'failed',
           },
           config: {
             totalBottles: 'Total bottles:',
@@ -543,7 +543,8 @@ export default {
     titleText: 'AVG data',
     excelMultiple: 'System processing, the report will be send to your email: ',
     error: {
-      dataTooMuch: 'Your data is too large, please consider select shorter time range !'
+      dataTooMuch:
+        'Your data is too large, please consider select shorter time range !',
     },
     form: {
       time: 'Time',
@@ -1949,6 +1950,7 @@ export default {
     headerStatus: {
       DATA_STATUS: 'Data Status',
       DEVICE_STATUS: 'Device Status',
+      STATION_STATUS: 'Station Status',
     },
     titleTable: {
       status: 'Status',
@@ -1967,6 +1969,10 @@ export default {
       CALIBRATE: 'Calibrate',
       COLLECTING: 'Collecting',
     },
+    STATION_STATUS: {
+      ONLINE: '',
+      OFFLINE: '',
+    }
   },
   changePassword: {
     breadcrumb: {
