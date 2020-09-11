@@ -191,8 +191,8 @@ export default class StationAutoForm extends React.PureComponent {
   _convertMinutesToTimeRange = minutes => {
     if (minutes === null) {
       return {
-        connectionStatusTimeRange: 'MINUTES',
-        connectionStatusNumber: 1,
+        connectionStatusTimeRange: 'DAYS',
+        connectionStatusNumber: 2,
       }
     }
 
