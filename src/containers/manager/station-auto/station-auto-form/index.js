@@ -220,10 +220,9 @@ export default class StationAutoForm extends React.PureComponent {
         })
         return
       }
-      console.log(values, '--values.measuringList--')
-      // let measuringList = this.state.measuringList
 
-      if (!this.state.measuringList) {
+      let measuringList  = this.state.measuringList
+      if (!measuringList) {
         const { t } = this.props.lang
         swal({
           title: t('stationAutoManager.addMeasuring.error'),
@@ -234,17 +233,21 @@ export default class StationAutoForm extends React.PureComponent {
         })
         return
       } else {
-        // const measuringList = _.map(this.state.measuringList, item => {
-        //   const dtFind = _.find(this.state.measuringListSource, obj => {
-        //     return obj.key === item.key
-        //   })
-        //   return {
-        //     ...item,
-        //     name: dtFind.name,
-        //   }
-        // })
+         measuringList = _.map(this.state.measuringList, item => {
+          const dtFind = _.find(this.state.measuringListSource, obj => {
+            return obj.key === item.key
+          })
+          if(dtFind){
+            return {
+              ...item,
+              name: dtFind.name,
+            }
+          }
+          
+        })
       }
-
+      
+     
       const data = {
         key: values.key,
         name: values.name,
@@ -258,7 +261,7 @@ export default class StationAutoForm extends React.PureComponent {
         activatedAt: values.activatedAt,
         dataFrequency: values.dataFrequency,
         note: values.note,
-        measuringList: this.state.measuringList, // values.measuringList,
+        measuringList:_.compact(measuringList) , // values.measuringList,
         options: this.state.options,
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null,
         typeSampling: values.typeSampling,
@@ -277,8 +280,8 @@ export default class StationAutoForm extends React.PureComponent {
         lostConnection: this._transformLostConnectionData(values),
       }
 
-      // console.log(data.measuringList, '---data---')
-      // console.log(data, '---data---')
+      console.log(data.measuringList, '---data---')
+      console.log(data, '---data---')
 
       // Callback submit form Container Component
       if (this.props.onSubmit) {
@@ -370,9 +373,9 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   handleOnChangeMeasuring = dataMeasuring => {
-    console.log(dataMeasuring, '--handleOnChangeMeasuring')
+    // console.log(dataMeasuring, '--handleOnChangeMeasuring')
     this.setState({
-      measuringList:dataMeasuring
+      measuringList: dataMeasuring,
     })
   }
   render() {
@@ -794,7 +797,7 @@ export default class StationAutoForm extends React.PureComponent {
               <Col span={24} />
             </Row>
           </Panel>
-          <Panel header={'Thông số quan trắc'} key="3">
+          <Panel header={t('stationAutoManager.form.panel3')} key="3">
             {this.state.measuringListSource &&
               this.state.measuringListSource.length > 0 &&
               this.state.tabKey.indexOf('3') >= 0 && (
