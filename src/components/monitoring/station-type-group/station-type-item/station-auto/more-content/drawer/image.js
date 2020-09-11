@@ -17,6 +17,7 @@ import { connect } from 'react-redux'
 import { removeAccents } from 'hoc/create-lang'
 import axios from 'axios'
 import moment from 'moment'
+import { PATH_FOLDER } from 'constants/media'
 // import { getConfigApi } from 'config'
 
 const Wrapper = styled(Row)`
@@ -259,7 +260,7 @@ export default class ImageMoreInfo extends React.Component {
 
     const options = {
       params: {
-        prefix: `${this.props.stationKey}/Hình ảnh/${file.name}`,
+        prefix: `${this.props.stationKey}/${PATH_FOLDER}/${file.name}`,
         ContentType: file.type,
       },
       headers: {
