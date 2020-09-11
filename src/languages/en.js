@@ -1186,6 +1186,7 @@ export default {
     form: {
       panel1: 'Station Information',
       panel2: 'Station Other',
+      panel3: 'Monitoring parameters',
       website: {
         label: 'Website',
         placeholder: 'Website',

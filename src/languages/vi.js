@@ -1178,6 +1178,7 @@ export default {
     form: {
       panel1: 'Thông tin trạm',
       panel2: 'Thông tin khác',
+      panel3: 'Thông số quan trắc',
       website: {
         label: 'Website',
         placeholder: 'Website',
