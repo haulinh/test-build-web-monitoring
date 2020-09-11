@@ -1,21 +1,22 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { Divider, Button, Icon } from 'antd'
+import { Button, Divider, Icon, Modal } from 'antd'
 import CategoryApi from 'api/CategoryApi'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import DynamicTable from 'components/elements/dynamic-table'
+import ROLE from 'constants/role'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
-import createManagerList from 'hoc/manager-list'
-import createManagerDelete from 'hoc/manager-delete'
-import protectRole from 'hoc/protect-role'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
-import DynamicTable from 'components/elements/dynamic-table'
+import createManagerDelete from 'hoc/manager-delete'
+import createManagerList from 'hoc/manager-list'
+import protectRole from 'hoc/protect-role'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import * as _ from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import Breadcrumb from '../breadcrumb'
 import MeasuringSearchForm from '../measuring-search'
 import MeasuringSearchAdvancedForm from '../measuring-search/advanced'
-import ROLE from 'constants/role'
-import * as _ from 'lodash'
+import { getLastLog } from 'api/StationAuto'
 
 @protectRole(ROLE.MEASURING.VIEW)
 @createManagerList({
@@ -118,11 +119,7 @@ export default class MeasuringList extends React.Component {
             )}
             <Divider type="vertical" />
             {protectRole(ROLE.MEASURING.DELETE)(
-              <a
-                onClick={() =>
-                  this.props.onDeleteItem(row._id, this.props.fetchData)
-                }
-              >
+              <a onClick={() => this.handleOnDelete(row._id, row.key)}>
                 {t('measuringManager.delete.label')}
               </a>
             )}
@@ -130,6 +127,24 @@ export default class MeasuringList extends React.Component {
         ),
       },
     ])
+  }
+
+  async handleOnDelete(_id, key) {
+    const {
+      lang: { t },
+    } = this.props
+    const { data } = await getLastLog()
+    const isDisable = data.some(item =>
+      item.measuringList.some(measuring => measuring.key === key)
+    )
+    if (isDisable) {
+      Modal.error({
+        title: t('measuringManager.form.error'),
+        content: t('measuringManager.form.errorDeleteMeasuring'),
+      })
+    } else {
+      this.props.onDeleteItem(_id, this.props.fetchData)
+    }
   }
 
   renderSearchForm() {
