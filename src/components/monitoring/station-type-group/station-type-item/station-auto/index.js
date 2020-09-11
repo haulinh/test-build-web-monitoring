@@ -133,10 +133,11 @@ export default class StationAutoItem extends React.PureComponent {
     let { measuringList, lastLog } = this.props
     if (!lastLog) return
     let measuringLogs = lastLog.measuringLogs
-    if (!measuringLogs) return
+    if (!measuringLogs) measuringLogs = {}
     measuringList.sort(function(a, b) {
       return a.numericalOrder - b.numericalOrder
     })
+
     measuringList.forEach(item => {
       if (measuringLogs[item.key]) {
         item.value = measuringLogs[item.key].value
