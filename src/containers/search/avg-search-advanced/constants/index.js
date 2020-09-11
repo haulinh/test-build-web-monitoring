@@ -25,11 +25,11 @@ export const listFilter = [
     key: 'standardKey',
     mode: 'multiple',
   },
-  {
-    title: translate('dataSearchFilterForm.form.activatedAt.label'),
-    key: 'activatedAt',
-    default: moment(new Date(), dateFormat),
-  },
+  // {
+  //   title: translate('dataSearchFilterForm.form.activatedAt.label'),
+  //   key: 'activatedAt',
+  //   default: moment(new Date(), dateFormat),
+  // },
   // {
   //   title: translate('dataSearchFilterForm.form.typeSampling.label'),
   //   key: 'typeSampling',
