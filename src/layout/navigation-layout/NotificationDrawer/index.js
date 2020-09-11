@@ -1,18 +1,18 @@
-import React from 'react'
+import NotificationIcon from '@atlaskit/icon/glyph/notification'
+import { Drawer, Switch } from 'antd'
+import { getLastLog, getTotalCount } from 'api/StationAuto'
+import { translate } from 'hoc/create-lang'
+import _ from 'lodash'
 import propTypes from 'prop-types'
-import styled from 'styled-components'
-import { Drawer } from 'antd'
-import { connectAutoDispatch } from 'redux/connect'
+import React from 'react'
 import {
   clearNotificationCountByType,
-  updateAllRead,
-  deleteAllNotification,
+
+  deleteAllNotification, updateAllRead
 } from 'redux/actions/notification'
+import { connectAutoDispatch } from 'redux/connect'
+import styled from 'styled-components'
 import NotificationContent from './notificationContent'
-import NotificationIcon from '@atlaskit/icon/glyph/notification'
-import CrossIcon from '@atlaskit/icon/glyph/cross'
-import _ from 'lodash'
-import { translate } from 'hoc/create-lang'
 
 const SideBarNotificationWrapper = styled(Drawer)`
   .ant-drawer-header {
@@ -77,6 +77,13 @@ const DivBenPhai = styled.div`
   padding: 0px;
 `
 
+const Flex = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
+
 const i18n = {
   label: translate('notification.label'),
   removeAll: translate('notification.removeAll'),
@@ -111,6 +118,15 @@ export default class NotificationDrawer extends React.Component {
 
   static defaultProps = {}
 
+  onChange = async checked => {
+    console.log(`switch to ${checked}`)
+    if (checked) {
+      await getLastLog()
+    } else {
+      await getTotalCount()
+    }
+  }
+
   render() {
     return (
       <SideBarNotificationWrapper
@@ -121,14 +137,28 @@ export default class NotificationDrawer extends React.Component {
         }}
         title={
           <div>
-            <DivBenTrai>
-              <NotificationWrapperIcon onClick={this.handleClickNotification}>
-                <NotificationIcon color="#fff" size="large" />
-              </NotificationWrapperIcon>
-              <h4 style={{ margin: '0px', marginLeft: '8px' }}>{i18n.label}</h4>
-            </DivBenTrai>
+            <Flex>
+              <DivBenTrai>
+                <NotificationWrapperIcon onClick={this.handleClickNotification}>
+                  <NotificationIcon color="#fff" size="large" />
+                </NotificationWrapperIcon>
+                <h4 style={{ margin: '0px', marginLeft: '8px' }}>
+                  {i18n.label}
+                </h4>
+              </DivBenTrai>
+              <Switch defaultChecked onChange={this.onChange} />
+            </Flex>
+
             <DivBenPhai>
               <div>
+                <a
+                  onClick={this._handleDeleteAllNotification}
+                  style={{
+                    color: '#385898',
+                  }}
+                >
+                  {i18n.removeAll}
+                </a>
                 {this.props.dataSource.length > 0 &&
                   this._areAllNotificationsRead() && (
                     <a
