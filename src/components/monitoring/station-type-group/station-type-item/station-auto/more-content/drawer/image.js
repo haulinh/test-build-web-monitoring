@@ -18,6 +18,7 @@ import { removeAccents } from 'hoc/create-lang'
 import axios from 'axios'
 import moment from 'moment'
 import { PATH_FOLDER } from 'constants/media'
+import { deleteImage } from 'api/MediaApi'
 // import { getConfigApi } from 'config'
 
 const Wrapper = styled(Row)`
@@ -111,9 +112,6 @@ export default class ImageMoreInfo extends React.Component {
     station: {},
     loading: false,
     uploading: false,
-    // images: [],
-    // items: [],
-    // fileList: [],
     newImages: [],
     newItems: [],
   }
@@ -124,6 +122,7 @@ export default class ImageMoreInfo extends React.Component {
 
   getNewImages = images => {
     return images.map(image => ({
+      name: image.name,
       _id: uuidV4(),
       component: 'gallery.photo',
       original: image.preview,
@@ -170,73 +169,15 @@ export default class ImageMoreInfo extends React.Component {
     this.setState({ visible: false })
   }
 
-  // handleImageChange = ({ fileList, file, event }) => {
-  //   let newFileList = fileList
-  //   if (file.status === 'uploading') {
-  //     this.setState({ uploading: true })
-  //   }
-  //   if (file.status === 'error') {
-  //     this.setState({ uploading: false })
-  //     swal({
-  //       title: translate('profileUser.imageUpload.error'),
-  //       type: 'error',
-  //     })
-  //     newFileList = []
-  //   }
-  //   this.setState({
-  //     fileList: newFileList,
-  //   })
-  //   if (file.status === 'done') {
-  //     this.setState(
-  //       prevState => ({
-  //         images: [...prevState.images, file.response.file.path],
-  //         items: [
-  //           ...prevState.items,
-  //           {
-  //             _id: uuidV4(),
-  //             component: 'gallery.photo',
-  //             original: file.response.url,
-  //             thumbnail: file.response.url,
-  //           },
-  //         ],
-  //         uploading: false,
-  //       }),
-  //       async () => {
-  //         await this.handleUpdateStation()
-  //       }
-  //     )
-  //     if (this.props.onChange) {
-  //       this.props.onChange(file.response.url)
-  //     }
-  //   }
-  //   if (fileList.length === 0) {
-  //     if (this.props.onChange) this.props.onChange('')
-  //   }
-  // }
+  handleDeleteImage = name => async () => {
+    const { userInfo, stationKey } = this.props
 
-  // handleUpdateStation = debounce(async () => {
-  //   await StationAutoApi.updateStationAuto(`images/${this.props.stationID}`, {
-  //     images: this.state.images,
-  //   })
-  //   message.success(translate('stationAutoManager.update.success'))
-  // }, 1200)
-
-  // handleDeleteImage = index => () => {
-  //   this.setState(
-  //     prevState =>
-  //       update(prevState, {
-  //         images: {
-  //           $splice: [[index, 1]],
-  //         },
-  //         items: {
-  //           $splice: [[index, 1]],
-  //         },
-  //       }),
-  //     () => {
-  //       this.handleUpdateStation()
-  //     }
-  //   )
-  // }
+    const databaseName = getDatabaseName(
+      userInfo.organization.databaseInfo.name
+    )
+    await deleteImage(databaseName, stationKey, name)
+    this.fetchData()
+  }
 
   customRequest = ({
     action,
@@ -279,18 +220,6 @@ export default class ImageMoreInfo extends React.Component {
         .then(res => {
           onSuccess(res, file)
           this.fetchData()
-          // this.setState(prevState => ({
-          //   newItems: [
-          //     ...prevState.newItems,
-          //     {
-          //       _id: uuidV4(),
-          //       component: 'gallery.photo',
-          //       original: this.getUrlImage(file.name),
-          //       thumbnail: this.getUrlImage(file.name),
-          //     },
-          //   ],
-          //   uploading: false,
-          // }))
         })
         .catch(err => {
           onError()
@@ -311,8 +240,6 @@ export default class ImageMoreInfo extends React.Component {
         multiple
         showUploadList={false}
         accept=".jpg, .png, .svg, jpeg"
-        // action={MediaApi.urlPhotoUploadWithDirectory('station')}
-        // onChange={this.handleImageChange}
         {...uploadProps}
         customRequest={this.customRequest}
       >
@@ -343,12 +270,12 @@ export default class ImageMoreInfo extends React.Component {
               <Col className="image-item" key={index} span={6}>
                 <Popconfirm
                   title={translate('addon.popConfirm.image.title')}
-                  // onConfirm={this.handleDeleteImage(index)}
+                  onConfirm={this.handleDeleteImage(image.name)}
                   okText={translate('addon.yes')}
                   cancelText={translate('addon.no')}
                   className="delete"
                 >
-                  {/* <i className="fa fa-trash" /> */}
+                  <i className="fa fa-trash" />
                 </Popconfirm>
                 <PhotoItem
                   onClick={this.handleViewGalleryClick(index)}
@@ -363,9 +290,7 @@ export default class ImageMoreInfo extends React.Component {
               multiple
               showUploadList={false}
               accept=".jpg, .png, .svg, jpeg"
-              // action={MediaApi.urlPhotoUploadWithDirectory('station')}
               listType="picture-card"
-              // onChange={this.handleImageChange}
               customRequest={this.customRequest}
             >
               {this.state.uploading ? <Spin /> : <Icon size={24} type="plus" />}
