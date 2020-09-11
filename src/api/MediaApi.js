@@ -1,5 +1,6 @@
 import { getConfigApi } from 'config'
 import { getFetch } from 'utils/fetch'
+import { PATH_FOLDER } from 'constants/media'
 
 export function getMediaUrl(prefix = '') {
   return getConfigApi().media + '/' + prefix
@@ -12,7 +13,7 @@ export function getMinio(prefix = '') {
 export function getImages(databaseName, stationKey) {
   const url = `${
     getConfigApi().minio
-  }/buckets/${databaseName}?prefix=/${stationKey}/Hình ảnh/`
+  }/buckets/${databaseName}?prefix=/${stationKey}/${PATH_FOLDER}/`
   return getFetch(url)
 }
 
