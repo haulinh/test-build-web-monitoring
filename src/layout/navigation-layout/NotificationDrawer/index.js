@@ -1,6 +1,5 @@
 import NotificationIcon from '@atlaskit/icon/glyph/notification'
 import { Drawer, Switch } from 'antd'
-import { getLastLog, getTotalCount } from 'api/StationAuto'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
 import propTypes from 'prop-types'
