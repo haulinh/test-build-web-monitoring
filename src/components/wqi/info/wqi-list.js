@@ -136,66 +136,66 @@ export default class WQIList extends React.PureComponent {
               </Link>
             </Empty>
           ) : (
-              _.map(this.state.dataSoure, (item, index) => {
-                const key = _.get(item, 'key')
-                const name = _.get(item, 'name', '')
-                const time = _.get(item, 'time', '')
-                const valueAqi = _.get(item, 'wqiDay')
-                const mapLocation = _.get(item, 'mapLocation')
-                return (
-                  <Row
-                    style={{ cursor: 'pointer' }}
-                    key={index}
-                    onClick={() => {
-                      this.setState({
-                        selectStationKey: key,
-                      })
-                      this.props.onSelect({
-                        key: key,
-                        mapLocation: mapLocation
-                          ? {
+            _.map(this.state.dataSoure, (item, index) => {
+              const key = _.get(item, 'key')
+              const name = _.get(item, 'name', '')
+              const time = _.get(item, 'time', '')
+              const valueAqi = _.get(item, 'wqiDay')
+              const mapLocation = _.get(item, 'mapLocation')
+              return (
+                <Row
+                  style={{ cursor: 'pointer' }}
+                  key={index}
+                  onClick={() => {
+                    this.setState({
+                      selectStationKey: key,
+                    })
+                    this.props.onSelect({
+                      key: key,
+                      mapLocation: mapLocation
+                        ? {
                             lat: parseFloat(_.get(mapLocation, 'lat', 0)),
                             lng: parseFloat(_.get(mapLocation, 'long', 0)),
                           }
-                          : undefined,
-                      })
-                    }}
-                  >
-                    <Col>
-                      <div className="item-wqi">
+                        : undefined,
+                    })
+                  }}
+                >
+                  <Col>
+                    <div className="item-wqi">
+                      <div>
                         <div>
-                          <div>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                color:
-                                  this.state.selectStationKey === key
-                                    ? '#1890FF'
-                                    : 'unset',
-                              }}
-                              strong
-                            >
-                              {name}
-                            </Text>
-                          </div>
-                          <div>
-                            <Text type="secondary">
-                              {moment(time).format(DD_MM_YYYY_HH_MM)}
-                            </Text>
-                          </div>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              color:
+                                this.state.selectStationKey === key
+                                  ? '#1890FF'
+                                  : 'unset',
+                            }}
+                            strong
+                          >
+                            {name}
+                          </Text>
                         </div>
                         <div>
-                          <RenderValueWqi
-                            wqiLevel={this.props.wqiLevel}
-                            valueAqi={valueAqi}
-                          />
+                          <Text type="secondary">
+                            {moment(time).format(DD_MM_YYYY_HH_MM)}
+                          </Text>
                         </div>
                       </div>
-                    </Col>
-                  </Row>
-                )
-              })
-            )}
+                      <div>
+                        <RenderValueWqi
+                          wqiLevel={this.props.wqiLevel}
+                          valueAqi={valueAqi}
+                        />
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+              )
+            })
+          )}
         </WrapperView>
       </React.Fragment>
     )

@@ -32,12 +32,12 @@ const TitleWrapper = styled.div`
   toDate: state.form['dataSearchFilterForm'].values.toDate,
   advanced: state.form['dataSearchFilterForm'].values.advanced
     ? state.form['dataSearchFilterForm'].values.advanced.filter(
-      item =>
-        item.measuringKey &&
-        item.operator &&
-        item.value !== null &&
-        typeof item.value !== 'undefined'
-    )
+        item =>
+          item.measuringKey &&
+          item.operator &&
+          item.value !== null &&
+          typeof item.value !== 'undefined'
+      )
     : [],
   dataStatus: state.form['dataSearchFilterForm'].values.dataStatus || [],
 }))

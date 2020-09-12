@@ -95,14 +95,15 @@ export default class ConfigWQIContainer extends React.Component {
               }
               key="tabAuto"
             >
-              {this.state.listStationAuto && this.state.listStationAuto.length > 0 && (
-                <TabsStationAuto
-                  listStationAuto={this.state.listStationAuto}
-                  listStationConfig={this.state.listStationConfig}
-                  handleSuccess={this.handleSuccess}
-                  stationTypeAuto={this.state.stationTypeAuto}
-                />
-              )}
+              {this.state.listStationAuto &&
+                this.state.listStationAuto.length > 0 && (
+                  <TabsStationAuto
+                    listStationAuto={this.state.listStationAuto}
+                    listStationConfig={this.state.listStationConfig}
+                    handleSuccess={this.handleSuccess}
+                    stationTypeAuto={this.state.stationTypeAuto}
+                  />
+                )}
             </TabPane>
             {/* PCA-1010 */}
             {/* <TabPane

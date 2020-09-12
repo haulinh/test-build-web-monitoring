@@ -151,7 +151,6 @@ export default class MonitoringGeneral extends React.Component {
 
   async componentWillMount() {
     //this.props.changeOpenSubMenu([])
-
   }
 
   componentWillUnmount() {

@@ -48,7 +48,6 @@ export function updateConfigNotify(_id, data) {
   return putFetch(url, data)
 }
 
-
 export default {
   getSubscription,
   updateOrganizationNameLogo,

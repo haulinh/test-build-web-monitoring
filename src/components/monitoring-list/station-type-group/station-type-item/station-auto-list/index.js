@@ -21,7 +21,6 @@ const i18n = {
     good: translate('dashboard.good'),
     dataLoss: translate('dashboard.dataLoss'),
     notUse: translate('dashboard.notUse'),
-    
   },
 }
 

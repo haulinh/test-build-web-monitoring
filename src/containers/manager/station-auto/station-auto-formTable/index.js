@@ -507,7 +507,11 @@ export default class StationAutoFormTable extends React.Component {
       // console.log('--1-',  A)
       // console.log('-2--',  this.state.measuringList)
       // console.log('-3--',  prevState.measuringList)
-      if (JSON.stringify(A) !== JSON.stringify(this.state.measuringList) || JSON.stringify(prevState.measuringList) !== JSON.stringify(this.state.measuringList) ) {
+      if (
+        JSON.stringify(A) !== JSON.stringify(this.state.measuringList) ||
+        JSON.stringify(prevState.measuringList) !==
+          JSON.stringify(this.state.measuringList)
+      ) {
         console.log('Đã cập nhật', A)
         if (this.props.onChangeMeasuring) {
           this.setState({

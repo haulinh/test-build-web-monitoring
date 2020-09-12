@@ -437,7 +437,7 @@ export default class StationForm extends React.PureComponent {
           onChange={this.handleChangeActiveKey}
           activeKey={this.state.activeKey}
         >
-          <Panel  
+          <Panel
             header={this.renderHeading()}
             extra={this.rightChildren()}
             key="list"
