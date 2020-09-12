@@ -223,7 +223,7 @@ export default class StationAutoHead extends React.PureComponent {
       status,
       language,
       _id,
-      stationKey
+      stationKey,
     } = this.props
     // if (stationID === "NUOCTHAINMPM2_1MR") {
     //   console.log(this.state, this.props.currentActionDefault , "currentAction")

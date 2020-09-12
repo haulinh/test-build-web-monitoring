@@ -10,7 +10,6 @@ import {
 } from 'redux/actions/notification'
 import NotificationContent from './notificationContent'
 import NotificationIcon from '@atlaskit/icon/glyph/notification'
-import CrossIcon from '@atlaskit/icon/glyph/cross'
 import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
 

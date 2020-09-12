@@ -65,7 +65,17 @@ const Form = styled(FormStyle)`
     state,
     'auth.userInfo.organization.packageInfo.organizationType',
     0
-  )
+  ),
+  salerPhoneNumber: _.get(
+    state,
+    'auth.userInfo.organization.packageInfo.saler.phone.phoneNumber',
+    PHONE
+  ),
+  salerEmail: _.get(
+    state,
+    'auth.userInfo.organization.packageInfo.saler.email',
+    EMAIL
+  ),
 }))
 @createLanguage
 @withRouter
@@ -86,7 +96,7 @@ export default class UserSearchForm extends React.PureComponent {
     }
   }
 
-  async componentWillMount() { }
+  async componentWillMount() {}
 
   changeSearch(e) {
     e.preventDefault()
@@ -122,11 +132,6 @@ export default class UserSearchForm extends React.PureComponent {
   }
 
   handleAddUser = () => {
-    if (this.props.organizationType === 'ON_PREMISES') {
-      this.props.history.push(slug.user.create)
-      return
-    }
-
     if (this.props.limitTotalUser <= this.props.totalUser) {
       Modal.warning({
         icon: null,
@@ -147,17 +152,17 @@ export default class UserSearchForm extends React.PureComponent {
               <Wrapper>
                 <Flex>
                   <Label>{translate('contact.phone')}</Label>
-                  <Content>{PHONE}</Content>
+                  <Content>{this.props.salerPhoneNumber}</Content>
                 </Flex>
                 <Flex>
                   <Label>{translate('contact.email')}</Label>
-                  <Content>{EMAIL}</Content>
+                  <Content>{this.props.salerEmail}</Content>
                 </Flex>
               </Wrapper>
             </ContentWrapper>
           </Container>
         ),
-        onCancel() { },
+        onCancel() {},
       })
     } else {
       this.props.history.push(slug.user.create)

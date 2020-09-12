@@ -1,8 +1,5 @@
 import { translate } from 'hoc/create-lang'
 import { dataStatusOptions } from 'constants/dataStatus'
-import moment from 'moment'
-
-const dateFormat = 'DD/MM/YYYY'
 
 export const listFilter = [
   // {

@@ -44,7 +44,7 @@ const i18n = {
   text5: translate('infoLicense.text5'),
   text6: translate('infoLicense.text6'),
   text7: translate('infoLicense.text7'),
-  dateUnlimited: translate('infoLicense.dateUnlimited')
+  dateUnlimited: translate('infoLicense.dateUnlimited'),
 }
 
 @connect(state => ({
@@ -121,7 +121,7 @@ export class InfoLicenseForm extends PureComponent {
       deploymenType = _.get(organization, ['packageInfo', 'organizationType'])
     }
 
-    const isOnPremises = deploymenType === "ON_PREMISES" ? true : false
+    const isOnPremises = deploymenType === 'ON_PREMISES' ? true : false
 
     return (
       <InfoLicenseWrapper>
@@ -149,7 +149,9 @@ export class InfoLicenseForm extends PureComponent {
                     >
                       {i18n.text2}
                     </Text>
-                    <Text disabled>{isOnPremises ? i18n.dateUnlimited : dateExp}</Text>
+                    <Text disabled>
+                      {isOnPremises ? i18n.dateUnlimited : dateExp}
+                    </Text>
                     <br />
                     {!isOnPremises && totalDays > 0 && (
                       <Text

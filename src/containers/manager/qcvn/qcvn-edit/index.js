@@ -38,11 +38,11 @@ export default class QCVNEdit extends React.PureComponent {
     this.setState({
       dataSource: data,
     })
-    
-    this.props.onUpdateItem(data).then(()=>{
+
+    this.props.onUpdateItem(data).then(() => {
       this.props.history.push(slug.qcvn.list)
     })
-    
+
     //const key = this.props.match.params.key
   }
 

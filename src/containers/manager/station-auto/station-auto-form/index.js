@@ -221,7 +221,7 @@ export default class StationAutoForm extends React.PureComponent {
         return
       }
 
-      let measuringList  = this.state.measuringList
+      let measuringList = this.state.measuringList
       if (!measuringList) {
         const { t } = this.props.lang
         swal({
@@ -233,21 +233,19 @@ export default class StationAutoForm extends React.PureComponent {
         })
         return
       } else {
-         measuringList = _.map(this.state.measuringList, item => {
+        measuringList = _.map(this.state.measuringList, item => {
           const dtFind = _.find(this.state.measuringListSource, obj => {
             return obj.key === item.key
           })
-          if(dtFind){
+          if (dtFind) {
             return {
               ...item,
               name: dtFind.name,
             }
           }
-          
         })
       }
-      
-     
+
       const data = {
         key: values.key,
         name: values.name,
@@ -261,7 +259,7 @@ export default class StationAutoForm extends React.PureComponent {
         activatedAt: values.activatedAt,
         dataFrequency: values.dataFrequency,
         note: values.note,
-        measuringList:_.compact(measuringList) , // values.measuringList,
+        measuringList: _.compact(measuringList), // values.measuringList,
         options: this.state.options,
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null,
         typeSampling: values.typeSampling,

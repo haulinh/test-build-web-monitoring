@@ -42,7 +42,7 @@ const i18n = {
     state,
     'auth.userInfo.organization.packageInfo.organizationType',
     0
-  )
+  ),
 }))
 @autobind
 export default class UserCreate extends React.PureComponent {
@@ -87,7 +87,10 @@ export default class UserCreate extends React.PureComponent {
     const { limitTotalUser } = this.props
     const { totalUserActive } = this.state
 
-    if (totalUserActive >= limitTotalUser && this.props.organizationType !== 'ON_PREMISES') {
+    if (
+      totalUserActive >= limitTotalUser &&
+      this.props.organizationType !== 'ON_PREMISES'
+    ) {
       Modal.warning({
         icon: null,
         width: '50%',
@@ -117,7 +120,7 @@ export default class UserCreate extends React.PureComponent {
             </ContentWrapper>
           </Container>
         ),
-        onCancel() { },
+        onCancel() {},
         onOk: this.handleClose,
       })
       this.setState({
@@ -141,8 +144,8 @@ export default class UserCreate extends React.PureComponent {
         ) : !this.state.isNotLicense ? (
           <UserForm onSubmit={this.handleSubmit} />
         ) : (
-              <Skeleton />
-            )}
+          <Skeleton />
+        )}
       </PageContainer>
     )
   }

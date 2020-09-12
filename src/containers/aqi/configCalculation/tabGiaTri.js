@@ -70,10 +70,7 @@ export default class TabMucDo extends React.Component {
           align: 'center',
           key: `${keyMeasure}_${type}_min`,
           render: (text, record, index) => {
-            const {
-              getFieldDecorator,
-              getFieldValue,
-            } = this.props.form
+            const { getFieldDecorator, getFieldValue } = this.props.form
             const path = `[${record.key}].${type}['${keyMeasure}']`
             const fliedName = `aqiQCLevel${path}.min`
             const defaultValue = _.get(record, `${type}['${keyMeasure}'].min`)
@@ -303,7 +300,7 @@ export default class TabMucDo extends React.Component {
         try {
           const transformData = {
             aqiQCMeasures: this.state.dataMeasures,
-            aqiQCLevel: _.compact(_.get(values, 'aqiQCLevel', [])) ,
+            aqiQCLevel: _.compact(_.get(values, 'aqiQCLevel', [])),
           }
           // console.log(transformData, "------");
           const response = await postConfigAqiQC(

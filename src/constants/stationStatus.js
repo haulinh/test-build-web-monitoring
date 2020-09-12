@@ -104,7 +104,6 @@ export const stationStatusOptions = [
   },
 ]
 
-
 export const STATUS_CAMERA = {
   NOT_EXISTS: 'NOT_EXISTS',
   EXISTS: 'EXISTS',

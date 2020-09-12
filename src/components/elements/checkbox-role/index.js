@@ -205,8 +205,7 @@ export default class CheckBoxRole extends PureComponent {
                           }}
                           checked={actionsOrganization[actionName]}
                           disabled={
-                            this.isDisable(record.key)
-                            || actionName === 'view'
+                            this.isDisable(record.key) || actionName === 'view'
                           }
                         >
                           {t(`roleManager.rule.actions.${actionName}`)}
