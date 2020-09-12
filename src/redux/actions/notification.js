@@ -95,6 +95,7 @@ function updateCountOnNewMsg(num = 1) {
 }
 
 function updateDataSourceOnNewMsg(data) {
+
   return {
     type: NEW_MESSAGE,
     payload: data,
@@ -329,7 +330,7 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
       viewDetail: viewDetailURL,
       aroundAtExceededTime: RawDataURL,
     },
-    measures: rawContent.measures,
+    measures: rawContent.measures ? JSON.parse(rawContent.measures) : [],
     notificationType: rawContent.notificationType,
   }
 
