@@ -75,6 +75,7 @@ export default class StationAutoForm extends React.PureComponent {
       imgList: [],
       allowUpdateStandardsVN: props.isEdit,
       tabKey: ['1'],
+      isStandardsVN: false
     }
   }
 
@@ -306,8 +307,10 @@ export default class StationAutoForm extends React.PureComponent {
 
   changeQCVN(standardsVNObject) {
     this.props.form.setFieldsValue({ standardsVN: standardsVNObject.key })
+    
     this.setState({
       standardsVN: standardsVNObject.key,
+      isStandardsVN: true,
       standardsVNObject: standardsVNObject,
     })
   }
@@ -374,6 +377,12 @@ export default class StationAutoForm extends React.PureComponent {
     // console.log(dataMeasuring, '--handleOnChangeMeasuring')
     this.setState({
       measuringList: dataMeasuring,
+    })
+  }
+
+  onChangeStandardsVN = (value) =>{
+    this.setState({
+      isStandardsVN: value
     })
   }
   render() {
@@ -804,6 +813,8 @@ export default class StationAutoForm extends React.PureComponent {
                   isEdit={this.props.isEdit}
                   lang={this.props.lang}
                   form={this.props.form}
+                  isStandardsVN={this.state.isStandardsVN}
+                  onChangeStandardsVN={this.onChangeStandardsVN}
                   standardsVN={get(
                     this.state.standardsVNObject,
                     'measuringList',
