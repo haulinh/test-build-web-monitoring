@@ -130,8 +130,6 @@ export default class TableListCustom extends React.PureComponent {
   renderStatusView = station => {
     let item = _.get(STATUS_OPTIONS, [station.statusAnalytic]) //
 
-    console.log(item)
-
     if (item) {
       return (
         <Tooltip placement="top" title={translate(item.label)}>
@@ -154,7 +152,7 @@ export default class TableListCustom extends React.PureComponent {
 
   timKiemStatusQuaMeasuringLog = (measuringLogs = {}) => {
     let resWarningLevel = null
-    _.forEach(measuringLogs, function(item, key) {
+    _.forEach(measuringLogs, function (item, key) {
       resWarningLevel = getStatusPriority(resWarningLevel, item.warningLevel)
     })
     return resWarningLevel

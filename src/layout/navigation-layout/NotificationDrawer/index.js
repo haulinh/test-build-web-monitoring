@@ -7,12 +7,16 @@ import propTypes from 'prop-types'
 import React from 'react'
 import {
   clearNotificationCountByType,
-
-  deleteAllNotification, updateAllRead
+  deleteAllNotification,
+  updateAllRead,
+  toggleNoti,
 } from 'redux/actions/notification'
 import { connectAutoDispatch } from 'redux/connect'
 import styled from 'styled-components'
 import NotificationContent from './notificationContent'
+import { deleteToken, linkToken2Email } from 'api/NotificationApi'
+import { setFcmToken } from 'redux/actions/authAction'
+
 
 const SideBarNotificationWrapper = styled(Drawer)`
   .ant-drawer-header {
@@ -89,14 +93,20 @@ const i18n = {
   removeAll: translate('notification.removeAll'),
   markAll: translate('notification.markAll'),
 }
+
+
 @connectAutoDispatch(
   state => ({
     dataSource: state.notification.logs,
+    tokenFCM: state.auth.tokenFCM,
+    authInfo: state.auth.userInfo,
   }),
   {
     clearNotificationCountByType,
     updateAllRead,
     deleteAllNotification,
+    toggleNoti,
+    setFcmToken
   }
 )
 export default class NotificationDrawer extends React.Component {
@@ -118,14 +128,56 @@ export default class NotificationDrawer extends React.Component {
 
   static defaultProps = {}
 
-  onChange = async checked => {
-    console.log(`switch to ${checked}`)
+  // turnOnNoti = () => {
+  //   console.log('===turnOnNoti')
+  // }
+  // turnOffNoti = () => {
+  //   console.log('===turnOffNoti')
+  // }
+
+
+  onChange = checked => {
     if (checked) {
-      await getLastLog()
+      const me = this
+
+      const { messaging } = require('utils/init-fcm')
+      // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
+      console.log('===start req premission .....')
+      messaging
+        .requestPermission()
+        .then(async function () {
+          const token = await messaging.getToken()
+          // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
+          try {
+            // let response =
+
+            // save fcm-token to backend DB
+            await linkToken2Email(token)
+            me.props.setFcmToken(token)
+          } catch (e) {
+            console.log('error linkToken2Email', e)
+          }
+        })
+        .catch(function (err) {
+          console.log('Unable to get permission to notify.', err)
+        })
+
+      navigator.serviceWorker.addEventListener('message', message => {
+        // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
+      })
+      localStorage.setItem('isEnablePushNoti', true)
     } else {
-      await getTotalCount()
+      deleteToken(this.props.tokenFCM, this.props.authInfo.email)
+      localStorage.setItem('isEnablePushNoti', false)
     }
   }
+  getDefaultStatus() {
+    const result = localStorage.getItem('isEnablePushNoti')
+    if (result === null) return true
+    return JSON.parse(result)
+  }
+
+
 
   render() {
     return (
@@ -146,20 +198,15 @@ export default class NotificationDrawer extends React.Component {
                   {i18n.label}
                 </h4>
               </DivBenTrai>
-              <Switch defaultChecked onChange={this.onChange} />
+              <Switch
+                defaultChecked={this.getDefaultStatus()}
+                onChange={this.onChange} />
             </Flex>
 
             <DivBenPhai>
               <div>
-                <a
-                  onClick={this._handleDeleteAllNotification}
-                  style={{
-                    color: '#385898',
-                  }}
-                >
-                  {i18n.removeAll}
-                </a>
-                {this.props.dataSource.length > 0 &&
+
+                {this.props.dataSource && this.props.dataSource.length > 0 &&
                   this._areAllNotificationsRead() && (
                     <a
                       onClick={this._handleDeleteAllNotification}
@@ -170,7 +217,7 @@ export default class NotificationDrawer extends React.Component {
                       {i18n.removeAll}
                     </a>
                   )}
-                {this.props.dataSource.length > 0 &&
+                {this.props.dataSource && this.props.dataSource.length > 0 &&
                   !this._areAllNotificationsRead() && (
                     <a
                       onClick={this.checkReadAll}
@@ -220,5 +267,8 @@ export default class NotificationDrawer extends React.Component {
   }
   _handleDeleteAllNotification = () => {
     this.props.deleteAllNotification()
+  }
+  _toggleNoti = (isEnable) => {
+    this.props.toggleNoti(isEnable)
   }
 }
