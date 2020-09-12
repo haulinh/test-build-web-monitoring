@@ -52,9 +52,28 @@ export default class StationAutoFormTable extends React.Component {
     measuringList = _.map(this.props.dataSource, (item, index) => {
       return {
         ...item,
-        id: index + 1,
+        id: (index + 1).toString(),
       }
     })
+    if (this.props.isStandardsVN) {
+      console.log(this.props.standardsVN, '---standardsVN--')
+
+      measuringList = this.updateMinMaxOfMeasuring(measuringList)
+      // this.setState({
+      //   isLoaded: false,
+      // })
+      console.log(measuringList, '---componentDidUpdate--2')
+      if (this.props.onChangeMeasuring) {
+        this.setState({
+          measuringList: measuringList,
+          // isLoaded: true,
+        })
+        // this.props.onChangeMeasuring(measuringList)
+      }
+      if (this.props.onChangeStandardsVN) {
+        this.props.onChangeStandardsVN(false)
+      }
+    }
 
     // console.log('--componentDidMount--', this.props.dataSource)
     this.setState({
@@ -83,7 +102,7 @@ export default class StationAutoFormTable extends React.Component {
 
       return {
         ...item,
-        id: index + 1,
+        id: (index + 1).toString(),
         maxLimit: itemQCVN ? itemQCVN.maxLimit : item.maxLimit,
         minLimit: itemQCVN ? itemQCVN.minLimit : item.minLimit,
       }
@@ -246,7 +265,7 @@ export default class StationAutoFormTable extends React.Component {
 
   handleAddRow() {
     const newRow = {
-      id: this.state.measuringList.length + 1,
+      id: (this.state.measuringList.length + 1).toString(),
       key: '',
       name: '',
       unit: '',
@@ -429,7 +448,7 @@ export default class StationAutoFormTable extends React.Component {
     // const { getFieldValue } = this.props.form
 
     // console.log('---form---', getFieldValue('measuringList'))
-    // console.log('---form-measuringList--', this.state.measuringList)
+    console.log('---form-this.state.isLoaded--', this.state.isLoaded)
     return (
       <div>
         <Button
@@ -478,32 +497,13 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      this.state.isLoaded &&
-      JSON.stringify(prevProps.standardsVN) !==
-        JSON.stringify(this.props.standardsVN)
-    ) {
-      // console.log(this.props.standardsVN, '---standardsVN--')
-      const { getFieldValue } = this.props.form
-      this.setState({
-        isLoaded: false,
-      })
-      const measuringList = this.updateMinMaxOfMeasuring(
-        getFieldValue('measuringList')
-      )
-
-      // console.log( getFieldValue('measuringList'), "--componentDidUpdate--1")
-      // console.log(measuringList, '---componentDidUpdate--2')
-      this.setState({
-        measuringList: measuringList,
-        isLoaded: true,
-      })
-    }
+    // standardsVNObject
+    // console.log(this.props.standardsVN, '---standardsVN--')
+    // console.log(prevProps.standardsVN, '---standardsVN--1--')
 
     if (this.state.isLoaded) {
       let A = this.props.form.getFieldValue('measuringList')
       // const B = prevProps.form.getFieldValue('measuringList')
-
       // console.log('--1-',  A)
       // console.log('-2--',  this.state.measuringList)
       // console.log('-3--',  prevState.measuringList)
@@ -512,7 +512,7 @@ export default class StationAutoFormTable extends React.Component {
         JSON.stringify(prevState.measuringList) !==
           JSON.stringify(this.state.measuringList)
       ) {
-        console.log('Đã cập nhật', A)
+        // console.log('Đã cập nhật', A)
         if (this.props.onChangeMeasuring) {
           this.setState({
             measuringList: A,
