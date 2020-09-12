@@ -295,6 +295,7 @@ export default class ImageMoreInfo extends React.Component {
 
   render() {
     const images = this.getImages(this.state.images)
+
     return (
       <React.Fragment>
         <Wrapper type="flex" gutter={[16, 16]}>
