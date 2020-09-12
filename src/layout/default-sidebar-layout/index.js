@@ -81,6 +81,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
       })
 
       messaging.onMessage(payload => {
+        console.log(payload, '======payload from firebase')
         /* note: format data de tuong thich code */
         payload.data.isRead = false
         this._showNotification(payload)

@@ -164,11 +164,19 @@ export function clearLoadNotificationsByType() {
 /* NOTE  emit to reducer: handleUpdateDataSource */
 export function updateNotificationOnMessage(data, stations) {
   return async dispatch => {
-    let stationInfo = _.find(stations, { _id: data.station_id })
-    let item = _generateNotificationCellByType(data, stationInfo)
+    try {
+      let stationInfo = _.find(stations, { _id: data.station_id })
+      let item = _generateNotificationCellByType(data, stationInfo)
 
-    dispatch(updateCountOnNewMsg())
-    dispatch(updateDataSourceOnNewMsg(item))
+      dispatch(updateCountOnNewMsg())
+      dispatch(updateDataSourceOnNewMsg(item))
+    } catch (error) {
+      console.log('=========error in updateNotificationOnMessage=====')
+      console.log(error)
+      console.log('=========error in updateNotificationOnMessage===== end')
+
+    }
+
   }
 }
 
