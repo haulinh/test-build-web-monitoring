@@ -54,20 +54,25 @@ export default class DefaultSidebarLayoutContainer extends Component {
     try {
       const { messaging } = require('utils/init-fcm')
       // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
+      console.log('===start req premission .....')
+
+
       messaging
         .requestPermission()
-        .then(async function() {
+        .then(async function () {
           const token = await messaging.getToken()
           // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
           try {
             // let response =
+
+            // save fcm-token to backend DB
             await linkToken2Email(token)
             me.props.setFcmToken(token)
           } catch (e) {
             console.log('error linkToken2Email', e)
           }
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log('Unable to get permission to notify.', err)
         })
 

@@ -29,6 +29,17 @@ export const DELETE_ONE = 'NOTIFICATION / DELETE_ONE'
 export const DELETE_ALL = 'NOTIFICATION / DELETE_ALL'
 export const UPDATE_NOT_READ_ONE = 'NOTIFICATION / UPDATE_NOT_READ_ONE'
 export const UPDATE_READ_ONE = 'NOTIFICATION / UPDATE_READ_ONE'
+export const HANDLE_TOGGLE_PUSH_NOTIFICATION = 'NOTIFICATION / HANDLE_TOGGLE_PUSH_NOTIFICATION'
+
+export function toggleNoti(isEnable) {
+  return dispatch => {
+    dispatch({
+      type: HANDLE_TOGGLE_PUSH_NOTIFICATION,
+      payload: isEnable
+    })
+  }
+}
+
 
 export function resetAllCounts() {
   return dispatch => {
