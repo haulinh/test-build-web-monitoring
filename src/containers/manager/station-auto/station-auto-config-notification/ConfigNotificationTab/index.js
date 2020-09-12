@@ -26,16 +26,14 @@ export default class ConfigNotificationTab extends React.Component {
   render() {
     const { dataSource: configNotifyData, isLoading } = this.props
 
-    const newConfig = configNotifyData.map(
-      config => {
-        return {
-          ...config,
-          configDetail: config.configDetail.filter(
-            configDetailItem => configDetailItem.status !== 'LOST_CONNECTION'
-          ),
-        }
+    const newConfig = configNotifyData.map(config => {
+      return {
+        ...config,
+        configDetail: config.configDetail.filter(
+          configDetailItem => configDetailItem.status !== 'LOST_CONNECTION'
+        ),
       }
-    )
+    })
 
     return (
       <React.Fragment>

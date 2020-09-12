@@ -147,7 +147,11 @@ export default class ConfigPublishContainer extends React.Component {
                   <Icon
                     type="edit"
                     theme="outlined"
-                    style={{ paddingLeft: '15px', color: 'blue', cursor: 'pointer' }}
+                    style={{
+                      paddingLeft: '15px',
+                      color: 'blue',
+                      cursor: 'pointer',
+                    }}
                   />{' '}
                 </span>
               </div>

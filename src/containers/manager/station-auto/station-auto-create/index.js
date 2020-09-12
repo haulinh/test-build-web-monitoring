@@ -71,7 +71,6 @@ export default class StationAutoCreate extends React.PureComponent {
       } else {
         message.error(translate('addon.onSave.add.error'))
       }
-
     }
   }
 
@@ -92,8 +91,8 @@ export default class StationAutoCreate extends React.PureComponent {
     const { limitTotalStation, totalStationActived } = this.props
     if (
       totalStationActived >= limitTotalStation &&
-      !this.state.isRequiredLicense
-      && this.props.organizationType !== 'ON_PREMISES'
+      !this.state.isRequiredLicense &&
+      this.props.organizationType !== 'ON_PREMISES'
     ) {
       Modal.warning({
         icon: null,
@@ -122,7 +121,7 @@ export default class StationAutoCreate extends React.PureComponent {
             </ContentWrapper>
           </Container>
         ),
-        onCancel() { },
+        onCancel() {},
         onOk: this.handleClose,
       })
       this.setState({

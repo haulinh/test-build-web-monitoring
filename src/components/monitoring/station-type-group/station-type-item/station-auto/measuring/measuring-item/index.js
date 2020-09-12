@@ -41,7 +41,7 @@ const MeasuringUnit = styled.span`
   font-weight: 500;
   font-size: 10px;
   line-height: 12px;
-  overflow: hidden; 
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `

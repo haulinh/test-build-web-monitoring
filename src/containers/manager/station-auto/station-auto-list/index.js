@@ -28,7 +28,7 @@ const i18n = {
   okText: translate('addon.ok'),
   restoreConfirmMsg: translate('confirm.msg.restore'),
   deleteConfirmMsg: translate('confirm.msg.delete'),
-  disableConfirmMsg:translate('confirm.msg.disable'),
+  disableConfirmMsg: translate('confirm.msg.disable'),
 }
 
 const LinkSpan = styled.span`

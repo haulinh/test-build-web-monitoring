@@ -3,7 +3,6 @@ import { Row, Col, Checkbox, Icon } from 'antd'
 import _ from 'lodash'
 import { enableCamera } from 'api/CameraApi'
 
-
 class CollapsePanelHeader extends React.Component {
   constructor(props) {
     super(props)

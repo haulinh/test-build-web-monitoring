@@ -893,7 +893,7 @@ export default {
         label: ' ',
       },
       error: 'Lỗi',
-      errorDeleteMeasuring: 'Không thể xoá vì có trạm sử dụng thông số này'
+      errorDeleteMeasuring: 'Không thể xoá vì có trạm sử dụng thông số này',
     },
   },
   stationTypeManager: {

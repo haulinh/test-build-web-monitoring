@@ -16,7 +16,7 @@ const i18n = {
 const createManagerDelete = ({ apiDelete }) => Component => {
   @autobind
   class ManagerDeleteHoc extends React.Component {
-    confirmDelete(apiDelete, key, callbackSuccess = () => { }) {
+    confirmDelete(apiDelete, key, callbackSuccess = () => {}) {
       Modal.confirm({
         title: i18n.deleteConfirmMsg,
         okText: i18n.okText,
@@ -27,7 +27,11 @@ const createManagerDelete = ({ apiDelete }) => Component => {
             if (res.success) {
               message.success(translate('addon.onDelete.success'))
               callbackSuccess()
-            } else if (res.error && res.message && res.message === "QCVN_USED") {
+            } else if (
+              res.error &&
+              res.message &&
+              res.message === 'QCVN_USED'
+            ) {
               message.error(translate('addon.onDelete.qcvn.qcvnUsed'))
             } else {
               message.error(translate('addon.onDelete.error'))
@@ -35,7 +39,7 @@ const createManagerDelete = ({ apiDelete }) => Component => {
             resolve()
           }).catch(() => console.log('Oops errors!'))
         },
-        onCancel() { },
+        onCancel() {},
       })
     }
     /**

@@ -144,7 +144,9 @@ export default class StationAutoSearchForm extends React.PureComponent {
               <Wrapper>
                 <Flex>
                   <Label>{translate('contact.phone')}</Label>
-                  <Content>{this.props.packageInfo.saler.phone.phoneNumber}</Content>
+                  <Content>
+                    {this.props.packageInfo.saler.phone.phoneNumber}
+                  </Content>
                 </Flex>
                 <Flex>
                   <Label>{translate('contact.email')}</Label>
@@ -154,14 +156,14 @@ export default class StationAutoSearchForm extends React.PureComponent {
             </ContentWrapper>
           </Container>
         ),
-        onCancel() { },
+        onCancel() {},
       })
     } else {
       this.props.history.push(slug.stationAuto.create)
     }
   }
 
-  changeStationType(stationType) { }
+  changeStationType(stationType) {}
 
   render() {
     const { getFieldDecorator } = this.props.form

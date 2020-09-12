@@ -46,5 +46,5 @@ export default {
   getImages,
   generatePutUrl,
   getUrlImage,
-  deleteImage
+  deleteImage,
 }

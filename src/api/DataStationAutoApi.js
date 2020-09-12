@@ -448,7 +448,7 @@ export function searchStationAuto({
   ...props
 }) {
   let url = `${getDataStationAutoUrl(`station-key-custom?`)}`
-  if (stationType && stationType !== "ALL") url += `&stationType=${stationType}`
+  if (stationType && stationType !== 'ALL') url += `&stationType=${stationType}`
   if (provinceKey) url += `&provinceKey=${provinceKey}`
   if (dataStatus && dataStatus.length)
     url += `&dataStatus=${dataStatus.join(',')}`

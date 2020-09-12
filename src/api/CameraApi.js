@@ -33,13 +33,13 @@ async function getNone() {
 export function getThumbLink(cameraId, auth) {
   return `${
     getConfigApi().camera.host
-    }/ec2/cameraThumbnail?cameraId=${cameraId}&time=LATEST&auth=${auth}&width=480&height=320`
+  }/ec2/cameraThumbnail?cameraId=${cameraId}&time=LATEST&auth=${auth}&width=480&height=320`
 }
 
 export function getCameraMPJEGLink(cameraId, auth, resolution) {
   return `${
     getConfigApi().camera.host
-    }/media/${cameraId}.mpjpeg?resolution=${resolution}&auth=${auth}`
+  }/media/${cameraId}.mpjpeg?resolution=${resolution}&auth=${auth}`
 }
 
 export function enableCamera(stationId, isAllowed) {
