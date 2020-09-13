@@ -279,8 +279,8 @@ export default class StationAutoForm extends React.PureComponent {
         lostConnection: this._transformLostConnectionData(values),
       }
 
-      console.log(data.measuringList, '---data---')
-      console.log(data, '---data---')
+      // console.log(data.measuringList, '---data---')
+      // console.log(data, '---data---')
 
       // Callback submit form Container Component
       if (this.props.onSubmit) {
@@ -306,10 +306,12 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   changeQCVN(standardsVNObject) {
-    this.props.form.setFieldsValue({ standardsVN: standardsVNObject.key })
+    // console.log(standardsVNObject,"standardsVNObject")
+    const value = get(standardsVNObject,'key', undefined)
+    this.props.form.setFieldsValue({ standardsVN: value })
     
     this.setState({
-      standardsVN: standardsVNObject.key,
+      standardsVN:value,
       isStandardsVN: true,
       standardsVNObject: standardsVNObject,
     })
