@@ -276,7 +276,7 @@ class TableData extends React.Component {
         title: <TextWithToolTip IsEllipsis={true} text={item.name} />,
         dataIndex: `lastLog.measuringLogs.${item.key}`,
         width: 110,
-        align: 'center',
+        align: 'left',
         key: item.key,
         render: (measure, record) => {
           if (measure === null || measure === undefined) return ''
