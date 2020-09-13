@@ -9,6 +9,8 @@ import { updateNotificationOnMessage } from 'redux/actions/notification'
 import { autobind } from 'core-decorators'
 import { linkToken2Email } from 'api/NotificationApi'
 import { notification } from 'antd'
+import { deepParseJson } from 'deep-parse-json'
+
 // import { TAB_KEYS } from 'constants/notification'
 // import slug from 'constants/slug'
 // import _ from 'lodash'
@@ -83,7 +85,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
       messaging.onMessage(payload => {
         console.log(payload, '======payload from firebase')
         /* note: format data de tuong thich code */
-        payload.data.measures = payload.data.measures ? JSON.parse(JSON.stringify(payload.data.measures)) : []
+        payload.data.measures = payload.data.measures ? deepParseJson(payload.data.measures) : []
         payload.data.isRead = false
         this._showNotification(payload)
         this.props.updateNotificationOnMessage(
