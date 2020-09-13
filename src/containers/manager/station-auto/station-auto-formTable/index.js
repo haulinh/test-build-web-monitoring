@@ -56,13 +56,13 @@ export default class StationAutoFormTable extends React.Component {
       }
     })
     if (this.props.isStandardsVN) {
-      console.log(this.props.standardsVN, '---standardsVN--')
+      // console.log(this.props.standardsVN, '---standardsVN--')
 
       measuringList = this.updateMinMaxOfMeasuring(measuringList)
       // this.setState({
       //   isLoaded: false,
       // })
-      console.log(measuringList, '---componentDidUpdate--2')
+      // console.log(measuringList, '---componentDidUpdate--2')
       if (this.props.onChangeMeasuring) {
         this.setState({
           measuringList: measuringList,
@@ -448,7 +448,7 @@ export default class StationAutoFormTable extends React.Component {
     // const { getFieldValue } = this.props.form
 
     // console.log('---form---', getFieldValue('measuringList'))
-    console.log('---form-this.state.isLoaded--', this.state.isLoaded)
+    // console.log('---form-this.state.isLoaded--', this.state.isLoaded)
     return (
       <div>
         <Button
