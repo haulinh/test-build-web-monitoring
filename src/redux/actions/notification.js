@@ -330,7 +330,7 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
       viewDetail: viewDetailURL,
       aroundAtExceededTime: RawDataURL,
     },
-    measures: rawContent.measures ? JSON.parse(rawContent.measures) : [],
+    measures: rawContent.measures ? JSON.parse(JSON.stringify(rawContent.measures)) : [],
     notificationType: rawContent.notificationType,
   }
 
