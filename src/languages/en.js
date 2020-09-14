@@ -13,7 +13,7 @@ export default {
   notification: {
     label: 'Notifications',
     removeAll: 'Remove all notification',
-    toolTipEnable: 'Receive realtime notifications from iLotusland',
+    toolTipEnable: 'Receive all realtime notifications from iLotusland',
     markAll: 'Mark all as read',
     delele: 'Delete this message',
     tickRead: 'Mark as read',
