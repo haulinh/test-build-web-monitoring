@@ -13,10 +13,12 @@ export default {
   notification: {
     label: 'Notifications',
     removeAll: 'Remove all notification',
+    toolTipEnable: 'Receive realtime notifications from iLotusland',
     markAll: 'Mark all as read',
     delele: 'Delete this message',
     tickRead: 'Mark as read',
     tickUnRead: 'Mark unread',
+    pushNotification: 'Push notification'
   },
   contact: {
     phone: 'Phone',
