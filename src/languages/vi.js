@@ -13,10 +13,12 @@ export default {
   notification: {
     label: 'Thông báo',
     removeAll: 'Xoá tất cả thông báo',
+    toolTipEnable: 'Nhận tất cả thông báo cập nhật liên tục về iLotusland',
     markAll: 'Đánh dấu đã đọc tất cả',
     delele: 'Xoá thông báo này',
     tickRead: 'Đánh dấu đã đọc',
     tickUnRead: 'Đánh dấu chưa đọc',
+    pushNotification: 'Thông báo đẩy'
   },
   contact: {
     phone: 'Số điện thoại',

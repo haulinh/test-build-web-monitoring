@@ -18,6 +18,7 @@ import {
   DELETE_ALL,
   UPDATE_NOT_READ_ONE,
   UPDATE_READ_ONE,
+  HANDLE_TOGGLE_PUSH_NOTIFICATION
 } from '../actions/notification'
 
 export const initialState = {
@@ -27,6 +28,7 @@ export const initialState = {
   count: 0,
   logs: [],
   isMarkedReadAll: false,
+  isEnablePushNotification: true
 }
 
 export default function handleNotificationStore(state = initialState, action) {
@@ -65,11 +67,17 @@ export default function handleNotificationStore(state = initialState, action) {
       return handleUpdateReadOne(state, payload)
     case UPDATE_CURRENT_PAGE:
       return handleUpdateCurrentPage(state)
+    case HANDLE_TOGGLE_PUSH_NOTIFICATION:
+      return hanldeTogglePushNoti(state, payload)
     default:
       return state
   }
 }
-
+function hanldeTogglePushNoti(state, payload) {
+  return update(state, {
+    $set: payload
+  })
+}
 function handleResetAllCount(state) {
   return update(state, {
     count: { $set: 0 },

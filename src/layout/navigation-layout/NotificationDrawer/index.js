@@ -1,17 +1,22 @@
-import React from 'react'
+import NotificationIcon from '@atlaskit/icon/glyph/notification'
+import { Drawer, Switch } from 'antd'
+import { getLastLog, getTotalCount } from 'api/StationAuto'
+import { translate } from 'hoc/create-lang'
+import _ from 'lodash'
 import propTypes from 'prop-types'
-import styled from 'styled-components'
-import { Drawer } from 'antd'
-import { connectAutoDispatch } from 'redux/connect'
+import React from 'react'
 import {
   clearNotificationCountByType,
-  updateAllRead,
   deleteAllNotification,
+  updateAllRead,
+  toggleNoti,
 } from 'redux/actions/notification'
+import { connectAutoDispatch } from 'redux/connect'
+import styled from 'styled-components'
 import NotificationContent from './notificationContent'
-import NotificationIcon from '@atlaskit/icon/glyph/notification'
-import _ from 'lodash'
-import { translate } from 'hoc/create-lang'
+import { deleteToken, linkToken2Email } from 'api/NotificationApi'
+import { setFcmToken } from 'redux/actions/authAction'
+
 
 const SideBarNotificationWrapper = styled(Drawer)`
   .ant-drawer-header {
@@ -68,6 +73,7 @@ const DivBenTrai = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-top: -20px;
 `
 const DivBenPhai = styled.div`
   display: flex;
@@ -76,19 +82,34 @@ const DivBenPhai = styled.div`
   padding: 0px;
 `
 
+const Flex = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
+
 const i18n = {
   label: translate('notification.label'),
   removeAll: translate('notification.removeAll'),
   markAll: translate('notification.markAll'),
+  toolTipEnable: translate('notification.toolTipEnable'),
+  pushNotification: translate('notification.pushNotification')
 }
+
+
 @connectAutoDispatch(
   state => ({
     dataSource: state.notification.logs,
+    tokenFCM: state.auth.tokenFCM,
+    authInfo: state.auth.userInfo,
   }),
   {
     clearNotificationCountByType,
     updateAllRead,
     deleteAllNotification,
+    toggleNoti,
+    setFcmToken
   }
 )
 export default class NotificationDrawer extends React.Component {
@@ -110,6 +131,57 @@ export default class NotificationDrawer extends React.Component {
 
   static defaultProps = {}
 
+  // turnOnNoti = () => {
+  //   console.log('===turnOnNoti')
+  // }
+  // turnOffNoti = () => {
+  //   console.log('===turnOffNoti')
+  // }
+
+
+  onChange = checked => {
+    if (checked) {
+      const me = this
+
+      const { messaging } = require('utils/init-fcm')
+      // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
+      console.log('===start req premission .....')
+      messaging
+        .requestPermission()
+        .then(async function () {
+          const token = await messaging.getToken()
+          // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
+          try {
+            // let response =
+
+            // save fcm-token to backend DB
+            await linkToken2Email(token)
+            me.props.setFcmToken(token)
+          } catch (e) {
+            console.log('error linkToken2Email', e)
+          }
+        })
+        .catch(function (err) {
+          console.log('Unable to get permission to notify.', err)
+        })
+
+      navigator.serviceWorker.addEventListener('message', message => {
+        // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
+      })
+      localStorage.setItem('isEnablePushNoti', true)
+    } else {
+      deleteToken(this.props.tokenFCM, this.props.authInfo.email)
+      localStorage.setItem('isEnablePushNoti', false)
+    }
+  }
+  getDefaultStatus() {
+    const result = localStorage.getItem('isEnablePushNoti')
+    if (result === null) return true
+    return JSON.parse(result)
+  }
+
+
+
   render() {
     return (
       <SideBarNotificationWrapper
@@ -120,15 +192,35 @@ export default class NotificationDrawer extends React.Component {
         }}
         title={
           <div>
-            <DivBenTrai>
-              <NotificationWrapperIcon onClick={this.handleClickNotification}>
-                <NotificationIcon color="#fff" size="large" />
-              </NotificationWrapperIcon>
-              <h4 style={{ margin: '0px', marginLeft: '8px' }}>{i18n.label}</h4>
-            </DivBenTrai>
+            <Flex>
+              <DivBenTrai>
+                <NotificationWrapperIcon onClick={this.handleClickNotification}>
+                  <NotificationIcon color="#fff" size="large" />
+                </NotificationWrapperIcon>
+                <b style={{ margin: '0px', marginLeft: '8px', fontSize: '16px' }}>
+                  {i18n.label}
+                </b>
+              </DivBenTrai>
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                  <div style={{ fontSize: '14px', position: 'absolute', right: '5em' }}>{i18n.pushNotification}</div>
+                  <Switch
+                    size="small"
+                    checkedChildren="ON"
+                    unCheckedChildren="OFF"
+                    defaultChecked={this.getDefaultStatus()}
+                    onChange={this.onChange} />
+                </div>
+                <div style={{ fontSize: '12px', color: '#979797' }}>{i18n.toolTipEnable}</div>
+              </div>
+
+
+            </Flex>
+
             <DivBenPhai>
               <div>
-                {this.props.dataSource.length > 0 &&
+
+                {this.props.dataSource && this.props.dataSource.length > 0 &&
                   this._areAllNotificationsRead() && (
                     <a
                       onClick={this._handleDeleteAllNotification}
@@ -139,12 +231,13 @@ export default class NotificationDrawer extends React.Component {
                       {i18n.removeAll}
                     </a>
                   )}
-                {this.props.dataSource.length > 0 &&
+                {this.props.dataSource && this.props.dataSource.length > 0 &&
                   !this._areAllNotificationsRead() && (
                     <a
                       onClick={this.checkReadAll}
                       style={{
-                        color: '#385898',
+                        color: '#1890FF',
+                        fontSize: '14px'
                       }}
                     >
                       {i18n.markAll}
@@ -189,5 +282,8 @@ export default class NotificationDrawer extends React.Component {
   }
   _handleDeleteAllNotification = () => {
     this.props.deleteAllNotification()
+  }
+  _toggleNoti = (isEnable) => {
+    this.props.toggleNoti(isEnable)
   }
 }

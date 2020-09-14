@@ -5,6 +5,7 @@ import { translate } from 'hoc/create-lang'
 import DefaultCell from './_defaultCell'
 import { BoldTextWrap } from './_helperComponent'
 import styled from 'styled-components'
+import _ from 'lodash'
 
 const i18n = {
   station: translate('common.station'),
@@ -19,6 +20,8 @@ const TitleWrapper = styled.div`
 
 export default function DataExceededPreparedCell(props) {
   const { cellContent } = props
+  const measures = _.get(props, 'cellContent.measures', [])
+
 
   const content = (
     <React.Fragment>
@@ -30,7 +33,7 @@ export default function DataExceededPreparedCell(props) {
       </TitleWrapper>
 
       <ul>
-        {cellContent.measures.map(mea => {
+        {measures.map(mea => {
           return (
             <li style={{ listStyleType: 'disc' }}>
               <b>{mea.key}</b> {mea.value} {mea.unit} {mea.moreContent}

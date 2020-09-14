@@ -9,6 +9,9 @@ import { updateNotificationOnMessage } from 'redux/actions/notification'
 import { autobind } from 'core-decorators'
 import { linkToken2Email } from 'api/NotificationApi'
 import { notification } from 'antd'
+import { deepParseJson } from 'utils/string'
+// import { deepParseJson } from 'deep-parse-json'
+
 // import { TAB_KEYS } from 'constants/notification'
 // import slug from 'constants/slug'
 // import _ from 'lodash'
@@ -50,43 +53,57 @@ export default class DefaultSidebarLayoutContainer extends Component {
   componentDidMount() {
     // import { messaging } from "utils/init-fcm";
     // MARK  vì phải chờ app.json nen phải load o day
-    const me = this
-    try {
-      const { messaging } = require('utils/init-fcm')
-      // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
-      messaging
-        .requestPermission()
-        .then(async function() {
-          const token = await messaging.getToken()
-          // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
-          try {
-            // let response =
-            await linkToken2Email(token)
-            me.props.setFcmToken(token)
-          } catch (e) {
-            console.log('error linkToken2Email', e)
-          }
-        })
-        .catch(function(err) {
-          console.log('Unable to get permission to notify.', err)
-        })
-
-      navigator.serviceWorker.addEventListener('message', message => {
-        // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
-      })
-
-      messaging.onMessage(payload => {
-        /* note: format data de tuong thich code */
-        payload.data.isRead = false
-        this._showNotification(payload)
-        this.props.updateNotificationOnMessage(
-          payload.data,
-          this.props.stationAuto
-        )
-      })
-    } catch (e) {
-      console.error('Notification only start witl https')
+    const _isEnablePushNoti = () => {
+      const result = localStorage.getItem('isEnablePushNoti')
+      if (result === null) return true
+      return JSON.parse(result)
     }
+
+    if (_isEnablePushNoti()) {
+      const me = this
+      try {
+        const { messaging } = require('utils/init-fcm')
+        // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
+        console.log('===start req premission .....')
+        messaging
+          .requestPermission()
+          .then(async function () {
+            const token = await messaging.getToken()
+            // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
+            try {
+              // let response =
+
+              // save fcm-token to backend DB
+              await linkToken2Email(token)
+              me.props.setFcmToken(token)
+            } catch (e) {
+              console.log('error linkToken2Email', e)
+            }
+          })
+          .catch(function (err) {
+            console.log('Unable to get permission to notify.', err)
+          })
+
+        navigator.serviceWorker.addEventListener('message', message => {
+          // NOTE  NOTIFICATION_MESSAGE khi có noti thì sẽ chạy đoạn code trong đây
+        })
+
+        messaging.onMessage(payload => {
+          console.log(payload, '======payload from firebase')
+          /* note: format data de tuong thich code */
+          payload.data.measures = payload.data.measures ? deepParseJson(payload.data.measures) : []
+          payload.data.isRead = false
+          this._showNotification(payload)
+          this.props.updateNotificationOnMessage(
+            payload.data,
+            this.props.stationAuto
+          )
+        })
+      } catch (e) {
+        console.error('Notification only start witl https')
+      }
+    }
+
   }
 
   _showNotification(payload) {
