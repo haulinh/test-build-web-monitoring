@@ -306,7 +306,7 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   changeQCVN(standardsVNObject) {
-    console.log(standardsVNObject, 'standardsVNObject')
+    // console.log(standardsVNObject, 'standardsVNObject')
     const value = get(standardsVNObject, 'key', null)
     this.props.form.setFieldsValue({ standardsVN: value })
 
