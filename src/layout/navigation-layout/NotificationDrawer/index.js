@@ -224,7 +224,8 @@ export default class NotificationDrawer extends React.Component {
                     <a
                       onClick={this._handleDeleteAllNotification}
                       style={{
-                        color: '#385898',
+                        color: '#1890FF',
+                        fontSize: '14px'
                       }}
                     >
                       {i18n.removeAll}
