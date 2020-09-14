@@ -729,7 +729,7 @@ export default class StationAutoForm extends React.PureComponent {
               </i>
             </ConnectionStatusWrapper>
             <Row gutter={8}>
-              <Col span={24} style={{ paddingRight: 40 }}>
+              {/* <Col span={24} style={{ paddingRight: 40 }}>
                 <FormItem
                   {...formItemLayout}
                   labelCol={{
@@ -754,7 +754,7 @@ export default class StationAutoForm extends React.PureComponent {
                   )}
                   <i>{t('stationAutoManager.form.emails.description')}</i>
                 </FormItem>
-              </Col>
+              </Col> */}
               <Col
                 span={12}
                 style={{
@@ -826,12 +826,12 @@ export default class StationAutoForm extends React.PureComponent {
                     this.state.measuringList
                       ? this.state.measuringList
                       : [
-                          {
-                            key: '',
-                            name: '',
-                            unit: '',
-                          },
-                        ]
+                        {
+                          key: '',
+                          name: '',
+                          unit: '',
+                        },
+                      ]
                   }
                   measuringListSource={this.state.measuringListSource}
                 />

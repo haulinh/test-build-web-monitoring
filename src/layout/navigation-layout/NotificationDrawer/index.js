@@ -1,6 +1,5 @@
 import NotificationIcon from '@atlaskit/icon/glyph/notification'
 import { Drawer, Switch } from 'antd'
-import { getLastLog, getTotalCount } from 'api/StationAuto'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
 import propTypes from 'prop-types'
@@ -225,7 +224,8 @@ export default class NotificationDrawer extends React.Component {
                     <a
                       onClick={this._handleDeleteAllNotification}
                       style={{
-                        color: '#385898',
+                        color: '#1890FF',
+                        fontSize: '14px'
                       }}
                     >
                       {i18n.removeAll}

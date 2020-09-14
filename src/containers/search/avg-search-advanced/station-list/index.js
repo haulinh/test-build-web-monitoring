@@ -1,7 +1,7 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import { connect } from 'react-redux'
-import { Tabs, message, Button } from 'antd'
+import { Tabs, message } from 'antd'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -32,12 +32,12 @@ const TitleWrapper = styled.div`
   toDate: state.form['dataSearchFilterForm'].values.toDate,
   advanced: state.form['dataSearchFilterForm'].values.advanced
     ? state.form['dataSearchFilterForm'].values.advanced.filter(
-        item =>
-          item.measuringKey &&
-          item.operator &&
-          item.value !== null &&
-          typeof item.value !== 'undefined'
-      )
+      item =>
+        item.measuringKey &&
+        item.operator &&
+        item.value !== null &&
+        typeof item.value !== 'undefined'
+    )
     : [],
   dataStatus: state.form['dataSearchFilterForm'].values.dataStatus || [],
 }))
@@ -249,7 +249,7 @@ export default class TableList extends React.PureComponent {
         <TitleWrapper>
           <h4>{translate('dataSearchFilterForm.table.heading')}</h4>
 
-          {stations.length === 1 && (
+          {/* {stations.length === 1 && (
             <Button
               icon="file-excel"
               style={{ float: 'right', margin: '5px' }}
@@ -271,7 +271,7 @@ export default class TableList extends React.PureComponent {
             >
               {translate('avgSearchFrom.tab.exportExcelAll')}
             </Button>
-          )}
+          )} */}
         </TitleWrapper>
 
         <Tabs

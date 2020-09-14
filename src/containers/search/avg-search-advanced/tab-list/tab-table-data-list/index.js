@@ -62,7 +62,7 @@ export default class TableDataList extends React.PureComponent {
     const columnsMeasuring = this.props.measuringData
       .filter(measuring => this.props.measuringList.includes(measuring.key))
       .map(measuring => ({
-        title: `${measuring.name} (${measuring.unit})`,
+        title: <strong>{measuring.name} <br /> {measuring.unit.trim() ? `(${measuring.unit})` : ''}</strong>,
         dataIndex: `measuringLogs.${measuring.key}`,
         key: measuring.key,
         width: 120,
