@@ -145,7 +145,9 @@ export default class ImageMoreInfo extends React.Component {
             item.type === 'FILE' &&
             (item.extension.toLowerCase() === 'heic' ||
               item.extension.toLowerCase() === 'jpg' ||
-              item.extension.toLowerCase() === 'png')
+              item.extension.toLowerCase() === 'png' ||
+              item.extension.toLowerCase() === 'jpeg' ||
+              item.extension.toLowerCase() === 'svg')
         )
         .sort((a, b) => moment(b.lastModified) - moment(a.lastModified))
 
