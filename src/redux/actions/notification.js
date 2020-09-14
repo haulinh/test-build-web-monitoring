@@ -29,6 +29,17 @@ export const DELETE_ONE = 'NOTIFICATION / DELETE_ONE'
 export const DELETE_ALL = 'NOTIFICATION / DELETE_ALL'
 export const UPDATE_NOT_READ_ONE = 'NOTIFICATION / UPDATE_NOT_READ_ONE'
 export const UPDATE_READ_ONE = 'NOTIFICATION / UPDATE_READ_ONE'
+export const HANDLE_TOGGLE_PUSH_NOTIFICATION = 'NOTIFICATION / HANDLE_TOGGLE_PUSH_NOTIFICATION'
+
+export function toggleNoti(isEnable) {
+  return dispatch => {
+    dispatch({
+      type: HANDLE_TOGGLE_PUSH_NOTIFICATION,
+      payload: isEnable
+    })
+  }
+}
+
 
 export function resetAllCounts() {
   return dispatch => {
@@ -84,6 +95,7 @@ function updateCountOnNewMsg(num = 1) {
 }
 
 function updateDataSourceOnNewMsg(data) {
+
   return {
     type: NEW_MESSAGE,
     payload: data,
@@ -153,11 +165,19 @@ export function clearLoadNotificationsByType() {
 /* NOTE  emit to reducer: handleUpdateDataSource */
 export function updateNotificationOnMessage(data, stations) {
   return async dispatch => {
-    let stationInfo = _.find(stations, { _id: data.station_id })
-    let item = _generateNotificationCellByType(data, stationInfo)
+    try {
+      let stationInfo = _.find(stations, { _id: data.station_id })
+      let item = _generateNotificationCellByType(data, stationInfo)
 
-    dispatch(updateCountOnNewMsg())
-    dispatch(updateDataSourceOnNewMsg(item))
+      dispatch(updateCountOnNewMsg())
+      dispatch(updateDataSourceOnNewMsg(item))
+    } catch (error) {
+      console.log('=========error in updateNotificationOnMessage=====')
+      console.log(error)
+      console.log('=========error in updateNotificationOnMessage===== end')
+
+    }
+
   }
 }
 
@@ -310,8 +330,8 @@ function _generateNotificationCellByType(rawContent, stationInfo) {
       viewDetail: viewDetailURL,
       aroundAtExceededTime: RawDataURL,
     },
-    measures: rawContent.measures,
-    notificationType: rawContent.notificationType
+    measures: rawContent.measures ? JSON.parse(JSON.stringify(rawContent.measures)) : [],
+    notificationType: rawContent.notificationType,
   }
 
   return cellContent

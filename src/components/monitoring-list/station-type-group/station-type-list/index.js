@@ -80,7 +80,7 @@ export default class StationTypeList extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if ( 
+    if (
       JSON.stringify(this.props.data) !== JSON.stringify(prevProps.data) &&
       this.getAlert()
     ) {

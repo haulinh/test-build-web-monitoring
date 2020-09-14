@@ -191,20 +191,15 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   getDisableConfig() {
-
-    const {
-      configSampling,
-      isScheduled,
-    } = this.state
+    const { configSampling, isScheduled } = this.state
     if (
       _.get(configSampling, 'status', STATUS_SAMPLING.READY) !==
       STATUS_SAMPLING.READY
     ) {
       return true
-    }else if(isScheduled){
+    } else if (isScheduled) {
       return true
-    }
-    else{
+    } else {
       return false
     }
   }

@@ -44,10 +44,7 @@ export default function createProtectedAuth(Component) {
           </div>
         )
       }
-      if (this.props.isPending)
-        return (
-          <SplashLoading />
-        )
+      if (this.props.isPending) return <SplashLoading />
       return null
     }
   }

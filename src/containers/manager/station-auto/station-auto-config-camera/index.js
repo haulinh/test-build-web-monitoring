@@ -18,7 +18,6 @@ import StationAutoSearchForm from '../station-auto-search.1'
 import CollapsePanelHeader from './CollapsePanelHeader'
 import FormAddCamera from './formAddCamera'
 
-
 const { Panel } = Collapse
 
 const i18n = {
@@ -354,5 +353,3 @@ export default class StationAutoConfigCamera extends React.Component {
     )
   }
 }
-
-

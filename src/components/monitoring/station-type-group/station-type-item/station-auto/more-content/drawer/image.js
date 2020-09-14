@@ -139,9 +139,15 @@ export default class ImageMoreInfo extends React.Component {
     this.setState({ loading: true }, async () => {
       const data = await MediaApi.getImages(databaseName, stationKey)
 
-      const dataSorted = data.sort(
-        (a, b) => moment(b.lastModified) - moment(a.lastModified)
-      )
+      const dataSorted = data
+        .filter(
+          item =>
+            item.type === 'FILE' &&
+            (item.extension.toLowerCase() === 'heic' ||
+              item.extension.toLowerCase() === 'jpg' ||
+              item.extension.toLowerCase() === 'png')
+        )
+        .sort((a, b) => moment(b.lastModified) - moment(a.lastModified))
 
       this.setState({
         newImages: data,

@@ -144,7 +144,9 @@ export default class StationAutoSearchForm extends React.PureComponent {
               <Wrapper>
                 <Flex>
                   <Label>{translate('contact.phone')}</Label>
-                  <Content>{this.props.packageInfo.saler.phone.phoneNumber}</Content>
+                  <Content>
+                    {this.props.packageInfo.saler.phone.phoneNumber}
+                  </Content>
                 </Flex>
                 <Flex>
                   <Label>{translate('contact.email')}</Label>

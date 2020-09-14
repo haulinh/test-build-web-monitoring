@@ -168,8 +168,6 @@ export default class FormAddCamera extends React.Component {
     //   },
     // }
 
-   
-
     const res = await addCameras(stationID, submittedCameras)
 
     this.setState({ submittingCameraLinks: false })

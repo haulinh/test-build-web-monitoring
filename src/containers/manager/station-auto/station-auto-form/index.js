@@ -75,6 +75,7 @@ export default class StationAutoForm extends React.PureComponent {
       imgList: [],
       allowUpdateStandardsVN: props.isEdit,
       tabKey: ['1'],
+      isStandardsVN: false,
     }
   }
 
@@ -221,7 +222,7 @@ export default class StationAutoForm extends React.PureComponent {
         return
       }
 
-      let measuringList  = this.state.measuringList
+      let measuringList = this.state.measuringList
       if (!measuringList) {
         const { t } = this.props.lang
         swal({
@@ -233,21 +234,19 @@ export default class StationAutoForm extends React.PureComponent {
         })
         return
       } else {
-         measuringList = _.map(this.state.measuringList, item => {
+        measuringList = _.map(this.state.measuringList, item => {
           const dtFind = _.find(this.state.measuringListSource, obj => {
             return obj.key === item.key
           })
-          if(dtFind){
+          if (dtFind) {
             return {
               ...item,
               name: dtFind.name,
             }
           }
-          
         })
       }
-      
-     
+
       const data = {
         key: values.key,
         name: values.name,
@@ -261,7 +260,7 @@ export default class StationAutoForm extends React.PureComponent {
         activatedAt: values.activatedAt,
         dataFrequency: values.dataFrequency,
         note: values.note,
-        measuringList:_.compact(measuringList) , // values.measuringList,
+        measuringList: _.compact(measuringList), // values.measuringList,
         options: this.state.options,
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null,
         typeSampling: values.typeSampling,
@@ -280,8 +279,8 @@ export default class StationAutoForm extends React.PureComponent {
         lostConnection: this._transformLostConnectionData(values),
       }
 
-      console.log(data.measuringList, '---data---')
-      console.log(data, '---data---')
+      // console.log(data.measuringList, '---data---')
+      // console.log(data, '---data---')
 
       // Callback submit form Container Component
       if (this.props.onSubmit) {
@@ -307,10 +306,14 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   changeQCVN(standardsVNObject) {
-    this.props.form.setFieldsValue({ standardsVN: standardsVNObject.key })
+    // console.log(standardsVNObject, 'standardsVNObject')
+    const value = get(standardsVNObject, 'key', null)
+    this.props.form.setFieldsValue({ standardsVN: value })
+
     this.setState({
-      standardsVN: standardsVNObject.key,
-      standardsVNObject: standardsVNObject,
+      standardsVN: value,
+      isStandardsVN: true,
+      standardsVNObject: standardsVNObject ? standardsVNObject : null,
     })
   }
 
@@ -376,6 +379,12 @@ export default class StationAutoForm extends React.PureComponent {
     // console.log(dataMeasuring, '--handleOnChangeMeasuring')
     this.setState({
       measuringList: dataMeasuring,
+    })
+  }
+
+  onChangeStandardsVN = value => {
+    this.setState({
+      isStandardsVN: value,
     })
   }
   render() {
@@ -720,7 +729,7 @@ export default class StationAutoForm extends React.PureComponent {
               </i>
             </ConnectionStatusWrapper>
             <Row gutter={8}>
-              <Col span={24} style={{ paddingRight: 40 }}>
+              {/* <Col span={24} style={{ paddingRight: 40 }}>
                 <FormItem
                   {...formItemLayout}
                   labelCol={{
@@ -745,7 +754,7 @@ export default class StationAutoForm extends React.PureComponent {
                   )}
                   <i>{t('stationAutoManager.form.emails.description')}</i>
                 </FormItem>
-              </Col>
+              </Col> */}
               <Col
                 span={12}
                 style={{
@@ -806,6 +815,8 @@ export default class StationAutoForm extends React.PureComponent {
                   isEdit={this.props.isEdit}
                   lang={this.props.lang}
                   form={this.props.form}
+                  isStandardsVN={this.state.isStandardsVN}
+                  onChangeStandardsVN={this.onChangeStandardsVN}
                   standardsVN={get(
                     this.state.standardsVNObject,
                     'measuringList',
@@ -815,12 +826,12 @@ export default class StationAutoForm extends React.PureComponent {
                     this.state.measuringList
                       ? this.state.measuringList
                       : [
-                          {
-                            key: '',
-                            name: '',
-                            unit: '',
-                          },
-                        ]
+                        {
+                          key: '',
+                          name: '',
+                          unit: '',
+                        },
+                      ]
                   }
                   measuringListSource={this.state.measuringListSource}
                 />

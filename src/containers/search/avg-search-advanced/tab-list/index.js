@@ -1,13 +1,13 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { Tabs, Menu } from 'antd'
+import { Tabs, Menu, Button } from 'antd'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow'
 import TabTableDataList from './tab-table-data-list/index'
 import TabChart from './tab-chart/index'
-// import ROLE from 'constants/role'
-// import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
 
 const TableListWrapper = styled(BoxShadow)`
@@ -15,12 +15,12 @@ const TableListWrapper = styled(BoxShadow)`
   position: relative;
 `
 
-// const ButtonAbsolute = styled.div`
-//   position: absolute;
-//   top: 0px;
-//   right: 16px;
-//   z-index: 3;
-// `
+const ButtonAbsolute = styled.div`
+  position: absolute;
+  top: 0px;
+  right: 16px;
+  z-index: 3;
+`
 
 @autobind
 export default class TableList extends React.PureComponent {
@@ -61,16 +61,13 @@ export default class TableList extends React.PureComponent {
     if (!this.props.isActive) return null
     return (
       <TableListWrapper>
-        {/* <ButtonAbsolute>
+        <ButtonAbsolute>
           {protectRole(ROLE.AVG_SEARCH.EXPORT)(
-            <Dropdown overlay={this.renderMenuExport()} trigger={['click']}>
-              <Button type='primary' icon='file-excel' loading={this.props.isExporting || this.props.isExportingAll}>
-                {translate('avgSearchFrom.tab.exportExcel')}
-              </Button>
-
-            </Dropdown>
+            <Button onClick={this.props.onExportExcel} type='primary' icon='file-excel' loading={this.props.isExporting || this.props.isExportingAll}>
+              {translate('avgSearchFrom.tab.exportExcel')}
+            </Button>
           )}
-        </ButtonAbsolute> */}
+        </ButtonAbsolute>
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab={translate('avgSearchFrom.tab.data')} key="1">
             <TabTableDataList

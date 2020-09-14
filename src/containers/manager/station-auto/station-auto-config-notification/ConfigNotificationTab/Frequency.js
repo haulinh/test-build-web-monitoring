@@ -72,7 +72,7 @@ export default class Frequency extends React.Component {
   }
 
   render() {
-    console.log(this.state.isEnable, "------")
+    console.log(this.state.isEnable, '------')
     return (
       <div style={{ display: 'flex' }}>
         <div style={{ paddingRight: '8px' }}>
