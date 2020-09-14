@@ -72,6 +72,7 @@ const DivBenTrai = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-top: -20px;
 `
 const DivBenPhai = styled.div`
   display: flex;
@@ -91,6 +92,8 @@ const i18n = {
   label: translate('notification.label'),
   removeAll: translate('notification.removeAll'),
   markAll: translate('notification.markAll'),
+  toolTipEnable: translate('notification.toolTipEnable'),
+  pushNotification: translate('notification.pushNotification')
 }
 
 
@@ -193,13 +196,24 @@ export default class NotificationDrawer extends React.Component {
                 <NotificationWrapperIcon onClick={this.handleClickNotification}>
                   <NotificationIcon color="#fff" size="large" />
                 </NotificationWrapperIcon>
-                <h4 style={{ margin: '0px', marginLeft: '8px' }}>
+                <b style={{ margin: '0px', marginLeft: '8px', fontSize: '16px' }}>
                   {i18n.label}
-                </h4>
+                </b>
               </DivBenTrai>
-              <Switch
-                defaultChecked={this.getDefaultStatus()}
-                onChange={this.onChange} />
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                  <div style={{ fontSize: '14px', position: 'absolute', right: '5em' }}>{i18n.pushNotification}</div>
+                  <Switch
+                    size="small"
+                    checkedChildren="ON"
+                    unCheckedChildren="OFF"
+                    defaultChecked={this.getDefaultStatus()}
+                    onChange={this.onChange} />
+                </div>
+                <div style={{ fontSize: '12px', color: '#979797' }}>{i18n.toolTipEnable}</div>
+              </div>
+
+
             </Flex>
 
             <DivBenPhai>
@@ -221,7 +235,8 @@ export default class NotificationDrawer extends React.Component {
                     <a
                       onClick={this.checkReadAll}
                       style={{
-                        color: '#385898',
+                        color: '#1890FF',
+                        fontSize: '14px'
                       }}
                     >
                       {i18n.markAll}
