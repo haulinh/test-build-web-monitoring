@@ -16,7 +16,7 @@ const DescriptionView = styled.div``
 
 export default class ListItemView extends React.Component {
   static propTypes = {
-    auth: PropTypes.string.isRequired,
+    // auth: PropTypes.string.isRequired,
     countStartCamera: PropTypes.number.isRequired,
     camera: PropTypes.object,
     cbPlay: PropTypes.func.isRequired,
@@ -24,14 +24,16 @@ export default class ListItemView extends React.Component {
   }
 
   handleCamera = e => {
-    if (this.props.onCameraClick) {
-      this.props.onCameraClick(this.props.camera)
-    }
+    console.log('===handleCamera')
+    // if (this.props.onCameraClick) {
+    //   this.props.onCameraClick(this.props.camera)
+    // }
   }
 
   render() {
     const {
       src,
+      lastThumbnail,
       stationName,
       name,
       status,
@@ -44,11 +46,10 @@ export default class ListItemView extends React.Component {
         cover={
           <Player
             src={
-              src.includes('?')
-                ? `${src}&auth=${this.props.auth}`
-                : `${src}?resolution=360p&sfd&rt&auth=${this.props.auth}`
+              src
             }
-            auth={this.props.auth}
+            lastThumbnail={lastThumbnail}
+            // auth={this.props.auth}
             cbPlay={this.props.cbPlay}
             cbStop={this.props.cbStop}
             countStartCamera={this.props.countStartCamera}
@@ -57,9 +58,8 @@ export default class ListItemView extends React.Component {
         }
       >
         <Meta
-          title={`${name}${
-            status === STATUS_CAMERA.NOT_EXISTS ? ` - ${i18n.errorAuth}` : ''
-          }`}
+          title={`${name}${status === STATUS_CAMERA.NOT_EXISTS ? ` - ${i18n.errorAuth}` : ''
+            }`}
           description={<DescriptionView>{stationName}</DescriptionView>}
         />
       </Card>

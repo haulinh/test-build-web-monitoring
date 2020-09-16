@@ -8,6 +8,8 @@ import { message } from 'antd'
 import moment from 'moment'
 import { STATUS_CAMERA } from 'constants/stationStatus'
 
+
+const DEFAULT_LIMIT_CAMERAS = 4
 // tham khao o: https://codepen.io/webcrunchblog/pen/WaNYPv?editors=0010
 // tham khao o: https://web-crunch.com/lets-build-with-javascript-html5-video-player/
 const LINK_Error = '/images/imgError.svg'
@@ -111,7 +113,7 @@ const WraperPlayer = styled.div`
 export default class Player extends React.Component {
   static propTypes = {
     src: PropTypes.string.isRequired,
-    auth: PropTypes.string.isRequired,
+    // auth: PropTypes.string.isRequired,
     countStartCamera: PropTypes.number.isRequired,
     cbPlay: PropTypes.func.isRequired,
     cbStop: PropTypes.func.isRequired,
@@ -128,20 +130,27 @@ export default class Player extends React.Component {
     const pathObj = pathParse(props.src)
     const cameraId = pathObj.name || ''
 
+    // NOTE: hiện tại chỉ stream với chất lượng 
     this.state = {
       isPlay: false,
       isFullScreen: false,
       cameraId: cameraId,
-      thumbLink: getThumbLink(cameraId, props.auth),
-      linkStream: getCameraMPJEGLink(cameraId, props.auth, '240p'),
-      linkStreamHightQual: getCameraMPJEGLink(cameraId, props.auth, '640p'),
-      link480p: getCameraMPJEGLink(cameraId, props.auth, '480p'),
+      thumbLink: `${this.props.lastThumbnail}&width=480&height=320`,
+      linkStream: `${this.props.src}?resolution=240p`,
+      linkStreamHightQual: `${this.props.src}?resolution=640p`,
+      link480p: `${this.props.src}?resolution=480p`,
+      // linkStream: getCameraMPJEGLink(cameraId, props.auth, '240p'),
+      // linkStreamHightQual: getCameraMPJEGLink(cameraId, props.auth, '640p'),
+      // link480p: getCameraMPJEGLink(cameraId, props.auth, '480p'),
       status: props.status ? props.status : STATUS_CAMERA.EXISTS,
       padding: 0,
     }
   }
 
+
+
   openWindowStream = link => {
+
     window.open(
       link,
       moment().unix(),
@@ -207,12 +216,12 @@ export default class Player extends React.Component {
       this.setState({ isPlay: false }, () => {
         this.props.cbStop()
       })
-    } else if (this.props.countStartCamera < 2) {
+    } else if (this.props.countStartCamera < DEFAULT_LIMIT_CAMERAS) {
       this.setState({ isPlay: true }, () => {
         this.props.cbPlay()
       })
     } else {
-      message.error('Chỉ cho phép live view 2 camera đồng thời')
+      message.error(`Chỉ cho phép live view ${DEFAULT_LIMIT_CAMERAS}camera đồng thời`)
     }
   }
 

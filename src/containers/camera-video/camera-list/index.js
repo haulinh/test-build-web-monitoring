@@ -45,47 +45,57 @@ export default class CameraList extends React.Component {
     },
   }
 
-  handleCamera = e => {}
+  handleCamera = e => { }
 
   async componentDidMount() {
-    const auth = await getAuthToken()
-    if (!auth) {
-      swal({
-        title: 'Unauthorized Camera fail',
-        type: 'error',
+    try {
+      /* get list of cameras */
+      const rs = await StationAutoApi.getCamera()
+      let cameraList = []
+      _.forEach(rs.data || [], ({ _id, key, name, stationType, options }) => {
+        cameraList = cameraList.concat(
+          _.map(_.get(options, 'camera.list', []), (item, index) => ({
+            key: `${key}_${index}`,
+            stationKey: key,
+            stationName: name,
+            status: item.status,
+            stationType,
+            src: `${item.rtspUrl}`,
+            lastThumbnail: `${item.lastThumbnail}`,
+            name: item.name,
+            _id,
+          }))
+        )
       })
-    }
-    /* get list of cameras */
-    const rs = await StationAutoApi.getCamera()
-    let cameraList = []
-    _.forEach(rs.data || [], ({ _id, key, name, stationType, options }) => {
-      cameraList = cameraList.concat(
-        _.map(_.get(options, 'camera.list', []), (item, index) => ({
-          key: `${key}_${index}`,
-          stationKey: key,
-          stationName: name,
-          status: item.status,
-          stationType,
-          src: `${item.rtspUrl}?resolution=360p&sfd&rt`,
-          name: item.name,
-          _id,
-        }))
-      )
-    })
-    /* create list of cameras without unicode */
-    const cameraListNotUnicode = cameraList.map(item => {
-      const _item = _.clone(item)
-      _item.name = removeUnicodeText(_item.name)
-      _item.stationName = removeUnicodeText(_item.stationName)
-      return _item
-    })
+      /* create list of cameras without unicode */
+      const cameraListNotUnicode = cameraList.map(item => {
+        const _item = _.clone(item)
+        _item.name = removeUnicodeText(_item.name)
+        _item.stationName = removeUnicodeText(_item.stationName)
+        return _item
+      })
 
-    this.setState({
-      cameraList,
-      cameraListNotUnicode,
-      auth: auth,
-      isLoaded: true,
-    })
+      this.setState({
+        cameraList,
+        cameraListNotUnicode,
+        // auth: auth,
+        isLoaded: true,
+      })
+    } catch (error) {
+      console.log('======error in CameraList => componentDidMount=======start')
+      console.log(error)
+      console.log('======error in CameraList => componentDidMount=========end')
+
+      const errStt = _.get(error, 'response.status', 503)
+      const errMess = _.get(error, 'response.data.message', error.message)
+      const errCode = _.get(error, 'response.data.code', '')
+      this.setState({
+        isLoaded: true
+      })
+      swal(errCode, errMess, 'error')
+      // alert(errMess)
+    }
+
   }
 
   saveSearchString = e => {
@@ -95,6 +105,7 @@ export default class CameraList extends React.Component {
   }
 
   cbPlay = () => {
+    // console.log('==cb play')
     this.setState(prevState => ({
       countStartCamera: prevState.countStartCamera + 1,
     }))
@@ -160,16 +171,16 @@ export default class CameraList extends React.Component {
         <WrapperContainer>
           {this.state.isLoaded && cameraList.length > 0
             ? cameraList.map(camera => (
-                <ListItem
-                  auth={this.state.auth}
-                  key={`${camera.key}`}
-                  camera={camera}
-                  onCameraClick={this.handleCamera}
-                  countStartCamera={this.state.countStartCamera}
-                  cbPlay={this.cbPlay}
-                  cbStop={this.cbStop}
-                />
-              ))
+              <ListItem
+                // auth={this.state.auth}
+                key={`${camera.key}`}
+                camera={camera}
+                onCameraClick={this.handleCamera}
+                countStartCamera={this.state.countStartCamera}
+                cbPlay={this.cbPlay}
+                cbStop={this.cbStop}
+              />
+            ))
             : null}
           {this.state.isLoaded && cameraList.length === 0 ? (
             <Empty
