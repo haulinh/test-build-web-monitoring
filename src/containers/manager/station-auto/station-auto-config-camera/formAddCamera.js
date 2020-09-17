@@ -10,6 +10,7 @@ import {
   Icon,
   Popconfirm,
   message,
+  Modal,
 } from 'antd'
 import { autobind } from 'core-decorators'
 import _ from 'lodash'
@@ -17,6 +18,7 @@ import { translate } from 'hoc/create-lang'
 // import StationAutoApi from 'api/StationAuto'
 import { v4 as uuidV4 } from 'uuid'
 import { addCameras } from 'api/CameraApi'
+// import swal from 'sweetalert2'
 
 const i18n = {
   addButton: translate('addon.add'),
@@ -27,6 +29,11 @@ const i18n = {
   // emptyCamera: 'Khong co camera nao!!',
   successSubmit: translate('addon.onSave.update.success'),
   errorSubmit: translate('addon.onSave.update.error'),
+  errorNetword: translate('empty.camera.errorNetword'),
+  errorUnavailable: translate('empty.camera.errorUnavailable'),
+  errorInvalidRtsp: translate('empty.camera.errorInvalidRtsp'),
+  timeout: translate('empty.camera.timeout'),
+  title: translate('pageInfo.header'),
 }
 
 @Form.create()
@@ -142,6 +149,7 @@ export default class FormAddCamera extends React.Component {
   }
 
   async _submitCameras() {
+    // return console.log('==submit camera')
     const { getFieldsValue } = this.props.form
 
     const fieldsValue = getFieldsValue()
@@ -167,19 +175,58 @@ export default class FormAddCamera extends React.Component {
     //     },
     //   },
     // }
+    try {
+      const res = await addCameras(stationID, submittedCameras)
+      this.setState({ submittingCameraLinks: false })
 
-    const res = await addCameras(stationID, submittedCameras)
+      if (res.success) {
+        this.props.onSubmit(res.data[0])
+        const quantityCamera = Object.keys(fieldsValue).length
+        this.setNumOfCameras(quantityCamera)
+        return message.success(i18n.successSubmit)
+      }
 
-    this.setState({ submittingCameraLinks: false })
+      message.error(i18n.errorSubmit)
+    } catch (error) {
+      console.log('======error in FormAddCamera => _submitCameras=======start')
+      console.log(error)
+      console.log('======error in FormAddCamera => _submitCameras=========end')
 
-    if (res.success) {
-      this.props.onSubmit(res.data[0])
-      const quantityCamera = Object.keys(fieldsValue).length
-      this.setNumOfCameras(quantityCamera)
-      return message.success(i18n.successSubmit)
+      // const errStt = _.get(error, 'response.status', 503)
+      // const errMess = _.get(error, 'response.data.message', error.message)
+      const errCode = _.get(error, 'response.data.code', '')
+      this.setState({
+        submittingCameraLinks: false,
+      })
+      let errMess = ''
+      switch (errCode) {
+        case 'NETWORK_ERROR': {
+          errMess = i18n.errorNetword
+          break
+        }
+        case 'SERVICE_UNAVAILABLE': {
+          errMess = i18n.errorUnavailable
+          break
+        }
+        case 'INVALID_RTS': {
+          errMess = i18n.errorInvalidRtsp
+          break
+        }
+        case 'TIMEOUT_ERROR': {
+          errMess = i18n.timeout
+          break
+        }
+        default: {
+          errMess = i18n.errorUnavailable
+          break
+        }
+      }
+      Modal.warn({
+        title: i18n.title,
+        content: errMess,
+      })
+      // swal(errCode, errMess, 'error')
     }
-
-    message.error(i18n.errorSubmit)
   }
 
   render() {

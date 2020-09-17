@@ -4,6 +4,10 @@ export default {
       description: 'Không tìm thấy camera',
       action: 'Cấu hình camera',
       errorAuth: 'Lỗi xác thực',
+      errorNetword:'Lỗi đường truyền đến máy chủ camera nx || Kết nối đến service camera bị đứt khi đang requests',
+      errorUnavailable:'Lỗi không xác định từ máy chủ camera nx || Service camera dừng',
+      errorInvalidRtsp:"Rtsp ko hợp lệ",
+      timeout:'Request đến nx bị timeout'
     },
     wqi: {
       description: 'Không tìm thấy trạm',
