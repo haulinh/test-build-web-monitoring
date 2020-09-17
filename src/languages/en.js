@@ -4,10 +4,10 @@ export default {
       description: 'Camera not found',
       action: 'Camera configuration',
       errorAuth: 'Authentication error',
-      errorNetword:'Communication error to the camera server nx || The connection to the service camera was broken',
-      errorUnavailable:'Unspecified error from server camera nx || Service camera stopped',
+      errorNetword:"Can't connect to camera server, please try again",
+      errorUnavailable:"Can't connect to camera server, please try again",
       errorInvalidRtsp:"Invalid Rtsp",
-      timeout:'Request to nx timeout'
+      timeout:"Can't connect to camera server, please try again"
     },
     wqi: {
       description: 'Station not found',
