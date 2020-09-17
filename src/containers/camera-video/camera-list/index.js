@@ -6,15 +6,23 @@ import ListItem from './list-item'
 import StationAutoApi from 'api/StationAuto'
 import { Link } from 'react-router-dom'
 import * as _ from 'lodash'
-import { getAuthToken } from 'api/CameraApi'
-import { Spin, Empty, Button } from 'antd'
+// import { getAuthToken } from 'api/CameraApi'
+import { Spin, Empty, Button, Modal } from 'antd'
 import { translate } from 'hoc/create-lang'
-import swal from 'sweetalert2'
+// import swal from 'sweetalert2'
 import CameraFilter from '../camera-filter'
 import queryString from 'query-string'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 import slug from 'constants/slug'
+
+const i18n = {
+  errorNetword: translate('empty.camera.errorNetword'),
+  errorUnavailable: translate('empty.camera.errorUnavailable'),
+  errorInvalidRtsp: translate('empty.camera.errorInvalidRtsp'),
+  timeout: translate('empty.camera.timeout'),
+  title:translate('pageInfo.header')
+}
 
 const WrapperContainer = styled.div`
   display: flex;
@@ -48,44 +56,81 @@ export default class CameraList extends React.Component {
   handleCamera = e => {}
 
   async componentDidMount() {
-    const auth = await getAuthToken()
-    if (!auth) {
-      swal({
-        title: 'Unauthorized Camera fail',
-        type: 'error',
+    try {
+      /* get list of cameras */
+      const rs = await StationAutoApi.getCamera()
+      let cameraList = []
+      _.forEach(rs.data || [], ({ _id, key, name, stationType, options }) => {
+        cameraList = cameraList.concat(
+          _.map(_.get(options, 'camera.list', []), (item, index) => ({
+            key: `${key}_${index}`,
+            stationKey: key,
+            stationName: name,
+            status: item.status,
+            stationType,
+            src: `${item.rtspUrl}`,
+            lastThumbnail: `${item.lastThumbnail}`,
+            name: item.name,
+            _id,
+          }))
+        )
       })
-    }
-    /* get list of cameras */
-    const rs = await StationAutoApi.getCamera()
-    let cameraList = []
-    _.forEach(rs.data || [], ({ _id, key, name, stationType, options }) => {
-      cameraList = cameraList.concat(
-        _.map(_.get(options, 'camera.list', []), (item, index) => ({
-          key: `${key}_${index}`,
-          stationKey: key,
-          stationName: name,
-          status: item.status,
-          stationType,
-          src: `${item.rtspUrl}?resolution=360p&sfd&rt`,
-          name: item.name,
-          _id,
-        }))
-      )
-    })
-    /* create list of cameras without unicode */
-    const cameraListNotUnicode = cameraList.map(item => {
-      const _item = _.clone(item)
-      _item.name = removeUnicodeText(_item.name)
-      _item.stationName = removeUnicodeText(_item.stationName)
-      return _item
-    })
+      /* create list of cameras without unicode */
+      const cameraListNotUnicode = cameraList.map(item => {
+        const _item = _.clone(item)
+        _item.name = removeUnicodeText(_item.name)
+        _item.stationName = removeUnicodeText(_item.stationName)
+        return _item
+      })
 
-    this.setState({
-      cameraList,
-      cameraListNotUnicode,
-      auth: auth,
-      isLoaded: true,
-    })
+      this.setState({
+        cameraList,
+        cameraListNotUnicode,
+        // auth: auth,
+        isLoaded: true,
+      })
+      
+    } catch (error) {
+      // console.log('======error in CameraList => componentDidMount=======start')
+      // console.log(error)
+      // console.log('======error in CameraList => componentDidMount=========end')
+
+      // const errStt = _.get(error, 'response.status', 503)
+      // const errMess = _.get(error, 'response.data.message', error.message)
+      const errCode = _.get(error, 'response.data.code', '')
+      this.setState({
+        isLoaded: true,
+      })
+      let errMess = ''
+      switch (errCode) {
+        case 'NETWORK_ERROR': {
+          errMess = i18n.errorNetword
+          break
+        }
+        case 'SERVICE_UNAVAILABLE': {
+          errMess = i18n.errorUnavailable
+          break
+        }
+        case 'INVALID_RTS': {
+          errMess = i18n.errorInvalidRtsp
+          break
+        }
+        case 'TIMEOUT_ERROR': {
+          errMess = i18n.timeout
+          break
+        }
+        default: {
+          errMess = i18n.errorUnavailable
+          break
+        }
+      }
+      Modal.warn({
+        title: i18n.title,
+        content: errMess,
+      })
+      // swal(errCode, errMess, 'error')
+      // alert(errMess)
+    }
   }
 
   saveSearchString = e => {
@@ -95,6 +140,7 @@ export default class CameraList extends React.Component {
   }
 
   cbPlay = () => {
+    // console.log('==cb play')
     this.setState(prevState => ({
       countStartCamera: prevState.countStartCamera + 1,
     }))
@@ -161,7 +207,7 @@ export default class CameraList extends React.Component {
           {this.state.isLoaded && cameraList.length > 0
             ? cameraList.map(camera => (
                 <ListItem
-                  auth={this.state.auth}
+                  // auth={this.state.auth}
                   key={`${camera.key}`}
                   camera={camera}
                   onCameraClick={this.handleCamera}
