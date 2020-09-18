@@ -225,11 +225,11 @@ export default class MeasuringItem extends React.PureComponent {
         <Flex onClick={this.props.onClick} color={this.getColorLevel()}>
           <LeftContainer>
             <MeasuringValue color={this.getColorLevel()}>
-              {value !== undefined && unit ? (
+              {value !== undefined ? (
                 <React.Fragment>
                   {getFormatNumber(value)}
                   <MeasuringUnit color={this.getColorLevel()} className="unit">
-                    {unit}
+                    {unit ? unit : ''}
                   </MeasuringUnit>
                 </React.Fragment>
               ) : (
