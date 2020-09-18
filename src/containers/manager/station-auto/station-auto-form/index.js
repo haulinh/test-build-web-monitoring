@@ -42,6 +42,9 @@ const { Option } = Select
 
 const ConnectionStatusWrapper = styled.div`
   display: flex;
+  .ant-input-number {
+    width: 100% !important;
+  }
 `
 
 @Form.create({})
@@ -534,7 +537,8 @@ export default class StationAutoForm extends React.PureComponent {
                       },
                     ],
                   })(
-                    <Input
+                    <InputNumber
+                      style={{ flex: 1, width: '100%' }}
                       placeholder={t(
                         'stationAutoManager.form.long.placeholder'
                       )}
@@ -555,7 +559,8 @@ export default class StationAutoForm extends React.PureComponent {
                       },
                     ],
                   })(
-                    <Input
+                    <InputNumber
+                      style={{ flex: 1, width: '100%' }}
                       placeholder={t('stationAutoManager.form.lat.placeholder')}
                     />
                   )}
@@ -826,12 +831,12 @@ export default class StationAutoForm extends React.PureComponent {
                     this.state.measuringList
                       ? this.state.measuringList
                       : [
-                        {
-                          key: '',
-                          name: '',
-                          unit: '',
-                        },
-                      ]
+                          {
+                            key: '',
+                            name: '',
+                            unit: '',
+                          },
+                        ]
                   }
                   measuringListSource={this.state.measuringListSource}
                 />
