@@ -39,7 +39,8 @@ export default class CameraList extends React.Component {
       stationKey: this.props.station.key,
       stationName: this.props.station.name,
       stationType: this.props.station.stationType,
-      src: `${cameraItem.rtspUrl}?resolution=360p&sfd&rt`,
+      src: `${cameraItem.rtspUrl}`,
+      lastThumbnail: this.getLastThumbnail(cameraItem.rtspUrl, cameraItem.cameraId, auth),
       name: cameraItem.name,
       _id: this.props.station._id,
     }))
@@ -57,6 +58,17 @@ export default class CameraList extends React.Component {
       auth: auth,
       isLoaded: true,
     })
+  }
+
+  getLastThumbnail = (url, cameraId, auth) => {
+    const prefixArr = _.split(url, '//')
+    const strDomain = _.split(prefixArr[1], '/')
+   
+    let lastThumbnail = ''
+    if (strDomain.length > 0) {
+      lastThumbnail = `${prefixArr[0]}//${strDomain[0]}/ec2/cameraThumbnail?auth=${auth}&cameraId={${cameraId}}&width=300&height=300`
+    }
+    return lastThumbnail
   }
 
   cbPlay = () => {
