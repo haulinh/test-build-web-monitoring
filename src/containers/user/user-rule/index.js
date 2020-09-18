@@ -199,18 +199,18 @@ export default class StationAutoConfigNotification extends React.Component {
         ),
         width: 15,
       },
-      {
-        content: <div>{i18n.sendNotification}</div>,
-        width: 15,
-      },
-      {
-        content: <div>{i18n.sms}</div>,
-        width: 10,
-      },
-      {
-        content: <div>{i18n.email}</div>,
-        width: 10,
-      },
+      // {
+      //   content: <div>{i18n.sendNotification}</div>,
+      //   width: 15,
+      // },
+      // {
+      //   content: <div>{i18n.sms}</div>,
+      //   width: 10,
+      // },
+      // {
+      //   content: <div>{i18n.email}</div>,
+      //   width: 10,
+      // },
     ]
   }
 
@@ -273,51 +273,51 @@ export default class StationAutoConfigNotification extends React.Component {
               </div>
             ),
           },
-          /* checkbox gởi cảnh báo */
-          {
-            content: (
-              <div>
-                <Checkbox
-                  disabled={true}
-                  checked={_.get(
-                    row,
-                    ['options', USER_RULE_TABLE_COLUMN.WARNING, 'allowed'],
-                    false
-                  )}
-                />
-              </div>
-            ),
-          },
-          /* checkbox SMS */
-          {
-            content: (
-              <div>
-                <Checkbox
-                  disabled={true}
-                  checked={_.get(
-                    row,
-                    ['options', USER_RULE_TABLE_COLUMN.SMS, 'allowed'],
-                    false
-                  )}
-                />
-              </div>
-            ),
-          },
-          /* checkbox Email */
-          {
-            content: (
-              <div>
-                <Checkbox
-                  disabled={true}
-                  checked={_.get(
-                    row,
-                    ['options', USER_RULE_TABLE_COLUMN.EMAIL, 'allowed'],
-                    false
-                  )}
-                />
-              </div>
-            ),
-          },
+          // /* checkbox gởi cảnh báo */
+          // {
+          //   content: (
+          //     <div>
+          //       <Checkbox
+          //         disabled={true}
+          //         checked={_.get(
+          //           row,
+          //           ['options', USER_RULE_TABLE_COLUMN.WARNING, 'allowed'],
+          //           false
+          //         )}
+          //       />
+          //     </div>
+          //   ),
+          // },
+          // /* checkbox SMS */
+          // {
+          //   content: (
+          //     <div>
+          //       <Checkbox
+          //         disabled={true}
+          //         checked={_.get(
+          //           row,
+          //           ['options', USER_RULE_TABLE_COLUMN.SMS, 'allowed'],
+          //           false
+          //         )}
+          //       />
+          //     </div>
+          //   ),
+          // },
+          // /* checkbox Email */
+          // {
+          //   content: (
+          //     <div>
+          //       <Checkbox
+          //         disabled={true}
+          //         checked={_.get(
+          //           row,
+          //           ['options', USER_RULE_TABLE_COLUMN.EMAIL, 'allowed'],
+          //           false
+          //         )}
+          //       />
+          //     </div>
+          //   ),
+          // },
         ]
         //check if Group exist or not
         if (row.stationType && stationTypeArr.indexOf(row.stationType.key) > -1)
