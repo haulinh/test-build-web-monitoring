@@ -26,8 +26,8 @@ import FilterList from '../filter'
 import validate from '../utils/validate'
 import { listFilter } from '../constants'
 import QAQCSetup from '../drawer/QAQCSetup'
-import AdvancedOperator from '../advanced-operator'
-import Clearfix from 'components/elements/clearfix'
+// import AdvancedOperator from '../advanced-operator'
+// import Clearfix from 'components/elements/clearfix'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 
@@ -420,7 +420,7 @@ export default class SearchAvgForm extends React.Component {
   }
 
   render() {
-    const measuringList = this.getMeasuringList()
+    // const measuringList = this.getMeasuringList()
     const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
     return (
       <SearchFormContainer>
@@ -535,7 +535,7 @@ export default class SearchAvgForm extends React.Component {
               </HeaderWrapper>
             </Col>
           </Row>
-          {measuringList.length ? (
+          {/* {measuringList.length ? (
             <React.Fragment>
               <Clearfix height={40} />
               <AdvancedOperator
@@ -545,7 +545,7 @@ export default class SearchAvgForm extends React.Component {
                 value={this.props.values.advanced}
               />
             </React.Fragment>
-          ) : null}
+          ) : null} */}
         </Container>
         {protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.EDIT)(
           <QAQCSetup

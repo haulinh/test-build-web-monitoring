@@ -8,12 +8,12 @@ import { Row, Col, Button, Switch } from 'antd'
 import createLang from 'hoc/create-lang'
 import SelectStationType from 'components/elements/select-station-type'
 import SelectAnt from 'components/elements/select-ant'
-import Clearfix from 'components/elements/clearfix'
+// import Clearfix from 'components/elements/clearfix'
 import createValidateComponent from 'components/elements/redux-form-validate'
 import moment from 'moment-timezone'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import AdvancedOperator from './AdvancedOperator'
+// import AdvancedOperator from './AdvancedOperator'
 import SelectStationAuto from '../../common/select-station-auto'
 import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
@@ -378,7 +378,8 @@ export default class SearchFormHistoryData extends React.Component {
               />
             </Col>
           </Row>
-          {this.state.measuringList.length > 0 ? (
+          {/* tạm ẩn vì nâng cao chưa đạt DOD */}
+          {/* {this.state.measuringList.length > 0 ? (
             <div>
               <Clearfix height={16} />
               <AdvancedOperator
@@ -386,7 +387,7 @@ export default class SearchFormHistoryData extends React.Component {
                 measuringList={this.state.measuringList}
               />
             </div>
-          ) : null}
+          ) : null} */}
         </Container>
       </SearchFormContainer>
     )
