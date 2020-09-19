@@ -42,9 +42,6 @@ const { Option } = Select
 
 const ConnectionStatusWrapper = styled.div`
   display: flex;
-  .ant-input-number {
-    width: 100% !important;
-  }
 `
 
 @Form.create({})
