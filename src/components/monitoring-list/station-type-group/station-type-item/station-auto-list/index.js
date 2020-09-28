@@ -28,7 +28,11 @@ const WrapperContainer = styled.div`
   .stationName {
     font-size: 16px;
     font-weight: 600;
-    padding: 4px !important;
+    padding: 4px 4px 4px 8px !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 250px;
+    white-space: nowrap;
   }
   .stationTime {
     font-size: 16px;
@@ -226,9 +230,13 @@ class TableData extends React.Component {
         title: i18n.stationName,
         dataIndex: 'name',
         key: 'name',
-        width: 220,
+        width: 250,
         fixed: 'left',
-        className: 'stationName',
+        render: name => {
+          return <div className='stationName'>
+            {name}
+          </div>
+        },
       },
       {
         title: i18n.time,
