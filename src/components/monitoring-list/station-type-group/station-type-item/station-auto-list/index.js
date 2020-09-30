@@ -28,7 +28,11 @@ const WrapperContainer = styled.div`
   .stationName {
     font-size: 16px;
     font-weight: 600;
-    padding: 4px !important;
+    // padding: 4px 4px 4px 4px !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 200px;
+    white-space: nowrap;
   }
   .stationTime {
     font-size: 16px;
@@ -228,13 +232,17 @@ class TableData extends React.Component {
         key: 'name',
         width: 220,
         fixed: 'left',
-        className: 'stationName',
+        render: name => {
+          return <div className='stationName'>
+            {name}
+          </div>
+        },
       },
       {
         title: i18n.time,
         dataIndex: 'lastLog.receivedAt',
         key: 'time',
-        width: 150,
+        width: 140,
         fixed: 'left',
         className: 'stationTime',
         render: receivedAt => {
@@ -375,7 +383,7 @@ class TableData extends React.Component {
         scroll={{
           x:
             this.props.measureData && this.props.measureData.length > 6
-              ? 1500
+              ? 1400
               : false,
         }}
       />
