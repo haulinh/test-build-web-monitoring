@@ -32,14 +32,15 @@ const TitleWrapper = styled.div`
   toDate: state.form['dataSearchFilterForm'].values.toDate,
   advanced: state.form['dataSearchFilterForm'].values.advanced
     ? state.form['dataSearchFilterForm'].values.advanced.filter(
-      item =>
-        item.measuringKey &&
-        item.operator &&
-        item.value !== null &&
-        typeof item.value !== 'undefined'
-    )
+        item =>
+          item.measuringKey &&
+          item.operator &&
+          item.value !== null &&
+          typeof item.value !== 'undefined'
+      )
     : [],
   dataStatus: state.form['dataSearchFilterForm'].values.dataStatus || [],
+  locale: state.language.locale,
 }))
 @autobind
 export default class TableList extends React.PureComponent {
@@ -183,12 +184,13 @@ export default class TableList extends React.PureComponent {
     })
   }
 
-  handleExportExcel() {
+  handleExportExcel = () => {
     const searchFormData = this.getSearchFormData(this.state.tabKey)
     this.setState({ isExporting: true }, async () => {
-      let res = await DataStationAutoApi.getDataStationAutoExportAvg(
-        searchFormData
-      )
+      let res = await DataStationAutoApi.getDataStationAutoExportAvg({
+        ...searchFormData,
+        language: this.props.locale || 'EN',
+      })
       if (res.success) window.open(res.data, '_blank')
       else if (res.code === 16945) {
         message.error(translate('avgSearchFrom.error.dataTooMuch'))

@@ -1,6 +1,7 @@
 import { getConfigApi } from 'config'
 import { getFetch, putFetch, postFetch } from 'utils/fetch'
 import qs from 'query-string'
+import { upperCase as _upperCase } from 'lodash'
 
 function getDataStationAutoUrl(prefix = '') {
   return getConfigApi().dataStationAuto + '/' + prefix
@@ -36,6 +37,7 @@ export function getExportData({
   isExceeded,
   dataType,
   name,
+  language
 }) {
   var url = getDataStationAutoUrl(`${key}/export-download?`)
   if (fromDate) url += `&from=${fromDate}`
@@ -47,6 +49,7 @@ export function getExportData({
   if (isExceeded) url += `&isExceeded=${isExceeded}`
   if (dataType) url += `&dataType=${dataType}`
   if (name) url += `&name=${name}`
+  if (language) url += `&language=${_upperCase(language)}`
   return getFetch(url)
   //window.location = url
 }
@@ -97,6 +100,7 @@ export function getDataStationAutoExportAvg({
   name,
   advanced,
   dataStatus,
+  language,
 }) {
   var url = getDataStationAutoUrl(`${key}/export-avg?`)
   if (fromDate) url += `&from=${fromDate}`
@@ -111,6 +115,7 @@ export function getDataStationAutoExportAvg({
 
   if (type) url += `&type=${type}`
   if (name) url += `&name=${name}`
+  if (language) url += `&language=${_upperCase(language)}`
   return getFetch(url)
 }
 
@@ -122,12 +127,13 @@ export function exportExcelMultipleStation(data) {
 
 export function downloadExcel_DataStationAutov1(
   token,
-  { fromDate, toDate, key, measuringList, measuringListUnitStr, type }
+  { fromDate, toDate, key, measuringList, measuringListUnitStr, type, language='EN' }
 ) {
   let url = getDataStationAutoUrl(`${key}/export-avg-v1?token=${token}`)
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
+  if (language) url += `&language=${_upperCase(language)}`
   if (measuringListUnitStr)
     url += `&measuringListUnit=${measuringListUnitStr.join(',')}`
   if (type) url += `&type=${type}`
@@ -348,11 +354,12 @@ export function getUrlReportType10({ stationType, fromDate, toDate }) {
   return getFetch(url)
 }
 
-export function getUrlReportType10Excel({ stationType, fromDate, toDate }) {
+export function getUrlReportType10Excel({ stationType, fromDate, toDate, language ='EN' }) {
   var url = getReportUrl(`type10-excel?1=1`)
   if (stationType) url += `&stationTypeId=${stationType}`
   if (fromDate) url += `&fromDate=${fromDate}`
   if (toDate) url += `&toDate=${toDate}`
+  if (language) url += `&language=${_upperCase(language)}`
   // console.log(url,"url")
   return getFetch(url)
 }
@@ -362,10 +369,11 @@ export function getUrlReportType2Excel(
   key,
   time,
   measuringListStr,
-  measuringListUnitStr
+  measuringListUnitStr,
+  language ='EN' 
 ) {
   var url = getReportUrl(
-    `type2-excel/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`
+    `type2-excel/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${_upperCase(language)}`
   )
   return url
 }
