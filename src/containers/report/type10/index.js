@@ -32,6 +32,7 @@ const i18n = {
 @protectRole(ROLE.TILE_DULIEU_THUDUOC.VIEW)
 @connect(state => ({
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
+  locale: state.language.locale,
 }))
 export default class ReportType10 extends React.Component {
   constructor(props) {
@@ -165,7 +166,10 @@ export default class ReportType10 extends React.Component {
     this.setState({
       isLoadingExcel: true,
     })
-    let res = await getUrlReportType10Excel(this.state.dataSearch)
+    let res = await getUrlReportType10Excel({
+      ...this.state.dataSearch,
+      language: this.props.locale
+    })
 
     if (res.success) {
       this.setState({
