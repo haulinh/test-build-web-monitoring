@@ -14,9 +14,13 @@ import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 import { isEqual as _isEqual } from 'lodash'
+import { connect } from 'react-redux'
 
 @protectRole(ROLE.DATA_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
+@connect(state => ({
+  locale: state.language.locale,
+}))
 @autobind
 export default class MinutesDataSearch extends React.Component {
   state = {
@@ -101,7 +105,10 @@ export default class MinutesDataSearch extends React.Component {
     this.setState({
       isExporting: true,
     })
-    let res = await DataStationAutoApi.getExportData(this.state.searchFormData)
+    let res = await DataStationAutoApi.getExportData({
+      ...this.state.searchFormData,
+      language: this.props.locale || 'EN',
+    })
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
 

@@ -31,6 +31,7 @@ const i18n = {
 @connect(state => ({
   token: state.auth.token,
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
+  locale: state.language.locale,
 }))
 export default class ReportType2 extends React.Component {
   constructor(props) {
@@ -127,7 +128,8 @@ export default class ReportType2 extends React.Component {
       this.state.dataSearch.stationAuto,
       this.state.dataSearch.time,
       this.state.dataSearch.measuringListStr,
-      this.state.dataSearch.measuringListUnitStr
+      this.state.dataSearch.measuringListUnitStr,
+      this.props.locale 
     )
     // console.log("getUrlReportType1", url);
     // window.location.href = url

@@ -1978,8 +1978,8 @@ export default {
       COLLECTING: 'Collecting',
     },
     STATION_STATUS: {
-      ONLINE: '',
-      OFFLINE: '',
+      ONLINE: 'The station has a signal',
+      OFFLINE: 'The station lost the signal',
     },
   },
   changePassword: {
