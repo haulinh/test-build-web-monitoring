@@ -4,10 +4,12 @@ export default {
       description: 'Không tìm thấy camera',
       action: 'Cấu hình camera',
       errorAuth: 'Lỗi xác thực',
-      errorNetword:'Không thể kết nối đến máy chủ camera. Vui lòng thử lại sau',
-      errorUnavailable:'Không thể kết nối đến máy chủ camera. Vui lòng thử lại sau',
-      errorInvalidRtsp:"Rtsp ko hợp lệ",
-      timeout:'Không thể kết nối đến máy chủ camera. Vui lòng thử lại sau'
+      errorNetword:
+        'Không thể kết nối đến máy chủ camera. Vui lòng thử lại sau',
+      errorUnavailable:
+        'Không thể kết nối đến máy chủ camera. Vui lòng thử lại sau',
+      errorInvalidRtsp: 'Rtsp ko hợp lệ',
+      timeout: 'Không thể kết nối đến máy chủ camera. Vui lòng thử lại sau',
     },
     wqi: {
       description: 'Không tìm thấy trạm',
@@ -22,7 +24,7 @@ export default {
     delele: 'Xoá thông báo này',
     tickRead: 'Đánh dấu đã đọc',
     tickUnRead: 'Đánh dấu chưa đọc',
-    pushNotification: 'Thông báo đẩy'
+    pushNotification: 'Thông báo đẩy',
   },
   contact: {
     phone: 'Số điện thoại',

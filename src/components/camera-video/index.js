@@ -40,7 +40,11 @@ export default class CameraList extends React.Component {
       stationName: this.props.station.name,
       stationType: this.props.station.stationType,
       src: `${cameraItem.rtspUrl}`,
-      lastThumbnail: this.getLastThumbnail(cameraItem.rtspUrl, cameraItem.cameraId, auth),
+      lastThumbnail: this.getLastThumbnail(
+        cameraItem.rtspUrl,
+        cameraItem.cameraId,
+        auth
+      ),
       name: cameraItem.name,
       _id: this.props.station._id,
     }))
@@ -63,7 +67,7 @@ export default class CameraList extends React.Component {
   getLastThumbnail = (url, cameraId, auth) => {
     const prefixArr = _.split(url, '//')
     const strDomain = _.split(prefixArr[1], '/')
-   
+
     let lastThumbnail = ''
     if (strDomain.length > 0) {
       lastThumbnail = `${prefixArr[0]}//${strDomain[0]}/ec2/cameraThumbnail?auth=${auth}&cameraId={${cameraId}}&width=300&height=300`

@@ -63,7 +63,12 @@ export default class TableList extends React.PureComponent {
       <TableListWrapper>
         <ButtonAbsolute>
           {protectRole(ROLE.AVG_SEARCH.EXPORT)(
-            <Button onClick={this.props.onExportExcel} type='primary' icon='file-excel' loading={this.props.isExporting || this.props.isExportingAll}>
+            <Button
+              onClick={this.props.onExportExcel}
+              type="primary"
+              icon="file-excel"
+              loading={this.props.isExporting || this.props.isExportingAll}
+            >
               {translate('avgSearchFrom.tab.exportExcel')}
             </Button>
           )}

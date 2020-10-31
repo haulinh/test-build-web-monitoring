@@ -129,7 +129,7 @@ export default class ReportType2 extends React.Component {
       this.state.dataSearch.time,
       this.state.dataSearch.measuringListStr,
       this.state.dataSearch.measuringListUnitStr,
-      this.props.locale 
+      this.props.locale
     )
     // console.log("getUrlReportType1", url);
     // window.location.href = url

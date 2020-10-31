@@ -31,7 +31,7 @@ const ItemWrapper = styled.div`
       color: #faad14;
     }
     &.data-good {
-      color: #52c41a;
+      color: #333;
     }
   }
 `

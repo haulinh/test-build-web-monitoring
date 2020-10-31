@@ -8,7 +8,6 @@ import { message } from 'antd'
 import moment from 'moment'
 import { STATUS_CAMERA } from 'constants/stationStatus'
 
-
 const DEFAULT_LIMIT_CAMERAS = 4
 // tham khao o: https://codepen.io/webcrunchblog/pen/WaNYPv?editors=0010
 // tham khao o: https://web-crunch.com/lets-build-with-javascript-html5-video-player/
@@ -130,7 +129,7 @@ export default class Player extends React.Component {
     const pathObj = pathParse(props.src)
     const cameraId = pathObj.name || ''
 
-    // NOTE: hiện tại chỉ stream với chất lượng 
+    // NOTE: hiện tại chỉ stream với chất lượng
     this.state = {
       isPlay: false,
       isFullScreen: false,
@@ -147,10 +146,7 @@ export default class Player extends React.Component {
     }
   }
 
-
-
   openWindowStream = link => {
-
     window.open(
       link,
       moment().unix(),
@@ -221,7 +217,9 @@ export default class Player extends React.Component {
         this.props.cbPlay()
       })
     } else {
-      message.error(`Chỉ cho phép live view ${DEFAULT_LIMIT_CAMERAS}camera đồng thời`)
+      message.error(
+        `Chỉ cho phép live view ${DEFAULT_LIMIT_CAMERAS}camera đồng thời`
+      )
     }
   }
 

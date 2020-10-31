@@ -128,13 +128,10 @@ export default class ReportType11 extends React.Component {
   }
 
   handleExcel = () => {
-    let url = downloadExcel_DataStationAutov1(
-      this.props.token,
-      {
-        ...this.state.dataSearch,
-        language: this.props.locale || 'EN',
-      }
-    )
+    let url = downloadExcel_DataStationAutov1(this.props.token, {
+      ...this.state.dataSearch,
+      language: this.props.locale || 'EN',
+    })
     // console.log("this.state.dataSearch", this.state.dataSearch);
     // window.location.href = url
     window.open(url, '_blank')
