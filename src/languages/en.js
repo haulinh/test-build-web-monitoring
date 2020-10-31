@@ -4,10 +4,10 @@ export default {
       description: 'Camera not found',
       action: 'Camera configuration',
       errorAuth: 'Authentication error',
-      errorNetword:"Can't connect to camera server, please try again",
-      errorUnavailable:"Can't connect to camera server, please try again",
-      errorInvalidRtsp:"Invalid Rtsp",
-      timeout:"Can't connect to camera server, please try again"
+      errorNetword: "Can't connect to camera server, please try again",
+      errorUnavailable: "Can't connect to camera server, please try again",
+      errorInvalidRtsp: 'Invalid Rtsp',
+      timeout: "Can't connect to camera server, please try again",
     },
     wqi: {
       description: 'Station not found',
@@ -22,7 +22,7 @@ export default {
     delele: 'Delete this message',
     tickRead: 'Mark as read',
     tickUnRead: 'Mark unread',
-    pushNotification: 'Push notification'
+    pushNotification: 'Push notification',
   },
   contact: {
     phone: 'Phone',

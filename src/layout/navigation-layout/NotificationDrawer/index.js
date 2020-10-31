@@ -16,7 +16,6 @@ import NotificationContent from './notificationContent'
 import { deleteToken, linkToken2Email } from 'api/NotificationApi'
 import { setFcmToken } from 'redux/actions/authAction'
 
-
 const SideBarNotificationWrapper = styled(Drawer)`
   .ant-drawer-header {
     padding: 16px;
@@ -93,9 +92,8 @@ const i18n = {
   removeAll: translate('notification.removeAll'),
   markAll: translate('notification.markAll'),
   toolTipEnable: translate('notification.toolTipEnable'),
-  pushNotification: translate('notification.pushNotification')
+  pushNotification: translate('notification.pushNotification'),
 }
-
 
 @connectAutoDispatch(
   state => ({
@@ -108,7 +106,7 @@ const i18n = {
     updateAllRead,
     deleteAllNotification,
     toggleNoti,
-    setFcmToken
+    setFcmToken,
   }
 )
 export default class NotificationDrawer extends React.Component {
@@ -137,7 +135,6 @@ export default class NotificationDrawer extends React.Component {
   //   console.log('===turnOffNoti')
   // }
 
-
   onChange = checked => {
     if (checked) {
       const me = this
@@ -147,7 +144,7 @@ export default class NotificationDrawer extends React.Component {
       console.log('===start req premission .....')
       messaging
         .requestPermission()
-        .then(async function () {
+        .then(async function() {
           const token = await messaging.getToken()
           // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
           try {
@@ -160,7 +157,7 @@ export default class NotificationDrawer extends React.Component {
             console.log('error linkToken2Email', e)
           }
         })
-        .catch(function (err) {
+        .catch(function(err) {
           console.log('Unable to get permission to notify.', err)
         })
 
@@ -179,8 +176,6 @@ export default class NotificationDrawer extends React.Component {
     return JSON.parse(result)
   }
 
-
-
   render() {
     return (
       <SideBarNotificationWrapper
@@ -196,48 +191,66 @@ export default class NotificationDrawer extends React.Component {
                 <NotificationWrapperIcon onClick={this.handleClickNotification}>
                   <NotificationIcon color="#fff" size="large" />
                 </NotificationWrapperIcon>
-                <b style={{ margin: '0px', marginLeft: '8px', fontSize: '16px' }}>
+                <b
+                  style={{ margin: '0px', marginLeft: '8px', fontSize: '16px' }}
+                >
                   {i18n.label}
                 </b>
               </DivBenTrai>
               <div>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                  <div style={{ fontSize: '14px', position: 'absolute', right: '5em' }}>{i18n.pushNotification}</div>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: '14px',
+                      position: 'absolute',
+                      right: '5em',
+                    }}
+                  >
+                    {i18n.pushNotification}
+                  </div>
                   <Switch
                     size="small"
                     checkedChildren="ON"
                     unCheckedChildren="OFF"
                     defaultChecked={this.getDefaultStatus()}
-                    onChange={this.onChange} />
+                    onChange={this.onChange}
+                  />
                 </div>
-                <div style={{ fontSize: '12px', color: '#979797' }}>{i18n.toolTipEnable}</div>
+                <div style={{ fontSize: '12px', color: '#979797' }}>
+                  {i18n.toolTipEnable}
+                </div>
               </div>
-
-
             </Flex>
 
             <DivBenPhai>
               <div>
-
-                {this.props.dataSource && this.props.dataSource.length > 0 &&
+                {this.props.dataSource &&
+                  this.props.dataSource.length > 0 &&
                   this._areAllNotificationsRead() && (
                     <a
                       onClick={this._handleDeleteAllNotification}
                       style={{
                         color: '#1890FF',
-                        fontSize: '14px'
+                        fontSize: '14px',
                       }}
                     >
                       {i18n.removeAll}
                     </a>
                   )}
-                {this.props.dataSource && this.props.dataSource.length > 0 &&
+                {this.props.dataSource &&
+                  this.props.dataSource.length > 0 &&
                   !this._areAllNotificationsRead() && (
                     <a
                       onClick={this.checkReadAll}
                       style={{
                         color: '#1890FF',
-                        fontSize: '14px'
+                        fontSize: '14px',
                       }}
                     >
                       {i18n.markAll}
@@ -283,7 +296,7 @@ export default class NotificationDrawer extends React.Component {
   _handleDeleteAllNotification = () => {
     this.props.deleteAllNotification()
   }
-  _toggleNoti = (isEnable) => {
+  _toggleNoti = isEnable => {
     this.props.toggleNoti(isEnable)
   }
 }

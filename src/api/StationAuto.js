@@ -16,7 +16,10 @@ export function getStationAutos(
   return getFetch(url)
 }
 
-export function getStationAutoAll({ page = 1, itemPerPage = 1000 } = {}, { address, stationType, name } = {}) {
+export function getStationAutoAll(
+  { page = 1, itemPerPage = 1000 } = {},
+  { address, stationType, name } = {}
+) {
   var url = getStationAutoUrl(`/all?page=${page}&itemPerPage=${itemPerPage}`)
   if (address) url += `&address=${address}`
   if (stationType) url += `&stationType=${stationType}`

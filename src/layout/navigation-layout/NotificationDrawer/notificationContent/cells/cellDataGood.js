@@ -21,7 +21,6 @@ export default function DataGoodCell(props) {
   const { cellContent } = props
   const measures = _.get(props, 'cellContent.measures', [])
 
-
   const content = (
     <React.Fragment>
       <TitleWrapper>

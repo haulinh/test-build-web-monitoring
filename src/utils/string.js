@@ -35,22 +35,22 @@ export function deepParseJson(jsonString) {
   // otherwise continue recursion
   if (typeof jsonString === 'string') {
     try {
-      return deepParseJson(JSON.parse(jsonString));
+      return deepParseJson(JSON.parse(jsonString))
     } catch (err) {
-      return jsonString;
+      return jsonString
     }
   } else if (Array.isArray(jsonString)) {
     // if an array is received, map over the array and deepParse each value
-    return jsonString.map(val => deepParseJson(val));
+    return jsonString.map(val => deepParseJson(val))
   } else if (typeof jsonString === 'object' && jsonString !== null) {
     // if an object is received then deepParse each element in the object
     // typeof null returns 'object' too, so we have to eliminate that
     return Object.keys(jsonString).reduce((obj, key) => {
-      obj[key] = deepParseJson(jsonString[key]);
-      return obj;
-    }, {});
+      obj[key] = deepParseJson(jsonString[key])
+      return obj
+    }, {})
   } else {
     // otherwise return whatever was received
-    return jsonString;
+    return jsonString
   }
 }

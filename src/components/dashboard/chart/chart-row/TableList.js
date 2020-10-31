@@ -152,7 +152,7 @@ export default class TableListCustom extends React.PureComponent {
 
   timKiemStatusQuaMeasuringLog = (measuringLogs = {}) => {
     let resWarningLevel = null
-    _.forEach(measuringLogs, function (item, key) {
+    _.forEach(measuringLogs, function(item, key) {
       resWarningLevel = getStatusPriority(resWarningLevel, item.warningLevel)
     })
     return resWarningLevel

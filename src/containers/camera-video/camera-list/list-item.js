@@ -45,9 +45,7 @@ export default class ListItemView extends React.Component {
         style={{ width: 320, marginRight: 12, marginBottom: 12 }}
         cover={
           <Player
-            src={
-              src
-            }
+            src={src}
             lastThumbnail={lastThumbnail}
             // auth={this.props.auth}
             cbPlay={this.props.cbPlay}
@@ -58,8 +56,9 @@ export default class ListItemView extends React.Component {
         }
       >
         <Meta
-          title={`${name}${status === STATUS_CAMERA.NOT_EXISTS ? ` - ${i18n.errorAuth}` : ''
-            }`}
+          title={`${name}${
+            status === STATUS_CAMERA.NOT_EXISTS ? ` - ${i18n.errorAuth}` : ''
+          }`}
           description={<DescriptionView>{stationName}</DescriptionView>}
         />
       </Card>
