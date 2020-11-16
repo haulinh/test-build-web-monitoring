@@ -61,12 +61,14 @@ export default class SelectImage extends PureComponent {
     visiblePop: false,
     color: '',
     urlIconList: [
-      'http://media.ilotusland.vn/icon-station-type/air.png',
-      'http://media.ilotusland.vn/icon-station-type/noise.png',
-      'http://media.ilotusland.vn/icon-station-type/stack.png',
-      'http://media.ilotusland.vn/icon-station-type/surface.png',
-      'http://media.ilotusland.vn/icon-station-type/underground.png',
-      'http://media.ilotusland.vn/icon-station-type/waste.png',
+      '/images/icon-station-type/khi thai.png',
+      '/images/icon-station-type/khi tuong.png',
+      '/images/icon-station-type/khong khi.png',
+      '/images/icon-station-type/nuoc-duoi-dat.png',
+      '/images/icon-station-type/nuoc mat.png',
+      '/images/icon-station-type/nuoc-mat.png',
+      '/images/icon-station-type/Nuoc_ngam.png',
+      '/images/icon-station-type/nuoc thai.png',
     ],
   }
   setIcon(urlIcon) {
@@ -156,21 +158,11 @@ export default class SelectImage extends PureComponent {
         {this.state.urlIconList.map((item, index) => {
           return (
             <AvatarWrapper key={index} onClick={() => this.setIcon(item)}>
-              <img
-                alt="icon-station"
-                src={item}
-                style={{
-                  backgroundColor: '#000',
-                  objectFit: 'contain',
-                  width: '42px',
-                  height: '42px',
-                }}
-              />
-              {/* <Avatar
+              <Avatar
                 shape="square"
                 src={item}
-                style={{ backgroundColor: '#000' }}
-              /> */}
+                style={{ backgroundColor: '#87d068' }}
+              />
             </AvatarWrapper>
           )
         })}

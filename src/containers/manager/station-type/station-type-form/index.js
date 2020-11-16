@@ -118,6 +118,7 @@ export default class StationTypeForm extends React.PureComponent {
                 ],
               })(
                 <Input
+                  disabled
                   size="large"
                   placeholder={t('stationTypeManager.form.key.label')}
                 />
