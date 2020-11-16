@@ -2112,6 +2112,9 @@ export default {
       },
     },
     onDelete: {
+      errorMessage: {
+        roleUsed: "Role is already in use !!!"
+      },
       success: 'Deleted Successfully',
       qcvn: {
         qcvnUsed:

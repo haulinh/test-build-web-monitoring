@@ -2,6 +2,8 @@ import React from 'react'
 import { autobind } from 'core-decorators'
 import { Modal, message } from 'antd'
 import { translate } from 'hoc/create-lang'
+import _ from 'lodash'
+import Err from 'constants/errors'
 
 const i18n = {
   cancelText: translate('addon.cancel'),
@@ -16,30 +18,42 @@ const i18n = {
 const createManagerDelete = ({ apiDelete }) => Component => {
   @autobind
   class ManagerDeleteHoc extends React.Component {
-    confirmDelete(apiDelete, key, callbackSuccess = () => {}) {
+    confirmDelete(apiDelete, key, callbackSuccess = () => { }) {
       Modal.confirm({
         title: i18n.deleteConfirmMsg,
         okText: i18n.okText,
         cancelText: i18n.cancelText,
         onOk() {
           return new Promise(async (resolve, reject) => {
-            const res = await apiDelete(key)
-            if (res.success) {
-              message.success(translate('addon.onDelete.success'))
-              callbackSuccess()
-            } else if (
-              res.error &&
-              res.message &&
-              res.message === 'QCVN_USED'
-            ) {
-              message.error(translate('addon.onDelete.qcvn.qcvnUsed'))
-            } else {
-              message.error(translate('addon.onDelete.error'))
+            try {
+              const res = await apiDelete(key)
+              if (res.success) {
+                message.success(translate('addon.onDelete.success'))
+                callbackSuccess()
+              } else if (
+                res.error &&
+                res.message &&
+                res.message === 'QCVN_USED'
+              ) {
+                message.error(translate('addon.onDelete.qcvn.qcvnUsed'))
+              } else {
+                message.error(translate('addon.onDelete.error'))
+              }
+              resolve()
+            } catch (error) {
+              const data = _.get(error, 'response.data', {})
+              if (data.code === 'ROLE_IN_USE') {
+                console.log(Err)
+                message.error(translate('addon.onDelete.errorMessage.roleUsed'))
+              } else {
+                message.error(translate('addon.onDelete.error'))
+              }
+              resolve()
             }
-            resolve()
+
           }).catch(() => console.log('Oops errors!'))
         },
-        onCancel() {},
+        onCancel() { },
       })
     }
     /**
