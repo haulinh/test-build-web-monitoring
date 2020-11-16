@@ -6,6 +6,7 @@ import { autobind } from 'core-decorators'
 import { Upload } from 'antd'
 import MediaApi from 'api/MediaApi'
 import { translate } from 'hoc/create-lang'
+import axios from 'axios'
 
 const View = styled.div``
 
@@ -28,6 +29,7 @@ export default class UpdateLogo extends React.PureComponent {
 
   handleImageChange = ({ fileList, file, event }) => {
     let newFileList = fileList
+
     if (file.status === 'error') {
       swal({
         title: translate('profileUser.imageUpload.error'),
@@ -35,9 +37,11 @@ export default class UpdateLogo extends React.PureComponent {
       })
       newFileList = []
     }
+
     this.setState({
       fileList: newFileList,
     })
+
     if (file.status === 'done') {
       this.updateFiles(file.response.url)
       let data = this.props.organization
@@ -46,6 +50,10 @@ export default class UpdateLogo extends React.PureComponent {
       } else {
         data['logo'] = file.response.url
       }
+    }
+    if (file.status === 'removed') {
+      let data = this.props.organization
+      data['logo'] = ''
     }
   }
 
@@ -62,6 +70,49 @@ export default class UpdateLogo extends React.PureComponent {
     })
   }
 
+  customRequest = async ({
+    action,
+    data,
+    file,
+    filename,
+    headers,
+    onError,
+    onProgress,
+    onSuccess,
+    withCredentials,
+  }) => {
+    // const { onSuccess, onError, file, onProgress } = options
+
+    const fmData = new FormData()
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' },
+      'X-Requested-With': 'XMLHttpRequest',
+    }
+    console.log(file, '---file--')
+    const fileName = file.name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd')
+      .replace(/Đ/g, 'D')
+    fmData.append('file', file, fileName)
+    try {
+      const res = await axios.post(
+        MediaApi.urlPhotoUploadWithDirectory('logo'),
+        fmData,
+        config
+      )
+
+      onSuccess({
+        ...res.data,
+      })
+      // console.log('server res: ', res)
+    } catch (err) {
+      // console.log('Eroor: ', err)
+      // const error = new Error('Some error')
+      onError({ err })
+    }
+  }
+
   render() {
     const { name, ...otherProps } = this.props
     return (
@@ -69,12 +120,12 @@ export default class UpdateLogo extends React.PureComponent {
         {this.props.label && <Label>{this.props.label}</Label>}
         <Upload
           {...otherProps}
-          action={MediaApi.urlPhotoUploadWithDirectory('logo')}
+          // action={ MediaApi.urlPhotoUploadWithDirectory('logo')}
           listType="picture-card"
           fileList={this.state.fileList}
-          onPreview={this.handlePreview}
           onChange={this.handleImageChange}
           disabled={!this.props.isAdmin}
+          customRequest={this.customRequest}
         >
           {this.state.fileList.length > 0 ? (
             ''
