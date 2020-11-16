@@ -1,31 +1,31 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { Icon, Menu, Dropdown, Input, Modal, message } from 'antd'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import slug from 'constants/slug'
-import { autobind } from 'core-decorators'
-import createManagerList from 'hoc/manager-list'
-import createManagerDelete from 'hoc/manager-delete'
-import Breadcrumb from '../breadcrumb'
-import UserSearchForm from '../user-search-form'
-import createLanguageHoc, { langPropTypes } from '../../../hoc/create-lang'
+import { Dropdown, Icon, Input, Menu, message, Modal } from 'antd'
+import authApi from 'api/AuthApi'
 import UserApi from 'api/UserApi'
-import ReactCountryFlag from 'react-country-flag'
-import DynamicTable from 'components/elements/dynamic-table'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
 import AvatarCharacter from 'components/elements/avatar-character'
 import ClearFix from 'components/elements/clearfix'
-import styled from 'styled-components'
+import DynamicTable from 'components/elements/dynamic-table'
+import HeadderWrapperSearch from 'components/elements/header-search-wrapper'
+import ROLE from 'constants/role'
+import slug from 'constants/slug'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
+import createManagerDelete from 'hoc/manager-delete'
+import createManagerList from 'hoc/manager-list'
+import protectRole from 'hoc/protect-role'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import { get as _get } from 'lodash'
+import moment from 'moment/moment'
+import PropTypes from 'prop-types'
+import React from 'react'
+import ReactCountryFlag from 'react-country-flag'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import TimeAgo from 'react-timeago'
 import format from 'string-format'
-import { translate } from 'hoc/create-lang'
-import moment from 'moment/moment'
-import authApi from 'api/AuthApi'
-import { connect } from 'react-redux'
-import { get as _get } from 'lodash'
-import HeadderWrapperSearch from 'components/elements/header-search-wrapper'
+import styled from 'styled-components'
+import createLanguageHoc, { langPropTypes } from '../../../hoc/create-lang'
+import Breadcrumb from '../breadcrumb'
+import UserSearchForm from '../user-search-form'
 
 const i18n = {
   cancelText: translate('addon.cancel'),
@@ -317,7 +317,7 @@ export default class UserList extends React.Component {
                   <Span
                     className={'full-name '}
                     deleted={row.removeStatus && row.removeStatus.allowed}
-                  >{`${row.lastName} ${row.firstName}`}</Span>
+                  >{`${row.firstName} ${row.lastName}`}</Span>
                 </AccountInfo>
               </AccountWrapper>
             )}
