@@ -1,5 +1,5 @@
 import { getConfigApi } from 'config'
-import { getFetch } from 'utils/fetch'
+import { getFetch,postFetch } from 'utils/fetch'
 import { PATH_FOLDER } from 'constants/media'
 import { deleteFetch } from 'utils/fetch'
 
@@ -40,6 +40,11 @@ export function urlPhotoUploadWithDirectory(directory) {
   return getMediaUrl(`photo/uploadWithDirectory/${directory}`)
 }
 
+export function urlPhotoUploadWithDirectory_1(directory, data) {
+  return postFetch(getMediaUrl(`photo/uploadWithDirectory/${directory}`),data) 
+}
+
+
 export default {
   urlPhotoUploadWithDirectory,
   getMediaUrl,
@@ -47,4 +52,5 @@ export default {
   generatePutUrl,
   getUrlImage,
   deleteImage,
+  urlPhotoUploadWithDirectory_1
 }
