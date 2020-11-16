@@ -28,7 +28,7 @@ const AvatarWrapper = styled.div`
     align-items: center;
     padding: 4px;
     > img {
-      padding: 4px
+      padding: 4px;
       width: 100%;
       height: auto !important;
     }
@@ -156,11 +156,21 @@ export default class SelectImage extends PureComponent {
         {this.state.urlIconList.map((item, index) => {
           return (
             <AvatarWrapper key={index} onClick={() => this.setIcon(item)}>
-              <Avatar
+              <img
+                alt="icon-station"
+                src={item}
+                style={{
+                  backgroundColor: '#000',
+                  objectFit: 'contain',
+                  width: '42px',
+                  height: '42px',
+                }}
+              />
+              {/* <Avatar
                 shape="square"
                 src={item}
                 style={{ backgroundColor: '#000' }}
-              />
+              /> */}
             </AvatarWrapper>
           )
         })}
@@ -169,9 +179,9 @@ export default class SelectImage extends PureComponent {
         </SketchPickerWrapper>
       </HeaderWrapper>
     )
-    const contentPicker = (
-      <SketchPicker color={this.state.color} onChange={this.handelColor} />
-    )
+    // const contentPicker = (
+    //   <SketchPicker color={this.state.color} onChange={this.handelColor} />
+    // )
     return (
       <Popover
         style={{ backgroundColor: 'yellows' }}
@@ -181,20 +191,20 @@ export default class SelectImage extends PureComponent {
         // onClick={this.handelPop}
         trigger="click"
       >
-         <AvatarWrapper>
-            <Avatar
-              shape="square"
-              size="large"
-              style={{
-                cursor: 'pointer',
-                backgroundColor: this.state.color,
-                display: 'flex',
-              }}
-              src={this.state.urlIcon}
-            >
-              {t('stationTypeManager.form.icon.label')}
-            </Avatar>
-          </AvatarWrapper>
+        <AvatarWrapper>
+          <Avatar
+            shape="square"
+            size="large"
+            style={{
+              cursor: 'pointer',
+              backgroundColor: this.state.color,
+              display: 'flex',
+            }}
+            src={this.state.urlIcon}
+          >
+            {t('stationTypeManager.form.icon.label')}
+          </Avatar>
+        </AvatarWrapper>
         {/* <Popover
           // visible={this.state.visiblePop}
           placement="bottom"
