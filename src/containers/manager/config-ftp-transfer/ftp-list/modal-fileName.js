@@ -58,7 +58,7 @@ export default class ModalFileName extends React.Component {
       <Form layout={'horizontal'}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div style={{ paddingRight: '8px', minWidth: '100px' }}>
-            Mẫu cấu hình:
+            {translate('ftpTranfer.sampleConfiguration')}
           </div>
 
           <Select style={{ width: '100%' }} onChange={this.onChageConfigFtp}>
