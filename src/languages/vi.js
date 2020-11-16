@@ -1053,6 +1053,7 @@ export default {
     unckecked: 'Bỏ chọn',
   },
   ftpTranfer: {
+    sampleConfiguration: "Mẫu cấu hình",
     allowFtpTranfer: 'Cho phép truyền',
     stationName: 'Tên trạm',
     measureTranfer: 'Thông số được truyền',
