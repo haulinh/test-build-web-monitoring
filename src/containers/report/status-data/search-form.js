@@ -80,10 +80,10 @@ export default class SearchForm extends React.Component {
               style={{ float: 'right' }}
               onClick={this.submit}
               size="small"
-              // loading={this.props.isExporting}
+            // loading={this.props.isExporting}
             >
-              {/* {translate('dataSearchFrom.tab.exportExcel')} */}
-              Tìm kiếm
+              {translate('dataSearchFrom.form.search')}
+
             </Button>
           }
           textColor="#ffffff"
