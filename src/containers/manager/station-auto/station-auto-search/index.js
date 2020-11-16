@@ -156,14 +156,14 @@ export default class StationAutoSearchForm extends React.PureComponent {
             </ContentWrapper>
           </Container>
         ),
-        onCancel() { },
+        onCancel() {},
       })
     } else {
       this.props.history.push(slug.stationAuto.create)
     }
   }
 
-  changeStationType(stationType) { }
+  changeStationType(stationType) {}
 
   render() {
     const { getFieldDecorator } = this.props.form

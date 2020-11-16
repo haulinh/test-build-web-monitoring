@@ -39,8 +39,6 @@ export default class ListItemView extends React.Component {
       ? STATUS_CAMERA.EXISTS
       : STATUS_CAMERA.NOT_EXISTS
 
-  
-
     src = src.includes('?')
       ? `${src}&auth=${this.props.auth}`
       : `${src}?resolution=360p&sfd&rt&auth=${this.props.auth}`

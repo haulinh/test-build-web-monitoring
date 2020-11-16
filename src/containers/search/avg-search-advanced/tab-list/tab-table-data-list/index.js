@@ -7,7 +7,7 @@ import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
 import { DD_MM_YYYY_HH_MM, DD_MM_YYYY } from 'constants/format-date'
 import { SHAPE } from 'themes/color'
-import {get as _get } from 'lodash'
+import { get as _get } from 'lodash'
 import {
   getFormatNumber,
   FORMAT_VALUE_MEASURING,
@@ -63,7 +63,14 @@ export default class TableDataList extends React.PureComponent {
     const columnsMeasuring = this.props.measuringData
       .filter(measuring => this.props.measuringList.includes(measuring.key))
       .map(measuring => ({
-        title: <strong>{measuring.name} <br /> {_get(measuring,'unit','').trim() ? `(${_get(measuring,'unit','')})` : ''}</strong>,
+        title: (
+          <strong>
+            {measuring.name} <br />{' '}
+            {_get(measuring, 'unit', '').trim()
+              ? `(${_get(measuring, 'unit', '')})`
+              : ''}
+          </strong>
+        ),
         dataIndex: `measuringLogs.${measuring.key}`,
         key: measuring.key,
         width: 120,

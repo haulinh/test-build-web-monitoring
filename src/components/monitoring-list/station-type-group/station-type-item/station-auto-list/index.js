@@ -48,7 +48,7 @@ const Flex = styled.div`
   align-items: center;
 `
 
-const TextWithToolTip = props => {
+const TextWithToolTip = ({ fontWeight = 500, ...props }) => {
   let styleCustom = {}
   if (props.IsEllipsis) {
     styleCustom = {
@@ -193,7 +193,7 @@ class TableData extends React.Component {
         title: '#',
         dataIndex: 'index',
         key: 'index',
-        width: 35,
+        width: 38,
         fixed: 'left',
         render: (text, record, index) => index + 1,
       },
@@ -233,9 +233,7 @@ class TableData extends React.Component {
         width: 220,
         fixed: 'left',
         render: name => {
-          return <div className='stationName'>
-            {name}
-          </div>
+          return <div className="stationName">{name}</div>
         },
       },
       {
@@ -288,7 +286,7 @@ class TableData extends React.Component {
         key: item.key,
         render: (measure, record) => {
           if (measure === null || measure === undefined) return ''
-          let color = colorLevels.GOOD //SHAPE.BLACK;
+          let color = SHAPE.BLACK
           let classCustom = ''
           let classContainer = ''
           if (
@@ -335,6 +333,7 @@ class TableData extends React.Component {
               >
                 {measure.value || measure.value === 0 ? (
                   <TextWithToolTip
+                    fontWeight={700}
                     IsEllipsis={true}
                     text={measure.value
                       .toFixed(2)
@@ -346,6 +345,7 @@ class TableData extends React.Component {
                   />
                 ) : (
                   <TextWithToolTip
+                    fontWeight={700}
                     right
                     text={''}
                     // width={width}

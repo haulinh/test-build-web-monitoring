@@ -21,7 +21,7 @@ const i18n = {
   errorUnavailable: translate('empty.camera.errorUnavailable'),
   errorInvalidRtsp: translate('empty.camera.errorInvalidRtsp'),
   timeout: translate('empty.camera.timeout'),
-  title:translate('pageInfo.header')
+  title: translate('pageInfo.header'),
 }
 
 const WrapperContainer = styled.div`
@@ -89,7 +89,6 @@ export default class CameraList extends React.Component {
         // auth: auth,
         isLoaded: true,
       })
-      
     } catch (error) {
       // console.log('======error in CameraList => componentDidMount=======start')
       // console.log(error)

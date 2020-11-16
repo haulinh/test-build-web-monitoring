@@ -67,7 +67,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
         console.log('===start req premission .....')
         messaging
           .requestPermission()
-          .then(async function () {
+          .then(async function() {
             const token = await messaging.getToken()
             // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
             try {
@@ -80,7 +80,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
               console.log('error linkToken2Email', e)
             }
           })
-          .catch(function (err) {
+          .catch(function(err) {
             console.log('Unable to get permission to notify.', err)
           })
 
@@ -91,7 +91,9 @@ export default class DefaultSidebarLayoutContainer extends Component {
         messaging.onMessage(payload => {
           console.log(payload, '======payload from firebase')
           /* note: format data de tuong thich code */
-          payload.data.measures = payload.data.measures ? deepParseJson(payload.data.measures) : []
+          payload.data.measures = payload.data.measures
+            ? deepParseJson(payload.data.measures)
+            : []
           payload.data.isRead = false
           this._showNotification(payload)
           this.props.updateNotificationOnMessage(
@@ -103,7 +105,6 @@ export default class DefaultSidebarLayoutContainer extends Component {
         console.error('Notification only start witl https')
       }
     }
-
   }
 
   _showNotification(payload) {

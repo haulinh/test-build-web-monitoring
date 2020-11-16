@@ -44,34 +44,34 @@ const FOptionsDatePicker = createValidateComponent(SelectDatePicker)
 const initializeValue = (props, callback) => {
   const initialValues = props.initialValues
     ? {
-      stationType: 'ALL',
-      provinceKey: '',
-      ...props.initialValues,
-      rangesDate:
-        Number(props.initialValues.rangesDate) ||
-        props.initialValues.rangesDate ||
-        1,
-      type:
-        Number(props.initialValues.type) || props.initialValues.type || 15,
-      fromDate: props.initialValues.fromDate
-        ? props.initialValues.fromDate
-        : moment()
-          .subtract(props.initialValues.rangesDate || 1, 'days')
-          .toISOString(),
-      toDate: props.initialValues.toDate
-        ? props.initialValues.toDate
-        : moment().toISOString(),
-    }
+        stationType: 'ALL',
+        provinceKey: '',
+        ...props.initialValues,
+        rangesDate:
+          Number(props.initialValues.rangesDate) ||
+          props.initialValues.rangesDate ||
+          1,
+        type:
+          Number(props.initialValues.type) || props.initialValues.type || 15,
+        fromDate: props.initialValues.fromDate
+          ? props.initialValues.fromDate
+          : moment()
+              .subtract(props.initialValues.rangesDate || 1, 'days')
+              .toISOString(),
+        toDate: props.initialValues.toDate
+          ? props.initialValues.toDate
+          : moment().toISOString(),
+      }
     : {
-      stationType: '',
-      provinceKey: '',
-      rangesDate: 1,
-      type: 15,
-      fromDate: moment()
-        .subtract(1, 'days')
-        .toISOString(),
-      toDate: moment().toISOString(),
-    }
+        stationType: '',
+        provinceKey: '',
+        rangesDate: 1,
+        type: 15,
+        fromDate: moment()
+          .subtract(1, 'days')
+          .toISOString(),
+        toDate: moment().toISOString(),
+      }
   callback(initialValues)
 }
 
@@ -444,7 +444,7 @@ export default class SearchAvgForm extends React.Component {
                 isShowAll
                 placeholder={t('province.placeholder')}
                 component={FSelectProvince}
-              // onHandleChange={this.handleProvinceChange}
+                // onHandleChange={this.handleProvinceChange}
               />
             </Col>
             <Col span={6}>

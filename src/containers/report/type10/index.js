@@ -168,7 +168,7 @@ export default class ReportType10 extends React.Component {
     })
     let res = await getUrlReportType10Excel({
       ...this.state.dataSearch,
-      language: this.props.locale
+      language: this.props.locale,
     })
 
     if (res.success) {
