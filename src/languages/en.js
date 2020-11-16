@@ -462,6 +462,7 @@ export default {
     form: {
       all: 'All',
       time: 'Time',
+      search: 'Search',
       stationType: {
         label: 'Types Of Station',
         placeholder: 'Select Types Of Station',
