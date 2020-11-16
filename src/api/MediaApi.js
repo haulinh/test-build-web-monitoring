@@ -1,5 +1,5 @@
 import { getConfigApi } from 'config'
-import { getFetch, postFetch } from 'utils/fetch'
+import { getFetch } from 'utils/fetch'
 import { PATH_FOLDER } from 'constants/media'
 import { deleteFetch } from 'utils/fetch'
 
