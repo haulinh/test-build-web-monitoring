@@ -42,6 +42,13 @@ const HeaderWrapper = styled.div`
   flex-wrap: wrap;
   width: 250px;
 `
+
+const SketchPickerWrapper = styled.div`
+  margin-top: 16px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+`
 @createLanguageHoc
 @autobind
 export default class SelectImage extends PureComponent {
@@ -152,11 +159,14 @@ export default class SelectImage extends PureComponent {
               <Avatar
                 shape="square"
                 src={item}
-                style={{ backgroundColor: '#fafafa' }}
+                style={{ backgroundColor: '#000' }}
               />
             </AvatarWrapper>
           )
         })}
+        <SketchPickerWrapper>
+          <SketchPicker color={this.state.color} onChange={this.handelColor} />
+        </SketchPickerWrapper>
       </HeaderWrapper>
     )
     const contentPicker = (
@@ -165,14 +175,28 @@ export default class SelectImage extends PureComponent {
     return (
       <Popover
         style={{ backgroundColor: 'yellows' }}
-        visible={this.state.visiblePop}
+        // visible={this.state.visiblePop}
         content={content}
         title={t('stationTypeManager.form.icon.placeholder')}
-        onClick={this.handelPop}
+        // onClick={this.handelPop}
         trigger="click"
       >
-        <Popover
-          visible={this.state.visiblePop}
+         <AvatarWrapper>
+            <Avatar
+              shape="square"
+              size="large"
+              style={{
+                cursor: 'pointer',
+                backgroundColor: this.state.color,
+                display: 'flex',
+              }}
+              src={this.state.urlIcon}
+            >
+              {t('stationTypeManager.form.icon.label')}
+            </Avatar>
+          </AvatarWrapper>
+        {/* <Popover
+          // visible={this.state.visiblePop}
           placement="bottom"
           content={contentPicker}
           title={t('stationTypeManager.form.color.placeholder')}
@@ -192,7 +216,7 @@ export default class SelectImage extends PureComponent {
               {t('stationTypeManager.form.icon.label')}
             </Avatar>
           </AvatarWrapper>
-        </Popover>
+        </Popover> */}
       </Popover>
     )
   }
