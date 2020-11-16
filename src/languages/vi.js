@@ -459,6 +459,7 @@ export default {
     form: {
       all: 'Tất cả',
       time: 'Thời gian',
+      search: 'Tìm kiếm',
       stationType: {
         label: 'Loại trạm',
         placeholder: 'Chọn loại trạm',
