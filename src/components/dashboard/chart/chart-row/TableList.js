@@ -202,6 +202,13 @@ export default class TableListCustom extends React.PureComponent {
     //   }
     //   return 0
     // })
+    if (key === 'name') {
+      return _.orderBy(
+        data,
+        [item => item.name.toLowerCase()],
+        [asc ? FILTER_TYPE.desc : FILTER_TYPE.asc]
+      )
+    }
     return _.orderBy(data, [key], [asc ? FILTER_TYPE.desc : FILTER_TYPE.asc])
   }
 
