@@ -466,7 +466,7 @@ export default class StationAutoHead extends React.PureComponent {
                   // onClick={() => this.handleActionOnClick('station')}
                   onClick={this.showDrawer('info')}
                 >
-                  {i18n.stationInfo}{' '}
+                  {i18n.stationInfo}
                 </Menu.Item>
                 <Divider style={{ margin: 0 }} />
                 <Menu.Item
