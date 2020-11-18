@@ -176,26 +176,26 @@ export default class StationAutoConfigNotification extends React.Component {
         ),
         width: 15,
       },
-      // {
-      //   content: (
-      //     <div>
-      //       <Checkbox
-      //         indeterminate={this.state.isSmsIndeterminate}
-      //         checked={this.state.isSmsCheckAll}
-      //         disabled={isDisabledCheckAll}
-      //         onChange={e =>
-      //           this.onChangeOptionOfHeader(
-      //             STATION_AUTO_OPTIONS.SMS,
-      //             e.target.checked
-      //           )
-      //         }
-      //       >
-      //         SMS
-      //       </Checkbox>
-      //     </div>
-      //   ),
-      //   width: 10,
-      // },
+      {
+        content: (
+          <div>
+            <Checkbox
+              indeterminate={this.state.isSmsIndeterminate}
+              checked={this.state.isSmsCheckAll}
+              disabled={isDisabledCheckAll}
+              onChange={e =>
+                this.onChangeOptionOfHeader(
+                  STATION_AUTO_OPTIONS.SMS,
+                  e.target.checked
+                )
+              }
+            >
+              SMS
+            </Checkbox>
+          </div>
+        ),
+        width: 10,
+      },
       {
         content: (
           <div>
@@ -331,27 +331,27 @@ export default class StationAutoConfigNotification extends React.Component {
             ),
           },
           /* checkbox SMS */
-          // {
-          //   content: (
-          //     <div>
-          //       <Checkbox
-          //         disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
-          //         checked={_.get(
-          //           row,
-          //           ['options', STATION_AUTO_OPTIONS.SMS, 'allowed'],
-          //           false
-          //         )}
-          //         onChange={e =>
-          //           this.onChangeOptionOfRow({
-          //             row,
-          //             key: STATION_AUTO_OPTIONS.SMS,
-          //             value: e.target.checked,
-          //           })
-          //         }
-          //       />
-          //     </div>
-          //   ),
-          // },
+          {
+            content: (
+              <div>
+                <Checkbox
+                  disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
+                  checked={_.get(
+                    row,
+                    ['options', STATION_AUTO_OPTIONS.SMS, 'allowed'],
+                    false
+                  )}
+                  onChange={e =>
+                    this.onChangeOptionOfRow({
+                      row,
+                      key: STATION_AUTO_OPTIONS.SMS,
+                      value: e.target.checked,
+                    })
+                  }
+                />
+              </div>
+            ),
+          },
           /* checkbox Email */
           {
             content: (
