@@ -118,7 +118,7 @@ export default {
       chart: 'Chart',
       map: 'Map',
       images: 'Station Photos',
-      stationInfo: 'Station Infomation',
+      stationInfo: 'Station Information',
       reviewStation: 'Station Reviews',
       more: {
         label: 'Link',
