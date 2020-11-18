@@ -59,7 +59,7 @@ export default class SelectImage extends PureComponent {
   state = {
     urlIcon: '',
     visiblePop: false,
-    color: '',
+    color: '#87d068',
     urlIconList: [
       '/images/icon-station-type/khi thai.png',
       '/images/icon-station-type/khi tuong.png',

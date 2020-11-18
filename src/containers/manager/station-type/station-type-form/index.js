@@ -16,6 +16,7 @@ const FormItem = Form.Item
 @autobind
 export default class StationTypeForm extends React.PureComponent {
   static propTypes = {
+    isEdit: PropTypes.bool,
     onSubmit: PropTypes.func,
     lang: langPropTypes,
     isLoading: PropTypes.bool,
@@ -118,7 +119,7 @@ export default class StationTypeForm extends React.PureComponent {
                 ],
               })(
                 <Input
-                  disabled
+                  disabled={this.props.isEdit ? true : false}
                   size="large"
                   placeholder={t('stationTypeManager.form.key.label')}
                 />
