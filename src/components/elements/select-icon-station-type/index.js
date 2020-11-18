@@ -28,7 +28,7 @@ const AvatarWrapper = styled.div`
     align-items: center;
     padding: 4px;
     > img {
-      padding: 4px
+      padding: 4px;
       width: 100%;
       height: auto !important;
     }
@@ -42,6 +42,13 @@ const HeaderWrapper = styled.div`
   flex-wrap: wrap;
   width: 250px;
 `
+
+const SketchPickerWrapper = styled.div`
+  margin-top: 16px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+`
 @createLanguageHoc
 @autobind
 export default class SelectImage extends PureComponent {
@@ -52,14 +59,16 @@ export default class SelectImage extends PureComponent {
   state = {
     urlIcon: '',
     visiblePop: false,
-    color: '',
+    color: '#87d068',
     urlIconList: [
-      'http://media.ilotusland.vn/icon-station-type/air.png',
-      'http://media.ilotusland.vn/icon-station-type/noise.png',
-      'http://media.ilotusland.vn/icon-station-type/stack.png',
-      'http://media.ilotusland.vn/icon-station-type/surface.png',
-      'http://media.ilotusland.vn/icon-station-type/underground.png',
-      'http://media.ilotusland.vn/icon-station-type/waste.png',
+      '/images/icon-station-type/khi thai.png',
+      '/images/icon-station-type/khi tuong.png',
+      '/images/icon-station-type/khong khi.png',
+      '/images/icon-station-type/nuoc-duoi-dat.png',
+      '/images/icon-station-type/nuoc mat.png',
+      '/images/icon-station-type/nuoc-mat.png',
+      '/images/icon-station-type/Nuoc_ngam.png',
+      '/images/icon-station-type/nuoc thai.png',
     ],
   }
   setIcon(urlIcon) {
@@ -152,27 +161,44 @@ export default class SelectImage extends PureComponent {
               <Avatar
                 shape="square"
                 src={item}
-                style={{ backgroundColor: '#fafafa' }}
+                style={{ backgroundColor: '#87d068' }}
               />
             </AvatarWrapper>
           )
         })}
+        <SketchPickerWrapper>
+          <SketchPicker color={this.state.color} onChange={this.handelColor} />
+        </SketchPickerWrapper>
       </HeaderWrapper>
     )
-    const contentPicker = (
-      <SketchPicker color={this.state.color} onChange={this.handelColor} />
-    )
+    // const contentPicker = (
+    //   <SketchPicker color={this.state.color} onChange={this.handelColor} />
+    // )
     return (
       <Popover
         style={{ backgroundColor: 'yellows' }}
-        visible={this.state.visiblePop}
+        // visible={this.state.visiblePop}
         content={content}
         title={t('stationTypeManager.form.icon.placeholder')}
-        onClick={this.handelPop}
+        // onClick={this.handelPop}
         trigger="click"
       >
-        <Popover
-          visible={this.state.visiblePop}
+        <AvatarWrapper>
+          <Avatar
+            shape="square"
+            size="large"
+            style={{
+              cursor: 'pointer',
+              backgroundColor: this.state.color,
+              display: 'flex',
+            }}
+            src={this.state.urlIcon}
+          >
+            {t('stationTypeManager.form.icon.label')}
+          </Avatar>
+        </AvatarWrapper>
+        {/* <Popover
+          // visible={this.state.visiblePop}
           placement="bottom"
           content={contentPicker}
           title={t('stationTypeManager.form.color.placeholder')}
@@ -192,7 +218,7 @@ export default class SelectImage extends PureComponent {
               {t('stationTypeManager.form.icon.label')}
             </Avatar>
           </AvatarWrapper>
-        </Popover>
+        </Popover> */}
       </Popover>
     )
   }
