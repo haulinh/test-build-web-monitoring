@@ -227,6 +227,9 @@ export default class MonitoringGeneral extends React.Component {
       // MARK  old:  return _.orderBy(data, [key, 'statusAnalytic'], [asc ? 'asc' : 'desc', 'desc'])
       return _.orderBy(data, ['statusAnalytic'], ['asc'])
     }
+    if (key === 'name') {
+      return _.orderBy(data, [item => item.name.toLowerCase()], [asc ? 'asc' : 'desc'])
+    }
     return _.orderBy(data, [key], [asc ? 'asc' : 'desc'])
   }
 
