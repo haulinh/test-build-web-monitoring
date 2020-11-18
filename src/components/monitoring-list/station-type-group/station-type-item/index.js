@@ -1,17 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { Affix, Icon, Select } from 'antd'
 import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import { Sticky, StickyContainer } from 'react-sticky'
+import { filter, forEach as _forEach, uniqBy } from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
 import { Collapse } from 'reactstrap'
-import StationAutoList from './station-auto-list'
+import styled from 'styled-components'
 import HeadStationType from './HeadStationType'
-import { Icon, Select } from 'antd'
-import { filter, uniqBy, forEach as _forEach } from 'lodash'
+import StationAutoList from './station-auto-list'
 
 const { Option } = Select
-
-const StationTypeWrapper = styled.div``
 
 const IconToggle = styled.span`
   transition: all 0.3s linear;
@@ -75,59 +72,47 @@ export default class StationTypeSummary extends React.Component {
     if (stationAutoList.length === 0) return null
 
     return (
-      <StickyContainer>
-        <StationTypeWrapper>
-          <Sticky>
-            {props => (
-              <div
-                style={{
-                  ...props.style,
-                  // top: props.isSticky ? '68.8px' : null,
-                  transition: 'all .3s linear',
-                  zIndex: 99999,
-                }}
-              >
-                <HeadStationType>
-                  <TextSpan onClick={this.toggleOpen}>
-                    <IconToggle isOpen={this.state.isOpen}>
-                      <Icon type="caret-right" />
-                    </IconToggle>
-                    {stationType.name} ({goodTotal}/{stationAutoList.length})
-                  </TextSpan>
-                  <Select
-                    mode="multiple"
-                    size="small"
-                    getPopupContainer={() =>
-                      document.querySelector('.ant-table-wrapper')
-                    }
-                    style={{ width: '100%', maxWidth: 800, marginLeft: 20 }}
-                    maxTagCount={6}
-                    value={this.state.measureShow}
-                    onChange={val => {
-                      this.setState({ measureShow: val })
-                    }}
-                  >
-                    {this.state.measureSoure.map(item => {
-                      return (
-                        <Option key={item.key} value={item.key}>
-                          {item.name}
-                        </Option>
-                      )
-                    })}
-                  </Select>
-                </HeadStationType>
-              </div>
-            )}
-          </Sticky>
-          <Collapse isOpen={this.state.isOpen}>
-            <StationAutoList
-              isShowStationName={stationType.name === 'All'}
-              stationAutoList={stationAutoList}
-              measureShow={this.state.measureShow}
-            />
-          </Collapse>
-        </StationTypeWrapper>
-      </StickyContainer>
+      <React.Fragment>
+        <Affix>
+          <HeadStationType>
+            <TextSpan onClick={this.toggleOpen}>
+              <IconToggle isOpen={this.state.isOpen}>
+                <Icon type="caret-right" />
+              </IconToggle>
+              {stationType.name} ({goodTotal}/{stationAutoList.length})
+            </TextSpan>
+            <Select
+              mode="multiple"
+              size="small"
+              getPopupContainer={() =>
+                document.querySelector('.ant-table-wrapper')
+              }
+              style={{ width: '100%', maxWidth: 800, marginLeft: 20 }}
+              maxTagCount={6}
+              value={this.state.measureShow}
+              onChange={val => {
+                this.setState({ measureShow: val })
+              }}
+            >
+              {this.state.measureSoure.map(item => {
+                return (
+                  <Option key={item.key} value={item.key}>
+                    {item.name}
+                  </Option>
+                )
+              })}
+            </Select>
+          </HeadStationType>
+        </Affix>
+
+        <Collapse isOpen={this.state.isOpen}>
+          <StationAutoList
+            isShowStationName={stationType.name === 'All'}
+            stationAutoList={stationAutoList}
+            measureShow={this.state.measureShow}
+          />
+        </Collapse>
+      </React.Fragment>
     )
   }
 }
