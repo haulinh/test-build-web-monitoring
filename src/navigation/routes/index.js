@@ -70,7 +70,15 @@ export default class RouteDefault extends React.Component {
     return (
       <div>
         <Switch>
-          <Route path={slug.login} component={LoginRoute} />
+          <Route path={slug.login.loginWithEmail} component={LoginRoute} />
+          <Route
+            path={slug.login.loginWithPhoneNumber}
+            component={LoginRoute}
+          />
+          <Route
+            path={slug.login.loginWithPhoneNumber}
+            component={LoginRoute}
+          />
           <Route path={slug.password.emailConfirm} component={EmailConfirm} />
           <Route path={slug.password.codeConfirm} component={CodeConfirm} />
           <Route path={slug.password.resetPassword} component={ResetPassword} />

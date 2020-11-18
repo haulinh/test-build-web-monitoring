@@ -13,6 +13,10 @@ export function loginUser(data = {}) {
   return postFetch(getAuthUrl('login'), data)
 }
 
+export function getOTPByPhoneNumber(data = {}) {
+  return postFetch(getAuthUrl('otp'), data)
+}
+
 export function logoutUser(userId) {
   return postFetch(getAuthUrl('logout'), { userId })
 }

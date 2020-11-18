@@ -1,4 +1,10 @@
 export default {
+  global: {
+    cancel: 'Hủy',
+    verify: 'Xác nhận',
+    privacyPolicy: 'Chính sách bảo mật',
+    termsOfService: 'Điều khoản dịch vụ',
+  },
   empty: {
     camera: {
       description: 'Không tìm thấy camera',
@@ -2045,18 +2051,22 @@ export default {
     form: {
       email: {
         label: 'Địa chỉ Email',
-        placeholder: 'user@example.com',
+        placeholder: 'Email',
       },
       password: {
         label: 'Mật khẩu',
-        placeholder: '********',
+        placeholder: 'Mật khẩu',
       },
       twoFactor: {
         label: 'Mã Xác Thực',
         placeholder: 'xxxx',
       },
       buttonLogin: 'Đăng nhập',
+      loginWithEmail: 'Đăng nhập với email',
+      loginWithPhone: 'Đăng nhập với phone number',
       buttonTwoFactor: 'Xác thực',
+      refreshOtp: 'Gửi lại OTP',
+      refreshOtpAfter: 'Gửi lại mã OTP sau {{=it.time}}'
     },
     errors: {
       emailOrPasswordIncorrect: 'Emai hoặc mật khẩu không đúng',
@@ -2065,6 +2075,7 @@ export default {
       accountNotActivated: 'Tài khoản chưa được kích hoạt',
       codeNotEqual: 'Mã xác thực không chính xác',
       organizationNotExist: 'Tổ chức của bạn không tồn tại',
+      wrongOtp: 'Otp không chính xác, vui lòng thử lại!'
     },
   },
   warningLevels: {
