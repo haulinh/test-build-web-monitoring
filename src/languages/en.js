@@ -1,4 +1,16 @@
 export default {
+  global: {
+    cancel: 'Cancel',
+    submit: 'Submit',
+    verify: 'Verify',
+    privacyPolicy: 'Privacy Policy',
+    termsOfService: 'Terms of Service',
+    phoneNumber: 'phone number',
+    email: 'email',
+  },
+  errors: {
+    forbidden: 'Forbidden',
+  },
   empty: {
     camera: {
       description: 'Camera not found',
@@ -2010,7 +2022,7 @@ export default {
     },
   },
   resetPassword: {
-    key: 'I Forgot My Password',
+    key: 'Forgot Password',
     key2:
       "Enter your email address and we'll send you an email with instruction to reset your password",
     key3: 'Reset Password',
@@ -2046,24 +2058,31 @@ export default {
     },
   },
   login: {
-    title: 'Login',
+    title: 'Login to your account',
     twoFactorAlert:
       'Two-Factor Authentication - Your verification code will be sent to {{=it.email}}!',
     form: {
       email: {
         label: 'Email Address',
-        placeholder: 'user@example.com',
+        placeholder: 'Email',
       },
       password: {
         label: 'Password',
-        placeholder: '********',
+        placeholder: 'Password',
       },
       twoFactor: {
         label: 'Verification Code',
         placeholder: 'xxxx',
       },
       buttonLogin: 'Login',
+      loginWithEmail: 'Login with email',
+      loginWithPhone: 'Login with phone number',
       buttonTwoFactor: 'Verify',
+      refreshOtp: 'Refresh OTP',
+      refreshOtpAfter: 'Refresh OTP after {{=it.time}}',
+      inputOtp: 'Input OTP sent to {{=it.to}}',
+      newPassword: 'New password',
+      confirmNewPassword: 'Confirm new password',
     },
     errors: {
       emailOrPasswordIncorrect: 'The email or password is incorrect.',
@@ -2072,6 +2091,10 @@ export default {
       accountNotActivated: 'Your account is not activated.',
       codeNotEqual: 'Authentication code is incorrect.',
       organizationNotExist: 'Your organization is not exist.',
+      wrongOtp: 'Wrong OTP, please try again!',
+      phoneNotExists: "Phone number isn't exists",
+      emailNotExists: "Email isn't exists",
+      otpIncorrect: "Otp incorrect",
     },
   },
   warningLevels: {
@@ -2113,7 +2136,7 @@ export default {
     },
     onDelete: {
       errorMessage: {
-        roleUsed: "Role is already in use !!!"
+        roleUsed: 'Role is already in use !!!',
       },
       success: 'Deleted Successfully',
       qcvn: {

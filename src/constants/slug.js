@@ -2,7 +2,10 @@ import { translate } from 'hoc/create-lang'
 
 export default {
   dashboard: '/',
-  login: '/login',
+  login: {
+    loginWithEmail:  '/login', 
+    loginWithPhoneNumber:  '/login/phone-number',
+  },
   controlStation: {
     base: '/control-station',
     trigger: '/control-station/:key/:name',
