@@ -1058,7 +1058,7 @@ export default {
     unckecked: 'unchecked',
   },
   ftpTranfer: {
-    sampleConfiguration: "Sample Configuration",
+    sampleConfiguration: "FTP Configuration",
     allowFtpTranfer: 'Send FTP',
     stationName: 'Station Name',
     measureTranfer: 'Measure Transfer',
