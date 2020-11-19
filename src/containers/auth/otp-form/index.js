@@ -58,7 +58,7 @@ export default class OTPForm extends Component {
       otp: '',
       error: '',
       isLoading: false,
-      isValidToRefreshOTP: false,
+      isValidToRefreshOTP: true,
       otpRemainTime: null,
       remainingOTPTime: 0,
     }
@@ -77,7 +77,6 @@ export default class OTPForm extends Component {
       return {
         remainingOTPTime,
         otpRemainTime: remainingOTPTime,
-        isValidToRefreshOTP: remainingOTPTime < 0,
       }
     }
     return null
