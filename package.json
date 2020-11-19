@@ -153,7 +153,8 @@
     "webpack": "3.5.1",
     "webpack-dev-server": "2.8.2",
     "webpack-manifest-plugin": "1.2.1",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.0.0",
+    "react-otp-input": "2.3.0"
   },
   "devDependencies": {
     "style-loader": "^0.23.1"
