@@ -1,25 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withRouter } from 'react-router'
-// import StationAutoApi from 'api/StationAuto'
-import MediaApi from 'api/MediaApi'
-// import update from 'immutability-helper'
-import { v4 as uuidV4 } from 'uuid'
-import { Row, Col, Upload, Icon, Spin, Popconfirm } from 'antd'
+import { Col, Icon, Popconfirm, Row, Spin, Upload } from 'antd'
+import MediaApi, { deleteImage } from 'api/MediaApi'
+import axios from 'axios'
 import Button from 'components/elements/button'
+import Gallery from 'components/elements/gallery'
+import { PATH_FOLDER } from 'constants/media'
+import { removeAccents, translate } from 'hoc/create-lang'
+import { get as _get } from 'lodash'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import swal from 'sweetalert2'
-import { translate } from 'hoc/create-lang'
-// import debounce from 'lodash/debounce'
-import { get as _get } from 'lodash'
-import Gallery from 'components/elements/gallery'
-import { connect } from 'react-redux'
-import { removeAccents } from 'hoc/create-lang'
-import axios from 'axios'
-import moment from 'moment'
-import { PATH_FOLDER } from 'constants/media'
-import { deleteImage } from 'api/MediaApi'
-// import { getConfigApi } from 'config'
+import { removeSpecialCharacterUploadFile } from 'utils/string'
+import { v4 as uuidV4 } from 'uuid'
 
 const Wrapper = styled(Row)`
   /* min-height: 500px; */
@@ -200,16 +195,20 @@ export default class ImageMoreInfo extends React.Component {
   }) => {
     // console.log('DEBUG filename', file.name)
     // console.log('DEBUG file type', file.type)
-
     const databaseName = getDatabaseName(
       this.props.userInfo.organization.databaseInfo.name
     )
 
     const generatePutUrl = MediaApi.generatePutUrl(databaseName)
+    
+
+    const fileNameWithoutSpecialCharacter = removeSpecialCharacterUploadFile(file.name)
+
+    const fileNameUpload = `${file.uid}-${fileNameWithoutSpecialCharacter}`;
 
     const options = {
       params: {
-        prefix: `${this.props.stationKey}/${PATH_FOLDER}/${file.name}`,
+        prefix: `${this.props.stationKey}/${PATH_FOLDER}/${fileNameUpload}`,
         ContentType: file.type,
       },
       headers: {
