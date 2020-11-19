@@ -17,6 +17,9 @@ import Button from 'components/elements/button'
 import { connectAutoDispatch } from 'redux/connect'
 import { userLogin, userLogin2Factor } from 'redux/actions/authAction'
 
+import { getAuthError } from '../helper'
+import { emailRule, requireRule } from '../rules'
+
 const FIELDS = {
   EMAIL: 'email',
   PASSWORD: 'password',
@@ -32,9 +35,6 @@ const FormHeader = styled.div`
 
 const FormLogin = styled.div`
   display: ${props => (props.hidden ? 'none' : 'block')};
-  input {
-    margin-bottom: 12px;
-  }
 `
 
 const FormVerify = styled.div`
@@ -66,58 +66,42 @@ export default class EmailForm extends Component {
 
   handleUserLoginTwoFactor = async values => {
     const { userLogin2Factor } = this.props
-    const user = await userLogin2Factor(values)
-    if (user.error) {
-      this.userError(user)
+    const result = await userLogin2Factor(values)
+    if (result.error) {
+      this.handleError(result.message)
       return
     }
-    this.userSuccess(user)
+    this.handleSuccess(result)
   }
 
   handleLogin = async values => {
     const { userLogin, history } = this.props
-    const user = await userLogin(values)
+    const result = await userLogin(values)
 
-    if (user.error) {
-      if (user.message === Errors.ORGANIZATION_EXPIRED) {
-        history.push(`${slug.user.expLicense}?expDate=${user['0'].expDate}`)
+    if (result.error) {
+      if (result.message === Errors.ORGANIZATION_EXPIRED) {
+        history.push(`${slug.user.expLicense}?expDate=${result['0'].expDate}`)
       } else {
-        this.userError(user)
+        this.handleError(result.message)
       }
       return
     }
-    if (user.data.twoFactorAuth && user.data.twoFactorAuth.enable) {
+    if (result.data.twoFactorAuth && result.data.twoFactorAuth.enable) {
       this.setState({ isTwoFactorAuth: true })
     } else {
-      this.userSuccess(user)
+      this.handleSuccess(result)
     }
   }
 
-  userError(user) {
-    let title = user.message
-    if (user.message === Errors.USER_PASSWORD_INCORRECT) {
-      title = translate('login.errors.emailOrPasswordIncorrect')
-    } else if (user.message === Errors.ACCOUNT_DISABLE) {
-      title = translate('login.errors.accountDisable')
-    } else if (user.m === Errors.ACCOUNT_NOT_ACTIVATED) {
-      title = translate('login.errors.accountNotActivated')
-    } else if (user.message === Errors.CODE_NOT_EQUAL) {
-      title = translate('login.errors.codeNotEqual')
-    } else if (user.message === Errors.ORGANIZATION_NOT_EXIST) {
-      title = translate('login.errors.organizationNotExist')
-    }
-
-    if (user.message === Errors.ACCOUNT_DELETE) {
-      title = translate('login.errors.accountDelete')
-    }
-
+  handleError(errMessage) {
+    let title = getAuthError(errMessage)
     swal({
-      title: title,
+      title,
       type: 'error',
     })
   }
 
-  userSuccess(user) {
+  handleSuccess(user) {
     swal({
       type: 'success',
       text: 'Welcome ' + user.data.email,
@@ -129,17 +113,22 @@ export default class EmailForm extends Component {
 
   onSubmit = async e => {
     e.preventDefault()
-    const { form } = this.props
-    const { isTwoFactorAuth } = this.state
-    const values = form.getFieldsValue()
-    this.setState({ isLoading: true })
+    try {
+      const { form } = this.props
+      const values = await form.validateFields()
+      if (!values) return
 
-    if (isTwoFactorAuth) {
-      await this.handleUserLoginTwoFactor(values)
-    } else {
-      await this.handleLogin(values)
+      this.setState({ isLoading: true })
+      const { isTwoFactorAuth } = this.state
+      if (isTwoFactorAuth) {
+        await this.handleUserLoginTwoFactor(values)
+      } else {
+        await this.handleLogin(values)
+      }
+      this.setState({ isLoading: false })
+    } catch (error) {
+      console.log(error)
     }
-    this.setState({ isLoading: false })
   }
 
   render() {
@@ -161,20 +150,26 @@ export default class EmailForm extends Component {
           </Heading>
         </FormHeader>
         <FormLogin hidden={isTwoFactorAuth}>
-          {form.getFieldDecorator(FIELDS.EMAIL)(
-            <Input
-              autoFocus
-              size="large"
-              placeholder={t('login.form.email.placeholder')}
-            />
-          )}
-          {form.getFieldDecorator(FIELDS.PASSWORD)(
-            <Input.Password
-              type="password"
-              size="large"
-              placeholder={t('login.form.password.placeholder')}
-            />
-          )}
+          <Form.Item>
+            {form.getFieldDecorator(FIELDS.EMAIL, {
+              rules: [requireRule, emailRule],
+            })(
+              <Input
+                autoFocus
+                size="large"
+                placeholder={t('login.form.email.placeholder')}
+              />
+            )}
+          </Form.Item>
+          <Form.Item>
+            {form.getFieldDecorator(FIELDS.PASSWORD, { rules: [requireRule] })(
+              <Input.Password
+                type="password"
+                size="large"
+                placeholder={t('login.form.password.placeholder')}
+              />
+            )}
+          </Form.Item>
         </FormLogin>
         <FormVerify hidden={!isTwoFactorAuth}>
           <p>

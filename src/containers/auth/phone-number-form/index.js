@@ -18,7 +18,7 @@ import Button from 'components/elements/button'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 
 import OTPForm from '../otp-form'
-import { getAuthError, getRemainTime } from './helper'
+import { getAuthError, getRemainTime } from '../helper'
 
 const FIELDS = {
   PHONE_NUMBER: 'phoneNumber',

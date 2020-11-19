@@ -7,6 +7,8 @@ export default {
     termsOfService: 'Terms of Service',
     phoneNumber: 'phone number',
     email: 'email',
+    required: 'Required',
+    invalidEmail: 'Invalid email',
   },
   errors: {
     forbidden: 'Forbidden',
@@ -1071,7 +1073,7 @@ export default {
     unckecked: 'unchecked',
   },
   ftpTranfer: {
-    sampleConfiguration: "FTP Configuration",
+    sampleConfiguration: 'FTP Configuration',
     allowFtpTranfer: 'Send FTP',
     stationName: 'Station Name',
     measureTranfer: 'Measure Transfer',
@@ -2094,7 +2096,7 @@ export default {
       wrongOtp: 'Wrong OTP, please try again!',
       phoneNotExists: "Phone number isn't exists",
       emailNotExists: "Email isn't exists",
-      otpIncorrect: "Otp incorrect",
+      otpIncorrect: 'Otp incorrect',
     },
   },
   warningLevels: {

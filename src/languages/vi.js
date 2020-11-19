@@ -7,6 +7,8 @@ export default {
     termsOfService: 'Điều khoản dịch vụ',
     phoneNumber: 'Số điện thoại',
     email: 'Email',
+    required: 'Bắt buộc',
+    invalidEmail: 'Email không hợp lệ'
   },
   errors: {
     forbidden: 'Có lỗi xảy ra',

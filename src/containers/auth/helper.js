@@ -4,6 +4,8 @@ import { translate } from 'hoc/create-lang'
 
 export const getAuthError = message => {
   switch (message) {
+    case Errors.USER_PASSWORD_INCORRECT:
+      return translate('login.errors.emailOrPasswordIncorrect')
     case Errors.ACCOUNT_DISABLE:
       return translate('login.errors.accountDisable')
     case Errors.ACCOUNT_NOT_ACTIVATED:
@@ -27,10 +29,17 @@ export const getAuthError = message => {
   }
 }
 
-export const getRemainTime = timeISOStr =>
-  moment(timeISOStr).diff(
+export const getRemainTime = timeUTCStr =>
+  moment(timeUTCStr).diff(
     moment()
       .utc()
       .format(),
     'seconds'
   )
+  
+export const formatDuration = (seconds = 0, format = 'MM:ss') => {
+  const s = new Date(1000 * seconds).toISOString()
+  if (format === 'MM:ss') return s.substr(14, 5)
+  if (format === 'HH:MM:ss') return s.substr(11, 8)
+  return ''
+}

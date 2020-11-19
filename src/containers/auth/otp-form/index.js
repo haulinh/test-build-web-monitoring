@@ -7,6 +7,7 @@ import { Form } from 'antd'
 import createLang from 'hoc/create-lang'
 
 import Button from 'components/elements/button'
+import { formatDuration } from '../helper'
 
 const FormBody = styled.div`
   > div {
@@ -96,6 +97,7 @@ export default class OTPForm extends Component {
         this.setState({ isValidToRefreshOTP: true })
       } else {
         this.setState(prevState => ({
+          isValidToRefreshOTP: false,
           remainingOTPTime: prevState.remainingOTPTime - 1,
         }))
       }
@@ -106,13 +108,6 @@ export default class OTPForm extends Component {
     const { onChange } = this.props
     this.setState({ otp })
     onChange(otp)
-  }
-
-  formatDuration = (seconds = 0, format = 'MM:ss') => {
-    const s = new Date(1000 * seconds).toISOString()
-    if (format === 'MM:ss') return s.substr(14, 5)
-    if (format === 'HH:MM:ss') return s.substr(11, 8)
-    return ''
   }
 
   onRefreshOTP = async () => {
@@ -188,7 +183,7 @@ export default class OTPForm extends Component {
                 time: `${
                   remainingOTPTime === null
                     ? '--:--'
-                    : this.formatDuration(remainingOTPTime)
+                    : formatDuration(remainingOTPTime)
                 }s`,
               })}
             </Text>

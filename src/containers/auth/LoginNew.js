@@ -7,8 +7,7 @@ import createLang from 'hoc/create-lang'
 
 import EmailForm from './email-form'
 import PhoneNumberForm from './phone-number-form'
-import EmailConfirmForm from './reset-password/email-confirm'
-import CodeConfirmForm from './reset-password/code-confirm'
+import EmailConfirmForm from './reset-password'
 
 const Container = styled.div`
   width: 100vw;
@@ -94,7 +93,6 @@ export default class Auth extends PureComponent {
           {this.getPath() === slug.password.emailConfirm && (
             <EmailConfirmForm />
           )}
-          {this.getPath() === slug.password.codeConfirm && <CodeConfirmForm />}
         </Form>
         <Footer>
           <div className="copyright">
