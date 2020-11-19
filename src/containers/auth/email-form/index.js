@@ -163,12 +163,13 @@ export default class EmailForm extends Component {
         <FormLogin hidden={isTwoFactorAuth}>
           {form.getFieldDecorator(FIELDS.EMAIL)(
             <Input
+              autoFocus
               size="large"
               placeholder={t('login.form.email.placeholder')}
             />
           )}
           {form.getFieldDecorator(FIELDS.PASSWORD)(
-            <Input
+            <Input.Password
               type="password"
               size="large"
               placeholder={t('login.form.password.placeholder')}

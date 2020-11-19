@@ -16,6 +16,12 @@ export const getAuthError = message => {
       return translate('login.errors.accountDelete')
     case Errors.PHONE_NOT_EXISTS:
       return translate('login.errors.phoneNotExists')
+    case Errors.EMAIL_NOT_EXISTS:
+      return translate('login.errors.emailNotExists')
+    case Errors.OTP_INCORRECT:
+      return translate('login.errors.otpIncorrect')
+    case Errors.Forbidden:
+      return translate('errors.forbidden')
     default:
       return message
   }

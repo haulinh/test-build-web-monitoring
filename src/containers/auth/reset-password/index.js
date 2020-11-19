@@ -1,152 +1,121 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
-import { reduxForm, Field } from 'redux-form'
 import swal from 'sweetalert2'
+import { Form, Input } from 'antd'
 import { withRouter } from 'react-router'
-import { Container } from 'reactstrap'
-import { InputLabel, createValidateComponent } from 'components/elements'
-import Button from 'components/elements/button'
+
 import AuthApi from 'api/AuthApi'
-import { translate } from 'hoc/create-lang'
-import { autobind } from 'core-decorators'
+import { translate as t } from 'hoc/create-lang'
 
-const FInput = createValidateComponent(InputLabel)
+import Button from 'components/elements/button'
+import slug from 'constants/slug'
 
-const Form = styled.form`
-  width: 450px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 100px;
-  box-shadow: 0 2px 10px 0 rgba(238, 238, 238, 0.5);
-  background-color: #ffffff;
-  padding: 24px 32px;
+const FormHeader = styled.div`
+  width: 100%%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  > div {
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .email {
+    color: #656565;
+  }
 `
 
-// eslint-disable-next-line
-const FloatRight = styled.div`
-  text-align: right;
-  padding-top: 8px;
-`
-
-// eslint-disable-next-line
-const Header = {
-  Wrapper: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  `,
-  Logo: styled.img`
-    height: 36px;
-    width: auto;
-  `,
+const FIELDS = {
+  PASSWORD: 'password',
+  CONFIRM_PASSWORD: 'confirm_password',
 }
 
-const Clearfix = styled.div`
-  height: 16px;
-`
-
-const bodyStyle = `
-  body { background: linear-gradient(135deg,#1d89ce 0%,#56d2f3 100%) !important; }
-`
-
-function validate(values) {
-  const errors = {}
-  if (values.newPassword === undefined || !values.newPassword) {
-    errors.newPassword = translate('changePassword.form.newPassword.error')
-  }
-
-  if (
-    values.newPasswordConfirmation === undefined ||
-    !values.newPasswordConfirmation
-  ) {
-    errors.newPasswordConfirmation = translate(
-      'changePassword.form.newPasswordConfirmation.error'
-    )
-  }
-  return errors
-}
-
-@reduxForm({
-  form: 'ResetPasswordForm',
-  validate,
-})
 @withRouter
-@autobind
-export default class ResetPassword extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = {
-      userInfo: {},
+@Form.create()
+export default class NewPassword extends PureComponent {
+  state = { isLoading: false }
+
+  validateConfirmPassword = (rule, value, callback) => {
+    const { form } = this.props
+    if (value && value !== form.getFieldValue(FIELDS.PASSWORD)) {
+      callback('Two passwords that you enter is inconsistent!')
+    } else {
+      callback()
     }
   }
 
-  async componentWillMount() {
-    this.setState({
-      userInfo: this.props.history.location.state.data,
-    })
-  }
+  handleUpdatePassword = async e => {
+    e.preventDefault()
+    const { form, history, userInfo } = this.props
+    const values = await form.validateFields()
 
-  async handleLogin(values) {
-    if (values.newPassword !== values.newPasswordConfirmation) {
+    if (!values) {
       swal({
-        title: translate('changePassword.form.newPasswordConfirmation.error1'),
+        title: t('changePassword.form.newPasswordConfirmation.error1'),
         type: 'error',
       })
-    } else {
-      const data = {
-        _id: this.state.userInfo._id,
-        code: this.state.userInfo.forgotPasswordCode,
-        password: values.newPasswordConfirmation,
-      }
-      const record = await AuthApi.putResetPassword(data._id, data)
-      if (record.error) {
-        swal({
-          type: 'error',
-          title: record.message,
-        })
-      } else {
-        swal({
-          type: 'success',
-          title: translate('changePassword.form.Success'),
-        })
-        this.props.history.push('/')
-      }
+      return
     }
+
+    const params = {
+      _id: userInfo._id,
+      code: userInfo.forgotPasswordCode,
+      password: values[FIELDS.PASSWORD],
+    }
+
+    const result = await AuthApi.putResetPassword(params._id, params)
+
+    if (result.error) {
+      swal({
+        type: 'error',
+        title: result.message,
+      })
+      return
+    }
+    swal({
+      type: 'success',
+      title: t('changePassword.form.Success'),
+    })
+    history.push(slug.login.loginWithEmail)
   }
 
   render() {
+    const { form, email } = this.props
+    const { isLoading } = this.state
+
     return (
-      <Container>
-        <style dangerouslySetInnerHTML={{ __html: bodyStyle }} />
-        <Form onSubmit={this.props.handleSubmit(this.handleLogin.bind(this))}>
-          <Field
-            label="New password"
-            type="password"
-            placeholder="New password"
-            name="newPassword"
-            component={FInput}
-            size="small"
-          />
-          <Clearfix />
-          <Field
-            label="Password confirmation"
-            type="password"
-            placeholder="Password confirmation"
-            name="newPasswordConfirmation"
-            component={FInput}
-            size="small"
-          />
-          <Clearfix />
-          <Button
-            isLoading={this.props.submitting}
-            size="lg"
-            block
-            color="primary"
-          >
-            Save password
-          </Button>
-        </Form>
-      </Container>
+      <Form onSubmit={this.handleUpdatePassword}>
+        <FormHeader>
+          <div>{t('login.form.newPassword')}</div>
+          <div>{email}</div>
+        </FormHeader>
+        <Form.Item>
+          {form.getFieldDecorator(FIELDS.PASSWORD)(
+            <Input
+              size="large"
+              type="password"
+              placeholder={t('login.form.newPassword')}
+            />
+          )}
+        </Form.Item>
+        <Form.Item>
+          {form.getFieldDecorator(FIELDS.CONFIRM_PASSWORD, {
+            rules: [
+              {
+                validator: this.validateConfirmPassword,
+              },
+            ],
+          })(
+            <Input.Password
+              size="large"
+              type="password"
+              placeholder={t('login.form.confirmNewPassword')}
+            />
+          )}
+        </Form.Item>
+        <Button isLoading={isLoading} size="lg" block color="primary">
+          Save password
+        </Button>
+      </Form>
     )
   }
 }

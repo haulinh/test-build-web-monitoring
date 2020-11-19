@@ -45,7 +45,7 @@ const Text = styled.div`
   font-size: ${props => props.fontSize || '14px'};
   color: ${props => props.color || '14px'};
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 `
 
 const EVENT_COUNTDOWN = 'event_countdown'
@@ -134,11 +134,9 @@ export default class OTPForm extends Component {
     const { onVerifyOTP } = this.props
     e.preventDefault()
     this.setState({ isLoading: true })
-    const result = await onVerifyOTP()
-    const { error, message } = result
+    const error = await onVerifyOTP()
     if (error) {
-      this.setState({ isLoading: false, error: message })
-      return
+      this.setState({ error, isLoading: false })
     }
   }
 
@@ -162,7 +160,11 @@ export default class OTPForm extends Component {
     return (
       <Fragment>
         <Form onSubmit={this.onSubmit}>
-          <Text color="#7F8890">Input OTP sent to phone number</Text>
+          <Text color="#7F8890">
+            {t('login.form.inputOtp', {
+              to: email ? t('global.email') : t('global.phoneNumber'),
+            })}
+          </Text>
           <Text fontSize="20px" fontWeight="700" color="#20313E">
             {phoneNumber || email}
           </Text>
@@ -175,7 +177,7 @@ export default class OTPForm extends Component {
               onChange={this.onChangeOTP}
             />
           </FormBody>
-          {error && <Text color="#DC4448">{t('login.errors.wrongOtp')}</Text>}
+          {error && <Text color="#DC4448">{error}</Text>}
 
           {isValidToRefreshOTP ? (
             <CustomButton margin="8px 0 20px" onClick={this.onRefreshOTP}>

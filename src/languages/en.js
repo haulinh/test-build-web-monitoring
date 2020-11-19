@@ -1,9 +1,15 @@
 export default {
   global: {
     cancel: 'Cancel',
+    submit: 'Submit',
     verify: 'Verify',
     privacyPolicy: 'Privacy Policy',
     termsOfService: 'Terms of Service',
+    phoneNumber: 'phone number',
+    email: 'email',
+  },
+  errors: {
+    forbidden: 'Forbidden',
   },
   empty: {
     camera: {
@@ -1065,7 +1071,7 @@ export default {
     unckecked: 'unchecked',
   },
   ftpTranfer: {
-    sampleConfiguration: "Sample Configuration",
+    sampleConfiguration: 'Sample Configuration',
     allowFtpTranfer: 'Send FTP',
     stationName: 'Station Name',
     measureTranfer: 'Measure Transfer',
@@ -2073,7 +2079,10 @@ export default {
       loginWithPhone: 'Login with phone number',
       buttonTwoFactor: 'Verify',
       refreshOtp: 'Refresh OTP',
-      refreshOtpAfter: 'Refresh OTP after {{=it.time}}'
+      refreshOtpAfter: 'Refresh OTP after {{=it.time}}',
+      inputOtp: 'Input OTP sent to {{=it.to}}',
+      newPassword: 'New password',
+      confirmNewPassword: 'Confirm new password',
     },
     errors: {
       emailOrPasswordIncorrect: 'The email or password is incorrect.',
@@ -2082,7 +2091,10 @@ export default {
       accountNotActivated: 'Your account is not activated.',
       codeNotEqual: 'Authentication code is incorrect.',
       organizationNotExist: 'Your organization is not exist.',
-      wrongOtp: 'Wrong OTP, please try again!'
+      wrongOtp: 'Wrong OTP, please try again!',
+      phoneNotExists: "Phone number isn't exists",
+      emailNotExists: "Email isn't exists",
+      otpIncorrect: "Otp incorrect",
     },
   },
   warningLevels: {
@@ -2124,7 +2136,7 @@ export default {
     },
     onDelete: {
       errorMessage: {
-        roleUsed: "Role is already in use !!!"
+        roleUsed: 'Role is already in use !!!',
       },
       success: 'Deleted Successfully',
       qcvn: {

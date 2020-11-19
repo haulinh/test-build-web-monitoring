@@ -7,6 +7,8 @@ import createLang from 'hoc/create-lang'
 
 import EmailForm from './email-form'
 import PhoneNumberForm from './phone-number-form'
+import EmailConfirmForm from './reset-password/email-confirm'
+import CodeConfirmForm from './reset-password/code-confirm'
 
 const Container = styled.div`
   width: 100vw;
@@ -66,7 +68,7 @@ const Footer = styled.div`
 
 @createLang
 @withRouter
-export default class Login extends PureComponent {
+export default class Auth extends PureComponent {
   getPath = () => {
     const {
       history: { location },
@@ -89,14 +91,18 @@ export default class Login extends PureComponent {
           {this.getPath() === slug.login.loginWithPhoneNumber && (
             <PhoneNumberForm />
           )}
+          {this.getPath() === slug.password.emailConfirm && (
+            <EmailConfirmForm />
+          )}
+          {this.getPath() === slug.password.codeConfirm && <CodeConfirmForm />}
         </Form>
         <Footer>
           <div className="copyright">
             Copyright © {new Date().getFullYear()} iLotusLand
           </div>
           <div className="policy">
-            <a href="#">{t('global.privacyPolicy')}</a>
-            <a href="#">{t('global.termsOfService')}</a>
+            <a href="#privacyPolicy">{t('global.privacyPolicy')}</a>
+            <a href="#termsOfService">{t('global.termsOfService')}</a>
           </div>
         </Footer>
       </Container>

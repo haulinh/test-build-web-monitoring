@@ -1,17 +1,17 @@
 import React, { Component, Fragment } from 'react'
 import { Form } from 'antd'
 import styled from 'styled-components'
+import { getConfigApi } from 'config'
 import { withRouter } from 'react-router-dom'
 
 import slug from 'constants/slug'
 import createLang from 'hoc/create-lang'
+import { setAuthToken } from 'utils/auth'
 import {
   verifyPhoneNumber,
   getOTPByPhoneNumber,
   verifyOTPWithPhoneNumber,
 } from 'api/AuthApi'
-import { connectAutoDispatch } from 'redux/connect'
-import { userLogin, userLogin2Factor } from 'redux/actions/authAction'
 
 import Heading from 'components/elements/heading'
 import Button from 'components/elements/button'
@@ -64,14 +64,8 @@ const TextError = styled.div`
 @createLang
 @withRouter
 @Form.create()
-@connectAutoDispatch(null, { userLogin, userLogin2Factor })
 export default class PhoneNumberForm extends Component {
   state = { isShowOtpForm: false, isLoading: false }
-
-  goBack = () => {
-    const { history } = this.props
-    history.push(slug.login.loginWithEmail)
-  }
 
   getPhoneNumber = () => {
     const { form } = this.props
@@ -79,27 +73,33 @@ export default class PhoneNumberForm extends Component {
     return (values || {}).phoneNumber
   }
 
-  handleVerifyOTP = () => {
-    const { form } = this.props
+  handleVerifyPhoneNumber = async () => {
     const phone = this.getPhoneNumber()
-    const otp = form.getFieldValue(FIELDS.OTP)
-
-    return verifyOTPWithPhoneNumber({ otp, phone })
+    const result = await verifyPhoneNumber({ phone })
+    return result
   }
 
   handleGetOtp = async () => {
     const phone = this.getPhoneNumber()
     const { error, data, message } = await getOTPByPhoneNumber({ phone })
     return {
-      error: error ? getAuthError(message) : '',
+      error: error ? getAuthError(message) : null,
       otpRemainTime: getRemainTime(data.expired),
     }
   }
 
-  handleVerifyPhoneNumber = async () => {
+  handleVerifyOTP = async () => {
+    const { form } = this.props
     const phone = this.getPhoneNumber()
-    const result = await verifyPhoneNumber({ phone })
-    return result
+    const otp = form.getFieldValue(FIELDS.OTP)
+
+    const result = await verifyOTPWithPhoneNumber({ otp, phone })
+    const { error, message, token } = result
+    if (error) {
+      return getAuthError(message)
+    }
+    setAuthToken(token)
+    window.location = getConfigApi().defaultPage
   }
 
   onSubmit = async e => {
@@ -125,6 +125,11 @@ export default class PhoneNumberForm extends Component {
     } catch (error) {
       this.setState({ isLoading: false })
     }
+  }
+
+  goBack = () => {
+    const { history } = this.props
+    history.push(slug.login.loginWithEmail)
   }
 
   render() {
