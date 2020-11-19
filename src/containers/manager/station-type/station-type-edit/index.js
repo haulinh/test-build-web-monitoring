@@ -81,6 +81,7 @@ export default class StationTypeEdit extends React.PureComponent {
           />
           {this.props.isLoaded && (
             <StationTypeFrom
+              isEdit
               isLoading={this.props.isUpdating}
               initialValues={
                 this.state.dataSource ? this.state.dataSource : this.props.data

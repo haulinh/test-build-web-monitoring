@@ -94,6 +94,7 @@ export default class UpdateLogo extends React.PureComponent {
       .replace(/[\u0300-\u036f]/g, '')
       .replace(/đ/g, 'd')
       .replace(/Đ/g, 'D')
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
     fmData.append('file', file, fileName)
     try {
       const res = await axios.post(

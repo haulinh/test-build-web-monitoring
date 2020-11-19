@@ -1,13 +1,13 @@
-import React from 'react'
-import { Form, Button, Select, Table, Popconfirm, Icon, Input } from 'antd'
-import { autobind } from 'core-decorators'
-import PropTypes from 'prop-types'
-import { langPropTypes } from '../../../../hoc/create-lang'
+import { Button, Form, Icon, Input, Popconfirm, Select, Table } from 'antd'
 import AutoCompleteCell from 'components/elements/auto-complete-cell'
-import InputNumberCell from '../../../../components/elements/input-number-cell'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
 import update from 'immutability-helper'
 import * as _ from 'lodash'
-import { translate } from 'hoc/create-lang'
+import PropTypes from 'prop-types'
+import React from 'react'
+import InputNumberCell from '../../../../components/elements/input-number-cell'
+import { langPropTypes } from '../../../../hoc/create-lang'
 
 const FormItem = Form.Item
 
@@ -273,6 +273,9 @@ export default class StationAutoFormTable extends React.Component {
     let rows = this.state.measuringList.slice()
     rows = update(rows, { $push: [newRow] })
     this.setState({ measuringList: rows })
+    this.setState({
+      measuringOptions: this.getOptions(this.state.measuringList),
+    })
   }
 
   getValueStandardVN = (record, field) => {
@@ -291,6 +294,9 @@ export default class StationAutoFormTable extends React.Component {
 
   removeMeasuring(index) {
     this.state.measuringList.splice(index, 1)
+    this.setState({
+      measuringOptions: this.getOptions(this.state.measuringList),
+    })
     this.forceUpdate()
   }
 
