@@ -130,7 +130,7 @@ export default {
       chart: 'Chart',
       map: 'Map',
       images: 'Station Photos',
-      stationInfo: 'Station Infomation',
+      stationInfo: 'Station Information',
       reviewStation: 'Station Reviews',
       more: {
         label: 'Link',
@@ -1071,7 +1071,7 @@ export default {
     unckecked: 'unchecked',
   },
   ftpTranfer: {
-    sampleConfiguration: 'Sample Configuration',
+    sampleConfiguration: "FTP Configuration",
     allowFtpTranfer: 'Send FTP',
     stationName: 'Station Name',
     measureTranfer: 'Measure Transfer',
