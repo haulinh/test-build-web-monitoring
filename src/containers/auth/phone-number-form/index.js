@@ -3,8 +3,13 @@ import { Form } from 'antd'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 
+import slug from 'constants/slug'
 import createLang from 'hoc/create-lang'
-import { getOTPByPhoneNumber } from 'api/AuthApi'
+import {
+  verifyPhoneNumber,
+  getOTPByPhoneNumber,
+  verifyOTPWithPhoneNumber,
+} from 'api/AuthApi'
 import { connectAutoDispatch } from 'redux/connect'
 import { userLogin, userLogin2Factor } from 'redux/actions/authAction'
 
@@ -13,7 +18,7 @@ import Button from 'components/elements/button'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 
 import OTPForm from '../otp-form'
-import slug from 'constants/slug'
+import { getAuthError, getRemainTime } from './helper'
 
 const FIELDS = {
   PHONE_NUMBER: 'phoneNumber',
@@ -49,6 +54,13 @@ const ButtonCancel = styled(Button)`
   }
 `
 
+const TextError = styled.div`
+  font-weight: 'normal';
+  font-size: '14px';
+  color: #dc4448;
+  margin-bottom: 16px;
+`
+
 @createLang
 @withRouter
 @Form.create()
@@ -61,34 +73,55 @@ export default class PhoneNumberForm extends Component {
     history.push(slug.login.loginWithEmail)
   }
 
-  handleVerifyOTP = async () => {
+  getPhoneNumber = () => {
     const { form } = this.props
-    const values = form.getFieldsValue()
-    console.log(values)
+    const values = form.getFieldValue(FIELDS.PHONE_NUMBER)
+    return (values || {}).phoneNumber
+  }
+
+  handleVerifyOTP = () => {
+    const { form } = this.props
+    const phone = this.getPhoneNumber()
+    const otp = form.getFieldValue(FIELDS.OTP)
+
+    return verifyOTPWithPhoneNumber({ otp, phone })
   }
 
   handleGetOtp = async () => {
-    const { form } = this.props
-    const values = form.getFieldsValue()
-    const phoneNumber = (values.phoneNumber || {}).phoneNumber
-    const result = { remainTime: 3 } //await getOTPByPhoneNumber(phoneNumber)
+    const phone = this.getPhoneNumber()
+    const { error, data, message } = await getOTPByPhoneNumber({ phone })
     return {
-      isSuccess: true,
-      remainTime: result.remainTime || 10,
+      error: error ? getAuthError(message) : '',
+      otpRemainTime: getRemainTime(data.expired),
     }
+  }
+
+  handleVerifyPhoneNumber = async () => {
+    const phone = this.getPhoneNumber()
+    const result = await verifyPhoneNumber({ phone })
+    return result
   }
 
   onSubmit = async e => {
     e.preventDefault()
     this.setState({ isLoading: true })
     try {
-      const result = await this.handleGetOtp()
+      const { error, message, data } = await this.handleVerifyPhoneNumber()
+      if (error) {
+        this.setState({ error: getAuthError(message), isLoading: false })
+        return
+      }
+      const remainingTime = getRemainTime(data.expired)
+      const isNeedToGetOTP = !data.expired || remainingTime < 0
+      if (isNeedToGetOTP) {
+        this.handleGetOtp()
+      }
 
-      if (result.isSuccess)
-        this.setState({
-          isShowOtpForm: true,
-          otpRemainTime: result.remainTime,
-        })
+      this.setState({
+        isLoading: true,
+        isShowOtpForm: true,
+        otpRemainTime: remainingTime,
+      })
     } catch (error) {
       this.setState({ isLoading: false })
     }
@@ -100,8 +133,7 @@ export default class PhoneNumberForm extends Component {
       lang: { t },
     } = this.props
 
-    const { isLoading, isShowOtpForm, otpRemainTime } = this.state
-
+    const { error, isLoading, isShowOtpForm, otpRemainTime } = this.state
     return (
       <Fragment>
         <Form hidden={isShowOtpForm} onSubmit={this.onSubmit}>
@@ -111,6 +143,7 @@ export default class PhoneNumberForm extends Component {
           <FormBody>
             {form.getFieldDecorator(FIELDS.PHONE_NUMBER)(<PhoneNumber />)}
           </FormBody>
+          {error && <TextError>{error}</TextError>}
           <Button isLoading={isLoading} block color="primary">
             {t('login.form.buttonLogin')}
           </Button>
@@ -122,9 +155,7 @@ export default class PhoneNumberForm extends Component {
           form.getFieldDecorator(FIELDS.OTP)(
             <OTPForm
               otpRemainTime={otpRemainTime}
-              phoneNumber={
-                (form.getFieldValue(FIELDS.PHONE_NUMBER) || {}).phoneNumber
-              }
+              phoneNumber={this.getPhoneNumber()}
               onVerifyOTP={this.handleVerifyOTP}
               onRefreshOTP={this.handleGetOtp}
               onCancel={this.goBack}

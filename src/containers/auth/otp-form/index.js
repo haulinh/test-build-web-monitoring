@@ -7,7 +7,6 @@ import { Form } from 'antd'
 import createLang from 'hoc/create-lang'
 
 import Button from 'components/elements/button'
-import Loader from 'components/elements/loader-circle'
 
 const FormBody = styled.div`
   > div {
@@ -56,12 +55,12 @@ export default class OTPForm extends Component {
   constructor() {
     super()
     this.state = {
-      isValidOTP: true,
+      otp: '',
+      error: '',
       isLoading: false,
       isValidToRefreshOTP: false,
-      otp: '',
-      remainingOTPTime: 0,
       otpRemainTime: null,
+      remainingOTPTime: 0,
     }
     document.addEventListener(EVENT_COUNTDOWN, this.startCountDown)
   }
@@ -69,12 +68,16 @@ export default class OTPForm extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.otpRemainTime !== prevState.otpRemainTime) {
       const remainingOTPTime = nextProps.otpRemainTime
-      var event = new CustomEvent(EVENT_COUNTDOWN)
-      document.dispatchEvent(event)
+
+      if (remainingOTPTime > 0) {
+        const event = new CustomEvent(EVENT_COUNTDOWN)
+        document.dispatchEvent(event)
+      }
 
       return {
         remainingOTPTime,
         otpRemainTime: remainingOTPTime,
+        isValidToRefreshOTP: remainingOTPTime < 0,
       }
     }
     return null
@@ -106,7 +109,7 @@ export default class OTPForm extends Component {
     onChange(otp)
   }
 
-  formatDuration = (seconds, format = 'MM:ss') => {
+  formatDuration = (seconds = 0, format = 'MM:ss') => {
     const s = new Date(1000 * seconds).toISOString()
     if (format === 'MM:ss') return s.substr(14, 5)
     if (format === 'HH:MM:ss') return s.substr(11, 8)
@@ -114,10 +117,17 @@ export default class OTPForm extends Component {
   }
 
   onRefreshOTP = async () => {
-    this.setState({ isValidToRefreshOTP: false })
+    this.setState({ isValidToRefreshOTP: false, remainingOTPTime: null })
     const { onRefreshOTP } = this.props
+
     const result = await onRefreshOTP()
-    this.setState({ remainingOTPTime: result.remainTime }, this.startCountDown)
+    this.setState(
+      {
+        error: result.error,
+        remainingOTPTime: result.otpRemainTime,
+      },
+      this.startCountDown
+    )
   }
 
   onSubmit = async e => {
@@ -125,9 +135,9 @@ export default class OTPForm extends Component {
     e.preventDefault()
     this.setState({ isLoading: true })
     const result = await onVerifyOTP()
-
-    if (!result) {
-      this.setState({ isLoading: false, isValidOTP: false })
+    const { error, message } = result
+    if (error) {
+      this.setState({ isLoading: false, error: message })
       return
     }
   }
@@ -143,8 +153,8 @@ export default class OTPForm extends Component {
 
     const {
       otp,
+      error,
       isLoading,
-      isValidOTP,
       remainingOTPTime,
       isValidToRefreshOTP,
     } = this.state
@@ -165,19 +175,20 @@ export default class OTPForm extends Component {
               onChange={this.onChangeOTP}
             />
           </FormBody>
-          {!isValidOTP && (
-            <Text color="#DC4448">{t('login.errors.wrongOtp')}</Text>
-          )}
+          {error && <Text color="#DC4448">{t('login.errors.wrongOtp')}</Text>}
 
           {isValidToRefreshOTP ? (
             <CustomButton margin="8px 0 20px" onClick={this.onRefreshOTP}>
-              {isLoading ? <Loader isCenter size={20} color="#fff" /> : ''}{' '}
               {t('login.form.refreshOtp')}
             </CustomButton>
           ) : (
             <Text color="#B2B7BC">
               {t('login.form.refreshOtpAfter', {
-                time: `${this.formatDuration(remainingOTPTime)}s`,
+                time: `${
+                  remainingOTPTime === null
+                    ? '--:--'
+                    : this.formatDuration(remainingOTPTime)
+                }s`,
               })}
             </Text>
           )}
