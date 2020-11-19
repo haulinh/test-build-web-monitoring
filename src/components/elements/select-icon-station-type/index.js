@@ -1,12 +1,14 @@
-import React, { PureComponent } from 'react'
-import { Avatar, Popover, Upload, message } from 'antd'
-import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
+import { Avatar, message, Popover, Upload } from 'antd'
 import MediaApi from 'api/MediaApi'
-import styled from 'styled-components'
-import { SketchPicker } from 'react-color'
+import Axios from 'axios'
+import { autobind } from 'core-decorators'
 import createLanguageHoc from 'hoc/create-lang'
 import * as _ from 'lodash'
+import PropTypes from 'prop-types'
+import React, { PureComponent } from 'react'
+import { SketchPicker } from 'react-color'
+import styled from 'styled-components'
+import { removeSpecialCharacterUploadFile } from 'utils/string'
 
 const AvatarWrapper = styled.div`
   padding: 4px;
@@ -115,22 +117,62 @@ export default class SelectImage extends PureComponent {
     }
   }
 
+  customRequest = async ({
+    action,
+    data,
+    file,
+    filename,
+    headers,
+    onError,
+    onProgress,
+    onSuccess,
+    withCredentials,
+  }) => {
+    // const { onSuccess, onError, file, onProgress } = options
+
+    const fmData = new FormData()
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' },
+      'X-Requested-With': 'XMLHttpRequest',
+    }
+
+    const fileNameWithoutSpecialCharacter = removeSpecialCharacterUploadFile(file.name)
+
+    const fileNameUpload = `${file.uid}-${fileNameWithoutSpecialCharacter}`;
+
+    fmData.append('file', file, fileNameUpload)
+    try {
+      const res = await Axios.post(
+        MediaApi.urlPhotoUploadWithDirectory('icon-station-type'),
+        fmData,
+        config
+      )
+
+      onSuccess({
+        ...res.data,
+      })
+      // console.log('server res: ', res)
+    } catch (err) {
+      // console.log('Eroor: ', err)
+      // const error = new Error('Some error')
+      onError({ err })
+    }
+  }
+
   render() {
     const { t } = this.props.lang
-    const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory(
-      'icon-station-type'
-    )
+
     const me = this
     const props = {
       name: 'file',
-      action: urlPhotoUpload,
+      // action: urlPhotoUpload,
       listType: 'picture',
       headers: {
         authorization: 'authorization-text',
       },
       onSuccess({ url }, file) {
         message.success(
-          `${file.name} ${t('stationAutoManager.uploadFile.success')}`
+          t('stationAutoManager.uploadFile.success')
         )
         me.setState({
           urlIconList: _.union(me.state.urlIconList, [url]),
@@ -138,7 +180,7 @@ export default class SelectImage extends PureComponent {
       },
       onError(error, response, file) {
         message.error(
-          `${file.name} ${t('stationAutoManager.uploadFile.error')}`
+          t('stationAutoManager.uploadFile.error')
         )
       },
     }
@@ -146,7 +188,7 @@ export default class SelectImage extends PureComponent {
     const content = (
       <HeaderWrapper>
         <AvatarWrapper>
-          <Upload {...props}>
+          <Upload {...props} customRequest={this.customRequest}>
             <Avatar
               style={{ backgroundColor: '#87d068' }}
               shape="square"
