@@ -23,7 +23,12 @@ export function removeAccents(language, str) {
     return str
   }
   if (language === 'en') {
-    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    return str
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd')
+      .replace(/Đ/g, 'D')
+      .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   }
   return str
 }
