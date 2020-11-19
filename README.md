@@ -65,3 +65,4 @@ isAdvanced: process.env.isAdvanced,
 defaultPage: process.env.DEFAULT_PAGE || '/',
 NODE_ENV: 'production'
 ```
+
