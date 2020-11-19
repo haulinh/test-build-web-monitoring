@@ -1,6 +1,7 @@
-import React, { Component, Fragment } from 'react'
-import { Form } from 'antd'
+import React, { Component, createRef, Fragment } from 'react'
+import swal from 'sweetalert2'
 import styled from 'styled-components'
+import { Form } from 'antd'
 import { getConfigApi } from 'config'
 import { withRouter } from 'react-router-dom'
 
@@ -67,25 +68,24 @@ const TextError = styled.div`
 export default class PhoneNumberForm extends Component {
   state = { isShowOtpForm: false, isLoading: false }
 
+  otpRef = createRef()
+
   getPhoneNumber = () => {
     const { form } = this.props
     const values = form.getFieldValue(FIELDS.PHONE_NUMBER)
     return (values || {}).phoneNumber
   }
 
-  handleVerifyPhoneNumber = async () => {
-    const phone = this.getPhoneNumber()
-    const result = await verifyPhoneNumber({ phone })
-    return result
-  }
-
   handleGetOtp = async () => {
     const phone = this.getPhoneNumber()
-    const { error, data, message } = await getOTPByPhoneNumber({ phone })
-    return {
-      error: error ? getAuthError(message) : null,
-      otpRemainTime: getRemainTime(data.expired),
+    const result = await getOTPByPhoneNumber({ phone })
+    const { error, data, message } = result
+    if (error) {
+      swal({ title: getAuthError(message), type: 'error' })
+      return
     }
+    const otpRemainTime = getRemainTime(data.expired)
+    this.otpRef.startCountDown(otpRemainTime)
   }
 
   handleVerifyOTP = async () => {
@@ -96,7 +96,8 @@ export default class PhoneNumberForm extends Component {
     const result = await verifyOTPWithPhoneNumber({ otp, phone })
     const { error, message, token } = result
     if (error) {
-      return getAuthError(message)
+      swal({ title: getAuthError(message), type: 'error' })
+      return true
     }
     setAuthToken(token)
     window.location = getConfigApi().defaultPage
@@ -106,22 +107,28 @@ export default class PhoneNumberForm extends Component {
     e.preventDefault()
     this.setState({ isLoading: true })
     try {
-      const { error, message, data } = await this.handleVerifyPhoneNumber()
+      const phone = this.getPhoneNumber()
+      const result = await verifyPhoneNumber({ phone })
+      const { error, message, data } = result
       if (error) {
-        this.setState({ error: getAuthError(message), isLoading: false })
+        this.setState({ isLoading: false })
+        swal({ title: getAuthError(message), type: 'error' })
         return
       }
-      const remainingTime = getRemainTime(data.expired)
-      const isNeedToGetOTP = !data.expired || remainingTime < 0
-      if (isNeedToGetOTP) {
-        this.handleGetOtp()
-      }
 
-      this.setState({
-        isLoading: true,
-        isShowOtpForm: true,
-        otpRemainTime: remainingTime,
-      })
+      this.setState(
+        {
+          isLoading: false,
+          isShowOtpForm: true,
+        },
+        () => {
+          const remainingTime = getRemainTime(data.expired)
+          const isNeedToGetOTP = !data.expired || remainingTime < 0
+          if (isNeedToGetOTP) {
+            this.handleGetOtp()
+          }
+        }
+      )
     } catch (error) {
       this.setState({ isLoading: false })
     }
@@ -138,7 +145,7 @@ export default class PhoneNumberForm extends Component {
       lang: { t },
     } = this.props
 
-    const { error, isLoading, isShowOtpForm, otpRemainTime } = this.state
+    const { error, isLoading, isShowOtpForm } = this.state
     return (
       <Fragment>
         <Form hidden={isShowOtpForm} onSubmit={this.onSubmit}>
@@ -159,7 +166,7 @@ export default class PhoneNumberForm extends Component {
         {isShowOtpForm &&
           form.getFieldDecorator(FIELDS.OTP)(
             <OTPForm
-              otpRemainTime={otpRemainTime}
+              ref={ref => (this.otpRef = ref)}
               phoneNumber={this.getPhoneNumber()}
               onVerifyOTP={this.handleVerifyOTP}
               onRefreshOTP={this.handleGetOtp}

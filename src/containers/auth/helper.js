@@ -36,10 +36,17 @@ export const getRemainTime = timeUTCStr =>
       .format(),
     'seconds'
   )
-  
+
 export const formatDuration = (seconds = 0, format = 'MM:ss') => {
   const s = new Date(1000 * seconds).toISOString()
   if (format === 'MM:ss') return s.substr(14, 5)
   if (format === 'HH:MM:ss') return s.substr(11, 8)
   return ''
 }
+
+export const fakeAPI = (...data) =>
+  new Promise(res => {
+    setTimeout(() => {
+      res(...data)
+    }, 1000)
+  })

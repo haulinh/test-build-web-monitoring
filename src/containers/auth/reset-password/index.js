@@ -1,4 +1,5 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent, Fragment, createRef } from 'react'
+import swal from 'sweetalert2'
 import { Form, Input } from 'antd'
 import styled from 'styled-components'
 import { withRouter } from 'react-router'
@@ -16,12 +17,6 @@ import { requireRule, emailRule } from '../rules'
 const Note = styled.p`
   font-style: italic;
   padding-bottom: 8px;
-`
-const TextError = styled.div`
-  font-weight: 'normal';
-  font-size: '14px';
-  color: #dc4448;
-  margin: 5px 0;
 `
 
 const CustomButton = styled.div`
@@ -44,9 +39,11 @@ const FIELDS = {
 export default class EmailConfirm extends PureComponent {
   state = {
     isLoading: false,
-    isShowOtpConfirm: false,
+    isShowOtpForm: false,
     isShowResetPasswordForm: false,
   }
+
+  otpRef = createRef()
 
   handleGetOtp = async () => {
     try {
@@ -60,22 +57,23 @@ export default class EmailConfirm extends PureComponent {
       const result = await AuthApi.getForgotSendCode(email)
       const { error, message, data = {} } = result
       if (error) {
-        this.setState({ isLoading: false, error: getAuthError(message) })
+        swal({ title: getAuthError(message), type: 'error' })
+        this.setState({ isLoading: false })
         return
       }
 
-      const otpRemainTime = getRemainTime(data.expired) || 30
-      this.setState({
-        otpRemainTime,
-        isLoading: false,
-        isShowOtpConfirm: true,
-      })
-      return {
-        otpRemainTime,
-        error: error ? getAuthError(message) : null,
-      }
+      this.setState(
+        {
+          isLoading: false,
+          isShowOtpForm: true,
+        },
+        () => {
+          const otpRemainTime = getRemainTime(data.expired) || 30
+          this.otpRef.startCountDown(otpRemainTime)
+        }
+      )
     } catch (error) {
-      return null
+      this.setState({ isLoading: false })
     }
   }
 
@@ -88,10 +86,13 @@ export default class EmailConfirm extends PureComponent {
     }
     const result = await AuthApi.postConfirmCode(params)
     const { error, message, data } = result
-    if (error) return getAuthError(message)
+    if (error) {
+      swal({ title: getAuthError(message), type: 'error' })
+      return true
+    }
     this.setState({
       userInfo: data,
-      isShowOtpConfirm: false,
+      isShowOtpForm: false,
       isShowResetPasswordForm: true,
     })
   }
@@ -110,18 +111,16 @@ export default class EmailConfirm extends PureComponent {
     const { history, form } = this.props
     const {
       isLoading,
-      isShowOtpConfirm,
+      isShowOtpForm,
       isShowResetPasswordForm,
-      error,
       userInfo,
-      otpRemainTime,
     } = this.state
 
     return (
       <Fragment>
         <Form
           onSubmit={this.onSubmit}
-          hidden={isShowOtpConfirm || isShowResetPasswordForm}
+          hidden={isShowOtpForm || isShowResetPasswordForm}
         >
           <Heading fontSize={16}>{translate('resetPassword.key')}</Heading>
           {form.getFieldDecorator(FIELDS.CODE)(<Input hidden />)}
@@ -130,7 +129,6 @@ export default class EmailConfirm extends PureComponent {
               rules: [requireRule, emailRule],
             })(<Input autoFocus placeholder="Your email" size="large" />)}
           </Form.Item>
-          {error && <TextError>{error}</TextError>}
           <Note>{translate('resetPassword.key2')}</Note>
           <Button
             block
@@ -145,10 +143,10 @@ export default class EmailConfirm extends PureComponent {
             {translate('global.cancel')}
           </CustomButton>
         </Form>
-        {isShowOtpConfirm && (
+        {isShowOtpForm && (
           <OTPForm
+            ref={ref => (this.otpRef = ref)}
             otpLength={4}
-            otpRemainTime={otpRemainTime}
             onCancel={history.goBack}
             onChange={this.setOTP}
             onVerifyOTP={this.handleVerifyOTP}

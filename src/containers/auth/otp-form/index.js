@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
+import { Form } from 'antd'
 import PropTypes from 'prop-types'
 import OtpInput from 'react-otp-input'
 import styled from 'styled-components'
-import { Form } from 'antd'
 
-import createLang from 'hoc/create-lang'
+import { translate as t } from 'hoc/create-lang'
 
 import Button from 'components/elements/button'
 import { formatDuration } from '../helper'
@@ -48,60 +48,35 @@ const Text = styled.div`
   text-align: center;
   margin-bottom: 12px;
 `
-
-const EVENT_COUNTDOWN = 'event_countdown'
-
-@createLang
+// @createLang
 export default class OTPForm extends Component {
   constructor() {
     super()
     this.state = {
       otp: '',
-      error: '',
       isLoading: false,
-      isValidToRefreshOTP: true,
-      otpRemainTime: null,
       remainingOTPTime: 0,
     }
-    document.addEventListener(EVENT_COUNTDOWN, this.startCountDown)
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.otpRemainTime !== prevState.otpRemainTime) {
-      const remainingOTPTime = nextProps.otpRemainTime
-
-      if (remainingOTPTime > 0) {
-        const event = new CustomEvent(EVENT_COUNTDOWN)
-        document.dispatchEvent(event)
-      }
-
-      return {
-        remainingOTPTime,
-        otpRemainTime: remainingOTPTime,
-      }
-    }
-    return null
   }
 
   componentWillUnmount() {
     clearInterval(this.countDownIntervalID)
-    document.removeEventListener(EVENT_COUNTDOWN, this.startCountDown)
   }
 
-  isExpired = () => this.state.remainingOTPTime <= 0
+  isExpiredOTP = () => this.state.remainingOTPTime <= 0
 
-  startCountDown = () => {
-    this.countDownIntervalID = setInterval(async () => {
-      if (this.isExpired()) {
-        clearInterval(this.countDownIntervalID)
-        this.setState({ isValidToRefreshOTP: true })
-      } else {
-        this.setState(prevState => ({
-          isValidToRefreshOTP: false,
-          remainingOTPTime: prevState.remainingOTPTime - 1,
-        }))
-      }
-    }, 1000)
+  startCountDown = timeCountdown => {
+    this.setState({ remainingOTPTime: timeCountdown }, () => {
+      this.countDownIntervalID = setInterval(async () => {
+        if (this.isExpiredOTP()) {
+          clearInterval(this.countDownIntervalID)
+        } else {
+          this.setState(prevState => ({
+            remainingOTPTime: prevState.remainingOTPTime - 1,
+          }))
+        }
+      }, 1000)
+    })
   }
 
   onChangeOTP = otp => {
@@ -111,45 +86,25 @@ export default class OTPForm extends Component {
   }
 
   onRefreshOTP = async () => {
-    this.setState({ isValidToRefreshOTP: false, remainingOTPTime: null })
+    this.setState({ remainingOTPTime: null })
     const { onRefreshOTP } = this.props
-
-    const result = await onRefreshOTP()
-    this.setState(
-      {
-        error: result.error,
-        remainingOTPTime: result.otpRemainTime,
-      },
-      this.startCountDown
-    )
+    onRefreshOTP()
   }
 
   onSubmit = async e => {
     const { onVerifyOTP } = this.props
     e.preventDefault()
     this.setState({ isLoading: true })
-    const error = await onVerifyOTP()
-    if (error) {
-      this.setState({ error, isLoading: false })
+    const isError = await onVerifyOTP()
+    if (isError) {
+      this.setState({ isLoading: false })
     }
   }
 
   render() {
-    const {
-      email,
-      phoneNumber,
-      otpLength,
-      lang: { t },
-      onCancel,
-    } = this.props
+    const { email, phoneNumber, otpLength, onCancel } = this.props
 
-    const {
-      otp,
-      error,
-      isLoading,
-      remainingOTPTime,
-      isValidToRefreshOTP,
-    } = this.state
+    const { otp, isLoading, remainingOTPTime } = this.state
 
     return (
       <Fragment>
@@ -171,9 +126,8 @@ export default class OTPForm extends Component {
               onChange={this.onChangeOTP}
             />
           </FormBody>
-          {error && <Text color="#DC4448">{error}</Text>}
 
-          {isValidToRefreshOTP ? (
+          {this.isExpiredOTP() ? (
             <CustomButton margin="8px 0 20px" onClick={this.onRefreshOTP}>
               {t('login.form.refreshOtp')}
             </CustomButton>
