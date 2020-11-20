@@ -536,6 +536,7 @@ export default class StationAutoConfigNotification extends React.Component {
       })
       this.refSearchForm.updateUserVersion(selectedUser._id)
       showSuccess(i18n.updateSuccess)
+      this.refSearchForm.getUsers()
     } else if (res.error) {
       if (res.code === 'VersionError') {
         swal({
