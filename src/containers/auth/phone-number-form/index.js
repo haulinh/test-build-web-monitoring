@@ -1,11 +1,11 @@
 import React, { Component, createRef, Fragment } from 'react'
-import swal from 'sweetalert2'
 import styled from 'styled-components'
-import { Form } from 'antd'
+import { Form, notification } from 'antd'
 import { getConfigApi } from 'config'
 import { withRouter } from 'react-router-dom'
 
 import slug from 'constants/slug'
+import Errors from 'constants/errors'
 import createLang from 'hoc/create-lang'
 import { setAuthToken } from 'utils/auth'
 import {
@@ -33,11 +33,7 @@ const FormHeader = styled.div`
   margin-bottom: 24px;
 `
 
-const FormBody = styled.div`
-  > div {
-    margin-bottom: 12px;
-  }
-`
+const FormBody = styled.div``
 
 const PhoneNumber = styled(InputPhoneNumber)`
   .flag-dropdown {
@@ -54,14 +50,6 @@ const ButtonCancel = styled(Button)`
     cursor: pointer;
   }
 `
-
-const TextError = styled.div`
-  font-weight: 'normal';
-  font-size: '14px';
-  color: #dc4448;
-  margin-bottom: 16px;
-`
-
 @createLang
 @withRouter
 @Form.create()
@@ -81,7 +69,7 @@ export default class PhoneNumberForm extends Component {
     const result = await getOTPByPhoneNumber({ phone })
     const { error, data, message } = result
     if (error) {
-      swal({ title: getAuthError(message), type: 'error' })
+      this.handleError(message)
       return
     }
     const otpRemainTime = getRemainTime(data.expired)
@@ -89,18 +77,42 @@ export default class PhoneNumberForm extends Component {
   }
 
   handleVerifyOTP = async () => {
-    const { form } = this.props
+    const { form, history } = this.props
     const phone = this.getPhoneNumber()
     const otp = form.getFieldValue(FIELDS.OTP)
 
     const result = await verifyOTPWithPhoneNumber({ otp, phone })
     const { error, message, token } = result
     if (error) {
-      swal({ title: getAuthError(message), type: 'error' })
-      return true
+      if (message === Errors.ORGANIZATION_EXPIRED) {
+        history.push(`${slug.user.expLicense}?expDate=${result['0'].expDate}`)
+      }
+      return getAuthError(message)
     }
     setAuthToken(token)
     window.location = getConfigApi().defaultPage
+  }
+
+  handleError = errMessage => {
+    let message = getAuthError(errMessage)
+    const setFieldError = (field, error) => {
+      const { form } = this.props
+      form.setFields({
+        [field]: {
+          value: form.getFieldValue(field),
+          errors: [new Error(error)],
+        },
+      })
+    }
+    if ([Errors.PHONE_NOT_EXISTS].includes(errMessage)) {
+      setFieldError(FIELDS.PHONE_NUMBER, message)
+      return
+    }
+
+    notification.error({
+      message,
+      duration: 4,
+    })
   }
 
   onSubmit = async e => {
@@ -112,7 +124,7 @@ export default class PhoneNumberForm extends Component {
       const { error, message, data } = result
       if (error) {
         this.setState({ isLoading: false })
-        swal({ title: getAuthError(message), type: 'error' })
+        this.handleError(message)
         return
       }
 
@@ -127,6 +139,7 @@ export default class PhoneNumberForm extends Component {
           if (isNeedToGetOTP) {
             this.handleGetOtp()
           }
+          if (remainingTime > 0) this.otpRef.startCountDown(remainingTime)
         }
       )
     } catch (error) {
@@ -145,7 +158,7 @@ export default class PhoneNumberForm extends Component {
       lang: { t },
     } = this.props
 
-    const { error, isLoading, isShowOtpForm } = this.state
+    const { isLoading, isShowOtpForm } = this.state
     return (
       <Fragment>
         <Form hidden={isShowOtpForm} onSubmit={this.onSubmit}>
@@ -153,9 +166,12 @@ export default class PhoneNumberForm extends Component {
             <Heading fontSize={16}>{t('login.form.loginWithPhone')}</Heading>
           </FormHeader>
           <FormBody>
-            {form.getFieldDecorator(FIELDS.PHONE_NUMBER)(<PhoneNumber />)}
+            <Form.Item>
+              {form.getFieldDecorator(FIELDS.PHONE_NUMBER)(
+                <PhoneNumber inputProps={{ autoFocus: true }} />
+              )}
+            </Form.Item>
           </FormBody>
-          {error && <TextError>{error}</TextError>}
           <Button isLoading={isLoading} block color="primary">
             {t('login.form.buttonLogin')}
           </Button>

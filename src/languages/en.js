@@ -2094,9 +2094,12 @@ export default {
       codeNotEqual: 'Authentication code is incorrect.',
       organizationNotExist: 'Your organization is not exist.',
       wrongOtp: 'Wrong OTP, please try again!',
-      phoneNotExists: "Phone number isn't exists",
       emailNotExists: "Email isn't exists",
+      phoneNotExists: "Phone number isn't exists",
       otpIncorrect: 'Otp incorrect',
+      otpVerified: 'Otp verified',
+      otpExpired: "Otp expired",
+      notSendOtp: "Not send otp",
     },
   },
   warningLevels: {

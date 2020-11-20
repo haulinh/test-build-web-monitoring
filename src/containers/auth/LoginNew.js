@@ -16,7 +16,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #e5e5e5;
+  background: #f5f6fa;
 `
 
 const Brand = styled.div`
@@ -34,6 +34,7 @@ const Brand = styled.div`
 
 const Form = styled.div`
   width: 510px;
+  height: 383px;
   padding: 24px;
   border-radius: 12px;
   background: #ffffff;
@@ -99,8 +100,12 @@ export default class Auth extends PureComponent {
             Copyright © {new Date().getFullYear()} iLotusLand
           </div>
           <div className="policy">
-            <a href="#privacyPolicy">{t('global.privacyPolicy')}</a>
-            <a href="#termsOfService">{t('global.termsOfService')}</a>
+            <a href="https://ilotusland.com/products/for-environment">
+              {t('global.privacyPolicy')}
+            </a>
+            <a href="https://ilotusland.com/products/for-environment">
+              {t('global.termsOfService')}
+            </a>
           </div>
         </Footer>
       </Container>

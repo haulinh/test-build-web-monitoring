@@ -8,7 +8,7 @@ export default {
     phoneNumber: 'Số điện thoại',
     email: 'Email',
     required: 'Bắt buộc',
-    invalidEmail: 'Email không hợp lệ'
+    invalidEmail: 'Email không hợp lệ',
   },
   errors: {
     forbidden: 'Có lỗi xảy ra',
@@ -2071,7 +2071,7 @@ export default {
       },
       buttonLogin: 'Đăng nhập',
       loginWithEmail: 'Đăng nhập với email',
-      loginWithPhone: 'Đăng nhập với phone number',
+      loginWithPhone: 'Đăng nhập với số điện thoại',
       buttonTwoFactor: 'Xác thực',
       refreshOtp: 'Gửi lại OTP',
       refreshOtpAfter: 'Gửi lại mã OTP sau {{=it.time}}',
@@ -2087,8 +2087,12 @@ export default {
       codeNotEqual: 'Mã xác thực không chính xác',
       organizationNotExist: 'Tổ chức của bạn không tồn tại',
       wrongOtp: 'Otp không chính xác, vui lòng thử lại!',
-      phoneNotExists: 'Số điện thoại không tồn tại',
       emailNotExists: 'Email không tồn tại',
+      phoneNotExists: 'Số điện thoại không tồn tại',
+      otpIncorrect: 'Mã OTP không chính xác',
+      otpVerified: 'Otp đã hết hạn',
+      otpExpired: "Otp đã hết hạn",
+      notSendOtp: "Không gửi được OTP",
     },
   },
   warningLevels: {

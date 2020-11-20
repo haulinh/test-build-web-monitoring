@@ -1,10 +1,10 @@
 import React, { PureComponent, Fragment, createRef } from 'react'
-import swal from 'sweetalert2'
-import { Form, Input } from 'antd'
+import { Form, Input, notification } from 'antd'
 import styled from 'styled-components'
 import { withRouter } from 'react-router'
 
 import AuthApi from 'api/AuthApi'
+import Errors from 'constants/errors'
 import { translate } from 'hoc/create-lang'
 import Button from 'components/elements/button'
 import Heading from 'components/elements/heading'
@@ -57,7 +57,7 @@ export default class EmailConfirm extends PureComponent {
       const result = await AuthApi.getForgotSendCode(email)
       const { error, message, data = {} } = result
       if (error) {
-        swal({ title: getAuthError(message), type: 'error' })
+        this.handleError(message)
         this.setState({ isLoading: false })
         return
       }
@@ -87,13 +87,44 @@ export default class EmailConfirm extends PureComponent {
     const result = await AuthApi.postConfirmCode(params)
     const { error, message, data } = result
     if (error) {
-      swal({ title: getAuthError(message), type: 'error' })
+      this.handleError(message)
       return true
     }
     this.setState({
       userInfo: data,
       isShowOtpForm: false,
       isShowResetPasswordForm: true,
+    })
+  }
+
+  handleError = errMessage => {
+    let message = getAuthError(errMessage)
+    if (
+      [
+        Errors.OTP_EXPIRED,
+        Errors.OTP_INCORRECT,
+        Errors.OTP_VERIFIED,
+        Errors.NOT_SEND_OTP,
+        Errors.EMAIL_NOT_EXISTS,
+        Errors.ACCOUNT_DISABLE,
+        Errors.ACCOUNT_NOT_ACTIVATED,
+        Errors.ACCOUNT_DELETE,
+        Errors.ORGANIZATION_EXPIRED,
+        Errors.ORGANIZATION_NOT_EXIST,
+      ].includes(errMessage)
+    ) {
+      const { form } = this.props
+      form.setFields({
+        [FIELDS.EMAIL]: {
+          value: form.getFieldValue(FIELDS.EMAIL),
+          errors: [new Error(getAuthError(errMessage))],
+        },
+      })
+      return
+    }
+    notification.error({
+      message,
+      duration: 4,
     })
   }
 
