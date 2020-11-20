@@ -134,22 +134,20 @@ export default class MeasuringList extends React.Component {
       lang: { t },
     } = this.props
 
-    try {
-      const { data } = await getLastLog()
-      const isDisable = data.some(item =>
-        item.measuringList.some(measuring => measuring.key === key)
-      )
-      if (isDisable) {
-        Modal.error({
-          title: t('measuringManager.form.error'),
-          content: t('measuringManager.form.errorDeleteMeasuring'),
-        })
-      } else {
-        this.props.onDeleteItem(_id, this.props.fetchData)
-      }
-    } catch (error) {
-      console.log(error)
+
+    const { data } = await getLastLog()
+    const isDisable = data.some(item =>
+      item.measuringList.some(measuring => measuring.key === key)
+    )
+    if (isDisable) {
+      Modal.error({
+        title: t('measuringManager.form.error'),
+        content: t('measuringManager.form.errorDeleteMeasuring'),
+      })
+    } else {
+      this.props.onDeleteItem(_id, this.props.fetchData)
     }
+
 
   }
 

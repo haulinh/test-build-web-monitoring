@@ -2113,7 +2113,8 @@ export default {
     },
     onDelete: {
       errorMessage: {
-        roleUsed: "Role is already in use !!!"
+        roleUsed: "Role is already in use !!!",
+        measuringUsed: "Measuring is already in use !!!",
       },
       success: 'Deleted Successfully',
       qcvn: {
