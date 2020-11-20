@@ -1,33 +1,35 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import queryString from 'query-string'
-import { autobind } from 'core-decorators'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import StationAutoApi from 'api/StationAuto'
+import { Anchor } from 'antd'
 import CategoriesApi from 'api/CategoryApi'
-import Header from 'components/monitoring/head'
-import HeaderFilter from 'components/monitoring/filter'
-import StationTypeList from 'components/monitoring/station-type-group/station-type-list'
-import monitoringFilter from 'constants/monitoringFilter'
+import StationAutoApi from 'api/StationAuto'
 import ListLoaderCp from 'components/content-loader/list-loader'
 import Clearfix from 'components/elements/clearfix'
-import { getMonitoringFilter } from 'utils/localStorage'
-import { replaceVietnameseStr } from 'utils/string'
-import * as _ from 'lodash'
-import HeaderView from '../../../components/monitoring/header-view'
-import styled from 'styled-components'
+import HeaderFilter from 'components/monitoring/filter'
 import {
   GROUP_OPTIONS,
-  ORDER_OPTIONS,
+  ORDER_OPTIONS
 } from 'components/monitoring/filter/options'
-import createContentLoader from 'hoc/content-loader'
-import { translate } from 'hoc/create-lang'
-import { Anchor } from 'antd'
-import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
-import { warningLevels } from 'constants/warningLevels'
-import queryFormDataBrowser from 'hoc/query-formdata-browser'
-import protectRole from 'hoc/protect-role'
+import Header from 'components/monitoring/head'
+import StationTypeList from 'components/monitoring/station-type-group/station-type-list'
+import monitoringFilter from 'constants/monitoringFilter'
 import ROLE from 'constants/role'
+import { getStatusPriority, STATUS_STATION } from 'constants/stationStatus'
+import { warningLevels } from 'constants/warningLevels'
+import { autobind } from 'core-decorators'
+import createContentLoader from 'hoc/content-loader'
+import { removeAccents, translate } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import * as _ from 'lodash'
+import queryString from 'query-string'
+import React from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+import { getMonitoringFilter } from 'utils/localStorage'
+import { replaceVietnameseStr } from 'utils/string'
+import HeaderView from '../../../components/monitoring/header-view'
+
 
 const { Link } = Anchor
 
@@ -49,7 +51,9 @@ export const defaultFilter = {
   stationType: '',
   search: '',
 }
-
+@connect(state => ({
+  language: _.get(state, 'language.locale'),
+}))
 @withRouter
 @queryFormDataBrowser(['submit'])
 @protectRole(ROLE.MONITORING.VIEW)
@@ -227,8 +231,9 @@ export default class MonitoringGeneral extends React.Component {
       // MARK  old:  return _.orderBy(data, [key, 'statusAnalytic'], [asc ? 'asc' : 'desc', 'desc'])
       return _.orderBy(data, ['statusAnalytic'], ['asc'])
     }
+   
     if (key === 'name') {
-      return _.orderBy(data, [item => item.name.toLowerCase()], [asc ? 'asc' : 'desc'])
+      return _.orderBy(data, [item =>  removeAccents(this.props.language, item.name.toLowerCase())], [asc ? 'asc' : 'desc'])
     }
     return _.orderBy(data, [key], [asc ? 'asc' : 'desc'])
   }
