@@ -133,6 +133,10 @@ export default class EmailConfirm extends PureComponent {
     this.handleGetOtp()
   }
 
+  onCancel = () => {
+    this.setState({ isShowOtpForm: false })
+  }
+
   setOTP = code => {
     const { form } = this.props
     form.setFieldsValue({ [FIELDS.CODE]: code })
@@ -178,7 +182,7 @@ export default class EmailConfirm extends PureComponent {
           <OTPForm
             ref={ref => (this.otpRef = ref)}
             otpLength={4}
-            onCancel={history.goBack}
+            onCancel={this.onCancel}
             onChange={this.setOTP}
             onVerifyOTP={this.handleVerifyOTP}
             onRefreshOTP={this.handleGetOtp}

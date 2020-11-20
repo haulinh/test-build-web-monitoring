@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Form } from 'antd'
+import { lowerCase } from 'lodash'
 import PropTypes from 'prop-types'
 import OtpInput from 'react-otp-input'
 import styled from 'styled-components'
@@ -107,17 +108,41 @@ export default class OTPForm extends Component {
     }
   }
 
-  render() {
-    const { email, phoneNumber, otpLength, onCancel } = this.props
+  renderResendButton = () => {
+    const { email } = this.props
+    const { remainingOTPTime } = this.state
+    if (email) return null
 
-    const { otp, error, isLoading, remainingOTPTime } = this.state
+    return this.isExpiredOTP() ? (
+      <CustomButton margin="8px 0 20px" onClick={this.onRefreshOTP}>
+        {t('login.form.refreshOtp')}
+      </CustomButton>
+    ) : (
+      <Text color="#B2B7BC">
+        {t('login.form.refreshOtpAfter', {
+          time: `${
+            remainingOTPTime === null
+              ? '--:--'
+              : formatDuration(remainingOTPTime)
+          }s`,
+        })}
+      </Text>
+    )
+  }
+
+  render() {
+    const { otp, error, isLoading } = this.state
+    const { email, phoneNumber, otpLength, onCancel } = this.props
 
     return (
       <Fragment>
         <Form onSubmit={this.onSubmit}>
           <Text color="#7F8890">
             {t('login.form.inputOtp', {
-              to: email ? t('global.email') : t('global.phoneNumber'),
+              type: email ? 'CODE' : 'OTP',
+              to: lowerCase(
+                email ? t('global.email') : t('global.phoneNumber')
+              ),
             })}
           </Text>
           <Text fontSize="20px" fontWeight="700" color="#20313E">
@@ -133,22 +158,7 @@ export default class OTPForm extends Component {
             />
             {error && <Text color="#f5222d">{error}</Text>}
           </FormBody>
-
-          {this.isExpiredOTP() ? (
-            <CustomButton margin="8px 0 20px" onClick={this.onRefreshOTP}>
-              {t('login.form.refreshOtp')}
-            </CustomButton>
-          ) : (
-            <Text color="#B2B7BC">
-              {t('login.form.refreshOtpAfter', {
-                time: `${
-                  remainingOTPTime === null
-                    ? '--:--'
-                    : formatDuration(remainingOTPTime)
-                }s`,
-              })}
-            </Text>
-          )}
+          {this.renderResendButton()}
           <Button
             disabled={otp.length < otpLength}
             block
@@ -170,6 +180,9 @@ OTPForm.propTypes = {
   otpLength: PropTypes.number,
   phoneNumber: PropTypes.string,
   email: PropTypes.string,
+  onVerifyOTP: PropTypes.func.isRequired,
+  onRefreshOTP: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 }
 
 OTPForm.defaultProps = {
