@@ -167,7 +167,9 @@ export default class PhoneNumberForm extends Component {
           </FormHeader>
           <FormBody>
             <Form.Item>
-              {form.getFieldDecorator(FIELDS.PHONE_NUMBER)(<PhoneNumber />)}
+              {form.getFieldDecorator(FIELDS.PHONE_NUMBER)(
+                <PhoneNumber inputProps={{ autoFocus: true }} />
+              )}
             </Form.Item>
           </FormBody>
           <Button isLoading={isLoading} block color="primary">
