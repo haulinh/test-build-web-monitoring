@@ -1,152 +1,201 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment, createRef } from 'react'
+import { Form, Input, notification } from 'antd'
 import styled from 'styled-components'
-import { reduxForm, Field } from 'redux-form'
-import swal from 'sweetalert2'
 import { withRouter } from 'react-router'
-import { Container } from 'reactstrap'
-import { InputLabel, createValidateComponent } from 'components/elements'
-import Button from 'components/elements/button'
+
 import AuthApi from 'api/AuthApi'
+import Errors from 'constants/errors'
 import { translate } from 'hoc/create-lang'
-import { autobind } from 'core-decorators'
+import Button from 'components/elements/button'
+import Heading from 'components/elements/heading'
+import OTPForm from 'containers/auth/otp-form'
+import { getAuthError, getRemainTime } from 'containers/auth/helper'
 
-const FInput = createValidateComponent(InputLabel)
+import NewPassword from './new-password'
+import { requireRule, emailRule } from '../rules'
 
-const Form = styled.form`
-  width: 450px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 100px;
-  box-shadow: 0 2px 10px 0 rgba(238, 238, 238, 0.5);
-  background-color: #ffffff;
-  padding: 24px 32px;
+const Note = styled.p`
+  font-style: italic;
+  padding-bottom: 8px;
 `
 
-// eslint-disable-next-line
-const FloatRight = styled.div`
-  text-align: right;
-  padding-top: 8px;
+const CustomButton = styled.div`
+  background: #ffffff;
+  color: #2f6bff;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  margin: ${props => props.margin};
 `
 
-// eslint-disable-next-line
-const Header = {
-  Wrapper: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  `,
-  Logo: styled.img`
-    height: 36px;
-    width: auto;
-  `,
+const FIELDS = {
+  EMAIL: 'email',
+  CODE: 'code',
 }
 
-const Clearfix = styled.div`
-  height: 16px;
-`
-
-const bodyStyle = `
-  body { background: linear-gradient(135deg,#1d89ce 0%,#56d2f3 100%) !important; }
-`
-
-function validate(values) {
-  const errors = {}
-  if (values.newPassword === undefined || !values.newPassword) {
-    errors.newPassword = translate('changePassword.form.newPassword.error')
-  }
-
-  if (
-    values.newPasswordConfirmation === undefined ||
-    !values.newPasswordConfirmation
-  ) {
-    errors.newPasswordConfirmation = translate(
-      'changePassword.form.newPasswordConfirmation.error'
-    )
-  }
-  return errors
-}
-
-@reduxForm({
-  form: 'ResetPasswordForm',
-  validate,
-})
 @withRouter
-@autobind
-export default class ResetPassword extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = {
-      userInfo: {},
+@Form.create()
+export default class EmailConfirm extends PureComponent {
+  state = {
+    isLoading: false,
+    isShowOtpForm: false,
+    isShowResetPasswordForm: false,
+  }
+
+  otpRef = createRef()
+
+  handleGetOtp = async () => {
+    try {
+      const { form } = this.props
+      const values = await form.validateFields()
+      if (!values) return
+
+      this.setState({ isLoading: true })
+
+      const email = values[FIELDS.EMAIL]
+      const result = await AuthApi.getForgotSendCode(email)
+      const { error, message, data = {} } = result
+      if (error) {
+        this.handleError(message)
+        this.setState({ isLoading: false })
+        return
+      }
+
+      this.setState(
+        {
+          isLoading: false,
+          isShowOtpForm: true,
+        },
+        () => {
+          const otpRemainTime = getRemainTime(data.expired) || 30
+          this.otpRef.startCountDown(otpRemainTime)
+        }
+      )
+    } catch (error) {
+      this.setState({ isLoading: false })
     }
   }
 
-  async componentWillMount() {
+  handleVerifyOTP = async () => {
+    const { form } = this.props
+    const values = form.getFieldsValue()
+    const params = {
+      email: values[FIELDS.EMAIL],
+      code: values[FIELDS.CODE],
+    }
+    const result = await AuthApi.postConfirmCode(params)
+    const { error, message, data } = result
+    if (error) {
+      this.handleError(message)
+      return true
+    }
     this.setState({
-      userInfo: this.props.history.location.state.data,
+      userInfo: data,
+      isShowOtpForm: false,
+      isShowResetPasswordForm: true,
     })
   }
 
-  async handleLogin(values) {
-    if (values.newPassword !== values.newPasswordConfirmation) {
-      swal({
-        title: translate('changePassword.form.newPasswordConfirmation.error1'),
-        type: 'error',
+  handleError = errMessage => {
+    let message = getAuthError(errMessage)
+    if (
+      [
+        Errors.OTP_EXPIRED,
+        Errors.OTP_INCORRECT,
+        Errors.OTP_VERIFIED,
+        Errors.NOT_SEND_OTP,
+        Errors.EMAIL_NOT_EXISTS,
+        Errors.ACCOUNT_DISABLE,
+        Errors.ACCOUNT_NOT_ACTIVATED,
+        Errors.ACCOUNT_DELETE,
+        Errors.ORGANIZATION_EXPIRED,
+        Errors.ORGANIZATION_NOT_EXIST,
+      ].includes(errMessage)
+    ) {
+      const { form } = this.props
+      form.setFields({
+        [FIELDS.EMAIL]: {
+          value: form.getFieldValue(FIELDS.EMAIL),
+          errors: [new Error(getAuthError(errMessage))],
+        },
       })
-    } else {
-      const data = {
-        _id: this.state.userInfo._id,
-        code: this.state.userInfo.forgotPasswordCode,
-        password: values.newPasswordConfirmation,
-      }
-      const record = await AuthApi.putResetPassword(data._id, data)
-      if (record.error) {
-        swal({
-          type: 'error',
-          title: record.message,
-        })
-      } else {
-        swal({
-          type: 'success',
-          title: translate('changePassword.form.Success'),
-        })
-        this.props.history.push('/')
-      }
+      return
     }
+    notification.error({
+      message,
+      duration: 4,
+    })
+  }
+
+  onSubmit = async e => {
+    e.preventDefault()
+    this.handleGetOtp()
+  }
+
+  onCancel = () => {
+    this.setState({ isShowOtpForm: false })
+  }
+
+  setOTP = code => {
+    const { form } = this.props
+    form.setFieldsValue({ [FIELDS.CODE]: code })
   }
 
   render() {
+    const { history, form } = this.props
+    const {
+      isLoading,
+      isShowOtpForm,
+      isShowResetPasswordForm,
+      userInfo,
+    } = this.state
+
     return (
-      <Container>
-        <style dangerouslySetInnerHTML={{ __html: bodyStyle }} />
-        <Form onSubmit={this.props.handleSubmit(this.handleLogin.bind(this))}>
-          <Field
-            label="New password"
-            type="password"
-            placeholder="New password"
-            name="newPassword"
-            component={FInput}
-            size="small"
-          />
-          <Clearfix />
-          <Field
-            label="Password confirmation"
-            type="password"
-            placeholder="Password confirmation"
-            name="newPasswordConfirmation"
-            component={FInput}
-            size="small"
-          />
-          <Clearfix />
+      <Fragment>
+        <Form
+          onSubmit={this.onSubmit}
+          hidden={isShowOtpForm || isShowResetPasswordForm}
+        >
+          <Heading fontSize={16}>{translate('resetPassword.key')}</Heading>
+          {form.getFieldDecorator(FIELDS.CODE)(<Input hidden />)}
+          <Form.Item>
+            {form.getFieldDecorator(FIELDS.EMAIL, {
+              rules: [requireRule, emailRule],
+            })(<Input autoFocus placeholder="Your email" size="large" />)}
+          </Form.Item>
+          <Note>{translate('resetPassword.key2')}</Note>
           <Button
-            isLoading={this.props.submitting}
-            size="lg"
             block
+            size="small"
             color="primary"
+            isLoading={isLoading}
+            disabled={isLoading}
           >
-            Save password
+            {translate('global.submit')}
           </Button>
+          <CustomButton margin="16px 0 0 0" onClick={history.goBack}>
+            {translate('global.cancel')}
+          </CustomButton>
         </Form>
-      </Container>
+        {isShowOtpForm && (
+          <OTPForm
+            ref={ref => (this.otpRef = ref)}
+            otpLength={4}
+            onCancel={this.onCancel}
+            onChange={this.setOTP}
+            onVerifyOTP={this.handleVerifyOTP}
+            onRefreshOTP={this.handleGetOtp}
+            email={form.getFieldValue(FIELDS.EMAIL)}
+          />
+        )}
+        {isShowResetPasswordForm && (
+          <NewPassword
+            userInfo={userInfo}
+            email={form.getFieldValue(FIELDS.EMAIL)}
+          />
+        )}
+      </Fragment>
     )
   }
 }

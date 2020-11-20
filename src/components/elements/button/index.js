@@ -84,6 +84,13 @@ const ButtonStyle = styled(
    }`
       : ''};
   ${props => getBackgroundColor(props)};
+  cursor: pointer;
+  &:focus {
+    box-shadow: none;
+  }
+  &.disabled {
+    cursor: not-allowed;
+  }
 `
 ButtonStyle.defaultProps = {
   fontSize: 14,

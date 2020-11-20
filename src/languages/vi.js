@@ -1,4 +1,18 @@
 export default {
+  global: {
+    cancel: 'Hủy',
+    verify: 'Xác nhận',
+    submit: 'Xác nhận',
+    privacyPolicy: 'Chính sách bảo mật',
+    termsOfService: 'Điều khoản dịch vụ',
+    phoneNumber: 'Số điện thoại',
+    email: 'Email',
+    required: 'Bắt buộc',
+    invalidEmail: 'Email không hợp lệ',
+  },
+  errors: {
+    forbidden: 'Có lỗi xảy ra',
+  },
   empty: {
     camera: {
       description: 'Không tìm thấy camera',
@@ -1053,7 +1067,7 @@ export default {
     unckecked: 'Bỏ chọn',
   },
   ftpTranfer: {
-    sampleConfiguration: "Mẫu cấu hình",
+    sampleConfiguration: 'Mẫu cấu hình',
     allowFtpTranfer: 'Cho phép truyền',
     stationName: 'Tên trạm',
     measureTranfer: 'Thông số được truyền',
@@ -2045,18 +2059,25 @@ export default {
     form: {
       email: {
         label: 'Địa chỉ Email',
-        placeholder: 'user@example.com',
+        placeholder: 'Email',
       },
       password: {
         label: 'Mật khẩu',
-        placeholder: '********',
+        placeholder: 'Mật khẩu',
       },
       twoFactor: {
         label: 'Mã Xác Thực',
         placeholder: 'xxxx',
       },
       buttonLogin: 'Đăng nhập',
+      loginWithEmail: 'Đăng nhập với email',
+      loginWithPhone: 'Đăng nhập với số điện thoại',
       buttonTwoFactor: 'Xác thực',
+      refreshOtp: 'Gửi lại OTP',
+      refreshOtpAfter: 'Gửi lại mã OTP sau {{=it.time}}',
+      inputOtp: 'Nhập {{=it.type}} đã gửi tới {{=it.to}}',
+      newPassword: 'Mật khẩu mới',
+      confirmNewPassword: 'Nhập lại mật khẩu mới',
     },
     errors: {
       emailOrPasswordIncorrect: 'Emai hoặc mật khẩu không đúng',
@@ -2065,6 +2086,13 @@ export default {
       accountNotActivated: 'Tài khoản chưa được kích hoạt',
       codeNotEqual: 'Mã xác thực không chính xác',
       organizationNotExist: 'Tổ chức của bạn không tồn tại',
+      wrongOtp: 'Otp không chính xác, vui lòng thử lại!',
+      emailNotExists: 'Email không tồn tại',
+      phoneNotExists: 'Số điện thoại không tồn tại',
+      otpIncorrect: 'Mã OTP không chính xác',
+      otpVerified: 'Otp đã hết hạn',
+      otpExpired: 'Otp đã hết hạn',
+      notSendOtp: 'Không gửi được OTP',
     },
   },
   warningLevels: {
@@ -2106,7 +2134,7 @@ export default {
     },
     onDelete: {
       errorMessage: {
-        roleUsed: "Nhóm quyền đang được sử dụng !!!"
+        roleUsed: 'Nhóm quyền đang được sử dụng !!!',
       },
       success: 'Xoá thành công',
       error: 'Xoá thất bại',

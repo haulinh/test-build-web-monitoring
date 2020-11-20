@@ -23,9 +23,6 @@ import AvgSearch from 'containers/search/avg-search'
 import DataSearchFixed from 'containers/search/data-search-fixed'
 
 import Monitoring from 'containers/monitoring'
-import EmailConfirm from 'containers/auth/reset-password/email-confirm'
-import CodeConfirm from 'containers/auth/reset-password/code-confirm'
-import ResetPassword from 'containers/auth/reset-password'
 import UserRoute from 'containers/user'
 import SubscriptionRoute from 'containers/subscription'
 import RoleRoute from 'containers/role'
@@ -70,10 +67,17 @@ export default class RouteDefault extends React.Component {
     return (
       <div>
         <Switch>
-          <Route path={slug.login} component={LoginRoute} />
-          <Route path={slug.password.emailConfirm} component={EmailConfirm} />
-          <Route path={slug.password.codeConfirm} component={CodeConfirm} />
-          <Route path={slug.password.resetPassword} component={ResetPassword} />
+          <Route path={slug.login.loginWithEmail} component={LoginRoute} />
+          <Route
+            path={slug.login.loginWithPhoneNumber}
+            component={LoginRoute}
+          />
+          <Route
+            path={slug.login.loginWithPhoneNumber}
+            component={LoginRoute}
+          />
+          <Route path={slug.password.emailConfirm} component={LoginRoute} />
+          <Route path={slug.password.resetPassword} component={LoginRoute} />
           <Route path={slug.user.accountActive} component={AccountActive} />
           <Route path={slug.user.expLicense} component={PageExpLicenseInfo} />
 
