@@ -17,7 +17,8 @@ export function getConfigApi() {
     trialRegister: c('trial-register'),
     config: c('config'),
 
-    measuring: c('measuring'),
+    // measuring: c('measuring'),
+    measuring: 'http://localhost:5002/measuring',
     stationType: c('station-type'),
     stationAuto: c('station-auto'),
     // stationAuto: "http://localhost:5003/station-auto",

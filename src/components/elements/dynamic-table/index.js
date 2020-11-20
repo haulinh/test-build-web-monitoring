@@ -40,6 +40,7 @@ export default class DynamicTableCustom extends PureComponent {
   }
 
   renderRows() {
+    // console.log('==renderRows===' + this.props.rows)
     const rows = this.props.rows.map(row => ({
       cells: row.map(cell => ({
         ...cell,

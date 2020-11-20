@@ -124,8 +124,8 @@ export default class StationAutoItem extends React.PureComponent {
 
     this.props.history.push(
       slug.dataSearch.base +
-        '?formData=' +
-        encodeURIComponent(JSON.stringify(formSearch))
+      '?formData=' +
+      encodeURIComponent(JSON.stringify(formSearch))
     )
   }
 
@@ -134,7 +134,7 @@ export default class StationAutoItem extends React.PureComponent {
     if (!lastLog) return
     let measuringLogs = lastLog.measuringLogs
     if (!measuringLogs) measuringLogs = {}
-    measuringList.sort(function(a, b) {
+    measuringList.sort(function (a, b) {
       return a.numericalOrder - b.numericalOrder
     })
 
