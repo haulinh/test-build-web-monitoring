@@ -195,44 +195,52 @@ export default class ImageMoreInfo extends React.Component {
   }) => {
     // console.log('DEBUG filename', file.name)
     // console.log('DEBUG file type', file.type)
-    const databaseName = getDatabaseName(
-      this.props.userInfo.organization.databaseInfo.name
-    )
 
-    const generatePutUrl = MediaApi.generatePutUrl(databaseName)
-    
-
-    const fileNameWithoutSpecialCharacter = removeSpecialCharacterUploadFile(file.name)
-
-    const fileNameUpload = `${file.uid}-${fileNameWithoutSpecialCharacter}`;
-
-    const options = {
-      params: {
-        prefix: `${this.props.stationKey}/${PATH_FOLDER}/${fileNameUpload}`,
-        ContentType: file.type,
-      },
-      headers: {
-        'Content-Type': file.type,
-      },
+    if (file.type === 'image/jpeg' || file.type === 'image/png') {
+      const databaseName = getDatabaseName(
+        this.props.userInfo.organization.databaseInfo.name
+      )
+  
+      const generatePutUrl = MediaApi.generatePutUrl(databaseName)
+      
+  
+      const fileNameWithoutSpecialCharacter = removeSpecialCharacterUploadFile(file.name)
+  
+      const fileNameUpload = `${file.uid}-${fileNameWithoutSpecialCharacter}`;
+  
+      const options = {
+        params: {
+          prefix: `${this.props.stationKey}/${PATH_FOLDER}/${fileNameUpload}`,
+          ContentType: file.type,
+        },
+        headers: {
+          'Content-Type': file.type,
+        },
+      }
+  
+      axios.get(generatePutUrl, options).then(res => {
+        const { data: putURL } = res
+        axios
+          .put(putURL, file, {
+            headers: {
+              'Content-Type': file.type,
+            },
+          })
+          .then(res => {
+            onSuccess(res, file)
+            this.fetchData()
+          })
+          .catch(err => {
+            onError()
+            console.log('err', err)
+          })
+      })
+    } else {
+      swal({
+        title: translate('profileUser.imageUpload.error'),
+        type: 'error',
+      })
     }
-
-    axios.get(generatePutUrl, options).then(res => {
-      const { data: putURL } = res
-      axios
-        .put(putURL, file, {
-          headers: {
-            'Content-Type': file.type,
-          },
-        })
-        .then(res => {
-          onSuccess(res, file)
-          this.fetchData()
-        })
-        .catch(err => {
-          onError()
-          console.log('err', err)
-        })
-    })
   }
 
   renderHeader = () => (
@@ -246,7 +254,7 @@ export default class ImageMoreInfo extends React.Component {
       <Upload
         multiple
         showUploadList={false}
-        accept=".jpg, .png, .svg, jpeg"
+        accept=".jpg, .png"
         {...uploadProps}
         customRequest={this.customRequest}
       >
