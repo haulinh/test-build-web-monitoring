@@ -2075,7 +2075,7 @@ export default {
       buttonTwoFactor: 'Xác thực',
       refreshOtp: 'Gửi lại OTP',
       refreshOtpAfter: 'Gửi lại mã OTP sau {{=it.time}}',
-      inputOtp: 'Nhập OTP đã gửi tới {{=it.to}}',
+      inputOtp: 'Nhập {{=it.type}} đã gửi tới {{=it.to}}',
       newPassword: 'Mật khẩu mới',
       confirmNewPassword: 'Nhập lại mật khẩu mới',
     },

@@ -2082,7 +2082,7 @@ export default {
       buttonTwoFactor: 'Verify',
       refreshOtp: 'Refresh OTP',
       refreshOtpAfter: 'Refresh OTP after {{=it.time}}',
-      inputOtp: 'Input OTP sent to {{=it.to}}',
+      inputOtp: 'Input {{=it.type}}  sent to {{=it.to}}',
       newPassword: 'New password',
       confirmNewPassword: 'Confirm new password',
     },
