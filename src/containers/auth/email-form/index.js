@@ -3,7 +3,7 @@ import { get } from 'lodash'
 import swal from 'sweetalert2'
 import styled from 'styled-components'
 import { getConfigApi } from 'config'
-import { Divider, Form, Input } from 'antd'
+import { Divider, Form, Input, notification } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 
 import slug from 'constants/slug'
@@ -93,11 +93,33 @@ export default class EmailForm extends Component {
     }
   }
 
-  handleError(errMessage) {
-    let title = getAuthError(errMessage)
-    swal({
-      title,
-      type: 'error',
+  handleError = errMessage => {
+    let message = getAuthError(errMessage)
+    if (
+      [
+        Errors.USER_PASSWORD_INCORRECT,
+        Errors.EMAIL_NOT_EXISTS,
+        Errors.ACCOUNT_DISABLE,
+        Errors.ACCOUNT_NOT_ACTIVATED,
+        Errors.ACCOUNT_DELETE,
+      ].includes(errMessage)
+    ) {
+      const { form } = this.props
+      form.setFields({
+        [FIELDS.PASSWORD]: {
+          value: form.getFieldValue(FIELDS.PASSWORD),
+          errors: [new Error(getAuthError(errMessage))],
+        },
+        [FIELDS.EMAIL]: {
+          value: form.getFieldValue(FIELDS.EMAIL),
+          errors: [new Error()],
+        },
+      })
+      return
+    }
+    notification.error({
+      message,
+      duration: 4,
     })
   }
 

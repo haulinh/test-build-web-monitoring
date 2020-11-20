@@ -15,12 +15,14 @@ const FormBody = styled.div`
     flex: 6;
     > div {
       flex: 1;
+      justify-content: center;
       input {
         width: 45px !important;
         height: 55px;
         font-size: 20px;
         background: #f0f0f0;
         border: 1px solid #e4e4e4;
+        border-radius: 6px;
         caret-color: #2f6bff;
         &:focus {
           background: #eef3ff;
@@ -48,15 +50,11 @@ const Text = styled.div`
   text-align: center;
   margin-bottom: 12px;
 `
-// @createLang
 export default class OTPForm extends Component {
-  constructor() {
-    super()
-    this.state = {
-      otp: '',
-      isLoading: false,
-      remainingOTPTime: 0,
-    }
+  state = {
+    otp: '',
+    isLoading: false,
+    remainingOTPTime: 0,
   }
 
   componentWillUnmount() {
@@ -80,31 +78,39 @@ export default class OTPForm extends Component {
   }
 
   onChangeOTP = otp => {
-    const { onChange } = this.props
+    const { onChange, otpLength } = this.props
     this.setState({ otp })
     onChange(otp)
+    if (otp && otp.length === otpLength) {
+      this.handleVerifyOTP()
+    }
   }
 
   onRefreshOTP = async () => {
-    this.setState({ remainingOTPTime: null })
     const { onRefreshOTP } = this.props
-    onRefreshOTP()
+    this.setState({ remainingOTPTime: null, otp: '' }, onRefreshOTP)
   }
 
   onSubmit = async e => {
-    const { onVerifyOTP } = this.props
     e.preventDefault()
+    this.handleVerifyOTP()
+  }
+
+  handleVerifyOTP = async () => {
+    const { isLoading } = this.state
+    const { onVerifyOTP } = this.props
+    if (isLoading) return
     this.setState({ isLoading: true })
-    const isError = await onVerifyOTP()
-    if (isError) {
-      this.setState({ isLoading: false })
+    const error = await onVerifyOTP()
+    if (error) {
+      this.setState({ isLoading: false, error })
     }
   }
 
   render() {
     const { email, phoneNumber, otpLength, onCancel } = this.props
 
-    const { otp, isLoading, remainingOTPTime } = this.state
+    const { otp, error, isLoading, remainingOTPTime } = this.state
 
     return (
       <Fragment>
@@ -125,6 +131,7 @@ export default class OTPForm extends Component {
               shouldAutoFocus={true}
               onChange={this.onChangeOTP}
             />
+            {error && <Text color="#f5222d">{error}</Text>}
           </FormBody>
 
           {this.isExpiredOTP() ? (
