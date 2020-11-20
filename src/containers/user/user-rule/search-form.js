@@ -58,6 +58,7 @@ export default class UserSearchForm extends React.PureComponent {
 
   render() {
     const { getFieldDecorator } = this.props.form
+    console.log(this.state.dataSourceRoles, "---dataSourceRoles--")
     return (
       <Row type="flex" gutter={100} justify="space-around">
         <Col span={12}>
