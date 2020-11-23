@@ -139,7 +139,8 @@ export default class PhoneNumberForm extends Component {
         },
         () => {
           const remainingTime = getRemainTime(data.expired)
-          const isNeedToGetOTP = !data.expired || remainingTime < 0
+          const isNeedToGetOTP =
+            data.isVerified || !data.expired || remainingTime < 0
           if (isNeedToGetOTP) {
             this.handleGetOtp()
           }
@@ -152,8 +153,7 @@ export default class PhoneNumberForm extends Component {
   }
 
   goBack = () => {
-    const { history } = this.props
-    history.push(slug.login.loginWithEmail)
+    this.setState({ isShowOtpForm: false })
   }
 
   render() {
