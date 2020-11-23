@@ -3,7 +3,6 @@ import { autobind } from 'core-decorators'
 import { Modal, message } from 'antd'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
-import Err from 'constants/errors'
 
 const i18n = {
   cancelText: translate('addon.cancel'),
