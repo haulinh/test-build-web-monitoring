@@ -133,6 +133,8 @@ export default class MeasuringList extends React.Component {
     const {
       lang: { t },
     } = this.props
+
+
     const { data } = await getLastLog()
     const isDisable = data.some(item =>
       item.measuringList.some(measuring => measuring.key === key)
@@ -145,6 +147,8 @@ export default class MeasuringList extends React.Component {
     } else {
       this.props.onDeleteItem(_id, this.props.fetchData)
     }
+
+
   }
 
   renderSearchForm() {

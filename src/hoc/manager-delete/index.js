@@ -43,11 +43,14 @@ const createManagerDelete = ({ apiDelete }) => Component => {
             } catch (error) {
               const data = _.get(error, 'response.data', {})
               if (data.code === 'ROLE_IN_USE') {
-                console.log(Err)
                 message.error(translate('addon.onDelete.errorMessage.roleUsed'))
-              } else {
+              } else if (data.message === 'MEASURING_USED') {
+                message.error(translate('addon.onDelete.errorMessage.measuringUsed'))
+              }
+              else {
                 message.error(translate('addon.onDelete.error'))
               }
+
               resolve()
             }
 

@@ -2134,7 +2134,8 @@ export default {
     },
     onDelete: {
       errorMessage: {
-        roleUsed: 'Nhóm quyền đang được sử dụng !!!',
+        roleUsed: "Nhóm quyền đang được sử dụng !!!",
+        measuringUsed: "Chỉ tiêu đang được sử dụng !!!",
       },
       success: 'Xoá thành công',
       error: 'Xoá thất bại',
