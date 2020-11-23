@@ -103,7 +103,7 @@ export default class DefaultCell extends React.Component {
   render() {
     // const { isHoverOnCell, isHoverOnIconRead } = this.state
     const { icon, content, data } = this.props
-    const { receivedAt, _id } = data
+    const { rawAt, _id } = data
     // const _icon = `${getConfigApi().media}/${icon}` // Qui bỏ dùng anh phát vì khong dùng
     return (
       <Row
@@ -161,7 +161,7 @@ export default class DefaultCell extends React.Component {
                     fontSize: 12,
                   }}
                 >
-                  {moment(receivedAt)
+                  {moment(rawAt)
                     .locale(this.props.locale)
                     .format('LLL')}
                 </Col>
@@ -209,28 +209,28 @@ export default class DefaultCell extends React.Component {
                   />
                 </Tooltip>
               ) : (
-                <Tooltip placement="right" title={i18n.tickUnRead}>
-                  <div
-                    onMouseEnter={() =>
-                      this.setState({ isHoverOnIconRead: true })
-                    }
-                    onMouseLeave={() =>
-                      this.setState({ isHoverOnIconRead: false })
-                    }
-                    onClick={() => this._handleUpdateNotReadOne(_id)}
-                    style={{
-                      borderWidth: '4px',
-                      borderStyle: 'solid',
-                      width: '16px',
-                      height: '16px',
-                      borderRadius: 16,
-                      backgroundColor: this.getNotificationColorForIcon(),
+                  <Tooltip placement="right" title={i18n.tickUnRead}>
+                    <div
+                      onMouseEnter={() =>
+                        this.setState({ isHoverOnIconRead: true })
+                      }
+                      onMouseLeave={() =>
+                        this.setState({ isHoverOnIconRead: false })
+                      }
+                      onClick={() => this._handleUpdateNotReadOne(_id)}
+                      style={{
+                        borderWidth: '4px',
+                        borderStyle: 'solid',
+                        width: '16px',
+                        height: '16px',
+                        borderRadius: 16,
+                        backgroundColor: this.getNotificationColorForIcon(),
 
-                      borderColor: '#ebecf0',
-                    }}
-                  />
-                </Tooltip>
-              )}
+                        borderColor: '#ebecf0',
+                      }}
+                    />
+                  </Tooltip>
+                )}
             </Col>
           </Row>
         </Col>
