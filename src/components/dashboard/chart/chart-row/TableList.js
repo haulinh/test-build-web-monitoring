@@ -1,21 +1,19 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import { Icon, Tooltip } from 'antd'
 import {
-  STATUS_OPTIONS,
-  STATUS_STATION,
-  getStatusPriority,
+  getStatusPriority, STATUS_OPTIONS,
+  STATUS_STATION
 } from 'constants/stationStatus'
-import { translate, removeAccents } from 'hoc/create-lang'
 import {
   // warningLevelsNumber,
-  warningLevels,
-  // colorLevels
+  warningLevels
 } from 'constants/warningLevels'
-import { Tooltip, Icon } from 'antd'
+import { removeAccents, removeAccentsSort, translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
-import { COLOR } from 'themes/color'
+import PropTypes from 'prop-types'
+import React from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { COLOR } from 'themes/color'
 
 const Status = styled.div`
   width: 16px;
@@ -206,7 +204,7 @@ export default class TableListCustom extends React.PureComponent {
     if (key === 'name') {
       return _.orderBy(
         data,
-        [item => removeAccents(this.props.language, item.name.toLowerCase())],
+        [item => removeAccentsSort(item.name.toLowerCase())],
         [asc ? FILTER_TYPE.desc : FILTER_TYPE.asc]
       )
     }

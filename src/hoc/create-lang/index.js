@@ -17,6 +17,14 @@ export const langPropTypes = PropTypes.shape({
   changeLanguage: PropTypes.func,
 })
 
+export const normalizeString = str => {
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D')
+}
+
 // NOTE apply ES6
 export function removeAccents(language, str) {
   if (!str) {
@@ -30,6 +38,13 @@ export function removeAccents(language, str) {
       .replace(/Đ/g, 'D')
   }
   return str
+}
+
+export function removeAccentsSort(str) {
+  if (!str) {
+    return str
+  }
+  return normalizeString(str)
 }
 
 export function translate(key, params = {}, isParse = true) {
