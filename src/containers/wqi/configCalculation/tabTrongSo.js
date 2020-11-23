@@ -21,7 +21,9 @@ const i18n = {
   submit: translate('addon.save'),
   warning: translate('addon.warning'),
   refresh: translate('addon.refresh'),
+  yes: translate('add.yes'),
   cancel: translate('addon.cancel'),
+  confirmMsgDelete: translate('confirm.msg.delete'),
   updateSuccess: translate('addon.onSave.update.success'),
   updateError: translate('addon.onSave.update.error'),
 
