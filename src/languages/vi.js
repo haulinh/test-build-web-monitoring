@@ -116,7 +116,7 @@ export default {
     lossAt: 'Mất kết nối lúc',
     notInUse: 'Chưa sử dụng',
     deviceStatus: {
-      dataloss: 'đang mất tín hiệu',
+      dataloss: 'Đang mất tín hiệu',
       sensorError: 'Lỗi thiết bị',
       maintenance: 'Hiệu chuẩn',
       sensorNormal: 'Đang đo',
