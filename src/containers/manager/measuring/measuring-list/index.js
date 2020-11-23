@@ -1,4 +1,4 @@
-import { Button, Divider, Icon, Modal } from 'antd'
+import { Button, Divider, Icon, message } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import DynamicTable from 'components/elements/dynamic-table'
 import ROLE from 'constants/role'
@@ -140,7 +140,7 @@ export default class MeasuringList extends React.Component {
       item.measuringList.some(measuring => measuring.key === key)
     )
     if (isDisable) {
-      Modal.error({
+      message.error({
         title: t('measuringManager.form.error'),
         content: t('measuringManager.form.errorDeleteMeasuring'),
       })
