@@ -33,7 +33,11 @@ const FormHeader = styled.div`
   margin-bottom: 24px;
 `
 
-const FormBody = styled.div``
+const FormBody = styled.div`
+  .ant-form-item-control {
+    line-height: 0;
+  }
+`
 
 const PhoneNumber = styled(InputPhoneNumber)`
   .flag-dropdown {
