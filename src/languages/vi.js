@@ -1929,7 +1929,7 @@ export default {
     text3: 'Email',
   },
   profileUser: {
-    title: 'người dùng',
+    title: 'Người dùng',
     success: 'Thay đổi thông tin thành công',
     infoLicense: 'Thông tin gói',
     viewProfile: 'Thông tin cá nhân',
