@@ -525,7 +525,7 @@ export default class SamplingTab extends React.Component {
             wrapperCol={{ span: 24 }}
           >
             <Row gutter={16}>
-              <Col span={11}>
+              <Col span={10}>
                 <FormItem style={{ width: '100%' }} label={i18n.totalBottles}>
                   <InputNumber
                     disabled
@@ -534,7 +534,7 @@ export default class SamplingTab extends React.Component {
                   />
                 </FormItem>
               </Col>
-              <Col span={11}>
+              <Col span={10}>
                 <FormItem style={{ width: '100%' }} label={i18n.sampledBottles}>
                   <InputNumber
                     value={this.state.sampledBottles}
@@ -543,7 +543,7 @@ export default class SamplingTab extends React.Component {
                   />
                 </FormItem>
               </Col>
-              <Col span={2} style={{ textAlign: 'center' }}>
+              <Col span={4} style={{ textAlign: 'center' }}>
                 <FormItem label="&nbsp;">
                   <Button
                     block
