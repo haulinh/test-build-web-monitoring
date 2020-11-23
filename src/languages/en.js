@@ -2141,8 +2141,11 @@ export default {
     },
     onDelete: {
       errorMessage: {
-        roleUsed: "Role is already in use !!!",
-        measuringUsed: "Measuring is already in use !!!",
+        roleUsed: "Role is already in use !",
+        measuringUsed: "Measuring is already in use !",
+        measuringUsedWqi: "Measuring is already used to calculate AQI !",
+        measuringUsedAqi: "Measuring is already used to calculate WQI !",
+        measuringUsedQcvn: "Measuring is already used in QCVN configuration !",
       },
       success: 'Deleted Successfully',
       qcvn: {

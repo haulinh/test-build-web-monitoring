@@ -3,7 +3,6 @@ import { autobind } from 'core-decorators'
 import { Modal, message } from 'antd'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
-import Err from 'constants/errors'
 
 const i18n = {
   cancelText: translate('addon.cancel'),
@@ -46,6 +45,15 @@ const createManagerDelete = ({ apiDelete }) => Component => {
                 message.error(translate('addon.onDelete.errorMessage.roleUsed'))
               } else if (data.message === 'MEASURING_USED') {
                 message.error(translate('addon.onDelete.errorMessage.measuringUsed'))
+              }
+              else if (data.message === 'MEASURING_USED_AQI') {
+                message.error(translate('addon.onDelete.errorMessage.measuringUsedAqi'))
+              }
+              else if (data.message === 'MEASURING_USED_WQI') {
+                message.error(translate('addon.onDelete.errorMessage.measuringUsedWqi'))
+              }
+              else if (data.message === 'MEASURING_USED_QCVN') {
+                message.error(translate('addon.onDelete.errorMessage.measuringUsedQcvn'))
               }
               else {
                 message.error(translate('addon.onDelete.error'))
