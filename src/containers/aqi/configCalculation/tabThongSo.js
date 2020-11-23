@@ -23,7 +23,9 @@ const i18n = {
   submit: translate('addon.save'),
   warning: translate('addon.warning'),
   refresh: translate('addon.refresh'),
+  yes: translate('add.yes'),
   cancel: translate('addon.cancel'),
+  confirmMsgDelete: translate('confirm.msg.delete'),
   updateSuccess: translate('addon.onSave.update.success'),
   updateError: translate('addon.onSave.update.error'),
 
@@ -240,11 +242,11 @@ export default class TabThongSo extends React.Component {
       render: (text, record, index) => {
         return (
           <Popconfirm
-            title="Are you sure delete this?"
             onConfirm={this.delete.bind(this, record.key)}
             // onCancel={cancel}
-            okText="Yes"
-            cancelText="No"
+            title={i18n.confirmMsgDelete}
+            okText={i18n.yes}
+            cancelText={i18n.cancel}
             placement="left"
           >
             <Icon
