@@ -2134,8 +2134,11 @@ export default {
     },
     onDelete: {
       errorMessage: {
-        roleUsed: "Nhóm quyền đang được sử dụng !!!",
-        measuringUsed: "Chỉ tiêu đang được sử dụng !!!",
+        roleUsed: "Nhóm quyền đang được sử dụng !",
+        measuringUsed: "Chỉ tiêu đang được sử dụng !",
+        measuringUsedWqi: "Chỉ tiêu đang được sử dụng để tính toán WQI !",
+        measuringUsedAqi: "Chỉ tiêu đang được sử dụng để tính toán AQI !",
+        measuringUsedQcvn: "Chỉ tiêu đang được sử dụng trong cấu hình QCVN !",
       },
       success: 'Xoá thành công',
       error: 'Xoá thất bại',
