@@ -1,39 +1,39 @@
-import React from 'react'
+import animateScrollTo from 'animated-scroll-to'
 import {
-  Form,
-  Input,
   Button,
-  Row,
   Col,
-  Select,
+
+  // Radio,
+  // Checkbox,
+  Collapse,
   // Icon,
   // Upload,
   // Modal,
   DatePicker,
+  Form,
+  Input,
   InputNumber,
-  // Radio,
-  // Checkbox,
-  Collapse,
+  message,
+  Row,
+  Select,
 } from 'antd'
-import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
-// import { mapPropsToFields } from 'utils/form'
-import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
-
 import CategoryApi from 'api/CategoryApi'
-import SelectStationType from 'components/elements/select-station-type'
+import InputNumberCell from 'components/elements/input-number-cell'
 import SelectProvice from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
-import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
+import SelectStationType from 'components/elements/select-station-type'
+import { autobind } from 'core-decorators'
+import _, { get, omit } from 'lodash'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import React from 'react'
+// import { mapPropsToFields } from 'utils/form'
+import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
+import styled from 'styled-components'
 // import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
+import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
 import MeasuringTable from '../station-auto-formTable/'
-import InputNumberCell from 'components/elements/input-number-cell'
-import moment from 'moment'
-import { get, omit } from 'lodash'
-import animateScrollTo from 'animated-scroll-to'
-import styled from 'styled-components'
-import _ from 'lodash'
 
 const FormItem = Form.Item
 const { TextArea } = Input
@@ -278,12 +278,28 @@ export default class StationAutoForm extends React.PureComponent {
         order: '',
         lostConnection: this._transformLostConnectionData(values),
       }
-
+      const { t } = this.props.lang
       // console.log(data.measuringList, '---data---')
       // console.log(data, '---data---')
+      const isDisableSave = data.measuringList.some(measuring => {
+        const { minLimit, maxLimit, minTend, maxTend } = measuring
+        if (maxLimit && maxTend) {
+          if (measuring.maxTend >= measuring.maxLimit) {
+            message.error(t('stationAutoManager.form.errorMaxTend'))
+            return true
+          }
+        }
+        if (minTend && minLimit) {
+          if (measuring.minTend <= measuring.minLimit) {
+            message.error(t('stationAutoManager.form.errorMinTend'))
+            return true
+          }
+        }
+        return false
+      })
 
       // Callback submit form Container Component
-      if (this.props.onSubmit) {
+      if (!isDisableSave && this.props.onSubmit) {
         this.props.onSubmit(data)
       }
     })

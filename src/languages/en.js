@@ -1397,6 +1397,8 @@ export default {
         label: 'Order',
         placeholder: 'Order',
       },
+      errorMaxTend: "Tend To Exceed Max Limit Must Be Less Than Exceeded Max Limit",
+      errorMinTend: "Tend To Exceed Min Limit Must Be Larger Than Exceeded Min Limit"
     },
     range: {
       label: 'Station Range',
