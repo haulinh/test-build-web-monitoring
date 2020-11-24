@@ -3,8 +3,8 @@ import { translate } from 'hoc/create-lang'
 export default {
   dashboard: '/',
   login: {
-    loginWithEmail:  '/login', 
-    loginWithPhoneNumber:  '/login/phone-number',
+    loginWithEmail: '/login',
+    loginWithPhoneNumber: '/login/phone-number',
   },
   controlStation: {
     base: '/control-station',
@@ -234,6 +234,9 @@ export default {
     incidents: '/apps/incidents',
     grafana: '/apps/grafana',
   },
+  config: {
+    service: '/config/services',
+  },
 }
 
 export const MENU_GROUP = {
@@ -353,6 +356,7 @@ export const MENU_NAME = {
     role: translate('menuApp.config.role'),
     user: translate('menuApp.config.user'),
     dataLogger: translate('menuApp.config.dataLogger'),
+    service: translate('menuApp.config.service'),
   },
 }
 

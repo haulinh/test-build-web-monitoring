@@ -182,6 +182,21 @@ export default {
       {/* NOTE  NHÓM QUYỀN */}
       {protectRole(ROLE.ROLE.VIEW)(
         <Menu.Item
+          key={slug.config.service}
+          // key={slug.role.base}
+          onClick={() => {
+            props.selectMenu(slug.config.service)
+          }}
+        >
+          <Tooltip placement="right" title={TOOLTIP_MENU.config.role}>
+            <Link to={slug.config.service}>Cấu hình dịch vụ</Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
+
+      {/* NOTE  NHÓM QUYỀN */}
+      {protectRole(ROLE.ROLE.VIEW)(
+        <Menu.Item
           key="/role"
           // key={slug.role.base}
           onClick={() => {

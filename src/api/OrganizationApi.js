@@ -48,6 +48,11 @@ export function updateConfigNotify(_id, data) {
   return putFetch(url, data)
 }
 
+export function updateNotifyChannel(organizationId, data) {
+  let url = getConfigApi().organization + `/updateNotifyChannel/${organizationId}`
+  return putFetch(url, data)
+}
+
 export default {
   getSubscription,
   updateOrganizationNameLogo,
@@ -58,4 +63,5 @@ export default {
   deleteFilter,
   getConfigNotify,
   updateConfigNotify,
+  updateNotifyChannel,
 }
