@@ -1,24 +1,29 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Row, Checkbox, Button, message } from 'antd'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import _ from 'lodash'
-import swal from 'sweetalert2'
-import Clearfix from 'components/elements/clearfix'
-
+import { Button, Checkbox, message, Row } from 'antd'
+import StationAutoApi from 'api/StationAuto'
 // import AuthAPI from 'api/AuthApi'
 import { updateRole_v1 } from 'api/UserApi'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-// import protectRole from 'hoc/protect-role'
-import { translate } from 'hoc/create-lang'
-import StationAutoSearchForm from './search-form'
-import { connectAutoDispatch } from 'redux/connect'
-import Breadcrumb from '../breadcrumb'
+import Clearfix from 'components/elements/clearfix'
+import DynamicTable from 'components/elements/dynamic-table'
 // import ROLE from 'constants/role'
 import { STATION_AUTO_OPTIONS } from 'constants/labels'
+import ROLE from 'constants/role'
+import { autobind } from 'core-decorators'
+// import protectRole from 'hoc/protect-role'
+import { translate } from 'hoc/create-lang'
+import createManagerDelete from 'hoc/manager-delete'
+import createManagerList from 'hoc/manager-list'
+import protectRole from 'hoc/protect-role'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import _ from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { connectAutoDispatch } from 'redux/connect'
+import styled from 'styled-components'
+import swal from 'sweetalert2'
+import Breadcrumb from '../breadcrumb'
+import StationAutoSearchForm from './search-form'
 
-import DynamicTable from 'components/elements/dynamic-table'
+
 
 const i18n = {
   breadCrumb: translate('configStation.breadCrumb'),
@@ -47,6 +52,13 @@ const Span = styled.span`
   role: state.auth.userInfo.role,
   userOptions: state.auth.userInfo.stationAutos,
 }))
+@protectRole(ROLE.CAU_HINH_GUI_CANH_BAO.VIEW)
+@createManagerList({
+  apiList: StationAutoApi.getStationAutos,
+})
+@createManagerDelete({
+  apiDelete: StationAutoApi.removeStationAuto,
+})
 @autobind
 export default class StationAutoConfigNotification extends React.Component {
   static propTypes = {

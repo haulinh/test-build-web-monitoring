@@ -52,7 +52,7 @@ export default class UserDropdown extends React.PureComponent {
     this.props.history.push(slug.user.security)
   }
   handleConfigStation() {
-    this.props.history.push(slug.stationAuto.configSendNotification.base)
+    this.props.history.push(slug.user.configStation)
   }
 
   render() {
