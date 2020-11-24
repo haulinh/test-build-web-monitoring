@@ -1391,6 +1391,8 @@ export default {
         label: 'Order',
         placeholder: 'Order',
       },
+      errorMaxTend: "Giới hạn chuẩn bị vượt ngưỡng tối đa phải nhỏ hơn giới hạn vượt ngưỡng tối đa",
+      errorMinTend: "Giới hạn chuẩn bị vượt ngưỡng tối thiểu phải lớn hơn giới hạn vượt ngưỡng tối thiếu"
     },
     range: {
       label: 'Dải đo',
