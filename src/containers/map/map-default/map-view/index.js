@@ -121,7 +121,7 @@ class CustomGoogleMap extends PureComponent {
             averageCenter
             enableRetinaIcons
             gridSize={70}
-            maxZoom={11}
+            // maxZoom={11}
           >
             {this.props.stationAutoMarker.map((item, index) => {
               if (item.visible) {
