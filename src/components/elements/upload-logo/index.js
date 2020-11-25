@@ -1,13 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
-import Label from '../label'
-import swal from 'sweetalert2'
-import { autobind } from 'core-decorators'
 import { message, Upload } from 'antd'
 import MediaApi from 'api/MediaApi'
+import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
-import axios from 'axios'
-import { isContainSpecialCharacter } from '../../../utils/string'
+import React from 'react'
+import styled from 'styled-components'
+import swal from 'sweetalert2'
+import { isContainSpecialCharacter } from 'utils/string'
+import { isLimitSize } from 'utils'
+import Label from '../label'
 
 const View = styled.div``
 
@@ -76,14 +76,13 @@ export default class UpdateLogo extends React.PureComponent {
     if (!isJpgOrPng) {
       message.error(translate('stationAutoManager.uploadFile.errorType'));
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
+    if (!isLimitSize(file.size)) {
       message.error(translate('stationAutoManager.uploadFile.errorSize'));
     }
     if (isContainSpecialCharacter(file.name)) {
       message.error(translate('stationAutoManager.uploadFile.errorSpecial'));
     }
-    return isJpgOrPng && isLt2M && !isContainSpecialCharacter(file.name);
+    return isJpgOrPng && isLimitSize(file.size) && !isContainSpecialCharacter(file.name);
   }
 
   render() {

@@ -15,6 +15,8 @@ import styled from 'styled-components'
 import swal from 'sweetalert2'
 import { isContainSpecialCharacter } from 'utils/string'
 import { v4 as uuidV4 } from 'uuid'
+import { isLimitSize } from 'utils'
+
 
 const Wrapper = styled(Row)`
   /* min-height: 500px; */
@@ -187,14 +189,13 @@ export default class ImageMoreInfo extends React.Component {
     if (!isJpgOrPng) {
       message.error(translate('stationAutoManager.uploadFile.errorType'));
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
+    if (!isLimitSize(file.size)) {
       message.error(translate('stationAutoManager.uploadFile.errorSize'));
     }
     if (isContainSpecialCharacter(file.name)) {
       message.error(translate('stationAutoManager.uploadFile.errorSpecial'));
     }
-    return isJpgOrPng && isLt2M && !isContainSpecialCharacter(file.name);
+    return isJpgOrPng && isLimitSize(file.size) && !isContainSpecialCharacter(file.name);
   }
 
   customRequest = ({
