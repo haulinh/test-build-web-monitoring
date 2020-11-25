@@ -189,7 +189,7 @@ export default {
           }}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.config.role}>
-            <Link to={slug.config.service}>Cấu hình dịch vụ</Link>
+            <Link to={slug.config.service}>{MENU_NAME.config.service}</Link>
           </Tooltip>
         </Menu.Item>
       )}
