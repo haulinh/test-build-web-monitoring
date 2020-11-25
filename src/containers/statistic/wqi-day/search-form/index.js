@@ -96,6 +96,7 @@ export default class SearchForm extends React.Component {
       stationKey: '',
       stationID: '',
     })
+    this.props.change('station', '')
   }
 
   handleChangeStationAuto(listId) {
