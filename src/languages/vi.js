@@ -9,6 +9,15 @@ export default {
     email: 'Email',
     required: 'Bắt buộc',
     invalidEmail: 'Email không hợp lệ',
+    save: 'Lưu',
+    send: 'Gửi',
+    unknownError: 'Lỗi không xác định, thử lại sau!',
+  },
+  rules: {
+    required: 'Bắt buộc',
+    requiredField: 'Vui lòng nhập {{=it.field}}',
+    requiredEmail: 'Vui lòng nhập email',
+    requiredPhone: 'Vui lòng nhập số điện thoại',
   },
   errors: {
     forbidden: 'Có lỗi xảy ra',
@@ -2137,11 +2146,11 @@ export default {
     },
     onDelete: {
       errorMessage: {
-        roleUsed: "Nhóm quyền đang được sử dụng !",
-        measuringUsed: "Chỉ tiêu đang được sử dụng !",
-        measuringUsedWqi: "Chỉ tiêu đang được sử dụng để tính toán WQI !",
-        measuringUsedAqi: "Chỉ tiêu đang được sử dụng để tính toán AQI !",
-        measuringUsedQcvn: "Chỉ tiêu đang được sử dụng trong cấu hình QCVN !",
+        roleUsed: 'Nhóm quyền đang được sử dụng !',
+        measuringUsed: 'Chỉ tiêu đang được sử dụng !',
+        measuringUsedWqi: 'Chỉ tiêu đang được sử dụng để tính toán WQI !',
+        measuringUsedAqi: 'Chỉ tiêu đang được sử dụng để tính toán AQI !',
+        measuringUsedQcvn: 'Chỉ tiêu đang được sử dụng trong cấu hình QCVN !',
       },
       success: 'Xoá thành công',
       error: 'Xoá thất bại',
@@ -2282,6 +2291,7 @@ export default {
       role: 'Nhóm quyền',
       user: 'Tài khoản',
       dataLogger: 'Xem nhật ký',
+      service: 'Cấu hình dịch vụ',
       ConfigNotify: {
         titleTable: {
           status: 'Trạng thái',
@@ -2679,6 +2689,57 @@ export default {
     rangePicker: {
       startDate: 'Thời gian bắt đầu',
       endDate: 'Thời gian kết thúc',
+    },
+  },
+  configService: {
+    title: 'Cấu hình nhà cung cấp dịch vụ',
+    esmsService: 'Dịch vụ ESMS',
+    mailGunService: 'Dịch vụ MailGun',
+    testConfiguration: 'Kiểm tra cấu hình',
+    customerCare: 'Chăm sóc khách hàng',
+    advertisement: 'Quảng cáo',
+    phoneNumberReceiveMessage: 'Phone number to receive the message',
+    emailAddress: 'Email Address',
+    esmsDescription:
+      'Chúng tôi sẽ gửi một SMS mẫu về số điện thoại của bạn. Vui lòng đợi trong 1-3 phút',
+    mailGunDescription:
+      'Chúng tôi sẽ gửi một email về địa chỉ mail của bạn. Vui lòng đợi trong 1-3 phút',
+    sendMessageSuccessfully: 'Đã gửi thành công!',
+    esmsForm: {
+      url: {
+        label: 'API URL',
+        placeholder: 'API URL',
+      },
+      key: {
+        label: 'API Key',
+        placeholder: 'ESMS API Key',
+      },
+      secret: {
+        label: 'SECRET Key',
+        placeholder: 'ESMS Secret Key',
+      },
+      smsType: {
+        label: 'SMS Type',
+        placeholder: 'Sms Type',
+      },
+      brand: {
+        label: 'Brand Name',
+        placeholder: 'Brand Name',
+      },
+    },
+    mailGunForm: {
+      domain: {
+        label: 'Domain',
+        placeholder: 'MailGun Domain',
+      },
+      key: {
+        label: 'API Key',
+        placeholder: 'MailGun API Key',
+      },
+      emailFrom: {
+        label: 'Email From',
+        placeholder: 'Email From',
+      },
     },
   },
 }

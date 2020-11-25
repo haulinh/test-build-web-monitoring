@@ -10,6 +10,14 @@ export function get() {
   return getFetch(fcmNotificationRoute().notify)
 }
 
+export function sendEmail(data) {
+  return postFetch(`${getConfigApi().notify}/send-email`, data)
+}
+
+export function sendSms(data) {
+  return postFetch(`${getConfigApi().notify}/send-sms`, data)
+}
+
 /* --------- launching --------- */
 
 /* TIP  link postman
@@ -83,4 +91,6 @@ export default {
   linkToken2Email,
   deleteToken,
   updateIsRead,
+  sendEmail,
+  sendSms,
 }

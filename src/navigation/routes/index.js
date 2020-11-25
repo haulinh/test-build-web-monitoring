@@ -50,6 +50,7 @@ import AppGrafana from 'containers/apps/grafana'
 // import PageAqiStatus from 'containers/aqi/aqi-list-status'
 
 import PageExpLicenseInfo from 'containers/license/exp-license-info'
+import ConfigService from 'containers/config-service'
 
 @withRouter
 @autobind
@@ -183,6 +184,8 @@ export default class RouteDefault extends React.Component {
               path={slug.dataLogger.base}
               component={DataLoggerPage}
             />
+
+            <LayoutRoute path={slug.config.service} component={ConfigService} />
           </Layout>
         </Switch>
       </div>
