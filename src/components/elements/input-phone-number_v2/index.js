@@ -114,7 +114,6 @@ export default class InputPhoneNumber extends PureComponent {
       selectedCountry.format,
       `${selectedCountry.dialCode}${phoneNumber}`
     )
-    console.log(phoneNumber, selectedCountry.format)
     const data = {
       ...selectedCountry,
       phoneNumber,
