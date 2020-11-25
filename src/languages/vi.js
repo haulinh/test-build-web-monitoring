@@ -1392,7 +1392,8 @@ export default {
         placeholder: 'Order',
       },
       errorMaxTend: "Giới hạn chuẩn bị vượt ngưỡng tối đa phải nhỏ hơn giới hạn vượt ngưỡng tối đa",
-      errorMinTend: "Giới hạn chuẩn bị vượt ngưỡng tối thiểu phải lớn hơn giới hạn vượt ngưỡng tối thiếu"
+      errorMinTend: "Giới hạn chuẩn bị vượt ngưỡng tối thiểu phải lớn hơn giới hạn vượt ngưỡng tối thiếu",
+      errorMinMax: "Giới hạn tối thiểu phải nhỏ hơn giới hạn tối đa"
     },
     range: {
       label: 'Dải đo',
