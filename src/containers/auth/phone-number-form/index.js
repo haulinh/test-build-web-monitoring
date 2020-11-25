@@ -16,7 +16,7 @@ import {
 
 import Heading from 'components/elements/heading'
 import Button from 'components/elements/button'
-import InputPhoneNumber from 'components/elements/input-phone-number'
+import InputPhoneNumber from 'components/elements/input-phone-number_v2'
 
 import OTPForm from '../otp-form'
 import { getAuthError, getRemainTime } from '../helper'
@@ -39,11 +39,7 @@ const FormBody = styled.div`
   }
 `
 
-const PhoneNumber = styled(InputPhoneNumber)`
-  .flag-dropdown {
-    border: none !important;
-  }
-`
+const PhoneNumber = styled(InputPhoneNumber)``
 
 const ButtonCancel = styled(Button)`
   &,
@@ -76,7 +72,7 @@ export default class PhoneNumberForm extends Component {
       this.handleError(message)
       return
     }
-    const otpRemainTime = getRemainTime(data.expired)
+    const otpRemainTime = getRemainTime(data.refreshOtp)
     this.otpRef.startCountDown(otpRemainTime)
   }
 
@@ -138,9 +134,9 @@ export default class PhoneNumberForm extends Component {
           isShowOtpForm: true,
         },
         () => {
-          const remainingTime = getRemainTime(data.expired)
+          const remainingTime = getRemainTime(data.refreshOtp)
           const isNeedToGetOTP =
-            data.isVerified || !data.expired || remainingTime < 0
+            data.isVerified || !data.refreshOtp || remainingTime < 0
           if (isNeedToGetOTP) {
             this.handleGetOtp()
           }
@@ -153,7 +149,10 @@ export default class PhoneNumberForm extends Component {
   }
 
   goBack = () => {
-    this.setState({ isShowOtpForm: false })
+    const { history } = this.props
+    const { isShowOtpForm } = this.state
+    if (!isShowOtpForm) history.push(slug.login.loginWithEmail)
+    else this.setState({ isShowOtpForm: false })
   }
 
   render() {
