@@ -33,6 +33,8 @@ const i18n = {
 
   add: translate('aqiConfigCalculation.add'),
   required: translate('aqiConfigCalculation.required'),
+  compareToMax: translate('aqiConfigCalculation.compareToMax'),
+  compareToMin: translate('aqiConfigCalculation.compareToMin'),
   colLevel: translate('aqiConfigCalculation.colLevel'),
   colMin: translate('aqiConfigCalculation.colMin'),
   colMax: translate('aqiConfigCalculation.colMax'),
@@ -53,6 +55,24 @@ export default class TabMucDo extends React.Component {
     isSubmit: false,
     dataSource: [],
     isLocked: false,
+  }
+
+  compareToMax = (rule, value, callback, fliedName) => {
+    const { form } = this.props
+    if (value && value > form.getFieldValue(fliedName)) {
+      callback(i18n.compareToMax)
+    } else {
+      callback()
+    }
+  }
+
+  compareToMin = (rule, value, callback, fliedName) => {
+    const { form } = this.props
+    if (value && value < form.getFieldValue(fliedName)) {
+      callback(i18n.compareToMin)
+    } else {
+      callback()
+    }
   }
 
   columns = [
@@ -92,6 +112,15 @@ export default class TabMucDo extends React.Component {
                   required: true,
                   message: i18n.required,
                 },
+                {
+                  validator: (rule, value, callback) =>
+                    this.compareToMax(
+                      rule,
+                      value,
+                      callback,
+                      `levelList[${record.key}].max`
+                    ),
+                },
               ],
             })(
               <InputNumber
@@ -119,6 +148,15 @@ export default class TabMucDo extends React.Component {
                   {
                     required: !this.state.isLocked,
                     message: i18n.required,
+                  },
+                  {
+                    validator: (rule, value, callback) =>
+                      this.compareToMin(
+                        rule,
+                        value,
+                        callback,
+                        `levelList[${record.key}].min`
+                      ),
                   },
                 ],
               })(

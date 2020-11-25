@@ -228,6 +228,8 @@ export default {
     add: 'Add',
     required1D_1H: 'Enter at least AVG Date or AVG Hour',
     required: 'Please input value',
+    compareToMax: 'Minimum value must be less than maximum',
+    compareToMin: 'The maximum value must be greater than the minimum',
     collevel: 'Level',
     colValue: 'Value',
     colLevel: 'Level Name',
