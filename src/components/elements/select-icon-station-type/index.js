@@ -9,6 +9,7 @@ import React, { PureComponent } from 'react'
 import { SketchPicker } from 'react-color'
 import styled from 'styled-components'
 import { isContainSpecialCharacter } from 'utils/string'
+import { isLimitSize } from 'utils'
 
 const AvatarWrapper = styled.div`
   padding: 4px;
@@ -122,14 +123,13 @@ export default class SelectImage extends PureComponent {
     if (!isJpgOrPng) {
       message.error(translate('stationAutoManager.uploadFile.errorType'))
     }
-    const isLt2M = file.size / 1024 / 1024 < 2
-    if (!isLt2M) {
+    if (!isLimitSize(file.size)) {
       message.error(translate('stationAutoManager.uploadFile.errorSize'))
     }
     if (isContainSpecialCharacter(file.name)) {
       message.error(translate('stationAutoManager.uploadFile.errorSpecial'))
     }
-    return isJpgOrPng && isLt2M && !isContainSpecialCharacter(file.name)
+    return isJpgOrPng && isLimitSize(file.size) && !isContainSpecialCharacter(file.name)
   }
 
   render() {

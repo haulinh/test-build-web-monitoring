@@ -1527,7 +1527,7 @@ export default {
       label: 'Upload File',
       error: 'File Upload Failed.',
       errorType: 'You can only upload JPG/PNG file!',
-      errorSize: 'Image must smaller than 2MB!',
+      errorSize: 'Image must smaller than 10MB!',
       errorSpecial: 'Name image must have no special character',
       success: 'File Uploaded Successfully',
       status: {

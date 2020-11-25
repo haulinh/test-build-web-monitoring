@@ -1,18 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withRouter } from 'react-router'
+import { Col, Icon, message, Popconfirm, Row, Spin, Upload } from 'antd'
 import MediaApi from 'api/MediaApi'
-import update from 'immutability-helper'
-import { v4 as uuidV4 } from 'uuid'
-import { Row, Col, Upload, Icon, Spin, Popconfirm, message } from 'antd'
 import Button from 'components/elements/button'
-import styled from 'styled-components'
-import { getConfigApi } from 'config'
-import swal from 'sweetalert2'
-import { translate } from 'hoc/create-lang'
 import Gallery from 'components/elements/gallery'
+import { getConfigApi } from 'config'
+import { translate } from 'hoc/create-lang'
+import update from 'immutability-helper'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { withRouter } from 'react-router'
+import styled from 'styled-components'
+import swal from 'sweetalert2'
+import { isLimitSize } from 'utils'
 import { isContainSpecialCharacter } from 'utils/string'
-import Axios from 'axios'
+import { v4 as uuidV4 } from 'uuid'
 
 const Wrapper = styled(Row)`
   .ant-upload {
@@ -232,25 +232,28 @@ export default class ImageMoreInfo extends React.Component {
     )
   }
 
-  beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  beforeUpload = file => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
     if (!isJpgOrPng) {
-      message.error(translate('stationAutoManager.uploadFile.errorType'));
+      message.error(translate('stationAutoManager.uploadFile.errorType'))
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error(translate('stationAutoManager.uploadFile.errorSize'));
+    if (!isLimitSize(file.size)) {
+      message.error(translate('stationAutoManager.uploadFile.errorSize'))
     }
     if (isContainSpecialCharacter(file.name)) {
-      message.error(translate('stationAutoManager.uploadFile.errorSpecial'));
+      message.error(translate('stationAutoManager.uploadFile.errorSpecial'))
     }
-    return isJpgOrPng && isLt2M && !isContainSpecialCharacter(file.name);
+    return (
+      isJpgOrPng &&
+      isLimitSize(file.size) &&
+      !isContainSpecialCharacter(file.name)
+    )
   }
 
   renderHeader = () => (
     <HeadingWrapper>
       <Upload
-       beforeUpload={this.beforeUpload}
+        beforeUpload={this.beforeUpload}
         multiple
         showUploadList={false}
         accept=".jpg, .png, .svg, jpeg"

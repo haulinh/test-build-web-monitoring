@@ -1522,8 +1522,8 @@ export default {
       label: 'Tải tệp lên',
       error: 'Tải tệp lên thất bại',
       errorType: 'Chỉ có thể tải file JPG/PNG !',
-      errorSize: 'hình ảnh phải nhỏ hơn 2MB!',
-      errorSpecial: 'Tên file ảnh phải không có kí tự đặc biệt nào',
+      errorSize: 'hình ảnh phải nhỏ hơn 10MB!',
+      errorSpecial: 'Tên file ảnh phải không có kí tự đặc biệt',
       success: 'Tải tên lên thành công',
       status: {
         uploading: 'Đang tải lên ...',
