@@ -19,6 +19,7 @@ import {
 } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import InputNumberCell from 'components/elements/input-number-cell'
+import InputPhoneNumber from 'components/elements/input-phone-number'
 import SelectProvice from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
 import SelectStationType from 'components/elements/select-station-type'
@@ -28,20 +29,23 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
 // import { mapPropsToFields } from 'utils/form'
-import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
 import styled from 'styled-components'
 // import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
 import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
 import MeasuringTable from '../station-auto-formTable/'
 
-const FormItem = Form.Item
 const { TextArea } = Input
 const { Panel } = Collapse
 const { Option } = Select
 
 const ConnectionStatusWrapper = styled.div`
   display: flex;
+`
+const FormItem = styled(Form.Item)`
+  .ant-form-item-control {
+    line-height: unset;
+  }
 `
 
 @Form.create({})
@@ -153,6 +157,11 @@ export default class StationAutoForm extends React.PureComponent {
       options: initialValues.options ? initialValues.options : {},
     })
     try {
+      console.log({
+        ...omit(initialValues, 'measuringList'),
+        connectionStatusNumber,
+        connectionStatusTimeRange,
+      })
       this.props.form.setFieldsValue({
         ...omit(initialValues, 'measuringList'),
         connectionStatusNumber,
@@ -286,17 +295,17 @@ export default class StationAutoForm extends React.PureComponent {
         if (maxLimit && maxTend && maxTend >= maxLimit) {
           message.error(t('stationAutoManager.form.errorMaxTend'))
           return true
-        } 
+        }
         if (minTend && minLimit && minTend <= minLimit) {
           message.error(t('stationAutoManager.form.errorMinTend'))
           return true
         }
         if (minLimit && maxLimit && minLimit >= maxLimit) {
-          message.error(t("stationAutoManager.form.errorMinMax"))
+          message.error(t('stationAutoManager.form.errorMinMax'))
           return true
         }
         if (minTend && maxTend && minTend >= maxTend) {
-          message.error(t("stationAutoManager.form.errorMinMax"))
+          message.error(t('stationAutoManager.form.errorMinMax'))
           return true
         }
         return false
@@ -959,19 +968,7 @@ export default class StationAutoForm extends React.PureComponent {
                   {getFieldDecorator(
                     'phoneResponsible',
                     {}
-                  )(
-                    <ReactTelephoneInput
-                      defaultCountry="vn"
-                      flagsImagePath={
-                        !this.props.isEdit
-                          ? '../images/flags.png'
-                          : '../../images/flags.png'
-                      }
-                      placeholder={t(
-                        'stationAutoManager.form.phoneResponsible.placeholder'
-                      )}
-                    />
-                  )}
+                  )(<InputPhoneNumber size="medium" />)}
                 </FormItem>
               </Col>
             </Row>
@@ -1001,19 +998,7 @@ export default class StationAutoForm extends React.PureComponent {
                   {getFieldDecorator(
                     'phoneSupervisor',
                     {}
-                  )(
-                    <ReactTelephoneInput
-                      defaultCountry="vn"
-                      flagsImagePath={
-                        !this.props.isEdit
-                          ? '../images/flags.png'
-                          : '../../images/flags.png'
-                      }
-                      placeholder={t(
-                        'stationAutoManager.form.phoneResponsible.placeholder'
-                      )}
-                    />
-                  )}
+                  )(<InputPhoneNumber size="medium" />)}
                 </FormItem>
               </Col>
             </Row>

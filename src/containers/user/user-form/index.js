@@ -1,14 +1,17 @@
 import React from 'react'
-import { Form, Input, Button, Row, Col } from 'antd'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { autobind } from 'core-decorators'
-// import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
+import { Form, Input, Button, Row, Col } from 'antd'
+
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 
-require('../user-search-form/index.css')
-
-const FormItem = Form.Item
+const FormItem = styled(Form.Item)`
+  .ant-form-item-control {
+    line-height: unset;
+  }
+`
 
 @Form.create({})
 @createLanguage
