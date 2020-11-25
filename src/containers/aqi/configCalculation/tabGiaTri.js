@@ -31,6 +31,8 @@ const i18n = {
   add: translate('aqiConfigCalculation.add'),
   required1D_1H: translate('aqiConfigCalculation.required1D_1H'),
   required: translate('aqiConfigCalculation.required'),
+  compareToMax: translate('aqiConfigCalculation.compareToMax'),
+  compareToMin: translate('aqiConfigCalculation.compareToMin'),
   collevel: translate('aqiConfigCalculation.collevel'),
   colValue: translate('aqiConfigCalculation.colValue'),
   colLevel: translate('aqiConfigCalculation.colLevel'),
@@ -59,6 +61,24 @@ export default class TabMucDo extends React.Component {
     dataSource: [],
     dataMeasuringObj: {},
     dataMeasures: null,
+  }
+
+  compareToMax = (rule, value, callback, fliedName) => {
+    const { form } = this.props
+    if (value && value > form.getFieldValue(fliedName)) {
+      callback(i18n.compareToMax)
+    } else {
+      callback()
+    }
+  }
+
+  compareToMin = (rule, value, callback, fliedName) => {
+    const { form } = this.props
+    if (value && value < form.getFieldValue(fliedName)) {
+      callback(i18n.compareToMin)
+    } else {
+      callback()
+    }
   }
 
   createColumn = (keyMeasure, type) => {
@@ -91,7 +111,7 @@ export default class TabMucDo extends React.Component {
                     {
                       required: !getFieldValue(fliedName),
                       message: i18n.required,
-                    },
+                    }
                   ],
                 })(<InputNumber style={{ width: '100%' }} />)}
               </Form.Item>
@@ -124,6 +144,7 @@ export default class TabMucDo extends React.Component {
                       required: !getFieldValue(fliedName),
                       message: i18n.required,
                     },
+                    
                   ],
                 })(<InputNumber style={{ width: '100%' }} />)}
               </Form.Item>
@@ -188,7 +209,7 @@ export default class TabMucDo extends React.Component {
                   {
                     required: !getFieldValue(`aqiQCLevel[${record.key}].name`),
                     message: i18n.required1D_1H,
-                  },
+                  }
                 ],
               })(<Input style={{ width: '100%' }} />)}
             </Form.Item>
@@ -226,6 +247,15 @@ export default class TabMucDo extends React.Component {
                         ),
                         message: i18n.required,
                       },
+                      {
+                        validator: (rule, value, callback) =>
+                          this.compareToMax(
+                            rule,
+                            value,
+                            callback,
+                            `aqiQCLevel[${record.key}].max`
+                          ),
+                      }
                     ],
                   })(<InputNumber style={{ width: '100%' }} />)}
                 </Form.Item>
@@ -258,6 +288,15 @@ export default class TabMucDo extends React.Component {
                           `aqiQCLevel[${record.key}].max`
                         ),
                         message: i18n.required,
+                      },
+                      {
+                        validator: (rule, value, callback) =>
+                          this.compareToMin(
+                            rule,
+                            value,
+                            callback,
+                            `aqiQCLevel[${record.key}].min`
+                          ),
                       },
                     ],
                   })(<InputNumber style={{ width: '100%' }} />)}
@@ -367,7 +406,7 @@ export default class TabMucDo extends React.Component {
           isLoaded: true,
         },
         () => {
-          console.log(dataSource, 'dataSource')
+          // console.log(dataSource, 'dataSource')
           this.props.form.setFieldsValue({
             aqiQCLevel: dataSource,
           })
