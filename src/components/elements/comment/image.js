@@ -4,13 +4,15 @@ import { withRouter } from 'react-router'
 import MediaApi from 'api/MediaApi'
 import update from 'immutability-helper'
 import { v4 as uuidV4 } from 'uuid'
-import { Row, Col, Upload, Icon, Spin, Popconfirm } from 'antd'
+import { Row, Col, Upload, Icon, Spin, Popconfirm, message } from 'antd'
 import Button from 'components/elements/button'
 import styled from 'styled-components'
 import { getConfigApi } from 'config'
 import swal from 'sweetalert2'
 import { translate } from 'hoc/create-lang'
 import Gallery from 'components/elements/gallery'
+import { isContainSpecialCharacter } from 'utils/string'
+import Axios from 'axios'
 
 const Wrapper = styled(Row)`
   .ant-upload {
@@ -230,9 +232,25 @@ export default class ImageMoreInfo extends React.Component {
     )
   }
 
+  beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error(translate('stationAutoManager.uploadFile.errorType'));
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error(translate('stationAutoManager.uploadFile.errorSize'));
+    }
+    if (isContainSpecialCharacter(file.name)) {
+      message.error(translate('stationAutoManager.uploadFile.errorSpecial'));
+    }
+    return isJpgOrPng && isLt2M && !isContainSpecialCharacter(file.name);
+  }
+
   renderHeader = () => (
     <HeadingWrapper>
       <Upload
+       beforeUpload={this.beforeUpload}
         multiple
         showUploadList={false}
         accept=".jpg, .png, .svg, jpeg"
@@ -270,6 +288,7 @@ export default class ImageMoreInfo extends React.Component {
           <Col className="image-item" span={24 / itemInline}>
             <Upload
               multiple
+              beforeUpload={this.beforeUpload}
               showUploadList={false}
               accept=".jpg, .png, .svg, jpeg"
               action={MediaApi.urlPhotoUploadWithDirectory('station')}

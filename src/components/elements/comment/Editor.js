@@ -1,20 +1,24 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import {
-  Row,
-  Col,
   Button,
+  Col,
+  Form,
   Icon,
   Input,
-  Form,
-  Upload,
-  Spin,
+  message,
   Popconfirm,
+  Row,
+  Upload,
 } from 'antd'
-import update from 'immutability-helper'
-import styled from 'styled-components'
-import { getConfigApi } from 'config'
 import MediaApi from 'api/MediaApi'
+import Axios from 'axios'
+import { getConfigApi } from 'config'
+import update from 'immutability-helper'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
+import { isContainSpecialCharacter } from 'utils/string'
+import { translate } from 'hoc/create-lang'
+
 
 const { TextArea } = Input
 
@@ -145,18 +149,12 @@ export default class Editor extends React.Component {
   }
 
   handleAddImage = ({ fileList, file, event }) => {
-    if (file.status === 'uploading') {
-      this.setState({ isLoading: true })
-    }
     if (file.status === 'done') {
       this.setState(
         prevState =>
           update(prevState, {
             images: {
               $push: [file.response.file.path],
-            },
-            isLoading: {
-              $set: false,
             },
           }),
         () => {
@@ -200,6 +198,21 @@ export default class Editor extends React.Component {
     return !this.state.value.trim()
   }
 
+  beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error(translate('stationAutoManager.uploadFile.errorType'));
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error(translate('stationAutoManager.uploadFile.errorSize'));
+    }
+    if (isContainSpecialCharacter(file.name)) {
+      message.error(translate('stationAutoManager.uploadFile.errorSpecial'));
+    }
+    return isJpgOrPng && isLt2M && !isContainSpecialCharacter(file.name);
+  }
+
   render() {
     const { submitting, isEdit, placeholder } = this.props
     return (
@@ -234,6 +247,7 @@ export default class Editor extends React.Component {
             />
             <Upload
               shape="circle-outline"
+              beforeUpload={this.beforeUpload}
               size="large"
               multiple
               showUploadList={false}
@@ -247,11 +261,7 @@ export default class Editor extends React.Component {
                   shape="circle-outline"
                   size="large"
                 >
-                  {this.state.isLoading ? (
-                    <Spin />
-                  ) : (
-                    <Icon type="picture" theme="outlined" />
-                  )}
+                  <Icon type="picture" theme="outlined" />
                 </Button>
               )}
             </Upload>
