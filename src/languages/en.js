@@ -2728,5 +2728,19 @@ export default {
         placeholder: 'Brand Name',
       },
     },
+    mailGunForm: {
+      domain: {
+        label: 'Domain',
+        placeholder: 'MailGun Domain',
+      },
+      key: {
+        label: 'API Key',
+        placeholder: 'MailGun API Key',
+      },
+      emailFrom: {
+        label: 'Email From',
+        placeholder: 'Email From',
+      },
+    },
   },
 }
