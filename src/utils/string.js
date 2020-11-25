@@ -60,6 +60,6 @@ export function removeSpecialCharacterUploadFile(fileName) {
 }
 
 export function isContainSpecialCharacter(str) {
-  const format = /[`!@#$%^&*_+\=\[\]{};':"\\|,<>\/?~]/;
+  const format = /[`!@#$%^&*+\=\[\]{};':"\\|,<>\/?~]/;
   return format.test(str)
 }
