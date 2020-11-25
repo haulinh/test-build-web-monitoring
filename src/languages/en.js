@@ -9,6 +9,15 @@ export default {
     email: 'email',
     required: 'Required',
     invalidEmail: 'Invalid email',
+    save: 'Save',
+    send: 'Send',
+    unknownError: 'Unknown error, try again after',
+  },
+  rules: {
+    required: 'Required',
+    requiredField: '{{=it.field}} is required',
+    requiredEmail: 'Email is required',
+    requiredPhone: 'Phone number is required',
   },
   errors: {
     forbidden: 'Forbidden',
@@ -2143,11 +2152,11 @@ export default {
     },
     onDelete: {
       errorMessage: {
-        roleUsed: "Role is already in use !",
-        measuringUsed: "Measuring is already in use !",
-        measuringUsedWqi: "Measuring is already used to calculate WQI !",
-        measuringUsedAqi: "Measuring is already used to calculate AQI !",
-        measuringUsedQcvn: "Measuring is already used in QCVN configuration !",
+        roleUsed: 'Role is already in use !',
+        measuringUsed: 'Measuring is already in use !',
+        measuringUsedWqi: 'Measuring is already used to calculate WQI !',
+        measuringUsedAqi: 'Measuring is already used to calculate AQI !',
+        measuringUsedQcvn: 'Measuring is already used in QCVN configuration !',
       },
       success: 'Deleted Successfully',
       qcvn: {
@@ -2290,6 +2299,7 @@ export default {
       role: 'Roles',
       user: 'Users',
       dataLogger: 'System Logs',
+      service: 'Service configuration',
     },
 
     camera: 'Camera',
@@ -2679,6 +2689,43 @@ export default {
     rangePicker: {
       startDate: 'Start date',
       endDate: 'End date',
+    },
+  },
+  configService: {
+    title: 'Service provider configuration',
+    esmsService: 'Esms Service',
+    mailGunService: 'MailGun Service',
+    testConfiguration: 'Check Configuration',
+    customerCare: 'Customer Care',
+    advertisement: 'Advertisement',
+    phoneNumberReceiveMessage: 'Phone number to receive the message',
+    emailAddress: 'Email Address',
+    esmsDescription:
+      'We will send a sample SMS to your phone number. Please wait 1-3 minutes',
+    mailGunDescription:
+      'We will send an email to your email address. Please wait 1-3 minutes',
+    sendMessageSuccessfully: 'SMS sent successfully',
+    esmsForm: {
+      url: {
+        label: 'API URL',
+        placeholder: 'API URL',
+      },
+      key: {
+        label: 'API Key',
+        placeholder: 'ESMS API Key',
+      },
+      secret: {
+        label: 'SECRET Key',
+        placeholder: 'ESMS Secret Key',
+      },
+      smsType: {
+        label: 'SMS Type',
+        placeholder: 'Sms Type',
+      },
+      brand: {
+        label: 'Brand Name',
+        placeholder: 'Brand Name',
+      },
     },
   },
 }

@@ -60,6 +60,7 @@ export function getConfigApi() {
     // fcmToken: 'http://192.168.0.185:5008/fcm-token',
 
     organization: c('organization'),
+    // organization: 'http://localhost:5005/organization',
     role: c('role'),
     sampling: c('samplingNew'),
     // sampling: 'http://192.168.0.185:5020/samplingNew',
@@ -74,6 +75,7 @@ export function getConfigApi() {
     wqi: c('wqi'),
     // wqi: 'http://localhost:5017/wqi',
     notify: c('notify'),
+    // notify: 'http://localhost:5007/notify',
     sampleConfig: c('configSample'),
     camera: config.camera,
     firebase: config.firebase,

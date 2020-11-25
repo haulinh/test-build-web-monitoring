@@ -7,10 +7,12 @@ import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
 const View = styled.div`
   .react-tel-input input[type='tel'] {
     height: initial;
-    /* height: 32px; */
     box-shadow: none;
     padding-left: 54px;
     border: 1px solid #d4d4d4;
+  }
+  .react-tel-input .flag-dropdown {
+    border: none;
   }
   .react-tel-input .selected-flag {
     outline: none;
