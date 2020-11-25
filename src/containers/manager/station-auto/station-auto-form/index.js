@@ -968,7 +968,7 @@ export default class StationAutoForm extends React.PureComponent {
                   {getFieldDecorator(
                     'phoneResponsible',
                     {}
-                  )(<InputPhoneNumber />)}
+                  )(<InputPhoneNumber size="medium" />)}
                 </FormItem>
               </Col>
             </Row>
@@ -998,7 +998,7 @@ export default class StationAutoForm extends React.PureComponent {
                   {getFieldDecorator(
                     'phoneSupervisor',
                     {}
-                  )(<InputPhoneNumber />)}
+                  )(<InputPhoneNumber size="medium" />)}
                 </FormItem>
               </Col>
             </Row>

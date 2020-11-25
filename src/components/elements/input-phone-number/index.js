@@ -13,7 +13,7 @@ const Wrapper = styled.div`
     margin-top: 0;
     display: inline-block;
     background: #eee;
-    height: 40px;
+    height: ${props => (props.size === 'medium' ? '32px' : '40px')};
     width: fit-content;
     cursor: pointer;
     input {
@@ -77,6 +77,7 @@ export default class InputPhoneNumber extends PureComponent {
     onChange: PropTypes.func,
     value: PropTypes.any,
     placeholder: PropTypes.string,
+    size: PropTypes.string,
     autoFocus: PropTypes.bool,
   }
 
@@ -152,12 +153,12 @@ export default class InputPhoneNumber extends PureComponent {
 
   render() {
     const { selectedCountry } = this.state
-    const { placeholder, autoFocus, value } = this.props
+    const { placeholder, autoFocus, value, size } = this.props
     const phoneNumber =
       typeof value === 'string' ? value : (value || {}).phoneNumber
 
     return (
-      <Wrapper>
+      <Wrapper size={size}>
         <SelectCountry>
           <ReactTelephoneInput
             ref={this.setRef}
@@ -169,9 +170,10 @@ export default class InputPhoneNumber extends PureComponent {
           <DialCode>+{selectedCountry.dialCode}</DialCode>
         </SelectCountry>
         <PhoneInput
+          // size={size || 'large'}
+          size="medium"
           autoFocus={autoFocus}
           min="1"
-          size="large"
           type="number"
           placeholder={placeholder}
           onChange={this.handlePhoneChange}
