@@ -2667,6 +2667,7 @@ export default {
       dataExceededPrepare: 'Almost Exceed',
       dataExceededTendency: 'Tend To Exceed',
       dataGood: 'Data Good',
+      dataGood2: 'Data Good Again',
       dataLoss: 'Lost Connection',
       dataConnected: 'Go connected',
     },
