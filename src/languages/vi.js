@@ -2658,6 +2658,7 @@ export default {
     measure: 'Chỉ tiêu',
     measures: 'Các chỉ tiêu',
     measure2: 'Các chỉ tiêu:',
+    notUse: 'Chưa sử dụng',
     deviceStatus: {
       sensorGood: 'thiết bị tốt trở lại',
       sensorError: 'thiết bị đang bị lỗi',

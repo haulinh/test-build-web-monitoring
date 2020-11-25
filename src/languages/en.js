@@ -2667,6 +2667,7 @@ export default {
       dataExceededPrepare: 'Almost Exceed',
       dataExceededTendency: 'Tend To Exceed',
       dataGood: 'Data Good',
+      dataGood2: 'Data Good Again',
       dataLoss: 'Lost Connection',
       dataConnected: 'Go connected',
     },
@@ -2731,6 +2732,20 @@ export default {
       brand: {
         label: 'Brand Name',
         placeholder: 'Brand Name',
+      },
+    },
+    mailGunForm: {
+      domain: {
+        label: 'Domain',
+        placeholder: 'MailGun Domain',
+      },
+      key: {
+        label: 'API Key',
+        placeholder: 'MailGun API Key',
+      },
+      emailFrom: {
+        label: 'Email From',
+        placeholder: 'Email From',
       },
     },
   },
