@@ -16,7 +16,7 @@ import {
 
 import Heading from 'components/elements/heading'
 import Button from 'components/elements/button'
-import InputPhoneNumber from 'components/elements/input-phone-number_v2'
+import InputPhoneNumber from 'components/elements/input-phone-number'
 
 import OTPForm from '../otp-form'
 import { getAuthError, getRemainTime } from '../helper'
@@ -171,7 +171,7 @@ export default class PhoneNumberForm extends Component {
           <FormBody>
             <Form.Item>
               {form.getFieldDecorator(FIELDS.PHONE_NUMBER)(
-                <PhoneNumber inputProps={{ autoFocus: true }} />
+                <PhoneNumber autoFocus />
               )}
             </Form.Item>
           </FormBody>
