@@ -1,16 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withRouter } from 'react-router'
+import { Col, Icon, message, Popconfirm, Row, Spin, Upload } from 'antd'
 import MediaApi from 'api/MediaApi'
-import update from 'immutability-helper'
-import { v4 as uuidV4 } from 'uuid'
-import { Row, Col, Upload, Icon, Spin, Popconfirm } from 'antd'
 import Button from 'components/elements/button'
-import styled from 'styled-components'
-import { getConfigApi } from 'config'
-import swal from 'sweetalert2'
-import { translate } from 'hoc/create-lang'
 import Gallery from 'components/elements/gallery'
+import { getConfigApi } from 'config'
+import { translate } from 'hoc/create-lang'
+import update from 'immutability-helper'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { withRouter } from 'react-router'
+import styled from 'styled-components'
+import swal from 'sweetalert2'
+import { isLimitSize } from 'utils'
+import { isContainSpecialCharacter } from 'utils/string'
+import { v4 as uuidV4 } from 'uuid'
 
 const Wrapper = styled(Row)`
   .ant-upload {
@@ -230,9 +232,28 @@ export default class ImageMoreInfo extends React.Component {
     )
   }
 
+  beforeUpload = file => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isJpgOrPng) {
+      message.error(translate('stationAutoManager.uploadFile.errorType'))
+    }
+    if (!isLimitSize(file.size)) {
+      message.error(translate('stationAutoManager.uploadFile.errorSize'))
+    }
+    if (isContainSpecialCharacter(file.name)) {
+      message.error(translate('stationAutoManager.uploadFile.errorSpecial'))
+    }
+    return (
+      isJpgOrPng &&
+      isLimitSize(file.size) &&
+      !isContainSpecialCharacter(file.name)
+    )
+  }
+
   renderHeader = () => (
     <HeadingWrapper>
       <Upload
+        beforeUpload={this.beforeUpload}
         multiple
         showUploadList={false}
         accept=".jpg, .png, .svg, jpeg"
@@ -270,6 +291,7 @@ export default class ImageMoreInfo extends React.Component {
           <Col className="image-item" span={24 / itemInline}>
             <Upload
               multiple
+              beforeUpload={this.beforeUpload}
               showUploadList={false}
               accept=".jpg, .png, .svg, jpeg"
               action={MediaApi.urlPhotoUploadWithDirectory('station')}

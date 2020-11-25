@@ -1,12 +1,13 @@
+import { message, Upload } from 'antd'
+import MediaApi from 'api/MediaApi'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
 import React from 'react'
 import styled from 'styled-components'
-import Label from '../label'
 import swal from 'sweetalert2'
-import { autobind } from 'core-decorators'
-import { Upload } from 'antd'
-import MediaApi from 'api/MediaApi'
-import { translate } from 'hoc/create-lang'
-import axios from 'axios'
+import { isContainSpecialCharacter } from 'utils/string'
+import { isLimitSize } from 'utils'
+import Label from '../label'
 
 const View = styled.div``
 
@@ -70,48 +71,18 @@ export default class UpdateLogo extends React.PureComponent {
     })
   }
 
-  customRequest = async ({
-    action,
-    data,
-    file,
-    filename,
-    headers,
-    onError,
-    onProgress,
-    onSuccess,
-    withCredentials,
-  }) => {
-    // const { onSuccess, onError, file, onProgress } = options
-
-    const fmData = new FormData()
-    const config = {
-      headers: { 'content-type': 'multipart/form-data' },
-      'X-Requested-With': 'XMLHttpRequest',
+  beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error(translate('stationAutoManager.uploadFile.errorType'));
     }
-    console.log(file, '---file--')
-    const fileName = file.name
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/đ/g, 'd')
-      .replace(/Đ/g, 'D')
-      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-    fmData.append('file', file, fileName)
-    try {
-      const res = await axios.post(
-        MediaApi.urlPhotoUploadWithDirectory('logo'),
-        fmData,
-        config
-      )
-
-      onSuccess({
-        ...res.data,
-      })
-      // console.log('server res: ', res)
-    } catch (err) {
-      // console.log('Eroor: ', err)
-      // const error = new Error('Some error')
-      onError({ err })
+    if (!isLimitSize(file.size)) {
+      message.error(translate('stationAutoManager.uploadFile.errorSize'));
     }
+    if (isContainSpecialCharacter(file.name)) {
+      message.error(translate('stationAutoManager.uploadFile.errorSpecial'));
+    }
+    return isJpgOrPng && isLimitSize(file.size) && !isContainSpecialCharacter(file.name);
   }
 
   render() {
@@ -121,12 +92,12 @@ export default class UpdateLogo extends React.PureComponent {
         {this.props.label && <Label>{this.props.label}</Label>}
         <Upload
           {...otherProps}
-          // action={ MediaApi.urlPhotoUploadWithDirectory('logo')}
+          beforeUpload={this.beforeUpload}
+          action={MediaApi.urlPhotoUploadWithDirectory('logo')}
           listType="picture-card"
           fileList={this.state.fileList}
           onChange={this.handleImageChange}
           disabled={!this.props.isAdmin}
-          customRequest={this.customRequest}
         >
           {this.state.fileList.length > 0 ? (
             ''
