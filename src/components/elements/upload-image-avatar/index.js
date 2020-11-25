@@ -4,10 +4,11 @@ import Label from '../label'
 import swal from 'sweetalert2'
 import { autobind } from 'core-decorators'
 import PropTypes from 'prop-types'
-import { Upload, Icon } from 'antd'
+import { Upload, Icon, message } from 'antd'
 import update from 'react-addons-update'
 import MediaApi from 'api/MediaApi'
 import { translate } from 'hoc/create-lang'
+import { isContainSpecialCharacter } from 'utils/string'
 
 const View = styled.div``
 
@@ -80,6 +81,21 @@ export default class UpdateLoadImage extends React.PureComponent {
     }
   }
 
+  beforeUpload = file => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isJpgOrPng) {
+      message.error(translate('stationAutoManager.uploadFile.errorType'))
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2
+    if (!isLt2M) {
+      message.error(translate('stationAutoManager.uploadFile.errorSize'))
+    }
+    if (isContainSpecialCharacter(file.name)) {
+      message.error(translate('stationAutoManager.uploadFile.errorSpecial'))
+    }
+    return isJpgOrPng && isLt2M && !isContainSpecialCharacter(file.name)
+  }
+
   render() {
     const { name, ...otherProps } = this.props
     return (
@@ -87,6 +103,7 @@ export default class UpdateLoadImage extends React.PureComponent {
         {this.props.label && <Label>{this.props.label}</Label>}
         <Upload
           {...otherProps}
+          beforeUpload={this.beforeUpload}
           action={MediaApi.urlPhotoUploadWithDirectory('profile')}
           listType="picture-card"
           fileList={this.state.fileList}

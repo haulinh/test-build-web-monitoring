@@ -2,13 +2,13 @@ import { Avatar, message, Popover, Upload } from 'antd'
 import MediaApi from 'api/MediaApi'
 import Axios from 'axios'
 import { autobind } from 'core-decorators'
-import createLanguageHoc from 'hoc/create-lang'
+import createLanguageHoc, { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { SketchPicker } from 'react-color'
 import styled from 'styled-components'
-import { removeSpecialCharacterUploadFile } from 'utils/string'
+import { isContainSpecialCharacter } from 'utils/string'
 
 const AvatarWrapper = styled.div`
   padding: 4px;
@@ -117,46 +117,19 @@ export default class SelectImage extends PureComponent {
     }
   }
 
-  customRequest = async ({
-    action,
-    data,
-    file,
-    filename,
-    headers,
-    onError,
-    onProgress,
-    onSuccess,
-    withCredentials,
-  }) => {
-    // const { onSuccess, onError, file, onProgress } = options
-
-    const fmData = new FormData()
-    const config = {
-      headers: { 'content-type': 'multipart/form-data' },
-      'X-Requested-With': 'XMLHttpRequest',
+  beforeUpload = file => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isJpgOrPng) {
+      message.error(translate('stationAutoManager.uploadFile.errorType'))
     }
-
-    const fileNameWithoutSpecialCharacter = removeSpecialCharacterUploadFile(file.name)
-
-    const fileNameUpload = `${file.uid}-${fileNameWithoutSpecialCharacter}`;
-
-    fmData.append('file', file, fileNameUpload)
-    try {
-      const res = await Axios.post(
-        MediaApi.urlPhotoUploadWithDirectory('icon-station-type'),
-        fmData,
-        config
-      )
-
-      onSuccess({
-        ...res.data,
-      })
-      // console.log('server res: ', res)
-    } catch (err) {
-      // console.log('Eroor: ', err)
-      // const error = new Error('Some error')
-      onError({ err })
+    const isLt2M = file.size / 1024 / 1024 < 2
+    if (!isLt2M) {
+      message.error(translate('stationAutoManager.uploadFile.errorSize'))
     }
+    if (isContainSpecialCharacter(file.name)) {
+      message.error(translate('stationAutoManager.uploadFile.errorSpecial'))
+    }
+    return isJpgOrPng && isLt2M && !isContainSpecialCharacter(file.name)
   }
 
   render() {
@@ -171,24 +144,25 @@ export default class SelectImage extends PureComponent {
         authorization: 'authorization-text',
       },
       onSuccess({ url }, file) {
-        message.success(
-          t('stationAutoManager.uploadFile.success')
-        )
+        message.success(t('stationAutoManager.uploadFile.success'))
         me.setState({
           urlIconList: _.union(me.state.urlIconList, [url]),
         })
       },
       onError(error, response, file) {
-        message.error(
-          t('stationAutoManager.uploadFile.error')
-        )
+        message.error(t('stationAutoManager.uploadFile.error'))
       },
     }
 
     const content = (
       <HeaderWrapper>
         <AvatarWrapper>
-          <Upload {...props} customRequest={this.customRequest}>
+          <Upload
+            {...props}
+            action={MediaApi.urlPhotoUploadWithDirectory('icon-station-type')}
+            beforeUpload={this.beforeUpload}
+            // customRequest={this.customRequest}
+          >
             <Avatar
               style={{ backgroundColor: '#87d068' }}
               shape="square"

@@ -1,4 +1,4 @@
-import { Col, Icon, Popconfirm, Row, Spin, Upload } from 'antd'
+import { Col, Icon, message, Popconfirm, Row, Spin, Upload } from 'antd'
 import MediaApi, { deleteImage } from 'api/MediaApi'
 import axios from 'axios'
 import Button from 'components/elements/button'
@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import swal from 'sweetalert2'
-import { removeSpecialCharacterUploadFile } from 'utils/string'
+import { isContainSpecialCharacter } from 'utils/string'
 import { v4 as uuidV4 } from 'uuid'
 
 const Wrapper = styled(Row)`
@@ -182,6 +182,21 @@ export default class ImageMoreInfo extends React.Component {
     this.fetchData()
   }
 
+  beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error(translate('stationAutoManager.uploadFile.errorType'));
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error(translate('stationAutoManager.uploadFile.errorSize'));
+    }
+    if (isContainSpecialCharacter(file.name)) {
+      message.error(translate('stationAutoManager.uploadFile.errorSpecial'));
+    }
+    return isJpgOrPng && isLt2M && !isContainSpecialCharacter(file.name);
+  }
+
   customRequest = ({
     action,
     data,
@@ -196,51 +211,44 @@ export default class ImageMoreInfo extends React.Component {
     // console.log('DEBUG filename', file.name)
     // console.log('DEBUG file type', file.type)
 
-    if (file.type === 'image/jpeg' || file.type === 'image/png') {
-      const databaseName = getDatabaseName(
-        this.props.userInfo.organization.databaseInfo.name
-      )
-  
-      const generatePutUrl = MediaApi.generatePutUrl(databaseName)
-      
-  
-      const fileNameWithoutSpecialCharacter = removeSpecialCharacterUploadFile(file.name)
-  
-      const fileNameUpload = `${file.uid}-${fileNameWithoutSpecialCharacter}`;
-  
-      const options = {
-        params: {
-          prefix: `${this.props.stationKey}/${PATH_FOLDER}/${fileNameUpload}`,
-          ContentType: file.type,
-        },
-        headers: {
-          'Content-Type': file.type,
-        },
-      }
-  
-      axios.get(generatePutUrl, options).then(res => {
-        const { data: putURL } = res
-        axios
-          .put(putURL, file, {
-            headers: {
-              'Content-Type': file.type,
-            },
-          })
-          .then(res => {
-            onSuccess(res, file)
-            this.fetchData()
-          })
-          .catch(err => {
-            onError()
-            console.log('err', err)
-          })
-      })
-    } else {
-      swal({
-        title: translate('profileUser.imageUpload.error'),
-        type: 'error',
-      })
+    console.log(file.name)
+    const databaseName = getDatabaseName(
+      this.props.userInfo.organization.databaseInfo.name
+    )
+
+    const generatePutUrl = MediaApi.generatePutUrl(databaseName)
+
+    // const fileNameWithoutSpecialCharacter = removeSpecialCharacterUploadFile(file.name)
+
+    const fileNameUpload = `${file.uid}-${file.name}`
+
+    const options = {
+      params: {
+        prefix: `${this.props.stationKey}/${PATH_FOLDER}/${fileNameUpload}`,
+        ContentType: file.type,
+      },
+      headers: {
+        'Content-Type': file.type,
+      },
     }
+
+    axios.get(generatePutUrl, options).then(res => {
+      const { data: putURL } = res
+      axios
+        .put(putURL, file, {
+          headers: {
+            'Content-Type': file.type,
+          },
+        })
+        .then(res => {
+          onSuccess(res, file)
+          this.fetchData()
+        })
+        .catch(err => {
+          onError()
+          console.log('err', err)
+        })
+    })
   }
 
   renderHeader = () => (
@@ -256,6 +264,7 @@ export default class ImageMoreInfo extends React.Component {
         showUploadList={false}
         accept=".jpg, .png"
         {...uploadProps}
+        beforeUpload={this.beforeUpload}
         customRequest={this.customRequest}
       >
         <Button isLoading={this.state.uploading} customColor="primary">

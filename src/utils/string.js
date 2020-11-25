@@ -58,3 +58,8 @@ export function deepParseJson(jsonString) {
 export function removeSpecialCharacterUploadFile(fileName) {
   return fileName.replace(/[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]/gi, '')
 }
+
+export function isContainSpecialCharacter(str) {
+  const format = /[`!@#$%^&*_+\=\[\]{};':"\\|,<>\/?~]/;
+  return format.test(str)
+}
