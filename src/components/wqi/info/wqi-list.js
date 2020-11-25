@@ -21,7 +21,7 @@ const WrapperView = styled.div`
   /* border-radius: 4px;
   border: 1px solid #f2f2f2; */
   margin: 4px 0px;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 40px);
   overflow-y: auto;
   .item-wqi {
     display: flex;
