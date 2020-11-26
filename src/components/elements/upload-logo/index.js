@@ -5,8 +5,8 @@ import { translate } from 'hoc/create-lang'
 import React from 'react'
 import styled from 'styled-components'
 import swal from 'sweetalert2'
-import { isContainSpecialCharacter } from 'utils/string'
 import { isLimitSize } from 'utils'
+import { isContainSpecialCharacter } from 'utils/string'
 import Label from '../label'
 
 const View = styled.div``
@@ -20,6 +20,7 @@ const LogoContainer = styled.img`
 export default class UpdateLogo extends React.PureComponent {
   state = {
     fileList: [],
+    isUploadError: false,
   }
 
   async componentWillMount() {
@@ -37,6 +38,10 @@ export default class UpdateLogo extends React.PureComponent {
         type: 'error',
       })
       newFileList = []
+    }
+
+    if (newFileList.length > 1) {
+      newFileList = [...newFileList[newFileList.length -1 ]]
     }
 
     this.setState({
@@ -71,22 +76,32 @@ export default class UpdateLogo extends React.PureComponent {
     })
   }
 
-  beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  beforeUpload = file => {
+    this.setState({ isUploadError: false })
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
     if (!isJpgOrPng) {
-      message.error(translate('stationAutoManager.uploadFile.errorType'));
+      message.error(translate('stationAutoManager.uploadFile.errorType'))
     }
     if (!isLimitSize(file.size)) {
-      message.error(translate('stationAutoManager.uploadFile.errorSize'));
+      message.error(translate('stationAutoManager.uploadFile.errorSize'))
     }
     if (isContainSpecialCharacter(file.name)) {
-      message.error(translate('stationAutoManager.uploadFile.errorSpecial'));
+      message.error(translate('stationAutoManager.uploadFile.errorSpecial'))
     }
-    return isJpgOrPng && isLimitSize(file.size) && !isContainSpecialCharacter(file.name);
+    const isUploadError = !(
+      isJpgOrPng &&
+      isLimitSize(file.size) &&
+      !isContainSpecialCharacter(file.name)
+    )
+    if (isUploadError) {
+      this.setState({ isUploadError: true })
+    }
+    return !isUploadError
   }
 
   render() {
     const { name, ...otherProps } = this.props
+    const { isUploadError } = this.state
     return (
       <View>
         {this.props.label && <Label>{this.props.label}</Label>}
@@ -98,9 +113,10 @@ export default class UpdateLogo extends React.PureComponent {
           fileList={this.state.fileList}
           onChange={this.handleImageChange}
           disabled={!this.props.isAdmin}
+          showUploadList={isUploadError ? false : true}
         >
           {this.state.fileList.length > 0 ? (
-            ''
+            isUploadError ? <LogoContainer src="/images/logo/icon/enviroment.png" /> : ''
           ) : (
             <LogoContainer src="/images/logo/icon/enviroment.png" />
           )}

@@ -11,7 +11,6 @@ import { translate } from 'hoc/create-lang'
 import { isLimitSize } from 'utils'
 import { isContainSpecialCharacter } from 'utils/string'
 
-
 const View = styled.div``
 
 const uploadButton = (
@@ -29,6 +28,7 @@ export default class UpdateLoadImage extends React.PureComponent {
 
   state = {
     fileList: [],
+    isUploadError: false,
   }
 
   getFileLists() {
@@ -72,10 +72,16 @@ export default class UpdateLoadImage extends React.PureComponent {
       })
       newFileList = []
     }
+
+    if (newFileList.length > 1) {
+      newFileList = [...newFileList[newFileList.length - 1]]
+    }
+
     this.setState({
       fileList: newFileList,
     })
     if (file.status === 'done') {
+      console.log(file.response.url)
       this.props.onChange(file.response.url)
     }
     if (fileList.length === 0) {
@@ -83,22 +89,32 @@ export default class UpdateLoadImage extends React.PureComponent {
     }
   }
 
-  beforeUpload = file => {
+  beforeUpload = (file) => {
+    this.setState({ isUploadError: false })
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
     if (!isJpgOrPng) {
       message.error(translate('stationAutoManager.uploadFile.errorType'))
     }
     if (!isLimitSize(file.size)) {
-      message.error(translate('stationAutoManager.uploadFile.errorSize'));
+      message.error(translate('stationAutoManager.uploadFile.errorSize'))
     }
     if (isContainSpecialCharacter(file.name)) {
-      message.error(translate('stationAutoManager.uploadFile.errorSpecial'));
+      message.error(translate('stationAutoManager.uploadFile.errorSpecial'))
     }
-    return isJpgOrPng && isLimitSize(file.size) && !isContainSpecialCharacter(file.name);
+    const isUploadError = !(
+      isJpgOrPng &&
+      isLimitSize(file.size) &&
+      !isContainSpecialCharacter(file.name)
+    )
+    if (isUploadError) {
+      this.setState({ isUploadError: true })
+    }
+    return !isUploadError
   }
 
   render() {
     const { name, ...otherProps } = this.props
+    const { isUploadError } = this.state
     return (
       <View>
         {this.props.label && <Label>{this.props.label}</Label>}
@@ -110,8 +126,13 @@ export default class UpdateLoadImage extends React.PureComponent {
           fileList={this.state.fileList}
           onPreview={this.handlePreview}
           onChange={this.handleImageChange}
+          showUploadList={isUploadError ? false : true}
         >
-          {this.state.fileList.length > 0 ? '' : uploadButton}
+          {this.state.fileList.length > 0
+            ? isUploadError
+              ? uploadButton
+              : ''
+            : uploadButton}
         </Upload>
       </View>
     )
