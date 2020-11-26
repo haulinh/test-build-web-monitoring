@@ -2,6 +2,8 @@ import React, { Component, createRef, Fragment } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Button, Col, Form, Input, Row, Skeleton } from 'antd'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 import { translate as t } from 'hoc/create-lang'
 import OrganizationApi from 'api/OrganizationApi'
@@ -78,13 +80,13 @@ const i18n = {
   save: t('global.save'),
   testConfiguration: t('configService.testConfiguration'),
   esms: {
-    title: t('configService.esmsService')
+    title: t('configService.esmsService'),
   },
   mailgun: {
-    title: t('configService.mailGunService')
-  }
+    title: t('configService.mailGunService'),
+  },
 }
-
+@protectRole(ROLE.SERVICE_CONFIG.VIEW)
 @Form.create()
 @connect(state => ({
   organization: state.auth.userInfo.organization,
@@ -130,15 +132,24 @@ export default class ConfigService extends Component {
               {form.getFieldDecorator(item.fieldName, {
                 initialValue: item.initialValue,
                 rules: item.rules,
-              })(item.input || <Input placeholder={item.placeholder} />)}
+              })(
+                protectRole(
+                  ROLE.SERVICE_CONFIG.SETUP,
+                  [],
+                  'input'
+                )(<Input  placeholder={item.placeholder} />)
+              )}
             </Form.Item>
           ))}
           <Row type="flex" align="middle" gutter={12} className="btnGroup">
-            <Col>
-              <Button loading={isLoading} type="primary" htmlType="submit">
-                {i18n.save}
-              </Button>
-            </Col>
+            {protectRole(ROLE.SERVICE_CONFIG.SETUP)(
+              <Col>
+                <Button loading={isLoading} type="primary" htmlType="submit">
+                  {i18n.save}
+                </Button>
+              </Col>
+            )}
+
             <Col>
               <Text
                 className="test-configuration"

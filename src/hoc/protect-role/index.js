@@ -66,7 +66,20 @@ const createProtectRole = (
             ...ortherProps,
             key: Component.key,
           })
-      } else return null
+      } else {
+        if (type === 'input') {
+          if (isReact.component(Component)) {
+            return <Component  disabled {...ortherProps} />
+          } else
+            return React.cloneElement(Component, {
+              ...ortherProps,
+              disabled: true,
+              key: Component.key,
+            })
+          // return <Component disabled />
+        }
+        return null
+      }
     }
   }
 
