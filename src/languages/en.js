@@ -12,6 +12,7 @@ export default {
     save: 'Save',
     send: 'Send',
     unknownError: 'Unknown error, try again after',
+    password: 'password'
   },
   rules: {
     required: 'Required',

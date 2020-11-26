@@ -18,7 +18,6 @@ import { connectAutoDispatch } from 'redux/connect'
 import { userLogin, userLogin2Factor } from 'redux/actions/authAction'
 
 import { getAuthError } from '../helper'
-import { emailRule, requireRule } from '../rules'
 
 const FIELDS = {
   EMAIL: 'email',
@@ -153,6 +152,15 @@ export default class EmailForm extends Component {
     }
   }
 
+  validateField = field => (_, value, callback) => {
+    const {
+      lang: { t },
+    } = this.props
+    if (!value)
+      callback(t('rules.requiredField', { field: t(`global.${field}`) }))
+    callback()
+  }
+
   render() {
     const {
       form,
@@ -174,7 +182,7 @@ export default class EmailForm extends Component {
         <FormLogin hidden={isTwoFactorAuth}>
           <Form.Item>
             {form.getFieldDecorator(FIELDS.EMAIL, {
-              rules: [requireRule, emailRule],
+              rules: [{ validator: this.validateField('email') }],
             })(
               <Input
                 autoFocus
@@ -184,7 +192,9 @@ export default class EmailForm extends Component {
             )}
           </Form.Item>
           <Form.Item>
-            {form.getFieldDecorator(FIELDS.PASSWORD, { rules: [requireRule] })(
+            {form.getFieldDecorator(FIELDS.PASSWORD, {
+              rules: [{ validator: this.validateField('password') }],
+            })(
               <Input.Password
                 type="password"
                 size="large"

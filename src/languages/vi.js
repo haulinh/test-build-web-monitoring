@@ -5,13 +5,14 @@ export default {
     submit: 'Xác nhận',
     privacyPolicy: 'Chính sách bảo mật',
     termsOfService: 'Điều khoản dịch vụ',
-    phoneNumber: 'Số điện thoại',
-    email: 'Email',
+    phoneNumber: 'số điện thoại',
+    email: 'email',
     required: 'Bắt buộc',
     invalidEmail: 'Email không hợp lệ',
     save: 'Lưu',
     send: 'Gửi',
     unknownError: 'Lỗi không xác định, thử lại sau!',
+    password: 'mật khẩu'
   },
   rules: {
     required: 'Bắt buộc',

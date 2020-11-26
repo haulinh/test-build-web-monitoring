@@ -117,8 +117,12 @@ export default class PhoneNumberForm extends Component {
 
   onSubmit = async e => {
     e.preventDefault()
-    this.setState({ isLoading: true })
     try {
+      const { form } = this.props
+      const values = await form.validateFields()
+      if (!values) return
+
+    this.setState({ isLoading: true })
       const phone = this.getPhoneNumber()
       const result = await verifyPhoneNumber({ phone })
       const { error, message, data } = result
@@ -155,6 +159,16 @@ export default class PhoneNumberForm extends Component {
     else this.setState({ isShowOtpForm: false })
   }
 
+  validatePhone = (_, values, callback) => {
+    const {
+      lang: { t },
+    } = this.props
+    const { phoneNumber } = values || {}
+    if (!phoneNumber)
+      callback(t('rules.requiredField', { field: t('global.phoneNumber') }))
+    callback()
+  }
+
   render() {
     const {
       form,
@@ -170,9 +184,9 @@ export default class PhoneNumberForm extends Component {
           </FormHeader>
           <FormBody>
             <Form.Item>
-              {form.getFieldDecorator(FIELDS.PHONE_NUMBER)(
-                <PhoneNumber autoFocus />
-              )}
+              {form.getFieldDecorator(FIELDS.PHONE_NUMBER, {
+                rules: [{ validator: this.validatePhone }],
+              })(<PhoneNumber autoFocus />)}
             </Form.Item>
           </FormBody>
           <Button isLoading={isLoading} block color="primary">

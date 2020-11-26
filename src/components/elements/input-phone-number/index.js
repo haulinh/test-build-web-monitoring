@@ -107,6 +107,7 @@ export default class InputPhoneNumber extends PureComponent {
   constructor() {
     super()
     this.ref = createRef()
+    this.state = {}
     document.addEventListener(
       INIT_EVENT,
       this.formatPhoneNumberFromDefaultValue
@@ -118,6 +119,7 @@ export default class InputPhoneNumber extends PureComponent {
     if (value && !value.formattedPhone) {
       document.dispatchEvent(new CustomEvent(INIT_EVENT))
     }
+    return null
   }
 
   formatPhoneNumberFromDefaultValue = () => {
