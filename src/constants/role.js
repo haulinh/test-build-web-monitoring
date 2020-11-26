@@ -210,7 +210,10 @@ export default {
     CONFIG_PUBLISH: 'menu.qaqc.actions.config_publish',
     CONFIG_NEW: 'menu.qaqc.action.configNew',
   },
-
+  SERVICE_CONFIG: {
+    VIEW: 'menu.service_config.actions.view',
+    SETUP: 'menu.service_config.actions.setup',
+  },
   AQI_SEARCHDATA: {
     VIEW: 'menu.aqiSearchData.actions.view',
     AQI_EXPORT: 'menu.aqiSearchData.actions.aqi_export',

@@ -1408,9 +1408,11 @@ export default {
         label: 'Order',
         placeholder: 'Order',
       },
-      errorMaxTend: "Tend To Exceed Max Limit Must Be Less Than Exceeded Max Limit",
-      errorMinTend: "Tend To Exceed Min Limit Must Be Larger Than Exceeded Min Limit",
-      errorMinMax: "Min Limit Must Be Less Than Max Limit"
+      errorMaxTend:
+        'Tend To Exceed Max Limit Must Be Less Than Exceeded Max Limit',
+      errorMinTend:
+        'Tend To Exceed Min Limit Must Be Larger Than Exceeded Min Limit',
+      errorMinMax: 'Min Limit Must Be Less Than Max Limit',
     },
     range: {
       label: 'Station Range',
@@ -1863,6 +1865,7 @@ export default {
       stationType: { name: 'Type of Station' },
       province: { name: 'Site' },
       qcvn: { name: 'Standard' },
+      service_config: { name: 'Service configuration' },
       role: { name: 'Role' },
       user: { name: 'User' },
       config_color_noti: {
@@ -1897,6 +1900,7 @@ export default {
         edit: 'Edit',
         delete: 'Delete',
         export: 'Export',
+        setup: "Setup",
         manualapprove: 'Manual Approve',
         unapprove: 'Unapprove',
         approve: 'Approve',
