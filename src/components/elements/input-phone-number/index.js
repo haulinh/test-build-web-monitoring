@@ -1,8 +1,15 @@
 import React, { createRef, PureComponent } from 'react'
 import { Input } from 'antd'
 import PropTypes from 'prop-types'
+import get from 'lodash/get'
+import omit from 'lodash/omit'
 import styled from 'styled-components'
 import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
+
+const inputSize = {
+  medium: '32px',
+  large: '40px',
+}
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,7 +20,7 @@ const Wrapper = styled.div`
     margin-top: 0;
     display: inline-block;
     background: #eee;
-    height: ${props => (props.size === 'medium' ? '32px' : '40px')};
+    height: ${props => inputSize[props.size]};
     width: fit-content;
     cursor: pointer;
     input {
@@ -63,88 +70,115 @@ const DialCode = styled.span`
   font-weight: 600;
 `
 
-const formatPhoneNumber = (format = '', phone = '') => {
+const formatPhoneNumber = ({ dialCode = '', format = '', phone = '' }) => {
+  const phoneNumber = `${dialCode}${phone.replace(/^0/, '')}`
+
   let i = 0
-  return format.replace(/\.+/g, strMatch => {
-    const str = phone.slice(i, i + strMatch.length)
+  const formattedPhone = format.replace(/\.+/g, strMatch => {
+    const str = phoneNumber.slice(i, i + strMatch.length)
     i = i + strMatch.length
     return str
   })
+
+  return `${formattedPhone}${phoneNumber.slice(i, phoneNumber.length)}`
 }
 
+const getRealPhoneNumber = ({ phone = '', dialCode = '' }) => {
+  const regxPatt = `^(\\+${dialCode}|${dialCode}|0*)`
+  const regex = new RegExp(regxPatt)
+  return phone.replace(regex, '').replace(/\D/g, '')
+}
+
+const INIT_EVENT = 'formatPhoneNumberFromDefaultValue'
+
+const VIETNAME_PHONE = {
+  DIAL_CODE: '84',
+  FORMAT: '+..-..-....-...',
+}
 export default class InputPhoneNumber extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func,
     value: PropTypes.any,
-    placeholder: PropTypes.string,
-    size: PropTypes.string,
     autoFocus: PropTypes.bool,
+    placeholder: PropTypes.string,
+    size: PropTypes.oneOf(['medium', 'large']),
   }
 
   constructor() {
     super()
     this.ref = createRef()
-
-    this.state = {
-      selectedCountry: {
-        dialCode: 84,
-        format: '+..-..-....-...',
-      },
-    }
-    document.addEventListener('update', this.updateCountryCode)
+    document.addEventListener(
+      INIT_EVENT,
+      this.formatPhoneNumberFromDefaultValue
+    )
   }
 
   static getDerivedStateFromProps(nextProps) {
-    if (typeof nextProps.value === 'string') {
-      document.dispatchEvent(new CustomEvent('update'))
+    const value = get(nextProps, 'value')
+    if (value && !value.formattedPhone) {
+      document.dispatchEvent(new CustomEvent(INIT_EVENT))
     }
   }
 
-  updateCountryCode = () => {
+  formatPhoneNumberFromDefaultValue = () => {
+    if (!this.ref) return
     setTimeout(() => {
       const { value, onChange } = this.props
-      if (typeof value === 'string') {
-        const selectedCountry = this.ref.__wrappedInstance.state.selectedCountry
-        onChange({ phoneNumber: value, ...selectedCountry })
-        this.setState({ selectedCountry })
+      let selectedCountry = {}
+      let phone = ''
+
+      if (value && typeof value === 'object') {
+        phone = value.phoneNumber
+        selectedCountry = omit(value, 'phoneNumber')
       }
+
+      if (typeof value === 'string') {
+        phone = value
+        selectedCountry = this.ref.__wrappedInstance.state.selectedCountry
+      }
+
+      const phoneNumber = getRealPhoneNumber({
+        phone,
+        dialCode: selectedCountry.dialCode,
+      })
+      const formattedPhone = formatPhoneNumber({
+        phone: phoneNumber,
+        dialCode: selectedCountry.dialCode,
+        format: selectedCountry.format,
+      })
+
+      onChange({ ...selectedCountry, phoneNumber, formattedPhone })
     }, 0)
   }
 
   handleTelChange = (_, selectedCountry) => {
-    console.log('handleTelChange', selectedCountry)
     const { onChange } = this.props
     const data = {
-      phoneNumber: '',
       ...selectedCountry,
+      phoneNumber: '',
+      formattedPhone: selectedCountry.dialCode,
     }
-    this.setState({ selectedCountry })
     onChange(data)
-  }
-
-  getRealPhoneNumber = (inputValue = '', dialCode = '84') => {
-    const regxPatt = `^(\\+${dialCode}|${dialCode}|0*)`
-    const regex = new RegExp(regxPatt)
-    return inputValue.replace(regex, '').replace(/\D/g, '')
   }
 
   handlePhoneChange = e => {
-    const { onChange } = this.props
-    const { selectedCountry } = this.state
-    const inputValue = e.target.value
-    let phoneNumber = this.getRealPhoneNumber(
-      inputValue,
-      selectedCountry.dialCode
-    )
-    phoneNumber = formatPhoneNumber(
-      selectedCountry.format,
-      `${selectedCountry.dialCode}${phoneNumber}`
-    )
-    const data = {
-      ...selectedCountry,
+    const { onChange, value } = this.props
+    const phoneNumber = e.target.value || ''
+    const format = get(value, 'format', VIETNAME_PHONE.FORMAT)
+    const dialCode = get(value, 'dialCode', VIETNAME_PHONE.DIAL_CODE)
+    const formattedPhone = formatPhoneNumber({
+      format,
+      dialCode,
+      phone: phoneNumber,
+    })
+
+    if (format && format.length < formattedPhone.length) return
+
+    onChange({
+      ...value,
       phoneNumber,
-    }
-    onChange(data)
+      formattedPhone,
+    })
   }
 
   setRef = inputRef => {
@@ -152,10 +186,13 @@ export default class InputPhoneNumber extends PureComponent {
   }
 
   render() {
-    const { selectedCountry } = this.state
     const { placeholder, autoFocus, value, size } = this.props
-    const phoneNumber =
-      typeof value === 'string' ? value : (value || {}).phoneNumber
+
+    const dialCode = get(value, 'dialCode', VIETNAME_PHONE.DIAL_CODE)
+    const phoneNumber = get(value, 'phoneNumber', value)
+    const formattedPhone = value
+      ? get(value, 'formattedPhone', phoneNumber)
+      : VIETNAME_PHONE.DIAL_CODE
 
     return (
       <Wrapper size={size}>
@@ -165,20 +202,24 @@ export default class InputPhoneNumber extends PureComponent {
             defaultCountry={'vn'}
             flagsImagePath="/images/flags.png"
             onChange={this.handleTelChange}
-            value={phoneNumber}
+            value={formattedPhone}
           />
-          <DialCode>+{selectedCountry.dialCode}</DialCode>
+          <DialCode>+{dialCode}</DialCode>
         </SelectCountry>
         <PhoneInput
-          size={size || 'large'}
-          autoFocus={autoFocus}
           min="1"
           type="number"
+          size={size}
+          value={phoneNumber}
+          autoFocus={autoFocus}
           placeholder={placeholder}
           onChange={this.handlePhoneChange}
-          value={this.getRealPhoneNumber(phoneNumber, selectedCountry.dialCode)}
         />
       </Wrapper>
     )
   }
+}
+
+InputPhoneNumber.defaultProps = {
+  size: 'large',
 }
