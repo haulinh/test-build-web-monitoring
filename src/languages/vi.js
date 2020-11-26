@@ -1856,6 +1856,7 @@ export default {
       stationType: { name: 'Loại trạm' },
       province: { name: 'Đơn vị quản lý' },
       qcvn: { name: 'Quy chuẩn' },
+      service_config: { name: 'Cấu hình dịch vụ' },
       role: { name: 'Nhóm quyền' },
       user: { name: 'Người dùng' },
       config_color_noti: {
@@ -1893,6 +1894,7 @@ export default {
         edit: 'Cập nhật',
         delete: 'Xóa',
         export: 'Xuất dữ liệu',
+        setup: "Thiết lập",
         manualapprove: 'Kiểm duyệt tùy chọn',
         unapprove: 'Hủy kiểm duyệt',
         approve: 'Kiểm duyệt',

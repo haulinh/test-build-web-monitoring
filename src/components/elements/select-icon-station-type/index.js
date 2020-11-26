@@ -1,6 +1,5 @@
 import { Avatar, message, Popover, Upload } from 'antd'
 import MediaApi from 'api/MediaApi'
-import Axios from 'axios'
 import { autobind } from 'core-decorators'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
