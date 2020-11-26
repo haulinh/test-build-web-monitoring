@@ -84,9 +84,9 @@ export default class UserDropdown extends React.PureComponent {
           <DropdownItem onClick={this.handleChangePassword}>
             {translate('profileUser.changePassword')}
           </DropdownItem>
-          {/* <DropdownItem onClick={this.handleConfigStation}>
+          <DropdownItem onClick={this.handleConfigStation}>
             {translate('profileUser.configStation')}
-          </DropdownItem> */}
+          </DropdownItem>
           <DropdownItem onClick={this.handleSecurity}>
             {translate('profileUser.security')}
           </DropdownItem>
