@@ -35,6 +35,8 @@ const i18n = {
 
   add: translate('wqiConfigCalculation.add'),
   required: translate('wqiConfigCalculation.required'),
+  compareToMax: translate('wqiConfigCalculation.compareToMax'),
+  compareToMin: translate('wqiConfigCalculation.compareToMin'),
   colLevel: translate('wqiConfigCalculation.colLevel'),
   colMin: translate('wqiConfigCalculation.colMin'),
   colMax: translate('wqiConfigCalculation.colMax'),
@@ -52,6 +54,24 @@ export default class TabMucDo extends React.Component {
     dataSource: [],
     isLocked: false,
     isFormLoaded: false,
+  }
+
+  compareToMax = (rule, value, callback, fliedName) => {
+    const { form } = this.props
+    if (value && value > form.getFieldValue(fliedName)) {
+      callback(i18n.compareToMax)
+    } else {
+      callback()
+    }
+  }
+
+  compareToMin = (rule, value, callback, fliedName) => {
+    const { form } = this.props
+    if (value && value < form.getFieldValue(fliedName)) {
+      callback(i18n.compareToMin)
+    } else {
+      callback()
+    }
   }
 
   columns = [
@@ -91,6 +111,15 @@ export default class TabMucDo extends React.Component {
                   required: true,
                   message: i18n.required,
                 },
+                {
+                  validator: (rule, value, callback) =>
+                    this.compareToMax(
+                      rule,
+                      value,
+                      callback,
+                      `levelList[${record.key}].max`
+                    ),
+                }
               ],
             })(
               <InputNumber
@@ -119,6 +148,16 @@ export default class TabMucDo extends React.Component {
                     required: !this.state.isLocked,
                     message: i18n.required,
                   },
+                  {
+                    validator: (rule, value, callback) =>
+                      this.compareToMin(
+                        rule,
+                        value,
+                        callback,
+                        `levelList[${record.key}].min`
+                      ),
+                  }
+                  
                 ],
               })(
                 <InputNumber
