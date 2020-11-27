@@ -62,7 +62,7 @@ export default class PhoneNumberForm extends Component {
   getPhoneNumber = () => {
     const { form } = this.props
     const values = form.getFieldValue(FIELDS.PHONE_NUMBER)
-    return (values || {}).formattedPhone
+    return (values || {}).phoneNumber
   }
 
   handleGetOtp = async () => {
