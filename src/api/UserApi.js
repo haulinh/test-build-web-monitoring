@@ -59,7 +59,7 @@ export function updateRole(_id, data = {}) {
 }
 
 export function updateRole_v1(_id, data = {}) {
-  return putFetch(getUserUrl(`organization/v1/role/${_id}`), data)
+  return putFetch(getUserUrl(`organization/assign-stations/${_id}`), data)
 }
 
 export function accountActivate(code) {

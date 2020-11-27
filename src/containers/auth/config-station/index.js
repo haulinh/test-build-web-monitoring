@@ -1,18 +1,13 @@
 import { Button, Checkbox, message, Row } from 'antd'
 import StationAutoApi from 'api/StationAuto'
-// import AuthAPI from 'api/AuthApi'
 import { getStationsIsAuthorisedForUser, updateConfigSendNotifyForUser } from 'api/UserApi'
 import Clearfix from 'components/elements/clearfix'
 import DynamicTable from 'components/elements/dynamic-table'
-// import ROLE from 'constants/role'
 import { STATION_AUTO_OPTIONS } from 'constants/labels'
-import ROLE from 'constants/role'
 import { autobind } from 'core-decorators'
-// import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
 import createManagerDelete from 'hoc/manager-delete'
 import createManagerList from 'hoc/manager-list'
-import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
@@ -51,7 +46,6 @@ const Span = styled.span`
   role: state.auth.userInfo.role,
   userOptions: state.auth.userInfo.stationAutos,
 }))
-@protectRole(ROLE.CAU_HINH_GUI_CANH_BAO.VIEW)
 @createManagerList({
   apiList: getStationsIsAuthorisedForUser
 })
