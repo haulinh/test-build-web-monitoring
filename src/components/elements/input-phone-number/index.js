@@ -99,6 +99,7 @@ export default class InputPhoneNumber extends PureComponent {
     autoFocus: PropTypes.bool,
     placeholder: PropTypes.string,
     size: PropTypes.oneOf(['medium', 'large']),
+    disabled: PropTypes.bool
   }
 
   constructor() {
@@ -143,7 +144,6 @@ export default class InputPhoneNumber extends PureComponent {
     })
     if (format && format.length < phoneNumber.length) return
 
-    console.log(value, this.ref, "---handlePhoneChange---")
     onChange({
       ...value,
       format,
@@ -168,7 +168,7 @@ export default class InputPhoneNumber extends PureComponent {
         .replace(dialCode, '')
         .replace('+', '0')
     }
-    console.log(phoneNumber,phoneNumber || VIETNAME_PHONE.DIAL_CODE,"-----default value----" )
+    // console.log(phoneNumber,phoneNumber || VIETNAME_PHONE.DIAL_CODE,"-----default value----" )
     return (
       <Wrapper size={size}>
         <SelectCountry>
@@ -177,6 +177,7 @@ export default class InputPhoneNumber extends PureComponent {
             flagsImagePath="/images/flags.png"
             onChange={this.handleTelChange}
             value={phoneNumber}
+            disabled={this.props.disabled}
           />
           <DialCode>+{dialCode}</DialCode>
         </SelectCountry>
@@ -188,6 +189,7 @@ export default class InputPhoneNumber extends PureComponent {
           autoFocus={autoFocus}
           placeholder={placeholder}
           onChange={this.handlePhoneChange}
+          disabled={this.props.disabled}
         />
       </Wrapper>
     )
