@@ -88,6 +88,9 @@ const formatPhoneNumber = ({ dialCode = '', format = '', phone = '' }) => {
 const VIETNAME_PHONE = {
   DIAL_CODE: '84',
   FORMAT: '+..-..-....-...',
+  PRIORITY:0,
+  ISO2:'vn',
+  NAME:'Vietnam (Việt Nam)'
 }
 export default class InputPhoneNumber extends PureComponent {
   static propTypes = {
@@ -112,10 +115,16 @@ export default class InputPhoneNumber extends PureComponent {
     const { onChange } = this.props
     const data = {
       ...selectedCountry,
-      phoneNumber: selectedCountry.dialCode
+      phoneNumber: selectedCountry.dialCode,
     }
     onChange(data)
   }
+
+  // DIAL_CODE: '84',
+  // FORMAT: '+..-..-....-...',
+  // PRIORITY:0,
+  // ISO2:'vn',
+  // NAME:'Vietnam (Việt Nam)'
 
   handlePhoneChange = e => {
     const { onChange, value } = this.props
@@ -123,6 +132,10 @@ export default class InputPhoneNumber extends PureComponent {
 
     const format = get(value, 'format', VIETNAME_PHONE.FORMAT)
     const dialCode = get(value, 'dialCode', VIETNAME_PHONE.DIAL_CODE)
+    const priority = get(value, 'priority', VIETNAME_PHONE.PRIORITY)
+    const iso2 = get(value, 'iso2', VIETNAME_PHONE.ISO2)
+    const name = get(value, 'name', VIETNAME_PHONE.NAME)
+
     const phoneNumber = formatPhoneNumber({
       format,
       dialCode,
@@ -130,16 +143,19 @@ export default class InputPhoneNumber extends PureComponent {
     })
     if (format && format.length < phoneNumber.length) return
 
+    console.log(value, this.ref, "---handlePhoneChange---")
     onChange({
       ...value,
+      format,
+      dialCode,
       phoneNumber,
+      priority,
+      iso2,
+      name,
       phoneString: valuePhone,
     })
   }
 
-  setRef = inputRef => {
-    this.ref = inputRef
-  }
 
   render() {
     const { placeholder, autoFocus, value, size } = this.props
@@ -152,13 +168,12 @@ export default class InputPhoneNumber extends PureComponent {
         .replace(dialCode, '')
         .replace('+', '0')
     }
-    console.log(value, "--value---")
+    console.log(phoneNumber,phoneNumber || VIETNAME_PHONE.DIAL_CODE,"-----default value----" )
     return (
       <Wrapper size={size}>
         <SelectCountry>
           <ReactTelephoneInput
-            ref={this.setRef}
-            defaultCountry={'vn'}
+            defaultCountry={VIETNAME_PHONE.ISO2}
             flagsImagePath="/images/flags.png"
             onChange={this.handleTelChange}
             value={phoneNumber}

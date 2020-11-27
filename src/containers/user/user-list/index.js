@@ -299,7 +299,7 @@ export default class UserList extends React.Component {
       {
         content: (
           <div>
-            {row.phone && row.phone.iso2 && (
+            {row.email  && (
               <AccountWrapper>
                 <AvatarCharacter
                   size={32}
