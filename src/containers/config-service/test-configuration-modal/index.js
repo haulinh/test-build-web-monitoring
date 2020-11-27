@@ -3,10 +3,11 @@ import styled from 'styled-components'
 import { Button, Form, Modal, Input, notification } from 'antd'
 
 import { translate as t } from 'hoc/create-lang'
+import NotificationApi from 'api/NotificationApi'
+import { validateEmail, validatePhone } from 'utils/rules'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 
 import { MODAL_FIELDS } from '../helper'
-import NotificationApi from 'api/NotificationApi'
 
 const Marginbottom = styled.div`
   margin-bottom: 20px;
@@ -104,9 +105,9 @@ export default class TestConfigurationModal extends Component {
             <Fragment>
               <div>{i18n.esmsDescription}</div>
               <Form.Item colon={false} label={i18n.phoneNumberLabel}>
-                {form.getFieldDecorator(MODAL_FIELDS.PHONE_NUMBER)(
-                  <InputPhoneNumber />
-                )}
+                {form.getFieldDecorator(MODAL_FIELDS.PHONE_NUMBER, {
+                  rules: [{ validator: validatePhone }],
+                })(<InputPhoneNumber />)}
               </Form.Item>
             </Fragment>
           )}
@@ -114,9 +115,9 @@ export default class TestConfigurationModal extends Component {
             <Fragment>
               <div>{i18n.mailGunDescription}</div>
               <Form.Item colon={false} label={i18n.emailLabel}>
-                {form.getFieldDecorator(MODAL_FIELDS.EMAIL)(
-                  <Input size="large" />
-                )}
+                {form.getFieldDecorator(MODAL_FIELDS.EMAIL, {
+                  rules: [{ validator: validateEmail }],
+                })(<Input size="large" />)}
               </Form.Item>
             </Fragment>
           )}
