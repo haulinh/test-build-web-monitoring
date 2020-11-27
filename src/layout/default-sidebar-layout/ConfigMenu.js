@@ -180,7 +180,7 @@ export default {
       )}
 
       {/* NOTE  NHÓM QUYỀN */}
-      {protectRole(ROLE.ROLE.VIEW)(
+      {protectRole(ROLE.SERVICE_CONFIG.VIEW)(
         <Menu.Item
           key={slug.config.service}
           // key={slug.role.base}
