@@ -137,7 +137,8 @@ export default class ConfigService extends Component {
                   ROLE.SERVICE_CONFIG.SETUP,
                   [],
                   'input'
-                )(<Input  placeholder={item.placeholder} />)
+                )(item.input || <Input placeholder={item.placeholder} />)
+                
               )}
             </Form.Item>
           ))}
