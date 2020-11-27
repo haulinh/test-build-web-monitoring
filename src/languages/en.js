@@ -321,6 +321,9 @@ export default {
     taiLieu: 'Documentation on calculations',
     config: 'Configuration',
     view: 'View',
+    error: {
+      MEASURE_KEY_DUPLICATE: "Duplicate Measure Key"
+    }
   },
   qaqc: {
     configPublish: {

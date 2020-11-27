@@ -317,6 +317,9 @@ export default {
     taiLieu: 'Tài liệu tính toán',
     config: 'Cấu hình',
     view: 'Xem',
+    error: {
+      MEASURE_KEY_DUPLICATE: "Mã thông số bị trùng"
+    }
   },
   qaqc: {
     configPublish: {

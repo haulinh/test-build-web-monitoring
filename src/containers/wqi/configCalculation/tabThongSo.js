@@ -38,6 +38,7 @@ const i18n = {
   updateError: translate('addon.onSave.update.error'),
 
   add: translate('wqiConfigCalculation.add'),
+  errorDuplicate: translate('wqiConfigCalculation.error.MEASURE_KEY_DUPLICATE'),
   required1D_1H: translate('wqiConfigCalculation.required1D_1H'),
   required: translate('wqiConfigCalculation.required'),
   colLevel: translate('wqiConfigCalculation.colLevel'),
@@ -73,6 +74,23 @@ export default class TabThongSo extends React.Component {
     dataMeasuringObj: {},
     aqiQCLevel: [],
   }
+
+  // validateMeasure = (rule, value, callback) => {
+  //   const { getFieldsValue } = this.props.form
+  //   const newFieldsValue = getFieldsValue().payload.filter(
+  //     field =>
+  //       !this.state.dataSource.some(
+  //         measure => measure.keyMeasure === field.keyMeasure
+  //       )
+  //   )
+  //   if (newFieldsValue.some(field => field.keyMeasure === value)) {
+  //     const isValueDuplicate =
+  //       _.uniqBy(newFieldsValue, 'keyMeasure').length !== newFieldsValue.length
+  //     if (isValueDuplicate) callback('error here')
+  //   }
+  //   callback()
+  // }
+
   columns = [
     {
       title: i18n.colMeasureKey,
@@ -100,6 +118,9 @@ export default class TabThongSo extends React.Component {
                   required: true,
                   message: i18n.required,
                 },
+                // {
+                //   validator: this.validateMeasure,
+                // },
               ],
             })(<this.SelectMeasure />)}
           </Form.Item>
@@ -238,8 +259,11 @@ export default class TabThongSo extends React.Component {
     return (
       <Select ref={ref} {...props} showSearch style={{ width: '100%' }}>
         {_.map(this.state.dataMeasuringObj, mea => {
+          const isDisable = this.state.dataSource.some(
+            item => item.keyMeasure === mea.key
+          )
           return (
-            <Select.Option key={mea.key} value={mea.key}>
+            <Select.Option disabled={isDisable} key={mea.key} value={mea.key}>
               {mea.name}
             </Select.Option>
           )
@@ -252,7 +276,6 @@ export default class TabThongSo extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         this.setState({ isSubmit: true })
-        console.log('Received values of form: ', values)
         try {
           let transformData = values.payload
           const response = await postConfigWqiParams(
@@ -261,6 +284,8 @@ export default class TabThongSo extends React.Component {
           )
           if (response.success) {
             message.success(i18n.updateSuccess)
+          } else {
+            message.error(i18n.errorDuplicate)
           }
         } finally {
           this.setState({ isSubmit: false })
