@@ -317,6 +317,7 @@ export default class ImageMoreInfo extends React.Component {
               accept=".jpg, .png, .svg, jpeg"
               listType="picture-card"
               customRequest={this.customRequest}
+              beforeUpload={this.beforeUpload}
             >
               {this.state.uploading ? <Spin /> : <Icon size={24} type="plus" />}
             </Upload>
