@@ -6,7 +6,6 @@ import { Form, Input, Button, Row, Col } from 'antd'
 
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import InputPhoneNumber from 'components/elements/input-phone-number'
-import { get } from 'lodash'
 
 const FormItem = styled(Form.Item)`
   .ant-form-item-control {
@@ -41,14 +40,13 @@ export default class UserForm extends React.PureComponent {
       this.setState({
         isLoading: true,
       })
-      const phone = get(values, 'phone', {})
       
       const data = {
         email: values.email,
         password: values.password,
         firstName: values.firstName,
         lastName: values.lastName,
-        phone: {...phone, phoneNumber: phone.formattedPhone},
+        phone: values.phone,
         organization: values.organization
           ? this.state.selectOrganizations.find(
               item => item._id === values.organization
