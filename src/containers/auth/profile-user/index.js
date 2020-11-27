@@ -263,6 +263,7 @@ export class ProfileUserForm extends PureComponent {
                 label={translate('profileUser.Phone')}
                 name="phone"
                 component={FInputPhoneNumber}
+                disabled={true}
                 // size="large"
               />
             </Col>
