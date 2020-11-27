@@ -283,6 +283,8 @@ export default {
     add: 'Thêm',
     required1D_1H: 'Nhập ít nhất AVG Ngày hoặc AVG Giờ',
     required: 'Vui lòng nhập giá trị',
+    compareToMax: 'Giá trị tối thiểu phải nhỏ hơn tối đa',
+    compareToMin: 'Giá trị tối đa phải lơn hơn tối thiếu',
     collevel: 'Cấp độ',
     colValue: 'Giá trị',
     colOperate: 'Phép toán',
