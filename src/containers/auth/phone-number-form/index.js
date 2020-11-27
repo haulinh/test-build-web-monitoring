@@ -8,6 +8,7 @@ import slug from 'constants/slug'
 import Errors from 'constants/errors'
 import createLang from 'hoc/create-lang'
 import { setAuthToken } from 'utils/auth'
+import { validatePhone } from 'utils/rules'
 import {
   verifyPhoneNumber,
   getOTPByPhoneNumber,
@@ -159,16 +160,6 @@ export default class PhoneNumberForm extends Component {
     else this.setState({ isShowOtpForm: false })
   }
 
-  validatePhone = (_, values, callback) => {
-    const {
-      lang: { t },
-    } = this.props
-    const { phoneNumber } = values || {}
-    if (!phoneNumber)
-      callback(t('rules.requiredField', { field: t('global.phoneNumber') }))
-    callback()
-  }
-
   render() {
     const {
       form,
@@ -185,7 +176,7 @@ export default class PhoneNumberForm extends Component {
           <FormBody>
             <Form.Item>
               {form.getFieldDecorator(FIELDS.PHONE_NUMBER, {
-                rules: [{ validator: this.validatePhone }],
+                rules: [{ validator: validatePhone }],
               })(<PhoneNumber autoFocus />)}
             </Form.Item>
           </FormBody>
