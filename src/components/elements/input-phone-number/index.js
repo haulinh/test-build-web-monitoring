@@ -64,6 +64,7 @@ const SelectCountry = styled.div`
   display: flex;
   align-items: center;
   width: 115px;
+  border-radius: 4px 0 0 4px;
 `
 
 const DialCode = styled.span`
