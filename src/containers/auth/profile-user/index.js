@@ -236,7 +236,7 @@ export class ProfileUserForm extends PureComponent {
                 label={translate('profileUser.LastName')}
                 name="lastName"
                 component={FInput}
-                size="small"
+                size="large"
               />
             </Col>
             <Col md={6}>
@@ -244,7 +244,7 @@ export class ProfileUserForm extends PureComponent {
                 label={translate('profileUser.FirstName')}
                 name="firstName"
                 component={FInput}
-                size="small"
+                size="large"
               />
             </Col>
           </Row>
@@ -263,7 +263,7 @@ export class ProfileUserForm extends PureComponent {
                 label={translate('profileUser.Phone')}
                 name="phone"
                 component={FInputPhoneNumber}
-                size="large"
+                // size="large"
               />
             </Col>
           </Row>

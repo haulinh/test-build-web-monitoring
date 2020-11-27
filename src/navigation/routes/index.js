@@ -73,10 +73,6 @@ export default class RouteDefault extends React.Component {
             path={slug.login.loginWithPhoneNumber}
             component={LoginRoute}
           />
-          <Route
-            path={slug.login.loginWithPhoneNumber}
-            component={LoginRoute}
-          />
           <Route path={slug.password.emailConfirm} component={LoginRoute} />
           <Route path={slug.password.resetPassword} component={LoginRoute} />
           <Route path={slug.user.accountActive} component={AccountActive} />
