@@ -14,6 +14,7 @@ export function getConfigApi() {
     auth: c('auth'),
     // auth: 'http://localhost:5001/auth',
     user: c('user'),
+    // user: 'http://localhost:5005/user',
     trialRegister: c('trial-register'),
     config: c('config'),
 

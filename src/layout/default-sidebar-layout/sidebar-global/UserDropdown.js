@@ -52,7 +52,7 @@ export default class UserDropdown extends React.PureComponent {
     this.props.history.push(slug.user.security)
   }
   handleConfigStation() {
-    this.props.history.push(slug.stationAuto.configSendNotification.base)
+    this.props.history.push(slug.user.configStation)
   }
 
   render() {
@@ -84,9 +84,9 @@ export default class UserDropdown extends React.PureComponent {
           <DropdownItem onClick={this.handleChangePassword}>
             {translate('profileUser.changePassword')}
           </DropdownItem>
-          {/* <DropdownItem onClick={this.handleConfigStation}>
+          <DropdownItem onClick={this.handleConfigStation}>
             {translate('profileUser.configStation')}
-          </DropdownItem> */}
+          </DropdownItem>
           <DropdownItem onClick={this.handleSecurity}>
             {translate('profileUser.security')}
           </DropdownItem>

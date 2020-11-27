@@ -59,7 +59,7 @@ export function updateRole(_id, data = {}) {
 }
 
 export function updateRole_v1(_id, data = {}) {
-  return putFetch(getUserUrl(`organization/v1/role/${_id}`), data)
+  return putFetch(getUserUrl(`organization/assign-stations/${_id}`), data)
 }
 
 export function accountActivate(code) {
@@ -78,6 +78,14 @@ export function getSmsCode(type) {
   return getFetch(getUserUrl(`organization/security/2fa/sms`))
 }
 
+export function getStationsIsAuthorisedForUser() {
+  return getFetch(getUserUrl(`organization/stations`))
+}
+
+export function updateConfigSendNotifyForUser(data) {
+  return putFetch(getUserUrl(`organization/config-receive-notify`), data)
+}
+
 export default {
   searchUser,
   registerUser,
@@ -92,4 +100,6 @@ export default {
   accountEnable,
   confirmSms,
   getSmsCode,
+  getStationsIsAuthorisedForUser,
+  updateConfigSendNotifyForUser,
 }

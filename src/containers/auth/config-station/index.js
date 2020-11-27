@@ -1,24 +1,24 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Row, Checkbox, Button, message } from 'antd'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import _ from 'lodash'
-import swal from 'sweetalert2'
+import { Button, Checkbox, message, Row } from 'antd'
+import StationAutoApi from 'api/StationAuto'
+import { getStationsIsAuthorisedForUser, updateConfigSendNotifyForUser } from 'api/UserApi'
 import Clearfix from 'components/elements/clearfix'
-
-// import AuthAPI from 'api/AuthApi'
-import { updateRole_v1 } from 'api/UserApi'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-// import protectRole from 'hoc/protect-role'
-import { translate } from 'hoc/create-lang'
-import StationAutoSearchForm from './search-form'
-import { connectAutoDispatch } from 'redux/connect'
-import Breadcrumb from '../breadcrumb'
-// import ROLE from 'constants/role'
-import { STATION_AUTO_OPTIONS } from 'constants/labels'
-
 import DynamicTable from 'components/elements/dynamic-table'
+import { STATION_AUTO_OPTIONS } from 'constants/labels'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
+import createManagerDelete from 'hoc/manager-delete'
+import createManagerList from 'hoc/manager-list'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import _ from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { connectAutoDispatch } from 'redux/connect'
+import styled from 'styled-components'
+import swal from 'sweetalert2'
+import Breadcrumb from '../breadcrumb'
+import StationAutoSearchForm from './search-form'
+
+
 
 const i18n = {
   breadCrumb: translate('configStation.breadCrumb'),
@@ -41,12 +41,17 @@ const Span = styled.span`
 `
 
 @connectAutoDispatch(state => ({
-  stationAutos: state.stationAuto.list,
   isAdmin: state.auth.userInfo.isAdmin,
   userId: state.auth.userInfo._id,
   role: state.auth.userInfo.role,
   userOptions: state.auth.userInfo.stationAutos,
 }))
+@createManagerList({
+  apiList: getStationsIsAuthorisedForUser
+})
+@createManagerDelete({
+  apiDelete: StationAutoApi.removeStationAuto,
+})
 @autobind
 export default class StationAutoConfigNotification extends React.Component {
   static propTypes = {
@@ -76,31 +81,16 @@ export default class StationAutoConfigNotification extends React.Component {
       isWarningIndeterminate: true,
       isSmsIndeterminate: true,
       isEmailIndeterminate: true,
+      isWebIndeterminate: true,
       isWarningCheckAll: false,
       isSmsCheckAll: false,
       isEmailCheckAll: false,
+      isWebCheckAll: false,
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    let arrStationsOfUser = []
-    let userOptions = this._transformUserOptionsFromArrayToObject(
-      nextProps.userOptions
-    )
-    console.log('aaa: ', userOptions)
-    _.forEach(nextProps.stationAutos, station => {
-      let isAllowStationManager = _.get(
-        userOptions,
-        [station._id, 'manager', 'allowed'],
-        false
-      )
-      if (isAllowStationManager) {
-        let userOption = _.get(userOptions, [station._id])
-        station.options = userOption
-        arrStationsOfUser.push(station)
-      }
-    })
-
+    const arrStationsOfUser = nextProps.dataSource
     let sortedDataSource = _.orderBy(
       arrStationsOfUser || [],
       ['stationType.key'],
@@ -213,7 +203,7 @@ export default class StationAutoConfigNotification extends React.Component {
               checked={this.state.isWarningCheckAll}
               onChange={e =>
                 this.onChagedOptionOfHeader(
-                  STATION_AUTO_OPTIONS.PRIMARY,
+                  STATION_AUTO_OPTIONS.RECEIVE_NOTIFY,
                   e.target.checked
                 )
               }
@@ -264,6 +254,26 @@ export default class StationAutoConfigNotification extends React.Component {
         ),
         width: 10,
       },
+      {
+        content: (
+          <div>
+            <Checkbox
+              indeterminate={this.state.isWebIndeterminate}
+              checked={this.state.isWebCheckAll}
+              disabled={isDisabledCheckAll}
+              onChange={e =>
+                this.onChagedOptionOfHeader(
+                  STATION_AUTO_OPTIONS.WEB,
+                  e.target.checked
+                )
+              }
+            >
+              Web/Mobile
+            </Checkbox>
+          </div>
+        ),
+        width: 10,
+      },
     ]
   }
 
@@ -304,10 +314,10 @@ export default class StationAutoConfigNotification extends React.Component {
     let result = [].concat.apply(
       [],
       sourceSorted.map((row, index) => {
-        const isWarningCheckboxDisabled =
+        const isAllowReceiveNotify =
           _.get(
             row,
-            ['options', STATION_AUTO_OPTIONS.PRIMARY, 'allowed'],
+            ['options', STATION_AUTO_OPTIONS.RECEIVE_NOTIFY, 'allowed'],
             false
           ) === false
         //content Row
@@ -344,14 +354,14 @@ export default class StationAutoConfigNotification extends React.Component {
                 <Checkbox
                   checked={_.get(
                     row,
-                    ['options', STATION_AUTO_OPTIONS.PRIMARY, 'allowed'],
+                    ['options', STATION_AUTO_OPTIONS.RECEIVE_NOTIFY, 'allowed'],
                     false
                   )}
                   onChange={e =>
                     this.onChagedOptionOfRow({
                       index,
                       row,
-                      key: STATION_AUTO_OPTIONS.PRIMARY,
+                      key: STATION_AUTO_OPTIONS.RECEIVE_NOTIFY,
                       value: e.target.checked,
                     })
                   }
@@ -364,7 +374,7 @@ export default class StationAutoConfigNotification extends React.Component {
             content: (
               <div>
                 <Checkbox
-                  disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
+                  disabled={isDisabledCheckAll || isAllowReceiveNotify}
                   checked={_.get(
                     row,
                     ['options', STATION_AUTO_OPTIONS.SMS, 'allowed'],
@@ -387,7 +397,7 @@ export default class StationAutoConfigNotification extends React.Component {
             content: (
               <div>
                 <Checkbox
-                  disabled={isDisabledCheckAll || isWarningCheckboxDisabled}
+                  disabled={isDisabledCheckAll || isAllowReceiveNotify}
                   checked={_.get(
                     row,
                     ['options', STATION_AUTO_OPTIONS.EMAIL, 'allowed'],
@@ -398,6 +408,29 @@ export default class StationAutoConfigNotification extends React.Component {
                       index,
                       row,
                       key: STATION_AUTO_OPTIONS.EMAIL,
+                      value: e.target.checked,
+                    })
+                  }
+                />
+              </div>
+            ),
+          },
+          /* checkbox Web/mobile*/
+          {
+            content: (
+              <div>
+                <Checkbox
+                  disabled={isDisabledCheckAll || isAllowReceiveNotify}
+                  checked={_.get(
+                    row,
+                    ['options', STATION_AUTO_OPTIONS.WEB, 'allowed'],
+                    false
+                  )}
+                  onChange={e =>
+                    this.onChagedOptionOfRow({
+                      index,
+                      row,
+                      key: STATION_AUTO_OPTIONS.WEB,
                       value: e.target.checked,
                     })
                   }
@@ -438,14 +471,16 @@ export default class StationAutoConfigNotification extends React.Component {
   onChagedOptionOfHeader(column, checked) {
     let _dataSource = this.state.dataSource
 
-    if (column === STATION_AUTO_OPTIONS.PRIMARY) {
+    if (column === STATION_AUTO_OPTIONS.RECEIVE_NOTIFY) {
       this.setState({
         isWarningIndeterminate: false,
         isSmsIndeterminate: false,
         isEmailIndeterminate: false,
+        isWebIndeterminate: false,
         isWarningCheckAll: checked,
         isSmsCheckAll: checked,
         isEmailCheckAll: checked,
+        isWebCheckAll: checked,
       })
 
       let columns = _.values(STATION_AUTO_OPTIONS)
@@ -470,7 +505,7 @@ export default class StationAutoConfigNotification extends React.Component {
         let isWarningCheckBoxEnabled =
           _.get(station, [
             'options',
-            STATION_AUTO_OPTIONS.PRIMARY,
+            STATION_AUTO_OPTIONS.RECEIVE_NOTIFY,
             'allowed',
           ]) === true
         if (isDiffValue && isWarningCheckBoxEnabled) {
@@ -485,7 +520,7 @@ export default class StationAutoConfigNotification extends React.Component {
     }
 
     switch (column) {
-      case STATION_AUTO_OPTIONS.PRIMARY: {
+      case STATION_AUTO_OPTIONS.RECEIVE_NOTIFY: {
         this.setState({
           isWarningCheckAll: checked,
           isWarningIndeterminate: false,
@@ -506,13 +541,20 @@ export default class StationAutoConfigNotification extends React.Component {
         })
         break
       }
+      case STATION_AUTO_OPTIONS.WEB: {
+        this.setState({
+          isWebCheckAll: checked,
+          isWebIndeterminate: false,
+        })
+        break
+      }
       default:
         break
     }
   }
 
   onChagedOptionOfRow({ index, row, key, value }) {
-    if (key === STATION_AUTO_OPTIONS.PRIMARY) {
+    if (key === STATION_AUTO_OPTIONS.RECEIVE_NOTIFY) {
       let columns = _.values(STATION_AUTO_OPTIONS)
       _.forEach(columns, column => {
         this.updateDataSource(index, row, column, value)
@@ -592,7 +634,7 @@ export default class StationAutoConfigNotification extends React.Component {
     let isCheckAll = _.every(result)
 
     switch (column) {
-      case STATION_AUTO_OPTIONS.PRIMARY:
+      case STATION_AUTO_OPTIONS.RECEIVE_NOTIFY:
         this.setState({
           isWarningIndeterminate: !isSame,
           isWarningCheckAll: isCheckAll,
@@ -610,6 +652,12 @@ export default class StationAutoConfigNotification extends React.Component {
           isEmailCheckAll: isCheckAll,
         })
         break
+      case STATION_AUTO_OPTIONS.WEB:
+        this.setState({
+          isWebIndeterminate: !isSame,
+          isWebCheckAll: isCheckAll,
+        })
+        break
       default:
         break
     }
@@ -618,11 +666,9 @@ export default class StationAutoConfigNotification extends React.Component {
   async submitCache() {
     this.setState({ isSave: true })
     let dataForSubmit = {
-      isAdmin: this.props.isAdmin,
-      role: this.props.role,
-      stationAutos: this.state.cachedData,
+      notifyOptions: this.state.cachedData,
     }
-    const res = await updateRole_v1(this.props.userId, dataForSubmit)
+    const res = await updateConfigSendNotifyForUser(dataForSubmit)
     if (res.success) {
       this.setState({
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),
