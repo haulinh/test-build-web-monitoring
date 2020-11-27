@@ -9,6 +9,7 @@ import { Link, withRouter } from 'react-router-dom'
 import slug from 'constants/slug'
 import Errors from 'constants/errors'
 
+import { requiredFieldRule, validateEmail } from 'utils/rules'
 import createLang, { translate } from 'hoc/create-lang'
 
 import Heading from 'components/elements/heading'
@@ -18,7 +19,6 @@ import { connectAutoDispatch } from 'redux/connect'
 import { userLogin, userLogin2Factor } from 'redux/actions/authAction'
 
 import { getAuthError } from '../helper'
-import { emailRule, requireRule } from '../rules'
 
 const FIELDS = {
   EMAIL: 'email',
@@ -174,7 +174,7 @@ export default class EmailForm extends Component {
         <FormLogin hidden={isTwoFactorAuth}>
           <Form.Item>
             {form.getFieldDecorator(FIELDS.EMAIL, {
-              rules: [requireRule, emailRule],
+              rules: [{ validator: validateEmail }],
             })(
               <Input
                 autoFocus
@@ -184,7 +184,9 @@ export default class EmailForm extends Component {
             )}
           </Form.Item>
           <Form.Item>
-            {form.getFieldDecorator(FIELDS.PASSWORD, { rules: [requireRule] })(
+            {form.getFieldDecorator(FIELDS.PASSWORD, {
+              rules: [{ validator: requiredFieldRule(t('global.password')) }],
+            })(
               <Input.Password
                 type="password"
                 size="large"

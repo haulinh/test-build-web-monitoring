@@ -8,6 +8,7 @@ import slug from 'constants/slug'
 import Errors from 'constants/errors'
 import createLang from 'hoc/create-lang'
 import { setAuthToken } from 'utils/auth'
+import { validatePhone } from 'utils/rules'
 import {
   verifyPhoneNumber,
   getOTPByPhoneNumber,
@@ -61,7 +62,7 @@ export default class PhoneNumberForm extends Component {
   getPhoneNumber = () => {
     const { form } = this.props
     const values = form.getFieldValue(FIELDS.PHONE_NUMBER)
-    return (values || {}).phoneNumber
+    return (values || {}).formattedPhone
   }
 
   handleGetOtp = async () => {
@@ -117,8 +118,12 @@ export default class PhoneNumberForm extends Component {
 
   onSubmit = async e => {
     e.preventDefault()
-    this.setState({ isLoading: true })
     try {
+      const { form } = this.props
+      const values = await form.validateFields()
+      if (!values) return
+
+    this.setState({ isLoading: true })
       const phone = this.getPhoneNumber()
       const result = await verifyPhoneNumber({ phone })
       const { error, message, data } = result
@@ -170,9 +175,9 @@ export default class PhoneNumberForm extends Component {
           </FormHeader>
           <FormBody>
             <Form.Item>
-              {form.getFieldDecorator(FIELDS.PHONE_NUMBER)(
-                <PhoneNumber autoFocus />
-              )}
+              {form.getFieldDecorator(FIELDS.PHONE_NUMBER, {
+                rules: [{ validator: validatePhone }],
+              })(<PhoneNumber autoFocus />)}
             </Form.Item>
           </FormBody>
           <Button isLoading={isLoading} block color="primary">
