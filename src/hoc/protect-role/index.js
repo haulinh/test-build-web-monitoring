@@ -53,30 +53,32 @@ const createProtectRole = (
       }
     }
 
+    renderComponent(otherProps) {
+      if (isReact.component(Component)) {
+        return <Component {...otherProps} />
+      } else
+        return React.cloneElement(Component, {
+          ...otherProps,
+          key: Component.key,
+        })
+    }
+
     render() {
-      let { authRole, isAdmin, dispatch, ...ortherProps } = this.props
+      let { authRole, isAdmin, dispatch, ...otherProps } = this.props
 
       //if role undefined||false return empty
       //if (!this.getRole()) return null
       if (this.getRole()) {
-        if (isReact.component(Component)) {
-          return <Component {...ortherProps} />
-        } else
-          return React.cloneElement(Component, {
-            ...ortherProps,
-            key: Component.key,
-          })
+        return  this.renderComponent({
+          ...otherProps
+        })
+        
       } else {
         if (type === 'input') {
-          if (isReact.component(Component)) {
-            return <Component  disabled {...ortherProps} />
-          } else
-            return React.cloneElement(Component, {
-              ...ortherProps,
-              disabled: true,
-              key: Component.key,
-            })
-          // return <Component disabled />
+          return  this.renderComponent({
+            ...otherProps,
+            disabled: true
+          })
         }
         return null
       }
