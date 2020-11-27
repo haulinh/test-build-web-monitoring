@@ -7,6 +7,7 @@ export const STATION_AUTO_OPTIONS = {
   EMAIL: 'email',
   WEB: 'web',
   MOBILE: 'mobile',
+  RECEIVE_NOTIFY: 'receiveNotify'
 }
 
 export const USER_RULE_TABLE_COLUMN = {
