@@ -36,6 +36,8 @@ const i18n = {
   colMin2: translate('wqiConfigCalculation.colMin2'),
   colMax2: translate('wqiConfigCalculation.colMax2'),
   colValue: translate('wqiConfigCalculation.colValue'),
+  compareToMax: translate('wqiConfigCalculation.compareToMax'),
+  compareToMin: translate('wqiConfigCalculation.compareToMin'),
 }
 
 const CODE = 'vi'
@@ -114,6 +116,15 @@ export default class TabGiaTri_NhomV extends React.Component {
                               ),
                             message: i18n.required,
                           },
+                          {
+                            validator: (rule, value, callback) =>
+                              this.compareToMax(
+                                rule,
+                                value,
+                                callback,
+                                `levelList[${record.key}].${item.keyMeasure}.max`
+                              ),
+                          },
                         ],
                       }
                     )(
@@ -162,6 +173,15 @@ export default class TabGiaTri_NhomV extends React.Component {
                                 isLast && this.state.isLockLast[item.keyMeasure]
                               ),
                             message: i18n.required,
+                          },
+                          {
+                            validator: (rule, value, callback) =>
+                              this.compareToMin(
+                                rule,
+                                value,
+                                callback,
+                                `levelList[${record.key}].${item.keyMeasure}.min`
+                              ),
                           },
                         ],
                       }
@@ -324,6 +344,24 @@ export default class TabGiaTri_NhomV extends React.Component {
       },
     ]
     this.idIncrement = 0
+  }
+
+  compareToMax = (rule, value, callback, fliedName) => {
+    const { form } = this.props
+    if (value && value > form.getFieldValue(fliedName)) {
+      callback(i18n.compareToMax)
+    } else {
+      callback()
+    }
+  }
+
+  compareToMin = (rule, value, callback, fliedName) => {
+    const { form } = this.props
+    if (value && value < form.getFieldValue(fliedName)) {
+      callback(i18n.compareToMin)
+    } else {
+      callback()
+    }
   }
 
   async componentDidMount() {
