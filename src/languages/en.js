@@ -5,14 +5,14 @@ export default {
     verify: 'Verify',
     privacyPolicy: 'Privacy Policy',
     termsOfService: 'Terms of Service',
-    phoneNumber: 'phone number',
-    email: 'email',
+    phoneNumber: 'Phone number',
+    email: 'Email',
     required: 'Required',
     invalidEmail: 'Invalid email',
     save: 'Save',
     send: 'Send',
     unknownError: 'Unknown error, try again after',
-    password: 'password'
+    password: 'Password'
   },
   rules: {
     required: 'Required',

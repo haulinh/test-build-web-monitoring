@@ -9,6 +9,7 @@ import { Link, withRouter } from 'react-router-dom'
 import slug from 'constants/slug'
 import Errors from 'constants/errors'
 
+import { requiredFieldRule, validateEmail } from 'utils/rules'
 import createLang, { translate } from 'hoc/create-lang'
 
 import Heading from 'components/elements/heading'
@@ -152,15 +153,6 @@ export default class EmailForm extends Component {
     }
   }
 
-  validateField = field => (_, value, callback) => {
-    const {
-      lang: { t },
-    } = this.props
-    if (!value)
-      callback(t('rules.requiredField', { field: t(`global.${field}`) }))
-    callback()
-  }
-
   render() {
     const {
       form,
@@ -182,7 +174,7 @@ export default class EmailForm extends Component {
         <FormLogin hidden={isTwoFactorAuth}>
           <Form.Item>
             {form.getFieldDecorator(FIELDS.EMAIL, {
-              rules: [{ validator: this.validateField('email') }],
+              rules: [{ validator: validateEmail }],
             })(
               <Input
                 autoFocus
@@ -193,7 +185,7 @@ export default class EmailForm extends Component {
           </Form.Item>
           <Form.Item>
             {form.getFieldDecorator(FIELDS.PASSWORD, {
-              rules: [{ validator: this.validateField('password') }],
+              rules: [{ validator: requiredFieldRule(t('global.password')) }],
             })(
               <Input.Password
                 type="password"
