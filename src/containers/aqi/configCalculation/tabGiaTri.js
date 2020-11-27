@@ -111,6 +111,15 @@ export default class TabMucDo extends React.Component {
                     {
                       required: !getFieldValue(fliedName),
                       message: i18n.required,
+                    },
+                    {
+                      validator: (rule, value, callback) =>
+                        this.compareToMax(
+                          rule,
+                          value,
+                          callback,
+                          `aqiQCLevel${path}.max`
+                        ),
                     }
                   ],
                 })(<InputNumber style={{ width: '100%' }} />)}
@@ -144,6 +153,15 @@ export default class TabMucDo extends React.Component {
                       required: !getFieldValue(fliedName),
                       message: i18n.required,
                     },
+                    {
+                      validator: (rule, value, callback) =>
+                        this.compareToMin(
+                          rule,
+                          value,
+                          callback,
+                          `aqiQCLevel${path}.min`
+                        ),
+                    }
                     
                   ],
                 })(<InputNumber style={{ width: '100%' }} />)}
