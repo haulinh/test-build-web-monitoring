@@ -282,8 +282,8 @@ export default class StationAutoForm extends React.PureComponent {
         yearOperate: values.yearOperate,
         userResponsible: values.userResponsible,
         userSupervisor: values.userSupervisor,
-        phoneResponsible: get(values, 'phoneResponsible.formattedPhone'),
-        phoneSupervisor: get(values, 'phoneSupervisor.formattedPhone'),
+        phoneResponsible: get(values, 'phoneResponsible'),
+        phoneSupervisor: get(values, 'phoneSupervisor'),
         order: '',
         lostConnection: this._transformLostConnectionData(values),
       }
