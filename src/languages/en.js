@@ -16,9 +16,10 @@ export default {
   },
   rules: {
     required: 'Required',
-    requiredField: '{{=it.field}} is required',
     requiredEmail: 'Email is required',
     requiredPhone: 'Phone number is required',
+    requiredField: '{{=it.field}} is required',
+    inValidField: '{{=it.field}} is invalid',
   },
   errors: {
     forbidden: 'Forbidden',

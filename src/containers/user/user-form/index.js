@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { autobind } from 'core-decorators'
 import { Form, Input, Button, Row, Col } from 'antd'
 
+import { validatePhone } from 'utils/rules'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 
@@ -100,23 +101,6 @@ export default class UserForm extends React.PureComponent {
     }
   }
 
-  validatorPhone = (rule, value, callback) => {
-    const {
-      lang: { t },
-    } = this.props
-    if (!value) {
-      callback()
-    } else {
-      const phoneNumber = value.phoneNumber
-        .replace(/\-/g, '') // eslint-disable-line no-useless-escape
-        .replace('+' + value.dialCode, 0)
-      if (phoneNumber.length >= 9) {
-        callback()
-      } else {
-        callback(t('userManager.form.phone.format'))
-      }
-    }
-  }
 
   handleConfirmBlur = e => {
     const value = e.target.value
@@ -192,7 +176,7 @@ export default class UserForm extends React.PureComponent {
                     message: t('userManager.form.phone.empty'),
                   },
                   {
-                    validator: this.validatorPhone,
+                    validator: validatePhone,
                   },
                 ],
               })(<InputPhoneNumber size="large" />)}
