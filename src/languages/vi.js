@@ -12,7 +12,8 @@ export default {
     save: 'Lưu',
     send: 'Gửi',
     unknownError: 'Lỗi không xác định, thử lại sau!',
-    password: 'mật khẩu'
+    password: 'mật khẩu',
+    noPermission: 'Bạn không có quyền thực hiện',
   },
   rules: {
     required: 'Bắt buộc',
