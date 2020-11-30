@@ -232,7 +232,7 @@ export default class StationAutoForm extends React.PureComponent {
       }
 
       let measuringList = this.state.measuringList
-      if (!measuringList) {
+      if (!measuringList || !measuringList[0].key) {
         const { t } = this.props.lang
         swal({
           title: t('stationAutoManager.addMeasuring.error'),
