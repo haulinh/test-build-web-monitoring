@@ -5,8 +5,8 @@ export default {
     submit: 'Xác nhận',
     privacyPolicy: 'Chính sách bảo mật',
     termsOfService: 'Điều khoản dịch vụ',
-    phoneNumber: 'số điện thoại',
-    email: 'email',
+    phoneNumber: 'Số điện thoại',
+    email: 'Email',
     required: 'Bắt buộc',
     invalidEmail: 'Email không hợp lệ',
     save: 'Lưu',
@@ -17,9 +17,10 @@ export default {
   },
   rules: {
     required: 'Bắt buộc',
-    requiredField: 'Vui lòng nhập {{=it.field}}',
     requiredEmail: 'Vui lòng nhập email',
     requiredPhone: 'Vui lòng nhập số điện thoại',
+    requiredField: 'Vui lòng nhập {{=it.field}}',
+    inValidField: '{{=it.field}} sai định dạng',
   },
   errors: {
     forbidden: 'Có lỗi xảy ra',

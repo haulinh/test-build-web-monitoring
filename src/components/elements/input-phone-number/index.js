@@ -1,4 +1,4 @@
-import React, { createRef, PureComponent } from 'react'
+import React, { PureComponent } from 'react'
 import { Input } from 'antd'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
@@ -83,8 +83,6 @@ const formatPhoneNumber = ({ dialCode = '', format = '', phone = '' }) => {
   return `${formattedPhone}${phoneNumber.slice(i, phoneNumber.length)}`
 }
 
-// const INIT_EVENT = 'formatPhoneNumberFromDefaultValue'
-
 const VIETNAME_PHONE = {
   DIAL_CODE: '84',
   FORMAT: '+..-..-....-...',
@@ -100,16 +98,6 @@ export default class InputPhoneNumber extends PureComponent {
     placeholder: PropTypes.string,
     size: PropTypes.oneOf(['medium', 'large']),
     disabled: PropTypes.bool
-  }
-
-  constructor() {
-    super()
-    this.ref = createRef()
-    this.state = {}
-    // document.addEventListener(
-    //   INIT_EVENT,
-    //   this.formatPhoneNumberFromDefaultValue
-    // )
   }
 
   handleTelChange = (_, selectedCountry) => {
@@ -129,7 +117,7 @@ export default class InputPhoneNumber extends PureComponent {
 
   handlePhoneChange = e => {
     const { onChange, value } = this.props
-    const valuePhone = e.target.value || ''
+    const valuePhone = (e.target.value || '').replace(/\D/g, '')
 
     const format = get(value, 'format', VIETNAME_PHONE.FORMAT)
     const dialCode = get(value, 'dialCode', VIETNAME_PHONE.DIAL_CODE)
@@ -168,7 +156,7 @@ export default class InputPhoneNumber extends PureComponent {
         .replace(dialCode, '')
         .replace('+', '0')
     }
-    // console.log(phoneNumber,phoneNumber || VIETNAME_PHONE.DIAL_CODE,"-----default value----" )
+
     return (
       <Wrapper size={size}>
         <SelectCountry>
@@ -176,14 +164,12 @@ export default class InputPhoneNumber extends PureComponent {
             defaultCountry={VIETNAME_PHONE.ISO2}
             flagsImagePath="/images/flags.png"
             onChange={this.handleTelChange}
-            value={phoneNumber}
+            value={`${dialCode}${phoneNumber}`}
             disabled={this.props.disabled}
           />
           <DialCode>+{dialCode}</DialCode>
         </SelectCountry>
         <PhoneInput
-          min="1"
-          type="number"
           size={size}
           value={phoneString}
           autoFocus={autoFocus}
