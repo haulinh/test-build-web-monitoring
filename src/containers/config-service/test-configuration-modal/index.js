@@ -22,6 +22,18 @@ const i18n = {
   send: t('global.send'),
   unknownError: t('global.unknownError'),
   sendMessageSuccessfully: t('configService.sendMessageSuccessfully'),
+  esmsError: {
+    100: t('errors.esms.100'),
+    99: t('errors.esms.99'),
+    101: t('errors.esms.101'),
+    102: t('errors.esms.102'),
+    103: t('errors.esms.103'),
+    104: t('errors.esms.104'),
+  },
+  mailGunError: {
+    401: t('errors.mailGun.401'),
+    404: t('errors.mailGun.404'),
+  },
 }
 
 @Form.create()
@@ -75,8 +87,14 @@ export default class TestConfigurationModal extends Component {
       }
 
       this.setState({ isLoading: false })
-      if (result.error) {
-        notification.error({ message: result.message || i18n.unknownError })
+      const { error, errorCode, } = result
+      if (error) {
+        notification.error({ 
+          message: 
+            i18n.esmsError[errorCode] || 
+            i18n.mailGunError[errorCode] || 
+            i18n.unknownError 
+        })
         return
       }
       this.setState({ isVisible: false })
