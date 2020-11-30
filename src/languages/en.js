@@ -12,7 +12,8 @@ export default {
     save: 'Save',
     send: 'Send',
     unknownError: 'Unknown error, try again after',
-    password: 'Password'
+    password: 'Password',
+    noPermission: 'You don\'t have permissions'
   },
   rules: {
     required: 'Required',

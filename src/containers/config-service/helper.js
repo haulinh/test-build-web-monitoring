@@ -48,8 +48,8 @@ export const getEsmsFormFields = esmsDefaultConfigs => [
   {
     fieldName: ESMS_FIELDS.SMS_TYPE,
     label: t('configService.esmsForm.smsType.label'),
-    input: (
-      <Select placeholder={t('configService.esmsForm.smsType.placeholder')}>
+    input: (hasPermission) => (
+      <Select disabled={!hasPermission} placeholder={t('configService.esmsForm.smsType.placeholder')}>
         <Option value="2">{t('configService.customerCare')} (2)</Option>
         <Option value="8">{t('configService.advertisement')} (8)</Option>
       </Select>

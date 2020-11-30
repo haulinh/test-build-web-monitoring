@@ -2,7 +2,7 @@ import React, { Component, createRef, Fragment } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Button, Col, Form, Input, Row, Skeleton } from 'antd'
-import protectRole from 'hoc/protect-role'
+import protectRole, { PermissionPopover } from 'hoc/protect-role'
 import ROLE from 'constants/role'
 
 import { translate as t } from 'hoc/create-lang'
@@ -128,29 +128,38 @@ export default class ConfigService extends Component {
         </Text>
         <Form onSubmit={onSubmit}>
           {formFields.map(item => (
-            <Form.Item key={item.fieldName} label={item.label} colon={false}>
-              {form.getFieldDecorator(item.fieldName, {
-                initialValue: item.initialValue,
-                rules: item.rules,
-              })(
-                protectRole(
-                  ROLE.SERVICE_CONFIG.SETUP,
-                  [],
-                  'input'
-                )(item.input || <Input placeholder={item.placeholder} />)
-                
+            <PermissionPopover
+              key={item.fieldName}
+              roles={ROLE.SERVICE_CONFIG.SETUP}
+              popoverPlacement="right"
+            >
+              {hasPermission => (
+                <Form.Item label={item.label} colon={false}>
+                  {form.getFieldDecorator(item.fieldName, {
+                    initialValue: item.initialValue,
+                    rules: item.rules,
+                  })(
+                    item.input ? (
+                      item.input(hasPermission)
+                    ) : (
+                      <Input
+                        disabled={!hasPermission}
+                        placeholder={item.placeholder}
+                      />
+                    )
+                  )}
+                </Form.Item>
               )}
-            </Form.Item>
+            </PermissionPopover>
           ))}
           <Row type="flex" align="middle" gutter={12} className="btnGroup">
-            {protectRole(ROLE.SERVICE_CONFIG.SETUP)(
-              <Col>
+            <Col>
+              <PermissionPopover roles={ROLE.SERVICE_CONFIG.SETUP}>
                 <Button loading={isLoading} type="primary" htmlType="submit">
                   {i18n.save}
                 </Button>
-              </Col>
-            )}
-
+              </PermissionPopover>
+            </Col>
             <Col>
               <Text
                 className="test-configuration"
