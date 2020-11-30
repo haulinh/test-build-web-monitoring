@@ -1,7 +1,7 @@
 import React, { Component, createRef, Fragment } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { Button, Col, Form, Input, Row, Skeleton } from 'antd'
+import { Button, Col, Form, Input, notification, Row, Skeleton } from 'antd'
 import protectRole, { PermissionPopover } from 'hoc/protect-role'
 import ROLE from 'constants/role'
 
@@ -184,8 +184,10 @@ export default class ConfigService extends Component {
       organizationId,
       service
     )
-    if (result)
+    if (result) {
       this.setState({ isSubmitEsmsForm: false, isSubmitMailGunForm: false })
+      notification.success({message: t('global.saveSuccess')})
+    }
   }
 
   handleUpdateFormEsms = async e => {
@@ -260,7 +262,7 @@ export default class ConfigService extends Component {
     return (
       <Wrapper id="config-service">
         <Header>
-          <Text fontSize={20} fontWeight="bold" color="rgba(0, 0, 0, 0.85)">
+          <Text fontSize={22} color="#3B3B3B" fontWeight={600}>
             {i18n.headerTitle}
           </Text>
         </Header>
