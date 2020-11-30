@@ -30,6 +30,7 @@ const i18n = {
   updateError: translate('addon.onSave.update.error'),
 
   add: translate('aqiConfigCalculation.add'),
+  errorDuplicate: translate('aqiConfigCalculation.error.MEASURE_KEY_DUPLICATE'),
   required1D_1H: translate('aqiConfigCalculation.required1D_1H'),
   required: translate('aqiConfigCalculation.required'),
   colLevel: translate('aqiConfigCalculation.colLevel'),
@@ -264,8 +265,11 @@ export default class TabThongSo extends React.Component {
     return (
       <Select {...props} showSearch style={{ width: '100%' }}>
         {_.map(this.state.dataMeasuringObj, mea => {
+          const isDisable = this.state.dataSource.some(
+            item => item.keyMeasure === mea.key
+          )
           return (
-            <Select.Option key={mea.key} value={mea.key}>
+            <Select.Option disabled={isDisable} key={mea.key} value={mea.key}>
               {mea.name}
             </Select.Option>
           )
@@ -280,6 +284,14 @@ export default class TabThongSo extends React.Component {
         this.setState({ isSubmit: true })
         console.log('Received values of form: ', values)
         try {
+          // check logic add duplicate parameter 
+          const aqiQCMeasuresValue =  _.get(values, 'aqiQCMeasures', []).filter(item => Object.keys(item).length > 1)
+          const uniqueAqiQCMeasuresValue = _.uniqBy(aqiQCMeasuresValue, 'keyMeasure')
+          if (aqiQCMeasuresValue.length !== uniqueAqiQCMeasuresValue.length) {
+            message.error(i18n.errorDuplicate)
+            return
+          }
+          //
           let transformData = _.get(values, 'aqiQCMeasures', []).filter(
             i =>
               (_.identity(i['1h']) ||
@@ -292,7 +304,6 @@ export default class TabThongSo extends React.Component {
           //   aqiQCLevel: this.state.aqiQCLevel,
           //   aqiQCMeasures: _.keyBy(transformData, "keyMeasure")
           // },"-transformData")
-
           const response = await postConfigAqiQC(this.props.keyQc, {
             aqiQCLevel: this.state.aqiQCLevel,
             aqiQCMeasures: _.keyBy(transformData, 'keyMeasure'),
