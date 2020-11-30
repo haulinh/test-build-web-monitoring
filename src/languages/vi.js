@@ -14,6 +14,7 @@ export default {
     unknownError: 'Lỗi không xác định, thử lại sau!',
     password: 'mật khẩu',
     noPermission: 'Bạn không có quyền thực hiện',
+    saveSuccess: 'Lưu thành công'
   },
   rules: {
     required: 'Bắt buộc',
@@ -24,6 +25,18 @@ export default {
   },
   errors: {
     forbidden: 'Có lỗi xảy ra',
+    esms: {
+      100: 'Đã gửi thành công',
+      99: 'Lỗi không xác định , thử lại sau',
+      101: 'Api key hoặc secret key không đúng',
+      102: 'Tài khoản đã bị khóa',
+      103: 'Số dư tài khoản không đủ dể gửi tin',
+      104: 'Mã Brandname không đúng',
+    },
+    mailGun: {
+      401: 'Api key không đúng',
+      404: 'Không tìm thấy',
+    }
   },
   empty: {
     camera: {
@@ -2714,8 +2727,8 @@ export default {
     testConfiguration: 'Kiểm tra cấu hình',
     customerCare: 'Chăm sóc khách hàng',
     advertisement: 'Quảng cáo',
-    phoneNumberReceiveMessage: 'Phone number to receive the message',
-    emailAddress: 'Email Address',
+    phoneNumberReceiveMessage: 'Số điện thoại nhận tin nhắn',
+    emailAddress: 'Địa chỉ email',
     esmsDescription:
       'Chúng tôi sẽ gửi một SMS mẫu về số điện thoại của bạn. Vui lòng đợi trong 1-3 phút',
     mailGunDescription:

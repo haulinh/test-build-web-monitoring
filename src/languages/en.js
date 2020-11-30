@@ -13,7 +13,8 @@ export default {
     send: 'Send',
     unknownError: 'Unknown error, try again after',
     password: 'Password',
-    noPermission: 'You don\'t have permissions'
+    noPermission: 'You don\'t have permissions',
+    saveSuccess: 'Save successfully',
   },
   rules: {
     required: 'Required',
@@ -24,6 +25,18 @@ export default {
   },
   errors: {
     forbidden: 'Forbidden',
+    esms: {
+      100: 'Send successfully',
+      99: 'Unknown error, try again after',
+      101: 'Incorrect api key or secret key',
+      102: 'The account is locked',
+      103: 'Account balance is not enough to send messages',
+      104: 'Brandname code is incorrect',
+    },
+    mailGun: {
+      401: 'Unauthorized - No valid API key provided',
+      404: 'Not Found - The requested item doesn’t exist',
+    }
   },
   empty: {
     camera: {
@@ -2723,7 +2736,7 @@ export default {
       'We will send a sample SMS to your phone number. Please wait 1-3 minutes',
     mailGunDescription:
       'We will send an email to your email address. Please wait 1-3 minutes',
-    sendMessageSuccessfully: 'SMS sent successfully',
+    sendMessageSuccessfully: 'Sent successfully',
     esmsForm: {
       url: {
         label: 'API URL',

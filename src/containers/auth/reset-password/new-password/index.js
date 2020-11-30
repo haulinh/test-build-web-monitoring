@@ -9,6 +9,7 @@ import slug from 'constants/slug'
 import { translate as t } from 'hoc/create-lang'
 
 import Button from 'components/elements/button'
+import { requiredFieldRule } from 'utils/rules'
 
 const FormHeader = styled.div`
   width: 100%%;
@@ -45,37 +46,41 @@ export default class NewPassword extends PureComponent {
 
   handleUpdatePassword = async e => {
     e.preventDefault()
-    const { form, history, userInfo } = this.props
-    const values = await form.validateFields()
-
-    if (!values) {
+    try {
+      const { form, history, userInfo } = this.props
+      const values = await form.validateFields()
+      
+      if (!values) {
+        swal({
+          title: t('changePassword.form.newPasswordConfirmation.error1'),
+          type: 'error',
+        })
+        return
+      }
+  
+      const params = {
+        _id: userInfo._id,
+        code: userInfo.forgotPasswordCode,
+        password: values[FIELDS.PASSWORD],
+      }
+  
+      const result = await AuthApi.putResetPassword(params._id, params)
+  
+      if (result.error) {
+        swal({
+          type: 'error',
+          title: result.message,
+        })
+        return
+      }
       swal({
-        title: t('changePassword.form.newPasswordConfirmation.error1'),
-        type: 'error',
+        type: 'success',
+        title: t('changePassword.form.Success'),
       })
-      return
+      history.push(slug.login.loginWithEmail)
+    } catch (error) {
+      console.log(error)
     }
-
-    const params = {
-      _id: userInfo._id,
-      code: userInfo.forgotPasswordCode,
-      password: values[FIELDS.PASSWORD],
-    }
-
-    const result = await AuthApi.putResetPassword(params._id, params)
-
-    if (result.error) {
-      swal({
-        type: 'error',
-        title: result.message,
-      })
-      return
-    }
-    swal({
-      type: 'success',
-      title: t('changePassword.form.Success'),
-    })
-    history.push(slug.login.loginWithEmail)
   }
 
   render() {
@@ -89,7 +94,9 @@ export default class NewPassword extends PureComponent {
           <div>{email}</div>
         </FormHeader>
         <Form.Item>
-          {form.getFieldDecorator(FIELDS.PASSWORD)(
+          {form.getFieldDecorator(FIELDS.PASSWORD, {
+            rules: [requiredFieldRule(t('global.password'))]
+          })(
             <Input
               size="large"
               type="password"
