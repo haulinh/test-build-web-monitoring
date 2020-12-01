@@ -17,13 +17,17 @@ const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
     }
     async updateItem(data) {
       const key = this.props.match.params.key
-      this.setState({ isUpdating: true }, async () => {
-        const res = await apiUpdate(key, data)
-        this.setState({ isUpdating: false })
-        if (res.success) {
-          message.success(this.props.lang.t('addon.onSave.update.success'))
-        } else message.error(this.props.lang.t('addon.onSave.update.error'))
-      })
+      this.setState({ isUpdating: true })
+      const res = await apiUpdate(key, data)
+      this.setState({ isUpdating: false })
+      // console.log(res, "---res--")
+      if (res.success) {
+        message.success(this.props.lang.t('addon.onSave.update.success'))
+        return null
+      } else {
+        message.error(this.props.lang.t('addon.onSave.update.error'))
+        return res
+      }
     }
 
     //Su kien truoc khi component duoc tao ra

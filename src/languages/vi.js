@@ -1674,6 +1674,7 @@ export default {
         placeholder: 'Số điện thoại',
         empty: 'Vui lòng nhập số điện thoại',
         format: 'Số điện thoại không đúng',
+        errorExist: 'Số điện thoại này đã tồn tại',
       },
       isAdmin: {
         label: 'Quản trị hệ thống',
