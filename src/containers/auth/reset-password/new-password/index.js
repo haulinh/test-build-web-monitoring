@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
-import swal from 'sweetalert2'
-import { Form, Input } from 'antd'
+import { Form, Input, notification } from 'antd'
 import { withRouter } from 'react-router'
 
 import AuthApi from 'api/AuthApi'
@@ -37,8 +36,8 @@ export default class NewPassword extends PureComponent {
 
   validateConfirmPassword = (rule, value, callback) => {
     const { form } = this.props
-    if (value && value !== form.getFieldValue(FIELDS.PASSWORD)) {
-      callback('Two passwords that you enter is inconsistent!')
+    if (value !== form.getFieldValue(FIELDS.PASSWORD)) {
+      callback(t('changePassword.form.compare'))
     } else {
       callback()
     }
@@ -51,9 +50,8 @@ export default class NewPassword extends PureComponent {
       const values = await form.validateFields()
       
       if (!values) {
-        swal({
-          title: t('changePassword.form.newPasswordConfirmation.error1'),
-          type: 'error',
+        notification.error({
+          message: t('changePassword.form.newPasswordConfirmation.error1'),
         })
         return
       }
@@ -67,16 +65,10 @@ export default class NewPassword extends PureComponent {
       const result = await AuthApi.putResetPassword(params._id, params)
   
       if (result.error) {
-        swal({
-          type: 'error',
-          title: result.message,
-        })
+        notification.error({ message: result.message })
         return
       }
-      swal({
-        type: 'success',
-        title: t('changePassword.form.Success'),
-      })
+      notification.success({ message: t('changePassword.form.Success') })
       history.push(slug.login.loginWithEmail)
     } catch (error) {
       console.log(error)
