@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { autobind } from 'core-decorators'
+import ERROR from 'constants/errors'
 import { Form, Input, Button, Row, Col } from 'antd'
 
 import { validatePhone } from 'utils/rules'
@@ -41,7 +42,7 @@ export default class UserForm extends React.PureComponent {
       this.setState({
         isLoading: true,
       })
-      
+
       const data = {
         email: values.email,
         password: values.password,
@@ -60,16 +61,33 @@ export default class UserForm extends React.PureComponent {
           .onSubmit(data)
           .then(res => {
             if (res && res.error) {
-              this.props.form.setFields({
-                email: {
-                  value: values.email,
-                  errors: [
-                    new Error(
-                      this.props.lang.t('userManager.form.email.errorExist')
-                    ),
-                  ],
-                },
-              })
+              let errorData
+              if (res.message === ERROR.EMAIL_EXITS) {
+                errorData = {
+                  email: {
+                    value: values.email,
+                    errors: [
+                      new Error(
+                        this.props.lang.t('userManager.form.email.errorExist')
+                      ),
+                    ],
+                  },
+                }
+              }
+              if (res.message === ERROR.PHONE_EXITS) {
+                errorData = {
+                  phone: {
+                    value: values.phone,
+                    errors: [
+                      new Error(
+                        this.props.lang.t('userManager.form.phone.errorExist')
+                      ),
+                    ],
+                  },
+                }
+              }
+
+              this.props.form.setFields(errorData)
             }
           })
           .finally(() => {
@@ -100,7 +118,6 @@ export default class UserForm extends React.PureComponent {
       callback()
     }
   }
-
 
   handleConfirmBlur = e => {
     const value = e.target.value

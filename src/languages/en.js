@@ -1681,6 +1681,7 @@ export default {
         placeholder: 'Phone',
         empty: 'Please input phone',
         format: 'The phone number not correct',
+        errorExist: 'The phone number Is Exist',
       },
       isAdmin: {
         label: 'Admin Role',
