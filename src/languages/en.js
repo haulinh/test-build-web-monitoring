@@ -2141,6 +2141,7 @@ export default {
       wrongOtp: 'Wrong OTP, please try again!',
       emailNotExists: "Email isn't exists",
       phoneNotExists: "Phone number isn't exists",
+      phoneMultiExists: 'Your phone number is the same as another account!',
       otpIncorrect: 'Otp incorrect',
       otpVerified: 'Otp verified',
       otpExpired: 'Otp expired',
