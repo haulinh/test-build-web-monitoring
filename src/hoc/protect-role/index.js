@@ -5,9 +5,11 @@ import { connect } from 'react-redux'
 import isReact from 'is-react'
 import objectPath from 'object-path'
 import { Popover } from 'antd'
-import { get } from 'lodash'
+// import { get } from 'lodash'
 
 import { translate as t } from 'hoc/create-lang'
+
+
 
 const createProtectRole = (
   keyRole = '',
@@ -104,7 +106,19 @@ const PopoverCustom = styled(Popover)`
     display: none;
   }
 `
-
+function checkRole({ organization, authRole, isAdmin, roles }) {
+  // check role in organization first
+  let isRole = objectPath.get(organization, roles)
+  if (!isRole) return isRole
+  else {
+    // and then check role in user
+    if (isAdmin) {
+      return true
+    } else {
+      return objectPath.get(authRole, roles)
+    }
+  }
+}
 @connect(state => ({
   authRole: state.auth.userInfo.role,
   isAdmin: state.auth.userInfo.isAdmin,
@@ -127,21 +141,11 @@ export class PermissionPopover extends React.Component {
     popoverTitle: t('global.noPermission'),
   }
 
-  checkPermission() {
-    const { organization, authRole, isAdmin, roles } = this.props
-
-    if (isAdmin) return true
-    if (typeof roles === 'string')
-      return get(organization, roles) || get(authRole, roles)
-    for (let i = 0; i < roles.length; i++) {
-      if (get(organization, roles[i]) || get(authRole, roles[i])) return true
-    }
-    return false
-  }
-
   render() {
     const { children, popoverPlacement, popoverTitle } = this.props
-    const hasPermission = this.checkPermission()
+    const { organization, authRole, isAdmin, roles } = this.props
+    const hasPermission = checkRole({ organization, authRole, isAdmin, roles }) // this.checkRole()
+
 
     if (typeof children === 'function') {
       if (hasPermission) return children(hasPermission)
