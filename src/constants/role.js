@@ -212,7 +212,7 @@ export default {
   },
   SERVICE_CONFIG: {
     VIEW: 'menu.service_config.actions.view',
-    SETUP: 'menu.service_config.actions.setup',
+    SETUP:'menu.service_config.actions.setup',
   },
   AQI_SEARCHDATA: {
     VIEW: 'menu.aqiSearchData.actions.view',
