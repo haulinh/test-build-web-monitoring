@@ -2064,7 +2064,7 @@ export default {
         error1: 'Passwords Are Not Matched',
       },
       Success: 'Change Password Successfully',
-      compare: 'Two Passwords That You Enter Is Inconsistent',
+      compare: 'Two passwords that you enter is inconsistent',
       savePassword: 'Save Password',
     },
   },
