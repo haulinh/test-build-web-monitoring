@@ -2132,6 +2132,7 @@ export default {
       wrongOtp: 'Otp không chính xác, vui lòng thử lại!',
       emailNotExists: 'Email không tồn tại',
       phoneNotExists: 'Số điện thoại không tồn tại',
+      phoneMultiExists: 'Số điện thoại của bạn đang trùng với tài khoản khác!',
       otpIncorrect: 'Mã OTP không chính xác',
       otpVerified: 'Otp đã hết hạn',
       otpExpired: 'Otp đã hết hạn',
