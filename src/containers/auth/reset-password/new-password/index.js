@@ -113,6 +113,7 @@ export default class NewPassword extends PureComponent {
         </Form.Item>
         <Button isLoading={isLoading} size="lg" block color="primary">
         {t('changePassword.form.savePassword')}
+        
         </Button>
       </Form>
     )
