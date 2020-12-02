@@ -315,6 +315,7 @@ export default class ProfileUser extends PureComponent {
     const data = {
       ...values,
     }
+    console.log(data, "--data--")
     await AuthApi.putProfile(_id, data)
     const result = await OrganizationApi.updateOrganizationNameLogo(
       values.organization
