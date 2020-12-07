@@ -20,7 +20,7 @@ export default class StationFixedPhaseCreate extends React.PureComponent {
   }
   async handleSubmit(data) {
     this.setState({ isLoading: true })
-    StationFixedPhaseApi.createStationFixedPhase(data)
+    return  StationFixedPhaseApi.createStationFixedPhase(data)
       .then(values => {
         this.setState({ isLoading: false })
         if (values) {
@@ -29,8 +29,12 @@ export default class StationFixedPhaseCreate extends React.PureComponent {
         }
         return values
       })
-      .catch(error => {
-        return error
+      .catch((error) => {
+        return {
+          ...error
+        }
+      }).finally(()=>{
+        this.setState({ isLoading: false })
       })
     
   }
