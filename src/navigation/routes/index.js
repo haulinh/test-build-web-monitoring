@@ -1,58 +1,53 @@
-import React from 'react'
-import { Route, Switch, withRouter } from 'react-router-dom'
-import { autobind } from 'core-decorators'
-import slug from 'constants/slug'
 import { getConfigApi } from 'config'
-
+import slug from 'constants/slug'
+import AppGrafana from 'containers/apps/grafana'
+import AppIncidents from 'containers/apps/incidents'
+import AccountActive from 'containers/auth/account-active'
+import Camera from 'containers/camera'
+import CameraControl from 'containers/camera-video'
+import ConfigService from 'containers/config-service'
+import ControlStation from 'containers/control-station'
 import OverviewDashboard from 'containers/dashboard/OverviewDashboard'
-import LoginRoute from './loginRoute'
-import LayoutRoute from 'layout/default-sidebar-layout/routeCombine'
-
+import DataLoggerPage from 'containers/data-logger'
+import MapFixedContainer from 'containers/fixed-map'
+// import PageAqiStatus from 'containers/aqi/aqi-list-status'
+import PageExpLicenseInfo from 'containers/license/exp-license-info'
+import FtpTransferRoute from 'containers/manager/config-ftp-transfer'
 import MeasuringRoute from 'containers/manager/measuring'
+import ProvinceRoute from 'containers/manager/province'
+import QCVNRoute from 'containers/manager/qcvn'
 import StationAutoRoute from 'containers/manager/station-auto'
 // import StationFixedRoute from 'containers/manager/station-fixed'
 import StationFixedPhaseRoute from 'containers/manager/station-fixed-phase'
-
+import { StationFixedReport } from 'containers/manager/station-fixed-report/station-fixed-report'
 import StationTypeRoute from 'containers/manager/station-type'
-import ProvinceRoute from 'containers/manager/province'
-import QCVNRoute from 'containers/manager/qcvn'
-import OnlineMonitoring from 'containers/online-monitoring'
-import MonitoringList from 'containers/monitoring-list'
 import Map from 'containers/map'
-import DataSearch from 'containers/search/data-search'
-import AvgSearchAdvanced from 'containers/search/avg-search-advanced'
-import AvgSearch from 'containers/search/avg-search'
-import DataSearchFixed from 'containers/search/data-search-fixed'
-
 import Monitoring from 'containers/monitoring'
-import UserRoute from 'containers/user'
-import SubscriptionRoute from 'containers/subscription'
-import RoleRoute from 'containers/role'
-import ControlStation from 'containers/control-station'
-import Camera from 'containers/camera'
-import AccountActive from 'containers/auth/account-active'
-import CameraControl from 'containers/camera-video'
-import SupportRoute from 'containers/support'
-
+import MonitoringList from 'containers/monitoring-list'
+import OnlineMonitoring from 'containers/online-monitoring'
 import QaQcContainer from 'containers/qa-qc/approved-data'
 import PublishConfigContainer from 'containers/qa-qc/approved-data/config-publish'
 import QaQcConfig from 'containers/qa-qc/config'
-import FtpTransferRoute from 'containers/manager/config-ftp-transfer'
-import MapFixedContainer from 'containers/fixed-map'
+import Report from 'containers/report'
+import RoleRoute from 'containers/role'
+import AvgSearch from 'containers/search/avg-search'
+import AvgSearchAdvanced from 'containers/search/avg-search-advanced'
+import DataSearch from 'containers/search/data-search'
+import DataSearchFixed from 'containers/search/data-search-fixed'
 import ExceededContainer from 'containers/statistic/exceeded'
 import PercentReceivedData from 'containers/statistic/per-rec-data'
+import SubscriptionRoute from 'containers/subscription'
+import SupportRoute from 'containers/support'
+import UserRoute from 'containers/user'
+import { autobind } from 'core-decorators'
 // import AqiStatistic from "containers/statistic/aqi";
 // import WqiStatistic from "containers/statistic/wqi";
 import Layout from 'layout/default-sidebar-layout'
-import Report from 'containers/report'
+import LayoutRoute from 'layout/default-sidebar-layout/routeCombine'
+import React from 'react'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import advanceRoute from './advanceRoute'
-import DataLoggerPage from 'containers/data-logger'
-import AppIncidents from 'containers/apps/incidents'
-import AppGrafana from 'containers/apps/grafana'
-// import PageAqiStatus from 'containers/aqi/aqi-list-status'
-
-import PageExpLicenseInfo from 'containers/license/exp-license-info'
-import ConfigService from 'containers/config-service'
+import LoginRoute from './loginRoute'
 
 @withRouter
 @autobind
@@ -107,6 +102,11 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute
               path={slug.stationFixedPhase.base}
               component={StationFixedPhaseRoute}
+            />
+
+            <LayoutRoute
+              path={slug.stationFixedReport.base}
+              component={StationFixedReport}
             />
 
             <LayoutRoute

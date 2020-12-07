@@ -74,20 +74,20 @@ export default {
       )} */}
 
       {/* NOTE  tra cứu dữ liệu */}
-      {/* {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
-          key={slug.stationFixed.base}
+          key={slug.stationFixedReport.base}
           onClick={() => {
-            props.selectMenu(slug.stationFixed.base)
+            props.selectMenu(slug.stationFixedReport.base)
           }}
         >
           <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.base}>
-            <Link to={slug.stationFixedPhase.base}>
+            <Link to={slug.stationFixedReport.base}>
               {MENU_NAME.stationFixed.report}
             </Link>
           </Tooltip>
         </Menu.Item>
-      )} */}
+      )}
 
       {/* NOTE  bản đồ */}
       {/* {protectRole(ROLE.STATION_AUTO.VIEW)(
