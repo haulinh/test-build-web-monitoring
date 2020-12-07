@@ -14,7 +14,7 @@ export default {
     unknownError: 'Lỗi không xác định, thử lại sau!',
     password: 'mật khẩu',
     noPermission: 'Bạn không có quyền thực hiện',
-    saveSuccess: 'Lưu thành công'
+    saveSuccess: 'Lưu thành công',
   },
   rules: {
     required: 'Bắt buộc',
@@ -36,7 +36,7 @@ export default {
     mailGun: {
       401: 'Api key không đúng',
       404: 'Không tìm thấy',
-    }
+    },
   },
   empty: {
     camera: {
@@ -266,8 +266,8 @@ export default {
     config: 'Cấu hình',
     view: 'Xem',
     error: {
-      MEASURE_KEY_DUPLICATE: "Mã thông số bị trùng"
-    }
+      MEASURE_KEY_DUPLICATE: 'Mã thông số bị trùng',
+    },
   },
   wqi: {
     title: 'WQI',
@@ -336,8 +336,8 @@ export default {
     config: 'Cấu hình',
     view: 'Xem',
     error: {
-      MEASURE_KEY_DUPLICATE: "Mã thông số bị trùng"
-    }
+      MEASURE_KEY_DUPLICATE: 'Mã thông số bị trùng',
+    },
   },
   qaqc: {
     configPublish: {
@@ -1005,6 +1005,44 @@ export default {
       },
     },
   },
+  stationFixedPhase:{
+    list: {
+      title: 'Đợt quan trắc',
+    },
+    create: {
+      label: 'Tạo mới',
+      success: 'Thêm Đợt quan trắc mới thành công',
+      keyExisted: 'Đợt quan trắc đã tồn tại',
+    },
+    edit: {
+      label: 'Sửa',
+      success: 'Cập nhật Đợt quan trắc thành công',
+    },
+    delete: {
+      label: 'Xoá',
+    },
+    form:{
+      key:{
+        label:'Mã đợt quan trắc',
+        placeholder: 'Mã đợt quan trắc',
+        required: 'Vui lòng nhập mã',
+        pattern:'Không được nhập kí tự đăc biệt',
+        max:'Không quá 64 kí tự'
+      },
+      name:{
+        label:'Tên đợt quan trắc',
+        placeholder: 'Tên đợt quan trắc',
+        required: 'Vui lòng nhập đợt quan trắc',
+        pattern:'Không được nhập kí tự đăc biệt',
+        max:'Không quá 64 kí tự'
+      },
+      stationType:{
+        label:'Loại trạm',
+        placeholder: 'Loại trạm',
+        required: 'Vui lòng chọn loại trạm',
+      }
+    }
+  },
   qcvn: {
     list: {
       title: 'QCVN',
@@ -1426,9 +1464,11 @@ export default {
         label: 'Order',
         placeholder: 'Order',
       },
-      errorMaxTend: "Giới hạn chuẩn bị vượt ngưỡng tối đa phải nhỏ hơn giới hạn vượt ngưỡng tối đa",
-      errorMinTend: "Giới hạn chuẩn bị vượt ngưỡng tối thiểu phải lớn hơn giới hạn vượt ngưỡng tối thiếu",
-      errorMinMax: "Giới hạn tối thiểu phải nhỏ hơn giới hạn tối đa"
+      errorMaxTend:
+        'Giới hạn chuẩn bị vượt ngưỡng tối đa phải nhỏ hơn giới hạn vượt ngưỡng tối đa',
+      errorMinTend:
+        'Giới hạn chuẩn bị vượt ngưỡng tối thiểu phải lớn hơn giới hạn vượt ngưỡng tối thiếu',
+      errorMinMax: 'Giới hạn tối thiểu phải nhỏ hơn giới hạn tối đa',
     },
     range: {
       label: 'Dải đo',
@@ -1919,7 +1959,7 @@ export default {
         edit: 'Cập nhật',
         delete: 'Xóa',
         export: 'Xuất dữ liệu',
-        setup: "Thiết lập",
+        setup: 'Thiết lập',
         manualapprove: 'Kiểm duyệt tùy chọn',
         unapprove: 'Hủy kiểm duyệt',
         approve: 'Kiểm duyệt',
@@ -2283,6 +2323,14 @@ export default {
     monitoringList: {
       base: 'Giám sát danh sách',
     },
+    stationFixedSub: 'Quan trắc định kỳ',
+    stationFixed: {
+      base: 'Quản lý đợt quan trắc',
+      stationFixed: 'Quản lý điểm quan trắc',
+      inputData: 'Nhập dữ liệu điểm quan trắc',
+      report: 'Tra cứu dữ liệu',
+      map: 'Bản đồ',
+    },
 
     processDataSub: 'Xử lý dữ liệu',
     processData: {
@@ -2344,7 +2392,6 @@ export default {
     measuring: 'Thông số',
     stationType: 'Loại trạm',
     stationAuto: 'Trạm quan trắc',
-    stationFixed: 'Trạm cố định',
     adminManagement: 'Quản trị',
     user: 'Người dùng',
     role: 'Nhóm quyền',
@@ -2423,6 +2470,7 @@ export default {
       'Giám sát tổng quát các thông tin trạng thái số liệu của các trạm',
     monitoringSub:
       'Giám sát số liệu của từng trạm theo thời gian thực và tra cứu dữ liệu',
+    stationFixedSub: 'Quan trắc định kỳ',
 
     processDataSub: 'Cấu hình loại bỏ các dữ liệu không hợp lệ',
     shareDataSub: 'Cấu hình chia sẻ dữ liệu từ hệ thống ra bên ngoài',
