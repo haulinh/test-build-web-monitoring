@@ -1,6 +1,6 @@
 {
-  "apiGateway": "https://qa-api.ilotusland.asia",
-  "apiMedia": "https://sprint`-media.ilotusland.asia",
+  "apiGateway": "https://sprint-api.ilotusland.asia",
+  "apiMedia": "https://sprint-media.ilotusland.asia",
   "apiMediaMinio": "https://qa-minio.ilotusland.asia",
   "apiCamera": "http://27.74.251.0:5020",
   "camera": {

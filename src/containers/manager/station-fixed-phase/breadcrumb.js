@@ -7,16 +7,17 @@ export default createBreadcrumb({
   list: {
     id: 'list',
     //icon: Icon.car,
-    href: slug.stationFixed.list,
-    name: translate('stationFixedManager.list.title'),
+    href: slug.stationFixedPhase.list,
+    name: translate('stationFixedPhase.list.title'),
   },
   create: {
     id: 'create',
-    href: slug.stationFixed.create,
-    name: translate('stationAutoManager.create.label'),
+    href: slug.stationFixedPhase.create,
+    name: translate('stationFixedPhase.create.label'),
   },
   edit: {
-    href: slug.stationFixed.edit,
-    name: translate('stationAutoManager.edit.label'),
+    id: 'edit',
+    href: slug.stationFixedPhase.edit,
+    name: translate('stationFixedPhase.edit.label'),
   },
 })

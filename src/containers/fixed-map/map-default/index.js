@@ -1,9 +1,9 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import stationFixedApi from 'api/StationFixedApi'
+// import stationFixedApi from 'api/StationFixedApi'
 import MapView from './map-view'
-import { resolveMapLocation } from 'utils/resolveMapLocation'
+// import { resolveMapLocation } from 'utils/resolveMapLocation'
 import BoxHideLayout from 'components/map/box-hide-layout'
 import { STATUS_STATION } from 'constants/stationStatus'
 import { warningLevelsNumber, warningLevels } from 'constants/warningLevels'
@@ -98,18 +98,18 @@ export default class MapDefault extends React.PureComponent {
   }
 
   async componentWillMount() {
-    let resStationsAuto = await stationFixedApi.getLastLog()
-    if (resStationsAuto.success) {
-      let stationAutoList = resStationsAuto.data
-      stationAutoList = stationAutoList.map(item => {
-        item.visible = true
-        return item
-      })
-      stationAutoList = await resolveMapLocation(stationAutoList)
-      this.setState({
-        stationsAuto: stationAutoList,
-      })
-    }
+    // let resStationsAuto = await stationFixedApi.getLastLog()
+    // if (resStationsAuto.success) {
+    //   let stationAutoList = resStationsAuto.data
+    //   stationAutoList = stationAutoList.map(item => {
+    //     item.visible = true
+    //     return item
+    //   })
+    //   stationAutoList = await resolveMapLocation(stationAutoList)
+    //   this.setState({
+    //     stationsAuto: stationAutoList,
+    //   })
+    // }
   }
 
   handelOnLickHideLeftLayout({ isLeft, isRight }) {

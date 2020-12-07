@@ -28,6 +28,8 @@ import ShareDataMenu from '../ShareDataMenu'
 import ReportMenu from '../ReportMenu'
 import AdvanceMenu from '../AdvanceMenu'
 import ConfigMenu from '../ConfigMenu'
+import StationFixedMenu from '../StationFixedMenu'
+
 import { SIDEBAR_GLOBAL_WIDTH } from '../sidebar-global/style'
 import objectPath from 'object-path'
 import { isEqual } from 'lodash'
@@ -188,6 +190,7 @@ export default class MenuApp extends React.PureComponent {
     // const { pathname } = this.props.location
     const isOpen = this.props.isOpenNavigation
     //&& pathname !== slug.monitoringList.base
+
     return (
       <SidebarWrapper isShow={this.props.isShow}>
         <ToggleResize
@@ -248,6 +251,9 @@ export default class MenuApp extends React.PureComponent {
               ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW,
               ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW,
             ]) && HandleDataMenu.renderComp(this.props)}
+
+            {this.checkRoleForGroup([ROLE.STATION_AUTO.VIEW]) &&
+              StationFixedMenu.renderComp(this.props)}
 
             {this.checkRoleForGroup([
               ROLE.QAQCCONFIG.VIEW,

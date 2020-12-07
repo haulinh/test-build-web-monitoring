@@ -13,7 +13,7 @@ export default {
     send: 'Send',
     unknownError: 'Unknown error, try again after',
     password: 'Password',
-    noPermission: 'You don\'t have permissions',
+    noPermission: "You don't have permissions",
     saveSuccess: 'Save successfully',
   },
   rules: {
@@ -36,7 +36,7 @@ export default {
     mailGun: {
       401: 'Unauthorized - No valid API key provided',
       404: 'Not Found - The requested item doesn’t exist',
-    }
+    },
   },
   empty: {
     camera: {
@@ -268,8 +268,8 @@ export default {
     config: 'Configuration',
     view: 'View',
     error: {
-      MEASURE_KEY_DUPLICATE: "Duplicate Measure Key"
-    }
+      MEASURE_KEY_DUPLICATE: 'Duplicate Measure Key',
+    },
   },
   wqi: {
     title: 'Water Quality Index',
@@ -340,8 +340,8 @@ export default {
     config: 'Configuration',
     view: 'View',
     error: {
-      MEASURE_KEY_DUPLICATE: "Duplicate Measure Key"
-    }
+      MEASURE_KEY_DUPLICATE: 'Duplicate Measure Key',
+    },
   },
   qaqc: {
     configPublish: {
@@ -1005,6 +1005,44 @@ export default {
         label: 'Numerical Order',
         placeholder: 'Numerical Order',
         error: 'Please input numerical order',
+      },
+    },
+  },
+  stationFixedPhase: {
+    list: {
+      title: 'Đợt quan trắc',
+    },
+    create: {
+      label: 'Tạo mới',
+      success: 'Thêm Đợt quan trắc mới thành công',
+      keyExisted: 'Đợt quan trắc đã tồn tại',
+    },
+    edit: {
+      label: 'Sửa',
+      success: 'Cập nhật Đợt quan trắc thành công',
+    },
+    delete: {
+      label: 'Xoá',
+    },
+    form: {
+      key: {
+        label: 'Mã đợt quan trắc',
+        placeholder: 'Mã đợt quan trắc',
+        required: 'Vui lòng nhập mã',
+        pattern: 'Không được nhập kí tự đăc biệt',
+        max: 'Không quá 64 kí tự',
+      },
+      name: {
+        label: 'Tên đợt quan trắc',
+        placeholder: 'Tên đợt quan trắc',
+        required: 'Vui lòng nhập đợt quan trắc',
+        pattern: 'Không được nhập kí tự đăc biệt',
+        max: 'Không quá 64 kí tự',
+      },
+      stationType: {
+        label: 'Loại trạm',
+        placeholder: 'Loại trạm',
+        required: 'Vui lòng chọn loại trạm',
       },
     },
   },
@@ -1925,7 +1963,7 @@ export default {
         edit: 'Edit',
         delete: 'Delete',
         export: 'Export',
-        setup: "Setup",
+        setup: 'Setup',
         manualapprove: 'Manual Approve',
         unapprove: 'Unapprove',
         approve: 'Approve',
@@ -2294,6 +2332,14 @@ export default {
     monitoringList: {
       base: 'Real-time Monitoring List',
     },
+    stationFixedSub: 'Periodic monitoring',
+    stationFixed: {
+      base: 'Manage the monitoring phase',
+      stationFixed: 'Monitoring point management',
+      inputData: 'Enter the monitoring point data',
+      report: 'Search',
+      map: 'Map',
+    },
 
     processDataSub: 'Data Processing',
     processData: {
@@ -2348,7 +2394,6 @@ export default {
     measuring: 'Parameter',
     stationType: 'Types Of Station',
     stationAuto: 'Manage Stations',
-    stationFixed: 'Fixed Station',
     adminManagement: 'Administration',
     user: 'User',
     role: 'Role',

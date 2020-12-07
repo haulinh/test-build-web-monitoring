@@ -82,9 +82,16 @@ export default {
     ftpFile: '/station-auto/ftpFile/:key',
     ftpFileWithKey: '/station-auto/ftpFile',
   },
+  stationFixedPhase: {
+    base: '/station-fixed-phase',
+    list: '/station-fixed-phase',
+    create: '/station-fixed-phase/create',
+    edit: '/station-fixed-phase/edit/:key',
+    editWithKey: '/station-fixed-phase/edit',
+  },
   stationFixed: {
-    list: '/station-fixed',
     base: '/station-fixed',
+    list: '/station-fixed',
     create: '/station-fixed/create',
     edit: '/station-fixed/edit/:key',
     editWithKey: '/station-fixed/edit',
@@ -247,6 +254,7 @@ export const MENU_GROUP = {
   REPORT: 'report',
   ADVANCE: 'advance',
   CONFIG: 'config',
+  STATIONFIXED:'stationFixed'
 }
 
 export const parentMenuFromSub = {
@@ -277,6 +285,10 @@ export const parentMenuFromSub = {
   '/user': MENU_GROUP.CONFIG,
   '/report': MENU_GROUP.REPORT,
   '/advance': MENU_GROUP.ADVANCE,
+
+
+  '/station-fixed': MENU_GROUP.STATIONFIXED,
+  '/station-fixed-phase': MENU_GROUP.STATIONFIXED,
 }
 
 export const MENU_NAME = {
@@ -295,7 +307,14 @@ export const MENU_NAME = {
   monitoringList: {
     base: translate('menuApp.monitoringList.base'),
   },
-
+  stationFixedSub: translate('menuApp.stationFixedSub'),
+  stationFixed: {
+    base: translate('menuApp.stationFixed.base'),
+    point: translate('menuApp.stationFixed.stationFixed'),
+    inputData: translate('menuApp.stationFixed.inputData'),
+    report:translate('menuApp.stationFixed.report'),
+    map:translate('menuApp.stationFixed.map'),
+  },
   processDataSub: translate('menuApp.processDataSub'),
   processData: {
     approveData: translate('menuApp.processData.approveData'),
@@ -370,6 +389,14 @@ export const TOOLTIP_MENU = {
     historyData: translate('tooltipMenuApp.monitoring.historyData'),
     avgData: translate('tooltipMenuApp.monitoring.avgData'),
     mapAQI: translate('tooltipMenuApp.monitoring.mapAQI'),
+  },
+  stationFixedSub: translate('tooltipMenuApp.stationFixedSub'),
+  stationFixed:{
+    base: translate('tooltipMenuApp.stationFixed.base'),
+    point: translate('menuApp.stationFixed.stationFixed'),
+    inputData: translate('menuApp.stationFixed.inputData'),
+    report:translate('menuApp.stationFixed.report'),
+    map:translate('menuApp.stationFixed.map'),
   },
   monitoringList: {
     base: translate('tooltipMenuApp.monitoringList.base'),
