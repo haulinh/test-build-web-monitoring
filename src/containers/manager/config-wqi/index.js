@@ -3,7 +3,7 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import TabsStationAuto from './tabs-station-auto'
 // import TabsStationFixed from './tabs-station-fixed'
 import stationAutoApi from 'api/StationAuto'
-import stationFixedApi from 'api/StationFixedApi'
+// import stationFixedApi from 'api/StationFixedApi'
 import stationConfigApi from 'api/StationConfigApi'
 import { translate } from 'hoc/create-lang'
 import { Icon, Tabs } from 'antd'
@@ -42,22 +42,22 @@ export default class ConfigWQIContainer extends React.Component {
     this.setState({ listStationAuto, stationTypeAuto })
   }
 
-  async loadDataStationFixed() {
-    const rs = await stationFixedApi.getStationFixeds({}, {})
+  // async loadDataStationFixed() {
+  //   const rs = await stationFixedApi.getStationFixeds({}, {})
 
-    const listStationfixed = _.get(rs, 'data', [])
+  //   const listStationfixed = _.get(rs, 'data', [])
 
-    const stationTypeFixed = []
-    const keys = []
-    _.forEach(listStationfixed, ({ stationType: { key, name } }) => {
-      if (!_.includes(keys, key)) {
-        keys.push(key)
-        stationTypeFixed.push({ text: name, value: key })
-      }
-    })
+  //   const stationTypeFixed = []
+  //   const keys = []
+  //   _.forEach(listStationfixed, ({ stationType: { key, name } }) => {
+  //     if (!_.includes(keys, key)) {
+  //       keys.push(key)
+  //       stationTypeFixed.push({ text: name, value: key })
+  //     }
+  //   })
 
-    this.setState({ listStationfixed, stationTypeFixed })
-  }
+  //   this.setState({ listStationfixed, stationTypeFixed })
+  // }
 
   async loadDataConfigStation() {
     const rs = await stationConfigApi.getStationsConfig({}, {})
@@ -66,7 +66,7 @@ export default class ConfigWQIContainer extends React.Component {
 
   componentDidMount() {
     this.loadDataAuto()
-    this.loadDataStationFixed()
+    // this.loadDataStationFixed()
     this.loadDataConfigStation()
   }
 
@@ -76,7 +76,7 @@ export default class ConfigWQIContainer extends React.Component {
 
   async refreshLoadData() {
     this.loadDataAuto()
-    this.loadDataStationFixed()
+    // this.loadDataStationFixed()
     this.loadDataConfigStation()
   }
 

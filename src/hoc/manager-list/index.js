@@ -33,9 +33,8 @@ const createManagerList = ({ apiList, itemPerPage = 100 }) => Component => {
       })
       // console.log(this.state.data,"111s")
       const res = await apiList(this.state.pagination, this.state.data)
-
       this.setState({
-        dataSource: res.data,
+        dataSource: res.data || res,
         pagination: {
           ...res.pagination,
           total: get(res, 'pagination.totalItem', 0),

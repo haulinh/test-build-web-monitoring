@@ -17,26 +17,46 @@ const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
     }
     async updateItem(data) {
       const key = this.props.match.params.key
-      this.setState({ isUpdating: true }, async () => {
-        const res = await apiUpdate(key, data)
-        this.setState({ isUpdating: false })
-        if (res.success) {
-          message.success(this.props.lang.t('addon.onSave.update.success'))
-        } else message.error(this.props.lang.t('addon.onSave.update.error'))
-      })
+      this.setState({ isUpdating: true })
+      const res = await apiUpdate(key, data)
+      this.setState({ isUpdating: false })
+      // console.log(res, "---res--")
+      if (res.success) {
+        message.success(this.props.lang.t('addon.onSave.update.success'))
+        return null
+      } else if (res.error) {
+        message.error(this.props.lang.t('addon.onSave.update.error'))
+        return res
+      } else {
+        message.success(this.props.lang.t('addon.onSave.update.success'))
+        return null
+      }
     }
 
     //Su kien truoc khi component duoc tao ra
     async getItem() {
       const key = this.props.match.params.key
-      const item = await apiGetByKey(key)
-      if (item.success)
-        this.setState({
-          isLoaded: true,
-          data: item.data,
-          success: item.success,
+      apiGetByKey(key)
+        .then(values => {
+          if (values.success)
+            this.setState({
+              isLoaded: true,
+              data: values.data,
+              success: values.success,
+            })
+          else if (values.error) {
+            this.setState({ isLoaded: true, message: values.message })
+          } else {
+            this.setState({
+              isLoaded: true,
+              data: values,
+              success: true,
+            })
+          }
         })
-      else this.setState({ isLoaded: true, message: item.message })
+        .catch(error => {
+          console.log(error, '----error---')
+        })
     }
 
     render() {

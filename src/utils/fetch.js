@@ -62,6 +62,30 @@ export function putFetch(url, data, props) {
   })
 }
 
+export function pathFetch(url, data, props) {
+  let attributes = Object.assign(
+    {
+      cache: true,
+      headers: getHeaders(),
+    },
+    props
+  )
+
+  return new Promise((resolve, reject) => {
+    axios
+      .patch(url, data, attributes)
+      .then(res => {
+        if (res.status >= 200 && res.status < 300) {
+          resolve(res.data)
+        } else {
+          reject({ error: true })
+        }
+      })
+      .catch(e => reject(e))
+  })
+}
+
+
 export function getFetch(url, data, props) {
   let attributes = Object.assign(
     {
@@ -95,7 +119,7 @@ export function deleteFetch(url, data, props) {
     axios
       .delete(url, attributes)
       .then(res => {
-        if (res.status === 200) {
+        if (res.status >= 200 && res.status < 300) {
           resolve(res.data)
         } else {
           reject({ error: true })

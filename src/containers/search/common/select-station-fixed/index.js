@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { Select } from 'antd'
-import stationFixedApi from 'api/StationFixedApi'
+// import stationFixedApi from 'api/StationFixedApi'
 import * as _ from 'lodash'
 
 @autobind
@@ -18,16 +18,16 @@ export default class SelectStationAuto extends React.Component {
     stationFixedSelects: [],
   }
 
-  async componentWillMount() {
-    const responseStationAuto = await stationFixedApi.getStationFixeds({
-      itemPerPage: 10000000,
-    })
+  // async componentWillMount() {
+  //   const responseStationAuto = await stationFixedApi.getStationFixeds({
+  //     itemPerPage: 10000000,
+  //   })
 
-    this.setState({
-      stationFixedSelects: responseStationAuto.data,
-      isLoaded: true,
-    })
-  }
+  //   this.setState({
+  //     stationFixedSelects: responseStationAuto.data,
+  //     isLoaded: true,
+  //   })
+  // }
 
   getStationAutos() {
     return _.filter(this.state.stationFixedSelects, stationFixed => {

@@ -17,7 +17,7 @@ const i18n = {
 const createManagerDelete = ({ apiDelete }) => Component => {
   @autobind
   class ManagerDeleteHoc extends React.Component {
-    confirmDelete(apiDelete, key, callbackSuccess = () => { }) {
+    confirmDelete(apiDelete, key, callbackSuccess = () => {}) {
       Modal.confirm({
         title: i18n.deleteConfirmMsg,
         okText: i18n.okText,
@@ -35,8 +35,11 @@ const createManagerDelete = ({ apiDelete }) => Component => {
                 res.message === 'QCVN_USED'
               ) {
                 message.error(translate('addon.onDelete.qcvn.qcvnUsed'))
-              } else {
+              } else if (res.error ) {
                 message.error(translate('addon.onDelete.error'))
+              } else {
+                message.success(translate('addon.onDelete.success'))
+                callbackSuccess()
               }
               resolve()
             } catch (error) {
@@ -44,27 +47,30 @@ const createManagerDelete = ({ apiDelete }) => Component => {
               if (data.code === 'ROLE_IN_USE') {
                 message.error(translate('addon.onDelete.errorMessage.roleUsed'))
               } else if (data.message === 'MEASURING_USED') {
-                message.error(translate('addon.onDelete.errorMessage.measuringUsed'))
-              }
-              else if (data.message === 'MEASURING_USED_AQI') {
-                message.error(translate('addon.onDelete.errorMessage.measuringUsedAqi'))
-              }
-              else if (data.message === 'MEASURING_USED_WQI') {
-                message.error(translate('addon.onDelete.errorMessage.measuringUsedWqi'))
-              }
-              else if (data.message === 'MEASURING_USED_QCVN') {
-                message.error(translate('addon.onDelete.errorMessage.measuringUsedQcvn'))
-              }
-              else {
+                message.error(
+                  translate('addon.onDelete.errorMessage.measuringUsed')
+                )
+              } else if (data.message === 'MEASURING_USED_AQI') {
+                message.error(
+                  translate('addon.onDelete.errorMessage.measuringUsedAqi')
+                )
+              } else if (data.message === 'MEASURING_USED_WQI') {
+                message.error(
+                  translate('addon.onDelete.errorMessage.measuringUsedWqi')
+                )
+              } else if (data.message === 'MEASURING_USED_QCVN') {
+                message.error(
+                  translate('addon.onDelete.errorMessage.measuringUsedQcvn')
+                )
+              } else {
                 message.error(translate('addon.onDelete.error'))
               }
 
               resolve()
             }
-
           }).catch(() => console.log('Oops errors!'))
         },
-        onCancel() { },
+        onCancel() {},
       })
     }
     /**

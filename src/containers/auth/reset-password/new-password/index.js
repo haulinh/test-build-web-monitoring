@@ -48,22 +48,22 @@ export default class NewPassword extends PureComponent {
     try {
       const { form, history, userInfo } = this.props
       const values = await form.validateFields()
-      
+
       if (!values) {
         notification.error({
           message: t('changePassword.form.newPasswordConfirmation.error1'),
         })
         return
       }
-  
+
       const params = {
         _id: userInfo._id,
         code: userInfo.forgotPasswordCode,
         password: values[FIELDS.PASSWORD],
       }
-  
+
       const result = await AuthApi.putResetPassword(params._id, params)
-  
+
       if (result.error) {
         notification.error({ message: result.message })
         return
@@ -87,7 +87,7 @@ export default class NewPassword extends PureComponent {
         </FormHeader>
         <Form.Item>
           {form.getFieldDecorator(FIELDS.PASSWORD, {
-            rules: [requiredFieldRule(t('global.password'))]
+            rules: [requiredFieldRule(t('global.password'))],
           })(
             <Input
               size="large"
@@ -112,7 +112,7 @@ export default class NewPassword extends PureComponent {
           )}
         </Form.Item>
         <Button isLoading={isLoading} size="lg" block color="primary">
-          Save password
+          {t('changePassword.form.savePassword')}
         </Button>
       </Form>
     )
