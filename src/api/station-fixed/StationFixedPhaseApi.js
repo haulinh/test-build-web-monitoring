@@ -2,7 +2,7 @@ import { getConfigApi } from '../../config'
 import { getFetch, postFetch, deleteFetch, pathFetch } from '../../utils/fetch'
 
 function getStationFixedPhaseUrl(prefix = '') {
-  return getConfigApi().stationFixedPhase + '/' + prefix
+  return getConfigApi().stationFixed + '/phases/' + prefix
 }
 
 export function getStationFixedPhases({ page = 1, itemPerPage = 10 }) {
