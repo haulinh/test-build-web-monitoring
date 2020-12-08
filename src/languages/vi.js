@@ -1043,6 +1043,11 @@ export default {
       }
     }
   },
+  stationFixedReport: {
+    base: {
+      title: "Dữ liệu quan trắc thủ công"
+    }
+  },
   qcvn: {
     list: {
       title: 'QCVN',

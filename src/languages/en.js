@@ -1046,6 +1046,11 @@ export default {
       },
     },
   },
+  stationFixedReport: {
+    base: {
+      title: "Data station fixed"
+    }
+  },
   qcvn: {
     list: {
       title: 'Standards Filter',
