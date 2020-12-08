@@ -72,7 +72,7 @@ export default class SelectStationType extends PureComponent {
       })
       return
     }
-    let res = this.state.stationTypes.find(item => item.key === value)
+    let res = this.state.stationTypes.find(item => item._id === value)
     this.setState({ value })
     if (res) {
       if (this.props.onHandleChange) this.props.onHandleChange(res, this)
@@ -114,7 +114,7 @@ export default class SelectStationType extends PureComponent {
           </Select.Option>
         )}
         {stationTypes.map(stationType => (
-          <Select.Option key={stationType.key} value={stationType.key}>
+          <Select.Option key={stationType._id} value={stationType._id}>
             {removeAccents(language, stationType.name)}
           </Select.Option>
         ))}
