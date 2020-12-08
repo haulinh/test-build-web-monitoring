@@ -47,9 +47,10 @@ export default class QCVNEdit extends React.PureComponent {
   }
 
   //Su kien truoc khi component duoc tao ra
-  async componentWillMount() {
+  async componentDidMount() {
     //const key = this.props.match.params.key
     await this.props.getItem()
+   
     if (!this.props.success) {
       message.error(this.props.lang.t('addon.error'))
       this.props.history.push(slug.qcvn.list)
