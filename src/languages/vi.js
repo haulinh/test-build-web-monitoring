@@ -1043,6 +1043,48 @@ export default {
       }
     }
   },
+  stationFixedPoint:{
+    list: {
+      title: 'Điểm quan trắc',
+    },
+    create: {
+      label: 'Tạo mới',
+      success: 'Thêm Đợt quan trắc mới thành công',
+      keyExisted: 'Đợt quan trắc đã tồn tại',
+    },
+    edit: {
+      label: 'Sửa',
+      success: 'Cập nhật Đợt quan trắc thành công',
+    },
+    delete: {
+      label: 'Xoá',
+    },
+    form:{
+      key:{
+        label:'Mã điểm',
+        placeholder: 'Mã điểm',
+        required: 'Vui lòng nhập mã',
+        pattern:'Không được nhập kí tự đăc biệt',
+        max:'Không quá 64 kí tự'
+      },
+      name:{
+        label:'Tên điểm quan trắc',
+        placeholder: 'Tên điểm quan trắc',
+        required: 'Vui lòng nhập điểm quan trắc',
+        pattern:'Không được nhập kí tự đăc biệt',
+        max:'Không quá 64 kí tự'
+      },
+      address:{
+        label:'Địa chỉ',
+        placeholder: 'Địa chỉ',
+      },
+      stationType:{
+        label:'Loại trạm',
+        placeholder: 'Loại trạm',
+        required: 'Vui lòng chọn loại trạm',
+      }
+    }
+  },
   qcvn: {
     list: {
       title: 'QCVN',
