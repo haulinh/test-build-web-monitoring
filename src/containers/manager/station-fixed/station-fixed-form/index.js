@@ -1,15 +1,18 @@
 import React from 'react'
-import { Form, Input, Row, Col, InputNumber } from 'antd'
+import { Form, Input, Row, Col, InputNumber, Button } from 'antd'
 
 /** */
 import { translate } from 'hoc/create-lang'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
-import SelectStationType from 'components/elements/select-station-type'
+import SelectStationType from 'components/elements/select-station-type-v2'
 import SelectQCVN from 'components/elements/select-qcvn'
+import MeasuringList from './measuring-list'
+import Clearfix from 'components/elements/clearfix'
 
 const FormItem = Form.Item
 
 const i18n = {
+  save: translate('addon.save'),
   key: {
     label: translate('stationFixedPoint.form.key.label'),
     placeholder: translate('stationFixedPoint.form.key.placeholder'),
@@ -209,6 +212,23 @@ export default class StationFixedForm extends React.Component {
             </FormItem>
           </Col>
         </Row>
+        <Row>
+          <Col span={24}>
+            <MeasuringList />
+          </Col>
+        </Row>
+        <Clearfix height={8}/>
+        <FormItem>
+          <Button
+            style={{ width: '100%' }}
+            loading={this.props.isLoading}
+            type="primary"
+            htmlType="submit"
+            size="large"
+          >
+            {i18n.save}
+          </Button>
+        </FormItem>
       </Form>
     )
   }

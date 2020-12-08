@@ -1060,6 +1060,15 @@ export default {
       label: 'Xoá',
     },
     form:{
+      measuringForm:{
+        key:"Mã thông số",
+        name:"Tên thông số",
+        addMeasuring:'Thêm thông số',
+        qcvn:"Giới hạn vượt ngưỡng",
+        tendToExceed:"Chuẩn bị vượt",
+        qcvnMin:'Giới hạn tối thiểu',
+        qcvnMax:'Giới hạn tối đa'
+      },
       key:{
         label:'Mã điểm',
         placeholder: 'Mã điểm',
