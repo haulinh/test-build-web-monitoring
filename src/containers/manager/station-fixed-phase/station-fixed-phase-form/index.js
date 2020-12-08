@@ -5,7 +5,7 @@ import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
-import SelectStationType from 'components/elements/select-station-type'
+import SelectStationType from 'components/elements/select-station-type-v2'
 
 const FormItem = Form.Item
 @Form.create({
