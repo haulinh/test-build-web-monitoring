@@ -16,6 +16,7 @@ export default props => (
     <Route
       path={slug.stationFixedPhase.create}
       render={matchProps => <StationFixedPhaseCreate {...matchProps} {...props} />}
+      
     />
     <Route path={slug.stationFixedPhase.edit} component={StationFixedPhaseEdit} />
     {/*<Route path={slug.measuring.create} component={MeasuringCreate} />*/}

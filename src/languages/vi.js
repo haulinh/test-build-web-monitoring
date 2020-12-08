@@ -1043,6 +1043,73 @@ export default {
       }
     }
   },
+  stationFixedPoint:{
+    list: {
+      title: 'Điểm quan trắc',
+    },
+    create: {
+      label: 'Tạo mới',
+      success: 'Thêm Đợt quan trắc mới thành công',
+      keyExisted: 'Đợt quan trắc đã tồn tại',
+    },
+    edit: {
+      label: 'Sửa',
+      success: 'Cập nhật Đợt quan trắc thành công',
+    },
+    delete: {
+      label: 'Xoá',
+    },
+    form:{
+      measuringForm:{
+        key:"Mã thông số",
+        name:"Tên thông số",
+        addMeasuring:'Thêm thông số',
+        qcvn:"Giới hạn vượt ngưỡng",
+        tendToExceed:"Chuẩn bị vượt",
+        qcvnMin:'Giới hạn tối thiểu',
+        qcvnMax:'Giới hạn tối đa'
+      },
+      key:{
+        label:'Mã điểm',
+        placeholder: 'Mã điểm',
+        required: 'Vui lòng nhập mã',
+        pattern:'Không được nhập kí tự đăc biệt',
+        max:'Không quá 64 kí tự'
+      },
+      name:{
+        label:'Tên điểm',
+        placeholder: 'Tên điểm quan trắc',
+        required: 'Vui lòng nhập điểm quan trắc',
+        pattern:'Không được nhập kí tự đăc biệt',
+        max:'Không quá 64 kí tự'
+      },
+      address:{
+        label:'Địa chỉ',
+        placeholder: 'Địa chỉ',
+      },
+      stationType:{
+        label:'Loại trạm',
+        placeholder: 'Loại trạm',
+        required: 'Vui lòng chọn loại trạm',
+      },
+      qcvn:{
+        label:"Quy chuẩn",
+        placeholder: 'Quy chuẩn',
+      },
+      lat:{
+        label:"Vĩ độ",
+        placeholder: 'Vĩ độ',
+      },
+      long:{
+        label:"Kinh độ",
+        placeholder: 'Kinh độ',
+      },
+      note:{
+        label:"Ghi chú",
+        placeholder: 'Ghi chú',
+      }
+    }
+  },
   qcvn: {
     list: {
       title: 'QCVN',

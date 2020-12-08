@@ -6,7 +6,7 @@ function getStationFixedPhaseUrl(prefix = '') {
 }
 
 export function getStationFixedPhases({ page = 1, itemPerPage = 10 }) {
-  let url = getStationFixedPhaseUrl(`?page=${page}&itemPerPage=${itemPerPage}`)
+  let url = getStationFixedPhaseUrl(`?skip=${page - 1}&limit=${itemPerPage}`)
   return getFetch(url)
 }
 
