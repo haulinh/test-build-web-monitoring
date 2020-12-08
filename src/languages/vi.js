@@ -1068,7 +1068,7 @@ export default {
         max:'Không quá 64 kí tự'
       },
       name:{
-        label:'Tên điểm quan trắc',
+        label:'Tên điểm',
         placeholder: 'Tên điểm quan trắc',
         required: 'Vui lòng nhập điểm quan trắc',
         pattern:'Không được nhập kí tự đăc biệt',
@@ -1082,6 +1082,22 @@ export default {
         label:'Loại trạm',
         placeholder: 'Loại trạm',
         required: 'Vui lòng chọn loại trạm',
+      },
+      qcvn:{
+        label:"Quy chuẩn",
+        placeholder: 'Quy chuẩn',
+      },
+      lat:{
+        label:"Vĩ độ",
+        placeholder: 'Vĩ độ',
+      },
+      long:{
+        label:"Kinh độ",
+        placeholder: 'Kinh độ',
+      },
+      note:{
+        label:"Ghi chú",
+        placeholder: 'Ghi chú',
       }
     }
   },

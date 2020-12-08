@@ -1,7 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Row, Col, Form, Input, Button, Icon } from 'antd'
-import styled from 'styled-components'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
