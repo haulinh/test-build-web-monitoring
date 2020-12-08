@@ -36,7 +36,7 @@ const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
     //Su kien truoc khi component duoc tao ra
     async getItem() {
       const key = this.props.match.params.key
-      apiGetByKey(key)
+    await  apiGetByKey(key)
         .then(values => {
           if (values.success)
             this.setState({

@@ -1,6 +1,11 @@
 import React from 'react'
-import { Button, Table } from 'antd'
+import { Button, Table, Select } from 'antd'
+import * as _ from 'lodash'
+
 import { translate } from 'hoc/create-lang'
+import AutoCompleteCell from 'components/elements/auto-complete-cell'
+import CategoryApi from 'api/CategoryApi'
+import InputNumberCell from 'components/elements/input-number-cell'
 
 const i18n = {
   key: translate('stationFixedPoint.form.measuringForm.key'),
@@ -18,7 +23,27 @@ export default class MeasuringList extends React.Component {
     this.state = {
       isLoaded: true,
       measuringList: [],
+      measuringListSource: [],
+      editRowkey: '',
     }
+  }
+
+  componentDidMount = async () => {
+    const measuringList = await CategoryApi.getMeasurings(
+      { page: 1, itemPerPage: 100000 },
+      {}
+    )
+    this.setState({
+      measuringListSource: measuringList.data,
+    })
+  }
+  getOptions(measuringList) {
+    const data = _.get(this.state, 'measuringListSource', []).map(d => (
+      <Select.Option key={d.key} value={d.key}>
+        {d.name}
+      </Select.Option>
+    ))
+    return data
   }
 
   setUpColumns = () => {
@@ -33,6 +58,19 @@ export default class MeasuringList extends React.Component {
         dataIndex: 'name',
         align: 'center',
         title: i18n.name,
+        render: (text, record, index) => {
+          if (record.rowKey === this.state.editRowkey) {
+            return (
+              <AutoCompleteCell
+                editable
+                style={{ width: 120 }}
+                options={this.getOptions()}
+              />
+            )
+          } else {
+            return text
+          }
+        },
       },
       {
         title: i18n.qcvn,
@@ -42,12 +80,26 @@ export default class MeasuringList extends React.Component {
             align: 'center',
             title: i18n.qcvnMin,
             width: 150,
+            render: (text, record, index) => {
+              if (record.rowKey === this.state.editRowkey) {
+                return <InputNumberCell editable />
+              } else {
+                return text
+              }
+            },
           },
           {
             dataIndex: 'maxLimit',
             align: 'center',
             title: i18n.qcvnMax,
             width: 150,
+            render: (text, record, index) => {
+              if (record.rowKey === this.state.editRowkey) {
+                return <InputNumberCell editable />
+              } else {
+                return text
+              }
+            },
           },
         ],
       },
@@ -88,7 +140,6 @@ export default class MeasuringList extends React.Component {
   }
 
   render() {
-    console.log(this.state, '---render--')
     return (
       <div>
         <Button
@@ -101,8 +152,21 @@ export default class MeasuringList extends React.Component {
         </Button>
         {this.state.isLoaded && (
           <Table
+            onRow={(record, rowIndex) => {
+              return {
+                onClick: event => {
+                  this.setState({
+                    editRowkey: event.currentTarget.dataset.rowKey,
+                  })
+                }, // click row
+                // onDoubleClick: event => {}, // double click row
+                // onContextMenu: event => {}, // right button click row
+                // onMouseEnter: event => {}, // mouse enter row
+                // onMouseLeave: event => {}, // mouse leave row
+              }
+            }}
             bordered
-            rowKey="key"
+            rowKey="rowKey"
             dataSource={this.state.measuringList}
             columns={this.setUpColumns()}
             pagination={{
