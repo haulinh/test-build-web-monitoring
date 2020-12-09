@@ -276,6 +276,21 @@ export default class StationAutoConfigNotification extends React.Component {
       },
     ]
   }
+  isCheckPrimary = (row) => {
+
+    const warningOptions = _.omit(STATION_AUTO_OPTIONS, ['RECEIVE_NOTIFY', 'PRIMARY'])
+
+    const isAllWarningOff = Object.values(warningOptions)
+      .every(optionKey => !_.get(row, ['options', optionKey, 'allowed'], true))
+
+    const isPrimaryAllowed = _.get(
+      row,
+      ['options', STATION_AUTO_OPTIONS.PRIMARY, 'allowed'],
+      false
+    )
+
+    return isPrimaryAllowed && !isAllWarningOff
+  }
 
   getRows() {
     const isDisabledCheckAll =
@@ -352,11 +367,8 @@ export default class StationAutoConfigNotification extends React.Component {
             content: (
               <div>
                 <Checkbox
-                  checked={_.get(
-                    row,
-                    ['options', STATION_AUTO_OPTIONS.RECEIVE_NOTIFY, 'allowed'],
-                    false
-                  )}
+                  checked={this.isCheckPrimary(row)}
+
                   onChange={e =>
                     this.onChagedOptionOfRow({
                       index,
