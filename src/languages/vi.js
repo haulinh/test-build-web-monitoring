@@ -2394,7 +2394,7 @@ export default {
     stationFixed: {
       base: 'Quản lý đợt quan trắc',
       stationFixed: 'Quản lý điểm quan trắc',
-      inputData: 'Nhập dữ liệu điểm quan trắc',
+      importData: 'Nhập dữ liệu điểm quan trắc',
       report: 'Tra cứu dữ liệu',
       map: 'Bản đồ',
     },

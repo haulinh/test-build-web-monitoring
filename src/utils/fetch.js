@@ -3,7 +3,7 @@ import { getAuthToken } from './auth'
 
 const getHeaders = () => {
   var headers = {
-    Accept: 'application/json',
+    // Accept: 'application/json',
   }
   if (typeof localStorage !== 'undefined') {
     if (getAuthToken()) {

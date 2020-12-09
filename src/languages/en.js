@@ -2336,7 +2336,7 @@ export default {
     stationFixed: {
       base: 'Manage the monitoring phase',
       stationFixed: 'Monitoring point management',
-      inputData: 'Enter the monitoring point data',
+      importData: 'Enter the monitoring point data',
       report: 'Search',
       map: 'Map',
     },
