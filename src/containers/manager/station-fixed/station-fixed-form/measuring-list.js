@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button, Table, Select } from 'antd'
 import * as _ from 'lodash'
 
@@ -20,15 +21,20 @@ const i18n = {
 export default class MeasuringList extends React.Component {
   constructor(props) {
     super(props)
+    this.componentDidMount = this.componentDidMount.bind(this)
     this.state = {
       isLoaded: true,
-      measuringList: [],
+      measuringList: undefined,
       measuringListSource: [],
-      editRowkey: '',
+      editRowKey: '',
     }
   }
 
-  componentDidMount = async () => {
+  static propTypes = {
+    onChange: PropTypes.func,
+  }
+
+  async componentDidMount() {
     const measuringList = await CategoryApi.getMeasurings(
       { page: 1, itemPerPage: 100000 },
       {}
@@ -37,13 +43,25 @@ export default class MeasuringList extends React.Component {
       measuringListSource: measuringList.data,
     })
   }
-  getOptions(measuringList) {
+  getOptions = () => {
     const data = _.get(this.state, 'measuringListSource', []).map(d => (
       <Select.Option key={d.key} value={d.key}>
         {d.name}
       </Select.Option>
     ))
     return data
+  }
+
+  handleOnChange = (value, index, flied) => {
+    const dataValue = this.state.measuringList.map((item, i) => {
+      if (index === i) {
+        item[flied] = value
+      }
+      return item
+    })
+    this.setState({
+      measuringList: dataValue,
+    })
   }
 
   setUpColumns = () => {
@@ -59,11 +77,21 @@ export default class MeasuringList extends React.Component {
         align: 'center',
         title: i18n.name,
         render: (text, record, index) => {
-          if (record.rowKey === this.state.editRowkey) {
+          if (record.rowKey === this.state.editRowKey) {
+            const value = this.state.measuringList[index].key
             return (
               <AutoCompleteCell
                 editable
                 style={{ width: 120 }}
+                onChange={value => {
+                  const obj = _.find(this.state.measuringListSource, item => {
+                    return item.key === value
+                  })
+                  this.handleOnChange(obj.key, index, 'key')
+                  this.handleOnChange(obj.name, index, 'name')
+                  this.handleOnChange(obj.unit, index, 'unit')
+                }}
+                value={value}
                 options={this.getOptions()}
               />
             )
@@ -81,8 +109,16 @@ export default class MeasuringList extends React.Component {
             title: i18n.qcvnMin,
             width: 150,
             render: (text, record, index) => {
-              if (record.rowKey === this.state.editRowkey) {
-                return <InputNumberCell editable />
+              if (record.rowKey === this.state.editRowKey) {
+                return (
+                  <InputNumberCell
+                    value={text}
+                    onChange={value =>
+                      this.handleOnChange(value, index, 'minLimit')
+                    }
+                    editable
+                  />
+                )
               } else {
                 return text
               }
@@ -94,8 +130,14 @@ export default class MeasuringList extends React.Component {
             title: i18n.qcvnMax,
             width: 150,
             render: (text, record, index) => {
-              if (record.rowKey === this.state.editRowkey) {
-                return <InputNumberCell editable />
+              if (record.rowKey === this.state.editRowKey) {
+                return (
+                  <InputNumberCell
+                    value={text}
+                    onChange={e => this.handleOnChange(e, index, 'maxLimit')}
+                    editable
+                  />
+                )
               } else {
                 return text
               }
@@ -111,12 +153,42 @@ export default class MeasuringList extends React.Component {
             align: 'center',
             title: i18n.qcvnMin,
             width: 150,
+            render: (text, record, index) => {
+              if (record.rowKey === this.state.editRowKey) {
+                return (
+                  <InputNumberCell
+                    value={text}
+                    onChange={value =>
+                      this.handleOnChange(value, index, 'minTend')
+                    }
+                    editable
+                  />
+                )
+              } else {
+                return text
+              }
+            },
           },
           {
             dataIndex: 'maxTend',
             align: 'center',
             title: i18n.qcvnMax,
             width: 150,
+            render: (text, record, index) => {
+              if (record.rowKey === this.state.editRowKey) {
+                return (
+                  <InputNumberCell
+                    value={text}
+                    onChange={value =>
+                      this.handleOnChange(value, index, 'maxTend')
+                    }
+                    editable
+                  />
+                )
+              } else {
+                return text
+              }
+            },
           },
         ],
       },
@@ -125,21 +197,50 @@ export default class MeasuringList extends React.Component {
         align: 'center',
         title: 'Đơn vị',
       },
+      {
+        title: '',
+        render: (text, record, index) => {
+            if (record.rowKey === this.state.editRowKey) {
+              return (
+                <InputNumberCell
+                  value={text}
+                  onChange={value =>
+                    this.handleOnChange(value, index, 'maxTend')
+                  }
+                  editable
+                />
+              )
+            } else {
+              return text
+            }
+          },
+      },
     ]
   }
 
   handleAddRow = () => {
     let rowNew = {
-      rowKey: `key_${this.state.measuringList.length}`,
+      rowKey: `key_${
+        this.state.measuringList ? this.state.measuringList.length + 1 : 1
+      }`,
     }
-    let dataSource = this.state.measuringList
+    let dataSource = this.state.measuringList || []
     dataSource.push(rowNew)
     this.setState({
       measuringList: dataSource,
     })
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevState.measuringList !== this.state.measuringList) {
+      if (this.props.onChange) {
+        this.props.onChange(this.state.measuringList)
+      }
+    }
+  }
+
   render() {
+    // console.log(this.state.measuringList, '--measuringList--')
     return (
       <div>
         <Button
@@ -156,7 +257,7 @@ export default class MeasuringList extends React.Component {
               return {
                 onClick: event => {
                   this.setState({
-                    editRowkey: event.currentTarget.dataset.rowKey,
+                    editRowKey: event.currentTarget.dataset.rowKey,
                   })
                 }, // click row
                 // onDoubleClick: event => {}, // double click row

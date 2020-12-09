@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form, Input, Row, Col, InputNumber, Button } from 'antd'
+import * as _ from 'lodash'
 
 /** */
 import { translate } from 'hoc/create-lang'
@@ -39,10 +40,12 @@ const i18n = {
   lat: {
     label: translate('stationFixedPoint.form.lat.label'),
     placeholder: translate('stationFixedPoint.form.lat.placeholder'),
+    required: translate('stationFixedPoint.form.lat.required'),
   },
   long: {
     label: translate('stationFixedPoint.form.long.label'),
     placeholder: translate('stationFixedPoint.form.long.placeholder'),
+    required: translate('stationFixedPoint.form.long.required'),
   },
   address: {
     label: translate('stationFixedPoint.form.address.label'),
@@ -52,9 +55,48 @@ const i18n = {
     label: translate('stationFixedPoint.form.note.label'),
     placeholder: translate('stationFixedPoint.form.note.placeholder'),
   },
+  measuringList: {
+    required: translate('stationFixedPoint.form.measuringList.required'),
+  },
 }
 @Form.create({})
 export default class StationFixedForm extends React.Component {
+  handleSubmit = e => {
+    e.preventDefault()
+    this.props.form.validateFields(async (err, values) => {
+      console.log('--error--', err)
+      console.log('--values--', values)
+      if (err) return
+      console.log(values)
+    })
+  }
+  validateMeasuringList = (rule, value, callback) => {
+   
+    const errorArr = _.map(value, item => {
+      let isBound = false
+      if (item.key) {
+        let strItem = item.name
+        if (item.minLimit && item.maxLimit & (item.minLimit > item.maxLimit)) {
+          strItem = _.concat(strItem, ' -- [Giới hạn vượt ngưỡng: Min > Max]')
+          isBound = true
+        }
+        if (item.minTend && item.maxTend & (item.minTend > item.maxTend)) {
+          strItem = _.concat(strItem, ' -- [Chuẩn bị vượt ngưỡng: Min > Max]')
+          isBound = true
+        }
+        if (isBound) return <div>{strItem}</div>  
+      }
+    })
+
+    // const { form } = this.props
+    // if (value && value > form.getFieldValue(fliedName)) {
+    if (true) {
+      callback(_.compact(errorArr))
+    } else {
+      callback()
+    }
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     const formItemLayout = {
@@ -66,9 +108,7 @@ export default class StationFixedForm extends React.Component {
       },
     }
     return (
-      <Form
-      //   onSubmit={this.handleSubmit}
-      >
+      <Form onSubmit={this.handleSubmit}>
         <Row gutter={12}>
           <Col span={12}>
             <FormItem {...formItemLayout} label={i18n.key.label}>
@@ -153,7 +193,14 @@ export default class StationFixedForm extends React.Component {
         <Row>
           <Col span={12}>
             <FormItem {...formItemLayout} label={i18n.long.label}>
-              {getFieldDecorator('long')(
+              {getFieldDecorator('long', {
+                rules: [
+                  {
+                    required: true,
+                    message: i18n.long.required,
+                  },
+                ],
+              })(
                 <InputNumber
                   style={{ flex: 1, width: '100%' }}
                   placeholder={i18n.long.placeholder}
@@ -163,7 +210,14 @@ export default class StationFixedForm extends React.Component {
           </Col>
           <Col span={12}>
             <FormItem {...formItemLayout} label={i18n.lat.label}>
-              {getFieldDecorator('lat')(
+              {getFieldDecorator('lat', {
+                rules: [
+                  {
+                    required: true,
+                    message: i18n.lat.required,
+                  },
+                ],
+              })(
                 <InputNumber
                   style={{ flex: 1, width: '100%' }}
                   placeholder={i18n.lat.placeholder}
@@ -214,10 +268,23 @@ export default class StationFixedForm extends React.Component {
         </Row>
         <Row>
           <Col span={24}>
-            <MeasuringList />
+            <FormItem>
+              {getFieldDecorator('measuringList', {
+                rules: [
+                  {
+                    type: 'array',
+                    required: true,
+                    message: i18n.measuringList.required,
+                  },
+                  {
+                    validator: (rule, value, callback) =>
+                      this.validateMeasuringList(rule, value, callback),
+                  },
+                ],
+              })(<MeasuringList />)}
+            </FormItem>
           </Col>
         </Row>
-        <Clearfix height={8}/>
         <FormItem>
           <Button
             style={{ width: '100%' }}

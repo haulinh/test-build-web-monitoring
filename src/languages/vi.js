@@ -1099,14 +1099,19 @@ export default {
       lat:{
         label:"Vĩ độ",
         placeholder: 'Vĩ độ',
+        required:'Vui lòng nhập vĩ độ'
       },
       long:{
         label:"Kinh độ",
         placeholder: 'Kinh độ',
+        required:'Vui lòng nhập kinh độ'
       },
       note:{
         label:"Ghi chú",
         placeholder: 'Ghi chú',
+      },
+      measuringList:{
+        required:'Vui lòng nhập thông số'
       }
     }
   },
