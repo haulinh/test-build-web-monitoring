@@ -6,7 +6,7 @@ export const STATION_AUTO_OPTIONS = {
   SMS: 'sms',
   EMAIL: 'email',
   WEB: 'web',
-  MOBILE: 'mobile',
+  // MOBILE: 'mobile',
   RECEIVE_NOTIFY: 'receiveNotify'
 }
 
