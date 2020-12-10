@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash'
 import Dragger from 'antd/lib/upload/Dragger'
 import { translate as t } from 'hoc/create-lang'
 
-import { importDataStationFixed } from 'api/station-fixed/StationFixedPointApi'
+import { importDataStationFixed,downloadTemplateFile } from 'api/station-fixed/StationFixedPointApi'
 import SelectPhase from './select-phase'
 
 const Header = styled.div`
@@ -169,6 +169,10 @@ class StationFixedImportData extends React.Component {
     }
   }
 
+  onDownloadFile = async () => {
+    const result = await downloadTemplateFile()
+  }
+
   onSubmit = e => {
     e.preventDefault()
     this.submitData()
@@ -216,7 +220,7 @@ class StationFixedImportData extends React.Component {
             </Row>
             <Row type="flex" justify="center" gutter={40} className="file">
               <Col span={8}>
-                <div className="ant-upload ant-upload-drag">
+                <div className="ant-upload ant-upload-drag" onClick={this.onDownloadFile}>
                   <Text
                     block
                     className="step ant-upload-text"

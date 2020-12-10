@@ -32,6 +32,10 @@ export function importDataStationFixed(data) {
   return postFetch(getStationFixedPointUrl('import-data'), data)
 }
 
+export function downloadTemplateFile() {
+  return getFetch(getStationFixedPointUrl('export-data-template'))
+}
+
 export default {
   getStationFixedPoints,
   getStationFixedPoint,
