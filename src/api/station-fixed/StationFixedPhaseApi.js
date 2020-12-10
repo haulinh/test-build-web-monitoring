@@ -5,9 +5,9 @@ function getStationFixedPhaseUrl(prefix = '') {
   return getConfigApi().stationFixedPhase + '/' + prefix
 }
 
-export function getStationFixedPhases({ page = 1, itemPerPage = 10 }) {
+export function getStationFixedPhases({ page = 1, itemPerPage = 10 }, params) {
   let url = getStationFixedPhaseUrl(`?skip=${page - 1}&limit=${itemPerPage}`)
-  return getFetch(url)
+  return getFetch(url, params)
 }
 
 export function getStationFixedPhase(id) {
