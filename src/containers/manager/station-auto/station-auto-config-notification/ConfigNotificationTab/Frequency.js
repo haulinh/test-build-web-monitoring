@@ -38,6 +38,11 @@ const optionSelects = [
   },
 ]
 
+const STATION_STATUS = {
+  COLLECTING: 'COLLECTING',
+  OFFLINE: 'OFFLINE'
+}
+
 export default class Frequency extends React.Component {
   state = {
     isEnable: this.props.isEnable,
@@ -85,10 +90,10 @@ export default class Frequency extends React.Component {
         </div>
         <div>
           <Select
-            // disabled={
-            //   !this.state.isEnable || this.props.status === 'COLLECTING'
-            // }
-            disabled={true}
+            disabled={
+              !this.state.isEnable || this.props.status === STATION_STATUS.COLLECTING || this.props.status === STATION_STATUS.OFFLINE
+            }
+
             size="small"
             defaultValue={this.getOption()}
             style={{ width: 120 }}
