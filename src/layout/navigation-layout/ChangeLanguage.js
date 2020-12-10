@@ -8,6 +8,10 @@ import styled from 'styled-components'
 import FlagIcon from 'react-flag-kit/lib/CDNFlagIcon.js'
 import { autobind } from 'core-decorators'
 import createLang from 'hoc/create-lang'
+import AuthApi from 'api/AuthApi'
+import { connect } from 'react-redux'
+
+
 
 const languages = [
   {
@@ -39,18 +43,24 @@ const LabelWrapper = styled.div`
   padding-left: 8px;
 `
 
+@connect(state => ({
+  me: state.auth.userInfo
+}))
 @createLang
 @autobind
 export default class ChangeLanguage extends React.Component {
   selectLanguage(e, item) {
     if (e) e.preventDefault()
     this.props.lang.changeLanguage(item.locale)
+
+    AuthApi.putProfile(this.props.me._id, { preferredLanguage: item.locale })
+
     window.location = window.location.pathname
   }
 
   getFlag() {
     const language = languages.find(
-      lang => lang.locale === this.props.lang.locale
+      lang => lang.locale === (this.props.me.preferredLanguage || 'en')
     )
     if (!language) return
     return language.flag
