@@ -1052,7 +1052,7 @@ export default {
     create: {
       label: 'Tạo mới',
       success: 'Thêm điểm trắc mới thành công',
-      keyExisted: 'Điểm trắc đã tồn tại',
+      keyExisted: 'Điểm quan trắc đã tồn tại',
     },
     edit: {
       label: 'Sửa',
@@ -1086,13 +1086,14 @@ export default {
       name:{
         label:'Tên điểm',
         placeholder: 'Tên điểm quan trắc',
-        required: 'Vui lòng nhập điểm quan trắc',
+        required: 'Vui lòng nhập tên điểm quan trắc',
         pattern:'Không được nhập kí tự đăc biệt',
         max:'Không quá 64 kí tự'
       },
       address:{
         label:'Địa chỉ',
         placeholder: 'Địa chỉ',
+        max:'Không quá 256 kí tự'
       },
       stationType:{
         label:'Loại trạm',
@@ -1106,12 +1107,14 @@ export default {
       lat:{
         label:"Vĩ độ",
         placeholder: 'Vĩ độ',
-        required:'Vui lòng nhập vĩ độ'
+        required:'Vui lòng nhập vĩ độ',
+        format: "Vĩ độ (-90<=x<=90)"
       },
       long:{
         label:"Kinh độ",
         placeholder: 'Kinh độ',
-        required:'Vui lòng nhập kinh độ'
+        required:'Vui lòng nhập kinh độ',
+        format: "Kinh độ (-180<=x<=180)"
       },
       note:{
         label:"Ghi chú",

@@ -1046,6 +1046,93 @@ export default {
       },
     },
   },
+  stationFixedReport: {
+    base: {
+      title: 'Data station fixed',
+    },
+  },
+  stationFixedPoint: {
+    list: {
+      title: 'Điểm quan trắc',
+      restore: 'Khôi phục',
+      remove: 'Loại bỏ',
+    },
+    create: {
+      label: 'Tạo mới',
+      success: 'Thêm điểm trắc mới thành công',
+      keyExisted: 'Điểm trắc đã tồn tại',
+    },
+    edit: {
+      label: 'Sửa',
+      success: 'Cập nhật Đợt quan trắc thành công',
+    },
+    delete: {
+      label: 'Xoá',
+      require: 'Bạn chắc chắn xoá dữ liệu?',
+    },
+    disable: {
+      label: 'Vô hiệu hóa',
+      require: 'Bạn chắc chắn muốn vô hiệu hóa?',
+    },
+    form: {
+      measuringForm: {
+        key: 'Mã thông số',
+        name: 'Tên thông số',
+        addMeasuring: 'Thêm thông số',
+        qcvn: 'Giới hạn vượt ngưỡng',
+        tendToExceed: 'Chuẩn bị vượt',
+        qcvnMin: 'Giới hạn tối thiểu',
+        qcvnMax: 'Giới hạn tối đa',
+      },
+      key: {
+        label: 'Mã điểm',
+        placeholder: 'Mã điểm',
+        required: 'Vui lòng nhập mã',
+        pattern: 'Không được nhập kí tự đăc biệt',
+        max: 'Không quá 64 kí tự',
+      },
+      name: {
+        label: 'Tên điểm',
+        placeholder: 'Tên điểm quan trắc',
+        required: 'Vui lòng nhập điểm quan trắc',
+        pattern: 'Không được nhập kí tự đăc biệt',
+        max: 'Không quá 64 kí tự',
+      },
+      address: {
+        label: 'Địa chỉ',
+        placeholder: 'Địa chỉ',
+        max: 'Không quá 256 kí tự',
+      },
+      stationType: {
+        label: 'Loại trạm',
+        placeholder: 'Loại trạm',
+        required: 'Vui lòng chọn loại trạm',
+      },
+      qcvn: {
+        label: 'Quy chuẩn',
+        placeholder: 'Quy chuẩn',
+      },
+      lat: {
+        label: 'Vĩ độ',
+        placeholder: 'Vĩ độ',
+        required: 'Vui lòng nhập vĩ độ',
+        format: 'Vĩ độ (-90<=x<=90)',
+      },
+      long: {
+        label: 'Kinh độ',
+        placeholder: 'Kinh độ',
+        required: 'Vui lòng nhập kinh độ',
+        format: 'Kinh độ (-90<=x<=90)',
+      },
+      note: {
+        label: 'Ghi chú',
+        placeholder: 'Ghi chú',
+      },
+      measuringList: {
+        required: 'Vui lòng nhập thông số',
+      },
+    },
+  },
   qcvn: {
     list: {
       title: 'Standards Filter',

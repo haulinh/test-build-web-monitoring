@@ -12,6 +12,7 @@ import createLanguageHoc, { translate } from 'hoc/create-lang'
 
 const i18n = {
   success: translate('stationTypeManager.create.success'),
+  error: translate('addon.onSave.add.error'),
 }
 
 @createLanguageHoc
@@ -35,6 +36,8 @@ export default class StationFixedCreateContainer extends React.Component {
         return values
       })
       .catch(error => {
+        this.setState({ isUpdating: false })
+        message.error(i18n.error)
         return {
           ...error,
         }

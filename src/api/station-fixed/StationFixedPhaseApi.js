@@ -1,13 +1,23 @@
 import { getConfigApi } from '../../config'
-import { getFetch, postFetch, deleteFetch, pathFetch } from '../../utils/fetch'
+import { deleteFetch, getFetch, pathFetch, postFetch } from '../../utils/fetch'
 
 function getStationFixedPhaseUrl(prefix = '') {
   return getConfigApi().stationFixedPhase + '/' + prefix
 }
 
-export function getStationFixedPhases({ page = 1, itemPerPage = 10 }, params) {
-  let url = getStationFixedPhaseUrl(`?skip=${page - 1}&limit=${itemPerPage}`)
-  return getFetch(url, params)
+export function getStationFixedPhases({ page = 1, itemPerPage = 10 }) {
+  let url = getStationFixedPhaseUrl('')
+
+  const filter = {
+    skip: page - 1,
+    limit: itemPerPage,
+    include: [
+      {
+        relation: 'stationType',
+      },
+    ],
+  }
+  return getFetch(url, { filter })
 }
 
 export function getStationFixedPhase(id) {
@@ -27,6 +37,12 @@ export function deleteStationFixedPhase(Id) {
 export function updateStationFixedPhase(Id, { name, stationTypeId }) {
   return pathFetch(getStationFixedPhaseUrl(Id), { name, stationTypeId })
 }
+
+export function getPhase(filter) {
+  const url = getStationFixedPhaseUrl()
+  return getFetch(url, filter)
+}
+
 export default {
   getStationFixedPhases,
   getStationFixedPhase,
