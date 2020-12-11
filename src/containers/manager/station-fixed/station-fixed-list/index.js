@@ -67,6 +67,7 @@ const i18n = {
     error: translate('addon.onRestore.error'),
   },
 }
+
 // @protectRole(ROLE.STATION_TYPE.VIEW)
 @createManagerList({
   apiList: StationFixedPointApi.getStationFixedPoints,
@@ -124,9 +125,9 @@ export default class StationFixedList extends React.Component {
     } = this.props
     return [
       { content: '#', width: 2 },
-      { content: t('stationFixedPoint.form.key.label'), width: 20 },
-      { content: t('stationFixedPoint.form.name.label'), width: 30 },
-      { content: t('stationFixedPoint.form.address.label'), width: 30 },
+      { content: t('stationFixedPoint.form.key.label') },
+      { content: t('stationFixedPoint.form.name.label') },
+      { content: t('stationFixedPoint.form.address.label') },
       { content: '', width: 20 },
     ]
   }
@@ -140,6 +141,11 @@ export default class StationFixedList extends React.Component {
     let stationCount = _.countBy(sourceSorted, 'stationType._id')
 
     let stationTypeArr = []
+    const styled = {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      width: '300px',
+    }
 
     let result = [].concat.apply(
       [],
@@ -150,16 +156,41 @@ export default class StationFixedList extends React.Component {
             content: <strong>{index + 1}</strong>,
           },
           {
-            content: <Span deleted={!row.active}>{row.key}</Span>,
+            content: (
+              <div
+                style={{
+                  ...styled,
+                  width: '200px',
+                }}
+              >
+                <Span deleted={!row.active}>{row.key}</Span>
+              </div>
+            ),
           },
           {
-            content: <Span deleted={!row.active}>{row.name}</Span>,
+            content: (
+              <div
+                style={{
+                  ...styled,
+                  width: '200px',
+                }}
+              >
+                <Span deleted={!row.active}>{row.name}</Span>
+              </div>
+            ),
           },
-          // {
-          //   content: <Span deleted={!row.active}>{row.address}</Span>,
-          // },
           {
-            content: <Span deleted={!row.active}>{row.stationType.name}</Span>,
+            content: (
+              <div
+                style={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  width: '300px',
+                }}
+              >
+                <Span deleted={!row.active}>{row.address}</Span>
+              </div>
+            ),
           },
           {
             content: this.renderActionGroup(row),
