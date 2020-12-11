@@ -1046,11 +1046,13 @@ export default {
   stationFixedPoint:{
     list: {
       title: 'Điểm quan trắc',
+      restore: 'Khôi phục',
+      remove: 'Loại bỏ',
     },
     create: {
       label: 'Tạo mới',
-      success: 'Thêm Đợt quan trắc mới thành công',
-      keyExisted: 'Đợt quan trắc đã tồn tại',
+      success: 'Thêm điểm trắc mới thành công',
+      keyExisted: 'Điểm trắc đã tồn tại',
     },
     edit: {
       label: 'Sửa',
@@ -1058,6 +1060,11 @@ export default {
     },
     delete: {
       label: 'Xoá',
+      require: 'Bạn chắc chắn xoá dữ liệu?',
+    },
+    disable: {
+      label: 'Vô hiệu hóa',
+      require: 'Bạn chắc chắn muốn vô hiệu hóa?',
     },
     form:{
       measuringForm:{
@@ -1099,14 +1106,19 @@ export default {
       lat:{
         label:"Vĩ độ",
         placeholder: 'Vĩ độ',
+        required:'Vui lòng nhập vĩ độ'
       },
       long:{
         label:"Kinh độ",
         placeholder: 'Kinh độ',
+        required:'Vui lòng nhập kinh độ'
       },
       note:{
         label:"Ghi chú",
         placeholder: 'Ghi chú',
+      },
+      measuringList:{
+        required:'Vui lòng nhập thông số'
       }
     }
   },
