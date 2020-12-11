@@ -7,7 +7,7 @@ import * as _ from 'lodash'
 import { translate } from 'hoc/create-lang'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import SelectStationType from 'components/elements/select-station-type-v2'
-import SelectQCVN from 'components/elements/select-qcvn'
+import SelectQCVN from 'components/elements/select-qcvn-v2'
 import MeasuringList from './measuring-list'
 
 const FormItem = Form.Item
