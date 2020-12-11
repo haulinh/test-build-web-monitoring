@@ -5,7 +5,8 @@ import { isEmpty } from 'lodash'
 import Dragger from 'antd/lib/upload/Dragger'
 import { translate as t } from 'hoc/create-lang'
 
-import { importDataStationFixed,downloadTemplateFile } from 'api/station-fixed/StationFixedPointApi'
+import { getLanguage } from 'utils/localStorage'
+import { importDataStationFixed, getStationFixedPointUrl } from 'api/station-fixed/StationFixedPointApi'
 import SelectPhase from './select-phase'
 
 const Header = styled.div`
@@ -54,32 +55,30 @@ const Container = styled.div`
 `
 
 const i18n = {
-  headerTitle: 'Nhập dữ liệu điểm quan trắc',
-  description:
-    'Thêm dữ liệu quan trắc điểm định kỳ bằng cách tải lên file xlsx với những thông tin cần thiết.',
-  startUpload: 'Bắt đầu bằng cách lựa chọn đợt nhập liệu',
-  phaseLabel: 'Đợt quan trắc',
-  stationTypeLabel: 'Loại trạm',
-  requirements:
-    'Tải lên dữ liệu chứa thông tin các điểm quan trắc theo mẫu bên dưới. Hãy đảm bảo những trường thông tin chính xác tuyệt đối. Dữ liệu đã được tải lên hệ thống sẽ không thể loại bỏ',
-  step1: 'Bước 1: Tải file mẫu và điền các trường cần thiết',
-  step2: 'Bước 2: Tải lên file đã được điền các trường',
-  downloadText: 'Tải về file mẫu',
-  uploadText: 'Tải lên file mẫu',
-  dragAndDrop: 'Kéo thả file vào đây',
-  errorTitle: 'Tải lên thất bại',
-  errorMessage: 'Một số dòng dữ liệu bị lỗi. Vui lòng kiểm tra và thử lại',
-  successTitle: 'Tải lên thành công',
-  successMessage: 'Tải lên thành công 100 dòng dữ liệu.',
-  line: 'Dòng',
-  duplicateParameter: '2 cột trùng mã thông số',
-  duplicateData: 'Dữ liệu trùng',
-  invalidDataSheet: 'Dữ liệu sheet không hợp lệ',
-  invalidDateTime: 'Ngày giờ không hợp lệ',
-  invalidParameter: 'Mã thông số không tồn tại',
-  pointKeyNotExisted: 'Mã điểm không tồn tại',
-  parameterNotTypeNumber: 'Thông số sai định dạng',
-  selectPhaseError: 'Vui lòng chọn đợt quan trắc',
+  headerTitle: t('importDataPoint.headerTitle'),
+  description: t('importDataPoint.description'),
+  startUpload: t('importDataPoint.startUpload'),
+  phaseLabel: t('importDataPoint.phaseLabel'),
+  stationTypeLabel: t('importDataPoint.stationTypeLabel'),
+  requirements: t('importDataPoint.requirements'),
+  step1: t('importDataPoint.step1'),
+  step2: t('importDataPoint.step2'),
+  downloadText: t('importDataPoint.downloadText'),
+  uploadText: t('importDataPoint.uploadText'),
+  dragAndDrop: t('importDataPoint.dragAndDrop'),
+  errorTitle:  t('importDataPoint.errorTitle'),
+  errorMessage: t('importDataPoint.errorMessage'),
+  successTitle: t('importDataPoint.successTitle'),
+  successMessage: count => t('importDataPoint.successMessage', {count}),
+  line: t('importDataPoint.line'),
+  duplicateParameter: t('importDataPoint.duplicateParameter'),
+  duplicateData: t('importDataPoint.duplicateData'),
+  invalidDataSheet: t('importDataPoint.invalidDataSheet'),
+  invalidDateTime: t('importDataPoint.invalidDateTime'),
+  invalidParameter: t('importDataPoint.invalidParameter'),
+  pointKeyNotExisted: t('importDataPoint.pointKeyNotExisted'),
+  parameterNotTypeNumber: t('importDataPoint.parameterNotTypeNumber'),
+  selectPhaseError: t('importDataPoint.selectPhaseError'),
   save: t('global.save'),
 }
 
@@ -105,6 +104,7 @@ class StationFixedImportData extends React.Component {
     isSuccess: false,
     isLoading: false,
     errorDetail: null,
+    count: 0
   }
 
   getErrorDetail = errors => {
@@ -158,8 +158,8 @@ class StationFixedImportData extends React.Component {
     try {
       this.setState({ isLoading: true })
       const result = await importDataStationFixed(formData)
-      if (result.status === 'ok') {
-        this.setState({ isLoading: false, isSuccess: true })
+      if (result.success) {
+        this.setState({ isLoading: false, errorDetail: null, isSuccess: true, count: result.count })
         return
       }
 
@@ -170,7 +170,8 @@ class StationFixedImportData extends React.Component {
   }
 
   onDownloadFile = async () => {
-    const result = await downloadTemplateFile()
+    const lang = getLanguage()
+    window.open(getStationFixedPointUrl(`export-data-template/${lang}`), '_blank')
   }
 
   onSubmit = e => {
@@ -180,7 +181,7 @@ class StationFixedImportData extends React.Component {
 
   render() {
     const { form } = this.props
-    const { isLoading, errorDetail, isSuccess } = this.state
+    const { isLoading, errorDetail, isSuccess, count } = this.state
     form.getFieldDecorator(FIELDS.FILE)
     const file = form.getFieldValue(FIELDS.FILE) || {}
 
@@ -266,7 +267,7 @@ class StationFixedImportData extends React.Component {
                 <Col span={16}>
                   <Alert
                     message={i18n.successTitle}
-                    description={i18n.successMessage}
+                    description={i18n.successMessage(count)}
                     type="success"
                     showIcon
                   />

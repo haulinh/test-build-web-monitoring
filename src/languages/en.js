@@ -2316,6 +2316,34 @@ export default {
     save: 'Save',
     update: 'Update',
   },
+  importDataPoint: {
+    headerTitle: 'Enter the monitoring point data',
+    description:
+      'Add periodic monitoring data by uploading xlsx file with required information.',
+    startUpload: 'Start by selecting the input batch',
+    phaseLabel: 'Select monitoring phase',
+    stationTypeLabel: 'Station Type',
+    requirements:
+      'Upload the data containing the monitoring points in the form below. Make sure the fields are absolutely correct. Data uploaded to the system cannot be removed',
+    step1: 'Step 1: Download the sample file and fill in the required fields',
+    step2: 'Step 2: Upload the file with all fields filled in',
+    downloadText: 'Download sample file',
+    uploadText: 'Upload sample file',
+    dragAndDrop: 'Drag and drop files here',
+    errorTitle: 'Upload failed',
+    errorMessage: 'Some data lines are faulty. Please check and try again',
+    successTitle: 'Upload successfully',
+    successMessage: 'Successfully uploaded {{=it.count}} lines of data',
+    line: 'Line',
+    duplicateParameter: 'Two columns with the same parameter code',
+    duplicateData: 'Duplicate data',
+    invalidDataSheet: 'Sheet data is not valid',
+    invalidDateTime: 'Invalid date and time',
+    invalidParameter: 'Parameter code does not exist',
+    pointKeyNotExisted: 'Monitoring Code dose not exist',
+    parameterNotTypeNumber: 'Wrong format parameter',
+    selectPhaseError: 'Please select the monitoring batch',
+  },
   menuApp: {
     dashboard: 'Dashboard',
 
@@ -2340,7 +2368,6 @@ export default {
       report: 'Search',
       map: 'Map',
     },
-
     processDataSub: 'Data Processing',
     processData: {
       approveData: 'Check Data',

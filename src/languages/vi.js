@@ -2374,6 +2374,34 @@ export default {
     save: 'Lưu',
     update: 'Cập nhật',
   },
+  importDataPoint: {
+    headerTitle: 'Nhập dữ liệu điểm quan trắc',
+    description:
+      'Thêm dữ liệu quan trắc điểm định kỳ bằng cách tải lên file xlsx với những thông tin cần thiết.',
+    startUpload: 'Bắt đầu bằng cách lựa chọn đợt nhập liệu',
+    phaseLabel: 'Đợt quan trắc',
+    stationTypeLabel: 'Loại trạm',
+    requirements:
+      'Tải lên dữ liệu chứa thông tin các điểm quan trắc theo mẫu bên dưới. Hãy đảm bảo những trường thông tin chính xác tuyệt đối. Dữ liệu đã được tải lên hệ thống sẽ không thể loại bỏ',
+    step1: 'Bước 1: Tải file mẫu và điền các trường cần thiết',
+    step2: 'Bước 2: Tải lên file đã được điền các trường',
+    downloadText: 'Tải về file mẫu',
+    uploadText: 'Tải lên file mẫu',
+    dragAndDrop: 'Kéo thả file vào đây',
+    errorTitle: 'Tải lên thất bại',
+    errorMessage: 'Một số dòng dữ liệu bị lỗi. Vui lòng kiểm tra và thử lại',
+    successTitle: 'Tải lên thành công',
+    successMessage: 'Tải lên thành công {{=it.count}} dòng dữ liệu',
+    line: 'Dòng',
+    duplicateParameter: '2 cột trùng mã thông số',
+    duplicateData: 'Dữ liệu trùng',
+    invalidDataSheet: 'Dữ liệu sheet không hợp lệ',
+    invalidDateTime: 'Ngày giờ không hợp lệ',
+    invalidParameter: 'Mã thông số không tồn tại',
+    pointKeyNotExisted: 'Mã điểm không tồn tại',
+    parameterNotTypeNumber: 'Thông số sai định dạng',
+    selectPhaseError: 'Vui lòng chọn đợt quan trắc',
+  },
   menuApp: {
     dashboard: 'Trang Chủ',
 
@@ -2398,7 +2426,6 @@ export default {
       report: 'Tra cứu dữ liệu',
       map: 'Bản đồ',
     },
-
     processDataSub: 'Xử lý dữ liệu',
     processData: {
       approveData: 'Kiểm duyệt dữ liệu',
