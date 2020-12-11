@@ -1093,6 +1093,7 @@ export default {
       address:{
         label:'Địa chỉ',
         placeholder: 'Địa chỉ',
+        max:'Không quá 256 kí tự'
       },
       stationType:{
         label:'Loại trạm',
@@ -1106,12 +1107,14 @@ export default {
       lat:{
         label:"Vĩ độ",
         placeholder: 'Vĩ độ',
-        required:'Vui lòng nhập vĩ độ'
+        required:'Vui lòng nhập vĩ độ',
+        format: "Vĩ độ (-90<=x<=90)"
       },
       long:{
         label:"Kinh độ",
         placeholder: 'Kinh độ',
-        required:'Vui lòng nhập kinh độ'
+        required:'Vui lòng nhập kinh độ',
+        format: "Kinh độ (-90<=x<=90)"
       },
       note:{
         label:"Ghi chú",
