@@ -17,7 +17,7 @@ import MeasuringRoute from 'containers/manager/measuring'
 import ProvinceRoute from 'containers/manager/province'
 import QCVNRoute from 'containers/manager/qcvn'
 import StationAutoRoute from 'containers/manager/station-auto'
-// import StationFixedRoute from 'containers/manager/station-fixed'
+import StationFixedRoute from 'containers/manager/station-fixed'
 import StationFixedPhaseRoute from 'containers/manager/station-fixed-phase'
 import { StationFixedReport } from 'containers/manager/station-fixed-report/station-fixed-report'
 import StationTypeRoute from 'containers/manager/station-type'
@@ -95,10 +95,10 @@ export default class RouteDefault extends React.Component {
               path={slug.stationAuto.base}
               component={StationAutoRoute}
             />
-            {/* <LayoutRoute
+            <LayoutRoute
               path={slug.stationFixed.base}
               component={StationFixedRoute}
-            /> */}
+            />
             <LayoutRoute
               path={slug.stationFixedPhase.base}
               component={StationFixedPhaseRoute}

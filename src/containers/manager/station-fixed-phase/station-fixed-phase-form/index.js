@@ -5,7 +5,7 @@ import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
-import SelectStationType from 'components/elements/select-station-type'
+import SelectStationType from 'components/elements/select-station-type-v2'
 
 const FormItem = Form.Item
 @Form.create({
@@ -38,19 +38,19 @@ export default class StationFixedPhaseForm extends React.PureComponent {
       const data = {
         key: values.key.trim(),
         name: values.name.trim(),
-        stationTypeId:values.stationTypeId
+        stationTypeId: values.stationTypeId,
       }
 
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
-      if (res && res.error) {
-        if (res.message === 'KEY_EXISTED') {
+      if (res.status ) {
+        if (res.data.error.message === 'PHASE_ALREADY_EXISTS') {
           this.props.form.setFields({
             key: {
               value: values.key,
               errors: [
                 new Error(
-                  this.props.lang.t('stationTypeManager.create.keyExisted')
+                  this.props.lang.t('stationFixedPhase.create.keyExisted')
                 ),
               ],
             },
