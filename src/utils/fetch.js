@@ -36,7 +36,7 @@ export function postFetch(url, data, props) {
         // }
       })
       .catch(ex => {
-        const { response } = ex
+        const { response = {} } = ex
 
         reject({
           status: response.status,
