@@ -6,18 +6,17 @@ import { translate } from 'hoc/create-lang'
 export default createBreadcrumb({
   list: {
     id: 'list',
-    //icon: Icon.car,
-    href: slug.stationFixedPhase.list,
+    href: slug.stationFixed.list,
     name: translate('stationFixedPoint.list.title'),
   },
   create: {
     id: 'create',
-    href: slug.stationFixedPhase.create,
+    href: slug.stationFixed.create,
     name: translate('stationFixedPoint.create.label'),
   },
   edit: {
     id: 'edit',
-    href: slug.stationFixedPhase.edit,
+    href: slug.stationFixed.edit,
     name: translate('stationFixedPoint.edit.label'),
   },
 })

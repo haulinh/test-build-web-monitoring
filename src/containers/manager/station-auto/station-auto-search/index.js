@@ -180,7 +180,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
               <Col span={9}>
                 {getFieldDecorator(`stationType`)(
                   <SelectStationType
-                    classNane="select-form-auto"
+                    className="select-form-auto"
                     getFieldDecorator={getFieldDecorator}
                     isShowAll
                     // onChangeStationType={this.changeStationType}

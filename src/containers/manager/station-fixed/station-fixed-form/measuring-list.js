@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Table, Select } from 'antd'
+import { Button, Table, Select, Popconfirm, Icon } from 'antd'
 import * as _ from 'lodash'
 
 import { translate } from 'hoc/create-lang'
@@ -16,6 +16,7 @@ const i18n = {
   qcvn: translate('stationFixedPoint.form.measuringForm.qcvn'),
   qcvnMin: translate('stationFixedPoint.form.measuringForm.qcvnMin'),
   qcvnMax: translate('stationFixedPoint.form.measuringForm.qcvnMax'),
+  delete: translate('stationFixedPoint.delete.require'),
 }
 
 export default class MeasuringList extends React.Component {
@@ -32,6 +33,7 @@ export default class MeasuringList extends React.Component {
 
   static propTypes = {
     onChange: PropTypes.func,
+    value: PropTypes.object,
   }
 
   async componentDidMount() {
@@ -41,14 +43,38 @@ export default class MeasuringList extends React.Component {
     )
     this.setState({
       measuringListSource: measuringList.data,
+      measuringList: this.props.value || [],
     })
   }
   getOptions = () => {
-    const data = _.get(this.state, 'measuringListSource', []).map(d => (
+    const diffData =
+      _.differenceBy(
+        this.state.measuringListSource,
+        this.state.measuringList,
+        'key'
+      ) || []
+
+    let data = diffData.map(d => (
       <Select.Option key={d.key} value={d.key}>
         {d.name}
       </Select.Option>
     ))
+
+    if (this.state.measuringList.length > 0) {
+      const dataSelect = this.state.measuringList.map(d => {
+        if (!d.key) {
+          return undefined
+        }
+        return (
+          <Select.Option disabled key={d.rowKey} value={d.key}>
+            {d.name}
+          </Select.Option>
+        )
+      })
+      // console.log(_.compact(dataSelect), "---_.compact(dataSelect)--")
+      data.push(_.compact(dataSelect))
+    }
+
     return data
   }
 
@@ -200,32 +226,47 @@ export default class MeasuringList extends React.Component {
       {
         title: '',
         render: (text, record, index) => {
-            if (record.rowKey === this.state.editRowKey) {
-              return (
-                <InputNumberCell
-                  value={text}
-                  onChange={value =>
-                    this.handleOnChange(value, index, 'maxTend')
-                  }
-                  editable
-                />
-              )
-            } else {
-              return text
-            }
-          },
+          return (
+            <div
+              style={{
+                textAlign: 'center',
+              }}
+              className="editable-row-operations"
+            >
+              <span>
+                <Popconfirm
+                  title={i18n.delete}
+                  onConfirm={() => this.handleRemoveRow(index)}
+                >
+                  <a>
+                    <Icon
+                      type="delete"
+                      style={{ marginLeft: '5px', color: 'red' }}
+                    />
+                  </a>
+                </Popconfirm>
+              </span>
+            </div>
+          )
+        },
       },
     ]
   }
 
   handleAddRow = () => {
     let rowNew = {
-      rowKey: `key_${
-        this.state.measuringList ? this.state.measuringList.length + 1 : 1
-      }`,
+      rowKey: Date.now().toString(),
     }
     let dataSource = this.state.measuringList || []
     dataSource.push(rowNew)
+    this.setState({
+      measuringList: dataSource,
+    })
+  }
+
+  handleRemoveRow(index) {
+    const dataSource = _.clone(this.state.measuringList)
+    dataSource.splice(index, 1)
     this.setState({
       measuringList: dataSource,
     })
@@ -240,7 +281,7 @@ export default class MeasuringList extends React.Component {
   }
 
   render() {
-    // console.log(this.state.measuringList, '--measuringList--')
+    // console.log(this.props.value, '---value---')
     return (
       <div>
         <Button

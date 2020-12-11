@@ -1,10 +1,11 @@
 import React from 'react'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { Spin } from 'antd'
 import { autobind } from 'core-decorators'
-import StationFixedPhaseApi from 'api/station-fixed/StationFixedPhaseApi.js'
 
-import StationFixedPhaseForm from '../station-fixed-phase-form'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi.js'
+
+import StationFixedForm from '../station-fixed-form'
 import createManagerEdit from 'hoc/manager-edit'
 import PropTypes from 'prop-types'
 import Breadcrumb from '../breadcrumb'
@@ -14,11 +15,11 @@ import Breadcrumb from '../breadcrumb'
 
 // @protectRole(ROLE.STATION_TYPE.EDIT)
 @createManagerEdit({
-  apiUpdate: StationFixedPhaseApi.updateStationFixedPhase,
-  apiGetByKey: StationFixedPhaseApi.getStationFixedPhase,
+  apiUpdate: StationFixedPointApi.updateStationFixedPoint,
+  apiGetByKey: StationFixedPointApi.getStationFixedPoint,
 })
 @autobind
-export default class StationFixedPhaseEdit extends React.PureComponent {
+export default class StationFixedEdit extends React.PureComponent {
   static propTypes = {
     onDeleteItem: PropTypes.func,
     onUpdateItem: PropTypes.func,
@@ -57,7 +58,7 @@ export default class StationFixedPhaseEdit extends React.PureComponent {
             ]}
           />
           {this.props.isLoaded && (
-            <StationFixedPhaseForm
+            <StationFixedForm
               isEdit
               isLoading={this.props.isUpdating}
               initialValues={

@@ -88,7 +88,14 @@ export function pathFetch(url, data, props) {
           reject({ error: true })
         }
       })
-      .catch(e => reject(e))
+      .catch(ex => {
+        const { response } = ex
+
+        reject({
+          status: response.status,
+          data: response.data,
+        })
+      })
   })
 }
 
