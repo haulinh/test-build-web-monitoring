@@ -18,25 +18,31 @@ const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
     async updateItem(data) {
       const key = this.props.match.params.key
       this.setState({ isUpdating: true })
-      const res = await apiUpdate(key, data)
-      this.setState({ isUpdating: false })
-      // console.log(res, "---res--")
-      if (res.success) {
-        message.success(this.props.lang.t('addon.onSave.update.success'))
-        return null
-      } else if (res.error) {
+      try {
+        const res = await apiUpdate(key, data)
+        this.setState({ isUpdating: false })
+        // console.log(res, "---res--")
+        if (res.success) {
+          message.success(this.props.lang.t('addon.onSave.update.success'))
+          return null
+        } else if (res.error) {
+          message.error(this.props.lang.t('addon.onSave.update.error'))
+          return res
+        } else {
+          message.success(this.props.lang.t('addon.onSave.update.success'))
+          return null
+        }
+      } catch (ex) {
+        this.setState({ isUpdating: false })
         message.error(this.props.lang.t('addon.onSave.update.error'))
-        return res
-      } else {
-        message.success(this.props.lang.t('addon.onSave.update.success'))
-        return null
+        return ex
       }
     }
 
     //Su kien truoc khi component duoc tao ra
     async getItem() {
       const key = this.props.match.params.key
-      apiGetByKey(key)
+      await apiGetByKey(key)
         .then(values => {
           if (values.success)
             this.setState({
