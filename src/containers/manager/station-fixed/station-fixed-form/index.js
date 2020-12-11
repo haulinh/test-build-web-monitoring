@@ -42,15 +42,18 @@ const i18n = {
     label: translate('stationFixedPoint.form.lat.label'),
     placeholder: translate('stationFixedPoint.form.lat.placeholder'),
     required: translate('stationFixedPoint.form.lat.required'),
+    format: translate('stationFixedPoint.form.lat.format'),
   },
   lng: {
     label: translate('stationFixedPoint.form.long.label'),
     placeholder: translate('stationFixedPoint.form.long.placeholder'),
     required: translate('stationFixedPoint.form.long.required'),
+    format: translate('stationFixedPoint.form.long.format'),
   },
   address: {
     label: translate('stationFixedPoint.form.address.label'),
     placeholder: translate('stationFixedPoint.form.address.placeholder'),
+    max: translate('stationFixedPoint.form.address.max'),
   },
   note: {
     label: translate('stationFixedPoint.form.note.label'),
@@ -245,6 +248,12 @@ export default class StationFixedForm extends React.Component {
                     required: true,
                     message: i18n.lng.required,
                   },
+                  {
+                    type: 'number',
+                    max: 180,
+                    min: -180,
+                    message: i18n.lng.format,
+                  },
                 ],
               })(
                 <InputNumber
@@ -261,6 +270,12 @@ export default class StationFixedForm extends React.Component {
                   {
                     required: true,
                     message: i18n.lat.required,
+                  },
+                  {
+                    type: 'number',
+                    max: 90,
+                    min: -90,
+                    message: i18n.lat.format,
                   },
                 ],
               })(
@@ -283,7 +298,14 @@ export default class StationFixedForm extends React.Component {
               }}
               label={i18n.address.label}
             >
-              {getFieldDecorator(Fields.address)(
+              {getFieldDecorator(Fields.address, {
+                rules: [
+                  {
+                    max: 256,
+                    message: i18n.address.max,
+                  },
+                ],
+              })(
                 <Input
                   style={{ flex: 1, width: '100%' }}
                   placeholder={i18n.lat.address}

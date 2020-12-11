@@ -111,7 +111,7 @@ export default class StationFixedList extends React.Component {
     // console.log('Search values:', values)
     const where = {
       // name: values.name ? { like: values.name } : undefined,
-      name: values.name ,
+      name: values.name,
       stationTypeId: values.stationTypeId,
     }
 
@@ -124,7 +124,7 @@ export default class StationFixedList extends React.Component {
     } = this.props
     return [
       { content: '#', width: 2 },
-      { content: t('stationFixedPoint.form.key.label'), width: 10 },
+      { content: t('stationFixedPoint.form.key.label'), width: 20 },
       { content: t('stationFixedPoint.form.name.label'), width: 30 },
       { content: t('stationFixedPoint.form.address.label'), width: 30 },
       { content: '', width: 20 },
@@ -132,23 +132,66 @@ export default class StationFixedList extends React.Component {
   }
 
   getRows() {
-    return _.get(this.props, 'dataSource', []).map((row, index) => [
-      {
-        content: <strong>{index + 1}</strong>,
-      },
-      {
-        content: <Span deleted={!row.active}>{row.key}</Span>,
-      },
-      {
-        content: <Span deleted={!row.active}>{row.name}</Span>,
-      },
-      {
-        content: <Span deleted={!row.active}>{row.address}</Span>,
-      },
-      {
-        content: this.renderActionGroup(row),
-      },
-    ])
+    let sourceSorted = _.orderBy(
+      this.props.dataSource || [],
+      ['stationType.key'],
+      ['asc']
+    )
+    let stationCount = _.countBy(sourceSorted, 'stationType._id')
+
+    let stationTypeArr = []
+
+    let result = [].concat.apply(
+      [],
+      sourceSorted.map((row, index) => {
+        //content Row
+        let resultRow = [
+          {
+            content: <strong>{index + 1}</strong>,
+          },
+          {
+            content: <Span deleted={!row.active}>{row.key}</Span>,
+          },
+          {
+            content: <Span deleted={!row.active}>{row.name}</Span>,
+          },
+          // {
+          //   content: <Span deleted={!row.active}>{row.address}</Span>,
+          // },
+          {
+            content: <Span deleted={!row.active}>{row.stationType.name}</Span>,
+          },
+          {
+            content: this.renderActionGroup(row),
+          },
+        ]
+        //check if Group exist or not
+        if (row.stationType && stationTypeArr.indexOf(row.stationType._id) > -1)
+          return [resultRow]
+        else {
+          stationTypeArr.push(row.stationType._id)
+          return [
+            [
+              { content: '' },
+              {
+                content: (
+                  <div>
+                    <strong>
+                      {row.stationType.name}
+                      {stationCount[row.stationType._id]
+                        ? '(' + stationCount[row.stationType._id] + ')'
+                        : ''}
+                    </strong>
+                  </div>
+                ),
+              },
+            ],
+            resultRow,
+          ]
+        }
+      })
+    )
+    return result
   }
 
   renderActionGroup = row => {
