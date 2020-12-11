@@ -120,6 +120,14 @@ export default class StationFixedForm extends React.Component {
           strItem = _.concat(strItem, ' -- [Chuẩn bị vượt ngưỡng: Min > Max]')
           isBound = true
         }
+        if (item.minLimit && item.minTend && item.minLimit > item.minTend) {
+          strItem = _.concat(strItem, ' -- [Giới hạn vượt ngưỡng: Min Vượt > Min Chuẩn bị vượt]')
+          isBound = true
+        }
+        if (item.maxLimit && item.maxTend && item.maxLimit < item.maxTend) {
+          strItem = _.concat(strItem, ' -- [Giới hạn vượt ngưỡng: Max Vượt < Max Chuẩn bị vượt]')
+          isBound = true
+        }
         if (isBound) return <div>{strItem}</div>
       }
     })
