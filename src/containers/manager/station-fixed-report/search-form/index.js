@@ -81,7 +81,6 @@ export class SearchForm extends React.Component {
   }
 
   render() {
-    const t = this.props.lang.createNameSpace('dataSearchFrom.form')
     const { phases, points, stationTypes } = this.state
     const { form } = this.props
     const config = {

@@ -67,6 +67,7 @@ const i18n = {
     error: translate('addon.onRestore.error'),
   },
 }
+
 // @protectRole(ROLE.STATION_TYPE.VIEW)
 @createManagerList({
   apiList: StationFixedPointApi.getStationFixedPoints,
@@ -111,7 +112,7 @@ export default class StationFixedList extends React.Component {
     // console.log('Search values:', values)
     const where = {
       // name: values.name ? { like: values.name } : undefined,
-      name: values.name ,
+      name: values.name,
       stationTypeId: values.stationTypeId,
     }
 
@@ -124,31 +125,104 @@ export default class StationFixedList extends React.Component {
     } = this.props
     return [
       { content: '#', width: 2 },
-      { content: t('stationFixedPoint.form.key.label'), width: 10 },
-      { content: t('stationFixedPoint.form.name.label'), width: 30 },
-      { content: t('stationFixedPoint.form.address.label'), width: 30 },
+      { content: t('stationFixedPoint.form.key.label') },
+      { content: t('stationFixedPoint.form.name.label') },
+      { content: t('stationFixedPoint.form.address.label') },
       { content: '', width: 20 },
     ]
   }
 
   getRows() {
-    return _.get(this.props, 'dataSource', []).map((row, index) => [
-      {
-        content: <strong>{index + 1}</strong>,
-      },
-      {
-        content: <Span deleted={!row.active}>{row.key}</Span>,
-      },
-      {
-        content: <Span deleted={!row.active}>{row.name}</Span>,
-      },
-      {
-        content: <Span deleted={!row.active}>{row.address}</Span>,
-      },
-      {
-        content: this.renderActionGroup(row),
-      },
-    ])
+    let sourceSorted = _.orderBy(
+      this.props.dataSource || [],
+      ['stationType._id'],
+      ['asc']
+    )
+    let stationCount = _.countBy(sourceSorted, 'stationType._id')
+
+    let stationTypeArr = []
+    const styled = {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      width: '300px',
+    }
+
+    let result = [].concat.apply(
+      [],
+      sourceSorted.map((row, index) => {
+        //content Row
+        let resultRow = [
+          {
+            content: <strong>{index + 1}</strong>,
+          },
+          {
+            content: (
+              <div
+                style={{
+                  ...styled,
+                  width: '200px',
+                }}
+              >
+                <Span deleted={!row.active}>{row.key}</Span>
+              </div>
+            ),
+          },
+          {
+            content: (
+              <div
+                style={{
+                  ...styled,
+                  width: '200px',
+                }}
+              >
+                <Span deleted={!row.active}>{row.name}</Span>
+              </div>
+            ),
+          },
+          {
+            content: (
+              <div
+                style={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  width: '300px',
+                }}
+              >
+                <Span deleted={!row.active}>{row.address}</Span>
+              </div>
+            ),
+          },
+          {
+            content: this.renderActionGroup(row),
+          },
+        ]
+        //check if Group exist or not
+        if (row.stationType && stationTypeArr.indexOf(row.stationType._id) > -1)
+          return [resultRow]
+        else {
+          stationTypeArr.push(row.stationType._id)
+          return [
+            [
+              { content: '' },
+              {
+                content: (
+                  <div>
+                    <strong>
+                      {row.stationType.name}
+                      {stationCount[row.stationType._id]
+                        ? '(' + stationCount[row.stationType._id] + ')'
+                        : ''}
+                    </strong>
+                  </div>
+                ),
+              },
+            ],
+            resultRow,
+          ]
+        }
+      })
+    )
+    return result
   }
 
   renderActionGroup = row => {

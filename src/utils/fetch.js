@@ -3,7 +3,7 @@ import { getAuthToken } from './auth'
 
 const getHeaders = () => {
   var headers = {
-    Accept: 'application/json',
+    // Accept: 'application/json',
   }
   if (typeof localStorage !== 'undefined') {
     if (getAuthToken()) {
@@ -36,7 +36,7 @@ export function postFetch(url, data, props) {
         // }
       })
       .catch(ex => {
-        const { response } = ex
+        const { response = {} } = ex
 
         reject({
           status: response.status,
