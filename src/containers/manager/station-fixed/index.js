@@ -4,6 +4,7 @@ import slug from 'constants/slug'
 import StationFixedList from './station-fixed-list'
 import StationFixedCreate from './station-fixed-create'
 import StationFixedImportData from './station-fixed-import-data'
+import StationFixedEdit from './station-fixed-edit'
 
 
 export default props => (
@@ -17,6 +18,11 @@ export default props => (
       path={slug.stationFixed.create}
       // render={matchProps => <StationFixedCreate {...matchProps} {...props} />}
       component={StationFixedCreate}
+    />
+    <Route
+      path={slug.stationFixed.edit}
+      // render={matchProps => <StationFixedCreate {...matchProps} {...props} />}
+      component={StationFixedEdit}
     />
     <Route
       path={slug.stationFixed.importData}

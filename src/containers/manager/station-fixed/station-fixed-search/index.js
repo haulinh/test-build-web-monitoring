@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
-import SelectStationType from 'components/elements/select-station-type'
+import SelectStationType from 'components/elements/select-station-type-v2'
 import { translate } from 'hoc/create-lang'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 // import { EMAIL, PHONE } from 'constants/info-contact.js'
@@ -18,8 +18,6 @@ const i18n = {
   title: translate('stationAutoManager.limit.station.title'),
   callAction: translate('stationAutoManager.limit.station.callAction'),
 }
-
-
 
 @Form.create({
   mapPropsToFields: mapPropsToFields,
@@ -45,16 +43,14 @@ export default class StationFixedSearchForm extends React.PureComponent {
       if (err) return
       const data = {}
       if (values.name) data.name = values.name
-      if (values.stationType && values.stationType !== 'ALL')
-        data.stationType = values.stationType
+      if (values.stationTypeId && values.stationTypeId !== 'ALL')
+        data.stationTypeId = values.stationTypeId
 
       // Callback submit form Container Component
-      this.setState({ dataSearch: data }, () => this.props.onChangeSearch(data))
+      // this.setState({ dataSearch: data }, () => this.props.onChangeSearch(data))
+      if (this.props.onChangeSearch) this.props.onChangeSearch(data)
     })
   }
-
-  
-
 
   render() {
     const { getFieldDecorator } = this.props.form
@@ -69,9 +65,9 @@ export default class StationFixedSearchForm extends React.PureComponent {
             <Row gutter={16}>
               {/* CHỌN LOẠI TRẠM */}
               <Col span={9}>
-                {getFieldDecorator(`stationType`)(
+                {getFieldDecorator(`stationTypeId`)(
                   <SelectStationType
-                    classNane="select-form-auto"
+                    className="select-form-auto"
                     getFieldDecorator={getFieldDecorator}
                     isShowAll
                     isAuto={false}
