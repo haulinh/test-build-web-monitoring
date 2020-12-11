@@ -166,6 +166,7 @@ class StationFixedImportData extends React.Component {
       this.setState({ isLoading: false, errorDetail: result, isSuccess: false })
     } catch (error) {
       console.log(error)
+      this.setState({isLoading: false})
     }
   }
 
