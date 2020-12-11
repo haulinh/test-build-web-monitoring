@@ -62,6 +62,12 @@ export function updateStationFixedPoint(
     qcvnId: qcvnId || undefined,
   })
 }
+
+export function getPoint(filter) {
+  const url = getStationFixedPointUrl()
+  return getFetch(url, filter)
+}
+
 export default {
   getStationFixedPoints,
   getStationFixedPoint,

@@ -1,42 +1,15 @@
 import { Button, Col, DatePicker, Form, Row, Select, Switch } from 'antd'
-import Text from 'antd/lib/typography/Text'
+import CategoryApi from 'api/CategoryApi'
 import { getPhase } from 'api/station-fixed/StationFixedPhaseApi'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import SelectStationType from 'components/elements/select-station-type'
 import createLang from 'hoc/create-lang'
 import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
+import { getPoint } from '../../../../api/station-fixed/StationFixedPointApi'
 
 const { Option } = Select
-
-const phases = [
-  {
-    _id: '5fcde7a82557bd6c060a6c7e',
-    name: 'TEST_QUI',
-  },
-  {
-    _id: '5fcf06664af37b43c9ec9709',
-    name: ' dot 1',
-  },
-  {
-    _id: '5fcf067a4af37b43c9ec970a',
-    name: ' dot 2',
-  },
-  {
-    _id: '5fcf06824af37b43c9ec970b',
-    name: ' dot 3',
-  },
-  {
-    _id: '5fcf068e4af37b43c9ec970c',
-    name: ' dot 4',
-  },
-  {
-    _id: '5fcf06944af37b43c9ec970d',
-    name: ' dot 5',
-  },
-]
 
 const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
@@ -54,66 +27,66 @@ const FIELDS = {
 
 @createLang
 @Form.create()
-export default class SearchForm extends React.Component {
+export class SearchForm extends React.Component {
   state = {
     phases: [],
+    points: [],
+    stationTypes: [],
   }
 
   async componentDidMount() {
-    const filter = {
+    const filterPhase = {
       limit: 100,
       skip: 0,
       include: [{ relation: 'stationType' }],
     }
-    const phases = await getPhase({ filter })
-    this.setState({ phases })
-    console.log('result :>> ', this.state.phases)
+    const phases = await getPhase({ filter: filterPhase })
+
+    const filterPoint = {
+      limit: 100,
+      skip: 0,
+    }
+    const points = await getPoint({ filter: filterPoint })
+
+    const stationTypes = await CategoryApi.getStationTypes({})
+    if (stationTypes.success)
+      this.setState({
+        stationTypes: stationTypes.data || [],
+        value: this.props.value || (this.props.isShowAll ? '' : undefined),
+      })
+    this.setState({
+      phases,
+      points: points.data,
+      stationTypes: stationTypes.data,
+    })
   }
 
   handleOnSubmit = async e => {
     e.preventDefault()
     const values = await this.props.form.validateFields()
-    console.log('🚀 ~ file: index.js ~ line 76 ~ SearchForm ~ values', values)
 
-    let where = {}
-    if (values.startDate) {
-      const startDate = moment(values.startDate)
+    const paramQuery = {
+      phaseIds: values.phase,
+      pointKeys: values.point,
+      startDate: moment(values.startDate)
         .utc()
-        .format()
-      where.startDate = startDate
-    }
-    if (values.endDate) {
-      const endDate = moment(values.endDate)
+        .format(),
+      endDate: moment(values.endDate)
         .utc()
-        .format()
-      where.endDate = endDate
-    }
-    if (values.phase && values.phase.length > 0) {
-      const _id = {
-        inq: values.phase,
-      }
-      where._id = _id
-    }
-    if (values.stationTypeId) {
-      const stationTypeId = values.stationTypeId
-      where.stationTypeId = stationTypeId
-    }
-    const filter = {
-      limit: 100,
-      skip: 0,
-      where,
-      include: [{ relation: 'stationType' }],
+        .format(),
+      stationTypeId: values.stationTypeId,
     }
 
-    console.log('🚀 ~ file: index.js ~ line 80 ~ SearchForm ~ filter', filter)
-    const phases = await getPhase({ filter })
-    this.setState({ phases })
+    this.props.handleOnSearch(paramQuery)
   }
 
   render() {
     const t = this.props.lang.createNameSpace('dataSearchFrom.form')
+    const { phases, points, stationTypes } = this.state
     const { form } = this.props
-    console.log('this.state.phases :>> ', this.state.phases)
+    const config = {
+      rules: [{ required: true }],
+    }
     return (
       <SearchFormContainer>
         <Form onSubmit={this.handleOnSubmit}>
@@ -140,22 +113,38 @@ export default class SearchForm extends React.Component {
             <Row gutter={24}>
               <Col span={8}>
                 <Form.Item label="Loại trạm">
-                  {form.getFieldDecorator(FIELDS.STATION_TYPE_ID)(
-                    <SelectStationType size="large" />
+                  {form.getFieldDecorator(
+                    FIELDS.STATION_TYPE_ID,
+                    config
+                  )(
+                    <Select>
+                      {stationTypes &&
+                        stationTypes.length > 0 &&
+                        stationTypes.map(stationType => (
+                          <Option value={stationType._id}>
+                            {stationType.name}
+                          </Option>
+                        ))}
+                    </Select>
                   )}
                 </Form.Item>
               </Col>
               <Col span={16}>
                 <Form.Item label="Đợt quan trắc">
-                  {form.getFieldDecorator(FIELDS.PHASE)(
+                  {form.getFieldDecorator(
+                    FIELDS.PHASE,
+                    config
+                  )(
                     <Select
                       size="large"
                       mode="multiple"
                       style={{ width: '100%' }}
                     >
-                      {phases.map(phase => (
-                        <Option value={phase._id}>{phase.name}</Option>
-                      ))}
+                      {phases &&
+                        phases.length > 0 &&
+                        phases.map(phase => (
+                          <Option value={phase._id}>{phase.name}</Option>
+                        ))}
                     </Select>
                   )}
                 </Form.Item>
@@ -164,8 +153,21 @@ export default class SearchForm extends React.Component {
             <Row>
               <Col span={24}>
                 <Form.Item label="Điểm quan trắc">
-                  {form.getFieldDecorator(FIELDS.POINT)(
-                    <Select size="large" style={{ width: '100%' }} />
+                  {form.getFieldDecorator(
+                    FIELDS.POINT,
+                    config
+                  )(
+                    <Select
+                      mode="multiple"
+                      size="large"
+                      style={{ width: '100%' }}
+                    >
+                      {points &&
+                        points.length > 0 &&
+                        points.map(point => (
+                          <Option value={point.key}>{point.name}</Option>
+                        ))}
+                    </Select>
                   )}
                 </Form.Item>
               </Col>
@@ -195,19 +197,6 @@ export default class SearchForm extends React.Component {
             </Row>
           </Container>
         </Form>
-        <BoxShadowStyle>
-          {this.state.phases &&
-            this.state.phases.map(phase => (
-              <Row>
-                <Col span={12}>
-                  <Text>{phase.name}</Text>
-                </Col>
-                <Col span={12}>
-                  <Text>{phase.stationType.name}</Text>
-                </Col>
-              </Row>
-            ))}
-        </BoxShadowStyle>
       </SearchFormContainer>
     )
   }
