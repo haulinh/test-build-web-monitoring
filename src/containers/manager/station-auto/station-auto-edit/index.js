@@ -40,7 +40,7 @@ export default class StationAutoEdit extends React.PureComponent {
   async componentWillMount() {
     //const key = this.props.match.params.key
     await this.props.getItem()
-    if (this.props.success) {
+    if (!this.props.success) {
       message.error(this.props.lang.t('addon.error'))
       this.props.history.push(slug.stationAuto.list)
     }

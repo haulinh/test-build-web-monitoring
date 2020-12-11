@@ -80,7 +80,7 @@ export default class StationFixedPhaseList extends React.Component {
       { content: '#', width: 2 },
       { content: t('stationFixedPhase.form.key.label'), width: 10 },
       { content: t('stationFixedPhase.form.name.label'), width: 30 },
-      { content: t('stationFixedPhase.form.stationType.label'), width: 10 },
+      { content: '', width: 10 },
     ]
   }
 
