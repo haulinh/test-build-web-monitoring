@@ -1,7 +1,7 @@
 import { getConfigApi } from '../../config'
 import { getFetch, postFetch, deleteFetch, pathFetch } from '../../utils/fetch'
 
-function getStationFixedPointUrl(prefix = '') {
+export function getStationFixedPointUrl(prefix = '') {
   return getConfigApi().stationFixedPoint + '/' + prefix
 }
 
@@ -62,6 +62,11 @@ export function updateStationFixedPoint(
     qcvnId: qcvnId || undefined,
   })
 }
+
+export function importDataStationFixed(data) {
+  return postFetch(getStationFixedPointUrl('import-data'), data)
+}
+
 export default {
   getStationFixedPoints,
   getStationFixedPoint,
