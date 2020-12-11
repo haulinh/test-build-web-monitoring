@@ -135,7 +135,7 @@ export default class StationFixedList extends React.Component {
   getRows() {
     let sourceSorted = _.orderBy(
       this.props.dataSource || [],
-      ['stationType.key'],
+      ['stationType._id'],
       ['asc']
     )
     let stationCount = _.countBy(sourceSorted, 'stationType._id')

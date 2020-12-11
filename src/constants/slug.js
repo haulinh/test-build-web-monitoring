@@ -89,6 +89,9 @@ export default {
     edit: '/station-fixed-phase/edit/:key',
     editWithKey: '/station-fixed-phase/edit',
   },
+  stationFixedReport: {
+    base: '/station-fixed-report'
+  },
   stationFixed: {
     base: '/station-fixed',
     list: '/station-fixed',

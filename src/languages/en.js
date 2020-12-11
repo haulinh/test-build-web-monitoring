@@ -1046,6 +1046,11 @@ export default {
       },
     },
   },
+  stationFixedReport: {
+    base: {
+      title: 'Data station fixed',
+    },
+  },
   stationFixedPoint: {
     list: {
       title: 'Điểm quan trắc',
@@ -1069,64 +1074,64 @@ export default {
       label: 'Vô hiệu hóa',
       require: 'Bạn chắc chắn muốn vô hiệu hóa?',
     },
-    form:{
-      measuringForm:{
-        key:"Mã thông số",
-        name:"Tên thông số",
-        addMeasuring:'Thêm thông số',
-        qcvn:"Giới hạn vượt ngưỡng",
-        tendToExceed:"Chuẩn bị vượt",
-        qcvnMin:'Giới hạn tối thiểu',
-        qcvnMax:'Giới hạn tối đa'
+    form: {
+      measuringForm: {
+        key: 'Mã thông số',
+        name: 'Tên thông số',
+        addMeasuring: 'Thêm thông số',
+        qcvn: 'Giới hạn vượt ngưỡng',
+        tendToExceed: 'Chuẩn bị vượt',
+        qcvnMin: 'Giới hạn tối thiểu',
+        qcvnMax: 'Giới hạn tối đa',
       },
-      key:{
-        label:'Mã điểm',
+      key: {
+        label: 'Mã điểm',
         placeholder: 'Mã điểm',
         required: 'Vui lòng nhập mã',
-        pattern:'Không được nhập kí tự đăc biệt',
-        max:'Không quá 64 kí tự'
+        pattern: 'Không được nhập kí tự đăc biệt',
+        max: 'Không quá 64 kí tự',
       },
-      name:{
-        label:'Tên điểm',
+      name: {
+        label: 'Tên điểm',
         placeholder: 'Tên điểm quan trắc',
         required: 'Vui lòng nhập điểm quan trắc',
-        pattern:'Không được nhập kí tự đăc biệt',
-        max:'Không quá 64 kí tự'
+        pattern: 'Không được nhập kí tự đăc biệt',
+        max: 'Không quá 64 kí tự',
       },
-      address:{
-        label:'Địa chỉ',
+      address: {
+        label: 'Địa chỉ',
         placeholder: 'Địa chỉ',
-        max:'Không quá 256 kí tự'
+        max: 'Không quá 256 kí tự',
       },
-      stationType:{
-        label:'Loại trạm',
+      stationType: {
+        label: 'Loại trạm',
         placeholder: 'Loại trạm',
         required: 'Vui lòng chọn loại trạm',
       },
-      qcvn:{
-        label:"Quy chuẩn",
+      qcvn: {
+        label: 'Quy chuẩn',
         placeholder: 'Quy chuẩn',
       },
-      lat:{
-        label:"Vĩ độ",
+      lat: {
+        label: 'Vĩ độ',
         placeholder: 'Vĩ độ',
-        required:'Vui lòng nhập vĩ độ',
-        format: "Vĩ độ (-90<=x<=90)"
+        required: 'Vui lòng nhập vĩ độ',
+        format: 'Vĩ độ (-90<=x<=90)',
       },
-      long:{
-        label:"Kinh độ",
+      long: {
+        label: 'Kinh độ',
         placeholder: 'Kinh độ',
-        required:'Vui lòng nhập kinh độ',
-        format: "Kinh độ (-90<=x<=90)"
+        required: 'Vui lòng nhập kinh độ',
+        format: 'Kinh độ (-90<=x<=90)',
       },
-      note:{
-        label:"Ghi chú",
+      note: {
+        label: 'Ghi chú',
         placeholder: 'Ghi chú',
       },
-      measuringList:{
-        required:'Vui lòng nhập thông số'
-      }
-    }
+      measuringList: {
+        required: 'Vui lòng nhập thông số',
+      },
+    },
   },
   qcvn: {
     list: {
