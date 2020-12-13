@@ -6,7 +6,10 @@ import Dragger from 'antd/lib/upload/Dragger'
 import { translate as t } from 'hoc/create-lang'
 
 import { getLanguage } from 'utils/localStorage'
-import { importDataStationFixed, getStationFixedPointUrl } from 'api/station-fixed/StationFixedPointApi'
+import {
+  importDataStationFixed,
+  getStationFixedPointUrl,
+} from 'api/station-fixed/StationFixedPointApi'
 import SelectPhase from './select-phase'
 
 const Header = styled.div`
@@ -35,7 +38,7 @@ const Container = styled.div`
   .ant-upload-list {
     display: none;
   }
-  .ant-alert{
+  .ant-alert {
     margin-bottom: 20px;
   }
   .ant-upload {
@@ -66,10 +69,10 @@ const i18n = {
   downloadText: t('importDataPoint.downloadText'),
   uploadText: t('importDataPoint.uploadText'),
   dragAndDrop: t('importDataPoint.dragAndDrop'),
-  errorTitle:  t('importDataPoint.errorTitle'),
+  errorTitle: t('importDataPoint.errorTitle'),
   errorMessage: t('importDataPoint.errorMessage'),
   successTitle: t('importDataPoint.successTitle'),
-  successMessage: count => t('importDataPoint.successMessage', {count}),
+  successMessage: count => t('importDataPoint.successMessage', { count }),
   line: t('importDataPoint.line'),
   duplicateParameter: t('importDataPoint.duplicateParameter'),
   duplicateData: t('importDataPoint.duplicateData'),
@@ -104,7 +107,7 @@ class StationFixedImportData extends React.Component {
     isSuccess: false,
     isLoading: false,
     errorDetail: null,
-    count: 0
+    count: 0,
   }
 
   getErrorDetail = errors => {
@@ -156,22 +159,31 @@ class StationFixedImportData extends React.Component {
     formData.append(FIELDS.PHASE_ID, phase[1].value)
 
     try {
-      this.setState({ isLoading: true })
+      this.setState({ isLoading: true, errorDetail: null, isSuccess: false })
       const result = await importDataStationFixed(formData)
       if (result.success) {
-        this.setState({ isLoading: false, errorDetail: null, isSuccess: true, count: result.count })
+        this.setState({
+          isLoading: false,
+          errorDetail: null,
+          isSuccess: true,
+          count: result.count,
+        })
         return
       }
 
       this.setState({ isLoading: false, errorDetail: result, isSuccess: false })
     } catch (error) {
       console.log(error)
+      this.setState({ isLoading: false })
     }
   }
 
   onDownloadFile = async () => {
     const lang = getLanguage()
-    window.open(getStationFixedPointUrl(`export-data-template/${lang}`), '_blank')
+    window.open(
+      getStationFixedPointUrl(`export-data-template/${lang}`),
+      '_blank'
+    )
   }
 
   onSubmit = e => {
@@ -221,7 +233,10 @@ class StationFixedImportData extends React.Component {
             </Row>
             <Row type="flex" justify="center" gutter={40} className="file">
               <Col span={8}>
-                <div className="ant-upload ant-upload-drag" onClick={this.onDownloadFile}>
+                <div
+                  className="ant-upload ant-upload-drag"
+                  onClick={this.onDownloadFile}
+                >
                   <Text
                     block
                     className="step ant-upload-text"

@@ -13,7 +13,7 @@ export default class SelectPhase extends Component {
   }
 
   getListStationType = async () => {
-    const results = await getStationTypes({ itemPerPage: 100 })
+    const results = await getStationTypes({ itemPerPage: 100 }, {isAuto: false})
     this.setState({
       options: results.data.map(item => ({
         stationTypeId: item._id,

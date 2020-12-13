@@ -1,9 +1,11 @@
 import axios from 'axios'
 import { getAuthToken } from './auth'
+import { getLanguage } from 'utils/localStorage'
 
 const getHeaders = () => {
   var headers = {
-    // Accept: 'application/json',
+    Accept: 'application/json',
+    Language: getLanguage()
   }
   if (typeof localStorage !== 'undefined') {
     if (getAuthToken()) {
