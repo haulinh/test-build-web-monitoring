@@ -62,6 +62,7 @@ const Flex = styled.div`
 export class StationFixedReport extends React.Component {
   state = {
     dataPoints: [],
+    loading: false
   }
 
   async componentDidMount() {}
@@ -106,6 +107,7 @@ export class StationFixedReport extends React.Component {
       endDate,
       stationTypeId,
     } = queryParam
+    this.setState({loading: true})
 
     const dataPoints = await getDataPoint({
       point: {
@@ -123,7 +125,7 @@ export class StationFixedReport extends React.Component {
         },
       },
     })
-    this.setState({ dataPoints: dataPoints })
+    this.setState({ dataPoints: dataPoints, loading: false })
   }
 
   getColumns = () => {
@@ -202,10 +204,6 @@ export class StationFixedReport extends React.Component {
 
   render() {
     const { dataPoints } = this.state
-    console.log(
-      '🚀 ~ file: station-fixed-report.js ~ line 180 ~ StationFixedReport ~ render ~ dataPoints',
-      dataPoints
-    )
     return (
       <PageContainer>
         <Breadcrumb items={['base']} />
@@ -215,9 +213,10 @@ export class StationFixedReport extends React.Component {
         </Tabs>
         <Table
           size="small"
-          // rowKey="_id"
+          rowKey="_id"
           columns={this.getColumns()}
           dataSource={dataPoints.data}
+          loading={this.state.loading}
         />
       </PageContainer>
     )
