@@ -7,7 +7,7 @@ import * as _ from 'lodash'
 import { translate } from 'hoc/create-lang'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import SelectStationType from 'components/elements/select-station-type-v2'
-import SelectQCVN from 'components/elements/select-qcvn'
+import SelectQCVN from 'components/elements/select-qcvn-v2'
 import MeasuringList from './measuring-list'
 
 const FormItem = Form.Item
@@ -42,15 +42,18 @@ const i18n = {
     label: translate('stationFixedPoint.form.lat.label'),
     placeholder: translate('stationFixedPoint.form.lat.placeholder'),
     required: translate('stationFixedPoint.form.lat.required'),
+    format: translate('stationFixedPoint.form.lat.format'),
   },
   lng: {
     label: translate('stationFixedPoint.form.long.label'),
     placeholder: translate('stationFixedPoint.form.long.placeholder'),
     required: translate('stationFixedPoint.form.long.required'),
+    format: translate('stationFixedPoint.form.long.format'),
   },
   address: {
     label: translate('stationFixedPoint.form.address.label'),
     placeholder: translate('stationFixedPoint.form.address.placeholder'),
+    max: translate('stationFixedPoint.form.address.max'),
   },
   note: {
     label: translate('stationFixedPoint.form.note.label'),
@@ -115,6 +118,14 @@ export default class StationFixedForm extends React.Component {
         }
         if (item.minTend && item.maxTend && item.minTend > item.maxTend) {
           strItem = _.concat(strItem, ' -- [Chuẩn bị vượt ngưỡng: Min > Max]')
+          isBound = true
+        }
+        if (item.minLimit && item.minTend && item.minLimit > item.minTend) {
+          strItem = _.concat(strItem, ' -- [Giới hạn vượt ngưỡng: Min Vượt > Min Chuẩn bị vượt]')
+          isBound = true
+        }
+        if (item.maxLimit && item.maxTend && item.maxLimit < item.maxTend) {
+          strItem = _.concat(strItem, ' -- [Giới hạn vượt ngưỡng: Max Vượt < Max Chuẩn bị vượt]')
           isBound = true
         }
         if (isBound) return <div>{strItem}</div>
@@ -245,6 +256,12 @@ export default class StationFixedForm extends React.Component {
                     required: true,
                     message: i18n.lng.required,
                   },
+                  {
+                    type: 'number',
+                    max: 180,
+                    min: -180,
+                    message: i18n.lng.format,
+                  },
                 ],
               })(
                 <InputNumber
@@ -261,6 +278,12 @@ export default class StationFixedForm extends React.Component {
                   {
                     required: true,
                     message: i18n.lat.required,
+                  },
+                  {
+                    type: 'number',
+                    max: 90,
+                    min: -90,
+                    message: i18n.lat.format,
                   },
                 ],
               })(
@@ -283,7 +306,14 @@ export default class StationFixedForm extends React.Component {
               }}
               label={i18n.address.label}
             >
-              {getFieldDecorator(Fields.address)(
+              {getFieldDecorator(Fields.address, {
+                rules: [
+                  {
+                    max: 256,
+                    message: i18n.address.max,
+                  },
+                ],
+              })(
                 <Input
                   style={{ flex: 1, width: '100%' }}
                   placeholder={i18n.lat.address}

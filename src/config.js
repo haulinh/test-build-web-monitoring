@@ -26,10 +26,12 @@ export function getConfigApi() {
     // dataStationAuto: 'http://localhost:5004/data-station-auto',
     report: c('report'),
     // report: 'http://localhost:5004/report',
-    stationFixedPoint: c('station-fixed/points'),
-    // stationFixedPoint: 'http://127.0.0.1:5018/points',
+    stationFixed: c('station-fixed'),
     stationFixedPhase: c('station-fixed/phases'),
-   
+    stationFixedDataPoint: c('station-fixed/data-points'),
+    stationFixedPoint: c('station-fixed/points'),
+    dataStationFixed: c('data-station-fixed'),
+
     stationConfig: c('config/station'),
     // stationConfig: 'http://localhost:5002/config/station',
 

@@ -9,7 +9,7 @@ import { autobind } from 'core-decorators'
 import createManagerList from 'hoc/manager-list'
 import createManagerDelete from 'hoc/manager-delete'
 import Breadcrumb from '../breadcrumb'
-import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
+import createLanguageHoc, { translate } from '../../../../hoc/create-lang'
 // import styled from 'styled-components'
 import DynamicTable from 'components/elements/dynamic-table'
 // import protectRole from 'hoc/protect-role'
@@ -42,20 +42,16 @@ export default class StationFixedPhaseList extends React.Component {
     onChangePageSize: PropTypes.func,
     onDeleteItem: PropTypes.func,
     fetchData: PropTypes.func,
-    lang: langPropTypes,
   }
 
   buttonAdd() {
-    const {
-      lang: { t },
-    } = this.props
     return (
       <div>
         {/* {protectRole(ROLE.STATION_TYPE.CREATE)( */}
         <Link to={slug.stationFixedPhase.create}>
           <Button type="primary">
             <Icon type="plus" />
-            {t('addon.create')}
+            {translate('addon.create')}
           </Button>
         </Link>
         {/* )} */}
@@ -73,50 +69,106 @@ export default class StationFixedPhaseList extends React.Component {
   // }
 
   getHead() {
-    const {
-      lang: { t },
-    } = this.props
     return [
       { content: '#', width: 2 },
-      { content: t('stationFixedPhase.form.key.label'), width: 10 },
-      { content: t('stationFixedPhase.form.name.label'), width: 30 },
+      { content: translate('stationFixedPhase.form.key.label') },
+      { content: translate('stationFixedPhase.form.name.label') },
       { content: '', width: 10 },
     ]
   }
 
   getRows() {
-    const {
-      lang: { t },
-    } = this.props
-    return _.get(this.props, 'dataSource', []).map((row, index) => [
-      {
-        content: <strong>{index + 1}</strong>,
-      },
-      {
-        content: row.key,
-      },
-      {
-        content: row.name,
-      },
-      {
-        content: (
-          <span>
-            {/* {protectRole(ROLE.STATION_TYPE.EDIT)( */}
-            <Link to={slug.stationFixedPhase.editWithKey + '/' + row._id}>
-              {t('stationFixedPhase.edit.label')}{' '}
-            </Link>
-            {/* )} */}
+    let sourceSorted = _.orderBy(
+      this.props.dataSource || [],
+      ['stationType._id'],
+      ['asc']
+    )
+    let stationCount = _.countBy(sourceSorted, 'stationType._id')
 
-            <Divider type="vertical" />
-            {/* {protectRole(ROLE.STATION_TYPE.DELETE)( */}
-            <a onClick={() => this.handleOnDelete(row._id)}>
-              {t('stationFixedPhase.delete.label')}
-            </a>
-            {/* )} */}
-          </span>
-        ),
-      },
-    ])
+    let stationTypeArr = []
+    const styled = {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      width: '200px',
+    }
+
+    let result = [].concat.apply(
+      [],
+      sourceSorted.map((row, index) => {
+        //content Row
+        let resultRow = [
+          {
+            content: <strong>{index + 1}</strong>,
+          },
+          {
+            content: (
+              <div
+                style={{
+                  ...styled,
+                }}
+              >
+                {row.key}
+              </div>
+            ),
+          },
+          {
+            content: (
+              <div
+                style={{
+                  ...styled,
+                  width: '600px',
+                }}
+              >
+                {row.name}
+              </div>
+            ),
+          },
+          {
+            content: (
+              <span>
+                {/* {protectRole(ROLE.STATION_TYPE.EDIT)( */}
+                <Link to={slug.stationFixedPhase.editWithKey + '/' + row._id}>
+                  {translate('stationFixedPhase.edit.label')}{' '}
+                </Link>
+                {/* )} */}
+
+                <Divider type="vertical" />
+                {/* {protectRole(ROLE.STATION_TYPE.DELETE)( */}
+                <a onClick={() => this.handleOnDelete(row._id)}>
+                  {translate('stationFixedPhase.delete.label')}
+                </a>
+                {/* )} */}
+              </span>
+            ),
+          },
+        ]
+        //check if Group exist or not
+        if (row.stationType && stationTypeArr.indexOf(row.stationType._id) > -1)
+          return [resultRow]
+        else {
+          stationTypeArr.push(row.stationType._id)
+          return [
+            [
+              { content: '' },
+              {
+                content: (
+                  <div>
+                    <strong>
+                      {row.stationType.name}
+                      {stationCount[row.stationType._id]
+                        ? '(' + stationCount[row.stationType._id] + ')'
+                        : ''}
+                    </strong>
+                  </div>
+                ),
+              },
+            ],
+            resultRow,
+          ]
+        }
+      })
+    )
+    return result
   }
 
   async handleOnDelete(_id) {

@@ -1046,6 +1046,93 @@ export default {
       },
     },
   },
+  stationFixedReport: {
+    base: {
+      title: 'Data station fixed',
+    },
+  },
+  stationFixedPoint: {
+    list: {
+      title: 'Điểm quan trắc',
+      restore: 'Khôi phục',
+      remove: 'Loại bỏ',
+    },
+    create: {
+      label: 'Tạo mới',
+      success: 'Thêm điểm trắc mới thành công',
+      keyExisted: 'Điểm trắc đã tồn tại',
+    },
+    edit: {
+      label: 'Sửa',
+      success: 'Cập nhật Đợt quan trắc thành công',
+    },
+    delete: {
+      label: 'Xoá',
+      require: 'Bạn chắc chắn xoá dữ liệu?',
+    },
+    disable: {
+      label: 'Vô hiệu hóa',
+      require: 'Bạn chắc chắn muốn vô hiệu hóa?',
+    },
+    form: {
+      measuringForm: {
+        key: 'Mã thông số',
+        name: 'Tên thông số',
+        addMeasuring: 'Thêm thông số',
+        qcvn: 'Giới hạn vượt ngưỡng',
+        tendToExceed: 'Chuẩn bị vượt',
+        qcvnMin: 'Giới hạn tối thiểu',
+        qcvnMax: 'Giới hạn tối đa',
+      },
+      key: {
+        label: 'Mã điểm',
+        placeholder: 'Mã điểm',
+        required: 'Vui lòng nhập mã',
+        pattern: 'Không được nhập kí tự đăc biệt',
+        max: 'Không quá 64 kí tự',
+      },
+      name: {
+        label: 'Tên điểm',
+        placeholder: 'Tên điểm quan trắc',
+        required: 'Vui lòng nhập điểm quan trắc',
+        pattern: 'Không được nhập kí tự đăc biệt',
+        max: 'Không quá 64 kí tự',
+      },
+      address: {
+        label: 'Địa chỉ',
+        placeholder: 'Địa chỉ',
+        max: 'Không quá 256 kí tự',
+      },
+      stationType: {
+        label: 'Loại trạm',
+        placeholder: 'Loại trạm',
+        required: 'Vui lòng chọn loại trạm',
+      },
+      qcvn: {
+        label: 'Quy chuẩn',
+        placeholder: 'Quy chuẩn',
+      },
+      lat: {
+        label: 'Vĩ độ',
+        placeholder: 'Vĩ độ',
+        required: 'Vui lòng nhập vĩ độ',
+        format: 'Vĩ độ (-90<=x<=90)',
+      },
+      long: {
+        label: 'Kinh độ',
+        placeholder: 'Kinh độ',
+        required: 'Vui lòng nhập kinh độ',
+        format: 'Kinh độ (-90<=x<=90)',
+      },
+      note: {
+        label: 'Ghi chú',
+        placeholder: 'Ghi chú',
+      },
+      measuringList: {
+        required: 'Vui lòng nhập thông số',
+      },
+    },
+  },
   qcvn: {
     list: {
       title: 'Standards Filter',
@@ -2316,6 +2403,55 @@ export default {
     save: 'Save',
     update: 'Update',
   },
+  importDataPoint: {
+    headerTitle: 'Enter the monitoring point data',
+    description:
+      'Add periodic monitoring data by uploading xlsx file with required information.',
+    startUpload: 'Start by selecting the input batch',
+    phaseLabel: 'Select monitoring phase',
+    stationTypeLabel: 'Station Type',
+    requirements:
+      'Upload the data containing the monitoring points in the form below. Make sure the fields are absolutely correct. Data uploaded to the system cannot be removed',
+    step1: 'Step 1: Download the sample file and fill in the required fields',
+    step2: 'Step 2: Upload the file with all fields filled in',
+    downloadText: 'Download sample file',
+    uploadText: 'Upload sample file',
+    dragAndDrop: 'Drag and drop files here',
+    errorTitle: 'Upload failed',
+    errorMessage: 'Some data lines are faulty. Please check and try again',
+    successTitle: 'Upload successfully',
+    successMessage: 'Successfully uploaded {{=it.count}} lines of data',
+    line: 'Line',
+    duplicateParameter: 'Two columns with the same parameter code',
+    duplicateData: 'Duplicate data',
+    invalidDataSheet: 'Sheet data is not valid',
+    invalidDateTime: 'Invalid date and time',
+    invalidParameter: 'Parameter code does not exist',
+    pointKeyNotExisted: 'Monitoring Code dose not exist',
+    parameterNotTypeNumber: 'Wrong format parameter',
+    selectPhaseError: 'Please select the monitoring batch',
+  },
+  dataPointReport: {
+    title: {
+      receivedAt: "receivedAt",
+      phaseName: "phaseName",
+      pointName: "pointName"
+    },
+    optionalInfo: {
+      symbol: "symbol",
+      weather: "weather",
+      sampler: "sampler",
+      notes: "notes",
+      monitoringPlace: "monitoringPlace",
+      requirements: "requirements",
+      method: "method",
+      chemical: "chemical",
+      conditions: "conditions",
+      equipmentlist: "equipmentlist",
+      analyst: "analyst",
+      placeOfAnalysis: "placeOfAnalysis",
+    }
+  },
   menuApp: {
     dashboard: 'Dashboard',
 
@@ -2336,11 +2472,10 @@ export default {
     stationFixed: {
       base: 'Manage the monitoring phase',
       stationFixed: 'Monitoring point management',
-      inputData: 'Enter the monitoring point data',
+      importData: 'Enter the monitoring point data',
       report: 'Search',
       map: 'Map',
     },
-
     processDataSub: 'Data Processing',
     processData: {
       approveData: 'Check Data',

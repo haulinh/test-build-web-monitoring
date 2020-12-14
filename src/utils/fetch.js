@@ -1,9 +1,11 @@
 import axios from 'axios'
 import { getAuthToken } from './auth'
+import { getLanguage } from 'utils/localStorage'
 
 const getHeaders = () => {
   var headers = {
     Accept: 'application/json',
+    'Accept-Language': getLanguage(),
   }
   if (typeof localStorage !== 'undefined') {
     if (getAuthToken()) {
@@ -36,7 +38,7 @@ export function postFetch(url, data, props) {
         // }
       })
       .catch(ex => {
-        const { response } = ex
+        const { response = {} } = ex
 
         reject({
           status: response.status,
