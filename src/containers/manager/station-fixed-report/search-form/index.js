@@ -1,17 +1,23 @@
-import { Button, Col, DatePicker, Form, Row, Select, Switch } from 'antd'
+import {
+  Button,
+  Col,
+  DatePicker,
+  Form,
+
+  Row,
+  Select,
+  Switch
+} from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import { getPhase } from 'api/station-fixed/StationFixedPhaseApi'
 import { getPoint } from 'api/station-fixed/StationFixedPointApi'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import createLang, { translate as t } from 'hoc/create-lang'
-import _ from 'lodash'
 import moment from 'moment'
-import React from 'react'
-import { Field } from 'redux-form'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { StationFixedReport } from '../station-fixed-report'
+import React from 'react'
+import styled from 'styled-components'
 
 const { Option } = Select
 const { RangePicker } = DatePicker
@@ -117,6 +123,7 @@ export class SearchForm extends React.Component {
   handleOnSubmit = async e => {
     e.preventDefault()
     const values = await this.props.form.validateFields()
+    console.log('🚀 ~ file: index.js ~ line 121 ~ SearchForm ~ values', values)
 
     let startDate
     let endDate
@@ -139,6 +146,8 @@ export class SearchForm extends React.Component {
     this.props.setQueryParam(paramQuery)
     this.props.handleOnSearch()
   }
+
+  handleClick = () => alert('It works!')
 
   render() {
     const { phases, points, stationTypes, isOpenRangePicker } = this.state
