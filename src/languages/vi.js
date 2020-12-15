@@ -1046,11 +1046,13 @@ export default {
   stationFixedPoint:{
     list: {
       title: 'Điểm quan trắc',
+      restore: 'Khôi phục',
+      remove: 'Loại bỏ',
     },
     create: {
       label: 'Tạo mới',
-      success: 'Thêm Đợt quan trắc mới thành công',
-      keyExisted: 'Đợt quan trắc đã tồn tại',
+      success: 'Thêm điểm trắc mới thành công',
+      keyExisted: 'Điểm quan trắc đã tồn tại',
     },
     edit: {
       label: 'Sửa',
@@ -1058,6 +1060,11 @@ export default {
     },
     delete: {
       label: 'Xoá',
+      require: 'Bạn chắc chắn xoá dữ liệu?',
+    },
+    disable: {
+      label: 'Vô hiệu hóa',
+      require: 'Bạn chắc chắn muốn vô hiệu hóa?',
     },
     form:{
       measuringForm:{
@@ -1079,13 +1086,14 @@ export default {
       name:{
         label:'Tên điểm',
         placeholder: 'Tên điểm quan trắc',
-        required: 'Vui lòng nhập điểm quan trắc',
+        required: 'Vui lòng nhập tên điểm quan trắc',
         pattern:'Không được nhập kí tự đăc biệt',
         max:'Không quá 64 kí tự'
       },
       address:{
         label:'Địa chỉ',
         placeholder: 'Địa chỉ',
+        max:'Không quá 256 kí tự'
       },
       stationType:{
         label:'Loại trạm',
@@ -1099,14 +1107,21 @@ export default {
       lat:{
         label:"Vĩ độ",
         placeholder: 'Vĩ độ',
+        required:'Vui lòng nhập vĩ độ',
+        format: "Vĩ độ (-90<=x<=90)"
       },
       long:{
         label:"Kinh độ",
         placeholder: 'Kinh độ',
+        required:'Vui lòng nhập kinh độ',
+        format: "Kinh độ (-180<=x<=180)"
       },
       note:{
         label:"Ghi chú",
         placeholder: 'Ghi chú',
+      },
+      measuringList:{
+        required:'Vui lòng nhập thông số'
       }
     }
   },
@@ -2374,6 +2389,55 @@ export default {
     save: 'Lưu',
     update: 'Cập nhật',
   },
+  importDataPoint: {
+    headerTitle: 'Nhập dữ liệu điểm quan trắc',
+    description:
+      'Thêm dữ liệu quan trắc điểm định kỳ bằng cách tải lên file xlsx với những thông tin cần thiết.',
+    startUpload: 'Bắt đầu bằng cách lựa chọn đợt nhập liệu',
+    phaseLabel: 'Đợt quan trắc',
+    stationTypeLabel: 'Loại trạm',
+    requirements:
+      'Tải lên dữ liệu chứa thông tin các điểm quan trắc theo mẫu bên dưới. Hãy đảm bảo những trường thông tin chính xác tuyệt đối. Dữ liệu đã được tải lên hệ thống sẽ không thể loại bỏ',
+    step1: 'Bước 1: Tải file mẫu và điền các trường cần thiết',
+    step2: 'Bước 2: Tải lên file đã được điền các trường',
+    downloadText: 'Tải về file mẫu',
+    uploadText: 'Tải lên file mẫu',
+    dragAndDrop: 'Kéo thả file vào đây',
+    errorTitle: 'Tải lên thất bại',
+    errorMessage: 'Một số dòng dữ liệu bị lỗi. Vui lòng kiểm tra và thử lại',
+    successTitle: 'Tải lên thành công',
+    successMessage: 'Tải lên thành công {{=it.count}} dòng dữ liệu',
+    line: 'Dòng',
+    duplicateParameter: '2 cột trùng mã thông số',
+    duplicateData: 'Dữ liệu trùng',
+    invalidDataSheet: 'Dữ liệu sheet không hợp lệ',
+    invalidDateTime: 'Ngày giờ không hợp lệ',
+    invalidParameter: 'Mã thông số không tồn tại',
+    pointKeyNotExisted: 'Mã điểm không tồn tại',
+    parameterNotTypeNumber: 'Thông số sai định dạng',
+    selectPhaseError: 'Vui lòng chọn đợt quan trắc',
+  },
+  dataPointReport: {
+    title: {
+      receivedAt: "receivedAt",
+      phaseName: "Tên đợt",
+      pointName: "Tên trạm"
+    },
+    optionalInfo: {
+      symbol: "Kí hiệu mẫu",
+      weather: "Đặc điểm thời tiết",
+      sampler: "Tên người lấy mẫu",
+      notes: "Ghi chú",
+      monitoringPlace: "Đặc điểm nơi quan trắc",
+      requirements: "Yêu cầu đối với việc lấy mẫu",
+      method: "Phương pháp lấy mẫu",
+      chemical: "Hóa chất baỏ quản",
+      conditions: "Điều kiện bảo quản mẫu",
+      equipmentlist: "Danh sách thiết bị lấy mẫu",
+      analyst: "Người phân tích",
+      placeOfAnalysis: "Nơi phân tích",
+    }
+  },
   menuApp: {
     dashboard: 'Trang Chủ',
 
@@ -2394,11 +2458,10 @@ export default {
     stationFixed: {
       base: 'Quản lý đợt quan trắc',
       stationFixed: 'Quản lý điểm quan trắc',
-      inputData: 'Nhập dữ liệu điểm quan trắc',
+      importData: 'Nhập dữ liệu điểm quan trắc',
       report: 'Tra cứu dữ liệu',
       map: 'Bản đồ',
     },
-
     processDataSub: 'Xử lý dữ liệu',
     processData: {
       approveData: 'Kiểm duyệt dữ liệu',

@@ -43,7 +43,7 @@ export default class StationFixedPhaseForm extends React.PureComponent {
 
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
-      if (res.status ) {
+      if (res && res.status ) {
         if (res.data.error.message === 'PHASE_ALREADY_EXISTS') {
           this.props.form.setFields({
             key: {

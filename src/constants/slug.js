@@ -89,12 +89,16 @@ export default {
     edit: '/station-fixed-phase/edit/:key',
     editWithKey: '/station-fixed-phase/edit',
   },
+  stationFixedReport: {
+    base: '/station-fixed-report'
+  },
   stationFixed: {
     base: '/station-fixed',
     list: '/station-fixed',
     create: '/station-fixed/create',
     edit: '/station-fixed/edit/:key',
     editWithKey: '/station-fixed/edit',
+    importData: '/station-fixed/import-data',
   },
   configWQI: {
     list: '/config-wqi',
@@ -311,7 +315,7 @@ export const MENU_NAME = {
   stationFixed: {
     base: translate('menuApp.stationFixed.base'),
     point: translate('menuApp.stationFixed.stationFixed'),
-    inputData: translate('menuApp.stationFixed.inputData'),
+    importData: translate('menuApp.stationFixed.importData'),
     report:translate('menuApp.stationFixed.report'),
     map:translate('menuApp.stationFixed.map'),
   },
@@ -394,7 +398,7 @@ export const TOOLTIP_MENU = {
   stationFixed:{
     base: translate('tooltipMenuApp.stationFixed.base'),
     point: translate('menuApp.stationFixed.stationFixed'),
-    inputData: translate('menuApp.stationFixed.inputData'),
+    importData: translate('menuApp.stationFixed.importData'),
     report:translate('menuApp.stationFixed.report'),
     map:translate('menuApp.stationFixed.map'),
   },
