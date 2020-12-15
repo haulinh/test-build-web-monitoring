@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Popover, Table, Tabs } from 'antd'
+import { Button, Checkbox, Form, Pagination, Popover, Table, Tabs } from 'antd'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { translate as t } from 'hoc/create-lang'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
@@ -27,7 +27,7 @@ const i18n = {
     equipmentlist: t('dataPointReport.optionalInfo.equipmentlist'),
     analyst: t('dataPointReport.optionalInfo.analyst'),
     placeOfAnalysis: t('dataPointReport.optionalInfo.placeOfAnalysis'),
-  }
+  },
 }
 
 const optionalInfo = [
@@ -44,6 +44,13 @@ const optionalInfo = [
   { field: 'analyst', checked: false },
   { field: 'placeOfAnalysis', checked: false },
 ]
+
+const COLOR = {
+  EXCEEDED_PREPARING: '#F0D84F',
+  EXCEEDED: '#EA4D3D'
+}
+
+const PAGE_SIZE = 5
 
 const { TabPane } = Tabs
 
@@ -62,7 +69,9 @@ const Flex = styled.div`
 export class StationFixedReport extends React.Component {
   state = {
     dataPoints: [],
-    loading: false
+    loading: false,
+    total: 0,
+    queryParam: {},
   }
 
   async componentDidMount() {}
@@ -88,7 +97,7 @@ export class StationFixedReport extends React.Component {
           style={{ display: 'flex', flexDirection: 'column' }}
         >
           {optionalInfo.map(item => (
-            <div style={{ marginBottom: '8px' }}>
+            <div key={item.key} style={{ marginBottom: '8px' }}>
               {form.getFieldDecorator(item.field)(
                 <Checkbox>{i18n.optionalInfo[item.field]}</Checkbox>
               )}
@@ -99,15 +108,19 @@ export class StationFixedReport extends React.Component {
     )
   }
 
-  onSearch = async queryParam => {
+  setQueryParam = queryParam => {
+    this.setState({ queryParam })
+  }
+
+  onSearch = async (pageNumber = 1, pageSize = PAGE_SIZE) => {
     const {
       phaseIds,
       pointKeys,
       startDate,
       endDate,
       stationTypeId,
-    } = queryParam
-    this.setState({loading: true})
+    } = this.state.queryParam
+    this.setState({ loading: true })
 
     const dataPoints = await getDataPoint({
       point: {
@@ -124,8 +137,23 @@ export class StationFixedReport extends React.Component {
           },
         },
       },
+      pageNumber,
+      pageSize,
     })
-    this.setState({ dataPoints: dataPoints, loading: false })
+
+    // const dataPoints = await getDataPoint({
+    //   point: {
+    //     pointKeys: ['10001'],
+    //   },
+    //   pageSize,
+    //   pageNumber,
+    // })
+
+    this.setState({
+      dataPoints: dataPoints,
+      total: dataPoints.total,
+      loading: false,
+    })
   }
 
   getColumns = () => {
@@ -135,7 +163,7 @@ export class StationFixedReport extends React.Component {
       dataIndex: 'Index',
       key: 'Index',
       render(value, record, index) {
-        return <div>{index + 1}</div>
+        return <div>{}</div>
       },
     }
 
@@ -188,7 +216,7 @@ export class StationFixedReport extends React.Component {
       key: measuring,
       align: 'center',
       render: valueColumn => {
-        return <div>{valueColumn && valueColumn.value}</div>
+        return <div style={{color: valueColumn && COLOR[valueColumn.warningLevel]}}>{valueColumn && valueColumn.value}</div>
       },
     }))
 
@@ -203,20 +231,35 @@ export class StationFixedReport extends React.Component {
   }
 
   render() {
-    const { dataPoints } = this.state
+    const { dataPoints, total } = this.state
+    // const locale = {
+    //   emptyText: 'Khong co du lieu',
+    // }
+    const pagination = {
+      total: total,
+      pageSize: PAGE_SIZE,
+      onChange: (page, pageSize) => {
+        this.onSearch(page, pageSize)
+      },
+    }
     return (
       <PageContainer>
         <Breadcrumb items={['base']} />
-        <SearchForm handleOnSearch={this.onSearch} />
+        <SearchForm
+          setQueryParam={this.setQueryParam}
+          handleOnSearch={this.onSearch}
+        />
         <Tabs defaultActiveKey="1" tabBarExtraContent={this.operations()}>
           <TabPane tab="Dữ liệu" key="1" />
         </Tabs>
         <Table
+          // locale={locale}
           size="small"
           rowKey="_id"
           columns={this.getColumns()}
           dataSource={dataPoints.data}
           loading={this.state.loading}
+          pagination={pagination}
         />
       </PageContainer>
     )

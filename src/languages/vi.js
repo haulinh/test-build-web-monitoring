@@ -2429,7 +2429,7 @@ export default {
       sampler: "Tên người lấy mẫu",
       notes: "Ghi chú",
       monitoringPlace: "Đặc điểm nơi quan trắc",
-      requirements: "requirements",
+      requirements: "Yêu cầu đối với việc lấy mẫu",
       method: "Phương pháp lấy mẫu",
       chemical: "Hóa chất baỏ quản",
       conditions: "Điều kiện bảo quản mẫu",
