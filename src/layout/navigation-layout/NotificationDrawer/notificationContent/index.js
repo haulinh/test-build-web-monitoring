@@ -48,7 +48,7 @@ export default class NotificationContent extends React.Component {
   static propTypes = {
     /* component's props */
     // tabName: propTypes.string.isRequired,
-    isEmptyNotification: propTypes.bool.isRequired,
+    isEmptyNotification: propTypes.bool,
     closeDrawer: propTypes.func,
     /* redux's props */
     stationAuto: propTypes.array.isRequired,
@@ -94,54 +94,44 @@ export default class NotificationContent extends React.Component {
   }, 300)
 
   render() {
-    const { loading, dataSource, stationAuto, currentPage } = this.props
+    const {isSearchLoading} = this.state
+    const { loading, dataSource, stationAuto, currentPage, useWindow } = this.props
+    
+    if(isSearchLoading) return <Skeleton avatar paragraph={{ rows: 4 }} />
+    
+    const NotiList = (
+      <InfiniteScroll
+        /* NOTE : không load chỗ này sẽ dẫn đến vòng lập vô hạn */
+        initialLoad={false}
+        pageStart={currentPage}
+        hasMore={loading}
+        threshold={200}
+        loader={<LoadMoreIcon key={0} />}
+        loadMore={page =>
+          this.props.loadNotificationsByType(
+            page,
+            stationAuto,
+            this.state.txtSearch
+          )
+        }
+        useWindow={useWindow}
+      >
+        <Cells
+          dataSource={dataSource}
+          closeDrawer={this.props.closeDrawer}
+        />
+      </InfiniteScroll>
+    )
     return (
       <div>
-        {/* <NotificationSearchWrapper>
-          <Search
-            style={{ boxShadow: '4px 4px 6px #eee' }}
-            placeholder={i18n.timKiem}
-            onChange={e => {
-              const value = e.target.value
-              this.setState({
-                isSearchLoading: true,
-              })
-              this.props.clearLoadNotificationsByType()
-              this.handleOnChange(_.trim(value))
-            }}
-          />
-        </NotificationSearchWrapper> */}
-
-        {this.state.isSearchLoading && (
-          <Skeleton avatar paragraph={{ rows: 4 }} />
-        )}
-        {!this.state.isSearchLoading && (
-          <div style={{ height: '90vh', overflow: 'auto' }}>
-            <InfiniteScroll
-              /* NOTE : không load chỗ này sẽ dẫn đến vòng lập vô hạn */
-              initialLoad={false}
-              pageStart={currentPage}
-              hasMore={loading}
-              threshold={1000}
-              loader={<LoadMoreIcon key={0} />}
-              loadMore={page =>
-                this.props.loadNotificationsByType(
-                  page,
-                  stationAuto,
-                  this.state.txtSearch
-                )
-              }
-              useWindow={false}
-            >
-              <Cells
-                dataSource={dataSource}
-                closeDrawer={this.props.closeDrawer}
-              />
-            </InfiniteScroll>
-
-            <div style={{ height: 100 }} />
-          </div>
-        )}
+        {
+          useWindow 
+          ? NotiList 
+          : <div style={{ height: '90vh', overflow: 'auto' }}>
+              {NotiList}
+              <div style={{ height: 100 }} />
+            </div>
+        }
       </div>
     )
   }

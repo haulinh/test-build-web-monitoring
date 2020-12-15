@@ -35,7 +35,7 @@ export default function SensorErrorCell(props) {
       <ul>
         {measures.map(mea => {
           return (
-            <li style={{ listStyleType: 'disc' }}>
+            <li key={mea.key} style={{ listStyleType: 'disc' }}>
               <b>{mea.key}</b>
             </li>
           )

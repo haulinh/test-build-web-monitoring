@@ -14,7 +14,6 @@ import { default as EmptyCell } from './cellEmpty'
 
 export default function Cells(props) {
   const dataSource = props.dataSource || []
-  console.log("Cells: dataSource " + JSON.stringify(dataSource))
   let cells = dataSource.map(cellContent => {
     let Cell = EmptyCell
     switch (cellContent.status) {

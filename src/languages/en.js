@@ -15,6 +15,7 @@ export default {
     password: 'Password',
     noPermission: "You don't have permissions",
     saveSuccess: 'Save successfully',
+    all: 'All'
   },
   rules: {
     required: 'Required',
@@ -120,6 +121,15 @@ export default {
     },
     activeStationPer: 'Station Active ({{=it.good}}/{{=it.total}})',
     unit: 'Unit',
+    total: 'Total ({{=it.total}})',
+    newNotification: 'New Notification',
+    status: {
+      disconnected: 'Disconnected',
+      exceeded: 'Exceeded',
+      exceededPreparing: 'Preparing Exceeded',
+      good: 'Good',
+    },
+    managementArea: 'Management Area'
   },
   monitoring: {
     title: 'Monitoring',
@@ -148,6 +158,7 @@ export default {
       sensorNormal: 'Sensor Normal',
       normal: 'Normal',
       broken: 'Broken',
+      good: 'Good'
     },
     statusResult: 'Monitoring results',
     note: 'Note',
