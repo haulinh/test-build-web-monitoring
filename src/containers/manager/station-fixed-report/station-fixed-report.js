@@ -45,6 +45,11 @@ const optionalInfo = [
   { field: 'placeOfAnalysis', checked: false },
 ]
 
+const COLOR = {
+  EXCEEDED_PREPARING: '#F0D84F',
+  EXCEEDED: '#EA4D3D'
+}
+
 const PAGE_SIZE = 5
 
 const { TabPane } = Tabs
@@ -158,7 +163,7 @@ export class StationFixedReport extends React.Component {
       dataIndex: 'Index',
       key: 'Index',
       render(value, record, index) {
-        return <div>{index + 1}</div>
+        return <div>{}</div>
       },
     }
 
@@ -211,7 +216,7 @@ export class StationFixedReport extends React.Component {
       key: measuring,
       align: 'center',
       render: valueColumn => {
-        return <div>{valueColumn && valueColumn.value}</div>
+        return <div style={{color: valueColumn && COLOR[valueColumn.warningLevel]}}>{valueColumn && valueColumn.value}</div>
       },
     }))
 
