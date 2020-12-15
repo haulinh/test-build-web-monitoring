@@ -2431,6 +2431,27 @@ export default {
     parameterNotTypeNumber: 'Wrong format parameter',
     selectPhaseError: 'Please select the monitoring batch',
   },
+  dataPointReport: {
+    title: {
+      receivedAt: "receivedAt",
+      phaseName: "phaseName",
+      pointName: "pointName"
+    },
+    optionalInfo: {
+      symbol: "symbol",
+      weather: "weather",
+      sampler: "sampler",
+      notes: "notes",
+      monitoringPlace: "monitoringPlace",
+      requirements: "requirements",
+      method: "method",
+      chemical: "chemical",
+      conditions: "conditions",
+      equipmentlist: "equipmentlist",
+      analyst: "analyst",
+      placeOfAnalysis: "placeOfAnalysis",
+    }
+  },
   menuApp: {
     dashboard: 'Dashboard',
 

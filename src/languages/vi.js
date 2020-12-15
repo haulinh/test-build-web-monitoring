@@ -2417,6 +2417,27 @@ export default {
     parameterNotTypeNumber: 'Thông số sai định dạng',
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
   },
+  dataPointReport: {
+    title: {
+      receivedAt: "receivedAt",
+      phaseName: "Tên đợt",
+      pointName: "Tên trạm"
+    },
+    optionalInfo: {
+      symbol: "Kí hiệu mẫu",
+      weather: "Đặc điểm thời tiết",
+      sampler: "Tên người lấy mẫu",
+      notes: "Ghi chú",
+      monitoringPlace: "Đặc điểm nơi quan trắc",
+      requirements: "requirements",
+      method: "Phương pháp lấy mẫu",
+      chemical: "Hóa chất baỏ quản",
+      conditions: "Điều kiện bảo quản mẫu",
+      equipmentlist: "Danh sách thiết bị lấy mẫu",
+      analyst: "Người phân tích",
+      placeOfAnalysis: "Nơi phân tích",
+    }
+  },
   menuApp: {
     dashboard: 'Trang Chủ',
 

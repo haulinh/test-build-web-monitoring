@@ -1,4 +1,13 @@
-import { Button, Col, DatePicker, Form, Row, Select, Switch } from 'antd'
+import {
+  Button,
+  Col,
+  DatePicker,
+  Form,
+
+  Row,
+  Select,
+  Switch
+} from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import { getPhase } from 'api/station-fixed/StationFixedPhaseApi'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
@@ -48,7 +57,10 @@ export class SearchForm extends React.Component {
     }
     const points = await getPoint({ filter: filterPoint })
 
-    const stationTypes = await CategoryApi.getStationTypes({})
+    const stationTypes = await CategoryApi.getStationTypes(
+      {},
+      { isAuto: false }
+    )
     if (stationTypes.success)
       this.setState({
         stationTypes: stationTypes.data || [],
@@ -64,6 +76,7 @@ export class SearchForm extends React.Component {
   handleOnSubmit = async e => {
     e.preventDefault()
     const values = await this.props.form.validateFields()
+    console.log('🚀 ~ file: index.js ~ line 121 ~ SearchForm ~ values', values)
 
     const paramQuery = {
       phaseIds: values.phase,
@@ -79,6 +92,8 @@ export class SearchForm extends React.Component {
 
     this.props.handleOnSearch(paramQuery)
   }
+
+  handleClick = () => alert('It works!')
 
   render() {
     const { phases, points, stationTypes } = this.state
@@ -96,7 +111,6 @@ export class SearchForm extends React.Component {
                 icon="search"
                 size="small"
                 htmlType="submit"
-                // onClick={this.props.handleSubmit(this.handleSubmit)}
               >
                 {this.props.lang.t('addon.search')}
               </Button>
@@ -116,7 +130,7 @@ export class SearchForm extends React.Component {
                     FIELDS.STATION_TYPE_ID,
                     config
                   )(
-                    <Select>
+                    <Select size="large">
                       {stationTypes &&
                         stationTypes.length > 0 &&
                         stationTypes.map(stationType => (
@@ -174,16 +188,18 @@ export class SearchForm extends React.Component {
             <Row>
               <Col span={8}>
                 <Form.Item label="Từ tháng">
-                  {form.getFieldDecorator(FIELDS.START_DATE)(
-                    <DatePicker size="large" />
-                  )}
+                  {form.getFieldDecorator(
+                    FIELDS.START_DATE,
+                    config
+                  )(<DatePicker size="large" />)}
                 </Form.Item>
               </Col>
               <Col span={8}>
                 <Form.Item label="Đến tháng">
-                  {form.getFieldDecorator(FIELDS.END_DATE)(
-                    <DatePicker size="large" />
-                  )}
+                  {form.getFieldDecorator(
+                    FIELDS.END_DATE,
+                    {...config, initialValue: moment() }
+                  )(<DatePicker size="large" />)}
                 </Form.Item>
               </Col>
               <Col span={8}>
