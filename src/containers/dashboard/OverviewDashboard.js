@@ -24,6 +24,9 @@ const Container = styled.div`
   .header{
     margin-bottom: 12px;
   }
+  .notification{
+    margin-top: 20px
+  }
 `
 
 const Item = styled.div`
@@ -213,7 +216,7 @@ class Dashboard extends Component {
             </Col>
           ))}
         </Row>
-        <Row>
+        <Row className="notification">
           <Text fontSize={20} fontWeight={700} margin="0 0 10px">
             {i18n.newNotification}
           </Text>
