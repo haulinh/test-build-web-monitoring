@@ -55,7 +55,7 @@ const WARNING_LEVEL = {
   EXCEEDED: 'EXCEEDED',
 }
 
-const PAGE_SIZE = 5
+const PAGE_SIZE = 50
 
 const { TabPane } = Tabs
 
@@ -194,25 +194,6 @@ export class StationFixedReport extends React.Component {
       },
     }
 
-    const measureList = _.get(dataPoints, 'measureList', [])
-    const columnsMeasuring = measureList.map(measuring => ({
-      title: `${measuring.name} (${measuring.unit})`,
-      dataIndex: `measuringLogs.${measuring.name}`,
-      key: measuring,
-      align: 'center',
-      render: valueColumn => {
-        return (
-          <div
-            style={{
-              color: valueColumn && COLOR[valueColumn.warningLevel],
-            }}
-          >
-            {valueColumn && valueColumn.value}
-          </div>
-        )
-      },
-    }))
-
     const optionalInfoValue = this.props.form.getFieldsValue()
     const optionalInfoColumn = Object.keys(optionalInfoValue)
       .filter(option => optionalInfoValue[option])
@@ -225,6 +206,23 @@ export class StationFixedReport extends React.Component {
           return <div>{value}</div>
         },
       }))
+
+    const measureList = _.get(dataPoints, 'measureList', [])
+    const columnsMeasuring = measureList.map(measuring => ({
+      title:`${measuring.name} (${measuring.unit})`,
+      dataIndex: `measuringLogs.${measuring.name}`,
+      key: measuring.name,
+      align: 'center',
+      render: valueColumn => {
+        return (
+          <div
+            style={{ color: valueColumn && COLOR[valueColumn.warningLevel] }}
+          >
+            {valueColumn && valueColumn.value}
+          </div>
+        )
+      },
+    }))
 
     return [
       columnIndex,
