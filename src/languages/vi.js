@@ -15,6 +15,7 @@ export default {
     password: 'mật khẩu',
     noPermission: 'Bạn không có quyền thực hiện',
     saveSuccess: 'Lưu thành công',
+    all: 'Tất cả'
   },
   rules: {
     required: 'Bắt buộc',
@@ -119,6 +120,15 @@ export default {
     },
     activeStationPer: 'Tình trạng kết nối ({{=it.good}}/{{=it.total}})',
     unit: 'Đơn vị',
+    total: 'Tổng số ({{=it.total}})',
+    newNotification: 'Thông báo mới',
+    status: {
+      disconnected: 'Mất tín hiệu',
+      exceeded: 'Vượt ngưỡng',
+      exceededPreparing: 'Chuẩn bị vượt',
+      good: 'Trong ngưỡng',
+    },
+    managementArea: 'Khu vực quản lý',
   },
   monitoring: {
     title: 'Giám sát trực tuyến',
@@ -147,6 +157,7 @@ export default {
       sensorNormal: 'Đang đo',
       normal: 'Đang đo',
       broken: 'Báo lỗi',
+      good: 'Tốt',
     },
     statusResult: 'Kết quả quan trắc',
     note: 'Chú thích',

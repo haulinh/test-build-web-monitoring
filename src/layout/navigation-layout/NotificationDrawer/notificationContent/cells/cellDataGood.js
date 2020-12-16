@@ -33,7 +33,7 @@ export default function DataGoodCell(props) {
       <ul>
         {measures.map(mea => {
           return (
-            <li style={{ listStyleType: 'disc' }}>
+            <li key={mea.key} style={{ listStyleType: 'disc' }}>
               <b>{mea.key}</b> {mea.value} {mea.unit}
             </li>
           )
