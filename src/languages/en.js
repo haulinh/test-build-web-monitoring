@@ -1041,21 +1041,21 @@ export default {
         placeholder: 'Monitoring batch code',
         required: 'Please enter code',
         pattern: 'Not allowed to enter special characters',
-        max: 'No more than 64 characters'
+        max: 'No more than 64 characters',
       },
       name: {
         label: 'Name of the survey',
         placeholder: 'Name of survey',
         required: 'Please enter monitoring batch',
         pattern: 'Not allowed to enter special characters',
-        max: 'No more than 64 characters'
+        max: 'No more than 64 characters',
       },
       stationType: {
         label: 'Station type',
         placeholder: 'Station type',
         required: 'Please select station type',
-      }
-    }
+      },
+    },
   },
   stationFixedReport: {
     base: {
@@ -2333,6 +2333,8 @@ export default {
         measuringUsedWqi: 'Measuring is already used to calculate WQI !',
         measuringUsedAqi: 'Measuring is already used to calculate AQI !',
         measuringUsedQcvn: 'Measuring is already used in QCVN configuration !',
+        phaseUsed: 'Monitoring is being used to import data!',
+        pointUsed: 'The monitoring point is being used for data entry!',
       },
       success: 'Deleted Successfully',
       qcvn: {
