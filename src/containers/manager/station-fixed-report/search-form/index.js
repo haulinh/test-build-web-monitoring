@@ -1,13 +1,4 @@
-import {
-  Button,
-  Col,
-  DatePicker,
-  Form,
-
-  Row,
-  Select,
-  Switch
-} from 'antd'
+import { Button, Col, DatePicker, Form, Row, Select, Switch } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import { getPhase } from 'api/station-fixed/StationFixedPhaseApi'
 import { getPoint } from 'api/station-fixed/StationFixedPointApi'
@@ -37,8 +28,8 @@ const FIELDS = {
   POINT: 'point',
   START_DATE: 'startDate',
   END_DATE: 'endDate',
-  EXCEEDED_QCVN: 'exceededQCVN',
-  RANGE_PICKER: 'RangePicker',
+  IS_EXCEEDED: 'isExceeded',
+  RANGE_PICKER: 'rangePicker',
 }
 
 const optionsTimeRange = [
@@ -51,9 +42,6 @@ const optionsTimeRange = [
 @createLang
 @Form.create()
 export class SearchForm extends React.Component {
-  // static propTypes = {
-  //  }
-
   state = {
     phases: [],
     points: [],
@@ -273,9 +261,9 @@ export class SearchForm extends React.Component {
               </Col>
               <Col span={8}>
                 <FormItemStyled label="Vượt quy chuẩn">
-                  {form.getFieldDecorator(FIELDS.EXCEEDED_QCVN)(
-                    <Switch size="large" />
-                  )}
+                  {form.getFieldDecorator(FIELDS.IS_EXCEEDED, {
+                    initialValue: false,
+                  })(<Switch size="large" />)}
                 </FormItemStyled>
               </Col>
             </Row>

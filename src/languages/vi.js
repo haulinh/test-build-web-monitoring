@@ -2419,7 +2419,7 @@ export default {
   },
   dataPointReport: {
     title: {
-      receivedAt: "receivedAt",
+      receivedAt: "Thời gian Truyền File",
       phaseName: "Tên đợt",
       pointName: "Tên trạm"
     },

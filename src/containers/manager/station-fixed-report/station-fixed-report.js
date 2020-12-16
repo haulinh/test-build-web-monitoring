@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Pagination, Popover, Table, Tabs } from 'antd'
+import { Button, Checkbox, Form, Popover, Table, Tabs } from 'antd'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { translate as t } from 'hoc/create-lang'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
@@ -47,7 +47,12 @@ const optionalInfo = [
 
 const COLOR = {
   EXCEEDED_PREPARING: '#F0D84F',
-  EXCEEDED: '#EA4D3D'
+  EXCEEDED: '#EA4D3D',
+}
+
+const WARNING_LEVEL = {
+  EXCEEDED_PREPARING: 'EXCEEDED_PREPARING',
+  EXCEEDED: 'EXCEEDED',
 }
 
 const PAGE_SIZE = 5
@@ -72,6 +77,7 @@ export class StationFixedReport extends React.Component {
     loading: false,
     total: 0,
     queryParam: {},
+    pageNumber: 1,
   }
 
   async componentDidMount() {}
@@ -118,6 +124,7 @@ export class StationFixedReport extends React.Component {
       pointKeys,
       startDate,
       endDate,
+      isExceeded,
       stationTypeId,
     } = this.state.queryParam
     this.setState({ loading: true })
@@ -126,6 +133,7 @@ export class StationFixedReport extends React.Component {
       point: {
         pointKeys,
       },
+      isExceeded,
       filter: {
         where: {
           stationTypeId,
@@ -141,14 +149,6 @@ export class StationFixedReport extends React.Component {
       pageSize,
     })
 
-    // const dataPoints = await getDataPoint({
-    //   point: {
-    //     pointKeys: ['10001'],
-    //   },
-    //   pageSize,
-    //   pageNumber,
-    // })
-
     this.setState({
       dataPoints: dataPoints,
       total: dataPoints.total,
@@ -157,13 +157,13 @@ export class StationFixedReport extends React.Component {
   }
 
   getColumns = () => {
-    const { dataPoints } = this.state
+    const { dataPoints, pageNumber } = this.state
     const columnIndex = {
       title: 'STT',
       dataIndex: 'Index',
       key: 'Index',
       render(value, record, index) {
-        return <div>{}</div>
+        return <div>{(pageNumber - 1) * PAGE_SIZE + (index + 1)}</div>
       },
     }
 
@@ -195,9 +195,25 @@ export class StationFixedReport extends React.Component {
     }
 
     const measureList = _.get(dataPoints, 'measureList', [])
+    const columnsMeasuring = measureList.map(measuring => ({
+      title: `${measuring.name} (${measuring.unit})`,
+      dataIndex: `measuringLogs.${measuring.name}`,
+      key: measuring,
+      align: 'center',
+      render: valueColumn => {
+        return (
+          <div
+            style={{
+              color: valueColumn && COLOR[valueColumn.warningLevel],
+            }}
+          >
+            {valueColumn && valueColumn.value}
+          </div>
+        )
+      },
+    }))
 
     const optionalInfoValue = this.props.form.getFieldsValue()
-
     const optionalInfoColumn = Object.keys(optionalInfoValue)
       .filter(option => optionalInfoValue[option])
       .map(option => ({
@@ -209,16 +225,6 @@ export class StationFixedReport extends React.Component {
           return <div>{value}</div>
         },
       }))
-
-    const columnsMeasuring = measureList.map(measuring => ({
-      title: `${measuring}`,
-      dataIndex: `measuringLogs.${measuring}`,
-      key: measuring,
-      align: 'center',
-      render: valueColumn => {
-        return <div style={{color: valueColumn && COLOR[valueColumn.warningLevel]}}>{valueColumn && valueColumn.value}</div>
-      },
-    }))
 
     return [
       columnIndex,
@@ -239,6 +245,7 @@ export class StationFixedReport extends React.Component {
       total: total,
       pageSize: PAGE_SIZE,
       onChange: (page, pageSize) => {
+        this.setState({ pageNumber: page })
         this.onSearch(page, pageSize)
       },
     }
