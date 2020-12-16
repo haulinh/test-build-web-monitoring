@@ -61,6 +61,10 @@ const i18n = {
   },
   measuringList: {
     required: translate('stationFixedPoint.form.measuringList.required'),
+    validate1: translate('stationFixedPoint.form.measuringList.validate1'),
+    validate2: translate('stationFixedPoint.form.measuringList.validate2'),
+    validate3: translate('stationFixedPoint.form.measuringList.validate3'),
+    validate4: translate('stationFixedPoint.form.measuringList.validate4'),
   },
 }
 const Fields = {
@@ -113,19 +117,19 @@ export default class StationFixedForm extends React.Component {
       if (item.key) {
         let strItem = item.name
         if (item.minLimit && item.maxLimit && item.minLimit > item.maxLimit) {
-          strItem = _.concat(strItem, ' -- [Giới hạn vượt ngưỡng: Min > Max]')
+          strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate1}`)
           isBound = true
         }
         if (item.minTend && item.maxTend && item.minTend > item.maxTend) {
-          strItem = _.concat(strItem, ' -- [Chuẩn bị vượt ngưỡng: Min > Max]')
+          strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate2}`)
           isBound = true
         }
         if (item.minLimit && item.minTend && item.minLimit > item.minTend) {
-          strItem = _.concat(strItem, ' -- [Giới hạn vượt ngưỡng: Min Vượt > Min Chuẩn bị vượt]')
+          strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate3}`)
           isBound = true
         }
         if (item.maxLimit && item.maxTend && item.maxLimit < item.maxTend) {
-          strItem = _.concat(strItem, ' -- [Giới hạn vượt ngưỡng: Max Vượt < Max Chuẩn bị vượt]')
+          strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate4}`)
           isBound = true
         }
         if (isBound) return <div>{strItem}</div>
@@ -142,7 +146,6 @@ export default class StationFixedForm extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log(this.props.initialValues, '--componentDidMount--')
     if (this.props.initialValues) {
       const { setFieldsValue } = this.props.form
       if (_.get(this.props.initialValues, 'mapLocation', null)) {
@@ -212,12 +215,7 @@ export default class StationFixedForm extends React.Component {
                     message: i18n.name.max,
                   },
                 ],
-              })(
-                <Input
-                  disabled={this.props.isEdit ? true : false}
-                  placeholder={i18n.name.placeholder}
-                />
-              )}
+              })(<Input placeholder={i18n.name.placeholder} />)}
             </FormItem>
           </Col>
         </Row>
