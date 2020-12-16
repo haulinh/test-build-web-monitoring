@@ -2321,6 +2321,8 @@ export default {
         measuringUsedWqi: 'Chỉ tiêu đang được sử dụng để tính toán WQI !',
         measuringUsedAqi: 'Chỉ tiêu đang được sử dụng để tính toán AQI !',
         measuringUsedQcvn: 'Chỉ tiêu đang được sử dụng trong cấu hình QCVN !',
+        phaseUsed: 'Đợt quan trắc đang được sử dụng để nhập dữ liệu!',
+        pointUsed: 'Điểm quan trắc đang được sử dụng để nhập dữ liệu!',
       },
       success: 'Xoá thành công',
       error: 'Xoá thất bại',
