@@ -1021,41 +1021,41 @@ export default {
   },
   stationFixedPhase: {
     list: {
-      title: 'Đợt quan trắc',
+      title: 'Monitoring wave',
     },
     create: {
-      label: 'Tạo mới',
-      success: 'Thêm Đợt quan trắc mới thành công',
-      keyExisted: 'Đợt quan trắc đã tồn tại',
+      label: 'Create new',
+      success: 'Add New Monitoring Success',
+      keyExisted: 'Monitoring already exists',
     },
     edit: {
-      label: 'Sửa',
-      success: 'Cập nhật Đợt quan trắc thành công',
+      label: 'Edit',
+      success: 'Successful Monitoring Update',
     },
     delete: {
-      label: 'Xoá',
+      label: 'Delete',
     },
     form: {
       key: {
-        label: 'Mã đợt quan trắc',
-        placeholder: 'Mã đợt quan trắc',
-        required: 'Vui lòng nhập mã',
-        pattern: 'Không được nhập kí tự đăc biệt',
-        max: 'Không quá 64 kí tự',
+        label: 'Monitoring batch code',
+        placeholder: 'Monitoring batch code',
+        required: 'Please enter code',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters'
       },
       name: {
-        label: 'Tên đợt quan trắc',
-        placeholder: 'Tên đợt quan trắc',
-        required: 'Vui lòng nhập đợt quan trắc',
-        pattern: 'Không được nhập kí tự đăc biệt',
-        max: 'Không quá 64 kí tự',
+        label: 'Name of the survey',
+        placeholder: 'Name of survey',
+        required: 'Please enter monitoring batch',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters'
       },
       stationType: {
-        label: 'Loại trạm',
-        placeholder: 'Loại trạm',
-        required: 'Vui lòng chọn loại trạm',
-      },
-    },
+        label: 'Station type',
+        placeholder: 'Station type',
+        required: 'Please select station type',
+      }
+    }
   },
   stationFixedReport: {
     base: {
