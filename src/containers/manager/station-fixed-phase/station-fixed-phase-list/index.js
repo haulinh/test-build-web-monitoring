@@ -12,6 +12,9 @@ import Breadcrumb from '../breadcrumb'
 import createLanguageHoc, { translate } from '../../../../hoc/create-lang'
 // import styled from 'styled-components'
 import DynamicTable from 'components/elements/dynamic-table'
+import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
+import StationFixedPhaseSearchForm from '../station-fixed-phase-search'
+
 // import protectRole from 'hoc/protect-role'
 // import ROLE from 'constants/role'
 import * as _ from 'lodash'
@@ -58,15 +61,6 @@ export default class StationFixedPhaseList extends React.Component {
       </div>
     )
   }
-
-  // renderSearchForm() {
-  //   return (
-  //     <StationTypeSearchForm
-  //       onChangeSearch={this.props.onChangeSearch}
-  //       initialValues={this.props.data}
-  //     />
-  //   )
-  // }
 
   getHead() {
     return [
@@ -143,10 +137,16 @@ export default class StationFixedPhaseList extends React.Component {
           },
         ]
         //check if Group exist or not
-        if (row.stationType && stationTypeArr.indexOf(row.stationType._id) > -1)
+        if (
+          (row.stationType &&
+            row.stationType._id &&
+            stationTypeArr.indexOf(row.stationType._id) > -1) ||
+          !row.stationType
+        )
           return [resultRow]
         else {
           stationTypeArr.push(row.stationType._id)
+
           return [
             [
               { content: '' },
@@ -171,6 +171,17 @@ export default class StationFixedPhaseList extends React.Component {
     return result
   }
 
+  handleSearch(values) {
+    console.log('Search values:', values)
+    const where = {
+      // name: values.name ? { like: values.name } : undefined,
+      name: values.name,
+      stationTypeId: values.stationTypeId,
+    }
+
+    if (this.props.onChangeSearch) this.props.onChangeSearch(where)
+  }
+
   async handleOnDelete(_id) {
     this.props.onDeleteItem(_id, this.props.fetchData)
     // const countStation = await getTotalCount_by_type(_id)
@@ -188,7 +199,18 @@ export default class StationFixedPhaseList extends React.Component {
 
   render() {
     return (
-      <PageContainer right={this.buttonAdd()}>
+      <PageContainer
+        center={
+          <HeaderSearchWrapper flex={1}>
+            <StationFixedPhaseSearchForm
+              stationLength={this.props.pagination.totalItem}
+              onChangeSearch={this.handleSearch}
+              initialValues={this.props.data}
+            />
+          </HeaderSearchWrapper>
+        }
+        right={this.buttonAdd()}
+      >
         <Breadcrumb items={['list']} />
         <DynamicTable
           loading={this.props.isLoading}

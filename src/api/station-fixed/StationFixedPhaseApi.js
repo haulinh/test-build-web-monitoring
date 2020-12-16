@@ -5,18 +5,33 @@ function getStationFixedPhaseUrl(prefix = '') {
   return getConfigApi().stationFixedPhase + '/' + prefix
 }
 
-export function getStationFixedPhases({ page = 1, itemPerPage = 10 }) {
-  let url = getStationFixedPhaseUrl('')
-
-  const filter = {
-    skip: page - 1,
-    limit: itemPerPage,
+export function getStationFixedPhases(
+  { page = 1, itemPerPage = 10 },
+  { name, stationTypeId }
+) {
+  let filter = {
     include: [
       {
         relation: 'stationType',
       },
     ],
   }
+  if (page && itemPerPage) {
+    filter = {
+      ...filter,
+      skip: page - 1,
+      limit: itemPerPage,
+    }
+  }
+  filter = {
+    ...filter,
+    where: {
+      name: name ? { like: name } : undefined,
+      stationTypeId,
+    },
+  }
+  let url = getStationFixedPhaseUrl('')
+
   return getFetch(url, { filter })
 }
 
