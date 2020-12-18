@@ -13,7 +13,7 @@ export function exportDataTemplate() {
 }
 
 export function getStationFixedPoints(
-  { page = 1, itemPerPage = 10 },
+  { page = 1, itemPerPage = 1000 },
   { name, stationTypeId }
 ) {
   let filter = {}

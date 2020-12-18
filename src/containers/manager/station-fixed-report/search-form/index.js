@@ -129,7 +129,7 @@ export class SearchForm extends React.Component {
       startDate: startDate.utc().format(),
       endDate: endDate.utc().format(),
       stationTypeId: values.stationTypeId,
-      isExceeded: values.isExceeded
+      isExceeded: values.isExceeded,
     }
 
     this.props.setQueryParam(paramQuery)
@@ -139,6 +139,7 @@ export class SearchForm extends React.Component {
   handleClick = () => alert('It works!')
 
   render() {
+    const { loadingSearch } = this.props
     const { phases, points, stationTypes, isOpenRangePicker } = this.state
     const { form } = this.props
     const config = {
@@ -155,6 +156,7 @@ export class SearchForm extends React.Component {
           <Heading
             rightChildren={
               <Button
+                loading={loadingSearch}
                 type="primary"
                 icon="search"
                 size="small"
@@ -290,4 +292,5 @@ export class SearchForm extends React.Component {
 SearchForm.propTypes = {
   setQueryParam: PropTypes.func.isRequired,
   handleOnSearch: PropTypes.func.isRequired,
+  loadingSearch: PropTypes.bool,
 }
