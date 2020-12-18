@@ -69,9 +69,7 @@ const NotificationWrapperIcon = styled.div`
 
 const DivBenTrai = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: -20px;
+  flex-direction: column;
 `
 const DivBenPhai = styled.div`
   display: flex;
@@ -84,7 +82,6 @@ const Flex = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
 `
 
 const i18n = {
@@ -179,7 +176,7 @@ export default class NotificationDrawer extends React.Component {
   render() {
     return (
       <SideBarNotificationWrapper
-        width="35vw"
+        width={504}
         bodyStyle={{
           height: 'calc(100vh - 55px)',
           padding: 0,
@@ -188,14 +185,10 @@ export default class NotificationDrawer extends React.Component {
           <div>
             <Flex>
               <DivBenTrai>
-                <NotificationWrapperIcon onClick={this.handleClickNotification}>
-                  <NotificationIcon color="#fff" size="large" />
-                </NotificationWrapperIcon>
-                <b
-                  style={{ margin: '0px', marginLeft: '8px', fontSize: '16px' }}
-                >
-                  {i18n.label}
-                </b>
+                <div>{i18n.label}</div>
+                <div style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.45)' }}>
+                  {i18n.toolTipEnable}
+                </div>
               </DivBenTrai>
               <div>
                 <div
@@ -207,9 +200,10 @@ export default class NotificationDrawer extends React.Component {
                 >
                   <div
                     style={{
-                      fontSize: '14px',
+                      fontSize: '12px',
                       position: 'absolute',
                       right: '5em',
+                      fontWeight: 600
                     }}
                   >
                     {i18n.pushNotification}
@@ -221,9 +215,6 @@ export default class NotificationDrawer extends React.Component {
                     defaultChecked={this.getDefaultStatus()}
                     onChange={this.onChange}
                   />
-                </div>
-                <div style={{ fontSize: '12px', color: '#979797' }}>
-                  {i18n.toolTipEnable}
                 </div>
               </div>
             </Flex>
@@ -257,13 +248,6 @@ export default class NotificationDrawer extends React.Component {
                     </a>
                   )}
               </div>
-              {/* <a
-                style={{ marginLeft: '8px' }}
-                href="_blank"
-                onClick={this.closeDrawer}
-              >
-                <CrossIcon />
-              </a> */}
             </DivBenPhai>
           </div>
         }
