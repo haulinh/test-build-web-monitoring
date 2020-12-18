@@ -126,6 +126,10 @@ export function editEvaluateStation(evaluate = {}) {
   return putFetch(getStationAutoUrl(`evaluate/update`), evaluate)
 }
 
+export function getDashboardInfo(params) {
+  return getFetch(getConfigApi().mobile + '/stations-dashboard', params)
+}
+
 export default {
   transferFtp,
   getCamera,

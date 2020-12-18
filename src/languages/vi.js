@@ -15,6 +15,7 @@ export default {
     password: 'mật khẩu',
     noPermission: 'Bạn không có quyền thực hiện',
     saveSuccess: 'Lưu thành công',
+    all: 'Tất cả'
   },
   rules: {
     required: 'Bắt buộc',
@@ -119,6 +120,15 @@ export default {
     },
     activeStationPer: 'Tình trạng kết nối ({{=it.good}}/{{=it.total}})',
     unit: 'Đơn vị',
+    total: 'Tổng số ({{=it.total}})',
+    newNotification: 'Thông báo mới',
+    status: {
+      disconnected: 'Mất tín hiệu',
+      exceeded: 'Vượt ngưỡng',
+      exceededPreparing: 'Chuẩn bị vượt',
+      good: 'Trong ngưỡng',
+    },
+    managementArea: 'Khu vực quản lý',
   },
   monitoring: {
     title: 'Giám sát trực tuyến',
@@ -147,6 +157,7 @@ export default {
       sensorNormal: 'Đang đo',
       normal: 'Đang đo',
       broken: 'Báo lỗi',
+      good: 'Tốt',
     },
     statusResult: 'Kết quả quan trắc',
     note: 'Chú thích',
@@ -1121,7 +1132,11 @@ export default {
         placeholder: 'Ghi chú',
       },
       measuringList:{
-        required:'Vui lòng nhập thông số'
+        required:'Vui lòng nhập thông số',
+        validate1:'[Giới hạn vượt ngưỡng: Min > Max]',
+        validate2:'[Chuẩn bị vượt ngưỡng: Min > Max]',
+        validate3:'[Giới hạn vượt ngưỡng: Min Vượt > Min Chuẩn bị vượt]',
+        validate4:'[Giới hạn vượt ngưỡng: Max Vượt < Max Chuẩn bị vượt]',
       }
     }
   },
@@ -2306,6 +2321,8 @@ export default {
         measuringUsedWqi: 'Chỉ tiêu đang được sử dụng để tính toán WQI !',
         measuringUsedAqi: 'Chỉ tiêu đang được sử dụng để tính toán AQI !',
         measuringUsedQcvn: 'Chỉ tiêu đang được sử dụng trong cấu hình QCVN !',
+        phaseUsed: 'Đợt quan trắc đang được sử dụng để nhập dữ liệu!',
+        pointUsed: 'Điểm quan trắc đang được sử dụng để nhập dữ liệu!',
       },
       success: 'Xoá thành công',
       error: 'Xoá thất bại',
