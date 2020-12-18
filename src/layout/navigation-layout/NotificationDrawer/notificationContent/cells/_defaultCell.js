@@ -111,7 +111,7 @@ export default class DefaultCell extends React.Component {
         type="flex"
         align="middle"
         style={{
-          padding: '16px 24px',
+          padding: '16px 10px',
           backgroundColor: this.getNotificationColor(),
           borderRadius: 8,
           cursor: 'pointer',
@@ -120,7 +120,7 @@ export default class DefaultCell extends React.Component {
         onMouseLeave={() => this.setState({ isHoverOnCell: false })}
       >
         <Col span={21} onClick={() => this._handleCellOnClick(data)}>
-          <Row type="flex" gutter={12} style={{flexWrap: 'nowrap'}}>
+          <Row type="flex" gutter={10} style={{flexWrap: 'nowrap'}}>
             <Col>
               {icon ? <img src={icon} alt="" /> : null}
             </Col>
