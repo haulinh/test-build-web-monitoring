@@ -7,7 +7,7 @@ export function setLanguage(locale) {
 }
 
 export function getLanguage() {
-  return localStorage.getItem(LANGUAGE) ? localStorage.getItem(LANGUAGE) : 'en'
+  return localStorage.getItem(LANGUAGE) || 'en'
 }
 
 export function setToggleNavigation(isOpen) {

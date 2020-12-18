@@ -60,7 +60,9 @@ export default class NotificationContent extends React.Component {
     inline: propTypes.bool
   }
 
-  static defaultProps = {}
+  static defaultProps = {
+    useWindow: false
+  }
 
   state = {
     currentPage: 1,
