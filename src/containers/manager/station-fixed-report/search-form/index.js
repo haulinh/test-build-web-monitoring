@@ -129,6 +129,7 @@ export class SearchForm extends React.Component {
       startDate: startDate.utc().format(),
       endDate: endDate.utc().format(),
       stationTypeId: values.stationTypeId,
+      isExceeded: values.isExceeded
     }
 
     this.props.setQueryParam(paramQuery)
