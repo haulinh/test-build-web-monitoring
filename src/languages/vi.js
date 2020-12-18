@@ -2433,6 +2433,7 @@ export default {
     invalidParameter: 'Mã thông số không tồn tại',
     pointKeyNotExisted: 'Mã điểm không tồn tại',
     parameterNotTypeNumber: 'Thông số sai định dạng',
+    pointAndPhaseNotBelongToStationType: 'Điểm và đợt không cùng loại trạm',
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
   },
   dataPointReport: {

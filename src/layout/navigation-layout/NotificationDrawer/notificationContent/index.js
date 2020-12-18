@@ -60,7 +60,9 @@ export default class NotificationContent extends React.Component {
     inline: propTypes.bool
   }
 
-  static defaultProps = {}
+  static defaultProps = {
+    useWindow: false
+  }
 
   state = {
     currentPage: 1,
@@ -69,7 +71,8 @@ export default class NotificationContent extends React.Component {
   }
 
   componentDidMount() {
-    const { stationAuto, currentPage } = this.props
+    const { stationAuto, currentPage, dataSource } = this.props
+    if(dataSource.length > 0) return
     this.props.loadNotificationsByType(
       currentPage,
       stationAuto,

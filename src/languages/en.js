@@ -2447,6 +2447,7 @@ export default {
     invalidParameter: 'Parameter code does not exist',
     pointKeyNotExisted: 'Monitoring Code dose not exist',
     parameterNotTypeNumber: 'Wrong format parameter',
+    pointAndPhaseNotBelongToStationType: 'Point and phase monitoring are not the same type of station',
     selectPhaseError: 'Please select the monitoring batch',
   },
   dataPointReport: {
