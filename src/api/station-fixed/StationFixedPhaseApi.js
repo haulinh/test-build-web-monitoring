@@ -6,7 +6,7 @@ function getStationFixedPhaseUrl(prefix = '') {
 }
 
 export function getStationFixedPhases(
-  { page = 1, itemPerPage = 10 },
+  { page = 1, itemPerPage = 1000 },
   { name, stationTypeId }
 ) {
   let filter = {
