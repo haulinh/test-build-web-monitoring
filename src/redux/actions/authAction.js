@@ -1,10 +1,11 @@
-import AuthApi from '../../api/AuthApi'
-import CategoryApi from '../../api/CategoryApi'
+import AuthApi from 'api/AuthApi'
+import CategoryApi from 'api/CategoryApi'
 import { setAuthToken, getAuthToken, resetAuthToken } from 'utils/auth'
 import moment from 'moment-timezone'
 import { result as _result } from 'lodash'
 
 import { CONFIGS } from './config'
+import { setLanguage } from 'utils/localStorage'
 
 export const UPDATE_USER_INFO = 'AUTH/update-user-info'
 export const FETCH_PENDING_USER = 'AUTH/fetch-pending-user'
@@ -52,6 +53,7 @@ export function fetchUserMe() {
         type: FETCH_FAIL_USER,
       })
     } else {
+      setLanguage(auth.data.preferredLanguage)
       dispatch({
         type: FETCH_SUCCESS_USER,
         token: getAuthToken(),

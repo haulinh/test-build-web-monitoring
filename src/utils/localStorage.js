@@ -2,8 +2,8 @@ const LANGUAGE = 'language'
 const IS_OPEN_NAVIGATION = 'isOpenNavigation'
 const MONITORING_FILTER = 'monitoringFilter'
 
-export function setLanguage(locacle) {
-  localStorage.setItem(LANGUAGE, locacle)
+export function setLanguage(locale) {
+  localStorage.setItem(LANGUAGE, locale)
 }
 
 export function getLanguage() {

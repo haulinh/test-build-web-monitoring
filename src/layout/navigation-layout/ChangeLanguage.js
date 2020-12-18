@@ -5,9 +5,12 @@ import AkDropdownMenu, {
 } from '@atlaskit/dropdown-menu'
 import { AkGlobalItem } from '@atlaskit/navigation'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 import FlagIcon from 'react-flag-kit/lib/CDNFlagIcon.js'
 import { autobind } from 'core-decorators'
 import createLang from 'hoc/create-lang'
+import { putProfile } from 'api/AuthApi'
+import { get } from 'lodash'
 
 const languages = [
   {
@@ -41,10 +44,15 @@ const LabelWrapper = styled.div`
 
 @createLang
 @autobind
+@connect(state => ({
+  userId: get(state, 'auth.userInfo._id'),
+}))
 export default class ChangeLanguage extends React.Component {
-  selectLanguage(e, item) {
+  async selectLanguage(e, item) {
     if (e) e.preventDefault()
-    this.props.lang.changeLanguage(item.locale)
+    const { userId, lang } = this.props
+    lang.changeLanguage(item.locale)
+    await putProfile(userId, { preferredLanguage: item.locale })
     window.location = window.location.pathname
   }
 
