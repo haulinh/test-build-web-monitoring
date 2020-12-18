@@ -21,11 +21,11 @@ const Container = styled.div`
   .item {
     padding: 6px 8px;
   }
-  .header{
+  .header {
     margin-bottom: 12px;
   }
-  .notification{
-    margin-top: 20px
+  .notification {
+    margin-top: 20px;
   }
 `
 
@@ -51,24 +51,21 @@ const Badge = styled.div`
 const GeneralBadge = styled(Col)`
   > div {
     width: 100%;
-    display: inline-flex;
+    padding: 10px;
     border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
     background: ${props => props.background};
     color: ${props => props.color || '#ffffff'};
-    flex: 1;
-    padding: 10px 0;
-    > div {
-      img {
-        width: 75px;
-      }
-      flex: 0.4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      &:last-child {
-        flex: 0.6;
-        flex-direction: column;
-      }
+    img {
+      width: 60px;
+      height: 60px;
+    }
+    .count {
+      width: 100%;
+      text-align: center;
+      flex-direction: column;
     }
   }
 `
@@ -142,7 +139,12 @@ class Dashboard extends Component {
 
     return (
       <Container>
-        <Row type="flex" justify="space-between" align="middle" className="header">
+        <Row
+          type="flex"
+          justify="space-between"
+          align="middle"
+          className="header"
+        >
           <Col>
             <Text fontSize={20} fontWeight={700} margin="0 0 10px">
               {i18n.total(dashboardInfo.total || 0)}
@@ -182,12 +184,12 @@ class Dashboard extends Component {
           ].map((item, idx) => (
             <GeneralBadge key={item.status} background={bgColors[idx]} span={6}>
               <div>
-                <Text>{item.icon}</Text>
-                <div>
+                {item.icon}
+                <div className="count">
                   <Text fontSize={38} fontWeight={600}>
                     {item.count}
                   </Text>
-                  <Text fontSize={20} fontWeight={600}>
+                  <Text fontSize={18} fontWeight={600}>
                     {item.status}
                   </Text>
                 </div>
@@ -220,7 +222,9 @@ class Dashboard extends Component {
           <Text fontSize={20} fontWeight={700} margin="0 0 10px">
             {i18n.newNotification}
           </Text>
-          {stationAuto.length > 0 ? <NotificationContent useWindow inline /> : null}
+          {stationAuto.length > 0 ? (
+            <NotificationContent useWindow inline />
+          ) : null}
         </Row>
       </Container>
     )
