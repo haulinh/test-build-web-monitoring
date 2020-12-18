@@ -2439,7 +2439,7 @@ export default {
     title: {
       receivedAt: "Thời gian Truyền File",
       phaseName: "Tên đợt",
-      pointName: "Tên trạm"
+      pointName: "Tên điểm"
     },
     optionalInfo: {
       symbol: "Kí hiệu mẫu",
@@ -2449,7 +2449,7 @@ export default {
       monitoringPlace: "Đặc điểm nơi quan trắc",
       requirements: "Yêu cầu đối với việc lấy mẫu",
       method: "Phương pháp lấy mẫu",
-      chemical: "Hóa chất baỏ quản",
+      chemical: "Hóa chất bảo quản",
       conditions: "Điều kiện bảo quản mẫu",
       equipmentlist: "Danh sách thiết bị lấy mẫu",
       analyst: "Người phân tích",

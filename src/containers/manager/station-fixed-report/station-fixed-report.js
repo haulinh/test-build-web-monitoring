@@ -12,7 +12,6 @@ import Breadcrumb from './breadcrumb'
 import { SearchForm } from './search-form'
 import { colorLevels } from 'constants/warningLevels'
 
-
 const i18n = {
   receivedAt: t('dataPointReport.title.receivedAt'),
   phaseName: t('dataPointReport.title.phaseName'),
@@ -49,7 +48,7 @@ const optionalInfo = [
 ]
 
 const COLOR = {
-  EXCEEDED_PREPARING:colorLevels.EXCEEDED_PREPARING,
+  EXCEEDED_PREPARING: colorLevels.EXCEEDED_PREPARING,
   EXCEEDED: colorLevels.EXCEEDED,
 }
 const PAGE_SIZE = 50
@@ -95,6 +94,7 @@ export class StationFixedReport extends React.Component {
       },
       isExceeded,
       filter: {
+        order: 'datetime desc',
         where: {
           stationTypeId,
           'phase._id': {
@@ -165,11 +165,13 @@ export class StationFixedReport extends React.Component {
     this.setState({ loading: true })
 
     const dataPoints = await getDataPoint({
+     
       point: {
         pointKeys,
       },
       isExceeded,
       filter: {
+        order: 'datetime desc',
         where: {
           stationTypeId,
           'phase._id': {
@@ -204,8 +206,8 @@ export class StationFixedReport extends React.Component {
 
     const columnReceivedAt = {
       title: i18n.receivedAt,
-      dataIndex: 'receivedAt',
-      key: 'receivedAt',
+      dataIndex: 'datetime',
+      key: 'datetime',
       render(value) {
         return <div>{moment(value).format(DD_MM_YYYY_HH_MM)}</div>
       },
