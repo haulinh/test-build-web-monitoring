@@ -167,12 +167,12 @@ class Dashboard extends Component {
               status: i18n.disconnected,
             },
             {
-              count: dashboardInfo.exceeded || 0,
+              count: dashboardInfo.exceed || 0,
               icon: <img src={iconExceed} alt="" />,
               status: i18n.exceeded,
             },
             {
-              count: dashboardInfo.exceededPreparing || 0,
+              count: dashboardInfo.exceedPreparing || 0,
               icon: <img src={iconTendToExceed} alt="" />,
               status: i18n.exceededPreparing,
             },
