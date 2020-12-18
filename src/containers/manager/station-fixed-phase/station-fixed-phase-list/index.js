@@ -183,18 +183,7 @@ export default class StationFixedPhaseList extends React.Component {
   }
 
   async handleOnDelete(_id) {
-    await this.props.onDeleteItem(_id)
-    // const countStation = await getTotalCount_by_type(_id)
-    // if (countStation.success) {
-    //   if (countStation.count > 0) {
-    //     Modal.error({
-    //       title: 'Error',
-    //       content: i18n.errorStationExist,
-    //     })
-    //   } else {
-    //     this.props.onDeleteItem(_id, this.props.fetchData)
-    //   }
-    // }
+    await this.props.onDeleteItem(_id, this.props.fetchData)
   }
 
   render() {
