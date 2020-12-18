@@ -1,8 +1,15 @@
+import { getLanguage } from 'utils/localStorage'
 import { getConfigApi } from '../../config'
-import { getFetch, postFetch, deleteFetch, pathFetch } from '../../utils/fetch'
+import { getFetch, postFetch, deleteFetch, pathFetch, getFetchDownFile } from 'utils/fetch'
 
 export function getStationFixedPointUrl(prefix = '') {
   return getConfigApi().stationFixedPoint + '/' + prefix
+}
+
+export function exportDataTemplate() {
+  const lang = getLanguage()
+  const url = getStationFixedPointUrl('export-data-template') + '/' + lang
+  return getFetchDownFile(url)
 }
 
 export function getStationFixedPoints(

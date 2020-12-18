@@ -1,16 +1,16 @@
 import React from 'react'
-import { Alert, Button, Col, Form, Icon, Row } from 'antd'
+import { Alert, Button, Col, Form, Icon, Row, Spin } from 'antd'
 import styled from 'styled-components'
 import { isEmpty } from 'lodash'
 import Dragger from 'antd/lib/upload/Dragger'
 import { translate as t } from 'hoc/create-lang'
 
-import { getLanguage } from 'utils/localStorage'
 import {
   importDataStationFixed,
-  getStationFixedPointUrl,
+  exportDataTemplate,
 } from 'api/station-fixed/StationFixedPointApi'
 import SelectPhase from './select-phase'
+import { downFileExcel } from 'utils/downFile'
 
 const Header = styled.div`
   padding: 20px 24px;
@@ -55,6 +55,15 @@ const Container = styled.div`
       padding: 0;
     }
   }
+  .download-wrapper{
+    position: relative;
+    .spin{
+      z-index: 1;
+      position: absolute;
+      top: 42%;
+      left: 46%;
+    }
+  }
 `
 
 const i18n = {
@@ -82,7 +91,7 @@ const i18n = {
   pointKeyNotExisted: t('importDataPoint.pointKeyNotExisted'),
   parameterNotTypeNumber: t('importDataPoint.parameterNotTypeNumber'),
   selectPhaseError: t('importDataPoint.selectPhaseError'),
-  save: t('global.save'),
+  upload: t('global.upload'),
 }
 
 const FIELDS = {
@@ -106,6 +115,7 @@ class StationFixedImportData extends React.Component {
   state = {
     isSuccess: false,
     isLoading: false,
+    isDownloadingFile: false,
     errorDetail: null,
     count: 0,
   }
@@ -179,11 +189,10 @@ class StationFixedImportData extends React.Component {
   }
 
   onDownloadFile = async () => {
-    const lang = getLanguage()
-    window.open(
-      getStationFixedPointUrl(`export-data-template/${lang}`),
-      '_blank'
-    )
+    this.setState({isDownloadingFile: true})
+    const result = await exportDataTemplate()
+    downFileExcel(result.data, 'data-template')
+    this.setState({isDownloadingFile: false})
   }
 
   onSubmit = e => {
@@ -193,7 +202,7 @@ class StationFixedImportData extends React.Component {
 
   render() {
     const { form } = this.props
-    const { isLoading, errorDetail, isSuccess, count } = this.state
+    const { isDownloadingFile, isLoading, errorDetail, isSuccess, count } = this.state
     form.getFieldDecorator(FIELDS.FILE)
     const file = form.getFieldValue(FIELDS.FILE) || {}
 
@@ -232,7 +241,8 @@ class StationFixedImportData extends React.Component {
               </Col>
             </Row>
             <Row type="flex" justify="center" gutter={40} className="file">
-              <Col span={8}>
+              <Col span={8} className="download-wrapper">
+                {isDownloadingFile && <Spin className="spin" />}
                 <div
                   className="ant-upload ant-upload-drag"
                   onClick={this.onDownloadFile}
@@ -308,7 +318,7 @@ class StationFixedImportData extends React.Component {
                   htmlType="submit"
                   loading={isLoading}
                 >
-                  {i18n.save}
+                  {i18n.upload}
                 </Button>
               </Col>
             </Row>

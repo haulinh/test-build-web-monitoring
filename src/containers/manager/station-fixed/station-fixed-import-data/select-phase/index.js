@@ -33,7 +33,7 @@ export default class SelectPhase extends Component {
     const { options } = this.state
     const targetOption = selectedOptions[selectedOptions.length - 1]
     const params = {
-      filter: { where: { stationTypeId: { eq: targetOption.stationTypeId } } },
+      stationTypeId: targetOption.stationTypeId
     }
     targetOption.loading = true
     const results = await StationFixedPhaseApi.getStationFixedPhases(
@@ -53,6 +53,7 @@ export default class SelectPhase extends Component {
     const { options } = this.state
     return (
       <Cascader
+        placeholder=""
         options={options}
         onChange={this.onChange}
         loadData={this.loadData}
