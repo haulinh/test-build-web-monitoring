@@ -28,6 +28,7 @@ export function getConfigApi() {
     // report: 'http://localhost:5004/report',
     stationFixed: c('station-fixed'),
     stationFixedPhase: c('station-fixed/phases'),
+    // stationFixedPhase: 'http://localhost:5018/phases',
     stationFixedDataPoint: c('station-fixed/data-points'),
     stationFixedPoint: c('station-fixed/points'),
     // stationFixedPoint: 'http://localhost:5018/points',
