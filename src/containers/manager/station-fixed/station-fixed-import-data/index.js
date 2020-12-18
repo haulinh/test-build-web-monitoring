@@ -90,6 +90,7 @@ const i18n = {
   invalidParameter: t('importDataPoint.invalidParameter'),
   pointKeyNotExisted: t('importDataPoint.pointKeyNotExisted'),
   parameterNotTypeNumber: t('importDataPoint.parameterNotTypeNumber'),
+  pointAndPhaseNotBelongToStationType: t('importDataPoint.pointAndPhaseNotBelongToStationType'),
   selectPhaseError: t('importDataPoint.selectPhaseError'),
   upload: t('global.upload'),
 }
@@ -109,6 +110,7 @@ const IMPORT_DATA_ERROR = {
   INVALID_PARAMETER: i18n.invalidParameter,
   POINT_KEY_NOT_EXISTED: i18n.pointKeyNotExisted,
   PARAMETER_NOT_TYPE_NUMBER: i18n.parameterNotTypeNumber,
+  POINT_KEY_NOT_BELONG_TO_STATION_TYPE: i18n.pointAndPhaseNotBelongToStationType
 }
 
 class StationFixedImportData extends React.Component {
