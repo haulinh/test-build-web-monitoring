@@ -10,6 +10,8 @@ import styled from 'styled-components'
 import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from './breadcrumb'
 import { SearchForm } from './search-form'
+import { colorLevels } from 'constants/warningLevels'
+
 
 const i18n = {
   receivedAt: t('dataPointReport.title.receivedAt'),
@@ -47,8 +49,8 @@ const optionalInfo = [
 ]
 
 const COLOR = {
-  EXCEEDED_PREPARING: '#F0D84F',
-  EXCEEDED: '#EA4D3D',
+  EXCEEDED_PREPARING:colorLevels.EXCEEDED_PREPARING,
+  EXCEEDED: colorLevels.EXCEEDED,
 }
 const PAGE_SIZE = 50
 
