@@ -53,7 +53,7 @@ export function fetchUserMe() {
         type: FETCH_FAIL_USER,
       })
     } else {
-      setLanguage(auth.data.preferredLanguage)
+      setLanguage(auth.data.preferredLanguage || 'en')
       dispatch({
         type: FETCH_SUCCESS_USER,
         token: getAuthToken(),
