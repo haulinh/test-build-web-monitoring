@@ -16,6 +16,7 @@ export default {
     noPermission: "You don't have permissions",
     saveSuccess: 'Save successfully',
     all: 'All',
+    upload: 'Upload',
   },
   rules: {
     required: 'Required',
@@ -2880,7 +2881,7 @@ export default {
     },
   },
   common: {
-    station: 'station',
+    station: 'Station',
     device: 'device',
     measure: 'measuring',
     measures: 'measurings',
