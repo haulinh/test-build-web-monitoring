@@ -63,6 +63,7 @@
     "feather-icons": "^4.5.0",
     "fetch": "^1.1.0",
     "file-loader": "0.11.2",
+    "file-saver": "^2.0.5",
     "firebase": "^5.11.1",
     "font-awesome": "^4.7.0",
     "fontawesome": "^4.7.2",
@@ -119,6 +120,7 @@
     "react-jsx-highstock": "^2.2.1",
     "react-jsx-highstock-datepickers": "^2.1.0",
     "react-moment": "^0.6.8",
+    "react-otp-input": "2.3.0",
     "react-particles-js": "^2.6.0",
     "react-redux": "^5.0.6",
     "react-resizable": "^1.10.1",
@@ -153,8 +155,7 @@
     "webpack": "3.5.1",
     "webpack-dev-server": "2.8.2",
     "webpack-manifest-plugin": "1.2.1",
-    "whatwg-fetch": "^3.0.0",
-    "react-otp-input": "2.3.0"
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "style-loader": "^0.23.1"
