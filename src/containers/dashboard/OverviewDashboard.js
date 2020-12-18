@@ -1,278 +1,230 @@
+import { Col, Row, Dropdown } from 'antd'
 import React, { Component } from 'react'
-import { Spin } from 'antd'
-import * as _ from 'lodash'
-import ReactFullpage from '@fullpage/react-fullpage'
 import styled from 'styled-components'
 
-import protectRole from 'hoc/protect-role'
-import ROLE from 'constants/role'
-import createContentLoader from 'hoc/content-loader'
-import ListLoaderCp from 'components/content-loader/list-loader'
-import BoxLoaderCp from 'components/content-loader/box-loader'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import SummaryList from 'components/dashboard/summary/summary-list'
-import HeaderView from '../../components/dashboard/header-view'
-import ChartStatisticalRatio from '../../components/dashboard/chart/chart-statistical-ratio'
-import ChartList from 'components/dashboard/chart/chart-row-list'
-import Clearfix from 'components/elements/clearfix'
-import { getStationTypes } from 'api/CategoryApi'
-import { getLastLog } from 'api/StationAuto'
-import { translate } from 'hoc/create-lang'
-import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
+import { translate as t } from 'hoc/create-lang'
+import { connectAutoDispatch } from 'redux/connect'
+import { getDashboardInfo } from 'api/StationAuto'
+import NotificationContent from 'layout/navigation-layout/NotificationDrawer/notificationContent'
 
-// NOTE  every 1min will get last log
-const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60
+import iconDisconnected from 'assets/svg-icons/Disconnected.svg'
+import iconExceed from 'assets/svg-icons/Exceeded.svg'
+import iconGood from 'assets/svg-icons/Good.svg'
+import iconTendToExceed from 'assets/svg-icons/Tend-To-Exceed.svg'
+import iconHelper from 'assets/svg-icons/question-circle.svg'
 
-let getLastLogIntervalID = null
+import Helper from './helper'
+import Filter from './filter'
 
-const HeaderWrapper = styled.div`
-  width: 100% !important;
-  z-index: 100;
-  position: relative;
-  top: -33;
+const Container = styled.div`
+  padding: 24px;
+  .item {
+    padding: 6px 8px;
+  }
+  .header{
+    margin-bottom: 12px;
+  }
+  .notification{
+    margin-top: 20px
+  }
 `
 
-const ListLoader = createContentLoader({
-  component: <ListLoaderCp />,
-  isAutoLoader: true,
-  items: 5,
-})(null)
+const Item = styled.div`
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  border-radius: 8px;
+`
 
-const BoxLoader = createContentLoader({
-  component: <BoxLoaderCp />,
-  isAutoLoader: true,
-  items: 4,
-  colSize: 3,
-})(null)
+const Badge = styled.div`
+  background: ${props => props.background};
+  color: ${props => props.color || '#ffffff'}
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  border-radius: 4px;
+  text-align: center;
+  display: block;
+  padding: 4px 0;
+`
 
-@protectRole(ROLE.DASHBOARD.VIEW)
-export default class OverviewDashboard extends Component {
-  state = {
-    isGroupProvince: null,
-    stationStatus: '',
-    stationTypeList: [],
-    stationList: [],
-    stationCount: {},
-    stationNotUse: {},
-    rows: {},
-    lineSeries: {},
-    isLoaded: false,
-    province: null,
-    groupLastLog: null,
-    isGetLastLogLoading: false,
-  }
-
-  getLastLog = async (province, provinceKey, rows, stationCount) => {
-    this.setState({ isGetLastLogLoading: true })
-
-    let stationLastLog = await getLastLog()
-    let dataLastLog = []
-
-    if (province && province.key) {
-      provinceKey = province.key
-      dataLastLog = _.filter(
-        _.get(stationLastLog, 'data', []),
-        item => _.get(item, 'province.key', '') === provinceKey
-      )
-    } else {
-      dataLastLog = _.get(stationLastLog, 'data', [])
+const GeneralBadge = styled(Col)`
+  > div {
+    width: 100%;
+    display: inline-flex;
+    border-radius: 8px;
+    background: ${props => props.background};
+    color: ${props => props.color || '#ffffff'};
+    flex: 1;
+    padding: 10px 0;
+    > div {
+      img {
+        width: 75px;
+      }
+      flex: 0.4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &:last-child {
+        flex: 0.6;
+        flex-direction: column;
+      }
     }
-
-    let groupLastLog = _.groupBy(dataLastLog, 'stationType.key')
-    _.forEach(_.keys(groupLastLog), key => {
-      rows[key] = groupLastLog[key]
-      stationCount[key] = _.size(rows[key])
-    })
-
-    let groupProvince = _.groupBy(dataLastLog, 'province.key')
-    let isGroupProvince = Object.keys(groupProvince).length > 1
-
-    const goodCount = _.filter(dataLastLog, ({ status }) => status === 'GOOD')
-      .length
-    this.setState({
-      isGroupProvince: isGroupProvince,
-      province: provinceKey,
-      stationList: dataLastLog,
-      rows,
-      stationCount,
-      groupLastLog,
-      stationStatus: translate('dashboard.activeStationPer', {
-        good: goodCount,
-        total: _.size(dataLastLog),
-      }),
-      isGetLastLogLoading: false,
-    })
   }
+`
 
-  getStationInfo = async province => {
-    let provinceKey = null
-    let stationTypes = await getStationTypes({}, { isAuto: true })
-    let stationTypeList = _.get(stationTypes, 'data', [])
+const HeaderRight = styled.div`
+  display: flex;
+  > div:first-child {
+    margin-right: 10px;
+  }
+  img {
+    cursor: pointer;
+  }
+`
 
-    let stationCount = {}
-    let rows = {}
-    let lineSeries = {}
+const Text = styled.div`
+  font-size: ${props => props.fontSize || 14}px;
+  font-weight: ${props => props.fontWeight || 'normal'};
+  margin: ${props => props.margin};
+`
 
-    stationTypeList.forEach(({ key }) => {
-      stationCount[key] = 0
-      rows[key] = []
-      lineSeries[key] = []
-    })
+const Title = styled.div`
+  display: flex;
+  margin-bottom: 8px;
+  justify-content: space-between;
+  color: rgba(0, 0, 0, 0.85);
+`
 
-    this.setState({
-      stationTypeList,
-      stationCount,
-      rows,
-      lineSeries,
-      isLoaded: true,
-    })
+const bgColors = ['#A4A6B5', '#E54C3C', '#EDC30F', '#2CCA73']
 
-    // NOTE  lấy last log 1 lần, sau đó cứ mỗi giây lại lấy last log
-    this.getLastLog(province, provinceKey, rows, stationCount)
-    if (getLastLogIntervalID) clearInterval(getLastLogIntervalID)
-    getLastLogIntervalID = setInterval(() => {
-      this.getLastLog(province, provinceKey, rows, stationCount)
-      this.getSummaryList()
-    }, GET_LAST_LOG_INTERVAL_TIME)
+const i18n = {
+  total: total => t('dashboard.total', { total }),
+  disconnected: t('dashboard.status.disconnected'),
+  exceeded: t('dashboard.status.exceeded'),
+  exceededPreparing: t('dashboard.status.exceededPreparing'),
+  good: t('dashboard.status.good'),
+  newNotification: t('dashboard.newNotification'),
+  maintenance: t('monitoring.deviceStatus.maintenance'),
+  sensorError: t('monitoring.deviceStatus.sensorError'),
+  goodDevice: t('monitoring.deviceStatus.good'),
+}
+
+@connectAutoDispatch(state => ({
+  stationAuto: state.stationAuto.list,
+}))
+class Dashboard extends Component {
+  state = {
+    dashboardInfo: {},
   }
 
   async componentDidMount() {
-    this.getStationInfo(null)
+    this.getDashboardInfo()
   }
 
-  getSummaryList() {
-    let arrayColor = [
-      '#1dce6c',
-      '#389bff',
-      '#7ece23',
-      '#e74c3c',
-      '#1dce6c',
-      '#389bff',
-      '#7ece23',
-      '#e74c3c',
-    ]
-    let arrayIcon = [
-      '/images/dashboard/cloud.png',
-      '/images/dashboard/groundwater.png',
-      '/images/dashboard/surfaceWater.png',
-      '/images/dashboard/wasteWater.png',
-      '/images/dashboard/cloud.png',
-      '/images/dashboard/groundwater.png',
-      '/images/dashboard/surfaceWater.png',
-      '/images/dashboard/wasteWater.png',
-    ]
-
-    return this.state.stationTypeList.map((item, index) => ({
-      statusStation: this.timKiemStatusQuaLastLog(
-        this.state.groupLastLog[item.key]
-      ),
-      color: item.color ? item.color : arrayColor[index], //arrayColor[index],
-      name: item.name,
-      key: item.key,
-      image: item.icon ? item.icon : arrayIcon[index],
-      number: this.state.stationCount[item.key],
-      totalStationGood: this.state.rows[item.key].filter(
-        ({ status }) => status === 'GOOD'
-      ).length,
-    }))
+  onFilter = async params => {
+    this.getDashboardInfo(params)
   }
 
-  timKiemStatusQuaLastLog = (dataLog = []) => {
-    let resStatus = STATUS_STATION.GOOD
-
-    const me = this
-    _.forEach(dataLog, function(item) {
-      // NOTE  check status trạm truớc
-      if (
-        item.status === STATUS_STATION.HIGHTGEST ||
-        item.status === STATUS_STATION.NOT_USE
-      ) {
-        resStatus = STATUS_STATION.HIGHTGEST
-        return false // break loop lodash
-      }
-
-      // NOTE  check lastLog
-      let statusMeasuring = me.timKiemStatusQuaMeasuringLog(
-        item.lastLog.measuringLogs
-      )
-      resStatus = getStatusPriority(resStatus, statusMeasuring)
-    })
-
-    return resStatus
-  }
-
-  timKiemStatusQuaMeasuringLog = (measuringLogs = {}) => {
-    let resWarningLevel = null
-    _.forEach(measuringLogs, function(item, key) {
-      resWarningLevel = getStatusPriority(resWarningLevel, item.warningLevel)
-    })
-    return resWarningLevel
-  }
-
-  getChartList() {
-    return _.map(this.state.stationTypeList, item => ({
-      key: item.key,
-      title: item.name,
-      totalStation: this.state.stationCount[item.key],
-      stationList: this.state.rows[item.key],
-    }))
-  }
-
-  handleProvinceChange = province => {
-    this.setState({ province, isGetLastLogLoading: true }, () => {
-      this.getStationInfo(province)
-    })
+  getDashboardInfo = async (params = {}) => {
+    const result = await getDashboardInfo(params)
+    this.setState({ dashboardInfo: result })
   }
 
   render() {
+    const { stationAuto } = this.props
+    const { dashboardInfo } = this.state
+    const stationType = (dashboardInfo.stationType || []).map(item => ({
+      name: item.name,
+      total: item.total,
+      values: [item.lossData, item.exceed, item.exceedPreparing, item.good],
+    }))
+
     return (
-      <PageContainer
-        isLoading={!this.state.isLoaded}
-        backgroundColor="#fafbfb"
-        componentLoading={
-          <div>
-            <BoxLoader />
-            <Clearfix height={24} />
-            <ListLoader />
-          </div>
-        }
-        hideTitle
-      >
-        <HeaderWrapper style={{ height: 182.92 }}>
-          <div style={{ background: '#FBFBFB', padding: '16px 0' }}>
-            <HeaderView
-              stationStatus={this.state.stationStatus}
-              onChange={this.handleProvinceChange}
-            />
-            {this.state.groupLastLog && (
-              <Spin spinning={this.state.isGetLastLogLoading}>
-                <SummaryList data={this.getSummaryList()} />
-              </Spin>
-            )}
-          </div>
-        </HeaderWrapper>
-
-        <ReactFullpage
-          render={({ state, fullpageApi }) => {
-            return (
-              <ReactFullpage.Wrapper>
-                <div className="section tableFix">
-                  <ChartStatisticalRatio
-                    isGroupProvince={this.state.isGroupProvince}
-                    loading={this.state.isGetLastLogLoading}
-                    data={this.state.stationList}
-                    province={this.state.province}
-                  />
+      <Container>
+        <Row type="flex" justify="space-between" align="middle" className="header">
+          <Col>
+            <Text fontSize={20} fontWeight={700} margin="0 0 10px">
+              {i18n.total(dashboardInfo.total || 0)}
+            </Text>
+          </Col>
+          <Col>
+            <HeaderRight>
+              <Filter onChange={this.onFilter} />
+              <Dropdown overlay={<Helper />} placement="bottomRight">
+                <img src={iconHelper} alt="" />
+              </Dropdown>
+            </HeaderRight>
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          {[
+            {
+              count: dashboardInfo.lossData || 0,
+              icon: <img src={iconDisconnected} alt="" />,
+              status: i18n.disconnected,
+            },
+            {
+              count: dashboardInfo.exceeded || 0,
+              icon: <img src={iconExceed} alt="" />,
+              status: i18n.exceeded,
+            },
+            {
+              count: dashboardInfo.exceededPreparing || 0,
+              icon: <img src={iconTendToExceed} alt="" />,
+              status: i18n.exceededPreparing,
+            },
+            {
+              count: dashboardInfo.good || 0,
+              icon: <img src={iconGood} alt="" />,
+              status: i18n.good,
+            },
+          ].map((item, idx) => (
+            <GeneralBadge key={item.status} background={bgColors[idx]} span={6}>
+              <div>
+                <Text>{item.icon}</Text>
+                <div>
+                  <Text fontSize={38} fontWeight={600}>
+                    {item.count}
+                  </Text>
+                  <Text fontSize={20} fontWeight={600}>
+                    {item.status}
+                  </Text>
                 </div>
-
-                <ChartList data={this.getChartList()} />
-              </ReactFullpage.Wrapper>
-            )
-          }}
-        />
-
-        {/* this.state.stationList */}
-      </PageContainer>
+              </div>
+            </GeneralBadge>
+          ))}
+        </Row>
+        <Row gutter={[12, 16]}>
+          {stationType.map(item => (
+            <Col key={item.name} span={12} className="item">
+              <Item>
+                <Title>
+                  <Text fontSize={16} fontWeight="600">
+                    {item.name}
+                  </Text>
+                  <Text fontSize={16}>{item.total}</Text>
+                </Title>
+                <Row gutter={8}>
+                  {(item.values || []).map((value, idx) => (
+                    <Col span={6} key={idx}>
+                      <Badge background={bgColors[idx]}>{value}</Badge>
+                    </Col>
+                  ))}
+                </Row>
+              </Item>
+            </Col>
+          ))}
+        </Row>
+        <Row className="notification">
+          <Text fontSize={20} fontWeight={700} margin="0 0 10px">
+            {i18n.newNotification}
+          </Text>
+          {stationAuto.length > 0 ? <NotificationContent useWindow inline /> : null}
+        </Row>
+      </Container>
     )
   }
 }
+
+export default Dashboard

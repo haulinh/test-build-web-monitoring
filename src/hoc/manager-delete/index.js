@@ -35,7 +35,7 @@ const createManagerDelete = ({ apiDelete }) => Component => {
                 res.message === 'QCVN_USED'
               ) {
                 message.error(translate('addon.onDelete.qcvn.qcvnUsed'))
-              } else if (res.error ) {
+              } else if (res.error) {
                 message.error(translate('addon.onDelete.error'))
               } else {
                 message.success(translate('addon.onDelete.success'))
@@ -62,6 +62,25 @@ const createManagerDelete = ({ apiDelete }) => Component => {
                 message.error(
                   translate('addon.onDelete.errorMessage.measuringUsedQcvn')
                 )
+              } else if (data && data.error && data.error.message) {
+                switch (data.error.message) {
+                  case 'PHASE_USED': {
+                    message.error(
+                      translate('addon.onDelete.errorMessage.phaseUsed')
+                    )
+                    break
+                  }
+                  case 'POINT_USED': {
+                    message.error(
+                      translate('addon.onDelete.errorMessage.pointUsed')
+                    )
+                    break
+                  }
+                  default: {
+                    message.error(translate('addon.onDelete.error'))
+                    break
+                  }
+                }
               } else {
                 message.error(translate('addon.onDelete.error'))
               }

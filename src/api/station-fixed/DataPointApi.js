@@ -1,11 +1,20 @@
 import { getConfigApi } from '../../config'
-import { getFetch } from '../../utils/fetch'
+import { getFetch, getFetchDownFile } from '../../utils/fetch'
 
-const getStationFixedPhaseUrl = (prefix = '') => {
+// Api Data Point
+const getDataPointUrl = (prefix = '') => {
   return getConfigApi().stationFixedDataPoint + '/' + prefix
 }
-
 export const getDataPoint = queryParam => {
-  const url = getStationFixedPhaseUrl()
+  const url = getDataPointUrl()
   return getFetch(url, queryParam)
+}
+
+// Api Data Point export Excel
+const getExportDataPointUrl = (prefix = '') => {
+  return getConfigApi().stationFixedExportDataPoint + '/' + prefix
+}
+export const exportDataPoint = queryParam => {
+  const url = getExportDataPointUrl('vi')
+  return getFetchDownFile(url, queryParam)
 }
