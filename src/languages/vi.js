@@ -15,7 +15,8 @@ export default {
     password: 'mật khẩu',
     noPermission: 'Bạn không có quyền thực hiện',
     saveSuccess: 'Lưu thành công',
-    all: 'Tất cả'
+    all: 'Tất cả',
+    upload: 'Tải lên',
   },
   rules: {
     required: 'Bắt buộc',
