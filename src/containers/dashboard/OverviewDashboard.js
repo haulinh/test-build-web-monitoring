@@ -220,7 +220,7 @@ class Dashboard extends Component {
           <Text fontSize={20} fontWeight={700} margin="0 0 10px">
             {i18n.newNotification}
           </Text>
-          {stationAuto.length > 0 ? <NotificationContent useWindow /> : null}
+          {stationAuto.length > 0 ? <NotificationContent useWindow inline /> : null}
         </Row>
       </Container>
     )

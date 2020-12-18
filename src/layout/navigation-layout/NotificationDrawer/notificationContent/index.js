@@ -57,6 +57,7 @@ export default class NotificationContent extends React.Component {
     dataSource: propTypes.array.isRequired,
     loadNotificationsByType: propTypes.func.isRequired,
     clearLoadNotificationsByType: propTypes.func,
+    inline: propTypes.bool
   }
 
   static defaultProps = {}
@@ -95,7 +96,7 @@ export default class NotificationContent extends React.Component {
 
   render() {
     const {isSearchLoading} = this.state
-    const { loading, dataSource, stationAuto, currentPage, useWindow } = this.props
+    const { loading, dataSource, stationAuto, currentPage, useWindow, inline } = this.props
     
     if(isSearchLoading) return <Skeleton avatar paragraph={{ rows: 4 }} />
     
@@ -117,6 +118,7 @@ export default class NotificationContent extends React.Component {
         useWindow={useWindow}
       >
         <Cells
+          inline={inline}
           dataSource={dataSource}
           closeDrawer={this.props.closeDrawer}
         />
