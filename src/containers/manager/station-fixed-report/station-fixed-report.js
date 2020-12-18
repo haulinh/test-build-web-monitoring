@@ -89,6 +89,7 @@ export class StationFixedReport extends React.Component {
     } = this.state.queryParam
 
     const res = await exportDataPoint({
+      title: `${moment(startDate).format('DD-MM-YYY')} - ${moment(endDate).format('DD-MM-YYYY')}`,
       point: {
         pointKeys,
       },
