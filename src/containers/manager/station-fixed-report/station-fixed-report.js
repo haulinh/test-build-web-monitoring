@@ -1,4 +1,5 @@
 import { Button, Checkbox, Form, Popover, Table, Tabs } from 'antd'
+import { exportDataPoint, getDataPoint } from 'api/station-fixed/DataPointApi'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { translate as t } from 'hoc/create-lang'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
@@ -6,7 +7,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
-import { getDataPoint } from '../../../api/station-fixed/DataPointApi'
+import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from './breadcrumb'
 import { SearchForm } from './search-form'
 
@@ -49,12 +50,6 @@ const COLOR = {
   EXCEEDED_PREPARING: '#F0D84F',
   EXCEEDED: '#EA4D3D',
 }
-
-const WARNING_LEVEL = {
-  EXCEEDED_PREPARING: 'EXCEEDED_PREPARING',
-  EXCEEDED: 'EXCEEDED',
-}
-
 const PAGE_SIZE = 50
 
 const { TabPane } = Tabs
@@ -81,6 +76,44 @@ export class StationFixedReport extends React.Component {
   }
 
   async componentDidMount() {}
+
+  handleClick = async () => {
+    const {
+      phaseIds,
+      pointKeys,
+      startDate,
+      endDate,
+      isExceeded,
+      stationTypeId,
+    } = this.state.queryParam
+
+    const res = await exportDataPoint({
+      point: {
+        pointKeys,
+      },
+      isExceeded,
+      filter: {
+        where: {
+          stationTypeId,
+          'phase._id': {
+            inq: phaseIds,
+          },
+          datetime: {
+            between: [startDate, endDate],
+          },
+        },
+      },
+      pageNumber: 1,
+      pageSize: 9999,
+    })
+
+    downFileExcel(
+      res.data,
+      `Dữ liệu liệu trạm quan trắc thủ công từ ${moment(startDate).format(
+        'DD-MM-YYYY hh:mm a'
+      )} đến ${moment(endDate).format('DD-MM-YYYY hh:mm a')}`
+    )
+  }
 
   operations = () => (
     <Flex>
@@ -209,7 +242,7 @@ export class StationFixedReport extends React.Component {
 
     const measureList = _.get(dataPoints, 'measureList', [])
     const columnsMeasuring = measureList.map(measuring => ({
-      title:`${measuring.name} (${measuring.unit})`,
+      title: `${measuring.name} (${measuring.unit})`,
       dataIndex: `measuringLogs.${measuring.name}`,
       key: measuring.name,
       align: 'center',

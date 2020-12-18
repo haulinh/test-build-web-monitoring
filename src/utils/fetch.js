@@ -123,6 +123,19 @@ export function getFetch(url, data, props) {
   })
 }
 
+export function getFetchDownFile(url, data, props) {
+  let attributes = Object.assign(
+    {
+      headers: getHeaders(),
+      params: data,
+      responseType: 'blob',
+    },
+    props
+  )
+
+  return axios.get(url, attributes)
+}
+
 export function deleteFetch(url, data, props) {
   let attributes = Object.assign(
     {
