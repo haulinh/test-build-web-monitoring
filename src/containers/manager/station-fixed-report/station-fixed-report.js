@@ -248,7 +248,7 @@ export class StationFixedReport extends React.Component {
     const measureList = _.get(dataPoints, 'measureList', [])
     const columnsMeasuring = measureList.map(measuring => ({
       title: `${measuring.name} (${measuring.unit})`,
-      dataIndex: `measuringLogs.${measuring.name}`,
+      dataIndex: `measuringLogs.${measuring.key}`,
       key: measuring.name,
       align: 'center',
       render: valueColumn => {

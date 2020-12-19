@@ -111,7 +111,7 @@ export class SearchForm extends React.Component {
   handleOnSubmit = async e => {
     e.preventDefault()
     const values = await this.props.form.validateFields()
-    console.log('🚀 ~ file: index.js ~ line 121 ~ SearchForm ~ values', values)
+    // console.log('🚀 ~ file: index.js ~ line 121 ~ SearchForm ~ values', values)
 
     let startDate
     let endDate
