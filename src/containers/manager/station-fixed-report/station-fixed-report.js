@@ -1,6 +1,7 @@
 import { Button, Checkbox, Form, Popover, Table, Tabs } from 'antd'
 import { exportDataPoint, getDataPoint } from 'api/station-fixed/DataPointApi'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { colorLevels } from 'constants/warningLevels'
 import { translate as t } from 'hoc/create-lang'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
@@ -10,7 +11,6 @@ import styled from 'styled-components'
 import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from './breadcrumb'
 import { SearchForm } from './search-form'
-import { colorLevels } from 'constants/warningLevels'
 
 const i18n = {
   receivedAt: t('dataPointReport.title.receivedAt'),
@@ -74,6 +74,8 @@ export class StationFixedReport extends React.Component {
     total: 0,
     queryParam: {},
     pageNumber: 1,
+    loadingSearch: false,
+    loadingExport: false,
   }
 
   async componentDidMount() {}
@@ -88,8 +90,11 @@ export class StationFixedReport extends React.Component {
       stationTypeId,
     } = this.state.queryParam
 
+    this.setState({ loadingExport: true })
     const res = await exportDataPoint({
-      title: `${moment(startDate).format('DD-MM-YYY')} - ${moment(endDate).format('DD-MM-YYYY')}`,
+      title: `${moment(startDate).format('DD-MM-YYY')} - ${moment(
+        endDate
+      ).format('DD-MM-YYYY')}`,
       point: {
         pointKeys,
       },
@@ -109,6 +114,7 @@ export class StationFixedReport extends React.Component {
       pageNumber: 1,
       pageSize: 9999,
     })
+    this.setState({ loadingExport: false })
 
     downFileExcel(
       res.data,
@@ -125,7 +131,11 @@ export class StationFixedReport extends React.Component {
           Thêm
         </Button>
       </Popover>
-      <Button onClick={this.handleClick} type="primary">
+      <Button
+        loading={this.state.loadingExport}
+        onClick={this.handleClick}
+        type="primary"
+      >
         Xuất dữ liệu Excel
       </Button>
     </Flex>
@@ -163,10 +173,9 @@ export class StationFixedReport extends React.Component {
       isExceeded,
       stationTypeId,
     } = this.state.queryParam
-    this.setState({ loading: true })
+    this.setState({ loading: true, loadingSearch: true })
 
     const dataPoints = await getDataPoint({
-     
       point: {
         pointKeys,
       },
@@ -191,6 +200,7 @@ export class StationFixedReport extends React.Component {
       dataPoints: dataPoints,
       total: dataPoints.total,
       loading: false,
+      loadingSearch: false,
     })
   }
 
@@ -249,7 +259,7 @@ export class StationFixedReport extends React.Component {
     const columnsMeasuring = measureList.map(measuring => ({
       title: `${measuring.name} (${measuring.unit})`,
       dataIndex: `measuringLogs.${measuring.key}`,
-      key: measuring.name,
+      key: measuring.key,
       align: 'center',
       render: valueColumn => {
         return (
@@ -273,7 +283,7 @@ export class StationFixedReport extends React.Component {
   }
 
   render() {
-    const { dataPoints, total } = this.state
+    const { dataPoints, total, loadingSearch } = this.state
     // const locale = {
     //   emptyText: 'Khong co du lieu',
     // }
@@ -289,6 +299,7 @@ export class StationFixedReport extends React.Component {
       <PageContainer>
         <Breadcrumb items={['base']} />
         <SearchForm
+          loadingSearch={loadingSearch}
           setQueryParam={this.setQueryParam}
           handleOnSearch={this.onSearch}
         />
