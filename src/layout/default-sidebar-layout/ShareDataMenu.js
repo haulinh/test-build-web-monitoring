@@ -53,6 +53,21 @@ export default {
           </Tooltip>
         </Menu.Item>
       )}
+
+      {protectRole(ROLE.FTPTRANSFER.VIEW)(
+        <Menu.Item
+          key={slug.apiSharing.base}
+          onClick={() => {
+            props.selectMenu(slug.apiSharing.base)
+          }}
+        >
+          <Tooltip placement="right" title={TOOLTIP_MENU.shareData.apiSharing}>
+            <Link to={slug.apiSharing.base}>
+              {MENU_NAME.shareData.apiSharing}
+            </Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
     </Menu.SubMenu>
   ),
 }

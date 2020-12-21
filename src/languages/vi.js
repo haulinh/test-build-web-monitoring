@@ -2491,6 +2491,7 @@ export default {
     shareData: {
       shareConfig: 'Cấu hình chia sẻ dữ liệu',
       ftpConfig: 'Cấu hình truyền FTP',
+      apiSharing: 'Chia sẻ API',
     },
 
     advanceSub: 'Nâng cao',

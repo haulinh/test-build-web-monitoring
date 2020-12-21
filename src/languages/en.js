@@ -2505,6 +2505,7 @@ export default {
     shareData: {
       shareConfig: 'Sharing onfigurations',
       ftpConfig: 'FTP Transfer Configurations',
+      apiSharing: 'Sharing API'
     },
 
     advanceSub: 'Advanced',
