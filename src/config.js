@@ -32,8 +32,8 @@ export function getConfigApi() {
     // stationFixedDataPoint: 'http://localhost:5018/data-points',
     // stationFixedExportDataPoint: 'http://localhost:5018/export-data-points',
     stationFixedExportDataPoint: c('station-fixed/export-data-points'),
-    stationFixedPoint: c('station-fixed/points'),
-    // stationFixedPoint: 'http://localhost:5018/points',
+    // stationFixedPoint: c('station-fixed/points'),
+    stationFixedPoint: 'http://localhost:5018/points',
     dataStationFixed: c('data-station-fixed'),
 
     stationConfig: c('config/station'),
