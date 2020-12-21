@@ -131,6 +131,15 @@ export default {
       good: 'Good',
     },
     managementArea: 'Management Area',
+    statusDescription: {
+      disconnected: 'Cannot connect to the device or no data is available.',
+      good: 'The data value is transmitted within the allowed threshold.',
+      exceededPreparing: 'The data value transmitted is about to exceed the threshold.',
+      exceeded: 'The transmitted data value exceeds the threshold set.',
+      maintenance: 'The device is calibrating, the transmitted value may not be correct.',
+      sensorError: 'The device is faulty, the transmitted value may not be correct.',
+      goodDevice: 'The device is in the normal state.',
+    },
   },
   monitoring: {
     title: 'Monitoring',
@@ -2902,8 +2911,8 @@ export default {
     },
     overview: 'Overview',
     list: 'List',
-    statusSensor: 'Status Sensor',
-    statusData: 'Status Data',
+    statusSensor: 'Sensor Status',
+    statusData: 'Data Status',
   },
   apps: {
     incidents: 'Incidents Communication',

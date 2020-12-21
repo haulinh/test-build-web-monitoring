@@ -7,7 +7,8 @@ import Camera from 'containers/camera'
 import CameraControl from 'containers/camera-video'
 import ConfigService from 'containers/config-service'
 import ControlStation from 'containers/control-station'
-import OverviewDashboard from 'containers/dashboard/OverviewDashboard'
+import OverviewDashboard from 'containers/dashboard'
+import DashboardDetail from 'containers/dashboard-detail'
 import DataLoggerPage from 'containers/data-logger'
 import MapFixedContainer from 'containers/fixed-map'
 // import PageAqiStatus from 'containers/aqi/aqi-list-status'
@@ -80,9 +81,14 @@ export default class RouteDefault extends React.Component {
 
           <Layout isShowSidebarMenu>
             <LayoutRoute
-              path={slug.dashboard}
+              path={slug.dashboard.base}
               exact
               component={OverviewDashboard}
+            />
+            <LayoutRoute
+              path={slug.dashboard.detail}
+              exact
+              component={DashboardDetail}
             />
             <LayoutRoute path={slug.map.base} component={Map} />
 

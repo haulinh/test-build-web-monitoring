@@ -1,7 +1,10 @@
 import { translate } from 'hoc/create-lang'
 
 export default {
-  dashboard: '/',
+  dashboard: {
+    base:  '/',
+    detail: '/dashboard'
+  },
   login: {
     loginWithEmail: '/login',
     loginWithPhoneNumber: '/login/phone-number',
@@ -296,8 +299,10 @@ export const parentMenuFromSub = {
 }
 
 export const MENU_NAME = {
-  dashboard: translate('menuApp.dashboard'),
-
+  dashboard: {
+    base: translate('menuApp.dashboard'),
+    detail: translate('menuApp.dashboard')
+  },
   monitoringSub: translate('menuApp.monitoringSub'),
   monitoring: {
     base: translate('menuApp.monitoring.base'),
@@ -384,7 +389,10 @@ export const MENU_NAME = {
 }
 
 export const TOOLTIP_MENU = {
-  dashboard: translate('tooltipMenuApp.dashboard'),
+  dashboard: {
+    base: translate('tooltipMenuApp.dashboard'),
+    detail: translate('tooltipMenuApp.dashboardDetail')
+  },
   monitoringSub: translate('tooltipMenuApp.monitoringSub'),
   monitoring: {
     base: translate('tooltipMenuApp.monitoring.base'),
