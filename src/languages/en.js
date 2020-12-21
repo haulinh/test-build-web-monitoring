@@ -2481,7 +2481,11 @@ export default {
     },
   },
   menuApp: {
-    dashboard: 'Dashboard',
+    dashboard: {
+      base: 'Dashboard',
+      healthcheck: 'Health check',
+      overview: 'Overview',
+    },
 
     monitoringSub: 'Data Monitoring',
     monitoring: {

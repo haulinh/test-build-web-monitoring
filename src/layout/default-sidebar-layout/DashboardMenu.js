@@ -27,27 +27,29 @@ export default {
     >
       {protectRole(ROLE.DASHBOARD.VIEW)(
         <Menu.Item
-          key={slug.dashboard.base}
+          key={slug.dashboard.healthCheck}
           onClick={() => {
-            props.selectMenu(slug.dashboard.base)
+            props.selectMenu(slug.dashboard.healthCheck)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.dashboard.base}>
-            <Link to={slug.dashboard.base}>{MENU_NAME.dashboard.base}</Link>
+          <Tooltip placement="right" title={MENU_NAME.dashboard.healthCheck}>
+            <Link to={slug.dashboard.healthCheck}>
+              {MENU_NAME.dashboard.healthCheck}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
 
       {protectRole(ROLE.DASHBOARD.VIEW)(
         <Menu.Item
-          key={slug.dashboard.detail}
+          key={slug.dashboard.overview}
           onClick={() => {
-            props.selectMenu(slug.dashboard.base)
+            props.selectMenu(slug.dashboard.overview)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.dashboard.detail}>
-            <Link to={slug.dashboard.detail}>
-              {MENU_NAME.dashboard.detail}
+          <Tooltip placement="right" title={MENU_NAME.dashboard.overview}>
+            <Link to={slug.dashboard.overview}>
+              {MENU_NAME.dashboard.overview}
             </Link>
           </Tooltip>
         </Menu.Item>

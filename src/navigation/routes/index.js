@@ -81,12 +81,12 @@ export default class RouteDefault extends React.Component {
 
           <Layout isShowSidebarMenu>
             <LayoutRoute
-              path={slug.dashboard.base}
+              path={slug.dashboard.healthCheck}
               exact
               component={OverviewDashboard}
             />
             <LayoutRoute
-              path={slug.dashboard.detail}
+              path={slug.dashboard.overview}
               exact
               component={DashboardDetail}
             />

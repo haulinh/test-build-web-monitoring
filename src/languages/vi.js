@@ -2469,7 +2469,11 @@ export default {
     },
   },
   menuApp: {
-    dashboard: 'Trang Chủ',
+    dashboard: {
+      base: 'Trang chủ',
+      healthcheck: 'Giám sát hệ thống',
+      overview: 'Giám sát tổng quan',
+    },
 
     monitoringSub: 'Khai thác dữ liệu',
     monitoring: {
