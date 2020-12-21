@@ -80,7 +80,95 @@ export class StationFixedReport extends React.Component {
 
   async componentDidMount() {}
 
-  handleClick = async () => {
+  operations = () => (
+    <Flex>
+      <Popover content={this.content()} placement="bottom" trigger="click">
+        <Button icon="profile" style={{ marginRight: '8px' }}>
+          Thêm
+        </Button>
+      </Popover>
+      <Button
+        loading={this.state.loadingExport}
+        onClick={this.handleExportExcel}
+        type="primary"
+      >
+        Xuất dữ liệu Excel
+      </Button>
+    </Flex>
+  )
+
+  content = () => {
+    const { form } = this.props
+    return (
+      <Form>
+        <OptionalInfoContainer
+          style={{ display: 'flex', flexDirection: 'column' }}
+        >
+          {optionalInfo.map(item => (
+            <div key={item.key} style={{ marginBottom: '8px' }}>
+              {form.getFieldDecorator(item.field)(
+                <Checkbox>{i18n.optionalInfo[item.field]}</Checkbox>
+              )}
+            </div>
+          ))}
+        </OptionalInfoContainer>
+      </Form>
+    )
+  }
+
+  setQueryParam = queryParam => {
+    this.setState({ queryParam })
+  }
+
+  queryDataPoint = async pageNumber => {
+    const {
+      phaseIds,
+      pointKeys,
+      startDate,
+      endDate,
+      isExceeded,
+      stationTypeId,
+    } = this.state.queryParam
+    this.setState({ loading: true, loadingSearch: true })
+
+    const dataPoints = await getDataPoint({
+      point: {
+        pointKeys,
+      },
+      isExceeded,
+      filter: {
+        order: 'datetime desc',
+        where: {
+          stationTypeId,
+          'phase._id': {
+            inq: phaseIds,
+          },
+          datetime: {
+            between: [startDate, endDate],
+          },
+        },
+      },
+      pageNumber,
+      pageSize: PAGE_SIZE,
+    })
+
+    this.setState({
+      dataPoints: dataPoints,
+      total: dataPoints.total,
+      loading: false,
+      loadingSearch: false,
+    })
+  }
+
+  handleOnSearch = async (pageNumber = 1) => {
+      this.queryDataPoint(this.state.pageNumber)
+  }
+
+  handleOnPageChange = pageNumber => {
+    this.queryDataPoint(pageNumber)
+  }
+
+  handleExportExcel = async () => {
     const {
       phaseIds,
       pointKeys,
@@ -122,86 +210,6 @@ export class StationFixedReport extends React.Component {
         'DD-MM-YYYY hh:mm a'
       )} đến ${moment(endDate).format('DD-MM-YYYY hh:mm a')}`
     )
-  }
-
-  operations = () => (
-    <Flex>
-      <Popover content={this.content()} placement="bottom" trigger="click">
-        <Button icon="profile" style={{ marginRight: '8px' }}>
-          Thêm
-        </Button>
-      </Popover>
-      <Button
-        loading={this.state.loadingExport}
-        onClick={this.handleClick}
-        type="primary"
-      >
-        Xuất dữ liệu Excel
-      </Button>
-    </Flex>
-  )
-
-  content = () => {
-    const { form } = this.props
-    return (
-      <Form>
-        <OptionalInfoContainer
-          style={{ display: 'flex', flexDirection: 'column' }}
-        >
-          {optionalInfo.map(item => (
-            <div key={item.key} style={{ marginBottom: '8px' }}>
-              {form.getFieldDecorator(item.field)(
-                <Checkbox>{i18n.optionalInfo[item.field]}</Checkbox>
-              )}
-            </div>
-          ))}
-        </OptionalInfoContainer>
-      </Form>
-    )
-  }
-
-  setQueryParam = queryParam => {
-    this.setState({ queryParam })
-  }
-
-  onSearch = async (pageNumber = 1, pageSize = PAGE_SIZE) => {
-    const {
-      phaseIds,
-      pointKeys,
-      startDate,
-      endDate,
-      isExceeded,
-      stationTypeId,
-    } = this.state.queryParam
-    this.setState({ loading: true, loadingSearch: true })
-
-    const dataPoints = await getDataPoint({
-      point: {
-        pointKeys,
-      },
-      isExceeded,
-      filter: {
-        order: 'datetime desc',
-        where: {
-          stationTypeId,
-          'phase._id': {
-            inq: phaseIds,
-          },
-          datetime: {
-            between: [startDate, endDate],
-          },
-        },
-      },
-      pageNumber,
-      pageSize,
-    })
-
-    this.setState({
-      dataPoints: dataPoints,
-      total: dataPoints.total,
-      loading: false,
-      loadingSearch: false,
-    })
   }
 
   getColumns = () => {
@@ -284,15 +292,13 @@ export class StationFixedReport extends React.Component {
 
   render() {
     const { dataPoints, total, loadingSearch } = this.state
-    // const locale = {
-    //   emptyText: 'Khong co du lieu',
-    // }
     const pagination = {
+      // current: this.state.pageNumber,
       total: total,
       pageSize: PAGE_SIZE,
       onChange: (page, pageSize) => {
         this.setState({ pageNumber: page })
-        this.onSearch(page, pageSize)
+        this.handleOnPageChange(page)
       },
     }
     return (
@@ -301,7 +307,7 @@ export class StationFixedReport extends React.Component {
         <SearchForm
           loadingSearch={loadingSearch}
           setQueryParam={this.setQueryParam}
-          handleOnSearch={this.onSearch}
+          onSearch={this.handleOnSearch}
         />
         <Tabs defaultActiveKey="1" tabBarExtraContent={this.operations()}>
           <TabPane tab="Dữ liệu" key="1" />

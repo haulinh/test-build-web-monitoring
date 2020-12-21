@@ -133,7 +133,7 @@ export class SearchForm extends React.Component {
     }
 
     this.props.setQueryParam(paramQuery)
-    this.props.handleOnSearch()
+    this.props.onSearch()
   }
 
   handleClick = () => alert('It works!')
@@ -291,6 +291,6 @@ export class SearchForm extends React.Component {
 
 SearchForm.propTypes = {
   setQueryParam: PropTypes.func.isRequired,
-  handleOnSearch: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired,
   loadingSearch: PropTypes.bool,
 }
