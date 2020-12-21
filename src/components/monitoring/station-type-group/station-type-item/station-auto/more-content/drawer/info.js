@@ -104,6 +104,13 @@ export default class DrawerInfoStation extends React.Component {
     }
   }
 
+  getStrPhone=(phone)=>{
+    if(typeof phone === 'object'){
+      return phone.phoneNumber
+    }
+    return phone
+  }
+
   render() {
     const { stationID } = this.props
     const {
@@ -147,14 +154,14 @@ export default class DrawerInfoStation extends React.Component {
         <InfoItem
           iconType="team"
           label={userResponsible}
-          desc={phoneResponsible}
+          desc={ this.getStrPhone(phoneResponsible)}
           title={i18n.userResponsible}
         />
         <Divider style={{ margin: 0 }} />
         <InfoItem
           iconType="user"
           label={userSupervisor}
-          desc={phoneSupervisor}
+          desc={ this.getStrPhone(phoneSupervisor)}
           title={i18n.userSupervisor}
         />
         <Divider style={{ margin: 0 }} />
