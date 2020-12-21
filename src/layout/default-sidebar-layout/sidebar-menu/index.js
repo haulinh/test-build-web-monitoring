@@ -231,6 +231,7 @@ export default class MenuApp extends React.PureComponent {
             {this.checkRoleForGroup([
               ROLE.QAQCCONFIG.VIEW,
               ROLE.FTPTRANSFER.VIEW,
+              ROLE.SHARE_API.VIEW,
             ]) && ShareDataMenu.renderComp(this.props)}
 
             {/* TODO  Chưa có role nên dùng tạm của STATION_AUTO, xem lại */}

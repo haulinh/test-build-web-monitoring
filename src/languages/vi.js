@@ -1949,6 +1949,9 @@ export default {
       ftpTransfer: {
         name: 'Cấu hình truyền FTP',
       },
+      shareAPI: {
+        name: 'Chia sẻ API',
+      },
       tiLeDuLieuThuDuoc: {
         name: 'Tỉ lệ dữ liệu thu được',
       },
@@ -2506,6 +2509,7 @@ export default {
     shareData: {
       shareConfig: 'Cấu hình chia sẻ dữ liệu',
       ftpConfig: 'Cấu hình truyền FTP',
+      shareAPI: 'Chia sẻ API',
     },
 
     advanceSub: 'Nâng cao',
@@ -2642,6 +2646,7 @@ export default {
       shareConfig: 'Lựa chọn điểm quan trắc và thông số để công bố',
       ftpConfig:
         'Lựa chọn trạm và thông số truyền vào thư mục bên ngoài bằng FTP',
+      shareAPI: 'Chia sẻ API',
     },
     reportSub: 'Lựa chọn loại báo cáo để xuất kết quả',
     report: {

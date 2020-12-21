@@ -1957,6 +1957,9 @@ export default {
       ftpTransfer: {
         name: 'FTP Transfer Configurations',
       },
+      shareAPI: {
+        name: "API Share",
+      },
       tiLeDuLieuThuDuoc: {
         name: 'Percentage of obtained data',
       },
@@ -2518,6 +2521,7 @@ export default {
     shareData: {
       shareConfig: 'Sharing onfigurations',
       ftpConfig: 'FTP Transfer Configurations',
+      shareAPI: 'API Share',
     },
 
     advanceSub: 'Advanced',
@@ -2664,6 +2668,7 @@ export default {
         'Select monitoring points and parameters for data publication',
       ftpConfig:
         'Select monitoring points and parameters to transfer to an external folder using FTP',
+        shareAPI: 'API Share',
     },
     shareDataSub: 'Configure to share data from the system to the outside',
     reportSub: 'Select the report type to export the results',
