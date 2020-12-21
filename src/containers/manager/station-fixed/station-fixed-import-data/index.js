@@ -125,6 +125,8 @@ class StationFixedImportData extends React.Component {
     switch (errorKey) {
       case 'INVALID_PARAMETER':
         return `${IMPORT_DATA_ERROR[errorKey]} ${errors[1]}`
+      case 'DUPLICATE_PARAMETER':
+        return `${IMPORT_DATA_ERROR[errorKey]} ${errors[1]}`
       default:
         return IMPORT_DATA_ERROR[errors[0]]
     }

@@ -2426,7 +2426,7 @@ export default {
     successTitle: 'Tải lên thành công',
     successMessage: 'Tải lên thành công {{=it.count}} dòng dữ liệu',
     line: 'Dòng',
-    duplicateParameter: '2 cột trùng mã thông số',
+    duplicateParameter: 'Trùng mã thông số',
     duplicateData: 'Dữ liệu trùng',
     invalidDataSheet: 'Dữ liệu sheet không hợp lệ',
     invalidDateTime: 'Ngày giờ không hợp lệ',

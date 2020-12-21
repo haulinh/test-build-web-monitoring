@@ -2440,7 +2440,7 @@ export default {
     successTitle: 'Upload successfully',
     successMessage: 'Successfully uploaded {{=it.count}} lines of data',
     line: 'Line',
-    duplicateParameter: 'Two columns with the same parameter code',
+    duplicateParameter: 'Duplicate parameters',
     duplicateData: 'Duplicate data',
     invalidDataSheet: 'Sheet data is not valid',
     invalidDateTime: 'Invalid date and time',
