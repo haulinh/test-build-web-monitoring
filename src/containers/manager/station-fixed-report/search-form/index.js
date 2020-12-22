@@ -116,18 +116,23 @@ export class SearchForm extends React.Component {
     let startDate
     let endDate
     if (this.state.isOpenRangePicker) {
-      startDate = values.timeRange[0]
-      endDate = values.timeRange[1]
+      startDate = values.timeRange[0].startOf('days')
+      endDate = values.timeRange[1].endOf('days')
     } else {
-      startDate = moment().subtract(values.time, 'days')
-      endDate = moment()
+      if (values.time === 1) {
+        startDate = moment().subtract(values.time, 'days')
+        endDate = moment()
+      } else {
+        startDate = moment().subtract(values.time, 'days').startOf('days')
+        endDate = moment().endOf('days')
+      }
     }
 
     const paramQuery = {
       phaseIds: values.phase,
       pointKeys: values.point,
-      startDate: startDate.startOf('days').utc().format(),
-      endDate: endDate.endOf('days').utc().format(),
+      startDate: startDate.utc().format(),
+      endDate: endDate.utc().format(),
       stationTypeId: values.stationTypeId,
       isExceeded: values.isExceeded,
     }
