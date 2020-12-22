@@ -2294,7 +2294,7 @@ export default {
   },
   warningLevels: {
     title: 'Mức cảnh báo',
-    good: 'Tốt',
+    good: 'Trong ngưỡng',
     exceedTendency: 'Có xu hướng vượt',
     exceedPreparing: 'Chuẩn bị vượt',
     exceed: 'Vượt nguỡng',
