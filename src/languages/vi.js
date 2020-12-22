@@ -2443,7 +2443,7 @@ export default {
       pointName: "Tên điểm"
     },
     optionalInfo: {
-      symbol: "Kí hiệu mẫu",
+      symbol: "Ký hiệu mẫu",
       weather: "Đặc điểm thời tiết",
       sampler: "Tên người lấy mẫu",
       notes: "Ghi chú",
