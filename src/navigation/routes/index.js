@@ -63,7 +63,6 @@ export default class RouteDefault extends React.Component {
   }
 
   render() {
-    console.log(APISharing)
     return (
       <div>
         <Switch>

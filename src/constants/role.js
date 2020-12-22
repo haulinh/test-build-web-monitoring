@@ -68,6 +68,9 @@ export default {
   FTPTRANSFER: {
     VIEW: 'menu.ftpTransfer.actions.view',
   },
+  API_SHARING: {
+    VIEW: 'menu.shareAPI.actions.view',
+  },
   TILE_DULIEU_THUDUOC: {
     VIEW: 'menu.tiLeDuLieuThuDuoc.actions.view',
     EXPORT: 'menu.tiLeDuLieuThuDuoc.actions.export',

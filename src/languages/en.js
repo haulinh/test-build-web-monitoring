@@ -17,6 +17,9 @@ export default {
     saveSuccess: 'Save successfully',
     all: 'All',
     upload: 'Upload',
+    parameter: 'Parameter',
+    example: 'Example',
+    copySuccess: 'Copy successfully'
   },
   rules: {
     required: 'Required',
@@ -1948,6 +1951,9 @@ export default {
       ftpTransfer: {
         name: 'FTP Transfer Configurations',
       },
+      shareAPI: {
+        name: 'API sharing',
+      },
       tiLeDuLieuThuDuoc: {
         name: 'Percentage of obtained data',
       },
@@ -2979,4 +2985,22 @@ export default {
       },
     },
   },
+  apiSharing: {
+    stationManagement: 'Station Management',
+    stations: 'Station list',
+    averageData: 'Average data per hour',
+    dataHistory: 'History data',
+    aqi: 'Monitoring station has AQI',
+    stationName: 'Station name',
+    stationAddress: 'Station address',
+    stationTypeKey: 'Key of station type',
+    page: 'Number of pages',
+    itemPerPage: 'Number item of per page',
+    stationAutoKey: 'Key of station auto',
+    measuringList: 'List measure separated by \',\'',
+    fromDate: 'From Date',
+    toDate: 'To Date',
+    filterByExceeded:'Filter data with exceeded status',
+    allowedAQI: 'Station key list is allowed to configure AQI',
+  }
 }
