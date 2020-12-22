@@ -40,14 +40,14 @@ export const COLOR = {
 // do logic code cũ gía trị đang là 0, 1, 2
 
 export const COLOR_DEVICE_STATUS = {
-  DATA_LOSS: '#666666',
-  ERROR: '#CC0000',
-  MAINTENACE: '#E69138',
-  NORMAL: '#6AA84F',
+  DATA_LOSS: '#A4A6B5',
+  ERROR: '#E54C3C',
+  MAINTENACE: '#EDC30F',
+  NORMAL: '#2CCA73',
 
-  [0]: '#6AA84F',
-  [1]: '#E69138',
-  [2]: '#CC0000',
+  [0]: '#2CCA73',
+  [1]: '#EDC30F',
+  [2]: '#E54C3C',
 }
 /* eslint-enable */
 
