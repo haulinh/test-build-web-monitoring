@@ -60,7 +60,7 @@ export default {
   notification: {
     label: 'Thông báo',
     removeAll: 'Xoá tất cả thông báo',
-    toolTipEnable: 'Nhận tất cả thông báo cập nhật liên tục về iLotusland',
+    toolTipEnable: 'Nhận tất cả thông báo cập nhật liên tục về iLotusLand',
     markAll: 'Đánh dấu đã đọc tất cả',
     delele: 'Xoá thông báo này',
     tickRead: 'Đánh dấu đã đọc',
@@ -132,7 +132,7 @@ export default {
     managementArea: 'Khu vực quản lý',
     statusDescription: {
       disconnected:
-        'Không thể kết nối đến thiết bị hoặc hông có dữ liệu truyền về.',
+        'Không thể kết nối đến thiết bị hoặc không có dữ liệu truyền về.',
       good: 'Giá trị dữ liệu truyền về trong ngưỡng cho phép.',
       exceededPreparing: 'Giá trị dữ liệu truyền về chuẩn bị vượt ngưỡng.',
       exceeded: 'Giá trị dữ liệu truyền về vượt quá mức ngưỡng thiết lập.',

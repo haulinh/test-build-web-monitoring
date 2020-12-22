@@ -57,13 +57,13 @@ export default {
   },
   notification: {
     label: 'Notifications',
-    removeAll: 'Remove all notification',
-    toolTipEnable: 'Receive all realtime notifications from iLotusland',
+    removeAll: 'Remove all notifications',
+    toolTipEnable: 'Receive all realtime notifications from iLotusLand',
     markAll: 'Mark all as read',
     delele: 'Delete this message',
     tickRead: 'Mark as read',
     tickUnRead: 'Mark unread',
-    pushNotification: 'Push notification',
+    pushNotification: 'Push notifications',
   },
   contact: {
     phone: 'Phone',
