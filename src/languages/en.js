@@ -2439,6 +2439,8 @@ export default {
       'Add periodic monitoring data by uploading xlsx file with required information.',
     startUpload: 'Start by selecting the input batch',
     phaseLabel: 'Select monitoring phase',
+    measuringLabel:'Order of data input',
+    measuringRequired:'Please select 1 parameter',
     stationTypeLabel: 'Station Type',
     requirements:
       'Upload the data containing the monitoring points in the form below. Make sure the fields are absolutely correct. Data uploaded to the system cannot be removed',

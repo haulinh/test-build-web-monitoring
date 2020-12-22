@@ -2427,6 +2427,8 @@ export default {
       'Thêm dữ liệu quan trắc điểm định kỳ bằng cách tải lên file xlsx với những thông tin cần thiết.',
     startUpload: 'Bắt đầu bằng cách lựa chọn đợt nhập liệu',
     phaseLabel: 'Đợt quan trắc',
+    measuringLabel:'Thứ tự thông số nhập liệu',
+    measuringRequired:'Vui lòng chọn 1 thông số',
     stationTypeLabel: 'Loại trạm',
     requirements:
       'Tải lên dữ liệu chứa thông tin các điểm quan trắc theo mẫu bên dưới. Hãy đảm bảo những trường thông tin chính xác tuyệt đối. Dữ liệu đã được tải lên hệ thống sẽ không thể loại bỏ',
