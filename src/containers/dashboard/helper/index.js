@@ -13,10 +13,12 @@ import iconCalibration from 'assets/svg-icons/Calibration.svg'
 import iconDeviceGood from 'assets/svg-icons/Device-status-good.svg'
 
 const Container = styled.div`
+  width: 450px;
   background: white;
   padding: 10px 16px;
   padding-top: 5px;
-  box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05); 
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+    0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
   .title {
     margin: 10px 0;
   }
@@ -40,15 +42,13 @@ const i18n = {
   statusData: t('common.statusData'),
   statusSensor: t('common.statusSensor'),
   description: {
-    disconnected:
-      'Không thể kết nối đến thiết bị hoặc hông có dữ liệu truyền về.',
-    good: 'Giá trị dữ liệu truyền về trong ngưỡng cho phép.',
-    exceededPreparing: 'Giá trị dữ liệu truyền về chuẩn bị vượt ngưỡng.',
-    exceeded: 'Giá trị dữ liệu truyền về vượt quá mức ngưỡng thiết lập.',
-    maintenance:
-      'Thiết bị đang hiệu chỉnh, giá trị truyền về có thể không đúng.',
-    sensorError: 'Thiết bị đang bị lỗi, giá trị truyền về có thể không đúng.',
-    goodDevice: 'Thiết bị đang ở trạng thái bình thường.',
+    disconnected: t('dashboard.statusDescription.disconnected'),
+    good: t('dashboard.statusDescription.good'),
+    exceededPreparing: t('dashboard.statusDescription.exceededPreparing'),
+    exceeded: t('dashboard.statusDescription.exceeded'),
+    maintenance: t('dashboard.statusDescription.maintenance'),
+    sensorError: t('dashboard.statusDescription.sensorError'),
+    goodDevice: t('dashboard.statusDescription.goodDevice'),
   },
 }
 

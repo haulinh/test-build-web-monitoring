@@ -61,6 +61,9 @@ export default {
   QAQCCONFIG: {
     VIEW: 'menu.qaqcConfig.actions.view',
   },
+  SHARE_API: {
+    VIEW: 'menu.shareAPI.actions.view',
+  },
   XU_LY_DU_LIEU_CAU_HINH: {
     VIEW: 'menu.xuLyDuLieu_config.actions.view',
     EDIT: 'menu.xuLyDuLieu_config.actions.edit',

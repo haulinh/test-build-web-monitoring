@@ -62,7 +62,7 @@ export default class HeaderView extends React.PureComponent {
           </View>
         </FlexContainer>
         <div style={{ width: '50%' }}>
-          <WarningLevel />
+          <WarningLevel />  
         </div>
       </WrapperView>
     )
