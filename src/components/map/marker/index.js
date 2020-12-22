@@ -7,7 +7,7 @@ import { connectAutoDispatch } from 'redux/connect'
 import { getStationAuto } from 'redux/actions/map'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import { SHAPE, COLOR, COLOR_DEVICE_STATUS } from 'themes/color'
+import { SHAPE, COLOR, DATA_COLOR, COLOR_DEVICE_STATUS } from 'themes/color'
 import Clearfix from 'components/elements/clearfix'
 import Viewmore from './info-window-viewmore'
 import { translate } from 'hoc/create-lang'
@@ -137,11 +137,11 @@ export default class MarkerStation extends PureComponent {
   getColorLevel(warningLevel) {
     let stationStatus = _get(this.props, 'stationStatus')
     if (stationStatus === STATUS_STATION.HIGHTGEST)
-      return COLOR[STATUS_STATION.HIGHTGEST]
+      return DATA_COLOR[STATUS_STATION.HIGHTGEST]
 
-    if (warningLevel && COLOR[warningLevel]) return COLOR[warningLevel]
+    if (warningLevel && DATA_COLOR[warningLevel]) return DATA_COLOR[warningLevel]
 
-    return COLOR.GOOD
+    return DATA_COLOR.GOOD
   }
 
   renderTableData() {

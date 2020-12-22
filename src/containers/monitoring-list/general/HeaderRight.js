@@ -22,16 +22,16 @@ const ItemWrapper = styled.div`
     margin-right: 0px;
     margin-left: 4px;
     &.data-loss {
-      color: rgba(0, 0, 0, 0.45);
+      color: #A4A6B5;
     }
     &.data-exceed {
-      color: #f5222d;
+      color: #E54C3C;
     }
     &.data-extend-prepare {
-      color: #faad14;
+      color: #EDC30F;
     }
     &.data-good {
-      color: #333;
+      color: #2CCA73;
     }
   }
 `

@@ -61,12 +61,18 @@ export default {
   QAQCCONFIG: {
     VIEW: 'menu.qaqcConfig.actions.view',
   },
+  SHARE_API: {
+    VIEW: 'menu.shareAPI.actions.view',
+  },
   XU_LY_DU_LIEU_CAU_HINH: {
     VIEW: 'menu.xuLyDuLieu_config.actions.view',
     EDIT: 'menu.xuLyDuLieu_config.actions.edit',
   },
   FTPTRANSFER: {
     VIEW: 'menu.ftpTransfer.actions.view',
+  },
+  API_SHARING: {
+    VIEW: 'menu.shareAPI.actions.view',
   },
   TILE_DULIEU_THUDUOC: {
     VIEW: 'menu.tiLeDuLieuThuDuoc.actions.view',

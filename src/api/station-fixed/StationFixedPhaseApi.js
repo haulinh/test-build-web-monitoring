@@ -26,7 +26,7 @@ export function getStationFixedPhases(
   filter = {
     ...filter,
     where: {
-      name: name ? { like: name } : undefined,
+      name: name ? { like: name, options: 'i' } : undefined,
       stationTypeId,
     },
   }

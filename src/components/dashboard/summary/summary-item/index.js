@@ -6,7 +6,7 @@ import { removeAccents } from 'hoc/create-lang'
 
 // import { Link } from 'react-router-dom'
 // import slug from 'constants/slug'
-import { COLOR } from 'themes/color'
+import { DATA_COLOR } from 'themes/color'
 import { get as _get } from 'lodash'
 import { connect } from 'react-redux'
 const SummaryItemWrapper = styled.div`
@@ -92,7 +92,7 @@ export default class SummaryItem extends React.PureComponent {
       language,
     } = this.props
     const colorStatus =
-      this.props.number === 0 ? COLOR.DATA_LOSS : COLOR[statusStation]
+      this.props.number === 0 ? DATA_COLOR.DATA_LOSS : DATA_COLOR[statusStation]
     return (
       // MARK  logic cũ là dùng thẻ Link, giở change thành div
       <div

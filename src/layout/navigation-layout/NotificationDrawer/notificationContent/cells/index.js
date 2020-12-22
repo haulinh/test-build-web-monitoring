@@ -86,7 +86,7 @@ const getNotificationInfo = status => {
     case NOTIFY_TYPE.DATA_LOSS:
       return {
         icon: iconDisconnected,
-        statusText: i18n.dataConnected,
+        statusText: i18n.dataLoss,
       }
     default:
       return {

@@ -231,6 +231,7 @@ export default class StationFixedForm extends React.Component {
                 ],
               })(
                 <SelectStationType
+                  disabled={this.props.isEdit ? true : false}
                   isAuto={false}
                   placeholder={i18n.stationType.placeholder}
                 />

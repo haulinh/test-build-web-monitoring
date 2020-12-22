@@ -7,7 +7,8 @@ import Camera from 'containers/camera'
 import CameraControl from 'containers/camera-video'
 import ConfigService from 'containers/config-service'
 import ControlStation from 'containers/control-station'
-import OverviewDashboard from 'containers/dashboard/OverviewDashboard'
+import OverviewDashboard from 'containers/dashboard'
+import DashboardDetail from 'containers/dashboard-detail'
 import DataLoggerPage from 'containers/data-logger'
 import MapFixedContainer from 'containers/fixed-map'
 // import PageAqiStatus from 'containers/aqi/aqi-list-status'
@@ -39,6 +40,7 @@ import PercentReceivedData from 'containers/statistic/per-rec-data'
 import SubscriptionRoute from 'containers/subscription'
 import SupportRoute from 'containers/support'
 import UserRoute from 'containers/user'
+import APISharing from 'containers/api-sharing'
 import { autobind } from 'core-decorators'
 // import AqiStatistic from "containers/statistic/aqi";
 // import WqiStatistic from "containers/statistic/wqi";
@@ -80,9 +82,14 @@ export default class RouteDefault extends React.Component {
 
           <Layout isShowSidebarMenu>
             <LayoutRoute
-              path={slug.dashboard}
+              path={slug.dashboard.healthCheck}
               exact
               component={OverviewDashboard}
+            />
+            <LayoutRoute
+              path={slug.dashboard.overview}
+              exact
+              component={DashboardDetail}
             />
             <LayoutRoute path={slug.map.base} component={Map} />
 
@@ -118,6 +125,10 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute
               path={slug.ftpTransfer.base}
               component={FtpTransferRoute}
+            />
+            <LayoutRoute
+              path={slug.apiSharing.base}
+              component={APISharing}
             />
             <LayoutRoute
               path={slug.onlineMonitoring.base}
