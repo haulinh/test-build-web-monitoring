@@ -111,7 +111,7 @@ export class SearchForm extends React.Component {
   handleOnSubmit = async e => {
     e.preventDefault()
     const values = await this.props.form.validateFields()
-    console.log('🚀 ~ file: index.js ~ line 121 ~ SearchForm ~ values', values)
+    // console.log('🚀 ~ file: index.js ~ line 121 ~ SearchForm ~ values', values)
 
     let startDate
     let endDate
@@ -126,14 +126,14 @@ export class SearchForm extends React.Component {
     const paramQuery = {
       phaseIds: values.phase,
       pointKeys: values.point,
-      startDate: startDate.utc().format(),
-      endDate: endDate.utc().format(),
+      startDate: startDate.startOf('days').utc().format(),
+      endDate: endDate.endOf('days').utc().format(),
       stationTypeId: values.stationTypeId,
       isExceeded: values.isExceeded,
     }
 
     this.props.setQueryParam(paramQuery)
-    this.props.handleOnSearch()
+    this.props.onSearch()
   }
 
   handleClick = () => alert('It works!')
@@ -291,6 +291,6 @@ export class SearchForm extends React.Component {
 
 SearchForm.propTypes = {
   setQueryParam: PropTypes.func.isRequired,
-  handleOnSearch: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired,
   loadingSearch: PropTypes.bool,
 }
