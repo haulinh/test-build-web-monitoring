@@ -131,6 +131,15 @@ export default {
       good: 'Good',
     },
     managementArea: 'Management Area',
+    statusDescription: {
+      disconnected: 'Cannot connect to the device or no data is available.',
+      good: 'The data value is transmitted within the allowed threshold.',
+      exceededPreparing: 'The data value transmitted is about to exceed the threshold.',
+      exceeded: 'The transmitted data value exceeds the threshold set.',
+      maintenance: 'The device is calibrating, the transmitted value may not be correct.',
+      sensorError: 'The device is faulty, the transmitted value may not be correct.',
+      goodDevice: 'The device is in the normal state.',
+    },
   },
   monitoring: {
     title: 'Monitoring',
@@ -1948,6 +1957,9 @@ export default {
       ftpTransfer: {
         name: 'FTP Transfer Configurations',
       },
+      shareAPI: {
+        name: "API Share",
+      },
       tiLeDuLieuThuDuoc: {
         name: 'Percentage of obtained data',
       },
@@ -2440,7 +2452,7 @@ export default {
     successTitle: 'Upload successfully',
     successMessage: 'Successfully uploaded {{=it.count}} lines of data',
     line: 'Line',
-    duplicateParameter: 'Two columns with the same parameter code',
+    duplicateParameter: 'Duplicate parameters',
     duplicateData: 'Duplicate data',
     invalidDataSheet: 'Sheet data is not valid',
     invalidDateTime: 'Invalid date and time',
@@ -2472,7 +2484,11 @@ export default {
     },
   },
   menuApp: {
-    dashboard: 'Dashboard',
+    dashboard: {
+      base: 'Dashboard',
+      healthcheck: 'Health check',
+      overview: 'Overview',
+    },
 
     monitoringSub: 'Data Monitoring',
     monitoring: {
@@ -2505,6 +2521,7 @@ export default {
     shareData: {
       shareConfig: 'Sharing onfigurations',
       ftpConfig: 'FTP Transfer Configurations',
+      shareAPI: 'API Share',
     },
 
     advanceSub: 'Advanced',
@@ -2651,6 +2668,7 @@ export default {
         'Select monitoring points and parameters for data publication',
       ftpConfig:
         'Select monitoring points and parameters to transfer to an external folder using FTP',
+        shareAPI: 'API Share',
     },
     shareDataSub: 'Configure to share data from the system to the outside',
     reportSub: 'Select the report type to export the results',
@@ -2902,8 +2920,8 @@ export default {
     },
     overview: 'Overview',
     list: 'List',
-    statusSensor: 'Status Sensor',
-    statusData: 'Status Data',
+    statusSensor: 'Sensor Status',
+    statusData: 'Data Status',
   },
   apps: {
     incidents: 'Incidents Communication',

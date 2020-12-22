@@ -1,7 +1,10 @@
 import { translate } from 'hoc/create-lang'
 
 export default {
-  dashboard: '/',
+  dashboard: {
+    healthCheck:  '/',
+    overview: '/overview'
+  },
   login: {
     loginWithEmail: '/login',
     loginWithPhoneNumber: '/login/phone-number',
@@ -296,8 +299,11 @@ export const parentMenuFromSub = {
 }
 
 export const MENU_NAME = {
-  dashboard: translate('menuApp.dashboard'),
-
+  dashboard: {
+    base: translate('menuApp.dashboard.base'),
+    healthCheck: translate('menuApp.dashboard.healthcheck'),
+    overview: translate('menuApp.dashboard.overview')
+  },
   monitoringSub: translate('menuApp.monitoringSub'),
   monitoring: {
     base: translate('menuApp.monitoring.base'),
@@ -329,6 +335,7 @@ export const MENU_NAME = {
   shareData: {
     shareConfig: translate('menuApp.shareData.shareConfig'),
     ftpConfig: translate('menuApp.shareData.ftpConfig'),
+    shareAPI: translate('menuApp.shareData.shareAPI'),
   },
 
   reportSub: translate('menuApp.reportSub'),
@@ -384,7 +391,9 @@ export const MENU_NAME = {
 }
 
 export const TOOLTIP_MENU = {
-  dashboard: translate('tooltipMenuApp.dashboard'),
+  dashboard: {
+    base: translate('tooltipMenuApp.dashboard'),
+  },
   monitoringSub: translate('tooltipMenuApp.monitoringSub'),
   monitoring: {
     base: translate('tooltipMenuApp.monitoring.base'),
@@ -414,6 +423,7 @@ export const TOOLTIP_MENU = {
   shareData: {
     shareConfig: translate('tooltipMenuApp.shareData.shareConfig'),
     ftpConfig: translate('tooltipMenuApp.shareData.ftpConfig'),
+    shareAPI: translate('tooltipMenuApp.shareData.shareAPI'),
   },
   reportSub: translate('tooltipMenuApp.reportSub'),
   report: {
