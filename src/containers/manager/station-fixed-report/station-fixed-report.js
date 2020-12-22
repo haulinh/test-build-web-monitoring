@@ -79,6 +79,12 @@ export class StationFixedReport extends React.Component {
   }
 
   async componentDidMount() {}
+  
+  componentDidUpdate(prevProps, prevState) {
+    if (!_.isEqual(prevState.queryParam, this.state.queryParam)) {
+      this.setState({pageNumber: 1})
+    }
+  }
 
   operations = () => (
     <Flex>
