@@ -1,7 +1,7 @@
 import { getConfigApi } from '../config'
 import { deleteFetch, getFetch, postFetch, putFetch } from '../utils/fetch'
 
-function getStationAutoUrl(prefix = '') {
+export function getStationAutoUrl(prefix = '') {
   return getConfigApi().stationAuto + '/' + prefix
 }
 

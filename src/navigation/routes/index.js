@@ -40,6 +40,7 @@ import PercentReceivedData from 'containers/statistic/per-rec-data'
 import SubscriptionRoute from 'containers/subscription'
 import SupportRoute from 'containers/support'
 import UserRoute from 'containers/user'
+import APISharing from 'containers/api-sharing'
 import { autobind } from 'core-decorators'
 // import AqiStatistic from "containers/statistic/aqi";
 // import WqiStatistic from "containers/statistic/wqi";
@@ -124,6 +125,10 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute
               path={slug.ftpTransfer.base}
               component={FtpTransferRoute}
+            />
+            <LayoutRoute
+              path={slug.apiSharing.base}
+              component={APISharing}
             />
             <LayoutRoute
               path={slug.onlineMonitoring.base}

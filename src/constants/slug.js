@@ -45,6 +45,9 @@ export default {
     history: '/ftp-transfer/history/:key/:name',
     historyWithKey: '/ftp-transfer/history',
   },
+  apiSharing: {
+    base: '/api-sharing',
+  },
   stationType: {
     list: '/station-type',
     base: '/station-type',
@@ -335,7 +338,7 @@ export const MENU_NAME = {
   shareData: {
     shareConfig: translate('menuApp.shareData.shareConfig'),
     ftpConfig: translate('menuApp.shareData.ftpConfig'),
-    shareAPI: translate('menuApp.shareData.shareAPI'),
+    apiSharing: translate('menuApp.shareData.apiSharing'),
   },
 
   reportSub: translate('menuApp.reportSub'),
@@ -423,7 +426,7 @@ export const TOOLTIP_MENU = {
   shareData: {
     shareConfig: translate('tooltipMenuApp.shareData.shareConfig'),
     ftpConfig: translate('tooltipMenuApp.shareData.ftpConfig'),
-    shareAPI: translate('tooltipMenuApp.shareData.shareAPI'),
+    apiSharing: translate('tooltipMenuApp.shareData.apiSharing'),
   },
   reportSub: translate('tooltipMenuApp.reportSub'),
   report: {
