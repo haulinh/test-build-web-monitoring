@@ -79,6 +79,12 @@ export class StationFixedReport extends React.Component {
   }
 
   async componentDidMount() {}
+  
+  componentDidUpdate(prevProps, prevState) {
+    if (!_.isEqual(prevState.queryParam, this.state.queryParam)) {
+      this.setState({pageNumber: 1})
+    }
+  }
 
   operations = () => (
     <Flex>
@@ -294,7 +300,7 @@ export class StationFixedReport extends React.Component {
   render() {
     const { dataPoints, total, loadingSearch } = this.state
     const pagination = {
-      // current: this.state.pageNumber,
+      current: this.state.pageNumber,
       total: total,
       pageSize: PAGE_SIZE,
       onChange: (page, pageSize) => {
