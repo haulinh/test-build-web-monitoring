@@ -163,10 +163,10 @@ export default {
     lossAt: 'Mất kết nối lúc',
     notInUse: 'Chưa sử dụng',
     deviceStatus: {
-      dataloss: 'Đang mất tín hiệu',
+      dataloss: 'Mất tín hiệu',
       sensorError: 'Lỗi thiết bị',
       maintenance: 'Hiệu chuẩn',
-      sensorNormal: 'Đang đo',
+      sensorNormal: 'Tốt',
       normal: 'Đang đo',
       broken: 'Báo lỗi',
       good: 'Tốt',
@@ -1949,6 +1949,9 @@ export default {
       ftpTransfer: {
         name: 'Cấu hình truyền FTP',
       },
+      shareAPI: {
+        name: 'Chia sẻ API',
+      },
       tiLeDuLieuThuDuoc: {
         name: 'Tỉ lệ dữ liệu thu được',
       },
@@ -2170,15 +2173,15 @@ export default {
     },
     DATA_STATUS: {
       OVERLOAD: 'Vượt ngưỡng',
-      ABOUT_TO_OVERLOAD: 'Chuẩn bị vượt ngưỡng',
-      COLLECTING: 'Tốt',
+      ABOUT_TO_OVERLOAD: 'Chuẩn bị vượt',
+      COLLECTING: 'Trong ngưỡng',
       LOST_CONNECTION: 'Mất tín hiệu',
     },
     DEVICE_STATUS: {
       LOST_CONNECTION: 'Mất tín hiệu',
       DEVICE_ERROR: 'Lỗi thiết bị',
       CALIBRATE: 'Hiệu chuẩn',
-      COLLECTING: 'Đang đo',
+      COLLECTING: 'Tốt',
     },
     STATION_STATUS: {
       OFFLINE: 'Trạm mất tín hiệu',
@@ -2291,7 +2294,7 @@ export default {
   },
   warningLevels: {
     title: 'Mức cảnh báo',
-    good: 'Tốt',
+    good: 'Trong ngưỡng',
     exceedTendency: 'Có xu hướng vượt',
     exceedPreparing: 'Chuẩn bị vượt',
     exceed: 'Vượt nguỡng',
@@ -2506,6 +2509,7 @@ export default {
     shareData: {
       shareConfig: 'Cấu hình chia sẻ dữ liệu',
       ftpConfig: 'Cấu hình truyền FTP',
+      shareAPI: 'Chia sẻ API',
     },
 
     advanceSub: 'Nâng cao',
@@ -2642,6 +2646,7 @@ export default {
       shareConfig: 'Lựa chọn điểm quan trắc và thông số để công bố',
       ftpConfig:
         'Lựa chọn trạm và thông số truyền vào thư mục bên ngoài bằng FTP',
+      shareAPI: 'Chia sẻ API',
     },
     reportSub: 'Lựa chọn loại báo cáo để xuất kết quả',
     report: {
@@ -2900,14 +2905,14 @@ export default {
     measure2: 'Các chỉ tiêu:',
     notUse: 'Chưa sử dụng',
     deviceStatus: {
-      sensorGood: 'thiết bị tốt trở lại',
-      sensorError: 'thiết bị đang bị lỗi',
-      sensorMaintain: 'thiết bị đang hiệu chuẩn',
-      dataExceeded: 'đang vượt ngưỡng',
-      dataExceededPrepare: 'chuẩn bị vượt ngưỡng',
-      dataGood: 'Dữ liệu tốt',
+      sensorGood: 'Tốt',
+      sensorError: 'Lỗi thiết bị',
+      sensorMaintain: 'Hiệu chuẩn',
+      dataExceeded: 'Vượt ngưỡng',
+      dataExceededPrepare: 'Chuẩn bị vượt',
+      dataGood: 'Trong ngưỡng',
       dataGood2: 'dữ liệu tốt trở lại',
-      dataLoss: 'đang mất tín hiệu',
+      dataLoss: 'Mất tín hiệu',
       dataConnected: 'có tín hiệu trở lại',
     },
     overview: 'Tổng quan',

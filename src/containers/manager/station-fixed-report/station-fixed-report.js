@@ -79,49 +79,11 @@ export class StationFixedReport extends React.Component {
   }
 
   async componentDidMount() {}
-
-  handleClick = async () => {
-    const {
-      phaseIds,
-      pointKeys,
-      startDate,
-      endDate,
-      isExceeded,
-      stationTypeId,
-    } = this.state.queryParam
-
-    this.setState({ loadingExport: true })
-    const res = await exportDataPoint({
-      title: `${moment(startDate).format('DD-MM-YYY')} - ${moment(
-        endDate
-      ).format('DD-MM-YYYY')}`,
-      point: {
-        pointKeys,
-      },
-      isExceeded,
-      filter: {
-        order: 'datetime desc',
-        where: {
-          stationTypeId,
-          'phase._id': {
-            inq: phaseIds,
-          },
-          datetime: {
-            between: [startDate, endDate],
-          },
-        },
-      },
-      pageNumber: 1,
-      pageSize: 9999,
-    })
-    this.setState({ loadingExport: false })
-
-    downFileExcel(
-      res.data,
-      `Dữ liệu liệu trạm quan trắc thủ công từ ${moment(startDate).format(
-        'DD-MM-YYYY hh:mm a'
-      )} đến ${moment(endDate).format('DD-MM-YYYY hh:mm a')}`
-    )
+  
+  componentDidUpdate(prevProps, prevState) {
+    if (!_.isEqual(prevState.queryParam, this.state.queryParam)) {
+      this.setState({pageNumber: 1})
+    }
   }
 
   operations = () => (
@@ -133,7 +95,7 @@ export class StationFixedReport extends React.Component {
       </Popover>
       <Button
         loading={this.state.loadingExport}
-        onClick={this.handleClick}
+        onClick={this.handleExportExcel}
         type="primary"
       >
         Xuất dữ liệu Excel
@@ -164,7 +126,7 @@ export class StationFixedReport extends React.Component {
     this.setState({ queryParam })
   }
 
-  onSearch = async (pageNumber = 1, pageSize = PAGE_SIZE) => {
+  queryDataPoint = async pageNumber => {
     const {
       phaseIds,
       pointKeys,
@@ -193,7 +155,7 @@ export class StationFixedReport extends React.Component {
         },
       },
       pageNumber,
-      pageSize,
+      pageSize: PAGE_SIZE,
     })
 
     this.setState({
@@ -202,6 +164,59 @@ export class StationFixedReport extends React.Component {
       loading: false,
       loadingSearch: false,
     })
+  }
+
+  handleOnSearch = async (pageNumber = 1) => {
+      this.queryDataPoint(this.state.pageNumber)
+  }
+
+  handleOnPageChange = pageNumber => {
+    this.queryDataPoint(pageNumber)
+  }
+
+  handleExportExcel = async () => {
+    const {
+      phaseIds,
+      pointKeys,
+      startDate,
+      endDate,
+      isExceeded,
+      stationTypeId,
+    } = this.state.queryParam
+
+    this.setState({ loadingExport: true })
+    const res = await exportDataPoint({
+      title: `${moment(startDate).format('DD-MM-YYY')} - ${moment(
+        endDate
+      ).format('DD-MM-YYYY')}`,
+      point: {
+        pointKeys,
+      },
+      isExceeded,
+      filter: {
+        order: 'datetime desc',
+        where: {
+          stationTypeId,
+          'phase._id': {
+            inq: phaseIds,
+          },
+          datetime: {
+            between: [startDate, endDate],
+          },
+        },
+      },
+      optionalInfo: this.props.form.getFieldsValue(),
+      pageNumber: 1,
+      pageSize: 9999,
+    })
+    this.setState({ loadingExport: false })
+
+    downFileExcel(
+      res.data,
+      `Dữ liệu liệu trạm quan trắc thủ công từ ${moment(startDate).format(
+        'DD-MM-YYYY hh:mm a'
+      )} đến ${moment(endDate).format('DD-MM-YYYY hh:mm a')}`
+    )
   }
 
   getColumns = () => {
@@ -284,15 +299,13 @@ export class StationFixedReport extends React.Component {
 
   render() {
     const { dataPoints, total, loadingSearch } = this.state
-    // const locale = {
-    //   emptyText: 'Khong co du lieu',
-    // }
     const pagination = {
+      current: this.state.pageNumber,
       total: total,
       pageSize: PAGE_SIZE,
       onChange: (page, pageSize) => {
         this.setState({ pageNumber: page })
-        this.onSearch(page, pageSize)
+        this.handleOnPageChange(page)
       },
     }
     return (
@@ -301,7 +314,7 @@ export class StationFixedReport extends React.Component {
         <SearchForm
           loadingSearch={loadingSearch}
           setQueryParam={this.setQueryParam}
-          handleOnSearch={this.onSearch}
+          onSearch={this.handleOnSearch}
         />
         <Tabs defaultActiveKey="1" tabBarExtraContent={this.operations()}>
           <TabPane tab="Dữ liệu" key="1" />

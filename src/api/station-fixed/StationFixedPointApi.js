@@ -1,6 +1,12 @@
 import { getLanguage } from 'utils/localStorage'
 import { getConfigApi } from '../../config'
-import { getFetch, postFetch, deleteFetch, pathFetch, getFetchDownFile } from 'utils/fetch'
+import {
+  getFetch,
+  postFetch,
+  deleteFetch,
+  pathFetch,
+  getFetchDownFile,
+} from 'utils/fetch'
 
 export function getStationFixedPointUrl(prefix = '') {
   return getConfigApi().stationFixedPoint + '/' + prefix
@@ -26,7 +32,7 @@ export function getStationFixedPoints(
   filter = {
     ...filter,
     where: {
-      name: name ? { like: name } : undefined,
+      name: name ? { like: name, options: 'i' } : undefined,
       stationTypeId,
     },
   }
