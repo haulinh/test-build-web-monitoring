@@ -9,12 +9,12 @@ export const warningLevels = {
 
 export const colorLevels = {
   LOSS: 'DATA_LOSS',
-  GOOD: '#1dce6c',
+  GOOD: '#2CCA73',
   EXCEEDED_TENDENCY: '#F1D748',
-  MAINTAIN: '#F1D748',
+  MAINTAIN: '#EDC30F',
   EXCEEDED_PREPARING: '#F08432',
   EXCEEDED: '#EA3223',
-  ERROR: '#EA3223',
+  ERROR: '#E54C3C',
 }
 
 export const warningLevelsNumber = {
