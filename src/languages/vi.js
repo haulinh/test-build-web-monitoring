@@ -17,6 +17,9 @@ export default {
     saveSuccess: 'Lưu thành công',
     all: 'Tất cả',
     upload: 'Tải lên',
+    parameter: 'Thông số',
+    example: 'Ví dụ',
+    copySuccess: 'Sao chép thành công',
   },
   rules: {
     required: 'Bắt buộc',
@@ -2509,7 +2512,7 @@ export default {
     shareData: {
       shareConfig: 'Cấu hình chia sẻ dữ liệu',
       ftpConfig: 'Cấu hình truyền FTP',
-      shareAPI: 'Chia sẻ API',
+      apiSharing: 'Chia sẻ API',
     },
 
     advanceSub: 'Nâng cao',
@@ -2992,5 +2995,23 @@ export default {
         placeholder: 'Email From',
       },
     },
+  },
+  apiSharing: {
+    stationManagement: 'Quản lý trạm quan trắc',
+    stations: 'Danh sách trạm quan trắc',
+    averageData: 'Dữ liệu trung bình một giờ',
+    dataHistory: 'Dữ liệu lịch sử',
+    aqi: 'Trạm quan trắc có AQI',
+    stationName: 'Tên trạm quan trắc',
+    stationAddress: 'Địa chỉ trạm quan trắc',
+    stationTypeKey: 'Mã loại trạm',
+    page: 'Số trang',
+    itemPerPage: 'Số lượng dữ liệu trên 1 trang',
+    stationAutoKey: 'Mã trạm tự động',
+    measuringList: 'Danh sách thông số ngăn cách bởi dấu \',\'',
+    fromDate: 'Từ ngày',
+    toDate: 'Đến ngày',
+    filterByExceeded:'Lọc ra danh sách trạm vượt ngưỡng',
+    allowedAQI: 'Danh sách trạm cấu hình AQI',
   },
 }

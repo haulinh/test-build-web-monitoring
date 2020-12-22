@@ -3,7 +3,7 @@ import { getFetch, putFetch, postFetch } from 'utils/fetch'
 import qs from 'query-string'
 import { upperCase as _upperCase } from 'lodash'
 
-function getDataStationAutoUrl(prefix = '') {
+export function getDataStationAutoUrl(prefix = '') {
   return getConfigApi().dataStationAuto + '/' + prefix
 }
 
