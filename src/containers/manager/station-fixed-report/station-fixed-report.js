@@ -300,7 +300,7 @@ export class StationFixedReport extends React.Component {
   render() {
     const { dataPoints, total, loadingSearch } = this.state
     const pagination = {
-      // current: this.state.pageNumber,
+      current: this.state.pageNumber,
       total: total,
       pageSize: PAGE_SIZE,
       onChange: (page, pageSize) => {
