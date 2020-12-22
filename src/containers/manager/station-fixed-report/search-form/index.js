@@ -96,6 +96,11 @@ export class SearchForm extends React.Component {
   }
 
   handleOnSelectStationType = stationTypeIdSelected => {
+    const {form} = this.props
+    form.setFieldsValue({
+      [FIELDS.PHASE]: undefined,
+      [FIELDS.POINT]: undefined
+    })
     this.fetchPhase(stationTypeIdSelected)
     this.fetchPoints(stationTypeIdSelected)
   }
@@ -123,7 +128,9 @@ export class SearchForm extends React.Component {
         startDate = moment().subtract(values.time, 'days')
         endDate = moment()
       } else {
-        startDate = moment().subtract(values.time, 'days').startOf('days')
+        startDate = moment()
+          .subtract(values.time, 'days')
+          .startOf('days')
         endDate = moment().endOf('days')
       }
     }
@@ -207,6 +214,8 @@ export class SearchForm extends React.Component {
                     config
                   )(
                     <Select
+                      allowClear
+                      autoClearSearchValue
                       size="large"
                       mode="multiple"
                       style={{ width: '100%' }}
@@ -231,6 +240,8 @@ export class SearchForm extends React.Component {
                     config
                   )(
                     <Select
+                      autoClearSearchValue
+                      allowClear
                       mode="multiple"
                       size="large"
                       style={{ width: '100%' }}
