@@ -10,6 +10,8 @@ import {
   exportDataTemplate,
 } from 'api/station-fixed/StationFixedPointApi'
 import SelectPhase from './select-phase'
+import SelectMeasuring from './select-measuring'
+
 import { downFileExcel } from 'utils/downFile'
 
 const Header = styled.div`
@@ -29,9 +31,6 @@ const Container = styled.div`
   .ant-form {
     .ant-form-item {
       margin-bottom: 0;
-    }
-    > div {
-      margin-top: 20px;
     }
   }
   padding: 40px;
@@ -55,13 +54,18 @@ const Container = styled.div`
       padding: 0;
     }
   }
-  .download-wrapper{
+  .download-wrapper {
     position: relative;
-    .spin{
+    .spin {
       z-index: 1;
       position: absolute;
       top: 42%;
       left: 46%;
+    }
+
+    .disabled-download {
+      pointer-events: none;
+      opacity: 0.4;
     }
   }
 `
@@ -71,6 +75,8 @@ const i18n = {
   description: t('importDataPoint.description'),
   startUpload: t('importDataPoint.startUpload'),
   phaseLabel: t('importDataPoint.phaseLabel'),
+  measuringLabel: t('importDataPoint.measuringLabel'),
+  measuringRequired: t('importDataPoint.measuringRequired'),
   stationTypeLabel: t('importDataPoint.stationTypeLabel'),
   requirements: t('importDataPoint.requirements'),
   step1: t('importDataPoint.step1'),
@@ -90,7 +96,9 @@ const i18n = {
   invalidParameter: t('importDataPoint.invalidParameter'),
   pointKeyNotExisted: t('importDataPoint.pointKeyNotExisted'),
   parameterNotTypeNumber: t('importDataPoint.parameterNotTypeNumber'),
-  pointAndPhaseNotBelongToStationType: t('importDataPoint.pointAndPhaseNotBelongToStationType'),
+  pointAndPhaseNotBelongToStationType: t(
+    'importDataPoint.pointAndPhaseNotBelongToStationType'
+  ),
   selectPhaseError: t('importDataPoint.selectPhaseError'),
   upload: t('global.upload'),
 }
@@ -98,6 +106,7 @@ const i18n = {
 const FIELDS = {
   FILE: 'file',
   PHASE: 'phase',
+  MEASURING: 'measuring',
   STATION_TYPE_ID: 'stationTypeId',
   PHASE_ID: 'phaseId',
 }
@@ -110,7 +119,8 @@ const IMPORT_DATA_ERROR = {
   INVALID_PARAMETER: i18n.invalidParameter,
   POINT_KEY_NOT_EXISTED: i18n.pointKeyNotExisted,
   PARAMETER_NOT_TYPE_NUMBER: i18n.parameterNotTypeNumber,
-  POINT_KEY_NOT_BELONG_TO_STATION_TYPE: i18n.pointAndPhaseNotBelongToStationType
+  POINT_KEY_NOT_BELONG_TO_STATION_TYPE:
+    i18n.pointAndPhaseNotBelongToStationType,
 }
 
 class StationFixedImportData extends React.Component {
@@ -193,10 +203,12 @@ class StationFixedImportData extends React.Component {
   }
 
   onDownloadFile = async () => {
-    this.setState({isDownloadingFile: true})
-    const result = await exportDataTemplate()
+    const {form}= this.props
+    this.setState({ isDownloadingFile: true })
+    const measurings = form.getFieldValue(FIELDS.MEASURING)
+    const result = await exportDataTemplate(measurings)
     downFileExcel(result.data, 'data-template')
-    this.setState({isDownloadingFile: false})
+    this.setState({ isDownloadingFile: false })
   }
 
   onSubmit = e => {
@@ -206,9 +218,23 @@ class StationFixedImportData extends React.Component {
 
   render() {
     const { form } = this.props
-    const { isDownloadingFile, isLoading, errorDetail, isSuccess, count } = this.state
+    const {
+      isDownloadingFile,
+      isLoading,
+      errorDetail,
+      isSuccess,
+      count,
+    } = this.state
     form.getFieldDecorator(FIELDS.FILE)
     const file = form.getFieldValue(FIELDS.FILE) || {}
+
+    const stationTypeId = form.getFieldValue(FIELDS.PHASE)
+      ? form.getFieldValue(FIELDS.PHASE)[0].stationTypeId
+      : null
+
+    const countMeasuring = form.getFieldValue(FIELDS.MEASURING)
+      ? form.getFieldValue(FIELDS.MEASURING).length
+      : 0
 
     return (
       <div>
@@ -224,12 +250,29 @@ class StationFixedImportData extends React.Component {
           </Text>
 
           <Form onSubmit={this.onSubmit}>
-            <Row gutter={20}>
+            <Row>
               <Col span={8}>
                 <Form.Item label={i18n.phaseLabel}>
                   {form.getFieldDecorator(FIELDS.PHASE, {
-                    rules: [{ validator: this.validatePhase }],
+                    rules: [
+                      { required: true, message: i18n.selectPhaseError },
+                      { validator: this.validatePhase },
+                    ],
                   })(<SelectPhase />)}
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Form.Item label={i18n.measuringLabel}>
+                  {form.getFieldDecorator(FIELDS.MEASURING, {
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n.measuringRequired,
+                      },
+                    ],
+                  })(<SelectMeasuring stationTypeId={stationTypeId} />)}
                 </Form.Item>
               </Col>
             </Row>
@@ -248,7 +291,9 @@ class StationFixedImportData extends React.Component {
               <Col span={8} className="download-wrapper">
                 {isDownloadingFile && <Spin className="spin" />}
                 <div
-                  className="ant-upload ant-upload-drag"
+                  className={`ant-upload ant-upload-drag ${
+                    countMeasuring < 1 ? 'disabled-download' : ''
+                  }`}
                   onClick={this.onDownloadFile}
                 >
                   <Text
