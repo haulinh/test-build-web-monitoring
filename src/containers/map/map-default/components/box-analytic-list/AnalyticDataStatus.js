@@ -1,17 +1,16 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import { translate as t } from 'hoc/create-lang'
-
+import { STATUS_STATION } from 'constants/stationStatus'
 import {
   // warningLevelsNumber,
-  warningLevels,
-  // colorLevels
+  warningLevels
 } from 'constants/warningLevels'
-import { STATUS_STATION } from 'constants/stationStatus'
-import { Row, Clearfix, Item, BoxNumberView } from './style'
+import { autobind } from 'core-decorators'
+import { translate as t } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
-import { COLOR } from 'themes/color'
+import React from 'react'
+import styled from 'styled-components'
+import { DATA_COLOR } from 'themes/color'
+import { BoxNumberView, Clearfix, Item, Row } from './style'
+
 
 const BoxAnalyticListWrapper = styled.div``
 
@@ -110,7 +109,7 @@ export default class BoxAnalyticList extends React.PureComponent {
             }}
           >
             <BoxNumberView
-              color={COLOR.DATA_LOSS}
+              color={DATA_COLOR.DATA_LOSS}
               type={t(pfKey + 'lossData')}
               number={this.state.loss}
               focusStatus={warningLevels.LOSS}
@@ -123,7 +122,7 @@ export default class BoxAnalyticList extends React.PureComponent {
             }}
           >
             <BoxNumberView
-              color={COLOR.GOOD}
+              color={DATA_COLOR.GOOD}
               type={t(pfKey + 'good')}
               number={this.state.good}
               focusStatus={warningLevels.GOOD}
@@ -139,7 +138,7 @@ export default class BoxAnalyticList extends React.PureComponent {
             }}
           >
             <BoxNumberView
-              color={COLOR.EXCEEDED}
+              color={DATA_COLOR.EXCEEDED}
               type={t(pfKey + 'exceed')}
               number={this.state.exceeded}
               focusStatus={warningLevels.EXCEEDED}
@@ -152,7 +151,7 @@ export default class BoxAnalyticList extends React.PureComponent {
             }}
           >
             <BoxNumberView
-              color={COLOR.EXCEEDED_PREPARING}
+              color={DATA_COLOR.EXCEEDED_PREPARING}
               type={t(pfKey + 'exceedPreparing')}
               number={this.state.exceededPreparing}
               focusStatus={warningLevels.EXCEEDED_PREPARING}

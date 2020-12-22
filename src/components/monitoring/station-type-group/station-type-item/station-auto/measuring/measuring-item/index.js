@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import { translate } from 'hoc/create-lang'
 import { Tooltip } from 'antd'
-import { get } from 'lodash'
-import { COLOR_DEVICE_STATUS, COLOR, DATA_COLOR } from 'themes/color'
-import { STATUS_STATION } from 'constants/stationStatus'
 import { getFormatNumber } from 'constants/format-number'
+import { STATUS_STATION } from 'constants/stationStatus'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
+import { get } from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
+import { COLOR_DEVICE_STATUS, DATA_COLOR } from 'themes/color'
 
 const DEVICE_STATUS = {
   '0': { src: '/images/sensor1.png', text: 'monitoring.deviceStatus.normal' },

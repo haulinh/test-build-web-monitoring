@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
-import { COLOR, DATA_COLOR } from 'themes/color'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
+import { DATA_COLOR } from 'themes/color'
 
 const HeaderWrapper = styled.div`
   flex: 1;
