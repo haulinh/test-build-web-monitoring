@@ -51,4 +51,12 @@ export const COLOR_DEVICE_STATUS = {
 }
 /* eslint-enable */
 
-export default { PRIMARY, COLOR, COLOR_DEVICE_STATUS }
+export const DATA_COLOR = {
+  GOOD: '#2CCA73',
+  DATA_LOSS: '#A4A6B5',
+  EXCEEDED: '#E54C3C',
+  EXCEEDED_PREPARING: '#EDC30F',
+}
+
+export default { PRIMARY, COLOR, COLOR_DEVICE_STATUS, DATA_COLOR }
+
