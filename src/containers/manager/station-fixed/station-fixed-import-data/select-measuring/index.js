@@ -25,6 +25,7 @@ export default class SelectMeasuring extends Component {
     dataSource: [],
     targetKeys: [],
     loading: false,
+    selectedKeys:[]
   }
 
   componentDidUpdate = (propsPrev, statePrev) => {
@@ -51,7 +52,7 @@ export default class SelectMeasuring extends Component {
           if (item.measuringList) {
             const itemArr = _map(item.measuringList, itemMeasuring => {
               return {
-                key: itemMeasuring.key + item.key,
+                key: itemMeasuring.key,
                 title: itemMeasuring.name,
                 description: itemMeasuring.name,
               }
@@ -74,6 +75,7 @@ export default class SelectMeasuring extends Component {
       .finally(() => {
         this.setState({
           targetKeys: [],
+          selectedKeys:[],
           loading: false,
         })
       })
@@ -84,6 +86,11 @@ export default class SelectMeasuring extends Component {
       targetKeys: newTargetKeys,
     })
   }
+  handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
+    this.setState({
+      selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys]
+    });
+  };
 
   render() {
     return (
@@ -100,10 +107,12 @@ export default class SelectMeasuring extends Component {
             }}
             dataSource={this.state.dataSource}
             targetKeys={this.state.targetKeys}
+            selectedKeys={this.state.selectedKeys}
             onChange={this.handleOnChange}
-            render={item => item.title}
+            onSelectChange={this.handleSelectChange}
+            render={item => `${item.title} [${item.key}]` }
             oneWay={true}
-            pagination
+            // pagination
           />
         </Spin>
       </ContainerWrapper>

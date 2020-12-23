@@ -228,7 +228,7 @@ class StationFixedImportData extends React.Component {
     form.getFieldDecorator(FIELDS.FILE)
     const file = form.getFieldValue(FIELDS.FILE) || {}
 
-    const stationTypeId = form.getFieldValue(FIELDS.PHASE)
+    const stationTypeId = form.getFieldValue(FIELDS.PHASE) && form.getFieldValue(FIELDS.PHASE)[0]
       ? form.getFieldValue(FIELDS.PHASE)[0].stationTypeId
       : null
 
@@ -237,7 +237,7 @@ class StationFixedImportData extends React.Component {
       : 0
 
     return (
-      <div>
+      <React.Fragment>
         <Header>
           <Text fontSize={22} color="#3B3B3B" fontWeight={600}>
             {i18n.headerTitle}
@@ -266,12 +266,6 @@ class StationFixedImportData extends React.Component {
               <Col span={24}>
                 <Form.Item label={i18n.measuringLabel}>
                   {form.getFieldDecorator(FIELDS.MEASURING, {
-                    rules: [
-                      {
-                        required: true,
-                        message: i18n.measuringRequired,
-                      },
-                    ],
                   })(<SelectMeasuring stationTypeId={stationTypeId} />)}
                 </Form.Item>
               </Col>
@@ -373,7 +367,7 @@ class StationFixedImportData extends React.Component {
             </Row>
           </Form>
         </Container>
-      </div>
+        </React.Fragment>
     )
   }
 }
