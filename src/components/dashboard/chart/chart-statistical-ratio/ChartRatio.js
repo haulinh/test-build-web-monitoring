@@ -1,18 +1,17 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import { Card } from 'antd'
-import ReactHighcharts from 'react-highcharts'
-import moment from 'moment-timezone'
-import * as _ from 'lodash'
-import { Menu, Dropdown, Icon, Spin } from 'antd'
-
-import { translate } from 'hoc/create-lang'
+import { Card, Dropdown, Icon, Menu, Spin } from 'antd'
 import { getDataStationAutoRatioCount } from 'api/DataStationAutoApi'
-import StatusModalView from './StatusModal'
-import ChartBaseView from './chart-base'
-import { COLOR } from 'themes/color'
 // import { isNumber } from 'util'
 import { ROUND_DIGIT } from 'constants/format-number'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
+import moment from 'moment-timezone'
+import React from 'react'
+import ReactHighcharts from 'react-highcharts'
+import { DATA_COLOR } from 'themes/color'
+import ChartBaseView from './chart-base'
+import StatusModalView from './StatusModal'
+
 
 // const dataLabels = {
 //   enabled: true,
@@ -132,12 +131,12 @@ export default class HeaderView extends React.PureComponent {
             {
               name: notReceived,
               y: 100 - _.round(total, 2),
-              color: COLOR.DATA_LOSS,
+              color: DATA_COLOR.DATA_LOSS,
             },
             {
               name: received,
               y: _.round(total, 2),
-              color: COLOR.GOOD,
+              color: DATA_COLOR.GOOD,
             },
           ],
         },
@@ -164,12 +163,12 @@ export default class HeaderView extends React.PureComponent {
       name: received,
       data: [],
       dataLabels,
-      color: COLOR.GOOD,
+      color: DATA_COLOR.GOOD,
     }
     const series2 = {
       name: notReceived,
       data: [],
-      color: COLOR.DATA_LOSS,
+      color: DATA_COLOR.DATA_LOSS,
       dataLabels,
     }
     let categories = []
