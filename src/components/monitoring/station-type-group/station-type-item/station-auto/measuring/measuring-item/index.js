@@ -72,7 +72,7 @@ const RightContainer = styled.div`
 const Dot = styled.div`
   height: 20px;
   width: 20px;
-  background-color: #666666;
+  background-color: #A4A6B5;
   border-radius: 10px;
   display: inline-block;
   margin-right: 8px;

@@ -2505,10 +2505,20 @@ export default {
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
   },
   dataPointReport: {
+    base: {
+      title: 'Tra cứu dữ liệu',
+    },
+    tab: {
+      data: 'Dữ liệu',
+    },
     title: {
-      receivedAt: 'Thời gian Truyền File',
+      receivedAt: 'Thời gian',
       phaseName: 'Tên đợt',
       pointName: 'Tên điểm',
+    },
+    button: {
+      add: 'Thêm',
+      exportExcel: 'Xuất dữ liệu Excel',
     },
     optionalInfo: {
       symbol: 'Ký hiệu mẫu',
@@ -2523,6 +2533,18 @@ export default {
       equipmentlist: 'Danh sách thiết bị lấy mẫu',
       analyst: 'Người phân tích',
       placeOfAnalysis: 'Nơi phân tích',
+    },
+    form: {
+      label: {
+        stationType: 'Loại trạm',
+        phase: 'Đợt quan trắc',
+        point: 'Điểm quan trắc',
+        time: 'Thời gian',
+        exceeded: 'Vượt quy chuẩn',
+      },
+      dataPicker: {
+        inRange: 'Trong khoảng',
+      },
     },
   },
   menuApp: {

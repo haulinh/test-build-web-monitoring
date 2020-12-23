@@ -13,6 +13,15 @@ import styled from 'styled-components'
 const { Option } = Select
 const { RangePicker } = DatePicker
 
+const i18n = {
+  stationTypeLabel: t('dataPointReport.form.label.stationType'),
+  phaseLabel: t('dataPointReport.form.label.phase'),
+  pointLabel: t('dataPointReport.form.label.point'),
+  timeLabel: t('dataPointReport.form.label.time'),
+  exceededLabel: t('dataPointReport.form.label.exceeded'),
+  inRangeField: t('dataPointReport.form.dataPicker.inRange'),
+}
+
 const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
   padding: 16px 16px;
@@ -96,10 +105,10 @@ export class SearchForm extends React.Component {
   }
 
   handleOnSelectStationType = stationTypeIdSelected => {
-    const {form} = this.props
+    const { form } = this.props
     form.setFieldsValue({
       [FIELDS.PHASE]: undefined,
-      [FIELDS.POINT]: undefined
+      [FIELDS.POINT]: undefined,
     })
     this.fetchPhase(stationTypeIdSelected)
     this.fetchPoints(stationTypeIdSelected)
@@ -187,7 +196,7 @@ export class SearchForm extends React.Component {
           <Container>
             <Row gutter={24}>
               <Col span={8}>
-                <FormItemStyled label="Loại trạm">
+                <FormItemStyled label={i18n.stationTypeLabel}>
                   {form.getFieldDecorator(
                     FIELDS.STATION_TYPE_ID,
                     config
@@ -208,7 +217,7 @@ export class SearchForm extends React.Component {
                 </FormItemStyled>
               </Col>
               <Col span={16}>
-                <FormItemStyled label="Đợt quan trắc">
+                <FormItemStyled label={i18n.phaseLabel}>
                   {form.getFieldDecorator(
                     FIELDS.PHASE,
                     config
@@ -234,7 +243,7 @@ export class SearchForm extends React.Component {
             </Row>
             <Row>
               <Col span={24}>
-                <FormItemStyled label="Điểm quan trắc">
+                <FormItemStyled label={i18n.pointLabel}>
                   {form.getFieldDecorator(
                     FIELDS.POINT,
                     config
@@ -260,7 +269,7 @@ export class SearchForm extends React.Component {
             </Row>
             <Row gutter={24}>
               <Col span={8}>
-                <FormItemStyled label="Thời gian">
+                <FormItemStyled label={i18n.timeLabel}>
                   {form.getFieldDecorator('time', {
                     ...config,
                     initialValue: 7,
@@ -272,14 +281,14 @@ export class SearchForm extends React.Component {
                         </Select.Option>
                       ))}
                       <Option key="range" value={FIELDS.RANGE_PICKER}>
-                        Trong khoảng
+                        {i18n.inRangeField}
                       </Option>
                     </Select>
                   )}
                 </FormItemStyled>
               </Col>
               <Col span={8}>
-                <FormItemStyled label="Vượt quy chuẩn">
+                <FormItemStyled label={i18n.exceededLabel}>
                   {form.getFieldDecorator(FIELDS.IS_EXCEEDED, {
                     initialValue: false,
                   })(<Switch size="large" />)}

@@ -2521,16 +2521,26 @@ export default {
     selectPhaseError: 'Please select the monitoring batch',
   },
   dataPointReport: {
+    base: {
+      title: 'Tra cứu dữ liệu',
+    },
+    tab: {
+      data: 'Data',
+    },
     title: {
-      receivedAt: 'receivedAt',
+      receivedAt: 'Received At',
       phaseName: 'Phase name',
       pointName: 'Point name',
     },
+    button: {
+      add: 'Add',
+      exportExcel: 'Export Excel',
+    },
     optionalInfo: {
-      symbol: 'symbol',
-      weather: 'weather',
-      sampler: 'sampler',
-      notes: 'notes',
+      symbol: 'Symbol',
+      weather: 'Weather',
+      sampler: 'Sampler',
+      notes: 'Notes',
       monitoringPlace: 'Monitoring place',
       requirements: 'Requirements',
       method: 'Method',
@@ -2539,6 +2549,18 @@ export default {
       equipmentlist: 'Equipment list',
       analyst: 'Analyst',
       placeOfAnalysis: 'Place Of Analysis',
+    },
+    form: {
+      label: {
+        stationType: 'Types Of Station',
+        phase: 'Phase',
+        point: 'Point',
+        time: 'Time',
+        exceeded: 'Only Exceeded',
+      },
+      dataPicker: {
+        inRange: 'In Range',
+      },
     },
   },
   menuApp: {

@@ -8,6 +8,6 @@ export default createBreadcrumb({
     id: 'base',
     //icon: Icon.car,
     href: slug.stationFixedReport.base,
-    name: translate('stationFixedReport.base.title'),
+    name: translate('dataPointReport.base.title'),
   }
 })
