@@ -1,18 +1,18 @@
-import React from 'react'
-import Proptypes from 'prop-types'
-import styled from 'styled-components'
-import moment from 'moment-timezone'
-import { translate } from 'hoc/create-lang'
-import ReactHighcharts from 'react-highcharts'
-import * as _ from 'lodash'
-import { Tabs, Row, Col, Skeleton } from 'antd'
-import { DD_MM_YYYY_HH_MM, HH_MM, DD_MM_YYYY } from 'constants/format-date'
+import { Col, Row, Skeleton, Tabs } from 'antd'
 import { getDataStationAutoAvg_v2 } from 'api/DataStationAutoApi'
-import { getFormatNumber } from 'constants/format-number'
 import InputEditCell from 'components/elements/input-edit-cell'
 import Label from 'components/elements/label'
-import { COLOR } from 'themes/color'
+import { DD_MM_YYYY, DD_MM_YYYY_HH_MM, HH_MM } from 'constants/format-date'
+import { getFormatNumber } from 'constants/format-number'
+import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
+import moment from 'moment-timezone'
+import Proptypes from 'prop-types'
+import React from 'react'
+import ReactHighcharts from 'react-highcharts'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { DATA_COLOR } from 'themes/color'
 
 const { TabPane } = Tabs
 const ChartWrapper = styled.div`
@@ -307,7 +307,7 @@ export default class ChartRowToChart extends React.Component {
                   results[key] = _.concat(array, [
                     {
                       y: null,
-                      color: COLOR.GOOD,
+                      color: DATA_COLOR.GOOD,
                     },
                   ])
                   return key
@@ -317,7 +317,7 @@ export default class ChartRowToChart extends React.Component {
                 _.mapKeys(itemData, (value, key) => {
                   const array = _.get(results, key, [])
                   let valueObj = undefined
-                  let colorColumn = COLOR.GOOD
+                  let colorColumn = DATA_COLOR.GOOD
 
                   // check logic màu cho từng column
                   if (_.has(categories, `${key}`)) {
@@ -340,14 +340,14 @@ export default class ChartRowToChart extends React.Component {
                       (value < minLimit && _.isNumber(minLimit)) ||
                       (value > maxLimit && _.isNumber(maxLimit))
                     ) {
-                      colorColumn = COLOR.EXCEEDED
+                      colorColumn = DATA_COLOR.EXCEEDED
                     } else if (
                       (value < minTend && _.isNumber(minTend)) ||
                       (value > maxTend && _.isNumber(maxTend))
                     ) {
-                      colorColumn = COLOR.EXCEEDED_PREPARING
+                      colorColumn = DATA_COLOR.EXCEEDED_PREPARING
                     } else {
-                      colorColumn = COLOR.GOOD
+                      colorColumn = DATA_COLOR.GOOD
                     }
                   }
                   // console.log(colorColumn,"colorColumn")

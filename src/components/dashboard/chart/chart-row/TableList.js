@@ -1,11 +1,12 @@
 import { Icon, Tooltip } from 'antd'
 import {
-  getStatusPriority, STATUS_OPTIONS,
-  STATUS_STATION
+  getStatusPriority,
+  STATUS_OPTIONS,
+  STATUS_STATION,
 } from 'constants/stationStatus'
 import {
   // warningLevelsNumber,
-  warningLevels
+  warningLevels,
 } from 'constants/warningLevels'
 import { removeAccents, removeAccentsSort, translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
@@ -13,7 +14,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { COLOR } from 'themes/color'
+import { DATA_COLOR } from 'themes/color'
 
 const Status = styled.div`
   width: 16px;
@@ -158,7 +159,7 @@ export default class TableListCustom extends React.PureComponent {
 
   getColorItem(item) {
     if (item.status === STATUS_STATION.HIGHTGEST)
-      return COLOR[STATUS_STATION.HIGHTGEST]
+      return DATA_COLOR[STATUS_STATION.HIGHTGEST]
 
     if (item.lastLog) {
       let warLevel = warningLevels.GOOD
@@ -166,9 +167,9 @@ export default class TableListCustom extends React.PureComponent {
       for (let key in measuringLogs) {
         warLevel = getStatusPriority(warLevel, measuringLogs[key].warningLevel)
       }
-      return COLOR[warLevel]
+      return DATA_COLOR[warLevel]
     }
-    return COLOR.GOOD
+    return DATA_COLOR.GOOD
   }
 
   getStatusItem(item) {
@@ -200,7 +201,7 @@ export default class TableListCustom extends React.PureComponent {
     //   }
     //   return 0
     // })
-    
+
     if (key === 'name') {
       return _.orderBy(
         data,
