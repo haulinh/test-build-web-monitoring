@@ -10,6 +10,7 @@ import { replaceVietnameseStr } from 'utils/string'
 @autobind
 export default class SelectProvince extends PureComponent {
   static propTypes = {
+    isUsedId: PropTypes.bool,
     query: PropTypes.object,
     label: PropTypes.string,
     onChange: PropTypes.func,
@@ -31,18 +32,23 @@ export default class SelectProvince extends PureComponent {
     let query = {}
     const result = await ProvinceApi.getProvinces({}, query)
     if (get(result, 'success', false)) {
+      const data = get(result, 'data', [])
       this.setState({
-        provinces: get(result, 'data', []),
-        value: this.getValue(),
+        provinces: data,
+        value: this.getValue(data),
       })
     }
   }
 
-  getValue = () => {
+  getValue = dataSource => {
     if (
       typeof this.props.value === 'string' ||
       Array.isArray(this.props.value)
     ) {
+      if(this.props.isUsedId){
+        let res = dataSource.find(item => item._id === this.props.value)
+        return res.key
+      }
       return this.props.value
     }
     if (this.props.value !== null && typeof this.props.value === 'object') {
@@ -64,7 +70,13 @@ export default class SelectProvince extends PureComponent {
     }
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
     if (value === undefined) value = null
-    if (this.props.onChange) this.props.onChange(value)
+    if (this.props.onChange) {
+      if (this.props.isUsedId) {
+        this.props.onChange(res._id)
+      } else {
+        this.props.onChange(value)
+      }
+    }
   }
 
   getProvinces = () => {
