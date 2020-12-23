@@ -2454,25 +2454,47 @@ export default {
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
   },
   dataPointReport: {
+    base: {
+      title: 'Tra cứu dữ liệu',
+    },
+    tab: {
+      data: 'Dữ liệu',
+    },
     title: {
-      receivedAt: 'Thời gian Truyền File',
+      receivedAt: 'Thời gian',
       phaseName: 'Tên đợt',
       pointName: 'Tên điểm',
     },
+    button: {
+      add: 'Thêm',
+      exportExcel: 'Xuất dữ liệu Excel',
+    },
     optionalInfo: {
-      symbol: "Ký hiệu mẫu",
-      weather: "Đặc điểm thời tiết",
-      sampler: "Tên người lấy mẫu",
-      notes: "Ghi chú",
-      monitoringPlace: "Đặc điểm nơi quan trắc",
-      requirements: "Yêu cầu đối với việc lấy mẫu",
-      method: "Phương pháp lấy mẫu",
-      chemical: "Hóa chất bảo quản",
-      conditions: "Điều kiện bảo quản mẫu",
-      equipmentlist: "Danh sách thiết bị lấy mẫu",
-      analyst: "Người phân tích",
-      placeOfAnalysis: "Nơi phân tích",
-    }
+      symbol: 'Ký hiệu mẫu',
+      weather: 'Đặc điểm thời tiết',
+      sampler: 'Tên người lấy mẫu',
+      notes: 'Ghi chú',
+      monitoringPlace: 'Đặc điểm nơi quan trắc',
+      requirements: 'Yêu cầu đối với việc lấy mẫu',
+      method: 'Phương pháp lấy mẫu',
+      chemical: 'Hóa chất bảo quản',
+      conditions: 'Điều kiện bảo quản mẫu',
+      equipmentlist: 'Danh sách thiết bị lấy mẫu',
+      analyst: 'Người phân tích',
+      placeOfAnalysis: 'Nơi phân tích',
+    },
+    form: {
+      label: {
+        stationType: 'Loại trạm',
+        phase: 'Đợt quan trắc',
+        point: 'Điểm quan trắc',
+        time: 'Thời gian',
+        exceeded: 'Vượt quy chuẩn',
+      },
+      dataPicker: {
+        inRange: 'Trong khoảng',
+      },
+    },
   },
   menuApp: {
     dashboard: {
@@ -3008,10 +3030,10 @@ export default {
     page: 'Số trang',
     itemPerPage: 'Số lượng dữ liệu trên 1 trang',
     stationAutoKey: 'Mã trạm tự động',
-    measuringList: 'Danh sách thông số ngăn cách bởi dấu \',\'',
+    measuringList: "Danh sách thông số ngăn cách bởi dấu ','",
     fromDate: 'Từ ngày',
     toDate: 'Đến ngày',
-    filterByExceeded:'Lọc ra danh sách trạm vượt ngưỡng',
+    filterByExceeded: 'Lọc ra danh sách trạm vượt ngưỡng',
     allowedAQI: 'Danh sách trạm cấu hình AQI',
   },
 }
