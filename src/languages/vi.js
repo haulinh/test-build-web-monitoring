@@ -63,7 +63,7 @@ export default {
   notification: {
     label: 'Thông báo',
     removeAll: 'Xoá tất cả thông báo',
-    toolTipEnable: 'Nhận tất cả thông báo cập nhật liên tục về iLotusland',
+    toolTipEnable: 'Nhận tất cả thông báo cập nhật liên tục về iLotusLand',
     markAll: 'Đánh dấu đã đọc tất cả',
     delele: 'Xoá thông báo này',
     tickRead: 'Đánh dấu đã đọc',
@@ -135,7 +135,7 @@ export default {
     managementArea: 'Khu vực quản lý',
     statusDescription: {
       disconnected:
-        'Không thể kết nối đến thiết bị hoặc hông có dữ liệu truyền về.',
+        'Không thể kết nối đến thiết bị hoặc không có dữ liệu truyền về.',
       good: 'Giá trị dữ liệu truyền về trong ngưỡng cho phép.',
       exceededPreparing: 'Giá trị dữ liệu truyền về chuẩn bị vượt ngưỡng.',
       exceeded: 'Giá trị dữ liệu truyền về vượt quá mức ngưỡng thiết lập.',
@@ -2430,6 +2430,8 @@ export default {
       'Thêm dữ liệu quan trắc điểm định kỳ bằng cách tải lên file xlsx với những thông tin cần thiết.',
     startUpload: 'Bắt đầu bằng cách lựa chọn đợt nhập liệu',
     phaseLabel: 'Đợt quan trắc',
+    measuringLabel:'Thứ tự thông số nhập liệu',
+    measuringRequired:'Vui lòng chọn 1 thông số',
     stationTypeLabel: 'Loại trạm',
     requirements:
       'Tải lên dữ liệu chứa thông tin các điểm quan trắc theo mẫu bên dưới. Hãy đảm bảo những trường thông tin chính xác tuyệt đối. Dữ liệu đã được tải lên hệ thống sẽ không thể loại bỏ',

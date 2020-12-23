@@ -34,7 +34,6 @@ export default class StationFixedPhaseForm extends React.PureComponent {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       if (err) return
-
       const data = {
         key: values.key.trim(),
         name: values.name.trim(),
@@ -54,6 +53,12 @@ export default class StationFixedPhaseForm extends React.PureComponent {
                 ),
               ],
             },
+            name: {
+              value: data.name
+            },
+            stationTypeId: {
+              value: data.stationTypeId
+            }
           })
         }
       }

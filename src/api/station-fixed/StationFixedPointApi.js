@@ -12,13 +12,13 @@ export function getStationFixedPointUrl(prefix = '') {
   return getConfigApi().stationFixedPoint + '/' + prefix
 }
 
-export function exportDataTemplate() {
+export function exportDataTemplate(measurings=[]) {
   const lang = getLanguage()
   const url = getStationFixedPointUrl('export-data-template') + '/' + lang
-  return getFetchDownFile(url)
+  return getFetchDownFile(url,{measurings} )
 }
 
-export function getStationFixedPoints(
+export async function getStationFixedPoints(
   { page = 1, itemPerPage = 1000 },
   { name, stationTypeId }
 ) {
