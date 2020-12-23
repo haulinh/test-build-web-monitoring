@@ -105,7 +105,7 @@ export default class DrawerInfoStation extends React.Component {
   }
 
   getStrPhone=(phone)=>{
-    if(typeof phone === 'object'){
+    if(phone && typeof phone === 'object'){
       return phone.phoneNumber
     }
     return phone
