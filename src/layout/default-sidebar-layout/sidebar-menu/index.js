@@ -225,7 +225,13 @@ export default class MenuApp extends React.PureComponent {
               ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW,
             ]) && HandleDataMenu.renderComp(this.props)}
 
-            {this.checkRoleForGroup([ROLE.STATION_AUTO.VIEW]) &&
+            {this.checkRoleForGroup([
+              ROLE.STATION_FIXED_PHASE.VIEW,
+              ROLE.STATION_FIXED.VIEW,
+              ROLE.STATION_FIXED_INPUT.VIEW,
+              ROLE.STATION_FIXED_SEARCH.VIEW,
+              ROLE.MAP_STATION_FIXED.VIEW,
+            ]) &&
               StationFixedMenu.renderComp(this.props)}
 
             {this.checkRoleForGroup([

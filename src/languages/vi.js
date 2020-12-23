@@ -2050,6 +2050,9 @@ export default {
         name: 'Bản đồ WQI',
       },
       configWQI: { name: 'Cấu hình tính WQI, AQI' },
+      stationFixPhase: {
+        name:"Quản lý đợt quan trắc"
+      },
       stationFixMap: {
         name: 'Bản đồ trạm cố định',
       },

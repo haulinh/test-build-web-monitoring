@@ -2061,6 +2061,9 @@ export default {
         name: 'WQI Map',
       },
       configWQI: { name: 'AQI & WQI Configurations' },
+      stationFixPhase: {
+        name: 'Manage the monitoring phase',
+      },
       stationFixMap: {
         name: 'Map Fixed Station',
       },
