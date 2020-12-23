@@ -19,7 +19,7 @@ export default {
     upload: 'Upload',
     parameter: 'Parameter',
     example: 'Example',
-    copySuccess: 'Copy successfully'
+    copySuccess: 'Copy successfully',
   },
   rules: {
     required: 'Required',
@@ -137,10 +137,13 @@ export default {
     statusDescription: {
       disconnected: 'Cannot connect to the device or no data is available.',
       good: 'The data value is transmitted within the allowed threshold.',
-      exceededPreparing: 'The data value transmitted is about to exceed the threshold.',
+      exceededPreparing:
+        'The data value transmitted is about to exceed the threshold.',
       exceeded: 'The transmitted data value exceeds the threshold set.',
-      maintenance: 'The device is calibrating, the transmitted value may not be correct.',
-      sensorError: 'The device is faulty, the transmitted value may not be correct.',
+      maintenance:
+        'The device is calibrating, the transmitted value may not be correct.',
+      sensorError:
+        'The device is faulty, the transmitted value may not be correct.',
       goodDevice: 'The device is in the normal state.',
     },
   },
@@ -2464,20 +2467,31 @@ export default {
     invalidParameter: 'Parameter code does not exist',
     pointKeyNotExisted: 'Monitoring Code dose not exist',
     parameterNotTypeNumber: 'Wrong format parameter',
-    pointAndPhaseNotBelongToStationType: 'Point and phase monitoring are not the same type of station',
+    pointAndPhaseNotBelongToStationType:
+      'Point and phase monitoring are not the same type of station',
     selectPhaseError: 'Please select the monitoring batch',
   },
   dataPointReport: {
+    base: {
+      title: 'Tra cứu dữ liệu',
+    },
+    tab: {
+      data: 'Data',
+    },
     title: {
-      receivedAt: 'receivedAt',
+      receivedAt: 'Received At',
       phaseName: 'Phase name',
       pointName: 'Point name',
     },
+    button: {
+      add: 'Add',
+      exportExcel: 'Export Excel',
+    },
     optionalInfo: {
-      symbol: 'symbol',
-      weather: 'weather',
-      sampler: 'sampler',
-      notes: 'notes',
+      symbol: 'Symbol',
+      weather: 'Weather',
+      sampler: 'Sampler',
+      notes: 'Notes',
       monitoringPlace: 'Monitoring place',
       requirements: 'Requirements',
       method: 'Method',
@@ -2486,6 +2500,18 @@ export default {
       equipmentlist: 'Equipment list',
       analyst: 'Analyst',
       placeOfAnalysis: 'Place Of Analysis',
+    },
+    form: {
+      label: {
+        stationType: 'Types Of Station',
+        phase: 'Phase',
+        point: 'Point',
+        time: 'Time',
+        exceeded: 'Only Exceeded',
+      },
+      dataPicker: {
+        inRange: 'In Range',
+      },
     },
   },
   menuApp: {
@@ -2526,7 +2552,7 @@ export default {
     shareData: {
       shareConfig: 'Sharing onfigurations',
       ftpConfig: 'FTP Transfer Configurations',
-      apiSharing: 'Sharing API'
+      apiSharing: 'Sharing API',
     },
 
     advanceSub: 'Advanced',
@@ -2673,7 +2699,7 @@ export default {
         'Select monitoring points and parameters for data publication',
       ftpConfig:
         'Select monitoring points and parameters to transfer to an external folder using FTP',
-        shareAPI: 'API Share',
+      shareAPI: 'API Share',
     },
     shareDataSub: 'Configure to share data from the system to the outside',
     reportSub: 'Select the report type to export the results',
@@ -3013,10 +3039,10 @@ export default {
     page: 'Number of pages',
     itemPerPage: 'Number item of per page',
     stationAutoKey: 'Key of station auto',
-    measuringList: 'List measure separated by \',\'',
+    measuringList: "List measure separated by ','",
     fromDate: 'From Date',
     toDate: 'To Date',
-    filterByExceeded:'Filter data with exceeded status',
+    filterByExceeded: 'Filter data with exceeded status',
     allowedAQI: 'Station key list is allowed to configure AQI',
-  }
+  },
 }

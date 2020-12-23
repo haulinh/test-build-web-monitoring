@@ -14,7 +14,7 @@ export const getDataPoint = queryParam => {
 const getExportDataPointUrl = (prefix = '') => {
   return getConfigApi().stationFixedExportDataPoint + '/' + prefix
 }
-export const exportDataPoint = queryParam => {
-  const url = getExportDataPointUrl('vi')
+export const exportDataPoint = (lang, queryParam) => {
+  const url = getExportDataPointUrl(lang)
   return getFetchDownFile(url, queryParam)
 }

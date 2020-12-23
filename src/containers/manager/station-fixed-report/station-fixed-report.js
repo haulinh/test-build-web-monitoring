@@ -3,6 +3,7 @@ import { exportDataPoint, getDataPoint } from 'api/station-fixed/DataPointApi'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { colorLevels } from 'constants/warningLevels'
 import { translate as t } from 'hoc/create-lang'
+import { connect } from 'react-redux'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
 import moment from 'moment'
@@ -30,6 +31,9 @@ const i18n = {
     analyst: t('dataPointReport.optionalInfo.analyst'),
     placeOfAnalysis: t('dataPointReport.optionalInfo.placeOfAnalysis'),
   },
+  addButton: t('dataPointReport.button.add'),
+  exportExcelButton: t('dataPointReport.button.exportExcel'),
+  dataTab: t('dataPointReport.tab.data'),
 }
 
 const optionalInfo = [
@@ -66,6 +70,9 @@ const OptionalInfoContainer = styled.div`
 const Flex = styled.div`
   display: flex;
 `
+@connect(state => ({
+  lang: state.language.locale,
+}))
 @Form.create()
 export class StationFixedReport extends React.Component {
   state = {
@@ -79,26 +86,29 @@ export class StationFixedReport extends React.Component {
   }
 
   async componentDidMount() {}
-  
+
   componentDidUpdate(prevProps, prevState) {
     if (!_.isEqual(prevState.queryParam, this.state.queryParam)) {
-      this.setState({pageNumber: 1})
+      this.setState({ pageNumber: 1 })
     }
   }
+
+  isDisableExportExcel = () => _.isEmpty(this.state.dataPoints)
 
   operations = () => (
     <Flex>
       <Popover content={this.content()} placement="bottom" trigger="click">
         <Button icon="profile" style={{ marginRight: '8px' }}>
-          Thêm
+          {i18n.addButton}
         </Button>
       </Popover>
       <Button
+        disabled={this.isDisableExportExcel()}
         loading={this.state.loadingExport}
         onClick={this.handleExportExcel}
         type="primary"
       >
-        Xuất dữ liệu Excel
+        {i18n.exportExcelButton}
       </Button>
     </Flex>
   )
@@ -167,7 +177,7 @@ export class StationFixedReport extends React.Component {
   }
 
   handleOnSearch = async (pageNumber = 1) => {
-      this.queryDataPoint(this.state.pageNumber)
+    this.queryDataPoint(this.state.pageNumber)
   }
 
   handleOnPageChange = pageNumber => {
@@ -184,8 +194,10 @@ export class StationFixedReport extends React.Component {
       stationTypeId,
     } = this.state.queryParam
 
+    const { lang } = this.props
+
     this.setState({ loadingExport: true })
-    const res = await exportDataPoint({
+    const params = {
       title: `${moment(startDate).format('DD-MM-YYY')} - ${moment(
         endDate
       ).format('DD-MM-YYYY')}`,
@@ -208,7 +220,8 @@ export class StationFixedReport extends React.Component {
       optionalInfo: this.props.form.getFieldsValue(),
       pageNumber: 1,
       pageSize: 9999,
-    })
+    }
+    const res = await exportDataPoint(lang, params)
     this.setState({ loadingExport: false })
 
     downFileExcel(
@@ -317,7 +330,7 @@ export class StationFixedReport extends React.Component {
           onSearch={this.handleOnSearch}
         />
         <Tabs defaultActiveKey="1" tabBarExtraContent={this.operations()}>
-          <TabPane tab="Dữ liệu" key="1" />
+          <TabPane tab={i18n.dataTab} key="1" />
         </Tabs>
         <Table
           // locale={locale}
