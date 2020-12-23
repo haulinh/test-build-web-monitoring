@@ -1,14 +1,14 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
 import { Card, Spin } from 'antd'
-import ReactHighcharts from 'react-highcharts'
-import * as _ from 'lodash'
-
-import { translate } from 'hoc/create-lang'
-import ChartBaseView from './chart-base'
-import { COLOR } from 'themes/color'
-import { STATUS_STATION } from 'constants/stationStatus'
 import { ROUND_DIGIT } from 'constants/format-number'
+import { STATUS_STATION } from 'constants/stationStatus'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
+import React from 'react'
+import ReactHighcharts from 'react-highcharts'
+import { DATA_COLOR } from 'themes/color'
+import ChartBaseView from './chart-base'
+
 
 @autobind
 export default class ChartStatusView extends React.PureComponent {
@@ -100,12 +100,12 @@ export default class ChartStatusView extends React.PureComponent {
             {
               name: translate('dashboard.chartStatus.dataLoss'),
               y: lossData,
-              color: COLOR.DATA_LOSS,
+              color: DATA_COLOR.DATA_LOSS,
             },
             {
               name: titleActive,
               y: goodTotal,
-              color: COLOR.GOOD,
+              color: DATA_COLOR.GOOD,
             },
           ],
         },
@@ -131,14 +131,14 @@ export default class ChartStatusView extends React.PureComponent {
     const seriesDataLoss = {
       name: translate('dashboard.chartStatus.dataLoss'),
       data: [],
-      color: COLOR.DATA_LOSS,
+      color: DATA_COLOR.DATA_LOSS,
       dataLabels,
     }
     const seriesActive = {
       name: titleActive,
       data: [],
       dataLabels,
-      color: COLOR.GOOD,
+      color: DATA_COLOR.GOOD,
     }
     // const seriesUnActive = {
     //   name: tittleUnActive,

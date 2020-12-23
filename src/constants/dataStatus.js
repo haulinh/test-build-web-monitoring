@@ -1,24 +1,24 @@
-import { COLOR } from 'themes/color'
+import { DATA_COLOR } from 'themes/color'
 
 export const dataStatusOptions = [
   {
     value: 'COLLECTING',
     label: 'warningLevels.collecting',
-    color: COLOR.COLLECTING,
+    color: DATA_COLOR.COLLECTING,
   },
   // {
   //   value: 'LOST_CONNECTION',
   //   label: 'warningLevels.lostConnection',
-  //   color: COLOR.LOST_CONNECTION,
+  //   color: DATA_COLOR.LOST_CONNECTION,
   // },
   {
     value: 'OVERLOAD',
     label: 'warningLevels.overload',
-    color: COLOR.OVERLOAD,
+    color: DATA_COLOR.OVERLOAD,
   },
   {
     value: 'ABOUT_TO_OVERLOAD',
     label: 'warningLevels.aboutToOverload',
-    color: COLOR.ABOUT_TO_OVERLOAD,
+    color: DATA_COLOR.ABOUT_TO_OVERLOAD,
   },
 ]
