@@ -90,20 +90,20 @@ export default {
       )}
 
       {/* NOTE  bản đồ */}
-      {/* {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.STATION_AUTO.VIEW)(
         <Menu.Item
-          key={slug.stationFixed.base}
+          key={slug.stationFixed.map}
           onClick={() => {
-            props.selectMenu(slug.stationFixed.base)
+            props.selectMenu(slug.stationFixed.map)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.base}>
-            <Link to={slug.stationFixedPhase.base}>
+          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.map}>
+            <Link to={slug.stationFixed.map}>
               {MENU_NAME.stationFixed.map}
             </Link>
           </Tooltip>
         </Menu.Item>
-      )} */}
+      )}
     </Menu.SubMenu>
   ),
 }

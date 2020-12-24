@@ -84,6 +84,10 @@ export function importDataStationFixed(data) {
   return postFetch(getStationFixedPointUrl('import-data'), data)
 }
 
+export function getLastLog() {
+  return getFetch(getStationFixedPointUrl('last-log'))
+}
+
 export default {
   getStationFixedPoints,
   getStationFixedPoint,
@@ -92,4 +96,5 @@ export default {
   updateStationFixedPoint,
   deactivateStationFixedPoint,
   activeStationFixedPoint,
+  getLastLog,
 }

@@ -101,6 +101,8 @@ export default class MarkerStation extends PureComponent {
     stationStatus: PropTypes.string,
     byStationStatus: PropTypes.string,
     image: PropTypes.object,
+    hideDeviceStatus: PropTypes.bool,
+    hideViewMore: PropTypes.bool
   }
   state = {
     tableData: '',
@@ -147,7 +149,6 @@ export default class MarkerStation extends PureComponent {
   renderTableData() {
     if (!this.props.lastLog || !this.props.lastLog.measuringLogs) return ''
     let lastLog = this.props.lastLog
-
     let measuringList = map(
       this.props.measuringList,
       ({ name, key, unit }, index) => {
@@ -190,6 +191,7 @@ export default class MarkerStation extends PureComponent {
               {typeof value === 'number' ? getFormatNumber(value) : ''}
             </td>
             <td>{unit}</td>
+            {!this.props.hideDeviceStatus&&
             <td
               style={{
                 textAlign: 'center',
@@ -203,6 +205,7 @@ export default class MarkerStation extends PureComponent {
                 }}
               />
             </td>
+            }
           </tr>
         )
       }
@@ -231,7 +234,7 @@ export default class MarkerStation extends PureComponent {
               <th>{translate('map.dataTable.measuring')}</th>
               <th>{translate('map.dataTable.value')}</th>
               <th>{translate('map.dataTable.unit')}</th>
-              <th>{translate('map.dataTable.statusSensor')}</th>
+              {!this.props.hideDeviceStatus && <th>{translate('map.dataTable.statusSensor')}</th>}
             </tr>
           </thead>
           <tbody>{measuringList}</tbody>
@@ -379,14 +382,14 @@ export default class MarkerStation extends PureComponent {
                   }}
                 >
                   <WrapperInfoWindow>
-                    <Viewmore
+                    {!this.props.hideViewMore && <Viewmore
                       measuringList={this.props.measuringList}
                       stationId={this.props.stationId}
                       stationName={this.props.name}
                       stationKey={this.props.stationKey}
                       stationTypeKey={this.props.stationTypeKey}
                       options={this.props.options}
-                    />
+                    />}
                     <InfoTitle>{this.props.name}</InfoTitle>
                     <Clearfix height={8} />
                     <div>
