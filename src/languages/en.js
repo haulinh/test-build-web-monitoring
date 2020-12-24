@@ -719,7 +719,7 @@ export default {
         'The statistics for the average observation results time from {{=it.fromHour}} days {{= it.fromDate}} to {{=it.toHour}} {{= it.toDate}}',
       title6: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
       description6:
-        'tatistics about Results of 1-hour average monitoring of {{=it.stationName}} station in {{=it.dayFormat}}',
+        'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} station in {{=it.dayFormat}}',
     },
     selectTimeRange: {
       startTime: 'Start Time',
@@ -2509,6 +2509,7 @@ export default {
     dragAndDrop: 'Drag and drop files here',
     errorTitle: 'Upload failed',
     errorMessage: 'Some data lines are faulty. Please check and try again',
+    errorMessageNoData: 'There is no data',
     successTitle: 'Upload successfully',
     successMessage: 'Successfully uploaded {{=it.count}} lines of data',
     line: 'Line',
@@ -2517,7 +2518,7 @@ export default {
     invalidDataSheet: 'Sheet data is not valid',
     invalidDateTime: 'Invalid date and time',
     invalidParameter: 'Parameter code does not exist',
-    pointKeyNotExisted: 'Monitoring Code dose not exist',
+    pointKeyNotExisted: 'Monitoring Code does not exist',
     parameterNotTypeNumber: 'Wrong format parameter',
     pointAndPhaseNotBelongToStationType:
       'Point and phase monitoring are not the same type of station',
@@ -2525,7 +2526,7 @@ export default {
   },
   dataPointReport: {
     base: {
-      title: 'Tra cứu dữ liệu',
+      title: 'Search data',
     },
     tab: {
       data: 'Data',
@@ -2555,6 +2556,7 @@ export default {
     },
     form: {
       label: {
+        province: 'Select Site',
         stationType: 'Types Of Station',
         phase: 'Phase',
         point: 'Point',
@@ -2602,7 +2604,7 @@ export default {
 
     shareDataSub: 'Data Sharing',
     shareData: {
-      shareConfig: 'Sharing onfigurations',
+      shareConfig: 'Sharing Configurations',
       ftpConfig: 'FTP Transfer Configurations',
       apiSharing: 'Sharing API',
     },

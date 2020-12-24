@@ -2494,6 +2494,7 @@ export default {
     dragAndDrop: 'Kéo thả file vào đây',
     errorTitle: 'Tải lên thất bại',
     errorMessage: 'Một số dòng dữ liệu bị lỗi. Vui lòng kiểm tra và thử lại',
+    errorMessageNoData: 'Không có dữ liệu',
     successTitle: 'Tải lên thành công',
     successMessage: 'Tải lên thành công {{=it.count}} dòng dữ liệu',
     line: 'Dòng',
@@ -2539,6 +2540,7 @@ export default {
     },
     form: {
       label: {
+        province: 'Đơn vị quản lý',
         stationType: 'Loại trạm',
         phase: 'Đợt quan trắc',
         point: 'Điểm quan trắc',

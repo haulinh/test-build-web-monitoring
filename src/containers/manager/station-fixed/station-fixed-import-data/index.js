@@ -11,7 +11,7 @@ import {
 } from 'api/station-fixed/StationFixedPointApi'
 import SelectPhase from './select-phase'
 import SelectMeasuring from './select-measuring'
-
+import Clearfix from 'components/elements/clearfix'
 import { downFileExcel } from 'utils/downFile'
 
 const Header = styled.div`
@@ -86,6 +86,7 @@ const i18n = {
   dragAndDrop: t('importDataPoint.dragAndDrop'),
   errorTitle: t('importDataPoint.errorTitle'),
   errorMessage: t('importDataPoint.errorMessage'),
+  errorMessageNoData: t('importDataPoint.errorMessageNoData'),
   successTitle: t('importDataPoint.successTitle'),
   successMessage: count => t('importDataPoint.successMessage', { count }),
   line: t('importDataPoint.line'),
@@ -330,13 +331,24 @@ class StationFixedImportData extends React.Component {
                 </Dragger>
               </Col>
             </Row>
+            <Clearfix height={8}/>
             <Row type="flex" justify="center">
-              {isSuccess && (
+              {isSuccess && count > 0  && (
                 <Col span={16}>
                   <Alert
                     message={i18n.successTitle}
                     description={i18n.successMessage(count)}
                     type="success"
+                    showIcon
+                  />
+                </Col>
+              )}
+              {isSuccess && count === 0 && (
+                <Col span={16}>
+                  <Alert
+                    message={i18n.errorTitle}
+                    description={i18n.errorMessageNoData}
+                    type="error"
                     showIcon
                   />
                 </Col>
