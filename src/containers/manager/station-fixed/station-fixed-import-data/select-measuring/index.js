@@ -5,6 +5,7 @@ import {
   map as _map,
   forEach as _forEach,
   differenceBy as _differenceBy,
+  compact as _compact
 } from 'lodash'
 import { Transfer, Spin } from 'antd'
 import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi'
@@ -25,7 +26,7 @@ export default class SelectMeasuring extends Component {
     dataSource: [],
     targetKeys: [],
     loading: false,
-    selectedKeys:[]
+    selectedKeys: [],
   }
 
   componentDidUpdate = (propsPrev, statePrev) => {
@@ -51,14 +52,16 @@ export default class SelectMeasuring extends Component {
         _forEach(res.data, item => {
           if (item.measuringList) {
             const itemArr = _map(item.measuringList, itemMeasuring => {
-              return {
-                key: itemMeasuring.key,
-                title: itemMeasuring.name,
-                description: itemMeasuring.name,
+              if (itemMeasuring.key) {
+                return {
+                  key: itemMeasuring.key,
+                  title: itemMeasuring.name,
+                  description: itemMeasuring.name,
+                }
               }
             })
 
-            const newData = _differenceBy(itemArr, data, 'key')
+            const newData = _differenceBy(_compact(itemArr), data, 'key')
             data.push(...newData)
           }
         })
@@ -75,7 +78,7 @@ export default class SelectMeasuring extends Component {
       .finally(() => {
         this.setState({
           targetKeys: [],
-          selectedKeys:[],
+          selectedKeys: [],
           loading: false,
         })
       })
@@ -88,9 +91,9 @@ export default class SelectMeasuring extends Component {
   }
   handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
     this.setState({
-      selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys]
-    });
-  };
+      selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys],
+    })
+  }
 
   render() {
     return (
@@ -100,7 +103,7 @@ export default class SelectMeasuring extends Component {
             showSearch
             className="tree-transfer"
             filterOption={(inputValue, item) =>
-              item.title.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1 
+              item.title.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
             }
             listStyle={{
               height: 300,
@@ -110,7 +113,7 @@ export default class SelectMeasuring extends Component {
             selectedKeys={this.state.selectedKeys}
             onChange={this.handleOnChange}
             onSelectChange={this.handleSelectChange}
-            render={item => `${item.title} [${item.key}]` }
+            render={item => `${item.title} [${item.key}]`}
             oneWay={true}
             // pagination
           />
