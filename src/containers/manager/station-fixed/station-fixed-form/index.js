@@ -248,7 +248,7 @@ export default class StationFixedForm extends React.Component {
         <Collapse
           // onChange={this.handleChange}
           // activeKey={this.state.tabKey}
-          defaultActiveKey={['2']}
+          defaultActiveKey={['1']}
         >
           <Panel header={i18n.panel1} key="1">
             <Row gutter={12}>
