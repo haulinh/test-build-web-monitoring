@@ -2532,7 +2532,7 @@ export default {
       monitoringPlace: 'Đặc điểm nơi quan trắc',
       requirements: 'Yêu cầu đối với việc lấy mẫu',
       method: 'Phương pháp lấy mẫu',
-      chemical: 'Hóa chất bảo quản',
+      chemical: 'Hóa chất bảo quản mẫu',
       conditions: 'Điều kiện bảo quản mẫu',
       equipmentlist: 'Danh sách thiết bị lấy mẫu',
       analyst: 'Người phân tích',
