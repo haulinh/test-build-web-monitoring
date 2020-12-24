@@ -24,6 +24,7 @@ const MapDefaultWrapper = styled.div`
   height: ${props => props.height}px;
   padding-top: 8px;
   margin-bottom: 8px;
+  overflow: hidden;
 `
 
 const Clearfix = styled.div`

@@ -91,7 +91,6 @@ class CustomGoogleMap extends PureComponent {
   }
 
   render() {
-    console.log(this.props.stationAutoMarker)
     return (
       <GoogleMap
         ref={map => {
