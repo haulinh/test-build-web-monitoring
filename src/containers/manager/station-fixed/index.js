@@ -5,6 +5,7 @@ import StationFixedList from './station-fixed-list'
 import StationFixedCreate from './station-fixed-create'
 import StationFixedImportData from './station-fixed-import-data'
 import StationFixedEdit from './station-fixed-edit'
+import StationFixedMap from './station-fixed-map'
 
 
 export default props => (
@@ -27,6 +28,10 @@ export default props => (
     <Route
       path={slug.stationFixed.importData}
       component={StationFixedImportData}
+    />
+    <Route
+      path={slug.stationFixed.map}
+      component={StationFixedMap}
     />
   </Switch>
 )

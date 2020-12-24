@@ -105,6 +105,7 @@ export default {
     edit: '/station-fixed/edit/:key',
     editWithKey: '/station-fixed/edit',
     importData: '/station-fixed/import-data',
+    map: '/station-fixed/map'
   },
   configWQI: {
     list: '/config-wqi',
