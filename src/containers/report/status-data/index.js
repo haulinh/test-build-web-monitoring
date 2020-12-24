@@ -206,8 +206,8 @@ export default class StatusDataReport extends React.Component {
                           {getFormatNumber(item.min.data[0].value, ROUND_DIGIT)}
                         </span>
                       ) : (
-                          '-'
-                        )}
+                        '-'
+                      )}
                       {index !== value.length - 1 && (
                         <Divider style={{ margin: 0 }} />
                       )}
@@ -236,8 +236,8 @@ export default class StatusDataReport extends React.Component {
                               timeZone={_get(this.props, 'timeZone.value', '')}
                             />
                           ) : (
-                              '-'
-                            )}
+                            '-'
+                          )}
                         </span>
                       )}
                       {index !== value.length - 1 && (
@@ -271,8 +271,8 @@ export default class StatusDataReport extends React.Component {
                           {getFormatNumber(item.max.data[0].value, ROUND_DIGIT)}
                         </span>
                       ) : (
-                          '-'
-                        )}
+                        '-'
+                      )}
                       {index !== value.length - 1 && (
                         <Divider style={{ margin: 0 }} />
                       )}
@@ -301,8 +301,8 @@ export default class StatusDataReport extends React.Component {
                               timeZone={_get(this.props, 'timeZone.value', '')}
                             />
                           ) : (
-                              '-'
-                            )}
+                            '-'
+                          )}
                         </span>
                       )}
                       {index !== value.length - 1 && (
@@ -332,8 +332,8 @@ export default class StatusDataReport extends React.Component {
                       {getFormatNumber(item.avg.data[0].value, ROUND_DIGIT)}
                     </span>
                   ) : (
-                      '-'
-                    )}
+                    '-'
+                  )}
                   {index !== value.length - 1 && (
                     <Divider style={{ margin: 0 }} />
                   )}
@@ -348,7 +348,7 @@ export default class StatusDataReport extends React.Component {
         key: '12',
         children: [
           {
-            title: 'Tổng số giá trị',
+            title: i18n.totalValue,
             dataIndex: 'totalFact',
             align: 'center',
             width: 100,
@@ -463,7 +463,6 @@ export default class StatusDataReport extends React.Component {
   }
 
   render() {
-
     return (
       <PageContainer>
         <Breadcrumb items={['status_data']} />

@@ -2532,6 +2532,7 @@ export default {
       data: 'Data',
     },
     title: {
+      numberOrder: 'No.',
       receivedAt: 'Received At',
       phaseName: 'Phase name',
       pointName: 'Point name',
@@ -2566,6 +2567,12 @@ export default {
       dataPicker: {
         inRange: 'In Range',
       },
+      required: {
+        stationType: 'Station type is required',
+        phase: 'Phase is required',
+        point: 'Point is required',
+        range: 'Time is required'
+      }
     },
   },
   menuApp: {

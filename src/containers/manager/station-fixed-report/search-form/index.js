@@ -23,6 +23,10 @@ const i18n = {
   timeLabel: t('dataPointReport.form.label.time'),
   exceededLabel: t('dataPointReport.form.label.exceeded'),
   inRangeField: t('dataPointReport.form.dataPicker.inRange'),
+  stationTypeRequired: t('dataPointReport.form.required.stationType'),
+  phaseRequired: t('dataPointReport.form.required.phase'),
+  pointRequired: t('dataPointReport.form.required.point'),
+  numberOrder: t('dataPointReport.title.numberOder'),
 }
 
 const SearchFormContainer = styled(BoxShadowStyle)``
@@ -176,16 +180,22 @@ export class SearchForm extends React.Component {
 
   handleClick = () => alert('It works!')
 
+  getConfig = (msg) => {
+    return {
+      rules: [{ required: true , message: msg}],
+    }
+  }
+
   render() {
     const { loadingSearch } = this.props
     const { phases, points, stationTypes, isOpenRangePicker } = this.state
     const { form } = this.props
-    const config = {
-      rules: [{ required: true }],
-    }
+    // const config = {
+    //   rules: [{ required: true }],
+    // }
     const rangeConfig = {
       rules: [
-        { type: 'array', required: true, message: 'Please select time!' },
+        { type: 'array', required: true, message: t('dataPointReport.form.required.range') },
       ],
     }
     return (
@@ -234,7 +244,7 @@ export class SearchForm extends React.Component {
                 <FormItemStyled label={i18n.stationTypeLabel}>
                   {form.getFieldDecorator(
                     FIELDS.STATION_TYPE_ID,
-                    config
+                    this.getConfig(i18n.stationTypeRequired)
                   )(
                     <Select
                       onSelect={this.handleOnSelectStationType}
@@ -258,7 +268,7 @@ export class SearchForm extends React.Component {
                   <FormItemStyled label={i18n.phaseLabel}>
                     {form.getFieldDecorator(
                       FIELDS.PHASE,
-                      config
+                      this.getConfig(i18n.phaseRequired)
                     )(
                       <Select
                         allowClear
@@ -286,7 +296,7 @@ export class SearchForm extends React.Component {
                   <FormItemStyled label={i18n.pointLabel}>
                     {form.getFieldDecorator(
                       FIELDS.POINT,
-                      config
+                      this.getConfig(i18n.pointRequired)
                     )(
                       <Select
                         autoClearSearchValue
@@ -312,7 +322,7 @@ export class SearchForm extends React.Component {
               <Col span={8}>
                 <FormItemStyled label={i18n.timeLabel}>
                   {form.getFieldDecorator('time', {
-                    ...config,
+                    ...this.getConfig(t('')),
                     initialValue: 7,
                   })(
                     <Select onSelect={this.handleOnSelectTime} size="large">

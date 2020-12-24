@@ -2516,6 +2516,7 @@ export default {
       data: 'Dữ liệu',
     },
     title: {
+      numberOrder: 'STT',
       receivedAt: 'Thời gian',
       phaseName: 'Tên đợt',
       pointName: 'Tên điểm',
@@ -2550,6 +2551,12 @@ export default {
       dataPicker: {
         inRange: 'Trong khoảng',
       },
+      required: {
+        stationType: 'Vui lòng chọn loại trạm',
+        phase: 'Vui lòng chọn đợt quan trắc',
+        point: 'Vui lòng chọn điểm quan trắc',
+        range: 'Vui lòng chọn thời gian'
+      }
     },
   },
   menuApp: {
