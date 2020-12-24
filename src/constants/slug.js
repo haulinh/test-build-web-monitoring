@@ -96,7 +96,7 @@ export default {
     editWithKey: '/station-fixed-phase/edit',
   },
   stationFixedReport: {
-    base: '/station-fixed-report'
+    base: '/station-fixed-report',
   },
   stationFixed: {
     base: '/station-fixed',
@@ -105,6 +105,7 @@ export default {
     edit: '/station-fixed/edit/:key',
     editWithKey: '/station-fixed/edit',
     importData: '/station-fixed/import-data',
+    map: '/station-fixed/map'
   },
   configWQI: {
     list: '/config-wqi',
