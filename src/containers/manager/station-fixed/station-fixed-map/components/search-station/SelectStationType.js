@@ -44,12 +44,13 @@ export default class SelectStationType extends PureComponent {
   }
 
   render() {
+    const { value, onChange } = this.props
     return (
       <SelectWrapper>
-        <Select showSearch {...this.props}>
+        <Select showSearch value={value} onChange={onChange}>
           <Select.Option value={''}>{translate('chart.all')}</Select.Option>
           {this.state.stationTypes.map(stationType => (
-            <Select.Option key={stationType.key} value={stationType.key}>
+            <Select.Option key={stationType._id} value={stationType._id}>
               {stationType.name}
             </Select.Option>
           ))}
