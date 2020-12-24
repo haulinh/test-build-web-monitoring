@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import queryString from 'query-string'
 import { withRouter } from 'react-router-dom'
 import { autobind } from 'core-decorators'
 import { Input } from 'antd'
@@ -35,17 +34,8 @@ export default class SidebarList extends React.PureComponent {
     filterText: '',
   }
 
-  async componentDidMount() {
-    const stationType = queryString.parse(this.props.location.search)
-    if (stationType) {
-      this.handleChangeStationType(stationType.Id) // Lấy mã loại trạm
-    }
-  }
-
   handleChangeStationType(stationType) {
-    if (typeof stationType !== 'undefined') {
-      this.setState({ stationType })
-    }
+    this.setState({ stationType })
   }
 
   handleChangeSearch(e) {
@@ -53,13 +43,16 @@ export default class SidebarList extends React.PureComponent {
   }
 
   getStationGroups() {
-    const { filterText } = this.state
+    const { filterText, stationType } = this.state
     const { stationsAuto } = this.props
-
-    const data = stationsAuto.filter(
-      sAuto => (sAuto.name + sAuto.stationType.name).toLowerCase().indexOf(
-        (filterText || '').toLowerCase()
-      ) > -1
+    let data = stationsAuto
+    if (stationType)
+      data = data.filter(item => item.stationType._id === stationType)
+    data = data.filter(
+      item =>
+        (item.name + item.stationType.name)
+          .toLowerCase()
+          .indexOf((filterText || '').toLowerCase()) > -1
     )
     const groupStationAutoObject = _.groupBy(data, 'stationType.name')
     return Object.keys(groupStationAutoObject).map(stationType => {
