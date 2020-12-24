@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Col, DatePicker, Form, Row, Select, Switch } from 'antd'
+import { Button, Col, DatePicker, Form, Row, Select, Switch, Spin } from 'antd'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -16,7 +16,7 @@ const { Option } = Select
 const { RangePicker } = DatePicker
 
 const i18n = {
-  provinceLabel:t('dataPointReport.form.label.province'),
+  provinceLabel: t('dataPointReport.form.label.province'),
   stationTypeLabel: t('dataPointReport.form.label.stationType'),
   phaseLabel: t('dataPointReport.form.label.phase'),
   pointLabel: t('dataPointReport.form.label.point'),
@@ -60,6 +60,7 @@ export class SearchForm extends React.Component {
     points: [],
     stationTypes: [],
     isOpenRangePicker: false,
+    isLoading: false,
   }
 
   async componentDidMount() {
@@ -78,36 +79,44 @@ export class SearchForm extends React.Component {
   }
 
   fetchPhase = async () => {
-    const stationTypeId = this.props.form.getFieldValue(FIELDS.STATION_TYPE_ID) 
+    this.setState({
+      isLoading: true,
+    })
+    const stationTypeId = this.props.form.getFieldValue(FIELDS.STATION_TYPE_ID)
     const filterPhase = {
       limit: 100,
       skip: 0,
       where: {
-        stationTypeId:  stationTypeId ? stationTypeId: undefined,
+        stationTypeId: stationTypeId ? stationTypeId : undefined,
       },
       include: [{ relation: 'stationType' }],
     }
     const phases = await getPhase({ filter: filterPhase })
 
     this.setState({
+      isLoading: false,
       phases,
     })
   }
 
   fetchPoints = async () => {
-    const provinceId = this.props.form.getFieldValue(FIELDS.PROVINCES) 
-    const stationTypeId = this.props.form.getFieldValue(FIELDS.STATION_TYPE_ID) 
+    this.setState({
+      isLoading: true,
+    })
+    const provinceId = this.props.form.getFieldValue(FIELDS.PROVINCES)
+    const stationTypeId = this.props.form.getFieldValue(FIELDS.STATION_TYPE_ID)
     const filterPoint = {
       limit: 100,
       skip: 0,
       where: {
-        stationTypeId: stationTypeId ? stationTypeId: undefined,
-        provinceId: provinceId ? provinceId : undefined
+        stationTypeId: stationTypeId ? stationTypeId : undefined,
+        provinceId: provinceId ? provinceId : undefined,
       },
     }
     const points = await getPoint({ filter: filterPoint })
 
     this.setState({
+      isLoading: false,
       points: points.data,
     })
   }
@@ -206,7 +215,18 @@ export class SearchForm extends React.Component {
               <Col span={12}>
                 <FormItemStyled label={i18n.provinceLabel}>
                   {form.getFieldDecorator(FIELDS.PROVINCES)(
-                    <SelectProvince onSelect={()=>this.fetchPoints()} isUsedId size="large" />
+                    <SelectProvince
+                      isShowAll
+                      onSelect={() => {
+                        form.setFieldsValue({
+                          [FIELDS.PHASE]: undefined,
+                          [FIELDS.POINT]: undefined,
+                        })
+                        this.fetchPoints()
+                      }}
+                      isUsedId
+                      size="large"
+                    />
                   )}
                 </FormItemStyled>
               </Col>
@@ -234,54 +254,58 @@ export class SearchForm extends React.Component {
             </Row>
             <Row>
               <Col span={24}>
-                <FormItemStyled label={i18n.phaseLabel}>
-                  {form.getFieldDecorator(
-                    FIELDS.PHASE,
-                    config
-                  )(
-                    <Select
-                      allowClear
-                      autoClearSearchValue
-                      size="large"
-                      mode="multiple"
-                      style={{ width: '100%' }}
-                    >
-                      {phases &&
-                        phases.length > 0 &&
-                        phases.map(phase => (
-                          <Option key={phase._id} value={phase._id}>
-                            {phase.name}
-                          </Option>
-                        ))}
-                    </Select>
-                  )}
-                </FormItemStyled>
+                <Spin spinning={this.state.isLoading}>
+                  <FormItemStyled label={i18n.phaseLabel}>
+                    {form.getFieldDecorator(
+                      FIELDS.PHASE,
+                      config
+                    )(
+                      <Select
+                        allowClear
+                        autoClearSearchValue
+                        size="large"
+                        mode="multiple"
+                        style={{ width: '100%' }}
+                      >
+                        {phases &&
+                          phases.length > 0 &&
+                          phases.map(phase => (
+                            <Option key={phase._id} value={phase._id}>
+                              {phase.name}
+                            </Option>
+                          ))}
+                      </Select>
+                    )}
+                  </FormItemStyled>
+                </Spin>
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <FormItemStyled label={i18n.pointLabel}>
-                  {form.getFieldDecorator(
-                    FIELDS.POINT,
-                    config
-                  )(
-                    <Select
-                      autoClearSearchValue
-                      allowClear
-                      mode="multiple"
-                      size="large"
-                      style={{ width: '100%' }}
-                    >
-                      {points &&
-                        points.length > 0 &&
-                        points.map(point => (
-                          <Option key={point.key} value={point.key}>
-                            {point.name}
-                          </Option>
-                        ))}
-                    </Select>
-                  )}
-                </FormItemStyled>
+                <Spin spinning={this.state.isLoading}>
+                  <FormItemStyled label={i18n.pointLabel}>
+                    {form.getFieldDecorator(
+                      FIELDS.POINT,
+                      config
+                    )(
+                      <Select
+                        autoClearSearchValue
+                        allowClear
+                        mode="multiple"
+                        size="large"
+                        style={{ width: '100%' }}
+                      >
+                        {points &&
+                          points.length > 0 &&
+                          points.map(point => (
+                            <Option key={point.key} value={point.key}>
+                              {point.name}
+                            </Option>
+                          ))}
+                      </Select>
+                    )}
+                  </FormItemStyled>
+                </Spin>
               </Col>
             </Row>
             <Row gutter={24}>
