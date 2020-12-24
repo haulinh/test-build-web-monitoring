@@ -233,20 +233,34 @@ export default {
     PER_REC_DATA: 'menu.statistic.actions.per_received_data',
     PER_REC_DATA_EXPORT: 'menu.statistic.actions.per_received_data_export',
   },
+
+  STATION_FIXED_PHASE: {
+    VIEW: 'menu.stationFixPhase.actions.view',
+    // CREATE: 'menu.stationFixed.actions.create',
+    // EDIT: 'menu.stationFixed.actions.edit',
+    // DELETE: 'menu.stationFixed.actions.delete',
+  },
+
   STATION_FIXED: {
-    VIEW: 'menu.stationFixed.actions.view',
-    CREATE: 'menu.stationFixed.actions.create',
-    EDIT: 'menu.stationFixed.actions.edit',
-    DELETE: 'menu.stationFixed.actions.delete',
+    VIEW: 'menu.stationFix.actions.view',
+    // CREATE: 'menu.stationFixed.actions.create',
+    // EDIT: 'menu.stationFixed.actions.edit',
+    // DELETE: 'menu.stationFixed.actions.delete',
+  },
+  STATION_FIXED_INPUT: {
+    VIEW: 'menu.stationFixInput.actions.view',
+    // CREATE: 'menu.stationFixed.actions.create',
+    // EDIT: 'menu.stationFixed.actions.edit',
+    // DELETE: 'menu.stationFixed.actions.delete',
   },
   STATION_FIXED_SEARCH: {
-    VIEW: 'menu.dataSearchFixed.actions.view',
-    DOWNLOAD: 'menu.dataSearchFixed.actions.download',
-    IMPORT: 'menu.dataSearchFixed.actions.import',
-    EXPORT: 'menu.dataSearchFixed.actions.export',
+    VIEW: 'menu.stationFixData.actions.view',
+    // DOWNLOAD: 'menu.dataSearchFixed.actions.download',
+    // IMPORT: 'menu.dataSearchFixed.actions.import',
+    // EXPORT: 'menu.dataSearchFixed.actions.export',
   },
   MAP_STATION_FIXED: {
-    VIEW: 'menu.mapStationFixed.actions.view',
+    VIEW: 'menu.stationFixMap.actions.view',
   },
 
   /* #endregion */

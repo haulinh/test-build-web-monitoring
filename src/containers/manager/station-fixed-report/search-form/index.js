@@ -1,17 +1,29 @@
+import React from 'react'
 import { Button, Col, DatePicker, Form, Row, Select, Switch } from 'antd'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+/** */
 import CategoryApi from 'api/CategoryApi'
 import { getPhase } from 'api/station-fixed/StationFixedPhaseApi'
 import { getPoint } from 'api/station-fixed/StationFixedPointApi'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import createLang, { translate as t } from 'hoc/create-lang'
-import moment from 'moment'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
+import SelectProvince from 'components/elements/select-province'
 
 const { Option } = Select
 const { RangePicker } = DatePicker
+
+const i18n = {
+  provinceLabel:t('dataPointReport.form.label.province'),
+  stationTypeLabel: t('dataPointReport.form.label.stationType'),
+  phaseLabel: t('dataPointReport.form.label.phase'),
+  pointLabel: t('dataPointReport.form.label.point'),
+  timeLabel: t('dataPointReport.form.label.time'),
+  exceededLabel: t('dataPointReport.form.label.exceeded'),
+  inRangeField: t('dataPointReport.form.dataPicker.inRange'),
+}
 
 const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
@@ -23,6 +35,7 @@ const FormItemStyled = styled(Form.Item)`
 `
 
 const FIELDS = {
+  PROVINCES: 'provinceId',
   STATION_TYPE_ID: 'stationTypeId',
   PHASE: 'phase',
   POINT: 'point',
@@ -64,12 +77,13 @@ export class SearchForm extends React.Component {
     })
   }
 
-  fetchPhase = async stationTypeIdSelected => {
+  fetchPhase = async () => {
+    const stationTypeId = this.props.form.getFieldValue(FIELDS.STATION_TYPE_ID) 
     const filterPhase = {
       limit: 100,
       skip: 0,
       where: {
-        stationTypeId: stationTypeIdSelected,
+        stationTypeId:  stationTypeId ? stationTypeId: undefined,
       },
       include: [{ relation: 'stationType' }],
     }
@@ -80,12 +94,15 @@ export class SearchForm extends React.Component {
     })
   }
 
-  fetchPoints = async stationTypeIdSelected => {
+  fetchPoints = async () => {
+    const provinceId = this.props.form.getFieldValue(FIELDS.PROVINCES) 
+    const stationTypeId = this.props.form.getFieldValue(FIELDS.STATION_TYPE_ID) 
     const filterPoint = {
       limit: 100,
       skip: 0,
       where: {
-        stationTypeId: stationTypeIdSelected,
+        stationTypeId: stationTypeId ? stationTypeId: undefined,
+        provinceId: provinceId ? provinceId : undefined
       },
     }
     const points = await getPoint({ filter: filterPoint })
@@ -96,13 +113,13 @@ export class SearchForm extends React.Component {
   }
 
   handleOnSelectStationType = stationTypeIdSelected => {
-    const {form} = this.props
+    const { form } = this.props
     form.setFieldsValue({
       [FIELDS.PHASE]: undefined,
-      [FIELDS.POINT]: undefined
+      [FIELDS.POINT]: undefined,
     })
-    this.fetchPhase(stationTypeIdSelected)
-    this.fetchPoints(stationTypeIdSelected)
+    this.fetchPhase()
+    this.fetchPoints()
   }
 
   handleOnSelectTime = value => {
@@ -186,8 +203,15 @@ export class SearchForm extends React.Component {
           </Heading>
           <Container>
             <Row gutter={24}>
-              <Col span={8}>
-                <FormItemStyled label="Loại trạm">
+              <Col span={12}>
+                <FormItemStyled label={i18n.provinceLabel}>
+                  {form.getFieldDecorator(FIELDS.PROVINCES)(
+                    <SelectProvince onSelect={()=>this.fetchPoints()} isUsedId size="large" />
+                  )}
+                </FormItemStyled>
+              </Col>
+              <Col span={12}>
+                <FormItemStyled label={i18n.stationTypeLabel}>
                   {form.getFieldDecorator(
                     FIELDS.STATION_TYPE_ID,
                     config
@@ -207,8 +231,10 @@ export class SearchForm extends React.Component {
                   )}
                 </FormItemStyled>
               </Col>
-              <Col span={16}>
-                <FormItemStyled label="Đợt quan trắc">
+            </Row>
+            <Row>
+              <Col span={24}>
+                <FormItemStyled label={i18n.phaseLabel}>
                   {form.getFieldDecorator(
                     FIELDS.PHASE,
                     config
@@ -234,7 +260,7 @@ export class SearchForm extends React.Component {
             </Row>
             <Row>
               <Col span={24}>
-                <FormItemStyled label="Điểm quan trắc">
+                <FormItemStyled label={i18n.pointLabel}>
                   {form.getFieldDecorator(
                     FIELDS.POINT,
                     config
@@ -260,7 +286,7 @@ export class SearchForm extends React.Component {
             </Row>
             <Row gutter={24}>
               <Col span={8}>
-                <FormItemStyled label="Thời gian">
+                <FormItemStyled label={i18n.timeLabel}>
                   {form.getFieldDecorator('time', {
                     ...config,
                     initialValue: 7,
@@ -272,14 +298,14 @@ export class SearchForm extends React.Component {
                         </Select.Option>
                       ))}
                       <Option key="range" value={FIELDS.RANGE_PICKER}>
-                        Trong khoảng
+                        {i18n.inRangeField}
                       </Option>
                     </Select>
                   )}
                 </FormItemStyled>
               </Col>
               <Col span={8}>
-                <FormItemStyled label="Vượt quy chuẩn">
+                <FormItemStyled label={i18n.exceededLabel}>
                   {form.getFieldDecorator(FIELDS.IS_EXCEEDED, {
                     initialValue: false,
                   })(<Switch size="large" />)}

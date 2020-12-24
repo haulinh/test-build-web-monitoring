@@ -1,10 +1,10 @@
-import React from 'react'
-
 import { Modal } from 'antd'
-import * as _ from 'lodash'
-import Highcharts from 'react-highcharts'
 import { translate } from 'hoc/create-lang'
-import { COLOR } from 'themes/color'
+import * as _ from 'lodash'
+import React from 'react'
+import Highcharts from 'react-highcharts'
+import { DATA_COLOR } from 'themes/color'
+
 
 export default class StatusModalView extends React.Component {
   getConfig = () => {
@@ -22,13 +22,13 @@ export default class StatusModalView extends React.Component {
     const seriesReceived = {
       name: translate('dashboard.chartRatio.received'),
       data: [],
-      color: COLOR.GOOD,
+      color: DATA_COLOR.GOOD,
       dataLabels,
     }
     const seriesNotReceived = {
       name: translate('dashboard.chartRatio.notReceived'),
       data: [],
-      color: COLOR.DATA_LOSS,
+      color: DATA_COLOR.DATA_LOSS,
       dataLabels,
     }
     let categories = []

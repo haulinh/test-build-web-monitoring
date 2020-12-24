@@ -1,15 +1,15 @@
-import { COLOR } from 'themes/color'
 import { warningLevels } from 'constants/warningLevels'
+import { DATA_COLOR } from 'themes/color'
 
 export const STATUS_OPTIONS = {
-  GOOD: { label: 'warningLevels.good', color: COLOR.GOOD },
-  DATA_LOSS: { label: 'warningLevels.lossData', color: COLOR.DATA_LOSS },
-  // NOT_USE: { label: "dashboard.notUse", color: COLOR.DATA_LOSS },
+  GOOD: { label: 'warningLevels.good', color: DATA_COLOR.GOOD },
+  DATA_LOSS: { label: 'warningLevels.lossData', color: DATA_COLOR.DATA_LOSS },
+  // NOT_USE: { label: "dashboard.notUse", color: DATA_COLOR.DATA_LOSS },
 
-  EXCEEDED: { label: 'warningLevels.exceed', color: COLOR.EXCEEDED },
+  EXCEEDED: { label: 'warningLevels.exceed', color: DATA_COLOR.EXCEEDED },
   EXCEEDED_PREPARING: {
     label: 'warningLevels.exceedPreparing',
-    color: COLOR.EXCEEDED_PREPARING,
+    color: DATA_COLOR.EXCEEDED_PREPARING,
   },
 }
 
@@ -85,22 +85,22 @@ export const stationStatusOptions = [
   {
     value: 'GOOD',
     label: 'warningLevels.good',
-    color: COLOR.GOOD,
+    color: DATA_COLOR.GOOD,
   },
   {
     value: 'DATA_LOSS',
     label: 'warningLevels.lossData',
-    color: COLOR.DATA_LOSS,
+    color: DATA_COLOR.DATA_LOSS,
   },
   {
     value: 'EXCEEDED',
     label: 'warningLevels.exceed',
-    color: COLOR.EXCEEDED,
+    color: DATA_COLOR.EXCEEDED,
   },
   {
     value: 'EXCEEDED_PREPARING',
     label: 'warningLevels.exceedPreparing',
-    color: COLOR.EXCEEDED_PREPARING,
+    color: DATA_COLOR.EXCEEDED_PREPARING,
   },
 ]
 

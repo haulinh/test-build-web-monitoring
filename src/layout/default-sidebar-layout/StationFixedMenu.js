@@ -26,7 +26,7 @@ export default {
       }
     >
       {/* NOTE  ĐỢT QUAN TRẮC */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.STATION_FIXED_PHASE.VIEW)(
         <Menu.Item
           key={slug.stationFixedPhase.base}
           onClick={() => {
@@ -42,14 +42,14 @@ export default {
       )}
  
       {/* NOTE  quản lý điểm quan trắc */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.STATION_FIXED.VIEW)(
         <Menu.Item
           key={slug.stationFixed.base}
           onClick={() => {
             props.selectMenu(slug.stationFixed.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.base}>
+          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.point}>
             <Link to={slug.stationFixed.base}>
               {MENU_NAME.stationFixed.point}
             </Link>
@@ -58,14 +58,14 @@ export default {
       )}
 
       {/* NOTE  nhập dữ liệu quan trắc */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.STATION_FIXED_INPUT.VIEW)(
         <Menu.Item
           key={slug.stationFixed.importData}
           onClick={() => {
             props.selectMenu(slug.stationFixed.importData)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.base}>
+          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.importData}>
             <Link to={slug.stationFixed.importData}>
               {MENU_NAME.stationFixed.importData}
             </Link>
@@ -74,14 +74,14 @@ export default {
       )}
 
       {/* NOTE  tra cứu dữ liệu */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.STATION_FIXED_SEARCH.VIEW)(
         <Menu.Item
           key={slug.stationFixedReport.base}
           onClick={() => {
             props.selectMenu(slug.stationFixedReport.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.base}>
+          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.report}>
             <Link to={slug.stationFixedReport.base}>
               {MENU_NAME.stationFixed.report}
             </Link>
@@ -90,7 +90,7 @@ export default {
       )}
 
       {/* NOTE  bản đồ */}
-      {protectRole(ROLE.STATION_AUTO.VIEW)(
+      {protectRole(ROLE.MAP_STATION_FIXED.VIEW)(
         <Menu.Item
           key={slug.stationFixed.map}
           onClick={() => {

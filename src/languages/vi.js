@@ -1142,6 +1142,55 @@ export default {
         required: 'Vui lòng nhập kinh độ',
         format: 'Kinh độ (-180<=x<=180)',
       },
+      provinceId: {
+        label: 'Đơn vị quan trắc',
+        placeholder: 'Đơn vị quan trắc',
+      },
+      position: {
+        label: 'Vị trí trạm',
+        placeholder: 'Vị trí trạm',
+        max: 'Không quá 64 kí tự',
+      },
+      website: {
+        label: 'Website',
+        placeholder: 'Website',
+      },
+      yearOperate: {
+        label: 'Năm hoạt động',
+        placeholder: 'Năm hoạt động',
+      },
+      userResponsible: {
+        label: 'Người quản lý',
+        placeholder: 'Người quản lý',
+      },
+      phoneResponsible: {
+        label: 'Số điện thoại',
+        placeholder: 'Số điện thoại',
+      },
+      userSupervisor: {
+        label: 'Người vận hành',
+        placeholder: 'Người vận hành',
+      },
+      phoneSupervisor: {
+        label: 'Số điện thoại',
+        placeholder: 'Số điện thoại',
+      },
+      purposeUsed: {
+        label: 'Mục đích sử dụng',
+        placeholder: 'Mục đích sử dụng',
+      },
+      irrigationArea: {
+        label: 'Mục đích tưới',
+        placeholder: 'Mục đích tưới',
+      },
+      lakeCapacity:{
+        label: 'Dung tích hồ',
+        placeholder: 'Dung tích hồ (10 6m3)',
+      },
+      catchmentArea:{
+        label: 'Diện tích lưu vực',
+        placeholder: 'Diện tích lưu vực (km2)',
+      },
       note: {
         label: 'Ghi chú',
         placeholder: 'Ghi chú',
@@ -2001,6 +2050,9 @@ export default {
         name: 'Bản đồ WQI',
       },
       configWQI: { name: 'Cấu hình tính WQI, AQI' },
+      stationFixPhase: {
+        name:"Quản lý đợt quan trắc"
+      },
       stationFixMap: {
         name: 'Bản đồ trạm cố định',
       },
@@ -2430,8 +2482,8 @@ export default {
       'Thêm dữ liệu quan trắc điểm định kỳ bằng cách tải lên file xlsx với những thông tin cần thiết.',
     startUpload: 'Bắt đầu bằng cách lựa chọn đợt nhập liệu',
     phaseLabel: 'Đợt quan trắc',
-    measuringLabel:'Thứ tự thông số nhập liệu',
-    measuringRequired:'Vui lòng chọn 1 thông số',
+    measuringLabel: 'Thứ tự thông số nhập liệu',
+    measuringRequired: 'Vui lòng chọn 1 thông số',
     stationTypeLabel: 'Loại trạm',
     requirements:
       'Tải lên dữ liệu chứa thông tin các điểm quan trắc theo mẫu bên dưới. Hãy đảm bảo những trường thông tin chính xác tuyệt đối. Dữ liệu đã được tải lên hệ thống sẽ không thể loại bỏ',
@@ -2442,6 +2494,7 @@ export default {
     dragAndDrop: 'Kéo thả file vào đây',
     errorTitle: 'Tải lên thất bại',
     errorMessage: 'Một số dòng dữ liệu bị lỗi. Vui lòng kiểm tra và thử lại',
+    errorMessageNoData: 'Không có dữ liệu',
     successTitle: 'Tải lên thành công',
     successMessage: 'Tải lên thành công {{=it.count}} dòng dữ liệu',
     line: 'Dòng',
@@ -2456,25 +2509,48 @@ export default {
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
   },
   dataPointReport: {
+    base: {
+      title: 'Tra cứu dữ liệu',
+    },
+    tab: {
+      data: 'Dữ liệu',
+    },
     title: {
-      receivedAt: 'Thời gian Truyền File',
+      receivedAt: 'Thời gian',
       phaseName: 'Tên đợt',
       pointName: 'Tên điểm',
     },
+    button: {
+      add: 'Thêm',
+      exportExcel: 'Xuất dữ liệu Excel',
+    },
     optionalInfo: {
-      symbol: "Ký hiệu mẫu",
-      weather: "Đặc điểm thời tiết",
-      sampler: "Tên người lấy mẫu",
-      notes: "Ghi chú",
-      monitoringPlace: "Đặc điểm nơi quan trắc",
-      requirements: "Yêu cầu đối với việc lấy mẫu",
-      method: "Phương pháp lấy mẫu",
-      chemical: "Hóa chất bảo quản",
-      conditions: "Điều kiện bảo quản mẫu",
-      equipmentlist: "Danh sách thiết bị lấy mẫu",
-      analyst: "Người phân tích",
-      placeOfAnalysis: "Nơi phân tích",
-    }
+      symbol: 'Ký hiệu mẫu',
+      weather: 'Đặc điểm thời tiết',
+      sampler: 'Tên người lấy mẫu',
+      notes: 'Ghi chú',
+      monitoringPlace: 'Đặc điểm nơi quan trắc',
+      requirements: 'Yêu cầu đối với việc lấy mẫu',
+      method: 'Phương pháp lấy mẫu',
+      chemical: 'Hóa chất bảo quản',
+      conditions: 'Điều kiện bảo quản mẫu',
+      equipmentlist: 'Danh sách thiết bị lấy mẫu',
+      analyst: 'Người phân tích',
+      placeOfAnalysis: 'Nơi phân tích',
+    },
+    form: {
+      label: {
+        province: 'Đơn vị quản lý',
+        stationType: 'Loại trạm',
+        phase: 'Đợt quan trắc',
+        point: 'Điểm quan trắc',
+        time: 'Thời gian',
+        exceeded: 'Vượt quy chuẩn',
+      },
+      dataPicker: {
+        inRange: 'Trong khoảng',
+      },
+    },
   },
   menuApp: {
     dashboard: {
@@ -3010,10 +3086,10 @@ export default {
     page: 'Số trang',
     itemPerPage: 'Số lượng dữ liệu trên 1 trang',
     stationAutoKey: 'Mã trạm tự động',
-    measuringList: 'Danh sách thông số ngăn cách bởi dấu \',\'',
+    measuringList: "Danh sách thông số ngăn cách bởi dấu ','",
     fromDate: 'Từ ngày',
     toDate: 'Đến ngày',
-    filterByExceeded:'Lọc ra danh sách trạm vượt ngưỡng',
+    filterByExceeded: 'Lọc ra danh sách trạm vượt ngưỡng',
     allowedAQI: 'Danh sách trạm cấu hình AQI',
   },
 }

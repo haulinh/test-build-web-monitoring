@@ -275,7 +275,13 @@ export default class MeasuringList extends React.Component {
   componentDidUpdate = (prevProps, prevState) => {
     if (prevState.measuringList !== this.state.measuringList) {
       if (this.props.onChange) {
-        this.props.onChange(this.state.measuringList)
+      
+        const dataFilter = _.map(this.state.measuringList, item =>{
+          if(item.key){
+            return item
+          }
+        })
+        this.props.onChange(_.compact(dataFilter))
       }
     }
   }

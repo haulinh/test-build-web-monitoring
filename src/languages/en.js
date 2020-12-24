@@ -19,7 +19,7 @@ export default {
     upload: 'Upload',
     parameter: 'Parameter',
     example: 'Example',
-    copySuccess: 'Copy successfully'
+    copySuccess: 'Copy successfully',
   },
   rules: {
     required: 'Required',
@@ -137,10 +137,13 @@ export default {
     statusDescription: {
       disconnected: 'Cannot connect to the device or no data is available.',
       good: 'The data value is transmitted within the allowed threshold.',
-      exceededPreparing: 'The data value transmitted is about to exceed the threshold.',
+      exceededPreparing:
+        'The data value transmitted is about to exceed the threshold.',
       exceeded: 'The transmitted data value exceeds the threshold set.',
-      maintenance: 'The device is calibrating, the transmitted value may not be correct.',
-      sensorError: 'The device is faulty, the transmitted value may not be correct.',
+      maintenance:
+        'The device is calibrating, the transmitted value may not be correct.',
+      sensorError:
+        'The device is faulty, the transmitted value may not be correct.',
       goodDevice: 'The device is in the normal state.',
     },
   },
@@ -716,7 +719,7 @@ export default {
         'The statistics for the average observation results time from {{=it.fromHour}} days {{= it.fromDate}} to {{=it.toHour}} {{= it.toDate}}',
       title6: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
       description6:
-        'tatistics about Results of 1-hour average monitoring of {{=it.stationName}} station in {{=it.dayFormat}}',
+        'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} station in {{=it.dayFormat}}',
     },
     selectTimeRange: {
       startTime: 'Start Time',
@@ -1147,6 +1150,55 @@ export default {
         placeholder: 'Longitude',
         required: 'Please enter longitude',
         format: 'Longitude (-180 <= x <= 180)',
+      },
+      position: {
+        label: 'Station location',
+        placeholder: 'Station location',
+        max: 'No more than 64 characters',
+      },
+      provinceId: {
+        label: 'Monitoring unit',
+        placeholder: 'Observation unit',
+      },
+      website: {
+        label: 'Website',
+        placeholder: 'Website',
+      },
+      yearOperate: {
+        label: 'Year of operation',
+        placeholder: 'Year of operation',
+      },
+      userResponsible: {
+        label: 'Manager',
+        placeholder: 'The manager',
+      },
+      phoneResponsible: {
+        label: 'Telephone number',
+        placeholder: 'Phone number',
+      },
+      userSupervisor: {
+        label: 'Operator',
+        placeholder: 'Operator',
+      },
+      phoneSupervisor: {
+        label: 'Telephone number',
+        placeholder: 'Phone number',
+      },
+      purposeUsed: {
+        label: 'Intended use',
+        placeholder: 'Intended use',
+      },
+      irrigationArea: {
+        label: 'Irrigation purpose',
+        placeholder: 'Purpose of watering',
+      },
+      lakeCapacity: {
+        label: 'Lake capacity (10 6m3)',
+        placeholder: 'Lake capacity',
+      },
+      catchmentArea: {
+        label: 'Catchment area (km2)',
+        placeholder: 'Catchment area',
       },
       note: {
         label: 'Note',
@@ -2009,6 +2061,9 @@ export default {
         name: 'WQI Map',
       },
       configWQI: { name: 'AQI & WQI Configurations' },
+      stationFixPhase: {
+        name: 'Manage the monitoring phase',
+      },
       stationFixMap: {
         name: 'Map Fixed Station',
       },
@@ -2442,8 +2497,8 @@ export default {
       'Add periodic monitoring data by uploading xlsx file with required information.',
     startUpload: 'Start by selecting the input batch',
     phaseLabel: 'Select monitoring phase',
-    measuringLabel:'Order of data input',
-    measuringRequired:'Please select 1 parameter',
+    measuringLabel: 'Order of data input',
+    measuringRequired: 'Please select 1 parameter',
     stationTypeLabel: 'Station Type',
     requirements:
       'Upload the data containing the monitoring points in the form below. Make sure the fields are absolutely correct. Data uploaded to the system cannot be removed',
@@ -2454,6 +2509,7 @@ export default {
     dragAndDrop: 'Drag and drop files here',
     errorTitle: 'Upload failed',
     errorMessage: 'Some data lines are faulty. Please check and try again',
+    errorMessageNoData: 'There is no data',
     successTitle: 'Upload successfully',
     successMessage: 'Successfully uploaded {{=it.count}} lines of data',
     line: 'Line',
@@ -2462,22 +2518,33 @@ export default {
     invalidDataSheet: 'Sheet data is not valid',
     invalidDateTime: 'Invalid date and time',
     invalidParameter: 'Parameter code does not exist',
-    pointKeyNotExisted: 'Monitoring Code dose not exist',
+    pointKeyNotExisted: 'Monitoring Code does not exist',
     parameterNotTypeNumber: 'Wrong format parameter',
-    pointAndPhaseNotBelongToStationType: 'Point and phase monitoring are not the same type of station',
+    pointAndPhaseNotBelongToStationType:
+      'Point and phase monitoring are not the same type of station',
     selectPhaseError: 'Please select the monitoring batch',
   },
   dataPointReport: {
+    base: {
+      title: 'Search data',
+    },
+    tab: {
+      data: 'Data',
+    },
     title: {
-      receivedAt: 'receivedAt',
+      receivedAt: 'Received At',
       phaseName: 'Phase name',
       pointName: 'Point name',
     },
+    button: {
+      add: 'Add',
+      exportExcel: 'Export Excel',
+    },
     optionalInfo: {
-      symbol: 'symbol',
-      weather: 'weather',
-      sampler: 'sampler',
-      notes: 'notes',
+      symbol: 'Symbol',
+      weather: 'Weather',
+      sampler: 'Sampler',
+      notes: 'Notes',
       monitoringPlace: 'Monitoring place',
       requirements: 'Requirements',
       method: 'Method',
@@ -2486,6 +2553,19 @@ export default {
       equipmentlist: 'Equipment list',
       analyst: 'Analyst',
       placeOfAnalysis: 'Place Of Analysis',
+    },
+    form: {
+      label: {
+        province: 'Select Site',
+        stationType: 'Types Of Station',
+        phase: 'Phase',
+        point: 'Point',
+        time: 'Time',
+        exceeded: 'Only Exceeded',
+      },
+      dataPicker: {
+        inRange: 'In Range',
+      },
     },
   },
   menuApp: {
@@ -2524,9 +2604,9 @@ export default {
 
     shareDataSub: 'Data Sharing',
     shareData: {
-      shareConfig: 'Sharing onfigurations',
+      shareConfig: 'Sharing Configurations',
       ftpConfig: 'FTP Transfer Configurations',
-      apiSharing: 'Sharing API'
+      apiSharing: 'Sharing API',
     },
 
     advanceSub: 'Advanced',
@@ -2673,7 +2753,7 @@ export default {
         'Select monitoring points and parameters for data publication',
       ftpConfig:
         'Select monitoring points and parameters to transfer to an external folder using FTP',
-        shareAPI: 'API Share',
+      shareAPI: 'API Share',
     },
     shareDataSub: 'Configure to share data from the system to the outside',
     reportSub: 'Select the report type to export the results',
@@ -3013,10 +3093,10 @@ export default {
     page: 'Number of pages',
     itemPerPage: 'Number item of per page',
     stationAutoKey: 'Key of station auto',
-    measuringList: 'List measure separated by \',\'',
+    measuringList: "List measure separated by ','",
     fromDate: 'From Date',
     toDate: 'To Date',
-    filterByExceeded:'Filter data with exceeded status',
+    filterByExceeded: 'Filter data with exceeded status',
     allowedAQI: 'Station key list is allowed to configure AQI',
-  }
+  },
 }
