@@ -24,7 +24,7 @@ export const ESMS_FIELDS = {
 }
 
 export const TWILIO_FIELDS = {
-  ACCOUNT_SID: 'accountSId',
+  ACCOUNT_SID: 'accountSid',
   AUTH_TOKEN: 'authToken',
   TWILIO_NUMBER: 'twilioNumber',
 }
