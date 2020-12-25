@@ -2054,16 +2054,16 @@ export default {
         name:"Quản lý đợt quan trắc"
       },
       stationFixMap: {
-        name: 'Bản đồ trạm cố định',
+        name: 'Bản đồ điểm quan trắc',
       },
       stationFixData: {
-        name: 'Dữ liệu trạm cố định',
+        name: 'Tra cứu dữ liệu điểm quan trắc',
       },
       stationFix: {
-        name: 'Trạm cố định',
+        name: 'Quản lý điểm quan trắc',
       },
       stationFixInput: {
-        name: 'Nhập liệu trạm cố định',
+        name: 'Nhập liệu điểm quan trắc',
       },
       stationAuto: { name: 'Trạm quan trắc' },
       cauHinhKetNoi: {

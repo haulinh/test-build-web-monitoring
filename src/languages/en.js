@@ -2062,19 +2062,19 @@ export default {
       },
       configWQI: { name: 'AQI & WQI Configurations' },
       stationFixPhase: {
-        name: 'Manage the monitoring phase',
+        name: "Monitoring batch manager"
       },
       stationFixMap: {
-        name: 'Map Fixed Station',
+        name: 'Monitoring point map',
       },
       stationFixData: {
-        name: 'Fixed Data Search',
+        name: 'Lookup monitoring point data',
       },
       stationFix: {
-        name: 'Fixed Station',
+        name: 'Monitoring point management',
       },
       stationFixInput: {
-        name: 'Input Station Fixed',
+        name: 'Input the monitoring point',
       },
       stationAuto: {
         name: 'Station',
