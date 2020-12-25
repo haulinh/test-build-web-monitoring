@@ -4,12 +4,10 @@ import {
   Form,
   Input,
   notification,
-
-
-
-  Radio, Row,
+  Radio,
+  Row,
   Select,
-  Skeleton
+  Skeleton,
 } from 'antd'
 import OrganizationApi from 'api/OrganizationApi'
 import ROLE from 'constants/role'
@@ -20,25 +18,14 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import {
   ESMS_FIELDS,
-
   getEsmsFormFields,
   getMailgunFormFields,
-
-
-  getTwilioFormFields, MAILGUN_FIELDS,
-
-
-
+  getTwilioFormFields,
+  MAILGUN_FIELDS,
   SMS_TYPE,
-
-  TWILIO_FIELDS
+  TWILIO_FIELDS,
 } from './helper'
 import TestConfigurationModal from './test-configuration-modal'
-
-
-
-
-const { Option } = Select
 
 const Wrapper = styled.div`
   .skeleton {
@@ -99,11 +86,6 @@ const Card = styled.div`
   }
 `
 
-const Flex = styled.div`
-  display: flex;
-  align-items: center;
-`
-
 const i18n = {
   headerTitle: t('configService.title'),
   save: t('global.save'),
@@ -125,9 +107,9 @@ export default class ConfigService extends Component {
     modalType: '',
     organization: {},
     isFetchingOrganization: false,
-    isSubmitEsmsForm: false,
+    isSubmitSmsForm: false,
     isSubmitMailGunForm: false,
-    smsType: SMS_TYPE.ESMS.value,
+    smsType: null,
   }
 
   modalRef = createRef()
@@ -138,9 +120,14 @@ export default class ConfigService extends Component {
     } = this.props
     this.setState({ isFetchingOrganization: true })
     const result = await OrganizationApi.getOrganization(organizationId)
+    const {
+      notifyChannels: { sms },
+    } = result.data 
+    const smsAllowedConfigs = sms.find(item => item.allowed).serviceName
     this.setState({
       organization: result.data || {},
       isFetchingOrganization: false,
+      smsType: smsAllowedConfigs,
     })
   }
 
@@ -160,7 +147,6 @@ export default class ConfigService extends Component {
         service
       )
       if (result) {
-        this.setState({ isSubmitEsmsForm: false, isSubmitMailGunForm: false })
         notification.success({ message: t('global.saveSuccess') })
       }
     })
@@ -176,7 +162,6 @@ export default class ConfigService extends Component {
             {title}
           </Text>
         ) : (
-          // <Flex>
           <Fragment>
             <Text fontSize={16} color="#272727">
               {title}
@@ -192,8 +177,6 @@ export default class ConfigService extends Component {
               ))}
             </Radio.Group>
           </Fragment>
-
-          // </Flex>
         )}
 
         <Form onSubmit={onSubmit}>
@@ -246,7 +229,7 @@ export default class ConfigService extends Component {
 
   updateNotifyChannel = async (service, isEsmsFormSubmit) => {
     this.setState({
-      isSubmitEsmsForm: isEsmsFormSubmit,
+      isSubmitSmsForm: isEsmsFormSubmit,
       isSubmitMailGunForm: !isEsmsFormSubmit,
     })
     const { organization: { _id: organizationId } = {} } = this.props
@@ -255,7 +238,7 @@ export default class ConfigService extends Component {
       service
     )
     if (result) {
-      this.setState({ isSubmitEsmsForm: false, isSubmitMailGunForm: false })
+      this.setState({ isSubmitSmsForm: false, isSubmitMailGunForm: false })
       notification.success({ message: t('global.saveSuccess') })
     }
   }
@@ -311,7 +294,7 @@ export default class ConfigService extends Component {
   render() {
     const {
       modalType,
-      isSubmitEsmsForm,
+      isSubmitSmsForm,
       isSubmitMailGunForm,
       isFetchingOrganization,
       organization: { notifyChannels: { sms, email } = {} },
@@ -335,7 +318,7 @@ export default class ConfigService extends Component {
     const esmsForm = {
       type: 'esms',
       title: i18n.sms.title,
-      isLoading: isSubmitEsmsForm,
+      isLoading: isSubmitSmsForm,
       onSubmit: this.handleUpdateFormEsms,
       formFields: getEsmsFormFields(esmsDefaultConfigs),
     }
@@ -343,7 +326,7 @@ export default class ConfigService extends Component {
     const twilioForm = {
       type: 'esms',
       title: i18n.sms.title,
-      isLoading: false,
+      isLoading: isSubmitSmsForm,
       onSubmit: this.handleUpdateFormTwilio,
       formFields: getTwilioFormFields(twilioDefaultConfigs),
     }
@@ -386,7 +369,7 @@ export default class ConfigService extends Component {
           </Fragment>
         ) : (
           <Container>
-            {this.renderForm(smsForm[smsType])}
+            {smsType && this.renderForm(smsForm[smsType])}
             {this.renderForm(mailGunForm)}
           </Container>
         )}
