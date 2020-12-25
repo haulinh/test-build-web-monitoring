@@ -256,8 +256,8 @@ class StationFixedImportData extends React.Component {
                 <Form.Item label={i18n.phaseLabel}>
                   {form.getFieldDecorator(FIELDS.PHASE, {
                     rules: [
-                      { required: true, message: i18n.selectPhaseError },
-                      { validator: this.validatePhase },
+                      // { required: true, message: i18n.selectPhaseError },
+                      { validator: this.validatePhase,required: true, },
                     ],
                   })(<SelectPhase />)}
                 </Form.Item>
