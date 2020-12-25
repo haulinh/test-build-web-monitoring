@@ -1193,11 +1193,11 @@ export default {
         placeholder: 'Purpose of watering',
       },
       lakeCapacity: {
-        label: 'Lake capacity (10 6m3)',
+        label: 'Lake capacity',
         placeholder: 'Lake capacity',
       },
       catchmentArea: {
-        label: 'Catchment area (km2)',
+        label: 'Catchment area',
         placeholder: 'Catchment area',
       },
       note: {
