@@ -115,6 +115,7 @@ export class SearchForm extends React.Component {
       where: {
         stationTypeId: stationTypeId ? stationTypeId : undefined,
         provinceId: provinceId ? provinceId : undefined,
+        active: true
       },
     }
     const points = await getPoint({ filter: filterPoint })
