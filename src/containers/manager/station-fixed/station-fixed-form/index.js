@@ -2,6 +2,7 @@ import React from 'react'
 import { Form, Input, Row, Col, InputNumber, Button, Collapse } from 'antd'
 import PropTypes from 'prop-types'
 import * as _ from 'lodash'
+import styled from 'styled-components'
 
 /** */
 import Clearfix from 'components/elements/clearfix'
@@ -13,9 +14,14 @@ import SelectQCVN from 'components/elements/select-qcvn-v2'
 import SelectProvince from 'components/elements/select-province'
 import MeasuringList from './measuring-list'
 
-const FormItem = Form.Item
 const { TextArea } = Input
 const { Panel } = Collapse
+
+const FormItem = styled(Form.Item)`
+  .ant-form-item-control {
+    line-height: unset;
+  }
+`
 
 const i18n = {
   save: translate('addon.save'),
@@ -238,7 +244,7 @@ export default class StationFixedForm extends React.Component {
         sm: { span: 6, offset: 0 },
       },
       wrapperCol: {
-        sm: { span: 18, offset: 0 },
+        sm: { span: 17, offset: 0 },
       },
     }
 
@@ -384,6 +390,7 @@ export default class StationFixedForm extends React.Component {
                     {}
                   )(
                     <SelectProvince
+                    allowClear
                       isUsedId={true}
                       placeholder={i18n.provinceId.placeholder}
                     />
@@ -476,7 +483,7 @@ export default class StationFixedForm extends React.Component {
             </Row>
           </Panel>
           <Panel header={i18n.panel2} key="2">
-            <Row gutter={12}>
+            <Row gutter={8}>
               <Col span={12}>
                 <FormItem {...formItemLayout} label={i18n.website.label}>
                   {getFieldDecorator(Fields.website, {
@@ -503,7 +510,7 @@ export default class StationFixedForm extends React.Component {
                 </FormItem>
               </Col>
             </Row>
-            <Row gutter={12}>
+            <Row gutter={8}>
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
@@ -529,14 +536,14 @@ export default class StationFixedForm extends React.Component {
                     rules: [],
                   })(
                     <InputPhoneNumber
-                      size="medium"
+                    size="medium"
                       placeholder={i18n.phoneResponsible.placeholder}
                     />
                   )}
                 </FormItem>
               </Col>
             </Row>
-            <Row gutter={12}>
+            <Row gutter={8}>
               <Col span={12}>
                 <FormItem {...formItemLayout} label={i18n.userSupervisor.label}>
                   {getFieldDecorator(Fields.userSupervisor, {
@@ -559,7 +566,7 @@ export default class StationFixedForm extends React.Component {
                     rules: [],
                   })(
                     <InputPhoneNumber
-                      size="medium"
+                    size="medium"
                       placeholder={i18n.phoneSupervisor.placeholder}
                     />
                   )}

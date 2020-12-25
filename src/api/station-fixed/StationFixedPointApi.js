@@ -94,7 +94,7 @@ export function updateStationFixedPoint(
     address: address || undefined,
     note: note || undefined,
     qcvnId: qcvnId || undefined,
-    provinceId: provinceId || undefined,
+    provinceId: provinceId || null,
     website: website || undefined,
     yearOperate: yearOperate || undefined,
     userResponsible: userResponsible || undefined,
