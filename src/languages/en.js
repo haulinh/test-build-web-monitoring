@@ -3038,7 +3038,7 @@ export default {
   },
   configService: {
     title: 'Service provider configuration',
-    esmsService: 'Esms Service',
+    smsService: 'Sms Service',
     mailGunService: 'MailGun Service',
     testConfiguration: 'Check Configuration',
     customerCare: 'Customer Care',
@@ -3062,6 +3062,28 @@ export default {
       secret: {
         label: 'SECRET Key',
         placeholder: 'ESMS Secret Key',
+      },
+      smsType: {
+        label: 'SMS Type',
+        placeholder: 'Sms Type',
+      },
+      brand: {
+        label: 'Brand Name',
+        placeholder: 'Brand Name',
+      },
+    },
+    twilioForm: {
+      accountSid: {
+        label: 'ACCOUNT SID',
+        placeholder: 'Account SID',
+      },
+      authToken: {
+        label: 'AUTH TOKEN',
+        placeholder: 'Auth token',
+      },
+      twilioNumber: {
+        label: 'TWILIO NUMBER',
+        placeholder: 'Twilio number',
       },
       smsType: {
         label: 'SMS Type',

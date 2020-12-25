@@ -93,6 +93,7 @@ export default class TestConfigurationModal extends Component {
           message: 
             i18n.esmsError[errorCode] || 
             i18n.mailGunError[errorCode] || 
+            result.message ||
             i18n.unknownError 
         })
         return
