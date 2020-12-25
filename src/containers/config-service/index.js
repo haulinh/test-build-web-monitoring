@@ -6,8 +6,8 @@ import {
   notification,
   Radio,
   Row,
-  Select,
-  Skeleton,
+
+  Skeleton
 } from 'antd'
 import OrganizationApi from 'api/OrganizationApi'
 import ROLE from 'constants/role'
@@ -23,7 +23,7 @@ import {
   getTwilioFormFields,
   MAILGUN_FIELDS,
   SMS_TYPE,
-  TWILIO_FIELDS,
+  TWILIO_FIELDS
 } from './helper'
 import TestConfigurationModal from './test-configuration-modal'
 
