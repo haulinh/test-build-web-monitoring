@@ -1158,7 +1158,7 @@ export default {
       },
       provinceId: {
         label: 'Monitoring unit',
-        placeholder: 'Observation unit',
+        placeholder: 'Monitoring unit',
       },
       website: {
         label: 'Website',

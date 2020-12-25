@@ -97,6 +97,7 @@ export default class SelectProvince extends PureComponent {
         {...this.props}
         style={{ width: '100%' }}
         showSearch
+        allowClear
         onChange={this.handleOnChange}
         onSearch={this.handleSearch}
         value={this.state.value}
