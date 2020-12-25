@@ -19,7 +19,7 @@ export default {
     upload: 'Upload',
     parameter: 'Parameter',
     example: 'Example',
-    copySuccess: 'Copy successfully'
+    copySuccess: 'Copy successfully',
   },
   rules: {
     required: 'Required',
@@ -137,10 +137,13 @@ export default {
     statusDescription: {
       disconnected: 'Cannot connect to the device or no data is available.',
       good: 'The data value is transmitted within the allowed threshold.',
-      exceededPreparing: 'The data value transmitted is about to exceed the threshold.',
+      exceededPreparing:
+        'The data value transmitted is about to exceed the threshold.',
       exceeded: 'The transmitted data value exceeds the threshold set.',
-      maintenance: 'The device is calibrating, the transmitted value may not be correct.',
-      sensorError: 'The device is faulty, the transmitted value may not be correct.',
+      maintenance:
+        'The device is calibrating, the transmitted value may not be correct.',
+      sensorError:
+        'The device is faulty, the transmitted value may not be correct.',
       goodDevice: 'The device is in the normal state.',
     },
   },
@@ -2442,8 +2445,8 @@ export default {
       'Add periodic monitoring data by uploading xlsx file with required information.',
     startUpload: 'Start by selecting the input batch',
     phaseLabel: 'Select monitoring phase',
-    measuringLabel:'Order of data input',
-    measuringRequired:'Please select 1 parameter',
+    measuringLabel: 'Order of data input',
+    measuringRequired: 'Please select 1 parameter',
     stationTypeLabel: 'Station Type',
     requirements:
       'Upload the data containing the monitoring points in the form below. Make sure the fields are absolutely correct. Data uploaded to the system cannot be removed',
@@ -2464,7 +2467,8 @@ export default {
     invalidParameter: 'Parameter code does not exist',
     pointKeyNotExisted: 'Monitoring Code dose not exist',
     parameterNotTypeNumber: 'Wrong format parameter',
-    pointAndPhaseNotBelongToStationType: 'Point and phase monitoring are not the same type of station',
+    pointAndPhaseNotBelongToStationType:
+      'Point and phase monitoring are not the same type of station',
     selectPhaseError: 'Please select the monitoring batch',
   },
   dataPointReport: {
@@ -2526,7 +2530,7 @@ export default {
     shareData: {
       shareConfig: 'Sharing onfigurations',
       ftpConfig: 'FTP Transfer Configurations',
-      apiSharing: 'Sharing API'
+      apiSharing: 'Sharing API',
     },
 
     advanceSub: 'Advanced',
@@ -2673,7 +2677,7 @@ export default {
         'Select monitoring points and parameters for data publication',
       ftpConfig:
         'Select monitoring points and parameters to transfer to an external folder using FTP',
-        shareAPI: 'API Share',
+      shareAPI: 'API Share',
     },
     shareDataSub: 'Configure to share data from the system to the outside',
     reportSub: 'Select the report type to export the results',
@@ -2952,7 +2956,7 @@ export default {
   },
   configService: {
     title: 'Service provider configuration',
-    esmsService: 'Esms Service',
+    smsService: 'Sms Service',
     mailGunService: 'MailGun Service',
     testConfiguration: 'Check Configuration',
     customerCare: 'Customer Care',
@@ -2976,6 +2980,28 @@ export default {
       secret: {
         label: 'SECRET Key',
         placeholder: 'ESMS Secret Key',
+      },
+      smsType: {
+        label: 'SMS Type',
+        placeholder: 'Sms Type',
+      },
+      brand: {
+        label: 'Brand Name',
+        placeholder: 'Brand Name',
+      },
+    },
+    twilioForm: {
+      accountSid: {
+        label: 'ACCOUNT SID',
+        placeholder: 'Account SID',
+      },
+      authToken: {
+        label: 'AUTH TOKEN',
+        placeholder: 'Auth token',
+      },
+      twilioNumber: {
+        label: 'TWILIO NUMBER',
+        placeholder: 'Twilio number',
       },
       smsType: {
         label: 'SMS Type',
@@ -3013,10 +3039,10 @@ export default {
     page: 'Number of pages',
     itemPerPage: 'Number item of per page',
     stationAutoKey: 'Key of station auto',
-    measuringList: 'List measure separated by \',\'',
+    measuringList: "List measure separated by ','",
     fromDate: 'From Date',
     toDate: 'To Date',
-    filterByExceeded:'Filter data with exceeded status',
+    filterByExceeded: 'Filter data with exceeded status',
     allowedAQI: 'Station key list is allowed to configure AQI',
-  }
+  },
 }

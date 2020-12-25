@@ -1,21 +1,44 @@
-import React, { Component, createRef, Fragment } from 'react'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { Button, Col, Form, Input, notification, Row, Skeleton } from 'antd'
-import protectRole, { PermissionPopover } from 'hoc/protect-role'
-import ROLE from 'constants/role'
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  notification,
 
-import { translate as t } from 'hoc/create-lang'
+
+
+  Radio, Row,
+  Select,
+  Skeleton
+} from 'antd'
 import OrganizationApi from 'api/OrganizationApi'
-
+import ROLE from 'constants/role'
+import { translate as t } from 'hoc/create-lang'
+import protectRole, { PermissionPopover } from 'hoc/protect-role'
+import React, { Component, createRef, Fragment } from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 import {
   ESMS_FIELDS,
-  MAILGUN_FIELDS,
+
   getEsmsFormFields,
   getMailgunFormFields,
-} from './helper'
 
+
+  getTwilioFormFields, MAILGUN_FIELDS,
+
+
+
+  SMS_TYPE,
+
+  TWILIO_FIELDS
+} from './helper'
 import TestConfigurationModal from './test-configuration-modal'
+
+
+
+
+const { Option } = Select
 
 const Wrapper = styled.div`
   .skeleton {
@@ -48,6 +71,7 @@ const Wrapper = styled.div`
 `
 
 const Header = styled.div`
+  display: flex;
   padding: 20px 24px;
   background: #fafbfb;
   box-shadow: inset 0px -1px 0px rgba(182, 182, 182, 0.25);
@@ -75,12 +99,17 @@ const Card = styled.div`
   }
 `
 
+const Flex = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const i18n = {
   headerTitle: t('configService.title'),
   save: t('global.save'),
   testConfiguration: t('configService.testConfiguration'),
-  esms: {
-    title: t('configService.esmsService'),
+  sms: {
+    title: t('configService.smsService'),
   },
   mailgun: {
     title: t('configService.mailGunService'),
@@ -98,6 +127,7 @@ export default class ConfigService extends Component {
     isFetchingOrganization: false,
     isSubmitEsmsForm: false,
     isSubmitMailGunForm: false,
+    smsType: SMS_TYPE.ESMS.value,
   }
 
   modalRef = createRef()
@@ -118,14 +148,54 @@ export default class ConfigService extends Component {
     this.setState({ modalType }, this.modalRef.openModal)
   }
 
+  onChangeSelectSmsType = e => {
+    this.setState({ smsType: e.target.value }, async () => {
+      const { organization: { _id: organizationId } = {} } = this.props
+      const service = {
+        serviceType: 'sms',
+        serviceName: e.target.value,
+      }
+      const result = await OrganizationApi.switchNotifyChannel(
+        organizationId,
+        service
+      )
+      if (result) {
+        this.setState({ isSubmitEsmsForm: false, isSubmitMailGunForm: false })
+        notification.success({ message: t('global.saveSuccess') })
+      }
+    })
+  }
+
   renderForm = params => {
     const { form } = this.props
     const { isLoading, type, title, formFields, onSubmit } = params
     return (
       <Card>
-        <Text fontSize={16} color="#272727">
-          {title}
-        </Text>
+        {type === 'mailGun' ? (
+          <Text fontSize={16} color="#272727">
+            {title}
+          </Text>
+        ) : (
+          // <Flex>
+          <Fragment>
+            <Text fontSize={16} color="#272727">
+              {title}
+            </Text>
+            <Radio.Group
+              onChange={this.onChangeSelectSmsType}
+              value={this.state.smsType}
+            >
+              {Object.keys(SMS_TYPE).map(type => (
+                <Radio value={SMS_TYPE[type].value}>
+                  {SMS_TYPE[type].title}
+                </Radio>
+              ))}
+            </Radio.Group>
+          </Fragment>
+
+          // </Flex>
+        )}
+
         <Form onSubmit={onSubmit}>
           {formFields.map(item => (
             <PermissionPopover
@@ -186,7 +256,7 @@ export default class ConfigService extends Component {
     )
     if (result) {
       this.setState({ isSubmitEsmsForm: false, isSubmitMailGunForm: false })
-      notification.success({message: t('global.saveSuccess')})
+      notification.success({ message: t('global.saveSuccess') })
     }
   }
 
@@ -199,6 +269,21 @@ export default class ConfigService extends Component {
     const service = {
       serviceType: 'sms',
       serviceName: 'esms',
+      configs: formValues,
+    }
+
+    this.updateNotifyChannel(service, true)
+  }
+
+  handleUpdateFormTwilio = async e => {
+    e.preventDefault()
+    const { form } = this.props
+    const formValues = await form.validateFields(Object.values(TWILIO_FIELDS))
+    if (!formValues) return
+
+    const service = {
+      serviceType: 'sms',
+      serviceName: 'twilio',
       configs: formValues,
     }
 
@@ -230,6 +315,7 @@ export default class ConfigService extends Component {
       isSubmitMailGunForm,
       isFetchingOrganization,
       organization: { notifyChannels: { sms, email } = {} },
+      smsType,
     } = this.state
 
     const {
@@ -239,16 +325,32 @@ export default class ConfigService extends Component {
     const esmsDefaultConfigs =
       ((sms || []).find(item => item.serviceName === 'esms') || {}).configs ||
       {}
+    const twilioDefaultConfigs =
+      ((sms || []).find(item => item.serviceName === 'twilio') || {}).configs ||
+      {}
     const mailgunDefaultConfigs =
       ((email || []).find(item => item.serviceName === 'mailgun') || {})
         .configs || {}
 
     const esmsForm = {
       type: 'esms',
-      title: i18n.esms.title,
+      title: i18n.sms.title,
       isLoading: isSubmitEsmsForm,
       onSubmit: this.handleUpdateFormEsms,
       formFields: getEsmsFormFields(esmsDefaultConfigs),
+    }
+
+    const twilioForm = {
+      type: 'esms',
+      title: i18n.sms.title,
+      isLoading: false,
+      onSubmit: this.handleUpdateFormTwilio,
+      formFields: getTwilioFormFields(twilioDefaultConfigs),
+    }
+
+    const smsForm = {
+      twilio: twilioForm,
+      esms: esmsForm,
     }
 
     const mailGunForm = {
@@ -284,7 +386,7 @@ export default class ConfigService extends Component {
           </Fragment>
         ) : (
           <Container>
-            {this.renderForm(esmsForm)}
+            {this.renderForm(smsForm[smsType])}
             {this.renderForm(mailGunForm)}
           </Container>
         )}
