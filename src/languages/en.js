@@ -1040,7 +1040,7 @@ export default {
       title: 'Monitoring wave',
     },
     create: {
-      label: 'Create new',
+      label: 'Create',
       success: 'Add New Monitoring Success',
       keyExisted: 'Monitoring already exists',
     },
@@ -1085,7 +1085,7 @@ export default {
       remove: 'Removed',
     },
     create: {
-      label: 'Create new',
+      label: 'Create',
       success: 'Successfully added new multiple scores',
       keyExisted: 'Monitoring point already exists',
     },

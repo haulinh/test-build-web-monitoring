@@ -138,7 +138,7 @@ export default class MeasuringItem extends React.PureComponent {
       // return ` ${translate('monitoring.limit')}: > ${minLimit}  ${unit || ''}`
       return (
         <LimitContainer>
-          {`${translate('monitoring.limit')}: > ${minLimit}`}
+          {`${translate('monitoring.limit')}: ≥ ${minLimit}`}
           <MeasuringUnit>{unit}</MeasuringUnit>
         </LimitContainer>
       )
@@ -148,7 +148,7 @@ export default class MeasuringItem extends React.PureComponent {
       // return `${translate('monitoring.limit')}: < ${maxLimit}  ${unit || ''}`
       return (
         <LimitContainer>
-          {`${translate('monitoring.limit')}: < ${maxLimit}`}
+          {`${translate('monitoring.limit')}: ≤ ${maxLimit}`}
           <MeasuringUnit>{unit}</MeasuringUnit>
         </LimitContainer>
       )
