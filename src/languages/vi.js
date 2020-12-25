@@ -2972,6 +2972,7 @@ export default {
   configService: {
     title: 'Cấu hình nhà cung cấp dịch vụ',
     esmsService: 'Dịch vụ ESMS',
+    smsService: 'Dịch vụ SMS',
     mailGunService: 'Dịch vụ MailGun',
     testConfiguration: 'Kiểm tra cấu hình',
     customerCare: 'Chăm sóc khách hàng',
@@ -2995,6 +2996,28 @@ export default {
       secret: {
         label: 'SECRET Key',
         placeholder: 'ESMS Secret Key',
+      },
+      smsType: {
+        label: 'SMS Type',
+        placeholder: 'Sms Type',
+      },
+      brand: {
+        label: 'Brand Name',
+        placeholder: 'Brand Name',
+      },
+    },
+    twilioForm: {
+      accountSid: {
+        label: 'ACCOUNT SID',
+        placeholder: 'Account SID'
+      },
+      authToken: {
+        label: 'AUTH TOKEN',
+        placeholder: 'Auth token',
+      },
+      twilioNumber: {
+        label: 'TWILIO NUMBER',
+        placeholder: 'Twilio number',
       },
       smsType: {
         label: 'SMS Type',

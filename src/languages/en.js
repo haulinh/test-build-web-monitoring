@@ -2445,8 +2445,8 @@ export default {
       'Add periodic monitoring data by uploading xlsx file with required information.',
     startUpload: 'Start by selecting the input batch',
     phaseLabel: 'Select monitoring phase',
-    measuringLabel:'Order of data input',
-    measuringRequired:'Please select 1 parameter',
+    measuringLabel: 'Order of data input',
+    measuringRequired: 'Please select 1 parameter',
     stationTypeLabel: 'Station Type',
     requirements:
       'Upload the data containing the monitoring points in the form below. Make sure the fields are absolutely correct. Data uploaded to the system cannot be removed',
@@ -2978,7 +2978,7 @@ export default {
   },
   configService: {
     title: 'Service provider configuration',
-    esmsService: 'Esms Service',
+    smsService: 'Sms Service',
     mailGunService: 'MailGun Service',
     testConfiguration: 'Check Configuration',
     customerCare: 'Customer Care',
@@ -3002,6 +3002,28 @@ export default {
       secret: {
         label: 'SECRET Key',
         placeholder: 'ESMS Secret Key',
+      },
+      smsType: {
+        label: 'SMS Type',
+        placeholder: 'Sms Type',
+      },
+      brand: {
+        label: 'Brand Name',
+        placeholder: 'Brand Name',
+      },
+    },
+    twilioForm: {
+      accountSid: {
+        label: 'ACCOUNT SID',
+        placeholder: 'Account SID',
+      },
+      authToken: {
+        label: 'AUTH TOKEN',
+        placeholder: 'Auth token',
+      },
+      twilioNumber: {
+        label: 'TWILIO NUMBER',
+        placeholder: 'Twilio number',
       },
       smsType: {
         label: 'SMS Type',
