@@ -1143,8 +1143,8 @@ export default {
         format: 'Kinh độ (-180<=x<=180)',
       },
       provinceId: {
-        label: 'Đơn vị quan trắc',
-        placeholder: 'Đơn vị quan trắc',
+        label: 'Đơn vị quản lý',
+        placeholder: 'Đơn vị quản lý',
       },
       position: {
         label: 'Vị trí trạm',
@@ -1180,16 +1180,16 @@ export default {
         placeholder: 'Mục đích sử dụng',
       },
       irrigationArea: {
-        label: 'Mục đích tưới',
-        placeholder: 'Mục đích tưới',
+        label: 'Diện tích tưới',
+        placeholder: 'Diên tích tưới',
       },
       lakeCapacity:{
         label: 'Dung tích hồ',
-        placeholder: 'Dung tích hồ (10 6m3)',
+        placeholder: 'Dung tích hồ',
       },
       catchmentArea:{
         label: 'Diện tích lưu vực',
-        placeholder: 'Diện tích lưu vực (km2)',
+        placeholder: 'Diện tích lưu vực',
       },
       note: {
         label: 'Ghi chú',
