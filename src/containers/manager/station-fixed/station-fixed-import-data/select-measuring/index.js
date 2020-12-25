@@ -5,6 +5,7 @@ import {
   map as _map,
   forEach as _forEach,
   differenceBy as _differenceBy,
+  compact as _compact
 } from 'lodash'
 import { Transfer, Spin } from 'antd'
 import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi'
@@ -25,6 +26,7 @@ export default class SelectMeasuring extends Component {
     dataSource: [],
     targetKeys: [],
     loading: false,
+    selectedKeys: [],
   }
 
   componentDidUpdate = (propsPrev, statePrev) => {
@@ -50,14 +52,16 @@ export default class SelectMeasuring extends Component {
         _forEach(res.data, item => {
           if (item.measuringList) {
             const itemArr = _map(item.measuringList, itemMeasuring => {
-              return {
-                key: itemMeasuring.key + item.key,
-                title: itemMeasuring.name,
-                description: itemMeasuring.name,
+              if (itemMeasuring.key) {
+                return {
+                  key: itemMeasuring.key,
+                  title: itemMeasuring.name,
+                  description: itemMeasuring.name,
+                }
               }
             })
 
-            const newData = _differenceBy(itemArr, data, 'key')
+            const newData = _differenceBy(_compact(itemArr), data, 'key')
             data.push(...newData)
           }
         })
@@ -74,6 +78,7 @@ export default class SelectMeasuring extends Component {
       .finally(() => {
         this.setState({
           targetKeys: [],
+          selectedKeys: [],
           loading: false,
         })
       })
@@ -82,6 +87,11 @@ export default class SelectMeasuring extends Component {
   handleOnChange = (newTargetKeys, direction, moveKeys) => {
     this.setState({
       targetKeys: newTargetKeys,
+    })
+  }
+  handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
+    this.setState({
+      selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys],
     })
   }
 
@@ -93,17 +103,19 @@ export default class SelectMeasuring extends Component {
             showSearch
             className="tree-transfer"
             filterOption={(inputValue, item) =>
-              item.title.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1 
+              item.title.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
             }
             listStyle={{
               height: 300,
             }}
             dataSource={this.state.dataSource}
             targetKeys={this.state.targetKeys}
+            selectedKeys={this.state.selectedKeys}
             onChange={this.handleOnChange}
-            render={item => item.title}
+            onSelectChange={this.handleSelectChange}
+            render={item => `${item.title} [${item.key}]`}
             oneWay={true}
-            pagination
+            // pagination
           />
         </Spin>
       </ContainerWrapper>

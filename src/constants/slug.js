@@ -2,8 +2,8 @@ import { translate } from 'hoc/create-lang'
 
 export default {
   dashboard: {
-    healthCheck:  '/',
-    overview: '/overview'
+    healthCheck: '/',
+    overview: '/overview',
   },
   login: {
     loginWithEmail: '/login',
@@ -265,7 +265,7 @@ export const MENU_GROUP = {
   REPORT: 'report',
   ADVANCE: 'advance',
   CONFIG: 'config',
-  STATIONFIXED:'stationFixed'
+  STATIONFIXED: 'stationFixed',
 }
 
 export const parentMenuFromSub = {
@@ -297,16 +297,17 @@ export const parentMenuFromSub = {
   '/report': MENU_GROUP.REPORT,
   '/advance': MENU_GROUP.ADVANCE,
 
-
   '/station-fixed': MENU_GROUP.STATIONFIXED,
   '/station-fixed-phase': MENU_GROUP.STATIONFIXED,
+  '/station-fixed/import-data': MENU_GROUP.STATIONFIXED,
+  '/station-fixed-report': MENU_GROUP.STATIONFIXED,
 }
 
 export const MENU_NAME = {
   dashboard: {
     base: translate('menuApp.dashboard.base'),
     healthCheck: translate('menuApp.dashboard.healthcheck'),
-    overview: translate('menuApp.dashboard.overview')
+    overview: translate('menuApp.dashboard.overview'),
   },
   monitoringSub: translate('menuApp.monitoringSub'),
   monitoring: {
@@ -326,8 +327,8 @@ export const MENU_NAME = {
     base: translate('menuApp.stationFixed.base'),
     point: translate('menuApp.stationFixed.stationFixed'),
     importData: translate('menuApp.stationFixed.importData'),
-    report:translate('menuApp.stationFixed.report'),
-    map:translate('menuApp.stationFixed.map'),
+    report: translate('menuApp.stationFixed.report'),
+    map: translate('menuApp.stationFixed.map'),
   },
   processDataSub: translate('menuApp.processDataSub'),
   processData: {
@@ -408,12 +409,12 @@ export const TOOLTIP_MENU = {
     mapAQI: translate('tooltipMenuApp.monitoring.mapAQI'),
   },
   stationFixedSub: translate('tooltipMenuApp.stationFixedSub'),
-  stationFixed:{
-    base: translate('tooltipMenuApp.stationFixed.base'),
+  stationFixed: {
+    base: translate('menuApp.stationFixed.base'),
     point: translate('menuApp.stationFixed.stationFixed'),
     importData: translate('menuApp.stationFixed.importData'),
-    report:translate('menuApp.stationFixed.report'),
-    map:translate('menuApp.stationFixed.map'),
+    report: translate('menuApp.stationFixed.report'),
+    map: translate('menuApp.stationFixed.map'),
   },
   monitoringList: {
     base: translate('tooltipMenuApp.monitoringList.base'),

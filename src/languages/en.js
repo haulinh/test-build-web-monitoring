@@ -128,9 +128,9 @@ export default {
     total: 'Total ({{=it.total}})',
     newNotification: 'New Notification',
     status: {
-      disconnected: 'Disconnected',
+      disconnected: 'Lost connection',
       exceeded: 'Exceeded',
-      exceededPreparing: 'Preparing Exceeded',
+      exceededPreparing: 'Tend to exceed',
       good: 'Good',
     },
     managementArea: 'Management Area',
@@ -168,10 +168,10 @@ export default {
     noData: 'No Data',
     withoutLimit: 'Without Limit',
     deviceStatus: {
-      dataloss: 'Lost Connection',
-      sensorError: 'Sensor Error',
+      dataloss: 'Lost connection',
+      sensorError: 'Device error',
       maintenance: 'Calibration',
-      sensorNormal: 'Sensor Normal',
+      sensorNormal: 'Good',
       normal: 'Normal',
       broken: 'Broken',
       good: 'Good',
@@ -719,7 +719,7 @@ export default {
         'The statistics for the average observation results time from {{=it.fromHour}} days {{= it.fromDate}} to {{=it.toHour}} {{= it.toDate}}',
       title6: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
       description6:
-        'tatistics about Results of 1-hour average monitoring of {{=it.stationName}} station in {{=it.dayFormat}}',
+        'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} station in {{=it.dayFormat}}',
     },
     selectTimeRange: {
       startTime: 'Start Time',
@@ -1040,7 +1040,7 @@ export default {
       title: 'Monitoring wave',
     },
     create: {
-      label: 'Create new',
+      label: 'Create',
       success: 'Add New Monitoring Success',
       keyExisted: 'Monitoring already exists',
     },
@@ -1085,7 +1085,7 @@ export default {
       remove: 'Removed',
     },
     create: {
-      label: 'Create new',
+      label: 'Create',
       success: 'Successfully added new multiple scores',
       keyExisted: 'Monitoring point already exists',
     },
@@ -1150,6 +1150,55 @@ export default {
         placeholder: 'Longitude',
         required: 'Please enter longitude',
         format: 'Longitude (-180 <= x <= 180)',
+      },
+      position: {
+        label: 'Station location',
+        placeholder: 'Station location',
+        max: 'No more than 64 characters',
+      },
+      provinceId: {
+        label: 'Monitoring unit',
+        placeholder: 'Monitoring unit',
+      },
+      website: {
+        label: 'Website',
+        placeholder: 'Website',
+      },
+      yearOperate: {
+        label: 'Year of operation',
+        placeholder: 'Year of operation',
+      },
+      userResponsible: {
+        label: 'Manager',
+        placeholder: 'The manager',
+      },
+      phoneResponsible: {
+        label: 'Telephone number',
+        placeholder: 'Phone number',
+      },
+      userSupervisor: {
+        label: 'Operator',
+        placeholder: 'Operator',
+      },
+      phoneSupervisor: {
+        label: 'Telephone number',
+        placeholder: 'Phone number',
+      },
+      purposeUsed: {
+        label: 'Intended use',
+        placeholder: 'Intended use',
+      },
+      irrigationArea: {
+        label: 'Irrigation purpose',
+        placeholder: 'Purpose of watering',
+      },
+      lakeCapacity: {
+        label: 'Lake capacity',
+        placeholder: 'Lake capacity',
+      },
+      catchmentArea: {
+        label: 'Catchment area',
+        placeholder: 'Catchment area',
       },
       note: {
         label: 'Note',
@@ -2012,17 +2061,20 @@ export default {
         name: 'WQI Map',
       },
       configWQI: { name: 'AQI & WQI Configurations' },
+      stationFixPhase: {
+        name: "Monitoring batch manager"
+      },
       stationFixMap: {
-        name: 'Map Fixed Station',
+        name: 'Monitoring point map',
       },
       stationFixData: {
-        name: 'Fixed Data Search',
+        name: 'Lookup monitoring point data',
       },
       stationFix: {
-        name: 'Fixed Station',
+        name: 'Monitoring point management',
       },
       stationFixInput: {
-        name: 'Input Station Fixed',
+        name: 'Input the monitoring point',
       },
       stationAuto: {
         name: 'Station',
@@ -2187,16 +2239,16 @@ export default {
       frequency: 'Frequency',
     },
     DATA_STATUS: {
-      OVERLOAD: 'Overload',
-      ABOUT_TO_OVERLOAD: 'About to overload',
-      COLLECTING: 'Collecting',
+      OVERLOAD: 'Exceeded',
+      ABOUT_TO_OVERLOAD: 'Tend to exceed',
+      COLLECTING: 'Good',
       LOST_CONNECTION: 'Lost connection',
     },
     DEVICE_STATUS: {
       LOST_CONNECTION: 'Lost connection',
       DEVICE_ERROR: 'Device error',
       CALIBRATE: 'Calibrate',
-      COLLECTING: 'Collecting',
+      COLLECTING: 'Good',
     },
     STATION_STATUS: {
       ONLINE: 'The station has a signal',
@@ -2312,10 +2364,10 @@ export default {
     title: 'Warning Levels',
     good: 'Good',
     exceedTendency: 'Tend To Exceed',
-    exceedPreparing: 'Tend To Exceed',
+    exceedPreparing: 'Tend to exceed',
     exceed: 'Exceeded',
     lossData: 'Lost Connection',
-    sensorError: 'Sensor Error',
+    sensorError: 'Device error',
     collecting: 'Good',
     lostConnection: 'Lost Connection',
     overload: 'Overload',
@@ -2457,6 +2509,7 @@ export default {
     dragAndDrop: 'Drag and drop files here',
     errorTitle: 'Upload failed',
     errorMessage: 'Some data lines are faulty. Please check and try again',
+    errorMessageNoData: 'There is no data',
     successTitle: 'Upload successfully',
     successMessage: 'Successfully uploaded {{=it.count}} lines of data',
     line: 'Line',
@@ -2465,7 +2518,7 @@ export default {
     invalidDataSheet: 'Sheet data is not valid',
     invalidDateTime: 'Invalid date and time',
     invalidParameter: 'Parameter code does not exist',
-    pointKeyNotExisted: 'Monitoring Code dose not exist',
+    pointKeyNotExisted: 'Monitoring Code does not exist',
     parameterNotTypeNumber: 'Wrong format parameter',
     pointAndPhaseNotBelongToStationType:
       'Point and phase monitoring are not the same type of station',
@@ -2473,12 +2526,13 @@ export default {
   },
   dataPointReport: {
     base: {
-      title: 'Tra cứu dữ liệu',
+      title: 'Search data',
     },
     tab: {
       data: 'Data',
     },
     title: {
+      numberOrder: 'No.',
       receivedAt: 'Received At',
       phaseName: 'Phase name',
       pointName: 'Point name',
@@ -2503,6 +2557,7 @@ export default {
     },
     form: {
       label: {
+        province: 'Select Site',
         stationType: 'Types Of Station',
         phase: 'Phase',
         point: 'Point',
@@ -2512,6 +2567,12 @@ export default {
       dataPicker: {
         inRange: 'In Range',
       },
+      required: {
+        stationType: 'Station type is required',
+        phase: 'Phase is required',
+        point: 'Point is required',
+        range: 'Time is required'
+      }
     },
   },
   menuApp: {
@@ -2550,7 +2611,7 @@ export default {
 
     shareDataSub: 'Data Sharing',
     shareData: {
-      shareConfig: 'Sharing onfigurations',
+      shareConfig: 'Sharing Configurations',
       ftpConfig: 'FTP Transfer Configurations',
       apiSharing: 'Sharing API',
     },
@@ -2891,12 +2952,12 @@ export default {
   },
   stationStatus: {
     good: 'Good',
-    lostSignal: 'Lost Signal',
-    notConnected: 'Chưa kết nối',
+    lostSignal: 'Lost connection',
+    notConnected: 'Not connected yet',
     connecting: 'Connecting',
     connected: 'Connected',
     exceeded: 'Exceeded',
-    exceededPreparing: 'Almost Exceed',
+    exceededPreparing: 'Tend to exceed',
     exceededTendency: 'Tend To Exceed',
   },
   actions: {
@@ -2938,13 +2999,12 @@ export default {
     measure2: 'measurings:',
     notUse: 'Not In Use',
     deviceStatus: {
-      sensorGood: 'Sensor Good',
-      sensorError: 'Sensor Error',
-      sensorMaintain: 'Sensor Maintain',
+      sensorGood: 'Good',
+      sensorError: 'Device error',
+      sensorMaintain: 'Calibration',
       dataExceeded: 'Exceeded',
-      dataExceededPrepare: 'Almost Exceed',
-      dataExceededTendency: 'Tend To Exceed',
-      dataGood: 'Data Good',
+      dataExceededPrepare: 'Tend to exceed',
+      dataGood: 'Good',
       dataGood2: 'Data Good Again',
       dataLoss: 'Lost Connection',
       dataConnected: 'Go connected',

@@ -34,6 +34,7 @@ const i18n = {
   addButton: t('dataPointReport.button.add'),
   exportExcelButton: t('dataPointReport.button.exportExcel'),
   dataTab: t('dataPointReport.tab.data'),
+  numberOrder: t('dataPointReport.title.numberOrder'),
 }
 
 const optionalInfo = [
@@ -235,7 +236,7 @@ export class StationFixedReport extends React.Component {
   getColumns = () => {
     const { dataPoints, pageNumber } = this.state
     const columnIndex = {
-      title: 'STT',
+      title: i18n.numberOrder,
       dataIndex: 'Index',
       key: 'Index',
       render(value, record, index) {

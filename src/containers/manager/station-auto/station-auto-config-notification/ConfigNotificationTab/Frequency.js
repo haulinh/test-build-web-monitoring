@@ -9,6 +9,10 @@ const optionSelects = [
     value: 0,
   },
   {
+    title: 'Mỗi 2 phút',
+    value: 2,
+  },
+  {
     title: 'Mỗi 5 phút',
     value: 5,
   },

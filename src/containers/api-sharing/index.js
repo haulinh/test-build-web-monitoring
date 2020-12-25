@@ -61,6 +61,7 @@ const i18n = {
   copySuccess: t('global.copySuccess'),
 }
 
+const DEFAULT_HASH = '#StationManagement/stations';
 class APISharing extends Component {
   state = { apiDetail: {} }
 
@@ -71,7 +72,7 @@ class APISharing extends Component {
     } = this.props
     this.getAPIDetail(hash)
     if (!hash) {
-      history.push('#StationManagement/stations')
+      history.push(DEFAULT_HASH)
     }
   }
 
@@ -104,7 +105,7 @@ class APISharing extends Component {
     const {
       location: { hash },
     } = this.props
-    const pathKeys = hash.replace('#', '').split('/')
+    const pathKeys = (hash || DEFAULT_HASH).replace('#', '').split('/')
     return (
       <Wrapper>
         <Row type="flex">

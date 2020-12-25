@@ -12,10 +12,10 @@ export function getStationFixedPointUrl(prefix = '') {
   return getConfigApi().stationFixedPoint + '/' + prefix
 }
 
-export function exportDataTemplate(measurings=[]) {
+export function exportDataTemplate(measurings = []) {
   const lang = getLanguage()
   const url = getStationFixedPointUrl('export-data-template') + '/' + lang
-  return getFetchDownFile(url,{measurings} )
+  return getFetchDownFile(url, { measurings })
 }
 
 export async function getStationFixedPoints(
@@ -63,16 +63,48 @@ export function activeStationFixedPoint(Id) {
 
 export function updateStationFixedPoint(
   Id,
-  { name, address, note, mapLocation, stationTypeId, qcvnId, measuringList }
+  {
+    name,
+    address,
+    note,
+    mapLocation,
+    stationTypeId,
+    qcvnId,
+    measuringList,
+    position,
+    provinceId,
+    website,
+    yearOperate,
+    userResponsible,
+    userSupervisor,
+    phoneResponsible,
+    phoneSupervisor,
+    irrigationArea,
+    purposeUsed,
+    lakeCapacity,
+    catchmentArea,
+  }
 ) {
   return pathFetch(getStationFixedPointUrl(Id), {
     name,
     measuringList,
     stationTypeId,
     mapLocation,
+    position: position || undefined,
     address: address || undefined,
     note: note || undefined,
     qcvnId: qcvnId || undefined,
+    provinceId: provinceId || null,
+    website: website || undefined,
+    yearOperate: yearOperate || undefined,
+    userResponsible: userResponsible || undefined,
+    userSupervisor: userSupervisor || undefined,
+    phoneResponsible: phoneResponsible || undefined,
+    phoneSupervisor: phoneSupervisor || undefined,
+    irrigationArea: irrigationArea || undefined,
+    purposeUsed: purposeUsed || undefined,
+    lakeCapacity: lakeCapacity || undefined,
+    catchmentArea: catchmentArea || undefined,
   })
 }
 

@@ -1,25 +1,32 @@
-import { Button, Col, DatePicker, Form, Row, Select, Switch } from 'antd'
+import React from 'react'
+import { Button, Col, DatePicker, Form, Row, Select, Switch, Spin } from 'antd'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+/** */
 import CategoryApi from 'api/CategoryApi'
 import { getPhase } from 'api/station-fixed/StationFixedPhaseApi'
 import { getPoint } from 'api/station-fixed/StationFixedPointApi'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import createLang, { translate as t } from 'hoc/create-lang'
-import moment from 'moment'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
+import SelectProvince from 'components/elements/select-province'
 
 const { Option } = Select
 const { RangePicker } = DatePicker
 
 const i18n = {
+  provinceLabel: t('dataPointReport.form.label.province'),
   stationTypeLabel: t('dataPointReport.form.label.stationType'),
   phaseLabel: t('dataPointReport.form.label.phase'),
   pointLabel: t('dataPointReport.form.label.point'),
   timeLabel: t('dataPointReport.form.label.time'),
   exceededLabel: t('dataPointReport.form.label.exceeded'),
   inRangeField: t('dataPointReport.form.dataPicker.inRange'),
+  stationTypeRequired: t('dataPointReport.form.required.stationType'),
+  phaseRequired: t('dataPointReport.form.required.phase'),
+  pointRequired: t('dataPointReport.form.required.point'),
+  numberOrder: t('dataPointReport.title.numberOder'),
 }
 
 const SearchFormContainer = styled(BoxShadowStyle)``
@@ -32,6 +39,7 @@ const FormItemStyled = styled(Form.Item)`
 `
 
 const FIELDS = {
+  PROVINCES: 'provinceId',
   STATION_TYPE_ID: 'stationTypeId',
   PHASE: 'phase',
   POINT: 'point',
@@ -56,6 +64,7 @@ export class SearchForm extends React.Component {
     points: [],
     stationTypes: [],
     isOpenRangePicker: false,
+    isLoading: false,
   }
 
   async componentDidMount() {
@@ -73,33 +82,46 @@ export class SearchForm extends React.Component {
     })
   }
 
-  fetchPhase = async stationTypeIdSelected => {
+  fetchPhase = async () => {
+    this.setState({
+      isLoading: true,
+    })
+    const stationTypeId = this.props.form.getFieldValue(FIELDS.STATION_TYPE_ID)
     const filterPhase = {
       limit: 100,
       skip: 0,
       where: {
-        stationTypeId: stationTypeIdSelected,
+        stationTypeId: stationTypeId ? stationTypeId : undefined,
       },
       include: [{ relation: 'stationType' }],
     }
     const phases = await getPhase({ filter: filterPhase })
 
     this.setState({
+      isLoading: false,
       phases,
     })
   }
 
-  fetchPoints = async stationTypeIdSelected => {
+  fetchPoints = async () => {
+    this.setState({
+      isLoading: true,
+    })
+    const provinceId = this.props.form.getFieldValue(FIELDS.PROVINCES)
+    const stationTypeId = this.props.form.getFieldValue(FIELDS.STATION_TYPE_ID)
     const filterPoint = {
       limit: 100,
       skip: 0,
       where: {
-        stationTypeId: stationTypeIdSelected,
+        stationTypeId: stationTypeId ? stationTypeId : undefined,
+        provinceId: provinceId ? provinceId : undefined,
+        active: true
       },
     }
     const points = await getPoint({ filter: filterPoint })
 
     this.setState({
+      isLoading: false,
       points: points.data,
     })
   }
@@ -110,8 +132,8 @@ export class SearchForm extends React.Component {
       [FIELDS.PHASE]: undefined,
       [FIELDS.POINT]: undefined,
     })
-    this.fetchPhase(stationTypeIdSelected)
-    this.fetchPoints(stationTypeIdSelected)
+    this.fetchPhase()
+    this.fetchPoints()
   }
 
   handleOnSelectTime = value => {
@@ -159,16 +181,22 @@ export class SearchForm extends React.Component {
 
   handleClick = () => alert('It works!')
 
+  getConfig = (msg) => {
+    return {
+      rules: [{ required: true , message: msg}],
+    }
+  }
+
   render() {
     const { loadingSearch } = this.props
     const { phases, points, stationTypes, isOpenRangePicker } = this.state
     const { form } = this.props
-    const config = {
-      rules: [{ required: true }],
-    }
+    // const config = {
+    //   rules: [{ required: true }],
+    // }
     const rangeConfig = {
       rules: [
-        { type: 'array', required: true, message: 'Please select time!' },
+        { type: 'array', required: true, message: t('dataPointReport.form.required.range') },
       ],
     }
     return (
@@ -195,11 +223,29 @@ export class SearchForm extends React.Component {
           </Heading>
           <Container>
             <Row gutter={24}>
-              <Col span={8}>
+              <Col span={12}>
+                <FormItemStyled label={i18n.provinceLabel}>
+                  {form.getFieldDecorator(FIELDS.PROVINCES)(
+                    <SelectProvince
+                      isShowAll
+                      onSelect={() => {
+                        form.setFieldsValue({
+                          [FIELDS.PHASE]: undefined,
+                          [FIELDS.POINT]: undefined,
+                        })
+                        this.fetchPoints()
+                      }}
+                      isUsedId
+                      size="large"
+                    />
+                  )}
+                </FormItemStyled>
+              </Col>
+              <Col span={12}>
                 <FormItemStyled label={i18n.stationTypeLabel}>
                   {form.getFieldDecorator(
                     FIELDS.STATION_TYPE_ID,
-                    config
+                    this.getConfig(i18n.stationTypeRequired)
                   )(
                     <Select
                       onSelect={this.handleOnSelectStationType}
@@ -216,62 +262,68 @@ export class SearchForm extends React.Component {
                   )}
                 </FormItemStyled>
               </Col>
-              <Col span={16}>
-                <FormItemStyled label={i18n.phaseLabel}>
-                  {form.getFieldDecorator(
-                    FIELDS.PHASE,
-                    config
-                  )(
-                    <Select
-                      allowClear
-                      autoClearSearchValue
-                      size="large"
-                      mode="multiple"
-                      style={{ width: '100%' }}
-                    >
-                      {phases &&
-                        phases.length > 0 &&
-                        phases.map(phase => (
-                          <Option key={phase._id} value={phase._id}>
-                            {phase.name}
-                          </Option>
-                        ))}
-                    </Select>
-                  )}
-                </FormItemStyled>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Spin spinning={this.state.isLoading}>
+                  <FormItemStyled label={i18n.phaseLabel}>
+                    {form.getFieldDecorator(
+                      FIELDS.PHASE,
+                      this.getConfig(i18n.phaseRequired)
+                    )(
+                      <Select
+                        allowClear
+                        autoClearSearchValue
+                        size="large"
+                        mode="multiple"
+                        style={{ width: '100%' }}
+                      >
+                        {phases &&
+                          phases.length > 0 &&
+                          phases.map(phase => (
+                            <Option key={phase._id} value={phase._id}>
+                              {phase.name}
+                            </Option>
+                          ))}
+                      </Select>
+                    )}
+                  </FormItemStyled>
+                </Spin>
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <FormItemStyled label={i18n.pointLabel}>
-                  {form.getFieldDecorator(
-                    FIELDS.POINT,
-                    config
-                  )(
-                    <Select
-                      autoClearSearchValue
-                      allowClear
-                      mode="multiple"
-                      size="large"
-                      style={{ width: '100%' }}
-                    >
-                      {points &&
-                        points.length > 0 &&
-                        points.map(point => (
-                          <Option key={point.key} value={point.key}>
-                            {point.name}
-                          </Option>
-                        ))}
-                    </Select>
-                  )}
-                </FormItemStyled>
+                <Spin spinning={this.state.isLoading}>
+                  <FormItemStyled label={i18n.pointLabel}>
+                    {form.getFieldDecorator(
+                      FIELDS.POINT,
+                      this.getConfig(i18n.pointRequired)
+                    )(
+                      <Select
+                        autoClearSearchValue
+                        allowClear
+                        mode="multiple"
+                        size="large"
+                        style={{ width: '100%' }}
+                      >
+                        {points &&
+                          points.length > 0 &&
+                          points.map(point => (
+                            <Option key={point.key} value={point.key}>
+                              {point.name}
+                            </Option>
+                          ))}
+                      </Select>
+                    )}
+                  </FormItemStyled>
+                </Spin>
               </Col>
             </Row>
             <Row gutter={24}>
               <Col span={8}>
                 <FormItemStyled label={i18n.timeLabel}>
                   {form.getFieldDecorator('time', {
-                    ...config,
+                    ...this.getConfig(t('')),
                     initialValue: 7,
                   })(
                     <Select onSelect={this.handleOnSelectTime} size="large">

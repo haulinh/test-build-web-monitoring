@@ -100,7 +100,7 @@ export const PublicApis = {
         method: 'get',
         endpoint: '/data-station-auto/{stationAutoKey}/avg',
         extraEndpoint:
-          '/data-station-auto/{stationAutoKey}/avg?type=60&measuringList=[]',
+          '/data-station-auto/{stationAutoKey}/avg?type=60&measuringList=pH,Temp',
         parameters: [
           {
             field: 'stationAutoKey',
