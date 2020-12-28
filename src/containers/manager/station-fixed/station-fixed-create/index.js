@@ -9,12 +9,14 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Clearfix from 'components/elements/clearfix'
 import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi.js'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const i18n = {
   success: translate('stationTypeManager.create.success'),
   error: translate('addon.onSave.add.error'),
 }
-
+@protectRole(ROLE.STATION_FIXED.CREATE)
 @createLanguageHoc
 export default class StationFixedCreateContainer extends React.Component {
   constructor(props) {

@@ -20,6 +20,9 @@ export default {
   DASHBOARD: {
     VIEW: 'menu.dashboard.actions.view',
   },
+  DASHBOARD_2: {
+    VIEW: 'menu.dashboard_2.actions.view',
+  },
   MONITORING: {
     VIEW: 'menu.monitoring.actions.view',
     CONTROL: 'menu.monitoring.actions.control',
@@ -236,28 +239,23 @@ export default {
 
   STATION_FIXED_PHASE: {
     VIEW: 'menu.stationFixPhase.actions.view',
-    // CREATE: 'menu.stationFixed.actions.create',
-    // EDIT: 'menu.stationFixed.actions.edit',
-    // DELETE: 'menu.stationFixed.actions.delete',
+    CREATE: 'menu.stationFixPhase.actions.create',
+    EDIT: 'menu.stationFixPhase.actions.edit',
+    DELETE: 'menu.stationFixPhase.actions.delete',
   },
 
   STATION_FIXED: {
     VIEW: 'menu.stationFix.actions.view',
-    // CREATE: 'menu.stationFixed.actions.create',
-    // EDIT: 'menu.stationFixed.actions.edit',
-    // DELETE: 'menu.stationFixed.actions.delete',
+    CREATE: 'menu.stationFix.actions.create',
+    EDIT: 'menu.stationFix.actions.edit',
+    DELETE: 'menu.stationFix.actions.delete',
   },
   STATION_FIXED_INPUT: {
     VIEW: 'menu.stationFixInput.actions.view',
-    // CREATE: 'menu.stationFixed.actions.create',
-    // EDIT: 'menu.stationFixed.actions.edit',
-    // DELETE: 'menu.stationFixed.actions.delete',
   },
   STATION_FIXED_SEARCH: {
     VIEW: 'menu.stationFixData.actions.view',
-    // DOWNLOAD: 'menu.dataSearchFixed.actions.download',
-    // IMPORT: 'menu.dataSearchFixed.actions.import',
-    // EXPORT: 'menu.dataSearchFixed.actions.export',
+    EXPORT: 'menu.stationFixData.actions.export',
   },
   MAP_STATION_FIXED: {
     VIEW: 'menu.stationFixMap.actions.view',

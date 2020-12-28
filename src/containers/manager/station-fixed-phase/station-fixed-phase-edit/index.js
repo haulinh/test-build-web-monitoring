@@ -8,11 +8,10 @@ import StationFixedPhaseForm from '../station-fixed-phase-form'
 import createManagerEdit from 'hoc/manager-edit'
 import PropTypes from 'prop-types'
 import Breadcrumb from '../breadcrumb'
-// import ROLE from 'constants/role'
-// import protectRole from 'hoc/protect-role'
-// import { translate } from 'hoc/create-lang'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
 
-// @protectRole(ROLE.STATION_TYPE.EDIT)
+@protectRole(ROLE.STATION_FIXED_PHASE.EDIT)
 @createManagerEdit({
   apiUpdate: StationFixedPhaseApi.updateStationFixedPhase,
   apiGetByKey: StationFixedPhaseApi.getStationFixedPhase,
