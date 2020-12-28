@@ -45,7 +45,7 @@ const BoxLoader = createContentLoader({
   colSize: 3,
 })(null)
 
-@protectRole(ROLE.DASHBOARD.VIEW)
+@protectRole(ROLE.DASHBOARD_2.VIEW)
 export default class OverviewDashboard extends Component {
   state = {
     isGroupProvince: null,

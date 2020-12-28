@@ -15,18 +15,11 @@ import DynamicTable from 'components/elements/dynamic-table'
 import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 import StationFixedPhaseSearchForm from '../station-fixed-phase-search'
 
-// import protectRole from 'hoc/protect-role'
-// import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 import * as _ from 'lodash'
-// import { getTotalCount_by_type } from 'api/StationAuto'
-// import { Modal } from 'antd'
-// import { translate } from 'hoc/create-lang'
 
-// const i18n = {
-//   errorStationExist: translate('stationTypeManager.form.errorStationExist'),
-// }
-
-// @protectRole(ROLE.STATION_TYPE.VIEW)
+@protectRole(ROLE.STATION_FIXED_PHASE.VIEW)
 @createManagerList({
   apiList: StationFixedPhaseApi.getStationFixedPhases,
 })
@@ -50,14 +43,14 @@ export default class StationFixedPhaseList extends React.Component {
   buttonAdd() {
     return (
       <div>
-        {/* {protectRole(ROLE.STATION_TYPE.CREATE)( */}
-        <Link to={slug.stationFixedPhase.create}>
-          <Button type="primary">
-            <Icon type="plus" />
-            {translate('addon.create')}
-          </Button>
-        </Link>
-        {/* )} */}
+        {protectRole(ROLE.STATION_FIXED_PHASE.CREATE)(
+          <Link to={slug.stationFixedPhase.create}>
+            <Button type="primary">
+              <Icon type="plus" />
+              {translate('addon.create')}
+            </Button>
+          </Link>
+        )}
       </div>
     )
   }
@@ -120,18 +113,18 @@ export default class StationFixedPhaseList extends React.Component {
           {
             content: (
               <span>
-                {/* {protectRole(ROLE.STATION_TYPE.EDIT)( */}
-                <Link to={slug.stationFixedPhase.editWithKey + '/' + row._id}>
-                  {translate('stationFixedPhase.edit.label')}{' '}
-                </Link>
-                {/* )} */}
+                {protectRole(ROLE.STATION_FIXED_PHASE.EDIT)(
+                  <Link to={slug.stationFixedPhase.editWithKey + '/' + row._id}>
+                    {translate('stationFixedPhase.edit.label')}{' '}
+                  </Link>
+                )}
 
                 <Divider type="vertical" />
-                {/* {protectRole(ROLE.STATION_TYPE.DELETE)( */}
-                <a onClick={() => this.handleOnDelete(row._id)}>
-                  {translate('stationFixedPhase.delete.label')}
-                </a>
-                {/* )} */}
+                {protectRole(ROLE.STATION_FIXED_PHASE.DELETE)(
+                  <a onClick={() => this.handleOnDelete(row._id)}>
+                    {translate('stationFixedPhase.delete.label')}
+                  </a>
+                )}
               </span>
             ),
           },

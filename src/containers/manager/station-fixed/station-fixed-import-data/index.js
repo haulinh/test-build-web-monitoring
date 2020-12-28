@@ -13,6 +13,8 @@ import SelectPhase from './select-phase'
 import SelectMeasuring from './select-measuring'
 import Clearfix from 'components/elements/clearfix'
 import { downFileExcel } from 'utils/downFile'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
 
 const Header = styled.div`
   padding: 20px 24px;
@@ -124,6 +126,7 @@ const IMPORT_DATA_ERROR = {
     i18n.pointAndPhaseNotBelongToStationType,
 }
 
+@protectRole(ROLE.STATION_FIXED_INPUT.VIEW)
 class StationFixedImportData extends React.Component {
   state = {
     isSuccess: false,

@@ -19,14 +19,9 @@ import DynamicTable from 'components/elements/dynamic-table'
 import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 import StationFixedSearchForm from '../station-fixed-search'
 import { translate } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
-// import styled from 'styled-components'
-// import protectRole from 'hoc/protect-role'
-// import ROLE from 'constants/role'
-
-// import { getTotalCount_by_type } from 'api/StationAuto'
-// import { Modal } from 'antd'
-// import { translate } from 'hoc/create-lang'
 const LinkSpan = styled.span`
   color: #000;
   &:hover {
@@ -68,7 +63,7 @@ const i18n = {
   },
 }
 
-// @protectRole(ROLE.STATION_TYPE.VIEW)
+@protectRole(ROLE.STATION_FIXED.VIEW)
 @createManagerList({
   apiList: StationFixedPointApi.getStationFixedPoints,
 })
@@ -96,14 +91,14 @@ export default class StationFixedList extends React.Component {
     } = this.props
     return (
       <div>
-        {/* {protectRole(ROLE.STATION_TYPE.CREATE)( */}
-        <Link to={slug.stationFixed.create}>
-          <Button type="primary">
-            <Icon type="plus" />
-            {t('addon.create')}
-          </Button>
-        </Link>
-        {/* )} */}
+        {protectRole(ROLE.STATION_FIXED.CREATE)(
+          <Link to={slug.stationFixed.create}>
+            <Button type="primary">
+              <Icon type="plus" />
+              {t('addon.create')}
+            </Button>
+          </Link>
+        )}
       </div>
     )
   }
@@ -230,21 +225,22 @@ export default class StationFixedList extends React.Component {
     if (isActive) {
       return (
         <span>
-          {/* {protectRole(ROLE.STATION_TYPE.EDIT)( */}
-          <Link to={slug.stationFixed.editWithKey + '/' + row._id}>
-            {i18n.edit.label}
-          </Link>
-          {/* )} */}
+          {protectRole(ROLE.STATION_FIXED.EDIT)(
+            <Link to={slug.stationFixed.editWithKey + '/' + row._id}>
+              {i18n.edit.label}
+            </Link>
+          )}
 
           <Divider type="vertical" />
-          {/* {protectRole(ROLE.STATION_TYPE.DELETE)( */}
-          <a
-            onClick={() =>
-              this.handleOnDeactivate(row._id, this.props.fetchData)
-            }
-          >
-            {i18n.disable.label}
-          </a>
+          {protectRole(ROLE.STATION_FIXED.DELETE)(
+            <a
+              onClick={() =>
+                this.handleOnDeactivate(row._id, this.props.fetchData)
+              }
+            >
+              {i18n.disable.label}
+            </a>
+          )}
         </span>
       )
     } else {
@@ -274,7 +270,7 @@ export default class StationFixedList extends React.Component {
           </Menu.Item>
         </Menu>
       )
-      return (
+      return protectRole(ROLE.STATION_FIXED.DELETE)(
         <Dropdown overlay={dropDown} trigger={['click']}>
           <LinkSpan className="ant-dropdown-link">
             <Icon type="setting" style={{ fontSize: 20, color: '#3E90F7' }} />

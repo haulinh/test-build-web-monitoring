@@ -1966,10 +1966,10 @@ export default {
       },
 
       dashboard: {
-        name: 'Trang chủ',
+        name: 'Giám sát hệ thống',
       },
       dashboard_2: {
-        name: 'Trang chủ - giám sát',
+        name: 'Giám sát tổng quan',
       },
       monitoring: {
         name: 'Giám sát trực tuyến',
