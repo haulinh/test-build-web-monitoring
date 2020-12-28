@@ -40,7 +40,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.DASHBOARD.VIEW)(
+      {protectRole(ROLE.DASHBOARD_2.VIEW)(
         <Menu.Item
           key={slug.dashboard.overview}
           onClick={() => {

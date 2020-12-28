@@ -1977,10 +1977,10 @@ export default {
         package: 'Package',
       },
       dashboard: {
-        name: 'Home - Overview',
+        name: 'Health check',
       },
       dashboard_2: {
-        name: 'Home - Monitoring',
+        name: 'Monitoring overview',
       },
       monitoring: {
         name: 'Real-time Monitoring',

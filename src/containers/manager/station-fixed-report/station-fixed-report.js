@@ -12,6 +12,8 @@ import styled from 'styled-components'
 import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from './breadcrumb'
 import { SearchForm } from './search-form'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
 
 const i18n = {
   receivedAt: t('dataPointReport.title.receivedAt'),
@@ -71,6 +73,7 @@ const OptionalInfoContainer = styled.div`
 const Flex = styled.div`
   display: flex;
 `
+@protectRole(ROLE.STATION_FIXED_SEARCH.VIEW)
 @connect(state => ({
   lang: state.language.locale,
 }))
@@ -103,14 +106,16 @@ export class StationFixedReport extends React.Component {
           {i18n.addButton}
         </Button>
       </Popover>
-      <Button
-        disabled={this.isDisableExportExcel()}
-        loading={this.state.loadingExport}
-        onClick={this.handleExportExcel}
-        type="primary"
-      >
-        {i18n.exportExcelButton}
-      </Button>
+      {protectRole(ROLE.STATION_FIXED_SEARCH.EXPORT)(
+        <Button
+          disabled={this.isDisableExportExcel()}
+          loading={this.state.loadingExport}
+          onClick={this.handleExportExcel}
+          type="primary"
+        >
+          {i18n.exportExcelButton}
+        </Button>
+      )}
     </Flex>
   )
 
