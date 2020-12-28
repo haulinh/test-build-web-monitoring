@@ -15,6 +15,11 @@ export default {
     password: 'mật khẩu',
     noPermission: 'Bạn không có quyền thực hiện',
     saveSuccess: 'Lưu thành công',
+    all: 'Tất cả',
+    upload: 'Tải lên',
+    parameter: 'Thông số',
+    example: 'Ví dụ',
+    copySuccess: 'Sao chép thành công',
   },
   rules: {
     required: 'Bắt buộc',
@@ -58,7 +63,7 @@ export default {
   notification: {
     label: 'Thông báo',
     removeAll: 'Xoá tất cả thông báo',
-    toolTipEnable: 'Nhận tất cả thông báo cập nhật liên tục về iLotusland',
+    toolTipEnable: 'Nhận tất cả thông báo cập nhật liên tục về iLotusLand',
     markAll: 'Đánh dấu đã đọc tất cả',
     delele: 'Xoá thông báo này',
     tickRead: 'Đánh dấu đã đọc',
@@ -119,6 +124,26 @@ export default {
     },
     activeStationPer: 'Tình trạng kết nối ({{=it.good}}/{{=it.total}})',
     unit: 'Đơn vị',
+    total: 'Tổng số ({{=it.total}})',
+    newNotification: 'Thông báo mới',
+    status: {
+      disconnected: 'Mất tín hiệu',
+      exceeded: 'Vượt ngưỡng',
+      exceededPreparing: 'Chuẩn bị vượt',
+      good: 'Trong ngưỡng',
+    },
+    managementArea: 'Khu vực quản lý',
+    statusDescription: {
+      disconnected:
+        'Không thể kết nối đến thiết bị hoặc không có dữ liệu truyền về.',
+      good: 'Giá trị dữ liệu truyền về trong ngưỡng cho phép.',
+      exceededPreparing: 'Giá trị dữ liệu truyền về chuẩn bị vượt ngưỡng.',
+      exceeded: 'Giá trị dữ liệu truyền về vượt quá mức ngưỡng thiết lập.',
+      maintenance:
+        'Thiết bị đang hiệu chỉnh, giá trị truyền về có thể không đúng.',
+      sensorError: 'Thiết bị đang bị lỗi, giá trị truyền về có thể không đúng.',
+      goodDevice: 'Thiết bị đang ở trạng thái bình thường.',
+    },
   },
   monitoring: {
     title: 'Giám sát trực tuyến',
@@ -141,12 +166,13 @@ export default {
     lossAt: 'Mất kết nối lúc',
     notInUse: 'Chưa sử dụng',
     deviceStatus: {
-      dataloss: 'Đang mất tín hiệu',
+      dataloss: 'Mất tín hiệu',
       sensorError: 'Lỗi thiết bị',
       maintenance: 'Hiệu chuẩn',
-      sensorNormal: 'Đang đo',
+      sensorNormal: 'Tốt',
       normal: 'Đang đo',
       broken: 'Báo lỗi',
+      good: 'Tốt',
     },
     statusResult: 'Kết quả quan trắc',
     note: 'Chú thích',
@@ -1005,7 +1031,7 @@ export default {
       },
     },
   },
-  stationFixedPhase:{
+  stationFixedPhase: {
     list: {
       title: 'Đợt quan trắc',
     },
@@ -1021,29 +1047,29 @@ export default {
     delete: {
       label: 'Xoá',
     },
-    form:{
-      key:{
-        label:'Mã đợt quan trắc',
+    form: {
+      key: {
+        label: 'Mã đợt quan trắc',
         placeholder: 'Mã đợt quan trắc',
         required: 'Vui lòng nhập mã',
-        pattern:'Không được nhập kí tự đăc biệt',
-        max:'Không quá 64 kí tự'
+        pattern: 'Không được nhập kí tự đăc biệt',
+        max: 'Không quá 64 kí tự',
       },
-      name:{
-        label:'Tên đợt quan trắc',
+      name: {
+        label: 'Tên đợt quan trắc',
         placeholder: 'Tên đợt quan trắc',
         required: 'Vui lòng nhập đợt quan trắc',
-        pattern:'Không được nhập kí tự đăc biệt',
-        max:'Không quá 64 kí tự'
+        pattern: 'Không được nhập kí tự đăc biệt',
+        max: 'Không quá 64 kí tự',
       },
-      stationType:{
-        label:'Loại trạm',
+      stationType: {
+        label: 'Loại trạm',
         placeholder: 'Loại trạm',
         required: 'Vui lòng chọn loại trạm',
-      }
-    }
+      },
+    },
   },
-  stationFixedPoint:{
+  stationFixedPoint: {
     list: {
       title: 'Điểm quan trắc',
       restore: 'Khôi phục',
@@ -1066,64 +1092,117 @@ export default {
       label: 'Vô hiệu hóa',
       require: 'Bạn chắc chắn muốn vô hiệu hóa?',
     },
-    form:{
-      measuringForm:{
-        key:"Mã thông số",
-        name:"Tên thông số",
-        addMeasuring:'Thêm thông số',
-        qcvn:"Giới hạn vượt ngưỡng",
-        tendToExceed:"Chuẩn bị vượt",
-        qcvnMin:'Giới hạn tối thiểu',
-        qcvnMax:'Giới hạn tối đa'
+    form: {
+      measuringForm: {
+        key: 'Mã thông số',
+        name: 'Tên thông số',
+        addMeasuring: 'Thêm thông số',
+        qcvn: 'Giới hạn vượt ngưỡng',
+        tendToExceed: 'Chuẩn bị vượt',
+        qcvnMin: 'Giới hạn tối thiểu',
+        qcvnMax: 'Giới hạn tối đa',
       },
-      key:{
-        label:'Mã điểm',
+      key: {
+        label: 'Mã điểm',
         placeholder: 'Mã điểm',
         required: 'Vui lòng nhập mã',
-        pattern:'Không được nhập kí tự đăc biệt',
-        max:'Không quá 64 kí tự'
+        pattern: 'Không được nhập kí tự đăc biệt',
+        max: 'Không quá 64 kí tự',
       },
-      name:{
-        label:'Tên điểm',
+      name: {
+        label: 'Tên điểm',
         placeholder: 'Tên điểm quan trắc',
         required: 'Vui lòng nhập tên điểm quan trắc',
-        pattern:'Không được nhập kí tự đăc biệt',
-        max:'Không quá 64 kí tự'
+        pattern: 'Không được nhập kí tự đăc biệt',
+        max: 'Không quá 64 kí tự',
       },
-      address:{
-        label:'Địa chỉ',
+      address: {
+        label: 'Địa chỉ',
         placeholder: 'Địa chỉ',
-        max:'Không quá 256 kí tự'
+        max: 'Không quá 256 kí tự',
       },
-      stationType:{
-        label:'Loại trạm',
+      stationType: {
+        label: 'Loại trạm',
         placeholder: 'Loại trạm',
         required: 'Vui lòng chọn loại trạm',
       },
-      qcvn:{
-        label:"Quy chuẩn",
+      qcvn: {
+        label: 'Quy chuẩn',
         placeholder: 'Quy chuẩn',
       },
-      lat:{
-        label:"Vĩ độ",
+      lat: {
+        label: 'Vĩ độ',
         placeholder: 'Vĩ độ',
-        required:'Vui lòng nhập vĩ độ',
-        format: "Vĩ độ (-90<=x<=90)"
+        required: 'Vui lòng nhập vĩ độ',
+        format: 'Vĩ độ (-90<=x<=90)',
       },
-      long:{
-        label:"Kinh độ",
+      long: {
+        label: 'Kinh độ',
         placeholder: 'Kinh độ',
-        required:'Vui lòng nhập kinh độ',
-        format: "Kinh độ (-180<=x<=180)"
+        required: 'Vui lòng nhập kinh độ',
+        format: 'Kinh độ (-180<=x<=180)',
       },
-      note:{
-        label:"Ghi chú",
+      provinceId: {
+        label: 'Đơn vị quản lý',
+        placeholder: 'Đơn vị quản lý',
+      },
+      position: {
+        label: 'Vị trí trạm',
+        placeholder: 'Vị trí trạm',
+        max: 'Không quá 64 kí tự',
+      },
+      website: {
+        label: 'Website',
+        placeholder: 'Website',
+      },
+      yearOperate: {
+        label: 'Năm hoạt động',
+        placeholder: 'Năm hoạt động',
+      },
+      userResponsible: {
+        label: 'Người quản lý',
+        placeholder: 'Người quản lý',
+      },
+      phoneResponsible: {
+        label: 'Số điện thoại',
+        placeholder: 'Số điện thoại',
+      },
+      userSupervisor: {
+        label: 'Người vận hành',
+        placeholder: 'Người vận hành',
+      },
+      phoneSupervisor: {
+        label: 'Số điện thoại',
+        placeholder: 'Số điện thoại',
+      },
+      purposeUsed: {
+        label: 'Mục đích sử dụng',
+        placeholder: 'Mục đích sử dụng',
+      },
+      irrigationArea: {
+        label: 'Diện tích tưới',
+        placeholder: 'Diên tích tưới',
+      },
+      lakeCapacity:{
+        label: 'Dung tích hồ',
+        placeholder: 'Dung tích hồ',
+      },
+      catchmentArea:{
+        label: 'Diện tích lưu vực',
+        placeholder: 'Diện tích lưu vực',
+      },
+      note: {
+        label: 'Ghi chú',
         placeholder: 'Ghi chú',
       },
-      measuringList:{
-        required:'Vui lòng nhập thông số'
-      }
-    }
+      measuringList: {
+        required: 'Vui lòng nhập thông số',
+        validate1: '[Giới hạn vượt ngưỡng: Min > Max]',
+        validate2: '[Chuẩn bị vượt ngưỡng: Min > Max]',
+        validate3: '[Giới hạn vượt ngưỡng: Min Vượt > Min Chuẩn bị vượt]',
+        validate4: '[Giới hạn vượt ngưỡng: Max Vượt < Max Chuẩn bị vượt]',
+      },
+    },
   },
   qcvn: {
     list: {
@@ -1922,6 +2001,9 @@ export default {
       ftpTransfer: {
         name: 'Cấu hình truyền FTP',
       },
+      shareAPI: {
+        name: 'Chia sẻ API',
+      },
       tiLeDuLieuThuDuoc: {
         name: 'Tỉ lệ dữ liệu thu được',
       },
@@ -1968,17 +2050,20 @@ export default {
         name: 'Bản đồ WQI',
       },
       configWQI: { name: 'Cấu hình tính WQI, AQI' },
+      stationFixPhase: {
+        name:"Quản lý đợt quan trắc"
+      },
       stationFixMap: {
-        name: 'Bản đồ trạm cố định',
+        name: 'Bản đồ điểm quan trắc',
       },
       stationFixData: {
-        name: 'Dữ liệu trạm cố định',
+        name: 'Tra cứu dữ liệu điểm quan trắc',
       },
       stationFix: {
-        name: 'Trạm cố định',
+        name: 'Quản lý điểm quan trắc',
       },
       stationFixInput: {
-        name: 'Nhập liệu trạm cố định',
+        name: 'Nhập liệu điểm quan trắc',
       },
       stationAuto: { name: 'Trạm quan trắc' },
       cauHinhKetNoi: {
@@ -2143,15 +2228,15 @@ export default {
     },
     DATA_STATUS: {
       OVERLOAD: 'Vượt ngưỡng',
-      ABOUT_TO_OVERLOAD: 'Chuẩn bị vượt ngưỡng',
-      COLLECTING: 'Tốt',
+      ABOUT_TO_OVERLOAD: 'Chuẩn bị vượt',
+      COLLECTING: 'Trong ngưỡng',
       LOST_CONNECTION: 'Mất tín hiệu',
     },
     DEVICE_STATUS: {
       LOST_CONNECTION: 'Mất tín hiệu',
       DEVICE_ERROR: 'Lỗi thiết bị',
       CALIBRATE: 'Hiệu chuẩn',
-      COLLECTING: 'Đang đo',
+      COLLECTING: 'Tốt',
     },
     STATION_STATUS: {
       OFFLINE: 'Trạm mất tín hiệu',
@@ -2264,7 +2349,7 @@ export default {
   },
   warningLevels: {
     title: 'Mức cảnh báo',
-    good: 'Tốt',
+    good: 'Trong ngưỡng',
     exceedTendency: 'Có xu hướng vượt',
     exceedPreparing: 'Chuẩn bị vượt',
     exceed: 'Vượt nguỡng',
@@ -2306,6 +2391,8 @@ export default {
         measuringUsedWqi: 'Chỉ tiêu đang được sử dụng để tính toán WQI !',
         measuringUsedAqi: 'Chỉ tiêu đang được sử dụng để tính toán AQI !',
         measuringUsedQcvn: 'Chỉ tiêu đang được sử dụng trong cấu hình QCVN !',
+        phaseUsed: 'Đợt quan trắc đang được sử dụng để nhập dữ liệu!',
+        pointUsed: 'Điểm quan trắc đang được sử dụng để nhập dữ liệu!',
       },
       success: 'Xoá thành công',
       error: 'Xoá thất bại',
@@ -2395,6 +2482,8 @@ export default {
       'Thêm dữ liệu quan trắc điểm định kỳ bằng cách tải lên file xlsx với những thông tin cần thiết.',
     startUpload: 'Bắt đầu bằng cách lựa chọn đợt nhập liệu',
     phaseLabel: 'Đợt quan trắc',
+    measuringLabel: 'Thứ tự thông số nhập liệu',
+    measuringRequired: 'Vui lòng chọn 1 thông số',
     stationTypeLabel: 'Loại trạm',
     requirements:
       'Tải lên dữ liệu chứa thông tin các điểm quan trắc theo mẫu bên dưới. Hãy đảm bảo những trường thông tin chính xác tuyệt đối. Dữ liệu đã được tải lên hệ thống sẽ không thể loại bỏ',
@@ -2405,41 +2494,77 @@ export default {
     dragAndDrop: 'Kéo thả file vào đây',
     errorTitle: 'Tải lên thất bại',
     errorMessage: 'Một số dòng dữ liệu bị lỗi. Vui lòng kiểm tra và thử lại',
+    errorMessageNoData: 'Không có dữ liệu',
     successTitle: 'Tải lên thành công',
     successMessage: 'Tải lên thành công {{=it.count}} dòng dữ liệu',
     line: 'Dòng',
-    duplicateParameter: '2 cột trùng mã thông số',
+    duplicateParameter: 'Trùng mã thông số',
     duplicateData: 'Dữ liệu trùng',
     invalidDataSheet: 'Dữ liệu sheet không hợp lệ',
     invalidDateTime: 'Ngày giờ không hợp lệ',
     invalidParameter: 'Mã thông số không tồn tại',
     pointKeyNotExisted: 'Mã điểm không tồn tại',
     parameterNotTypeNumber: 'Thông số sai định dạng',
+    pointAndPhaseNotBelongToStationType: 'Điểm và đợt không cùng loại trạm',
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
   },
   dataPointReport: {
+    base: {
+      title: 'Tra cứu dữ liệu',
+    },
+    tab: {
+      data: 'Dữ liệu',
+    },
     title: {
-      receivedAt: "receivedAt",
-      phaseName: "Tên đợt",
-      pointName: "Tên trạm"
+      numberOrder: 'STT',
+      receivedAt: 'Thời gian',
+      phaseName: 'Tên đợt',
+      pointName: 'Tên điểm',
+    },
+    button: {
+      add: 'Thêm',
+      exportExcel: 'Xuất dữ liệu Excel',
     },
     optionalInfo: {
-      symbol: "Kí hiệu mẫu",
-      weather: "Đặc điểm thời tiết",
-      sampler: "Tên người lấy mẫu",
-      notes: "Ghi chú",
-      monitoringPlace: "Đặc điểm nơi quan trắc",
-      requirements: "Yêu cầu đối với việc lấy mẫu",
-      method: "Phương pháp lấy mẫu",
-      chemical: "Hóa chất baỏ quản",
-      conditions: "Điều kiện bảo quản mẫu",
-      equipmentlist: "Danh sách thiết bị lấy mẫu",
-      analyst: "Người phân tích",
-      placeOfAnalysis: "Nơi phân tích",
-    }
+      symbol: 'Ký hiệu mẫu',
+      weather: 'Đặc điểm thời tiết',
+      sampler: 'Tên người lấy mẫu',
+      notes: 'Ghi chú',
+      monitoringPlace: 'Đặc điểm nơi quan trắc',
+      requirements: 'Yêu cầu đối với việc lấy mẫu',
+      method: 'Phương pháp lấy mẫu',
+      chemical: 'Hóa chất bảo quản mẫu',
+      conditions: 'Điều kiện bảo quản mẫu',
+      equipmentlist: 'Danh sách thiết bị lấy mẫu',
+      analyst: 'Người phân tích',
+      placeOfAnalysis: 'Nơi phân tích',
+    },
+    form: {
+      label: {
+        province: 'Đơn vị quản lý',
+        stationType: 'Loại trạm',
+        phase: 'Đợt quan trắc',
+        point: 'Điểm quan trắc',
+        time: 'Thời gian',
+        exceeded: 'Vượt quy chuẩn',
+      },
+      dataPicker: {
+        inRange: 'Trong khoảng',
+      },
+      required: {
+        stationType: 'Vui lòng chọn loại trạm',
+        phase: 'Vui lòng chọn đợt quan trắc',
+        point: 'Vui lòng chọn điểm quan trắc',
+        range: 'Vui lòng chọn thời gian'
+      }
+    },
   },
   menuApp: {
-    dashboard: 'Trang Chủ',
+    dashboard: {
+      base: 'Trang chủ',
+      healthcheck: 'Giám sát hệ thống',
+      overview: 'Giám sát tổng quan',
+    },
 
     monitoringSub: 'Khai thác dữ liệu',
     monitoring: {
@@ -2472,6 +2597,7 @@ export default {
     shareData: {
       shareConfig: 'Cấu hình chia sẻ dữ liệu',
       ftpConfig: 'Cấu hình truyền FTP',
+      apiSharing: 'Chia sẻ API',
     },
 
     advanceSub: 'Nâng cao',
@@ -2608,6 +2734,7 @@ export default {
       shareConfig: 'Lựa chọn điểm quan trắc và thông số để công bố',
       ftpConfig:
         'Lựa chọn trạm và thông số truyền vào thư mục bên ngoài bằng FTP',
+      shareAPI: 'Chia sẻ API',
     },
     reportSub: 'Lựa chọn loại báo cáo để xuất kết quả',
     report: {
@@ -2866,14 +2993,14 @@ export default {
     measure2: 'Các chỉ tiêu:',
     notUse: 'Chưa sử dụng',
     deviceStatus: {
-      sensorGood: 'thiết bị tốt trở lại',
-      sensorError: 'thiết bị đang bị lỗi',
-      sensorMaintain: 'thiết bị đang hiệu chuẩn',
-      dataExceeded: 'đang vượt ngưỡng',
-      dataExceededPrepare: 'chuẩn bị vượt ngưỡng',
-      dataGood: 'Dữ liệu tốt',
+      sensorGood: 'Tốt',
+      sensorError: 'Lỗi thiết bị',
+      sensorMaintain: 'Hiệu chuẩn',
+      dataExceeded: 'Vượt ngưỡng',
+      dataExceededPrepare: 'Chuẩn bị vượt',
+      dataGood: 'Trong ngưỡng',
       dataGood2: 'dữ liệu tốt trở lại',
-      dataLoss: 'đang mất tín hiệu',
+      dataLoss: 'Mất tín hiệu',
       dataConnected: 'có tín hiệu trở lại',
     },
     overview: 'Tổng quan',
@@ -2906,6 +3033,7 @@ export default {
   configService: {
     title: 'Cấu hình nhà cung cấp dịch vụ',
     esmsService: 'Dịch vụ ESMS',
+    smsService: 'Dịch vụ SMS',
     mailGunService: 'Dịch vụ MailGun',
     testConfiguration: 'Kiểm tra cấu hình',
     customerCare: 'Chăm sóc khách hàng',
@@ -2939,6 +3067,28 @@ export default {
         placeholder: 'Brand Name',
       },
     },
+    twilioForm: {
+      accountSid: {
+        label: 'ACCOUNT SID',
+        placeholder: 'Account SID'
+      },
+      authToken: {
+        label: 'AUTH TOKEN',
+        placeholder: 'Auth token',
+      },
+      twilioNumber: {
+        label: 'TWILIO NUMBER',
+        placeholder: 'Twilio number',
+      },
+      smsType: {
+        label: 'SMS Type',
+        placeholder: 'Sms Type',
+      },
+      brand: {
+        label: 'Brand Name',
+        placeholder: 'Brand Name',
+      },
+    },
     mailGunForm: {
       domain: {
         label: 'Domain',
@@ -2953,5 +3103,23 @@ export default {
         placeholder: 'Email From',
       },
     },
+  },
+  apiSharing: {
+    stationManagement: 'Quản lý trạm quan trắc',
+    stations: 'Danh sách trạm quan trắc',
+    averageData: 'Dữ liệu trung bình một giờ',
+    dataHistory: 'Dữ liệu lịch sử',
+    aqi: 'Trạm quan trắc có AQI',
+    stationName: 'Tên trạm quan trắc',
+    stationAddress: 'Địa chỉ trạm quan trắc',
+    stationTypeKey: 'Mã loại trạm',
+    page: 'Số trang',
+    itemPerPage: 'Số lượng dữ liệu trên 1 trang',
+    stationAutoKey: 'Mã trạm tự động',
+    measuringList: "Danh sách thông số ngăn cách bởi dấu ','",
+    fromDate: 'Từ ngày',
+    toDate: 'Đến ngày',
+    filterByExceeded: 'Lọc ra danh sách trạm vượt ngưỡng',
+    allowedAQI: 'Danh sách trạm cấu hình AQI',
   },
 }

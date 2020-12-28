@@ -1,12 +1,25 @@
+import { getLanguage } from 'utils/localStorage'
 import { getConfigApi } from '../../config'
-import { getFetch, postFetch, deleteFetch, pathFetch } from '../../utils/fetch'
+import {
+  getFetch,
+  postFetch,
+  deleteFetch,
+  pathFetch,
+  getFetchDownFile,
+} from 'utils/fetch'
 
 export function getStationFixedPointUrl(prefix = '') {
   return getConfigApi().stationFixedPoint + '/' + prefix
 }
 
-export function getStationFixedPoints(
-  { page = 1, itemPerPage = 10 },
+export function exportDataTemplate(measurings = []) {
+  const lang = getLanguage()
+  const url = getStationFixedPointUrl('export-data-template') + '/' + lang
+  return getFetchDownFile(url, { measurings })
+}
+
+export async function getStationFixedPoints(
+  { page = 1, itemPerPage = 1000 },
   { name, stationTypeId }
 ) {
   let filter = {}
@@ -19,7 +32,7 @@ export function getStationFixedPoints(
   filter = {
     ...filter,
     where: {
-      name: name ? { like: name } : undefined,
+      name: name ? { like: name, options: 'i' } : undefined,
       stationTypeId,
     },
   }
@@ -50,16 +63,48 @@ export function activeStationFixedPoint(Id) {
 
 export function updateStationFixedPoint(
   Id,
-  { name, address, note, mapLocation, stationTypeId, qcvnId, measuringList }
+  {
+    name,
+    address,
+    note,
+    mapLocation,
+    stationTypeId,
+    qcvnId,
+    measuringList,
+    position,
+    provinceId,
+    website,
+    yearOperate,
+    userResponsible,
+    userSupervisor,
+    phoneResponsible,
+    phoneSupervisor,
+    irrigationArea,
+    purposeUsed,
+    lakeCapacity,
+    catchmentArea,
+  }
 ) {
   return pathFetch(getStationFixedPointUrl(Id), {
     name,
     measuringList,
     stationTypeId,
     mapLocation,
-    address: address || undefined,
-    note: note || undefined,
-    qcvnId: qcvnId || undefined,
+    position: position || null,
+    address: address || null,
+    note: note || null,
+    qcvnId: qcvnId || null,
+    provinceId: provinceId || null,
+    website: website || null,
+    yearOperate: yearOperate || null,
+    userResponsible: userResponsible || null,
+    userSupervisor: userSupervisor || null,
+    phoneResponsible: phoneResponsible || null,
+    phoneSupervisor: phoneSupervisor || null,
+    irrigationArea: irrigationArea || null,
+    purposeUsed: purposeUsed || null,
+    lakeCapacity: lakeCapacity || null,
+    catchmentArea: catchmentArea || null,
   })
 }
 
@@ -71,6 +116,10 @@ export function importDataStationFixed(data) {
   return postFetch(getStationFixedPointUrl('import-data'), data)
 }
 
+export function getLastLog() {
+  return getFetch(getStationFixedPointUrl('last-log'))
+}
+
 export default {
   getStationFixedPoints,
   getStationFixedPoint,
@@ -79,4 +128,5 @@ export default {
   updateStationFixedPoint,
   deactivateStationFixedPoint,
   activeStationFixedPoint,
+  getLastLog,
 }

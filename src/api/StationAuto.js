@@ -1,7 +1,7 @@
 import { getConfigApi } from '../config'
 import { deleteFetch, getFetch, postFetch, putFetch } from '../utils/fetch'
 
-function getStationAutoUrl(prefix = '') {
+export function getStationAutoUrl(prefix = '') {
   return getConfigApi().stationAuto + '/' + prefix
 }
 
@@ -124,6 +124,10 @@ export function deleteEvaluateStation(commentID) {
 
 export function editEvaluateStation(evaluate = {}) {
   return putFetch(getStationAutoUrl(`evaluate/update`), evaluate)
+}
+
+export function getDashboardInfo(params) {
+  return getFetch(getConfigApi().mobile + '/stations-dashboard', params)
 }
 
 export default {

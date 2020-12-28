@@ -1,28 +1,28 @@
 /* eslint-disable */
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
 // import Icon from 'themes/markerIcon'
 import { Icon, Tabs } from 'antd'
-import { connectAutoDispatch } from 'redux/connect'
-import { getStationAuto } from 'redux/actions/map'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import { SHAPE, COLOR, COLOR_DEVICE_STATUS } from 'themes/color'
 import Clearfix from 'components/elements/clearfix'
-import Viewmore from './info-window-viewmore'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { getFormatNumber } from 'constants/format-number'
+import { STATUS_STATION } from 'constants/stationStatus'
+// import DateFormat from 'dateformat'
+import { warningLevels } from 'constants/warningLevels'
+import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
+import { get as _get, isEmpty, map } from 'lodash'
+import moment from 'moment-timezone'
+import PropTypes from 'prop-types'
+import React, { PureComponent } from 'react'
+import { Table } from 'react-bootstrap'
+import { getStationAuto } from 'redux/actions/map'
+import { connectAutoDispatch } from 'redux/connect'
+import styled from 'styled-components'
+import { COLOR_DEVICE_STATUS, DATA_COLOR } from 'themes/color'
+import Marker from '../utils/marker-with-label-animate'
+import Viewmore from './info-window-viewmore'
 // import stationStatus from 'constants/stationStatus'
 
 const { InfoWindow, Circle } = require('react-google-maps')
-import Marker from '../utils/marker-with-label-animate'
-import { Table } from 'react-bootstrap'
-// import DateFormat from 'dateformat'
-import { warningLevels } from 'constants/warningLevels'
-import { STATUS_STATION } from 'constants/stationStatus'
-import moment from 'moment-timezone'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-import _, { isEmpty, map, get as _get } from 'lodash'
-import { getFormatNumber } from 'constants/format-number'
 
 const TabPane = Tabs.TabPane
 
@@ -101,6 +101,8 @@ export default class MarkerStation extends PureComponent {
     stationStatus: PropTypes.string,
     byStationStatus: PropTypes.string,
     image: PropTypes.object,
+    hideDeviceStatus: PropTypes.bool,
+    hideViewMore: PropTypes.bool
   }
   state = {
     tableData: '',
@@ -137,17 +139,16 @@ export default class MarkerStation extends PureComponent {
   getColorLevel(warningLevel) {
     let stationStatus = _get(this.props, 'stationStatus')
     if (stationStatus === STATUS_STATION.HIGHTGEST)
-      return COLOR[STATUS_STATION.HIGHTGEST]
+      return DATA_COLOR[STATUS_STATION.HIGHTGEST]
 
-    if (warningLevel && COLOR[warningLevel]) return COLOR[warningLevel]
+    if (warningLevel && DATA_COLOR[warningLevel]) return DATA_COLOR[warningLevel]
 
-    return COLOR.GOOD
+    return DATA_COLOR.GOOD
   }
 
   renderTableData() {
     if (!this.props.lastLog || !this.props.lastLog.measuringLogs) return ''
     let lastLog = this.props.lastLog
-
     let measuringList = map(
       this.props.measuringList,
       ({ name, key, unit }, index) => {
@@ -170,7 +171,7 @@ export default class MarkerStation extends PureComponent {
           this.props.stationStatus &&
           this.props.stationStatus === STATUS_STATION.HIGHTGEST
         ) {
-          colorDeviceStatus = COLOR[STATUS_STATION.HIGHTGEST]
+          colorDeviceStatus = DATA_COLOR[STATUS_STATION.HIGHTGEST]
         }
         // console.log( this.props, 'statusDevice')
 
@@ -190,6 +191,7 @@ export default class MarkerStation extends PureComponent {
               {typeof value === 'number' ? getFormatNumber(value) : ''}
             </td>
             <td>{unit}</td>
+            {!this.props.hideDeviceStatus&&
             <td
               style={{
                 textAlign: 'center',
@@ -203,6 +205,7 @@ export default class MarkerStation extends PureComponent {
                 }}
               />
             </td>
+            }
           </tr>
         )
       }
@@ -231,7 +234,7 @@ export default class MarkerStation extends PureComponent {
               <th>{translate('map.dataTable.measuring')}</th>
               <th>{translate('map.dataTable.value')}</th>
               <th>{translate('map.dataTable.unit')}</th>
-              <th>{translate('map.dataTable.statusSensor')}</th>
+              {!this.props.hideDeviceStatus && <th>{translate('map.dataTable.statusSensor')}</th>}
             </tr>
           </thead>
           <tbody>{measuringList}</tbody>
@@ -243,9 +246,9 @@ export default class MarkerStation extends PureComponent {
   // getColorLevel(status, isStationStatus = false) {
   //   if (isStationStatus && STATUS_OPTIONS[status]) return STATUS_OPTIONS[status].color
 
-  //   if (!isStationStatus) if (status && status !== '') return COLOR[status.toUpperCase()]
+  //   if (!isStationStatus) if (status && status !== '') return DATA_COLOR[status.toUpperCase()]
 
-  //   return COLOR.GOOD
+  //   return DATA_COLOR.GOOD
   // }
 
   getIconByStatus(status) {
@@ -255,6 +258,9 @@ export default class MarkerStation extends PureComponent {
         icon = '/images/marker-icon/station-good.png'
         break
       case warningLevels.LOSS:
+        icon = '/images/marker-icon/station-lost-connection.png'
+        break
+      case STATUS_STATION.NOT_USE:
         icon = '/images/marker-icon/station-lost-connection.png'
         break
       case warningLevels.EXCEEDED_PREPARING:
@@ -358,7 +364,7 @@ export default class MarkerStation extends PureComponent {
               fontSize: '14px',
               fontFamily: 'Roboto, Arial, sans-serif',
               background: '#6AA84F',
-              padding: '0px 4px',
+              padding: '3px 4px',
               padding: '2px',
               textAlign: 'center',
               whiteteSpace: 'nowrap',
@@ -379,14 +385,14 @@ export default class MarkerStation extends PureComponent {
                   }}
                 >
                   <WrapperInfoWindow>
-                    <Viewmore
+                    {!this.props.hideViewMore && <Viewmore
                       measuringList={this.props.measuringList}
                       stationId={this.props.stationId}
                       stationName={this.props.name}
                       stationKey={this.props.stationKey}
                       stationTypeKey={this.props.stationTypeKey}
                       options={this.props.options}
-                    />
+                    />}
                     <InfoTitle>{this.props.name}</InfoTitle>
                     <Clearfix height={8} />
                     <div>

@@ -18,5 +18,5 @@
     "grafana": "https://grafana.ilotusland.asia"
   },
   "isAdvanced": true,
-  "defaultPage": "/map/aqi"
+  "defaultPage": "/"
 }

@@ -40,6 +40,13 @@ const MultilineText = styled(Row)`
   display: -webkit-box; */
 `
 
+const Text = styled.div`
+  font-style: ${props => props.fontStyle || 'normal'};
+  font-size: ${props => props.fontSize || 15}px;
+  font-weight: ${props => props.fontWeight || 'normal'};
+  display: ${props => props.display || 'inline-block'};
+`
+
 @connect(state => ({
   locale: state.language.locale,
 }))
@@ -85,12 +92,8 @@ export default class DefaultCell extends React.Component {
   }
   getNotificationColor() {
     const { isHoverOnCell } = this.state
-    const { data } = this.props
-    const { isRead } = data
-    if (isHoverOnCell) return '#0000001a'
-    else if (this.props.isMarkedReadAll) return '#fff'
-    else if (isRead) return '#fff'
-    else return '#edf2fa'
+    if (isHoverOnCell) return '#F5F5F5'
+    return '#FFFFFF'
   }
   getNotificationColorForIcon() {
     const { data, isMarkedReadAll } = this.props
@@ -101,49 +104,27 @@ export default class DefaultCell extends React.Component {
     return '#ebecf0'
   }
   render() {
-    // const { isHoverOnCell, isHoverOnIconRead } = this.state
     const { icon, content, data } = this.props
     const { rawAt, _id } = data
-    // const _icon = `${getConfigApi().media}/${icon}` // Qui bỏ dùng anh phát vì khong dùng
     return (
       <Row
         type="flex"
         align="middle"
         style={{
-          padding: '16px 24px',
-          // height: 100,
+          padding: '16px 10px',
           backgroundColor: this.getNotificationColor(),
-          borderBottom: '1px solid #dddfe2',
+          borderRadius: 8,
           cursor: 'pointer',
         }}
         onMouseEnter={() => this.setState({ isHoverOnCell: true })}
         onMouseLeave={() => this.setState({ isHoverOnCell: false })}
       >
         <Col span={21} onClick={() => this._handleCellOnClick(data)}>
-          <Row type="flex" style={{ height: '100%' }}>
-            <img
-              width={40}
-              height={40}
-              alt={icon.type}
-              src={`/images/notification/${icon.type}.svg`}
-              style={{ marginRight: 12 }}
-            />
-            {/* <svg
-                dangerouslySetInnerHTML={{
-                  __html: `public/images/notification/${icon.type}.svg`,
-                }}
-              /> */}
-            {/* {``} */}
-            {/* <Icon
-                type={icon.type}
-                theme="outlined"
-                height="100%"
-                style={{ fontSize: '40px', color: icon.color }}
-              /> */}
-            {/* </Col> */}
-
-            {/* contents */}
-            <Col span={20} className="notify-content">
+          <Row type="flex" gutter={10} style={{flexWrap: 'nowrap'}}>
+            <Col>
+              {icon ? <img src={icon} alt="" /> : null}
+            </Col>
+            <Col>
               <Tooltip
                 title={content}
                 placement="right"
@@ -151,21 +132,12 @@ export default class DefaultCell extends React.Component {
                 mouseEnterDelay={1}
               >
                 <MultilineText>{content}</MultilineText>
-              </Tooltip>
-              <Row>
-                <Col
-                  style={{
-                    marginTop: '5px',
-                    fontStyle: 'italic',
-                    color: '#90949c',
-                    fontSize: 12,
-                  }}
-                >
+                <Text block color="#90949c" fontSize={12} fontStyle="italic">
                   {moment(rawAt)
                     .locale(this.props.locale)
-                    .format('LLL')}
-                </Col>
-              </Row>
+                    .format('DD/MM/YYYY HH:mm')}
+                </Text>
+              </Tooltip>
             </Col>
           </Row>
         </Col>
@@ -209,28 +181,28 @@ export default class DefaultCell extends React.Component {
                   />
                 </Tooltip>
               ) : (
-                  <Tooltip placement="right" title={i18n.tickUnRead}>
-                    <div
-                      onMouseEnter={() =>
-                        this.setState({ isHoverOnIconRead: true })
-                      }
-                      onMouseLeave={() =>
-                        this.setState({ isHoverOnIconRead: false })
-                      }
-                      onClick={() => this._handleUpdateNotReadOne(_id)}
-                      style={{
-                        borderWidth: '4px',
-                        borderStyle: 'solid',
-                        width: '16px',
-                        height: '16px',
-                        borderRadius: 16,
-                        backgroundColor: this.getNotificationColorForIcon(),
+                <Tooltip placement="right" title={i18n.tickUnRead}>
+                  <div
+                    onMouseEnter={() =>
+                      this.setState({ isHoverOnIconRead: true })
+                    }
+                    onMouseLeave={() =>
+                      this.setState({ isHoverOnIconRead: false })
+                    }
+                    onClick={() => this._handleUpdateNotReadOne(_id)}
+                    style={{
+                      borderWidth: '4px',
+                      borderStyle: 'solid',
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: 16,
+                      backgroundColor: this.getNotificationColorForIcon(),
 
-                        borderColor: '#ebecf0',
-                      }}
-                    />
-                  </Tooltip>
-                )}
+                      borderColor: '#ebecf0',
+                    }}
+                  />
+                </Tooltip>
+              )}
             </Col>
           </Row>
         </Col>

@@ -45,7 +45,7 @@ export function putProfile(
   _id,
   { firstName, lastName, avatar, phone, birthday, preferredLanguage }
 ) {
-  return putFetch(getUserUrl('organization/profile/' + _id), { firstName, lastName, avatar, phone, birthday, preferredLanguage })
+  return putFetch(getUserUrl('organization/profile/' + _id),  { firstName, lastName, avatar, phone, birthday, preferredLanguage })
 }
 export function updateConfigStataion(_id, data) {
   return putFetch(getUserUrl('admin/config-station/' + _id), data)

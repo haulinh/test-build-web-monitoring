@@ -1,16 +1,18 @@
 import React from 'react'
-import { Alert, Button, Col, Form, Icon, Row } from 'antd'
+import { Alert, Button, Col, Form, Icon, Row, Spin } from 'antd'
 import styled from 'styled-components'
 import { isEmpty } from 'lodash'
 import Dragger from 'antd/lib/upload/Dragger'
 import { translate as t } from 'hoc/create-lang'
 
-import { getLanguage } from 'utils/localStorage'
 import {
   importDataStationFixed,
-  getStationFixedPointUrl,
+  exportDataTemplate,
 } from 'api/station-fixed/StationFixedPointApi'
 import SelectPhase from './select-phase'
+import SelectMeasuring from './select-measuring'
+import Clearfix from 'components/elements/clearfix'
+import { downFileExcel } from 'utils/downFile'
 
 const Header = styled.div`
   padding: 20px 24px;
@@ -29,9 +31,6 @@ const Container = styled.div`
   .ant-form {
     .ant-form-item {
       margin-bottom: 0;
-    }
-    > div {
-      margin-top: 20px;
     }
   }
   padding: 40px;
@@ -55,6 +54,20 @@ const Container = styled.div`
       padding: 0;
     }
   }
+  .download-wrapper {
+    position: relative;
+    .spin {
+      z-index: 1;
+      position: absolute;
+      top: 42%;
+      left: 46%;
+    }
+
+    .disabled-download {
+      pointer-events: none;
+      opacity: 0.4;
+    }
+  }
 `
 
 const i18n = {
@@ -62,6 +75,8 @@ const i18n = {
   description: t('importDataPoint.description'),
   startUpload: t('importDataPoint.startUpload'),
   phaseLabel: t('importDataPoint.phaseLabel'),
+  measuringLabel: t('importDataPoint.measuringLabel'),
+  measuringRequired: t('importDataPoint.measuringRequired'),
   stationTypeLabel: t('importDataPoint.stationTypeLabel'),
   requirements: t('importDataPoint.requirements'),
   step1: t('importDataPoint.step1'),
@@ -71,6 +86,7 @@ const i18n = {
   dragAndDrop: t('importDataPoint.dragAndDrop'),
   errorTitle: t('importDataPoint.errorTitle'),
   errorMessage: t('importDataPoint.errorMessage'),
+  errorMessageNoData: t('importDataPoint.errorMessageNoData'),
   successTitle: t('importDataPoint.successTitle'),
   successMessage: count => t('importDataPoint.successMessage', { count }),
   line: t('importDataPoint.line'),
@@ -81,13 +97,17 @@ const i18n = {
   invalidParameter: t('importDataPoint.invalidParameter'),
   pointKeyNotExisted: t('importDataPoint.pointKeyNotExisted'),
   parameterNotTypeNumber: t('importDataPoint.parameterNotTypeNumber'),
+  pointAndPhaseNotBelongToStationType: t(
+    'importDataPoint.pointAndPhaseNotBelongToStationType'
+  ),
   selectPhaseError: t('importDataPoint.selectPhaseError'),
-  save: t('global.save'),
+  upload: t('global.upload'),
 }
 
 const FIELDS = {
   FILE: 'file',
   PHASE: 'phase',
+  MEASURING: 'measuring',
   STATION_TYPE_ID: 'stationTypeId',
   PHASE_ID: 'phaseId',
 }
@@ -100,12 +120,15 @@ const IMPORT_DATA_ERROR = {
   INVALID_PARAMETER: i18n.invalidParameter,
   POINT_KEY_NOT_EXISTED: i18n.pointKeyNotExisted,
   PARAMETER_NOT_TYPE_NUMBER: i18n.parameterNotTypeNumber,
+  POINT_KEY_NOT_BELONG_TO_STATION_TYPE:
+    i18n.pointAndPhaseNotBelongToStationType,
 }
 
 class StationFixedImportData extends React.Component {
   state = {
     isSuccess: false,
     isLoading: false,
+    isDownloadingFile: false,
     errorDetail: null,
     count: 0,
   }
@@ -114,6 +137,8 @@ class StationFixedImportData extends React.Component {
     const errorKey = errors[0]
     switch (errorKey) {
       case 'INVALID_PARAMETER':
+        return `${IMPORT_DATA_ERROR[errorKey]} ${errors[1]}`
+      case 'DUPLICATE_PARAMETER':
         return `${IMPORT_DATA_ERROR[errorKey]} ${errors[1]}`
       default:
         return IMPORT_DATA_ERROR[errors[0]]
@@ -179,11 +204,12 @@ class StationFixedImportData extends React.Component {
   }
 
   onDownloadFile = async () => {
-    const lang = getLanguage()
-    window.open(
-      getStationFixedPointUrl(`export-data-template/${lang}`),
-      '_blank'
-    )
+    const {form}= this.props
+    this.setState({ isDownloadingFile: true })
+    const measurings = form.getFieldValue(FIELDS.MEASURING)
+    const result = await exportDataTemplate(measurings)
+    downFileExcel(result.data, 'data-template')
+    this.setState({ isDownloadingFile: false })
   }
 
   onSubmit = e => {
@@ -193,12 +219,26 @@ class StationFixedImportData extends React.Component {
 
   render() {
     const { form } = this.props
-    const { isLoading, errorDetail, isSuccess, count } = this.state
+    const {
+      isDownloadingFile,
+      isLoading,
+      errorDetail,
+      isSuccess,
+      count,
+    } = this.state
     form.getFieldDecorator(FIELDS.FILE)
     const file = form.getFieldValue(FIELDS.FILE) || {}
 
+    const stationTypeId = form.getFieldValue(FIELDS.PHASE) && form.getFieldValue(FIELDS.PHASE)[0]
+      ? form.getFieldValue(FIELDS.PHASE)[0].stationTypeId
+      : null
+
+    const countMeasuring = form.getFieldValue(FIELDS.MEASURING)
+      ? form.getFieldValue(FIELDS.MEASURING).length
+      : 0
+
     return (
-      <div>
+      <React.Fragment>
         <Header>
           <Text fontSize={22} color="#3B3B3B" fontWeight={600}>
             {i18n.headerTitle}
@@ -211,12 +251,23 @@ class StationFixedImportData extends React.Component {
           </Text>
 
           <Form onSubmit={this.onSubmit}>
-            <Row gutter={20}>
+            <Row>
               <Col span={8}>
                 <Form.Item label={i18n.phaseLabel}>
                   {form.getFieldDecorator(FIELDS.PHASE, {
-                    rules: [{ validator: this.validatePhase }],
+                    rules: [
+                      // { required: true, message: i18n.selectPhaseError },
+                      { validator: this.validatePhase,required: true, },
+                    ],
                   })(<SelectPhase />)}
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Form.Item label={i18n.measuringLabel}>
+                  {form.getFieldDecorator(FIELDS.MEASURING, {
+                  })(<SelectMeasuring stationTypeId={stationTypeId} />)}
                 </Form.Item>
               </Col>
             </Row>
@@ -232,9 +283,12 @@ class StationFixedImportData extends React.Component {
               </Col>
             </Row>
             <Row type="flex" justify="center" gutter={40} className="file">
-              <Col span={8}>
+              <Col span={8} className="download-wrapper">
+                {isDownloadingFile && <Spin className="spin" />}
                 <div
-                  className="ant-upload ant-upload-drag"
+                  className={`ant-upload ant-upload-drag ${
+                    countMeasuring < 1 ? 'disabled-download' : ''
+                  }`}
                   onClick={this.onDownloadFile}
                 >
                   <Text
@@ -277,13 +331,24 @@ class StationFixedImportData extends React.Component {
                 </Dragger>
               </Col>
             </Row>
+            <Clearfix height={8}/>
             <Row type="flex" justify="center">
-              {isSuccess && (
+              {isSuccess && count > 0  && (
                 <Col span={16}>
                   <Alert
                     message={i18n.successTitle}
                     description={i18n.successMessage(count)}
                     type="success"
+                    showIcon
+                  />
+                </Col>
+              )}
+              {isSuccess && count === 0 && (
+                <Col span={16}>
+                  <Alert
+                    message={i18n.errorTitle}
+                    description={i18n.errorMessageNoData}
+                    type="error"
                     showIcon
                   />
                 </Col>
@@ -308,13 +373,13 @@ class StationFixedImportData extends React.Component {
                   htmlType="submit"
                   loading={isLoading}
                 >
-                  {i18n.save}
+                  {i18n.upload}
                 </Button>
               </Col>
             </Row>
           </Form>
         </Container>
-      </div>
+        </React.Fragment>
     )
   }
 }

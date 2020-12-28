@@ -4,12 +4,29 @@ import { translate as t } from 'hoc/create-lang'
 
 const { Option } = Select
 
+export const SMS_TYPE = {
+  ESMS: {
+   title: "Esms SMS",
+   value: 'esms'
+  },
+  TWILIO: {
+    title: 'Twilio SMS',
+    value: 'twilio'
+  }
+}
+
 export const ESMS_FIELDS = {
   API_URL: 'apiUrl',
   API_KEY: 'apiKey',
   SECRET_KEY: 'secretKey',
   SMS_TYPE: 'smsType',
   BRANCH_NAME: 'branchName',
+}
+
+export const TWILIO_FIELDS = {
+  ACCOUNT_SID: 'accountSid',
+  AUTH_TOKEN: 'authToken',
+  TWILIO_NUMBER: 'twilioNumber',
 }
 
 export const MAILGUN_FIELDS = {
@@ -64,6 +81,30 @@ export const getEsmsFormFields = esmsDefaultConfigs => [
     initialValue: esmsDefaultConfigs[ESMS_FIELDS.BRANCH_NAME],
     rules: [requiredFieldRules(t('configService.esmsForm.brand.label'))]
   },
+]
+
+export const getTwilioFormFields = twilioDefaultConfigs => [
+  {
+    fieldName: TWILIO_FIELDS.ACCOUNT_SID,
+    label: t('configService.twilioForm.accountSid.label'),
+    placeholder: t('configService.twilioForm.accountSid.placeholder'),
+    initialValue: twilioDefaultConfigs[TWILIO_FIELDS.ACCOUNT_SID],
+    rules: [requiredFieldRules(t('configService.twilioForm.accountSid.label'))],
+  },
+  {
+    fieldName: TWILIO_FIELDS.AUTH_TOKEN,
+    label: t('configService.twilioForm.authToken.label'),
+    placeholder: t('configService.twilioForm.placeholder.label'),
+    initialValue: twilioDefaultConfigs[TWILIO_FIELDS.AUTH_TOKEN],
+    rules: [requiredFieldRules(t('configService.twilioForm.authToken.label'))],
+  },
+  {
+    fieldName: TWILIO_FIELDS.TWILIO_NUMBER,
+    label: t('configService.twilioForm.twilioNumber.label'),
+    placeholder: t('configService.twilioForm.placeholder.label'),
+    initialValue: twilioDefaultConfigs[TWILIO_FIELDS.TWILIO_NUMBER],
+    rules: [requiredFieldRules(t('configService.twilioForm.twilioNumber.label'))],
+  }
 ]
 
 export const getMailgunFormFields = mailgunDefaultConfigs => [

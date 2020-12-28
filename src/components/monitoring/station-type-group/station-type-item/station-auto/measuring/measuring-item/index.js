@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import { translate } from 'hoc/create-lang'
 import { Tooltip } from 'antd'
-import { get } from 'lodash'
-import { COLOR_DEVICE_STATUS, COLOR } from 'themes/color'
-import { STATUS_STATION } from 'constants/stationStatus'
 import { getFormatNumber } from 'constants/format-number'
+import { STATUS_STATION } from 'constants/stationStatus'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
+import { get } from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
+import { COLOR_DEVICE_STATUS, DATA_COLOR } from 'themes/color'
 
 const DEVICE_STATUS = {
   '0': { src: '/images/sensor1.png', text: 'monitoring.deviceStatus.normal' },
@@ -72,7 +72,7 @@ const RightContainer = styled.div`
 const Dot = styled.div`
   height: 20px;
   width: 20px;
-  background-color: #666666;
+  background-color: #A4A6B5;
   border-radius: 10px;
   display: inline-block;
   margin-right: 8px;
@@ -138,17 +138,19 @@ export default class MeasuringItem extends React.PureComponent {
       // return ` ${translate('monitoring.limit')}: > ${minLimit}  ${unit || ''}`
       return (
         <LimitContainer>
-          {`${translate('monitoring.limit')}: > ${minLimit}`}
+          {`${translate('monitoring.limit')}: ≥ ${minLimit}`}
           <MeasuringUnit>{unit}</MeasuringUnit>
         </LimitContainer>
       )
     }
 
+    
     if (maxLimit !== null) {
+     
       // return `${translate('monitoring.limit')}: < ${maxLimit}  ${unit || ''}`
       return (
         <LimitContainer>
-          {`${translate('monitoring.limit')}: < ${maxLimit}`}
+          {`${translate('monitoring.limit')}: ≤ ${maxLimit}`}
           <MeasuringUnit>{unit}</MeasuringUnit>
         </LimitContainer>
       )
@@ -173,11 +175,11 @@ export default class MeasuringItem extends React.PureComponent {
       this.props.statusStation &&
       this.props.statusStation === STATUS_STATION.DATA_LOSS
     )
-      return COLOR[STATUS_STATION.DATA_LOSS]
+      return DATA_COLOR[STATUS_STATION.DATA_LOSS]
 
     const { warningLevel } = this.props
-    if (warningLevel && COLOR[warningLevel]) return COLOR[warningLevel]
-    return COLOR.GOOD
+    if (warningLevel && DATA_COLOR[warningLevel]) return DATA_COLOR[warningLevel]
+    return DATA_COLOR.GOOD
   }
 
   renderDeviceIcon = status => {
@@ -212,7 +214,7 @@ export default class MeasuringItem extends React.PureComponent {
       this.props.statusStation &&
       this.props.statusStation === STATUS_STATION.HIGHTGEST
     )
-      colorDeviceStatus = COLOR[STATUS_STATION.HIGHTGEST]
+      colorDeviceStatus = DATA_COLOR[STATUS_STATION.HIGHTGEST]
 
     return (
       <MeasuringItemWrapper

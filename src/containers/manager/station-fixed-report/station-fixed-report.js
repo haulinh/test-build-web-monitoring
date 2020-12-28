@@ -1,12 +1,15 @@
-import { Button, Checkbox, Form, Pagination, Popover, Table, Tabs } from 'antd'
+import { Button, Checkbox, Form, Popover, Table, Tabs } from 'antd'
+import { exportDataPoint, getDataPoint } from 'api/station-fixed/DataPointApi'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { colorLevels } from 'constants/warningLevels'
 import { translate as t } from 'hoc/create-lang'
+import { connect } from 'react-redux'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
-import { getDataPoint } from '../../../api/station-fixed/DataPointApi'
+import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from './breadcrumb'
 import { SearchForm } from './search-form'
 
@@ -28,6 +31,10 @@ const i18n = {
     analyst: t('dataPointReport.optionalInfo.analyst'),
     placeOfAnalysis: t('dataPointReport.optionalInfo.placeOfAnalysis'),
   },
+  addButton: t('dataPointReport.button.add'),
+  exportExcelButton: t('dataPointReport.button.exportExcel'),
+  dataTab: t('dataPointReport.tab.data'),
+  numberOrder: t('dataPointReport.title.numberOrder'),
 }
 
 const optionalInfo = [
@@ -46,11 +53,10 @@ const optionalInfo = [
 ]
 
 const COLOR = {
-  EXCEEDED_PREPARING: '#F0D84F',
-  EXCEEDED: '#EA4D3D'
+  EXCEEDED_PREPARING: colorLevels.EXCEEDED_PREPARING,
+  EXCEEDED: colorLevels.EXCEEDED,
 }
-
-const PAGE_SIZE = 5
+const PAGE_SIZE = 50
 
 const { TabPane } = Tabs
 
@@ -65,6 +71,9 @@ const OptionalInfoContainer = styled.div`
 const Flex = styled.div`
   display: flex;
 `
+@connect(state => ({
+  lang: state.language.locale,
+}))
 @Form.create()
 export class StationFixedReport extends React.Component {
   state = {
@@ -72,19 +81,35 @@ export class StationFixedReport extends React.Component {
     loading: false,
     total: 0,
     queryParam: {},
+    pageNumber: 1,
+    loadingSearch: false,
+    loadingExport: false,
   }
 
   async componentDidMount() {}
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!_.isEqual(prevState.queryParam, this.state.queryParam)) {
+      this.setState({ pageNumber: 1 })
+    }
+  }
+
+  isDisableExportExcel = () => _.isEmpty(this.state.dataPoints)
 
   operations = () => (
     <Flex>
       <Popover content={this.content()} placement="bottom" trigger="click">
         <Button icon="profile" style={{ marginRight: '8px' }}>
-          Thêm
+          {i18n.addButton}
         </Button>
       </Popover>
-      <Button onClick={this.handleClick} type="primary">
-        Xuất dữ liệu Excel
+      <Button
+        disabled={this.isDisableExportExcel()}
+        loading={this.state.loadingExport}
+        onClick={this.handleExportExcel}
+        type="primary"
+      >
+        {i18n.exportExcelButton}
       </Button>
     </Flex>
   )
@@ -112,21 +137,24 @@ export class StationFixedReport extends React.Component {
     this.setState({ queryParam })
   }
 
-  onSearch = async (pageNumber = 1, pageSize = PAGE_SIZE) => {
+  queryDataPoint = async pageNumber => {
     const {
       phaseIds,
       pointKeys,
       startDate,
       endDate,
+      isExceeded,
       stationTypeId,
     } = this.state.queryParam
-    this.setState({ loading: true })
+    this.setState({ loading: true, loadingSearch: true })
 
     const dataPoints = await getDataPoint({
       point: {
         pointKeys,
       },
+      isExceeded,
       filter: {
+        order: 'datetime desc',
         where: {
           stationTypeId,
           'phase._id': {
@@ -138,39 +166,88 @@ export class StationFixedReport extends React.Component {
         },
       },
       pageNumber,
-      pageSize,
+      pageSize: PAGE_SIZE,
     })
-
-    // const dataPoints = await getDataPoint({
-    //   point: {
-    //     pointKeys: ['10001'],
-    //   },
-    //   pageSize,
-    //   pageNumber,
-    // })
 
     this.setState({
       dataPoints: dataPoints,
       total: dataPoints.total,
       loading: false,
+      loadingSearch: false,
     })
   }
 
+  handleOnSearch = async (pageNumber = 1) => {
+    this.queryDataPoint(this.state.pageNumber)
+  }
+
+  handleOnPageChange = pageNumber => {
+    this.queryDataPoint(pageNumber)
+  }
+
+  handleExportExcel = async () => {
+    const {
+      phaseIds,
+      pointKeys,
+      startDate,
+      endDate,
+      isExceeded,
+      stationTypeId,
+    } = this.state.queryParam
+
+    const { lang } = this.props
+
+    this.setState({ loadingExport: true })
+    const params = {
+      title: `${moment(startDate).format('DD-MM-YYY')} - ${moment(
+        endDate
+      ).format('DD-MM-YYYY')}`,
+      point: {
+        pointKeys,
+      },
+      isExceeded,
+      filter: {
+        order: 'datetime desc',
+        where: {
+          stationTypeId,
+          'phase._id': {
+            inq: phaseIds,
+          },
+          datetime: {
+            between: [startDate, endDate],
+          },
+        },
+      },
+      optionalInfo: this.props.form.getFieldsValue(),
+      pageNumber: 1,
+      pageSize: 9999,
+    }
+    const res = await exportDataPoint(lang, params)
+    this.setState({ loadingExport: false })
+
+    downFileExcel(
+      res.data,
+      `Dữ liệu liệu trạm quan trắc thủ công từ ${moment(startDate).format(
+        'DD-MM-YYYY hh:mm a'
+      )} đến ${moment(endDate).format('DD-MM-YYYY hh:mm a')}`
+    )
+  }
+
   getColumns = () => {
-    const { dataPoints } = this.state
+    const { dataPoints, pageNumber } = this.state
     const columnIndex = {
-      title: 'STT',
+      title: i18n.numberOrder,
       dataIndex: 'Index',
       key: 'Index',
       render(value, record, index) {
-        return <div>{}</div>
+        return <div>{(pageNumber - 1) * PAGE_SIZE + (index + 1)}</div>
       },
     }
 
     const columnReceivedAt = {
       title: i18n.receivedAt,
-      dataIndex: 'receivedAt',
-      key: 'receivedAt',
+      dataIndex: 'datetime',
+      key: 'datetime',
       render(value) {
         return <div>{moment(value).format(DD_MM_YYYY_HH_MM)}</div>
       },
@@ -194,10 +271,7 @@ export class StationFixedReport extends React.Component {
       },
     }
 
-    const measureList = _.get(dataPoints, 'measureList', [])
-
     const optionalInfoValue = this.props.form.getFieldsValue()
-
     const optionalInfoColumn = Object.keys(optionalInfoValue)
       .filter(option => optionalInfoValue[option])
       .map(option => ({
@@ -210,13 +284,20 @@ export class StationFixedReport extends React.Component {
         },
       }))
 
+    const measureList = _.get(dataPoints, 'measureList', [])
     const columnsMeasuring = measureList.map(measuring => ({
-      title: `${measuring}`,
-      dataIndex: `measuringLogs.${measuring}`,
-      key: measuring,
+      title: `${measuring.name} (${measuring.unit})`,
+      dataIndex: `measuringLogs.${measuring.key}`,
+      key: measuring.key,
       align: 'center',
       render: valueColumn => {
-        return <div style={{color: valueColumn && COLOR[valueColumn.warningLevel]}}>{valueColumn && valueColumn.value}</div>
+        return (
+          <div
+            style={{ color: valueColumn && COLOR[valueColumn.warningLevel] }}
+          >
+            {valueColumn && valueColumn.value}
+          </div>
+        )
       },
     }))
 
@@ -231,26 +312,26 @@ export class StationFixedReport extends React.Component {
   }
 
   render() {
-    const { dataPoints, total } = this.state
-    // const locale = {
-    //   emptyText: 'Khong co du lieu',
-    // }
+    const { dataPoints, total, loadingSearch } = this.state
     const pagination = {
+      current: this.state.pageNumber,
       total: total,
       pageSize: PAGE_SIZE,
       onChange: (page, pageSize) => {
-        this.onSearch(page, pageSize)
+        this.setState({ pageNumber: page })
+        this.handleOnPageChange(page)
       },
     }
     return (
       <PageContainer>
         <Breadcrumb items={['base']} />
         <SearchForm
+          loadingSearch={loadingSearch}
           setQueryParam={this.setQueryParam}
-          handleOnSearch={this.onSearch}
+          onSearch={this.handleOnSearch}
         />
         <Tabs defaultActiveKey="1" tabBarExtraContent={this.operations()}>
-          <TabPane tab="Dữ liệu" key="1" />
+          <TabPane tab={i18n.dataTab} key="1" />
         </Tabs>
         <Table
           // locale={locale}

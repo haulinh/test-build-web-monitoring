@@ -29,7 +29,11 @@ export function getConfigApi() {
     stationFixed: c('station-fixed'),
     stationFixedPhase: c('station-fixed/phases'),
     stationFixedDataPoint: c('station-fixed/data-points'),
+    // stationFixedDataPoint: 'http://localhost:5018/data-points',
+    // stationFixedExportDataPoint: 'http://localhost:5018/export-data-points',
+    stationFixedExportDataPoint: c('station-fixed/export-data-points'),
     stationFixedPoint: c('station-fixed/points'),
+    // stationFixedPoint: 'http://localhost:5018/points',
     dataStationFixed: c('data-station-fixed'),
 
     stationConfig: c('config/station'),
@@ -82,6 +86,10 @@ export function getConfigApi() {
     notify: c('notify'),
     // notify: 'http://localhost:5007/notify',
     sampleConfig: c('configSample'),
+    
+    // mobile
+    mobile: c('mobile2'),
+    // mobile: 'http://localhost:3000',
     camera: config.camera,
     firebase: config.firebase,
     isAdvanced: config.isAdvanced,

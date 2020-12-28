@@ -34,7 +34,6 @@ export default class StationFixedPhaseForm extends React.PureComponent {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       if (err) return
-
       const data = {
         key: values.key.trim(),
         name: values.name.trim(),
@@ -43,7 +42,7 @@ export default class StationFixedPhaseForm extends React.PureComponent {
 
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
-      if (res && res.status ) {
+      if (res && res.status) {
         if (res.data.error.message === 'PHASE_ALREADY_EXISTS') {
           this.props.form.setFields({
             key: {
@@ -54,6 +53,12 @@ export default class StationFixedPhaseForm extends React.PureComponent {
                 ),
               ],
             },
+            name: {
+              value: data.name
+            },
+            stationTypeId: {
+              value: data.stationTypeId
+            }
           })
         }
       }
@@ -162,6 +167,7 @@ export default class StationFixedPhaseForm extends React.PureComponent {
                 ],
               })(
                 <SelectStationType
+                  disabled={this.props.isEdit ? true : false}
                   isAuto={false}
                   size="large"
                   label={t('stationAutoManager.form.stationType.label')}

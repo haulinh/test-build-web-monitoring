@@ -1,7 +1,10 @@
 import { translate } from 'hoc/create-lang'
 
 export default {
-  dashboard: '/',
+  dashboard: {
+    healthCheck: '/',
+    overview: '/overview',
+  },
   login: {
     loginWithEmail: '/login',
     loginWithPhoneNumber: '/login/phone-number',
@@ -41,6 +44,9 @@ export default {
     base: '/ftp-transfer',
     history: '/ftp-transfer/history/:key/:name',
     historyWithKey: '/ftp-transfer/history',
+  },
+  apiSharing: {
+    base: '/api-sharing',
   },
   stationType: {
     list: '/station-type',
@@ -90,7 +96,7 @@ export default {
     editWithKey: '/station-fixed-phase/edit',
   },
   stationFixedReport: {
-    base: '/station-fixed-report'
+    base: '/station-fixed-report',
   },
   stationFixed: {
     base: '/station-fixed',
@@ -99,6 +105,7 @@ export default {
     edit: '/station-fixed/edit/:key',
     editWithKey: '/station-fixed/edit',
     importData: '/station-fixed/import-data',
+    map: '/station-fixed/map'
   },
   configWQI: {
     list: '/config-wqi',
@@ -258,7 +265,7 @@ export const MENU_GROUP = {
   REPORT: 'report',
   ADVANCE: 'advance',
   CONFIG: 'config',
-  STATIONFIXED:'stationFixed'
+  STATIONFIXED: 'stationFixed',
 }
 
 export const parentMenuFromSub = {
@@ -290,14 +297,18 @@ export const parentMenuFromSub = {
   '/report': MENU_GROUP.REPORT,
   '/advance': MENU_GROUP.ADVANCE,
 
-
   '/station-fixed': MENU_GROUP.STATIONFIXED,
   '/station-fixed-phase': MENU_GROUP.STATIONFIXED,
+  '/station-fixed/import-data': MENU_GROUP.STATIONFIXED,
+  '/station-fixed-report': MENU_GROUP.STATIONFIXED,
 }
 
 export const MENU_NAME = {
-  dashboard: translate('menuApp.dashboard'),
-
+  dashboard: {
+    base: translate('menuApp.dashboard.base'),
+    healthCheck: translate('menuApp.dashboard.healthcheck'),
+    overview: translate('menuApp.dashboard.overview'),
+  },
   monitoringSub: translate('menuApp.monitoringSub'),
   monitoring: {
     base: translate('menuApp.monitoring.base'),
@@ -316,8 +327,8 @@ export const MENU_NAME = {
     base: translate('menuApp.stationFixed.base'),
     point: translate('menuApp.stationFixed.stationFixed'),
     importData: translate('menuApp.stationFixed.importData'),
-    report:translate('menuApp.stationFixed.report'),
-    map:translate('menuApp.stationFixed.map'),
+    report: translate('menuApp.stationFixed.report'),
+    map: translate('menuApp.stationFixed.map'),
   },
   processDataSub: translate('menuApp.processDataSub'),
   processData: {
@@ -329,6 +340,7 @@ export const MENU_NAME = {
   shareData: {
     shareConfig: translate('menuApp.shareData.shareConfig'),
     ftpConfig: translate('menuApp.shareData.ftpConfig'),
+    apiSharing: translate('menuApp.shareData.apiSharing'),
   },
 
   reportSub: translate('menuApp.reportSub'),
@@ -384,7 +396,9 @@ export const MENU_NAME = {
 }
 
 export const TOOLTIP_MENU = {
-  dashboard: translate('tooltipMenuApp.dashboard'),
+  dashboard: {
+    base: translate('tooltipMenuApp.dashboard'),
+  },
   monitoringSub: translate('tooltipMenuApp.monitoringSub'),
   monitoring: {
     base: translate('tooltipMenuApp.monitoring.base'),
@@ -395,12 +409,12 @@ export const TOOLTIP_MENU = {
     mapAQI: translate('tooltipMenuApp.monitoring.mapAQI'),
   },
   stationFixedSub: translate('tooltipMenuApp.stationFixedSub'),
-  stationFixed:{
-    base: translate('tooltipMenuApp.stationFixed.base'),
+  stationFixed: {
+    base: translate('menuApp.stationFixed.base'),
     point: translate('menuApp.stationFixed.stationFixed'),
     importData: translate('menuApp.stationFixed.importData'),
-    report:translate('menuApp.stationFixed.report'),
-    map:translate('menuApp.stationFixed.map'),
+    report: translate('menuApp.stationFixed.report'),
+    map: translate('menuApp.stationFixed.map'),
   },
   monitoringList: {
     base: translate('tooltipMenuApp.monitoringList.base'),
@@ -414,6 +428,7 @@ export const TOOLTIP_MENU = {
   shareData: {
     shareConfig: translate('tooltipMenuApp.shareData.shareConfig'),
     ftpConfig: translate('tooltipMenuApp.shareData.ftpConfig'),
+    apiSharing: translate('tooltipMenuApp.shareData.apiSharing'),
   },
   reportSub: translate('tooltipMenuApp.reportSub'),
   report: {
