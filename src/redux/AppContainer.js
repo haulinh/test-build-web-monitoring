@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 @connect(state => ({
-  languageData: state.language.data[state.language.locale],
-  languageLocale: state.language.locale,
+  userInfo: state.auth.userInfo,
+  languageData: state.language.data[state.auth.userInfo.preferredLanguage],
+  languageLocale: state.auth.userInfo.preferredLanguage,
 }))
 export default class AppContainer extends React.Component {
   componentWillMount() {
