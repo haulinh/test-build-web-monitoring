@@ -107,7 +107,7 @@ export default class MapDefault extends React.PureComponent {
   async componentWillMount() {
     const result = await StationFixedPointApi.getLastLog()
     const data = result.map(item => {
-      const statusAnalytic = getStatusItem(item)
+      const statusAnalytic = !item.isUsed ? STATUS_STATION.NOT_USE : getStatusItem(item);
       return {
         ...item,
         mapLocation: {
@@ -115,6 +115,7 @@ export default class MapDefault extends React.PureComponent {
           lng: +item.mapLocation.lng,
         },
         statusAnalytic,
+        status: !item.isUsed ? STATUS_STATION.NOT_USE : undefined
       }
     })
 
@@ -135,7 +136,6 @@ export default class MapDefault extends React.PureComponent {
 
   fillStatusChange(focusStatus, findBy) {
     let res = this.state.stationsAuto
-
     res = res.map(element => {
       element.visible = false
       let status
