@@ -170,7 +170,7 @@ export default class StationFixedForm extends React.Component {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       // console.log('--error--', err)
-      console.log('--values--', values)
+      // console.log('--values--', values)
       if (err) return
       const data = {
         ..._.omit(values,['lat','lng']),

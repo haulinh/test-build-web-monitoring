@@ -115,7 +115,7 @@ export class SearchForm extends React.Component {
       where: {
         stationTypeId: stationTypeId ? stationTypeId : undefined,
         provinceId: provinceId ? provinceId : undefined,
-        active: true
+        active: true,
       },
     }
     const points = await getPoint({ filter: filterPoint })
@@ -181,9 +181,9 @@ export class SearchForm extends React.Component {
 
   handleClick = () => alert('It works!')
 
-  getConfig = (msg) => {
+  getConfig = msg => {
     return {
-      rules: [{ required: true , message: msg}],
+      rules: [{ required: true, message: msg }],
     }
   }
 
@@ -196,7 +196,11 @@ export class SearchForm extends React.Component {
     // }
     const rangeConfig = {
       rules: [
-        { type: 'array', required: true, message: t('dataPointReport.form.required.range') },
+        {
+          type: 'array',
+          required: true,
+          message: t('dataPointReport.form.required.range'),
+        },
       ],
     }
     return (
@@ -276,6 +280,16 @@ export class SearchForm extends React.Component {
                         autoClearSearchValue
                         size="large"
                         mode="multiple"
+                        optionFilterProp="children"
+                        // this props allow search name and _id
+                        filterOption={(input, option) =>
+                          option.props.children
+                            .toLowerCase()
+                            .indexOf(input.toLowerCase()) >= 0 ||
+                          option.props.value
+                            .toLowerCase()
+                            .indexOf(input.toLowerCase()) >= 0
+                        }
                         style={{ width: '100%' }}
                       >
                         {phases &&
@@ -304,6 +318,16 @@ export class SearchForm extends React.Component {
                         allowClear
                         mode="multiple"
                         size="large"
+                        optionFilterProp="children"
+                        // this props allow search name and _id
+                        filterOption={(input, option) =>
+                          option.props.children
+                            .toLowerCase()
+                            .indexOf(input.toLowerCase()) >= 0 ||
+                          option.props.value
+                            .toLowerCase()
+                            .indexOf(input.toLowerCase()) >= 0
+                        }
                         style={{ width: '100%' }}
                       >
                         {points &&
