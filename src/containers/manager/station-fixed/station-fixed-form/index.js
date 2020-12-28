@@ -170,7 +170,7 @@ export default class StationFixedForm extends React.Component {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       // console.log('--error--', err)
-      console.log('--values--', values)
+      // console.log('--values--', values)
       if (err) return
       const data = {
         ..._.omit(values,['lat','lng']),
@@ -329,7 +329,7 @@ export default class StationFixedForm extends React.Component {
               <Col span={12}>
                 <FormItem {...formItemLayout} label={i18n.qcvn.label}>
                   {getFieldDecorator(Fields.qcvnId)(
-                    <SelectQCVN placeholder={i18n.qcvn.placeholder} />
+                    <SelectQCVN isUsedId placeholder={i18n.qcvn.placeholder} />
                   )}
                 </FormItem>
               </Col>

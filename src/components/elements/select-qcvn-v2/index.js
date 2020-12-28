@@ -10,6 +10,7 @@ import { replaceVietnameseStr } from 'utils/string'
 @autobind
 export default class SelectQCVN extends PureComponent {
   static propTypes = {
+    isUsedId: PropTypes.bool,
     query: PropTypes.object,
     label: PropTypes.string,
     onChange: PropTypes.func,
@@ -31,19 +32,30 @@ export default class SelectQCVN extends PureComponent {
     let query = {}
     const result = await QCVNApi.getQCVN({}, query)
     if (get(result, 'success', false)) {
+      const data = get(result, 'data', [])
       this.setState({
-        lstQCVN: get(result, 'data', []),
-        value: get(this.props.value, '_id', undefined) || undefined,
+        lstQCVN: data,
+        value: this.getValue(data),
       })
     }
   }
 
   handleOnChange = value => {
     this.setState({ searchString: '' })
-    let res = this.state.lstQCVN.find(item => item._id === value)
     this.setState({ value })
+    let res = this.state.lstQCVN.find(item => item._id === value)
+    if (value === '' || !res) {
+      res = { key: '' }
+    }
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
-    if (this.props.onChange) this.props.onChange(value)
+    if (value === undefined) value = null
+    if (this.props.onChange) {
+      if (this.props.isUsedId) {
+        this.props.onChange(res._id)
+      } else {
+        this.props.onChange(value)
+      }
+    }
   }
 
   handleSearch = value => {
@@ -59,6 +71,24 @@ export default class SelectQCVN extends PureComponent {
       )
     }
     return this.state.lstQCVN
+  }
+
+  getValue = dataSource => {
+    if (
+      typeof this.props.value === 'string' ||
+      Array.isArray(this.props.value)
+    ) {
+      if (this.props.isUsedId && this.props.value) {
+        let res = dataSource.find(item => item._id === this.props.value)
+        return res.key
+      }
+      return this.props.value
+    }
+    if (this.props.value !== null && typeof this.props.value === 'object') {
+      return this.props.value.key
+    }
+    if (this.props.isShowAll) return ''
+    return undefined
   }
 
   render() {
