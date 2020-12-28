@@ -329,7 +329,7 @@ export default class StationFixedForm extends React.Component {
               <Col span={12}>
                 <FormItem {...formItemLayout} label={i18n.qcvn.label}>
                   {getFieldDecorator(Fields.qcvnId)(
-                    <SelectQCVN isUsedId placeholder={i18n.qcvn.placeholder} />
+                    <SelectQCVN placeholder={i18n.qcvn.placeholder} />
                   )}
                 </FormItem>
               </Col>

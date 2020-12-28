@@ -50,11 +50,7 @@ export default class SelectQCVN extends PureComponent {
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
     if (value === undefined) value = null
     if (this.props.onChange) {
-      if (this.props.isUsedId) {
-        this.props.onChange(res._id)
-      } else {
-        this.props.onChange(value)
-      }
+      this.props.onChange(value)
     }
   }
 
@@ -78,10 +74,6 @@ export default class SelectQCVN extends PureComponent {
       typeof this.props.value === 'string' ||
       Array.isArray(this.props.value)
     ) {
-      if (this.props.isUsedId && this.props.value) {
-        let res = dataSource.find(item => item._id === this.props.value)
-        return res.key
-      }
       return this.props.value
     }
     if (this.props.value !== null && typeof this.props.value === 'object') {
