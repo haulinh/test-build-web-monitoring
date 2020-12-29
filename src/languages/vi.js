@@ -127,9 +127,9 @@ export default {
     total: 'Tổng số ({{=it.total}})',
     newNotification: 'Thông báo mới',
     status: {
-      disconnected: 'đang mất tín hiệu',
-      exceeded: 'Đang vượt ngưỡng',
-      exceededPreparing: 'Đang chuẩn bị vượt ngưỡng',
+      disconnected: 'Mất tín hiệu',
+      exceeded: 'Vượt ngưỡng',
+      exceededPreparing: 'Chuẩn bị vượt',
       good: 'Trong ngưỡng',
     },
     managementArea: 'Khu vực quản lý',
