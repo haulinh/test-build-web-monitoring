@@ -1203,6 +1203,30 @@ export default {
         validate4: '[Giới hạn vượt ngưỡng: Max Vượt < Max Chuẩn bị vượt]',
       },
     },
+    importPoint: {
+      title: 'Nhập danh sách điểm quan trắc',
+      requiredField: {
+        key: 'Mã điểm',
+        name: 'Tên điểm',
+        stationType: 'Mã loại trạm',
+        lat: 'Vĩ độ',
+        lng: 'Kinh độ',
+      },
+      errors: {
+        duplicateData: 'Trùng dữ liệu',
+        requireField: 'Các trường dữ liệu bắt buộc: ',
+        invalidDataSheet: 'Dữ liệu sheet không hợp lệ',
+        invalidName: 'Tên điểm quan trắc không hợp lệ',
+        invalidLatitude: 'Vĩ độ không hợp lệ',
+        invalidLongitude: 'Kinh độ không hợp lệ',
+        invalidAddress: 'Địa chỉ không hợp lệ',
+        qcvnKeyNotExist: 'QCVN không tồn tại',
+        stationTypeKeyNotExist: 'Loại trạm không tồn tại',
+        measureKeyNotExist: 'Thông số không tồn tại',
+        noData: 'Không có dữ liệu',
+        invalidStationType: 'Loại trạm không hợp lệ'
+      } 
+    }
   },
   qcvn: {
     list: {
@@ -2362,6 +2386,7 @@ export default {
   },
   addon: {
     add: 'Thêm',
+    addMulti: 'Tạo mới hàng loạt',
     addCondition: 'Thêm điều kiện',
     create: 'Tạo mới',
     update: 'Cập nhật',
