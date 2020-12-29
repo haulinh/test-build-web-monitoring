@@ -1234,7 +1234,7 @@ export default {
         measureKeyNotExist: 'Measure key not exist',
         noData: 'There is no data',
         invalidStationType: 'Invalid station type'
-      } 
+      }
     }
   },
   qcvn: {
@@ -2270,9 +2270,9 @@ export default {
     },
     DEVICE_STATUS: {
       LOST_CONNECTION: 'Lost connection',
-      DEVICE_ERROR: 'Device connected failure',
-      CALIBRATE: 'Calibrate',
-      COLLECTING: 'The device is in normal state now',
+      DEVICE_ERROR: 'Device error',
+      CALIBRATE: 'Calibration',
+      COLLECTING: 'Good',
     },
     STATION_STATUS: {
       ONLINE: 'The station has a signal',
@@ -3099,15 +3099,15 @@ export default {
     },
     twilioForm: {
       accountSid: {
-        label: 'ACCOUNT SID',
+        label: 'ACCOUNT SID (You could find them in your',
         placeholder: 'Account SID',
       },
       authToken: {
-        label: 'AUTH TOKEN',
+        label: 'AUTH TOKEN (You could find them in your',
         placeholder: 'Auth token',
       },
       twilioNumber: {
-        label: 'TWILIO NUMBER',
+        label: 'TWILIO NUMBER (You can get one',
         placeholder: 'Twilio number',
       },
       smsType: {
@@ -3133,6 +3133,7 @@ export default {
         placeholder: 'Email From',
       },
     },
+    changeServiceName: 'Change to {{=it.serviceName}} successful'
   },
   apiSharing: {
     stationManagement: 'Station Management',
