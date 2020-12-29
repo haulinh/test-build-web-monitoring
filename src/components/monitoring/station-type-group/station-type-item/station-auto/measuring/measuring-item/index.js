@@ -144,7 +144,9 @@ export default class MeasuringItem extends React.PureComponent {
       )
     }
 
+    
     if (maxLimit !== null) {
+     
       // return `${translate('monitoring.limit')}: < ${maxLimit}  ${unit || ''}`
       return (
         <LimitContainer>

@@ -170,7 +170,7 @@ export default class StationFixedForm extends React.Component {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       // console.log('--error--', err)
-      console.log('--values--', values)
+      // console.log('--values--', values)
       if (err) return
       const data = {
         ..._.omit(values,['lat','lng']),
@@ -233,12 +233,13 @@ export default class StationFixedForm extends React.Component {
         this.props.initialValues.lat = this.props.initialValues.mapLocation.lat
         this.props.initialValues.lng = this.props.initialValues.mapLocation.lng
       }
-      setFieldsValue(this.props.initialValues)
+      const fliedArray = _.values(Fields)
+      setFieldsValue(_.pick(this.props.initialValues, fliedArray))
     }
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
+    const { getFieldDecorator, getFieldValue } = this.props.form
     const formItemLayout = {
       labelCol: {
         sm: { span: 6, offset: 0 },
@@ -254,7 +255,7 @@ export default class StationFixedForm extends React.Component {
         <Collapse
           // onChange={this.handleChange}
           // activeKey={this.state.tabKey}
-          defaultActiveKey={['1']}
+          defaultActiveKey={['1','2']}
         >
           <Panel header={i18n.panel1} key="1">
             <Row gutter={12}>
@@ -477,7 +478,7 @@ export default class StationFixedForm extends React.Component {
                           this.validateMeasuringList(rule, value, callback),
                       },
                     ],
-                  })(<MeasuringList />)}
+                  })(<MeasuringList qcvnId={getFieldValue(Fields.qcvnId)} />)}
                 </FormItem>
               </Col>
             </Row>

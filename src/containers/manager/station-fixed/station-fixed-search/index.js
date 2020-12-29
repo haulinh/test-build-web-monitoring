@@ -8,7 +8,7 @@ import { mapPropsToFields } from 'utils/form'
 import SelectStationType from 'components/elements/select-station-type-v2'
 import { translate } from 'hoc/create-lang'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
-// import { EMAIL, PHONE } from 'constants/info-contact.js'
+
 
 const i18n = {
   okText: translate('addon.ok'),
@@ -18,6 +18,7 @@ const i18n = {
   title: translate('stationAutoManager.limit.station.title'),
   callAction: translate('stationAutoManager.limit.station.callAction'),
 }
+
 
 @Form.create({
   mapPropsToFields: mapPropsToFields,

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { Button, Table, Select, Popconfirm, Icon } from 'antd'
 import * as _ from 'lodash'
 
@@ -7,7 +8,15 @@ import { translate } from 'hoc/create-lang'
 import AutoCompleteCell from 'components/elements/auto-complete-cell'
 import CategoryApi from 'api/CategoryApi'
 import InputNumberCell from 'components/elements/input-number-cell'
+import QCVNApi from 'api/QCVNApi'
 
+const WrapperComponent = styled.div`
+  .disable-measuring {
+    opacity: 0.7;
+    font-weight: bold;
+    background: #4e4e4e;
+  }
+`
 const i18n = {
   key: translate('stationFixedPoint.form.measuringForm.key'),
   name: translate('stationFixedPoint.form.measuringForm.name'),
@@ -24,26 +33,34 @@ export default class MeasuringList extends React.Component {
     super(props)
     this.componentDidMount = this.componentDidMount.bind(this)
     this.state = {
-      isLoaded: true,
+      isLoaded: false,
       measuringList: undefined,
       measuringListSource: [],
       editRowKey: '',
+      dataQCVN: [],
+      isChangeQCVN: false,
     }
   }
 
   static propTypes = {
+    qcvnId: PropTypes.string,
     onChange: PropTypes.func,
     value: PropTypes.object,
   }
 
   async componentDidMount() {
-    const measuringList = await CategoryApi.getMeasurings(
-      { page: 1, itemPerPage: 100000 },
-      {}
-    )
+    this.setState({
+      isLoaded: false,
+    })
+    const [measuringList, QCVN] = await Promise.all([
+      CategoryApi.getMeasurings({ page: 1, itemPerPage: 100000 }, {}),
+      QCVNApi.getQCVN({}, {}),
+    ])
     this.setState({
       measuringListSource: measuringList.data,
       measuringList: this.props.value || [],
+      dataQCVN: _.get(QCVN, 'data', []),
+      isLoaded: true,
     })
   }
   getOptions = () => {
@@ -79,12 +96,14 @@ export default class MeasuringList extends React.Component {
   }
 
   handleOnChange = (value, index, flied) => {
+    console.log(value, index, flied, '---flied--')
     const dataValue = this.state.measuringList.map((item, i) => {
       if (index === i) {
         item[flied] = value
       }
       return item
     })
+    console.log(dataValue, '--dataValue--')
     this.setState({
       measuringList: dataValue,
     })
@@ -135,6 +154,10 @@ export default class MeasuringList extends React.Component {
             title: i18n.qcvnMin,
             width: 150,
             render: (text, record, index) => {
+              if (this.state.isChangeQCVN && record.isApplyQCVN) {
+                return <div className="disable-measuring">{text || '-'}</div>
+              }
+
               if (record.rowKey === this.state.editRowKey) {
                 return (
                   <InputNumberCell
@@ -156,6 +179,10 @@ export default class MeasuringList extends React.Component {
             title: i18n.qcvnMax,
             width: 150,
             render: (text, record, index) => {
+              if (this.state.isChangeQCVN && record.isApplyQCVN) {
+                return <div className="disable-measuring">{text || '-'}</div>
+              }
+
               if (record.rowKey === this.state.editRowKey) {
                 return (
                   <InputNumberCell
@@ -275,21 +302,65 @@ export default class MeasuringList extends React.Component {
   componentDidUpdate = (prevProps, prevState) => {
     if (prevState.measuringList !== this.state.measuringList) {
       if (this.props.onChange) {
-      
-        const dataFilter = _.map(this.state.measuringList, item =>{
-          if(item.key){
+        const dataFilter = _.map(this.state.measuringList, item => {
+          if (item.key) {
             return item
           }
         })
         this.props.onChange(_.compact(dataFilter))
       }
     }
+
+    //QCVN logic
+
+    if (
+      this.state.dataQCVN.length > 0 &&
+      this.props.qcvnId !== prevProps.qcvnId
+    ) {
+      this.applyQCVN()
+    }
+
+    if (
+      this.state.dataQCVN !== prevState.dataQCVN &&
+      this.state.dataQCVN.length > 0
+    ) {
+      this.applyQCVN()
+    }
+  }
+
+  applyQCVN = () => {
+    this.setState({
+      isChangeQCVN: false,
+    })
+    const item = _.find(this.state.dataQCVN, item => {
+      return item._id === this.props.qcvnId
+    })
+    if (!item) {
+      return
+    }
+    const result =
+      item.measuringList.length > 0 ? _.keyBy(item.measuringList, 'key') : null
+    if (result && this.state.measuringList.length > 0) {
+      const dtMeasuring = _.map(this.state.measuringList, item => {
+        const minLimit = result[item.key] ? result[item.key].minLimit : null
+        const maxLimit = result[item.key] ? result[item.key].maxLimit : null
+        return {
+          ...item,
+          minLimit,
+          maxLimit,
+          isApplyQCVN: result[item.key] ? true : false,
+        }
+      })
+      this.setState({
+        measuringList: dtMeasuring,
+        isChangeQCVN: true,
+      })
+    }
   }
 
   render() {
-    // console.log(this.props.value, '---value---')
     return (
-      <div>
+      <WrapperComponent>
         <Button
           style={{ right: '0', marginBottom: '16px' }}
           type="primary"
@@ -323,7 +394,7 @@ export default class MeasuringList extends React.Component {
             }}
           />
         )}
-      </div>
+      </WrapperComponent>
     )
   }
 }

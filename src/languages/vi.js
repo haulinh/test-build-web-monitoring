@@ -1183,11 +1183,11 @@ export default {
         label: 'Diện tích tưới',
         placeholder: 'Diên tích tưới',
       },
-      lakeCapacity:{
+      lakeCapacity: {
         label: 'Dung tích hồ',
         placeholder: 'Dung tích hồ',
       },
-      catchmentArea:{
+      catchmentArea: {
         label: 'Diện tích lưu vực',
         placeholder: 'Diện tích lưu vực',
       },
@@ -1990,10 +1990,10 @@ export default {
       },
 
       dashboard: {
-        name: 'Trang chủ',
+        name: 'Giám sát hệ thống',
       },
       dashboard_2: {
-        name: 'Trang chủ - giám sát',
+        name: 'Giám sát tổng quan',
       },
       monitoring: {
         name: 'Giám sát trực tuyến',
@@ -2075,7 +2075,7 @@ export default {
       },
       configWQI: { name: 'Cấu hình tính WQI, AQI' },
       stationFixPhase: {
-        name:"Quản lý đợt quan trắc"
+        name: "Quản lý đợt quan trắc"
       },
       stationFixMap: {
         name: 'Bản đồ điểm quan trắc',
@@ -2251,16 +2251,16 @@ export default {
       frequency: 'Tần Suất',
     },
     DATA_STATUS: {
-      OVERLOAD: 'Vượt ngưỡng',
+      OVERLOAD: 'Đang vượt ngưỡng',
       ABOUT_TO_OVERLOAD: 'Chuẩn bị vượt',
       COLLECTING: 'Trong ngưỡng',
-      LOST_CONNECTION: 'Mất tín hiệu',
+      LOST_CONNECTION: 'đang mất tín hiệu',
     },
     DEVICE_STATUS: {
-      LOST_CONNECTION: 'Mất tín hiệu',
-      DEVICE_ERROR: 'Lỗi thiết bị',
-      CALIBRATE: 'Hiệu chuẩn',
-      COLLECTING: 'Tốt',
+      LOST_CONNECTION: 'đang mất tín hiệu',
+      DEVICE_ERROR: 'Thiết bị đang bị lỗi',
+      CALIBRATE: 'Thiết bị đang hiệu chuẩn',
+      COLLECTING: 'Thiết bị tốt trở lại.',
     },
     STATION_STATUS: {
       OFFLINE: 'Trạm mất tín hiệu',
@@ -2378,11 +2378,11 @@ export default {
     exceedPreparing: 'Chuẩn bị vượt',
     exceed: 'Vượt nguỡng',
     lossData: 'Mất tín hiệu',
-    sensorError: 'Lỗi thiết bị',
-    collecting: 'Tốt',
+    sensorError: 'Thiết bị đang bị lỗi',
+    collecting: 'Thiết bị tốt trở lại.',
     lostConnection: 'Mất kết nối',
     overload: 'Vượt ngưỡng',
-    aboutToOverload: 'Chuẩn bị vượt ngưỡng',
+    aboutToOverload: 'Chuẩn bị vượt',
   },
   addon: {
     add: 'Thêm',
@@ -2969,13 +2969,13 @@ export default {
       'Bạn cần di chuyển đến trang cấu hình tính AQI để chọn công thức tính',
   },
   stationStatus: {
-    good: 'Tốt',
-    lostSignal: 'Mất tín hiệu',
+    good: 'Thiết bị tốt trở lại.',
+    lostSignal: 'đang mất tín hiệu',
     notConnected: 'Chưa kết nối',
     connecting: 'Đang kết nối',
     connected: 'Đã kết nối',
-    exceeded: 'Vượt ngưỡng',
-    exceededPreparing: 'Chuẩn bị vượt',
+    exceeded: 'Đang vượt ngưỡng',
+    exceededPreparing: 'Đang chuẩn bị vượt ngưỡng',
     exceededTendency: 'Có xu hướng vượt',
   },
   actions: {
@@ -3018,15 +3018,15 @@ export default {
     measure2: 'Các chỉ tiêu:',
     notUse: 'Chưa sử dụng',
     deviceStatus: {
-      sensorGood: 'Tốt',
+      sensorGood: 'Tốt.',
       sensorError: 'Lỗi thiết bị',
       sensorMaintain: 'Hiệu chuẩn',
       dataExceeded: 'Vượt ngưỡng',
       dataExceededPrepare: 'Chuẩn bị vượt',
       dataGood: 'Trong ngưỡng',
-      dataGood2: 'dữ liệu tốt trở lại',
+      dataGood2: 'Trong ngưỡng',
       dataLoss: 'Mất tín hiệu',
-      dataConnected: 'có tín hiệu trở lại',
+      dataConnected: 'có kết nối trở lại',
     },
     overview: 'Tổng quan',
     list: 'Danh sách',

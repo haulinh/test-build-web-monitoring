@@ -209,6 +209,7 @@ export default class MenuApp extends React.PureComponent {
             {/* Dashboard */}
             {this.checkRoleForGroup([
               ROLE.DASHBOARD.VIEW,
+              ROLE.DASHBOARD_2.VIEW,
             ]) && DashboardMenu.renderComp(this.props)}
 
             {this.checkRoleForGroup([

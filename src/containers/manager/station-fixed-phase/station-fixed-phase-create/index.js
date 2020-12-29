@@ -7,12 +7,12 @@ import StationFixedPhaseApi from 'api/station-fixed/StationFixedPhaseApi.js'
 import slug from 'constants/slug'
 import StationFixedPhaseForm from '../station-fixed-phase-form'
 import Breadcrumb from '../breadcrumb'
-// import ROLE from 'constants/role'
-// import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
 import { Clearfix } from 'components/elements'
 import { translate } from 'hoc/create-lang'
 
-// @protectRole(ROLE.STATION_TYPE.CREATE)
+@protectRole(ROLE.STATION_FIXED_PHASE.CREATE)
 @autobind
 export default class StationFixedPhaseCreate extends React.PureComponent {
   state = {

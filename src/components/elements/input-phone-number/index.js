@@ -170,7 +170,7 @@ export default class InputPhoneNumber extends PureComponent {
           <DialCode>+{dialCode}</DialCode>
         </SelectCountry>
         <PhoneInput
-          size={size}
+          size={size === 'medium' ? 'default' : size}
           value={phoneString}
           autoFocus={autoFocus}
           placeholder={placeholder}
