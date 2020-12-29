@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, Row, Col, Checkbox, Icon } from 'antd'
+import { Form, Input, Button, Row, Col, Checkbox, Icon, Radio } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
@@ -7,6 +7,13 @@ import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import SelectIcon from 'components/elements/select-icon-station-type'
 import InputNumberCell from 'components/elements/input-number-cell'
 import * as _ from 'lodash'
+import { translate } from 'hoc/create-lang'
+
+const i18n = {
+  mode: translate('stationTypeManager.form.mode.label'),
+  auto: translate('stationTypeManager.type.auto'),
+  periodic: translate('stationTypeManager.type.periodic'),
+}
 
 const FormItem = Form.Item
 @Form.create({
@@ -34,6 +41,10 @@ export default class StationTypeForm extends React.PureComponent {
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
+      console.log(
+        '🚀 ~ file: index.js ~ line 43 ~ StationTypeForm ~ this.props.form.validateFields ~ values',
+        values
+      )
       if (err) return
       const data = {
         key: values.key,
@@ -95,7 +106,7 @@ export default class StationTypeForm extends React.PureComponent {
     const formItemLayout = {
       labelCol: {
         xs: { span: 24, offset: 0 },
-        sm: { span: 2, offset: 0 },
+        sm: { span: 3, offset: 0 },
       },
       wrapperCol: {
         xs: { span: 24 },
@@ -144,8 +155,8 @@ export default class StationTypeForm extends React.PureComponent {
             </FormItem>
           </Col>
         </Row>
-        <Row gutter={16}>
-          <Col span={12}>
+        <Row type="flex" gutter={16}>
+          <Col span={8}>
             <FormItem
               {...{
                 labelCol: {
@@ -165,16 +176,17 @@ export default class StationTypeForm extends React.PureComponent {
               />
             </FormItem>
           </Col>
-          <Col span={4}>
-            <FormItem>
-              {getFieldDecorator('isAuto', {
-                valuePropName: 'checked',
-              })(
-                <Checkbox>{t('stationTypeManager.form.auto.label')}</Checkbox>
+          <Col span={13}>
+            <FormItem {...formItemLayout} label={i18n.mode}>
+              {getFieldDecorator('isAuto')(
+                <Radio.Group style={{ width: '100%' }}>
+                  <Radio value={false}>{i18n.periodic}</Radio>
+                  <Radio value={true}>{i18n.auto}</Radio>
+                </Radio.Group>
               )}
             </FormItem>
           </Col>
-          <Col span={8}>
+          <Col span={3}>
             <FormItem
               {...formItemLayout}
               labelCol={{ span: 12 }}
@@ -189,6 +201,7 @@ export default class StationTypeForm extends React.PureComponent {
                 ],
               })(
                 <InputNumberCell
+                  style={{ width: '100%' }}
                   size="large"
                   placeholder={t(
                     'stationTypeManager.form.numericalOrder.placeholder'

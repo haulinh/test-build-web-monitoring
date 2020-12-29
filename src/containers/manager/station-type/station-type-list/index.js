@@ -94,7 +94,7 @@ export default class StationTypeList extends React.Component {
       { content: t('stationTypeManager.form.key.label'), width: 10 },
       { content: t('stationTypeManager.form.name.label'), width: 30 },
       { content: t('stationTypeManager.form.icon.label'), width: 10 },
-      { content: t('stationTypeManager.form.modeS.label'), width: 10 },
+      { content: t('stationTypeManager.form.mode.label'), width: 10 },
       { content: t('stationTypeManager.form.action.label'), width: 10 },
     ]
   }
