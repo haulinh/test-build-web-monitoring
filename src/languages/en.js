@@ -131,7 +131,7 @@ export default {
       disconnected: 'Lost connection',
       exceeded: 'Exceeded',
       exceededPreparing: 'Tend to exceed',
-      good: 'The device is in normal state now',
+      good: 'Good',
     },
     managementArea: 'Management Area',
     statusDescription: {
