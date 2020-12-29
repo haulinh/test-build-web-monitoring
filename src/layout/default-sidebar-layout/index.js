@@ -10,6 +10,10 @@ import { autobind } from 'core-decorators'
 import { linkToken2Email } from 'api/NotificationApi'
 import { notification } from 'antd'
 import { deepParseJson } from 'utils/string'
+import { NOTIFY_TYPE } from 'constants/notification'
+import { translate as t } from 'hoc/create-lang'
+
+
 // import { deepParseJson } from 'deep-parse-json'
 
 // import { TAB_KEYS } from 'constants/notification'
@@ -26,7 +30,67 @@ const Wrapper = styled.div`
   padding-left: ${props => props.allSidebarWidth}px;
   transition: all 0.3s linear;
 `
+const i18n = {
+  station: t('common.station'),
+  measurings: t('common.measures'),
+  dataConnected: t('common.deviceStatus.dataConnected'),
+  dataExeeded: t('common.deviceStatus.dataExceeded'),
+  dataExceededPrepare: t('common.deviceStatus.dataExceededPrepare'),
+  dataGood: t('common.deviceStatus.dataGood2'),
+  dataLoss: t('common.deviceStatus.dataLoss'),
+  sensorAdjust: t('common.deviceStatus.sensorMaintain'),
+  sensorError: t('common.deviceStatus.sensorError'),
+  sensorGood: t('common.deviceStatus.sensorGood'),
+}
+const getNotificationInfo = status => {
+  switch (status) {
+    case NOTIFY_TYPE.SENSOR_GOOD:
+      return {
 
+        statusText: i18n.sensorGood,
+      }
+    case NOTIFY_TYPE.SENSOR_ERROR:
+      return {
+
+        statusText: i18n.sensorError,
+      }
+    case NOTIFY_TYPE.DATA_CONNECTED:
+      return {
+
+        statusText: i18n.dataConnected,
+      }
+    case NOTIFY_TYPE.DATA_EXCEEDED:
+      return {
+
+        statusText: i18n.dataExeeded,
+      }
+    case NOTIFY_TYPE.DATA_EXCEEDED_PREPARED:
+      return {
+
+        statusText: i18n.dataExceededPrepare,
+      }
+    case NOTIFY_TYPE.SENSOR_ADJUST:
+      return {
+
+        statusText: i18n.sensorAdjust,
+      }
+    case NOTIFY_TYPE.DATA_GOOD:
+      return {
+
+        statusText: i18n.dataGood,
+      }
+    case NOTIFY_TYPE.DATA_LOSS:
+      return {
+
+        statusText: i18n.dataLoss,
+      }
+    default:
+      return {
+
+        statusText: '',
+      }
+  }
+}
 @createProtectedAuth
 @connectAutoDispatch(
   state => ({
@@ -67,7 +131,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
         console.log('===start req premission .....')
         messaging
           .requestPermission()
-          .then(async function() {
+          .then(async function () {
             const token = await messaging.getToken()
             // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
             try {
@@ -80,7 +144,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
               console.log('error linkToken2Email', e)
             }
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log('Unable to get permission to notify.', err)
           })
 
@@ -107,10 +171,14 @@ export default class DefaultSidebarLayoutContainer extends Component {
     }
   }
 
+
   _showNotification(payload) {
+    const { statusText } = getNotificationInfo(payload.data.status)
+
+    // console.log(statusText, '==statusText==')
     notification['info']({
-      message: payload.notification.title,
-      description: payload.notification.body,
+      message: payload.data.title,
+      description: statusText,
     })
   }
 
@@ -141,9 +209,25 @@ export default class DefaultSidebarLayoutContainer extends Component {
       : SIDEBAR_GLOBAL_WIDTH + SIDEBAR_MENU_MINIMAL_WIDTH
   }
 
+
+
+
+
   render() {
+    // const payload = {
+    //   notification: {
+    //     title: "cuongtest",
+    //     body: "test"
+    //   },
+    //   data: {
+    //     title: "cuongtest",
+
+    //     status: "SENSOR_GOOD"
+    //   }
+    // }
     return (
       <Wrapper allSidebarWidth={this.getAllSidebarWidth()}>
+        {/* <button onClick={() => this._showNotification(payload)}>click me</button> */}
         <SidebarGlobal />
         {this.props.isShowSidebarMenu && (
           <SidebarMenu
