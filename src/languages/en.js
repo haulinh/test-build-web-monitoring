@@ -1212,6 +1212,30 @@ export default {
         validate4: '[Limit Exceeds: Max Exceeds <Max Prepare To Pass]',
       },
     },
+    importPoint: {
+      title: 'Enter a list of monitoring points',
+      requiredField: {
+        key: 'Key',
+        name: 'name',
+        stationType: 'Station type key',
+        lat: 'latitude',
+        lng: 'longitude',
+      },
+      errors: {
+        duplicateData: 'Duplicate data',
+        requireField: 'Require field',
+        invalidDataSheet: 'Invalid data sheet',
+        invalidName: 'Invalid name',
+        invalidLatitude: 'Invalid latitude',
+        invalidLongitude: 'Invalid longitude',
+        invalidAddress: 'Invalid address',
+        qcvnKeyNotExist: 'Qcvn key not exist',
+        stationTypeKeyNotExist: 'Station type key not exist',
+        measureKeyNotExist: 'Measure key not exist',
+        noData: 'There is no data',
+        invalidStationType: 'Invalid station type'
+      } 
+    }
   },
   qcvn: {
     list: {
@@ -2375,6 +2399,7 @@ export default {
   },
   addon: {
     add: 'Add',
+    addMulti: 'Add multiple',
     addCondition: 'Add condition',
     create: 'Create',
     update: 'Update',

@@ -104,6 +104,7 @@ export default {
     create: '/station-fixed/create',
     edit: '/station-fixed/edit/:key',
     editWithKey: '/station-fixed/edit',
+    importPoint: '/station-fixed/import-point',
     importData: '/station-fixed/import-data',
     map: '/station-fixed/map'
   },

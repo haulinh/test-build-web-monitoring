@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Divider, Button, Icon, Modal, message, Menu, Dropdown } from 'antd'
+import { Divider, Button, Icon, Modal, message, Menu, Dropdown, Row, Col } from 'antd'
 import { autobind } from 'core-decorators'
 import * as _ from 'lodash'
 import styled from 'styled-components'
@@ -95,16 +95,24 @@ export default class StationFixedList extends React.Component {
       lang: { t },
     } = this.props
     return (
-      <div>
-        {/* {protectRole(ROLE.STATION_TYPE.CREATE)( */}
-        <Link to={slug.stationFixed.create}>
-          <Button type="primary">
-            <Icon type="plus" />
-            {t('addon.create')}
-          </Button>
-        </Link>
-        {/* )} */}
-      </div>
+      <Row type="flex" gutter={10}>
+        <Col>
+          <Link to={slug.stationFixed.importPoint}>
+            <Button type="primary">
+              <Icon type="plus" />
+              {t('addon.addMulti')}
+            </Button>
+          </Link>
+        </Col>
+        <Col>
+          <Link to={slug.stationFixed.create}>
+            <Button type="primary">
+              <Icon type="plus" />
+              {t('addon.create')}
+            </Button>
+          </Link>
+        </Col>
+      </Row>
     )
   }
 
