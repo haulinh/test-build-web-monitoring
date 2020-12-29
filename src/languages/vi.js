@@ -981,6 +981,10 @@ export default {
     },
   },
   stationTypeManager: {
+    type: {
+      auto: 'Tự động',
+      periodic: 'Định kỳ'
+    },
     list: {
       title: 'Loại trạm',
     },
@@ -1012,8 +1016,8 @@ export default {
         label: 'Biểu tượng',
         placeholder: 'Chọn biểu tượng',
       },
-      auto: {
-        label: 'Tự động',
+      mode: {
+        label: 'Hình thức',
       },
       action: {
         label: ' ',

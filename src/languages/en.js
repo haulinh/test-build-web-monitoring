@@ -985,6 +985,10 @@ export default {
     },
   },
   stationTypeManager: {
+    type: {
+      auto: 'Auto',
+      periodic: 'Periodic'
+    },
     list: {
       title: 'Types Of Station',
     },
@@ -1016,8 +1020,8 @@ export default {
         label: 'Icon',
         placeholder: 'Choose Icon',
       },
-      auto: {
-        label: 'Auto',
+      mode: {
+        label: 'Mode',
       },
       action: {
         label: 'Action',

@@ -22,6 +22,8 @@ import { translate } from 'hoc/create-lang'
 
 const i18n = {
   errorStationExist: translate('stationTypeManager.form.errorStationExist'),
+  auto:  translate('stationTypeManager.type.auto'),
+  periodic:  translate('stationTypeManager.type.periodic')
 }
 
 const AvatarWrapper = styled.div`
@@ -92,7 +94,7 @@ export default class StationTypeList extends React.Component {
       { content: t('stationTypeManager.form.key.label'), width: 10 },
       { content: t('stationTypeManager.form.name.label'), width: 30 },
       { content: t('stationTypeManager.form.icon.label'), width: 10 },
-      { content: t('stationTypeManager.form.auto.label'), width: 10 },
+      { content: t('stationTypeManager.form.modeS.label'), width: 10 },
       { content: t('stationTypeManager.form.action.label'), width: 10 },
     ]
   }
@@ -138,7 +140,7 @@ export default class StationTypeList extends React.Component {
         ),
       },
       {
-        content: <Checkbox disabled={true} checked={row.isAuto} />,
+        content: row.isAuto ? i18n.auto : i18n.periodic,
       },
       {
         content: (
