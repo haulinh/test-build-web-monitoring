@@ -1234,7 +1234,7 @@ export default {
         measureKeyNotExist: 'Measure key not exist',
         noData: 'There is no data',
         invalidStationType: 'Invalid station type'
-      } 
+      }
     }
   },
   qcvn: {
@@ -2270,9 +2270,9 @@ export default {
     },
     DEVICE_STATUS: {
       LOST_CONNECTION: 'Lost connection',
-      DEVICE_ERROR: 'Device connected failure',
-      CALIBRATE: 'Calibrate',
-      COLLECTING: 'The device is in normal state now',
+      DEVICE_ERROR: 'Device error',
+      CALIBRATE: 'Calibration',
+      COLLECTING: 'Good',
     },
     STATION_STATUS: {
       ONLINE: 'The station has a signal',
