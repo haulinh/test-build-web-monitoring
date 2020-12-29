@@ -110,15 +110,16 @@ export default class MeasuringList extends React.Component {
     const dataValue = this.state.measuringList.map((item, i) => {
       if (index === i) {
         item[flied] = value
+        if (flied === 'key') {
+          const minLimit = itemQCVN[value] ? itemQCVN[value].minLimit : null
+          const maxLimit = itemQCVN[value] ? itemQCVN[value].maxLimit : null
+          item['isApplyQCVN'] = itemQCVN[value] ? true : false
+          item['minLimit'] = minLimit
+          item['maxLimit'] = maxLimit
+        }
       }
 
-      if (flied === 'key') {
-        const minLimit = itemQCVN[value] ? itemQCVN[value].minLimit : null
-        const maxLimit = itemQCVN[value] ? itemQCVN[value].maxLimit : null
-        item['isApplyQCVN'] = itemQCVN[value] ? true : false
-        item['minLimit'] = minLimit
-        item['maxLimit'] = maxLimit
-      }
+      
 
       return {
         ...item,
