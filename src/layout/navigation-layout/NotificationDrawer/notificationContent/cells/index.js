@@ -107,7 +107,7 @@ const NotificationContent = ({ notification, statusText, inline }) => (
       <Row className="list" type={inline ? 'flex' : ''} gutter={10}>
         {(notification.measures || []).map(mea => (
           <ListItem key={mea.key} className="list-item">
-            <b>{mea.key}</b> {mea.value} {mea.unit}
+            <b>{mea.key}</b> {mea.value} {mea.unit} {mea.moreContent || ''}
           </ListItem>
         ))}
       </Row>
@@ -135,5 +135,5 @@ export default function Cells(props) {
     )
   })
 
-  return <ListNoti dataSource={list} renderItem={item => item}/>
+  return <ListNoti dataSource={list} renderItem={item => item} />
 }
