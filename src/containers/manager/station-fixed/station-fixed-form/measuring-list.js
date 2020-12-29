@@ -96,14 +96,34 @@ export default class MeasuringList extends React.Component {
   }
 
   handleOnChange = (value, index, flied) => {
-    console.log(value, index, flied, '---flied--')
+    let itemQCVN = null
+    if (flied === 'key') {
+      const item = _.find(this.state.dataQCVN, obj => {
+        return obj._id === this.props.qcvnId
+      })
+      itemQCVN =
+        item.measuringList.length > 0
+          ? _.keyBy(item.measuringList, 'key')
+          : null
+    }
+
     const dataValue = this.state.measuringList.map((item, i) => {
       if (index === i) {
         item[flied] = value
       }
-      return item
+
+      if (flied === 'key') {
+        const minLimit = itemQCVN[value] ? itemQCVN[value].minLimit : null
+        const maxLimit = itemQCVN[value] ? itemQCVN[value].maxLimit : null
+        item['isApplyQCVN'] = itemQCVN[value] ? true : false
+        item['minLimit'] = minLimit
+        item['maxLimit'] = maxLimit
+      }
+
+      return {
+        ...item,
+      }
     })
-    console.log(dataValue, '--dataValue--')
     this.setState({
       measuringList: dataValue,
     })
@@ -353,9 +373,11 @@ export default class MeasuringList extends React.Component {
       })
       this.setState({
         measuringList: dtMeasuring,
-        isChangeQCVN: true,
       })
     }
+    this.setState({
+      isChangeQCVN: true,
+    })
   }
 
   render() {
