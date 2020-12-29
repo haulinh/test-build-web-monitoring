@@ -1225,7 +1225,7 @@ export default {
         measureKeyNotExist: 'Thông số không tồn tại',
         noData: 'Không có dữ liệu',
         invalidStationType: 'Loại trạm không hợp lệ'
-      } 
+      }
     }
   },
   qcvn: {
@@ -2251,16 +2251,16 @@ export default {
       frequency: 'Tần Suất',
     },
     DATA_STATUS: {
-      OVERLOAD: 'Đang vượt ngưỡng',
+      OVERLOAD: 'Vượt ngưỡng',
       ABOUT_TO_OVERLOAD: 'Chuẩn bị vượt',
       COLLECTING: 'Trong ngưỡng',
-      LOST_CONNECTION: 'đang mất tín hiệu',
+      LOST_CONNECTION: 'Mất tín hiệu',
     },
     DEVICE_STATUS: {
-      LOST_CONNECTION: 'đang mất tín hiệu',
-      DEVICE_ERROR: 'Thiết bị đang bị lỗi',
-      CALIBRATE: 'Thiết bị đang hiệu chuẩn',
-      COLLECTING: 'Thiết bị tốt trở lại.',
+      LOST_CONNECTION: 'Mất tín hiệu',
+      DEVICE_ERROR: 'Lỗi thiết bị',
+      CALIBRATE: 'Hiệu chuẩn',
+      COLLECTING: 'Tốt',
     },
     STATION_STATUS: {
       OFFLINE: 'Trạm mất tín hiệu',
