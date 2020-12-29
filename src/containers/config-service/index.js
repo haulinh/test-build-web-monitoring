@@ -6,8 +6,7 @@ import {
   notification,
   Radio,
   Row,
-
-  Skeleton
+  Skeleton,
 } from 'antd'
 import OrganizationApi from 'api/OrganizationApi'
 import ROLE from 'constants/role'
@@ -23,7 +22,7 @@ import {
   getTwilioFormFields,
   MAILGUN_FIELDS,
   SMS_TYPE,
-  TWILIO_FIELDS
+  TWILIO_FIELDS,
 } from './helper'
 import TestConfigurationModal from './test-configuration-modal'
 
@@ -97,6 +96,7 @@ const i18n = {
     title: t('configService.mailGunService'),
   },
 }
+
 @protectRole(ROLE.SERVICE_CONFIG.VIEW)
 @Form.create()
 @connect(state => ({
@@ -122,7 +122,7 @@ export default class ConfigService extends Component {
     const result = await OrganizationApi.getOrganization(organizationId)
     const {
       notifyChannels: { sms },
-    } = result.data 
+    } = result.data
     const smsAllowedConfigs = sms.find(item => item.allowed).serviceName
     this.setState({
       organization: result.data || {},
@@ -147,7 +147,11 @@ export default class ConfigService extends Component {
         service
       )
       if (result) {
-        notification.success({ message: t('global.saveSuccess') })
+        notification.success({
+          message: t('configService.changeServiceName', {
+            serviceName: e.target.value
+          }),
+        })
       }
     })
   }
@@ -369,7 +373,9 @@ export default class ConfigService extends Component {
           </Fragment>
         ) : (
           <Container>
-            {smsType && this.renderForm(smsForm[smsType])}
+            {smsType
+              ? this.renderForm(smsForm[smsType])
+              : this.renderForm(smsForm.esms)}
             {this.renderForm(mailGunForm)}
           </Container>
         )}

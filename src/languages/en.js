@@ -3074,15 +3074,15 @@ export default {
     },
     twilioForm: {
       accountSid: {
-        label: 'ACCOUNT SID',
+        label: 'ACCOUNT SID (You could find them in your',
         placeholder: 'Account SID',
       },
       authToken: {
-        label: 'AUTH TOKEN',
+        label: 'AUTH TOKEN (You could find them in your',
         placeholder: 'Auth token',
       },
       twilioNumber: {
-        label: 'TWILIO NUMBER',
+        label: 'TWILIO NUMBER (You can get one',
         placeholder: 'Twilio number',
       },
       smsType: {
@@ -3108,6 +3108,7 @@ export default {
         placeholder: 'Email From',
       },
     },
+    changeServiceName: 'Change to {{=it.serviceName}} successful'
   },
   apiSharing: {
     stationManagement: 'Station Management',

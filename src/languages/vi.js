@@ -3069,15 +3069,18 @@ export default {
     },
     twilioForm: {
       accountSid: {
-        label: 'ACCOUNT SID',
+        label: 'ACCOUNT SID (Bạn có thể tìm thấy tại',
+        message: 'ACCOUNT SID',
         placeholder: 'Account SID'
       },
       authToken: {
-        label: 'AUTH TOKEN',
+        label: 'AUTH TOKEN (Bạn có thể tìm thấy tại',
+        message: 'AUTH TOKEN',
         placeholder: 'Auth token',
       },
       twilioNumber: {
-        label: 'TWILIO NUMBER',
+        label: 'TWILIO NUMBER (Bạn có thể lấy tại',
+        message: 'TWILIO NUMBER',
         placeholder: 'Twilio number',
       },
       smsType: {
@@ -3103,6 +3106,7 @@ export default {
         placeholder: 'Email From',
       },
     },
+    changeServiceName: 'Đổi {{=it.serviceName}} thành công'
   },
   apiSharing: {
     stationManagement: 'Quản lý trạm quan trắc',
