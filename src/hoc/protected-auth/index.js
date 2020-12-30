@@ -5,13 +5,9 @@ import { withRouter } from 'react-router-dom'
 import Errors from 'constants/errors'
 import slug from 'constants/slug'
 import SplashLoading from 'components/splash'
-import createLang from 'hoc/create-lang'
-
-
 
 export default function createProtectedAuth(Component) {
   @withRouter
-  @createLang
   @connectAutoDispatch(
     state => ({
       authMe: state.auth.userInfo,
@@ -23,9 +19,7 @@ export default function createProtectedAuth(Component) {
   )
   class ProtectedAuth extends React.Component {
     async componentWillMount() {
-
       if (!this.props.isAuthenticated) {
-
         const auth = await this.props.fetchUserMe()
         if (!auth) return this.props.history.push('/login')
         // console.log(auth, '---auth')
@@ -40,10 +34,6 @@ export default function createProtectedAuth(Component) {
           }
         }
       }
-
-      const lang = this.props.authMe.preferredLanguage || 'en'
-
-      this.props.lang.changeLanguage(lang)
     }
 
     render() {

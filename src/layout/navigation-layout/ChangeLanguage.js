@@ -12,8 +12,6 @@ import createLang from 'hoc/create-lang'
 import { putProfile } from 'api/AuthApi'
 import { get } from 'lodash'
 
-
-
 const languages = [
   {
     flag: 'US',
@@ -44,9 +42,6 @@ const LabelWrapper = styled.div`
   padding-left: 8px;
 `
 
-@connect(state => ({
-  me: state.auth.userInfo
-}))
 @createLang
 @autobind
 @connect(state => ({
@@ -63,7 +58,7 @@ export default class ChangeLanguage extends React.Component {
 
   getFlag() {
     const language = languages.find(
-      lang => lang.locale === (this.props.me.preferredLanguage || 'en')
+      lang => lang.locale === this.props.lang.locale
     )
     if (!language) return
     return language.flag
