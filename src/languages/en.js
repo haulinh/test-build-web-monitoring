@@ -1233,7 +1233,10 @@ export default {
         stationTypeKeyNotExist: 'Station type key not exist',
         measureKeyNotExist: 'Measure key not exist',
         noData: 'There is no data',
-        invalidStationType: 'Invalid station type'
+        invalidStationType: 'Invalid station type',
+        invalidKey: 'Invalid key',
+        duplicateMeasure: 'Duplicate measures',
+        requireOneMeasureParamerter: 'Require one measure parameter',
       } 
     }
   },

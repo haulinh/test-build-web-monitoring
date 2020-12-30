@@ -1224,7 +1224,10 @@ export default {
         stationTypeKeyNotExist: 'Loại trạm không tồn tại',
         measureKeyNotExist: 'Thông số không tồn tại',
         noData: 'Không có dữ liệu',
-        invalidStationType: 'Loại trạm không hợp lệ'
+        invalidStationType: 'Loại trạm không hợp lệ',
+        invalidKey: 'Mã điểm không hợp lệ',
+        duplicateMeasure: 'Thông số trùng nhau',
+        requireOneMeasureParamerter: 'Cần ít nhất một thông số',
       } 
     }
   },
