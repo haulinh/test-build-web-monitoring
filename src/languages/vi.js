@@ -1233,7 +1233,7 @@ export default {
         invalidKey: 'Mã điểm không hợp lệ',
         duplicateMeasure: 'Thông số trùng nhau',
         requireOneMeasureParamerter: 'Cần ít nhất một thông số',
-      } 
+      }
     }
   },
   qcvn: {
@@ -3026,15 +3026,15 @@ export default {
     measure2: 'Các chỉ tiêu:',
     notUse: 'Chưa sử dụng',
     deviceStatus: {
-      sensorGood: 'Tốt.',
-      sensorError: 'Lỗi thiết bị',
-      sensorMaintain: 'Hiệu chuẩn',
-      dataExceeded: 'Vượt ngưỡng',
-      dataExceededPrepare: 'Chuẩn bị vượt',
+      sensorGood: 'thiết bị trở lại bình thường:',
+      sensorError: 'thiết bị đang bị lỗi:',
+      sensorMaintain: 'thiết bị đang hiệu chuẩn:',
+      dataExceeded: 'đang vượt ngưỡng:',
+      dataExceededPrepare: 'chuẩn bị vượt ngưỡng:',
       dataGood: 'Trong ngưỡng',
-      dataGood2: 'Trong ngưỡng',
-      dataLoss: 'Mất tín hiệu',
-      dataConnected: 'có kết nối trở lại',
+      dataGood2: 'dữ liệu trở lại trong ngưỡng:',
+      dataLoss: 'đang mất tín hiệu.',
+      dataConnected: 'có tín hiệu trở lại.',
     },
     overview: 'Tổng quan',
     list: 'Danh sách',
