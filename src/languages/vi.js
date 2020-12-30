@@ -1147,8 +1147,8 @@ export default {
         placeholder: 'Đơn vị quản lý',
       },
       position: {
-        label: 'Vị trí trạm',
-        placeholder: 'Vị trí trạm',
+        label: 'Vị trí điểm',
+        placeholder: 'Vị trí điểm',
         max: 'Không quá 64 kí tự',
       },
       website: {
@@ -1224,8 +1224,11 @@ export default {
         stationTypeKeyNotExist: 'Loại trạm không tồn tại',
         measureKeyNotExist: 'Thông số không tồn tại',
         noData: 'Không có dữ liệu',
-        invalidStationType: 'Loại trạm không hợp lệ'
-      }
+        invalidStationType: 'Loại trạm không hợp lệ',
+        invalidKey: 'Mã điểm không hợp lệ',
+        duplicateMeasure: 'Thông số trùng nhau',
+        requireOneMeasureParamerter: 'Cần ít nhất một thông số',
+      } 
     }
   },
   qcvn: {

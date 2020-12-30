@@ -101,6 +101,9 @@ const i18n = {
   measureKeyNotExist: t('stationFixedPoint.importPoint.errors.measureKeyNotExist'),
   noData: t('stationFixedPoint.importPoint.errors.noData'),
   invalidStationType: t('stationFixedPoint.importPoint.errors.invalidStationType'),
+  invalidKey: t('stationFixedPoint.importPoint.errors.invalidKey'),
+  duplicateMeasure: t('stationFixedPoint.importPoint.errors.duplicateMeasure'),
+  requireOneMeasureParamerter: t('stationFixedPoint.importPoint.errors.requireOneMeasureParamerter'),
   requiredField: {
     key: t('stationFixedPoint.importPoint.requiredField.key'),
     name: t('stationFixedPoint.importPoint.requiredField.name'),
@@ -125,6 +128,9 @@ const IMPORT_DATA_ERROR = {
   MEASURE_KEY_NOT_EXIST: i18n.measureKeyNotExist,
   NO_DATA: i18n.noData,
   INVALID_STATION_TYPE: i18n.invalidStationType,
+  INVALID_KEY: i18n.invalidKey,
+  DUPLICATE_MEASURE: i18n.duplicateMeasure,
+  REQUIRE_ONE_MEASURE_PARAMERTER: i18n.requireOneMeasureParamerter,
 }
 
 class StationFixedImportData extends React.Component {
