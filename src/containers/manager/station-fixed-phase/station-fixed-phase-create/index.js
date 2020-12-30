@@ -24,7 +24,7 @@ export default class StationFixedPhaseCreate extends React.PureComponent {
       .then(values => {
         this.setState({ isLoading: false })
         if (values) {
-          message.success(translate('stationTypeManager.create.success'))
+          message.success(translate('stationFixedPhase.create.success'))
           this.props.history.push(slug.stationFixedPhase.list)
         }
         return values

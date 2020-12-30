@@ -97,17 +97,30 @@ const i18n = {
   invalidLongitude: t('stationFixedPoint.importPoint.errors.invalidLongitude'),
   invalidAddress: t('stationFixedPoint.importPoint.errors.invalidAddress'),
   qcvnKeyNotExist: t('stationFixedPoint.importPoint.errors.qcvnKeyNotExist'),
-  stationTypeKeyNotExist: t('stationFixedPoint.importPoint.errors.stationTypeKeyNotExist'),
-  measureKeyNotExist: t('stationFixedPoint.importPoint.errors.measureKeyNotExist'),
+  stationTypeKeyNotExist: t(
+    'stationFixedPoint.importPoint.errors.stationTypeKeyNotExist'
+  ),
+  measureKeyNotExist: t(
+    'stationFixedPoint.importPoint.errors.measureKeyNotExist'
+  ),
   noData: t('stationFixedPoint.importPoint.errors.noData'),
-  invalidStationType: t('stationFixedPoint.importPoint.errors.invalidStationType'),
+  invalidStationType: t(
+    'stationFixedPoint.importPoint.errors.invalidStationType'
+  ),
+  invalidKey: t('stationFixedPoint.importPoint.errors.invalidKey'),
+  duplicateMeasure: t('stationFixedPoint.importPoint.errors.duplicateMeasure'),
+  requireOneMeasureParamerter: t(
+    'stationFixedPoint.importPoint.errors.requireOneMeasureParamerter'
+  ),
   requiredField: {
     key: t('stationFixedPoint.importPoint.requiredField.key'),
     name: t('stationFixedPoint.importPoint.requiredField.name'),
-    stationTypeKey: t('stationFixedPoint.importPoint.requiredField.stationType'),
+    stationTypeKey: t(
+      'stationFixedPoint.importPoint.requiredField.stationType'
+    ),
     lat: t('stationFixedPoint.importPoint.requiredField.lat'),
     lng: t('stationFixedPoint.importPoint.requiredField.lng'),
-  }
+  },
 }
 
 const FIELDS = { FILE: 'file' }
@@ -125,6 +138,9 @@ const IMPORT_DATA_ERROR = {
   MEASURE_KEY_NOT_EXIST: i18n.measureKeyNotExist,
   NO_DATA: i18n.noData,
   INVALID_STATION_TYPE: i18n.invalidStationType,
+  INVALID_KEY: i18n.invalidKey,
+  DUPLICATE_MEASURE: i18n.duplicateMeasure,
+  REQUIRE_ONE_MEASURE_PARAMERTER: i18n.requireOneMeasureParamerter,
 }
 
 class StationFixedImportData extends React.Component {
@@ -137,24 +153,31 @@ class StationFixedImportData extends React.Component {
   }
 
   getErrorDetail = errors => {
-    const errorKey = errors[0]
+    const match = errors[0].match(/(?<key>.*)?\s(?<params>.*)/)
+    const key = match ? match.groups.key : errors[0]
+    const params = match ? match.groups.params : ''
+
+    let additionalInfo = params
     switch (true) {
-      case !!errorKey.match(/REQUIRE_FIELD/):
-        const fields = errorKey
-          .replace(/REQUIRE_FIELD/, "")
+      case /REQUIRE_FIELD/.test(key):
+        additionalInfo = params
           .trim()
           .split(',')
           .map(field => i18n.requiredField[field])
           .join(', ')
-        return `${IMPORT_DATA_ERROR.REQUIRE_FIELD} ${fields}`
+        break
       default:
-        return IMPORT_DATA_ERROR[errorKey]
+        break
     }
+    return [IMPORT_DATA_ERROR[key], additionalInfo]
+      .filter(item => item)
+      .join(': ')
   }
 
   getErrors() {
     const { errorDetail } = this.state
-    if(errorDetail.error) return <div>{IMPORT_DATA_ERROR[errorDetail.error]}</div>
+    if (errorDetail.error)
+      return <div>{IMPORT_DATA_ERROR[errorDetail.error]}</div>
 
     return (
       <div>

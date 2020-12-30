@@ -1152,8 +1152,8 @@ export default {
         placeholder: 'Đơn vị quản lý',
       },
       position: {
-        label: 'Vị trí trạm',
-        placeholder: 'Vị trí trạm',
+        label: 'Vị trí điểm',
+        placeholder: 'Vị trí điểm',
         max: 'Không quá 64 kí tự',
       },
       website: {
@@ -1219,7 +1219,7 @@ export default {
       },
       errors: {
         duplicateData: 'Trùng dữ liệu',
-        requireField: 'Các trường dữ liệu bắt buộc: ',
+        requireField: 'Các trường dữ liệu bắt buộc',
         invalidDataSheet: 'Dữ liệu sheet không hợp lệ',
         invalidName: 'Tên điểm quan trắc không hợp lệ',
         invalidLatitude: 'Vĩ độ không hợp lệ',
@@ -1230,8 +1230,11 @@ export default {
         measureKeyNotExist: 'Thông số không tồn tại',
         noData: 'Không có dữ liệu',
         invalidStationType: 'Loại trạm không hợp lệ',
-      },
-    },
+        invalidKey: 'Mã điểm không hợp lệ',
+        duplicateMeasure: 'Thông số trùng nhau',
+        requireOneMeasureParamerter: 'Cần ít nhất một thông số',
+      } 
+    }
   },
   qcvn: {
     list: {
@@ -2256,16 +2259,16 @@ export default {
       frequency: 'Tần Suất',
     },
     DATA_STATUS: {
-      OVERLOAD: 'Đang vượt ngưỡng',
+      OVERLOAD: 'Vượt ngưỡng',
       ABOUT_TO_OVERLOAD: 'Chuẩn bị vượt',
       COLLECTING: 'Trong ngưỡng',
-      LOST_CONNECTION: 'đang mất tín hiệu',
+      LOST_CONNECTION: 'Mất tín hiệu',
     },
     DEVICE_STATUS: {
-      LOST_CONNECTION: 'đang mất tín hiệu',
-      DEVICE_ERROR: 'Thiết bị đang bị lỗi',
-      CALIBRATE: 'Thiết bị đang hiệu chuẩn',
-      COLLECTING: 'Thiết bị tốt trở lại.',
+      LOST_CONNECTION: 'Mất tín hiệu',
+      DEVICE_ERROR: 'Lỗi thiết bị',
+      CALIBRATE: 'Hiệu chuẩn',
+      COLLECTING: 'Tốt',
     },
     STATION_STATUS: {
       OFFLINE: 'Trạm mất tín hiệu',

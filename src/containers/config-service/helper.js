@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React from 'react'
 import { Select } from 'antd'
 import { translate as t } from 'hoc/create-lang'
@@ -96,6 +97,7 @@ export const getTwilioFormFields = twilioDefaultConfigs => [
       <React.Fragment>
         {t('configService.twilioForm.accountSid.label')}
         <a
+          // eslint-disable-next-line react/jsx-no-target-blank
           target="_blank"
           href="https://www.twilio.com/console/account/settings"
         >
