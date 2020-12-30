@@ -45,7 +45,7 @@ export default class MeasuringList extends React.Component {
   static propTypes = {
     qcvnId: PropTypes.string,
     onChange: PropTypes.func,
-    value: PropTypes.object,
+    value: PropTypes.array,
   }
 
   async componentDidMount() {
@@ -58,7 +58,7 @@ export default class MeasuringList extends React.Component {
     ])
     this.setState({
       measuringListSource: measuringList.data,
-      measuringList: this.props.value || [],
+      measuringList: (this.props.value || []).map(item => ({...item, rowKey: item.key})),
       dataQCVN: _.get(QCVN, 'data', []),
       isLoaded: true,
     })
