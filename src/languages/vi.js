@@ -1228,7 +1228,7 @@ export default {
         invalidKey: 'Mã điểm không hợp lệ',
         duplicateMeasure: 'Thông số trùng nhau',
         requireOneMeasureParamerter: 'Cần ít nhất một thông số',
-      } 
+      }
     }
   },
   qcvn: {
@@ -2242,6 +2242,10 @@ export default {
     },
   },
   configNotify: {
+    headerConfirm: 'Thay đổi tần suất',
+    contentConfirm: 'Sau khi thay đổi tần suất, hệ thống sẽ đặt lại tần suất của các thông báo trước đó. Hãy chắc chắn bạn muốn thay dổi mới này.',
+    okBtnText: 'Thay đổi',
+    cancelBtnText: 'Hủy',
     repeat: 'Lặp lại',
     headerStatus: {
       DATA_STATUS: 'Trạng thái dữ liệu',
