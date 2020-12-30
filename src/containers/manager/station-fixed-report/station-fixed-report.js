@@ -186,9 +186,9 @@ export class StationFixedReport extends React.Component {
     this.queryDataPoint(this.state.pageNumber)
   }
 
-  handleOnPageChange = pageNumber => {
-    this.queryDataPoint(pageNumber)
-  }
+  // handleOnPageChange = pageNumber => {
+  //   this.queryDataPoint(pageNumber)
+  // }
 
   handleExportExcel = async () => {
     const {
@@ -324,7 +324,7 @@ export class StationFixedReport extends React.Component {
       pageSize: PAGE_SIZE,
       onChange: (page, pageSize) => {
         this.setState({ pageNumber: page })
-        this.handleOnPageChange(page)
+        // this.handleOnPageChange(page)
       },
     }
     return (

@@ -106,7 +106,6 @@ export default class StationFixedPhaseForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    whitespace: true,
                     message: t('stationFixedPhase.form.key.required'),
                   },
                   {

@@ -59,8 +59,8 @@ const GeneralBadge = styled(Col)`
     background: ${props => props.background};
     color: ${props => props.color || '#ffffff'};
     img {
-      width: 60px;
-      height: 60px;
+      width: 90px;
+      height: 90px;
     }
     .count {
       width: 100%;

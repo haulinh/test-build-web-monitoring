@@ -981,6 +981,10 @@ export default {
     },
   },
   stationTypeManager: {
+    type: {
+      auto: 'Tự động',
+      periodic: 'Định kỳ',
+    },
     list: {
       title: 'Loại trạm',
     },
@@ -1012,14 +1016,15 @@ export default {
         label: 'Biểu tượng',
         placeholder: 'Chọn biểu tượng',
       },
-      auto: {
-        label: 'Tự động',
+      mode: {
+        label: 'Hình thức',
       },
       action: {
         label: ' ',
       },
       error: 'Lỗi',
-      errorStationExist: 'Không thể xóa vì có trạm sử dụng loại trạm này',
+      errorDeleteStationType:
+        'Không thể xóa vì đã có điểm hoặt đợt quan trắc sử dụng loại trạm này',
       color: {
         label: 'Màu sắc',
         placeholder: 'Chọn màu',
@@ -1214,7 +1219,7 @@ export default {
       },
       errors: {
         duplicateData: 'Trùng dữ liệu',
-        requireField: 'Các trường dữ liệu bắt buộc: ',
+        requireField: 'Các trường dữ liệu bắt buộc',
         invalidDataSheet: 'Dữ liệu sheet không hợp lệ',
         invalidName: 'Tên điểm quan trắc không hợp lệ',
         invalidLatitude: 'Vĩ độ không hợp lệ',
@@ -2078,7 +2083,7 @@ export default {
       },
       configWQI: { name: 'Cấu hình tính WQI, AQI' },
       stationFixPhase: {
-        name:"Quản lý đợt quan trắc"
+        name: 'Quản lý đợt quan trắc',
       },
       stationFixMap: {
         name: 'Bản đồ điểm quan trắc',
@@ -2587,8 +2592,8 @@ export default {
         stationType: 'Vui lòng chọn loại trạm',
         phase: 'Vui lòng chọn đợt quan trắc',
         point: 'Vui lòng chọn điểm quan trắc',
-        range: 'Vui lòng chọn thời gian'
-      }
+        range: 'Vui lòng chọn thời gian',
+      },
     },
   },
   menuApp: {
@@ -3103,7 +3108,7 @@ export default {
       accountSid: {
         label: 'ACCOUNT SID (Bạn có thể tìm thấy tại',
         message: 'ACCOUNT SID',
-        placeholder: 'Account SID'
+        placeholder: 'Account SID',
       },
       authToken: {
         label: 'AUTH TOKEN (Bạn có thể tìm thấy tại',
@@ -3138,7 +3143,7 @@ export default {
         placeholder: 'Email From',
       },
     },
-    changeServiceName: 'Đổi {{=it.serviceName}} thành công'
+    changeServiceName: 'Đổi {{=it.serviceName}} thành công',
   },
   apiSharing: {
     stationManagement: 'Quản lý trạm quan trắc',
