@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Divider, Button, Icon, Avatar, Checkbox } from 'antd'
+import { Divider, Button, Icon, Avatar, Checkbox, message } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
@@ -21,7 +21,9 @@ import { Modal } from 'antd'
 import { translate } from 'hoc/create-lang'
 
 const i18n = {
-  errorStationExist: translate('stationTypeManager.form.errorStationExist'),
+  errorDeleteStationType: translate('stationTypeManager.form.errorDeleteStationType'),
+  auto: translate('stationTypeManager.type.auto'),
+  periodic: translate('stationTypeManager.type.periodic'),
 }
 
 const AvatarWrapper = styled.div`
@@ -92,7 +94,7 @@ export default class StationTypeList extends React.Component {
       { content: t('stationTypeManager.form.key.label'), width: 10 },
       { content: t('stationTypeManager.form.name.label'), width: 30 },
       { content: t('stationTypeManager.form.icon.label'), width: 10 },
-      { content: t('stationTypeManager.form.auto.label'), width: 10 },
+      { content: t('stationTypeManager.form.mode.label'), width: 10 },
       { content: t('stationTypeManager.form.action.label'), width: 10 },
     ]
   }
@@ -138,7 +140,7 @@ export default class StationTypeList extends React.Component {
         ),
       },
       {
-        content: <Checkbox disabled={true} checked={row.isAuto} />,
+        content: row.isAuto ? i18n.auto : i18n.periodic,
       },
       {
         content: (
@@ -167,10 +169,11 @@ export default class StationTypeList extends React.Component {
     const countStation = await getTotalCount_by_type(_id)
     if (countStation.success) {
       if (countStation.count > 0) {
-        Modal.error({
-          title: 'Error',
-          content: i18n.errorStationExist,
-        })
+        // Modal.error({
+        //   title: 'Error',
+        //   content: i18n.errorStationExist,
+        // })
+        message.error(i18n.errorDeleteStationType)
       } else {
         this.props.onDeleteItem(_id, this.props.fetchData)
       }
