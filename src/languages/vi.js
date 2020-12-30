@@ -1214,7 +1214,7 @@ export default {
       },
       errors: {
         duplicateData: 'Trùng dữ liệu',
-        requireField: 'Các trường dữ liệu bắt buộc: ',
+        requireField: 'Các trường dữ liệu bắt buộc',
         invalidDataSheet: 'Dữ liệu sheet không hợp lệ',
         invalidName: 'Tên điểm quan trắc không hợp lệ',
         invalidLatitude: 'Vĩ độ không hợp lệ',
