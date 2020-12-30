@@ -22,6 +22,11 @@ const i18n = {
   updateSuccess: translate('addon.onSave.update.success'),
   updateError: translate('addon.onSave.update.error'),
 
+  colGroupI: translate('wqiConfigCalculation.colGroupI'),
+  colGroupII: translate('wqiConfigCalculation.colGroupII'),
+  colGroupIII: translate('wqiConfigCalculation.colGroupIII'),
+  colGroupIV: translate('wqiConfigCalculation.colGroupIV'),
+  colGroupV: translate('wqiConfigCalculation.colGroupV'),
   add: translate('wqiConfigCalculation.add'),
 }
 
@@ -87,19 +92,19 @@ export default class TabGiaTri extends React.Component {
         <Clearfix height={16} />
         <div>
           <Collapse defaultActiveKey={['I']}>
-            <Panel header="Nhóm I" key="I">
+            <Panel header={i18n.colGroupI} key="I">
               <NhomI configMeasure={this.state.configGroupI} />
             </Panel>
-            <Panel header="Nhóm II" key="II">
+            <Panel header={i18n.colGroupII} key="II">
               <NhomII configMeasure={this.state.configGroupII} />
             </Panel>
-            <Panel header="Nhóm III" key="III">
+            <Panel header={i18n.colGroupIII} key="III">
               <NhomIII configMeasure={this.state.configGroupIII} />
             </Panel>
-            <Panel header="Nhóm IV" key="IV">
+            <Panel header={i18n.colGroupIV} key="IV">
               <NhomIV configMeasure={this.state.configGroupIV} />
             </Panel>
-            <Panel header="Nhóm V" key="V">
+            <Panel header={i18n.colGroupV} key="V">
               <NhomV configMeasure={this.state.configGroupV} />
             </Panel>
           </Collapse>
