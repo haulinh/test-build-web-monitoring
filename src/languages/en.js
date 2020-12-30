@@ -1027,7 +1027,7 @@ export default {
         label: 'Action',
       },
       error: 'Error',
-      errorStationExist: `The Action Can't Be Completed Because There Are Stations In This Types Of Station`,
+      errorDeleteStationType: `The Action Can't Be Completed Because There Are Points Or Phases In This Types Of Station`,
       color: {
         label: 'Color',
         placeholder: 'Choose Color',

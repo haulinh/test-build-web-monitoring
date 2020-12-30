@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Divider, Button, Icon, Avatar, Checkbox } from 'antd'
+import { Divider, Button, Icon, Avatar, Checkbox, message } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
@@ -21,9 +21,9 @@ import { Modal } from 'antd'
 import { translate } from 'hoc/create-lang'
 
 const i18n = {
-  errorStationExist: translate('stationTypeManager.form.errorStationExist'),
-  auto:  translate('stationTypeManager.type.auto'),
-  periodic:  translate('stationTypeManager.type.periodic')
+  errorDeleteStationType: translate('stationTypeManager.form.errorDeleteStationType'),
+  auto: translate('stationTypeManager.type.auto'),
+  periodic: translate('stationTypeManager.type.periodic'),
 }
 
 const AvatarWrapper = styled.div`
@@ -169,10 +169,11 @@ export default class StationTypeList extends React.Component {
     const countStation = await getTotalCount_by_type(_id)
     if (countStation.success) {
       if (countStation.count > 0) {
-        Modal.error({
-          title: 'Error',
-          content: i18n.errorStationExist,
-        })
+        // Modal.error({
+        //   title: 'Error',
+        //   content: i18n.errorStationExist,
+        // })
+        message.error(i18n.errorDeleteStationType)
       } else {
         this.props.onDeleteItem(_id, this.props.fetchData)
       }
