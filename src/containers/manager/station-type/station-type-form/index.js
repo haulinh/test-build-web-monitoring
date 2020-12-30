@@ -1,13 +1,12 @@
-import React from 'react'
-import { Form, Input, Button, Row, Col, Checkbox, Icon, Radio } from 'antd'
-import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
-import { mapPropsToFields } from 'utils/form'
-import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
-import SelectIcon from 'components/elements/select-icon-station-type'
+import { Button, Col, Form, Icon, Input, Radio, Row } from 'antd'
 import InputNumberCell from 'components/elements/input-number-cell'
+import SelectIcon from 'components/elements/select-icon-station-type'
+import { autobind } from 'core-decorators'
+import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
-import { translate } from 'hoc/create-lang'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { mapPropsToFields } from 'utils/form'
 
 const i18n = {
   mode: translate('stationTypeManager.form.mode.label'),
