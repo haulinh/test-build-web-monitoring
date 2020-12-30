@@ -1,4 +1,14 @@
 export default {
+  notificationFreq: {
+    only1: "Once only",
+    _5Min: 'Every 5 minutes',
+    _15Min: 'Every 15 minutes',
+    _30Min: 'Every 30 minutes',
+    _every1Hour: "Every 1 hour",
+    _every2Hour: "Every 2 hours",
+    _every1Day: "Every day",
+    _every2Day: "Every 2 days",
+  },
   global: {
     cancel: 'Cancel',
     submit: 'Submit',

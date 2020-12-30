@@ -1,46 +1,55 @@
 import React from 'react'
 import { Switch, Select } from 'antd'
-
+import { translate } from 'hoc/create-lang'
 const { Option } = Select
+
+
+const i18n = {
+  only1: translate('notificationFreq.only1'),
+  _5Min: translate('notificationFreq._5Min'),
+  _15Min: translate('notificationFreq._15Min'),
+  _30Min: translate('notificationFreq._30Min'),
+  _every1Hour: translate('notificationFreq._every1Hour'),
+  _every2Hour: translate('notificationFreq._every2Hour'),
+  _every1Day: translate('notificationFreq._every1Day'),
+  _every2Day: translate('notificationFreq._every2Day'),
+}
 
 const optionSelects = [
   {
-    title: 'Chỉ 1 lần',
+    title: i18n.only1,
     value: 0,
   },
   {
-    title: 'Mỗi 2 phút',
-    value: 2,
-  },
-  {
-    title: 'Mỗi 5 phút',
+    title: i18n._5Min,
     value: 5,
   },
   {
-    title: 'Mỗi 15 phút',
+    title: i18n._15Min,
     value: 15,
   },
   {
-    title: 'Mỗi 30 phút',
+    title: i18n._30Min,
     value: 30,
   },
   {
-    title: 'Mỗi tiếng',
+    title: i18n._every1Hour,
     value: 60,
   },
   {
-    title: 'Mỗi 2 tiếng',
+    title: i18n._every2Hour,
     value: 120,
   },
   {
-    title: 'Mỗi ngày',
+    title: i18n._every1Day,
     value: 1440,
   },
   {
-    title: 'Mỗi 2 ngày',
+    title: i18n._every2Day,
     value: 2880,
   },
 ]
+
 
 const STATION_STATUS = {
   COLLECTING: 'COLLECTING',
@@ -99,9 +108,9 @@ export default class Frequency extends React.Component {
               !this.state.isEnable || this.props.status === STATION_STATUS.COLLECTING || this.props.status === STATION_STATUS.ONLINE
             }
 
-            size="small"
+            size='small'
             defaultValue={this.getOption()}
-            style={{ width: 120 }}
+            style={{ width: 160 }}
             onChange={this.handleOnChangeSelect}
           >
             {optionSelects.map(option => (

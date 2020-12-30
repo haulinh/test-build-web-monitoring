@@ -1,4 +1,14 @@
 export default {
+  notificationFreq: {
+    only1: "Chỉ 1 lần",
+    _5Min: 'Mỗi 5 phút',
+    _15Min: 'Mỗi 15 phút',
+    _30Min: 'Mỗi 30 phút',
+    _every1Hour: "Mỗi tiếng",
+    _every2Hour: "Mỗi 2 tiếng",
+    _every1Day: "Mỗi ngày",
+    _every2Day: "Mỗi 2 ngày",
+  },
   global: {
     cancel: 'Hủy',
     verify: 'Xác nhận',
