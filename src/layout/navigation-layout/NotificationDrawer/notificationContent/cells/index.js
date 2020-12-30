@@ -96,24 +96,57 @@ const getNotificationInfo = status => {
   }
 }
 
-const NotificationContent = ({ notification, statusText, inline }) => (
-  <Row type={inline ? 'flex' : ''} gutter={12}>
-    <Col>
-      <Text>
-        {i18n.station} <b>{notification.station}</b> {statusText}
-      </Text>
-    </Col>
-    <Col>
-      <Row className="list" type={inline ? 'flex' : ''} gutter={10}>
-        {(notification.measures || []).map(mea => (
-          <ListItem key={mea.key} className="list-item">
-            <b>{mea.key}</b> {mea.value} {mea.unit} {mea.moreContent || ''}
-          </ListItem>
-        ))}
-      </Row>
-    </Col>
-  </Row>
-)
+const NotificationContent = ({ notification, statusText, inline }) => {
+  // console.log("NotificationConten=====?")
+  // console.log(notification.status, '==notification.status==')
+  return (
+    < Row type={inline ? 'flex' : ''} gutter={12} >
+      <Col>
+        <Text>
+          {i18n.station} <b>{notification.station}</b> {statusText}
+        </Text>
+      </Col>
+      <Col>
+        {
+          notification.status === NOTIFY_TYPE.DATA_GOOD &&
+          (
+            <Row className="list" type={inline ? 'flex' : ''} gutter={10}>
+              {(notification.measures || []).map(mea => (
+                <ListItem key={mea.key} className="list-item">
+                  <b>{mea.key}</b> {mea.value} {mea.unit}
+                </ListItem>
+              ))}
+            </Row>
+          )
+        }
+        {
+          [NOTIFY_TYPE.DATA_EXCEEDED, NOTIFY_TYPE.DATA_EXCEEDED_PREPARED].includes(notification.status) &&
+          (
+            <Row className="list" type={inline ? 'flex' : ''} gutter={10}>
+              {(notification.measures || []).map(mea => (
+                <ListItem key={mea.key} className="list-item">
+                  <b>{mea.key}</b> {mea.value} {mea.unit} {mea.moreContent || ''}
+                </ListItem>
+              ))}
+            </Row>
+          )
+        }
+        {
+          ![NOTIFY_TYPE.DATA_EXCEEDED, NOTIFY_TYPE.DATA_EXCEEDED_PREPARED, NOTIFY_TYPE.DATA_GOOD].includes(notification.status) &&
+          (
+            <Row className="list" type={inline ? 'flex' : ''} gutter={10}>
+              {(notification.measures || []).map(mea => (
+                <ListItem key={mea.key} className="list-item">
+                  <b>{mea.key}</b>
+                </ListItem>
+              ))}
+            </Row>
+          )
+        }
+
+      </Col>
+    </Row >)
+}
 
 export default function Cells(props) {
   const { dataSource, inline } = props

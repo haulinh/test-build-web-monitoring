@@ -1237,7 +1237,7 @@ export default {
         invalidKey: 'Invalid key',
         duplicateMeasure: 'Duplicate measures',
         requireOneMeasureParamerter: 'Require one measure parameter',
-      } 
+      }
     }
   },
   qcvn: {
@@ -2273,9 +2273,9 @@ export default {
     },
     DEVICE_STATUS: {
       LOST_CONNECTION: 'Lost connection',
-      DEVICE_ERROR: 'Device connected failure',
-      CALIBRATE: 'Calibrate',
-      COLLECTING: 'The device is in normal state now',
+      DEVICE_ERROR: 'Device error',
+      CALIBRATE: 'Calibration',
+      COLLECTING: 'Good',
     },
     STATION_STATUS: {
       ONLINE: 'The station has a signal',
