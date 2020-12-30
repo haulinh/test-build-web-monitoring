@@ -178,6 +178,7 @@ export default class StationFixedForm extends React.Component {
           lat: values.lat,
           lng: values.lng,
         },
+        measuringList: (values.measuringList || []).map(item => _.omit(item, ['rowKey']))
       }
       const res = await this.props.onSubmit(data)
       if (res && res.status) {
