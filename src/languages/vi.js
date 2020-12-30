@@ -1188,11 +1188,11 @@ export default {
         label: 'Diện tích tưới',
         placeholder: 'Diên tích tưới',
       },
-      lakeCapacity: {
+      lakeCapacity:{
         label: 'Dung tích hồ',
         placeholder: 'Dung tích hồ',
       },
-      catchmentArea: {
+      catchmentArea:{
         label: 'Diện tích lưu vực',
         placeholder: 'Diện tích lưu vực',
       },
@@ -1233,7 +1233,7 @@ export default {
         invalidKey: 'Mã điểm không hợp lệ',
         duplicateMeasure: 'Thông số trùng nhau',
         requireOneMeasureParamerter: 'Cần ít nhất một thông số',
-      } 
+      }
     }
   },
   qcvn: {
@@ -2247,6 +2247,10 @@ export default {
     },
   },
   configNotify: {
+    headerConfirm: 'Thay đổi tần suất',
+    contentConfirm: 'Sau khi thay đổi tần suất, hệ thống sẽ đặt lại tần suất của các thông báo trước đó. Hãy chắc chắn bạn muốn thay dổi mới này.',
+    okBtnText: 'Thay đổi',
+    cancelBtnText: 'Hủy',
     repeat: 'Lặp lại',
     headerStatus: {
       DATA_STATUS: 'Trạng thái dữ liệu',
@@ -2386,11 +2390,11 @@ export default {
     exceedPreparing: 'Chuẩn bị vượt',
     exceed: 'Vượt nguỡng',
     lossData: 'Mất tín hiệu',
-    sensorError: 'Thiết bị đang bị lỗi',
-    collecting: 'Thiết bị tốt trở lại.',
+    sensorError: 'Lỗi thiết bị',
+    collecting: 'Tốt',
     lostConnection: 'Mất kết nối',
     overload: 'Vượt ngưỡng',
-    aboutToOverload: 'Chuẩn bị vượt',
+    aboutToOverload: 'Chuẩn bị vượt ngưỡng',
   },
   addon: {
     add: 'Thêm',
@@ -2977,13 +2981,13 @@ export default {
       'Bạn cần di chuyển đến trang cấu hình tính AQI để chọn công thức tính',
   },
   stationStatus: {
-    good: 'Thiết bị tốt trở lại.',
-    lostSignal: 'đang mất tín hiệu',
+    good: 'Tốt',
+    lostSignal: 'Mất tín hiệu',
     notConnected: 'Chưa kết nối',
     connecting: 'Đang kết nối',
     connected: 'Đã kết nối',
-    exceeded: 'Đang vượt ngưỡng',
-    exceededPreparing: 'Đang chuẩn bị vượt ngưỡng',
+    exceeded: 'Vượt ngưỡng',
+    exceededPreparing: 'Chuẩn bị vượt',
     exceededTendency: 'Có xu hướng vượt',
   },
   actions: {
@@ -3026,15 +3030,15 @@ export default {
     measure2: 'Các chỉ tiêu:',
     notUse: 'Chưa sử dụng',
     deviceStatus: {
-      sensorGood: 'Tốt.',
+      sensorGood: 'Tốt',
       sensorError: 'Lỗi thiết bị',
       sensorMaintain: 'Hiệu chuẩn',
       dataExceeded: 'Vượt ngưỡng',
       dataExceededPrepare: 'Chuẩn bị vượt',
       dataGood: 'Trong ngưỡng',
-      dataGood2: 'Trong ngưỡng',
+      dataGood2: 'dữ liệu tốt trở lại',
       dataLoss: 'Mất tín hiệu',
-      dataConnected: 'có kết nối trở lại',
+      dataConnected: 'có tín hiệu trở lại',
     },
     overview: 'Tổng quan',
     list: 'Danh sách',

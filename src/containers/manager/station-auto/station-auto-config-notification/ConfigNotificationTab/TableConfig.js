@@ -1,6 +1,6 @@
 import React from 'react'
 import update from 'immutability-helper'
-import { Table, Input, Button, message } from 'antd'
+import { Table, Input, Button, message, Modal } from 'antd'
 import Clearfix from 'components/elements/clearfix'
 import Frequency from './Frequency'
 import { translate } from 'hoc/create-lang'
@@ -15,6 +15,10 @@ const i18n = {
     notification: translate('configNotify.titleTable.notification'),
     frequency: translate('configNotify.titleTable.frequency'),
   },
+  headerConfirm: translate('configNotify.headerConfirm'),
+  contentConfirm: translate('configNotify.contentConfirm'),
+  okBtnText: translate('configNotify.okBtnText'),
+  cancelBtnText: translate('configNotify.cancelBtnText'),
   updateSuccess: translate('addon.onSave.update.success'),
 }
 
@@ -36,6 +40,8 @@ export default class TableConfig extends React.Component {
   state = {
     configDetail: this.props.data.configDetail,
     isLoadingSubmit: false,
+    isModelVisible: false,
+    confirmLoading: false
   }
 
   updateFrequency = frequencyUpdate => {
@@ -74,6 +80,7 @@ export default class TableConfig extends React.Component {
   }
 
   update = async () => {
+    // return alert("SAVE OK")
     this.setState({ isLoadingSubmit: true })
     const { _id, key } = this.props.data
     const data = {
@@ -142,6 +149,19 @@ export default class TableConfig extends React.Component {
     ]
   }
 
+  handleOkModel = () => {
+    this.update()
+    this.setState({
+      confirmLoading: true
+    })
+    setTimeout(() => {
+      this.setState({
+        isModelVisible: false,
+        confirmLoading: false
+      })
+    }, 500);
+  };
+
   render() {
     return (
       <div>
@@ -159,13 +179,29 @@ export default class TableConfig extends React.Component {
             block
             type="primary"
             icon="save"
-            onClick={this.update}
+            // onClick={this.update}
+            onClick={() => this.setState({ isModelVisible: true })}
+
             loading={this.state.isLoadingSubmit}
           >
             {i18n.submit}
           </Button>
         </Flex>
+        <Modal
+          title={i18n.headerConfirm}
+          visible={this.state.isModelVisible}
+          onOk={this.handleOkModel}
+          okText={i18n.okBtnText}
+          cancelText={i18n.cancelBtnText}
+
+          confirmLoading={this.state.confirmLoading}
+          onCancel={() => this.setState({ isModelVisible: false })}
+        >
+          <p>{i18n.contentConfirm}</p>
+        </Modal>
       </div>
+
+
     )
   }
 }

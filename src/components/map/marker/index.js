@@ -260,9 +260,6 @@ export default class MarkerStation extends PureComponent {
       case warningLevels.LOSS:
         icon = '/images/marker-icon/station-lost-connection.png'
         break
-      case STATUS_STATION.NOT_USE:
-        icon = '/images/marker-icon/station-lost-connection.png'
-        break
       case warningLevels.EXCEEDED_PREPARING:
         icon = '/images/marker-icon/staion-tend-to-exceed.png'
         break
@@ -364,7 +361,7 @@ export default class MarkerStation extends PureComponent {
               fontSize: '14px',
               fontFamily: 'Roboto, Arial, sans-serif',
               background: '#6AA84F',
-              padding: '3px 4px',
+              padding: '0px 4px',
               padding: '2px',
               textAlign: 'center',
               whiteteSpace: 'nowrap',
