@@ -1147,8 +1147,8 @@ export default {
         placeholder: 'Đơn vị quản lý',
       },
       position: {
-        label: 'Vị trí trạm',
-        placeholder: 'Vị trí trạm',
+        label: 'Vị trí điểm',
+        placeholder: 'Vị trí điểm',
         max: 'Không quá 64 kí tự',
       },
       website: {
