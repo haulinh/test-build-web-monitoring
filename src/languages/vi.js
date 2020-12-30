@@ -1188,11 +1188,11 @@ export default {
         label: 'Diện tích tưới',
         placeholder: 'Diên tích tưới',
       },
-      lakeCapacity: {
+      lakeCapacity:{
         label: 'Dung tích hồ',
         placeholder: 'Dung tích hồ',
       },
-      catchmentArea: {
+      catchmentArea:{
         label: 'Diện tích lưu vực',
         placeholder: 'Diện tích lưu vực',
       },
@@ -2247,6 +2247,10 @@ export default {
     },
   },
   configNotify: {
+    headerConfirm: 'Thay đổi tần suất',
+    contentConfirm: 'Sau khi thay đổi tần suất, hệ thống sẽ đặt lại tần suất của các thông báo trước đó. Hãy chắc chắn bạn muốn thay dổi mới này.',
+    okBtnText: 'Thay đổi',
+    cancelBtnText: 'Hủy',
     repeat: 'Lặp lại',
     headerStatus: {
       DATA_STATUS: 'Trạng thái dữ liệu',
@@ -2386,11 +2390,11 @@ export default {
     exceedPreparing: 'Chuẩn bị vượt',
     exceed: 'Vượt nguỡng',
     lossData: 'Mất tín hiệu',
-    sensorError: 'Thiết bị đang bị lỗi',
-    collecting: 'Thiết bị tốt trở lại.',
+    sensorError: 'Lỗi thiết bị',
+    collecting: 'Tốt',
     lostConnection: 'Mất kết nối',
     overload: 'Vượt ngưỡng',
-    aboutToOverload: 'Chuẩn bị vượt',
+    aboutToOverload: 'Chuẩn bị vượt ngưỡng',
   },
   addon: {
     add: 'Thêm',
@@ -2977,13 +2981,13 @@ export default {
       'Bạn cần di chuyển đến trang cấu hình tính AQI để chọn công thức tính',
   },
   stationStatus: {
-    good: 'Thiết bị tốt trở lại.',
-    lostSignal: 'đang mất tín hiệu',
+    good: 'Tốt',
+    lostSignal: 'Mất tín hiệu',
     notConnected: 'Chưa kết nối',
     connecting: 'Đang kết nối',
     connected: 'Đã kết nối',
-    exceeded: 'Đang vượt ngưỡng',
-    exceededPreparing: 'Đang chuẩn bị vượt ngưỡng',
+    exceeded: 'Vượt ngưỡng',
+    exceededPreparing: 'Chuẩn bị vượt',
     exceededTendency: 'Có xu hướng vượt',
   },
   actions: {

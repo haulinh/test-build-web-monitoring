@@ -2258,6 +2258,10 @@ export default {
     },
   },
   configNotify: {
+    headerConfirm: 'Update frequency',
+    contentConfirm: 'After updating the frequency, notification system will be reset to initial state. Are you sure want to process ?',
+    okBtnText: 'Update',
+    cancelBtnText: 'Cancel',
     repeat: 'Repeat',
     headerStatus: {
       DATA_STATUS: 'Data Status',
