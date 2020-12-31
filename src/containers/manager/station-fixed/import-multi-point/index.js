@@ -153,7 +153,7 @@ class StationFixedImportData extends React.Component {
   }
 
   getErrorDetail = errors => {
-    const match = errors[0].match(/(?<key>.*)?\s(?<params>.*)/)
+    const match = errors[0].match(/(?<key>\w*)?\s(?<params>.*)/)
     const key = match ? match.groups.key : errors[0]
     const params = match ? match.groups.params : ''
 

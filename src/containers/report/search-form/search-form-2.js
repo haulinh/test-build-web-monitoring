@@ -40,6 +40,7 @@ const Item = props => (
   />
 )
 
+// Search form ty le nhan du lieu
 @Form.create()
 export default class SearchForm extends React.Component {
   static propTypes = {
