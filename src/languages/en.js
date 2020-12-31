@@ -987,7 +987,7 @@ export default {
   stationTypeManager: {
     type: {
       auto: 'Auto',
-      periodic: 'Periodic'
+      periodic: 'Periodic',
     },
     list: {
       title: 'Types Of Station',
@@ -1022,6 +1022,7 @@ export default {
       },
       mode: {
         label: 'Mode',
+        error: 'Please choose mode',
       },
       action: {
         label: 'Action',
@@ -1035,7 +1036,7 @@ export default {
       numericalOrder: {
         label: 'Numerical Order',
         placeholder: 'Numerical Order',
-        error: 'Please input numerical order',
+        error: 'Please Input Numerical Order',
       },
     },
   },
@@ -1241,8 +1242,8 @@ export default {
         invalidKey: 'Invalid key',
         duplicateMeasure: 'Duplicate measures',
         requireOneMeasureParamerter: 'Require one measure parameter',
-      }
-    }
+      },
+    },
   },
   qcvn: {
     list: {
@@ -2093,7 +2094,7 @@ export default {
       },
       configWQI: { name: 'AQI & WQI Configurations' },
       stationFixPhase: {
-        name: "Monitoring batch manager"
+        name: 'Monitoring batch manager',
       },
       stationFixMap: {
         name: 'Monitoring point map',
@@ -2607,8 +2608,8 @@ export default {
         stationType: 'Station type is required',
         phase: 'Phase is required',
         point: 'Point is required',
-        range: 'Time is required'
-      }
+        range: 'Time is required',
+      },
     },
   },
   menuApp: {
@@ -3144,7 +3145,7 @@ export default {
         placeholder: 'Email From',
       },
     },
-    changeServiceName: 'Change to {{=it.serviceName}} successful'
+    changeServiceName: 'Change to {{=it.serviceName}} successful',
   },
   apiSharing: {
     stationManagement: 'Station Management',
