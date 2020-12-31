@@ -43,18 +43,18 @@ const HeaderDesc = styled.div`
 `
 
 const i18n = {
-  sensorGood: translate('common.deviceStatus.sensorGood'),
-  sensorError: translate('common.deviceStatus.sensorError'),
-  sensorMaintain: translate('common.deviceStatus.sensorMaintain'),
+  sensorGood: translate('common.deviceStatus.sensorGoodMonitoring'),
+  sensorError: translate('common.deviceStatus.sensorErrorMonitoring'),
+  sensorMaintain: translate('common.deviceStatus.sensorMaintainMonitoring'),
   overview: translate('common.overview'),
   list: translate('common.list'),
   statusSensor: translate('common.statusSensor'),
   statusData: translate('common.statusData'),
 
-  dataLoss: translate('common.deviceStatus.dataLoss'),
-  dataExceeded: translate('common.deviceStatus.dataExceeded'),
-  dataExceededPrepare: translate('common.deviceStatus.dataExceededPrepare'),
-  dataGood: translate('common.deviceStatus.dataGood'),
+  dataLoss: translate('common.deviceStatus.dataLossMonitoring'),
+  dataExceeded: translate('common.deviceStatus.dataExceededMonitoring'),
+  dataExceededPrepare: translate('common.deviceStatus.dataExceededPrepareMonitoring'),
+  dataGood: translate('common.deviceStatus.dataGoodMonitoring'),
 }
 
 const ListLoader = createContentLoader({
