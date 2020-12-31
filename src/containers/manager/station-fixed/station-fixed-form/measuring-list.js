@@ -101,16 +101,19 @@ export default class MeasuringList extends React.Component {
       const item = _.find(this.state.dataQCVN, obj => {
         return obj._id === this.props.qcvnId
       })
-      itemQCVN =
+      if(item){
+        itemQCVN =
         item.measuringList.length > 0
           ? _.keyBy(item.measuringList, 'key')
           : null
+      }
+      
     }
 
     const dataValue = this.state.measuringList.map((item, i) => {
       if (index === i) {
         item[flied] = value
-        if (flied === 'key') {
+        if (flied === 'key' && itemQCVN) {
           const minLimit = itemQCVN[value] ? itemQCVN[value].minLimit : null
           const maxLimit = itemQCVN[value] ? itemQCVN[value].maxLimit : null
           item['isApplyQCVN'] = itemQCVN[value] ? true : false

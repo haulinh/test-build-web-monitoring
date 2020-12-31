@@ -1057,14 +1057,14 @@ export default {
         label: 'Mã đợt quan trắc',
         placeholder: 'Mã đợt quan trắc',
         required: 'Vui lòng nhập mã',
-        pattern: 'Không được nhập kí tự đăc biệt',
+        pattern: 'Không được nhập kí tự đặc biệt',
         max: 'Không quá 64 kí tự',
       },
       name: {
         label: 'Tên đợt quan trắc',
         placeholder: 'Tên đợt quan trắc',
         required: 'Vui lòng nhập đợt quan trắc',
-        pattern: 'Không được nhập kí tự đăc biệt',
+        pattern: 'Không được nhập kí tự đặc biệt',
         max: 'Không quá 64 kí tự',
       },
       stationType: {
@@ -1111,14 +1111,14 @@ export default {
         label: 'Mã điểm',
         placeholder: 'Mã điểm',
         required: 'Vui lòng nhập mã',
-        pattern: 'Không được nhập kí tự đăc biệt',
+        pattern: 'Không được nhập kí tự đặc biệt',
         max: 'Không quá 64 kí tự',
       },
       name: {
         label: 'Tên điểm',
         placeholder: 'Tên điểm quan trắc',
         required: 'Vui lòng nhập tên điểm quan trắc',
-        pattern: 'Không được nhập kí tự đăc biệt',
+        pattern: 'Không được nhập kí tự đặc biệt',
         max: 'Không quá 64 kí tự',
       },
       address: {
