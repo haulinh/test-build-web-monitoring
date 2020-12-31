@@ -1018,6 +1018,7 @@ export default {
       },
       mode: {
         label: 'Hình thức',
+        error: 'Vui lòng chọn hình thức'
       },
       action: {
         label: ' ',
@@ -1188,11 +1189,11 @@ export default {
         label: 'Diện tích tưới',
         placeholder: 'Diên tích tưới',
       },
-      lakeCapacity:{
+      lakeCapacity: {
         label: 'Dung tích hồ',
         placeholder: 'Dung tích hồ',
       },
-      catchmentArea:{
+      catchmentArea: {
         label: 'Diện tích lưu vực',
         placeholder: 'Diện tích lưu vực',
       },
@@ -3031,13 +3032,20 @@ export default {
     notUse: 'Chưa sử dụng',
     deviceStatus: {
       sensorGood: 'thiết bị trở lại bình thường:',
+      sensorGoodMonitoring: 'Đang đo',
       sensorError: 'thiết bị đang bị lỗi:',
+      sensorErrorMonitoring: 'Lỗi thiết bị',
       sensorMaintain: 'thiết bị đang hiệu chuẩn:',
+      sensorMaintainMonitoring: 'Hiệu chuẩn',
       dataExceeded: 'đang vượt ngưỡng:',
+      dataExceededMonitoring: 'Vượt ngưỡng',
+      dataExceededPrepareMonitoring: 'Chuẩn bị vượt',
       dataExceededPrepare: 'chuẩn bị vượt ngưỡng:',
       dataGood: 'Trong ngưỡng',
+      dataGoodMonitoring: 'Tốt',
       dataGood2: 'dữ liệu trở lại trong ngưỡng:',
       dataLoss: 'đang mất tín hiệu.',
+      dataLossMonitoring: 'Mất tín hiệu',
       dataConnected: 'có tín hiệu trở lại.',
     },
     overview: 'Tổng quan',
