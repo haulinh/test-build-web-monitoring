@@ -187,6 +187,7 @@ export default class SearchForm extends React.Component {
               <Col span={6}>
                 <Item label={i18n.label.selectTimeRange}>
                   {getFieldDecorator('time', {
+                    initialValue: moment(),
                     rules: [
                       {
                         required: true,
