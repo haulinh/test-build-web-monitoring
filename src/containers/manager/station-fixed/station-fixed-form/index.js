@@ -87,7 +87,7 @@ const i18n = {
     validate4: translate('stationFixedPoint.form.measuringList.validate4'),
   },
 
-  panel1: translate('stationAutoManager.form.panel1'),
+  panel1: translate('stationFixedPoint.form.panel1'),
   panel2: translate('stationAutoManager.form.panel2'),
   website: {
     label: translate('stationFixedPoint.form.website.label'),

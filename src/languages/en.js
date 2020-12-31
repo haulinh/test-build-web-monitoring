@@ -1107,6 +1107,7 @@ export default {
       require: 'Are you sure you want to disable?',
     },
     form: {
+      panel1: 'Point Information',
       measuringForm: {
         key: 'Parameter code',
         name: 'Parameter name',

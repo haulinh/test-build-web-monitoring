@@ -1099,6 +1099,7 @@ export default {
       require: 'Bạn chắc chắn muốn vô hiệu hóa?',
     },
     form: {
+      panel1: 'Thông tin điểm',
       measuringForm: {
         key: 'Mã thông số',
         name: 'Tên thông số',
