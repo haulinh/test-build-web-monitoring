@@ -45,9 +45,6 @@ export default class SelectStationTreeView extends React.Component {
       // console.log("treeData", treeData);
       const defaultObject = _.get(treeData, '[0].children', [])
       const listKey = defaultObject.map(data => data.value)
-      this.props.setFieldsValue({
-        stationAutos: [...listKey]
-      })
 
       this.setState({
         stationAutoSelects: response.data,
@@ -56,7 +53,7 @@ export default class SelectStationTreeView extends React.Component {
         value: [...listKey]
       })
 
-      this.props.handleSubmit()
+      this.props.onAutoSubmit(listKey)
 
     } catch (e) { }
   }

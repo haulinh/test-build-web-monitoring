@@ -63,6 +63,14 @@ export default class SearchForm extends React.Component {
     })
   }
 
+  autoSubmit(listKey) {
+    this.props.form.setFieldsValue({
+      stationAutos: [...listKey]
+    })
+
+    this.submit()
+  }
+
   render() {
 
     const {
@@ -161,7 +169,7 @@ export default class SearchForm extends React.Component {
                       ),
                     },
                   ],
-                })(<SelectStationTreeView setFieldsValue={setFieldsValue} handleSubmit={this.submit} />)}
+                })(<SelectStationTreeView setFieldsValue={setFieldsValue} onAutoSubmit={this.autoSubmit.bind(this)} />)}
               </Item>
             </Col>
           </Row>
