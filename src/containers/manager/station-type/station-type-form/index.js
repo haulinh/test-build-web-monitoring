@@ -178,8 +178,18 @@ export default class StationTypeForm extends React.PureComponent {
           </Col>
           <Col span={13}>
             <FormItem {...formItemLayout} label={i18n.mode}>
-              {getFieldDecorator('isAuto')(
-                <Radio.Group style={{ width: '100%' }}>
+              {getFieldDecorator('isAuto', {
+                rules: [
+                  {
+                    required: true,
+                    message: t('stationTypeManager.form.mode.error'),
+                  },
+                ],
+              })(
+                <Radio.Group
+                  disabled={this.props.isEdit ? true : false}
+                  style={{ width: '100%' }}
+                >
                   <Radio value={false}>{i18n.periodic}</Radio>
                   <Radio value={true}>{i18n.auto}</Radio>
                 </Radio.Group>
