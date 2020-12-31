@@ -64,6 +64,7 @@ export default class SearchForm extends React.Component {
   }
 
   render() {
+
     const {
       getFieldDecorator,
       // getFieldValue,
@@ -114,9 +115,14 @@ export default class SearchForm extends React.Component {
                       required: true,
                       message: translate('avgSearchFrom.selectTimeRange.error'),
                     },
+
                   ],
+                  initialValue: [
+                    moment('00:00:00', 'HH:mm:ss'),
+                    moment('23:59:59', 'HH:mm:ss')]
                 })(
                   <RangePicker
+
                     disabledDate={current => {
                       return current && current > moment().endOf('day')
                     }}
@@ -139,7 +145,10 @@ export default class SearchForm extends React.Component {
               </Item>
             </Col>
           </Row>
+
           <Clearfix height={16} />
+
+          {/* select station name */}
           <Row gutter={16}>
             <Col span={24}>
               <Item label={translate('avgSearchFrom.form.stationAuto.label')}>
@@ -152,7 +161,7 @@ export default class SearchForm extends React.Component {
                       ),
                     },
                   ],
-                })(<SelectStationTreeView />)}
+                })(<SelectStationTreeView setFieldsValue={setFieldsValue} handleSubmit={this.submit} />)}
               </Item>
             </Col>
           </Row>
