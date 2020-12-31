@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 import PropTypes from 'prop-types'
 import { default as SearchFormContainer } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
@@ -8,6 +9,7 @@ import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
 import SelectStationAuto from 'containers/search/common/select-station-auto' //'.././common/select-station-auto'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
+import { get } from 'lodash'
 
 const { MonthPicker } = DatePicker
 
@@ -85,6 +87,24 @@ export default class SearchForm extends React.Component {
     })
   }
 
+  setDefaultStationType = stationTypes => {
+    const {form} = this.props
+    form.setFieldsValue({stationType: get(stationTypes, '0.key')})
+  }
+  
+  setDefaultStationAuto = stationAutos => {
+    const {form} = this.props
+    const stationType = form.getFieldValue('stationType')
+    const results = stationAutos.filter(station => station.stationType.key === stationType)
+    form.setFieldsValue({stationAuto: get(results, '0.key')})
+    this.setState({
+      measuringList: get(results, '0.measuringList'),
+      stationName: get(results, '0.name'),
+    }, () => {
+      this.submit()
+    })
+  }
+
   render() {
     const { getFieldDecorator, getFieldValue, setFieldsValue } = this.props.form
 
@@ -132,7 +152,7 @@ export default class SearchForm extends React.Component {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
                   },
-                })(<SelectStationType size="large" />)}
+                })(<SelectStationType size="large" onFetchSuccess={this.setDefaultStationType} />)}
               </Item>
             </Col>
             <Col span={6}>
@@ -147,6 +167,7 @@ export default class SearchForm extends React.Component {
                 })(
                   <SelectStationAuto
                     size="large"
+                    onFetchSuccess={this.setDefaultStationAuto}
                     stationTypeKey={getFieldValue('stationType')}
                     provinceKey={getFieldValue('province')}
                     onChangeObject={station => {
@@ -180,6 +201,7 @@ export default class SearchForm extends React.Component {
               <Col span={6}>
                 <Item label={i18n.label.selectTimeRange2}>
                   {getFieldDecorator('time', {
+                    initialValue: moment(),
                     rules: [
                       {
                         required: true,

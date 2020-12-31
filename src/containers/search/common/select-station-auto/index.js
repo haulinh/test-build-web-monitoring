@@ -17,6 +17,7 @@ export default class SelectStationAuto extends React.PureComponent {
     stationTypeKey: PropTypes.string,
     provinceKey: PropTypes.string,
     onChangeObject: PropTypes.func,
+    onFetchSuccess: PropTypes.func,
     getRef: PropTypes.func,
   }
 
@@ -27,19 +28,24 @@ export default class SelectStationAuto extends React.PureComponent {
     searchString: '',
   }
 
-  async componentWillMount() {
-    const responseStationAuto = await StationAutoApi.getStationAutos({
+  async componentDidMount() {
+    const results = await StationAutoApi.getStationAutos({
       page: 1,
       itemPerPage: 10000000,
     })
 
     this.setState({
-      stationAutoSelects: responseStationAuto.data,
+      stationAutoSelects: results.data,
       isLoaded: true,
       value: this.props.setKey
         ? this.props.stationAutoKey
         : this.props.value || undefined,
     })
+
+    const { onFetchSuccess } = this.props
+    if (typeof onFetchSuccess === 'function') {
+      onFetchSuccess(results.data)
+    }
 
     if (this.props.getRef) this.props.getRef(this)
   }
