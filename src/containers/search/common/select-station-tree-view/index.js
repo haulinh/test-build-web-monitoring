@@ -43,14 +43,25 @@ export default class SelectStationTreeView extends React.Component {
         }
       })
       // console.log("treeData", treeData);
+      const defaultObject = _.get(treeData, '[0].children', [])
+      const listKey = defaultObject.map(data => data.value)
 
       this.setState({
         stationAutoSelects: response.data,
         isLoaded: true,
         treeData,
+        value: [...listKey]
       })
-    } catch (e) {}
+
+      const { onAutoSubmit } = this.props
+      if (typeof onAutoSubmit === 'function') {
+        onAutoSubmit(listKey)
+      }
+
+
+    } catch (e) { }
   }
+
 
   onChange = value => {
     this.setState({ value })
@@ -58,12 +69,14 @@ export default class SelectStationTreeView extends React.Component {
   }
 
   render() {
+
     return (
       <TreeSelect
         dropdownPopupAlign={{
           overflow: { adjustX: false, adjustY: false },
         }}
         treeData={this.state.treeData}
+
         value={this.state.value}
         onChange={this.onChange}
         treeCheckable
