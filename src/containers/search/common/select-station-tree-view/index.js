@@ -53,8 +53,9 @@ export default class SelectStationTreeView extends React.Component {
         value: [...listKey]
       })
 
-      if (this.props.onAutoSubmit !== undefined) {
-        this.props.onAutoSubmit(listKey)
+      const { onAutoSubmit } = this.props
+      if (typeof onAutoSubmit === 'function') {
+        onAutoSubmit(listKey)
       }
 
 
