@@ -1028,6 +1028,7 @@ export default {
       },
       mode: {
         label: 'Hình thức',
+        error: 'Vui lòng chọn hình thức'
       },
       action: {
         label: ' ',
