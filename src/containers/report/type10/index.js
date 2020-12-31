@@ -49,6 +49,7 @@ export default class ReportType10 extends React.Component {
   }
   componentDidMount() {
     // console.log("ABC", this.props.timeZone);
+    this.handleSubmit()
   }
 
   getColumns = () => {
@@ -130,20 +131,21 @@ export default class ReportType10 extends React.Component {
     ]
   }
 
-  handleSubmit = async values => {
-    // console.log(values, "values");
+  handleSubmit = async (values = {}) => {
+    // console.log(JSON.stringify(values, null, 4), "values");
+    const { stationType = '', fromMonth = moment(), toMonth = moment() } = values
     this.setState({
       isHaveData: false,
       isLoading: true,
     })
     const params = {
-      stationType: values.stationType,
-      fromDate: moment(values.fromMonth)
+      stationType,
+      fromDate: moment(fromMonth)
         .utcOffset(this.props.timeZone.time)
         .startOf('day')
         .utc()
         .format(),
-      toDate: moment(values.toMonth)
+      toDate: moment(toMonth)
         .utcOffset(this.props.timeZone.time)
         .endOf('day')
         .utc()
@@ -156,8 +158,8 @@ export default class ReportType10 extends React.Component {
         isHaveData: true,
         isLoading: false,
         dataSearch: params,
-        fromMonth: moment(values.fromMonth).format(MM_YYYY),
-        toMonth: moment(values.toMonth).format(MM_YYYY),
+        fromMonth: moment(fromMonth).format(MM_YYYY),
+        toMonth: moment(toMonth).format(MM_YYYY),
       })
     }
   }
@@ -181,6 +183,7 @@ export default class ReportType10 extends React.Component {
   }
 
   render() {
+
     return (
       <PageContainer>
         <Breadcrumb items={['type10']} />
