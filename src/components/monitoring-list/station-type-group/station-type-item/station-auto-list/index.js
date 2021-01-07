@@ -176,6 +176,10 @@ const STATION_ICON = {
     image: '/images/station/good.png',
     status: i18n.deviceStatus.good,
   },
+  [stationStatus.DATA_CONNECTED]: {
+    image: '/images/station/good.png',
+    status: i18n.deviceStatus.good,
+  },
 }
 
 const noStationStatus = {
@@ -204,8 +208,9 @@ class TableData extends React.Component {
         align: 'center',
         width: 30,
         fixed: 'left',
-        render: val => {
+        render: (val) => {
           const icon = STATION_ICON[val]
+
           return (
             <Tooltip
               getPopupContainer={() =>
