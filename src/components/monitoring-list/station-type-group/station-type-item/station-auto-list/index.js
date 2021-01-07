@@ -208,12 +208,9 @@ class TableData extends React.Component {
         align: 'center',
         width: 30,
         fixed: 'left',
-        render: (val, record) => {
+        render: (val) => {
           const icon = STATION_ICON[val]
 
-          if (record.name === 'Bệnh viện Nhi đồng 1') {
-            console.log(icon,record.name,val, '------')
-          }
           return (
             <Tooltip
               getPopupContainer={() =>
