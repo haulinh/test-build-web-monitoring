@@ -10,6 +10,7 @@ import Breadcrumb from '../breadcrumb'
 import DynamicTable from 'components/elements/dynamic-table'
 import FtpApi from 'api/FtpApi'
 import moment from 'moment-timezone'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 @createManagerEdit({
   apiGetByKey: StationAutoApi.getStationAuto,
@@ -84,7 +85,7 @@ export default class StationAutoFtpFile extends React.PureComponent {
         content: row.isDirectory ? 'Folder' : 'File',
       },
       {
-        content: <div>{moment(row.mtime).format('YYYY/MM/DD HH:mm')}</div>,
+        content: <div>{moment(row.mtime).format(DD_MM_YYYY_HH_MM)}</div>,
       },
       {
         content: <div>{Math.round(row.size / 10, 24) / 100 + ' Mb'}</div>,

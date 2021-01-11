@@ -5,6 +5,7 @@ import AvatarCharacter from 'components/elements/avatar-character'
 import ClearFix from 'components/elements/clearfix'
 import DynamicTable from 'components/elements/dynamic-table'
 import HeadderWrapperSearch from 'components/elements/header-search-wrapper'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import ROLE from 'constants/role'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
@@ -361,7 +362,7 @@ export default class UserList extends React.Component {
         content: (
           <Span deleted={row.removeStatus && row.removeStatus.allowed}>
             {' '}
-            {moment(row.createdAt).format('YYYY-MM-DD HH:mm')}
+            {moment(row.createdAt).format(DD_MM_YYYY_HH_MM)}
           </Span>
         ),
       },

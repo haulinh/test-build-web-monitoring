@@ -9,6 +9,7 @@ import { autobind } from 'core-decorators'
 import SamplingApi from 'api/SamplingApi'
 import { translate } from 'hoc/create-lang'
 import { connect } from 'react-redux'
+import { DD_MM_YYYY_HH_MM_SS } from 'constants/format-date'
 
 @connect(state => ({
   organization: state.auth.userInfo.organization,
@@ -33,7 +34,7 @@ export default class ControlStationHistory extends PureComponent {
       record.data = record.data.map(item => ({
         ...item,
         ThoiGian: item.ThoiGian
-          ? moment(item.ThoiGian).format('YYYY/MM/DD HH:mm:ss')
+          ? moment(item.ThoiGian).format(DD_MM_YYYY_HH_MM_SS)
           : '',
       }))
 

@@ -97,6 +97,7 @@ export default class ReportType1 extends React.Component {
     )
 
     if (res.success) {
+      console.log(res.data)
       this.setState({
         dataSource: res.data,
         isHaveData: true,

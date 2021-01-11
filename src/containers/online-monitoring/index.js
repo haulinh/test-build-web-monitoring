@@ -11,6 +11,7 @@ import styled from 'styled-components'
 import dateFormat from 'dateformat'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 const StyledTabs = styled(Tabs)`
   .ant-tabs-tab {
@@ -97,7 +98,7 @@ export default class OnlineMonitoring extends React.Component {
         title: 'receivedAt',
         render(value, record) {
           let date = new Date(value)
-          return <div>{dateFormat(date, 'yyyy/mm/dd HH:MM')}</div>
+          return <div>{dateFormat(date, DD_MM_YYYY_HH_MM)}</div>
         },
         fixed: 'left',
       },

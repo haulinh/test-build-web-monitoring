@@ -726,7 +726,7 @@ export default {
       description5:
         'Statistics about Results of Average maximum 8 hour of the day of {{=it.stationName}} station in {{=it.monthYear}}',
       descriptionStatusData:
-        'The statistics for the average observation results time from {{=it.fromHour}} days {{= it.fromDate}} to {{=it.toHour}} {{= it.toDate}}',
+        'The statistics for the average observation results time from {{=it.from}} to {{=it.to}}',
       title6: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
       description6:
         'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} station in {{=it.dayFormat}}',
