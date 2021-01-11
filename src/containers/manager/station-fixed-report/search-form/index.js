@@ -11,6 +11,7 @@ import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import createLang, { translate as t } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
+import { DD_MM_YYYY } from 'constants/format-date'
 
 const { Option } = Select
 const { RangePicker } = DatePicker
@@ -378,7 +379,7 @@ export class SearchForm extends React.Component {
                     {form.getFieldDecorator(
                       'timeRange',
                       rangeConfig
-                    )(<RangePicker />)}
+                    )(<RangePicker format={DD_MM_YYYY} />)}
                   </FormItemStyled>
                 )}
               </Col>

@@ -10,6 +10,7 @@ import SelectStationType from 'components/elements/select-station-type'
 import SelectStationAuto from 'containers/search/common/select-station-auto' //'.././common/select-station-auto'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 import { get } from 'lodash'
+import { DD_MM_YYYY, MM_YYYY } from 'constants/format-date'
 
 const { MonthPicker } = DatePicker
 
@@ -194,7 +195,7 @@ export default class SearchForm extends React.Component {
                         message: i18n.error.selectTimeRange,
                       },
                     ],
-                  })(<MonthPicker style={{ width: '100%' }} size="large" />)}
+                  })(<MonthPicker style={{ width: '100%' }} size="large"  format={MM_YYYY}/>)}
                 </Item>
               </Col>
             )}
@@ -209,7 +210,7 @@ export default class SearchForm extends React.Component {
                         message: i18n.error.selectTimeRange,
                       },
                     ],
-                  })(<DatePicker style={{ width: '100%' }} size="large" />)}
+                  })(<DatePicker style={{ width: '100%' }} size="large" format={DD_MM_YYYY}/>)}
                 </Item>
               </Col>
             )}

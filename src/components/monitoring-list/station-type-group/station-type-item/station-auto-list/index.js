@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Table, Tooltip } from 'antd'
 import * as _ from 'lodash'
 import { SHAPE } from 'themes/color'
-import { DD_MM_YY_HH_MM } from 'constants/format-date.js'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 import { warningLevels, colorLevels } from 'constants/warningLevels'
 import { translate } from 'hoc/create-lang'
 import stationStatus from 'constants/stationStatus'
@@ -250,7 +250,7 @@ class TableData extends React.Component {
         className: 'stationTime',
         render: receivedAt => {
           if (!receivedAt) return null
-          const strDate = moment(receivedAt).format(DD_MM_YY_HH_MM)
+          const strDate = moment(receivedAt).format(DD_MM_YYYY_HH_MM)
           return strDate
         },
       },

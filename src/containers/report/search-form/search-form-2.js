@@ -7,6 +7,7 @@ import { translate } from 'hoc/create-lang'
 import SelectStationType from 'components/elements/select-station-type'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 import moment from 'moment-timezone'
+import { MM_YYYY } from 'constants/format-date'
 // import { DD_MM_YYYY_HH_MM } from "constants/format-date.js";
 
 const { MonthPicker } = DatePicker
@@ -137,7 +138,7 @@ export default class SearchForm extends React.Component {
                       message: i18n.error.fromMonth,
                     },
                   ],
-                })(<MonthPicker style={{ width: '100%' }} />)}
+                })(<MonthPicker style={{ width: '100%' }} format={MM_YYYY}/>)}
               </Item>
             </Col>
             <Col span={8}>
@@ -153,7 +154,7 @@ export default class SearchForm extends React.Component {
                       validator: this.compareTofromDate,
                     },
                   ],
-                })(<MonthPicker style={{ width: '100%' }} />)}
+                })(<MonthPicker style={{ width: '100%' }} format={MM_YYYY}/>)}
               </Item>
             </Col>
           </Row>
