@@ -290,7 +290,6 @@ export default class StationAutoForm extends React.PureComponent {
       // console.log(data.measuringList, '---data---')
       // console.log(data, '---data---')
       const isDisableSave = data.measuringList.some(measuring => {
-        console.log('measuring', measuring)
         const { minLimit, maxLimit, minTend, maxTend, minRange, maxRange } = measuring
         if (!_.isNil(maxLimit) && !_.isNil(maxTend) && maxTend >= maxLimit) {
           message.error(t('stationAutoManager.form.errorMaxTend'))
