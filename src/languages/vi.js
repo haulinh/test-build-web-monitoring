@@ -320,7 +320,7 @@ export default {
     wqi_hour: {
       header: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN WQI THEO GIỜ',
       title:
-        'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.toDate}}',
+        'Các số liệu thống kê về kết quả toán WQI giờ theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.toDate}}',
     },
     wqi_day: {
       header: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN WQI THEO NGÀY',
@@ -2974,7 +2974,7 @@ export default {
       reportName: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN AQI THEO GIỜ',
       reportName2: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN AQI THEO Ngày',
       searchName:
-        'Các số liệu thống kê về kết quả toán AQI giờ theo khoảng thời gian từ {{= it.fromDate}}  đến {{= it.toDate}}.',
+        'Các số liệu thống kê về kết quả toán AQI ngày theo khoảng thời gian từ {{= it.fromDate}}  đến {{= it.toDate}}.',
     },
     wqi: {
       menuApp: 'WQI',
