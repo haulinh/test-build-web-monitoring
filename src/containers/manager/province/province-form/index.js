@@ -28,7 +28,7 @@ export default class ProvinceForm extends React.PureComponent {
       if (err) return
       const data = {
         key: values.key,
-        name: values.name,
+        name: (values.name || '').trim(),
         numericalOrder: values.numericalOrder,
       }
       // Callback submit form Container Component

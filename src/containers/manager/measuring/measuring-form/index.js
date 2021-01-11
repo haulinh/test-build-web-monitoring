@@ -26,7 +26,7 @@ export default class MeasuringForm extends React.PureComponent {
       if (err) return
       const data = {
         key: values.key,
-        name: values.name,
+        name: (values.name || '').trim(),
         unit: values.unit ? values.unit : '',
         numericalOrder: values.numericalOrder,
       }

@@ -47,7 +47,7 @@ export default class StationTypeForm extends React.PureComponent {
       if (err) return
       const data = {
         key: values.key,
-        name: values.name,
+        name: (values.name || '').trim(),
         isAuto: _.isUndefined(values.isAuto) ? false : values.isAuto,
         icon: this.state.urlIcon,
         color: this.state.color,

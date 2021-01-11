@@ -272,7 +272,7 @@ export default class StationAutoForm extends React.PureComponent {
 
       const data = {
         key: values.key,
-        name: values.name,
+        name: (values.name || '').trim(),
         mapLocation: { long: values.long, lat: values.lat },
         address: values.address,
         emails: this.state.emails,
