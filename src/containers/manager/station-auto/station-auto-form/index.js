@@ -2,7 +2,6 @@ import animateScrollTo from 'animated-scroll-to'
 import {
   Button,
   Col,
-
   // Radio,
   // Checkbox,
   Collapse,
@@ -15,7 +14,7 @@ import {
   InputNumber,
   message,
   Row,
-  Select,
+  Select
 } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import InputNumberCell from 'components/elements/input-number-cell'
@@ -292,19 +291,19 @@ export default class StationAutoForm extends React.PureComponent {
       // console.log(data, '---data---')
       const isDisableSave = data.measuringList.some(measuring => {
         const { minLimit, maxLimit, minTend, maxTend } = measuring
-        if (maxLimit && maxTend && maxTend >= maxLimit) {
+        if (!_.isNil(maxLimit) && !_.isNil(maxTend) && maxTend >= maxLimit) {
           message.error(t('stationAutoManager.form.errorMaxTend'))
           return true
         }
-        if (minTend && minLimit && minTend <= minLimit) {
+        if (!_.isNil(minTend) && !_.isNil(minLimit) && minTend <= minLimit) {
           message.error(t('stationAutoManager.form.errorMinTend'))
           return true
         }
-        if (minLimit && maxLimit && minLimit >= maxLimit) {
+        if (!_.isNil(minLimit) && !_.isNil(maxLimit) && minLimit >= maxLimit) {
           message.error(t('stationAutoManager.form.errorMinMax'))
           return true
         }
-        if (minTend && maxTend && minTend >= maxTend) {
+        if (!_.isNil(minTend) && !_.isNil(maxTend) && minTend >= maxTend) {
           message.error(t('stationAutoManager.form.errorMinMax'))
           return true
         }
