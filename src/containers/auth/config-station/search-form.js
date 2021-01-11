@@ -1,12 +1,9 @@
-import React from 'react'
-import { Row, Col, Form, Input, Button, Icon } from 'antd'
-
-import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
-import { mapPropsToFields } from 'utils/form'
+import { Button, Col, Form, Icon, Input, Row } from 'antd'
 import SelectStationType from 'components/elements/select-station-type'
-import { translate } from 'hoc/create-lang'
-import createLanguageHoc from 'hoc/create-lang'
+import { autobind } from 'core-decorators'
+import createLanguageHoc, { translate } from 'hoc/create-lang'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 const i18n = {
   addButton: translate('stationAutoManager.create.label'),
@@ -15,7 +12,7 @@ const i18n = {
 }
 
 @Form.create({
-  mapPropsToFields: mapPropsToFields,
+  // mapPropsToFields: mapPropsToFields,
 })
 @createLanguageHoc
 @autobind
@@ -24,17 +21,6 @@ export default class StationAutoSearchForm extends React.PureComponent {
     initialValues: PropTypes.object,
     onChangeSearch: PropTypes.func.isRequired,
   }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      dataSearch: {
-        data: {},
-      },
-    }
-  }
-
-  async componentWillMount() {}
 
   changeSearch(e) {
     e.preventDefault()
@@ -46,11 +32,9 @@ export default class StationAutoSearchForm extends React.PureComponent {
       if (values.stationType) data.stationType = values.stationType
 
       // Callback submit form Container Component
-      this.setState({ dataSearch: data }, () => this.props.onChangeSearch(data))
+      this.props.onChangeSearch(data)
     })
   }
-
-  changeStationType(stationType) {}
 
   render() {
     const { getFieldDecorator } = this.props.form
