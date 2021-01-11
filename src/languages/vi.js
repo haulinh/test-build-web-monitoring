@@ -1,13 +1,13 @@
 export default {
   notificationFreq: {
-    only1: "Chỉ 1 lần",
+    only1: 'Chỉ 1 lần',
     _5Min: 'Mỗi 5 phút',
     _15Min: 'Mỗi 15 phút',
     _30Min: 'Mỗi 30 phút',
-    _every1Hour: "Mỗi tiếng",
-    _every2Hour: "Mỗi 2 tiếng",
-    _every1Day: "Mỗi ngày",
-    _every2Day: "Mỗi 2 ngày",
+    _every1Hour: 'Mỗi tiếng',
+    _every2Hour: 'Mỗi 2 tiếng',
+    _every1Day: 'Mỗi ngày',
+    _every2Day: 'Mỗi 2 ngày',
   },
   global: {
     cancel: 'Hủy',
@@ -1028,7 +1028,7 @@ export default {
       },
       mode: {
         label: 'Hình thức',
-        error: 'Vui lòng chọn hình thức'
+        error: 'Vui lòng chọn hình thức',
       },
       action: {
         label: ' ',
@@ -1245,8 +1245,8 @@ export default {
         invalidKey: 'Mã điểm không hợp lệ',
         duplicateMeasure: 'Thông số trùng nhau',
         requireOneMeasureParamerter: 'Cần ít nhất một thông số',
-      }
-    }
+      },
+    },
   },
   qcvn: {
     list: {
@@ -2260,7 +2260,8 @@ export default {
   },
   configNotify: {
     headerConfirm: 'Thay đổi tần suất',
-    contentConfirm: 'Sau khi thay đổi tần suất, hệ thống sẽ đặt lại tần suất của các thông báo trước đó. Hãy chắc chắn bạn muốn thay dổi mới này.',
+    contentConfirm:
+      'Sau khi thay đổi tần suất, hệ thống sẽ đặt lại tần suất của các thông báo trước đó. Hãy chắc chắn bạn muốn thay dổi mới này.',
     okBtnText: 'Thay đổi',
     cancelBtnText: 'Hủy',
     repeat: 'Lặp lại',
@@ -2973,7 +2974,7 @@ export default {
       reportName: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN AQI THEO GIỜ',
       reportName2: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN AQI THEO Ngày',
       searchName:
-        'Các số liệu thống kê về kết quả toán AQI ngày theo khoảng thời gian từ {{= it.fromDate}}  đến {{= it.toDate}}.',
+        'Các số liệu thống kê về kết quả toán AQI giờ theo khoảng thời gian từ {{= it.fromDate}}  đến {{= it.toDate}}.',
     },
     wqi: {
       menuApp: 'WQI',
