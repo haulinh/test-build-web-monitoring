@@ -1268,13 +1268,17 @@ export default {
       key: {
         label: 'Mã QCVN',
         placeholder: 'Nhập QCVN',
-        error: 'Vui lòng nhập mã QCVN',
         existError: 'Mã QCVN đã tồn tại',
+        required: 'Vui lòng nhập mã QCVN',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       name: {
         label: 'Tên QCVN',
         placeholder: 'Nhập tên QCVN',
-        error: 'Vui lòng nhập tên QCVN',
+        required: 'Vui lòng nhập tên QCVN',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       unit: {
         label: 'Đơn vị',
@@ -1525,12 +1529,16 @@ export default {
       key: {
         label: 'Mã trạm',
         placeholder: 'Nhập mã trạm',
-        error: 'Vui lòng nhập mã trạm',
+        required: 'Vui lòng nhập mã trạm',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       name: {
         label: 'Tên trạm',
         placeholder: 'Nhập tên trạm',
-        error: 'Vui lòng nhập tên trạm',
+        required: 'Vui lòng nhập tên trạm',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       stationType: {
         label: 'Loại trạm',

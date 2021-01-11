@@ -23,6 +23,7 @@ import InputPhoneNumber from 'components/elements/input-phone-number'
 import SelectProvice from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
 import SelectStationType from 'components/elements/select-station-type'
+import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import { autobind } from 'core-decorators'
 import _, { get, omit } from 'lodash'
 import moment from 'moment'
@@ -32,7 +33,7 @@ import React from 'react'
 import styled from 'styled-components'
 // import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
-import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
+import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
 import MeasuringTable from '../station-auto-formTable/'
 
 const { TextArea } = Input
@@ -47,6 +48,19 @@ const FormItem = styled(Form.Item)`
     line-height: unset;
   }
 `
+
+const i18n = {
+  key: {
+    required: translate('stationAutoManager.form.key.required'),
+    pattern: translate('stationAutoManager.form.key.pattern'),
+    max: translate('stationAutoManager.form.key.max'),
+  },
+  name: {
+    required: translate('stationAutoManager.form.name.required'),
+    pattern: translate('stationAutoManager.form.name.pattern'),
+    max: translate('stationAutoManager.form.name.max'),
+  }
+}
 
 @Form.create({})
 @createLanguageHoc
@@ -466,12 +480,20 @@ export default class StationAutoForm extends React.PureComponent {
                   label={t('stationAutoManager.form.key.label')}
                 >
                   {getFieldDecorator('key', {
-                    rules: [
-                      {
-                        required: true,
-                        message: t('stationAutoManager.form.key.error'),
-                      },
-                    ],
+                   rules: [
+                    {
+                      required: true,
+                      message: i18n.key.required,
+                    },
+                    {
+                      pattern: PATTERN_KEY,
+                      message: i18n.key.pattern,
+                    },
+                    {
+                      max: 64,
+                      message: i18n.key.max,
+                    },
+                  ],
                   })(
                     <Input
                       disabled={this.props.isEdit}
@@ -489,7 +511,16 @@ export default class StationAutoForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
-                        message: t('stationAutoManager.form.name.error'),
+                        whitespace: true,
+                        message: i18n.name.required,
+                      },
+                      {
+                        pattern: PATTERN_NAME,
+                        message: i18n.name.pattern,
+                      },
+                      {
+                        max: 64,
+                        message: i18n.name.max,
                       },
                     ],
                   })(
