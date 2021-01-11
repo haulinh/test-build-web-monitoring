@@ -1285,7 +1285,9 @@ export default {
       name: {
         label: 'Name',
         placeholder: 'Input Standard Filter',
-        error: 'Please Input Standard Filter',
+        required: 'Please input standard filter',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       unit: {
         label: 'Unit',
@@ -1541,7 +1543,9 @@ export default {
       name: {
         label: 'Name',
         placeholder: 'Input Station Name',
-        error: 'Please input Station Name',
+        required: 'Please input Station Name',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       stationType: {
         label: 'Type',
