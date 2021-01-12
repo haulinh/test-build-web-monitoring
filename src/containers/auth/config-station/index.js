@@ -1,6 +1,9 @@
 import { Button, Checkbox, message, Row } from 'antd'
 import StationAutoApi from 'api/StationAuto'
-import { getStationsIsAuthorisedForUser, updateConfigSendNotifyForUser } from 'api/UserApi'
+import {
+  getStationsIsAuthorisedForUser,
+  updateConfigSendNotifyForUser,
+} from 'api/UserApi'
 import Clearfix from 'components/elements/clearfix'
 import DynamicTable from 'components/elements/dynamic-table'
 import { STATION_AUTO_OPTIONS } from 'constants/labels'
@@ -15,10 +18,9 @@ import React from 'react'
 import { connectAutoDispatch } from 'redux/connect'
 import styled from 'styled-components'
 import swal from 'sweetalert2'
+import { replaceVietnameseStr } from '../../../utils/string'
 import Breadcrumb from '../breadcrumb'
 import StationAutoSearchForm from './search-form'
-
-
 
 const i18n = {
   breadCrumb: translate('configStation.breadCrumb'),
@@ -47,7 +49,7 @@ const Span = styled.span`
   userOptions: state.auth.userInfo.stationAutos,
 }))
 @createManagerList({
-  apiList: getStationsIsAuthorisedForUser
+  apiList: getStationsIsAuthorisedForUser,
 })
 @createManagerDelete({
   apiDelete: StationAutoApi.removeStationAuto,
@@ -107,6 +109,13 @@ export default class StationAutoConfigNotification extends React.Component {
     })
   }
 
+  onChangeSearch({ name, stationType }) {
+    this.setState({
+      selectedStationName: name,
+      selectedStationType: stationType,
+    })
+  }
+
   render() {
     return (
       <PageContainer>
@@ -122,7 +131,10 @@ export default class StationAutoConfigNotification extends React.Component {
 
         {/* FORM CONTROL */}
         <Row style={{ marginBottom: 20 }}>
-          <StationAutoSearchForm onChangeSearch={this.onChangeSearch} />
+          <StationAutoSearchForm
+            onChangeSearch={this.onChangeSearch}
+            onClearSearch={this.handleClearSearch}
+          />
         </Row>
 
         {/* TABLE */}
@@ -173,19 +185,6 @@ export default class StationAutoConfigNotification extends React.Component {
       _.set(result, [option._id], option.options)
     })
     return result
-  }
-
-  onChangeSearch({ name, stationType }) {
-    if (name) {
-      this.setState({
-        selectedStationName: name,
-      })
-    }
-    if (stationType) {
-      this.setState({
-        selectedStationType: stationType,
-      })
-    }
   }
 
   getHead() {
@@ -276,12 +275,15 @@ export default class StationAutoConfigNotification extends React.Component {
       },
     ]
   }
-  isCheckPrimary = (row) => {
+  isCheckPrimary = row => {
+    const warningOptions = _.omit(STATION_AUTO_OPTIONS, [
+      'RECEIVE_NOTIFY',
+      'PRIMARY',
+    ])
 
-    const warningOptions = _.omit(STATION_AUTO_OPTIONS, ['RECEIVE_NOTIFY', 'PRIMARY'])
-
-    const isAllWarningOff = Object.values(warningOptions)
-      .every(optionKey => !_.get(row, ['options', optionKey, 'allowed'], true))
+    const isAllWarningOff = Object.values(warningOptions).every(
+      optionKey => !_.get(row, ['options', optionKey, 'allowed'], true)
+    )
 
     const isPrimaryAllowed = _.get(
       row,
@@ -300,7 +302,9 @@ export default class StationAutoConfigNotification extends React.Component {
     let filteredStation = [] /* chứa stations sau khi search */
 
     let stationName = this.state.selectedStationName
+
     let stationType = this.state.selectedStationType
+
     if (!stationName && !stationType) {
       filteredStation = this.state.dataSource
     } else {
@@ -308,12 +312,16 @@ export default class StationAutoConfigNotification extends React.Component {
         if (stationName && stationType) {
           return (
             station.stationType.key === stationType &&
-            station.name === stationName
+            replaceVietnameseStr(station.name).includes(
+              replaceVietnameseStr(stationName)
+            )
           )
         } else if (stationType) {
           return station.stationType.key === stationType
         } else if (stationName) {
-          return station.name === stationName
+          return replaceVietnameseStr(station.name).includes(
+            replaceVietnameseStr(stationName)
+          )
         }
       })
     }
@@ -368,7 +376,6 @@ export default class StationAutoConfigNotification extends React.Component {
               <div>
                 <Checkbox
                   checked={this.isCheckPrimary(row)}
-
                   onChange={e =>
                     this.onChagedOptionOfRow({
                       index,
