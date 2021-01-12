@@ -98,7 +98,7 @@ export default class QCVNForm extends React.PureComponent {
       if (err) return
       const data = {
         key: values.key,
-        name: values.name,
+        name: (values.name || '').trim(),
         measuringList: values.measuringList,
         numericalOrder: values.numericalOrder,
       }

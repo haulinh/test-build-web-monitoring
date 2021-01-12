@@ -36,8 +36,12 @@ export default class RoleForm extends PureComponent {
   }
 
   handleSubmit = values => {
+    const params ={
+      ...values,
+      name: (values.name || '').trim()
+    }
     const { t } = this.props.lang
-    return this.props.onSubmit(values).then(res => {
+    return this.props.onSubmit(params).then(res => {
       if (res && res.error) {
         if (res.message === 'ROLE_NAME_EXISTED') {
           throw new SubmissionError({

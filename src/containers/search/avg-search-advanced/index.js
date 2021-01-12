@@ -359,7 +359,7 @@ export default class AvgSearchAdvanced extends React.Component {
     form.validateFields((err, values) => {
       if (err) return
       let params = {
-        name: values.name,
+        name: (values.name || '').trim(),
         searchUrl: encodeURIComponent(JSON.stringify(rawValues)),
       }
       this.setState({ confirmLoading: true }, async () => {

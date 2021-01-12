@@ -174,6 +174,7 @@ export default class StationFixedForm extends React.Component {
       if (err) return
       const data = {
         ..._.omit(values, ['lat', 'lng']),
+        [Fields.name]: (values[Fields.name] || '').trim(),
         mapLocation: {
           lat: values.lat,
           lng: values.lng,
