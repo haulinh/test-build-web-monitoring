@@ -124,7 +124,7 @@ export default class TabGiaTri_NhomI extends React.Component {
                                 callback,
                                 `levelList[${record.key}].${item.keyMeasure}.max`
                               ),
-                          }
+                          },
                         ],
                       }
                     )(
@@ -182,7 +182,7 @@ export default class TabGiaTri_NhomI extends React.Component {
                                 callback,
                                 `levelList[${record.key}].${item.keyMeasure}.min`
                               ),
-                          }
+                          },
                         ],
                       }
                     )(
@@ -353,7 +353,11 @@ export default class TabGiaTri_NhomI extends React.Component {
   }
   compareToMax = (rule, value, callback, fliedName) => {
     const { form } = this.props
-    if (value && value > form.getFieldValue(fliedName)) {
+    if (
+      value &&
+      form.getFieldValue(fliedName) &&
+      value > form.getFieldValue(fliedName)
+    ) {
       callback(i18n.compareToMax)
     } else {
       callback()
