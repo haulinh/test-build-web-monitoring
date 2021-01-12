@@ -8,7 +8,7 @@ import {
   getUrlReportStatusDataExcel,
 } from 'api/DataStationAutoApi'
 import moment from 'moment-timezone'
-import { DD_MM_YYYY, HH_MM } from 'constants/format-date.js'
+import { DD_MM_YYYY, DD_MM_YYYY_HH_MM, HH_MM } from 'constants/format-date.js'
 import { Typography, Spin, Table, Divider, Button } from 'antd'
 import { get as _get } from 'lodash'
 import Clearfix from 'components/elements/clearfix'
@@ -479,10 +479,8 @@ export default class StatusDataReport extends React.Component {
             <React.Fragment>
               <Text>
                 {translate('avgSearchFrom.table.descriptionStatusData', {
-                  fromHour: moment(this.state.from).format('HH:mm'),
-                  fromDate: moment(this.state.from).format('DD/MM/YYYY'),
-                  toHour: moment(this.state.to).format('HH:mm'),
-                  toDate: moment(this.state.to).format('DD/MM/YYYY'),
+                  from: moment(this.state.from).format(DD_MM_YYYY_HH_MM),
+                  to: moment(this.state.to).format(DD_MM_YYYY_HH_MM),
                 })}
               </Text>
               <div
@@ -535,7 +533,7 @@ const DateRender = props => {
   const timeM = moment(props.receivedAt).tz(props.timeZone)
   const dateStr = timeM.format(DD_MM_YYYY)
   const timeStr = timeM.format(HH_MM)
-  return `${dateStr} - ${timeStr}`
+  return `${dateStr} ${timeStr}`
   // return (
   //   <span>
   //     {dateStr} <br /> {timeStr}
