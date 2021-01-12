@@ -65,7 +65,11 @@ export default class TabMucDo extends React.Component {
 
   compareToMax = (rule, value, callback, fliedName) => {
     const { form } = this.props
-    if (value && value > form.getFieldValue(fliedName)) {
+    if (
+      value &&
+      form.getFieldValue(fliedName) &&
+      value > form.getFieldValue(fliedName)
+    ) {
       callback(i18n.compareToMax)
     } else {
       callback()
@@ -120,7 +124,7 @@ export default class TabMucDo extends React.Component {
                           callback,
                           `aqiQCLevel${path}.max`
                         ),
-                    }
+                    },
                   ],
                 })(<InputNumber style={{ width: '100%' }} />)}
               </Form.Item>
@@ -161,8 +165,7 @@ export default class TabMucDo extends React.Component {
                           callback,
                           `aqiQCLevel${path}.min`
                         ),
-                    }
-                    
+                    },
                   ],
                 })(<InputNumber style={{ width: '100%' }} />)}
               </Form.Item>
@@ -227,7 +230,7 @@ export default class TabMucDo extends React.Component {
                   {
                     required: !getFieldValue(`aqiQCLevel[${record.key}].name`),
                     message: i18n.required1D_1H,
-                  }
+                  },
                 ],
               })(<Input style={{ width: '100%' }} />)}
             </Form.Item>
@@ -273,7 +276,7 @@ export default class TabMucDo extends React.Component {
                             callback,
                             `aqiQCLevel[${record.key}].max`
                           ),
-                      }
+                      },
                     ],
                   })(<InputNumber style={{ width: '100%' }} />)}
                 </Form.Item>
