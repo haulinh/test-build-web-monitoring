@@ -1,6 +1,7 @@
 import { Button, Col, Form, Icon, Input, Radio, Row } from 'antd'
 import InputNumberCell from 'components/elements/input-number-cell'
 import SelectIcon from 'components/elements/select-icon-station-type'
+import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import { autobind } from 'core-decorators'
 import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
@@ -124,7 +125,16 @@ export default class StationTypeForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
+                    whitespace: true,
                     message: t('stationTypeManager.form.key.error'),
+                  },
+                  {
+                    pattern: PATTERN_KEY,
+                    message: t('province.form.key.pattern'),
+                  },
+                  {
+                    max: 64,
+                    message: t('province.form.key.max'),
                   },
                 ],
               })(
@@ -142,7 +152,16 @@ export default class StationTypeForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
+                    whitespace: true,
                     message: t('stationTypeManager.form.name.error'),
+                  },
+                  {
+                    pattern: PATTERN_NAME,
+                    message: t('province.form.name.pattern'),
+                  },
+                  {
+                    max: 64,
+                    message: t('province.form.name.max'),
                   },
                 ],
               })(

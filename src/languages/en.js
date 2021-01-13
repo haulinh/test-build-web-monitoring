@@ -1,13 +1,13 @@
 export default {
   notificationFreq: {
-    only1: "Once only",
+    only1: 'Once only',
     _5Min: 'Every 5 minutes',
     _15Min: 'Every 15 minutes',
     _30Min: 'Every 30 minutes',
-    _every1Hour: "Every 1 hour",
-    _every2Hour: "Every 2 hours",
-    _every1Day: "Every day",
-    _every2Day: "Every 2 days",
+    _every1Hour: 'Every 1 hour',
+    _every2Hour: 'Every 2 hours',
+    _every1Day: 'Every day',
+    _every2Day: 'Every 2 days',
   },
   global: {
     cancel: 'Cancel',
@@ -1018,11 +1018,15 @@ export default {
         placeholder: 'Input Code of Types Of Station',
         error: 'Please Input Code of Types Of Station',
         existError: 'Code of Types Of Station is exist',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       name: {
         label: 'Name',
         placeholder: 'Input Name of Types Of Station',
         error: 'Please Name of Types Of Station',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       icon: {
         label: 'Icon',
@@ -1331,11 +1335,15 @@ export default {
         placeholder: 'Input Code Of Name',
         error: 'Please Input Code Of Name',
         existError: 'Code Of Name is exist',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       name: {
         label: 'Name',
         placeholder: 'Input Name',
         error: 'Please input Name',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       numericalOrder: {
         label: 'Numerical Order',
@@ -2273,7 +2281,8 @@ export default {
   },
   configNotify: {
     headerConfirm: 'Update frequency',
-    contentConfirm: 'After updating the frequency, notification system will be reset to initial state. Are you sure want to process ?',
+    contentConfirm:
+      'After updating the frequency, notification system will be reset to initial state. Are you sure want to process ?',
     okBtnText: 'Update',
     cancelBtnText: 'Cancel',
     repeat: 'Repeat',

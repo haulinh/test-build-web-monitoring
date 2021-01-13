@@ -1016,11 +1016,15 @@ export default {
         placeholder: 'Nhập mã trạm',
         error: 'Vui lòng nhập mã trạm',
         existError: 'Mã trạm đã tồn tại',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       name: {
         label: 'Tên',
         placeholder: 'Nhập tên trạm',
         error: 'Vui lòng nhập tên trạm',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       icon: {
         label: 'Biểu tượng',
@@ -1324,11 +1328,15 @@ export default {
         placeholder: 'Nhập mã đơn vị quản lý',
         error: 'Vui lòng nhập mã đơn vị quản lý',
         existError: 'Mã đơn vị đã tồn tại',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       name: {
         label: 'Tên đơn vị quản lý',
         placeholder: 'Nhập tên đơn vị quản lý',
         error: 'Vui lòng nhập tên đơn vị quản lý',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       numericalOrder: {
         label: 'Số thứ tự',
