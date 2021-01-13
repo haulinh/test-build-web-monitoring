@@ -6,9 +6,13 @@ import { langPropTypes } from '../../../../hoc/create-lang'
 import AutoCompleteCell from 'components/elements/auto-complete-cell'
 import InputNumberCell from '../../../../components/elements/input-number-cell'
 import update from 'immutability-helper'
+import { translate } from 'hoc/create-lang'
 
 const FormItem = Form.Item
-
+const i18n = {
+  compareToMax: translate('aqiConfigCalculation.compareToMax'),
+  compareToMin: translate('aqiConfigCalculation.compareToMin'),
+}
 @autobind
 export default class QCVNFormTable extends React.PureComponent {
   static propTypes = {
@@ -76,6 +80,18 @@ export default class QCVNFormTable extends React.PureComponent {
           <FormItem>
             {getFieldDecorator(`measuringList[${index}].minLimit`, {
               initialValue: text,
+              rules: [
+                {
+                  validator: (rule, value, callback) => {
+                    this.compareToMax(
+                      rule,
+                      value,
+                      callback,
+                      `measuringList[${index}].maxLimit`
+                    )
+                  },
+                },
+              ],
             })(<InputNumberCell editable={true} />)}
           </FormItem>
         ),
@@ -87,6 +103,17 @@ export default class QCVNFormTable extends React.PureComponent {
           <FormItem>
             {getFieldDecorator(`measuringList[${index}].maxLimit`, {
               initialValue: text,
+              rules: [
+                {
+                  validator: (rule, value, callback) =>
+                    this.compareToMin(
+                      rule,
+                      value,
+                      callback,
+                      `measuringList[${index}].minLimit`
+                    )
+                },
+              ],
             })(<InputNumberCell editable={true} />)}
           </FormItem>
         ),
@@ -171,6 +198,26 @@ export default class QCVNFormTable extends React.PureComponent {
     )
   }
 
+  compareToMax = (rule, value, callback, fliedName) => {
+    const { form } = this.props
+    if (
+      value &&
+      form.getFieldValue(fliedName) &&
+      value > form.getFieldValue(fliedName)
+    ) {
+      callback(i18n.compareToMax)
+    } else {
+      callback()
+    }
+  }
+  compareToMin = (rule, value, callback, fliedName) => {
+    const { form } = this.props
+    if (value && value < form.getFieldValue(fliedName)) {
+      callback(i18n.compareToMin)
+    } else {
+      callback()
+    }
+  }
   render() {
     const { t } = this.props.lang
     return (
