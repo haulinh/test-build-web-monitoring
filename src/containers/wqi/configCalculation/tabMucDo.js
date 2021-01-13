@@ -180,11 +180,12 @@ export default class TabMucDo extends React.Component {
                   <Icon
                     onClick={() => {
                       this.setState({ isLocked: !this.state.isLocked }, () => {
-                        if (this.state.isLocked) {
-                          setFieldsValue({
-                            [`levelList[${record.key}].max`]: null,
-                          })
-                        }
+                        // if (this.state.isLocked) {
+                          
+                        // }
+                        setFieldsValue({
+                          [`levelList[${record.key}].max`]: null,
+                        })
                       })
                     }}
                     style={{
