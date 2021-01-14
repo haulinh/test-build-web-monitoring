@@ -133,8 +133,6 @@ export default class ReportType12 extends React.Component {
       this.state.dataSearch,
       getLanguage(this.props.locale)
     )
-    // console.log("this.state.dataSearch", this.state.dataSearch);
-    // window.location.href = url
     window.open(url, '_blank')
   }
 
