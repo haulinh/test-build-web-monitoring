@@ -135,8 +135,8 @@ export default class ReportType10 extends React.Component {
     // console.log(JSON.stringify(values, null, 4), "values");
     const {
       stationType = '',
-      fromMonth = moment().add(-2, 'months'),
-      toMonth = moment().add(-1, 'months'),
+      fromMonth = moment(),
+      toMonth = moment(),
     } = values
     this.setState({
       isHaveData: false,

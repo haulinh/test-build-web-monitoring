@@ -131,7 +131,7 @@ export default class SearchForm extends React.Component {
             <Col span={8}>
               <Item label={i18n.label.fromMonth}>
                 {getFieldDecorator('fromMonth', {
-                  initialValue: moment().add(-2, 'months'),
+                  initialValue: moment(),
                   rules: [
                     {
                       required: true,
@@ -144,7 +144,7 @@ export default class SearchForm extends React.Component {
             <Col span={8}>
               <Item label={i18n.label.toMonth}>
                 {getFieldDecorator('toMonth', {
-                  initialValue: moment().add(-1, 'months'),
+                  initialValue: moment(),
                   rules: [
                     {
                       required: true,

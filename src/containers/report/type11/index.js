@@ -132,7 +132,7 @@ export default class ReportType11 extends React.Component {
       ...this.state.dataSearch,
       language: this.props.locale || 'EN',
     })
-    // console.log("this.state.dataSearch", this.state.dataSearch);
+    // console.log("this.state.dataSearch", url);
     // window.location.href = url
     window.open(url, '_blank')
   }
