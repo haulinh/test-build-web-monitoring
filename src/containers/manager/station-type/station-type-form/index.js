@@ -130,11 +130,11 @@ export default class StationTypeForm extends React.PureComponent {
                   },
                   {
                     pattern: PATTERN_KEY,
-                    message: t('province.form.key.pattern'),
+                    message: t('stationTypeManager.form.key.pattern'),
                   },
                   {
                     max: 64,
-                    message: t('province.form.key.max'),
+                    message: t('stationTypeManager.form.key.max'),
                   },
                 ],
               })(
@@ -157,11 +157,11 @@ export default class StationTypeForm extends React.PureComponent {
                   },
                   {
                     pattern: PATTERN_NAME,
-                    message: t('province.form.name.pattern'),
+                    message: t('stationTypeManager.form.name.pattern'),
                   },
                   {
                     max: 64,
-                    message: t('province.form.name.max'),
+                    message: t('stationTypeManager.form.name.max'),
                   },
                 ],
               })(

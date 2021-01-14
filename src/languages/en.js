@@ -970,11 +970,15 @@ export default {
         label: 'Code',
         placeholder: 'Input Parameter Code',
         error: 'Please Input Parameter Code',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       name: {
         label: 'Name',
         placeholder: 'Input Parameter Name',
         error: 'Please Input Parameter Name',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       unit: {
         label: 'Unit',

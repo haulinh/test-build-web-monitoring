@@ -968,11 +968,17 @@ export default {
         label: 'Mã thông số',
         placeholder: 'Nhập mã thông số',
         error: 'Vui lòng nhập mã thông số',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
+        
       },
       name: {
         label: 'Tên thông số',
         placeholder: 'Nhập tên thông số',
         error: 'Vui lòng nhập tên thông số',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
+        
       },
       unit: {
         label: 'Đơn vị',
