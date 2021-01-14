@@ -101,7 +101,6 @@ const i18n = {
   step3: translate('controlStation.listStep.step3'),
   step4: translate('controlStation.listStep.step4'),
   cancel: translate('addon.cancel'),
-  
 }
 
 const RadioButton = Radio.Button
@@ -158,6 +157,7 @@ export default class SamplingTab extends React.Component {
     stationID: PropTypes.string,
     isScheduled: PropTypes.bool,
     configSampling: PropTypes.object,
+    configExceeded: PropTypes.object,
     configSamplingSchedule: PropTypes.object,
   }
 

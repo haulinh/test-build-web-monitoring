@@ -92,12 +92,13 @@ export default class SamplingMoreInfo extends React.Component {
 
   async getStatus() {
     const res = await StationAPI.getStatus(this.props.stationID)
+    const data = res.data || {}
 
     let configSampling =
-      res.data && res.data.configSampling ? res.data.configSampling : undefined
+      data && data.configSampling ? data.configSampling : undefined
     let configSamplingSchedule =
-      res.data && res.data.configSamplingSchedule
-        ? res.data.configSamplingSchedule
+      data && data.configSamplingSchedule
+        ? data.configSamplingSchedule
         : undefined
     if (
       configSampling &&
@@ -109,7 +110,7 @@ export default class SamplingMoreInfo extends React.Component {
     this.setState({
       configSampling,
       configSamplingSchedule,
-      isScheduled: res.data.configSamplingSchedule ? true : false,
+      isScheduled: data.configSamplingSchedule ? true : false,
     })
   }
 
@@ -204,7 +205,7 @@ export default class SamplingMoreInfo extends React.Component {
     }
   }
   _renderTabs = () => {
-    const { stationID } = this.props
+    const { stationID, measuringList, configExceeded } = this.props
     const {
       isSampling,
       isLoading,
@@ -268,6 +269,8 @@ export default class SamplingMoreInfo extends React.Component {
                 STATUS_SAMPLING={STATUS_SAMPLING}
                 isScheduled={isScheduled}
                 isConfig={isConfig}
+                configExceeded={configExceeded}
+                measuringList={measuringList}
               />
             </TabPane>
           </Tabs>

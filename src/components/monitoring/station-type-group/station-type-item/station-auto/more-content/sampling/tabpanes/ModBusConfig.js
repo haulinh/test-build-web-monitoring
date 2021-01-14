@@ -40,7 +40,6 @@ const i18n = {
   alertSaveConfigError: translate('alert.error.monitoring.saveSampingConfig'),
 }
 
-@Form.create()
 export default class ModBusConfig extends React.PureComponent {
   static propTypes = {
     configSampling: PropTypes.object.isRequired,
