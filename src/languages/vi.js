@@ -970,7 +970,6 @@ export default {
         error: 'Vui lòng nhập mã thông số',
         pattern: 'Không được nhập kí tự đặc biệt',
         max: 'Không quá 64 kí tự',
-        
       },
       name: {
         label: 'Tên thông số',
@@ -978,7 +977,6 @@ export default {
         error: 'Vui lòng nhập tên thông số',
         pattern: 'Không được nhập kí tự đặc biệt',
         max: 'Không quá 64 kí tự',
-        
       },
       unit: {
         label: 'Đơn vị',
@@ -2997,6 +2995,8 @@ export default {
       reportName2: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN AQI THEO Ngày',
       searchName:
         'Các số liệu thống kê về kết quả toán AQI giờ theo khoảng thời gian từ {{= it.fromDate}}  đến {{= it.toDate}}.',
+      searchNameDay:
+        'Các số liệu thống kê về kết quả toán AQI ngày theo khoảng thời gian từ {{= it.fromDate}}  đến {{= it.toDate}}.',
     },
     wqi: {
       menuApp: 'WQI',

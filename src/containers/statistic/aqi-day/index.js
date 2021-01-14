@@ -181,7 +181,7 @@ export default class AQIStatisticsDay extends React.Component {
                   <Title level={4}>{i18n.reportName.toUpperCase()}</Title>
                   {fromDate && toDate && (
                     <Text>
-                      {translate('statistic.aqi.searchName', {
+                      {translate('statistic.aqi.searchNameDay', {
                         fromDate: moment(fromDate).format('DD/MM/YYYY'),
                         toDate: moment(toDate).format('DD/MM/YYYY'),
                       })}

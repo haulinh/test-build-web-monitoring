@@ -2995,6 +2995,8 @@ export default {
       reportName2: 'REPORT ON CALCULATION OF AQI BY DAYS',
       searchName:
         'The statistics for the AQI hour math results by the period from {{= it.fromDate}} to {{= it.toDate}}.',
+      searchNameDay:
+        'The statistics for the AQI day math results by the period from {{= it.fromDate}} to {{= it.toDate}}.',
     },
     wqi: {
       menuApp: 'WQI',
