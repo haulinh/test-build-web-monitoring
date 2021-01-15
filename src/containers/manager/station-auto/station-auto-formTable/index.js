@@ -234,6 +234,9 @@ export default class StationAutoFormTable extends React.Component {
         title: '', //Action
         width: 50,
         render: (text, record, index) => {
+          const total = this.state.measuringList
+            ? this.state.measuringList.length
+            : 0
           return (
             <div
               style={{
@@ -241,7 +244,7 @@ export default class StationAutoFormTable extends React.Component {
               }}
               className="editable-row-operations"
             >
-              {index > 0 && (
+              {index > -1 && total !== 1 && (
                 <span>
                   <Popconfirm
                     title={t('stationAutoManager.delete.require')}

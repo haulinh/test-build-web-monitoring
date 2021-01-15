@@ -202,7 +202,7 @@ export default class QCVNFormTable extends React.PureComponent {
   compareToMax = (rule, value, callback, fliedName) => {
     const { form } = this.props
     const valueMax = form.getFieldValue(fliedName)
-    if (isNumber(value) && isNumber(valueMax) && value > valueMax) {
+    if (isNumber(value) && isNumber(valueMax) && value >= valueMax) {
       callback(i18n.compareToMax)
     } else {
       callback()
@@ -212,7 +212,7 @@ export default class QCVNFormTable extends React.PureComponent {
     const { form } = this.props
     const valueMin = form.getFieldValue(fliedName)
 
-    if (isNumber(value) && isNumber(valueMin) && value < valueMin) {
+    if (isNumber(value) && isNumber(valueMin) && value <= valueMin) {
       callback(i18n.compareToMin)
     } else {
       callback()
