@@ -18,6 +18,7 @@ import { getMeasurings, getConfigAqiQC, postConfigAqiQC } from 'api/CategoryApi'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 
+
 const i18n = {
   submit: translate('addon.save'),
   warning: translate('addon.warning'),
@@ -65,11 +66,8 @@ export default class TabMucDo extends React.Component {
 
   compareToMax = (rule, value, callback, fliedName) => {
     const { form } = this.props
-    if (
-      value &&
-      form.getFieldValue(fliedName) &&
-      value > form.getFieldValue(fliedName)
-    ) {
+    const valueMax = form.getFieldValue(fliedName)
+    if (_.isNumber(value) && _.isNumber(valueMax) && value >= valueMax) {
       callback(i18n.compareToMax)
     } else {
       callback()
@@ -78,7 +76,8 @@ export default class TabMucDo extends React.Component {
 
   compareToMin = (rule, value, callback, fliedName) => {
     const { form } = this.props
-    if (value && value < form.getFieldValue(fliedName)) {
+    const valueMin = form.getFieldValue(fliedName)
+    if (_.isNumber(value) && _.isNumber(valueMin) && value <= valueMin) {
       callback(i18n.compareToMin)
     } else {
       callback()
