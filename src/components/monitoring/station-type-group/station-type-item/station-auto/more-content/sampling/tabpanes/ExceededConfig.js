@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Checkbox, Form } from 'antd'
 import Text from 'components/elements/text'
 import { get, isEmpty } from 'lodash'
+import { requiredFieldRule } from 'utils/rules'
 
 const i18n = {
   table: {
@@ -18,6 +19,8 @@ const i18n = {
     notSetup: 'Chưa thiết lập',
     invalidValue: 'Giá trị không hợp lệ',
   },
+  numRecord: 'số bản ghi',
+  numRecordExceed: 'Số bản ghi vượt ngưỡng liên tục sẽ lấy mẫu',
 }
 
 const TableCustom = styled(Table)`
@@ -87,13 +90,13 @@ class ExceededConfig extends Component {
 
   renderInput = (item, type) => {
     const { form, defaultValue } = this.props
-    const field = `[${item.key}][${type}][value]`
+    const field = `config[${item.key}][${type}][value]`
     const validateMeasuring = (_, value, callback) => {
       if (value && isNaN(+value)) {
         callback(i18n.table.invalidValue)
         return
       }
-      const config = form.getFieldsValue()[item.key]
+      const config = form.getFieldsValue().config[item.key]
 
       const min = type === 'min' ? value : config['min'].value
       const max = type === 'max' ? value : config['max'].value
@@ -128,7 +131,7 @@ class ExceededConfig extends Component {
 
   renderCheckbox = (item, type) => {
     const { form, defaultValue } = this.props
-    const field = `[${item.key}][${type}][active]`
+    const field = `config[${item.key}][${type}][active]`
 
     return (
       <div className="checkboxWrapper">
@@ -195,15 +198,28 @@ class ExceededConfig extends Component {
   }
 
   render() {
-    const { measuringList } = this.props
+    const { defaultValue, measuringList, form } = this.props
     return (
-      <TableCustom
-        bordered
-        rowKey="key"
-        pagination={false}
-        columns={this.getColumns()}
-        dataSource={measuringList}
-      />
+      <div>
+        <Form.Item
+          label={i18n.numRecordExceed}
+          labelCol={{ span: 9 }}
+          labelAlign="left"
+          wrapperCol={{ span: 10 }}
+        >
+          {form.getFieldDecorator('numConsecutiveRecordExceed', {
+            initialValue: defaultValue.numConsecutiveRecordExceed || 3,
+            rules: [requiredFieldRule(i18n.numRecord)],
+          })(<InputNumber />)}
+        </Form.Item>
+        <TableCustom
+          bordered
+          rowKey="key"
+          pagination={false}
+          columns={this.getColumns()}
+          dataSource={measuringList}
+        />
+      </div>
     )
   }
 }
