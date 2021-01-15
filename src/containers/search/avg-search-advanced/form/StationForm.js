@@ -405,6 +405,7 @@ export default class StationForm extends React.PureComponent {
   }
 
   rightChildren() {
+    const isDisabled = this.isDisableSearch()
     return (
       <Tooltip
         placement="top"
@@ -413,7 +414,7 @@ export default class StationForm extends React.PureComponent {
         <Button
           type="primary"
           icon="search"
-          disabled={this.isDisableSearch()}
+          disabled={isDisabled}
           size="large"
           onClick={this.handleSearchAvgData}
         >
