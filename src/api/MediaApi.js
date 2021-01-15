@@ -21,7 +21,7 @@ export function getImages(databaseName, stationKey) {
 export function deleteImage(databaseName, stationKey, name) {
   const url = `${
     getConfigApi().minio
-  }/buckets/${databaseName}?prefix=/${stationKey}/${PATH_FOLDER}/${name}`
+  }/buckets/${databaseName}?prefix=${stationKey}/${PATH_FOLDER}/${name}`
   return deleteFetch(url)
 }
 
