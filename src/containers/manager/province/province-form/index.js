@@ -69,7 +69,6 @@ export default class ProvinceForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    whitespace: true,
                     message: t('province.form.key.error'),
                   },
                   {
@@ -96,7 +95,6 @@ export default class ProvinceForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    whitespace: true,
                     message: t('province.form.name.error'),
                   },
                   {

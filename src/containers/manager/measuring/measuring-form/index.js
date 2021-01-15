@@ -80,7 +80,6 @@ export default class MeasuringForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    whitespace: true,
                     message: t('measuringManager.form.key.error'),
                   },
                   {

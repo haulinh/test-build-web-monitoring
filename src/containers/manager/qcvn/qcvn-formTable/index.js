@@ -7,6 +7,7 @@ import AutoCompleteCell from 'components/elements/auto-complete-cell'
 import InputNumberCell from '../../../../components/elements/input-number-cell'
 import update from 'immutability-helper'
 import { translate } from 'hoc/create-lang'
+import { isNumber } from 'lodash'
 
 const FormItem = Form.Item
 const i18n = {
@@ -111,7 +112,7 @@ export default class QCVNFormTable extends React.PureComponent {
                       value,
                       callback,
                       `measuringList[${index}].minLimit`
-                    )
+                    ),
                 },
               ],
             })(<InputNumberCell editable={true} />)}
@@ -200,11 +201,8 @@ export default class QCVNFormTable extends React.PureComponent {
 
   compareToMax = (rule, value, callback, fliedName) => {
     const { form } = this.props
-    if (
-      value &&
-      form.getFieldValue(fliedName) &&
-      value > form.getFieldValue(fliedName)
-    ) {
+    const valueMax = form.getFieldValue(fliedName)
+    if (isNumber(value) && isNumber(valueMax) && value > valueMax) {
       callback(i18n.compareToMax)
     } else {
       callback()
@@ -212,7 +210,9 @@ export default class QCVNFormTable extends React.PureComponent {
   }
   compareToMin = (rule, value, callback, fliedName) => {
     const { form } = this.props
-    if (value && value < form.getFieldValue(fliedName)) {
+    const valueMin = form.getFieldValue(fliedName)
+
+    if (isNumber(value) && isNumber(valueMin) && value < valueMin) {
       callback(i18n.compareToMin)
     } else {
       callback()

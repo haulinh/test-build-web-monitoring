@@ -125,7 +125,6 @@ export default class StationTypeForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    whitespace: true,
                     message: t('stationTypeManager.form.key.error'),
                   },
                   {
