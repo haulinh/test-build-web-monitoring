@@ -18,6 +18,7 @@ const i18n = {
     lessThan: 'Nhỏ hơn',
     notSetup: 'Chưa thiết lập',
     invalidValue: 'Giá trị không hợp lệ',
+    requiredInput: 'Vui lòng nhập giá trị'
   },
   numRecord: 'số bản ghi',
   numRecordExceed: 'Số bản ghi vượt ngưỡng liên tục sẽ lấy mẫu',
@@ -91,12 +92,21 @@ class ExceededConfig extends Component {
   renderInput = (item, type) => {
     const { form, defaultValue } = this.props
     const field = `config[${item.key}][${type}][value]`
+    const fieldCheckBox = `config[${item.key}][${type}][active]`
+
+    const valueCheckBox = this.props.form.getFieldValue(fieldCheckBox)
+
     const validateMeasuring = (_, value, callback) => {
+      const config = form.getFieldsValue().config[item.key]
+
+      if (valueCheckBox && !config[type].value) {
+        callback(i18n.table.requiredInput)
+      }
+
       if (value && isNaN(+value)) {
         callback(i18n.table.invalidValue)
         return
       }
-      const config = form.getFieldsValue().config[item.key]
 
       const min = type === 'min' ? value : config['min'].value
       const max = type === 'max' ? value : config['max'].value

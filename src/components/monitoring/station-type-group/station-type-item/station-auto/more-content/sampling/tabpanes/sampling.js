@@ -4,29 +4,29 @@
   TODO  tìm "MARK -- MOCK DATA" thay thế bằng dữ liệu thật
 */
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withRouter } from 'react-router'
-import swal from 'sweetalert2'
 import {
-  Row,
+  Button,
   Col,
+  DatePicker,
   Form,
   InputNumber,
-  Button,
-  Radio,
-  TimePicker,
-  DatePicker,
   Modal,
+  Popover,
+  Radio,
+  Row,
   Select,
   Steps,
-  Popover,
+  TimePicker,
 } from 'antd'
-import moment from 'moment-timezone'
-import styled from 'styled-components'
+import SamplingAPI from 'api/SamplingApi'
 /* user import */
 import { translate } from 'hoc/create-lang'
-import SamplingAPI from 'api/SamplingApi'
+import moment from 'moment-timezone'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { withRouter } from 'react-router'
+import styled from 'styled-components'
+import swal from 'sweetalert2'
 
 const { Option } = Select
 const { Step } = Steps
@@ -71,9 +71,12 @@ const i18n = {
     'monitoring.moreContent.sampling.content.takingSample'
   ),
   /*button sampling exceeded */
-  takeSampleExceeded: translate('monitoring.moreContent.sampling.content.takeSampleExceeded'),
-  cancelTakeSampleExceeded:
-  translate('monitoring.moreContent.sampling.content.cancelTakeSampleExceeded'),
+  takeSampleExceeded: translate(
+    'monitoring.moreContent.sampling.content.takeSampleExceeded'
+  ),
+  cancelTakeSampleExceeded: translate(
+    'monitoring.moreContent.sampling.content.cancelTakeSampleExceeded'
+  ),
   /* button lay mau tu dong */
   active: translate('monitoring.moreContent.sampling.content.active'),
   actived: translate('monitoring.moreContent.sampling.content.actived'),
@@ -166,7 +169,7 @@ export default class SamplingTab extends React.Component {
     this.handleClickActive = this.handleClickActive.bind(this)
     this.cancelConfigSchedule = this.cancelConfigSchedule.bind(this)
 
-    const { samplingTypeActive } = props
+    // const { samplingTypeActive } = props
 
     this.state = {
       isReseting: false,
@@ -179,7 +182,7 @@ export default class SamplingTab extends React.Component {
       samplingProtocol: 'SQL',
       currentStep: this.props.configSampling.status,
       sampledBottles: this.props.configSampling.sampledBottles,
-      samplingTypeActive,
+      // samplingTypeActive,
       isLoadingUpdateSamplingType: false,
     }
   }
@@ -440,8 +443,10 @@ export default class SamplingTab extends React.Component {
       )
       if (data) {
         this.setState({
-          samplingTypeActive: SAMPLING_TYPE.EXCEEDED,
           isLoadingUpdateSamplingType: false,
+        })
+        this.props.updateParentState({
+          samplingTypeActive: SAMPLING_TYPE.EXCEEDED,
         })
       }
     } catch (error) {
@@ -461,8 +466,10 @@ export default class SamplingTab extends React.Component {
       )
       if (data) {
         this.setState({
-          samplingTypeActive: SAMPLING_TYPE.MANUAL,
           isLoadingUpdateSamplingType: false,
+        })
+        this.props.updateParentState({
+          samplingTypeActive: SAMPLING_TYPE.MANUAL,
         })
       }
     } catch (error) {
@@ -471,8 +478,8 @@ export default class SamplingTab extends React.Component {
   }
 
   render() {
-    const { STATUS_SAMPLING, isScheduled } = this.props
-    const { samplingTypeActive, isLoadingUpdateSamplingType } = this.state
+    const { STATUS_SAMPLING, isScheduled, samplingTypeActive } = this.props
+    const { isLoadingUpdateSamplingType } = this.state
     const { totalBottles, status } = this.props.configSampling
     const {
       numberBottles,

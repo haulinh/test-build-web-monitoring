@@ -264,7 +264,9 @@ export default class SamplingMoreInfo extends React.Component {
             <TabPane
               key="config"
               tab={translate('monitoring.moreContent.sampling.tabs.config')}
-              disabled={this.getDisableConfig()}
+              disabled={
+                this.getDisableConfig() | (samplingTypeActive === 'EXCEEDED')
+              }
             >
               <Config
                 stationID={stationID}
