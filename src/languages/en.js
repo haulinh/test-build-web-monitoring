@@ -226,6 +226,8 @@ export default {
           takeSample: 'Take Sample',
           commandSent: 'Sending command',
           takingSample: 'Sampling...',
+          takeSampleExceeded: 'Activate sampling when the threshold is exceeded',
+          cancelTakeSampleExceeded: 'Activated sampling upon threshold (Click to cancel)',
           active: 'Active',
           actived: 'Actived (Click to cancel Sampling by Scheduled)',
           activeOverRange: 'Active Take sample when data over-range',

@@ -224,6 +224,8 @@ export default {
           takeSample: 'Lấy mẫu',
           commandSent: 'Đang truyền lệnh',
           takingSample: 'Đang lấy mẫu...',
+          takeSampleExceeded: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
+          cancelTakeSampleExceeded: 'Đã kích hoạt lấy mẫu khi vượt ngưỡng (Click để hủy kích hoạt)',
           active: 'Kích hoạt',
           actived: 'Đã kích hoạt lấy mẫu tự động (Nhấn để hủy hẹn giờ lấy mẫu)',
           activeOverRange: 'Kích hoạt lấy mẫu khi vượt ngưỡng',

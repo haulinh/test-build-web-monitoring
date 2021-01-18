@@ -73,6 +73,7 @@ export default class SamplingMoreInfo extends React.Component {
     configSampling: undefined,
     configSamplingSchedule: undefined,
     timerId_getStatus: null,
+    samplingTypeActive: '',
   }
 
   constructor(props) {
@@ -111,6 +112,7 @@ export default class SamplingMoreInfo extends React.Component {
       configSampling,
       configSamplingSchedule,
       isScheduled: data.configSamplingSchedule ? true : false,
+      samplingTypeActive: data.samplingType,
     })
   }
 
@@ -128,6 +130,7 @@ export default class SamplingMoreInfo extends React.Component {
       // console.log('isInitLoaded',this.state.isInitLoaded)
       this.setState({ isLoading: false, isInitLoaded: true })
       this.startTimer()
+      console.log('res.data', res.data)
       if (res.data) {
         this.setState({
           isConfig: res.data.configSampling ? true : false,
@@ -140,6 +143,7 @@ export default class SamplingMoreInfo extends React.Component {
           configSamplingSchedule: res.data.configSamplingSchedule
             ? res.data.configSamplingSchedule
             : undefined,
+          samplingTypeActive: res.data.samplingType,
         })
       } else {
         showMessageError(i18n.getStatusFail)
@@ -215,6 +219,7 @@ export default class SamplingMoreInfo extends React.Component {
       configSamplingSchedule,
       isInitLoaded,
       activeTabKey,
+      samplingTypeActive,
     } = this.state
 
     return (
@@ -243,6 +248,7 @@ export default class SamplingMoreInfo extends React.Component {
                 STATUS_SAMPLING={STATUS_SAMPLING}
                 isScheduled={isScheduled}
                 getStatus={this.getStatus}
+                samplingTypeActive={samplingTypeActive}
               />
             </TabPane>
             <TabPane
