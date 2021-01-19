@@ -50,13 +50,16 @@ class SamplingConfig extends Component {
 
   handleSubmit = async () => {
     const { stationID, form, updateParentState } = this.props
-
-    const exceededConfigForm = this.exceededConfigForm.getExceededConfigForm()
+    const exceededConfigForm = this.exceededConfigForm
+      ? this.exceededConfigForm.getExceededConfigForm()
+      : null
 
     try {
       const [configSampling, configExceeded] = await Promise.all([
         form.validateFields(),
-        exceededConfigForm.validateFields(),
+        exceededConfigForm
+          ? exceededConfigForm.validateFields()
+          : Promise.resolve({}),
       ])
       const params = {
         configSampling,

@@ -239,6 +239,7 @@ export default {
             activedUser: 'Người kích hoạt',
             result: 'Kết quả lấy mẫu',
             manual: 'Lấy mẫu tức thời',
+            exceeded: 'Lấy mẫu khi vượt ngưỡng',
             automatic: 'Lấy mẫu tự động',
             cancel_schedule: 'Hủy hẹn giờ lấy mẫu',
             active_schedule: 'Kích hoạt hẹn giờ lấy mẫu',
@@ -268,6 +269,22 @@ export default {
         },
       },
     },
+    exceeded: {
+      table: {
+        parameter: 'Thông số',
+        active: 'Kích hoạt lấy mẫu',
+        operator: 'Phép toán',
+        value: 'Giá trị',
+        standrandValue: 'Giá trị quy chuẩn',
+        greaterThan: 'Lớn hơn',
+        lessThan: 'Nhỏ hơn',
+        notSetup: 'Chưa thiết lập',
+        invalidValue: 'Giá trị không hợp lệ',
+        requiredInput: 'Vui lòng nhập giá trị'
+      },
+      numRecord: 'số bản ghi',
+      numRecordExceed: 'Số bản ghi vượt ngưỡng liên tục sẽ lấy mẫu',
+    }
   },
   aqi: {
     title: 'AQI',

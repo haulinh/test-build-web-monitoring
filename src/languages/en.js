@@ -241,6 +241,7 @@ export default {
             activedUser: 'Actived User',
             result: 'Result',
             manual: 'Immediately Sampling',
+            exceeded: 'Take sampling when exceeded',
             automatic: 'Automatic Sampling',
             cancel_schedule: 'Cancel Sampling By Scheduled',
             active_schedule: 'Active Sampling By Scheduled',
@@ -270,6 +271,22 @@ export default {
         },
       },
     },
+    exceeded: {
+      table: {
+        parameter: 'Parameters',
+        active: 'Active',
+        operator: 'Operator',
+        value: 'Value',
+        standrandValue: 'Standard value',
+        greaterThan: 'greate than',
+        lessThan: 'less than',
+        notSetup: 'Not setup',
+        invalidValue: 'Invalid valud',
+        requiredInput: 'Please input value'
+      },
+      numRecord: 'num record',
+      numRecordExceed: 'Number of records exceeding the threshold continuously to be sampled',
+    }
   },
   aqi: {
     title: 'Air Quality Index',

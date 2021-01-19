@@ -29,6 +29,7 @@ const i18n = {
   success: translate('monitoring.moreContent.sampling.content.history.result'),
   history: {
     manual: translate('monitoring.moreContent.sampling.content.history.manual'),
+    exceeded: translate('monitoring.moreContent.sampling.content.history.exceeded'),
     cancel_schedule: translate(
       'monitoring.moreContent.sampling.content.history.cancel_schedule'
     ),

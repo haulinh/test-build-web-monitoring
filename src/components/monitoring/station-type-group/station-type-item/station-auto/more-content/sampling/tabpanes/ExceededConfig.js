@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { InputNumber, Table } from 'antd'
+import { translate as t } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Checkbox, Form } from 'antd'
@@ -9,19 +10,19 @@ import { requiredFieldRule } from 'utils/rules'
 
 const i18n = {
   table: {
-    parameter: 'Thông số',
-    active: 'Kích hoạt lấy mẫu',
-    operator: 'Phép toán',
-    value: 'Giá trị',
-    standrandValue: 'Giá trị quy chuẩn',
-    greaterThan: 'Lớn hơn',
-    lessThan: 'Nhỏ hơn',
-    notSetup: 'Chưa thiết lập',
-    invalidValue: 'Giá trị không hợp lệ',
-    requiredInput: 'Vui lòng nhập giá trị'
+    parameter: t('monitoring.exceeded.table.parameter'),
+    active: t('monitoring.exceeded.table.active'),
+    operator: t('monitoring.exceeded.table.operator'),
+    value: t('monitoring.exceeded.table.value'),
+    standrandValue: t('monitoring.exceeded.table.standrandValue'),
+    greaterThan: t('monitoring.exceeded.table.greaterThan'),
+    lessThan: t('monitoring.exceeded.table.lessThan'),
+    notSetup: t('monitoring.exceeded.table.notSetup'),
+    invalidValue: t('monitoring.exceeded.table.invalidValue'),
+    requiredInput: t('monitoring.exceeded.table.requiredInput'),
   },
-  numRecord: 'số bản ghi',
-  numRecordExceed: 'Số bản ghi vượt ngưỡng liên tục sẽ lấy mẫu',
+  numRecord: t('monitoring.exceeded.numRecord'),
+  numRecordExceed: t('monitoring.exceeded.numRecordExceed'),
 }
 
 const TableCustom = styled(Table)`
