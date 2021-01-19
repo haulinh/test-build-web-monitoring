@@ -103,6 +103,9 @@ const i18n = {
   cancelConfigSchedule: translate(
     'modal.confirm.monitoring.sampling.cancelSchedule'
   ),
+  cancelExceededSampling: translate(
+    'modal.confirm.monitoring.sampling.cancelExceededSampling'
+  ),
   step1: translate('controlStation.listStep.step1'),
   step2: translate('controlStation.listStep.step2'),
   step3: translate('controlStation.listStep.step3'),
@@ -458,23 +461,30 @@ export default class SamplingTab extends React.Component {
 
   handleClickCancelSamplingExceeded = async () => {
     const { stationID } = this.props
-    try {
-      this.setState({ isLoadingUpdateSamplingType: true })
-      const data = await SamplingAPI.updateSamplingType(
-        stationID,
-        SAMPLING_TYPE.MANUAL
-      )
-      if (data) {
-        this.setState({
-          isLoadingUpdateSamplingType: false,
-        })
-        this.props.updateParentState({
-          samplingTypeActive: SAMPLING_TYPE.MANUAL,
-        })
-      }
-    } catch (error) {
-      this.setState({ isLoadingUpdateSamplingType: true })
-    }
+    Modal.confirm({
+      title: i18n.modalConfirm,
+      content: i18n.cancelExceededSampling,
+      cancelText: i18n.cancel,
+      onOk: async () => {
+        try {
+          const data = await SamplingAPI.updateSamplingType(
+            stationID,
+            SAMPLING_TYPE.MANUAL
+          )
+          if (data) {
+            this.setState({
+              isLoadingUpdateSamplingType: false,
+            })
+            this.props.updateParentState({
+              samplingTypeActive: SAMPLING_TYPE.MANUAL,
+            })
+          }
+        } catch (error) {
+          console.log('error', error)
+        }
+      },
+      onCancel() {},
+    })
   }
 
   render() {
@@ -791,6 +801,7 @@ export default class SamplingTab extends React.Component {
           status === STATUS_SAMPLING.SAMPLING ||
           currentStep === 'SUCCESS') &&
           samplingType === SAMPLING_TYPE.MANUAL &&
+          samplingTypeActive !== SAMPLING_TYPE.EXCEEDED &&
           this.renderSamplingProgress({
             currentStep,
           })}
