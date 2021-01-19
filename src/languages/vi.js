@@ -2538,6 +2538,7 @@ export default {
       monitoring: {
         sampling: {
           cancelSchedule: 'Bạn có chắc muốn hủy lấy mẫu tự động?',
+          cancelExceededSampling: 'Bạn có chắc muốn hủy lấy mẫu khi vượt ngưỡng?'
         },
       },
     },

@@ -2547,6 +2547,7 @@ export default {
         sampling: {
           cancelSchedule:
             'Are you sure you want to Cancel automatically sampling?',
+          cancelExceededSampling: 'Are you sure you want to Cancel exceeded sampling?'
         },
       },
     },

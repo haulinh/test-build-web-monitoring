@@ -87,7 +87,6 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   updateState = newState => {
-    console.log('newState', newState)
     this.setState(prevState => ({ ...prevState, ...newState }))
   }
 
@@ -130,7 +129,6 @@ export default class SamplingMoreInfo extends React.Component {
       // console.log('isInitLoaded',this.state.isInitLoaded)
       this.setState({ isLoading: false, isInitLoaded: true })
       this.startTimer()
-      console.log('res.data', res.data)
       if (res.data) {
         this.setState({
           isConfig: res.data.configSampling ? true : false,
