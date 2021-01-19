@@ -226,6 +226,8 @@ export default {
           takeSample: 'Take Sample',
           commandSent: 'Sending command',
           takingSample: 'Sampling...',
+          takeSampleExceeded: 'Activate sampling when the threshold is exceeded',
+          cancelTakeSampleExceeded: 'Activated sampling upon threshold (Click to cancel)',
           active: 'Active',
           actived: 'Actived (Click to cancel Sampling by Scheduled)',
           activeOverRange: 'Active Take sample when data over-range',
@@ -239,9 +241,12 @@ export default {
             activedUser: 'Actived User',
             result: 'Result',
             manual: 'Immediately Sampling',
+            exceeded: 'Take sampling when exceeded',
             automatic: 'Automatic Sampling',
             cancel_schedule: 'Cancel Sampling By Scheduled',
             active_schedule: 'Active Sampling By Scheduled',
+            cancel_exceeded: 'Cancel Sampling By Exceeded',
+            active_exceeded: 'Active Sampling By Exceeded',
             config: 'Modify Configuration',
             reset_bottles: 'Reset Sampled Bottles',
             success: 'success',
@@ -268,6 +273,22 @@ export default {
         },
       },
     },
+    exceeded: {
+      table: {
+        parameter: 'Parameters',
+        active: 'Active',
+        operator: 'Operator',
+        value: 'Value',
+        standrandValue: 'Standard value',
+        greaterThan: 'greate than',
+        lessThan: 'less than',
+        notSetup: 'Not setup',
+        invalidValue: 'Invalid valud',
+        requiredInput: 'Please input value'
+      },
+      numRecord: 'num record',
+      numRecordExceed: 'Number of records exceeding the threshold continuously to be sampled',
+    }
   },
   aqi: {
     title: 'Air Quality Index',
@@ -2539,6 +2560,7 @@ export default {
         sampling: {
           cancelSchedule:
             'Are you sure you want to Cancel automatically sampling?',
+          cancelExceededSampling: 'Are you sure you want to Cancel exceeded sampling?'
         },
       },
     },

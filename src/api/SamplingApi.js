@@ -84,6 +84,10 @@ export function cancelConfigSchedule(stationID) {
   return postFetch(getSamplingUrl(`cancelConfigSchedule/${stationID}`))
 }
 
+export function updateSamplingType(stationId, samplingType) {
+  return putFetch(getSamplingUrl(`updateSamplingType/${stationId}?samplingType=${samplingType}`))
+}
+
 export default {
   getStationControl,
   getHistory_StationControl,
@@ -99,4 +103,5 @@ export default {
   updateConfigSchedule,
   getHistory,
   cancelConfigSchedule,
+  updateSamplingType
 }

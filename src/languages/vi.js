@@ -224,6 +224,8 @@ export default {
           takeSample: 'Lấy mẫu',
           commandSent: 'Đang truyền lệnh',
           takingSample: 'Đang lấy mẫu...',
+          takeSampleExceeded: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
+          cancelTakeSampleExceeded: 'Đã kích hoạt lấy mẫu khi vượt ngưỡng (Click để hủy kích hoạt)',
           active: 'Kích hoạt',
           actived: 'Đã kích hoạt lấy mẫu tự động (Nhấn để hủy hẹn giờ lấy mẫu)',
           activeOverRange: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
@@ -237,9 +239,12 @@ export default {
             activedUser: 'Người kích hoạt',
             result: 'Kết quả lấy mẫu',
             manual: 'Lấy mẫu tức thời',
+            exceeded: 'Lấy mẫu khi vượt ngưỡng',
             automatic: 'Lấy mẫu tự động',
             cancel_schedule: 'Hủy hẹn giờ lấy mẫu',
             active_schedule: 'Kích hoạt hẹn giờ lấy mẫu',
+            cancel_exceeded: 'Hủy kích hoạt lấy mẫu khi vượt ngưỡng',
+            active_exceeded: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
             config: 'Thay đổi cấu hình',
             reset_bottles: 'Reset số chai đã lấy',
             success: 'Thành công',
@@ -266,6 +271,22 @@ export default {
         },
       },
     },
+    exceeded: {
+      table: {
+        parameter: 'Thông số',
+        active: 'Kích hoạt lấy mẫu',
+        operator: 'Phép toán',
+        value: 'Giá trị',
+        standrandValue: 'Giá trị quy chuẩn',
+        greaterThan: 'Lớn hơn',
+        lessThan: 'Nhỏ hơn',
+        notSetup: 'Chưa thiết lập',
+        invalidValue: 'Giá trị không hợp lệ',
+        requiredInput: 'Vui lòng nhập giá trị'
+      },
+      numRecord: 'số bản ghi',
+      numRecordExceed: 'Số bản ghi vượt ngưỡng liên tục sẽ lấy mẫu',
+    }
   },
   aqi: {
     title: 'AQI',
@@ -2531,6 +2552,7 @@ export default {
       monitoring: {
         sampling: {
           cancelSchedule: 'Bạn có chắc muốn hủy lấy mẫu tự động?',
+          cancelExceededSampling: 'Bạn có chắc muốn hủy lấy mẫu khi vượt ngưỡng?'
         },
       },
     },

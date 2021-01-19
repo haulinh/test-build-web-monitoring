@@ -73,6 +73,7 @@ export default class SamplingMoreInfo extends React.Component {
     configSampling: undefined,
     configSamplingSchedule: undefined,
     timerId_getStatus: null,
+    samplingTypeActive: '',
   }
 
   constructor(props) {
@@ -86,18 +87,18 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   updateState = newState => {
-    console.log('newState', newState)
     this.setState(prevState => ({ ...prevState, ...newState }))
   }
 
   async getStatus() {
     const res = await StationAPI.getStatus(this.props.stationID)
+    const data = res.data || {}
 
     let configSampling =
-      res.data && res.data.configSampling ? res.data.configSampling : undefined
+      data && data.configSampling ? data.configSampling : undefined
     let configSamplingSchedule =
-      res.data && res.data.configSamplingSchedule
-        ? res.data.configSamplingSchedule
+      data && data.configSamplingSchedule
+        ? data.configSamplingSchedule
         : undefined
     if (
       configSampling &&
@@ -109,7 +110,8 @@ export default class SamplingMoreInfo extends React.Component {
     this.setState({
       configSampling,
       configSamplingSchedule,
-      isScheduled: res.data.configSamplingSchedule ? true : false,
+      isScheduled: data.configSamplingSchedule ? true : false,
+      samplingTypeActive: data.samplingType,
     })
   }
 
@@ -139,6 +141,7 @@ export default class SamplingMoreInfo extends React.Component {
           configSamplingSchedule: res.data.configSamplingSchedule
             ? res.data.configSamplingSchedule
             : undefined,
+          samplingTypeActive: res.data.samplingType,
         })
       } else {
         showMessageError(i18n.getStatusFail)
@@ -204,7 +207,7 @@ export default class SamplingMoreInfo extends React.Component {
     }
   }
   _renderTabs = () => {
-    const { stationID } = this.props
+    const { stationID, measuringList, configExceeded } = this.props
     const {
       isSampling,
       isLoading,
@@ -214,6 +217,7 @@ export default class SamplingMoreInfo extends React.Component {
       configSamplingSchedule,
       isInitLoaded,
       activeTabKey,
+      samplingTypeActive,
     } = this.state
 
     return (
@@ -242,6 +246,7 @@ export default class SamplingMoreInfo extends React.Component {
                 STATUS_SAMPLING={STATUS_SAMPLING}
                 isScheduled={isScheduled}
                 getStatus={this.getStatus}
+                samplingTypeActive={samplingTypeActive}
               />
             </TabPane>
             <TabPane
@@ -257,7 +262,9 @@ export default class SamplingMoreInfo extends React.Component {
             <TabPane
               key="config"
               tab={translate('monitoring.moreContent.sampling.tabs.config')}
-              disabled={this.getDisableConfig()}
+              disabled={
+                this.getDisableConfig() | (samplingTypeActive === 'EXCEEDED')
+              }
             >
               <Config
                 stationID={stationID}
@@ -268,6 +275,8 @@ export default class SamplingMoreInfo extends React.Component {
                 STATUS_SAMPLING={STATUS_SAMPLING}
                 isScheduled={isScheduled}
                 isConfig={isConfig}
+                configExceeded={configExceeded}
+                measuringList={measuringList}
               />
             </TabPane>
           </Tabs>

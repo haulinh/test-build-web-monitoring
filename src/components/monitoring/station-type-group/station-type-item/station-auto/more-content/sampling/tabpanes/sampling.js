@@ -4,29 +4,29 @@
   TODO  tìm "MARK -- MOCK DATA" thay thế bằng dữ liệu thật
 */
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withRouter } from 'react-router'
-import swal from 'sweetalert2'
 import {
-  Row,
+  Button,
   Col,
+  DatePicker,
   Form,
   InputNumber,
-  Button,
-  Radio,
-  TimePicker,
-  DatePicker,
   Modal,
+  Popover,
+  Radio,
+  Row,
   Select,
   Steps,
-  Popover,
+  TimePicker,
 } from 'antd'
-import moment from 'moment-timezone'
-import styled from 'styled-components'
+import SamplingAPI from 'api/SamplingApi'
 /* user import */
 import { translate } from 'hoc/create-lang'
-import SamplingAPI from 'api/SamplingApi'
+import moment from 'moment-timezone'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { withRouter } from 'react-router'
+import styled from 'styled-components'
+import swal from 'sweetalert2'
 
 const { Option } = Select
 const { Step } = Steps
@@ -70,6 +70,13 @@ const i18n = {
   takingSample: translate(
     'monitoring.moreContent.sampling.content.takingSample'
   ),
+  /*button sampling exceeded */
+  takeSampleExceeded: translate(
+    'monitoring.moreContent.sampling.content.takeSampleExceeded'
+  ),
+  cancelTakeSampleExceeded: translate(
+    'monitoring.moreContent.sampling.content.cancelTakeSampleExceeded'
+  ),
   /* button lay mau tu dong */
   active: translate('monitoring.moreContent.sampling.content.active'),
   actived: translate('monitoring.moreContent.sampling.content.actived'),
@@ -96,12 +103,14 @@ const i18n = {
   cancelConfigSchedule: translate(
     'modal.confirm.monitoring.sampling.cancelSchedule'
   ),
+  cancelExceededSampling: translate(
+    'modal.confirm.monitoring.sampling.cancelExceededSampling'
+  ),
   step1: translate('controlStation.listStep.step1'),
   step2: translate('controlStation.listStep.step2'),
   step3: translate('controlStation.listStep.step3'),
   step4: translate('controlStation.listStep.step4'),
   cancel: translate('addon.cancel'),
-  
 }
 
 const RadioButton = Radio.Button
@@ -124,7 +133,8 @@ const STATUS_COLOR = {
 
 const SAMPLING_TYPE = {
   MANUAL: 'MANUAL',
-  AUTO: 'AUTO',
+  AUTO: 'AUTOMATIC',
+  EXCEEDED: 'EXCEEDED',
 }
 
 const fieldNames = {
@@ -154,30 +164,6 @@ const customDot = (dot, { status, index }) => (
 @Form.create()
 @withRouter
 export default class SamplingTab extends React.Component {
-  static propTypes = {
-    stationID: PropTypes.string,
-    isScheduled: PropTypes.bool,
-    configSampling: PropTypes.object,
-    configSamplingSchedule: PropTypes.object,
-  }
-
-  static defaultProps = {
-    stationID: '',
-    isScheduled: false,
-    configSampling: {
-      totalBottles: 0,
-      sampledBottles: 0,
-      controlTagName: '',
-      timeToTakeOneBottle: 0,
-      status: '',
-    },
-    configSamplingSchedule: {
-      numberBottles: 3,
-      frequency: 30,
-      dateTimeStart: moment(),
-    },
-  }
-
   constructor(props) {
     super(props)
     /* viết kiểu này để fix lỗi _this10 do babel k hỗ trợ async/await */
@@ -185,6 +171,8 @@ export default class SamplingTab extends React.Component {
     this.handleSubmitFormReset = this.handleSubmitFormReset.bind(this)
     this.handleClickActive = this.handleClickActive.bind(this)
     this.cancelConfigSchedule = this.cancelConfigSchedule.bind(this)
+
+    // const { samplingTypeActive } = props
 
     this.state = {
       isReseting: false,
@@ -197,6 +185,8 @@ export default class SamplingTab extends React.Component {
       samplingProtocol: 'SQL',
       currentStep: this.props.configSampling.status,
       sampledBottles: this.props.configSampling.sampledBottles,
+      // samplingTypeActive,
+      isLoadingUpdateSamplingType: false,
     }
   }
 
@@ -446,8 +436,60 @@ export default class SamplingTab extends React.Component {
     }
   }
 
+  handleClickSamplingExceeded = async () => {
+    const { stationID } = this.props
+    try {
+      this.setState({ isLoadingUpdateSamplingType: true })
+      const data = await SamplingAPI.updateSamplingType(
+        stationID,
+        SAMPLING_TYPE.EXCEEDED
+      )
+      if (data) {
+        this.setState({
+          isLoadingUpdateSamplingType: false,
+        })
+        this.props.updateParentState({
+          samplingTypeActive: SAMPLING_TYPE.EXCEEDED,
+        })
+      }
+    } catch (error) {
+      this.setState({
+        isLoadingUpdateSamplingType: false,
+      })
+    }
+  }
+
+  handleClickCancelSamplingExceeded = async () => {
+    const { stationID } = this.props
+    Modal.confirm({
+      title: i18n.modalConfirm,
+      content: i18n.cancelExceededSampling,
+      cancelText: i18n.cancel,
+      onOk: async () => {
+        try {
+          const data = await SamplingAPI.updateSamplingType(
+            stationID,
+            SAMPLING_TYPE.MANUAL
+          )
+          if (data) {
+            this.setState({
+              isLoadingUpdateSamplingType: false,
+            })
+            this.props.updateParentState({
+              samplingTypeActive: SAMPLING_TYPE.MANUAL,
+            })
+          }
+        } catch (error) {
+          console.log('error', error)
+        }
+      },
+      onCancel() {},
+    })
+  }
+
   render() {
-    const { STATUS_SAMPLING, isScheduled } = this.props
+    const { STATUS_SAMPLING, isScheduled, samplingTypeActive } = this.props
+    const { isLoadingUpdateSamplingType } = this.state
     const { totalBottles, status } = this.props.configSampling
     const {
       numberBottles,
@@ -500,13 +542,19 @@ export default class SamplingTab extends React.Component {
                 >
                   <RadioButton
                     value={SAMPLING_TYPE.MANUAL}
-                    disabled={isScheduled}
+                    disabled={
+                      isScheduled |
+                      (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
+                    }
                   >
                     {i18n.immediatelySampling}
                   </RadioButton>
                   <RadioButton
                     value={SAMPLING_TYPE.AUTO}
-                    disabled={isSampling && !isScheduled}
+                    disabled={
+                      (isSampling && !isScheduled) |
+                      (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
+                    }
                   >
                     {i18n.scheduleSampling}
                   </RadioButton>
@@ -661,7 +709,9 @@ export default class SamplingTab extends React.Component {
             <Button
               block
               type="primary"
-              disabled={isFullBottles}
+              disabled={
+                isFullBottles | (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
+              }
               style={{ marginBottom: 8, ...STATUS_COLOR[status] }}
               onClick={() => this.handleClickSampling()}
               loading={
@@ -680,7 +730,10 @@ export default class SamplingTab extends React.Component {
             <Button
               block
               type="primary"
-              disabled={isFormError(getFieldsError())}
+              disabled={
+                isFormError(getFieldsError()) |
+                (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
+              }
               style={{ marginBottom: 8 }}
               onClick={this.handleClickActive}
               loading={isScheduleUpdating}
@@ -716,10 +769,39 @@ export default class SamplingTab extends React.Component {
           </Button> */}
         </Row>
 
+        {samplingTypeActive !== SAMPLING_TYPE.EXCEEDED && (
+          <Button
+            loading={isLoadingUpdateSamplingType}
+            block
+            type="primary"
+            style={{ marginBottom: 8, ...STATUS_COLOR[status] }}
+            onClick={this.handleClickSamplingExceeded}
+          >
+            {i18n.takeSampleExceeded}
+          </Button>
+        )}
+
+        {samplingTypeActive === SAMPLING_TYPE.EXCEEDED && (
+          <Button
+            loading={isLoadingUpdateSamplingType}
+            block
+            type="primary"
+            style={{
+              marginBottom: 8,
+              backgroundColor: 'orange',
+              borderColor: 'orange',
+            }}
+            onClick={this.handleClickCancelSamplingExceeded}
+          >
+            {i18n.cancelTakeSampleExceeded}
+          </Button>
+        )}
+
         {(status === STATUS_SAMPLING.COMMANDED ||
           status === STATUS_SAMPLING.SAMPLING ||
           currentStep === 'SUCCESS') &&
           samplingType === SAMPLING_TYPE.MANUAL &&
+          samplingTypeActive !== SAMPLING_TYPE.EXCEEDED &&
           this.renderSamplingProgress({
             currentStep,
           })}
@@ -729,3 +811,28 @@ export default class SamplingTab extends React.Component {
 }
 
 //
+
+SamplingTab.propTypes = {
+  stationID: PropTypes.string,
+  isScheduled: PropTypes.bool,
+  configSampling: PropTypes.object,
+  configExceeded: PropTypes.object,
+  configSamplingSchedule: PropTypes.object,
+}
+
+SamplingTab.defaultProps = {
+  stationID: '',
+  isScheduled: false,
+  configSampling: {
+    totalBottles: 0,
+    sampledBottles: 0,
+    controlTagName: '',
+    timeToTakeOneBottle: 0,
+    status: '',
+  },
+  configSamplingSchedule: {
+    numberBottles: 3,
+    frequency: 30,
+    dateTimeStart: moment(),
+  },
+}
