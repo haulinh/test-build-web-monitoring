@@ -245,6 +245,8 @@ export default {
             automatic: 'Automatic Sampling',
             cancel_schedule: 'Cancel Sampling By Scheduled',
             active_schedule: 'Active Sampling By Scheduled',
+            cancel_exceeded: 'Cancel Sampling By Exceeded',
+            active_exceeded: 'Active Sampling By Exceeded',
             config: 'Modify Configuration',
             reset_bottles: 'Reset Sampled Bottles',
             success: 'success',

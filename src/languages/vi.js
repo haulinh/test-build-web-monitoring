@@ -243,6 +243,8 @@ export default {
             automatic: 'Lấy mẫu tự động',
             cancel_schedule: 'Hủy hẹn giờ lấy mẫu',
             active_schedule: 'Kích hoạt hẹn giờ lấy mẫu',
+            cancel_exceeded: 'Hủy kích hoạt lấy mẫu khi vượt ngưỡng',
+            active_exceeded: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
             config: 'Thay đổi cấu hình',
             reset_bottles: 'Reset số chai đã lấy',
             success: 'Thành công',

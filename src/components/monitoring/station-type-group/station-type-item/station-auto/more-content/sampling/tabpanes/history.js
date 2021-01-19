@@ -36,6 +36,12 @@ const i18n = {
     active_schedule: translate(
       'monitoring.moreContent.sampling.content.history.active_schedule'
     ),
+    cancel_exceeded: translate(
+      'monitoring.moreContent.sampling.content.history.cancel_exceeded'
+    ),
+    active_exceeded: translate(
+      'monitoring.moreContent.sampling.content.history.active_exceeded'
+    ),
     automatic: translate(
       'monitoring.moreContent.sampling.content.history.automatic'
     ),
