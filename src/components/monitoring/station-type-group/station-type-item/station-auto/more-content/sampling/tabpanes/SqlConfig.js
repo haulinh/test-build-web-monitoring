@@ -1,8 +1,7 @@
-import React from 'react'
-import { Row, Col, Form, Input, InputNumber } from 'antd'
+import { Col, Form, Input, InputNumber, Row } from 'antd'
 import { translate } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
-import * as _ from 'lodash'
+import React from 'react'
 
 const FormItem = Form.Item
 

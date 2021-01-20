@@ -219,6 +219,12 @@ export default class SamplingTab extends React.Component {
         })
       }
     }
+
+    if (nextProps.configSampling.sampledBottles !== this.state.sampledBottles) {
+      this.setState({
+        sampledBottles: nextProps.configSampling.sampledBottles,
+      })
+    }
   }
 
   handleChanggeSamplingProtocol = value => {
@@ -487,8 +493,49 @@ export default class SamplingTab extends React.Component {
     })
   }
 
+  isRenderSamplingProcess = () => {
+    const { samplingType, currentStep } = this.state
+    const {
+      configSampling: { status },
+      STATUS_SAMPLING,
+      samplingTypeActive,
+    } = this.props
+
+    return (
+      status === STATUS_SAMPLING.COMMANDED ||
+      status === STATUS_SAMPLING.SAMPLING ||
+      (currentStep === 'SUCCESS' &&
+        samplingType === SAMPLING_TYPE.MANUAL &&
+        samplingTypeActive !== SAMPLING_TYPE.EXCEEDED)
+    )
+  }
+
+  isDisableSamplingExceeded = () => {
+    const {
+      configExceededState,
+      isScheduled,
+      configSampling: { status },
+      STATUS_SAMPLING,
+      samplingTypeActive,
+    } = this.props
+    const isSampling = status !== STATUS_SAMPLING.READY
+    const isConfigured = (Object.values(configExceededState || {}) || []).some(
+      configItem => configItem.max.active || configItem.min.active
+    )
+
+    return (
+      isScheduled ||
+      isSampling ||
+      (!isConfigured && samplingTypeActive !== SAMPLING_TYPE.EXCEEDED)
+    )
+  }
+
   render() {
-    const { STATUS_SAMPLING, isScheduled, samplingTypeActive } = this.props
+    const {
+      STATUS_SAMPLING,
+      isScheduled,
+      samplingTypeActive,
+    } = this.props
     const { isLoadingUpdateSamplingType } = this.state
     const { totalBottles, status } = this.props.configSampling
     const {
@@ -543,7 +590,7 @@ export default class SamplingTab extends React.Component {
                   <RadioButton
                     value={SAMPLING_TYPE.MANUAL}
                     disabled={
-                      isScheduled |
+                      isScheduled ||
                       (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
                     }
                   >
@@ -552,7 +599,7 @@ export default class SamplingTab extends React.Component {
                   <RadioButton
                     value={SAMPLING_TYPE.AUTO}
                     disabled={
-                      (isSampling && !isScheduled) |
+                      (isSampling && !isScheduled) ||
                       (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
                     }
                   >
@@ -597,7 +644,11 @@ export default class SamplingTab extends React.Component {
                     block
                     type="primary"
                     onClick={this.handleSubmitFormReset}
-                    disabled={isScheduled || isSampling}
+                    disabled={
+                      isScheduled ||
+                      isSampling ||
+                      samplingTypeActive === SAMPLING_TYPE.EXCEEDED
+                    }
                   >
                     {i18n.reset}
                   </Button>
@@ -710,7 +761,7 @@ export default class SamplingTab extends React.Component {
               block
               type="primary"
               disabled={
-                isFullBottles | (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
+                isFullBottles || (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
               }
               style={{ marginBottom: 8, ...STATUS_COLOR[status] }}
               onClick={() => this.handleClickSampling()}
@@ -731,7 +782,7 @@ export default class SamplingTab extends React.Component {
               block
               type="primary"
               disabled={
-                isFormError(getFieldsError()) |
+                isFormError(getFieldsError()) ||
                 (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
               }
               style={{ marginBottom: 8 }}
@@ -774,6 +825,7 @@ export default class SamplingTab extends React.Component {
             loading={isLoadingUpdateSamplingType}
             block
             type="primary"
+            disabled={this.isDisableSamplingExceeded()}
             style={{ marginBottom: 8, ...STATUS_COLOR[status] }}
             onClick={this.handleClickSamplingExceeded}
           >
@@ -797,11 +849,15 @@ export default class SamplingTab extends React.Component {
           </Button>
         )}
 
-        {(status === STATUS_SAMPLING.COMMANDED ||
+        {/* {(status === STATUS_SAMPLING.COMMANDED ||
           status === STATUS_SAMPLING.SAMPLING ||
           currentStep === 'SUCCESS') &&
           samplingType === SAMPLING_TYPE.MANUAL &&
           samplingTypeActive !== SAMPLING_TYPE.EXCEEDED &&
+          this.renderSamplingProgress({
+            currentStep,
+          })} */}
+        {this.isRenderSamplingProcess() &&
           this.renderSamplingProgress({
             currentStep,
           })}

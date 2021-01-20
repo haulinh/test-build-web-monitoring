@@ -1,5 +1,5 @@
 /* libs import */
-import React from 'react'
+ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
 import { Row, Tabs, Icon, message, Spin } from 'antd'
@@ -72,6 +72,7 @@ export default class SamplingMoreInfo extends React.Component {
     isDisconnection: false,
     configSampling: undefined,
     configSamplingSchedule: undefined,
+    configExceeded: undefined,
     timerId_getStatus: null,
     samplingTypeActive: '',
   }
@@ -93,13 +94,13 @@ export default class SamplingMoreInfo extends React.Component {
   async getStatus() {
     const res = await StationAPI.getStatus(this.props.stationID)
     const data = res.data || {}
-
     let configSampling =
       data && data.configSampling ? data.configSampling : undefined
     let configSamplingSchedule =
       data && data.configSamplingSchedule
         ? data.configSamplingSchedule
         : undefined
+    const { configExceeded: { config = undefined } = {} } = data
     if (
       configSampling &&
       this.state.configSampling.status === STATUS_SAMPLING.COMMANDED &&
@@ -112,6 +113,7 @@ export default class SamplingMoreInfo extends React.Component {
       configSamplingSchedule,
       isScheduled: data.configSamplingSchedule ? true : false,
       samplingTypeActive: data.samplingType,
+      configExceeded: config,
     })
   }
 
@@ -127,6 +129,7 @@ export default class SamplingMoreInfo extends React.Component {
     try {
       const res = await StationAPI.getStatus(this.props.stationID)
       // console.log('isInitLoaded',this.state.isInitLoaded)
+      const { configExceeded: { config = undefined } = {} } = res.data
       this.setState({ isLoading: false, isInitLoaded: true })
       this.startTimer()
       if (res.data) {
@@ -142,6 +145,7 @@ export default class SamplingMoreInfo extends React.Component {
             ? res.data.configSamplingSchedule
             : undefined,
           samplingTypeActive: res.data.samplingType,
+          configExceeded: config,
         })
       } else {
         showMessageError(i18n.getStatusFail)
@@ -218,6 +222,7 @@ export default class SamplingMoreInfo extends React.Component {
       isInitLoaded,
       activeTabKey,
       samplingTypeActive,
+      configExceeded : configExceededState
     } = this.state
 
     return (
@@ -247,6 +252,7 @@ export default class SamplingMoreInfo extends React.Component {
                 isScheduled={isScheduled}
                 getStatus={this.getStatus}
                 samplingTypeActive={samplingTypeActive}
+                configExceededState={configExceededState}
               />
             </TabPane>
             <TabPane
@@ -263,7 +269,7 @@ export default class SamplingMoreInfo extends React.Component {
               key="config"
               tab={translate('monitoring.moreContent.sampling.tabs.config')}
               disabled={
-                this.getDisableConfig() | (samplingTypeActive === 'EXCEEDED')
+                this.getDisableConfig() || (samplingTypeActive === 'EXCEEDED')
               }
             >
               <Config
