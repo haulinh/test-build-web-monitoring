@@ -61,6 +61,7 @@ class SamplingConfig extends Component {
           ? exceededConfigForm.validateFields()
           : Promise.resolve({}),
       ])
+
       const params = {
         configSampling,
         configExceeded,
@@ -70,6 +71,7 @@ class SamplingConfig extends Component {
       updateParentState({
         isConfig: true,
         configSampling: results.data.configSampling,
+        configExceeded: configExceeded.config,
       })
     } catch (error) {}
     this.setState({ isSaving: false })
