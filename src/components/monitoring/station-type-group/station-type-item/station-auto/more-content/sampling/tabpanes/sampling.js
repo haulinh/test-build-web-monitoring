@@ -512,8 +512,8 @@ export default class SamplingTab extends React.Component {
       configSampling: { status },
     } = this.props
     switch (true) {
-      case status === STATUS_SAMPLING.READY || 
-          samplingTypeActive === SAMPLING_TYPE.EXCEEDED:
+      case status === STATUS_SAMPLING.READY ||
+        samplingTypeActive === SAMPLING_TYPE.EXCEEDED:
         return i18n.takeSample
       case status === STATUS_SAMPLING.COMMANDED:
         return i18n.commandSent
@@ -753,10 +753,15 @@ export default class SamplingTab extends React.Component {
               disabled={
                 isFullBottles || samplingTypeActive === SAMPLING_TYPE.EXCEEDED
               }
-              style={{ marginBottom: 8, ...STATUS_COLOR[status] }}
-              onClick={() => this.handleClickSampling()}
+              style={{
+                marginBottom: 8,
+                ...(samplingTypeActive !== SAMPLING_TYPE.EXCEEDED
+                  ? STATUS_COLOR[status]
+                  : {}),
+              }}
+              onClick={this.handleClickSampling}
               loading={
-                isSampling && samplingTypeActive === SAMPLING_TYPE.EXCEEDED
+                isSampling && samplingTypeActive !== SAMPLING_TYPE.EXCEEDED
               }
             >
               {this.getBtnSamplingText()}
