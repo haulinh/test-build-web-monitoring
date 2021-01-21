@@ -1,9 +1,3 @@
-/* libs import */
-
-/* 
-  TODO  tìm "MARK -- MOCK DATA" thay thế bằng dữ liệu thật
-*/
-
 import {
   Button,
   Col,
@@ -21,6 +15,7 @@ import {
 import SamplingAPI from 'api/SamplingApi'
 /* user import */
 import { translate } from 'hoc/create-lang'
+import { get } from 'lodash'
 import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -520,7 +515,7 @@ export default class SamplingTab extends React.Component {
     } = this.props
     const isSampling = status !== STATUS_SAMPLING.READY
     const isConfigured = (Object.values(configExceededState || {}) || []).some(
-      configItem => configItem.max.active || configItem.min.active
+      configItem => get(configItem, 'max.active') || get(configItem, 'min.active')
     )
 
     return (
@@ -531,11 +526,7 @@ export default class SamplingTab extends React.Component {
   }
 
   render() {
-    const {
-      STATUS_SAMPLING,
-      isScheduled,
-      samplingTypeActive,
-    } = this.props
+    const { STATUS_SAMPLING, isScheduled, samplingTypeActive } = this.props
     const { isLoadingUpdateSamplingType } = this.state
     const { totalBottles, status } = this.props.configSampling
     const {
@@ -591,7 +582,7 @@ export default class SamplingTab extends React.Component {
                     value={SAMPLING_TYPE.MANUAL}
                     disabled={
                       isScheduled ||
-                      (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
+                      samplingTypeActive === SAMPLING_TYPE.EXCEEDED
                     }
                   >
                     {i18n.immediatelySampling}
@@ -600,7 +591,7 @@ export default class SamplingTab extends React.Component {
                     value={SAMPLING_TYPE.AUTO}
                     disabled={
                       (isSampling && !isScheduled) ||
-                      (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
+                      samplingTypeActive === SAMPLING_TYPE.EXCEEDED
                     }
                   >
                     {i18n.scheduleSampling}
@@ -761,7 +752,7 @@ export default class SamplingTab extends React.Component {
               block
               type="primary"
               disabled={
-                isFullBottles || (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
+                isFullBottles || samplingTypeActive === SAMPLING_TYPE.EXCEEDED
               }
               style={{ marginBottom: 8, ...STATUS_COLOR[status] }}
               onClick={() => this.handleClickSampling()}
@@ -783,7 +774,7 @@ export default class SamplingTab extends React.Component {
               type="primary"
               disabled={
                 isFormError(getFieldsError()) ||
-                (samplingTypeActive === SAMPLING_TYPE.EXCEEDED)
+                samplingTypeActive === SAMPLING_TYPE.EXCEEDED
               }
               style={{ marginBottom: 8 }}
               onClick={this.handleClickActive}
@@ -826,7 +817,7 @@ export default class SamplingTab extends React.Component {
             block
             type="primary"
             disabled={this.isDisableSamplingExceeded()}
-            style={{ marginBottom: 8, ...STATUS_COLOR[status] }}
+            style={{ marginBottom: 8 }}
             onClick={this.handleClickSamplingExceeded}
           >
             {i18n.takeSampleExceeded}
