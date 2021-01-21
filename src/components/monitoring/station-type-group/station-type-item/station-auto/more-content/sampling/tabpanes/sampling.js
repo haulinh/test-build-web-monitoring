@@ -505,24 +505,23 @@ export default class SamplingTab extends React.Component {
     )
   }
 
-  isDisableSamplingExceeded = () => {
+  getBtnSamplingText = () => {
     const {
-      configExceededState,
-      isScheduled,
-      configSampling: { status },
       STATUS_SAMPLING,
       samplingTypeActive,
+      configSampling: { status },
     } = this.props
-    const isSampling = status !== STATUS_SAMPLING.READY
-    const isConfigured = (Object.values(configExceededState || {}) || []).some(
-      configItem => get(configItem, 'max.active') || get(configItem, 'min.active')
-    )
-
-    return (
-      isScheduled ||
-      isSampling ||
-      (!isConfigured && samplingTypeActive !== SAMPLING_TYPE.EXCEEDED)
-    )
+    switch (true) {
+      case status === STATUS_SAMPLING.READY || 
+          samplingTypeActive === SAMPLING_TYPE.EXCEEDED:
+        return i18n.takeSample
+      case status === STATUS_SAMPLING.COMMANDED:
+        return i18n.commandSent
+      case status === STATUS_SAMPLING.SAMPLING:
+        return i18n.takingSample
+      default:
+        break
+    }
   }
 
   render() {
@@ -757,13 +756,10 @@ export default class SamplingTab extends React.Component {
               style={{ marginBottom: 8, ...STATUS_COLOR[status] }}
               onClick={() => this.handleClickSampling()}
               loading={
-                status === STATUS_SAMPLING.SAMPLING ||
-                status === STATUS_SAMPLING.COMMANDED
+                isSampling && samplingTypeActive === SAMPLING_TYPE.EXCEEDED
               }
             >
-              {status === STATUS_SAMPLING.READY && i18n.takeSample}
-              {status === STATUS_SAMPLING.COMMANDED && i18n.commandSent}
-              {status === STATUS_SAMPLING.SAMPLING && i18n.takingSample}
+              {this.getBtnSamplingText()}
             </Button>
           )}
 
@@ -816,7 +812,7 @@ export default class SamplingTab extends React.Component {
             loading={isLoadingUpdateSamplingType}
             block
             type="primary"
-            disabled={this.isDisableSamplingExceeded()}
+            disabled={isScheduled || isSampling}
             style={{ marginBottom: 8 }}
             onClick={this.handleClickSamplingExceeded}
           >

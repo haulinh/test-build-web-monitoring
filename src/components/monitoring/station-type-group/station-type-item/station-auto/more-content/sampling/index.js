@@ -11,6 +11,7 @@ import Config from './tabpanes/config'
 import _, { get } from 'lodash'
 import Disconnection from 'components/elements/disconnection'
 
+const TIME_INTERVAL = 15 * 1000 // 15s
 const STATUS_SAMPLING = {
   READY: 'READY',
   COMMANDED: 'COMMANDED',
@@ -71,7 +72,7 @@ export default class SamplingMoreInfo extends React.Component {
 
   async getStatus() {
     const res = await StationAPI.getStatus(this.props.stationID)
-    const data = res.data || {}
+  const data = res.data || {}
     let configSampling =
       data && data.configSampling ? data.configSampling : undefined
     let configSamplingSchedule =
@@ -95,8 +96,8 @@ export default class SamplingMoreInfo extends React.Component {
     })
   }
 
-  startTimer(timeInterval) {
-    this.timer = setInterval(this.getStatus, timeInterval)
+  startTimer() {
+    this.timer = setInterval(this.getStatus, TIME_INTERVAL)
   }
 
   async componentDidMount() {
@@ -115,7 +116,7 @@ export default class SamplingMoreInfo extends React.Component {
         configSampling,
         configSamplingSchedule,
         samplingType,
-        configExceeded: { config },
+        configExceeded: { config } = {},
       } = res.data || {}
 
       this.setState({
@@ -127,7 +128,6 @@ export default class SamplingMoreInfo extends React.Component {
         configSamplingSchedule: configSamplingSchedule || undefined,
         activeTabKey: !!configSampling ? 'sampling' : 'config',
       })
-
       this.startTimer(get(configSampling, 'timeToTakeOneBottle') * 60000)
     } catch (err) {
       this.setState({
