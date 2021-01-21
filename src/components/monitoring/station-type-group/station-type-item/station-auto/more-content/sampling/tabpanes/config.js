@@ -3,32 +3,34 @@ import PropTypes from 'prop-types'
 import { Row, Form, Radio, Collapse, Button } from 'antd'
 import styled from 'styled-components'
 
-import { translate } from 'hoc/create-lang'
+import { translate as t } from 'hoc/create-lang'
 import SamplingAPI from 'api/SamplingApi'
 import SqlConfig from './SqlConfig'
 import ModBusConfig from './ModBusConfig'
 import ExceededConfig from './ExceededConfig'
 
 const i18n = {
-  methodSampling: translate(
-    'monitoring.moreContent.sampling.content.methodSampling'
-  ),
-  totalBottles: translate(
+  methodSampling: t('monitoring.moreContent.sampling.content.methodSampling'),
+  totalBottles: t(
     'monitoring.moreContent.sampling.content.config.totalBottles'
   ),
-  controlTagName: translate(
+  controlTagName: t(
     'monitoring.moreContent.sampling.content.config.controlTagName'
   ),
-  timeToTakeOneBottle: translate(
+  timeToTakeOneBottle: t(
     'monitoring.moreContent.sampling.content.config.timeToTakeOneBottle'
   ),
-  save: translate('monitoring.moreContent.sampling.content.config.save'),
-  alertNull: translate('error.nullValue'),
-  alertSuccess: translate('success.text'),
-  alertError: translate('error.text'),
-  alertSaveConfigError: translate('alert.error.monitoring.saveSampingConfig'),
-  generalConfig: 'Cấu hình chung',
-  exceededConfig: 'Cấu hình lấy mẫu khi vượt ngưỡng',
+  save: t('monitoring.moreContent.sampling.content.config.save'),
+  alertNull: t('error.nullValue'),
+  alertSuccess: t('success.text'),
+  alertError: t('error.text'),
+  alertSaveConfigError: t('alert.error.monitoring.saveSampingConfig'),
+  generalConfig: t(
+    'monitoring.moreContent.sampling.content.config.generalConfig'
+  ),
+  exceededConfig: t(
+    'monitoring.moreContent.sampling.content.config.exceededConfig'
+  ),
 }
 
 const { Panel } = Collapse

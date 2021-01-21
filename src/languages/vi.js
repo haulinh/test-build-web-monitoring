@@ -255,6 +255,8 @@ export default {
             controlTagName: 'Tag name điều khiển:',
             timeToTakeOneBottle: 'Thời gian lấy mẫu xong 1 chai (phút):',
             save: 'Lưu',
+            generalConfig: 'Cấu hình chung',
+            exceededConfig: 'Cấu hình lấy mẫu khi vượt ngưỡng',
           },
         },
       },

@@ -257,6 +257,8 @@ export default {
             controlTagName: 'Controlling Tag name:',
             timeToTakeOneBottle: 'Time to take one bottle (minutes):',
             save: 'Save',
+            generalConfig: 'General config',
+            exceededConfig: 'Configure when threshold sampling',
           },
         },
       },
