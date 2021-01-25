@@ -13,9 +13,9 @@ import {
   TimePicker,
 } from 'antd'
 import SamplingAPI from 'api/SamplingApi'
+import { autobind } from 'core-decorators'
 /* user import */
 import { translate } from 'hoc/create-lang'
-import { get } from 'lodash'
 import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -158,6 +158,7 @@ const customDot = (dot, { status, index }) => (
 
 @Form.create()
 @withRouter
+@autobind
 export default class SamplingTab extends React.Component {
   constructor(props) {
     super(props)
