@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Divider, Button, Icon, Form } from 'antd'
+import { Divider, Button, Icon, Form, message } from 'antd'
 import ProvinceApi from 'api/ProvinceApi'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import slug from 'constants/slug'
@@ -15,6 +15,12 @@ import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import DynamicTable from 'components/elements/dynamic-table'
 import * as _ from 'lodash'
+import { getTotalCount_by_province } from 'api/StationAuto'
+import { translate } from 'hoc/create-lang'
+
+const i18n = {
+  errorDeleteProvince: translate('provinceManager.form.errorDeleteProvince'),
+}
 
 @protectRole(ROLE.PROVINCE.VIEW)
 @createManagerList({
@@ -66,6 +72,7 @@ export default class ProvinceList extends React.Component {
       { content: t('province.form.action'), width: 15 },
     ]
   }
+
   getRows() {
     const {
       lang: { t },
@@ -101,7 +108,7 @@ export default class ProvinceList extends React.Component {
             {protectRole(ROLE.PROVINCE.DELETE)(
               <a
                 onClick={() =>
-                  this.props.onDeleteItem(row._id, this.props.fetchData)
+                  this.handleDeleteItem(row._id)
                 }
               >
                 {t('province.delete.label')}
@@ -112,6 +119,18 @@ export default class ProvinceList extends React.Component {
       },
     ])
   }
+
+  async handleDeleteItem(provinceId) {
+    const countStation = await getTotalCount_by_province(provinceId)
+    if (countStation.success) {
+      if (countStation.count > 0) {
+        message.error(i18n.errorDeleteProvince)
+      } else {
+        this.props.onDeleteItem(provinceId, this.props.fetchData)
+      }
+    }
+  }
+
   render() {
     return (
       <PageContainer right={this.buttonAdd()}>

@@ -1984,8 +1984,8 @@ export default {
       isAdmin: 'Quản trị hệ thống',
     },
     message: {
-      success: 'Tạo mới tài khoản thành công!'
-    }
+      success: 'Tạo mới tài khoản thành công!',
+    },
   },
   roleManager: {
     create: {
@@ -2210,6 +2210,12 @@ export default {
         fTPFloder: 'FTP Floder',
         fileMapping: 'File Mapping ',
       },
+    },
+  },
+  provinceManager: {
+    form: {
+      errorDeleteProvince:
+        'Không thể xóa vì đã có trạm đang sử dụng đơn vị quản lý này',
     },
   },
   subscriptionStatus: {

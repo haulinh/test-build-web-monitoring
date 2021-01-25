@@ -1989,8 +1989,8 @@ export default {
       isAdmin: 'Admin Role',
     },
     message: {
-      success: 'Register User success!'
-    }
+      success: 'Register User success!',
+    },
   },
   roleManager: {
     create: {
@@ -2215,6 +2215,11 @@ export default {
         fileMapping: 'File Mapping',
         updateSelectStation: 'Update selected stations',
       },
+    },
+  },
+  provinceManager: {
+    form: {
+      errorDeleteProvince: `The Action Can't Be Completed Because There Are Station In This Province`,
     },
   },
   subscriptionStatus: {
