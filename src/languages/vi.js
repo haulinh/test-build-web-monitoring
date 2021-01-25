@@ -1983,6 +1983,9 @@ export default {
       address: 'Địa chỉ',
       isAdmin: 'Quản trị hệ thống',
     },
+    message: {
+      success: 'Tạo mới tài khoản thành công!'
+    }
   },
   roleManager: {
     create: {
