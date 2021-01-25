@@ -1,15 +1,16 @@
-import React from 'react'
-import { translate } from 'hoc/create-lang'
-import { autobind } from 'core-decorators'
 import { Table } from 'antd'
-import moment from 'moment/moment'
-import styled from 'styled-components'
+import { getMeasurings } from 'api/CategoryApi'
 import BoxShadow from 'components/elements/box-shadow/index'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import {
   FORMAT_VALUE_MEASURING,
   getFormatNumber,
 } from 'constants/format-number'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
+import moment from 'moment/moment'
+import React from 'react'
+import styled from 'styled-components'
 
 const TabeListWrapper = styled(BoxShadow)`
   padding: 16px;
@@ -18,13 +19,32 @@ const TabeListWrapper = styled(BoxShadow)`
 
 @autobind
 export default class TableDataList extends React.PureComponent {
-  getColumns() {
+  state = {
+    dataMeasures: new Map(),
+  }
+
+  async componentDidMount() {
+    const dataMeasures = await getMeasurings(
+      { page: 1, itemPerPage: 100000 },
+      {}
+    )
+    if (dataMeasures.success) {
+      this.setState({
+        dataMeasures: new Map(
+          dataMeasures.data.map(measure => [measure.key, measure])
+        ),
+      })
+    }
+  }
+
+  getColumns = () => {
     const columnIndex = {
       title: translate('dataSearchFrom.analyze.parameters'),
       dataIndex: 'key',
       key: 'key',
-      render(value, record, index) {
-        return <div>{record.key}</div>
+      render: (value, record, index) => {
+        const nameMeasure = this.state.dataMeasures.get(record.key).name
+        return <div>{nameMeasure}</div>
       },
     }
     let column = [
