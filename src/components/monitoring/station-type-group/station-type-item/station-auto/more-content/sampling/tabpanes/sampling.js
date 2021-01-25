@@ -16,6 +16,7 @@ import SamplingAPI from 'api/SamplingApi'
 import { autobind } from 'core-decorators'
 /* user import */
 import { translate } from 'hoc/create-lang'
+import { get } from 'lodash'
 import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -532,6 +533,12 @@ export default class SamplingTab extends React.Component {
     const isFullBottles =
       this.props.configSampling.sampledBottles >= totalBottles
     const isSampling = status !== STATUS_SAMPLING.READY
+    const getBtnExceededStatus = () => {
+      const isConfigured = Object.values(this.props.configExceededState).find(
+        item => get(item, 'min.active') || get(item, 'max.active')
+      )
+      return isSampling || isScheduled || isFullBottles || !isConfigured
+    }
     // NOTE  -- MOCK DATA
     // let { isActivedOverRange } = this.state
     return (
@@ -811,7 +818,7 @@ export default class SamplingTab extends React.Component {
             loading={isLoadingUpdateSamplingType}
             block
             type="primary"
-            disabled={isScheduled || isSampling || isFullBottles}
+            disabled={getBtnExceededStatus()}
             style={{ marginBottom: 8 }}
             onClick={this.handleClickSamplingExceeded}
           >
