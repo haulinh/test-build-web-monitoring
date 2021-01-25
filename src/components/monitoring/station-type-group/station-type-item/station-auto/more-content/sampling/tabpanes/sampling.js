@@ -200,7 +200,6 @@ export default class SamplingTab extends React.Component {
       const log = await SamplingAPI.getHistory({
         stationAutoId: this.props.stationID,
       })
-      console.log(log, '-----------------------log')
       if (log.data && log.data[0].result === 'FAILED') {
         swal({
           title: i18n.alertWarning,
@@ -357,12 +356,6 @@ export default class SamplingTab extends React.Component {
         }
       }
     } catch (err) {
-      swal({
-        title: i18n.alertWarning,
-        html: i18n.alertErrorTakeSampling,
-        width: 600,
-        type: 'warning',
-      })
       this.props.updateParentState({
         configSampling: {
           ...this.props.configSampling,
