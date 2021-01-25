@@ -301,7 +301,7 @@ export default class AvgSearchAdvanced extends React.Component {
 
   rightChildren() {
     const isEdit = this.getIsEdit()
-    const allowSave = this.getAllowSave()
+    // const allowSave = this.getAllowSave()
     if (isEdit) {
       return (
         <Flex>
@@ -328,7 +328,7 @@ export default class AvgSearchAdvanced extends React.Component {
         </Flex>
       )
     }
-    if (!allowSave) return null
+    // if (!allowSave) return null
     return (
       <Tooltip
         placement="top"
