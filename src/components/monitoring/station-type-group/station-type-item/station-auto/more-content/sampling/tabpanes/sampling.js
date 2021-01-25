@@ -811,7 +811,7 @@ export default class SamplingTab extends React.Component {
             loading={isLoadingUpdateSamplingType}
             block
             type="primary"
-            disabled={isScheduled || isSampling}
+            disabled={isScheduled || isSampling || isFullBottles}
             style={{ marginBottom: 8 }}
             onClick={this.handleClickSamplingExceeded}
           >
