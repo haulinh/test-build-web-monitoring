@@ -56,9 +56,15 @@ export default class UserForm extends React.PureComponent {
           : null,
       }
 
+      let dataSend = data
+      const { password, ...dataRemoved } = data
+      if (!values.password) {
+        dataSend = dataRemoved
+      }
+
       if (this.props.onSubmit) {
         this.props
-          .onSubmit(data)
+          .onSubmit(dataSend)
           .then(res => {
             if (res && res.error) {
               let errorData

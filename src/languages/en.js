@@ -1988,6 +1988,9 @@ export default {
       address: 'Address',
       isAdmin: 'Admin Role',
     },
+    message: {
+      success: 'Register User success!'
+    }
   },
   roleManager: {
     create: {
