@@ -208,7 +208,7 @@ class TableData extends React.Component {
         align: 'center',
         width: 30,
         fixed: 'left',
-        render: (val) => {
+        render: val => {
           const icon = STATION_ICON[val]
 
           return (
@@ -315,12 +315,11 @@ class TableData extends React.Component {
             color = colorLevels[measure.warningLevel]
           }
           // Format number toLocalString(national)
-          if (record && record.status !== stationStatus.GOOD) {
+          if (record && record.status !== stationStatus.DATA_CONNECTED) {
             color = SHAPE.BLACK
             classCustom = ''
             classContainer = ''
           }
-
           return (
             <Flex>
               <div key="left" style={{ position: 'relative', float: 'left' }}>
@@ -374,8 +373,6 @@ class TableData extends React.Component {
   }
 
   render() {
-    // console.log('this.props.stationAutoList',this.props.stationAutoList)
-
     return (
       <Table
         key="_id"
