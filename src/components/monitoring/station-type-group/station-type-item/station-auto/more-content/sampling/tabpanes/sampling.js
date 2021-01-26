@@ -534,9 +534,9 @@ export default class SamplingTab extends React.Component {
       this.props.configSampling.sampledBottles >= totalBottles
     const isSampling = status !== STATUS_SAMPLING.READY
     const getBtnExceededStatus = () => {
-      const isConfigured = Object.values(this.props.configExceededState).find(
-        item => get(item, 'min.active') || get(item, 'max.active')
-      )
+      const isConfigured = Object.values(
+        this.props.configExceededState || {}
+      ).find(item => get(item, 'min.active') || get(item, 'max.active'))
       return isSampling || isScheduled || isFullBottles || !isConfigured
     }
     // NOTE  -- MOCK DATA
