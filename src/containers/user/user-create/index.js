@@ -61,7 +61,7 @@ export default class UserCreate extends React.PureComponent {
     })
     const res = await UserApi.registerUser(data)
     if (res.success) {
-      message.success('Register User success!')
+      message.success(translate('userManager.message.success'))
       this.props.history.push(slug.user.list)
     } else {
       message.error(translate('addon.onSave.add.error'))
