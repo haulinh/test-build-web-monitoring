@@ -1989,8 +1989,8 @@ export default {
       isAdmin: 'Admin Role',
     },
     message: {
-      success: 'Register User success!'
-    }
+      success: 'Register User success!',
+    },
   },
   roleManager: {
     create: {
@@ -3079,7 +3079,10 @@ export default {
       dataLossMonitoring: 'Data Loss',
       dataExceededMonitoring: 'Data Exceeded',
       dataExceededPrepareMonitoring: 'Data Exceeded Prepare',
-      dataGoodMonitoring: 'Data Good'
+      dataGoodMonitoring: 'Data Good',
+      sensorErrorMonitoring: 'Sensor Error',
+      sensorMaintainMonitoring: 'Sensor Maintain',
+      sensorGoodMonitoring: 'Sensor Good',
     },
     overview: 'Overview',
     list: 'List',
