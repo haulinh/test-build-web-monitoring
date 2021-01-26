@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Checkbox, Form } from 'antd'
 import Text from 'components/elements/text'
-import { get, isEmpty } from 'lodash'
+import { get, isEmpty, isNumber } from 'lodash'
 
 const i18n = {
   table: {
@@ -104,22 +104,22 @@ class ExceededConfig extends Component {
         callback(i18n.table.requiredInput)
       }
 
-      if ((value || value === 0) && isNaN(+value)) {
+      if (value && !isNumber(value)) {
         callback(i18n.table.invalidValue)
         return
       }
 
       const min = type === 'min' ? value : config['min'].value
       const max = type === 'max' ? value : config['max'].value
-
-      if (min && max && min >= max) {
+      if (isNumber(min) && isNumber(max) && min >= max) {
         callback(i18n.table.invalidValue)
         return
       }
 
-      if ([min, max].includes(0)) {
-        if (min >= max) callback(i18n.table.invalidValue)
-      }
+      // if ([min, max].includes(0)) {
+      //   console.log(min, max, "--includes--")
+      //   if (min >= max) callback(i18n.table.invalidValue)
+      // }
       callback()
     }
 
