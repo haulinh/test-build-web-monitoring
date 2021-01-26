@@ -54,6 +54,7 @@ export default class SamplingMoreInfo extends React.Component {
     configExceeded: undefined,
     timerId_getStatus: null,
     samplingTypeActive: '',
+    isTakingSamling: false,
   }
 
   constructor(props) {
@@ -71,8 +72,9 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   async getStatus() {
+    if (this.state.isTakingSamling) return
     const res = await StationAPI.getStatus(this.props.stationID)
-  const data = res.data || {}
+    const data = res.data || {}
     let configSampling =
       data && data.configSampling ? data.configSampling : undefined
     let configSamplingSchedule =
@@ -228,6 +230,9 @@ export default class SamplingMoreInfo extends React.Component {
                 getStatus={this.getStatus}
                 samplingTypeActive={samplingTypeActive}
                 configExceededState={configExceededState}
+                updateTakeSamplingStatus={loading =>
+                  this.setState({ isTakingSamling: loading })
+                }
               />
             </TabPane>
             <TabPane
