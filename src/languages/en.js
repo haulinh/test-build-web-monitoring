@@ -3076,6 +3076,10 @@ export default {
       dataGood2: 'is in normal state now:',
       dataLoss: 'data has not been transferred recently.',
       dataConnected: 'has normal signal now.',
+      dataLossMonitoring: 'Data Loss',
+      dataExceededMonitoring: 'Data Exceeded',
+      dataExceededPrepareMonitoring: 'Data Exceeded Prepare',
+      dataGoodMonitoring: 'Data Good'
     },
     overview: 'Overview',
     list: 'List',
