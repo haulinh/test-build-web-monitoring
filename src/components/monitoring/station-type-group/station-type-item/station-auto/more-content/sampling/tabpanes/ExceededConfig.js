@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import { Checkbox, Form } from 'antd'
 import Text from 'components/elements/text'
 import { get, isEmpty } from 'lodash'
-import { requiredFieldRule } from 'utils/rules'
 
 const i18n = {
   table: {
@@ -20,6 +19,7 @@ const i18n = {
     notSetup: t('monitoring.exceeded.table.notSetup'),
     invalidValue: t('monitoring.exceeded.table.invalidValue'),
     requiredInput: t('monitoring.exceeded.table.requiredInput'),
+    alertNull: t('error.nullValue'),
   },
   numRecord: t('monitoring.exceeded.numRecord'),
   numRecordExceed: t('monitoring.exceeded.numRecordExceed'),
@@ -100,11 +100,11 @@ class ExceededConfig extends Component {
     const validateMeasuring = (_, value, callback) => {
       const config = form.getFieldsValue().config[item.key]
 
-      if (valueCheckBox && !config[type].value) {
+      if (valueCheckBox && !config[type].value && config[type].value !== 0) {
         callback(i18n.table.requiredInput)
       }
 
-      if (value && isNaN(+value)) {
+      if ((value || value === 0) && isNaN(+value)) {
         callback(i18n.table.invalidValue)
         return
       }
@@ -200,8 +200,16 @@ class ExceededConfig extends Component {
         title: i18n.table.standrandValue,
         render: item => (
           <TDDivider>
-            <div>{item.minLimit ? item.minLimit : i18n.table.notSetup}</div>
-            <div>{item.maxLimit ? item.maxLimit : i18n.table.notSetup}</div>
+            <div>
+              {item.minLimit || item.minLimit === 0
+                ? item.minLimit
+                : i18n.table.notSetup}
+            </div>
+            <div>
+              {item.maxLimit || item.maxLimit === 0
+                ? item.maxLimit
+                : i18n.table.notSetup}
+            </div>
           </TDDivider>
         ),
       },
@@ -219,8 +227,15 @@ class ExceededConfig extends Component {
           wrapperCol={{ span: 10 }}
         >
           {form.getFieldDecorator('numConsecutiveRecordExceed', {
+            rules: [
+              {
+                required: true,
+                min: 1,
+                type: 'integer',
+                message: i18n.table.invalidValue,
+              },
+            ],
             initialValue: defaultValue.numConsecutiveRecordExceed || 3,
-            rules: [requiredFieldRule(i18n.numRecord)],
           })(<InputNumber />)}
         </Form.Item>
         <TableCustom

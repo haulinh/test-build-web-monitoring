@@ -201,14 +201,7 @@ export default class SamplingTab extends React.Component {
       const log = await SamplingAPI.getHistory({
         stationAutoId: this.props.stationID,
       })
-      if (log.data && log.data[0].result === 'FAILED') {
-        swal({
-          title: i18n.alertWarning,
-          html: i18n.alertErrorTakeSampling,
-          width: 600,
-          type: 'warning',
-        })
-      } else if (log.data && log.data[0].result === 'SUCCESS') {
+      if (log.data && log.data[0].result === 'SUCCESS') {
         this.setState({
           currentStep: 'SUCCESS',
           sampledBottles: this.state.sampledBottles + 1,
@@ -325,9 +318,12 @@ export default class SamplingTab extends React.Component {
       },
     })
     const { stationID } = this.props
-    return SamplingAPI.takeSampling(stationID, {
+    this.props.updateTakeSamplingStatus(true)
+    const result = await SamplingAPI.takeSampling(stationID, {
       configSampling: { protocol: this.state.samplingProtocol },
     })
+    this.props.updateTakeSamplingStatus(false)
+    return result
   }
 
   async handleClickSampling() {
@@ -357,6 +353,12 @@ export default class SamplingTab extends React.Component {
         }
       }
     } catch (err) {
+      swal({
+        title: i18n.alertWarning,
+        html: i18n.alertErrorTakeSampling,
+        width: 600,
+        type: 'warning',
+      })
       this.props.updateParentState({
         configSampling: {
           ...this.props.configSampling,
