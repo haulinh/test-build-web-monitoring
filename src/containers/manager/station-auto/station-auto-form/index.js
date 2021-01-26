@@ -14,7 +14,7 @@ import {
   InputNumber,
   message,
   Row,
-  Select
+  Select,
 } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import InputNumberCell from 'components/elements/input-number-cell'
@@ -58,7 +58,7 @@ const i18n = {
     required: translate('stationAutoManager.form.name.required'),
     pattern: translate('stationAutoManager.form.name.pattern'),
     max: translate('stationAutoManager.form.name.max'),
-  }
+  },
 }
 
 @Form.create({})
@@ -304,7 +304,21 @@ export default class StationAutoForm extends React.PureComponent {
       // console.log(data.measuringList, '---data---')
       // console.log(data, '---data---')
       const isDisableSave = data.measuringList.some(measuring => {
-        const { minLimit, maxLimit, minTend, maxTend, minRange, maxRange } = measuring
+        let {
+          minLimit,
+          maxLimit,
+          minTend,
+          maxTend,
+          minRange,
+          maxRange,
+        } = measuring
+        minLimit = _.isNumber(minLimit) ? minLimit : null
+        maxLimit = _.isNumber(maxLimit) ? maxLimit : null
+        minTend = _.isNumber(minTend) ? minTend : null
+        maxTend = _.isNumber(maxTend) ? maxTend : null
+        minRange = _.isNumber(minRange) ? minRange : null
+        maxRange = _.isNumber(maxRange) ? maxRange : null
+        
         if (!_.isNil(maxLimit) && !_.isNil(maxTend) && maxTend >= maxLimit) {
           message.error(t('stationAutoManager.form.errorMaxTend'))
           return true
@@ -313,16 +327,22 @@ export default class StationAutoForm extends React.PureComponent {
           message.error(t('stationAutoManager.form.errorMinTend'))
           return true
         }
+
         if (!_.isNil(minLimit) && !_.isNil(maxLimit) && minLimit >= maxLimit) {
           message.error(t('stationAutoManager.form.errorMinMax'))
+          console.log('--1--')
           return true
         }
+
         if (!_.isNil(minTend) && !_.isNil(maxTend) && minTend >= maxTend) {
+          console.log(minTend, maxTend, '---maxTend--')
           message.error(t('stationAutoManager.form.errorMinMax'))
+          console.log('--2--')
           return true
         }
         if (!_.isNil(minRange) && !_.isNil(maxRange) && minRange >= maxRange) {
           message.error(t('stationAutoManager.form.errorMinMax'))
+          console.log('--3--')
           return true
         }
         return false
@@ -483,20 +503,20 @@ export default class StationAutoForm extends React.PureComponent {
                   label={t('stationAutoManager.form.key.label')}
                 >
                   {getFieldDecorator('key', {
-                   rules: [
-                    {
-                      required: true,
-                      message: i18n.key.required,
-                    },
-                    {
-                      pattern: PATTERN_KEY,
-                      message: i18n.key.pattern,
-                    },
-                    {
-                      max: 64,
-                      message: i18n.key.max,
-                    },
-                  ],
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n.key.required,
+                      },
+                      {
+                        pattern: PATTERN_KEY,
+                        message: i18n.key.pattern,
+                      },
+                      {
+                        max: 64,
+                        message: i18n.key.max,
+                      },
+                    ],
                   })(
                     <Input
                       disabled={this.props.isEdit}
