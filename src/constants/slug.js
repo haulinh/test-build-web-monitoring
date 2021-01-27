@@ -128,6 +128,9 @@ export default {
     detail: '/cameraControl/detail/:key/:name',
     detailWithKey: '/cameraControl/detail',
   },
+  dataAnalytics: {
+    base: '/data-analytic',
+  },
   map: {
     base: '/map',
     aqi: '/map/aqi',
@@ -316,6 +319,7 @@ export const MENU_NAME = {
     map: translate('menuApp.monitoring.map'),
     mapAQI: translate('menuApp.monitoring.mapAQI'),
     camera: translate('menuApp.monitoring.camera'),
+    dataAnalytics: translate('menuApp.monitoring.dataAnalytics'),
     historyData: translate('menuApp.monitoring.historyData'),
     avgData: translate('menuApp.monitoring.avgData'),
     report: translate('menuApp.monitoring.report'),
@@ -405,6 +409,7 @@ export const TOOLTIP_MENU = {
     base: translate('tooltipMenuApp.monitoring.base'),
     map: translate('tooltipMenuApp.monitoring.map'),
     camera: translate('tooltipMenuApp.monitoring.camera'),
+    dataAnalytics: translate('tooltipMenuApp.monitoring.dataAnalytics'),
     historyData: translate('tooltipMenuApp.monitoring.historyData'),
     avgData: translate('tooltipMenuApp.monitoring.avgData'),
     mapAQI: translate('tooltipMenuApp.monitoring.mapAQI'),

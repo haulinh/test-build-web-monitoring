@@ -2666,6 +2666,7 @@ export default {
       map: 'Bản đồ',
       mapAQI: 'Bản đồ AQI',
       camera: 'Camera',
+      dataAnalytics: 'Biểu đồ',
       historyData: 'Tra cứu dữ liệu',
       avgData: 'Dữ liệu trung bình',
       report: 'Báo cáo',
@@ -2888,6 +2889,7 @@ export default {
         'Giám sát số liệu theo thời gian thực theo từng điểm quan trắc và thao tác lấy mẫu',
       map: 'Giám sát trực quan vị trí điểm quan trắc trên nền bản đồ',
       camera: 'Giám sát tất cả camera tại các điểm quan trắc',
+      dataAnalytics: 'Phân tích dữ liệu các điểm quan trắc',
       historyData:
         'Tra cứu các dữ liệu gốc của điểm quan trắc theo  khoảng thời gian',
       avgData:
@@ -3229,4 +3231,26 @@ export default {
     filterByExceeded: 'Lọc ra danh sách trạm vượt ngưỡng',
     allowedAQI: 'Danh sách trạm cấu hình AQI',
   },
+  dataAnalytics: {
+    filterForm: {
+      province: {
+        label: 'Đơn vị quản lý',
+      },
+      stationType: {
+        label: 'Loại trạm',
+      },
+      operator: {
+        label: 'Hàm tính'
+      },
+      time: {
+        label: 'Thời gian'
+      },
+      stationAuto: {
+        label: 'Trạm quan trắc ({{=it.count}} trạm)'
+      },
+      parameter: {
+        label: 'Các thông số quan trắc ({{=it.count}} thông số)'
+      }
+    }
+  } 
 }
