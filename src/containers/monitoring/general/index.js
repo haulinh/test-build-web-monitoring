@@ -286,7 +286,7 @@ export default class MonitoringGeneral extends React.Component {
                 ))
             if (hasStation) {
               total = total + 1
-              countGood = countGood + (_.isEqual(status, 'GOOD') ? 1 : 0)
+              countGood = countGood + (_.isEqual(status, 'DATA_CONNECTED') ? 1 : 0)
             }
 
             return hasStation

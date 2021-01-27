@@ -87,7 +87,7 @@ export default class OverviewDashboard extends Component {
     let groupProvince = _.groupBy(dataLastLog, 'province.key')
     let isGroupProvince = Object.keys(groupProvince).length > 1
 
-    const goodCount = _.filter(dataLastLog, ({ status }) => status === 'GOOD')
+    const goodCount = _.filter(dataLastLog, ({ status }) => status === 'DATA_CONNECTED')
       .length
     this.setState({
       isGroupProvince: isGroupProvince,
@@ -172,7 +172,7 @@ export default class OverviewDashboard extends Component {
       image: item.icon ? item.icon : arrayIcon[index],
       number: this.state.stationCount[item.key],
       totalStationGood: this.state.rows[item.key].filter(
-        ({ status }) => status === 'GOOD'
+        ({ status }) => status === 'DATA_CONNECTED'
       ).length,
     }))
   }
