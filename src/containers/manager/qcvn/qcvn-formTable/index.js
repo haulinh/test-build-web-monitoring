@@ -65,7 +65,11 @@ export default class QCVNFormTable extends React.PureComponent {
                   this.handleChangeMeasuring(value, index, 'name')
                 }
                 options={this.props.measuringListSource.map(d => (
-                  <Select.Option key={d.key} value={d.key}>
+                  <Select.Option
+                    key={d.key}
+                    value={d.key}
+                    disabled={this.getDisableSelect(d.key)}
+                  >
                     {d.name}
                   </Select.Option>
                 ))}
@@ -157,6 +161,12 @@ export default class QCVNFormTable extends React.PureComponent {
       },
     ]
   }
+
+  getDisableSelect = measureKeySelect => {
+    const { measuringList } = this.props.form.getFieldsValue()
+    return measuringList.some(measure => measure.key === measureKeySelect)
+  }
+
   async componentWillMount() {
     this.setState({
       measuringList: this.props.dataSource.map((item, index) => {
