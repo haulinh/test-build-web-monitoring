@@ -356,6 +356,9 @@ export default class AvgSearchAdvanced extends React.Component {
       delete rawValues.fromDate
       delete rawValues.toDate
     }
+    if (rawValues.stationType === '') {
+      rawValues.stationType = 'ALL'
+    }
     form.validateFields((err, values) => {
       if (err) return
       let params = {

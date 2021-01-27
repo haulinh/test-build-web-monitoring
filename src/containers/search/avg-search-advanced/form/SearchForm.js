@@ -420,7 +420,6 @@ export default class SearchAvgForm extends React.Component {
   }
 
   render() {
-    // const measuringList = this.getMeasuringList()
     const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
     return (
       <SearchFormContainer>
