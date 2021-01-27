@@ -5,11 +5,12 @@ import styled from 'styled-components'
 import ChartRatioView from './ChartRatio'
 import ChartStatusView from './ChartStatus'
 
-const WrapperView = styled.div` 
-margin-top: 16px;
-border-radius: 4px;
-display: flex;
-height: 50px background: #ccd 
+const WrapperView = styled.div`
+  margin-top: 16px;
+  border-radius: 4px;
+  display: flex;
+  height: 50px;
+  background: #ccd;
 `
 
 @autobind

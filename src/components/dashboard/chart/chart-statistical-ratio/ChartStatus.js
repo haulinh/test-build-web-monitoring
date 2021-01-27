@@ -45,9 +45,8 @@ export default class ChartStatusView extends React.PureComponent {
     // const tpm = _.head(_.values(dataGroup))
 
     //let total = 0
-
     if (!_.isEmpty(tpm)) {
-      goodTotal = _.filter(tpm, { status: STATUS_STATION.GOOD }).length
+      goodTotal = _.filter(tpm, { status: STATUS_STATION.DATA_CONNECTED }).length
       lossData = _.size(tpm) - goodTotal //_.filter(tpm, { status: 'DATA_LOSS' }).length
       //total = _.size(tpm) - goodTotal - lossData
     }
@@ -150,7 +149,7 @@ export default class ChartStatusView extends React.PureComponent {
     _.forEach(_.keys(dataGroup), key => {
       const ls = _.get(dataGroup, key, [])
 
-      const good = _.filter(ls, ({ status }) => status === STATUS_STATION.GOOD)
+      const good = _.filter(ls, ({ status }) => status === STATUS_STATION.DATA_CONNECTED)
         .length
       // const dataLoss = _.filter(ls, ({ status }) => status === 'DATA_LOSS')
       //   .length
