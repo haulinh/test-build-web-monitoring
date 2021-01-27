@@ -53,7 +53,7 @@ export default class StationTypeSummary extends React.Component {
     const { stationType, stationAutoList, language } = this.props
     const goodTotal = filter(
       stationAutoList || [],
-      ({ status }) => status === 'GOOD'
+      ({ status }) => status === 'DATA_CONNECTED'
     ).length
     if (stationAutoList.length === 0) return null
     return (
