@@ -178,7 +178,7 @@ export default class OverviewDashboard extends Component {
   }
 
   timKiemStatusQuaLastLog = (dataLog = []) => {
-    let resStatus = STATUS_STATION.GOOD
+    let resStatus = STATUS_STATION.DATA_CONNECTED
 
     const me = this
     _.forEach(dataLog, function(item) {
