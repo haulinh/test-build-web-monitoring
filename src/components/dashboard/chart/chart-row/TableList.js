@@ -113,7 +113,7 @@ export default class TableListCustom extends React.PureComponent {
   }
 
   state = {
-    stationStatus: STATUS_STATION.GOOD,
+    stationStatus: STATUS_STATION.DATA_CONNECTED,
     filter: FILTER.status,
     filterType: FILTER_TYPE.desc,
   }
@@ -185,7 +185,7 @@ export default class TableListCustom extends React.PureComponent {
       }
       return warLevel
     }
-    return STATUS_STATION.GOOD
+    return STATUS_STATION.DATA_CONNECTED
   }
 
   sortNameList(data, key, asc = true) {

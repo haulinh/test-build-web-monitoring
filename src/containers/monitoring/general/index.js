@@ -79,7 +79,7 @@ export default class MonitoringGeneral extends React.Component {
       }
       return warLevel
     }
-    return STATUS_STATION.GOOD
+    return STATUS_STATION.DATA_CONNECTED
   }
 
   appendWarningLevelStationAuto(stationAutoList) {

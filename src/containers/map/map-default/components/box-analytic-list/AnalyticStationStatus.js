@@ -23,7 +23,7 @@ export default class BoxAnalyticList extends React.PureComponent {
     focusStatus: [
       STATUS_STATION.DATA_LOSS,
       STATUS_STATION.NOT_USE,
-      STATUS_STATION.GOOD,
+      STATUS_STATION.DATA_CONNECTED,
     ],
   }
 
@@ -96,14 +96,14 @@ export default class BoxAnalyticList extends React.PureComponent {
           </Item>
           <Item
             onClick={() => {
-              this.handelFocusStatus(STATUS_STATION.GOOD)
+              this.handelFocusStatus(STATUS_STATION.DATA_CONNECTED)
             }}
           >
             <BoxNumberView
               color={STATUS_OPTIONS['GOOD'].color}
               type={t(STATUS_OPTIONS['GOOD'].title)}
               number={this.state.connected}
-              focusStatus={STATUS_STATION.GOOD}
+              focusStatus={STATUS_STATION.DATA_CONNECTED}
               focusParam={this.state.focusStatus}
             />
           </Item>
