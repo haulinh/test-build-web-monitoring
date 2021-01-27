@@ -225,6 +225,9 @@ export default class StationAutoFormTable extends React.Component {
           <FormItem style={{ marginBottom: 0 }}>
             {getFieldDecorator(`measuringList[${index}].unit`, {
               initialValue: text,
+              rule: {
+                whitespace: true,
+              },
             })(<Input style={{ width: 120 }} />)}
           </FormItem>
         ),

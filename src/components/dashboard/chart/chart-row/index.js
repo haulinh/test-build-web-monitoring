@@ -161,7 +161,7 @@ export class ChartSummary extends React.Component {
   }
 
   renderSubTitle = () => {
-    const good = _.get(_.countBy(this.props.stationList, 'status'), 'GOOD', 0)
+    const good = _.get(_.countBy(this.props.stationList, 'status'), 'DATA_CONNECTED', 0)
     return <div>&nbsp; {`(${good}/${this.props.totalStation})`}</div>
   }
 

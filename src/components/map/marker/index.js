@@ -345,7 +345,7 @@ export default class MarkerStation extends PureComponent {
           position={this.props.mapLocation}
           labelProps={{
             labelContent: this.props.name
-              ? this.props.stationStatus === STATUS_STATION.GOOD
+              ? this.props.stationStatus === STATUS_STATION.DATA_CONNECTED
                 ? this.props.name
                 : this.props.name +
                   '<br/>' +

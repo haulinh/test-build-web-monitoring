@@ -2011,6 +2011,9 @@ export default {
       address: 'Address',
       isAdmin: 'Admin Role',
     },
+    message: {
+      success: 'Register User success!',
+    },
   },
   roleManager: {
     create: {
@@ -2235,6 +2238,11 @@ export default {
         fileMapping: 'File Mapping',
         updateSelectStation: 'Update selected stations',
       },
+    },
+  },
+  provinceManager: {
+    form: {
+      errorDeleteProvince: `The Action Can't Be Completed Because There Are Station In This Province`,
     },
   },
   subscriptionStatus: {
@@ -3099,6 +3107,13 @@ export default {
       dataGood2: 'is in normal state now:',
       dataLoss: 'data has not been transferred recently.',
       dataConnected: 'has normal signal now.',
+      dataLossMonitoring: 'Lost connection',
+      dataExceededMonitoring: 'Exceeded',
+      dataExceededPrepareMonitoring: 'Tend to exceed',
+      dataGoodMonitoring: 'Good',
+      sensorErrorMonitoring: 'Device error',
+      sensorMaintainMonitoring: 'Calibration',
+      sensorGoodMonitoring: 'Good',
     },
     overview: 'Overview',
     list: 'List',

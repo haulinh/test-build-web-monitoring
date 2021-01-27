@@ -51,7 +51,7 @@ export default class StationTypeList extends React.Component {
     const monitoringList = this.getMonitoringList()
     const monitoringListStatusGood = monitoringList.map(element =>
       element.stationAutoList.filter(
-        monitoring => monitoring.status === stationStatus.GOOD
+        monitoring => monitoring.status === stationStatus.DATA_CONNECTED
       )
     )
     const monitoringListStatusGoodFilter = monitoringListStatusGood.filter(
