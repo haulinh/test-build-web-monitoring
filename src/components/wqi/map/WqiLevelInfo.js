@@ -3,6 +3,8 @@ import styled from 'styled-components'
 // import levels from "../../../constants/aqi-level"
 import { Tooltip } from 'antd'
 
+import {sortBy} from 'lodash'
+
 const LevelWrapper = styled.div`
   position: absolute;
   left: 8px;
@@ -34,15 +36,16 @@ const LevelLabel = styled.div`
 
 export default class WqiLevelInfo extends React.PureComponent {
   render() {
-    // console.log(this.state.dataLevelAQI,"dataLevelAQI")
+    // console.log(sortBy(this.props.wqiLevel,['min']),"wqiLevel")
     return (
       <LevelWrapper>
         <LevelView>
-          {this.props.wqiLevel.map(
+          {sortBy(this.props.wqiLevel,['min']).map(
             (
               { color, backgroundColor, name, description, min, max },
               index
             ) => {
+              // console.log(min, max, name, index , "0------0")
               return (
                 <Tooltip key={index} placement="top" title={description}>
                   <LevelLabel>
