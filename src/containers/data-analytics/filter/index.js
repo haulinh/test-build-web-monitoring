@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Col, Form, Row } from 'antd'
 import styled from 'styled-components'
+import moment from 'moment'
 import { get } from 'lodash'
 
 import dataInsightApi from 'api/DataInsight'
@@ -51,14 +52,37 @@ class FilterForm extends Component {
     try {
       const { form } = this.props
       const values = await form.validateFields()
+      const times = this.getTimes(values[FIELDS.RANGE_TIME])
       const params = {
         stationAutoKeys: values[FIELDS.STATION_AUTO].join(','),
         measuringList: values[FIELDS.MEASURING_LIST].join(','),
+        stationType: values[FIELDS.STATION_TYPE],
+        from: times.from.format(),
+        to: times.to.format(),
       }
       const result = await dataInsightApi.getDataInsight(params)
       console.log(result)
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  getTimes = rangeTime => {
+    if (Array.isArray(rangeTime))
+      return {
+        from: rangeTime[0].startOf('days'),
+        to: rangeTime[1].endOf('days'),
+      }
+    if (rangeTime === 1)
+      return {
+        from: moment().subtract(1, 'days'),
+        to: moment(),
+      }
+    return {
+      from: moment()
+        .subtract(rangeTime, 'days')
+        .startOf('days'),
+      to: moment().endOf('days'),
     }
   }
 
