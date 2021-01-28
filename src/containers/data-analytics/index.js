@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import Clearfix from 'components/elements/clearfix'
 
 import FilterForm from './filter'
+import ReportData from './report-data'
 
 const Container = styled.div`
   padding: 24px;
@@ -19,6 +21,8 @@ class DataAnalytics extends Component {
     return (
       <Container>
         <FilterForm onData={this.onData} />
+        <Clearfix height={36} />
+        <ReportData />
       </Container>
     )
   }
