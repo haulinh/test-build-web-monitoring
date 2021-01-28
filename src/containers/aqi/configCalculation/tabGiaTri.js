@@ -67,7 +67,7 @@ export default class TabMucDo extends React.Component {
   compareToMax = (rule, value, callback, fliedName) => {
     const { form } = this.props
     const valueMax = form.getFieldValue(fliedName)
-    if (_.isNumber(value) && _.isNumber(valueMax) && value >= valueMax) {
+    if (_.isNumber(value) && _.isNumber(valueMax) && value > valueMax) {
       callback(i18n.compareToMax)
     } else {
       callback()
@@ -77,7 +77,7 @@ export default class TabMucDo extends React.Component {
   compareToMin = (rule, value, callback, fliedName) => {
     const { form } = this.props
     const valueMin = form.getFieldValue(fliedName)
-    if (_.isNumber(value) && _.isNumber(valueMin) && value <= valueMin) {
+    if (_.isNumber(value) && _.isNumber(valueMin) && value < valueMin) {
       callback(i18n.compareToMin)
     } else {
       callback()
