@@ -50,7 +50,7 @@ class FilterForm extends Component {
 
   handleSearch = async () => {
     try {
-      const { form } = this.props
+      const { form, onData } = this.props
       const values = await form.validateFields()
       const times = this.getTimes(values[FIELDS.RANGE_TIME])
       const params = {
@@ -61,7 +61,7 @@ class FilterForm extends Component {
         to: times.to.format(),
       }
       const result = await dataInsightApi.getDataInsight(params)
-      console.log(result)
+      onData(result, values[FIELDS.OPERATOR])
     } catch (error) {
       console.log(error)
     }
@@ -119,7 +119,7 @@ class FilterForm extends Component {
   onFetchStationTypeSuccess = stationTypes => {
     const { form } = this.props
     this.stationTypes = stationTypes
-    form.setFieldsValue({ [FIELDS.STATION_TYPE]: get(stationTypes, '0.key') })
+    form.setFieldsValue({ [FIELDS.STATION_TYPE]: get(stationTypes, '4.key') })
   }
 
   onFetchStationAutoSuccess = stationAutos => {
