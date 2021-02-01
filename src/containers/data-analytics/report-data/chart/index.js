@@ -42,6 +42,14 @@ class Chart extends Component {
     this.chartInstance.addSeries(options)
   }
 
+  removeCharts = (ids, redraw = false) => {
+    ids.forEach(id => {
+      const chart = this.chartInstance.get(id)
+      if (chart) chart.remove()
+    })
+    if (redraw) this.chartInstance.redraw()
+  }
+
   getChartSeries = seriesId =>
     !seriesId ? this.chartInstance.series : this.chartInstance.get(seriesId)
 
@@ -53,6 +61,7 @@ class Chart extends Component {
       redraw: this.redraw,
       drawLine: this.drawLine,
       addSeries: this.addSeries,
+      removeCharts: this.removeCharts,
       getChartSeries: this.getChartSeries,
     })
   }

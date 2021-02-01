@@ -48,6 +48,7 @@ class DataAnalytics extends Component {
   }
 
   onDrawLine = qcvns => {
+    // const series = this.chart.getChartSeries()
     const { measure: measureKey } = this.state
     if (!measureKey) return
     qcvns.forEach(qcvn => {
@@ -60,7 +61,7 @@ class DataAnalytics extends Component {
         this.chart.drawLine(maxLimitId, { value: measure.maxLimit, length: 3 })
     })
 
-    // this.chart.redraw()
+    this.chart.redraw()
   }
 
   setChart = chart => {

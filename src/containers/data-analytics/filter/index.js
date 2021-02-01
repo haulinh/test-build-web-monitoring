@@ -217,7 +217,7 @@ class FilterForm extends Component {
             <Col md={6} lg={6} sm={12}>
               <Form.Item label={i18n.timeLabel}>
                 {form.getFieldDecorator(FIELDS.RANGE_TIME, {
-                  initialValue: 1,
+                  initialValue: 7,
                 })(<OptionsTimeRange />)}
               </Form.Item>
             </Col>
