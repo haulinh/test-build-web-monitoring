@@ -2073,6 +2073,9 @@ export default {
       camera: {
         name: 'Camera',
       },
+      chart : {
+        name: 'Biểu đồ',
+      },
       dataSearch: {
         name: 'Tra cứu dữ liệu',
       },
@@ -2675,6 +2678,7 @@ export default {
       map: 'Bản đồ',
       mapAQI: 'Bản đồ AQI',
       camera: 'Camera',
+      chart: 'Biểu đồ',
       dataAnalytics: 'Biểu đồ',
       historyData: 'Tra cứu dữ liệu',
       avgData: 'Dữ liệu trung bình',

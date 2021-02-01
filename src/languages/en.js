@@ -2077,6 +2077,9 @@ export default {
       camera: {
         name: 'Camera',
       },
+      chart : {
+        name: 'Chart',
+      },
       dataSearch: {
         name: 'History Data',
       },
@@ -2683,6 +2686,7 @@ export default {
       map: 'Map',
       mapAQI: 'Map AQI',
       camera: 'Camera',
+      chart: 'Chart',
       dataAnalytics: 'Data Analytic',
       historyData: 'History Data',
       avgData: 'Average Data',
