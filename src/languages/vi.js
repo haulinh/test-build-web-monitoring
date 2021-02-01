@@ -3044,6 +3044,7 @@ export default {
     sampling: {
       lostConnection:
         'Không kết nối được với dịch vụ lấy mẫu, vui lòng liên hệ quản trị viên!',
+      StatusFail: 'Không thể lấy trạng thái, hãy thử lại',
     },
     camera: {
       lostConnection: 'Không kết nối được với Camera, vui lòng kiểm tra lại!',

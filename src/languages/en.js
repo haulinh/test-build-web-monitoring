@@ -3043,6 +3043,7 @@ export default {
     sampling: {
       lostConnection:
         'Unable to connect to the sampling service, please contact the administrator!',
+        StatusFail: 'Cannot get status, try again',
     },
     camera: {
       lostConnection: "Can't connect with Camera, Please check the connection!",
