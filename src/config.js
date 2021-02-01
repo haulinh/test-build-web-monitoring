@@ -72,7 +72,7 @@ export function getConfigApi() {
     // organization: 'http://localhost:5005/organization',
     role: c('role'),
     sampling: c('samplingNew'),
-    // sampling: 'http://192.168.0.185:5020/samplingNew',
+    // sampling: 'http://localhost:5020/samplingNew',
     // sampling: c('sampling'),
     support: c('support'),
     province: c('province'),
@@ -90,6 +90,9 @@ export function getConfigApi() {
     // mobile
     mobile: c('mobile2'),
     // mobile: 'http://localhost:3000',
+
+    // dataInsight: c('data-insight'),
+    dataInsight: 'http://localhost:5022/data-insight',
     camera: config.camera,
     firebase: config.firebase,
     isAdvanced: config.isAdvanced,

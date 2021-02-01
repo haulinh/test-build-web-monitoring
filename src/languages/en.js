@@ -2683,6 +2683,7 @@ export default {
       map: 'Map',
       mapAQI: 'Map AQI',
       camera: 'Camera',
+      dataAnalytics: 'Data Analytic',
       historyData: 'History Data',
       avgData: 'Average Data',
       report: 'Reports',
@@ -2833,6 +2834,7 @@ export default {
         'Real-time monitoring of data for each monitoring point and sampling operations',
       map: 'Monitoring location of monitoring points on the map background',
       camera: 'Monitor all cameras at the monitoring points',
+      dataAnalytics: 'Analytics of the data',
       historyData:
         'Look up the original data of the monitoring point by time period',
       avgData:

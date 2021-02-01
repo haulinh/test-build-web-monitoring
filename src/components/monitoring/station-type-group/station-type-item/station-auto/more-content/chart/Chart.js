@@ -460,37 +460,7 @@ export default class ChartRowToChart extends React.Component {
             </div>
           </div>
         </Skeleton>
-        {!this.state.isLoading && (
-          <div className="monitoring-chart--tab">
-            {this.state.current.length > 0 && (
-              <Tabs
-                style={{
-                  width: 900,
-                  paddingLeft: 8,
-                  paddingRight: 8,
-                }}
-                defaultActiveKey={_.get(this.state.current[0], 'key', '')}
-                onTabClick={this.handleClick}
-              >
-                {_.map(this.state.categories, ({ key, name, unit }) => (
-                  <TabPane
-                    tab={unit ? `${name} (${unit})` : `${name}`}
-                    key={key}
-                  />
-                ))}
-                {/* {_.map(this.state.categories, ({ key, name, unit }) => {
-                if(! (key === 'COD')) return null
-                return (
-                  <TabPane
-                    tab={unit ? `${name} (${unit})` : `${name}`}
-                    key={key}
-                  />
-                )
-              })} */}
-              </Tabs>
-            )}
-          </div>
-        )}
+
       </ChartWrapper>
     )
   }
