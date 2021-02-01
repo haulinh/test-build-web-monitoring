@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
 
 import Chart from './chart'
+import DataTable from './table'
 import ChartType, { CHART_TYPE } from './chart-type'
 import AnalyzeDataContext from '../context'
 
@@ -15,14 +16,17 @@ const i18n = {
 const TabPane = Tabs.TabPane
 
 const Container = styled.div``
+const ChartWrapper = styled.div`
+  display: ${props => (props.hidden ? 'none' : 'block')};
+`
 
 class ReportData extends Component {
   static contextType = AnalyzeDataContext
 
   onChangeQcvn = (qcvnIds, list) => {
-    const { onDrawLine } = this.props
+    const { onChangeQcvn } = this.props
     const qcvnSelected = list.filter(item => qcvnIds.includes(item._id))
-    onDrawLine(qcvnSelected)
+    onChangeQcvn(qcvnSelected)
   }
 
   getMeasures = () => {
@@ -31,7 +35,6 @@ class ReportData extends Component {
   }
 
   onChangeChartType = chartType => {
-    if (![CHART_TYPE.COLUMN, CHART_TYPE.LINE].includes(chartType)) return
     const { onReDrawChart } = this.props
     onReDrawChart({ chartType })
   }
@@ -42,11 +45,15 @@ class ReportData extends Component {
   }
 
   render() {
+    const { data, qcvns, dataType, chartType } = this.props
     return (
       <Container>
         <Row gutter={16} align="middle">
           <Col span={8}>
-            <ChartType onChange={this.onChangeChartType} />
+            <ChartType
+              onChange={this.onChangeChartType}
+              chartType={chartType}
+            />
           </Col>
           <Col span={16}>
             <Row type="flex" align="middle">
@@ -64,12 +71,19 @@ class ReportData extends Component {
         </Row>
         <Row>
           <Col>
-            <Chart />
-            <Tabs onChange={this.onChangeMeasure}>
-              {this.getMeasures().map(measure => (
-                <TabPane tab={measure} key={measure}></TabPane>
-              ))}
-            </Tabs>
+            <ChartWrapper hidden={chartType !== CHART_TYPE.TABLE}>
+              <DataTable data={data} qcvns={qcvns} dataType={dataType} />
+            </ChartWrapper>
+            <ChartWrapper
+              hidden={![CHART_TYPE.COLUMN, CHART_TYPE.LINE].includes(chartType)}
+            >
+              <Chart />
+              <Tabs onChange={this.onChangeMeasure}>
+                {this.getMeasures().map(measure => (
+                  <TabPane tab={measure} key={measure}></TabPane>
+                ))}
+              </Tabs>
+            </ChartWrapper>
           </Col>
         </Row>
       </Container>

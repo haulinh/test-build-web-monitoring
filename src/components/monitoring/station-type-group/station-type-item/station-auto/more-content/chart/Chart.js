@@ -1,4 +1,4 @@
-import { Col, Row, Skeleton, Tabs } from 'antd'
+import { Col, Row, Skeleton } from 'antd'
 import { getDataStationAutoAvg_v2 } from 'api/DataStationAutoApi'
 import InputEditCell from 'components/elements/input-edit-cell'
 import Label from 'components/elements/label'
@@ -14,7 +14,6 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { DATA_COLOR } from 'themes/color'
 
-const { TabPane } = Tabs
 const ChartWrapper = styled.div`
   flex-direction: column;
   position: relative;

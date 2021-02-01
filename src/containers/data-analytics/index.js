@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { isEmpty } from 'lodash'
 
 import FilterForm from './filter'
 import ReportData from './report-data'
 import { AnalyzeDataProvider } from './context'
 import { CHART_TYPE } from './report-data/chart-type'
 import { OPERATOR } from './filter/select-operator'
-import { isEmpty } from 'lodash'
 
 const i18n = {
   measuredValue: 'Giá trị đo',
@@ -20,56 +20,115 @@ class DataAnalytics extends Component {
 
   state = {
     data: {},
+    qcvns: [],
     measure: null,
     dataType: OPERATOR.AVG,
     chartType: CHART_TYPE.COLUMN,
   }
 
   onData = (data, dataType) => {
-    if (isEmpty(data)) return
+    if (isEmpty(data)) {
+      this.chart.removeCharts([], true)
+      return
+    }
     const measure = Object.keys(data)[0]
     this.setState({ data, dataType, measure }, this.onReDrawChart)
   }
 
+  removeAllLine = () => {
+    const { qcvns } = this.state
+    qcvns.forEach(item => {
+      const { name } = item
+      this.chart.removeCharts([
+        this.chartId(name, 'min'),
+        this.chartId(name, 'max'),
+      ])
+    })
+  }
+
   onReDrawChart = (params = {}) => {
-    let { data, measure, dataType, chartType } = this.state
+    this.removeAllLine()
+
+    let { data, measure, dataType, chartType, qcvns } = this.state
     measure = params.measure || measure
     dataType = params.dataType || dataType
     chartType = params.chartType || chartType
 
-    const series = (data[measure] || []).map(item => item.analyzeData[dataType])
+    this.setState({ measure, dataType, chartType }, () =>
+      this.onChangeQcvn(qcvns)
+    )
+
+    if (![CHART_TYPE.COLUMN, CHART_TYPE.LINE].includes(chartType)) return
+
+    const getDescription = item => {
+      if (dataType === OPERATOR.MIN) return item.analyzeData.timeHaveMinValue
+      if (dataType === OPERATOR.MAX) return item.analyzeData.timeHaveMaxValue
+      return null
+    }
+    const series = (data[measure] || []).map(item => ({
+      y: item.analyzeData[dataType],
+      description: getDescription(item),
+    }))
+
     const categories = (data[measure] || []).map(item => item.stationName)
-    this.chart.addSeries(categories, {
-      type: chartType,
-      data: series,
-      name: i18n.measuredValue,
-    })
-    this.setState({ measure, dataType, chartType })
+    this.chart.addSeries(
+      categories,
+      {
+        id: 'mainChart',
+        data: series,
+        type: chartType,
+        name: i18n.measuredValue,
+      },
+      true
+    )
   }
 
-  onDrawLine = qcvns => {
-    // const series = this.chart.getChartSeries()
-    const { measure: measureKey } = this.state
+  onChangeQcvn = (qcvns, redraw = true) => {
+    const { chartType, measure: measureKey, qcvns: oldQcvns } = this.state
+    this.setState({ qcvns })
+    if (![CHART_TYPE.COLUMN, CHART_TYPE.LINE].includes(chartType)) return
     if (!measureKey) return
-    qcvns.forEach(qcvn => {
-      const { measuringList, name } = qcvn
-      const measure =
-        (measuringList || []).find(item => item.key === measureKey) || {}
-
-      const maxLimitId = `${name} - max limit`
-      if (measure.maxLimit || measure.maxLimit === 0)
-        this.chart.drawLine(maxLimitId, { value: measure.maxLimit, length: 3 })
+    // remove line
+    oldQcvns.forEach(qcvn => {
+      const { name } = qcvn
+      if (!qcvns.find(item => item.name === name)) {
+        this.chart.removeCharts([
+          this.chartId(name, 'max'),
+          this.chartId(name, 'min'),
+        ])
+      }
     })
 
-    this.chart.redraw()
+    // add line
+    qcvns.forEach(qcvn => {
+      const { name, measuringList } = qcvn
+      const measure = measuringList.find(measure => measure.key === measureKey)
+      if (!measure) return
+      if (measure.maxLimit || measure.maxLimit === 0)
+        this.chart.drawLine({
+          name,
+          id: this.chartId(name, 'max'),
+          value: measure.maxLimit,
+        })
+      if (measure.minLimit || measure.minLimit === 0)
+        this.chart.drawLine({
+          name,
+          id: this.chartId(name, 'min'),
+          value: measure.minLimit,
+        })
+    })
+    if (redraw) this.chart.redraw()
   }
+
+  chartId = (name, type) => `${name}_${type}`
 
   setChart = chart => {
     this.chart = chart
   }
 
   render() {
-    const { data } = this.state
+    const { data, qcvns, dataType, chartType } = this.state
+
     return (
       <AnalyzeDataProvider
         value={{
@@ -81,8 +140,11 @@ class DataAnalytics extends Component {
           <FilterForm onData={this.onData} onReDrawChart={this.onReDrawChart} />
           <ReportData
             data={data}
+            qcvns={qcvns}
+            chartType={chartType}
+            dataType={dataType}
             onReDrawChart={this.onReDrawChart}
-            onDrawLine={this.onDrawLine}
+            onChangeQcvn={this.onChangeQcvn}
           />
         </Container>
       </AnalyzeDataProvider>
