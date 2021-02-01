@@ -24,7 +24,7 @@ const SamplingWrapper = styled.div`
 
 const i18n = {
   /* NOTE  chưa dịch */
-  getStatusFail: 'Không thể lấy trạng thái, hãy thử lại',
+  getStatusFail: translate('network.sampling.StatusFail'),
   disconnected: translate('network.sampling.lostConnection'),
 }
 
