@@ -64,7 +64,7 @@ class OptionsTimeRange extends React.Component {
     const locale = get(this.locale, 'default')
 
     return (
-      <Container id="select-time-picker">
+      <Container>
         <Select
           value={!Array.isArray(value) ? value : this.formatRanges(value)}
           style={{ width: '100%' }}

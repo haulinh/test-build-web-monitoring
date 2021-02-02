@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { isEmpty } from 'lodash'
+import { translate as t } from 'hoc/create-lang'
 
 import FilterForm from './filter'
 import ReportData from './report-data'
@@ -9,11 +10,20 @@ import { CHART_TYPE } from './report-data/chart-type'
 import { OPERATOR } from './filter/select-operator'
 
 const i18n = {
+  title: t('menuApp.monitoring.dataAnalytics'),
   measuredValue: 'Giá trị đo',
 }
 
+const Title = styled.div`
+  padding: 8px 24px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #3b3b3b
+  border-bottom: 1px solid rgb(238, 238, 238);
+`
 const Container = styled.div`
   padding: 24px;
+  overflow-x: hidden;
 `
 class DataAnalytics extends Component {
   chart
@@ -140,6 +150,7 @@ class DataAnalytics extends Component {
           chart: this.chart,
         }}
       >
+        <Title>{i18n.title}</Title>
         <Container>
           <FilterForm
             onData={this.onData}

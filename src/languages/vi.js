@@ -2675,7 +2675,7 @@ export default {
       map: 'Bản đồ',
       mapAQI: 'Bản đồ AQI',
       camera: 'Camera',
-      dataAnalytics: 'Biểu đồ',
+      dataAnalytics: 'Phân tích dữ liệu',
       historyData: 'Tra cứu dữ liệu',
       avgData: 'Dữ liệu trung bình',
       report: 'Báo cáo',
