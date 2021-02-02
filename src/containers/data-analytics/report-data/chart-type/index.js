@@ -54,8 +54,11 @@ export default class ChartType extends Component {
     onChange: PropTypes.func.isRequired,
   }
 
-  state = {
-    optionActive: CHART_TYPE.COLUMN,
+  constructor(props) {
+    super(props)
+    this.state = {
+      optionActive: props.chartType,
+    }
   }
 
   onChangeChartType = optionActive => {

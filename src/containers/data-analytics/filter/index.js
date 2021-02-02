@@ -50,7 +50,8 @@ class FilterForm extends Component {
 
   handleSearch = async () => {
     try {
-      const { form, onData } = this.props
+      const { form, onData, setLoading } = this.props
+      setLoading(true)
       const values = await form.validateFields()
       const times = this.getTimes(values[FIELDS.RANGE_TIME])
       const params = {
@@ -61,6 +62,7 @@ class FilterForm extends Component {
         to: times.to.format(),
       }
       const result = await dataInsightApi.getDataInsight(params)
+      setLoading(false)
       onData(result, values[FIELDS.OPERATOR])
     } catch (error) {
       console.log(error)
@@ -119,7 +121,14 @@ class FilterForm extends Component {
   onFetchStationTypeSuccess = stationTypes => {
     const { form } = this.props
     this.stationTypes = stationTypes
-    form.setFieldsValue({ [FIELDS.STATION_TYPE]: get(stationTypes, '4.key') })
+    const stationType = get(stationTypes, '0.key')
+    form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationType })
+    if (this.stationAutos.size !== 0) {
+      this.onStationTypeChange(stationType)
+      setTimeout(() => {
+        this.handleSearch()
+      })
+    }
   }
 
   onFetchStationAutoSuccess = stationAutos => {
@@ -130,6 +139,11 @@ class FilterForm extends Component {
     const stationAutoKeys = this.getStationAutoKeys({ stationType, province })
 
     this.updateForm({ stationAutoKeys })
+
+    if (stationType)
+      setTimeout(() => {
+        this.handleSearch()
+      })
   }
 
   onStationTypeChange = stationType => {
@@ -217,7 +231,7 @@ class FilterForm extends Component {
             <Col md={6} lg={6} sm={12}>
               <Form.Item label={i18n.timeLabel}>
                 {form.getFieldDecorator(FIELDS.RANGE_TIME, {
-                  initialValue: 7,
+                  initialValue: 1,
                 })(<OptionsTimeRange />)}
               </Form.Item>
             </Col>
@@ -229,7 +243,7 @@ class FilterForm extends Component {
                   onChange: this.onStationAutoChange,
                 })(
                   <SelectStationAuto
-                    stationTypeKey={form.getFieldValue(FIELDS.STATION_TYPE)}
+                    stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
                     onFetchSuccess={this.onFetchStationAutoSuccess}
                   />
                 )}
