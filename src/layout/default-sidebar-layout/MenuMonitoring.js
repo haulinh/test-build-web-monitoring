@@ -83,7 +83,7 @@ export default {
       )}
 
       {/* TODO: update role for report module */}
-      {protectRole(ROLE.CAMERA.VIEW)(
+      {protectRole(ROLE.CHART.VIEW)(
         <Menu.Item
           key={slug.dataAnalytics.base}
           onClick={() => {

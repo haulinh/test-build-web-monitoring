@@ -164,7 +164,7 @@ export default class QCVNFormTable extends React.PureComponent {
 
   getDisableSelect = measureKeySelect => {
     const { measuringList } = this.props.form.getFieldsValue()
-    return measuringList.some(measure => measure.key === measureKeySelect)
+    return measuringList.some(measure => measure.name === measureKeySelect)
   }
 
   async componentWillMount() {

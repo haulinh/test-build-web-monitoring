@@ -2073,6 +2073,9 @@ export default {
       camera: {
         name: 'Camera',
       },
+      chart : {
+        name: 'Biểu đồ',
+      },
       dataSearch: {
         name: 'Tra cứu dữ liệu',
       },
@@ -2676,6 +2679,7 @@ export default {
       mapAQI: 'Bản đồ AQI',
       camera: 'Camera',
       dataAnalytics: 'Phân tích dữ liệu',
+      chart: 'Biểu đồ',
       historyData: 'Tra cứu dữ liệu',
       avgData: 'Dữ liệu trung bình',
       report: 'Báo cáo',
@@ -3070,6 +3074,7 @@ export default {
     sampling: {
       lostConnection:
         'Không kết nối được với dịch vụ lấy mẫu, vui lòng liên hệ quản trị viên!',
+      StatusFail: 'Không thể lấy trạng thái, hãy thử lại',
     },
     camera: {
       lostConnection: 'Không kết nối được với Camera, vui lòng kiểm tra lại!',

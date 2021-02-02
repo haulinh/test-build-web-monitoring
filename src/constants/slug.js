@@ -278,6 +278,7 @@ export const parentMenuFromSub = {
   '/cameraControl': MENU_GROUP.MONITORING,
   '/data-search': MENU_GROUP.MONITORING,
   '/avg-search': MENU_GROUP.MONITORING,
+  '/data-analytic': MENU_GROUP.MONITORING,
 
   '/qaqc': MENU_GROUP.HANDLE_DATA,
   '/qaqc-configNew': MENU_GROUP.HANDLE_DATA,
