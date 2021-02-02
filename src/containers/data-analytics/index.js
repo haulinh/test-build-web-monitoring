@@ -153,6 +153,7 @@ class DataAnalytics extends Component {
         <Title>{i18n.title}</Title>
         <Container>
           <FilterForm
+            isLoadingData={isLoadingData}
             onData={this.onData}
             onReDrawChart={this.onReDrawChart}
             setLoading={this.setLoading}
