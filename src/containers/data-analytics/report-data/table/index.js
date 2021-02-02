@@ -82,6 +82,8 @@ class DataTable extends Component {
     return (
       <Table
         key="key"
+        bordered
+        size="small"
         columns={columns}
         pagination={false}
         dataSource={dataSource}
