@@ -86,13 +86,13 @@ export function getConfigApi() {
     notify: c('notify'),
     // notify: 'http://localhost:5007/notify',
     sampleConfig: c('configSample'),
-    
+
     // mobile
     mobile: c('mobile2'),
     // mobile: 'http://localhost:3000',
 
     dataInsight: c('data-insight'),
-    // dataInsight: 'http://localhost:5022/data-insight',
+    // dataInsight: 'http://localhost:5022',
     camera: config.camera,
     firebase: config.firebase,
     isAdvanced: config.isAdvanced,

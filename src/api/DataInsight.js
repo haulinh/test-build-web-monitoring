@@ -7,7 +7,7 @@ function getDataInsightUrl(prefix = '') {
 
 export default {
   getDataInsight: params => {
-    const url = getDataInsightUrl('data-insight')
+    const url = getDataInsightUrl('analyze')
     return getFetch(url, params)
   },
 }

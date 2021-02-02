@@ -49,8 +49,8 @@ class FilterForm extends Component {
   }
 
   handleSearch = async () => {
+    const { form, onData, setLoading } = this.props
     try {
-      const { form, onData, setLoading } = this.props
       setLoading(true)
       const values = await form.validateFields()
       const times = this.getTimes(values[FIELDS.RANGE_TIME])
@@ -65,7 +65,7 @@ class FilterForm extends Component {
       setLoading(false)
       onData(result, values[FIELDS.OPERATOR])
     } catch (error) {
-      console.log(error)
+      setLoading(false)
     }
   }
 
@@ -170,7 +170,7 @@ class FilterForm extends Component {
   }
 
   render() {
-    const { form } = this.props
+    const { form, isLoadingData } = this.props
     const { measuringList } = this.state
 
     const values = form.getFieldsValue([
@@ -190,6 +190,7 @@ class FilterForm extends Component {
               icon="search"
               size="small"
               onClick={this.handleSearch}
+              loading={isLoadingData}
             >
               {i18n.btnSearchText}
             </Button>
@@ -244,6 +245,7 @@ class FilterForm extends Component {
                 })(
                   <SelectStationAuto
                     stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
+                    province={form.getFieldValue(FIELDS.PROVINCE)}
                     onFetchSuccess={this.onFetchStationAutoSuccess}
                   />
                 )}
