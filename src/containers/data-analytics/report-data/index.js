@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Tabs } from 'antd'
+import { Row, Col, Tabs, Spin } from 'antd'
 import styled from 'styled-components'
 
 import SelectQCVN from 'components/elements/select-qcvn-v2'
@@ -18,6 +18,18 @@ const TabPane = Tabs.TabPane
 const Container = styled.div``
 const ChartWrapper = styled.div`
   display: ${props => (props.hidden ? 'none' : 'block')};
+  position: relative;
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
 `
 
 class ReportData extends Component {
@@ -45,7 +57,13 @@ class ReportData extends Component {
   }
 
   render() {
-    const { data, qcvns, dataType, chartType } = this.props
+    const { data, qcvns, dataType, chartType, isLoadingData } = this.props
+    const Loading = () =>
+      isLoadingData && (
+        <div className="loading">
+          <Spin />
+        </div>
+      )
     return (
       <Container>
         <Row gutter={16} align="middle">
@@ -72,11 +90,13 @@ class ReportData extends Component {
         <Row>
           <Col>
             <ChartWrapper hidden={chartType !== CHART_TYPE.TABLE}>
+              <Loading />
               <DataTable data={data} qcvns={qcvns} dataType={dataType} />
             </ChartWrapper>
             <ChartWrapper
               hidden={![CHART_TYPE.COLUMN, CHART_TYPE.LINE].includes(chartType)}
             >
+              <Loading />
               <Chart />
               <Tabs onChange={this.onChangeMeasure}>
                 {this.getMeasures().map(measure => (

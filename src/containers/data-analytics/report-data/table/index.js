@@ -79,8 +79,6 @@ class DataTable extends Component {
       })),
     ]
 
-    console.log(qcvns)
-
     return (
       <Table
         key="key"

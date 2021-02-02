@@ -24,11 +24,15 @@ class DataAnalytics extends Component {
     measure: null,
     dataType: OPERATOR.AVG,
     chartType: CHART_TYPE.COLUMN,
+    isLoadingData: false,
   }
+
+  setLoading = isLoadingData => this.setState({ isLoadingData })
 
   onData = (data, dataType) => {
     if (isEmpty(data)) {
       this.chart.removeCharts([], true)
+      this.setState({ data, measure: null })
       return
     }
     const measure = Object.keys(data)[0]
@@ -127,7 +131,7 @@ class DataAnalytics extends Component {
   }
 
   render() {
-    const { data, qcvns, dataType, chartType } = this.state
+    const { data, qcvns, dataType, chartType, isLoadingData } = this.state
 
     return (
       <AnalyzeDataProvider
@@ -137,12 +141,17 @@ class DataAnalytics extends Component {
         }}
       >
         <Container>
-          <FilterForm onData={this.onData} onReDrawChart={this.onReDrawChart} />
+          <FilterForm
+            onData={this.onData}
+            onReDrawChart={this.onReDrawChart}
+            setLoading={this.setLoading}
+          />
           <ReportData
             data={data}
             qcvns={qcvns}
-            chartType={chartType}
             dataType={dataType}
+            chartType={chartType}
+            isLoadingData={isLoadingData}
             onReDrawChart={this.onReDrawChart}
             onChangeQcvn={this.onChangeQcvn}
           />

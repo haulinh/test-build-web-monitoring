@@ -123,7 +123,6 @@ export default class NotificationDrawer extends React.Component {
 
       const { messaging } = require('utils/init-fcm')
       // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
-      console.log('===start req premission .....')
       messaging
         .requestPermission()
         .then(async function() {

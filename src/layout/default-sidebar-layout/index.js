@@ -128,7 +128,6 @@ export default class DefaultSidebarLayoutContainer extends Component {
       try {
         const { messaging } = require('utils/init-fcm')
         // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
-        console.log('===start req premission .....')
         messaging
           .requestPermission()
           .then(async function () {
