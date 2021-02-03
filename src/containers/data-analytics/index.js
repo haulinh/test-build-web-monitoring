@@ -35,6 +35,7 @@ class DataAnalytics extends Component {
     dataType: OPERATOR.AVG,
     chartType: CHART_TYPE.COLUMN,
     isLoadingData: false,
+    paramFilter: {},
   }
 
   setLoading = isLoadingData => this.setState({ isLoadingData })
@@ -140,8 +141,21 @@ class DataAnalytics extends Component {
     this.chart = chart
   }
 
+  setParamFilter = paramFilter => {
+    this.setState({
+      paramFilter,
+    })
+  }
+
   render() {
-    const { data, qcvns, dataType, chartType, isLoadingData } = this.state
+    const {
+      data,
+      qcvns,
+      dataType,
+      chartType,
+      isLoadingData,
+      paramFilter,
+    } = this.state
 
     return (
       <AnalyzeDataProvider
@@ -157,8 +171,10 @@ class DataAnalytics extends Component {
             onData={this.onData}
             onReDrawChart={this.onReDrawChart}
             setLoading={this.setLoading}
+            setParamFilter={this.setParamFilter}
           />
           <ReportData
+            paramFilter={paramFilter}
             data={data}
             qcvns={qcvns}
             dataType={dataType}

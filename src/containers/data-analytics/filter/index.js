@@ -49,7 +49,7 @@ class FilterForm extends Component {
   }
 
   handleSearch = async () => {
-    const { form, onData, setLoading } = this.props
+    const { form, onData, setLoading, setParamFilter } = this.props
     try {
       setLoading(true)
       const values = await form.validateFields()
@@ -61,6 +61,10 @@ class FilterForm extends Component {
         from: times.from.format(),
         to: times.to.format(),
       }
+      setParamFilter({
+        ...params,
+        operator: values[FIELDS.OPERATOR]
+      })
       const result = await dataInsightApi.getDataInsight(params)
       setLoading(false)
       onData(result, values[FIELDS.OPERATOR])

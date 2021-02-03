@@ -10,4 +10,8 @@ export default {
     const url = getDataInsightUrl('analyze')
     return getFetch(url, params)
   },
+  exportDataInsight: (params, lang) => {
+    const url = getDataInsightUrl(`export-analyze/${lang}`)
+    return getFetch(url, params)
+  }
 }
