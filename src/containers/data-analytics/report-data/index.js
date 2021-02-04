@@ -70,7 +70,7 @@ class ReportData extends Component {
     const { qcvns, paramFilter } = this.props
     const paramExport = {
       ...paramFilter,
-      qcvnKeys: qcvns,
+      qcvnKeys: qcvns.map(qcvn => qcvn._id).join(','),
       name: `${moment(paramFilter.from).format('DD/MM/YYYY hh:mm')} - ${moment(
         paramFilter.to
       ).format('DD/MM/YYYY hh:mm')}`,
