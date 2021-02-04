@@ -38,6 +38,10 @@ const ChartWrapper = styled.div`
 class ReportData extends Component {
   static contextType = AnalyzeDataContext
 
+  state = {
+    isLoadingExport: false,
+  }
+
   onChangeQcvn = (qcvnIds, list) => {
     const { onChangeQcvn } = this.props
     const qcvnSelected = list.filter(item => qcvnIds.includes(item._id))
@@ -60,22 +64,32 @@ class ReportData extends Component {
   }
 
   async onClickExport() {
+    this.setState({ isLoadingExport: true })
     const { qcvns, paramFilter } = this.props
     const paramExport = {
       ...paramFilter,
-      qcvnKeys: qcvns.map(qcvn => qcvn._id).join(','),
+      qcvnKeys: qcvns,
     }
 
-    const result = await dataInsightApi.exportDataInsight(paramExport, 'vi')
-    console.log(
-      '🚀 ~ file: index.js ~ line 70 ~ ReportData ~ onClickExport ~ result',
-      result.data
-    )
-    downFileExcel(result, 'data-insight')
+    try {
+      const result = await dataInsightApi.exportDataInsight(paramExport, 'vi')
+      downFileExcel(result.data, 'data-insight')
+      this.setState({ isLoadingExport: false })
+    } catch (error) {
+      this.setState({ isLoadingExport: false })
+    }
   }
 
   render() {
-    const { data, qcvns, dataType, chartType, isLoadingData } = this.props
+    const {
+      data,
+      qcvns,
+      dataType,
+      chartType,
+      isLoadingData,
+      paramFilter,
+      measuringList,
+    } = this.props
     const Loading = () =>
       isLoadingData && (
         <div className="loading">
@@ -105,7 +119,12 @@ class ReportData extends Component {
             </Row>
           </Col>
           <Col span={3}>
-            <Button type="primary" onClick={this.onClickExport.bind(this)}>
+            <Button
+              type="primary"
+              loading={this.state.isLoadingExport}
+              onClick={this.onClickExport.bind(this)}
+              disabled={!paramFilter}
+            >
               {i18n.export}
             </Button>
           </Col>
@@ -114,7 +133,12 @@ class ReportData extends Component {
           <Col>
             <ChartWrapper hidden={chartType !== CHART_TYPE.TABLE}>
               <Loading />
-              <DataTable data={data} qcvns={qcvns} dataType={dataType} />
+              <DataTable
+                data={data}
+                qcvns={qcvns}
+                dataType={dataType}
+                measuringList={measuringList}
+              />
             </ChartWrapper>
             <ChartWrapper
               hidden={![CHART_TYPE.COLUMN, CHART_TYPE.LINE].includes(chartType)}

@@ -63,7 +63,7 @@ class FilterForm extends Component {
       }
       setParamFilter({
         ...params,
-        operator: values[FIELDS.OPERATOR]
+        operator: values[FIELDS.OPERATOR],
       })
       const result = await dataInsightApi.getDataInsight(params)
       setLoading(false)

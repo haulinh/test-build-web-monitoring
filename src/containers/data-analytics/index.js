@@ -32,6 +32,7 @@ class DataAnalytics extends Component {
     data: {},
     qcvns: [],
     measure: null,
+    measuringList: {},
     dataType: OPERATOR.AVG,
     chartType: CHART_TYPE.COLUMN,
     isLoadingData: false,
@@ -40,14 +41,26 @@ class DataAnalytics extends Component {
 
   setLoading = isLoadingData => this.setState({ isLoadingData })
 
-  onData = (data, dataType) => {
-    if (isEmpty(data)) {
+  onData = (result, dataType) => {
+    if (isEmpty(result.data)) {
       this.chart.removeCharts([], true)
-      this.setState({ data, measure: null })
+      this.setState({
+        data: result.data,
+        measure: null,
+        measuringList: result.measuringList,
+      })
       return
     }
-    const measure = Object.keys(data)[0]
-    this.setState({ data, dataType, measure }, this.onReDrawChart)
+    const measure = Object.keys(result.data)[0]
+    this.setState(
+      {
+        data: result.data,
+        dataType,
+        measure,
+        measuringList: result.measuringList,
+      },
+      this.onReDrawChart
+    )
   }
 
   removeAllLine = () => {
@@ -155,6 +168,7 @@ class DataAnalytics extends Component {
       chartType,
       isLoadingData,
       paramFilter,
+      measuringList,
     } = this.state
 
     return (
@@ -174,6 +188,7 @@ class DataAnalytics extends Component {
             setParamFilter={this.setParamFilter}
           />
           <ReportData
+            measuringList={measuringList}
             paramFilter={paramFilter}
             data={data}
             qcvns={qcvns}
