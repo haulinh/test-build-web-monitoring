@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import Highcharts from 'highcharts'
+import Exporting from 'highcharts/modules/exporting'
+
 
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import AnalyzeDataContext from 'containers/data-analytics/context'
 import { isEmpty } from 'shared/components/DataTable/src/util'
 
+
+Exporting(Highcharts)
 class Chart extends Component {
   static contextType = AnalyzeDataContext
 
@@ -44,6 +48,18 @@ class Chart extends Component {
           </div>
         `
       },
+    },
+    exporting: {
+      chartOptions: {
+        plotOptions: {
+          series: {
+            dataLabels: {
+              enabled: true,
+            },
+          },
+        },
+      },
+      fallbackToExportServer: false,
     },
   }
 
