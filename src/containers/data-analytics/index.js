@@ -45,8 +45,8 @@ class DataAnalytics extends Component {
     if (isEmpty(result.data)) {
       this.chart.removeCharts([], true)
       this.setState({
-        data: result.data,
         measure: null,
+        data: result.data || {},
         measuringList: result.measuringList,
       })
       return
