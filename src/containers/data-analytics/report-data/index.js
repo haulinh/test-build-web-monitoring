@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Row, Col, Tabs, Spin, Button } from 'antd'
 import styled from 'styled-components'
+import moment from 'moment'
 
 import SelectQCVN from 'components/elements/select-qcvn-v2'
 import dataInsightApi from 'api/DataInsight'
@@ -10,6 +11,7 @@ import DataTable from './table'
 import ChartType, { CHART_TYPE } from './chart-type'
 import AnalyzeDataContext from '../context'
 import { downFileExcel } from 'utils/downFile'
+import { Clearfix } from 'components/elements'
 
 const i18n = {
   standard: 'Qui chuẩn',
@@ -69,6 +71,9 @@ class ReportData extends Component {
     const paramExport = {
       ...paramFilter,
       qcvnKeys: qcvns,
+      name: `${moment(paramFilter.from).format('DD/MM/YYYY hh:mm')} - ${moment(
+        paramFilter.to
+      ).format('DD/MM/YYYY hh:mm')}`,
     }
 
     try {
@@ -133,6 +138,7 @@ class ReportData extends Component {
           <Col>
             <ChartWrapper hidden={chartType !== CHART_TYPE.TABLE}>
               <Loading />
+              <Clearfix height={16} />
               <DataTable
                 data={data}
                 qcvns={qcvns}
