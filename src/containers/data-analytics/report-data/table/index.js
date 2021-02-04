@@ -42,7 +42,7 @@ class DataTable extends Component {
   }
 
   render() {
-    const { data, qcvns, dataType } = this.props
+    const { data, qcvns, dataType, measuringList } = this.props
     const measureKeys = Object.keys(data)
     const dataSource = this.getDataSource()
 
@@ -60,7 +60,7 @@ class DataTable extends Component {
       ...this.columns(dataSource.length - qcvns.length),
       ...measureKeys.map(key => ({
         key,
-        title: key,
+        title: `${measuringList[key].name} (${measuringList[key].unit})`,
         width: 100,
         render: (value, record, idx) =>
           idx < dataSource.length - qcvns.length ? (

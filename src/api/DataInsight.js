@@ -1,5 +1,5 @@
 import { getConfigApi } from 'config'
-import { getFetch } from 'utils/fetch'
+import { getFetch, getFetchDownFile } from 'utils/fetch'
 
 function getDataInsightUrl(prefix = '') {
   return [getConfigApi().dataInsight, prefix].filter(item => item).join('/')
@@ -10,4 +10,8 @@ export default {
     const url = getDataInsightUrl('analyze')
     return getFetch(url, params)
   },
+  exportDataInsight: (params, lang) => {
+    const url = getDataInsightUrl(`export-analyze/${lang}`)
+    return getFetchDownFile(url, params)
+  }
 }

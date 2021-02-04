@@ -32,21 +32,35 @@ class DataAnalytics extends Component {
     data: {},
     qcvns: [],
     measure: null,
+    measuringList: {},
     dataType: OPERATOR.AVG,
     chartType: CHART_TYPE.COLUMN,
     isLoadingData: false,
+    paramFilter: {},
   }
 
   setLoading = isLoadingData => this.setState({ isLoadingData })
 
-  onData = (data, dataType) => {
-    if (isEmpty(data)) {
+  onData = (result, dataType) => {
+    if (isEmpty(result.data)) {
       this.chart.removeCharts([], true)
-      this.setState({ data, measure: null })
+      this.setState({
+        data: result.data,
+        measure: null,
+        measuringList: result.measuringList,
+      })
       return
     }
-    const measure = Object.keys(data)[0]
-    this.setState({ data, dataType, measure }, this.onReDrawChart)
+    const measure = Object.keys(result.data)[0]
+    this.setState(
+      {
+        data: result.data,
+        dataType,
+        measure,
+        measuringList: result.measuringList,
+      },
+      this.onReDrawChart
+    )
   }
 
   removeAllLine = () => {
@@ -140,8 +154,22 @@ class DataAnalytics extends Component {
     this.chart = chart
   }
 
+  setParamFilter = paramFilter => {
+    this.setState({
+      paramFilter,
+    })
+  }
+
   render() {
-    const { data, qcvns, dataType, chartType, isLoadingData } = this.state
+    const {
+      data,
+      qcvns,
+      dataType,
+      chartType,
+      isLoadingData,
+      paramFilter,
+      measuringList,
+    } = this.state
 
     return (
       <AnalyzeDataProvider
@@ -157,8 +185,11 @@ class DataAnalytics extends Component {
             onData={this.onData}
             onReDrawChart={this.onReDrawChart}
             setLoading={this.setLoading}
+            setParamFilter={this.setParamFilter}
           />
           <ReportData
+            measuringList={measuringList}
+            paramFilter={paramFilter}
             data={data}
             qcvns={qcvns}
             dataType={dataType}
