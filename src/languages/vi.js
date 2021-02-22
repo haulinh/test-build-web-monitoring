@@ -30,6 +30,7 @@ export default {
     parameter: 'Thông số',
     example: 'Ví dụ',
     copySuccess: 'Sao chép thành công',
+    loading: 'Đang tải',
   },
   rules: {
     required: 'Bắt buộc',
@@ -3265,6 +3266,14 @@ export default {
       parameter: {
         label: 'Các thông số quan trắc ({{=it.count}} thông số)'
       }
+    },
+    measuredValue: 'Giá trị đo',
+    standard: 'Quy chuẩn',
+    exportExcel: 'Xuất dữ liệu excel',
+    chartType: {
+      column: 'Cột',
+      line: 'Đường',
+      table: 'Bảng',
     }
   } 
 }

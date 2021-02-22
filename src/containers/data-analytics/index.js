@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { isEmpty } from 'lodash'
+import { get, isEmpty } from 'lodash'
 import { translate as t } from 'hoc/create-lang'
+import dataInsightApi from 'api/DataInsight'
 
 import FilterForm from './filter'
 import ReportData from './report-data'
@@ -11,7 +12,7 @@ import { OPERATOR } from './filter/select-operator'
 
 const i18n = {
   title: t('menuApp.monitoring.dataAnalytics'),
-  measuredValue: 'Giá trị đo',
+  measuredValue: t('dataAnalytics.measuredValue'),
 }
 
 const Title = styled.div`
@@ -41,7 +42,7 @@ class DataAnalytics extends Component {
 
   setLoading = isLoadingData => this.setState({ isLoadingData })
 
-  onData = (result, dataType) => {
+  onData = (result, { dataType, from, to }) => {
     if (isEmpty(result.data)) {
       this.chart.removeCharts([], true)
       this.setState({
@@ -54,12 +55,14 @@ class DataAnalytics extends Component {
     const measure = Object.keys(result.data)[0]
     this.setState(
       {
+        from,
+        to,
         data: result.data,
         dataType,
         measure,
         measuringList: result.measuringList,
       },
-      this.onReDrawChart
+      () => this.onFetchReceiveTime(measure)
     )
   }
 
@@ -148,6 +151,58 @@ class DataAnalytics extends Component {
     if (redraw) this.chart.redraw()
   }
 
+  onFetchReceiveTime = async measure => {
+    const { data, dataType, from, to } = this.state
+    this.setState({ measure })
+
+    this.onReDrawChart({ measure })
+
+    if (![OPERATOR.MAX, OPERATOR.MIN].includes(dataType)) return
+
+    if (
+      !isEmpty(get(data[measure], '[0].analyzeData.timeHaveMinValue', [])) ||
+      !isEmpty(get(data[measure], '[0].analyzeData.timeHaveMaxValue', []))
+    ) {
+      return
+    }
+
+    const result = await dataInsightApi.getReceiveTime({
+      to,
+      from,
+      measure,
+      stations: data[measure].map(item => item.stationKey).join(','),
+      values: data[measure].map(item => item.analyzeData[dataType]).join(','),
+    })
+
+    const chart = this.chart.getChartSeries('mainChart')
+
+    let timeInterval = setInterval(() => {
+      if (!chart.finishedAnimating) return
+      this.setState({
+        measure,
+        data: {
+          ...data,
+          [measure]: data[measure].map(item => ({
+            ...item,
+            analyzeData: {
+              ...item.analyzeData,
+              timeHaveMinValue: result[item.stationKey],
+              timeHaveMaxValue: result[item.stationKey],
+            },
+          })),
+        },
+      })
+      this.chart.getChartSeries('mainChart').setData(
+        data[measure].map(item => ({
+          y: item.analyzeData[dataType],
+          description: result[item.stationKey],
+        })),
+        true
+      )
+      clearInterval(timeInterval)
+    }, 200)
+  }
+
   chartId = (name, type) => `${name}_${type}`
 
   setChart = chart => {
@@ -169,6 +224,7 @@ class DataAnalytics extends Component {
       isLoadingData,
       paramFilter,
       measuringList,
+      measure,
     } = this.state
 
     return (
@@ -188,6 +244,7 @@ class DataAnalytics extends Component {
             setParamFilter={this.setParamFilter}
           />
           <ReportData
+            measure={measure}
             measuringList={measuringList}
             paramFilter={paramFilter}
             data={data}
@@ -197,6 +254,7 @@ class DataAnalytics extends Component {
             isLoadingData={isLoadingData}
             onReDrawChart={this.onReDrawChart}
             onChangeQcvn={this.onChangeQcvn}
+            onFetchReceiveTime={this.onFetchReceiveTime}
           />
         </Container>
       </AnalyzeDataProvider>

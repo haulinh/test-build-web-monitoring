@@ -13,5 +13,9 @@ export default {
   exportDataInsight: (params, lang) => {
     const url = getDataInsightUrl(`export-analyze/${lang}`)
     return getFetchDownFile(url, params)
+  },
+  getReceiveTime: (params) => {
+    const url = getDataInsightUrl('get-receive-time')
+    return getFetch(url, params)
   }
 }

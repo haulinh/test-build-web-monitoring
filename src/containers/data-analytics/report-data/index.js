@@ -3,8 +3,9 @@ import { Row, Col, Tabs, Spin, Button } from 'antd'
 import styled from 'styled-components'
 import moment from 'moment'
 
-import SelectQCVN from 'components/elements/select-qcvn-v2'
 import dataInsightApi from 'api/DataInsight'
+import { translate as t } from 'hoc/create-lang'
+import SelectQCVN from 'components/elements/select-qcvn-v2'
 
 import Chart from './chart'
 import DataTable from './table'
@@ -14,8 +15,8 @@ import { downFileExcel } from 'utils/downFile'
 import { Clearfix } from 'components/elements'
 
 const i18n = {
-  standard: 'Qui chuẩn',
-  export: 'Xuất dữ liệu excel',
+  standard: t('dataAnalytics.standard'),
+  export: t('dataAnalytics.exportExcel'),
 }
 
 const TabPane = Tabs.TabPane
@@ -61,8 +62,8 @@ class ReportData extends Component {
   }
 
   onChangeMeasure = measure => {
-    const { onReDrawChart } = this.props
-    onReDrawChart({ measure })
+    const { onFetchReceiveTime } = this.props
+    onFetchReceiveTime(measure)
   }
 
   async onClickExport() {
@@ -94,13 +95,16 @@ class ReportData extends Component {
       isLoadingData,
       paramFilter,
       measuringList,
+      measure,
     } = this.props
+
     const Loading = () =>
       isLoadingData && (
         <div className="loading">
           <Spin />
         </div>
       )
+
     return (
       <Container>
         <Row gutter={16} align="middle">
@@ -151,9 +155,16 @@ class ReportData extends Component {
             >
               <Loading />
               <Chart />
-              <Tabs onChange={this.onChangeMeasure}>
+              <Tabs onChange={this.onChangeMeasure} activeKey={measure}>
                 {this.getMeasures().map(measure => (
-                  <TabPane tab={measure} key={measure}></TabPane>
+                  <TabPane
+                    tab={`${measuringList[measure].name} ${
+                      measuringList[measure].unit
+                        ? `(${measuringList[measure].unit})`
+                        : ''
+                    }`}
+                    key={measure}
+                  ></TabPane>
                 ))}
               </Tabs>
             </ChartWrapper>

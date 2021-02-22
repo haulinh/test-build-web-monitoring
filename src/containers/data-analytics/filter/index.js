@@ -67,7 +67,11 @@ class FilterForm extends Component {
       })
       const result = await dataInsightApi.getDataInsight(params)
       setLoading(false)
-      onData(result, values[FIELDS.OPERATOR])
+      onData(result, {
+        dataType: values[FIELDS.OPERATOR],
+        from: params.from,
+        to: params.to,
+      })
     } catch (error) {
       setLoading(false)
     }

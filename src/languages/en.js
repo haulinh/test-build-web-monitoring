@@ -30,6 +30,7 @@ export default {
     parameter: 'Parameter',
     example: 'Example',
     copySuccess: 'Copy successfully',
+    loading: 'Loading',
   },
   rules: {
     required: 'Required',
@@ -2687,7 +2688,7 @@ export default {
       mapAQI: 'Map AQI',
       camera: 'Camera',
       chart: 'Chart',
-      dataAnalytics: 'Data Analytic',
+      dataAnalytics: 'Data Insights',
       historyData: 'History Data',
       avgData: 'Average Data',
       report: 'Reports',
@@ -3239,4 +3240,34 @@ export default {
     filterByExceeded: 'Filter data with exceeded status',
     allowedAQI: 'Station key list is allowed to configure AQI',
   },
+  dataAnalytics: {
+    filterForm: {
+      province: {
+        label: 'Province',
+      },
+      stationType: {
+        label: 'Station type',
+      },
+      operator: {
+        label: 'Operator'
+      },
+      time: {
+        label: 'Times'
+      },
+      stationAuto: {
+        label: 'Station Auto ({{=it.count}} stations)'
+      },
+      parameter: {
+        label: 'Measure Parameter ({{=it.count}} measures)'
+      }
+    },
+    measuredValue: 'Measure value',
+    standard: 'Standard',
+    exportExcel: 'Export excel',
+    chartType: {
+      column: 'Column',
+      line: 'Line',
+      table: 'Table',
+    }
+  } 
 }
