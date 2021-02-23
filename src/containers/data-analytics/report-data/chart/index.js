@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import moment from 'moment'
 import Highcharts from 'highcharts'
 import Exporting from 'highcharts/modules/exporting'
-
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { translate as t } from 'hoc/create-lang'
 import AnalyzeDataContext from 'containers/data-analytics/context'
 import { isEmpty } from 'shared/components/DataTable/src/util'
@@ -48,9 +45,7 @@ class Chart extends Component {
 
         return `
           <div>
-            ${this.point.description
-              .map(item => moment(item).format(DD_MM_YYYY_HH_MM))
-              .join('<br />')}
+            ${this.point.description.join('<br />')}
           </div>
         `
       },
