@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Icon, Row, Col } from 'antd'
 import styled from 'styled-components'
 
+import { translate as t } from 'hoc/create-lang'
+
 export const CHART_TYPE = {
   COLUMN: 'column',
   LINE: 'line',
@@ -10,9 +12,9 @@ export const CHART_TYPE = {
 }
 
 const i18n = {
-  column: 'Cột',
-  line: 'Đường',
-  table: 'Bảng',
+  column: t('dataAnalytics.chartType.column'),
+  line: t('dataAnalytics.chartType.line'),
+  table: t('dataAnalytics.chartType.table'),
 }
 
 const groupButton = [

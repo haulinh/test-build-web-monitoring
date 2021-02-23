@@ -7,11 +7,15 @@ function getDataInsightUrl(prefix = '') {
 
 export default {
   getDataInsight: params => {
-    const url = getDataInsightUrl('analyze')
+    const url = getDataInsightUrl('analyze-data')
     return getFetch(url, params)
   },
   exportDataInsight: (params, lang) => {
     const url = getDataInsightUrl(`export-analyze/${lang}`)
     return getFetchDownFile(url, params)
+  },
+  getReceiveTime: (params) => {
+    const url = getDataInsightUrl('get-receive-time')
+    return getFetch(url, params)
   }
 }

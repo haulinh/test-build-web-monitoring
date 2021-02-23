@@ -60,7 +60,9 @@ class DataTable extends Component {
       ...this.columns(dataSource.length - qcvns.length),
       ...measureKeys.map(key => ({
         key,
-        title: `${measuringList[key].name} (${measuringList[key].unit})`,
+        title: `${measuringList[key].name} ${
+          measuringList[key].unit ? `(${measuringList[key].unit})` : ''
+        }`,
         width: 100,
         render: (value, record, idx) =>
           idx < dataSource.length - qcvns.length ? (
