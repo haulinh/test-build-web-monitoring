@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import moment from 'moment'
 import { get, isEmpty } from 'lodash'
 import { translate as t } from 'hoc/create-lang'
 import dataInsightApi from 'api/DataInsight'
@@ -9,6 +10,7 @@ import ReportData from './report-data'
 import { AnalyzeDataProvider } from './context'
 import { CHART_TYPE } from './report-data/chart-type'
 import { OPERATOR } from './filter/select-operator'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 const i18n = {
   title: t('menuApp.monitoring.dataAnalytics'),
@@ -92,15 +94,13 @@ class DataAnalytics extends Component {
     if (![CHART_TYPE.COLUMN, CHART_TYPE.LINE].includes(chartType)) return
 
     const getDescription = item => {
-      if (dataType === OPERATOR.MIN) return item.analyzeData.timeHaveMinValue
-      if (dataType === OPERATOR.MAX) return item.analyzeData.timeHaveMaxValue
-      return null
+      if (![OPERATOR.MAX, OPERATOR.MIN].includes(dataType)) return null
+      return item.analyzeData.times || []
     }
     const series = (data[measure] || []).map(item => ({
       y: item.analyzeData[dataType],
       description: getDescription(item),
     }))
-
     const categories = (data[measure] || []).map(item => item.stationName)
     this.chart.addSeries(
       categories,
@@ -159,10 +159,7 @@ class DataAnalytics extends Component {
 
     if (![OPERATOR.MAX, OPERATOR.MIN].includes(dataType)) return
 
-    if (
-      !isEmpty(get(data[measure], '[0].analyzeData.timeHaveMinValue', [])) ||
-      !isEmpty(get(data[measure], '[0].analyzeData.timeHaveMaxValue', []))
-    ) {
+    if (!isEmpty(get(data[measure], '[0].analyzeData.times', []))) {
       return
     }
 
@@ -175,7 +172,9 @@ class DataAnalytics extends Component {
     })
 
     const chart = this.chart.getChartSeries('mainChart')
-
+    const getTimes = list => list.map(item =>
+      moment(item).format(DD_MM_YYYY_HH_MM)
+    )
     let timeInterval = setInterval(() => {
       if (!chart.finishedAnimating) return
       this.setState({
@@ -186,8 +185,7 @@ class DataAnalytics extends Component {
             ...item,
             analyzeData: {
               ...item.analyzeData,
-              timeHaveMinValue: result[item.stationKey],
-              timeHaveMaxValue: result[item.stationKey],
+              times: getTimes(result[item.stationKey]),
             },
           })),
         },
@@ -195,7 +193,7 @@ class DataAnalytics extends Component {
       this.chart.getChartSeries('mainChart').setData(
         data[measure].map(item => ({
           y: item.analyzeData[dataType],
-          description: result[item.stationKey],
+          description: getTimes(result[item.stationKey]),
         })),
         true
       )
