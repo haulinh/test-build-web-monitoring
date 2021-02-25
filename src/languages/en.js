@@ -2079,7 +2079,7 @@ export default {
         name: 'Camera',
       },
       chart : {
-        name: 'Chart',
+        name: 'Data Insights',
       },
       dataSearch: {
         name: 'History Data',

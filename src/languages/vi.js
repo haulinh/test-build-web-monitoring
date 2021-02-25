@@ -2075,7 +2075,7 @@ export default {
         name: 'Camera',
       },
       chart : {
-        name: 'Biểu đồ',
+        name: 'Phân tích dữ liệu',
       },
       dataSearch: {
         name: 'Tra cứu dữ liệu',
