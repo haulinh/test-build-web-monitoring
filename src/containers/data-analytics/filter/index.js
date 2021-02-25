@@ -14,6 +14,7 @@ import OptionsTimeRange from 'components/elements/options-time-range'
 import SelectStationAuto from './select-station-auto'
 import SelectMeasureParameter from './select-measure-parameter'
 import SelectOperator, { OPERATOR } from './select-operator'
+import { requiredFieldRule } from 'utils/rules'
 
 const i18n = {
   btnSearchText: t('addon.search'),
@@ -22,9 +23,11 @@ const i18n = {
   operatorLabel: t('dataAnalytics.filterForm.operator.label'),
   timeLabel: t('dataAnalytics.filterForm.time.label'),
   stationAutoLabel: count =>
-    t('dataAnalytics.filterForm.stationAuto.label', { count }),
+    t('dataAnalytics.filterForm.stationAutoLabel.label', { count }),
   parameterLabel: count =>
-    t('dataAnalytics.filterForm.parameter.label', { count }),
+    t('dataAnalytics.filterForm.parameterLabel.label', { count }),
+  stationAuto: t('dataAnalytics.filterForm.stationAuto'),
+  parameter: t('dataAnalytics.filterForm.parameter'),
 }
 
 const FormSearch = styled.div`
@@ -85,14 +88,15 @@ class FilterForm extends Component {
       }
     if (rangeTime === 1)
       return {
-        from: moment().subtract(1, 'days'),
-        to: moment(),
+        from: moment.utc().subtract(1, 'days'),
+        to: moment.utc(),
       }
     return {
-      from: moment()
+      from: moment
+        .utc()
         .subtract(rangeTime, 'days')
         .startOf('days'),
-      to: moment().endOf('days'),
+      to: moment.utc().endOf('days'),
     }
   }
 
@@ -248,9 +252,15 @@ class FilterForm extends Component {
           <Row gutter={20}>
             <Col sm={24} md={24} lg={24}>
               <Form.Item label={i18n.stationAutoLabel(numberStation)}>
-                {form.getFieldDecorator(FIELDS.STATION_AUTO, {
-                  onChange: this.onStationAutoChange,
-                })(
+                {form.getFieldDecorator(
+                  FIELDS.STATION_AUTO,
+                  {
+                    rules: [requiredFieldRule(i18n.stationAuto)],
+                  },
+                  {
+                    onChange: this.onStationAutoChange,
+                  }
+                )(
                   <SelectStationAuto
                     stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
                     province={form.getFieldValue(FIELDS.PROVINCE)}
@@ -261,9 +271,9 @@ class FilterForm extends Component {
             </Col>
             <Col sm={24} md={24} lg={24}>
               <Form.Item label={i18n.parameterLabel(numberMeasuringList)}>
-                {form.getFieldDecorator(FIELDS.MEASURING_LIST)(
-                  <SelectMeasureParameter options={measuringList} />
-                )}
+                {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
+                  rules: [requiredFieldRule(i18n.parameter)],
+                })(<SelectMeasureParameter options={measuringList} />)}
               </Form.Item>
             </Col>
           </Row>

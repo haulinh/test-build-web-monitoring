@@ -35,11 +35,8 @@ class Chart extends Component {
     },
     tooltip: {
       formatter: function(tooltip) {
-        if (!this.point.description)
-          return tooltip.defaultFormatter.call(this, tooltip)
-        if (this.point.description === 'qcvn') {
-          return `${this.series.name}: <b>${this.point.y}</b>`
-        }
+        if (!this.point.description || this.point.description === 'qcvn')
+          return null
 
         if (isEmpty(this.point.description)) return i18n.loading
 
@@ -76,6 +73,10 @@ class Chart extends Component {
           marker: {
             enabled: false,
           },
+          enableMouseTracking: false,
+          dataLabels: {
+            enabled: false
+          },
           data: Array(chart.data.length)
             .fill(value)
             .map(item => ({ y: item, description: 'qcvn' })),
@@ -107,6 +108,8 @@ class Chart extends Component {
 
   redraw = () => this.chartInstance.redraw()
 
+  setTitle = (option) => this.chartInstance.setTitle(option)
+
   componentDidMount() {
     this.chartInstance = Highcharts.chart('chart', this.options)
     this.context.setChart({
@@ -115,6 +118,7 @@ class Chart extends Component {
       addSeries: this.addSeries,
       removeCharts: this.removeCharts,
       getChartSeries: this.getChartSeries,
+      setTitle: this.setTitle,
     })
   }
 
