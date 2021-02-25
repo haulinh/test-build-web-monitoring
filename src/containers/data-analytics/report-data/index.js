@@ -3,6 +3,7 @@ import { Row, Col, Tabs, Spin, Button } from 'antd'
 import styled from 'styled-components'
 import moment from 'moment'
 
+import ROLE from 'constants/role'
 import dataInsightApi from 'api/DataInsight'
 import { translate as t } from 'hoc/create-lang'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
@@ -13,6 +14,7 @@ import ChartType, { CHART_TYPE } from './chart-type'
 import AnalyzeDataContext from '../context'
 import { downFileExcel } from 'utils/downFile'
 import { Clearfix } from 'components/elements'
+import { PermissionPopover } from 'hoc/protect-role'
 
 const i18n = {
   standard: t('dataAnalytics.standard'),
@@ -128,14 +130,21 @@ class ReportData extends Component {
             </Row>
           </Col>
           <Col span={3}>
-            <Button
-              type="primary"
-              loading={this.state.isLoadingExport}
-              onClick={this.onClickExport.bind(this)}
-              disabled={!paramFilter}
+            <PermissionPopover
+              roles={ROLE.CHART.EXPORT}
+              popoverPlacement="right"
             >
-              {i18n.export}
-            </Button>
+              {hasPermission => (
+                <Button
+                  type="primary"
+                  loading={this.state.isLoadingExport}
+                  onClick={this.onClickExport.bind(this)}
+                  disabled={!hasPermission || !paramFilter}
+                >
+                  {i18n.export}
+                </Button>
+              )}
+            </PermissionPopover>
           </Col>
         </Row>
         <Row>

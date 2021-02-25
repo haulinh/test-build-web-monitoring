@@ -3260,8 +3260,8 @@ export default {
       parameterLabel: {
         label: 'Measure Parameter ({{=it.count}} measures)'
       },
-      stationAuto: 'stations',
-      parameter: 'measure parameter',
+      stationAuto: 'Stations',
+      parameter: 'Measure parameter',
     },
     measuredValue: 'Measure value',
     standard: 'Standard',
