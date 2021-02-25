@@ -61,8 +61,8 @@ class FilterForm extends Component {
         stationAutoKeys: values[FIELDS.STATION_AUTO].join(','),
         measuringList: values[FIELDS.MEASURING_LIST].join(','),
         stationType: values[FIELDS.STATION_TYPE],
-        from: times.from.format(),
-        to: times.to.format(),
+        from: times.from.utc().format(),
+        to: times.to.utc().format(),
       }
       setParamFilter({
         ...params,
@@ -83,8 +83,8 @@ class FilterForm extends Component {
   getTimes = rangeTime => {
     if (Array.isArray(rangeTime))
       return {
-        from: rangeTime[0],
-        to: rangeTime[1],
+        from: rangeTime[0].utc(),
+        to: rangeTime[1].utc(),
       }
     if (rangeTime === 1)
       return {
@@ -92,11 +92,8 @@ class FilterForm extends Component {
         to: moment.utc(),
       }
     return {
-      from: moment
-        .utc()
-        .subtract(rangeTime, 'days')
-        .startOf('days'),
-      to: moment.utc().endOf('days'),
+      from: moment.utc().subtract(rangeTime, 'days'),
+      to: moment.utc()
     }
   }
 
