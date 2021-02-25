@@ -82,7 +82,13 @@ class DataAnalytics extends Component {
   onReDrawChart = (params = {}) => {
     this.removeAllLine()
 
-    let { data, measure, dataType, chartType, qcvns } = this.state
+    let {
+      data,
+      measure,
+      dataType,
+      chartType,
+      qcvns,
+    } = this.state
     measure = params.measure || measure
     dataType = params.dataType || dataType
     chartType = params.chartType || chartType
@@ -102,6 +108,9 @@ class DataAnalytics extends Component {
       description: getDescription(item),
     }))
     const categories = (data[measure] || []).map(item => item.stationName)
+    this.chart.setTitle({
+      text: this.getChartTitle(),
+    })
     this.chart.addSeries(
       categories,
       {
@@ -109,6 +118,7 @@ class DataAnalytics extends Component {
         data: series,
         type: chartType,
         name: i18n.measuredValue,
+        enableMouseTracking: dataType !== OPERATOR.AVG,
       },
       true
     )
@@ -172,9 +182,8 @@ class DataAnalytics extends Component {
     })
 
     const chart = this.chart.getChartSeries('mainChart')
-    const getTimes = list => list.map(item =>
-      moment(item).format(DD_MM_YYYY_HH_MM)
-    )
+    const getTimes = list =>
+      list.map(item => moment(item).format(DD_MM_YYYY_HH_MM))
     let timeInterval = setInterval(() => {
       if (!chart.finishedAnimating) return
       this.setState({
@@ -202,6 +211,14 @@ class DataAnalytics extends Component {
   }
 
   chartId = (name, type) => `${name}_${type}`
+
+  getChartTitle = () => {
+    const { measuringList, measure } = this.state
+    if (!measuringList[measure]) return ''
+    return `${measuringList[measure].name} ${
+      measuringList[measure].unit ? `(${measuringList[measure].unit})` : ''
+    }`
+  }
 
   setChart = chart => {
     this.chart = chart

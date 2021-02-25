@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash'
 import { translate as t } from 'hoc/create-lang'
 
 export const validatePhone = (_, values, callback) => {
@@ -20,6 +21,6 @@ export const validateEmail = (_, email, callback) => {
 }
 
 export const requiredFieldRule = field => (_, value, callback) => {
-  if (!value) callback(t('rules.requiredField', { field }))
+  if (isEmpty(value)) callback(t('rules.requiredField', { field }))
   callback()
 }

@@ -3254,12 +3254,14 @@ export default {
       time: {
         label: 'Times'
       },
-      stationAuto: {
+      stationAutoLabel: {
         label: 'Station Auto ({{=it.count}} stations)'
       },
-      parameter: {
+      parameterLabel: {
         label: 'Measure Parameter ({{=it.count}} measures)'
-      }
+      },
+      stationAuto: 'stations',
+      parameter: 'measure parameter',
     },
     measuredValue: 'Measure value',
     standard: 'Standard',

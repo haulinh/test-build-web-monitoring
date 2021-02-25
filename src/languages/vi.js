@@ -3260,12 +3260,14 @@ export default {
       time: {
         label: 'Thời gian'
       },
-      stationAuto: {
+      stationAutoLabel: {
         label: 'Trạm quan trắc ({{=it.count}} trạm)'
       },
-      parameter: {
+      parameterLabel: {
         label: 'Các thông số quan trắc ({{=it.count}} thông số)'
-      }
+      },
+      stationAuto: 'trạm quan trắc',
+      parameter: 'thông số',
     },
     measuredValue: 'Giá trị đo',
     standard: 'Quy chuẩn',
