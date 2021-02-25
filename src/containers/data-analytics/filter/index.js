@@ -83,8 +83,8 @@ class FilterForm extends Component {
   getTimes = rangeTime => {
     if (Array.isArray(rangeTime))
       return {
-        from: rangeTime[0].startOf('days'),
-        to: rangeTime[1].endOf('days'),
+        from: rangeTime[0],
+        to: rangeTime[1],
       }
     if (rangeTime === 1)
       return {
