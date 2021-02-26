@@ -93,7 +93,7 @@ class FilterForm extends Component {
       }
     return {
       from: moment.utc().startOf('d').subtract(rangeTime, 'd'),
-      to: moment.utc().endOf('d')
+      to: moment.utc().endOf('d').subtract(1, 'd')
     }
   }
 
