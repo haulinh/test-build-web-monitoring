@@ -108,8 +108,12 @@ class FilterForm extends Component {
         to: moment(),
       }
     return {
-      from: moment.startOf('d').subtract(rangeTime, 'd'),
-      to: moment.endOf('d').subtract(1, 'd'),
+      from: moment()
+        .startOf('d')
+        .subtract(rangeTime, 'd'),
+      to: moment()
+        .endOf('d')
+        .subtract(1, 'd'),
     }
   }
 
