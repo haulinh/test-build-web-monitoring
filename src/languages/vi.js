@@ -3129,9 +3129,12 @@ export default {
     statusData: 'Trạng thái dữ liệu',
   },
   apps: {
+    title: 'Ứng dụng',
     incidents: 'Quản lý sự cố',
     monitoring: 'Giám sát trực tuyến',
     grafana: 'Công cụ biểu đồ',
+    ilotusland: 'iLotusLand Monitoring',
+    databaseManagement: 'Quản lý cơ sở dữ liệu',
   },
   stationReview: {
     title: 'Đánh giá trạm',

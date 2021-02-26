@@ -1,6 +1,5 @@
 import React from 'react'
 import { connectAutoDispatch } from 'redux/connect'
-import ChangeLanguage from 'layout/navigation-layout/ChangeLanguage'
 import { logout } from 'redux/actions/authAction'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
@@ -9,34 +8,50 @@ import UserDropdown from './UserDropdown'
 import AppItem from './AppItem'
 import NotificationIcon from './NotificationIcon'
 import { SidebarGlobal, SIDEBAR_GLOBAL_WIDTH } from './style'
+import ChangeLanguage from 'layout/navigation-layout/ChangeLanguage'
+import AppList from 'components/app-list/app-list'
+import icon from 'assets/svg-icons/icon-ilotusland.svg'
+import { fetchApps } from 'api/AdminApi'
 
 export { SIDEBAR_GLOBAL_WIDTH }
 
-@connectAutoDispatch(
-  state => ({
-    authInfo: state.auth.userInfo,
-    notificationCount: state.notification.count,
-    drawerVisible: state.notification.visible,
-    tokenFCM: state.auth.tokenFCM,
-  }),
-  {
-    logout,
-    // getListOfStationAuto,
-    // getTotalActived,
-    // getTotalByNotificationType,
-    // setDrawerVisible,
-    // resetAllCounts,
-    // clearTotalNotificationCount
+const i18n = {
+  apps: {
+    ilotusland: translate('apps.ilotusland'),
+    databaseManagement: translate('apps.databaseManagement'),
+  },
+}
+class SidebarGlobalLayout extends React.PureComponent {
+  state = { domains: {} }
+
+  async componentDidMount() {
+    const results = await fetchApps()
+    this.setState({ domains: results.domains })
   }
-)
-export default class SidebarGlobalLayout extends React.PureComponent {
+
   render() {
+    const { domains } = this.state
+    const appList = [
+      {
+        text: i18n.apps.ilotusland,
+        href: domains.ilotusland,
+        icon: <img src={icon} alt="" />,
+      },
+      {
+        text: i18n.apps.databaseManagement,
+        href: domains.qlnt,
+        icon: <img src={icon} alt="" />,
+      },
+    ]
+
     return (
       <SidebarGlobal.Wrapper>
         <SidebarGlobal.SidebarTop>
           <a className="logo" href="/">
             <img alt="iLotusLand" src="/images/logo/logo-icon.png" />
           </a>
+          <SidebarGlobal.Line />
+          <AppList list={appList} />
           <SidebarGlobal.Line />
           {!getApps().isShow ? <NotificationIcon /> : null}
           {getApps().isShow ? (
@@ -74,3 +89,13 @@ export default class SidebarGlobalLayout extends React.PureComponent {
     )
   }
 }
+
+export default connectAutoDispatch(
+  state => ({
+    authInfo: state.auth.userInfo,
+    notificationCount: state.notification.count,
+    drawerVisible: state.notification.visible,
+    tokenFCM: state.auth.tokenFCM,
+  }),
+  { logout }
+)(SidebarGlobalLayout)
