@@ -4,14 +4,29 @@ import Exporting from 'highcharts/modules/exporting'
 import { translate as t } from 'hoc/create-lang'
 import AnalyzeDataContext from 'containers/data-analytics/context'
 import { isEmpty } from 'shared/components/DataTable/src/util'
-
-Exporting(Highcharts)
+import ROLES from 'constants/role'
+import { checkRole } from 'hoc/protect-role'
+import { connect } from 'react-redux'
 
 const i18n = {
   loading: `${t('global.loading')}...`,
 }
 class Chart extends Component {
   static contextType = AnalyzeDataContext
+
+  static getDerivedStateFromProps(props) {
+    const { authRole, isAdmin, organization } = props
+    const hasPermissionToExport = checkRole({
+      authRole,
+      isAdmin,
+      organization,
+      roles: ROLES.CHART.EXPORT,
+    })
+    if (hasPermissionToExport) Exporting(Highcharts)
+    return null
+  }
+
+  state = {}
 
   chartInstance
 
@@ -75,7 +90,7 @@ class Chart extends Component {
           },
           enableMouseTracking: false,
           dataLabels: {
-            enabled: false
+            enabled: false,
           },
           data: Array(chart.data.length)
             .fill(value)
@@ -108,7 +123,7 @@ class Chart extends Component {
 
   redraw = () => this.chartInstance.redraw()
 
-  setTitle = (option) => this.chartInstance.setTitle(option)
+  setTitle = option => this.chartInstance.setTitle(option)
 
   componentDidMount() {
     this.chartInstance = Highcharts.chart('chart', this.options)
@@ -127,4 +142,8 @@ class Chart extends Component {
   }
 }
 
-export default Chart
+export default connect(state => ({
+  authRole: state.auth.userInfo.role,
+  isAdmin: state.auth.userInfo.isAdmin,
+  organization: state.auth.userInfo.organization,
+}))(Chart)

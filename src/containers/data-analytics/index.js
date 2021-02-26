@@ -2,15 +2,15 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 import { get, isEmpty } from 'lodash'
-import { translate as t } from 'hoc/create-lang'
 import dataInsightApi from 'api/DataInsight'
+import { translate as t } from 'hoc/create-lang'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 import FilterForm from './filter'
 import ReportData from './report-data'
 import { AnalyzeDataProvider } from './context'
 import { CHART_TYPE } from './report-data/chart-type'
 import { OPERATOR } from './filter/select-operator'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 const i18n = {
   title: t('menuApp.monitoring.dataAnalytics'),
@@ -83,7 +83,6 @@ class DataAnalytics extends Component {
     this.removeAllLine()
 
     let { data, measure, dataType, chartType, qcvns } = this.state
-
     measure = params.measure || measure
     dataType = params.dataType || dataType
     chartType = params.chartType || chartType
