@@ -88,12 +88,12 @@ class FilterForm extends Component {
       }
     if (rangeTime === 1)
       return {
-        from: moment.utc().subtract(1, 'days'),
+        from: moment.utc().subtract(1, 'd'),
         to: moment.utc(),
       }
     return {
-      from: moment.utc().subtract(rangeTime, 'days'),
-      to: moment.utc()
+      from: moment.utc().startOf('d').subtract(rangeTime, 'd'),
+      to: moment.utc().endOf('d')
     }
   }
 
