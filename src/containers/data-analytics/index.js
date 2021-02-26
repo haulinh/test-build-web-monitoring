@@ -87,9 +87,12 @@ class DataAnalytics extends Component {
     dataType = params.dataType || dataType
     chartType = params.chartType || chartType
 
-    this.setState({ measure, dataType, chartType }, () =>
+    this.setState({ measure, dataType, chartType }, () => {
       this.onChangeQcvn(qcvns)
-    )
+      this.chart.setTitle({
+        text: this.getChartTitle(),
+      })
+    })
 
     if (![CHART_TYPE.COLUMN, CHART_TYPE.LINE].includes(chartType)) return
 
@@ -102,9 +105,6 @@ class DataAnalytics extends Component {
       description: getDescription(item),
     }))
     const categories = (data[measure] || []).map(item => item.stationName)
-    this.chart.setTitle({
-      text: this.getChartTitle(),
-    })
     this.chart.addSeries(
       categories,
       {
