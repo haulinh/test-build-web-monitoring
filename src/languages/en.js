@@ -3127,9 +3127,12 @@ export default {
     statusData: 'Data Status',
   },
   apps: {
+    title: 'Apps',
     incidents: 'Incidents Communication',
     monitoring: 'Online Monitoring',
     grafana: 'Data visualization',
+    ilotusland: 'iLotusLand Monitoring',
+    databaseManagement: 'Database management',
   },
   stationReview: {
     title: 'Station Reviews',
