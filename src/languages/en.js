@@ -227,8 +227,10 @@ export default {
           takeSample: 'Take Sample',
           commandSent: 'Sending command',
           takingSample: 'Sampling...',
-          takeSampleExceeded: 'Activate sampling when the threshold is exceeded',
-          cancelTakeSampleExceeded: 'Activated sampling upon threshold (Click to cancel)',
+          takeSampleExceeded:
+            'Activate sampling when the threshold is exceeded',
+          cancelTakeSampleExceeded:
+            'Activated sampling upon threshold (Click to cancel)',
           active: 'Active',
           actived: 'Actived (Click to cancel Sampling by Scheduled)',
           activeOverRange: 'Active Take sample when data over-range',
@@ -287,11 +289,12 @@ export default {
         lessThan: 'less than',
         notSetup: 'Not setup',
         invalidValue: 'Invalid valud',
-        requiredInput: 'Please input value'
+        requiredInput: 'Please input value',
       },
       numRecord: 'num record',
-      numRecordExceed: 'Number of records exceeding the threshold continuously to be sampled',
-    }
+      numRecordExceed:
+        'Number of records exceeding the threshold continuously to be sampled',
+    },
   },
   aqi: {
     title: 'Air Quality Index',
@@ -2078,7 +2081,7 @@ export default {
       camera: {
         name: 'Camera',
       },
-      chart : {
+      chart: {
         name: 'Data Insights',
       },
       dataSearch: {
@@ -2574,7 +2577,8 @@ export default {
         sampling: {
           cancelSchedule:
             'Are you sure you want to Cancel automatically sampling?',
-          cancelExceededSampling: 'Are you sure you want to Cancel exceeded sampling?'
+          cancelExceededSampling:
+            'Are you sure you want to Cancel exceeded sampling?',
         },
       },
     },
@@ -3074,7 +3078,7 @@ export default {
     sampling: {
       lostConnection:
         'Unable to connect to the sampling service, please contact the administrator!',
-        StatusFail: 'Cannot get status, try again',
+      StatusFail: 'Cannot get status, try again',
     },
     camera: {
       lostConnection: "Can't connect with Camera, Please check the connection!",
@@ -3252,16 +3256,19 @@ export default {
         label: 'Station type',
       },
       operator: {
-        label: 'Operator'
+        label: 'Operator',
+        avg: 'Average',
+        min: 'Min',
+        max: 'Max',
       },
       time: {
-        label: 'Times'
+        label: 'Times',
       },
       stationAutoLabel: {
-        label: 'Station Auto ({{=it.count}} stations)'
+        label: 'Station Auto ({{=it.count}} stations)',
       },
       parameterLabel: {
-        label: 'Measure Parameter ({{=it.count}} measures)'
+        label: 'Measure Parameter ({{=it.count}} measures)',
       },
       stationAuto: 'Stations',
       parameter: 'Measure parameter',
@@ -3273,6 +3280,6 @@ export default {
       column: 'Column',
       line: 'Line',
       table: 'Table',
-    }
-  } 
+    },
+  },
 }
