@@ -7,6 +7,8 @@ import ROLE from 'constants/role'
 import dataInsightApi from 'api/DataInsight'
 import { translate as t } from 'hoc/create-lang'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
+import { connect } from 'react-redux'
+import { get } from 'lodash'
 
 import Chart from './chart'
 import DataTable from './table'
@@ -39,7 +41,9 @@ const ChartWrapper = styled.div`
     right: 0;
   }
 `
-
+@connect(state => ({
+  language: get(state, 'language.locale'),
+}))
 class ReportData extends Component {
   static contextType = AnalyzeDataContext
 
@@ -80,7 +84,10 @@ class ReportData extends Component {
     }
 
     try {
-      const result = await dataInsightApi.exportDataInsight(paramExport, 'vi')
+      const result = await dataInsightApi.exportDataInsight(
+        paramExport,
+        this.props.language
+      )
       downFileExcel(result.data, 'data-insight')
       this.setState({ isLoadingExport: false })
     } catch (error) {
