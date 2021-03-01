@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { connectAutoDispatch } from 'redux/connect'
 import { logout } from 'redux/actions/authAction'
 import slug from 'constants/slug'
@@ -22,15 +22,15 @@ const i18n = {
   },
 }
 class SidebarGlobalLayout extends React.PureComponent {
-  state = { domains: {} }
+  state = { domains: {}, isShowApp: false }
 
   async componentDidMount() {
     const results = await fetchApps()
-    this.setState({ domains: results.domains })
+    this.setState({ domains: results.domains, isShowApp: results.show })
   }
 
   render() {
-    const { domains } = this.state
+    const { domains, isShowApp } = this.state
     const appList = [
       {
         text: i18n.apps.ilotusland,
@@ -51,8 +51,12 @@ class SidebarGlobalLayout extends React.PureComponent {
             <img alt="iLotusLand" src="/images/logo/logo-icon.png" />
           </a>
           <SidebarGlobal.Line />
-          <AppList list={appList} />
-          <SidebarGlobal.Line />
+          {isShowApp && (
+            <Fragment>
+              <AppList list={appList} />
+              <SidebarGlobal.Line />
+            </Fragment>
+          )}
           {!getApps().isShow ? <NotificationIcon /> : null}
           {getApps().isShow ? (
             <React.Fragment>
