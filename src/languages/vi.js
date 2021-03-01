@@ -3255,7 +3255,10 @@ export default {
         label: 'Loại trạm',
       },
       operator: {
-        label: 'Hàm tính'
+        label: 'Hàm tính',
+        avg: 'Trung bình',
+        min: 'Giá trị nhỏ nhất',
+        max: 'Giá trị lớn nhất',
       },
       time: {
         label: 'Thời gian'
