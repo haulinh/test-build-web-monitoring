@@ -94,7 +94,7 @@ export function getConfigApi() {
     dataInsight: c('data-insight'),
     // dataInsight: 'http://localhost:5022',
 
-    admin: c('admin'),
+    admin: c('admin2'),
     // admin: 'http://localhost:5005',
     camera: config.camera,
     firebase: config.firebase,
