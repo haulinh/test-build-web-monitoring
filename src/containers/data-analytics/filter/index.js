@@ -195,6 +195,7 @@ class FilterForm extends Component {
   }
 
   onStationAutoChange = stationAutoKeys => {
+    console.log(stationAutoKeys)
     this.updateForm({ stationAutoKeys })
   }
 
@@ -273,8 +274,6 @@ class FilterForm extends Component {
                   FIELDS.STATION_AUTO,
                   {
                     rules: [requiredFieldRule(i18n.stationAuto)],
-                  },
-                  {
                     onChange: this.onStationAutoChange,
                   }
                 )(
