@@ -318,11 +318,11 @@ export default class SamplingTab extends React.Component {
       },
     })
     const { stationID } = this.props
-    this.props.updateTakeSamplingStatus(true)
+    // this.props.updateTakeSamplingStatus(true)
     const result = await SamplingAPI.takeSampling(stationID, {
       configSampling: { protocol: this.state.samplingProtocol },
     })
-    this.props.updateTakeSamplingStatus(false)
+    // this.props.updateTakeSamplingStatus(false)
     return result
   }
 
@@ -353,6 +353,7 @@ export default class SamplingTab extends React.Component {
         }
       }
     } catch (err) {
+      console.log(err, "--err--")
       swal({
         title: i18n.alertWarning,
         html: i18n.alertErrorTakeSampling,

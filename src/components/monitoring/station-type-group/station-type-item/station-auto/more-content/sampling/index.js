@@ -86,7 +86,7 @@ export default class SamplingMoreInfo extends React.Component {
   }
 
   updateState = newState => {
-    console.log('newState', newState)
+    // console.log('newState', newState)
     this.setState(prevState => ({ ...prevState, ...newState }))
   }
 
