@@ -129,7 +129,17 @@ class ReportData extends Component {
               <Fragment>
                 <Col span={!hasPermission ? 16 : 13}>
                   <Row type="flex" align="middle">
-                    <Col span={3}>{i18n.standard}</Col>
+                    <Col
+                      span={3}
+                      style={{
+                        textAlign: 'right',
+                        paddingRight: '8px',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {i18n.standard}
+                    </Col>
                     <Col span={21}>
                       <SelectQCVN
                         mode="multiple"
@@ -182,7 +192,7 @@ class ReportData extends Component {
                         : ''
                     }`}
                     key={measure}
-                  ></TabPane>
+                  />
                 ))}
               </Tabs>
             </ChartWrapper>
