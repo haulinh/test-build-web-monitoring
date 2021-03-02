@@ -195,7 +195,6 @@ class FilterForm extends Component {
   }
 
   onStationAutoChange = stationAutoKeys => {
-    console.log(stationAutoKeys)
     this.updateForm({ stationAutoKeys })
   }
 
