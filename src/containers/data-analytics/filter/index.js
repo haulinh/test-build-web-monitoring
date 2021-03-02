@@ -273,8 +273,6 @@ class FilterForm extends Component {
                   FIELDS.STATION_AUTO,
                   {
                     rules: [requiredFieldRule(i18n.stationAuto)],
-                  },
-                  {
                     onChange: this.onStationAutoChange,
                   }
                 )(
