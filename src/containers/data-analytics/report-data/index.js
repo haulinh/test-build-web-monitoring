@@ -16,6 +16,7 @@ import ChartType, { CHART_TYPE } from './chart-type'
 import AnalyzeDataContext from '../context'
 import { downFileExcel } from 'utils/downFile'
 import { Clearfix } from 'components/elements'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { PermissionPopover } from 'hoc/protect-role'
 
 const i18n = {
@@ -78,9 +79,9 @@ class ReportData extends Component {
     const paramExport = {
       ...paramFilter,
       qcvnKeys: qcvns.map(qcvn => qcvn._id).join(','),
-      name: `${moment(paramFilter.from).format('DD/MM/YYYY hh:mm')} - ${moment(
+      name: `${moment(paramFilter.from).format(DD_MM_YYYY_HH_MM)} - ${moment(
         paramFilter.to
-      ).format('DD/MM/YYYY hh:mm')}`,
+      ).format(DD_MM_YYYY_HH_MM)}`,
     }
 
     try {
