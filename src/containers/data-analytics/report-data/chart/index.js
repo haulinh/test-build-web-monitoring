@@ -1,20 +1,32 @@
 import React, { Component } from 'react'
-import moment from 'moment'
 import Highcharts from 'highcharts'
 import Exporting from 'highcharts/modules/exporting'
-
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { translate as t } from 'hoc/create-lang'
 import AnalyzeDataContext from 'containers/data-analytics/context'
 import { isEmpty } from 'shared/components/DataTable/src/util'
-
-Exporting(Highcharts)
+import ROLES from 'constants/role'
+import { checkRole } from 'hoc/protect-role'
+import { connect } from 'react-redux'
 
 const i18n = {
   loading: `${t('global.loading')}...`,
 }
 class Chart extends Component {
   static contextType = AnalyzeDataContext
+
+  static getDerivedStateFromProps(props) {
+    const { authRole, isAdmin, organization } = props
+    const hasPermissionToExport = checkRole({
+      authRole,
+      isAdmin,
+      organization,
+      roles: ROLES.CHART.EXPORT,
+    })
+    if (hasPermissionToExport) Exporting(Highcharts)
+    return null
+  }
+
+  state = {}
 
   chartInstance
 
@@ -38,19 +50,14 @@ class Chart extends Component {
     },
     tooltip: {
       formatter: function(tooltip) {
-        if (!this.point.description)
-          return tooltip.defaultFormatter.call(this, tooltip)
-        if (this.point.description === 'qcvn') {
-          return `${this.series.name}: <b>${this.point.y}</b>`
-        }
+        if (!this.point.description || this.point.description === 'qcvn')
+          return null
 
         if (isEmpty(this.point.description)) return i18n.loading
 
         return `
           <div>
-            ${this.point.description
-              .map(item => moment(item).format(DD_MM_YYYY_HH_MM))
-              .join('<br />')}
+            ${this.point.description.join('<br />')}
           </div>
         `
       },
@@ -79,6 +86,10 @@ class Chart extends Component {
           name,
           type: 'line',
           marker: {
+            enabled: false,
+          },
+          enableMouseTracking: false,
+          dataLabels: {
             enabled: false,
           },
           data: Array(chart.data.length)
@@ -112,6 +123,8 @@ class Chart extends Component {
 
   redraw = () => this.chartInstance.redraw()
 
+  setTitle = option => this.chartInstance.setTitle(option)
+
   componentDidMount() {
     this.chartInstance = Highcharts.chart('chart', this.options)
     this.context.setChart({
@@ -120,6 +133,7 @@ class Chart extends Component {
       addSeries: this.addSeries,
       removeCharts: this.removeCharts,
       getChartSeries: this.getChartSeries,
+      setTitle: this.setTitle,
     })
   }
 
@@ -128,4 +142,8 @@ class Chart extends Component {
   }
 }
 
-export default Chart
+export default connect(state => ({
+  authRole: state.auth.userInfo.role,
+  isAdmin: state.auth.userInfo.isAdmin,
+  organization: state.auth.userInfo.organization,
+}))(Chart)

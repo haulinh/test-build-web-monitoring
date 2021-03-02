@@ -14,6 +14,7 @@ import OptionsTimeRange from 'components/elements/options-time-range'
 import SelectStationAuto from './select-station-auto'
 import SelectMeasureParameter from './select-measure-parameter'
 import SelectOperator, { OPERATOR } from './select-operator'
+import { requiredFieldRule } from 'utils/rules'
 
 const i18n = {
   btnSearchText: t('addon.search'),
@@ -22,13 +23,25 @@ const i18n = {
   operatorLabel: t('dataAnalytics.filterForm.operator.label'),
   timeLabel: t('dataAnalytics.filterForm.time.label'),
   stationAutoLabel: count =>
-    t('dataAnalytics.filterForm.stationAuto.label', { count }),
+    t('dataAnalytics.filterForm.stationAutoLabel.label', { count }),
   parameterLabel: count =>
-    t('dataAnalytics.filterForm.parameter.label', { count }),
+    t('dataAnalytics.filterForm.parameterLabel.label', { count }),
+  stationAuto: t('dataAnalytics.filterForm.stationAuto'),
+  parameter: t('dataAnalytics.filterForm.parameter'),
 }
 
 const FormSearch = styled.div`
   padding: 10px;
+`
+
+const FormItem = styled(Form.Item)`
+  margin-bottom: 16px;
+  .ant-form-item-label {
+    line-height: unset;
+    label {
+      margin: 0;
+    }
+  }
 `
 
 export const FIELDS = {
@@ -58,8 +71,14 @@ class FilterForm extends Component {
         stationAutoKeys: values[FIELDS.STATION_AUTO].join(','),
         measuringList: values[FIELDS.MEASURING_LIST].join(','),
         stationType: values[FIELDS.STATION_TYPE],
-        from: times.from.format(),
-        to: times.to.format(),
+        from: times.from
+          .clone()
+          .utc()
+          .format(),
+        to: times.to
+          .clone()
+          .utc()
+          .format(),
       }
       setParamFilter({
         ...params,
@@ -80,19 +99,21 @@ class FilterForm extends Component {
   getTimes = rangeTime => {
     if (Array.isArray(rangeTime))
       return {
-        from: rangeTime[0].startOf('days'),
-        to: rangeTime[1].endOf('days'),
+        from: rangeTime[0],
+        to: rangeTime[1],
       }
     if (rangeTime === 1)
       return {
-        from: moment().subtract(1, 'days'),
+        from: moment().subtract(1, 'd'),
         to: moment(),
       }
     return {
       from: moment()
-        .subtract(rangeTime, 'days')
-        .startOf('days'),
-      to: moment().endOf('days'),
+        .startOf('d')
+        .subtract(rangeTime, 'd'),
+      to: moment()
+        .endOf('d')
+        .subtract(1, 'd'),
     }
   }
 
@@ -213,14 +234,14 @@ class FilterForm extends Component {
         <FormSearch>
           <Row gutter={20}>
             <Col md={6} lg={6} sm={12}>
-              <Form.Item label={i18n.provinceLabel}>
+              <FormItem label={i18n.provinceLabel}>
                 {form.getFieldDecorator(FIELDS.PROVINCE, {
                   onChange: this.onChange,
                 })(<SelectProvince isShowAll />)}
-              </Form.Item>
+              </FormItem>
             </Col>
             <Col md={6} lg={6} sm={12}>
-              <Form.Item label={i18n.stationTypeLabel}>
+              <FormItem label={i18n.stationTypeLabel}>
                 {form.getFieldDecorator(FIELDS.STATION_TYPE, {
                   onChange: this.onChange,
                 })(
@@ -228,43 +249,49 @@ class FilterForm extends Component {
                     onFetchSuccess={this.onFetchStationTypeSuccess}
                   />
                 )}
-              </Form.Item>
+              </FormItem>
             </Col>
             <Col md={6} lg={6} sm={12}>
-              <Form.Item label={i18n.operatorLabel}>
+              <FormItem label={i18n.operatorLabel}>
                 {form.getFieldDecorator(FIELDS.OPERATOR, {
                   initialValue: OPERATOR.AVG,
                 })(<SelectOperator />)}
-              </Form.Item>
+              </FormItem>
             </Col>
             <Col md={6} lg={6} sm={12}>
-              <Form.Item label={i18n.timeLabel}>
+              <FormItem label={i18n.timeLabel}>
                 {form.getFieldDecorator(FIELDS.RANGE_TIME, {
                   initialValue: 1,
                 })(<OptionsTimeRange />)}
-              </Form.Item>
+              </FormItem>
             </Col>
           </Row>
           <Row gutter={20}>
             <Col sm={24} md={24} lg={24}>
-              <Form.Item label={i18n.stationAutoLabel(numberStation)}>
-                {form.getFieldDecorator(FIELDS.STATION_AUTO, {
-                  onChange: this.onStationAutoChange,
-                })(
+              <FormItem label={i18n.stationAutoLabel(numberStation)}>
+                {form.getFieldDecorator(
+                  FIELDS.STATION_AUTO,
+                  {
+                    rules: [requiredFieldRule(i18n.stationAuto)],
+                  },
+                  {
+                    onChange: this.onStationAutoChange,
+                  }
+                )(
                   <SelectStationAuto
                     stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
                     province={form.getFieldValue(FIELDS.PROVINCE)}
                     onFetchSuccess={this.onFetchStationAutoSuccess}
                   />
                 )}
-              </Form.Item>
+              </FormItem>
             </Col>
             <Col sm={24} md={24} lg={24}>
-              <Form.Item label={i18n.parameterLabel(numberMeasuringList)}>
-                {form.getFieldDecorator(FIELDS.MEASURING_LIST)(
-                  <SelectMeasureParameter options={measuringList} />
-                )}
-              </Form.Item>
+              <FormItem label={i18n.parameterLabel(numberMeasuringList)}>
+                {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
+                  rules: [requiredFieldRule(i18n.parameter)],
+                })(<SelectMeasureParameter options={measuringList} />)}
+              </FormItem>
             </Col>
           </Row>
         </FormSearch>

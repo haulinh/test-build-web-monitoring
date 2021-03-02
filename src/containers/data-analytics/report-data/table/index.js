@@ -1,4 +1,4 @@
-import { Table, Tooltip } from 'antd'
+import { Table } from 'antd'
 import React, { Component } from 'react'
 import { translate as t } from 'hoc/create-lang'
 
@@ -64,17 +64,9 @@ class DataTable extends Component {
           measuringList[key].unit ? `(${measuringList[key].unit})` : ''
         }`,
         width: 100,
-        render: (value, record, idx) =>
+        render: (_, record, idx) =>
           idx < dataSource.length - qcvns.length ? (
-            <Tooltip
-              title={
-                record.data[key]
-                  ? record.data[key]['timeHaveMinValue'].join(',')
-                  : null
-              }
-            >
-              <div>{record.data[key] ? record.data[key][dataType] : '-'}</div>
-            </Tooltip>
+            <div>{record.data[key] ? record.data[key][dataType] : '-'}</div>
           ) : (
             <div>{getMeasuringValue(record.measuringList, key)}</div>
           ),

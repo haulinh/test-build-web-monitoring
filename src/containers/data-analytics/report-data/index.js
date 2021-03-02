@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Row, Col, Tabs, Spin, Button } from 'antd'
 import styled from 'styled-components'
 import moment from 'moment'
 
+import ROLE from 'constants/role'
 import dataInsightApi from 'api/DataInsight'
 import { translate as t } from 'hoc/create-lang'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
@@ -16,6 +17,7 @@ import AnalyzeDataContext from '../context'
 import { downFileExcel } from 'utils/downFile'
 import { Clearfix } from 'components/elements'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { PermissionPopover } from 'hoc/protect-role'
 
 const i18n = {
   standard: t('dataAnalytics.standard'),
@@ -122,29 +124,37 @@ class ReportData extends Component {
               chartType={chartType}
             />
           </Col>
-          <Col span={13}>
-            <Row type="flex" align="middle">
-              <Col span={3}>{i18n.standard}</Col>
-              <Col span={21}>
-                <SelectQCVN
-                  mode="multiple"
-                  maxTagCount={3}
-                  maxTagTextLength={18}
-                  onChange={this.onChangeQcvn}
-                />
-              </Col>
-            </Row>
-          </Col>
-          <Col span={3}>
-            <Button
-              type="primary"
-              loading={this.state.isLoadingExport}
-              onClick={this.onClickExport.bind(this)}
-              disabled={!paramFilter}
-            >
-              {i18n.export}
-            </Button>
-          </Col>
+          <PermissionPopover roles={ROLE.CHART.EXPORT} popoverPlacement="right">
+            {hasPermission => (
+              <Fragment>
+                <Col span={!hasPermission ? 16 : 13}>
+                  <Row type="flex" align="middle">
+                    <Col span={3}>{i18n.standard}</Col>
+                    <Col span={21}>
+                      <SelectQCVN
+                        mode="multiple"
+                        maxTagCount={3}
+                        maxTagTextLength={18}
+                        onChange={this.onChangeQcvn}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+                {hasPermission && (
+                  <Col span={3}>
+                    <Button
+                      type="primary"
+                      loading={this.state.isLoadingExport}
+                      onClick={this.onClickExport.bind(this)}
+                      disabled={!paramFilter}
+                    >
+                      {i18n.export}
+                    </Button>
+                  </Col>
+                )}
+              </Fragment>
+            )}
+          </PermissionPopover>
         </Row>
         <Row>
           <Col>

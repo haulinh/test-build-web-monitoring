@@ -2075,7 +2075,7 @@ export default {
         name: 'Camera',
       },
       chart : {
-        name: 'Biểu đồ',
+        name: 'Phân tích dữ liệu',
       },
       dataSearch: {
         name: 'Tra cứu dữ liệu',
@@ -3129,9 +3129,12 @@ export default {
     statusData: 'Trạng thái dữ liệu',
   },
   apps: {
+    title: 'Ứng dụng',
     incidents: 'Quản lý sự cố',
     monitoring: 'Giám sát trực tuyến',
     grafana: 'Công cụ biểu đồ',
+    ilotusland: 'iLotusLand Monitoring',
+    databaseManagement: 'Quản lý cơ sở dữ liệu',
   },
   stationReview: {
     title: 'Đánh giá trạm',
@@ -3255,17 +3258,22 @@ export default {
         label: 'Loại trạm',
       },
       operator: {
-        label: 'Hàm tính'
+        label: 'Hàm tính',
+        avg: 'Trung bình',
+        min: 'Giá trị nhỏ nhất',
+        max: 'Giá trị lớn nhất',
       },
       time: {
         label: 'Thời gian'
       },
-      stationAuto: {
+      stationAutoLabel: {
         label: 'Trạm quan trắc ({{=it.count}} trạm)'
       },
-      parameter: {
+      parameterLabel: {
         label: 'Các thông số quan trắc ({{=it.count}} thông số)'
-      }
+      },
+      stationAuto: 'trạm quan trắc',
+      parameter: 'thông số',
     },
     measuredValue: 'Giá trị đo',
     standard: 'Quy chuẩn',

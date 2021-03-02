@@ -1,6 +1,7 @@
 import React from 'react'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
+import { translate as t } from 'hoc/create-lang'
 
 export const OPERATOR = {
   AVG: 'avg',
@@ -10,15 +11,15 @@ export const OPERATOR = {
 
 const OPERATOR_OPTIONS = [
   {
-    text: 'Trung bình',
+    text: t('dataAnalytics.filterForm.operator.avg'),
     value: OPERATOR.AVG,
   },
   {
-    text: 'Giá trị nhỏ nhất',
+    text: t('dataAnalytics.filterForm.operator.min'),
     value: OPERATOR.MIN,
   },
   {
-    text: 'Giá trị lớn nhất',
+    text: t('dataAnalytics.filterForm.operator.max'),
     value: OPERATOR.MAX,
   },
 ]
