@@ -36,6 +36,8 @@ const FormSearch = styled.div`
 
 const FormItem = styled(Form.Item)`
   margin-bottom: 16px;
+  font-size: 14;
+  font-weight: 600;
   .ant-form-item-label {
     line-height: unset;
     label {
@@ -269,13 +271,10 @@ class FilterForm extends Component {
           <Row gutter={20}>
             <Col sm={24} md={24} lg={24}>
               <FormItem label={i18n.stationAutoLabel(numberStation)}>
-                {form.getFieldDecorator(
-                  FIELDS.STATION_AUTO,
-                  {
-                    rules: [requiredFieldRule(i18n.stationAuto)],
-                    onChange: this.onStationAutoChange,
-                  }
-                )(
+                {form.getFieldDecorator(FIELDS.STATION_AUTO, {
+                  rules: [requiredFieldRule(i18n.stationAuto)],
+                  onChange: this.onStationAutoChange,
+                })(
                   <SelectStationAuto
                     stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
                     province={form.getFieldValue(FIELDS.PROVINCE)}
