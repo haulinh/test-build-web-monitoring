@@ -1,4 +1,4 @@
-import { Col, Row, Skeleton } from 'antd'
+import { Col, Row, Skeleton, Tabs } from 'antd'
 import { getDataStationAutoAvg_v2 } from 'api/DataStationAutoApi'
 import InputEditCell from 'components/elements/input-edit-cell'
 import Label from 'components/elements/label'
@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { DATA_COLOR } from 'themes/color'
 
+const { TabPane } = Tabs
 const ChartWrapper = styled.div`
   flex-direction: column;
   position: relative;
@@ -459,6 +460,28 @@ export default class ChartRowToChart extends React.Component {
             </div>
           </div>
         </Skeleton>
+        {!this.state.isLoading && (
+          <div className="monitoring-chart--tab">
+            {this.state.current.length > 0 && (
+              <Tabs
+                style={{
+                  width: 900,
+                  paddingLeft: 8,
+                  paddingRight: 8,
+                }}
+                defaultActiveKey={_.get(this.state.current[0], 'key', '')}
+                onTabClick={this.handleClick}
+              >
+                {_.map(this.state.categories, ({ key, name, unit }) => (
+                  <TabPane
+                    tab={unit ? `${name} (${unit})` : `${name}`}
+                    key={key}
+                  />
+                ))}
+              </Tabs>
+            )}
+          </div>
+        )}
 
       </ChartWrapper>
     )
