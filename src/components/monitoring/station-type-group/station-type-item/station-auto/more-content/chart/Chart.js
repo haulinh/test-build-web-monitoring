@@ -405,6 +405,7 @@ export default class ChartRowToChart extends React.Component {
     minLimit = _.get(this.state.current, '0.minLimit', null)
 
     // console.log(this.state.data, this.state.current, 'getConfigData')
+    //console.log(this.state.data, this.state.current, 'getConfigData')
 
     dataSeries.push({
       type: 'column',
