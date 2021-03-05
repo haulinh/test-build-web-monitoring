@@ -128,6 +128,7 @@ class SamplingConfig extends Component {
   render() {
     const { isSaving } = this.state
     const { measuringList, configExceeded } = this.props
+    console.log(measuringList, "--measuringList--")
     return (
       <Wrapper>
         <Collapse defaultActiveKey="general-config">
