@@ -8,10 +8,50 @@ import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 const options = [
-  { key: 1, text: 'dataSearchFrom.options.byHoursDetail', value: 24, detailHours: `${moment().subtract(1, 'days').format('DD/MM/YYYY HH:mm')} - ${moment().format('DD/MM/YYYY HH:mm')}` },
-  { key: 7, text: 'dataSearchFrom.options.byDayDetail', value: 7, detailDay: `${moment().subtract(8, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
-  { key: 15, text: 'dataSearchFrom.options.byDayDetail', value: 15, detailDay: `${moment().subtract(16, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
-  { key: 30, text: 'dataSearchFrom.options.byDayDetail', value: 30, detailDay: `${moment().subtract(31, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
+  {
+    key: 1,
+    text: 'dataSearchFrom.options.byHoursDetail',
+    value: 24,
+    detailHours: `${moment()
+      .subtract(1, 'days')
+      .format('DD/MM/YYYY HH:mm')} - ${moment().format('DD/MM/YYYY HH:mm')}`,
+  },
+  {
+    key: 7,
+    text: 'dataSearchFrom.options.byDayDetail',
+    value: 7,
+    detailDay: `${moment()
+      .subtract(8, 'days')
+      .startOf('day')
+      .format('DD/MM/YYYY HH:mm')} - ${moment()
+      .subtract(1, 'days')
+      .endOf('day')
+      .format('DD/MM/YYYY HH:mm')}`,
+  },
+  {
+    key: 15,
+    text: 'dataSearchFrom.options.byDayDetail',
+    value: 15,
+    detailDay: `${moment()
+      .subtract(16, 'days')
+      .startOf('day')
+      .format('DD/MM/YYYY HH:mm')} - ${moment()
+      .subtract(1, 'days')
+      .endOf('day')
+      .format('DD/MM/YYYY HH:mm')}`,
+  },
+  {
+    key: 30,
+    text: 'dataSearchFrom.options.byDayDetail',
+    value: 30,
+    detailDay: `${moment()
+      .subtract(31, 'days')
+      .startOf('day')
+      .format('DD/MM/YYYY HH:mm')} - ${moment()
+      .subtract(1, 'days')
+      .endOf('day')
+      .format('DD/MM/YYYY HH:mm')}`,
+  },
 ]
 
 @connect(state => ({
@@ -100,8 +140,16 @@ export default class OptionsTimeRange extends React.Component {
         >
           {options.map(option => (
             <Select.Option key={option.key} value={option.key}>
-              {option.key === 1 && translate(option.text, { value: option.value, detailHours: option.detailHours })}
-              {option.key !== 1 && translate(option.text, { value: option.value, detailDay: option.detailDay })}
+              {option.key === 1 &&
+                translate(option.text, {
+                  value: option.value,
+                  detailHours: option.detailHours,
+                })}
+              {option.key !== 1 &&
+                translate(option.text, {
+                  value: option.value,
+                  detailDay: option.detailDay,
+                })}
             </Select.Option>
           ))}
           <Select.Option key="ranges">
