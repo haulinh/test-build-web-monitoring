@@ -13,7 +13,7 @@ import {
 import { connect } from 'react-redux'
 import Clearfix from 'components/elements/clearfix'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
-import { MM_YYYY } from 'constants/format-date'
+import { DD_MM_YYYY, MM_YYYY } from 'constants/format-date'
 import moment from 'moment-timezone'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
@@ -63,7 +63,7 @@ export default class ReportType1 extends React.Component {
         title: i18n.header,
         dataIndex: '_id',
         render: value => {
-          return <span>{value}</span>
+          return <span>{moment(value, 'YYYY-MM-DD').format(DD_MM_YYYY)}</span>
         },
       },
       ...columns,
@@ -97,6 +97,7 @@ export default class ReportType1 extends React.Component {
     )
 
     if (res.success) {
+      console.log(res.data)
       this.setState({
         dataSource: res.data,
         isHaveData: true,

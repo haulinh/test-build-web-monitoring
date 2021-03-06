@@ -9,6 +9,7 @@ import protectRole from 'hoc/protect-role'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
+import CategoryApi from 'api/CategoryApi'
 
 const MENU_WIDTH = 300
 
@@ -101,7 +102,18 @@ export default class FilterListMenu extends React.Component {
     super(props)
     this.state = {
       highlightText: '',
+      stationTypes: new Map(),
     }
+  }
+
+  async componentDidMount() {
+    const results = await CategoryApi.getStationTypes({}, { isAuto: true })
+    if (results.success)
+      this.setState({
+        stationTypes: new Map(
+          results.data.map(stationType => [stationType.key, stationType])
+        ),
+      })
   }
 
   getHighlightedText = (text, highlightText) => {
@@ -161,17 +173,11 @@ export default class FilterListMenu extends React.Component {
 
   getStationType = filterKey => {
     if (!this.props.stations.length) {
-      return {
-        name: '',
-      }
+      return ''
     }
-    const station = this.props.stations.find(
-      station => station.stationType.key === filterKey
-    )
-    if (station) return station.stationType
-    return {
-      name: '',
-    }
+    const station = this.state.stationTypes.get(filterKey)
+    if (station) return station.name
+    return ''
   }
 
   render() {
@@ -216,7 +222,7 @@ export default class FilterListMenu extends React.Component {
                   <SubMenu
                     key={filterKey || 'ALL'}
                     title={
-                      this.getStationType(filterKey).name ||
+                      this.getStationType(filterKey) ||
                       translate('dataSearchFilterForm.table.all')
                     }
                   >
@@ -225,7 +231,6 @@ export default class FilterListMenu extends React.Component {
                         onClick={this.handleClickFilterItem(filter._id)}
                         key={filter._id}
                       >
-                        {/* <Flex className="flex-menu-item"> */}
                         <div>
                           {this.getHighlightedText(
                             filter.name,

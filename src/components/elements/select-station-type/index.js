@@ -36,15 +36,16 @@ export default class SelectStationType extends PureComponent {
   }
 
   async componentDidMount() {
-    let query = { isAuto: this.props.isAuto }
-    const stationTypes = await CategoryApi.getStationTypes({}, query)
-    if (stationTypes.success)
+    const {isAuto, value, isShowAll, getRef, onFetchSuccess} = this.props
+    const results = await CategoryApi.getStationTypes({}, { isAuto })
+    if (results.success)
+      if (typeof onFetchSuccess === "function") onFetchSuccess(results.data)
       this.setState({
-        stationTypes: stationTypes.data || [],
-        value: this.props.value || (this.props.isShowAll ? '' : undefined),
+        stationTypes: results.data || [],
+        value: value || (isShowAll ? '' : undefined),
       })
 
-    if (this.props.getRef) this.props.getRef(this)
+    if (typeof getRef === "function") getRef(this)
   }
 
   componentWillReceiveProps(nextProps) {

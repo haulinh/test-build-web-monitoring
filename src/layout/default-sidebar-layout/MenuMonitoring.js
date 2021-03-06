@@ -82,6 +82,22 @@ export default {
         </Menu.Item>
       )}
 
+      {/* TODO: update role for report module */}
+      {protectRole(ROLE.CHART.VIEW)(
+        <Menu.Item
+          key={slug.dataAnalytics.base}
+          onClick={() => {
+            props.selectMenu(slug.dataAnalytics.base)
+          }}
+        >
+          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.dataAnalytics}>
+            <Link to={slug.dataAnalytics.base}>
+              {MENU_NAME.monitoring.dataAnalytics}
+            </Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
+
       {protectRole(ROLE.DATA_SEARCH.VIEW)(
         <Menu.Item
           key={slug.dataSearch.base}

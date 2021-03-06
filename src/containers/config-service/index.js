@@ -109,26 +109,29 @@ export default class ConfigService extends Component {
     isFetchingOrganization: false,
     isSubmitSmsForm: false,
     isSubmitMailGunForm: false,
-    smsType: null,
   }
 
   modalRef = createRef()
 
   async componentDidMount() {
-    const {
-      organization: { _id: organizationId },
-    } = this.props
-    this.setState({ isFetchingOrganization: true })
-    const result = await OrganizationApi.getOrganization(organizationId)
-    const {
-      notifyChannels: { sms },
-    } = result.data
-    const smsAllowedConfigs = sms.find(item => item.allowed).serviceName
-    this.setState({
-      organization: result.data || {},
-      isFetchingOrganization: false,
-      smsType: smsAllowedConfigs,
-    })
+    try {
+      const {
+        organization: { _id: organizationId },
+      } = this.props
+      this.setState({ isFetchingOrganization: true })
+      const result = await OrganizationApi.getOrganization(organizationId)
+      const {
+        notifyChannels: { sms },
+      } = result.data
+      const defaultService = sms.find(item => item.allowed) || {}
+      this.setState({
+        organization: result.data || {},
+        isFetchingOrganization: false,
+        smsType: defaultService.serviceName || SMS_TYPE.ESMS.value,
+      })
+    } catch (error) {
+      this.setState({ isFetchingOrganization: false })
+    }
   }
 
   setShowModal = modalType => {
@@ -149,7 +152,7 @@ export default class ConfigService extends Component {
       if (result) {
         notification.success({
           message: t('configService.changeServiceName', {
-            serviceName: e.target.value
+            serviceName: e.target.value,
           }),
         })
       }
@@ -170,16 +173,27 @@ export default class ConfigService extends Component {
             <Text fontSize={16} color="#272727">
               {title}
             </Text>
-            <Radio.Group
-              onChange={this.onChangeSelectSmsType}
-              value={this.state.smsType}
+            <PermissionPopover
+              roles={ROLE.SERVICE_CONFIG.SETUP}
+              popoverPlacement="right"
             >
-              {Object.keys(SMS_TYPE).map(type => (
-                <Radio value={SMS_TYPE[type].value}>
-                  {SMS_TYPE[type].title}
-                </Radio>
-              ))}
-            </Radio.Group>
+              {hasPermission => (
+                <Radio.Group
+                  onChange={this.onChangeSelectSmsType}
+                  value={this.state.smsType}
+                >
+                  {Object.keys(SMS_TYPE).map(type => (
+                    <Radio
+                      key={type}
+                      value={SMS_TYPE[type].value}
+                      disabled={!hasPermission}
+                    >
+                      {SMS_TYPE[type].title}
+                    </Radio>
+                  ))}
+                </Radio.Group>
+              )}
+            </PermissionPopover>
           </Fragment>
         )}
 

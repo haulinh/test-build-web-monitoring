@@ -405,6 +405,7 @@ export default class ChartRowToChart extends React.Component {
     minLimit = _.get(this.state.current, '0.minLimit', null)
 
     // console.log(this.state.data, this.state.current, 'getConfigData')
+    //console.log(this.state.data, this.state.current, 'getConfigData')
 
     dataSeries.push({
       type: 'column',
@@ -478,19 +479,11 @@ export default class ChartRowToChart extends React.Component {
                     key={key}
                   />
                 ))}
-                {/* {_.map(this.state.categories, ({ key, name, unit }) => {
-                if(! (key === 'COD')) return null
-                return (
-                  <TabPane
-                    tab={unit ? `${name} (${unit})` : `${name}`}
-                    key={key}
-                  />
-                )
-              })} */}
               </Tabs>
             )}
           </div>
         )}
+
       </ChartWrapper>
     )
   }

@@ -42,6 +42,10 @@ export default {
   CAMERA: {
     VIEW: 'menu.camera.actions.view',
   },
+  CHART: {
+    VIEW: 'menu.chart.actions.view',
+    EXPORT: 'menu.chart.actions.export',
+  },
   DATA_SEARCH: {
     VIEW: 'menu.dataSearch.actions.view',
     EXPORT: 'menu.dataSearch.actions.export',

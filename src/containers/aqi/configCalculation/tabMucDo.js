@@ -59,7 +59,11 @@ export default class TabMucDo extends React.Component {
 
   compareToMax = (rule, value, callback, fliedName) => {
     const { form } = this.props
-    if (value && value > form.getFieldValue(fliedName)) {
+    if (
+      value &&
+      form.getFieldValue(fliedName) &&
+      value > form.getFieldValue(fliedName)
+    ) {
       callback(i18n.compareToMax)
     } else {
       callback()
@@ -140,6 +144,7 @@ export default class TabMucDo extends React.Component {
       render: (text, record, index) => {
         const { getFieldDecorator, setFieldsValue } = this.props.form
         const isLast = this.state.dataSource.length === index + 1
+
         return (
           <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             <div style={{ display: 'flex' }}>
@@ -177,11 +182,9 @@ export default class TabMucDo extends React.Component {
                   <Icon
                     onClick={() => {
                       this.setState({ isLocked: !this.state.isLocked }, () => {
-                        if (this.state.isLocked) {
-                          setFieldsValue({
-                            [`levelList[${record.key}].max`]: null,
-                          })
-                        }
+                        setFieldsValue({
+                          [`levelList[${record.key}].max`]: null,
+                        })
                       })
                     }}
                     style={{
@@ -292,13 +295,15 @@ export default class TabMucDo extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         this.setState({ isSubmit: true })
-        console.log('Received values of form: ', values)
+        // console.log('Received values of form: ', values)
+        // console.log('Received err of form: ', err)
+
         try {
           const transformData = _.get(values, 'levelList', []).filter(i =>
             _.identity(i)
           )
 
-          // console.log("transformData", transformData);
+          // console.log('transformData', transformData)
           const response = await postConfigAqiCalculation(
             this.props.keyLevel,
             transformData

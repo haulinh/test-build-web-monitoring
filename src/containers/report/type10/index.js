@@ -43,7 +43,7 @@ export default class ReportType10 extends React.Component {
       isLoadingExcel: false,
       dataSource: [],
       dataSearch: null,
-      fromMonth: '',
+      fromMonth: '',      
       toMonth: '',
     }
   }
@@ -133,7 +133,11 @@ export default class ReportType10 extends React.Component {
 
   handleSubmit = async (values = {}) => {
     // console.log(JSON.stringify(values, null, 4), "values");
-    const { stationType = '', fromMonth = moment(), toMonth = moment() } = values
+    const {
+      stationType = '',
+      fromMonth = moment(),
+      toMonth = moment(),
+    } = values
     this.setState({
       isHaveData: false,
       isLoading: true,
@@ -183,7 +187,7 @@ export default class ReportType10 extends React.Component {
   }
 
   render() {
-
+    
     return (
       <PageContainer>
         <Breadcrumb items={['type10']} />

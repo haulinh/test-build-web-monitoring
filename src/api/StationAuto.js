@@ -38,6 +38,12 @@ export function getTotalCount_by_type(stationType_id) {
   return getFetch(url)
 }
 
+export function getTotalCount_by_province(province_id) {
+  let url = getStationAutoUrl(`count/total-station-by-province`)
+  if (province_id) url += `?provinceId=${province_id}`
+  return getFetch(url)
+}
+
 export function getTotalCount() {
   return getFetch(getStationAutoUrl('subscription/total-count'))
 }
@@ -149,4 +155,5 @@ export default {
   getWarningConfig,
   updateStationAutoOptions,
   tranferBonusFTP,
+  getTotalCount_by_province
 }

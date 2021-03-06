@@ -19,6 +19,7 @@ import { translate } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import OptionsTimeRange from '../../common/options-time-range'
 import * as _ from 'lodash'
+import { getTimes } from 'utils/datetime'
 // import { FSelectApprove } from './select-approve'
 // import { prop } from 'cramda';
 
@@ -59,9 +60,9 @@ function validate(values) {
   initialValues: {
     ...(ownProps.initialValues
       ? {
-          ...ownProps.initialValues,
-          rangesDate: 1,
-        }
+        ...ownProps.initialValues,
+        rangesDate: 1,
+      }
       : {}),
   },
 }))
@@ -111,9 +112,9 @@ export default class SearchFormHistoryData extends React.Component {
       measuringData: props.measuringData ? props.measuringData : [],
       measuringList: props.measuringData
         ? props.measuringData.map(measuring => ({
-            value: measuring.key,
-            name: measuring.name,
-          }))
+          value: measuring.key,
+          name: measuring.name,
+        }))
         : [],
       receivedAt:
         moment(props.initialValues.receivedAt) ||
@@ -173,7 +174,7 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleChangeStationAuto(stationAuto) {
-    const measuringData = stationAuto.measuringList.sort(function(a, b) {
+    const measuringData = stationAuto.measuringList.sort(function (a, b) {
       return a.numericalOrder - b.numericalOrder
     })
     const params = {
@@ -202,22 +203,27 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleChangeRanges(ranges) {
-    // console.log('ranges', ranges)
-    if (_.isNumber(ranges)) {
+
+
+    // trong khoang
+    if (Array.isArray(ranges)) {
       this.setState({
-        timeRange: ranges,
-        fromDate: this.state.receivedAt.clone().subtract(ranges, 'days'),
-        toDate: this.state.receivedAt.clone(),
+        timeRange: null,
+        fromDate: ranges[0],
+        toDate: ranges[1],
       })
-    } else {
-      if (_.size(ranges) > 1) {
-        this.setState({
-          timeRange: null,
-          fromDate: ranges[0],
-          toDate: ranges[1],
-        })
-      }
+      return
     }
+
+    // cac truong hop khac
+    const { from, to } = getTimes(ranges)
+    // console.log({ from: from.format('DD/MM/YYYY HH:mm'), to })
+    this.setState({
+      timeRange: ranges,
+      fromDate: from,
+      toDate: to,
+    })
+
   }
 
   convertDateToString(date) {
@@ -250,12 +256,12 @@ export default class SearchFormHistoryData extends React.Component {
       isExceeded: values.isExceeded,
       advanced: values.advanced
         ? values.advanced.filter(
-            item =>
-              item.measuringKey &&
-              item.operator &&
-              item.value !== null &&
-              typeof item.value !== 'undefined'
-          )
+          item =>
+            item.measuringKey &&
+            item.operator &&
+            item.value !== null &&
+            typeof item.value !== 'undefined'
+        )
         : [],
     })
   }
@@ -299,7 +305,7 @@ export default class SearchFormHistoryData extends React.Component {
         </Heading>
         <Container>
           <Row gutter={[16, 24]}>
-            <Col span={6}>
+            <Col span={3}>
               <Field
                 label={translate('qaqc.province.label')}
                 name="province"
@@ -309,7 +315,7 @@ export default class SearchFormHistoryData extends React.Component {
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={6}>
+            <Col span={3}>
               <Field
                 label={t('stationType.label')}
                 name="stationType"
@@ -339,7 +345,7 @@ export default class SearchFormHistoryData extends React.Component {
                 setKey
               />
             </Col>
-            <Col span={6}>
+            <Col span={9}>
               <Field
                 label={t('time')}
                 name="rangesDate"

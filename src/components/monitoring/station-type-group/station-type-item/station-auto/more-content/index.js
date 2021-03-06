@@ -49,7 +49,12 @@ export default class SamplingMoreInfo extends React.Component {
   render() {
     if (!this.props.isActive) return null
     // console.log("------ stationInfo ------", this.props.stationInfo)
-    const { panel, stationID, stationInfo, cameraList } = this.props
+    const {
+      panel,
+      stationID,
+      stationInfo,
+      cameraList,
+    } = this.props
     return (
       <MoreContentWrapper panel={panel} isOpen={this.props.isOpen}>
         {panel !== '' && (
@@ -61,7 +66,11 @@ export default class SamplingMoreInfo extends React.Component {
                 renderTabBar={() => <div />}
               >
                 <Tabs.TabPane tab="sampling" key="sampling">
-                  <MoreSampling stationID={stationID} />
+                  <MoreSampling
+                    stationID={stationID}
+                    measuringList={stationInfo.measuringList}
+                    configExceeded={stationInfo.configExceeded}
+                  />
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="camera" key="camera">
                   <MoreCamera station={stationInfo} cameraList={cameraList} />

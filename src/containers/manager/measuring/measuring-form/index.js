@@ -2,6 +2,7 @@ import React from 'react'
 import { Form, Input, Button, Row, Col } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
+import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import { mapPropsToFields } from 'utils/form'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import InputNumberCell from 'components/elements/input-number-cell'
@@ -26,7 +27,7 @@ export default class MeasuringForm extends React.PureComponent {
       if (err) return
       const data = {
         key: values.key,
-        name: values.name,
+        name: (values.name || '').trim(),
         unit: values.unit ? values.unit : '',
         numericalOrder: values.numericalOrder,
       }
@@ -81,6 +82,14 @@ export default class MeasuringForm extends React.PureComponent {
                     required: true,
                     message: t('measuringManager.form.key.error'),
                   },
+                  {
+                    pattern: PATTERN_KEY,
+                    message: t('measuringManager.form.key.pattern'),
+                  },
+                  {
+                    max: 64,
+                    message: t('measuringManager.form.key.max'),
+                  },
                 ],
               })(
                 <Input
@@ -101,6 +110,14 @@ export default class MeasuringForm extends React.PureComponent {
                   {
                     required: true,
                     message: t('measuringManager.form.name.error'),
+                  },
+                  {
+                    pattern: PATTERN_NAME,
+                    message: t('measuringManager.form.name.pattern'),
+                  },
+                  {
+                    max: 64,
+                    message: t('measuringManager.form.name.max'),
                   },
                 ],
               })(

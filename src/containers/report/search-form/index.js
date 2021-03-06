@@ -8,6 +8,7 @@ import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
 import SelectStationAuto from 'containers/search/common/select-station-auto' //'.././common/select-station-auto'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
+import { MM_YYYY } from 'constants/format-date'
 
 const { MonthPicker } = DatePicker
 
@@ -149,7 +150,7 @@ export default class SearchForm extends React.Component {
                       message: translate('avgSearchFrom.selectTimeRange.error'),
                     },
                   ],
-                })(<MonthPicker style={{ width: '100%' }} size="large" />)}
+                })(<MonthPicker style={{ width: '100%' }} size="large" format={MM_YYYY}/>)}
               </Item>
             </Col>
           </Row>

@@ -58,7 +58,11 @@ export default class TabMucDo extends React.Component {
 
   compareToMax = (rule, value, callback, fliedName) => {
     const { form } = this.props
-    if (value && value > form.getFieldValue(fliedName)) {
+    if (
+      value &&
+      form.getFieldValue(fliedName) &&
+      value > form.getFieldValue(fliedName)
+    ) {
       callback(i18n.compareToMax)
     } else {
       callback()
@@ -119,7 +123,7 @@ export default class TabMucDo extends React.Component {
                       callback,
                       `levelList[${record.key}].max`
                     ),
-                }
+                },
               ],
             })(
               <InputNumber
@@ -156,8 +160,7 @@ export default class TabMucDo extends React.Component {
                         callback,
                         `levelList[${record.key}].min`
                       ),
-                  }
-                  
+                  },
                 ],
               })(
                 <InputNumber
@@ -177,11 +180,12 @@ export default class TabMucDo extends React.Component {
                   <Icon
                     onClick={() => {
                       this.setState({ isLocked: !this.state.isLocked }, () => {
-                        if (this.state.isLocked) {
-                          setFieldsValue({
-                            [`levelList[${record.key}].max`]: null,
-                          })
-                        }
+                        // if (this.state.isLocked) {
+                          
+                        // }
+                        setFieldsValue({
+                          [`levelList[${record.key}].max`]: null,
+                        })
                       })
                     }}
                     style={{
@@ -271,7 +275,7 @@ export default class TabMucDo extends React.Component {
       render: (text, record, index) => {
         return (
           <Popconfirm
-          title={i18n.confirmMsgDelete}
+            title={i18n.confirmMsgDelete}
             onConfirm={this.delete.bind(this, record.key)}
             // onCancel={cancel}
             okText={i18n.yes}

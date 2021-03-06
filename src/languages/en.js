@@ -1,13 +1,13 @@
 export default {
   notificationFreq: {
-    only1: "Once only",
+    only1: 'Once only',
     _5Min: 'Every 5 minutes',
     _15Min: 'Every 15 minutes',
     _30Min: 'Every 30 minutes',
-    _every1Hour: "Every 1 hour",
-    _every2Hour: "Every 2 hours",
-    _every1Day: "Every day",
-    _every2Day: "Every 2 days",
+    _every1Hour: 'Every 1 hour',
+    _every2Hour: 'Every 2 hours',
+    _every1Day: 'Every day',
+    _every2Day: 'Every 2 days',
   },
   global: {
     cancel: 'Cancel',
@@ -30,6 +30,7 @@ export default {
     parameter: 'Parameter',
     example: 'Example',
     copySuccess: 'Copy successfully',
+    loading: 'Loading',
   },
   rules: {
     required: 'Required',
@@ -226,6 +227,10 @@ export default {
           takeSample: 'Take Sample',
           commandSent: 'Sending command',
           takingSample: 'Sampling...',
+          takeSampleExceeded:
+            'Activate sampling when the threshold is exceeded',
+          cancelTakeSampleExceeded:
+            'Activated sampling upon threshold (Click to cancel)',
           active: 'Active',
           actived: 'Actived (Click to cancel Sampling by Scheduled)',
           activeOverRange: 'Active Take sample when data over-range',
@@ -239,9 +244,12 @@ export default {
             activedUser: 'Actived User',
             result: 'Result',
             manual: 'Immediately Sampling',
+            exceeded: 'Take sampling when exceeded',
             automatic: 'Automatic Sampling',
             cancel_schedule: 'Cancel Sampling By Scheduled',
             active_schedule: 'Active Sampling By Scheduled',
+            cancel_exceeded: 'Cancel Sampling By Exceeded',
+            active_exceeded: 'Active Sampling By Exceeded',
             config: 'Modify Configuration',
             reset_bottles: 'Reset Sampled Bottles',
             success: 'success',
@@ -252,6 +260,8 @@ export default {
             controlTagName: 'Controlling Tag name:',
             timeToTakeOneBottle: 'Time to take one bottle (minutes):',
             save: 'Save',
+            generalConfig: 'General config',
+            exceededConfig: 'Configure when threshold sampling',
           },
         },
       },
@@ -267,6 +277,23 @@ export default {
           from: 'From',
         },
       },
+    },
+    exceeded: {
+      table: {
+        parameter: 'Parameters',
+        active: 'Active',
+        operator: 'Operator',
+        value: 'Value',
+        standrandValue: 'Standard value',
+        greaterThan: 'greate than',
+        lessThan: 'less than',
+        notSetup: 'Not setup',
+        invalidValue: 'Invalid valud',
+        requiredInput: 'Please input value',
+      },
+      numRecord: 'num record',
+      numRecordExceed:
+        'Number of records exceeding the threshold continuously to be sampled',
     },
   },
   aqi: {
@@ -323,9 +350,7 @@ export default {
     wqi_hour: {
       header: 'REPORT ON CALCULATION OF WQI BY HOURS',
       title:
-        'The statistics for the WQI day math results by the period from {{= it.fromDate}} to {{= it.toDate}}',
-      searchName:
-        'The statistics for the AQI day math results by the period from {{= it.fromDate}} {{= it.toDate}}.',
+        'The statistics for the WQI hour math results by the period from {{= it.fromDate}} to {{= it.toDate}}',
     },
     wqi_day: {
       header: 'REPORT ON CALCULATION OF WQI BY DAY',
@@ -542,7 +567,9 @@ export default {
     titleText: 'Data Search',
     options: {
       byHours: '{{=it.value}} Hours',
-      byDay: '{{=it.value}} Day',
+      byHoursDetail: '{{=it.value}} Hours ({{=it.detailHours}})',
+      byDay: '{{=it.value}} Days',
+      byDayDetail: '{{=it.value}} Days ({{=it.detailDay}})',
       range: 'In range',
     },
     form: {
@@ -726,7 +753,7 @@ export default {
       description5:
         'Statistics about Results of Average maximum 8 hour of the day of {{=it.stationName}} station in {{=it.monthYear}}',
       descriptionStatusData:
-        'The statistics for the average observation results time from {{=it.fromHour}} days {{= it.fromDate}} to {{=it.toHour}} {{= it.toDate}}',
+        'The statistics for the average observation results time from {{=it.from}} to {{=it.to}}',
       title6: 'REPORT THE RESULTS OF 1-HOUR AVERAGE MONITORING',
       description6:
         'Statistics about Results of 1-hour average monitoring of {{=it.stationName}} station in {{=it.dayFormat}}',
@@ -972,11 +999,15 @@ export default {
         label: 'Code',
         placeholder: 'Input Parameter Code',
         error: 'Please Input Parameter Code',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       name: {
         label: 'Name',
         placeholder: 'Input Parameter Name',
         error: 'Please Input Parameter Name',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       unit: {
         label: 'Unit',
@@ -1020,11 +1051,15 @@ export default {
         placeholder: 'Input Code of Types Of Station',
         error: 'Please Input Code of Types Of Station',
         existError: 'Code of Types Of Station is exist',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       name: {
         label: 'Name',
         placeholder: 'Input Name of Types Of Station',
         error: 'Please Name of Types Of Station',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       icon: {
         label: 'Icon',
@@ -1117,6 +1152,7 @@ export default {
       require: 'Are you sure you want to disable?',
     },
     form: {
+      panel1: 'Point Information',
       measuringForm: {
         key: 'Parameter code',
         name: 'Parameter name',
@@ -1284,7 +1320,9 @@ export default {
       name: {
         label: 'Name',
         placeholder: 'Input Standard Filter',
-        error: 'Please Input Standard Filter',
+        required: 'Please input standard filter',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       unit: {
         label: 'Unit',
@@ -1330,11 +1368,15 @@ export default {
         placeholder: 'Input Code Of Name',
         error: 'Please Input Code Of Name',
         existError: 'Code Of Name is exist',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       name: {
         label: 'Name',
         placeholder: 'Input Name',
         error: 'Please input Name',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       numericalOrder: {
         label: 'Numerical Order',
@@ -1540,7 +1582,9 @@ export default {
       name: {
         label: 'Name',
         placeholder: 'Input Station Name',
-        error: 'Please input Station Name',
+        required: 'Please input Station Name',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       stationType: {
         label: 'Type',
@@ -1973,6 +2017,9 @@ export default {
       address: 'Address',
       isAdmin: 'Admin Role',
     },
+    message: {
+      success: 'Register User success!',
+    },
   },
   roleManager: {
     create: {
@@ -2035,6 +2082,9 @@ export default {
       },
       camera: {
         name: 'Camera',
+      },
+      chart: {
+        name: 'Data Insights',
       },
       dataSearch: {
         name: 'History Data',
@@ -2199,6 +2249,11 @@ export default {
       },
     },
   },
+  provinceManager: {
+    form: {
+      errorDeleteProvince: `The Action Can't Be Completed Because There Are Station In This Province`,
+    },
+  },
   subscriptionStatus: {
     breadcrumb: {
       base: 'Subscription Status',
@@ -2270,7 +2325,8 @@ export default {
   },
   configNotify: {
     headerConfirm: 'Update frequency',
-    contentConfirm: 'After updating the frequency, notification system will be reset to initial state. Are you sure want to process ?',
+    contentConfirm:
+      'After updating the frequency, notification system will be reset to initial state. Are you sure want to process ?',
     okBtnText: 'Update',
     cancelBtnText: 'Cancel',
     repeat: 'Repeat',
@@ -2523,6 +2579,8 @@ export default {
         sampling: {
           cancelSchedule:
             'Are you sure you want to Cancel automatically sampling?',
+          cancelExceededSampling:
+            'Are you sure you want to Cancel exceeded sampling?',
         },
       },
     },
@@ -2635,6 +2693,8 @@ export default {
       map: 'Map',
       mapAQI: 'Map AQI',
       camera: 'Camera',
+      chart: 'Chart',
+      dataAnalytics: 'Data Insights',
       historyData: 'History Data',
       avgData: 'Average Data',
       report: 'Reports',
@@ -2785,6 +2845,7 @@ export default {
         'Real-time monitoring of data for each monitoring point and sampling operations',
       map: 'Monitoring location of monitoring points on the map background',
       camera: 'Monitor all cameras at the monitoring points',
+      dataAnalytics: 'Analytics of the data',
       historyData:
         'Look up the original data of the monitoring point by time period',
       avgData:
@@ -2978,6 +3039,8 @@ export default {
       reportName: 'REPORT ON CALCULATION OF AQI BY HOURS',
       reportName2: 'REPORT ON CALCULATION OF AQI BY DAYS',
       searchName:
+        'The statistics for the AQI hour math results by the period from {{= it.fromDate}} to {{= it.toDate}}.',
+      searchNameDay:
         'The statistics for the AQI day math results by the period from {{= it.fromDate}} to {{= it.toDate}}.',
     },
     wqi: {
@@ -3017,6 +3080,7 @@ export default {
     sampling: {
       lostConnection:
         'Unable to connect to the sampling service, please contact the administrator!',
+      StatusFail: 'Cannot get status, try again',
     },
     camera: {
       lostConnection: "Can't connect with Camera, Please check the connection!",
@@ -3055,6 +3119,13 @@ export default {
       dataGood2: 'is in normal state now:',
       dataLoss: 'data has not been transferred recently.',
       dataConnected: 'has normal signal now.',
+      dataLossMonitoring: 'Lost connection',
+      dataExceededMonitoring: 'Exceeded',
+      dataExceededPrepareMonitoring: 'Tend to exceed',
+      dataGoodMonitoring: 'Good',
+      sensorErrorMonitoring: 'Device error',
+      sensorMaintainMonitoring: 'Calibration',
+      sensorGoodMonitoring: 'Good',
     },
     overview: 'Overview',
     list: 'List',
@@ -3062,9 +3133,12 @@ export default {
     statusData: 'Data Status',
   },
   apps: {
+    title: 'Apps',
     incidents: 'Incidents Communication',
     monitoring: 'Online Monitoring',
     grafana: 'Data visualization',
+    ilotusland: 'iLotusLand Monitoring',
+    databaseManagement: 'Database management',
   },
   stationReview: {
     title: 'Station Reviews',
@@ -3174,5 +3248,40 @@ export default {
     toDate: 'To Date',
     filterByExceeded: 'Filter data with exceeded status',
     allowedAQI: 'Station key list is allowed to configure AQI',
+  },
+  dataAnalytics: {
+    filterForm: {
+      province: {
+        label: 'Province',
+      },
+      stationType: {
+        label: 'Station type',
+      },
+      operator: {
+        label: 'Operator',
+        avg: 'Average',
+        min: 'Min',
+        max: 'Max',
+      },
+      time: {
+        label: 'Times',
+      },
+      stationAutoLabel: {
+        label: 'Station Auto ({{=it.count}} stations)',
+      },
+      parameterLabel: {
+        label: 'Measure Parameter ({{=it.count}} measures)',
+      },
+      stationAuto: 'Stations',
+      parameter: 'Measure parameter',
+    },
+    measuredValue: 'Measure value',
+    standard: 'Standard',
+    exportExcel: 'Export excel',
+    chartType: {
+      column: 'Column',
+      line: 'Line',
+      table: 'Table',
+    },
   },
 }

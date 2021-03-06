@@ -10,6 +10,7 @@ import SelectProvince from 'components/elements/select-province'
 import SelectStationTreeView from 'containers/search/common/select-station-tree-view'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 import moment from 'moment-timezone'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 const { RangePicker } = DatePicker
 
@@ -63,7 +64,16 @@ export default class SearchForm extends React.Component {
     })
   }
 
+  autoSubmit(listKey) {
+    this.props.form.setFieldsValue({
+      stationAutos: [...listKey]
+    })
+
+    this.submit()
+  }
+
   render() {
+
     const {
       getFieldDecorator,
       // getFieldValue,
@@ -114,9 +124,14 @@ export default class SearchForm extends React.Component {
                       required: true,
                       message: translate('avgSearchFrom.selectTimeRange.error'),
                     },
+
                   ],
+                  initialValue: [
+                    moment('00:00:00', 'HH:mm:ss'),
+                    moment('23:59:59', 'HH:mm:ss')]
                 })(
                   <RangePicker
+
                     disabledDate={current => {
                       return current && current > moment().endOf('day')
                     }}
@@ -127,7 +142,7 @@ export default class SearchForm extends React.Component {
                         moment('23:59:59', 'HH:mm:ss'),
                       ],
                     }}
-                    format="DD-MM-YYYY HH:mm"
+                    format={DD_MM_YYYY_HH_MM}
                     placeholder={[
                       translate('avgSearchFrom.selectTimeRange.startTime'),
                       translate('avgSearchFrom.selectTimeRange.endTime'),
@@ -139,7 +154,10 @@ export default class SearchForm extends React.Component {
               </Item>
             </Col>
           </Row>
+
           <Clearfix height={16} />
+
+          {/* select station name */}
           <Row gutter={16}>
             <Col span={24}>
               <Item label={translate('avgSearchFrom.form.stationAuto.label')}>
@@ -152,7 +170,7 @@ export default class SearchForm extends React.Component {
                       ),
                     },
                   ],
-                })(<SelectStationTreeView />)}
+                })(<SelectStationTreeView setFieldsValue={setFieldsValue} onAutoSubmit={this.autoSubmit.bind(this)} />)}
               </Item>
             </Col>
           </Row>

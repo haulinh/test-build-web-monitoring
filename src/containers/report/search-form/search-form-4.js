@@ -9,6 +9,8 @@ import SelectStationType from 'components/elements/select-station-type'
 import SelectStationAuto from 'containers/search/common/select-station-auto' //'.././common/select-station-auto'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 import moment from 'moment-timezone'
+import { get } from 'lodash'
+import { MM_YYYY } from 'constants/format-date'
 
 const { MonthPicker } = DatePicker
 
@@ -100,6 +102,24 @@ export default class SearchForm extends React.Component {
     })
   }
 
+  setDefaultStationType = stationTypes => {
+    const {form} = this.props
+    form.setFieldsValue({stationType: get(stationTypes, '0.key')})
+  }
+  
+  setDefaultStationAuto = stationAutos => {
+    const {form} = this.props
+    const stationType = form.getFieldValue('stationType')
+    const results = stationAutos.filter(station => station.stationType.key === stationType)
+    form.setFieldsValue({stationAuto: get(results, '0.key')})
+    this.setState({
+      measuringList: get(results, '0.measuringList'),
+      stationName: get(results, '0.name'),
+    }, () => {
+      this.submit()
+    })
+  }
+
   render() {
     const { getFieldDecorator, getFieldValue, setFieldsValue } = this.props.form
 
@@ -147,7 +167,7 @@ export default class SearchForm extends React.Component {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
                   },
-                })(<SelectStationType size="large" />)}
+                })(<SelectStationType size="large" onFetchSuccess={this.setDefaultStationType} />)}
               </Item>
             </Col>
           </Row>
@@ -164,6 +184,7 @@ export default class SearchForm extends React.Component {
                 })(
                   <SelectStationAuto
                     size="large"
+                    onFetchSuccess={this.setDefaultStationAuto}
                     stationTypeKey={getFieldValue('stationType')}
                     provinceKey={getFieldValue('province')}
                     onChangeObject={station => {
@@ -182,20 +203,20 @@ export default class SearchForm extends React.Component {
             <Col span={6}>
               <Item label={i18n.label.fromMonth}>
                 {getFieldDecorator('fromMonth', {
-                  initialValue: moment().add(-2, 'months'),
+                  initialValue: moment(),
                   rules: [
                     {
                       required: true,
                       message: i18n.error.fromMonth,
                     },
                   ],
-                })(<MonthPicker style={{ width: '100%' }} />)}
+                })(<MonthPicker style={{ width: '100%' }} format={MM_YYYY} />)}
               </Item>
             </Col>
             <Col span={6}>
               <Item label={i18n.label.toMonth}>
                 {getFieldDecorator('toMonth', {
-                  initialValue: moment().add(-1, 'months'),
+                  initialValue: moment(),
                   rules: [
                     {
                       required: true,
@@ -205,7 +226,7 @@ export default class SearchForm extends React.Component {
                       validator: this.compareTofromDate,
                     },
                   ],
-                })(<MonthPicker style={{ width: '100%' }} />)}
+                })(<MonthPicker style={{ width: '100%' }} format={MM_YYYY} />)}
               </Item>
             </Col>
           </Row>

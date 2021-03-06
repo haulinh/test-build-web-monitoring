@@ -18,6 +18,7 @@ import { getMeasurings, getConfigAqiQC, postConfigAqiQC } from 'api/CategoryApi'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 
+
 const i18n = {
   submit: translate('addon.save'),
   warning: translate('addon.warning'),
@@ -65,7 +66,8 @@ export default class TabMucDo extends React.Component {
 
   compareToMax = (rule, value, callback, fliedName) => {
     const { form } = this.props
-    if (value && value > form.getFieldValue(fliedName)) {
+    const valueMax = form.getFieldValue(fliedName)
+    if (_.isNumber(value) && _.isNumber(valueMax) && value > valueMax) {
       callback(i18n.compareToMax)
     } else {
       callback()
@@ -74,7 +76,8 @@ export default class TabMucDo extends React.Component {
 
   compareToMin = (rule, value, callback, fliedName) => {
     const { form } = this.props
-    if (value && value < form.getFieldValue(fliedName)) {
+    const valueMin = form.getFieldValue(fliedName)
+    if (_.isNumber(value) && _.isNumber(valueMin) && value < valueMin) {
       callback(i18n.compareToMin)
     } else {
       callback()
@@ -120,7 +123,7 @@ export default class TabMucDo extends React.Component {
                           callback,
                           `aqiQCLevel${path}.max`
                         ),
-                    }
+                    },
                   ],
                 })(<InputNumber style={{ width: '100%' }} />)}
               </Form.Item>
@@ -161,8 +164,7 @@ export default class TabMucDo extends React.Component {
                           callback,
                           `aqiQCLevel${path}.min`
                         ),
-                    }
-                    
+                    },
                   ],
                 })(<InputNumber style={{ width: '100%' }} />)}
               </Form.Item>
@@ -227,7 +229,7 @@ export default class TabMucDo extends React.Component {
                   {
                     required: !getFieldValue(`aqiQCLevel[${record.key}].name`),
                     message: i18n.required1D_1H,
-                  }
+                  },
                 ],
               })(<Input style={{ width: '100%' }} />)}
             </Form.Item>
@@ -273,7 +275,7 @@ export default class TabMucDo extends React.Component {
                             callback,
                             `aqiQCLevel[${record.key}].max`
                           ),
-                      }
+                      },
                     ],
                   })(<InputNumber style={{ width: '100%' }} />)}
                 </Form.Item>

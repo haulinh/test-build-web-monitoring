@@ -4,13 +4,27 @@ import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
 import CategoryApi from 'api/CategoryApi'
-import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
+import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
 import swal from 'sweetalert2'
 import MeasuringTableQCVN from '../qcvn-formTable'
 import InputNumberCell from 'components/elements/input-number-cell'
 import Clearfix from 'components/elements/clearfix'
+import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 
 const FormItem = Form.Item
+
+const i18n = {
+  key: {
+    required: translate('qcvn.form.key.required'),
+    pattern: translate('qcvn.form.key.pattern'),
+    max: translate('qcvn.form.key.max'),
+  },
+  name: {
+    required: translate('qcvn.form.name.required'),
+    pattern: translate('qcvn.form.name.pattern'),
+    max: translate('qcvn.form.name.max'),
+  },
+}
 
 @Form.create({
   mapPropsToFields: ({ initialValues }) => {
@@ -84,7 +98,7 @@ export default class QCVNForm extends React.PureComponent {
       if (err) return
       const data = {
         key: values.key,
-        name: values.name,
+        name: (values.name || '').trim(),
         measuringList: values.measuringList,
         numericalOrder: values.numericalOrder,
       }
@@ -134,7 +148,15 @@ export default class QCVNForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('qcvn.form.key.error'),
+                    message: i18n.key.required,
+                  },
+                  {
+                    pattern: PATTERN_KEY,
+                    message: i18n.key.pattern,
+                  },
+                  {
+                    max: 64,
+                    message: i18n.key.max,
                   },
                 ],
               })(
@@ -152,7 +174,16 @@ export default class QCVNForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: t('qcvn.form.name.error'),
+                    whitespace: true,
+                    message: i18n.name.required,
+                  },
+                  {
+                    pattern: PATTERN_NAME,
+                    message: i18n.name.pattern,
+                  },
+                  {
+                    max: 64,
+                    message: i18n.name.max,
                   },
                 ],
               })(

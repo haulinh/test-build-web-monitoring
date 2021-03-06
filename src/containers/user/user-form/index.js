@@ -44,10 +44,10 @@ export default class UserForm extends React.PureComponent {
       })
 
       const data = {
-        email: values.email,
-        password: values.password,
-        firstName: values.firstName,
-        lastName: values.lastName,
+        email: (values.email || '').trim(),
+        password: (values.password || '').trim(),
+        firstName: (values.firstName || '').trim(),
+        lastName: (values.lastName || '').trim(),
         phone: values.phone,
         organization: values.organization
           ? this.state.selectOrganizations.find(
@@ -56,9 +56,15 @@ export default class UserForm extends React.PureComponent {
           : null,
       }
 
+      let dataSend = data
+      const { password, ...dataRemoved } = data
+      if (!values.password) {
+        dataSend = dataRemoved
+      }
+
       if (this.props.onSubmit) {
         this.props
-          .onSubmit(data)
+          .onSubmit(dataSend)
           .then(res => {
             if (res && res.error) {
               let errorData

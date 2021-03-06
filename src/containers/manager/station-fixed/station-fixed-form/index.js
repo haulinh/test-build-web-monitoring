@@ -87,7 +87,7 @@ const i18n = {
     validate4: translate('stationFixedPoint.form.measuringList.validate4'),
   },
 
-  panel1: translate('stationAutoManager.form.panel1'),
+  panel1: translate('stationFixedPoint.form.panel1'),
   panel2: translate('stationAutoManager.form.panel2'),
   website: {
     label: translate('stationFixedPoint.form.website.label'),
@@ -173,12 +173,15 @@ export default class StationFixedForm extends React.Component {
       // console.log('--values--', values)
       if (err) return
       const data = {
-        ..._.omit(values,['lat','lng']),
+        ..._.omit(values, ['lat', 'lng']),
+        [Fields.name]: (values[Fields.name] || '').trim(),
         mapLocation: {
           lat: values.lat,
           lng: values.lng,
         },
-        measuringList: (values.measuringList || []).map(item => _.omit(item, ['rowKey']))
+        measuringList: (values.measuringList || []).map(item =>
+          _.omit(item, ['rowKey'])
+        ),
       }
       const res = await this.props.onSubmit(data)
       if (res && res.status) {
@@ -198,19 +201,35 @@ export default class StationFixedForm extends React.Component {
       let isBound = false
       if (item.key) {
         let strItem = item.name
-        if (item.minLimit && item.maxLimit && item.minLimit > item.maxLimit) {
+        if (
+          _.isNumber(item.minLimit) &&
+          _.isNumber(item.maxLimit) &&
+          item.minLimit > item.maxLimit
+        ) {
           strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate1}`)
           isBound = true
         }
-        if (item.minTend && item.maxTend && item.minTend > item.maxTend) {
+        if (
+          _.isNumber(item.minTend) &&
+          _.isNumber(item.maxTend) &&
+          item.minTend > item.maxTend
+        ) {
           strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate2}`)
           isBound = true
         }
-        if (item.minLimit && item.minTend && item.minLimit > item.minTend) {
+        if (
+          _.isNumber(item.minLimit) &&
+          _.isNumber(item.minTend) &&
+          item.minLimit > item.minTend
+        ) {
           strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate3}`)
           isBound = true
         }
-        if (item.maxLimit && item.maxTend && item.maxLimit < item.maxTend) {
+        if (
+          _.isNumber(item.maxLimit) &&
+          _.isNumber(item.maxTend) &&
+          item.maxLimit < item.maxTend
+        ) {
           strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate4}`)
           isBound = true
         }
@@ -256,7 +275,7 @@ export default class StationFixedForm extends React.Component {
         <Collapse
           // onChange={this.handleChange}
           // activeKey={this.state.tabKey}
-          defaultActiveKey={['1','2']}
+          defaultActiveKey={['1', '2']}
         >
           <Panel header={i18n.panel1} key="1">
             <Row gutter={12}>
@@ -392,7 +411,7 @@ export default class StationFixedForm extends React.Component {
                     {}
                   )(
                     <SelectProvince
-                    allowClear
+                      allowClear
                       isUsedId={true}
                       placeholder={i18n.provinceId.placeholder}
                     />
@@ -538,7 +557,7 @@ export default class StationFixedForm extends React.Component {
                     rules: [],
                   })(
                     <InputPhoneNumber
-                    size="medium"
+                      size="medium"
                       placeholder={i18n.phoneResponsible.placeholder}
                     />
                   )}
@@ -568,7 +587,7 @@ export default class StationFixedForm extends React.Component {
                     rules: [],
                   })(
                     <InputPhoneNumber
-                    size="medium"
+                      size="medium"
                       placeholder={i18n.phoneSupervisor.placeholder}
                     />
                   )}

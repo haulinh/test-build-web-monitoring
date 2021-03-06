@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Table, Tooltip } from 'antd'
 import * as _ from 'lodash'
 import { SHAPE } from 'themes/color'
-import { DD_MM_YY_HH_MM } from 'constants/format-date.js'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 import { warningLevels, colorLevels } from 'constants/warningLevels'
 import { translate } from 'hoc/create-lang'
 import stationStatus from 'constants/stationStatus'
@@ -176,6 +176,10 @@ const STATION_ICON = {
     image: '/images/station/good.png',
     status: i18n.deviceStatus.good,
   },
+  [stationStatus.DATA_CONNECTED]: {
+    image: '/images/station/good.png',
+    status: i18n.deviceStatus.good,
+  },
 }
 
 const noStationStatus = {
@@ -206,6 +210,7 @@ class TableData extends React.Component {
         fixed: 'left',
         render: val => {
           const icon = STATION_ICON[val]
+
           return (
             <Tooltip
               getPopupContainer={() =>
@@ -245,7 +250,7 @@ class TableData extends React.Component {
         className: 'stationTime',
         render: receivedAt => {
           if (!receivedAt) return null
-          const strDate = moment(receivedAt).format(DD_MM_YY_HH_MM)
+          const strDate = moment(receivedAt).format(DD_MM_YYYY_HH_MM)
           return strDate
         },
       },
@@ -310,12 +315,11 @@ class TableData extends React.Component {
             color = colorLevels[measure.warningLevel]
           }
           // Format number toLocalString(national)
-          if (record && record.status !== stationStatus.GOOD) {
+          if (record && record.status !== stationStatus.DATA_CONNECTED) {
             color = SHAPE.BLACK
             classCustom = ''
             classContainer = ''
           }
-
           return (
             <Flex>
               <div key="left" style={{ position: 'relative', float: 'left' }}>
@@ -369,8 +373,6 @@ class TableData extends React.Component {
   }
 
   render() {
-    // console.log('this.props.stationAutoList',this.props.stationAutoList)
-
     return (
       <Table
         key="_id"

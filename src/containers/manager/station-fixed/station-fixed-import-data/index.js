@@ -207,7 +207,7 @@ class StationFixedImportData extends React.Component {
   }
 
   onDownloadFile = async () => {
-    const {form}= this.props
+    const { form } = this.props
     this.setState({ isDownloadingFile: true })
     const measurings = form.getFieldValue(FIELDS.MEASURING)
     const result = await exportDataTemplate(measurings)
@@ -232,9 +232,11 @@ class StationFixedImportData extends React.Component {
     form.getFieldDecorator(FIELDS.FILE)
     const file = form.getFieldValue(FIELDS.FILE) || {}
 
-    const stationTypeId = form.getFieldValue(FIELDS.PHASE) && form.getFieldValue(FIELDS.PHASE)[0]
-      ? form.getFieldValue(FIELDS.PHASE)[0].stationTypeId
-      : null
+    const stationTypeId =
+      form.getFieldValue(FIELDS.PHASE) &&
+      form.getFieldValue(FIELDS.PHASE).length === 2
+        ? form.getFieldValue(FIELDS.PHASE)[0].stationTypeId
+        : null
 
     const countMeasuring = form.getFieldValue(FIELDS.MEASURING)
       ? form.getFieldValue(FIELDS.MEASURING).length
@@ -260,7 +262,7 @@ class StationFixedImportData extends React.Component {
                   {form.getFieldDecorator(FIELDS.PHASE, {
                     rules: [
                       // { required: true, message: i18n.selectPhaseError },
-                      { validator: this.validatePhase,required: true, },
+                      { validator: this.validatePhase, required: true },
                     ],
                   })(<SelectPhase />)}
                 </Form.Item>
@@ -269,8 +271,10 @@ class StationFixedImportData extends React.Component {
             <Row>
               <Col span={24}>
                 <Form.Item label={i18n.measuringLabel}>
-                  {form.getFieldDecorator(FIELDS.MEASURING, {
-                  })(<SelectMeasuring stationTypeId={stationTypeId} />)}
+                  {form.getFieldDecorator(
+                    FIELDS.MEASURING,
+                    {}
+                  )(<SelectMeasuring stationTypeId={stationTypeId} />)}
                 </Form.Item>
               </Col>
             </Row>
@@ -334,9 +338,9 @@ class StationFixedImportData extends React.Component {
                 </Dragger>
               </Col>
             </Row>
-            <Clearfix height={8}/>
+            <Clearfix height={8} />
             <Row type="flex" justify="center">
-              {isSuccess && count > 0  && (
+              {isSuccess && count > 0 && (
                 <Col span={16}>
                   <Alert
                     message={i18n.successTitle}
@@ -382,7 +386,7 @@ class StationFixedImportData extends React.Component {
             </Row>
           </Form>
         </Container>
-        </React.Fragment>
+      </React.Fragment>
     )
   }
 }

@@ -1,10 +1,7 @@
-import React from 'react'
-import { Row, Col, Form, Input, InputNumber, Button } from 'antd'
+import { Col, Form, Input, InputNumber, Row } from 'antd'
 import { translate } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
-import swal from 'sweetalert2'
-import SamplingAPI from 'api/SamplingApi'
-import * as _ from 'lodash'
+import React from 'react'
 
 const FormItem = Form.Item
 
@@ -25,12 +22,10 @@ const i18n = {
   alertSaveConfigError: translate('alert.error.monitoring.saveSampingConfig'),
 }
 
-@Form.create()
 export default class SqlConfig extends React.Component {
   static propTypes = {
     stationID: PropTypes.string.isRequired,
     configSampling: PropTypes.object.isRequired,
-    checkErr: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -46,38 +41,8 @@ export default class SqlConfig extends React.Component {
     isSaving: false,
   }
 
-  handleSubmit = e => {
-    e.preventDefault()
-    this.setState({ isSaving: true })
-    const { stationId } = this.props
-    this.props.form.validateFields(async (err, values) => {
-      if (err) {
-        this.setState({ isSaving: false })
-        swal({ title: i18n.alertSaveConfigError, type: 'error' })
-        return
-      }
-
-      try {
-         await SamplingAPI.updateConfig(stationId, {
-          configSampling: {
-            ...values,
-            // protocol: "SQL"
-          },
-        })
-        swal({ title: i18n.alertSuccess, type: 'success' })
-        this.setState({ isSaving: false })
-      } catch (error) {
-        this.setState({ isSaving: false })
-        swal({
-          title: _.get(error, 'response.data.error.message'),
-          type: 'error',
-        })
-      }
-    })
-  }
   render() {
     const { STATUS_SAMPLING, isConfig, isScheduled } = this.props
-    const { isSaving } = this.state
     const {
       totalBottles,
       controlTagName,
@@ -88,17 +53,11 @@ export default class SqlConfig extends React.Component {
     const isSampling = isConfig && status !== STATUS_SAMPLING.READY
 
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form>
         <Row>
           <Col>
             <Row>
-              <FormItem
-                label={i18n.totalBottles}
-                validateStatus={
-                  this.props.checkErr('totalBottles') ? 'error' : ''
-                }
-                help={this.props.checkErr('totalBottles') || ''}
-              >
+              <FormItem label={i18n.totalBottles}>
                 {getFieldDecorator('totalBottles', {
                   rules: [
                     {
@@ -118,13 +77,7 @@ export default class SqlConfig extends React.Component {
               </FormItem>
             </Row>
             <Row>
-              <FormItem
-                label={i18n.controlTagName}
-                validateStatus={
-                  this.props.checkErr('controlTagName') ? 'error' : ''
-                }
-                help={this.props.checkErr('controlTagName') || ''}
-              >
+              <FormItem label={i18n.controlTagName}>
                 {getFieldDecorator('controlTagName', {
                   rules: [{ required: true, message: i18n.alertNull }],
                   initialValue: controlTagName,
@@ -137,13 +90,7 @@ export default class SqlConfig extends React.Component {
               </FormItem>
             </Row>
             <Row>
-              <FormItem
-                label={i18n.timeToTakeOneBottle}
-                validateStatus={
-                  this.props.checkErr('timeToTakeOneBottle') ? 'error' : ''
-                }
-                help={this.props.checkErr('timeToTakeOneBottle') || ''}
-              >
+              <FormItem label={i18n.timeToTakeOneBottle}>
                 {getFieldDecorator('timeToTakeOneBottle', {
                   rules: [
                     {
@@ -162,9 +109,6 @@ export default class SqlConfig extends React.Component {
                 )}
               </FormItem>
             </Row>
-            <Button block type="primary" loading={isSaving} htmlType="submit">
-              {i18n.save}
-            </Button>
           </Col>
         </Row>
       </Form>

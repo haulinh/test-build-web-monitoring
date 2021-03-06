@@ -41,6 +41,7 @@ import SubscriptionRoute from 'containers/subscription'
 import SupportRoute from 'containers/support'
 import UserRoute from 'containers/user'
 import APISharing from 'containers/api-sharing'
+import DataAnalytics from 'containers/data-analytics'
 import { autobind } from 'core-decorators'
 // import AqiStatistic from "containers/statistic/aqi";
 // import WqiStatistic from "containers/statistic/wqi";
@@ -183,6 +184,7 @@ export default class RouteDefault extends React.Component {
               component={ControlStation}
             />
             <LayoutRoute path={slug.camera.base} component={Camera} />
+            <LayoutRoute path={slug.dataAnalytics.base} component={DataAnalytics} />
             <LayoutRoute
               path={slug.cameraControl.base}
               component={CameraControl}

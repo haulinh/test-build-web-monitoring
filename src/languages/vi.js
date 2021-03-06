@@ -1,13 +1,13 @@
 export default {
   notificationFreq: {
-    only1: "Chỉ 1 lần",
+    only1: 'Chỉ 1 lần',
     _5Min: 'Mỗi 5 phút',
     _15Min: 'Mỗi 15 phút',
     _30Min: 'Mỗi 30 phút',
-    _every1Hour: "Mỗi tiếng",
-    _every2Hour: "Mỗi 2 tiếng",
-    _every1Day: "Mỗi ngày",
-    _every2Day: "Mỗi 2 ngày",
+    _every1Hour: 'Mỗi tiếng',
+    _every2Hour: 'Mỗi 2 tiếng',
+    _every1Day: 'Mỗi ngày',
+    _every2Day: 'Mỗi 2 ngày',
   },
   global: {
     cancel: 'Hủy',
@@ -30,6 +30,7 @@ export default {
     parameter: 'Thông số',
     example: 'Ví dụ',
     copySuccess: 'Sao chép thành công',
+    loading: 'Đang tải',
   },
   rules: {
     required: 'Bắt buộc',
@@ -224,6 +225,8 @@ export default {
           takeSample: 'Lấy mẫu',
           commandSent: 'Đang truyền lệnh',
           takingSample: 'Đang lấy mẫu...',
+          takeSampleExceeded: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
+          cancelTakeSampleExceeded: 'Đã kích hoạt lấy mẫu khi vượt ngưỡng (Click để hủy kích hoạt)',
           active: 'Kích hoạt',
           actived: 'Đã kích hoạt lấy mẫu tự động (Nhấn để hủy hẹn giờ lấy mẫu)',
           activeOverRange: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
@@ -237,9 +240,12 @@ export default {
             activedUser: 'Người kích hoạt',
             result: 'Kết quả lấy mẫu',
             manual: 'Lấy mẫu tức thời',
+            exceeded: 'Lấy mẫu khi vượt ngưỡng',
             automatic: 'Lấy mẫu tự động',
             cancel_schedule: 'Hủy hẹn giờ lấy mẫu',
             active_schedule: 'Kích hoạt hẹn giờ lấy mẫu',
+            cancel_exceeded: 'Hủy kích hoạt lấy mẫu khi vượt ngưỡng',
+            active_exceeded: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
             config: 'Thay đổi cấu hình',
             reset_bottles: 'Reset số chai đã lấy',
             success: 'Thành công',
@@ -250,6 +256,8 @@ export default {
             controlTagName: 'Tag name điều khiển:',
             timeToTakeOneBottle: 'Thời gian lấy mẫu xong 1 chai (phút):',
             save: 'Lưu',
+            generalConfig: 'Cấu hình chung',
+            exceededConfig: 'Cấu hình lấy mẫu khi vượt ngưỡng',
           },
         },
       },
@@ -266,6 +274,22 @@ export default {
         },
       },
     },
+    exceeded: {
+      table: {
+        parameter: 'Thông số',
+        active: 'Kích hoạt lấy mẫu',
+        operator: 'Phép toán',
+        value: 'Giá trị',
+        standrandValue: 'Giá trị quy chuẩn',
+        greaterThan: 'Lớn hơn',
+        lessThan: 'Nhỏ hơn',
+        notSetup: 'Chưa thiết lập',
+        invalidValue: 'Giá trị không hợp lệ',
+        requiredInput: 'Vui lòng nhập giá trị'
+      },
+      numRecord: 'số bản ghi',
+      numRecordExceed: 'Số bản ghi vượt ngưỡng liên tục sẽ lấy mẫu',
+    }
   },
   aqi: {
     title: 'AQI',
@@ -320,7 +344,7 @@ export default {
     wqi_hour: {
       header: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN WQI THEO GIỜ',
       title:
-        'Các số liệu thống kê về kết quả toán WQI ngày theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.toDate}}',
+        'Các số liệu thống kê về kết quả toán WQI giờ theo khoảng thời gian từ {{=it.fromDate}} đến {{=it.toDate}}',
     },
     wqi_day: {
       header: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN WQI THEO NGÀY',
@@ -538,7 +562,9 @@ export default {
     titleText: 'Tra cứu dữ liệu gốc',
     options: {
       byHours: '{{=it.value}} Giờ',
+      byHoursDetail: '{{=it.value}} Giờ ({{=it.detailHours}})',
       byDay: '{{=it.value}} Ngày',
+      byDayDetail: '{{=it.value}} Ngày ({{=it.detailDay}})',
       range: 'Trong khoảng',
     },
     form: {
@@ -722,7 +748,7 @@ export default {
       description5:
         'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ lớn nhất trong ngày tại trạm {{=it.stationName}}  trong tháng {{=it.monthYear}}',
       descriptionStatusData:
-        'Các số liệu thống kê về đánh giá trình trạng dữ liệu thời gian từ {{=it.fromHour}} ngày {{=it.fromDate}} đến {{=it.toHour}} {{=it.toDate}}',
+        'Các số liệu thống kê về đánh giá trình trạng dữ liệu thời gian từ {{=it.from}} đến {{=it.to}}',
       title6: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 1 GIỜ',
       description6:
         'Các số liệu thống kê về kết quả quan trắc trung bình 1 giờ của trạm {{=it.stationName}}  trong ngày {{=it.dayFormat}}',
@@ -968,11 +994,15 @@ export default {
         label: 'Mã thông số',
         placeholder: 'Nhập mã thông số',
         error: 'Vui lòng nhập mã thông số',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       name: {
         label: 'Tên thông số',
         placeholder: 'Nhập tên thông số',
         error: 'Vui lòng nhập tên thông số',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       unit: {
         label: 'Đơn vị',
@@ -1016,11 +1046,15 @@ export default {
         placeholder: 'Nhập mã trạm',
         error: 'Vui lòng nhập mã trạm',
         existError: 'Mã trạm đã tồn tại',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       name: {
         label: 'Tên',
         placeholder: 'Nhập tên trạm',
         error: 'Vui lòng nhập tên trạm',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       icon: {
         label: 'Biểu tượng',
@@ -1028,7 +1062,7 @@ export default {
       },
       mode: {
         label: 'Hình thức',
-        error: 'Vui lòng chọn hình thức'
+        error: 'Vui lòng chọn hình thức',
       },
       action: {
         label: ' ',
@@ -1109,6 +1143,7 @@ export default {
       require: 'Bạn chắc chắn muốn vô hiệu hóa?',
     },
     form: {
+      panel1: 'Thông tin điểm',
       measuringForm: {
         key: 'Mã thông số',
         name: 'Tên thông số',
@@ -1244,8 +1279,8 @@ export default {
         invalidKey: 'Mã điểm không hợp lệ',
         duplicateMeasure: 'Thông số trùng nhau',
         requireOneMeasureParamerter: 'Cần ít nhất một thông số',
-      }
-    }
+      },
+    },
   },
   qcvn: {
     list: {
@@ -1267,13 +1302,17 @@ export default {
       key: {
         label: 'Mã QCVN',
         placeholder: 'Nhập QCVN',
-        error: 'Vui lòng nhập mã QCVN',
         existError: 'Mã QCVN đã tồn tại',
+        required: 'Vui lòng nhập mã QCVN',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       name: {
         label: 'Tên QCVN',
         placeholder: 'Nhập tên QCVN',
-        error: 'Vui lòng nhập tên QCVN',
+        required: 'Vui lòng nhập tên QCVN',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       unit: {
         label: 'Đơn vị',
@@ -1319,11 +1358,15 @@ export default {
         placeholder: 'Nhập mã đơn vị quản lý',
         error: 'Vui lòng nhập mã đơn vị quản lý',
         existError: 'Mã đơn vị đã tồn tại',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       name: {
         label: 'Tên đơn vị quản lý',
         placeholder: 'Nhập tên đơn vị quản lý',
         error: 'Vui lòng nhập tên đơn vị quản lý',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       numericalOrder: {
         label: 'Số thứ tự',
@@ -1524,12 +1567,16 @@ export default {
       key: {
         label: 'Mã trạm',
         placeholder: 'Nhập mã trạm',
-        error: 'Vui lòng nhập mã trạm',
+        required: 'Vui lòng nhập mã trạm',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       name: {
         label: 'Tên trạm',
         placeholder: 'Nhập tên trạm',
-        error: 'Vui lòng nhập tên trạm',
+        required: 'Vui lòng nhập tên trạm',
+        pattern: 'Không được nhập kí tự đặc biệt',
+        max: 'Không quá 64 kí tự',
       },
       stationType: {
         label: 'Loại trạm',
@@ -1962,6 +2009,9 @@ export default {
       address: 'Địa chỉ',
       isAdmin: 'Quản trị hệ thống',
     },
+    message: {
+      success: 'Tạo mới tài khoản thành công!',
+    },
   },
   roleManager: {
     create: {
@@ -2025,6 +2075,9 @@ export default {
       },
       camera: {
         name: 'Camera',
+      },
+      chart: {
+        name: 'Phân tích dữ liệu',
       },
       dataSearch: {
         name: 'Tra cứu dữ liệu',
@@ -2188,6 +2241,12 @@ export default {
       },
     },
   },
+  provinceManager: {
+    form: {
+      errorDeleteProvince:
+        'Không thể xóa vì đã có trạm đang sử dụng đơn vị quản lý này',
+    },
+  },
   subscriptionStatus: {
     breadcrumb: {
       base: 'Trạng thái hệ thống',
@@ -2259,7 +2318,8 @@ export default {
   },
   configNotify: {
     headerConfirm: 'Thay đổi tần suất',
-    contentConfirm: 'Sau khi thay đổi tần suất, hệ thống sẽ đặt lại tần suất của các thông báo trước đó. Hãy chắc chắn bạn muốn thay dổi mới này.',
+    contentConfirm:
+      'Sau khi thay đổi tần suất, hệ thống sẽ đặt lại tần suất của các thông báo trước đó. Hãy chắc chắn bạn muốn thay dổi mới này.',
     okBtnText: 'Thay đổi',
     cancelBtnText: 'Hủy',
     repeat: 'Lặp lại',
@@ -2509,6 +2569,7 @@ export default {
       monitoring: {
         sampling: {
           cancelSchedule: 'Bạn có chắc muốn hủy lấy mẫu tự động?',
+          cancelExceededSampling: 'Bạn có chắc muốn hủy lấy mẫu khi vượt ngưỡng?'
         },
       },
     },
@@ -2620,6 +2681,8 @@ export default {
       map: 'Bản đồ',
       mapAQI: 'Bản đồ AQI',
       camera: 'Camera',
+      dataAnalytics: 'Phân tích dữ liệu',
+      chart: 'Biểu đồ',
       historyData: 'Tra cứu dữ liệu',
       avgData: 'Dữ liệu trung bình',
       report: 'Báo cáo',
@@ -2842,6 +2905,7 @@ export default {
         'Giám sát số liệu theo thời gian thực theo từng điểm quan trắc và thao tác lấy mẫu',
       map: 'Giám sát trực quan vị trí điểm quan trắc trên nền bản đồ',
       camera: 'Giám sát tất cả camera tại các điểm quan trắc',
+      dataAnalytics: 'Phân tích dữ liệu các điểm quan trắc',
       historyData:
         'Tra cứu các dữ liệu gốc của điểm quan trắc theo  khoảng thời gian',
       avgData:
@@ -2972,6 +3036,8 @@ export default {
       reportName: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN AQI THEO GIỜ',
       reportName2: 'BÁO CÁO KẾT QUẢ TÍNH TOÁN AQI THEO Ngày',
       searchName:
+        'Các số liệu thống kê về kết quả toán AQI giờ theo khoảng thời gian từ {{= it.fromDate}}  đến {{= it.toDate}}.',
+      searchNameDay:
         'Các số liệu thống kê về kết quả toán AQI ngày theo khoảng thời gian từ {{= it.fromDate}}  đến {{= it.toDate}}.',
     },
     wqi: {
@@ -3011,6 +3077,7 @@ export default {
     sampling: {
       lostConnection:
         'Không kết nối được với dịch vụ lấy mẫu, vui lòng liên hệ quản trị viên!',
+      StatusFail: 'Không thể lấy trạng thái, hãy thử lại',
     },
     camera: {
       lostConnection: 'Không kết nối được với Camera, vui lòng kiểm tra lại!',
@@ -3064,9 +3131,12 @@ export default {
     statusData: 'Trạng thái dữ liệu',
   },
   apps: {
+    title: 'Ứng dụng',
     incidents: 'Quản lý sự cố',
     monitoring: 'Giám sát trực tuyến',
     grafana: 'Công cụ biểu đồ',
+    ilotusland: 'iLotusLand Monitoring',
+    databaseManagement: 'Quản lý cơ sở dữ liệu',
   },
   stationReview: {
     title: 'Đánh giá trạm',
@@ -3181,4 +3251,39 @@ export default {
     filterByExceeded: 'Lọc ra danh sách trạm vượt ngưỡng',
     allowedAQI: 'Danh sách trạm cấu hình AQI',
   },
+  dataAnalytics: {
+    filterForm: {
+      province: {
+        label: 'Đơn vị quản lý',
+      },
+      stationType: {
+        label: 'Loại trạm',
+      },
+      operator: {
+        label: 'Hàm tính',
+        avg: 'Trung bình',
+        min: 'Giá trị nhỏ nhất',
+        max: 'Giá trị lớn nhất',
+      },
+      time: {
+        label: 'Thời gian'
+      },
+      stationAutoLabel: {
+        label: 'Trạm quan trắc ({{=it.count}} trạm)'
+      },
+      parameterLabel: {
+        label: 'Các thông số quan trắc ({{=it.count}} thông số)'
+      },
+      stationAuto: 'trạm quan trắc',
+      parameter: 'thông số',
+    },
+    measuredValue: 'Giá trị đo',
+    standard: 'Quy chuẩn',
+    exportExcel: 'Xuất dữ liệu excel',
+    chartType: {
+      column: 'Cột',
+      line: 'Đường',
+      table: 'Bảng',
+    }
+  }
 }

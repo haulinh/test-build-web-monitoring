@@ -301,7 +301,7 @@ export default class AvgSearchAdvanced extends React.Component {
 
   rightChildren() {
     const isEdit = this.getIsEdit()
-    const allowSave = this.getAllowSave()
+    // const allowSave = this.getAllowSave()
     if (isEdit) {
       return (
         <Flex>
@@ -328,7 +328,7 @@ export default class AvgSearchAdvanced extends React.Component {
         </Flex>
       )
     }
-    if (!allowSave) return null
+    // if (!allowSave) return null
     return (
       <Tooltip
         placement="top"
@@ -356,10 +356,13 @@ export default class AvgSearchAdvanced extends React.Component {
       delete rawValues.fromDate
       delete rawValues.toDate
     }
+    if (rawValues.stationType === '') {
+      rawValues.stationType = 'ALL'
+    }
     form.validateFields((err, values) => {
       if (err) return
       let params = {
-        name: values.name,
+        name: (values.name || '').trim(),
         searchUrl: encodeURIComponent(JSON.stringify(rawValues)),
       }
       this.setState({ confirmLoading: true }, async () => {

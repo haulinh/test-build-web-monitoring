@@ -15,9 +15,6 @@ import {
 import { getcolorMeasure as getColorMeasure } from 'constants/warningLevels'
 
 const TableDataListWrapper = styled.div`
-  .ant-table-thead > tr > th {
-    white-space: nowrap;
-  }
   .ant-table-thead > tr > th,
   .ant-table-tbody > tr > td {
     text-align: center !important;

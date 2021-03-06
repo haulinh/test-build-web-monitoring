@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import * as _ from 'lodash'
 import { Link } from 'react-router-dom'
 import { Divider, Button, Icon } from 'antd'
 import RoleApi from 'api/RoleApi'
@@ -80,69 +81,78 @@ export default class RoleList extends React.Component {
     const {
       lang: { t },
     } = this.props
-    return this.props.dataSource.map((row, index) => [
-      {
-        content: (
-          <strong>
-            {(this.props.pagination.page - 1) *
-              this.props.pagination.itemPerPage +
-              index +
-              1}
-          </strong>
-        ),
-      },
-      {
-        content: (
-          <div>
-            <strong>{row.name}</strong>
-          </div>
-        ),
-      },
-      {
-        content: (
-          <div>
-            <strong>{row.description}</strong>
-          </div>
-        ),
-      },
-      {
-        content: (
-          <FloatRight>
-            {protectRole(ROLE.ROLE.EDIT)(
-              <Link to={slug.role.editWithKey + '/' + row._id}>
-                {' '}
-                {t('addon.edit')}{' '}
-              </Link>
-            )}
-            <Divider type="vertical" />
-            {protectRole(ROLE.ROLE.DELETE)(
-              <a
-                onClick={() =>
-                  this.props.onDeleteItem(row._id, this.props.fetchData)
-                }
-              >
-                {t('addon.delete')}
-              </a>
-            )}
-          </FloatRight>
-        ),
-      },
-    ])
+    if (!_.isArray(this.props.dataSource)) {
+      return []
+    }
+
+    return _.map(this.props.dataSource, (row, index) => {
+      return [
+        {
+          content: (
+            <strong>
+              {(this.props.pagination.page - 1) *
+                this.props.pagination.itemPerPage +
+                index +
+                1}
+            </strong>
+          ),
+        },
+        {
+          content: (
+            <div>
+              <strong>{row.name}</strong>
+            </div>
+          ),
+        },
+        {
+          content: (
+            <div>
+              <strong>{row.description}</strong>
+            </div>
+          ),
+        },
+        {
+          content: (
+            <FloatRight>
+              {protectRole(ROLE.ROLE.EDIT)(
+                <Link to={slug.role.editWithKey + '/' + row._id}>
+                  {' '}
+                  {t('addon.edit')}{' '}
+                </Link>
+              )}
+              <Divider type="vertical" />
+              {protectRole(ROLE.ROLE.DELETE)(
+                <a
+                  onClick={() =>
+                    this.props.onDeleteItem(row._id, this.props.fetchData)
+                  }
+                >
+                  {t('addon.delete')}
+                </a>
+              )}
+            </FloatRight>
+          ),
+        },
+      ]
+    })
   }
 
   render() {
+    console.log(this.props.dataSource, typeof this.props.dataSource, '----')
     return (
       <PageContainer right={this.buttonAdd()}>
         <Breadcrumb items={['list']} />
-        <DynamicTable
-          rows={this.getRows()}
-          head={this.getHead()}
-          paginationOptions={{
-            isSticky: true,
-          }}
-          onSetPage={this.props.onChangePage}
-          pagination={this.props.pagination}
-        />
+        {this.props.dataSource && (
+          <DynamicTable
+            rows={this.getRows()}
+            head={this.getHead()}
+            paginationOptions={{
+              isSticky: true,
+            }}
+            onSetPage={this.props.onChangePage}
+            pagination={this.props.pagination}
+          />
+        )}
       </PageContainer>
     )
   }

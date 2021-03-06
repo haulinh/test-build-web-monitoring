@@ -262,7 +262,7 @@ export default class StationAutoHead extends React.PureComponent {
           )}
           <Clearfix width={8} />
           {/* MARK  Bỏ status={status} vì k0 can phan biet status nua */}
-          <ReceivedAt id={stationID} status={STATUS_STATION.GOOD}>
+          <ReceivedAt id={stationID} status={STATUS_STATION.DATA_CONNECTED}>
             {this.toReceivedAt(status, receivedAt)}
           </ReceivedAt>
         </TitleWrapper>

@@ -50,7 +50,7 @@ export default class SelectQCVN extends PureComponent {
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
     if (value === undefined) value = null
     if (this.props.onChange) {
-      this.props.onChange(value)
+      this.props.onChange(value, this.state.lstQCVN)
     }
   }
 

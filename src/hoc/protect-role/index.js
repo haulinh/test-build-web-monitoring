@@ -9,8 +9,6 @@ import { Popover } from 'antd'
 
 import { translate as t } from 'hoc/create-lang'
 
-
-
 const createProtectRole = (
   keyRole = '',
   otherKeyRoles = [],
@@ -106,7 +104,7 @@ const PopoverCustom = styled(Popover)`
     display: none;
   }
 `
-function checkRole({ organization, authRole, isAdmin, roles }) {
+export function checkRole({ organization, authRole, isAdmin, roles }) {
   // check role in organization first
   let isRole = objectPath.get(organization, roles)
   if (!isRole) return isRole
@@ -145,7 +143,6 @@ export class PermissionPopover extends React.Component {
     const { children, popoverPlacement, popoverTitle } = this.props
     const { organization, authRole, isAdmin, roles } = this.props
     const hasPermission = checkRole({ organization, authRole, isAdmin, roles }) // this.checkRole()
-
 
     if (typeof children === 'function') {
       if (hasPermission) return children(hasPermission)
