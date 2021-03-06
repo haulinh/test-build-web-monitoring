@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button, Col, DatePicker, Form, Row, Select, Switch, Spin } from 'antd'
-import moment from 'moment'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 /** */
@@ -12,6 +11,8 @@ import Heading from 'components/elements/heading'
 import createLang, { translate as t } from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import { DD_MM_YYYY } from 'constants/format-date'
+import { getTimes } from 'utils/datetime'
+import { isNumber } from 'lodash'
 
 const { Option } = Select
 const { RangePicker } = DatePicker
@@ -148,33 +149,20 @@ export class SearchForm extends React.Component {
   handleOnSubmit = async e => {
     e.preventDefault()
     const values = await this.props.form.validateFields()
-    // console.log('🚀 ~ file: index.js ~ line 121 ~ SearchForm ~ values', values)
+    const ranges = isNumber(values.time) ? values.time : values.timeRange
+    const { from, to } = getTimes(ranges)
+    // console.log({ from: from.format('DD/MM/YYYY HH:mm'), to: to.format('DD/MM/YYYY HH:mm') })
 
-    let startDate
-    let endDate
-    if (this.state.isOpenRangePicker) {
-      startDate = values.timeRange[0].startOf('days')
-      endDate = values.timeRange[1].endOf('days')
-    } else {
-      if (values.time === 1) {
-        startDate = moment().subtract(values.time, 'days')
-        endDate = moment()
-      } else {
-        startDate = moment()
-          .subtract(values.time, 'days')
-          .startOf('days')
-        endDate = moment().endOf('days')
-      }
-    }
 
     const paramQuery = {
       phaseIds: values.phase,
       pointKeys: values.point,
-      startDate: startDate.utc().format(),
-      endDate: endDate.utc().format(),
+      startDate: from,
+      endDate: to,
       stationTypeId: values.stationTypeId,
       isExceeded: values.isExceeded,
     }
+    // console.log(paramQuery, '==paramQuery==')
 
     this.props.setQueryParam(paramQuery)
     this.props.onSearch()
