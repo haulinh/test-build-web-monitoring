@@ -567,7 +567,9 @@ export default {
     titleText: 'Data Search',
     options: {
       byHours: '{{=it.value}} Hours',
-      byDay: '{{=it.value}} Day',
+      byHoursDetail: '{{=it.value}} Hours ({{=it.detailHours}})',
+      byDay: '{{=it.value}} Days',
+      byDayDetail: '{{=it.value}} Days ({{=it.detailDay}})',
       range: 'In range',
     },
     form: {
