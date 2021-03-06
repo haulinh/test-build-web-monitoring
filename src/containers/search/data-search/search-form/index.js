@@ -217,6 +217,7 @@ export default class SearchFormHistoryData extends React.Component {
 
     // cac truong hop khac
     const { from, to } = getTimes(ranges)
+    // console.log({ from: from.format('DD/MM/YYYY HH:mm'), to })
     this.setState({
       timeRange: ranges,
       fromDate: from,
