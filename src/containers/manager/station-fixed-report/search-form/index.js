@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Col, DatePicker, Form, Row, Select, Switch, Spin } from 'antd'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import moment from 'moment'
 /** */
 import CategoryApi from 'api/CategoryApi'
 import { getPhase } from 'api/station-fixed/StationFixedPhaseApi'
@@ -13,6 +14,7 @@ import SelectProvince from 'components/elements/select-province'
 import { DD_MM_YYYY } from 'constants/format-date'
 import { getTimes } from 'utils/datetime'
 import { isNumber } from 'lodash'
+
 
 const { Option } = Select
 const { RangePicker } = DatePicker
@@ -51,11 +53,12 @@ const FIELDS = {
   RANGE_PICKER: 'rangePicker',
 }
 
+
 const optionsTimeRange = [
-  { key: 1, text: 'dataSearchFrom.options.byHours', value: 24 },
-  { key: 7, text: 'dataSearchFrom.options.byDay', value: 7 },
-  { key: 15, text: 'dataSearchFrom.options.byDay', value: 15 },
-  { key: 30, text: 'dataSearchFrom.options.byDay', value: 30 },
+  { key: 1, text: 'dataSearchFrom.options.byHoursDetail', value: 24, detailHours: `${moment().subtract(1, 'days').format('DD/MM/YYYY HH:mm')} - ${moment().format('DD/MM/YYYY HH:mm')}` },
+  { key: 7, text: 'dataSearchFrom.options.byDayDetail', value: 7, detailDay: `${moment().subtract(8, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
+  { key: 15, text: 'dataSearchFrom.options.byDayDetail', value: 15, detailDay: `${moment().subtract(16, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
+  { key: 30, text: 'dataSearchFrom.options.byDayDetail', value: 30, detailDay: `${moment().subtract(31, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
 ]
 
 @createLang
@@ -340,9 +343,11 @@ export class SearchForm extends React.Component {
                     initialValue: 7,
                   })(
                     <Select onSelect={this.handleOnSelectTime} size="large">
-                      {optionsTimeRange.map(({ key, text, value }) => (
-                        <Select.Option key={key} value={key}>
-                          {t(text, { value })}
+                      {optionsTimeRange.map(option => (
+                        <Select.Option key={option.key} value={option.key}>
+
+                          {option.key === 1 && t(option.text, { value: option.value, detailHours: option.detailHours })}
+                          {option.key !== 1 && t(option.text, { value: option.value, detailDay: option.detailDay })}
                         </Select.Option>
                       ))}
                       <Option key="range" value={FIELDS.RANGE_PICKER}>
