@@ -253,14 +253,14 @@ class FilterForm extends Component {
                 )}
               </FormItem>
             </Col>
-            <Col md={6} lg={6} sm={12}>
+            <Col md={4} lg={4} sm={12}>
               <FormItem label={i18n.operatorLabel}>
                 {form.getFieldDecorator(FIELDS.OPERATOR, {
                   initialValue: OPERATOR.AVG,
                 })(<SelectOperator />)}
               </FormItem>
             </Col>
-            <Col md={6} lg={6} sm={12}>
+            <Col md={8} lg={8} sm={12}>
               <FormItem label={i18n.timeLabel}>
                 {form.getFieldDecorator(FIELDS.RANGE_TIME, {
                   initialValue: 1,
