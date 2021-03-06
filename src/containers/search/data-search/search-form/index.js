@@ -203,7 +203,7 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleChangeRanges(ranges) {
-    console.log('ranges', ranges)
+
 
     // trong khoang
     if (Array.isArray(ranges)) {
@@ -304,7 +304,7 @@ export default class SearchFormHistoryData extends React.Component {
         </Heading>
         <Container>
           <Row gutter={[16, 24]}>
-            <Col span={6}>
+            <Col span={3}>
               <Field
                 label={translate('qaqc.province.label')}
                 name="province"
@@ -314,7 +314,7 @@ export default class SearchFormHistoryData extends React.Component {
                 onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={6}>
+            <Col span={3}>
               <Field
                 label={t('stationType.label')}
                 name="stationType"
@@ -344,7 +344,7 @@ export default class SearchFormHistoryData extends React.Component {
                 setKey
               />
             </Col>
-            <Col span={6}>
+            <Col span={9}>
               <Field
                 label={t('time')}
                 name="rangesDate"
