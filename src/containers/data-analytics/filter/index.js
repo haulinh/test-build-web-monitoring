@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Col, Form, Row } from 'antd'
 import styled from 'styled-components'
-import moment from 'moment'
 import { get } from 'lodash'
 
 import dataInsightApi from 'api/DataInsight'
@@ -15,6 +14,7 @@ import SelectStationAuto from './select-station-auto'
 import SelectMeasureParameter from './select-measure-parameter'
 import SelectOperator, { OPERATOR } from './select-operator'
 import { requiredFieldRule } from 'utils/rules'
+import { getTimes } from 'utils/datetime'
 
 const i18n = {
   btnSearchText: t('addon.search'),
@@ -68,7 +68,8 @@ class FilterForm extends Component {
     try {
       setLoading(true)
       const values = await form.validateFields()
-      const times = this.getTimes(values[FIELDS.RANGE_TIME])
+      const times = getTimes(values[FIELDS.RANGE_TIME])
+      // console.log(times.to.format(), '==times==')
       const params = {
         stationAutoKeys: values[FIELDS.STATION_AUTO].join(','),
         measuringList: values[FIELDS.MEASURING_LIST].join(','),
@@ -82,10 +83,12 @@ class FilterForm extends Component {
           .utc()
           .format(),
       }
+
       setParamFilter({
         ...params,
         operator: values[FIELDS.OPERATOR],
       })
+      // console.log(params, '==params==')
       const result = await dataInsightApi.getDataInsight(params)
       setLoading(false)
       onData(result, {
@@ -98,26 +101,7 @@ class FilterForm extends Component {
     }
   }
 
-  getTimes = rangeTime => {
-    if (Array.isArray(rangeTime))
-      return {
-        from: rangeTime[0],
-        to: rangeTime[1],
-      }
-    if (rangeTime === 1)
-      return {
-        from: moment().subtract(1, 'd'),
-        to: moment(),
-      }
-    return {
-      from: moment()
-        .startOf('d')
-        .subtract(rangeTime, 'd'),
-      to: moment()
-        .endOf('d')
-        .subtract(1, 'd'),
-    }
-  }
+
 
   getStationAutoKeys = ({ province, stationType }) => {
     return [...this.stationAutos]
@@ -253,14 +237,14 @@ class FilterForm extends Component {
                 )}
               </FormItem>
             </Col>
-            <Col md={6} lg={6} sm={12}>
+            <Col md={4} lg={4} sm={12}>
               <FormItem label={i18n.operatorLabel}>
                 {form.getFieldDecorator(FIELDS.OPERATOR, {
                   initialValue: OPERATOR.AVG,
                 })(<SelectOperator />)}
               </FormItem>
             </Col>
-            <Col md={6} lg={6} sm={12}>
+            <Col md={8} lg={8} sm={12}>
               <FormItem label={i18n.timeLabel}>
                 {form.getFieldDecorator(FIELDS.RANGE_TIME, {
                   initialValue: 1,

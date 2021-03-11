@@ -30,6 +30,7 @@ import QAQCSetup from '../drawer/QAQCSetup'
 // import Clearfix from 'components/elements/clearfix'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
+import { getTimes } from 'utils/datetime'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectQCVN = createValidateComponent(SelectQCVN)
@@ -44,34 +45,34 @@ const FOptionsDatePicker = createValidateComponent(SelectDatePicker)
 const initializeValue = (props, callback) => {
   const initialValues = props.initialValues
     ? {
-        stationType: 'ALL',
-        provinceKey: '',
-        ...props.initialValues,
-        rangesDate:
-          Number(props.initialValues.rangesDate) ||
-          props.initialValues.rangesDate ||
-          1,
-        type:
-          Number(props.initialValues.type) || props.initialValues.type || 15,
-        fromDate: props.initialValues.fromDate
-          ? props.initialValues.fromDate
-          : moment()
-              .subtract(props.initialValues.rangesDate || 1, 'days')
-              .toISOString(),
-        toDate: props.initialValues.toDate
-          ? props.initialValues.toDate
-          : moment().toISOString(),
-      }
-    : {
-        stationType: '',
-        provinceKey: '',
-        rangesDate: 1,
-        type: 15,
-        fromDate: moment()
-          .subtract(1, 'days')
+      stationType: 'ALL',
+      provinceKey: '',
+      ...props.initialValues,
+      rangesDate:
+        Number(props.initialValues.rangesDate) ||
+        props.initialValues.rangesDate ||
+        1,
+      type:
+        Number(props.initialValues.type) || props.initialValues.type || 15,
+      fromDate: props.initialValues.fromDate
+        ? props.initialValues.fromDate
+        : moment()
+          .subtract(props.initialValues.rangesDate || 1, 'days')
           .toISOString(),
-        toDate: moment().toISOString(),
-      }
+      toDate: props.initialValues.toDate
+        ? props.initialValues.toDate
+        : moment().toISOString(),
+    }
+    : {
+      stationType: '',
+      provinceKey: '',
+      rangesDate: 1,
+      type: 15,
+      fromDate: moment()
+        .subtract(1, 'days')
+        .toISOString(),
+      toDate: moment().toISOString(),
+    }
   callback(initialValues)
 }
 
@@ -255,33 +256,29 @@ export default class SearchAvgForm extends React.Component {
 
   handleChangeRanges = ranges => {
     const { change } = this.props
-    if (_.isNumber(ranges)) {
-      const fromDate = moment().subtract(ranges, 'days')
-      const toDate = moment()
-      change('fromDate', fromDate.toISOString())
-      change('toDate', toDate.toISOString())
 
+
+    // trong khoang
+    if (Array.isArray(ranges)) {
+      change('fromDate', ranges[0].toISOString())
+      change('toDate', ranges[1].toISOString())
       this.setState({
-        timeRange: ranges,
-        fromDate,
-        toDate,
-        rangesView: '',
+        timeRange: null,
+        fromDate: ranges[0],
+        toDate: ranges[1],
       })
-    } else {
-      if (_.size(ranges) > 1) {
-        const [fromDate, toDate] = ranges
-        change('fromDate', fromDate.toISOString())
-        change('toDate', toDate.toISOString())
-        this.setState({
-          timeRange: null,
-          fromDate,
-          toDate,
-          rangesView: `${fromDate.format(DD_MM_YYYY_HH_MM)} - ${toDate.format(
-            DD_MM_YYYY_HH_MM
-          )}`,
-        })
-      }
+      return
     }
+
+    // cac truong hop khac
+    const { from, to } = getTimes(ranges)
+    change('fromDate', from.toISOString())
+    change('toDate', to.toISOString())
+    this.setState({
+      timeRange: ranges,
+      fromDate: from,
+      toDate: to,
+    })
   }
 
   handleChangeFilter = filter => {
@@ -434,7 +431,7 @@ export default class SearchAvgForm extends React.Component {
         </Heading>
         <Container>
           <Row type="flex" gutter={[16, 24]}>
-            <Col span={6}>
+            <Col span={4}>
               <Field
                 label={t(`province.label`)}
                 name="provinceKey"
@@ -443,10 +440,10 @@ export default class SearchAvgForm extends React.Component {
                 isShowAll
                 placeholder={t('province.placeholder')}
                 component={FSelectProvince}
-                // onHandleChange={this.handleProvinceChange}
+              // onHandleChange={this.handleProvinceChange}
               />
             </Col>
-            <Col span={6}>
+            <Col span={4}>
               <Field
                 showSearch
                 isShowAll
@@ -461,7 +458,7 @@ export default class SearchAvgForm extends React.Component {
               />
             </Col>
 
-            <Col span={6}>
+            <Col span={10}>
               <Field
                 label={t('time')}
                 name="rangesDate"
@@ -471,7 +468,7 @@ export default class SearchAvgForm extends React.Component {
                 rangesView={this.state.rangesView}
               />
             </Col>
-            <Col span={6}>
+            <Col span={4}>
               <Field
                 label={t('type.label')}
                 name="type"

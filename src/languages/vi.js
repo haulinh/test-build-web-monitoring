@@ -562,7 +562,9 @@ export default {
     titleText: 'Tra cứu dữ liệu gốc',
     options: {
       byHours: '{{=it.value}} Giờ',
+      byHoursDetail: '{{=it.value}} Giờ ({{=it.detailHours}})',
       byDay: '{{=it.value}} Ngày',
+      byDayDetail: '{{=it.value}} Ngày ({{=it.detailDay}})',
       range: 'Trong khoảng',
     },
     form: {
@@ -2074,7 +2076,7 @@ export default {
       camera: {
         name: 'Camera',
       },
-      chart : {
+      chart: {
         name: 'Phân tích dữ liệu',
       },
       dataSearch: {
@@ -3283,5 +3285,5 @@ export default {
       line: 'Đường',
       table: 'Bảng',
     }
-  } 
+  }
 }
