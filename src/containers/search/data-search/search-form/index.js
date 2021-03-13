@@ -23,6 +23,8 @@ import { getTimes } from 'utils/datetime'
 import { FSelectQueryType as SelectQueryType } from './select-query-type'
 // import { FSelectApprove } from './select-approve'
 // import { prop } from 'cramda';
+import { getConfigQAQC } from 'api/CategoryApi'
+
 
 // import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
@@ -142,6 +144,7 @@ export default class SearchFormHistoryData extends React.Component {
     }
 
     this.state = {
+      defaultQcvnOptions: qcvnOptions,
       isFilter: false,
       qcvnType: [],
       queryType: QUERY_TYPE.RAW,
@@ -165,8 +168,56 @@ export default class SearchFormHistoryData extends React.Component {
       isSearchInit: props.initialValues.stationAuto ? false : true,
     }
   }
+  async loadQcvnConfig() {
+    const res = await getConfigQAQC()
 
+    if (res.success !== true) return
+
+    // const stationType = this.state.stationTypeKey
+
+    const beyondMeasuringRange = _.get(res, 'data.value.beyondMeasuringRange', false)
+    const deviceCalibration = _.get(res, 'data.value.deviceCalibration', false)
+    const deviceError = _.get(res, 'data.value.deviceError', false)
+    // console.log(beyondMeasuringRange, '==beyondMeasuringRange')
+    const filteredOptions = [
+      {
+        value: QCVN_TYPE.ZERO,
+        name: 'Giá trị 0'
+      },
+      {
+        value: QCVN_TYPE.NEGATIVE,
+        name: 'Gía trị âm'
+      },
+    ]
+    qcvnOptions.forEach((option, index) => {
+      // console.log("Turn " + index)
+      // console.log(beyondMeasuringRange, '==beyondMeasuringRange')
+      // console.log(option.value, '==option value')
+      if (beyondMeasuringRange === true && option.value === QCVN_TYPE.OUT_OF_RANGE) {
+        filteredOptions.push(option)
+      }
+      if (deviceCalibration === true && option.value === QCVN_TYPE.DEVICE_CALIRATE) {
+        filteredOptions.push(option)
+      }
+      if (deviceError === true && option.value === QCVN_TYPE.DEVICE_ERROR) {
+        filteredOptions.push(option)
+      }
+    })
+    // console.log(filteredOptions, '==filteredOptions==')
+    this.setState({
+      defaultQcvnOptions: [...filteredOptions]
+    })
+    // return {
+    //   beyondMeasuringRange,
+    //   deviceCalibration,
+    //   deviceError
+    // }
+    // const config = _.get(res, `data.value.${stationType}`)
+    // console.log(res, '==res===cofig')
+  }
   componentDidMount() {
+    // console.log("componentDidMount")
+    this.loadQcvnConfig()
     if (this.props.searchNow) {
       this.props.handleSubmit(this.handleSubmit)()
     }
@@ -473,16 +524,19 @@ export default class SearchFormHistoryData extends React.Component {
               />
             </Col>
             <Col span={12}>
-              <Field
-                label={translate('dataSearchFrom.filterDataBy')}
-                name="qcvnOptions"
-                size="large"
-                showSearch
-                mode="multiple"
-                options={qcvnOptions}
-                component={FSelectAnt}
-              />
+              {
+                this.state.queryType === 'ANTI_QCVN' && <Field
+                  label={translate('dataSearchFrom.filterDataBy')}
+                  name="qcvnOptions"
+                  size="large"
+                  showSearch
+                  mode="multiple"
+                  options={this.state.defaultQcvnOptions}
+                  component={FSelectAnt}
+                />
+              }
             </Col>
+
             <Col span={6}>
               <Field
                 label={translate('dataSearchFrom.processData')}
