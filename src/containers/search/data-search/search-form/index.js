@@ -20,6 +20,7 @@ import SelectProvince from 'components/elements/select-province'
 import OptionsTimeRange from '../../common/options-time-range'
 import * as _ from 'lodash'
 import { getTimes } from 'utils/datetime'
+import { FSelectQueryType as SelectQueryType } from './select-query-type'
 // import { FSelectApprove } from './select-approve'
 // import { prop } from 'cramda';
 
@@ -30,6 +31,7 @@ const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
 const FSwitch = createValidateComponent(Switch)
+const FSwitchFilter = createValidateComponent(Switch)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
 
@@ -37,6 +39,44 @@ const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
   padding: 16px 16px;
 `
+
+
+const QUERY_TYPE = {
+  RAW: 'RAW',
+  QCVN: 'QCVN',
+  ANTI_QCVN: 'ANTI_QCVN'
+}
+
+const QCVN_TYPE = {
+  OUT_OF_RANGE: 'OUT_OF_RANGE',
+  DEVICE_ERROR: 'DEVICE_ERROR',
+  DEVICE_CALIRATE: 'DEVICE_CALIRATE',
+  ZERO: 'ZERO',
+  NEGATIVE: 'NEGATIVE'
+}
+
+const qcvnOptions = [
+  {
+    value: QCVN_TYPE.OUT_OF_RANGE,
+    name: 'Ngoài dải đo'
+  },
+  {
+    value: QCVN_TYPE.DEVICE_ERROR,
+    name: 'Thiết bị lỗi'
+  },
+  {
+    value: QCVN_TYPE.DEVICE_CALIRATE,
+    name: 'Thiết bị hiệu chuẩn'
+  },
+  {
+    value: QCVN_TYPE.ZERO,
+    name: 'Giá trị 0'
+  },
+  {
+    value: QCVN_TYPE.NEGATIVE,
+    name: 'Gía trị âm'
+  },
+]
 
 function validate(values) {
   const errors = {}
@@ -102,6 +142,9 @@ export default class SearchFormHistoryData extends React.Component {
     }
 
     this.state = {
+      isFilter: false,
+      qcvnType: [],
+      queryType: QUERY_TYPE.RAW,
       fromDate,
       toDate,
       timeRange,
@@ -234,6 +277,7 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleSubmit(values) {
+    // callapi
     // console.log(values, "handleSubmit")
     const measuringListUnitStr = values.measuringList.map(item => {
       // console.log(item, "item")
@@ -243,7 +287,29 @@ export default class SearchFormHistoryData extends React.Component {
       // console.log(itemFind,"itemFind")
       return encodeURIComponent(itemFind.unit)
     })
-
+    // console.log({
+    //   fromDate: this.convertDateToString(this.state.fromDate),
+    //   toDate: this.convertDateToString(this.state.toDate),
+    //   key: values.stationAuto,
+    //   name: this.state.stationAutoName,
+    //   measuringListUnitStr,
+    //   measuringList: values.measuringList,
+    //   measuringData: this.state.measuringData,
+    //   // dataType: values.dataType,
+    //   isExceeded: values.isExceeded,
+    //   advanced: values.advanced
+    //     ? values.advanced.filter(
+    //       item =>
+    //         item.measuringKey &&
+    //         item.operator &&
+    //         item.value !== null &&
+    //         typeof item.value !== 'undefined'
+    //     )
+    //     : [],
+    //   queryType: this.state.queryType,
+    //   qcvnList: values.qcvnOptions.join(','),
+    //   isFilter: values.isFilter || false
+    // })
     this.props.onSubmit({
       fromDate: this.convertDateToString(this.state.fromDate),
       toDate: this.convertDateToString(this.state.toDate),
@@ -263,6 +329,9 @@ export default class SearchFormHistoryData extends React.Component {
             typeof item.value !== 'undefined'
         )
         : [],
+      queryType: this.state.queryType,
+      qcvnList: values.qcvnOptions.join(','),
+      isFilter: values.isFilter || false
     })
   }
 
@@ -277,6 +346,14 @@ export default class SearchFormHistoryData extends React.Component {
     })
 
     this.props.change('stationAuto', '')
+  }
+  handleChangeQueryType = type => {
+    // console.log("handleChangeQueryType " + type)
+    this.setState({
+      queryType: type
+    })
+
+    // this.props.change('stationAuto', '')
   }
 
   render() {
@@ -381,6 +458,37 @@ export default class SearchFormHistoryData extends React.Component {
                 name="isExceeded"
                 size="large"
                 component={FSwitch}
+              />
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={6}>
+              <Field
+                label={translate('dataSearchFrom.queryType')}
+                name="queryType"
+                size="large"
+                isShowAll
+                component={SelectQueryType}
+                onHandleChange={this.handleChangeQueryType}
+              />
+            </Col>
+            <Col span={12}>
+              <Field
+                label={translate('dataSearchFrom.filterDataBy')}
+                name="qcvnOptions"
+                size="large"
+                showSearch
+                mode="multiple"
+                options={qcvnOptions}
+                component={FSelectAnt}
+              />
+            </Col>
+            <Col span={6}>
+              <Field
+                label={translate('dataSearchFrom.processData')}
+                name="isFilter"
+                size="large"
+                component={FSwitchFilter}
               />
             </Col>
           </Row>

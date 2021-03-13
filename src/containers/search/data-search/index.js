@@ -40,6 +40,7 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   handleSubmitSearch(searchFormData) {
+    // console.log(searchFormData, 'submit searchFormData')
     this.loadData(this.state.pagination, searchFormData)
   }
 
@@ -55,7 +56,7 @@ export default class MinutesDataSearch extends React.Component {
         current: 1,
       }
     }
-
+    // console.log("CAll api with data " + JSON.stringify(searchFormData, null, 2))
     let dataStationAuto = await DataStationAutoApi.getDataStationAutos(
       {
         page: paginationQuery.current,

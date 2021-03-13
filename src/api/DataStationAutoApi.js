@@ -13,7 +13,7 @@ function getReportUrl(prefix = '') {
 
 export function getDataStationAutos(
   { page = 1, itemPerPage = 10 },
-  { fromDate, toDate, key, advanced, measuringList, isExceeded, dataType }
+  { fromDate, toDate, key, advanced, measuringList, isExceeded, dataType, qcvnList, isFilter, queryType }
 ) {
   var url = `${getDataStationAutoUrl(
     `${key}?page=${page}&itemPerPage=${itemPerPage}`
@@ -24,6 +24,9 @@ export function getDataStationAutos(
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
   if (isExceeded) url += `&isExceeded=${isExceeded}`
   if (dataType) url += `&dataType=${dataType}`
+  if (qcvnList) url += `&qcvnList=${qcvnList}`
+  if (isFilter) url += `&isFilter=${isFilter}`
+  if (queryType) url += `&queryType=${queryType}`
   return getFetch(url)
 }
 

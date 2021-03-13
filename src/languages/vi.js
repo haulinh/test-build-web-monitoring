@@ -559,6 +559,9 @@ export default {
     importFailed: 'Nhập dữ liệu không thành công!',
   },
   dataSearchFrom: {
+    queryType: 'Loại dữ liệu',
+    filterDataBy: 'Lọc dữ liệu theo',
+    processData: 'Xử lý dữ liệu',
     titleText: 'Tra cứu dữ liệu gốc',
     options: {
       byHours: '{{=it.value}} Giờ',
