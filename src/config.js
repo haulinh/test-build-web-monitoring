@@ -115,3 +115,5 @@ export function getApps() {
 export const GOOGLE_MAP = {
   KEY: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4',
 }
+
+export const GOOGLE_TAG_TRACKING_ID = 'GTM-KPZCRHG'
