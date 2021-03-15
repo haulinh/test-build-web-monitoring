@@ -3,8 +3,16 @@ import { getFetch, putFetch, postFetch } from 'utils/fetch'
 import qs from 'query-string'
 import { upperCase as _upperCase } from 'lodash'
 
+
 export function getDataStationAutoUrl(prefix = '') {
   return getConfigApi().dataStationAuto + '/' + prefix
+}
+
+export function getHistoricalDataUrl(prefix = '') {
+  // console.log(process.env, '=process.env.isDev')
+
+  // return 'http://localhost:5022/historical-data' + '/' + prefix
+  return getConfigApi().dataInsight + '/historical-data' + prefix
 }
 
 function getReportUrl(prefix = '') {
@@ -13,17 +21,22 @@ function getReportUrl(prefix = '') {
 
 export function getDataStationAutos(
   { page = 1, itemPerPage = 10 },
-  { fromDate, toDate, key, advanced, measuringList, isExceeded, dataType }
+  { fromDate, toDate, key, advanced, measuringList, isExceeded, dataType, qcvnList, isFilter, queryType }
 ) {
-  var url = `${getDataStationAutoUrl(
+  // console.log()
+  var url = `${getHistoricalDataUrl(
     `${key}?page=${page}&itemPerPage=${itemPerPage}`
   )}`
+  // console.log(url, '==url')
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
   if (advanced) url += `&advanced=${JSON.stringify(advanced)}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
   if (isExceeded) url += `&isExceeded=${isExceeded}`
   if (dataType) url += `&dataType=${dataType}`
+  if (qcvnList) url += `&qcvnList=${qcvnList}`
+  if (isFilter) url += `&isFilter=${isFilter}`
+  if (queryType) url += `&queryType=${queryType}`
   return getFetch(url)
 }
 
@@ -157,7 +170,7 @@ export function getDataAnalyzeStationAutos({
   isExceeded,
   dataType,
 }) {
-  var url = getDataStationAutoUrl(`${key}/analyze?`)
+  var url = getHistoricalDataUrl(`${key}/analyze?`)
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
   if (advanced) url += `&advanced=${JSON.stringify(advanced)}`

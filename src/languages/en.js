@@ -564,6 +564,9 @@ export default {
     importFailed: 'Import Data Failed',
   },
   dataSearchFrom: {
+    queryType: 'Type of data',
+    filterDataBy: 'Filter data by',
+    processData: 'Enable filter',
     titleText: 'Data Search',
     options: {
       byHours: '{{=it.value}} Hours',
