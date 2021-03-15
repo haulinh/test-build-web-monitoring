@@ -15,6 +15,7 @@ export function getDataStationAutos(
   { page = 1, itemPerPage = 10 },
   { fromDate, toDate, key, advanced, measuringList, isExceeded, dataType, qcvnList, isFilter, queryType }
 ) {
+  // console.log()
   var url = `${getDataStationAutoUrl(
     `${key}?page=${page}&itemPerPage=${itemPerPage}`
   )}`

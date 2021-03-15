@@ -45,6 +45,7 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   async loadData(pagination, searchFormData) {
+    console.log("LOad data ...")
     this.setState({
       isLoading: true,
       isHaveData: true,
@@ -56,6 +57,7 @@ export default class MinutesDataSearch extends React.Component {
         current: 1,
       }
     }
+    // wh
     // console.log("CAll api with data " + JSON.stringify(searchFormData, null, 2))
     let dataStationAuto = await DataStationAutoApi.getDataStationAutos(
       {

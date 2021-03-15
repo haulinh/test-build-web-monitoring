@@ -330,6 +330,7 @@ export default class SearchFormHistoryData extends React.Component {
   handleSubmit(values) {
     // callapi
     // console.log(values, "handleSubmit")
+    const qcvnOptions = values.qcvnOptions || []
     const measuringListUnitStr = values.measuringList.map(item => {
       // console.log(item, "item")
       const itemFind = _.find(this.state.measuringData, obj => {
@@ -381,7 +382,7 @@ export default class SearchFormHistoryData extends React.Component {
         )
         : [],
       queryType: this.state.queryType,
-      qcvnList: values.qcvnOptions.join(','),
+      qcvnList: qcvnOptions.join(','),
       isFilter: values.isFilter || false
     })
   }
