@@ -22,9 +22,10 @@ export function getConfigApi() {
     stationType: c('station-type'),
     stationAuto: c('station-auto'),
     // stationAuto: "http://localhost:5003/station-auto",
-    // dataStationAuto: c('data-station-auto'),
+    dataStationAuto: c('data-station-auto'),
     // dataStationAuto: 'http://localhost:5004/data-station-auto',
-    dataStationAuto: 'http://localhost:5022/historical-data',
+    // historicalData: c('historical-data'),
+    // historicalData: 'http://localhost:5022/historical-data',
     report: c('report'),
     // report: 'http://localhost:5004/report',
     stationFixed: c('station-fixed'),
@@ -116,3 +117,4 @@ export function getApps() {
 export const GOOGLE_MAP = {
   KEY: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4',
 }
+
