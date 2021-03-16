@@ -12,7 +12,7 @@ export function getHistoricalDataUrl(prefix = '') {
   // console.log(process.env, '=process.env.isDev')
 
   // return 'http://localhost:5022/historical-data' + '/' + prefix
-  return getConfigApi().dataInsight + '/historical-data' + prefix
+  return getConfigApi().dataInsight + '/historical-data/' + prefix
 }
 
 function getReportUrl(prefix = '') {
