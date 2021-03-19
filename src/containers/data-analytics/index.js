@@ -209,9 +209,8 @@ class DataAnalytics extends Component {
   getChartTitle = () => {
     const { measuringList, measure } = this.state
     if (!measuringList[measure]) return ''
-    return `${measuringList[measure].name} ${
-      measuringList[measure].unit ? `(${measuringList[measure].unit})` : ''
-    }`
+    return `${measuringList[measure].name} ${measuringList[measure].unit ? `(${measuringList[measure].unit})` : ''
+      }`
   }
 
   setChart = chart => {
