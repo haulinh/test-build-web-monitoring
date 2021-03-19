@@ -286,12 +286,17 @@ class FilterForm extends Component {
 
 
           </Row>
-          <Row>
-            <FormItem label={i18n.isProcessData} className='switch-filter' >
-              {
-                form.getFieldDecorator('isFilter')(<Switch />)
-              }
-            </FormItem>
+          <Row type='flex' justify='end' align="middle">
+            <Col>
+              <Form.Item label={i18n.isProcessData} colon={false} labelCol={{ span: 16 }} wrapperCol={{ span: 8 }} >
+                {
+                  form.getFieldDecorator('isFilter')(
+                    <Switch />
+                  )
+                }
+              </Form.Item>
+            </Col>
+
           </Row>
         </FormSearch>
       </SearchFormContainer>
