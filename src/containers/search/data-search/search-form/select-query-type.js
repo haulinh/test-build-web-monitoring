@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { translate } from 'hoc/create-lang'
+
 import createValidateComponent from 'components/elements/redux-form-validate'
 
 const options = [
