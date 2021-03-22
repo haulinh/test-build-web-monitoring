@@ -124,7 +124,9 @@ export function getDataStationAutoExportAvg({
   advanced,
   dataStatus,
   language,
+  isFilter
 }) {
+  console.log("isFilter" + isFilter)
   var url = getDataStationAutoUrl(`${key}/export-avg?`)
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
@@ -139,6 +141,8 @@ export function getDataStationAutoExportAvg({
   if (type) url += `&type=${type}`
   if (name) url += `&name=${name}`
   if (language) url += `&language=${_upperCase(language)}`
+  if (isFilter) url += `&isFilter=${isFilter}`
+  console.log(url, '==url==')
   return getFetch(url)
 }
 

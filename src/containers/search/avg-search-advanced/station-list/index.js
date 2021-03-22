@@ -140,7 +140,7 @@ export default class TableList extends React.PureComponent {
   }
 
   async loadData(pagination, searchFormData) {
-    console.log({ searchFormData })
+    // console.log({ searchFormData })
     let paginationQuery = pagination
     this.setState({ isLoading: true }, async () => {
       const dataStationAuto = await DataStationAutoApi.getDataStationAutoAvg_v2(
@@ -189,6 +189,7 @@ export default class TableList extends React.PureComponent {
 
   handleExportExcel = () => {
     const searchFormData = this.getSearchFormData(this.state.tabKey)
+    // console.log({ searchFormData })
     this.setState({ isExporting: true }, async () => {
       let res = await DataStationAutoApi.getDataStationAutoExportAvg({
         ...searchFormData,
