@@ -51,6 +51,9 @@ export function getExportData({
   dataType,
   name,
   language,
+  qcvnList,
+  queryType,
+  isFilter,
 }) {
   var url = getDataStationAutoUrl(`${key}/export-download?`)
   if (fromDate) url += `&from=${fromDate}`
@@ -63,6 +66,9 @@ export function getExportData({
   if (dataType) url += `&dataType=${dataType}`
   if (name) url += `&name=${name}`
   if (language) url += `&language=${_upperCase(language)}`
+  if (qcvnList) url += `&qcvnList=${qcvnList}`
+  if (queryType) url += `&queryType=${queryType}`
+  if (isFilter) url += `&isFilter=${isFilter}`
   return getFetch(url)
   //window.location = url
 }
