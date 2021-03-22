@@ -55,7 +55,10 @@ export function getExportData({
   queryType,
   isFilter,
 }) {
-  var url = getDataStationAutoUrl(`${key}/export-download?`)
+  // var url = getDataStationAutoUrl(`${key}/export-download?`)
+  var url = getHistoricalDataUrl(`${key}/export-download?`)
+
+  // console.log(url, '==url==')
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
   if (advanced) url += `&advanced=${JSON.stringify(advanced)}`
