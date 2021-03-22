@@ -96,7 +96,7 @@ export function getDataStationAutoAvg(
 
 export function getDataStationAutoAvg_v2(
   { page = 1, itemPerPage = 10 },
-  { fromDate, toDate, key, measuringList, type, advanced, dataStatus }
+  { fromDate, toDate, key, measuringList, type, advanced, dataStatus, isFilter }
 ) {
   var url = getDataStationAutoUrl(
     `${key}/avg-advanced?page=${page}&itemPerPage=${itemPerPage}`
@@ -109,6 +109,7 @@ export function getDataStationAutoAvg_v2(
   if (dataStatus && dataStatus.length)
     url += `&dataStatus=${dataStatus.join(',')}`
   if (type) url += `&type=${type}`
+  if (isFilter) url += `&isFilter=${isFilter}`
   return getFetch(url)
 }
 

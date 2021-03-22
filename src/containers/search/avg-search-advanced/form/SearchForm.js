@@ -6,7 +6,7 @@ import moment from 'moment-timezone'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { reduxForm, Field, unregisterField, clearFields } from 'redux-form'
-import { Row, Col, Dropdown, Icon, InputNumber, Tooltip } from 'antd'
+import { Row, Col, Dropdown, Icon, InputNumber, Tooltip, Switch } from 'antd'
 import update from 'immutability-helper'
 import createLang, { translate } from 'hoc/create-lang'
 import SelectStationType from 'components/elements/select-station-type'
@@ -41,6 +41,7 @@ const FSelectTimeRange = createValidateComponent(SelectTimeRange)
 const FSelectAnt = createValidateComponent(SelectAnt)
 const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
 const FOptionsDatePicker = createValidateComponent(SelectDatePicker)
+const FSwitchFilter = createValidateComponent(Switch)
 
 const initializeValue = (props, callback) => {
   const initialValues = props.initialValues
@@ -179,11 +180,15 @@ export default class SearchAvgForm extends React.Component {
     this.state = {
       rangesView,
       filterList: listFilter.filter(filter => props.initialValues[filter.key]),
+      isFilter: false
     }
   }
 
   async componentDidMount() {
+    // console.log("componentDidMount -> search form")
+
     if (this.props.searchNow) {
+      // console.log("Start search")
       const searchStationData = this.getSearchStationData(
         this.props.initialValues
       )
@@ -192,6 +197,8 @@ export default class SearchAvgForm extends React.Component {
     }
   }
   getSearchStationData = newProps => {
+    // console.log(JSON.stringify(newProps, null, 2))
+    // console.log("getSearchStationDatagetSearchStationData")
     return {
       stationType: newProps.stationType,
       provinceKey: newProps.provinceKey,
@@ -200,10 +207,12 @@ export default class SearchAvgForm extends React.Component {
       frequent: newProps.frequent,
       activatedAt: newProps.activatedAt,
       typeSampling: newProps.typeSampling,
+      isFilter: newProps.isFilter || false
     }
   }
 
   async componentWillReceiveProps(nextProps) {
+    // console.log(JSON.stringify(nextProps, null, 2))
     if (
       !_.isEqual(nextProps.initialValues, this.props.initialValues) ||
       !_.isEqual(nextProps.flagResetForm, this.props.flagResetForm)
@@ -530,7 +539,16 @@ export default class SearchAvgForm extends React.Component {
                 </Tooltip>
               </HeaderWrapper>
             </Col>
+            <Col span={6}>
+              <Field
+                label={translate('dataSearchFrom.processData')}
+                name="isFilter"
+                size="large"
+                component={FSwitchFilter}
+              />
+            </Col>
           </Row>
+
           {/* {measuringList.length ? (
             <React.Fragment>
               <Clearfix height={40} />
