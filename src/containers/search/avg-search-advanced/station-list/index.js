@@ -32,14 +32,15 @@ const TitleWrapper = styled.div`
   toDate: state.form['dataSearchFilterForm'].values.toDate,
   advanced: state.form['dataSearchFilterForm'].values.advanced
     ? state.form['dataSearchFilterForm'].values.advanced.filter(
-        item =>
-          item.measuringKey &&
-          item.operator &&
-          item.value !== null &&
-          typeof item.value !== 'undefined'
-      )
+      item =>
+        item.measuringKey &&
+        item.operator &&
+        item.value !== null &&
+        typeof item.value !== 'undefined'
+    )
     : [],
   dataStatus: state.form['dataSearchFilterForm'].values.dataStatus || [],
+  isFilter: state.form['dataSearchFilterForm'].values.isFilter || false,
   locale: state.language.locale,
 }))
 @autobind
@@ -103,6 +104,7 @@ export default class TableList extends React.PureComponent {
       measuringData: station.measuringData,
       advanced: this.props.advanced,
       dataStatus: this.props.dataStatus,
+      isFilter: this.props.isFilter
     }
     return searchFormData
   }
@@ -138,6 +140,7 @@ export default class TableList extends React.PureComponent {
   }
 
   async loadData(pagination, searchFormData) {
+    // console.log({ searchFormData })
     let paginationQuery = pagination
     this.setState({ isLoading: true }, async () => {
       const dataStationAuto = await DataStationAutoApi.getDataStationAutoAvg_v2(
@@ -186,6 +189,7 @@ export default class TableList extends React.PureComponent {
 
   handleExportExcel = () => {
     const searchFormData = this.getSearchFormData(this.state.tabKey)
+    // console.log({ searchFormData })
     this.setState({ isExporting: true }, async () => {
       let res = await DataStationAutoApi.getDataStationAutoExportAvg({
         ...searchFormData,

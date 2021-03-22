@@ -233,6 +233,8 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   handleSearchStation = searchStationData => {
+    // console.log("Search station")
+    // console.log(JSON.stringify(searchStationData, null, 2))
     return new Promise(resolve => {
       this.setState({ isSearchingStation: true }, async () => {
         const {
@@ -454,6 +456,7 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   render() {
+
     return (
       <PageContainer
         {...this.props.wrapperProps}
