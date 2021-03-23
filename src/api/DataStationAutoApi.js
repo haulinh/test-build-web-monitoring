@@ -14,6 +14,12 @@ export function getHistoricalDataUrl(prefix = '') {
   // return 'http://localhost:5022/historical-data' + '/' + prefix
   return getConfigApi().dataInsight + '/historical-data/' + prefix
 }
+export function getAvgDataUrl(prefix = '') {
+  // console.log(process.env, '=process.env.isDev')
+
+  // return 'http://localhost:5022/data-avg' + '/' + prefix
+  return getConfigApi().dataInsight + '/data-avg/' + prefix
+}
 
 function getReportUrl(prefix = '') {
   return getConfigApi().report + '/' + prefix
@@ -98,7 +104,7 @@ export function getDataStationAutoAvg_v2(
   { page = 1, itemPerPage = 10 },
   { fromDate, toDate, key, measuringList, type, advanced, dataStatus, isFilter }
 ) {
-  var url = getDataStationAutoUrl(
+  var url = getAvgDataUrl(
     `${key}/avg-advanced?page=${page}&itemPerPage=${itemPerPage}`
   )
   if (fromDate) url += `&from=${fromDate}`
@@ -127,7 +133,7 @@ export function getDataStationAutoExportAvg({
   isFilter
 }) {
   console.log("isFilter" + isFilter)
-  var url = getDataStationAutoUrl(`${key}/export-avg?`)
+  var url = getAvgDataUrl(`${key}/export-avg?`)
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
