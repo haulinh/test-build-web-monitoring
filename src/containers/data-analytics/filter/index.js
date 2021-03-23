@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Col, Form, Row } from 'antd'
+import { Button, Col, Form, Row, Switch } from 'antd'
 import styled from 'styled-components'
 import { get } from 'lodash'
 
@@ -28,6 +28,7 @@ const i18n = {
     t('dataAnalytics.filterForm.parameterLabel.label', { count }),
   stationAuto: t('dataAnalytics.filterForm.stationAuto'),
   parameter: t('dataAnalytics.filterForm.parameter'),
+  isProcessData: t('dataSearchFrom.processData')
 }
 
 const FormSearch = styled.div`
@@ -43,6 +44,10 @@ const FormItem = styled(Form.Item)`
     label {
       margin: 0;
     }
+  }
+  .switch-filter {
+    display:flex;
+    flex-direction:row-reverse
   }
 `
 
@@ -68,6 +73,7 @@ class FilterForm extends Component {
     try {
       setLoading(true)
       const values = await form.validateFields()
+      // console.log(JSON.stringify(values, null, 2), '==searching ....')
       const times = getTimes(values[FIELDS.RANGE_TIME])
       // console.log(times.to.format(), '==times==')
       const params = {
@@ -82,6 +88,7 @@ class FilterForm extends Component {
           .clone()
           .utc()
           .format(),
+        isFilterQcvn: values.isFilter || false
       }
 
       setParamFilter({
@@ -274,6 +281,22 @@ class FilterForm extends Component {
                 })(<SelectMeasureParameter options={measuringList} />)}
               </FormItem>
             </Col>
+
+
+
+
+          </Row>
+          <Row type='flex' justify='end' align="middle">
+            <Col>
+              <Form.Item label={i18n.isProcessData} colon={false} labelCol={{ span: 16 }} wrapperCol={{ span: 8 }} >
+                {
+                  form.getFieldDecorator('isFilter')(
+                    <Switch />
+                  )
+                }
+              </Form.Item>
+            </Col>
+
           </Row>
         </FormSearch>
       </SearchFormContainer>

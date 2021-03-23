@@ -40,10 +40,12 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   handleSubmitSearch(searchFormData) {
+    // console.log(searchFormData, 'submit searchFormData')
     this.loadData(this.state.pagination, searchFormData)
   }
 
   async loadData(pagination, searchFormData) {
+    console.log("LOad data ...")
     this.setState({
       isLoading: true,
       isHaveData: true,
@@ -56,6 +58,7 @@ export default class MinutesDataSearch extends React.Component {
       }
     }
 
+    // console.log("CAll api with data " + JSON.stringify(searchFormData, null, 2))
     let dataStationAuto = await DataStationAutoApi.getDataStationAutos(
       {
         page: paginationQuery.current,
