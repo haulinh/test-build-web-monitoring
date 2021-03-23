@@ -17,7 +17,7 @@ export function getHistoricalDataUrl(prefix = '') {
 export function getAvgDataUrl(prefix = '') {
   // console.log(process.env, '=process.env.isDev')
 
-  // return 'http://localhost:5022/historical-data' + '/' + prefix
+  // return 'http://localhost:5022/data-avg' + '/' + prefix
   return getConfigApi().dataInsight + '/data-avg/' + prefix
 }
 
