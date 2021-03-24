@@ -38,4 +38,14 @@ export const getcolorMeasure = (
   }
 }
 
+export const getColorStatusDevice = (status) => {
+  if (status === 1) {
+    return colorLevels.MAINTAIN
+  } else if (status === 2) {
+    return colorLevels.ERROR
+  }
+
+  // return colorLevels.GOOD
+}
+
 export default { warningLevels, colorLevels, warningLevelsNumber }
