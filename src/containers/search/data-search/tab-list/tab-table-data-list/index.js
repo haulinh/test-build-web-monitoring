@@ -10,6 +10,7 @@ import {
   // warningLevels,
   // colorLevels,
   getcolorMeasure,
+  getColorStatusDevice
 } from 'constants/warningLevels'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { connect } from 'react-redux'
@@ -75,14 +76,23 @@ export default class TableDataList extends React.PureComponent {
           // }
 
           /* #endregion */
+          // console.log(value, '===value===')
           let color = getcolorMeasure(value.value, measuring, SHAPE.BLACK)
+          const colorDevice = getColorStatusDevice(value.statusDevice)
           // console.log('---------')
           // console.log(measuring, color, value)
           // Format number toLocalString(national)
           return (
-            <div style={{ color: color }}>
-              {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
-            </div>
+
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-around'
+            }} >
+              <div style={{ backgroundColor: colorDevice, width: '20px', height: '20px', borderRadius: '50%' }}></div>
+              <div style={{ color: color }}>
+                {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
+              </div>
+            </div >
           )
         },
       }))
