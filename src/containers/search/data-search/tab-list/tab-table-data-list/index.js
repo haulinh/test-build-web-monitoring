@@ -86,7 +86,7 @@ export default class TableDataList extends React.PureComponent {
 
             <div style={{
               display: 'flex',
-              justifyContent: 'space-around'
+              justifyContent: 'space-between'
             }} >
               <div style={{ backgroundColor: colorDevice, width: '20px', height: '20px', borderRadius: '50%' }}></div>
               <div style={{ color: color }}>
