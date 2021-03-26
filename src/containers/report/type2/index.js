@@ -80,7 +80,7 @@ export default class ReportType2 extends React.Component {
   }
 
   handleSubmit = async values => {
-    // console.log(values, "handleSubmit");
+    console.log(values, "handleSubmit");
     let measuringListUnitStr = ''
     if (values.measuringList) {
       this.setState({
@@ -100,7 +100,8 @@ export default class ReportType2 extends React.Component {
         values.stationAuto,
         values.time.format('MM-YYYY'),
         measuringListStr,
-        measuringListUnitStr
+        measuringListUnitStr,
+        values.isFilter
       )
 
       if (res.success) {
