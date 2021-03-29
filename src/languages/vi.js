@@ -1636,6 +1636,14 @@ export default {
         placeholder: 'Nhập vĩ độ',
         error: 'Vui lòng nhập vĩ độ',
       },
+      longVn2000: {
+        label: 'Kinh độ (VN2000)',
+        placeholder: 'Nhập kinh độ (VN2000)'
+      },
+      latVn2000: {
+        label: 'Vĩ độ (VN2000)',
+        placeholder: 'Nhập vĩ độ (VN2000)'
+      },
       connectionStatus: {
         label: 'Tín hiệu mất kết nối',
         time: {
