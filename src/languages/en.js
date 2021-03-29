@@ -1639,6 +1639,14 @@ export default {
         placeholder: 'Input Latitude',
         error: 'Please Input Latitude',
       },
+      longVn2000: {
+        label: 'Longitude (VN2000)',
+        placeholder: 'Input longitude (VN2000)',
+      },
+      latVn2000: {
+        label: 'Latitude (VN2000)',
+        placeholder: 'Input Latitude (VN2000)',
+      },
       connectionStatus: {
         label: 'Connection status',
         time: {

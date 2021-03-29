@@ -107,7 +107,14 @@ export default class StationAutoForm extends React.PureComponent {
       initialValues = {
         ...initialValues,
         lat: initialValues.mapLocation.lat,
-        long: initialValues.mapLocation.long,
+        long: initialValues.mapLocation.long
+      }
+    }
+    if (initialValues.mapLocationVN2000) {
+      initialValues = {
+        ...initialValues,
+        latVn2000: _.get(initialValues,'mapLocationVN2000.lat',null),
+        longVn2000:_.get(initialValues,'mapLocationVN2000.long',null),
       }
     }
 
@@ -273,6 +280,7 @@ export default class StationAutoForm extends React.PureComponent {
         key: values.key,
         name: (values.name || '').trim(),
         mapLocation: { long: values.long, lat: values.lat },
+        mapLocationVN2000: { long: values.longVn2000, lat: values.latVn2000 },
         address: values.address,
         emails: this.state.emails,
         phones: this.state.phones,
@@ -318,7 +326,7 @@ export default class StationAutoForm extends React.PureComponent {
         maxTend = _.isNumber(maxTend) ? maxTend : null
         minRange = _.isNumber(minRange) ? minRange : null
         maxRange = _.isNumber(maxRange) ? maxRange : null
-        
+
         if (!_.isNil(maxLimit) && !_.isNil(maxTend) && maxTend >= maxLimit) {
           message.error(t('stationAutoManager.form.errorMaxTend'))
           return true
@@ -349,6 +357,7 @@ export default class StationAutoForm extends React.PureComponent {
       })
 
       // Callback submit form Container Component
+      console.log('--onSubmit---', data)
       if (!isDisableSave && this.props.onSubmit) {
         this.props.onSubmit(data)
       }
@@ -488,14 +497,6 @@ export default class StationAutoForm extends React.PureComponent {
             header={t('stationAutoManager.form.panel1')}
             key="1"
           >
-            {/* <Tabs
-              defaultActiveKey="1"
-              activeKey={this.state.tabKey}
-              onChange={this.handleChangeTab}
-            >
-              <TabPane tab="Thông tin chung" key="1"></TabPane>
-              <TabPane tab="Chỉ tiêu" key="2"></TabPane>
-            </Tabs> */}
             <Row gutter={8}>
               <Col span={12}>
                 <FormItem
@@ -642,6 +643,38 @@ export default class StationAutoForm extends React.PureComponent {
                     <InputNumber
                       style={{ flex: 1, width: '100%' }}
                       placeholder={t('stationAutoManager.form.lat.placeholder')}
+                    />
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={8}>
+              <Col span={12}>
+                <FormItem
+                  {...formItemLayout}
+                  label={t('stationAutoManager.form.longVn2000.label')}
+                >
+                  {getFieldDecorator('longVn2000')(
+                    <InputNumber
+                      style={{ flex: 1, width: '100%' }}
+                      placeholder={t(
+                        'stationAutoManager.form.longVn2000.placeholder'
+                      )}
+                    />
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem
+                  {...formItemLayout}
+                  label={t('stationAutoManager.form.latVn2000.label')}
+                >
+                  {getFieldDecorator('latVn2000')(
+                    <InputNumber
+                      style={{ flex: 1, width: '100%' }}
+                      placeholder={t(
+                        'stationAutoManager.form.latVn2000.placeholder'
+                      )}
                     />
                   )}
                 </FormItem>
