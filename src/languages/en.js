@@ -1200,6 +1200,17 @@ export default {
         required: 'Please enter longitude',
         format: 'Longitude (-180 <= x <= 180)',
       },
+      latVn2000: {
+        label: 'Latitude (VN2000)',
+        placeholder: 'Latitude (VN2000)',
+        required: 'Please enter longitude (VN2000)',
+        format: 'Vĩ độ (-90<=x<=90)',
+      },
+      longVn2000: {
+        label: 'Longitude (VN2000)',
+        placeholder: 'Longitude (VN2000)',
+        format: 'Kinh độ (-180<=x<=180)',
+      },
       position: {
         label: 'Station location',
         placeholder: 'Station location',
