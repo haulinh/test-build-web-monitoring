@@ -539,13 +539,27 @@ export default class SearchAvgForm extends React.Component {
                 </Tooltip>
               </HeaderWrapper>
             </Col>
-            <Col span={6}>
+            {/* <Col span={6}>
               <Field
                 label={translate('dataSearchFrom.processData')}
                 name="isFilter"
                 size="large"
                 component={FSwitchFilter}
               />
+            </Col> */}
+          </Row>
+          <Row type='flex' justify='end'>
+            <Col>
+              <div style={{ display: 'flex', width: '150px', justifyContent: 'space-between' }}>
+                <label style={{ fontSize: '14px', fontWeight: '600' }}>{translate('dataSearchFrom.processData')}</label>
+                <Field
+                  // label={translate('dataSearchFrom.processData')}
+                  name="isFilter"
+                  size="large"
+                  component={FSwitchFilter}
+                />
+              </div>
+
             </Col>
           </Row>
 
