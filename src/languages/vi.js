@@ -1196,6 +1196,17 @@ export default {
         required: 'Vui lòng nhập kinh độ',
         format: 'Kinh độ (-180<=x<=180)',
       },
+      latVn2000: {
+        label: 'Vĩ độ (VN2000)',
+        placeholder: 'Vĩ độ (VN2000)',
+        required: 'Vui lòng nhập kinh độ (VN2000)',
+        format: 'Vĩ độ (-90<=x<=90)',
+      },
+      longVn2000: {
+        label: 'Kinh độ (VN2000)',
+        placeholder: 'Kinh độ (VN2000)',
+        format: 'Kinh độ (-180<=x<=180)',
+      },
       provinceId: {
         label: 'Đơn vị quản lý',
         placeholder: 'Đơn vị quản lý',
