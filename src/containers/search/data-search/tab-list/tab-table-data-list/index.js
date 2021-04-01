@@ -86,11 +86,12 @@ export default class TableDataList extends React.PureComponent {
 
             <div style={{
               display: 'flex',
-              justifyContent: 'space-between',
+              justifyContent: 'flex-end',
               alignItems: 'center'
             }} >
+
               <div style={{ backgroundColor: colorDevice, width: '15px', height: '15px', borderRadius: '50%', marginRight: '10px' }}></div>
-              <div style={{ color: color }}>
+              <div style={{ color: color, minWidth: '50px' }} >
                 {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
               </div>
             </div >
