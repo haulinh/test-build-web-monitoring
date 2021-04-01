@@ -8,9 +8,9 @@ import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
 
-
 @connect(state => ({
   locale: state.language.locale,
+  fromDate: _.get(state, 'form.dataSearchFilterForm.values.fromDate', {}),
 }))
 @autobind
 export default class OptionsTimeRange extends React.Component {
@@ -41,7 +41,8 @@ export default class OptionsTimeRange extends React.Component {
       !_.isEqual(this.state.rangesView, nextState.rangesView) ||
       !_.isEqual(this.props.value, nextProps.value) ||
       !_.isEqual(this.props.rangesView, nextProps.rangesView) ||
-      !_.isEqual(this.props.triggerRerender, nextProps.triggerRerender)
+      !_.isEqual(this.props.triggerRerender, nextProps.triggerRerender) ||
+      !_.isEqual(this.props.fromDate, nextProps.fromDate)
     )
   }
 
