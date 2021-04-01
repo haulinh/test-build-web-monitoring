@@ -12,6 +12,7 @@ import { AnalyzeDataProvider } from './context'
 import { CHART_TYPE } from './report-data/chart-type'
 import { OPERATOR } from './filter/select-operator'
 
+
 const i18n = {
   title: t('menuApp.monitoring.dataAnalytics'),
   measuredValue: t('dataAnalytics.measuredValue'),
