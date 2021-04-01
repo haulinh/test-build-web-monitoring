@@ -22,7 +22,7 @@ const getTimes = rangeTime => {
   // cac options khac
   return {
     from: moment()
-      .subtract(1 + rangeTime, 'd')
+      .subtract(rangeTime, 'd')
       .startOf('d'),
     to: moment()
       .subtract(1, 'd')

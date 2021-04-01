@@ -69,7 +69,7 @@ class OptionsTimeRange extends React.Component {
         text: 'dataSearchFrom.options.byDayDetail',
         value: 7,
         detailDay: `${moment()
-          .subtract(8, 'days')
+          .subtract(7, 'days')
           .startOf('day')
           .format('DD/MM/YYYY HH:mm')} - ${moment()
             .subtract(1, 'days')
@@ -81,7 +81,7 @@ class OptionsTimeRange extends React.Component {
         text: 'dataSearchFrom.options.byDayDetail',
         value: 15,
         detailDay: `${moment()
-          .subtract(16, 'days')
+          .subtract(15, 'days')
           .startOf('day')
           .format('DD/MM/YYYY HH:mm')} - ${moment()
             .subtract(1, 'days')
@@ -93,7 +93,7 @@ class OptionsTimeRange extends React.Component {
         text: 'dataSearchFrom.options.byDayDetail',
         value: 30,
         detailDay: `${moment()
-          .subtract(31, 'days')
+          .subtract(30, 'days')
           .startOf('day')
           .format('DD/MM/YYYY HH:mm')} - ${moment()
             .subtract(1, 'days')
