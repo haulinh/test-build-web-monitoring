@@ -24,9 +24,9 @@ const options = [
       .subtract(8, 'days')
       .startOf('day')
       .format('DD/MM/YYYY HH:mm')} - ${moment()
-      .subtract(1, 'days')
-      .endOf('day')
-      .format('DD/MM/YYYY HH:mm')}`,
+        .subtract(1, 'days')
+        .endOf('day')
+        .format('DD/MM/YYYY HH:mm')}`,
   },
   {
     key: 15,
@@ -36,9 +36,9 @@ const options = [
       .subtract(16, 'days')
       .startOf('day')
       .format('DD/MM/YYYY HH:mm')} - ${moment()
-      .subtract(1, 'days')
-      .endOf('day')
-      .format('DD/MM/YYYY HH:mm')}`,
+        .subtract(1, 'days')
+        .endOf('day')
+        .format('DD/MM/YYYY HH:mm')}`,
   },
   {
     key: 30,
@@ -48,9 +48,9 @@ const options = [
       .subtract(31, 'days')
       .startOf('day')
       .format('DD/MM/YYYY HH:mm')} - ${moment()
-      .subtract(1, 'days')
-      .endOf('day')
-      .format('DD/MM/YYYY HH:mm')}`,
+        .subtract(1, 'days')
+        .endOf('day')
+        .format('DD/MM/YYYY HH:mm')}`,
   },
 ]
 
@@ -98,6 +98,7 @@ export default class OptionsTimeRange extends React.Component {
   }
 
   handleSelect = value => {
+    // console.log("select range " + value)
     if (!_.isNumber(value)) {
       this.setState({
         defaultValue: undefined,
@@ -130,6 +131,7 @@ export default class OptionsTimeRange extends React.Component {
   }
 
   render() {
+    // console.log("Time range com " + this.state.defaultValue || this.props.value)
     const locale = this.locale.default
     return (
       <div>
