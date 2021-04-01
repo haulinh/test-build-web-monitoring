@@ -146,6 +146,7 @@ export default class SearchFormHistoryData extends React.Component {
     }
 
     this.state = {
+      triggerRerender: true,
       defaultQcvnOptions: qcvnOptions,
       isFilter: false,
       qcvnType: [],
@@ -340,6 +341,10 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleSubmit(values) {
+    this.handleChangeRanges(this.state.timeRange)
+    this.setState({
+      triggerRerender: !this.state.triggerRerender
+    })
     // callapi
     // console.log(values, "handleSubmit")
     const qcvnOptions = values.qcvnOptions || []
@@ -495,6 +500,7 @@ export default class SearchFormHistoryData extends React.Component {
                 component={FOptionsTimeRange}
                 // value={this.state.rangesDate}
                 rangesView={this.state.rangesView}
+                triggerRerender={this.state.triggerRerender}
               />
             </Col>
             {/* <Col span={6}>
