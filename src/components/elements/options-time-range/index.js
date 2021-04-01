@@ -13,52 +13,7 @@ const LOCALE = {
   en: { lib: 'en_US', moment: 'en-sg' },
 }
 
-const options = [
-  {
-    key: 1,
-    text: 'dataSearchFrom.options.byHoursDetail',
-    value: 24,
-    detailHours: `${moment()
-      .subtract(1, 'days')
-      .format('DD/MM/YYYY HH:mm')} - ${moment().format('DD/MM/YYYY HH:mm')}`,
-  },
-  {
-    key: 7,
-    text: 'dataSearchFrom.options.byDayDetail',
-    value: 7,
-    detailDay: `${moment()
-      .subtract(8, 'days')
-      .startOf('day')
-      .format('DD/MM/YYYY HH:mm')} - ${moment()
-      .subtract(1, 'days')
-      .endOf('day')
-      .format('DD/MM/YYYY HH:mm')}`,
-  },
-  {
-    key: 15,
-    text: 'dataSearchFrom.options.byDayDetail',
-    value: 15,
-    detailDay: `${moment()
-      .subtract(16, 'days')
-      .startOf('day')
-      .format('DD/MM/YYYY HH:mm')} - ${moment()
-      .subtract(1, 'days')
-      .endOf('day')
-      .format('DD/MM/YYYY HH:mm')}`,
-  },
-  {
-    key: 30,
-    text: 'dataSearchFrom.options.byDayDetail',
-    value: 30,
-    detailDay: `${moment()
-      .subtract(31, 'days')
-      .startOf('day')
-      .format('DD/MM/YYYY HH:mm')} - ${moment()
-      .subtract(1, 'days')
-      .endOf('day')
-      .format('DD/MM/YYYY HH:mm')}`,
-  },
-]
+
 
 const Container = styled.div``
 @connect(state => ({
@@ -99,6 +54,53 @@ class OptionsTimeRange extends React.Component {
       : null
 
   render() {
+    console.log("Rerendering ...")
+    const options = [
+      {
+        key: 1,
+        text: 'dataSearchFrom.options.byHoursDetail',
+        value: 24,
+        detailHours: `${moment()
+          .subtract(1, 'days')
+          .format('DD/MM/YYYY HH:mm')} - ${moment().format('DD/MM/YYYY HH:mm')}`,
+      },
+      {
+        key: 7,
+        text: 'dataSearchFrom.options.byDayDetail',
+        value: 7,
+        detailDay: `${moment()
+          .subtract(8, 'days')
+          .startOf('day')
+          .format('DD/MM/YYYY HH:mm')} - ${moment()
+            .subtract(1, 'days')
+            .endOf('day')
+            .format('DD/MM/YYYY HH:mm')}`,
+      },
+      {
+        key: 15,
+        text: 'dataSearchFrom.options.byDayDetail',
+        value: 15,
+        detailDay: `${moment()
+          .subtract(16, 'days')
+          .startOf('day')
+          .format('DD/MM/YYYY HH:mm')} - ${moment()
+            .subtract(1, 'days')
+            .endOf('day')
+            .format('DD/MM/YYYY HH:mm')}`,
+      },
+      {
+        key: 30,
+        text: 'dataSearchFrom.options.byDayDetail',
+        value: 30,
+        detailDay: `${moment()
+          .subtract(31, 'days')
+          .startOf('day')
+          .format('DD/MM/YYYY HH:mm')} - ${moment()
+            .subtract(1, 'days')
+            .endOf('day')
+            .format('DD/MM/YYYY HH:mm')}`,
+      },
+    ]
     const { open } = this.state
     const { value } = this.props
     const locale = get(this.locale, 'default')

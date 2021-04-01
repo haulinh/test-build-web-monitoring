@@ -124,9 +124,11 @@ export default class SearchFormHistoryData extends React.Component {
   constructor(props) {
     super(props)
     // console.log(this.props.formData,"this.props.query")
+    // innit default value for timerange
+    const { from, to } = getTimes(1)
 
-    let fromDate = moment(props.initialValues.fromDate)
-    let toDate = moment(props.initialValues.toDate)
+    // let fromDate = moment(props.initialValues.fromDate)
+    // let toDate = moment(props.initialValues.toDate)
     let timeRange = props.initialValues.rangesDate
     let rangesView = null
     // debugger
@@ -137,19 +139,20 @@ export default class SearchFormHistoryData extends React.Component {
     //   "props.initialValues"
     // )
     if (props.initialValues.searchRange) {
-      rangesView = `${fromDate.format(DD_MM_YYYY_HH_MM)} - ${toDate.format(
+      rangesView = `${from.format(DD_MM_YYYY_HH_MM)} - ${to.format(
         DD_MM_YYYY_HH_MM
       )}`
       timeRange = null
     }
 
     this.state = {
+      triggerRerender: true,
       defaultQcvnOptions: qcvnOptions,
       isFilter: false,
       qcvnType: [],
       queryType: QUERY_TYPE.RAW,
-      fromDate,
-      toDate,
+      fromDate: from,
+      toDate: to,
       timeRange,
       rangesView,
       provinceKey: props.initialValues.provinceKey,
@@ -268,6 +271,7 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleChangeStationAuto(stationAuto) {
+    // console.log("handleChangeStationAuto")
     const measuringData = stationAuto.measuringList.sort(function (a, b) {
       return a.numericalOrder - b.numericalOrder
     })
@@ -282,14 +286,18 @@ export default class SearchFormHistoryData extends React.Component {
       receivedAt: moment(),
     }
 
-    if (this.state.timeRange) {
-      params.fromDate = params.receivedAt
-        .clone()
-        .subtract(this.state.timeRange, 'days')
-      params.toDate = params.receivedAt.clone()
-    }
+    // if (this.state.timeRange) {
+    //   params.fromDate = params.receivedAt
+    //     .clone()
+    //     .subtract(this.state.timeRange, 'days')
+    //   params.toDate = params.receivedAt.clone()
+    // }
+    // console.log("Start set state " + JSON.stringify(params, null, 2))
 
-    this.setState(params)
+    this.setState({
+      ...this.state,
+      ...params
+    })
     this.props.change(
       'measuringList',
       measuringData.map(m => m.key)
@@ -297,8 +305,12 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleChangeRanges(ranges) {
-
-
+    // console.log(ranges, '==ranges==')
+    // console.log({
+    //   timeRange: ranges,
+    //   fromDate: from,
+    //   toDate: to,
+    // })
     // trong khoang
     if (Array.isArray(ranges)) {
       this.setState({
@@ -311,6 +323,7 @@ export default class SearchFormHistoryData extends React.Component {
 
     // cac truong hop khac
     const { from, to } = getTimes(ranges)
+    // console.log({ from: from.format('DD/MM/YYYY HH:mm'), to: to.format('DD/MM/YYYY HH:mm') })
     // console.log({ from: from.format('DD/MM/YYYY HH:mm'), to })
     this.setState({
       timeRange: ranges,
@@ -328,6 +341,10 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleSubmit(values) {
+    this.handleChangeRanges(this.state.timeRange)
+    this.setState({
+      triggerRerender: !this.state.triggerRerender
+    })
     // callapi
     // console.log(values, "handleSubmit")
     const qcvnOptions = values.qcvnOptions || []
@@ -359,7 +376,7 @@ export default class SearchFormHistoryData extends React.Component {
     //     )
     //     : [],
     //   queryType: this.state.queryType,
-    //   qcvnList: values.qcvnOptions.join(','),
+    //   qcvnList: qcvnOptions.join(','),
     //   isFilter: values.isFilter || false
     // })
     this.props.onSubmit({
@@ -483,6 +500,7 @@ export default class SearchFormHistoryData extends React.Component {
                 component={FOptionsTimeRange}
                 // value={this.state.rangesDate}
                 rangesView={this.state.rangesView}
+                triggerRerender={this.state.triggerRerender}
               />
             </Col>
             {/* <Col span={6}>

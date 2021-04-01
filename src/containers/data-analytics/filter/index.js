@@ -15,6 +15,7 @@ import SelectMeasureParameter from './select-measure-parameter'
 import SelectOperator, { OPERATOR } from './select-operator'
 import { requiredFieldRule } from 'utils/rules'
 import { getTimes } from 'utils/datetime'
+// import OptionsTimeRange from 'containers/search/common/options-time-range'
 
 const i18n = {
   btnSearchText: t('addon.search'),
@@ -66,9 +67,13 @@ class FilterForm extends Component {
 
   state = {
     measuringList: [],
+    triggerRerender: true
   }
 
   handleSearch = async () => {
+    this.setState({
+      triggerRerender: !this.state.triggerRerender
+    })
     const { form, onData, setLoading, setParamFilter } = this.props
     try {
       setLoading(true)
@@ -255,7 +260,7 @@ class FilterForm extends Component {
               <FormItem label={i18n.timeLabel}>
                 {form.getFieldDecorator(FIELDS.RANGE_TIME, {
                   initialValue: 1,
-                })(<OptionsTimeRange />)}
+                })(<OptionsTimeRange triggerRerender={this.state.triggerRerender} />)}
               </FormItem>
             </Col>
           </Row>

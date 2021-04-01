@@ -17,6 +17,9 @@ import Clearfix from 'components/elements/clearfix'
 import { translate } from 'hoc/create-lang'
 import { replaceVietnameseStr } from 'utils/string'
 import Highlighter from 'react-highlight-words'
+import { reduxForm } from 'redux-form'
+import { getTimes } from 'utils/datetime'
+import { connect } from 'react-redux'
 
 const { Panel } = Collapse
 
@@ -51,6 +54,16 @@ const Heading = styled.h4`
   margin-bottom: 0;
 `
 
+@reduxForm({
+  form: 'dataSearchFilterForm',
+  // validate,
+  // enableReinitialize: true,
+  // keepDirtyOnReinitialize: true,
+  // updateUnregisteredFields: true,
+})
+@connect(state => ({
+  values: _.get(state, 'form.dataSearchFilterForm.values', {}),
+}))
 export default class StationForm extends React.PureComponent {
   static propTypes = {
     stations: PropTypes.array,
@@ -253,6 +266,8 @@ export default class StationForm extends React.PureComponent {
   })
 
   handleSearch = (selectedKeys, confirm, dataIndex) => {
+    // change('fromDate', ranges[0].toISOString())
+    //   change('toDate', ranges[1].toISOString())
     confirm()
     this.setState({
       searchText: selectedKeys[0],
@@ -300,7 +315,7 @@ export default class StationForm extends React.PureComponent {
     const indeterminate =
       !!this.state.dataSource.filter(data => data.view).length &&
       this.state.dataSource.filter(data => data.view).length <
-        this.state.dataSource.length
+      this.state.dataSource.length
     const checkedAll =
       this.state.dataSource.filter(data => data.view).length ===
       this.state.dataSource.length
@@ -399,6 +414,9 @@ export default class StationForm extends React.PureComponent {
   }
 
   handleSearchAvgData = event => {
+    const { from, to } = getTimes(this.props.values.rangesDate)
+    this.props.change('fromDate', from.toISOString())
+    this.props.change('toDate', to.toISOString())
     event.stopPropagation()
     this.setState({ activeKey: '' })
     this.props.onSearchAvgData()
