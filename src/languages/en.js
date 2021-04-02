@@ -564,6 +564,7 @@ export default {
     importFailed: 'Import Data Failed',
   },
   dataSearchFrom: {
+    tooltip: 'Filter invalid data with QCVN standard (apply data filter)',
     queryType: 'Type of data',
     filterDataBy: 'Filter data by',
     processData: 'Enable filter',

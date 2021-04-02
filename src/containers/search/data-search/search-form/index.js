@@ -28,6 +28,8 @@ import { getConfigQAQC } from 'api/CategoryApi'
 
 // import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+// import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
+import { ToolTip } from './../../common/tooltip'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
@@ -557,12 +559,21 @@ export default class SearchFormHistoryData extends React.Component {
             </Col>
 
             <Col span={6}>
-              <Field
-                label={translate('dataSearchFrom.processData')}
-                name="isFilter"
-                size="large"
-                component={FSwitchFilter}
-              />
+              <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                <ToolTip />
+                <div style={{ fontSize: '14', fontWeight: '600' }}>{translate('dataSearchFrom.processData')}</div>
+                <div style={{ marginLeft: '10px' }}>
+                  <Field
+                    // label={translate('dataSearchFrom.processData')}
+                    name="isFilter"
+                    size="large"
+
+                    component={FSwitchFilter}
+                  />
+                </div>
+
+              </div>
+
             </Col>
           </Row>
           {/* tạm ẩn vì nâng cao chưa đạt DOD */}

@@ -31,6 +31,7 @@ import QAQCSetup from '../drawer/QAQCSetup'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 import { getTimes } from 'utils/datetime'
+import { ToolTip } from './../../common/tooltip'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectQCVN = createValidateComponent(SelectQCVN)
@@ -550,10 +551,10 @@ export default class SearchAvgForm extends React.Component {
           </Row>
           <Row type='flex' justify='end'>
             <Col>
-              <div style={{ display: 'flex', width: '150px', justifyContent: 'space-between' }}>
-                <label style={{ fontSize: '14px', fontWeight: '600' }}>{translate('dataSearchFrom.processData')}</label>
+              <div style={{ display: 'flex', width: '170px', justifyContent: 'space-between', alignItems: 'center' }}>
+                <ToolTip />
+                <div style={{ fontSize: '14px', fontWeight: '600' }}>{translate('dataSearchFrom.processData')}</div>
                 <Field
-                  // label={translate('dataSearchFrom.processData')}
                   name="isFilter"
                   size="large"
                   component={FSwitchFilter}

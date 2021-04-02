@@ -559,6 +559,7 @@ export default {
     importFailed: 'Nhập dữ liệu không thành công!',
   },
   dataSearchFrom: {
+    tooltip: 'Loại bỏ một số dữ liệu không hợp lệ trước khi tính toán (áp dụng xử lý dữ liệu)',
     queryType: 'Loại dữ liệu',
     filterDataBy: 'Lọc dữ liệu theo',
     processData: 'Xử lý dữ liệu',

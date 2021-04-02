@@ -15,6 +15,7 @@ import SelectMeasureParameter from './select-measure-parameter'
 import SelectOperator, { OPERATOR } from './select-operator'
 import { requiredFieldRule } from 'utils/rules'
 import { getTimes } from 'utils/datetime'
+import { ToolTip } from 'containers/search/common/tooltip'
 // import OptionsTimeRange from 'containers/search/common/options-time-range'
 
 const i18n = {
@@ -34,6 +35,9 @@ const i18n = {
 
 const FormSearch = styled.div`
   padding: 10px;
+  label {
+    margin-bottom:0
+  }
 `
 
 const FormItem = styled(Form.Item)`
@@ -291,17 +295,15 @@ class FilterForm extends Component {
 
 
           </Row>
-          <Row type='flex' justify='end' align="middle">
-            <Col>
-              <Form.Item label={i18n.isProcessData} colon={false} labelCol={{ span: 16 }} wrapperCol={{ span: 8 }} >
-                {
-                  form.getFieldDecorator('isFilter')(
-                    <Switch />
-                  )
-                }
-              </Form.Item>
-            </Col>
-
+          <Row type='flex' justify='end' align='middle'>
+            <ToolTip />
+            <Form.Item style={{ marginBottom: '0' }} label={i18n.isProcessData} colon={false} labelCol={{ span: 16 }} wrapperCol={{ span: 8 }} >
+              {
+                form.getFieldDecorator('isFilter')(
+                  <Switch />
+                )
+              }
+            </Form.Item>
           </Row>
         </FormSearch>
       </SearchFormContainer>
