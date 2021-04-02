@@ -59,7 +59,10 @@ export default class OptionsTimeRange extends React.Component {
 
   handleSelect = value => {
     // console.log("select range " + value)
-    this.props.setNow(moment())
+    if (this.props.setNow) {
+      this.props.setNow(moment())
+    }
+
     if (!_.isNumber(value)) {
       this.setState({
         defaultValue: undefined,
