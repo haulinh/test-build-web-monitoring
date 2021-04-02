@@ -2,7 +2,7 @@ import React from 'react'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm, Field, change } from 'redux-form'
 import PropTypes from 'prop-types'
 import { Row, Col, Button, Switch } from 'antd'
 import createLang from 'hoc/create-lang'
@@ -106,6 +106,7 @@ function validate(values) {
       ? {
         ...ownProps.initialValues,
         rangesDate: 1,
+        qcvnOptions: []
       }
       : {}),
   },
@@ -148,6 +149,7 @@ export default class SearchFormHistoryData extends React.Component {
     }
 
     this.state = {
+      // defaultQcvnOptions: [],
       triggerRerender: true,
       defaultQcvnOptions: qcvnOptions,
       isFilter: false,
@@ -172,6 +174,12 @@ export default class SearchFormHistoryData extends React.Component {
         this.props.initialValues.toDate,
       isSearchInit: props.initialValues.stationAuto ? false : true,
     }
+  }
+
+  getDefaultValueQcvn() {
+    return this.state.defaultQcvnOptions.map(item => {
+      return item.value
+    })
   }
   async loadQcvnConfig() {
     const res = await getConfigQAQC()
@@ -212,6 +220,8 @@ export default class SearchFormHistoryData extends React.Component {
     this.setState({
       defaultQcvnOptions: [...filteredOptions]
     })
+    this.props.change('qcvnOptions', this.getDefaultValueQcvn())
+    // change()
     // return {
     //   beyondMeasuringRange,
     //   deviceCalibration,
@@ -553,28 +563,30 @@ export default class SearchFormHistoryData extends React.Component {
                   showSearch
                   mode="multiple"
                   options={this.state.defaultQcvnOptions}
+                  // defaultValue={this.getDefaultValueQcvn()}
                   component={FSelectAnt}
                 />
               }
             </Col>
+            {this.state.queryType !== 'RAW' &&
+              <Col span={6}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                  <ToolTip />
+                  <div style={{ fontSize: '14', fontWeight: '600' }}>{translate('dataSearchFrom.processData')}</div>
+                  <div style={{ marginLeft: '10px' }}>
+                    <Field
+                      // label={translate('dataSearchFrom.processData')}
+                      name="isFilter"
+                      size="large"
 
-            <Col span={6}>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                <ToolTip />
-                <div style={{ fontSize: '14', fontWeight: '600' }}>{translate('dataSearchFrom.processData')}</div>
-                <div style={{ marginLeft: '10px' }}>
-                  <Field
-                    // label={translate('dataSearchFrom.processData')}
-                    name="isFilter"
-                    size="large"
+                      component={FSwitchFilter}
+                    />
+                  </div>
 
-                    component={FSwitchFilter}
-                  />
                 </div>
 
-              </div>
+              </Col>}
 
-            </Col>
           </Row>
           {/* tạm ẩn vì nâng cao chưa đạt DOD */}
           {/* {this.state.measuringList.length > 0 ? (
