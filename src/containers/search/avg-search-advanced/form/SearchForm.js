@@ -269,16 +269,6 @@ export default class SearchAvgForm extends React.Component {
 
 
     // trong khoang
-    if (Array.isArray(ranges)) {
-      change('fromDate', ranges[0].toISOString())
-      change('toDate', ranges[1].toISOString())
-      this.setState({
-        timeRange: null,
-        fromDate: ranges[0],
-        toDate: ranges[1],
-      })
-      return
-    }
 
     // cac truong hop khac
     const { from, to } = getTimes(ranges)
@@ -475,7 +465,9 @@ export default class SearchAvgForm extends React.Component {
                 size="large"
                 onChangeObject={this.handleChangeRanges}
                 component={FOptionsTimeRange}
+                now={this.props.now}
                 rangesView={this.state.rangesView}
+                setNow={this.props.setNow}
               />
             </Col>
             <Col span={4}>

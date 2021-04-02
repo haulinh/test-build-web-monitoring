@@ -26,6 +26,8 @@ import FilterListMenu from './menu'
 import FormFilter from './form/ModalForm'
 import slug from 'constants/slug'
 import update from 'immutability-helper'
+import moment from 'moment'
+import { getTimes } from 'utils/datetime'
 
 const Flex = styled.div`
   display: flex;
@@ -54,6 +56,7 @@ export default class AvgSearchAdvanced extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      now: moment(),
       visible: false,
       confirmLoading: false,
       initialData: false,
@@ -76,6 +79,14 @@ export default class AvgSearchAdvanced extends React.Component {
         : [],
     }
   }
+
+  setNow = newNow => {
+    this.setState({
+      now: newNow
+    })
+  }
+
+
 
   componentDidMount() {
     this.getDataOrganization()
@@ -224,12 +235,20 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState({ stationsData })
   }
 
-  handleSearchAvgData = () => {
+  handleSearchAvgData = (newNow) => {
+    // console.log("Big component => handleSearchAvgData" + newNow.format('DD/MM/YYYY HH:mm:ss'))
     if (!this.state.stationKeys.length) {
       // message.warn(translate('avgSearchFrom.table.emptyText'))
       return
     }
-    this.setState({ isSearchingData: true })
+
+    this.setState(
+      {
+        now: newNow
+      },
+
+      () => this.setState({ isSearchingData: true })
+    )
   }
 
   handleSearchStation = searchStationData => {
@@ -485,6 +504,8 @@ export default class AvgSearchAdvanced extends React.Component {
               // advanced operator
               stationKeys={this.state.stationKeys}
               stations={this.props.stations}
+              now={this.state.now}
+              setNow={this.setNow}
             />
             <Clearfix height={16} />
             <Spin

@@ -1,7 +1,8 @@
 import moment from 'moment'
 
 const getTimes = rangeTime => {
-  // console.log(rangeTime, '==rangeTime==')
+  // console.log("Start getTimes")
+  // console.log(rangeTime, 'getTimes -> ==rangeTime==')
 
   // trong khoang
   if (Array.isArray(rangeTime)) {

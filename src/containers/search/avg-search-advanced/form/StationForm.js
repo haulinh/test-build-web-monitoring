@@ -20,6 +20,7 @@ import Highlighter from 'react-highlight-words'
 import { reduxForm } from 'redux-form'
 import { getTimes } from 'utils/datetime'
 import { connect } from 'react-redux'
+import moment from 'moment'
 
 const { Panel } = Collapse
 
@@ -414,12 +415,9 @@ export default class StationForm extends React.PureComponent {
   }
 
   handleSearchAvgData = event => {
-    const { from, to } = getTimes(this.props.values.rangesDate)
-    this.props.change('fromDate', from.toISOString())
-    this.props.change('toDate', to.toISOString())
     event.stopPropagation()
     this.setState({ activeKey: '' })
-    this.props.onSearchAvgData()
+    this.props.onSearchAvgData(moment())
   }
 
   rightChildren() {
