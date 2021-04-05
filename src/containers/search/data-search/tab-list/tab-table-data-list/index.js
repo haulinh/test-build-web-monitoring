@@ -106,6 +106,7 @@ export default class TableDataList extends React.PureComponent {
     return (
       <div>
         <Table
+          bordered
           size="small"
           rowKey="_id"
           columns={this.getColumns()}
