@@ -41,7 +41,7 @@ export default class OptionsTimeRange extends React.Component {
       !_.isEqual(this.state.rangesView, nextState.rangesView) ||
       !_.isEqual(this.props.value, nextProps.value) ||
       !_.isEqual(this.props.rangesView, nextProps.rangesView) ||
-      !_.isEqual(this.props.triggerRerender, nextProps.triggerRerender) ||
+      // !_.isEqual(this.props.triggerRerender, nextProps.triggerRerender) ||
       !_.isEqual(this.props.fromDate, nextProps.fromDate) ||
       !_.isEqual(moment(this.props.now), nextProps.now)
     )

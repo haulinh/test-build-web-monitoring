@@ -150,6 +150,7 @@ export default class SearchFormHistoryData extends React.Component {
 
     this.state = {
       // defaultQcvnOptions: [],
+      now: moment(),
       triggerRerender: true,
       defaultQcvnOptions: qcvnOptions,
       isFilter: false,
@@ -317,6 +318,7 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleChangeRanges(ranges) {
+    if (ranges === null) return
     // console.log(ranges, '==ranges==')
     // console.log({
     //   timeRange: ranges,
@@ -335,8 +337,11 @@ export default class SearchFormHistoryData extends React.Component {
 
     // cac truong hop khac
     const { from, to } = getTimes(ranges)
-    // console.log({ from: from.format('DD/MM/YYYY HH:mm'), to: to.format('DD/MM/YYYY HH:mm') })
-    // console.log({ from: from.format('DD/MM/YYYY HH:mm'), to })
+    // if (ranges === null) {
+    //   console.log({ from: from.format('DD/MM/YYYY HH:mm'), to: to.format('DD/MM/YYYY HH:mm') })
+    //   console.log({ from: from.format('DD/MM/YYYY HH:mm'), to })
+    // }
+
     this.setState({
       timeRange: ranges,
       fromDate: from,
@@ -353,9 +358,11 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleSubmit(values) {
+    // console.log("handleSubmit")
     this.handleChangeRanges(this.state.timeRange)
+
     this.setState({
-      triggerRerender: !this.state.triggerRerender
+      now: moment()
     })
     // callapi
     // console.log(values, "handleSubmit")
@@ -510,9 +517,10 @@ export default class SearchFormHistoryData extends React.Component {
                 size="large"
                 onChangeObject={this.handleChangeRanges}
                 component={FOptionsTimeRange}
+                now={this.state.now}
                 // value={this.state.rangesDate}
                 rangesView={this.state.rangesView}
-                triggerRerender={this.state.triggerRerender}
+              // triggerRerender={this.state.triggerRerender}
               />
             </Col>
             {/* <Col span={6}>
