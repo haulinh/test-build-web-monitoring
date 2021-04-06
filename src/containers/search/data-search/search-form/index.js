@@ -78,7 +78,7 @@ const qcvnOptions = [
   },
   {
     value: QCVN_TYPE.NEGATIVE,
-    name: 'Gía trị âm'
+    name: 'Giá trị âm'
   },
 ]
 
