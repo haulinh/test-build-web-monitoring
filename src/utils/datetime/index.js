@@ -7,8 +7,8 @@ const getTimes = rangeTime => {
   // trong khoang
   if (Array.isArray(rangeTime)) {
     return {
-      from: rangeTime[0],
-      to: rangeTime[1],
+      from: rangeTime[0].startOf('d'),
+      to: rangeTime[1].endOf('d'),
     }
   }
 
