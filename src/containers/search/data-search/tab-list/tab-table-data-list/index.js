@@ -76,8 +76,13 @@ export default class TableDataList extends React.PureComponent {
           // }
 
           /* #endregion */
-          // console.log(value, '===value===')
+
           let color = getcolorMeasure(value.value, measuring, SHAPE.BLACK)
+          // if (value.value < 500) {
+          //   console.log(value, '===value===')
+          //   console.log(color, '==color==')
+          // }
+
           const colorDevice = getColorStatusDevice(value.statusDevice)
           // console.log('---------')
           // console.log(measuring, color, value)
