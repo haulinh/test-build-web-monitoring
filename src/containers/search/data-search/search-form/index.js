@@ -200,7 +200,7 @@ export default class SearchFormHistoryData extends React.Component {
       },
       {
         value: QCVN_TYPE.NEGATIVE,
-        name: 'Gía trị âm'
+        name: 'Giá trị âm'
       },
     ]
     qcvnOptions.forEach((option, index) => {
