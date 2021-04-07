@@ -61,6 +61,16 @@ const i18n = {
     required: translate('stationFixedPoint.form.long.required'),
     format: translate('stationFixedPoint.form.long.format'),
   },
+  latVn2000: {
+    label: translate('stationFixedPoint.form.latVn2000.label'),
+    placeholder: translate('stationFixedPoint.form.latVn2000.placeholder'),
+    format: translate('stationFixedPoint.form.latVn2000.format'),
+  },
+  lngVn2000: {
+    label: translate('stationFixedPoint.form.longVn2000.label'),
+    placeholder: translate('stationFixedPoint.form.longVn2000.placeholder'),
+    format: translate('stationFixedPoint.form.longVn2000.format'),
+  },
   provinceId: {
     label: translate('stationFixedPoint.form.provinceId.label'),
     placeholder: translate('stationFixedPoint.form.provinceId.placeholder'),
@@ -142,6 +152,8 @@ const Fields = {
   stationTypeId: 'stationTypeId',
   lng: 'lng',
   lat: 'lat',
+  lngVn2000: 'longVn2000',
+  latVn2000: 'latVn2000',
   provinceId: 'provinceId',
   position: 'position',
   address: 'address',
@@ -173,7 +185,7 @@ export default class StationFixedForm extends React.Component {
       // console.log('--values--', values)
       if (err) return
       const data = {
-        ..._.omit(values, ['lat', 'lng']),
+        ..._.omit(values, [Fields.lat, Fields.lng]),
         [Fields.name]: (values[Fields.name] || '').trim(),
         mapLocation: {
           lat: values.lat,
@@ -183,6 +195,7 @@ export default class StationFixedForm extends React.Component {
           _.omit(item, ['rowKey'])
         ),
       }
+      // console.log(data.mapLocationVn2000)
       const res = await this.props.onSubmit(data)
       if (res && res.status) {
         if (res.data.error.message === 'ALREADY_EXISTS') {
@@ -403,6 +416,29 @@ export default class StationFixedForm extends React.Component {
                 </FormItem>
               </Col>
             </Row>
+            <Row>
+              <Col span={12}>
+                <FormItem {...formItemLayout} label={i18n.lngVn2000.label}>
+                  {getFieldDecorator(Fields.lngVn2000)(
+                    <InputNumber
+                      style={{ flex: 1, width: '100%' }}
+                      placeholder={i18n.lngVn2000.placeholder}
+                    />
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem {...formItemLayout} label={i18n.latVn2000.label}>
+                  {getFieldDecorator(Fields.latVn2000)(
+                    <InputNumber
+                      style={{ flex: 1, width: '100%' }}
+                      placeholder={i18n.latVn2000.placeholder}
+                    />
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+
             <Row>
               <Col span={12}>
                 <FormItem {...formItemLayout} label={i18n.provinceId.label}>

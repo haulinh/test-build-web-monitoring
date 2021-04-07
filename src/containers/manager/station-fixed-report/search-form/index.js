@@ -54,12 +54,31 @@ const FIELDS = {
 }
 
 
-const optionsTimeRange = [
-  { key: 1, text: 'dataSearchFrom.options.byHoursDetail', value: 24, detailHours: `${moment().subtract(1, 'days').format('DD/MM/YYYY HH:mm')} - ${moment().format('DD/MM/YYYY HH:mm')}` },
-  { key: 7, text: 'dataSearchFrom.options.byDayDetail', value: 7, detailDay: `${moment().subtract(8, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
-  { key: 15, text: 'dataSearchFrom.options.byDayDetail', value: 15, detailDay: `${moment().subtract(16, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
-  { key: 30, text: 'dataSearchFrom.options.byDayDetail', value: 30, detailDay: `${moment().subtract(31, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
-]
+
+
+
+const OptionSelectTimeRange = ({ onSelect, foreceRerender, ...otherProps }) => {
+  // console.log(otherProps, '==otherProps==')
+  // console.log("OptionSelectTimeRange render")
+  const optionsTimeRange = [
+    { key: 1, text: 'dataSearchFrom.options.byHoursDetail', value: 24, detailHours: `${moment().subtract(1, 'days').format('DD/MM/YYYY HH:mm')} - ${moment().format('DD/MM/YYYY HH:mm')}` },
+    { key: 7, text: 'dataSearchFrom.options.byDayDetail', value: 7, detailDay: `${moment().subtract(7, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
+    { key: 15, text: 'dataSearchFrom.options.byDayDetail', value: 15, detailDay: `${moment().subtract(15, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
+    { key: 30, text: 'dataSearchFrom.options.byDayDetail', value: 30, detailDay: `${moment().subtract(30, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
+  ]
+  return <Select onSelect={onSelect} size="large" {...otherProps} >
+    {optionsTimeRange.map(option => (
+      <Select.Option key={option.key} value={option.key}>
+
+        {option.key === 1 && t(option.text, { value: option.value, detailHours: option.detailHours })}
+        {option.key !== 1 && t(option.text, { value: option.value, detailDay: option.detailDay })}
+      </Select.Option>
+    ))}
+    <Option key="range" value={FIELDS.RANGE_PICKER}>
+      {i18n.inRangeField}
+    </Option>
+  </Select>
+}
 
 @createLang
 @Form.create()
@@ -70,6 +89,7 @@ export class SearchForm extends React.Component {
     stationTypes: [],
     isOpenRangePicker: false,
     isLoading: false,
+    foreceRerender: true
   }
 
   async componentDidMount() {
@@ -150,9 +170,16 @@ export class SearchForm extends React.Component {
   }
 
   handleOnSubmit = async e => {
+    // console.log("handleOnSubmit")
     e.preventDefault()
+    this.setState({
+      foreceRerender: !this.state.foreceRerender
+    })
     const values = await this.props.form.validateFields()
+    // console.log(JSON.stringify(values, null, 2))
+
     const ranges = isNumber(values.time) ? values.time : values.timeRange
+    // console.log(ranges, '==ranges==')
     const { from, to } = getTimes(ranges)
     // console.log({ from: from.format('DD/MM/YYYY HH:mm'), to: to.format('DD/MM/YYYY HH:mm') })
 
@@ -340,20 +367,9 @@ export class SearchForm extends React.Component {
                 <FormItemStyled label={i18n.timeLabel}>
                   {form.getFieldDecorator('time', {
                     ...this.getConfig(t('')),
-                    initialValue: 7,
+                    initialValue: 1,
                   })(
-                    <Select onSelect={this.handleOnSelectTime} size="large">
-                      {optionsTimeRange.map(option => (
-                        <Select.Option key={option.key} value={option.key}>
-
-                          {option.key === 1 && t(option.text, { value: option.value, detailHours: option.detailHours })}
-                          {option.key !== 1 && t(option.text, { value: option.value, detailDay: option.detailDay })}
-                        </Select.Option>
-                      ))}
-                      <Option key="range" value={FIELDS.RANGE_PICKER}>
-                        {i18n.inRangeField}
-                      </Option>
-                    </Select>
+                    <OptionSelectTimeRange foreceRerender={this.state.foreceRerender} onSelect={this.handleOnSelectTime} />
                   )}
                 </FormItemStyled>
               </Col>

@@ -1,13 +1,14 @@
 import moment from 'moment'
 
 const getTimes = rangeTime => {
-  // console.log(rangeTime, '==rangeTime==')
+  // console.log("Start getTimes")
+  // console.log(rangeTime, 'getTimes -> ==rangeTime==')
 
   // trong khoang
   if (Array.isArray(rangeTime)) {
     return {
-      from: rangeTime[0],
-      to: rangeTime[1],
+      from: rangeTime[0].startOf('d'),
+      to: rangeTime[1].endOf('d'),
     }
   }
 
@@ -22,7 +23,7 @@ const getTimes = rangeTime => {
   // cac options khac
   return {
     from: moment()
-      .subtract(1 + rangeTime, 'd')
+      .subtract(rangeTime, 'd')
       .startOf('d'),
     to: moment()
       .subtract(1, 'd')

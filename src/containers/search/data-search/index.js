@@ -41,11 +41,18 @@ export default class MinutesDataSearch extends React.Component {
 
   handleSubmitSearch(searchFormData) {
     // console.log(searchFormData, 'submit searchFormData')
-    this.loadData(this.state.pagination, searchFormData)
+    this.setState(
+      {
+        measuringList: [...searchFormData.measuringList || []]
+      },
+      () => this.loadData(this.state.pagination, searchFormData)
+    )
+
   }
 
   async loadData(pagination, searchFormData) {
-    console.log("LOad data ...")
+    // console.log("LOad data ...")
+    // console.log(this.state.measuringList, '==mealist')
     this.setState({
       isLoading: true,
       isHaveData: true,
@@ -81,6 +88,7 @@ export default class MinutesDataSearch extends React.Component {
       searchFormData
     )
 
+
     this.setState({
       isLoading: false,
       dataAnalyzeStationAuto: dataAnalyzeStationAuto.success
@@ -97,6 +105,26 @@ export default class MinutesDataSearch extends React.Component {
             ? dataStationAuto.pagination.totalItem
             : 0,
       },
+    }, () => {
+
+      const listMeaHaveData = this.state.dataAnalyzeStationAuto.map(mea => mea.key)
+      // console.log(this.state.dataAnalyzeStationAuto, '==data founed')
+      const meaDonHaveData = this.state.measuringList.filter(mea => !listMeaHaveData.includes(mea))
+
+      // console.log(meaDonHaveData, '==meaDonHaveData==')
+      this.setState({
+        dataAnalyzeStationAuto: [
+          ...this.state.dataAnalyzeStationAuto,
+          ...meaDonHaveData.map(mea => {
+            return {
+              key: mea,
+              avg: { data: [] },
+              min: { data: [] },
+              max: { data: [] }
+            }
+          })
+        ]
+      })
     })
   }
 

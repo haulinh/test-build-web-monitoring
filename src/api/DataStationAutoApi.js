@@ -194,7 +194,9 @@ export function getDataAnalyzeStationAutos({
   measuringList,
   isExceeded,
   dataType,
-  isFilter
+  isFilter,
+  queryType,
+  qcvnList
 }) {
   // console.log("ANAnlyze ata " + isFilter)
   var url = getHistoricalDataUrl(`${key}/analyze?`)
@@ -205,6 +207,8 @@ export function getDataAnalyzeStationAutos({
   if (isExceeded) url += `&isExceeded=${isExceeded}`
   if (dataType) url += `&dataType=${dataType}`
   if (isFilter) url += `&isFilter=${isFilter}`
+  if (queryType) url += `&queryType=${queryType}`
+  if (qcvnList) url += `&qcvnList=${qcvnList}`
   return getFetch(url)
 }
 

@@ -564,6 +564,7 @@ export default {
     importFailed: 'Import Data Failed',
   },
   dataSearchFrom: {
+    tooltip: 'Filter invalid data with QCVN standard (apply data filter)',
     queryType: 'Type of data',
     filterDataBy: 'Filter data by',
     processData: 'Enable filter',
@@ -1205,6 +1206,17 @@ export default {
         required: 'Please enter longitude',
         format: 'Longitude (-180 <= x <= 180)',
       },
+      latVn2000: {
+        label: 'Latitude (VN2000)',
+        placeholder: 'Latitude (VN2000)',
+        required: 'Please enter longitude (VN2000)',
+        format: 'Vĩ độ (-90<=x<=90)',
+      },
+      longVn2000: {
+        label: 'Longitude (VN2000)',
+        placeholder: 'Longitude (VN2000)',
+        format: 'Kinh độ (-180<=x<=180)',
+      },
       position: {
         label: 'Station location',
         placeholder: 'Station location',
@@ -1643,6 +1655,14 @@ export default {
         label: 'Latitude',
         placeholder: 'Input Latitude',
         error: 'Please Input Latitude',
+      },
+      longVn2000: {
+        label: 'Longitude (VN2000)',
+        placeholder: 'Input longitude (VN2000)',
+      },
+      latVn2000: {
+        label: 'Latitude (VN2000)',
+        placeholder: 'Input Latitude (VN2000)',
       },
       connectionStatus: {
         label: 'Connection status',

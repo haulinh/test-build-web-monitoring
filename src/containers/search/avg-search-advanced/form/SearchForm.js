@@ -31,6 +31,7 @@ import QAQCSetup from '../drawer/QAQCSetup'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 import { getTimes } from 'utils/datetime'
+import { ToolTip } from './../../common/tooltip'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectQCVN = createValidateComponent(SelectQCVN)
@@ -268,16 +269,6 @@ export default class SearchAvgForm extends React.Component {
 
 
     // trong khoang
-    if (Array.isArray(ranges)) {
-      change('fromDate', ranges[0].toISOString())
-      change('toDate', ranges[1].toISOString())
-      this.setState({
-        timeRange: null,
-        fromDate: ranges[0],
-        toDate: ranges[1],
-      })
-      return
-    }
 
     // cac truong hop khac
     const { from, to } = getTimes(ranges)
@@ -474,7 +465,9 @@ export default class SearchAvgForm extends React.Component {
                 size="large"
                 onChangeObject={this.handleChangeRanges}
                 component={FOptionsTimeRange}
+                now={this.props.now}
                 rangesView={this.state.rangesView}
+                setNow={this.props.setNow}
               />
             </Col>
             <Col span={4}>
@@ -539,13 +532,27 @@ export default class SearchAvgForm extends React.Component {
                 </Tooltip>
               </HeaderWrapper>
             </Col>
-            <Col span={6}>
+            {/* <Col span={6}>
               <Field
                 label={translate('dataSearchFrom.processData')}
                 name="isFilter"
                 size="large"
                 component={FSwitchFilter}
               />
+            </Col> */}
+          </Row>
+          <Row type='flex' justify='end'>
+            <Col>
+              <div style={{ display: 'flex', width: '170px', justifyContent: 'space-between', alignItems: 'center' }}>
+                <ToolTip />
+                <div style={{ fontSize: '14px', fontWeight: '600' }}>{translate('dataSearchFrom.processData')}</div>
+                <Field
+                  name="isFilter"
+                  size="large"
+                  component={FSwitchFilter}
+                />
+              </div>
+
             </Col>
           </Row>
 

@@ -76,8 +76,13 @@ export default class TableDataList extends React.PureComponent {
           // }
 
           /* #endregion */
-          // console.log(value, '===value===')
+
           let color = getcolorMeasure(value.value, measuring, SHAPE.BLACK)
+          // if (value.value < 500) {
+          //   console.log(value, '===value===')
+          //   console.log(color, '==color==')
+          // }
+
           const colorDevice = getColorStatusDevice(value.statusDevice)
           // console.log('---------')
           // console.log(measuring, color, value)
@@ -86,10 +91,12 @@ export default class TableDataList extends React.PureComponent {
 
             <div style={{
               display: 'flex',
-              justifyContent: 'space-between'
+              justifyContent: 'flex-end',
+              alignItems: 'center'
             }} >
-              <div style={{ backgroundColor: colorDevice, width: '20px', height: '20px', borderRadius: '50%' }}></div>
-              <div style={{ color: color }}>
+
+              <div style={{ backgroundColor: colorDevice, width: '15px', height: '15px', borderRadius: '50%', marginRight: '10px' }}></div>
+              <div style={{ color: color, minWidth: '50px' }} >
                 {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
               </div>
             </div >
@@ -104,6 +111,7 @@ export default class TableDataList extends React.PureComponent {
     return (
       <div>
         <Table
+          bordered
           size="small"
           rowKey="_id"
           columns={this.getColumns()}
