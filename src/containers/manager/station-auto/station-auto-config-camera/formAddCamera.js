@@ -71,6 +71,7 @@ export default class FormAddCamera extends React.Component {
 
   // TODO
   _getColumns() {
+    // console.log("get col")
     return [
       /* CAMERA NAME */
       {
@@ -78,11 +79,17 @@ export default class FormAddCamera extends React.Component {
         key: 'title',
         render: (text, record, index) => {
           return (
-            <div>
+            <Form.Item>
               {this.props.form.getFieldDecorator(`${index}.name`, {
+                rules: [
+                  {
+                    required: true,
+                    message: translate('rules.required'),
+                  },
+                ],
                 initialValue: record.name,
               })(<Input />)}
-            </div>
+            </Form.Item>
           )
         },
       },
@@ -92,11 +99,17 @@ export default class FormAddCamera extends React.Component {
         key: 'cameraURL',
         render: (text, record, index) => {
           return (
-            <div>
+            <Form.Item>
               {this.props.form.getFieldDecorator(`${index}.rtspUrl`, {
+                rules: [
+                  {
+                    required: true,
+                    message: translate('rules.required'),
+                  },
+                ],
                 initialValue: record.rtspUrl,
               })(<Input />)}
-            </div>
+            </Form.Item>
           )
         },
       },
@@ -150,6 +163,8 @@ export default class FormAddCamera extends React.Component {
 
   async _submitCameras() {
     // return console.log('==submit camera')
+    await this.props.form.validateFields()
+
     const { getFieldsValue } = this.props.form
 
     const fieldsValue = getFieldsValue()
