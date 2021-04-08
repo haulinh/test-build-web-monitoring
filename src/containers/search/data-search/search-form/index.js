@@ -62,25 +62,26 @@ const QCVN_TYPE = {
 const qcvnOptions = [
   {
     value: QCVN_TYPE.OUT_OF_RANGE,
-    name: 'Ngoài dải đo'
+    name: translate('qaqcConfig.beyondMeasuringRange')
   },
   {
     value: QCVN_TYPE.DEVICE_ERROR,
-    name: 'Thiết bị lỗi'
+    name: translate('qaqcConfig.deviceError')
   },
   {
     value: QCVN_TYPE.DEVICE_CALIRATE,
-    name: 'Thiết bị hiệu chuẩn'
+    name: translate('qaqcConfig.deviceCalibration')
   },
   {
     value: QCVN_TYPE.ZERO,
-    name: 'Giá trị 0'
+    name: translate('qaqcConfig.zero')
   },
   {
     value: QCVN_TYPE.NEGATIVE,
-    name: 'Giá trị âm'
+    name: translate('qaqcConfig.negative')
   },
 ]
+// console.log(qcvnOptions, '==qcvnOptions==')
 
 function validate(values) {
   const errors = {}
@@ -196,11 +197,11 @@ export default class SearchFormHistoryData extends React.Component {
     const filteredOptions = [
       {
         value: QCVN_TYPE.ZERO,
-        name: 'Giá trị 0'
+        name: translate('qaqcConfig.zero')
       },
       {
         value: QCVN_TYPE.NEGATIVE,
-        name: 'Giá trị âm'
+        name: translate('qaqcConfig.negative')
       },
     ]
     qcvnOptions.forEach((option, index) => {
