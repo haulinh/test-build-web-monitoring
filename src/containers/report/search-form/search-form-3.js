@@ -1,18 +1,19 @@
 import React from 'react'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import { default as SearchFormContainer } from 'components/elements/box-shadow'
+import {default as SearchFormContainer} from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import { Row, Col, Button, Form, DatePicker, Switch } from 'antd'
-import createLang, { translate } from 'hoc/create-lang'
+import {Row, Col, Button, Form, DatePicker, Switch} from 'antd'
+import createLang, {translate} from 'hoc/create-lang'
 import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
 import SelectStationAuto from 'containers/search/common/select-station-auto' //'.././common/select-station-auto'
-import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
-import { get } from 'lodash'
-import { DD_MM_YYYY, MM_YYYY } from 'constants/format-date'
+import {Clearfix} from 'containers/fixed-map/map-default/components/box-analytic-list/style'
+import {get} from 'lodash'
+import {DD_MM_YYYY, MM_YYYY} from 'constants/format-date'
+import styled from 'styled-components'
 
-const { MonthPicker } = DatePicker
+const {MonthPicker} = DatePicker
 
 const Item = props => (
   <Form.Item
@@ -27,6 +28,10 @@ const Item = props => (
     }}
   />
 )
+
+const StyledSwitchFilter = styled.div`
+display:'flex'
+`
 
 const i18n = {
   label: {
@@ -90,15 +95,15 @@ export default class SearchForm extends React.Component {
   }
 
   setDefaultStationType = stationTypes => {
-    const { form } = this.props
-    form.setFieldsValue({ stationType: get(stationTypes, '0.key') })
+    const {form} = this.props
+    form.setFieldsValue({stationType: get(stationTypes, '0.key')})
   }
 
   setDefaultStationAuto = stationAutos => {
-    const { form } = this.props
+    const {form} = this.props
     const stationType = form.getFieldValue('stationType')
     const results = stationAutos.filter(station => station.stationType.key === stationType)
-    form.setFieldsValue({ stationAuto: get(results, '0.key') })
+    form.setFieldsValue({stationAuto: get(results, '0.key')})
     this.setState({
       measuringList: get(results, '0.measuringList'),
       stationName: get(results, '0.name'),
@@ -109,7 +114,7 @@ export default class SearchForm extends React.Component {
 
   render() {
     // return <div>asdfsdf</div>
-    const { getFieldDecorator, getFieldValue, setFieldsValue } = this.props.form
+    const {getFieldDecorator, getFieldValue, setFieldsValue} = this.props.form
 
     return (
       <SearchFormContainer>
@@ -118,7 +123,7 @@ export default class SearchForm extends React.Component {
             <Button
               type="primary"
               icon="search"
-              style={{ float: 'right' }}
+              style={{float: 'right'}}
               onClick={this.submit}
               size="small"
             >
@@ -128,17 +133,17 @@ export default class SearchForm extends React.Component {
           textColor="#ffffff"
           isBackground
           fontSize={14}
-          style={{ padding: '8px 16px' }}
+          style={{padding: '8px 16px'}}
         >
           {i18n.label.headerSearch}
         </Heading>
-        <div style={{ padding: '8px 16px' }}>
+        <div style={{padding: '8px 16px'}}>
           <Row gutter={16}>
             <Col span={6}>
               <Item label={i18n.label.province}>
                 {getFieldDecorator('province', {
                   onChange: val => {
-                    setFieldsValue({ stationAuto: null })
+                    setFieldsValue({stationAuto: null})
                   },
                 })(<SelectProvince isShowAll size="large" />)}
               </Item>
@@ -153,7 +158,7 @@ export default class SearchForm extends React.Component {
                     },
                   ],
                   onChange: val => {
-                    setFieldsValue({ stationAuto: null })
+                    setFieldsValue({stationAuto: null})
                   },
                 })(<SelectStationType size="large" onFetchSuccess={this.setDefaultStationType} />)}
               </Item>
@@ -179,9 +184,9 @@ export default class SearchForm extends React.Component {
                           measuringList: station.measuringList,
                           stationName: station.name,
                         })
-                      else this.setState({ measuringList: [] })
+                      else this.setState({measuringList: []})
                     }}
-                    style={{ width: '100%' }}
+                    style={{width: '100%'}}
                   />
                 )}
               </Item>
@@ -197,7 +202,7 @@ export default class SearchForm extends React.Component {
                         message: i18n.error.selectTimeRange,
                       },
                     ],
-                  })(<MonthPicker style={{ width: '100%' }} size="large" format={MM_YYYY} />)}
+                  })(<MonthPicker style={{width: '100%'}} size="large" format={MM_YYYY} />)}
                 </Item>
               </Col>
             )}
@@ -212,18 +217,22 @@ export default class SearchForm extends React.Component {
                         message: i18n.error.selectTimeRange,
                       },
                     ],
-                  })(<DatePicker style={{ width: '100%' }} size="large" format={DD_MM_YYYY} />)}
+                  })(<DatePicker style={{width: '100%'}} size="large" format={DD_MM_YYYY} />)}
                 </Item>
               </Col>
             )}
 
           </Row>
-          <Row>
-            <Item label={i18n.label.processData}>
-              {getFieldDecorator('isFilter', {
-                initialValue: false
-              })(<Switch />)}
-            </Item>
+          <Row type='flex'>
+            <StyledSwitchFilter>
+              <div style={{fontSize: '16px', fontWeight: '600'}}>{i18n.label.processData}</div>
+              <Item>
+                {getFieldDecorator('isFilter', {
+                  initialValue: false
+                })(<Switch />)}
+              </Item>
+
+            </StyledSwitchFilter>
           </Row>
           <Clearfix height={16} />
         </div>

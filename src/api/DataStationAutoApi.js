@@ -26,8 +26,8 @@ function getReportUrl(prefix = '') {
 }
 
 function getReportUrlLoopback(prefix = '') {
-  // return getConfigApi().dataInsight + '/data-avg/report/' + prefix
-  return `http://localhost:5022/data-avg/report/${prefix}`
+  return getConfigApi().dataInsight + '/data-avg/report/' + prefix
+  // return `http://localhost:5022/data-avg/report/${prefix}`
 }
 
 export function getDataStationAutos(
@@ -428,16 +428,17 @@ export function getUrlReportType2Excel(
   time,
   measuringListStr,
   measuringListUnitStr,
+  isFilter,
   language = 'EN'
 ) {
   console.log("Exxport type 2")
   var url = getReportUrlLoopback(
-    `export-24h/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${_upperCase(
+    `export-24h/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&isFilter=${isFilter}&language=${_upperCase(
       language
     )}`
   )
-  console.log(url, '==url==')
-  return url
+  // console.log(url, '==url==')
+  return getFetch(url)
 }
 
 export function getUrlReportType2(
@@ -448,7 +449,7 @@ export function getUrlReportType2(
   isFilter
 ) {
   // cuongtest
-  // var url = getReportUrl(`type2/${key}?1=1`)
+  //  var url = getReportUrl(`type2/${key}?1=1`)
   let url = getReportUrlLoopback(`24h/${key}?1=1`)
   // console.log(url, '==url==url')
   if (time) url += `&time=${time}`
@@ -456,7 +457,7 @@ export function getUrlReportType2(
   if (measuringListUnitStr) url += `&measuringListUnit=${measuringListUnitStr}`
   if (isFilter) url += `&isFilter=${isFilter}`
 
-  // var url = getReportUrl(`type2/${key}?&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}`)
+
   return getFetch(url)
 }
 
