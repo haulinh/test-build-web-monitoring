@@ -101,6 +101,7 @@ export default class ReportType11 extends React.Component {
       measuringListUnitStr: values.measuringListUnitStr,
       type: 60,
       key: values.stationAuto,
+      isFilter: values.isFilter || false
     }
 
     const res = await getDataStationAutoAvg(
@@ -110,9 +111,20 @@ export default class ReportType11 extends React.Component {
       },
       params
     )
-    if (res.success) {
+    if (res.data) {
+      const convertedData = res.data.map(d => {
+        // console.log(d, '===d===d')
+        const result = {
+          date_utc: d.date_utc
+        }
+        Object.keys(d.measuringLogs).forEach(meaKey => {
+          result[meaKey] = d.measuringLogs[meaKey].value
+        })
+        return result
+      })
+      // console.log(convertedData, '==convertedData==')
       this.setState({
-        dataSource: res.data,
+        dataSource: convertedData,
         isHaveData: true,
         isLoading: false,
         measuringList: values.measuringList,
@@ -127,14 +139,16 @@ export default class ReportType11 extends React.Component {
     }
   }
 
-  handleExcel = () => {
-    let url = downloadExcel_DataStationAutov1(this.props.token, {
+  handleExcel = async () => {
+    let res = await downloadExcel_DataStationAutov1(this.props.token, {
       ...this.state.dataSearch,
       language: this.props.locale || 'EN',
+      name: this.state.stationName
     })
+    // console.log(url, '==url==')
     // console.log("this.state.dataSearch", url);
-    // window.location.href = url
-    window.open(url, '_blank')
+    window.location.href = res.data
+    // window.open(url, '_blank')
   }
 
   render() {

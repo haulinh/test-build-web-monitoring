@@ -87,13 +87,14 @@ export function getExportData({
   //window.location = url
 }
 
+
 export function getDataStationAutoAvg(
   { page = 1, itemPerPage = 10 },
-  { fromDate, toDate, key, measuringList, type, advanced, dataStatus }
+  { fromDate, toDate, key, measuringList, type, advanced, dataStatus, isFilter }
 ) {
-  var url = getDataStationAutoUrl(
-    `${key}/avg?page=${page}&itemPerPage=${itemPerPage}`
-  )
+
+  let url = getAvgDataUrl(`${key}/avg-advanced?page=${page}&itemPerPage=${itemPerPage}`)
+  // console.log(url, '==url==')
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
@@ -102,6 +103,7 @@ export function getDataStationAutoAvg(
   if (dataStatus && dataStatus.length)
     url += `&dataStatus=${dataStatus.join(',')}`
   if (type) url += `&type=${type}`
+  if (isFilter) url += `&isFilter=${isFilter}`
   return getFetch(url)
 }
 
@@ -166,6 +168,7 @@ export function exportExcelMultipleStation(data) {
 export function downloadExcel_DataStationAutov1(
   token,
   {
+    name,
     fromDate,
     toDate,
     key,
@@ -173,9 +176,12 @@ export function downloadExcel_DataStationAutov1(
     measuringListUnitStr,
     type,
     language = 'EN',
+    isFilter
   }
 ) {
-  let url = getDataStationAutoUrl(`${key}/export-avg-v1?token=${token}`)
+  let url = getAvgDataUrl(`${key}/export-avg?`)
+  // console.log(url, '==url==')
+  // let url = getDataStationAutoUrl(`${key}/export-avg-v1?token=${token}`)
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
   if (measuringList) url += `&measuringList=${measuringList.join(',')}`
@@ -183,7 +189,9 @@ export function downloadExcel_DataStationAutov1(
   if (measuringListUnitStr)
     url += `&measuringListUnit=${measuringListUnitStr.join(',')}`
   if (type) url += `&type=${type}`
-  return url
+  if (isFilter) url += `&isFilter=${isFilter}`
+  if (name) url += `&name=${name}`
+  return getFetch(url)
 }
 
 export function getDataAnalyzeStationAutos({
@@ -448,7 +456,7 @@ export function getUrlReportType2(
   measuringListUnitStr,
   isFilter
 ) {
-  // cuongtest
+
   //  var url = getReportUrl(`type2/${key}?1=1`)
   let url = getReportUrlLoopback(`24h/${key}?1=1`)
   // console.log(url, '==url==url')
