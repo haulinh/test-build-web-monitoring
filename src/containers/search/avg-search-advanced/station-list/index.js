@@ -66,6 +66,7 @@ export default class TableList extends React.PureComponent {
         current: 1,
         pageSize: 50,
       },
+      orderedMeaKey: []
     }
   }
 
@@ -82,6 +83,7 @@ export default class TableList extends React.PureComponent {
   getSearchFormData = stationKey => {
     if (!stationKey) return
     const station = this.getStation(stationKey)
+    // console.log(station, '==station==')
     const { fromDate, toDate } = this.props
     const measuringListUnitStr = station.measuringList.map(item => {
       const itemFind = _.find(station.measuringData, obj => {
@@ -150,6 +152,8 @@ export default class TableList extends React.PureComponent {
         },
         searchFormData
       )
+      // console.log(JSON.stringify(searchFormData, null, 2), 'searchFormData')
+      // console.log(JSON.stringify(dataStationAuto, null, 2), 'dataStationAuto from api')
       if (dataStationAuto.error) {
         message.error('ERROR')
         return
@@ -164,6 +168,21 @@ export default class TableList extends React.PureComponent {
               ? dataStationAuto.pagination.totalItem
               : 0,
         },
+      }, () => {
+        const orderedMeaList = this.state.dataStationAuto.map(station => {
+          const meaKeys = Object.keys(station.measuringLogs)
+
+          return {
+            meaKeys,
+            length: meaKeys.length
+          }
+        })
+        // console.log(orderedMeaList, '===orderedMea')
+        const orderedMea = _.maxBy(orderedMeaList, o => o.length)
+        // console.log(orderedMea, '==orderedMea')
+        this.setState({
+          orderedMeaKey: orderedMea.meaKeys
+        })
       })
     })
   }
@@ -249,7 +268,11 @@ export default class TableList extends React.PureComponent {
 
   render() {
     const stations = this.props.stationsData.filter(station => station.view)
+    // const stt = stations.filter(s => s.key === 'NT_XMHT')
+    // console.log(JSON.stringify(stt, null, 2), 'station ne')
+    // console.log(JSON.stringify(this.state.dataStationAuto, null, 2), '==data ne')
     if (!stations.length) return null
+    // console.log("Tablelist " + JSON.stringify(station.measuringData, null, 2))
     return (
       <TableListWrapper>
         <TitleWrapper>
@@ -285,27 +308,45 @@ export default class TableList extends React.PureComponent {
           onChange={this.handleChangeTab}
           activeKey={this.state.tabKey}
         >
-          {stations.map(station => (
-            <Tabs.TabPane tab={station.name} key={station.key}>
-              <TabList
-                isActive={this.state.tabKey === station.key}
-                isLoading={this.state.isLoading}
-                measuringData={station.measuringData}
-                measuringList={station.measuringList}
-                dataStationAuto={this.state.dataStationAuto}
-                pagination={this.state.pagination}
-                onChangePage={this.handleChangePage}
-                onExportExcel={this.handleExportExcel}
-                onExportExcelAll={this.handleExportAllStation}
-                nameChart={station.name}
-                typeReport={`${this.props.type}`}
-                isExporting={this.state.isExporting}
-                isExportingAll={this.state.isExportingAll}
-              />
-            </Tabs.TabPane>
-          ))}
+          {
+            stations.map(station => {
+              const newMeasuringData = []
+              const newMeasuringList = []
+
+              this.state.orderedMeaKey.forEach(meaKey => {
+                const indexMatched = station.measuringList.findIndex(key => key === meaKey)
+                if (indexMatched !== -1) {
+                  newMeasuringData.push(station.measuringData[indexMatched])
+                  newMeasuringList.push(station.measuringList[indexMatched])
+                }
+                // console.log(station.measuringList, '=station.measuringList')
+                // console.log(indexMatched, '=indexMatched')
+
+              })
+              // console.log(newMeasuringList, '==newMeasuringList==')
+              // console.log(newMeasuringData, '==newMeasuringData==')
+              return newMeasuringList.length > 0 && < Tabs.TabPane tab={station.name} key={station.key} >
+                <TabList
+                  isActive={this.state.tabKey === station.key}
+                  isLoading={this.state.isLoading}
+                  measuringData={newMeasuringData}
+                  measuringList={newMeasuringList}
+                  dataStationAuto={this.state.dataStationAuto}
+                  pagination={this.state.pagination}
+                  onChangePage={this.handleChangePage}
+                  onExportExcel={this.handleExportExcel}
+                  onExportExcelAll={this.handleExportAllStation}
+                  nameChart={station.name}
+                  typeReport={`${this.props.type}`}
+                  isExporting={this.state.isExporting}
+                  isExportingAll={this.state.isExportingAll}
+                />
+              </Tabs.TabPane>
+            })
+          }
+
         </Tabs>
-      </TableListWrapper>
+      </TableListWrapper >
     )
   }
 }

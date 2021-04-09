@@ -57,6 +57,12 @@ export default class TableDataList extends React.PureComponent {
         return <div>{moment(record.date_utc).format(formatDate)}</div>
       },
     }
+
+
+    // const cuongtest = this.props.measuringData
+    //   .filter(measuring => this.props.measuringList.includes(measuring.key))
+    // console.log(JSON.stringify(cuongtest, null, 2), '==cuongtest==')
+
     const columnsMeasuring = this.props.measuringData
       .filter(measuring => this.props.measuringList.includes(measuring.key))
       .map(measuring => ({
@@ -73,6 +79,8 @@ export default class TableDataList extends React.PureComponent {
         width: 120,
         align: 'right',
         render: value => {
+          // console.log(value, '==value==')
+          // console.log(JSON.stringify(this.props.dataSource, null, 2), '==dataSource==')
           if (value === null || value === undefined) return <div>-</div>
 
           let color = getColorMeasure(value.value, measuring, SHAPE.BLACK)
