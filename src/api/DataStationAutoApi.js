@@ -319,16 +319,20 @@ export function getUrlReportType3Excel(
   return getFetch(url)
 }
 
+
 export function getUrlReportType4(
   key,
   time,
   measuringListStr,
-  measuringListUnitStr
+  measuringListUnitStr,
+  isFilter
 ) {
-  var url = getReportUrl(`type4/${key}?1=1`)
+  var url = getReportUrlLoopback(`8h-max/${key}?1=1`)
+
   if (time) url += `&time=${time}`
   if (measuringListStr) url += `&measuringList=${measuringListStr}`
   if (measuringListUnitStr) url += `&measuringListUnit=${measuringListUnitStr}`
+  if (isFilter) url += `&isFilter=${isFilter}`
   return getFetch(url)
 }
 
@@ -338,12 +342,11 @@ export function getUrlReportType4Excel(
   time,
   measuringListStr,
   measuringListUnitStr,
-  language = 'EN'
+  language = 'EN',
+  isFilter
 ) {
-  var url = getReportUrl(
-    `type4-excel/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${language}`
-  )
-  return url
+  let url = getReportUrlLoopback(`export-8h-max/${key}?1=1&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${language}&isFilter=${isFilter}`)
+  return getFetch(url)
 }
 
 export function getUrlReportType5(
