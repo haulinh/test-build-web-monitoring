@@ -43,6 +43,7 @@ export default class ReportType1 extends React.Component {
       stationName: '',
       monthYear: '',
       measuringList: [],
+      isFilter: false
     }
   }
 
@@ -88,12 +89,16 @@ export default class ReportType1 extends React.Component {
         .map(item => encodeURIComponent(item.key))
         .join(',')
     }
-
+    // console.log(JSON.stringify(values, null, 2))
+    this.setState({
+      isFilter: values.isFilter
+    })
     let res = await getUrlReportType3(
       values.stationAuto,
       values.time.format('MM-YYYY'),
       measuringListStr,
-      measuringListUnitStr
+      measuringListUnitStr,
+      values.isFilter || false
     )
 
     if (res.success) {
@@ -124,15 +129,16 @@ export default class ReportType1 extends React.Component {
         return 'EN'
     }
   }
-  handleExcel = () => {
+  handleExcel = async () => {
     const language = this.getLanguage(this.props.locale)
-    let url = getUrlReportType3Excel(
+    let url = await getUrlReportType3Excel(
       this.props.token,
       this.state.dataSearch.stationAuto,
       this.state.dataSearch.time,
       this.state.dataSearch.measuringListStr,
       this.state.dataSearch.measuringListUnitStr,
-      language
+      language,
+      this.state.isFilter
     )
     window.open(url, '_blank')
   }

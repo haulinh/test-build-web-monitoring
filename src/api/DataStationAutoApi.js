@@ -286,17 +286,20 @@ export function getUrlReportType1(
   )
   return url
 }
-
+//cuongtest
 export function getUrlReportType3(
   key,
   time,
   measuringListStr,
-  measuringListUnitStr
+  measuringListUnitStr,
+  isFilter
 ) {
-  var url = getReportUrl(`type3/${key}?1=1`)
+  // console.log(isFilter, '==isFilter==')
+  var url = getReportUrlLoopback(`1h-max/${key}?1=1`)
   if (time) url += `&time=${time}`
   if (measuringListStr) url += `&measuringList=${measuringListStr}`
   if (measuringListUnitStr) url += `&measuringListUnit=${measuringListUnitStr}`
+  if (isFilter) url += `&isFilter=${isFilter}`
   return getFetch(url)
 }
 
@@ -306,12 +309,14 @@ export function getUrlReportType3Excel(
   time,
   measuringListStr,
   measuringListUnitStr,
-  language = 'EN'
+  language = 'EN',
+  isFilter
 ) {
-  var url = getReportUrl(
-    `type3-excel/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${language}`
-  )
-  return url
+  // var url = getReportUrl(
+  //   `type3-excel/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${language}`
+  // )
+  let url = getReportUrlLoopback(`export-1h-max/${key}?1=1&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${language}&isFilter=${isFilter}`)
+  return getFetch(url)
 }
 
 export function getUrlReportType4(
