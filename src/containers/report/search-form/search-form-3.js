@@ -12,6 +12,7 @@ import { Clearfix } from 'containers/fixed-map/map-default/components/box-analyt
 import { get } from 'lodash'
 import { DD_MM_YYYY, MM_YYYY } from 'constants/format-date'
 import styled from 'styled-components'
+import { ToolTip } from 'containers/search/common/tooltip'
 
 const { MonthPicker } = DatePicker
 
@@ -30,7 +31,9 @@ const Item = props => (
 )
 
 const StyledSwitchFilter = styled.div`
-display:'flex'
+/* display:'flex';
+justifyContent: 'flex-end';
+ alignItems: 'center'; */
 `
 
 const i18n = {
@@ -114,7 +117,6 @@ export default class SearchForm extends React.Component {
   }
 
   render() {
-    // return <div>asdfsdf</div>
     const { getFieldDecorator, getFieldValue, setFieldsValue } = this.props.form
 
     return (
@@ -224,16 +226,30 @@ export default class SearchForm extends React.Component {
             )}
 
           </Row>
-          <Row type='flex'>
-            <StyledSwitchFilter>
-              <div style={{ fontSize: '16px', fontWeight: '600' }}>{i18n.label.processData}</div>
-              <Item>
-                {getFieldDecorator('isFilter', {
-                  initialValue: false
-                })(<Switch />)}
-              </Item>
+          <Row type='flex' justify='end'>
+            <Col>
+              <Row type='flex' align='middle'>
+                <Col>
+                  <ToolTip />
+                </Col>
+                <Col>
+                  <div style={{ fontSize: '16px', fontWeight: '600' }}>{i18n.label.processData}</div>
+                </Col>
+                <Col>
+                  <div style={{ marginLeft: '10px' }}>
+                    <Item>
+                      {getFieldDecorator('isFilter', {
+                        initialValue: false
+                      })(<Switch />)}
+                    </Item>
+                  </div>
+                </Col>
 
-            </StyledSwitchFilter>
+
+
+              </Row>
+            </Col>
+
           </Row>
           <Clearfix height={16} />
         </div>
