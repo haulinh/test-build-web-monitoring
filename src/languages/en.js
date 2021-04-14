@@ -34,6 +34,8 @@ export default {
   },
   rules: {
     required: 'Required',
+    requiredName: 'Please enter name !',
+    requiredRtsp: 'Please enter RTSP address !',
     requiredEmail: 'Email is required',
     requiredPhone: 'Phone number is required',
     requiredField: '{{=it.field}} is required',

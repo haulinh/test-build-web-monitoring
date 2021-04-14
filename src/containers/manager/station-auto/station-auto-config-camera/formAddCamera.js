@@ -84,7 +84,7 @@ export default class FormAddCamera extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: translate('rules.required'),
+                    message: translate('rules.requiredName'),
                   },
                 ],
                 initialValue: record.name,
@@ -104,7 +104,7 @@ export default class FormAddCamera extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: translate('rules.required'),
+                    message: translate('rules.requiredRtsp'),
                   },
                 ],
                 initialValue: record.rtspUrl,
