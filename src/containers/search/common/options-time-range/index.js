@@ -7,55 +7,10 @@ import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
-const options = [
-  {
-    key: 1,
-    text: 'dataSearchFrom.options.byHoursDetail',
-    value: 24,
-    detailHours: `${moment()
-      .subtract(1, 'days')
-      .format('DD/MM/YYYY HH:mm')} - ${moment().format('DD/MM/YYYY HH:mm')}`,
-  },
-  {
-    key: 7,
-    text: 'dataSearchFrom.options.byDayDetail',
-    value: 7,
-    detailDay: `${moment()
-      .subtract(8, 'days')
-      .startOf('day')
-      .format('DD/MM/YYYY HH:mm')} - ${moment()
-      .subtract(1, 'days')
-      .endOf('day')
-      .format('DD/MM/YYYY HH:mm')}`,
-  },
-  {
-    key: 15,
-    text: 'dataSearchFrom.options.byDayDetail',
-    value: 15,
-    detailDay: `${moment()
-      .subtract(16, 'days')
-      .startOf('day')
-      .format('DD/MM/YYYY HH:mm')} - ${moment()
-      .subtract(1, 'days')
-      .endOf('day')
-      .format('DD/MM/YYYY HH:mm')}`,
-  },
-  {
-    key: 30,
-    text: 'dataSearchFrom.options.byDayDetail',
-    value: 30,
-    detailDay: `${moment()
-      .subtract(31, 'days')
-      .startOf('day')
-      .format('DD/MM/YYYY HH:mm')} - ${moment()
-      .subtract(1, 'days')
-      .endOf('day')
-      .format('DD/MM/YYYY HH:mm')}`,
-  },
-]
 
 @connect(state => ({
   locale: state.language.locale,
+  fromDate: _.get(state, 'form.dataSearchFilterForm.values.fromDate', {}),
 }))
 @autobind
 export default class OptionsTimeRange extends React.Component {
@@ -79,16 +34,21 @@ export default class OptionsTimeRange extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    // console.log("shouldComponentUpdate")
     return (
       !_.isEqual(this.state.open, nextState.open) ||
       !_.isEqual(this.state.defaultValue, nextState.defaultValue) ||
       !_.isEqual(this.state.rangesView, nextState.rangesView) ||
       !_.isEqual(this.props.value, nextProps.value) ||
-      !_.isEqual(this.props.rangesView, nextProps.rangesView)
+      !_.isEqual(this.props.rangesView, nextProps.rangesView) ||
+      // !_.isEqual(this.props.triggerRerender, nextProps.triggerRerender) ||
+      !_.isEqual(this.props.fromDate, nextProps.fromDate) ||
+      !_.isEqual(moment(this.props.now), nextProps.now)
     )
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // console.log("componentDidUpdate")
     if (!_.isEqual(prevProps.rangesView, this.props.rangesView)) {
       this.setState({
         rangesView: this.props.rangesView,
@@ -98,6 +58,11 @@ export default class OptionsTimeRange extends React.Component {
   }
 
   handleSelect = value => {
+    // console.log("select range " + value)
+    if (this.props.setNow) {
+      this.props.setNow(moment())
+    }
+
     if (!_.isNumber(value)) {
       this.setState({
         defaultValue: undefined,
@@ -130,6 +95,58 @@ export default class OptionsTimeRange extends React.Component {
   }
 
   render() {
+    // console.log("Time range rerender")
+    // console.log(moment(this.props.now).format('DD/MM/YYYY HH:mm:ss'))
+    // console.log(`${moment(moment(this.props.now))
+    //   .subtract(1, 'days')
+    //   .format('DD/MM/YYYY HH:mm')} - ${moment(moment(this.props.now)).format('DD/MM/YYYY HH:mm')}`)
+    const options = [
+      {
+        key: 1,
+        text: 'dataSearchFrom.options.byHoursDetail',
+        value: 24,
+        detailHours: `${moment(this.props.now)
+          .subtract(1, 'days')
+          .format('DD/MM/YYYY HH:mm')} - ${moment(this.props.now).format('DD/MM/YYYY HH:mm')}`,
+      },
+      {
+        key: 7,
+        text: 'dataSearchFrom.options.byDayDetail',
+        value: 7,
+        detailDay: `${moment(this.props.now)
+          .subtract(7, 'days')
+          .startOf('day')
+          .format('DD/MM/YYYY HH:mm')} - ${moment(this.props.now)
+            .subtract(1, 'days')
+            .endOf('day')
+            .format('DD/MM/YYYY HH:mm')}`,
+      },
+      {
+        key: 15,
+        text: 'dataSearchFrom.options.byDayDetail',
+        value: 15,
+        detailDay: `${moment(this.props.now)
+          .subtract(15, 'days')
+          .startOf('day')
+          .format('DD/MM/YYYY HH:mm')} - ${moment(this.props.now)
+            .subtract(1, 'days')
+            .endOf('day')
+            .format('DD/MM/YYYY HH:mm')}`,
+      },
+      {
+        key: 30,
+        text: 'dataSearchFrom.options.byDayDetail',
+        value: 30,
+        detailDay: `${moment(this.props.now)
+          .subtract(30, 'days')
+          .startOf('day')
+          .format('DD/MM/YYYY HH:mm')} - ${moment(this.props.now)
+            .subtract(1, 'days')
+            .endOf('day')
+            .format('DD/MM/YYYY HH:mm')}`,
+      },
+    ]
+    // console.log("Time range com " + this.state.defaultValue || this.props.value)
     const locale = this.locale.default
     return (
       <div>

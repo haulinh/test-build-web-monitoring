@@ -2,7 +2,7 @@ import React from 'react'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm, Field, change } from 'redux-form'
 import PropTypes from 'prop-types'
 import { Row, Col, Button, Switch } from 'antd'
 import createLang from 'hoc/create-lang'
@@ -28,6 +28,8 @@ import { getConfigQAQC } from 'api/CategoryApi'
 
 // import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+// import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
+import { ToolTip } from './../../common/tooltip'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
@@ -60,25 +62,26 @@ const QCVN_TYPE = {
 const qcvnOptions = [
   {
     value: QCVN_TYPE.OUT_OF_RANGE,
-    name: 'Ngoài dải đo'
+    name: translate('qaqcConfig.beyondMeasuringRange')
   },
   {
     value: QCVN_TYPE.DEVICE_ERROR,
-    name: 'Thiết bị lỗi'
+    name: translate('qaqcConfig.deviceError')
   },
   {
     value: QCVN_TYPE.DEVICE_CALIRATE,
-    name: 'Thiết bị hiệu chuẩn'
+    name: translate('qaqcConfig.deviceCalibration')
   },
   {
     value: QCVN_TYPE.ZERO,
-    name: 'Giá trị 0'
+    name: translate('qaqcConfig.zero')
   },
   {
     value: QCVN_TYPE.NEGATIVE,
-    name: 'Gía trị âm'
+    name: translate('qaqcConfig.negative')
   },
 ]
+// console.log(qcvnOptions, '==qcvnOptions==')
 
 function validate(values) {
   const errors = {}
@@ -104,6 +107,7 @@ function validate(values) {
       ? {
         ...ownProps.initialValues,
         rangesDate: 1,
+        qcvnOptions: []
       }
       : {}),
   },
@@ -124,9 +128,11 @@ export default class SearchFormHistoryData extends React.Component {
   constructor(props) {
     super(props)
     // console.log(this.props.formData,"this.props.query")
+    // innit default value for timerange
+    const { from, to } = getTimes(1)
 
-    let fromDate = moment(props.initialValues.fromDate)
-    let toDate = moment(props.initialValues.toDate)
+    // let fromDate = moment(props.initialValues.fromDate)
+    // let toDate = moment(props.initialValues.toDate)
     let timeRange = props.initialValues.rangesDate
     let rangesView = null
     // debugger
@@ -137,19 +143,22 @@ export default class SearchFormHistoryData extends React.Component {
     //   "props.initialValues"
     // )
     if (props.initialValues.searchRange) {
-      rangesView = `${fromDate.format(DD_MM_YYYY_HH_MM)} - ${toDate.format(
+      rangesView = `${from.format(DD_MM_YYYY_HH_MM)} - ${to.format(
         DD_MM_YYYY_HH_MM
       )}`
       timeRange = null
     }
 
     this.state = {
+      // defaultQcvnOptions: [],
+      now: moment(),
+      triggerRerender: true,
       defaultQcvnOptions: qcvnOptions,
       isFilter: false,
       qcvnType: [],
       queryType: QUERY_TYPE.RAW,
-      fromDate,
-      toDate,
+      fromDate: from,
+      toDate: to,
       timeRange,
       rangesView,
       provinceKey: props.initialValues.provinceKey,
@@ -168,6 +177,12 @@ export default class SearchFormHistoryData extends React.Component {
       isSearchInit: props.initialValues.stationAuto ? false : true,
     }
   }
+
+  getDefaultValueQcvn() {
+    return this.state.defaultQcvnOptions.map(item => {
+      return item.value
+    })
+  }
   async loadQcvnConfig() {
     const res = await getConfigQAQC()
 
@@ -182,11 +197,11 @@ export default class SearchFormHistoryData extends React.Component {
     const filteredOptions = [
       {
         value: QCVN_TYPE.ZERO,
-        name: 'Giá trị 0'
+        name: translate('qaqcConfig.zero')
       },
       {
         value: QCVN_TYPE.NEGATIVE,
-        name: 'Gía trị âm'
+        name: translate('qaqcConfig.negative')
       },
     ]
     qcvnOptions.forEach((option, index) => {
@@ -207,6 +222,8 @@ export default class SearchFormHistoryData extends React.Component {
     this.setState({
       defaultQcvnOptions: [...filteredOptions]
     })
+    this.props.change('qcvnOptions', this.getDefaultValueQcvn())
+    // change()
     // return {
     //   beyondMeasuringRange,
     //   deviceCalibration,
@@ -268,6 +285,7 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleChangeStationAuto(stationAuto) {
+    // console.log("handleChangeStationAuto")
     const measuringData = stationAuto.measuringList.sort(function (a, b) {
       return a.numericalOrder - b.numericalOrder
     })
@@ -282,14 +300,18 @@ export default class SearchFormHistoryData extends React.Component {
       receivedAt: moment(),
     }
 
-    if (this.state.timeRange) {
-      params.fromDate = params.receivedAt
-        .clone()
-        .subtract(this.state.timeRange, 'days')
-      params.toDate = params.receivedAt.clone()
-    }
+    // if (this.state.timeRange) {
+    //   params.fromDate = params.receivedAt
+    //     .clone()
+    //     .subtract(this.state.timeRange, 'days')
+    //   params.toDate = params.receivedAt.clone()
+    // }
+    // console.log("Start set state " + JSON.stringify(params, null, 2))
 
-    this.setState(params)
+    this.setState({
+      ...this.state,
+      ...params
+    })
     this.props.change(
       'measuringList',
       measuringData.map(m => m.key)
@@ -297,8 +319,13 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleChangeRanges(ranges) {
-
-
+    if (ranges === null) return
+    // console.log(ranges, '==ranges==')
+    // console.log({
+    //   timeRange: ranges,
+    //   fromDate: from,
+    //   toDate: to,
+    // })
     // trong khoang
     if (Array.isArray(ranges)) {
       this.setState({
@@ -311,7 +338,11 @@ export default class SearchFormHistoryData extends React.Component {
 
     // cac truong hop khac
     const { from, to } = getTimes(ranges)
-    // console.log({ from: from.format('DD/MM/YYYY HH:mm'), to })
+    // if (ranges === null) {
+    //   console.log({ from: from.format('DD/MM/YYYY HH:mm'), to: to.format('DD/MM/YYYY HH:mm') })
+    //   console.log({ from: from.format('DD/MM/YYYY HH:mm'), to })
+    // }
+
     this.setState({
       timeRange: ranges,
       fromDate: from,
@@ -328,6 +359,12 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   handleSubmit(values) {
+    // console.log("handleSubmit")
+    this.handleChangeRanges(this.state.timeRange)
+
+    this.setState({
+      now: moment()
+    })
     // callapi
     // console.log(values, "handleSubmit")
     const qcvnOptions = values.qcvnOptions || []
@@ -359,7 +396,7 @@ export default class SearchFormHistoryData extends React.Component {
     //     )
     //     : [],
     //   queryType: this.state.queryType,
-    //   qcvnList: values.qcvnOptions.join(','),
+    //   qcvnList: qcvnOptions.join(','),
     //   isFilter: values.isFilter || false
     // })
     this.props.onSubmit({
@@ -481,8 +518,10 @@ export default class SearchFormHistoryData extends React.Component {
                 size="large"
                 onChangeObject={this.handleChangeRanges}
                 component={FOptionsTimeRange}
+                now={this.state.now}
                 // value={this.state.rangesDate}
                 rangesView={this.state.rangesView}
+              // triggerRerender={this.state.triggerRerender}
               />
             </Col>
             {/* <Col span={6}>
@@ -533,19 +572,30 @@ export default class SearchFormHistoryData extends React.Component {
                   showSearch
                   mode="multiple"
                   options={this.state.defaultQcvnOptions}
+                  // defaultValue={this.getDefaultValueQcvn()}
                   component={FSelectAnt}
                 />
               }
             </Col>
+            {this.state.queryType !== 'RAW' &&
+              <Col span={6}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                  <ToolTip />
+                  <div style={{ fontSize: '14', fontWeight: '600' }}>{translate('dataSearchFrom.processData')}</div>
+                  <div style={{ marginLeft: '10px' }}>
+                    <Field
+                      // label={translate('dataSearchFrom.processData')}
+                      name="isFilter"
+                      size="large"
 
-            <Col span={6}>
-              <Field
-                label={translate('dataSearchFrom.processData')}
-                name="isFilter"
-                size="large"
-                component={FSwitchFilter}
-              />
-            </Col>
+                      component={FSwitchFilter}
+                    />
+                  </div>
+
+                </div>
+
+              </Col>}
+
           </Row>
           {/* tạm ẩn vì nâng cao chưa đạt DOD */}
           {/* {this.state.measuringList.length > 0 ? (

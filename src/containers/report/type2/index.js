@@ -7,7 +7,7 @@ import {
   getUrlReportType2,
   getUrlReportType2Excel,
 } from 'api/DataStationAutoApi'
-import { Table, Typography, Button, Spin } from 'antd'
+import { Table, Typography, Button, Spin, message } from 'antd'
 import { map as _map, get as _get } from 'lodash'
 import Clearfix from 'components/elements/clearfix'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
@@ -38,6 +38,7 @@ export default class ReportType2 extends React.Component {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.state = {
+      isFilter: false,
       isHaveData: false,
       isLoading: false,
       isLoadingExcel: false,
@@ -80,12 +81,13 @@ export default class ReportType2 extends React.Component {
   }
 
   handleSubmit = async values => {
-    // console.log(values, "handleSubmit");
+    console.log(values, "handleSubmit");
     let measuringListUnitStr = ''
     if (values.measuringList) {
       this.setState({
         isHaveData: false,
         isLoading: true,
+        isFilter: values.isFilter
       })
       measuringListUnitStr = values.measuringList
         .map(item => encodeURIComponent(item.unit))
@@ -100,7 +102,8 @@ export default class ReportType2 extends React.Component {
         values.stationAuto,
         values.time.format('MM-YYYY'),
         measuringListStr,
-        measuringListUnitStr
+        measuringListUnitStr,
+        values.isFilter
       )
 
       if (res.success) {
@@ -122,19 +125,24 @@ export default class ReportType2 extends React.Component {
     }
   }
 
-  handleExcel = () => {
-    let url = getUrlReportType2Excel(
+  handleExcel = async () => {
+    let res = await getUrlReportType2Excel(
       this.props.token,
       this.state.dataSearch.stationAuto,
       this.state.dataSearch.time,
       this.state.dataSearch.measuringListStr,
       this.state.dataSearch.measuringListUnitStr,
+      this.state.isFilter,
       this.props.locale
     )
+    if (res && res.success) window.location = res.data
+    else message.error('Export Error') //message.error(res.message)
+
     // console.log("getUrlReportType1", url);
     // window.location.href = url
-    window.open(url, '_blank')
+    // window.open(url, '_blank')
   }
+
 
   render() {
     return (

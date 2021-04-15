@@ -34,6 +34,8 @@ export default {
   },
   rules: {
     required: 'Bắt buộc',
+    requiredName: 'Vui lòng nhập tên !',
+    requiredRtsp: 'Vui lòng nhập địa chỉ RTSP !',
     requiredEmail: 'Vui lòng nhập email',
     requiredPhone: 'Vui lòng nhập số điện thoại',
     requiredField: 'Vui lòng nhập {{=it.field}}',
@@ -559,6 +561,7 @@ export default {
     importFailed: 'Nhập dữ liệu không thành công!',
   },
   dataSearchFrom: {
+    tooltip: 'Loại bỏ một số dữ liệu không hợp lệ trước khi tính toán (áp dụng xử lý dữ liệu)',
     queryType: 'Loại dữ liệu',
     filterDataBy: 'Lọc dữ liệu theo',
     processData: 'Xử lý dữ liệu',
@@ -1196,6 +1199,17 @@ export default {
         required: 'Vui lòng nhập kinh độ',
         format: 'Kinh độ (-180<=x<=180)',
       },
+      latVn2000: {
+        label: 'Vĩ độ (VN2000)',
+        placeholder: 'Vĩ độ (VN2000)',
+        required: 'Vui lòng nhập kinh độ (VN2000)',
+        format: 'Vĩ độ (-90<=x<=90)',
+      },
+      longVn2000: {
+        label: 'Kinh độ (VN2000)',
+        placeholder: 'Kinh độ (VN2000)',
+        format: 'Kinh độ (-180<=x<=180)',
+      },
       provinceId: {
         label: 'Đơn vị quản lý',
         placeholder: 'Đơn vị quản lý',
@@ -1635,6 +1649,14 @@ export default {
         label: 'Vĩ độ',
         placeholder: 'Nhập vĩ độ',
         error: 'Vui lòng nhập vĩ độ',
+      },
+      longVn2000: {
+        label: 'Kinh độ (VN2000)',
+        placeholder: 'Nhập kinh độ (VN2000)'
+      },
+      latVn2000: {
+        label: 'Vĩ độ (VN2000)',
+        placeholder: 'Nhập vĩ độ (VN2000)'
       },
       connectionStatus: {
         label: 'Tín hiệu mất kết nối',

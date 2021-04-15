@@ -59,6 +59,8 @@ export default class TableList extends React.PureComponent {
 
   render() {
     if (!this.props.isActive) return null
+    // console.log("Tablelist con " + JSON.stringify(this.props.measuringData, null, 2))
+
     return (
       <TableListWrapper>
         <ButtonAbsolute>
@@ -77,8 +79,8 @@ export default class TableList extends React.PureComponent {
           <Tabs.TabPane tab={translate('avgSearchFrom.tab.data')} key="1">
             <TabTableDataList
               loading={this.props.isLoading}
-              measuringList={this.props.measuringList}
-              measuringData={this.props.measuringData}
+              measuringList={this.props.measuringList || []}
+              measuringData={this.props.measuringData || []}
               dataSource={this.props.dataStationAuto}
               pagination={this.props.pagination}
               onChange={this.props.onChangePage}
@@ -89,8 +91,8 @@ export default class TableList extends React.PureComponent {
           <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">
             <TabChart
               dataStationAuto={this.props.dataStationAuto}
-              measuringData={this.props.measuringData.filter(item =>
-                this.props.measuringList.includes(item.key)
+              measuringData={(this.props.measuringData || []).filter(item =>
+                (this.props.measuringList || []).includes(item.key)
               )}
               nameChart={this.props.nameChart}
               typeReport={this.props.typeReport}
