@@ -165,11 +165,13 @@ export default class EmailForm extends Component {
       <Form onSubmit={this.onSubmit}>
         <FormHeader>
           <Heading fontSize={16}>{t('login.title')}</Heading>
-          <Heading fontSize={16}>
-            <Link to={slug.password.emailConfirm}>
-              {translate('resetPassword.key')}
-            </Link>
-          </Heading>
+          <FormVerify hidden={isTwoFactorAuth}>
+            <Heading fontSize={16}>
+              <Link to={slug.password.emailConfirm}>
+                {translate('resetPassword.key')}
+              </Link>
+            </Heading>
+          </FormVerify>
         </FormHeader>
         <FormLogin hidden={isTwoFactorAuth}>
           <Form.Item>
@@ -216,9 +218,11 @@ export default class EmailForm extends Component {
             : t('login.form.buttonTwoFactor')}
         </Button>
         <Divider />
-        <Button block color="default" onClick={this.loginWithPhone}>
-          {t('login.form.loginWithPhone')}
-        </Button>
+        <FormVerify hidden={isTwoFactorAuth}>
+          <Button block color="default" onClick={this.loginWithPhone}>
+            {t('login.form.loginWithPhone')}
+          </Button>
+        </FormVerify>
       </Form>
     )
   }
