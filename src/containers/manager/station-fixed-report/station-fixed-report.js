@@ -296,6 +296,8 @@ export class StationFixedReport extends React.Component {
       key: measuring.key,
       align: 'center',
       render: valueColumn => {
+        if(!valueColumn) return
+        if(valueColumn.textValue === 'KPH') return valueColumn.textValue
         return (
           <div
             style={{ color: valueColumn && COLOR[valueColumn.warningLevel] }}
