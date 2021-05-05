@@ -188,6 +188,7 @@ export default class MarkerStation extends PureComponent {
                 textAlign: 'right',
               }}
             >
+              {value === 'KPH' ? value : ''}
               {typeof value === 'number' ? getFormatNumber(value) : ''}
             </td>
             <td>{unit}</td>
