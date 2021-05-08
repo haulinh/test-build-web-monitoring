@@ -1,22 +1,26 @@
-import React from 'react'
-import { Button, Col, DatePicker, Form, Row, Select, Switch, Spin } from 'antd'
-import moment from 'moment'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import { Button, Col, DatePicker, Form, Row, Switch } from 'antd'
 /** */
 import CategoryApi from 'api/CategoryApi'
 import { getPhase } from 'api/station-fixed/StationFixedPhaseApi'
 import { getPoint } from 'api/station-fixed/StationFixedPointApi'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import createLang, { translate as t } from 'hoc/create-lang'
-import SelectProvince from 'components/elements/select-province'
 import { DD_MM_YYYY } from 'constants/format-date'
+import createLang, { translate as t } from 'hoc/create-lang'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
+import SelectPhase from './SelectPhase'
+import SelectPoint from './SelectPoint'
+import SelectProvinceForm from './SelectProvince'
+import SelectQCVNForm from './SelectQCVN'
+import SelectStationTypes from './SelectStationTypes'
+import SelectTime from './SelectTime'
 
-const { Option } = Select
 const { RangePicker } = DatePicker
 
-const i18n = {
+export const i18n = {
   provinceLabel: t('dataPointReport.form.label.province'),
   stationTypeLabel: t('dataPointReport.form.label.stationType'),
   phaseLabel: t('dataPointReport.form.label.phase'),
@@ -35,11 +39,11 @@ const Container = styled.div`
   padding: 16px 16px;
 `
 
-const FormItemStyled = styled(Form.Item)`
+export const FormItemStyled = styled(Form.Item)`
   margin-bottom: 0px;
 `
 
-const FIELDS = {
+export const FIELDS = {
   PROVINCES: 'provinceId',
   STATION_TYPE_ID: 'stationTypeId',
   PHASE: 'phase',
@@ -50,13 +54,6 @@ const FIELDS = {
   RANGE_PICKER: 'rangePicker',
 }
 
-const optionsTimeRange = [
-  { key: 1, text: 'dataSearchFrom.options.byHours', value: 24 },
-  { key: 7, text: 'dataSearchFrom.options.byDay', value: 7 },
-  { key: 15, text: 'dataSearchFrom.options.byDay', value: 15 },
-  { key: 30, text: 'dataSearchFrom.options.byDay', value: 30 },
-]
-
 @createLang
 @Form.create()
 export class SearchForm extends React.Component {
@@ -66,6 +63,7 @@ export class SearchForm extends React.Component {
     stationTypes: [],
     isOpenRangePicker: false,
     isLoading: false,
+    foreceRerender: true,
   }
 
   async componentDidMount() {
@@ -192,9 +190,9 @@ export class SearchForm extends React.Component {
     const { loadingSearch } = this.props
     const { phases, points, stationTypes, isOpenRangePicker } = this.state
     const { form } = this.props
-    // const config = {
-    //   rules: [{ required: true }],
-    // }
+
+    console.log({ values: form.getFieldsValue() })
+
     const rangeConfig = {
       rules: [
         {
@@ -204,6 +202,7 @@ export class SearchForm extends React.Component {
         },
       ],
     }
+
     return (
       <SearchFormContainer>
         <Form onSubmit={this.handleOnSubmit}>
@@ -229,140 +228,50 @@ export class SearchForm extends React.Component {
           <Container>
             <Row gutter={24}>
               <Col span={12}>
-                <FormItemStyled label={i18n.provinceLabel}>
-                  {form.getFieldDecorator(FIELDS.PROVINCES)(
-                    <SelectProvince
-                      isShowAll
-                      onSelect={() => {
-                        form.setFieldsValue({
-                          [FIELDS.PHASE]: undefined,
-                          [FIELDS.POINT]: undefined,
-                        })
-                        this.fetchPoints()
-                      }}
-                      isUsedId
-                      size="large"
-                    />
-                  )}
-                </FormItemStyled>
+                <SelectProvinceForm
+                  label={i18n.provinceLabel}
+                  fetchPoints={this.fetchPoints}
+                  form={form}
+                />
               </Col>
               <Col span={12}>
-                <FormItemStyled label={i18n.stationTypeLabel}>
-                  {form.getFieldDecorator(
-                    FIELDS.STATION_TYPE_ID,
-                    this.getConfig(i18n.stationTypeRequired)
-                  )(
-                    <Select
-                      onSelect={this.handleOnSelectStationType}
-                      size="large"
-                    >
-                      {stationTypes &&
-                        stationTypes.length > 0 &&
-                        stationTypes.map(stationType => (
-                          <Option key={stationType._id} value={stationType._id}>
-                            {stationType.name}
-                          </Option>
-                        ))}
-                    </Select>
-                  )}
-                </FormItemStyled>
+                <SelectStationTypes
+                  label={i18n.stationTypeLabel}
+                  getConfig={() => this.getConfig(i18n.stationTypeRequired)}
+                  handleOnSelectStationType={this.handleOnSelectStationType}
+                  stationTypes={stationTypes}
+                  form={form}
+                />
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <Spin spinning={this.state.isLoading}>
-                  <FormItemStyled label={i18n.phaseLabel}>
-                    {form.getFieldDecorator(
-                      FIELDS.PHASE,
-                      this.getConfig(i18n.phaseRequired)
-                    )(
-                      <Select
-                        allowClear
-                        autoClearSearchValue
-                        size="large"
-                        mode="multiple"
-                        optionFilterProp="children"
-                        // this props allow search name and _id
-                        filterOption={(input, option) =>
-                          option.props.children
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0 ||
-                          option.props.value
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0
-                        }
-                        style={{ width: '100%' }}
-                      >
-                        {phases &&
-                          phases.length > 0 &&
-                          phases.map(phase => (
-                            <Option key={phase._id} value={phase._id}>
-                              {phase.name}
-                            </Option>
-                          ))}
-                      </Select>
-                    )}
-                  </FormItemStyled>
-                </Spin>
+                <SelectPhase
+                  form={form}
+                  phases={phases}
+                  label={i18n.phaseLabel}
+                  getConfig={() => this.getConfig(i18n.phaseRequired)}
+                />
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <Spin spinning={this.state.isLoading}>
-                  <FormItemStyled label={i18n.pointLabel}>
-                    {form.getFieldDecorator(
-                      FIELDS.POINT,
-                      this.getConfig(i18n.pointRequired)
-                    )(
-                      <Select
-                        autoClearSearchValue
-                        allowClear
-                        mode="multiple"
-                        size="large"
-                        optionFilterProp="children"
-                        // this props allow search name and _id
-                        filterOption={(input, option) =>
-                          option.props.children
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0 ||
-                          option.props.value
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0
-                        }
-                        style={{ width: '100%' }}
-                      >
-                        {points &&
-                          points.length > 0 &&
-                          points.map(point => (
-                            <Option key={point.key} value={point.key}>
-                              {point.name}
-                            </Option>
-                          ))}
-                      </Select>
-                    )}
-                  </FormItemStyled>
-                </Spin>
+                <SelectPoint
+                  label={i18n.pointLabel}
+                  getConfig={() => this.getConfig(i18n.pointRequired)}
+                  form={form}
+                  points={points}
+                />
               </Col>
             </Row>
             <Row gutter={24}>
               <Col span={8}>
-                <FormItemStyled label={i18n.timeLabel}>
-                  {form.getFieldDecorator('time', {
-                    ...this.getConfig(t('')),
-                    initialValue: 7,
-                  })(
-                    <Select onSelect={this.handleOnSelectTime} size="large">
-                      {optionsTimeRange.map(({ key, text, value }) => (
-                        <Select.Option key={key} value={key}>
-                          {t(text, { value })}
-                        </Select.Option>
-                      ))}
-                      <Option key="range" value={FIELDS.RANGE_PICKER}>
-                        {i18n.inRangeField}
-                      </Option>
-                    </Select>
-                  )}
-                </FormItemStyled>
+                <SelectTime
+                  form={form}
+                  label={i18n.timeLabel}
+                  getConfig={() => this.getConfig(t(''))}
+                  handleOnSelectTime={this.handleOnSelectTime}
+                />
               </Col>
               <Col span={8}>
                 <FormItemStyled label={i18n.exceededLabel}>
@@ -370,6 +279,9 @@ export class SearchForm extends React.Component {
                     initialValue: false,
                   })(<Switch size="large" />)}
                 </FormItemStyled>
+              </Col>
+              <Col span={8}>
+                <SelectQCVNForm form={form} />
               </Col>
             </Row>
             <Row gutter={24}>
