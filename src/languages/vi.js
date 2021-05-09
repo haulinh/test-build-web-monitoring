@@ -3135,6 +3135,8 @@ export default {
     grafana: 'Công cụ biểu đồ',
     ilotusland: 'iLotusLand Monitoring',
     databaseManagement: 'Quản lý cơ sở dữ liệu',
+    billing: 'Phí bảo vệ môi trường',
+
   },
   stationReview: {
     title: 'Đánh giá trạm',
