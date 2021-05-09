@@ -19,6 +19,8 @@ const i18n = {
   apps: {
     ilotusland: translate('apps.ilotusland'),
     databaseManagement: translate('apps.databaseManagement'),
+    billing: translate('apps.billing'),
+
   },
 }
 class SidebarGlobalLayout extends React.PureComponent {
@@ -40,6 +42,11 @@ class SidebarGlobalLayout extends React.PureComponent {
       {
         text: i18n.apps.databaseManagement,
         href: domains.qlnt,
+        icon: <img src={icon} alt="" />,
+      },
+      {
+        text: i18n.apps.billing,
+        href: domains.billing,
         icon: <img src={icon} alt="" />,
       },
     ]

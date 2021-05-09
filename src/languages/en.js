@@ -3164,6 +3164,8 @@ export default {
     grafana: 'Data visualization',
     ilotusland: 'iLotusLand Monitoring',
     databaseManagement: 'Database management',
+    billing: 'Environmental protection fee',
+
   },
   stationReview: {
     title: 'Station Reviews',
