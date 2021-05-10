@@ -562,7 +562,9 @@ export default {
     titleText: 'Tra cứu dữ liệu gốc',
     options: {
       byHours: '{{=it.value}} Giờ',
+      byHoursDetail: '{{=it.value}} Giờ ({{=it.detailHours}})',
       byDay: '{{=it.value}} Ngày',
+      byDayDetail: '{{=it.value}} Ngày ({{=it.detailDay}})',
       range: 'Trong khoảng',
     },
     form: {

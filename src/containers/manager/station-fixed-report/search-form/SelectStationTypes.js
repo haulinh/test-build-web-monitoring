@@ -9,7 +9,6 @@ const SelectStationTypes = ({
   handleOnSelectStationType,
   stationTypes,
 }) => {
-  console.log({ stationTypes })
   return (
     <FormItemStyled label={label}>
       {form.getFieldDecorator(

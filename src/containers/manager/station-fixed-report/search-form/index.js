@@ -1,5 +1,4 @@
 import { Button, Col, DatePicker, Form, Row, Switch } from 'antd'
-/** */
 import CategoryApi from 'api/CategoryApi'
 import { getPhase } from 'api/station-fixed/StationFixedPhaseApi'
 import { getPoint } from 'api/station-fixed/StationFixedPointApi'
@@ -7,6 +6,7 @@ import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import { DD_MM_YYYY } from 'constants/format-date'
 import createLang, { translate as t } from 'hoc/create-lang'
+import _ from 'lodash'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -64,6 +64,7 @@ export class SearchForm extends React.Component {
     isOpenRangePicker: false,
     isLoading: false,
     foreceRerender: true,
+    standardsVNObject: {},
   }
 
   async componentDidMount() {
@@ -146,7 +147,6 @@ export class SearchForm extends React.Component {
   handleOnSubmit = async e => {
     e.preventDefault()
     const values = await this.props.form.validateFields()
-    // console.log('🚀 ~ file: index.js ~ line 121 ~ SearchForm ~ values', values)
 
     let startDate
     let endDate
@@ -172,6 +172,7 @@ export class SearchForm extends React.Component {
       endDate: endDate.utc().format(),
       stationTypeId: values.stationTypeId,
       isExceeded: values.isExceeded,
+      standardsVN: values.standardsVN,
     }
 
     this.props.setQueryParam(paramQuery)
@@ -186,12 +187,14 @@ export class SearchForm extends React.Component {
     }
   }
 
+  setStandardVNObject = value => {
+    this.setState({ standardsVNObject: value })
+  }
+
   render() {
     const { loadingSearch } = this.props
     const { phases, points, stationTypes, isOpenRangePicker } = this.state
     const { form } = this.props
-
-    console.log({ values: form.getFieldsValue() })
 
     const rangeConfig = {
       rules: [
@@ -281,7 +284,10 @@ export class SearchForm extends React.Component {
                 </FormItemStyled>
               </Col>
               <Col span={8}>
-                <SelectQCVNForm form={form} />
+                <SelectQCVNForm
+                  form={form}
+                  setStandardVNObject={this.setStandardVNObject}
+                />
               </Col>
             </Row>
             <Row gutter={24}>
