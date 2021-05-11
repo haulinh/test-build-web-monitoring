@@ -1,8 +1,7 @@
 import SelectQCVN from 'components/elements/select-qcvn'
-import React from 'react'
-import { FormItemStyled } from './index'
 import { translate as t } from 'hoc/create-lang'
-import _ from 'lodash'
+import React from 'react'
+import { FormItemStyled, FIELDS } from './index'
 
 const SelectQCVNForm = ({ form, setStandardVNObject }) => {
   const changeQCVN = value => {
@@ -11,7 +10,7 @@ const SelectQCVNForm = ({ form, setStandardVNObject }) => {
 
   return (
     <FormItemStyled label="Quy chuẩn">
-      {form.getFieldDecorator('standardsVN', {
+      {form.getFieldDecorator(FIELDS.STANDARDS_VN, {
         rules: [
           {
             required: false,

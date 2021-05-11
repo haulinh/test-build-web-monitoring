@@ -25,7 +25,6 @@ class DataTable extends Component {
 
   getDataSource = () => {
     const { data, qcvns } = this.props
-    console.log({ qcvns })
     const measureKeys = Object.keys(data)
     const result = measureKeys.reduce((prev, measureKey) => {
       ;(data[measureKey] || []).forEach(item => {

@@ -170,11 +170,6 @@ export default class StationAutoForm extends React.PureComponent {
       options: initialValues.options ? initialValues.options : {},
     })
     try {
-      console.log({
-        ...omit(initialValues, 'measuringList'),
-        connectionStatusNumber,
-        connectionStatusTimeRange,
-      })
       this.props.form.setFieldsValue({
         ...omit(initialValues, 'measuringList'),
         connectionStatusNumber,

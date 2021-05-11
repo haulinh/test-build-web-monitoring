@@ -6,7 +6,6 @@ import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import { DD_MM_YYYY } from 'constants/format-date'
 import createLang, { translate as t } from 'hoc/create-lang'
-import _ from 'lodash'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -52,6 +51,8 @@ export const FIELDS = {
   END_DATE: 'endDate',
   IS_EXCEEDED: 'isExceeded',
   RANGE_PICKER: 'rangePicker',
+  STANDARD_VN_OBJECT: 'standardVNObject',
+  STANDARDS_VN: 'standardsVN',
 }
 
 @createLang
@@ -64,7 +65,6 @@ export class SearchForm extends React.Component {
     isOpenRangePicker: false,
     isLoading: false,
     foreceRerender: true,
-    standardsVNObject: {},
   }
 
   async componentDidMount() {
@@ -187,12 +187,8 @@ export class SearchForm extends React.Component {
     }
   }
 
-  setStandardVNObject = value => {
-    this.setState({ standardsVNObject: value })
-  }
-
   render() {
-    const { loadingSearch } = this.props
+    const { loadingSearch, setQueryParam, setStandardVNObject } = this.props
     const { phases, points, stationTypes, isOpenRangePicker } = this.state
     const { form } = this.props
 
@@ -286,7 +282,8 @@ export class SearchForm extends React.Component {
               <Col span={8}>
                 <SelectQCVNForm
                   form={form}
-                  setStandardVNObject={this.setStandardVNObject}
+                  setQueryParam={setQueryParam}
+                  setStandardVNObject={setStandardVNObject}
                 />
               </Col>
             </Row>

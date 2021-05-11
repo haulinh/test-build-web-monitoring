@@ -1,17 +1,24 @@
-import React from 'react'
 import { Table } from 'antd'
-import { i18n, PAGE_SIZE } from './station-fixed-report'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-import moment from 'moment'
-import _ from 'lodash'
 import { colorLevels } from 'constants/warningLevels'
+import _ from 'lodash'
+import moment from 'moment'
+import React from 'react'
+import { i18n, PAGE_SIZE } from './station-fixed-report'
 
 const COLOR = {
   EXCEEDED_PREPARING: colorLevels.EXCEEDED_PREPARING,
   EXCEEDED: colorLevels.EXCEEDED,
 }
 
-const ReportTable = ({ dataPoints, pagination, pageNumber, loading, form }) => {
+const ReportTable = ({
+  dataPoints,
+  pagination,
+  pageNumber,
+  loading,
+  form,
+  standardsVNObject,
+}) => {
   const getColumns = () => {
     const columnIndex = {
       title: i18n.numberOrder,
@@ -26,9 +33,6 @@ const ReportTable = ({ dataPoints, pagination, pageNumber, loading, form }) => {
       title: i18n.receivedAt,
       dataIndex: 'datetime',
       key: 'datetime',
-      render(value) {
-        return <div>{moment(value).format(DD_MM_YYYY_HH_MM)}</div>
-      },
     }
 
     const columnPhase = {
@@ -91,11 +95,63 @@ const ReportTable = ({ dataPoints, pagination, pageNumber, loading, form }) => {
     ]
   }
 
-  console.log({ data: dataPoints.data })
+  const BodyWrapper = props => {
+    const optionalInfoValue = form.getFieldsValue()
+    const optionalInfoColumn = Object.keys(optionalInfoValue).filter(
+      option => optionalInfoValue[option]
+    )
+    const measureList = _.get(dataPoints, 'measureList', [])
+
+    const renderFooter = () => {
+      if (!_.isEmpty(standardsVNObject)) {
+        const measureStandards = new Map(
+          _.get(standardsVNObject, 'measuringList', []).map(measure => [
+            measure.key,
+            measure,
+          ])
+        )
+
+        const renderQCVN = measure => {
+          const { minLimit, maxLimit } = measure || {}
+          if ((minLimit || minLimit === 0) && (maxLimit || maxLimit === 0))
+            return [minLimit, maxLimit].join('-')
+          if (minLimit || minLimit === 0) return `≤ ${minLimit}`
+          if (maxLimit || maxLimit === 0) return `≥ ${maxLimit}`
+          return '-'
+        }
+
+        return (
+          <tr className="ant-table-row">
+            <td />
+            <td />
+            <td />
+            <td>{standardsVNObject.name}</td>
+            {optionalInfoColumn.map(_ => (
+              <td>_</td>
+            ))}
+            {measureList.map(measure => {
+              const value = measureStandards.get(measure.key)
+              return (
+                <td style={{ textAlign: 'center' }}>{renderQCVN(value)}</td>
+              )
+            })}
+          </tr>
+        )
+      }
+      return <React.Fragment />
+    }
+
+    return (
+      <tbody {...props}>
+        <React.Fragment>{props.children}</React.Fragment>
+        {renderFooter()}
+      </tbody>
+    )
+  }
 
   return (
     <Table
-      // locale={locale}
+      components={{ body: { wrapper: BodyWrapper } }}
       size="small"
       rowKey="_id"
       columns={getColumns()}

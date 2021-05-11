@@ -1,20 +1,18 @@
-import { Button, Checkbox, Form, Popover, Table, Tabs } from 'antd'
+import { Button, Checkbox, Form, Popover, Tabs } from 'antd'
 import { exportDataPoint, getDataPoint } from 'api/station-fixed/DataPointApi'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-import { colorLevels } from 'constants/warningLevels'
+import ROLE from 'constants/role'
 import { translate as t } from 'hoc/create-lang'
-import { connect } from 'react-redux'
+import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from './breadcrumb'
-import { SearchForm } from './search-form'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
 import ReportTable from './ReportTable'
+import { SearchForm } from './search-form'
 
 export const i18n = {
   receivedAt: t('dataPointReport.title.receivedAt'),
@@ -55,11 +53,6 @@ const optionalInfo = [
   { field: 'placeOfAnalysis', checked: false },
 ]
 
-const COLOR = {
-  EXCEEDED_PREPARING: colorLevels.EXCEEDED_PREPARING,
-  EXCEEDED: colorLevels.EXCEEDED,
-}
-
 export const PAGE_SIZE = 50
 
 const { TabPane } = Tabs
@@ -89,9 +82,8 @@ export class StationFixedReport extends React.Component {
     pageNumber: 1,
     loadingSearch: false,
     loadingExport: false,
+    standardsVNObject: {},
   }
-
-  async componentDidMount() {}
 
   componentDidUpdate(prevProps, prevState) {
     if (!_.isEqual(prevState.queryParam, this.state.queryParam)) {
@@ -238,8 +230,19 @@ export class StationFixedReport extends React.Component {
     )
   }
 
+  setStandardVNObject = value => {
+    this.setState({ standardsVNObject: value })
+  }
+
   render() {
-    const { dataPoints, total, loadingSearch, pageNumber, loading } = this.state
+    const {
+      dataPoints,
+      total,
+      loadingSearch,
+      pageNumber,
+      loading,
+      standardsVNObject,
+    } = this.state
     const pagination = {
       current: this.state.pageNumber,
       total: total,
@@ -248,18 +251,22 @@ export class StationFixedReport extends React.Component {
         this.setState({ pageNumber: page })
       },
     }
+
     return (
       <PageContainer>
         <Breadcrumb items={['base']} />
         <SearchForm
+          ref={this.searchFormRef}
           loadingSearch={loadingSearch}
           setQueryParam={this.setQueryParam}
           onSearch={this.handleOnSearch}
+          setStandardVNObject={this.setStandardVNObject}
         />
         <Tabs defaultActiveKey="1" tabBarExtraContent={this.operations()}>
           <TabPane tab={i18n.dataTab} key="1" />
         </Tabs>
         <ReportTable
+          standardsVNObject={standardsVNObject}
           form={this.props.form}
           dataPoints={dataPoints}
           pageNumber={pageNumber}
