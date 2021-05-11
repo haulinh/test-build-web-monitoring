@@ -1,33 +1,31 @@
-import React from 'react'
-import { Spin, Row, Col, message, Button, Menu, Dropdown, Tooltip } from 'antd'
-import _ from 'lodash'
-import styled from 'styled-components'
-import { translate } from 'hoc/create-lang'
-import StationList from './station-list'
-import Breadcrumb from './breadcrumb'
-import SearchFrom from './form/SearchForm'
-import StationForm from './form/StationForm'
+import { Button, Col, Dropdown, Menu, message, Row, Spin, Tooltip } from 'antd'
 import DataStationAutoApi from 'api/DataStationAutoApi'
 import OrganizationApi from 'api/OrganizationApi'
-import { toggleNavigation } from 'redux/actions/themeAction'
-import queryFormDataBrowser from 'hoc/query-formdata-browser'
-import { connectAutoDispatch } from 'redux/connect'
-import {
-  updateBreadcrumb,
-  addBreadcrumb,
-  deleteBreadcrumb,
-} from 'shared/breadcrumb/action'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { replaceVietnameseStr } from 'utils/string'
 import Clearfix from 'components/elements/clearfix'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
-import FilterListMenu from './menu'
-import FormFilter from './form/ModalForm'
 import slug from 'constants/slug'
+import { translate } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import update from 'immutability-helper'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import _ from 'lodash'
 import moment from 'moment'
-import { getTimes } from 'utils/datetime'
+import React from 'react'
+import { toggleNavigation } from 'redux/actions/themeAction'
+import { connectAutoDispatch } from 'redux/connect'
+import {
+  addBreadcrumb,
+  deleteBreadcrumb, updateBreadcrumb
+} from 'shared/breadcrumb/action'
+import styled from 'styled-components'
+import { replaceVietnameseStr } from 'utils/string'
+import Breadcrumb from './breadcrumb'
+import FormFilter from './form/ModalForm'
+import SearchFrom from './form/SearchForm'
+import StationForm from './form/StationForm'
+import FilterListMenu from './menu'
+import StationList from './station-list'
 
 const Flex = styled.div`
   display: flex;
