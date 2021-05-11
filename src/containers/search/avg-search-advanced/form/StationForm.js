@@ -1,26 +1,25 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import _ from 'lodash'
-import update from 'immutability-helper'
-import styled from 'styled-components'
 import {
-  Collapse,
-  Table,
-  Select,
-  Checkbox,
   Button,
-  Input,
-  Tooltip,
+  Checkbox,
+  Collapse,
   Icon,
+  Input,
+  Select,
+  Table,
+  Tooltip
 } from 'antd'
 import Clearfix from 'components/elements/clearfix'
 import { translate } from 'hoc/create-lang'
-import { replaceVietnameseStr } from 'utils/string'
-import Highlighter from 'react-highlight-words'
-import { reduxForm } from 'redux-form'
-import { getTimes } from 'utils/datetime'
-import { connect } from 'react-redux'
+import update from 'immutability-helper'
+import _ from 'lodash'
 import moment from 'moment'
+import PropTypes from 'prop-types'
+import React from 'react'
+import Highlighter from 'react-highlight-words'
+import { connect } from 'react-redux'
+import { reduxForm } from 'redux-form'
+import styled from 'styled-components'
+import { replaceVietnameseStr } from 'utils/string'
 
 const { Panel } = Collapse
 
@@ -316,7 +315,7 @@ export default class StationForm extends React.PureComponent {
     const indeterminate =
       !!this.state.dataSource.filter(data => data.view).length &&
       this.state.dataSource.filter(data => data.view).length <
-      this.state.dataSource.length
+        this.state.dataSource.length
     const checkedAll =
       this.state.dataSource.filter(data => data.view).length ===
       this.state.dataSource.length

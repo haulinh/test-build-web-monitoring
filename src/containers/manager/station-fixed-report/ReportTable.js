@@ -1,8 +1,6 @@
 import { Table } from 'antd'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { colorLevels } from 'constants/warningLevels'
 import _ from 'lodash'
-import moment from 'moment'
 import React from 'react'
 import { i18n, PAGE_SIZE } from './station-fixed-report'
 
