@@ -1,21 +1,20 @@
-import { Button, Checkbox, Form, Popover, Table, Tabs } from 'antd'
+import { Button, Checkbox, Form, Popover, Tabs } from 'antd'
 import { exportDataPoint, getDataPoint } from 'api/station-fixed/DataPointApi'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-import { colorLevels } from 'constants/warningLevels'
+import ROLE from 'constants/role'
 import { translate as t } from 'hoc/create-lang'
-import { connect } from 'react-redux'
+import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from './breadcrumb'
+import ReportTable from './ReportTable'
 import { SearchForm } from './search-form'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
 
-const i18n = {
+export const i18n = {
   receivedAt: t('dataPointReport.title.receivedAt'),
   phaseName: t('dataPointReport.title.phaseName'),
   pointName: t('dataPointReport.title.pointName'),
@@ -54,11 +53,7 @@ const optionalInfo = [
   { field: 'placeOfAnalysis', checked: false },
 ]
 
-const COLOR = {
-  EXCEEDED_PREPARING: colorLevels.EXCEEDED_PREPARING,
-  EXCEEDED: colorLevels.EXCEEDED,
-}
-const PAGE_SIZE = 50
+export const PAGE_SIZE = 50
 
 const { TabPane } = Tabs
 
@@ -87,9 +82,8 @@ export class StationFixedReport extends React.Component {
     pageNumber: 1,
     loadingSearch: false,
     loadingExport: false,
+    standardsVNObject: {},
   }
-
-  async componentDidMount() {}
 
   componentDidUpdate(prevProps, prevState) {
     if (!_.isEqual(prevState.queryParam, this.state.queryParam)) {
@@ -150,6 +144,7 @@ export class StationFixedReport extends React.Component {
       endDate,
       isExceeded,
       stationTypeId,
+      standardsVN,
     } = this.state.queryParam
     this.setState({ loading: true, loadingSearch: true })
 
@@ -170,6 +165,7 @@ export class StationFixedReport extends React.Component {
           },
         },
       },
+      standardsVN,
       pageNumber,
       pageSize: PAGE_SIZE,
     })
@@ -185,10 +181,6 @@ export class StationFixedReport extends React.Component {
   handleOnSearch = async (pageNumber = 1) => {
     this.queryDataPoint(this.state.pageNumber)
   }
-
-  // handleOnPageChange = pageNumber => {
-  //   this.queryDataPoint(pageNumber)
-  // }
 
   handleExportExcel = async () => {
     const {
@@ -238,116 +230,48 @@ export class StationFixedReport extends React.Component {
     )
   }
 
-  getColumns = () => {
-    const { dataPoints, pageNumber } = this.state
-    const columnIndex = {
-      title: i18n.numberOrder,
-      dataIndex: 'Index',
-      key: 'Index',
-      render(value, record, index) {
-        return <div>{(pageNumber - 1) * PAGE_SIZE + (index + 1)}</div>
-      },
-    }
-
-    const columnReceivedAt = {
-      title: i18n.receivedAt,
-      dataIndex: 'datetime',
-      key: 'datetime',
-      render(value) {
-        return <div>{moment(value).format(DD_MM_YYYY_HH_MM)}</div>
-      },
-    }
-
-    const columnPhase = {
-      title: i18n.phaseName,
-      dataIndex: 'phase',
-      key: 'phase',
-      render(value) {
-        return <div>{value.name}</div>
-      },
-    }
-
-    const columnPoint = {
-      title: i18n.pointName,
-      dataIndex: 'point',
-      key: 'point',
-      render(value) {
-        return <div>{value.name}</div>
-      },
-    }
-
-    const optionalInfoValue = this.props.form.getFieldsValue()
-    const optionalInfoColumn = Object.keys(optionalInfoValue)
-      .filter(option => optionalInfoValue[option])
-      .map(option => ({
-        title: i18n.optionalInfo[option],
-        dataIndex: `${option}`,
-        key: `${option}`,
-        align: 'center',
-        render: value => {
-          return <div>{value}</div>
-        },
-      }))
-
-    const measureList = _.get(dataPoints, 'measureList', [])
-    const columnsMeasuring = measureList.map(measuring => ({
-      title: `${measuring.name} (${measuring.unit})`,
-      dataIndex: `measuringLogs.${measuring.key}`,
-      key: measuring.key,
-      align: 'center',
-      render: valueColumn => {
-        if(!valueColumn) return
-        if(valueColumn.textValue === 'KPH') return valueColumn.textValue
-        return (
-          <div
-            style={{ color: valueColumn && COLOR[valueColumn.warningLevel] }}
-          >
-            {valueColumn && valueColumn.value}
-          </div>
-        )
-      },
-    }))
-
-    return [
-      columnIndex,
-      columnReceivedAt,
-      columnPhase,
-      columnPoint,
-      ...optionalInfoColumn,
-      ...columnsMeasuring,
-    ]
+  setStandardVNObject = value => {
+    this.setState({ standardsVNObject: value })
   }
 
   render() {
-    const { dataPoints, total, loadingSearch } = this.state
+    const {
+      dataPoints,
+      total,
+      loadingSearch,
+      pageNumber,
+      loading,
+      standardsVNObject,
+    } = this.state
     const pagination = {
       current: this.state.pageNumber,
       total: total,
       pageSize: PAGE_SIZE,
       onChange: (page, pageSize) => {
         this.setState({ pageNumber: page })
-        // this.handleOnPageChange(page)
       },
     }
+
     return (
       <PageContainer>
         <Breadcrumb items={['base']} />
         <SearchForm
+          ref={this.searchFormRef}
           loadingSearch={loadingSearch}
           setQueryParam={this.setQueryParam}
           onSearch={this.handleOnSearch}
+          setStandardVNObject={this.setStandardVNObject}
         />
         <Tabs defaultActiveKey="1" tabBarExtraContent={this.operations()}>
           <TabPane tab={i18n.dataTab} key="1" />
         </Tabs>
-        <Table
-          // locale={locale}
-          size="small"
-          rowKey="_id"
-          columns={this.getColumns()}
-          dataSource={dataPoints.data}
-          loading={this.state.loading}
+        <ReportTable
+          standardsVNObject={standardsVNObject}
+          form={this.props.form}
+          dataPoints={dataPoints}
+          pageNumber={pageNumber}
           pagination={pagination}
+          loading={loading}
         />
       </PageContainer>
     )
