@@ -169,6 +169,10 @@ export default class TableList extends React.PureComponent {
               : 0,
         },
       }, () => {
+        if(this.state.dataStationAuto.length === 0){
+          return
+        }
+
         const orderedMeaList = this.state.dataStationAuto.map(station => {
           const meaKeys = Object.keys(station.measuringLogs)
 
@@ -177,9 +181,9 @@ export default class TableList extends React.PureComponent {
             length: meaKeys.length
           }
         })
-        // console.log(orderedMeaList, '===orderedMea')
+        
         const orderedMea = _.maxBy(orderedMeaList, o => o.length)
-        // console.log(orderedMea, '==orderedMea')
+        
         this.setState({
           orderedMeaKey: orderedMea.meaKeys
         })
