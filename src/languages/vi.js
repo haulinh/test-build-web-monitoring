@@ -34,8 +34,8 @@ export default {
   },
   rules: {
     required: 'Bắt buộc',
-    requiredName: 'Vui lòng nhập tên !',
-    requiredRtsp: 'Vui lòng nhập địa chỉ RTSP !',
+    requiredName: 'Vui lòng nhập tên',
+    requiredRtsp: 'Vui lòng nhập địa chỉ RTSP',
     requiredEmail: 'Vui lòng nhập email',
     requiredPhone: 'Vui lòng nhập số điện thoại',
     requiredField: 'Vui lòng nhập {{=it.field}}',
