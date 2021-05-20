@@ -70,6 +70,54 @@ export default class TableList extends React.PureComponent {
     }
   }
 
+  renderTabStations(stations) {
+    return <Tabs
+      defaultActiveKey={this.state.tabKey}
+      onChange={this.handleChangeTab}
+      activeKey={this.state.tabKey}
+    >
+      {
+        stations.map(station => {
+          return this.renderOneStation(station)
+        })
+      }
+
+    </Tabs>
+  }
+
+  renderOneStation(station) {
+    const newMeasuringData = []
+    const newMeasuringList = []
+
+    this.state.orderedMeaKey.forEach(meaKey => {
+      const indexMatched = station.measuringList.findIndex(key => key === meaKey)
+      if (indexMatched !== -1) {
+        newMeasuringData.push(station.measuringData[indexMatched])
+        newMeasuringList.push(station.measuringList[indexMatched])
+      }
+    })
+
+    return (
+      < Tabs.TabPane tab={station.name} key={station.key} >
+        <TabList
+          isActive={this.state.tabKey === station.key}
+          isLoading={this.state.isLoading}
+          measuringData={newMeasuringData}
+          measuringList={newMeasuringList}
+          dataStationAuto={this.state.dataStationAuto}
+          pagination={this.state.pagination}
+          onChangePage={this.handleChangePage}
+          onExportExcel={this.handleExportExcel}
+          onExportExcelAll={this.handleExportAllStation}
+          nameChart={station.name}
+          typeReport={`${this.props.type}`}
+          isExporting={this.state.isExporting}
+          isExportingAll={this.state.isExportingAll}
+        />
+      </Tabs.TabPane>
+    )
+  }
+
   getStation = stationKey => {
     const { stationsData } = this.props
     let station = stationsData[0]
@@ -169,7 +217,7 @@ export default class TableList extends React.PureComponent {
               : 0,
         },
       }, () => {
-        if(this.state.dataStationAuto.length === 0){
+        if (this.state.dataStationAuto.length === 0) {
           return
         }
 
@@ -181,9 +229,9 @@ export default class TableList extends React.PureComponent {
             length: meaKeys.length
           }
         })
-        
+
         const orderedMea = _.maxBy(orderedMeaList, o => o.length)
-        
+
         this.setState({
           orderedMeaKey: orderedMea.meaKeys
         })
@@ -272,6 +320,7 @@ export default class TableList extends React.PureComponent {
 
   render() {
     const stations = this.props.stationsData.filter(station => station.view)
+    // console.log(stations.length, 'length statuib')
     // const stt = stations.filter(s => s.key === 'NT_XMHT')
     // console.log(JSON.stringify(stt, null, 2), 'station ne')
     // console.log(JSON.stringify(this.state.dataStationAuto, null, 2), '==data ne')
@@ -281,76 +330,13 @@ export default class TableList extends React.PureComponent {
       <TableListWrapper>
         <TitleWrapper>
           <h4>{translate('dataSearchFilterForm.table.heading')}</h4>
-
-          {/* {stations.length === 1 && (
-            <Button
-              icon="file-excel"
-              style={{ float: 'right', margin: '5px' }}
-              loading={this.state.isExporting}
-              type="primary"
-              onClick={this.handleExportExcel}
-            >
-              {translate('avgSearchFrom.tab.exportExcel')}
-            </Button>
-          )}
-
-          {stations.length > 1 && (
-            <Button
-              icon="file-excel"
-              style={{ float: 'right', margin: '5px' }}
-              loading={this.state.isExportingAll}
-              type="primary"
-              onClick={this.handleExportAllStation}
-            >
-              {translate('avgSearchFrom.tab.exportExcelAll')}
-            </Button>
-          )} */}
         </TitleWrapper>
 
-        <Tabs
-          defaultActiveKey={this.state.tabKey}
-          onChange={this.handleChangeTab}
-          activeKey={this.state.tabKey}
-        >
-          {
-            stations.map(station => {
-              const newMeasuringData = []
-              const newMeasuringList = []
-
-              this.state.orderedMeaKey.forEach(meaKey => {
-                const indexMatched = station.measuringList.findIndex(key => key === meaKey)
-                if (indexMatched !== -1) {
-                  newMeasuringData.push(station.measuringData[indexMatched])
-                  newMeasuringList.push(station.measuringList[indexMatched])
-                }
-                // console.log(station.measuringList, '=station.measuringList')
-                // console.log(indexMatched, '=indexMatched')
-
-              })
-              // console.log(newMeasuringList, '==newMeasuringList==')
-              // console.log(newMeasuringData, '==newMeasuringData==')
-              return newMeasuringList.length > 0 && < Tabs.TabPane tab={station.name} key={station.key} >
-                <TabList
-                  isActive={this.state.tabKey === station.key}
-                  isLoading={this.state.isLoading}
-                  measuringData={newMeasuringData}
-                  measuringList={newMeasuringList}
-                  dataStationAuto={this.state.dataStationAuto}
-                  pagination={this.state.pagination}
-                  onChangePage={this.handleChangePage}
-                  onExportExcel={this.handleExportExcel}
-                  onExportExcelAll={this.handleExportAllStation}
-                  nameChart={station.name}
-                  typeReport={`${this.props.type}`}
-                  isExporting={this.state.isExporting}
-                  isExportingAll={this.state.isExportingAll}
-                />
-              </Tabs.TabPane>
-            })
-          }
-
-        </Tabs>
+        {this.renderTabStations(stations)}
       </TableListWrapper >
     )
   }
 }
+
+
+
