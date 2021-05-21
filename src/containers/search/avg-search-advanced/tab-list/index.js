@@ -57,8 +57,42 @@ export default class TableList extends React.PureComponent {
     )
   }
 
+  renderDataTab = () => {
+    return <Tabs.TabPane tab={translate('avgSearchFrom.tab.data')} key="1">
+      <TabTableDataList
+        loading={this.props.isLoading}
+        measuringList={this.props.measuringList || []}
+        measuringData={this.props.measuringData || []}
+        dataSource={this.props.dataStationAuto}
+        pagination={this.props.pagination}
+        onChange={this.props.onChangePage}
+        typeReport={this.props.typeReport}
+        nameChart={this.props.nameChart}
+      />
+    </Tabs.TabPane>
+  }
+
+  renderChartTab = () => {
+    return <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">
+      <TabChart
+        dataStationAuto={this.props.dataStationAuto}
+        measuringData={(this.props.measuringData || []).filter(item =>
+          (this.props.measuringList || []).includes(item.key)
+        )}
+        nameChart={this.props.nameChart}
+        typeReport={this.props.typeReport}
+      />
+    </Tabs.TabPane>
+  }
+
   render() {
     if (!this.props.isActive) return null
+
+    if (this.props.measuringData.length === 0) {
+      return <div>
+        {translate('avgSearchFrom.table.emptyText')}
+      </div>
+    }
     // console.log("Tablelist con " + JSON.stringify(this.props.measuringData, null, 2))
 
     return (
@@ -75,30 +109,12 @@ export default class TableList extends React.PureComponent {
             </Button>
           )}
         </ButtonAbsolute>
+
         <Tabs defaultActiveKey="1">
-          <Tabs.TabPane tab={translate('avgSearchFrom.tab.data')} key="1">
-            <TabTableDataList
-              loading={this.props.isLoading}
-              measuringList={this.props.measuringList || []}
-              measuringData={this.props.measuringData || []}
-              dataSource={this.props.dataStationAuto}
-              pagination={this.props.pagination}
-              onChange={this.props.onChangePage}
-              typeReport={this.props.typeReport}
-              nameChart={this.props.nameChart}
-            />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">
-            <TabChart
-              dataStationAuto={this.props.dataStationAuto}
-              measuringData={(this.props.measuringData || []).filter(item =>
-                (this.props.measuringList || []).includes(item.key)
-              )}
-              nameChart={this.props.nameChart}
-              typeReport={this.props.typeReport}
-            />
-          </Tabs.TabPane>
+          {this.renderDataTab()}
+          {this.renderChartTab()}
         </Tabs>
+
       </TableListWrapper>
     )
   }
