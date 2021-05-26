@@ -1,6 +1,6 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { Tabs, Menu, Button } from 'antd'
+import { Tabs, Menu, Button, Empty } from 'antd'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow'
@@ -40,60 +40,78 @@ export default class TableList extends React.PureComponent {
     isActive: PropTypes.bool,
   }
 
-  renderMenuExport = () => {
+  renderMenuExport = () =>
+  (
+    <Menu>
+      <Menu.Item onClick={this.props.onExportExcel}>
+        <div style={{ padding: '8px 0' }}>
+          {translate('avgSearchFrom.tab.exportExcel')}
+        </div>
+      </Menu.Item>
+      <Menu.Item onClick={this.props.onExportExcelAll}>
+        <div style={{ padding: '8px 0' }}>
+          {translate('avgSearchFrom.tab.exportExcelAll')}
+        </div>
+      </Menu.Item>
+    </Menu>
+  )
+
+
+  renderDataTab = () => {
+    if (this.props.measuringData.length === 0) {
+      return (
+        <Tabs.TabPane tab={translate('avgSearchFrom.tab.data')} key="1">
+          <Empty />
+        </Tabs.TabPane>
+      )
+    }
+
     return (
-      <Menu>
-        <Menu.Item onClick={this.props.onExportExcel}>
-          <div style={{ padding: '8px 0' }}>
-            {translate('avgSearchFrom.tab.exportExcel')}
-          </div>
-        </Menu.Item>
-        <Menu.Item onClick={this.props.onExportExcelAll}>
-          <div style={{ padding: '8px 0' }}>
-            {translate('avgSearchFrom.tab.exportExcelAll')}
-          </div>
-        </Menu.Item>
-      </Menu>
+      <Tabs.TabPane tab={translate('avgSearchFrom.tab.data')} key="1">
+        <TabTableDataList
+          loading={this.props.isLoading}
+          measuringList={this.props.measuringList || []}
+          measuringData={this.props.measuringData || []}
+          dataSource={this.props.dataStationAuto}
+          pagination={this.props.pagination}
+          onChange={this.props.onChangePage}
+          typeReport={this.props.typeReport}
+          nameChart={this.props.nameChart}
+        />
+      </Tabs.TabPane>
     )
   }
 
-  renderDataTab = () => {
-    return <Tabs.TabPane tab={translate('avgSearchFrom.tab.data')} key="1">
-      <TabTableDataList
-        loading={this.props.isLoading}
-        measuringList={this.props.measuringList || []}
-        measuringData={this.props.measuringData || []}
-        dataSource={this.props.dataStationAuto}
-        pagination={this.props.pagination}
-        onChange={this.props.onChangePage}
-        typeReport={this.props.typeReport}
-        nameChart={this.props.nameChart}
-      />
-    </Tabs.TabPane>
-  }
+
+
+
 
   renderChartTab = () => {
-    return <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">
-      <TabChart
-        dataStationAuto={this.props.dataStationAuto}
-        measuringData={(this.props.measuringData || []).filter(item =>
-          (this.props.measuringList || []).includes(item.key)
-        )}
-        nameChart={this.props.nameChart}
-        typeReport={this.props.typeReport}
-      />
-    </Tabs.TabPane>
+    if (this.props.measuringData.length === 0) {
+      return (
+        <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">
+          <Empty />
+        </Tabs.TabPane>
+      )
+    }
+    return (
+      <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">
+        <TabChart
+          dataStationAuto={this.props.dataStationAuto}
+          measuringData={(this.props.measuringData || []).filter(item =>
+            (this.props.measuringList || []).includes(item.key)
+          )}
+          nameChart={this.props.nameChart}
+          typeReport={this.props.typeReport}
+        />
+      </Tabs.TabPane>
+    )
   }
+
 
   render() {
     if (!this.props.isActive) return null
 
-    if (this.props.measuringData.length === 0) {
-      return <div>
-        {translate('avgSearchFrom.table.emptyText')}
-      </div>
-    }
-    // console.log("Tablelist con " + JSON.stringify(this.props.measuringData, null, 2))
 
     return (
       <TableListWrapper>

@@ -98,7 +98,7 @@ export default class TableList extends React.PureComponent {
     })
 
     return (
-      < Tabs.TabPane tab={station.name} key={station.key} >
+      <Tabs.TabPane tab={station.name} key={station.key} >
         <TabList
           isActive={this.state.tabKey === station.key}
           isLoading={this.state.isLoading}
