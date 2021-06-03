@@ -1313,6 +1313,7 @@ export default {
     edit: {
       label: 'Sửa',
       success: 'Cập nhật QCVN thành công',
+      expiredBeforeBegin: 'Ngày hết hiệu lực phải lớn hơn ngày hiệu lực',
     },
     delete: {
       label: 'Xoá',

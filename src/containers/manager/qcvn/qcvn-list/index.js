@@ -17,10 +17,9 @@ import DynamicTable from 'components/elements/dynamic-table'
 import moment from 'moment-timezone'
 import { DD_MM_YYYY } from 'constants/format-date.js'
 
-
 const i18n = {
   begin: {
-    label: translate('qcvn.form.expired.label'),
+    label: translate('qcvn.form.begin.label'),
   },
   expired: {
     label: translate('qcvn.form.expired.label'),
@@ -80,7 +79,7 @@ export default class QCVNList extends React.Component {
       { content: t('qcvn.form.key.label'), width: 15 },
       { content: t('qcvn.form.name.label'), width: 15 },
       { content: i18n.begin.label, width: 15 },
-      { content:  i18n.expired.label, width: 15 },
+      { content: i18n.expired.label, width: 15 },
       { content: t('stationAutoManager.list.action'), width: 10 },
     ]
   }
@@ -108,14 +107,12 @@ export default class QCVNList extends React.Component {
         content: row.name,
       },
       {
-        content: (
-          row.begin ?  moment(row.begin).format(DD_MM_YYYY) : ""
-        ),
+        content: row.begin ? moment(row.begin).format(DD_MM_YYYY) : '',
       },
       {
-        content:(
-          row.expired ?  moment(row.expired).format(DD_MM_YYYY) : i18n.expired.isApplying
-        )
+        content: row.expired
+          ? moment(row.expired).format(DD_MM_YYYY)
+          : i18n.expired.isApplying,
       },
       {
         content: (

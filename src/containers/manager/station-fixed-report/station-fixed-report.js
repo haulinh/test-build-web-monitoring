@@ -222,6 +222,9 @@ export class StationFixedReport extends React.Component {
       optionalInfo: this.props.form.getFieldsValue(),
       pageNumber: 1,
       pageSize: 9999,
+      standardsVN:
+        this.state.standardsVNObject &&
+        this.state.standardsVNObject.map(s => s.key),
     }
     const res = await exportDataPoint(lang, params)
     this.setState({ loadingExport: false })

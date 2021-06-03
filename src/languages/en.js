@@ -1321,6 +1321,8 @@ export default {
     edit: {
       label: 'Edit',
       success: 'Update Standard Filter Successfully',
+      expiredBeforeBegin:
+        'The expiration date must be greater than the effective date',
     },
     delete: {
       label: 'Delete',
