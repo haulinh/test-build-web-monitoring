@@ -76,6 +76,7 @@ const i18n = {
 @protectRole(ROLE.STATION_FIXED.VIEW)
 @createManagerList({
   apiList: StationFixedPointApi.getStationFixedPoints,
+  itemPerPage:1000
 })
 @createManagerDelete({
   apiDelete: StationFixedPointApi.deleteStationFixedPoint,
