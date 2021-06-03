@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, Row, Col } from 'antd'
+import { Form, Input, Button, Row, Col, DatePicker } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
@@ -96,11 +96,15 @@ export default class QCVNForm extends React.PureComponent {
         return
       }
       if (err) return
+      console.log(values, "----1111----")
       const data = {
         key: values.key,
         name: (values.name || '').trim(),
         measuringList: values.measuringList,
         numericalOrder: values.numericalOrder,
+        begin: values.begin,
+        expired: values.expired,
+
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
@@ -190,6 +194,40 @@ export default class QCVNForm extends React.PureComponent {
                 <Input
                   size="large"
                   placeholder={t('qcvn.form.name.placeholder')}
+                />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={12}>
+            <FormItem
+              {...formItemLayout}
+              label={t('stationAutoManager.form.dayOfOperation.label')}
+            >
+              {getFieldDecorator('begin', {
+                rules: [{ required: false }],
+              })(
+                <DatePicker
+                  format="DD-MM-YYYY"
+                  placeholder={t(
+                    'stationAutoManager.form.dayOfOperation.placeholder'
+                  )}
+                />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={12}>
+            <FormItem
+              {...formItemLayout}
+              label={t('stationAutoManager.form.dayOfOperation.label')}
+            >
+              {getFieldDecorator('expired', {
+                rules: [{ required: false }],
+              })(
+                <DatePicker
+                  format="DD-MM-YYYY"
+                  placeholder={t(
+                    'stationAutoManager.form.dayOfOperation.placeholder'
+                  )}
                 />
               )}
             </FormItem>
