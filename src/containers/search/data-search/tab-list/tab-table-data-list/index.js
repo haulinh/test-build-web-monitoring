@@ -10,7 +10,7 @@ import {
   // warningLevels,
   // colorLevels,
   getcolorMeasure,
-  getColorStatusDevice
+  getColorStatusDevice,
 } from 'constants/warningLevels'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { connect } from 'react-redux'
@@ -56,6 +56,7 @@ export default class TableDataList extends React.PureComponent {
         )
       },
     }
+
     const columnsMeasurings = this.props.measuringData
       .filter(measuring => this.props.measuringList.includes(measuring.key))
       .map(measuring => ({
@@ -88,18 +89,26 @@ export default class TableDataList extends React.PureComponent {
           // console.log(measuring, color, value)
           // Format number toLocalString(national)
           return (
-
-            <div style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignItems: 'center'
-            }} >
-
-              <div style={{ backgroundColor: colorDevice, width: '15px', height: '15px', borderRadius: '50%', marginRight: '10px' }}></div>
-              <div style={{ color: color, minWidth: '50px' }} >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: colorDevice,
+                  width: '15px',
+                  height: '15px',
+                  borderRadius: '50%',
+                  marginRight: '10px',
+                }}
+              ></div>
+              <div style={{ color: color, minWidth: '50px' }}>
                 {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
               </div>
-            </div >
+            </div>
           )
         },
       }))
