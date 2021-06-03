@@ -96,7 +96,6 @@ export default class QCVNForm extends React.PureComponent {
         return
       }
       if (err) return
-      console.log(values, "----1111----")
       const data = {
         key: values.key,
         name: (values.name || '').trim(),
@@ -104,7 +103,6 @@ export default class QCVNForm extends React.PureComponent {
         numericalOrder: values.numericalOrder,
         begin: values.begin,
         expired: values.expired,
-
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
@@ -143,6 +141,15 @@ export default class QCVNForm extends React.PureComponent {
       },
     }
 
+    const roleKey = this.props.isEdit
+      ? []
+      : [
+          {
+            pattern: PATTERN_KEY,
+            message: i18n.key.pattern,
+          },
+        ]
+
     return (
       <Form onSubmit={this.handleSubmit}>
         <Row type="flex" gutter={[16, 24]}>
@@ -155,13 +162,10 @@ export default class QCVNForm extends React.PureComponent {
                     message: i18n.key.required,
                   },
                   {
-                    pattern: PATTERN_KEY,
-                    message: i18n.key.pattern,
-                  },
-                  {
                     max: 64,
                     message: i18n.key.max,
                   },
+                  ...roleKey,
                 ],
               })(
                 <Input
@@ -199,14 +203,18 @@ export default class QCVNForm extends React.PureComponent {
             </FormItem>
           </Col>
           <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label={t('stationAutoManager.form.dayOfOperation.label')}
-            >
+            <FormItem {...formItemLayout} label={t('qcvn.form.begin.label')}>
               {getFieldDecorator('begin', {
-                rules: [{ required: false }],
+                rules: [
+                  {
+                    required: true,
+                    message: t('qcvn.form.begin.error'),
+                  },
+                ],
               })(
                 <DatePicker
+                  size="large"
+                  style={{ width: '100%' }}
                   format="DD-MM-YYYY"
                   placeholder={t(
                     'stationAutoManager.form.dayOfOperation.placeholder'
@@ -216,14 +224,13 @@ export default class QCVNForm extends React.PureComponent {
             </FormItem>
           </Col>
           <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label={t('stationAutoManager.form.dayOfOperation.label')}
-            >
+            <FormItem {...formItemLayout} label={t('qcvn.form.expired.label')}>
               {getFieldDecorator('expired', {
                 rules: [{ required: false }],
               })(
                 <DatePicker
+                  size="large"
+                  style={{ width: '100%' }}
                   format="DD-MM-YYYY"
                   placeholder={t(
                     'stationAutoManager.form.dayOfOperation.placeholder'

@@ -228,7 +228,8 @@ export default {
           commandSent: 'Đang truyền lệnh',
           takingSample: 'Đang lấy mẫu...',
           takeSampleExceeded: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
-          cancelTakeSampleExceeded: 'Đã kích hoạt lấy mẫu khi vượt ngưỡng (Click để hủy kích hoạt)',
+          cancelTakeSampleExceeded:
+            'Đã kích hoạt lấy mẫu khi vượt ngưỡng (Click để hủy kích hoạt)',
           active: 'Kích hoạt',
           actived: 'Đã kích hoạt lấy mẫu tự động (Nhấn để hủy hẹn giờ lấy mẫu)',
           activeOverRange: 'Kích hoạt lấy mẫu khi vượt ngưỡng',
@@ -287,11 +288,11 @@ export default {
         lessThan: 'Nhỏ hơn',
         notSetup: 'Chưa thiết lập',
         invalidValue: 'Giá trị không hợp lệ',
-        requiredInput: 'Vui lòng nhập giá trị'
+        requiredInput: 'Vui lòng nhập giá trị',
       },
       numRecord: 'số bản ghi',
       numRecordExceed: 'Số bản ghi vượt ngưỡng liên tục sẽ lấy mẫu',
-    }
+    },
   },
   aqi: {
     title: 'AQI',
@@ -561,7 +562,8 @@ export default {
     importFailed: 'Nhập dữ liệu không thành công!',
   },
   dataSearchFrom: {
-    tooltip: 'Loại bỏ một số dữ liệu không hợp lệ trước khi tính toán (áp dụng xử lý dữ liệu)',
+    tooltip:
+      'Loại bỏ một số dữ liệu không hợp lệ trước khi tính toán (áp dụng xử lý dữ liệu)',
     queryType: 'Loại dữ liệu',
     filterDataBy: 'Lọc dữ liệu theo',
     processData: 'Xử lý dữ liệu',
@@ -1335,6 +1337,16 @@ export default {
         label: 'Đơn vị',
         placeholder: 'Nhập đơn vị',
       },
+      begin: {
+        label: 'Ngày hiệu lực',
+        placeholder: 'Ngày hiệu lực',
+        error: 'Vui lòng chọn ngày hiệu lực',
+      },
+      expired: {
+        label: 'Ngày hết hiệu lực',
+        isApplying: 'Đang hiệu lực',
+        placeholder: 'Ngày hết hiệu lực',
+      },
       numericalOrder: {
         label: 'Số thứ tự',
         placeholder: 'Nhập số thứ tự',
@@ -1652,11 +1664,11 @@ export default {
       },
       longVn2000: {
         label: 'Kinh độ (VN2000)',
-        placeholder: 'Nhập kinh độ (VN2000)'
+        placeholder: 'Nhập kinh độ (VN2000)',
       },
       latVn2000: {
         label: 'Vĩ độ (VN2000)',
-        placeholder: 'Nhập vĩ độ (VN2000)'
+        placeholder: 'Nhập vĩ độ (VN2000)',
       },
       connectionStatus: {
         label: 'Tín hiệu mất kết nối',
@@ -2594,7 +2606,8 @@ export default {
       monitoring: {
         sampling: {
           cancelSchedule: 'Bạn có chắc muốn hủy lấy mẫu tự động?',
-          cancelExceededSampling: 'Bạn có chắc muốn hủy lấy mẫu khi vượt ngưỡng?'
+          cancelExceededSampling:
+            'Bạn có chắc muốn hủy lấy mẫu khi vượt ngưỡng?',
         },
       },
     },
@@ -3163,7 +3176,6 @@ export default {
     ilotusland: 'iLotusLand Monitoring',
     databaseManagement: 'Quản lý cơ sở dữ liệu',
     billing: 'Phí bảo vệ môi trường',
-
   },
   stationReview: {
     title: 'Đánh giá trạm',
@@ -3293,13 +3305,13 @@ export default {
         max: 'Giá trị lớn nhất',
       },
       time: {
-        label: 'Thời gian'
+        label: 'Thời gian',
       },
       stationAutoLabel: {
-        label: 'Trạm quan trắc ({{=it.count}} trạm)'
+        label: 'Trạm quan trắc ({{=it.count}} trạm)',
       },
       parameterLabel: {
-        label: 'Các thông số quan trắc ({{=it.count}} thông số)'
+        label: 'Các thông số quan trắc ({{=it.count}} thông số)',
       },
       stationAuto: 'trạm quan trắc',
       parameter: 'thông số',
@@ -3311,6 +3323,6 @@ export default {
       column: 'Cột',
       line: 'Đường',
       table: 'Bảng',
-    }
-  }
+    },
+  },
 }
