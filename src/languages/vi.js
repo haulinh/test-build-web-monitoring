@@ -207,6 +207,9 @@ export default {
     },
     moreContent: {
       sampling: {
+        error: {
+          duplicateTagName: "Trùng tagname",
+        },
         tabs: {
           sampling: 'Lấy mẫu',
           history: 'Lịch sử',
