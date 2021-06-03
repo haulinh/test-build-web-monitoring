@@ -18,6 +18,9 @@ export const i18n = {
   receivedAt: t('dataPointReport.title.receivedAt'),
   phaseName: t('dataPointReport.title.phaseName'),
   pointName: t('dataPointReport.title.pointName'),
+  qcvn: {
+    isApplying: t('qcvn.form.expired.isApplying'),
+  },
   optionalInfo: {
     year: t('dataPointReport.optionalInfo.year'),
     month: t('dataPointReport.optionalInfo.month'),

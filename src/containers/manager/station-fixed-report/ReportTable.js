@@ -1,4 +1,4 @@
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import { colorLevels } from 'constants/warningLevels'
 import _ from 'lodash'
 import moment from 'moment'
@@ -84,14 +84,19 @@ const ReportTable = ({
       dataIndex: `measuringLogs.${measuring.key}`,
       key: measuring.key,
       align: 'center',
-      render: valueColumn => {
+      render: (valueColumn, item) => {
+        let qcvn = ''
+
+        if (_.has(item, `measuringLogs.${measuring.key}`)) {
+          qcvn = item.measuringLogs[measuring.key].qcvn
+        }
         if (!valueColumn) return
         if (valueColumn.textValue === 'KPH') return valueColumn.textValue
         return (
           <div
             style={{ color: valueColumn && COLOR[valueColumn.warningLevel] }}
           >
-            {valueColumn && valueColumn.value}
+            <Tooltip title={qcvn}>{valueColumn && valueColumn.value}</Tooltip>
           </div>
         )
       },
@@ -126,6 +131,13 @@ const ReportTable = ({
                 ])
               )
 
+              let startTime = standard.begin
+                ? moment(standard.begin).format('DD/MM/YYYY') + ' - '
+                : ''
+              let endTime = standard.expired
+                ? moment(standard.expired).format('DD/MM/YYYY')
+                : i18n.qcvn.isApplying
+
               const renderQCVN = measure => {
                 const { minLimit, maxLimit } = measure || {}
                 if (
@@ -143,7 +155,11 @@ const ReportTable = ({
                   <td />
                   <td />
                   <td />
-                  <td>{standard.name}</td>
+                  <td>
+                    <Tooltip title={startTime + endTime}>
+                      {standard.name}
+                    </Tooltip>
+                  </td>
                   {optionalInfoColumn.map(_ => (
                     <td>_</td>
                   ))}
