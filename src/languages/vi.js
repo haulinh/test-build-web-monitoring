@@ -1337,6 +1337,16 @@ export default {
         label: 'Đơn vị',
         placeholder: 'Nhập đơn vị',
       },
+      begin: {
+        label: 'Ngày hiệu lực',
+        placeholder: 'Ngày hiệu lực',
+        error: 'Vui lòng chọn ngày hiệu lực',
+      },
+      expired: {
+        label: 'Ngày hết hiệu lực',
+        isApplying: 'Đang hiệu lực',
+        placeholder: 'Ngày hết hiệu lực',
+      },
       numericalOrder: {
         label: 'Số thứ tự',
         placeholder: 'Nhập số thứ tự',

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, Row, Col } from 'antd'
+import { Form, Input, Button, Row, Col, DatePicker } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { mapPropsToFields } from 'utils/form'
@@ -101,6 +101,8 @@ export default class QCVNForm extends React.PureComponent {
         name: (values.name || '').trim(),
         measuringList: values.measuringList,
         numericalOrder: values.numericalOrder,
+        begin: values.begin,
+        expired: values.expired,
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
@@ -139,6 +141,15 @@ export default class QCVNForm extends React.PureComponent {
       },
     }
 
+    const roleKey = this.props.isEdit
+      ? []
+      : [
+          {
+            pattern: PATTERN_KEY,
+            message: i18n.key.pattern,
+          },
+        ]
+
     return (
       <Form onSubmit={this.handleSubmit}>
         <Row type="flex" gutter={[16, 24]}>
@@ -151,13 +162,10 @@ export default class QCVNForm extends React.PureComponent {
                     message: i18n.key.required,
                   },
                   {
-                    pattern: PATTERN_KEY,
-                    message: i18n.key.pattern,
-                  },
-                  {
                     max: 64,
                     message: i18n.key.max,
                   },
+                  ...roleKey,
                 ],
               })(
                 <Input
@@ -190,6 +198,43 @@ export default class QCVNForm extends React.PureComponent {
                 <Input
                   size="large"
                   placeholder={t('qcvn.form.name.placeholder')}
+                />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={12}>
+            <FormItem {...formItemLayout} label={t('qcvn.form.begin.label')}>
+              {getFieldDecorator('begin', {
+                rules: [
+                  {
+                    required: true,
+                    message: t('qcvn.form.begin.error'),
+                  },
+                ],
+              })(
+                <DatePicker
+                  size="large"
+                  style={{ width: '100%' }}
+                  format="DD-MM-YYYY"
+                  placeholder={t(
+                    'stationAutoManager.form.dayOfOperation.placeholder'
+                  )}
+                />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={12}>
+            <FormItem {...formItemLayout} label={t('qcvn.form.expired.label')}>
+              {getFieldDecorator('expired', {
+                rules: [{ required: false }],
+              })(
+                <DatePicker
+                  size="large"
+                  style={{ width: '100%' }}
+                  format="DD-MM-YYYY"
+                  placeholder={t(
+                    'stationAutoManager.form.dayOfOperation.placeholder'
+                  )}
                 />
               )}
             </FormItem>

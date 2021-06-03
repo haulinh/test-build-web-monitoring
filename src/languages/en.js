@@ -1346,6 +1346,15 @@ export default {
         label: 'Unit',
         placeholder: 'Input Unit Of Parameter',
       },
+      begin: {
+        label: 'Effective date',
+        placeholder: 'Effective date',
+        error: 'Please select an effective date',
+      },
+      expired: {
+        label: 'Expiration date',
+        placeholder: 'Expiration date',
+      },
       numericalOrder: {
         label: 'Numerical Order',
         placeholder: 'Input Numerical Order',

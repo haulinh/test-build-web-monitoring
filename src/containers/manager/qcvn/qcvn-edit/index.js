@@ -13,6 +13,7 @@ import Breadcrumb from '../breadcrumb'
 import { message } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import moment from 'moment-timezone'
 
 @protectRole(ROLE.QCVN.EDIT)
 @createManagerDelete({
@@ -50,7 +51,7 @@ export default class QCVNEdit extends React.PureComponent {
   async componentDidMount() {
     //const key = this.props.match.params.key
     await this.props.getItem()
-   
+
     if (!this.props.success) {
       message.error(this.props.lang.t('addon.error'))
       this.props.history.push(slug.qcvn.list)
@@ -64,7 +65,13 @@ export default class QCVNEdit extends React.PureComponent {
 
     data.measuringList = this.props.data.measuringList || []
     // data.listMeasuring = this.props.data.listMeasuring || []
-    // console.log(data);
+    if (this.props.data.begin) {
+      data.begin = moment(this.props.data.begin)
+    }
+    if (this.props.data.expired) {
+      data.expired = moment(this.props.data.expired)
+    }
+    // console.log(data)
     // console.log(data.listMeasuring);
     return data
   }
