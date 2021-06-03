@@ -10,6 +10,7 @@ import MeasuringTableQCVN from '../qcvn-formTable'
 import InputNumberCell from 'components/elements/input-number-cell'
 import Clearfix from 'components/elements/clearfix'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
+import moment from 'moment'
 
 const FormItem = Form.Item
 
@@ -95,7 +96,28 @@ export default class QCVNForm extends React.PureComponent {
         })
         return
       }
+
       if (err) return
+
+      console.log(values)
+
+      if (
+        values.expired &&
+        !moment(values.expired.format('DD/MM/YYYY')).isAfter(
+          moment(values.begin.format('DD/MM/YYYY'))
+        )
+      ) {
+        this.props.form.setFields({
+          expired: {
+            value: values.expired,
+            errors: [
+              new Error(this.props.lang.t('qcvn.edit.expiredBeforeBegin')),
+            ],
+          },
+        })
+        return
+      }
+
       const data = {
         key: values.key,
         name: (values.name || '').trim(),

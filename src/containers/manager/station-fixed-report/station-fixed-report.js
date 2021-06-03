@@ -19,6 +19,8 @@ export const i18n = {
   phaseName: t('dataPointReport.title.phaseName'),
   pointName: t('dataPointReport.title.pointName'),
   optionalInfo: {
+    year: t('dataPointReport.optionalInfo.year'),
+    month: t('dataPointReport.optionalInfo.month'),
     symbol: t('dataPointReport.optionalInfo.symbol'),
     weather: t('dataPointReport.optionalInfo.weather'),
     sampler: t('dataPointReport.optionalInfo.sampler'),
@@ -39,6 +41,8 @@ export const i18n = {
 }
 
 const optionalInfo = [
+  { field: 'year', checked: false },
+  { field: 'month', checked: false },
   { field: 'symbol', checked: false },
   { field: 'weather', checked: false },
   { field: 'sampler', checked: false },
@@ -218,6 +222,9 @@ export class StationFixedReport extends React.Component {
       optionalInfo: this.props.form.getFieldsValue(),
       pageNumber: 1,
       pageSize: 9999,
+      standardsVN:
+        this.state.standardsVNObject &&
+        this.state.standardsVNObject.map(s => s.key),
     }
     const res = await exportDataPoint(lang, params)
     this.setState({ loadingExport: false })

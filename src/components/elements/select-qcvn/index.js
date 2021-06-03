@@ -41,6 +41,10 @@ export default class SelectQCVN extends PureComponent {
   handleOnChange = value => {
     this.setState({ searchString: '' })
     let res = this.state.lstQCVN.find(item => item.key === value)
+
+    if (this.props.mode === 'multiple') {
+      res = this.state.lstQCVN.filter(item => value.includes(item.key))
+    }
     this.setState({ value })
     if (this.props.onHandleChange) this.props.onHandleChange(res, this)
     if (this.props.onChange) this.props.onChange(value)

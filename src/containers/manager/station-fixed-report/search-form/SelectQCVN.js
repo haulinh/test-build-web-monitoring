@@ -19,6 +19,7 @@ const SelectQCVNForm = ({ form, setStandardVNObject }) => {
         ],
       })(
         <SelectQCVN
+          mode="multiple"
           onHandleChange={changeQCVN}
           placeholder={t('stationAutoManager.form.qcvn.placeholder')}
         />

@@ -1313,6 +1313,7 @@ export default {
     edit: {
       label: 'Sửa',
       success: 'Cập nhật QCVN thành công',
+      expiredBeforeBegin: 'Ngày hết hiệu lực phải lớn hơn ngày hiệu lực',
     },
     delete: {
       label: 'Xoá',
@@ -2673,6 +2674,8 @@ export default {
       exportExcel: 'Xuất dữ liệu Excel',
     },
     optionalInfo: {
+      year: 'Năm',
+      month: 'Tháng',
       symbol: 'Ký hiệu mẫu',
       weather: 'Đặc điểm thời tiết',
       sampler: 'Tên người lấy mẫu',
