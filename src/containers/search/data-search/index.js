@@ -43,11 +43,10 @@ export default class MinutesDataSearch extends React.Component {
     // console.log(searchFormData, 'submit searchFormData')
     this.setState(
       {
-        measuringList: [...searchFormData.measuringList || []]
+        measuringList: [...(searchFormData.measuringList || [])],
       },
       () => this.loadData(this.state.pagination, searchFormData)
     )
-
   }
 
   async loadData(pagination, searchFormData) {
@@ -88,44 +87,49 @@ export default class MinutesDataSearch extends React.Component {
       searchFormData
     )
 
-
-    this.setState({
-      isLoading: false,
-      dataAnalyzeStationAuto: dataAnalyzeStationAuto.success
-        ? dataAnalyzeStationAuto.data
-        : [],
-      dataStationAuto: dataStationAuto.data,
-      measuringData: searchFormData.measuringData,
-      measuringList: searchFormData.measuringList,
-      searchFormData: searchFormData,
-      pagination: {
-        ...paginationQuery,
-        total:
-          dataStationAuto && dataStationAuto.pagination
-            ? dataStationAuto.pagination.totalItem
-            : 0,
+    this.setState(
+      {
+        isLoading: false,
+        dataAnalyzeStationAuto: dataAnalyzeStationAuto.success
+          ? dataAnalyzeStationAuto.data
+          : [],
+        dataStationAuto: dataStationAuto.data,
+        measuringData: searchFormData.measuringData,
+        measuringList: searchFormData.measuringList,
+        searchFormData: searchFormData,
+        pagination: {
+          ...paginationQuery,
+          total:
+            dataStationAuto && dataStationAuto.pagination
+              ? dataStationAuto.pagination.totalItem
+              : 0,
+        },
       },
-    }, () => {
+      () => {
+        const listMeaHaveData = this.state.dataAnalyzeStationAuto.map(
+          mea => mea.key
+        )
+        // console.log(this.state.dataAnalyzeStationAuto, '==data founed')
+        const meaDonHaveData = this.state.measuringList.filter(
+          mea => !listMeaHaveData.includes(mea)
+        )
 
-      const listMeaHaveData = this.state.dataAnalyzeStationAuto.map(mea => mea.key)
-      // console.log(this.state.dataAnalyzeStationAuto, '==data founed')
-      const meaDonHaveData = this.state.measuringList.filter(mea => !listMeaHaveData.includes(mea))
-
-      // console.log(meaDonHaveData, '==meaDonHaveData==')
-      this.setState({
-        dataAnalyzeStationAuto: [
-          ...this.state.dataAnalyzeStationAuto,
-          ...meaDonHaveData.map(mea => {
-            return {
-              key: mea,
-              avg: { data: [] },
-              min: { data: [] },
-              max: { data: [] }
-            }
-          })
-        ]
-      })
-    })
+        // console.log(meaDonHaveData, '==meaDonHaveData==')
+        this.setState({
+          dataAnalyzeStationAuto: [
+            ...this.state.dataAnalyzeStationAuto,
+            ...meaDonHaveData.map(mea => {
+              return {
+                key: mea,
+                avg: { data: [] },
+                min: { data: [] },
+                max: { data: [] },
+              }
+            }),
+          ],
+        })
+      }
+    )
   }
 
   handleChangePage(pagination) {
@@ -140,8 +144,10 @@ export default class MinutesDataSearch extends React.Component {
       ...this.state.searchFormData,
       language: this.props.locale || 'EN',
     })
-    if (res && res.success) window.location = res.data
-    else message.error('Export Error') //message.error(res.message)
+    if (res && res.success) {
+      // window.location = res.data
+      // return
+    } else message.error('Export Error') //message.error(res.message)
 
     this.setState({
       isExporting: false,
