@@ -566,7 +566,8 @@ export default {
     importFailed: 'Import Data Failed',
   },
   dataSearchFrom: {
-    tooltip: 'Filter invalid data with standard from Data processing configuration',
+    tooltip:
+      'Filter invalid data with standard from Data processing configuration',
     queryType: 'Type of data',
     filterDataBy: 'Filter data by',
     processData: 'Enable filter',
@@ -2672,6 +2673,8 @@ export default {
       exportExcel: 'Export Excel',
     },
     optionalInfo: {
+      year: 'Year',
+      month: 'Month',
       symbol: 'Symbol',
       weather: 'Weather',
       sampler: 'Sampler',
@@ -3165,7 +3168,6 @@ export default {
     ilotusland: 'iLotusLand Monitoring',
     databaseManagement: 'Database management',
     billing: 'Environmental protection fee',
-
   },
   stationReview: {
     title: 'Station Reviews',
