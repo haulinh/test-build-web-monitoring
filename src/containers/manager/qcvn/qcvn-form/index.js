@@ -107,7 +107,6 @@ export default class QCVNForm extends React.PureComponent {
           moment(values.begin.format('DD/MM/YYYY'))
         )
       ) {
-        const { t } = this.props.lang
         this.props.form.setFields({
           expired: {
             value: values.expired,
