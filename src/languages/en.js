@@ -1370,6 +1370,7 @@ export default {
       },
       error: 'Error',
     },
+    invalid: 'Invalid standard',
   },
   province: {
     list: {

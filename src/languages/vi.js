@@ -1361,6 +1361,7 @@ export default {
       },
       error: 'Lỗi',
     },
+    invalid: 'Quy chuẩn không hợp lệ',
   },
   province: {
     list: {

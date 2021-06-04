@@ -20,6 +20,7 @@ export const i18n = {
   pointName: t('dataPointReport.title.pointName'),
   qcvn: {
     isApplying: t('qcvn.form.expired.isApplying'),
+    invalid: t('qcvn.invalid'),
   },
   optionalInfo: {
     year: t('dataPointReport.optionalInfo.year'),

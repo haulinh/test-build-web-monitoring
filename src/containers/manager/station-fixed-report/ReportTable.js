@@ -86,17 +86,24 @@ const ReportTable = ({
       align: 'center',
       render: (valueColumn, item) => {
         let qcvn = ''
+        let isMerged = false
 
         if (_.has(item, `measuringLogs.${measuring.key}`)) {
           qcvn = item.measuringLogs[measuring.key].qcvn
+          isMerged = item.measuringLogs[measuring.key].isMerged
         }
         if (!valueColumn) return
         if (valueColumn.textValue === 'KPH') return valueColumn.textValue
         return (
           <div
-            style={{ color: valueColumn && COLOR[valueColumn.warningLevel] }}
+            style={{
+              fontWeight: isMerged ? 700 : 400,
+              color: valueColumn && COLOR[valueColumn.warningLevel],
+            }}
           >
-            <Tooltip title={qcvn}>{valueColumn && valueColumn.value}</Tooltip>
+            <Tooltip title={isMerged ? i18n.qcvn.invalid : qcvn}>
+              {valueColumn && valueColumn.value}
+            </Tooltip>
           </div>
         )
       },

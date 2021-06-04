@@ -30,13 +30,13 @@ const i18n = {
     t('dataAnalytics.filterForm.parameterLabel.label', { count }),
   stationAuto: t('dataAnalytics.filterForm.stationAuto'),
   parameter: t('dataAnalytics.filterForm.parameter'),
-  isProcessData: t('dataSearchFrom.processData')
+  isProcessData: t('dataSearchFrom.processData'),
 }
 
 const FormSearch = styled.div`
   padding: 10px;
   label {
-    margin-bottom:0
+    margin-bottom: 0;
   }
 `
 
@@ -51,8 +51,8 @@ const FormItem = styled(Form.Item)`
     }
   }
   .switch-filter {
-    display:flex;
-    flex-direction:row-reverse
+    display: flex;
+    flex-direction: row-reverse;
   }
 `
 
@@ -71,14 +71,14 @@ class FilterForm extends Component {
 
   state = {
     measuringList: [],
-    triggerRerender: true
+    triggerRerender: true,
   }
 
   handleSearch = async () => {
     this.setState({
-      triggerRerender: !this.state.triggerRerender
+      triggerRerender: !this.state.triggerRerender,
     })
-    const { form, onData, setLoading, setParamFilter } = this.props
+    const { form, onData, setLoading, setParamFilter, standardsVN } = this.props
     try {
       setLoading(true)
       const values = await form.validateFields()
@@ -97,7 +97,8 @@ class FilterForm extends Component {
           .clone()
           .utc()
           .format(),
-        isFilterQcvn: values.isFilter || false
+        isFilterQcvn: values.isFilter || false,
+        standardsVN,
       }
 
       setParamFilter({
@@ -116,8 +117,6 @@ class FilterForm extends Component {
       setLoading(false)
     }
   }
-
-
 
   getStationAutoKeys = ({ province, stationType }) => {
     return [...this.stationAutos]
@@ -264,7 +263,11 @@ class FilterForm extends Component {
               <FormItem label={i18n.timeLabel}>
                 {form.getFieldDecorator(FIELDS.RANGE_TIME, {
                   initialValue: 1,
-                })(<OptionsTimeRange triggerRerender={this.state.triggerRerender} />)}
+                })(
+                  <OptionsTimeRange
+                    triggerRerender={this.state.triggerRerender}
+                  />
+                )}
               </FormItem>
             </Col>
           </Row>
@@ -290,19 +293,17 @@ class FilterForm extends Component {
                 })(<SelectMeasureParameter options={measuringList} />)}
               </FormItem>
             </Col>
-
-
-
-
           </Row>
-          <Row type='flex' justify='end' align='middle'>
+          <Row type="flex" justify="end" align="middle">
             <ToolTip />
-            <Form.Item style={{ marginBottom: '0' }} label={i18n.isProcessData} colon={false} labelCol={{ span: 16 }} wrapperCol={{ span: 8 }} >
-              {
-                form.getFieldDecorator('isFilter')(
-                  <Switch />
-                )
-              }
+            <Form.Item
+              style={{ marginBottom: '0' }}
+              label={i18n.isProcessData}
+              colon={false}
+              labelCol={{ span: 16 }}
+              wrapperCol={{ span: 8 }}
+            >
+              {form.getFieldDecorator('isFilter')(<Switch />)}
             </Form.Item>
           </Row>
         </FormSearch>
