@@ -1,10 +1,7 @@
 import { Table, Tooltip } from 'antd'
 import React, { Component } from 'react'
 import { translate as t } from 'hoc/create-lang'
-import _ from 'lodash'
 import moment from 'moment'
-import { colorLevels, warningLevels } from 'constants/warningLevels'
-
 class DataTable extends Component {
   columns = lenght => [
     {
