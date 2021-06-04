@@ -12,7 +12,6 @@ import { AnalyzeDataProvider } from './context'
 import { CHART_TYPE } from './report-data/chart-type'
 import { OPERATOR } from './filter/select-operator'
 
-
 const i18n = {
   title: t('menuApp.monitoring.dataAnalytics'),
   measuredValue: t('dataAnalytics.measuredValue'),
@@ -210,8 +209,9 @@ class DataAnalytics extends Component {
   getChartTitle = () => {
     const { measuringList, measure } = this.state
     if (!measuringList[measure]) return ''
-    return `${measuringList[measure].name} ${measuringList[measure].unit ? `(${measuringList[measure].unit})` : ''
-      }`
+    return `${measuringList[measure].name} ${
+      measuringList[measure].unit ? `(${measuringList[measure].unit})` : ''
+    }`
   }
 
   setChart = chart => {
@@ -246,6 +246,7 @@ class DataAnalytics extends Component {
         <Title>{i18n.title}</Title>
         <Container>
           <FilterForm
+            standardsVN={qcvns.map(qc => qc.key)}
             isLoadingData={isLoadingData}
             onData={this.onData}
             onReDrawChart={this.onReDrawChart}
