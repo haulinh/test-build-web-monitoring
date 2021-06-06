@@ -145,7 +145,7 @@ export default class MinutesDataSearch extends React.Component {
       language: this.props.locale || 'EN',
     })
     if (res && res.success) {
-      window.location = res.data
+      window.location.href =  res.data
       // return
     } else message.error('Export Error') //message.error(res.message)
 
