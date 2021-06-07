@@ -1,7 +1,10 @@
 import { Table, Tooltip } from 'antd'
 import React, { Component } from 'react'
 import { translate as t } from 'hoc/create-lang'
+import _ from 'lodash'
 import moment from 'moment'
+import { colorLevels, warningLevels } from 'constants/warningLevels'
+
 class DataTable extends Component {
   columns = lenght => [
     {
@@ -83,22 +86,26 @@ class DataTable extends Component {
         width: 100,
         render: (_, record, idx) => {
           if (idx < dataSource.length - qcvns.length) {
-            // const warningLevel = record.data[key]
-            //   ? record.data[key].warningLevel[dataType]
-            //   : undefined
+            const warningLevel = record.data[key]
+              ? record.data[key].warningLevel[dataType]
+              : undefined
+
+            const title = record.data[key] ? record.data[key].qcvn : ''
 
             return (
-              <div
-              // style={{
-              //   color:
-              //     warningLevel === warningLevels.EXCEEDED ||
-              //     warningLevel === warningLevels.EXCEEDED_TENDENCY
-              //       ? colorLevels[warningLevel]
-              //       : undefined,
-              // }}
-              >
-                {record.data[key] ? record.data[key][dataType] : '-'}
-              </div>
+              <Tooltip title={title}>
+                <div
+                  style={{
+                    color:
+                      warningLevel === warningLevels.EXCEEDED ||
+                      warningLevel === warningLevels.EXCEEDED_TENDENCY
+                        ? colorLevels[warningLevel]
+                        : undefined,
+                  }}
+                >
+                  {record.data[key] ? record.data[key][dataType] : '-'}
+                </div>
+              </Tooltip>
             )
           }
           return <div>{getMeasuringValue(record.measuringList, key)}</div>
