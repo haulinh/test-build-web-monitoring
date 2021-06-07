@@ -118,6 +118,14 @@ class FilterForm extends Component {
     }
   }
 
+  async componentDidUpdate(prevProps) {
+    if (prevProps.standardsVN.length !== this.props.standardsVN.length) {
+      // this.handleSearch()
+      console.log('TRIGGER')
+      await this.handleSearch()
+    }
+  }
+
   getStationAutoKeys = ({ province, stationType }) => {
     return [...this.stationAutos]
       .filter(item => get(item, `1.stationType.key`) === stationType)
