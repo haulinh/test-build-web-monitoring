@@ -2,6 +2,7 @@ import { Button, Col, Dropdown, Menu, message, Row, Spin, Tooltip } from 'antd'
 import DataStationAutoApi from 'api/DataStationAutoApi'
 import OrganizationApi from 'api/OrganizationApi'
 import Clearfix from 'components/elements/clearfix'
+import SelectQCVN from 'components/elements/select-qcvn-v2'
 import ROLE from 'constants/role'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
@@ -16,7 +17,8 @@ import { toggleNavigation } from 'redux/actions/themeAction'
 import { connectAutoDispatch } from 'redux/connect'
 import {
   addBreadcrumb,
-  deleteBreadcrumb, updateBreadcrumb
+  deleteBreadcrumb,
+  updateBreadcrumb,
 } from 'shared/breadcrumb/action'
 import styled from 'styled-components'
 import { replaceVietnameseStr } from 'utils/string'
@@ -68,6 +70,7 @@ export default class AvgSearchAdvanced extends React.Component {
 
       filteredConfigFilter: [],
       configFilter: [],
+      standardsVN: [],
 
       stationKeys: props.stations.length
         ? props.stations.map(station => station.key)
@@ -80,11 +83,9 @@ export default class AvgSearchAdvanced extends React.Component {
 
   setNow = newNow => {
     this.setState({
-      now: newNow
+      now: newNow,
     })
   }
-
-
 
   componentDidMount() {
     this.getDataOrganization()
@@ -233,7 +234,7 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState({ stationsData })
   }
 
-  handleSearchAvgData = (newNow) => {
+  handleSearchAvgData = newNow => {
     // console.log("Big component => handleSearchAvgData" + newNow.format('DD/MM/YYYY HH:mm:ss'))
     if (!this.state.stationKeys.length) {
       // message.warn(translate('avgSearchFrom.table.emptyText'))
@@ -242,7 +243,7 @@ export default class AvgSearchAdvanced extends React.Component {
 
     this.setState(
       {
-        now: newNow
+        now: newNow,
       },
 
       () => this.setState({ isSearchingData: true })
@@ -472,8 +473,15 @@ export default class AvgSearchAdvanced extends React.Component {
     if (data) message.success(translate('dataSearchFilterForm.update.success'))
   }
 
-  render() {
+  onChangeQcvn = (qcvnIds, list) => {
+    const qcvnSelected = list.filter(item => qcvnIds.includes(item._id))
 
+    this.setState({
+      standardsVN: qcvnSelected.map(qcvn => qcvn.key),
+    })
+  }
+
+  render() {
     return (
       <PageContainer
         {...this.props.wrapperProps}
@@ -520,8 +528,31 @@ export default class AvgSearchAdvanced extends React.Component {
               />
             </Spin>
             <Clearfix height={40} />
+            <Row type="flex" align="middle">
+              <Col
+                span={4}
+                style={{
+                  textAlign: 'right',
+                  paddingRight: '8px',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                }}
+              >
+                {translate('dataAnalytics.standardViews')}
+              </Col>
+              <Col span={20}>
+                <SelectQCVN
+                  mode="multiple"
+                  maxTagCount={3}
+                  maxTagTextLength={18}
+                  onChange={this.onChangeQcvn}
+                />
+              </Col>
+            </Row>
+            <Clearfix height={40} />
             {this.state.isSearchingData && this.state.stationsData.length && (
               <StationList
+                standardsVN={this.state.standardsVN}
                 stationsData={this.state.stationsData}
                 type={this.props.values.type}
               />

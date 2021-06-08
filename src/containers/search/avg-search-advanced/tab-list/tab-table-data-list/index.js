@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import styled from 'styled-components'
 import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
@@ -12,7 +12,15 @@ import {
   getFormatNumber,
   FORMAT_VALUE_MEASURING,
 } from 'constants/format-number'
-import { getcolorMeasure as getColorMeasure } from 'constants/warningLevels'
+import {
+  colorLevels,
+  getcolorMeasure as getColorMeasure,
+} from 'constants/warningLevels'
+
+const COLOR = {
+  EXCEEDED_PREPARING: colorLevels.EXCEEDED_PREPARING,
+  EXCEEDED: colorLevels.EXCEEDED,
+}
 
 const TableDataListWrapper = styled.div`
   .ant-table-thead > tr > th,
@@ -58,7 +66,6 @@ export default class TableDataList extends React.PureComponent {
       },
     }
 
-
     // const cuongtest = this.props.measuringData
     //   .filter(measuring => this.props.measuringList.includes(measuring.key))
     // console.log(JSON.stringify(cuongtest, null, 2), '==cuongtest==')
@@ -83,10 +90,18 @@ export default class TableDataList extends React.PureComponent {
           // console.log(JSON.stringify(this.props.dataSource, null, 2), '==dataSource==')
           if (value === null || value === undefined) return <div>-</div>
 
-          let color = getColorMeasure(value.value, measuring, SHAPE.BLACK)
           return (
-            <div style={{ color }}>
-              {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
+            <div
+              style={{
+                color: COLOR[value.warningLevel],
+                fontWeight: value.isMerged ? 700 : 400,
+              }}
+            >
+              <Tooltip
+                title={value.isMerged ? translate('qcvn.invalid') : value.qcvn}
+              >
+                {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
+              </Tooltip>
             </div>
           )
         },
