@@ -1359,6 +1359,7 @@ export default {
       expired: {
         label: 'Expiration date',
         placeholder: 'Expiration date',
+        isApplying: 'Now',
       },
       numericalOrder: {
         label: 'Numerical Order',

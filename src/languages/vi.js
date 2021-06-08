@@ -1348,7 +1348,7 @@ export default {
       },
       expired: {
         label: 'Ngày hết hiệu lực',
-        isApplying: 'Đang hiệu lực',
+        isApplying: 'Hiện tại',
         placeholder: 'Ngày hết hiệu lực',
       },
       numericalOrder: {
