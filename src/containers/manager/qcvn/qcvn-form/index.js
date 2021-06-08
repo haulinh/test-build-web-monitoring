@@ -99,12 +99,24 @@ export default class QCVNForm extends React.PureComponent {
 
       if (err) return
 
-      console.log(values)
-
       if (
         values.expired &&
-        !moment(values.expired.format('DD/MM/YYYY')).isAfter(
-          moment(values.begin.format('DD/MM/YYYY'))
+        !moment(
+          values.expired.utcOffset(0).set({
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+          })
+        ).isAfter(
+          moment(
+            values.begin.utcOffset(0).set({
+              hour: 0,
+              minute: 0,
+              second: 0,
+              millisecond: 0,
+            })
+          )
         )
       ) {
         this.props.form.setFields({
@@ -237,7 +249,7 @@ export default class QCVNForm extends React.PureComponent {
                 <DatePicker
                   size="large"
                   style={{ width: '100%' }}
-                  format="DD-MM-YYYY"
+                  format="DD/MM/YYYY"
                   placeholder={t(
                     'stationAutoManager.form.dayOfOperation.placeholder'
                   )}
@@ -253,7 +265,7 @@ export default class QCVNForm extends React.PureComponent {
                 <DatePicker
                   size="large"
                   style={{ width: '100%' }}
-                  format="DD-MM-YYYY"
+                  format="DD/MM/YYYY"
                   placeholder={t(
                     'stationAutoManager.form.dayOfOperation.placeholder'
                   )}
