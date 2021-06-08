@@ -3,7 +3,6 @@ import { getFetch, putFetch, postFetch } from 'utils/fetch'
 import qs from 'query-string'
 import { upperCase as _upperCase } from 'lodash'
 
-
 export function getDataStationAutoUrl(prefix = '') {
   return getConfigApi().dataStationAuto + '/' + prefix
 }
@@ -32,7 +31,18 @@ function getReportUrlLoopback(prefix = '') {
 
 export function getDataStationAutos(
   { page = 1, itemPerPage = 10 },
-  { fromDate, toDate, key, advanced, measuringList, isExceeded, dataType, qcvnList, isFilter, queryType }
+  {
+    fromDate,
+    toDate,
+    key,
+    advanced,
+    measuringList,
+    isExceeded,
+    dataType,
+    qcvnList,
+    isFilter,
+    queryType,
+  }
 ) {
   // console.log()
   var url = `${getHistoricalDataUrl(
@@ -87,13 +97,13 @@ export function getExportData({
   //window.location = url
 }
 
-
 export function getDataStationAutoAvg(
   { page = 1, itemPerPage = 10 },
   { fromDate, toDate, key, measuringList, type, advanced, dataStatus, isFilter }
 ) {
-
-  let url = getAvgDataUrl(`${key}/avg-advanced?page=${page}&itemPerPage=${itemPerPage}`)
+  let url = getAvgDataUrl(
+    `${key}/avg-advanced?page=${page}&itemPerPage=${itemPerPage}`
+  )
   // console.log(url, '==url==')
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
@@ -109,7 +119,17 @@ export function getDataStationAutoAvg(
 
 export function getDataStationAutoAvg_v2(
   { page = 1, itemPerPage = 10 },
-  { fromDate, toDate, key, measuringList, type, advanced, dataStatus, isFilter }
+  {
+    standardsVN,
+    fromDate,
+    toDate,
+    key,
+    measuringList,
+    type,
+    advanced,
+    dataStatus,
+    isFilter,
+  }
 ) {
   var url = getAvgDataUrl(
     `${key}/avg-advanced?page=${page}&itemPerPage=${itemPerPage}`
@@ -123,6 +143,11 @@ export function getDataStationAutoAvg_v2(
     url += `&dataStatus=${dataStatus.join(',')}`
   if (type) url += `&type=${type}`
   if (isFilter) url += `&isFilter=${isFilter}`
+  if (standardsVN && standardsVN.length) {
+    standardsVN.map(st => {
+      url += '&standardsVN[]=' + st
+    })
+  }
   return getFetch(url)
 }
 
@@ -137,9 +162,10 @@ export function getDataStationAutoExportAvg({
   advanced,
   dataStatus,
   language,
-  isFilter
+  isFilter,
+  standardsVN,
 }) {
-  console.log("isFilter" + isFilter)
+  console.log('isFilter' + isFilter)
   var url = getAvgDataUrl(`${key}/export-avg?`)
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`
@@ -155,7 +181,11 @@ export function getDataStationAutoExportAvg({
   if (name) url += `&name=${name}`
   if (language) url += `&language=${_upperCase(language)}`
   if (isFilter) url += `&isFilter=${isFilter}`
-  console.log(url, '==url==')
+  if (standardsVN && standardsVN.length) {
+    standardsVN.map(st => {
+      url += '&standardsVN[]=' + st
+    })
+  }
   return getFetch(url)
 }
 
@@ -176,7 +206,7 @@ export function downloadExcel_DataStationAutov1(
     measuringListUnitStr,
     type,
     language = 'EN',
-    isFilter
+    isFilter,
   }
 ) {
   let url = getAvgDataUrl(`${key}/export-avg?`)
@@ -204,7 +234,7 @@ export function getDataAnalyzeStationAutos({
   dataType,
   isFilter,
   queryType,
-  qcvnList
+  qcvnList,
 }) {
   // console.log("ANAnlyze ata " + isFilter)
   var url = getHistoricalDataUrl(`${key}/analyze?`)
@@ -315,10 +345,11 @@ export function getUrlReportType3Excel(
   // var url = getReportUrl(
   //   `type3-excel/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${language}`
   // )
-  let url = getReportUrlLoopback(`export-1h-max/${key}?1=1&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${language}&isFilter=${isFilter}`)
+  let url = getReportUrlLoopback(
+    `export-1h-max/${key}?1=1&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${language}&isFilter=${isFilter}`
+  )
   return getFetch(url)
 }
-
 
 export function getUrlReportType4(
   key,
@@ -345,7 +376,9 @@ export function getUrlReportType4Excel(
   language = 'EN',
   isFilter
 ) {
-  let url = getReportUrlLoopback(`export-8h-max/${key}?1=1&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${language}&isFilter=${isFilter}`)
+  let url = getReportUrlLoopback(
+    `export-8h-max/${key}?1=1&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&language=${language}&isFilter=${isFilter}`
+  )
   return getFetch(url)
 }
 
@@ -447,7 +480,7 @@ export function getUrlReportType2Excel(
   isFilter,
   language = 'EN'
 ) {
-  console.log("Exxport type 2")
+  console.log('Exxport type 2')
   var url = getReportUrlLoopback(
     `export-24h/${key}?token=${token}&time=${time}&measuringList=${measuringListStr}&measuringListUnit=${measuringListUnitStr}&isFilter=${isFilter}&language=${_upperCase(
       language
@@ -464,7 +497,6 @@ export function getUrlReportType2(
   measuringListUnitStr,
   isFilter
 ) {
-
   //  var url = getReportUrl(`type2/${key}?1=1`)
   let url = getReportUrlLoopback(`24h/${key}?1=1`)
   // console.log(url, '==url==url')
@@ -472,7 +504,6 @@ export function getUrlReportType2(
   if (measuringListStr) url += `&measuringList=${measuringListStr}`
   if (measuringListUnitStr) url += `&measuringListUnit=${measuringListUnitStr}`
   if (isFilter) url += `&isFilter=${isFilter}`
-
 
   return getFetch(url)
 }

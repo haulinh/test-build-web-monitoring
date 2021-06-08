@@ -3318,6 +3318,7 @@ export default {
       parameter: 'Measure parameter',
     },
     measuredValue: 'Measure value',
+    standardViews: 'Display standards',
     standard: 'Standard',
     exportExcel: 'Export excel',
     chartType: {

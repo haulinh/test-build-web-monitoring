@@ -3322,6 +3322,7 @@ export default {
     },
     measuredValue: 'Giá trị đo',
     standard: 'Quy chuẩn',
+    standardViews: 'Quy chuẩn hiển thị',
     exportExcel: 'Xuất dữ liệu excel',
     chartType: {
       column: 'Cột',
