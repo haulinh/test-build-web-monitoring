@@ -156,6 +156,7 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   render() {
+    console.log({form: this.props.formData})
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Spin
@@ -170,6 +171,7 @@ export default class MinutesDataSearch extends React.Component {
             measuringData={this.props.formData.measuringData}
             onSubmit={this.handleSubmitSearch}
             searchNow={this.props.formData.searchNow}
+            formDataSearch={this.props.formData}
           />
           <Clearfix height={16} />
           {this.state.isHaveData ? (
