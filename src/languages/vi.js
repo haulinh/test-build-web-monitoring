@@ -208,7 +208,7 @@ export default {
     moreContent: {
       sampling: {
         error: {
-          duplicateTagName: "Trùng tagname",
+          duplicateTagName: "Trùng Tag name",
         },
         tabs: {
           sampling: 'Lấy mẫu',
