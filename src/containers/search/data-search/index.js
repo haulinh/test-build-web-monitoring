@@ -8,13 +8,14 @@ import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
-import { message, Spin } from 'antd'
+import { Col, message, Row, Spin } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 import { isEqual as _isEqual } from 'lodash'
 import { connect } from 'react-redux'
+import SelectQCVN from 'components/elements/select-qcvn-v2'
 
 @protectRole(ROLE.DATA_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -145,13 +146,28 @@ export default class MinutesDataSearch extends React.Component {
       language: this.props.locale || 'EN',
     })
     if (res && res.success) {
-      window.location = res.data
+      // window.location = res.data
       // return
     } else message.error('Export Error') //message.error(res.message)
 
     this.setState({
       isExporting: false,
     })
+  }
+
+  onChangeQcvn = keys => {
+    this.setState(
+      prev => ({
+        ...prev,
+        searchFormData: {
+          ...prev.searchFormData,
+          standardsVN: keys,
+        },
+      }),
+      () => {
+        this.loadData(this.state.pagination, this.state.searchFormData)
+      }
+    )
   }
 
   render() {
@@ -165,6 +181,7 @@ export default class MinutesDataSearch extends React.Component {
           <Breadcrumb items={['list']} />
           <Clearfix height={16} />
           <SearchFrom
+            standardsVN={this.state.searchFormData.standardsVN}
             initialValues={this.props.formData}
             measuringData={this.props.formData.measuringData}
             onSubmit={this.handleSubmitSearch}
@@ -180,6 +197,7 @@ export default class MinutesDataSearch extends React.Component {
             />
           ) : null}
           <Clearfix height={16} />
+
           {this.state.isHaveData ? (
             <TabList
               isLoading={this.state.isLoading}
@@ -192,6 +210,7 @@ export default class MinutesDataSearch extends React.Component {
               onExportExcel={this.handleExportExcel}
               nameChart={this.state.searchFormData.name}
               isExporting={this.state.isExporting}
+              onChangeQcvn={this.onChangeQcvn}
             />
           ) : null}
         </Spin>

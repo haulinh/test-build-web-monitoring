@@ -54,7 +54,12 @@ class ReportData extends Component {
 
   onChangeQcvn = (qcvnIds, list) => {
     const { onChangeQcvn } = this.props
-    const qcvnSelected = list.filter(item => qcvnIds.includes(item._id))
+    // const qcvnSelected = list.filter(item => qcvnIds.includes(item._id))
+    const qcvnSelected = qcvnIds.map(id => {
+      return {
+        ...list.find(l => l._id === id),
+      }
+    })
     onChangeQcvn(qcvnSelected)
   }
 

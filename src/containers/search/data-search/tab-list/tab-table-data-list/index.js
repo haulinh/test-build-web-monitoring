@@ -2,11 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
 import { autobind } from 'core-decorators'
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import { get as _get } from 'lodash'
 import moment from 'moment/moment'
 import { SHAPE } from 'themes/color'
 import {
+  colorLevels,
   // warningLevels,
   // colorLevels,
   getcolorMeasure,
@@ -18,6 +19,11 @@ import {
   FORMAT_VALUE_MEASURING,
   getFormatNumber,
 } from 'constants/format-number'
+
+const COLOR = {
+  EXCEEDED_PREPARING: colorLevels.EXCEEDED_TENDENCY,
+  EXCEEDED: colorLevels.EXCEEDED,
+}
 
 @connect(state => ({
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
@@ -78,16 +84,8 @@ export default class TableDataList extends React.PureComponent {
 
           /* #endregion */
 
-          let color = getcolorMeasure(value.value, measuring, SHAPE.BLACK)
-          // if (value.value < 500) {
-          //   console.log(value, '===value===')
-          //   console.log(color, '==color==')
-          // }
-
           const colorDevice = getColorStatusDevice(value.statusDevice)
-          // console.log('---------')
-          // console.log(measuring, color, value)
-          // Format number toLocalString(national)
+
           return (
             <div
               style={{
@@ -105,9 +103,19 @@ export default class TableDataList extends React.PureComponent {
                   marginRight: '10px',
                 }}
               ></div>
-              <div style={{ color: color, minWidth: '50px' }}>
-                {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
-              </div>
+              <Tooltip
+                title={value.isMerged ? translate('qcvn.invalid') : value.qcvn}
+              >
+                <div
+                  style={{
+                    fontWeight: value.isMerged ? 700 : 400,
+                    color: COLOR[value.warningLevel],
+                    minWidth: '50px',
+                  }}
+                >
+                  {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
+                </div>
+              </Tooltip>
             </div>
           )
         },

@@ -42,6 +42,7 @@ export function getDataStationAutos(
     qcvnList,
     isFilter,
     queryType,
+    standardsVN,
   }
 ) {
   // console.log()
@@ -58,6 +59,11 @@ export function getDataStationAutos(
   if (qcvnList) url += `&qcvnList=${qcvnList}`
   if (isFilter) url += `&isFilter=${isFilter}`
   if (queryType) url += `&queryType=${queryType}`
+  if (standardsVN && standardsVN.length) {
+    standardsVN.map(st => {
+      url += '&standardsVN[]=' + st
+    })
+  }
   return getFetch(url)
 }
 
@@ -75,6 +81,7 @@ export function getExportData({
   qcvnList,
   queryType,
   isFilter,
+  standardsVN,
 }) {
   // var url = getDataStationAutoUrl(`${key}/export-download?`)
   var url = getHistoricalDataUrl(`${key}/export-download?`)
@@ -93,6 +100,11 @@ export function getExportData({
   if (qcvnList) url += `&qcvnList=${qcvnList}`
   if (queryType) url += `&queryType=${queryType}`
   if (isFilter) url += `&isFilter=${isFilter}`
+  if (standardsVN && standardsVN.length) {
+    standardsVN.map(st => {
+      url += '&standardsVN[]=' + st
+    })
+  }
   return getFetch(url)
   //window.location = url
 }
