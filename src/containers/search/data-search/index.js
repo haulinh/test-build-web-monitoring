@@ -15,7 +15,6 @@ import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 import { isEqual as _isEqual } from 'lodash'
 import { connect } from 'react-redux'
-import SelectQCVN from 'components/elements/select-qcvn-v2'
 
 @protectRole(ROLE.DATA_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -146,7 +145,8 @@ export default class MinutesDataSearch extends React.Component {
       language: this.props.locale || 'EN',
     })
     if (res && res.success) {
-      // window.location = res.data
+      // window.location.href =  res.data
+      window.open(res.data, '_blank')
       // return
     } else message.error('Export Error') //message.error(res.message)
 
@@ -186,6 +186,7 @@ export default class MinutesDataSearch extends React.Component {
             measuringData={this.props.formData.measuringData}
             onSubmit={this.handleSubmitSearch}
             searchNow={this.props.formData.searchNow}
+            formDataSearch={this.props.formData}
           />
           <Clearfix height={16} />
           {this.state.isHaveData ? (
