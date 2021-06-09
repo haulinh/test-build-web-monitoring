@@ -1347,6 +1347,7 @@ export default {
         label: 'Ngày hết hiệu lực',
         isApplying: 'Hiện tại',
         placeholder: 'Ngày hết hiệu lực',
+        stillWork: 'Đang hiệu lực',
       },
       numericalOrder: {
         label: 'Số thứ tự',

@@ -23,7 +23,7 @@ const i18n = {
   },
   expired: {
     label: translate('qcvn.form.expired.label'),
-    isApplying: translate('qcvn.form.expired.isApplying'),
+    isApplying: translate('qcvn.form.expired.stillWork'),
   },
 }
 
