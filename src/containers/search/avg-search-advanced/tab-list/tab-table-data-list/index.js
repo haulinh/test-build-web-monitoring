@@ -12,10 +12,7 @@ import {
   getFormatNumber,
   FORMAT_VALUE_MEASURING,
 } from 'constants/format-number'
-import {
-  colorLevels,
-  getcolorMeasure as getColorMeasure,
-} from 'constants/warningLevels'
+import { colorLevels } from 'constants/warningLevels'
 
 const COLOR = {
   EXCEEDED_PREPARING: colorLevels.EXCEEDED_PREPARING,
