@@ -1,6 +1,6 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
-import { Tabs, Button } from 'antd'
+import { Tabs, Button, Row, Col } from 'antd'
 import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
 import styled from 'styled-components'
@@ -10,6 +10,8 @@ import TabChart from './tab-chart/index'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import * as _ from 'lodash'
+import SelectQCVN from 'components/elements/select-qcvn-v2'
+import { Clearfix } from 'components/elements'
 
 const TabeListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
@@ -18,7 +20,7 @@ const TabeListWrapper = styled(BoxShadow)`
 
 const ButtonAbsolute = styled.div`
   position: absolute;
-  top: 0px;
+  top: 48px;
   right: 16px;
   z-index: 3;
 `
@@ -35,11 +37,39 @@ export default class TabeList extends React.PureComponent {
     onExportExcel: PropTypes.func,
     nameChart: PropTypes.string,
     isExporting: PropTypes.bool,
+    onChangeQcvn: PropTypes.func,
+  }
+
+  onChangeQcvn = (qcvnIds, list) => {
+    const qcvnSelected = list.filter(item => qcvnIds.includes(item._id))
+    this.props.onChangeQcvn(qcvnSelected.map(qc => qc.key))
   }
 
   render() {
     return (
       <TabeListWrapper>
+        <Row type="flex" align="middle">
+          <Col
+            span={4}
+            style={{
+              // textAlign: 'right',
+              // paddingRight: '8px',
+              fontSize: '14px',
+              fontWeight: 600,
+            }}
+          >
+            {translate('dataAnalytics.standardViews')}
+          </Col>
+          <Col span={8}>
+            <SelectQCVN
+              mode="multiple"
+              maxTagCount={3}
+              maxTagTextLength={18}
+              onChange={this.onChangeQcvn}
+            />
+          </Col>
+        </Row>
+        <Clearfix height={16} />
         <ButtonAbsolute>
           {protectRole(ROLE.DATA_SEARCH.EXPORT)(
             <Button

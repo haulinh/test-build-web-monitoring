@@ -28,8 +28,6 @@ import SelectStationAuto from '../../common/select-station-auto'
 import { ToolTip } from './../../common/tooltip'
 import { FSelectQueryType as SelectQueryType } from './select-query-type'
 
-
-
 const FSelectProvince = createValidateComponent(SelectProvince)
 const FSelectStationType = createValidateComponent(SelectStationType)
 const FSelectStationAuto = createValidateComponent(SelectStationAuto)
@@ -43,11 +41,10 @@ const Container = styled.div`
   padding: 16px 16px;
 `
 
-
 const QUERY_TYPE = {
   RAW: 'RAW',
   QCVN: 'QCVN',
-  ANTI_QCVN: 'ANTI_QCVN'
+  ANTI_QCVN: 'ANTI_QCVN',
 }
 
 const QCVN_TYPE = {
@@ -55,29 +52,29 @@ const QCVN_TYPE = {
   DEVICE_ERROR: 'DEVICE_ERROR',
   DEVICE_CALIRATE: 'DEVICE_CALIRATE',
   ZERO: 'ZERO',
-  NEGATIVE: 'NEGATIVE'
+  NEGATIVE: 'NEGATIVE',
 }
 
 const qcvnOptions = [
   {
     value: QCVN_TYPE.OUT_OF_RANGE,
-    name: translate('qaqcConfig.beyondMeasuringRange')
+    name: translate('qaqcConfig.beyondMeasuringRange'),
   },
   {
     value: QCVN_TYPE.DEVICE_ERROR,
-    name: translate('qaqcConfig.deviceError')
+    name: translate('qaqcConfig.deviceError'),
   },
   {
     value: QCVN_TYPE.DEVICE_CALIRATE,
-    name: translate('qaqcConfig.deviceCalibration')
+    name: translate('qaqcConfig.deviceCalibration'),
   },
   {
     value: QCVN_TYPE.ZERO,
-    name: translate('qaqcConfig.zero')
+    name: translate('qaqcConfig.zero'),
   },
   {
     value: QCVN_TYPE.NEGATIVE,
-    name: translate('qaqcConfig.negative')
+    name: translate('qaqcConfig.negative'),
   },
 ]
 // console.log(qcvnOptions, '==qcvnOptions==')
@@ -104,10 +101,10 @@ function validate(values) {
   initialValues: {
     ...(ownProps.initialValues
       ? {
-        ...ownProps.initialValues,
-        rangesDate: 1,
-        qcvnOptions: []
-      }
+          ...ownProps.initialValues,
+          rangesDate: 1,
+          qcvnOptions: [],
+        }
       : {}),
   },
 }))
@@ -167,9 +164,9 @@ export default class SearchFormHistoryData extends React.Component {
       measuringData: props.measuringData ? props.measuringData : [],
       measuringList: props.measuringData
         ? props.measuringData.map(measuring => ({
-          value: measuring.key,
-          name: measuring.name,
-        }))
+            value: measuring.key,
+            name: measuring.name,
+          }))
         : [],
       receivedAt:
         moment(props.initialValues.receivedAt) ||
@@ -190,28 +187,38 @@ export default class SearchFormHistoryData extends React.Component {
 
     // const stationType = this.state.stationTypeKey
 
-    const beyondMeasuringRange = _.get(res, 'data.value.beyondMeasuringRange', false)
+    const beyondMeasuringRange = _.get(
+      res,
+      'data.value.beyondMeasuringRange',
+      false
+    )
     const deviceCalibration = _.get(res, 'data.value.deviceCalibration', false)
     const deviceError = _.get(res, 'data.value.deviceError', false)
     // console.log(beyondMeasuringRange, '==beyondMeasuringRange')
     const filteredOptions = [
       {
         value: QCVN_TYPE.ZERO,
-        name: translate('qaqcConfig.zero')
+        name: translate('qaqcConfig.zero'),
       },
       {
         value: QCVN_TYPE.NEGATIVE,
-        name: translate('qaqcConfig.negative')
+        name: translate('qaqcConfig.negative'),
       },
     ]
     qcvnOptions.forEach((option, index) => {
       // console.log("Turn " + index)
       // console.log(beyondMeasuringRange, '==beyondMeasuringRange')
       // console.log(option.value, '==option value')
-      if (beyondMeasuringRange === true && option.value === QCVN_TYPE.OUT_OF_RANGE) {
+      if (
+        beyondMeasuringRange === true &&
+        option.value === QCVN_TYPE.OUT_OF_RANGE
+      ) {
         filteredOptions.push(option)
       }
-      if (deviceCalibration === true && option.value === QCVN_TYPE.DEVICE_CALIRATE) {
+      if (
+        deviceCalibration === true &&
+        option.value === QCVN_TYPE.DEVICE_CALIRATE
+      ) {
         filteredOptions.push(option)
       }
       if (deviceError === true && option.value === QCVN_TYPE.DEVICE_ERROR) {
@@ -220,7 +227,7 @@ export default class SearchFormHistoryData extends React.Component {
     })
     // console.log(filteredOptions, '==filteredOptions==')
     this.setState({
-      defaultQcvnOptions: [...filteredOptions]
+      defaultQcvnOptions: [...filteredOptions],
     })
     this.props.change('qcvnOptions', this.getDefaultValueQcvn())
     // change()
@@ -286,7 +293,7 @@ export default class SearchFormHistoryData extends React.Component {
 
   handleChangeStationAuto(stationAuto) {
     // console.log("handleChangeStationAuto")
-    const measuringData = stationAuto.measuringList.sort(function (a, b) {
+    const measuringData = stationAuto.measuringList.sort(function(a, b) {
       return a.numericalOrder - b.numericalOrder
     })
     const params = {
@@ -310,7 +317,7 @@ export default class SearchFormHistoryData extends React.Component {
 
     this.setState({
       ...this.state,
-      ...params
+      ...params,
     })
     this.props.change(
       'measuringList',
@@ -348,7 +355,6 @@ export default class SearchFormHistoryData extends React.Component {
       fromDate: from,
       toDate: to,
     })
-
   }
 
   convertDateToString(date) {
@@ -363,7 +369,7 @@ export default class SearchFormHistoryData extends React.Component {
     this.handleChangeRanges(this.state.timeRange)
 
     this.setState({
-      now: moment()
+      now: moment(),
     })
     // callapi
     // console.log(values, "handleSubmit")
@@ -411,16 +417,17 @@ export default class SearchFormHistoryData extends React.Component {
       isExceeded: values.isExceeded,
       advanced: values.advanced
         ? values.advanced.filter(
-          item =>
-            item.measuringKey &&
-            item.operator &&
-            item.value !== null &&
-            typeof item.value !== 'undefined'
-        )
+            item =>
+              item.measuringKey &&
+              item.operator &&
+              item.value !== null &&
+              typeof item.value !== 'undefined'
+          )
         : [],
       queryType: this.state.queryType,
       qcvnList: qcvnOptions.join(','),
-      isFilter: values.isFilter || false
+      isFilter: values.isFilter || false,
+      standardsVN: this.props.standardsVN ? this.props.standardsVN : [],
     })
   }
 
@@ -439,7 +446,7 @@ export default class SearchFormHistoryData extends React.Component {
   handleChangeQueryType = type => {
     // console.log("handleChangeQueryType " + type)
     this.setState({
-      queryType: type
+      queryType: type,
     })
 
     // this.props.change('stationAuto', '')
@@ -521,7 +528,7 @@ export default class SearchFormHistoryData extends React.Component {
                 now={this.state.now}
                 // value={this.state.rangesDate}
                 rangesView={this.state.rangesView}
-              // triggerRerender={this.state.triggerRerender}
+                // triggerRerender={this.state.triggerRerender}
               />
             </Col>
             {/* <Col span={6}>
@@ -564,8 +571,8 @@ export default class SearchFormHistoryData extends React.Component {
               />
             </Col>
             <Col span={12}>
-              {
-                this.state.queryType === 'ANTI_QCVN' && <Field
+              {this.state.queryType === 'ANTI_QCVN' && (
+                <Field
                   label={translate('dataSearchFrom.filterDataBy')}
                   name="qcvnOptions"
                   size="large"
@@ -575,27 +582,32 @@ export default class SearchFormHistoryData extends React.Component {
                   // defaultValue={this.getDefaultValueQcvn()}
                   component={FSelectAnt}
                 />
-              }
+              )}
             </Col>
-            {this.state.queryType !== 'RAW' &&
+            {this.state.queryType !== 'RAW' && (
               <Col span={6}>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                  }}
+                >
                   <ToolTip />
-                  <div style={{ fontSize: '14', fontWeight: '600' }}>{translate('dataSearchFrom.processData')}</div>
+                  <div style={{ fontSize: '14', fontWeight: '600' }}>
+                    {translate('dataSearchFrom.processData')}
+                  </div>
                   <div style={{ marginLeft: '10px' }}>
                     <Field
                       // label={translate('dataSearchFrom.processData')}
                       name="isFilter"
                       size="large"
-
                       component={FSwitchFilter}
                     />
                   </div>
-
                 </div>
-
-              </Col>}
-
+              </Col>
+            )}
           </Row>
           {/* tạm ẩn vì nâng cao chưa đạt DOD */}
           {/* {this.state.measuringList.length > 0 ? (
