@@ -228,6 +228,7 @@ export class StationFixedReport extends React.Component {
       pageSize: 9999,
       standardsVN:
         this.state.standardsVNObject &&
+        typeof this.state.standardsVNObject === 'array' &&
         this.state.standardsVNObject.map(s => s.key),
     }
     const res = await exportDataPoint(lang, params)
