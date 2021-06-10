@@ -132,7 +132,7 @@ class ReportData extends Component {
           <PermissionPopover roles={ROLE.CHART.EXPORT} popoverPlacement="right">
             {hasPermission => (
               <Fragment>
-                <Col span={!hasPermission ? 16 : 13}>
+                <Col span={!hasPermission ? 16 : 12}>
                   <Row type="flex" align="middle">
                     <Col
                       span={3}
