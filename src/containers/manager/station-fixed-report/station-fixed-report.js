@@ -204,9 +204,9 @@ export class StationFixedReport extends React.Component {
 
     this.setState({ loadingExport: true })
     const params = {
-      title: `${moment(startDate).format('DD-MM-YYYY')} - ${moment(
+      title: `${moment(startDate).format('DD/MM/YYYY')} - ${moment(
         endDate
-      ).format('DD-MM-YYYY')}`,
+      ).format('DD/MM/YYYY')}`,
       point: {
         pointKeys,
       },
