@@ -96,8 +96,7 @@ class DataTable extends Component {
                 <div
                   style={{
                     color:
-                      warningLevel === warningLevels.EXCEEDED ||
-                      warningLevel === warningLevels.EXCEEDED_TENDENCY
+                      warningLevel !== 'GOOD'
                         ? colorLevels[warningLevel]
                         : undefined,
                   }}
