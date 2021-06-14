@@ -2179,6 +2179,9 @@ export default {
       wqiNgay: {
         name: 'WQI - ngày',
       },
+      wqiPeriodic: {
+        name: "WQI - Định kỳ",
+      },
       tinhTrangDuLieu: {
         name: 'Tình trạng dữ liệu',
       },
@@ -2764,6 +2767,7 @@ export default {
       wqiMap: 'Bản đồ WQI',
       wqiHour: 'WQI - Giờ',
       wqiDay: 'WQI - Ngày',
+      wqiPeriodic:'WQI - Định kỳ',
       wqiStatistic: 'Tra cứu dữ liệu WQI',
       config: 'Lựa chọn tính AQI & WQI',
     },

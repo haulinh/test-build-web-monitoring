@@ -2186,6 +2186,9 @@ export default {
       wqiNgay: {
         name: 'WQI - Day',
       },
+      wqiPeriodic: {
+        name: "WQI - Periodic",
+      },
       tinhTrangDuLieu: {
         name: 'Status Data',
       },
@@ -2775,6 +2778,7 @@ export default {
       wqiMap: 'WQI Map',
       wqiHour: 'WQI - Hour',
       wqiDay: 'WQI - Day',
+      wqiPeriodic:'WQI - Periodic',
       wqiStatistic: 'WQI Historical',
       config: 'Select AQI & WQI Calculations',
     },

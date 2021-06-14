@@ -39,6 +39,10 @@ export default props => (
       render={matchProps => <ReportWQIDay {...matchProps} {...props} />}
     />
     <Route
+      path={slug.advance.wqi_periodic}
+      render={matchProps => <ReportWQIDay {...matchProps} {...props} />}
+    />
+    <Route
       path={slug.advance.mapWqi}
       render={matchProps => <WqiContainer {...matchProps} {...props} />}
     />
