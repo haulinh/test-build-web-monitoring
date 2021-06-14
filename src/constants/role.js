@@ -131,6 +131,10 @@ export default {
     VIEW: 'menu.wqiNgay.actions.view',
     WQI_NGAY_EXPORT: 'menu.wqiNgay.actions.export',
   },
+  WQI_PERIODIC: {
+    VIEW: 'menu.wqiPeriodic.actions.view',
+    WQI_PERIODIC_EXPORT: 'menu.wqiPeriodic.actions.export',
+  },
   WQI: {
     VIEW: 'menu.wqiMap.actions.view',
   },

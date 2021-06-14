@@ -264,6 +264,7 @@ export default class MenuApp extends React.PureComponent {
               ROLE.CONFIG_WQI.VIEW,
               ROLE.CAU_HINH_TINH_TOAN_AQI.VIEW,
               ROLE.CAU_HINH_TINH_TOAN_WQI.VIEW,
+              ROLE.WQI_PERIODIC.VIEW
             ]) && AdvanceMenu.renderComp(this.props)}
 
             {this.checkRoleForGroup([
