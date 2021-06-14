@@ -1,25 +1,45 @@
 import React from 'react'
-import stationConfigApi from 'api/StationConfigApi'
-import { Table, message, Icon, Radio } from 'antd'
-import * as _ from 'lodash'
-import { autobind } from 'core-decorators'
+import { Table, Radio, Form, Icon } from 'antd'
 import SearchForm from './search-form'
-import createLanguageHoc, { translate } from 'hoc/create-lang'
-import { replaceVietnameseStr } from 'utils/string'
+import { translate } from 'hoc/create-lang'
+import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi'
+import { get } from 'lodash'
+import {replaceVietnameseStr} from 'utils/string'
+
 const RadioGroup = Radio.Group
-@createLanguageHoc
-@autobind
-export default class TabsStationFixed extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      listStationFixed: this.props.listStationFixed,
-      stationConfig: _.keyBy(props.listStationConfig, 'key'),
-      stationTypeFixed: props.stationTypeFixed,
-    }
+
+class TabsStationFixed extends React.Component {
+  state = {
+    list: [],
+    pagination: {},
+    stationTypes: [],
+    loading: false,
+  }
+
+  componentDidMount() {
+    this.fetchData()
+  }
+
+  fetchData = async ({ page = 1 } = {}) => {
+    this.setState({ loading: true});
+    const results = await StationFixedPointApi.getStationFixedPoints(
+      { page, itemPerPage: Number.MAX_SAFE_INTEGER },
+    );
+
+    const stationTypes = new Map(results.data.map(item => [item.stationType.key, item.stationType]));
+    this.setState({
+      stationTypes: Array.from(stationTypes).map(item => ({value: item[1].key, text: item[1].name})),
+      loading: false,
+      list: results.data,
+      pagination: results.pagination   
+    });
+    return results;
   }
 
   getColumns() {
+    const { form } = this.props;
+    const { stationTypes } = this.state;
+
     const columns = [
       {
         title: translate('configWQI.stationName'),
@@ -30,42 +50,46 @@ export default class TabsStationFixed extends React.Component {
       {
         title: translate('configWQI.stationType'),
         dataIndex: 'stationType',
-        filters: this.state.stationTypeFixed,
+        align: 'left',
+        filters: stationTypes,
+        onFilter: (value, record) =>
+          get(record, 'stationType.key').indexOf(value) === 0,
         filterIcon: filtered => (
           <Icon
             type="filter"
             style={{ color: filtered ? '#1890ff' : undefined }}
           />
         ),
-        onFilter: (value, record) =>
-          _.get(record, 'stationType.key').indexOf(value) === 0,
-        key: 'stationType',
-        // width: 100,
-        align: 'left',
-        render: (value, record) => _.get(value, 'name', ''),
+        render: value => get(value, 'name', ''),
       },
       {
         title: translate('configWQI.allow'),
-        dataIndex: 'key',
         key: 'radio',
-        // width: 100,
         align: 'left',
-        render: (value, record) => {
-          const result = this.getDefaultRadio(value)
+        render: record => {
+          const field = `${record._id}[calculateType]`
+          const isSelected = !!form.getFieldValue(field)
           return (
-            <RadioGroup
-              onChange={event => this.handleRadioAuto(record, event)}
-              name="radiogroup"
-              defaultValue={result}
-            >
-              <Radio value={'WQI'}>WQI</Radio>
-              <Radio value={'AQI'}>AQI</Radio>
-              {result && (
-                <Radio value={'UNCHECK'}>
-                  {translate('configWQI.unckecked')}
-                </Radio>
+            <Form.Item style={{margin: 0}}>
+              {form.getFieldDecorator(field, {
+                initialValue: get(record, 'config.calculateType'),
+                valuePropName: 'checked',
+              })(
+                <RadioGroup
+                  onChange={({ target: { value } }) =>
+                    this.onUpdate(record._id, value)
+                  }
+                >
+                  <Radio value={'WQI'}>WQI</Radio>
+                  <Radio value={'AQI'}>AQI</Radio>
+                  {isSelected && (
+                    <Radio value={'UNCHECK'}>
+                      {translate('configWQI.unckecked')}
+                    </Radio>
+                  )}
+                </RadioGroup>
               )}
-            </RadioGroup>
+            </Form.Item>
           )
         },
       },
@@ -73,110 +97,68 @@ export default class TabsStationFixed extends React.Component {
     return columns
   }
 
-  handleSearch = textSearch => {
-    this.setState({ textSearch })
-  }
-
-  getData = () => {
-    let search = _.lowerCase(this.state.textSearch)
-    if (search) {
-      search = replaceVietnameseStr(search)
-      return _.filter(
-        _.clone(this.state.listStationFixed),
-        ({ name }) =>
-          replaceVietnameseStr(_.lowerCase(name)).indexOf(search) >= 0
-      )
-    }
-    return _.clone(this.state.listStationFixed)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.listStationFixed, this.props.listStationFixed)) {
-      this.setState({ listStationFixed: nextProps.listStationFixed })
-    }
-    if (!_.isEqual(nextProps.listStationConfig, this.props.listStationConfig)) {
-      this.setState({
-        stationConfig: _.keyBy(nextProps.listStationConfig, 'key'),
-      })
-    }
-    if (!_.isEqual(nextProps.stationTypeFixed, this.props.stationTypeFixed)) {
-      this.setState({ stationTypeFixed: nextProps.stationTypeFixed })
-    }
-  }
-
-  handleRadioAuto(record, event) {
-    const type = _.get(event, 'target.value', null)
-    if (type === 'UNCHECK') {
-      this.updateDataFixed(record, { calculateType: null })
-    } else {
-      this.updateDataFixed(record, { calculateType: type })
-    }
-  }
-
-  getDefaultRadio = key => {
-    return _.get(
-      this.state,
-      ['stationConfig', key, 'config', 'calculateType'],
-      null
-    )
-  }
-
-  updateDataFixed = async (record, data) => {
-    const stationKey = _.get(record, 'key')
-    if (stationKey) {
-      const obj = _.get(this.state, ['stationConfig', stationKey], null)
-      const stationConfigParams = {
-        key: _.get(record, 'key', ''),
-        name: _.get(record, 'name', ''),
-        stationType: _.get(record, 'stationType', {}),
-        province: _.get(record, 'province', {}),
-        config: { ...data },
+  onUpdate = (id, value) => {
+    setTimeout(async () => {
+      const { form } = this.props
+      const field = `${id}[calculateType]`
+      try {
+        await StationFixedPointApi.updateConfig(id, value)
+        if (value === 'UNCHECK') form.setFieldsValue({ [field]: null })
+      } catch (e) {
+        console.log(e)
       }
-
-      if (obj) {
-        this.updateStationConfig(_.get(obj, '_id', ''), stationConfigParams)
-      } else {
-        this.createStationConfig(stationConfigParams)
-      }
-    }
+    })
   }
 
-  async createStationConfig(data) {
-    const rs = await stationConfigApi.createStationConfig(data)
-    if (_.get(rs, 'success')) {
-      message.info(translate('configWQI.success'))
-      this.props.handleSuccess()
-    } else {
-      message.info(translate('configWQI.error'))
-    }
+  onPageChange = ({current}) => {
+    this.setState(({pagination}) => ({pagination: {...pagination, current}}))
   }
 
-  async updateStationConfig(_id, data) {
-    const rs = await stationConfigApi.updateStationConfig(_id, data)
-    if (_.get(rs, 'success')) {
-      message.info(translate('configWQI.success'))
-      this.props.handleSuccess()
-    } else {
-      message.info(translate('configWQI.error'))
-    }
+  onSearch = (textSearch) => {
+    this.setState({textSearch, current: 1})
   }
 
   showTotal = (total, range) => ` ${range[1]}/${total}`
 
+  getData = () => {
+    const { list, textSearch, pagination } = this.state
+
+    const newList = list.filter(item =>
+      replaceVietnameseStr(item.name.toLowerCase()).indexOf(textSearch) >= 0
+    )
+
+    return {
+      list: textSearch ? newList : list,
+      pagination: { 
+        ...pagination, 
+        showTotal: this.showTotal,
+        total: newList.length,
+        pageSize: pagination.limit 
+      },
+    }
+  }
+
   render() {
+    const { loading } = this.state
+    const data = this.getData()
+
     return (
       <div>
-        <SearchForm onSearch={this.handleSearch} />
+        <SearchForm onSearch={this.onSearch} />
         <Table
           rowKey="key"
-          dataSource={this.getData()}
+          loading={loading}
+          dataSource={data.list}
           columns={this.getColumns()}
-          pagination={{ showTotal: this.showTotal }}
+          onChange={this.onPageChange}
+          pagination={data.pagination}
           expandedRowRender={record => (
-            <p style={{ margin: 0 }}>{_.get(record, 'address', '')}</p>
+            <p style={{ margin: 0 }}>{get(record, 'address', '')}</p>
           )}
         />
       </div>
     )
   }
 }
+
+export default Form.create()(TabsStationFixed)

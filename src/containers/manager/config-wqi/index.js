@@ -13,10 +13,11 @@ import Breadcrumb from './breadcrumb'
 // import PageInfo from "components/pageInfo"
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import TabsStationFixed from './tabs-station-fixed'
 
 const TabPane = Tabs.TabPane
 @protectRole(ROLE.CONFIG_WQI.VIEW)
-export default class ConfigWQIContainer extends React.Component {
+class ConfigWQIContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -41,23 +42,6 @@ export default class ConfigWQIContainer extends React.Component {
     })
     this.setState({ listStationAuto, stationTypeAuto })
   }
-
-  // async loadDataStationFixed() {
-  //   const rs = await stationFixedApi.getStationFixeds({}, {})
-
-  //   const listStationfixed = _.get(rs, 'data', [])
-
-  //   const stationTypeFixed = []
-  //   const keys = []
-  //   _.forEach(listStationfixed, ({ stationType: { key, name } }) => {
-  //     if (!_.includes(keys, key)) {
-  //       keys.push(key)
-  //       stationTypeFixed.push({ text: name, value: key })
-  //     }
-  //   })
-
-  //   this.setState({ listStationfixed, stationTypeFixed })
-  // }
 
   async loadDataConfigStation() {
     const rs = await stationConfigApi.getStationsConfig({}, {})
@@ -85,7 +69,7 @@ export default class ConfigWQIContainer extends React.Component {
       <div>
         <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
           <Breadcrumb items={['list']} />
-          <Tabs defaultActiveKey="tabAuto">
+          <Tabs defaultActiveKey="tabFixed">
             <TabPane
               tab={
                 <span>
@@ -105,8 +89,7 @@ export default class ConfigWQIContainer extends React.Component {
                   />
                 )}
             </TabPane>
-            {/* PCA-1010 */}
-            {/* <TabPane
+            <TabPane
               tab={
                 <span>
                   <Icon type="cluster" />
@@ -115,16 +98,13 @@ export default class ConfigWQIContainer extends React.Component {
               }
               key="tabFixed"
             >
-              <TabsStationFixed
-                listStationFixed={this.state.listStationfixed}
-                listStationConfig={this.state.listStationConfig}
-                handleSuccess={this.handleSuccess}
-                stationTypeFixed={this.state.stationTypeFixed}
-              />
-            </TabPane> */}
+              <TabsStationFixed />
+            </TabPane> 
           </Tabs>
         </PageContainer>
       </div>
     )
   }
 }
+
+export default ConfigWQIContainer
