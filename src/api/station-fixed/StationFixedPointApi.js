@@ -140,7 +140,7 @@ export function getLastLog() {
 }
 
 export function updateConfig(id, data) {
-  return pathFetch(getStationFixedPointUrl(`${id}/update-config`, data))
+  return pathFetch(getStationFixedPointUrl(`${id}/config`), data)
 }
 
 export default {

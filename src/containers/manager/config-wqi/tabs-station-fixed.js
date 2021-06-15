@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Radio, Form, Icon } from 'antd'
+import { Table, Radio, Form, Icon, message } from 'antd'
 import SearchForm from './search-form'
 import { translate } from 'hoc/create-lang'
 import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi'
@@ -32,6 +32,13 @@ class TabsStationFixed extends React.Component {
       loading: false,
       list: results.data,
       pagination: results.pagination   
+    }, () => {
+      const {form} = this.props;
+      const initialValue = results.data.reduce((prev, item) => ({
+        ...prev,
+        [`${item._id}[calculateType]`]: item.calculateType
+      }), {})
+      form.setFieldsValue(initialValue)
     });
     return results;
   }
@@ -68,17 +75,17 @@ class TabsStationFixed extends React.Component {
         align: 'left',
         render: record => {
           const field = `${record._id}[calculateType]`
-          const isSelected = !!form.getFieldValue(field)
+          const isSelected = ['WQI', 'AQI'].includes(form.getFieldValue(field))
           return (
             <Form.Item style={{margin: 0}}>
               {form.getFieldDecorator(field, {
-                initialValue: get(record, 'config.calculateType'),
                 valuePropName: 'checked',
               })(
                 <RadioGroup
                   onChange={({ target: { value } }) =>
                     this.onUpdate(record._id, value)
                   }
+                  value={form.getFieldValue(field)}
                 >
                   <Radio value={'WQI'}>WQI</Radio>
                   <Radio value={'AQI'}>AQI</Radio>
@@ -101,9 +108,11 @@ class TabsStationFixed extends React.Component {
     setTimeout(async () => {
       const { form } = this.props
       const field = `${id}[calculateType]`
+      const calculateType = value !== 'UNCHECK' ? value : null 
       try {
-        await StationFixedPointApi.updateConfig(id, value)
-        if (value === 'UNCHECK') form.setFieldsValue({ [field]: null })
+        await StationFixedPointApi.updateConfig(id, {calculateType})
+        if (!calculateType) form.setFieldsValue({ [field]: null })
+        message.info(translate('configWQI.success'))
       } catch (e) {
         console.log(e)
       }
