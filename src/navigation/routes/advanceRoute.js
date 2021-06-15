@@ -13,6 +13,7 @@ import AqiListConfigContainer from 'containers/aqi/listConfig'
 import PageAqiStatus from 'containers/aqi/aqi-list-status'
 import WqiListConfigContainer from 'containers/wqi/listConfig'
 import WqiConfigCalculationContainer from 'containers/wqi/configCalculation'
+import WQIStationFixed from 'containers/statistic/wqi-station-fixed'
 
 export default props => (
   <Switch>
@@ -40,7 +41,7 @@ export default props => (
     />
     <Route
       path={slug.advance.wqi_periodic}
-      render={matchProps => <ReportWQIDay {...matchProps} {...props} />}
+      render={matchProps => <WQIStationFixed {...matchProps} {...props} />}
     />
     <Route
       path={slug.advance.mapWqi}
