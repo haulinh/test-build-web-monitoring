@@ -33,6 +33,7 @@ export default class TableDataList extends React.PureComponent {
   static propTypes = {
     measuringList: PropTypes.array,
     measuringData: PropTypes.array,
+    qcvns: PropTypes.array,
   }
 
   getColumns() {
@@ -44,6 +45,7 @@ export default class TableDataList extends React.PureComponent {
       render(value, record, index) {
         const current = me.props.pagination.current
         const pageSize = me.props.pagination.pageSize
+        if (record.isQCVN) return <React.Fragment />
         return <div>{(current - 1) * pageSize + index + 1}</div>
       },
     }
@@ -52,7 +54,16 @@ export default class TableDataList extends React.PureComponent {
       title: translate('dataSearchFrom.table.receivedAt'),
       dataIndex: 'receivedAt',
       key: 'receivedAt',
-      render(value) {
+      render(value, item) {
+        if (item.isQCVN) {
+          let startTime = item.begin
+            ? moment(item.begin).format('DD/MM/YYYY') + ' - '
+            : ''
+          let endTime = item.expired
+            ? moment(item.expired).format('DD/MM/YYYY')
+            : translate('qcvn.form.expired.isApplying')
+          return <Tooltip title={startTime + endTime}>{item.name}</Tooltip>
+        }
         return (
           <div>
             {moment(value)
@@ -63,6 +74,16 @@ export default class TableDataList extends React.PureComponent {
       },
     }
 
+    const getMeasuringValue = (list, key) => {
+      const measure = list.find(item => item.key === key)
+      const { minLimit, maxLimit } = measure || {}
+      if ((minLimit || minLimit === 0) && (maxLimit || maxLimit === 0))
+        return [minLimit, maxLimit].join('-')
+      if (minLimit || minLimit === 0) return `≤ ${minLimit}`
+      if (maxLimit || maxLimit === 0) return `≥ ${maxLimit}`
+      return '-'
+    }
+
     const columnsMeasurings = this.props.measuringData
       .filter(measuring => this.props.measuringList.includes(measuring.key))
       .map(measuring => ({
@@ -70,7 +91,13 @@ export default class TableDataList extends React.PureComponent {
         dataIndex: `measuringLogs.${measuring.key}`,
         key: measuring.key,
         align: 'right',
-        render: value => {
+        render: (value, item) => {
+          if (item.isQCVN) {
+            return (
+              <div>{getMeasuringValue(item.measuringList, measuring.key)}</div>
+            )
+          }
+
           if (value === null || value === undefined) return <div />
           /* #region  MARK tạm thời k sử dụng thời điểm đó */
 
@@ -123,8 +150,16 @@ export default class TableDataList extends React.PureComponent {
     return [columnIndex, columnReceivedAt, ...columnsMeasurings]
   }
 
+  getDataSources() {
+    return [
+      ...this.props.dataSource,
+      ...this.props.qcvns.map(qc => ({ ...qc, isQCVN: true })),
+    ]
+  }
+
   render() {
     // console.log(this.props.timeZone,"ABC")
+    const { dataSource, ...otherProps } = this.props
     return (
       <div>
         <Table
@@ -132,7 +167,12 @@ export default class TableDataList extends React.PureComponent {
           size="small"
           rowKey="_id"
           columns={this.getColumns()}
-          {...this.props}
+          {...otherProps}
+          pagination={{
+            ...otherProps.pagination,
+            pageSize: this.props.qcvns.length + 50,
+          }}
+          dataSource={this.getDataSources()}
           locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}
         />
       </div>

@@ -71,6 +71,7 @@ export default class AvgSearchAdvanced extends React.Component {
       filteredConfigFilter: [],
       configFilter: [],
       standardsVN: [],
+      qcvns: [],
 
       stationKeys: props.stations.length
         ? props.stations.map(station => station.key)
@@ -478,6 +479,7 @@ export default class AvgSearchAdvanced extends React.Component {
 
     this.setState({
       standardsVN: qcvnSelected.map(qcvn => qcvn.key),
+      qcvns: qcvnSelected,
     })
   }
 
@@ -555,6 +557,7 @@ export default class AvgSearchAdvanced extends React.Component {
                 standardsVN={this.state.standardsVN}
                 stationsData={this.state.stationsData}
                 type={this.props.values.type}
+                qcvns={this.state.qcvns}
               />
             )}
           </Col>
