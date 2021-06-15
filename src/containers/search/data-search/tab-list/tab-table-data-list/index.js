@@ -5,12 +5,12 @@ import { autobind } from 'core-decorators'
 import { Table, Tooltip } from 'antd'
 import { get as _get } from 'lodash'
 import moment from 'moment/moment'
-import { SHAPE } from 'themes/color'
+// import { SHAPE } from 'themes/color'
 import {
   colorLevels,
   // warningLevels,
   // colorLevels,
-  getcolorMeasure,
+  // getcolorMeasure,
   getColorStatusDevice,
 } from 'constants/warningLevels'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
