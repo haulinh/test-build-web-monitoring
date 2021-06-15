@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
 import { DD_MM_YYYY_HH_MM, DD_MM_YYYY } from 'constants/format-date'
-import { SHAPE } from 'themes/color'
+// import { SHAPE } from 'themes/color'
 import { get as _get } from 'lodash'
 import {
   getFormatNumber,

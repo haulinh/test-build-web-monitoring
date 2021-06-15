@@ -103,6 +103,19 @@ export default {
         </Menu.Item>
       )}
 
+      {protectRole(ROLE.WQI_PERIODIC.VIEW)(
+        <Menu.Item
+          key={slug.advance.wqi_periodic}
+          onClick={() => {
+            props.selectMenu(slug.advance.wqi_periodic)
+          }}
+        >
+          <Tooltip placement="right" title={TOOLTIP_MENU.advance.wqiPeriodic}>
+            <Link to={slug.advance.wqi_periodic}>{MENU_NAME.advance.wqiPeriodic}</Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
+
       {protectRole(ROLE.CONFIG_WQI.VIEW)(
         <Menu.Item
           key={slug.advance.enableAqiWqi}

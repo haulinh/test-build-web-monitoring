@@ -60,6 +60,7 @@ export function getDataStationAutos(
   if (isFilter) url += `&isFilter=${isFilter}`
   if (queryType) url += `&queryType=${queryType}`
   if (standardsVN && standardsVN.length) {
+    // eslint-disable-next-line array-callback-return
     standardsVN.map(st => {
       url += '&standardsVN[]=' + st
     })
@@ -101,6 +102,7 @@ export function getExportData({
   if (queryType) url += `&queryType=${queryType}`
   if (isFilter) url += `&isFilter=${isFilter}`
   if (standardsVN && standardsVN.length) {
+    // eslint-disable-next-line array-callback-return
     standardsVN.map(st => {
       url += '&standardsVN[]=' + st
     })
@@ -156,6 +158,7 @@ export function getDataStationAutoAvg_v2(
   if (type) url += `&type=${type}`
   if (isFilter) url += `&isFilter=${isFilter}`
   if (standardsVN && standardsVN.length) {
+    // eslint-disable-next-line array-callback-return
     standardsVN.map(st => {
       url += '&standardsVN[]=' + st
     })
@@ -194,6 +197,7 @@ export function getDataStationAutoExportAvg({
   if (language) url += `&language=${_upperCase(language)}`
   if (isFilter) url += `&isFilter=${isFilter}`
   if (standardsVN && standardsVN.length) {
+    // eslint-disable-next-line array-callback-return
     standardsVN.map(st => {
       url += '&standardsVN[]=' + st
     })

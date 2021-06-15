@@ -20,7 +20,8 @@ export function exportDataTemplate(measurings = []) {
 
 export function exportMonitoringPointTemplate(measurings = []) {
   const lang = getLanguage()
-  const url = getStationFixedPointUrl('export-monitoring-point-template') + '/' + lang
+  const url =
+    getStationFixedPointUrl('export-monitoring-point-template') + '/' + lang
   return getFetchDownFile(url, { measurings })
 }
 
@@ -35,10 +36,12 @@ export async function getStationFixedPoints(
       limit: itemPerPage,
     }
   }
+  const nameReplaced = (name || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+ 
   filter = {
     ...filter,
     where: {
-      name: name ? { like: name, options: 'i' } : undefined,
+      name: nameReplaced ? { regexp: nameReplaced, options: 'i' } : undefined,
       stationTypeId,
     },
   }
