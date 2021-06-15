@@ -38,10 +38,10 @@ export default class TableList extends React.PureComponent {
     isExportingAll: PropTypes.bool,
     typeReport: PropTypes.string,
     isActive: PropTypes.bool,
+    qcvns: PropTypes.array,
   }
 
-  renderMenuExport = () =>
-  (
+  renderMenuExport = () => (
     <Menu>
       <Menu.Item onClick={this.props.onExportExcel}>
         <div style={{ padding: '8px 0' }}>
@@ -55,7 +55,6 @@ export default class TableList extends React.PureComponent {
       </Menu.Item>
     </Menu>
   )
-
 
   renderDataTab = () => {
     if (this.props.measuringData.length === 0) {
@@ -77,14 +76,11 @@ export default class TableList extends React.PureComponent {
           onChange={this.props.onChangePage}
           typeReport={this.props.typeReport}
           nameChart={this.props.nameChart}
+          qcvns={this.props.qcvns}
         />
       </Tabs.TabPane>
     )
   }
-
-
-
-
 
   renderChartTab = () => {
     if (this.props.measuringData.length === 0) {
@@ -108,10 +104,8 @@ export default class TableList extends React.PureComponent {
     )
   }
 
-
   render() {
     if (!this.props.isActive) return null
-
 
     return (
       <TableListWrapper>
@@ -132,7 +126,6 @@ export default class TableList extends React.PureComponent {
           {this.renderDataTab()}
           {this.renderChartTab()}
         </Tabs>
-
       </TableListWrapper>
     )
   }
