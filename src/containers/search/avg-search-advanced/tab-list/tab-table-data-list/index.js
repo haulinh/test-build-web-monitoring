@@ -77,7 +77,11 @@ export default class TableDataList extends React.PureComponent {
           let endTime = record.expired
             ? moment(record.expired).format('DD/MM/YYYY')
             : translate('qcvn.form.expired.isApplying')
-          return <Tooltip title={startTime + endTime}>{record.name}</Tooltip>
+          return (
+            <Tooltip title={startTime + endTime}>
+              <div style={{ color: 'rgba(0,0,0,.8)' }}>{record.name}</div>
+            </Tooltip>
+          )
         }
         return <div>{moment(record.date_utc).format(formatDate)}</div>
       },
