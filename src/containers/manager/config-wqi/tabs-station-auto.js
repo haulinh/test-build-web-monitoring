@@ -169,8 +169,6 @@ export default class TabsStationAuto extends React.Component {
   showTotal = (total, range) => ` ${range[1]}/${total}`
 
   render() {
-    console.log(this.state.listStationAuto, '-----')
-    console.log(this.state.stationConfig, '--stationConfig--')
     return (
       <div>
         <SearchForm onSearch={this.handleSearch} />
