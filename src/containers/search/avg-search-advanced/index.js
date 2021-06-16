@@ -475,7 +475,11 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   onChangeQcvn = (qcvnIds, list) => {
-    const qcvnSelected = list.filter(item => qcvnIds.includes(item._id))
+    const qcvnSelected = qcvnIds.map(id => {
+      return {
+        ...list.find(l => l._id === id),
+      }
+    })
 
     this.setState({
       standardsVN: qcvnSelected.map(qcvn => qcvn.key),
