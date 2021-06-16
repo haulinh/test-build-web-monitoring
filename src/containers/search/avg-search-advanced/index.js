@@ -532,10 +532,10 @@ export default class AvgSearchAdvanced extends React.Component {
             <Clearfix height={40} />
             <Row type="flex" align="middle">
               <Col
-                span={4}
+                span={3}
                 style={{
-                  textAlign: 'right',
-                  paddingRight: '8px',
+                  textAlign: 'left',
+                  paddingLeft: '16px',
                   fontSize: '14px',
                   fontWeight: 600,
                 }}
