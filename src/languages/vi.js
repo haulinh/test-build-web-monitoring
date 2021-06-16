@@ -208,7 +208,7 @@ export default {
     moreContent: {
       sampling: {
         error: {
-          duplicateTagName: "Trùng Tag name",
+          duplicateTagName: 'Trùng Tag name',
         },
         tabs: {
           sampling: 'Lấy mẫu',
@@ -2180,7 +2180,7 @@ export default {
         name: 'WQI - ngày',
       },
       wqiPeriodic: {
-        name: "WQI - Định kỳ",
+        name: 'WQI - Định kỳ',
       },
       tinhTrangDuLieu: {
         name: 'Tình trạng dữ liệu',
@@ -2767,7 +2767,7 @@ export default {
       wqiMap: 'Bản đồ WQI',
       wqiHour: 'WQI - Giờ',
       wqiDay: 'WQI - Ngày',
-      wqiPeriodic:'WQI - Định kỳ',
+      wqiPeriodic: 'WQI - Định kỳ',
       wqiStatistic: 'Tra cứu dữ liệu WQI',
       config: 'Lựa chọn tính AQI & WQI',
     },
@@ -3330,7 +3330,7 @@ export default {
     },
     measuredValue: 'Giá trị đo',
     standard: 'Quy chuẩn',
-    standardViews: 'Quy chuẩn hiển thị',
+    standardViews: 'Quy chuẩn',
     exportExcel: 'Xuất dữ liệu excel',
     chartType: {
       column: 'Cột',

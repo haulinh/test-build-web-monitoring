@@ -55,10 +55,8 @@ export default class TabeList extends React.PureComponent {
       <TabeListWrapper>
         <Row type="flex" align="middle">
           <Col
-            span={4}
+            span={2}
             style={{
-              // textAlign: 'right',
-              // paddingRight: '8px',
               fontSize: '14px',
               fontWeight: 600,
             }}
