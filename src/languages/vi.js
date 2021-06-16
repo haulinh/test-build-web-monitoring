@@ -3338,4 +3338,16 @@ export default {
       table: 'Bảng',
     },
   },
+  wqiStationFix: {
+    viewBy: 'Xem theo',
+    month: 'Tháng',
+    year: 'Năm',
+    quarter: 'Quý',
+    time: 'Thời gian',
+    requireTime: 'Vui lòng chọn thời gian',
+      pointName: 'Điểm quan trắc',
+      avgTime: 'Thời gian trung bình',
+      wqiValue: 'Giá trị WQI',
+      wqiLevel: 'Mức độ WQI'
+  }
 }
