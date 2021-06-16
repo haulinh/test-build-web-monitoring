@@ -45,7 +45,11 @@ export default class TabeList extends React.PureComponent {
   }
 
   onChangeQcvn = (qcvnIds, list) => {
-    const qcvnSelected = list.filter(item => qcvnIds.includes(item._id))
+    const qcvnSelected = qcvnIds.map(id => {
+      return {
+        ...list.find(l => l._id === id),
+      }
+    })
     this.setState({ qcvns: qcvnSelected })
     this.props.onChangeQcvn(qcvnSelected.map(qc => qc.key))
   }
