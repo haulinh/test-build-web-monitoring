@@ -23,7 +23,7 @@ class TabsStationFixed extends React.Component {
   fetchData = async ({ page = 1 } = {}) => {
     this.setState({ loading: true});
     const results = await StationFixedPointApi.getStationFixedPoints(
-      { page, itemPerPage: Number.MAX_SAFE_INTEGER },
+      { page, itemPerPage: Number.MAX_SAFE_INTEGER},
     );
 
     const stationTypes = new Map(results.data.map(item => [item.stationType.key, item.stationType]));
@@ -132,18 +132,19 @@ class TabsStationFixed extends React.Component {
   getData = () => {
     const { list, textSearch = '', pagination } = this.state
 
-    const newList = list.filter(item =>
-      replaceVietnameseStr(item.name.toLowerCase())
-      .indexOf(replaceVietnameseStr(textSearch.toLowerCase())) >= 0
-    )
+    const filteredList = textSearch ? 
+      list.filter(item => 
+        replaceVietnameseStr(item.name.toLowerCase()) 
+        .indexOf(replaceVietnameseStr(textSearch.toLowerCase())) >= 0 
+    ) : list
 
     return {
-      list: textSearch ? newList : list,
+      list: filteredList,
       pagination: { 
         ...pagination, 
         showTotal: this.showTotal,
-        total: newList.length,
-        pageSize: pagination.limit 
+        total: filteredList.length,
+        pageSize: 10 
       },
     }
   }
