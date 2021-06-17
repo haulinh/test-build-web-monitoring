@@ -30,7 +30,7 @@ export const i18n = {
   year: t('wqiStationFix.year'),
   quarter: t('wqiStationFix.quarter'),
   time: t('wqiStationFix.time'),
-  requiredTime: t('wqiStationFix.time'),
+  requireTime: t('wqiStationFix.requireTime'),
 }
 
 const SearchFormContainer = styled(BoxShadowStyle)``
@@ -56,9 +56,7 @@ class SearchForm extends React.Component {
     phases: [],
     points: [],
     stationTypes: [],
-    isOpenRangePicker: false,
     isLoading: false,
-    foreceRerender: true,
   }
 
   async componentDidMount() {
@@ -127,7 +125,8 @@ class SearchForm extends React.Component {
   }
 
   handleOnSubmit = async e => {
-    const {setQueryParam, onSearch} = this.props;
+    e.preventDefault()
+    const {onSearch} = this.props;
     const values = await this.props.form.validateFields()
 
     const ranges = isNumber(values.time) ? values.time : values.timeRange
@@ -136,12 +135,11 @@ class SearchForm extends React.Component {
     const params = {
       phaseIds: values.phase,
       pointKeys: values.point,
-      stationTypeId: values.stationTypeId,
-      startDate: from,
-      endDate: to,
+      type: values.type,
+      startDate: from.toDate(),
+      endDate: to.toDate(),
     }
 
-    setQueryParam(params)
     onSearch(params)
   }
 
@@ -218,7 +216,7 @@ class SearchForm extends React.Component {
             <Row gutter={24}>
               <Col span={6}>
                 <Form.Item label={i18n.viewBy}>
-                  {form.getFieldDecorator(FIELDS.TYPE)(
+                {form.getFieldDecorator(FIELDS.TYPE, {initialValue: 'month'})(
                     <Radio.Group>
                       <Radio value={'month'}>{i18n.month}</Radio>
                       <Radio value={'quarter'}>{i18n.quarter}</Radio>
