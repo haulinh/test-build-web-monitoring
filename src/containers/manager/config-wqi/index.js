@@ -69,7 +69,7 @@ class ConfigWQIContainer extends React.Component {
       <div>
         <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
           <Breadcrumb items={['list']} />
-          <Tabs defaultActiveKey="tabFixed">
+          <Tabs defaultActiveKey="tabAuto">
             <TabPane
               tab={
                 <span>

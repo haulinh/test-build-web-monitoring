@@ -130,10 +130,11 @@ class TabsStationFixed extends React.Component {
   showTotal = (total, range) => ` ${range[1]}/${total}`
 
   getData = () => {
-    const { list, textSearch, pagination } = this.state
+    const { list, textSearch = '', pagination } = this.state
 
     const newList = list.filter(item =>
-      replaceVietnameseStr(item.name.toLowerCase()).indexOf(textSearch) >= 0
+      replaceVietnameseStr(item.name.toLowerCase())
+      .indexOf(replaceVietnameseStr(textSearch.toLowerCase())) >= 0
     )
 
     return {
