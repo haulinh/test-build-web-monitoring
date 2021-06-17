@@ -18,8 +18,8 @@ class WQIList extends React.Component {
         const obj = {
           children: record.name,
           props: {
-            rowSpan: index === 0 ? 2 : 1,
-            colSpan: index === 0 ? 1 : 0,
+            rowSpan: record.size ? record.size : 1,
+            colSpan: record.size ? 1 : 0,
           }
         }
         return obj
@@ -32,30 +32,39 @@ class WQIList extends React.Component {
     },
     {
       title: i18n.wqiValue,
-      key: 'time',
+      key: 'wqi',
+      dataIndex: 'wqi'
     },
     {
       title: i18n.wqiLevel,
-      key: 'time',
+      key: 'status',
     }
   ]
 
   render() {
-    const defaultData = [
-      {
-        name: 'Test',
-        time: 1
-      },
-      {
-        name: 'Test',
-        time: 2
-      },
-      {
-        name: 'Test'
-      },
-    ]
-    const {dataSource = defaultData} = this.props
-    return <Table dataSource={dataSource} columns={this.columns} />
+
+    const {dataSource = []} = this.props
+
+    const sizes = dataSource.reduce((prev, item) => ({
+      ...prev, 
+      [item.name]: (prev[item.name] || 0) + 1 
+    }), {})
+
+    const processData = dataSource.map((item, idx) => {
+      if (!dataSource[idx - 1] || item.name != dataSource[idx - 1].name) {
+        return {...item, size: sizes[item.name]}
+      }
+      return item
+    })
+
+    return (
+      <Table
+        bordered
+        rowKey={(record) => `${record.name}_${record.time}`}
+        dataSource={processData}
+        columns={this.columns}
+      />
+    )
   }
 }
 
