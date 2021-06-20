@@ -1,6 +1,8 @@
 import {Table} from 'antd';
 import React from 'react';
 import {translate as t} from 'hoc/create-lang';
+import styled from 'styled-components'
+import {get} from 'lodash-es';
 
 const i18n = {
   pointName: t('wqiStationFix.pointName'),
@@ -8,18 +10,23 @@ const i18n = {
   wqiValue: t('wqiStationFix.wqiValue'),
   wqiLevel: t('wqiStationFix.wqiLevel'),
 }
+const TableCustom = styled(Table)`
+  tr > td{
+    background: #ffffff !important;
+  }
+`
 
 class WQIList extends React.Component {
   columns = [
     {
       title: i18n.pointName,
       key: 'name',
-      render: (_, record, index) => {
+      render: (_, record) => {
         const obj = {
-          children: record.name,
+          children: get(record, 'point.name'),
           props: {
-            rowSpan: index === 0 ? 2 : 1,
-            colSpan: index === 0 ? 1 : 0,
+            rowSpan: record.size ? record.size : 1,
+            colSpan: record.size ? 1 : 0,
           }
         }
         return obj
@@ -28,34 +35,34 @@ class WQIList extends React.Component {
     {
       title: i18n.avgTime,
       key: 'time',
-      dataIndex: 'time'
+      dataIndex: 'datetime',
     },
     {
       title: i18n.wqiValue,
-      key: 'time',
+      key: 'wqi',
+      dataIndex: 'wqiResult.wqi',
+      render: value => Math.round(value)
     },
     {
       title: i18n.wqiLevel,
-      key: 'time',
+      key: 'status',
+      dataIndex: 'wqiResult.level.name',
     }
   ]
 
   render() {
-    const defaultData = [
-      {
-        name: 'Test',
-        time: 1
-      },
-      {
-        name: 'Test',
-        time: 2
-      },
-      {
-        name: 'Test'
-      },
-    ]
-    const {dataSource = defaultData} = this.props
-    return <Table dataSource={dataSource} columns={this.columns} />
+    const {loading, dataSource} = this.props
+
+    return (
+      <TableCustom
+        loading={loading}
+        bordered
+        rowKey={(record) => `${record.point.key}_${record.datetime}`}
+        dataSource={dataSource}
+        columns={this.columns}
+        pagination={false}
+      />
+    )
   }
 }
 
