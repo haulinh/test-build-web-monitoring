@@ -2,6 +2,7 @@ import {Table} from 'antd';
 import React from 'react';
 import {translate as t} from 'hoc/create-lang';
 import styled from 'styled-components'
+import {get} from 'lodash-es';
 
 const i18n = {
   pointName: t('wqiStationFix.pointName'),
@@ -10,8 +11,8 @@ const i18n = {
   wqiLevel: t('wqiStationFix.wqiLevel'),
 }
 const TableCustom = styled(Table)`
-  td:hover{
-    background: unset
+  tr > td{
+    background: #ffffff !important;
   }
 `
 
@@ -22,7 +23,7 @@ class WQIList extends React.Component {
       key: 'name',
       render: (_, record) => {
         const obj = {
-          children: record.name,
+          children: get(record, 'point.name'),
           props: {
             rowSpan: record.size ? record.size : 1,
             colSpan: record.size ? 1 : 0,
@@ -34,42 +35,32 @@ class WQIList extends React.Component {
     {
       title: i18n.avgTime,
       key: 'time',
-      dataIndex: 'time'
+      dataIndex: 'datetime',
     },
     {
       title: i18n.wqiValue,
       key: 'wqi',
-      dataIndex: 'wqi'
+      dataIndex: 'wqiResult.wqi',
+      render: value => Math.round(value)
     },
     {
       title: i18n.wqiLevel,
       key: 'status',
+      dataIndex: 'wqiResult.level.name',
     }
   ]
 
   render() {
-
-    const {dataSource = []} = this.props
-
-    const sizes = dataSource.reduce((prev, item) => ({
-      ...prev, 
-      [item.name]: (prev[item.name] || 0) + 1 
-    }), {})
-
-    const processData = dataSource.map((item, idx) => {
-      if (!dataSource[idx - 1] || item.name !== dataSource[idx - 1].name) {
-        return {...item, size: sizes[item.name]}
-      }
-      return item
-    })
+    const {loading, dataSource} = this.props
 
     return (
       <TableCustom
-        className="table"
+        loading={loading}
         bordered
-        rowKey={(record) => `${record.name}_${record.time}`}
-        dataSource={processData}
+        rowKey={(record) => `${record.point.key}_${record.datetime}`}
+        dataSource={dataSource}
         columns={this.columns}
+        pagination={false}
       />
     )
   }

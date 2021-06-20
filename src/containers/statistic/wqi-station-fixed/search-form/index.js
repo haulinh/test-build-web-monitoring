@@ -6,7 +6,7 @@ import {default as BoxShadowStyle} from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import {MM_YYYY, YYYY} from 'constants/format-date'
 import {translate as t} from 'hoc/create-lang'
-import {isNumber} from 'lodash'
+import {get, isNumber} from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -103,6 +103,7 @@ class SearchForm extends React.Component {
       where: {
         stationTypeId: stationTypeId ? stationTypeId : undefined,
         provinceId: provinceId ? provinceId : undefined,
+        calculateType: 'WQI',
         active: true,
       },
     }
@@ -133,8 +134,8 @@ class SearchForm extends React.Component {
     const {from, to} = getTimes(ranges)
 
     const params = {
-      phaseIds: values.phase,
-      pointKeys: values.point,
+      phaseIds: (values[FIELDS.PHASE] ? values[FIELDS.PHASE] : []).join(),
+      pointKeys: (values[FIELDS.POINT] ? values[FIELDS.POINT] : []).join(),
       type: values.type,
       startDate: from.toDate(),
       endDate: to.toDate(),
@@ -243,9 +244,7 @@ class SearchForm extends React.Component {
 }
 
 SearchForm.propTypes = {
-  setQueryParam: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
-  loadingSearch: PropTypes.bool,
 }
 
 export default Form.create()(SearchForm)

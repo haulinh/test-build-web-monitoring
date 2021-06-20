@@ -5,21 +5,23 @@ class Chart extends React.Component {
   chartConfig = (data = []) => {
     const groupData = data.reduce((prev, item) => ({
       ...prev,
-      [item.time]: [...(prev[item.time] || []), item.wqi]
+      [item.datetime]: [...(prev[item.datetime] || []), {y: Math.round(item.wqiResult.wqi), color: item.wqiResult.level.backgroundColor}]
     }), {})
+
     const series = Object.keys(groupData).map(item => ({
       name: item,
       data: groupData[item]
     })) 
+
+    console.log(series)
+
     return {
       chart: {
         type: 'column',
       },
       xAxis: [{
-        categories: Array.from(new Set(data.map(item => item.name))),
-        labels: {
-          y: 40
-        }
+        categories: Array.from(new Set(data.map(item => item.point.name))),
+        labels: { y: 40 }
       }],
       plotOptions: {
         dataLabels: {
