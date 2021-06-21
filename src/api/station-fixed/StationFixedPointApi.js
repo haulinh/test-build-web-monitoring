@@ -27,7 +27,7 @@ export function exportMonitoringPointTemplate(measurings = []) {
 
 export async function getStationFixedPoints(
   { page = 1, itemPerPage = 1000 },
-  { name, stationTypeId }
+  { name, stationTypeId } = {}
 ) {
   let filter = {}
   if (page && itemPerPage) {
@@ -94,6 +94,7 @@ export function updateStationFixedPoint(
     purposeUsed,
     lakeCapacity,
     catchmentArea,
+    config
   }
 ) {
   return pathFetch(getStationFixedPointUrl(Id), {
@@ -118,6 +119,7 @@ export function updateStationFixedPoint(
     purposeUsed: purposeUsed || null,
     lakeCapacity: lakeCapacity || null,
     catchmentArea: catchmentArea || null,
+    config
   })
 }
 
@@ -137,6 +139,10 @@ export function getLastLog() {
   return getFetch(getStationFixedPointUrl('last-log'))
 }
 
+export function updateConfig(id, data) {
+  return pathFetch(getStationFixedPointUrl(`${id}/config`), data)
+}
+
 export default {
   getStationFixedPoints,
   getStationFixedPoint,
@@ -146,4 +152,5 @@ export default {
   deactivateStationFixedPoint,
   activeStationFixedPoint,
   getLastLog,
+  updateConfig
 }

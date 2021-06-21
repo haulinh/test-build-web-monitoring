@@ -133,7 +133,7 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   handleChangePage(pagination) {
-    this.loadData(pagination, this.state.searchFormData)
+    this.loadData({ ...pagination, pageSize: 50 }, this.state.searchFormData)
   }
 
   async handleExportExcel() {

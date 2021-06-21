@@ -32,6 +32,7 @@ export default class TableDataList extends React.PureComponent {
     measuringList: PropTypes.array,
     measuringData: PropTypes.array,
     typeReport: PropTypes.string,
+    qcvns: PropTypes.array,
   }
 
   getColumns() {
@@ -52,13 +53,36 @@ export default class TableDataList extends React.PureComponent {
         break
     }
 
+    const getMeasuringValue = (list, key) => {
+      const measure = list.find(item => item.key === key)
+      const { minLimit, maxLimit } = measure || {}
+      if ((minLimit || minLimit === 0) && (maxLimit || maxLimit === 0))
+        return [minLimit, maxLimit].join('-')
+      if (minLimit || minLimit === 0) return `≤ ${minLimit}`
+      if (maxLimit || maxLimit === 0) return `≥ ${maxLimit}`
+      return '-'
+    }
+
     const columnReceivedAt = {
       title: translate('avgSearchFrom.table.receivedAt'),
-      dataIndex: 'receivedAt',
-      key: 'receivedAt',
+      dataIndex: 'date_utc',
+      key: 'date_utc',
       width: 170,
       fixed: 'left',
       render(value, record) {
+        if (record.isQCVN) {
+          let startTime = record.begin
+            ? moment(record.begin).format('DD/MM/YYYY') + ' - '
+            : ''
+          let endTime = record.expired
+            ? moment(record.expired).format('DD/MM/YYYY')
+            : translate('qcvn.form.expired.isApplying')
+          return (
+            <Tooltip title={startTime + endTime}>
+              <div style={{ color: 'rgba(0,0,0,.8)' }}>{record.name}</div>
+            </Tooltip>
+          )
+        }
         return <div>{moment(record.date_utc).format(formatDate)}</div>
       },
     }
@@ -82,7 +106,12 @@ export default class TableDataList extends React.PureComponent {
         key: measuring.key,
         width: 120,
         align: 'right',
-        render: value => {
+        render: (value, item) => {
+          if (item.isQCVN) {
+            return (
+              <div>{getMeasuringValue(item.measuringList, measuring.key)}</div>
+            )
+          }
           // console.log(value, '==value==')
           // console.log(JSON.stringify(this.props.dataSource, null, 2), '==dataSource==')
           if (value === null || value === undefined) return <div>-</div>
@@ -107,14 +136,28 @@ export default class TableDataList extends React.PureComponent {
     return columnData
   }
 
+  getDataSource(dataSource) {
+    return [
+      ...dataSource,
+      ...this.props.qcvns.map(qc => ({ ...qc, isQCVN: true })),
+    ]
+  }
+
   render() {
+    const { dataSource, pagination, ...otherProps } = this.props
+
     return (
       <TableDataListWrapper>
         <Table
           size="large"
           rowKey="date_utc"
           columns={this.getColumns()}
-          {...this.props}
+          {...otherProps}
+          dataSource={this.getDataSource(dataSource)}
+          pagination={{
+            ...pagination,
+            pageSize: this.props.qcvns.length + 50,
+          }}
           locale={{ emptyText: translate('avgSearchFrom.table.emptyText') }}
           scroll={{ x: 'max-content', y: 500 }}
         />

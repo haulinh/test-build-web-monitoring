@@ -71,6 +71,7 @@ export default class AvgSearchAdvanced extends React.Component {
       filteredConfigFilter: [],
       configFilter: [],
       standardsVN: [],
+      qcvns: [],
 
       stationKeys: props.stations.length
         ? props.stations.map(station => station.key)
@@ -474,10 +475,15 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   onChangeQcvn = (qcvnIds, list) => {
-    const qcvnSelected = list.filter(item => qcvnIds.includes(item._id))
+    const qcvnSelected = qcvnIds.map(id => {
+      return {
+        ...list.find(l => l._id === id),
+      }
+    })
 
     this.setState({
       standardsVN: qcvnSelected.map(qcvn => qcvn.key),
+      qcvns: qcvnSelected,
     })
   }
 
@@ -530,10 +536,10 @@ export default class AvgSearchAdvanced extends React.Component {
             <Clearfix height={40} />
             <Row type="flex" align="middle">
               <Col
-                span={4}
+                span={3}
                 style={{
-                  textAlign: 'right',
-                  paddingRight: '8px',
+                  textAlign: 'left',
+                  paddingLeft: '16px',
                   fontSize: '14px',
                   fontWeight: 600,
                 }}
@@ -555,6 +561,7 @@ export default class AvgSearchAdvanced extends React.Component {
                 standardsVN={this.state.standardsVN}
                 stationsData={this.state.stationsData}
                 type={this.props.values.type}
+                qcvns={this.state.qcvns}
               />
             )}
           </Col>

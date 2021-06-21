@@ -47,34 +47,34 @@ const FSwitchFilter = createValidateComponent(Switch)
 const initializeValue = (props, callback) => {
   const initialValues = props.initialValues
     ? {
-      stationType: 'ALL',
-      provinceKey: '',
-      ...props.initialValues,
-      rangesDate:
-        Number(props.initialValues.rangesDate) ||
-        props.initialValues.rangesDate ||
-        1,
-      type:
-        Number(props.initialValues.type) || props.initialValues.type || 15,
-      fromDate: props.initialValues.fromDate
-        ? props.initialValues.fromDate
-        : moment()
-          .subtract(props.initialValues.rangesDate || 1, 'days')
-          .toISOString(),
-      toDate: props.initialValues.toDate
-        ? props.initialValues.toDate
-        : moment().toISOString(),
-    }
+        stationType: 'ALL',
+        provinceKey: '',
+        ...props.initialValues,
+        rangesDate:
+          Number(props.initialValues.rangesDate) ||
+          props.initialValues.rangesDate ||
+          1,
+        type:
+          Number(props.initialValues.type) || props.initialValues.type || 15,
+        fromDate: props.initialValues.fromDate
+          ? props.initialValues.fromDate
+          : moment()
+              .subtract(props.initialValues.rangesDate || 1, 'days')
+              .toISOString(),
+        toDate: props.initialValues.toDate
+          ? props.initialValues.toDate
+          : moment().toISOString(),
+      }
     : {
-      stationType: '',
-      provinceKey: '',
-      rangesDate: 1,
-      type: 15,
-      fromDate: moment()
-        .subtract(1, 'days')
-        .toISOString(),
-      toDate: moment().toISOString(),
-    }
+        stationType: '',
+        provinceKey: '',
+        rangesDate: 1,
+        type: 15,
+        fromDate: moment()
+          .subtract(1, 'days')
+          .toISOString(),
+        toDate: moment().toISOString(),
+      }
   callback(initialValues)
 }
 
@@ -181,7 +181,7 @@ export default class SearchAvgForm extends React.Component {
     this.state = {
       rangesView,
       filterList: listFilter.filter(filter => props.initialValues[filter.key]),
-      isFilter: false
+      isFilter: false,
     }
   }
 
@@ -208,7 +208,7 @@ export default class SearchAvgForm extends React.Component {
       frequent: newProps.frequent,
       activatedAt: newProps.activatedAt,
       typeSampling: newProps.typeSampling,
-      isFilter: newProps.isFilter || false
+      isFilter: newProps.isFilter || false,
     }
   }
 
@@ -266,7 +266,6 @@ export default class SearchAvgForm extends React.Component {
 
   handleChangeRanges = ranges => {
     const { change } = this.props
-
 
     // trong khoang
 
@@ -440,7 +439,7 @@ export default class SearchAvgForm extends React.Component {
                 isShowAll
                 placeholder={t('province.placeholder')}
                 component={FSelectProvince}
-              // onHandleChange={this.handleProvinceChange}
+                // onHandleChange={this.handleProvinceChange}
               />
             </Col>
             <Col span={4}>
@@ -470,7 +469,7 @@ export default class SearchAvgForm extends React.Component {
                 setNow={this.props.setNow}
               />
             </Col>
-            <Col span={4}>
+            <Col span={5}>
               <Field
                 label={t('type.label')}
                 name="type"
@@ -541,18 +540,22 @@ export default class SearchAvgForm extends React.Component {
               />
             </Col> */}
           </Row>
-          <Row type='flex' justify='end'>
+          <Row type="flex" justify="end">
             <Col>
-              <div style={{ display: 'flex', width: '170px', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  width: '170px',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
                 <ToolTip />
-                <div style={{ fontSize: '14px', fontWeight: '600' }}>{translate('dataSearchFrom.processData')}</div>
-                <Field
-                  name="isFilter"
-                  size="large"
-                  component={FSwitchFilter}
-                />
+                <div style={{ fontSize: '14px', fontWeight: '600' }}>
+                  {translate('dataSearchFrom.processData')}
+                </div>
+                <Field name="isFilter" size="large" component={FSwitchFilter} />
               </div>
-
             </Col>
           </Row>
 

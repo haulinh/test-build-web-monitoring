@@ -40,8 +40,17 @@ export default class TabeList extends React.PureComponent {
     onChangeQcvn: PropTypes.func,
   }
 
+  state = {
+    qcvns: [],
+  }
+
   onChangeQcvn = (qcvnIds, list) => {
-    const qcvnSelected = list.filter(item => qcvnIds.includes(item._id))
+    const qcvnSelected = qcvnIds.map(id => {
+      return {
+        ...list.find(l => l._id === id),
+      }
+    })
+    this.setState({ qcvns: qcvnSelected })
     this.props.onChangeQcvn(qcvnSelected.map(qc => qc.key))
   }
 
@@ -50,10 +59,8 @@ export default class TabeList extends React.PureComponent {
       <TabeListWrapper>
         <Row type="flex" align="middle">
           <Col
-            span={4}
+            span={2}
             style={{
-              // textAlign: 'right',
-              // paddingRight: '8px',
               fontSize: '14px',
               fontWeight: 600,
             }}
@@ -86,6 +93,7 @@ export default class TabeList extends React.PureComponent {
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab={translate('dataSearchFrom.tab.data')} key="1">
             <TabTableDataList
+              qcvns={this.state.qcvns}
               loading={this.props.isLoading}
               measuringList={this.props.measuringList}
               dataAnalyzeStationAuto={this.props.dataAnalyzeStationAuto}

@@ -49,6 +49,7 @@ export default class TableList extends React.PureComponent {
     standardsVN: PropTypes.array,
     stationsData: PropTypes.array,
     type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    qcvns: PropTypes.array,
   }
 
   static defaultProps = {
@@ -102,6 +103,7 @@ export default class TableList extends React.PureComponent {
     return (
       <Tabs.TabPane tab={station.name} key={station.key}>
         <TabList
+          qcvns={this.props.qcvns}
           isActive={this.state.tabKey === station.key}
           isLoading={this.state.isLoading}
           measuringData={newMeasuringData}
@@ -259,7 +261,7 @@ export default class TableList extends React.PureComponent {
   handleChangePage = pagination => {
     // const station = this.getStation(this.state.tabKey)
     const searchFormData = this.getSearchFormData(this.state.tabKey)
-    this.loadData(pagination, searchFormData)
+    this.loadData({ ...pagination, pageSize: 50 }, searchFormData)
   }
 
   handleChangeTab = tabKey => {
