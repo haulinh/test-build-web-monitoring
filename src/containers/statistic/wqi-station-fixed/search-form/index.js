@@ -137,8 +137,8 @@ class SearchForm extends React.Component {
       phaseIds: (values[FIELDS.PHASE] ? values[FIELDS.PHASE] : []).join(),
       pointKeys: (values[FIELDS.POINT] ? values[FIELDS.POINT] : []).join(),
       type: values.type,
-      startDate: from.toDate(),
-      endDate: to.toDate(),
+      from: from.toDate(),
+      to: to.toDate(),
     }
 
     onSearch(params)
