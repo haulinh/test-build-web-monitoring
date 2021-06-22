@@ -162,7 +162,7 @@ class TabsStationFixed extends React.Component {
           dataSource={data.list}
           columns={this.getColumns()}
           onChange={this.onPageChange}
-          pagination={data.pagination}
+          pagination={{ showTotal: this.showTotal }}
           expandedRowRender={record => (
             <p style={{ margin: 0 }}>{get(record, 'address', '')}</p>
           )}
