@@ -130,8 +130,7 @@ class SearchForm extends React.Component {
     const {onSearch} = this.props;
     const values = await this.props.form.validateFields()
 
-    const ranges = isNumber(values.time) ? values.time : values.timeRange
-    const {from, to} = getTimes(ranges)
+    const [from, to] = values[FIELDS.RANGE_PICKER]
 
     const params = {
       phaseIds: (values[FIELDS.PHASE] ? values[FIELDS.PHASE] : []).join(),
