@@ -19,13 +19,17 @@ class WQIStationFixed extends React.Component {
   }
 
   componentDidMount(){
-    this.fetchData({pointKeys: 'MT5_N_CM,MT6_N_CM'})
+    this.fetchData()
   }
 
   fetchData = async (filter = {}) => {
     this.setState({loading: true});
-    const data = await CalculateApi.getWQIStationFixed(filter);
-    this.setState({loading: false, list: data, filter});
+    try{
+      const data = await CalculateApi.getWQIStationFixed(filter);
+      this.setState({loading: false, list: data, filter});
+    } catch(e){
+      this.setState({loading: false});
+    }
   }
 
   onSearch = (params) => {
@@ -70,7 +74,7 @@ class WQIStationFixed extends React.Component {
         <Clearfix height={16} />
         <SearchForm onSearch={this.onSearch}/>
         <Clearfix height={16} />
-        <Tabs defaultActiveKey='chart' tabBarExtraContent={<Button type="primary" icon="download">Xuất dữ liệu</Button>}>
+        <Tabs defaultActiveKey='table' tabBarExtraContent={<Button type="primary" icon="download">Xuất dữ liệu</Button>}>
           <Tabs.TabPane tab="Dữ liệu" key="table" >
             <List dataSource={this.getDataList()} loading={loading}/>
           </Tabs.TabPane>
