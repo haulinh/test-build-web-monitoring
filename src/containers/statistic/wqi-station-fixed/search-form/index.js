@@ -130,15 +130,14 @@ class SearchForm extends React.Component {
     const {onSearch} = this.props;
     const values = await this.props.form.validateFields()
 
-    const ranges = isNumber(values.time) ? values.time : values.timeRange
-    const {from, to} = getTimes(ranges)
+    const [from, to] = values[FIELDS.RANGE_PICKER]
 
     const params = {
       phaseIds: (values[FIELDS.PHASE] ? values[FIELDS.PHASE] : []).join(),
       pointKeys: (values[FIELDS.POINT] ? values[FIELDS.POINT] : []).join(),
       type: values.type,
-      startDate: from.toDate(),
-      endDate: to.toDate(),
+      from: from.toDate(),
+      to: to.toDate(),
     }
 
     onSearch(params)

@@ -15,17 +15,26 @@ class WQIStationFixed extends React.Component {
   state = {
     list: [],
     filter: {},
-    loading: false 
+    loading: false,
   }
 
-  componentDidMount(){
-    this.fetchData({pointKeys: 'MT5_N_CM,MT6_N_CM'})
-  }
+  hasNewData = false
 
   fetchData = async (filter = {}) => {
     this.setState({loading: true});
-    const data = await CalculateApi.getWQIStationFixed(filter);
-    this.setState({loading: false, list: data, filter});
+    try {
+      const data = await CalculateApi.getWQIStationFixed(filter);
+      this.setState(
+        {loading: false, list: data, filter},
+        () => {
+          this.hasNewData = true
+          this.renderChart()
+        }
+      );
+
+    } catch (e) {
+      this.setState({loading: false});
+    }
   }
 
   onSearch = (params) => {
@@ -33,15 +42,15 @@ class WQIStationFixed extends React.Component {
   }
 
   getFormatTimeFromServer = (type) => {
-    if(type === 'month') return 'YYYY-MM';
-    if(type === 'quarter') return 'YYYY-[Q]Q';
-    if(type === 'year') return 'YYYY';
+    if (type === 'month') return 'YYYY-MM';
+    if (type === 'quarter') return 'YYYY-[Q]Q';
+    if (type === 'year') return 'YYYY';
   }
 
   getFormatTime = (type) => {
-    if(type === 'month') return MM_YYYY
-    if(type === 'quarter') return QUARTER
-    if(type === 'year') return YYYY
+    if (type === 'month') return MM_YYYY
+    if (type === 'quarter') return QUARTER
+    if (type === 'year') return YYYY
   }
 
   getDataList = () => {
@@ -50,32 +59,50 @@ class WQIStationFixed extends React.Component {
     const timeFormatFromBE = this.getFormatTimeFromServer(type);
     const timeFormat = this.getFormatTime(type);
 
-    const data = 
-      list.map(item => 
-        item.data.map((ele, idx) => 
-          ({
-            ...ele,
-            datetime: moment(ele.datetime, timeFormatFromBE).format(timeFormat),
-            point: item.point,
-            size: idx === 0 ? item.data.length : null})
+    const data =
+      list.map(item =>
+        item.data.map((ele, idx) =>
+        ({
+          ...ele,
+          datetime: moment(ele.datetime, timeFormatFromBE).format(timeFormat),
+          point: item.point,
+          size: idx === 0 ? item.data.length : null
+        })
         ))
     return data.reduce((prev, item) => [...prev, ...item], [])
-  }  
+  }
+
+  renderChart = () => {
+    if(!this.hasNewData) return
+    setTimeout(() => {
+      const data = this.getDataList()
+      if (this.chartRef) {
+        this.chartRef.renderChart(data);
+        this.hasNewData = false
+      }
+    })
+  }
 
   render() {
-    const {loading} = this.state; 
+    const {loading} = this.state;
     return (
       <PageContainer backgroundColor={'#fafbfb'}>
         <Breadcrumb items={['list']} />
         <Clearfix height={16} />
-        <SearchForm onSearch={this.onSearch}/>
+        <SearchForm onSearch={this.onSearch} />
         <Clearfix height={16} />
-        <Tabs defaultActiveKey='chart' tabBarExtraContent={<Button type="primary" icon="download">Xuất dữ liệu</Button>}>
+        <Tabs
+          destroyInactiveTabPane={false}
+          onChange={(activeKey => activeKey === 'chart' && this.renderChart())}
+          defaultActiveKey='table'
+          tabBarExtraContent={<Button
+            type="primary"
+            icon="download">Xuất dữ liệu</Button>}>
           <Tabs.TabPane tab="Dữ liệu" key="table" >
-            <List dataSource={this.getDataList()} loading={loading}/>
+            <List dataSource={this.getDataList()} loading={loading} />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Bản đồ" key="chart">
-            <Chart data={this.getDataList()} />
+            <Chart ref={ref => this.chartRef = ref} />
           </Tabs.TabPane>
         </Tabs>
       </PageContainer>

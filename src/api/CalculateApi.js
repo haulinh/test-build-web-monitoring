@@ -7,6 +7,6 @@ function calc(prefix = '') {
 
 export default {
   getWQIStationFixed: (params) => {
-    return getFetch(calc('wqi/station-fixed'), params)
+    return getFetch(calc('wqi-periodic'), params)
   }
 } 
