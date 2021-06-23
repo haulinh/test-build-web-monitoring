@@ -53,13 +53,13 @@ class WQIStationFixed extends React.Component {
     if (type === 'year') return YYYY
   }
 
-  getDataList = () => {
+  getDataList = (filterEmpty = false) => {
     const {list, filter} = this.state;
     const {type = 'month'} = filter
     const timeFormatFromBE = this.getFormatTimeFromServer(type);
     const timeFormat = this.getFormatTime(type);
 
-    const data =
+    let data =
       list.map(item =>
         item.data.map((ele, idx) =>
         ({
@@ -69,13 +69,15 @@ class WQIStationFixed extends React.Component {
           size: idx === 0 ? item.data.length : null
         })
         ))
-    return data.reduce((prev, item) => [...prev, ...item], [])
+    data = data.reduce((prev, item) => [...prev, ...item], [])
+    if(filterEmpty) return data.filter(item => !!item.wqiResult);
+    return data
   }
 
   renderChart = () => {
     if(!this.hasNewData) return
     setTimeout(() => {
-      const data = this.getDataList()
+      const data = this.getDataList(true)
       if (this.chartRef) {
         this.chartRef.renderChart(data);
         this.hasNewData = false
