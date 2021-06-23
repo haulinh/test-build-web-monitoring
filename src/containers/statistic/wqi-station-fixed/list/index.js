@@ -41,12 +41,13 @@ class WQIList extends React.Component {
       title: i18n.wqiValue,
       key: 'wqi',
       dataIndex: 'wqiResult.wqi',
-      render: value => Math.round(value)
+      render: value => value ? Math.round(value) : '-'
     },
     {
       title: i18n.wqiLevel,
       key: 'status',
       dataIndex: 'wqiResult.level.name',
+      render: value => value ? value : '-'
     }
   ]
 

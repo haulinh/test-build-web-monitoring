@@ -9,7 +9,14 @@ import List from './list'
 import Chart from './chart'
 import CalculateApi from 'api/CalculateApi'
 import moment from 'moment'
+import {translate as t} from 'hoc/create-lang';
 import {MM_YYYY, YYYY, QUARTER} from 'constants/format-date'
+
+const i18n = {
+  chart: t('wqiStationFix.chart'),
+  table: t('wqiStationFix.table'),
+  exportBtn: t('wqiStationFix.exportBtn'),
+}
 
 class WQIStationFixed extends React.Component {
   state = {
@@ -53,13 +60,13 @@ class WQIStationFixed extends React.Component {
     if (type === 'year') return YYYY
   }
 
-  getDataList = () => {
+  getDataList = (filterEmpty = false) => {
     const {list, filter} = this.state;
     const {type = 'month'} = filter
     const timeFormatFromBE = this.getFormatTimeFromServer(type);
     const timeFormat = this.getFormatTime(type);
 
-    const data =
+    let data =
       list.map(item =>
         item.data.map((ele, idx) =>
         ({
@@ -69,13 +76,15 @@ class WQIStationFixed extends React.Component {
           size: idx === 0 ? item.data.length : null
         })
         ))
-    return data.reduce((prev, item) => [...prev, ...item], [])
+    data = data.reduce((prev, item) => [...prev, ...item], [])
+    if(filterEmpty) return data.filter(item => !!item.wqiResult);
+    return data
   }
 
   renderChart = () => {
     if(!this.hasNewData) return
     setTimeout(() => {
-      const data = this.getDataList()
+      const data = this.getDataList(true)
       if (this.chartRef) {
         this.chartRef.renderChart(data);
         this.hasNewData = false
@@ -97,11 +106,11 @@ class WQIStationFixed extends React.Component {
           defaultActiveKey='table'
           tabBarExtraContent={<Button
             type="primary"
-            icon="download">Xuất dữ liệu</Button>}>
-          <Tabs.TabPane tab="Dữ liệu" key="table" >
+            icon="download">{i18n.exportBtn}</Button>}>
+          <Tabs.TabPane tab={i18n.table} key="table" >
             <List dataSource={this.getDataList()} loading={loading} />
           </Tabs.TabPane>
-          <Tabs.TabPane tab="Bản đồ" key="chart">
+          <Tabs.TabPane tab={i18n.chart} key="chart">
             <Chart ref={ref => this.chartRef = ref} />
           </Tabs.TabPane>
         </Tabs>

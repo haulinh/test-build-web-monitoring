@@ -1,9 +1,9 @@
 import React from 'react'
-import { Table, Radio, Form, Icon, message } from 'antd'
+import {Table, Radio, Form, Icon, message} from 'antd'
 import SearchForm from './search-form'
-import { translate } from 'hoc/create-lang'
+import {translate} from 'hoc/create-lang'
 import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi'
-import { get } from 'lodash'
+import {get} from 'lodash'
 import {replaceVietnameseStr} from 'utils/string'
 
 const RadioGroup = Radio.Group
@@ -20,10 +20,10 @@ class TabsStationFixed extends React.Component {
     this.fetchData()
   }
 
-  fetchData = async ({ page = 1 } = {}) => {
-    this.setState({ loading: true});
+  fetchData = async ({page = 1} = {}) => {
+    this.setState({loading: true});
     const results = await StationFixedPointApi.getStationFixedPoints(
-      { page, itemPerPage: Number.MAX_SAFE_INTEGER},
+      {page, itemPerPage: Number.MAX_SAFE_INTEGER},
     );
 
     const stationTypes = new Map(results.data.map(item => [item.stationType.key, item.stationType]));
@@ -31,21 +31,28 @@ class TabsStationFixed extends React.Component {
       stationTypes: Array.from(stationTypes).map(item => ({value: item[1].key, text: item[1].name})),
       loading: false,
       list: results.data,
-      pagination: results.pagination   
-    }, () => {
-      const {form} = this.props;
-      const initialValue = results.data.reduce((prev, item) => ({
-        ...prev,
-        [`${item._id}[calculateType]`]: item.calculateType
-      }), {})
-      form.setFieldsValue(initialValue)
-    });
+      pagination: results.pagination
+    }, this.setFormData);
     return results;
   }
 
+  setFormData = () => {
+    const {form} = this.props;
+    const {list} = this.state;
+    const values = list.reduce((prev, item) => {
+      const filed = `${item._id}[calculateType]`
+      form.getFieldDecorator(filed)
+      return {
+        ...prev,
+        [filed]: item.calculateType
+      }
+    }, {})
+    form.setFieldsValue(values)
+  }
+
   getColumns() {
-    const { form } = this.props;
-    const { stationTypes } = this.state;
+    const {form} = this.props;
+    const {stationTypes} = this.state;
 
     const columns = [
       {
@@ -64,7 +71,7 @@ class TabsStationFixed extends React.Component {
         filterIcon: filtered => (
           <Icon
             type="filter"
-            style={{ color: filtered ? '#1890ff' : undefined }}
+            style={{color: filtered ? '#1890ff' : undefined}}
           />
         ),
         render: value => get(value, 'name', ''),
@@ -82,7 +89,7 @@ class TabsStationFixed extends React.Component {
                 valuePropName: 'checked',
               })(
                 <RadioGroup
-                  onChange={({ target: { value } }) =>
+                  onChange={({target: {value}}) =>
                     this.onUpdate(record._id, value)
                   }
                   value={form.getFieldValue(field)}
@@ -106,12 +113,16 @@ class TabsStationFixed extends React.Component {
 
   onUpdate = (id, value) => {
     setTimeout(async () => {
-      const { form } = this.props
+      const {form} = this.props
       const field = `${id}[calculateType]`
-      const calculateType = value !== 'UNCHECK' ? value : null 
+      const calculateType = value !== 'UNCHECK' ? value : null
       try {
         await StationFixedPointApi.updateConfig(id, {calculateType})
-        if (!calculateType) form.setFieldsValue({ [field]: null })
+        if (!calculateType) form.setFieldsValue({[field]: null})
+        this.setState(({list}) => ({list: list.map(item => {
+          if(item._id === id) return {...item, calculateType}
+          return item
+        })}))
         message.info(translate('configWQI.success'))
       } catch (e) {
         console.log(e)
@@ -119,8 +130,8 @@ class TabsStationFixed extends React.Component {
     })
   }
 
-  onPageChange = ({current}) => {
-    this.setState(({pagination}) => ({pagination: {...pagination, current}}))
+  onPageChange = () => {
+    this.setFormData()
   }
 
   onSearch = (textSearch) => {
@@ -130,27 +141,27 @@ class TabsStationFixed extends React.Component {
   showTotal = (total, range) => ` ${range[1]}/${total}`
 
   getData = () => {
-    const { list, textSearch = '', pagination } = this.state
+    const {list, textSearch = '', pagination} = this.state
 
-    const filteredList = textSearch ? 
-      list.filter(item => 
-        replaceVietnameseStr(item.name.toLowerCase()) 
-        .indexOf(replaceVietnameseStr(textSearch.toLowerCase())) >= 0 
-    ) : list
+    const filteredList = textSearch ?
+      list.filter(item =>
+        replaceVietnameseStr(item.name.toLowerCase())
+          .indexOf(replaceVietnameseStr(textSearch.toLowerCase())) >= 0
+      ) : list
 
     return {
       list: filteredList,
-      pagination: { 
-        ...pagination, 
+      pagination: {
+        ...pagination,
         showTotal: this.showTotal,
         total: filteredList.length,
-        pageSize: 10 
+        pageSize: 10
       },
     }
   }
 
   render() {
-    const { loading } = this.state
+    const {loading} = this.state
     const data = this.getData()
 
     return (
@@ -162,9 +173,9 @@ class TabsStationFixed extends React.Component {
           dataSource={data.list}
           columns={this.getColumns()}
           onChange={this.onPageChange}
-          pagination={{ showTotal: this.showTotal }}
+          pagination={{showTotal: this.showTotal}}
           expandedRowRender={record => (
-            <p style={{ margin: 0 }}>{get(record, 'address', '')}</p>
+            <p style={{margin: 0}}>{get(record, 'address', '')}</p>
           )}
         />
       </div>
