@@ -11,18 +11,22 @@ class Chart extends React.Component {
     const series = Object.keys(groupData).map(item => ({
       name: item,
       data: groupData[item]
-    })) 
-
-    console.log(series)
+    }))
 
     return {
+      title: {
+        text: ''
+      },
       chart: {
         type: 'column',
       },
       xAxis: [{
         categories: Array.from(new Set(data.map(item => item.point.name))),
-        labels: { y: 40 }
+        labels: {y: 40}
       }],
+      yAxis: {
+        title: {text: 'WQI'}
+      },
       plotOptions: {
         dataLabels: {
           enabled: true
