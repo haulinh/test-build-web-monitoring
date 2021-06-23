@@ -119,6 +119,10 @@ class TabsStationFixed extends React.Component {
       try {
         await StationFixedPointApi.updateConfig(id, {calculateType})
         if (!calculateType) form.setFieldsValue({[field]: null})
+        this.setState(({list}) => ({list: list.map(item => {
+          if(item._id === id) return {...item, calculateType}
+          return item
+        })}))
         message.info(translate('configWQI.success'))
       } catch (e) {
         console.log(e)
