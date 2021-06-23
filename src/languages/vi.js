@@ -3344,7 +3344,7 @@ export default {
     year: 'Năm',
     quarter: 'Quý',
     time: 'Thời gian',
-    chart: 'Bản đồ',
+    chart: 'Biểu đồ',
     table: 'Dữ liệu',
     exportBtn: 'Xuất dữ liệu',
     requireTime: 'Vui lòng chọn thời gian',
