@@ -9,7 +9,14 @@ import List from './list'
 import Chart from './chart'
 import CalculateApi from 'api/CalculateApi'
 import moment from 'moment'
+import {translate as t} from 'hoc/create-lang';
 import {MM_YYYY, YYYY, QUARTER} from 'constants/format-date'
+
+const i18n = {
+  chart: t('wqiStationFix.chart'),
+  table: t('wqiStationFix.table'),
+  exportBtn: t('wqiStationFix.exportBtn'),
+}
 
 class WQIStationFixed extends React.Component {
   state = {
@@ -99,11 +106,11 @@ class WQIStationFixed extends React.Component {
           defaultActiveKey='table'
           tabBarExtraContent={<Button
             type="primary"
-            icon="download">Xuất dữ liệu</Button>}>
-          <Tabs.TabPane tab="Dữ liệu" key="table" >
+            icon="download">{i18n.exportBtn}</Button>}>
+          <Tabs.TabPane tab={i18n.table} key="table" >
             <List dataSource={this.getDataList()} loading={loading} />
           </Tabs.TabPane>
-          <Tabs.TabPane tab="Bản đồ" key="chart">
+          <Tabs.TabPane tab={i18n.chart} key="chart">
             <Chart ref={ref => this.chartRef = ref} />
           </Tabs.TabPane>
         </Tabs>
