@@ -18,7 +18,6 @@ class Chart extends React.Component {
     },
     xAxis: {
       type: 'category',
-      labels: {y: 40}
     },
     plotOptions: {
       series: {
@@ -27,7 +26,6 @@ class Chart extends React.Component {
       dataLabels: {
         enabled: true
       },
-      ignoreNulls: 'normal'
     },
     exporting: {
       chartOptions: {

@@ -119,7 +119,7 @@ class WQIStationFixed extends React.Component {
   exportData = async () => {
     const {filter} = this.state;
     const results = await CalculateApi.exportWQIPeriodic({...filter, lang: getLanguage()});
-    downFileExcel(results, i18n.fileName);
+    downFileExcel(results.data, i18n.fileName);
   }
 
   render() {
@@ -133,7 +133,7 @@ class WQIStationFixed extends React.Component {
         <Tabs
           destroyInactiveTabPane={false}
           onChange={(activeKey => activeKey === 'chart' && this.renderChart())}
-          defaultActiveKey='table'
+          defaultActiveKey='chart'
           tabBarExtraContent={
             <Button
               disabled={isEmpty(filter)}
