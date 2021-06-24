@@ -19,6 +19,7 @@ class Chart extends React.Component {
     xAxis: {
       type: 'category',
     },
+    legend: { symbolHeight: '0px' },
     plotOptions: {
       series: {
         minPointLength: 1,
