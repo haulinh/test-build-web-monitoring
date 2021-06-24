@@ -132,7 +132,7 @@ class WQIStationFixed extends React.Component {
         <Tabs
           destroyInactiveTabPane={false}
           onChange={(activeKey => activeKey === 'chart' && this.renderChart())}
-          defaultActiveKey='chart'
+          defaultActiveKey='table'
           tabBarExtraContent={
             <Button
               disabled={isEmpty(filter)}
