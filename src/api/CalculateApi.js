@@ -11,5 +11,8 @@ export default {
   },
   exportWQIPeriodic: (params) => {
     return getFetchDownFile(calc('wqi-periodic/export'), params)
+  },
+  getStationTypeCalculateByWQI: () => {
+    return getFetch(calc('wqi/station-types'))
   }
 } 
