@@ -3344,6 +3344,7 @@ export default {
     chart: 'Chart',
     table: 'Data',
     exportBtn: 'Export data',
+    fileExport: 'WQI data',
     requireTime: 'Please select time',
       pointName: 'Point Name',
       avgTime: 'Avergage time',

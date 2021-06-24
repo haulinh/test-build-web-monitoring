@@ -6,11 +6,10 @@ import {default as BoxShadowStyle} from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import {MM_YYYY, YYYY} from 'constants/format-date'
 import {translate as t} from 'hoc/create-lang'
-import {get, isNumber} from 'lodash'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
-import {getTimes} from 'utils/datetime'
 import SelectPhase from './SelectPhase'
 import SelectPoint from './SelectPoint'
 import SelectProvinceForm from './SelectProvince'
@@ -228,6 +227,10 @@ class SearchForm extends React.Component {
               <Col span={6}>
                 <Form.Item label={i18n.time}>
                   {form.getFieldDecorator(FIELDS.RANGE_PICKER, {
+                    //initialValue: [
+                    //moment().subtract(2, 'year').startOf('year'),
+                    //moment().add(1, 'year').startOf(year)
+                  //],
                     rules: this.getConfig(i18n.requireTime).rules
                   })(
                     <DatePicker.RangePicker format={formatTime} />

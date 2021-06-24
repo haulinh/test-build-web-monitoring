@@ -11,11 +11,15 @@ import CalculateApi from 'api/CalculateApi'
 import moment from 'moment'
 import {translate as t} from 'hoc/create-lang';
 import {MM_YYYY, YYYY, QUARTER} from 'constants/format-date'
+import {get, isEmpty} from 'lodash-es'
+import {downFileExcel} from 'utils/downFile'
+import {getLanguage} from 'utils/localStorage'
 
 const i18n = {
   chart: t('wqiStationFix.chart'),
   table: t('wqiStationFix.table'),
   exportBtn: t('wqiStationFix.exportBtn'),
+  fileName: t('wqiStationFix.fileExport')
 }
 
 class WQIStationFixed extends React.Component {
@@ -27,10 +31,21 @@ class WQIStationFixed extends React.Component {
 
   hasNewData = false
 
+  //componentDidMount() {
+    //this.fetchData({
+      //phaseIds: '6098b6ff78536a6599f3de78',
+      //pointKeys: 'K3_N_NT_CT,K2_N_DT_CD',
+      //type: 'month',
+      //from: '2018-12-31T17:00:00.000Z',
+      //to: '2021-12-31T17:00:00.000Z'
+    //}
+    //)
+  //}
+
   fetchData = async (filter = {}) => {
     this.setState({loading: true});
     try {
-      const data = await CalculateApi.getWQIStationFixed(filter);
+      const data = await CalculateApi.getWQIPeriodic(filter);
       this.setState(
         {loading: false, list: data, filter},
         () => {
@@ -48,43 +63,52 @@ class WQIStationFixed extends React.Component {
     this.fetchData(params)
   }
 
-  getFormatTimeFromServer = (type) => {
-    if (type === 'month') return 'YYYY-MM';
-    if (type === 'quarter') return 'YYYY-[Q]Q';
-    if (type === 'year') return 'YYYY';
+  getTime = (time, type) => {
+    if (type === 'year') return moment(time, 'YYYY').format(YYYY)
+    if (type === 'quarter') return moment(time, 'YYYY-[Q]Q').format(QUARTER)
+    return moment(time, 'YYYY-MM').format(MM_YYYY)
   }
 
-  getFormatTime = (type) => {
-    if (type === 'month') return MM_YYYY
-    if (type === 'quarter') return QUARTER
-    if (type === 'year') return YYYY
-  }
-
-  getDataList = (filterEmpty = false) => {
+  getDataList = () => {
     const {list, filter} = this.state;
     const {type = 'month'} = filter
-    const timeFormatFromBE = this.getFormatTimeFromServer(type);
-    const timeFormat = this.getFormatTime(type);
 
-    let data =
+    const data =
       list.map(item =>
         item.data.map((ele, idx) =>
         ({
           ...ele,
-          datetime: moment(ele.datetime, timeFormatFromBE).format(timeFormat),
           point: item.point,
+          datetime: this.getTime(ele.datetime, type),
           size: idx === 0 ? item.data.length : null
         })
         ))
-    data = data.reduce((prev, item) => [...prev, ...item], [])
-    if(filterEmpty) return data.filter(item => !!item.wqiResult);
+    return data.reduce((prev, item) => [...prev, ...item], [])
+  }
+
+  getDataChart = () => {
+    const {list, filter} = this.state;
+    const {type = 'month'} = filter
+    const data =
+      list
+        .map(item => ({
+          name: get(item, 'point.name'),
+          data: get(item, 'data', [])
+            .filter(ele => !!ele.wqiResult)
+            .map(ele => ({
+              name: [this.getTime(ele.datetime, type), get(item, 'point.name')].join(' - '),
+              y: Math.round(get(ele, 'wqiResult.wqi')),
+              color: get(ele, 'wqiResult.level.backgroundColor')
+            })),
+        }));
     return data
   }
 
   renderChart = () => {
-    if(!this.hasNewData) return
+    if (!this.hasNewData) return
     setTimeout(() => {
-      const data = this.getDataList(true)
+      const data = this.getDataChart()
+      console.log(data)
       if (this.chartRef) {
         this.chartRef.renderChart(data);
         this.hasNewData = false
@@ -92,8 +116,14 @@ class WQIStationFixed extends React.Component {
     })
   }
 
+  exportData = async () => {
+    const {filter} = this.state;
+    const results = await CalculateApi.exportWQIPeriodic({...filter, lang: getLanguage()});
+    downFileExcel(results.data, i18n.fileName);
+  }
+
   render() {
-    const {loading} = this.state;
+    const {loading, filter} = this.state;
     return (
       <PageContainer backgroundColor={'#fafbfb'}>
         <Breadcrumb items={['list']} />
@@ -104,9 +134,15 @@ class WQIStationFixed extends React.Component {
           destroyInactiveTabPane={false}
           onChange={(activeKey => activeKey === 'chart' && this.renderChart())}
           defaultActiveKey='table'
-          tabBarExtraContent={<Button
-            type="primary"
-            icon="download">{i18n.exportBtn}</Button>}>
+          tabBarExtraContent={
+            <Button
+              disabled={isEmpty(filter)}
+              onClick={this.exportData}
+              type="primary"
+              icon="download"
+            >
+              {i18n.exportBtn}
+            </Button>}>
           <Tabs.TabPane tab={i18n.table} key="table" >
             <List dataSource={this.getDataList()} loading={loading} />
           </Tabs.TabPane>
@@ -114,6 +150,7 @@ class WQIStationFixed extends React.Component {
             <Chart ref={ref => this.chartRef = ref} />
           </Tabs.TabPane>
         </Tabs>
+        <Clearfix height={24} />
       </PageContainer>
     )
   }
