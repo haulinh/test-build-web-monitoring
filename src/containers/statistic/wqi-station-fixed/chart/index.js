@@ -18,8 +18,8 @@ class Chart extends React.Component {
     },
     xAxis: {
       type: 'category',
-      labels: {y: 40}
     },
+    legend: { symbolHeight: '0px' },
     plotOptions: {
       series: {
         minPointLength: 1,
@@ -27,7 +27,6 @@ class Chart extends React.Component {
       dataLabels: {
         enabled: true
       },
-      ignoreNulls: 'normal'
     },
     exporting: {
       chartOptions: {
