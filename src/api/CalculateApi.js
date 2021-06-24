@@ -6,7 +6,10 @@ function calc(prefix = '') {
 }
 
 export default {
-  getWQIStationFixed: (params) => {
+  getWQIPeriodic: (params) => {
     return getFetch(calc('wqi-periodic'), params)
+  },
+  exportWQIPeriodic: (params) => {
+    return getFetch(calc('wqi-periodic/export'), params)
   }
 } 
