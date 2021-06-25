@@ -1,5 +1,5 @@
 import {Button, Col, DatePicker, Form, Radio, Row} from 'antd'
-import CategoryApi from 'api/CategoryApi'
+import CalculateApi from 'api/CalculateApi'
 import {getPhase} from 'api/station-fixed/StationFixedPhaseApi'
 import {getPoint} from 'api/station-fixed/StationFixedPointApi'
 import {default as BoxShadowStyle} from 'components/elements/box-shadow'
@@ -7,7 +7,6 @@ import Heading from 'components/elements/heading'
 import {MM_YYYY, YYYY} from 'constants/format-date'
 import {translate as t} from 'hoc/create-lang'
 import PropTypes from 'prop-types'
-import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 import SelectPhase from './SelectPhase'
@@ -59,18 +58,8 @@ class SearchForm extends React.Component {
   }
 
   async componentDidMount() {
-    const stationTypes = await CategoryApi.getStationTypes(
-      {},
-      {isAuto: false}
-    )
-    if (stationTypes.success)
-      this.setState({
-        stationTypes: stationTypes.data || [],
-        value: this.props.value || (this.props.isShowAll ? '' : undefined),
-      })
-    this.setState({
-      stationTypes: stationTypes.data,
-    })
+    const stationTypes = await CalculateApi.getStationTypeCalculateByWQI()
+    this.setState({stationTypes})
   }
 
   fetchPhase = async () => {

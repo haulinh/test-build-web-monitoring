@@ -34,7 +34,7 @@ class WQIStationFixed extends React.Component {
   //componentDidMount() {
     //this.fetchData({
       //phaseIds: '6098b6ff78536a6599f3de78',
-      //pointKeys: 'K3_N_NT_CT,K2_N_DT_CD',
+      //pointKeys: 'K2_N_DT_CD,K3_N_NT_CT,K1_N_DT_LX',
       //type: 'month',
       //from: '2018-12-31T17:00:00.000Z',
       //to: '2021-12-31T17:00:00.000Z'
@@ -97,7 +97,7 @@ class WQIStationFixed extends React.Component {
             .filter(ele => !!ele.wqiResult)
             .map(ele => ({
               name: [this.getTime(ele.datetime, type), get(item, 'point.name')].join(' - '),
-              y: Math.round(get(ele, 'wqiResult.wqi')),
+              y: get(ele, 'wqiResult.wqi') ? Math.round(get(ele, 'wqiResult.wqi')) : null,
               color: get(ele, 'wqiResult.level.backgroundColor')
             })),
         }));
@@ -108,7 +108,6 @@ class WQIStationFixed extends React.Component {
     if (!this.hasNewData) return
     setTimeout(() => {
       const data = this.getDataChart()
-      console.log(data)
       if (this.chartRef) {
         this.chartRef.renderChart(data);
         this.hasNewData = false

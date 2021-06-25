@@ -19,11 +19,22 @@ class Chart extends React.Component {
     xAxis: {
       type: 'category',
     },
-    legend: { symbolHeight: '0px' },
+    legend: {enabled: false},
     plotOptions: {
       series: {
         minPointLength: 1,
-      }, 
+        dataLabels: {
+          enabled: true,
+        },
+        events: {
+          legendItemClick: () => {
+            setTimeout(() => {
+              this.chart.redraw()
+            })
+            return false
+          }
+        }
+      },
       dataLabels: {
         enabled: true
       },
@@ -49,7 +60,7 @@ class Chart extends React.Component {
   renderChart = (data = []) => {
     this.removeAllChart();
     data.map(item => this.chart.addSeries(item, false));
-    this.chart.redraw()
+    this.chart.redraw();
   }
 
   removeAllChart = (redraw = false) => {
