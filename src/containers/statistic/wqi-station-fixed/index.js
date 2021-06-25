@@ -2,8 +2,9 @@ import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Clearfix from 'components/elements/clearfix'
 import ROLE from 'constants/role'
-import {Button, Tabs} from 'antd'
+import protectRole from 'hoc/protect-role'
 
+import {Button, Tabs} from 'antd'
 import SearchForm from './search-form'
 import Breadcrumb from './breadcrumb'
 import List from './list'
@@ -24,6 +25,7 @@ const i18n = {
   fileName: t('wqiStationFix.fileExport')
 }
 
+@protectRole(ROLE.WQI_PERIODIC.VIEW)
 class WQIStationFixed extends React.Component {
   state = {
     list: [],
