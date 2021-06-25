@@ -1,6 +1,7 @@
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Clearfix from 'components/elements/clearfix'
+import ROLE from 'constants/role'
 import {Button, Tabs} from 'antd'
 
 import SearchForm from './search-form'
@@ -14,6 +15,7 @@ import {MM_YYYY, YYYY, QUARTER} from 'constants/format-date'
 import {get, isEmpty} from 'lodash-es'
 import {downFileExcel} from 'utils/downFile'
 import {getLanguage} from 'utils/localStorage'
+import {PermissionPopover} from 'hoc/protect-role'
 
 const i18n = {
   chart: t('wqiStationFix.chart'),
@@ -30,17 +32,6 @@ class WQIStationFixed extends React.Component {
   }
 
   hasNewData = false
-
-  //componentDidMount() {
-    //this.fetchData({
-      //phaseIds: '6098b6ff78536a6599f3de78',
-      //pointKeys: 'K2_N_DT_CD,K3_N_NT_CT,K1_N_DT_LX',
-      //type: 'month',
-      //from: '2018-12-31T17:00:00.000Z',
-      //to: '2021-12-31T17:00:00.000Z'
-    //}
-    //)
-  //}
 
   fetchData = async (filter = {}) => {
     this.setState({loading: true});
@@ -134,14 +125,17 @@ class WQIStationFixed extends React.Component {
           onChange={(activeKey => activeKey === 'chart' && this.renderChart())}
           defaultActiveKey='table'
           tabBarExtraContent={
-            <Button
-              disabled={isEmpty(filter)}
-              onClick={this.exportData}
-              type="primary"
-              icon="download"
-            >
-              {i18n.exportBtn}
-            </Button>}>
+            <PermissionPopover roles={ROLE.WQI_PERIODIC.WQI_PERIODIC_EXPORT}>
+              <Button
+                disabled={isEmpty(filter)}
+                onClick={this.exportData}
+                type="primary"
+                icon="download"
+              >
+                {i18n.exportBtn}
+              </Button>
+            </PermissionPopover>
+          }>
           <Tabs.TabPane tab={i18n.table} key="table" >
             <List dataSource={this.getDataList()} loading={loading} />
           </Tabs.TabPane>
