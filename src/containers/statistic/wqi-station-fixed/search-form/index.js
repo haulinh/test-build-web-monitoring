@@ -1,16 +1,14 @@
 import {Button, Col, DatePicker, Form, Radio, Row} from 'antd'
-import CategoryApi from 'api/CategoryApi'
+import CalculateApi from 'api/CalculateApi'
 import {getPhase} from 'api/station-fixed/StationFixedPhaseApi'
 import {getPoint} from 'api/station-fixed/StationFixedPointApi'
 import {default as BoxShadowStyle} from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import {MM_YYYY, YYYY} from 'constants/format-date'
 import {translate as t} from 'hoc/create-lang'
-import {isNumber} from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import {getTimes} from 'utils/datetime'
 import SelectPhase from './SelectPhase'
 import SelectPoint from './SelectPoint'
 import SelectProvinceForm from './SelectProvince'
@@ -30,7 +28,7 @@ export const i18n = {
   year: t('wqiStationFix.year'),
   quarter: t('wqiStationFix.quarter'),
   time: t('wqiStationFix.time'),
-  requiredTime: t('wqiStationFix.time'),
+  requireTime: t('wqiStationFix.requireTime'),
 }
 
 const SearchFormContainer = styled(BoxShadowStyle)``
@@ -56,24 +54,12 @@ class SearchForm extends React.Component {
     phases: [],
     points: [],
     stationTypes: [],
-    isOpenRangePicker: false,
     isLoading: false,
-    foreceRerender: true,
   }
 
   async componentDidMount() {
-    const stationTypes = await CategoryApi.getStationTypes(
-      {},
-      {isAuto: false}
-    )
-    if (stationTypes.success)
-      this.setState({
-        stationTypes: stationTypes.data || [],
-        value: this.props.value || (this.props.isShowAll ? '' : undefined),
-      })
-    this.setState({
-      stationTypes: stationTypes.data,
-    })
+    const stationTypes = await CalculateApi.getStationTypeCalculateByWQI()
+    this.setState({stationTypes})
   }
 
   fetchPhase = async () => {
@@ -105,6 +91,7 @@ class SearchForm extends React.Component {
       where: {
         stationTypeId: stationTypeId ? stationTypeId : undefined,
         provinceId: provinceId ? provinceId : undefined,
+        calculateType: 'WQI',
         active: true,
       },
     }
@@ -127,21 +114,20 @@ class SearchForm extends React.Component {
   }
 
   handleOnSubmit = async e => {
-    const {setQueryParam, onSearch} = this.props;
+    e.preventDefault()
+    const {onSearch} = this.props;
     const values = await this.props.form.validateFields()
 
-    const ranges = isNumber(values.time) ? values.time : values.timeRange
-    const {from, to} = getTimes(ranges)
+    const [from, to] = values[FIELDS.RANGE_PICKER]
 
     const params = {
-      phaseIds: values.phase,
-      pointKeys: values.point,
-      stationTypeId: values.stationTypeId,
-      startDate: from,
-      endDate: to,
+      phaseIds: (values[FIELDS.PHASE] ? values[FIELDS.PHASE] : []).join(),
+      pointKeys: (values[FIELDS.POINT] ? values[FIELDS.POINT] : []).join(),
+      type: values.type,
+      from: from.toDate(),
+      to: to.toDate(),
     }
 
-    setQueryParam(params)
     onSearch(params)
   }
 
@@ -218,7 +204,7 @@ class SearchForm extends React.Component {
             <Row gutter={24}>
               <Col span={6}>
                 <Form.Item label={i18n.viewBy}>
-                  {form.getFieldDecorator(FIELDS.TYPE)(
+                {form.getFieldDecorator(FIELDS.TYPE, {initialValue: 'month'})(
                     <Radio.Group>
                       <Radio value={'month'}>{i18n.month}</Radio>
                       <Radio value={'quarter'}>{i18n.quarter}</Radio>
@@ -230,6 +216,10 @@ class SearchForm extends React.Component {
               <Col span={6}>
                 <Form.Item label={i18n.time}>
                   {form.getFieldDecorator(FIELDS.RANGE_PICKER, {
+                    //initialValue: [
+                    //moment().subtract(2, 'year').startOf('year'),
+                    //moment().add(1, 'year').startOf(year)
+                  //],
                     rules: this.getConfig(i18n.requireTime).rules
                   })(
                     <DatePicker.RangePicker format={formatTime} />
@@ -245,9 +235,7 @@ class SearchForm extends React.Component {
 }
 
 SearchForm.propTypes = {
-  setQueryParam: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
-  loadingSearch: PropTypes.bool,
 }
 
 export default Form.create()(SearchForm)

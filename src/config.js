@@ -39,6 +39,8 @@ export function getConfigApi() {
     // stationFixedDataPoint: 'http://localhost:5018/data-points',
     // stationFixedExportDataPoint: 'http://localhost:5018/export-data-points',
     //stationFixedPoint: 'http://localhost:5018/points',
+    calculate: c('calc'),
+    //calculate: 'http://localhost:5030',
 
     stationConfig: c('config/station'),
     // stationConfig: 'http://localhost:5002/config/station',
@@ -117,7 +119,7 @@ export function getApps() {
 }
 
 export const GOOGLE_MAP = {
-  KEY: process.env.GOOGLE_MAP_KEY || 'AIzaSyB8Lw-LWcdPxtz01j99UE44V9QUFw9vEO4',
+  KEY: process.env.GOOGLE_MAP_KEY || 'AIzaSyAF9s6l46WzZU1u9dNDNh3E5pXxZfVtL6w',
 }
 
 export const GOOGLE_TAG_TRACKING_ID = 'GTM-KPZCRHG'
