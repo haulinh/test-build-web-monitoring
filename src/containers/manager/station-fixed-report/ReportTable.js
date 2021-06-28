@@ -152,8 +152,8 @@ const ReportTable = ({
                   (maxLimit || maxLimit === 0)
                 )
                   return [minLimit, maxLimit].join('-')
-                if (minLimit || minLimit === 0) return `≤ ${minLimit}`
-                if (maxLimit || maxLimit === 0) return `≥ ${maxLimit}`
+                if (minLimit || minLimit === 0) return `≥ ${minLimit}`
+                if (maxLimit || maxLimit === 0) return `≤ ${maxLimit}`
                 return '-'
               }
 
