@@ -3347,7 +3347,7 @@ export default {
     fileExport: 'WQI data',
     requireTime: 'Please select time',
       pointName: 'Point Name',
-      avgTime: 'Avergage time',
+      avgTime: 'Average time',
       wqiValue: 'WQI Value',
       wqiLevel: 'WQI Level'
   }

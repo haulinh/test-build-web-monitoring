@@ -22,7 +22,8 @@ const i18n = {
   chart: t('wqiStationFix.chart'),
   table: t('wqiStationFix.table'),
   exportBtn: t('wqiStationFix.exportBtn'),
-  fileName: t('wqiStationFix.fileExport')
+  fileName: t('wqiStationFix.fileExport'),
+  quarter: t('wqiStationFix.quarter'),
 }
 
 @protectRole(ROLE.WQI_PERIODIC.VIEW)
@@ -58,7 +59,7 @@ class WQIStationFixed extends React.Component {
 
   getTime = (time, type) => {
     if (type === 'year') return moment(time, 'YYYY').format(YYYY)
-    if (type === 'quarter') return moment(time, 'YYYY-[Q]Q').format(QUARTER)
+    if (type === 'quarter') return moment(time, 'YYYY-[Q]Q').format(QUARTER(i18n.quarter))
     return moment(time, 'YYYY-MM').format(MM_YYYY)
   }
 

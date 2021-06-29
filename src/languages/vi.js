@@ -3342,7 +3342,7 @@ export default {
     viewBy: 'Xem theo',
     month: 'Tháng',
     year: 'Năm',
-    quarter: 'Quý',
+    quarter: 'Quí',
     time: 'Thời gian',
     chart: 'Biểu đồ',
     table: 'Dữ liệu',
