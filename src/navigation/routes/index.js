@@ -40,7 +40,6 @@ import PercentReceivedData from 'containers/statistic/per-rec-data'
 import SubscriptionRoute from 'containers/subscription'
 import SupportRoute from 'containers/support'
 import UserRoute from 'containers/user'
-import APISharing from 'containers/api-sharing'
 import DataAnalytics from 'containers/data-analytics'
 import { autobind } from 'core-decorators'
 // import AqiStatistic from "containers/statistic/aqi";
@@ -51,6 +50,7 @@ import React from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import advanceRoute from './advanceRoute'
 import LoginRoute from './loginRoute'
+import ApiSharingRoute from 'containers/api-sharing/ApiSharingRoute'
 
 @withRouter
 @autobind
@@ -129,7 +129,7 @@ export default class RouteDefault extends React.Component {
             />
             <LayoutRoute
               path={slug.apiSharing.base}
-              component={APISharing}
+              component={ApiSharingRoute}
             />
             <LayoutRoute
               path={slug.onlineMonitoring.base}
@@ -184,7 +184,10 @@ export default class RouteDefault extends React.Component {
               component={ControlStation}
             />
             <LayoutRoute path={slug.camera.base} component={Camera} />
-            <LayoutRoute path={slug.dataAnalytics.base} component={DataAnalytics} />
+            <LayoutRoute
+              path={slug.dataAnalytics.base}
+              component={DataAnalytics}
+            />
             <LayoutRoute
               path={slug.cameraControl.base}
               component={CameraControl}

@@ -19,259 +19,82 @@ const i18n = {
   allowedAQI: t('apiSharing.allowedAQI'),
 }
 
-export const PublicApis = {
-  StationManagement: {
-    key: 'StationManagement',
-    name: i18n.stationManagement,
-    endpoints: {
-      stations: {
-        key: 'stations',
-        name: i18n.stations,
-        method: 'get',
-        endpoint: '/station-auto/all',
-        parameters: [
-          {
-            field: 'name',
-            type: 'string',
-            description: i18n.stationName,
+export const API_SHARE_LIST_DATA = {
+  data: [
+    {
+      _id: '60da8be350dd14506e73f624',
+      key: 'shared-api',
+      name: 'Chia sẻ API',
+      value: [
+        {
+          group: 'station-management',
+          name: {
+            vi: 'Quản lý Trạm quan trắc',
+            en: 'Quản lý Trạm quan trắc',
           },
-          {
-            field: 'address',
-            type: 'string',
-            description: i18n.stationAddress,
-          },
-          {
-            field: 'stationType',
-            type: 'string',
-            description: i18n.stationTypeKey,
-          },
-          {
-            field: 'page',
-            type: 'number',
-            description: i18n.page,
-          },
-          {
-            field: 'itemPerPage',
-            type: 'number',
-            description: i18n.itemPerPage,
-          },
-        ],
-        responseFormat: {
-          success: 'boolean',
-          pagination: {
-            page: 'number',
-            maxIndex: 'number',
-            itemPerPage: 'number',
-            minIndex: 'number',
-            totalItem: 'number',
-          },
-          data: [
+          api: [
             {
-              _id: 'string',
-              key: 'string',
-              address: 'string',
-              name: 'string',
-              dataFrequency: 'number',
-              activatedAt: 'datetime',
-              status: 'string',
-              latestDeviceStatus: 'string',
-              stationStatus: 'string',
-              lastLog: 'object',
-              configLogger: 'object',
-              createdAt: 'datetime',
-              emails: 'string[]',
-              mapLocation: {
-                long: 'number',
-                lat: 'number',
+              key: 'station-auto',
+              name: {
+                vi: 'Danh sách trạm tự động',
+                en: 'Danh sách trạm tự động',
               },
-              measuringList: 'object[]',
-              note: null,
-              options: 'object',
-              removeStatus: 'object',
-              standardsVN: null,
-              stationType: 'StationType',
             },
-          ],
-        },
-      },
-      averageData: {
-        key: 'averageData',
-        name: i18n.averageData,
-        method: 'get',
-        endpoint: '/data-station-auto/{stationAutoKey}/avg',
-        extraEndpoint:
-          '/data-station-auto/{stationAutoKey}/avg?type=60&measuringList=pH,Temp',
-        parameters: [
-          {
-            field: 'stationAutoKey',
-            type: 'string',
-            description: i18n.stationAutoKey,
-          },
-          {
-            field: 'measuringList',
-            type: 'string',
-            description: i18n.measuringList,
-          },
-          {
-            field: 'from',
-            type: 'date ISO',
-            description: i18n.fromDate,
-          },
-          {
-            field: 'to',
-            type: 'date ISO',
-            description: i18n.toDate,
-          },
-          {
-            field: 'page',
-            type: 'number',
-            description: i18n.page,
-          },
-          {
-            field: 'itemPerPage',
-            type: 'number',
-            description: i18n.itemPerPage,
-          },
-        ],
-        responseFormat: {
-          success: 'boolean',
-          pagination: {
-            page: 'number',
-            maxIndex: 'number',
-            itemPerPage: 'number',
-            minIndex: 'number',
-            totalItem: 'number',
-          },
-          data: [
             {
-              '[parameter]': 'number',
-              date_utc: 'number',
-            },
-          ],
-        },
-      },
-      dataHistory: {
-        key: 'dataHistory',
-        name: i18n.dataHistory,
-        method: 'get',
-        endpoint: '/data-station-auto/{stationAutoKey}',
-        parameters: [
-          {
-            field: 'stationAutoKey',
-            type: 'string',
-            description: i18n.stationAutoKey,
-          },
-          {
-            field: 'measuringList',
-            type: 'string',
-            description: i18n.measuringList,
-          },
-          {
-            field: 'from',
-            type: 'date ISO',
-            description: i18n.fromDate,
-          },
-          {
-            field: 'to',
-            type: 'date ISO',
-            description: i18n.toDate,
-          },
-          {
-            field: 'isExceeded',
-            type: 'boolean',
-            description: i18n.filterByExceeded,
-          },
-          {
-            field: 'page',
-            type: 'number',
-            description: i18n.page,
-          },
-          {
-            field: 'itemPerPage',
-            type: 'number',
-            description: i18n.itemPerPage,
-          },
-        ],
-        responseFormat: {
-          success: 'boolean',
-          pagination: {
-            page: 'number',
-            maxIndex: 'number',
-            itemPerPage: 'number',
-            minIndex: 'number',
-            totalItem: 'number',
-          },
-          data: [
-            {
-              measuringLogs: {
-                '[parameter]': {
-                  approvedValue: 'number',
-                  hasApproved: 'number',
-                  maxLimit: 'number',
-                  maxTend: 'number',
-                  minLimit: 'number',
-                  minTend: 'number',
-                  statusDevice: 'number',
-                  unit: 'string',
-                  value: 'number',
-                  warningLevel: 'number',
-                },
+              key: 'station-fixed',
+              name: {
+                vi: 'Danh sách trạm cố định',
+                en: 'Danh sách trạm cố định',
               },
-              createdAt: 'date',
-              receivedAt: 'date',
-              updatedAt: 'date',
             },
-          ],
-        },
-      },
-      aqi: {
-        key: 'aqi',
-        name: i18n.aqi,
-        method: 'get',
-        extraEndpoint: '/aqi-v1/hour-last-logs?listKey=KK_HoanKiem&locale=vn',
-        endpoint: '/aqi-v1/hour-last-logs',
-        parameters: [
-          {
-            field: 'listKey',
-            type: 'string',
-            description: i18n.allowedAQI,
-          },
-          {
-            field: 'locale',
-            type: 'string',
-            description: 'vn',
-          },
-        ],
-        responseFormat: {
-          success: 'boolean',
-          aqiLevel: [
             {
-              backgroundColor: 'string',
-              color: 'string',
-              description: 'string',
-              max: 'number',
-              min: 'number',
-              name: 'string',
-            },
-          ],
-          data: [
-            {
-              '[stationAutoKey]': {
-                aqiDay: 'number',
-                aqiDayOf: {
-                  '[parameter]': 'number',
-                  isOK: 'boolean',
-                },
-                key: 'string',
-                mapLocation: { long: 'number', lat: 'number' },
-                name: 'string',
-                time: 'date',
+              key: 'aqi-station-auto',
+              name: {
+                vi: 'Trạm tự động có AQI',
+                en: 'Trạm tự động có AQI',
               },
-              time: 'date',
+            },
+            {
+              key: 'wqi-station-fixed',
+              name: {
+                vi: 'Trạm cố định có WQI',
+                en: 'Trạm cố định có WQI',
+              },
             },
           ],
         },
-      },
+        {
+          group: 'data-station-auto',
+          name: {
+            vi: 'Dữ liệu trạm tự động',
+            en: 'Dữ liệu trạm tự động',
+          },
+          api: [
+            {
+              key: 'newest-data',
+              name: {
+                vi: 'Dữ liệu mới nhất',
+                en: 'Dữ liệu mới nhất',
+              },
+            },
+            {
+              key: 'history-data',
+              name: {
+                vi: 'Dữ liệu lịch sử',
+                en: 'Dữ liệu lịch sử',
+              },
+            },
+            {
+              key: 'average-data',
+              name: {
+                vi: 'Dữ liệu trung bình',
+                en: 'Dữ liệu trung bình',
+              },
+            },
+          ],
+        },
+      ],
     },
-  },
+  ],
+  success: true,
 }
