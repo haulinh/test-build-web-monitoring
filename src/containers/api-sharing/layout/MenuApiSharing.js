@@ -5,6 +5,7 @@ import styled from 'styled-components'
 const { SubMenu, Item } = Menu
 
 const MenuWrapper = styled(Menu)`
+  width: 100%;
   height: 100vh;
   background: #f4f5f7;
   border-left: 1px solid #f1f1f1;
@@ -26,10 +27,14 @@ const MenuApiSharing = ({
 }) => {
   if (!data) return <React.Fragment />
 
+  const handleOnMenuClick = e => {
+    onClickMenu(e.key)
+  }
+
   return (
     <MenuWrapper
       mode="inline"
-      onClick={onClickMenu}
+      onClick={handleOnMenuClick}
       defaultSelectedKeys={defaultSelectedKeys}
       defaultOpenKeys={defaultOpenKeys}
     >
