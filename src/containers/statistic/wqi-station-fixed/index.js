@@ -17,6 +17,7 @@ import {get, isEmpty} from 'lodash-es'
 import {downFileExcel} from 'utils/downFile'
 import {getLanguage} from 'utils/localStorage'
 import {PermissionPopover} from 'hoc/protect-role'
+import {formatQuarter} from 'utils/datetime'
 
 const i18n = {
   chart: t('wqiStationFix.chart'),
@@ -59,7 +60,7 @@ class WQIStationFixed extends React.Component {
 
   getTime = (time, type) => {
     if (type === 'year') return moment(time, 'YYYY').format(YYYY)
-    if (type === 'quarter') return moment(time, 'YYYY-[Q]Q').format(QUARTER(i18n.quarter))
+    if (type === 'quarter') return formatQuarter(moment(time, 'YYYY-[Q]Q'))
     return moment(time, 'YYYY-MM').format(MM_YYYY)
   }
 
