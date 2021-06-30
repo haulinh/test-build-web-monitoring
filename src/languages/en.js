@@ -3337,9 +3337,9 @@ export default {
   },
   wqiStationFix: {
     viewBy: 'View by',
-    month: 'Month',
-    year: 'Year',
-    quarter: 'Quarter',
+    month: 'Monthly',
+    year: 'Annually',
+    quarter: 'Quarterly',
     time: 'Time',
     chart: 'Chart',
     table: 'Data',

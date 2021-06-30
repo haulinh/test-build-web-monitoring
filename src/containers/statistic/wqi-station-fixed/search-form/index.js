@@ -202,7 +202,7 @@ class SearchForm extends React.Component {
               </Col>
             </Row>
             <Row gutter={24}>
-              <Col span={6}>
+              <Col xs={8}>
                 <Form.Item label={i18n.viewBy}>
                 {form.getFieldDecorator(FIELDS.TYPE, {initialValue: 'month'})(
                     <Radio.Group>
@@ -213,7 +213,7 @@ class SearchForm extends React.Component {
                   )}
                 </Form.Item>
               </Col>
-              <Col span={6}>
+              <Col xs={8}>
                 <Form.Item label={i18n.time}>
                   {form.getFieldDecorator(FIELDS.RANGE_PICKER, {
                     //initialValue: [
