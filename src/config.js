@@ -115,11 +115,9 @@ export function getApps() {
     isShow: config.apps.isShow,
     incidents: config.apps.incidents,
     grafana: config.apps.grafana,
+    googleMapKey: config.googleMapKey 
   }
 }
 
-export const GOOGLE_MAP = {
-  KEY: process.env.GOOGLE_MAP_KEY || 'AIzaSyAF9s6l46WzZU1u9dNDNh3E5pXxZfVtL6w',
-}
 
 export const GOOGLE_TAG_TRACKING_ID = 'GTM-KPZCRHG'
