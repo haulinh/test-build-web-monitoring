@@ -2,9 +2,9 @@ import { Row, Form, Col } from 'antd'
 import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
 import React from 'react'
-import { i18n } from '../constant'
 
 import { BoxShadow, Header } from '../styles'
+import { i18n } from '../constant'
 
 export default function Condition() {
   return (

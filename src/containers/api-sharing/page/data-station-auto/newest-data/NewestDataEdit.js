@@ -6,7 +6,7 @@ import ApiSharingDetailForm from './form/ApiSharingDetailForm'
 import Clearfix from 'components/elements/clearfix'
 
 @withRouter
-export class ApiSharingDetailEdit extends Component {
+export class NewestDataEdit extends Component {
   render() {
     return (
       <PageContainer right={<Button>Click</Button>}>

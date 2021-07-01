@@ -1,8 +1,8 @@
 import { Col, Row, Spin } from 'antd'
+import { shareApiApi } from 'api/ShareApiApi'
 import slug from 'constants/slug'
 import React from 'react'
 import { withRouter } from 'react-router'
-import { API_SHARE_LIST_DATA } from '../constants'
 import MenuApiSharing from './MenuApiSharing'
 
 @withRouter
@@ -15,7 +15,7 @@ export default class ApiSharingLayout extends React.Component {
   async componentDidMount() {
     this.setState({ loading: true })
     try {
-      const apiSharingListData = await this.fetchData()
+      const apiSharingListData = await shareApiApi.getConfig()
       this.setState(
         { menuApiSharingList: apiSharingListData.data.value },
         () => {
@@ -24,12 +24,6 @@ export default class ApiSharingLayout extends React.Component {
       )
     } catch (error) {}
     this.setState({ loading: false })
-  }
-
-  fetchData = () => {
-    return new Promise(resolve => {
-      setTimeout(() => resolve(API_SHARE_LIST_DATA), 1000)
-    })
   }
 
   onClickMenu = apiKey => {

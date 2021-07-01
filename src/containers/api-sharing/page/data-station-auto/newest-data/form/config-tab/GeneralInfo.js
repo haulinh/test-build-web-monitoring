@@ -5,14 +5,14 @@ import { i18n } from '../constant'
 
 import { Header, BoxShadow } from '../styles'
 
-export default function GeneralInfo({}) {
+export default function GeneralInfo({ form }) {
   return (
     <BoxShadow>
       <Header>{i18n.header.generalInfo}</Header>
       <Row gutter={12}>
         <Col span={12}>
           <Form.Item label={i18n.label.apiName}>
-            <Input />
+            {form.getFieldDecorator('name')(<Input />)}
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -22,7 +22,7 @@ export default function GeneralInfo({}) {
         </Col>
       </Row>
       <Form.Item label={i18n.label.description}>
-        <TextArea />
+        {form.getFieldDecorator('description')(<TextArea />)}
       </Form.Item>
     </BoxShadow>
   )

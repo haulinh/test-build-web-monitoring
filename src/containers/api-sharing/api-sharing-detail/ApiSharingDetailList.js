@@ -1,12 +1,12 @@
-import { Button, Divider, Spin } from 'antd'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import React from 'react'
-import { withRouter } from 'react-router'
+import { Button, Divider } from 'antd'
+import { shareApiApi } from 'api/ShareApiApi'
 import DynamicTable from 'components/elements/dynamic-table'
-import { API_KEY_LIST } from '../constants'
-import _ from 'lodash'
-import { Link } from 'react-router-dom'
+import { DD_MM_YYYY } from 'constants/format-date'
 import slug from 'constants/slug'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import moment from 'moment-timezone'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const i18n = {
   head: {
@@ -20,32 +20,23 @@ const i18n = {
     delete: 'Xóa',
   },
 }
-
-@withRouter
-export class ApiSharingDetailList extends React.Component {
+export default class ApiSharingDetailList extends React.Component {
   state = {
     data: [],
     loading: false,
   }
 
-  getData = () => {
+  fetchData = async () => {
     const {
       match: {
         params: { apiKey },
       },
     } = this.props
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(_.get(API_KEY_LIST, apiKey, API_KEY_LIST['station-fixed']))
-      }, 2000)
-    })
-  }
-
-  fetchData = async () => {
     this.setState({ loading: true })
     try {
-      const data = await this.getData()
-      this.setState({ data })
+      const res = await shareApiApi.getApiListByKey(apiKey)
+      console.log({ res })
+      this.setState({ data: res.data })
     } catch (error) {
       console.log(error)
     }
@@ -79,10 +70,10 @@ export class ApiSharingDetailList extends React.Component {
         content: <div>{item.name}</div>,
       },
       {
-        content: <div>{item.createdAt}</div>,
+        content: <div>{moment(item.createdAt).format(DD_MM_YYYY)}</div>,
       },
       {
-        content: <div>{item.updatedAt}</div>,
+        content: <div>{moment(item.updatedAt).format(DD_MM_YYYY)}</div>,
       },
       {
         content: (
@@ -101,7 +92,6 @@ export class ApiSharingDetailList extends React.Component {
   redirectCreateApi = () => {
     const {
       history,
-      location,
       match: {
         params: { apiKey },
       },
@@ -110,12 +100,6 @@ export class ApiSharingDetailList extends React.Component {
   }
 
   render() {
-    const {
-      match: {
-        params: { apiKey },
-      },
-    } = this.props
-
     const { loading } = this.state
 
     return (
