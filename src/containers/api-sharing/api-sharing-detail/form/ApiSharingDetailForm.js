@@ -1,6 +1,6 @@
 import { Tabs } from 'antd'
 import React, { Component } from 'react'
-import ConfigTab from './ConfigTab'
+import ConfigTab from './config-tab'
 import ViewDataTab from './ViewDataTab'
 
 export default class ApiSharingDetailForm extends Component {

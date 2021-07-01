@@ -19,7 +19,7 @@ export default class ApiSharingLayout extends React.Component {
       this.setState(
         { menuApiSharingList: apiSharingListData.data.value },
         () => {
-          this.onClickMenu(this.state.menuApiSharingList[0].api[0].key)
+          // this.onClickMenu(this.state.menuApiSharingList[0].api[0].key)
         }
       )
     } catch (error) {}
@@ -39,7 +39,7 @@ export default class ApiSharingLayout extends React.Component {
   render() {
     const { menuApiSharingList, loading } = this.state
 
-    if (loading) {
+    if (loading || menuApiSharingList.length === 0) {
       return (
         <div
           style={{
@@ -58,6 +58,8 @@ export default class ApiSharingLayout extends React.Component {
       <Row>
         <Col span={4}>
           <MenuApiSharing
+            defaultOpenKeys={[menuApiSharingList[0].group]}
+            defaultSelectedKeys={[menuApiSharingList[0].api[0].key]}
             onClickMenu={this.onClickMenu}
             history={this.props.history}
             data={menuApiSharingList}

@@ -96,3 +96,58 @@ export const API_SHARE_LIST_DATA = {
   },
   success: true,
 }
+
+export const API_KEY_LIST = {
+  'station-auto': [
+    {
+      id: '1',
+      name: 'Danh sách trạm TP HCM',
+      createdAt: '21/06/2021',
+      updatedAt: '22/06/2021',
+    },
+    {
+      id: '2',
+      name: 'Danh sách trạm Ha Noi',
+      createdAt: '21/06/2021',
+      updatedAt: '22/06/2021',
+    },
+    {
+      id: '3',
+      name: 'Danh sách trạm Binh Duong',
+      createdAt: '21/06/2021',
+      updatedAt: '22/06/2021',
+    },
+    {
+      id: '4',
+      name: 'Danh sách trạm TP HCM',
+      createdAt: '21/06/2021',
+      updatedAt: '22/06/2021',
+    },
+  ],
+  'station-fixed': [
+    {
+      id: '1',
+      name: 'Danh sách trạm 1',
+      createdAt: '21/06/2021',
+      updatedAt: '22/06/2021',
+    },
+    {
+      id: '2',
+      name: 'Danh sách trạm 2',
+      createdAt: '21/06/2021',
+      updatedAt: '22/06/2021',
+    },
+    {
+      id: '3',
+      name: 'Danh sách trạm 3',
+      createdAt: '21/06/2021',
+      updatedAt: '22/06/2021',
+    },
+    {
+      id: '4',
+      name: 'Danh sách trạm 4',
+      createdAt: '21/06/2021',
+      updatedAt: '22/06/2021',
+    },
+  ],
+}

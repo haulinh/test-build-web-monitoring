@@ -1,8 +1,12 @@
 import slug from 'constants/slug'
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import ApiSharingDetailCreate from './api-sharing-detail/ApiSharingDetailCreate'
-import ApiSharingDetailList from './api-sharing-detail/ApiSharingDetailList'
+import {
+  ApiSharingDetailList,
+  ApiSharingDetailCreate,
+  ApiSharingDetailEdit,
+} from './api-sharing-detail'
+
 import ApiSharingLayout from './layout/ApiSharingLayout'
 
 const ApiSharingRoute = () => {
@@ -20,8 +24,13 @@ const ApiSharingRoute = () => {
           component={ApiSharingDetailList}
         />
         <Route
+          exact
           path={`${slug.apiSharing.base}/:apiKey/create`}
           component={ApiSharingDetailCreate}
+        />
+        <Route
+          path={`${slug.apiSharing.base}/:apiKey/edit`}
+          component={ApiSharingDetailEdit}
         />
       </Switch>
     </ApiSharingLayout>

@@ -6,10 +6,10 @@ import ApiSharingDetailForm from './form/ApiSharingDetailForm'
 import Clearfix from 'components/elements/clearfix'
 
 @withRouter
-export class ApiSharingDetailCreate extends Component {
+export class ApiSharingDetailEdit extends Component {
   render() {
     return (
-      <PageContainer hideBackground={true} right={<Button>Click</Button>}>
+      <PageContainer right={<Button>Click</Button>}>
         <Clearfix height={32} />
         <ApiSharingDetailForm />
       </PageContainer>
