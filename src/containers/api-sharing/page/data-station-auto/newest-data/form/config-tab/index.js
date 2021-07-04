@@ -8,20 +8,46 @@ import { shareApiList } from 'containers/api-sharing/constants'
 
 @Form.create()
 export default class ConfigTab extends Component {
-  handleSubmit = async e => {
-    e.preventDefault()
+  getQueryParams = () => {
     const { form } = this.props
     const fieldsValue = form.getFieldsValue()
-    const key = shareApiList.newestData
+    const key = shareApiList.newestData.key
+    const optionParams = fieldsValue.optionParams
+
+    const config = Object.entries(fieldsValue.config).map(([key, value]) => {
+      const isDefault = !optionParams.includes(key)
+
+      let valueParams = value
+      if (key === 'measuringList') {
+        valueParams = value.join(',')
+      }
+
+      return {
+        key,
+        value: valueParams,
+        isDefault,
+      }
+    })
+
     const params = {
-      ...fieldsValue,
       key,
+      name: fieldsValue.name,
+      description: fieldsValue.description,
+      config,
     }
-    await shareApiApi.createApiByKey(key, params)
+
+    return params
+  }
+
+  handleSubmit = async e => {
+    e.preventDefault()
+    const queryParams = this.getQueryParams()
+    const key = shareApiList.newestData.key
+    await shareApiApi.createApiByKey(key, queryParams)
   }
 
   render() {
-    const { form } = this.props
+    const { form, edit } = this.props
     return (
       <React.Fragment>
         <Form onSubmit={this.handleSubmit}>

@@ -35,7 +35,6 @@ export default class ApiSharingDetailList extends React.Component {
     this.setState({ loading: true })
     try {
       const res = await shareApiApi.getApiListByKey(apiKey)
-      console.log({ res })
       this.setState({ data: res.data })
     } catch (error) {
       console.log(error)
@@ -78,7 +77,9 @@ export default class ApiSharingDetailList extends React.Component {
       {
         content: (
           <span>
-            <Link to={`${location.pathname}/edit`}>{i18n.button.edit}</Link>
+            <Link params={item} to={`${location.pathname}/edit/${item._id}`}>
+              {i18n.button.edit}
+            </Link>
 
             <Divider type="vertical" />
 

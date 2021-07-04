@@ -11,7 +11,7 @@ export class NewestDataEdit extends Component {
     return (
       <PageContainer right={<Button>Click</Button>}>
         <Clearfix height={32} />
-        <ApiSharingDetailForm />
+        <ApiSharingDetailForm edit />
       </PageContainer>
     )
   }

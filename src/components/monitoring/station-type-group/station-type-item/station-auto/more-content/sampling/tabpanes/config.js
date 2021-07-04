@@ -10,7 +10,9 @@ import ModBusConfig from './ModBusConfig'
 import ExceededConfig from './ExceededConfig'
 
 const i18n = {
-  errorDuplicateTagName: t('monitoring.moreContent.sampling.error.duplicateTagName'),
+  errorDuplicateTagName: t(
+    'monitoring.moreContent.sampling.error.duplicateTagName'
+  ),
   methodSampling: t('monitoring.moreContent.sampling.content.methodSampling'),
   totalBottles: t(
     'monitoring.moreContent.sampling.content.config.totalBottles'
@@ -70,7 +72,6 @@ class SamplingConfig extends Component {
         configExceeded,
       }
 
-      console.log({params})
       this.setState({ isSaving: true })
       const results = await SamplingAPI.updateConfig(stationID, params)
       updateParentState({
@@ -79,7 +80,7 @@ class SamplingConfig extends Component {
         configExceeded: configExceeded.config,
       })
     } catch (error) {
-      message.error(i18n.errorDuplicateTagName) 
+      message.error(i18n.errorDuplicateTagName)
     }
     this.setState({ isSaving: false })
   }

@@ -1,4 +1,4 @@
-import { Col, Row, Spin } from 'antd'
+import { Affix, Col, Row, Spin } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
 import slug from 'constants/slug'
 import React from 'react'
@@ -51,13 +51,15 @@ export default class ApiSharingLayout extends React.Component {
     return (
       <Row>
         <Col span={4}>
-          <MenuApiSharing
-            defaultOpenKeys={[menuApiSharingList[0].group]}
-            defaultSelectedKeys={[menuApiSharingList[0].api[0].key]}
-            onClickMenu={this.onClickMenu}
-            history={this.props.history}
-            data={menuApiSharingList}
-          />
+          <Affix>
+            <MenuApiSharing
+              defaultOpenKeys={[menuApiSharingList[0].group]}
+              defaultSelectedKeys={[menuApiSharingList[0].api[0].key]}
+              onClickMenu={this.onClickMenu}
+              history={this.props.history}
+              data={menuApiSharingList}
+            />
+          </Affix>
         </Col>
         <Col span={20}>{this.props.children}</Col>
       </Row>
