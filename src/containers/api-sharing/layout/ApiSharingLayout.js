@@ -15,7 +15,6 @@ export default class ApiSharingLayout extends React.Component {
   async componentDidMount() {
     this.setState({ loading: true })
     const { location } = this.props
-    console.log({ location })
     try {
       const apiSharingListData = await shareApiApi.getConfig()
       this.setState(

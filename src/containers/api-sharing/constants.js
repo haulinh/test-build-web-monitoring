@@ -3,7 +3,7 @@ export const shareApiList = {
     key: '',
   },
   historyData: {
-    key: '',
+    key: 'data-station-auto-history-data',
   },
   newestData: {
     key: 'data-station-auto-newest-data',
@@ -49,7 +49,7 @@ export const i18n = {
       stationName: 'Trạm quan trắc',
       parameter: 'Các thông số quan trắc',
       typeData: 'Loại dữ liệu',
-      isExceed: 'Vượt ngưỡng',
+      isExceeded: 'Vượt ngưỡng',
     },
   },
   button: {
@@ -58,5 +58,14 @@ export const i18n = {
   tab: {
     configTab: 'Cấu hình',
     viewDataTab: 'Truy vấn dữ liệu',
+  },
+  fields: {
+    province: 'Đơn vị quản lý',
+    stationType: 'Loại trạm',
+    stationAuto: 'Trạm quan trắc',
+    measuringList: 'Các thông số quan trắc',
+    dataType: 'Loại dữ liệu',
+    isExceeded: 'Vượt ngưỡng',
+    rangeTime: 'Thời gian',
   },
 }

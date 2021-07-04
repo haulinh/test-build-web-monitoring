@@ -1,4 +1,5 @@
 import { Col, Form, Row, Switch } from 'antd'
+import OptionsTimeRange from 'components/elements/options-time-range'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import SelectProvince from 'components/elements/select-province'
 import SelectQueryType from 'components/elements/select-query-type'
@@ -101,13 +102,19 @@ export default class Condition extends React.Component {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.isExceeded}>
-              {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
-                valuePropName: 'checked',
-              })(<Switch />)}
+            <Form.Item label="i18n.timeLabel">
+              {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
+                initialValue: 1,
+              })(<OptionsTimeRange />)}
             </Form.Item>
           </Col>
         </Row>
+
+        <Form.Item label={i18n.detailPage.label.isExceeded}>
+          {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
+            valuePropName: 'checked',
+          })(<Switch />)}
+        </Form.Item>
       </BoxShadow>
     )
   }
