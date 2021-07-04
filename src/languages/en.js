@@ -34,8 +34,8 @@ export default {
   },
   rules: {
     required: 'Required',
-    requiredName: 'Please enter name !',
-    requiredRtsp: 'Please enter RTSP address !',
+    requiredName: 'Please enter name',
+    requiredRtsp: 'Please enter RTSP address',
     requiredEmail: 'Email is required',
     requiredPhone: 'Phone number is required',
     requiredField: '{{=it.field}} is required',
@@ -209,6 +209,9 @@ export default {
     },
     moreContent: {
       sampling: {
+        error: {
+          duplicateTagName: 'Duplicate tagname',
+        },
         tabs: {
           sampling: 'Sampling',
           history: 'History',
@@ -566,7 +569,8 @@ export default {
     importFailed: 'Import Data Failed',
   },
   dataSearchFrom: {
-    tooltip: 'Filter invalid data with standard from Data processing configuration',
+    tooltip:
+      'Filter invalid data with standard from Data processing configuration',
     queryType: 'Type of data',
     filterDataBy: 'Filter data by',
     processData: 'Enable filter',
@@ -1320,6 +1324,8 @@ export default {
     edit: {
       label: 'Edit',
       success: 'Update Standard Filter Successfully',
+      expiredBeforeBegin:
+        'The expiration date must be greater than the effective date',
     },
     delete: {
       label: 'Delete',
@@ -1345,6 +1351,17 @@ export default {
         label: 'Unit',
         placeholder: 'Input Unit Of Parameter',
       },
+      begin: {
+        label: 'Effective date',
+        placeholder: 'Effective date',
+        error: 'Please select an effective date',
+      },
+      expired: {
+        label: 'Expiration date',
+        placeholder: 'Expiration date',
+        isApplying: 'Now',
+        stillWork: 'Applying',
+      },
       numericalOrder: {
         label: 'Numerical Order',
         placeholder: 'Input Numerical Order',
@@ -1355,6 +1372,7 @@ export default {
       },
       error: 'Error',
     },
+    invalid: 'Invalid standard',
   },
   province: {
     list: {
@@ -2168,6 +2186,9 @@ export default {
       wqiNgay: {
         name: 'WQI - Day',
       },
+      wqiPeriodic: {
+        name: "WQI - Periodic",
+      },
       tinhTrangDuLieu: {
         name: 'Status Data',
       },
@@ -2672,6 +2693,8 @@ export default {
       exportExcel: 'Export Excel',
     },
     optionalInfo: {
+      year: 'Year',
+      month: 'Month',
       symbol: 'Symbol',
       weather: 'Weather',
       sampler: 'Sampler',
@@ -2755,6 +2778,7 @@ export default {
       wqiMap: 'WQI Map',
       wqiHour: 'WQI - Hour',
       wqiDay: 'WQI - Day',
+      wqiPeriodic:'WQI - Periodic',
       wqiStatistic: 'WQI Historical',
       config: 'Select AQI & WQI Calculations',
     },
@@ -3164,6 +3188,7 @@ export default {
     grafana: 'Data visualization',
     ilotusland: 'iLotusLand Monitoring',
     databaseManagement: 'Database management',
+    billing: 'Environmental protection fee',
   },
   stationReview: {
     title: 'Station Reviews',
@@ -3301,6 +3326,7 @@ export default {
       parameter: 'Measure parameter',
     },
     measuredValue: 'Measure value',
+    standardViews: 'Display standards',
     standard: 'Standard',
     exportExcel: 'Export excel',
     chartType: {
@@ -3309,4 +3335,20 @@ export default {
       table: 'Table',
     },
   },
+  wqiStationFix: {
+    viewBy: 'View by',
+    month: 'Month',
+    year: 'Year',
+    quarter: 'Quarter',
+    time: 'Time',
+    chart: 'Chart',
+    table: 'Data',
+    exportBtn: 'Export data',
+    fileExport: 'WQI data',
+    requireTime: 'Please select time',
+      pointName: 'Point Name',
+      avgTime: 'Avergage time',
+      wqiValue: 'WQI Value',
+      wqiLevel: 'WQI Level'
+  }
 }

@@ -20,13 +20,14 @@ export function exportDataTemplate(measurings = []) {
 
 export function exportMonitoringPointTemplate(measurings = []) {
   const lang = getLanguage()
-  const url = getStationFixedPointUrl('export-monitoring-point-template') + '/' + lang
+  const url =
+    getStationFixedPointUrl('export-monitoring-point-template') + '/' + lang
   return getFetchDownFile(url, { measurings })
 }
 
 export async function getStationFixedPoints(
   { page = 1, itemPerPage = 1000 },
-  { name, stationTypeId }
+  { name, stationTypeId } = {}
 ) {
   let filter = {}
   if (page && itemPerPage) {
@@ -35,10 +36,12 @@ export async function getStationFixedPoints(
       limit: itemPerPage,
     }
   }
+  const nameReplaced = (name || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+ 
   filter = {
     ...filter,
     where: {
-      name: name ? { like: name, options: 'i' } : undefined,
+      name: nameReplaced ? { regexp: nameReplaced, options: 'i' } : undefined,
       stationTypeId,
     },
   }
@@ -91,6 +94,7 @@ export function updateStationFixedPoint(
     purposeUsed,
     lakeCapacity,
     catchmentArea,
+    config
   }
 ) {
   return pathFetch(getStationFixedPointUrl(Id), {
@@ -115,6 +119,7 @@ export function updateStationFixedPoint(
     purposeUsed: purposeUsed || null,
     lakeCapacity: lakeCapacity || null,
     catchmentArea: catchmentArea || null,
+    config
   })
 }
 
@@ -134,6 +139,10 @@ export function getLastLog() {
   return getFetch(getStationFixedPointUrl('last-log'))
 }
 
+export function updateConfig(id, data) {
+  return pathFetch(getStationFixedPointUrl(`${id}/config`), data)
+}
+
 export default {
   getStationFixedPoints,
   getStationFixedPoint,
@@ -143,4 +152,5 @@ export default {
   deactivateStationFixedPoint,
   activeStationFixedPoint,
   getLastLog,
+  updateConfig
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Row, Form, Radio, Collapse, Button } from 'antd'
+import { Row, Form, Radio, Collapse, Button, message } from 'antd'
 import styled from 'styled-components'
 
 import { translate as t } from 'hoc/create-lang'
@@ -10,6 +10,9 @@ import ModBusConfig from './ModBusConfig'
 import ExceededConfig from './ExceededConfig'
 
 const i18n = {
+  errorDuplicateTagName: t(
+    'monitoring.moreContent.sampling.error.duplicateTagName'
+  ),
   methodSampling: t('monitoring.moreContent.sampling.content.methodSampling'),
   totalBottles: t(
     'monitoring.moreContent.sampling.content.config.totalBottles'
@@ -68,6 +71,7 @@ class SamplingConfig extends Component {
         configSampling,
         configExceeded,
       }
+
       this.setState({ isSaving: true })
       const results = await SamplingAPI.updateConfig(stationID, params)
       updateParentState({
@@ -75,7 +79,9 @@ class SamplingConfig extends Component {
         configSampling: results.data.configSampling,
         configExceeded: configExceeded.config,
       })
-    } catch (error) {}
+    } catch (error) {
+      message.error(i18n.errorDuplicateTagName)
+    }
     this.setState({ isSaving: false })
   }
 

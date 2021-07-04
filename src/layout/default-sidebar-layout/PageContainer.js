@@ -17,7 +17,7 @@ const HeaderFlex = styled.div`
 `
 
 export const Grid = styled.div`
-  background-color: white;
+  background-color: ${props => (props.hideBackground ? undefined : 'white')};
   overflow-x: hidden;
   width: 100%;
   margin-left: auto;
@@ -123,13 +123,13 @@ export default class PageContainer extends React.PureComponent {
           {!this.props.hideTitle ? this.renderHeader() : null}
           {this.props.headerBottom}
           {!this.props.isLoading && (
-            <Grid>
+            <Grid hideBackground={this.props.hideBackground}>
               <div className="animated fadeIn">{this.props.children}</div>
             </Grid>
           )}
           {this.props.isLoading &&
             (this.props.componentLoading ? (
-              <Grid>
+              <Grid hideBackground={this.props.hideBackground}>
                 <div className="animated fadeIn">
                   {this.props.componentLoading}
                 </div>

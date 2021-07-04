@@ -1,33 +1,33 @@
-import React from 'react'
-import { Spin, Row, Col, message, Button, Menu, Dropdown, Tooltip } from 'antd'
-import _ from 'lodash'
-import styled from 'styled-components'
-import { translate } from 'hoc/create-lang'
-import StationList from './station-list'
-import Breadcrumb from './breadcrumb'
-import SearchFrom from './form/SearchForm'
-import StationForm from './form/StationForm'
+import { Button, Col, Dropdown, Menu, message, Row, Spin, Tooltip } from 'antd'
 import DataStationAutoApi from 'api/DataStationAutoApi'
 import OrganizationApi from 'api/OrganizationApi'
-import { toggleNavigation } from 'redux/actions/themeAction'
+import Clearfix from 'components/elements/clearfix'
+import SelectQCVN from 'components/elements/select-qcvn-v2'
+import ROLE from 'constants/role'
+import slug from 'constants/slug'
+import { translate } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import update from 'immutability-helper'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import _ from 'lodash'
+import moment from 'moment'
+import React from 'react'
+import { toggleNavigation } from 'redux/actions/themeAction'
 import { connectAutoDispatch } from 'redux/connect'
 import {
-  updateBreadcrumb,
   addBreadcrumb,
   deleteBreadcrumb,
+  updateBreadcrumb,
 } from 'shared/breadcrumb/action'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import styled from 'styled-components'
 import { replaceVietnameseStr } from 'utils/string'
-import Clearfix from 'components/elements/clearfix'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
-import FilterListMenu from './menu'
+import Breadcrumb from './breadcrumb'
 import FormFilter from './form/ModalForm'
-import slug from 'constants/slug'
-import update from 'immutability-helper'
-import moment from 'moment'
-import { getTimes } from 'utils/datetime'
+import SearchFrom from './form/SearchForm'
+import StationForm from './form/StationForm'
+import FilterListMenu from './menu'
+import StationList from './station-list'
 
 const Flex = styled.div`
   display: flex;
@@ -70,6 +70,8 @@ export default class AvgSearchAdvanced extends React.Component {
 
       filteredConfigFilter: [],
       configFilter: [],
+      standardsVN: [],
+      qcvns: [],
 
       stationKeys: props.stations.length
         ? props.stations.map(station => station.key)
@@ -82,11 +84,9 @@ export default class AvgSearchAdvanced extends React.Component {
 
   setNow = newNow => {
     this.setState({
-      now: newNow
+      now: newNow,
     })
   }
-
-
 
   componentDidMount() {
     this.getDataOrganization()
@@ -235,7 +235,7 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState({ stationsData })
   }
 
-  handleSearchAvgData = (newNow) => {
+  handleSearchAvgData = newNow => {
     // console.log("Big component => handleSearchAvgData" + newNow.format('DD/MM/YYYY HH:mm:ss'))
     if (!this.state.stationKeys.length) {
       // message.warn(translate('avgSearchFrom.table.emptyText'))
@@ -244,7 +244,7 @@ export default class AvgSearchAdvanced extends React.Component {
 
     this.setState(
       {
-        now: newNow
+        now: newNow,
       },
 
       () => this.setState({ isSearchingData: true })
@@ -474,8 +474,20 @@ export default class AvgSearchAdvanced extends React.Component {
     if (data) message.success(translate('dataSearchFilterForm.update.success'))
   }
 
-  render() {
+  onChangeQcvn = (qcvnIds, list) => {
+    const qcvnSelected = qcvnIds.map(id => {
+      return {
+        ...list.find(l => l._id === id),
+      }
+    })
 
+    this.setState({
+      standardsVN: qcvnSelected.map(qcvn => qcvn.key),
+      qcvns: qcvnSelected,
+    })
+  }
+
+  render() {
     return (
       <PageContainer
         {...this.props.wrapperProps}
@@ -522,10 +534,34 @@ export default class AvgSearchAdvanced extends React.Component {
               />
             </Spin>
             <Clearfix height={40} />
+            <Row type="flex" align="middle">
+              <Col
+                span={3}
+                style={{
+                  textAlign: 'left',
+                  paddingLeft: '16px',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                }}
+              >
+                {translate('dataAnalytics.standardViews')}
+              </Col>
+              <Col span={20}>
+                <SelectQCVN
+                  mode="multiple"
+                  maxTagCount={3}
+                  maxTagTextLength={18}
+                  onChange={this.onChangeQcvn}
+                />
+              </Col>
+            </Row>
+            <Clearfix height={40} />
             {this.state.isSearchingData && this.state.stationsData.length && (
               <StationList
+                standardsVN={this.state.standardsVN}
                 stationsData={this.state.stationsData}
                 type={this.props.values.type}
+                qcvns={this.state.qcvns}
               />
             )}
           </Col>

@@ -9,11 +9,23 @@ import { autobind } from 'core-decorators'
 import createManagerList from 'hoc/manager-list'
 import createManagerDelete from 'hoc/manager-delete'
 import { mapPropsToFields } from 'utils/form'
-import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
+import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import DynamicTable from 'components/elements/dynamic-table'
+import moment from 'moment-timezone'
+import { DD_MM_YYYY } from 'constants/format-date.js'
+
+const i18n = {
+  begin: {
+    label: translate('qcvn.form.begin.label'),
+  },
+  expired: {
+    label: translate('qcvn.form.expired.label'),
+    isApplying: translate('qcvn.form.expired.stillWork'),
+  },
+}
 
 @protectRole(ROLE.QCVN.VIEW)
 @createManagerList({
@@ -66,6 +78,8 @@ export default class QCVNList extends React.Component {
       { content: '#', width: 2 },
       { content: t('qcvn.form.key.label'), width: 15 },
       { content: t('qcvn.form.name.label'), width: 15 },
+      { content: i18n.begin.label, width: 15 },
+      { content: i18n.expired.label, width: 15 },
       { content: t('stationAutoManager.list.action'), width: 10 },
     ]
   }
@@ -91,6 +105,14 @@ export default class QCVNList extends React.Component {
       },
       {
         content: row.name,
+      },
+      {
+        content: row.begin ? moment(row.begin).format(DD_MM_YYYY) : '',
+      },
+      {
+        content: row.expired
+          ? moment(row.expired).format(DD_MM_YYYY)
+          : i18n.expired.isApplying,
       },
       {
         content: (

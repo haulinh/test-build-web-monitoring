@@ -15,6 +15,8 @@ export default class SelectStationAuto extends React.PureComponent {
     onChangeObject: PropTypes.func,
     getRef: PropTypes.func,
     stationAutoKey: PropTypes.func,
+    province: PropTypes.string,
+    stationType: PropTypes.string,
   }
 
   state = {
@@ -38,14 +40,29 @@ export default class SelectStationAuto extends React.PureComponent {
   }
 
   getStationAutos = () => {
-    const stationAutos = this.state.stationAutoSelects
+    const { province, stationType } = this.props
+    let stationAutos = this.state.stationAutoSelects
+
     if (this.state.searchString) {
       const searchString = replaceVietnameseStr(this.state.searchString)
-      return stationAutos.filter(
+      stationAutos = stationAutos.filter(
         stationAuto =>
           replaceVietnameseStr(stationAuto.name).indexOf(searchString) > -1
       )
     }
+
+    if (province) {
+      stationAutos = stationAutos.filter(
+        stationAuto => stationAuto.province === province
+      )
+    }
+
+    if (stationType) {
+      stationAutos = stationAutos.filter(
+        stationAuto => stationAuto.stationType.key === stationType
+      )
+    }
+
     return stationAutos
   }
 

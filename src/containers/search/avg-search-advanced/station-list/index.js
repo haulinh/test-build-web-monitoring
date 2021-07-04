@@ -32,12 +32,12 @@ const TitleWrapper = styled.div`
   toDate: state.form['dataSearchFilterForm'].values.toDate,
   advanced: state.form['dataSearchFilterForm'].values.advanced
     ? state.form['dataSearchFilterForm'].values.advanced.filter(
-      item =>
-        item.measuringKey &&
-        item.operator &&
-        item.value !== null &&
-        typeof item.value !== 'undefined'
-    )
+        item =>
+          item.measuringKey &&
+          item.operator &&
+          item.value !== null &&
+          typeof item.value !== 'undefined'
+      )
     : [],
   dataStatus: state.form['dataSearchFilterForm'].values.dataStatus || [],
   isFilter: state.form['dataSearchFilterForm'].values.isFilter || false,
@@ -46,8 +46,10 @@ const TitleWrapper = styled.div`
 @autobind
 export default class TableList extends React.PureComponent {
   static propTypes = {
+    standardsVN: PropTypes.array,
     stationsData: PropTypes.array,
     type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    qcvns: PropTypes.array,
   }
 
   static defaultProps = {
@@ -66,8 +68,58 @@ export default class TableList extends React.PureComponent {
         current: 1,
         pageSize: 50,
       },
-      orderedMeaKey: []
+      orderedMeaKey: [],
     }
+  }
+
+  renderTabStations(stations) {
+    return (
+      <Tabs
+        defaultActiveKey={this.state.tabKey}
+        onChange={this.handleChangeTab}
+        activeKey={this.state.tabKey}
+      >
+        {stations.map(station => {
+          return this.renderOneStation(station)
+        })}
+      </Tabs>
+    )
+  }
+
+  renderOneStation(station) {
+    const newMeasuringData = []
+    const newMeasuringList = []
+
+    this.state.orderedMeaKey.forEach(meaKey => {
+      const indexMatched = station.measuringList.findIndex(
+        key => key === meaKey
+      )
+      if (indexMatched !== -1) {
+        newMeasuringData.push(station.measuringData[indexMatched])
+        newMeasuringList.push(station.measuringList[indexMatched])
+      }
+    })
+
+    return (
+      <Tabs.TabPane tab={station.name} key={station.key}>
+        <TabList
+          qcvns={this.props.qcvns}
+          isActive={this.state.tabKey === station.key}
+          isLoading={this.state.isLoading}
+          measuringData={newMeasuringData}
+          measuringList={newMeasuringList}
+          dataStationAuto={this.state.dataStationAuto}
+          pagination={this.state.pagination}
+          onChangePage={this.handleChangePage}
+          onExportExcel={this.handleExportExcel}
+          onExportExcelAll={this.handleExportAllStation}
+          nameChart={station.name}
+          typeReport={`${this.props.type}`}
+          isExporting={this.state.isExporting}
+          isExportingAll={this.state.isExportingAll}
+        />
+      </Tabs.TabPane>
+    )
   }
 
   getStation = stationKey => {
@@ -80,7 +132,7 @@ export default class TableList extends React.PureComponent {
     return station
   }
 
-  getSearchFormData = stationKey => {
+  getSearchFormData = (stationKey, standards) => {
     if (!stationKey) return
     const station = this.getStation(stationKey)
     // console.log(station, '==station==')
@@ -106,7 +158,8 @@ export default class TableList extends React.PureComponent {
       measuringData: station.measuringData,
       advanced: this.props.advanced,
       dataStatus: this.props.dataStatus,
-      isFilter: this.props.isFilter
+      isFilter: this.props.isFilter,
+      standardsVN: standards ? standards : this.props.standardsVN,
     }
     return searchFormData
   }
@@ -139,6 +192,17 @@ export default class TableList extends React.PureComponent {
         this.loadData(this.state.pagination, searchFormData)
       })
     }
+
+    if (!_.isEqual(this.props.standardsVN, nextProps.standardsVN)) {
+      const stationsData = this.getStationDataView(this.props.stationsData)
+      const stationKey = _.get(stationsData, '[0].key', undefined)
+      if (!stationKey) return
+      const searchFormData = this.getSearchFormData(
+        stationKey,
+        nextProps.standardsVN
+      )
+      this.loadData(this.state.pagination, searchFormData)
+    }
   }
 
   async loadData(pagination, searchFormData) {
@@ -158,39 +222,46 @@ export default class TableList extends React.PureComponent {
         message.error('ERROR')
         return
       }
-      this.setState({
-        isLoading: false,
-        dataStationAuto: dataStationAuto && dataStationAuto.data,
-        pagination: {
-          ...paginationQuery,
-          total:
-            dataStationAuto && dataStationAuto.pagination
-              ? dataStationAuto.pagination.totalItem
-              : 0,
+      this.setState(
+        {
+          isLoading: false,
+          dataStationAuto: dataStationAuto && dataStationAuto.data,
+          pagination: {
+            ...paginationQuery,
+            total:
+              dataStationAuto && dataStationAuto.pagination
+                ? dataStationAuto.pagination.totalItem
+                : 0,
+          },
         },
-      }, () => {
-        const orderedMeaList = this.state.dataStationAuto.map(station => {
-          const meaKeys = Object.keys(station.measuringLogs)
-
-          return {
-            meaKeys,
-            length: meaKeys.length
+        () => {
+          if (this.state.dataStationAuto.length === 0) {
+            return
           }
-        })
-        // console.log(orderedMeaList, '===orderedMea')
-        const orderedMea = _.maxBy(orderedMeaList, o => o.length)
-        // console.log(orderedMea, '==orderedMea')
-        this.setState({
-          orderedMeaKey: orderedMea.meaKeys
-        })
-      })
+
+          const orderedMeaList = this.state.dataStationAuto.map(station => {
+            const meaKeys = Object.keys(station.measuringLogs)
+
+            return {
+              meaKeys,
+              length: meaKeys.length,
+            }
+          })
+
+          const orderedMea = _.maxBy(orderedMeaList, o => o.length)
+
+          this.setState({
+            orderedMeaKey: orderedMea.meaKeys,
+          })
+        }
+      )
     })
   }
 
   handleChangePage = pagination => {
     // const station = this.getStation(this.state.tabKey)
     const searchFormData = this.getSearchFormData(this.state.tabKey)
-    this.loadData(pagination, searchFormData)
+    this.loadData({ ...pagination, pageSize: 50 }, searchFormData)
   }
 
   handleChangeTab = tabKey => {
@@ -268,6 +339,7 @@ export default class TableList extends React.PureComponent {
 
   render() {
     const stations = this.props.stationsData.filter(station => station.view)
+    // console.log(stations.length, 'length statuib')
     // const stt = stations.filter(s => s.key === 'NT_XMHT')
     // console.log(JSON.stringify(stt, null, 2), 'station ne')
     // console.log(JSON.stringify(this.state.dataStationAuto, null, 2), '==data ne')
@@ -277,76 +349,10 @@ export default class TableList extends React.PureComponent {
       <TableListWrapper>
         <TitleWrapper>
           <h4>{translate('dataSearchFilterForm.table.heading')}</h4>
-
-          {/* {stations.length === 1 && (
-            <Button
-              icon="file-excel"
-              style={{ float: 'right', margin: '5px' }}
-              loading={this.state.isExporting}
-              type="primary"
-              onClick={this.handleExportExcel}
-            >
-              {translate('avgSearchFrom.tab.exportExcel')}
-            </Button>
-          )}
-
-          {stations.length > 1 && (
-            <Button
-              icon="file-excel"
-              style={{ float: 'right', margin: '5px' }}
-              loading={this.state.isExportingAll}
-              type="primary"
-              onClick={this.handleExportAllStation}
-            >
-              {translate('avgSearchFrom.tab.exportExcelAll')}
-            </Button>
-          )} */}
         </TitleWrapper>
 
-        <Tabs
-          defaultActiveKey={this.state.tabKey}
-          onChange={this.handleChangeTab}
-          activeKey={this.state.tabKey}
-        >
-          {
-            stations.map(station => {
-              const newMeasuringData = []
-              const newMeasuringList = []
-
-              this.state.orderedMeaKey.forEach(meaKey => {
-                const indexMatched = station.measuringList.findIndex(key => key === meaKey)
-                if (indexMatched !== -1) {
-                  newMeasuringData.push(station.measuringData[indexMatched])
-                  newMeasuringList.push(station.measuringList[indexMatched])
-                }
-                // console.log(station.measuringList, '=station.measuringList')
-                // console.log(indexMatched, '=indexMatched')
-
-              })
-              // console.log(newMeasuringList, '==newMeasuringList==')
-              // console.log(newMeasuringData, '==newMeasuringData==')
-              return newMeasuringList.length > 0 && < Tabs.TabPane tab={station.name} key={station.key} >
-                <TabList
-                  isActive={this.state.tabKey === station.key}
-                  isLoading={this.state.isLoading}
-                  measuringData={newMeasuringData}
-                  measuringList={newMeasuringList}
-                  dataStationAuto={this.state.dataStationAuto}
-                  pagination={this.state.pagination}
-                  onChangePage={this.handleChangePage}
-                  onExportExcel={this.handleExportExcel}
-                  onExportExcelAll={this.handleExportAllStation}
-                  nameChart={station.name}
-                  typeReport={`${this.props.type}`}
-                  isExporting={this.state.isExporting}
-                  isExportingAll={this.state.isExportingAll}
-                />
-              </Tabs.TabPane>
-            })
-          }
-
-        </Tabs>
-      </TableListWrapper >
+        {this.renderTabStations(stations)}
+      </TableListWrapper>
     )
   }
 }

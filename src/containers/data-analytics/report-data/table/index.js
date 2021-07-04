@@ -1,6 +1,8 @@
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import React, { Component } from 'react'
 import { translate as t } from 'hoc/create-lang'
+import moment from 'moment'
+import { colorLevels } from 'constants/warningLevels'
 
 class DataTable extends Component {
   columns = lenght => [
@@ -19,7 +21,18 @@ class DataTable extends Component {
       title: t('stationAutoManager.list.title'),
       dataIndex: 'name',
       width: 250,
-      render: name => name,
+      render: (name, item) => {
+        if (item.isQCVN) {
+          let startTime = item.begin
+            ? moment(item.begin).format('DD/MM/YYYY') + ' - '
+            : ''
+          let endTime = item.expired
+            ? moment(item.expired).format('DD/MM/YYYY')
+            : t('qcvn.form.expired.isApplying')
+          return <Tooltip title={startTime + endTime}>{name}</Tooltip>
+        }
+        return name
+      },
     },
   ]
 
@@ -27,7 +40,7 @@ class DataTable extends Component {
     const { data, qcvns } = this.props
     const measureKeys = Object.keys(data)
     const result = measureKeys.reduce((prev, measureKey) => {
-      (data[measureKey] || []).forEach(item => {
+      ;(data[measureKey] || []).forEach(item => {
         if (!prev[item.stationKey])
           prev[item.stationKey] = {
             key: item.stationKey,
@@ -38,7 +51,13 @@ class DataTable extends Component {
       })
       return prev
     }, {})
-    return [...Object.values(result), ...qcvns]
+    return [
+      ...Object.values(result),
+      ...qcvns.map(qc => ({
+        ...qc,
+        isQCVN: true,
+      })),
+    ]
   }
 
   render() {
@@ -51,8 +70,8 @@ class DataTable extends Component {
       const { minLimit, maxLimit } = measure || {}
       if ((minLimit || minLimit === 0) && (maxLimit || maxLimit === 0))
         return [minLimit, maxLimit].join('-')
-      if (minLimit || minLimit === 0) return `≤ ${minLimit}`
-      if (maxLimit || maxLimit === 0) return `≥ ${maxLimit}`
+      if (minLimit || minLimit === 0) return `≥ ${minLimit}`
+      if (maxLimit || maxLimit === 0) return `≤ ${maxLimit}`
       return '-'
     }
 
@@ -64,12 +83,31 @@ class DataTable extends Component {
           measuringList[key].unit ? `(${measuringList[key].unit})` : ''
         }`,
         width: 100,
-        render: (_, record, idx) =>
-          idx < dataSource.length - qcvns.length ? (
-            <div>{record.data[key] ? record.data[key][dataType] : '-'}</div>
-          ) : (
-            <div>{getMeasuringValue(record.measuringList, key)}</div>
-          ),
+        render: (_, record, idx) => {
+          if (idx < dataSource.length - qcvns.length) {
+            const warningLevel = record.data[key]
+              ? record.data[key].warningLevel[dataType]
+              : undefined
+
+            const title = record.data[key] ? record.data[key].qcvn : ''
+
+            return (
+              <Tooltip title={title}>
+                <div
+                  style={{
+                    color:
+                      warningLevel !== 'GOOD'
+                        ? colorLevels[warningLevel]
+                        : undefined,
+                  }}
+                >
+                  {record.data[key] ? record.data[key][dataType] : '-'}
+                </div>
+              </Tooltip>
+            )
+          }
+          return <div>{getMeasuringValue(record.measuringList, key)}</div>
+        },
       })),
     ]
 

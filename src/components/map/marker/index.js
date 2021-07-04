@@ -176,20 +176,25 @@ export default class MarkerStation extends PureComponent {
         // console.log( this.props, 'statusDevice')
 
         const value = _get(lastLog, ['measuringLogs', key, 'value'], '')
+        const textValue = _get(lastLog, ['measuringLogs', key, 'textValue'], '')
         // console.log(value, "value")
         return (
           <tr key={`${index + 1}`}>
             <td>{index + 1}</td>
             <td>{name}</td>
-            <td
-              style={{
-                color: this.getColorLevel(warningLevel),
-                fontWeight: '600',
-                textAlign: 'right',
-              }}
-            >
-              {typeof value === 'number' ? getFormatNumber(value) : ''}
-            </td>
+            {
+              textValue === 'KPH' ? 
+              <td>{textValue}</td> :
+              <td
+                style={{
+                  color: this.getColorLevel(warningLevel),
+                  fontWeight: '600',
+                  textAlign: 'right',
+                }}
+              >
+                {typeof value === 'number' ? getFormatNumber(value) : ''}
+              </td>
+            }
             <td>{unit}</td>
             {!this.props.hideDeviceStatus&&
             <td

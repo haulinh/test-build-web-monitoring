@@ -1,25 +1,26 @@
-import React from 'react'
-import { Button, Col, DatePicker, Form, Row, Select, Switch, Spin } from 'antd'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import moment from 'moment'
-/** */
+import { Button, Col, DatePicker, Form, Row, Switch } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import { getPhase } from 'api/station-fixed/StationFixedPhaseApi'
 import { getPoint } from 'api/station-fixed/StationFixedPointApi'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import createLang, { translate as t } from 'hoc/create-lang'
-import SelectProvince from 'components/elements/select-province'
 import { DD_MM_YYYY } from 'constants/format-date'
-import { getTimes } from 'utils/datetime'
+import createLang, { translate as t } from 'hoc/create-lang'
 import { isNumber } from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
+import { getTimes } from 'utils/datetime'
+import SelectPhase from './SelectPhase'
+import SelectPoint from './SelectPoint'
+import SelectProvinceForm from './SelectProvince'
+import SelectQCVNForm from './SelectQCVN'
+import SelectStationTypes from './SelectStationTypes'
+import SelectTime from './SelectTime'
 
-
-const { Option } = Select
 const { RangePicker } = DatePicker
 
-const i18n = {
+export const i18n = {
   provinceLabel: t('dataPointReport.form.label.province'),
   stationTypeLabel: t('dataPointReport.form.label.stationType'),
   phaseLabel: t('dataPointReport.form.label.phase'),
@@ -34,15 +35,16 @@ const i18n = {
 }
 
 const SearchFormContainer = styled(BoxShadowStyle)``
+
 const Container = styled.div`
   padding: 16px 16px;
 `
 
-const FormItemStyled = styled(Form.Item)`
+export const FormItemStyled = styled(Form.Item)`
   margin-bottom: 0px;
 `
 
-const FIELDS = {
+export const FIELDS = {
   PROVINCES: 'provinceId',
   STATION_TYPE_ID: 'stationTypeId',
   PHASE: 'phase',
@@ -51,33 +53,8 @@ const FIELDS = {
   END_DATE: 'endDate',
   IS_EXCEEDED: 'isExceeded',
   RANGE_PICKER: 'rangePicker',
-}
-
-
-
-
-
-const OptionSelectTimeRange = ({ onSelect, foreceRerender, ...otherProps }) => {
-  // console.log(otherProps, '==otherProps==')
-  // console.log("OptionSelectTimeRange render")
-  const optionsTimeRange = [
-    { key: 1, text: 'dataSearchFrom.options.byHoursDetail', value: 24, detailHours: `${moment().subtract(1, 'days').format('DD/MM/YYYY HH:mm')} - ${moment().format('DD/MM/YYYY HH:mm')}` },
-    { key: 7, text: 'dataSearchFrom.options.byDayDetail', value: 7, detailDay: `${moment().subtract(7, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
-    { key: 15, text: 'dataSearchFrom.options.byDayDetail', value: 15, detailDay: `${moment().subtract(15, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
-    { key: 30, text: 'dataSearchFrom.options.byDayDetail', value: 30, detailDay: `${moment().subtract(30, 'days').startOf('day').format('DD/MM/YYYY HH:mm')} - ${moment().subtract(1, 'days').endOf('day').format('DD/MM/YYYY HH:mm')}` },
-  ]
-  return <Select onSelect={onSelect} size="large" {...otherProps} >
-    {optionsTimeRange.map(option => (
-      <Select.Option key={option.key} value={option.key}>
-
-        {option.key === 1 && t(option.text, { value: option.value, detailHours: option.detailHours })}
-        {option.key !== 1 && t(option.text, { value: option.value, detailDay: option.detailDay })}
-      </Select.Option>
-    ))}
-    <Option key="range" value={FIELDS.RANGE_PICKER}>
-      {i18n.inRangeField}
-    </Option>
-  </Select>
+  STANDARD_VN_OBJECT: 'standardVNObject',
+  STANDARDS_VN: 'standardsVN',
 }
 
 @createLang
@@ -89,7 +66,7 @@ export class SearchForm extends React.Component {
     stationTypes: [],
     isOpenRangePicker: false,
     isLoading: false,
-    foreceRerender: true
+    foreceRerender: true,
   }
 
   async componentDidMount() {
@@ -173,7 +150,7 @@ export class SearchForm extends React.Component {
     // console.log("handleOnSubmit")
     e.preventDefault()
     this.setState({
-      foreceRerender: !this.state.foreceRerender
+      foreceRerender: !this.state.foreceRerender,
     })
     const values = await this.props.form.validateFields()
     // console.log(JSON.stringify(values, null, 2))
@@ -183,7 +160,6 @@ export class SearchForm extends React.Component {
     const { from, to } = getTimes(ranges)
     // console.log({ from: from.format('DD/MM/YYYY HH:mm'), to: to.format('DD/MM/YYYY HH:mm') })
 
-
     const paramQuery = {
       phaseIds: values.phase,
       pointKeys: values.point,
@@ -191,6 +167,7 @@ export class SearchForm extends React.Component {
       endDate: to,
       stationTypeId: values.stationTypeId,
       isExceeded: values.isExceeded,
+      standardsVN: values.standardsVN,
     }
     // console.log(paramQuery, '==paramQuery==')
 
@@ -207,12 +184,10 @@ export class SearchForm extends React.Component {
   }
 
   render() {
-    const { loadingSearch } = this.props
+    const { loadingSearch, setQueryParam, setStandardVNObject } = this.props
     const { phases, points, stationTypes, isOpenRangePicker } = this.state
     const { form } = this.props
-    // const config = {
-    //   rules: [{ required: true }],
-    // }
+
     const rangeConfig = {
       rules: [
         {
@@ -222,6 +197,7 @@ export class SearchForm extends React.Component {
         },
       ],
     }
+
     return (
       <SearchFormContainer>
         <Form onSubmit={this.handleOnSubmit}>
@@ -247,131 +223,50 @@ export class SearchForm extends React.Component {
           <Container>
             <Row gutter={24}>
               <Col span={12}>
-                <FormItemStyled label={i18n.provinceLabel}>
-                  {form.getFieldDecorator(FIELDS.PROVINCES)(
-                    <SelectProvince
-                      isShowAll
-                      onSelect={() => {
-                        form.setFieldsValue({
-                          [FIELDS.PHASE]: undefined,
-                          [FIELDS.POINT]: undefined,
-                        })
-                        this.fetchPoints()
-                      }}
-                      isUsedId
-                      size="large"
-                    />
-                  )}
-                </FormItemStyled>
+                <SelectProvinceForm
+                  label={i18n.provinceLabel}
+                  fetchPoints={this.fetchPoints}
+                  form={form}
+                />
               </Col>
               <Col span={12}>
-                <FormItemStyled label={i18n.stationTypeLabel}>
-                  {form.getFieldDecorator(
-                    FIELDS.STATION_TYPE_ID,
-                    this.getConfig(i18n.stationTypeRequired)
-                  )(
-                    <Select
-                      onSelect={this.handleOnSelectStationType}
-                      size="large"
-                    >
-                      {stationTypes &&
-                        stationTypes.length > 0 &&
-                        stationTypes.map(stationType => (
-                          <Option key={stationType._id} value={stationType._id}>
-                            {stationType.name}
-                          </Option>
-                        ))}
-                    </Select>
-                  )}
-                </FormItemStyled>
+                <SelectStationTypes
+                  label={i18n.stationTypeLabel}
+                  getConfig={() => this.getConfig(i18n.stationTypeRequired)}
+                  handleOnSelectStationType={this.handleOnSelectStationType}
+                  stationTypes={stationTypes}
+                  form={form}
+                />
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <Spin spinning={this.state.isLoading}>
-                  <FormItemStyled label={i18n.phaseLabel}>
-                    {form.getFieldDecorator(
-                      FIELDS.PHASE,
-                      this.getConfig(i18n.phaseRequired)
-                    )(
-                      <Select
-                        allowClear
-                        autoClearSearchValue
-                        size="large"
-                        mode="multiple"
-                        optionFilterProp="children"
-                        // this props allow search name and _id
-                        filterOption={(input, option) =>
-                          option.props.children
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0 ||
-                          option.props.value
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0
-                        }
-                        style={{ width: '100%' }}
-                      >
-                        {phases &&
-                          phases.length > 0 &&
-                          phases.map(phase => (
-                            <Option key={phase._id} value={phase._id}>
-                              {phase.name}
-                            </Option>
-                          ))}
-                      </Select>
-                    )}
-                  </FormItemStyled>
-                </Spin>
+                <SelectPhase
+                  form={form}
+                  phases={phases}
+                  label={i18n.phaseLabel}
+                  getConfig={() => this.getConfig(i18n.phaseRequired)}
+                />
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <Spin spinning={this.state.isLoading}>
-                  <FormItemStyled label={i18n.pointLabel}>
-                    {form.getFieldDecorator(
-                      FIELDS.POINT,
-                      this.getConfig(i18n.pointRequired)
-                    )(
-                      <Select
-                        autoClearSearchValue
-                        allowClear
-                        mode="multiple"
-                        size="large"
-                        optionFilterProp="children"
-                        // this props allow search name and _id
-                        filterOption={(input, option) =>
-                          option.props.children
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0 ||
-                          option.props.value
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0
-                        }
-                        style={{ width: '100%' }}
-                      >
-                        {points &&
-                          points.length > 0 &&
-                          points.map(point => (
-                            <Option key={point.key} value={point.key}>
-                              {point.name}
-                            </Option>
-                          ))}
-                      </Select>
-                    )}
-                  </FormItemStyled>
-                </Spin>
+                <SelectPoint
+                  label={i18n.pointLabel}
+                  getConfig={() => this.getConfig(i18n.pointRequired)}
+                  form={form}
+                  points={points}
+                />
               </Col>
             </Row>
             <Row gutter={24}>
               <Col span={8}>
-                <FormItemStyled label={i18n.timeLabel}>
-                  {form.getFieldDecorator('time', {
-                    ...this.getConfig(t('')),
-                    initialValue: 1,
-                  })(
-                    <OptionSelectTimeRange foreceRerender={this.state.foreceRerender} onSelect={this.handleOnSelectTime} />
-                  )}
-                </FormItemStyled>
+                <SelectTime
+                  form={form}
+                  label={i18n.timeLabel}
+                  getConfig={() => this.getConfig(t(''))}
+                  handleOnSelectTime={this.handleOnSelectTime}
+                />
               </Col>
               <Col span={8}>
                 <FormItemStyled label={i18n.exceededLabel}>
@@ -379,6 +274,13 @@ export class SearchForm extends React.Component {
                     initialValue: false,
                   })(<Switch size="large" />)}
                 </FormItemStyled>
+              </Col>
+              <Col span={8}>
+                <SelectQCVNForm
+                  form={form}
+                  setQueryParam={setQueryParam}
+                  setStandardVNObject={setStandardVNObject}
+                />
               </Col>
             </Row>
             <Row gutter={24}>

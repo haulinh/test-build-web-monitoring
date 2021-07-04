@@ -284,9 +284,14 @@ export default class TabThongSo extends React.Component {
         this.setState({ isSubmit: true })
         console.log('Received values of form: ', values)
         try {
-          // check logic add duplicate parameter 
-          const aqiQCMeasuresValue =  _.get(values, 'aqiQCMeasures', []).filter(item => Object.keys(item).length > 1)
-          const uniqueAqiQCMeasuresValue = _.uniqBy(aqiQCMeasuresValue, 'keyMeasure')
+          // check logic add duplicate parameter
+          const aqiQCMeasuresValue = _.get(values, 'aqiQCMeasures', []).filter(
+            item => Object.keys(item).length > 1
+          )
+          const uniqueAqiQCMeasuresValue = _.uniqBy(
+            aqiQCMeasuresValue,
+            'keyMeasure'
+          )
           if (aqiQCMeasuresValue.length !== uniqueAqiQCMeasuresValue.length) {
             message.error(i18n.errorDuplicate)
             return
@@ -300,10 +305,7 @@ export default class TabThongSo extends React.Component {
                 _.identity(i['isrequired'])) &&
               _.identity(i.keyMeasure)
           )
-          // console.log({
-          //   aqiQCLevel: this.state.aqiQCLevel,
-          //   aqiQCMeasures: _.keyBy(transformData, "keyMeasure")
-          // },"-transformData")
+
           const response = await postConfigAqiQC(this.props.keyQc, {
             aqiQCLevel: this.state.aqiQCLevel,
             aqiQCMeasures: _.keyBy(transformData, 'keyMeasure'),

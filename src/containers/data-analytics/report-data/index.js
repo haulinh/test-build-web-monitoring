@@ -54,7 +54,12 @@ class ReportData extends Component {
 
   onChangeQcvn = (qcvnIds, list) => {
     const { onChangeQcvn } = this.props
-    const qcvnSelected = list.filter(item => qcvnIds.includes(item._id))
+    // const qcvnSelected = list.filter(item => qcvnIds.includes(item._id))
+    const qcvnSelected = qcvnIds.map(id => {
+      return {
+        ...list.find(l => l._id === id),
+      }
+    })
     onChangeQcvn(qcvnSelected)
   }
 
@@ -127,7 +132,7 @@ class ReportData extends Component {
           <PermissionPopover roles={ROLE.CHART.EXPORT} popoverPlacement="right">
             {hasPermission => (
               <Fragment>
-                <Col span={!hasPermission ? 16 : 13}>
+                <Col span={!hasPermission ? 16 : 12}>
                   <Row type="flex" align="middle">
                     <Col
                       span={3}

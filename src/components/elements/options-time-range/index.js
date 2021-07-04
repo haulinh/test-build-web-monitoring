@@ -13,8 +13,6 @@ const LOCALE = {
   en: { lib: 'en_US', moment: 'en-sg' },
 }
 
-
-
 const Container = styled.div``
 @connect(state => ({
   locale: state.language.locale,
@@ -54,7 +52,6 @@ class OptionsTimeRange extends React.Component {
       : null
 
   render() {
-    console.log("Rerendering ...")
     const options = [
       {
         key: 1,
@@ -62,7 +59,9 @@ class OptionsTimeRange extends React.Component {
         value: 24,
         detailHours: `${moment()
           .subtract(1, 'days')
-          .format('DD/MM/YYYY HH:mm')} - ${moment().format('DD/MM/YYYY HH:mm')}`,
+          .format('DD/MM/YYYY HH:mm')} - ${moment().format(
+          'DD/MM/YYYY HH:mm'
+        )}`,
       },
       {
         key: 7,
@@ -72,9 +71,9 @@ class OptionsTimeRange extends React.Component {
           .subtract(7, 'days')
           .startOf('day')
           .format('DD/MM/YYYY HH:mm')} - ${moment()
-            .subtract(1, 'days')
-            .endOf('day')
-            .format('DD/MM/YYYY HH:mm')}`,
+          .subtract(1, 'days')
+          .endOf('day')
+          .format('DD/MM/YYYY HH:mm')}`,
       },
       {
         key: 15,
@@ -84,9 +83,9 @@ class OptionsTimeRange extends React.Component {
           .subtract(15, 'days')
           .startOf('day')
           .format('DD/MM/YYYY HH:mm')} - ${moment()
-            .subtract(1, 'days')
-            .endOf('day')
-            .format('DD/MM/YYYY HH:mm')}`,
+          .subtract(1, 'days')
+          .endOf('day')
+          .format('DD/MM/YYYY HH:mm')}`,
       },
       {
         key: 30,
@@ -96,9 +95,9 @@ class OptionsTimeRange extends React.Component {
           .subtract(30, 'days')
           .startOf('day')
           .format('DD/MM/YYYY HH:mm')} - ${moment()
-            .subtract(1, 'days')
-            .endOf('day')
-            .format('DD/MM/YYYY HH:mm')}`,
+          .subtract(1, 'days')
+          .endOf('day')
+          .format('DD/MM/YYYY HH:mm')}`,
       },
     ]
     const { open } = this.state
