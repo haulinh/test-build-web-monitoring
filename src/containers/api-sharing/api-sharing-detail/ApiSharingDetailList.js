@@ -7,6 +7,7 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import moment from 'moment-timezone'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import BreadcrumbApiSharing from '../breadcrumb'
 
 const i18n = {
   head: {
@@ -52,6 +53,18 @@ export default class ApiSharingDetailList extends React.Component {
     }
   }
 
+  handleDeleteItem = async id => {
+    this.setState({ loading: true })
+    try {
+      const res = await shareApiApi.deleteApiDetailById(id)
+      if (res.success) {
+        const dataUpdated = this.state.data.filter(item => item._id !== id)
+        this.setState({ data: dataUpdated })
+      }
+    } catch (error) {}
+    this.setState({ loading: false })
+  }
+
   head = [
     { content: '#', width: 2 },
     { content: i18n.head.apiName },
@@ -83,7 +96,9 @@ export default class ApiSharingDetailList extends React.Component {
 
             <Divider type="vertical" />
 
-            <a onClick={() => alert('132')}>{i18n.button.delete}</a>
+            <a onClick={() => this.handleDeleteItem(item._id)}>
+              {i18n.button.delete}
+            </a>
           </span>
         ),
       },
@@ -111,6 +126,7 @@ export default class ApiSharingDetailList extends React.Component {
           </Button>
         }
       >
+        {/* <BreadcrumbApiSharing items={['list']} /> */}
         <DynamicTable
           isLoading={loading}
           rows={this.getRows()}

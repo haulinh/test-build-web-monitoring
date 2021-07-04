@@ -15,11 +15,6 @@ const ApiSharingRoute = () => {
       <Switch>
         <Route
           exact
-          path={slug.apiSharing.base}
-          component={ApiSharingDetailList}
-        />
-        <Route
-          exact
           path={`${slug.apiSharing.base}/:apiKey`}
           component={ApiSharingDetailList}
         />

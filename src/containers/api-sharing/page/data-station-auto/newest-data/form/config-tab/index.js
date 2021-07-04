@@ -4,7 +4,7 @@ import GeneralInfo from './GeneralInfo'
 import SettingQuery from './SettingQuery'
 import { Button, Col, Row, Form } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
-import { shareApiList } from 'containers/api-sharing/constants'
+import { i18n, shareApiList } from 'containers/api-sharing/constants'
 
 @Form.create()
 export default class ConfigTab extends Component {
@@ -12,13 +12,13 @@ export default class ConfigTab extends Component {
     const { form } = this.props
     const fieldsValue = form.getFieldsValue()
     const key = shareApiList.newestData.key
-    const optionParams = fieldsValue.optionParams
+    const optionParams = fieldsValue.optionParams || []
 
     const config = Object.entries(fieldsValue.config).map(([key, value]) => {
       const isDefault = !optionParams.includes(key)
 
       let valueParams = value
-      if (key === 'measuringList') {
+      if (key === 'measuringList' && value) {
         valueParams = value.join(',')
       }
 
@@ -67,7 +67,7 @@ export default class ConfigTab extends Component {
                 htmlType="submit"
                 style={{ width: '100%' }}
               >
-                Save
+                {i18n.button.save}
               </Button>
             </Col>
           </Row>

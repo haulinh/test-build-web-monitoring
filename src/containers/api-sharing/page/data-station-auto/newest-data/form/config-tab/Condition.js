@@ -4,8 +4,8 @@ import SelectProvince from 'components/elements/select-province'
 import SelectQueryType from 'components/elements/select-query-type'
 import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
+import { i18n } from 'containers/api-sharing/constants'
 import React from 'react'
-import { i18n } from '../constant'
 import { BoxShadow, Header } from '../styles'
 
 export const FIELDS = {
@@ -49,17 +49,17 @@ export default class Condition extends React.Component {
 
     return (
       <BoxShadow>
-        <Header>{i18n.header.condition}</Header>
+        <Header>{i18n.detailPage.header.condition}</Header>
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item label={i18n.label.province}>
+            <Form.Item label={i18n.detailPage.label.province}>
               {form.getFieldDecorator(`config.${FIELDS.PROVINCE}`, {
                 onChange: this.handleOnFieldChange,
               })(<SelectProvince isShowAll />)}
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label={i18n.label.stationType}>
+            <Form.Item label={i18n.detailPage.label.stationType}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_TYPE}`, {
                 onChange: this.handleOnFieldChange,
               })(<SelectStationType />)}
@@ -69,7 +69,7 @@ export default class Condition extends React.Component {
 
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item label="i18n.label.stationName">
+            <Form.Item label={i18n.detailPage.label.stationName}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_AUTO}`, {
                 onChange: this.handleFieldStationAutoChange,
               })(
@@ -82,7 +82,7 @@ export default class Condition extends React.Component {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="i18n.label.parameter">
+            <Form.Item label={i18n.detailPage.label.parameter}>
               {form.getFieldDecorator(`config.${FIELDS.MEASURING_LIST}`)(
                 <SelectMeasureParameter
                   measuringList={stationAutoSelected.measuringList}
@@ -94,14 +94,14 @@ export default class Condition extends React.Component {
 
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item label="18n.label.typeData">
+            <Form.Item label={i18n.detailPage.label.typeData}>
               {form.getFieldDecorator(`config.${FIELDS.DATA_TYPE}`)(
                 <SelectQueryType />
               )}
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="i18n.label.isExceed">
+            <Form.Item label={i18n.detailPage.label.isExceed}>
               {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
                 valuePropName: 'checked',
               })(<Switch />)}

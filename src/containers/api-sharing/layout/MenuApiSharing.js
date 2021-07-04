@@ -1,6 +1,7 @@
 import { Menu } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
+import { i18n } from '../constants'
 
 const { SubMenu, Item } = Menu
 
@@ -41,7 +42,7 @@ const MenuApiSharing = ({
       {data.map(item => (
         <SubMenu key={item.group} title={item.name.vi}>
           {item.api.map(child => (
-            <Item key={child.key}>{child.key}</Item>
+            <Item key={child.key}>{i18n.titleMenu[child.key]}</Item>
           ))}
         </SubMenu>
       ))}

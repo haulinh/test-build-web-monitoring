@@ -14,12 +14,15 @@ export default class ApiSharingLayout extends React.Component {
 
   async componentDidMount() {
     this.setState({ loading: true })
+    const { location } = this.props
+    console.log({ location })
     try {
       const apiSharingListData = await shareApiApi.getConfig()
       this.setState(
         { menuApiSharingList: apiSharingListData.data.value },
         () => {
-          // this.onClickMenu(this.state.menuApiSharingList[0].api[0].key)
+          if (location.pathname === '/api-sharing')
+            this.onClickMenu(this.state.menuApiSharingList[0].api[0].key)
         }
       )
     } catch (error) {}
@@ -30,8 +33,15 @@ export default class ApiSharingLayout extends React.Component {
     this.props.history.push(`${slug.apiSharing.base}/${apiKey}`)
   }
 
+  getSelectedKeyMenu = () => {
+    const { location } = this.props
+    const pathnames = location.pathname.split('/')
+    return pathnames[2]
+  }
+
   render() {
     const { menuApiSharingList, loading } = this.state
+    const selectedKeyMenu = this.getSelectedKeyMenu()
 
     if (loading || menuApiSharingList.length === 0) {
       return (
@@ -54,7 +64,9 @@ export default class ApiSharingLayout extends React.Component {
           <Affix>
             <MenuApiSharing
               defaultOpenKeys={[menuApiSharingList[0].group]}
-              defaultSelectedKeys={[menuApiSharingList[0].api[0].key]}
+              defaultSelectedKeys={[
+                selectedKeyMenu || menuApiSharingList[0].api[0].key,
+              ]}
               onClickMenu={this.onClickMenu}
               history={this.props.history}
               data={menuApiSharingList}
