@@ -2,9 +2,9 @@ import { Tabs } from 'antd'
 import { i18n } from 'containers/api-sharing/constants'
 import React, { Component } from 'react'
 import ConfigTab from './config-tab'
-import ViewDataTab from './ViewDataTab'
+import QueryTab from './query-tab'
 
-export default class ApiSharingDetailForm extends Component {
+export default class ApiSharingDetail extends Component {
   render() {
     const { edit } = this.props
 
@@ -14,7 +14,7 @@ export default class ApiSharingDetailForm extends Component {
           <ConfigTab edit={edit} />
         </Tabs.TabPane>
         <Tabs.TabPane tab={i18n.tab.viewDataTab} key="ViewDataTab">
-          <ViewDataTab />
+          <QueryTab />
         </Tabs.TabPane>
       </Tabs>
     )

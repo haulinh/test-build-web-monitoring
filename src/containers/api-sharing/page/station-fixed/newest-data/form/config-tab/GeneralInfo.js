@@ -1,10 +1,9 @@
 import { Col, Form, Input, Row } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { i18n } from 'containers/api-sharing/constants'
+import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import React from 'react'
 import { withRouter } from 'react-router'
-
-import { Header, BoxShadow } from '../styles'
 
 const GeneralInfo = withRouter(({ form, location }) => {
   const getPathname = () => {
@@ -18,7 +17,9 @@ const GeneralInfo = withRouter(({ form, location }) => {
       <Row gutter={12}>
         <Col span={12}>
           <Form.Item label={i18n.detailPage.label.apiName}>
-            {form.getFieldDecorator('name')(<Input />)}
+            {form.getFieldDecorator('name', {
+              initialValue: '1',
+            })(<Input />)}
           </Form.Item>
         </Col>
         <Col span={12}>

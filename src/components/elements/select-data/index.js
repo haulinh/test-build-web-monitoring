@@ -1,2 +1,2 @@
-export * from './SelectPhase'
-export * from './SelectPoint'
+export * from './station-fixed/SelectPhase'
+export * from './station-fixed/SelectPoint'

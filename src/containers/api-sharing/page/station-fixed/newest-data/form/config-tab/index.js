@@ -11,7 +11,8 @@ export default class ConfigTab extends Component {
   getQueryParams = () => {
     const { form } = this.props
     const fieldsValue = form.getFieldsValue()
-    const key = shareApiList.newestData.key
+    console.log(fieldsValue)
+    const key = shareApiList.stationFixed.newestData.key
     const optionParams = fieldsValue.optionParams || []
 
     const config = Object.entries(fieldsValue.config).map(([key, value]) => {
@@ -42,8 +43,8 @@ export default class ConfigTab extends Component {
   handleSubmit = async e => {
     e.preventDefault()
     const queryParams = this.getQueryParams()
-    const key = shareApiList.newestData.key
-    await shareApiApi.createApiByKey(key, queryParams)
+    // const key = shareApiList.newestData.key
+    // await shareApiApi.createApiByKey(key, queryParams)
   }
 
   render() {

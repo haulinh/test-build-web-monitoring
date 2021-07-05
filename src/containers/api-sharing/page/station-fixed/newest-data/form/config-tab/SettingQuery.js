@@ -1,7 +1,7 @@
 import { Transfer, Form } from 'antd'
 import { i18n } from 'containers/api-sharing/constants'
+import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import React, { Component } from 'react'
-import { BoxShadow, Header } from '../styles'
 
 class TransferForm extends Component {
   state = {
@@ -37,7 +37,7 @@ class TransferForm extends Component {
 const SettingQuery = ({ form }) => {
   const fieldsValue = form.getFieldsValue()
 
-  const data = Object.keys(fieldsValue.config).map(item => ({
+  const data = Object.keys(fieldsValue.config || {}).map(item => ({
     key: item,
     title: i18n.fields[item] || item,
     // title: item,

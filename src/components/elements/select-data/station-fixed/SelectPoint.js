@@ -20,6 +20,10 @@ export class SelectPoint extends React.Component {
     this.setState({
       points: points.data,
     })
+
+    if (this.props.onChangeObject) {
+      this.props.onChangeObject(points.data)
+    }
   }
 
   componentDidMount() {
@@ -29,6 +33,7 @@ export class SelectPoint extends React.Component {
   getPoints = () => {
     let points = this.state.points
     const { provinceId, stationTypeId } = this.props
+    console.log({ provinceId, stationTypeId })
     if (provinceId) {
       points = points.filter(point => point.provinceId === provinceId)
     }
@@ -41,20 +46,16 @@ export class SelectPoint extends React.Component {
   }
 
   handleOnChange = pointKey => {
-    const { onChange, onChangeObject } = this.props
+    const { onChange } = this.props
     onChange(pointKey)
-    if (onChangeObject) {
-      const point = this.state.points.find(point => point.key === pointKey)
-      console.log({ point })
-      onChangeObject(point)
-    }
   }
 
   render() {
-    const { mode } = this.props
+    const { mode, value } = this.props
     const points = this.getPoints()
     return (
       <Select
+        value={value}
         onChange={this.handleOnChange}
         autoClearSearchValue
         allowClear

@@ -13,6 +13,10 @@ import {
   NewestDataEdit,
 } from './page/station-auto/newest-data'
 import {
+  HistoryDataStationFixedEdit,
+  HistoryDataStationFixedCreate,
+} from './page/station-fixed/history-data'
+import {
   NewestDataStationFixedCreate,
   NewestDataStationFixedEdit,
 } from './page/station-fixed/newest-data'
@@ -60,6 +64,16 @@ const ApiSharingRoute = () => {
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationFixed.newestData.key}/edit/:id`}
           component={NewestDataStationFixedEdit}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationFixed.historyData.key}/create`}
+          component={HistoryDataStationFixedCreate}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationFixed.historyData.key}/edit/:id`}
+          component={HistoryDataStationFixedEdit}
         />
       </Switch>
     </ApiSharingLayout>

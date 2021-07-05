@@ -1,2 +1,2 @@
-export * from './HistoryDataCreate'
-export * from './HistoryDataEdit'
+export * from './HistoryDataStationFixedCreate'
+export * from './HistoryDataStationFixedEdit'

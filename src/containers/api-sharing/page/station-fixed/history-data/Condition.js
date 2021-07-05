@@ -1,4 +1,5 @@
 import { Col, Form, Row, Switch } from 'antd'
+import OptionsTimeRange from 'components/elements/options-time-range'
 import { SelectPoint } from 'components/elements/select-data'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import SelectProvince from 'components/elements/select-province'
@@ -7,6 +8,7 @@ import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import _ from 'lodash'
 import React from 'react'
+import { getConditionalStyle } from 'shared/components/DataTable/src/util'
 
 export const FIELDS = {
   PROVINCE: 'province',
@@ -57,6 +59,7 @@ export default class Condition extends React.Component {
     let { points } = this.state
     const { form } = this.props
     const { config: { province, stationType } = {} } = form.getFieldsValue()
+    console.log({ stationType })
     if (province) {
       points = points.filter(point => point.provinceId === province)
     }
@@ -96,10 +99,10 @@ export default class Condition extends React.Component {
 
   render() {
     const { form } = this.props
-    const { provinceSelected, stationTypeSelected } = this.state
     const measuringList = this.getMeasuringList()
     const initialValues = this.getInitialValue()
-    const { province, stationType } = form.getFieldsValue()
+    console.log({ points: initialValues.points })
+    const { config: { province, stationType } = {} } = form.getFieldsValue()
     return (
       <BoxShadow>
         <Header>{i18n.detailPage.header.condition}</Header>
@@ -152,6 +155,13 @@ export default class Condition extends React.Component {
         </Row>
 
         <Row gutter={12}>
+          <Col span={12}>
+            <Form.Item label="i18n.timeLabel">
+              {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
+                initialValue: 1,
+              })(<OptionsTimeRange />)}
+            </Form.Item>
+          </Col>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.isExceeded}>
               {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
