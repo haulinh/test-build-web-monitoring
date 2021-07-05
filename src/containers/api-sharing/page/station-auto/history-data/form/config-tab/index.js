@@ -18,39 +18,48 @@ export default class ConfigTab extends Component {
 
     const times = getTimes(fieldsValue['rangeTime'])
 
-    const config = Object.entries(fieldsValue.config).map(([key, value]) => {
-      const isDefault = !optionParams.includes(key)
+    const config = Object.entries(fieldsValue.config)
+      .filter(([key]) => key !== 'rangeTime')
+      .map(([key, value]) => {
+        const isDefault = !optionParams.includes(key)
 
-      let valueParams = value
-      if (key === 'measuringList' && value) {
-        valueParams = value.join(',')
-      }
-
-      if (key === 'rangeTime') {
-        valueParams = {
-          from: times.from
-            .clone()
-            .utc()
-            .format(),
-          to: times.to
-            .clone()
-            .utc()
-            .format(),
+        let valueParams = value
+        if (key === 'measuringList' && value) {
+          valueParams = value.join(',')
         }
-      }
 
-      return {
-        key,
-        value: valueParams,
-        isDefault,
-      }
-    })
+        return {
+          fieldName: key,
+          value: valueParams,
+          isDefault,
+        }
+      })
+
+    const isDefaultRangeTime = !optionParams.includes('rangeTime')
+    const from = {
+      fieldName: 'from',
+      value: times.from
+        .clone()
+        .utc()
+        .format(),
+      isDefault: isDefaultRangeTime,
+    }
+    const to = {
+      fieldName: 'to',
+      value: times.to
+        .clone()
+        .utc()
+        .format(),
+      isDefault: isDefaultRangeTime,
+    }
+
+    const newConfig = [...config, from, to]
 
     const params = {
       key,
       name: fieldsValue.name,
       description: fieldsValue.description,
-      config,
+      config: newConfig,
     }
 
     return params

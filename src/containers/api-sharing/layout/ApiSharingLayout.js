@@ -38,9 +38,13 @@ export default class ApiSharingLayout extends React.Component {
     return pathnames[2]
   }
 
+  getOpenKeys = () => {
+    const openKeys = this.state.menuApiSharingList.map(item => item.group)
+    return openKeys
+  }
+
   render() {
     const { menuApiSharingList, loading } = this.state
-    const selectedKeyMenu = this.getSelectedKeyMenu()
 
     if (loading || menuApiSharingList.length === 0) {
       return (
@@ -57,12 +61,15 @@ export default class ApiSharingLayout extends React.Component {
       )
     }
 
+    const selectedKeyMenu = this.getSelectedKeyMenu()
+    const openKeys = this.getOpenKeys()
+
     return (
       <Row>
-        <Col span={4}>
+        <Col span={5}>
           <Affix>
             <MenuApiSharing
-              defaultOpenKeys={[menuApiSharingList[0].group]}
+              defaultOpenKeys={openKeys}
               defaultSelectedKeys={[
                 selectedKeyMenu || menuApiSharingList[0].api[0].key,
               ]}
@@ -72,7 +79,7 @@ export default class ApiSharingLayout extends React.Component {
             />
           </Affix>
         </Col>
-        <Col span={20}>{this.props.children}</Col>
+        <Col span={19}>{this.props.children}</Col>
       </Row>
     )
   }

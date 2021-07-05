@@ -42,7 +42,9 @@ const MenuApiSharing = ({
       {data.map(item => (
         <SubMenu key={item.group} title={item.name.vi}>
           {item.api.map(child => (
-            <Item key={child.key}>{i18n.titleMenu[child.key]}</Item>
+            <Item key={child.key}>
+              {i18n.titleMenu[child.key] || child.key}
+            </Item>
           ))}
         </SubMenu>
       ))}
