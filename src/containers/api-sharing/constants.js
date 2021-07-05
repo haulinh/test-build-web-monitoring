@@ -1,36 +1,28 @@
 export const shareApiList = {
-  averageData: {
-    key: '',
-  },
-  historyData: {
-    key: 'data-station-auto-history-data',
-  },
-  newestData: {
-    key: 'data-station-auto-newest-data',
-  },
-  aqiStationAuto: {
-    key: 'station-management-aqi-station-auto',
-  },
   stationAuto: {
-    key: 'station-management-station-auto',
+    historyData: {
+      key: 'data-station-auto-history-data',
+    },
+    newestData: {
+      key: 'data-station-auto-newest-data',
+    },
   },
   stationFixed: {
-    key: 'station-management-station-fixed',
-  },
-  wqiStationFixed: {
-    key: 'station-management-wqi-station-auto',
+    historyData: {
+      key: 'data-station-fixed-history-data',
+    },
+    newestData: {
+      key: 'data-station-fixed-newest-data',
+    },
   },
 }
 
 export const i18n = {
   titleMenu: {
-    'station-management-station-auto': 'Danh sách trạm tự động',
-    'station-management-station-fixed': 'Danh sách trạm cố định',
-    'station-management-aqi-station-auto': 'Trạm tự động có AQI',
-    'station-management-wqi-station-fixed': 'Trạm cố định có WQI',
     'data-station-auto-newest-data': 'Dữ liêu mới nhất',
     'data-station-auto-history-data': 'Dữ liêu lịch sử',
-    'data-station-auto-average-data': 'Dữ liệu trung bình',
+    'data-station-fixed-newest-data': 'Dữ liêu mới nhất',
+    'data-station-fixed-history-data': 'Dữ liêu lịch sử',
   },
   detailPage: {
     header: {
