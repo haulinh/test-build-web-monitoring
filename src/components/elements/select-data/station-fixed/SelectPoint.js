@@ -33,7 +33,6 @@ export class SelectPoint extends React.Component {
   getPoints = () => {
     let points = this.state.points
     const { provinceId, stationTypeId } = this.props
-    console.log({ provinceId, stationTypeId })
     if (provinceId) {
       points = points.filter(point => point.provinceId === provinceId)
     }

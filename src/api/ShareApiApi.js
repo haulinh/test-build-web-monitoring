@@ -6,8 +6,8 @@ const prefixCategory = () => getConfigApi().category
 const routes = {
   getConfig: () => `${prefixCategory()}/share-api/config`,
   getApiListByKey: key => `${prefixCategory()}/share-api/${key}`,
-  getApiDetailById: id => `${prefixCategory()}/share-api/${id}`,
-  getPeriodicHistory: () => `${prefixCategory()}/share-api/periodic-history`,
+  getApiDeleteDetail: id => `${prefixCategory()}/share-api/${id}`,
+  getApiDetailById: id => `${prefixCategory()}/share-api/detail/${id}`,
 }
 
 export const shareApiApi = {
@@ -27,7 +27,7 @@ export const shareApiApi = {
   },
 
   deleteApiDetailById: id => {
-    const route = routes.getApiDetailById(id)
+    const route = routes.getApiDeleteDetail(id)
     return deleteFetch(route)
   },
 
@@ -35,9 +35,16 @@ export const shareApiApi = {
     const route = routes.getApiListByKey(key)
     return postFetch(route, params)
   },
+}
 
+const prefixCal = () => getConfigApi().calculate
+const dataRoutes = {
+  getPeriodicHistory: () => `${prefixCal()}/share-api/periodic/history-data`,
+}
+
+export const dataShareApiApi = {
   getPeriodicHistory: params => {
-    const route = routes.getPeriodicHistory()
-    return postFetch(route, params)
+    const route = dataRoutes.getPeriodicHistory()
+    return getFetch(route, params)
   },
 }

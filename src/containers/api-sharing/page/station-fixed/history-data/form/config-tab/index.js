@@ -5,7 +5,7 @@ import { Button, Col, Row, Form } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
 import { i18n, shareApiList } from 'containers/api-sharing/constants'
 import { getTimes } from 'utils/datetime'
-import Condition from '../../Condition'
+import Condition from '../Condition'
 
 @Form.create()
 export default class ConfigTab extends Component {
@@ -16,7 +16,7 @@ export default class ConfigTab extends Component {
     const key = shareApiList.stationFixed.historyData.key
     const optionParams = fieldsValue.optionParams || []
 
-    const times = getTimes(fieldsValue['rangeTime'])
+    const times = getTimes(fieldsValue.config.rangeTime)
 
     const config = Object.entries(fieldsValue.config)
       .filter(([key]) => key !== 'rangeTime')
@@ -25,6 +25,10 @@ export default class ConfigTab extends Component {
 
         let valueParams = value
         if (key === 'measuringList' && value) {
+          valueParams = value.join(',')
+        }
+
+        if (key === 'stationKeys' && value) {
           valueParams = value.join(',')
         }
 
@@ -68,9 +72,8 @@ export default class ConfigTab extends Component {
   handleSubmit = async e => {
     e.preventDefault()
     const queryParams = this.getQueryParams()
-    console.log({ queryParams })
     const key = shareApiList.stationFixed.historyData.key
-    // await shareApiApi.createApiByKey(key, queryParams)
+    await shareApiApi.createApiByKey(key, queryParams)
   }
 
   render() {
