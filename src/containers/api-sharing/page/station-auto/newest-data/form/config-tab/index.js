@@ -47,7 +47,7 @@ export default class ConfigTab extends Component {
   }
 
   render() {
-    const { form, edit } = this.props
+    const { form } = this.props
     return (
       <React.Fragment>
         <Form onSubmit={this.handleSubmit}>

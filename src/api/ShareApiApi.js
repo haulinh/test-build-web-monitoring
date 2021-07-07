@@ -45,6 +45,7 @@ export const shareApiApi = {
 const prefixCal = () => getConfigApi().calculate
 export const dataRoutes = {
   getPeriodicHistory: () => `${prefixCal()}/share-api/periodic/history-data`,
+  getPeriodicNewest: () => `${prefixCal()}/share-api/periodic/newest-data`,
 }
 
 export const dataShareApiApi = {

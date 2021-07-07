@@ -8,7 +8,7 @@ export class NewestDataStationFixedCreate extends Component {
     return (
       <PageContainer hideBackground={true}>
         <Clearfix height={32} />
-        <ApiSharingDetail />
+        <ApiSharingDetail rule="create" />
       </PageContainer>
     )
   }
