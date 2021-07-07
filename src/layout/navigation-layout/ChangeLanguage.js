@@ -6,7 +6,8 @@ import AkDropdownMenu, {
 import { AkGlobalItem } from '@atlaskit/navigation'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import FlagIcon from 'react-flag-kit/lib/CDNFlagIcon.js'
+// import FlagIcon from 'react-flag-kit/lib/CDNFlagIcon.js'
+import { FlagIcon } from "react-flag-kit";
 import { autobind } from 'core-decorators'
 import createLang from 'hoc/create-lang'
 import { putProfile } from 'api/AuthApi'
