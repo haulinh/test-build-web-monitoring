@@ -1,13 +1,19 @@
 import React from 'react'
 import { Select } from 'antd'
 
-const SelectMeasureParameter = ({ measuringList = [], value, onChange }) => {
+const SelectMeasureParameter = ({
+  measuringList = [],
+  value,
+  onChange,
+  ...props
+}) => {
   const handleChange = keys => {
     onChange(keys)
   }
 
   return (
     <Select
+      {...props}
       mode="multiple"
       value={value}
       maxTagCount={20}

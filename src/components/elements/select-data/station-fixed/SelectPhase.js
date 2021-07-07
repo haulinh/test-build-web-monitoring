@@ -10,8 +10,6 @@ export class SelectPhase extends React.Component {
   fetchPhase = async () => {
     const phases = await getPhase()
 
-    console.log({ phases })
-
     this.setState({
       phases,
     })
@@ -33,10 +31,11 @@ export class SelectPhase extends React.Component {
   }
 
   render() {
-    const { onChange } = this.props
+    const { value } = this.props
     const phases = this.getPhases()
     return (
       <Select
+        {...this.props}
         allowClear
         autoClearSearchValue
         size="large"

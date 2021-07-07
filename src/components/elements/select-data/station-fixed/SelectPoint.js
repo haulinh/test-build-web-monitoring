@@ -50,10 +50,11 @@ export class SelectPoint extends React.Component {
   }
 
   render() {
-    const { mode, value } = this.props
+    const { mode, value, ...otherProps } = this.props
     const points = this.getPoints()
     return (
       <Select
+        {...otherProps}
         value={value}
         onChange={this.handleOnChange}
         autoClearSearchValue

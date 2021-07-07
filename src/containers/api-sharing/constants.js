@@ -61,3 +61,16 @@ export const i18n = {
     rangeTime: 'Thời gian',
   },
 }
+
+export const FIELDS = {
+  STATION_FIXED: {
+    HISTORY_DATA: {
+      PROVINCE: 'province',
+      STATION_TYPE: 'stationType',
+      RANGE_TIME: 'rangeTime',
+      POINT: 'stationKeys',
+      MEASURING_LIST: 'measuringList',
+      IS_EXCEEDED: 'isExceeded',
+    },
+  },
+}

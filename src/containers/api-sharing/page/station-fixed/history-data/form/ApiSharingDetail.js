@@ -6,15 +6,15 @@ import QueryTab from './query-tab'
 
 export default class ApiSharingDetail extends Component {
   render() {
-    const { edit } = this.props
+    const { data, rule } = this.props
 
     return (
       <Tabs>
         <Tabs.TabPane tab={i18n.tab.configTab} key="ConfigTab">
-          <ConfigTab edit={edit} />
+          <ConfigTab data={data} rule={rule} />
         </Tabs.TabPane>
         <Tabs.TabPane tab={i18n.tab.viewDataTab} key="ViewDataTab">
-          <QueryTab />
+          <QueryTab data={data} rule={rule} />
         </Tabs.TabPane>
       </Tabs>
     )

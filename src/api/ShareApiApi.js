@@ -1,12 +1,12 @@
 import { getConfigApi } from 'config'
-import { deleteFetch, getFetch, postFetch } from 'utils/fetch'
+import { deleteFetch, getFetch, postFetch, putFetch } from 'utils/fetch'
 
 const prefixCategory = () => getConfigApi().category
 
 const routes = {
   getConfig: () => `${prefixCategory()}/share-api/config`,
   getApiListByKey: key => `${prefixCategory()}/share-api/${key}`,
-  getApiDeleteDetail: id => `${prefixCategory()}/share-api/${id}`,
+  getApiShareById: id => `${prefixCategory()}/share-api/${id}`,
   getApiDetailById: id => `${prefixCategory()}/share-api/detail/${id}`,
 }
 
@@ -27,8 +27,13 @@ export const shareApiApi = {
   },
 
   deleteApiDetailById: id => {
-    const route = routes.getApiDeleteDetail(id)
+    const route = routes.getApiShareById(id)
     return deleteFetch(route)
+  },
+
+  updateApiDetailById: (id, params) => {
+    const route = routes.getApiShareById(id)
+    return putFetch(route, params)
   },
 
   createApiByKey: (key, params) => {
@@ -38,7 +43,7 @@ export const shareApiApi = {
 }
 
 const prefixCal = () => getConfigApi().calculate
-const dataRoutes = {
+export const dataRoutes = {
   getPeriodicHistory: () => `${prefixCal()}/share-api/periodic/history-data`,
 }
 

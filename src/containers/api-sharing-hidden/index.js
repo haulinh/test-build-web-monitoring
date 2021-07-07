@@ -61,7 +61,7 @@ const i18n = {
   copySuccess: t('global.copySuccess'),
 }
 
-const DEFAULT_HASH = '#StationManagement/stations';
+const DEFAULT_HASH = '#StationManagement/stations'
 class APISharing extends Component {
   state = { apiDetail: {} }
 
