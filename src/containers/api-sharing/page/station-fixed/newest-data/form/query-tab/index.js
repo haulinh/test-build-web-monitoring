@@ -8,7 +8,6 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
-import { getTimes } from 'utils/datetime'
 import Condition from '../Condition'
 
 const Method = styled.div`
@@ -109,16 +108,6 @@ export default class QueryTab extends Component {
       phaseIds: _.get(fieldsValue, 'phaseIds', []).join(','),
     }
 
-    const times = getTimes(_.get(fieldsValue, 'rangeTime', 1))
-    const from = times.from
-      .clone()
-      .utc()
-      .format()
-    const to = times.to
-      .clone()
-      .utc()
-      .format()
-
     const urlParamsValid = [
       'measuringList',
       'stationKeys',
@@ -129,11 +118,9 @@ export default class QueryTab extends Component {
       .map(item => `${item}=${queryParams[item]}`)
       .join('&')
 
-    const url = [dataRoutes.getPeriodicHistory(), `id=${params.id}`].join('?')
+    const url = [dataRoutes.getPeriodicNewest(), `id=${params.id}`].join('?')
 
-    const urlParam = [urlParamsValid, `from=${from}`, `to=${to}`].join('&')
-
-    const urlQuery = [url, urlParam].join('&')
+    const urlQuery = [url, urlParamsValid].join('&')
 
     return urlQuery
   }

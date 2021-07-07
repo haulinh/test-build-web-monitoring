@@ -31,14 +31,13 @@ export class SelectPhase extends React.Component {
   }
 
   render() {
-    const { value } = this.props
     const phases = this.getPhases()
     return (
       <Select
         {...this.props}
+        size="default"
         allowClear
         autoClearSearchValue
-        size="large"
         mode="multiple"
         optionFilterProp="children"
         // this props allow search name and _id

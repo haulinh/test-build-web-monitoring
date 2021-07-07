@@ -6,6 +6,6 @@ const Text = styled.div`
   margin: ${props => props.margin};
   color: ${props => props.color};
   word-wrap: break-word;
-  width: 100vh;
+  width: 500px;
 `
 export default Text

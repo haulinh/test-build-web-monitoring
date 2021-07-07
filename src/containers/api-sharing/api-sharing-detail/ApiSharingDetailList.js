@@ -7,7 +7,6 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import moment from 'moment-timezone'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import BreadcrumbApiSharing from '../breadcrumb'
 
 const i18n = {
   head: {
