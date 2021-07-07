@@ -1,11 +1,11 @@
 import moment from 'moment'
-import {getLanguage} from 'utils/localStorage'
+import { getLanguage } from 'utils/localStorage'
 
 const getTimes = rangeTime => {
   if (Array.isArray(rangeTime)) {
     return {
-      from: rangeTime[0].startOf('d'),
-      to: rangeTime[1].endOf('d'),
+      from: moment(rangeTime[0]).startOf('d'),
+      to: moment(rangeTime[1]).endOf('d'),
     }
   }
   if (rangeTime === 1) {
@@ -20,7 +20,7 @@ const getTimes = rangeTime => {
       .startOf('d'),
     to: moment()
       .subtract(1, 'd')
-      .endOf('d')
+      .endOf('d'),
   }
 }
 
@@ -33,9 +33,10 @@ const quarterSysbol = {
 
 export const formatQuarter = (time, lang = getLanguage()) => {
   if (lang === 'vi')
-    return moment(time).format(`[Quý ${quarterSysbol[moment(time).quarter()]}] YYYY`)
+    return moment(time).format(
+      `[Quý ${quarterSysbol[moment(time).quarter()]}] YYYY`
+    )
   return moment(time).format('Qo [quarter] YYYY')
 }
 
 export { getTimes }
-

@@ -1,6 +1,7 @@
 import { Transfer, Form } from 'antd'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
+import { isView } from 'containers/api-sharing/util'
 import React, { Component } from 'react'
 
 class TransferForm extends Component {
@@ -14,10 +15,11 @@ class TransferForm extends Component {
   }
 
   render() {
-    const { data } = this.props
+    const { data, ...otherProps } = this.props
     const { targetKeys } = this.state
     return (
       <Transfer
+        {...otherProps}
         titles={[
           i18n.detailPage.label.defaultParameter,
           i18n.detailPage.label.optionParamter,
@@ -34,7 +36,7 @@ class TransferForm extends Component {
   }
 }
 
-const SettingQuery = ({ form }) => {
+const SettingQuery = ({ form, rule }) => {
   const fieldsValue = form.getFieldsValue()
 
   const data = Object.keys(fieldsValue.config).map(item => ({
@@ -47,7 +49,9 @@ const SettingQuery = ({ form }) => {
     <BoxShadow>
       <Header>{i18n.detailPage.header.querySetting}</Header>
       <Form.Item>
-        {form.getFieldDecorator('optionParams')(<TransferForm data={data} />)}
+        {form.getFieldDecorator('optionParams')(
+          <TransferForm data={data} disabled={isView(rule)} />
+        )}
       </Form.Item>
     </BoxShadow>
   )

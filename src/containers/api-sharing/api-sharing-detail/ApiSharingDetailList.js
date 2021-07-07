@@ -79,7 +79,9 @@ export default class ApiSharingDetailList extends React.Component {
         content: <strong>{idx + 1}</strong>,
       },
       {
-        content: <div>{item.name}</div>,
+        content: (
+          <Link to={`${location.pathname}/${item._id}`}>{item.name}</Link>
+        ),
       },
       {
         content: <div>{moment(item.createdAt).format(DD_MM_YYYY)}</div>,
@@ -90,7 +92,7 @@ export default class ApiSharingDetailList extends React.Component {
       {
         content: (
           <span>
-            <Link params={item} to={`${location.pathname}/edit/${item._id}`}>
+            <Link to={`${location.pathname}/edit/${item._id}`}>
               {i18n.button.edit}
             </Link>
 

@@ -1,24 +1,23 @@
 import { Col, Form, Row, Switch } from 'antd'
 import OptionsTimeRange from 'components/elements/options-time-range'
-import { SelectPoint } from 'components/elements/select-data'
+import { SelectPhase, SelectPoint } from 'components/elements/select-data'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
+import { isCreate, isView } from 'containers/api-sharing/util'
 import _ from 'lodash'
 import React from 'react'
-import { getConditionalStyle } from 'shared/components/DataTable/src/util'
 
 export const FIELDS = {
   PROVINCE: 'province',
   STATION_TYPE: 'stationType',
-  OPERATOR: 'operator',
   RANGE_TIME: 'rangeTime',
-  POINT: 'pointKey',
+  POINT: 'stationKeys',
   MEASURING_LIST: 'measuringList',
   IS_EXCEEDED: 'isExceeded',
-  DATA_TYPE: 'dataType',
+  PHASE: 'phaseIds',
 }
 
 export default class Condition extends React.Component {
@@ -30,7 +29,9 @@ export default class Condition extends React.Component {
   }
 
   setPoints = points => {
-    this.setState({ points })
+    this.setState({ points }, () => {
+      this.setFormInit()
+    })
   }
 
   setProvinceSelected = provinceSelected => {
@@ -42,24 +43,42 @@ export default class Condition extends React.Component {
   }
 
   setStationTypes = stationTypes => {
-    this.setState({ stationTypes })
+    this.setState({ stationTypes }, () => {
+      this.setFormInit()
+    })
   }
 
-  // handleOnFieldChange = () => {
-  //   const { form } = this.props
-  //   const value = form.getFieldsValue()
-  //   form.resetFields()
-  //   // const { pointKey } = form.getFieldsValue()
-  //   // if (!pointKey) {
-  //   //   form.resetFields([`config.${FIELDS.MEASURING_LIST}`])
-  //   // }
-  // }
+  setFormInit = () => {
+    const { form, rule } = this.props
+    if (!isCreate(rule)) {
+      return
+    }
+
+    let points = []
+    let measuringList = []
+    if (form.getFieldValue('config.stationType')) {
+      points = this.getPoints()
+      measuringList = this.getMeasuringList()
+    }
+    const initialValueMeasuringList = measuringList.map(item => item.key)
+    form.setFieldsValue({
+      'config.stationKeys': points.map(point => point.key),
+      'config.measuringList': initialValueMeasuringList,
+    })
+  }
+
+  handleOnFieldChange = () => {
+    const { form } = this.props
+    form.setFieldsValue({
+      'config.stationKeys': undefined,
+      'config.measuringList': undefined,
+    })
+  }
 
   getPoints = () => {
     let { points } = this.state
     const { form } = this.props
     const { config: { province, stationType } = {} } = form.getFieldsValue()
-    console.log({ stationType })
     if (province) {
       points = points.filter(point => point.provinceId === province)
     }
@@ -81,27 +100,18 @@ export default class Condition extends React.Component {
   }
 
   getInitialValue = () => {
-    const measuringList = this.getMeasuringList()
-    const initialValueMeasuringList = measuringList.map(item => item.key)
-
     const { stationTypes } = this.state
     const initialStationType = (stationTypes[0] || {})._id
 
-    const points = this.getPoints()
-    const initialPoints = points.map(item => item.key)
-
     return {
-      measuringList: initialValueMeasuringList,
       stationType: initialStationType,
-      points: initialPoints,
     }
   }
 
   render() {
-    const { form } = this.props
+    const { form, rule } = this.props
     const measuringList = this.getMeasuringList()
     const initialValues = this.getInitialValue()
-    console.log({ points: initialValues.points })
     const { config: { province, stationType } = {} } = form.getFieldsValue()
     return (
       <BoxShadow>
@@ -111,7 +121,13 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.province}>
               {form.getFieldDecorator(`config.${FIELDS.PROVINCE}`, {
                 onChange: this.handleOnFieldChange,
-              })(<SelectProvince fieldValue="_id" isShowAll />)}
+              })(
+                <SelectProvince
+                  disabled={isView(rule)}
+                  fieldValue="_id"
+                  isShowAll
+                />
+              )}
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -121,6 +137,7 @@ export default class Condition extends React.Component {
                 initialValue: initialValues.stationType,
               })(
                 <SelectStationType
+                  disabled={isView(rule)}
                   fieldValue="_id"
                   isAuto={false}
                   onFetchSuccess={this.setStationTypes}
@@ -132,11 +149,22 @@ export default class Condition extends React.Component {
 
         <Row gutter={12}>
           <Col span={12}>
+            <Form.Item label="i18n.detailPage.label.phase">
+              {form.getFieldDecorator(`config.${FIELDS.PHASE}`)(
+                <SelectPhase
+                  disabled={isView(rule)}
+                  mode="multiple"
+                  stationTypeId={stationType}
+                  provinceId={province}
+                />
+              )}
+            </Form.Item>
+          </Col>
+          <Col span={12}>
             <Form.Item label="i18n.detailPage.label.point">
-              {form.getFieldDecorator(`config.${FIELDS.POINT}`, {
-                initialValue: initialValues.points,
-              })(
+              {form.getFieldDecorator(`config.${FIELDS.POINT}`)(
                 <SelectPoint
+                  disabled={isView(rule)}
                   mode="multiple"
                   stationTypeId={stationType}
                   provinceId={province}
@@ -147,9 +175,12 @@ export default class Condition extends React.Component {
           </Col>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.parameter}>
-              {form.getFieldDecorator(`config.${FIELDS.MEASURING_LIST}`, {
-                initialValue: initialValues.measuringList,
-              })(<SelectMeasureParameter measuringList={measuringList} />)}
+              {form.getFieldDecorator(`config.${FIELDS.MEASURING_LIST}`)(
+                <SelectMeasureParameter
+                  disabled={isView(rule)}
+                  measuringList={measuringList}
+                />
+              )}
             </Form.Item>
           </Col>
         </Row>
@@ -159,14 +190,14 @@ export default class Condition extends React.Component {
             <Form.Item label="i18n.timeLabel">
               {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
                 initialValue: 1,
-              })(<OptionsTimeRange />)}
+              })(<OptionsTimeRange disabled={isView(rule)} />)}
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.isExceeded}>
               {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
                 valuePropName: 'checked',
-              })(<Switch />)}
+              })(<Switch disabled={isView(rule)} />)}
             </Form.Item>
           </Col>
         </Row>
