@@ -34,26 +34,6 @@ export default class ApiSharingDetail extends Component {
     this.setState({ data: newData })
   }
 
-  setInitFields = () => {
-    const { data } = this.props
-    const fieldsValue = data.config.reduce((base, current) => {
-      let value = current.value
-      if (['stationKeys', 'measuringList'].includes(current.fieldName)) {
-        value = current.value.split(',')
-      }
-      const fieldValue = {
-        [`config.${current.fieldName}`]: value,
-      }
-      return { ...base, ...fieldValue }
-    }, {})
-
-    this.props.form.setFieldsValue({
-      ...fieldsValue,
-      name: data.name,
-      description: data.description,
-    })
-  }
-
   render() {
     const { rule } = this.props
     const { data } = this.state

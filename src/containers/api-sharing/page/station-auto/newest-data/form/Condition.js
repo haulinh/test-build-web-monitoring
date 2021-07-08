@@ -67,6 +67,8 @@ export default class Condition extends React.Component {
       )
     }
 
+    console.log(stationType, 'stationAUto')
+
     if (stationType) {
       stationAutos = stationAutos.filter(
         stationAuto => stationAuto.stationType._id === stationType

@@ -1,14 +1,14 @@
+import { Button, Col, Form, message, Row } from 'antd'
+import { shareApiApi } from 'api/ShareApiApi'
+import { i18n, shareApiList } from 'containers/api-sharing/constants'
+import { isCreate, isEdit } from 'containers/api-sharing/util'
+import { get, isEqual } from 'lodash-es'
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
+import { getTimes } from 'utils/datetime'
 import Condition from '../Condition'
 import GeneralInfo from './GeneralInfo'
 import SettingQuery from './SettingQuery'
-import { Button, Col, Row, Form, message } from 'antd'
-import { shareApiApi } from 'api/ShareApiApi'
-import { i18n, shareApiList } from 'containers/api-sharing/constants'
-import { getTimes } from 'utils/datetime'
-import { get, isEqual } from 'lodash-es'
-import { isCreate, isEdit, isView } from 'containers/api-sharing/util'
-import { withRouter } from 'react-router'
 
 @withRouter
 @Form.create()

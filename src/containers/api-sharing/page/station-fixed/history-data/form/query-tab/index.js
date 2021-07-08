@@ -3,7 +3,7 @@ import { dataRoutes, shareApiApi } from 'api/ShareApiApi'
 import Text from 'components/elements/text'
 import { FIELDS } from 'containers/api-sharing/constants'
 import { generateGetUrl, isCreate } from 'containers/api-sharing/util'
-import _ from 'lodash'
+import _, { isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
@@ -37,30 +37,18 @@ const Endpoint = styled.div`
 @withRouter
 @Form.create()
 export default class QueryTab extends Component {
-  state = {
-    data: {},
+  componentDidMount() {
+    if (!isCreate(this.props.rule)) this.setInitFields()
   }
-  async componentDidMount() {
-    const {
-      match: { params },
-      rule,
-    } = this.props
-    if (isCreate(rule)) return
 
-    try {
-      const res = await shareApiApi.getApiDetailById(params.id)
-      if (res.success) {
-        this.setState({ data: res.data }, () => {
-          this.setInitFields()
-        })
-      }
-    } catch (error) {
-      console.log(error)
+  componentDidUpdate(prevProps) {
+    if (!isEqual(this.props.data, prevProps.data)) {
+      this.setInitFields()
     }
   }
 
   setInitFields = () => {
-    const { data } = this.state
+    const { data } = this.props
     const fieldsValue = data.config.reduce((base, current) => {
       let value = current.value
       if (

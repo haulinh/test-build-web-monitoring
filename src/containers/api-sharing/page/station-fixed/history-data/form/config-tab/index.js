@@ -1,41 +1,26 @@
 import React, { Component } from 'react'
 import GeneralInfo from './GeneralInfo'
 import SettingQuery from './SettingQuery'
-import { Button, Col, Row, Form } from 'antd'
+import { Button, Col, Row, Form, message } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
 import { FIELDS, i18n, shareApiList } from 'containers/api-sharing/constants'
 import { getTimes } from 'utils/datetime'
 import Condition from '../Condition'
-import { isCreate, isView } from 'containers/api-sharing/util'
+import { isCreate, isEdit, isView } from 'containers/api-sharing/util'
 import { withRouter } from 'react-router'
+import _ from 'lodash'
 
 @withRouter
 @Form.create()
 export default class ConfigTab extends Component {
-  state = {
-    data: {},
-  }
-  async componentDidMount() {
-    const {
-      match: { params },
-      rule,
-    } = this.props
-    if (isCreate(rule)) return
-
-    try {
-      const res = await shareApiApi.getApiDetailById(params.id)
-      if (res.success) {
-        this.setState({ data: res.data }, () => {
-          this.setInitFields()
-        })
-      }
-    } catch (error) {
-      console.log(error)
+  componentDidUpdate(prevProps) {
+    if (!_.isEqual(prevProps.data, this.props.data)) {
+      this.setInitFields()
     }
   }
 
   setInitFields = () => {
-    const { data } = this.state
+    const { data } = this.props
     const fieldsValue = data.config.reduce((base, current) => {
       let value = current.value
       if (
@@ -117,7 +102,31 @@ export default class ConfigTab extends Component {
     e.preventDefault()
     const queryParams = this.getQueryParams()
     const key = shareApiList.stationFixed.historyData.key
-    await shareApiApi.createApiByKey(key, queryParams)
+
+    const { rule, history, location } = this.props
+    if (isCreate(rule)) {
+      const res = await shareApiApi.createApiByKey(key, queryParams)
+      message.success(i18n.message.create)
+      const urlUpdate = location.pathname.replace(
+        'create',
+        `edit/${res.data._id}`
+      )
+      history.push(urlUpdate)
+      return
+    }
+
+    if (isEdit(rule)) {
+      const {
+        match: { params },
+        updateData,
+      } = this.props
+      await shareApiApi.updateApiDetailById(params.id, queryParams)
+      const res = await shareApiApi.getApiDetailById(params.id)
+      if (updateData && res.success) {
+        updateData(res.data)
+        message.success(i18n.message.edit)
+      }
+    }
   }
 
   render() {
