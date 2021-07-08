@@ -6,15 +6,16 @@ import SelectQueryType from 'components/elements/select-query-type'
 import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
 import { i18n } from 'containers/api-sharing/constants'
+import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
+import _, { get } from 'lodash'
 import React from 'react'
-import { BoxShadow, Header } from '../styles'
 
 export const FIELDS = {
   PROVINCE: 'province',
   STATION_TYPE: 'stationType',
   OPERATOR: 'operator',
   RANGE_TIME: 'rangeTime',
-  STATION_AUTO: 'stationAuto',
+  STATION_AUTO: 'stationKeys',
   MEASURING_LIST: 'measuringList',
   IS_EXCEEDED: 'isExceeded',
   DATA_TYPE: 'dataType',
@@ -31,11 +32,10 @@ export default class Condition extends React.Component {
 
   handleOnFieldChange = () => {
     const { form } = this.props
-    form.resetFields([FIELDS.STATION_AUTO])
-    const { stationAuto } = form.getFieldsValue()
-    if (!stationAuto) {
-      form.resetFields([FIELDS.MEASURING_LIST])
-    }
+    form.setFieldsValue({
+      [`config.${FIELDS.STATION_AUTO}`]: undefined,
+      [`config.${FIELDS.MEASURING_LIST}`]: undefined,
+    })
   }
 
   handleFieldStationAutoChange = () => {
@@ -43,10 +43,15 @@ export default class Condition extends React.Component {
     form.resetFields([FIELDS.MEASURING_LIST])
   }
 
+  getMeasuringList = () => {
+    const measureList = get(this.state, 'stationAutoSelected.measuringList', [])
+    return measureList
+  }
+
   render() {
     const { form } = this.props
-    const { stationAutoSelected } = this.state
-    const { province, stationType } = form.getFieldsValue()
+    const { config: { province, stationType } = {} } = form.getFieldsValue()
+    const measuringList = this.getMeasuringList()
 
     return (
       <BoxShadow>
@@ -66,9 +71,7 @@ export default class Condition extends React.Component {
               })(<SelectStationType />)}
             </Form.Item>
           </Col>
-        </Row>
 
-        <Row gutter={12}>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.stationName}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_AUTO}`, {
@@ -85,15 +88,11 @@ export default class Condition extends React.Component {
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.parameter}>
               {form.getFieldDecorator(`config.${FIELDS.MEASURING_LIST}`)(
-                <SelectMeasureParameter
-                  measuringList={stationAutoSelected.measuringList}
-                />
+                <SelectMeasureParameter measuringList={measuringList} />
               )}
             </Form.Item>
           </Col>
-        </Row>
 
-        <Row gutter={12}>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.typeData}>
               {form.getFieldDecorator(`config.${FIELDS.DATA_TYPE}`)(
@@ -102,19 +101,21 @@ export default class Condition extends React.Component {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="i18n.timeLabel">
+            <Form.Item label={i18n.detailPage.timeLabel}>
               {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
                 initialValue: 1,
               })(<OptionsTimeRange />)}
             </Form.Item>
           </Col>
-        </Row>
 
-        <Form.Item label={i18n.detailPage.label.isExceeded}>
-          {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
-            valuePropName: 'checked',
-          })(<Switch />)}
-        </Form.Item>
+          <Col span={12}>
+            <Form.Item label={i18n.detailPage.label.isExceeded}>
+              {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
+                valuePropName: 'checked',
+              })(<Switch />)}
+            </Form.Item>
+          </Col>
+        </Row>
       </BoxShadow>
     )
   }

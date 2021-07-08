@@ -68,9 +68,17 @@ export default class SelectStationAuto extends React.PureComponent {
 
   handleChange = stationTypeValue => {
     this.setState({ searchString: '' })
-    const stationType = this.state.stationAutoSelects.find(
+
+    let stationType = this.state.stationAutoSelects.find(
       s => s.key === stationTypeValue
     )
+
+    if (this.props.mode === 'multiple') {
+      stationType = this.state.stationAutoSelects.filter(item => {
+        return stationTypeValue.includes(item.key)
+      })
+    }
+
     this.props.onChange(stationTypeValue)
     if (this.props.onChangeObject) {
       this.props.onChangeObject(stationType)
@@ -87,6 +95,7 @@ export default class SelectStationAuto extends React.PureComponent {
     return (
       <Select
         {...this.props}
+        style={{ width: '100%' }}
         allowClear
         showSearch
         onChange={this.handleChange}

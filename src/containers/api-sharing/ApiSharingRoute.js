@@ -5,8 +5,9 @@ import ApiSharingDetailList from './api-sharing-detail/ApiSharingDetailList'
 import { shareApiList } from './constants'
 import ApiSharingLayout from './layout/ApiSharingLayout'
 import {
-  HistoryDataCreate,
-  HistoryDataEdit,
+  HistoryDataStationAutoCreate,
+  HistoryDataStationAutoEdit,
+  HistoryDataStationAutoView,
 } from './page/station-auto/history-data'
 import {
   NewestDataCreate,
@@ -47,12 +48,17 @@ const ApiSharingRoute = () => {
         <Route
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationAuto.historyData.key}/create`}
-          component={HistoryDataCreate}
+          component={HistoryDataStationAutoCreate}
         />
         <Route
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationAuto.historyData.key}/edit/:id`}
-          component={HistoryDataEdit}
+          component={HistoryDataStationAutoEdit}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationAuto.historyData.key}/:id`}
+          component={HistoryDataStationAutoView}
         />
 
         {/**Station Fixed**/}
