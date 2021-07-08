@@ -1,4 +1,3 @@
-import { Button } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
@@ -11,7 +10,7 @@ export class NewestDataStationAutoView extends Component {
     return (
       <PageContainer>
         <Clearfix height={32} />
-        <ApiSharingDetail rule="edit" />
+        <ApiSharingDetail rule="view" />
       </PageContainer>
     )
   }

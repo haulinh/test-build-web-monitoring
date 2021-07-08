@@ -23,6 +23,7 @@ import {
 import {
   NewestDataStationFixedCreate,
   NewestDataStationFixedEdit,
+  NewestDataStationFixedView,
 } from './page/station-fixed/newest-data'
 
 const ApiSharingRoute = () => {
@@ -78,6 +79,11 @@ const ApiSharingRoute = () => {
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationFixed.newestData.key}/edit/:id`}
           component={NewestDataStationFixedEdit}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationFixed.newestData.key}/:id`}
+          component={NewestDataStationFixedView}
         />
 
         <Route
