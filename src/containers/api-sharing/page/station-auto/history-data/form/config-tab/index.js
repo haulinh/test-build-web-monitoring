@@ -103,7 +103,10 @@ export default class ConfigTab extends Component {
     if (isCreate(rule)) {
       const res = await shareApiApi.createApiByKey(key, queryParams)
       message.success(i18n.message.create)
-      const urlUpdate = location.pathname.replace('create', res.data._id)
+      const urlUpdate = location.pathname.replace(
+        'create',
+        `edit/${res.data._id}`
+      )
       history.push(urlUpdate)
       return
     }

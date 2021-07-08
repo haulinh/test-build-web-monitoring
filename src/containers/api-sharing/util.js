@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { getAuthToken } from 'utils/auth'
 
 export function isView(rule) {
@@ -17,4 +18,12 @@ export function generateGetUrl(url) {
 
   return `curl '${url}' \
             -H 'authorization: ${accessToken}'`
+}
+
+export const getMeasuringListFromStationAutos = stationAutos => {
+  const measureList = stationAutos.reduce(
+    (base, current) => [...base, ...current.measuringList],
+    []
+  )
+  return _.uniqBy(measureList, 'key')
 }

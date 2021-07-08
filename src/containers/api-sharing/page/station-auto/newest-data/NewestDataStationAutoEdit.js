@@ -5,7 +5,7 @@ import { withRouter } from 'react-router'
 import ApiSharingDetail from './form/ApiSharingDetail'
 
 @withRouter
-export class HistoryDataStationAutoEdit extends Component {
+export class NewestDataStationAutoEdit extends Component {
   render() {
     return (
       <PageContainer>

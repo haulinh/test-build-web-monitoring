@@ -10,9 +10,11 @@ import {
   HistoryDataStationAutoView,
 } from './page/station-auto/history-data'
 import {
-  NewestDataCreate,
-  NewestDataEdit,
+  NewestDataStationAutoCreate,
+  NewestDataStationAutoEdit,
+  NewestDataStationAutoView,
 } from './page/station-auto/newest-data'
+
 import {
   HistoryDataStationFixedEdit,
   HistoryDataStationFixedCreate,
@@ -37,12 +39,17 @@ const ApiSharingRoute = () => {
         <Route
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationAuto.newestData.key}/create`}
-          component={NewestDataCreate}
+          component={NewestDataStationAutoCreate}
         />
         <Route
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationAuto.newestData.key}/edit/:id`}
-          component={NewestDataEdit}
+          component={NewestDataStationAutoEdit}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationAuto.newestData.key}/:id`}
+          component={NewestDataStationAutoView}
         />
 
         <Route
