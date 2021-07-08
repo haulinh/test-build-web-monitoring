@@ -21,8 +21,8 @@ export class SelectPoint extends React.Component {
       points: points.data,
     })
 
-    if (this.props.onChangeObject) {
-      this.props.onChangeObject(points.data)
+    if (this.props.onFetchSuccess) {
+      this.props.onFetchSuccess(points.data)
     }
   }
 

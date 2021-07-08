@@ -1,14 +1,16 @@
 import Clearfix from 'components/elements/clearfix'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
-import ApiSharingDetailForm from './form/ApiSharingDetailForm'
+import { withRouter } from 'react-router'
+import ApiSharingDetail from './form/ApiSharingDetail'
 
-export class NewestDataCreate extends Component {
+@withRouter
+export class NewestDataStationAutoEdit extends Component {
   render() {
     return (
-      <PageContainer hideBackground={true}>
+      <PageContainer>
         <Clearfix height={32} />
-        <ApiSharingDetailForm />
+        <ApiSharingDetail rule="edit" />
       </PageContainer>
     )
   }

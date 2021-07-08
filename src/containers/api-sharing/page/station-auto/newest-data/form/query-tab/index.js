@@ -1,13 +1,14 @@
 import { Form, Icon, message } from 'antd'
-import { dataRoutes, shareApiApi } from 'api/ShareApiApi'
+import { dataRoutes } from 'api/ShareApiApi'
+import Clearfix from 'components/elements/clearfix'
 import Text from 'components/elements/text'
-import { FIELDS } from 'containers/api-sharing/constants'
 import { generateGetUrl, isCreate } from 'containers/api-sharing/util'
-import _, { isEqual } from 'lodash'
+import _, { get, isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
+import { getTimes } from 'utils/datetime'
 import Condition from '../Condition'
 
 const Method = styled.div`
@@ -51,13 +52,10 @@ export default class QueryTab extends Component {
     const fieldsValue = data.config.reduce((base, current) => {
       let value = current.value
       if (
-        [
-          FIELDS.STATION_FIXED.HISTORY_DATA.MEASURING_LIST,
-          FIELDS.STATION_FIXED.HISTORY_DATA.POINT,
-          'phaseIds',
-        ].includes(current.fieldName)
+        ['measuringList', 'stationKeys'].includes(current.fieldName) &&
+        (value || '').includes(',')
       ) {
-        value = current.value.split(',')
+        value = get(current, 'value', '').split(',')
       }
       const fieldValue = {
         [`config.${current.fieldName}`]: value,
@@ -65,17 +63,12 @@ export default class QueryTab extends Component {
       return { ...base, ...fieldValue }
     }, {})
 
-    this.props.form.setFieldsValue({
-      ...fieldsValue,
-      name: data.name,
-      description: data.description,
-    })
+    this.props.form.setFieldsValue(fieldsValue)
   }
 
   copyUrl = async () => {
     const url = this.getUrl()
     const curl = generateGetUrl(url)
-    console.log(curl)
 
     const success = copyTextToClipboard(curl)
     if (success) message.success('Success')
@@ -89,24 +82,33 @@ export default class QueryTab extends Component {
 
     const { config: fieldsValue } = form.getFieldsValue()
 
+    let measuringList = _.get(fieldsValue, 'measuringList', '')
+    if (Array.isArray(measuringList)) measuringList = measuringList.join(',')
+
+    let stationKeys = _.get(fieldsValue, 'stationKeys', '')
+    if (Array.isArray(stationKeys)) stationKeys = stationKeys.join(',')
+
     const queryParams = {
       ...fieldsValue,
-      measuringList: _.get(fieldsValue, 'measuringList', []).join(','),
-      stationKeys: _.get(fieldsValue, 'stationKeys', []).join(','),
-      phaseIds: _.get(fieldsValue, 'phaseIds', []).join(','),
+      measuringList,
+      stationKeys,
     }
 
     const urlParamsValid = [
+      'province',
+      'stationType',
       'measuringList',
       'stationKeys',
-      'phaseIds',
       'isExceeded',
+      'dataType',
     ]
       .filter(item => queryParams[item])
       .map(item => `${item}=${queryParams[item]}`)
       .join('&')
 
-    const url = [dataRoutes.getPeriodicNewest(), `id=${params.id}`].join('?')
+    const url = [dataRoutes.getStationAutoHistory(), `id=${params.id}`].join(
+      '?'
+    )
 
     const urlQuery = [url, urlParamsValid].join('&')
 
@@ -118,6 +120,7 @@ export default class QueryTab extends Component {
     return (
       <React.Fragment>
         <Condition form={form} rule={rule} />
+        <Clearfix height={32} />
         <div className="content">
           <Method>GET</Method>
           <Endpoint>

@@ -9,7 +9,9 @@ export class SelectPhase extends React.Component {
 
   fetchPhase = async () => {
     const phases = await getPhase()
-
+    if (this.props.onFetchSuccess) {
+      this.props.onFetchSuccess(phases)
+    }
     this.setState({
       phases,
     })

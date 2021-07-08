@@ -12,6 +12,7 @@ export default class ApiSharingDetail extends Component {
   state = {
     data: {},
   }
+
   async componentDidMount() {
     const {
       match: { params },
@@ -40,10 +41,10 @@ export default class ApiSharingDetail extends Component {
     return (
       <Tabs>
         <Tabs.TabPane tab={i18n.tab.configTab} key="ConfigTab">
-          <ConfigTab data={data} rule={rule} updateData={this.updateData} />
+          <ConfigTab rule={rule} data={data} updateData={this.updateData} />
         </Tabs.TabPane>
         <Tabs.TabPane tab={i18n.tab.viewDataTab} key="ViewDataTab">
-          <QueryTab data={data} rule={rule} />
+          <QueryTab rule={rule} data={data} />
         </Tabs.TabPane>
       </Tabs>
     )

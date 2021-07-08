@@ -1,17 +1,16 @@
-import { Button } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import ApiSharingDetailForm from './form/ApiSharingDetailForm'
+import ApiSharingDetail from './form/ApiSharingDetail'
 import Clearfix from 'components/elements/clearfix'
 
 @withRouter
-export class NewestDataEdit extends Component {
+export class NewestDataStationAutoView extends Component {
   render() {
     return (
-      <PageContainer right={<Button>Click</Button>}>
+      <PageContainer>
         <Clearfix height={32} />
-        <ApiSharingDetailForm edit />
+        <ApiSharingDetail rule="view" />
       </PageContainer>
     )
   }

@@ -1,29 +1,62 @@
-import React, { Component } from 'react'
-import Condition from './Condition'
-import GeneralInfo from './GeneralInfo'
-import SettingQuery from './SettingQuery'
-import { Button, Col, Row, Form } from 'antd'
+import { Button, Col, Form, message, Row } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
 import { i18n, shareApiList } from 'containers/api-sharing/constants'
+import { isCreate, isEdit } from 'containers/api-sharing/util'
+import { get, isEqual } from 'lodash-es'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router'
+import Condition from '../Condition'
+import GeneralInfo from './GeneralInfo'
+import SettingQuery from './SettingQuery'
 
+@withRouter
 @Form.create()
 export default class ConfigTab extends Component {
+  componentDidUpdate(prevProps) {
+    if (!isEqual(this.props.data, prevProps.data)) {
+      this.setInitFields()
+    }
+  }
+
+  setInitFields = () => {
+    const { data } = this.props
+    const fieldsValue = data.config.reduce((base, current) => {
+      let value = current.value
+      if (
+        ['measuringList', 'stationKeys'].includes(current.fieldName) &&
+        (value || '').includes(',')
+      ) {
+        value = get(current, 'value', '').split(',')
+      }
+      const fieldValue = {
+        [`config.${current.fieldName}`]: value,
+      }
+      return { ...base, ...fieldValue }
+    }, {})
+
+    this.props.form.setFieldsValue({
+      ...fieldsValue,
+      name: data.name,
+      description: data.description,
+    })
+  }
+
   getQueryParams = () => {
     const { form } = this.props
     const fieldsValue = form.getFieldsValue()
-    const key = shareApiList.newestData.key
+    const key = shareApiList.stationAuto.newestData.key
     const optionParams = fieldsValue.optionParams || []
 
     const config = Object.entries(fieldsValue.config).map(([key, value]) => {
       const isDefault = !optionParams.includes(key)
 
       let valueParams = value
-      if (key === 'measuringList' && value) {
+      if (['measuringList', 'stationKeys'].includes(key) && value) {
         valueParams = value.join(',')
       }
 
       return {
-        key,
+        fieldName: key,
         value: valueParams,
         isDefault,
       }
@@ -42,24 +75,47 @@ export default class ConfigTab extends Component {
   handleSubmit = async e => {
     e.preventDefault()
     const queryParams = this.getQueryParams()
-    const key = shareApiList.newestData.key
-    await shareApiApi.createApiByKey(key, queryParams)
+    const key = shareApiList.stationAuto.newestData.key
+    const { rule, history, location } = this.props
+    if (isCreate(rule)) {
+      const res = await shareApiApi.createApiByKey(key, queryParams)
+      message.success(i18n.message.create)
+      const urlUpdate = location.pathname.replace(
+        'create',
+        `edit/${res.data._id}`
+      )
+      history.push(urlUpdate)
+      return
+    }
+
+    if (isEdit(rule)) {
+      const {
+        match: { params },
+        updateData,
+      } = this.props
+      await shareApiApi.updateApiDetailById(params.id, queryParams)
+      const res = await shareApiApi.getApiDetailById(params.id)
+      if (updateData && res.success) {
+        updateData(res.data)
+        message.success(i18n.message.edit)
+      }
+    }
   }
 
   render() {
-    const { form } = this.props
+    const { form, rule } = this.props
     return (
       <React.Fragment>
         <Form onSubmit={this.handleSubmit}>
           <Row style={{ background: 'white' }} gutter={[0, 32]}>
             <Col span={24}>
-              <GeneralInfo form={form} />
+              <GeneralInfo form={form} rule={rule} />
             </Col>
             <Col span={24}>
-              <Condition form={form} />
+              <Condition form={form} rule={rule} />
             </Col>
             <Col span={24}>
-              <SettingQuery form={form} />
+              <SettingQuery form={form} rule={rule} />
             </Col>
             <Col span={24}>
               <Button

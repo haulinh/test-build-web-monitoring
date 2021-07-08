@@ -5,12 +5,12 @@ import { withRouter } from 'react-router'
 import ApiSharingDetail from './form/ApiSharingDetail'
 
 @withRouter
-export class HistoryDataStationFixedView extends Component {
+export class HistoryDataStationAutoEdit extends Component {
   render() {
     return (
       <PageContainer>
         <Clearfix height={32} />
-        <ApiSharingDetail rule="view" />
+        <ApiSharingDetail rule="edit" />
       </PageContainer>
     )
   }

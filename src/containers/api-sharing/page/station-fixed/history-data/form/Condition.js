@@ -6,7 +6,11 @@ import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
-import { isCreate, isView } from 'containers/api-sharing/util'
+import {
+  getMeasuringListFromStationAutos,
+  isCreate,
+  isView,
+} from 'containers/api-sharing/util'
 import _ from 'lodash'
 import React from 'react'
 
@@ -23,27 +27,24 @@ export const FIELDS = {
 export default class Condition extends React.Component {
   state = {
     points: [],
-    provinceSelected: {},
-    stationTypeSelected: {},
     stationTypes: [],
+    phases: [],
   }
 
-  setPoints = points => {
+  onFetchPointsSuccess = points => {
     this.setState({ points }, () => {
       this.setFormInit()
     })
   }
 
-  setProvinceSelected = provinceSelected => {
-    this.setState({ provinceSelected })
-  }
-
-  setStationTypeSelected = stationTypeSelected => {
-    this.setState({ stationTypeSelected })
-  }
-
-  setStationTypes = stationTypes => {
+  onFetchStationTypesSuccess = stationTypes => {
     this.setState({ stationTypes }, () => {
+      this.setFormInit()
+    })
+  }
+
+  onFetchPhaseSuccess = phases => {
+    this.setState({ phases }, () => {
       this.setFormInit()
     })
   }
@@ -53,17 +54,25 @@ export default class Condition extends React.Component {
     if (!isCreate(rule)) {
       return
     }
+    const { stationTypes } = this.state
+    const stationTypeInit = (stationTypes[0] || {})._id
 
-    let points = []
-    let measuringList = []
-    if (form.getFieldValue('config.stationType')) {
-      points = this.getPoints()
-      measuringList = this.getMeasuringList()
-    }
-    const initialValueMeasuringList = measuringList.map(item => item.key)
+    const stationAutos = this.getPoints()
+    const stationAutoInit = stationAutos.map(stationAuto => stationAuto.key)
+
+    const phases = this.getPhases()
+    const phasesInit = phases.map(phase => phase._id)
+
+    const measuringListInit = getMeasuringListFromStationAutos(
+      stationAutos
+    ).map(item => item.key)
+
     form.setFieldsValue({
-      'config.stationKeys': points.map(point => point.key),
-      'config.measuringList': initialValueMeasuringList,
+      [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
+      [`config.${FIELDS.POINT}`]: stationAutoInit,
+      [`config.${FIELDS.PHASE}`]: phasesInit,
+      [`config.${FIELDS.MEASURING_LIST}`]: measuringListInit,
+      [`config.${FIELDS.PROVINCE}`]: '',
     })
   }
 
@@ -71,6 +80,13 @@ export default class Condition extends React.Component {
     const { form } = this.props
     form.setFieldsValue({
       'config.stationKeys': undefined,
+      'config.measuringList': undefined,
+    })
+  }
+
+  handleOnPointChange = () => {
+    const { form } = this.props
+    form.setFieldsValue({
       'config.measuringList': undefined,
     })
   }
@@ -90,28 +106,32 @@ export default class Condition extends React.Component {
     return points
   }
 
-  getMeasuringList = () => {
-    const points = this.getPoints()
-    const measureList = points.reduce(
-      (base, current) => [...base, ...current.measuringList],
-      []
-    )
-    return _.uniqBy(measureList, 'key')
+  getPhases = () => {
+    let { phases } = this.state
+    const { form } = this.props
+    const { config: { stationType } = {} } = form.getFieldsValue()
+
+    if (stationType) {
+      phases = phases.filter(phases => phases.stationTypeId === stationType)
+    }
+
+    return phases
   }
 
-  getInitialValue = () => {
-    const { stationTypes } = this.state
-    const initialStationType = (stationTypes[0] || {})._id
-
-    return {
-      stationType: initialStationType,
-    }
+  getMeasuringList = () => {
+    const {
+      config: { stationKeys = [] } = {},
+    } = this.props.form.getFieldsValue()
+    const stationAutos = this.state.points.filter(stationAuto =>
+      stationKeys.includes(stationAuto.key)
+    )
+    const measuringList = getMeasuringListFromStationAutos(stationAutos)
+    return measuringList
   }
 
   render() {
     const { form, rule } = this.props
     const measuringList = this.getMeasuringList()
-    const initialValues = this.getInitialValue()
     const { config: { province, stationType } = {} } = form.getFieldsValue()
     return (
       <BoxShadow>
@@ -134,13 +154,12 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.stationType}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_TYPE}`, {
                 onChange: this.handleOnFieldChange,
-                initialValue: initialValues.stationType,
               })(
                 <SelectStationType
                   disabled={isView(rule)}
                   fieldValue="_id"
                   isAuto={false}
-                  onFetchSuccess={this.setStationTypes}
+                  onFetchSuccess={this.onFetchStationTypesSuccess}
                 />
               )}
             </Form.Item>
@@ -156,19 +175,22 @@ export default class Condition extends React.Component {
                   mode="multiple"
                   stationTypeId={stationType}
                   provinceId={province}
+                  onFetchSuccess={this.onFetchPhaseSuccess}
                 />
               )}
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label="i18n.detailPage.label.point">
-              {form.getFieldDecorator(`config.${FIELDS.POINT}`)(
+              {form.getFieldDecorator(`config.${FIELDS.POINT}`, {
+                onChange: this.handleOnPointChange,
+              })(
                 <SelectPoint
                   disabled={isView(rule)}
                   mode="multiple"
                   stationTypeId={stationType}
                   provinceId={province}
-                  onChangeObject={this.setPoints}
+                  onFetchSuccess={this.onFetchPointsSuccess}
                 />
               )}
             </Form.Item>

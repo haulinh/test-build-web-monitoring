@@ -1,10 +1,9 @@
 import { Col, Form, Input, Row } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { i18n } from 'containers/api-sharing/constants'
+import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import React from 'react'
 import { withRouter } from 'react-router'
-
-import { Header, BoxShadow } from '../styles'
 
 const GeneralInfo = withRouter(({ form, location }) => {
   const getPathname = () => {

@@ -5,13 +5,16 @@ import ApiSharingDetailList from './api-sharing-detail/ApiSharingDetailList'
 import { shareApiList } from './constants'
 import ApiSharingLayout from './layout/ApiSharingLayout'
 import {
-  HistoryDataCreate,
-  HistoryDataEdit,
+  HistoryDataStationAutoCreate,
+  HistoryDataStationAutoEdit,
+  HistoryDataStationAutoView,
 } from './page/station-auto/history-data'
 import {
-  NewestDataCreate,
-  NewestDataEdit,
+  NewestDataStationAutoCreate,
+  NewestDataStationAutoEdit,
+  NewestDataStationAutoView,
 } from './page/station-auto/newest-data'
+
 import {
   HistoryDataStationFixedEdit,
   HistoryDataStationFixedCreate,
@@ -20,6 +23,7 @@ import {
 import {
   NewestDataStationFixedCreate,
   NewestDataStationFixedEdit,
+  NewestDataStationFixedView,
 } from './page/station-fixed/newest-data'
 
 const ApiSharingRoute = () => {
@@ -36,23 +40,33 @@ const ApiSharingRoute = () => {
         <Route
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationAuto.newestData.key}/create`}
-          component={NewestDataCreate}
+          component={NewestDataStationAutoCreate}
         />
         <Route
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationAuto.newestData.key}/edit/:id`}
-          component={NewestDataEdit}
+          component={NewestDataStationAutoEdit}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationAuto.newestData.key}/:id`}
+          component={NewestDataStationAutoView}
         />
 
         <Route
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationAuto.historyData.key}/create`}
-          component={HistoryDataCreate}
+          component={HistoryDataStationAutoCreate}
         />
         <Route
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationAuto.historyData.key}/edit/:id`}
-          component={HistoryDataEdit}
+          component={HistoryDataStationAutoEdit}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationAuto.historyData.key}/:id`}
+          component={HistoryDataStationAutoView}
         />
 
         {/**Station Fixed**/}
@@ -65,6 +79,11 @@ const ApiSharingRoute = () => {
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationFixed.newestData.key}/edit/:id`}
           component={NewestDataStationFixedEdit}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationFixed.newestData.key}/:id`}
+          component={NewestDataStationFixedView}
         />
 
         <Route
