@@ -62,6 +62,10 @@ export const i18n = {
     rangeTime: 'Thời gian',
     stationKeys: 'Trạm quan trắc',
   },
+  message: {
+    create: 'Tạo thành công',
+    edit: 'Cập nhập thành công ',
+  },
 }
 
 export const FIELDS = {

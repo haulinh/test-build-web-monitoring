@@ -36,11 +36,15 @@ export default class SelectStationAuto extends React.PureComponent {
       isLoaded: true,
     })
 
+    if (this.props.onFetchSuccess) {
+      this.props.onFetchSuccess(res.data)
+    }
+
     if (this.props.getRef) this.props.getRef(this)
   }
 
   getStationAutos = () => {
-    const { province, stationType } = this.props
+    const { province, stationType, fieldValue } = this.props
     let stationAutos = this.state.stationAutoSelects
 
     if (this.state.searchString) {
@@ -59,7 +63,8 @@ export default class SelectStationAuto extends React.PureComponent {
 
     if (stationType) {
       stationAutos = stationAutos.filter(
-        stationAuto => stationAuto.stationType.key === stationType
+        stationAuto =>
+          stationAuto.stationType[fieldValue || 'key'] === stationType
       )
     }
 

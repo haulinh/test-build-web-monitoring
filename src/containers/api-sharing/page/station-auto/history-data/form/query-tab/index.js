@@ -3,7 +3,7 @@ import { dataRoutes } from 'api/ShareApiApi'
 import Clearfix from 'components/elements/clearfix'
 import Text from 'components/elements/text'
 import { generateGetUrl, isCreate } from 'containers/api-sharing/util'
-import _, { isEqual } from 'lodash'
+import _, { get, isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
@@ -51,8 +51,11 @@ export default class QueryTab extends Component {
     const { data } = this.props
     const fieldsValue = data.config.reduce((base, current) => {
       let value = current.value
-      if (['stationKeys', 'measuringList'].includes(current.fieldName)) {
-        value = current.value.split(',')
+      if (
+        ['measuringList'].includes(current.fieldName) &&
+        (value || '').includes(',')
+      ) {
+        value = get(current, 'value', '').split(',')
       }
       const fieldValue = {
         [`config.${current.fieldName}`]: value,

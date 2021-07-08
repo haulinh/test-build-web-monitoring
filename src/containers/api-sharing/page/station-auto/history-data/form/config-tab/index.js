@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import Condition from '../Condition'
 import GeneralInfo from './GeneralInfo'
 import SettingQuery from './SettingQuery'
-import { Button, Col, Row, Form } from 'antd'
+import { Button, Col, Row, Form, message } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
 import { i18n, shareApiList } from 'containers/api-sharing/constants'
 import { getTimes } from 'utils/datetime'
-import { isEqual } from 'lodash-es'
-import { isEdit, isView } from 'containers/api-sharing/util'
+import { get, isEqual } from 'lodash-es'
+import { isCreate, isEdit, isView } from 'containers/api-sharing/util'
 import { withRouter } from 'react-router'
 
 @withRouter
@@ -23,8 +23,11 @@ export default class ConfigTab extends Component {
     const { data } = this.props
     const fieldsValue = data.config.reduce((base, current) => {
       let value = current.value
-      if (['stationKeys', 'measuringList'].includes(current.fieldName)) {
-        value = current.value.split(',')
+      if (
+        ['measuringList'].includes(current.fieldName) &&
+        (value || '').includes(',')
+      ) {
+        value = get(current, 'value', '').split(',')
       }
       const fieldValue = {
         [`config.${current.fieldName}`]: value,
@@ -51,7 +54,7 @@ export default class ConfigTab extends Component {
       const isDefault = !optionParams.includes(key)
 
       let valueParams = value
-      if (['measuringList', 'stationKeys'].includes(key) && value) {
+      if (['measuringList'].includes(key) && value) {
         valueParams = value.join(',')
       }
 
@@ -96,9 +99,12 @@ export default class ConfigTab extends Component {
     e.preventDefault()
     const queryParams = this.getQueryParams()
     const key = shareApiList.stationAuto.historyData.key
-    const { rule } = this.props
-    if (isView(rule)) {
-      await shareApiApi.createApiByKey(key, queryParams)
+    const { rule, history, location } = this.props
+    if (isCreate(rule)) {
+      const res = await shareApiApi.createApiByKey(key, queryParams)
+      message.success(i18n.message.create)
+      const urlUpdate = location.pathname.replace('create', res.data._id)
+      history.push(urlUpdate)
       return
     }
 
@@ -111,24 +117,25 @@ export default class ConfigTab extends Component {
       const res = await shareApiApi.getApiDetailById(params.id)
       if (updateData && res.success) {
         updateData(res.data)
+        message.success(i18n.message.edit)
       }
     }
   }
 
   render() {
-    const { form } = this.props
+    const { form, rule } = this.props
     return (
       <React.Fragment>
         <Form onSubmit={this.handleSubmit}>
           <Row style={{ background: 'white' }} gutter={[0, 32]}>
             <Col span={24}>
-              <GeneralInfo form={form} />
+              <GeneralInfo form={form} rule={rule} />
             </Col>
             <Col span={24}>
-              <Condition form={form} />
+              <Condition form={form} rule={rule} />
             </Col>
             <Col span={24}>
-              <SettingQuery form={form} />
+              <SettingQuery form={form} rule={rule} />
             </Col>
             <Col span={24}>
               <Button

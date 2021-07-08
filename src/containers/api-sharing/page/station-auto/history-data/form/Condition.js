@@ -7,6 +7,7 @@ import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
+import { isCreate } from 'containers/api-sharing/util'
 import _, { get } from 'lodash'
 import React from 'react'
 
@@ -24,10 +25,66 @@ export const FIELDS = {
 export default class Condition extends React.Component {
   state = {
     stationAutoSelected: {},
+    stationTypes: [],
+    stationAutos: [],
   }
 
   setStationAutoSelected = stationAutoSelected => {
-    this.setState({ stationAutoSelected })
+    this.setState({ stationAutoSelected }, () => {})
+  }
+
+  setFormInit = () => {
+    const { form, rule } = this.props
+    if (!isCreate(rule)) return
+    console.log(rule)
+    const { stationTypes } = this.state
+    const stationTypeInit = (stationTypes[0] || {})._id
+
+    const stationAutos = this.getStationAutos()
+    const stationAutoInit = _.get(stationAutos[0], 'key', '')
+    const measuringListInit = _.get(stationAutos[0], 'measuringList', []).map(
+      item => item.key
+    )
+    form.setFieldsValue({
+      [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
+      [`config.${FIELDS.STATION_AUTO}`]: stationAutoInit,
+      [`config.${FIELDS.MEASURING_LIST}`]: measuringListInit,
+      [`config.${FIELDS.DATA_TYPE}`]: 'origin',
+      [`config.${FIELDS.PROVINCE}`]: '',
+    })
+  }
+
+  getStationAutos = () => {
+    let { stationAutos } = this.state
+    const {
+      config: { province, stationType } = {},
+    } = this.props.form.getFieldsValue()
+
+    if (province) {
+      stationAutos = stationAutos.filter(
+        stationAuto => stationAuto.province === province
+      )
+    }
+
+    if (stationType) {
+      stationAutos = stationAutos.filter(
+        stationAuto => stationAuto.stationType._id === stationType
+      )
+    }
+
+    return stationAutos
+  }
+
+  onStationTypeFetchSuccess = stationTypes => {
+    this.setState({ stationTypes }, () => {
+      this.setFormInit()
+    })
+  }
+
+  onStationAutosFetchSuccess = stationAutos => {
+    this.setState({ stationAutos }, () => {
+      this.setFormInit()
+    })
   }
 
   handleOnFieldChange = () => {
@@ -40,11 +97,16 @@ export default class Condition extends React.Component {
 
   handleFieldStationAutoChange = () => {
     const { form } = this.props
-    form.resetFields([FIELDS.MEASURING_LIST])
+    form.setFieldsValue({ [`config.${[FIELDS.MEASURING_LIST]}`]: undefined })
   }
 
   getMeasuringList = () => {
-    const measureList = get(this.state, 'stationAutoSelected.measuringList', [])
+    const { config: { stationKeys } = {} } = this.props.form.getFieldsValue()
+    const stationAuto = this.state.stationAutos.find(
+      stationAuto => stationAuto.key === stationKeys
+    )
+    const measureList = get(stationAuto, 'measuringList', [])
+    console.log({ measureList })
     return measureList
   }
 
@@ -61,14 +123,19 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.province}>
               {form.getFieldDecorator(`config.${FIELDS.PROVINCE}`, {
                 onChange: this.handleOnFieldChange,
-              })(<SelectProvince isShowAll />)}
+              })(<SelectProvince fieldValue="_id" isShowAll />)}
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.stationType}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_TYPE}`, {
                 onChange: this.handleOnFieldChange,
-              })(<SelectStationType />)}
+              })(
+                <SelectStationType
+                  fieldValue="_id"
+                  onFetchSuccess={this.onStationTypeFetchSuccess}
+                />
+              )}
             </Form.Item>
           </Col>
 
@@ -78,9 +145,11 @@ export default class Condition extends React.Component {
                 onChange: this.handleFieldStationAutoChange,
               })(
                 <SelectStationAuto
+                  fieldValue="_id"
                   province={province}
                   stationType={stationType}
                   onChangeObject={this.setStationAutoSelected}
+                  onFetchSuccess={this.onStationAutosFetchSuccess}
                 />
               )}
             </Form.Item>
@@ -101,7 +170,7 @@ export default class Condition extends React.Component {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.timeLabel}>
+            <Form.Item label={i18n.detailPage.label.timeLabel}>
               {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
                 initialValue: 1,
               })(<OptionsTimeRange />)}
