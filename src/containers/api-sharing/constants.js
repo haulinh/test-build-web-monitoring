@@ -29,6 +29,7 @@ export const i18n = {
       generalInfo: 'Thông tin chung',
       condition: 'Điều kiện',
       querySetting: 'Thiết lập truy vấn',
+      parameter: 'Thông số',
     },
     label: {
       apiName: 'Tên API',
@@ -45,6 +46,8 @@ export const i18n = {
       timeLabel: 'Thời gian',
       phase: 'Đợt quan trắc',
       point: 'Điểm quan trắc',
+      field: 'Field',
+      type: 'Type',
     },
   },
   button: {
@@ -64,6 +67,26 @@ export const i18n = {
     rangeTime: 'Thời gian',
     stationKeys: 'Trạm quan trắc',
     phaseIds: 'Đợt quan trắc',
+  },
+  types: {
+    province: 'string',
+    stationType: 'string',
+    stationAuto: 'string',
+    measuringList: 'string',
+    dataType: 'string',
+    isExceeded: 'boolean',
+    stationKeys: 'string',
+    phaseIds: 'string',
+  },
+  description: {
+    province: 'Mã đơn vị quản lý',
+    stationType: 'Mã loại trạm',
+    stationAuto: 'Mã trạm quan trắc',
+    measuringList: 'Mã thông số',
+    dataType: 'Mã loại dữ liệu',
+    isExceeded: 'Vượt ngưỡng',
+    stationKeys: 'Mã trạm quan trắc',
+    phaseIds: 'Mã đợt quan trắc',
   },
   message: {
     create: 'Tạo thành công',

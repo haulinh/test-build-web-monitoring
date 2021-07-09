@@ -2,6 +2,7 @@ import { Form, Icon, message } from 'antd'
 import { dataRoutes } from 'api/ShareApiApi'
 import Clearfix from 'components/elements/clearfix'
 import Text from 'components/elements/text'
+import TableParams from 'containers/api-sharing/component/TableParams'
 import { generateGetUrl, isCreate } from 'containers/api-sharing/util'
 import _, { get, isEqual } from 'lodash'
 import React, { Component } from 'react'
@@ -128,6 +129,8 @@ export default class QueryTab extends Component {
             <Icon type="copy" onClick={this.copyUrl} />
           </Endpoint>
         </div>
+        <Clearfix height={32} />
+        <TableParams form={form} />
       </React.Fragment>
     )
   }

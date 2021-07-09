@@ -1,5 +1,5 @@
 import { Form, Icon, message } from 'antd'
-import { dataRoutes, shareApiApi } from 'api/ShareApiApi'
+import { dataRoutes } from 'api/ShareApiApi'
 import Text from 'components/elements/text'
 import { FIELDS } from 'containers/api-sharing/constants'
 import { generateGetUrl, isCreate } from 'containers/api-sharing/util'
@@ -10,6 +10,8 @@ import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
 import { getTimes } from 'utils/datetime'
 import Condition from '../Condition'
+import Clearfix from 'components/elements/clearfix'
+import TableParams from 'containers/api-sharing/component/TableParams'
 
 const Method = styled.div`
   display: inline-block;
@@ -131,6 +133,7 @@ export default class QueryTab extends Component {
     return (
       <React.Fragment>
         <Condition form={form} rule={rule} />
+        <Clearfix height={32} />
         <div className="content">
           <Method>GET</Method>
           <Endpoint>
@@ -138,6 +141,8 @@ export default class QueryTab extends Component {
             <Icon type="copy" onClick={this.copyUrl} />
           </Endpoint>
         </div>
+        <Clearfix height={32} />
+        <TableParams form={form} />
       </React.Fragment>
     )
   }
