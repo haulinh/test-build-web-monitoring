@@ -27,3 +27,7 @@ export const getMeasuringListFromStationAutos = stationAutos => {
   )
   return _.uniqBy(measureList, 'key')
 }
+
+export const getPathname = location => {
+  return location.pathname.split('/')[2]
+}

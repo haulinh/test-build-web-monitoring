@@ -23,6 +23,8 @@ export const i18n = {
     'data-station-auto-history-data': 'Dữ liêu lịch sử',
     'data-station-fixed-newest-data': 'Dữ liêu mới nhất',
     'data-station-fixed-history-data': 'Dữ liêu lịch sử',
+    create: 'Tạo',
+    edit: 'Sửa',
   },
   detailPage: {
     header: {
