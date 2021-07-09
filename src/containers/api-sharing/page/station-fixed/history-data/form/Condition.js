@@ -56,6 +56,10 @@ export default class Condition extends React.Component {
     }
     const { stationTypes } = this.state
     const stationTypeInit = (stationTypes[0] || {})._id
+    if (!stationTypeInit) return
+    form.setFieldsValue({
+      [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
+    })
 
     const stationAutos = this.getPoints()
     const stationAutoInit = stationAutos.map(stationAuto => stationAuto.key)
@@ -68,7 +72,6 @@ export default class Condition extends React.Component {
     ).map(item => item.key)
 
     form.setFieldsValue({
-      [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
       [`config.${FIELDS.POINT}`]: stationAutoInit,
       [`config.${FIELDS.PHASE}`]: phasesInit,
       [`config.${FIELDS.MEASURING_LIST}`]: measuringListInit,
@@ -168,7 +171,7 @@ export default class Condition extends React.Component {
 
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item label="i18n.detailPage.label.phase">
+            <Form.Item label={i18n.detailPage.label.phase}>
               {form.getFieldDecorator(`config.${FIELDS.PHASE}`)(
                 <SelectPhase
                   disabled={isView(rule)}
@@ -181,7 +184,7 @@ export default class Condition extends React.Component {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="i18n.detailPage.label.point">
+            <Form.Item label={i18n.detailPage.label.point}>
               {form.getFieldDecorator(`config.${FIELDS.POINT}`, {
                 onChange: this.handleOnPointChange,
               })(
