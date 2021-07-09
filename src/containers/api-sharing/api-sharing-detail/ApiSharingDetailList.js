@@ -7,8 +7,12 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import moment from 'moment-timezone'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import createBreadcrumb from 'shared/breadcrumb/hoc'
+import { i18n } from '../constants'
 
-const i18n = {
+const Breadcrumb = createBreadcrumb()
+
+const i18nInner = {
   head: {
     apiName: 'Tên Api',
     dateCreated: 'Ngày tạo',
@@ -66,9 +70,9 @@ export default class ApiSharingDetailList extends React.Component {
 
   head = [
     { content: '#', width: 2 },
-    { content: i18n.head.apiName },
-    { content: i18n.head.dateCreated },
-    { content: i18n.head.dateEdited },
+    { content: i18nInner.head.apiName },
+    { content: i18nInner.head.dateCreated },
+    { content: i18nInner.head.dateEdited },
   ]
 
   getRows = () => {
@@ -92,13 +96,13 @@ export default class ApiSharingDetailList extends React.Component {
         content: (
           <span>
             <Link to={`${location.pathname}/edit/${item._id}`}>
-              {i18n.button.edit}
+              {i18nInner.button.edit}
             </Link>
 
             <Divider type="vertical" />
 
             <a onClick={() => this.handleDeleteItem(item._id)}>
-              {i18n.button.delete}
+              {i18nInner.button.delete}
             </a>
           </span>
         ),
@@ -116,18 +120,31 @@ export default class ApiSharingDetailList extends React.Component {
     history.push(`${slug.apiSharing.base}/${apiKey}/create`)
   }
 
+  getPathname = () => {
+    const { location } = this.props
+    return location.pathname.split('/')[2]
+  }
+
   render() {
     const { loading } = this.state
+    const pathname = this.getPathname()
 
     return (
       <PageContainer
         right={
           <Button onClick={this.redirectCreateApi} type="primary">
-            {i18n.button.create}
+            {i18nInner.button.create}
           </Button>
         }
       >
-        {/* <BreadcrumbApiSharing items={['list']} /> */}
+        <Breadcrumb
+          items={[
+            {
+              id: '1',
+              name: i18n.titleMenu[pathname],
+            },
+          ]}
+        />
         <DynamicTable
           isLoading={loading}
           rows={this.getRows()}

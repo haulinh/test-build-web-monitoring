@@ -1,6 +1,8 @@
 import { Form, Icon, message } from 'antd'
-import { dataRoutes, shareApiApi } from 'api/ShareApiApi'
+import { dataRoutes } from 'api/ShareApiApi'
+import Clearfix from 'components/elements/clearfix'
 import Text from 'components/elements/text'
+import TableParams from 'containers/api-sharing/component/TableParams'
 import { FIELDS } from 'containers/api-sharing/constants'
 import { generateGetUrl, isCreate } from 'containers/api-sharing/util'
 import _, { isEqual } from 'lodash'
@@ -118,6 +120,7 @@ export default class QueryTab extends Component {
     return (
       <React.Fragment>
         <Condition form={form} rule={rule} />
+        <Clearfix height={32} />
         <div className="content">
           <Method>GET</Method>
           <Endpoint>
@@ -125,6 +128,8 @@ export default class QueryTab extends Component {
             <Icon type="copy" onClick={this.copyUrl} />
           </Endpoint>
         </div>
+        <Clearfix height={32} />
+        <TableParams form={form} />
       </React.Fragment>
     )
   }

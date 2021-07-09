@@ -36,7 +36,6 @@ export default class Condition extends React.Component {
   setFormInit = () => {
     const { form, rule } = this.props
     if (!isCreate(rule)) return
-    console.log(rule)
     const { stationTypes } = this.state
     const stationTypeInit = (stationTypes[0] || {})._id
 
