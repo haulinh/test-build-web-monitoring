@@ -106,7 +106,6 @@ export default class Condition extends React.Component {
       stationAuto => stationAuto.key === stationKeys
     )
     const measureList = get(stationAuto, 'measuringList', [])
-    console.log({ measureList })
     return measureList
   }
 

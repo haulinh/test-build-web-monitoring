@@ -10,7 +10,7 @@ import {
   isCreate,
   isView,
 } from 'containers/api-sharing/util'
-import _ from 'lodash'
+import _, { fromPairs } from 'lodash'
 import React from 'react'
 
 export const FIELDS = {
@@ -37,7 +37,6 @@ export default class Condition extends React.Component {
   }
 
   onFetchStationTypesSuccess = stationTypes => {
-    console.log('runnnn')
     this.setState({ stationTypes }, () => {
       this.setFormInit()
     })
@@ -52,30 +51,27 @@ export default class Condition extends React.Component {
   setFormInit = () => {
     const { form, rule } = this.props
 
-    console.log('init 1')
     if (!isCreate(rule)) {
       return
     }
     const { stationTypes } = this.state
     const stationTypeInit = (stationTypes[0] || {})._id
+    if (!stationTypeInit) return
+    form.setFieldsValue({
+      [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
+    })
 
-    console.log('init 2')
     const stationAutos = this.getPoints()
     const stationAutoInit = stationAutos.map(stationAuto => stationAuto.key)
 
     const phases = this.getPhases()
     const phasesInit = phases.map(phase => phase._id)
 
-    console.log('run')
-
     const measuringListInit = getMeasuringListFromStationAutos(
       stationAutos
     ).map(item => item.key)
 
-    console.log(measuringListInit)
-
     form.setFieldsValue({
-      [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
       [`config.${FIELDS.POINT}`]: stationAutoInit,
       [`config.${FIELDS.PHASE}`]: phasesInit,
       [`config.${FIELDS.MEASURING_LIST}`]: measuringListInit,
@@ -174,7 +170,7 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <Form.Item label="i18n.detailPage.label.phase">
+            <Form.Item label={i18n.detailPage.label.phase}>
               {form.getFieldDecorator(`config.${FIELDS.PHASE}`)(
                 <SelectPhase
                   disabled={isView(rule)}
@@ -188,7 +184,7 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <Form.Item label="i18n.detailPage.label.point">
+            <Form.Item label={i18n.detailPage.label.point}>
               {form.getFieldDecorator(`config.${FIELDS.POINT}`)(
                 <SelectPoint
                   disabled={isView(rule)}

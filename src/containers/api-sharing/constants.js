@@ -43,6 +43,8 @@ export const i18n = {
       typeData: 'Loại dữ liệu',
       isExceeded: 'Vượt ngưỡng',
       timeLabel: 'Thời gian',
+      phase: 'Đợt quan trắc',
+      point: 'Điểm quan trắc',
     },
   },
   button: {
@@ -61,6 +63,7 @@ export const i18n = {
     isExceeded: 'Vượt ngưỡng',
     rangeTime: 'Thời gian',
     stationKeys: 'Trạm quan trắc',
+    phaseIds: 'Đợt quan trắc',
   },
   message: {
     create: 'Tạo thành công',
