@@ -39,3 +39,14 @@ export const getRouteList = location => {
     .join('/')
   return pathname
 }
+
+export const getDataExample = (menuApiSharingList, location) => {
+  const pathname = getPathname(location)
+
+  const dataGroup = menuApiSharingList.find(item =>
+    pathname.includes(item.group)
+  )
+
+  const dataExample = dataGroup.api.find(item => item.key === pathname).example
+  return dataExample
+}
