@@ -94,6 +94,10 @@ export const i18n = {
     create: 'Tạo thành công',
     edit: 'Cập nhập thành công ',
   },
+  rules: {
+    name: 'Vui lòng nhập trên API',
+    max: 'Không được nhập quá 64 ký tự',
+  },
 }
 
 export const FIELDS = {

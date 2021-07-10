@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import GeneralInfo from './GeneralInfo'
 import SettingQuery from './SettingQuery'
 import { Button, Col, Row, Form, message } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
@@ -9,6 +8,7 @@ import Condition from '../Condition'
 import { isCreate, isEdit, isView } from 'containers/api-sharing/util'
 import { withRouter } from 'react-router'
 import _ from 'lodash'
+import GeneralInfo from 'containers/api-sharing/component/GeneralInfo'
 
 @withRouter
 @Form.create()
@@ -100,10 +100,12 @@ export default class ConfigTab extends Component {
 
   handleSubmit = async e => {
     e.preventDefault()
+    const { rule, history, location, form } = this.props
+    const values = await form.validateFields()
+    if (!values) return
     const queryParams = this.getQueryParams()
     const key = shareApiList.stationFixed.historyData.key
 
-    const { rule, history, location } = this.props
     if (isCreate(rule)) {
       const res = await shareApiApi.createApiByKey(key, queryParams)
       message.success(i18n.message.create)

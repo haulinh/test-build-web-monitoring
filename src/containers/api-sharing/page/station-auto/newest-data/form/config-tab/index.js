@@ -1,12 +1,12 @@
 import { Button, Col, Form, message, Row } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
+import GeneralInfo from 'containers/api-sharing/component/GeneralInfo'
 import { i18n, shareApiList } from 'containers/api-sharing/constants'
 import { isCreate, isEdit } from 'containers/api-sharing/util'
 import { get, isEqual } from 'lodash-es'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import Condition from '../Condition'
-import GeneralInfo from './GeneralInfo'
 import SettingQuery from './SettingQuery'
 
 @withRouter
@@ -74,9 +74,11 @@ export default class ConfigTab extends Component {
 
   handleSubmit = async e => {
     e.preventDefault()
+    const { rule, history, location, form } = this.props
+    const values = await form.validateFields()
+    if (!values) return
     const queryParams = this.getQueryParams()
     const key = shareApiList.stationAuto.newestData.key
-    const { rule, history, location } = this.props
     if (isCreate(rule)) {
       const res = await shareApiApi.createApiByKey(key, queryParams)
       message.success(i18n.message.create)
