@@ -10,10 +10,20 @@ const Breadcrumb = createBreadcrumb()
 
 @withRouter
 export class HistoryDataStationFixedEdit extends Component {
+  state = {
+    name: '',
+  }
+
+  setName = name => {
+    this.setState({ name })
+  }
+
   render() {
     const pathname = getPathname(this.props.location)
+    const { name } = this.state
     return (
-      <PageContainer>
+      <PageContainer hideBackground={true}>
+        <Clearfix height={32} />
         <Breadcrumb
           items={[
             {
@@ -22,12 +32,11 @@ export class HistoryDataStationFixedEdit extends Component {
             },
             {
               id: '2',
-              name: i18n.titleMenu.edit,
+              name,
             },
           ]}
-        />{' '}
-        <Clearfix height={32} />
-        <ApiSharingDetail rule="edit" />
+        />
+        <ApiSharingDetail rule="edit" setName={this.setName} />
       </PageContainer>
     )
   }

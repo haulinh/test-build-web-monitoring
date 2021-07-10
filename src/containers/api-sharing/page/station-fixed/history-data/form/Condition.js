@@ -11,7 +11,6 @@ import {
   isCreate,
   isView,
 } from 'containers/api-sharing/util'
-import _ from 'lodash'
 import React from 'react'
 
 export const FIELDS = {

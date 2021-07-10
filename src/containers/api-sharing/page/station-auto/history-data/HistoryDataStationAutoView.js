@@ -11,20 +11,33 @@ const Breadcrumb = createBreadcrumb()
 
 @withRouter
 export class HistoryDataStationAutoView extends Component {
+  state = {
+    name: '',
+  }
+
+  setName = name => {
+    this.setState({ name })
+  }
+
   render() {
     const pathname = getPathname(this.props.location)
+    const { name } = this.state
     return (
-      <PageContainer>
+      <PageContainer hideBackground={true}>
+        <Clearfix height={32} />
         <Breadcrumb
           items={[
             {
               id: '1',
               name: i18n.titleMenu[pathname],
             },
+            {
+              id: '2',
+              name,
+            },
           ]}
         />
-        <Clearfix height={32} />
-        <ApiSharingDetail rule="edit" />
+        <ApiSharingDetail rule="view" setName={this.setName} />
       </PageContainer>
     )
   }
