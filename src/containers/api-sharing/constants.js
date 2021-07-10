@@ -97,6 +97,7 @@ export const i18n = {
   rules: {
     name: 'Vui lòng nhập trên API',
     max: 'Không được nhập quá 64 ký tự',
+    requireChoose: 'Vui lòng chọn ít nhất 1 giá trị',
   },
 }
 

@@ -169,7 +169,14 @@ export default class Condition extends React.Component {
 
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.phase}>
-              {form.getFieldDecorator(`config.${FIELDS.PHASE}`)(
+              {form.getFieldDecorator(`config.${FIELDS.PHASE}`, {
+                rules: [
+                  {
+                    required: true,
+                    message: i18n.rules.requireChoose,
+                  },
+                ],
+              })(
                 <SelectPhase
                   disabled={isView(rule)}
                   mode="multiple"
@@ -184,6 +191,12 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.point}>
               {form.getFieldDecorator(`config.${FIELDS.POINT}`, {
                 onChange: this.handleOnPointChange,
+                rules: [
+                  {
+                    required: true,
+                    message: i18n.rules.requireChoose,
+                  },
+                ],
               })(
                 <SelectPoint
                   disabled={isView(rule)}
@@ -197,7 +210,14 @@ export default class Condition extends React.Component {
           </Col>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.parameter}>
-              {form.getFieldDecorator(`config.${FIELDS.MEASURING_LIST}`)(
+              {form.getFieldDecorator(`config.${FIELDS.MEASURING_LIST}`, {
+                rules: [
+                  {
+                    required: true,
+                    message: i18n.rules.requireChoose,
+                  },
+                ],
+              })(
                 <SelectMeasureParameter
                   disabled={isView(rule)}
                   measuringList={measuringList}

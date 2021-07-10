@@ -144,6 +144,12 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.stationName}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_AUTO}`, {
                 onChange: this.handleFieldStationAutoChange,
+                rules: [
+                  {
+                    required: true,
+                    message: i18n.rules.requireChoose,
+                  },
+                ],
               })(
                 <SelectStationAuto
                   mode="multiple"
@@ -158,9 +164,14 @@ export default class Condition extends React.Component {
           </Col>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.parameter}>
-              {form.getFieldDecorator(`config.${FIELDS.MEASURING_LIST}`)(
-                <SelectMeasureParameter measuringList={measuringList} />
-              )}
+              {form.getFieldDecorator(`config.${FIELDS.MEASURING_LIST}`, {
+                rules: [
+                  {
+                    required: true,
+                    message: i18n.rules.requireChoose,
+                  },
+                ],
+              })(<SelectMeasureParameter measuringList={measuringList} />)}
             </Form.Item>
           </Col>
 
