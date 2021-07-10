@@ -1,13 +1,13 @@
 import { Button, Col, Form, message, Row } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
 import GeneralInfo from 'containers/api-sharing/component/GeneralInfo'
+import SettingQuery from 'containers/api-sharing/component/SettingQuery'
 import { i18n, shareApiList } from 'containers/api-sharing/constants'
 import { isCreate, isEdit } from 'containers/api-sharing/util'
 import { get, isEqual } from 'lodash-es'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import Condition from '../Condition'
-import SettingQuery from './SettingQuery'
 
 @withRouter
 @Form.create()
@@ -34,10 +34,15 @@ export default class ConfigTab extends Component {
       return { ...base, ...fieldValue }
     }, {})
 
+    const optionParams = data.config
+      .filter(field => !field.isDefault)
+      .map(field => field.fieldName)
+
     this.props.form.setFieldsValue({
       ...fieldsValue,
       name: data.name,
       description: data.description,
+      optionParams,
     })
   }
 

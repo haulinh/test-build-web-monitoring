@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import SettingQuery from './SettingQuery'
 import { Button, Col, Row, Form, message } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
 import { FIELDS, i18n, shareApiList } from 'containers/api-sharing/constants'
@@ -9,6 +8,7 @@ import { isCreate, isEdit, isView } from 'containers/api-sharing/util'
 import { withRouter } from 'react-router'
 import _ from 'lodash'
 import GeneralInfo from 'containers/api-sharing/component/GeneralInfo'
+import SettingQuery from 'containers/api-sharing/component/SettingQuery'
 
 @withRouter
 @Form.create()
@@ -38,10 +38,15 @@ export default class ConfigTab extends Component {
       return { ...base, ...fieldValue }
     }, {})
 
+    const optionParams = data.config
+      .filter(field => !field.isDefault)
+      .map(field => field.fieldName)
+
     this.props.form.setFieldsValue({
       ...fieldsValue,
       name: data.name,
       description: data.description,
+      optionParams,
     })
   }
 
@@ -50,7 +55,6 @@ export default class ConfigTab extends Component {
     const fieldsValue = form.getFieldsValue()
     const key = shareApiList.stationFixed.historyData.key
     const optionParams = fieldsValue.optionParams || []
-    console.log({ optionParams })
 
     const times = getTimes(fieldsValue.config.rangeTime)
 
