@@ -8,7 +8,6 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { getTimes } from 'utils/datetime'
 import Condition from '../Condition'
-// import GeneralInfo from './GeneralInfo'
 import SettingQuery from './SettingQuery'
 
 @withRouter
@@ -49,7 +48,9 @@ export default class ConfigTab extends Component {
     const key = shareApiList.stationAuto.historyData.key
     const optionParams = fieldsValue.optionParams || []
 
-    const times = getTimes(fieldsValue['rangeTime'])
+    const rangeTime = fieldsValue.config.rangeTime
+
+    const times = getTimes(rangeTime)
 
     const config = Object.entries(fieldsValue.config).map(([key, value]) => {
       const isDefault = !optionParams.includes(key)
