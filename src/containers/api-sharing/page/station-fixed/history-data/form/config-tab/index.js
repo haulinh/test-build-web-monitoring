@@ -50,6 +50,7 @@ export default class ConfigTab extends Component {
     const fieldsValue = form.getFieldsValue()
     const key = shareApiList.stationFixed.historyData.key
     const optionParams = fieldsValue.optionParams || []
+    console.log({ optionParams })
 
     const times = getTimes(fieldsValue.config.rangeTime)
 

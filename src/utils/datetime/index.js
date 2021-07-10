@@ -2,6 +2,7 @@ import moment from 'moment'
 import { getLanguage } from 'utils/localStorage'
 
 const getTimes = rangeTime => {
+  console.log({ rangeTime })
   if (Array.isArray(rangeTime)) {
     return {
       from: moment(rangeTime[0]).startOf('d'),

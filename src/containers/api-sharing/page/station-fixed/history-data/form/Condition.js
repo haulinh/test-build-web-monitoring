@@ -166,9 +166,7 @@ export default class Condition extends React.Component {
               )}
             </Form.Item>
           </Col>
-        </Row>
 
-        <Row gutter={12}>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.phase}>
               {form.getFieldDecorator(`config.${FIELDS.PHASE}`)(
@@ -207,11 +205,9 @@ export default class Condition extends React.Component {
               )}
             </Form.Item>
           </Col>
-        </Row>
 
-        <Row gutter={12}>
           <Col span={12}>
-            <Form.Item label="i18n.timeLabel">
+            <Form.Item label={i18n.detailPage.label.timeLabel}>
               {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
                 initialValue: 1,
               })(<OptionsTimeRange disabled={isView(rule)} />)}
