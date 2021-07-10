@@ -5,7 +5,7 @@ import { withRouter } from 'react-router'
 import ApiSharingDetail from './form/ApiSharingDetail'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
 import { i18n } from 'containers/api-sharing/constants'
-import { getPathname } from 'containers/api-sharing/util'
+import { getPathname, getRouteList } from 'containers/api-sharing/util'
 const Breadcrumb = createBreadcrumb()
 
 @withRouter
@@ -19,7 +19,10 @@ export class HistoryDataStationFixedView extends Component {
   }
 
   render() {
-    const pathname = getPathname(this.props.location)
+    const { location } = this.props
+    const pathname = getPathname(location)
+    const routeList = getRouteList(location)
+
     const { name } = this.state
     return (
       <PageContainer hideBackground={true}>
@@ -29,6 +32,7 @@ export class HistoryDataStationFixedView extends Component {
             {
               id: '1',
               name: i18n.titleMenu[pathname],
+              href: routeList,
             },
             {
               id: '2',

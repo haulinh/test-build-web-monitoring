@@ -1,6 +1,6 @@
 import Clearfix from 'components/elements/clearfix'
 import { i18n } from 'containers/api-sharing/constants'
-import { getPathname } from 'containers/api-sharing/util'
+import { getPathname, getRouteList } from 'containers/api-sharing/util'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
@@ -19,7 +19,9 @@ export class NewestDataStationFixedView extends Component {
   }
 
   render() {
-    const pathname = getPathname(this.props.location)
+    const { location } = this.props
+    const pathname = getPathname(location)
+    const routeList = getRouteList(location)
     const { name } = this.state
     return (
       <PageContainer hideBackground={true}>
@@ -29,6 +31,7 @@ export class NewestDataStationFixedView extends Component {
             {
               id: '1',
               name: i18n.titleMenu[pathname],
+              href: routeList,
             },
             {
               id: '2',
