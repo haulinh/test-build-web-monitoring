@@ -9,7 +9,6 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
-import { getTimes } from 'utils/datetime'
 import Condition from '../Condition'
 
 const Method = styled.div`

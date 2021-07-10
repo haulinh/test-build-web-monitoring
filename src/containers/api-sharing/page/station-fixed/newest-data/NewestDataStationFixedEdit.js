@@ -1,20 +1,29 @@
-import { Button } from 'antd'
+import Clearfix from 'components/elements/clearfix'
+import { i18n } from 'containers/api-sharing/constants'
+import { getPathname } from 'containers/api-sharing/util'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import ApiSharingDetail from './form/ApiSharingDetail'
-import Clearfix from 'components/elements/clearfix'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
-import { i18n } from 'containers/api-sharing/constants'
-import { getPathname } from 'containers/api-sharing/util'
+import ApiSharingDetail from './form/ApiSharingDetail'
 const Breadcrumb = createBreadcrumb()
 
 @withRouter
 export class NewestDataStationFixedEdit extends Component {
+  state = {
+    name: '',
+  }
+
+  setName = name => {
+    this.setState({ name })
+  }
+
   render() {
     const pathname = getPathname(this.props.location)
+    const { name } = this.state
     return (
-      <PageContainer>
+      <PageContainer hideBackground={true}>
+        <Clearfix height={32} />
         <Breadcrumb
           items={[
             {
@@ -23,12 +32,11 @@ export class NewestDataStationFixedEdit extends Component {
             },
             {
               id: '2',
-              name: i18n.titleMenu.edit,
+              name,
             },
           ]}
-        />{' '}
-        <Clearfix height={32} />
-        <ApiSharingDetail rule="edit" />
+        />
+        <ApiSharingDetail rule="edit" setName={this.setName} />
       </PageContainer>
     )
   }

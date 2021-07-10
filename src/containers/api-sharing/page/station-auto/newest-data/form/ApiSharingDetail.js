@@ -17,6 +17,7 @@ export default class ApiSharingDetail extends Component {
     const {
       match: { params },
       rule,
+      setName,
     } = this.props
     if (isCreate(rule)) return
 
@@ -24,6 +25,9 @@ export default class ApiSharingDetail extends Component {
       const res = await shareApiApi.getApiDetailById(params.id)
       if (res.success) {
         this.setState({ data: res.data })
+        if (setName) {
+          setName(res.data.name)
+        }
       }
     } catch (error) {
       console.log(error)

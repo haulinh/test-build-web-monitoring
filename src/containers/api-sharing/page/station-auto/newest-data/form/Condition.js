@@ -10,7 +10,6 @@ import {
   getMeasuringListFromStationAutos,
   isCreate,
 } from 'containers/api-sharing/util'
-import _, { get } from 'lodash'
 import React from 'react'
 
 export const FIELDS = {
