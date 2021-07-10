@@ -4,8 +4,8 @@ import React from 'react'
 
 const options = [
   { key: 'origin', label: translate('qaqc.originalData') },
-  { key: 'invalid', label: translate('qaqc.validData') },
-  { key: 'valid', label: translate('qaqc.inValidData') },
+  { key: 'valid', label: translate('qaqc.validData') },
+  { key: 'invalid', label: translate('qaqc.inValidData') },
 ]
 
 const SelectQueryType = ({ onChange, value }) => {

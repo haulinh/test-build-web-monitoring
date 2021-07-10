@@ -5,6 +5,10 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import MenuApiSharing from './MenuApiSharing'
 
+export const ShareApiContext = React.createContext({
+  menuApiSharingList: [],
+  setMenuApiSharingList: () => {},
+})
 @withRouter
 export default class ApiSharingLayout extends React.Component {
   state = {
@@ -79,7 +83,9 @@ export default class ApiSharingLayout extends React.Component {
             />
           </Affix>
         </Col>
-        <Col span={19}>{this.props.children}</Col>
+        <ShareApiContext.Provider value={{ menuApiSharingList }}>
+          <Col span={19}>{this.props.children}</Col>
+        </ShareApiContext.Provider>
       </Row>
     )
   }

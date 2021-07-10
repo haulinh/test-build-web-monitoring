@@ -2,14 +2,20 @@ import { Form, Icon, message } from 'antd'
 import { dataRoutes } from 'api/ShareApiApi'
 import Clearfix from 'components/elements/clearfix'
 import Text from 'components/elements/text'
+import Example from 'containers/api-sharing/component/Example'
 import TableParams from 'containers/api-sharing/component/TableParams'
-import { generateGetUrl, isCreate } from 'containers/api-sharing/util'
-import _, { get, isEqual } from 'lodash'
+import { Header } from 'containers/api-sharing/layout/styles'
+import {
+  generateGetUrl,
+  getDataExample,
+  isCreate,
+} from 'containers/api-sharing/util'
+import withShareApiContext from 'containers/api-sharing/withShareApiContext'
+import { get, isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
-import { getTimes } from 'utils/datetime'
 import Condition from '../Condition'
 
 const Method = styled.div`
@@ -37,7 +43,7 @@ const Endpoint = styled.div`
 
 @withRouter
 @Form.create()
-export default class QueryTab extends Component {
+class QueryTab extends Component {
   componentDidMount() {
     if (!isCreate(this.props.rule)) this.setInitFields()
   }
@@ -106,7 +112,8 @@ export default class QueryTab extends Component {
   }
 
   render() {
-    const { form, rule } = this.props
+    const { form, rule, location, menuApiSharingList } = this.props
+    const dataExample = getDataExample(menuApiSharingList, location)
     return (
       <React.Fragment>
         <Condition form={form} rule={rule} />
@@ -124,7 +131,11 @@ export default class QueryTab extends Component {
             <TableParams form={form} />
           </React.Fragment>
         )}
+        <Header>Ví dụ</Header>
+        <Example data={dataExample} />
       </React.Fragment>
     )
   }
 }
+
+export default withShareApiContext(QueryTab)
