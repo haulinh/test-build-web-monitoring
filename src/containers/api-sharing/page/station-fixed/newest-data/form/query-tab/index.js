@@ -56,7 +56,6 @@ export default class QueryTab extends Component {
         [
           FIELDS.STATION_FIXED.HISTORY_DATA.MEASURING_LIST,
           FIELDS.STATION_FIXED.HISTORY_DATA.POINT,
-          'phaseIds',
         ].includes(current.fieldName)
       ) {
         value = current.value.split(',')
@@ -95,15 +94,9 @@ export default class QueryTab extends Component {
       ...fieldsValue,
       measuringList: _.get(fieldsValue, 'measuringList', []).join(','),
       stationKeys: _.get(fieldsValue, 'stationKeys', []).join(','),
-      phaseIds: _.get(fieldsValue, 'phaseIds', []).join(','),
     }
 
-    const urlParamsValid = [
-      'measuringList',
-      'stationKeys',
-      'phaseIds',
-      'isExceeded',
-    ]
+    const urlParamsValid = ['measuringList', 'stationKeys', 'isExceeded']
       .filter(item => queryParams[item])
       .map(item => `${item}=${queryParams[item]}`)
       .join('&')

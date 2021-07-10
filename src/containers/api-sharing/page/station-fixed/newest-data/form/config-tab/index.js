@@ -26,7 +26,6 @@ export default class ConfigTab extends Component {
         [
           FIELDS.STATION_FIXED.HISTORY_DATA.MEASURING_LIST,
           FIELDS.STATION_FIXED.HISTORY_DATA.POINT,
-          'phaseIds',
         ].includes(current.fieldName)
       ) {
         value = current.value.split(',')
@@ -59,7 +58,7 @@ export default class ConfigTab extends Component {
       const isDefault = !optionParams.includes(key)
 
       let valueParams = value
-      if (['measuringList', 'stationKeys', 'phaseIds'].includes(key) && value) {
+      if (['measuringList', 'stationKeys'].includes(key) && value) {
         valueParams = value.join(',')
       }
 
