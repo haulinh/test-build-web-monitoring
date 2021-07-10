@@ -1,4 +1,4 @@
-import { Button, Divider } from 'antd'
+import { Button, Divider, Modal } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
 import DynamicTable from 'components/elements/dynamic-table'
 import { DD_MM_YYYY } from 'constants/format-date'
@@ -9,8 +9,15 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
 import { i18n } from '../constants'
+import { translate } from 'hoc/create-lang'
 
 const Breadcrumb = createBreadcrumb()
+
+const i18nTrans = {
+  cancelText: translate('addon.cancel'),
+  okText: translate('addon.ok'),
+  deleteConfirmMsg: translate('confirm.msg.delete'),
+}
 
 const i18nInner = {
   head: {
@@ -57,15 +64,22 @@ export default class ApiSharingDetailList extends React.Component {
   }
 
   handleDeleteItem = async id => {
-    this.setState({ loading: true })
-    try {
-      const res = await shareApiApi.deleteApiDetailById(id)
-      if (res.success) {
-        const dataUpdated = this.state.data.filter(item => item._id !== id)
-        this.setState({ data: dataUpdated })
-      }
-    } catch (error) {}
-    this.setState({ loading: false })
+    Modal.confirm({
+      title: i18nTrans.deleteConfirmMsg,
+      okText: i18nTrans.okText,
+      cancelText: i18nTrans.cancelText,
+      onOk: async () => {
+        this.setState({ loading: true })
+        try {
+          const res = await shareApiApi.deleteApiDetailById(id)
+          if (res.success) {
+            const dataUpdated = this.state.data.filter(item => item._id !== id)
+            this.setState({ data: dataUpdated })
+          }
+        } catch (error) {}
+        this.setState({ loading: false })
+      },
+    })
   }
 
   head = [

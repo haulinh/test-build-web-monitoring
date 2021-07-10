@@ -19,10 +19,10 @@ export const shareApiList = {
 
 export const i18n = {
   titleMenu: {
-    'data-station-auto-newest-data': 'Dữ liêu mới nhất',
-    'data-station-auto-history-data': 'Dữ liêu lịch sử',
-    'data-station-fixed-newest-data': 'Dữ liêu mới nhất',
-    'data-station-fixed-history-data': 'Dữ liêu lịch sử',
+    'data-station-auto-newest-data': 'Dữ liệu mới nhất',
+    'data-station-auto-history-data': 'Dữ liệu lịch sử',
+    'data-station-fixed-newest-data': 'Dữ liệu mới nhất',
+    'data-station-fixed-history-data': 'Dữ liệu lịch sử',
     create: 'Tạo mới',
     edit: 'Sửa',
   },
