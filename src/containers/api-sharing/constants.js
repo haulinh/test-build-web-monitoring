@@ -60,6 +60,9 @@ export const i18n = {
     viewDataTab: 'Truy vấn dữ liệu',
   },
   fields: {
+    stationFixed: {
+      stationKeys: 'Điểm quan trắc',
+    },
     province: 'Đơn vị quản lý',
     stationType: 'Loại trạm',
     stationAuto: 'Trạm quan trắc',

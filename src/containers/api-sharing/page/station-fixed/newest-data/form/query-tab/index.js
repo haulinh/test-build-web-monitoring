@@ -118,7 +118,7 @@ export default class QueryTab extends Component {
           <Method>GET</Method>
           <Endpoint>
             <Text>{this.getUrl()}</Text>
-            <Icon type="copy" onClick={this.copyUrl} />
+            {!isCreate(rule) && <Icon type="copy" onClick={this.copyUrl} />}
           </Endpoint>
         </div>
         <Clearfix height={32} />

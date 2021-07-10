@@ -30,7 +30,10 @@ const GeneralInfo = withRouter(({ form, location, rule }) => {
         </Col>
         <Col span={12}>
           <Form.Item label={i18n.detailPage.label.apiType}>
-            <Input disabled value={i18n.titleMenu[pathname] || ''} />
+            {form.getFieldDecorator('type', {
+              initialValue: i18n.titleMenu[pathname] || '',
+              rules: [{ required: true }],
+            })(<Input disabled />)}
           </Form.Item>
         </Col>
       </Row>
