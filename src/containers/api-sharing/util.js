@@ -31,3 +31,11 @@ export const getMeasuringListFromStationAutos = stationAutos => {
 export const getPathname = location => {
   return location.pathname.split('/')[2]
 }
+
+export const getRouteList = location => {
+  const pathname = location.pathname
+    .split('/')
+    .slice(0, 3)
+    .join('/')
+  return pathname
+}
