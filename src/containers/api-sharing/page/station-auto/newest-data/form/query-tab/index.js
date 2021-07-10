@@ -77,40 +77,25 @@ export default class QueryTab extends Component {
   getUrl = () => {
     const {
       match: { params },
-      form,
+      data,
     } = this.props
 
-    const { config: fieldsValue } = form.getFieldsValue()
+    const fieldsParams = data.config
+      .map(field => ({
+        fieldName: field.fieldName,
+        value: field.value,
+      }))
+      .filter(field => field.value && field.fieldName !== 'rangeTime')
 
-    let measuringList = _.get(fieldsValue, 'measuringList', '')
-    if (Array.isArray(measuringList)) measuringList = measuringList.join(',')
-
-    let stationKeys = _.get(fieldsValue, 'stationKeys', '')
-    if (Array.isArray(stationKeys)) stationKeys = stationKeys.join(',')
-
-    const queryParams = {
-      ...fieldsValue,
-      measuringList,
-      stationKeys,
-    }
-
-    const urlParamsValid = [
-      'province',
-      'stationType',
-      'measuringList',
-      'stationKeys',
-      'isExceeded',
-      'dataType',
-    ]
-      .filter(item => queryParams[item])
-      .map(item => `${item}=${queryParams[item]}`)
+    const urlParams = fieldsParams
+      .map(field => `${field.fieldName}=${field.value}`)
       .join('&')
 
     const url = [dataRoutes.getStationAutoHistory(), `id=${params.id}`].join(
       '?'
     )
 
-    const urlQuery = [url, urlParamsValid].join('&')
+    const urlQuery = [url, urlParams].join('&')
 
     return urlQuery
   }
@@ -121,15 +106,19 @@ export default class QueryTab extends Component {
       <React.Fragment>
         <Condition form={form} rule={rule} />
         <Clearfix height={32} />
-        <div className="content">
-          <Method>GET</Method>
-          <Endpoint>
-            <Text>{this.getUrl()}</Text>
-            <Icon type="copy" onClick={this.copyUrl} />
-          </Endpoint>
-        </div>
-        <Clearfix height={32} />
-        <TableParams form={form} />
+        {!isCreate(rule) && (
+          <React.Fragment>
+            <div className="content">
+              <Method>GET</Method>
+              <Endpoint>
+                <Text>{this.getUrl()}</Text>
+                <Icon type="copy" onClick={this.copyUrl} />
+              </Endpoint>
+            </div>
+            <Clearfix height={32} />
+            <TableParams form={form} />
+          </React.Fragment>
+        )}
       </React.Fragment>
     )
   }

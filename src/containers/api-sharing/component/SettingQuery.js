@@ -2,6 +2,7 @@ import { Transfer, Form } from 'antd'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 
 class TransferForm extends Component {
   handleChange = (nextTargetKeys, direction, moveKeys) => {
@@ -36,13 +37,19 @@ class TransferForm extends Component {
   }
 }
 
-const SettingQuery = ({ form }) => {
+const SettingQuery = withRouter(({ location, form }) => {
   const fieldsValue = form.getFieldsValue()
 
-  const data = Object.keys(fieldsValue.config).map(item => ({
-    key: item,
-    title: i18n.fields[item] || item,
-  }))
+  const data = Object.keys(fieldsValue.config).map(item => {
+    let title = i18n.fields[item] || item
+    if (location.pathname.includes('station-fixed') && item === 'stationKeys')
+      title = i18n.fields.stationFixed[item]
+
+    return {
+      key: item,
+      title,
+    }
+  })
 
   return (
     <BoxShadow>
@@ -52,6 +59,6 @@ const SettingQuery = ({ form }) => {
       </Form.Item>
     </BoxShadow>
   )
-}
+})
 
 export default SettingQuery

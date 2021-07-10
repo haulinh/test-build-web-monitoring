@@ -83,6 +83,7 @@ export default class Condition extends React.Component {
     form.setFieldsValue({
       'config.stationKeys': undefined,
       'config.measuringList': undefined,
+      'config.phaseIds': undefined,
     })
   }
 
