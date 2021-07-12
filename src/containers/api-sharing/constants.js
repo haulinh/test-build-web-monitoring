@@ -15,6 +15,14 @@ export const shareApiList = {
       key: 'data-station-fixed-newest-data',
     },
   },
+  weather: {
+    newestData: {
+      key: 'weather-newest-data',
+    },
+    feature: {
+      key: 'weather-feature',
+    },
+  },
 }
 
 export const i18n = {
@@ -23,6 +31,7 @@ export const i18n = {
     'data-station-auto-history-data': 'Dữ liệu lịch sử',
     'data-station-fixed-newest-data': 'Dữ liệu mới nhất',
     'data-station-fixed-history-data': 'Dữ liệu lịch sử',
+    'weather-newest-data': 'fsdA',
     create: 'Tạo mới',
     edit: 'Sửa',
   },
@@ -96,6 +105,7 @@ export const i18n = {
   message: {
     create: 'Tạo thành công',
     edit: 'Cập nhập thành công ',
+    delete: 'Xóa thành công',
   },
   rules: {
     name: 'Vui lòng nhập trên API',

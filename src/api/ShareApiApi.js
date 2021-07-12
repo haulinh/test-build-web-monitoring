@@ -2,6 +2,7 @@ import { getConfigApi } from 'config'
 import { deleteFetch, getFetch, postFetch, putFetch } from 'utils/fetch'
 
 const prefixCategory = () => getConfigApi().category
+const prefixCalculate = () => getConfigApi().calculate
 
 const routes = {
   getConfig: () => `${prefixCategory()}/share-api/config`,
@@ -56,5 +57,16 @@ export const dataShareApiApi = {
   getPeriodicHistory: params => {
     const route = dataRoutes.getPeriodicHistory()
     return getFetch(route, params)
+  },
+}
+
+const weatherRoutes = {
+  getCities: () => `${prefixCalculate()}/weathers`,
+}
+
+export const weatherApi = {
+  getCities: () => {
+    const route = weatherRoutes.getCities()
+    return getFetch(route)
   },
 }
