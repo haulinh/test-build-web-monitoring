@@ -60,7 +60,8 @@ class QueryTab extends Component {
       let value = current.value
       if (
         ['measuringList'].includes(current.fieldName) &&
-        (value || '').includes(',')
+        value &&
+        value.includes(',')
       ) {
         value = get(current, 'value', '').split(',')
       }

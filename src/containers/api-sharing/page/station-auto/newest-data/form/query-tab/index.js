@@ -11,7 +11,7 @@ import {
   isCreate,
 } from 'containers/api-sharing/util'
 import withShareApiContext from 'containers/api-sharing/withShareApiContext'
-import { get, isEqual } from 'lodash'
+import _, { get, isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
@@ -56,11 +56,12 @@ class QueryTab extends Component {
 
   setInitFields = () => {
     const { data } = this.props
-    const fieldsValue = data.config.reduce((base, current) => {
+    const fieldsValue = _.get(data, 'config', []).reduce((base, current) => {
       let value = current.value
       if (
         ['measuringList', 'stationKeys'].includes(current.fieldName) &&
-        (value || '').includes(',')
+        value &&
+        value.includes(',')
       ) {
         value = get(current, 'value', '').split(',')
       }
@@ -87,7 +88,7 @@ class QueryTab extends Component {
       data,
     } = this.props
 
-    const fieldsParams = data.config
+    const fieldsParams = _.get(data, 'config', [])
       .map(field => ({
         fieldName: field.fieldName,
         value: field.value,
