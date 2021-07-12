@@ -96,6 +96,7 @@ export const i18n = {
   message: {
     create: 'Tạo thành công',
     edit: 'Cập nhập thành công ',
+    delete: 'Xóa thành công',
   },
   rules: {
     name: 'Vui lòng nhập trên API',
