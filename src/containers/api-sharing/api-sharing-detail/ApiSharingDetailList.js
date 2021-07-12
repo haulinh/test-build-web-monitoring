@@ -1,4 +1,4 @@
-import { Button, Divider, Modal } from 'antd'
+import { Button, Divider, message, Modal } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
 import DynamicTable from 'components/elements/dynamic-table'
 import { DD_MM_YYYY } from 'constants/format-date'
@@ -74,6 +74,7 @@ export default class ApiSharingDetailList extends React.Component {
           const res = await shareApiApi.deleteApiDetailById(id)
           if (res.success) {
             const dataUpdated = this.state.data.filter(item => item._id !== id)
+            message.success(i18n.message.delete)
             this.setState({ data: dataUpdated })
           }
         } catch (error) {}

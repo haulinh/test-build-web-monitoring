@@ -4,6 +4,7 @@ import Clearfix from 'components/elements/clearfix'
 import Text from 'components/elements/text'
 import Example from 'containers/api-sharing/component/Example'
 import TableParams from 'containers/api-sharing/component/TableParams'
+import { FIELDS } from 'containers/api-sharing/constants'
 import { Header } from 'containers/api-sharing/layout/styles'
 import {
   generateGetUrl,
@@ -11,7 +12,7 @@ import {
   isCreate,
 } from 'containers/api-sharing/util'
 import withShareApiContext from 'containers/api-sharing/withShareApiContext'
-import { get, isEqual } from 'lodash'
+import { isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
@@ -43,7 +44,8 @@ const Endpoint = styled.div`
 
 @withRouter
 @Form.create()
-class QueryTab extends Component {
+@withShareApiContext
+export default class QueryTab extends Component {
   componentDidMount() {
     if (!isCreate(this.props.rule)) this.setInitFields()
   }
@@ -59,10 +61,12 @@ class QueryTab extends Component {
     const fieldsValue = data.config.reduce((base, current) => {
       let value = current.value
       if (
-        ['measuringList', 'stationKeys'].includes(current.fieldName) &&
-        (value || '').includes(',')
+        [
+          FIELDS.STATION_FIXED.HISTORY_DATA.MEASURING_LIST,
+          FIELDS.STATION_FIXED.HISTORY_DATA.POINT,
+        ].includes(current.fieldName)
       ) {
-        value = get(current, 'value', '').split(',')
+        value = current.value.split(',')
       }
       const fieldValue = {
         [`config.${current.fieldName}`]: value,
@@ -70,12 +74,17 @@ class QueryTab extends Component {
       return { ...base, ...fieldValue }
     }, {})
 
-    this.props.form.setFieldsValue(fieldsValue)
+    this.props.form.setFieldsValue({
+      ...fieldsValue,
+      name: data.name,
+      description: data.description,
+    })
   }
 
   copyUrl = async () => {
     const url = this.getUrl()
     const curl = generateGetUrl(url)
+    console.log(curl)
 
     const success = copyTextToClipboard(curl)
     if (success) message.success('Success')
@@ -98,9 +107,7 @@ class QueryTab extends Component {
       .map(field => `${field.fieldName}=${field.value}`)
       .join('&')
 
-    const url = [dataRoutes.getStationAutoHistory(), `id=${params.id}`].join(
-      '?'
-    )
+    const url = [dataRoutes.getPeriodicNewest(), `id=${params.id}`].join('?')
 
     const urlQuery = [url, urlParams].join('&')
 
@@ -133,5 +140,3 @@ class QueryTab extends Component {
     )
   }
 }
-
-export default withShareApiContext(QueryTab)
