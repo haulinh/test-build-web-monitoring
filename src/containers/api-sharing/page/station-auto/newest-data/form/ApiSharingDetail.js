@@ -37,6 +37,7 @@ export default class ApiSharingDetail extends Component {
 
   updateData = newData => {
     this.setState({ data: newData })
+    this.props.setName(newData.name)
   }
 
   render() {
