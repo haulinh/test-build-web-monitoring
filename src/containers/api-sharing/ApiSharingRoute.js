@@ -25,6 +25,11 @@ import {
   NewestDataStationFixedEdit,
   NewestDataStationFixedView,
 } from './page/station-fixed/newest-data'
+import {
+  NewestDataWeatherCreate,
+  NewestDataWeatherEdit,
+  NewestDataWeatherView,
+} from './page/weather/newest-data'
 
 const ApiSharingRoute = () => {
   return (
@@ -100,6 +105,23 @@ const ApiSharingRoute = () => {
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationFixed.historyData.key}/:id`}
           component={HistoryDataStationFixedView}
+        />
+
+        {/**Weather */}
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.weather.newestData.key}/create`}
+          component={NewestDataWeatherCreate}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.weather.newestData.key}/edit/:id`}
+          component={NewestDataWeatherEdit}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.weather.newestData.key}/:id`}
+          component={NewestDataWeatherView}
         />
       </Switch>
     </ApiSharingLayout>
