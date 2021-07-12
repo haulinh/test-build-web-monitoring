@@ -1,5 +1,5 @@
 import { Col, Form, Row, Switch } from 'antd'
-import { SelectPhase, SelectPoint } from 'components/elements/select-data'
+import { SelectPoint } from 'components/elements/select-data'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'

@@ -56,9 +56,14 @@ export default class SelectStationAuto extends React.PureComponent {
     }
 
     if (province) {
-      stationAutos = stationAutos.filter(
-        stationAuto => stationAuto.province === province
-      )
+      stationAutos = stationAutos.filter(stationAuto => {
+        const provinceValue = _.get(
+          stationAuto,
+          ['province', fieldValue || 'key'],
+          ''
+        )
+        return provinceValue === province
+      })
     }
 
     if (stationType) {

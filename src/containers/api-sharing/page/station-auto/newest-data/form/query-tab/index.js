@@ -8,11 +8,10 @@ import { Header } from 'containers/api-sharing/layout/styles'
 import {
   generateGetUrl,
   getDataExample,
-  getPathname,
   isCreate,
 } from 'containers/api-sharing/util'
 import withShareApiContext from 'containers/api-sharing/withShareApiContext'
-import _, { get, isEqual } from 'lodash'
+import { get, isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
