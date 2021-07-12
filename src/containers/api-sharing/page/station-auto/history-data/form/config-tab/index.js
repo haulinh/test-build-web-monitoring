@@ -25,7 +25,8 @@ export default class ConfigTab extends Component {
       let value = current.value
       if (
         ['measuringList'].includes(current.fieldName) &&
-        (value || '').includes(',')
+        value &&
+        value.includes(',')
       ) {
         value = get(current, 'value', '').split(',')
       }
@@ -61,7 +62,7 @@ export default class ConfigTab extends Component {
       const isDefault = !optionParams.includes(key)
 
       let valueParams = value
-      if (['measuringList'].includes(key) && value) {
+      if (['measuringList'].includes(key) && Array.isArray(value)) {
         valueParams = value.join(',')
       }
 

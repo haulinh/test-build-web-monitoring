@@ -24,7 +24,8 @@ export default class ConfigTab extends Component {
       let value = current.value
       if (
         ['measuringList', 'stationKeys'].includes(current.fieldName) &&
-        (value || '').includes(',')
+        value &&
+        value.includes(',')
       ) {
         value = get(current, 'value', '').split(',')
       }
@@ -56,7 +57,10 @@ export default class ConfigTab extends Component {
       const isDefault = !optionParams.includes(key)
 
       let valueParams = value
-      if (['measuringList', 'stationKeys'].includes(key) && value) {
+      if (
+        ['measuringList', 'stationKeys'].includes(key) &&
+        Array.isArray(value)
+      ) {
         valueParams = value.join(',')
       }
 
@@ -79,11 +83,15 @@ export default class ConfigTab extends Component {
 
   handleSubmit = async e => {
     e.preventDefault()
+
     const { rule, history, location, form } = this.props
+
     const values = await form.validateFields()
     if (!values) return
+
     const queryParams = this.getQueryParams()
     const key = shareApiList.stationAuto.newestData.key
+
     if (isCreate(rule)) {
       const res = await shareApiApi.createApiByKey(key, queryParams)
       message.success(i18n.message.create)
@@ -91,7 +99,7 @@ export default class ConfigTab extends Component {
         'create',
         `edit/${res.data._id}`
       )
-      history.push(urlUpdate)
+      history.push({ pathname: urlUpdate, state: { activeKey: 'QueryTab' } })
       return
     }
 

@@ -21,14 +21,16 @@ export default class ConfigTab extends Component {
 
   setInitFields = () => {
     const { data } = this.props
-    const fieldsValue = data.config.reduce((base, current) => {
+    const fieldsValue = _.get(data, 'config', []).reduce((base, current) => {
       let value = current.value
       if (
         [
           FIELDS.STATION_FIXED.HISTORY_DATA.MEASURING_LIST,
           FIELDS.STATION_FIXED.HISTORY_DATA.POINT,
           'phaseIds',
-        ].includes(current.fieldName)
+        ].includes(current.fieldName) &&
+        value &&
+        value.includes(',')
       ) {
         value = current.value.split(',')
       }
@@ -62,7 +64,10 @@ export default class ConfigTab extends Component {
       const isDefault = !optionParams.includes(key)
 
       let valueParams = value
-      if (['measuringList', 'stationKeys', 'phaseIds'].includes(key) && value) {
+      if (
+        ['measuringList', 'stationKeys', 'phaseIds'].includes(key) &&
+        Array.isArray(value)
+      ) {
         valueParams = value.join(',')
       }
 
