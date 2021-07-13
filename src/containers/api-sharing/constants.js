@@ -108,7 +108,7 @@ export const i18n = {
     delete: 'Xóa thành công',
   },
   rules: {
-    name: 'Vui lòng nhập trên API',
+    name: 'Vui lòng nhập tên API',
     max: 'Không được nhập quá 64 ký tự',
     requireChoose: 'Vui lòng chọn ít nhất 1 giá trị',
   },

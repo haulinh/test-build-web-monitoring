@@ -37,16 +37,22 @@ export default class Condition extends React.Component {
   setFormInit = () => {
     const { form, rule } = this.props
     if (!isCreate(rule)) return
+
     const { stationTypes } = this.state
     const stationTypeInit = (stationTypes[0] || {})._id
+    if (!stationTypeInit) return
+    form.setFieldsValue({
+      [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
+    })
 
     const stationAutos = this.getStationAutos()
     const stationAutoInit = stationAutos.map(stationAuto => stationAuto.key)
+
     const measuringListInit = getMeasuringListFromStationAutos(
       stationAutos
     ).map(item => item.key)
+
     form.setFieldsValue({
-      [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
       [`config.${FIELDS.STATION_AUTO}`]: stationAutoInit,
       [`config.${FIELDS.MEASURING_LIST}`]: measuringListInit,
       [`config.${FIELDS.DATA_TYPE}`]: 'origin',
@@ -96,16 +102,14 @@ export default class Condition extends React.Component {
   }
 
   handleFieldStationAutoChange = () => {
-    const { form } = this.props
-    form.setFieldsValue({ [`config.${[FIELDS.MEASURING_LIST]}`]: undefined })
+    // const { form } = this.props
+    // form.setFieldsValue({ [`config.${[FIELDS.MEASURING_LIST]}`]: undefined })
   }
 
   getMeasuringList = () => {
-    const {
-      config: { stationKeys = [] } = {},
-    } = this.props.form.getFieldsValue()
-    const stationAutos = this.state.stationAutos.filter(stationAuto =>
-      stationKeys.includes(stationAuto.key)
+    const { config: { stationType } = {} } = this.props.form.getFieldsValue()
+    const stationAutos = this.state.stationAutos.filter(
+      stationAuto => stationAuto.stationType._id === stationType
     )
     const measuringList = getMeasuringListFromStationAutos(stationAutos)
     return measuringList

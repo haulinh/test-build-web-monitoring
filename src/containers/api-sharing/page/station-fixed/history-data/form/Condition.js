@@ -66,9 +66,8 @@ export default class Condition extends React.Component {
     const phases = this.getPhases()
     const phasesInit = phases.map(phase => phase._id)
 
-    const measuringListInit = getMeasuringListFromStationAutos(
-      stationAutos
-    ).map(item => item.key)
+    const measuringList = this.getMeasuringList()
+    const measuringListInit = measuringList.map(item => item.key)
 
     form.setFieldsValue({
       [`config.${FIELDS.POINT}`]: stationAutoInit,
@@ -88,10 +87,10 @@ export default class Condition extends React.Component {
   }
 
   handleOnPointChange = () => {
-    const { form } = this.props
-    form.setFieldsValue({
-      'config.measuringList': undefined,
-    })
+    // const { form } = this.props
+    // form.setFieldsValue({
+    //   'config.measuringList': undefined,
+    // })
   }
 
   getPoints = () => {
@@ -122,11 +121,9 @@ export default class Condition extends React.Component {
   }
 
   getMeasuringList = () => {
-    const {
-      config: { stationKeys = [] } = {},
-    } = this.props.form.getFieldsValue()
-    const stationAutos = this.state.points.filter(stationAuto =>
-      stationKeys.includes(stationAuto.key)
+    const { config: { stationType } = {} } = this.props.form.getFieldsValue()
+    const stationAutos = this.state.points.filter(
+      stationAuto => stationAuto.stationType._id === stationType
     )
     const measuringList = getMeasuringListFromStationAutos(stationAutos)
     return measuringList
@@ -136,6 +133,7 @@ export default class Condition extends React.Component {
     const { form, rule } = this.props
     const measuringList = this.getMeasuringList()
     const { config: { province, stationType } = {} } = form.getFieldsValue()
+
     return (
       <BoxShadow>
         <Header>{i18n.detailPage.header.condition}</Header>
