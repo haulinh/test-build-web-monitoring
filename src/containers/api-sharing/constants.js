@@ -19,7 +19,7 @@ export const shareApiList = {
     newestData: {
       key: 'weather-newest-data',
     },
-    feature: {
+    featureData: {
       key: 'weather-feature',
     },
   },
@@ -31,7 +31,8 @@ export const i18n = {
     'data-station-auto-history-data': 'Dữ liệu lịch sử',
     'data-station-fixed-newest-data': 'Dữ liệu mới nhất',
     'data-station-fixed-history-data': 'Dữ liệu lịch sử',
-    'weather-newest-data': 'fsdA',
+    'weather-newest-data': 'Thời tiết hiện tại',
+    'weather-feature': 'Dự báo thời tiết',
     create: 'Tạo mới',
     edit: 'Sửa',
   },
@@ -59,6 +60,10 @@ export const i18n = {
       point: 'Điểm quan trắc',
       field: 'Field',
       type: 'Type',
+      city: 'Tỉnh/Thành phố',
+      country: 'Quốc gia',
+      paramenter: 'Các thông số thời tiết',
+      days: 'Số ngày dự báo'
     },
   },
   button: {
@@ -81,6 +86,9 @@ export const i18n = {
     rangeTime: 'Thời gian',
     stationKeys: 'Trạm quan trắc',
     phaseIds: 'Đợt quan trắc',
+    cityId: 'Tỉnh/Thành phố',
+    parameterList: 'Các thông số thời tiết',
+    days: 'Số ngày dự báo'
   },
   types: {
     province: 'string',
@@ -91,6 +99,9 @@ export const i18n = {
     isExceeded: 'boolean',
     stationKeys: 'string',
     phaseIds: 'string',
+    cityId: 'string',
+    parameterList: 'string',
+    days: 'number'
   },
   description: {
     province: 'Mã đơn vị quản lý',
@@ -101,6 +112,9 @@ export const i18n = {
     isExceeded: 'Vượt ngưỡng',
     stationKeys: 'Mã trạm quan trắc',
     phaseIds: 'Mã đợt quan trắc',
+    cityId: 'Mã tỉnh thành phố',
+    parameterList: 'Mã thông số thời tiết',
+    days: 'Số ngày dự báo'
   },
   message: {
     create: 'Tạo thành công',
@@ -112,6 +126,9 @@ export const i18n = {
     max: 'Không được nhập quá 64 ký tự',
     requireChoose: 'Vui lòng chọn ít nhất 1 giá trị',
   },
+  init: {
+    country: 'Việt Nam'
+  }
 }
 
 export const FIELDS = {
@@ -125,4 +142,8 @@ export const FIELDS = {
       IS_EXCEEDED: 'isExceeded',
     },
   },
+  WEATHER: {
+    PARAMNETER: 'parameterList',
+    DAYS: 'days'
+  }
 }

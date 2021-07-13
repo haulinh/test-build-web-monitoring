@@ -12,12 +12,24 @@ import SelectParamenterWeather, { optionsWeather } from 'components/elements/sel
 
 export const FIELDS = {
   CITY_ID: 'cityId',
-  PARAMETER: 'parameterList'
+  PARAMETER: 'parameterList',
+  DAYS: 'days'
 }
+
+const options = [
+  { key: '5', label: 5 },
+  { key: '7', label: 7 }
+]
 
 export default class Condition extends React.Component {
   state = {
     cities: [],
+    days: [],
+  }
+
+  getDays = (days) => {
+    const dayInit = days[0].key
+    this.setFormInit(dayInit)
   }
 
   onFetchCitiesSuccess = (cities) => {
@@ -25,7 +37,7 @@ export default class Condition extends React.Component {
     this.setFormInit(cityIdInit)
   }
 
-  setFormInit = (cityId) => {
+  setFormInit = (cityId, day) => {
     const { form, rule } = this.props
 
     if (!isCreate(rule)) {
@@ -34,7 +46,8 @@ export default class Condition extends React.Component {
 
     form.setFieldsValue({
       [`config.${FIELDS.CITY_ID}`]: cityId,
-      [`config.${FIELDS.PARAMETER}`]: optionsWeather.map(item => item.key)
+      [`config.${FIELDS.PARAMETER}`]: optionsWeather.map(item => item.key),
+      [`config.${FIELDS.DAYS}`]: day
     })
   }
 
@@ -64,12 +77,27 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.paramenter}>
+            <Form.Item label={i18n.detailPage.label.paramenter} required>
               {form.getFieldDecorator(`config.${FIELDS.PARAMETER}`, {
               })(
                 <SelectParamenterWeather
                   disabled={isView(rule)}
                 />
+              )}
+            </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Form.Item label={i18n.detailPage.label.days} required>
+              {form.getFieldDecorator(`config.${FIELDS.DAYS}`, {
+              })(
+                <Select style={{ width: '100%' }}>
+                  {options.map(item => (
+                    <Select.Option key={item.key} value={item.key}>
+                      {item.label}
+                    </Select.Option>
+                  ))}
+                </Select>
               )}
             </Form.Item>
           </Col>

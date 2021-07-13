@@ -105,7 +105,7 @@ export default class QueryTab extends Component {
       .map(field => `${field.fieldName}=${field.value}`)
       .join('&')
 
-    const url = [dataRoutes.getWeatherNewest(), `id=${params.id}`].join('?')
+    const url = [dataRoutes.getWeatherFuture(), `id=${params.id}`].join('?')
 
     const urlQuery = [url, urlParams].join('&')
 

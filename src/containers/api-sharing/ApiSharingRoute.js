@@ -30,6 +30,11 @@ import {
   NewestDataWeatherEdit,
   NewestDataWeatherView,
 } from './page/weather/newest-data'
+import {
+  FeatureDataWeatherCreate,
+  FeatureDataWeatherEdit,
+  FeatureDataWeatherView,
+} from './page/weather/feature-data'
 
 const ApiSharingRoute = () => {
   return (
@@ -107,7 +112,7 @@ const ApiSharingRoute = () => {
           component={HistoryDataStationFixedView}
         />
 
-        {/**Weather */}
+        {/**Weather **/}
         <Route
           exact
           path={`${slug.apiSharing.base}/${shareApiList.weather.newestData.key}/create`}
@@ -122,6 +127,21 @@ const ApiSharingRoute = () => {
           exact
           path={`${slug.apiSharing.base}/${shareApiList.weather.newestData.key}/:id`}
           component={NewestDataWeatherView}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.weather.featureData.key}/create`}
+          component={FeatureDataWeatherCreate}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.weather.featureData.key}/edit/:id`}
+          component={FeatureDataWeatherEdit}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.weather.featureData.key}/:id`}
+          component={FeatureDataWeatherView}
         />
       </Switch>
     </ApiSharingLayout>

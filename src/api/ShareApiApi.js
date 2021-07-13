@@ -51,6 +51,8 @@ export const dataRoutes = {
     `${prefixCal()}/share-api/station-auto/newest-data`,
   getStationAutoHistory: () =>
     `${prefixCal()}/share-api/station-auto/history-data`,
+  getWeatherNewest: () => `${prefixCal()}/share-api/weather/newest-data`,
+  getWeatherFuture: () => `${prefixCal()}/share-api/weather/forecast-data`,
 }
 
 export const dataShareApiApi = {
@@ -61,7 +63,7 @@ export const dataShareApiApi = {
 }
 
 const weatherRoutes = {
-  getCities: () => `${prefixCalculate()}/weathers`,
+  getCities: () => `${prefixCalculate()}/cities`,
 }
 
 export const weatherApi = {
