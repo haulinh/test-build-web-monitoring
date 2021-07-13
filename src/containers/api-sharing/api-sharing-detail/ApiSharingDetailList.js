@@ -21,12 +21,12 @@ const i18nTrans = {
 
 const i18nInner = {
   head: {
-    apiName: 'Tên Api',
+    apiName: 'Tên API',
     dateCreated: 'Ngày tạo',
     dateEdited: 'Ngày chỉnh sửa',
   },
   button: {
-    create: 'Tạo Api',
+    create: 'Tạo API',
     edit: 'Sửa ',
     delete: 'Xóa',
   },
