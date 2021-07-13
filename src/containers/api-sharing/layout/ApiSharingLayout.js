@@ -9,6 +9,7 @@ export const ShareApiContext = React.createContext({
   menuApiSharingList: [],
   setMenuApiSharingList: () => {},
 })
+
 @withRouter
 export default class ApiSharingLayout extends React.Component {
   state = {

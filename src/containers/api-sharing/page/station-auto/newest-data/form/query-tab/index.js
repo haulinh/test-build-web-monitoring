@@ -10,7 +10,7 @@ import {
   getDataExample,
   isCreate,
 } from 'containers/api-sharing/util'
-import withShareApiContext from 'containers/api-sharing/withShareApiContext'
+import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
 import _, { get, isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'

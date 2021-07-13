@@ -11,6 +11,7 @@ import {
   getMeasuringListFromStationAutos,
   isCreate,
 } from 'containers/api-sharing/util'
+import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
 import _ from 'lodash'
 import React from 'react'
 
@@ -25,6 +26,7 @@ export const FIELDS = {
   DATA_TYPE: 'dataType',
 }
 
+@withApiSharingDetailContext
 export default class Condition extends React.Component {
   state = {
     stationAutoSelected: {},
@@ -84,12 +86,16 @@ export default class Condition extends React.Component {
 
   onStationTypeFetchSuccess = stationTypes => {
     this.setState({ stationTypes }, () => {
+      const stationAutosFilter = this.getStationAutos()
+      this.props.setStationAutos(stationAutosFilter)
       this.setFormInit()
     })
   }
 
   onStationAutosFetchSuccess = stationAutos => {
     this.setState({ stationAutos }, () => {
+      const stationAutosFilter = this.getStationAutos()
+      this.props.setStationAutos(stationAutosFilter)
       this.setFormInit()
     })
   }
@@ -108,7 +114,8 @@ export default class Condition extends React.Component {
   }
 
   getMeasuringList = () => {
-    const { config: { stationType } = {} } = this.props.form.getFieldsValue()
+    const { form } = this.props
+    const { config: { stationType } = {} } = form.getFieldsValue()
     const stationAutos = this.state.stationAutos.filter(
       stationAuto => stationAuto.stationType._id === stationType
     )
@@ -117,13 +124,13 @@ export default class Condition extends React.Component {
   }
 
   render() {
-    const { form } = this.props
+    const { form, isQuery } = this.props
     const { config: { province, stationType } = {} } = form.getFieldsValue()
     const measuringList = this.getMeasuringList()
 
     return (
       <BoxShadow>
-        <Header>{i18n.detailPage.header.condition}</Header>
+        {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
         <Row gutter={12}>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.province}>

@@ -58,6 +58,11 @@ export const dataShareApiApi = {
     const route = dataRoutes.getPeriodicHistory()
     return getFetch(route, params)
   },
+
+  getStationAutoHistory: params => {
+    const route = dataRoutes.getStationAutoHistory()
+    return getFetch(route, params)
+  },
 }
 
 const weatherRoutes = {

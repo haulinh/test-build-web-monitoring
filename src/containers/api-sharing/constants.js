@@ -59,14 +59,18 @@ export const i18n = {
       point: 'Điểm quan trắc',
       field: 'Field',
       type: 'Type',
+      chooseCondition: 'Chọn điều kiện',
     },
   },
   button: {
     save: 'Lưu',
+    search: 'Tìm kiếm',
   },
   tab: {
     configTab: 'Cấu hình',
     viewDataTab: 'Truy vấn dữ liệu',
+    list: 'Danh sách',
+    example: 'Ví dụ',
   },
   fields: {
     stationFixed: {
@@ -101,6 +105,10 @@ export const i18n = {
     isExceeded: 'Vượt ngưỡng',
     stationKeys: 'Mã trạm quan trắc',
     phaseIds: 'Mã đợt quan trắc',
+  },
+  table: {
+    tt: 'TT',
+    time: 'Thời gian Truyền File',
   },
   message: {
     create: 'Tạo thành công',
