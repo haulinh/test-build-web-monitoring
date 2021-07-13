@@ -66,9 +66,8 @@ export default class Condition extends React.Component {
     const phases = this.getPhases()
     const phasesInit = phases.map(phase => phase._id)
 
-    const measuringListInit = getMeasuringListFromStationAutos(
-      stationAutos
-    ).map(item => item.key)
+    const measuringList = this.getMeasuringList()
+    const measuringListInit = measuringList.map(item => item.key)
 
     form.setFieldsValue({
       [`config.${FIELDS.POINT}`]: stationAutoInit,
@@ -121,11 +120,9 @@ export default class Condition extends React.Component {
   }
 
   getMeasuringList = () => {
-    const {
-      config: { stationKeys = [] } = {},
-    } = this.props.form.getFieldsValue()
-    const stationAutos = this.state.points.filter(stationAuto =>
-      stationKeys.includes(stationAuto.key)
+    const { config: { stationType } = {} } = this.props.form.getFieldsValue()
+    const stationAutos = this.state.points.filter(
+      stationAuto => stationAuto.stationType._id === stationType
     )
     const measuringList = getMeasuringListFromStationAutos(stationAutos)
     return measuringList
