@@ -21,6 +21,7 @@ export default class ConfigTab extends Component {
 
   setInitFields = () => {
     const { data } = this.props
+
     const fieldsValue = data.config.reduce((base, current) => {
       let value = current.value
       if (

@@ -7,10 +7,20 @@ import { withRouter } from 'react-router'
 import ConfigTab from './config-tab'
 import QueryTab from './query-tab'
 
+export const ApiSharingDetailContext = React.createContext({
+  stationAutos: [],
+  setStationAutos: () => {},
+})
+
 @withRouter
 export default class ApiSharingDetail extends Component {
   state = {
     data: {},
+    stationAutos: [],
+  }
+
+  setStationAutos = stationAutos => {
+    this.setState({ stationAutos })
   }
 
   async componentDidMount() {
@@ -41,17 +51,21 @@ export default class ApiSharingDetail extends Component {
 
   render() {
     const { rule } = this.props
-    const { data } = this.state
+    const { data, stationAutos } = this.state
 
     return (
-      <Tabs>
-        <Tabs.TabPane tab={i18n.tab.configTab} key="ConfigTab">
-          <ConfigTab rule={rule} data={data} updateData={this.updateData} />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={i18n.tab.viewDataTab} key="ViewDataTab">
-          <QueryTab rule={rule} data={data} />
-        </Tabs.TabPane>
-      </Tabs>
+      <ApiSharingDetailContext.Provider
+        value={{ stationAutos, setStationAutos: this.setStationAutos }}
+      >
+        <Tabs>
+          <Tabs.TabPane tab={i18n.tab.configTab} key="ConfigTab">
+            <ConfigTab rule={rule} data={data} updateData={this.updateData} />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={i18n.tab.viewDataTab} key="ViewDataTab">
+            <QueryTab rule={rule} data={data} />
+          </Tabs.TabPane>
+        </Tabs>
+      </ApiSharingDetailContext.Provider>
     )
   }
 }

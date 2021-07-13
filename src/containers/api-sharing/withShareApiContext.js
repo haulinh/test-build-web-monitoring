@@ -1,7 +1,8 @@
 import React from 'react'
 import { ShareApiContext } from './layout/ApiSharingLayout'
+import { ApiSharingDetailContext } from './page/station-auto/history-data/form/ApiSharingDetail'
 
-const withShareApiContext = Component => {
+export const withShareApiContext = Component => {
   return props => {
     return (
       <ShareApiContext.Consumer>
@@ -11,4 +12,12 @@ const withShareApiContext = Component => {
   }
 }
 
-export default withShareApiContext
+export const withApiSharingDetailContext = Component => {
+  return props => {
+    return (
+      <ApiSharingDetailContext.Consumer>
+        {context => <Component {...props} {...context} />}
+      </ApiSharingDetailContext.Consumer>
+    )
+  }
+}

@@ -116,13 +116,13 @@ export default class Condition extends React.Component {
   }
 
   render() {
-    const { form } = this.props
+    const { form, isQuery } = this.props
     const { config: { province, stationType } = {} } = form.getFieldsValue()
     const measuringList = this.getMeasuringList()
 
     return (
       <BoxShadow>
-        <Header>{i18n.detailPage.header.condition}</Header>
+        {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
         <Row gutter={12}>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.province}>

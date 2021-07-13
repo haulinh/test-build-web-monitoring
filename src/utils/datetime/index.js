@@ -2,7 +2,6 @@ import moment from 'moment'
 import { getLanguage } from 'utils/localStorage'
 
 const getTimes = rangeTime => {
-  console.log({ rangeTime })
   if (Array.isArray(rangeTime)) {
     return {
       from: moment(rangeTime[0]).startOf('d'),
@@ -22,6 +21,22 @@ const getTimes = rangeTime => {
     to: moment()
       .subtract(1, 'd')
       .endOf('d'),
+  }
+}
+
+export const getTimesUTC = times => {
+  const from = times.from
+    .clone()
+    .utc()
+    .format()
+  const to = times.to
+    .clone()
+    .utc()
+    .format()
+
+  return {
+    from,
+    to,
   }
 }
 
