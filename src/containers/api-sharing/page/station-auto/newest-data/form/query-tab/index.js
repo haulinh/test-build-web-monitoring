@@ -99,9 +99,7 @@ class QueryTab extends Component {
       .map(field => `${field.fieldName}=${field.value}`)
       .join('&')
 
-    const url = [dataRoutes.getStationAutoHistory(), `id=${params.id}`].join(
-      '?'
-    )
+    const url = [dataRoutes.getStationAutoNewest(), `id=${params.id}`].join('?')
 
     const urlQuery = [url, urlParams].join('&')
 
