@@ -3337,16 +3337,17 @@ export default {
   },
   wqiStationFix: {
     viewBy: 'View by',
-    month: 'Month',
-    year: 'Year',
-    quarter: 'Quarter',
+    month: 'Monthly',
+    year: 'Annually',
+    quarter: 'Quarterly',
     time: 'Time',
     chart: 'Chart',
     table: 'Data',
     exportBtn: 'Export data',
+    fileExport: 'WQI data',
     requireTime: 'Please select time',
       pointName: 'Point Name',
-      avgTime: 'Avergage time',
+      avgTime: 'Average time',
       wqiValue: 'WQI Value',
       wqiLevel: 'WQI Level'
   }

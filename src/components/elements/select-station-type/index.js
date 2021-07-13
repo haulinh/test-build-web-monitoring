@@ -36,16 +36,16 @@ export default class SelectStationType extends PureComponent {
   }
 
   async componentDidMount() {
-    const {isAuto, value, isShowAll, getRef, onFetchSuccess} = this.props
+    const { isAuto, value, isShowAll, getRef, onFetchSuccess } = this.props
     const results = await CategoryApi.getStationTypes({}, { isAuto })
     if (results.success)
-      if (typeof onFetchSuccess === "function") onFetchSuccess(results.data)
-      this.setState({
-        stationTypes: results.data || [],
-        value: value || (isShowAll ? '' : undefined),
-      })
+      if (typeof onFetchSuccess === 'function') onFetchSuccess(results.data)
+    this.setState({
+      stationTypes: results.data || [],
+      value: value || (isShowAll ? '' : undefined),
+    })
 
-    if (typeof getRef === "function") getRef(this)
+    if (typeof getRef === 'function') getRef(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -97,7 +97,7 @@ export default class SelectStationType extends PureComponent {
   }
 
   render() {
-    const { language } = this.props
+    const { language, fieldValue } = this.props
     const stationTypes = this.getStationTypes()
     return (
       <Select
@@ -115,7 +115,10 @@ export default class SelectStationType extends PureComponent {
           </Select.Option>
         )}
         {stationTypes.map(stationType => (
-          <Select.Option key={stationType.key} value={stationType.key}>
+          <Select.Option
+            key={stationType.key}
+            value={stationType[fieldValue || 'key']}
+          >
             {removeAccents(language, stationType.name)}
           </Select.Option>
         ))}

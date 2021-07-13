@@ -1,16 +1,14 @@
 import {Button, Col, DatePicker, Form, Radio, Row} from 'antd'
-import CategoryApi from 'api/CategoryApi'
+import CalculateApi from 'api/CalculateApi'
 import {getPhase} from 'api/station-fixed/StationFixedPhaseApi'
 import {getPoint} from 'api/station-fixed/StationFixedPointApi'
 import {default as BoxShadowStyle} from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import {MM_YYYY, YYYY} from 'constants/format-date'
 import {translate as t} from 'hoc/create-lang'
-import {get, isNumber} from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import {getTimes} from 'utils/datetime'
 import SelectPhase from './SelectPhase'
 import SelectPoint from './SelectPoint'
 import SelectProvinceForm from './SelectProvince'
@@ -60,18 +58,8 @@ class SearchForm extends React.Component {
   }
 
   async componentDidMount() {
-    const stationTypes = await CategoryApi.getStationTypes(
-      {},
-      {isAuto: false}
-    )
-    if (stationTypes.success)
-      this.setState({
-        stationTypes: stationTypes.data || [],
-        value: this.props.value || (this.props.isShowAll ? '' : undefined),
-      })
-    this.setState({
-      stationTypes: stationTypes.data,
-    })
+    const stationTypes = await CalculateApi.getStationTypeCalculateByWQI()
+    this.setState({stationTypes})
   }
 
   fetchPhase = async () => {
@@ -214,7 +202,7 @@ class SearchForm extends React.Component {
               </Col>
             </Row>
             <Row gutter={24}>
-              <Col span={6}>
+              <Col xs={8}>
                 <Form.Item label={i18n.viewBy}>
                 {form.getFieldDecorator(FIELDS.TYPE, {initialValue: 'month'})(
                     <Radio.Group>
@@ -225,9 +213,13 @@ class SearchForm extends React.Component {
                   )}
                 </Form.Item>
               </Col>
-              <Col span={6}>
+              <Col xs={8}>
                 <Form.Item label={i18n.time}>
                   {form.getFieldDecorator(FIELDS.RANGE_PICKER, {
+                    //initialValue: [
+                    //moment().subtract(2, 'year').startOf('year'),
+                    //moment().add(1, 'year').startOf(year)
+                  //],
                     rules: this.getConfig(i18n.requireTime).rules
                   })(
                     <DatePicker.RangePicker format={formatTime} />

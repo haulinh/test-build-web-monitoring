@@ -45,7 +45,7 @@ export default class SelectProvince extends PureComponent {
       typeof this.props.value === 'string' ||
       Array.isArray(this.props.value)
     ) {
-      if(this.props.isUsedId && this.props.value){
+      if (this.props.isUsedId && this.props.value) {
         let res = dataSource.find(item => item._id === this.props.value)
         return res.key
       }
@@ -92,6 +92,7 @@ export default class SelectProvince extends PureComponent {
 
   render() {
     const provinces = this.getProvinces()
+    const { fieldValue, value } = this.props
     return (
       <Select
         {...this.props}
@@ -100,7 +101,7 @@ export default class SelectProvince extends PureComponent {
         allowClear
         onChange={this.handleOnChange}
         onSearch={this.handleSearch}
-        value={this.state.value}
+        value={value || this.state.value}
         filterOption={false}
       >
         {this.props.isShowAll && (
@@ -109,7 +110,10 @@ export default class SelectProvince extends PureComponent {
           </Select.Option>
         )}
         {provinces.map(province => (
-          <Select.Option key={province.key} value={province.key}>
+          <Select.Option
+            key={province.key}
+            value={province[fieldValue || 'key']}
+          >
             {province.name}
           </Select.Option>
         ))}

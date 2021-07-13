@@ -1,34 +1,58 @@
 import moment from 'moment'
+import { getLanguage } from 'utils/localStorage'
 
 const getTimes = rangeTime => {
-  // console.log("Start getTimes")
-  // console.log(rangeTime, 'getTimes -> ==rangeTime==')
-
-  // trong khoang
   if (Array.isArray(rangeTime)) {
     return {
-      from: rangeTime[0].startOf('d'),
-      to: rangeTime[1].endOf('d'),
+      from: moment(rangeTime[0]).startOf('d'),
+      to: moment(rangeTime[1]).endOf('d'),
     }
   }
-
-  // 24h
   if (rangeTime === 1) {
     return {
       from: moment().subtract(1, 'd'),
       to: moment(),
     }
   }
-
-  // cac options khac
   return {
     from: moment()
       .subtract(rangeTime, 'd')
       .startOf('d'),
     to: moment()
       .subtract(1, 'd')
-      .endOf('d')
+      .endOf('d'),
   }
+}
+
+export const getTimesUTC = times => {
+  const from = times.from
+    .clone()
+    .utc()
+    .format()
+  const to = times.to
+    .clone()
+    .utc()
+    .format()
+
+  return {
+    from,
+    to,
+  }
+}
+
+const quarterSysbol = {
+  1: 'I',
+  2: 'II',
+  3: 'III',
+  4: 'IV',
+}
+
+export const formatQuarter = (time, lang = getLanguage()) => {
+  if (lang === 'vi')
+    return moment(time).format(
+      `[Quý ${quarterSysbol[moment(time).quarter()]}] YYYY`
+    )
+  return moment(time).format('Qo [quarter] YYYY')
 }
 
 export { getTimes }

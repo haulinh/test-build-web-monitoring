@@ -16,7 +16,7 @@ import { Popover, Typography, Row, Col, Icon } from 'antd'
 const { Text } = Typography
 
 // import aqiLevel from 'constants/aqi-level'
-import { GOOGLE_MAP } from 'config'
+import { getApps } from 'config'
 
 const WinDowInfoWrapper = styled.div`
   max-width: 330px;
@@ -219,8 +219,12 @@ const AqiMarker = ({ item, aqiLevel, onMarkerClick, stationKey, onClose }) => {
 }
 
 const DEFAULT_CENTER = { lat: 21.01993, lng: 107.078659 }
-@withProps({
-  googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP.KEY}&v=3.exp&libraries=geometry,drawing,places`,
+@withProps(() =>{
+  const key = getApps().googleMapKey
+  return {
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${key}&v=3.exp&libraries=geometry,drawing,places`,
+
+  }
 })
 @withScriptjs
 @withGoogleMap

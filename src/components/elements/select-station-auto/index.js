@@ -15,6 +15,8 @@ export default class SelectStationAuto extends React.PureComponent {
     onChangeObject: PropTypes.func,
     getRef: PropTypes.func,
     stationAutoKey: PropTypes.func,
+    province: PropTypes.string,
+    stationType: PropTypes.string,
   }
 
   state = {
@@ -34,26 +36,59 @@ export default class SelectStationAuto extends React.PureComponent {
       isLoaded: true,
     })
 
+    if (this.props.onFetchSuccess) {
+      this.props.onFetchSuccess(res.data)
+    }
+
     if (this.props.getRef) this.props.getRef(this)
   }
 
   getStationAutos = () => {
-    const stationAutos = this.state.stationAutoSelects
+    const { province, stationType, fieldValue } = this.props
+    let stationAutos = this.state.stationAutoSelects
+
     if (this.state.searchString) {
       const searchString = replaceVietnameseStr(this.state.searchString)
-      return stationAutos.filter(
+      stationAutos = stationAutos.filter(
         stationAuto =>
           replaceVietnameseStr(stationAuto.name).indexOf(searchString) > -1
       )
     }
+
+    if (province) {
+      stationAutos = stationAutos.filter(stationAuto => {
+        const provinceValue = _.get(
+          stationAuto,
+          ['province', fieldValue || 'key'],
+          ''
+        )
+        return provinceValue === province
+      })
+    }
+
+    if (stationType) {
+      stationAutos = stationAutos.filter(
+        stationAuto =>
+          stationAuto.stationType[fieldValue || 'key'] === stationType
+      )
+    }
+
     return stationAutos
   }
 
   handleChange = stationTypeValue => {
     this.setState({ searchString: '' })
-    const stationType = this.state.stationAutoSelects.find(
+
+    let stationType = this.state.stationAutoSelects.find(
       s => s.key === stationTypeValue
     )
+
+    if (this.props.mode === 'multiple') {
+      stationType = this.state.stationAutoSelects.filter(item => {
+        return stationTypeValue.includes(item.key)
+      })
+    }
+
     this.props.onChange(stationTypeValue)
     if (this.props.onChangeObject) {
       this.props.onChangeObject(stationType)
@@ -70,6 +105,7 @@ export default class SelectStationAuto extends React.PureComponent {
     return (
       <Select
         {...this.props}
+        style={{ width: '100%' }}
         allowClear
         showSearch
         onChange={this.handleChange}

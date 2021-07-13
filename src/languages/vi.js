@@ -3347,6 +3347,7 @@ export default {
     chart: 'Biểu đồ',
     table: 'Dữ liệu',
     exportBtn: 'Xuất dữ liệu',
+    fileExport: 'Dữ liệu WQI',
     requireTime: 'Vui lòng chọn thời gian',
       pointName: 'Điểm quan trắc',
       avgTime: 'Thời gian trung bình',
