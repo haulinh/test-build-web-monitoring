@@ -7,8 +7,12 @@ import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
-import { isCreate } from 'containers/api-sharing/util'
-import _, { get } from 'lodash'
+import {
+  getMeasuringListFromStationAutos,
+  isCreate,
+} from 'containers/api-sharing/util'
+import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
+import _ from 'lodash'
 import React from 'react'
 
 export const FIELDS = {
@@ -22,6 +26,7 @@ export const FIELDS = {
   DATA_TYPE: 'dataType',
 }
 
+@withApiSharingDetailContext
 export default class Condition extends React.Component {
   state = {
     stationAutoSelected: {},
@@ -36,16 +41,21 @@ export default class Condition extends React.Component {
   setFormInit = () => {
     const { form, rule } = this.props
     if (!isCreate(rule)) return
+
     const { stationTypes } = this.state
     const stationTypeInit = (stationTypes[0] || {})._id
+    if (!stationTypeInit) return
+    form.setFieldsValue({
+      [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
+    })
 
     const stationAutos = this.getStationAutos()
     const stationAutoInit = _.get(stationAutos[0], 'key', '')
-    const measuringListInit = _.get(stationAutos[0], 'measuringList', []).map(
-      item => item.key
-    )
+
+    const measuringList = this.getMeasuringList()
+    const measuringListInit = measuringList.map(item => item.key)
+
     form.setFieldsValue({
-      [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
       [`config.${FIELDS.STATION_AUTO}`]: stationAutoInit,
       [`config.${FIELDS.MEASURING_LIST}`]: measuringListInit,
       [`config.${FIELDS.DATA_TYPE}`]: 'origin',
@@ -76,12 +86,16 @@ export default class Condition extends React.Component {
 
   onStationTypeFetchSuccess = stationTypes => {
     this.setState({ stationTypes }, () => {
+      const stationAutosFilter = this.getStationAutos()
+      this.props.setStationAutos(stationAutosFilter)
       this.setFormInit()
     })
   }
 
   onStationAutosFetchSuccess = stationAutos => {
     this.setState({ stationAutos }, () => {
+      const stationAutosFilter = this.getStationAutos()
+      this.props.setStationAutos(stationAutosFilter)
       this.setFormInit()
     })
   }
@@ -95,27 +109,28 @@ export default class Condition extends React.Component {
   }
 
   handleFieldStationAutoChange = () => {
-    const { form } = this.props
-    form.setFieldsValue({ [`config.${[FIELDS.MEASURING_LIST]}`]: undefined })
+    // const { form } = this.props
+    // form.setFieldsValue({ [`config.${[FIELDS.MEASURING_LIST]}`]: undefined })
   }
 
   getMeasuringList = () => {
-    const { config: { stationKeys } = {} } = this.props.form.getFieldsValue()
-    const stationAuto = this.state.stationAutos.find(
-      stationAuto => stationAuto.key === stationKeys
+    const { form } = this.props
+    const { config: { stationType } = {} } = form.getFieldsValue()
+    const stationAutos = this.state.stationAutos.filter(
+      stationAuto => stationAuto.stationType._id === stationType
     )
-    const measureList = get(stationAuto, 'measuringList', [])
+    const measureList = getMeasuringListFromStationAutos(stationAutos)
     return measureList
   }
 
   render() {
-    const { form } = this.props
+    const { form, isQuery } = this.props
     const { config: { province, stationType } = {} } = form.getFieldsValue()
     const measuringList = this.getMeasuringList()
 
     return (
       <BoxShadow>
-        <Header>{i18n.detailPage.header.condition}</Header>
+        {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
         <Row gutter={12}>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.province}>

@@ -63,15 +63,19 @@ export const i18n = {
       city: 'Tỉnh/Thành phố',
       country: 'Quốc gia',
       paramenter: 'Các thông số thời tiết',
-      days: 'Số ngày dự báo'
+      days: 'Số ngày dự báo',
+      chooseCondition: 'Chọn điều kiện',
     },
   },
   button: {
     save: 'Lưu',
+    search: 'Tìm kiếm',
   },
   tab: {
     configTab: 'Cấu hình',
     viewDataTab: 'Truy vấn dữ liệu',
+    list: 'Danh sách',
+    example: 'Ví dụ',
   },
   fields: {
     stationFixed: {
@@ -116,13 +120,17 @@ export const i18n = {
     parameterList: 'Mã thông số thời tiết',
     days: 'Số ngày dự báo'
   },
+  table: {
+    tt: 'TT',
+    time: 'Thời gian Truyền File',
+  },
   message: {
     create: 'Tạo thành công',
     edit: 'Cập nhập thành công ',
     delete: 'Xóa thành công',
   },
   rules: {
-    name: 'Vui lòng nhập trên API',
+    name: 'Vui lòng nhập tên API',
     max: 'Không được nhập quá 64 ký tự',
     requireChoose: 'Vui lòng chọn ít nhất 1 giá trị',
   },

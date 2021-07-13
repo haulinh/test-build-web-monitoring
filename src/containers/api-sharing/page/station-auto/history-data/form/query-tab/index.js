@@ -1,22 +1,25 @@
-import { Form, Icon, message } from 'antd'
-import { dataRoutes } from 'api/ShareApiApi'
+import { Form, Icon, message, Tabs } from 'antd'
+import { dataRoutes, dataShareApiApi } from 'api/ShareApiApi'
 import Clearfix from 'components/elements/clearfix'
 import Text from 'components/elements/text'
 import Example from 'containers/api-sharing/component/Example'
+import Search from 'containers/api-sharing/component/Search'
 import TableParams from 'containers/api-sharing/component/TableParams'
-import { Header } from 'containers/api-sharing/layout/styles'
+import { i18n } from 'containers/api-sharing/constants'
 import {
   generateGetUrl,
   getDataExample,
   isCreate,
 } from 'containers/api-sharing/util'
-import withShareApiContext from 'containers/api-sharing/withShareApiContext'
-import { get, isEqual } from 'lodash'
+import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
+import _, { get, isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
+import { getTimes, getTimesUTC } from 'utils/datetime'
 import Condition from '../Condition'
+import DataTable from './DataTable'
 
 const Method = styled.div`
   display: inline-block;
@@ -43,7 +46,13 @@ const Endpoint = styled.div`
 
 @withRouter
 @Form.create()
-class QueryTab extends Component {
+@withShareApiContext
+export default class QueryTab extends Component {
+  state = {
+    dataTable: [],
+    loadingSearch: false,
+  }
+
   componentDidMount() {
     if (!isCreate(this.props.rule)) this.setInitFields()
   }
@@ -56,11 +65,12 @@ class QueryTab extends Component {
 
   setInitFields = () => {
     const { data } = this.props
-    const fieldsValue = data.config.reduce((base, current) => {
+    const fieldsValue = _.get(data, 'config', []).reduce((base, current) => {
       let value = current.value
       if (
         ['measuringList'].includes(current.fieldName) &&
-        (value || '').includes(',')
+        value &&
+        value.includes(',')
       ) {
         value = get(current, 'value', '').split(',')
       }
@@ -91,7 +101,7 @@ class QueryTab extends Component {
       data,
     } = this.props
 
-    const fieldsParams = data.config
+    const fieldsParams = _.get(data, 'config', [])
       .map(field => ({
         fieldName: field.fieldName,
         value: field.value,
@@ -111,12 +121,53 @@ class QueryTab extends Component {
     return urlQuery
   }
 
+  getQueryParams = () => {
+    const { form, data } = this.props
+    const { config: fieldsValue } = form.getFieldsValue()
+
+    let measuringList = fieldsValue.measuringList
+    if (Array.isArray(measuringList)) measuringList = measuringList.join(',')
+
+    const times = getTimes(fieldsValue.rangeTime)
+    const { from, to } = getTimesUTC(times)
+
+    const queryParams = {
+      id: data._id,
+      ...fieldsValue,
+      measuringList,
+      from,
+      to,
+    }
+
+    return queryParams
+  }
+
+  handleOnSearch = async () => {
+    const queryParams = this.getQueryParams()
+
+    this.setState({ loadingSearch: true })
+    try {
+      const data = await dataShareApiApi.getStationAutoHistory(queryParams)
+      if (data) {
+        this.setState({ dataTable: data })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    this.setState({ loadingSearch: false })
+  }
+
   render() {
     const { form, rule, location, menuApiSharingList } = this.props
+    const { dataTable, loadingSearch } = this.state
     const dataExample = getDataExample(menuApiSharingList, location)
+    const { config: { measuringList = [] } = {} } = form.getFieldsValue()
     return (
       <React.Fragment>
-        <Condition form={form} rule={rule} />
+        <Search onSearch={this.handleOnSearch} loading={loadingSearch}>
+          <Condition isQuery form={form} rule={rule} />
+        </Search>
+
         <Clearfix height={32} />
         {!isCreate(rule) && (
           <React.Fragment>
@@ -131,11 +182,21 @@ class QueryTab extends Component {
             <TableParams form={form} />
           </React.Fragment>
         )}
-        <Header>Ví dụ</Header>
-        <Example data={dataExample} />
+
+        <Clearfix height={32} />
+        <Tabs>
+          <Tabs.TabPane tab={i18n.tab.list} key="List">
+            <DataTable
+              measuringList={measuringList}
+              dataSource={dataTable}
+              loading={loadingSearch}
+            />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={i18n.tab.example} key="Example">
+            <Example data={dataExample} />
+          </Tabs.TabPane>
+        </Tabs>
       </React.Fragment>
     )
   }
 }
-
-export default withShareApiContext(QueryTab)

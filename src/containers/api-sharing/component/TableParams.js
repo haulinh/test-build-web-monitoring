@@ -35,7 +35,7 @@ export default function TableParams({ form }) {
   return (
     <React.Fragment>
       <Header>{i18n.detailPage.header.parameter}</Header>
-      <Table columns={columns} dataSource={dataSource} />
+      <Table columns={columns} dataSource={dataSource} pagination={false} />
     </React.Fragment>
   )
 }
