@@ -1,11 +1,11 @@
-import { Form, Icon, message } from 'antd'
-import { dataRoutes } from 'api/ShareApiApi'
+import { Form, Icon, message, Tabs } from 'antd'
+import { dataRoutes, dataShareApiApi } from 'api/ShareApiApi'
 import Clearfix from 'components/elements/clearfix'
 import Text from 'components/elements/text'
 import Example from 'containers/api-sharing/component/Example'
 import TableParams from 'containers/api-sharing/component/TableParams'
-import { FIELDS } from 'containers/api-sharing/constants'
-import { Header } from 'containers/api-sharing/layout/styles'
+import { FIELDS, i18n } from 'containers/api-sharing/constants'
+import Search from 'containers/api-sharing/component/Search'
 import {
   generateGetUrl,
   getDataExample,
@@ -18,6 +18,7 @@ import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
 import Condition from '../Condition'
+import DataTable from './DataTable'
 
 const Method = styled.div`
   display: inline-block;
@@ -46,6 +47,11 @@ const Endpoint = styled.div`
 @Form.create()
 @withShareApiContext
 export default class QueryTab extends Component {
+  state = {
+    loadingSearch: false,
+    dataTable: [],
+  }
+
   componentDidMount() {
     if (!isCreate(this.props.rule)) this.setInitFields()
   }
@@ -83,7 +89,7 @@ export default class QueryTab extends Component {
   copyUrl = async () => {
     const url = this.getUrl()
     const curl = generateGetUrl(url)
-    
+
     const success = copyTextToClipboard(curl)
     if (success) message.success('Success')
   }
@@ -105,19 +111,53 @@ export default class QueryTab extends Component {
       .map(field => `${field.fieldName}=${field.value}`)
       .join('&')
 
-    const url = [dataRoutes.getWeatherNewest(), `id=${params.id}`].join('?')
+    const url = [dataRoutes.getWeatherFuture(), `id=${params.id}`].join('?')
 
     const urlQuery = [url, urlParams].join('&')
 
     return urlQuery
   }
 
+  handleOnSearch = async () => {
+    const queryParams = this.getQueryParams()
+
+    this.setState({ loadingSearch: true })
+    try {
+      const res = await dataShareApiApi.getWeatherNewest(queryParams)
+      if (res) {
+        this.setState({ dataTable: res.data })
+      }
+    } catch (error) {
+    }
+    this.setState({ loadingSearch: false })
+  }
+
+  getQueryParams = () => {
+    const { form, data } = this.props
+    const { config: fieldsValue } = form.getFieldsValue()
+
+    let parameterList = fieldsValue.parameterList
+    if (Array.isArray(parameterList)) parameterList = parameterList.join(',')
+
+    const queryParams = {
+      id: data._id,
+      ...fieldsValue,
+      parameterList,
+    }
+    return queryParams
+  }
+
   render() {
     const { form, rule, location, menuApiSharingList } = this.props
+    const { dataTable, loadingSearch } = this.state
     const dataExample = getDataExample(menuApiSharingList, location)
+    const { config: { parameterList = [] } = {} } = form.getFieldsValue()
+
     return (
       <React.Fragment>
-        <Condition form={form} rule={rule} />
+        <Search onSearch={this.handleOnSearch} loading={loadingSearch}>
+          <Condition isQuery form={form} rule={rule} />
+        </Search>
         <Clearfix height={32} />
         {!isCreate(rule) && (
           <React.Fragment>
@@ -132,8 +172,19 @@ export default class QueryTab extends Component {
             <TableParams form={form} />
           </React.Fragment>
         )}
-        <Header>Ví dụ</Header>
-        <Example data={dataExample} />
+        <Clearfix height={32} />
+        <Tabs>
+          <Tabs.TabPane tab={i18n.tab.list} key="List">
+            <DataTable
+              parameterList={parameterList}
+              dataSource={dataTable}
+              loading={loadingSearch}
+            />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={i18n.tab.example} key="Example">
+            <Example data={dataExample} />
+          </Tabs.TabPane>
+        </Tabs>
       </React.Fragment>
     )
   }

@@ -75,6 +75,16 @@ export const dataShareApiApi = {
     const route = dataRoutes.getStationAutoNewest()
     return getFetch(route, params)
   },
+
+  getWeatherNewest: params => {
+    const route = dataRoutes.getWeatherNewest()
+    return getFetch(route, params)
+  },
+
+  getWeatherFuture: params => {
+    const route = dataRoutes.getWeatherFuture()
+    return getFetch(route, params)
+  },
 }
 
 const weatherRoutes = {
