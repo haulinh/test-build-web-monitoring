@@ -4,8 +4,8 @@ import { i18n } from 'containers/api-sharing/constants'
 import { isCreate } from 'containers/api-sharing/util'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import ConfigTab from './config-tab'
-import QueryTab from './query-tab'
+// import ConfigTab from './config-tab'
+// import QueryTab from './query-tab'
 
 export const ApiSharingDetailContext = React.createContext({
   stationAutos: [],
@@ -50,8 +50,11 @@ export default class ApiSharingDetail extends Component {
   }
 
   render() {
-    const { rule } = this.props
+    const { rule, configTab, queryTab } = this.props
     const { data, stationAutos } = this.state
+
+    const QueryTab = queryTab
+    const ConfigTab = configTab
 
     return (
       <ApiSharingDetailContext.Provider

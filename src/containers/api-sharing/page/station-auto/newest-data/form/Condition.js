@@ -10,6 +10,7 @@ import {
   getMeasuringListFromStationAutos,
   isCreate,
 } from 'containers/api-sharing/util'
+import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
 import React from 'react'
 
 export const FIELDS = {
@@ -23,6 +24,7 @@ export const FIELDS = {
   DATA_TYPE: 'dataType',
 }
 
+@withApiSharingDetailContext
 export default class Condition extends React.Component {
   state = {
     stationAutoSelected: {},
@@ -83,12 +85,16 @@ export default class Condition extends React.Component {
 
   onStationTypeFetchSuccess = stationTypes => {
     this.setState({ stationTypes }, () => {
+      const stationAutosFilter = this.getStationAutos()
+      this.props.setStationAutos(stationAutosFilter)
       this.setFormInit()
     })
   }
 
   onStationAutosFetchSuccess = stationAutos => {
     this.setState({ stationAutos }, () => {
+      const stationAutosFilter = this.getStationAutos()
+      this.props.setStationAutos(stationAutosFilter)
       this.setFormInit()
     })
   }

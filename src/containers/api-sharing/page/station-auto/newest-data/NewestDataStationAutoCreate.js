@@ -1,11 +1,13 @@
 import Clearfix from 'components/elements/clearfix'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
-import ApiSharingDetail from './form/ApiSharingDetail'
 import { withRouter } from 'react-router'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
 import { i18n } from 'containers/api-sharing/constants'
 import { getPathname, getRouteList } from 'containers/api-sharing/util'
+import ApiSharingDetail from 'containers/api-sharing/component/ApiSharingDetail'
+import queryTab from './form/query-tab'
+import ConfigTab from './form/config-tab'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -31,7 +33,11 @@ export class NewestDataStationAutoCreate extends Component {
             },
           ]}
         />
-        <ApiSharingDetail rule="create" />
+        <ApiSharingDetail
+          rule="create"
+          queryTab={queryTab}
+          configTab={ConfigTab}
+        />
       </PageContainer>
     )
   }

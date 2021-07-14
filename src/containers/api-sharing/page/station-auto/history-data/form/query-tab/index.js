@@ -162,6 +162,7 @@ export default class QueryTab extends Component {
     const { dataTable, loadingSearch } = this.state
     const dataExample = getDataExample(menuApiSharingList, location)
     const { config: { measuringList = [] } = {} } = form.getFieldsValue()
+
     return (
       <React.Fragment>
         <Search onSearch={this.handleOnSearch} loading={loadingSearch}>
@@ -175,7 +176,7 @@ export default class QueryTab extends Component {
               <Method>GET</Method>
               <Endpoint>
                 <Text>{this.getUrl()}</Text>
-                {!isCreate(rule) && <Icon type="copy" onClick={this.copyUrl} />}
+                <Icon type="copy" onClick={this.copyUrl} />
               </Endpoint>
             </div>
             <Clearfix height={32} />
