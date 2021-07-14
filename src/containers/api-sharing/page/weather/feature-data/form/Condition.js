@@ -7,8 +7,9 @@ import {
 } from 'containers/api-sharing/util'
 import React from 'react'
 import { Select } from 'antd'
-import SelectCities from 'components/elements/select-data/city'
-import SelectParamenterWeather, { optionsWeather } from 'components/elements/select-data/paramenter'
+import SelectDayWeather, { optionsDay } from 'components/elements/select-data/weather/SelectDay'
+import SelectCity from 'components/elements/select-data/weather/SelectCity'
+import SelectParamenterWeather, { optionsWeather } from 'components/elements/select-data/weather/SelectParamenter'
 
 export const FIELDS = {
   CITY_ID: 'cityId',
@@ -16,20 +17,9 @@ export const FIELDS = {
   DAYS: 'days'
 }
 
-const options = [
-  { key: '5', label: 5 },
-  { key: '7', label: 7 }
-]
-
 export default class Condition extends React.Component {
   state = {
     cities: [],
-    days: [],
-  }
-
-  getDays = (days) => {
-    const dayInit = days[0].key
-    this.setFormInit(dayInit)
   }
 
   onFetchCitiesSuccess = (cities) => {
@@ -37,7 +27,7 @@ export default class Condition extends React.Component {
     this.setFormInit(cityIdInit)
   }
 
-  setFormInit = (cityId, day) => {
+  setFormInit = (cityId) => {
     const { form, rule } = this.props
 
     if (!isCreate(rule)) {
@@ -47,7 +37,7 @@ export default class Condition extends React.Component {
     form.setFieldsValue({
       [`config.${FIELDS.CITY_ID}`]: cityId,
       [`config.${FIELDS.PARAMETER}`]: optionsWeather.map(item => item.key),
-      [`config.${FIELDS.DAYS}`]: day
+      [`config.${FIELDS.DAYS}`]: optionsDay[0].key,
     })
   }
 
@@ -68,7 +58,7 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.city}>
               {form.getFieldDecorator(`config.${FIELDS.CITY_ID}`, {
               })(
-                <SelectCities
+                <SelectCity
                   onFetchSuccess={this.onFetchCitiesSuccess}
                   disabled={isView(rule)}
                 />
@@ -91,13 +81,9 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.days} required>
               {form.getFieldDecorator(`config.${FIELDS.DAYS}`, {
               })(
-                <Select style={{ width: '100%' }}>
-                  {options.map(item => (
-                    <Select.Option key={item.key} value={item.key}>
-                      {item.label}
-                    </Select.Option>
-                  ))}
-                </Select>
+                <SelectDayWeather
+                  disabled={isView(rule)}
+                />
               )}
             </Form.Item>
           </Col>

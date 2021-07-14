@@ -119,6 +119,7 @@ export default class QueryTab extends Component {
   render() {
     const { form, rule, location, menuApiSharingList } = this.props
     const dataExample = getDataExample(menuApiSharingList, location)
+    console.log(dataExample)
     return (
       <React.Fragment>
         <Condition form={form} rule={rule} />

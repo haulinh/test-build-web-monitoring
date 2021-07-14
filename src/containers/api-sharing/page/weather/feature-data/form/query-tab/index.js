@@ -11,7 +11,7 @@ import {
   getDataExample,
   isCreate,
 } from 'containers/api-sharing/util'
-import withShareApiContext from 'containers/api-sharing/withShareApiContext'
+import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
 import { isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
@@ -83,7 +83,7 @@ export default class QueryTab extends Component {
   copyUrl = async () => {
     const url = this.getUrl()
     const curl = generateGetUrl(url)
-    
+
     const success = copyTextToClipboard(curl)
     if (success) message.success('Success')
   }
@@ -115,6 +115,7 @@ export default class QueryTab extends Component {
   render() {
     const { form, rule, location, menuApiSharingList } = this.props
     const dataExample = getDataExample(menuApiSharingList, location)
+    console.log(dataExample)
     return (
       <React.Fragment>
         <Condition form={form} rule={rule} />

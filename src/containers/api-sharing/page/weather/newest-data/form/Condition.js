@@ -7,8 +7,8 @@ import {
 } from 'containers/api-sharing/util'
 import React from 'react'
 import { Select } from 'antd'
-import SelectCities from 'components/elements/select-data/city'
-import SelectParamenterWeather, { optionsWeather } from 'components/elements/select-data/paramenter'
+import SelectCities from 'components/elements/select-data/weather/SelectCity'
+import SelectParamenterWeather, { optionsWeather } from 'components/elements/select-data/weather/SelectParamenter'
 
 export const FIELDS = {
   CITY_ID: 'cityId',
