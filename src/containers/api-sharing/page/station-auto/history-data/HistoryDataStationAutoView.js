@@ -1,11 +1,13 @@
 import Clearfix from 'components/elements/clearfix'
+import ApiSharingDetail from 'containers/api-sharing/component/ApiSharingDetail'
 import { i18n } from 'containers/api-sharing/constants'
 import { getPathname, getRouteList } from 'containers/api-sharing/util'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
-import ApiSharingDetail from './form/ApiSharingDetail'
+import ConfigTab from './form/config-tab'
+import QueryTab from './form/query-tab'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -40,7 +42,12 @@ export class HistoryDataStationAutoView extends Component {
             },
           ]}
         />
-        <ApiSharingDetail rule="view" setName={this.setName} />
+        <ApiSharingDetail
+          rule="view"
+          setName={this.setName}
+          queryTab={QueryTab}
+          configTab={ConfigTab}
+        />
       </PageContainer>
     )
   }

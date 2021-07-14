@@ -1,12 +1,12 @@
 import { Table } from 'antd'
-import { get, keyBy } from 'lodash-es'
-import React from 'react'
-import moment from 'moment'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { colorLevels } from 'constants/warningLevels'
-import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
-import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { i18n } from 'containers/api-sharing/constants'
+import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
+import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
+import { get, keyBy } from 'lodash-es'
+import moment from 'moment'
+import React from 'react'
 
 const DataTable = ({ measuringList, dataSource, loading, stationAutos }) => {
   const measureListData = keyBy(
@@ -35,6 +35,11 @@ const DataTable = ({ measuringList, dataSource, loading, stationAutos }) => {
     {
       title: i18n.table.tt,
       render: (_, __, index) => <div>{index + 1}</div>,
+    },
+    {
+      title: i18n.table.stationName,
+      dataIndex: 'name',
+      render: value => <div>{value}</div>,
     },
     {
       dataIndex: 'receivedAt',
