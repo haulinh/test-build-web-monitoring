@@ -10,6 +10,8 @@ import { withRouter } from 'react-router'
 export const ApiSharingDetailContext = React.createContext({
   stationAutos: [],
   setStationAutos: () => {},
+  measureListData: [],
+  setMeasureListData: () => {},
 })
 
 @withRouter
@@ -17,10 +19,15 @@ export default class ApiSharingDetail extends Component {
   state = {
     data: {},
     stationAutos: [],
+    measureListData: [],
   }
 
   setStationAutos = stationAutos => {
     this.setState({ stationAutos })
+  }
+
+  setMeasureListData = measureListData => {
+    this.setState({ measureListData })
   }
 
   async componentDidMount() {
@@ -51,14 +58,19 @@ export default class ApiSharingDetail extends Component {
 
   render() {
     const { rule, configTab, queryTab } = this.props
-    const { data, stationAutos } = this.state
+    const { data, stationAutos, measureListData } = this.state
 
     const QueryTab = queryTab
     const ConfigTab = configTab
 
     return (
       <ApiSharingDetailContext.Provider
-        value={{ stationAutos, setStationAutos: this.setStationAutos }}
+        value={{
+          stationAutos,
+          setStationAutos: this.setStationAutos,
+          measureListData,
+          setMeasureListData: this.setMeasureListData,
+        }}
       >
         <Tabs>
           <Tabs.TabPane tab={i18n.tab.configTab} key="ConfigTab">

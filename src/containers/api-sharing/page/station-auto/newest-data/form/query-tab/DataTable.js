@@ -8,13 +8,21 @@ import { get, keyBy } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
 
-const DataTable = ({ measuringList, dataSource, loading, stationAutos }) => {
+const DataTable = ({
+  measuringList = [],
+  dataSource,
+  loading,
+  stationAutos,
+}) => {
   const measureListData = keyBy(
     getMeasuringListFromStationAutos(stationAutos),
     'key'
   )
 
-  const columnsMeasuringList = measuringList.map(measure => {
+  let measuringListArray = measuringList
+  if (!Array.isArray(measuringList)) measuringListArray = Array(measuringList)
+
+  const columnsMeasuringList = measuringListArray.map(measure => {
     const measureData = measureListData[measure] || {}
     const title = `${measureData.name} ${measureData.unit &&
       `(${measureData.unit})`}  `

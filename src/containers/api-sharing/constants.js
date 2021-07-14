@@ -124,6 +124,8 @@ export const i18n = {
     tt: 'TT',
     time: 'Thời gian Truyền File',
     stationName: 'Tên trạm',
+    pointName: 'Tên điểm',
+    phaseName: 'Tên đợt',
   },
   message: {
     create: 'Tạo thành công',
