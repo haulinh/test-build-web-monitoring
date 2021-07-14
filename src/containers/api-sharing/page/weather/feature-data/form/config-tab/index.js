@@ -50,7 +50,7 @@ export default class ConfigTab extends Component {
   getQueryParams = () => {
     const { form } = this.props
     const fieldsValue = form.getFieldsValue()
-    const key = shareApiList.weather.newestData.key
+    const key = shareApiList.weather.featureData.key
     const optionParams = fieldsValue.optionParams || []
 
     const config = Object.entries(fieldsValue.config).map(([key, value]) => {
@@ -83,7 +83,7 @@ export default class ConfigTab extends Component {
     if (!values) return
 
     const queryParams = this.getQueryParams()
-    const key = shareApiList.weather.newestData.key
+    const key = shareApiList.weather.featureData.key
     if (isCreate(rule)) {
       const res = await shareApiApi.createApiByKey(key, queryParams)
       message.success(i18n.message.create)

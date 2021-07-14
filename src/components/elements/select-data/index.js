@@ -1,2 +1,5 @@
 export * from './station-fixed/SelectPhase'
 export * from './station-fixed/SelectPoint'
+export * from './weather/SelectCity'
+export * from './weather/SelectDay'
+export * from './weather/SelectParamenter'
