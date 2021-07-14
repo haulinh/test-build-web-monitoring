@@ -1,10 +1,11 @@
-import { Form, Icon, message } from 'antd'
-import { dataRoutes } from 'api/ShareApiApi'
+import { Form, Icon, message, Tabs } from 'antd'
+import { dataRoutes, dataShareApiApi } from 'api/ShareApiApi'
 import Clearfix from 'components/elements/clearfix'
 import Text from 'components/elements/text'
 import Example from 'containers/api-sharing/component/Example'
+import Search from 'containers/api-sharing/component/Search'
 import TableParams from 'containers/api-sharing/component/TableParams'
-import { Header } from 'containers/api-sharing/layout/styles'
+import { i18n } from 'containers/api-sharing/constants'
 import {
   generateGetUrl,
   getDataExample,
@@ -17,6 +18,7 @@ import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
 import Condition from '../Condition'
+import DataTable from './DataTable'
 
 const Method = styled.div`
   display: inline-block;
@@ -44,6 +46,11 @@ const Endpoint = styled.div`
 @withRouter
 @Form.create()
 class QueryTab extends Component {
+  state = {
+    loadingSearch: false,
+    dataTable: [],
+  }
+
   componentDidMount() {
     if (!isCreate(this.props.rule)) this.setInitFields()
   }
@@ -106,12 +113,53 @@ class QueryTab extends Component {
     return urlQuery
   }
 
+  getQueryParams = () => {
+    const { form, data } = this.props
+    const { config: fieldsValue } = form.getFieldsValue()
+
+    let measuringList = fieldsValue.measuringList
+    if (Array.isArray(measuringList)) measuringList = measuringList.join(',')
+
+    let stationKeys = fieldsValue.stationKeys
+    if (Array.isArray(stationKeys)) stationKeys = stationKeys.join(',')
+
+    const queryParams = {
+      id: data._id,
+      ...fieldsValue,
+      measuringList,
+      stationKeys,
+    }
+
+    return queryParams
+  }
+
+  handleOnSearch = async () => {
+    const queryParams = this.getQueryParams()
+
+    this.setState({ loadingSearch: true })
+    try {
+      const data = await dataShareApiApi.getStationAutoNewest(queryParams)
+      if (data) {
+        this.setState({ dataTable: data })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    this.setState({ loadingSearch: false })
+  }
+
   render() {
     const { form, rule, location, menuApiSharingList } = this.props
+    const { loadingSearch, dataTable } = this.state
     const dataExample = getDataExample(menuApiSharingList, location)
+    const { config: { measuringList = [] } = {} } = form.getFieldsValue()
+
     return (
       <React.Fragment>
-        <Condition form={form} rule={rule} />
+        <Search onSearch={this.handleOnSearch} loading={loadingSearch}>
+          <Condition isQuery form={form} rule={rule} />
+        </Search>
+
         <Clearfix height={32} />
         {!isCreate(rule) && (
           <React.Fragment>
@@ -126,8 +174,20 @@ class QueryTab extends Component {
             <TableParams form={form} />
           </React.Fragment>
         )}
-        <Header>Ví dụ</Header>
-        <Example data={dataExample} />
+
+        <Clearfix height={32} />
+        <Tabs>
+          <Tabs.TabPane tab={i18n.tab.list} key="List">
+            <DataTable
+              measuringList={measuringList}
+              dataSource={dataTable}
+              loading={loadingSearch}
+            />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={i18n.tab.example} key="Example">
+            <Example data={dataExample} />
+          </Tabs.TabPane>
+        </Tabs>
       </React.Fragment>
     )
   }

@@ -1,6 +1,6 @@
 import React from 'react'
+import { ApiSharingDetailContext } from './component/ApiSharingDetail'
 import { ShareApiContext } from './layout/ApiSharingLayout'
-import { ApiSharingDetailContext } from './page/station-auto/history-data/form/ApiSharingDetail'
 
 export const withShareApiContext = Component => {
   return props => {

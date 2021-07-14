@@ -123,6 +123,7 @@ export const i18n = {
   table: {
     tt: 'TT',
     time: 'Thời gian Truyền File',
+    stationName: 'Tên trạm',
   },
   message: {
     create: 'Tạo thành công',
