@@ -10,6 +10,7 @@ import { Header } from 'containers/api-sharing/layout/styles'
 import {
   generateGetUrl,
   getDataExample,
+  getFieldsDefault,
   isCreate,
 } from 'containers/api-sharing/util'
 import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
@@ -160,15 +161,21 @@ export default class QueryTab extends Component {
   }
 
   render() {
-    const { form, rule, location, menuApiSharingList } = this.props
+    const { form, rule, location, menuApiSharingList, data } = this.props
     const { dataTable, loadingSearch } = this.state
     const dataExample = getDataExample(menuApiSharingList, location)
     const { config: { measuringList = [] } = {} } = form.getFieldsValue()
+    const fieldsDefault = getFieldsDefault(data)
 
     return (
       <React.Fragment>
         <Search onSearch={this.handleOnSearch} loading={loadingSearch}>
-          <Condition isQuery form={form} rule={rule} />
+          <Condition
+            isQuery
+            form={form}
+            rule={rule}
+            fieldsDefault={fieldsDefault}
+          />
         </Search>
 
         <Clearfix height={32} />

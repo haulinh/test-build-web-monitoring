@@ -50,3 +50,8 @@ export const getDataExample = (menuApiSharingList, location) => {
   const dataExample = dataGroup.api.find(item => item.key === pathname).example
   return dataExample
 }
+
+export const getFieldsDefault = data => {
+  const fieldsDefault = _.get(data, 'config', []).filter(item => item.isDefault)
+  return _.keyBy(fieldsDefault, 'fieldName')
+}

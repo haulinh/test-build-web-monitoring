@@ -8,13 +8,18 @@ const options = [
   { key: 'invalid', label: translate('qaqc.inValidData') },
 ]
 
-const SelectQueryType = ({ onChange, value }) => {
+const SelectQueryType = ({ onChange, value, ...otherProps }) => {
   const handleOnChange = key => {
     onChange(key)
   }
 
   return (
-    <Select style={{ width: '100%' }} onChange={handleOnChange} value={value}>
+    <Select
+      style={{ width: '100%' }}
+      onChange={handleOnChange}
+      value={value}
+      {...otherProps}
+    >
       {options.map(item => (
         <Select.Option key={item.key} value={item.key}>
           {item.label}
