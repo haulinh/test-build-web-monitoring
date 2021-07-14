@@ -10,6 +10,7 @@ import {
   isCreate,
   isView,
 } from 'containers/api-sharing/util'
+import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
 import React from 'react'
 
 export const FIELDS = {
@@ -22,6 +23,7 @@ export const FIELDS = {
   PHASE: 'phaseIds',
 }
 
+@withApiSharingDetailContext
 export default class Condition extends React.Component {
   state = {
     points: [],
@@ -38,12 +40,16 @@ export default class Condition extends React.Component {
   onFetchStationTypesSuccess = stationTypes => {
     this.setState({ stationTypes }, () => {
       this.setFormInit()
+      const measureListData = this.getMeasuringList()
+      this.props.setMeasureListData(measureListData)
     })
   }
 
   onFetchPhaseSuccess = phases => {
     this.setState({ phases }, () => {
       this.setFormInit()
+      const measureListData = this.getMeasuringList()
+      this.props.setMeasureListData(measureListData)
     })
   }
 

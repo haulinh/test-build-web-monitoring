@@ -59,6 +59,11 @@ export const dataShareApiApi = {
     return getFetch(route, params)
   },
 
+  getPeriodicNewest: params => {
+    const route = dataRoutes.getPeriodicNewest()
+    return getFetch(route, params)
+  },
+
   getStationAutoHistory: params => {
     const route = dataRoutes.getStationAutoHistory()
     return getFetch(route, params)
