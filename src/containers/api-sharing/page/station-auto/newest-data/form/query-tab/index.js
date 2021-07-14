@@ -45,7 +45,8 @@ const Endpoint = styled.div`
 
 @withRouter
 @Form.create()
-class QueryTab extends Component {
+@withShareApiContext
+export default class QueryTab extends Component {
   state = {
     loadingSearch: false,
     dataTable: [],
@@ -192,5 +193,3 @@ class QueryTab extends Component {
     )
   }
 }
-
-export default withShareApiContext(QueryTab)
