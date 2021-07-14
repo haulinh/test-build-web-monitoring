@@ -6,7 +6,7 @@ import createBreadcrumb from 'shared/breadcrumb/hoc'
 import { i18n } from 'containers/api-sharing/constants'
 import { getPathname, getRouteList } from 'containers/api-sharing/util'
 import ApiSharingDetail from 'containers/api-sharing/component/ApiSharingDetail'
-import queryTab from './form/query-tab'
+import QueryTab from './form/query-tab'
 import ConfigTab from './form/config-tab'
 const Breadcrumb = createBreadcrumb()
 
@@ -44,7 +44,7 @@ export class NewestDataStationAutoView extends Component {
         <ApiSharingDetail
           rule="view"
           setName={this.setName}
-          queryTab={queryTab}
+          queryTab={QueryTab}
           configTab={ConfigTab}
         />
       </PageContainer>
