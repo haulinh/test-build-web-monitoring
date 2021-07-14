@@ -83,7 +83,7 @@ export default class QueryTab extends Component {
   copyUrl = async () => {
     const url = this.getUrl()
     const curl = generateGetUrl(url)
-    
+
     const success = copyTextToClipboard(curl)
     if (success) message.success('Success')
   }
@@ -105,7 +105,7 @@ export default class QueryTab extends Component {
       .map(field => `${field.fieldName}=${field.value}`)
       .join('&')
 
-    const url = [dataRoutes.getWeatherNewest(), `id=${params.id}`].join('?')
+    const url = [dataRoutes.getWeatherFuture(), `id=${params.id}`].join('?')
 
     const urlQuery = [url, urlParams].join('&')
 
@@ -115,6 +115,7 @@ export default class QueryTab extends Component {
   render() {
     const { form, rule, location, menuApiSharingList } = this.props
     const dataExample = getDataExample(menuApiSharingList, location)
+    console.log(dataExample)
     return (
       <React.Fragment>
         <Condition form={form} rule={rule} />

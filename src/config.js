@@ -40,7 +40,7 @@ export function getConfigApi() {
     // stationFixedExportDataPoint: 'http://localhost:5018/export-data-points',
     //stationFixedPoint: 'http://localhost:5018/points',
     calculate: c('calc'),
-    //calculate: 'http://localhost:5030',
+    // calculate: 'http://localhost:5030',
 
     stationConfig: c('config/station'),
     // stationConfig: 'http://localhost:5002/config/station',
@@ -115,9 +115,8 @@ export function getApps() {
     isShow: config.apps.isShow,
     incidents: config.apps.incidents,
     grafana: config.apps.grafana,
-    googleMapKey: config.googleMapKey 
+    googleMapKey: config.googleMapKey,
   }
 }
-
 
 export const GOOGLE_TAG_TRACKING_ID = 'GTM-KPZCRHG'

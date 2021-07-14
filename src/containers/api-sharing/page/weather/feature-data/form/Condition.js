@@ -7,12 +7,14 @@ import {
 } from 'containers/api-sharing/util'
 import React from 'react'
 import { Select } from 'antd'
-import SelectCities from 'components/elements/select-data/weather/SelectCity'
+import SelectDayWeather, { optionsDay } from 'components/elements/select-data/weather/SelectDay'
+import SelectCity from 'components/elements/select-data/weather/SelectCity'
 import SelectParamenterWeather, { optionsWeather } from 'components/elements/select-data/weather/SelectParamenter'
 
 export const FIELDS = {
   CITY_ID: 'cityId',
-  PARAMETER: 'parameterList'
+  PARAMETER: 'parameterList',
+  DAYS: 'days'
 }
 
 export default class Condition extends React.Component {
@@ -34,7 +36,8 @@ export default class Condition extends React.Component {
 
     form.setFieldsValue({
       [`config.${FIELDS.CITY_ID}`]: cityId,
-      [`config.${FIELDS.PARAMETER}`]: optionsWeather.map(item => item.key)
+      [`config.${FIELDS.PARAMETER}`]: optionsWeather.map(item => item.key),
+      [`config.${FIELDS.DAYS}`]: optionsDay[0].key,
     })
   }
 
@@ -55,7 +58,7 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.city}>
               {form.getFieldDecorator(`config.${FIELDS.CITY_ID}`, {
               })(
-                <SelectCities
+                <SelectCity
                   onFetchSuccess={this.onFetchCitiesSuccess}
                   disabled={isView(rule)}
                 />
@@ -64,10 +67,21 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.paramenter}>
+            <Form.Item label={i18n.detailPage.label.paramenter} required>
               {form.getFieldDecorator(`config.${FIELDS.PARAMETER}`, {
               })(
                 <SelectParamenterWeather
+                  disabled={isView(rule)}
+                />
+              )}
+            </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Form.Item label={i18n.detailPage.label.days} required>
+              {form.getFieldDecorator(`config.${FIELDS.DAYS}`, {
+              })(
+                <SelectDayWeather
                   disabled={isView(rule)}
                 />
               )}
