@@ -4,8 +4,6 @@ import { i18n } from 'containers/api-sharing/constants'
 import { isCreate } from 'containers/api-sharing/util'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-// import ConfigTab from './config-tab'
-// import QueryTab from './query-tab'
 
 export const ApiSharingDetailContext = React.createContext({
   stationAutos: [],

@@ -3339,6 +3339,7 @@ export default {
     },
   },
   wqiStationFix: {
+    order: 'STT',
     viewBy: 'Xem theo',
     month: 'Tháng',
     year: 'Năm',

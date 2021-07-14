@@ -47,6 +47,8 @@ const prefixCal = () => getConfigApi().calculate
 export const dataRoutes = {
   getPeriodicHistory: () => `${prefixCal()}/share-api/periodic/history-data`,
   getPeriodicNewest: () => `${prefixCal()}/share-api/periodic/newest-data`,
+  getPeriodicWQIHistory: () => `${prefixCal()}/share-api/periodic/history-wqi`,
+  getPeriodicWQINewest: () => `${prefixCal()}/share-api/periodic/newest-wqi`,
   getStationAutoNewest: () =>
     `${prefixCal()}/share-api/station-auto/newest-data`,
   getStationAutoHistory: () =>
@@ -63,6 +65,16 @@ export const dataShareApiApi = {
 
   getPeriodicNewest: params => {
     const route = dataRoutes.getPeriodicNewest()
+    return getFetch(route, params)
+  },
+
+  getPeriodicWQIHistory: params => {
+    const route = dataRoutes.getPeriodicWQIHistory()
+    return getFetch(route, params)
+  },
+
+  getPeriodicWQINewest: params => {
+    const route = dataRoutes.getPeriodicWQINewest()
     return getFetch(route, params)
   },
 

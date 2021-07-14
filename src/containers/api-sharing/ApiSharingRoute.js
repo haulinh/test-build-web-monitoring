@@ -26,6 +26,16 @@ import {
   NewestDataStationFixedView,
 } from './page/station-fixed/newest-data'
 import {
+  NewestWqiStationFixedCreate,
+  NewestWqiStationFixedEdit,
+  NewestWqiStationFixedView,
+} from './page/station-fixed/newest-wqi'
+import {
+ HistoryWqiStationFixedCreate,
+ HistoryWqiStationFixedEdit,
+ HistoryWqiStationFixedView,
+} from './page/station-fixed/history-wqi'
+import {
   NewestDataWeatherCreate,
   NewestDataWeatherEdit,
   NewestDataWeatherView,
@@ -110,6 +120,38 @@ const ApiSharingRoute = () => {
           exact
           path={`${slug.apiSharing.base}/${shareApiList.stationFixed.historyData.key}/:id`}
           component={HistoryDataStationFixedView}
+        />
+        {/** History WQI */}
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationFixed.historyWqi.key}/create`}
+          component={HistoryWqiStationFixedCreate}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationFixed.historyWqi.key}/edit/:id`}
+          component={HistoryWqiStationFixedEdit}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationFixed.historyWqi.key}/:id`}
+          component={HistoryWqiStationFixedView}
+        />
+        {/** Newest WQI */}
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationFixed.newestWqi.key}/create`}
+          component={NewestWqiStationFixedCreate}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationFixed.newestWqi.key}/edit/:id`}
+          component={NewestWqiStationFixedEdit}
+        />
+        <Route
+          exact
+          path={`${slug.apiSharing.base}/${shareApiList.stationFixed.newestWqi.key}/:id`}
+          component={NewestWqiStationFixedView}
         />
 
         {/**Weather **/}

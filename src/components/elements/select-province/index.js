@@ -2,12 +2,10 @@ import React, { PureComponent } from 'react'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
 import ProvinceApi from 'api/ProvinceApi'
-import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
 import { get } from 'lodash'
 import { replaceVietnameseStr } from 'utils/string'
 
-@autobind
 export default class SelectProvince extends PureComponent {
   static propTypes = {
     isUsedId: PropTypes.bool,

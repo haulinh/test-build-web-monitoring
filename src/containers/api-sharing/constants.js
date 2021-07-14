@@ -14,6 +14,12 @@ export const shareApiList = {
     newestData: {
       key: 'data-station-fixed-newest-data',
     },
+    newestWqi: {
+      key: 'data-station-fixed-newest-wqi',
+    },
+    historyWqi: {
+      key: 'data-station-fixed-history-wqi',
+    },
   },
   weather: {
     newestData: {
@@ -31,6 +37,8 @@ export const i18n = {
     'data-station-auto-history-data': 'Dữ liệu lịch sử',
     'data-station-fixed-newest-data': 'Dữ liệu mới nhất',
     'data-station-fixed-history-data': 'Dữ liệu lịch sử',
+    'data-station-fixed-newest-wqi': 'Dữ liệu WQI mới nhất',
+    'data-station-fixed-history-wqi': 'Dữ liệu WQI lịch sử',
     'weather-newest-data': 'Thời tiết hiện tại',
     'weather-feature': 'Dự báo thời tiết',
     create: 'Tạo mới',
