@@ -124,7 +124,7 @@ export default class Condition extends React.Component {
   }
 
   render() {
-    const { form, isQuery } = this.props
+    const { form, isQuery, fieldsDefault = {} } = this.props
     const { config: { province, stationType } = {} } = form.getFieldsValue()
     const measuringList = this.getMeasuringList()
 
@@ -136,7 +136,13 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.province}>
               {form.getFieldDecorator(`config.${FIELDS.PROVINCE}`, {
                 onChange: this.handleOnFieldChange,
-              })(<SelectProvince fieldValue="_id" isShowAll />)}
+              })(
+                <SelectProvince
+                  fieldValue="_id"
+                  isShowAll
+                  disabled={fieldsDefault[FIELDS.PROVINCE]}
+                />
+              )}
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -147,6 +153,7 @@ export default class Condition extends React.Component {
                 <SelectStationType
                   fieldValue="_id"
                   onFetchSuccess={this.onStationTypeFetchSuccess}
+                  disabled={fieldsDefault[FIELDS.STATION_TYPE]}
                 />
               )}
             </Form.Item>
@@ -164,6 +171,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectStationAuto
+                  disabled={fieldsDefault[FIELDS.STATION_AUTO]}
                   fieldValue="_id"
                   province={province}
                   stationType={stationType}
@@ -182,14 +190,19 @@ export default class Condition extends React.Component {
                     message: i18n.rules.requireChoose,
                   },
                 ],
-              })(<SelectMeasureParameter measuringList={measuringList} />)}
+              })(
+                <SelectMeasureParameter
+                  disabled={fieldsDefault[FIELDS.MEASURING_LIST]}
+                  measuringList={measuringList}
+                />
+              )}
             </Form.Item>
           </Col>
 
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.typeData}>
               {form.getFieldDecorator(`config.${FIELDS.DATA_TYPE}`)(
-                <SelectQueryType />
+                <SelectQueryType disabled={fieldsDefault[FIELDS.DATA_TYPE]} />
               )}
             </Form.Item>
           </Col>
@@ -197,7 +210,9 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.timeLabel}>
               {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
                 initialValue: 1,
-              })(<OptionsTimeRange />)}
+              })(
+                <OptionsTimeRange disabled={fieldsDefault[FIELDS.RANGE_TIME]} />
+              )}
             </Form.Item>
           </Col>
 
@@ -205,7 +220,7 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.isExceeded}>
               {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
                 valuePropName: 'checked',
-              })(<Switch />)}
+              })(<Switch disabled={fieldsDefault[FIELDS.IS_EXCEEDED]} />)}
             </Form.Item>
           </Col>
         </Row>

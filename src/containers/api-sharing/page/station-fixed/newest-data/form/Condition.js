@@ -135,7 +135,7 @@ export default class Condition extends React.Component {
   }
 
   render() {
-    const { form, rule } = this.props
+    const { form, rule, fieldsDefault = {} } = this.props
     const measuringList = this.getMeasuringList()
     const { config: { province, stationType } = {} } = form.getFieldsValue()
     return (
@@ -148,7 +148,7 @@ export default class Condition extends React.Component {
                 onChange: this.handleOnFieldChange,
               })(
                 <SelectProvince
-                  disabled={isView(rule)}
+                  disabled={fieldsDefault[FIELDS.PROVINCE]}
                   fieldValue="_id"
                   isShowAll
                 />
@@ -168,7 +168,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectStationType
-                  disabled={isView(rule)}
+                  disabled={fieldsDefault[FIELDS.STATION_TYPE]}
                   fieldValue="_id"
                   isAuto={false}
                   onFetchSuccess={this.onFetchStationTypesSuccess}
@@ -188,7 +188,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectPoint
-                  disabled={isView(rule)}
+                  disabled={fieldsDefault[FIELDS.POINT]}
                   mode="multiple"
                   stationTypeId={stationType}
                   provinceId={province}
@@ -209,7 +209,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectMeasureParameter
-                  disabled={isView(rule)}
+                  disabled={fieldsDefault[FIELDS.MEASURING_LIST]}
                   measuringList={measuringList}
                 />
               )}
@@ -220,7 +220,7 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.isExceeded}>
               {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
                 valuePropName: 'checked',
-              })(<Switch disabled={isView(rule)} />)}
+              })(<Switch disabled={fieldsDefault[FIELDS.IS_EXCEEDED]} />)}
             </Form.Item>
           </Col>
         </Row>
