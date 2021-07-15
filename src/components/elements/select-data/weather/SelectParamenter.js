@@ -27,9 +27,10 @@ export default class SelectParamenterWeather extends PureComponent {
     }
 
     render() {
-        const { value } = this.props
+        const { value, ...otherProps } = this.props
         return (
             <Select
+                {...otherProps}
                 value={value}
                 style={{ width: '100%', ...this.props.style }}
                 onChange={this.handleOnChange}

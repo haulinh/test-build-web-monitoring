@@ -21,8 +21,8 @@ const DataTable = ({
       dataIndex: 'parameters',
       title: title,
       render: value => {
-        const coverValue = keyBy(value, 'key')
-        const getValue = get(coverValue, [param, 'value'], '-');
+        const convertValue = keyBy(value, 'key')
+        const getValue = get(convertValue, [param, 'value'], '-');
 
         let paramValue = (Math.round(getValue * 100) / 100).toFixed(2)
 
@@ -43,16 +43,9 @@ const DataTable = ({
     {
       dataIndex: 'time',
       title: i18n.table.timeWeather,
-      render: value => {
+      render: (value, record) => {
         const time = moment(value).format(DD_MM_YYYY_HH_MM)
-        return <div> {time} </div>
-      }
-    },
-    {
-      dataIndex: 'weatherIcon',
-      title: '',
-      render: value => {
-        return <img style={{ width: 50, height: 50 }} src={value.url} alt=""></img>
+        return <div> {time} <img style={{ width: 50, height: 50 }} src={record.weatherIcon.url} alt=""></img> </div>
       }
     },
     ...columnsParameterList,

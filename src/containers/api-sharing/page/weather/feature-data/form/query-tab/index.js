@@ -9,6 +9,7 @@ import Search from 'containers/api-sharing/component/Search'
 import {
   generateGetUrl,
   getDataExample,
+  getFieldsDefault,
   isCreate,
 } from 'containers/api-sharing/util'
 import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
@@ -119,8 +120,14 @@ export default class QueryTab extends Component {
   }
 
   handleOnSearch = async () => {
+    const { form } = this.props
+    
+    const values = await form.validateFields()
+    if (!values) return
+
     const queryParams = this.getQueryParams()
-  
+
+
     this.setState({ loadingSearch: true })
     try {
       const res = await dataShareApiApi.getWeatherFuture(queryParams)
@@ -148,15 +155,16 @@ export default class QueryTab extends Component {
   }
 
   render() {
-    const { form, rule, location, menuApiSharingList } = this.props
+    const { form, rule, location, menuApiSharingList, data } = this.props
     const { dataTable, loadingSearch } = this.state
     const dataExample = getDataExample(menuApiSharingList, location)
     const { config: { parameterList = [] } = {} } = form.getFieldsValue()
 
+    const fieldsDefault = getFieldsDefault(data)
     return (
       <React.Fragment>
         <Search onSearch={this.handleOnSearch} loading={loadingSearch}>
-          <Condition isQuery form={form} rule={rule} />
+          <Condition isQuery form={form} rule={rule} fieldsDefault={fieldsDefault} />
         </Search>
         <Clearfix height={32} />
         {!isCreate(rule) && (

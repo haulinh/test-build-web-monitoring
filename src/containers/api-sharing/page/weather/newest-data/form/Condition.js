@@ -3,7 +3,6 @@ import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import {
   isCreate,
-  isView,
 } from 'containers/api-sharing/util'
 import React from 'react'
 import { Select } from 'antd'
@@ -39,10 +38,10 @@ export default class Condition extends React.Component {
   }
 
   render() {
-    const { form, rule } = this.props
+    const { form, isQuery, fieldsDefault = {} } = this.props
     return (
       <BoxShadow>
-        <Header>{i18n.detailPage.header.condition}</Header>
+        {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
         <Row gutter={12}>
 
           <Col span={12}>
@@ -57,7 +56,7 @@ export default class Condition extends React.Component {
               })(
                 <SelectCities
                   onFetchSuccess={this.onFetchCitiesSuccess}
-                  disabled={isView(rule)}
+                  disabled={fieldsDefault[FIELDS.CITY_ID]}
                 />
               )}
             </Form.Item>
@@ -66,9 +65,15 @@ export default class Condition extends React.Component {
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.paramenter}>
               {form.getFieldDecorator(`config.${FIELDS.PARAMETER}`, {
+                rules: [
+                  {
+                    required: true,
+                    message: i18n.rules.requireChoose,
+                  },
+                ],
               })(
                 <SelectParamenterWeather
-                  disabled={isView(rule)}
+                  disabled={fieldsDefault[FIELDS.PARAMETER]}
                 />
               )}
             </Form.Item>

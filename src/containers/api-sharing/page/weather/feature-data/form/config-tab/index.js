@@ -79,6 +79,7 @@ export default class ConfigTab extends Component {
   handleSubmit = async e => {
     e.preventDefault()
     const { rule, history, location, form } = this.props
+    
     const values = await form.validateFields()
     if (!values) return
 
