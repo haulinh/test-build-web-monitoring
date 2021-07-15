@@ -134,6 +134,7 @@ export const i18n = {
     stationName: 'Tên trạm',
     pointName: 'Tên điểm',
     phaseName: 'Tên đợt',
+    timeWeather: 'Thời gian',
   },
   message: {
     create: 'Tạo thành công',
@@ -147,6 +148,32 @@ export const i18n = {
   },
   init: {
     country: 'Việt Nam'
+  },
+  windDirection: {
+    'east': 'Đông',
+    'west': 'Tây',
+    'south': 'Nam',
+    'north': 'Bắc',
+    'southeast': 'Đông Nam',
+    'northeast': 'Đông Bắc',
+    'southwest': 'Tây Nam',
+    'northwest': 'Tây Bắc',
+    'east-southeast': 'Đông - Đông Nam',
+    'east-northeast': 'Đông - Đông Bắc',
+    'east-southwest': 'Đông - Tây Nam',
+    'east-northwest': 'Đông - Tây Bắc',
+    'west-southeast': 'Tây - Đông Nam',
+    'west-northeast': 'Tây - Đông Bắc',
+    'west-southwest': 'Tây - Tây Nam',
+    'west-northwest': 'Tây - Tây Bắc',
+    'south-southeast': 'Nam - Đông Nam',
+    'south-northeast': 'Nam - Đông Bắc',
+    'south-southwest': 'Nam - Tây Nam',
+    'south-northwest': 'Nam - Tây Bắc',
+    'north-southeast': 'Bắc - Đông Nam',
+    'north-northeast': 'Bắc - Đông Bắc',
+    'north-southwest': 'Bắc - Tây Nam',
+    'north-northwest': 'Bắc - Tây Bắc',
   }
 }
 

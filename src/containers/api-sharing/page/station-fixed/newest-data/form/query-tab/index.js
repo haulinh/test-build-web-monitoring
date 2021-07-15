@@ -95,7 +95,6 @@ export default class QueryTab extends Component {
   copyUrl = async () => {
     const url = this.getUrl()
     const curl = generateGetUrl(url)
-    console.log(curl)
 
     const success = copyTextToClipboard(curl)
     if (success) message.success('Success')
