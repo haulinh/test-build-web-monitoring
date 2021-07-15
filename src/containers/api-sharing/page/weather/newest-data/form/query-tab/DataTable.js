@@ -24,7 +24,6 @@ const DataTable = ({
         const coverValue = keyBy(value, 'key')
         let paramValue = get(coverValue, [param, 'value'], '-');
         if (param === 'wind_cdir_full') {
-          console.log(paramValue)
           paramValue = i18n.windDirection[paramValue]
         }else{
           paramValue = (Math.round(paramValue * 100) / 100).toFixed(2)
