@@ -22,12 +22,12 @@ const DataTable = ({
       title: title,
       render: value => {
         const coverValue = keyBy(value, 'key')
-        let paramValue = get(coverValue, [param, 'value'], '-');
-        if (param === 'wind_cdir_full') {
-          paramValue = i18n.windDirection[paramValue]
-        }else{
-          paramValue = (Math.round(paramValue * 100) / 100).toFixed(2)
-        }
+        const getValue = get(coverValue, [param, 'value'], '-');
+
+        let paramValue = (Math.round(getValue * 100) / 100).toFixed(2)
+
+        if (param === 'wind_cdir_full') paramValue = i18n.windDirection[getValue]
+
         return (
           <div>{paramValue}</div>
         )
