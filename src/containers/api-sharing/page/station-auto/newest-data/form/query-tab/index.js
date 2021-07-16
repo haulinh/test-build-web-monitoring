@@ -136,11 +136,15 @@ export default class QueryTab extends Component {
   }
 
   handleOnSearch = async () => {
+    const { rule } = this.props
     const queryParams = this.getQueryParams()
 
     this.setState({ loadingSearch: true })
     try {
-      const data = await dataShareApiApi.getStationAutoNewest(queryParams)
+      const data = await dataShareApiApi.getStationAutoNewest(
+        queryParams,
+        isCreate(rule)
+      )
       if (data) {
         this.setState({ dataTable: data })
       }

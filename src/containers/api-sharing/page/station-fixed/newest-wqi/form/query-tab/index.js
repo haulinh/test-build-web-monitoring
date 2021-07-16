@@ -2,7 +2,7 @@ import { Form, Icon, message, Tabs } from 'antd'
 import { dataRoutes, dataShareApiApi } from 'api/ShareApiApi'
 import Clearfix from 'components/elements/clearfix'
 import Text from 'components/elements/text'
-import {MM_YYYY, YYYY} from 'constants/format-date'
+import { MM_YYYY, YYYY } from 'constants/format-date'
 import Example from 'containers/api-sharing/component/Example'
 import Search from 'containers/api-sharing/component/Search'
 import TableParams from 'containers/api-sharing/component/TableParams'
@@ -20,7 +20,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
-import {formatQuarter} from 'utils/datetime'
+import { formatQuarter } from 'utils/datetime'
 import Condition from '../Condition'
 import DataTable from './DataTable'
 
@@ -147,11 +147,15 @@ export default class QueryTab extends Component {
   }
 
   handleOnSearch = async () => {
+    const { rule } = this.props
     const queryParams = this.getQueryParams()
 
     this.setState({ loadingSearch: true })
     try {
-      const data = await dataShareApiApi.getPeriodicWQINewest(queryParams)
+      const data = await dataShareApiApi.getPeriodicWQINewest(
+        queryParams,
+        isCreate(rule)
+      )
       if (data) {
         const formatData = this.formatData(data)
         console.log(formatData)
@@ -169,7 +173,7 @@ export default class QueryTab extends Component {
     return moment(time, 'YYYY-MM').format(MM_YYYY)
   }
 
-  formatData = (list) => {
+  formatData = list => {
     const data = list.map(item =>
       item.data.map((ele, idx) => ({
         ...ele,
@@ -216,10 +220,7 @@ export default class QueryTab extends Component {
         <Clearfix height={32} />
         <Tabs>
           <Tabs.TabPane tab={i18n.tab.list} key="List">
-            <DataTable
-              dataSource={dataTable}
-              loading={loadingSearch}
-            />
+            <DataTable dataSource={dataTable} loading={loadingSearch} />
           </Tabs.TabPane>
           <Tabs.TabPane tab={i18n.tab.example} key="Example">
             <Example data={dataExample} />
