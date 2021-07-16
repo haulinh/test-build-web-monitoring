@@ -126,7 +126,7 @@ export default class SearchFormHistoryData extends React.Component {
     // console.log(this.props.formData,"this.props.query")
     // innit default value for timerange
     // const { from, to } = getTimes(1)
-    const {fromDate: from, toDate: to} = this.props.formDataSearch
+    const { fromDate: from, toDate: to } = this.props.formDataSearch
 
     // let fromDate = moment(props.initialValues.fromDate)
     // let toDate = moment(props.initialValues.toDate)
@@ -140,9 +140,9 @@ export default class SearchFormHistoryData extends React.Component {
     //   "props.initialValues"
     // )
     if (props.initialValues.searchRange) {
-      rangesView = `${moment(from).format(DD_MM_YYYY_HH_MM)} - ${moment(to).format(
-        DD_MM_YYYY_HH_MM
-      )}`
+      rangesView = `${moment(from).format(DD_MM_YYYY_HH_MM)} - ${moment(
+        to
+      ).format(DD_MM_YYYY_HH_MM)}`
       timeRange = null
     }
 
@@ -161,6 +161,7 @@ export default class SearchFormHistoryData extends React.Component {
       provinceKey: props.initialValues.provinceKey,
       stationTypeKey: props.initialValues.stationType,
       stationAutoKey: props.initialValues.stationAuto,
+      stationAutoName: props.initialValues.stationAutoName,
       measuringData: props.measuringData ? props.measuringData : [],
       measuringList: props.measuringData
         ? props.measuringData.map(measuring => ({
