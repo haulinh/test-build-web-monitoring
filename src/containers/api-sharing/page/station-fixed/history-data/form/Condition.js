@@ -135,8 +135,13 @@ export default class Condition extends React.Component {
     return measuringList
   }
 
+  isDisable = fieldName => {
+    const { rule, fieldsDefault = {} } = this.props
+    return isView(rule) && fieldsDefault[fieldName]
+  }
+
   render() {
-    const { form, fieldsDefault = {} } = this.props
+    const { form } = this.props
     const measuringList = this.getMeasuringList()
     const { config: { province, stationType } = {} } = form.getFieldsValue()
 
@@ -150,7 +155,7 @@ export default class Condition extends React.Component {
                 onChange: this.handleOnFieldChange,
               })(
                 <SelectProvince
-                  disabled={fieldsDefault[FIELDS.PROVINCE]}
+                  disabled={this.isDisable(FIELDS.PROVINCE)}
                   fieldValue="_id"
                   isShowAll
                 />
@@ -163,7 +168,7 @@ export default class Condition extends React.Component {
                 onChange: this.handleOnFieldChange,
               })(
                 <SelectStationType
-                  disabled={fieldsDefault[FIELDS.STATION_TYPE]}
+                  disabled={this.isDisable(FIELDS.STATION_TYPE)}
                   fieldValue="_id"
                   isAuto={false}
                   onFetchSuccess={this.onFetchStationTypesSuccess}
@@ -183,7 +188,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectPhase
-                  disabled={fieldsDefault[FIELDS.PHASE]}
+                  disabled={this.isDisable(FIELDS.PHASE)}
                   mode="multiple"
                   stationTypeId={stationType}
                   provinceId={province}
@@ -204,7 +209,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectPoint
-                  disabled={fieldsDefault[FIELDS.POINT]}
+                  disabled={this.isDisable(FIELDS.POINT)}
                   mode="multiple"
                   stationTypeId={stationType}
                   provinceId={province}
@@ -224,7 +229,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectMeasureParameter
-                  disabled={fieldsDefault[FIELDS.MEASURING_LIST]}
+                  disabled={this.isDisable(FIELDS.MEASURING_LIST)}
                   measuringList={measuringList}
                 />
               )}
@@ -236,7 +241,9 @@ export default class Condition extends React.Component {
               {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
                 initialValue: 1,
               })(
-                <OptionsTimeRange disabled={fieldsDefault[FIELDS.RANGE_TIME]} />
+                <OptionsTimeRange
+                  disabled={this.isDisable(FIELDS.RANGE_TIME)}
+                />
               )}
             </Form.Item>
           </Col>
@@ -244,7 +251,7 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.isExceeded}>
               {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
                 valuePropName: 'checked',
-              })(<Switch disabled={fieldsDefault[FIELDS.IS_EXCEEDED]} />)}
+              })(<Switch disabled={this.isDisable(FIELDS.IS_EXCEEDED)} />)}
             </Form.Item>
           </Col>
         </Row>
