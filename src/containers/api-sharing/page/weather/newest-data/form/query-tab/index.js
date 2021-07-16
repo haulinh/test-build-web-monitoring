@@ -67,11 +67,7 @@ export default class QueryTab extends Component {
     const { data } = this.props
     const fieldsValue = data.config.reduce((base, current) => {
       let value = current.value
-      if (
-        [
-          FIELDS.WEATHER.PARAMNETER,
-        ].includes(current.fieldName)
-      ) {
+      if ([FIELDS.WEATHER.PARAMNETER].includes(current.fieldName)) {
         value = current.value.split(',')
       }
       const fieldValue = {
@@ -120,7 +116,7 @@ export default class QueryTab extends Component {
   }
 
   handleOnSearch = async () => {
-    const { form } = this.props
+    const { form, rule } = this.props
 
     const values = await form.validateFields()
     if (!values) return
@@ -129,12 +125,14 @@ export default class QueryTab extends Component {
 
     this.setState({ loadingSearch: true })
     try {
-      const res = await dataShareApiApi.getWeatherNewest(queryParams)
+      const res = await dataShareApiApi.getWeatherNewest(
+        queryParams,
+        isCreate(rule)
+      )
       if (res) {
         this.setState({ dataTable: res.data })
       }
-    } catch (error) {
-    }
+    } catch (error) {}
     this.setState({ loadingSearch: false })
   }
 
@@ -163,7 +161,12 @@ export default class QueryTab extends Component {
     return (
       <React.Fragment>
         <Search onSearch={this.handleOnSearch} loading={loadingSearch}>
-          <Condition isQuery form={form} rule={rule} fieldsDefault={fieldsDefault}/>
+          <Condition
+            isQuery
+            form={form}
+            rule={rule}
+            fieldsDefault={fieldsDefault}
+          />
         </Search>
         <Clearfix height={32} />
         {!isCreate(rule) && (
