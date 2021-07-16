@@ -51,6 +51,7 @@ import { Route, Switch, withRouter } from 'react-router-dom'
 import advanceRoute from './advanceRoute'
 import LoginRoute from './loginRoute'
 import ApiSharingRoute from 'containers/api-sharing/ApiSharingRoute'
+import APISharing from 'containers/api-sharing-hidden'
 
 @withRouter
 @autobind
@@ -131,6 +132,7 @@ export default class RouteDefault extends React.Component {
               path={slug.apiSharing.base}
               component={ApiSharingRoute}
             />
+            <LayoutRoute path="/api-sharing-hidden" component={APISharing} />
             <LayoutRoute
               path={slug.onlineMonitoring.base}
               component={OnlineMonitoring}
