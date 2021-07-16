@@ -3350,9 +3350,19 @@ export default {
     exportBtn: 'Xuất dữ liệu',
     fileExport: 'Dữ liệu WQI',
     requireTime: 'Vui lòng chọn thời gian',
-      pointName: 'Điểm quan trắc',
-      avgTime: 'Thời gian trung bình',
-      wqiValue: 'Giá trị WQI',
-      wqiLevel: 'Mức độ WQI'
-  }
+    pointName: 'Điểm quan trắc',
+    avgTime: 'Thời gian trung bình',
+    wqiValue: 'Giá trị WQI',
+    wqiLevel: 'Mức độ WQI',
+  },
+  apiSharingNew: {
+    detailPage: {
+      header: {
+        generalInfo: 'Thông tin chung',
+        condition: 'Điều kiện',
+        querySetting: 'Thiết lập truy vấn',
+        parameter: 'Thông số',
+      },
+    },
+  },
 }
