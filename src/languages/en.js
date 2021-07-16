@@ -2187,7 +2187,7 @@ export default {
         name: 'WQI - Day',
       },
       wqiPeriodic: {
-        name: "WQI - Periodic",
+        name: 'WQI - Periodic',
       },
       tinhTrangDuLieu: {
         name: 'Status Data',
@@ -2778,7 +2778,7 @@ export default {
       wqiMap: 'WQI Map',
       wqiHour: 'WQI - Hour',
       wqiDay: 'WQI - Day',
-      wqiPeriodic:'WQI - Periodic',
+      wqiPeriodic: 'WQI - Periodic',
       wqiStatistic: 'WQI Historical',
       config: 'Select AQI & WQI Calculations',
     },
@@ -3346,9 +3346,19 @@ export default {
     exportBtn: 'Export data',
     fileExport: 'WQI data',
     requireTime: 'Please select time',
-      pointName: 'Point Name',
-      avgTime: 'Average time',
-      wqiValue: 'WQI Value',
-      wqiLevel: 'WQI Level'
-  }
+    pointName: 'Point Name',
+    avgTime: 'Average time',
+    wqiValue: 'WQI Value',
+    wqiLevel: 'WQI Level',
+  },
+  apiSharingNew: {
+    detailPage: {
+      header: {
+        generalInfo: 'General',
+        condition: 'Condition',
+        querySetting: 'Setting Query',
+        parameter: 'Parameter',
+      },
+    },
+  },
 }
