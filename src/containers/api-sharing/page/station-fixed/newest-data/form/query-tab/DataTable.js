@@ -26,6 +26,9 @@ const DataTable = ({
       dataIndex: 'measuringLogs',
       title,
       render: value => {
+        const measureTextValue = get(value, [measure, 'textValue'])
+        if (measureTextValue === 'KPH') return <div>KPH</div>
+
         const measureValue = get(value, [measure, 'value'], '-')
         const warningLevel = get(value, [measure, 'warningLevel'], '')
         return (
