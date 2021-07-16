@@ -1,3 +1,5 @@
+import { translate as t } from 'hoc/create-lang'
+
 export const shareApiList = {
   stationAuto: {
     historyData: {
@@ -46,8 +48,8 @@ export const i18n = {
   },
   detailPage: {
     header: {
-      generalInfo: 'Thông tin chung',
-      condition: 'Điều kiện',
+      generalInfo: t('apiSharingNew.detailPage.header.generalInfo'),
+      condition: t('apiSharingNew.detailPage.header.condition'),
       querySetting: 'Thiết lập truy vấn',
       parameter: 'Thông số',
     },
@@ -100,7 +102,7 @@ export const i18n = {
     phaseIds: 'Đợt quan trắc',
     cityId: 'Tỉnh/Thành phố',
     parameterList: 'Các thông số thời tiết',
-    days: 'Số ngày dự báo'
+    days: 'Số ngày dự báo',
   },
   types: {
     province: 'string',
@@ -113,7 +115,7 @@ export const i18n = {
     phaseIds: 'string',
     cityId: 'string',
     parameterList: 'string',
-    days: 'number'
+    days: 'number',
   },
   description: {
     province: 'Mã đơn vị quản lý',
@@ -126,7 +128,7 @@ export const i18n = {
     phaseIds: 'Mã đợt quan trắc',
     cityId: 'Mã tỉnh thành phố',
     parameterList: 'Mã thông số thời tiết',
-    days: 'Số ngày dự báo'
+    days: 'Số ngày dự báo',
   },
   table: {
     tt: 'TT',
@@ -147,17 +149,17 @@ export const i18n = {
     requireChoose: 'Vui lòng chọn ít nhất 1 giá trị',
   },
   init: {
-    country: 'Việt Nam'
+    country: 'Việt Nam',
   },
   windDirection: {
-    'east': 'Đông',
-    'west': 'Tây',
-    'south': 'Nam',
-    'north': 'Bắc',
-    'southeast': 'Đông Nam',
-    'northeast': 'Đông Bắc',
-    'southwest': 'Tây Nam',
-    'northwest': 'Tây Bắc',
+    east: 'Đông',
+    west: 'Tây',
+    south: 'Nam',
+    north: 'Bắc',
+    southeast: 'Đông Nam',
+    northeast: 'Đông Bắc',
+    southwest: 'Tây Nam',
+    northwest: 'Tây Bắc',
     'east-southeast': 'Đông - Đông Nam',
     'east-northeast': 'Đông - Đông Bắc',
     'east-southwest': 'Đông - Tây Nam',
@@ -174,7 +176,7 @@ export const i18n = {
     'north-northeast': 'Bắc - Đông Bắc',
     'north-southwest': 'Bắc - Tây Nam',
     'north-northwest': 'Bắc - Tây Bắc',
-  }
+  },
 }
 
 export const FIELDS = {
@@ -190,6 +192,6 @@ export const FIELDS = {
   },
   WEATHER: {
     PARAMNETER: 'parameterList',
-    DAYS: 'days'
-  }
+    DAYS: 'days',
+  },
 }
