@@ -63,6 +63,7 @@ export default class StationAutoItem extends React.PureComponent {
           formSearch = {
             stationType: this.props.stationType.key,
             stationAuto: this.props.stationID,
+            stationAutoName: this.props.name,
             measuringList: arrMeasures,
             measuringData: this.props.measuringList,
             fromDate,
@@ -124,8 +125,8 @@ export default class StationAutoItem extends React.PureComponent {
 
     this.props.history.push(
       slug.dataSearch.base +
-      '?formData=' +
-      encodeURIComponent(JSON.stringify(formSearch))
+        '?formData=' +
+        encodeURIComponent(JSON.stringify(formSearch))
     )
   }
 
@@ -134,7 +135,7 @@ export default class StationAutoItem extends React.PureComponent {
     if (!lastLog) return
     let measuringLogs = lastLog.measuringLogs
     if (!measuringLogs) measuringLogs = {}
-    measuringList.sort(function (a, b) {
+    measuringList.sort(function(a, b) {
       return a.numericalOrder - b.numericalOrder
     })
 
