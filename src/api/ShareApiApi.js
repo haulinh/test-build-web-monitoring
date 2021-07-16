@@ -58,43 +58,51 @@ export const dataRoutes = {
 }
 
 export const dataShareApiApi = {
-  getPeriodicHistory: params => {
-    const route = dataRoutes.getPeriodicHistory()
+  getPeriodicHistory: (params, isCreate) => {
+    let route = dataRoutes.getPeriodicHistory()
+    if (isCreate) route = route.replace('share-api/', '')
     return getFetch(route, params)
   },
 
-  getPeriodicNewest: params => {
-    const route = dataRoutes.getPeriodicNewest()
+  getPeriodicNewest: (params, isCreate) => {
+    let route = dataRoutes.getPeriodicNewest()
+    if (isCreate) route = route.replace('share-api/', '')
     return getFetch(route, params)
   },
 
-  getPeriodicWQIHistory: params => {
-    const route = dataRoutes.getPeriodicWQIHistory()
+  getPeriodicWQIHistory: (params, isCreate) => {
+    let route = dataRoutes.getPeriodicWQIHistory()
+    if (isCreate) route = route.replace('share-api/', '')
     return getFetch(route, params)
   },
 
-  getPeriodicWQINewest: params => {
-    const route = dataRoutes.getPeriodicWQINewest()
+  getPeriodicWQINewest: (params, isCreate) => {
+    let route = dataRoutes.getPeriodicWQINewest()
+    if (isCreate) route = route.replace('share-api/', '')
     return getFetch(route, params)
   },
 
-  getStationAutoHistory: params => {
-    const route = dataRoutes.getStationAutoHistory()
+  getStationAutoHistory: (params, isCreate) => {
+    let route = dataRoutes.getStationAutoHistory()
+    if (isCreate) route = route.replace('share-api/', '')
     return getFetch(route, params)
   },
 
-  getStationAutoNewest: params => {
-    const route = dataRoutes.getStationAutoNewest()
+  getStationAutoNewest: (params, isCreate) => {
+    let route = dataRoutes.getStationAutoNewest()
+    if (isCreate) route = route.replace('share-api/', '')
     return getFetch(route, params)
   },
 
-  getWeatherNewest: params => {
-    const route = dataRoutes.getWeatherNewest()
+  getWeatherNewest: (params, isCreate) => {
+    let route = dataRoutes.getWeatherNewest()
+    if (isCreate) route = route.replace('share-api/', '')
     return getFetch(route, params)
   },
 
-  getWeatherFuture: params => {
-    const route = dataRoutes.getWeatherFuture()
+  getWeatherFuture: (params, isCreate) => {
+    let route = dataRoutes.getWeatherFuture()
+    if (isCreate) route = route.replace('share-api/', '')
     return getFetch(route, params)
   },
 }
