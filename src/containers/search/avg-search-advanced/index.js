@@ -252,14 +252,17 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   handleSearchStation = searchStationData => {
-    // console.log("Search station")
-    // console.log(JSON.stringify(searchStationData, null, 2))
+    // // console.log("Search station")
+    // console.log(JSON.stringify(searchStationData, null, 2), '--1--')
     return new Promise(resolve => {
       this.setState({ isSearchingStation: true }, async () => {
-        const {
-          data: stationKeys,
-        } = await DataStationAutoApi.searchStationAuto(searchStationData)
-        if (stationKeys) {
+        const { data } = await DataStationAutoApi.searchStationAuto(
+          searchStationData
+        )
+        if (data) {
+          // console.log(data, '---2---')
+          const stationKeys = data.map(station => station.key)
+
           this.setState({ stationKeys, isSearchingStation: false })
           resolve(stationKeys)
         }
@@ -506,6 +509,7 @@ export default class AvgSearchAdvanced extends React.Component {
             handleSearch={this.handleSearch}
             filterId={this.props.formData.filterId}
           />
+
           <Col style={{ flex: 1, overflowX: 'hidden' }}>
             <SearchFrom
               flagResetForm={this.state.flagResetForm}

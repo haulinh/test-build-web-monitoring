@@ -6,7 +6,7 @@ import {
   Input,
   Select,
   Table,
-  Tooltip
+  Tooltip,
 } from 'antd'
 import Clearfix from 'components/elements/clearfix'
 import { translate } from 'hoc/create-lang'
@@ -104,6 +104,8 @@ export default class StationForm extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     if (!this.props.stations.length) return
+
+    console.log(this.props.stations.length, '--length--')
     if (
       !_.isEqual(prevProps.stationKeys, this.props.stationKeys) ||
       !_.isEqual(prevProps.stations.length, this.props.stations.length) ||
@@ -136,12 +138,13 @@ export default class StationForm extends React.PureComponent {
     stations = stations.filter(station =>
       this.props.stationKeys.includes(station.key)
     )
-    if (this.state && this.state.searchString) {
-      const searchString = replaceVietnameseStr(this.state.searchString)
-      stations = this.props.stations.filter(
-        station => replaceVietnameseStr(station.name).indexOf(searchString) > -1
-      )
-    }
+    // if (this.state && this.state.searchString) {
+    //   const searchString = replaceVietnameseStr(this.state.searchString)
+    //   stations = this.props.stations.filter(
+    //     station => replaceVietnameseStr(station.name).indexOf(searchString) > -1
+    //   )
+    // }
+    console.log(stations, this.props.stationKeys, '--KETQUA--')
 
     return stations.map((station, index) => {
       // const oldData = this.state.dataSource.find(sta => sta.key === station.key)
