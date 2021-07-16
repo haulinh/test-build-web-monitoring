@@ -6,7 +6,6 @@ import Example from 'containers/api-sharing/component/Example'
 import Search from 'containers/api-sharing/component/Search'
 import TableParams from 'containers/api-sharing/component/TableParams'
 import { FIELDS, i18n } from 'containers/api-sharing/constants'
-import { Header } from 'containers/api-sharing/layout/styles'
 import {
   generateGetUrl,
   getDataExample,
@@ -19,7 +18,6 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
-import { getTimes, getTimesUTC } from 'utils/datetime'
 import Condition from '../Condition'
 import DataTable from './DataTable'
 

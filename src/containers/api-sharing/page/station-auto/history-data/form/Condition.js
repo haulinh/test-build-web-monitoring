@@ -10,6 +10,7 @@ import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import {
   getMeasuringListFromStationAutos,
   isCreate,
+  isView,
 } from 'containers/api-sharing/util'
 import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
 import _ from 'lodash'
@@ -123,6 +124,11 @@ export default class Condition extends React.Component {
     return measureList
   }
 
+  isDisable = fieldName => {
+    const { rule, fieldsDefault = {} } = this.props
+    return isView(rule) && fieldsDefault[fieldName]
+  }
+
   render() {
     const { form, isQuery, fieldsDefault = {} } = this.props
     const { config: { province, stationType } = {} } = form.getFieldsValue()
@@ -140,7 +146,7 @@ export default class Condition extends React.Component {
                 <SelectProvince
                   fieldValue="_id"
                   isShowAll
-                  disabled={fieldsDefault[FIELDS.PROVINCE]}
+                  disabled={this.isDisable(FIELDS.PROVINCE)}
                 />
               )}
             </Form.Item>
@@ -153,7 +159,7 @@ export default class Condition extends React.Component {
                 <SelectStationType
                   fieldValue="_id"
                   onFetchSuccess={this.onStationTypeFetchSuccess}
-                  disabled={fieldsDefault[FIELDS.STATION_TYPE]}
+                  disabled={this.isDisable(FIELDS.STATION_TYPE)}
                 />
               )}
             </Form.Item>
@@ -171,7 +177,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectStationAuto
-                  disabled={fieldsDefault[FIELDS.STATION_AUTO]}
+                  disabled={this.isDisable(FIELDS.STATION_AUTO)}
                   fieldValue="_id"
                   province={province}
                   stationType={stationType}
@@ -202,7 +208,7 @@ export default class Condition extends React.Component {
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.typeData}>
               {form.getFieldDecorator(`config.${FIELDS.DATA_TYPE}`)(
-                <SelectQueryType disabled={fieldsDefault[FIELDS.DATA_TYPE]} />
+                <SelectQueryType disabled={this.isDisable(FIELDS.DATA_TYPE)} />
               )}
             </Form.Item>
           </Col>
@@ -220,7 +226,7 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.isExceeded}>
               {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
                 valuePropName: 'checked',
-              })(<Switch disabled={fieldsDefault[FIELDS.IS_EXCEEDED]} />)}
+              })(<Switch disabled={this.isDisable(FIELDS.IS_EXCEEDED)} />)}
             </Form.Item>
           </Col>
         </Row>
