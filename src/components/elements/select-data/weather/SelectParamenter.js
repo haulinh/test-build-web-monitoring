@@ -2,12 +2,13 @@ import { Select } from 'antd'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
+import { translate as t } from 'hoc/create-lang'
 
 export const optionsWeather = [
-    { key: 'temp', label: 'Nhiệt độ', unit: 'oC' },
-    { key: 'rh', label: 'Độ ẩm', unit: '%' },
-    { key: 'wind_spd', label: 'Gió', unit: 'm/s' },
-    { key: 'wind_cdir_full', label: 'Hướng gió', unit: '' },
+    { key: 'temp', label: t('apiSharingNew.weather.temp'), unit: 'oC' },
+    { key: 'rh', label: t('apiSharingNew.weather.rh'), unit: '%' },
+    { key: 'wind_spd', label: t('apiSharingNew.weather.wind_spd'), unit: 'm/s' },
+    { key: 'wind_cdir_full', label: t('apiSharingNew.weather.wind_cdir_full'), unit: '' },
 ]
 
 @autobind

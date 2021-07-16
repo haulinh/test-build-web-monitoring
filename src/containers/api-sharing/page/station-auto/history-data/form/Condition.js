@@ -198,7 +198,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectMeasureParameter
-                  disabled={fieldsDefault[FIELDS.MEASURING_LIST]}
+                  disabled={this.isDisable(FIELDS.MEASURING_LIST)}
                   measuringList={measuringList}
                 />
               )}
@@ -217,7 +217,9 @@ export default class Condition extends React.Component {
               {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
                 initialValue: 1,
               })(
-                <OptionsTimeRange disabled={fieldsDefault[FIELDS.RANGE_TIME]} />
+                <OptionsTimeRange
+                  disabled={this.isDisable(FIELDS.RANGE_TIME)}
+                />
               )}
             </Form.Item>
           </Col>
