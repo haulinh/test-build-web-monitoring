@@ -19,18 +19,6 @@ const i18nTrans = {
   deleteConfirmMsg: translate('confirm.msg.delete'),
 }
 
-const i18nInner = {
-  head: {
-    apiName: 'Tên API',
-    dateCreated: 'Ngày tạo',
-    dateEdited: 'Ngày chỉnh sửa',
-  },
-  button: {
-    create: 'Tạo API',
-    edit: 'Sửa ',
-    delete: 'Xóa',
-  },
-}
 export default class ApiSharingDetailList extends React.Component {
   state = {
     data: [],
@@ -85,9 +73,9 @@ export default class ApiSharingDetailList extends React.Component {
 
   head = [
     { content: '#', width: 2 },
-    { content: i18nInner.head.apiName },
-    { content: i18nInner.head.dateCreated },
-    { content: i18nInner.head.dateEdited },
+    { content: i18n.head.apiName },
+    { content: i18n.head.dateCreated },
+    { content: i18n.head.dateEdited },
   ]
 
   getRows = () => {
@@ -111,13 +99,13 @@ export default class ApiSharingDetailList extends React.Component {
         content: (
           <span>
             <Link to={`${location.pathname}/edit/${item._id}`}>
-              {i18nInner.button.edit}
+              {i18n.button.edit}
             </Link>
 
             <Divider type="vertical" />
 
             <a onClick={() => this.handleDeleteItem(item._id)}>
-              {i18nInner.button.delete}
+              {i18n.button.delete}
             </a>
           </span>
         ),
@@ -148,7 +136,7 @@ export default class ApiSharingDetailList extends React.Component {
       <PageContainer
         right={
           <Button onClick={this.redirectCreateApi} type="primary">
-            {i18nInner.button.create}
+            {i18n.button.create}
           </Button>
         }
       >
