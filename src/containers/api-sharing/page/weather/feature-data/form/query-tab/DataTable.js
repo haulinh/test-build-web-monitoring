@@ -6,11 +6,7 @@ import { get, keyBy } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
 
-const DataTable = ({
-  dataSource,
-  loading,
-  parameterList
-}) => {
+const DataTable = ({ dataSource, loading, parameterList }) => {
   let parameterListArray = parameterList
   if (!Array.isArray(parameterList)) parameterListArray = Array(parameterList)
 
@@ -22,15 +18,14 @@ const DataTable = ({
       title: title,
       render: value => {
         const convertValue = keyBy(value, 'key')
-        const getValue = get(convertValue, [param, 'value'], '-');
+        const getValue = get(convertValue, [param, 'value'], '-')
 
         let paramValue = (Math.round(getValue * 100) / 100).toFixed(2)
 
-        if (param === 'wind_cdir_full') paramValue = i18n.windDirection[getValue]
+        if (param === 'wind_cdir_full')
+          paramValue = i18n.windDirection[getValue]
 
-        return (
-          <div>{paramValue}</div>
-        )
+        return <div>{paramValue}</div>
       },
     }
   })
@@ -45,13 +40,31 @@ const DataTable = ({
       title: i18n.table.timeWeather,
       render: (value, record) => {
         const time = moment(value).format(DD_MM_YYYY)
-        return <div> {time} <img style={{ width: 50, height: 50 }} src={record.weatherIcon.url} alt=""></img> </div>
-      }
+        return (
+          <div>
+            {' '}
+            {time}{' '}
+            <img
+              style={{ width: 50, height: 50 }}
+              src={record.weatherIcon.url}
+              alt=""
+            ></img>{' '}
+          </div>
+        )
+      },
     },
     ...columnsParameterList,
   ]
 
-  return <Table columns={columns} dataSource={dataSource} loading={loading} />
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      loading={loading}
+      pagination={false}
+      scroll={{ x: 'max-content', y: 300 }}
+    />
+  )
 }
 
 export default DataTable

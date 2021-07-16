@@ -64,7 +64,15 @@ const DataTable = ({
     ...columnsMeasuringList,
   ]
 
-  return <Table columns={columns} dataSource={dataSource} loading={loading} />
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      loading={loading}
+      pagination={false}
+      scroll={{ x: 'max-content', y: 300 }}
+    />
+  )
 }
 
 export default withApiSharingDetailContext(DataTable)
