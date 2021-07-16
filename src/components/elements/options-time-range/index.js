@@ -101,12 +101,13 @@ class OptionsTimeRange extends React.Component {
       },
     ]
     const { open } = this.state
-    const { value } = this.props
+    const { value, ...otherProps } = this.props
     const locale = get(this.locale, 'default')
 
     return (
       <Container>
         <Select
+          {...otherProps}
           value={!Array.isArray(value) ? value : this.formatRanges(value)}
           style={{ width: '100%' }}
           onSelect={this.onSelect}

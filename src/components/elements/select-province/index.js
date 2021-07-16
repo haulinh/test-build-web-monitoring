@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
 import ProvinceApi from 'api/ProvinceApi'
-// import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
 import { get } from 'lodash'
 import { replaceVietnameseStr } from 'utils/string'
@@ -91,7 +90,7 @@ export default class SelectProvince extends PureComponent {
 
   render() {
     const provinces = this.getProvinces()
-    const { fieldValue } = this.props
+    const { fieldValue, value } = this.props
     return (
       <Select
         {...this.props}
@@ -100,7 +99,7 @@ export default class SelectProvince extends PureComponent {
         allowClear
         onChange={this.handleOnChange}
         onSearch={this.handleSearch}
-        value={this.state.value}
+        value={value || this.state.value}
         filterOption={false}
       >
         {this.props.isShowAll && (

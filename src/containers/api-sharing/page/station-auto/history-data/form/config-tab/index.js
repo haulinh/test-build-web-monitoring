@@ -1,39 +1,78 @@
-import React, { Component } from 'react'
-import Condition from './Condition'
-import GeneralInfo from './GeneralInfo'
-import SettingQuery from './SettingQuery'
-import { Button, Col, Row, Form } from 'antd'
+import { Button, Col, Form, message, Row } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
+import GeneralInfo from 'containers/api-sharing/component/GeneralInfo'
+import SettingQuery from 'containers/api-sharing/component/SettingQuery'
 import { i18n, shareApiList } from 'containers/api-sharing/constants'
+import { isCreate, isEdit } from 'containers/api-sharing/util'
+import { get, isEqual } from 'lodash-es'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import { getTimes } from 'utils/datetime'
+import Condition from '../Condition'
 
+@withRouter
 @Form.create()
 export default class ConfigTab extends Component {
+  componentDidUpdate(prevProps) {
+    if (!isEqual(this.props.data, prevProps.data)) {
+      this.setInitFields()
+    }
+  }
+
+  setInitFields = () => {
+    const { data } = this.props
+
+    const fieldsValue = data.config.reduce((base, current) => {
+      let value = current.value
+      if (
+        ['measuringList'].includes(current.fieldName) &&
+        value &&
+        value.includes(',')
+      ) {
+        value = get(current, 'value', '').split(',')
+      }
+      const fieldValue = {
+        [`config.${current.fieldName}`]: value,
+      }
+      return { ...base, ...fieldValue }
+    }, {})
+
+    const optionParams = data.config
+      .filter(field => !field.isDefault)
+      .map(field => field.fieldName)
+
+    this.props.form.setFieldsValue({
+      ...fieldsValue,
+      name: data.name,
+      description: data.description,
+      optionParams,
+    })
+  }
+
   getQueryParams = () => {
     const { form } = this.props
     const fieldsValue = form.getFieldsValue()
-    console.log({ fieldsValue })
-    const key = shareApiList.newestData.key
+    const key = shareApiList.stationAuto.historyData.key
     const optionParams = fieldsValue.optionParams || []
 
-    const times = getTimes(fieldsValue['rangeTime'])
+    const rangeTime = fieldsValue.config.rangeTime
 
-    const config = Object.entries(fieldsValue.config)
-      .filter(([key]) => key !== 'rangeTime')
-      .map(([key, value]) => {
-        const isDefault = !optionParams.includes(key)
+    const times = getTimes(rangeTime)
 
-        let valueParams = value
-        if (key === 'measuringList' && value) {
-          valueParams = value.join(',')
-        }
+    const config = Object.entries(fieldsValue.config).map(([key, value]) => {
+      const isDefault = !optionParams.includes(key)
 
-        return {
-          fieldName: key,
-          value: valueParams,
-          isDefault,
-        }
-      })
+      let valueParams = value
+      if (['measuringList'].includes(key) && Array.isArray(value)) {
+        valueParams = value.join(',')
+      }
+
+      return {
+        fieldName: key,
+        value: valueParams,
+        isDefault,
+      }
+    })
 
     const isDefaultRangeTime = !optionParams.includes('rangeTime')
     const from = {
@@ -67,26 +106,51 @@ export default class ConfigTab extends Component {
 
   handleSubmit = async e => {
     e.preventDefault()
+    const { rule, history, location, form } = this.props
+    const values = await form.validateFields()
+    if (!values) return
+
     const queryParams = this.getQueryParams()
-    console.log({ queryParams })
-    const key = shareApiList.historyData.key
-    await shareApiApi.createApiByKey(key, queryParams)
+    const key = shareApiList.stationAuto.historyData.key
+    if (isCreate(rule)) {
+      const res = await shareApiApi.createApiByKey(key, queryParams)
+      message.success(i18n.message.create)
+      const urlUpdate = location.pathname.replace(
+        'create',
+        `edit/${res.data._id}`
+      )
+      history.push(urlUpdate)
+      return
+    }
+
+    if (isEdit(rule)) {
+      const {
+        match: { params },
+        updateData,
+      } = this.props
+      await shareApiApi.updateApiDetailById(params.id, queryParams)
+      const res = await shareApiApi.getApiDetailById(params.id)
+      if (updateData && res.success) {
+        updateData(res.data)
+        message.success(i18n.message.edit)
+      }
+    }
   }
 
   render() {
-    const { form, edit } = this.props
+    const { form, rule } = this.props
     return (
       <React.Fragment>
         <Form onSubmit={this.handleSubmit}>
           <Row style={{ background: 'white' }} gutter={[0, 32]}>
             <Col span={24}>
-              <GeneralInfo form={form} />
+              <GeneralInfo form={form} rule={rule} />
             </Col>
             <Col span={24}>
-              <Condition form={form} />
+              <Condition form={form} rule={rule} />
             </Col>
             <Col span={24}>
-              <SettingQuery form={form} />
+              <SettingQuery form={form} rule={rule} />
             </Col>
             <Col span={24}>
               <Button

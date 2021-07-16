@@ -9,9 +9,9 @@ export class SelectPhase extends React.Component {
 
   fetchPhase = async () => {
     const phases = await getPhase()
-
-    console.log({ phases })
-
+    if (this.props.onFetchSuccess) {
+      this.props.onFetchSuccess(phases)
+    }
     this.setState({
       phases,
     })
@@ -33,13 +33,13 @@ export class SelectPhase extends React.Component {
   }
 
   render() {
-    const { onChange } = this.props
     const phases = this.getPhases()
     return (
       <Select
+        {...this.props}
+        size="default"
         allowClear
         autoClearSearchValue
-        size="large"
         mode="multiple"
         optionFilterProp="children"
         // this props allow search name and _id

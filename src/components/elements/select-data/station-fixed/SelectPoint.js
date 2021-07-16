@@ -21,8 +21,8 @@ export class SelectPoint extends React.Component {
       points: points.data,
     })
 
-    if (this.props.onChangeObject) {
-      this.props.onChangeObject(points.data)
+    if (this.props.onFetchSuccess) {
+      this.props.onFetchSuccess(points.data)
     }
   }
 
@@ -33,7 +33,6 @@ export class SelectPoint extends React.Component {
   getPoints = () => {
     let points = this.state.points
     const { provinceId, stationTypeId } = this.props
-    console.log({ provinceId, stationTypeId })
     if (provinceId) {
       points = points.filter(point => point.provinceId === provinceId)
     }
@@ -51,10 +50,11 @@ export class SelectPoint extends React.Component {
   }
 
   render() {
-    const { mode, value } = this.props
+    const { mode, value, ...otherProps } = this.props
     const points = this.getPoints()
     return (
       <Select
+        {...otherProps}
         value={value}
         onChange={this.handleOnChange}
         autoClearSearchValue
