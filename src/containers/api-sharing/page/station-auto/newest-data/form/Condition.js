@@ -9,6 +9,7 @@ import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import {
   getMeasuringListFromStationAutos,
   isCreate,
+  isView,
 } from 'containers/api-sharing/util'
 import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
 import React from 'react'
@@ -121,8 +122,13 @@ export default class Condition extends React.Component {
     return measuringList
   }
 
+  isDisable = fieldName => {
+    const { rule, fieldsDefault = {} } = this.props
+    return isView(rule) && fieldsDefault[fieldName]
+  }
+
   render() {
-    const { form, isQuery, fieldsDefault = {} } = this.props
+    const { form, isQuery } = this.props
     const { config: { province, stationType } = {} } = form.getFieldsValue()
     const measuringList = this.getMeasuringList()
 
@@ -136,7 +142,7 @@ export default class Condition extends React.Component {
                 onChange: this.handleOnFieldChange,
               })(
                 <SelectProvince
-                  disabled={fieldsDefault[FIELDS.PROVINCE]}
+                  disabled={this.isDisable(FIELDS.PROVINCE)}
                   fieldValue="_id"
                   isShowAll
                 />
@@ -149,7 +155,7 @@ export default class Condition extends React.Component {
                 onChange: this.handleOnFieldChange,
               })(
                 <SelectStationType
-                  disabled={fieldsDefault[FIELDS.STATION_TYPE]}
+                  disabled={this.isDisable(FIELDS.STATION_TYPE)}
                   fieldValue="_id"
                   onFetchSuccess={this.onStationTypeFetchSuccess}
                 />
@@ -169,7 +175,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectStationAuto
-                  disabled={fieldsDefault[FIELDS.STATION_AUTO]}
+                  disabled={this.isDisable(FIELDS.STATION_AUTO)}
                   mode="multiple"
                   fieldValue="_id"
                   province={province}
@@ -191,7 +197,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectMeasureParameter
-                  disabled={fieldsDefault[FIELDS.MEASURING_LIST]}
+                  disabled={this.isDisable(FIELDS.MEASURING_LIST)}
                   measuringList={measuringList}
                 />
               )}
@@ -201,7 +207,7 @@ export default class Condition extends React.Component {
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.typeData}>
               {form.getFieldDecorator(`config.${FIELDS.DATA_TYPE}`)(
-                <SelectQueryType disabled={fieldsDefault[FIELDS.DATA_TYPE]} />
+                <SelectQueryType disabled={this.isDisable(FIELDS.DATA_TYPE)} />
               )}
             </Form.Item>
           </Col>
@@ -210,7 +216,7 @@ export default class Condition extends React.Component {
             <Form.Item label={i18n.detailPage.label.isExceeded}>
               {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
                 valuePropName: 'checked',
-              })(<Switch disabled={fieldsDefault[FIELDS.IS_EXCEEDED]} />)}
+              })(<Switch disabled={this.isDisable(FIELDS.IS_EXCEEDED)} />)}
             </Form.Item>
           </Col>
         </Row>
