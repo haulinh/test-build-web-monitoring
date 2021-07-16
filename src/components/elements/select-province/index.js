@@ -2,10 +2,7 @@ import React, { PureComponent } from 'react'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
 import ProvinceApi from 'api/ProvinceApi'
-<<<<<<< HEAD
 // import { autobind } from 'core-decorators'
-=======
->>>>>>> 524f4de0271e9130b5417d42151714fe0f1f0736
 import { translate } from 'hoc/create-lang'
 import { get } from 'lodash'
 import { replaceVietnameseStr } from 'utils/string'
