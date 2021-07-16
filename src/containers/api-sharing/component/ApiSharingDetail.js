@@ -2,6 +2,7 @@ import { Tabs } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
 import { i18n } from 'containers/api-sharing/constants'
 import { isCreate } from 'containers/api-sharing/util'
+import _ from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 
@@ -55,8 +56,9 @@ export default class ApiSharingDetail extends Component {
   }
 
   render() {
-    const { rule, configTab, queryTab } = this.props
+    const { rule, configTab, queryTab, location } = this.props
     const { data, stationAutos, measureListData } = this.state
+    const activeKey = _.get(location, ['state', 'activeKey'])
 
     const QueryTab = queryTab
     const ConfigTab = configTab
@@ -70,11 +72,11 @@ export default class ApiSharingDetail extends Component {
           setMeasureListData: this.setMeasureListData,
         }}
       >
-        <Tabs>
+        <Tabs defaultActiveKey={activeKey || 'ConfigTab'}>
           <Tabs.TabPane tab={i18n.tab.configTab} key="ConfigTab">
             <ConfigTab rule={rule} data={data} updateData={this.updateData} />
           </Tabs.TabPane>
-          <Tabs.TabPane tab={i18n.tab.viewDataTab} key="ViewDataTab">
+          <Tabs.TabPane tab={i18n.tab.viewDataTab} key="QueryTab">
             <QueryTab rule={rule} data={data} />
           </Tabs.TabPane>
         </Tabs>
