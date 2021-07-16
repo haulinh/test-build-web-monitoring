@@ -119,7 +119,7 @@ export default class QueryTab extends Component {
       .map(field => `${field.fieldName}=${field.value}`)
       .join('&')
 
-    const url = [dataRoutes.getPeriodicNewest(), `id=${params.id}`].join('?')
+    const url = [dataRoutes.getPeriodicWQINewest(), `id=${params.id}`].join('?')
 
     const urlQuery = [url, urlParams].join('&')
 
