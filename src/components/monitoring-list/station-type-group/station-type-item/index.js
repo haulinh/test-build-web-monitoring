@@ -39,7 +39,9 @@ export default class StationTypeSummary extends React.Component {
 
   state = {
     isOpen: true,
-    measureSoure: [],
+    measureSource: [],
+    isLoading: true,
+    dataSource: [],
   }
 
   toggleOpen() {
@@ -47,29 +49,59 @@ export default class StationTypeSummary extends React.Component {
   }
 
   componentDidMount() {
+    this.getDataSource()
+  }
+
+  componentDidUpdate(prevProps) {
     const { stationAutoList } = this.props
-    let tamp = []
-    // qui chin de k bi bao warning
-    _forEach(stationAutoList, item => {
-      tamp = [...tamp, ...item.measuringList]
-    })
-    // stationAutoList.fo(item => {
-    //   tamp = [...tamp, ...item.measuringList];
-    // });
-    let measureSource = uniqBy(tamp, 'key')
-    this.setState({
-      measureSoure: measureSource,
-      measureShow: measureSource.map(item => item.key),
-    })
+    const prevProps_stationAutoList = prevProps.stationAutoList
+
+    const { dataSource } = this.state
+
+    if (
+      !this.state.isLoading &&
+      JSON.stringify(stationAutoList) ===
+        JSON.stringify(prevProps_stationAutoList) &&
+      JSON.stringify(stationAutoList) !== JSON.stringify(dataSource)
+    ) {
+      this.getDataSource()
+    }
+  }
+
+  getDataSource() {
+    this.setState(
+      {
+        isLoading: true,
+      },
+      () => {
+        const { stationAutoList } = this.props
+        let tamp = []
+        // qui chin de k bi bao warning
+        _forEach(stationAutoList, item => {
+          tamp = [...tamp, ...item.measuringList]
+        })
+        // stationAutoList.fo(item => {
+        //   tamp = [...tamp, ...item.measuringList];
+        // });
+        let measureSource = uniqBy(tamp, 'key')
+        this.setState({
+          measureSource: measureSource,
+          measureShow: measureSource.map(item => item.key),
+          isLoading: false,
+          dataSource: stationAutoList,
+        })
+      }
+    )
   }
 
   render() {
-    const { stationType, stationAutoList } = this.props
+    const { stationType } = this.props
+    const { dataSource } = this.state
     const goodTotal = filter(
-      stationAutoList || [],
+      dataSource || [],
       ({ status }) => status === 'GOOD'
     ).length
-    if (stationAutoList.length === 0) return null
+    if (dataSource.length === 0) return null
 
     return (
       <React.Fragment>
@@ -79,7 +111,7 @@ export default class StationTypeSummary extends React.Component {
               <IconToggle isOpen={this.state.isOpen}>
                 <Icon type="caret-right" />
               </IconToggle>
-              {stationType.name} ({goodTotal}/{stationAutoList.length})
+              {stationType.name} ({goodTotal}/{dataSource.length})
             </TextSpan>
             <Select
               mode="multiple"
@@ -94,7 +126,7 @@ export default class StationTypeSummary extends React.Component {
                 this.setState({ measureShow: val })
               }}
             >
-              {this.state.measureSoure.map(item => {
+              {this.state.measureSource.map(item => {
                 return (
                   <Option key={item.key} value={item.key}>
                     {item.name}
@@ -108,8 +140,9 @@ export default class StationTypeSummary extends React.Component {
         <Collapse isOpen={this.state.isOpen}>
           <StationAutoList
             isShowStationName={stationType.name === 'All'}
-            stationAutoList={stationAutoList}
+            stationAutoList={dataSource}
             measureShow={this.state.measureShow}
+            isLoading={this.state.isLoading}
           />
         </Collapse>
       </React.Fragment>
