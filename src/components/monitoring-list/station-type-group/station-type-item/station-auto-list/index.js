@@ -2,7 +2,7 @@ import React from 'react'
 import { autobind } from 'core-decorators'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Table, Tooltip } from 'antd'
+import { Table, Tooltip, Skeleton } from 'antd'
 import * as _ from 'lodash'
 import { SHAPE } from 'themes/color'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
@@ -91,29 +91,50 @@ export default class StationAutoList extends React.Component {
   static propTypes = {
     stationAutoList: PropTypes.array, //PropTypes.arrayOf(PropTypes.shape(StationAuto.props)),
     isShowStationName: PropTypes.bool,
+    isLoading: PropTypes.bool,
   }
 
   constructor(props) {
     super(props)
     this.measureData = []
-    this.props.stationAutoList.map(item => {
-      this.measureData = _.uniqBy(
-        [...this.measureData, ...item.measuringList],
-        'key'
-      )
-      // qui: k bi warning
-      return null
+  }
+
+  componentDidUpdate(prevProps) {
+    const { stationAutoList } = this.props
+    if (
+      !this.props.isLoading &&
+      JSON.stringify(stationAutoList) !==
+        JSON.stringify(prevProps.stationAutoList)
+    ) {
+      this.props.stationAutoList.map(item => {
+        this.measureData = _.uniqBy(
+          [...this.measureData, ...item.measuringList],
+          'key'
+        )
+        // qui: k bi warning
+        return null
+      })
+    }
+  }
+  getMeasureData() {
+    let data = []
+    this.props.stationAutoList.forEach(item => {
+      data = _.uniqBy([...data, ...item.measuringList], 'key')
     })
+    return data
   }
 
   render() {
     return (
       <WrapperContainer>
-        <TableData
-          stationAutoList={this.props.stationAutoList}
-          measureData={this.measureData}
-          measureShow={this.props.measureShow}
-        />
+        {this.props.isLoading && <Skeleton active />}
+        {!this.props.isLoading && (
+          <TableData
+            stationAutoList={this.props.stationAutoList}
+            measureData={this.getMeasureData()}
+            measureShow={this.props.measureShow}
+          />
+        )}
       </WrapperContainer>
     )
   }
@@ -187,9 +208,10 @@ const noStationStatus = {
 }
 
 class TableData extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  static propTypes = {
+    isLoading: PropTypes.bool,
+    stationAutoList: PropTypes.array,
+  }
 
   khoiTaoColumn() {
     let columns = [
@@ -245,13 +267,13 @@ class TableData extends React.Component {
         title: i18n.time,
         dataIndex: 'lastLog.receivedAt',
         key: 'time',
-        width: 140,
+        width: 160,
         fixed: 'left',
         className: 'stationTime',
         render: receivedAt => {
           if (!receivedAt) return null
           const strDate = moment(receivedAt).format(DD_MM_YYYY_HH_MM)
-          return strDate
+          return <div>{strDate}</div>
         },
       },
     ]
