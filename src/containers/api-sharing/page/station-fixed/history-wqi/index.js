@@ -1,3 +1,3 @@
-export * from './HistoryWqiStationFixedCreate'
-export * from './HistoryWqiStationFixedEdit'
-export * from './HistoryWqiStationFixedView'
+export * from './HistoryWQIStationFixedCreate'
+export * from './HistoryWQIStationFixedEdit'
+export * from './HistoryWQIStationFixedView'

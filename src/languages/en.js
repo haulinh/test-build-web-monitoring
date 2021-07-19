@@ -3372,6 +3372,7 @@ export default {
       dataType: 'Data type',
       isExceeded: 'Exceeded',
       rangeTime: 'Time Range',
+      viewBy: 'View by',
       stationKeys: 'Station Code',
       phaseIds: 'Phase',
       cityId: 'Town/City',
