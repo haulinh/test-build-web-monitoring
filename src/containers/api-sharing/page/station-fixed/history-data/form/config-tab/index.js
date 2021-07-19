@@ -13,6 +13,12 @@ import SettingQuery from 'containers/api-sharing/component/SettingQuery'
 @withRouter
 @Form.create()
 export default class ConfigTab extends Component {
+  componentDidMount() {
+    if (!isCreate(this.props.rule)) {
+      this.setInitFields()
+    }
+  }
+
   componentDidUpdate(prevProps) {
     if (!_.isEqual(prevProps.data, this.props.data)) {
       this.setInitFields()
@@ -40,7 +46,7 @@ export default class ConfigTab extends Component {
       return { ...base, ...fieldValue }
     }, {})
 
-    const optionParams = data.config
+    const optionParams = _.get(data, 'config', [])
       .filter(field => !field.isDefault)
       .map(field => field.fieldName)
 

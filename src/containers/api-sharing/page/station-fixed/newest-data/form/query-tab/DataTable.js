@@ -12,6 +12,8 @@ const DataTable = ({
   dataSource,
   loading,
   measureListData,
+  pagination = {},
+  setPagination = () => {},
 }) => {
   const measureListDataKey = keyBy(measureListData, 'key')
 
@@ -32,7 +34,9 @@ const DataTable = ({
         const measureValue = get(value, [measure, 'value'], '-')
         const warningLevel = get(value, [measure, 'warningLevel'], '')
         return (
-          <div style={{ color: colorLevels[warningLevel] }}>{measureValue}</div>
+          <div style={{ color: colorLevels[warningLevel] }}>
+            {measureValue ? measureValue.toFixed(2) : '-'}
+          </div>
         )
       },
     }
@@ -41,7 +45,10 @@ const DataTable = ({
   const columns = [
     {
       title: i18n.table.tt,
-      render: (_, __, index) => <div>{index + 1}</div>,
+      render: (_, __, index) => {
+        const { current, pageSize } = pagination
+        return <div>{(current - 1) * pageSize + (index + 1)}</div>
+      },
     },
     {
       title: i18n.table.pointName,
@@ -59,13 +66,18 @@ const DataTable = ({
     ...columnsMeasuringList,
   ]
 
+  const handleOnChange = pagination => {
+    setPagination(pagination)
+  }
+
   return (
     <Table
       columns={columns}
       dataSource={dataSource}
       loading={loading}
-      pagination={false}
-      scroll={{ x: 'max-content', y: 300 }}
+      pagination={pagination}
+      onChange={handleOnChange}
+      rowKey={record => record.receivedAt}
     />
   )
 }

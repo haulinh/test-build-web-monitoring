@@ -4,6 +4,7 @@ import GeneralInfo from 'containers/api-sharing/component/GeneralInfo'
 import SettingQuery from 'containers/api-sharing/component/SettingQuery'
 import { i18n, shareApiList } from 'containers/api-sharing/constants'
 import { isCreate, isEdit } from 'containers/api-sharing/util'
+import _ from 'lodash'
 import { get, isEqual } from 'lodash-es'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
@@ -13,6 +14,12 @@ import Condition from '../Condition'
 @withRouter
 @Form.create()
 export default class ConfigTab extends Component {
+  componentDidMount() {
+    if (!isCreate(this.props.rule)) {
+      this.setInitFields()
+    }
+  }
+
   componentDidUpdate(prevProps) {
     if (!isEqual(this.props.data, prevProps.data)) {
       this.setInitFields()
@@ -22,7 +29,7 @@ export default class ConfigTab extends Component {
   setInitFields = () => {
     const { data } = this.props
 
-    const fieldsValue = data.config.reduce((base, current) => {
+    const fieldsValue = _.get(data, 'config', []).reduce((base, current) => {
       let value = current.value
       if (
         ['measuringList'].includes(current.fieldName) &&
@@ -37,7 +44,7 @@ export default class ConfigTab extends Component {
       return { ...base, ...fieldValue }
     }, {})
 
-    const optionParams = data.config
+    const optionParams = _.get(data, 'config', [])
       .filter(field => !field.isDefault)
       .map(field => field.fieldName)
 

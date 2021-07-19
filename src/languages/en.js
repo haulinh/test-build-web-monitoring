@@ -3388,7 +3388,7 @@ export default {
       },
       label: {
         apiName: 'API Name',
-        apiType: 'API Type',
+        apiType: 'Types of API',
         description: 'Description',
         province: 'Select Site',
         stationType: 'Station Type',
@@ -3458,7 +3458,7 @@ export default {
       temp: 'Temp',
       rh: 'Moisture',
       wind_spd: 'Wind',
-      wind_cdir_full: 'Wind direction'
+      wind_cdir_full: 'Wind direction',
     },
   },
 }

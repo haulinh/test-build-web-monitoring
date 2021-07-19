@@ -118,7 +118,7 @@ export default class QueryTab extends Component {
       data,
     } = this.props
 
-    const fieldsParams = get(data, 'config', [])
+    const fieldsParams = _.get(data, 'config', [])
       .map(field => ({
         fieldName: field.fieldName,
         value: field.value,

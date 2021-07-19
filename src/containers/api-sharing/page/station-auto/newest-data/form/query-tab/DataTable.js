@@ -1,18 +1,20 @@
 import { Table } from 'antd'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-import { colorLevels } from 'constants/warningLevels'
 import { i18n } from 'containers/api-sharing/constants'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
 import { get, keyBy } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
+import { DATA_COLOR } from 'themes/color'
 
 const DataTable = ({
   measuringList = [],
-  dataSource,
+  dataSource = [],
   loading,
   stationAutos,
+  pagination = {},
+  setPagination = () => {},
 }) => {
   const measureListData = keyBy(
     getMeasuringListFromStationAutos(stationAutos),
@@ -23,17 +25,20 @@ const DataTable = ({
   if (!Array.isArray(measuringList)) measuringListArray = Array(measuringList)
 
   const columnsMeasuringList = measuringListArray.map(measure => {
-    const measureData = measureListData[measure] || {}
-    const title = `${measureData.name} ${measureData.unit &&
-      `(${measureData.unit})`}  `
+    const measureData = measureListData[measure]
+    const title = measureData
+      ? `${measureData.name} ${measureData.unit && `(${measureData.unit})`}  `
+      : '-'
     return {
       dataIndex: 'measuringLogs',
       title,
       render: value => {
-        const measureValue = get(value, [measure, 'value'], '-')
+        const measureValue = get(value, [measure, 'value'])
         const warningLevel = get(value, [measure, 'warningLevel'], '')
         return (
-          <div style={{ color: colorLevels[warningLevel] }}>{measureValue}</div>
+          <div style={{ color: DATA_COLOR[warningLevel] }}>
+            {measureValue ? measureValue.toFixed(2) : '-'}
+          </div>
         )
       },
     }
@@ -42,12 +47,10 @@ const DataTable = ({
   const columns = [
     {
       title: i18n.table.tt,
-      render: (_, __, index) => <div>{index + 1}</div>,
-    },
-    {
-      title: i18n.table.stationName,
-      dataIndex: 'name',
-      render: value => <div>{value}</div>,
+      render: (_, __, index) => {
+        const { current, pageSize } = pagination
+        return <div>{(current - 1) * pageSize + (index + 1)}</div>
+      },
     },
     {
       dataIndex: 'receivedAt',
@@ -57,16 +60,25 @@ const DataTable = ({
         return <div>{time}</div>
       },
     },
+    {
+      title: i18n.table.stationName,
+      dataIndex: 'name',
+      render: value => <div>{value}</div>,
+    },
     ...columnsMeasuringList,
   ]
 
+  const handleOnChange = pagination => {
+    setPagination(pagination)
+  }
+
   return (
     <Table
+      pagination={pagination}
       columns={columns}
       dataSource={dataSource}
       loading={loading}
-      pagination={false}
-      scroll={{ x: 'max-content', y: 300 }}
+      onChange={handleOnChange}
     />
   )
 }
