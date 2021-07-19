@@ -138,7 +138,7 @@ export const i18n = {
     days: t('apiSharingNew.detailPage.description.days'),
   },
   table: {
-    tt: 'TT',
+    tt: t('apiSharingNew.detailPage.table.tt'),
     time: t('apiSharingNew.detailPage.table.time'),
     stationName: t('apiSharingNew.detailPage.table.stationName'),
     pointName: t('apiSharingNew.detailPage.table.pointName'),
@@ -191,7 +191,7 @@ export const i18n = {
     viewBy: t('wqiStationFix.viewBy'),
     time: t('wqiStationFix.time'),
     requireTime: t('wqiStationFix.requireTime'),
-  }
+  },
 }
 
 export const FIELDS = {

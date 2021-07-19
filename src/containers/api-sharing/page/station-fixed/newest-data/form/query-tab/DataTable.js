@@ -51,17 +51,17 @@ const DataTable = ({
       },
     },
     {
-      title: i18n.table.pointName,
-      dataIndex: 'name',
-      render: value => <div>{value}</div>,
-    },
-    {
       dataIndex: 'receivedAt',
       title: i18n.table.time,
       render: value => {
         const time = moment(value).format(DD_MM_YYYY_HH_MM)
         return <div>{time}</div>
       },
+    },
+    {
+      title: i18n.table.pointName,
+      dataIndex: 'name',
+      render: value => <div>{value}</div>,
     },
     ...columnsMeasuringList,
   ]
