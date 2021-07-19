@@ -9,8 +9,9 @@ const TootipContainer = styled.div`
   .tooltip {
     position: relative;
     display: flex;
-    flex-direction:row-reverse
+    flex-direction:row-reverse;
     opacity: 100;
+    z-index:1;
     /* border-bottom: 1px dotted black; */
   }
   .tooltip .tooltiptext {
@@ -37,19 +38,25 @@ const TootipContainer = styled.div`
 }
 `
 
-
 @createLang
 @autobind
 class ToolTip extends React.Component {
   render() {
-    return <TootipContainer>
-      <div className='tooltip'>
-        <img src={ToolTipIcon} alt='tooltipIcon' style={{ marginRight: '8px', width: '20px' }} />
-        <span className='tooltiptext'>{translate('dataSearchFrom.tooltip')}</span>
-      </div>
-    </TootipContainer>
+    return (
+      <TootipContainer>
+        <div className="tooltip">
+          <img
+            src={ToolTipIcon}
+            alt="tooltipIcon"
+            style={{ marginRight: '8px', width: '20px' }}
+          />
+          <span className="tooltiptext">
+            {translate('dataSearchFrom.tooltip')}
+          </span>
+        </div>
+      </TootipContainer>
+    )
   }
 }
-
 
 export { ToolTip }

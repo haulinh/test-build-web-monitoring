@@ -1,41 +1,53 @@
-import { Button, Col, Form, message, Row } from 'antd'
+import React, { Component } from 'react'
+import { Button, Col, Row, Form, message } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
+import { FIELDS, i18n, shareApiList } from 'containers/api-sharing/constants'
+import { getTimes } from 'utils/datetime'
+import Condition from '../Condition'
+import { isCreate, isEdit, isView } from 'containers/api-sharing/util'
+import { withRouter } from 'react-router'
+import {get, isEmpty, isEqual} from 'lodash'
 import GeneralInfo from 'containers/api-sharing/component/GeneralInfo'
 import SettingQuery from 'containers/api-sharing/component/SettingQuery'
-import { FIELDS, i18n, shareApiList } from 'containers/api-sharing/constants'
-import { isCreate, isEdit, isView } from 'containers/api-sharing/util'
-import _ from 'lodash'
-import React, { Component } from 'react'
-import { withRouter } from 'react-router'
-import Condition from '../Condition'
+import moment from 'moment'
 
 @withRouter
 @Form.create()
 export default class ConfigTab extends Component {
   componentDidUpdate(prevProps) {
-    if (!_.isEqual(prevProps.data, this.props.data)) {
-      this.setInitFields()
+    const nextProps = this.props
+    if (
+      !isEmpty(nextProps.data) && 
+      !isEqual(prevProps.data, nextProps.data)
+    ) {
+        this.setInitFields()
+      }
     }
-  }
 
   setInitFields = () => {
     const { data } = this.props
-    const fieldsValue = _.get(data, 'config', []).reduce((base, current) => {
+    const config = get(data, 'config', []);
+    
+    const fieldsValue = config.reduce((base, current) => {
       let value = current.value
       if (
         [
-          FIELDS.STATION_FIXED.HISTORY_DATA.MEASURING_LIST,
           FIELDS.STATION_FIXED.HISTORY_DATA.POINT,
+          'phaseIds',
         ].includes(current.fieldName) &&
         value &&
         value.includes(',')
       ) {
         value = current.value.split(',')
       }
-      const fieldValue = {
+
+      if (current.fieldName === 'rangeTime') 
+        value = value.map(item => moment(item))
+
+      return { 
+        ...base, 
         [`config.${current.fieldName}`]: value,
       }
-      return { ...base, ...fieldValue }
     }, {})
 
     const optionParams = _.get(data, 'config', [])
@@ -56,12 +68,14 @@ export default class ConfigTab extends Component {
     const key = shareApiList.stationFixed.historyWqi.key
     const optionParams = fieldsValue.optionParams || []
 
+    const times = getTimes(fieldsValue.config.rangeTime)
+
     const config = Object.entries(fieldsValue.config).map(([key, value]) => {
       const isDefault = !optionParams.includes(key)
 
       let valueParams = value
       if (
-        ['measuringList', 'stationKeys'].includes(key) &&
+        ['stationKeys', 'phaseIds'].includes(key) &&
         Array.isArray(value)
       ) {
         valueParams = value.join(',')
@@ -74,11 +88,31 @@ export default class ConfigTab extends Component {
       }
     })
 
+    const isDefaultRangeTime = !optionParams.includes('rangeTime')
+    const from = {
+      fieldName: 'from',
+      value: times.from
+        .clone()
+        .utc()
+        .format(),
+      isDefault: isDefaultRangeTime,
+    }
+    const to = {
+      fieldName: 'to',
+      value: times.to
+        .clone()
+        .utc()
+        .format(),
+      isDefault: isDefaultRangeTime,
+    }
+
+    const newConfig = [...config, from, to]
+
     const params = {
       key,
       name: fieldsValue.name,
       description: fieldsValue.description,
-      config: config,
+      config: newConfig,
     }
 
     return params
@@ -89,9 +123,9 @@ export default class ConfigTab extends Component {
     const { rule, history, location, form } = this.props
     const values = await form.validateFields()
     if (!values) return
-
     const queryParams = this.getQueryParams()
     const key = shareApiList.stationFixed.historyWqi.key
+
     if (isCreate(rule)) {
       const res = await shareApiApi.createApiByKey(key, queryParams)
       message.success(i18n.message.create)
@@ -108,6 +142,7 @@ export default class ConfigTab extends Component {
         match: { params },
         updateData,
       } = this.props
+
       await shareApiApi.updateApiDetailById(params.id, queryParams)
       const res = await shareApiApi.getApiDetailById(params.id)
       if (updateData && res.success) {

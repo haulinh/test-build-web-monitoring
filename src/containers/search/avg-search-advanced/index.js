@@ -506,6 +506,7 @@ export default class AvgSearchAdvanced extends React.Component {
             handleSearch={this.handleSearch}
             filterId={this.props.formData.filterId}
           />
+
           <Col style={{ flex: 1, overflowX: 'hidden' }}>
             <SearchFrom
               flagResetForm={this.state.flagResetForm}

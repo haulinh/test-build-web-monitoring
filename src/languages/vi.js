@@ -3376,6 +3376,7 @@ export default {
       dataType: 'Loại dữ liệu',
       isExceeded: 'Vượt ngưỡng',
       rangeTime: 'Thời gian',
+      viewBy: 'Xem theo',
       stationKeys: 'Trạm quan trắc',
       phaseIds: 'Đợt quan trắc',
       cityId: 'Tỉnh/Thành phố',
