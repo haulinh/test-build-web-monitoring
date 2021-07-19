@@ -13,7 +13,7 @@ import {
   isCreate,
 } from 'containers/api-sharing/util'
 import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
-import { isEqual, get} from 'lodash'
+import { isEqual, get } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
@@ -22,7 +22,7 @@ import { formatQuarter, getTimes, getTimesUTC } from 'utils/datetime'
 import Condition from '../Condition'
 import DataTable from './DataTable'
 import moment from 'moment'
-import {MM_YYYY, YYYY} from 'constants/format-date'
+import { MM_YYYY, YYYY } from 'constants/format-date'
 
 const Method = styled.div`
   display: inline-block;
@@ -68,26 +68,25 @@ export default class QueryTab extends Component {
 
   setInitFields = () => {
     const { data } = this.props
-    const config = get(data, 'config', []);
-    
+    const config = get(data, 'config', [])
+
     const fieldsValue = config.reduce((base, current) => {
       let value = current.value
       if (
-        [
-          FIELDS.STATION_FIXED.HISTORY_DATA.POINT,
-          'phaseIds',
-        ].includes(current.fieldName) &&
+        [FIELDS.STATION_FIXED.HISTORY_DATA.POINT, 'phaseIds'].includes(
+          current.fieldName
+        ) &&
         value &&
         value.includes(',')
       ) {
         value = current.value.split(',')
       }
 
-      if (current.fieldName === 'rangeTime') 
+      if (current.fieldName === 'rangeTime')
         value = value.map(item => moment(item))
 
-      return { 
-        ...base, 
+      return {
+        ...base,
         [`config.${current.fieldName}`]: value,
       }
     }, {})
@@ -118,7 +117,7 @@ export default class QueryTab extends Component {
       data,
     } = this.props
 
-    const fieldsParams = _.get(data, 'config', [])
+    const fieldsParams = get(data, 'config', [])
       .map(field => ({
         fieldName: field.fieldName,
         value: field.value,
@@ -129,7 +128,9 @@ export default class QueryTab extends Component {
       .map(field => `${field.fieldName}=${field.value}`)
       .join('&')
 
-    const url = [dataRoutes.getPeriodicWQIHistory(), `id=${params.id}`].join('?')
+    const url = [dataRoutes.getPeriodicWQIHistory(), `id=${params.id}`].join(
+      '?'
+    )
 
     const urlQuery = [url, urlParams].join('&')
 
