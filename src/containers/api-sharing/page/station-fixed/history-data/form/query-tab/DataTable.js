@@ -1,11 +1,11 @@
 import { Table } from 'antd'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-import { colorLevels } from 'constants/warningLevels'
 import { i18n } from 'containers/api-sharing/constants'
 import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
 import { get, keyBy } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
+import { DATA_COLOR } from 'themes/color'
 
 const DataTable = ({
   measuringList = [],
@@ -34,7 +34,7 @@ const DataTable = ({
         const measureValue = get(value, [measure, 'value'])
         const warningLevel = get(value, [measure, 'warningLevel'], '')
         return (
-          <div style={{ color: colorLevels[warningLevel] }}>
+          <div style={{ color: DATA_COLOR[warningLevel] }}>
             {measureValue ? measureValue.toFixed(2) : '-'}
           </div>
         )
