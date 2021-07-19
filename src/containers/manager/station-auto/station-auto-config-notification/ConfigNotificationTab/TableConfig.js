@@ -36,12 +36,49 @@ const Flex = styled.div`
   }
 `
 
+export const TYPE = {
+  STATION_STATUS: 'STATION_STATUS',
+  ONLINE: 'ONLINE',
+  OFFLINE: 'OFFLINE',
+}
 export default class TableConfig extends React.Component {
   state = {
     configDetail: this.props.data.configDetail,
     isLoadingSubmit: false,
     isModelVisible: false,
-    confirmLoading: false
+    confirmLoading: false,
+    isLoading: true,
+  }
+
+  componentDidMount = async () => {
+    //** 001 NOTE: chỉ xử lý giao diện vì back-end đã hardcoded xử lý độc lập */
+    if (this.props.title === TYPE.STATION_STATUS) {
+      const configDetail = this.state.configDetail.map(item => {
+        if (item.status === TYPE.ONLINE && item.frequency > 0) {
+          return {
+            ...item,
+            isEnable: true,
+            frequency: 0,
+          }
+        }
+        return item
+      })
+      // const { _id, key } = this.props.data
+      // const data = {
+      //   key: key,
+      //   configDetail: configDetail,
+      // }
+      // / const res = await OrganizationApi.updateConfigNotify(_id, data)
+
+      this.setState({
+        configDetail: configDetail,
+      })
+    }
+    //** 001 END*/
+
+    this.setState({
+      isLoading: false,
+    })
   }
 
   updateFrequency = frequencyUpdate => {
@@ -152,27 +189,30 @@ export default class TableConfig extends React.Component {
   handleOkModel = () => {
     this.update()
     this.setState({
-      confirmLoading: true
+      confirmLoading: true,
     })
     setTimeout(() => {
       this.setState({
         isModelVisible: false,
-        confirmLoading: false
+        confirmLoading: false,
       })
-    }, 500);
-  };
+    }, 500)
+  }
 
   render() {
     return (
       <div>
-        <Table
-          bordered={true}
-          rowKey="_id"
-          size="small"
-          pagination={false}
-          dataSource={this.state.configDetail}
-          columns={this.getColumnsTabConfig()}
-        />
+        {!this.state.isLoading && (
+          <Table
+            bordered={true}
+            rowKey="_id"
+            size="small"
+            pagination={false}
+            dataSource={this.state.configDetail}
+            columns={this.getColumnsTabConfig()}
+          />
+        )}
+
         <Clearfix height={16} />
         <Flex>
           <Button
@@ -181,7 +221,6 @@ export default class TableConfig extends React.Component {
             icon="save"
             // onClick={this.update}
             onClick={() => this.setState({ isModelVisible: true })}
-
             loading={this.state.isLoadingSubmit}
           >
             {i18n.submit}
@@ -193,15 +232,12 @@ export default class TableConfig extends React.Component {
           onOk={this.handleOkModel}
           okText={i18n.okBtnText}
           cancelText={i18n.cancelBtnText}
-
           confirmLoading={this.state.confirmLoading}
           onCancel={() => this.setState({ isModelVisible: false })}
         >
           <p>{i18n.contentConfirm}</p>
         </Modal>
       </div>
-
-
     )
   }
 }
