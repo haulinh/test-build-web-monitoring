@@ -23,17 +23,20 @@ const DataTable = ({
   if (!Array.isArray(measuringList)) measuringListArray = Array(measuringList)
 
   const columnsMeasuringList = measuringListArray.map(measure => {
-    const measureData = measureListData[measure] || {}
-    const title = `${measureData.name} ${measureData.unit &&
-      `(${measureData.unit})`}  `
+    const measureData = measureListData[measure]
+    const title = measureData
+      ? `${measureData.name} ${measureData.unit && `(${measureData.unit})`}  `
+      : '-'
     return {
       dataIndex: 'measuringLogs',
       title,
       render: value => {
-        const measureValue = get(value, [measure, 'value'], '-')
+        const measureValue = get(value, [measure, 'value'])
         const warningLevel = get(value, [measure, 'warningLevel'], '')
         return (
-          <div style={{ color: colorLevels[warningLevel] }}>{measureValue}</div>
+          <div style={{ color: colorLevels[warningLevel] }}>
+            {measureValue ? measureValue.toFixed(2) : '-'}
+          </div>
         )
       },
     }
@@ -45,11 +48,6 @@ const DataTable = ({
       render: (_, __, index) => <div>{index + 1}</div>,
     },
     {
-      title: i18n.table.stationName,
-      dataIndex: 'name',
-      render: value => <div>{value}</div>,
-    },
-    {
       dataIndex: 'receivedAt',
       title: i18n.table.time,
       render: value => {
@@ -57,18 +55,15 @@ const DataTable = ({
         return <div>{time}</div>
       },
     },
+    {
+      title: i18n.table.stationName,
+      dataIndex: 'name',
+      render: value => <div>{value}</div>,
+    },
     ...columnsMeasuringList,
   ]
 
-  return (
-    <Table
-      columns={columns}
-      dataSource={dataSource}
-      loading={loading}
-      pagination={false}
-      scroll={{ x: 'max-content', y: 300 }}
-    />
-  )
+  return <Table columns={columns} dataSource={dataSource} loading={loading} />
 }
 
 export default withApiSharingDetailContext(DataTable)

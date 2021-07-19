@@ -138,7 +138,7 @@ export const i18n = {
   },
   table: {
     tt: 'TT',
-    time: t('apiSharingNew.detailPage.description.days'),
+    time: t('apiSharingNew.detailPage.table.time'),
     stationName: t('apiSharingNew.detailPage.table.stationName'),
     pointName: t('apiSharingNew.detailPage.table.pointName'),
     phaseName: t('apiSharingNew.detailPage.table.phaseName'),

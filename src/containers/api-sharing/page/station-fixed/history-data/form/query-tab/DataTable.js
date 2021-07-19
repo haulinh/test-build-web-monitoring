@@ -32,7 +32,9 @@ const DataTable = ({
         const measureValue = get(value, [measure, 'value'], '-')
         const warningLevel = get(value, [measure, 'warningLevel'], '')
         return (
-          <div style={{ color: colorLevels[warningLevel] }}>{measureValue}</div>
+          <div style={{ color: colorLevels[warningLevel] }}>
+            {measureValue ? measureValue.toFixed(2) : '-'}
+          </div>
         )
       },
     }
@@ -64,15 +66,7 @@ const DataTable = ({
     ...columnsMeasuringList,
   ]
 
-  return (
-    <Table
-      columns={columns}
-      dataSource={dataSource}
-      loading={loading}
-      pagination={false}
-      scroll={{ x: 'max-content', y: 300 }}
-    />
-  )
+  return <Table columns={columns} dataSource={dataSource} loading={loading} />
 }
 
 export default withApiSharingDetailContext(DataTable)

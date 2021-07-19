@@ -3363,7 +3363,7 @@ export default {
     },
     titleMenu: {
       create: 'Tạo mới',
-      edit: 'Sửa'
+      edit: 'Sửa',
     },
     fields: {
       stationFixed: {
@@ -3426,9 +3426,9 @@ export default {
         days: 'Số ngày dự báo',
       },
       table: {
-        tt: 'TT',
-        time: 'Thời gian Truyền File',
-        stationName: 'Tên trạm',
+        tt: 'STT',
+        time: 'Thời gian',
+        stationName: 'Tên trạm quan trắc ',
         pointName: 'Tên điểm',
         phaseName: 'Tên đợt',
         timeWeather: 'Thời gian',
@@ -3461,7 +3461,7 @@ export default {
       temp: 'Nhiệt độ',
       rh: 'Độ ẩm',
       wind_spd: 'Gió',
-      wind_cdir_full: 'Hướng gió'
-    }
+      wind_cdir_full: 'Hướng gió',
+    },
   },
 }

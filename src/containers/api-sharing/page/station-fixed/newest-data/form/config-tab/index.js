@@ -12,6 +12,12 @@ import Condition from '../Condition'
 @withRouter
 @Form.create()
 export default class ConfigTab extends Component {
+  componentDidMount() {
+    if (!isCreate(this.props.rule)) {
+      this.setInitFields()
+    }
+  }
+
   componentDidUpdate(prevProps) {
     if (!_.isEqual(prevProps.data, this.props.data)) {
       this.setInitFields()
