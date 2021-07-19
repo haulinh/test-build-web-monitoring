@@ -26,7 +26,7 @@ export default class ConfigTab extends Component {
 
   setInitFields = () => {
     const { data } = this.props
-    const fieldsValue = data.config.reduce((base, current) => {
+    const fieldsValue = _.get(data, 'config', []).reduce((base, current) => {
       let value = current.value
       if ([FIELDS.WEATHER.PARAMNETER].includes(current.fieldName)) {
         value = current.value.split(',')
@@ -37,7 +37,7 @@ export default class ConfigTab extends Component {
       return { ...base, ...fieldValue }
     }, {})
 
-    const optionParams = data.config
+    const optionParams = _.get(data, 'config', [])
       .filter(field => !field.isDefault)
       .map(field => field.fieldName)
 

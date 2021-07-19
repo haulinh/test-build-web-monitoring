@@ -13,7 +13,7 @@ import {
   isCreate,
 } from 'containers/api-sharing/util'
 import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
-import { isEqual } from 'lodash'
+import _, { isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
@@ -65,7 +65,7 @@ export default class QueryTab extends Component {
 
   setInitFields = () => {
     const { data } = this.props
-    const fieldsValue = data.config.reduce((base, current) => {
+    const fieldsValue = _.get(data, 'config', []).reduce((base, current) => {
       let value = current.value
       if ([FIELDS.WEATHER.PARAMNETER].includes(current.fieldName)) {
         value = current.value.split(',')
@@ -97,7 +97,7 @@ export default class QueryTab extends Component {
       data,
     } = this.props
 
-    const fieldsParams = data.config
+    const fieldsParams = _.get(data, 'config', [])
       .map(field => ({
         fieldName: field.fieldName,
         value: field.value,

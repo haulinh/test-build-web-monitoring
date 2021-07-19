@@ -46,7 +46,7 @@ export default class ConfigTab extends Component {
       return { ...base, ...fieldValue }
     }, {})
 
-    const optionParams = data.config
+    const optionParams = _.get(data, 'config', [])
       .filter(field => !field.isDefault)
       .map(field => field.fieldName)
 
