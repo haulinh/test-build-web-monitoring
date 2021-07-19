@@ -1,4 +1,4 @@
-import { Button, Divider, message, Modal } from 'antd'
+import { Button, Divider, message, Modal, Empty, Icon } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
 import DynamicTable from 'components/elements/dynamic-table'
 import { DD_MM_YYYY } from 'constants/format-date'
@@ -65,7 +65,7 @@ export default class ApiSharingDetailList extends React.Component {
             message.success(i18n.message.delete)
             this.setState({ data: dataUpdated })
           }
-        } catch (error) {}
+        } catch (error) { }
         this.setState({ loading: false })
       },
     })
@@ -129,13 +129,14 @@ export default class ApiSharingDetailList extends React.Component {
   }
 
   render() {
-    const { loading } = this.state
+    const { loading, data } = this.state
     const pathname = this.getPathname()
 
     return (
       <PageContainer
         right={
           <Button onClick={this.redirectCreateApi} type="primary">
+            <Icon type="plus" />
             {i18n.button.create}
           </Button>
         }
@@ -148,14 +149,21 @@ export default class ApiSharingDetailList extends React.Component {
             },
           ]}
         />
-        <DynamicTable
-          isLoading={loading}
-          rows={this.getRows()}
-          head={this.head}
-          paginationOptions={{
-            isSticky: true,
-          }}
-        />
+        {data.length > 0 ? (
+          <DynamicTable
+            isLoading={loading}
+            rows={this.getRows()}
+            head={this.head}
+            paginationOptions={{
+              isSticky: true,
+            }}
+          />
+        ) : (
+          <Empty
+            style={{ margin: '0 auto', padding: '8px 16px' }}
+            description={i18n.button.nodata}
+          />
+        )}
       </PageContainer>
     )
   }

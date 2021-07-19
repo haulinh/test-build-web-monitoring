@@ -3446,6 +3446,7 @@ export default {
       create: 'Create API',
       edit: 'Edit',
       delete: 'Delete',
+      nodata: 'No Data',
     },
     tab: {
       configTab: 'Config',
