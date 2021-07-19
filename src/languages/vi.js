@@ -1322,6 +1322,13 @@ export default {
       label: 'Xoá',
     },
     form: {
+      measuringList: {
+        required: 'Vui lòng nhập thông số',
+        validate1: '[Giới hạn vượt ngưỡng: Min > Max]',
+        validate2: '[Chuẩn bị vượt ngưỡng: Min > Max]',
+        validate3: '[Giới hạn vượt ngưỡng: Min Vượt > Min Chuẩn bị vượt]',
+        validate4: '[Giới hạn vượt ngưỡng: Max Vượt < Max Chuẩn bị vượt]',
+      },
       key: {
         label: 'Mã QCVN',
         placeholder: 'Nhập QCVN',
@@ -3349,9 +3356,9 @@ export default {
     exportBtn: 'Xuất dữ liệu',
     fileExport: 'Dữ liệu WQI',
     requireTime: 'Vui lòng chọn thời gian',
-      pointName: 'Điểm quan trắc',
-      avgTime: 'Thời gian trung bình',
-      wqiValue: 'Giá trị WQI',
-      wqiLevel: 'Mức độ WQI'
-  }
+    pointName: 'Điểm quan trắc',
+    avgTime: 'Thời gian trung bình',
+    wqiValue: 'Giá trị WQI',
+    wqiLevel: 'Mức độ WQI',
+  },
 }

@@ -1334,6 +1334,13 @@ export default {
       label: 'Add',
     },
     form: {
+      measuringList: {
+        required: 'Please enter parameters',
+        validate1: '[Limit over threshold: Min> Max]',
+        validate2: '[Preparing to exceed the threshold: Min> Max]',
+        validate3: '[Limit Exceeds: Min Exceeds> Min Prepare To Pass]',
+        validate4: '[Limit Exceeds: Max Exceeds <Max Prepare To Pass]',
+      },
       key: {
         label: 'Code',
         placeholder: 'Input Standard Filter Code',
@@ -2187,7 +2194,7 @@ export default {
         name: 'WQI - Day',
       },
       wqiPeriodic: {
-        name: "WQI - Periodic",
+        name: 'WQI - Periodic',
       },
       tinhTrangDuLieu: {
         name: 'Status Data',
@@ -2778,7 +2785,7 @@ export default {
       wqiMap: 'WQI Map',
       wqiHour: 'WQI - Hour',
       wqiDay: 'WQI - Day',
-      wqiPeriodic:'WQI - Periodic',
+      wqiPeriodic: 'WQI - Periodic',
       wqiStatistic: 'WQI Historical',
       config: 'Select AQI & WQI Calculations',
     },
@@ -3346,9 +3353,9 @@ export default {
     exportBtn: 'Export data',
     fileExport: 'WQI data',
     requireTime: 'Please select time',
-      pointName: 'Point Name',
-      avgTime: 'Average time',
-      wqiValue: 'WQI Value',
-      wqiLevel: 'WQI Level'
-  }
+    pointName: 'Point Name',
+    avgTime: 'Average time',
+    wqiValue: 'WQI Value',
+    wqiLevel: 'WQI Level',
+  },
 }
