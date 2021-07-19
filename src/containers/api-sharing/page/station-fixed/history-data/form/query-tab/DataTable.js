@@ -12,6 +12,8 @@ const DataTable = ({
   dataSource,
   loading,
   measureListData,
+  pagination = {},
+  setPagination = () => {},
 }) => {
   const measureListDataKey = keyBy(measureListData, 'key')
 
@@ -29,7 +31,7 @@ const DataTable = ({
         const measureTextValue = get(value, [measure, 'textValue'])
         if (measureTextValue === 'KPH') return <div>KPH</div>
 
-        const measureValue = get(value, [measure, 'value'], '-')
+        const measureValue = get(value, [measure, 'value'])
         const warningLevel = get(value, [measure, 'warningLevel'], '')
         return (
           <div style={{ color: colorLevels[warningLevel] }}>
@@ -43,7 +45,10 @@ const DataTable = ({
   const columns = [
     {
       title: i18n.table.tt,
-      render: (_, __, index) => <div>{index + 1}</div>,
+      render: (_, __, index) => {
+        const { current, pageSize } = pagination
+        return <div>{(current - 1) * pageSize + (index + 1)}</div>
+      },
     },
     {
       title: i18n.table.pointName,
@@ -66,7 +71,20 @@ const DataTable = ({
     ...columnsMeasuringList,
   ]
 
-  return <Table columns={columns} dataSource={dataSource} loading={loading} />
+  const handleOnChange = pagination => {
+    setPagination(pagination)
+  }
+
+  return (
+    <Table
+      pagination={pagination}
+      onChange={handleOnChange}
+      columns={columns}
+      dataSource={dataSource}
+      loading={loading}
+      rowKey={record => record.receivedAt}
+    />
+  )
 }
 
 export default withApiSharingDetailContext(DataTable)

@@ -68,7 +68,7 @@ const DataTable = ({
     ...columnsMeasuringList,
   ]
 
-  const handleOnchange = pagination => {
+  const handleOnChange = pagination => {
     setPagination(pagination)
   }
 
@@ -78,7 +78,7 @@ const DataTable = ({
       columns={columns}
       dataSource={dataSource}
       loading={loading}
-      onChange={handleOnchange}
+      onChange={handleOnChange}
     />
   )
 }

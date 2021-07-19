@@ -51,15 +51,23 @@ export default class QueryTab extends Component {
   state = {
     loadingSearch: false,
     dataTable: [],
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
   }
 
   componentDidMount() {
-    if (!isCreate(this.props.rule)) this.setInitFields()
+    if (!isCreate(this.props.rule)) {
+      this.setInitFields()
+      this.handleOnSearch()
+    }
   }
 
   componentDidUpdate(prevProps) {
     if (!isEqual(this.props.data, prevProps.data)) {
       this.setInitFields()
+      this.handleOnSearch()
     }
   }
 
@@ -133,7 +141,8 @@ export default class QueryTab extends Component {
         this.setState({ dataTable: res.data })
       }
     } catch (error) {}
-    this.setState({ loadingSearch: false })
+    const initPagination = { current: 1, pageSize: 10 }
+    this.setState({ pagination: initPagination, loadingSearch: false })
   }
 
   getQueryParams = () => {
@@ -151,9 +160,13 @@ export default class QueryTab extends Component {
     return queryParams
   }
 
+  setPagination = pagination => {
+    this.setState({ pagination })
+  }
+
   render() {
     const { form, rule, location, menuApiSharingList, data } = this.props
-    const { dataTable, loadingSearch } = this.state
+    const { dataTable, loadingSearch, pagination } = this.state
     const dataExample = getDataExample(menuApiSharingList, location)
     const { config: { parameterList = [] } = {} } = form.getFieldsValue()
 
@@ -186,6 +199,8 @@ export default class QueryTab extends Component {
         <Tabs>
           <Tabs.TabPane tab={i18n.tab.list} key="List">
             <DataTable
+              pagination={pagination}
+              setPagination={this.setPagination}
               parameterList={parameterList}
               dataSource={dataTable}
               loading={loadingSearch}

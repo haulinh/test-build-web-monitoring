@@ -12,6 +12,8 @@ const DataTable = ({
   dataSource,
   loading,
   measureListData,
+  pagination = {},
+  setPagination = () => {},
 }) => {
   const measureListDataKey = keyBy(measureListData, 'key')
 
@@ -43,7 +45,10 @@ const DataTable = ({
   const columns = [
     {
       title: i18n.table.tt,
-      render: (_, __, index) => <div>{index + 1}</div>,
+      render: (_, __, index) => {
+        const { current, pageSize } = pagination
+        return <div>{(current - 1) * pageSize + (index + 1)}</div>
+      },
     },
     {
       title: i18n.table.pointName,
@@ -61,7 +66,20 @@ const DataTable = ({
     ...columnsMeasuringList,
   ]
 
-  return <Table columns={columns} dataSource={dataSource} loading={loading} />
+  const handleOnChange = pagination => {
+    setPagination(pagination)
+  }
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      loading={loading}
+      pagination={pagination}
+      onChange={handleOnChange}
+      rowKey={record => record.receivedAt}
+    />
+  )
 }
 
 export default withApiSharingDetailContext(DataTable)

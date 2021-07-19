@@ -8,7 +8,14 @@ import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApi
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { i18n } from 'containers/api-sharing/constants'
 
-const DataTable = ({ measuringList, dataSource, loading, stationAutos }) => {
+const DataTable = ({
+  measuringList,
+  dataSource,
+  loading,
+  stationAutos,
+  pagination = {},
+  setPagination = () => {},
+}) => {
   const measureListData = keyBy(
     getMeasuringListFromStationAutos(stationAutos),
     'key'
@@ -18,9 +25,10 @@ const DataTable = ({ measuringList, dataSource, loading, stationAutos }) => {
   if (!Array.isArray(measuringList)) measuringListArray = Array(measuringList)
 
   const columnsMeasuringList = measuringListArray.map(measure => {
-    const measureData = measureListData[measure] || {}
-    const title = `${measureData.name} ${measureData.unit &&
-      `(${measureData.unit})`}  `
+    const measureData = measureListData[measure]
+    const title = measureData
+      ? `${measureData.name} ${measureData.unit && `(${measureData.unit})`}  `
+      : '-'
     return {
       dataIndex: 'measuringLogs',
       title,
@@ -39,7 +47,10 @@ const DataTable = ({ measuringList, dataSource, loading, stationAutos }) => {
   const columns = [
     {
       title: i18n.table.tt,
-      render: (_, __, index) => <div>{index + 1}</div>,
+      render: (_, __, index) => {
+        const { current, pageSize } = pagination
+        return <div>{(current - 1) * pageSize + (index + 1)}</div>
+      },
     },
     {
       dataIndex: 'receivedAt',
@@ -52,7 +63,19 @@ const DataTable = ({ measuringList, dataSource, loading, stationAutos }) => {
     ...columnsMeasuringList,
   ]
 
-  return <Table columns={columns} dataSource={dataSource} loading={loading} />
+  const handleOnchange = pagination => {
+    setPagination(pagination)
+  }
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      loading={loading}
+      pagination={pagination}
+      onChange={handleOnchange}
+    />
+  )
 }
 
 export default withApiSharingDetailContext(DataTable)
