@@ -3460,6 +3460,7 @@ export default {
       create: 'Tạo API',
       edit: 'Sửa ',
       delete: 'Xóa',
+      nodata: 'Dữ liệu trống',
     },
     tab: {
       configTab: 'Cấu hình',

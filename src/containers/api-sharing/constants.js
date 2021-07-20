@@ -86,6 +86,7 @@ export const i18n = {
     create: t('apiSharingNew.button.create'),
     edit: t('apiSharingNew.button.edit'),
     delete: t('apiSharingNew.button.delete'),
+    nodata: t('apiSharingNew.button.nodata'),
   },
   tab: {
     configTab: t('apiSharingNew.tab.configTab'),

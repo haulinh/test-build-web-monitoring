@@ -7,7 +7,7 @@ import MenuApiSharing from './MenuApiSharing'
 
 export const ShareApiContext = React.createContext({
   menuApiSharingList: [],
-  setMenuApiSharingList: () => {},
+  setMenuApiSharingList: () => { },
 })
 
 @withRouter
@@ -29,7 +29,7 @@ export default class ApiSharingLayout extends React.Component {
             this.onClickMenu(this.state.menuApiSharingList[0].api[0].key)
         }
       )
-    } catch (error) {}
+    } catch (error) { }
     this.setState({ loading: false })
   }
 
