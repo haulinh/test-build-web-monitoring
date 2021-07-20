@@ -141,7 +141,7 @@ export const i18n = {
     viewBy: t('apiSharingNew.detailPage.description.viewBy'),
   },
   table: {
-    tt: 'TT',
+    tt: t('apiSharingNew.detailPage.table.tt'),
     time: t('apiSharingNew.detailPage.table.time'),
     stationName: t('apiSharingNew.detailPage.table.stationName'),
     pointName: t('apiSharingNew.detailPage.table.pointName'),
@@ -194,7 +194,7 @@ export const i18n = {
     viewBy: t('wqiStationFix.viewBy'),
     time: t('wqiStationFix.time'),
     requireTime: t('wqiStationFix.requireTime'),
-  }
+  },
 }
 
 export const FIELDS = {
@@ -212,4 +212,11 @@ export const FIELDS = {
     PARAMNETER: 'parameterList',
     DAYS: 'days',
   },
+}
+
+export const DATA_COLOR = {
+  // GOOD: '#2CCA73',
+  DATA_LOSS: '#A4A6B5',
+  EXCEEDED: '#E54C3C',
+  EXCEEDED_PREPARING: '#EDC30F',
 }

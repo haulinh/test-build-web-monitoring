@@ -34,16 +34,14 @@ export default class Condition extends React.Component {
   onFetchPointsSuccess = points => {
     this.setState({ points }, () => {
       this.setFormInit()
-      const measureListData = this.getMeasuringList()
-      this.props.setMeasureListData(measureListData)
+      this.props.setStationAutos(this.state.points)
     })
   }
 
   onFetchStationTypesSuccess = stationTypes => {
     this.setState({ stationTypes }, () => {
       this.setFormInit()
-      const measureListData = this.getMeasuringList()
-      this.props.setMeasureListData(measureListData)
+      this.props.setStationAutos(this.state.points)
     })
   }
 
