@@ -86,7 +86,7 @@ const DataTable = ({
       columns={columns}
       dataSource={dataSource}
       loading={loading}
-      rowKey={record => record.receivedAt}
+      rowKey={record => `${record.key} ${record.receivedAt}`}
     />
   )
 }

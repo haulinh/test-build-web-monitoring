@@ -68,6 +68,7 @@ const DataTable = ({
 
   return (
     <Table
+      rowKey={record => `${record.key} ${record.receivedAt}`}
       columns={columns}
       dataSource={dataSource}
       loading={loading}

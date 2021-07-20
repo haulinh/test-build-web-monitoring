@@ -56,6 +56,7 @@ export default class QueryTab extends Component {
       current: 1,
       pageSize: 10,
     },
+    measuringList: [],
   }
 
   componentDidMount() {
@@ -82,6 +83,7 @@ export default class QueryTab extends Component {
         value.includes(',')
       ) {
         value = get(current, 'value', '').split(',')
+        this.setState({ measuringList: value })
       }
       const fieldValue = {
         [`config.${current.fieldName}`]: value,
@@ -165,6 +167,8 @@ export default class QueryTab extends Component {
 
       if (data) {
         this.setState({ dataTable: data })
+        const { config: { measuringList = [] } = {} } = form.getFieldsValue()
+        this.setState({ measuringList })
       }
     } catch (error) {
       console.log(error)
@@ -179,9 +183,8 @@ export default class QueryTab extends Component {
 
   render() {
     const { form, rule, location, menuApiSharingList, data } = this.props
-    const { dataTable, loadingSearch, pagination } = this.state
+    const { dataTable, loadingSearch, pagination, measuringList } = this.state
     const dataExample = getDataExample(menuApiSharingList, location)
-    const { config: { measuringList = [] } = {} } = form.getFieldsValue()
 
     const fieldsDefault = getFieldsDefault(data)
 
