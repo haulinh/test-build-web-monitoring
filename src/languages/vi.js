@@ -3425,6 +3425,8 @@ export default {
         cityId: 'Mã tỉnh thành phố',
         parameterList: 'Mã thông số thời tiết',
         days: 'Số ngày dự báo',
+        viewBy: 'Xem theo: Tháng, Quý hoặc Năm',
+        timeRange: 'Khoảng thời gian'
       },
       table: {
         tt: 'TT',

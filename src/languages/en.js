@@ -3421,6 +3421,8 @@ export default {
         cityId: 'City Code',
         parameterList: 'Parameter Code',
         days: 'Future Days',
+        viewBy: 'View by: Monthly, Quarterly or Yearly',
+        timeRange: 'Time ranges'
       },
       table: {
         tt: 'TT',
