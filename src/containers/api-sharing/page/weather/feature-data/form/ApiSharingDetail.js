@@ -3,6 +3,7 @@ import { shareApiApi } from 'api/ShareApiApi'
 import { i18n } from 'containers/api-sharing/constants'
 import { isCreate } from 'containers/api-sharing/util'
 import React, { Component } from 'react'
+import _ from 'lodash'
 import { withRouter } from 'react-router'
 import ConfigTab from './config-tab'
 import QueryTab from './query-tab'
@@ -39,15 +40,16 @@ export default class ApiSharingDetail extends Component {
   }
 
   render() {
-    const { rule } = this.props
+    const { rule, location } = this.props
     const { data } = this.state
+    const activeKey = _.get(location, ['state', 'activeKey'])
 
     return (
-      <Tabs>
+      <Tabs defaultActiveKey={activeKey || 'ConfigTab'}>
         <Tabs.TabPane tab={i18n.tab.configTab} key="ConfigTab">
           <ConfigTab data={data} rule={rule} updateData={this.updateData} />
         </Tabs.TabPane>
-        <Tabs.TabPane tab={i18n.tab.viewDataTab} key="ViewDataTab">
+        <Tabs.TabPane tab={i18n.tab.viewDataTab} key="QueryTab">
           <QueryTab data={data} rule={rule} />
         </Tabs.TabPane>
       </Tabs>

@@ -2,7 +2,7 @@ import { Col, Form, Row } from 'antd'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import {
-  isCreate,
+  isCreate, isView,
 } from 'containers/api-sharing/util'
 import React from 'react'
 import { Select } from 'antd'
@@ -37,8 +37,13 @@ export default class Condition extends React.Component {
     })
   }
 
+  isDisable = fieldName => {
+    const { rule, fieldsDefault = {} } = this.props
+    return isView(rule) && fieldsDefault[fieldName]
+  }
+
   render() {
-    const { form, isQuery, fieldsDefault = {} } = this.props
+    const { form, isQuery } = this.props
     return (
       <BoxShadow>
         {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
@@ -56,7 +61,7 @@ export default class Condition extends React.Component {
               })(
                 <SelectCities
                   onFetchSuccess={this.onFetchCitiesSuccess}
-                  disabled={fieldsDefault[FIELDS.CITY_ID]}
+                  disabled={this.isDisable(FIELDS.CITY_ID)}
                 />
               )}
             </Form.Item>
@@ -73,7 +78,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectParamenterWeather
-                  disabled={fieldsDefault[FIELDS.PARAMETER]}
+                  disabled={this.isDisable(FIELDS.PARAMETER)}
                 />
               )}
             </Form.Item>
