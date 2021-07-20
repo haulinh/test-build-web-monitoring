@@ -1334,6 +1334,13 @@ export default {
       label: 'Add',
     },
     form: {
+      measuringList: {
+        required: 'Please enter parameters',
+        validate1: '[Limit over threshold: Min> Max]',
+        validate2: '[Preparing to exceed the threshold: Min> Max]',
+        validate3: '[Limit Exceeds: Min Exceeds> Min Prepare To Pass]',
+        validate4: '[Limit Exceeds: Max Exceeds <Max Prepare To Pass]',
+      },
       key: {
         label: 'Code',
         placeholder: 'Input Standard Filter Code',
@@ -3372,6 +3379,7 @@ export default {
       dataType: 'Data type',
       isExceeded: 'Exceeded',
       rangeTime: 'Time Range',
+      viewBy: 'View by',
       stationKeys: 'Station Code',
       phaseIds: 'Phase',
       cityId: 'Town/City',
@@ -3387,7 +3395,7 @@ export default {
       },
       label: {
         apiName: 'API Name',
-        apiType: 'API Type',
+        apiType: 'Types of API',
         description: 'Description',
         province: 'Select Site',
         stationType: 'Station Type',
@@ -3458,7 +3466,7 @@ export default {
       temp: 'Temp',
       rh: 'Moisture',
       wind_spd: 'Wind',
-      wind_cdir_full: 'Wind direction'
+      wind_cdir_full: 'Wind direction',
     },
   },
 }

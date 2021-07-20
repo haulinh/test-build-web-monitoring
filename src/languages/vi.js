@@ -1322,6 +1322,13 @@ export default {
       label: 'Xoá',
     },
     form: {
+      measuringList: {
+        required: 'Vui lòng nhập thông số',
+        validate1: '[Giới hạn vượt ngưỡng: Min > Max]',
+        validate2: '[Chuẩn bị vượt ngưỡng: Min > Max]',
+        validate3: '[Giới hạn vượt ngưỡng: Min Vượt > Min Chuẩn bị vượt]',
+        validate4: '[Giới hạn vượt ngưỡng: Max Vượt < Max Chuẩn bị vượt]',
+      },
       key: {
         label: 'Mã QCVN',
         placeholder: 'Nhập QCVN',
@@ -3363,7 +3370,7 @@ export default {
     },
     titleMenu: {
       create: 'Tạo mới',
-      edit: 'Sửa'
+      edit: 'Sửa',
     },
     fields: {
       stationFixed: {
@@ -3376,6 +3383,7 @@ export default {
       dataType: 'Loại dữ liệu',
       isExceeded: 'Vượt ngưỡng',
       rangeTime: 'Thời gian',
+      viewBy: 'Xem theo',
       stationKeys: 'Trạm quan trắc',
       phaseIds: 'Đợt quan trắc',
       cityId: 'Tỉnh/Thành phố',
@@ -3426,9 +3434,9 @@ export default {
         days: 'Số ngày dự báo',
       },
       table: {
-        tt: 'TT',
-        time: 'Thời gian Truyền File',
-        stationName: 'Tên trạm',
+        tt: 'STT',
+        time: 'Thời gian',
+        stationName: 'Tên trạm quan trắc ',
         pointName: 'Tên điểm',
         phaseName: 'Tên đợt',
         timeWeather: 'Thời gian',
@@ -3462,7 +3470,7 @@ export default {
       temp: 'Nhiệt độ',
       rh: 'Độ ẩm',
       wind_spd: 'Gió',
-      wind_cdir_full: 'Hướng gió'
-    }
+      wind_cdir_full: 'Hướng gió',
+    },
   },
 }

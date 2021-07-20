@@ -1,7 +1,7 @@
 {
   "apiGateway": "https://qa-api.ilotusland.asia",
-  "apiMedia": "https://test-media.ilotusland.asia",
-  "apiMediaMinio": "https://test-minio.ilotusland.asia",
+  "apiMedia": "https://qa-media.ilotusland.asia",
+  "apiMediaMinio": "https://qa-minio.ilotusland.asia",
   "apiCamera": "http://27.74.251.0:5020",
   "googleMapKey": "AIzaSyB59vFoavqxzGMzUU0sfKdfygL4lPkuiyY",
   "camera": {

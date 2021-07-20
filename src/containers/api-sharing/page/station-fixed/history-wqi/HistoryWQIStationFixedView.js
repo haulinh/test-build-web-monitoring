@@ -5,18 +5,27 @@ import { withRouter } from 'react-router'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
 import { i18n } from 'containers/api-sharing/constants'
 import { getPathname, getRouteList } from 'containers/api-sharing/util'
-import ApiSharingDetail from 'containers/api-sharing/component/ApiSharingDetail'
 import QueryTab from './form/query-tab'
 import ConfigTab from './form/config-tab'
-
+import ApiSharingDetail from 'containers/api-sharing/component/ApiSharingDetail'
 const Breadcrumb = createBreadcrumb()
 
 @withRouter
-export class HistoryWqiStationFixedCreate extends Component {
+export class HistoryWqiStationFixedView extends Component {
+  state = {
+    name: '',
+  }
+
+  setName = name => {
+    this.setState({ name })
+  }
+
   render() {
     const { location } = this.props
     const pathname = getPathname(location)
     const routeList = getRouteList(location)
+
+    const { name } = this.state
     return (
       <PageContainer hideBackground={true}>
         <Clearfix height={32} />
@@ -29,12 +38,13 @@ export class HistoryWqiStationFixedCreate extends Component {
             },
             {
               id: '2',
-              name: i18n.titleMenu.create,
+              name,
             },
           ]}
         />
         <ApiSharingDetail
-          rule="create"
+          rule="view"
+          setName={this.setName}
           queryTab={QueryTab}
           configTab={ConfigTab}
         />

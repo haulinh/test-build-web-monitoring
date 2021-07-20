@@ -105,6 +105,7 @@ export const i18n = {
     dataType: t('apiSharingNew.fields.dataType'),
     isExceeded: t('apiSharingNew.fields.isExceeded'),
     rangeTime: t('apiSharingNew.fields.rangeTime'),
+    viewBy: t('apiSharingNew.fields.viewBy'),
     stationKeys: t('apiSharingNew.fields.stationKeys'),
     phaseIds: t('apiSharingNew.fields.phaseIds'),
     cityId: t('apiSharingNew.fields.cityId'),
@@ -139,7 +140,7 @@ export const i18n = {
   },
   table: {
     tt: 'TT',
-    time: t('apiSharingNew.detailPage.description.days'),
+    time: t('apiSharingNew.detailPage.table.time'),
     stationName: t('apiSharingNew.detailPage.table.stationName'),
     pointName: t('apiSharingNew.detailPage.table.pointName'),
     phaseName: t('apiSharingNew.detailPage.table.phaseName'),
@@ -184,6 +185,14 @@ export const i18n = {
     'north-southwest': 'Bắc - Tây Nam',
     'north-northwest': 'Bắc - Tây Bắc',
   },
+  month: t('wqiStationFix.month'),
+  year: t('wqiStationFix.year'),
+  quarter: t('wqiStationFix.quarter'),
+  wqi: {
+    viewBy: t('wqiStationFix.viewBy'),
+    time: t('wqiStationFix.time'),
+    requireTime: t('wqiStationFix.requireTime'),
+  }
 }
 
 export const FIELDS = {

@@ -13,13 +13,16 @@ import {
   isCreate,
 } from 'containers/api-sharing/util'
 import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
-import _, { isEqual } from 'lodash'
+import { isEqual, get } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
+import { formatQuarter, getTimes, getTimesUTC } from 'utils/datetime'
 import Condition from '../Condition'
 import DataTable from './DataTable'
+import moment from 'moment'
+import { MM_YYYY, YYYY } from 'constants/format-date'
 
 const Method = styled.div`
   display: inline-block;
@@ -65,35 +68,44 @@ export default class QueryTab extends Component {
 
   setInitFields = () => {
     const { data } = this.props
-    const fieldsValue = _.get(data, 'config', []).reduce((base, current) => {
+    const config = get(data, 'config', [])
+
+    const fieldsValue = config.reduce((base, current) => {
       let value = current.value
       if (
-        [
-          FIELDS.STATION_FIXED.HISTORY_DATA.MEASURING_LIST,
-          FIELDS.STATION_FIXED.HISTORY_DATA.POINT,
-        ].includes(current.fieldName) &&
+        [FIELDS.STATION_FIXED.HISTORY_DATA.POINT, 'phaseIds'].includes(
+          current.fieldName
+        ) &&
         value &&
         value.includes(',')
       ) {
         value = current.value.split(',')
       }
-      const fieldValue = {
+
+      if (current.fieldName === 'rangeTime')
+        value = value.map(item => moment(item))
+
+      return {
+        ...base,
         [`config.${current.fieldName}`]: value,
       }
-      return { ...base, ...fieldValue }
     }, {})
+
+    const optionParams = config
+      .filter(field => !field.isDefault)
+      .map(field => field.fieldName)
 
     this.props.form.setFieldsValue({
       ...fieldsValue,
       name: data.name,
       description: data.description,
+      optionParams,
     })
   }
 
   copyUrl = async () => {
     const url = this.getUrl()
     const curl = generateGetUrl(url)
-    console.log(curl)
 
     const success = copyTextToClipboard(curl)
     if (success) message.success('Success')
@@ -105,7 +117,7 @@ export default class QueryTab extends Component {
       data,
     } = this.props
 
-    const fieldsParams = data.config
+    const fieldsParams = get(data, 'config', [])
       .map(field => ({
         fieldName: field.fieldName,
         value: field.value,
@@ -116,7 +128,9 @@ export default class QueryTab extends Component {
       .map(field => `${field.fieldName}=${field.value}`)
       .join('&')
 
-    const url = [dataRoutes.getPeriodicNewest(), `id=${params.id}`].join('?')
+    const url = [dataRoutes.getPeriodicWQIHistory(), `id=${params.id}`].join(
+      '?'
+    )
 
     const urlQuery = [url, urlParams].join('&')
 
@@ -133,11 +147,20 @@ export default class QueryTab extends Component {
     let stationKeys = fieldsValue.stationKeys
     if (Array.isArray(stationKeys)) stationKeys = stationKeys.join(',')
 
+    let phaseIds = fieldsValue.phaseIds
+    if (Array.isArray(phaseIds)) phaseIds = phaseIds.join(',')
+
+    const times = getTimes(fieldsValue.rangeTime)
+    const { from, to } = getTimesUTC(times)
+
     const queryParams = {
       id: data._id,
       ...fieldsValue,
       measuringList,
       stationKeys,
+      phaseIds,
+      from,
+      to,
     }
 
     return queryParams
@@ -149,12 +172,12 @@ export default class QueryTab extends Component {
 
     this.setState({ loadingSearch: true })
     try {
-      const data = await dataShareApiApi.getPeriodicNewest(
+      const data = await dataShareApiApi.getPeriodicWQIHistory(
         queryParams,
         isCreate(rule)
       )
       if (data) {
-        this.setState({ dataTable: data })
+        this.setState({ dataTable: this.formatData(data) })
       }
     } catch (error) {
       console.log(error)
@@ -162,10 +185,27 @@ export default class QueryTab extends Component {
     this.setState({ loadingSearch: false })
   }
 
+  getTime = (time, type) => {
+    if (type === 'year') return moment(time, 'YYYY').format(YYYY)
+    if (type === 'quarter') return formatQuarter(moment(time, 'YYYY-[Q]Q'))
+    return moment(time, 'YYYY-MM').format(MM_YYYY)
+  }
+
+  formatData = list => {
+    const data = list.map(item =>
+      item.data.map((ele, idx) => ({
+        ...ele,
+        point: item.point,
+        datetime: this.getTime(ele.datetime, 'month'),
+        size: idx === 0 ? item.data.length : null,
+      }))
+    )
+    return data.reduce((prev, item) => [...prev, ...item], [])
+  }
   render() {
     const { form, rule, location, menuApiSharingList, data } = this.props
-    const { dataTable, loadingSearch } = this.state
     const dataExample = getDataExample(menuApiSharingList, location)
+    const { loadingSearch, dataTable } = this.state
     const { config: { measuringList = [] } = {} } = form.getFieldsValue()
     const fieldsDefault = getFieldsDefault(data)
 

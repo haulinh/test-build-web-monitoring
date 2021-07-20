@@ -12,6 +12,12 @@ import Condition from '../Condition'
 @withRouter
 @Form.create()
 export default class ConfigTab extends Component {
+  componentDidMount() {
+    if (!isCreate(this.props.rule)) {
+      this.setInitFields()
+    }
+  }
+
   componentDidUpdate(prevProps) {
     if (!_.isEqual(prevProps.data, this.props.data)) {
       this.setInitFields()
@@ -20,13 +26,9 @@ export default class ConfigTab extends Component {
 
   setInitFields = () => {
     const { data } = this.props
-    const fieldsValue = data.config.reduce((base, current) => {
+    const fieldsValue = _.get(data, 'config', []).reduce((base, current) => {
       let value = current.value
-      if (
-        [
-          FIELDS.WEATHER.PARAMNETER,
-        ].includes(current.fieldName)
-      ) {
+      if ([FIELDS.WEATHER.PARAMNETER].includes(current.fieldName)) {
         value = current.value.split(',')
       }
       const fieldValue = {
@@ -35,7 +37,7 @@ export default class ConfigTab extends Component {
       return { ...base, ...fieldValue }
     }, {})
 
-    const optionParams = data.config
+    const optionParams = _.get(data, 'config', [])
       .filter(field => !field.isDefault)
       .map(field => field.fieldName)
 
@@ -79,7 +81,7 @@ export default class ConfigTab extends Component {
   handleSubmit = async e => {
     e.preventDefault()
     const { rule, history, location, form } = this.props
-    
+
     const values = await form.validateFields()
     if (!values) return
 
