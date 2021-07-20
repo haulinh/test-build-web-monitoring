@@ -1,12 +1,11 @@
 import { Table } from 'antd'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-import { i18n } from 'containers/api-sharing/constants'
+import { DATA_COLOR, i18n } from 'containers/api-sharing/constants'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
 import { get, keyBy } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
-import { DATA_COLOR } from 'themes/color'
 
 const DataTable = ({
   measuringList = [],

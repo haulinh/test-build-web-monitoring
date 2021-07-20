@@ -212,3 +212,10 @@ export const FIELDS = {
     DAYS: 'days',
   },
 }
+
+export const DATA_COLOR = {
+  // GOOD: '#2CCA73',
+  DATA_LOSS: '#A4A6B5',
+  EXCEEDED: '#E54C3C',
+  EXCEEDED_PREPARING: '#EDC30F',
+}
