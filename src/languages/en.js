@@ -1334,6 +1334,13 @@ export default {
       label: 'Add',
     },
     form: {
+      measuringList: {
+        required: 'Please enter parameters',
+        validate1: '[Limit over threshold: Min> Max]',
+        validate2: '[Preparing to exceed the threshold: Min> Max]',
+        validate3: '[Limit Exceeds: Min Exceeds> Min Prepare To Pass]',
+        validate4: '[Limit Exceeds: Max Exceeds <Max Prepare To Pass]',
+      },
       key: {
         label: 'Code',
         placeholder: 'Input Standard Filter Code',
@@ -3421,6 +3428,8 @@ export default {
         cityId: 'City Code',
         parameterList: 'Parameter Code',
         days: 'Future Days',
+        viewBy: 'View by: Monthly, Quarterly or Yearly',
+        timeRange: 'Time ranges'
       },
       table: {
         tt: 'TT',

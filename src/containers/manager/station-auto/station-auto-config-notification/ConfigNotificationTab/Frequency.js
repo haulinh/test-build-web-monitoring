@@ -3,7 +3,6 @@ import { Switch, Select } from 'antd'
 import { translate } from 'hoc/create-lang'
 const { Option } = Select
 
-
 const i18n = {
   only1: translate('notificationFreq.only1'),
   _5Min: translate('notificationFreq._5Min'),
@@ -50,7 +49,6 @@ const optionSelects = [
   },
 ]
 
-
 const STATION_STATUS = {
   COLLECTING: 'COLLECTING',
   OFFLINE: 'OFFLINE',
@@ -91,7 +89,7 @@ export default class Frequency extends React.Component {
   }
 
   render() {
-    console.log(this.state.isEnable, '------')
+    // console.log(this.state.isEnable, '------')
     return (
       <div style={{ display: 'flex' }}>
         <div style={{ paddingRight: '8px' }}>
@@ -105,16 +103,19 @@ export default class Frequency extends React.Component {
         <div>
           <Select
             disabled={
-              !this.state.isEnable || this.props.status === STATION_STATUS.COLLECTING || this.props.status === STATION_STATUS.ONLINE
+              !this.state.isEnable ||
+              this.props.status === STATION_STATUS.COLLECTING ||
+              this.props.status === STATION_STATUS.ONLINE
             }
-
-            size='small'
+            size="small"
             defaultValue={this.getOption()}
             style={{ width: 160 }}
             onChange={this.handleOnChangeSelect}
           >
             {optionSelects.map(option => (
-              <Option value={option.value}>{option.title}</Option>
+              <Option key={option.value} value={option.value}>
+                {option.title}
+              </Option>
             ))}
           </Select>
         </div>

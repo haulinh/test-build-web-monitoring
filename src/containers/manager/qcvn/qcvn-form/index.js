@@ -2,15 +2,15 @@ import React from 'react'
 import { Form, Input, Button, Row, Col, DatePicker } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
-import { mapPropsToFields } from 'utils/form'
-import CategoryApi from 'api/CategoryApi'
 import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
-import swal from 'sweetalert2'
-import MeasuringTableQCVN from '../qcvn-formTable'
+import moment from 'moment'
+import * as _ from 'lodash'
+
+import { mapPropsToFields } from 'utils/form'
+import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import InputNumberCell from 'components/elements/input-number-cell'
 import Clearfix from 'components/elements/clearfix'
-import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
-import moment from 'moment'
+import MeasuringList from './measuring-list'
 
 const FormItem = Form.Item
 
@@ -24,6 +24,13 @@ const i18n = {
     required: translate('qcvn.form.name.required'),
     pattern: translate('qcvn.form.name.pattern'),
     max: translate('qcvn.form.name.max'),
+  },
+  measuringList: {
+    required: translate('qcvn.form.measuringList.required'),
+    validate1: translate('qcvn.form.measuringList.validate1'),
+    validate2: translate('qcvn.form.measuringList.validate2'),
+    validate3: translate('qcvn.form.measuringList.validate3'),
+    validate4: translate('qcvn.form.measuringList.validate4'),
   },
 }
 
@@ -47,27 +54,15 @@ export default class QCVNForm extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      measuringList: [],
-      measuringListSource: [],
-      measuringOps: [],
       options: {},
       previewVisible: false,
     }
   }
 
   async componentWillMount() {
-    const measuringList = await CategoryApi.getMeasurings(
-      { page: 1, itemPerPage: 100000 },
-      {}
-    )
-
-    this.setState({
-      measuringListSource: measuringList.data,
-    })
     if (this.props.initialValues) {
       let fileList = []
       this.setState({
-        measuringList: this.props.initialValues.measuringList,
         options: this.props.initialValues.options
           ? this.props.initialValues.options
           : {},
@@ -76,27 +71,9 @@ export default class QCVNForm extends React.PureComponent {
     }
   }
 
-  handleChange(value, key, column) {
-    const newData = [...this.state.measuringList]
-    const target = newData.filter(item => key === item.key)[0]
-    if (target) {
-      target[column] = value
-      this.setState({ measuringList: newData })
-    }
-  }
-
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
-      if (!values.measuringList) {
-        const { t } = this.props.lang
-        swal({
-          title: t('stationAutoManager.addMeasuring.error'),
-          type: 'error',
-        })
-        return
-      }
-
       if (err) return
 
       if (
@@ -138,6 +115,7 @@ export default class QCVNForm extends React.PureComponent {
         begin: values.begin,
         expired: values.expired,
       }
+      console.log(data, '---DATA---')
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
       if (res && res.error) {
@@ -298,22 +276,25 @@ export default class QCVNForm extends React.PureComponent {
           </Col>
         </Row>
         <Clearfix height={24} />
-        <MeasuringTableQCVN
-          lang={this.props.lang}
-          form={this.props.form}
-          dataSource={
-            this.props.initialValues
-              ? this.props.initialValues.measuringList
-              : [
+        <Row>
+          <Col span={24}>
+            <FormItem>
+              {getFieldDecorator('measuringList', {
+                rules: [
                   {
-                    key: '',
-                    name: '',
-                    unit: '',
+                    type: 'array',
+                    required: true,
+                    message: i18n.measuringList.required,
                   },
-                ]
-          }
-          measuringListSource={this.state.measuringListSource}
-        />
+                  {
+                    validator: (rule, value, callback) =>
+                      this.validateMeasuringList(rule, value, callback),
+                  },
+                ],
+              })(<MeasuringList />)}
+            </FormItem>
+          </Col>
+        </Row>
         <FormItem>
           <Button
             style={{ width: '100%' }}
@@ -326,5 +307,32 @@ export default class QCVNForm extends React.PureComponent {
         </FormItem>
       </Form>
     )
+  }
+
+  validateMeasuringList = (rule, value, callback) => {
+    const errorArr = _.map(value, item => {
+      let isBound = false
+      if (item.key) {
+        let strItem = item.name
+        if (
+          _.isNumber(item.minLimit) &&
+          _.isNumber(item.maxLimit) &&
+          item.minLimit > item.maxLimit
+        ) {
+          strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate1}`)
+          isBound = true
+        }
+
+        if (isBound) return <div>{strItem}</div>
+      }
+    })
+
+    // const { form } = this.props
+    // if (value && value > form.getFieldValue(fliedName)) {
+    if (true) {
+      callback(_.compact(errorArr))
+    } else {
+      callback()
+    }
   }
 }

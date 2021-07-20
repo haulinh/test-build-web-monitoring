@@ -122,6 +122,7 @@ export const i18n = {
     phaseIds: 'string',
     cityId: 'string',
     parameterList: 'string',
+    viewBy: 'string',
     days: 'number',
   },
   description: {
@@ -136,6 +137,7 @@ export const i18n = {
     cityId: t('apiSharingNew.detailPage.description.cityId'),
     parameterList: t('apiSharingNew.detailPage.description.parameterList'),
     days: t('apiSharingNew.detailPage.description.days'),
+    viewBy: t('apiSharingNew.detailPage.description.viewBy'),
   },
   table: {
     tt: t('apiSharingNew.detailPage.table.tt'),
