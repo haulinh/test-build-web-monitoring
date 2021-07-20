@@ -3368,6 +3368,11 @@ export default {
       dateCreated: 'Ngày tạo',
       dateEdited: 'Ngày chỉnh sửa',
     },
+    menu: {
+      'data-station-auto': 'Dữ liệu trạm quan trắc tự động',
+      'data-station-fixed': 'Dữ liệu trạm quan trắc định kỳ',
+      'weather': 'Thời tiết',
+    },
     titleMenu: {
       create: 'Tạo mới',
       edit: 'Sửa',
@@ -3389,6 +3394,16 @@ export default {
       cityId: 'Tỉnh/Thành phố',
       parameterList: 'Các thông số thời tiết',
       days: 'Số ngày dự báo',
+    },
+    titleMenu: {
+      'data-station-auto-newest-data': 'Dữ liệu mới nhất',
+      'data-station-auto-history-data': 'Dữ liệu lịch sử',
+      'data-station-fixed-newest-data': 'Dữ liệu mới nhất',
+      'data-station-fixed-history-data': 'Dữ liệu lịch sử',
+      'data-station-fixed-newest-wqi': 'Dữ liệu WQI mới nhất',
+      'data-station-fixed-history-wqi': 'Dữ liệu WQI lịch sử',
+      'weather-newest-data': 'Dữ liệu mới nhất',
+      'weather-feature': 'Dự báo thời tiết',
     },
     detailPage: {
       header: {
@@ -3412,8 +3427,8 @@ export default {
         timeLabel: 'Thời gian',
         phase: 'Đợt quan trắc',
         point: 'Điểm quan trắc',
-        field: 'Field',
-        type: 'Type',
+        field: 'Trường dữ liệu',
+        type: 'Kiểu dữ liệu',
         city: 'Tỉnh/Thành phố',
         country: 'Quốc gia',
         paramenter: 'Các thông số thời tiết',
