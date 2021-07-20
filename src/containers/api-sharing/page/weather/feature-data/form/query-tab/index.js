@@ -133,10 +133,7 @@ export default class QueryTab extends Component {
 
     this.setState({ loadingSearch: true })
     try {
-      const res = await dataShareApiApi.getWeatherFuture(
-        queryParams,
-        isCreate(rule)
-      )
+      const res = await dataShareApiApi.getWeatherFuture(queryParams)
       if (res) {
         this.setState({ dataTable: res.data })
       }

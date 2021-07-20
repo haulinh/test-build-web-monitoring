@@ -152,10 +152,7 @@ export default class QueryTab extends Component {
 
     this.setState({ loadingSearch: true })
     try {
-      const data = await dataShareApiApi.getPeriodicWQINewest(
-        queryParams,
-        isCreate(rule)
-      )
+      const data = await dataShareApiApi.getPeriodicWQINewest(queryParams)
       if (data) {
         const formatData = this.formatData(data)
         console.log(formatData)

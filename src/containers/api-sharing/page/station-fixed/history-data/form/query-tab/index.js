@@ -162,15 +162,16 @@ export default class QueryTab extends Component {
   }
 
   handleOnSearch = async () => {
-    const { rule } = this.props
+    const { rule, form } = this.props
+
+    const values = await form.validateFields()
+    if (!values) return
+
     const queryParams = this.getQueryParams()
 
     this.setState({ loadingSearch: true })
     try {
-      const data = await dataShareApiApi.getPeriodicHistory(
-        queryParams,
-        isCreate(rule)
-      )
+      const data = await dataShareApiApi.getPeriodicHistory(queryParams)
       if (data) {
         this.setState({ dataTable: data })
       }
