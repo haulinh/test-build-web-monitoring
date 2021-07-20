@@ -130,7 +130,7 @@ export default class Condition extends React.Component {
   }
 
   render() {
-    const { form, isQuery, fieldsDefault = {} } = this.props
+    const { form, isQuery } = this.props
     const { config: { province, stationType } = {} } = form.getFieldsValue()
     const measuringList = this.getMeasuringList()
 

@@ -6,7 +6,13 @@ import { get, keyBy } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
 
-const DataTable = ({ dataSource, loading, parameterList }) => {
+const DataTable = ({
+  dataSource,
+  loading,
+  parameterList,
+  pagination = {},
+  setPagination = () => {},
+}) => {
   let parameterListArray = parameterList
   if (!Array.isArray(parameterList)) parameterListArray = Array(parameterList)
 
@@ -33,7 +39,10 @@ const DataTable = ({ dataSource, loading, parameterList }) => {
   const columns = [
     {
       title: i18n.table.tt,
-      render: (_, __, index) => <div>{index + 1}</div>,
+      render: (_, __, index) => {
+        const { current, pageSize } = pagination
+        return <div>{(current - 1) * pageSize + (index + 1)}</div>
+      },
     },
     {
       dataIndex: 'time',
@@ -56,13 +65,17 @@ const DataTable = ({ dataSource, loading, parameterList }) => {
     ...columnsParameterList,
   ]
 
+  const handleOnchange = pagination => {
+    setPagination(pagination)
+  }
+
   return (
     <Table
       columns={columns}
       dataSource={dataSource}
       loading={loading}
-      pagination={false}
-      scroll={{ x: 'max-content', y: 300 }}
+      pagination={pagination}
+      onChange={handleOnchange}
     />
   )
 }

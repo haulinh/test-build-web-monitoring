@@ -6,7 +6,7 @@ import { getTimes } from 'utils/datetime'
 import Condition from '../Condition'
 import { isCreate, isEdit, isView } from 'containers/api-sharing/util'
 import { withRouter } from 'react-router'
-import {get, isEmpty, isEqual} from 'lodash'
+import { get, isEmpty, isEqual } from 'lodash'
 import GeneralInfo from 'containers/api-sharing/component/GeneralInfo'
 import SettingQuery from 'containers/api-sharing/component/SettingQuery'
 import moment from 'moment'
@@ -16,41 +16,37 @@ import moment from 'moment'
 export default class ConfigTab extends Component {
   componentDidUpdate(prevProps) {
     const nextProps = this.props
-    if (
-      !isEmpty(nextProps.data) && 
-      !isEqual(prevProps.data, nextProps.data)
-    ) {
-        this.setInitFields()
-      }
+    if (!isEmpty(nextProps.data) && !isEqual(prevProps.data, nextProps.data)) {
+      this.setInitFields()
     }
+  }
 
   setInitFields = () => {
     const { data } = this.props
-    const config = get(data, 'config', []);
-    
+    const config = get(data, 'config', [])
+
     const fieldsValue = config.reduce((base, current) => {
       let value = current.value
       if (
-        [
-          FIELDS.STATION_FIXED.HISTORY_DATA.POINT,
-          'phaseIds',
-        ].includes(current.fieldName) &&
+        [FIELDS.STATION_FIXED.HISTORY_DATA.POINT, 'phaseIds'].includes(
+          current.fieldName
+        ) &&
         value &&
         value.includes(',')
       ) {
         value = current.value.split(',')
       }
 
-      if (current.fieldName === 'rangeTime') 
+      if (current.fieldName === 'rangeTime')
         value = value.map(item => moment(item))
 
-      return { 
-        ...base, 
+      return {
+        ...base,
         [`config.${current.fieldName}`]: value,
       }
     }, {})
 
-    const optionParams = config
+    const optionParams = get(data, 'config', [])
       .filter(field => !field.isDefault)
       .map(field => field.fieldName)
 
@@ -74,10 +70,7 @@ export default class ConfigTab extends Component {
       const isDefault = !optionParams.includes(key)
 
       let valueParams = value
-      if (
-        ['stationKeys', 'phaseIds'].includes(key) &&
-        Array.isArray(value)
-      ) {
+      if (['stationKeys', 'phaseIds'].includes(key) && Array.isArray(value)) {
         valueParams = value.join(',')
       }
 

@@ -13,7 +13,7 @@ import {
   isCreate,
 } from 'containers/api-sharing/util'
 import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
-import { isEqual } from 'lodash'
+import _, { isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
@@ -51,21 +51,29 @@ export default class QueryTab extends Component {
   state = {
     loadingSearch: false,
     dataTable: [],
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
   }
 
   componentDidMount() {
-    if (!isCreate(this.props.rule)) this.setInitFields()
+    if (!isCreate(this.props.rule)) {
+      this.setInitFields()
+      this.handleOnSearch()
+    }
   }
 
   componentDidUpdate(prevProps) {
     if (!isEqual(this.props.data, prevProps.data)) {
       this.setInitFields()
+      this.handleOnSearch()
     }
   }
 
   setInitFields = () => {
     const { data } = this.props
-    const fieldsValue = data.config.reduce((base, current) => {
+    const fieldsValue = _.get(data, 'config', []).reduce((base, current) => {
       let value = current.value
       if ([FIELDS.WEATHER.PARAMNETER].includes(current.fieldName)) {
         value = current.value.split(',')
@@ -97,7 +105,7 @@ export default class QueryTab extends Component {
       data,
     } = this.props
 
-    const fieldsParams = data.config
+    const fieldsParams = _.get(data, 'config', [])
       .map(field => ({
         fieldName: field.fieldName,
         value: field.value,
@@ -133,7 +141,8 @@ export default class QueryTab extends Component {
         this.setState({ dataTable: res.data })
       }
     } catch (error) {}
-    this.setState({ loadingSearch: false })
+    const initPagination = { current: 1, pageSize: 10 }
+    this.setState({ pagination: initPagination, loadingSearch: false })
   }
 
   getQueryParams = () => {
@@ -151,9 +160,13 @@ export default class QueryTab extends Component {
     return queryParams
   }
 
+  setPagination = pagination => {
+    this.setState({ pagination })
+  }
+
   render() {
     const { form, rule, location, menuApiSharingList, data } = this.props
-    const { dataTable, loadingSearch } = this.state
+    const { dataTable, loadingSearch, pagination } = this.state
     const dataExample = getDataExample(menuApiSharingList, location)
     const { config: { parameterList = [] } = {} } = form.getFieldsValue()
 
@@ -186,6 +199,8 @@ export default class QueryTab extends Component {
         <Tabs>
           <Tabs.TabPane tab={i18n.tab.list} key="List">
             <DataTable
+              pagination={pagination}
+              setPagination={this.setPagination}
               parameterList={parameterList}
               dataSource={dataTable}
               loading={loadingSearch}
