@@ -46,7 +46,7 @@ export const i18n = {
     'data-station-fixed-history-data': 'Dữ liệu lịch sử',
     'data-station-fixed-newest-wqi': 'Dữ liệu WQI mới nhất',
     'data-station-fixed-history-wqi': 'Dữ liệu WQI lịch sử',
-    'weather-newest-data': 'Thời tiết hiện tại',
+    'weather-newest-data': 'Dữ liệu mới nhất',
     'weather-feature': 'Dự báo thời tiết',
   },
   detailPage: {

@@ -3414,7 +3414,7 @@ export default {
         country: 'Country',
         paramenter: 'Parameters',
         days: 'Days',
-        chooseCondition: 'Choose Condition',
+        chooseCondition: 'Select Conditions',
       },
       description: {
         province: 'Province',
@@ -3457,8 +3457,8 @@ export default {
       nodata: 'No Data',
     },
     tab: {
-      configTab: 'Config',
-      viewDataTab: 'Query Data',
+      configTab: 'API Configuration',
+      viewDataTab: 'Data Query',
       list: 'List',
       example: 'Example',
     },

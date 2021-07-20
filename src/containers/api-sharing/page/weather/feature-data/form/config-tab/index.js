@@ -94,7 +94,7 @@ export default class ConfigTab extends Component {
         'create',
         `edit/${res.data._id}`
       )
-      history.push(urlUpdate)
+      history.push({ pathname: urlUpdate, state: { activeKey: 'QueryTab' } })
       return
     }
 
