@@ -147,7 +147,6 @@ export default class QueryTab extends Component {
   }
 
   handleOnSearch = async () => {
-    const { rule } = this.props
     const queryParams = this.getQueryParams()
 
     this.setState({ loadingSearch: true })
