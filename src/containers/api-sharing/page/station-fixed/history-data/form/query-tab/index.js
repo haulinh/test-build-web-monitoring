@@ -162,7 +162,7 @@ export default class QueryTab extends Component {
   }
 
   handleOnSearch = async () => {
-    const { rule, form } = this.props
+    const { form } = this.props
 
     const values = await form.validateFields()
     if (!values) return
