@@ -87,16 +87,14 @@ export default class Condition extends React.Component {
 
   onStationTypeFetchSuccess = stationTypes => {
     this.setState({ stationTypes }, () => {
-      const stationAutosFilter = this.getStationAutos()
-      this.props.setStationAutos(stationAutosFilter)
+      this.props.setStationAutos(this.state.stationAutos)
       this.setFormInit()
     })
   }
 
   onStationAutosFetchSuccess = stationAutos => {
     this.setState({ stationAutos }, () => {
-      const stationAutosFilter = this.getStationAutos()
-      this.props.setStationAutos(stationAutosFilter)
+      this.props.setStationAutos(this.state.stationAutos)
       this.setFormInit()
     })
   }
