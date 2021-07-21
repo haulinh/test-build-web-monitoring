@@ -11,6 +11,8 @@ const i18n = {
   avgTime: t('wqiStationFix.avgTime'),
   wqiValue: t('wqiStationFix.wqiValue'),
   wqiLevel: t('wqiStationFix.wqiLevel'),
+  lat: t('wqiStationFix.lat'),
+  lng: t('wqiStationFix.lng'),
 }
 
 const TableCustom = styled(Table)`
@@ -44,6 +46,16 @@ class WQIList extends React.Component {
         }
         return obj
       }
+    },
+    {
+      title: i18n.lat,
+      key: 'lat',
+      dataIndex: 'point.mapLocation.lat',
+    },
+    {
+      title: i18n.lng,
+      key: 'lng',
+      dataIndex: 'point.mapLocation.lng',
     },
     {
       title: i18n.avgTime,
@@ -87,7 +99,7 @@ class WQIList extends React.Component {
 
     const measureColumns = this.getMeasureColumns()
     const columns = [...this.columns];
-    columns.splice(3, 0, ...measureColumns)
+    columns.splice(5, 0, ...measureColumns)
     
 
     return (

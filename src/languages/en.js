@@ -3358,6 +3358,8 @@ export default {
     avgTime: 'Time',
     wqiValue: 'WQI Value',
     wqiLevel: 'WQI Level',
+    lat: 'Latitude',
+    lng: 'Longitude',
   },
   apiSharingNew: {
     head: {

@@ -3361,6 +3361,8 @@ export default {
     avgTime: 'Thời gian trung bình',
     wqiValue: 'Giá trị WQI',
     wqiLevel: 'Mức độ WQI',
+    lat: 'Vĩ độ',
+    lng: 'Kinh độ',
   },
   apiSharingNew: {
     head: {

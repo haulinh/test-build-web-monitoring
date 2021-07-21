@@ -57,12 +57,16 @@ export default class QueryTab extends Component {
   }
 
   componentDidMount() {
-    if (!isCreate(this.props.rule)) this.setInitFields()
+    if (!isCreate(this.props.rule)) {
+      this.setInitFields()
+      this.handleOnSearch()
+    }
   }
 
   componentDidUpdate(prevProps) {
     if (!isEqual(this.props.data, prevProps.data)) {
       this.setInitFields()
+      this.handleOnSearch()
     }
   }
 
