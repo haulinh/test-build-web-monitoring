@@ -78,8 +78,6 @@ export default class QueryTab extends Component {
       let value = current.value
       if ([FIELDS.WEATHER.PARAMNETER].includes(current.fieldName)) {
         value = current.value.split(',')
-      }
-      if (current.fieldName === 'parameterList') {
         this.setState({ parameterList: value })
       }
       const fieldValue = {
