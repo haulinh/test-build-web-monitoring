@@ -72,6 +72,7 @@ export default {
     VIEW: 'menu.shareAPI.actions.view',
     EDIT: 'menu.shareAPI.actions.edit',
     DELETE: 'menu.shareAPI.actions.delete',
+    CREATE: 'menu.shareAPI.actions.create',
   },
   XU_LY_DU_LIEU_CAU_HINH: {
     VIEW: 'menu.xuLyDuLieu_config.actions.view',
