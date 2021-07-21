@@ -39,15 +39,20 @@ export const i18n = {
     dateCreated: t('apiSharingNew.head.dateCreated'),
     dateEdited: t('apiSharingNew.head.dateEdited'),
   },
+  menu: {
+    'data-station-auto': t('apiSharingNew.menu.data-station-auto'),
+    'data-station-fixed': t('apiSharingNew.menu.data-station-auto'),
+    'weather': t('apiSharingNew.menu.weather'),
+  },
   titleMenu: {
-    'data-station-auto-newest-data': 'Dữ liệu mới nhất',
-    'data-station-auto-history-data': 'Dữ liệu lịch sử',
-    'data-station-fixed-newest-data': 'Dữ liệu mới nhất',
-    'data-station-fixed-history-data': 'Dữ liệu lịch sử',
-    'data-station-fixed-newest-wqi': 'Dữ liệu WQI mới nhất',
-    'data-station-fixed-history-wqi': 'Dữ liệu WQI lịch sử',
-    'weather-newest-data': 'Dữ liệu mới nhất',
-    'weather-feature': 'Dự báo thời tiết',
+    'data-station-auto-newest-data': t('apiSharingNew.titleMenu.data-station-auto-newest-data'),
+    'data-station-auto-history-data': t('apiSharingNew.titleMenu.data-station-auto-history-data'),
+    'data-station-fixed-newest-data': t('apiSharingNew.titleMenu.data-station-fixed-newest-data'),
+    'data-station-fixed-history-data': t('apiSharingNew.titleMenu.data-station-fixed-history-data'),
+    'data-station-fixed-newest-wqi': t('apiSharingNew.titleMenu.data-station-fixed-newest-wqi'),
+    'data-station-fixed-history-wqi': t('apiSharingNew.titleMenu.data-station-fixed-history-wqi'),
+    'weather-newest-data': t('apiSharingNew.titleMenu.weather-newest-data'),
+    'weather-feature': t('apiSharingNew.titleMenu.weather-feature'),
   },
   detailPage: {
     header: {

@@ -40,7 +40,7 @@ const MenuApiSharing = ({
       defaultOpenKeys={defaultOpenKeys}
     >
       {data.map(item => (
-        <SubMenu key={item.group} title={item.name.vi}>
+        <SubMenu key={item.group} title={i18n.menu[item.group]}>
           {item.api.map(child => (
             <Item key={child.key}>
               {i18n.titleMenu[child.key] || child.key}
