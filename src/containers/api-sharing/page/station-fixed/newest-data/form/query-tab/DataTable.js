@@ -39,7 +39,7 @@ const DataTable = ({
         const warningLevel = get(value, [measure, 'warningLevel'], '')
         return (
           <div style={{ color: DATA_COLOR[warningLevel] }}>
-            {measureValue ? measureValue.toFixed(2) : '-'}
+            {measureValue ? measureValue : '-'}
           </div>
         )
       },
