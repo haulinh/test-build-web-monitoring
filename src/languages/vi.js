@@ -3450,8 +3450,8 @@ export default {
         tt: 'STT',
         time: 'Thời gian',
         stationName: 'Tên trạm quan trắc ',
-        pointName: 'Tên điểm',
-        phaseName: 'Tên đợt',
+        pointName: 'Điểm quan trắc',
+        phaseName: 'Đợt quan trắc',
         timeWeather: 'Thời gian',
       },
       message: {
