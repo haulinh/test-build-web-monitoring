@@ -139,12 +139,12 @@ export default class ApiSharingDetailList extends React.Component {
 
     return (
       <PageContainer
-        right={
+        right={protectRole(ROLE.SHARE_API.CREATE)(
           <Button onClick={this.redirectCreateApi} type="primary">
             <Icon type="plus" />
             {i18n.button.create}
           </Button>
-        }
+        )}
       >
         <Breadcrumb
           items={[
