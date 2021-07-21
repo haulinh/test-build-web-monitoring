@@ -3370,10 +3370,6 @@ export default {
       'data-station-fixed': 'Periodic monitoring data',
       'weather': 'Weather',
     },
-    titleMenu: {
-      create: 'Create',
-      edit: 'Edit',
-    },
     fields: {
       stationFixed: {
         stationKeys: 'Station Code',
