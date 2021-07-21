@@ -55,6 +55,7 @@ export default class QueryTab extends Component {
       current: 1,
       pageSize: 10,
     },
+    parameterList: [],
   }
 
   componentDidMount() {
@@ -77,6 +78,7 @@ export default class QueryTab extends Component {
       let value = current.value
       if ([FIELDS.WEATHER.PARAMNETER].includes(current.fieldName)) {
         value = current.value.split(',')
+        this.setState({ parameterList: value })
       }
       const fieldValue = {
         [`config.${current.fieldName}`]: value,
@@ -136,8 +138,10 @@ export default class QueryTab extends Component {
       const res = await dataShareApiApi.getWeatherNewest(queryParams)
       if (res) {
         this.setState({ dataTable: res.data })
+        const { config: { parameterList = [] } = {} } = form.getFieldsValue()
+        this.setState({ parameterList })
       }
-    } catch (error) {}
+    } catch (error) { }
     const initPagination = { current: 1, pageSize: 10 }
     this.setState({ pagination: initPagination, loadingSearch: false })
   }
@@ -163,11 +167,10 @@ export default class QueryTab extends Component {
 
   render() {
     const { form, rule, location, menuApiSharingList, data } = this.props
-    const { dataTable, loadingSearch, pagination } = this.state
+    const { dataTable, loadingSearch, pagination, parameterList } = this.state
     const dataExample = getDataExample(menuApiSharingList, location)
-    const { config: { parameterList = [] } = {} } = form.getFieldsValue()
-
     const fieldsDefault = getFieldsDefault(data)
+    
     return (
       <React.Fragment>
         <Search onSearch={this.handleOnSearch} loading={loadingSearch}>

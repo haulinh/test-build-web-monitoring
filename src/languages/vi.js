@@ -3373,10 +3373,6 @@ export default {
       'data-station-fixed': 'Dữ liệu trạm quan trắc định kỳ',
       'weather': 'Thời tiết',
     },
-    titleMenu: {
-      create: 'Tạo mới',
-      edit: 'Sửa',
-    },
     fields: {
       stationFixed: {
         stationKeys: 'Điểm quan trắc',
