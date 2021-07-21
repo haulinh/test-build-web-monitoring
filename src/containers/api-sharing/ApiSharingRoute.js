@@ -31,9 +31,9 @@ import {
   NewestWqiStationFixedView,
 } from './page/station-fixed/newest-wqi'
 import {
- HistoryWqiStationFixedCreate,
- HistoryWqiStationFixedEdit,
- HistoryWqiStationFixedView,
+  HistoryWqiStationFixedCreate,
+  HistoryWqiStationFixedEdit,
+  HistoryWqiStationFixedView,
 } from './page/station-fixed/history-wqi'
 import {
   NewestDataWeatherCreate,
@@ -50,6 +50,12 @@ const ApiSharingRoute = () => {
   return (
     <ApiSharingLayout>
       <Switch>
+        {/* <Route
+          exact
+          path={`${slug.apiSharing.base}`}
+          component={ApiSharingDetailList}
+        /> */}
+
         <Route
           exact
           path={`${slug.apiSharing.base}/:apiKey`}

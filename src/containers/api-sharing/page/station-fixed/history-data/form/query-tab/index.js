@@ -56,6 +56,7 @@ export default class QueryTab extends Component {
       current: 1,
       pageSize: 10,
     },
+    measuringList: [],
   }
 
   componentDidMount() {
@@ -87,6 +88,11 @@ export default class QueryTab extends Component {
       ) {
         value = current.value.split(',')
       }
+
+      if (current.fieldName === 'measuringList') {
+        this.setState({ measuringList: value })
+      }
+
       const fieldValue = {
         [`config.${current.fieldName}`]: value,
       }
@@ -162,7 +168,7 @@ export default class QueryTab extends Component {
   }
 
   handleOnSearch = async () => {
-    const { rule, form } = this.props
+    const { form } = this.props
 
     const values = await form.validateFields()
     if (!values) return
@@ -174,6 +180,8 @@ export default class QueryTab extends Component {
       const data = await dataShareApiApi.getPeriodicHistory(queryParams)
       if (data) {
         this.setState({ dataTable: data })
+        const { config: { measuringList = [] } = {} } = form.getFieldsValue()
+        this.setState({ measuringList })
       }
     } catch (error) {
       console.log(error)
@@ -189,8 +197,7 @@ export default class QueryTab extends Component {
   render() {
     const { form, rule, location, menuApiSharingList, data } = this.props
     const dataExample = getDataExample(menuApiSharingList, location)
-    const { loadingSearch, dataTable, pagination } = this.state
-    const { config: { measuringList = [] } = {} } = form.getFieldsValue()
+    const { loadingSearch, dataTable, pagination, measuringList } = this.state
     const fieldsDefault = getFieldsDefault(data)
 
     return (

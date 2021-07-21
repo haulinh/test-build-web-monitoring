@@ -73,6 +73,7 @@ const DataTable = ({
 
   return (
     <Table
+      rowKey={record => `${record.key} ${record.receiveAt}`}
       pagination={pagination}
       columns={columns}
       dataSource={dataSource}

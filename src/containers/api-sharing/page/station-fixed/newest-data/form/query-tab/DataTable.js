@@ -35,7 +35,7 @@ const DataTable = ({
         const measureTextValue = get(value, [measure, 'textValue'])
         if (measureTextValue === 'KPH') return <div>KPH</div>
 
-        const measureValue = get(value, [measure, 'value'], '-')
+        const measureValue = get(value, [measure, 'value'])
         const warningLevel = get(value, [measure, 'warningLevel'], '')
         return (
           <div style={{ color: DATA_COLOR[warningLevel] }}>
@@ -81,7 +81,7 @@ const DataTable = ({
       loading={loading}
       pagination={pagination}
       onChange={handleOnChange}
-      rowKey={record => record.receivedAt}
+      rowKey={record => `${record.key} ${record.receivedAt}`}
     />
   )
 }
