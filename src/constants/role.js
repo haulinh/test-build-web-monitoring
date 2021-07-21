@@ -70,6 +70,8 @@ export default {
   },
   SHARE_API: {
     VIEW: 'menu.shareAPI.actions.view',
+    EDIT: 'menu.shareAPI.actions.edit',
+    DELETE: 'menu.shareAPI.actions.delete',
   },
   XU_LY_DU_LIEU_CAU_HINH: {
     VIEW: 'menu.xuLyDuLieu_config.actions.view',
@@ -77,9 +79,6 @@ export default {
   },
   FTPTRANSFER: {
     VIEW: 'menu.ftpTransfer.actions.view',
-  },
-  API_SHARING: {
-    VIEW: 'menu.shareAPI.actions.view',
   },
   TILE_DULIEU_THUDUOC: {
     VIEW: 'menu.tiLeDuLieuThuDuoc.actions.view',
@@ -229,7 +228,7 @@ export default {
   },
   SERVICE_CONFIG: {
     VIEW: 'menu.service_config.actions.view',
-    SETUP:'menu.service_config.actions.setup',
+    SETUP: 'menu.service_config.actions.setup',
   },
   AQI_SEARCHDATA: {
     VIEW: 'menu.aqiSearchData.actions.view',
