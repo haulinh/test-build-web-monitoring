@@ -41,7 +41,7 @@ export const i18n = {
   },
   menu: {
     'data-station-auto': t('apiSharingNew.menu.data-station-auto'),
-    'data-station-fixed': t('apiSharingNew.menu.data-station-auto'),
+    'data-station-fixed': t('apiSharingNew.menu.data-station-fixed'),
     'weather': t('apiSharingNew.menu.weather'),
   },
   titleMenu: {
