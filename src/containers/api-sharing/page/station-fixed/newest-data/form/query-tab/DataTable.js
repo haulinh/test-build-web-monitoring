@@ -67,6 +67,11 @@ const DataTable = ({
       dataIndex: 'name',
       render: value => <div>{value}</div>,
     },
+    {
+      title: i18n.table.phaseName,
+      dataIndex: 'phase',
+      render: value => <div>{value.name}</div>,
+    },
     ...columnsMeasuringList,
   ]
 
