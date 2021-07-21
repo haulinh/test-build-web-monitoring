@@ -54,7 +54,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.API_SHARING.VIEW)(
+      {protectRole(ROLE.SHARE_API.VIEW)(
         <Menu.Item
           key={slug.apiSharing.base}
           onClick={() => {

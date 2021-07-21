@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
 import { i18n } from '../constants'
 import { translate } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -19,6 +21,7 @@ const i18nTrans = {
   deleteConfirmMsg: translate('confirm.msg.delete'),
 }
 
+@protectRole(ROLE.SHARE_API.VIEW)
 export default class ApiSharingDetailList extends React.Component {
   state = {
     data: [],
@@ -65,7 +68,7 @@ export default class ApiSharingDetailList extends React.Component {
             message.success(i18n.message.delete)
             this.setState({ data: dataUpdated })
           }
-        } catch (error) { }
+        } catch (error) {}
         this.setState({ loading: false })
       },
     })
@@ -98,15 +101,17 @@ export default class ApiSharingDetailList extends React.Component {
       {
         content: (
           <span>
-            <Link to={`${location.pathname}/edit/${item._id}`}>
-              {i18n.button.edit}
-            </Link>
-
+            {protectRole(ROLE.SHARE_API.EDIT)(
+              <Link to={`${location.pathname}/edit/${item._id}`}>
+                {i18n.button.edit}
+              </Link>
+            )}
             <Divider type="vertical" />
-
-            <a onClick={() => this.handleDeleteItem(item._id)}>
-              {i18n.button.delete}
-            </a>
+            {protectRole(ROLE.SHARE_API.DELETE)(
+              <a onClick={() => this.handleDeleteItem(item._id)}>
+                {i18n.button.delete}
+              </a>
+            )}
           </span>
         ),
       },
