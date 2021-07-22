@@ -7,6 +7,7 @@ import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import {
   getMeasuringListFromStationAutos,
   isCreate,
+  isView,
 } from 'containers/api-sharing/util'
 import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
 import React from 'react'
@@ -132,8 +133,13 @@ export default class Condition extends React.Component {
     return measuringList
   }
 
+  isDisable = fieldName => {
+    const {rule, fieldsDefault = {}} = this.props
+    return isView(rule) && fieldsDefault[fieldName]
+  }
+
   render() {
-    const { form, fieldsDefault = {} } = this.props
+    const { form } = this.props
     const { config: { province, stationType } = {} } = form.getFieldsValue()
     return (
       <BoxShadow>
@@ -145,7 +151,7 @@ export default class Condition extends React.Component {
                 onChange: this.handleOnFieldChange,
               })(
                 <SelectProvince
-                  disabled={fieldsDefault[FIELDS.PROVINCE]}
+                  disabled={this.isDisable(FIELDS.PROVINCE)}
                   fieldValue="_id"
                   isShowAll
                 />
@@ -165,7 +171,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectStationType
-                  disabled={fieldsDefault[FIELDS.STATION_TYPE]}
+                  disabled={this.isDisable(FIELDS.STATION_TYPE)}
                   fieldValue="_id"
                   isAuto={false}
                   onFetchSuccess={this.onFetchStationTypesSuccess}
@@ -185,7 +191,7 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectPoint
-                  disabled={fieldsDefault[FIELDS.POINT]}
+                  disabled={this.isDisable(FIELDS.POINT)}
                   mode="multiple"
                   stationTypeId={stationType}
                   provinceId={province}
