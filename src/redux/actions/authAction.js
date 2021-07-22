@@ -1,8 +1,14 @@
 import AuthApi from 'api/AuthApi'
 import CategoryApi from 'api/CategoryApi'
-import { setAuthToken, getAuthToken, resetAuthToken } from 'utils/auth'
+import {
+  setAuthToken,
+  getAuthToken,
+  resetAuthToken,
+  setSecretKey,
+  resetSecretKey,
+} from 'utils/auth'
 import moment from 'moment-timezone'
-import { result as _result } from 'lodash'
+import _, { result as _result } from 'lodash'
 
 import { CONFIGS } from './config'
 import { setLanguage } from 'utils/localStorage'
@@ -66,6 +72,7 @@ export function fetchUserMe() {
 
 export function logout(userId) {
   resetAuthToken()
+  resetSecretKey()
   try {
     AuthApi.logoutUser(userId)
   } catch (ex) {}
@@ -78,6 +85,8 @@ export function userLogin(reqData) {
   return async dispatch => {
     const auth = await AuthApi.loginUser(reqData)
     if (auth.success) {
+      const secretKey = _.get(auth, ['data', 'organization', 'apiKey'])
+      setSecretKey(secretKey)
       setAuthToken(auth.token)
       dispatch({
         type: UPDATE_USER_INFO,
@@ -92,6 +101,8 @@ export function userLogin2Factor(reqData) {
   return async dispatch => {
     const auth = await AuthApi.loginUser2Factor(reqData)
     if (auth.success) {
+      const secretKey = _.get(auth, ['data', 'organization', 'apiKey'])
+      setSecretKey(secretKey)
       setAuthToken(auth.token)
       dispatch({
         type: UPDATE_USER_INFO,

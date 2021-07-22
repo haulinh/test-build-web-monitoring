@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { getAuthToken } from 'utils/auth'
+import { getSecretKey } from 'utils/auth'
 
 export function isView(rule) {
   return rule === 'view'
@@ -14,10 +14,10 @@ export function isCreate(rule) {
 }
 
 export function generateGetUrl(url) {
-  const accessToken = getAuthToken()
+  const secretKey = getSecretKey()
 
   return `curl '${url}' \
-            -H 'authorization: ${accessToken}'`
+            -H 'secret-key: ${secretKey}'`
 }
 
 export const getMeasuringListFromStationAutos = stationAutos => {
