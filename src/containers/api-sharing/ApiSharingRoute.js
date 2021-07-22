@@ -75,7 +75,7 @@ const ApiSharing = connect(mapStateToProps)(({ enableShareAPI }) => {
   }
 
   return (
-    <React.Fragment>
+    <Switch>
       {/* <Route
           exact
           path={`${slug.apiSharing.base}`}
@@ -217,7 +217,7 @@ const ApiSharing = connect(mapStateToProps)(({ enableShareAPI }) => {
         path={`${slug.apiSharing.base}/${shareApiList.weather.featureData.key}/:id`}
         component={FeatureDataWeatherView}
       />
-    </React.Fragment>
+    </Switch>
   )
 })
 
