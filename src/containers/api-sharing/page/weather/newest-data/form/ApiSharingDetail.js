@@ -1,7 +1,7 @@
 import { Tabs } from 'antd'
 import { shareApiApi } from 'api/ShareApiApi'
 import { i18n } from 'containers/api-sharing/constants'
-import { isCreate } from 'containers/api-sharing/util'
+import { isCreate, isView } from 'containers/api-sharing/util'
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
@@ -39,14 +39,27 @@ export default class ApiSharingDetail extends Component {
     this.setState({ data: newData })
   }
 
-  render() {
+  getActiveKey = () => {
     const { rule, location } = this.props
+    if (isView(rule)) {
+      return 'QueryTab'
+    }
+
+    return _.get(location, ['state', 'activeKey'])
+  }
+
+  render() {
+    const { rule } = this.props
     const { data } = this.state
-    const activeKey = _.get(location, ['state', 'activeKey'])
+    const activeKey = this.getActiveKey()
 
     return (
       <Tabs defaultActiveKey={activeKey || 'ConfigTab'}>
-        <Tabs.TabPane tab={i18n.tab.configTab} key="ConfigTab">
+        <Tabs.TabPane
+          disabled={isView(rule)}
+          tab={i18n.tab.configTab}
+          key="ConfigTab"
+        >
           <ConfigTab data={data} rule={rule} updateData={this.updateData} />
         </Tabs.TabPane>
         <Tabs.TabPane tab={i18n.tab.viewDataTab} key="QueryTab">
