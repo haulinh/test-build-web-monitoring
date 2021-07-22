@@ -6,7 +6,7 @@ import SelectStationType from 'components/elements/select-station-type'
 import {MM_YYYY, YYYY} from 'constants/format-date'
 import {i18n} from 'containers/api-sharing/constants'
 import {BoxShadow, Header} from 'containers/api-sharing/layout/styles'
-import { isCreate, isView, } from 'containers/api-sharing/util'
+import {isCreate, isView, } from 'containers/api-sharing/util'
 import {withApiSharingDetailContext} from 'containers/api-sharing/withShareApiContext'
 
 export const FIELDS = {
@@ -178,7 +178,7 @@ export default class Condition extends React.Component {
           <Col xs={12}>
             <Form.Item label={i18n.wqi.viewBy}>
               {form.getFieldDecorator(`config.${FIELDS.VIEW_BY}`, {initialValue: 'month'})(
-                <Radio.Group>
+                <Radio.Group disabled={this.isDisable(FIELDS.VIEW_BY)} >
                   <Radio value={'month'}>{i18n.month}</Radio>
                   <Radio value={'quarter'}>{i18n.quarter}</Radio>
                   <Radio value={'year'}>{i18n.year}</Radio>
@@ -196,7 +196,7 @@ export default class Condition extends React.Component {
                   },
                 ],
               })(
-                <DatePicker.RangePicker format={formatTime} />
+                <DatePicker.RangePicker format={formatTime} disabled={this.isDisable(FIELDS.RANGE_TIME)}/>
               )}
             </Form.Item>
           </Col>

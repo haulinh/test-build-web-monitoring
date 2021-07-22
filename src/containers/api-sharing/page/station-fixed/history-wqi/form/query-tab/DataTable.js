@@ -50,12 +50,30 @@ class WQIList extends React.Component {
     {
       title: i18n.lat,
       key: 'lat',
-      dataIndex: 'point.mapLocation.lat',
+      render: (_, record) => {
+        const obj = {
+          children: get(record, 'point.mapLocation.lat'),
+          props: {
+            rowSpan: record.size ? record.size : 1,
+            colSpan: record.size ? 1 : 0,
+          }
+        }
+        return obj
+      }
     },
     {
       title: i18n.lng,
       key: 'lng',
-      dataIndex: 'point.mapLocation.lng',
+      render: (_, record) => {
+        const obj = {
+          children: get(record, 'point.mapLocation.lng'),
+          props: {
+            rowSpan: record.size ? record.size : 1,
+            colSpan: record.size ? 1 : 0,
+          }
+        }
+        return obj
+      }
     },
     {
       title: i18n.avgTime,
