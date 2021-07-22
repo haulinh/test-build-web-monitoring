@@ -181,7 +181,7 @@ export default class QueryTab extends Component {
         isCreate(rule)
       )
       if (data) {
-        this.setState({ dataTable: this.formatData(data) })
+        this.setState({ dataTable: this.formatData(data, queryParams.viewBy) })
       }
     } catch (error) {
       console.log(error)
@@ -195,12 +195,12 @@ export default class QueryTab extends Component {
     return moment(time, 'YYYY-MM').format(MM_YYYY)
   }
 
-  formatData = list => {
+  formatData = (list, type) => {
     const data = list.map(item =>
       item.data.map((ele, idx) => ({
         ...ele,
         point: item.point,
-        datetime: this.getTime(ele.datetime, 'month'),
+        datetime: this.getTime(ele.datetime, type),
         size: idx === 0 ? item.data.length : null,
       }))
     )
