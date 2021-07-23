@@ -3358,7 +3358,7 @@ export default {
     fileExport: 'Dữ liệu WQI',
     requireTime: 'Vui lòng chọn thời gian',
     pointName: 'Điểm quan trắc',
-    avgTime: 'Thời gian trung bình',
+    avgTime: 'Thời gian',
     wqiValue: 'Giá trị WQI',
     wqiLevel: 'Mức độ WQI',
     lat: 'Vĩ độ',
