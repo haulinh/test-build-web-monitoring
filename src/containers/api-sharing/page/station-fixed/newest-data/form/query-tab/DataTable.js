@@ -64,11 +64,13 @@ const DataTable = ({
     },
     {
       title: i18n.table.phaseName,
+      width: 120,
       dataIndex: 'phase',
       render: value => <div>{value.name}</div>,
     },
     {
       title: i18n.table.pointName,
+      width: 200,
       dataIndex: 'name',
       render: value => <div>{value}</div>,
     },
