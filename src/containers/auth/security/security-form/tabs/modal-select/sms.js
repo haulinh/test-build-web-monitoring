@@ -1,5 +1,5 @@
 import React from 'react'
-import { Steps, Icon, Alert, Input } from 'antd'
+import { Steps, Icon, Alert, Input, message as messageAntd } from 'antd'
 import { translate } from 'hoc/create-lang'
 import { withRouter } from 'react-router'
 import styled from 'styled-components'
@@ -203,7 +203,15 @@ export default class ModalSelectSMS extends React.PureComponent {
       const { code } = this.state
       if (code) {
         this.setState({ stepCurrent: 1 })
-        const { success, data } = await userApi.confirmSms('sms', { code })
+        const { success, data, error, message } = await userApi.confirmSms(
+          'sms',
+          { code }
+        )
+        // console.log(error, message)
+        if (error && message === 'CODE_UNCORRECT') {
+          messageAntd.error(translate('security.message.code_unCorrect'))
+          return
+        }
         this.setState({ stepCurrent: 2 })
 
         const { twoFactorAuth } = data

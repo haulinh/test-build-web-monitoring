@@ -2447,9 +2447,10 @@ export default {
     note:
       'Nếu bạn bật tính năng Xác thực hai lớp. Hệ thống sẽ gửi mã xác thực đến địa chỉ email hoặc số điện thoại của bạn mỗi khi bạn đăng nhập.',
     success: 'Thành công',
-    failure: 'Kích hoạt bảo mật 2 lớp thành công',
+    failure: 'Kích hoạt bảo mật 2 lớp thất bại',
     message: {
       userUse: 'Bạn đang sử dụng tính năng bảo mật 2 lớp qua {{=it.type}}',
+      code_unCorrect: 'Mã xức thực không chính xác',
       code:
         'Mã xác thực đã được gửi tới: {{=it.phone}} (sẽ hết hạn sau {{=it.expired}})',
       info: `Lựa chọn phương thức xác thực khi đăng nhập:`,
@@ -3373,7 +3374,7 @@ export default {
     menu: {
       'data-station-auto': 'Dữ liệu trạm quan trắc tự động',
       'data-station-fixed': 'Dữ liệu trạm quan trắc định kỳ',
-      'weather': 'Thời tiết',
+      weather: 'Thời tiết',
     },
     fields: {
       stationFixed: {
@@ -3446,7 +3447,7 @@ export default {
         parameterList: 'Mã thông số thời tiết',
         days: 'Số ngày dự báo',
         viewBy: 'Xem theo: Tháng, Quý hoặc Năm',
-        timeRange: 'Khoảng thời gian'
+        timeRange: 'Khoảng thời gian',
       },
       table: {
         tt: 'STT',

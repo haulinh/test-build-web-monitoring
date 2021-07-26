@@ -2458,6 +2458,7 @@ export default {
     failure: 'Save failure',
     message: {
       userUse: 'You are using 2-layer authentication with {{=it.type}}',
+      code_unCorrect: 'The verification code is not correct',
       code:
         'Your verification code has been sent to: {{=it.phone}} (will expire after {{=it.expired}})',
       info: `Select authentication method when logging in:`,
@@ -3370,7 +3371,7 @@ export default {
     menu: {
       'data-station-auto': 'Automatic Monitoring Data',
       'data-station-fixed': 'Periodic Monitoring Data',
-      'weather': 'Weather',
+      weather: 'Weather',
     },
     fields: {
       stationFixed: {
@@ -3443,7 +3444,7 @@ export default {
         parameterList: 'Parameter Code',
         days: 'Forecast Days',
         viewBy: 'View by: Monthly, Quarterly or Yearly',
-        timeRange: 'Time ranges'
+        timeRange: 'Time ranges',
       },
       table: {
         tt: 'No.',
