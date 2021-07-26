@@ -26,9 +26,9 @@ export default class SelectStationAuto extends React.PureComponent {
   }
 
   async componentWillMount() {
-    const res = await StationAutoApi.getStationAutos({
+    const res = await StationAutoApi.getStationAutoAll({
       page: 1,
-      itemPerPage: 10000000,
+      itemPerPage: Number.MAX_SAFE_INTEGER,
     })
 
     this.setState({
