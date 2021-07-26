@@ -13,7 +13,7 @@ const DataTable = ({
   loading,
   stationAutos,
   pagination = {},
-  setPagination = () => {},
+  setPagination = () => { },
 }) => {
   const measureListData = keyBy(
     getMeasuringListFromStationAutos(stationAutos),
@@ -61,6 +61,7 @@ const DataTable = ({
     },
     {
       title: i18n.table.stationName,
+      width: 200,
       dataIndex: 'name',
       render: value => <div>{value}</div>,
     },

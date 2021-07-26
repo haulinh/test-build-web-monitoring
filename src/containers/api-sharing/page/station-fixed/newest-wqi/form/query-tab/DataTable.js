@@ -1,9 +1,9 @@
 
-import {Table} from 'antd';
+import { Table } from 'antd';
 import React from 'react';
-import {translate as t} from 'hoc/create-lang';
+import { translate as t } from 'hoc/create-lang';
 import styled from 'styled-components'
-import {get} from 'lodash-es';
+import { get } from 'lodash-es';
 
 const i18n = {
   order: t('wqiStationFix.order'),
@@ -35,6 +35,7 @@ class WQIList extends React.Component {
     },
     {
       title: i18n.pointName,
+      width: 200,
       key: 'name',
       render: (_, record) => {
         const obj = {
@@ -66,9 +67,9 @@ class WQIList extends React.Component {
       title: i18n.wqiValue,
       key: 'wqi',
       dataIndex: 'wqiResult.wqi',
-      render: (value, record) => value 
-      ? <Value color={get(record, 'wqiResult.level.backgroundColor')}>{Math.round(value)}</Value> 
-      : '-'
+      render: (value, record) => value
+        ? <Value color={get(record, 'wqiResult.level.backgroundColor')}>{Math.round(value)}</Value>
+        : '-'
     },
     {
       title: i18n.wqiLevel,
@@ -79,7 +80,7 @@ class WQIList extends React.Component {
   ]
 
   getMeasureColumns = () => {
-    const {dataSource} = this.props
+    const { dataSource } = this.props
 
     const measures = new Set();
     dataSource.forEach(item => {
@@ -87,7 +88,7 @@ class WQIList extends React.Component {
         .forEach(measure => measures.add(measure))
     });
 
-    return Array.from(measures).map(measure => ( {
+    return Array.from(measures).map(measure => ({
       title: `WQI(${measure})`,
       key: measure,
       render: value => get(value, `wqiResult.detail[${measure}]`) ? get(value, `wqiResult.detail[${measure}]`) : '-'
@@ -95,12 +96,12 @@ class WQIList extends React.Component {
   }
 
   render() {
-    const {loading, dataSource} = this.props;
+    const { loading, dataSource } = this.props;
 
     const measureColumns = this.getMeasureColumns()
     const columns = [...this.columns];
     columns.splice(5, 0, ...measureColumns)
-    
+
 
     return (
       <TableCustom
