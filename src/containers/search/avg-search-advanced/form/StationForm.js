@@ -19,7 +19,7 @@ import Highlighter from 'react-highlight-words'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
-import { replaceVietnameseStr } from 'utils/string'
+// import { replaceVietnameseStr } from 'utils/string'
 
 const { Panel } = Collapse
 

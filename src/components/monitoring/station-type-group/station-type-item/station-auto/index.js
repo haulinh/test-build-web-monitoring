@@ -52,14 +52,13 @@ export default class StationAutoItem extends React.PureComponent {
       })
       let formSearch = null
       let slugPrefix = ''
+      // console.log(arrMeasures)
+      let toDate = this.props.lastLog.receivedAt
+      let fromDate = moment(toDate)
+        .subtract(1, 'day')
+        .format()
       switch (keyOpenTab) {
         case 'historyData': {
-          // console.log(arrMeasures)
-          let toDate = this.props.lastLog.receivedAt
-          let fromDate = moment(toDate)
-            .subtract(1, 'day')
-            .format()
-
           formSearch = {
             stationType: this.props.stationType.key,
             stationAuto: this.props.stationID,
@@ -81,6 +80,9 @@ export default class StationAutoItem extends React.PureComponent {
             stationAuto: this.props.stationID,
             measuringList: arrMeasures,
             measuringData: this.props.measuringList,
+            fromDate,
+            toDate,
+            rangesDate: 'ranges',
             searchNow: true,
           }
           slugPrefix = slug.avgSearchAdvanced.base

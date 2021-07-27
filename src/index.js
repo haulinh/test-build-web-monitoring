@@ -18,7 +18,7 @@ import configureStore from './redux/createStore'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import registerServiceWorkerFireBase from './registerServiceWorkerFireBase'
-import { GOOGLE_TAG_TRACKING_ID } from 'config'
+// import { GOOGLE_TAG_TRACKING_ID } from 'config'
 
 // import TagManager from 'react-gtm-module'
 // const trackingId = GOOGLE_TAG_TRACKING_ID
