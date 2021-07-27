@@ -12,9 +12,9 @@ import {
   Row,
   Col,
 } from 'antd'
-import {Clearfix} from 'containers/map/map-default/components/box-analytic-list/style'
-import {getConfigWqiWeight, postConfigWqiWeight} from 'api/CategoryApi'
-import {translate} from 'hoc/create-lang'
+import { Clearfix } from 'containers/map/map-default/components/box-analytic-list/style'
+import { getConfigWqiWeight, postConfigWqiWeight } from 'api/CategoryApi'
+import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 
 const i18n = {
@@ -84,9 +84,9 @@ export default class TabTrongSo extends React.Component {
       key: 'groupI',
       align: 'center',
       render: (text, record, index) => {
-        const {getFieldDecorator} = this.props.form
+        const { getFieldDecorator } = this.props.form
         return (
-          <Form.Item style={{textAlign: 'left', marginBottom: 'initial'}}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`${record.key}.groupI`, {
               rules: [
                 {
@@ -94,11 +94,12 @@ export default class TabTrongSo extends React.Component {
                   message: i18n.required,
                 },
               ],
+              initialValue: 1,
             })(
               <InputNumber
                 disabled={record.key === KEY.weightParam}
                 min={0}
-                style={{width: '100%'}}
+                style={{ width: '100%' }}
                 placeholder={i18n.groupI}
               />
             )}
@@ -112,9 +113,9 @@ export default class TabTrongSo extends React.Component {
       key: 'groupII',
       align: 'center',
       render: (text, record, index) => {
-        const {getFieldDecorator} = this.props.form
+        const { getFieldDecorator } = this.props.form
         return (
-          <Form.Item style={{textAlign: 'left', marginBottom: 'initial'}}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`${record.key}.groupII`, {
               rules: [
                 {
@@ -122,10 +123,11 @@ export default class TabTrongSo extends React.Component {
                   message: i18n.required,
                 },
               ],
+              initialValue: 1,
             })(
               <InputNumber
                 disabled={record.key === KEY.weightParam}
-                style={{width: '100%'}}
+                style={{ width: '100%' }}
                 min={0}
                 placeholder={i18n.groupII}
               />
@@ -140,9 +142,9 @@ export default class TabTrongSo extends React.Component {
       key: 'groupIII',
       align: 'center',
       render: (text, record, index) => {
-        const {getFieldDecorator} = this.props.form
+        const { getFieldDecorator } = this.props.form
         return (
-          <Form.Item style={{textAlign: 'left', marginBottom: 'initial'}}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`${record.key}.groupIII`, {
               rules: [
                 {
@@ -150,10 +152,11 @@ export default class TabTrongSo extends React.Component {
                   message: i18n.required,
                 },
               ],
+              initialValue: 1,
             })(
               <InputNumber
                 disabled={record.key === KEY.weightParam}
-                style={{width: '100%'}}
+                style={{ width: '100%' }}
                 min={0}
                 placeholder={i18n.groupIII}
               />
@@ -168,9 +171,9 @@ export default class TabTrongSo extends React.Component {
       key: 'groupIV',
       align: 'center',
       render: (text, record, index) => {
-        const {getFieldDecorator} = this.props.form
+        const { getFieldDecorator } = this.props.form
         return (
-          <Form.Item style={{textAlign: 'left', marginBottom: 'initial'}}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`${record.key}.groupIV`, {
               rules: [
                 {
@@ -178,9 +181,10 @@ export default class TabTrongSo extends React.Component {
                   message: i18n.required,
                 },
               ],
+              initialValue: record.key === KEY.weightParam ? 2 : 3,
             })(
               <InputNumber
-                style={{width: '100%'}}
+                style={{ width: '100%' }}
                 min={0}
                 placeholder={i18n.groupIV}
               />
@@ -195,9 +199,9 @@ export default class TabTrongSo extends React.Component {
       key: 'groupV',
       align: 'center',
       render: (text, record, index) => {
-        const {getFieldDecorator} = this.props.form
+        const { getFieldDecorator } = this.props.form
         return (
-          <Form.Item style={{textAlign: 'left', marginBottom: 'initial'}}>
+          <Form.Item style={{ textAlign: 'left', marginBottom: 'initial' }}>
             {getFieldDecorator(`${record.key}.groupV`, {
               rules: [
                 {
@@ -205,9 +209,10 @@ export default class TabTrongSo extends React.Component {
                   message: i18n.required,
                 },
               ],
+              initialValue: 1,
             })(
               <InputNumber
-                style={{width: '100%'}}
+                style={{ width: '100%' }}
                 min={0}
                 placeholder={i18n.groupV}
               />
@@ -221,16 +226,16 @@ export default class TabTrongSo extends React.Component {
   submit = () => {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        this.setState({isSubmit: true})
+        this.setState({ isSubmit: true })
         try {
           const response = await postConfigWqiWeight(this.props.code, values)
           if (response.success) {
             message.success(i18n.updateSuccess)
           }
         } finally {
-          this.setState({isSubmit: false})
+          this.setState({ isSubmit: false })
         }
-        this.setState({isSubmit: false})
+        this.setState({ isSubmit: false })
       }
     })
   }
