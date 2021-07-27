@@ -12,7 +12,7 @@ import BoxLoaderCp from 'components/content-loader/box-loader'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import SummaryList from 'components/dashboard/summary/summary-list'
 import HeaderView from '../../components/dashboard/header-view'
-import ChartStatisticalRatio from '../../components/dashboard/chart/chart-statistical-ratio'
+// import ChartStatisticalRatio from '../../components/dashboard/chart/chart-statistical-ratio'
 import ChartList from 'components/dashboard/chart/chart-row-list'
 import Clearfix from 'components/elements/clearfix'
 import { getStationTypes } from 'api/CategoryApi'
@@ -87,8 +87,10 @@ export default class OverviewDashboard extends Component {
     let groupProvince = _.groupBy(dataLastLog, 'province.key')
     let isGroupProvince = Object.keys(groupProvince).length > 1
 
-    const goodCount = _.filter(dataLastLog, ({ status }) => status === 'DATA_CONNECTED')
-      .length
+    const goodCount = _.filter(
+      dataLastLog,
+      ({ status }) => status === 'DATA_CONNECTED'
+    ).length
     this.setState({
       isGroupProvince: isGroupProvince,
       province: provinceKey,
@@ -238,8 +240,8 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
-        <HeaderWrapper style={{ height: 182.92 }}>
-          <div style={{ background: '#FBFBFB', padding: '16px 0' }}>
+        <HeaderWrapper>
+          <div style={{ background: '#FBFBFB', padding: '16px 0px 0px' }}>
             <HeaderView
               stationStatus={this.state.stationStatus}
               onChange={this.handleProvinceChange}
@@ -256,14 +258,14 @@ export default class OverviewDashboard extends Component {
           render={({ state, fullpageApi }) => {
             return (
               <ReactFullpage.Wrapper>
-                <div className="section tableFix">
+                {/* <div className="section tableFix">
                   <ChartStatisticalRatio
                     isGroupProvince={this.state.isGroupProvince}
                     loading={this.state.isGetLastLogLoading}
                     data={this.state.stationList}
                     province={this.state.province}
                   />
-                </div>
+                </div> */}
 
                 <ChartList data={this.getChartList()} />
               </ReactFullpage.Wrapper>
