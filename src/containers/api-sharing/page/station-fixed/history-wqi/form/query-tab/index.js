@@ -11,6 +11,7 @@ import {
   getDataExample,
   getFieldsDefault,
   isCreate,
+  isView,
 } from 'containers/api-sharing/util'
 import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
 import { isEqual, get } from 'lodash'
@@ -231,7 +232,9 @@ export default class QueryTab extends Component {
               <Method>GET</Method>
               <Endpoint>
                 <Text>{this.getUrl()}</Text>
-                <Icon type="copy" onClick={this.copyUrl} />
+                {!isView(rule) && (
+                  <Icon type="copy" onClick={this.copyUrl} />
+                )}
               </Endpoint>
             </div>
             <Clearfix height={32} />

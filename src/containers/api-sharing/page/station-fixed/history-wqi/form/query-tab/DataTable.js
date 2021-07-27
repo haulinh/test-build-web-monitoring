@@ -50,6 +50,7 @@ class WQIList extends React.Component {
     },
     {
       title: i18n.lat,
+      width: 90,
       key: 'lat',
       render: (_, record) => {
         const obj = {
@@ -64,6 +65,7 @@ class WQIList extends React.Component {
     },
     {
       title: i18n.lng,
+      width: 90,
       key: 'lng',
       render: (_, record) => {
         const obj = {
@@ -78,11 +80,13 @@ class WQIList extends React.Component {
     },
     {
       title: i18n.avgTime,
+      width: 100,
       key: 'time',
       dataIndex: 'datetime',
     },
     {
       title: i18n.wqiValue,
+      width: 80,
       key: 'wqi',
       dataIndex: 'wqiResult.wqi',
       render: (value, record) => value
@@ -91,6 +95,7 @@ class WQIList extends React.Component {
     },
     {
       title: i18n.wqiLevel,
+      width: 100,
       key: 'status',
       dataIndex: 'wqiResult.level.name',
       render: value => value ? value : '-'
