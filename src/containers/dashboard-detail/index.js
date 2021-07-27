@@ -212,12 +212,19 @@ export default class OverviewDashboard extends Component {
   }
 
   getChartList() {
-    return _.map(this.state.stationTypeList, item => ({
-      key: item.key,
-      title: item.name,
-      totalStation: this.state.stationCount[item.key],
-      stationList: this.state.rows[item.key],
-    }))
+    const result = _.map(this.state.stationTypeList, item => {
+      if (this.state.stationCount[item.key] === 0) {
+        return null
+      }
+      return {
+        key: item.key,
+        title: item.name,
+        totalStation: this.state.stationCount[item.key],
+        stationList: this.state.rows[item.key],
+      }
+    })
+
+    return _.compact(result)
   }
 
   handleProvinceChange = province => {
