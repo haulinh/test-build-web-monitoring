@@ -2,12 +2,11 @@ import React, { PureComponent } from 'react'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
 import QCVNApi from 'api/QCVNApi'
-import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
 import { get } from 'lodash'
 import { replaceVietnameseStr } from 'utils/string'
 
-@autobind
+// @autobind
 export default class SelectQCVN extends PureComponent {
   static propTypes = {
     isUsedId: PropTypes.bool,
