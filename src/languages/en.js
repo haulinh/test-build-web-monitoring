@@ -3403,7 +3403,7 @@ export default {
     },
     detailPage: {
       header: {
-        generalInfo: 'General',
+        generalInfo: 'General Information',
         condition: 'Conditions',
         querySetting: 'Query Setup',
         parameter: 'Parameters',
