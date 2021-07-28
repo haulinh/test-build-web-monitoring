@@ -142,7 +142,10 @@ export class PermissionPopover extends React.Component {
   render() {
     const { children, popoverPlacement, popoverTitle } = this.props
     const { organization, authRole, isAdmin, roles } = this.props
-    const hasPermission = checkRole({ organization, authRole, isAdmin, roles }) // this.checkRole()
+
+    const roleList = Array.isArray(roles) ? roles : [roles]
+
+    const hasPermission = roleList.some(role => checkRole({ organization, authRole, isAdmin, roles: role }));
 
     if (typeof children === 'function') {
       if (hasPermission) return children(hasPermission)

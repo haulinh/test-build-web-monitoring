@@ -11,7 +11,6 @@ import {
   getDataExample,
   getFieldsDefault,
   isCreate,
-  isView,
 } from 'containers/api-sharing/util'
 import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
 import _, { get, isEqual } from 'lodash'
@@ -21,6 +20,8 @@ import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
 import Condition from '../Condition'
 import DataTable from './DataTable'
+import {PermissionPopover} from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const Method = styled.div`
   display: inline-block;
@@ -202,9 +203,9 @@ export default class QueryTab extends Component {
               <Method>GET</Method>
               <Endpoint>
                 <Text>{this.getUrl()}</Text>
-                {!isView(rule) && (
+                <PermissionPopover roles={[ROLE.SHARE_API.CREATE, ROLE.SHARE_API.EDIT, ROLE.SHARE_API.DELETE]}>
                   <Icon type="copy" onClick={this.copyUrl} />
-                )}
+                </PermissionPopover>
               </Endpoint>
             </div>
             <Clearfix height={32} />

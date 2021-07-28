@@ -1,26 +1,27 @@
-import { Form, Icon, message, Tabs } from 'antd'
-import { dataRoutes, dataShareApiApi } from 'api/ShareApiApi'
+import {Form, Icon, message, Tabs} from 'antd'
+import {dataRoutes, dataShareApiApi} from 'api/ShareApiApi'
 import Clearfix from 'components/elements/clearfix'
 import Text from 'components/elements/text'
 import Example from 'containers/api-sharing/component/Example'
 import TableParams from 'containers/api-sharing/component/TableParams'
-import { FIELDS, i18n } from 'containers/api-sharing/constants'
+import {FIELDS, i18n} from 'containers/api-sharing/constants'
 import Search from 'containers/api-sharing/component/Search'
 import {
   generateGetUrl,
   getDataExample,
   getFieldsDefault,
   isCreate,
-  isView,
 } from 'containers/api-sharing/util'
-import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
-import _, { isEqual } from 'lodash'
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import {withShareApiContext} from 'containers/api-sharing/withShareApiContext'
+import _, {isEqual} from 'lodash'
+import React, {Component} from 'react'
+import {withRouter} from 'react-router-dom'
 import styled from 'styled-components'
-import { copyTextToClipboard } from 'utils/'
+import {copyTextToClipboard} from 'utils/'
 import Condition from '../Condition'
 import DataTable from './DataTable'
+import {PermissionPopover} from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const Method = styled.div`
   display: inline-block;
@@ -74,17 +75,17 @@ export default class QueryTab extends Component {
   }
 
   setInitFields = () => {
-    const { data } = this.props
+    const {data} = this.props
     const fieldsValue = _.get(data, 'config', []).reduce((base, current) => {
       let value = current.value
       if ([FIELDS.WEATHER.PARAMNETER].includes(current.fieldName)) {
         value = current.value.split(',')
-        this.setState({ parameterList: value })
+        this.setState({parameterList: value})
       }
       const fieldValue = {
         [`config.${current.fieldName}`]: value,
       }
-      return { ...base, ...fieldValue }
+      return {...base, ...fieldValue}
     }, {})
 
     this.props.form.setFieldsValue({
@@ -104,7 +105,7 @@ export default class QueryTab extends Component {
 
   getUrl = () => {
     const {
-      match: { params },
+      match: {params},
       data,
     } = this.props
 
@@ -127,29 +128,29 @@ export default class QueryTab extends Component {
   }
 
   handleOnSearch = async () => {
-    const { form } = this.props
+    const {form} = this.props
 
     const values = await form.validateFields()
     if (!values) return
 
     const queryParams = this.getQueryParams()
 
-    this.setState({ loadingSearch: true })
+    this.setState({loadingSearch: true})
     try {
       const res = await dataShareApiApi.getWeatherFuture(queryParams)
       if (res) {
-        this.setState({ dataTable: res.data })
-        const { config: { parameterList = [] } = {} } = form.getFieldsValue()
-        this.setState({ parameterList })
+        this.setState({dataTable: res.data})
+        const {config: {parameterList = []} = {}} = form.getFieldsValue()
+        this.setState({parameterList})
       }
-    } catch (error) { }
-    const initPagination = { current: 1, pageSize: 10 }
-    this.setState({ pagination: initPagination, loadingSearch: false })
+    } catch (error) {}
+    const initPagination = {current: 1, pageSize: 10}
+    this.setState({pagination: initPagination, loadingSearch: false})
   }
 
   getQueryParams = () => {
-    const { form, data } = this.props
-    const { config: fieldsValue } = form.getFieldsValue()
+    const {form, data} = this.props
+    const {config: fieldsValue} = form.getFieldsValue()
 
     let parameterList = fieldsValue.parameterList
     if (Array.isArray(parameterList)) parameterList = parameterList.join(',')
@@ -163,15 +164,15 @@ export default class QueryTab extends Component {
   }
 
   setPagination = pagination => {
-    this.setState({ pagination })
+    this.setState({pagination})
   }
 
   render() {
-    const { form, rule, location, menuApiSharingList, data } = this.props
-    const { dataTable, loadingSearch, pagination, parameterList } = this.state
+    const {form, rule, location, menuApiSharingList, data} = this.props
+    const {dataTable, loadingSearch, pagination, parameterList} = this.state
     const dataExample = getDataExample(menuApiSharingList, location)
     const fieldsDefault = getFieldsDefault(data)
-    
+
     return (
       <React.Fragment>
         <Search onSearch={this.handleOnSearch} loading={loadingSearch}>
@@ -189,9 +190,9 @@ export default class QueryTab extends Component {
               <Method>GET</Method>
               <Endpoint>
                 <Text>{this.getUrl()}</Text>
-                {!isView(rule) && (
+                <PermissionPopover roles={[ROLE.SHARE_API.CREATE, ROLE.SHARE_API.EDIT, ROLE.SHARE_API.DELETE]}>
                   <Icon type="copy" onClick={this.copyUrl} />
-                )}
+                </PermissionPopover>
               </Endpoint>
             </div>
             <Clearfix height={32} />
