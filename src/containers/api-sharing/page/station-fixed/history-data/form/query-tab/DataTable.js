@@ -57,6 +57,7 @@ const DataTable = ({
     {
       dataIndex: 'receivedAt',
       title: i18n.table.time,
+      width: 120,
       render: value => {
         const time = moment(value).format(DD_MM_YYYY_HH_MM)
         return <div>{time}</div>
@@ -70,7 +71,7 @@ const DataTable = ({
     },
     {
       title: i18n.table.pointName,
-      width: 200,
+      width: 270,
       dataIndex: 'name',
       render: value => <div>{value}</div>,
     },

@@ -61,7 +61,7 @@ const DataTable = ({
     },
     {
       title: i18n.table.stationName,
-      width: 200,
+      width: 270,
       dataIndex: 'name',
       render: value => <div>{value}</div>,
     },
