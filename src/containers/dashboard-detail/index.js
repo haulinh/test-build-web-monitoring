@@ -253,6 +253,7 @@ export default class OverviewDashboard extends Component {
               stationStatus={this.state.stationStatus}
               onChange={this.handleProvinceChange}
             />
+            {!this.state.groupLastLog && <BoxLoader />}
             {this.state.groupLastLog && (
               <Spin spinning={this.state.isGetLastLogLoading}>
                 <SummaryList data={this.getSummaryList()} />
