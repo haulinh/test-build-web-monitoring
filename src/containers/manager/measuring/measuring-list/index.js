@@ -1,4 +1,4 @@
-import { Button, Divider, Icon, message } from 'antd'
+import { Button, Divider, Icon } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import DynamicTable from 'components/elements/dynamic-table'
 import ROLE from 'constants/role'
@@ -16,7 +16,6 @@ import { Link } from 'react-router-dom'
 import Breadcrumb from '../breadcrumb'
 import MeasuringSearchForm from '../measuring-search'
 import MeasuringSearchAdvancedForm from '../measuring-search/advanced'
-import { getLastLog } from 'api/StationAuto'
 
 @protectRole(ROLE.MEASURING.VIEW)
 @createManagerList({
@@ -130,25 +129,7 @@ export default class MeasuringList extends React.Component {
   }
 
   async handleOnDelete(_id, key) {
-    const {
-      lang: { t },
-    } = this.props
-
-
-    const { data } = await getLastLog()
-    const isDisable = data.some(item =>
-      item.measuringList.some(measuring => measuring.key === key)
-    )
-    if (isDisable) {
-      message.error({
-        title: t('measuringManager.form.error'),
-        content: t('measuringManager.form.errorDeleteMeasuring'),
-      })
-    } else {
-      this.props.onDeleteItem(_id, this.props.fetchData)
-    }
-
-
+    this.props.onDeleteItem(_id, this.props.fetchData)
   }
 
   renderSearchForm() {

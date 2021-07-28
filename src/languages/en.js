@@ -2558,6 +2558,10 @@ export default {
       errorMessage: {
         roleUsed: 'Role is already in use !',
         measuringUsed: 'Measuring is already in use !',
+        measuringUsedStationAuto:
+          'Measuring is already used in Station Auto configuration !',
+        measuringUsedStationFix:
+          'Measuring is already used in Station Fix configuration !',
         measuringUsedWqi: 'Measuring is already used to calculate WQI !',
         measuringUsedAqi: 'Measuring is already used to calculate AQI !',
         measuringUsedQcvn: 'Measuring is already used in QCVN configuration !',
