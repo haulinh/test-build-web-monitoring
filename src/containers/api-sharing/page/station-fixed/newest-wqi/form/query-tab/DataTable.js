@@ -35,7 +35,7 @@ class WQIList extends React.Component {
     },
     {
       title: i18n.pointName,
-      width: 200,
+      width: 270,
       key: 'name',
       render: (_, record) => {
         const obj = {
@@ -50,13 +50,13 @@ class WQIList extends React.Component {
     },
     {
       title: i18n.lat,
-      width: 90,
+      width: 105,
       key: 'lat',
       dataIndex: 'point.mapLocation.lat',
     },
     {
       title: i18n.lng,
-      width: 90,
+      width: 105,
       key: 'lng',
       dataIndex: 'point.mapLocation.lng',
     },
@@ -77,7 +77,7 @@ class WQIList extends React.Component {
     },
     {
       title: i18n.wqiLevel,
-      width: 100,
+      width: 105,
       key: 'status',
       dataIndex: 'wqiResult.level.name',
       render: value => value ? value : '-'
