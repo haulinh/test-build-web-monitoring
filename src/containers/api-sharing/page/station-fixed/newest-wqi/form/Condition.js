@@ -1,4 +1,5 @@
 import { Col, Form, Row } from 'antd'
+import CalculateApi from 'api/CalculateApi'
 import { SelectPoint } from 'components/elements/select-data'
 import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
@@ -31,18 +32,14 @@ export default class Condition extends React.Component {
   }
 
   onFetchPointsSuccess = points => {
-    this.setState({ points }, () => {
+    this.setState({points}, () => {
       this.setFormInit()
-      const measureListData = this.getMeasuringList()
-      this.props.setMeasureListData(measureListData)
     })
   }
 
   onFetchStationTypesSuccess = stationTypes => {
-    this.setState({ stationTypes }, () => {
+    this.setState({stationTypes}, () => {
       this.setFormInit()
-      const measureListData = this.getMeasuringList()
-      this.props.setMeasureListData(measureListData)
     })
   }
 
@@ -53,32 +50,21 @@ export default class Condition extends React.Component {
   }
 
   setFormInit = () => {
-    const { form, rule } = this.props
+    const {form, rule} = this.props
+    const {stationTypes} = this.state
+    if (!isCreate(rule)) return
+    if (stationTypes.length === 0) return
 
-    if (!isCreate(rule)) {
-      return
-    }
-    const { stationTypes } = this.state
-    const stationTypeInit = (stationTypes[2] || {})._id
-    if (!stationTypeInit) return
-    form.setFieldsValue({
-      [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
-    })
+    const stationTypeInit = stationTypes[0]._id
 
-    const stationAutos = this.getPoints()
+    const stationAutos = this.getPoints({stationType: stationTypeInit})
+
     const stationAutoInit = stationAutos.map(stationAuto => stationAuto.key)
 
-    const phases = this.getPhases()
-    const phasesInit = phases.map(phase => phase._id)
-
-    const measuringList = this.getMeasuringList()
-    const measuringListInit = measuringList.map(item => item.key)
-
     form.setFieldsValue({
-      [`config.${FIELDS.POINT}`]: stationAutoInit,
-      [`config.${FIELDS.PHASE}`]: phasesInit,
-      [`config.${FIELDS.MEASURING_LIST}`]: measuringListInit,
       [`config.${FIELDS.PROVINCE}`]: '',
+      [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
+      [`config.${FIELDS.POINT}`]: stationAutoInit,
     })
   }
 
@@ -97,18 +83,9 @@ export default class Condition extends React.Component {
     })
   }
 
-  getPoints = () => {
-    let { points } = this.state
-    const { form } = this.props
-    const { config: { province, stationType } = {} } = form.getFieldsValue()
-    if (province) {
-      points = points.filter(point => point.provinceId === province)
-    }
-
-    if (stationType) {
-      points = points.filter(point => point.stationTypeId === stationType)
-    }
-
+  getPoints = ({stationType}) => {
+    let {points} = this.state
+    if (stationType) points = points.filter(point => point.stationTypeId === stationType)
     return points
   }
 
@@ -172,6 +149,7 @@ export default class Condition extends React.Component {
               })(
                 <SelectStationType
                   disabled={this.isDisable(FIELDS.STATION_TYPE)}
+                  api={CalculateApi.getStationTypeCalculateByWQI}
                   fieldValue="_id"
                   isAuto={false}
                   onFetchSuccess={this.onFetchStationTypesSuccess}

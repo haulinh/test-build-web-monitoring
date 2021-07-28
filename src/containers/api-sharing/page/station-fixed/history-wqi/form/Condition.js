@@ -8,6 +8,7 @@ import {i18n} from 'containers/api-sharing/constants'
 import {BoxShadow, Header} from 'containers/api-sharing/layout/styles'
 import {isCreate, isView, } from 'containers/api-sharing/util'
 import {withApiSharingDetailContext} from 'containers/api-sharing/withShareApiContext'
+import CalculateApi from 'api/CalculateApi'
 
 export const FIELDS = {
   PROVINCE: 'province',
@@ -50,10 +51,11 @@ export default class Condition extends React.Component {
     if (!isCreate(rule)) return
     if (stationTypes.length === 0) return
 
-    const stationAutos = this.getPoints()
-    const phases = this.getPhases()
-
     const stationTypeInit = stationTypes[0]._id
+
+    const stationAutos = this.getPoints({stationType: stationTypeInit})
+    const phases = this.getPhases({stationType: stationTypeInit})
+
     const stationAutoInit = stationAutos.map(stationAuto => stationAuto.key)
     const phasesInit = phases.map(phase => phase._id)
 
@@ -73,20 +75,14 @@ export default class Condition extends React.Component {
     })
   }
 
-  getPoints = () => {
+  getPoints = ({stationType}) => {
     let {points} = this.state
-    const {form} = this.props
-    const {config: {province, stationType} = {}} = form.getFieldsValue()
-    if (province) points = points.filter(point => point.provinceId === province)
     if (stationType) points = points.filter(point => point.stationTypeId === stationType)
     return points
   }
 
-  getPhases = () => {
+  getPhases = ({stationType}) => {
     let {phases} = this.state
-    const {form} = this.props
-    const {config: {stationType} = {}} = form.getFieldsValue()
-
     if (stationType) phases = phases.filter(phases => phases.stationTypeId === stationType)
     return phases
   }
@@ -127,6 +123,7 @@ export default class Condition extends React.Component {
                   disabled={this.isDisable(FIELDS.STATION_TYPE)}
                   fieldValue="_id"
                   isAuto={false}
+                  api={CalculateApi.getStationTypeCalculateByWQI}
                   onFetchSuccess={this.onFetchStationTypesSuccess}
                 />
               )}
@@ -196,7 +193,7 @@ export default class Condition extends React.Component {
                   },
                 ],
               })(
-                <DatePicker.RangePicker format={formatTime} disabled={this.isDisable(FIELDS.RANGE_TIME)}/>
+                <DatePicker.RangePicker format={formatTime} disabled={this.isDisable(FIELDS.RANGE_TIME)} />
               )}
             </Form.Item>
           </Col>

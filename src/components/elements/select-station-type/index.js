@@ -22,6 +22,7 @@ export default class SelectStationType extends PureComponent {
     isShowAll: PropTypes.bool,
     isAuto: PropTypes.bool,
     getRef: PropTypes.func,
+    api: PropTypes.func,
   }
 
   static defaultProps = {
@@ -36,12 +37,15 @@ export default class SelectStationType extends PureComponent {
   }
 
   async componentDidMount() {
-    const { isAuto, value, isShowAll, getRef, onFetchSuccess } = this.props
-    const results = await CategoryApi.getStationTypes({}, { isAuto })
-    if (results.success)
-      if (typeof onFetchSuccess === 'function') onFetchSuccess(results.data)
+    const { isAuto, value, isShowAll, getRef, api, onFetchSuccess } = this.props
+    const fetchApi = typeof api === 'function' ? api : CategoryApi.getStationTypes
+    const results = await fetchApi({}, { isAuto })
+
+    const data = (Array.isArray(results) ? results : results.data) || []
+    if (typeof onFetchSuccess === 'function') onFetchSuccess(data)
+
     this.setState({
-      stationTypes: results.data || [],
+      stationTypes: data,
       value: value || (isShowAll ? '' : undefined),
     })
 
