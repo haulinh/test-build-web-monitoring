@@ -46,7 +46,7 @@ export default class SelectProvince extends PureComponent {
     ) {
       if (this.props.isUsedId && this.props.value) {
         let res = dataSource.find(item => item._id === this.props.value)
-        return res.key
+        return res ? res.key : null
       }
       return this.props.value
     }

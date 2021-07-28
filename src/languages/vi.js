@@ -2550,6 +2550,10 @@ export default {
       errorMessage: {
         roleUsed: 'Nhóm quyền đang được sử dụng !',
         measuringUsed: 'Chỉ tiêu đang được sử dụng !',
+        measuringUsedStationAuto:
+          'Chỉ tiêu đang được sử dụng trong trạm tự động !',
+        measuringUsedStationFix:
+          'Chỉ tiêu đang được sử dụng trong trạm cố định !',
         measuringUsedWqi: 'Chỉ tiêu đang được sử dụng để tính toán WQI !',
         measuringUsedAqi: 'Chỉ tiêu đang được sử dụng để tính toán AQI !',
         measuringUsedQcvn: 'Chỉ tiêu đang được sử dụng trong cấu hình QCVN !',

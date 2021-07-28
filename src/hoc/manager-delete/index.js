@@ -46,6 +46,18 @@ const createManagerDelete = ({ apiDelete }) => Component => {
               const data = _.get(error, 'response.data', {})
               if (data.code === 'ROLE_IN_USE') {
                 message.error(translate('addon.onDelete.errorMessage.roleUsed'))
+              } else if (data.message === 'MEASURING_USED_STATION_AUTO') {
+                message.error(
+                  translate(
+                    'addon.onDelete.errorMessage.measuringUsedStationAuto'
+                  )
+                )
+              } else if (data.message === 'MEASURING_USED_STATION_FIX') {
+                message.error(
+                  translate(
+                    'addon.onDelete.errorMessage.measuringUsedStationFix'
+                  )
+                )
               } else if (data.message === 'MEASURING_USED') {
                 message.error(
                   translate('addon.onDelete.errorMessage.measuringUsed')
