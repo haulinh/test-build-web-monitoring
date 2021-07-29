@@ -6,7 +6,7 @@ import { getTimes } from 'utils/datetime'
 import Condition from '../Condition'
 import { isCreate, isEdit, isView } from 'containers/api-sharing/util'
 import { withRouter } from 'react-router'
-import { get, isEmpty, isEqual } from 'lodash'
+import { get, isEqual } from 'lodash'
 import GeneralInfo from 'containers/api-sharing/component/GeneralInfo'
 import SettingQuery from 'containers/api-sharing/component/SettingQuery'
 import moment from 'moment'
@@ -14,9 +14,14 @@ import moment from 'moment'
 @withRouter
 @Form.create()
 export default class ConfigTab extends Component {
+  componentDidMount() {
+    if (!isCreate(this.props.rule)) {
+      this.setInitFields()
+    }
+  }
+
   componentDidUpdate(prevProps) {
-    const nextProps = this.props
-    if (!isEmpty(nextProps.data) && !isEqual(prevProps.data, nextProps.data)) {
+    if (!isEqual(prevProps.data, this.props.data)) {
       this.setInitFields()
     }
   }

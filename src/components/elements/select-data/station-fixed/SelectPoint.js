@@ -8,13 +8,16 @@ export class SelectPoint extends React.Component {
   }
 
   fetchPoints = async () => {
+    const {condition} = this.props
     const filterPoint = {
       limit: 100,
       skip: 0,
       where: {
         active: true,
+        ...condition
       },
     }
+
     const points = await getPoint({ filter: filterPoint })
 
     this.setState({

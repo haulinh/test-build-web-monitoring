@@ -83,7 +83,7 @@ export default class Condition extends React.Component {
 
   getPhases = ({stationType}) => {
     let {phases} = this.state
-    if (stationType) phases = phases.filter(phases => phases.stationTypeId === stationType)
+    if (stationType) phases = phases.filter(phase => phase.stationTypeId === stationType)
     return phases
   }
 
@@ -164,6 +164,7 @@ export default class Condition extends React.Component {
                   disabled={this.isDisable(FIELDS.POINT)}
                   mode="multiple"
                   stationTypeId={stationType}
+                  condition={{calculateType: 'WQI'}}
                   provinceId={province}
                   onFetchSuccess={this.onFetchPointsSuccess}
                 />

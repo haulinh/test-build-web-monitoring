@@ -173,6 +173,7 @@ export default class Condition extends React.Component {
                   mode="multiple"
                   stationTypeId={stationType}
                   provinceId={province}
+                  condition={{calculateType: 'WQI'}}
                   onFetchSuccess={this.onFetchPointsSuccess}
                 />
               )}
