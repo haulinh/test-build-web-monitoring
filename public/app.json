@@ -5,9 +5,7 @@
   "apiCamera": "http://27.74.251.0:5020",
   "googleMapKey": "AIzaSyB59vFoavqxzGMzUU0sfKdfygL4lPkuiyY",
   "camera": {
-    "host": "https://dev-camera.ilotusland.asia",
-    "username": "admin",
-    "password": "vietan@123"
+    "host": "https://dev-camera.ilotusland.asia"
   },
   "firebase": {
     "id": "851178570095",
