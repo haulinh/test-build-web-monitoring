@@ -63,14 +63,6 @@ export async function getAuthToken() {
   let auth_digest = Base64.encode(
     username + ':' + cameraNone.nonce + ':' + simplified_ha2
   )
-  // console.log('digest',digest)
-  // console.log('partial_ha2',partial_ha2)
-  // console.log('simplified_ha2',simplified_ha2)
-  // console.log('auth_digest',auth_digest)
-
-  // let link = `https://cameraazu.ilotusland.website/media/d6ae75cd-4255-cfe6-86f3-bd973c44d7a9.webm?auth=${auth_digest}&resolution=360p&sfd&rt`
-  // console.log('let,',link)
-  window.auth_camera = auth_digest
   return auth_digest
 }
 

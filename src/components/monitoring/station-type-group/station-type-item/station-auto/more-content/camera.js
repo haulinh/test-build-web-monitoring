@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import { getAuthToken } from 'api/CameraApi'
+import { getAuthTokenCamera } from 'api/StationAuto'
 import { Spin } from 'antd'
 import swal from 'sweetalert2'
 import CameraList from 'components/camera-video'
@@ -35,14 +35,14 @@ export default class CameraForm extends PureComponent {
 
   async componentDidMount() {
     //todo
-    const auth = await getAuthToken()
+    const auth = await getAuthTokenCamera()
     if (!auth) {
       swal({
         title: 'Unauthorized Camera fail',
         type: 'error',
       })
     }
-    this.setState({ auth, isLoaded: true })
+    this.setState({ auth: auth.token, isLoaded: true })
   }
 
   render() {

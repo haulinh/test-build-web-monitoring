@@ -101,6 +101,10 @@ export function getCamera() {
   return getFetch(getStationAutoUrl(`camera`))
 }
 
+export function getAuthTokenCamera() {
+  return getFetch(getStationAutoUrl(`camera/auth`))
+}
+
 export function getWarningConfig() {
   return getFetch(getStationAutoUrl('warning/config'))
 }
@@ -139,6 +143,7 @@ export function getDashboardInfo(params) {
 export default {
   transferFtp,
   getCamera,
+  getAuthTokenCamera,
   getStationAutos,
   getStationAutoAll,
   getStationAuto,
@@ -155,5 +160,5 @@ export default {
   getWarningConfig,
   updateStationAutoOptions,
   tranferBonusFTP,
-  getTotalCount_by_province
+  getTotalCount_by_province,
 }
