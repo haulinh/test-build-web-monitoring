@@ -106,7 +106,7 @@ export default {
     editWithKey: '/station-fixed/edit',
     importPoint: '/station-fixed/import-point',
     importData: '/station-fixed/import-data',
-    map: '/station-fixed/map'
+    map: '/station-fixed/map',
   },
   configWQI: {
     list: '/config-wqi',
@@ -260,6 +260,14 @@ export default {
   config: {
     service: '/config/services',
   },
+  periodicalForecast: {
+    base: '/periodical-forecast',
+    station: '/periodical-forecast/station',
+    stationEdit: '/periodical-forecast/station/edit',
+    stationCreate: '/periodical-forecast/station/create',
+    importStation: '/periodical-forecast/import',
+    search: '/periodical-forecast/search',
+  },
 }
 
 export const MENU_GROUP = {
@@ -271,6 +279,7 @@ export const MENU_GROUP = {
   ADVANCE: 'advance',
   CONFIG: 'config',
   STATIONFIXED: 'stationFixed',
+  PERIODICAL_FORECAST: 'periodicalForecast',
 }
 
 export const parentMenuFromSub = {
