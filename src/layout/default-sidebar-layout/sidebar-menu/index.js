@@ -5,7 +5,7 @@ import { autobind } from 'core-decorators'
 import { connect } from 'react-redux'
 import { Menu } from 'antd'
 import { remove as _remove, join as _join } from 'lodash'
-import {parentMenuFromSub} from 'constants/slug'
+import { parentMenuFromSub } from 'constants/slug'
 // import { translate } from 'hoc/create-lang'
 import { selectMenu, changeOpenSubMenu } from 'redux/actions/themeAction'
 // import { adapt } from "chromatism";
@@ -22,6 +22,7 @@ import AdvanceMenu from '../AdvanceMenu'
 import ConfigMenu from '../ConfigMenu'
 import StationFixedMenu from '../StationFixedMenu'
 import DashboardMenu from '../DashboardMenu'
+import PeriodicalForecastMenu from '../PeriodicalForecastMenu'
 
 import { SIDEBAR_GLOBAL_WIDTH } from '../sidebar-global/style'
 import objectPath from 'object-path'
@@ -205,7 +206,6 @@ export default class MenuApp extends React.PureComponent {
             mode="inline"
             // inlineCollapsed={!isOpen}
           >
-
             {/* Dashboard */}
             {this.checkRoleForGroup([
               ROLE.DASHBOARD.VIEW,
@@ -227,13 +227,17 @@ export default class MenuApp extends React.PureComponent {
             ]) && HandleDataMenu.renderComp(this.props)}
 
             {this.checkRoleForGroup([
+              ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW,
+              ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW,
+            ]) && PeriodicalForecastMenu.renderComp(this.props)}
+
+            {this.checkRoleForGroup([
               ROLE.STATION_FIXED_PHASE.VIEW,
               ROLE.STATION_FIXED.VIEW,
               ROLE.STATION_FIXED_INPUT.VIEW,
               ROLE.STATION_FIXED_SEARCH.VIEW,
               ROLE.MAP_STATION_FIXED.VIEW,
-            ]) &&
-              StationFixedMenu.renderComp(this.props)}
+            ]) && StationFixedMenu.renderComp(this.props)}
 
             {this.checkRoleForGroup([
               ROLE.QAQCCONFIG.VIEW,
@@ -264,7 +268,7 @@ export default class MenuApp extends React.PureComponent {
               ROLE.CONFIG_WQI.VIEW,
               ROLE.CAU_HINH_TINH_TOAN_AQI.VIEW,
               ROLE.CAU_HINH_TINH_TOAN_WQI.VIEW,
-              ROLE.WQI_PERIODIC.VIEW
+              ROLE.WQI_PERIODIC.VIEW,
             ]) && AdvanceMenu.renderComp(this.props)}
 
             {this.checkRoleForGroup([
