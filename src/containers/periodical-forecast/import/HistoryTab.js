@@ -16,6 +16,13 @@ const FIELDS = {
   RANGE_TIME: 'rangeTime',
 }
 
+const i18n = {
+  fileName: 'Tên file',
+  broadcastTime: 'Ngày phát bản tin',
+  createdAt: 'Thời gian tải lên',
+  user: 'Người tải lên',
+}
+
 @Form.create()
 export default class HistoryTab extends Component {
   state = {
@@ -42,10 +49,10 @@ export default class HistoryTab extends Component {
 
   head = [
     { content: '#', width: 2 },
-    { content: 'Ten file' },
-    { content: 'Ngay phat ban tin' },
-    { content: 'Thoi gian tai len' },
-    { content: 'Nguoi tai len' },
+    { content: i18n.fileName },
+    { content: i18n.broadcastTime },
+    { content: i18n.createdAt },
+    { content: i18n.user },
     { content: '' },
   ]
 
@@ -71,7 +78,7 @@ export default class HistoryTab extends Component {
         content: <div>{`${item.user.lastName} ${item.user.firstName}`}</div>,
       },
       {
-        content: <a href={item.filePath}>Tai ve</a>,
+        content: <a href={item.filePath}>Tải về</a>,
       },
     ])
   }
@@ -86,7 +93,7 @@ export default class HistoryTab extends Component {
           <Col>
             {form.getFieldDecorator(FIELDS.FILE_NAME)(
               <Search
-                placeholder="input search text"
+                placeholder="Tên file"
                 onSearch={this.onSearch}
                 style={{ width: 320 }}
               />

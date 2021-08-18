@@ -7,6 +7,7 @@ import { Row, Col, DatePicker, Form } from 'antd'
 import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
 import SelectStation from 'components/elements/select-data/periodic-forecast/SelectStation'
 import TabResult from './TabResult'
+import Breadcrumb from '../breadcrumb'
 
 const FIELDS = {
   stationKeys: 'stationKeys',
@@ -53,6 +54,7 @@ export default class SearchContainer extends Component {
     const { data, loading } = this.state
     return (
       <PageContainer>
+        <Breadcrumb items={['search']} />
         <Search onSearch={this.handleOnSearch} loading={loading}>
           <BoxShadow>
             <Row gutter={12}>

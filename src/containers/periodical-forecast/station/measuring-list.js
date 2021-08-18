@@ -274,33 +274,6 @@ export default class MeasuringList extends React.Component {
         align: 'center',
         title: 'Đơn vị',
       },
-      {
-        title: '',
-        render: (text, record, index) => {
-          return (
-            <div
-              style={{
-                textAlign: 'center',
-              }}
-              className="editable-row-operations"
-            >
-              <span>
-                <Popconfirm
-                  title={i18n.delete}
-                  onConfirm={() => this.handleRemoveRow(index)}
-                >
-                  <a>
-                    <Icon
-                      type="delete"
-                      style={{ marginLeft: '5px', color: 'red' }}
-                    />
-                  </a>
-                </Popconfirm>
-              </span>
-            </div>
-          )
-        },
-      },
     ]
   }
 

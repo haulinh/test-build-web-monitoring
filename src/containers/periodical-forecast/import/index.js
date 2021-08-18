@@ -4,12 +4,15 @@ import React from 'react'
 import HistoryTab from './HistoryTab'
 import ImportTab from './ImportTab'
 
+import Breadcrumb from '../breadcrumb'
+
 const { TabPane } = Tabs
 
 export default class Import extends React.Component {
   render() {
     return (
       <PageContainer>
+        <Breadcrumb items={['import']} />
         <Tabs defaultActiveKey="1">
           <TabPane tab="Nhập dữ liệu" key="1">
             <ImportTab />

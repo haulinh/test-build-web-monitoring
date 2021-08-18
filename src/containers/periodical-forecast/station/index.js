@@ -119,7 +119,11 @@ export default class Station extends React.Component {
         content: <div>{item.name}</div>,
       },
       {
-        content: <div>{item.address}</div>,
+        content: (
+          <div style={{ width: '240px', wordWrap: 'break-word' }}>
+            {item.address}
+          </div>
+        ),
       },
       {
         content: this.renderActionGroup(item),

@@ -12,7 +12,7 @@ import Breadcrumb from '../breadcrumb'
 import StationForm from './StationForm'
 
 const i18n = {
-  success: translate('stationTypeManager.create.success'),
+  success: 'Thêm mới trạm thành công ',
   error: translate('addon.onSave.add.error'),
 }
 @protectRole(ROLE.STATION_FIXED.CREATE)
