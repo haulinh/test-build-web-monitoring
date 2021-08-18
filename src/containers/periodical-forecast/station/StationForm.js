@@ -1,18 +1,14 @@
-import React from 'react'
-import { Form, Input, Row, Col, InputNumber, Button, Collapse } from 'antd'
-import PropTypes from 'prop-types'
-import * as _ from 'lodash'
-import styled from 'styled-components'
-
+import { Button, Col, Collapse, Form, Input, Row } from 'antd'
 /** */
 import Clearfix from 'components/elements/clearfix'
-import InputPhoneNumber from 'components/elements/input-phone-number'
-import createLanguageHoc, { translate } from 'hoc/create-lang'
-import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
-import SelectStationType from 'components/elements/select-station-type-v2'
-import SelectQCVN from 'components/elements/select-qcvn-v2'
-import SelectProvince from 'components/elements/select-province'
 import InputNumberCell from 'components/elements/input-number-cell'
+import InputPhoneNumber from 'components/elements/input-phone-number'
+import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
+import createLanguageHoc, { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 import MeasuringList from './measuring-list'
 
 const { TextArea } = Input
@@ -171,6 +167,8 @@ const Fields = {
   purposeUsed: 'purposeUsed',
   lakeCapacity: 'lakeCapacity',
   catchmentArea: 'catchmentArea',
+  capacity: 'capacity',
+  career: 'career',
 }
 
 @Form.create({})
@@ -194,7 +192,6 @@ export default class StationForm extends React.Component {
           _.omit(item, ['rowKey'])
         ),
       }
-      console.log({ data })
 
       const res = await this.props.onSubmit(data)
       if (res && res.status) {
@@ -542,56 +539,6 @@ export default class StationForm extends React.Component {
                     'phoneSupervisor',
                     {}
                   )(<InputPhoneNumber size="medium" />)}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row gutter={8}>
-              <Col span={24} style={{ paddingRight: 40 }}>
-                <FormItem
-                  {...formItemLayout}
-                  labelCol={{
-                    sm: { span: 3, offset: 0 },
-                  }}
-                  wrapperCol={{
-                    sm: { span: 21, offset: 0 },
-                  }}
-                  label={t('stationAutoManager.form.material.label')}
-                >
-                  {getFieldDecorator(
-                    'material',
-                    {}
-                  )(
-                    <Input
-                      placeholder={t(
-                        'stationAutoManager.form.material.placeholder'
-                      )}
-                    />
-                  )}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row gutter={8}>
-              <Col span={24} style={{ paddingRight: 40 }}>
-                <FormItem
-                  {...formItemLayout}
-                  labelCol={{
-                    sm: { span: 3, offset: 0 },
-                  }}
-                  wrapperCol={{
-                    sm: { span: 21, offset: 0 },
-                  }}
-                  label={t('stationAutoManager.form.processProduction.label')}
-                >
-                  {getFieldDecorator(
-                    'processProduction',
-                    {}
-                  )(
-                    <TextArea
-                      placeholder={t(
-                        'stationAutoManager.form.processProduction.placeholder'
-                      )}
-                    />
-                  )}
                 </FormItem>
               </Col>
             </Row>

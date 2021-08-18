@@ -44,7 +44,6 @@ export default class StationEdit extends React.PureComponent {
   }
 
   render() {
-    console.log({ data: this.props.data })
     return (
       <PageContainer>
         <Spin spinning={!this.props.isLoaded}>

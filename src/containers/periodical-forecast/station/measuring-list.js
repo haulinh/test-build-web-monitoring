@@ -50,7 +50,7 @@ export default class MeasuringList extends React.Component {
     this.setState({
       isLoaded: false,
     })
-    const [measuringList, QCVN] = await Promise.all([
+    const [measuringList] = await Promise.all([
       CategoryApi.getMeasurings({ page: 1, itemPerPage: 100000 }, {}),
     ])
     this.setState({
@@ -385,7 +385,6 @@ export default class MeasuringList extends React.Component {
   }
 
   render() {
-    console.log({ value: this.props.value })
     return (
       <WrapperComponent>
         {this.state.isLoaded && (

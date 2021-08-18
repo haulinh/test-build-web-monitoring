@@ -1,17 +1,15 @@
-import React from 'react'
 import { message } from 'antd'
-
+import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
+import Clearfix from 'components/elements/clearfix'
+import ROLE from 'constants/role'
 /** */
 import slug from 'constants/slug'
-import Breadcrumb from '../breadcrumb'
-import StationForm from './StationForm'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import Clearfix from 'components/elements/clearfix'
-import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi.js'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
-import ROLE from 'constants/role'
-import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import React from 'react'
+import Breadcrumb from '../breadcrumb'
+import StationForm from './StationForm'
 
 const i18n = {
   success: translate('stationTypeManager.create.success'),
