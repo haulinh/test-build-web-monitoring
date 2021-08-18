@@ -50,7 +50,7 @@ export default class MeasuringList extends React.Component {
     this.setState({
       isLoaded: false,
     })
-    const [measuringList, QCVN] = await Promise.all([
+    const [measuringList] = await Promise.all([
       CategoryApi.getMeasurings({ page: 1, itemPerPage: 100000 }, {}),
     ])
     this.setState({
@@ -274,33 +274,6 @@ export default class MeasuringList extends React.Component {
         align: 'center',
         title: 'Đơn vị',
       },
-      {
-        title: '',
-        render: (text, record, index) => {
-          return (
-            <div
-              style={{
-                textAlign: 'center',
-              }}
-              className="editable-row-operations"
-            >
-              <span>
-                <Popconfirm
-                  title={i18n.delete}
-                  onConfirm={() => this.handleRemoveRow(index)}
-                >
-                  <a>
-                    <Icon
-                      type="delete"
-                      style={{ marginLeft: '5px', color: 'red' }}
-                    />
-                  </a>
-                </Popconfirm>
-              </span>
-            </div>
-          )
-        },
-      },
     ]
   }
 
@@ -385,7 +358,6 @@ export default class MeasuringList extends React.Component {
   }
 
   render() {
-    console.log({ value: this.props.value })
     return (
       <WrapperComponent>
         {this.state.isLoaded && (

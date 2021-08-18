@@ -19,4 +19,14 @@ export default createBreadcrumb({
     href: slug.periodicalForecast.stationEdit,
     name: translate('stationFixedPoint.edit.label'),
   },
+  import: {
+    id: 'import',
+    href: slug.periodicalForecast.importStation,
+    name: 'Nhập dữ liệu',
+  },
+  search: {
+    id: 'search',
+    href: slug.periodicalForecast.search,
+    name: 'Tra cứu dữ liệu',
+  },
 })

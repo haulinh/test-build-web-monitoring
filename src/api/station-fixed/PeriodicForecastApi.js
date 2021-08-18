@@ -12,10 +12,12 @@ export function getStationFixedUrl(prefix = '') {
   return getConfigApi().stationFixed + '/' + prefix
 }
 
-export function exportDataTemplate(measurings = []) {
+export function exportDataTemplate() {
   const lang = getLanguage()
-  const url = getStationFixedUrl('export-data-template') + '/' + lang
-  return getFetchDownFile(url, { measurings })
+  const url = getStationFixedUrl(
+    `data-periodic-forecast/data-template?lang=${lang}`
+  )
+  return getFetchDownFile(url)
 }
 
 export function exportMonitoringPointTemplate(measurings = []) {
@@ -74,8 +76,13 @@ export function importDataStationFixed(data) {
   return postFetch(getStationFixedUrl('import-data'), data)
 }
 
-export function importMultiPoint(data) {
-  return postFetch(getStationFixedUrl('import-multi-point'), data)
+export function importStation(data) {
+  return postFetch(getStationFixedUrl('data-periodic-forecast/import'), data)
+}
+
+export function getDataPeriodicForecast(params) {
+  const url = getStationFixedUrl('data-periodic-forecast')
+  return getFetch(url, params)
 }
 
 export function getLastLog() {
@@ -86,6 +93,11 @@ export function updateConfig(id, data) {
   return pathFetch(getStationFixedUrl(`${id}/config`), data)
 }
 
+export function getImportHistory(params) {
+  const url = getStationFixedUrl('import-history')
+  return getFetch(url, params)
+}
+
 export default {
   getStationPeriodicForecast,
   getStationById,
@@ -94,6 +106,10 @@ export default {
   updateStation,
   deactivateStation,
   activeStation,
+  importStation,
   getLastLog,
   updateConfig,
+  exportDataTemplate,
+  getImportHistory,
+  getDataPeriodicForecast,
 }

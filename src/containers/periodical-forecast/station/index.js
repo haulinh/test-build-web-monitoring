@@ -1,37 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import {
-  Divider,
-  Button,
-  Icon,
-  Modal,
-  message,
-  Menu,
-  Dropdown,
-  Row,
-  Col,
-} from 'antd'
-import { autobind } from 'core-decorators'
-import * as _ from 'lodash'
-import styled from 'styled-components'
-
-/** */
-import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi.js'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import slug from 'constants/slug'
-
-import createManagerList from 'hoc/manager-list'
-import createManagerDelete from 'hoc/manager-delete'
-import Breadcrumb from '../breadcrumb'
-import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
-import DynamicTable from 'components/elements/dynamic-table'
-import { translate } from 'hoc/create-lang'
-import protectRole from 'hoc/protect-role'
-import ROLE from 'constants/role'
+import { Button, Divider, Dropdown, Icon, Menu, message, Modal } from 'antd'
 import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
-import moment from 'moment-timezone'
-import { DD_MM_YYYY } from 'constants/format-date'
+import DynamicTable from 'components/elements/dynamic-table'
+import ROLE from 'constants/role'
+import slug from 'constants/slug'
+import { autobind } from 'core-decorators'
+import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
+import createManagerDelete from 'hoc/manager-delete'
+import createManagerList from 'hoc/manager-list'
+import protectRole from 'hoc/protect-role'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import * as _ from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import Breadcrumb from '../breadcrumb'
 
 const LinkSpan = styled.span`
   color: #000;
@@ -136,7 +119,11 @@ export default class Station extends React.Component {
         content: <div>{item.name}</div>,
       },
       {
-        content: <div>{item.address}</div>,
+        content: (
+          <div style={{ width: '240px', wordWrap: 'break-word' }}>
+            {item.address}
+          </div>
+        ),
       },
       {
         content: this.renderActionGroup(item),
