@@ -187,6 +187,10 @@ export default class ImportTab extends React.Component {
     if (errorDetail.error)
       return <div>{IMPORT_DATA_ERROR[errorDetail.error]}</div>
 
+    if (errorDetail.general) {
+      return <div>{IMPORT_DATA_ERROR[errorDetail.general[0]]}</div>
+    }
+
     return (
       <div>
         {Object.keys(errorDetail).map(
