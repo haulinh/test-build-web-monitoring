@@ -49,6 +49,12 @@ export default class SearchContainer extends Component {
     this.setState({ data: result, loading: false })
   }
 
+  onFetchStationSuccess = stations => {
+    const stationKeys = stations.map(station => station.key)
+    const { form } = this.props
+    form.setFieldsValue({ [FIELDS.stationKeys]: stationKeys })
+  }
+
   render() {
     const { form } = this.props
     const { data, loading } = this.state
@@ -68,7 +74,9 @@ export default class SearchContainer extends Component {
               <Col span={16}>
                 <Form.Item label={i18n.stationKeys}>
                   {form.getFieldDecorator(FIELDS.stationKeys)(
-                    <SelectStation />
+                    <SelectStation
+                      onFetchStationSuccess={this.onFetchStationSuccess}
+                    />
                   )}
                 </Form.Item>
               </Col>
