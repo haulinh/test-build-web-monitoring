@@ -30,6 +30,22 @@ export default class HistoryTab extends Component {
     loading: false,
   }
 
+  async componentDidMount() {
+    const times = {
+      from: moment().subtract(1, 'year'),
+      to: moment(),
+    }
+    const { from, to } = getTimesUTC(times)
+    const params = {
+      type: 'periodic-forecast',
+      from,
+      to,
+    }
+    this.setState({ loading: true })
+    const result = await PeriodicForecastApi.getImportHistory(params)
+    this.setState({ data: result, loading: false })
+  }
+
   onSearch = async () => {
     const { form } = this.props
     const values = form.getFieldsValue()
