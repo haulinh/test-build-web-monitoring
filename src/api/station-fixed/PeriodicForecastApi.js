@@ -27,16 +27,24 @@ export function exportMonitoringPointTemplate(measurings = []) {
   return getFetchDownFile(url, { measurings })
 }
 
-export async function getStationPeriodicForecast({
-  page = 1,
-  itemPerPage = 1000,
-}) {
+export async function getStationPeriodicForecast(
+  { page = 1, itemPerPage = 1000 },
+  { name } = {}
+) {
   let filter = {}
   if (page && itemPerPage) {
     filter = {
       skip: page - 1,
       limit: itemPerPage,
     }
+  }
+  const nameReplaced = (name || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+  filter = {
+    ...filter,
+    where: {
+      name: nameReplaced ? { regexp: nameReplaced, options: 'i' } : undefined,
+    },
   }
 
   let url = getStationFixedUrl('periodic-forecast')
