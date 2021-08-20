@@ -116,11 +116,15 @@ export default class Station extends React.Component {
         content: <strong>{idx + 1}</strong>,
       },
       {
-        content: <div>{item.key}</div>,
+        content: (
+          <div style={{ width: '300px', wordWrap: 'break-word' }}>
+            {item.key}
+          </div>
+        ),
       },
       {
         content: (
-          <div style={{ width: '100%', wordWrap: 'break-word' }}>
+          <div style={{ width: '300px', wordWrap: 'break-word' }}>
             {item.name}
           </div>
         ),

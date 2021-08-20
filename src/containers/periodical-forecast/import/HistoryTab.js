@@ -31,15 +31,8 @@ export default class HistoryTab extends Component {
   }
 
   async componentDidMount() {
-    const times = {
-      from: moment().subtract(1, 'year'),
-      to: moment(),
-    }
-    const { from, to } = getTimesUTC(times)
     const params = {
       type: 'periodic-forecast',
-      from,
-      to,
     }
     this.setState({ loading: true })
     const result = await PeriodicForecastApi.getImportHistory(params)
@@ -49,15 +42,23 @@ export default class HistoryTab extends Component {
   onSearch = async () => {
     const { form } = this.props
     const values = form.getFieldsValue()
-    console.log({ values })
-    const times = getTimes(values.rangeTime)
-    const { from, to } = getTimesUTC(times)
-    const params = {
+
+    let params = {
       fileName: values.fileName,
       type: 'periodic-forecast',
-      from,
-      to,
     }
+
+    if (values.rangeTime) {
+      const times = getTimes(values.rangeTime)
+      const { from, to } = getTimesUTC(times)
+      params = {
+        fileName: values.fileName,
+        type: 'periodic-forecast',
+        from,
+        to,
+      }
+    }
+
     this.setState({ loading: true })
     const result = await PeriodicForecastApi.getImportHistory(params)
     this.setState({ data: result, loading: false })
