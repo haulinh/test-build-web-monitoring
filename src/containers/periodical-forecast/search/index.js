@@ -8,6 +8,7 @@ import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
 import SelectStation from 'components/elements/select-data/periodic-forecast/SelectStation'
 import TabResult from './TabResult'
 import Breadcrumb from '../breadcrumb'
+import moment from 'moment-timezone'
 
 const FIELDS = {
   stationKeys: 'stationKeys',
@@ -51,8 +52,20 @@ export default class SearchContainer extends Component {
 
   onFetchStationSuccess = stations => {
     const stationKeys = stations.map(station => station.key)
+    const latestBroadcastTime = this.getLatestBroadcastTime(stations)
     const { form } = this.props
-    form.setFieldsValue({ [FIELDS.stationKeys]: stationKeys })
+    form.setFieldsValue({
+      [FIELDS.stationKeys]: stationKeys,
+      [FIELDS.broadcastTime]: latestBroadcastTime,
+    })
+    this.handleOnSearch()
+  }
+
+  getLatestBroadcastTime = stations => {
+    const latestBroadcastTimeStations = stations
+      .filter(station => station.latestBroadcastTime)
+      .map(station => moment(station.latestBroadcastTime))
+    return moment.max(latestBroadcastTimeStations)
   }
 
   render() {
@@ -66,9 +79,9 @@ export default class SearchContainer extends Component {
             <Row gutter={12}>
               <Col span={8}>
                 <Form.Item label={i18n.broadcastTime}>
-                  {form.getFieldDecorator(FIELDS.broadcastTime)(
-                    <DatePicker style={{ width: '100%' }} />
-                  )}
+                  {form.getFieldDecorator(FIELDS.broadcastTime, {
+                    // initialValue: moment(),
+                  })(<DatePicker style={{ width: '100%' }} />)}
                 </Form.Item>
               </Col>
               <Col span={16}>
