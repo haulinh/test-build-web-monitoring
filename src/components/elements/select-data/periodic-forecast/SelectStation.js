@@ -10,6 +10,9 @@ export default class SelectStation extends Component {
   async componentDidMount() {
     const result = await PeriodicForecastApi.getStationPeriodicForecast({})
     this.setState({ stations: result.data })
+    if (this.props.onFetchStationSuccess) {
+      this.props.onFetchStationSuccess(result.data)
+    }
   }
 
   render() {

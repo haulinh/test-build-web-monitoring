@@ -1,5 +1,5 @@
 import { Table, Tabs } from 'antd'
-import { HH_MM_DD_MM_YYYY } from 'constants/format-date'
+import { DD_MM_YYYY_HH_MM, HH_MM_DD_MM_YYYY } from 'constants/format-date'
 import moment from 'moment'
 import React from 'react'
 
@@ -38,11 +38,12 @@ const TableStation = ({ data, loading }) => {
       title: i18n.date,
       dataIndex: 'createdAt',
       render: value => {
-        return <div>{moment(value).format(HH_MM_DD_MM_YYYY)}</div>
+        return <div>{moment(value).format(DD_MM_YYYY_HH_MM)}</div>
       },
     },
     {
       title: i18n.dataType,
+      align: 'center',
       dataIndex: 'dataType',
       render: value => {
         return <div>{valueMapKey.dataType[value]}</div>
@@ -50,6 +51,7 @@ const TableStation = ({ data, loading }) => {
     },
     {
       title: i18n.measureValue,
+      align: 'center',
       dataIndex: 'measureValue',
       render: value => {
         return <div>{value}</div>
@@ -57,6 +59,7 @@ const TableStation = ({ data, loading }) => {
     },
     {
       title: i18n.alarmLevelI,
+      align: 'center',
       dataIndex: 'alarmLevelI',
       render: value => {
         return <div>{value}</div>
@@ -64,6 +67,7 @@ const TableStation = ({ data, loading }) => {
     },
     {
       title: i18n.alarmLevelII,
+      align: 'center',
       dataIndex: 'alarmLevelII',
       render: value => {
         return <div>{value}</div>
@@ -71,13 +75,15 @@ const TableStation = ({ data, loading }) => {
     },
     {
       title: i18n.alarmLevelIII,
+      align: 'center',
       dataIndex: 'alarmLevelIII',
       render: value => {
         return <div>{value}</div>
       },
     },
     {
-      title: i18n.alarmLevelIII,
+      title: i18n.dataSource,
+      align: 'center',
       dataIndex: 'dataSource',
       render: value => {
         return <div>{valueMapKey.dataSource[value]}</div>
