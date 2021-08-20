@@ -84,7 +84,7 @@ const IMPORT_DATA_ERROR = {
   BROADCAST_DATE_INVALID: 'Ngày phát bản tin sai định dạng',
   REAL_DATA_INVALID: 'Dữ liệu thật có ngày không hợp lệ',
   INVALID_DAY_DATA_NUMBER: 'Số dữ liệu ngày không hợp lệ',
-  FORECAST_DATA_INVALID: 'Dữ liệu dự báo cáo ngày không hợp lệ',
+  FORECAST_DATA_INVALID: 'Dữ liệu dự báo có ngày không hợp lệ',
 }
 
 const Text = styled.div`
