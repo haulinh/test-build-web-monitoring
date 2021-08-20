@@ -16,6 +16,9 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Breadcrumb from '../breadcrumb'
 
+import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
+import StationSearch from './StationSearch'
+
 const LinkSpan = styled.span`
   color: #000;
   &:hover {
@@ -116,11 +119,15 @@ export default class Station extends React.Component {
         content: <div>{item.key}</div>,
       },
       {
-        content: <div>{item.name}</div>,
+        content: (
+          <div style={{ width: '100%', wordWrap: 'break-word' }}>
+            {item.name}
+          </div>
+        ),
       },
       {
         content: (
-          <div style={{ width: '240px', wordWrap: 'break-word' }}>
+          <div style={{ width: '100%', wordWrap: 'break-word' }}>
             {item.address}
           </div>
         ),
@@ -235,9 +242,28 @@ export default class Station extends React.Component {
     })
   }
 
+  handleSearch(values) {
+    const where = {
+      name: values.name,
+    }
+
+    if (this.props.onChangeSearch) this.props.onChangeSearch(where)
+  }
+
   render() {
     return (
-      <PageContainer right={this.buttonAdd()}>
+      <PageContainer
+        center={
+          <HeaderSearchWrapper flex={1}>
+            <StationSearch
+              stationLength={this.props.pagination.totalItem}
+              onChangeSearch={this.handleSearch}
+              initialValues={this.props.data}
+            />
+          </HeaderSearchWrapper>
+        }
+        right={this.buttonAdd()}
+      >
         <Breadcrumb items={['list']} />
         <DynamicTable
           loading={this.props.isLoading}
