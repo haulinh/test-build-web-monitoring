@@ -1,5 +1,6 @@
 import { Table, Tabs } from 'antd'
 import { DD_MM_YYYY_HH_MM, HH_MM_DD_MM_YYYY } from 'constants/format-date'
+import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 
@@ -26,7 +27,9 @@ const i18n = {
   dataSource: 'Nguồn dữ liệu',
 }
 
-const TableStation = ({ data, loading }) => {
+const TableStation = ({ data, station, loading }) => {
+  const measure = _.get(station, 'measuringList[0].name', '')
+  const unit = _.get(station, 'measuringList[0].unit', '')
   const columns = [
     {
       title: '#',
@@ -36,7 +39,7 @@ const TableStation = ({ data, loading }) => {
     },
     {
       title: i18n.date,
-      dataIndex: 'createdAt',
+      dataIndex: 'datetime',
       render: value => {
         return <div>{moment(value).format(DD_MM_YYYY_HH_MM)}</div>
       },
@@ -50,7 +53,7 @@ const TableStation = ({ data, loading }) => {
       },
     },
     {
-      title: i18n.measureValue,
+      title: `${measure} ${unit && `(${unit})`}`,
       align: 'center',
       dataIndex: 'measureValue',
       render: value => {
@@ -108,7 +111,11 @@ export default function TabResult({ data, loading }) {
       <Tabs>
         {tabs.map(tabKey => (
           <TabPane tab={data[tabKey].station.name} key={tabKey}>
-            <TableStation data={data[tabKey].data} loading={loading} />
+            <TableStation
+              data={data[tabKey].data}
+              station={data[tabKey].station}
+              loading={loading}
+            />
           </TabPane>
         ))}
       </Tabs>

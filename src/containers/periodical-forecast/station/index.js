@@ -111,30 +111,32 @@ export default class Station extends React.Component {
   }
 
   getRows() {
+    const styled = {
+      wordWrap: 'break-word',
+      // textOverflow: 'ellipsis',
+      width: '450px',
+    }
+
     return this.props.dataSource.map((item, idx) => [
       {
         content: <strong>{idx + 1}</strong>,
       },
       {
         content: (
-          <div style={{ width: '300px', wordWrap: 'break-word' }}>
+          <div style={{ width: '200px', wordWrap: 'break-word' }}>
             {item.key}
           </div>
         ),
       },
       {
         content: (
-          <div style={{ width: '300px', wordWrap: 'break-word' }}>
+          <div style={{ width: '200px', wordWrap: 'break-word' }}>
             {item.name}
           </div>
         ),
       },
       {
-        content: (
-          <div style={{ width: '100%', wordWrap: 'break-word' }}>
-            {item.address}
-          </div>
-        ),
+        content: <div style={styled}>{item.address}</div>,
       },
       {
         content: this.renderActionGroup(item),
