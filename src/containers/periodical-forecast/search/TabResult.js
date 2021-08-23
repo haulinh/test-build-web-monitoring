@@ -40,6 +40,8 @@ const TableStation = ({ data, station, loading }) => {
     {
       title: i18n.date,
       dataIndex: 'datetime',
+      defaultSortOrder: 'ascend',
+      sorter: (a, b) => new Date(a.datetime) - new Date(b.datetime),
       render: value => {
         return <div>{moment(value).format(DD_MM_YYYY_HH_MM)}</div>
       },
@@ -48,6 +50,7 @@ const TableStation = ({ data, station, loading }) => {
       title: i18n.dataType,
       align: 'center',
       dataIndex: 'dataType',
+
       render: value => {
         return <div>{valueMapKey.dataType[value]}</div>
       },
