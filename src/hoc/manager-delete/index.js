@@ -88,6 +88,12 @@ const createManagerDelete = ({ apiDelete }) => Component => {
                     )
                     break
                   }
+                  case 'FORECAST_USED': {
+                    message.error(
+                      translate('addon.onDelete.errorMessage.stationUsed')
+                    )
+                    break
+                  }
                   default: {
                     message.error(translate('addon.onDelete.error'))
                     break

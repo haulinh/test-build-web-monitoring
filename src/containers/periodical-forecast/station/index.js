@@ -44,7 +44,7 @@ const i18n = {
   },
   list: {
     restore: translate('stationFixedPoint.list.restore'),
-    remove: 'Trạm quan trắc đang được sử dụng để nhập dữ liệu!',
+    remove: translate('stationAutoManager.list.remove'),
   },
   onDisable: {
     success: translate('addon.onDisable.success'),

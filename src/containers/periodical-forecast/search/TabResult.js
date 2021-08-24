@@ -21,9 +21,9 @@ const i18n = {
   date: 'Ngày',
   dataType: 'Kiểu dữ liệu',
   measureValue: 'Mực nước',
-  alarmLevelI: 'Cấp báo động I',
-  alarmLevelII: 'Cấp báo động II',
-  alarmLevelIII: 'Cấp báo động III',
+  alarmLevelI: 'Cấp báo động I (m)',
+  alarmLevelII: 'Cấp báo động II (m)',
+  alarmLevelIII: 'Cấp báo động III (m)',
   dataSource: 'Nguồn dữ liệu',
 }
 
