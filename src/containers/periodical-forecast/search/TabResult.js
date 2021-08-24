@@ -1,4 +1,4 @@
-import { Table, Tabs } from 'antd'
+import { Button, Table, Tabs } from 'antd'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import _ from 'lodash'
 import moment from 'moment'
@@ -107,11 +107,17 @@ const TableStation = ({ data, station, loading }) => {
   )
 }
 
-export default function TabResult({ data, loading }) {
+export default function TabResult({ data, loading, exportData }) {
   const tabs = Object.keys(data)
   return (
     <div>
-      <Tabs>
+      <Tabs
+        tabBarExtraContent={
+          <Button type="primary" onClick={exportData}>
+            Xuất dữ liệu
+          </Button>
+        }
+      >
         {tabs.map(tabKey => (
           <TabPane tab={data[tabKey].station.name} key={tabKey}>
             <TableStation

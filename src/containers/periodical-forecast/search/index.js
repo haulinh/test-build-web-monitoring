@@ -9,6 +9,9 @@ import SelectStation from 'components/elements/select-data/periodic-forecast/Sel
 import TabResult from './TabResult'
 import Breadcrumb from '../breadcrumb'
 import moment from 'moment-timezone'
+import { getLanguage } from 'utils/localStorage'
+import { downFileExcel } from 'utils/downFile'
+import { DD_MM_YYYY } from 'constants/format-date'
 
 const FIELDS = {
   stationKeys: 'stationKeys',
@@ -28,9 +31,29 @@ export default class SearchContainer extends Component {
     loading: false,
   }
 
-  async componentDidMount() {
-    const result = await PeriodicForecastApi.getStationPeriodicForecast({})
-    this.setState({ stations: result.data })
+  getPrams = () => {
+    const { form } = this.props
+    const values = form.getFieldsValue()
+    const params = {
+      stationKeys: values.stationKeys.join(','),
+      broadcastTime:
+        values.broadcastTime &&
+        values.broadcastTime
+          .clone()
+          .utc()
+          .format(),
+    }
+    return params
+  }
+
+  exportData = async () => {
+    const params = this.getPrams()
+    const lang = getLanguage()
+    const result = await PeriodicForecastApi.exportData({ ...params, lang })
+    downFileExcel(
+      result.data,
+      `Dữ liệu bản tin ngày ${moment(params.broadcastTime).format(DD_MM_YYYY)}`
+    )
   }
 
   handleOnSearch = async () => {
@@ -96,7 +119,7 @@ export default class SearchContainer extends Component {
             </Row>
           </BoxShadow>
         </Search>
-        <TabResult data={data} loading={loading} />
+        <TabResult data={data} loading={loading} exportData={this.exportData} />
       </PageContainer>
     )
   }
