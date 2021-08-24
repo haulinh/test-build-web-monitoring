@@ -1,5 +1,5 @@
 import { Table, Tabs } from 'antd'
-import { DD_MM_YYYY_HH_MM, HH_MM_DD_MM_YYYY } from 'constants/format-date'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
