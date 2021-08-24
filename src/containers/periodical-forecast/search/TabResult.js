@@ -1,5 +1,5 @@
 import { Table, Tabs } from 'antd'
-import { DD_MM_YYYY_HH_MM, HH_MM_DD_MM_YYYY } from 'constants/format-date'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
@@ -21,9 +21,9 @@ const i18n = {
   date: 'Ngày',
   dataType: 'Kiểu dữ liệu',
   measureValue: 'Mực nước',
-  alarmLevelI: 'Cấp báo động I',
-  alarmLevelII: 'Cấp báo động II',
-  alarmLevelIII: 'Cấp báo động III',
+  alarmLevelI: 'Cấp báo động I (m)',
+  alarmLevelII: 'Cấp báo động II (m)',
+  alarmLevelIII: 'Cấp báo động III (m)',
   dataSource: 'Nguồn dữ liệu',
 }
 

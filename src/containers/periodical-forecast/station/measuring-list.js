@@ -1,4 +1,4 @@
-import { Icon, Popconfirm, Select, Table } from 'antd'
+import { Select, Table } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import AutoCompleteCell from 'components/elements/auto-complete-cell'
 import InputNumberCell from 'components/elements/input-number-cell'
