@@ -37,10 +37,12 @@ class TransferForm extends Component {
   }
 }
 
-const SettingQuery = withRouter(({ location, form }) => {
+const SettingQuery = withRouter(({ location, form, excludeFields = [] }) => {
   const fieldsValue = form.getFieldsValue()
 
-  const data = Object.keys(fieldsValue.config).map(item => {
+  const data = Object.keys(fieldsValue.config)
+    .filter(key => !excludeFields.includes(key))
+    .map(item => {
     let title = i18n.fields[item] || item
     if (location.pathname.includes('station-fixed') && item === 'stationKeys')
       title = i18n.fields.stationFixed[item]

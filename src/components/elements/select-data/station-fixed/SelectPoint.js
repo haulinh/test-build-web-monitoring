@@ -47,33 +47,40 @@ export class SelectPoint extends React.Component {
     return points
   }
 
-  handleOnChange = pointKey => {
-    const { onChange } = this.props
-    onChange(pointKey)
+  handleOnChange = pointKeys => {
+    const { onChange, onChangeName } = this.props
+    const { points } = this.state
+    onChange(pointKeys)
+    if (typeof onChangeName === 'function') {
+      const pointNameMap = new Map(points.map(item => [item.key, item.name]))
+      const pointNames = pointKeys.map(key => pointNameMap.get(key));
+      onChangeName(pointNames);
+    }
   }
 
   render() {
-    const { mode, value, ...otherProps } = this.props
+    const { mode, value, pointNames, ...otherProps } = this.props
     const points = this.getPoints()
+
+    const pointMap = new Map(points.map(item => [item.key, item]));
+
+    const selectValue = Array.isArray(value)
+      ? value.map((key, idx) => pointMap.has(key) ? key : pointNames[idx])
+      : value
+
     return (
       <Select
         {...otherProps}
-        value={value}
+        allowClear
+        value={selectValue}
         onChange={this.handleOnChange}
         autoClearSearchValue
-        allowClear
         mode={mode || 'default'}
-        optionFilterProp="children"
-        // this props allow search name and _id
-        filterOption={(input, option) =>
-          option.props.children.toLowerCase().indexOf(input.toLowerCase()) >=
-            0 ||
-          option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
-        }
+        optionFilterProp="name"
         style={{ width: '100%' }}
       >
         {points.map(point => (
-          <Select.Option key={point.key} value={point.key}>
+          <Select.Option key={point.key} value={point.key} name={point.name}>
             {point.name}
           </Select.Option>
         ))}

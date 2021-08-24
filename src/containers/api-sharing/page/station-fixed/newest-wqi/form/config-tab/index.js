@@ -79,7 +79,6 @@ export default class ConfigTab extends Component {
         isDefault,
       }
     })
-
     const params = {
       key,
       name: fieldsValue.name,
@@ -136,7 +135,7 @@ export default class ConfigTab extends Component {
               <Condition form={form} rule={rule} data={data} />
             </Col>
             <Col span={24}>
-              <SettingQuery form={form} rule={rule} data={data} />
+              <SettingQuery form={form} rule={rule} data={data} excludeFields={['stationNames']}/>
             </Col>
             {!isView(rule) && (
               <Col span={24}>
