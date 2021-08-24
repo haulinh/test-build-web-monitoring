@@ -24,7 +24,7 @@ export default class ChartRowList extends React.Component {
     if (this.props.data && this.props.data.length === 0)
       return <div className="section"> </div>
 
-    return this.props.data.map.map(item => {
+    return this.props.data.map(item => {
       return (
         <div key={item.key} className="section">
           <ChartRowWrapper style={{ height: '100%' }}>

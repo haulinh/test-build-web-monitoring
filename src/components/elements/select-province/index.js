@@ -92,6 +92,8 @@ export default class SelectProvince extends PureComponent {
   render() {
     const provinces = this.getProvinces()
     const { fieldValue, value } = this.props
+    let defaultValue =
+      typeof value === 'object' && value != null ? value.key : value
     return (
       <Select
         {...this.props}
@@ -100,9 +102,12 @@ export default class SelectProvince extends PureComponent {
         allowClear
         onChange={this.handleOnChange}
         onSearch={this.handleSearch}
-        value={value || this.state.value}
+        value={defaultValue || this.state.value}
         filterOption={false}
       >
+        <Select.Option value="">
+          {translate('dataSearchFrom.form.all')}
+        </Select.Option>
         {this.props.isShowAll && (
           <Select.Option value="">
             {translate('dataSearchFrom.form.all')}

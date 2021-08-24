@@ -7,7 +7,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 // import Clearfix from 'components/elements/clearfix'
 import CameraItem from './CameraItem'
-import { getAuthToken } from 'api/CameraApi'
+import { getAuthTokenCamera } from 'api/StationAuto'
 import { Spin } from 'antd'
 import swal from 'sweetalert2'
 
@@ -47,14 +47,14 @@ export default class CameraForm extends PureComponent {
 
   async componentDidMount() {
     //todo
-    const auth = await getAuthToken()
+    const auth = await getAuthTokenCamera()
     if (!auth) {
       swal({
         title: 'Unauthorized Camera fail',
         type: 'error',
       })
     }
-    this.setState({ auth: auth, isLoaded: true })
+    this.setState({ auth: auth.token, isLoaded: true })
   }
 
   renderPanel(item, index) {

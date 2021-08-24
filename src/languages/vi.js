@@ -458,7 +458,7 @@ export default {
     outOfRange: 'Ngoài vùng đo',
   },
   qaqcConfig: {
-    title: 'Cấu hình QAQC',
+    title: 'Cấu hình kiểm duyệt dữ liệu',
     beyondMeasuringRange: 'Ngoài dải đo',
     deviceError: 'Thiết bị lỗi',
     deviceCalibration: 'Thiết bị hiệu chuẩn',
@@ -2136,7 +2136,7 @@ export default {
         name: 'Dữ liệu trung bình',
       },
       xuLyDuLieu_config: {
-        name: 'Xử lý dữ liệu - Cấu hình',
+        name: 'Kiểm duyệt dữ liệu - Cấu hình',
       },
       kiemDuyetDuLieu: {
         name: 'Kiểm duyệt dữ liệu',
@@ -2233,7 +2233,7 @@ export default {
       cauHinhCamera: {
         name: 'Cấu hình Camera',
       },
-      measuring: { name: 'Chỉ tiêu quan trắc' },
+      measuring: { name: 'Thông số quan trắc' },
       stationType: { name: 'Loại trạm' },
       province: { name: 'Đơn vị quản lý' },
       qcvn: { name: 'Quy chuẩn' },
@@ -2549,16 +2549,17 @@ export default {
     onDelete: {
       errorMessage: {
         roleUsed: 'Nhóm quyền đang được sử dụng !',
-        measuringUsed: 'Chỉ tiêu đang được sử dụng !',
+        measuringUsed: 'Thông số đang được sử dụng !',
         measuringUsedStationAuto:
-          'Chỉ tiêu đang được sử dụng trong trạm tự động !',
+          'Thông số đang được sử dụng trong trạm tự động !',
         measuringUsedStationFix:
-          'Chỉ tiêu đang được sử dụng trong trạm cố định !',
-        measuringUsedWqi: 'Chỉ tiêu đang được sử dụng để tính toán WQI !',
-        measuringUsedAqi: 'Chỉ tiêu đang được sử dụng để tính toán AQI !',
-        measuringUsedQcvn: 'Chỉ tiêu đang được sử dụng trong cấu hình QCVN !',
+          'Thông số đang được sử dụng trong trạm cố định !',
+        measuringUsedWqi: 'Thông số đang được sử dụng để tính toán WQI !',
+        measuringUsedAqi: 'Thông số đang được sử dụng để tính toán AQI !',
+        measuringUsedQcvn: 'Thông số đang được sử dụng trong cấu hình QCVN !',
         phaseUsed: 'Đợt quan trắc đang được sử dụng để nhập dữ liệu!',
         pointUsed: 'Điểm quan trắc đang được sử dụng để nhập dữ liệu!',
+        stationUsed: 'Trạm quan trắc đang được sử dụng để nhập dữ liệu!',
       },
       success: 'Xoá thành công',
       error: 'Xoá thất bại',
@@ -2759,7 +2760,7 @@ export default {
       report: 'Tra cứu dữ liệu',
       map: 'Bản đồ',
     },
-    processDataSub: 'Xử lý dữ liệu',
+    processDataSub: 'Kiểm duyệt dữ liệu',
     processData: {
       approveData: 'Kiểm duyệt dữ liệu',
       config: 'Cấu hình',
@@ -2794,7 +2795,7 @@ export default {
       configWQI: 'Cấu hình tính toán WQI',
       camera: 'Cấu hình camera',
       color: 'Cấu hình màu cảnh báo',
-      parameter: 'Chỉ tiêu quan trắc',
+      parameter: 'Thông số quan trắc',
       stationType: 'Loại trạm',
       site: 'Đơn vị quản lý',
       standard: 'Quy chuẩn',
@@ -3007,9 +3008,9 @@ export default {
     action: {
       login: 'Đăng nhập',
       logout: 'Đăng xuất',
-      add_measuring: 'Thêm chỉ tiêu quan trắc',
-      update_measuring: 'Cập nhật chỉ tiêu quan trắc',
-      delete_measuring: 'Xoá chỉ tiêu quan trắc',
+      add_measuring: 'Thêm Thông số quan trắc',
+      update_measuring: 'Cập nhật Thông số quan trắc',
+      delete_measuring: 'Xoá Thông số quan trắc',
       add_province: 'Thêm đơn vị quản lý',
       update_province: 'Cập nhật đơn vị quản lý',
       delete_province: 'Xoá đơn vị quản lý',
@@ -3165,9 +3166,9 @@ export default {
   common: {
     station: 'Trạm',
     device: 'thiết bị',
-    measure: 'Chỉ tiêu',
-    measures: 'Các chỉ tiêu',
-    measure2: 'Các chỉ tiêu:',
+    measure: 'Thống số',
+    measures: 'Các thông số',
+    measure2: 'Các thông số:',
     notUse: 'Chưa sử dụng',
     deviceStatus: {
       sensorGood: 'thiết bị trở lại bình thường:',

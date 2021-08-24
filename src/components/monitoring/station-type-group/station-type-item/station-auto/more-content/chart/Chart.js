@@ -260,7 +260,11 @@ export default class ChartRowToChart extends React.Component {
             data = _.map(dataOrder, item => {
               const itemTemp = {}
               _.forEach(measuringList, itemChiTieu => {
-                itemTemp[itemChiTieu] = item.measuringLogs[itemChiTieu].value
+                itemTemp[itemChiTieu] = _.get(
+                  item.measuringLogs[itemChiTieu],
+                  'value',
+                  null
+                )
               })
               return {
                 date_utc: item.date_utc,
@@ -483,7 +487,6 @@ export default class ChartRowToChart extends React.Component {
             )}
           </div>
         )}
-
       </ChartWrapper>
     )
   }

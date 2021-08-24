@@ -52,6 +52,7 @@ import advanceRoute from './advanceRoute'
 import LoginRoute from './loginRoute'
 import ApiSharingRoute from 'containers/api-sharing/ApiSharingRoute'
 import APISharing from 'containers/api-sharing-hidden'
+import PeriodicalForecastRoute from 'containers/periodical-forecast/PeriodicalForecastRoute'
 
 @withRouter
 @autobind
@@ -206,6 +207,10 @@ export default class RouteDefault extends React.Component {
             />
 
             <LayoutRoute path={slug.config.service} component={ConfigService} />
+            <LayoutRoute
+              path={slug.periodicalForecast.base}
+              component={PeriodicalForecastRoute}
+            />
           </Layout>
         </Switch>
       </div>

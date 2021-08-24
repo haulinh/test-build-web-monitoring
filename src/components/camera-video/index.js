@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import ListItem from './item'
 import * as _ from 'lodash'
-import { getAuthToken } from 'api/CameraApi'
+import { getAuthTokenCamera } from 'api/StationAuto'
 import { Empty } from 'antd'
 import swal from 'sweetalert2'
 import removeUnicodeText from './util'
@@ -25,7 +25,7 @@ export default class CameraList extends React.Component {
   handleCamera = e => {}
 
   async componentDidMount() {
-    const auth = await getAuthToken()
+    const auth = await getAuthTokenCamera()
     if (!auth) {
       swal({
         title: 'Unauthorized Camera fail',
@@ -43,7 +43,7 @@ export default class CameraList extends React.Component {
       lastThumbnail: this.getLastThumbnail(
         cameraItem.rtspUrl,
         cameraItem.cameraId,
-        auth
+        auth.token
       ),
       name: cameraItem.name,
       _id: this.props.station._id,
