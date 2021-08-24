@@ -92,7 +92,8 @@ export default class SelectProvince extends PureComponent {
   render() {
     const provinces = this.getProvinces()
     const { fieldValue, value } = this.props
-    let defaultValue = typeof value === 'object' ? value.key : value
+    let defaultValue =
+      typeof value === 'object' && value != null ? value.key : value
     return (
       <Select
         {...this.props}
