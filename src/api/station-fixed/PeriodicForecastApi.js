@@ -106,6 +106,11 @@ export function getImportHistory(params) {
   return getFetch(url, params)
 }
 
+export function exportData(params) {
+  const url = getStationFixedUrl(`data-periodic-forecast/export`)
+  return getFetchDownFile(url, params)
+}
+
 export default {
   getStationPeriodicForecast,
   getStationById,
@@ -120,4 +125,5 @@ export default {
   exportDataTemplate,
   getImportHistory,
   getDataPeriodicForecast,
+  exportData,
 }
