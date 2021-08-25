@@ -177,6 +177,7 @@ export const i18n = {
     name: t('apiSharingNew.detailPage.rules.name'),
     max: t('apiSharingNew.detailPage.rules.max'),
     requireChoose: t('apiSharingNew.detailPage.rules.requireChoose'),
+    requireBroadcastTime: t('apiSharingNew.detailPage.rules.requireBroadcastTime')
   },
   init: {
     country: 'Việt Nam',

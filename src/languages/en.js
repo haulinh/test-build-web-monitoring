@@ -3473,6 +3473,7 @@ export default {
         name: 'Please enter API name',
         max: 'Do not enter more than 64 characters',
         requireChoose: 'Please select at least 1 value',
+        requireBroadcastTime: 'Please select at least 1 value',
       },
     },
     button: {

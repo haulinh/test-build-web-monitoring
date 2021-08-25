@@ -3477,6 +3477,7 @@ export default {
         name: 'Vui lòng nhập tên API',
         max: 'Không được nhập quá 64 ký tự',
         requireChoose: 'Vui lòng chọn ít nhất 1 giá trị',
+        requireBroadcastTime: 'Vui lòng chọn ngày phát bản tin',
       },
     },
     button: {

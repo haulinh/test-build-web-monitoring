@@ -61,7 +61,14 @@ export default class Condition extends React.Component {
         <Row gutter={12}>
           <Col span={16}>
             <Form.Item label={i18n.detailPage.label.stationName}>
-              {form.getFieldDecorator(`config.${FIELDS.stationKeys}`)(
+              {form.getFieldDecorator(`config.${FIELDS.stationKeys}`, {
+                rules: [
+                  {
+                    required: true,
+                    message: i18n.rules.requireBroadcastTime,
+                  },
+                ]
+              })(
                 <SelectStation
                   onFetchStationSuccess={this.onFetchStationSuccess}
                 />
