@@ -3,11 +3,13 @@ import React from 'react'
 import { i18n } from '../constants'
 import { Header } from '../layout/styles'
 
-export default function TableParams({ form }) {
+export default function TableParams({ form, excludeFields = [] }) {
   const fields = Object.keys(form.getFieldsValue().config)
 
+  excludeFields.push('rangeTime', 'stationNames')
+
   const dataSource = fields
-    .filter(field => field !== 'rangeTime')
+    .filter(field => !excludeFields.includes(field))
     .map(field => ({
       fieldName: field,
       type: i18n.types[field] || field,

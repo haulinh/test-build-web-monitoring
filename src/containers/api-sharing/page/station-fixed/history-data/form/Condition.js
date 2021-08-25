@@ -19,6 +19,7 @@ export const FIELDS = {
   STATION_TYPE: 'stationType',
   RANGE_TIME: 'rangeTime',
   POINT: 'stationKeys',
+  POINT_NAME: 'stationNames',
   MEASURING_LIST: 'measuringList',
   IS_EXCEEDED: 'isExceeded',
   PHASE: 'phaseIds',
@@ -65,7 +66,8 @@ export default class Condition extends React.Component {
     })
 
     const stationAutos = this.getPoints()
-    const stationAutoInit = stationAutos.map(stationAuto => stationAuto.key)
+    const stationKeys = stationAutos.map(stationAuto => stationAuto.key)
+    const stationNames = stationAutos.map(stationAuto => stationAuto.name)
 
     const phases = this.getPhases()
     const phasesInit = phases.map(phase => phase._id)
@@ -74,7 +76,8 @@ export default class Condition extends React.Component {
     const measuringListInit = measuringList.map(item => item.key)
 
     form.setFieldsValue({
-      [`config.${FIELDS.POINT}`]: stationAutoInit,
+      [`config.${FIELDS.POINT}`]: stationKeys,
+      [`config.${FIELDS.POINT_NAME}`]: stationNames,
       [`config.${FIELDS.PHASE}`]: phasesInit,
       [`config.${FIELDS.MEASURING_LIST}`]: measuringListInit,
       [`config.${FIELDS.PROVINCE}`]: '',
@@ -142,6 +145,7 @@ export default class Condition extends React.Component {
     const { form } = this.props
     const measuringList = this.getMeasuringList()
     const { config: { province, stationType } = {} } = form.getFieldsValue()
+    form.getFieldDecorator(`config.${FIELDS.POINT_NAME}`)
 
     return (
       <BoxShadow>
@@ -212,6 +216,10 @@ export default class Condition extends React.Component {
                   stationTypeId={stationType}
                   provinceId={province}
                   onFetchSuccess={this.onFetchPointsSuccess}
+                  pointNames={form.getFieldValue(`config.${FIELDS.POINT_NAME}`)}
+                  onChangeName={pointNames => form.setFieldsValue({
+                    [`config.${FIELDS.POINT_NAME}`]: pointNames
+                  })}
                 />
               )}
             </Form.Item>

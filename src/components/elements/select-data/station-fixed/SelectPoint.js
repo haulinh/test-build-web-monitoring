@@ -1,5 +1,6 @@
 import { Select } from 'antd'
 import { getPoint } from 'api/station-fixed/StationFixedPointApi'
+import {get} from 'lodash-es'
 import React from 'react'
 
 export class SelectPoint extends React.Component {
@@ -47,13 +48,17 @@ export class SelectPoint extends React.Component {
     return points
   }
 
-  handleOnChange = pointKeys => {
-    const { onChange, onChangeName } = this.props
+  handleOnChange = list => {
     const { points } = this.state
-    onChange(pointKeys)
+    const { onChange, onChangeName } = this.props
+    const pointMaps = new Map(points.map(item => [item.key, item.name]))
+
+    const pointKeys = list.filter(key => pointMaps.has(key));
+
+    onChange(pointKeys);
+
     if (typeof onChangeName === 'function') {
-      const pointNameMap = new Map(points.map(item => [item.key, item.name]))
-      const pointNames = pointKeys.map(key => pointNameMap.get(key));
+      const pointNames = pointKeys.map(key => pointMaps.get(key));
       onChangeName(pointNames);
     }
   }
@@ -65,7 +70,7 @@ export class SelectPoint extends React.Component {
     const pointMap = new Map(points.map(item => [item.key, item]));
 
     const selectValue = Array.isArray(value)
-      ? value.map((key, idx) => pointMap.has(key) ? key : pointNames[idx])
+      ? value.map((key, idx) => pointMap.has(key) ? key : get(pointNames, idx, key))
       : value
 
     return (

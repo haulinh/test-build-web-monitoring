@@ -137,7 +137,7 @@ export default class ConfigTab extends Component {
               <Condition form={form} rule={rule} />
             </Col>
             <Col span={24}>
-              <SettingQuery form={form} rule={rule} />
+              <SettingQuery form={form} rule={rule} excludeFields={['stationNames']}/>
             </Col>
             <Col span={24}>
               <Button

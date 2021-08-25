@@ -6,6 +6,7 @@ import * as _ from 'lodash'
 import { connect } from 'react-redux'
 import { removeAccents } from 'hoc/create-lang'
 import { replaceVietnameseStr } from 'utils/string'
+import {get} from 'lodash'
 
 @connect(state => ({
   language: _.get(state, 'language.locale'),
@@ -31,13 +32,15 @@ export default class SelectStationAuto extends React.PureComponent {
       itemPerPage: Number.MAX_SAFE_INTEGER,
     })
 
+    const data = get(res, 'data', []).filter(item => !get(item, 'removeStatus.allowed'))
+
     this.setState({
-      stationAutoSelects: res.data,
+      stationAutoSelects: data,
       isLoaded: true,
     })
 
     if (this.props.onFetchSuccess) {
-      this.props.onFetchSuccess(res.data)
+      this.props.onFetchSuccess(data)
     }
 
     if (this.props.getRef) this.props.getRef(this)
@@ -76,23 +79,26 @@ export default class SelectStationAuto extends React.PureComponent {
     return stationAutos
   }
 
-  handleChange = stationTypeValue => {
+  handleChange = list => {
     this.setState({ searchString: '' })
 
-    let stationType = this.state.stationAutoSelects.find(
-      s => s.key === stationTypeValue
-    )
+    const {stationAutoSelects} = this.state;
+    const {mode, onChange, onChangeObject} = this.props;
+    const stationAutoMaps = new Map(stationAutoSelects.map(item => [item.key, item.name]))
 
-    if (this.props.mode === 'multiple') {
-      stationType = this.state.stationAutoSelects.filter(item => {
-        return stationTypeValue.includes(item.key)
-      })
+    const stationKeys = list.filter(key => stationAutoMaps.has(key))
+
+    let stationType = stationAutoSelects.find(s => s.key === list)
+
+    if (mode === 'multiple') {
+      stationType = stationAutoSelects
+        .filter(item => {
+          return stationKeys.includes(item.key)
+        })
     }
 
-    this.props.onChange(stationTypeValue)
-    if (this.props.onChangeObject) {
-      this.props.onChangeObject(stationType)
-    }
+    onChange(stationKeys)
+    if (onChangeObject) onChangeObject(stationType)
   }
 
   handleSearch = value => {
@@ -101,7 +107,16 @@ export default class SelectStationAuto extends React.PureComponent {
 
   render() {
     const stationAutos = this.getStationAutos()
-    const { language } = this.props
+    const stationAutoMaps = new Map(stationAutos.map(item => [item.key, item.name]))
+    const { language, setKey, stationAutoKey, value, valueNames } = this.props
+
+    let selectValue = setKey ? stationAutoKey : value;
+
+    selectValue = Array.isArray(selectValue)
+      ? selectValue.map((key, idx) => 
+          stationAutoMaps.has(key) ? key : get(valueNames, idx, key))
+      : (stationAutoMaps.get(selectValue) || valueNames)
+
     return (
       <Select
         {...this.props}
@@ -109,7 +124,7 @@ export default class SelectStationAuto extends React.PureComponent {
         allowClear
         showSearch
         onChange={this.handleChange}
-        value={this.props.setKey ? this.props.stationAutoKey : this.props.value}
+        value={selectValue}
         onSearch={this.handleSearch}
         filterOption={false}
       >

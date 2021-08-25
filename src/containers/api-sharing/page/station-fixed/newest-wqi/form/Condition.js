@@ -173,9 +173,6 @@ export default class Condition extends React.Component {
                 ],
               })(
                 <SelectPoint
-                  onChangeName={pointNames => form.setFieldsValue({
-                    [`config.${FIELDS.POINT_NAME}`]: pointNames
-                  })}
                   disabled={this.isDisable(FIELDS.POINT)}
                   mode="multiple"
                   stationTypeId={stationType}
@@ -183,6 +180,9 @@ export default class Condition extends React.Component {
                   condition={{calculateType: 'WQI'}}
                   onFetchSuccess={this.onFetchPointsSuccess}
                   pointNames={form.getFieldValue(`config.${FIELDS.POINT_NAME}`)}
+                  onChangeName={pointNames => form.setFieldsValue({
+                    [`config.${FIELDS.POINT_NAME}`]: pointNames
+                  })}
                 />
               )}
             </Form.Item>
