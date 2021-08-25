@@ -18,7 +18,7 @@ const i18n = {
   stationTypeLabel: t('importDataPoint.stationTypeLabel'),
   requirements: (
     <p>
-      Tải lên dữ liệu chứa thông tin dữ liệu thủy văn theo mẫu bên dưới. Hãy đảm
+      Tải lên dữ liệu chứa thông tin các trạm quan trắc theo mẫu bên dưới. Hãy đảm
       bảo những trường thông tin chính xác tuyệt đối. Dữ liệu đã được tải lên hệ
       thống sẽ được lưu trữ tại <b>Lịch sử tải lên</b>
     </p>
@@ -80,7 +80,7 @@ const IMPORT_DATA_ERROR = {
   MEASURE_VALUE_INVALID: 'Thông số sai định dạng',
   DATA_TYPE_INVALID: 'Kiểu dữ liệu không hợp lệ',
   DATA_SOURCE_INVALID: 'Nguồn dữ liệu không hợp lệ',
-  BROADCAST_TIME_INVALID: 'Thời phát bản tin không hợp lệ',
+  BROADCAST_TIME_INVALID: 'Thời gian phát bản tin không hợp lệ',
   BROADCAST_DATE_INVALID: 'Ngày phát bản tin sai định dạng',
   REAL_DATA_INVALID: 'Dữ liệu thật có ngày không hợp lệ',
   INVALID_DAY_DATA_NUMBER: 'Số dữ liệu ngày không hợp lệ',

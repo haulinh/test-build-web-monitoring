@@ -48,7 +48,7 @@ export default class HistoryTab extends Component {
       type: 'periodic-forecast',
     }
 
-    if (values.rangeTime) {
+    if (Array.isArray(values.rangeTime) && values.rangeTime.length > 0) {
       const times = getTimes(values.rangeTime)
       const { from, to } = getTimesUTC(times)
       params = {

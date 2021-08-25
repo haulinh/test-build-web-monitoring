@@ -21,6 +21,8 @@ const FIELDS = {
 const i18n = {
   broadcastTime: 'Ngày phát bản tin',
   stationKeys: 'Trạm quan trắc',
+  requireBroadcastTime: 'Vui lòng chọn ngày phát bản tin',
+  requireStation: 'Vui lòng chọn trạm quan trắc',
 }
 
 @Form.create()
@@ -58,6 +60,12 @@ export default class SearchContainer extends Component {
 
   handleOnSearch = async () => {
     const { form } = this.props
+
+    const validateFields = await form.validateFields()
+    if (!validateFields) {
+      return
+    }
+
     const values = form.getFieldsValue()
     const params = {
       stationKeys: values.stationKeys.join(','),
@@ -103,13 +111,25 @@ export default class SearchContainer extends Component {
               <Col span={8}>
                 <Form.Item label={i18n.broadcastTime}>
                   {form.getFieldDecorator(FIELDS.broadcastTime, {
-                    // initialValue: moment(),
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n.requireBroadcastTime,
+                      },
+                    ],
                   })(<DatePicker style={{ width: '100%' }} />)}
                 </Form.Item>
               </Col>
               <Col span={16}>
                 <Form.Item label={i18n.stationKeys}>
-                  {form.getFieldDecorator(FIELDS.stationKeys)(
+                  {form.getFieldDecorator(FIELDS.stationKeys, {
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n.requireStation,
+                      },
+                    ],
+                  })(
                     <SelectStation
                       onFetchStationSuccess={this.onFetchStationSuccess}
                     />
