@@ -31,6 +31,14 @@ export const shareApiList = {
       key: 'weather-feature',
     },
   },
+  periodicForecast: {
+    newestData: {
+      key: 'data-periodical-forecast-newest-data',
+    },
+    historyData: {
+      key: 'data-periodical-forecast-history-data',
+    },
+  }
 }
 
 export const i18n = {
@@ -43,6 +51,7 @@ export const i18n = {
     'data-station-auto': t('apiSharingNew.menu.data-station-auto'),
     'data-station-fixed': t('apiSharingNew.menu.data-station-fixed'),
     'weather': t('apiSharingNew.menu.weather'),
+    'data-periodical-forecast': t('apiSharingNew.menu.data-periodical-forecast'),
   },
   titleMenu: {
     'data-station-auto-newest-data': t('apiSharingNew.titleMenu.data-station-auto-newest-data'),
@@ -53,6 +62,8 @@ export const i18n = {
     'data-station-fixed-history-wqi': t('apiSharingNew.titleMenu.data-station-fixed-history-wqi'),
     'weather-newest-data': t('apiSharingNew.titleMenu.weather-newest-data'),
     'weather-feature': t('apiSharingNew.titleMenu.weather-feature'),
+    'data-periodical-forecast-newest-data': t('apiSharingNew.titleMenu.data-periodical-forecast-newest-data'),
+    'data-periodical-forecast-history-data': t('apiSharingNew.titleMenu.data-periodical-forecast-history-data')
   },
   detailPage: {
     header: {
@@ -83,6 +94,7 @@ export const i18n = {
       paramenter: t('apiSharingNew.detailPage.label.paramenter'),
       days: t('apiSharingNew.detailPage.label.days'),
       chooseCondition: t('apiSharingNew.detailPage.label.chooseCondition'),
+      broadcastTime: t('apiSharingNew.detailPage.label.broadcastTime')
     },
   },
   button: {
@@ -116,6 +128,7 @@ export const i18n = {
     cityId: t('apiSharingNew.fields.cityId'),
     parameterList: t('apiSharingNew.fields.parameterList'),
     days: t('apiSharingNew.fields.days'),
+    broadcastTime: t('apiSharingNew.fields.broadcastTime')
   },
   types: {
     province: 'string',
@@ -130,6 +143,7 @@ export const i18n = {
     parameterList: 'string',
     viewBy: 'string',
     days: 'number',
+    broadcastTime: 'Date'
   },
   description: {
     province: t('apiSharingNew.detailPage.description.province'),
@@ -144,6 +158,7 @@ export const i18n = {
     parameterList: t('apiSharingNew.detailPage.description.parameterList'),
     days: t('apiSharingNew.detailPage.description.days'),
     viewBy: t('apiSharingNew.detailPage.description.viewBy'),
+    broadcastTime: t('apiSharingNew.detailPage.description.broadcastTime'),
   },
   table: {
     tt: t('apiSharingNew.detailPage.table.tt'),
@@ -162,6 +177,7 @@ export const i18n = {
     name: t('apiSharingNew.detailPage.rules.name'),
     max: t('apiSharingNew.detailPage.rules.max'),
     requireChoose: t('apiSharingNew.detailPage.rules.requireChoose'),
+    requireBroadcastTime: t('apiSharingNew.detailPage.rules.requireBroadcastTime')
   },
   init: {
     country: 'Việt Nam',

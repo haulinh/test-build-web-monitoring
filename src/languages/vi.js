@@ -3380,6 +3380,7 @@ export default {
       'data-station-auto': 'Dữ liệu trạm quan trắc tự động',
       'data-station-fixed': 'Dữ liệu trạm quan trắc định kỳ',
       weather: 'Thời tiết',
+      'data-periodical-forecast': 'Dữ liệu dự báo định kỳ',
     },
     fields: {
       stationFixed: {
@@ -3398,6 +3399,7 @@ export default {
       cityId: 'Tỉnh/Thành phố',
       parameterList: 'Các thông số thời tiết',
       days: 'Số ngày dự báo',
+      broadcastTime: 'Ngày phát bản tin'
     },
     titleMenu: {
       'data-station-auto-newest-data': 'Dữ liệu mới nhất',
@@ -3408,6 +3410,8 @@ export default {
       'data-station-fixed-history-wqi': 'Dữ liệu WQI lịch sử',
       'weather-newest-data': 'Dữ liệu mới nhất',
       'weather-feature': 'Dự báo thời tiết',
+      'data-periodical-forecast-newest-data': 'Dữ liệu mới nhất',
+      'data-periodical-forecast-history-data': 'Dữ liệu lịch sử'
     },
     detailPage: {
       header: {
@@ -3438,6 +3442,7 @@ export default {
         paramenter: 'Các thông số thời tiết',
         days: 'Số ngày dự báo',
         chooseCondition: 'Chọn điều kiện',
+        broadcastTime: 'Ngày phát bản tin'
       },
       description: {
         province: 'Mã đơn vị quản lý',
@@ -3453,6 +3458,7 @@ export default {
         days: 'Số ngày dự báo',
         viewBy: 'Xem theo: Tháng, Quý hoặc Năm',
         timeRange: 'Khoảng thời gian',
+        broadcastTime: 'Ngày phát bản tin'
       },
       table: {
         tt: 'STT',
@@ -3471,6 +3477,7 @@ export default {
         name: 'Vui lòng nhập tên API',
         max: 'Không được nhập quá 64 ký tự',
         requireChoose: 'Vui lòng chọn ít nhất 1 giá trị',
+        requireBroadcastTime: 'Vui lòng chọn ngày phát bản tin',
       },
     },
     button: {

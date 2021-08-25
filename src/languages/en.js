@@ -3377,6 +3377,7 @@ export default {
       'data-station-auto': 'Automatic Monitoring Data',
       'data-station-fixed': 'Periodic Monitoring Data',
       weather: 'Weather',
+      'data-periodical-forecast': 'Periodic Forecast Data',
     },
     fields: {
       stationFixed: {
@@ -3395,6 +3396,7 @@ export default {
       cityId: 'Town/City',
       parameterList: 'Parameters',
       days: 'Forecast Days',
+      broadcastTime: 'Broad Cast Time'
     },
     titleMenu: {
       'data-station-auto-newest-data': 'Latest Data',
@@ -3405,6 +3407,8 @@ export default {
       'data-station-fixed-history-wqi': 'History WQI Data',
       'weather-newest-data': 'Real-time Data',
       'weather-feature': 'Weather Forecast Data',
+      'data-periodical-forecast-newest-data': 'Lastest data',
+      'data-periodical-forecast-history-data': 'Periodic Forecast Data'
     },
     detailPage: {
       header: {
@@ -3435,6 +3439,7 @@ export default {
         paramenter: 'Parameters',
         days: 'Forecast Days',
         chooseCondition: 'Select Conditions',
+        broadcastTime: 'Broad Cast Time'
       },
       description: {
         province: 'Province',
@@ -3468,6 +3473,7 @@ export default {
         name: 'Please enter API name',
         max: 'Do not enter more than 64 characters',
         requireChoose: 'Please select at least 1 value',
+        requireBroadcastTime: 'Please select at least 1 value',
       },
     },
     button: {
