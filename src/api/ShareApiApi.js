@@ -55,6 +55,8 @@ export const dataRoutes = {
     `${prefixCal()}/share-api/station-auto/history-data`,
   getWeatherNewest: () => `${prefixCal()}/share-api/weather/newest-data`,
   getWeatherFuture: () => `${prefixCal()}/share-api/weather/forecast-data`,
+  getPeriodicForecastNewest: () => `${prefixCal()}/share-api/periodical-forecast/newest-data`,
+  getPeriodicForecastHistory: () => `${prefixCal()}/share-api/periodical-forecast/history-data`,
 }
 
 export const dataShareApiApi = {
@@ -102,6 +104,18 @@ export const dataShareApiApi = {
 
   getWeatherFuture: params => {
     let route = dataRoutes.getWeatherFuture()
+    route = route.replace('share-api/', '')
+    return getFetch(route, params)
+  },
+
+  getPeriodicForecastNewest: params => {
+    let route = dataRoutes.getPeriodicForecastNewest()
+    route = route.replace('share-api/', '')
+    return getFetch(route, params)
+  },
+
+  getPeriodicForecastHistory: params => {
+    let route = dataRoutes.getPeriodicForecastHistory()
     route = route.replace('share-api/', '')
     return getFetch(route, params)
   },

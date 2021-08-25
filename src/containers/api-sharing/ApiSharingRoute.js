@@ -45,6 +45,16 @@ import {
   FeatureDataWeatherEdit,
   FeatureDataWeatherView,
 } from './page/weather/feature-data'
+import {
+  NewestDataPeriodicalForecastCreate,
+  NewestDataPeriodicalForecastEdit,
+  NewestDataPeriodicalForecastView,
+} from './page/periodical-forecast/newest-data'
+import {
+  HistoryDataPeriodicalForecastCreate,
+  HistoryDataPeriodicalForecastEdit,
+  HistoryDataPeriodicalForecastView,
+} from './page/periodical-forecast/history-data'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
@@ -216,6 +226,38 @@ const ApiSharing = connect(mapStateToProps)(({ enableShareAPI }) => {
         exact
         path={`${slug.apiSharing.base}/${shareApiList.weather.featureData.key}/:id`}
         component={FeatureDataWeatherView}
+      />
+
+      {/**Weather **/}
+      <Route
+        exact
+        path={`${slug.apiSharing.base}/${shareApiList.periodicForecast.newestData.key}/create`}
+        component={NewestDataPeriodicalForecastCreate}
+      />
+      <Route
+        exact
+        path={`${slug.apiSharing.base}/${shareApiList.periodicForecast.newestData.key}/edit/:id`}
+        component={NewestDataPeriodicalForecastEdit}
+      />
+      <Route
+        exact
+        path={`${slug.apiSharing.base}/${shareApiList.periodicForecast.newestData.key}/:id`}
+        component={NewestDataPeriodicalForecastView}
+      />
+      <Route
+        exact
+        path={`${slug.apiSharing.base}/${shareApiList.periodicForecast.historyData.key}/create`}
+        component={HistoryDataPeriodicalForecastCreate}
+      />
+      <Route
+        exact
+        path={`${slug.apiSharing.base}/${shareApiList.periodicForecast.historyData.key}/edit/:id`}
+        component={HistoryDataPeriodicalForecastEdit}
+      />
+      <Route
+        exact
+        path={`${slug.apiSharing.base}/${shareApiList.periodicForecast.historyData.key}/:id`}
+        component={HistoryDataPeriodicalForecastView}
       />
     </Switch>
   )
