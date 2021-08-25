@@ -2567,6 +2567,7 @@ export default {
         measuringUsedQcvn: 'Measuring is already used in QCVN configuration !',
         phaseUsed: 'Monitoring is being used to import data!',
         pointUsed: 'The monitoring point is being used for data entry!',
+        stationUsed: 'Monitoring station is being used to import data!',
       },
       success: 'Deleted Successfully',
       qcvn: {

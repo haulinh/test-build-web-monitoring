@@ -20,6 +20,7 @@ export const FIELDS = {
   OPERATOR: 'operator',
   RANGE_TIME: 'rangeTime',
   STATION_AUTO: 'stationKeys',
+  STATION_NAME: 'stationNames',
   MEASURING_LIST: 'measuringList',
   IS_EXCEEDED: 'isExceeded',
   DATA_TYPE: 'dataType',
@@ -34,6 +35,9 @@ export default class Condition extends React.Component {
   }
 
   setStationAutoSelected = stationAutoSelected => {
+    const {form} = this.props
+    const stationNames = stationAutoSelected.map(item => item.name)
+    form.setFieldsValue({[`config.${FIELDS.STATION_NAME}`]: stationNames})
     this.setState({ stationAutoSelected }, () => {})
   }
 
@@ -50,6 +54,7 @@ export default class Condition extends React.Component {
 
     const stationAutos = this.getStationAutos()
     const stationAutoInit = stationAutos.map(stationAuto => stationAuto.key)
+    const stationAutoNameInit = stationAutos.map(stationAuto => stationAuto.name)
 
     const measuringListInit = getMeasuringListFromStationAutos(
       stationAutos
@@ -57,6 +62,7 @@ export default class Condition extends React.Component {
 
     form.setFieldsValue({
       [`config.${FIELDS.STATION_AUTO}`]: stationAutoInit,
+      [`config.${FIELDS.STATION_NAME}`]: stationAutoNameInit,
       [`config.${FIELDS.MEASURING_LIST}`]: measuringListInit,
       [`config.${FIELDS.DATA_TYPE}`]: 'origin',
       [`config.${FIELDS.PROVINCE}`]: '',
@@ -102,6 +108,7 @@ export default class Condition extends React.Component {
     const { form } = this.props
     form.setFieldsValue({
       [`config.${FIELDS.STATION_AUTO}`]: undefined,
+      [`config.${FIELDS.STATION_NAME}`]: undefined,
       [`config.${FIELDS.MEASURING_LIST}`]: undefined,
     })
   }
@@ -129,6 +136,8 @@ export default class Condition extends React.Component {
     const { form, isQuery } = this.props
     const { config: { province, stationType } = {} } = form.getFieldsValue()
     const measuringList = this.getMeasuringList()
+    
+    form.getFieldDecorator(`config.${FIELDS.STATION_NAME}`)
 
     return (
       <BoxShadow>
@@ -180,6 +189,7 @@ export default class Condition extends React.Component {
                   stationType={stationType}
                   onChangeObject={this.setStationAutoSelected}
                   onFetchSuccess={this.onStationAutosFetchSuccess}
+                  valueNames={form.getFieldValue(`config.${FIELDS.STATION_NAME}`)}
                 />
               )}
             </Form.Item>

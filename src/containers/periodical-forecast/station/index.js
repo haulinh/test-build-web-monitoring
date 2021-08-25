@@ -29,10 +29,6 @@ const IconButton = styled(Icon)`
   padding-right: 5px;
   color: ${props => (props.color ? props.color : '#3E90F7')};
 `
-const Span = styled.span`
-  color: ${props => (props.deleted ? '#999999' : '')};
-  text-decoration: ${props => (props.deleted ? 'line-through' : '')};
-`
 
 const i18n = {
   cancelText: translate('addon.cancel'),

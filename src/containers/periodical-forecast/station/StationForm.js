@@ -269,7 +269,7 @@ export default class StationForm extends React.Component {
   }
 
   render() {
-    const { getFieldDecorator, getFieldValue } = this.props.form
+    const { getFieldDecorator } = this.props.form
     const { t } = this.props.lang
     const formItemLayout = {
       labelCol: {

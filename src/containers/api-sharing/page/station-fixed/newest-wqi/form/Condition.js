@@ -18,6 +18,7 @@ export const FIELDS = {
   STATION_TYPE: 'stationType',
   RANGE_TIME: 'rangeTime',
   POINT: 'stationKeys',
+  POINT_NAME: 'stationNames',
   MEASURING_LIST: 'measuringList',
   IS_EXCEEDED: 'isExceeded',
   PHASE: 'phaseIds',
@@ -59,12 +60,14 @@ export default class Condition extends React.Component {
 
     const stationAutos = this.getPoints({stationType: stationTypeInit})
 
-    const stationAutoInit = stationAutos.map(stationAuto => stationAuto.key)
+    const stationKeys = stationAutos.map(stationAuto => stationAuto.key)
+    const stationNames = stationAutos.map(stationAuto => stationAuto.name)
 
     form.setFieldsValue({
       [`config.${FIELDS.PROVINCE}`]: '',
       [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
-      [`config.${FIELDS.POINT}`]: stationAutoInit,
+      [`config.${FIELDS.POINT}`]: stationKeys,
+      [`config.${FIELDS.POINT_NAME}`]: stationNames,
     })
   }
 
@@ -118,6 +121,7 @@ export default class Condition extends React.Component {
   render() {
     const { form } = this.props
     const { config: { province, stationType } = {} } = form.getFieldsValue()
+    form.getFieldDecorator(`config.${FIELDS.POINT_NAME}`)
     return (
       <BoxShadow>
         <Header>{i18n.detailPage.header.condition}</Header>
@@ -175,6 +179,10 @@ export default class Condition extends React.Component {
                   provinceId={province}
                   condition={{calculateType: 'WQI'}}
                   onFetchSuccess={this.onFetchPointsSuccess}
+                  pointNames={form.getFieldValue(`config.${FIELDS.POINT_NAME}`)}
+                  onChangeName={pointNames => form.setFieldsValue({
+                    [`config.${FIELDS.POINT_NAME}`]: pointNames
+                  })}
                 />
               )}
             </Form.Item>

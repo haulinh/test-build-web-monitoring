@@ -22,6 +22,7 @@ export const FIELDS = {
   OPERATOR: 'operator',
   RANGE_TIME: 'rangeTime',
   STATION_AUTO: 'stationKeys',
+  STATION_NAME: 'stationNames',
   MEASURING_LIST: 'measuringList',
   IS_EXCEEDED: 'isExceeded',
   DATA_TYPE: 'dataType',
@@ -36,6 +37,8 @@ export default class Condition extends React.Component {
   }
 
   setStationAutoSelected = stationAutoSelected => {
+    const {form} = this.props
+    form.setFieldsValue({[FIELDS.STATION_NAME]: stationAutoSelected.name})
     this.setState({ stationAutoSelected }, () => {})
   }
 
@@ -52,12 +55,14 @@ export default class Condition extends React.Component {
 
     const stationAutos = this.getStationAutos()
     const stationAutoInit = _.get(stationAutos[0], 'key', '')
+    const stationAutoNameInit = _.get(stationAutos[0], 'name', '')
 
     const measuringList = this.getMeasuringList()
     const measuringListInit = measuringList.map(item => item.key)
 
     form.setFieldsValue({
       [`config.${FIELDS.STATION_AUTO}`]: stationAutoInit,
+      [`config.${FIELDS.STATION_NAME}`]: stationAutoNameInit,
       [`config.${FIELDS.MEASURING_LIST}`]: measuringListInit,
       [`config.${FIELDS.DATA_TYPE}`]: 'origin',
       [`config.${FIELDS.PROVINCE}`]: '',
@@ -132,6 +137,8 @@ export default class Condition extends React.Component {
     const { config: { province, stationType } = {} } = form.getFieldsValue()
     const measuringList = this.getMeasuringList()
 
+    form.getFieldDecorator(`config.${FIELDS.STATION_NAME}`)
+
     return (
       <BoxShadow>
         {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
@@ -181,6 +188,7 @@ export default class Condition extends React.Component {
                   stationType={stationType}
                   onChangeObject={this.setStationAutoSelected}
                   onFetchSuccess={this.onStationAutosFetchSuccess}
+                  valueNames={form.getFieldValue(`config.${FIELDS.STATION_NAME}`)}
                 />
               )}
             </Form.Item>

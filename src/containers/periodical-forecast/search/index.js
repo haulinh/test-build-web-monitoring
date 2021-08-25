@@ -9,6 +9,9 @@ import SelectStation from 'components/elements/select-data/periodic-forecast/Sel
 import TabResult from './TabResult'
 import Breadcrumb from '../breadcrumb'
 import moment from 'moment-timezone'
+import { getLanguage } from 'utils/localStorage'
+import { downFileExcel } from 'utils/downFile'
+import { DD_MM_YYYY } from 'constants/format-date'
 
 const FIELDS = {
   stationKeys: 'stationKeys',
@@ -18,6 +21,8 @@ const FIELDS = {
 const i18n = {
   broadcastTime: 'Ngày phát bản tin',
   stationKeys: 'Trạm quan trắc',
+  requireBroadcastTime: 'Vui lòng chọn ngày phát bản tin',
+  requireStation: 'Vui lòng chọn trạm quan trắc',
 }
 
 @Form.create()
@@ -28,13 +33,39 @@ export default class SearchContainer extends Component {
     loading: false,
   }
 
-  async componentDidMount() {
-    const result = await PeriodicForecastApi.getStationPeriodicForecast({})
-    this.setState({ stations: result.data })
+  getPrams = () => {
+    const { form } = this.props
+    const values = form.getFieldsValue()
+    const params = {
+      stationKeys: values.stationKeys.join(','),
+      broadcastTime:
+        values.broadcastTime &&
+        values.broadcastTime
+          .clone()
+          .utc()
+          .format(),
+    }
+    return params
+  }
+
+  exportData = async () => {
+    const params = this.getPrams()
+    const lang = getLanguage()
+    const result = await PeriodicForecastApi.exportData({ ...params, lang })
+    downFileExcel(
+      result.data,
+      `Dữ liệu bản tin ngày ${moment(params.broadcastTime).format(DD_MM_YYYY)}`
+    )
   }
 
   handleOnSearch = async () => {
     const { form } = this.props
+
+    const validateFields = await form.validateFields()
+    if (!validateFields) {
+      return
+    }
+
     const values = form.getFieldsValue()
     const params = {
       stationKeys: values.stationKeys.join(','),
@@ -80,13 +111,25 @@ export default class SearchContainer extends Component {
               <Col span={8}>
                 <Form.Item label={i18n.broadcastTime}>
                   {form.getFieldDecorator(FIELDS.broadcastTime, {
-                    // initialValue: moment(),
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n.requireBroadcastTime,
+                      },
+                    ],
                   })(<DatePicker style={{ width: '100%' }} />)}
                 </Form.Item>
               </Col>
               <Col span={16}>
                 <Form.Item label={i18n.stationKeys}>
-                  {form.getFieldDecorator(FIELDS.stationKeys)(
+                  {form.getFieldDecorator(FIELDS.stationKeys, {
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n.requireStation,
+                      },
+                    ],
+                  })(
                     <SelectStation
                       onFetchStationSuccess={this.onFetchStationSuccess}
                     />
@@ -96,7 +139,7 @@ export default class SearchContainer extends Component {
             </Row>
           </BoxShadow>
         </Search>
-        <TabResult data={data} loading={loading} />
+        <TabResult data={data} loading={loading} exportData={this.exportData} />
       </PageContainer>
     )
   }

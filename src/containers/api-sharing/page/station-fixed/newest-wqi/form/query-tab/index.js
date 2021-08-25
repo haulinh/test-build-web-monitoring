@@ -102,7 +102,6 @@ export default class QueryTab extends Component {
   copyUrl = async () => {
     const url = this.getUrl()
     const curl = generateGetUrl(url)
-    console.log(curl)
 
     const success = copyTextToClipboard(curl)
     if (success) message.success('Success')
@@ -160,7 +159,6 @@ export default class QueryTab extends Component {
       const data = await dataShareApiApi.getPeriodicWQINewest(queryParams)
       if (data) {
         const formatData = this.formatData(data)
-        console.log(formatData)
         this.setState({dataTable: formatData})
       }
     } catch (error) {

@@ -14,6 +14,7 @@ export const FIELDS = {
   PROVINCE: 'province',
   STATION_TYPE: 'stationType',
   POINT: 'stationKeys',
+  POINT_NAME: 'stationNames',
   PHASE: 'phaseIds',
   RANGE_TIME: 'rangeTime',
   VIEW_BY: 'viewBy',
@@ -55,15 +56,17 @@ export default class Condition extends React.Component {
 
     const stationAutos = this.getPoints({stationType: stationTypeInit})
     const phases = this.getPhases({stationType: stationTypeInit})
-
-    const stationAutoInit = stationAutos.map(stationAuto => stationAuto.key)
     const phasesInit = phases.map(phase => phase._id)
+
+    const stationKeys = stationAutos.map(stationAuto => stationAuto.key)
+    const stationNames = stationAutos.map(stationAuto => stationAuto.name)
 
     form.setFieldsValue({
       [`config.${FIELDS.PROVINCE}`]: '',
       [`config.${FIELDS.STATION_TYPE}`]: stationTypeInit,
       [`config.${FIELDS.PHASE}`]: phasesInit,
-      [`config.${FIELDS.POINT}`]: stationAutoInit,
+      [`config.${FIELDS.POINT}`]: stationKeys,
+      [`config.${FIELDS.POINT_NAME}`]: stationNames,
     })
   }
 
@@ -97,6 +100,7 @@ export default class Condition extends React.Component {
     const {config: {province, stationType} = {}} = form.getFieldsValue()
     const formatTime = form.getFieldValue(`config.${FIELDS.VIEW_BY}`) === 'year' ? YYYY : MM_YYYY
 
+    form.getFieldDecorator(`config.${FIELDS.POINT_NAME}`)
     return (
       <BoxShadow>
         <Header>{i18n.detailPage.header.condition}</Header>
@@ -167,6 +171,10 @@ export default class Condition extends React.Component {
                   condition={{calculateType: 'WQI'}}
                   provinceId={province}
                   onFetchSuccess={this.onFetchPointsSuccess}
+                  pointNames={form.getFieldValue(`config.${FIELDS.POINT_NAME}`)}
+                  onChangeName={pointNames => form.setFieldsValue({
+                    [`config.${FIELDS.POINT_NAME}`]: pointNames
+                  })}
                 />
               )}
             </Form.Item>

@@ -1,5 +1,6 @@
 import { Select } from 'antd'
 import { getPoint } from 'api/station-fixed/StationFixedPointApi'
+import {get} from 'lodash-es'
 import React from 'react'
 
 export class SelectPoint extends React.Component {
@@ -47,33 +48,44 @@ export class SelectPoint extends React.Component {
     return points
   }
 
-  handleOnChange = pointKey => {
-    const { onChange } = this.props
-    onChange(pointKey)
+  handleOnChange = list => {
+    const { points } = this.state
+    const { onChange, onChangeName } = this.props
+    const pointMaps = new Map(points.map(item => [item.key, item.name]))
+
+    const pointKeys = list.filter(key => pointMaps.has(key));
+
+    onChange(pointKeys);
+
+    if (typeof onChangeName === 'function') {
+      const pointNames = pointKeys.map(key => pointMaps.get(key));
+      onChangeName(pointNames);
+    }
   }
 
   render() {
-    const { mode, value, ...otherProps } = this.props
+    const { mode, value, pointNames, ...otherProps } = this.props
     const points = this.getPoints()
+
+    const pointMap = new Map(points.map(item => [item.key, item]));
+
+    const selectValue = Array.isArray(value)
+      ? value.map((key, idx) => pointMap.has(key) ? key : get(pointNames, idx, key))
+      : value
+
     return (
       <Select
         {...otherProps}
-        value={value}
+        allowClear
+        value={selectValue}
         onChange={this.handleOnChange}
         autoClearSearchValue
-        allowClear
         mode={mode || 'default'}
-        optionFilterProp="children"
-        // this props allow search name and _id
-        filterOption={(input, option) =>
-          option.props.children.toLowerCase().indexOf(input.toLowerCase()) >=
-            0 ||
-          option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
-        }
+        optionFilterProp="name"
         style={{ width: '100%' }}
       >
         {points.map(point => (
-          <Select.Option key={point.key} value={point.key}>
+          <Select.Option key={point.key} value={point.key} name={point.name}>
             {point.name}
           </Select.Option>
         ))}
