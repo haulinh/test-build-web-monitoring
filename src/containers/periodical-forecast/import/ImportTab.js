@@ -18,7 +18,7 @@ const i18n = {
   stationTypeLabel: t('importDataPoint.stationTypeLabel'),
   requirements: (
     <p>
-      Tải lên dữ liệu chứa thông tin dữ liệu thủy văn theo mẫu bên dưới. Hãy đảm
+      Tải lên dữ liệu chứa thông tin các trạm quan trắc theo mẫu bên dưới. Hãy đảm
       bảo những trường thông tin chính xác tuyệt đối. Dữ liệu đã được tải lên hệ
       thống sẽ được lưu trữ tại <b>Lịch sử tải lên</b>
     </p>
