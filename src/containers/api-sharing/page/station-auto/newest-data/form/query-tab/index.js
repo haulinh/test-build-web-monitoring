@@ -20,7 +20,7 @@ import styled from 'styled-components'
 import { copyTextToClipboard } from 'utils/'
 import Condition from '../Condition'
 import DataTable from './DataTable'
-import {PermissionPopover} from 'hoc/protect-role'
+import { PermissionPopover } from 'hoc/protect-role'
 import ROLE from 'constants/role'
 
 const Method = styled.div`
@@ -202,7 +202,9 @@ export default class QueryTab extends Component {
             <div className="content">
               <Method>GET</Method>
               <Endpoint>
-                <Text>{this.getUrl()}</Text>
+                <div style={{ width: "95%" }}>
+                  <Text>{this.getUrl()}</Text>
+                </div>
                 <PermissionPopover roles={[ROLE.SHARE_API.CREATE, ROLE.SHARE_API.EDIT, ROLE.SHARE_API.DELETE]}>
                   <Icon type="copy" onClick={this.copyUrl} />
                 </PermissionPopover>

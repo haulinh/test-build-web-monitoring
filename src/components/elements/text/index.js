@@ -5,7 +5,7 @@ const Text = styled.div`
   font-weight: ${props => props.fontWeight || 'normal'};
   margin: ${props => props.margin};
   color: ${props => props.color};
-  word-wrap: break-word;
-  width: 700px;
+  word-break: break-all;
+  width: ${props => props.width};
 `
 export default Text

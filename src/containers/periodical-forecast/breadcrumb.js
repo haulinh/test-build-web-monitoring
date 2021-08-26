@@ -7,7 +7,7 @@ export default createBreadcrumb({
   list: {
     id: 'list',
     href: slug.periodicalForecast.station,
-    name: translate('stationFixedPoint.list.title'),
+    name: 'Trạm quan trắc',
   },
   create: {
     id: 'create',

@@ -197,7 +197,9 @@ export default class QueryTab extends Component {
             <div className="content">
               <Method>GET</Method>
               <Endpoint>
-                <Text>{this.getUrl()}</Text>
+                <div style={{ width: "95%" }}>
+                  <Text>{this.getUrl()}</Text>
+                </div>
                 <PermissionPopover roles={[ROLE.SHARE_API.CREATE, ROLE.SHARE_API.EDIT, ROLE.SHARE_API.DELETE]}>
                   <Icon type="copy" onClick={this.copyUrl} />
                 </PermissionPopover>
@@ -206,7 +208,8 @@ export default class QueryTab extends Component {
             <Clearfix height={32} />
             <TableParams form={form} />
           </React.Fragment>
-        )}
+        )
+        }
 
         <Clearfix height={32} />
         <Tabs>
@@ -217,7 +220,7 @@ export default class QueryTab extends Component {
             <Example data={dataExample} />
           </Tabs.TabPane>
         </Tabs>
-      </React.Fragment>
+      </React.Fragment >
     )
   }
 }
