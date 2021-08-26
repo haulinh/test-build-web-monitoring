@@ -3396,7 +3396,7 @@ export default {
       cityId: 'Town/City',
       parameterList: 'Parameters',
       days: 'Forecast Days',
-      broadcastTime: 'Broad Cast Time'
+      broadcastTime: 'Broadcast Date'
     },
     titleMenu: {
       'data-station-auto-newest-data': 'Latest Data',
@@ -3408,7 +3408,7 @@ export default {
       'weather-newest-data': 'Real-time Data',
       'weather-feature': 'Weather Forecast Data',
       'data-periodical-forecast-newest-data': 'Lastest data',
-      'data-periodical-forecast-history-data': 'Periodic Forecast Data'
+      'data-periodical-forecast-history-data': 'History data'
     },
     detailPage: {
       header: {
@@ -3439,7 +3439,7 @@ export default {
         paramenter: 'Parameters',
         days: 'Forecast Days',
         chooseCondition: 'Select Conditions',
-        broadcastTime: 'Broad Cast Time'
+        broadcastTime: 'Broadcast Date'
       },
       description: {
         province: 'Province',
@@ -3455,6 +3455,7 @@ export default {
         days: 'Forecast Days',
         viewBy: 'View by: Monthly, Quarterly or Yearly',
         timeRange: 'Time ranges',
+        broadcastTime: 'Broadcast Date'
       },
       table: {
         tt: 'No.',
@@ -3463,6 +3464,13 @@ export default {
         pointName: 'Point Name',
         phaseName: 'Phase Name',
         timeWeather: 'Time',
+        date: 'Date',
+        dataType: ' Type Of Data',
+        measureValue: 'Mực nước',
+        alarmLevelI: 'Alarm Level I (m)',
+        alarmLevelII: 'Alarm Level II (m)',
+        alarmLevelIII: 'Alarm Level III (m)',
+        dataSource: 'Data Source',
       },
       message: {
         create: 'Create Success',
@@ -3473,6 +3481,7 @@ export default {
         name: 'Please enter API name',
         max: 'Do not enter more than 64 characters',
         requireChoose: 'Please select at least 1 value',
+        requireStation: 'Please select at least 1 value',
         requireBroadcastTime: 'Please select at least 1 value',
       },
     },

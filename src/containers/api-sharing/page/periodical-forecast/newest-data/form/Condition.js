@@ -1,4 +1,4 @@
-import { Col, DatePicker, Form, Row } from 'antd'
+import { Col, Form, Row } from 'antd'
 import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
@@ -62,7 +62,7 @@ export default class Condition extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireBroadcastTime,
+                    message: i18n.rules.requireStation,
                   },
                 ]
               })(

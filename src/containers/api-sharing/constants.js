@@ -167,6 +167,13 @@ export const i18n = {
     pointName: t('apiSharingNew.detailPage.table.pointName'),
     phaseName: t('apiSharingNew.detailPage.table.phaseName'),
     timeWeather: t('apiSharingNew.detailPage.table.timeWeather'),
+    date: t('apiSharingNew.detailPage.table.date'),
+    dataType: t('apiSharingNew.detailPage.table.dataType'),
+    measureValue: t('apiSharingNew.detailPage.table.measureValue'),
+    alarmLevelI: t('apiSharingNew.detailPage.table.alarmLevelI'),
+    alarmLevelII: t('apiSharingNew.detailPage.table.alarmLevelII'),
+    alarmLevelIII: t('apiSharingNew.detailPage.table.alarmLevelIII'),
+    dataSource: t('apiSharingNew.detailPage.table.dataSource'),
   },
   message: {
     create: t('apiSharingNew.detailPage.message.create'),
@@ -177,6 +184,7 @@ export const i18n = {
     name: t('apiSharingNew.detailPage.rules.name'),
     max: t('apiSharingNew.detailPage.rules.max'),
     requireChoose: t('apiSharingNew.detailPage.rules.requireChoose'),
+    requireStation: t('apiSharingNew.detailPage.rules.requireStation'),
     requireBroadcastTime: t('apiSharingNew.detailPage.rules.requireBroadcastTime')
   },
   init: {
