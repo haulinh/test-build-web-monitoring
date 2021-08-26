@@ -1,4 +1,5 @@
 import { Transfer, Form } from 'antd'
+import Clearfix from 'components/elements/clearfix'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import React, { Component } from 'react'
@@ -43,19 +44,20 @@ const SettingQuery = withRouter(({ location, form, excludeFields = [] }) => {
   const data = Object.keys(fieldsValue.config)
     .filter(key => !excludeFields.includes(key))
     .map(item => {
-    let title = i18n.fields[item] || item
-    if (location.pathname.includes('station-fixed') && item === 'stationKeys')
-      title = i18n.fields.stationFixed[item]
+      let title = i18n.fields[item] || item
+      if (location.pathname.includes('station-fixed') && item === 'stationKeys')
+        title = i18n.fields.stationFixed[item]
 
-    return {
-      key: item,
-      title,
-    }
-  })
+      return {
+        key: item,
+        title,
+      }
+    })
 
   return (
     <BoxShadow>
       <Header>{i18n.detailPage.header.querySetting}</Header>
+      <Clearfix height={16} />
       <Form.Item>
         {form.getFieldDecorator('optionParams')(<TransferForm data={data} />)}
       </Form.Item>

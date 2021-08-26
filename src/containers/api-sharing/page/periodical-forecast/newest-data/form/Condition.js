@@ -1,6 +1,7 @@
-import { Col, Form, Row } from 'antd'
+import { Col, Row } from 'antd'
 import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
 import SelectStation from 'components/elements/select-data/periodic-forecast/SelectStation'
+import FormItem from 'containers/api-sharing/component/FormItem'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import { isCreate, isView } from 'containers/api-sharing/util'
@@ -53,7 +54,7 @@ export default class Condition extends React.Component {
         {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
         <Row gutter={12}>
           <Col span={16}>
-            <Form.Item label={i18n.detailPage.label.stationName}>
+            <FormItem label={i18n.detailPage.label.stationName}>
               {form.getFieldDecorator(`config.${FIELDS.stationKeys}`, {
                 rules: [
                   {
@@ -66,7 +67,7 @@ export default class Condition extends React.Component {
                   onFetchStationSuccess={this.onFetchStationSuccess}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
         </Row>
       </BoxShadow>

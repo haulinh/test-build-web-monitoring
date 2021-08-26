@@ -1,14 +1,15 @@
-import React from 'react'
-import {Col, DatePicker, Form, Radio, Row} from 'antd'
-import {SelectPhase, SelectPoint} from 'components/elements/select-data'
+import { Col, DatePicker, Radio, Row } from 'antd'
+import CalculateApi from 'api/CalculateApi'
+import { SelectPhase, SelectPoint } from 'components/elements/select-data'
 import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
-import {MM_YYYY, YYYY} from 'constants/format-date'
-import {i18n} from 'containers/api-sharing/constants'
-import {BoxShadow, Header} from 'containers/api-sharing/layout/styles'
-import {isCreate, isView, } from 'containers/api-sharing/util'
-import {withApiSharingDetailContext} from 'containers/api-sharing/withShareApiContext'
-import CalculateApi from 'api/CalculateApi'
+import { MM_YYYY, YYYY } from 'constants/format-date'
+import FormItem from 'containers/api-sharing/component/FormItem'
+import { i18n } from 'containers/api-sharing/constants'
+import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
+import { isCreate, isView } from 'containers/api-sharing/util'
+import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
+import React from 'react'
 
 export const FIELDS = {
   PROVINCE: 'province',
@@ -106,7 +107,7 @@ export default class Condition extends React.Component {
         <Header>{i18n.detailPage.header.condition}</Header>
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.province}>
+            <FormItem label={i18n.detailPage.label.province}>
               {form.getFieldDecorator(`config.${FIELDS.PROVINCE}`, {
                 onChange: this.handleOnFieldChange,
               })(
@@ -116,10 +117,10 @@ export default class Condition extends React.Component {
                   isShowAll
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.stationType}>
+            <FormItem label={i18n.detailPage.label.stationType}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_TYPE}`, {
                 onChange: this.handleOnFieldChange,
               })(
@@ -131,11 +132,11 @@ export default class Condition extends React.Component {
                   onFetchSuccess={this.onFetchStationTypesSuccess}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
 
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.phase}>
+            <FormItem label={i18n.detailPage.label.phase}>
               {form.getFieldDecorator(`config.${FIELDS.PHASE}`, {
                 rules: [
                   {
@@ -152,10 +153,10 @@ export default class Condition extends React.Component {
                   onFetchSuccess={this.onFetchPhaseSuccess}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.point}>
+            <FormItem label={i18n.detailPage.label.point}>
               {form.getFieldDecorator(`config.${FIELDS.POINT}`, {
                 rules: [
                   {
@@ -177,12 +178,12 @@ export default class Condition extends React.Component {
                   })}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
         </Row>
         <Row gutter={24}>
           <Col xs={12}>
-            <Form.Item label={i18n.wqi.viewBy}>
+            <FormItem label={i18n.wqi.viewBy}>
               {form.getFieldDecorator(`config.${FIELDS.VIEW_BY}`, {initialValue: 'month'})(
                 <Radio.Group disabled={this.isDisable(FIELDS.VIEW_BY)} >
                   <Radio value={'month'}>{i18n.month}</Radio>
@@ -190,10 +191,10 @@ export default class Condition extends React.Component {
                   <Radio value={'year'}>{i18n.year}</Radio>
                 </Radio.Group>
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
           <Col xs={12}>
-            <Form.Item label={i18n.wqi.time}>
+            <FormItem label={i18n.wqi.time}>
               {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
                 rules: [
                   {
@@ -204,7 +205,7 @@ export default class Condition extends React.Component {
               })(
                 <DatePicker.RangePicker format={formatTime} disabled={this.isDisable(FIELDS.RANGE_TIME)} />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
         </Row>
       </BoxShadow>

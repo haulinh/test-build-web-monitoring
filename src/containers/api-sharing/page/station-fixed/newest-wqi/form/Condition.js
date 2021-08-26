@@ -1,14 +1,15 @@
-import { Col, Form, Row } from 'antd'
+import { Col, Row } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { SelectPoint } from 'components/elements/select-data'
 import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
+import FormItem from 'containers/api-sharing/component/FormItem'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import {
   getMeasuringListFromStationAutos,
   isCreate,
-  isView,
+  isView
 } from 'containers/api-sharing/util'
 import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
 import React from 'react'
@@ -127,7 +128,7 @@ export default class Condition extends React.Component {
         <Header>{i18n.detailPage.header.condition}</Header>
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.province}>
+            <FormItem label={i18n.detailPage.label.province}>
               {form.getFieldDecorator(`config.${FIELDS.PROVINCE}`, {
                 onChange: this.handleOnFieldChange,
               })(
@@ -137,11 +138,11 @@ export default class Condition extends React.Component {
                   isShowAll
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
 
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.stationType}>
+            <FormItem label={i18n.detailPage.label.stationType}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_TYPE}`, {
                 onChange: this.handleOnFieldChange,
                 rules: [
@@ -159,11 +160,11 @@ export default class Condition extends React.Component {
                   onFetchSuccess={this.onFetchStationTypesSuccess}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
 
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.point}>
+            <FormItem label={i18n.detailPage.label.point}>
               {form.getFieldDecorator(`config.${FIELDS.POINT}`, {
                 rules: [
                   {
@@ -185,7 +186,7 @@ export default class Condition extends React.Component {
                   })}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
         </Row>
       </BoxShadow>
