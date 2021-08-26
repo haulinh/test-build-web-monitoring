@@ -12,6 +12,8 @@ import moment from 'moment-timezone'
 import { getLanguage } from 'utils/localStorage'
 import { downFileExcel } from 'utils/downFile'
 import { DD_MM_YYYY } from 'constants/format-date'
+import styled from 'styled-components'
+import Clearfix from 'components/elements/clearfix'
 
 const FIELDS = {
   stationKeys: 'stationKeys',
@@ -24,6 +26,22 @@ const i18n = {
   requireBroadcastTime: 'Vui lòng chọn ngày phát bản tin',
   requireStation: 'Vui lòng chọn trạm quan trắc',
 }
+
+const FormItem = styled(Form.Item)`
+  margin-bottom: 16px;
+  font-size: 14;
+  font-weight: 600;
+  .ant-form-item-label {
+    line-height: unset;
+    label {
+      margin: 0;
+    }
+  }
+  .switch-filter {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+`
 
 @Form.create()
 export default class SearchContainer extends Component {
@@ -105,11 +123,12 @@ export default class SearchContainer extends Component {
     return (
       <PageContainer>
         <Breadcrumb items={['search']} />
+        <Clearfix height={16} />
         <Search onSearch={this.handleOnSearch} loading={loading}>
           <BoxShadow>
             <Row gutter={12}>
               <Col span={8}>
-                <Form.Item label={i18n.broadcastTime}>
+                <FormItem label={i18n.broadcastTime}>
                   {form.getFieldDecorator(FIELDS.broadcastTime, {
                     rules: [
                       {
@@ -118,10 +137,10 @@ export default class SearchContainer extends Component {
                       },
                     ],
                   })(<DatePicker style={{ width: '100%' }} />)}
-                </Form.Item>
+                </FormItem>
               </Col>
               <Col span={16}>
-                <Form.Item label={i18n.stationKeys}>
+                <FormItem label={i18n.stationKeys}>
                   {form.getFieldDecorator(FIELDS.stationKeys, {
                     rules: [
                       {
@@ -134,7 +153,7 @@ export default class SearchContainer extends Component {
                       onFetchStationSuccess={this.onFetchStationSuccess}
                     />
                   )}
-                </Form.Item>
+                </FormItem>
               </Col>
             </Row>
           </BoxShadow>

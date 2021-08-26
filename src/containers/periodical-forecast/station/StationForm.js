@@ -24,7 +24,7 @@ const i18n = {
   save: translate('addon.save'),
   keyExisted: translate('stationFixedPoint.create.keyExisted'),
   key: {
-    label: translate('stationFixedPoint.form.key.label'),
+    label: 'Mã trạm',
     placeholder: translate('stationFixedPoint.form.key.placeholder'),
     required: translate('stationFixedPoint.form.key.required'),
     pattern: translate('stationFixedPoint.form.key.pattern'),
@@ -474,7 +474,7 @@ export default class StationForm extends React.Component {
                   )(
                     <InputNumberCell
                       editable={true}
-                      size="small"
+                      size="medium"
                       min={1800}
                       max={2050}
                     />

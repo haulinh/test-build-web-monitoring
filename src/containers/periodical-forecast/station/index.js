@@ -30,6 +30,11 @@ const IconButton = styled(Icon)`
   color: ${props => (props.color ? props.color : '#3E90F7')};
 `
 
+const Span = styled.span`
+  color: ${props => (props.deleted ? '#999999' : '')};
+  text-decoration: ${props => (props.deleted ? 'line-through' : '')};
+`
+
 const i18n = {
   cancelText: translate('addon.cancel'),
   okText: translate('addon.ok'),
@@ -119,20 +124,30 @@ export default class Station extends React.Component {
       },
       {
         content: (
-          <div style={{ width: '200px', wordWrap: 'break-word' }}>
+          <Span
+            deleted={!item.active}
+            style={{ width: '200px', wordWrap: 'break-word' }}
+          >
             {item.key}
-          </div>
+          </Span>
         ),
       },
       {
         content: (
-          <div style={{ width: '200px', wordWrap: 'break-word' }}>
+          <Span
+            deleted={!item.active}
+            style={{ width: '200px', wordWrap: 'break-word' }}
+          >
             {item.name}
-          </div>
+          </Span>
         ),
       },
       {
-        content: <div style={styled}>{item.address}</div>,
+        content: (
+          <Span deleted={!item.active} style={styled}>
+            {item.address}
+          </Span>
+        ),
       },
       {
         content: this.renderActionGroup(item),

@@ -1,4 +1,4 @@
-import { Button, Table, Tabs } from 'antd'
+import { Button, Table, Tabs, Empty } from 'antd'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import _ from 'lodash'
 import moment from 'moment'
@@ -25,6 +25,7 @@ const i18n = {
   alarmLevelII: 'Cấp báo động II (m)',
   alarmLevelIII: 'Cấp báo động III (m)',
   dataSource: 'Nguồn dữ liệu',
+  nodata: 'Dữ liệu trống',
 }
 
 const TableStation = ({ data, station, loading }) => {
@@ -97,6 +98,15 @@ const TableStation = ({ data, station, loading }) => {
     },
   ]
 
+  if (!data || (Array.isArray(data) && data.length === 0)) {
+    return (
+      <Empty
+        style={{ margin: '0 auto', padding: '8px 16px' }}
+        description={i18n.nodata}
+      />
+    )
+  }
+
   return (
     <Table
       columns={columns}
@@ -113,7 +123,7 @@ export default function TabResult({ data, loading, exportData }) {
     <div>
       <Tabs
         tabBarExtraContent={
-          <Button type="primary" onClick={exportData}>
+          <Button type="primary" onClick={exportData} icon="file-excel">
             Xuất dữ liệu
           </Button>
         }
