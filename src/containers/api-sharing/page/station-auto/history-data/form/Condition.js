@@ -1,10 +1,11 @@
-import { Col, Form, Row, Switch } from 'antd'
+import { Col, Row, Switch } from 'antd'
 import OptionsTimeRange from 'components/elements/options-time-range'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import SelectProvince from 'components/elements/select-province'
 import SelectQueryType from 'components/elements/select-query-type'
 import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
+import FormItem from 'containers/api-sharing/component/FormItem'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import {
@@ -144,7 +145,7 @@ export default class Condition extends React.Component {
         {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.province}>
+            <FormItem label={i18n.detailPage.label.province}>
               {form.getFieldDecorator(`config.${FIELDS.PROVINCE}`, {
                 onChange: this.handleOnFieldChange,
               })(
@@ -154,10 +155,10 @@ export default class Condition extends React.Component {
                   disabled={this.isDisable(FIELDS.PROVINCE)}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.stationType}>
+            <FormItem label={i18n.detailPage.label.stationType}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_TYPE}`, {
                 onChange: this.handleOnFieldChange,
               })(
@@ -167,11 +168,11 @@ export default class Condition extends React.Component {
                   disabled={this.isDisable(FIELDS.STATION_TYPE)}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
 
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.stationName}>
+            <FormItem label={i18n.detailPage.label.stationName}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_AUTO}`, {
                 onChange: this.handleFieldStationAutoChange,
                 rules: [
@@ -191,10 +192,10 @@ export default class Condition extends React.Component {
                   valueNames={form.getFieldValue(`config.${FIELDS.STATION_NAME}`)}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.parameter}>
+            <FormItem label={i18n.detailPage.label.parameter}>
               {form.getFieldDecorator(`config.${FIELDS.MEASURING_LIST}`, {
                 rules: [
                   {
@@ -208,18 +209,18 @@ export default class Condition extends React.Component {
                   measuringList={measuringList}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
 
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.typeData}>
+            <FormItem label={i18n.detailPage.label.typeData}>
               {form.getFieldDecorator(`config.${FIELDS.DATA_TYPE}`)(
                 <SelectQueryType disabled={this.isDisable(FIELDS.DATA_TYPE)} />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.timeLabel}>
+            <FormItem label={i18n.detailPage.label.timeLabel}>
               {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
                 initialValue: 1,
               })(
@@ -227,15 +228,15 @@ export default class Condition extends React.Component {
                   disabled={this.isDisable(FIELDS.RANGE_TIME)}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
 
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.isExceeded}>
+            <FormItem label={i18n.detailPage.label.isExceeded}>
               {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
                 valuePropName: 'checked',
               })(<Switch disabled={this.isDisable(FIELDS.IS_EXCEEDED)} />)}
-            </Form.Item>
+            </FormItem>
           </Col>
         </Row>
       </BoxShadow>

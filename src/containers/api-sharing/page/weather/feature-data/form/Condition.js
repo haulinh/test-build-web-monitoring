@@ -1,11 +1,12 @@
-import { Col, Form, Row, Select } from 'antd'
+import { Col, Row, Select } from 'antd'
 import SelectCity from 'components/elements/select-data/weather/SelectCity'
 import SelectDayWeather, {
-  optionsDay,
+  optionsDay
 } from 'components/elements/select-data/weather/SelectDay'
 import SelectParamenterWeather, {
-  optionsWeather,
+  optionsWeather
 } from 'components/elements/select-data/weather/SelectParamenter'
+import FormItem from 'containers/api-sharing/component/FormItem'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import { isCreate, isView } from 'containers/api-sharing/util'
@@ -53,17 +54,17 @@ export default class Condition extends React.Component {
         {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
         <Row gutter={12}>
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.country}>
+            <FormItem label={i18n.detailPage.label.country}>
               <Select
                 style={{ width: '100%' }}
                 value={i18n.init.country}
                 disabled={true}
               ></Select>
-            </Form.Item>
+            </FormItem>
           </Col>
 
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.city}>
+            <FormItem label={i18n.detailPage.label.city}>
               {form.getFieldDecorator(
                 `config.${FIELDS.CITY_ID}`,
                 {}
@@ -73,11 +74,11 @@ export default class Condition extends React.Component {
                   disabled={this.isDisable(FIELDS.CITY_ID)}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
 
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.paramenter} required>
+            <FormItem label={i18n.detailPage.label.paramenter} required>
               {form.getFieldDecorator(`config.${FIELDS.PARAMETER}`, {
                 rules: [
                   {
@@ -90,16 +91,16 @@ export default class Condition extends React.Component {
                   disabled={this.isDisable(FIELDS.PARAMETER)}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
 
           <Col span={12}>
-            <Form.Item label={i18n.detailPage.label.days} required>
+            <FormItem label={i18n.detailPage.label.days} required>
               {form.getFieldDecorator(
                 `config.${FIELDS.DAYS}`,
                 {}
               )(<SelectDayWeather disabled={this.isDisable(FIELDS.DAYS)} />)}
-            </Form.Item>
+            </FormItem>
           </Col>
         </Row>
       </BoxShadow>
