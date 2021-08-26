@@ -14,6 +14,7 @@ import { downFileExcel } from 'utils/downFile'
 import { DD_MM_YYYY } from 'constants/format-date'
 import styled from 'styled-components'
 import Clearfix from 'components/elements/clearfix'
+import { translate as t } from 'hoc/create-lang'
 
 const FIELDS = {
   stationKeys: 'stationKeys',
@@ -21,10 +22,10 @@ const FIELDS = {
 }
 
 const i18n = {
-  broadcastTime: 'Ngày phát bản tin',
-  stationKeys: 'Trạm quan trắc',
-  requireBroadcastTime: 'Vui lòng chọn ngày phát bản tin',
-  requireStation: 'Vui lòng chọn trạm quan trắc',
+  broadcastTime: t('apiSharingNew.fields.broadcastTime'),
+  stationKeys: t('apiSharingNew.fields.stationKeys'),
+  requireBroadcastTime: t('apiSharingNew.detailPage.rules.requireBroadcastTime'),
+  requireStation: t('apiSharingNew.detailPage.rules.requireStation'),
 }
 
 const FormItem = styled(Form.Item)`

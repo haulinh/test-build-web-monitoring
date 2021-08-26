@@ -272,7 +272,7 @@ export default class MeasuringList extends React.Component {
       {
         dataIndex: 'unit',
         align: 'center',
-        title: 'Đơn vị',
+        title: translate('periodicalForecast.label.unit'),
       },
     ]
   }
