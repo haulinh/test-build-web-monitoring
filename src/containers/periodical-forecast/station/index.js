@@ -104,8 +104,8 @@ export default class Station extends React.Component {
     } = this.props
     return [
       { content: '#', width: 2 },
-      { content: t('stationFixedPoint.form.key.label') },
-      { content: t('stationFixedPoint.form.name.label') },
+      { content: 'Mã trạm' },
+      { content: 'Tên trạm' },
       { content: t('stationFixedPoint.form.address.label') },
       { content: '', width: 20 },
     ]

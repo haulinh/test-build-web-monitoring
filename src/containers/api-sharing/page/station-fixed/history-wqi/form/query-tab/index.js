@@ -1,29 +1,29 @@
-import {Form, Icon, message, Tabs} from 'antd'
-import {dataRoutes, dataShareApiApi} from 'api/ShareApiApi'
+import { Form, Icon, message, Tabs } from 'antd'
+import { dataRoutes, dataShareApiApi } from 'api/ShareApiApi'
 import Clearfix from 'components/elements/clearfix'
 import Text from 'components/elements/text'
 import Example from 'containers/api-sharing/component/Example'
 import Search from 'containers/api-sharing/component/Search'
 import TableParams from 'containers/api-sharing/component/TableParams'
-import {FIELDS, i18n} from 'containers/api-sharing/constants'
+import { FIELDS, i18n } from 'containers/api-sharing/constants'
 import {
   generateGetUrl,
   getDataExample,
   getFieldsDefault,
   isCreate,
 } from 'containers/api-sharing/util'
-import {withShareApiContext} from 'containers/api-sharing/withShareApiContext'
-import {isEqual, get} from 'lodash'
-import React, {Component} from 'react'
-import {withRouter} from 'react-router-dom'
+import { withShareApiContext } from 'containers/api-sharing/withShareApiContext'
+import { isEqual, get } from 'lodash'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
-import {copyTextToClipboard} from 'utils/'
-import {formatQuarter, getTimes, getTimesUTC} from 'utils/datetime'
+import { copyTextToClipboard } from 'utils/'
+import { formatQuarter, getTimes, getTimesUTC } from 'utils/datetime'
 import Condition from '../Condition'
 import DataTable from './DataTable'
 import moment from 'moment'
-import {MM_YYYY, YYYY} from 'constants/format-date'
-import {PermissionPopover} from 'hoc/protect-role'
+import { MM_YYYY, YYYY } from 'constants/format-date'
+import { PermissionPopover } from 'hoc/protect-role'
 import ROLE from 'constants/role'
 
 const Method = styled.div`
@@ -73,7 +73,7 @@ export default class QueryTab extends Component {
   }
 
   setInitFields = () => {
-    const {data} = this.props
+    const { data } = this.props
     const config = get(data, 'config', [])
 
     const fieldsValue = config.reduce((base, current) => {
@@ -119,7 +119,7 @@ export default class QueryTab extends Component {
 
   getUrl = () => {
     const {
-      match: {params},
+      match: { params },
       data,
     } = this.props
 
@@ -144,8 +144,8 @@ export default class QueryTab extends Component {
   }
 
   getQueryParams = () => {
-    const {form, data} = this.props
-    const {config: fieldsValue} = form.getFieldsValue()
+    const { form, data } = this.props
+    const { config: fieldsValue } = form.getFieldsValue()
 
     let measuringList = fieldsValue.measuringList
     if (Array.isArray(measuringList)) measuringList = measuringList.join(',')
@@ -157,7 +157,7 @@ export default class QueryTab extends Component {
     if (Array.isArray(phaseIds)) phaseIds = phaseIds.join(',')
 
     const times = getTimes(fieldsValue.rangeTime)
-    const {from, to} = getTimesUTC(times)
+    const { from, to } = getTimesUTC(times)
 
     const queryParams = {
       id: data._id,
@@ -173,22 +173,22 @@ export default class QueryTab extends Component {
   }
 
   handleOnSearch = async () => {
-    const {rule} = this.props
+    const { rule } = this.props
     const queryParams = this.getQueryParams()
 
-    this.setState({loadingSearch: true})
+    this.setState({ loadingSearch: true })
     try {
       const data = await dataShareApiApi.getPeriodicWQIHistory(
         queryParams,
         isCreate(rule)
       )
       if (data) {
-        this.setState({dataTable: this.formatData(data, queryParams.viewBy)})
+        this.setState({ dataTable: this.formatData(data, queryParams.viewBy) })
       }
     } catch (error) {
       console.log(error)
     }
-    this.setState({loadingSearch: false})
+    this.setState({ loadingSearch: false })
   }
 
   getTime = (time, type) => {
@@ -209,10 +209,10 @@ export default class QueryTab extends Component {
     return data.reduce((prev, item) => [...prev, ...item], [])
   }
   render() {
-    const {form, rule, location, menuApiSharingList, data} = this.props
+    const { form, rule, location, menuApiSharingList, data } = this.props
     const dataExample = getDataExample(menuApiSharingList, location)
-    const {loadingSearch, dataTable} = this.state
-    const {config: {measuringList = []} = {}} = form.getFieldsValue()
+    const { loadingSearch, dataTable } = this.state
+    const { config: { measuringList = [] } = {} } = form.getFieldsValue()
     const fieldsDefault = getFieldsDefault(data)
 
     return (
@@ -232,7 +232,9 @@ export default class QueryTab extends Component {
             <div className="content">
               <Method>GET</Method>
               <Endpoint>
-                <Text>{this.getUrl()}</Text>
+                <div style={{ width: "95%" }}>
+                  <Text>{this.getUrl()}</Text>
+                </div>
                 <PermissionPopover roles={[ROLE.SHARE_API.CREATE, ROLE.SHARE_API.EDIT, ROLE.SHARE_API.DELETE]}>
                   <Icon type="copy" onClick={this.copyUrl} />
                 </PermissionPopover>

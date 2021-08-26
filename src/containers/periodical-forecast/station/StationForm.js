@@ -31,7 +31,7 @@ const i18n = {
     max: translate('stationFixedPoint.form.key.max'),
   },
   name: {
-    label: translate('stationFixedPoint.form.name.label'),
+    label: 'Tên trạm',
     placeholder: translate('stationFixedPoint.form.name.placeholder'),
     required: translate('stationFixedPoint.form.name.required'),
     pattern: translate('stationFixedPoint.form.name.pattern'),
@@ -94,7 +94,7 @@ const i18n = {
     validate4: translate('stationFixedPoint.form.measuringList.validate4'),
   },
 
-  panel1: translate('stationFixedPoint.form.panel1'),
+  panel1: 'Thông tin trạm',
   panel2: translate('stationAutoManager.form.panel2'),
   website: {
     label: translate('stationFixedPoint.form.website.label'),
