@@ -2654,6 +2654,10 @@ export default {
     measuringLabel: 'Thứ tự thông số nhập liệu',
     measuringRequired: 'Vui lòng chọn 1 thông số',
     stationTypeLabel: 'Loại trạm',
+    requirements1: `Tải lên dữ liệu chứa thông tin các trạm quan trắc theo mẫu bên dưới. Hãy đảm
+      bảo những trường thông tin chính xác tuyệt đối. Dữ liệu đã được tải lên hệ
+      thống sẽ được lưu trữ tại`,
+    requirements2: `Lịch sử tải lên`,
     requirements:
       'Tải lên dữ liệu chứa thông tin các điểm quan trắc theo mẫu bên dưới. Hãy đảm bảo những trường thông tin chính xác tuyệt đối. Dữ liệu đã được tải lên hệ thống sẽ không thể loại bỏ',
     step1: 'Bước 1: Tải file mẫu và điền các trường cần thiết',
@@ -3474,6 +3478,8 @@ export default {
         alarmLevelII: 'Cấp báo động II (m)',
         alarmLevelIII: 'Cấp báo động III (m)',
         dataSource: 'Nguồn dữ liệu',
+        nodata: 'Dữ liệu trống',
+        exportData: 'Xuất dữ liệu'
       },
       message: {
         create: 'Tạo thành công',
@@ -3509,4 +3515,27 @@ export default {
       wind_cdir_full: 'Hướng gió',
     },
   },
+  periodicalForecast: {
+    menu: {
+      periodical: 'Dự báo định kỳ',
+      station: 'Trạm quan trắc'
+    },
+    title: {
+      search: 'Tra cứu dữ liệu',
+      station: 'Trạm quan trắc',
+      importData: 'Nhập dữ liệu',
+      historyData: 'Lịch sử tải lên',
+      fileName: 'Tên file',
+      broadcastTime: 'Ngày phát bản tin',
+      createdAt: 'Thời gian tải lên',
+      user: 'Người tải lên',
+      downloadFile: 'Tải về'
+    },
+    label: {
+      stationNam: 'Tên trạm',
+      stationKey: 'Mã trạm',
+      stationInfo: 'Thông tin trạm',
+      unit: 'Đơn vị'
+    }
+  }
 }

@@ -6,6 +6,7 @@ import moment from 'moment'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getTimes, getTimesUTC } from 'utils/datetime'
+import { translate as t } from 'hoc/create-lang'
 
 const { RangePicker } = DatePicker
 
@@ -15,10 +16,11 @@ const FIELDS = {
 }
 
 const i18n = {
-  fileName: 'Tên file',
-  broadcastTime: 'Ngày phát bản tin',
-  createdAt: 'Thời gian tải lên',
-  user: 'Người tải lên',
+  fileName: t('periodicalForecast.title.fileName'),
+  broadcastTime: t('periodicalForecast.title.broadcastTime'),
+  createdAt: t('periodicalForecast.title.createdAt'),
+  user: t('periodicalForecast.title.user'),
+  downloadFile: t('periodicalForecast.title.downloadFile'),
 }
 
 @connect(state => ({
@@ -105,7 +107,7 @@ export default class HistoryTab extends Component {
         content: <div>{`${item.user.lastName} ${item.user.firstName}`}</div>,
       },
       {
-        content: <a href={item.filePath}>Tải về</a>,
+        content: <a href={item.filePath}>{i18n.downloadFile}</a>,
       },
     ])
   }
@@ -120,7 +122,7 @@ export default class HistoryTab extends Component {
           <Col>
             {form.getFieldDecorator(FIELDS.FILE_NAME)(
               <Input
-                placeholder="Tên file"
+                placeholder={i18n.fileName}
                 // onSearch={this.onSearch}
                 style={{ width: 320 }}
               />

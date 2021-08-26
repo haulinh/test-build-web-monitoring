@@ -3,6 +3,7 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
+import { translate as t } from 'hoc/create-lang'
 
 const { TabPane } = Tabs
 
@@ -18,14 +19,15 @@ const valueMapKey = {
 }
 
 const i18n = {
-  date: 'Ngày',
-  dataType: 'Kiểu dữ liệu',
-  measureValue: 'Mực nước',
-  alarmLevelI: 'Cấp báo động I (m)',
-  alarmLevelII: 'Cấp báo động II (m)',
-  alarmLevelIII: 'Cấp báo động III (m)',
-  dataSource: 'Nguồn dữ liệu',
-  nodata: 'Dữ liệu trống',
+  date: t('apiSharingNew.detailPage.table.date'),
+  dataType: t('apiSharingNew.detailPage.table.dataType'),
+  measureValue: t('apiSharingNew.detailPage.table.measureValue'),
+  alarmLevelI: t('apiSharingNew.detailPage.table.alarmLevelI'),
+  alarmLevelII: t('apiSharingNew.detailPage.table.alarmLevelII'),
+  alarmLevelIII: t('apiSharingNew.detailPage.table.alarmLevelIII'),
+  dataSource: t('apiSharingNew.detailPage.table.dataSource'),
+  nodata: t('apiSharingNew.detailPage.table.nodata'),
+  exportData: t('apiSharingNew.detailPage.table.exportData'),
 }
 
 const TableStation = ({ data, station, loading }) => {
@@ -124,7 +126,7 @@ export default function TabResult({ data, loading, exportData }) {
       <Tabs
         tabBarExtraContent={
           <Button type="primary" onClick={exportData} icon="file-excel">
-            Xuất dữ liệu
+            {i18n.exportData}
           </Button>
         }
       >

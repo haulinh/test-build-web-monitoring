@@ -1,32 +1,32 @@
 import slug from 'constants/slug'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
-import { translate } from 'hoc/create-lang'
 //import Icon from 'themes/icon'
+import { translate as t } from 'hoc/create-lang'
 
 export default createBreadcrumb({
   list: {
     id: 'list',
     href: slug.periodicalForecast.station,
-    name: 'Trạm quan trắc',
+    name: t('periodicalForecast.title.station'),
   },
   create: {
     id: 'create',
     href: slug.periodicalForecast.stationCreate,
-    name: translate('stationFixedPoint.create.label'),
+    name: t('stationFixedPoint.create.label'),
   },
   edit: {
     id: 'edit',
     href: slug.periodicalForecast.stationEdit,
-    name: translate('stationFixedPoint.edit.label'),
+    name: t('stationFixedPoint.edit.label'),
   },
   import: {
     id: 'import',
     href: slug.periodicalForecast.importStation,
-    name: 'Nhập dữ liệu',
+    name: t('periodicalForecast.title.importData'),
   },
   search: {
     id: 'search',
     href: slug.periodicalForecast.search,
-    name: 'Tra cứu dữ liệu',
+    name: t('periodicalForecast.title.search'),
   },
 })

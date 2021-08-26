@@ -24,14 +24,14 @@ const i18n = {
   save: translate('addon.save'),
   keyExisted: translate('stationFixedPoint.create.keyExisted'),
   key: {
-    label: 'Mã trạm',
+    label: translate('periodicalForecast.label.stationKey'),
     placeholder: translate('stationFixedPoint.form.key.placeholder'),
     required: translate('stationFixedPoint.form.key.required'),
     pattern: translate('stationFixedPoint.form.key.pattern'),
     max: translate('stationFixedPoint.form.key.max'),
   },
   name: {
-    label: 'Tên trạm',
+    label: translate('periodicalForecast.label.stationNam'),
     placeholder: translate('stationFixedPoint.form.name.placeholder'),
     required: translate('stationFixedPoint.form.name.required'),
     pattern: translate('stationFixedPoint.form.name.pattern'),
@@ -94,7 +94,7 @@ const i18n = {
     validate4: translate('stationFixedPoint.form.measuringList.validate4'),
   },
 
-  panel1: 'Thông tin trạm',
+  panel1: translate('periodicalForecast.label.stationInfo'),
   panel2: translate('stationAutoManager.form.panel2'),
   website: {
     label: translate('stationFixedPoint.form.website.label'),

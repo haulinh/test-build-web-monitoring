@@ -2664,6 +2664,8 @@ export default {
     measuringLabel: 'Order of data input',
     measuringRequired: 'Please select 1 parameter',
     stationTypeLabel: 'Station Type',
+    requirements1: `Upload the data containing the monitoring points in the form below. Make sure the fields are absolutely correct. Data uploaded to the system stored in`,
+    requirements2: `Import History`,
     requirements:
       'Upload the data containing the monitoring points in the form below. Make sure the fields are absolutely correct. Data uploaded to the system cannot be removed',
     step1: 'Step 1: Download the sample file and fill in the required fields',
@@ -3471,6 +3473,8 @@ export default {
         alarmLevelII: 'Alarm Level II (m)',
         alarmLevelIII: 'Alarm Level III (m)',
         dataSource: 'Data Source',
+        nodata: 'No Data',
+        exportData: 'Export Data'
       },
       message: {
         create: 'Create Success',
@@ -3506,4 +3510,27 @@ export default {
       wind_cdir_full: 'Wind direction',
     },
   },
+  periodicalForecast: {
+    menu: {
+      periodical: 'Periodic Forecast',
+      station: 'Station Management'
+    },
+    title: {
+      search: 'Search Data',
+      station: 'Station Name',
+      importData: 'Import Data',
+      historyData: 'History Data',
+      fileName: 'File Name',
+      broadcastTime: 'Broadcast Date',
+      createdAt: 'Created At',
+      user: 'User',
+      downloadFile: 'Download'
+    },
+    label: {
+      stationNam: 'Station Name',
+      stationKey: 'Station Code',
+      stationInfo: 'Station Information',
+      unit: 'Unit'
+    }
+  }
 }
