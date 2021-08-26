@@ -1,14 +1,10 @@
 import { Col, DatePicker, Form, Row } from 'antd'
 import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
+import SelectStation from 'components/elements/select-data/periodic-forecast/SelectStation'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
-import {
-  isCreate,
-  isView,
-} from 'containers/api-sharing/util'
+import { isCreate, isView } from 'containers/api-sharing/util'
 import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
-import SelectStation from 'components/elements/select-data/periodic-forecast/SelectStation'
-import _ from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 
@@ -67,7 +63,7 @@ export default class Condition extends React.Component {
                     required: true,
                     message: i18n.rules.requireBroadcastTime,
                   },
-                ]
+                ],
               })(
                 <SelectStation
                   onFetchStationSuccess={this.onFetchStationSuccess}

@@ -1,15 +1,13 @@
-import { Col, DatePicker, Input, Row, Form } from 'antd'
+import { Button, Col, DatePicker, Form, Input, Row } from 'antd'
 import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
-
 import DynamicTable from 'components/elements/dynamic-table'
-import React, { Component } from 'react'
-import { getTimes, getTimesUTC } from 'utils/datetime'
-import moment from 'moment'
 import { DD_MM_YYYY, HH_MM_DD_MM_YYYY } from 'constants/format-date'
+import moment from 'moment'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { getTimes, getTimesUTC } from 'utils/datetime'
 
 const { RangePicker } = DatePicker
-
-const { Search } = Input
 
 const FIELDS = {
   FILE_NAME: 'fileName',
@@ -23,6 +21,9 @@ const i18n = {
   user: 'Người tải lên',
 }
 
+@connect(state => ({
+  locale: state.language.locale,
+}))
 @Form.create()
 export default class HistoryTab extends Component {
   state = {
@@ -30,7 +31,16 @@ export default class HistoryTab extends Component {
     loading: false,
   }
 
+  locale = require('antd/es/date-picker/locale/en_US')
+
   async componentDidMount() {
+    if (this.props.locale === 'vi') {
+      this.locale = require('antd/es/date-picker/locale/vi_VN')
+      require('moment/locale/vi')
+    } else {
+      require('moment/locale/en-sg')
+    }
+
     const params = {
       type: 'periodic-forecast',
     }
@@ -109,9 +119,9 @@ export default class HistoryTab extends Component {
         <Row type="flex" gutter={16}>
           <Col>
             {form.getFieldDecorator(FIELDS.FILE_NAME)(
-              <Search
+              <Input
                 placeholder="Tên file"
-                onSearch={this.onSearch}
+                // onSearch={this.onSearch}
                 style={{ width: 320 }}
               />
             )}
@@ -119,19 +129,19 @@ export default class HistoryTab extends Component {
           <Col>
             {form.getFieldDecorator(FIELDS.RANGE_TIME)(
               <RangePicker
-                onChange={value => console.log({ value })}
+                locale={this.locale.default}
                 style={{ width: 320 }}
               />
             )}
+          </Col>
+          <Col>
+            <Button icon="search" shape="circle" onClick={this.onSearch} />
           </Col>
         </Row>
         <DynamicTable
           isLoading={loading}
           rows={this.getRows()}
           head={this.head}
-          //   paginationOptions={{
-          //     isSticky: true,
-          //   }}
         />
       </React.Fragment>
     )
