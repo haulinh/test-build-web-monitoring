@@ -1,5 +1,6 @@
 import { Table, Tabs } from 'antd'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { i18n } from 'containers/api-sharing/constants'
 import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
@@ -15,16 +16,6 @@ const valueMapKey = {
     Du_lieu_du_bao: 'Dữ liệu dự báo',
     Du_lieu_that: 'Dữ liệu thực tế',
   },
-}
-
-const i18n = {
-  date: 'Ngày',
-  dataType: 'Kiểu dữ liệu',
-  measureValue: 'Mực nước',
-  alarmLevelI: 'Cấp báo động I',
-  alarmLevelII: 'Cấp báo động II',
-  alarmLevelIII: 'Cấp báo động III',
-  dataSource: 'Nguồn dữ liệu',
 }
 
 class TableStation extends React.Component {
@@ -45,7 +36,7 @@ class TableStation extends React.Component {
       },
     },
     {
-      title: i18n.date,
+      title: i18n.table.date,
       dataIndex: 'datetime',
       defaultSortOrder: 'ascend',
       sorter: (a, b) => new Date(a.datetime) - new Date(b.datetime),
@@ -54,7 +45,7 @@ class TableStation extends React.Component {
       },
     },
     {
-      title: i18n.dataType,
+      title: i18n.table.dataType,
       align: 'center',
       dataIndex: 'dataType',
 
@@ -71,7 +62,7 @@ class TableStation extends React.Component {
       },
     },
     {
-      title: i18n.alarmLevelI,
+      title: i18n.table.alarmLevelI,
       align: 'center',
       dataIndex: 'alarmLevelI',
       render: value => {
@@ -79,7 +70,7 @@ class TableStation extends React.Component {
       },
     },
     {
-      title: i18n.alarmLevelII,
+      title: i18n.table.alarmLevelII,
       align: 'center',
       dataIndex: 'alarmLevelII',
       render: value => {
@@ -87,7 +78,7 @@ class TableStation extends React.Component {
       },
     },
     {
-      title: i18n.alarmLevelIII,
+      title: i18n.table.alarmLevelIII,
       align: 'center',
       dataIndex: 'alarmLevelIII',
       render: value => {
@@ -95,7 +86,7 @@ class TableStation extends React.Component {
       },
     },
     {
-      title: i18n.dataSource,
+      title: i18n.table.dataSource,
       align: 'center',
       dataIndex: 'dataSource',
       render: value => {

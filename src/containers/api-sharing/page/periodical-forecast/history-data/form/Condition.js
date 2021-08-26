@@ -61,7 +61,7 @@ export default class Condition extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireBroadcastTime,
+                    message: i18n.rules.requireStation,
                   },
                 ],
               })(
@@ -73,7 +73,14 @@ export default class Condition extends React.Component {
           </Col>
           <Col span={12}>
             <Form.Item label={i18n.detailPage.label.broadcastTime}>
-              {form.getFieldDecorator(`config.${FIELDS.broadcastTime}`)(
+              {form.getFieldDecorator(`config.${FIELDS.broadcastTime}`,{
+                rules: [
+                  {
+                    required: true,
+                    message: i18n.rules.requireBroadcastTime,
+                  },
+                ]
+              })(
                 <DatePicker style={{ width: '100%' }} />
               )}
             </Form.Item>

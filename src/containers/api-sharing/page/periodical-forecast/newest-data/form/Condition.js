@@ -58,7 +58,7 @@ export default class Condition extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireBroadcastTime,
+                    message: i18n.rules.requireStation,
                   },
                 ],
               })(
